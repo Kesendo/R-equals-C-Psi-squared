@@ -9,14 +9,13 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 
 /// <summary>Parity witness for the LP64-bridge port (2026-05-18). At small N where both
 /// eigensolver paths (MathNet's managed wrapper + the new MklDirect + NativeMemory + ILP64-aware
-/// path) are exercisable, the per-block spectrum must agree across the two paths to the same
-/// tolerance the existing N=8 dogfood uses (max pairing distance &lt; 1e-9 at the spectrum-
-/// equality level, &lt; 1e-12 at the per-block-element level).
+/// path) are exercisable, the per-block spectrum must agree across the two paths (the
+/// spectra within 1e-9, the per-block elements exactly).
 ///
 /// <para>The point of this test class is not to verify the F1 palindromic-pairing identity
 /// itself (that's covered by <c>LiouvillianBlockSpectrumTests</c>, <c>F1GeneralTopologyN7…</c>,
-/// <c>F1GeneralTopologyN8…</c>, and once the bridge is in place, <c>F1GeneralTopologyN9…</c>).
-/// It's the cross-route bit-exactness witness for the bridge itself: forcing every block
+/// <c>F1GeneralTopologyN8…</c>, and, through the bridge, <c>F1GeneralTopologyN9…</c>).
+/// It's the cross-route witness for the bridge itself: forcing every block
 /// through MklDirect on N=3, 5 must produce the same eigenvalues (as a multiset) and the same
 /// per-cell native buffer (vs MathNet's column-major storage) the production-default Auto path
 /// produces for those same blocks under the MathNet branch.</para>
@@ -34,19 +33,18 @@ public class PerBlockLiouvillianBuilderNativeMemoryParityTests
     /// reorder).
     ///
     /// <para>The test walks every sector of <see cref="JointPopcountSectorBuilder.Build"/>(3),
-    /// builds each block via both paths, and asserts equality at the absolute level. 1e-15
-    /// tolerance is the IEEE-754 round-off envelope for the few-term sum; the loops add
-    /// identical contributions in the same order, so the actual residual is at machine zero
-    /// when nonzero terms are well-conditioned (the typical pattern at N=3 Heisenberg
-    /// J=1, γ=0.5).</para></summary>
+    /// builds each block via both paths, and compares every cell exactly: the loops add
+    /// identical contributions in the same order, so a cell that differs at all is a
+    /// finding about the builders.</para></summary>
     [Fact]
     public unsafe void BuildBlockZIntoNativeMemory_MatchesBuildBlockZ_PerCell_AtN3()
     {
         const int N = 3;
-        const double J = 1.0;
-        const double Gamma = 0.5;
+        // A coupling and rates that round, so a change in the order of accumulation between
+        // the two builders could show in some cell.
+        const double J = 0.7;
         var H = PauliHamiltonian.XYChain(N, J: J).ToMatrix();
-        var gammaPerSite = Enumerable.Repeat(Gamma, N).ToArray();
+        var gammaPerSite = new[] { 0.3, 0.37, 0.41 };
         var decomp = JointPopcountSectorBuilder.Build(N);
 
         int totalCellsCompared = 0;
@@ -77,7 +75,7 @@ public class PerBlockLiouvillianBuilderNativeMemoryParityTests
                         var managedCell = managed[i, j];
                         double delta = (nativeCell - managedCell).Magnitude;
                         if (delta > maxAbsDelta) maxAbsDelta = delta;
-                        Assert.True(delta < 1e-15,
+                        Assert.True(nativeCell == managedCell,
                             $"Block (p_c={sector.PCol}, p_r={sector.PRow}, size={size}) cell ({i}, {j}): " +
                             $"managed={managedCell}, native={nativeCell}, |Δ|={delta:E3}");
                         totalCellsCompared++;
@@ -96,7 +94,7 @@ public class PerBlockLiouvillianBuilderNativeMemoryParityTests
     /// <summary>Auto-dispatch must equal forced MathNet at small N where both routes pick the
     /// MathNet branch (block sizes well below <see cref="LiouvillianBlockSpectrum.Lp64ComplexCeiling"/>).
     /// This is the "no regression" witness: production code paths that don't trip the ceiling
-    /// keep their pre-bridge behaviour bit-exactly.</summary>
+    /// keep their pre-bridge behaviour exactly.</summary>
     [Theory]
     [InlineData(3)]
     [InlineData(4)]
@@ -112,14 +110,14 @@ public class PerBlockLiouvillianBuilderNativeMemoryParityTests
             H, gammaPerSite, N, LiouvillianBlockSpectrum.EigenPath.MathNet);
 
         Assert.Equal(eigsMathNet.Length, eigsAuto.Length);
-        // At Auto vs MathNet small-N, both branches hit the same MathNet code path. The
-        // multiset assertion is overkill (they should be elementwise equal under identical
-        // enumeration), but kept symmetric with the MklDirect comparison below.
-        MultisetAssert.NearestNeighbourEqual(
-            eigsAuto, eigsMathNet, tolerance: 1e-12, context: $"Auto vs MathNet N={N}");
+        // At Auto vs MathNet small-N, both branches hit the same MathNet code path at the
+        // same outer parallelism, so the spectra are equal element by element, on a LAPACK
+        // build that returns the same bits for the same input.
+        for (int i = 0; i < eigsMathNet.Length; i++)
+            Assert.Equal(eigsMathNet[i], eigsAuto[i]);
     }
 
-    /// <summary>The cross-route bit-exactness witness. Force every block through MklDirect +
+    /// <summary>The cross-route witness. Force every block through MklDirect +
     /// NativeMemory at N=3, 4, 5 where the MathNet path is the production default, then
     /// compare the resulting spectra. The two routes use independent LAPACK invocations
     /// (MathNet's z_eigen wrapper vs MklDirect's zgeev_ direct P/Invoke); the multiset of
@@ -151,7 +149,7 @@ public class PerBlockLiouvillianBuilderNativeMemoryParityTests
 
     /// <summary>Independent of the cross-route check: the forced MklDirect path must agree
     /// with the dense full-L baseline at N=3, 4, 5 to the same tolerance the parent
-    /// <see cref="LiouvillianBlockSpectrum"/> claim uses for its bit-exact witness. This
+    /// <see cref="LiouvillianBlockSpectrum"/> claim uses for its witness. This
     /// closes the loop: MklDirect-per-block ≈ MathNet-per-block ≈ full dense L Evd, all
     /// within 1e-9.</summary>
     [Theory]

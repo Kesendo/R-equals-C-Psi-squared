@@ -21,21 +21,22 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> now auto-routes blocks
 /// larger than <see cref="LiouvillianBlockSpectrum.Lp64ComplexCeiling"/> (11 585²) through
 /// <c>RCPsiSquared.Core.Numerics.MklDirect</c>'s NativeMemory + ILP64-aware LAPACK path,
-/// bypassing the marshaller cap. Bit-exact parity vs MathNet at small N is witnessed by
+/// bypassing the marshaller cap. Parity vs MathNet at small N (eigenvalues within 1e-9) is
+/// witnessed by
 /// <c>PerBlockLiouvillianBuilderNativeMemoryParityTests</c>.</para>
 ///
 /// <para>The test is opt-in under <c>[Trait("Category", "SLOW_N9")]</c> because the largest
 /// sector pair (C(9, 4) · C(9, 5) = 15 876² each) holds ~4 GB native memory per block during
-/// its zgeev call; the per-block serialisation built into the MklDirect branch
-/// (<c>EigenPath.MklDirectNative</c>) caps wall-time but stays well inside the dev machine's
-/// 128 GB envelope.</para>
+/// its zgeev call; under <c>EigenPath.Auto</c>, which this test uses, those blocks run beside
+/// the others at a quarter of the processor count and stay well inside the dev machine's
+/// 128 GB envelope (<c>EigenPath.MklDirectNative</c> would serialise them).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c> (scale-frontier section
 /// updated with the bridge landing), <see cref="F1GeneralTopologyVerifiedClaim"/>,
 /// <see cref="F1SpectrumStatistics"/> (shared metrics utility),
 /// <see cref="LiouvillianBlockSpectrum"/> (the per-block dispatch + Lp64ComplexCeiling
 /// constant), <c>compute/RCPsiSquared.Core/Numerics/MklDirect.cs</c> (the NativeMemory +
-/// ILP64 LAPACK route that bridges past LP64 marshalling).</para></summary>
+/// ILP64-aware LAPACK route that bridges past LP64 marshalling).</para></summary>
 public class F1GeneralTopologyN9BlockSpectrumChainTests
 {
     private readonly ITestOutputHelper _out;
@@ -93,8 +94,12 @@ public class F1GeneralTopologyN9BlockSpectrumChainTests
         var H = BuildHeisenbergGraphHamiltonian(N, bonds, J: J);
         var gammaPerSite = Enumerable.Repeat(Gamma, N).ToArray();
 
+        // The X⊗N copy alone: a sector and its Π-image are separate eigensolves, so the
+        // palindrome check below is a check (the Π-orbit pairing would fill every Π-image
+        // by the reflection, and at odd N no sector escapes that).
         var computeSw = Stopwatch.StartNew();
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
         computeSw.Stop();
 
         Assert.Equal(1 << (2 * N), spectrum.Length);

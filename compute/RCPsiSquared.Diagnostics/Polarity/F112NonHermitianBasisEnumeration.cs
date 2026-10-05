@@ -138,7 +138,7 @@ public static class F112NonHermitianBasisEnumeration
 
         // Pre-compute L_α,-i for every Pauli string α. Parallelized at FULL DOP
         // (Environment.ProcessorCount). The standard codebase convention
-        // (LiouvillianBlockSpectrum.cs:205) caps outer to ProcessorCount/4 to
+        // (LiouvillianBlockSpectrum.ComputeSpectrum) caps outer to ProcessorCount/4 to
         // leave cores for MKL's internal threading on inner BLAS calls. Welle
         // 10b benchmarks at N=5 showed outerDop=6 saturated at 6.1 cores
         // (steady 611%) for 161.8 min of cache build, indicating MKL was NOT
@@ -170,7 +170,7 @@ public static class F112NonHermitianBasisEnumeration
         //
         // Why full DOP (not ProcessorCount/4): the inner work is a managed memory-bound
         // loop, NOT MKL-multithreaded BLAS. The codebase's ProcessorCount/4 throttle
-        // (LiouvillianBlockSpectrum.cs:205) applies only when inner work dispatches to
+        // (LiouvillianBlockSpectrum.ComputeSpectrum) applies only when inner work dispatches to
         // multi-threaded MKL; oversubscription is not a concern for managed loops.
         //
         // Why chunked Partitioner: the per-outer-index workload is decreasing-triangular

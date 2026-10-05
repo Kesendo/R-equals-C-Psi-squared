@@ -70,15 +70,17 @@ public class FillingThresholdCsrTests
         Assert.True(r.MeanCos > -0.08, $"dilute block should NOT show GinUE angular repulsion, got ⟨cosθ⟩={r.MeanCos:F3}");
     }
 
-    /// <summary>A per-site random field breaks this particular spectral-conjugation match. The measurement does not
-    /// exclude every residual antiunitary after irreducible-sector reduction.</summary>
+    /// <summary>Under a per-site random field at Δ = 1 the dense (3,4) block fails this particular
+    /// spectral-conjugation match: its spectrum is not closed under λ ↦ λ̄. The clean block at Δ = 1 fails it as
+    /// well, so this reads the disordered block and not the field's share in the break. The measurement does
+    /// not exclude every residual antiunitary after irreducible-sector reduction.</summary>
     [Fact]
-    public void RandomField_BreaksThisConjugationMatch_WithoutClassifyingTheSector()
+    public void DisorderedDenseBlock_FailsThisConjugationMatch_WithoutClassifyingTheSector()
     {
         var rng = new Random(7);
         var field = Enumerable.Range(0, 6).Select(_ => 2 * rng.NextDouble() - 1).ToArray();
         double frac = FillingThresholdCsr.ConjugationMatchFraction(6, 3, 4, q: 1.0, delta: 1.0, field: field);
-        Assert.True(frac < 0.1, $"random field must break this conjugation match, but fraction was {frac:P0}");
+        Assert.True(frac < 0.1, $"the disordered block should fail this conjugation match, but fraction was {frac:P0}");
     }
 
     /// <summary>The headline reconnaissance: the FILLING LADDER. At fixed N, walk (wKet,wBra) from the dilute

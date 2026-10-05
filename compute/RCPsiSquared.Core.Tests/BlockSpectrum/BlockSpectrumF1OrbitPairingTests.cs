@@ -12,17 +12,18 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 
-/// <summary>Bit-exact integration tests for the F1 Π-orbit pairing optimisation in
+/// <summary>Integration tests for the F1 Π-orbit pairing optimisation in
 /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> and
 /// <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock"/>.
 ///
 /// <para>The F1 palindrome conjugation Π is order-4 and on joint-popcount labels acts as
 /// the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into
-/// orbits of 4. One eigendecomposition per orbit feeds three followers: the Π²-image
+/// orbits of 4. When H commutes with X⊗N, one eigendecomposition per orbit feeds three
+/// followers: the Π²-image
 /// (X⊗N partner) by a verbatim copy, the Π/Π³-images by the F1 reflection λ ↦ −2Σγ − λ.
-/// These tests pin that the union of all 4^N eigenvalues stays bit-exactly equal to the
-/// dense full-L eig (N=3..6) and to the un-halved per-block loop (N=5,6,7) where dense L
-/// is infeasible.</para></summary>
+/// These tests pin the union of all 4^N eigenvalues, as nearest-neighbour multisets, to the
+/// dense full-L eig (N=3..6) and to the unpaired per-block loop (N=5,6,7), the only
+/// reference at N=7, where dense L is infeasible.</para></summary>
 public class BlockSpectrumF1OrbitPairingTests
 {
     // ----------------------------------------------------------------------
@@ -103,13 +104,13 @@ public class BlockSpectrumF1OrbitPairingTests
         MultisetAssert.NearestNeighbourEqual(spectrumOrbit, spectrumFull, tolerance: 1e-9, context: $"N={N}");
     }
 
-    // Path B decisive test: F1-orbit-halved F71-refined path vs the un-halved F71-refined
+    // Path B decisive test: F1-orbit-paired F71-refined path vs the unpaired F71-refined
     // per-block reference. At N=7 dense L.Evd is infeasible.
     [Theory]
     [InlineData(5, 1e-9)]
     [InlineData(6, 1e-9)]
     [InlineData(7, 1e-7)]
-    public void F71RefinedComputeSpectrumPerBlock_WithF1OrbitPairing_MatchesUnHalvedReference(
+    public void F71RefinedComputeSpectrumPerBlock_WithF1OrbitPairing_MatchesUnpairedReference(
         int N, double tolerance)
     {
         const double J = 1.0;
@@ -126,7 +127,7 @@ public class BlockSpectrumF1OrbitPairingTests
     }
 
     // ----------------------------------------------------------------------
-    // Decisive test: F1-orbit-halved path vs an un-halved per-block reference.
+    // Decisive test: F1-orbit-paired path vs an unpaired per-block reference.
     // At N=7 dense L.Evd is infeasible (4^7 = 16384, ~4 GB), so the reference is
     // the Phase-2 loop over ALL sectors with no follower derivation.
     // ----------------------------------------------------------------------
@@ -135,7 +136,7 @@ public class BlockSpectrumF1OrbitPairingTests
     [InlineData(5, 1e-9)]
     [InlineData(6, 1e-9)]
     [InlineData(7, 1e-7)]
-    public void ComputeSpectrumPerBlock_WithF1OrbitPairing_MatchesUnHalvedPerBlockReference(
+    public void ComputeSpectrumPerBlock_WithF1OrbitPairing_MatchesUnpairedPerBlockReference(
         int N, double tolerance)
     {
         const double J = 1.0;
@@ -172,7 +173,9 @@ public class BlockSpectrumF1OrbitPairingTests
     }
 
     // ----------------------------------------------------------------------
-    // N=7 F1 self-consistency: the full spectrum equals its own λ ↦ −2Σγ − λ image.
+    // N=7 F1 self-consistency: the full spectrum equals its own λ ↦ −2Σγ − λ image. Computed
+    // with the X⊗N copy alone, so every sector and its Π-image are separate eigensolves; under
+    // the Π-orbit pairing the closure would hold by construction at odd N.
     // ----------------------------------------------------------------------
 
     [Fact]
@@ -185,7 +188,8 @@ public class BlockSpectrumF1OrbitPairingTests
         var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
         double sumGamma = gammaPerSite.Sum();
 
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
         var reflected = spectrum
             .Select(z => new Complex(-2.0 * sumGamma - z.Real, -z.Imaginary))
             .ToArray();
@@ -196,12 +200,14 @@ public class BlockSpectrumF1OrbitPairingTests
     }
 
     // ----------------------------------------------------------------------
-    // Follower-derivation test: each follower sector's eigenvalue multiset equals
-    // the F1-reflected (or verbatim-copied) primary, depending on the follower kind.
+    // Pairing-rule test: with every sector solved independently, each follower
+    // sector's eigenvalue multiset equals the F1-reflected (or verbatim-copied) primary,
+    // depending on the follower kind. This tests the pairing rule itself; the Z-field rows of
+    // BlockSpectrumPairingGuardTests break it.
     // ----------------------------------------------------------------------
 
     [Fact]
-    public void ComputeSpectrumPerBlock_AtN5_FollowerSectors_DeriveFromTheirOrbitPrimary()
+    public void ComputeSpectrumPerBlock_AtN5_SolvedFollowerSectors_ObeyThePairingRule()
     {
         const int N = 5;
         const double J = 1.0;
@@ -210,7 +216,8 @@ public class BlockSpectrumF1OrbitPairingTests
         var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
         double sumGamma = gammaPerSite.Sum();
 
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.None);
 
         // Slice the flat spectrum back into per-sector eigenvalue lists.
         var decomp = JointPopcountSectorBuilder.Build(N);
@@ -263,8 +270,10 @@ public class BlockSpectrumF1OrbitPairingTests
     // ----------------------------------------------------------------------
     // F71-commutation guard (Path B prerequisite). The F1Reflect followers in
     // F71MirrorBlockRefinement reflect BOTH the F71-even and F71-odd sub-arrays;
-    // this is only valid if Π commutes with the F71 mirror pair P_F71 ⊗ P_F71, so
-    // that the Π sector-permutation maps even→even and odd→odd. Verify ‖ΠF − FΠ‖_F = 0
+    // this holds when the maps that carry a sector onto its images commute with the F71
+    // mirror pair P_F71 ⊗ P_F71, so that they map even→even and odd→odd: X⊗N and
+    // ρ ↦ ρ†·X⊗N commute with every site permutation, and Π, the carrier in the truly
+    // case, is checked here. Verify ‖ΠF − FΠ‖_F = 0
     // on the computational Liouville space, the basis F71MirrorBlockRefinement uses.
     // ----------------------------------------------------------------------
 
@@ -307,12 +316,12 @@ public class BlockSpectrumF1OrbitPairingTests
 
         double commutatorNorm = (piLiouville * F - F * piLiouville).FrobeniusNorm();
         Assert.True(commutatorNorm < 1e-10,
-            $"N={N}: ‖Π·F − F·Π‖_F = {commutatorNorm:E3} (Π must commute with P_F71⊗P_F71 " +
-            "for the F1Reflect followers to act even→even, odd→odd in Path B).");
+            $"N={N}: ‖Π·F − F·Π‖_F = {commutatorNorm:E3} (Π, the carrier in the truly case, should " +
+            "commute with P_F71⊗P_F71, mapping F71-even to even and odd to odd).");
     }
 
     // ----------------------------------------------------------------------
-    // Test-local un-halved per-block reference. This is the Phase-2 loop of
+    // Test-local unpaired per-block reference. This is the Phase-2 loop of
     // LiouvillianBlockSpectrum.ComputeSpectrumPerBlock run over EVERY joint-popcount
     // sector, with no F1-orbit / X⊗N follower derivation. It is the independent
     // reference for the N=5,6,7 decisive test (dense L.Evd is infeasible at N=7).
@@ -351,7 +360,7 @@ public class BlockSpectrumF1OrbitPairingTests
         return spectrum;
     }
 
-    // Test-local un-halved F71-refined per-block reference: the Phase-2 loop of
+    // Test-local unpaired F71-refined per-block reference: the Phase-2 loop of
     // F71MirrorBlockRefinement.ComputeSpectrumPerBlock run over EVERY joint-popcount sector
     // with no F1-orbit / X⊗N follower derivation. Independent reference for the Path-B
     // decisive N=5,6,7 test (dense L.Evd is infeasible at N=7).

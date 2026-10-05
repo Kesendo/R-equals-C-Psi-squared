@@ -274,7 +274,7 @@ def _stage2_seam():
     print("  'same boundary' gate fired): the birth canal has TWO mechanisms, and the junction is one of them.\n")
     QLO, QHI, DEV_TOL = 3.0, 2000.0, 1e-4         # canonical PostEpFlowField probe points + tolerance
     # the SURVIVOR'S CHANGE-NUMBER dn=|p_col-p_row| is the robust junction discriminator (NOT the sector
-    # tuple, which is fooled by F1-conjugate degeneracy: (4,3) and (3,4) are the SAME dn=1 band edge).
+    # tuple, which is fooled by the rho -> rho^dagger degeneracy: (4,3) and (3,4) are the SAME dn=1 band edge).
     # dn=1 = number-CHANGING band edge (the (0,1)-class, -2g floor); dn=0 = number-CONSERVING interior.
     cases = [
         (6, deep_edge(6),                "deep-edge N=6"),   # junction (the n6 finding: interior wins at lo Q)

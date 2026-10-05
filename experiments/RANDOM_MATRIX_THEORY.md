@@ -309,9 +309,9 @@ Reflection/conjugation/cross-fold breaking need not break Hamiltonian integrabil
 The canonical Delta=1 plus disorder comparison supports a finite-size filling dependence,
 not a universal threshold or proof of thermalization. Galois structure over the coupling
 and spectral statistics at fixed coupling are distinct. GinUE is used here only
-as the class-A comparison ensemble. Unequal weight (p,p+1) sends Π to the conjugate
-(p+1,p) block rather than furnishing an internal symmetry; the near-zero disordered
-conjugation-match fraction excludes that sampled pairing but does not prove that no
+as the class-A comparison ensemble. The near-zero disordered
+conjugation-match fraction, which reads whether the block's own spectrum is closed under
+λ ↦ λ̄, excludes that closure in the sampled block but does not prove that no
 other antiunitary symmetry survives. The full irreducible class remains **OPEN**
 until the shifted generator's sectorwise P symmetry and all unitary/strong sectors
 have been resolved. Live:

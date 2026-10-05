@@ -15,9 +15,13 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum.JordanWigner;
 /// Tests therefore assert structural properties — extraction completes, returned eigenvalues
 /// genuinely lie in the spectrum, σ_fast equals the F1 mirror of σ_slow exactly — and the
 /// numerical "match count" at a coarse tolerance for the K-pair sample. Tight per-pair
-/// matching depends on the slow and fast Arnoldi runs landing on F1-mirrored Krylov
-/// subspaces, which is governed by Arnoldi depth × spectrum density and is not guaranteed
-/// at finite numIter.</para></summary>
+/// matching needs the F1 mirrors of the sampled eigenvalues in the same sector, which on this
+/// XY chain holds for every eigenvalue of a sector a fold of the block lattice fixes (p_c = N/2
+/// or p_r = N/2 at even N, PROOF_CODIM1_BY_ADDITIVITY §7 (b)): the (6, 3, 3), (6, 2, 3) and
+/// N = 10 cases here, where it further depends on the slow and fast Arnoldi runs landing on
+/// F1-mirrored Krylov subspaces, governed by Arnoldi depth × spectrum density and not
+/// guaranteed at finite numIter; in (5, 2, 2) the F1 mirrors lie in other sectors, (3, 2)
+/// among them.</para></summary>
 public class JwSlaterPairF1PalindromeProbeTests
 {
     private readonly ITestOutputHelper _out;

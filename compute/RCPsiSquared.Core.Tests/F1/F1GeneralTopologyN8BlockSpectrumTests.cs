@@ -29,11 +29,12 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// <para>Each test builds H = Heisenberg (XX+YY+ZZ) on the topology's bonds (J=1,
 /// per-site γ = 0.5, so σ = N·γ = 4), computes the full Liouvillian spectrum
 /// (65 536 eigenvalues across (N+1)² = 81 joint-popcount sectors) via
-/// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/>, and asserts the
+/// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> with the X⊗N copy alone
+/// (a sector and its Π-image, where they differ, are separate eigensolves), and asserts the
 /// F1 palindromic-pairing identity {λ_k} = {−2σ − λ_k} as a multiset to tolerance
 /// 1e-6 (relaxed from the N=7 dogfood's 1e-7 envelope to absorb MKL Evd accumulation
-/// across the 81 block diagonalisations at sector dims up to 4900² for N=8 vs 64
-/// blocks at 1225² for N=7).</para>
+/// across the 41 block eigensolves at sector dims up to 4900² for N=8, the X⊗N copy
+/// filling the other 40 sectors, vs 32 at 1225² for N=7).</para>
 ///
 /// <para>Each test additionally runs <see cref="F1SpectrumStatistics.Compute"/> on the
 /// per-block spectrum, logging the five metric groups (wall-time profile, pairing
@@ -42,19 +43,16 @@ namespace RCPsiSquared.Core.Tests.F1;
 /// and persisting the metrics as JSON under
 /// <c>simulations/results/f1_n8_n9_metrics/&lt;topology&gt;_N8.json</c>.</para>
 ///
-/// <para>Heisenberg (popcount-conserving by XX+YY swap term + ZZ diagonal term)
-/// sits inside the <see cref="JointPopcountSectorBuilder"/> block-infrastructure
-/// domain (the F1-truly side of the F87 trichotomy), the same domain the N=7
-/// dogfood uses. The companion DEBUG-only
-/// <c>LiouvillianBlockSpectrum.DebugAssertPopcountConservingH</c> guard (added in
-/// commit b07dd4d) enforces the contract structurally if a non-conserving H ever
-/// slips in.</para>
+/// <para>Heisenberg (popcount-conserving by XX+YY swap term + ZZ diagonal term, and
+/// F1-truly) sits inside the <see cref="JointPopcountSectorBuilder"/>
+/// block-infrastructure domain, as the N=7 dogfood's XY graphs do. <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> checks
+/// popcount conservation exactly on every entry of H.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c> (synthesis,
 /// verification-record table populated from the SLOW_N8 + SLOW_N9 JSON capture),
 /// <see cref="F1GeneralTopologyVerifiedClaim"/> (typed Tier-2 claim,
 /// <c>VerifiedNValues = {5, 6, 7, 8, 9}</c>; N=9 ran 2026-05-19 via the
-/// <c>MklDirect</c> ILP64 bridge in
+/// <c>MklDirect</c> NativeMemory bridge in
 /// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>; new frontier at N=10 is
 /// memory-pressure rather than the LP64 ceiling, see
 /// <see cref="F1GeneralTopologyVerifiedClaim.ScaleFrontierBlockedAtN"/>),
@@ -178,8 +176,8 @@ public class F1GeneralTopologyN8BlockSpectrumTests
     /// <para>Tolerance 1e-6: empirically the N=7 dogfood budget 1e-7 sits at the edge
     /// for N=8 (max distance observed 1.184e-7 on K_4 + disjoint-4-chain at the first
     /// run, so a ~10× safety factor over the N=7 envelope absorbs the accumulation
-    /// from 81 block diagonalisations at sector dims up to 4900² for N=8 vs 64 blocks
-    /// at 1225² for N=7). The relaxed tolerance is &lt; 1 part in 10⁶ of σ = 4 and
+    /// from 41 block eigensolves at sector dims up to 4900² for N=8 vs 32 at 1225² for
+    /// N=7, the X⊗N copy filling the rest). The relaxed tolerance is &lt; 1 part in 10⁶ of σ = 4 and
     /// stays orders of magnitude tighter than any physical-spectrum gap.</para></summary>
     private void VerifyF1PalindromicPairingAtN8(Bond[] bonds, string topology, string jsonFileName)
     {
@@ -196,7 +194,8 @@ public class F1GeneralTopologyN8BlockSpectrumTests
 
         // Group 1 timing: ComputeSpectrumPerBlock wall time isolated from scaffolding.
         var computeSw = Stopwatch.StartNew();
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
         computeSw.Stop();
 
         // Sanity: 4^8 = 65 536 eigenvalues across (N+1)² = 81 sectors, max block 4900².

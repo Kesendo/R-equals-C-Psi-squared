@@ -441,8 +441,9 @@ Squaring the per-site rule, Π² fixes I and X and sends Y → −Y, Z → −Z,
 Pauli string Π² acts as (−1)^{n_Y+n_Z}. That is exactly conjugation by
 X⊗N = ⊗_l X_l. Note the types: Π² is a superoperator, X⊗N is an operator, and
 the identity is Π²(ρ) = X⊗N ρ X⊗N. This corollary is registered as F1² in
-[Analytical Formulas](../ANALYTICAL_FORMULAS.md); X⊗N is the BlockSpectrum builder's
-sector-pairing shortcut (`XGlobalChargeConjugationPairing`).
+[Analytical Formulas](../ANALYTICAL_FORMULAS.md). The BlockSpectrum builder copies a
+sector's spectrum to its X⊗N partner (`XGlobalChargeConjugationPairing`) when H commutes
+with X⊗N, which it checks exactly.
 
 **Seen again 2026-06-10:** this Π is not elementary. It factors as Π = R·D,
 the transpose D (ρ ↦ ρᵀ, a pure diagonal sign on the Pauli basis) followed by

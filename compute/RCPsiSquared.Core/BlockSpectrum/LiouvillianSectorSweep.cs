@@ -14,8 +14,10 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <see cref="JointPopcountSectorBuilder"/> (sector enumeration) +
 /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> (per-sector L construction in the
 /// computational basis) + <see cref="XGlobalChargeConjugationPairing"/> (X⊗N pairing to
-/// halve eigendecomposition work) + dense MathNet <c>Evd</c>, exactly like
-/// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> — but skips any sector
+/// halve eigendecomposition work, exact for the XY chain this sweep builds, which commutes
+/// with X⊗N) + dense MathNet <c>Evd</c>, as
+/// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> does with
+/// <see cref="LiouvillianBlockSpectrum.SectorPairing.XNCopy"/>, but skips any sector
 /// whose dimension exceeds <see cref="SectorDimCap"/>.
 ///
 /// <para>Use case: at N where the largest joint-popcount sector no longer fits dense
@@ -26,15 +28,16 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// portion we can compute.</para>
 ///
 /// <para>At small N where the cap covers every sector (<c>sectorDimCap ≥ C(N, ⌊N/2⌋)²</c>),
-/// the collected eigenvalue set equals the full 4^N spectrum bit-for-bit (verified at
-/// N=3, 4 vs <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/> + direct Evd).</para>
+/// the collected eigenvalue set is the full 4^N spectrum (checked at N=3, 4 against
+/// <see cref="Lindblad.PauliDephasingDissipator.BuildZ"/> + direct Evd, nearest neighbour
+/// within 1e-9).</para>
 ///
 /// <para><b>F1 witness expectation — what the Brecher mechanism implies.</b> The witness
 /// is expected to land at machine precision (~1e-13 at N=10, γ=0.05) for this primitive's
 /// chain XY + Z-dephasing setup: the F-trichotomy classifies XY as "truly", and Z-dephasing
 /// is the F1-preserving dephasing axis, so there is no Brecher in play. Conditions that
-/// DO break F1 ("Brecher" mechanisms, enumerated in
-/// <see cref="F1.F1OpenQuestions"/> and witnessed at small N by
+/// DO break F1 ("Brecher" mechanisms; the first two are enumerated in
+/// <see cref="F1.F1OpenQuestions"/> and the first is witnessed at small N by
 /// <c>PalindromeResidualTests.F1_Palindrome_BreaksFor_T1Dissipator</c>):</para>
 /// <list type="bullet">
 ///   <item><b>T1 amplitude damping</b> (Lindblad operator σ⁻ = (X + iY)/2 carries a Y
@@ -42,9 +45,11 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///   <item><b>Depolarising noise</b>: F1 breaks; the far-end rate shortfall is at least
 ///         (2/3)Σγ for every H and equals it exactly when ad_H has an eigenvector among the
 ///         operators traceless on every site (F5 in docs/ANALYTICAL_FORMULAS.md).</item>
-///   <item><b>Transverse-field Hamiltonians</b> h_x·X or h_y·Y at the Hamiltonian level —
-///         the Z⊗N-Brecher of <c>hypotheses/THE_POLARITY_LAYER.md</c>, takes the system
-///         out of the "truly" class.</item>
+///   <item><b>A Hamiltonian no unitary X⊗N·D, D diagonal, commutes with</b>, such as one carrying any
+///         nonzero Z field: with every site dephased at a positive rate its spectrum is not
+///         palindromic (Theorem 2 of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>).
+///         An X field alone stays truly, and a Y field alone keeps the palindrome, carried by
+///         Y⊗N.</item>
 /// </list>
 /// <para>A residual visibly above ~<c>10⁻¹⁰ · N · max(γ_l)</c> in this primitive's witness
 /// therefore indicates either an arithmetic bug in the per-block eig path or an unintended
@@ -168,8 +173,12 @@ public sealed class LiouvillianSectorSweep : Claim
         Complex[] collectedArr;
         if (skipped.Count == 0)
         {
-            // Battle-tested full-coverage path: delegate to the parent primitive.
-            collectedArr = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+            // Full-coverage path: delegate to the parent primitive with the X⊗N copy alone, so
+            // that every sector and its Π-image are solved separately and the F1 witness below
+            // compares two eigensolves (the Π-orbit pairing would make it hold by construction in
+            // every sector but the Π-fixed (N/2, N/2)).
+            collectedArr = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+                H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
         }
         else
         {

@@ -23,8 +23,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para>The first item, "F1 palindrome as a spectrum-halving builder step", was closed
 /// 2026-05-22: Π acts on the joint-popcount sector labels as the whole-sector cycle
-/// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. The builder
-/// now eigendecomposes one primary per orbit and derives three followers (the Π²-image by a
+/// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. When H commutes
+/// with X⊗N the builder's default pairing eigendecomposes one primary per orbit and derives
+/// three followers (the Π²-image by a
 /// verbatim copy, the Π/Π³-images by the F1 reflection λ ↦ −2Σγ − λ); see
 /// <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> and the orbit-pairing wiring in
 /// <see cref="LiouvillianBlockSpectrum"/> and <see cref="F71MirrorBlockRefinement"/>.</para>
@@ -72,22 +73,26 @@ public static class BlockSpectrumOpenQuestions
             "popcount conservation in the computational basis). " +
             "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotSupportedException " +
             "(design-permanent under the current basis) rather than silently producing " +
-            "wrong eigenvalues. Closing this would unlock " +
-            "Builder-level verification of F108 Parts 2+3 at N=7+ and extend the per-block " +
-            "speedup to the full F108 family.",
+            "wrong eigenvalues. Closing this would bring the per-block path to X- and " +
+            "Y-dephasing for Hamiltonians that conserve the popcount of the dephase letter's " +
+            "eigenbasis: of F108's Parts 2 and 3 only the members the rotation turns into " +
+            "(XX+YY) and ZZ combinations do, the others do not.",
             "Add a per-dephase-letter rotated-basis path: apply per-site U_X = H " +
             "(Hadamard) for X-deph (resp. U_Y = (S†·H)† for Y-deph), conjugate the " +
-            "Hamiltonian H → H' = U H U† with U = U_X⊗N (resp. U_Y⊗N), then run the " +
-            "existing BuildBlockZ on H' (which now sees a popcount-conserving Hamiltonian " +
-            "in the rotated basis where the chosen dephase letter is diagonal). The " +
+            "Hamiltonian H → H' = U H U† with U = U_X⊗N (resp. U_Y⊗N) on its Pauli letters " +
+            "(a dense product U·H·U† in general leaves rounding residue on the " +
+            "popcount-changing entries, which the exact popcount check refuses), then run the " +
+            "existing BuildBlockZ on H' (popcount-conserving in the rotated basis, where " +
+            "the chosen dephase letter is diagonal, exactly when H conserves the popcount of " +
+            "that letter's eigenbasis). The " +
             "eigenvalues of L are basis-independent, so the per-block spectrum transports " +
             "back without modification. Wire the rotation into the dephaseLetter dispatch " +
-            "currently throwing NotSupportedException; reuse F1PalindromeOrbitPairing " +
-            "as-is (it is already Π-agnostic at the sector-label level). Effort: M-L. " +
-            "Payoff: enables Builder verification of F108 Parts 2+3 at N=7+ and F87 " +
-            "enumeration for X/Y deph at higher N.",
+            "currently throwing NotSupportedException; the sector pairing then applies " +
+            "where H' commutes with X⊗N, as LiouvillianBlockSpectrum checks. Effort: M-L. " +
+            "Payoff: F87 enumeration for X/Y deph at higher N on the popcount-conserving " +
+            "members.",
             "compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs " +
-            "(ComputeSpectrumPerBlock F108-aware overload; commit 736c595 added the " +
+            "(the ComputeSpectrumPerBlock overload taking a dephase letter; commit 736c595 added the " +
             "dephaseLetter parameter + throw-on-non-Z guard); " +
             "compute/RCPsiSquared.Core/BlockSpectrum/PerBlockLiouvillianBuilder.cs " +
             "(BuildBlockZ Z-only path); " +

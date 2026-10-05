@@ -51,7 +51,7 @@ public sealed class TrichotomyWitness : IInspectable
     public int N { get; }
     public double Q { get; }
 
-    private const double RateTieTol = 1e-9; // an F1-conjugate (p,p)<->(N-p,N-p) rate-tie is exact in physics;
+    private const double RateTieTol = 1e-9; // an X⊗N-conjugate (p,p)<->(N-p,N-p) rate-tie is exact in physics;
                                             // independent eigensolves split it by ~ULPs. A new block must beat
                                             // the incumbent by more than this to win, so the canonical (smallest-p)
                                             // representative of a tied floor orbit is reported, not a noise pick.
@@ -62,7 +62,7 @@ public sealed class TrichotomyWitness : IInspectable
     /// shared by Rate, the route gates,
     /// and Deviation (a later task). The reported (PCol,PRow) of a Δn=1 survivor is the canonical (0,1)
     /// representative of the band-edge floor orbit; for a (p,p) survivor it is the smallest-p representative
-    /// of the F1-conjugate ((p,p)~(N-p,N-p)) rate-tied orbit. The route keys on Δn + rate, not the literal
+    /// of the X⊗N-conjugate ((p,p)~(N-p,N-p)) rate-tied orbit. The route keys on Δn + rate, not the literal
     /// sector. Ties (within <see cref="RateTieTol"/>) keep the incumbent so the canonical representative is
     /// stable against eigensolve noise.</summary>
     public static (int PCol, int PRow, double Rate) SurvivorSector(

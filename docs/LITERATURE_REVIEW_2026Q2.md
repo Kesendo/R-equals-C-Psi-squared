@@ -140,8 +140,8 @@ stands but adds nothing methodologically new to what we already do.
 ### What our recent work added
 
 Π is now established as an order-4 operator with Π² = X⊗N as the
-global charge-conjugation Pauli string. F1³ uses this as a builder
-shortcut (Π-orbits of size 4 halve the eigendecomposition workload).
+global charge-conjugation Pauli string. The block-spectrum builder uses it as a
+shortcut (Π-orbits of size 4 cut the number of eigendecompositions to about a quarter when H commutes with X⊗N).
 F81-F84 derive the decomposition of M = Π·L·Π⁻¹ + L + 2Σγ·I into
 symmetric and antisymmetric parts; antisymmetric part = unitary
 commutator of the Π²-odd Hamiltonian. F82-F84 extend this to T1

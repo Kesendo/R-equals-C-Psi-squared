@@ -399,8 +399,8 @@ Liouvillian's Q_max equals the block's at N = 2 to 6, 40, 60, 68.284271,
 72.360680 and 74.641016, carried by the block's own eigenvalue −2γ ± i·ω_max
 (the block is closed under L, so that eigenvalue is exactly one of L's); the
 19-row γ sweep agrees at N = 2, 3 and 5 at every rate to its printed precision.
-Outside the block and its X^⊗N image (N−1, N), which carries the same
-spectrum and so ties it exactly, the nearest competitor stands at 0.9997, 0.750,
+Outside the (0, 1) block and the three blocks that tie it exactly, (1, 0) and
+(N−1, N) with the conjugate of its spectrum and (N, N−1) with its own, the nearest competitor stands at 0.9997, 0.750,
 0.693, 0.809 and 0.871 of the block's Q_max at N = 2 to 6, a margin that narrows from N = 4
 on, so the measurement cannot stand in for the general-N proof that is
 missing. It is the one step the V(N) reading needs to speak for the whole

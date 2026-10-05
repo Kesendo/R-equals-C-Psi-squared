@@ -1,6 +1,6 @@
 # PROOF F93: F71-anti-palindromic h spectral invariance (h-detuning Pi2-Z₄ twin of F91/F92)
 
-**Status:** Tier 1 derived (algebraic argument parallel to F91/F92 + bit-exact empirical witness at N=4, 5)
+**Status:** Tier 1 derived (algebraic argument parallel to F91/F92 + empirical witness to rounding at N=4, 5)
 **Date:** 2026-05-12
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Typed claim:** [`F93DetuningAntiPalindromicSpectralInvariance.cs`](../../compute/RCPsiSquared.Core/SymmetryFamily/F93DetuningAntiPalindromicSpectralInvariance.cs)
@@ -60,10 +60,10 @@ Anti-palindromy U_l = 2·h_avg ∀l is the orbit on which all h give identical d
 
 | N | uniform h = 0.4 | anti-palindromic h | full-L Frobenius leak (F71 off-block) |
 |---|---|---|---|
-| 4 | spectrum reference | bit-identical | nonzero (h_l ≠ h_{N−1−l} per pair) |
-| 5 | spectrum reference | bit-identical | nonzero |
+| 4 | spectrum reference | equal to rounding | nonzero (h_l ≠ h_{N−1−l} per pair) |
+| 5 | spectrum reference | equal to rounding | nonzero |
 
-Verified by `F93DetuningAntiPalindromicSpectralInvarianceTests.Spectrum_InvariantUnderAntiPalindromicH_*` using the F71-refined diagonal-block spectrum (`F71MirrorBlockRefinement.ComputeSpectrumPerBlock`); the full-L spectrum (via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`) does NOT match across anti-palindromic h profiles, consistent with F91/F92's analogous caveats.
+Verified by `F93DetuningAntiPalindromicSpectralInvarianceTests.Spectrum_InvariantUnderAntiPalindromicH_*` using the F71-refined diagonal-block spectrum (`F71MirrorBlockRefinement.ComputeSpectrumPerBlock`); the full-L spectrum (via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`) does NOT match across anti-palindromic h profiles, consistent with F91/F92's analogous caveats. A detuning does not commute with X⊗N, so both engines solve every sector for this H instead of pairing them.
 
 ## The three-axis family is complete (so far)
 

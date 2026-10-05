@@ -50,7 +50,9 @@ public sealed class XGlobalChargeConjugationPairingTests
         const double gamma = 0.5;
         var H = PauliHamiltonian.XYChain(N, J).ToMatrix();
         var gammaPerSite = Enumerable.Repeat(gamma, N).ToArray();
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        // Every sector solved, so the two members of each X⊗N pair are separate eigensolves.
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.None);
 
         var decomp = JointPopcountSectorBuilder.Build(N);
         var bySector = new Dictionary<(int, int), List<Complex>>();

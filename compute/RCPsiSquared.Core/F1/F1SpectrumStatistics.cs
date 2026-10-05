@@ -13,7 +13,8 @@ namespace RCPsiSquared.Core.F1;
 /// <para>The record serialises to pretty-printed JSON via <see cref="ToJson"/>, suitable
 /// for committing under <c>simulations/results/f1_n8_n9_metrics/</c>. Both the F1 N=8 and
 /// the F1 N=9 chain test classes call <see cref="Compute"/> on the per-block spectrum
-/// produced by <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/>, log the
+/// produced by <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> with the X⊗N
+/// copy alone, log the
 /// metrics through <c>ITestOutputHelper</c>, and persist the JSON.</para>
 ///
 /// <para>Anchors:
@@ -26,8 +27,8 @@ public static class F1SpectrumStatistics
 {
     /// <summary>Tolerance (in absolute units of Re/Im) that classifies a coordinate as
     /// machine zero. Used for kernel-dimension, pure-imaginary, and real-eigenvalue counts.
-    /// 1e-9 is loose enough to absorb MKL Evd accumulation across the 81 (N=8) or 100 (N=9)
-    /// joint-popcount block diagonalisations while tight enough to separate the physical
+    /// 1e-9 is loose enough to absorb MKL Evd accumulation across the 41 (N=8) or 50 (N=9)
+    /// block eigensolves, the X⊗N copy filling the rest of the 81 or 100 sectors, while tight enough to separate the physical
     /// dissipation gap from machine zero in all systems exercised here.</summary>
     public const double MachineZeroTolerance = 1e-9;
 

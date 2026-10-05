@@ -24,8 +24,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   <item>the decomposition counts — the 100 → 50 → 25 story at N=9: (N+1)² sectors, halved to
 ///   the X⊗N order-2 spectral classes (<see cref="XGlobalChargeConjugationPairing"/>, = the banked
 ///   PrimarySectorCount), quartered to the F1 Π order-4 orbit classes
-///   (<see cref="F1PalindromeOrbitPairing"/>, the eig-calls the compute path actually does, since
-///   Π² = X⊗N);</item>
+///   (<see cref="F1PalindromeOrbitPairing"/>, since Π² = X⊗N): the eig-calls of the default
+///   Π-orbit pairing, while the banked N=9 run and the F1 palindrome tests use the X⊗N copy
+///   alone, one eig-call per X⊗N class;</item>
 ///   <item>the full spectrum reconstructed sector-by-sector (<see cref="PerBlockLiouvillianBuilder"/>)
 ///   for sectors within the live-eig cap, and the F1 palindrome {λ} = {−2σ − λ} checked on it
 ///   (full at N ≤ 7; at N=9 the central C(9,4)² = 15876² block needs the 3 h SLOW_N9 run, so the
@@ -86,8 +87,9 @@ public sealed class BlockSpectrumWitness : IInspectable
     // ---- the joint-popcount decomposition (combinatorial, any N) ----
 
     /// <summary>The sector-decomposition facts: the (N+1)² count, the X⊗N order-2 spectral classes
-    /// (= the banked PrimarySectorCount), the F1 Π order-4 orbit classes (the eig-calls), the max
-    /// block size + its (p_c, p_r) sector, and the cubic-cost speedup over the dense (4^N)³.</summary>
+    /// (= the banked PrimarySectorCount), the F1 Π order-4 orbit classes (the default pairing's
+    /// eig-calls), the max block size + its (p_c, p_r) sector, and the cubic-cost speedup over
+    /// the dense (4^N)³.</summary>
     public readonly record struct DecompositionFacts(
         int SectorCount, int XnClasses, int PiOrbitClasses, long MaxBlock, int MaxPc, int MaxPr, double CubicSpeedup);
 
@@ -529,7 +531,7 @@ public sealed class BlockSpectrumWitness : IInspectable
         {
             InspectableNode.RealScalar("sectors (N+1)²", d.SectorCount),
             InspectableNode.RealScalar("X⊗N order-2 spectral classes (= banked PrimarySectorCount)", d.XnClasses),
-            InspectableNode.RealScalar("F1 Π order-4 orbit classes (the eig-calls; Π² = X⊗N)", d.PiOrbitClasses),
+            InspectableNode.RealScalar("F1 Π order-4 orbit classes (the default pairing's eig-calls; Π² = X⊗N)", d.PiOrbitClasses),
             new InspectableNode("max block",
                 summary: $"C({N},{N / 2})² = {d.MaxBlock} at sector ({d.MaxPc},{d.MaxPr})" +
                          (N % 2 == 0
@@ -539,8 +541,9 @@ public sealed class BlockSpectrumWitness : IInspectable
         };
         return new InspectableNode("the joint-popcount sector decomposition",
             summary: $"N={N}: (N+1)² = {d.SectorCount} sectors, halved by X⊗N to {d.XnClasses} spectral " +
-                     $"classes (Π² = X⊗N, a genuine symmetry → verbatim copy), quartered by the F1 Π " +
-                     $"order-4 orbit to {d.PiOrbitClasses} eig-calls; max block C({N},{N / 2})² = {d.MaxBlock}; " +
+                     $"classes (Π² = X⊗N, a symmetry when H commutes with X⊗N, as here → verbatim copy), quartered by the F1 Π " +
+                     $"order-4 orbit to {d.PiOrbitClasses} classes (the default pairing's eig-calls; the X⊗N copy " +
+                     $"alone makes {d.XnClasses}); max block C({N},{N / 2})² = {d.MaxBlock}; " +
                      $"{d.CubicSpeedup.ToString("0.0", Inv)}× cubic-cost speedup over the dense (4^N)³.",
             children: kids,
             provenance: NodeProvenance.Live);

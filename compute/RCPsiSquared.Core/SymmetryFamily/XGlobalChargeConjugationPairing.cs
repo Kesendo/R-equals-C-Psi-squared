@@ -17,8 +17,8 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// (here, 2026-05-12) and Π² (PiOperator.SquaredEigenvalue) independently; the identity
 /// was recognised 2026-05-21.</para>
 ///
-/// <para>Algorithmic gain: halves the number of distinct eigendecompositions needed at
-/// any N. Block sizes are unchanged; this is sector-pairing, not sector-splitting.</para>
+/// <para>Algorithmic gain: where H commutes with X⊗N, as on the XY chain, halves the number
+/// of distinct eigendecompositions needed at any N. Block sizes are unchanged; this is sector-pairing, not sector-splitting.</para>
 ///
 /// <para>Empirical anchor (April 2026, retroactively explained): <c>experiments/DEGENERACY_HUNT.md</c>
 /// observed at N=5 that the 14 degenerate eigenmodes at Re(λ)=−0.400 spread across joint-popcount
@@ -67,8 +67,11 @@ public sealed class XGlobalChargeConjugationPairing : Claim
     /// primary; non-self-paired pairs use lex-smaller (PCol, PRow) as primary.
     ///
     /// <para>Returns indices into the input sectors list. The dictionary maps follower-index
-    /// → primary-index. Used by LiouvillianBlockSpectrum and F71MirrorBlockRefinement to
-    /// avoid duplicate eig computations across X⊗N-paired sectors.</para>
+    /// → primary-index. Used by LiouvillianBlockSpectrum and F71MirrorBlockRefinement under
+    /// SectorPairing.XNCopy, when H commutes with X⊗N, and unconditionally by
+    /// LiouvillianSectorSweep's capped path and the Cli's block-spectrum command, whose H is
+    /// always the XY chain, to avoid duplicate eig computations across X⊗N-paired
+    /// sectors.</para>
     ///
     /// <para>Optional <paramref name="sectorSize"/> projection: when supplied, primary sectors
     /// are sorted descending by size so the most expensive eig starts first under

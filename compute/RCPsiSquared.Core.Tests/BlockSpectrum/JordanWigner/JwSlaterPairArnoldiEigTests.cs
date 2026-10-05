@@ -58,9 +58,12 @@ public class JwSlaterPairArnoldiEigTests
     [InlineData(6, 3, 3, 200, 1e-3)]  // half-filling at N=6: m=200 / dim 400 = 50%, practical bound
     public void Build_PalindromicGamma_RecoversPalindromeCenter(int N, int pCol, int pRow, int numIter, double mirrorTol)
     {
-        // F1 palindrome holds for the FULL Liouvillian spectrum, paired around −Σγ. Per-
-        // sector it holds only at half-filling (p_c = p_r = N/2) — other sectors are paired
-        // with their X⊗N partner (N−p_c, N−p_r). For each Arnoldi-recovered eigenvalue λ,
+        // F1 palindrome holds for the FULL Liouvillian spectrum, paired around −Σγ. Every sector
+        // pairs with its Π-image (N − p_r, p_c), while its X⊗N partner (N − p_c, N − p_r)
+        // carries the same spectrum, not the reflected one; within a sector the palindrome holds
+        // where a fold of the block lattice fixes it (PROOF_CODIM1_BY_ADDITIVITY §7 (b): on this
+        // XY chain p_c = N/2 or p_r = N/2 at even N, half-filling among them). For each
+        // Arnoldi-recovered eigenvalue λ,
         // the mirror λ' = −2·Σγ − λ must appear in the full sector spectrum.
         // Mirror-distance tolerance tracks Arnoldi convergence at the chosen Krylov fraction.
         if (pCol != N / 2 || pRow != N / 2)

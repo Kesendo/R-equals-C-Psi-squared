@@ -19,7 +19,7 @@
 | # | Symmetry | Axis | Effect | Status | Anchor |
 |---|---|---|---|---|---|
 | 6 | **Z⊗N** Pauli-letter parity (Z₂) = Π²_X (F61) | operator | trivially redundant with joint-popcount-parity (typed for inventory completeness) | Tier1Derived | `ZGlobalMirrorRefinement` |
-| 7 | **X⊗N** charge-conjugation (Z₂) = Π² (F1²) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r); halves number of eig-calls | Tier1Derived | `XGlobalChargeConjugationPairing` |
+| 7 | **X⊗N** charge-conjugation (Z₂) = Π² (F1²) | operator | sector-pairing (p_c, p_r) ↔ (N−p_c, N−p_r) when H commutes with X⊗N; halves number of eig-calls, and the Π-orbit pairing (`F1PalindromeOrbitPairing`) quarters them under the same condition | Tier1Derived | `XGlobalChargeConjugationPairing` |
 
 ## Architecture aggregators and refinement Claims (inventory state; the finer YParity / BitA / BitB / Cubic3 refinement axes beyond the top-level five)
 
@@ -191,8 +191,8 @@ rapidities + full sector spectrum as subset sums. Tests cross-validate against
 N=3..6), verify the rapidities match `XyJordanWignerModes.Dispersion`, confirm the X⊗N
 charge-conjugation pair (p_c = N, p_r = N−m) has equal spectrum, and check the F1 mirror
 predictions `−λ − 2·Σγ` of every (0, m) eigenvalue appear somewhere in the full per-block
-spectrum (F1's Π-mediated mirror distributes across sectors, not a simple sector
-permutation).
+spectrum (they lie in the Π-image sector (N − m, 0): Π sends the matrix unit |a⟩⟨b| to
+|b⟩⟨ā|, a whole sector onto a whole sector).
 
 **Combinatorial coverage at N=10.** Summing C(10, m) for m = 0..N gives 2^N = 1024
 eigenvalues per one-sided family. With sister sectors (m, 0) → complex conjugates of

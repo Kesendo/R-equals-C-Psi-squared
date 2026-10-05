@@ -23,7 +23,7 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// the order-2 shadow of the genuine operator-side Z₄ (i⁴ = 1). h-side detuning twin in the
 /// family.</para>
 ///
-/// <para>Algebraic proof + empirical witness (bit-exact at N=4, 5):
+/// <para>Algebraic proof + empirical witness (to rounding at N=4, 5):
 /// <c>docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md</c>.</para></summary>
 /// <seealso cref="BlockSpectrum.F71AntiPalindromicGammaSpectralInvariance"/>
 /// <seealso cref="F92BondAntiPalindromicJSpectralInvariance"/>
@@ -39,7 +39,7 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
         SymmetryFamilyInventory inventory)
         : base("F93DetuningAntiPalindromicSpectralInvariance: chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h-distributions satisfying h_l+h_{N-1-l}=2·h_avg; h-side twin of F91 + F92 (parameter-side Klein V₄, the order-2 shadow of the operator-side Pi2-Z₄).",
                Tier.Tier1Derived,
-               "Algebraic mechanism parallel to F91/F92 (diagonal blocks depend only on F71-pair-sums; cross blocks on pair-differences); bit-exact at N=4,5")
+               "Algebraic mechanism parallel to F91/F92 (diagonal blocks depend only on F71-pair-sums; cross blocks on pair-differences); witnessed to rounding at N=4,5")
     {
         _sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
         _f71 = f71 ?? throw new ArgumentNullException(nameof(f71));
@@ -73,7 +73,7 @@ public sealed class F93DetuningAntiPalindromicSpectralInvariance : Claim
         "F93: F71-anti-palindromic h spectral invariance (parameter-side Klein V₄ h-side twin of F91/F92)";
 
     public override string Summary =>
-        $"chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h_l+h_{{N-1-l}}=2·h_avg; algebraic proof + bit-exact N=4,5 ({Tier.Label()})";
+        $"chain XY+Z-deph+h_l Z_l L diagonal-block spectrum invariant under h_l+h_{{N-1-l}}=2·h_avg; algebraic proof + witness to rounding N=4,5 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

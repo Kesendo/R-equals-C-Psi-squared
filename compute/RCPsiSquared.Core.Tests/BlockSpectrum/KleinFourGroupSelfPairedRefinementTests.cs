@@ -245,7 +245,7 @@ public class KleinFourGroupSelfPairedRefinementTests
             $"sub-block should be sparse (≤ ~4N + a few per row); got mean {meanNnzPerRow}");
     }
 
-    [Fact(Skip = "Blocked: dense complex Evd at sub-block dim 16132 trips the .NET/MKL int32 array-size cap (16132² × 16 bytes = 4.2 GB > 2 GB managed marshaling limit; same issue compute/RCPsiSquared.Compute solved at N=8 via NativeMemory + ILP64 LAPACK in MklDirect.cs). Implementing the same NativeMemory + ILP64 path for the Klein sub-block Evd is the natural Phase 3c. Once that exists, the workload itself is reachable (~3 h per sub-block dense Evd, ~12 h total, ~4 GB peak per sub-block — overnight on commodity hardware).")]
+    [Fact(Skip = "Blocked: dense complex Evd at sub-block dim 16132 trips the .NET/MKL int32 array-size cap (16132² × 16 bytes = 4.2 GB > 2 GB managed marshaling limit; same issue compute/RCPsiSquared.Compute solved at N=8 via NativeMemory + ILP64 LAPACK in MklDirect.cs). Implementing the same NativeMemory + ILP64-aware path for the Klein sub-block Evd is the natural Phase 3c. Once that exists, the workload itself is reachable (~3 h per sub-block dense Evd, ~12 h total, ~4 GB peak per sub-block: overnight on commodity hardware).")]
     public void SLOW_Build_AtN10_FullSectorSpectrumViaFourSubBlockEvd_F1PalindromeHolds()
     {
         // The Phase 3b target: at N=10 (5, 5) compute the full sector spectrum (63 504

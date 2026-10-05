@@ -100,12 +100,12 @@ public static class FillingThresholdCsr
     /// with the F1 scorers is the matcher, and that is the part repaired: the match is now MULTISET matching WITH
     /// REMOVAL, each conjugate partner consumed once. Without removal a single self-conjugate (real) eigenvalue
     /// could answer for arbitrarily many λ, which inflates the fraction in one direction only. Both readers of
-    /// this number test it against ≈ 0, so the old defect could never have manufactured their conclusion, only
+    /// this number, FillingThresholdWitness's summary and FillingThresholdCsrTests, read it against ≈ 0, so the old defect could never have manufactured their conclusion, only
     /// hidden a real symmetry. Do not read the repair as making the number exact in both directions:
     /// greedy-with-removal is not a maximum-cardinality matching and is order-dependent, so on a
     /// near-degenerate but genuinely conjugation-symmetric spectrum it can now come out BELOW 1. That
-    /// is the ≈ 1 direction this summary opens with, and it is what the repair leaves open; both live
-    /// consumers read against ≈ 0 and are unaffected.</para></summary>
+    /// is the ≈ 1 direction this summary opens with, and it is what the repair leaves open; both
+    /// readers read against ≈ 0 and are unaffected.</para></summary>
     public static double ConjugationMatchFraction(int n, int wKet, int wBra, double q, double delta, double[]? field)
     {
         var spec = Matrix<Complex>.Build

@@ -198,9 +198,8 @@ class-statistics correspondence
 - **Dense (near-half-filling) sectors climb toward GinUE with N**: the
   complex-spacing-ratio marker ⟨cos θ⟩ runs −0.089 / −0.129 / −0.162 at
   N = 6 / 7 / 8 (GinUE −0.241, 2D-Poisson 0). GinUE is the class-A
-  comparison ensemble here, not a computed class assignment: Π maps an unequal
-  block to its conjugate partner, but that fact and the sampled conjugation test
-  do not exhaust residual antiunitary symmetries. The full irreducible class is
+  comparison ensemble here, not a computed class assignment: a sampled
+  conjugation-match test does not exhaust residual antiunitary symmetries. The full irreducible class is
   **OPEN** after the shifted generator's sectorwise P symmetry and every
   unitary/strong sector are resolved.
 

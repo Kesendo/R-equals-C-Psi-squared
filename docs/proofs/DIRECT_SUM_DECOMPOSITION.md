@@ -354,15 +354,18 @@ sites.
 ## Computational implication
 
 **Status: realized, by a finer grading.** The sector-aware engine this
-decomposition called for exists since 2026-05-19:
+decomposition called for exists:
 `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`
 (`compute/RCPsiSquared.Core/BlockSpectrum/`) computes the full 4^N
 spectrum block by block. It works not on the two n_XY-parity sectors but
 on the finer joint-popcount grading (blocks of size C(N,p)·C(N,q), of
-which V_even/V_odd are the mod-2 coarsening), and it exploits the Π
-orbit-pairing so mirror partners are not recomputed, which is this
-proof's "only one half must be diagonalized" made operational. That path
-carried the N = 9 spectrum; the dense 4^N engine had hit its wall at
+which V_even/V_odd are the mod-2 coarsening), and when H commutes with
+X⊗N it pairs sectors so that partners are not recomputed: the Π-orbit
+pairing, which at odd N maps each half onto the other and is this proof's
+"Knowing the spectrum of one half gives you the other for free" made
+operational, and the X⊗N copy,
+which pairs sectors within a half. The N = 9 spectrum (2026-05-19) ran under
+the X⊗N copy alone; the dense 4^N engine had hit its wall at
 N = 8 (~73 GB). The April arithmetic (per-parity-sector: 4× RAM from
 halved dimension, 4× time at even N with two sectors at 1/8 cost each,
 8× at odd N where one sector suffices) was sound but is now dominated by

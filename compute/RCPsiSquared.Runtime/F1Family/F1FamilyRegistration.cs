@@ -26,8 +26,9 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item><see cref="F49NonUniformCrossTermClaim"/>: ‖{L_H, L_Dc}‖² = 4·Σ_b ‖L_H^bond‖²·Σ_{m∉bond}γ_m² +
 ///         Σ_b G(bond, H)·(γ_i−γ_j)²; F49's non-uniform γ extension.</item>
 ///   <item><see cref="F1GeneralTopologyVerifiedClaim"/> (Tier 2): verification record
-///         that the (B, D2) parameterisation of ‖M(N, G)‖² extends bit-exactly to
-///         disconnected, weighted, and random connected graphs at N=5..7. Depends on
+///         that the (B, D2) parameterisation of ‖M(N, G)‖² extends to disconnected,
+///         weighted, and random connected graphs at N ≤ 6, with the F1 palindromic
+///         pairing checked through the block path at N=7..9. Depends on
 ///         <see cref="PalindromeResidualScalingClaim"/> (the closed form whose
 ///         universality is verified) and <see cref="F1PalindromeIdentity"/> (parent F1).</item>
 ///   <item><see cref="F4KernelDimensionByComponentsClaim"/> (Tier 1 derived,

@@ -29,8 +29,9 @@ namespace RCPsiSquared.Core.F1;
 ///         on Marrakesh and related machines; plus the general-topology verification
 ///         record (<see cref="GeneralTopologyVerification"/>) that extends the
 ///         (B, D2) parameterisation to disconnected, weighted, and random connected
-///         graphs at N=5, 6, 7, 8, 9 (N=8 via the opt-in SLOW_N8 block-spectrum dogfood,
-///         N=9 chain via the SLOW_N9 dogfood routed through the <c>MklDirect</c> ILP64
+///         graphs at N ≤ 6 and checks the F1 palindromic pairing through the block path at
+///         N=7, 8, 9 (N=8 via the opt-in SLOW_N8 block-spectrum dogfood,
+///         N=9 chain via the SLOW_N9 dogfood routed through the <c>MklDirect</c> NativeMemory
 ///         bridge that landed 2026-05-19, both with full <see cref="F1SpectrumStatistics"/>
 ///         metric capture under <c>simulations/results/f1_n8_n9_metrics/</c>). New
 ///         frontier at N=10 is memory-pressure rather than the LP64 ceiling; see
@@ -209,7 +210,7 @@ public sealed class F1KnowledgeBase : IInspectable
                 StarImMaxBound);
 
             // Tier 2 group includes the hardware confirmations + the
-            // general-topology verification record (numerical sweep across N=5..8).
+            // general-topology verification record (numerical sweep across N=5..9).
             var tier2Children = new List<IInspectable>(HardwareConfirmations.Count + 1)
             {
                 GeneralTopologyVerification,

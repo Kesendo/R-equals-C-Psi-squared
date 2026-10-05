@@ -16,9 +16,13 @@ namespace RCPsiSquared.Diagnostics.Tests.Ptf;
 /// λ_s + λ_f = −2Σγ (the F8/F1 pairing), but the hypothesized coupling of paired partners
 /// through a J-defect perturbation V_L = −i[V, ·] does not exist: at N=7,
 /// max |⟨W_f|V_L|M_s⟩| = 4.43·10⁻¹⁴ over all 80×80 partner pairs, the numerical floor.
-/// Structural reason: V_L conserves the U(1)×U(1) joint popcount sector (a, b) of a
-/// coherence |a-sector⟩⟨b-sector|, while the palindrome pairing maps (a, b) → (N−a, N−b);
-/// the two never meet except at a = b = N/2.</para>
+/// Structural reason, for partners in different sectors: V_L conserves the U(1)×U(1) joint
+/// popcount sector (a, b) of a coherence |a-sector⟩⟨b-sector|, while the palindrome carries
+/// a mode in (a, b) to one in (b, N−a), the same sector only at a = b = N/2. Partners
+/// matched by eigenvalue can also share a sector, or carry eigenvectors that mix sectors where
+/// eigenvalues are degenerate, and there this reason does not reach: on the
+/// N = 4 chain of these tests every sector with a or b = 2 pairs within itself, and (1, 1),
+/// (1, 3), (3, 1) and (3, 3) each hold six eigenvalues with a partner inside.</para>
 ///
 /// <para><b>The light-complementarity reading (2026-06-10 fresh-eyes survey)</b>: palindrome
 /// partners sit on opposite banks of the PTF near/far edge by definition of being mirror
@@ -146,8 +150,9 @@ public class F8PartnerLightComplementarityTests
     {
         // The April null: the J-defect bond perturbation V_L = −i[V, ·] on bond (0, 1)
         // cannot couple F8 partners. V_L conserves the joint popcount sector (a, b) of a
-        // coherence while the palindrome maps (a, b) → (N−a, N−b); the sectors are
-        // disjoint except at a = b = N/2, and there the matrix element still vanishes.
+        // coherence while the palindrome maps (a, b) → (b, N−a), so partners in different
+        // sectors cannot couple; the pairs below are matched by eigenvalue and can share a
+        // sector or mix sectors (the class summary says where), which that reason does not reach.
         // N=7 original: max 4.43e−14 over 80×80 pairs (RESULT_PTF_STANDING_WAVE_ROLES).
         var (vals, right, left) = Decomp.Value;
 

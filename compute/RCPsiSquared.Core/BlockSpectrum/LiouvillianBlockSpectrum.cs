@@ -35,7 +35,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// At N=8 the largest block fits in ~0.38 GB vs ~68.7 GB for the full L, removing the
 /// need for native-memory + ILP64 LAPACK on the dense path.</para>
 ///
-/// <para><b>Bit-exact witness at N=3, 4, 5.</b> The per-block spectrum and the direct
+/// <para><b>Witness at N=3, 4, 5.</b> The per-block spectrum and the direct
 /// full-L spectrum agree as multisets to <c>|Δλ| &lt; 1e-9</c> across uniform XY chain
 /// <c>(J = 1.0)</c> + per-site Z-dephasing <c>(γ = 0.5)</c>, and under varied parameters
 /// (γ ∈ {0.1, 0.5, 2.0}, J ∈ {0.5, 1.0, 3.0}). Verified by
@@ -47,39 +47,66 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// underlying Hamiltonian) be block-diagonal in the joint-popcount basis. This holds
 /// for popcount-conserving H (XX+YY, ZZ, XXZ, Heisenberg, any sum of these) and FAILS
 /// for H that breaks popcount conservation (XX+YZ, XY+YX, anything with shadow-crossing
-/// Pauli pairs like X_iZ_j or Y_iZ_j). Calling with non-popcount-conserving H returns
-/// silently wrong spectra: the per-block eigenvalues miss the cross-sector entries of L,
-/// so <c>Σ_blocks ‖L_b‖²_F ≠ ‖L_full‖²_F</c> and the spectrum is incomplete. The 2026-05-18
+/// Pauli pairs like X_iZ_j or Y_iZ_j). For such an H the per-block eigenvalues would miss
+/// the cross-sector entries of L, so <c>Σ_blocks ‖L_b‖²_F ≠ ‖L_full‖²_F</c> and the spectrum
+/// would be incomplete. The 2026-05-18
 /// F1 general-topology N=7 dogfood discovered this empirically (XX+YZ at N=5 gave block
-/// sum 4403 vs dense 16691, factor ~3.8 off). In DEBUG builds a sample-based assertion in
-/// each entry point (<see cref="DebugAssertBlockDiagonalL"/> and
-/// <see cref="DebugAssertPopcountConservingH"/>) throws an
-/// <see cref="InvalidOperationException"/> when the contract is violated; in RELEASE
-/// builds the assertion is stripped (no production-perf cost). Callers must validate H
-/// structurally before invoking on a hot path. Both methods ensure MKL is initialized
+/// sum 4403 vs dense 16691, factor ~3.8 off). <see cref="ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int)"/>
+/// checks every entry of H between basis states of different popcount and throws an
+/// <see cref="ArgumentException"/> unless each is exactly zero
+/// (<see cref="RequirePopcountConservingH"/>, O(4^N) reads, negligible beside the
+/// eigensolves); <see cref="ComputeSpectrum"/>, which receives L itself, keeps a
+/// DEBUG-only sampled check (<see cref="DebugAssertBlockDiagonalL"/>). Both methods ensure MKL is initialized
 /// via <see cref="MathNetSetup.EnsureInitialized"/> on entry, so no caller needs to
 /// pre-initialize; the lazy global guard makes the redundant call free after the
 /// assembly-level <c>CoreModuleInitializer</c> has already run.</para>
 ///
-/// <para><b>F108 Π_5bilinear at the Builder layer (2026-05-25).</b> The orbit-pairing
-/// primitive <see cref="SymmetryFamily.F1PalindromeOrbitPairing.PartitionByPiOrbit"/> is
-/// Π-agnostic at the sector-label level: it consumes only the joint-popcount permutation
-/// rule (p_c, p_r) ↦ (N − p_r, p_c), not the matrix form of Π. F108 Part 1
-/// (<see cref="Symmetry.F108Part1Pi2EvenAlwaysPalindromic"/> via
-/// <see cref="Symmetry.Pi5BilinearOperator"/> at <c>dephaseLetter = Z</c>) extends the F1
-/// conjugation identity Π·L·Π⁻¹ = −L − 2σ·I from chain Heisenberg/XY (truly) to every
-/// Hamiltonian of Π²_Z-even 2-site bilinears (XX, YY, YZ, ZY, ZZ combos). Canonical Π (F1)
-/// and Π_5bilinear-Z (F108 Part 1) induce the same joint-popcount sector orbits, run in
-/// opposite directions (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}), and the popcount-conserving members of
-/// F108's family are combinations of (XX+YY) and ZZ, which the canonical Π already
-/// palindromizes, so on the Z-dephasing domain F108 brings no extra speedup at this layer.
-/// The orbit pairing presumes the palindrome sector by sector, and the popcount contract
-/// admits Hamiltonians where it fails: with a Z field the per-block spectrum is wrong
-/// (XX + YY + 0.7·Z on one site at N = 2, rates 0.3 and 0.4: Hausdorff distance 0.73 from
-/// the full eigensolver, docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry). Callers keep to H whose palindrome
-/// holds sector by sector, such as the truly chains and XY − YX bonds on a chain. The F108-aware
-/// <c>ComputeSpectrumPerBlock</c> overload exists for intent-declaration and
-/// forward-compatibility, not for new gain.</para>
+/// <para><b>Sector pairing, and when it is exact.</b> <c>ComputeSpectrumPerBlock</c> solves
+/// one sector per orbit of the F1 mirror Π on joint-popcount labels,
+/// (p_c, p_r) ↦ (N − p_r, p_c) (<see cref="SymmetryFamily.F1PalindromeOrbitPairing"/>), and
+/// fills the other three: the Π²-image, the X⊗N partner, by copying, and the Π- and
+/// Π³-images by the reflection λ ↦ −2σ − λ. Both rules hold whenever a unitary W = X^⊗N·D
+/// with D diagonal commutes with H. W anticommutes with every Z jump, so ρ ↦ ρ·W carries L to
+/// −L† − 2σ (the far-end relation of <c>experiments/THE_PAIRING_CONDITION.md</c>, written
+/// there with U on the left); composed with F119's dagger ρ ↦ ρ†, which every Lindbladian
+/// commutes with and which sends sector (p_c, p_r) to (p_r, p_c) and conjugates its spectrum,
+/// the map ρ ↦ ρ†·W moves sector s onto Π(s), W moving sectors as X^⊗N does, so
+/// spec(L|Π(s)) = −2σ − spec(L|s), and twice over the copy. With every site dephased at a
+/// positive rate such a W exists exactly when the spectrum is palindromic (F158's far kernel
+/// read on the hopping graph, Theorem 2 of
+/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>, whose flat section is D), so
+/// there the fill is exact wherever the spectrum is palindromic, and at odd N, where no
+/// sector is Π-fixed, only there; at even N the Π-fixed (N/2, N/2) sector is solved on its
+/// own, and at every even N it can break the palindrome under an exact fill. Add the split
+/// a·(|0101…⟩⟨0101…| − |1010…⟩⟨1010…|), a ≠ 0, to the uniform chain Σ(XX + YY): it sits at
+/// popcount N/2 alone, and ρ ↦ ρ†·X^⊗N lets X^⊗N act on a sector's ket side only, so at any rates
+/// the reflection still holds from every sector whose ket popcount is not N/2; at rates
+/// symmetric under the chain reflection R, R·X^⊗N fixes both Néel states, commutes with H
+/// and carries the copy, and every orbit of four keeps all its relations. No unitary X^⊗N·D commutes
+/// with H, as it would move the diagonal entry a onto the −a at the other Néel state, so at
+/// positive rates the spectrum is not palindromic (Theorem 2) and, the orbits of four being
+/// palindromic, neither is that sector: 1.385 in Hausdorff distance from its own reflection
+/// at N = 4 with a = 2.8 and rates 0.5, 0.955 at N = 6. At N = 2 the split with a = 1.4 is
+/// the field 0.7·(Z₀ − Z₁).
+/// The method checks the
+/// constant section D = 1, [H, X^⊗N] = 0 (F63's parity), exactly on the entries of H
+/// (<see cref="CommutesWithXN"/>); it suffices at any rates, zero included, and every sector
+/// is solved when it fails. The truly Hamiltonians (every Pauli string with #Y and #Z even,
+/// H real and X^⊗N-symmetric) are the real ones among them. A nonzero Z field added to an
+/// X^⊗N-symmetric H fails the check, X^⊗N flipping its sign; filled anyway, the spectrum of
+/// XX + YY + 0.7·Z on one site at N = 2, rates 0.3 and 0.4, lies 0.73 in Hausdorff distance
+/// from the full eigensolver's.
+/// Flux Φ through a ring, written with complex hopping phases, keeps the copy, X^⊗N
+/// carrying such an H to Hᵀ with L(Hᵀ) = L(H)ᵀ, and fails the check. A palindromic H that
+/// commutes with
+/// X^⊗N only in a diagonal frame, such as an XY − YX bond on a chain (the frame theorem of
+/// <c>experiments/THE_PALINDROME_AS_A_COLOURING.md</c>), pairs exactly as well but fails the
+/// check and is solved sector by sector. <see cref="SectorPairing"/> chooses the rule: the
+/// Π-orbit pairing (the default), the X⊗N copy alone, under which a sector and its Π-image
+/// are solved separately so that a palindrome check on the output stays a check, or none.
+/// F108 Part 1's Π_5bilinear runs the same sector orbits in the opposite direction
+/// (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}); the popcount-conserving members of its family,
+/// combinations of (XX+YY) and ZZ, commute with X^⊗N, so it adds nothing at this layer.</para>
 ///
 /// <para><b>Z-dephasing structural constraint.</b> The joint-popcount sector basis is
 /// tied to Z-dephasing because <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> builds
@@ -89,7 +116,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <see cref="Symmetry.F108Part3Pi2YEvenAlwaysPalindromic"/>) prove operator-level
 /// palindromicity for the Π²-even bilinears under those dephase channels, but the Builder cannot exploit them in its
 /// current basis (X- and Y-dephasing break popcount conservation in the computational
-/// basis). The F108-aware overload throws <see cref="NotSupportedException"/> for
+/// basis). The overload taking a dephase letter throws <see cref="NotSupportedException"/> for
 /// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> (design-permanent
 /// under the current basis; CLR convention reserves <see cref="NotImplementedException"/>
 /// for stubs awaiting a body, <see cref="NotSupportedException"/> for combinations the
@@ -98,13 +125,17 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// requires a non-identity operator) rather than silently producing wrong eigenvalues.
 /// Lifting the X/Y restriction is tracked in <see cref="BlockSpectrumOpenQuestions"/> and
 /// requires a per-dephase-letter rotated basis (e.g. apply per-site U_X = H for X-deph,
-/// conjugate H → H' = U H U†, then run the existing BuildBlockZ; L's eigenvalues are
-/// basis-independent so the result transports back).</para>
+/// conjugate H → H' = U H U† on its Pauli letters, then run the existing BuildBlockZ; a
+/// dense product U·H·U† in general leaves rounding residue across popcounts, which the exact check
+/// refuses; L's eigenvalues are basis-independent so the result transports back).</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
 /// (basis permutation + sector ranges), <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/LiouvillianBlockSpectrumTests.cs</c>
-/// (bit-exact spectral equality verification at N=3, 4, 5).</para></summary>
+/// (spectral equality verification at N=3, 4, 5, to 1e-9),
+/// <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/BlockSpectrumPairingGuardTests.cs</c> (the
+/// pairing guard, and both engines read against the full eigensolver and the pairing rule
+/// under the error model at three scales).</para></summary>
 public sealed class LiouvillianBlockSpectrum : Claim
 {
     private readonly JointPopcountSectors _sectors;
@@ -115,11 +146,11 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <see cref="Lp64ComplexCeiling"/> and <see cref="MklDirectNative"/> above; the explicit
     /// overrides exist only for the parity-witness test
     /// <c>PerBlockLiouvillianBuilderNativeMemoryParityTests</c> which forces both paths on the
-    /// same small block to demonstrate bit-exact agreement.</summary>
+    /// same small block to demonstrate their agreement.</summary>
     public enum EigenPath
     {
         /// <summary>Auto-select by block size: MathNet for size ≤ <see cref="Lp64ComplexCeiling"/>,
-        /// MklDirect + NativeMemory + ILP64 above. The production default.</summary>
+        /// MklDirect + NativeMemory + ILP64-aware LAPACK above. The production default.</summary>
         Auto = 0,
         /// <summary>Force the MathNet <c>Matrix&lt;Complex&gt;.Evd()</c> path on every block.
         /// Will throw inside MathNet's marshaller for blocks &gt; <see cref="Lp64ComplexCeiling"/>.
@@ -132,6 +163,27 @@ public sealed class LiouvillianBlockSpectrum : Claim
         MklDirectNative = 2,
     }
 
+    /// <summary>How <c>ComputeSpectrumPerBlock</c> derives sector spectra from one another.
+    /// Both pairings are used only when H commutes exactly with X^⊗N
+    /// (<see cref="CommutesWithXN"/>); otherwise every sector is solved, whatever is
+    /// requested.</summary>
+    public enum SectorPairing
+    {
+        /// <summary>One eigensolve per orbit of the F1 mirror Π on sector labels: the
+        /// Π²-image copied, the Π- and Π³-images reflected by λ ↦ −2σ − λ: about a quarter of
+        /// the eigensolves, exactly a quarter at odd N. A palindrome check on its output passes by construction at odd N,
+        /// where every sector lies in an orbit of four, and at even N on every sector but the
+        /// Π-fixed (N/2, N/2).</summary>
+        PiOrbit = 0,
+        /// <summary>One eigensolve per X⊗N pair, the partner copied: about half the
+        /// eigensolves, exactly half at odd N.
+        /// A sector and its Π-image are solved separately, so a palindrome check on the output
+        /// is a check.</summary>
+        XNCopy = 1,
+        /// <summary>Every sector solved.</summary>
+        None = 2,
+    }
+
     /// <summary>Largest square Complex block (size n × n with n² ≤ 134 217 728) whose total
     /// byte count (n² × 16) fits inside the LP64 2 GB single-native-array marshalling ceiling
     /// enforced by MathNet's <c>MklLinearAlgebraProvider.EigenDecomp</c>. n = 11 585 gives
@@ -140,8 +192,8 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// below this size are routed through MathNet's well-tested managed wrapper; blocks above
     /// are routed through <see cref="MklDirect.EigenvaluesOnlyNative"/> on a
     /// <see cref="NativeMemory.AllocZeroed(nuint)"/>-backed buffer, which also auto-selects
-    /// ILP64 when n &gt; 46 340 (n² &gt; <c>int.MaxValue</c>; not currently reachable at
-    /// joint-popcount block sizes for N ≤ 12).
+    /// ILP64 when n &gt; 46 340 (n² &gt; <c>int.MaxValue</c>; first reached at N = 10, whose
+    /// central block has C(10,5)² = 63 504 rows).
     ///
     /// <para>The threshold is the same value the N=9 test
     /// (<c>F1GeneralTopologyN9BlockSpectrumChainTests.Lp64EvdSquareMatrixCeiling</c>) uses for
@@ -150,9 +202,9 @@ public sealed class LiouvillianBlockSpectrum : Claim
     public const int Lp64ComplexCeiling = 11_585;
 
     public LiouvillianBlockSpectrum(JointPopcountSectors sectors)
-        : base("LiouvillianBlockSpectrum: per-block eig over (N+1)² joint popcount sectors yields the same spectrum (multiset) as direct full-L eig; bit-exact verified at N=3,4,5.",
+        : base("LiouvillianBlockSpectrum: per-block eig over (N+1)² joint popcount sectors yields the same spectrum (multiset) as direct full-L eig; verified at N=3,4,5 to 1e-9.",
                Tier.Tier1Derived,
-               "JointPopcountSectors block-diagonality (parent) + per-block diagonalisation; verified bit-exact vs full-L eig at N=3,4,5 in LiouvillianBlockSpectrumTests")
+               "JointPopcountSectors block-diagonality (parent) + per-block diagonalisation; verified vs full-L eig at N=3,4,5 to 1e-9 in LiouvillianBlockSpectrumTests")
     {
         _sectors = sectors ?? throw new ArgumentNullException(nameof(sectors));
     }
@@ -242,7 +294,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// Hilbert-space Hamiltonian (size 2^N × 2^N) via
     /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> (MathNet path) or
     /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZIntoNativeMemory"/> (MklDirect +
-    /// NativeMemory + ILP64 path), eigendecomposed, and discarded before the next block.
+    /// NativeMemory + ILP64-aware path), eigendecomposed, and discarded before the next block.
     /// This is the only path that scales past N=6 on commodity hardware (full L exceeds
     /// .NET 2 GB array-size limit at N=7+).
     ///
@@ -255,23 +307,33 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// 2 GB cap (N=9 max block C(9, 4) · C(9, 5) = 15 876² ≈ 4 GB; see
     /// <c>F1GeneralTopologyN9BlockSpectrumChainTests</c>).</para>
     ///
-    /// <para>Uses the F1 Π-orbit pairing optimisation: the F1 palindrome conjugation Π is
-    /// order-4 and on joint-popcount labels acts as the whole-sector cycle
+    /// <para>Uses the F1 Π-orbit pairing when H commutes with X^⊗N: the F1 palindrome
+    /// conjugation Π is order-4 and on joint-popcount labels acts as the whole-sector cycle
     /// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. Only one
     /// "primary" sector per orbit is eigendecomposed; the three followers are derived from
     /// it, the Π²-image (X⊗N partner) by a verbatim spectrum copy and the Π/Π³-images by the
-    /// F1 reflection λ ↦ −2·Σγ − λ. This quarters the eigendecomposition count (the X⊗N
-    /// pairing of <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/>, which Π²
-    /// equals, only halved it). See <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> for
-    /// the orbit rule.</para></summary>
+    /// F1 reflection λ ↦ −2·Σγ − λ. This quarters the eigendecomposition count, where the
+    /// X⊗N copy alone (<see cref="SectorPairing.XNCopy"/>, the pairing of
+    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/>, which Π² equals) halves
+    /// it. When H does not commute with X^⊗N every sector is solved;
+    /// the class summary gives the reason, and <see cref="SectorPairing"/> the
+    /// alternatives.</para></summary>
     /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N (cheap even at N=9: 512×512).
-    /// Must be popcount-conserving (see class Contract); non-conserving H gives silently
-    /// wrong spectra.</param>
+    /// Must be popcount-conserving; checked exactly, <see cref="ArgumentException"/>
+    /// otherwise.</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues, concatenated block-by-block.</returns>
     public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N) =>
         ComputeSpectrumPerBlock(H, gammaPerSite, N, EigenPath.Auto);
+
+    /// <summary>Overload choosing the sector pairing. <see cref="SectorPairing.XNCopy"/> keeps
+    /// a palindrome check on the output a check, at about twice the eigensolves of the default,
+    /// exactly twice at odd N;
+    /// <see cref="SectorPairing.None"/> solves every sector.</summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, SectorPairing pairing) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, EigenPath.Auto, PauliLetter.Z, pairing);
 
     /// <summary>Test-aware overload that lets the parity witness force a specific eigensolver
     /// path on every block. Production callers should use the parameterless overload (or pass
@@ -285,27 +347,12 @@ public sealed class LiouvillianBlockSpectrum : Claim
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path) =>
         ComputeSpectrumPerBlock(H, gammaPerSite, N, path, PauliLetter.Z);
 
-    /// <summary>F108-aware overload accepting an explicit dephase letter D ∈ {X, Y, Z}
-    /// that scopes the orbit-pairing optimisation. The default <see cref="PauliLetter.Z"/>
-    /// preserves the historical behaviour (chain XY+Z-deph orbit-pairing via canonical
-    /// <see cref="PiOperator"/>); explicit values trigger the F108-family Π_5bilinear
-    /// dispatch documented in
-    /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>,
-    /// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>, and
-    /// <see cref="F108Part3Pi2YEvenAlwaysPalindromic"/>.
-    ///
-    /// <para><b>Auto-detect.</b> The orbit-pairing's F1 reflection
-    /// λ ↦ −2·Σγ − λ is justified iff <c>Π·L·Π⁻¹ = −L − 2σ·I</c> holds for some Π that
-    /// permutes the (p_c, p_r) joint-popcount sectors as the whole-sector cycle
-    /// (p_c, p_r) ↦ (N − p_r, p_c). F1 establishes this for chain XY+Z-deph
-    /// (Π = canonical <see cref="PiOperator"/>); F108 Part 1 extends it to every Π²_Z-even
-    /// 2-site bilinear H + Z-dephasing via the Z-deph variant of
-    /// <see cref="Pi5BilinearOperator"/>. Both variants share the per-letter permutation
-    /// pattern (I↔X, Y↔Z) and induce the same joint-popcount sector orbits, run in opposite
-    /// directions (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}); the orbit-
-    /// pairing primitive <see cref="F1PalindromeOrbitPairing.PartitionByPiOrbit"/> is
-    /// already Π-agnostic at the sector-label level and consumes only the sector-permutation
-    /// rule, not the matrix Π.</para>
+    /// <summary>Overload with an explicit dephase letter. Only <see cref="PauliLetter.Z"/>
+    /// is supported; the letter is validated and does not change the computation, and no
+    /// F108 operator (<see cref="Pi5BilinearOperator"/>,
+    /// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>) is used: the popcount-conserving
+    /// members of F108's Z family commute with X^⊗N and pair under the same rule as the
+    /// canonical case.
     ///
     /// <para><b>Z-only restriction.</b> The per-block Liouvillian construction in
     /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> is hardcoded to Z-dephasing
@@ -313,23 +360,29 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// side bit-parity disagreement, not from a general P_l ⊗ P_l⁺ Kronecker construction).
     /// Non-Z-dephasing matchings (F108 Part 2 X-deph, F108 Part 3 Y-deph) are not currently
     /// supported by this entry point and throw <see cref="NotSupportedException"/>
-    /// (design-permanent under the current basis); lifting the restriction requires a
-    /// parallel <c>BuildBlockX</c> / <c>BuildBlockY</c> path plus a rederived per-letter-D
-    /// sector decomposition compatible with the chosen dephase letter (X- and Y-dephasing
-    /// break popcount conservation in the computational basis; see the class Contract).
+    /// (design-permanent under the current basis); lifting the restriction goes through the
+    /// per-dephase-letter rotated basis of the class Contract (X- and Y-dephasing break
+    /// popcount conservation in the computational basis).
     /// <see cref="Pauli.PauliLetter.I"/> is rejected up-front with
     /// <see cref="ArgumentException"/> (not a valid dephase letter).</para>
     ///
     /// <para>Mismatch handling: <paramref name="dephaseLetter"/> = X or Y throws cleanly
     /// rather than silently producing wrong eigenvalues (the underlying per-block builder
     /// would otherwise stamp Z-deph entries onto an X- or Y-deph problem).</para></summary>
-    /// <param name="dephaseLetter">The dephase letter the orbit-pairing is matched to. Only
+    /// <param name="dephaseLetter">The dephase letter. Only
     /// <see cref="PauliLetter.Z"/> is currently supported by the per-block construction; X and
     /// Y throw <see cref="NotSupportedException"/> (design-permanent under the current basis),
     /// I throws <see cref="ArgumentException"/> (not a valid dephase letter).</param>
     public static Complex[] ComputeSpectrumPerBlock(
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path,
-        PauliLetter dephaseLetter)
+        PauliLetter dephaseLetter) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, path, dephaseLetter, SectorPairing.PiOrbit);
+
+    /// <summary>The full overload: eigensolver path, dephase letter (Z only) and sector
+    /// pairing. The pairing is used only when H commutes exactly with X^⊗N.</summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path,
+        PauliLetter dephaseLetter, SectorPairing pairing)
     {
         if (H is null) throw new ArgumentNullException(nameof(H));
         int hilbertDim = 1 << N;
@@ -343,7 +396,8 @@ public sealed class LiouvillianBlockSpectrum : Claim
         if (dephaseLetter == PauliLetter.I)
             throw new ArgumentException(
                 "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a " +
-                "non-identity operator); use Z (canonical / F108 Part 1), X (F108 Part 2), or Y (F108 Part 3).",
+                "non-identity operator); use Z (canonical / F108 Part 1; X and Y, F108 Parts 2 and 3, are " +
+                "refused under the current basis).",
                 nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
             throw new NotSupportedException(
@@ -352,12 +406,14 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 $"the computational basis and popcount-conserving); got {dephaseLetter}. X- and Y-dephasing " +
                 "break the joint-popcount sector structure that JointPopcountSectors relies on; see " +
                 "BlockSpectrumOpenQuestions for the X/Y basis-rotation extension path (e.g. apply per-site " +
-                "U_X = H for X-deph, conjugate H → H' = U H U†, then call this entry point with Z).");
-        DebugAssertPopcountConservingH(H, N);
+                "U_X = H for X-deph, conjugating H → H' = U H U† on its Pauli letters, since a dense " +
+                "product in general leaves rounding residue the exact popcount check refuses, then call this entry " +
+                "point with Z).");
+        RequirePopcountConservingH(H, N);
 
-        // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
-        // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its
-        // Π-image's via λ ↦ −2·Σγ − λ (docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+        // Reflection constant: the genuine Σ of per-site Z-dephasing rates (NOT N·γ), so
+        // non-uniform γ stays exact. When H commutes with X^⊗N a sector's spectrum maps to its
+        // Π-image's via λ ↦ −2·Σγ − λ (class summary); F1's identity is the truly case.
         double sumGamma = gammaPerSite.Sum();
 
         // Belt-and-braces with CoreModuleInitializer: makes the MKL dependency
@@ -379,43 +435,24 @@ public sealed class LiouvillianBlockSpectrum : Claim
             cum += decomp.SectorRanges[i].Size;
         }
 
-        // F1 Π-orbit pairing (Tier 1, F1PalindromeOrbitPairing): the chain XY+Z-deph L
-        // satisfies the F1 palindrome Π·L·Π⁻¹ = −L − 2·Σγ·I. Π is order-4 and on joint-
-        // popcount labels acts as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c),
-        // grouping the (N+1)² sectors into orbits of 4 (plus the single Π-fixed (N/2, N/2)
-        // sector at even N). This subsumes the X⊗N pairing (Π² = X⊗N): one eigendecomposition
-        // per orbit feeds three followers. We compute eig only on the lex-smallest "primary"
-        // of each orbit (plus the Π-fixed sector) and derive the followers in Phase 3 — the
-        // Π²-image by a verbatim spectrum copy, the Π/Π³-images by the F1 reflection
-        // λ ↦ −2·Σγ − λ. Primaries are sorted descending by size so the largest sector starts
-        // first under Parallel.ForEach, overlapping its wall-time with smaller sectors' work.
-        //
-        // F108 generalisation: F108 Part 1 (Pi5BilinearOperator with dephaseLetter = Z)
-        // palindromizes every Hamiltonian of Π²_Z-even bilinears (XX, YY, YZ, ZY, ZZ combos).
-        // Its popcount-conserving members are combinations of (XX+YY) and ZZ, which the
-        // canonical Π already palindromizes, so canonical Π (F1) and Π_5bilinear (F108 Part 1)
-        // induce the same sector orbits (in opposite directions) and the same F1 reflection
-        // there. The popcount contract admits more (single-site Z fields, XY − YX bonds,
-        // longer number-conserving strings),
-        // and the reflection below is exact only where the palindrome holds sector by sector:
-        // a Z field breaks it (docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry). The dephaseLetter parameter
-        // declares the user's intent; the partition rule is Π-agnostic at the sector-label
-        // level (F1PalindromeOrbitPairing.PartitionByPiOrbit consumes only the (p_c, p_r) ↦
-        // (N − p_r, p_c) rule). F108 Part 2 (X-deph) / Part 3 (Y-deph) dispatch is reserved
-        // for a future per-block-D builder.
+        // Which sectors are solved and how the rest are derived (PartitionSectors): with
+        // [H, X^⊗N] = 0 the requested pairing, otherwise every sector. Under the Π-orbit
+        // pairing one sector per orbit of Π, (p_c, p_r) ↦ (N − p_r, p_c), is solved (plus the
+        // Π-fixed (N/2, N/2) at even N) and Phase 3 derives the Π²-image by a verbatim copy and
+        // the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ; both rules are exact when H
+        // commutes with X^⊗N (class summary). Primaries are sorted descending by size so the
+        // largest sector starts first under Parallel.ForEach.
         var (primarySectorIndices, followerToPrimary) =
-            F1PalindromeOrbitPairing.PartitionByPiOrbit(
-                N, decomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
+            PartitionSectors(H, N, decomp.SectorRanges, pairing);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4 leaves room for
         // MKL inside the largest sectors' Evd. See ComputeSpectrum for the rationale.
         //
-        // EigenPath.MklDirectNative serialises (DOP=1) because each block can hold ~4 GB
-        // of NativeMemory while LAPACK runs; allowing multiple large MklDirect blocks
-        // concurrently risks running the working set past 128 GB on N=9 chains where
-        // the four largest paired-primary sectors each carry ≥ 1 GB of block data.
-        // Smaller MathNet blocks at the same N are unaffected (they live below the
-        // ceiling and use ProcessorCount/4 outer DOP).
+        // EigenPath.MklDirectNative serialises (DOP=1) because each block holds its whole
+        // NativeMemory buffer while LAPACK runs: N = 9's four largest blocks hold about 4 GB
+        // each, and at N = 10, whose central block holds about 64 GB and the next ones about
+        // 45 GB, three at once would pass 128 GB. Under EigenPath.Auto the outer DOP stays
+        // ProcessorCount/4 for every block, those routed to MklDirect included.
         int outerDop = path == EigenPath.MklDirectNative
             ? 1
             : Math.Max(1, Environment.ProcessorCount / 4);
@@ -443,8 +480,9 @@ public sealed class LiouvillianBlockSpectrum : Claim
 
         // Phase 3: sequential write to output array (primaries + followers). A primary writes
         // its own eigenvalues verbatim. A follower derives its eigenvalues from its orbit
-        // primary's: an X⊗N-image follower (Π²-image) copies them verbatim (X⊗N is a genuine
-        // symmetry); a Π/Π³-image follower reflects each λ through the F1 palindrome map
+        // primary's: an X⊗N-image follower (Π²-image) copies them verbatim (exact, since the
+        // partition pairs only when H commutes with X^⊗N); a Π/Π³-image follower reflects
+        // each λ through the F1 palindrome map
         // λ ↦ −2·Σγ − λ. The eigenvalue MULTISET is what each sector needs; the per-block
         // ordering within a follower is irrelevant since the output is a flat union.
         for (int sIdx = 0; sIdx < sectorCount; sIdx++)
@@ -517,8 +555,8 @@ public sealed class LiouvillianBlockSpectrum : Claim
             // EigenvaluesOnlyNative auto-selects LP64 vs ILP64 based on size against the 46 340
             // threshold (sqrt(int.MaxValue)). For block sizes 11 586..46 340 it stays on LP64
             // OpenBLAS but reads from NativeMemory rather than a managed Complex[], which is
-            // precisely the marshaller bypass we need. Above 46 340 (not reachable until
-            // N ≥ 13 joint-popcount sectors) it switches to ILP64 OpenBLAS automatically.
+            // precisely the marshaller bypass we need. Above 46 340 (first reached at N = 10,
+            // whose central block has 63 504 rows) it switches to ILP64 OpenBLAS automatically.
             return MklDirect.EigenvaluesOnlyNative(ptr, size);
         }
         finally
@@ -531,7 +569,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
         "LiouvillianBlockSpectrum: per-block eig over (N+1)² joint popcount sectors = full-L spectrum";
 
     public override string Summary =>
-        $"per-block eig multiset equals full-L spectrum bit-exactly at N=3,4,5; cubic-cost speedup ≈ 515× at N=8 ({Tier.Label()})";
+        $"per-block eig multiset equals the full-L spectrum at N=3,4,5 to 1e-9; cubic-cost speedup ≈ 515× at N=8 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -540,7 +578,7 @@ public sealed class LiouvillianBlockSpectrum : Claim
             yield return new InspectableNode("parent",
                 summary: "JointPopcountSectors (block-diagonal structure)");
             yield return new InspectableNode("witness",
-                summary: "bit-exact spectral equality vs full-L eig at N=3, 4, 5 (|Δλ| < 1e-9)");
+                summary: "spectral equality vs full-L eig at N=3, 4, 5 (|Δλ| < 1e-9)");
             yield return new InspectableNode("cubic-cost speedup",
                 summary: "N=5: ≈ 212×, N=6: ≈ 298×, N=7: ≈ 399×, N=8: ≈ 515×. These are FLOP ratios from the cost model above, (4^N)³ / Σ(C(N,p)·C(N,q))³; measured wall-clock speedups are a different and much smaller quantity, around 8× to 10× per BlockSpectrumPerformanceWitness");
             yield return new InspectableNode("N=8 max block",
@@ -583,39 +621,75 @@ public sealed class LiouvillianBlockSpectrum : Claim
         }
     }
 
-    /// <summary>DEBUG-only sample-based check that H is popcount-conserving in the 2^N
-    /// Hilbert basis. Picks 20 random index pairs (i, j) with <c>popcount(i) != popcount(j)</c>
-    /// and asserts each <c>|H[i, j]| &lt; 1e-12</c>. Throws on the first violation. Stripped
-    /// from RELEASE builds. <c>internal</c> rather than <c>private</c> so the matching guard
-    /// in <see cref="F71MirrorBlockRefinement.ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, PauliLetter)"/>
-    /// can reuse the same routine instead of duplicating it.</summary>
-    [Conditional("DEBUG")]
-    internal static void DebugAssertPopcountConservingH(ComplexMatrix H, int N)
+    /// <summary>Checks that H is popcount-conserving in the 2^N Hilbert basis: every entry
+    /// between basis states of different popcount must be exactly zero, or the joint-popcount
+    /// blocks miss part of L and the spectrum is wrong. Exact, on every entry, always on;
+    /// throws <see cref="ArgumentException"/> on the first nonzero one. <c>internal</c> so that
+    /// <see cref="F71MirrorBlockRefinement"/> uses the same check.</summary>
+    internal static void RequirePopcountConservingH(ComplexMatrix H, int N)
     {
-        const double Tol = 1e-12;
-        const int Samples = 20;
         int d = 1 << N;
-        if (d < 2) return;
-
-        var rng = new Random(0);
-        int found = 0;
-        for (int attempt = 0; attempt < Samples * 8 && found < Samples; attempt++)
+        for (int i = 0; i < d; i++)
         {
-            int i = rng.Next(d);
-            int j = rng.Next(d);
             int pi = BitOperations.PopCount((uint)i);
-            int pj = BitOperations.PopCount((uint)j);
-            if (pi == pj) continue;
-            found++;
-            double mag = H[i, j].Magnitude;
-            if (mag > Tol)
-                throw new InvalidOperationException(
-                    $"LiouvillianBlockSpectrum.ComputeSpectrumPerBlock contract violation: H is NOT " +
-                    $"popcount-conserving. Found |H[{i}, {j}]| = {mag:E3} between popcount {pi} and {pj} " +
-                    $"(tolerance {Tol:E0}). This routine requires popcount-conserving H (XX+YY, ZZ, XXZ, " +
-                    $"Heisenberg, sums of these). Non-conserving H (e.g., XX+YZ, XY+YX, X_iZ_j) silently " +
-                    $"returns wrong spectra because L is no longer block-diagonal in the joint-popcount " +
-                    $"basis. See class XML doc.");
+            for (int j = 0; j < d; j++)
+            {
+                if (BitOperations.PopCount((uint)j) == pi) continue;
+                var h = H[i, j];
+                if (h != Complex.Zero)
+                    throw new ArgumentException(
+                        $"H is not popcount-conserving: H[{i}, {j}] = {h} between popcount {pi} and " +
+                        $"{BitOperations.PopCount((uint)j)}. The joint-popcount blocks would miss this " +
+                        $"entry of L and return a wrong spectrum (XX+YY, ZZ, XXZ, Heisenberg, Z fields and " +
+                        $"sums of these conserve popcount; XX+YZ, XY+YX, X_iZ_j do not).", nameof(H));
+            }
         }
+    }
+
+    /// <summary>True when H commutes with X^⊗N, checked exactly on the entries:
+    /// H[i, j] == H[ī, j̄] with ī the bitwise complement. Under this condition the sector
+    /// pairing of <c>ComputeSpectrumPerBlock</c> is exact (class summary); it holds for the
+    /// truly Hamiltonians (XX+YY, ZZ, XXZ, Heisenberg with real couplings) and fails for a
+    /// Z field, an XY − YX bond, XZX + YZY or ZZZ. An H whose entries are X^⊗N-symmetric only
+    /// up to rounding fails the check and is solved sector by sector.</summary>
+    public static bool CommutesWithXN(ComplexMatrix H, int N)
+    {
+        if (H is null) throw new ArgumentNullException(nameof(H));
+        int d = 1 << N;
+        if (H.RowCount != d || H.ColumnCount != d)
+            throw new ArgumentException($"H must be {d}×{d} for N = {N}, got {H.RowCount}×{H.ColumnCount}.", nameof(H));
+        int mask = d - 1;
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+                if (H[i, j] != H[i ^ mask, j ^ mask]) return false;
+        return true;
+    }
+
+    /// <summary>The sectors <c>ComputeSpectrumPerBlock</c> solves (sorted descending by size)
+    /// and, for each other sector, the solved sector it is derived from and how. The requested
+    /// pairing applies only when H commutes exactly with X^⊗N; otherwise every sector is
+    /// solved. Shared with <see cref="F71MirrorBlockRefinement"/>.</summary>
+    internal static (List<int> Primaries, Dictionary<int, F1PalindromeOrbitPairing.F1Follower> FollowerToPrimary)
+        PartitionSectors(ComplexMatrix H, int N, IReadOnlyList<JointPopcountSectorBuilder.SectorRange> sectors,
+            SectorPairing pairing)
+    {
+        if (!Enum.IsDefined(pairing))
+            throw new ArgumentOutOfRangeException(nameof(pairing), pairing, "undefined SectorPairing");
+        if (pairing != SectorPairing.None && CommutesWithXN(H, N))
+        {
+            if (pairing == SectorPairing.PiOrbit)
+                return F1PalindromeOrbitPairing.PartitionByPiOrbit(
+                    N, sectors, s => (s.PCol, s.PRow), s => s.Size);
+            var (xnPrimaries, xnFollowers) = XGlobalChargeConjugationPairing.PartitionByXNPairing(
+                N, sectors, s => (s.PCol, s.PRow), s => s.Size);
+            var copies = new Dictionary<int, F1PalindromeOrbitPairing.F1Follower>(xnFollowers.Count);
+            foreach (var (follower, primary) in xnFollowers)
+                copies[follower] = new F1PalindromeOrbitPairing.F1Follower(
+                    primary, F1PalindromeOrbitPairing.F1FollowerKind.XnCopy);
+            return (xnPrimaries, copies);
+        }
+        var all = Enumerable.Range(0, sectors.Count).ToList();
+        all.Sort((a, b) => sectors[b].Size.CompareTo(sectors[a].Size));
+        return (all, new Dictionary<int, F1PalindromeOrbitPairing.F1Follower>());
     }
 }

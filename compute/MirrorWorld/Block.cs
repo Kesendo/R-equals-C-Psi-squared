@@ -6,7 +6,7 @@ namespace MirrorWorld;
 // C(N,p)*C(N,q), summing to 4^N. Inside a block the disagreement count k runs over
 // {|p-q|, |p-q|+2, ...} (fixed parity p+q); the Hamiltonian mixes those rungs (the superposition
 // leaving the integer grid), the dephasing keeps them apart. T1: JointPopcountSectors,
-// LiouvillianBlockSpectrum (per-block eig = full spectrum, bit-exact N=3,4,5).
+// LiouvillianBlockSpectrum (per-block eig = full spectrum, to 1e-9 at N=3,4,5).
 public sealed class Block : GameObject
 {
     public int N { get; }

@@ -29,7 +29,7 @@ This is the **largest** joint-popcount block, of dimension `C(N, ⌈N/2⌉)²` (
 
 Every off-diagonal-popcount sector `(k, k±1)` has its **slowest** mode at exactly `2γ`, and that is a floor rather than a description of the sector. The floor follows: an operator in `(k, k±1)` is built from coherences `|α⟩⟨β|` whose popcounts differ, so their Hamming distance is at least 1, so `⟨n_XY⟩ ≥ 1`, so `Re ≤ −2γ` by the Absorption Theorem, with equality exactly on the distance-1 coherences F50 pins. The sectors spread well above their floor: at N=5, γ=0.05 the `(1,2)` sector's 50 eigenvalues run `Re ∈ [−0.300, −0.100]`. Only the two END sectors, `(0,1)` and `(N−1,N)`, are distance-1 throughout and therefore sit at `−2γ` as a whole. Checked at N=3, 4, 5 over four (J, γ) pairs: every off-diagonal sector is exactly closed, every one attains `2γ` as its smallest `|Re|`, and the flat ones are the two end sectors and no others. Either way the diagonal sectors carry the actual gap structure, because the gap is below `2γ` and no off-diagonal sector can go there.
 
-The F1-palindromic pairing `(k, k) ↔ (N−k, N−k)` holds at the sector level, exactly as a consequence of the Π conjugation and to the four decimals quoted in the readings: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both report slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both report −0.0681. The two per-sector eigensolver runs were never compared below that precision, so this is agreement at the quoted width and not a measured residual. The slow mode of the full L is the smallest of these palindromic-paired per-sector minima, which is always the central `(⌈N/2⌉, ⌈N/2⌉)` block.
+The X⊗N pairing `(k, k) ↔ (N−k, N−k)` (Π², F1²) holds at the sector level, exactly, since H commutes with X⊗N, and to the four decimals quoted in the readings: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both report slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both report −0.0681. The two per-sector eigensolver runs were never compared below that precision, so this is agreement at the quoted width and not a measured residual. The slow mode of the full L is the smallest of these X⊗N-paired per-sector minima, which is always the central `(⌈N/2⌉, ⌈N/2⌉)` block.
 
 ### Finding 2. Absorption Theorem holds on the slow mode, to the floor of the two float routes
 
@@ -89,18 +89,18 @@ The empirical amplitude is `w_2 ≈ 0.275·Q²/N²` (chain plateau N ≥ 4 from 
 
 The admixture is therefore **the unique decay channel** for the otherwise-conserved population content: without it, gap = 0 exactly, and the slow mode would be a true zero-mode of L_H + L_D. The magnon admixture is the structural "loophole" that lets dissipation reach an operator that is otherwise protected by conservation. The small size of the admixture (3-7%) is what makes the slow mode slow: a 50% admixture would land at the 2γ floor F50 pins (no slow mode at all), and zero admixture would make the mode a kernel addition (infinite lifetime). The empirical `Q²/N²` scaling is the scaling of the loophole's opening.
 
-### Role 2: the synthesis point for F1, F2, F3, F50, and the Absorption Theorem
+### Role 2: the synthesis point for F1², F2, F3, F50, and the Absorption Theorem
 
 Each of the May 2026 typed claims plays an explicit role in the admixture's structure, and together they form a self-consistent decomposition of the slow mode:
 
 - **F50** (`PROOF_WEIGHT1_DEGENERACY`): if the admixture lived alone in an off-diagonal popcount sector, it would be pinned at Re = −2γ exactly. The relation is an inclusion and not an equivalence: a weight-1 Pauli string carries one X or Y letter, so on a computational-basis state |α⟩⟨β| it flips exactly one bit, and the weight-1 operators span the coherences at Hamming distance 1. Those sit inside the off-diagonal popcount sectors `(k, k±1)` but do not fill them, because a popcount step of ±1 also admits Hamming distance 3, 5, and so on: at N=5 the weight-1 span is 160-dimensional against the sectors' 420. Only the two end sectors, `(0,1)` and `(N−1,N)`, lie at distance 1 throughout, and only they sit at Re = −2γ as a whole; the interior ones do not. Measured at N=5, γ=0.05, the `(1,2)` sector's 50 eigenvalues run Re ∈ [−0.300, −0.100]. So F50 pins the distance-1 coherences, not whole popcount sectors, and D10 Step 6 carries the scope. The admixture inherits this 2γ scale; the slow-mode rate is `2γ × (admixture weight)`.
 - **F2** (`F2W1DispersionPi2Inheritance`): the magnon component carries the open-chain dispersion `ω_k = 4J·(1 − cos(πk/N))`. The slowest magnon mode is at k = 1 with ω_1 ≈ 2π²·J/N², which is the "kinetic" frequency that drives the mixing. F2 explains why the admixture-amplitude scales as `Q/N`: the mixing is set by the ratio of H's hopping rate (k_min × J) to the dissipator's decay rate (2γ). F2 does not describe the slow mode itself, in two separate ways. Its object is the `(0,1)` coherence block, not any off-diagonal sector as a whole, and the slow mode is not in an off-diagonal sector at all; and the slow mode has `Im(λ) ≈ 0` to machine precision, because it lives in a diagonal-popcount sector where nothing oscillates. What F2 supplies here is the magnon's intrinsic frequency scale, borrowed.
 - **F3 / Absorption Theorem**: the operator-level identity `Re(λ) = −2γ·⟨n_XY⟩` reads the decay rate of any Lindblad eigenmode directly from its Pauli-basis light content. Applied to the slow mode (`⟨n_XY⟩ ≈ 2·w_2`), it gives the gap.
-- **F1 palindrome**: the slow mode at sector `(k, k)` is partnered by the F1 conjugation with a mode at sector `(N−k, N−k)` with identical decay rate. The per-block analysis confirms this to the precision the readings are quoted at: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both give slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both give −0.0681. The admixture obeys the F1 mirror symmetry by inheriting it from its host population.
+- **X⊗N pairing**: the slow mode at sector `(k, k)` is partnered by X⊗N (Π², F1²) with a mode at sector `(N−k, N−k)` with identical decay rate. The per-block analysis confirms this to the precision the readings are quoted at: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both give slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both give −0.0681. The admixture obeys the X⊗N symmetry by inheriting it from its host population.
 
-Read together: **F1 organises sectors palindromically around the center, F50 puts a 2γ floor under the off-diagonal popcount sectors, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where each formula contributes one structural ingredient and all four must compose consistently. The fact that the four contributions reproduce the empirical `gap ≈ 1.10·γ·Q²/N²` to ~1% is the multi-formula synthesis check.
+Read together: **X⊗N, the square of F1, pairs the diagonal sectors around the center, F50 puts a 2γ floor under the off-diagonal popcount sectors, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where each formula contributes one structural ingredient and all four must compose consistently. The fact that the four contributions reproduce the empirical `gap ≈ 1.10·γ·Q²/N²` to ~1% is the multi-formula synthesis check.
 
-This is also why the empirical 0.55 constant is non-trivial: it is the product of four structural inputs (F1 sector pairing, F50 2γ floor, F2 k_min² coefficient, F3 light-content scale) plus an XXX-specific Bethe-amplitude correction. A closed form follows from doing the perturbation-theory product explicitly.
+This is also why the empirical 0.55 constant is non-trivial: it is the product of four structural inputs (X⊗N sector pairing, F50 2γ floor, F2 k_min² coefficient, F3 light-content scale) plus an XXX-specific Bethe-amplitude correction. A closed form follows from doing the perturbation-theory product explicitly.
 
 ---
 
@@ -122,7 +122,7 @@ Predicted `⟨n_XY⟩ = 2·Q²/N²` (4× chain coefficient) gives 0.500 / 0.320 
 
 ### Item 3 resolved: Star N=3..6 sector (surprise: NOT central)
 
-Star slow mode lives at **boundary popcount sectors** `(1, 1)` or `(N−1, N−1)` (F1-paired), NOT central:
+Star slow mode lives at **boundary popcount sectors** `(1, 1)` or `(N−1, N−1)` (X⊗N partners), NOT central:
 
 | N | sector | gap | ⟨n_XY⟩ | w_0 | w_2 |
 |---|---|---|---|---|---|
@@ -131,7 +131,7 @@ Star slow mode lives at **boundary popcount sectors** `(1, 1)` or `(N−1, N−1
 | 5 | (1, 1) | 0.164 | 0.164 | 0.918 | 0.082 |
 | 6 | (5, 5) | 0.130 | 0.130 | 0.935 | 0.065 |
 
-This is the structural signature of the star's separate scaling family (`gap ~ 1/N` rather than `1/N²`): the hub-spoke geometry has no spatial dispersion, so there is no "central momentum mode" for the slow mode to occupy. Instead the slow mode is localised at the popcount-boundary sector `(1, 1)` (or its F1 partner `(N−1, N−1)`), i.e. the sector of single-excitation operators on either bra or ket. The admixture-as-channel picture still holds (gap = 2γ·⟨n_XY⟩), but the channel content sits at the popcount boundary rather than the centre.
+This is the structural signature of the star's separate scaling family (`gap ~ 1/N` rather than `1/N²`): the hub-spoke geometry has no spatial dispersion, so there is no "central momentum mode" for the slow mode to occupy. Instead the slow mode is localised at the popcount-boundary sector `(1, 1)` (or its X⊗N partner `(N−1, N−1)`), i.e. the sector of single-excitation operators on either bra or ket. The admixture-as-channel picture still holds (gap = 2γ·⟨n_XY⟩), but the channel content sits at the popcount boundary rather than the centre.
 
 Promotion implication: the chain reading "slow mode in central diagonal popcount sector" was N-universal for chain and ring, but NOT for star. Future "slow mode lives at the central popcount block" statements need a topology qualifier (open-chain or cyclic ↔ dispersive ↔ central; hub-spoke ↔ non-dispersive ↔ boundary).
 
@@ -144,7 +144,7 @@ Promotion implication: the chain reading "slow mode in central diagonal popcount
 | 6 | dense N=6 | (3, 3) | 0.0607 | 0.0607 | 0.0611 | 0.7% |
 | 7 | dense N=7 | **(4, 4)** | 0.0450 | 0.0450 | 0.0449 | 0.2% |
 | 8 | SLOW_N8 sweep + AT | (4, 4) | 0.0344 | 0.0344 | 0.0344 | 0.06% |
-| 9 | MklDirect bridge + AT | (4, 4) ≡ (5, 5) F1-paired | 0.0273 | 0.0273 | 0.0272 | 0.4% |
+| 9 | MklDirect bridge + AT | (4, 4) ≡ (5, 5) X⊗N-paired | 0.0273 | 0.0273 | 0.0272 | 0.4% |
 
 Central-popcount-block reading holds at N=4..9 chain. The reading is the identification of a sector INDEX, an integer, so there is no tolerance in it either way. The N=8 and N=9 numbers are read via Absorption Theorem `⟨n_XY⟩ = gap/(2γ)` from existing JSON metric files (no new compute required) plus MaxBlockSectorPCol/PRow which both report the central popcount block.
 
@@ -163,7 +163,7 @@ Q-sweep at chain N=5, γ₀=0.05, across the six canonical Q-anchors gives `⟨n
 
 The "0.55" coefficient is therefore Q-specific: ~0.59 at Q=0.5, exactly 0.55 at Q=2, ~0.53 at Q=2.5. The drift matches the ~10% sub-Q² drift in the chain plateau f(Q)/Q² documented separately in `F1_DISSIPATION_GAP_PATTERN.md`. Closed-form derivation needs to produce a c(Q) function, not just a single number.
 
-The Q-sweep also surfaces that the slow-mode sector at N=5 alternates between `(2, 2)` and `(3, 3)` across Q values. Both are F1-paired (N=5 central is `⌈5/2⌉ = 3` so `(2, 2)` and `(3, 3)` are F1 partners carrying the same spectrum up to eigensolver noise, the two blocks being diagonalised separately), so the "winner" is numerical chance from the eigensolver. The sector identity is "(2,2)+(3,3) F1-pair", not a single block.
+The Q-sweep also surfaces that the slow-mode sector at N=5 alternates between `(2, 2)` and `(3, 3)` across Q values. Both are X⊗N-paired (N=5 central is `⌈5/2⌉ = 3` so `(2, 2)` and `(3, 3)` are X⊗N partners carrying the same spectrum up to eigensolver noise, the two blocks being diagonalised separately), so the "winner" is numerical chance from the eigensolver. The sector identity is "(2,2)+(3,3) X⊗N pair", not a single block.
 
 ### Framework-convention cross-check at Q=1.5 (γ₀=0.05, J=0.075)
 
@@ -171,20 +171,20 @@ Re-running the sector diagnostic at the F86 Q_peak c=2 canonical anchor (`Q=1.5`
 
 | topology | N | sector | ⟨n_XY⟩ | predicted | ratio |
 |---|---|---|---|---|---|
-| chain | 3 | (1, 1) F1=(2,2) | 0.1462 | 0.55·Q²/N² = 0.1375 | 1.063 |
+| chain | 3 | (1, 1) X⊗N=(2,2) | 0.1462 | 0.55·Q²/N² = 0.1375 | 1.063 |
 | chain | 4 | (2, 2) | 0.0788 | 0.0773 | 1.019 |
 | chain | 5 | (3, 3) | 0.0512 | 0.0495 | 1.035 |
 | chain | 6 | (3, 3) | 0.0355 | 0.0344 | 1.032 |
 | ring | 3 | (1, 1) | 0.4665 | 2·Q²/N² = 0.5000 | 0.933 |
 | ring | 4 | (2, 2) | 0.2413 | 0.2813 | 0.858 (the Heisenberg ring-N=4 Im-max bound interferes) |
-| ring | 5 | (2, 2) F1=(3,3) | 0.1858 | 0.1800 | 1.033 |
+| ring | 5 | (2, 2) X⊗N=(3,3) | 0.1858 | 0.1800 | 1.033 |
 | ring | 6 | (3, 3) | 0.1337 | 0.1250 | 1.070 |
-| star | 3 | (2, 2) F1=(1,1) | 0.1462 | (boundary, no Q²/N² form) | – |
+| star | 3 | (2, 2) X⊗N=(1,1) | 0.1462 | (boundary, no Q²/N² form) | – |
 | star | 4 | (1, 1) | 0.1269 | – | – |
-| star | 5 | (4, 4) F1=(1,1) | 0.1074 | – | – |
-| star | 6 | (5, 5) F1=(1,1) | 0.0902 | – | – |
+| star | 5 | (4, 4) X⊗N=(1,1) | 0.1074 | – | – |
+| star | 6 | (5, 5) X⊗N=(1,1) | 0.0902 | – | – |
 
-Chain ratio stays around 1.03 at Q=1.5 across N (matches the Q-sweep prediction). Ring N≥5 sits between 1.03 and 1.07 (consistent with cyclic-vs-open k_min² factor 4); ring N=3,4 sit below 1.0 due to dihedral-lock finite-size interference (a separate Im-max bound for N=4 that the gap doesn't follow cleanly). Star at every N=4..6 reports a non-central popcount sector (one of the F1-paired boundary sectors), confirming the topology-distinct scaling family at the framework's canonical Q anchor.
+Chain ratio stays around 1.03 at Q=1.5 across N (matches the Q-sweep prediction). Ring N≥5 sits between 1.03 and 1.07 (consistent with cyclic-vs-open k_min² factor 4); ring N=3,4 sit below 1.0 due to dihedral-lock finite-size interference (a separate Im-max bound for N=4 that the gap doesn't follow cleanly). Star at every N=4..6 reports a non-central popcount sector (one of the X⊗N-paired boundary sectors), confirming the topology-distinct scaling family at the framework's canonical Q anchor.
 
 The framework's `lebensader.py + cockpit_panel` workflow defaults run at this convention; the chain N=5, ring N=5, star N=5 numbers above are therefore directly comparable to any hardware data taken under the same convention.
 

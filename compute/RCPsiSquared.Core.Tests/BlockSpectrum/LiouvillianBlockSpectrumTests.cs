@@ -61,7 +61,7 @@ public class LiouvillianBlockSpectrumTests
     }
 
     // ----------------------------------------------------------------------
-    // Spectrum bit-exact match: per-block eig vs direct full-L eig
+    // Spectrum match within 1e-9: per-block eig vs direct full-L eig
     // ----------------------------------------------------------------------
 
     [Theory]

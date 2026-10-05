@@ -10,8 +10,24 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// Π² = X⊗N sends (p_c, p_r) ↦ (N − p_c, N − p_r), the X⊗N rule.
 ///
 /// <para>F1 (<c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c>) is the identity
-/// <c>Π·L·Π⁻¹ = −L − 2Σγ·I</c>: a sector and its Π-image have spectra related by the
-/// reflection <c>λ ↦ −2Σγ − λ</c>. The whole-sector permutation organises the (N+1)²
+/// <c>Π·L·Π⁻¹ = −L − 2Σγ·I</c>, which holds for the truly Hamiltonians. The sector relation
+/// the builders use is wider: a sector and its Π-image have spectra related by the
+/// reflection <c>λ ↦ −2Σγ − λ</c> whenever H commutes with X⊗N, a complex H included
+/// (ρ ↦ ρ·X⊗N carries L to −L† − 2Σγ, and the antilinear ρ ↦ ρ†·X⊗N maps each sector onto
+/// its Π-image); with every site dephased at a positive rate the relation holds for every
+/// sector, the Π-fixed sector with itself included, exactly when the spectrum is palindromic
+/// (<see cref="BlockSpectrum.LiouvillianBlockSpectrum"/>'s class summary). The
+/// builders check [H, X⊗N] = 0 exactly
+/// (<see cref="BlockSpectrum.LiouvillianBlockSpectrum.CommutesWithXN"/>) before pairing; a
+/// Z field fails that check. The cycle is the rotation subgroup of the block-lattice group of eight
+/// (<see cref="F89PathK.BlockLattice.OrbitImages"/>; PROOF_CODIM1_BY_ADDITIVITY §7 states the
+/// group on the XY chain at Δ = 0, and its rotations pair spectra wherever H commutes with
+/// X⊗N, as above), its fold parity 0, 1, 0, 1 marking the copied and the reflected images.
+/// On operators the same group is F118's ⟨R, D⟩ (<see cref="Symmetry.MirrorGroupD4Claim"/>),
+/// whose Π_Z(ρ) = ρᵀ·X⊗N moves |a⟩⟨b| to |b⟩⟨ā|; for a complex H the spectral relation is
+/// carried by the antilinear ρ ↦ ρ†·X⊗N, a member of F119's double ⟨R, D, 𝒦⟩
+/// (<see cref="Symmetry.AntilinearTriangleClaim"/>), which moves sectors the same way. The
+/// whole-sector permutation organises the (N+1)²
 /// joint-popcount sectors into Π-orbits, each of size 4 except the single Π-fixed sector
 /// (N/2, N/2) present at even N. One eigendecomposition per orbit therefore feeds three
 /// follower sectors: the Π²-image (X⊗N partner) by a verbatim spectrum copy, and the Π-
@@ -31,6 +47,9 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> (F1; Π² = X⊗N is F1²);
 /// <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c> (the Π·L·Π⁻¹ = −L − 2Σγ·I proof);
+/// <c>experiments/THE_PAIRING_CONDITION.md</c> (the far-end relation behind the sector relation
+/// for every H commuting with X⊗N); <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/BlockSpectrumPairingGuardTests.cs</c>
+/// (the relation read off independent eigensolves);
 /// <c>compute/RCPsiSquared.Core/Symmetry/PiOperator.cs</c> (Π in the 4^N Pauli-string
 /// basis, order-4 with Π² = X⊗N); <c>compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs</c>
 /// (the X⊗N pairing this orbit subsumes).</para></summary>
@@ -39,9 +58,9 @@ public sealed class F1PalindromeOrbitPairing : Claim
     private readonly SymmetryFamilyInventory _inventory;
 
     public F1PalindromeOrbitPairing(SymmetryFamilyInventory inventory)
-        : base("F1PalindromeOrbitPairing: the F1 palindrome Π permutes joint-popcount sectors as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c) in orbits of size 4; one eigendecomposition per orbit feeds the X⊗N follower (verbatim) and the two Π/Π³ followers (reflected through λ ↦ −2Σγ − λ).",
+        : base("F1PalindromeOrbitPairing: the F1 palindrome Π permutes joint-popcount sectors as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c) in orbits of size 4; one eigendecomposition per orbit feeds the X⊗N follower (verbatim) and the two Π/Π³ followers (reflected through λ ↦ −2Σγ − λ), whenever H commutes with X⊗N.",
                Tier.Tier1Derived,
-               "docs/proofs/MIRROR_SYMMETRY_PROOF.md (the F1 identity Π·L·Π⁻¹ = −L − 2Σγ·I); docs/ANALYTICAL_FORMULAS.md (F1 and the F1² corollary Π² = X⊗N); Π is order-4 with Π² = X⊗N so the whole-sector cycle subsumes the XGlobalChargeConjugationPairing X⊗N pair; verified bit-exact vs dense and vs un-halved per-block in BlockSpectrumF1OrbitPairingTests")
+               "docs/proofs/MIRROR_SYMMETRY_PROOF.md (the F1 identity Π·L·Π⁻¹ = −L − 2Σγ·I); docs/ANALYTICAL_FORMULAS.md (F1 and the F1² corollary Π² = X⊗N); Π is order-4 with Π² = X⊗N so the whole-sector cycle subsumes the XGlobalChargeConjugationPairing X⊗N pair; experiments/THE_PAIRING_CONDITION.md and LiouvillianBlockSpectrum's class summary (the sector relation for every H commuting with X⊗N, complex H included); verified against the dense eigensolver and the unpaired per-block path in BlockSpectrumF1OrbitPairingTests, and read off independent eigensolves in BlockSpectrumPairingGuardTests")
     {
         _inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
     }
@@ -50,7 +69,7 @@ public sealed class F1PalindromeOrbitPairing : Claim
     public enum F1FollowerKind
     {
         /// <summary>The Π²-image (the X⊗N partner) of the primary: spectrum copied verbatim,
-        /// since X⊗N is a genuine symmetry (X⊗N·L·X⊗N⁻¹ = L).</summary>
+        /// exact when H commutes with X⊗N (then X⊗N·L·X⊗N⁻¹ = L).</summary>
         XnCopy = 0,
         /// <summary>The Π- or Π³-image of the primary: spectrum reflected through
         /// <c>λ ↦ −2Σγ − λ</c>, the F1 palindrome map.</summary>
@@ -179,10 +198,10 @@ public sealed class F1PalindromeOrbitPairing : Claim
     }
 
     public override string DisplayName =>
-        "F1PalindromeOrbitPairing: Π orbits joint-popcount sectors (p_c, p_r) ↦ (N − p_r, p_c) in 4-cycles; quarters the eig-call count";
+        "F1PalindromeOrbitPairing: Π orbits joint-popcount sectors (p_c, p_r) ↦ (N − p_r, p_c) in 4-cycles; quarters the eig-call count when H commutes with X⊗N";
 
     public override string Summary =>
-        $"F1 Π-orbit sector-grouping under chain XY+Z-deph; (N+1)² sectors collapse to ≈ (N+1)²/4 distinct spectral classes ({Tier.Label()})";
+        $"F1 Π-orbit sector-grouping for H commuting with X⊗N under Z-dephasing; (N+1)² sectors collapse to ≈ (N+1)²/4 distinct spectral classes ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -193,7 +212,7 @@ public sealed class F1PalindromeOrbitPairing : Claim
             yield return new InspectableNode("Π² = X⊗N",
                 summary: "(p_c, p_r) ↦ (N − p_c, N − p_r): the XGlobalChargeConjugationPairing rule");
             yield return new InspectableNode("follower derivation",
-                summary: "Π²-image: spectrum copied verbatim; Π/Π³-image: reflected through λ ↦ −2Σγ − λ");
+                summary: "when H commutes with X⊗N, Π²-image: spectrum copied verbatim; Π/Π³-image: reflected through λ ↦ −2Σγ − λ");
             yield return new InspectableNode("N=8 distinct classes",
                 summary: $"{DistinctSpectralClasses(8)} (vs {XGlobalChargeConjugationPairing.DistinctSpectralClasses(8)} for X⊗N alone, 81 unpaired)");
             yield return new InspectableNode("N=10 distinct classes",

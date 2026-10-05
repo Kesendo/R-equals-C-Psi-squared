@@ -167,7 +167,7 @@ The direct LAPACK P/Invoke layer (LP64 + ILP64 with backend auto-detection) used
 | 7 | 16384² | `BuildDirectRaw()` element-wise | MKL `z_eigen` (with eigenvectors) | ~8 GB |
 | 8 | 65536² | `BuildDirectNative()` parallel, native memory | OpenBLAS `zgeev_` ILP64 (eigenvalues only) | ~73 GB |
 
-N=9 (262144² full, ~9 TB dense, infeasible) is not dispatched from this project. For popcount-conserving (F1-truly) Hamiltonians it is reached by block decomposition through Core's `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` (largest joint-popcount sector ≈ 17000²), run via the `SLOW_N9`-tagged xUnit test `F1GeneralTopologyN9BlockSpectrumChainTests` in `compute/RCPsiSquared.Core.Tests/`.
+N=9 (262144² full, ~1.1 TB dense, infeasible) is not dispatched from this project. For popcount-conserving Hamiltonians it is reached by block decomposition through Core's `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` (largest joint-popcount sector 15 876²), run via the `SLOW_N9`-tagged xUnit test `F1GeneralTopologyN9BlockSpectrumChainTests` in `compute/RCPsiSquared.Core.Tests/`.
 
 ### Why N=8 needs special handling
 

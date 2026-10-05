@@ -16,7 +16,8 @@ namespace RCPsiSquared.Core.F1;
 /// <list type="bullet">
 /// <para><b>On the word "bit-exact" in the list below.</b> Those entries describe the RESIDUAL
 /// NORM closed form checked against a computed Frobenius norm, a different object from the
-/// eigenvalue pairing, and they have not been re-measured. Do not read them as claims about the
+/// eigenvalue pairing; the Python checks reproduce it exactly (|Δ| = 0 on every graph at
+/// N ≤ 6, under a gate of rel < 1e-9). Do not read them as claims about the
 /// palindrome pairing, which is an eigensolver backward error and is never bit-exact; the pairing
 /// numbers live in <c>simulations/results/f1_n8_n9_metrics/</c> and run 1e-14 to 4.5e-2.</para>
 ///
@@ -47,8 +48,9 @@ namespace RCPsiSquared.Core.F1;
 ///         the multiset identity {λ_k} = {−2σ − λ_k} verified across all 65 536 eigenvalues
 ///         per topology to tolerance 1e-6 (relaxed from the N=7 dogfood's 1e-7 envelope:
 ///         max observed pairing distance sits in the low-1e-7 range on the largest blocks,
-///         the relaxation absorbs the accumulation from 81 block diagonalisations at sector
-///         dims up to 4900² for N=8 vs 64 blocks at 1225² for N=7). Opt-in only
+///         the relaxation absorbs the accumulation from 41 block eigensolves at sector
+///         dims up to 4900² for N=8 vs 32 at 1225² for N=7, the X⊗N copy filling the
+///         rest). Opt-in only
 ///         (<c>[Trait("Category","SLOW_N8")]</c>); the block path is the only route at N=8
 ///         (full L_vec at N=8 is 68.7 GB, past the .NET 2 GB array limit; the largest
 ///         joint-popcount block is 4900² ≈ 0.38 GB, comfortably in commodity RAM). Confirms
@@ -78,12 +80,12 @@ namespace RCPsiSquared.Core.F1;
 ///
 /// <para><b>Pragmatic infrastructure note.</b> The
 /// <see cref="BlockSpectrum.JointPopcountSectorBuilder"/> block decomposition is
-/// valid only for popcount-conserving Hamiltonians (XY + Z-dephasing), which is
-/// exactly the F1-truly case where ‖M‖² = 0. So the scaling-formula tests on
+/// valid only for popcount-conserving Hamiltonians, and the non-truly H of the
+/// scaling-formula tests (XX+YZ) do not conserve popcount. So the scaling-formula tests on
 /// non-truly H are done with the full dense <see cref="Symmetry.PalindromeResidual"/>
 /// path at N=5 (graph-aware mode); the N=7 block path tests the F1 palindromic-
-/// pairing identity (which IS testable on the infrastructure's proper truly-H
-/// domain). The pragmatic split is documented in
+/// pairing identity on truly H, with the X⊗N copy alone so that each sector and its
+/// Π-image are separate eigensolves. The pragmatic split is documented in
 /// <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c>.</para>
 ///
 /// <para>Anchors:</para>
@@ -117,11 +119,12 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
 
     /// <summary>Block-spectrum dogfood reach: the N values at which
     /// <see cref="BlockSpectrum.LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> has
-    /// been exercised end-to-end (per-block Evd + multiset assertion + metric capture)
-    /// inside the F1 family. 5 is the N=5 dense self-test from the N=7 file; 6 is the
-    /// reach for the parent <see cref="BlockSpectrum.LiouvillianBlockSpectrum"/> bit-exact
-    /// witness; 7 is the default-run dogfood; 8 is the opt-in SLOW_N8 sweep across 4
-    /// topologies.</summary>
+    /// been exercised end-to-end (per-block Evd and a multiset assertion, with metric capture
+    /// at N = 8, 9) in the F1 and block-spectrum tests. 5 and 6 are reached by the block-spectrum
+    /// tests (the per-block multiset tests at N = 3, 4, 5, the orbit-pairing tests at N = 3 to 6,
+    /// the inhomogeneous-γ test at N = 4, 5, 6);
+    /// 7 is the default-run dogfood; 8 is the opt-in SLOW_N8 sweep across 4
+    /// topologies; 9 is the opt-in SLOW_N9 chain.</summary>
     public IReadOnlyList<int> ScaleUpToN { get; } = new[] { 5, 6, 7, 8, 9 };
 
     /// <summary>N at which the block-spectrum dogfood path is blocked by an external
@@ -153,7 +156,8 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     public string? ScaleFrontierBlockerReason { get; } =
         "Memory-pressure ceiling: N=10 max block C(10,5)² = 63504² complex ≈ 64 GB native. " +
         "Fits on the 128 GB / 24-core dev machine but exhausts the parallel outer-DOP=6 budget " +
-        "(6 × 64 GB > 128 GB). Sequential outer-DOP would work but at ~hours-to-days wall-time. " +
+        "(the six largest blocks solved at once pass 128 GB; the central one alone holds about 64 GB). " +
+        "Sequential outer-DOP would work but at ~hours-to-days wall-time. " +
         "N=9 was the previous LP64-marshalling frontier and was crossed 2026-05-19 via the " +
         "MklDirect bridge. F1 identity itself remains exact at every finite N; only the per-block " +
         "Evd compute scaling is the new bottleneck.";
@@ -167,6 +171,12 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// bridge; the next frontier (N=10) is memory-pressure rather than LP64 marshalling,
     /// see <see cref="ScaleFrontierBlockedAtN"/>.</summary>
     public int NamedGraphsVerified { get; } = 23;
+
+    /// <summary>Of <see cref="NamedGraphsVerified"/>, the named graphs on which the (B, D2)
+    /// closed form itself is checked: the 10 Python graphs at N=5, 6 and the 4 C# graphs at
+    /// N=5. The other 9, at N=7, 8, 9, check the F1 palindromic pairing of truly H, whose
+    /// ‖M‖²_F = 0 gives the closed form nothing to test.</summary>
+    public int ClosedFormNamedGraphsVerified { get; } = 14;
 
     /// <summary>Number of random connected Erdős-Rényi graphs verified at N=5, 6:
     /// 30 per N (3 densities × 10 samples), total 60.</summary>
@@ -241,7 +251,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     };
 
     public F1GeneralTopologyVerifiedClaim()
-        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N=5..9; N=9 chain reached 2026-05-19 via the MklDirect bridge; next frontier N=10 is memory-pressure rather than LP64 marshalling",
+        : base("F1 general topology verification: (B, D2) closed form extends to disconnected + weighted + random graphs at N ≤ 6, and the F1 palindromic pairing holds through the block path at N=7..9; N=9 chain reached 2026-05-19 via the MklDirect bridge; next frontier N=10 is memory-pressure rather than LP64 marshalling",
                Tier.Tier2Verified,
                "docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md + simulations/f1_general_topology_verify.py + compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN{7,8,9}BlockSpectrumTests.cs (SLOW_N{8,9} opt-in traits for the larger N) + MklDirect bridge for N=9")
     { }
@@ -252,9 +262,11 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
 
     public override string Summary =>
         $"Tier 2 Verified: (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) confirmed " +
-        $"across {NamedGraphsVerified} named graphs, {RandomGraphsVerified} random connected " +
+        $"across {ClosedFormNamedGraphsVerified} named graphs, {RandomGraphsVerified} random connected " +
         $"Erdős-Rényi graphs, disconnected components, weighted edges, and the single-body class " +
-        $"at N ∈ {{{string.Join(", ", VerifiedNValues)}}}. Closes the last F1 OpenQuestion " +
+        $"at small N (the Python and graph-aware checks, N ≤ 6), and the F1 palindromic pairing " +
+        $"through the block path on {NamedGraphsVerified - ClosedFormNamedGraphsVerified} more at N = 7, 8, 9 ({NamedGraphsVerified} named graphs " +
+        $"in all). Closes the last F1 OpenQuestion " +
         "(\"general topology beyond chain/ring/star/K_N\"). Tier-1 analytic anchor: " +
         "PROOF_CROSS_TERM_FORMULA Lemma 3 Corollary (bond-disjointness universal across any graph).";
 
@@ -265,7 +277,7 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
             yield return new InspectableNode("statement",
                 summary: "‖M(N, G)‖²_F = c_H · F(N, G) with F(N, G) = B(G)·4^(N−2) (main) or (D2(G)/2)·4^(N−2) (single-body), " +
                          "for arbitrary connected/disconnected graphs G, uniform or weighted edges, uniform or non-uniform per-site γ_l.");
-            yield return new InspectableNode("verified N values",
+            yield return new InspectableNode("verified N values (the closed form at N ≤ 6, the pairing at N = 7, 8, 9)",
                 summary: string.Join(", ", VerifiedNValues));
             yield return new InspectableNode("block-spectrum dogfood scale-up",
                 summary: string.Join(", ", ScaleUpToN));

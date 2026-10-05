@@ -94,9 +94,9 @@ public sealed class FillingThresholdWitness : IInspectable
             var disorderField = Enumerable.Range(0, 6).Select(_ => (2 * rng.NextDouble() - 1) * W).ToArray();
             double conj = FillingThresholdCsr.ConjugationMatchFraction(6, 3, 4, Q, Delta, disorderField);
             yield return new InspectableNode("GinUE comparison scope (live conjugation-match diagnostic)",
-                summary: $"conjugation-match fraction = {conj.ToString("P0", Inv)} (≈ 0). The unequal weight (p,p+1) sends " +
-                         "the block under Π to the conjugate (p+1,p) block, not to itself, and the random field breaks " +
-                         "this bare conjugation match. GinUE is a comparison ensemble only; other unitary or antiunitary " +
+                summary: $"conjugation-match fraction = {conj.ToString("P0", Inv)}, the share of the block's eigenvalues " +
+                         "matched one to one with a complex conjugate in its spectrum. GinUE is a comparison " +
+                         "ensemble only; other unitary or antiunitary " +
                          "relations have not been excluded after full irreducible-sector reduction.");
 
             string trend = (dense7.MeanCos < dense6.MeanCos && dense6.MeanCos < dilute6.MeanCos - 0.02)

@@ -47,8 +47,9 @@ public class BlockSpectrumWitnessTests
     }
 
     // Gate 1: the joint-popcount decomposition counts (the 100 -> 50 -> 25 story at N=9), pure
-    // combinatorial. X(x)N order-2 pairing = the JSON PrimarySectorCount; the F1 Pi order-4 orbit
-    // = the eig-calls the compute path actually does (Pi^2 = X(x)N).
+    // combinatorial. X⊗N order-2 pairing = the JSON PrimarySectorCount; the F1 Π order-4 orbit
+    // = the eig-calls of the default pairing (Π² = X⊗N); the X⊗N copy alone makes the
+    // X⊗N count.
     [Theory]
     [InlineData(8, 81, 41, 21, 4900L, 4, 4)]
     [InlineData(9, 100, 50, 25, 15876L, 4, 4)]

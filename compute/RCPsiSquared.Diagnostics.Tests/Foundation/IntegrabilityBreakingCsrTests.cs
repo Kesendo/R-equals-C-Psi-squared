@@ -205,8 +205,9 @@ public class IntegrabilityBreakingCsrTests
     }
 
     /// <summary>Symmetry-class check (review round 2 #5): the CSR upper-half-plane restriction is only
-    /// valid if the (SE,DE) spectrum is conjugation-symmetric (λ → λ*). The reviewer's heuristic says Π
-    /// maps (SE,DE) → the conjugate (DE,SE) block, so (SE,DE) alone may NOT be self-conjugate — which
+    /// valid if the (SE,DE) spectrum is conjugation-symmetric (λ → λ*). A heuristic: the
+    /// conjugate (DE,SE) block, the image of (SE,DE) under ρ ↦ ρ† (Π sends it to (2, N−1)), is a
+    /// separate block, so (SE,DE) alone may NOT be self-conjugate, which
     /// would put us in class A (GinUE reference) and make the upper-half restriction questionable. We
     /// measure it: the conjugation-match fraction, the real-axis fraction, and a reflection about the AT
     /// midpoint Re=−4 (λ → −8−λ and λ → −8−λ*), at the Δ=0 baseline and the Δ=0.5 peak.</summary>

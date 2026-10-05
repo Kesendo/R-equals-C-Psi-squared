@@ -117,7 +117,7 @@ public class F71MirrorBlockRefinementTests
     }
 
     // ----------------------------------------------------------------------
-    // Bit-exact off-block Frobenius after F71 refinement
+    // Off-block Frobenius after F71 refinement, below 1e-10
     // ----------------------------------------------------------------------
 
     [Theory]
@@ -161,7 +161,7 @@ public class F71MirrorBlockRefinementTests
     }
 
     // ----------------------------------------------------------------------
-    // Spectrum bit-exact match: F71-refined per-block eig vs full-L eig
+    // Spectrum match within 1e-9: F71-refined per-block eig vs full-L eig
     // ----------------------------------------------------------------------
 
     [Theory]

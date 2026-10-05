@@ -35,9 +35,9 @@ namespace RCPsiSquared.Core.BlockSpectrum.Prosen;
 ///
 /// <para><b>Combinatorial coverage at N=10.</b> Summing <c>C(N, m)</c> for m = 0..N gives
 /// 2^N = 1024 eigenvalues per ket-side popcount family. With the complex-conjugate sister
-/// family (m, 0) — eigenvalues <c>+iε_S − 2γm</c> from <c>−i[H, |0⟩⟨ψ|] = +i|0⟩⟨ψ|H</c> —
-/// and the F1 mirrors at (N, N−m) and (N−m, N) which inherit the same closed form by F1
-/// closure, four 2^N-sized eigenvalue families are accessible analytically: ~4096 of the
+/// family (m, 0), eigenvalues <c>+iε_S − 2γm</c> from <c>−i[H, |0⟩⟨ψ|] = +i|0⟩⟨ψ|H</c>,
+/// and the X⊗N partners (N, N−m) and (N−m, N), which carry the same spectra because H
+/// commutes with X⊗N, four 2^N-sized eigenvalue families are accessible analytically: ~4096 of the
 /// ~1M total eigenvalues at N=10, concentrated in the slow- and fast-decay extremes.</para>
 ///
 /// <para><b>Tier outcome: <see cref="Tier.Tier1Derived"/>.</b> Closed-form algebraic
@@ -47,7 +47,7 @@ namespace RCPsiSquared.Core.BlockSpectrum.Prosen;
 /// match within 1e-10) in the test suite.</para>
 ///
 /// <para>Anchor: <see cref="XyJordanWignerModes"/> (dispersion / sine modes) +
-/// <see cref="F1.F1PalindromeIdentity"/> (the F1 closure that pairs (0, m) with (N, N−m));
+/// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/> (the X⊗N pairing of (0, m) with (N, N−m));
 /// MEP 2016 arXiv:1606.09122 (the imaginary-Hubbard programme this is the closed leaf of).</para>
 /// </summary>
 public sealed class OneSidedSectorClosedForm : Claim
@@ -131,7 +131,7 @@ public sealed class OneSidedSectorClosedForm : Claim
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/F86/JordanWigner/XyJordanWignerModes.cs (sine-mode dispersion) + " +
                "compute/RCPsiSquared.Core/BlockSpectrum/PerBlockLiouvillianBuilder.cs (per-block reference) + " +
-               "compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs (F1 closure that pairs (0,m) ↔ (N,N−m)); " +
+               "compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs (the X⊗N pairing (0,m) ↔ (N,N−m)); " +
                "Medvedyeva, Essler, Prosen 2016 arXiv:1606.09122 (imaginary-Hubbard programme, closed leaf).")
     {
         N = n; J = j; Gamma = gamma; M = m;

@@ -22,14 +22,17 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// <para><b>Slow-mode trick under uniform γ:</b> the chain XY + Z-dephasing Liouvillian has
 /// F1 palindromic spectrum around <c>−Σγ</c>: every eigenvalue λ_fast has a mirror
 /// <c>λ_slow = −2·Σγ − λ_fast</c>. Largest-magnitude Arnoldi extracts the fast-decay
-/// (most-negative Re λ) end of the spectrum; the slow modes follow by reflection, giving
-/// the physically interesting end "for free" without shift-invert.</para>
+/// (most-negative Re λ) end of the spectrum; reflection gives the slow modes of the Π-image
+/// sector (N − p_r, p_c), and of this sector itself where a fold of the block lattice fixes
+/// it (p_c or p_r = N/2 at even N on this XY chain), the physically interesting end "for
+/// free" without shift-invert.</para>
 ///
 /// <para><b>Tier outcome: <see cref="Tier.Tier1Derived"/>.</b> Textbook non-symmetric
 /// Arnoldi; iterations bounded by user-supplied <see cref="NumIterations"/>; deflation on
 /// near-zero Hessenberg subdiagonal (lucky breakdown). Validated against MathNet dense Evd
-/// at N=4–6 to relative tolerance <c>1e-6</c>; F1 palindrome witness at uniform γ confirms
-/// each Arnoldi eigenvalue's mirror is present in the full spectrum to <c>1e-8</c>.</para>
+/// at N = 4–6, and by an F1 palindrome witness at uniform γ that finds each Arnoldi
+/// eigenvalue's mirror −2Σγ − λ in the dense spectrum of its half-filling sector, both at the
+/// tolerances <c>JwSlaterPairArnoldiEigTests</c> sets per case (1e-7 to 1e-3).</para>
 ///
 /// <para>Anchor: <see cref="JwSlaterPairSparseLBuilder"/> (sparse L_JW source) + F1
 /// palindrome (uniform γ slow-mode reflection); textbook Saad "Numerical Methods for Large
@@ -156,7 +159,8 @@ public sealed class JwSlaterPairArnoldiEig : Claim
                (deflated ? " (deflated early — exact)" : "") + ".",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairSparseLBuilder.cs (sparse L_JW source) + " +
-               "F1 palindromic-spectrum theorem (slow modes via mirror reflection under uniform γ); " +
+               "F1 palindromic-spectrum theorem (slow modes of the Π-image sector, or of a fold-fixed sector itself, " +
+               "via mirror reflection under uniform γ); " +
                "textbook non-symmetric Arnoldi with Modified Gram-Schmidt — Saad, 'Numerical Methods for Large Eigenvalue Problems', Ch. 6.")
     {
         Source = source;

@@ -219,9 +219,11 @@ public class InhomogeneousGammaF71BreakingWitnessTests
         // Palindrome center = −Σγ → mirror map λ → −2Σγ − λ.
         double sumGamma = gammaPerSite.Sum();
 
-        // Compute spectrum via the per-block path (matches full L by prior tests).
+        // Compute spectrum via the per-block path (matches full L by prior tests), with the X⊗N
+        // copy alone so that a sector and its Π-image are separate eigensolves.
         var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
 
         // Greedy nearest-neighbour matching: each eigenvalue paired with its mirror under
         // λ → −2·Σγ − λ.

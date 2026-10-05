@@ -15,7 +15,8 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum.Prosen;
 /// of the chain XY + uniform Z-dephasing Liouvillian on the (p_c = 0, p_r = m) sector,
 /// expressed as subset sums of N Prosen rapidities β_k = −2γ − i·ε_k. Cross-validated
 /// against <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> dense Evd at small N;
-/// F1-mirror identity verified across the sector pair (0, m) ↔ (N, N−m).</summary>
+/// the X⊗N pairing (0, m) ↔ (N, N−m) verified as equal spectra, and the F1 mirrors of the
+/// (0, m) eigenvalues found in the full spectrum.</summary>
 public class OneSidedSectorClosedFormTests
 {
     private readonly ITestOutputHelper _out;
@@ -89,8 +90,8 @@ public class OneSidedSectorClosedFormTests
         // (X_l X_{l+1} unchanged; Y_l Y_{l+1} acquires (−1)² = +1). For Z-dephasing: each
         // X⊗N Z_l X⊗N = −Z_l, so each L_l → −L_l, leaving the dissipator Z_l·Z_l unchanged.
         // Therefore L commutes with X⊗N as a superoperator, and the paired sectors have
-        // EQUAL spectra (not F1-mirrored — F1 is a separate, Π-mediated identity that
-        // does not restrict to a simple sector permutation).
+        // EQUAL spectra. The F1 mirror Π permutes sectors as well, (p_c, p_r) ↦ (N − p_r, p_c),
+        // and reflects the spectrum instead; this X⊗N map is its square.
         const double gamma = 0.05;
         const double J = 1.0;
         var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
@@ -119,11 +120,10 @@ public class OneSidedSectorClosedFormTests
     public void F1Mirror_OfZeroMEigenvalues_AppearInFullSpectrum(int N, int m)
     {
         // F1 (Π-conjugation theorem): each λ in the full spectrum pairs with −λ − 2·Σγ.
-        // The F1 mirrors of (0, m) eigenvalues need NOT live in any single sector — Π acts
-        // on Pauli strings, not on the (p_c, p_r) computational-basis labels, so F1 mirrors
-        // distribute across sectors. This test verifies the F1 prediction at the full-
-        // spectrum level: every −λ − 2·Σγ for λ ∈ (0, m) closed form appears somewhere in
-        // the union of all dense per-block Evds.
+        // The F1 mirrors of the (0, m) eigenvalues lie in the Π-image sector (N − m, 0): Π
+        // sends the matrix unit |a⟩⟨b| to |b⟩⟨ā|, a whole sector onto a whole sector. This
+        // test checks the weaker full-spectrum statement: every −λ − 2·Σγ for λ ∈ (0, m)
+        // closed form appears somewhere in the union of all dense per-block Evds.
         const double gamma = 0.05;
         const double J = 1.0;
         var gammaArr = Enumerable.Repeat(gamma, N).ToArray();
@@ -189,8 +189,8 @@ public class OneSidedSectorClosedFormTests
     {
         // Reconnaissance: at N=10 the full set of (0, m) sectors for m=0..10 collectively
         // has Σ C(10, m) = 2^10 = 1024 eigenvalues, available in closed form without any
-        // diagonalization. Combined with sister (m, 0) sectors (conjugates), F1 mirrors at
-        // (10, 10−m), and conjugates of mirrors, four 1024-eigenvalue families are accessible
+        // diagonalization. Combined with sister (m, 0) sectors (conjugates), the X⊗N partners
+        // at (10, 10−m), and their conjugates, four 1024-eigenvalue families are accessible
         // analytically — bypassing the dense-Evd-infeasible (5, 5) bottleneck for these
         // specific spectral regions.
         const int N = 10;

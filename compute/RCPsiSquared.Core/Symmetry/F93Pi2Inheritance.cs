@@ -31,7 +31,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Tier1Derived: composition. F93 is Tier1Derived in
 /// <c>docs/proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md</c> (algebraic proof
-/// 2026-05-12, empirical witness bit-exact at N=4, 5); this claim makes its
+/// 2026-05-12, empirical witness to rounding at N=4, 5); this claim makes its
 /// Pi2-Foundation inheritance explicit in the typed-knowledge runtime so that
 /// F93 is reachable from <see cref="NinetyDegreeMirrorMemoryClaim"/> via
 /// descendants, joining the existing F##Pi2Inheritance siblings.</para>
@@ -108,7 +108,7 @@ public sealed class F93Pi2Inheritance : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("F93 closed form",
-                summary: "F71-refined diagonal-block spectrum invariant under h_l + h_{N-1-l} = 2·h_avg ∀l (Tier1Derived in PROOF_F93_DETUNING_ANTI_PALINDROMIC; bit-exact verified N=4, 5)");
+                summary: "F71-refined diagonal-block spectrum invariant under h_l + h_{N-1-l} = 2·h_avg ∀l (Tier1Derived in PROOF_F93_DETUNING_ANTI_PALINDROMIC; verified to rounding N=4, 5)");
             yield return new InspectableNode("parameter axis",
                 summary: ParameterAxis);
             yield return new InspectableNode("scope",

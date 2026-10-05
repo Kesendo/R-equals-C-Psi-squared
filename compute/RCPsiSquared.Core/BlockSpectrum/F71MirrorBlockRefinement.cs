@@ -13,7 +13,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <summary>F71MirrorBlockRefinement (Tier 1 derived; 2026-05-11):
 /// the chain-topology Liouvillian L commutes with the spatial-mirror operator
 /// <c>P_F71 ⊗ P_F71</c> on Liouville space (P_F71: site b ↔ site N−1−b on each Hilbert
-/// side). This Z₂ symmetry refines each joint-popcount sector from
+/// side) when H and the dephasing rates are symmetric under that reflection. This Z₂
+/// symmetry refines each joint-popcount sector from
 /// <see cref="JointPopcountSectors"/> into F71-even and F71-odd sub-blocks (≈ factor-2
 /// further block-size reduction for non-fixed-point orbits).
 ///
@@ -25,7 +26,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// have no F71-odd component.</para>
 ///
 /// <para>The basis change Q is a real orthogonal matrix with entries 0, ±1, ±1/√2;
-/// <c>Q^T L Q</c> is block-diagonal in the refined sector layout. Bit-exact verified at
+/// <c>Q^T L Q</c> is then block-diagonal in the refined sector layout. Verified at
 /// N=3, 4 chain XY+Z-deph (off-block Frobenius below 1e-10).</para>
 ///
 /// <para><b>N=8 projection.</b> Without F71 refinement, the largest joint-popcount
@@ -39,13 +40,13 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
 /// (parent decomposition), <c>compute/RCPsiSquared.Core.Tests/BlockSpectrum/F71MirrorBlockRefinementTests.cs</c>
-/// (off-block Frobenius = 0 verification + spectrum bit-exact match at N=3, 4).</para></summary>
+/// (off-block Frobenius below 1e-10 + spectrum match within 1e-9 at N=3, 4).</para></summary>
 public sealed class F71MirrorBlockRefinement : Claim
 {
     private readonly JointPopcountSectors _sectors;
 
     public F71MirrorBlockRefinement(JointPopcountSectors sectors)
-        : base("F71MirrorBlockRefinement: chain L commutes with P_F71 ⊗ P_F71 (site b ↔ N−1−b on each Hilbert side); each joint-popcount sector splits into F71-even + F71-odd sub-blocks; bit-exact verified at N=3, 4.",
+        : base("F71MirrorBlockRefinement: chain L with reflection-symmetric H and rates commutes with P_F71 ⊗ P_F71 (site b ↔ N−1−b on each Hilbert side); each joint-popcount sector splits into F71-even + F71-odd sub-blocks; verified at N=3, 4 (off-block Frobenius below 1e-10).",
                Tier.Tier1Derived,
                "JointPopcountSectors block-diagonality (parent) + chain spatial-mirror Z₂ symmetry; verified off-block Frobenius < 1e-10 in F71MirrorBlockRefinementTests")
     {
@@ -56,7 +57,7 @@ public sealed class F71MirrorBlockRefinement : Claim
         "F71MirrorBlockRefinement: Z₂ split of joint-popcount sectors into F71-even/odd sub-blocks";
 
     public override string Summary =>
-        $"chain L commutes with P_F71⊗P_F71; each (p_c,p_r) sector → (even, odd) sub-blocks; ≈ 2× further block-size reduction ({Tier.Label()})";
+        $"chain L with reflection-symmetric H and rates commutes with P_F71⊗P_F71; each (p_c,p_r) sector → (even, odd) sub-blocks; ≈ 2× further block-size reduction ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -82,7 +83,8 @@ public sealed class F71MirrorBlockRefinement : Claim
     public sealed record F71RefinedSector(int PCol, int PRow, char Parity, int Offset, int Size);
 
     /// <summary>Refined block-diagonal decomposition: a single real-orthogonal basis change
-    /// Q maps L into a matrix that is block-diagonal in the (p_c, p_r, parity) labels.
+    /// Q maps L, when H and the rates are symmetric under the reflection, into a matrix that
+    /// is block-diagonal in the (p_c, p_r, parity) labels.
     /// <c>BasisChange.Transpose() * L * BasisChange</c> has the structure described by
     /// <see cref="SectorRanges"/>. Empty sub-blocks (Size = 0) may appear when a sector
     /// has no F71-odd component (all basis pairs are F71-fixed); these are listed but do
@@ -91,7 +93,7 @@ public sealed class F71MirrorBlockRefinement : Claim
     {
         public int N { get; }
         public int D { get; }   // 2^N
-        public ComplexMatrix BasisChange { get; }   // unitary Q (real orthogonal); Q^T L Q block-diagonal
+        public ComplexMatrix BasisChange { get; }   // unitary Q (real orthogonal); Q^T L Q block-diagonal for reflection-symmetric H and rates
         public IReadOnlyList<F71RefinedSector> SectorRanges { get; }
         public F71RefinedDecomposition(int n, int d, ComplexMatrix q, IReadOnlyList<F71RefinedSector> sectors)
         {
@@ -101,7 +103,8 @@ public sealed class F71MirrorBlockRefinement : Claim
 
     /// <summary>Refine a <see cref="JointPopcountSectorBuilder.Decomposition"/> by the
     /// chain spatial-mirror Z₂ symmetry. Produces an orthogonal basis change Q whose columns
-    /// are organised so that <c>Q^T L Q</c> is block-diagonal in (p_c, p_r, parity).
+    /// are organised so that <c>Q^T L Q</c> is block-diagonal in (p_c, p_r, parity) whenever H
+    /// and the rates are reflection-symmetric.
     ///
     /// <para>For each input sector, the (col, row) flat indices in that sector are partitioned
     /// into F71-orbits via the involution <c>flat ↔ mirror(flat) := P_F71(row)·d + P_F71(col)</c>
@@ -181,8 +184,9 @@ public sealed class F71MirrorBlockRefinement : Claim
         return new F71RefinedDecomposition(N, d, Q, refinedSectors);
     }
 
-    /// <summary>Compute the full Liouvillian spectrum via per-sub-block eigendecomposition
-    /// over the F71-refined sectors. Returns a flat array of all 4^N eigenvalues, ordered
+    /// <summary>Compute the eigenvalues of L's F71-refined sub-blocks, its full spectrum when
+    /// L commutes with the site reflection, via per-sub-block eigendecomposition over the
+    /// F71-refined sectors. Returns a flat array of all 4^N eigenvalues, ordered
     /// sub-block-by-sub-block in <see cref="F71RefinedSector"/> iteration order.
     ///
     /// <para>Block extraction uses the basis change Q implicitly: the sub-block
@@ -222,7 +226,8 @@ public sealed class F71MirrorBlockRefinement : Claim
         return spectrum;
     }
 
-    /// <summary>Compute the full Liouvillian spectrum via F71-refined per-sub-block
+    /// <summary>Compute the spectrum of the F71-refined sub-blocks, L's full spectrum when H
+    /// and the rates are symmetric under the site reflection, via per-sub-block
     /// eigendecomposition WITHOUT materialising the full L matrix. For each joint-popcount
     /// sector, builds the (even, odd) F71 sub-blocks directly from the Hilbert-space H +
     /// γ_per_site by:
@@ -234,52 +239,64 @@ public sealed class F71MirrorBlockRefinement : Claim
     ///   <item>Applying the local 1/√2 sign-walk basis change to project onto F71-even
     ///         and F71-odd sub-blocks (a real-orthogonal transform on the union block).</item>
     /// </list>
-    /// <para>Memory footprint is per-block: O(blockSize²) only, never O(4^N · 4^N). This is
-    /// the path used by the CLI smoke runs at N=7, 8 where full-L cannot be allocated.</para>
+    /// <para>Memory footprint is per-block: O(blockSize²) only, never O(4^N · 4^N), so it runs
+    /// at N=7, 8 where full-L cannot be allocated.</para>
     ///
-    /// <para>Uses the F1 Π-orbit pairing optimisation: the F1 palindrome conjugation Π is
-    /// order-4 and on joint-popcount labels acts as the whole-sector cycle
-    /// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. Π commutes
-    /// with the F71 mirror P_F71 ⊗ P_F71, so the orbit grouping respects F71 parity. Only one
-    /// "primary" sector per orbit is eigendecomposed; the three followers are derived from it,
-    /// the Π²-image (X⊗N partner) by a verbatim copy of both the F71-even and F71-odd sub-
-    /// arrays and the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ applied to both. This
-    /// quarters the eigendecomposition count (the X⊗N pairing of
-    /// <see cref="SymmetryFamily.XGlobalChargeConjugationPairing"/>, which Π² equals, only
-    /// halved it). See <see cref="SymmetryFamily.F1PalindromeOrbitPairing"/> for the orbit
-    /// rule.</para></summary>
-    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N.</param>
+    /// <para>The result is the union of the eigenvalues of the F71-even and F71-odd diagonal
+    /// sub-blocks of every sector. It is the spectrum of L when H and the rates are symmetric
+    /// under the site reflection; when they are not, the off-diagonal F71 blocks are nonzero
+    /// and the result is the spectrum of the compressed diagonal blocks, the object F91, F92
+    /// and F93 compare.</para>
+    ///
+    /// <para>Uses the F1 Π-orbit pairing when H commutes with X^⊗N: the F1 palindrome
+    /// conjugation Π is order-4 and on joint-popcount labels acts as the whole-sector cycle
+    /// (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)² sectors into orbits of 4. The map
+    /// that carries a sector to its Π-image (ρ ↦ ρ†·X^⊗N, see
+    /// <see cref="LiouvillianBlockSpectrum"/>) and conjugation by X^⊗N both commute with the
+    /// site reflection, so the pairing respects F71 parity whether or not H and the rates are
+    /// F71-symmetric. Only one "primary" sector per orbit is eigendecomposed; the three
+    /// followers are derived from it, the Π²-image (X⊗N partner) by a verbatim copy of both the
+    /// F71-even and F71-odd sub-arrays and the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ
+    /// applied to both. When H does not commute with X^⊗N every sector is solved
+    /// (<see cref="LiouvillianBlockSpectrum.SectorPairing"/>).</para></summary>
+    /// <param name="H">Hilbert-space Hamiltonian, dense 2^N × 2^N; must be popcount-conserving
+    /// (checked exactly, <see cref="ArgumentException"/> otherwise).</param>
     /// <param name="gammaPerSite">Per-site Z-dephasing rates (length N).</param>
     /// <param name="N">Qubit count.</param>
     /// <returns>Flat array of 4^N eigenvalues.</returns>
     public static Complex[] ComputeSpectrumPerBlock(ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N) =>
         ComputeSpectrumPerBlock(H, gammaPerSite, N, PauliLetter.Z);
 
-    /// <summary>F108-aware overload accepting an explicit dephase letter D ∈ {X, Y, Z} that
-    /// scopes the orbit-pairing optimisation. Defaults to <see cref="PauliLetter.Z"/> via the
-    /// 3-argument overload, preserving historical behaviour. See the matching overload on
-    /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, LiouvillianBlockSpectrum.EigenPath, PauliLetter)"/>
-    /// for the full rationale: the F1 reflection λ ↦ −2·Σγ − λ is justified iff
-    /// <c>Π·L·Π⁻¹ = −L − 2σ·I</c> holds for some Π that permutes joint-popcount sectors as
-    /// (p_c, p_r) ↦ (N − p_r, p_c). F108 Part 1 (Z-deph) extends F1's "truly Heisenberg"
-    /// scope to every Π²_Z-even bilinear via the Z-deph variant of
-    /// <see cref="Pi5BilinearOperator"/>; both variants share the I↔X, Y↔Z per-letter
-    /// permutation and induce the same sector orbits, run in opposite directions
-    /// (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}), so the orbit-pairing primitive
-    /// stays the same Π-agnostic call.
+    /// <summary>Overload choosing the sector pairing
+    /// (<see cref="LiouvillianBlockSpectrum.SectorPairing"/>).</summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N,
+        LiouvillianBlockSpectrum.SectorPairing pairing) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, PauliLetter.Z, pairing);
+
+    /// <summary>Overload with an explicit dephase letter, as on
+    /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(ComplexMatrix, IReadOnlyList{double}, int, LiouvillianBlockSpectrum.EigenPath, PauliLetter)"/>:
+    /// the letter is validated and does not change the computation.
     ///
     /// <para>Only <see cref="PauliLetter.Z"/> is currently supported by the per-block builder
     /// (<see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> is hardcoded Z-only and the
     /// joint-popcount sector structure is not preserved under X- or Y-dephasing). X and Y
     /// throw <see cref="NotSupportedException"/> (design-permanent under the current basis);
     /// I throws <see cref="ArgumentException"/> (not a valid dephase letter for a Lindblad
-    /// dissipator). The message cites the future <c>BuildBlockX</c>/<c>BuildBlockY</c> path
-    /// needed to lift the X/Y restriction.</para></summary>
-    /// <param name="dephaseLetter">Dephase letter the orbit-pairing is matched to. Only Z is
+    /// dissipator). The message points to the basis-rotation path in
+    /// <see cref="BlockSpectrumOpenQuestions"/> that would lift the X/Y restriction.</para></summary>
+    /// <param name="dephaseLetter">Dephase letter. Only Z is
     /// currently supported by the per-block construction; X and Y throw
     /// <see cref="NotSupportedException"/>, I throws <see cref="ArgumentException"/>.</param>
     public static Complex[] ComputeSpectrumPerBlock(
-        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter)
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter) =>
+        ComputeSpectrumPerBlock(H, gammaPerSite, N, dephaseLetter, LiouvillianBlockSpectrum.SectorPairing.PiOrbit);
+
+    /// <summary>The full overload: dephase letter (Z only) and sector pairing. The pairing is
+    /// used only when H commutes exactly with X^⊗N.</summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter,
+        LiouvillianBlockSpectrum.SectorPairing pairing)
     {
         if (H is null) throw new ArgumentNullException(nameof(H));
         int hilbertDim = 1 << N;
@@ -293,7 +310,8 @@ public sealed class F71MirrorBlockRefinement : Claim
         if (dephaseLetter == PauliLetter.I)
             throw new ArgumentException(
                 "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a " +
-                "non-identity operator); use Z (canonical / F108 Part 1), X (F108 Part 2), or Y (F108 Part 3).",
+                "non-identity operator); use Z (canonical / F108 Part 1; X and Y, F108 Parts 2 and 3, are " +
+                "refused under the current basis).",
                 nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
             throw new NotSupportedException(
@@ -302,17 +320,17 @@ public sealed class F71MirrorBlockRefinement : Claim
                 $"diagonal in the computational basis and popcount-conserving); got {dephaseLetter}. " +
                 "X- and Y-dephasing break the joint-popcount sector structure that JointPopcountSectors and " +
                 "the F71 mirror refinement rely on. See BlockSpectrumOpenQuestions for the X/Y basis-rotation " +
-                "extension path (parallel BuildBlockX/Y plus a rederived per-letter-D sector decomposition).");
+                "extension path (rotate the Pauli letters to the dephase letter's eigenbasis, then run BuildBlockZ).");
 
-        // Mirror LiouvillianBlockSpectrum's contract guard: H must be popcount-conserving in
-        // the 2^N Hilbert basis, otherwise the joint-popcount sector decomposition is wrong
-        // and the F71 refinement on top of it silently returns wrong spectra. DEBUG-only,
-        // stripped from RELEASE builds; see DebugAssertPopcountConservingH for the sample plan.
-        LiouvillianBlockSpectrum.DebugAssertPopcountConservingH(H, N);
+        // LiouvillianBlockSpectrum's contract check: H must be popcount-conserving in the 2^N
+        // Hilbert basis, otherwise the joint-popcount sector decomposition misses part of L.
+        // Exact, on every entry.
+        LiouvillianBlockSpectrum.RequirePopcountConservingH(H, N);
 
-        // F1 palindrome reflection constant: the genuine Σ of per-site Z-dephasing rates
-        // (NOT N·γ), so non-uniform γ stays exact. F1 maps a sector's spectrum to its
-        // Π-image's via λ ↦ −2·Σγ − λ (docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+        // Reflection constant: the genuine Σ of per-site Z-dephasing rates (NOT N·γ), so
+        // non-uniform γ stays exact. When H commutes with X^⊗N a sector's spectrum maps to its
+        // Π-image's via λ ↦ −2·Σγ − λ (LiouvillianBlockSpectrum's class summary); F1's
+        // identity is the truly case.
         double sumGamma = gammaPerSite.Sum();
 
         int liouvilleDim = 1 << (2 * N);
@@ -338,30 +356,16 @@ public sealed class F71MirrorBlockRefinement : Claim
             cum += baseDecomp.SectorRanges[i].Size;
         }
 
-        // F1 Π-orbit pairing (Tier 1, F1PalindromeOrbitPairing): chain XY+Z-deph L satisfies
-        // the F1 palindrome Π·L·Π⁻¹ = −L − 2·Σγ·I. Π is order-4 and on joint-popcount labels
-        // acts as the whole-sector cycle (p_c, p_r) ↦ (N − p_r, p_c), grouping the (N+1)²
-        // sectors into orbits of 4 (plus the Π-fixed (N/2, N/2) at even N). Π commutes with
-        // the F71 mirror P_F71 ⊗ P_F71 (Π is site-local, P_F71 is a site-permutation; verified
-        // by the Pi_CommutesWith_F71MirrorPair test), so the orbit grouping extends to F71-
-        // refined sub-sectors with parity preserved: the F71-even sub-block maps to the F71-
-        // even sub-block of the Π-image sector, the F71-odd to the F71-odd. We compute eig
-        // only on the lex-smallest "primary" of each orbit (plus the Π-fixed sector) and
-        // derive the followers in Phase 3 — the Π²-image (X⊗N partner) by a verbatim copy of
-        // BOTH sub-arrays, the Π/Π³-images by the F1 reflection λ ↦ −2·Σγ − λ applied to BOTH
+        // Which sectors are solved and how the rest are derived (shared with
+        // LiouvillianBlockSpectrum): with [H, X^⊗N] = 0 the requested pairing, otherwise every
+        // sector. The pairing respects F71 parity, the F71-even sub-block of a sector mapping to
+        // the F71-even sub-block of its image (ρ ↦ X^⊗N·ρ·X^⊗N and ρ ↦ ρ†·X^⊗N, which carry a
+        // sector onto its images, commute with the site reflection; the
+        // Pi_CommutesWith_F71MirrorPair test checks the same of Π), so Phase 3 copies or reflects BOTH
         // sub-arrays. Primaries are sorted descending by size so the largest starts first
         // under Parallel.ForEach.
-        //
-        // F108 generalisation (Z-deph): F108 Part 1 (Pi5BilinearOperator with dephaseLetter
-        // = Z) palindromizes every Hamiltonian of Π²_Z-even bilinears. Its popcount-conserving
-        // members are combinations of (XX+YY) and ZZ, which the canonical Π already palindromizes,
-        // and canonical Π (F1) and Π_5bilinear (F108 Part 1) induce the same joint-popcount sector
-        // orbits (in opposite directions), so the same orbit-pairing call covers both readings.
-        // The popcount contract admits more (single-site Z fields, XY − YX bonds), and the reflection is exact only where the
-        // palindrome holds sector by sector: a Z field breaks it (docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry).
         var (primarySectorIndices, followerToPrimary) =
-            F1PalindromeOrbitPairing.PartitionByPiOrbit(
-                N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);
+            LiouvillianBlockSpectrum.PartitionSectors(H, N, baseDecomp.SectorRanges, pairing);
 
         // BLAS-oversubscription strategy (c): outer DOP ≈ ProcessorCount/4. See
         // LiouvillianBlockSpectrum.ComputeSpectrum for rationale.
@@ -429,9 +433,11 @@ public sealed class F71MirrorBlockRefinement : Claim
         // eigenvalues then its odd-block eigenvalues in the same layout the original code
         // produced. A primary writes its own (even, odd) arrays verbatim. A follower derives
         // them from its orbit primary's: an X⊗N-image follower (Π²-image) copies both arrays
-        // verbatim (X⊗N is a genuine symmetry); a Π/Π³-image follower reflects each λ in
-        // BOTH arrays through the F1 palindrome map λ ↦ −2·Σγ − λ. Π commutes with the F71
-        // mirror, so the reflection respects F71 parity: even stays even, odd stays odd.
+        // verbatim (exact, since the partition pairs only when H commutes with X^⊗N); a
+        // Π/Π³-image follower reflects each λ in
+        // BOTH arrays through the F1 palindrome map λ ↦ −2·Σγ − λ. The map that carries a sector
+        // onto its Π-image, ρ ↦ ρ†·X^⊗N, commutes with the F71 mirror, so the reflection respects
+        // F71 parity: even stays even, odd stays odd.
         for (int sIdx = 0; sIdx < sectorCount; sIdx++)
         {
             int write = writeOffsets[sIdx];
@@ -479,7 +485,7 @@ public sealed class F71MirrorBlockRefinement : Claim
     /// across rows/cols (nFix + k, nFix + nPairs + k) for k = 0..nPairs-1. The new basis is
     /// laid out as <c>(fixed-points, even-pairs, odd-pairs)</c> in that order.</para>
     ///
-    /// <para>Cost: O(unionSize²) work, no matmul. Equivalent bit-exact to <c>R^T · B · R</c>
+    /// <para>Cost: O(unionSize²) work, no matmul. Equivalent to <c>R^T · B · R</c>
     /// up to floating-point rounding (verified via the existing
     /// <c>F71MirrorBlockRefinement_OffBlockFrobenius_IsZero_ChainXYZDeph</c> tolerance).</para></summary>
     public static ComplexMatrix RotateUnionBlockF71InPlace(ComplexMatrix B, int nFix, int nPairs)

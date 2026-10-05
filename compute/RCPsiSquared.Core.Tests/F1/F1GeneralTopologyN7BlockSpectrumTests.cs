@@ -26,8 +26,9 @@ namespace RCPsiSquared.Core.Tests.F1;
 ///         <see cref="PalindromeResidual.Build"/> on chain / ring / star / triangle +
 ///         disjoint bond, matched against the typed claim's <c>Factor</c>.</item>
 ///   <item><b>F1 palindromic-pairing verification at N=7</b> via
-///         <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> on its proper
-///         domain (XY + Z-dephasing, F1-truly). For each Liouvillian eigenvalue λ_k the
+///         <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock"/> on XY graphs
+///         under Z-dephasing (popcount-conserving and F1-truly), with the X⊗N copy alone
+///         so that every sector and its Π-image are solved separately. For each Liouvillian eigenvalue λ_k the
 ///         partner λ_k + 2σ + λ_pair = 0 must hold, i.e., {λ} = {−2σ − λ}. This is the
 ///         spectral content of the F1 identity Π·L·Π⁻¹ = −L − 2σ·I; the test asserts it
 ///         as a multiset identity across the full 4^7 = 16 384 eigenvalues. Multiple
@@ -42,12 +43,12 @@ namespace RCPsiSquared.Core.Tests.F1;
 ///
 /// <para><b>Infrastructure note on Hamiltonian choice.</b> The
 /// <see cref="JointPopcountSectorBuilder"/> block decomposition is valid only for
-/// Hamiltonians that preserve the joint popcount label, i.e., XY + Z-dephasing. Non-
-/// truly Hamiltonians (XX+YZ, XY+YX, etc.) generally break this label and are outside
-/// the block infrastructure's scope. So the F1 scaling-formula tests on non-truly H
-/// are done with full <see cref="PalindromeResidual.Build"/> at N=5 (graph-aware
-/// mode), and the N=7 block path is used for the F1 palindromic-pairing identity
-/// (which IS testable on the block infrastructure's proper truly-H domain).</para>
+/// Hamiltonians that conserve the joint popcount label under Z-dephasing (XX+YY, ZZ and Z
+/// fields among them); popcount conservation does not make H truly. The scaling
+/// formula's anchor XX+YZ breaks the label (as do XY+YX and the like), so the F1
+/// scaling-formula tests are done with full <see cref="PalindromeResidual.Build"/> at N=5
+/// (graph-aware mode), and the N=7 block path is used for the F1 palindromic-pairing
+/// identity on XX+YY graphs, which conserve popcount and are F1-truly.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_GENERAL_TOPOLOGY.md</c> (synthesis with
 /// citation to PROOF_CROSS_TERM_FORMULA Lemma 3 Corollary for the universality of the
@@ -151,8 +152,8 @@ public class F1GeneralTopologyN7BlockSpectrumTests
     // ----------------------------------------------------------------------
     // Test 5-8: N=7 F1 palindromic-pairing verification via the block
     // infrastructure (XY + Z-dephasing, F1-truly). Computes the full spectrum
-    // via LiouvillianBlockSpectrum.ComputeSpectrumPerBlock and asserts that the
-    // multiset {λ_k} matches the F1-shifted multiset {−2σ − λ_k}.
+    // via LiouvillianBlockSpectrum.ComputeSpectrumPerBlock with the X⊗N copy alone and
+    // asserts that the multiset {λ_k} matches the F1-shifted multiset {−2σ − λ_k}.
     // ----------------------------------------------------------------------
 
     [Fact]
@@ -182,7 +183,7 @@ public class F1GeneralTopologyN7BlockSpectrumTests
 
     // ----------------------------------------------------------------------
     // Test 9: dogfood sanity at N=5, block-decomposed sum equals dense sum
-    // for ‖L‖²_F on the infrastructure's proper domain (XY + Z-deph).
+    // for ‖L‖²_F on an XY chain under Z-dephasing, inside the infrastructure's domain.
     // ----------------------------------------------------------------------
 
     [Fact]
@@ -322,8 +323,11 @@ public class F1GeneralTopologyN7BlockSpectrumTests
         var H = BuildXyGraphHamiltonian(N, bonds);
         var gammaPerSite = Enumerable.Repeat(gammaZ, N).ToArray();
 
-        // ComputeSpectrumPerBlock: per-block eig, no full-L materialisation.
-        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
+        // ComputeSpectrumPerBlock: per-block eig, no full-L materialisation. The X⊗N copy
+        // alone, so a sector and its Π-image are two eigensolves and the pairing below is a
+        // check; under the Π-orbit pairing every Π-image would be filled by the reflection.
+        var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(
+            H, gammaPerSite, N, LiouvillianBlockSpectrum.SectorPairing.XNCopy);
 
         // Sanity: 4^7 = 16 384 eigenvalues across (N+1)² = 64 sectors.
         Assert.Equal(1 << (2 * N), spectrum.Length);
@@ -334,8 +338,8 @@ public class F1GeneralTopologyN7BlockSpectrumTests
             shifted[i] = -2.0 * sigma - spectrum[i];
 
         // Multiset equality with nearest-neighbour matching. Tolerance 1e-7 accommodates
-        // accumulated MKL Evd noise across (N+1)² = 64 block diagonalisations at sector
-        // dims up to 1225² at N=7. Direct dense eig at N=5 typically agrees to 1e-9.
+        // accumulated MKL Evd noise across 32 block eigensolves at sector dims up to 1225²
+        // at N=7, the X⊗N copy filling the other 32 of the (N+1)² = 64 sectors. Direct dense eig at N=5 typically agrees to 1e-9.
         MultisetAssert.NearestNeighbourEqual(spectrum, shifted, tolerance: 1e-7,
             context: $"{topology} N=7 F1 palindromic pairing");
     }

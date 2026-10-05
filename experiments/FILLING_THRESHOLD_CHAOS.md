@@ -77,9 +77,9 @@ not a universal inability of dilute sectors to thermalize.
   GinUE (dissipative quantum chaos, class A): ⟨|z|⟩≈0.74, ⟨cos θ⟩≈−0.24 (finite-size references are
   computed live, never hardcoded).
 - **GinUE comparison**: GinUE is the class-A reference ensemble used as a numerical benchmark, not a
-  class assignment for this Liouvillian block. For unequal weight (p, p+1), Π maps the block to its
-  conjugate partner (p+1,p), rather than acting within it. The measured near-zero conjugation-match
-  fraction under a random field rules out that particular spectral pairing in the sampled block; it
+  class assignment for this Liouvillian block. The measured
+  near-zero conjugation-match fraction under a random field, which reads whether the block's own
+  spectrum is closed under λ ↦ λ̄, rules out that closure in the sampled block; it
   does not exhaust possible residual antiunitary symmetries. The full irreducible symmetry algebra,
   after resolving the shifted generator's sectorwise P symmetry and every strong/unitary sector, is
   **OPEN**.
@@ -140,8 +140,11 @@ The radial statistic is closer to the GinUE reference than the angular statistic
 Their differing finite-size trends support a crossover reading; they do not establish
 asymptotic convergence or a thermodynamic phase boundary.
 
-(The isospectral pairs (2,3) ≅ (3,4) at N=6 read identically, as they must: particle-hole / the global
-spin-flip QP relate them; see [F89d cross-fold](F89_PATH_K_DIABOLIC.md).)
+(The blocks (2,3) and (3,4) at N=6 share their statistics across the field ensemble: the global
+spin flip QP (particle-hole, the full flip of [F89d's bit-flip Klein group](F89_PATH_K_DIABOLIC.md))
+composed with ρ ↦ ρ† carries one block onto the other at the flipped field, with its spectrum
+conjugated, which ⟨|z|⟩ and ⟨cos θ⟩ do not see, and the ensemble holds each field and its flip
+alike.)
 
 ## What the comparison establishes
 

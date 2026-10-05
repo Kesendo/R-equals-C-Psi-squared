@@ -191,7 +191,7 @@ def main():
         ("I. |S_2> pure",                             S[2]),
         ("J. |S_3> pure",                             S[3]),
         ("K. (|vac>+|S_1>+|S_2>)/sqrt(3)",            norm(vac + S[1] + S[2])),
-        ("L. (|vac>+|S_4>)/sqrt(2) [Pi partner of C?]", norm(vac + S[4])),
+        ("L. (|vac>+|S_4>)/sqrt(2)",                  norm(vac + S[4])),
         ("M. |S_4> pure",                             S[4]),
         ("N. |S_5> pure [all excited]",               S[5]),
         ("O. |vac> pure [ground]",                    vac),
@@ -267,7 +267,7 @@ def main():
     print(f"        pred from diag: (c_H + c_I)/4 = {pred_E_diag:+.5f}")
     print(f"        cross-term residual: {cross_E:+.5f}")
 
-    # Test 3: Pi-pair check across sectors. S_n <-> S_{N-n} under excitation inversion
+    # Test 3: Pi^2 (X^N) pair check across sectors. S_n <-> S_{N-n} under excitation inversion
     # (simultaneous bit flip) which is an important symmetry.
     print(f"\n    Sector-inversion symmetry (S_n <-> S_{{N-n}}):")
     print(f"      c_1(|S_1>) = {c1_H:+.5f},  c_1(|S_4>) = {c1_M:+.5f},  diff = {c1_H - c1_M:+.1e}")

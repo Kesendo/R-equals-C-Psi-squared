@@ -5305,7 +5305,8 @@ public static class OpenArcsRegistry
                 "sharpest procedural catch. Also caught: a doc-level claim of a one-magnon check with no " +
                 "verifier named (now routed to d10_block_closure_verify.py), and the step from the block's " +
                 "best Q to the LIOUVILLIAN's, which I had called untaken when it is measured and holds at " +
-                "N=2..6 (40, 60, 68.284271, 72.360680, 74.641016 at gamma=0.05, exactly the block's value, tied only by its X^N image block); only the " +
+                "N=2..6 (40, 60, 68.284271, 72.360680, 74.641016 at gamma=0.05, exactly the block's value, tied by exactly three blocks, its dagger image (1,0), its X^N " +
+                "image (N,N-1) and the composite (N-1,N)); only the " +
                 "general-N proof is missing. " +
                 "WHAT WAS TRIAGED, all of it now APPLIED (the list below is the record of what the triage " +
                 "found, in its original present tense; every 'needs' and 'still says' in it has since been " +
@@ -5642,7 +5643,27 @@ public static class OpenArcsRegistry
                 "||M_anti||^2 EXACTLY 0, and PiDecompositionDephaseLetterTests ||M||^2 = 1.28 with " +
                 "||M_anti||^2 exactly 0. Both guarded assertions that are vacuous. Repaired, and one test " +
                 "renamed Substantive_ -> Vacuous_. The right instrument was already in the same file, one " +
-                "test below: Y_Dephase_Equivariance_Substantive_M_Anti guards with ||M_anti||, not ||M||.",
+                "test below: Y_Dephase_Equivariance_Substantive_M_Anti guards with ||M_anti||, not ||M||. " +
+                "THE BLOCK-SPECTRUM LEAVES. Repaired, each a comparison within a tolerance " +
+                "called bit-exact or bit-for-bit, with their record in docs/CAUGHT_ERRORS.md " +
+                "(2026-10-04, the block spectrum's sector pairing): the claim strings and docstrings of " +
+                "LiouvillianBlockSpectrum and F71MirrorBlockRefinement, F1PalindromeOrbitPairing's anchor " +
+                "string, LiouvillianSectorSweep, the ScaleUpToN summary of F1GeneralTopologyVerifiedClaim, " +
+                "PROOF_F1_GENERAL_TOPOLOGY's " +
+                "MklDirect line and the N = 9 test's twin of it, MirrorWorld's Block.cs, which copied the " +
+                "claim string, the headers or comments of seven test files named in that record, and F93's " +
+                "registry heading, proof, claims and crosswalk row, its witness measured there. Four " +
+                "same-route comparisons there now compare exactly (F108's end-to-end test, the sweep's " +
+                "delegating overload, the native-memory parity tests' same-branch spectra and per-cell " +
+                "elements). The (B, D2) statements of F1OpenQuestions, F1FamilyRegistration, " +
+                "PalindromeResidualScalingClaim, the registry and the crosswalk lost the word too, though " +
+                "at N ≤ 6 the Python checks " +
+                "reproduce the closed form exactly behind a gate of rel < 1e-9, the arc's other kind. " +
+                "Leaves of the same kind, eigensolves compared within 1e-9 and called bit-exact " +
+                "or bit-for-bit, remain in T1BreakingInformationalTests, both CrossValidationVsComputeTests " +
+                "and Eq014GroundTruth, besides the F91 and F92 witnesses and two readings of the sector " +
+                "diagnostic in ON_THE_ADMIXTURE_AS_LEBENSADER. Other uses of the word remain in the " +
+                "repaired files and in the block-spectrum folders, untouched by that pass.",
             NextStep:
                 "TRIAGE BY THE OBJECT, NOT BY THE SENTENCE. The word splits cleanly by what kind of quantity " +
                 "the row is about, which sorts the bulk without opening every backing assertion: integers, " +

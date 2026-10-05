@@ -6,8 +6,8 @@ parameterised entry point. For a given (topology, N, J, γ) computes:
   - The slow mode's joint-popcount sector (p_col, p_row).
   - The slow mode's Pauli-basis light content ⟨n_XY⟩ and weight distribution.
   - The dissipation gap and its Absorption-Theorem cross-check.
-  - Per-sector slow eigenvalues (top 10 by smallest |Re|) for the F1-palindrome
-    pairing verification.
+  - Per-sector slow eigenvalues (top 10 by smallest |Re|) for the X^N pairing
+    (k, k) <-> (N-k, N-k), the square of the F1 mirror.
 
 Hamiltonian: H = (J/4) Σ_b (X_i X_j + Y_i Y_j + Z_i Z_j) on the bond list of
 the chosen topology. Uniform Z-dephasing γ per site.

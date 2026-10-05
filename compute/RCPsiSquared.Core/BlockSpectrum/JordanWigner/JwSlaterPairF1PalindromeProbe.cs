@@ -18,8 +18,11 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// non-K-closest stragglers is large, even though F1 is trivially satisfied at the
 /// theorem-level for the full spectrum. Empirically at N=5 (2,2) dim=100, both runs
 /// individually return genuine eigenvalues (checked against dense Evd) but their two top-K
-/// sets are NOT F1-paired with each other. The pair-wise residual is therefore an Arnoldi-
-/// convergence diagnostic, not a structural-F1 witness.</para>
+/// sets are NOT F1-paired with each other, and need not be: Π maps the sector (2,2) to (3,2),
+/// so the F1 mirrors of its eigenvalues lie in that other sector. On this XY chain a sector
+/// pairs within itself where a fold of the block lattice fixes it, at even N the sectors with
+/// p_c = N/2 or p_r = N/2 (PROOF_CODIM1_BY_ADDITIVITY §7 (b)); the pair-wise residual is an
+/// Arnoldi-convergence diagnostic there, not a structural-F1 witness.</para>
 ///
 /// <para><b>F1 (mirror-symmetry theorem, <c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c>):</b>
 /// the spectrum of <c>L = −i[H, ·] + Σ_l γ_l·(Z_l ρ Z_l − ρ)</c> is closed under
@@ -27,8 +30,11 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// Brecher — so the structural F1 prediction is independent of this probe. The probe's
 /// value: when its per-pair residuals ARE small, the slow- and fast-end Arnoldi runs sampled
 /// genuinely mirror-paired regions of the spectrum, providing a tight numerical sanity check
-/// on the sparse pipeline. When residuals are large, the sample-pair sets diverged
-/// (Arnoldi-depth issue), not the underlying F1.</para>
+/// on the sparse pipeline. When residuals are large in a sector that pairs within itself, the
+/// sample-pair sets diverged (Arnoldi-depth issue), not the underlying F1; in any other sector
+/// a mode's F1 mirror lies in another sector, and residuals are small only where eigenvalues of
+/// the sector happen to pair among themselves (at even N some do: six of sixteen in (1, 3) at
+/// N = 4).</para>
 ///
 /// <para><b>Why this primitive exists.</b> At N=10 the half-filling sector (p_c=5, p_r=5)
 /// has dimension 63 504; dense Evd needs ~64 GB and is infeasible. The two-shift sparse

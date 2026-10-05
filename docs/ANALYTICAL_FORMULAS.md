@@ -52,14 +52,20 @@ and there are fields violating clause 2 whose spectrum pairs regardless.
   (−1)^{n_Y+n_Z}·σ: Π sends Y→iZ, Z→iY per site, so Π² sends Y→−Y, Z→−Z and
   fixes I, X. That is exactly conjugation by the global X-string X⊗N = ⊗_l X_l.
   Hence Π² = X⊗N.
-- X⊗N commutes with the chain XY + Z-dephasing Liouvillian L; it pairs the
-  joint-popcount sectors (p_c, p_r) ↔ (N−p_c, N−p_r), so paired sectors share
-  spectra. This is the BlockSpectrum builder's sector-pairing shortcut, which
-  halves the number of eigendecompositions.
-- Π is order 4; F1² = Π² is its even power. The full order-4 Π is now also a
-  builder shortcut: F1PalindromeOrbitPairing (wired 2026-05-22) groups the
-  joint-popcount sectors into Π-orbits of 4, eigendecomposing one primary per
-  orbit, subsuming the Π² = X⊗N pairing with a further factor 2.
+- X⊗N commutes with the Z-dephasing Liouvillian L whenever H commutes with X⊗N (F63;
+  the XY and Heisenberg chains do, a Z field does not); it pairs the joint-popcount
+  sectors (p_c, p_r) ↔ (N−p_c, N−p_r), so paired sectors share spectra.
+- Π is order 4; F1² = Π² is its even power. Under the same condition the BlockSpectrum
+  builder solves one sector per Π-orbit of 4 (F1PalindromeOrbitPairing), copying the
+  Π²-image and reflecting the Π- and Π³-images by λ ↦ −2σ − λ: ρ ↦ ρ·X⊗N carries L to
+  −L† − 2σ ([THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md)'s far-end
+  relation, written there with U on the left), and ρ ↦ ρ†·X⊗N, the dagger taken first, maps
+  each sector onto its Π-image. With every site
+  dephased at a positive rate the reflection holds sector by sector, the Π-fixed sector with
+  itself included, exactly when the spectrum is palindromic ([F158](#f158)'s far kernel, Theorem 2 of
+  [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md));
+  the builder checks exactly [H, X⊗N] = 0, the case of that theorem's carrier X⊗N·D with D
+  constant, and solves every sector when it fails.
 - The repo held both halves typed but unconnected until the 2026-05-21 identification:
   PiOperator.SquaredEigenvalue returns Π²'s eigenvalue (−1)^{Σ bit_b} =
   (−1)^{n_Y+n_Z}; XGlobalChargeConjugationPairing carries the X⊗N action
@@ -92,8 +98,8 @@ and there are fields violating clause 2 whose spectrum pairs regardless.
 - Anchor: [the depolarizing residual closed-form proof](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
 
 **General-topology universality (closed 2026-05-18):**
-- The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends bit-exactly to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
-- Verification record: Python at N=5, 6 across named/random/disconnected/weighted/single-body; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock`; extended to N=8 across chain/ring/star/K_4 + disjoint-4-chain (opt-in SLOW_N8, all 65 536 eigenvalues/topology to 1e-6) and N=9 chain via the MklDirect native bridge (opt-in SLOW_N9, 2026-05-19). The typed `F1GeneralTopologyVerifiedClaim` records the full N=5..9 set (`VerifiedNValues = {5,6,7,8,9}`, frontier blocked at N=10).
+- The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
+- Verification record: Python across named and random graphs at N=5, 6, disconnected at N=6, single-body at N=5 and weighted at N=4; C# graph-aware at N=5 across chain/ring/star/disconnected; C# F1 palindromic-pairing identity at N=7 across chain/ring/star/K_4 + disjoint-3-chain via `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` with the X⊗N copy alone, so that each sector and its Π-image are separate eigensolves; extended to N=8 across chain/ring/star/K_4 + disjoint-4-chain (opt-in SLOW_N8, all 65 536 eigenvalues/topology to 1e-6) and N=9 chain via the MklDirect native bridge (opt-in SLOW_N9, 2026-05-19). The typed `F1GeneralTopologyVerifiedClaim` records the full N=5..9 set (`VerifiedNValues = {5,6,7,8,9}`, frontier blocked at N=10).
 - The substantive analytic content was already established in [the Cross-Term Formula proof](proofs/PROOF_CROSS_TERM_FORMULA.md) Lemma 3 + Corollary (bond-disjointness independent of connectivity); this closure adds the disconnected + weighted-edge sections plus the verification record.
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
 - Anchor: [the general-topology proof](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
@@ -3880,7 +3886,7 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 ---
 
-### F93. F71-anti-palindromic h spectral invariance (h-detuning parameter-Klein-V₄ twin of F91/F92) (Tier 1 derived, algebraic + bit-exact N=4,5; 2026-05-12)
+### F93. F71-anti-palindromic h spectral invariance (h-detuning parameter-Klein-V₄ twin of F91/F92) (Tier 1 derived, algebraic + witnessed to rounding at N=4,5; 2026-05-12)
 
 **For chain XY + per-site Z-detuning + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous longitudinal detuning h_l (Hamiltonian H = (J/2) Σ_b (XX+YY) + Σ_l h_l Z_l), the F71-refined diagonal-block eigenvalue multiset is invariant under any h-distribution satisfying**
 

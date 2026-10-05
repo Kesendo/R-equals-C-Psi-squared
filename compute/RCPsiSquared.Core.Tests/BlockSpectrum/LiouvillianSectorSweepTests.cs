@@ -15,14 +15,16 @@ namespace RCPsiSquared.Core.Tests.BlockSpectrum;
 /// sectorDim ceiling. Returns the union of computed eigenvalues plus an F1-palindrome
 /// witness verifying the spectrum is closed under λ → −λ − 2Σγ within numerical tolerance.
 /// At small N where the cap covers every sector the sweep reproduces the full 4^N spectrum
-/// bit-for-bit; at larger N some sectors are skipped and the witness operates on the
+/// (nearest neighbour within 1e-9); at larger N some sectors are skipped and the witness operates on the
 /// partial-but-symmetric collected set.
 ///
 /// <para>The F1 witness is expected to land at machine precision in this setup (truly XY +
-/// Z-dephasing → no F1-Brecher). The break mechanisms (T1 amplitude damping, depolarising
-/// noise, transverse-field Hamiltonians — see <see cref="F1.F1OpenQuestions"/> and
+/// Z-dephasing → no F1-Brecher). The break mechanisms (T1 amplitude damping and depolarising
+/// noise; see <see cref="F1.F1OpenQuestions"/> and
 /// <c>PalindromeResidualTests.F1_Palindrome_BreaksFor_T1Dissipator</c>) would lift the
-/// residual to <c>O(γ)</c> instead of <c>O(N · γ · ε_FP)</c>; this primitive's tight
+/// residual to <c>O(γ)</c> instead of <c>O(N · γ · ε_FP)</c>, and a Hamiltonian no unitary
+/// X⊗N·D with D diagonal commutes with, such as one carrying a Z field, would lift it as well (the sweep's
+/// summary); this primitive's tight
 /// residuals at N=10 confirm no Brecher is silently introduced.</para></summary>
 public class LiouvillianSectorSweepTests
 {
@@ -116,7 +118,9 @@ public class LiouvillianSectorSweepTests
     public void Build_UniformBondJEqualsOne_MatchesScalarJOverload(int N)
     {
         // Regression: passing bondJ = [1.0, ..., 1.0] (length N − 1) through the new per-bond
-        // overload must reproduce the scalar J = 1 overload bit-exact.
+        // overload must reproduce the scalar J = 1 overload, which delegates to it with the
+        // same input: one computation run twice, so the spectra are compared exactly, on a
+        // LAPACK build that returns the same bits for the same input.
         var gamma = Enumerable.Repeat(0.1, N).ToArray();
         int fullCap = 1 << (2 * N);
         var bondJUniform = Enumerable.Repeat(1.0, N - 1).ToArray();
@@ -125,10 +129,9 @@ public class LiouvillianSectorSweepTests
         var scalarSweep = LiouvillianSectorSweep.Build(N, gamma, fullCap, J: 1.0);
 
         Assert.Equal(scalarSweep.CollectedEigenvalues.LongLength, perBondSweep.CollectedEigenvalues.LongLength);
-        MultisetAssert.NearestNeighbourEqual(
-            perBondSweep.CollectedEigenvalues, scalarSweep.CollectedEigenvalues,
-            tolerance: 1e-12, context: $"N={N} uniform-bondJ vs scalar J=1");
-        _out.WriteLine($"N={N}: per-bond bondJ=[1,..,1] matches scalar J=1 spectrum within 1e-12");
+        for (long i = 0; i < scalarSweep.CollectedEigenvalues.LongLength; i++)
+            Assert.Equal(scalarSweep.CollectedEigenvalues[i], perBondSweep.CollectedEigenvalues[i]);
+        _out.WriteLine($"N={N}: per-bond bondJ=[1,..,1] matches scalar J=1 spectrum exactly");
     }
 
     [Theory]
@@ -206,8 +209,9 @@ public class LiouvillianSectorSweepTests
                          // and X⊗N partners (dim 5400 each, the next tier of sectors).
     public void Build_AtN10_PartialCoverage_F1PalindromeHolds(int sectorDimCap)
     {
-        // F1 palindrome should hold on the symmetric partial collected set at any cap
-        // (X⊗N pairing keeps included-sector set closed under the F1 involution).
+        // F1 palindrome should hold on the partial collected set at any cap: the cap keeps
+        // the included-sector set closed under Π, which preserves a sector's size
+        // C(N, p_c)·C(N, p_r).
         var gamma = Enumerable.Repeat(0.05, 10).ToArray();
         var sw = System.Diagnostics.Stopwatch.StartNew();
         var sweep = LiouvillianSectorSweep.Build(N: 10, gamma, sectorDimCap);
