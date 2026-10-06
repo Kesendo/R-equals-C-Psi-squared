@@ -12,7 +12,7 @@ equal to Z (a leg on I makes the term a field, which the section
 *Per-letter rates* treats), on any graph, uniform Z-dephasing.
 This includes Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
 **Does NOT establish:** amplitude damping, the one noise considered here that is not
-diagonal in the Pauli basis (its chain values, measured, are under Open questions). Shadow-crossing couplings (X_i Z_j,
+diagonal in the Pauli basis (its values, measured, are under Open questions). Shadow-crossing couplings (X_i Z_j,
 Y_i Z_j) are F49c, non-uniform γ is F49d, and light along X, Y and Z per
 site, depolarizing included, is the section *Per-letter rates* below.
 
@@ -297,13 +297,20 @@ On [the letter cube](../THE_ONE_SQUARE.md) Step 1′ is the centred light formul
   thermal paragraph reads. The lights' part is derived, on any graph, for bonds
   whose two letters see equal light (both letters in {X, Y}, or both Z): the per-letter
   section with γ/4 along X and Y gives γ²·((N − 2)/2)·‖L_H‖². The move's part is
-  **measured on the chain**, at uniform rate γ and coupling J (H = J·Σ σσ):
-  {L_H, lights} and {L_H, M} are orthogonal, and ‖{L_H, M}‖² = 32(N − 1)²,
+  **measured**, at uniform rate γ and coupling J (H = J·Σ σσ): {L_H, lights} and
+  {L_H, M} are orthogonal, and on the chain ‖{L_H, M}‖² = 32(N − 1)²,
   32(N − 1)(2N − 3), 32(N² − N − 1) and 32(3N² − 6N + 2), each times
   γ²J²·4^(N−2), for XX, XX+YY, Ising and Heisenberg bonds, the Heisenberg value
-  the sum of the XX+YY and Ising ones. Read off N = 2 to 5 and predicted exactly
-  at N = 6; not derived ([`cube_old_questions_gate.py`](../../simulations/cube_old_questions_gate.py) G8, integer data
-  compared with ==). Other graphs are not read. (Depolarizing is diagonal, a Pauli channel, and is
+  the sum of the XX+YY and Ising ones; read off N = 2 to 5 and predicted exactly
+  at N = 6. On ring, star and complete graphs (N = 3 to 5) the XX and XX+YY parts
+  are bond-additive, |E|·32(N − 1) and |E|·32(2N − 3) times γ²J²·4^(N−2), the
+  chain values being the case |E| = N − 1. The Ising part is not: it is
+  32·[(N − 1)·|E| + Σ_v C(deg v, 2)]·γ²J²·4^(N−2), each pair of bonds sharing a
+  site adding 32·γ²J²·4^(N−2); on the chain, with N − 2 such pairs, the Ising
+  part is 32(N² − N − 1)·γ²J²·4^(N−2). The
+  Heisenberg part is the XX+YY part plus the Ising part on every graph read, and
+  the orthogonality holds for all four bond types there. Not derived
+  ([`cube_old_questions_gate.py`](../../simulations/cube_old_questions_gate.py) G8, integer data compared with ==). (Depolarizing is diagonal, a Pauli channel, and is
   answered in the per-letter section.)
 - **Shadow-crossing couplings:** is there a modified formula for
   couplings like X_i Z_j? If so, it would involve additional bond-site

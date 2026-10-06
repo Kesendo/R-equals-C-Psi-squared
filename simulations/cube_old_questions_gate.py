@@ -1,4 +1,4 @@
-"""Gate for four old open questions answered on the letter cube (exact unless a line says "reading").
+"""Gate for old open questions answered on the letter cube (exact unless a line says "reading").
 
 G5  The Marrakesh f83 fingerprint cells. Z dephasing is diagonal in the Pauli basis and keeps every string; a
     commutator -i[h, P] with an H term adds h's Klein cell (n_XY parity, w_YZ parity) and turns the y-parity (the
@@ -19,9 +19,16 @@ G7  F137 at H != 0, pure amplitude damping, any site rates: the ingredients of t
     X^N H_eff X^N = H_eff^dagger - (i/2) Gamma. The palindrome about -Gamma/2 is printed as a reading, and so is
     the pairing of two Hamiltonians outside the conditions (XX bonds alone, DM bonds XY - YX). For DM the weaker
     X^N step is exact: X^N H X^N = conj(H) and X^N H_eff X^N = conj(H_eff) - (i/2) Gamma.
-G8  F49's cross term under amplitude damping on the chain: D[sigma^-] = (g/4)(D_X + D_Y) + M, M the move I -> Z;
+G8  F49's cross term under amplitude damping: D[sigma^-] = (g/4)(D_X + D_Y) + M, M the move I -> Z;
     {L_H, lights} and {L_H, M} are orthogonal and the move's part is 32 (N-1)^2, 32 (N-1)(2N-3), 32 (N^2-N-1),
-    32 (3N^2-6N+2) times g^2 4^(N-2) for XX, XY, ZZ, Heisenberg. Entries are dyadic, so the norms are exact.
+    32 (3N^2-6N+2) times g^2 4^(N-2) for XX, XY, ZZ, Heisenberg on the chain; on ring, star and complete graphs
+    the XX and XX+YY parts are bond-additive, |E| times 32 (N-1) and 32 (2N-3); the Ising part is
+    32 [(N-1)|E| + sum_v C(deg v, 2)], each pair of bonds sharing a site adding 32 (times g^2 4^(N-2)), and Heisenberg the sum.
+    Entries are dyadic, so the norms are exact.
+G9  n_XY parity (the character of Ad_{Z^N}, (-1)^(p - q) on |a><b|) under amplitude damping: sigma^- rho sigma^+ lowers
+    bra and ket together, so p - q stays a symmetry and the parity is its shadow; the blocks of L (components of its
+    sparsity graph, an exact count) are the 2N + 1 values of p - q for XXZ, the two parities for XX bonds alone (an H
+    that changes the excitation number by two), and one block once a transverse X field is on.
 Sweep before writing: docs/ANALYTICAL_FORMULAS.md (F4, F49e, F88a, F88b, F137, F155), docs/proofs/ (the complement
 connection's Theorem 2, PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS, MIRROR_SYMMETRY_PROOF's Scope, PROOF_CROSS_TERM_FORMULA,
 PROOF_F155), experiments/THERMAL_BREAKING.md, data/ibm_f83_signature_april2026, fw.Confirmations (the f83 entry),
@@ -346,9 +353,9 @@ for N, topo in ((3, "chain"), (4, "chain"), (4, "ring")):
             check(f"G7 {topo} N={N} DM: X^N H X^N = conj(H) != H and X^N H_eff X^N = conj(H_eff) - (i/2) Gamma exactly", okc and okd)
 
 # ---------------------------------------------------------------- G8
-def g8(N, terms):
+def g8(N, terms, bonds=None):
     D = 2 ** N; Id = np.eye(D * D)
-    H = ham(N, terms, bonds_chain(N))
+    H = ham(N, terms, bonds if bonds is not None else bonds_chain(N))
     LH = -1j * (lr(H, np.eye(D)) - lr(np.eye(D), H))
     LD = sum(dissip(op(N, {l: SM})) for l in range(N))
     light = sum(0.25 * (lr(op(N, {l: PM["X"]}), op(N, {l: PM["X"]})) + lr(op(N, {l: PM["Y"]}), op(N, {l: PM["Y"]})) - 2 * Id) for l in range(N))
@@ -367,6 +374,66 @@ for name, (terms, form) in FORMS.items():
         check(f"G8 {name} chain N={N}: lights and move orthogonal, move part = {form(N)}*4^(N-2)",
               AB == 0.0 and B2 == form(N) * 4 ** (N - 2) and A2 == (N - 2) / 2 * LH2,
               f"B2 {B2:.0f}, cross {AB}, A2/|L_H|^2 {A2 / LH2}")
+
+GRAPHS = {"ring": lambda N: [(i, (i + 1) % N) for i in range(N)], "star": lambda N: [(0, i) for i in range(1, N)],
+          "complete": lambda N: [(i, j) for i in range(N) for j in range(i + 1, N)]}
+PER_BOND = {"XX": ([("X", "X")], lambda N: 32 * (N - 1)), "XY": ([("X", "X"), ("Y", "Y")], lambda N: 32 * (2 * N - 3))}
+for name, (terms, per) in PER_BOND.items():
+    for gname, gb in GRAPHS.items():
+        for N in (3, 4, 5):
+            E = gb(N)
+            A2, B2, AB, LH2 = g8(N, terms, E)
+            check(f"G8 {name} {gname} N={N}: lights and move orthogonal, move part = |E|*{per(N)}*4^(N-2), bond-additive",
+                  AB == 0.0 and B2 == len(E) * per(N) * 4 ** (N - 2) and A2 == (N - 2) / 2 * LH2,
+                  f"B2 {B2:.0f}, cross {AB}")
+def adj_pairs(N, E):                                        # sum over sites of C(deg, 2): bond pairs sharing a site
+    deg = [sum(1 for e in E if v in e) for v in range(N)]
+    return sum(d * (d - 1) // 2 for d in deg)
+CLOSED = {"ZZ": ([("Z", "Z")], lambda N, E: 32 * ((N - 1) * len(E) + adj_pairs(N, E))),
+          "Heisenberg": ([("X", "X"), ("Y", "Y"), ("Z", "Z")], lambda N, E: 32 * ((3 * N - 4) * len(E) + adj_pairs(N, E)))}
+for name, (terms, form) in CLOSED.items():
+    for gname, gb in list(GRAPHS.items()) + [("chain", bonds_chain)]:
+        for N in (3, 4, 5):
+            E = gb(N)
+            A2, B2, AB, LH2 = g8(N, terms, E)
+            check(f"G8 {name} {gname} N={N}: move part = {form(N, E)}*4^(N-2) = 32[(..)|E| + sum_v C(deg v, 2)], orthogonal",
+                  AB == 0.0 and B2 == form(N, E) * 4 ** (N - 2) and A2 == (N - 2) / 2 * LH2, f"B2 {B2:.0f}")
+_, zz_chain, _, _ = g8(4, [("Z", "Z")])                    # so Ising is not bond-additive: per bond, chain != ring
+_, zz_ring, _, _ = g8(4, [("Z", "Z")], GRAPHS["ring"](4))
+check("G8 ZZ N=4: move part 5632 on the chain (3 bonds), 8192 on the ring (4 bonds), so no single per-bond value",
+      zz_chain == 5632 and zz_ring == 8192 and zz_chain * 4 != zz_ring * 3, f"chain {zz_chain:.0f}, ring {zz_ring:.0f}")
+
+# ---------------------------------------------------------------- G9
+def blocks(L):                                              # connected components of L's sparsity graph on |a><b|
+    n = L.shape[0]; parent = list(range(n))
+    def f(x):
+        while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    rows, cols = np.nonzero(L)
+    for r, c in zip(rows, cols): parent[f(r)] = f(c)
+    lab = [f(x) for x in range(n)]
+    return lab, len(set(lab))
+for N in (3, 4):
+    D = 2 ** N; I = np.eye(D); b = bonds_chain(N)
+    pc = [popc(x) for x in range(D)]
+    diff = [pc[a] - pc[c] for a in range(D) for c in range(D)]
+    deph = sum(0.25 * (l + 1) * dissip(op(N, {l: SM})) + 0.125 * (l + 2) * dissip(op(N, {l: PM["Z"]})) for l in range(N))
+    xxz = ham(N, [("X", "X"), ("Y", "Y")], b) + 0.5 * ham(N, [("Z", "Z")], b)
+    cases = (("XXZ", xxz, 2 * N + 1, "diff"), ("XX bonds alone", ham(N, [("X", "X")], b), 2, "parity"),
+             ("XXZ + X field on site 0", xxz + 0.5 * op(N, {0: PM["X"]}), 1, None))
+    for name, H, expect, label in cases:
+        L = -1j * (lr(H, I) - lr(I, H)) + deph
+        lab, nb = blocks(L)
+        if label == "diff":
+            keyed = all(len({diff[k] for k in range(D * D) if lab[k] == r}) == 1 for r in set(lab))
+            labels_ok = keyed and len({diff[k] for k in range(D * D)}) == nb
+        elif label == "parity":
+            labels_ok = all(len({diff[k] % 2 for k in range(D * D) if lab[k] == r}) == 1 for r in set(lab))
+        else:
+            labels_ok = True
+        check(f"G9 N={N} {name} + amplitude damping + Z dephasing: {nb} blocks (expected {expect})"
+              + ({"diff": ", one per value of p - q", "parity": ", the two n_XY parities"}.get(label, "")),
+              nb == expect and labels_ok)
 
 print("\nALL PASS" if not FAILS else f"\n{len(FAILS)} FAIL")
 sys.exit(1 if FAILS else 0)

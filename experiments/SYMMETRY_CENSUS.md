@@ -29,8 +29,6 @@ This decomposes the operator space into (N+1)² sectors labeled by (w_bra, w_ket
 
 **Consequence.** The [n_XY parity selection rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) is correct and valuable operationally (it proves SE states cannot reach odd-parity modes), but it does not provide block-diagonalization beyond what U(1) conservation already gives. The "even" and "odd" subspaces V_even, V_odd are simply the unions of sectors (w, w') with |w − w'| even or odd, respectively.
 
-This was not previously noted in the repo.
-
 ### 1.3 Spin-flip X⊗N
 
 **Symmetry:** U = X₁ ⊗ X₂ ⊗ ... ⊗ X_N conjugation. UHU† = H (the Heisenberg Hamiltonian is spin-flip invariant). UL_kU† = −L_k (since XZX = −Z), but the dissipator is quadratic in L_k, so the overall Liouvillian is invariant.
@@ -166,7 +164,7 @@ The chain has the fewest degeneracies (488 distinct out of 1024) and the richest
 
 ## 6. Open questions from this census
 
-1. **Why does n_XY parity not add structure?** The redundancy with U(1) is proven, but the physical reason deserves a sentence: it is because the Heisenberg Hamiltonian conserves excitation number exactly, and Z-dephasing preserves it exactly. The n_XY count equals the Hamming distance, and the Hamming distance parity is determined by the excitation-number difference. In a model where excitation number is NOT conserved (amplitude damping, transverse field), n_XY parity would provide independent information.
+1. **When does n_XY parity add structure?** The n_XY count of |i⟩⟨j| is the Hamming distance, whose parity is that of w_bra − w_ket, so wherever excitation number is conserved the parity adds nothing (§1.2). Amplitude damping does not change that: σ₋ρσ₋† lowers both weights together, so the joint (w_bra, w_ket) grading breaks while w_bra − w_ket stays a symmetry, and the parity is again its shadow ([the parity selection rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md), its amplitude-damping paragraph). A transverse field breaks the parity outright ([F61](../docs/ANALYTICAL_FORMULAS.md), Breaks for; [the direct sum](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md)). The parity is independent information for a Hamiltonian that changes the excitation number in steps of two, XX bonds alone for instance. Counted on the chain at N = 3, 4 with amplitude damping and Z dephasing: the XXZ Liouvillian falls into 2N + 1 blocks, one per value of w_bra − w_ket; with XX bonds alone into exactly two, the two parities; with a transverse X field on one site into one ([`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G9).
 
 2. **High degeneracies explained.** For the N=5 uniform chain, max multiplicity is 14. The known block-diagonalizing symmetries predict at most 4× degeneracy, while the [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) gives Re(λ) = −2γ·⟨n_XY⟩_v for a full eigenmode v. The measured degenerate modes on a common rate grid value therefore share the same average light content, not necessarily one integer-weight basis sector. SU(2) is broken by dephasing. See [Degeneracy Hunt](DEGENERACY_HUNT.md) for the full analysis.
 

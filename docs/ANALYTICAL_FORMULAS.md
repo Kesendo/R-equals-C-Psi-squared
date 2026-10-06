@@ -1955,8 +1955,10 @@ B = 4γ_{i,a}² in any case.
 letter (depolarizing in either convention, γ/3 or γ per letter), all N ≥ 2.
 **Breaks for:** amplitude damping, which is not diagonal in the Pauli basis (on the letter cube: two
 equal transverse lights, which F49e covers, plus one move per site, I → Z; the lights' part follows from
-F49e on any graph, the move's part is measured in closed form on the chain at uniform rate and coupling
-for XX, XX+YY, Ising and Heisenberg bonds, [the cross-term proof's Open questions](proofs/PROOF_CROSS_TERM_FORMULA.md#open-questions)).
+F49e on any graph, the move's part is measured in closed form at uniform rate and coupling on chain, ring, star
+and complete graphs, N = 3 to 5 (the chain to N = 6): bond-additive for XX and XX+YY bonds; for Ising
+bonds the per-bond sum plus one term per pair of bonds sharing a site; Heisenberg the XX+YY part plus the
+Ising part; [the cross-term proof's Open questions](proofs/PROOF_CROSS_TERM_FORMULA.md#open-questions)).
 **Verified:** exactly, integer data compared with ==, at N = 3, 4 for random term sets and random
 rates, the special cases at N = 2 to 5
 ([`f49_per_letter_cross_term_gate.py`](../simulations/f49_per_letter_cross_term_gate.py)).
@@ -6588,8 +6590,8 @@ on the other bond 256/256); no on-site field in T1's component (transverse
 pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
 28/64).
 
-**Extended to a thermal bath (2026-08-05; the thermal pairing PROVEN exact at
-N=2,3 with the Heisenberg H, measured to N=5).** With a heating channel σ⁺
+**Extended to a thermal bath (2026-08-05; the thermal pairing exact at the script's rational
+rate profiles (two at N=2, one at N=3, J = 1) with the Heisenberg H, measured to N=5).** With a heating channel σ⁺
 beside the cooling channel σ⁻, per-site rates γ↓ᵢ and γ↑ᵢ, the palindrome
 survives and the centre becomes
 
@@ -6615,8 +6617,8 @@ rather than a failed search.
 γ and J the Liouvillian is rational over ℚ(i), so its characteristic polynomial
 is exact and the palindrome is the polynomial identity p(2c − x) ≡ p(x), with
 no eigensolver and no tolerance. It holds for N=2 thermal, N=2 cooling-only,
-N=2 detailed balance and N=3 thermal, and fails ("neither identity") for
-N=2 thermal + Z. Beyond that the canonical F1 distance sits at the eigensolver
+N=2 detailed balance and N=3 thermal, at the script's rational rates with J = 1,
+and fails ("neither identity") for N=2 thermal + Z. Beyond that the canonical F1 distance sits at the eigensolver
 floor for every thermal case to N=5.
 
 **Which rate, and why it is not F84's.** The centre follows the **sum**
@@ -6637,7 +6639,7 @@ the sum is the decay rate, the difference is the affine constant. So the only
 new sentence is the join, and it is the reason F137's centre and F84's
 violation can never be the same rate. Detailed balance separates
 the two cleanly: at γ↓ = γ↑ F84's violation is exactly zero, the centre is
-**not** zero but −Σγ↓, and the pairing is exact (proven above). That is F137's
+**not** zero but −Σγ↓, and the pairing is exact at the N=2 profile above. That is F137's
 own "Π fails ≠ the palindrome fails", read in the other direction.
 
 Caveat, because "different objects" invites over-reading: at H ≠ 0 the
@@ -6655,10 +6657,10 @@ thermal extension in
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
 (the boundary-law rewrite, `1c7dcf9`); the H=0 face and the cooling-only face with an
 excitation-conserving X⊗N-symmetric H are derived there, the thermal face with the Heisenberg H is
-proven at N=2, 3 and measured to N=5. **Typed:** not yet (Tier1Candidate). Open: typing;
+exact at the script's rational rate profiles at N=2, 3 and measured to N=5. **Typed:** not yet (Tier1Candidate). Open: typing;
 a proof of the thermal H ≠ 0 **pairing** at general N (σ⁺ beside σ⁻ breaks the
 triangularity). The centre at H ≠ 0 is the trace identity above and needs no
-proof, and the thermal H ≠ 0 pairing at N=2 and N=3 is settled exactly.
+proof.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
 [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose summary row called the

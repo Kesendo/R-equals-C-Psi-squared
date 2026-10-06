@@ -279,8 +279,8 @@ def main():
     for tag, n, J, a, b, c_z in exact_cases:
         verdict, centre = exact_palindrome_verdict(n, J, a, b, c_z)
         out(f"    {tag:26s} centre {str(centre):>8s}   {verdict}")
-    out("    At these N the thermal palindrome is PROVEN for the Heisenberg H,")
-    out("    not measured, and the Z + amplitude break is proven too. The last")
+    out("    At these rates the thermal palindrome is exact for the Heisenberg H,")
+    out("    not measured, and the Z + amplitude break is exact too. The last")
     out("    row is the case that must fail; without it the section could not.")
 
     out()

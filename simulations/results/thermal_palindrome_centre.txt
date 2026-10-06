@@ -24,8 +24,8 @@ F137 extended from sigma^- to sigma^- + sigma^+.
     N=2 detailed balance       centre     -2/5   EXACT palindrome, p(2c-x) == p(x)
     N=3 thermal                centre   -23/40   EXACT palindrome, p(2c-x) == p(x)
     N=2 thermal + Z            centre     -5/8   BROKEN, neither identity holds
-    At these N the thermal palindrome is PROVEN for the Heisenberg H,
-    not measured, and the Z + amplitude break is proven too. The last
+    At these rates the thermal palindrome is exact for the Heisenberg H,
+    not measured, and the Z + amplitude break is exact too. The last
     row is the case that must fail; without it the section could not.
 
 --- 3. larger N, where only the eigensolver reaches ---

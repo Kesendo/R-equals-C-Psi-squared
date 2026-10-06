@@ -7,7 +7,7 @@ occupation spectral census F137 palindrome centre frequency bins V(N)
 **Status:** V(N) = 1 + cos(π/N) is exact on the (0,1) coherence block under
 uniform Z-dephasing and proven for all N through D10; that the block also holds
 the Liouvillian's best Q is measured at N = 2 to 6 and open beyond. The thermal
-palindrome is exact at N = 2 and 3 (rational characteristic polynomial) and at
+palindrome is exact at the script's rational rate profiles at N = 2 and 3 (rational characteristic polynomial) and at
 the eigensolver floor to N = 5. The self-consistent occupation is excluded by
 an identity for β > 0. The frequency counts are a four-decimal binning protocol
 on a finite grid; n̄ is an external channel parameter throughout.
@@ -304,7 +304,7 @@ what "the centre" means for a palindrome.
 
 Where the rates are rational the characteristic polynomial is exact, and the
 palindrome is the identity p(2c − x) ≡ p(x). It holds with the Heisenberg H at
-N = 2 and N = 3, no eigensolver anywhere, and the same test returns "neither"
+N = 2 and N = 3 at the rational rate profiles the script uses (two at N = 2, one at N = 3), no eigensolver anywhere, and the same test returns "neither"
 for N = 2 with the thermal bath beside Z-dephasing, so that break is proven
 there as well. At N = 2 to 5, with independently drawn per-site rates, the
 canonical F1 distance at the trace centre sits at the eigensolver floor

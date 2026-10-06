@@ -370,7 +370,9 @@ because it is a different channel rather than another axis:
   With the Heisenberg H the thermal case does better than "measured". At
   rational rates the Liouvillian is rational over ℚ(i), so its characteristic
   polynomial is exact and the palindrome is the identity p(2c − x) ≡ p(x): it
-  holds at N=2 and N=3 with no eigensolver anywhere, and fails for T1 + Z, so
+  holds at N=2 and N=3 at the rational rate profiles of
+  [`thermal_palindrome_centre.py`](../../simulations/thermal_palindrome_centre.py)
+  (two at N=2, one at N=3, J = 1), with no eigensolver anywhere, and fails for T1 + Z, so
   the break is proven too. To N=5 the canonical F1 distance sits at the floor.
 
   Two things this section deliberately keeps apart. The **centre** is a trace

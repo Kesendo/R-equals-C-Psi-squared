@@ -503,7 +503,7 @@ dynamics. No palindromic structures.
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
 | 4. Finite-T generalization of **Π**? | Obstructed: the thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y), a map that commutes with [H, ·] instead of anti-commuting, so no Π of this shape exists at T < ∞ | **UNLIKELY** (fundamental obstruction, and it is against Π) |
-| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here, H ≠ 0 measured N=2–5) |
+| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N at n̄ = 0 for an excitation-conserving X⊗N-symmetric H) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
 
@@ -540,7 +540,7 @@ computes the per-site rates
 to r, and concludes that rate-pairing is possible in principle. It is: r is the
 total per-site rate γ↓ + γ↑, the tensor sum over sites gives a palindrome
 centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too,
-measured at N = 2 through 5. See [F137](ANALYTICAL_FORMULAS.md). What is
+exact at the script's rational rate profiles at N = 2 and 3 and measured through 5 (at n̄ = 0 derived at every N). See [F137](ANALYTICAL_FORMULAS.md). What is
 lost at finite T is the operator, not the symmetry of the spectrum, which is
 the distinction F137 was minted to draw.
 
