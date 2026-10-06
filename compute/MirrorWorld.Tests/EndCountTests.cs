@@ -584,7 +584,7 @@ public class EndCountTests
     [Fact]
     public void Non_Commuting_Jumps_Go_Through_The_String_Route()
     {
-        // The colouring page's Open item: jumps X and Z on site 0 of three, sites 1, 2 undephased,
+        // The colouring page's row in "Two letters on a site": jumps X and Z on site 0 of three, sites 1, 2 undephased,
         // H = 1 (x) diag(1,2,3,4) + X (x) (|0><3| + h.c.) + Z (x) ((|1> + |2>)<3| + h.c.); W_ is spanned by
         // Y (x) diag(1,1,1,-1). H is expanded into Pauli strings through dense matrices, c_P = Tr(P H)/8.
         var m = new Complex[8, 8];

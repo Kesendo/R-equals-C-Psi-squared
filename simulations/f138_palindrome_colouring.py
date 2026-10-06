@@ -59,8 +59,8 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      phase gauge to an X^N-symmetric Hamiltonian: on the 36 two-term bilinear pairs on the open chain
      at N = 3 (experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md: 22 palindromic, 14 hard;
      hypotheses/THE_OTHER_SIDE.md: 26 break the parity), every palindromic pair gets a diagonal V
-     with [V H V^dagger, X^N] = 0, six decades below the parity breaking of H as written. (iv) the
-     commuting hypothesis is needed: jumps X and Z on site 0 of three, the other sites undephased,
+     with [V H V^dagger, X^N] = 0, six decades below the parity breaking of H as written. (iv) without
+     a jump that commutes with all the others the frame can fail: jumps X and Z on site 0 of three, the other sites undephased,
      an H whose W is spanned by Y (x) diag(1, 1, 1, -1); a frame image of a lit string has a second
      factor with eigenvalue split (2, 2) or (4, 0), so no frame exists although the palindrome holds.
   G  EXACT (sympy, sqrt 5). The golden router (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, F116) is a

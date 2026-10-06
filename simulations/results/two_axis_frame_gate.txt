@@ -1,0 +1,12 @@
+PASS G1 on one site, the operators anticommuting with X and Z are the multiples of Y, those commuting with both the multiples of 1
+PASS G1 s^2 - 1 = (a0^2 + |a|^2 - 1) 1 + 2 a0 a.sigma, so s^2 = 1 forces a0 a = 0: s = +-1 or n.sigma with |n| = 1; sympy's real solutions read the same two kinds  [['vector', 'vector', 'scalar', 'scalar']]
+PASS G2 m = 1, 5 rational axes n: the row pairs, dim commutant = dim W = 1 with W = span(Y (x) n.sigma), and A = Z + n.sigma carries Y (x) Z onto it, A Z A = 2(1 + n_z) n.sigma and [(1 (x) A) H (1 (x) A), Y (x) Z] = 0 (exact)
+PASS G2 control: H0 before symmetrisation does not pair (W = 0)
+PASS G3 the page's row: the commutant is span(1), W = span(Y (x) diag(1, 1, 1, -1)); its Hermitian unitaries are +-S, trace of s = +-2, neither 0 nor +-4: no frame
+PASS G3 s = v0^dagger (Z (x) 1) v0 is no Pauli string up to sign, so with W' = span(s) no Clifford frame exists
+PASS G3 a row on s = v0^dagger (Z (x) 1) v0, v0 a rational unitary (trace 0), pairs with dim commutant = dim W = 1, the frame V = 1 (x) v0 makes the lit string Y (x) Z (x) 1 commute with V H V^dagger (exact), and G = Y (x) 1 (x) 1 is not in W  [dim commutant = 1, dim W = 1 (modulo two primes)]
+PASS G3 the same construction on s = v0^dagger diag(1, 1, 1, -1) v0 (trace 2) pairs with dim commutant = dim W = 1, so its only Hermitian unitaries are +-s and the criterion says no frame  [dim commutant = 1, dim W = 1]
+PASS G4 the extension: jumps X, Z on site 0 and Z on site 1 pair, no lit string commutes with H, and V = P + (1 - P) F S with P = (1 + Z_1)/2 is unitary, commutes with every jump and frames each of the eight lit strings (exact)  [dim commutant = 1, dim W = 1]
+PASS G4 control: with P built from Z_0, which X_0 anticommutes with, V no longer commutes with X_0
+
+ALL PASS
