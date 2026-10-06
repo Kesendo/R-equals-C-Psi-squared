@@ -13,8 +13,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Welle 12 closure (2026-05-27).</b> Surfaced during the Welle 10d audit when
 /// the F112 sparse-rep refactor uncovered the basis-convention twist D · L_natural · D
-/// in the standard codebase pipeline; the diagonal D turned out to BE the operator-
-/// space lift of the Z↔Y dephase-letter swap, not just a basis change. Welle 12 Tasks 1
+/// in the standard codebase pipeline; the diagonal D turned out to swap the Z and Y
+/// palindrome operators, Π_Y = D·Π_Z·D, not just a basis change. Welle 12 Tasks 1
 /// and 2 closed the universal-N structural proofs.</para>
 ///
 /// <para><b>Three involutions on operator space</b> (all order-2 unitary, all built as
@@ -56,19 +56,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// axis (bit_b for d ∈ {Y, Z}, bit_a for d = X). The Welle 11 F112
 /// non-Hermitian extension is the prototype; the Welle 13 closure of F112-X
 /// and F112-Y (docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md) gives
-/// the full cross-dephase F112 family this way. F108 Parts 1, 2, 3 are
-/// Klein-V₄ equivalent per Welle 14
-/// (docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md): Part 3 = Part 1 via D
-/// (operator-space, bit_b-axis-preserving) and Part 2 = Part 1 via Hadamard
-/// transport (Hilbert-space, bit_a ↔ bit_b axis swap). On Π_5bilinear the
-/// operator-space Klein-V₄ assignment is PERMUTED relative to canonical Π_d:
-/// the {I, D, H} subgroup acts (D: Z↔Y, and H: Z↔X via
-/// H · Π_5b(Z) · H = Π_5b(X) bit-exact, closed 2026-05-29 in
-/// simulations/f108_bita_d_search.py), while Q_zx (= H·D) is the one that
-/// leaves the canonical Π_5b set. The canonical-Π pairings fail (Q_zx on Z↔X,
-/// H on Y↔X), which is why the original Welle-14 sweep read it as the {I, D}
-/// subgroup alone. L-transport (the Lindbladian, not the operator) still needs
-/// the Hilbert-space Hadamard, carried only by Q_zx (Route 2 mechanism).</para>
+/// the full cross-dephase F112 family this way. F108 Parts 1, 2, 3
+/// (docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md, gates
+/// simulations/f107_f110_route_gate.py G1 and simulations/f108_klein_transport_gate.py;
+/// on Π_5b the roles of H and Q_zx are exchanged relative to the canonical Π_d):
+/// the Klein-V₄ acts simply transitively on the four oriented Π_5b mirrors Π_5b(Z), Π_5b(X), Π_5b(Y) = (−1)^N·Π_5b(Z)⁻¹ and (−1)^N·Π_5b(X)⁻¹ (D: Z↔Y, H: Z↔X, Q_zx: X↔Y, each sending the remaining variant to (−1)^N·Π_5b(X)⁻¹). Part 2 follows from Part 1 by the Hadamard (Q_zx, landing on the other orientation) or by H, which carries Π_5b(Z) to Π_5b(X) and L_Z to L_X; Part 3 by the quarter turn about X, outside the V₄, which carries L_Z to L_Y and fixes Π_5b(Z), or by D on the mirror with the dissipator identity re-checked for Y (D keeps the letter).</para>
 ///
 /// <para><b>Route 2 (Hadamard transport via Q_zx)</b>: Q_zx is the
 /// operator-space lift of the Hilbert-space unitary U_H^⊗N (Hadamard ⊗N),
@@ -78,7 +70,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// are operator-space-only: they do NOT lift to Hilbert-space unitaries
 /// (D-conjugation would require V such that V·Y·V⁻¹ = −Y, V·X·V⁻¹ = X,
 /// V·Z·V⁻¹ = Z, which is impossible by Pauli algebra). So D fixes every
-/// letter dissipator and transports nothing between letters, while H = Q_zx·D
+/// letter dissipator and carries no channel between letters, while H = Q_zx·D
 /// carries L_Z to L_X as Q_zx does (landing the mirror on Π_X⁻¹); no element
 /// carries L_Z to L_Y. D does not rotate the dephasing letter, so it carries no
 /// Z-dephasing channel to a Y-dephasing one; it does carry the F112-Z identity to
@@ -87,8 +79,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// quarter turn R_x(π/2)^⊗N outside the V₄ and Route 1 confirm it independently.</para>
 ///
 /// <para>Bottom line: Klein-V₄ equivariance is genuine for Route 1
-/// (universal across all three letters) and partial for Route 2 within the V₄
-/// (both Q's transport L between Z and X, D transports none; the Y case needs no
+/// (universal across all three letters), and Route 2 within the V₄ moves the
+/// dephasing letter between Z and X only (both Q's do, D keeps the letter; the Y case needs no
 /// transport, Π_Y = Π_Z⁻¹ giving asymmetry_Y = −asymmetry_Z for every
 /// superoperator, F155). F1-family identities
 /// depending only on Π_d / Π_d² eigenvalue structure and Pauli-support
@@ -244,16 +236,8 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                          "transpose ρ ↦ ρ^T, so D·L_Z·D⁻¹ stays a valid Z-dephasing Lindbladian " +
                          "(= L_Z with H → −H^T), keeping Lindblad form without rotating the " +
                          "dephasing axis; Q_yx = Q_zx·D does rotate it, L_Z to L_X, landing the " +
-                         "mirror on Π_X⁻¹, and no element reaches L_Y. F108 Welle 14 closure " +
-                         "(PROOF_F108_KLEIN_V4_EQUIVALENCE.md): F108 Part 3 follows from Part 1 via " +
-                         "OPERATOR-SPACE D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact; bilinear " +
-                         "set fixed); F108 Part 2 follows from Part 1 via HILBERT-SPACE Hadamard " +
-                         "transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^*; bilinear-set bijection). " +
-                         "PERMUTED operator-space Klein-V₄ for Π_5b: the canonical-Π pairings fail " +
-                         "(Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X), H · Π_5b(Y) · H ≠ ±Π_5b(X), largest entry difference 2.0 " +
-                         "at N=1,2,3), but H serves the Z↔X pairing instead: H · Π_5b(Z) · H = Π_5b(X) " +
-                         "bit-exact (closed 2026-05-29). So D realizes Z↔Y and H realizes Z↔X on Π_5b at the " +
-                         "operator level, and the two do not compose inside the canonical set: Q_zx (= H·D) leaves it. " +
+                         "mirror on Π_X⁻¹, and no element reaches L_Y. F108 (PROOF_F108_KLEIN_V4_EQUIVALENCE.md): " +
+                         "the Klein-V₄ acts simply transitively on the four oriented Π_5b mirrors Π_5b(Z), Π_5b(X), Π_5b(Y) = (−1)^N·Π_5b(Z)⁻¹ and (−1)^N·Π_5b(X)⁻¹ (D: Z↔Y, H: Z↔X, Q_zx: X↔Y, each sending the remaining variant to (−1)^N·Π_5b(X)⁻¹). Part 2 follows from Part 1 by the Hadamard (Q_zx, landing on the other orientation) or by H, which carries Π_5b(Z) to Π_5b(X) and L_Z to L_X; Part 3 by the quarter turn about X, outside the V₄, which carries L_Z to L_Y and fixes Π_5b(Z), or by D on the mirror with the dissipator identity re-checked for Y (D keeps the letter). " +
                          "D does not rotate the dephasing letter (no Z-channel becomes a Y-channel) yet carries the " +
                          "F112-Z identity to F112-Y, the same fact as Pi_Y = Pi_Z^-1 (F155); the quarter turn R_x(pi/2)^N " +
                          "and Route 1 confirm it independently.");

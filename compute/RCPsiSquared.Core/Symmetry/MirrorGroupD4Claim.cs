@@ -65,8 +65,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// router W (two-sided P ≠ Q, non-involutive; it covers the n_Z-odd ceiling scope that D₄
 /// provably cannot), the crossover mirror M (continuous R_z(π/4) object), F71's spatial
 /// bond mirror, and the dephase-letter swaps Q_zx / Q_yx of
-/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the Z↔Y transposition is D itself and is
-/// inside; the other two need the X↔Z basis permutation and are outside). Adjoining them was
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (D swaps the Z and Y palindromizers and is
+/// inside; the other two pairs need the X↔Z basis permutation and are outside). Adjoining them was
 /// expected to give an S₃ ⋉ D₄ completion; §5 of the proof disproves that:
 /// the letter moves do not normalize D₄ and the closure has order 768/gcd(N,4), never 48.</para>
 ///
@@ -180,7 +180,7 @@ public sealed class MirrorGroupD4Claim : Claim
             yield return new InspectableNode("The cube filled (three axes = three characters)", summary: CubeCharacters);
             yield return new InspectableNode("Welle 12 re-read",
                 summary: "D·Π_Z·D = Π_Y (PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N) is the dihedral inversion " +
-                         "relation s·r·s = r⁻¹ with r = Π_Z, s = D: the Z↔Y dephase-letter swap and " +
+                         "relation s·r·s = r⁻¹ with r = Π_Z, s = D: swapping the Z and Y palindromizers and " +
                          "running the palindromizer backwards are the same operation.");
             yield return new InspectableNode("Truly criterion as character cell",
                 summary: "The diagonal Klein subgroup {I, 𝓕, D, 𝓕D} is jointly diagonal on Pauli strings " +

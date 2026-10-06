@@ -60,7 +60,7 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "Under Y-dephasing: no pair of Π²_Y-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part3Pi2YEvenAlwaysPalindromic()
-        : base("F108 Part 3: H built from Π²_Y-even bilinears + Y-dephasing always admits exact operator-level palindrome via Π_5bilinear (Y-deph variant); Y-dephasing sibling of F108 Part 1; also Klein-V₄ corollary of Part 1 via operator-space D-conjugation per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
+        : base("F108 Part 3: H built from Π²_Y-even bilinears + Y-dephasing always admits exact operator-level palindrome via Π_5bilinear (Y-deph variant); Y-dephasing sibling of F108 Part 1; also a corollary of Part 1 by D with the dissipator re-checked, or by the quarter turn about X, per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -109,14 +109,16 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "Hermitian H + bit_b-homogeneous dissipator c. Both Tier1Derived projections of the same " +
                          "bit_b Z₂-grading on the Pauli group.");
             yield return new InspectableNode("Klein-V₄ corollary mechanism (Welle 14, 2026-05-27)",
-                summary: "Part 3 follows directly from Part 1 by operator-space D-conjugation: D · Π_5b(Z) · D = Π_5b(Y) " +
+                summary: "Part 3 follows from Part 1 by D on the mirror: D · Π_5b(Z) · D = Π_5b(Y) " +
                          "bit-exact at N = 1, 2, 3 (D is the Welle-12 Klein-V₄ diagonal involution ⊗ diag(1,1,1,-1) " +
                          "on basis (I,X,Z,Y)). The bilinear set {XX, YY, YZ, ZY, ZZ} is shared with Part 1 (same bit_b " +
                          "axis) and is D-invariant: D acts on Pauli strings by sign (-1)^n_Y, which leaves the set " +
-                         "fixed (sign flips YZ/ZY but they appear with both signs in the sum). The Part 1 proof " +
-                         "transfers verbatim with d=Z→Y substitution: anti-commutation step uses the SAME per-site " +
-                         "(I↔X, Y↔Z) permutation, only Y/Z 2-cycle phase differs (+i ↔ −i), and in the diagonal-permutation dissipator " +
-                         "argument each phase meets its own inverse, so only the letter permutation matters. See " +
+                         "fixed (sign flips YZ/ZY but they appear with both signs in the sum). The anti-commutation pillar carries " +
+                         "over by D (D·[B,·]·D = ∓[B,·]); D keeps every dissipator on its letter, so the dissipator pillar is " +
+                         "re-checked for Y: M_Y has the SAME per-site (I↔X, Y↔Z) permutation, only the Y/Z 2-cycle phase differs " +
+                         "(+i ↔ −i), and in the diagonal-permutation dissipator argument each phase meets its own inverse, so only " +
+                         "the letter permutation matters. The quarter " +
+                         "turn about X is a second route: it carries L_Z to L_Y and fixes Π_5b(Z) = (−1)^N · Π_5b(Y)⁻¹. See " +
                          "PROOF_F108_KLEIN_V4_EQUIVALENCE.md §(c).");
         }
     }

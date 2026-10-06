@@ -112,7 +112,7 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "Under X-dephasing: no pair of Π²_X-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part2Pi2XEvenAlwaysPalindromic()
-        : base("F108 Part 2: H built from Π²_X-even bilinears + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1; also Klein-V₄ corollary of Part 1 via Hilbert-space Hadamard transport per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
+        : base("F108 Part 2: H built from Π²_X-even bilinears + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1; also a corollary of Part 1 by the Hadamard or by H per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -155,11 +155,10 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "Part 2 follows from Part 1 by Hilbert-space Hadamard transport: U_op = U_H^⊗N ⊗ (U_H^⊗N)^* " +
                          "maps L_Z(H_1) → L_X(U H_1 U^†) bit-exact; per-letter U_H sends Z↔X, Y→−Y, I→I, which " +
                          "bijects the Part-1 bilinear set {XX, YY, YZ, ZY, ZZ} (with sign flips) onto the Part-2 set " +
-                         "{ZZ, XX, XY, YX, YY}. NEGATIVE: operator-space Q_zx (Klein-V₄ Z↔X swap from Welle 12) does " +
-                         "NOT swap Π_5b(Z) ↔ Π_5b(X) at the operator level (largest residual entry 2.0); the operator-space " +
-                         "X↔Z letter swap H does, H · Π_5b(Z) · H = Π_5b(X). The " +
-                         "Hadamard route gives an equivalent palindrome operator U_op · Π_5b(Z) · U_op^† for L_X, " +
-                         "DIFFERENT from canonical Π_5b(X); both achieve F108 palindrome (Π_5b family is not unique). " +
+                         "{ZZ, XX, XY, YX, YY}. The Hadamard route's mirror U_op · Π_5b(Z) · U_op^† is (−1)^N · Π_5b(X)⁻¹, " +
+                         "the canonical Π_5b(X) in its other orientation (it differs from Π_5b(X) itself, largest entry 2.0); " +
+                         "the operator-space X↔Z letter swap H lands on Π_5b(X) itself, H · Π_5b(Z) · H = Π_5b(X), and " +
+                         "carries L_Z(H_1) to L_X(−U H_1ᵀ U^†) as well. " +
                          "See PROOF_F108_KLEIN_V4_EQUIVALENCE.md.");
         }
     }

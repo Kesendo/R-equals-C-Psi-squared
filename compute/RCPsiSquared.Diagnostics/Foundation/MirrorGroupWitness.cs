@@ -219,7 +219,7 @@ public sealed class MirrorGroupWitness : IInspectable
                 new InspectableNode("F71's bond mirror",
                     summary: "a spatial reflection of the chain (site k ↔ N+1−k), not an operator-space letter map."),
                 new InspectableNode("the dephase-letter swaps Q_zx, Q_yx (the S₃ completion, RESOLVED 2026-06-15)",
-                    summary: "the Z↔Y swap IS D (inside ⟨R,D⟩); the other two need the X↔Z basis permutation and are "
+                    summary: "D swaps the Z and Y palindromizers (inside ⟨R,D⟩); the other two pairs need the X↔Z basis permutation and are "
                            + "outside. The completion is resolved (arc linear_s3_mirror_completion, "
                            + "simulations/linear_s3_mirror_closure.py): the letter-S₃ exists (order 6, from the "
                            + "involutive Cliffords) but does NOT normalize D₄ "

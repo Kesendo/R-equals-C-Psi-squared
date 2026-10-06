@@ -24,10 +24,11 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 /// with any H (Hermitian or non-Hermitian) and each c_k bit_b-homogeneous, the asymmetry
 /// is exactly 0 bit-exact. See <see cref="LindbladBitBPiYBalance"/>.</para>
 ///
-/// <para><b>Welle 13 derivation route</b>: F112-Y is derived via Route 1 (axis-direct
-/// re-run of Welle-11 lemmas with d = Y substituted for d = Z); D-conjugation from
-/// F112-Z is NOT available because D-conjugation lacks a Hilbert-space unitary lift
-/// (per <c>PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section (d) Remark).</para>
+/// <para><b>Derivation routes</b>: F112-Y is F112-Z read through Π_Y = Π_Z⁻¹ (F155);
+/// Route 1 (axis-direct re-run of Welle-11 lemmas with d = Y substituted for d = Z) and
+/// the quarter turn about X derive it independently. D-conjugation carries the F112-Z
+/// identity but keeps the dephasing letter
+/// (<c>PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> section (d)).</para>
 ///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F112 +
 /// <c>docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md</c> +

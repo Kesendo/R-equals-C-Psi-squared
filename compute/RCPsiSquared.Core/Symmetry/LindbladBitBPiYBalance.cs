@@ -218,9 +218,9 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
                          "level: F112-Y is the same norm structure as F112-Z (so ‖M_+1/2‖² = ‖M_−1/2‖² holds via " +
                          "Route 1 directly), and additionally the M matrices themselves are signed-equivariant under " +
                          "D-conjugation per F114. F112-Y norm-level Tier1Derived scope is unaffected; F114 is " +
-                         "documentary sharpening that closes the M-level Z↔Y bookkeeping that the Welle 13 PROOF " +
-                         "explicitly does NOT claim (section (d) Remark: 'L_Y is not D-transportable' is " +
-                         "true for the full Lindblad-form L, but the H-commutator L_H component IS signed-equivariant).");
+                         "documentary sharpening that closes the M-level Z↔Y bookkeeping beside the Welle 13 proof's " +
+                         "reading that D does not carry the full Lindblad-form L_Z to L_Y (it keeps the letter), while " +
+                         "the H-commutator L_H component IS signed-equivariant.");
         }
     }
 }

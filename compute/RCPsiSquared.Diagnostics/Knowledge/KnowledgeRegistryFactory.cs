@@ -760,9 +760,9 @@ public static class KnowledgeRegistryFactory
             // BitB-axis F112-Y: Y-dephase sibling of F112-Z on the same bit_b axis
             // (Π_Y² and Π_Z² both grade by bit_b per F38). Same hypothesis on c
             // (bit_b-homogeneous), different polarity axis (Π_Y vs Π_Z). Tier1Derived
-            // universal N via Welle 13 Route 1 (axis-direct re-run with d = Y);
-            // D-conjugation from F112-Z is NOT available (D lacks Hilbert-space lift,
-            // per PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d) Remark). Typed
+            // universal N: F112-Z read through Π_Y = Π_Z⁻¹ (F155), with Welle 13
+            // Route 1 (axis-direct re-run with d = Y) and the quarter turn about X as
+            // independent routes; D carries the F112-Z identity but keeps the letter. Typed
             // ctor parent: F108 Part 3 (shared bit_b + Y-dephase foundation).
             // PolarityCubeMap's BitBClaims grows by 1.
             .RegisterLindbladBitBPiYBalance()

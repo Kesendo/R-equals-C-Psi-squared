@@ -7092,7 +7092,7 @@ public static class OpenArcsRegistry
                 "same day, closing docs/quantum: SUPERPOSITION (seven migrates to held-letter/" +
                 "arriving-light, the frame-header now 'the frame is the letter the light holds', " +
                 "plus the S1 physics catch: the Klein V4 acts on the four letters {I,X,Y,Z} and " +
-                "only the Hadamard lift turns the dephasing axis, the doc's three-letter shorthand " +
+                "only the two Q's turn the dephasing axis (Z <-> X), the Hadamard lift as a Hilbert-space unitary, the doc's three-letter shorthand " +
                 "was the proof's own warned-against compression; -2*gamma*k fenced empty-world + " +
                 "per-site; PTF cited with its Tier-2 label) and TELEPORTATION (register was already " +
                 "clean; the physics round caught the V4-inside-D4 BLOCKER: the Pauli-conjugation " +

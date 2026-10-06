@@ -23,8 +23,8 @@ public enum DConjugationSign
 /// <summary>F114 (Tier1Derived universal, bit-exact verified N = 1..4): closed-form sign
 /// functional ε(σ) for the action of D-conjugation on the H-commutator superoperator
 /// L_σ = −i[σ, ·] in the 4^N Pauli basis. D is the diagonal involution from
-/// <see cref="Pi2KleinV4DephaseSwapGroup.BuildD"/> (Welle 12 lift of the Z↔Y
-/// dephase-letter swap; D = diag((−1)^n_Y(α))).
+/// <see cref="Pi2KleinV4DephaseSwapGroup.BuildD"/> (Welle 12: it swaps the Z and Y
+/// palindrome operators; D = diag((−1)^n_Y(α))).
 ///
 /// <para><b>Theorem (F114):</b> For any single Pauli string σ ≠ I^{⊗N} on N qubits,</para>
 /// <code>
@@ -39,10 +39,10 @@ public enum DConjugationSign
 /// terms split across both parity classes and no single sign exists on L_H.</para>
 ///
 /// <para><b>Why it matters:</b> F114 refines the Welle 13 PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4
-/// statement "L_Y is not D-transportable" by exhibiting the precise ε-signed
+/// reading that D does not carry L_Z to L_Y, by exhibiting the precise ε-signed
 /// equivariance that survives on the H-commutator component. The full Lindblad-form
-/// L (including dissipator) is NOT D-transportable cross-letter (per the Welle 13
-/// proof), but the H-commutator superoperator L_H by itself IS signed-equivariant.
+/// L (including dissipator) keeps its dephasing letter under D (D·L_Z·D = L_Z with
+/// H → −Hᵀ), but the H-commutator superoperator L_H by itself IS signed-equivariant.
 /// Under the F112 hypothesis (Hermitian H + bit_b-homogeneous c), the dissipator
 /// contribution to the ±i Π-eigenspaces of M (i.e. M_+1/2 and M_−1/2 in the polarity
 /// decomposition) vanishes per F112 Step 3 / Step 4, and ε(H) controls the
@@ -193,8 +193,8 @@ public sealed class CommutatorDConjugationSign : Claim
                          "Step 4; these sectors come entirely from L_H, and F114 gives " +
                          "(M_±i)(L_H, Π_Y) = ε(H) · D · (M_±i)(L_H, Π_Z) · D bit-exact when " +
                          "ε(H) is well-defined. This refines the Welle 13 " +
-                         "PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4 statement 'L_Y is not " +
-                         "D-transportable' by exhibiting the ε-signed equivariance on the ±i " +
+                         "PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4 reading that D does not carry " +
+                         "L_Z to L_Y, by exhibiting the ε-signed equivariance on the ±i " +
                          "sectors that survives on the H-commutator component. F112's " +
                          "norm-level scope (‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant; " +
                          "F112 typed Claims (LindbladBitBPiBalance, LindbladBitAPiBalance, " +

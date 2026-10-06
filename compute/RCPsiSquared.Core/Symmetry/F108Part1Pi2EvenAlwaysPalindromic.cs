@@ -115,7 +115,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
         "Under Z-dephasing: no pair of Π²_Z-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part1Pi2EvenAlwaysPalindromic(F108Part2Pi2XEvenAlwaysPalindromic part2)
-        : base("F108 Part 1: H built from Π²-even bilinears + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear (base claim of the Klein-V₄-equivalent F108 family; Parts 2, 3 are Klein-V₄ corollaries per PROOF_F108_KLEIN_V4_EQUIVALENCE.md)",
+        : base("F108 Part 1: H built from Π²-even bilinears + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear (base claim of the F108 family; Parts 2, 3 are corollaries of it per PROOF_F108_KLEIN_V4_EQUIVALENCE.md)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -167,13 +167,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "Hermitian H + bit_b-homogeneous dissipator c. Both Tier1Derived projections of the same " +
                          "bit_b Z₂-grading on the Pauli group; F112 takes F108 Part 1 as typed ctor parent.");
             yield return new InspectableNode("F108 family Klein-V₄ equivalence (Welle 14, 2026-05-27)",
-                summary: "F108 Parts 2 and 3 are Klein-V₄ corollaries of Part 1 via complementary mechanisms: " +
-                         "Part 3 follows by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact, " +
-                         "bilinear set D-invariant); Part 2 follows by Hilbert-space Hadamard transport " +
-                         "(U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps L_Z to L_X bit-exact, bilinear-set bijection). " +
-                         "At the operator level Q_zx does NOT swap Π_5b(Z) ↔ Π_5b(X), but H does " +
-                         "(H · Π_5b(Z) · H = Π_5b(X) bit-exact), so Klein-V₄ acts on Π_5b as {I, D, H} " +
-                         "with D on Z↔Y and H on Z↔X; only Q_zx (= H·D) leaves the canonical set. " +
+                summary: "F108 Parts 2 and 3 are corollaries of Part 1: " +
+                         "the Klein-V₄ acts simply transitively on the four oriented Π_5b mirrors Π_5b(Z), Π_5b(X), Π_5b(Y) = (−1)^N·Π_5b(Z)⁻¹ and (−1)^N·Π_5b(X)⁻¹ (D: Z↔Y, H: Z↔X, Q_zx: X↔Y, each sending the remaining variant to (−1)^N·Π_5b(X)⁻¹). Part 2 follows from Part 1 by the Hadamard (Q_zx, landing on the other orientation) or by H, which carries Π_5b(Z) to Π_5b(X) and L_Z to L_X; Part 3 by the quarter turn about X, outside the V₄, which carries L_Z to L_Y and fixes Π_5b(Z), or by D on the mirror with the dissipator identity re-checked for Y (D keeps the letter). " +
                          "Full proof: PROOF_F108_KLEIN_V4_EQUIVALENCE.md. The three typed Claims remain " +
                          "separate to preserve their independent integration edges, but cross-reference this proof.");
         }
