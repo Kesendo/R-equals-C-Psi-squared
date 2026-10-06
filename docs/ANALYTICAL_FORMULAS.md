@@ -4556,19 +4556,22 @@ verification.
   diag(−1, −1, +1, +1). Part 3 is BitB axis (shares bit_b with Part 1); BitATwin slot is
   `BitBSpecific` (Y-deph has no meaningful bit_a analog).
 - **F108 Klein-V₄ equivalence (Welle 14, 2026-05-27):** Parts 2 and 3 are
-  Klein-V₄ corollaries of Part 1 via two complementary mechanisms.
-  Part 1 ↔ Part 3 via operator-space D-conjugation (D the transpose, Y ↦ −Y per
-  site; D · Π_5b(Z) · D = Π_5b(Y) bit-exact at N = 1, 2, 3; bilinear set fixed on bit_b axis). Part 1 ↔ Part 2
-  via Hilbert-space Hadamard transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps
-  L_Z → L_X bit-exact; per-letter Hadamard bijects Part-1 bilinear set onto
-  Part-2 bilinear set). On operator space, with H the X↔Z letter swap that
+  corollaries of Part 1. Part 1 ↔ Part 2 by the Hadamard (U_op = U_H^⊗N ⊗ (U_H^⊗N)^*
+  maps L_Z → L_X, the per-letter Hadamard bijects the Part-1 bilinear set onto the
+  Part-2 set, and the mirror lands on (−1)^N · Π_5b(X)⁻¹) or by H, defined below (mirror and
+  Lindbladian, L_Z(H₁) ↦ L_X(−U·H₁ᵀ·U†), U = U_H^⊗N). Part 1 ↔ Part 3 by the quarter turn about X
+  (L_Z → L_Y, fixing Π_5b(Z) = (−1)^N · Π_5b(Y)⁻¹) or by D the transpose, Y ↦ −Y per
+  site, on the mirror (D · Π_5b(Z) · D = Π_5b(Y), bilinear set fixed) with the dissipator
+  identity re-checked for Y, since D keeps the letter (L_Z(H₁) ↦ L_Z(−H₁ᵀ)). On operator space, with H the X↔Z letter swap that
   fixes I and Y and Q_zx = H·D, the pairings that serve the canonical mirrors
-  fail for Π_5b, Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) and H · Π_5b(Y) · H ≠ ±Π_5b(X)
+  land Π_5b on the other orientation, Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) and H · Π_5b(Y) · H ≠ ±Π_5b(X)
   (largest entry of the difference 2.0 at N = 1, 2, 3), while
   H · Π_5b(Z) · H = Π_5b(X) and Q_zx · Π_5b(X) · Q_zx = Π_5b(Y): D, H and Q_zx
   each swap one pair of the three variants (Z↔Y, Z↔X, X↔Y) and send the third
-  to Π_X ∘ Ad_{Y^⊗N}, outside the set (exact per site, gate
-  [`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py)). The three typed Claims are KEPT SEPARATE to preserve independent
+  to Π_X ∘ Ad_{Y^⊗N} = (−1)^N · Π_5b(X)⁻¹, the X mirror in its other orientation
+  (exact per site, gate
+  [`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py); the orientation and the
+  Lindbladian moves in [`f108_klein_transport_gate.py`](../simulations/f108_klein_transport_gate.py)). The three typed Claims are KEPT SEPARATE to preserve independent
   integration edges but cross-reference the equivalence proof.
 - **F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25):**
   hard cells y_par-asymmetric with Y-inversion. Aspect A by the colouring
@@ -5045,8 +5048,8 @@ script: `simulations/f113_break_formula_derivation.py`.
 
 Closed-form sign functional ε(σ) for the action of D-conjugation on the
 H-commutator superoperator L_σ = −i[σ, ·] in the 4^N Pauli basis, where
-D = diag((−1)^{n_Y(α)}) is the real diagonal unitary involution that lifts
-the Z↔Y dephase-letter swap to operator space (Welle 12: Π_Y = D·Π_Z·D).
+D = diag((−1)^{n_Y(α)}) is the real diagonal unitary involution that swaps
+the Z and Y palindrome operators on operator space (Welle 12: Π_Y = D·Π_Z·D).
 
 **Theorem (F114):** For any single Pauli string σ ≠ I^{⊗N} on N qubits,
 
@@ -5088,9 +5091,10 @@ identity
 
 holds when the dissipator contribution to M vanishes (F112 hypothesis: Hermitian H
 plus bit_b-homogeneous c) AND when ε(H) is well-defined (all H Pauli terms share
-n_Y parity). This refines the Welle 13 PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4
-statement "L_Y is not D-transportable" by exhibiting the precise M-level
-ε-signed equivariance that survives despite the L-level absence of D-transport.
+n_Y parity). This refines the PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4
+reading that D does not carry L_Z to L_Y by exhibiting the precise M-level
+ε-signed equivariance that survives although D keeps the letter on the Lindbladian
+(D · L_Z(H) · D = L_Z(−Hᵀ)).
 The F112 typed scope (norm-level ‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant.
 
 **Connection axes:**
@@ -5098,7 +5102,8 @@ The F112 typed scope (norm-level ‖M_+1/2‖² = ‖M_−1/2‖²) remains sign
   D the Π swap-operator across {Z, Y} dephase letters; F114 makes D the L_H
   sign-flip-operator with per-term n_Y bookkeeping.
 - F112: ε is sign-invariant under the F112 norm-level statement, so F112-Y
-  Tier1Derived (via Welle 13 Route 1) and F112 are mutually consistent.
+  (F112-Z read through Π_Y = Π_Z⁻¹, F155; Route 1 and the quarter turn independently)
+  and F112 are mutually consistent.
 - F108 Part 1+3: Z- and Y-dephase palindrome closures share the Π² bit_b
   grading; F114's ε(H) characterization gives the precise H-side condition
   under which the M_anti structure is signed-equivariant across {Z, Y}.
@@ -5417,8 +5422,8 @@ written down.
 **Deliberately outside:** K₁ (grades by site, not by letter), the golden router W (F116;
 two-sided, non-involutive, covering exactly the n_Z-odd ceiling territory that D₄'s
 class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), and
-the dephase-letter swaps Q_zx / Q_yx (the Z↔Y swap is D itself, which is Welle 12; the
-other two need the X↔Z basis move). The earlier expected **S₃ ⋉ D₄** completion was
+the dephase-letter swaps Q_zx / Q_yx (D swaps the Z and Y palindromizers, which is Welle 12;
+the other two pairs need the X↔Z basis move). The earlier expected **S₃ ⋉ D₄** completion was
 resolved in [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): letter S₃ does
 not normalize D₄; the coherence-space closure has order 768/gcd(N, 4), never 48.
 

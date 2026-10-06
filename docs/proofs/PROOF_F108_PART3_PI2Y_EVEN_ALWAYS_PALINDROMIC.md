@@ -1,12 +1,12 @@
 # PROOF F108 Part 3: Π²_Y-Even Bilinears Always Admit an Exact Palindrome Operator under Y-Dephasing
 
 **Status:** Tier 1 derived (closed-form via Y-dephasing variant of Π_5bilinear + F1-style algebra; Y-dephasing sibling of F108 Part 1).
-**Klein-V₄ corollary:** Welle 14 (2026-05-27) showed Part 3 follows from Part 1 by operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y) bit-exact); see `docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`. The direct proof below is the canonical Part 3 derivation; the Klein-V₄ corollary makes the equivariance explicit.
-**Date:** 2026-05-25 (direct proof); 2026-05-27 (Klein-V₄ corollary added).
+**Corollary of Part 1:** Part 3 also follows from Part 1, either by D on the mirror (D · Π_5b(Z) · D = Π_5b(Y), the bilinear set D-invariant, the dissipator identity re-checked for Y) or by the quarter turn about X, which carries the Lindbladian and fixes Π_5b(Z) = (−1)^N · Π_5b(Y)⁻¹; see `docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`. The direct proof below is the canonical Part 3 derivation.
+**Date:** 2026-05-25 (direct proof); 2026-05-27 (corollary of Part 1).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, Z-dephasing on the same BitB axis; this Part 3 mirrors its proof structure with the Y-dephase-appropriate phase choice)
-- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: Part 3 as a direct Klein-V₄ corollary of Part 1 via the D operator. The bilinear set is D-invariant; D · Π_5b(Z) · D = Π_5b(Y) bit-exact, so the Part 1 proof transfers verbatim with d=Z→Y substitution.)
+- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Part 3 from Part 1 by D on the mirror, the bilinear set being D-invariant and the dissipator identity re-checked for Y, or by the quarter turn about X on the Lindbladian.)
 - [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
 - [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (Y-dephasing truly criterion: #Y even AND #Z even, identical to Z-deph since Π_Y = Π_Z⁻¹)
 - [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family taxonomy; F108 Part 3 sits in the same P1 family as Part 1, with the Y/Z 2-cycle phase variant)
@@ -20,7 +20,7 @@ The proof carries over from Part 1 once the phase variant is identified. The ant
 
 The structural consequence is the third leg of the F87-hardness collapse: no pair of Π²_Y-even bilinears can be F87-hard under Y-dephasing. Together with Parts 1 and 2, the F108 trinity rules out hardness on Π²-even bilinears across all three single-letter dephase channels.
 
-Welle 14 later showed that Part 3 also follows from Part 1 as a D-conjugation corollary on operator space (the Welle 12 Task 1 diagonal involution D maps Π_5bilinear(Z) to Π_5bilinear(Y) bit-exactly). The direct proof is preserved as the canonical Part 3 construction; the D-conjugation route makes the equivariance with Part 1 explicit, and lets the F108 trinity be read as a single result with three Klein-V₄ images rather than three independent proofs.
+Part 3 also follows from Part 1 ([F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md)): either D, which maps Π_5bilinear(Z) to Π_5bilinear(Y) and fixes the bilinear set, the dissipator identity being checked for Y separately, or the quarter turn about X, which carries the Part-1 Lindbladian to the Part-3 one and fixes Π_5bilinear(Z). The direct proof is preserved as the canonical Part 3 construction.
 
 **Statement (Theorem F108 Part 3):** For any Hamiltonian H built as a linear combination of Π²_Y-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Y-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear (Y-deph variant) such that
 

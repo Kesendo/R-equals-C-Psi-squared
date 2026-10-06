@@ -1,12 +1,12 @@
 # PROOF F108 Part 2: Π²_X-Even Bilinears Always Admit an Exact Palindrome Operator under X-Dephasing
 
 **Status:** Tier 1 derived (closed-form via X-dephasing variant of Π_5bilinear + F1-style algebra; BitA twin of F108 Part 1).
-**Klein-V₄ corollary:** Welle 14 (2026-05-27) showed Part 2 also follows from Part 1 by Hilbert-space Hadamard transport (`docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`); the direct proof below is the canonical Π_5b(X) version and is preserved here.
-**Date:** 2026-05-25 (direct proof); 2026-05-27 (Klein-V₄ corollary added).
+**Corollary of Part 1:** Part 2 also follows from Part 1, by the Hadamard, which lands on (−1)^N · Π_5b(X)⁻¹, this proof's mirror in its other orientation, or by H, which carries Π_5b(Z) to Π_5b(X) and L_Z(H₁) to L_X(−U·H₁ᵀ·U†) (`docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`); the direct proof below is the canonical Π_5b(X) version.
+**Date:** 2026-05-25 (direct proof); 2026-05-27 (corollary of Part 1).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, BitB-axis sibling under Z-dephasing; this Part 2 mirrors its proof structure exactly)
-- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: Part 2 as a Klein-V₄ corollary of Part 1 via Hadamard transport. The proof below is the direct canonical-Π_5b(X) version; the Klein-V₄ corollary establishes existence of a Π_5b-family palindrome operator for L_X via a different representative U_op · Π_5b(Z) · U_op^†.)
+- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Part 2 from Part 1 by the Hadamard, whose mirror U_op · Π_5b(Z) · U_op^† = (−1)^N · Π_5b(X)⁻¹ is this proof's in the other orientation, or by H.)
 - [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
 - [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (X-dephasing truly criterion: #X even AND #Y even, from the Hadamard transport of Π_Z)
 - [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
@@ -20,7 +20,7 @@ The proof structure mirrors Part 1 exactly. There is an X-dephasing-specific pha
 
 The structural consequence is symmetric to Part 1: no pair of Π²_X-even bilinears can be F87-hard under X-dephasing, because the spectrum is palindromic by construction.
 
-Welle 14 later showed that Part 2 also follows from Part 1 as a Hadamard-transport corollary (the Hilbert-space Hadamard rotates the spin algebra to exchange X and Z, turning a Z-dephasing system into an X-dephasing one). The direct proof here, written by the F1 algebra applied to the X-axis Π_5bilinear variant, is preserved because it is the canonical construction; the Klein-V₄ corollary route is the higher-level perspective.
+Part 2 also follows from Part 1 ([F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md)): by the Hilbert-space Hadamard, which exchanges X and Z, turns a Z-dephasing system into an X-dephasing one and lands on this proof's mirror in its other orientation, or by H, which carries Π_5b(Z) to Π_5b(X) and the Lindbladian with it. The direct proof here, written by the F1 algebra applied to the X-axis Π_5bilinear variant, is preserved because it is the canonical construction.
 
 **Statement (Theorem F108 Part 2):** For any Hamiltonian H built as a linear combination of Π²_X-even 2-site bilinears {ZZ, XX, XY, YX, YY} on N sites with arbitrary real bond coefficients, and X-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear (X-deph variant) such that
 

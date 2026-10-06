@@ -193,7 +193,7 @@ The verifier [`simulations/f108_klein_v4_equivalence_verify.py`](../../simulatio
 | Dissipator identity M · D[d] · M⁻¹ = −D[d] − 2γ·I | 0 (all parts) | n/a | n/a |
 | Bilinear-set bijection Part 1 → Part 2 under per-letter Hadamard | True | n/a | n/a |
 
-The log's Step 6b says the two Lindbladian sides are related only by a non-Lindblad similarity transformation; that is false, since D · L_Z(H₁) · D = L_Z(−H₁ᵀ) is of Lindblad form (gate T2). The table's H row comes from `f108_bita_d_search.py`, not from the log.
+The table's H row comes from `f108_bita_d_search.py`, not from the log.
 
 ## (f) Implications
 

@@ -2,23 +2,24 @@
 
 PROOF_F108_KLEIN_V4_EQUIVALENCE.md left open (the answer now sits in its §(d.4)):
   "Part 2's BitA-twin status: ... Could the bit_a-axis version of D (a Z↔X swap analog)
-   intertwine Π_5b(Z) ↔ Π_5b(X) directly on operator space? Welle 14 shows the canonical
-   Q_zx fails. A search for a different operator-space involution that intertwines
+   intertwine Π_5b(Z) ↔ Π_5b(X) directly on operator space? [The canonical Q_zx lands on
+   the X mirror's other orientation.] A search for a different operator-space involution that intertwines
    Π_5b(Z) ↔ Π_5b(X) directly (analogous to D for Z↔Y) is open. The natural ansatz
    would be an operator-space involution sitting on the bit_a axis with the Y phase fixed
    but the X/Z phases flipped; we have not formally enumerated."
 
 This enumerates, and the answer is already in the Welle-12 Klein-V₄ group: the
 involution is H, the pure X↔Z basis swap with I and Y fixed (Pi2KleinV4DephaseSwapGroup).
-The F108 verifier tested Q_zx on the Z→X pairing (fails) and H on the Y→X pairing
-(fails), but never tested H on the Z→X pairing - exactly where it works. H is the
+The F108 verifier tested Q_zx on the Z→X pairing and H on the Y→X pairing (both land on
+the X mirror's other orientation), but never tested H on the Z→X pairing - exactly where it
+lands on Π_5b(X) itself. H is the
 "Y phase fixed, X/Z swapped" ansatz the proof guessed.
 
   H · Π_5b(Z) · H = Π_5b(X)   bit-exact, universal N.
 
 Why this is the bit_a-D and not a Hilbert move: a Hilbert unitary swapping X↔Z must
 send Y → −Y (since XZ = −iY forces ZX = +iY), i.e. it would be Q_zx, the Hadamard one,
-which carries the Y-flip that breaks Π_5b transport. H fixes Y while swapping X,Z, which
+which lands Π_5b(Z) on (−1)^N · Π_5b(X)⁻¹, the X mirror in its other orientation. H fixes Y while swapping X,Z, which
 is NOT a Pauli automorphism - a pure operator-space involution, exactly like D.
 
 Per-site maps from Pi5BilinearOperator.ActOnLetter, basis [I, X, Y, Z]:
@@ -135,17 +136,17 @@ def main():
         uni = np.allclose(G.conj().T @ G, np.eye(4), atol=TOL)
         report(f"{nm} is a unitary involution ({nm}²=I)", inv and uni)
 
-    # ---- B. Known landscape: D does Z↔Y; reproduce the two proof NEGATIVES ----
+    # ---- B. Known landscape: D does Z↔Y; the two pairings that land on the other orientation ----
     print("\nB. Reproduce the known F108 Klein-V₄ landscape")
     report("D · M_Z · D = M_Y  (D does Z↔Y for Π_5b, known positive)",
            np.allclose(D @ M["Z"] @ D, M["Y"], atol=TOL),
            f"   gap = {fro(D @ M['Z'] @ D - M['Y']):.2e}")
     gap_qzx = fro(Qzx @ M["Z"] @ Qzx - M["X"])
-    report("Q_zx · M_Z · Q_zx ≠ M_X  (proof negative: Q_zx fails Z→X)",
+    report("Q_zx · M_Z · Q_zx ≠ M_X  (it lands on the other orientation, below)",
            gap_qzx > 0.5, f"   gap = {gap_qzx:.3f} (proof reports 2.0 at max-norm)")
     gap_hyx = fro(H @ M["Y"] @ H - M["X"])
-    report("H · M_Y · H ≠ M_X  (proof negative: H fails Y→X)",
-           gap_hyx > 0.5, f"   gap = {gap_hyx:.3f}")
+    report("H · M_Y · H ≠ M_X, and = -M_X^-1 (the other orientation)",
+           gap_hyx > 0.5 and np.allclose(H @ M["Y"] @ H, -M["X"].conj().T, atol=TOL), f"   gap = {gap_hyx:.3f}")
 
     # ---- C. THE FINDING: H does Z→X for Π_5b (the pairing the proof never tested) ----
     print("\nC. The finding: H on the Z→X pairing")
@@ -184,12 +185,12 @@ def main():
     print("\nF. The Π_5b Klein-V₄ action, corrected")
     print("   D : Z↔Y  (operator-space, proven Welle 14)")
     print("   H : Z↔X  (operator-space, THIS script) - the open (ii) answer")
-    print("   Q_zx=H·D : Z→(phase-variant), NOT canonical Π_5b(X): overshoots")
-    # show Q_zx·M_Z·Qzx is a Π_5b-family phase variant of M_X (same support, flipped X/Y phases)
+    print("   Q_zx=H·D : X↔Y, and Z → -M_X^-1, the X mirror in its other orientation")
+    report("Q_zx · M_X · Q_zx = M_Y  (Q_zx does X↔Y on Π_5b)", np.allclose(Qzx @ M["X"] @ Qzx, M["Y"], atol=TOL))
+    # show Q_zx·M_Z·Qzx is -M_X^-1, the X mirror in its other orientation
     qzx_img = Qzx @ M["Z"] @ Qzx
-    same_support = np.allclose((np.abs(qzx_img) > TOL), (np.abs(M["X"]) > TOL))
-    report("Q_zx·M_Z·Q_zx has the SAME support as M_X but flipped X/Y-cycle phases "
-           "(a Π_5b-family variant, not canonical)", same_support)
+    other_orientation = np.allclose(qzx_img, -M["X"].conj().T, atol=TOL)
+    report("Q_zx·M_Z·Q_zx = -M_X^-1 (the X mirror in its other orientation)", other_orientation)
 
     n_ok, n_tot = sum(_ok), len(_ok)
     print("\n" + "=" * 80)
@@ -200,12 +201,12 @@ F108 open question (ii) closes POSITIVELY:
   The operator-space involution that intertwines Π_5b(Z) ↔ Π_5b(X) is H, the third
   Klein-V₄ element (Welle 12) - the pure X↔Z basis swap with I and Y fixed. It is
   exactly the "Y phase fixed, X/Z swapped" ansatz the proof guessed, and it was already
-  sitting in the group. The earlier "only {I, D} acts on Π_5b" reading was an artifact
-  of testing each Klein element on its canonical-Π pairing (Q_zx on Z→X, H on Y→X);
-  on Π_5b the roles of H and Q_zx are swapped: H does Z↔X, and Q_zx (= H·D) overshoots
-  into a non-canonical Π_5b-family phase variant. So the operator-space Klein-V₄ on Π_5b
-  is the {I, D, H} chain (D: Z↔Y, H: Z↔X), with Q_zx the one that leaves the canonical
-  set - the mirror image of how it acts on canonical Π_d.
+  sitting in the group. Testing each Klein element on its canonical-Π pairing (Q_zx on Z→X, H on Y→X)
+  lands on the X mirror's other orientation;
+  on Π_5b the roles of H and Q_zx are swapped: H does Z↔X, Q_zx (= H·D) does X↔Y, and
+  each element sends the remaining variant to -M_X^-1, the X mirror in its other
+  orientation. The operator-space Klein-V₄ thus acts simply transitively on the four
+  oriented mirrors, as it does on the canonical {Π_Z, Π_Y, Π_X, Π_X^-1}.
 """)
 
 

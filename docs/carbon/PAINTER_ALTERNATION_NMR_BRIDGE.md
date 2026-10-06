@@ -131,7 +131,8 @@ a direct observable prediction at zero or nonzero field.
    TROSY/EXSY comparison.
 
 4. **Klein-V₄ basis-rotated alternations.** The three dephase letters Z, X,
-   Y are intertwined by Klein-V₄. A selected basis-rotation calculation can
+   Y are related by local Clifford turns (the Klein-V₄'s Q_zx carries Z to X;
+   the quarter turn about X, outside it, carries Z to Y). A selected basis-rotation calculation can
    test whether the model sectorization transfers from Y/non-Y to X/non-X;
    this concerns model coordinates, not a physical alternation axis.
 

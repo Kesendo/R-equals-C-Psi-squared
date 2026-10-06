@@ -31,7 +31,7 @@ Reading T columns as vec_R implicitly maps σ_k ↦ σ_k^T. Single-site σ_I^T =
 
 All consumers of `VecToPauliBasisTransform` compute D-conjugation-invariant quantities (Frobenius norms, inner products, eigenvalues, zero patterns), so the twist is invisible at the typed-claim level. The Welle 10d Task 1 sparse implementation re-applies the same `(-1)^(n_Y(row) + n_Y(col))` sign correction to match the existing dense convention bit-exact.
 
-What was unexpected: the D conjugation is not just a basis transformation. It IS the Z↔Y dephasing-letter swap on operator space.
+What was unexpected: the D conjugation is not just a basis transformation. It IS the Z↔Y swap of the palindrome operators on operator space.
 
 ## Three readings
 
@@ -46,13 +46,13 @@ The two differ only by the sign of the i^bit_b phase. Since only Z (bit_b = 1, n
 
 ### (b) Physical
 
-Z-dephasing and Y-dephasing are physically related by a global qubit rotation. On a single qubit, Z = exp(−iπ/4 · X) · Y · exp(+iπ/4 · X) (Z is Y conjugated by a 90° X-rotation; the exponent is π/4 because R_X(θ) = exp(−iθX/2), so a 90° rotation carries θ = π/2). At the operator-space level, this rotation lifts to a 4^N × 4^N transformation. The diagonal D = diag((-1)^n_Y(k)) is the simplest version of this lift, because n_Y(k) counts the sites where Z↔Y swap requires a sign correction (Y matrix is antisymmetric while Z is symmetric, so Y^T = −Y while Z^T = +Z).
+Z-dephasing and Y-dephasing are physically related by a global qubit rotation. On a single qubit, Z = exp(−iπ/4 · X) · Y · exp(+iπ/4 · X) (Z is Y conjugated by a 90° X-rotation; the exponent is π/4 because R_X(θ) = exp(−iθX/2), so a 90° rotation carries θ = π/2). At the operator-space level, this rotation lifts to a 4^N × 4^N signed permutation of the Pauli basis (X fixed, Y and Z exchanged up to one sign). The diagonal D = diag((-1)^n_Y(k)) is a different map, the transpose, which carries Π_Z to Π_Y but keeps every dephasing letter; n_Y(k) counts the sites where the transpose puts a sign (Y matrix is antisymmetric while Z is symmetric, so Y^T = −Y while Z^T = +Z).
 
 ### (c) Symmetric
 
 The identity says the F1 palindrome family `{Π_Z, Π_X, Π_Y}` carries a hidden Z₂ symmetry that maps Π_Z ↔ Π_Y. The diagonal D is the symmetry generator. The mapping is non-trivial because Π_Z and Π_Y act differently on bit_a-flipped Pauli-string pairs (different phase conventions), but D undoes the difference exactly.
 
-What this gives us: any F1 residual norm / inner product / spectrum computed via the standard "twisted" pipeline is automatically equivariant under Z ↔ Y dephasing-letter swap, because `‖D L D‖ = ‖L‖` (D is unitary). So spectra and norms agree numerically between Z-dephase and Y-dephase calculations without further intervention. The X-dephase case (Π_X uses `flip bit_b, phase ±i^bit_a`) is not in this symmetry orbit; X-dephase computations remain genuinely distinct from Z and Y.
+What this gives us: any F1 residual norm / inner product / spectrum computed via the standard "twisted" pipeline is preserved under conjugation by D, because `‖D L D‖ = ‖L‖` (D is unitary). That spectra and norms agree between Z-dephase and Y-dephase calculations follows from the quarter turn about X, a Clifford that carries the Z-dephasing Lindbladian to the Y-dephasing one, the Hamiltonian turned with it; D itself keeps the dephasing letter. The X-dephase case (Π_X uses `flip bit_b, phase ±i^bit_a`) is not reached by D; the Hadamard relates it to Z.
 
 ## Open questions
 
@@ -87,11 +87,11 @@ What this gives us: any F1 residual norm / inner product / spectrum computed via
 
    Verified bit-exact at N = 1, 2, 3, 4 (closure + involution + commutativity). The lift is structurally clean: D is purely diagonal, Q_yx is purely a basis permutation, Q_zx is their product. See open question 2 (above) for the canonical per-site forms and [the Klein-V₄ dephase-swap proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md).
 
-   Practical consequence: the F1 palindrome family {Π_Z, Π_X, Π_Y} is fully Klein-V₄-equivariant, NOT asymmetric. Any F1-style result (residual norm, inner product, spectrum, Frobenius identities) for one dephase letter automatically transfers to the other two via the appropriate Klein-V₄ unitary conjugation. The Welle 11 F112 universal-N closure under Z-dephasing implies the same under X- and Y-dephasing.
+   Practical consequence: the F1 palindrome family {Π_Z, Π_X, Π_Y} is fully Klein-V₄-equivariant, NOT asymmetric. Any F1-style result (residual norm, inner product, spectrum, Frobenius identities) for one dephase letter transfers to the other two via the appropriate local Clifford turn (the Hadamard for X; the quarter turn about X, outside the Klein-V₄, for Y). The Welle 11 F112 universal-N closure under Z-dephasing implies the same under X- and Y-dephasing.
 
 ## Practical impact
 
-- **Welle 10d sparse-rep refactor**: BuildSparseLSigma applies the (-1)^(n_Y(row) + n_Y(col)) correction to match the existing dense pipeline. With the structural identity now documented, the correction is not an arbitrary kludge but the explicit Z↔Y dephase-swap operator-space transformation that the codebase implicitly applies to every L_σ-style computation.
+- **Welle 10d sparse-rep refactor**: BuildSparseLSigma applies the (-1)^(n_Y(row) + n_Y(col)) correction to match the existing dense pipeline. With the structural identity now documented, the correction is not an arbitrary kludge but the explicit conjugation by D (the transpose) that the codebase implicitly applies to every L_σ-style computation.
 
 - **Future callers of VecToPauliBasisTransform** that need natural L_σ entry signs (not norms / inner products / spectra) should be aware that the standard pipeline produces D · L_natural · D, and explicitly conjugate by D to recover the natural form. The PauliBasis docstring carries this warning (commit `7fc1ec0`).
 

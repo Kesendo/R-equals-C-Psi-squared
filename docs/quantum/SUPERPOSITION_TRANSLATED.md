@@ -164,8 +164,8 @@ matrix cannot move a diagonal. What the Hadamard alone can do is lift to a
 Hilbert-space unitary, the other two being operator-space only. And the group
 does not reach every letter: **no element of the V₄ carries L_Z to L_Y**, which
 takes a quarter turn from outside it. The caveats also bound what transports:
-a diagnostic of a fixed operator, not an identity moved to a genuinely
-different channel
+a diagnostic of a fixed operator always transports; an identity reaches a
+genuinely different channel only where the element moves the dissipator's axis
 ([Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)).
 Which states count as "superposed" is set by which letter the dephasing
 holds, and the letter the group cannot reach on its own is exactly Y.

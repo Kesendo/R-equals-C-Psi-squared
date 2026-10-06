@@ -1,14 +1,14 @@
 # PROOF F108 Part 1: Π²-Even Bilinears Always Admit an Exact Palindrome Operator
 
-**Status:** Tier 1 derived (closed-form via Π_5bilinear phase-variant Π operator + F1-style algebra). Acts as the base claim for the F108 family: Parts 2 and 3 are Klein-V₄ corollaries via Hadamard transport and D-conjugation respectively (`PROOF_F108_KLEIN_V4_EQUIVALENCE.md`, Welle 14).
-**Date:** 2026-05-25 (Part 1 direct proof); 2026-05-27 (Klein-V₄ corollaries Parts 2, 3 added).
+**Status:** Tier 1 derived (closed-form via Π_5bilinear phase-variant Π operator + F1-style algebra). Acts as the base claim for the F108 family: Parts 2 and 3 are corollaries of it, Part 2 by the Hadamard or by H, Part 3 by the quarter turn about X or by D with the dissipator identity re-checked (`PROOF_F108_KLEIN_V4_EQUIVALENCE.md`, Welle 14).
+**Date:** 2026-05-25 (Part 1 direct proof); 2026-05-27 (Parts 2, 3 as corollaries).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
 - [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (the original F1 palindrome theorem for truly Heisenberg H)
 - [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (truly criterion for k-body Pauli terms)
 - [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder)
-- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as Klein-V₄ corollaries of Part 1; precise mechanism documentation)
+- [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: F108 Parts 2, 3 as corollaries of Part 1; precise mechanism documentation)
 
 ## Abstract
 
@@ -18,7 +18,7 @@ This proof writes down that operator. It is a phase variant of the canonical Hei
 
 The structural consequence is that the F87 trichotomy collapses on this family: no Π²-even bilinear pair can be F87-hard, because F87-hardness requires the spectrum to break palindromy, and the spectrum here is palindromic by construction. The mirror's reach is sharp: it flips the commutator of exactly the Π²-even strings of even weight (an even number of non-identity letters), on any number of sites, so it covers four-body strings such as XXYZ but no single-site field and no three-body string such as XZZ or XYZ. That no Π²-even pair at any body count is hard is the colouring's ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)): every Π²-even string commutes with X^⊗N, which anticommutes with every Z jump.
 
-The proof's strategy is the F1 algebra applied to Π_5bilinear instead of canonical Π. The anti-commutation argument on the Hamiltonian commutator superoperator goes through verbatim once the phase variant is fixed. The dissipator-side identity holds because the letter swap exchanges the undamped pair {I, Z} with the damped pair {X, Y}. Parts 2 and 3 of the F108 trinity extend this to X- and Y-dephasing as Klein-V₄ corollaries via the companion proof.
+The proof's strategy is the F1 algebra applied to Π_5bilinear instead of canonical Π. The anti-commutation argument on the Hamiltonian commutator superoperator goes through verbatim once the phase variant is fixed. The dissipator-side identity holds because the letter swap exchanges the undamped pair {I, Z} with the damped pair {X, Y}. Parts 2 and 3 of the F108 trinity extend this to X- and Y-dephasing, and follow from it by the moves of the companion proof.
 
 **Statement (Theorem F108 Part 1):** For any Hamiltonian H built as a linear combination of Π²-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Z-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear such that
 

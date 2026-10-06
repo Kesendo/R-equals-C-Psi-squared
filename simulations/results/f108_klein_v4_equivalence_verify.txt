@@ -62,11 +62,11 @@ Step 5: Route 2 Hadamard transport: L_Z config rotated → L_X config
 
 Step 6: D-conjugation of L_Z: does D·L_Z·D⁻¹ behave like an L_Y for F108?
 ------------------------------------------------------------------------------
-  D is operator-space-only (no Hilbert lift), so D · L_Z · D⁻¹ in the
-  vec basis is NOT generally a Lindblad-form L_Y. Verify:
-   N=2: ‖D · L_Z · D⁻¹ − L_Y(same H)‖ = 9.050e+00  (should be NON-ZERO if D-transport fails)
+  D is the transpose: D · L_Z · D⁻¹ = L_Z(−Hᵀ), a Z-dephasing Lindbladian,
+  not L_Y. Verify the distance to L_Y:
+   N=2: ‖D · L_Z · D⁻¹ − L_Y(same H)‖ = 9.050e+00  (non-zero: D keeps the dephasing letter)
          D · Π_5b(Z) · D − Π_5b(Y)  = 0.000e+00,  D · Π_5b(Z) · D + Π_5b(Y) = 2.000e+00
-   N=3: ‖D · L_Z · D⁻¹ − L_Y(same H)‖ = 3.083e+01  (should be NON-ZERO if D-transport fails)
+   N=3: ‖D · L_Z · D⁻¹ − L_Y(same H)‖ = 3.083e+01  (non-zero: D keeps the dephasing letter)
          D · Π_5b(Z) · D − Π_5b(Y)  = 0.000e+00,  D · Π_5b(Z) · D + Π_5b(Y) = 2.000e+00
 
 Step 6b: Does the F108-Y palindrome statement follow from D · F108-Z?
@@ -80,29 +80,26 @@ Step 6b: Does the F108-Y palindrome statement follow from D · F108-Z?
     Π_5b(Y) · L_Y_tilde · Π_5b(Y)⁻¹ = -L_Y_tilde - 2σ·I
   where L_Y_tilde := D · L_Z · D⁻¹.
 
-  So D-conjugation gives an F108-style palindrome for L_Y_tilde, but
-  L_Y_tilde ≠ L_Y in general (since D is not a Hilbert lift). The
-  question becomes: does L_Y_tilde HAPPEN to coincide with some real
-  Lindbladian, or does it land in a non-Lindblad-form operator?
+  So D-conjugation gives an F108-style palindrome for L_Y_tilde = L_Z(−Hᵀ),
+  a Z-dephasing Lindbladian paired with the Y mirror; Part 3 itself needs
+  the dissipator identity for Y, or the quarter turn about X.
    N=2:
       F108-Z residual                       = 0.000e+00  (baseline)
       F108-Y palindrome on L_Y_tilde        = 0.000e+00  (= F108-Z trivially)
       F108-Y palindrome on actual L_Y       = 0.000e+00  (FROM Part 3 directly)
       ‖L_Y_tilde − L_Y‖ (operator-distance) = 4.999e+00
-      → D-transport gives F108-Y on L_Y_tilde, but L_Y_tilde ≠ L_Y.
-         So D-equivalence holds on the BILINEAR SET (Part 1 and Part 3 use same set)
-         and Π_5b operators (D · Π_5b(Z) · D = Π_5b(Y)), but the L sides are
-         only related by a non-Lindblad similarity transformation.
+      → L_Y_tilde = L_Z(−Hᵀ) ≠ L_Y: D carries the mirror (D · Π_5b(Z) · D = Π_5b(Y))
+         and the bilinear set, and keeps the dephasing letter; the Y dissipator is
+         checked directly (Part 3) or reached by the quarter turn about X.
 
    N=3:
       F108-Z residual                       = 3.846e-16  (baseline)
       F108-Y palindrome on L_Y_tilde        = 3.846e-16  (= F108-Z trivially)
       F108-Y palindrome on actual L_Y       = 0.000e+00  (FROM Part 3 directly)
       ‖L_Y_tilde − L_Y‖ (operator-distance) = 5.571e+01
-      → D-transport gives F108-Y on L_Y_tilde, but L_Y_tilde ≠ L_Y.
-         So D-equivalence holds on the BILINEAR SET (Part 1 and Part 3 use same set)
-         and Π_5b operators (D · Π_5b(Z) · D = Π_5b(Y)), but the L sides are
-         only related by a non-Lindblad similarity transformation.
+      → L_Y_tilde = L_Z(−Hᵀ) ≠ L_Y: D carries the mirror (D · Π_5b(Z) · D = Π_5b(Y))
+         and the bilinear set, and keeps the dephasing letter; the Y dissipator is
+         checked directly (Part 3) or reached by the quarter turn about X.
 
 Step 6c: Part 1 → Part 3 equivalence via D-equivariance OF THE PROOF
 ------------------------------------------------------------------------------
@@ -122,8 +119,8 @@ Step 6c: Part 1 → Part 3 equivalence via D-equivariance OF THE PROOF
    the diagonal-permutation argument (proven structurally above).
 
    The Klein-V₄ D operator EXPRESSES this equivalence cleanly:
-     D = ⊗ diag(1,1,1,-1) at the operator-space level realizes the
-     Z↔Y dephase-letter swap on Π_d AND on Π_5b. The fact that
+     D = ⊗ diag(1,1,1,-1) at the operator-space level swaps the Z and Y
+     palindrome operators, canonical and Π_5b alike. The fact that
      D · Π_5b(Z) · D = Π_5b(Y) (bit-exact above) is the structural
      content: D intertwines the phase-flipped Π_5b variants.
 
@@ -142,17 +139,17 @@ Step 6d: Hadamard transport L_Z → L_X precision check
          F108 palindrome on L_X via U_op·Π_5b(Z)·U_op^† = 1.935e-49
          F108 palindrome on L_X via canonical Π_5b(X)   = 0.000e+00
          U_op·Π_5b(Z)·U_op^† ≠ Π_5b(X) (gap = 2.000e+00)
-         → BOTH palindrome operators work; Π is not unique.
+         → BOTH work (the transport is (−1)^N · Π_5b(X)⁻¹, the other orientation; exact in f108_klein_transport_gate.py T1, T3).
    N=2: ‖U_op · L_Z · U_op^† − L_X‖ = 4.549e-15
          F108 palindrome on L_X via U_op·Π_5b(Z)·U_op^† = 3.255e-16
          F108 palindrome on L_X via canonical Π_5b(X)   = 3.255e-16
          U_op·Π_5b(Z)·U_op^† ≠ Π_5b(X) (gap = 2.000e+00)
-         → BOTH palindrome operators work; Π is not unique.
+         → BOTH work (the transport is (−1)^N · Π_5b(X)⁻¹, the other orientation; exact in f108_klein_transport_gate.py T1, T3).
    N=3: ‖U_op · L_Z · U_op^† − L_X‖ = 2.197e-14
          F108 palindrome on L_X via U_op·Π_5b(Z)·U_op^† = 5.225e-15
          F108 palindrome on L_X via canonical Π_5b(X)   = 4.786e-15
          U_op·Π_5b(Z)·U_op^† ≠ Π_5b(X) (gap = 2.000e+00)
-         → BOTH palindrome operators work; Π is not unique.
+         → BOTH work (the transport is (−1)^N · Π_5b(X)⁻¹, the other orientation; exact in f108_klein_transport_gate.py T1, T3).
 
    The consolidation chain for Part 1 → Part 2 via Hadamard is:
      - L_Z = -i[H_1, ·] + Σ_l D[Z_l] with H_1 ∈ Part 1 class
@@ -161,14 +158,11 @@ Step 6d: Hadamard transport L_Z → L_X precision check
        bilinear set bijection Part 1 ↔ Part 2 confirmed in Step 4)
      - The palindrome of L_X by U_op·Π_5b(Z)·U_op^† follows by
        unitary conjugation of Part 1's statement (bit-exact).
-     - The canonical Π_5b(X) is a DIFFERENT operator that ALSO achieves
-       F108 palindrome on L_X (Π_5b family has multiple representatives).
+     - The transported mirror is (−1)^N · Π_5b(X)⁻¹, the canonical Π_5b(X)
+       in its other orientation; both palindromize L_X.
 
-   So Part 2 IS a Klein-V₄ corollary of Part 1 via Hadamard, in the
-   sense that "L_X admits an F108 palindrome operator in the Π_5b family"
-   follows from the Hadamard transport. The choice of Π_5b(X) as the
-   canonical representative is a CONVENTION; the existence of a
-   palindrome is what the theorem really claims.
+   So Part 2 follows from Part 1 via the Hadamard, with the canonical
+   mirror in its other orientation; H (= Q_zx·D) gives Π_5b(X) itself.
 
 ==============================================================================
 SUMMARY
@@ -183,8 +177,8 @@ Welle 14 findings on Klein-V₄ on the Π_5bilinear operators:
   POSITIVE (Z↔Y via D, Part 1 ↔ Part 3):
     D · Π_5b(Z) · D = Π_5b(Y) bit-exact at N = 1, 2, 3.
     Together with the fact that the bilinear set is shared
-    {XX, YY, YZ, ZY, ZZ} on the bit_b axis, Part 3 IS a Klein-V₄
-    corollary of Part 1: the entire proof structure is D-equivariant.
+    {XX, YY, YZ, ZY, ZZ} on the bit_b axis, Part 3 follows from Part 1
+    with the dissipator identity re-checked for Y (D keeps the letter).
 
   POSITIVE (Z↔X via Hadamard transport, Part 1 ↔ Part 2):
     Per-letter Hadamard X↔Z, Y↔−Y maps Part-1 bilinear set bit-exact
@@ -193,18 +187,16 @@ Welle 14 findings on Klein-V₄ on the Π_5bilinear operators:
     Part 2 IS a Klein-V₄ corollary of Part 1 via the Hadamard subgroup
     {I, Q_zx} (Route 2 on the Hilbert space).
 
-  NEGATIVE (operator-level Q_zx and H on Π_5b):
+  ORIENTATION (operator-level Q_zx and H on Π_5b):
     Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X), residual 2.0 at all N.
     H · Π_5b(Y) · H ≠ ±Π_5b(X), residual 2.0 at all N.
-    So Π_5b(X) is NOT a Q_zx- or H-conjugate of Π_5b(Z) / Π_5b(Y)
-    on the operator-space side. The Route 1 / Route 2 split MATTERS:
-    Part 2 follows via the Hilbert-space Hadamard (Route 2 on L),
-    not via operator-space Q_zx conjugation of Π_5b.
+    Both land on (−1)^N · Π_5b(X)⁻¹ (gated in f108_klein_transport_gate.py T1), the X mirror in its other orientation,
+    which palindromizes as well; H · Π_5b(Z) · H = Π_5b(X) exactly
+    (f108_bita_d_search.py).
 
   COMBINED VERDICT:
-    Both Part 2 and Part 3 are Klein-V₄ corollaries of Part 1,
-    BUT via different mechanisms:
-       Part 1 → Part 3 by D (Z↔Y) on operator space, fixing bilinear set.
-       Part 1 → Part 2 by Hadamard on Hilbert space, rotating bilinear set.
-    Both are honest Klein-V₄ equivariances; consolidation IS possible.
+    Both Part 2 and Part 3 follow from Part 1:
+       Part 1 → Part 3 by D on the mirror (dissipator re-checked), or the quarter turn.
+       Part 1 → Part 2 by the Hadamard (other orientation), or by H.
+    PROOF_F108_KLEIN_V4_EQUIVALENCE and f108_klein_transport_gate.py hold the exact account.
 

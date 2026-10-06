@@ -204,8 +204,8 @@ damping F1T1 / F82 / F84, plus F91, F93, F108Part3-Y, F113, F112-Y),
 slots).
 
 The open slots are not independent problems. They are governed by one
-proven principle, the **global Hadamard X↔Z duality** (the Klein-V₄ outer
-automorphism,
+proven principle, the **global Hadamard X↔Z duality** (the Klein-V₄ element
+Q_zx, the Hadamard's operator-space form,
 [`PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md`](proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md):
 `Q_zx · Π_Z · Q_zx⁻¹ = Π_X`), consolidated for the twin classification in
 [`PROOF_BIT_A_TWIN_VIA_HADAMARD.md`](proofs/PROOF_BIT_A_TWIN_VIA_HADAMARD.md).
@@ -226,11 +226,13 @@ axis Z↔X by the global Hadamard transports a bit_b result to its bit_a twin.
   one-sided one, which the others cannot. F89 is itself an AT-descendant but
   sits on the Klein2 axis, so it has no bit_a-twin slot.
 - **Bespoke-operator residue** (`NeedsDerivation`): claims built on bespoke
-  operators (Π_5bilinear, F108-style) where the operator-space Hadamard
-  does not transport directly and a deeper Hilbert-space Hadamard is needed.
+  operators (Π_5bilinear, F108-style) where the Hadamard transports the
+  mirror only up to its orientation (PROOF_F108_KLEIN_V4_EQUIVALENCE), so a
+  claim that fixes the canonical orientation needs that bookkeeping.
 - **Lift caveat:** only {I, Q_zx (Hadamard)} lifts to a Hilbert-space
-  unitary, so only Z↔X transports Lindblad form; D and Q_yx are
-  operator-space-only.
+  unitary; Q_yx still carries L_Z to L_X and D keeps the letter (L_Z(H) to
+  L_Z(−Hᵀ)), so within the V₄ the dephasing letter travels between Z and X only;
+  the Y axis is reached by the quarter turn about X, outside the V₄.
 
 Source: `compute/RCPsiSquared.Core/Symmetry/Z2Axis.cs`, `IZ2AxisClaim.cs`,
 `PolarityCubeMap.cs`.
