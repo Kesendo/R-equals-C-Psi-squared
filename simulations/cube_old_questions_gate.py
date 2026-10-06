@@ -39,6 +39,16 @@ G10 The V-Effect census's 36 two-term chain pairs at every N >= 3 (on one bond a
     as the palindromic control. Swept for G10: experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md (the 36 at N = 3, 4, 5),
     OPERATOR_RIGIDITY_ACROSS_CUSP.md, NON_HEISENBERG_PALINDROME.md (the 22 proved bond by bond), SOFTNESS_IS_N_DEPENDENT.md (k >= 3 and multi-term, not these), V_EFFECT_PALINDROME.md
     (all 36 pair at N = 2), F158 (f5) and PalindromeSoftCertifier; none held the hard side at every N.
+G11 F108's orbit under local unitaries. A setting is a pair (P, Q) of distinct letters: jumps P on every site and an H of
+    two-site strings commuting with Q^N (Part 1 (Z, X), Part 2 (X, Z), Part 3 (Y, X)). Over all 24^3 site-dependent
+    local Cliffords at N = 3, Part 1 reaches all six settings, 64 ways each, always one letter permutation on every site,
+    and its stabilizer is the local Pauli group; the quarter turn about X carries Part 1 to Part 3; the three settings
+    no Part names have equal F158 end counts (a field along the jump, the control, makes them differ). Swept for G11:
+    the F108 Klein-V4 proof, the F108 Parts' Open sections and typed claims, PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4 (its
+    quarter turn about X carries Z-dephasing to Y-dephasing, setting (Z, X) to (Y, X)), PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE, THE_THREE_DIAGONALS
+    (the dissipator's Clifford orbit), CAUGHT_ERRORS (vi) of 2026-09-05, F103 section 8 (the quarter turn between the two
+    flip letters), NON_HEISENBERG_PALINDROME (the P4 family is the setting (Z, Y)), MirrorGroup's letter S3. New: the
+    subgroup, its stabilizer, and the exclusion of continuous rotations (argued in the proof, not gated here).
 Sweep before writing: docs/ANALYTICAL_FORMULAS.md (F4, F49e, F88a, F88b, F137, F155), docs/proofs/ (the complement
 connection's Theorem 2, PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS, MIRROR_SYMMETRY_PROOF's Scope, PROOF_CROSS_TERM_FORMULA,
 PROOF_F155), experiments/THERMAL_BREAKING.md, data/ibm_f83_signature_april2026, fw.Confirmations (the f83 entry),
@@ -521,6 +531,62 @@ for pair, expect in END_COUNTS.items():
     got = (gauss_nullity(L), gauss_nullity(L + 2 * N * np.eye(D * D)))
     check(f"G10 {pair} N=3, unit rates: dim ker L, dim ker(L + 2 sigma) = {expect}"
           + (" (no palindrome, F158)" if expect[0] != expect[1] else " (palindrome; the control)"), got == expect, f"{got}")
+
+# ---------------------------------------------------------------- G11
+CLIFF1 = []; CLIFF1S = []                                   # single-site Cliffords: letter maps, and with their signs (det +1)
+for perm in itertools.permutations(range(3)):
+    par = 1 if sum(1 for i in range(3) for j in range(i + 1, 3) if perm[i] > perm[j]) % 2 == 0 else -1
+    for sg in itertools.product((1, -1), repeat=3):
+        if sg[0] * sg[1] * sg[2] * par == 1:
+            CLIFF1.append({"XYZ"[i]: "XYZ"[perm[i]] for i in range(3)})
+            CLIFF1S.append(tuple((sg[i], "XYZ"[perm[i]]) for i in range(3)))
+def commutant_set(Q): return {a + b for a in "XYZ" for b in "XYZ" if ((a != Q) + (b != Q)) % 2 == 0}
+check("G11 the 24 single-site Cliffords; Part 1's bilinears are the strings commuting with X x X",
+      len(CLIFF1) == 24 and commutant_set("X") == {"XX", "YY", "YZ", "ZY", "ZZ"})
+N11 = 3; orbit11 = {}; stab11 = 0; uniform_letters = True
+for cs in itertools.product(range(24), repeat=N11):
+    jl = {CLIFF1[c]["Z"] for c in cs}
+    if len(jl) != 1: continue
+    Pj = jl.pop()
+    imgs = {CLIFF1[cs[l]][w[0]] + CLIFF1[cs[l + 1]][w[1]] for l in range(N11 - 1) for w in commutant_set("X")}
+    hit = [Q for Q in "XYZ" if Q != Pj and imgs == commutant_set(Q)]
+    if hit:
+        orbit11[(Pj, hit[0])] = orbit11.get((Pj, hit[0]), 0) + 1
+        uniform_letters &= len({tuple(sorted(CLIFF1[c].items())) for c in cs}) == 1
+        stab11 += (Pj, hit[0]) == ("Z", "X")
+check("G11 N=3, all 24^3 site-dependent local Cliffords: Part 1 (jumps Z, commutant X) reaches all six settings (P, Q), "
+      "64 each, every hit one letter permutation on all sites", len(orbit11) == 6 and set(orbit11.values()) == {64}
+      and uniform_letters, f"{orbit11}")
+stab_signed = set()
+for cs in itertools.product(range(24), repeat=N11):
+    if all(CLIFF1[c]["Z"] == "Z" for c in cs):
+        imgs = {CLIFF1[cs[l]][w[0]] + CLIFF1[cs[l + 1]][w[1]] for l in range(N11 - 1) for w in commutant_set("X")}
+        if imgs == commutant_set("X"): stab_signed.add(tuple(CLIFF1S[c] for c in cs))
+PAULI1 = {tuple((s_, l_) for s_, l_ in zip(sg, "XYZ")) for sg in [(1, 1, 1), (1, -1, -1), (-1, 1, -1), (-1, -1, 1)]}
+check("G11 the stabilizer of Part 1 is the local Pauli group: the distinct signed products fixing (Z, X) are exactly "
+      "the 4^3 = 64 products of I, X, Y, Z (sign patterns of the letter-fixing maps)",
+      len(stab_signed) == 64 and all(all(site in PAULI1 for site in prod) for prod in stab_signed), f"{len(stab_signed)}")
+VX = np.eye(2) + 1j * PM["X"]; VXi = (np.eye(2) - 1j * PM["X"]) / 2   # the quarter turn about X, unnormalised: exact entries
+imgs_q = {}
+for w in commutant_set("X"):
+    M = np.kron(VX, VX) @ np.kron(PM[w[0]], PM[w[1]]) @ np.kron(VXi, VXi)
+    hits = [(a + b, sg) for a in "XYZ" for b in "XYZ" for sg in (1, -1) if np.array_equal(M, sg * np.kron(PM[a], PM[b]))]
+    imgs_q[w] = hits
+zimg = VX @ PM["Z"] @ VXi
+check("G11 the quarter turn about X sends Z to +-Y and Part 1's five bilinears onto the same five strings (Part 3's set)",
+      (np.array_equal(zimg, -PM["Y"]) or np.array_equal(zimg, PM["Y"])) and {h[0][0] for h in imgs_q.values() if h} == commutant_set("X")
+      and all(len(h) == 1 for h in imgs_q.values()), f"{imgs_q}")
+for (Pj, Qc) in [("Z", "Y"), ("X", "Y"), ("Y", "Z")]:           # the three settings no named Part covers: F158 end counts
+    D = 2 ** N11; I = np.eye(D)
+    H = sum((k + 1) * op(N11, {b: PM[w[0]], b + 1: PM[w[1]]}) for b in range(N11 - 1)
+            for k, w in enumerate(sorted(commutant_set(Qc))))
+    def Lof(Hh):
+        return -1j * (lr(Hh, I) - lr(I, Hh)) + sum(lr(op(N11, {l: PM[Pj]}), op(N11, {l: PM[Pj]})) - np.eye(D * D) for l in range(N11))
+    k0, k1 = gauss_nullity(Lof(H)), gauss_nullity(Lof(H) + 2 * N11 * np.eye(D * D))
+    H_bad = H + op(N11, {0: PM[Pj]})                            # a field along the jump on one site: outside the setting
+    b0, b1 = gauss_nullity(Lof(H_bad)), gauss_nullity(Lof(H_bad) + 2 * N11 * np.eye(D * D))
+    check(f"G11 setting (jumps {Pj}, commutant {Qc}), unit rates, N=3: F158 end counts equal ({k0}, {k1}); "
+          f"with a {Pj} field on site 0 they differ ({b0}, {b1})", k0 == k1 and b0 != b1)
 
 print("\nALL PASS" if not FAILS else f"\n{len(FAILS)} FAIL")
 sys.exit(1 if FAILS else 0)
