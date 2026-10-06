@@ -335,7 +335,7 @@ found the bath cold: flat up-legs putting the thermal populations at 0.23% to
 pinned near zero. The regime that matters on real machines is T1 beside
 co-axial Z, the one combination that fails.
 
-Still open: a proof of the H ≠ 0 pairing at general N.
+Still open: a proof of the thermal H ≠ 0 pairing at general N. With cooling alone the pairing is derived at every N for an excitation-conserving, X⊗N-symmetric H ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
 
 ---
 

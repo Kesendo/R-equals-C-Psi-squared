@@ -80,11 +80,10 @@ public class Pi2KleinSpectralViewTests
     [Fact]
     public void TrulyXYChain_SlowestFourModes_SplitTwoTwoAcrossPi2Z()
     {
-        // Observed structural pattern: the 4 kernel modes of truly L at N=3 split
-        // 2:2 between Π²_Z = +1 (Pp + Pm) and Π²_Z = −1 (Mp + Mm). Two modes contain
-        // Z-only conserved content (sit in the Π²_Z=−1 sector), two modes are even
-        // under bit_b parity (sit in Π²_Z=+1). Both halves are kernel — the truly
-        // Hamiltonian's stationary subspace is naturally 2:2 balanced under Π²_Z.
+        // The 4 kernel modes of truly L at N=3 split 2:2 between Π²_Z = +1 (Pp + Pm) and
+        // Π²_Z = −1 (Mp + Mm): the kernel is spanned by the projectors onto the four popcount
+        // sectors, and X^N pairs them as 0 with 3 and 1 with 2, each pair giving one even and
+        // one odd mode (docs/ANALYTICAL_FORMULAS.md, Klein view; cube_old_questions_gate.py G6).
         var chain = Chain3();
         var terms = new[] { Term(PauliLetter.X, PauliLetter.X), Term(PauliLetter.Y, PauliLetter.Y) };
         var L = BuildL(terms, chain);

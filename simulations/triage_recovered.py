@@ -68,8 +68,8 @@ proven_concepts = {
         'keywords': ['never break', 'always symmetric', 'survives', 'robust symmetry', 'unbreakable'],
         'evidence': ('The palindrome holds for any Heisenberg/XY/Ising/XXZ system on any graph under '
                      'local Z-dephasing (MIRROR_SYMMETRY_PROOF), and amplitude damping alone keeps it '
-                     'about the halved centre Re λ = −Σγ/2 (F137: derived at H = 0, measured with XXZ '
-                     'couplings to N = 5). The mirror can break: Z-dephasing co-axial with the amplitude '
+                     'about the halved centre Re λ = −Σγ/2 (F137: derived at H = 0 and with XXZ '
+                     'couplings at every N). The mirror can break: Z-dephasing co-axial with the amplitude '
                      'damping breaks it, on a disjoint pair it holds (F137, THERMAL_BREAKING), and '
                      'depolarizing noise breaks it too (DEPOLARIZING_PALINDROME). best_sym = 100% at every alpha is the scorer, pinned '
                      'at 1.0 for every input, not the physics.'),

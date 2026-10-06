@@ -336,11 +336,29 @@ because it is a different channel rather than another axis:
   anisotropies δ=−0.5 to δ=2). This is the sharpest case of "Π fails" and
   "the palindrome fails" being different claims.
 
-  Only part of that is derived. One site at a time the T1 dissipator has
-  Pauli-basis eigenvalues {0, −γ/2, −γ/2, −γ}, already mirrored about −γ/2,
-  and N sites are a tensor sum, which settles the H=0 case. The commutator
-  part is not a site-wise tensor sum, so with the Heisenberg H actually used
-  in those runs the result is measured rather than proved.
+  One site at a time the T1 dissipator has Pauli-basis eigenvalues
+  {0, −γ/2, −γ/2, −γ}, already mirrored about −γ/2, and N sites are a tensor
+  sum, which settles the H=0 case. With a Hamiltonian that conserves the
+  excitation number and commutes with X⊗N, the Heisenberg and XXZ Hamiltonians
+  of those runs among them, the pairing is derived at every N and any site
+  rates. The jump term σ⁻ρσ⁺ lowers bra and ket together, so L is
+  block-triangular in the joint popcount and its spectrum is that of the
+  diagonal blocks, where L acts as ρ ↦ −i(H_eff ρ − ρ H_eff†) with
+  H_eff = H − (i/2)Σγᵢnᵢ, eigenvalues −i(E_a − Ē_b) with E_a and E_b eigenvalues of
+  H_eff on the popcount sectors p and q, algebraic multiplicities adding over the
+  blocks. These blocks are the no-jump generator of
+  [F155](PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md), so for an
+  excitation-conserving H the jump term σ⁻ρσ⁺ leaves the spectrum untouched (the
+  triangularity is pinned in `compute/RCPsiSquared.Core.Tests/BlockSpectrum/T1BreakingInformationalTests.cs`). And
+  X⊗N H_eff X⊗N = H_eff† − (i/2)Σγᵢ carries the block of popcounts (p, q) onto
+  (N − q, N − p) with every eigenvalue λ sent to −λ − Σγᵢ. [`cube_old_questions_gate.py`](../../simulations/cube_old_questions_gate.py) G7
+  gates the three steps exactly. The two conditions are sufficient. The X⊗N step
+  needs less: X⊗N H X⊗N = H̄ gives X⊗N H_eff X⊗N = H_eff* − (i/2)Σγᵢ, whose
+  spectrum is again that of H_eff†, which covers DM bonds XY − YX (G7, exactly).
+  Whether excitation conservation is needed is not settled here: XX bonds alone
+  read palindromic at the eigensolver floor (G7, chains N = 3, 4 and the ring
+  N = 4 at one rate profile);
+  a longitudinal field breaks the X⊗N step and a transverse X field the triangularity.
 
   **A thermal bath changes only which rate appears.** Add the heating channel
   σ⁺ beside σ⁻, with per-site rates γ↓ and γ↑. The single-site Pauli rates

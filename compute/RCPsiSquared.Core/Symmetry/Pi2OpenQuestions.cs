@@ -10,26 +10,6 @@ public static class Pi2OpenQuestions
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
         new OpenQuestion(
-            "X-axis-flip mechanism for Marrakesh f83 fingerprint observables",
-            "Empirical pattern (F88a, locked in Pi2KleinHardwareViewTests): each H-class diagnostic " +
-            "observable lives in the Klein cell that is the X-axis flip of the M-active H bilinear " +
-            "cell. Why does the framework's diagnostic prescription land here algebraically? The " +
-            "structural reason is open.",
-            "Trace the algebraic derivation: for each H-class, compute the operator that the " +
-            "Marrakesh measurement projects onto, and verify its Klein-cell membership emerges from " +
-            "the F87 trichotomy + F1 commutation + dephasing-axis structure.",
-            Anchor),
-        new OpenQuestion(
-            "2:2 truly-kernel split structural meaning",
-            "Schicht 3 observation: for truly H + Z-dephasing at N=3, the 4 kernel modes split " +
-            "2 in Π²_Z = +1 (Pp + Pm) and 2 in Π²_Z = −1 (Mp + Mm). Naively one might expect all " +
-            "kernel mass in Pp (where the truly bilinears live). The 2:2 split reflects the kernel's " +
-            "structure: span{I, Z_total, Z_total², Z_total³}, with Z_total^k of even k in Π²_Z=+1 and " +
-            "odd k in Π²_Z=−1. Generalisation to k-body kernels is open.",
-            "Verify the 2:2 split via direct computation of the kernel basis at N = 3, 4, 5, 6 and " +
-            "match the Π²_Z parity to the power-of-Z_total structure.",
-            Anchor),
-        new OpenQuestion(
             "N ≥ 4 transition: slow non-kernel modes concentrate in Π²_X = −1",
             "Empirical Schicht-3 observation: at N = 2, 3, slow non-kernel modes preserve the " +
             "bilinear apex 1/2 in BOTH Π²_X axes. At N ≥ 4, the slowest 4·(N+1) non-kernel modes " +

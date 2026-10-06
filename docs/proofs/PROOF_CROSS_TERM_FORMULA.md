@@ -11,8 +11,8 @@
 equal to Z (a leg on I makes the term a field, which the section
 *Per-letter rates* treats), on any graph, uniform Z-dephasing.
 This includes Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
-**Does NOT establish:** amplitude damping, the one noise considered here
-that is not diagonal in the Pauli basis. Shadow-crossing couplings (X_i Z_j,
+**Does NOT establish:** amplitude damping, the one noise considered here that is not
+diagonal in the Pauli basis (its chain values, measured, are under Open questions). Shadow-crossing couplings (X_i Z_j,
 Y_i Z_j) are F49c, non-uniform γ is F49d, and light along X, Y and Z per
 site, depolarizing included, is the section *Per-letter rates* below.
 
@@ -291,8 +291,19 @@ On [the letter cube](../THE_ONE_SQUARE.md) Step 1′ is the centred light formul
 - **Amplitude damping:** its L_D is not diagonal in the Pauli basis, so
   Step 5's pointwise product does not apply as it stands. On the letter
   cube it is two equal transverse lights, γ/4 along X and along Y, which
-  the per-letter section covers, plus one move per site, I → Z; that move
-  is what remains open. (Depolarizing is diagonal, a Pauli channel, and is
+  the per-letter section covers, plus one move per site, I → Z (M(I) = Z,
+  M(X) = M(Y) = M(Z) = 0, per site at rate γ), with L_Dc = L_D + (N γ/2)·I,
+  F137's centre; M is the (Z, I) entry of the one-site dissipator that F137's
+  thermal paragraph reads. The lights' part is derived, on any graph, for bonds
+  whose two letters see equal light (both letters in {X, Y}, or both Z): the per-letter
+  section with γ/4 along X and Y gives γ²·((N − 2)/2)·‖L_H‖². The move's part is
+  **measured on the chain**, at uniform rate γ and coupling J (H = J·Σ σσ):
+  {L_H, lights} and {L_H, M} are orthogonal, and ‖{L_H, M}‖² = 32(N − 1)²,
+  32(N − 1)(2N − 3), 32(N² − N − 1) and 32(3N² − 6N + 2), each times
+  γ²J²·4^(N−2), for XX, XX+YY, Ising and Heisenberg bonds, the Heisenberg value
+  the sum of the XX+YY and Ising ones. Read off N = 2 to 5 and predicted exactly
+  at N = 6; not derived ([`cube_old_questions_gate.py`](../../simulations/cube_old_questions_gate.py) G8, integer data
+  compared with ==). Other graphs are not read. (Depolarizing is diagonal, a Pauli channel, and is
   answered in the per-letter section.)
 - **Shadow-crossing couplings:** is there a modified formula for
   couplings like X_i Z_j? If so, it would involve additional bond-site

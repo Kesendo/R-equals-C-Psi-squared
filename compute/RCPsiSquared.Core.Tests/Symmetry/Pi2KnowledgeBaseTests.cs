@@ -63,7 +63,7 @@ public class Pi2KnowledgeBaseTests
         // + re-yielded Half/Quarter — lifts the reachable count above the distinct count).
         string line = kb.TierInventoryLine();
         Assert.Contains("T1d=", line);
-        Assert.Contains("open=5", line);
+        Assert.Contains("open=3", line);
         Assert.Contains("T2v=", line);
     }
 
@@ -244,12 +244,10 @@ public class Pi2KnowledgeBaseTests
     }
 
     [Fact]
-    public void OpenQuestions_CoverFiveSubstantiveAxes()
+    public void OpenQuestions_CoverThreeSubstantiveAxes()
     {
         var kb = new Pi2KnowledgeBase(MakeChain(3));
-        Assert.Equal(5, kb.OpenQuestions.Count);
-        Assert.Contains(kb.OpenQuestions, q => q.Name.Contains("X-axis-flip"));
-        Assert.Contains(kb.OpenQuestions, q => q.Name.Contains("2:2 truly-kernel"));
+        Assert.Equal(3, kb.OpenQuestions.Count);
         Assert.Contains(kb.OpenQuestions, q => q.Name.Contains("N ≥ 4 transition"));
         Assert.Contains(kb.OpenQuestions, q => q.Name.Contains("k-body Klein extension"));
         Assert.Contains(kb.OpenQuestions, q => q.Name.Contains("Half-integer-mirror regime"));

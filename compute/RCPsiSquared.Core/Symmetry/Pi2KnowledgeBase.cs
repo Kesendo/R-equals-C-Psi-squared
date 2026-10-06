@@ -32,8 +32,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Tier-2 empirical: <see cref="BilinearTable"/> (9 Pauli-pair × 4 cells)</item>
 ///   <item>Tier-2 hardware-verified: <see cref="HardwareConfirmations"/> (Marrakesh f83
 ///         X-axis-flip pattern)</item>
-///   <item>Open: <see cref="OpenQuestions"/> (X-flip mechanism, 2:2 truly-kernel,
-///         N≥4 transition, k-body extension, mirror-regime relation)</item>
+///   <item>Open: <see cref="OpenQuestions"/> (N≥4 transition, k-body slow modes,
+///         mirror-regime relation). The X-flip mechanism and the kernel's 2:2 split are
+///         answered in docs/ANALYTICAL_FORMULAS.md's Klein view (cube_old_questions_gate.py G5, G6).</item>
 /// </list>
 ///
 /// <para>Schicht-Hierarchie der Π²-Primitive (für Implementierung):</para>

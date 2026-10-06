@@ -9,13 +9,15 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// pair sits in a specific structural relationship: the diagnostic observable lives in the
 /// **X-axis-flipped Klein-cell** of the M-active bilinears of the Hamiltonian.
 ///
-/// <para>For Mixed H = XX+XY the M-active bilinear is XY (truly XX drops by Master Lemma);
-/// the rule applies to the M-active Klein-cell, not the full Hamiltonian.</para>
+/// <para>The f83 mixed H is XY + YZ, its M-active cells Mp (XY) and Pm (YZ); its fingerprint
+/// Z₀IX₂ sits in Mm, the X-axis flip of Mp. Truly bilinears sit in Pp and shift no cell; the start's
+/// odd-X strings supply Pm, and the y-parity turn lets the one-Y observable Y₀IZ₂ there be nonzero.</para>
 ///
-/// <para>This is an empirical structural pattern from the framework's own perspective,
-/// not a derivation. The pattern is documented in ConfirmationsRegistry entry
-/// "f83_pi2_class_signature_marrakesh" with measured expectation values; here we lock the
-/// Klein-cell algebra alone.</para>
+/// <para>The reason, in docs/ANALYTICAL_FORMULAS.md's Klein view: Z dephasing keeps every string,
+/// a commutator adds the term's Klein cell and turns the y-parity by y(h) + 1, and the f83 start
+/// |+-+> is real with X strings in Pm (simulations/cube_old_questions_gate.py G5). The measured
+/// values are in ConfirmationsRegistry entry "f83_pi2_class_signature_marrakesh"; here the
+/// Klein-cell algebra alone is locked.</para>
 /// </summary>
 public class Pi2KleinHardwareViewTests
 {
@@ -62,8 +64,8 @@ public class Pi2KleinHardwareViewTests
     [Fact]
     public void Marrakesh_MixedFingerprint_LivesInXFlippedCellOfMActiveBilinear()
     {
-        // Mixed H: XX (truly) + XY (Π²-odd). M-active bilinear is XY in Mp = (−, +)
-        // (truly XX drops by Master Lemma); fingerprint observable: ⟨Z₀ I X₂⟩.
+        // Mixed H: XY + YZ, M-active cells Mp (XY) and Pm (YZ); fingerprint observable ⟨Z₀ I X₂⟩,
+        // locked here against the XY cell.
         var mActiveBilinear = KleinCell(PauliLetter.X, PauliLetter.Y);
         var observable = KleinCell(PauliLetter.Z, PauliLetter.I, PauliLetter.X);
 
@@ -85,9 +87,9 @@ public class Pi2KleinHardwareViewTests
     [Fact]
     public void Klein_View_Of_All_Marrakesh_Observables_Forms_OneXFlipPattern()
     {
-        // Locking the structural pattern: each (M-active-H-cell, observable-cell) pair from
-        // the f83 fingerprint test is related by an X-axis flip. The pattern itself is the
-        // observation; this test enforces it as a single invariant across the four classes.
+        // Each (M-active-H-cell, observable-cell) pair from the f83 fingerprint test is related by an
+        // X-axis flip. The reason: Z dephasing keeps strings, commutators add Klein cells and turn the
+        // y-parity, and the f83 start |+-+> is real with X strings in Pm (cube_old_questions_gate.py G5).
         var pairs = new[]
         {
             ("truly", (+1, +1), (+1, -1)),                      // Pp → Pm

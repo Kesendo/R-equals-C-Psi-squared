@@ -116,7 +116,7 @@ public class Pi2KleinSpectralHardwareTests
         },
         new object[]
         {
-            "Mixed XX+XY → ⟨Z₀ I X₂⟩ in Mm",
+            "Mixed (XX+XY stand-in; f83 flew XY+YZ) → ⟨Z₀ I X₂⟩ in Mm",
             new[] { Term(PauliLetter.X, PauliLetter.X), Term(PauliLetter.X, PauliLetter.Y) },
             new[] { PauliLetter.Z, PauliLetter.I, PauliLetter.X },
             0.5,

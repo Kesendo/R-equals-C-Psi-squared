@@ -1954,7 +1954,9 @@ B = 4γ_{i,a}² in any case.
 **Valid for:** any Hamiltonian of Pauli strings, any graph, Pauli dephasing with rates per site and
 letter (depolarizing in either convention, γ/3 or γ per letter), all N ≥ 2.
 **Breaks for:** amplitude damping, which is not diagonal in the Pauli basis (on the letter cube: two
-equal transverse lights, which F49e covers, plus one move per site, which it does not).
+equal transverse lights, which F49e covers, plus one move per site, I → Z; the lights' part follows from
+F49e on any graph, the move's part is measured in closed form on the chain at uniform rate and coupling
+for XX, XX+YY, Ising and Heisenberg bonds, [the cross-term proof's Open questions](proofs/PROOF_CROSS_TERM_FORMULA.md#open-questions)).
 **Verified:** exactly, integer data compared with ==, at N = 3, 4 for random term sets and random
 rates, the special cases at N = 2 to 5
 ([`f49_per_letter_cross_term_gate.py`](../simulations/f49_per_letter_cross_term_gate.py)).
@@ -3616,14 +3618,16 @@ The two axes are the global Pauli strings: Π²_Z = X⊗N (registered as F1²) a
 
 F80's "universality across 4 Π²-odd cases" is therefore a universality across **two** Klein-cells (Mp + Mm), not one. The Klein view sees a finer cut that F80's M-spectrum projection averages over.
 
-**Empirical Marrakesh fingerprint pattern (2026-04-30, ibm_marrakesh job d7pol1e7g7gs73cf7j90)**: in the f83 4-class signature test, each H-class diagnostic observable lives in the Klein-cell that is the **X-axis flip** of the Hamiltonian's M-active bilinear cell. M-active means the non-truly bilinears (truly bilinears drop by Master Lemma):
+**Marrakesh fingerprint pattern (2026-04-30, ibm_marrakesh job d7pol1e7g7gs73cf7j90)**: in the f83 4-class signature test, each H-class diagnostic observable lives in the Klein-cell that is the **X-axis flip** of the Hamiltonian's M-active bilinear cell. M-active means the non-truly bilinears (truly bilinears drop by Master Lemma):
 
     Truly H (M-active = none; bilinears all in Pp) → ⟨Y₀ I Z₂⟩ in Pm   (X-axis flip of Pp)
     Pi2EvenNonTruly H (Pm)                         → ⟨X₀ I X₂⟩ in Pp   (X-axis flip of Pm)
     Pi2OddPure subgroup A H (Mp)                    → ⟨X₀ I Z₂⟩ in Mm   (X-axis flip of Mp)
-    Mixed H (M-active in Mp)                        → ⟨Z₀ I X₂⟩ in Mm   (X-axis flip of Mp)
+    Mixed H (M-active in Mp and Pm)                 → ⟨Z₀ I X₂⟩ in Mm   (X-axis flip of Mp)
 
-The X-flip pattern is empirically locked across all 4 fingerprint cases; the structural mechanism for why the framework's diagnostic observables sit precisely in the X-flipped cell is open and worth its own EQ.
+**Why the X-axis flip.** Z dephasing is diagonal in the Pauli basis and keeps every string, and a commutator −i[h, P] with an H term adds h's Klein cell and turns the parity of the number of Y letters (real against imaginary) by y(h) + 1. A string is therefore reachable only at (cell(P) + Σⱼ nⱼ·cell(hⱼ), y(P) + Σⱼ nⱼ·(y(hⱼ) + 1)), P in the start's support: the Klein cells with the y-parity as a third bit. The f83 test started in |+ − +⟩, real, its support the products of X letters: those with an odd number of X in Pm, the cell of the letter X, the others in Pp. The three non-truly Hamiltonians carry one Y per term, so ρ(t) stays real, and the real two-site observables P₀IP₂ lie in Pp (XX, YY, ZZ) and Mm (XZ, ZX) only, every two-site string of Mp and Pm having exactly one Y. A commutator chain therefore lands in {Pp, Pm} plus the cells of the H terms it used, so the flip letter is the start's letter: Mm is the X-axis flip of the XY-type cell Mp (for the mixed XY+YZ, whose YZ term sits in Pm, Mm is also Pm plus Mp), and the YZ+ZY class, in Pm, flips back into Pp, its fingerprint XX. The truly XX+YY has no term with an odd number of Y letters, so its odd orders are imaginary and reach YZ and ZY in Pm, the flip of Pp. This is a property of the Z-dephasing model and of its Trotter circuit, whose factors e^(−iθh) obey the same rule; amplitude damping breaks it, since its move I → Z shifts a cell without a commutator. Exact Pauli-string propagation to Krylov saturation, all four classes and X-, Y- and Z-basis starts, with the pair rule checked on every anticommuting pair of three-site strings: [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G5.
+
+**The kernel's split.** With every site Z-dephased the kernel of L is spanned by the projectors onto the components of the hopping graph (Theorem 2 of [the complement connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), its near count; for the Heisenberg class [F4](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) counts the same components, and F88b below reads the popcount case as span{P_n}). An H commuting with X⊗N, every truly H among them, makes the complement x ↦ x̄ map components onto components, and wherever it does the kernel splits as (p + s) on the Π²_Z = +1 side against p on the −1 side, p the complement pairs and s the self-complementary components: 2 : 2 for the N = 3 XY or Heisenberg chain, (⌊N/2⌋ + 1) : ⌈N/2⌉ whenever the components are the popcount sectors, and otherwise whatever the graph gives (XX+YY with an XXXX term at N = 4 reads 3 : 0). Checked by modular kernel ranks on twelve cases, the explicit projectors certifying the count: [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G6.
 
 **Valid for:** any N. The cells depend only on Pauli string parities (Σ bit_a, Σ bit_b), not on N or topology.
 **Verified:** N=3 chain, J=1, γ_Z=0.05 across 6 representative Hamiltonians spanning the 5 F87 class-types (Truly Heisenberg, Truly XY-only, Pi2EvenNonTruly, Pi2OddPure subgroup A, Pi2OddPure subgroup B, Mixed) + 4 Marrakesh f83 fingerprint observables. Bit-exact at machine precision (`Pi2KleinViewTests`, `Pi2KleinHardwareViewTests`, `Pi2KleinIsFinerThanPi2ClassTests`).
@@ -6544,7 +6548,7 @@ sober base.
 
 <a id="f137"></a>
 
-### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with XXZ H measured, 18/18 configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
+### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with an excitation-conserving X⊗N-symmetric H such as XXZ derived at every N by block-triangularity and the X⊗N conjugation, 18/18 measured configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
 
 Pure amplitude damping (T1, jump σ⁻ per site, rates γᵢ) leaves the Liouvillian
 spectrum an exact palindrome, centered at **Re λ = −Σγᵢ/2**: half the dephasing
@@ -6557,9 +6561,21 @@ direct-sum scope probe's T1 row,
 measures that break under co-axial T1 + Z-dephasing, not this spectrum.)
 Derived at H = 0: the single-site T1 dissipator has
 Pauli-basis eigenvalues **{0, −γ/2, −γ/2, −γ}**, already mirrored about −γ/2,
-and N sites are a tensor sum. The commutator part is not site-wise, so with
-the Heisenberg H the general claim is measured, exact as a multiset on all 18
-swept configurations (N=2–5; chain, ring, star, complete; uniform and
+and N sites are a tensor sum. With a Hamiltonian that conserves the excitation
+number and commutes with X⊗N (Heisenberg, XXZ, any couplings) it is derived at
+every N and any site rates: σ⁻ρσ⁺ lowers bra and ket together, so L is
+block-triangular in the joint popcount and its spectrum is that of the diagonal
+blocks, where L acts as ρ ↦ −i(H_eff ρ − ρ H_eff†) with H_eff = H − (i/2)Σγᵢnᵢ;
+and X⊗N H_eff X⊗N = H_eff† − (i/2)Σγᵢ carries the block of popcounts (p, q) onto
+(N − q, N − p) with every eigenvalue λ sent to −λ − Σγᵢ ([`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py)
+G7 gates the three steps exactly; the triangularity is also pinned in
+`compute/RCPsiSquared.Core.Tests/BlockSpectrum/T1BreakingInformationalTests.cs`). The two conditions are
+sufficient. The X⊗N step needs less: X⊗N H X⊗N = H̄ gives X⊗N H_eff X⊗N = H_eff* − (i/2)Σγᵢ, and
+H_eff* has the spectrum of H_eff†, which covers DM bonds XY − YX (G7, exactly). Whether excitation
+conservation is needed is not settled here: XX bonds alone read palindromic at the eigensolver floor
+(G7, on chains N = 3, 4 and the ring N = 4 at one rate profile). A longitudinal field
+breaks the X⊗N step, a transverse X field the triangularity. The 18
+swept configurations agree exactly as multisets (N=2–5; chain, ring, star, complete; uniform and
 site-dependent rates; anisotropies δ = −0.5 to 2). Pairing fractions here and
 in F138 count eigenvalues with an exact mirror partner out of the full 4^N
 (…/64 is N=3, …/256 is N=4). Composition, all per
@@ -6627,7 +6643,9 @@ own "Π fails ≠ the palindrome fails", read in the other direction.
 Caveat, because "different objects" invites over-reading: at H ≠ 0 the
 *spectrum* does depend on the net rate; only the *centre* does not.
 
-**Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
+**Gate:** [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G7 for the
+cooling-only derivation;
+[`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → the T1 and per-component sections of
 [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt); the
 thermal extension in
@@ -6635,11 +6653,12 @@ thermal extension in
 → [`thermal_palindrome_centre.txt`](../simulations/results/thermal_palindrome_centre.txt).
 **Proof:** the Scope paragraphs of
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
-(the boundary-law rewrite, `1c7dcf9`); the H=0 face is derived there, the
-Heisenberg face is measured. **Typed:** not yet (Tier1Candidate). Open: typing;
-a proof of the H ≠ 0 **pairing** at general N. Not open, and previously listed
-here in error: the centre at H ≠ 0, which is the trace identity above and needs
-no proof; and the H ≠ 0 pairing at N=2 and N=3, now settled exactly.
+(the boundary-law rewrite, `1c7dcf9`); the H=0 face and the cooling-only face with an
+excitation-conserving X⊗N-symmetric H are derived there, the thermal face with the Heisenberg H is
+proven at N=2, 3 and measured to N=5. **Typed:** not yet (Tier1Candidate). Open: typing;
+a proof of the thermal H ≠ 0 **pairing** at general N (σ⁺ beside σ⁻ breaks the
+triangularity). The centre at H ≠ 0 is the trace identity above and needs no
+proof, and the thermal H ≠ 0 pairing at N=2 and N=3 is settled exactly.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
 [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose summary row called the
