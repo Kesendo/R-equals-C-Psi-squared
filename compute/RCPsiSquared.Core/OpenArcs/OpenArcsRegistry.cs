@@ -3483,33 +3483,29 @@ public static class OpenArcsRegistry
                 "registry statement and the shipped certifier. Both are about how WIDE the (1+x)-valuation " +
                 "criterion really is, neither is the experiment's business, and the experiment no longer " +
                 "over-claims: it now states the gate as the code has it and carries the window floor.",
-            ParkedAt: "TWO GAPS, both open. (1) THE Y-PARITY GATE. " +
+            ParkedAt: "TWO GAPS; (1) SETTLED, (2) open. (1) THE Y-PARITY GATE. " +
                 "PalindromeSoftCertifier.CertifyHardByDiagonalCellValuation requires terms.Count == 2, " +
                 "IsBitBHomogeneous, AND yPar0 == yPar1; ANALYTICAL_FORMULAS F115 statement 1 states the criterion " +
-                "with no y-parity condition ('a Z-dephasing diagonal-cell Mixed pair is hard iff the valuations " +
-                "differ'). Enumerated from below here, over the IXYZ alphabet with the CellTerms gate (X/Y count " +
-                "even and >= 2, #(Y/Z) odd): strings 12 / 56 / 240 at k = 3 / 4 / 5, distinct masks 3 / 7 / 15, " +
-                "hard MASK-pairs 2 / 14 / 70 = A203241 exactly as the registry says. But hard STRING-pairs by the " +
-                "valuation alone are 32 / 896 / 17920, and the y-parity-HOMOGENEOUS ones are 16 / 448 / 8960 = " +
-                "exactly 2^(2k-3)*A203241. So the registry's 'dressed by the Klein / y-parity factor this is the " +
-                "hard count itself' counts the homogeneous HALF, while the criterion as stated marks twice as " +
-                "many. A review reports the valuation nevertheless predicting the spectral verdict on all 66 " +
-                "diagonal-cell pairs at k=3, N=4 INCLUDING the 16 y-parity-mismatched ones (breaks 8.0e-2 to " +
-                "1.0e-1); that half is NOT verified here. (2) THE WINDOW FLOOR. Statement 1 is unconditional in N, " +
+                "with no y-parity condition. Over the IXYZ alphabet with the CellTerms gate there are 32 / 896 / " +
+                "17920 hard string pairs by the valuation at k = 3 / 4 / 5, half of them y-parity homogeneous " +
+                "(2^(2k-3)*A203241). Settled by Theorem 2 of the complement connection: X^N anticommutes with every " +
+                "Mixed string of the cell, so the palindrome holds exactly when the hopping graph is bipartite, and " +
+                "in a y-parity-mismatched pair no two windows cancel (one term real, one imaginary), so the graph " +
+                "is the Cayley graph of the window masks, bipartite exactly when no odd subset of them XORs to " +
+                "zero: the valuation criterion above the window floor (F115 statement 1, argued in statement 3). The exact graph test " +
+                "(PalindromeSoftCertifier.ComplementConnectionAtN) agrees with the valuation on every diagonal-cell " +
+                "Mixed string pair, homogeneous and mismatched alike, at k = 3, 4, 5 and N = 2k-2, 2k-1 " +
+                "(DiagonalCellComplementConnectionTests). So statement 1 is right " +
+                "without the condition, the registry states its count as the homogeneous half, and the " +
+                "certifier's y-parity gate is conservative: a mismatched pair it does not certify hard is hard " +
+                "exactly when the valuations differ, at every N >= 2k-2. " +
+                "(2) THE WINDOW FLOOR. Statement 1 is unconditional in N, " +
                 "but WindowedObstructionScan's own comment records 'IXZX+XIZX is open yet soft below N = 6', i.e. " +
                 "a k-body pair needs enough windows for the odd relation to close (W = N-k+1 >= k-1, so N >= 2k-2); " +
                 "below that a valuation-DIFFERENT pair is genuinely soft and the soft cascade " +
                 "(CertifyByLinearSiteColoring) is what catches it, so the code is sound and the prose is the loose " +
                 "part. Also not re-verified spectrally here.",
-            NextStep: "settle (1) first, because it is a COUNT inside a Tier-1 registry entry and the two readings " +
-                "differ by a factor of exactly 2 at every k. The test is cheap and spectral, no new theory: build " +
-                "all 66 diagonal-cell Mixed pairs at k=3, N=4, classify each by the OPTIMAL bottleneck at 1e-6 " +
-                "(simulations/two_coast_sweep.py adapts the cockpit's spectrum_pairing_error; do not use a greedy " +
-                "pairing here, the gap between the two is exactly the kind of thing that would decide this " +
-                "wrongly), and compare with the valuation. The 16 y-parity-mismatched pairs are the whole " +
-                "question: if they are spectrally hard, F115's criterion is wider than its own count and the " +
-                "certifier is conservative BY CHOICE, which should be said in both places; if they are not, " +
-                "statement 1 needs the y-parity condition written into it. For (2), check whether " +
+            NextStep: "For (2), check whether " +
                 "PROOF_F87_WINDOWED_MONOMIAL_CONVERSE already carries the window premise, and if it does, carry it " +
                 "up into the registry statement rather than deriving it again. Hazard from the rounds that opened " +
                 "this: every count here was enumerated over the alphabet INCLUDING the identity letter; an " +

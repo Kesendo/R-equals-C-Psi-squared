@@ -43,11 +43,15 @@ public static class Pi2OpenQuestions
         new OpenQuestion(
             "k-body Klein extension (Schicht 1+2 for k ≥ 3 Pauli terms)",
             "F85 lifts F87 trichotomy to arbitrary k-body Pauli terms. The Klein decomposition " +
-            "naturally extends (Π²_Z and Π²_X act diagonally on any Pauli string), but the F88a " +
-            "table-of-9-bilinears would generalise to a much larger combinatorial structure at " +
-            "k ≥ 3. Open: characterise the k-body Klein cells and their scaling.",
-            "Enumerate k-body Pauli strings by Klein cell; check whether the bilinear apex 1/2 " +
-            "still characterises slow-mode distributions or whether the structure changes.",
+            "naturally extends (Π²_Z and Π²_X act diagonally on any Pauli string). The cells are " +
+            "counted by the letter characters: each letter carries (bit_a, bit_b), I (0,0), X (1,0), " +
+            "Y (1,1), Z (0,1), and every nontrivial character of the Klein group sums to 0 over " +
+            "{I, X, Y, Z} and to −1 over {X, Y, Z}, so with identities each cell holds 4^(k−1) " +
+            "strings (the all-identity one in (0,0)), and without identity letters the (0,0) cell holds (3^k + 3(−1)^k)/4 and each other cell " +
+            "(3^k − (−1)^k)/4 (k = 2: 3 + 2 + 2 + 2, the F88a table of nine bilinears; " +
+            "KBodyKleinCellCountTests). Open: whether the bilinear apex 1/2 still characterises the " +
+            "slow-mode distributions at k ≥ 3.",
+            "Read the slow modes per Klein cell at k ≥ 3 and compare with the bilinear apex 1/2.",
             "F85 + F88a + Task #53 (k-body extension)"),
         new OpenQuestion(
             "Half-integer-mirror regime and slow-mode Klein structure",

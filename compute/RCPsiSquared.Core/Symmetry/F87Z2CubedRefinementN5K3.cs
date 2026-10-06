@@ -81,8 +81,8 @@ public sealed class F87Z2CubedRefinementN5K3 : F87Z2CubedRefinementBase
             foreach (var child in base.ExtraChildren)
                 yield return child;
             yield return new InspectableNode("Scope (out-of-scope items)",
-                summary: "F106 covers N=4 k=4 (separate spec). F107+ open: N=6 k=3 spectrally " +
-                         "(requires block-spectrum Classify; N=5 k=4 batch ~42h). The closed-form " +
+                summary: "F106 covers N=4 k=4 (separate spec). Not run: the full batches at N=6 k=3 and N=5 k=4 " +
+                         "(their diagonal cells are read by DiagonalCellComplementConnectionTests). The closed-form " +
                          "derivation of 42:8 is no longer open: F103 §6 derives it by counting " +
                          "(2026-05-29), with the two halves of the rule reaching differently in N.");
             yield return new InspectableNode("Floor in N (F105 §5)",

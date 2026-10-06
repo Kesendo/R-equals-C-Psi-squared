@@ -151,7 +151,7 @@ F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCell
 
 ## Open
 
-- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
+- k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4, for the soft, truly and off-diagonal cells (the hard diagonal cell is read at k = 4, 5 by `DiagonalCellComplementConnectionTests`).
 - Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 
 ∎

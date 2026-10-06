@@ -11,9 +11,9 @@ populations so the gap is a number rather than an impression:
     hard STRING-pairs by the criterion  = twice the certified family
     of those, y-parity-homogeneous      = 2^(2k-3) * A203241, the registry's dressed hard count
 
-so the registry's count is the certified HALF. Whether the other half is genuinely hard (making
-the certifier conservative) or not (making statement 1 too wide) is the open question in the arc;
-this script does not answer it, it sizes it.
+so the registry's count is the certified HALF. The other half is decided by the same criterion (F115
+statement 3, by Theorem 2 of the complement connection), so the certifier is conservative; this
+script sizes the two halves.
 
 TRAP, worth the line: the enumeration must run over the FULL alphabet including the identity
 letter. Over XYZ alone it gives 6 / 20 / 60 strings and matches nothing, silently.

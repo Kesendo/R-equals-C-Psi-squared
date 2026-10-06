@@ -117,11 +117,11 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// mechanism (the hard-direction converse closed 2026-06-10,
     /// WindowedConverseAllGammaClaim): pure-D single-term Hamiltonians at k=N=4
     /// in the diagonal cell are F87-HARD.
-    /// Mechanism: D[D] commutes with pure-D H (the dissipator letter D commutes
-    /// with itself), so L = -i[H, .] + L_D has additive independent spectra;
-    /// the combined spectrum is non-palindromic around -σ.</summary>
+    /// Mechanism: condition (ii) of Theorem 2 of the complement connection. Rotated to Z
+    /// dephasing a pure-D template is diagonal with an odd Z count, so its diagonal flips
+    /// under the complement at every bitstring and no component is good.</summary>
     public string SubclaimA_PureDSingleTermHard =>
-        "Pure-D single-term H at k=N=4 in diagonal cell is F87-HARD. Mechanism: D[D] commutes with pure-D H, so L = L_H + L_D has additive independent spectra; combined spectrum non-palindromic.";
+        "Pure-D single-term H at k=N=4 in diagonal cell is F87-HARD. Mechanism: condition (ii) of Theorem 2 of the complement connection (the odd-Z diagonal flips under the complement at every bitstring, so no component is good).";
 
     /// <summary>Subclaim (b), empirically verified; mechanism closed via the
     /// chiral route (PROOF_F103 §7.4): mixed single-term Hamiltonians at k=N=4
@@ -135,7 +135,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// WindowedConverseAllGammaClaim): pair (Pure-D, Mixed) Hamiltonians at
     /// k=N=4 are F87-HARD.</summary>
     public string SubclaimC_PureMixedPairHard =>
-        "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Closed-form mechanism was open until the hard-direction converse closed 2026-06-10 (WindowedConverseAllGammaClaim).";
+        "Pair (Pure-D, Mixed) H at k=N=4 in diagonal cell is F87-HARD. Mechanism: condition (ii) of Theorem 2 of the complement connection (the pure-D template's diagonal flips under the complement, the mixed template has none); the hard-direction converse (WindowedConverseAllGammaClaim) closes it independently.";
 
     /// <summary>Subclaim (d), CLOSED modulo M (PROOF_F103 §7.4, 2026-05-30):
     /// pair (Mixed, Mixed) Hamiltonians at k=N=4 are F87-SOFT (palindromic spec).
@@ -311,7 +311,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
             yield return new InspectableNode("Promotion record (2026-06-10) + open siblings",
                 summary: "Hard-direction converse behind subclaims (a)/(c), the F111 promotion gate: it reduced to the windowed converse typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87), CLOSED 2026-06-10 with no residual (girth dichotomy retired R-deg, Pascal-Gram positivity resolved R-sign) ⟹ F111 Tier1Derived. Subclaim (d) Mixed+Mixed = soft is CLOSED modulo M via PROOF_F103 §7.4. " +
                          "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +
-                         "Pure-D Template Rule at k > 4 or N > 4: empirically unverified. " +
+                         "Beyond k = N = 4 (Theorem 2 of the complement connection, DiagonalCellComplementConnectionTests): the rule holds at full support at k = 5 (2056 hard pairs under Z dephasing, each with a pure-D template); a pure-D template makes the pair hard at every N (condition (ii)); below full support hard Mixed+Mixed pairs appear, above the window floor exactly F115's valuation criterion. " +
                          "Hardware QPU confirmation at k ≥ 3: open (no F87 QPU confirmations beyond Marrakesh k = 2).");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F111 lives on.");

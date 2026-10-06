@@ -89,8 +89,10 @@ public sealed class F87Z2CubedRefinementN4K4 : F87Z2CubedRefinementBase
             foreach (var child in base.ExtraChildren)
                 yield return child;
             yield return new InspectableNode("Scope (out-of-scope items)",
-                summary: "F107+ open: N=5 k=4 batch (~42h dense), N=6 k=3 batch (~8 days dense), " +
-                         "both impractical without block-spectrum Classify. The off-diagonal B/C " +
+                summary: "The diagonal cell beyond N = 4 is read exactly by Theorem 2 of the complement connection " +
+                         "(DiagonalCellComplementConnectionTests): hard (292, 128) by y_par at k = 4, N = 5, " +
+                         "(356, 320) at N = 6, 7, 8. The full batches of every cell at N = 5, k = 4 and N = 6, " +
+                         "k = 3 are not run. The off-diagonal B/C " +
                          "partition is derived at every k (PROOF_F103 section 8).");
         }
     }

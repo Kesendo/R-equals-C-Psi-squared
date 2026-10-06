@@ -422,9 +422,12 @@ public static class PalindromeSoftCertifier
     /// <summary>The HARD-side strategy (PROOF_F103 §7.7 / F115): a two-term Klein-(0,1) Mixed pair is
     /// hard iff its two X/Y flip-masks have different (1+x)-adic valuations
     /// (<see cref="WindowedObstructionScan.IsHardPair"/>). N-free, O(k); the symmetric twin of the soft
-    /// strategies. Gated to the proven scope (exactly two diagonal-cell Mixed, bit_b-homogeneous,
-    /// y_par-homogeneous templates under Z-dephasing); anything else returns false so the caller defers
-    /// to the spectral authority. Soundness gated by PalindromeHardSweepTests.</summary>
+    /// strategies. Gated to exactly two diagonal-cell Mixed, bit_b-homogeneous, y_par-homogeneous templates
+    /// under Z-dephasing; anything else returns false so the caller defers to the spectral authority. The
+    /// y_par gate is conservative: a mismatched pair is hard exactly when its valuations differ too (F115
+    /// statement 1, argued in statement 3 by Theorem 2 of the complement connection) at N >= 2k - 2; the method takes no N, and
+    /// Decide runs the soft cascade first. Soundness
+    /// gated by PalindromeHardSweepTests.</summary>
     public static bool CertifyHardByDiagonalCellValuation(IReadOnlyList<PauliTerm> terms)
     {
         if (terms.Count != 2) return false;

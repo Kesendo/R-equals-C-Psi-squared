@@ -4415,8 +4415,8 @@ tool (~2-3min PLINQ on 24 cores; actual run 3m 59s).
 The two purity statements (truly y_par=0-pure, mother soft y_par=1-pure) are
 genuine y_par-axis invariants that survive across k, and so does the off-diagonal
 B/C partition; the mixed-ratio statements (42:8 hard, 13:13 soft, Pattern B's
-asymmetry, which is its cell's enumeration) were k-specific and re-shape with
-the enum balance.
+asymmetry, which is its cell's enumeration) are anchored at (k, N): the diagonal hard split is pure at
+full support (N = k) and biased below it, the soft split its complement in the cell.
 
 **Source:** [Proof](proofs/PROOF_F106_F87_Z2_CUBED_REFINEMENT_N4K4.md);
 `compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs`
@@ -4672,16 +4672,20 @@ the diagonal cell contains at least one "pure-D template" (only D and I
 letters), and pure-D templates have y_par = y_par(D) by construction. At k = 3
 the 42:8 dominance follows from the §6 counting rule (see Aspect C).
 
-**Aspect C (k-purity sharpening, §6 closed-form counting rule):** k=3 N=4 (F103): 42:8 biased; k=3
+**Aspect C (purity at full support, §6 closed-form counting rule and F111):** k=3 N=4 (F103): 42:8 biased; k=3
 N=5 (F105): identical 42:8 (N-stable from N=4; N=3 reads 34:0, the split without the
-adjacency half); k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.
+adjacency half); k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved. The split is pure at full
+support (N = k) at every k; below it, it is biased at k = 3, 4, 5 (356:320 at k = 4, N = 6, 7, 8;
+6536:4480 at k = 5, N = 8) and pure at k ≤ 2.
 
 **Status (promoted Tier1Derived 2026-06-10):** the 42:8 (k=3) and 228:0 (k=4) ratios are derived by
 the §6 counting rule and the §7 bipartite mechanism; F111 closes the k=4 case at full support. The
 windowed (k<N) hard-direction converse (non-bipartite ⟹ hard) is a **theorem with no residual**
 (`WindowedConverseAllGammaClaim`, Tier1Derived: R-deg retired by the girth dichotomy, R-sign resolved
 by the Pascal-Gram positivity theorem F117, both 2026-06-10), which was the F110/F111 promotion gate.
-**Open:** k ≥ 5 empirical confirmation; QPU confirmation at k ≥ 3.
+At k = 5, read exactly by Theorem 2 of the complement connection (`DiagonalCellComplementConnectionTests`), the hard pairs split
+(2056, 0) by y_par at N = 5, (2952, 896) at N = 6, (4488, 2432) at N = 7 and (6536, 4480) at N = 8, for
+Z dephasing: the dephase letter's y_par dominant, pure at full support (at every k, by F111). **Open:** the split below full support at k ≥ 6; QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
@@ -4716,11 +4720,10 @@ split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 (all SOFT). The 36 + 192 + 0 = 228 hard count matches F106 exactly.
 
 **Subclaim status:**
-- (a) Pure-D single-term H is HARD: heuristic via dissipator-commute ([D[D_l], L_H] = 0
-  for pure-D H gives additive independent spectra L = L_H + L_D, combined
-  spectrum non-palindromic around −σ). Empirical: 8/8 per cell.
-- (b) Mixed single-term H is SOFT: empirical (24/24 per cell).
-- (c) Pair (Pure-D, Mixed) H is HARD: empirical (192/192 per cell).
+- (a) Pure-D single-term H is HARD: condition (ii) of Theorem 2 of the complement connection (rotated
+  to Z dephasing, the odd-Z diagonal flips under the complement at every bitstring). 8/8 per cell.
+- (b) Mixed single-term H is SOFT: Theorem 2 (one flip mask, a bipartite hopping graph). 24/24 per cell.
+- (c) Pair (Pure-D, Mixed) H is HARD: condition (ii) of Theorem 2. 192/192 per cell.
 - (d) Pair (Mixed, Mixed) H is SOFT: **CLOSED modulo M via PROOF_F103 §7.4
   (2026-05-30)**. At full support k = N a Mixed+Mixed pair has at most two flip
   generators, which always admit a linear φ and hence the chiral K, so the
@@ -4738,8 +4741,12 @@ across 3 dephases, all matching the rule with zero exceptions.
 (non-bipartite ⟹ hard at every γ) closed as the windowed all-γ theorem with no residual
 (`WindowedConverseAllGammaClaim`, Tier1Derived: girth dichotomy + Pascal-Gram positivity F117), so
 F111 is Tier1Derived; subclaim (d) was already closed modulo M via PROOF_F103 §7.4 (see above).
-**Open:** Pure-D Template Rule at k > 4 or N > 4 (empirically unverified). Hardware QPU
-confirmation at k ≥ 3.
+**Beyond k = N = 4:** at full support the rule holds at k = 5 too (2056 hard pairs, each with a pure-D
+template, counted under Z dephasing), and a pure-D template makes the pair hard at every N (Theorem 2 of
+[the complement connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), condition (ii)); below
+full support hard Mixed+Mixed pairs appear, above the window floor exactly F115's valuation criterion.
+`DiagonalCellComplementConnectionTests`.
+**Open:** hardware QPU confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
@@ -5148,7 +5155,7 @@ all bit-exact.
 
 1. *Hardness is a valuation difference (the one-number criterion).* A Z-dephasing diagonal-cell Mixed
    pair is hard ⟺ v_{1+x}(p₁) ≠ v_{1+x}(p₂), the (1 + x)-adic valuations of the two masks; equal
-   valuations ⟹ soft. This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
+   valuations ⟹ soft. The two terms' y-parities need not agree (statement 3). This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
    Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
    finitely many γ); the all-γ closure is `WindowedConverseAllGammaClaim` (Tier1Derived since
@@ -5166,7 +5173,19 @@ all bit-exact.
 3. *Closed-form hard count.* The even-popcount nonzero k-bit masks split by valuation into classes of
    size c_v = 2^{k-1-v} (v = 1 … k−1); a pair is hard iff its masks differ in class, so
    #hard mask-pairs = e₂(2^0, …, 2^{k-2}) = (4^{k-1} − 3·2^{k-1} + 2)/3 = OEIS A203241. Dressed by the
-   2^{2k-3} Klein / y-parity factor this is the hard count itself (448, 8960, 158720 at k = 4, 5, 6).
+   2^{2k-3} Klein / y-parity factor this is the hard count of the y-parity-homogeneous pairs (448, 8960,
+   158720 at k = 4, 5, 6) among distinct y-parity-homogeneous Mixed string pairs above the window floor
+   (at k = 4, N = 6 the diagonal cell's 676 hard pairs are these 448 and the 228 with a pure-Z template). The
+   criterion needs no y-parity condition, by Theorem 2 of
+   [the complement connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md): every Mixed string of
+   the cell has an odd number of Y/Z letters, so X⊗N·H·X⊗N = −H and H_x̄ȳ = −H_xy on every entry;
+   conditions (i) and (ii) then hold (no diagonal) and (iii) asks for a bipartite hopping graph. In a
+   y-parity-mismatched pair one term has real entries and the other imaginary ones, so no two windows
+   cancel, the hopping graph is the Cayley graph of the window masks, and it is bipartite exactly when
+   no odd subset of the masks XORs to zero, which above the window floor is the valuation criterion
+   (§7.5–§7.7). Those pairs are hard as often again: the valuation agrees with the graph on every
+   diagonal-cell Mixed string pair at k = 3, 4, 5, N = 2k − 2 and 2k − 1 (`DiagonalCellComplementConnectionTests`;
+   hard string pairs 32, 896, 17920).
    The count is itself layered by the shared-factor degree d of §7.9: #hard with deg(g_rest) = d =
    2^{d-1}·B(k − d), B(k) = (4^k − 12k + 8)/18 the d = 0 base. The size-3 (triangle) sub-class closes,
    5·2^{k-1} − (3k² + k)/2 − 3; the exact per-size middle counts stay window-dependent.

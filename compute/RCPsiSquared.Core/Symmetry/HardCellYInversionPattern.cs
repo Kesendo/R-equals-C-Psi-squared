@@ -24,7 +24,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         y_par(dephase letter): Z/X-deph dominantly y_par=0; Y-deph dominantly
 ///         y_par=1. Structural reading: the dephase letter's own Y-content
 ///         determines which y_par value the F87-hard split favors.</item>
-///   <item><b>Aspect C (k-purity sharpening, closed-form counting rule):</b> At k=3 N=4: 42:8
+///   <item><b>Aspect C (purity at full support, closed-form counting rule and F111):</b> At k=3 N=4: 42:8
 ///         biased (per F103). At k=3 N=5: identical 42:8, and N-stable from N=4 up
 ///         (per F105; at N=3 the same cells read 34:0, since rule (b) of the counting
 ///         rule needs the term placed at two windows). At
@@ -92,12 +92,12 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     public string Theorem =>
         "Aspect A (closed-form): F87-hard Klein-homogeneous pairs only in the diagonal Klein cell matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). " +
         "Aspect B (Y-inversion, derived F103 §6): dominant y_par in hard cell equals y_par(dephase letter); Y-deph inverts to y_par=1. " +
-        "Aspect C (k-sharpening, derived F103 §6/§7): k=3 (42:8) sharpens to k=4 (228:0) with Y-inversion preserved.";
+        "Aspect C (purity at full support, derived F103 §6/§7 and F111): pure at N = k for every k (34:0 at k=3, 228:0 at k=4); below it biased at k = 3, 4, 5 (42:8 at k=3, 356:320 at k=4) and pure at k <= 2; Y-inversion preserved.";
 
     /// <summary>F87 corollary: the dominant y_par value in any F87-hard cell is
     /// determined by y_par(dephase letter), not by the cell's Klein index.</summary>
     public string F87Corollary =>
-        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At k = 4 (F106 N=4) the dominance is full (purity); at k = 3 (F103/F105) it is biased (42:8 split). k ≥ 5 empirical confirmation open.";
+        "In every F87-hard diagonal Klein cell, the dominant y_par = y_par(dephase letter). At full support (N = k; k = 4 is F106's 228:0, k = 5 reads 2056:0) the dominance is full (purity); below it the dominance is biased (k = 3: 42:8; k = 4: 356:320 at N = 6, 7, 8; k = 5: 6536:4480 at N = 8; Z dephasing; k ≥ 6 below full support not read), read exactly by Theorem 2 of the complement connection (DiagonalCellComplementConnectionTests).";
 
     /// <summary>Typed Cubic3 parent: <see cref="KleinEightCellClaim"/>. F110
     /// pins the Y-inversion split in F87-hard diagonal cells across the Z₂³
@@ -127,7 +127,7 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
     public override string Summary =>
         $"Aspect A: F87-hard Klein-homogeneous pairs only in the diagonal Klein cell matching the dephase letter (closed-form). " +
         $"Aspect B (derived F103 §6): dominant y_par in hard cell equals y_par(dephase letter); Z/X-deph y_par=0, Y-deph y_par=1. " +
-        $"Aspect C (derived F103 §6/§7): k=3 N=4 split 42:8 sharpens to k=4 N=4 split 228:0 ({Tier.Label()})";
+        $"Aspect C (derived F103 §6/§7 and F111): pure at full support (k=4 N=4: 228:0), biased below it (k=3 N=4: 42:8) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -139,14 +139,14 @@ public sealed class HardCellYInversionPattern : Claim, IZ2AxisClaim
                 summary: "Z → (0, 1), X → (1, 0), Y → (1, 1). Hard Klein-homogeneous pairs appear only in this cell: the other three are coloured by a lit letter string (F103 §8, F158), at every body count.");
             yield return new InspectableNode("Aspect B: Y-inversion structural reading",
                 summary: "Dominant y_par = y_par(dephase letter): Z/X → 0, Y → 1. The Y-letter's y_par=1 inverts the otherwise-y_par=0-preferred pattern. At k = N = 4 closed-form via sibling Claim F111 (HardCellPureDTemplate, 2026-05-25, Tier1Derived since 2026-06-10): hard pairs in diagonal cell contain at least one pure-D template, and pure-D templates have y_par = y_par(D) by construction. At k = 3 the 42:8 dominance follows from the F103 §6 counting rule (see Aspect C).");
-            yield return new InspectableNode("Aspect C: k-purity sharpening (§6 closed-form counting rule)",
-                summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8, N-stable from N=4 up (at N=3 the cells read 34:0 and 21:21, the split without rule (b), which needs the term at two windows). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved.");
+            yield return new InspectableNode("Aspect C: purity at full support (§6 closed-form counting rule and F111)",
+                summary: "k=3 N=4 (F103): 42:8 biased per diagonal cell. k=3 N=5 (F105): identical 42:8, N-stable from N=4 up (at N=3 the cells read 34:0 and 21:21, the split without rule (b), which needs the term at two windows). k=4 N=4 (F106): 228:0 fully pure with Y-inversion preserved, and biased below full support (356:320 at k=4, N = 6, 7, 8; DiagonalCellComplementConnectionTests).");
             yield return new InspectableNode("Sibling YParity-axis claims",
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived), F103 (F87Z2CubedRefinementN4K3, Tier1Derived), F105 (F87Z2CubedRefinementN5K3, Tier1Derived), F106 (F87Z2CubedRefinementN4K4, Tier1Derived), F107 (TrulyYParityZeroPurity, Tier1Derived), F109 (MotherSoftYParityOnePurity, Tier1Derived), F110 (HardCellYInversionPattern, THIS Claim, Tier1Derived since 2026-06-10), F111 (HardCellPureDTemplate at k=N=4, Tier1Derived since 2026-06-10; sharpens Aspect B). Together the 8 YParity-axis Claims pin the y_par signature of all three F87 trichotomy classes.");
             yield return new InspectableNode("Cross-axis neighbours (BitB and BitA): F108 Parts",
                 summary: "F108 Part 1+3 (BitB-axis) and Part 2 (BitA-axis, BitA twin of Part 1) palindromize the Π²-D-even bilinears via Π_5bilinear; their mirrors reach the Π²-D-even strings of even weight. F108 Parts are NOT YParity-axis siblings (per their Z2Axis declarations). Aspect A rests on the colouring, which reaches every body count.");
             yield return new InspectableNode("Promotion record (2026-06-10) + open work",
-                summary: "The exact 42:8 (k=3) ratio is derived by the F103 §6 counting rule and the §7 bipartite-chirality mechanism; F111 closes the k=4 228:0 case via the Pure-D Template Rule. The promotion gate, WindowedConverseAllGammaClaim (the all-γ closure of the windowed k<N converse non-bipartite ⟹ hard), closed 2026-06-10 with no residual (girth dichotomy retired R-deg, Pascal-Gram positivity resolved R-sign; PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md), so F110 is Tier1Derived. Remaining open work: k ≥ 5 empirical confirmation unverified.");
+                summary: "The exact 42:8 (k=3) ratio is derived by the F103 §6 counting rule and the §7 bipartite-chirality mechanism; F111 closes the k=4 228:0 case via the Pure-D Template Rule. The promotion gate, WindowedConverseAllGammaClaim (the all-γ closure of the windowed k<N converse non-bipartite ⟹ hard), closed 2026-06-10 with no residual (girth dichotomy retired R-deg, Pascal-Gram positivity resolved R-sign; PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md), so F110 is Tier1Derived. k = 5 is read exactly by Theorem 2 of the complement connection (DiagonalCellComplementConnectionTests): hard 2056:0 by y_par at N = 5, the dephase letter's y_par dominant at N = 6, 7, 8.");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition anchor for the y_par axis F110 lives on.");
         }

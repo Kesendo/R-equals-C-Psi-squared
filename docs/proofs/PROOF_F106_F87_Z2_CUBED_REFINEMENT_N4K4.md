@@ -11,9 +11,9 @@ F103 named the five Z₂³ sub-cell patterns at the (N=4, k=3) anchor. F105 conf
 
 The answer is mixed, and the mixed answer is the interesting result. Three of the five sub-statements survive structurally: truly stays y_par=0-pure at every cell where it appears, mother soft (the Klein (0,0) soft) stays y_par=1-pure across all three dephase letters, and the off-diagonal cells keep their partition into Pattern B and Pattern C. The two purity statements are the alphabet-driven invariants; Pattern B is a whole cell gone soft, so its numbers follow that cell's enumeration, from the asymmetric 55:21 or 21:55 at k=3 to a symmetric (528, 528) at k=4 ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)). Two sub-statements reshape under the body-count bump: the diagonal hard 42:8 mixed split sharpens to fully polarized 228:0 (a 100% pure y_par signature), and the diagonal soft 13:13 symmetry breaks to an asymmetric 300:528.
 
-The k=4 enumeration is qualitatively different from k=3 because the underlying Klein cell counts redistribute. Klein (0,0) goes from a 45-vs-21 split at k=3 to a 780-vs-300 split at k=4 (a quadratic blow-up in the y_par=0 letters), and the off-diagonal cells become fully balanced 32-vs-32 at k=4 (versus the asymmetric 10-vs-6 at k=3). The Pi^2-class trichotomy itself is N-stable per F85, but the y_par sub-refinement is genuinely k-dependent.
+The k=4 enumeration is qualitatively different from k=3 because the underlying Klein cell counts redistribute. Klein (0,0) goes from a 45-vs-21 split at k=3 to a 780-vs-300 split at k=4 (a quadratic blow-up in the y_par=0 letters), and the off-diagonal cells become fully balanced 32-vs-32 at k=4 (versus the asymmetric 10-vs-6 at k=3). The Pi^2-class trichotomy itself is N-stable per F85, but the y_par sub-refinement is not: it depends on k and N together, pure at full support (N = k, as at k = 4, N = 4 here) and biased below it at k = 3 (the F103 anchor sits at N = 4).
 
-The diagnostic upshot is that the Z₂³ refinement has two structural tiers: invariants that hold across all (N, k) regimes (the two purity statements and the off-diagonal B/C partition), and ratios that are k-anchored (the diagonal split structure). For practical use, anything that depends on the 42:8 ratio is a k=3-specific number; anything that depends on the y_par purity of truly / mother-soft is universal. F107, F109, F110, F111 and F103 §8 elsewhere give the closed-form derivations for the universal pieces; F106 here is the empirical anchor that motivated separating universal from k-specific in the first place.
+The diagnostic upshot is that the Z₂³ refinement has two structural tiers: invariants that hold across all (N, k) regimes (the two purity statements and the off-diagonal B/C partition), and ratios anchored at (k, N) (the diagonal split, pure at full support N = k and biased below it). For practical use, anything that depends on the 42:8 ratio is a number of k = 3 below full support; anything that depends on the y_par purity of truly / mother-soft is universal. F107, F109, F110, F111 and F103 §8 elsewhere give the closed-form derivations for the universal pieces; F106 here is the empirical anchor that motivated separating universal from (k, N)-specific in the first place.
 
 ## 1. Context
 
@@ -39,11 +39,11 @@ without redefinition.
 - Truly y_par=0-purity: **HELD bit-structurally** (every truly classification at k=4 has y_par=0; total 3924, y_par=1 count 0).
 - Mother soft y_par=1-purity: **HELD bit-structurally** (every mother-soft classification still has y_par=1; counts moved from (0, 21) at k=3 to (0, 300) at k=4 across all 3 dephase letters, but purity is intact).
 - Hard diagonal Y-inversion: **HELD qualitatively** (Y-dephase still inverts the y_par assignment relative to Z/X-dephase).
-- Hard diagonal 42:8 ratio: **BROKE** (the mixed-y_par 42:8 split sharpened to fully polarized 228:0 / 0:228, i.e. 100% pure per cell rather than 84%:16% mixed).
+- Hard diagonal 42:8 ratio: **BROKE** (the mixed-y_par 42:8 split sharpened to fully polarized 228:0 / 0:228, i.e. 100% pure per cell rather than 84%:16% mixed; the k = 3 anchor sits below full support at N = 4, the k = 4 anchor at full support, where the split is pure at every k).
 - Diagonal soft 13:13 symmetry: **BROKE** (the per-diagonal-cell y_par symmetry became asymmetric 300:528 for Z/X and 528:300 for Y).
 - Off-diagonal B/C partition: **HELD** (the same three Pattern C and three Pattern B cells; Pattern B's numbers follow its cell's enumeration, (528, 528) at k=4; Section 3.5).
 
-The k=4 enumeration is genuinely different (4248 vs 294 pairs; 12744 vs 882 classifications); some F103 sub-statements were y_par-axis invariants that genuinely lift across k (the two purity statements and the off-diagonal B/C partition survive), while others were k-specific ratios that re-scale with the enum balance shift.
+The k=4 enumeration is genuinely different (4248 vs 294 pairs; 12744 vs 882 classifications); some F103 sub-statements were y_par-axis invariants that genuinely lift across k (the two purity statements and the off-diagonal B/C partition survive), while others were ratios anchored at (k, N): the diagonal hard split is pure at full support (N = k) and biased below it, and the k = 3 anchor sits below full support while the k = 4 anchor sits at it.
 
 ## 2. Method
 
@@ -139,7 +139,6 @@ Grand totals reconciliation:
 
 ## 5. Open Questions
 
-- Closed-form derivation of the (228, 0) / (0, 228) hard diagonal at k=4, and the (300, 528) / (528, 300) diagonal soft split (analogous to the long-standing F103 42:8 closed-form open question; the new ratios may be more tractable due to their polarization)
-- N>4 at k=4 (~42h dense per batch at N=5; impractical without block-spectrum Classify)
-- k>4 (impractical; pair count grows by factor of ~16 per +1 to k; 67968 at k=5 ahead of the 4248 at k=4)
+- **The (228, 0) / (0, 228) hard diagonal and the (300, 528) / (528, 300) soft split, in closed form. Answered** by [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)'s rule, counted. The half of the diagonal cell whose y_par is the dephase letter's holds 8 pure-D templates and 24 mixed ones, so 8·9/2 + 8·24 = 36 + 192 = 228 pairs contain a pure-D template and are hard, and the 24·25/2 = 300 mixed pairs are soft; the other half holds no pure-D template (a pure-D template's y_par is the letter's own), so all its 32·33/2 = 528 pairs are soft.
+- **N > 4 at k = 4, and k = 5. Answered** for the diagonal cell by Theorem 2 of the [complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), which decides each pair exactly on a graph of 2^N bitstrings, no eigensolver (`DiagonalCellComplementConnectionTests`, Z dephasing): hard pairs by y_par (292, 128) at k = 4, N = 5 and (356, 320) at N = 6, 7, 8; (2056, 0) at k = 5, N = 5, (2952, 896) at N = 6, (4488, 2432) at N = 7 and (6536, 4480) at N = 8. The soft and truly counts of the other cells beyond N = 4 are not read there.
 - Hardware k≥3 F87 confirmation (still open from F103/F105)

@@ -8,7 +8,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>F110 SLOW enumeration tests: re-run the F103/F105/F106 anchors and
 /// assert F110's Aspect A (hard Klein-homogeneous pairs only in the diagonal cell), Aspect B (Y-inversion),
-/// and Aspect C (k-purity sharpening 42:8 to 228:0) bit-exactly.
+/// and Aspect C (purity at full support: 228:0 at k = N = 4, beside the biased 42:8 at k = 3, N = 4) bit-exactly.
 ///
 /// <para>Runtime: seconds for k=3 N=3 (the floor, F105 §5), ~10s for k=3 N=4, ~30s
 /// for k=3 N=5, ~3min PLINQ for k=4 N=4.
@@ -123,7 +123,7 @@ public class HardCellYInversionPatternEnumerationTests :
     [Fact]
     public void K4N4_HardDiagonalCounts_Match228_0_PureWithYInversion()
     {
-        // F106 k-sharpening: pure 228:0 with Y-inversion preserved
+        // F106 at full support: pure 228:0 with Y-inversion preserved
         var counts = _fixture.CountsK4N4;
         Assert.Equal((228, 0), HardCounts(counts, (0, 1), 'Z'));
         Assert.Equal((228, 0), HardCounts(counts, (1, 0), 'X'));

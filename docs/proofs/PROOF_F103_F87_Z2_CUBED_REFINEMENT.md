@@ -215,13 +215,18 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
    windowed theorem of §7.5-§7.6, closed at every γ > 0 by the residual lemma after §7.6
    (WindowedConverseAllGammaClaim).
 
-2. **N>4 and k>3 universality. ANSWERED in N, OPEN in k.** In N: the (42, 8, 50)
+2. **N>4 and k>3 universality. ANSWERED for the hard diagonal cell through k = 5.** In N: the (42, 8, 50)
    numbers hold at N=5 (F105's anchor, spectrally) and through N=8 (§7's criterion,
    with a four-pair spectral cross-check at N=6). Below the floor they change, N=3 reading
    34:0 hard and 21:21 soft, per the §6 N-stability paragraph and
    [F105 §5](PROOF_F105_F87_Z2_CUBED_REFINEMENT_N5K3.md). The Y-inversion itself
    carries all the way down, since it comes from the templates' Y content. In k:
-   F106 anchors k=4 at N=4 only (228:0), and no k=4 N-sweep exists.
+   Theorem 2 of the [complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)
+   decides the diagonal cell pair by pair (`DiagonalCellComplementConnectionTests`, Z dephasing):
+   hard (y_par 0, 1) = (228, 0) at k = 4, N = 4 (F106), (292, 128) at N = 5 and (356, 320) at
+   N = 6, 7, 8; (2056, 0), (2952, 896), (4488, 2432) and (6536, 4480) at k = 5, N = 5 to 8; and it
+   reproduces (42, 8) at k = 3. The soft, truly and off-diagonal counts beyond k = 4, N = 4 are not
+   read there.
 
 3. **Pattern B vs Pattern C selection rule for off-diagonal soft. ANSWERED (§8).**
    Pattern C is the cell of the letter the canonical Π flips by, Pattern B the

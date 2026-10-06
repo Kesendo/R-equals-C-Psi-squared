@@ -7,6 +7,7 @@
 - [F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (every non-diagonal Klein cell is coloured) and §6-§7 (the counting rule and the bipartite mechanism)
 - [PROOF_PALINDROME_TWO_END_COUNT.md](PROOF_PALINDROME_TWO_END_COUNT.md) (F158 §(e): an invertible operator that commutes with H and anticommutes with every jump reflects L to −L† − 2σ, and the spectrum pairs about −σ)
 - [The palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md) (a lit Pauli string commuting with H is such an operator)
+- Theorem 2 of the [complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) (the split at full support for every k and below it at k = 4, 5, exact pair by pair)
 - [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md) (Aspect B at k = N = 4, derived there inside the diagonal cell that Aspect A leaves)
 - [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md), [F109](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md) (the two purity statements beside this one)
 
@@ -18,7 +19,7 @@ The first aspect is the cleanest. F87-hard Pauli pairs whose two terms share a K
 
 The second aspect is the Y-inversion observation. Within each diagonal hard cell, the dominant y-parity equals the y-parity of the dephase letter. For Z- and X-dephasing the diagonal is dominantly y-parity zero (matching Z and X both being y-parity-zero letters); for Y-dephasing the diagonal flips to dominantly y-parity one (matching Y being a y-parity-one letter). At k = N = 4 this dominance is bit-exactly pure (228:0 split per cell), closed-form via the sibling Pure-D Template Rule (F111). At k = 3 the dominance is derived by the F103 §6 counting rule (the 42:8 split).
 
-The third aspect is the k-dependent sharpening. At k = 3 the hard cells split 42:8 with the dominant y-parity carrying 84% of the weight; at k = 4 the same cells go fully pure (100% on the dominant side). The pattern is a sharpening, not a re-shaping. The exact 42:8 ratio at k = 3 is derived (2026-05-29) by the diagonal-cell hardness rule, [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6, whose hard direction is the windowed all-γ converse (§3).
+The third aspect is where the split is pure. It is pure at full support, N = k, at every k (34:0 at k = 3, 228:0 at k = 4, 2056:0 at k = 5; F111's rule with its subclaim (d)). Below full support it is biased at k = 3, 4, 5, as read: 42:8 at k = 3 (84% on the dominant side), (292, 128) and then 356:320 at k = 4, (2952, 896), (4488, 2432) and 6536:4480 at k = 5. At k ≤ 2 it stays pure at every N, the mixed masks there sharing one valuation. So purity is not a k effect: it holds wherever the support is full, and below full support it depends on k. The exact 42:8 ratio at k = 3 is derived (2026-05-29) by the diagonal-cell hardness rule, [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6, whose hard direction is the windowed all-γ converse (§3).
 
 The diagnostic upshot is that y-parity reads the truly pairs, the Mother cell's soft pairs and the hard pairs: truly = y-parity-zero, mother-soft of one y-parity = y-parity-one, hard-on-diagonal = y-parity-of-the-dephase-letter (dominantly at k=3, purely at k=N=4); the soft pairs of the other cells are F103's (§3.3, §8). Outside the diagonal cell, hardness does not occur for pairs whose terms share a Klein cell.
 
@@ -31,10 +32,11 @@ The diagnostic upshot is that y-parity reads the truly pairs, the Mother cell's 
 - X-deph + Klein (1, 0) hard: dominantly y_par = 0
 - Y-deph + Klein (1, 1) hard: dominantly y_par = 1 (Y-INVERSION)
 
-**Aspect C (k-purity sharpening, derived via F103 §6/§7):**
+**Aspect C (purity at full support, derived via F103 §6/§7 and F111):**
 - k = 3, N = 4 (F103 anchor): 42:8 biased split per diagonal cell
 - k = 3, N = 5 (F105 anchor): identical 42:8 (N-stable from N = 4 per F103 §6; F85's own N-stability is the per-term Π²-class, a different cut of the word, see `experiments/SOFTNESS_IS_N_DEPENDENT.md`)
-- k = 4, N = 4 (F106 anchor): 228:0 fully pure with Y-inversion preserved
+- k = 4, N = 4 (F106 anchor): 228:0 fully pure with Y-inversion preserved, as k = 3 is at N = 3 (34:0) and k = 5 at N = 5 (2056:0)
+- below full support, saturated: 356:320 at k = 4, N = 6, 7, 8 and 6536:4480 at k = 5, N = 8 (Z dephasing, `DiagonalCellComplementConnectionTests`)
 
 ## 2. Proof of Aspect A
 
@@ -73,9 +75,9 @@ step, because it comes from the templates' Y content rather than from the adjace
 
 **Structural reading of Aspect B:** the dephase letter enters the dissipator as a single-letter "preferred" content; in the diagonal hard cell, the y_par favored by the dephase letter's own Y-content dominates. The Y-letter carries y_par = 1, which inverts the otherwise-y_par = 0-preferred pattern.
 
-**Aspect B at k = N = 4 (closed-form, Tier1Derived):** The sibling Claim F111 (HardCellPureDTemplate, 2026-05-25, Tier1Derived since 2026-06-10) sharpens Aspect B at k = N = 4: a pair (P, Q) in the diagonal cell is F87-hard iff at least one of P, Q is a "pure-D template" (length-4 string with only D and I letters). Pure-D templates have y_par = y_par(D) by construction, so the F106 N = 4 k = 4 228:0 split follows immediately. See [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md). (F111 was promoted to Tier1Derived once subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4 and the hard-direction converse closed via WindowedConverseAllGammaClaim.) At k = 3 the 42:8 dominance is derived instead by the F103 §6 counting rule, not by F111's k = 4 rule: F111's Pure-D Template Rule is anchored at k = N = 4 and does not transport down to k = 3 as a 1:1 structural correspondence (the F103 enumeration at k_body=3 admits pure-D letter-sequences only as the single all-D string per diagonal cell, far short of the 8 pure-D templates the k = 4 rule relies on, so the 36 + 192 + 0 decomposition does not reproduce the F103 50-pair hard count).
+**Aspect B at k = N = 4 (closed-form, Tier1Derived):** The sibling Claim F111 (HardCellPureDTemplate, 2026-05-25, Tier1Derived since 2026-06-10) sharpens Aspect B at k = N = 4: a pair (P, Q) in the diagonal cell is F87-hard iff at least one of P, Q is a "pure-D template" (length-4 string with only D and I letters). Pure-D templates have y_par = y_par(D) by construction, so the F106 N = 4 k = 4 228:0 split follows immediately. See [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md). (F111 was promoted to Tier1Derived once subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4 and the hard-direction converse closed via WindowedConverseAllGammaClaim.) At k = 3 the 42:8 dominance is derived instead by the F103 §6 counting rule, not by F111's rule, which is a full-support statement: at k = N = 3 it gives the 34 hard pairs exactly (for D = Z the four pure-D templates ZII, IZI, IIZ, ZZZ, 4·5/2 + 4·6 = 34), while F103's anchor sits at N = 4, below full support, where 16 hard pairs of two mixed templates join them, 50 in all.
 
-**Aspect C:** the asymmetry sharpens with k_body. At k = 3 the split is biased (84% : 16%); at k = 4 the split is fully pure (100% : 0%, closed-form via F111 at the k=N=4 anchor). The exact 42:8 ratio at k = 3 is derived by the F103 §6 diagonal-cell rule; the windowed hard-direction converse it relied on closed 2026-06-10 (WindowedConverseAllGammaClaim, no residual).
+**Aspect C:** the split is pure at full support. At k = N it is pure at every k (closed-form via F111: a pure-D template makes a pair hard, two mixed templates are soft); below full support it is biased at k = 3, 4, 5 (42:8 at k = 3, 84% : 16%; 356:320 at k = 4 and 6536:4480 at k = 5 once the windows saturate) and pure at k ≤ 2. The exact 42:8 ratio at k = 3 is derived by the F103 §6 diagonal-cell rule; the windowed hard-direction converse it relied on closed 2026-06-10 (WindowedConverseAllGammaClaim, no residual).
 
 ## 4. Empirical verification
 
@@ -94,7 +96,7 @@ Together F107 + F109 + F110 give the y_par signature of the truly pairs, the Mot
 ## 6. Open
 
 - Closed-form derivation of the 42:8 (k=3) hard split ratio. **ANSWERED 2026-05-29** by the diagonal-cell hardness rule in [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6 (all-diagonal templates + single-diagonal adjacency; Y-inversion forced by the templates' y_par; verified N=4,5). The windowed hard-direction converse the atomic sub-rules relied on closed 2026-06-10 (WindowedConverseAllGammaClaim, no residual). (The k = 4 228:0 ratio is closed-form via F111, Tier1Derived since 2026-06-10; subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4.)
-- k ≥ 5 empirical confirmation: F106 anchors k=4 only at N=4. Predictions for k=5 are unverified.
+- **k ≥ 5.** At full support the split is pure at every k: a pure-D template makes a pair hard at every N and two mixed templates at N = k are soft ([F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md), Open and Step 4). Below full support it is read at k = 5 by Theorem 2 of the [complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), exact pair by pair (`DiagonalCellComplementConnectionTests`, Z dephasing): the diagonal cell's hard pairs split (2056, 0) by y_par at N = 5, (2952, 896) at N = 6, (4488, 2432) at N = 7 and (6536, 4480) at N = 8, the dephase letter's own y_par dominant throughout and pure at full support. At k = 4 the same test reads (228, 0) at N = 4, the F106 anchor, (292, 128) at N = 5 and (356, 320) at N = 6, 7, 8; at k = 3 it reproduces (42, 8). Below full support at k ≥ 6 the split is not read.
 - Hardware QPU confirmation at k ≥ 3: no F87 QPU confirmations exist beyond Marrakesh k=2.
 
 ∎
