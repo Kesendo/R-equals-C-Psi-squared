@@ -5508,13 +5508,19 @@ The tower's first nonzero rung k certifies
 **hardness and BOUNDS the moment, m\* ≤ 2k+1** (the F117 deg-1 sum of squares
 P_{2k+1,1} = (2k+1)·C(2k,k)·Σ_l t_k² > 0). Three things it is NOT. (a) It is not m\*: the bound
 can be slack, as at Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ (N = 3: t₁ = t₂ = 0, t₃ = (0,0,16), so k = 3 and
-the bound is 7, but a higher-degree class fires below it, p₅ = 7680γ³, m\* = 5). When it is
-tight is OPEN: k = ℓ suffices and is not needed (the flight's own H_p = X₀+X₀Z₁+0.7X₁X₂
-has ℓ = 0 and k = 2, yet p₅ = 7680γ is a positive monomial and m\* = 5 = 2k+1 exactly).
-(b) The "hard at every γ > 0" clause travels with the monomial property and not with the
-bound: on the first witness p₇ = 35840γ − 322560γ³ + 161280γ⁵ changes sign between
-γ = 0.25 and 0.4. (c) k is not f87's ℓ, which is 1 for a nonzero diagonal else the
-shortest odd cycle; the dichotomy m\* = 2ℓ+1 holds only under its own condition t_ℓ ≠ 0. And the rung a SLOPE
+the bound is 7, but a higher-degree class fires below it, p₅ = 7680γ³, m\* = 5). It is tight exactly
+when the γ¹ coefficient of p_{m\*} is nonzero (P_{m,1} vanishes below 2k+1). For every Hermitian H the odd moments are odd
+in γ and P_{5,3} = 20·4^N·[6·Σ_{|S|=3} h_S² + (3N−2)·Σ_l c_l²] (h_S the coefficient of a weight-3 Z-string, c_l of Z_l; F117's
+multi-Z 61440 is an instance). So k ≤ 2 is always tight (k = 1 iff a single-site Z term is present, and then p₃ = 6·4^N·Σc_l²·γ ≠ 0;
+k = 2 leaves p₃ = 0); from k = 3 on a weight-3 Z-string makes m\* = 5 and the bound slack (the example above: 120·4³ = 7680), and at
+k = 3 its absence makes the bound tight. From k = 4 on, without a weight-3 Z-string, it is OPEN; k = ℓ suffices where
+F H F = −H (the F87 converse's setting, which makes k odd) and is not needed (the flight's own H_p = X₀+X₀Z₁+0.7X₁X₂ has ℓ = 0
+and k = 2). Census: [`f120_tightness_census.py`](../simulations/f120_tightness_census.py).
+(b) The "hard at every γ > 0" clause is certified by p_{m\*} positive at every γ > 0, not by
+the bound: a positive monomial gives it, and so do the two non-negative terms of p₅ at k = 2, while on the first witness
+the bound's own moment p₇ = 35840γ − 322560γ³ + 161280γ⁵ changes sign between γ = 0.25 and 0.4. (c) k is not f87's ℓ, which is 1 for a nonzero diagonal else the
+shortest odd cycle; the dichotomy m\* = 2ℓ+1 is proven where F H F = −H and under its own condition t_ℓ ≠ 0
+(outside that setting it can fail: XXZ+IXZ+XIY+XYX+IXI at N = 3 has ℓ = 3 with t₃ ≠ 0, yet k = 2 and m\* = 5). And the rung a SLOPE
 fires at can be later than k, since the slope reads Σ_l Δγ_l t_j(l) and that can cancel.
 Honestly
 one-sided: silence is not softness (IIXY+ZXZY is silent at every rung, hard at m\* = 11

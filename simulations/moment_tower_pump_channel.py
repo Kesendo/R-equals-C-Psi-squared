@@ -29,12 +29,12 @@ commutator probes [Z_l, H_p^j]. Z-flavored parasites are EXACTLY invisible ([Z, 
 is F113's complementary territory (its balance channel reads exactly the Z-drives); X/Y-flavored
 parasites with overlap on the probe set are read linearly.
 
-THE GIRTH CERTIFICATE (one-sided, deg-1 face only). Scan j = 1..j_max; the first j where the
-nonzero rung is k (t_j = 0 below it ⟹ m* <= 2k+1; equality and deg = 1 need k to be the girth, hard at
-every γ > 0). HONEST LIMIT: silence of the deg-1 tower is NOT softness; the 4-body pair
+THE GIRTH CERTIFICATE (one-sided, deg-1 face only). Scan j = 1..j_max; the first j where some
+t_j(l) is nonzero is the rung k (t_j = 0 below it ⟹ m* <= 2k+1; equality exactly when the deg-1 class fires at m*,
+always at k <= 2, see PROOF_MOMENT_TOWER_PUMP_CHANNEL §4). HONEST LIMIT: silence of the deg-1 tower is NOT softness; the 4-body pair
 IIXY+ZXZY has t_j = 0 everywhere, so no first nonzero rung at all, yet is hard at m* = 11 = 2ℓ+5 with p₁₁ = 86507520·γ⁵ (deg-5,
-pinned exactly in f87_girth_dichotomy). Site-sum caveat: Σ_l Δγ_l t_ℓ(l) can cancel accidentally;
-site-resolved weights (per-qubit calibration Δγ_l, or selective per-site damping) resolve t_ℓ(l)
+pinned exactly in f87_girth_dichotomy). Site-sum caveat: Σ_l Δγ_l t_k(l) can cancel accidentally;
+site-resolved weights (per-qubit calibration Δγ_l, or selective per-site damping) resolve t_k(l)
 individually (demonstrated in Block D).
 
 Block ledger
@@ -340,20 +340,20 @@ def block_D_girth_certificate():
           f"(slope = {s_unif.real:.1f} exactly); per-site Δγ resolves it "
           f"(slope = {s_site.real:+.4f} = Δγ_0·t_1(0)/d)")
 
-    # (ii) girth-2 witness: H = X_0 + X_0 Z_1 + 0.7·X_1 X_2; t_1 ≡ 0, t_2 fires at site 1
+    # (ii) rung-2 witness: H = X_0 + X_0 Z_1 + 0.7·X_1 X_2; t_1 ≡ 0, t_2 fires at site 1
     H2 = site_op(N, 0, 'X') + site_op(N, 0, 'X') @ site_op(N, 1, 'Z') \
         + 0.7 * site_op(N, 1, 'X') @ site_op(N, 2, 'X')
     L2 = build_L(H2, N, g_deph, g_dn, g_up)
     t1 = t_moment(H2, N, 1)
     t2 = t_moment(H2, N, 2)
-    assert all(t == 0 for t in t1), f"girth-2 witness: t_1 = {t1} != 0"
-    assert t2[0] == 0 and t2[2] == 0 and t2[1] == 16.0, f"girth-2 witness: t_2 = {t2}"
+    assert all(t == 0 for t in t1), f"rung-2 witness: t_1 = {t1} != 0"
+    assert t2[0] == 0 and t2[2] == 0 and t2[1] == 16.0, f"rung-2 witness: t_2 = {t2}"
     s_j1 = slope_dense(H2, L2, d)
     s_j2 = slope_dense(H2 @ H2, L2, d)
-    assert s_j1 == 0.0, f"girth-2 witness: slope fired below the girth ({s_j1})"
+    assert s_j1 == 0.0, f"rung-2 witness: slope fired below rung 2 ({s_j1})"
     assert abs(s_j2 - dg[1] * 16.0 / d) <= 1e-14 and abs(s_j2) > 1e-3, \
-        "girth-2 witness: slope(H^2) does not fire with Δγ_1·16/d"
-    print(f"  (ii)  girth-2 (X₀ + X₀Z₁ + 0.7·X₁X₂): t_1 ≡ 0, t_2 = [0, 16, 0]; "
+        "rung-2 witness: slope(H^2) does not fire with Δγ_1·16/d"
+    print(f"  (ii)  rung-2 (X₀ + X₀Z₁ + 0.7·X₁X₂): t_1 ≡ 0, t_2 = [0, 16, 0]; "
           f"slope(H^1) = 0.0 EXACT, slope(H^2) = {s_j2.real:+.4f} = Δγ_1·16/d  → k = 2, m* <= 5")
 
     # (iii) HONEST negative control: the 4-body pair IIXY+ZXZY (N = 5). The deg-1 tower is silent

@@ -48,15 +48,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the pump curvature reads the X/Y-flavor), both linearly with closed-form
 /// coefficients.</para>
 ///
-/// <para><b>The girth certificate, honestly one-sided:</b> the first rung j whose slope
-/// fires is the girth ℓ (the tower below the girth is identically zero), and then
-/// m* = 2ℓ+1, deg 1, hard at every γ &gt; 0 by the girth dichotomy. Silence of the deg-1
-/// tower is NOT softness: the k = 4 witness IIXY+ZXZY has t_j(l) = 0 for every j and every
+/// <para><b>The girth certificate, honestly one-sided:</b> the tower's first nonzero rung k
+/// bounds the hardness moment, m* ≤ 2k+1, tight exactly when the deg-1 class fires at m*
+/// (always at k ≤ 2; PROOF_MOMENT_TOWER_PUMP_CHANNEL §4). k is not in general the girth ℓ, and the rung a
+/// slope fires at can be later than k. Silence of the deg-1
+/// tower is NOT softness: the 4-body witness IIXY+ZXZY has t_j(l) = 0 for every j and every
 /// site, yet is hard at m* = 11 through its deg-5 class.</para>
 ///
 /// <para><b>Layer note (GirthLadder):</b> the C# girth-ladder primitive
 /// (<c>compute/RCPsiSquared.Diagnostics/F87/GirthLadder.cs</c>) computes the same per-site
-/// tower t_ℓ(l) = Tr(Z_l·H^ℓ) and the m* = 2ℓ+1 forecast this channel reads. It is a
+/// tower t_ℓ(l) = Tr(Z_l·H^ℓ) at the girth rung and the m* = 2ℓ+1 forecast of the girth dichotomy. It is a
 /// compute primitive, not a Claim, and it lives in RCPsiSquared.Diagnostics, which Core
 /// cannot reference; the edge is carried here and through the
 /// PROOF_MOMENT_TOWER_PUMP_CHANNEL.md anchor, not as a typed parent. Like
@@ -68,7 +69,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// directions on every site, the slope law against a dense superoperator applied to
 /// vec(I/d) for j = 1, 2, 3 with site-dependent rates, the three blindnesses, the F113
 /// bridge through the typed parent's <c>PredictAsymmetry</c>, the curvature fingerprint
-/// with the Y₀ visible parasite and the Z₀ exact invisibility, and the girth-2 witness
+/// with the Y₀ visible parasite and the Z₀ exact invisibility, and the rung-2 witness
 /// H = X₀ + X₀Z₁ (t₁ ≡ 0, t₂ fires). Mirrors the blocks of
 /// <c>simulations/moment_tower_pump_channel.py</c>.</para></summary>
 public sealed class MomentTowerPumpChannelClaim : Claim
@@ -110,7 +111,7 @@ public sealed class MomentTowerPumpChannelClaim : Claim
                "affine in the generator and reads X/Y-flavored parasites against the " +
                "commutator probes [Z_l, H_p^j] while Z-flavored parasites stay exactly " +
                "invisible (the complementary channel to F113's Z-drive reader); the girth " +
-               "certificate is one-sided (a firing rung proves m* = 2ℓ+1 hard at all γ; " +
+               "certificate is one-sided (a first nonzero rung k proves hardness at m* ≤ 2k+1; " +
                "silence is not softness, witness IIXY+ZXZY). " +
                "Tier1Derived (one-line identities, exact)",
                Tier.Tier1Derived,
@@ -158,8 +159,8 @@ public sealed class MomentTowerPumpChannelClaim : Claim
 
     /// <summary>The one-sided girth certificate in one line.</summary>
     public string GirthCertificate =>
-        "The first rung j whose slope fires is the girth ℓ, and then m* = 2ℓ+1, deg 1, hard " +
-        "at every γ > 0 (positive monomial, no positive root). Silence of the deg-1 tower is " +
+        "The tower's first nonzero rung k bounds the hardness moment, m* ≤ 2k+1, tight exactly when " +
+        "the deg-1 class fires at m* (always at k ≤ 2). Silence of the deg-1 tower is " +
         "NOT softness: witness IIXY+ZXZY has t_j ≡ 0 at every rung and site yet is hard at " +
         "m* = 11 through its deg-5 class.";
 
@@ -251,8 +252,8 @@ public sealed class MomentTowerPumpChannelClaim : Claim
             yield return new InspectableNode("Girth certificate (one-sided)", summary: GirthCertificate);
             yield return new InspectableNode("GirthLadder primitive (prose edge only)",
                 summary: "The C# girth-ladder primitive (compute/RCPsiSquared.Diagnostics/F87/" +
-                         "GirthLadder.cs) computes the same tower t_ℓ(l) = Tr(Z_l·H^ℓ) and the " +
-                         "m* = 2ℓ+1 forecast this channel reads. It is a compute primitive, not a " +
+                         "GirthLadder.cs) computes the same tower at the girth rung, t_ℓ(l) = Tr(Z_l·H^ℓ), and the " +
+                         "girth dichotomy's m* = 2ℓ+1 forecast. It is a compute primitive, not a " +
                          "Claim, and Diagnostics sits above Core, so the edge is carried in prose " +
                          "and through the PROOF_MOMENT_TOWER_PUMP_CHANNEL.md anchor, not as a " +
                          "typed parent.");
@@ -496,7 +497,7 @@ public sealed class MomentTowerPumpChannelClaim : Claim
             "prediction vanish; the division of labor with F113's Z-drive reader",
             devBlind));
 
-        // (10) The girth-2 witness: H = X₀ + X₀Z₁ at N = 2 has t₁ ≡ 0 (silent rung) and
+        // (10) The rung-2 witness: H = X₀ + X₀Z₁ at N = 2 has t₁ ≡ 0 (silent rung) and
         //      t₂ = (0, 8) (firing rung); the dense slope agrees rung by rung.
         {
             var hWitness = Embed(PauliX(), 0, 2) + Embed(PauliX(), 0, 2) * Embed(PauliZ(), 1, 2);
@@ -513,10 +514,10 @@ public sealed class MomentTowerPumpChannelClaim : Claim
             bool fires = Math.Abs(slope2) > 1e-6;
             bool witnessOk = devW <= Tol && fires;
             cases.Add(new BatteryCase(
-                Name: "girth-2 witness X₀ + X₀Z₁: t₁ ≡ 0, t₂ = (0, 8), slope₂ fires",
-                Detail: "the deg-1 tower is silent at j = 1 and fires at j = 2 (the girth); " +
+                Name: "rung-2 witness X₀ + X₀Z₁: t₁ ≡ 0, t₂ = (0, 8), slope₂ fires",
+                Detail: "the deg-1 tower is silent at j = 1 and fires at j = 2 (k = 2; the hopping graph is bipartite, ℓ = 0); " +
                         "slope₂ = Δγ₁·t₂(1)/d = " + slope2.ToString("E2", CultureInfo.InvariantCulture) +
-                        "; a firing rung is a complete hardness certificate (m* = 2ℓ+1)",
+                        "; a firing rung certifies hardness, here at m* = 2k+1 = 5 since k = 2 is always tight",
                 Expected: "t₁ = (0, 0), t₂ = (0, 8), slope₁ = 0, slope₂ fires (dev ≤ 1e-12)",
                 Actual: witnessOk
                     ? "t₁ = (0, 0), t₂ = (0, 8), slope₁ = 0, slope₂ fires (dev ≤ 1e-12)"

@@ -13,7 +13,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// are the two factors of one F87-hardness coefficient on M = A + γQ, hinged by <b>Q</b>.
 ///
 /// <para>On the 4^N coherence space: A = −i[H,·] carries the girth/moment side (A's closed walks on H's
-/// hopping graph; the moments t_j(l) = Tr(Z_l H^j), girth ℓ = their onset). Q = Σ_l Z_l⊗Z_l is the rung
+/// hopping graph; the moments t_j(l) = Tr(Z_l H^j); their onset, F120's index k, is in general not the girth ℓ). Q = Σ_l Z_l⊗Z_l is the rung
 /// side: diagonal, Q_x = N − 2k(x). The F87 hardness coefficient (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §4)
 /// is P_{m,1} = m·Tr(Q·A^{m−1}) = the rung Q weighting A's closed walks; the rung k(x) literally weights
 /// each coherence's walk count (A^{m−1})_xx, and the supertrace factorizes the result into the girth
@@ -142,7 +142,7 @@ public sealed class LadderHingeWitness : IInspectable
             summary: "M = A + γQ on the 4^N coherences. Q = Σ_l Z_l⊗Z_l is diagonal, Q_x = N − 2k(x): its "
                    + "SPECTRUM is the rung ladder k (the −2γk dissipative reading). Its ACTION (Σ Z_l⊗Z_l) "
                    + "projects A = −i[H,·]'s closed walks onto the Z-weighted girth moments t_j(l) = Tr(Z_l H^j) "
-                   + "(girth ℓ = their onset). One operator, both ladders — the hinge.");
+                   + "(their onset, F120's index k, is in general not the girth ℓ). One operator, both ladders: the hinge.");
     }
 
     private IInspectable TheBridgeIdentity()

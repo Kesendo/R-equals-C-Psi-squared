@@ -14,7 +14,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>The two sides of M</b> (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §1, §4), on the 4^N coherence
 /// space: A = −i[H,·] carries the girth/moment side (A's closed walks on H's hopping graph; the moments
-/// t_j(l) = Tr(Z_l H^j), girth ℓ = their onset). Q = Σ_l Z_l⊗Z_l is the rung side: diagonal,
+/// t_j(l) = Tr(Z_l H^j); their onset, F120's index k, is in general not the girth ℓ). Q = Σ_l Z_l⊗Z_l is the rung side: diagonal,
 /// Q_x = N − 2k(x) (the Absorption-Theorem reading, <see cref="AbsorptionTheoremClaim"/>).</para>
 ///
 /// <para><b>The hinge.</b> The F87 deg-1 hardness coefficient is P_{m,1} = m·Tr(Q·A^{m−1}): the rung Q
@@ -51,7 +51,7 @@ public sealed class ThreeLadderHingeClaim : Claim
     public AbsorptionTheoremClaim Absorption { get; }
 
     /// <summary>Typed parent: the F120 moment-tower pump channel — the moments t_j(l) = Tr(Z_l H^j) that Q's
-    /// action projects A's walks onto (girth ℓ = their onset). The girth/moment side of the hinge; its
+    /// action projects A's walks onto (their onset, F120's index k, is in general not the girth ℓ). The girth/moment side of the hinge; its
     /// <see cref="MomentTowerPumpChannelClaim.MomentTower"/> primitive computes the t_j this battery uses.</summary>
     public MomentTowerPumpChannelClaim Moment { get; }
 
@@ -108,7 +108,7 @@ public sealed class ThreeLadderHingeClaim : Claim
             yield return new InspectableNode("Typed parents",
                 summary: $"AbsorptionTheoremClaim ({Absorption.Tier.Label()}): the rung k is Q's spectrum, " +
                          $"Q_x = N−2k, rate −2γk. MomentTowerPumpChannelClaim ({Moment.Tier.Label()}): the moments " +
-                         "t_j(l) = Tr(Z_l H^j) Q projects onto, the girth ℓ their onset. The F87 girth/hardness " +
+                         "t_j(l) = Tr(Z_l H^j) Q projects onto; " + "their onset, F120's index k, is in general not the girth ℓ. The F87 girth/hardness " +
                          "side is a prose edge (the girth primitive lives in Diagnostics, above Core).");
             yield return new InspectableNode("No IZ2AxisClaim",
                 summary: "Cross-axis structural like MomentTowerPumpChannelClaim and MirrorGroupD4Claim: it welds " +

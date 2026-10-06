@@ -43,15 +43,14 @@ def moment_tower(H, N, j_max, tol=1e-9):
     IIXY+ZXZY has t_j = 0 everywhere, so it has no first nonzero rung at all, yet
     it is hard at m* = 11 with p₁₁ = 86507520·γ⁵).
 
-    The bound is not an equality, which is why 'deg1_verdict' says <=. Equality
-    needs k to be the F87 girth ℓ, and k is NOT ℓ: f87's ℓ
-    (f87_windowed_monomial_converse.effective_ell) is 1 for a nonzero diagonal
-    and otherwise the shortest odd cycle, so it is never even; k routinely is.
-    At k > ℓ a higher-degree class fires BELOW 2k+1. H = Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ at
-    N = 3 has t₁ = t₂ = 0 and t₃ = (0,0,16), so k = 3 and the bound reads 7, but
-    the diagonal is nonzero so ℓ = 1 and p₅ = 7680·γ³ already fires: m* = 5. The
-    dichotomy's `deg = 1` half, and with it 'hard at every γ > 0', need ℓ
-    specifically and are not asserted here.
+    The bound is not an equality, which is why 'deg1_verdict' says <=. It is tight
+    exactly when the deg-1 class fires at m* (PROOF_MOMENT_TOWER_PUMP_CHANNEL §4): always
+    at k <= 2, and from k = 3 on a weight-3 Z-string in H makes it slack, its absence
+    making it tight at k = 3. k is not in general f87's ℓ (effective_ell: 1 for a nonzero diagonal,
+    otherwise the shortest odd cycle). H = Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ at N = 3 has t₁ = t₂ = 0
+    and t₃ = (0,0,16), so k = 3 and the bound reads 7, but it carries the weight-3
+    Z-string Z₀Z₁Z₂, so p₅ = 7680·γ³ already fires: m* = 5. 'Hard at every γ > 0' is
+    not asserted here.
 
     Note also that this reads the TOWER. The rung at which a measured slope
     fires can be later, because the slope reads Σ_l Δγ_l t_j(l), which can

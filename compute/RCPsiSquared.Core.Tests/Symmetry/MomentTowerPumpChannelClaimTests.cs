@@ -123,11 +123,11 @@ public class MomentTowerPumpChannelClaimTests
     }
 
     [Fact]
-    public void Battery_GirthTwoWitness_SilentThenFiring()
+    public void Battery_RungTwoWitness_SilentThenFiring()
     {
         var claim = MakeClaim();
-        var witness = claim.Cases.Single(c => c.Name.StartsWith("girth-2 witness", StringComparison.Ordinal));
-        Assert.True(witness.Passes, $"girth-2 witness failed: {witness.Actual}");
+        var witness = claim.Cases.Single(c => c.Name.StartsWith("rung-2 witness", StringComparison.Ordinal));
+        Assert.True(witness.Passes, $"rung-2 witness failed: {witness.Actual}");
     }
 
     [Fact]

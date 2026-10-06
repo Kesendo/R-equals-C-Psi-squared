@@ -12,7 +12,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// balance; rung 1 is F113 (asymmetry = −4^N·slope⟨H⟩ exactly); the curvature is exactly
 /// affine in the generator and fingerprints X/Y-flavored parasites against the commutator
 /// probes [Z_l, H_p^j] while Z-flavored parasites stay exactly invisible; the girth
-/// certificate is one-sided (a firing rung proves m* = 2ℓ+1; silence is not softness).
+/// certificate is one-sided (a first nonzero rung k proves hardness at m* ≤ 2k+1; silence is not softness).
 ///
 /// <para>Tier1Derived (one-line identities, exact; self-check battery at N = 2 and N = 3 in
 /// the ctor). Typed parents: <see cref="LindbladBitBPiBreakMagnitude"/> (F113, whose closed

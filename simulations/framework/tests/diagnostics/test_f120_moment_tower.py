@@ -48,17 +48,17 @@ def _slope_dense(A, L, d):
     return complex(np.vdot(A.conj().T.flatten(), L @ vecI))
 
 
-def _girth2_witness(N=3):
+def _rung2_witness(N=3):
     """H = X₀ + X₀Z₁ + 0.7·X₁X₂: t₁ ≡ 0, t₂ fires at site 1 with value 16."""
     return site_op(N, 0, 'X') + site_op(N, 0, 'X') @ site_op(N, 1, 'Z') \
         + 0.7 * site_op(N, 1, 'X') @ site_op(N, 2, 'X')
 
 
-def test_F120_girth2_witness():
-    """moment_tower on the girth-2 witness: t₁ ≡ 0, t₂ = [0, 16, 0], girth = 2,
-    verdict 'hard, m* <= 5' per the F87 girth dichotomy (m* = 2ℓ+1)."""
+def test_F120_rung2_witness():
+    """moment_tower on the rung-2 witness: t₁ ≡ 0, t₂ = [0, 16, 0], first nonzero rung 2,
+    verdict 'hard, m* <= 5' (tight, as at every k = 2: PROOF_MOMENT_TOWER_PUMP_CHANNEL §4)."""
     N = 3
-    H = _girth2_witness(N)
+    H = _rung2_witness(N)
     tower = fw.moment_tower(H, N, j_max=4)
     assert all(t == 0 for t in tower['t'][1]), f"t_1 = {tower['t'][1]} != 0"
     assert tower['t'][2][0] == 0 and tower['t'][2][2] == 0, "t_2 off-site entries nonzero"
@@ -83,7 +83,7 @@ def test_F120_slope_law_vs_dense_L():
     dg = [a - b for a, b in zip(g_dn, g_up)]
     rng = np.random.default_rng(11)
     M = rng.standard_normal((d, d)) + 1j * rng.standard_normal((d, d))
-    for H in (_girth2_witness(N), (M + M.conj().T) / 2):
+    for H in (_rung2_witness(N), (M + M.conj().T) / 2):
         # Pin the operands. Every comparison below is slope-vs-law, and both read 0.0 for
         # a zero H or at detailed balance, so the test would otherwise certify nothing.
         assert np.linalg.norm(H) > 1e-6, "the witness H is zero"
@@ -97,7 +97,7 @@ def test_F120_slope_law_vs_dense_L():
                 f"j={j}: measured {measured}, predicted {predicted}"
 
     # scalar Δγ broadcast (uniform) follows the F82 convention
-    H = _girth2_witness(N)
+    H = _rung2_witness(N)
     assert fw.predict_pump_slope(H, 2, 0.1) == pytest.approx(
         fw.predict_pump_slope(H, 2, [0.1] * N), abs=1e-15)
 
@@ -178,13 +178,12 @@ def test_F120_the_rung_bound_is_not_an_equality():
     """2k+1 BOUNDS m*, it does not give it, and the docstring must not promise equality.
 
     H = Y₂ + Z₀Z₁Y₂ + Z₀Z₁Z₂ at N = 3 has t₁ = t₂ = 0 and t₃ = (0, 0, 16), so the first
-    nonzero rung is k = 3 and the bound reads 2k+1 = 7. But H has a nonzero diagonal, so
-    f87's girth is ℓ = 1, and the deg-3 class already fires at 2ℓ+3 = 5: p₅ = 7680·γ³.
-    The true hardness moment is 5. Equality needs k = ℓ, which is what kills the lower
-    moments; this test is the case where it does not hold.
+    nonzero rung is k = 3 and the bound reads 2k+1 = 7. But H carries the weight-3 Z-string
+    Z₀Z₁Z₂, so the deg-3 class already fires at 5: p₅ = 120·4³·γ³ = 7680·γ³
+    (PROOF_MOMENT_TOWER_PUMP_CHANNEL §4). The true hardness moment is 5.
 
-    'hard at every γ > 0' fails with it: p₇ is not a monomial and changes sign, so the
-    moment the bound names is not the one that certifies hardness throughout.
+    p₇ is not a monomial and changes sign, so the moment the bound names is not the one
+    that certifies hardness throughout.
     """
     N = 3
     Y2 = site_op(N, 2, 'Y')
@@ -212,3 +211,135 @@ def test_F120_the_rung_bound_is_not_an_equality():
         assert p(5, g) == pytest.approx(7680.0 * g ** 3, rel=1e-9)   # fires, monomial γ³
     # and the bound's own moment is not sign-definite
     assert p(7, 0.25) > 0 and p(7, 0.4) < 0
+
+
+def test_F120_p53_closed_form_and_k3_tightness():
+    """PROOF_MOMENT_TOWER_PUMP_CHANNEL §4: P_{5,3} = 20·4^N·[6·Σ_{|S|=3} h_S² + (3N−2)·Σ_l c_l²] for every
+    Hermitian H, read exactly (integer Tr(M^5) at γ = 0..5, interpolated); and at k = 3 the bound is slack
+    exactly when H carries a weight-3 Z-string (the Y₂ row carries Z₀Z₁Z₂, p₅ = 7680·γ³; IXX + IZZ + ZYY,
+    k = 3 with none, has p₅ ≡ 0, so m* = 7 = 2k+1)."""
+    from fractions import Fraction
+    from itertools import product
+
+    def string(s):
+        out = np.array([[1]], dtype=complex)
+        for c in s:
+            out = np.kron(out, {'I': np.eye(2), 'X': np.array([[0, 1], [1, 0]]),
+                                'Y': np.array([[0, -1j], [1j, 0]]), 'Z': np.diag([1, -1])}[c])
+        return out
+
+    def p5_coeffs(H, N):
+        d = 2 ** N
+        A = -1j * (np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T))
+        Q = sum(np.kron(string('I' * l + 'Z' + 'I' * (N - l - 1)), string('I' * l + 'Z' + 'I' * (N - l - 1)))
+                for l in range(N)).real
+        Ar, Ai, Qi = (np.round(A.real).astype(object), np.round(A.imag).astype(object), np.round(Q).astype(object))
+        vals = []
+        for g in range(6):
+            R, I = Ar + g * Qi, Ai
+            PR, PI = R.copy(), I.copy()
+            for _ in range(4):
+                PR, PI = PR.dot(R) - PI.dot(I), PR.dot(I) + PI.dot(R)
+            assert sum(PI[i, i] for i in range(d * d)) == 0
+            vals.append(Fraction(int(sum(PR[i, i] for i in range(d * d)))))
+        coef = vals[:]                                # Newton divided differences on γ = 0..5
+        for j in range(1, 6):
+            for i in range(5, j - 1, -1):
+                coef[i] = (coef[i] - coef[i - 1]) / j
+        poly, basis = [Fraction(0)] * 6, [Fraction(1)]
+        for i in range(6):
+            for k_, b in enumerate(basis):
+                poly[k_] += coef[i] * b
+            nb = [Fraction(0)] * (len(basis) + 1)
+            for k_, b in enumerate(basis):
+                nb[k_ + 1] += b
+                nb[k_] -= i * b
+            basis = nb
+        return [int(c) for c in poly]
+
+    N = 3
+    rng = np.random.default_rng(20261006)
+    labels = [''.join(t) for t in product('IXYZ', repeat=N) if set(t) != {'I'}]
+    for _ in range(3):
+        coef = {s: int(rng.integers(-3, 4)) for s in rng.choice(labels, 6, replace=False)}
+        coef.update({'ZZZ': 2, 'IZI': -1})
+        H = sum(c * string(s) for s, c in coef.items())
+        w3 = sum(c * c for s, c in coef.items() if set(s) <= {'I', 'Z'} and s.count('Z') == 3)
+        w1 = sum(c * c for s, c in coef.items() if set(s) <= {'I', 'Z'} and s.count('Z') == 1)
+        assert p5_coeffs(H, N)[3] == 20 * 4 ** N * (6 * w3 + (3 * N - 2) * w1)
+    with_zzz = string('IIY') + string('ZZY') + string('ZZZ')
+    without = string('IXX') + string('IZZ') + string('ZYY')
+    assert p5_coeffs(with_zzz, N) == [0, 0, 0, 7680, 0, 0]
+    assert p5_coeffs(without, N) == [0] * 6
+    tower = fw.moment_tower(without, N, j_max=3)
+    assert tower['first_firing_rung'] == 3
+
+
+def test_F120_tightness_examples_exact():
+    """The rows PROOF_MOMENT_TOWER_PUMP_CHANNEL §4 and F120 (c) quote, read exactly at N = 3: (k, m*, p_m*) for a
+    slack and a tight k = 4 row, a slack k = 5 row under F H F = -H with no weight-3 Z-string, and the girth
+    dichotomy failing outside F H F = -H (ell = 3 with t_3 != 0, yet k = 2 and m* = 5)."""
+    from fractions import Fraction
+    from itertools import product
+
+    P1 = {'I': np.eye(2), 'X': np.array([[0, 1], [1, 0]]), 'Y': np.array([[0, -1j], [1j, 0]]), 'Z': np.diag([1, -1])}
+
+    def string(s):
+        out = np.array([[1]], dtype=complex)
+        for c in s:
+            out = np.kron(out, P1[c])
+        return out
+
+    def moments(H, N, mmax):
+        d = 2 ** N
+        A = -1j * (np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T))
+        Q = sum(np.kron(string('I' * l + 'Z' + 'I' * (N - l - 1)), string('I' * l + 'Z' + 'I' * (N - l - 1)))
+                for l in range(N)).real
+        Ar, Ai, Qi = (np.round(A.real).astype(object), np.round(A.imag).astype(object), np.round(Q).astype(object))
+        tr = []
+        for g in range(mmax + 1):
+            R = Ar + g * Qi
+            PR, PI = R.copy(), Ai.copy()
+            row = [sum(PR[i, i] for i in range(d * d))]
+            for _ in range(mmax - 1):
+                PR, PI = PR.dot(R) - PI.dot(Ai), PR.dot(Ai) + PI.dot(R)
+                row.append(sum(PR[i, i] for i in range(d * d)))
+            tr.append(row)
+        out = {}
+        for m in range(1, mmax + 1, 2):
+            vals = [Fraction(int(tr[g][m - 1])) for g in range(m + 1)]
+            coef = vals[:]
+            for j in range(1, m + 1):
+                for i in range(m, j - 1, -1):
+                    coef[i] = (coef[i] - coef[i - 1]) / j
+            poly, basis = [Fraction(0)] * (m + 1), [Fraction(1)]
+            for i in range(m + 1):
+                for k_, b in enumerate(basis):
+                    poly[k_] += coef[i] * b
+                nb = [Fraction(0)] * (len(basis) + 1)
+                for k_, b in enumerate(basis):
+                    nb[k_ + 1] += b
+                    nb[k_] -= i * b
+                basis = nb
+            out[m] = [int(c) for c in poly]
+        return out
+
+    def read(coef, N=3):
+        H = sum(c * string(s) for s, c in coef.items())
+        k = fw.moment_tower(H, N, j_max=8)['first_firing_rung']
+        pm = moments(H, N, 2 * k + 1)
+        ms = next(m for m in range(1, 2 * k + 2, 2) if any(pm[m]))
+        return k, ms, {j: c for j, c in enumerate(pm[ms]) if c}
+
+    assert read({'XYZ': -3, 'IYY': -3, 'IXX': 2, 'YXI': -1}) == (4, 7, {3: 580608})
+    assert read({'ZIY': 1, 'XYI': -3, 'ZXX': 2, 'XIZ': 1}) == (4, 9, {1: 92897280})
+    k5 = {'IXY': -2, 'XIY': 3, 'IYX': 2, 'YYY': 1, 'IXZ': 1}
+    H5 = sum(c * string(s) for s, c in k5.items())
+    F = string('XXX')
+    assert np.array_equal(F @ H5 @ F, -H5)
+    assert read(k5) == (5, 9, {3: 4644864})
+    dich = {'XXZ': 1, 'IXZ': 1, 'XIY': 1, 'XYX': 1, 'IXI': 1}
+    Hd = sum(c * string(s) for s, c in dich.items())
+    t3 = [int(round(np.trace(string('I' * l + 'Z' + 'I' * (2 - l)) @ np.linalg.matrix_power(Hd, 3)).real)) for l in range(3)]
+    assert t3 == [0, -16, 0] and not np.array_equal(F @ Hd @ F, -Hd)
+    assert read(dich) == (2, 5, {1: 7680})
