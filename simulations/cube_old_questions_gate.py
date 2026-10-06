@@ -29,6 +29,16 @@ G9  n_XY parity (the character of Ad_{Z^N}, (-1)^(p - q) on |a><b|) under amplit
     bra and ket together, so p - q stays a symmetry and the parity is its shadow; the blocks of L (components of its
     sparsity graph, an exact count) are the 2N + 1 values of p - q for XXZ, the two parities for XX bonds alone (an H
     that changes the excitation number by two), and one block once a transverse X field is on.
+G10 The V-Effect census's 36 two-term chain pairs at every N >= 3 (on one bond all 36 pair). The 22 palindromic pairs
+    have a product mirror, X, Y or X-Y per site with period two, commuting with H and anticommuting with every Z_l (F158
+    section (e)), the same at N = 3 and 4 (the bond check holds both orientations from N = 3); the 14 hard ones have none.
+    Each of the 14 has an F158 odd word at the chain's end (powers of H between jumps Z_l, an odd number of jumps) with a
+    nonzero trace, exact and constant from N = 3 or 4 to N = 2P + 6; far bonds enter only as clusters of at least two
+    factors that commute with the rest, so from N = 2P + 4 the trace is a polynomial in N of degree at most P // 2 <= 2,
+    and three equal values make it constant. The F158 end count at N = 3 is a second route for all 14, with XX+XZ
+    as the palindromic control. Swept for G10: experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md (the 36 at N = 3, 4, 5),
+    OPERATOR_RIGIDITY_ACROSS_CUSP.md, NON_HEISENBERG_PALINDROME.md (the 22 proved bond by bond), SOFTNESS_IS_N_DEPENDENT.md (k >= 3 and multi-term, not these), V_EFFECT_PALINDROME.md
+    (all 36 pair at N = 2), F158 (f5) and PalindromeSoftCertifier; none held the hard side at every N.
 Sweep before writing: docs/ANALYTICAL_FORMULAS.md (F4, F49e, F88a, F88b, F137, F155), docs/proofs/ (the complement
 connection's Theorem 2, PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS, MIRROR_SYMMETRY_PROOF's Scope, PROOF_CROSS_TERM_FORMULA,
 PROOF_F155), experiments/THERMAL_BREAKING.md, data/ibm_f83_signature_april2026, fw.Confirmations (the f83 entry),
@@ -434,6 +444,83 @@ for N in (3, 4):
         check(f"G9 N={N} {name} + amplitude damping + Z dephasing: {nb} blocks (expected {expect})"
               + ({"diff": ", one per value of p - q", "parity": ", the two n_XY parities"}.get(label, "")),
               nb == expect and labels_ok)
+
+# ---------------------------------------------------------------- G10
+def pmul(A, B):                                             # operators as {Pauli string: Gaussian rational (re, im)}
+    out = {}
+    for a, (ar, ai) in A.items():
+        for b, (br, bi) in B.items():
+            ph, w = smul(a, b)
+            cr, ci = ar * br - ai * bi, ar * bi + ai * br
+            pr, pi = int(ph.real), int(ph.imag)
+            o = out.get(w, (F(0), F(0))); out[w] = (o[0] + cr * pr - ci * pi, o[1] + cr * pi + ci * pr)
+    return {w: c for w, c in out.items() if c != (F(0), F(0))}
+def odd_word_trace(N, terms, hp, js):
+    H = {}
+    for b in range(N - 1):
+        for t in terms:
+            w = ["I"] * N; w[b], w[b + 1] = t[0], t[1]; H["".join(w)] = (F(1), F(0))
+    one = {"I" * N: (F(1), F(0))}; pw = [one]
+    for _ in range(max(hp)): pw.append(pmul(pw[-1], H))
+    W = one
+    for k, j in zip(hp, js):
+        W = pmul(pmul(W, pw[k]), {"".join("Z" if i == j else "I" for i in range(N)): (F(1), F(0))})
+    return W.get("I" * N, (F(0), F(0)))                     # trace / 2^N
+ODD_WORDS = {  # pair: (powers of H, jump sites, first N, trace/2^N as Gaussian integer (re, im))
+    "XX+XY": ([0, 1, 3], [0, 0, 1], 3, (0, 8)), "XX+YX": ([0, 1, 3], [0, 0, 1], 3, (0, -8)),
+    "XY+YY": ([0, 1, 3], [0, 0, 1], 3, (0, 8)), "YX+YY": ([0, 1, 3], [0, 0, 1], 3, (0, -8)),
+    "XY+ZX": ([0, 1, 2], [0, 1, 2], 3, (0, 4)), "XZ+YX": ([0, 1, 2], [0, 1, 2], 3, (0, 4)),
+    "XY+YZ": ([0, 1, 2], [0, 1, 2], 3, (0, -4)), "YX+ZY": ([0, 1, 2], [0, 1, 2], 3, (0, -4)),
+    "YZ+ZX": ([0, 1, 3], [0, 1, 2], 4, (0, 4)), "XZ+ZY": ([0, 1, 3], [0, 1, 2], 4, (0, -4)),
+    "XY+XZ": ([0, 0, 1, 1, 1], [0, 1, 0, 1, 2], 3, (0, 4)), "YX+YZ": ([0, 0, 1, 1, 1], [0, 1, 0, 1, 2], 3, (0, -4)),
+    "XY+ZY": ([0, 0, 1, 1, 1], [0, 1, 1, 2, 2], 3, (0, 4)), "YX+ZX": ([0, 0, 1, 1, 1], [0, 1, 1, 2, 2], 3, (0, -4))}
+for pair, (hp, js, n0, want) in ODD_WORDS.items():
+    P = sum(hp); top = 2 * P + 6                            # polynomial of degree <= P//2 <= 2 from N = 2P + 4
+    vals = [odd_word_trace(N, pair.split("+"), hp, js) for N in range(n0, top + 1)]
+    check(f"G10 {pair}: odd word, H powers {hp} between jumps Z at sites {js}, trace/2^N = {want[0]}+{want[1]}i "
+          f"at every N = {n0}..{top} (constant past N = {2 * P + 4} on three points)",
+          all(v == (F(want[0]), F(want[1])) for v in vals), f"{sorted(set(vals))}")
+N3_WORDS = {"YZ+ZX": ([0, 1, 3], [0, 2, 1], (0, 4)), "XZ+ZY": ([0, 1, 3], [0, 2, 1], (0, -4))}
+for pair, (hp, js, want) in N3_WORDS.items():
+    v = odd_word_trace(3, pair.split("+"), hp, js)
+    check(f"G10 {pair} N=3: odd word, H powers {hp}, jumps at {js}, trace/2^N = {want[1]}i", v == (F(want[0]), F(want[1])))
+def gauss_nullity(M):                                       # exact over Q(i); M has Gaussian-integer entries
+    A = [[(F(int(round(x.real))), F(int(round(x.imag)))) for x in row] for row in M]
+    n, m = len(A), len(A[0]); r = 0
+    for c in range(m):
+        piv = next((i for i in range(r, n) if A[i][c] != (0, 0)), None)
+        if piv is None: continue
+        A[r], A[piv] = A[piv], A[r]
+        a, b = A[r][c]; d = a * a + b * b; inv = (a / d, -b / d)
+        A[r] = [(x * inv[0] - y * inv[1], x * inv[1] + y * inv[0]) for x, y in A[r]]
+        for i in range(n):
+            if i != r and A[i][c] != (0, 0):
+                f0, f1 = A[i][c]
+                A[i] = [(x - (f0 * u - f1 * v), y - (f0 * v + f1 * u)) for (x, y), (u, v) in zip(A[i], A[r])]
+        r += 1
+    return m - r
+U_LETTERS = {"X": PM["X"], "Y": PM["Y"], "X-Y": PM["X"] - PM["Y"]}
+HARD14 = set(ODD_WORDS)
+for a, b in itertools.combinations([p + q for p in "XYZ" for q in "XYZ"], 2):
+    pair = a + "+" + b; found = {}
+    for N in (3, 4):
+        H = ham(N, [tuple(a), tuple(b)], bonds_chain(N))
+        found[N] = next(((ue, uo) for ue, uo in itertools.product(U_LETTERS, repeat=2)
+                         if np.array_equal(op(N, {l: U_LETTERS[ue if l % 2 == 0 else uo] for l in range(N)}) @ H,
+                                           H @ op(N, {l: U_LETTERS[ue if l % 2 == 0 else uo] for l in range(N)}))), None)
+    want = pair not in HARD14
+    check(f"G10 {pair}: a period-two product mirror (X, Y or X-Y per site) commuting with H "
+          + ("exists, the same at N = 3 and 4" if want else "exists at neither N = 3 nor 4"),
+          (found[3] is not None and found[3] == found[4]) if want else (found[3] is None and found[4] is None), f"{found}")
+END_COUNTS = {p: ((2, 0) if p in ("XX+XY", "XX+YX", "XY+YY", "YX+YY") else (1, 0)) for p in ODD_WORDS}
+END_COUNTS["XX+XZ"] = (1, 1)
+for pair, expect in END_COUNTS.items():
+    N = 3; D = 2 ** N; I = np.eye(D)
+    H = ham(N, [tuple(x) for x in pair.split("+")], bonds_chain(N))
+    L = -1j * (lr(H, I) - lr(I, H)) + sum(lr(op(N, {l: PM["Z"]}), op(N, {l: PM["Z"]})) - np.eye(D * D) for l in range(N))
+    got = (gauss_nullity(L), gauss_nullity(L + 2 * N * np.eye(D * D)))
+    check(f"G10 {pair} N=3, unit rates: dim ker L, dim ker(L + 2 sigma) = {expect}"
+          + (" (no palindrome, F158)" if expect[0] != expect[1] else " (palindrome; the control)"), got == expect, f"{got}")
 
 print("\nALL PASS" if not FAILS else f"\n{len(FAILS)} FAIL")
 sys.exit(1 if FAILS else 0)
