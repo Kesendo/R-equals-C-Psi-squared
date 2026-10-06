@@ -343,7 +343,7 @@ neither a single string nor a signed site permutation. The bare site reflection,
 a signed site permutation, is not a reflector on those rows, which says nothing
 against the existence of one. The row keeps the separation the arc prescribed,
 EXISTS from EXPLAINS.
-F138 stays an implication whose converse is false, measured to fail at fewer
+F138 stays an implication whose converse is false, measured in its letter-field sweeps to fail at fewer
 bond letters and at coincident field magnitudes; the criterion is not F138's two
 clauses.
 

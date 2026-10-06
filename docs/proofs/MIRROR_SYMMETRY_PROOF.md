@@ -195,7 +195,7 @@ carries dephasing at all*:
    break it).
 
 **When, and not exactly when: the converse is false.** F138's registry row
-measures it failing at fewer bond letters and at coincident field magnitudes:
+measures it, in its letter-field sweeps, failing at fewer bond letters and at coincident field magnitudes:
 22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
 bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
 when the two END sites of P₃ carry equal field magnitudes. In three classes it holds, exactly and at every magnitude, all with Heisenberg bonds on a connected graph: every site dephased along Z with fields along letters, every site dephased along mixed axes with fields of any direction, and every site but one dephased with fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1, 3 and 5). Two of the 22 are
@@ -292,7 +292,7 @@ not a defect of the field. The gauge argument stops where clause 2 does: one
 global rotation can align one common direction, not several, so the argument does
 not reach a field whose direction varies *within* a component, and the rows
 measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles; for letter fields at Heisenberg bonds under Z on every site the break is proven, at any magnitudes, in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)),
-while separate components may point different ways and stay exact. Unitaries
+while separate components may point different ways and stay exact. With one site dephased, fields of varying direction can pair: letter fields in [the triangle's classes B and C](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3) and fields off the letters in an exact N = 3 family of [its Open list](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open). Unitaries
 that commute with every jump, not only products of one-site rotations, reach
 every palindrome with commuting jumps: for some such V, VHV† commutes with a
 Pauli string that anticommutes with every jump, although V is built from the

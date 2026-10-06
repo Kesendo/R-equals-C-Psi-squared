@@ -43,7 +43,7 @@ the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
 direction F138 measures to FAIL elsewhere, and establishes only on a connected graph with at most one site undephased, where the break is proven at any magnitudes: every site dephased along one axis with fields along letters, every site dephased under Heisenberg bonds along mixed axes with fields of any direction, and under Heisenberg bonds with one site undephased and fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1, 3 and 5). Drop a bond
 letter, or let two sites the graph can exchange carry the same field magnitude,
-and there are fields violating clause 2 whose spectrum pairs regardless.
+and there are fields violating clause 2 whose spectrum pairs regardless; at N = 3 with one site dephased so do some fields off the letters on the full three-letter bond, at magnitudes that need not coincide ([PROOF_PALINDROME_COMPLEMENT_CONNECTION, Open](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
 **Replaces:** palindrome verification (87,376 eigenvalues, N=2..8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
@@ -6674,7 +6674,7 @@ thermal case obstructed while its own body computed the valid pairing.
 ---
 
 <a id="f138"></a>
-### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition for bonds built of terms P⊗P, its two-term proviso holding with one dephasing axis per site and one bond letter per component; the one-colour case of a colouring of the graph; the converse is false, failing at fewer bond letters and at coincident field magnitudes, and F158 decides the setting exactly; minted 2026-07-21)
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition for bonds built of terms P⊗P, its two-term proviso holding with one dephasing axis per site and one bond letter per component; the one-colour case of a colouring of the graph; the converse is false, failing at fewer bond letters, at coincident field magnitudes and, at N = 3, at fields off the letters on the full bond, and F158 decides the setting exactly; minted 2026-07-21)
 
 For H a sum of bonds built of terms P⊗P, the same letter on both ends (Heisenberg, XXZ,
 XX + YY, ZZ), and one-site fields, the dephasing palindrome about −Σγᵢ holds **when**,
@@ -6754,7 +6754,7 @@ graph, at any of the magnitude tuples of Stage F) are the conditions met and the
 the proviso, with one-letter bonds of different letters in one component, three axes can break it: field-free, 42 of the 144 such assignments on K₃ and 96 of the 864 on P₄ break, against none of the
 18 and 108 with one bond letter (F158's two ranks modulo two primes, and on K₃ the spectrum too;
 [`f138_scope_boundaries.py`](../simulations/f138_scope_boundaries.py)). The
-converse, palindrome ⟹ conditions, is FALSE as stated, and two separate things
+converse, palindrome ⟹ conditions, is FALSE as stated, and in the letter-field sweeps two separate things
 break it. **(a)** Fewer bond letters: at a two-letter bond such as XX+YY, which
 the statement admits and which F1 names in its own validity list, there are
 configurations the conditions forbid whose spectrum pairs anyway, 22 of 4096 on
@@ -6773,8 +6773,8 @@ exceptions live without being sufficient to produce them. Three classes are esta
 where [the triangle's palindromic locus](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
-magnitude.
-In those uniform-bond sweeps the exceptions track the graph's automorphisms
+magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and a second locus with one exact row and conjectured relations, sufficient at the points checked (the triangle proof's [Open item on fields off the letters](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+In the uniform-bond letter-field sweeps the exceptions track the graph's automorphisms
 and the bond's letter count. Weighted bonds also admit exceptions without a
 weighted-graph symmetry: with jump Z on d and field h(X_u + Y_v), a Heisenberg
 triangle has a common invertible carrier independent of h exactly when
@@ -6927,7 +6927,7 @@ on the exact kernel
 direction, and they carry it as a measured census rather than as a derivation:
 every qualifier there is reported as a row count (256/256 against 1/256, 64/64
 against 0/64). Read as a proof of the *only when* half it would contradict this
-very row, which counts that half failing at fewer bond letters and at
+very row, which counts that half failing in its letter-field sweeps at fewer bond letters and at
 coincident field magnitudes. That paragraph does not derive the clauses; this
 row's colouring paragraph does.
 [F158](#f158) decides the same
@@ -9335,9 +9335,11 @@ ways to blindness: s = t, a site symmetry fixing d, and e₂ = 0, a rank drop of
 that makes every seat blind. At N = 4 a family on the second way pairs, for nonzero transverse fields,
 with neither a colouring nor a site symmetry, its carrier in closed form; at N = 7 two weighted
 triangles equivalent as spin representations pair with no rank drop and no site symmetry, refuting
-those two ways as the only ones, while the centre stays blind; whether a blind dephased seat is
+those two ways as the only ones, while the centre stays blind; whether, with letter fields, a blind dephased seat is
 necessary is open
-([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries)).
+([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));
+off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind
+([the Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
 
 ---
 

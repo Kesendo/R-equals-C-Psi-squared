@@ -3973,7 +3973,9 @@ public static class OpenArcsRegistry
                 + "clause-2 discussion (the transverse-and-longitudinal-are-not-two-facts bullet and the "
                 + "orthogonality-not-avoidance one), then the three f138 scripts. If a tilted counterexample turns "
                 + "up, it is a bigger finding than the sweep that produced it, and F138's clause 2 needs its "
-                + "quantifier narrowed to the letters rather than its evidence widened.",
+                + "quantifier narrowed to the letters rather than its evidence widened. A false negative with fields "
+                + "off the letters, of varying direction under one Z jump, is exact at N = 3 (PROOF_PALINDROME_COMPLEMENT_CONNECTION, "
+                + "Open item 'Fields off the letters and other bonds at N = 3').",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -4160,10 +4162,15 @@ public static class OpenArcsRegistry
                 + "simulations/blind_seat_carriers_gate.py); at N = 7 two weighted triangles equivalent as spin representations "
                 + "pair with no rank drop and no site symmetry (same gate), so those two ways are not the only ones; in a sweep "
                 + "(simulations/blind_seat_palindrome_sweep.py) the 172 non-coloured N = 4 palindromes are 171 site-symmetric "
-                + "draws and one draw of that family. Whether, under Heisenberg bonds with letter fields, a blind dephased seat "
-                + "is necessary at every N, an entangled N = 5 carrier (a product W4 (x) Q is excluded), "
-                + "which fields make it pair, and "
-                + "fields off the letters and non-Heisenberg bonds at N = 3, remain open.",
+                + "draws and one draw of that family. Under Heisenberg bonds with letter fields three questions "
+                + "remain open: whether a blind dephased seat is necessary at every N, which fields make a blind seat pair, "
+                + "and whether an entangled N = 5 carrier exists (a product W4 (x) Q is excluded). The N = 3 locus for fields "
+                + "off the letters and for non-Heisenberg bonds is open as well; off the letters the letter-field proposition "
+                + "does not extend: an exact family with the dephased seat at an end of the path pairs, carried by a "
+                + "three-string anticommuting sum, and so does a second locus outside the letter classes, with one exact row "
+                + "and conjectured relations; neither sits on a blind seat, the second on its conjectured relations "
+                + "(PROOF_PALINDROME_COMPLEMENT_CONNECTION, Open item 'Fields off the letters and other bonds at N = 3', "
+                + "gate simulations/n3_offletter_locus_gate.py).",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

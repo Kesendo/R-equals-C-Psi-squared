@@ -1,0 +1,32 @@
+PASS G1 family D, Heisenberg, f_v = -(f_d + f_u): [H, W] = 0, {Z_d, W} = 0, W^2 = (J_dv^2 q^2 + J_uv^2 p^2 + p^2 q^2) I
+PASS G1 family D, XX + YY, f_v = 0: [H, W] = 0, {Z_d, W} = 0, W^2 = (J_dv^2 q^2 + J_uv^2 p^2 + p^2 q^2) I
+PASS G1 control: f_v changed by e X_v breaks [H, W] = 0
+PASS G1 control: a Z part on f_d breaks [H, W] = 0
+PASS G1 control: an X part on f_u (no longer perpendicular to f_d) breaks [H, W] = 0
+PASS G1 control: J_du != 0 (a Heisenberg bond d - u) breaks [H, W] = 0
+PASS G1 the Heisenberg row J = (0, 1, 3), f_d = 2X, f_u = 5Y, f_v = -2X - 5Y pairs by the ends, lies outside A, B, C, in D, and no turn about z makes it a letter row
+PASS G2 [H, W] = 0, {Z_d, W} = 0, W^2 = (J_du^2 + J_dv^2) I for every J_du, J_dv, a, b
+PASS G2 control: a ZZ part on the bond d - u breaks [H, W] = 0
+PASS G2 control: J_uv (XX + YY) != 0 breaks [H, W] = 0
+PASS G2 control: a field on d breaks [H, W] = 0 (X, Y and Z each)
+PASS G2 the row J = (2, 3, 0), f_u = X, f_v = 5Y pairs by the ends and lies outside A, B and C
+G3 sweep (distinct rows): {'rows': 1200, 'new': 659, 'pal': 511, 'pal_new': 48, 'outside': 0, 'class_breaks': 0, 'prime_split': 0, 'D_rows': 9, 'outside_without_C': 20}
+G3 palindromic rows no turn about z makes letter rows, by class: {'B': 31, 'C': 8, 'D': 9, 'D_planted': 9}
+PASS G3 the two primes agree on every row
+PASS G3 every palindromic row lies in A, B, C or D  [0 outside]
+PASS G3 every row of A, B or C pairs  [0 break]
+PASS G3 the sweep holds rows of D and palindromic rows no turn about z makes letter rows
+PASS G3 those rows split 31 B, 8 C, 9 D with no overlap, all D rows on the planted couplings
+PASS G3 control: with C left out, palindromic rows are reported outside  [20]
+PASS G5 locus E, row J = (1, 2, 6), f_u = 8X, f_v = -5X + 3Y: the eighteen-string W commutes with H, anticommutes with Z_d and squares to 4500 I (exact), and the row lies outside A, B, C and D
+PASS G5 control: f_v = -5X + 4Y and J_uv = 7 each break the row (two primes agreeing)
+PASS G5 the row satisfies the three E relations exactly (6 = 6, f_u.f_v = -40 = -2 e2, 448 + 272 - 720 = 0)
+PASS G5 the dephased seat's Krylov determinant -(J_du - J_dv) e2 is 20 at the row (not blind)
+G6 points on the three E relations read modulo two primes where y^2 has a root: 8/8 pair with near = far = 1; 8/8 break when f_v moves by X/10
+PASS G6 every point read on the three E relations pairs (near = far = 1 at two primes), and each breaks when f_v moves  [8/8, controls 8/8]
+PASS G6 control: points that keep the second and third relations at J_uv + 1 (off the first) break  [7/7]
+PASS G4 XX + YY bonds: three rows of C outside A pair under Heisenberg bonds and break under XX + YY (two primes agreeing)
+PASS G4 XX + YY on the path u - d - v, f_d = 0, equal magnitudes perpendicular to z at six angles: every row of the grid pairs  [18/18]
+PASS G4 control: unequal magnitudes at a non-right angle break
+
+ALL PASS

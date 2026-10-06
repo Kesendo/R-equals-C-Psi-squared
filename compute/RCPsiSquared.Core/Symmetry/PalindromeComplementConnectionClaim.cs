@@ -209,7 +209,9 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "near = far = 1, for h != 0 with neither a colouring nor a site symmetry; its carrier, in closed form, " +
                          "depends on h. At N = 7 two weighted triangles equivalent as spin representations pair with no rank " +
                          "drop and no site symmetry, the centre still blind. Gates: simulations/n4_pair_channel_family.py, " +
-                         "simulations/blind_seat_carriers_gate.py. Whether a blind dephased seat is necessary is a conjecture.");
+                         "simulations/blind_seat_carriers_gate.py. That, with letter fields, a blind dephased seat is necessary is a conjecture; " +
+                         "off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind " +
+                         "(simulations/n3_offletter_locus_gate.py, the proof's Open list).");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
