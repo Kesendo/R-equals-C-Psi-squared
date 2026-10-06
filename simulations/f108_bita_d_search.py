@@ -1,6 +1,6 @@
 """f108_bita_d_search.py - closing F108 open question (ii): the "bit_a-D" for Π_5b.
 
-PROOF_F108_KLEIN_V4_EQUIVALENCE.md §(g) left open:
+PROOF_F108_KLEIN_V4_EQUIVALENCE.md left open (the answer now sits in its §(d.4)):
   "Part 2's BitA-twin status: ... Could the bit_a-axis version of D (a Z↔X swap analog)
    intertwine Π_5b(Z) ↔ Π_5b(X) directly on operator space? Welle 14 shows the canonical
    Q_zx fails. A search for a different operator-space involution that intertwines
