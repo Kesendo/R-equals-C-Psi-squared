@@ -25,10 +25,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>Scope and fences.</b> Of H only Hermiticity and U(1) are used, so the localisation and the
 /// finiteness hold verbatim for XXZ and XY, where off E the count is that model's weight-1 commutant. E fences
 /// REAL eigenvalues only; totals that include oscillating modes (F33's 14 over the −2γ and −4γ rungs together at
-/// N = 3) are measured off E, not covered. The argument is special to the rung k = 1 by parity; at k = 2 the
-/// diagonal blocks hold distance 2, the leading coefficient vanishes and the finiteness ARGUMENT fails
-/// (DEGENERACY_PALINDROME records weight-mixing real modes at generic coupling on the centre rung at even N). The
-/// F1 palindrome carries the exceptions to the mirror rung N − 1.</para>
+/// N = 3) are measured off E, not covered. The argument sorts the blocks by parity at every rung, and at k = 1 both kinds close;
+/// at a rung k ≥ 2 the blocks of p − q ≡ k (mod 2) that hold cells at distance k are not fenced (their real modes
+/// are a question about H's commutant, the weight-k commutant and DEGENERACY_PALINDROME's weight-mixing modes on the chain), while the
+/// blocks of p − q ≢ k whose distances straddle k reach the rung only on a finite set E_k by the same leading coefficient
+/// (THE_ONE_SQUARE §9, gate cube_moves_gate.py M7). The F1 palindrome carries the exceptions to the mirror rung N − 1,
+/// E_{N−k} = E_k.</para>
 ///
 /// <para><b>What is measured and not proved.</b> E is non-empty on every graph computed (N = 2: γ/J = 2, a
 /// defective double root; N = 3 chain: √((√17−1)/2) and √3; K₃: √3; N = 4: 8 chain, 3 ring, 4 star, 1
@@ -110,8 +112,8 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                          "N = 2 the coherence horizon's point of CoherenceHorizonClaim); totals with oscillating modes only " +
                          "measured off E; Pauli J throughout");
             yield return new InspectableNode("fences",
-                summary: "real eigenvalues only; rung k = 1 only (parity: at k = 2 the leading coefficient vanishes, the finiteness argument fails, and " +
-                         "DEGENERACY_PALINDROME records weight-mixing real modes at generic coupling on the centre rung at even N); uniform γ; the F1 " +
+                summary: "real eigenvalues only; rung k = 1 only (at a rung k ≥ 2 the blocks of p − q ≡ k mod 2 with cells at distance k are not fenced, their real modes being a question about H's commutant, " +
+                         "while the blocks of p − q ≢ k whose distances straddle k reach the rung only on a finite E_k, THE_ONE_SQUARE §9); uniform γ; the F1 " +
                          "mirror carries E to rung N−1; XXZ and XY verbatim with their own commutant off E");
             yield return Absorption;   // typed parent edge
             yield return WeightOne;    // typed parent edge
