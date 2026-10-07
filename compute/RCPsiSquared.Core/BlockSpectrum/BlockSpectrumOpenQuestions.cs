@@ -62,47 +62,6 @@ public static class BlockSpectrumOpenQuestions
             "(cites the 2N × 2N Nambu problem)"),
 
         new OpenQuestion(
-            "BlockSpectrum X/Y-dephasing support: lift the per-dephase-letter basis restriction",
-            "The Builder's joint-popcount sector basis is tied to Z-dephasing per " +
-            "PerBlockLiouvillianBuilder.BuildBlockZ: the dissipator is stamped element-wise " +
-            "from the computational-basis bit-parity disagreement, which requires the dephase " +
-            "letter to be diagonal in that basis. F108 Part 2 (X-deph, Pi5BilinearOperator at " +
-            "dephaseLetter = X) and F108 Part 3 (Y-deph, dephaseLetter = Y) prove operator- " +
-            "level palindromicity Π·L·Π⁻¹ = −L − 2σ·I for the Π²-even bilinears under those dephase channels, but the " +
-            "Builder cannot exploit them in its current basis (X- and Y-dephasing break " +
-            "popcount conservation in the computational basis). " +
-            "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotSupportedException " +
-            "(design-permanent under the current basis) rather than silently producing " +
-            "wrong eigenvalues. Closing this would bring the per-block path to X- and " +
-            "Y-dephasing for Hamiltonians that conserve the popcount of the dephase letter's " +
-            "eigenbasis: of F108's Parts 2 and 3 only the members the rotation turns into " +
-            "(XX+YY) and ZZ combinations do, the others do not.",
-            "Add a per-dephase-letter rotated-basis path: apply per-site U_X = H " +
-            "(Hadamard) for X-deph (resp. U_Y = (S†·H)† for Y-deph), conjugate the " +
-            "Hamiltonian H → H' = U H U† with U = U_X⊗N (resp. U_Y⊗N) on its Pauli letters " +
-            "(a dense product U·H·U† in general leaves rounding residue on the " +
-            "popcount-changing entries, which the exact popcount check refuses), then run the " +
-            "existing BuildBlockZ on H' (popcount-conserving in the rotated basis, where " +
-            "the chosen dephase letter is diagonal, exactly when H conserves the popcount of " +
-            "that letter's eigenbasis). The " +
-            "eigenvalues of L are basis-independent, so the per-block spectrum transports " +
-            "back without modification. Wire the rotation into the dephaseLetter dispatch " +
-            "currently throwing NotSupportedException; the sector pairing then applies " +
-            "where H' commutes with X⊗N, as LiouvillianBlockSpectrum checks. Effort: M-L. " +
-            "Payoff: F87 enumeration for X/Y deph at higher N on the popcount-conserving " +
-            "members.",
-            "compute/RCPsiSquared.Core/BlockSpectrum/LiouvillianBlockSpectrum.cs " +
-            "(the ComputeSpectrumPerBlock overload taking a dephase letter; commit 736c595 added the " +
-            "dephaseLetter parameter + throw-on-non-Z guard); " +
-            "compute/RCPsiSquared.Core/BlockSpectrum/PerBlockLiouvillianBuilder.cs " +
-            "(BuildBlockZ Z-only path); " +
-            "compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs " +
-            "(per-dephase-letter Π action); " +
-            "compute/RCPsiSquared.Core/Symmetry/F108Part2Pi2XEvenAlwaysPalindromic.cs, " +
-            "compute/RCPsiSquared.Core/Symmetry/F108Part3Pi2YEvenAlwaysPalindromic.cs " +
-            "(operator-level palindromicity proofs)"),
-
-        new OpenQuestion(
             "Builder-side F100 anti-palindromic-J spectral-invariance regression test",
             "F100 (Tier 1 derived; C1QPeakMirrorJParity) predicts that anti-palindromic per-bond " +
             "J profiles give zero c₁/Q_peak mirror-deviation, while palindromic J profiles " +

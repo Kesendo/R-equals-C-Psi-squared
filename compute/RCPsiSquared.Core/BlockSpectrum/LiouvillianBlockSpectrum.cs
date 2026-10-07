@@ -108,26 +108,17 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}); the popcount-conserving members of its family,
 /// combinations of (XX+YY) and ZZ, commute with X^⊗N, so it adds nothing at this layer.</para>
 ///
-/// <para><b>Z-dephasing structural constraint.</b> The joint-popcount sector basis is
-/// tied to Z-dephasing because <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> builds
-/// the dissipator element-wise from the computational-basis bit-parity disagreement, a
-/// representation that requires the dephase letter to be diagonal in that basis. F108 Part 2
-/// (X-deph, <see cref="Symmetry.F108Part2Pi2XEvenAlwaysPalindromic"/>) and Part 3 (Y-deph,
-/// <see cref="Symmetry.F108Part3Pi2YEvenAlwaysPalindromic"/>) prove operator-level
-/// palindromicity for the Π²-even bilinears under those dephase channels, but the Builder cannot exploit them in its
-/// current basis (X- and Y-dephasing break popcount conservation in the computational
-/// basis). The overload taking a dephase letter throws <see cref="NotSupportedException"/> for
-/// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> (design-permanent
-/// under the current basis; CLR convention reserves <see cref="NotImplementedException"/>
-/// for stubs awaiting a body, <see cref="NotSupportedException"/> for combinations the
-/// design refuses by intent) and <see cref="ArgumentException"/> for
-/// <see cref="Pauli.PauliLetter.I"/> (not a valid dephase letter; the Lindblad dissipator
-/// requires a non-identity operator) rather than silently producing wrong eigenvalues.
-/// Lifting the X/Y restriction is tracked in <see cref="BlockSpectrumOpenQuestions"/> and
-/// requires a per-dephase-letter rotated basis (e.g. apply per-site U_X = H for X-deph,
-/// conjugate H → H' = U H U† on its Pauli letters, then run the existing BuildBlockZ; a
-/// dense product U·H·U† in general leaves rounding residue across popcounts, which the exact check
-/// refuses; L's eigenvalues are basis-independent so the result transports back).</para>
+/// <para><b>Dephasing letter.</b> The joint-popcount sector basis is tied to Z-dephasing because
+/// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> builds the dissipator element-wise from the
+/// computational-basis bit-parity disagreement, which requires the dephase letter to be diagonal in that
+/// basis. X- and Y-dephasing reach it through the overload taking a <see cref="PauliHamiltonian"/>: the
+/// letters are turned exactly so that the dephasing letter becomes Z (<see cref="LetterTurn"/>, a
+/// per-site Clifford acting as a signed letter permutation), and the turned Hamiltonian runs the Z path
+/// with its exact popcount check and pairing guard; the spectrum is unchanged by the turn. The dense
+/// overloads refuse X and Y with <see cref="NotSupportedException"/>, since a dense H cannot be turned
+/// without rounding residue across popcounts, which the exact check refuses, and refuse
+/// <see cref="Pauli.PauliLetter.I"/> with <see cref="ArgumentException"/> (not a valid dephase letter).
+/// Under X-dephasing the guard reads [H, Z^⊗N] = 0 in the frame of H, under Y-dephasing [H, X^⊗N] = 0.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs</c>
 /// (parent Claim, block-diagonal structure), <c>compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectorBuilder.cs</c>
@@ -358,11 +349,9 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> is hardcoded to Z-dephasing
     /// (the dissipator is built element-wise in the computational basis from the Hilbert-
     /// side bit-parity disagreement, not from a general P_l ⊗ P_l⁺ Kronecker construction).
-    /// Non-Z-dephasing matchings (F108 Part 2 X-deph, F108 Part 3 Y-deph) are not currently
-    /// supported by this entry point and throw <see cref="NotSupportedException"/>
-    /// (design-permanent under the current basis); lifting the restriction goes through the
-    /// per-dephase-letter rotated basis of the class Contract (X- and Y-dephasing break
-    /// popcount conservation in the computational basis).
+    /// X- and Y-dephasing (F108 Parts 2 and 3) throw <see cref="NotSupportedException"/> on this dense
+    /// entry point; the overload taking a <see cref="PauliHamiltonian"/> serves them by an exact letter
+    /// turn (X- and Y-dephasing break popcount conservation in the computational basis).
     /// <see cref="Pauli.PauliLetter.I"/> is rejected up-front with
     /// <see cref="ArgumentException"/> (not a valid dephase letter).</para>
     ///
@@ -377,6 +366,36 @@ public sealed class LiouvillianBlockSpectrum : Claim
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, EigenPath path,
         PauliLetter dephaseLetter) =>
         ComputeSpectrumPerBlock(H, gammaPerSite, N, path, dephaseLetter, SectorPairing.PiOrbit);
+
+    /// <summary>X-, Y- or Z-dephasing on every site for a Hamiltonian given as Pauli terms. The
+    /// letters are turned exactly so that the dephasing letter becomes Z (<see cref="LetterTurn"/>),
+    /// and the turned Hamiltonian goes to the Z path, which checks popcount conservation exactly and
+    /// pairs sectors under its own guard. The spectrum is the one of the J-dephased Lindbladian of
+    /// <paramref name="H"/>, since the turn is a unitary that carries the jump to Z.
+    ///
+    /// <para>Read in the frame of <paramref name="H"/>, the two conditions become: the turned H
+    /// conserves popcount exactly when H commutes with Σ_l J_l, the total magnetisation along the jump
+    /// letter (which implies, but is not implied by, [H, J^⊗N] = 0), and the pairing guard,
+    /// [H′, X^⊗N] = 0 after the turn, reads [H, Z^⊗N] = 0 under X-dephasing and [H, X^⊗N] = 0 under
+    /// Y-dephasing; given [H, J^⊗N] = 0 either reading says that H commutes with all three letter
+    /// strings. The turn itself is exact, a relabelling with signs; the dense matrix is then built by
+    /// <see cref="PauliHamiltonian.ToMatrix"/>, whose term-by-term sum can leave a residue of one
+    /// rounding on a popcount-changing entry where terms cancel in exact arithmetic but not in the
+    /// order they are summed. The exact check then refuses rather than return a wrong spectrum, as on
+    /// the Z path. The dense overloads refuse X and Y, since a dense H cannot be turned at all without
+    /// rounding.</para></summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        PauliHamiltonian H, IReadOnlyList<double> gammaPerSite, PauliLetter dephaseLetter,
+        SectorPairing pairing = SectorPairing.PiOrbit, EigenPath path = EigenPath.Auto)
+    {
+        if (H is null) throw new ArgumentNullException(nameof(H));
+        if (dephaseLetter == PauliLetter.I)
+            throw new ArgumentException(
+                "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a non-identity operator).",
+                nameof(dephaseLetter));
+        var turned = LetterTurn.Turn(H, dephaseLetter);
+        return ComputeSpectrumPerBlock(turned.ToMatrix(), gammaPerSite, H.N, path, PauliLetter.Z, pairing);
+    }
 
     /// <summary>The full overload: eigensolver path, dephase letter (Z only) and sector
     /// pairing. The pairing is used only when H commutes exactly with X^⊗N.</summary>
@@ -401,14 +420,13 @@ public sealed class LiouvillianBlockSpectrum : Claim
                 nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
             throw new NotSupportedException(
-                $"ComputeSpectrumPerBlock only supports Z-dephasing under the current joint-popcount " +
+                $"The dense ComputeSpectrumPerBlock overloads only support Z-dephasing in the joint-popcount " +
                 $"basis (PerBlockLiouvillianBuilder.BuildBlockZ is hardcoded to Z, which is diagonal in " +
                 $"the computational basis and popcount-conserving); got {dephaseLetter}. X- and Y-dephasing " +
                 "break the joint-popcount sector structure that JointPopcountSectors relies on; see " +
-                "BlockSpectrumOpenQuestions for the X/Y basis-rotation extension path (e.g. apply per-site " +
-                "U_X = H for X-deph, conjugating H → H' = U H U† on its Pauli letters, since a dense " +
-                "product in general leaves rounding residue the exact popcount check refuses, then call this entry " +
-                "point with Z).");
+                "the PauliHamiltonian overload, which turns the Pauli letters exactly (LetterTurn) so that the " +
+                "dephasing letter becomes Z; a dense H cannot be turned without rounding residue that the exact " +
+                "popcount check refuses.");
         RequirePopcountConservingH(H, N);
 
         // Reflection constant: the genuine Σ of per-site Z-dephasing rates (NOT N·γ), so

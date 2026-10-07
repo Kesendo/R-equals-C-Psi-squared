@@ -283,14 +283,32 @@ public sealed class F71MirrorBlockRefinement : Claim
     /// joint-popcount sector structure is not preserved under X- or Y-dephasing). X and Y
     /// throw <see cref="NotSupportedException"/> (design-permanent under the current basis);
     /// I throws <see cref="ArgumentException"/> (not a valid dephase letter for a Lindblad
-    /// dissipator). The message points to the basis-rotation path in
-    /// <see cref="BlockSpectrumOpenQuestions"/> that would lift the X/Y restriction.</para></summary>
+    /// dissipator). The message points to the overload taking a <see cref="PauliHamiltonian"/>, which
+    /// serves X and Y by an exact letter turn.</para></summary>
     /// <param name="dephaseLetter">Dephase letter. Only Z is
     /// currently supported by the per-block construction; X and Y throw
     /// <see cref="NotSupportedException"/>, I throws <see cref="ArgumentException"/>.</param>
     public static Complex[] ComputeSpectrumPerBlock(
         ComplexMatrix H, IReadOnlyList<double> gammaPerSite, int N, PauliLetter dephaseLetter) =>
         ComputeSpectrumPerBlock(H, gammaPerSite, N, dephaseLetter, LiouvillianBlockSpectrum.SectorPairing.PiOrbit);
+
+    /// <summary>X-, Y- or Z-dephasing for a Hamiltonian given as Pauli terms, as on
+    /// <see cref="LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(PauliHamiltonian, IReadOnlyList{double}, PauliLetter, LiouvillianBlockSpectrum.SectorPairing, LiouvillianBlockSpectrum.EigenPath)"/>:
+    /// the letters are turned exactly so that the dephasing letter becomes Z, then the Z path runs.
+    /// The turn is the same on every site, so it commutes with the chain reflection and the F71
+    /// refinement keeps its meaning.</summary>
+    public static Complex[] ComputeSpectrumPerBlock(
+        PauliHamiltonian H, IReadOnlyList<double> gammaPerSite, PauliLetter dephaseLetter,
+        LiouvillianBlockSpectrum.SectorPairing pairing = LiouvillianBlockSpectrum.SectorPairing.PiOrbit)
+    {
+        if (H is null) throw new ArgumentNullException(nameof(H));
+        if (dephaseLetter == PauliLetter.I)
+            throw new ArgumentException(
+                "PauliLetter.I is not a valid dephase letter (the Lindblad dissipator requires a non-identity operator).",
+                nameof(dephaseLetter));
+        var turned = LetterTurn.Turn(H, dephaseLetter);
+        return ComputeSpectrumPerBlock(turned.ToMatrix(), gammaPerSite, H.N, PauliLetter.Z, pairing);
+    }
 
     /// <summary>The full overload: dephase letter (Z only) and sector pairing. The pairing is
     /// used only when H commutes exactly with X^⊗N.</summary>
@@ -315,12 +333,12 @@ public sealed class F71MirrorBlockRefinement : Claim
                 nameof(dephaseLetter));
         if (dephaseLetter != PauliLetter.Z)
             throw new NotSupportedException(
-                $"F71MirrorBlockRefinement.ComputeSpectrumPerBlock only supports Z-dephasing under the current " +
+                $"The dense F71MirrorBlockRefinement.ComputeSpectrumPerBlock overloads only support Z-dephasing in the " +
                 $"joint-popcount basis (PerBlockLiouvillianBuilder.BuildBlockZ is hardcoded to Z, which is " +
                 $"diagonal in the computational basis and popcount-conserving); got {dephaseLetter}. " +
                 "X- and Y-dephasing break the joint-popcount sector structure that JointPopcountSectors and " +
-                "the F71 mirror refinement rely on. See BlockSpectrumOpenQuestions for the X/Y basis-rotation " +
-                "extension path (rotate the Pauli letters to the dephase letter's eigenbasis, then run BuildBlockZ).");
+                "the F71 mirror refinement rely on. Use the PauliHamiltonian overload, which turns the Pauli letters " +
+                "exactly so that the dephasing letter becomes Z.");
 
         // LiouvillianBlockSpectrum's contract check: H must be popcount-conserving in the 2^N
         // Hilbert basis, otherwise the joint-popcount sector decomposition misses part of L.
