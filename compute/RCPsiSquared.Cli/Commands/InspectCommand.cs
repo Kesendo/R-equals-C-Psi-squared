@@ -712,6 +712,22 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("gamma") ?? 0.5,
                     TopologyKind.Chain),
             RequiresN: false, HonorsOptionalN: true),
+        new("exceptional", "F50 AT EXCEPTIONAL COUPLINGS (proof PROOF_WEIGHT1_DEGENERACY.md, claim " +
+            "ExceptionalCouplingSetClaim): the count d_real(Re = −2γ) = the weight-1 commutant's dimension (2N on " +
+            "every tested connected graph, 2N+2 on K₃) holds at every γ/J outside the finite set E(N, G) of positive " +
+            "roots of det(B_pp + 2γ) on the diagonal joint-popcount blocks. The witness recovers every block " +
+            "polynomial EXACTLY over ℤ[i] (dim+1 Berkowitz determinants on the repo's own blocks, integer " +
+            "interpolation), checks the builder's dissipator diagonal against the cell's Hamming count exactly (the " +
+            "leading coefficient Π(2 − 2·Hamming) then follows as det D), counts and isolates the " +
+            "positive roots by Sturm's theorem, certifies the pinned minimal polynomials by exact division where the " +
+            "gate pins them (N = 2 chain; N = 3 chain and K₃; N = 4 chain, ring, star, complete), reads the " +
+            "multiplicity at rational points exactly over ℚ(i), and MEASURES the count at −2γ generically and at " +
+            "every point with the nullity beside it, plus the chain's gap on both sides of min E (the handover " +
+            "1/Q*_gap). Pauli book, J = 1. Args: --N (2..4, default 3), --topology chain|ring (N ≥ 3)|star|complete",
+            c => new ExceptionalCouplingWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("topology")),
+            RequiresN: false, HonorsOptionalN: true),
         new("pinned", "F153, the pinning criterion recomputed live: every one of the (N+1)² joint-popcount " +
             "blocks read ENTRY-WISE (no eigensolver, residuals compared to 0.0 exactly), showing that exactly " +
             "4N of them sit entirely on the Absorption floor Re λ = −2γ|p−q|, namely those with min(p,q) = 0 " +

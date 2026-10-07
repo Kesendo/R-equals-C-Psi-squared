@@ -774,7 +774,7 @@ And at a finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-p
 has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with weight ≥ 2, and the count exceeds
 2N; the converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain the smallest
 point of E is 1/Q*_gap(N) at N = 2..5 (by hand at N = 2, two routes agreeing at N = 3, 4, 5; not a
-consequence of the theorem, since a complex pair could set the gap) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)).
+consequence of the theorem, since a complex pair could set the gap) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and

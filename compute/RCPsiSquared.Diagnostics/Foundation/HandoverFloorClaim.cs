@@ -37,7 +37,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// flat" was the finite-N Q_h/N, refuted as a constant (c_eff climbs toward 4π²/3 = 13.16). Handover and
 /// ring SE-EP are mechanistically distinct, their finite-N values crossing near N≈10.</para>
 ///
-/// <para><b>A point of F50's exceptional set.</b> The handover is a point at which the real count on −2γ
+/// <para><b>A point of F50's exceptional set (typed as <see cref="ExceptionalCouplingSetClaim"/>).</b> The handover is a point at which the real count on −2γ
 /// (the model's weight-1 commutant; F50's 2N for Heisenberg) is exceeded: a real mode of a diagonal block (p,p) sits on the line there, so its γ/J lies in
 /// the finite set E(N, G) of docs/proofs/PROOF_WEIGHT1_DEGENERACY.md (the count at exceptional couplings).
 /// The Heisenberg chain's corresponding point is 1/Q*_gap(N) at N = 2..5, the smallest point of its E.</para>

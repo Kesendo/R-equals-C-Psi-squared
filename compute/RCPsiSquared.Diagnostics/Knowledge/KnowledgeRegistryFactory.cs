@@ -602,6 +602,11 @@ public static class KnowledgeRegistryFactory
             // DegeneracyPi2Inheritance (the floor =1, above), CoherenceHorizonClaim (the chain solution, directly
             // above). Live witness: IncompletenessSurvivorWitness handover node (inspect --root survivor).
             .RegisterHandoverFloorClaim()
+            // F50 at exceptional couplings (2026-10-07): the count 2N holds off a FINITE set E(N, G) of γ/J, the
+            // positive roots of det(B_pp + 2γ) on the diagonal joint-popcount blocks; on E it is exceeded. Three
+            // typed parents, all registered above: AbsorptionTheoremClaim (the floor), F50WeightOneDegeneracy-
+            // Pi2Inheritance (the count), JointPopcountSectors (the grading). Live: inspect --root exceptional.
+            .RegisterExceptionalCouplingSetClaim()
             // The structural ceiling (Tier1Derived, 2026-06-16, F122): the high-Q gap-rate closed forms
             // g2(K_N)=4/N, g2(star_N)=4/(N−1), g2(K_4)=2−2/√3 — the darkest [H,A]=0 coherence in the largest
             // degenerate single-particle level (the Re-side ceiling companion of TopologyBandEdgeClaim's J·ρ

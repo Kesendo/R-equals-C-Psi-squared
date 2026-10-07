@@ -203,7 +203,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("breaks for anisotropic XXZ",
                 summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
             yield return new InspectableNode("exceeded at exceptional couplings",
-                summary: "at a finite set E(N, G) of γ/J a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, not a consequence of the theorem (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings)");
+                summary: "at a finite set E(N, G) of γ/J (Pauli J, the spin book's J being four times it) a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, not a consequence of the theorem (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings; typed as ExceptionalCouplingSetClaim, live witness ExceptionalCouplingWitness at inspect --root exceptional)");
             yield return new InspectableNode("N=3 verified",
                 summary: $"TotalDegeneracy(3) = {TotalDegeneracy(3)}; EigenvaluePosition(γ=0.05) = {EigenvaluePosition(0.05):G6}");
             yield return new InspectableNode("N=7 verified",

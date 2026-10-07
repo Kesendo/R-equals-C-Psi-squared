@@ -242,7 +242,7 @@ public static class CentreLineExactCount
         return SignChanges(atPlusInfinity: false) - SignChanges(atPlusInfinity: true);
     }
 
-    private static BigInteger[] Gcd(BigInteger[] a, BigInteger[] b)
+    internal static BigInteger[] Gcd(BigInteger[] a, BigInteger[] b)
     {
         var x = Primitive(a);
         var y = Primitive(b);
@@ -257,7 +257,7 @@ public static class CentreLineExactCount
     }
 
     /// <summary>c·rem(a, b) for some c &gt; 0: each elimination step multiplies by |lc(b)|.</summary>
-    private static BigInteger[] PositivePseudoRemainder(BigInteger[] a, BigInteger[] b)
+    internal static BigInteger[] PositivePseudoRemainder(BigInteger[] a, BigInteger[] b)
     {
         var r = (BigInteger[])a.Clone();
         int db = b.Length - 1;
@@ -277,7 +277,7 @@ public static class CentreLineExactCount
         return r;
     }
 
-    private static BigInteger[] Derivative(BigInteger[] p)
+    internal static BigInteger[] Derivative(BigInteger[] p)
     {
         if (p.Length <= 1) return Array.Empty<BigInteger>();
         var d = new BigInteger[p.Length - 1];
@@ -285,9 +285,9 @@ public static class CentreLineExactCount
         return Trim(d);
     }
 
-    private static BigInteger[] Negate(BigInteger[] p) => p.Select(c => -c).ToArray();
+    internal static BigInteger[] Negate(BigInteger[] p) => p.Select(c => -c).ToArray();
 
-    private static BigInteger[] Primitive(BigInteger[] p)
+    internal static BigInteger[] Primitive(BigInteger[] p)
     {
         var t = Trim(p);
         if (t.Length == 0) return t;
@@ -296,7 +296,7 @@ public static class CentreLineExactCount
         return g.IsOne ? t : t.Select(c => c / g).ToArray();
     }
 
-    private static BigInteger[] Trim(BigInteger[] p)
+    internal static BigInteger[] Trim(BigInteger[] p)
     {
         int len = p.Length;
         while (len > 0 && p[len - 1].IsZero) len--;
