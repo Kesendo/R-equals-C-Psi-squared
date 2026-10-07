@@ -6,7 +6,7 @@
 **Depends on:**
 - [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (the Z-dephasing truly criterion #Y even AND #Z even, stated and verified at k = 2, 3, 4)
 - [the Π factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) (§4(d) and (f): the Z criterion from Π_Z = R·D at every body count; §4(a): Π_Y = Π_Z⁻¹)
-- [the Klein-V₄ dephase swaps](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Q_zx·Π_Z·Q_zx⁻¹ = Π_X, Q_zx the conjugation by the Hadamard)
+- [the Klein-V₄ on the palindromizers](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) (Q_zx·Π_Z·Q_zx⁻¹ = Π_X, Q_zx the conjugation by the Hadamard)
 - [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md) (the canonical Π_Z and its palindrome)
 - [`compute/RCPsiSquared.Core/Symmetry/PiOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs) (the canonical Π_Z, Π_X, Π_Y and their Π² eigenvalue rules)
 - [`compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`](../../compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs) (`TrulyCriterionHolds`: per-dephase truly criterion encoded in C#)
@@ -35,8 +35,8 @@ For **Z-dephasing** the criterion is derived at every body count in [the Π fact
 
 the criterion [F85](PROOF_F85_KBODY_GENERALIZATION.md) states and verifies at k = 2, 3, 4. The canonical mirrors of the other two letters are exact transports of Π_Z, phases included:
 
-- **Y-dephasing:** Π_Y = Π_Z⁻¹ (§4(a) there). An operator and its inverse flip L_σ for the same strings, so the criterion is the one for Z. That Π_Y palindromizes the Y dissipator, so that M is again the Hamiltonian part alone, comes from the quarter turn R_x(π/2)^⊗N, which carries Π_Z to Π_Y and L_Z to L_Y ([the Klein-V₄ dephase swaps](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), implications).
-- **X-dephasing:** Π_X = Q_zx·Π_Z·Q_zx⁻¹ ([the Klein-V₄ dephase swaps](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), with Q_zx the conjugation ρ ↦ U·ρ·U† by U = U_H^⊗N, U_H the Hadamard. It carries L_σ to L_{UσU†} and exchanges X and Z letter by letter (Y changes sign), so σ is truly against Π_X exactly when UσU† is truly against Π_Z: #X even AND #Y even.
+- **Y-dephasing:** Π_Y = Π_Z⁻¹ (§4(a) there). An operator and its inverse flip L_σ for the same strings, so the criterion is the one for Z. That Π_Y palindromizes the Y dissipator, so that M is again the Hamiltonian part alone, comes from the quarter turn R_x(π/2)^⊗N, which carries Π_Z to Π_Y and L_Z to L_Y ([the Klein-V₄ on the palindromizers](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), implications).
+- **X-dephasing:** Π_X = Q_zx·Π_Z·Q_zx⁻¹ ([the Klein-V₄ on the palindromizers](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), with Q_zx the conjugation ρ ↦ U·ρ·U† by U = U_H^⊗N, U_H the Hadamard. It carries L_σ to L_{UσU†} and exchanges X and Z letter by letter (Y changes sign), so σ is truly against Π_X exactly when UσU† is truly against Π_Z: #X even AND #Y even.
 
 | Dephase letter | Its canonical mirror flips by | Truly criterion |
 |----------------|-------------------------------|------------------|

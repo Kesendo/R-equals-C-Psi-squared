@@ -14,9 +14,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// the disagreement with P alone. The object never changes between held letters; only the price
 /// list does (Z^⊗N rides free when Z is the held letter and pays maximally when X is), the
-/// letter swap is an exact transport (the operator-space Klein V₄ of
-/// <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE</c>, equivalently the single-qubit basis
-/// moves h_zx, h_yz), and only the identity is free under every held letter. This is the exact instance behind
+/// letter swap is an exact transport (the single-qubit basis moves h_zx, h_yz; within the
+/// operator-space Klein V₄ of <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE</c>, Q_zx and Q_yx
+/// carry Z to X, while the transpose D keeps the letter and inverts the Z mirror), and only the identity is free under every held letter. This is the exact instance behind
 /// the series' label thesis (<c>docs/quantum/LABELS_TRANSLATED.md</c> §2,
 /// <c>docs/quantum/DEPHASING_TRANSLATED.md</c> §4): even the environment routes by a label.
 ///
@@ -28,8 +28,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Typed parents.</b> <see cref="AbsorptionTheoremClaim"/> (the rate law
 /// Re λ = −2γ·⟨n_XY⟩: the price is the light content in the held letter) and
-/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the {D, Q_zx, Q_yx} involutions that transport the
-/// F1 structure between the three letters: the swap that relocates which cells pay). Live:
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the Klein V₄ on the palindromizers: Q_zx and Q_yx
+/// carry the dephasing letter Z to X, the swap that relocates which cells pay, while the
+/// transpose D keeps the letter and inverts the Z mirror, D·Π_Z·D = Π_Z⁻¹ = Π_Y). Live:
 /// <c>inspect --root label</c> (<c>HeldLetterRoutingWitness</c>, all 3·4^N (letter, string)
 /// pairs recomputed dense-vs-closed-form at inspect time, plus the two-sided routing
 /// controls).</para></summary>
@@ -37,13 +38,13 @@ public sealed class HeldLetterRoutingClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring: the −2γ·⟨n_XY⟩ rate law (the price list).
     public AbsorptionTheoremClaim Absorption { get; }
-    // Parent-edge marker for Schicht-1 wiring: the Klein V₄ letter swap (the routing).
+    // Parent-edge marker for Schicht-1 wiring: the Klein V₄ on the palindromizers (its Q_zx, Q_yx route Z to X).
     public Pi2KleinV4DephaseSwapGroup KleinV4 { get; }
 
     public HeldLetterRoutingClaim(AbsorptionTheoremClaim absorption, Pi2KleinV4DephaseSwapGroup kleinV4)
         : base("The held-letter routing: local dephasing in letter P has the 4^N Pauli strings as one " +
                "shared eigenbasis with rate -2*gamma*n_anti(S,P), the disagreement with the held letter " +
-               "alone; the price list is letter-routed (the Klein V4 swaps / basis moves relocate which cells " +
+               "alone; the price list is letter-routed (the basis moves and the Klein V4's Q_zx, Q_yx relocate which cells " +
                "pay, entry-exactly) and only the identity is free under every held letter: the environment " +
                "routes by a label, the Tier-1 instance of the label thesis",
                Tier.Tier1Derived,
@@ -62,7 +63,7 @@ public sealed class HeldLetterRoutingClaim : Claim
 
     public override string Summary =>
         "L_P(S) = −2γ·n_anti(S, P)·S for every Pauli string S and every letter P: one shared eigenbasis, " +
-        "three price lists; the letter swap relocates which cells pay (Klein V₄ / basis moves, entry-exact); " +
+        "three price lists; the letter swap relocates which cells pay (basis moves, and the Klein V₄'s Q_zx, Q_yx for Z ↔ X, entry-exact); " +
         "only the identity rides free under every held letter. The exact core under the label thesis: even " +
         $"the environment routes by a label ({Tier.Label()})";
 
@@ -81,7 +82,8 @@ public sealed class HeldLetterRoutingClaim : Claim
                          "intersection over all three held letters is the identity alone: only nothing is " +
                          "free everywhere.");
             yield return new InspectableNode("the swap: an exact transport, two faces",
-                summary: "operator-space face: the Klein V₄ involutions {D, Q_zx, Q_yx} " +
+                summary: "operator-space face: the Klein V₄ involutions Q_zx, Q_yx carry L_Z onto L_X, while the " +
+                         "transpose D keeps the letter and inverts the Z mirror " +
                          "(PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE, typed parent); basis face: the " +
                          "single-qubit S₃ moves h_zx, h_yz carry L_Z onto L_X, L_Y entry-exactly " +
                          "(--root diagonal holds the S₃ orbit of the diagonals themselves).");
@@ -93,8 +95,8 @@ public sealed class HeldLetterRoutingClaim : Claim
                          "the founding case ('noise'): docs/quantum/DEPHASING_TRANSLATED.md.");
             yield return new InspectableNode("typed parents",
                 summary: $"AbsorptionTheoremClaim ({Absorption.Tier.Label()}): the rate law, the price " +
-                         $"list; Pi2KleinV4DephaseSwapGroup ({KleinV4.Tier.Label()}): the letter swap, " +
-                         "the routing.");
+                         $"list; Pi2KleinV4DephaseSwapGroup ({KleinV4.Tier.Label()}): the Klein V₄ on the " +
+                         "palindromizers, whose Q_zx, Q_yx route the letter Z to X.");
             yield return new InspectableNode("live witness (inspect --root label)",
                 summary: "HeldLetterRoutingWitness recomputes all 3·4^N (letter, string) pairs " +
                          "dense-vs-closed-form at inspect time (default N=3), plus the repriced-count and " +

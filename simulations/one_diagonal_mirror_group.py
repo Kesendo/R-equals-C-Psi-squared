@@ -9,8 +9,7 @@ forced (kept here as the dated lesson; "blind ones learn to see"):
       from OPERATOR, exactly its job.
   (2) THE PERMUTER: the group that permutes {Q_X,Q_Y,Q_Z} is the LETTER group of single-qubit basis
       moves, NOT <R, D, h>. D (the transpose) FIXES each diagonal (D Q D = +Q, the RATE reading); it
-      does not permute them. The proof's "D = the Z<->Y swap" lives on the palindromizer Pi
-      (D Pi_Z D = Pi_Y), not on the diagonal Q.
+      does not permute them. The proof's D Pi_Z D = Pi_Z^-1 = Pi_Y lives on the palindromizer Pi, not on the diagonal Q.
   (3) THE GROUP NAME and THE STRUCTURE (added 2026-08-01, found by review, not by this gate):
       <h_zx, h_yz> is NOT S3. R_x(pi/2) is a quarter-turn on the letters, so h_yz has order 4 and the
       closure has order 24 (the single-qubit Clifford group mod phase). Stage 1 printed that 24 all

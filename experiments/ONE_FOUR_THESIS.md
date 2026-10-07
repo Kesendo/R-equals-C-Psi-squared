@@ -40,10 +40,9 @@ ladder). The router's spatial 4 is likewise 2 × 2 (forced a ↔ b alternation o
 the two parity sublattices, [§4 of the proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md));
 its genuine quarter-turn is the separate internal rotation R in the (X, Y) plane. The
 five Klein V₄ structures (parameter Klein, Pauli-mode quartering, the lattice of
-watchings, the dephase-letter swaps, the hardware lens) are order-2 throughout; the
+watchings, the Klein V₄ on the palindromizers, the hardware lens) are order-2 throughout; the
 parameter Klein names itself "the order-2 shadow of the operator-side Z₄" and the
-dephase-swap proof had already falsified a pre-registered order-4 conjecture
-([the Klein V₄ proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)).
+[Klein-V₄ proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md) had already falsified a pre-registered order-4 conjecture.
 
 What remained was the sharp core: are the two GENUINE mod-4 structures, Π's spectral
 Z₄ (anchor 0, so to speak) and the Majorana-degree mod-4 of F132 (anchors 1-2), the

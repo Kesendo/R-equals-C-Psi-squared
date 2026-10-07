@@ -148,7 +148,7 @@ where χ_ℓ is the parity Π_ℓ² grades by (F38/F88a: bit_a for ℓ = X, bit_
 
 The support is where ε_L and ε_R disagree, and to see that this is generic rather than a fit to three rows, redo §(e) in letter-generic symbols: with s_L(σ) = Π ε_L, s_R(σ) = Π ε_R and c_σ = −i a_σ + b_σ, Lemma 3 leaves z = 4^N Σ_σ [conj(c_σ)²·s_R(σ) + c_σ²·s_L(σ)], whose imaginary part is 4^N Σ_σ 2 a_σ b_σ (s_R(σ) − s_L(σ)). Only the **difference** of the two signs survives, for any letter. So the support is the disagreement set and the weight is the letter carrying ε_R = −1, both read off the table. For ℓ = Z, s_L = (−1)^#Y and s_R = (−1)^#Z, which is §(e) as written there. ∎
 
-**Y is not a sibling.** Π_Y = Π_Z⁻¹ exactly, at every N, which the repo already owns ([the factorisation proof](PROOF_PI_FACTORS_AS_R_TIMES_D.md), [the Klein-V₄ dephase-swap proof](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), `reflections/D_PI_Z_EQUALS_PI_Y.md`). Hence Ad_{Π_Y} = Ad_{Π_Z}³, and inverting an order-4 map exchanges its +i and −i eigenprojections. So for **every** superoperator M, with no hypothesis and no bilinear argument at all,
+**Y is not a sibling.** Π_Y = Π_Z⁻¹ exactly, at every N, which the repo already owns ([the factorisation proof](PROOF_PI_FACTORS_AS_R_TIMES_D.md), [the Klein-V₄ proof on the palindromizers](PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md), `reflections/D_PI_Z_EQUALS_PI_Y.md`). Hence Ad_{Π_Y} = Ad_{Π_Z}³, and inverting an order-4 map exchanges its +i and −i eigenprojections. So for **every** superoperator M, with no hypothesis and no bilinear argument at all,
 
     asymmetry_Y(M) = −asymmetry_Z(M) .
 

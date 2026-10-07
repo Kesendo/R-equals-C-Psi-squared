@@ -119,8 +119,9 @@ Step 6c: Part 1 → Part 3 equivalence via D-equivariance OF THE PROOF
    the diagonal-permutation argument (proven structurally above).
 
    The Klein-V₄ D operator EXPRESSES this equivalence cleanly:
-     D = ⊗ diag(1,1,1,-1) at the operator-space level swaps the Z and Y
-     palindrome operators, canonical and Π_5b alike. The fact that
+     D = ⊗ diag(1,1,1,-1) at the operator-space level inverts the
+     canonical Z palindrome operator (Π_Y = Π_Z⁻¹), and on the Π_5b
+     family gives Π_5b(Y) = (−1)^N·Π_5b(Z)⁻¹. The fact that
      D · Π_5b(Z) · D = Π_5b(Y) (bit-exact above) is the structural
      content: D intertwines the phase-flipped Π_5b variants.
 

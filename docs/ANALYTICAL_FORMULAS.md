@@ -4442,7 +4442,7 @@ count. The Z-dephasing criterion comes from Π_Z = R·D
 L_σ the sign (−1)^(n_Y+1), R keeps L_σ exactly when n_Y + n_Z is even); the
 other two canonical mirrors are exact transports of Π_Z, Π_Y = Π_Z⁻¹ and
 Π_X its conjugate by the Hadamard
-([the Klein-V₄ dephase swaps](proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
+([the Klein-V₄ on the palindromizers](proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
 so the X criterion is the Z criterion with X and Z exchanged. F107 is the first
 DERIVED-not-EMPIRICAL Claim in the F87 Z₂³ refinement family.
 
@@ -5051,8 +5051,8 @@ script: `simulations/f113_break_formula_derivation.py`.
 
 Closed-form sign functional ε(σ) for the action of D-conjugation on the
 H-commutator superoperator L_σ = −i[σ, ·] in the 4^N Pauli basis, where
-D = diag((−1)^{n_Y(α)}) is the real diagonal unitary involution that swaps
-the Z and Y palindrome operators on operator space (Welle 12: Π_Y = D·Π_Z·D).
+D = diag((−1)^{n_Y(α)}) is the real diagonal unitary involution, the transpose,
+that inverts the Z palindrome operator (Welle 12: D·Π_Z·D = Π_Z⁻¹ = Π_Y).
 
 **Theorem (F114):** For any single Pauli string σ ≠ I^{⊗N} on N qubits,
 
@@ -5102,7 +5102,7 @@ The F112 typed scope (norm-level ‖M_+1/2‖² = ‖M_−1/2‖²) remains sign
 
 **Connection axes:**
 - Welle 12 D · Π_Z · D = Π_Y: F114 is the L-level companion. Welle 12 makes
-  D the Π swap-operator across {Z, Y} dephase letters; F114 makes D the L_H
+  D the inverter of the Z mirror (D·Π_Z·D = Π_Z⁻¹ = Π_Y); F114 makes D the L_H
   sign-flip-operator with per-term n_Y bookkeeping.
 - F112: ε is sign-invariant under the F112 norm-level statement, so F112-Y
   (F112-Z read through Π_Y = Π_Z⁻¹, F155; Route 1 and the quarter turn independently)
@@ -5429,8 +5429,8 @@ written down.
 **Deliberately outside:** K₁ (grades by site, not by letter), the golden router W (F116;
 two-sided, non-involutive, covering exactly the n_Z-odd ceiling territory that D₄'s
 class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), and
-the dephase-letter swaps Q_zx / Q_yx (D swaps the Z and Y palindromizers, which is Welle 12;
-the other two pairs need the X↔Z basis move). The earlier expected **S₃ ⋉ D₄** completion was
+the dephase-letter swaps Q_zx / Q_yx (each carries the dephasing letter Z → X, and both are built
+on the per-site X↔Z basis move; D, which inverts the Z mirror, D·Π_Z·D = Π_Y = Π_Z⁻¹, is inside D₄). The earlier expected **S₃ ⋉ D₄** completion was
 resolved in [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): letter S₃ does
 not normalize D₄; the coherence-space closure has order 768/gcd(N, 4), never 48.
 

@@ -158,8 +158,9 @@ public sealed class MirrorGroupWitness : IInspectable
             children: new IInspectable[]
             {
                 new InspectableNode("the dihedral inversion: D·Π_Z·D = Π_Y = Π_Z⁻¹ (reflections/D_PI_Z_EQUALS_PI_Y, live)",
-                    summary: "conjugating the rotation by a reflection inverts it (s·r·s = r⁻¹): the Z↔Y dephase-letter "
-                           + $"swap and running the palindromizer backwards are one operation. dev = {inv:0.0e+00}"),
+                    summary: "conjugating the rotation by a reflection inverts it (s·r·s = r⁻¹): exchanging the Z and Y "
+                           + "palindromizers and running the palindromizer backwards are one operation; the transpose D "
+                           + $"keeps the dephasing letter. dev = {inv:0.0e+00}"),
                 new InspectableNode("𝓕 = Π_Z² (the center, charge conjugation F⊗F)",
                     summary: "the square of the palindromizer is the charge conjugation 𝓕 = X^⊗N·(·)·X^⊗N (F1²), the "
                            + $"center of D₄ that commutes with every mirror. dev = {center:0.0e+00}"),
@@ -219,8 +220,8 @@ public sealed class MirrorGroupWitness : IInspectable
                 new InspectableNode("F71's bond mirror",
                     summary: "a spatial reflection of the chain (site k ↔ N+1−k), not an operator-space letter map."),
                 new InspectableNode("the dephase-letter swaps Q_zx, Q_yx (the S₃ completion, RESOLVED 2026-06-15)",
-                    summary: "D swaps the Z and Y palindromizers (inside ⟨R,D⟩); the other two pairs need the X↔Z basis permutation and are "
-                           + "outside. The completion is resolved (arc linear_s3_mirror_completion, "
+                    summary: "the Klein-V₄ element D, which inverts the Z mirror (D·Π_Z·D = Π_Z⁻¹ = Π_Y), is inside ⟨R,D⟩; "
+                           + "Q_zx and Q_yx (both carry Z ↔ X) need the X↔Z basis permutation and are outside. The completion is resolved (arc linear_s3_mirror_completion, "
                            + "simulations/linear_s3_mirror_closure.py): the letter-S₃ exists (order 6, from the "
                            + "involutive Cliffords) but does NOT normalize D₄ "
                            + "(h_zx·R·h_zx⁻¹ = the one-sided Z^⊗N multiplication, outside ⟨R,D⟩), so the "

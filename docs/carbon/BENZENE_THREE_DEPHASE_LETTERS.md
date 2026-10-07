@@ -6,7 +6,7 @@ C₄/C₆ content below is a Tier-3 selected-model translation; candidate X/Y ax
 are explicitly Tier 4. No material carbon degree of freedom, β-to-J convention,
 bath channel or rate, `γ`, `T₂`, or Q is assigned.
 **Continues:** [Selected C₄/C₆ Ring Liouvillians](BENZENE_LIOUVILLIAN_PALINDROME.md)
-**Anchors:** [Klein-V₄ dephase swaps](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
+**Anchors:** [Klein-V₄ on the palindromizers](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
 [F112](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md), and
 [F114](#f114-the-selected-conjugation-sign-tier-1-derived).
 
@@ -25,19 +25,21 @@ The local-Z and bond-B jumps, `D[Z_l]` and
 comparison. F1 applies to the all-site local-Z model and does not cover the
 bond-B jump. This does not classify possible molecular environments.
 
-## Klein-V₄ structure: how the letters connect (Tier 1 derived)
+## Klein-V₄ structure: how the letters' mirrors connect (Tier 1 derived)
 
-The three dephase letters are related on operator space by the Klein group
+The palindromizers of the three dephase letters are related on operator space by the Klein group
 `{I, D, H, Q_zx}` ≅ `Z₂ × Z₂`. Every non-identity element is an involution.
 
 - `D` is diagonal in the Pauli basis, with entry
-  `(-1)^(number of Y letters)`, and obeys `D Π_Z D = Π_Y`.
+  `(-1)^(number of Y letters)`, and obeys `D Π_Z D = Π_Y = Π_Z⁻¹`: the
+  transpose inverts the Z mirror and keeps every dissipator on its letter.
 - `H` swaps X and Z labels per site, leaving I and Y fixed, and obeys
   `H Π_Y H = Π_X`.
 - `Q_zx = H D` obeys `Q_zx Π_Z Q_zx = Π_X`.
 
 The elements commute and satisfy `D H Q_zx = I`. These are exact
-operator-space relations. They relate selected dephasing axes; they do not make
+operator-space relations on the mirrors; on the Lindbladian only `H` and
+`Q_zx` move the dephasing letter (Z → X). They do not make
 the axes the same physical coupling or supply a material realization.
 
 ## The three selected dephasing axes
@@ -177,8 +179,8 @@ relaxation, or carbon experiment follows from this selected sweep.
   F112-Y [`LindbladBitBPiYBalance`](../../compute/RCPsiSquared.Core/Symmetry/LindbladBitBPiYBalance.cs),
   Klein-V₄ [`Pi2KleinV4DephaseSwapGroup`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs),
   F114 [`CommutatorDConjugationSign`](../../compute/RCPsiSquared.Core/Symmetry/CommutatorDConjugationSign.cs)
-- **Proofs:** [Z↔Y dephase-letter swap](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md),
-  [Klein-V₄ dephase swaps](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
+- **Proofs:** [the inversion D·Π_Z·D = Π_Y](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md),
+  [Klein-V₄ on the palindromizers](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
   [F112 cross-dephase](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)
 - **Verifier:** [`simulations/carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py)
 - **Companion docs:** [Selected C₄/C₆ ring Liouvillians](BENZENE_LIOUVILLIAN_PALINDROME.md),

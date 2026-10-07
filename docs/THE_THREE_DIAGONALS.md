@@ -13,7 +13,7 @@ ThreeDephasingDiagonalsOrbitClaim, inspect root diagonal, R=CPsi2 -->
 **Builds on:**
 - [PROOF_ABSORPTION_THEOREM.md](proofs/PROOF_ABSORPTION_THEOREM.md) §4.7: the Z diagonal Q_Z and L_D = γ·(Q_Z − N·I).
 - [reflections/ON_THE_ONE_DIAGONAL.md](../reflections/ON_THE_ONE_DIAGONAL.md): one diagonal, read three ways (rate / mirror / judge). The three readings are there in words; the D₄ that carries them is in the R·D proof below, not in that reflection.
-- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y, the Z↔Y swap at the palindromizer level (the three-fold there is the Klein V₄ proof's).
+- [reflections/D_PI_Z_EQUALS_PI_Y.md](../reflections/D_PI_Z_EQUALS_PI_Y.md): D·Π_Z·D = Π_Y = Π_Z⁻¹, the transpose inverting the Z mirror at the palindromizer level (the three-fold there is the Klein V₄ proof's).
 - [PROOF_PI_FACTORS_AS_R_TIMES_D.md](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5: the letter-S₃ side of the mirror group, and its resolution (the expected order-48 completion does not exist).
 
 ---
@@ -90,13 +90,13 @@ That pattern is a fact about the two factors, and it is **not** evidence of a se
 
 The coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 768/gcd(N, 4), that is 768, 384, 768, 192 at N = 1, 2, 3, 4; divided by global phases it is 192 at every N; never the 48 an S₃ ⋉ D₄ would have. This is settled in `PROOF_PI_FACTORS_AS_R_TIMES_D` §5 ("Resolution of the S₃ side", with its own gate at N = 1..5): the abstract S₃ ⋉ D₄ is not realised inside the coherence-space group these mirrors generate. What survives, and is the content of this note, is the orbit: three diagonals, one letter-S₃ action, one shared spectrum.
 
-One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The letter moves permute the diagonals; D does not. The proof's D as the Z↔Y swap lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. The Π-level three-fold and the Q-level three-fold are parallel but distinct realizations of the same letter permutation.
+One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The letter moves permute the diagonals; D does not. The proof's identity lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y = Π_Z⁻¹ inverts the Z mirror (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. On the Lindbladian D moves no letter.
 
 ## §5 The completion, and how it closed
 
 The D₄ core ⟨R, D⟩ is typed (`MirrorGroupD4Claim`). The completion by the letter moves was expected to be the order-48 **S₃-letter-action ⋉ D₄**, and the answer is the one §4 states: the linear letter-S₃ exists as superoperators, but it does not normalise D₄, so the semidirect product is not there to be built, and the closure count of §4 is never 48.
 
-One question closes with it: whether the dephase-letter-swap S₃ acting on the palindromizers Π is the **same** abstract S₃ as the letter-S₃ of this note acting on the diagonals Q. There were never two S₃'s. One letter-S₃ acts in both places, and it acts differently because the two objects have different sensitivities: it acts faithfully on the diagonals, which are quadratic in the letters and therefore blind to sign, and it carries Clifford signs on the palindromizers, giving a larger orbit there. The same asymmetry is what §4's closing subtlety records, where D fixes every diagonal but swaps Π_Z with Π_Y.
+One question closes with it: whether the letter-S₃ acting on the palindromizers Π by Clifford conjugation is the **same** abstract S₃ as the letter-S₃ of this note acting on the diagonals Q. There were never two S₃'s. One letter-S₃ acts in both places, and it acts differently because the two objects have different sensitivities: it acts faithfully on the diagonals, which are quadratic in the letters and therefore blind to sign, and it carries Clifford signs on the palindromizers, giving a larger orbit there. D, which is not in the letter-S₃, shows the same sensitivity gap in §4's closing subtlety: it fixes every diagonal but inverts Π_Z (Π_Y = Π_Z⁻¹).
 
 The arc `linear_s3_mirror_completion` is retired (`inspect --root arcs`); its resolution note is the anchor.
 

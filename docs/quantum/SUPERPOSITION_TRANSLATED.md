@@ -157,8 +157,8 @@ machinery makes the frame literal: the `dephase_letter` parameter
 fixes which of the three letters {Z, X, Y} the dephasing holds, and the
 four letter-labels {I, X, Y, Z}
 carry a Klein V₄ that lifts to involutions on the 4^N operator space, so a
-diagnostic computed under one letter transports to the others, with the
-proof's own caveats. Two of the three swaps genuinely turn the dephasing
+diagnostic of the palindromizer transports among the three letters' mirrors, with the
+proof's own caveats. Two of its three non-identity elements turn the dephasing
 axis, both carrying L_Z to L_X; only the transpose is inert, because a sign
 matrix cannot move a diagonal. What the Hadamard alone can do is lift to a
 Hilbert-space unitary, the other two being operator-space only. And the group

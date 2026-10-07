@@ -4,11 +4,11 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="Pi2KleinV4DephaseSwapGroup"/> — the Klein-V₄
-/// subgroup of unitary involutions on the 4^N Pauli basis realizing the dephase-letter
-/// Klein V₄ {I, Z↔Y, Z↔X, Y↔X} on the F1 palindrome family {Π_Z, Π_X, Π_Y}.
+/// subgroup of unitary involutions on the 4^N Pauli basis acting simply transitively on the
+/// palindromizers {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹} of the F1 family.
 ///
-/// <para>Standalone Tier1Derived primitive: no ctor parents. The Claim provides the
-/// operator-space lift of the Klein V₄ on dephase letters and is consumed downstream
+/// <para>Standalone Tier1Derived primitive: no ctor parents. The Claim provides
+/// the Klein V₄ on the palindromizers and is consumed downstream
 /// by F1-family transfer arguments. Two transfer routes exist: Route 1 (per-axis
 /// structural re-run, e.g. F112 Welle 13) transfers any identity depending only on
 /// F38 Π_d² eigenvalue + Pauli-support disjointness between all three dephase letters.

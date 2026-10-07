@@ -42,7 +42,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// h_zx·R·h_zx⁻¹ is the one-sided multiplication by Z^⊗N, outside the eight elements of ⟨R, D⟩, and the
 /// coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 768/gcd(N,4) (768, 384, 768, 192 at N=1..4), never 48.
 /// D does NOT permute the diagonals (it fixes them); the proof's
-/// "D = the Z↔Y swap" lives on the palindromizer Π, not on the diagonal Q.</para>
+/// D·Π_Z·D = Π_Z⁻¹ = Π_Y (D inverts the Z mirror) lives on the palindromizer Π, not on the diagonal Q.</para>
 ///
 /// <para><b>This claim is the weld:</b> its two typed parents — <see cref="MirrorGroupD4Claim"/> (the
 /// readings + the D₄ factor) and <see cref="AbsorptionTheoremClaim"/> (the dephasing diagonal) — are the
@@ -82,7 +82,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                "(mirror/palindrome), the {D, 𝓕D} joint-fixed cell is truly (judge). The two three-folds do " +
                "NOT form a semidirect product S₃ ⋉ D₄: the letter moves do not normalize D₄ " +
                "(h_zx·R·h_zx⁻¹ = one-sided Z^⊗N, outside ⟨R,D⟩; closure order 768/gcd(N,4), never 48). D does NOT permute the " +
-               "diagonals (it fixes them); the proof's 'D = Z↔Y swap' is on the palindromizer Π, not on Q. " +
+               "diagonals (it fixes them); the proof's D·Π_Z·D = Π_Z⁻¹ = Π_Y (D inverts the Z mirror) is on the palindromizer Π, not on Q. " +
                "The claim's two parents are the physics edge welding the mirror-group and absorption clusters.",
                Tier.Tier1Derived,
                "simulations/one_diagonal_mirror_group.py (self-validating Stages 0-2 + an N=3 attack) + " +
@@ -116,7 +116,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                          "has order 24 and permutes the three dephasing axes through S₃ (the linear side of PROOF_PI_FACTORS §5).");
             yield return new InspectableNode("rate reading: D fixes Q",
                 summary: "D·Q·D = +Q — the price-list / absorption ladder (Re λ = −2γ⟨n_XY⟩). D does NOT permute " +
-                         "the diagonals; the proof's 'D = Z↔Y swap' is on the palindromizer Π, not on Q.");
+                         "the diagonals; the proof's D·Π_Z·D = Π_Z⁻¹ = Π_Y (D inverts the Z mirror) is on the palindromizer Π, not on Q.");
             yield return new InspectableNode("mirror reading: R reflects Q (R·Q·R = −Q)",
                 summary: "R anti-fixes Q and carries the entire −2Σγ shift (R·L_diss·R = −L_diss − 2Σγ·I): the " +
                          "palindrome, partners carry complementary light ⟨n_XY⟩_s + ⟨n_XY⟩_f = N. R is the " +

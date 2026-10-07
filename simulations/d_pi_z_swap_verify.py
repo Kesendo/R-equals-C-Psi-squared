@@ -16,8 +16,8 @@ Significance:
   - The standard codebase pattern combines T (vec_F transform) with a
     vec_R-style commutator -i(H ⊗ I − I ⊗ H^T), producing Pauli-basis
     matrices that are D · L_natural · D rather than L_natural.
-  - This identity says D-conjugation IS the Z↔Y swap of the palindrome
-    operators at the operator-space level. So F1 residual norms / inner
+  - This identity says D-conjugation inverts the Z mirror, Π_Y = Π_Z⁻¹,
+    exchanging the Z and Y palindrome operators at the operator-space level. So F1 residual norms / inner
     products / spectra of a fixed operator computed via the "twisted"
     pipeline are preserved under D. D keeps the dephasing letter of a
     Lindbladian; the step to Y-dephasing is the quarter turn about X.
@@ -140,8 +140,8 @@ def main():
     if all_pass:
         print("ALL PASS: D · Π_Z · D = Π_Y bit-exact at N = 1, 2, 3, 4")
         print("  → The vec_F vs vec_R convention twist in the standard codebase")
-        print("    pipeline corresponds exactly to conjugation by D, which swaps the")
-        print("    Z and Y palindrome operators. F1 residual norms / inner products /")
+        print("    pipeline corresponds exactly to conjugation by D, which inverts the")
+        print("    Z palindrome operator (Π_Y = Π_Z⁻¹). F1 residual norms / inner products /")
         print("    spectra of a fixed operator are preserved under it; D keeps the")
         print("    dephasing letter of a Lindbladian.")
     else:

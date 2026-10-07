@@ -25,8 +25,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   <item><b>only nothing is free everywhere</b>: each held letter exempts its own 2^N strings
 ///         {I, P}^⊗N; the intersection over all three held letters is the identity alone.</item>
 ///   <item><b>the swap is an exact transport</b>: the single-qubit basis moves h_zx, h_yz carry
-///         L_Z onto L_X, L_Y entry-exactly (the basis-move face of the letter swap; the
-///         operator-space Klein V₄ face is PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE).</item>
+///         L_Z onto L_X, L_Y entry-exactly (the basis-move face of the letter swap; in the
+///         operator-space Klein V₄ of PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE, Q_zx and Q_yx
+///         carry L_Z onto L_X, while the transpose D keeps the letter and inverts the Z mirror).</item>
 /// </list>
 ///
 /// <para>The Tier-4 reading this exact core grounds (labeled as a reading, never promoted): to
@@ -179,8 +180,9 @@ public sealed class HeldLetterRoutingWitness : IInspectable
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("the letter swap is an exact transport",
                 summary: $"Ad(h_zx)·L_Z·Ad† = L_X (dev {TransportDevZtoX:0.0e+00}), Ad(h_yz)·L_Z·Ad† = L_Y "
-                       + $"(dev {TransportDevZtoY:0.0e+00}): the basis-move face; the operator-space Klein V₄ "
-                       + "face is PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE (typed parent)",
+                       + $"(dev {TransportDevZtoY:0.0e+00}): the basis-move face; in the operator-space Klein V₄ "
+                       + "(PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE, typed parent) Q_zx and Q_yx carry L_Z onto "
+                       + "L_X, while the transpose D keeps the letter and inverts the Z mirror",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("the reading (Tier 4, labeled)",
                 summary: "to be a watcher is to hold a label and be blind past it; the label layer is the "

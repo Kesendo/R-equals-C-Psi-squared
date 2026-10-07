@@ -146,7 +146,7 @@ public class Pi2KleinV4DephaseSwapGroupTests
     }
 
     // ------------------------------------------------------------------
-    // Dephase-swap conjugation identities at N=2 via PiOperator.BuildFull
+    // Palindromizer conjugation identities at N=2 via PiOperator.BuildFull
     // ------------------------------------------------------------------
 
     [Fact]
@@ -163,7 +163,7 @@ public class Pi2KleinV4DephaseSwapGroupTests
     [Fact]
     public void H_ConjugatesPiYToPiX_AtN2()
     {
-        // Welle 12 Task 2: Y↔X swap via the pure basis-permutation H.
+        // Welle 12 Task 2: Π_Y → Π_X via the pure basis-permutation H.
         var H = Pi2KleinV4DephaseSwapGroup.BuildH(N: 2);
         var piY = PiOperator.BuildFull(N: 2, PauliLetter.Y);
         var piX = PiOperator.BuildFull(N: 2, PauliLetter.X);
@@ -186,7 +186,7 @@ public class Pi2KleinV4DephaseSwapGroupTests
     [Fact]
     public void Qzx_ConjugatesPiZToPiX_AtN2()
     {
-        // Welle 12 Task 2: Z↔X swap via the composite Q_zx = H · D.
+        // Welle 12 Task 2: Π_Z → Π_X via the composite Q_zx = H · D.
         var Q = Pi2KleinV4DephaseSwapGroup.BuildQzx(N: 2);
         var piZ = PiOperator.BuildFull(N: 2, PauliLetter.Z);
         var piX = PiOperator.BuildFull(N: 2, PauliLetter.X);

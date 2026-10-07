@@ -1990,20 +1990,20 @@ public static class OpenArcsRegistry
             Opened: "2026-06-15",
             Origin: "PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 asked: the mirror group's D4 core <R,D> is " +
                 "typed (MirrorGroupD4Claim, order 8), but the FULL mirror group of the palindrome family was " +
-                "expected to be S3-letter-action |x| D4 (order 48). The S3 permutes the three dephase letters {X,Y,Z}; one " +
-                "transposition (Z<->Y) is already D INSIDE D4 (Welle 12, D Pi_Z D = Pi_Y), but the other two " +
-                "(X<->Z, X<->Y) move bit_a against bit_b and need the X<->Z basis permutation h, so they sit " +
-                "OUTSIDE <R,D>. Surfaced again 2026-06-15 (the mirrorgroup witness + the three-ladder session " +
+                "expected to be S3-letter-action |x| D4 (order 48). The S3 permutes the three dephase letters {X,Y,Z}. Of the " +
+                "Klein-V4 {I, D, Q_zx, Q_yx}, D (the transpose, inverting the Z mirror, D Pi_Z D = Pi_Z^-1 = " +
+                "Pi_Y, keeping every letter) is inside D4; Q_zx and Q_yx, which move the letter Z<->X, move " +
+                "bit_a against bit_b, need the X<->Z basis permutation h and sit OUTSIDE <R,D>. Surfaced again 2026-06-15 (the mirrorgroup witness + the three-ladder session " +
                 "flagged the S3 side as the last unassembled piece of the mirror group).",
             ParkedAt: "ALREADY BUILT (do not re-derive): (1) the D4 core <R,D> (MirrorGroupD4Claim: Pi_Z=R*D, " +
-                "the 8-element closure, the dihedral inversion). (2) the dephase-letter swaps as a Klein-V4 " +
+                "the 8-element closure, the dihedral inversion). (2) the Klein-V4 on the palindromizers " +
                 "{I, D, Q_zx, Q_yx} (Pi2KleinV4DephaseSwapGroup + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md): " +
                 "canonical per-site q_zx = h*d_l (h = X<->Z basis permutation on the ordered basis (I,X,Z,Y), " +
                 "d_l = diag(1,1,1,-1)), q_yx = h, D = diag((-1)^{n_Y}); N-site Q_zx = H*D, Q_yx = H with " +
                 "H = h^{otimes N}. (3) the letter S3 on the three DIAGONALS {Q_X,Q_Y,Q_Z} " +
                 "(ThreeDephasingDiagonalsOrbitClaim; its letter moves are the single-qubit " +
-                "Clifford basis change <h_zx,h_yz>, order 24, which PERMUTES the diagonals, NOT the dephase swap; note D " +
-                "FIXES every diagonal Q while it SWAPS the palindromizers Pi). (4) the order-128 PER-SITE " +
+                "Clifford basis change <h_zx,h_yz>, order 24, which PERMUTES the diagonals (the Klein-V4's Q_zx = h_zx and Q_yx exchange only Q_Z and Q_X); note D " +
+                "FIXES every diagonal Q while it INVERTS the Z mirror, D Pi_Z D = Pi_Z^-1 = Pi_Y). (4) the order-128 PER-SITE " +
                 "monomial completion <r,d,h> (mirror_inventory_d4.py block H) - a DIFFERENT object from the " +
                 "coherence-space group. (5) the ANTILINEAR double <R,D,K> = D4 x Z2 (PROOF_ANTILINEAR_TRIANGLE " +
                 "sec.4). Only the LINEAR S3 side on coherence space is never assembled as a closed group.",
@@ -2012,10 +2012,11 @@ public static class OpenArcsRegistry
                 "Pi2KleinV4DephaseSwapGroup) to <R,D> and verify the closure is order 48 with semidirect " +
                 "structure S3 |x| D4. Then TYPE it (a MirrorGroupS3D4Claim, parents MirrorGroupD4Claim + " +
                 "Pi2KleinV4DephaseSwapGroup) + a live witness (the S3xD4 twin of inspect --root mirrorgroup). " +
-                "THE KEY OPEN PHYSICS QUESTION: is the dephase-letter-swap S3 (this completion, acting on the " +
-                "palindromizers Pi) the SAME abstract S3 as the letter permutation of the basis moves of " +
+                "THE KEY OPEN PHYSICS QUESTION: is the letter-S3 acting on the palindromizers Pi by Clifford conjugation " +
+                "the SAME abstract S3 as the letter permutation of the basis moves of " +
                 "ThreeDephasingDiagonalsOrbitClaim (acting on the diagonals Q)? Both permute {X,Y,Z} but act " +
-                "differently (D swaps Pi_Z<->Pi_Y yet FIXES the diagonals Q) - resolve whether they are one S3 " +
+                "differently (with Clifford signs on Pi, faithfully on Q; the transpose D, outside the S3, inverts " +
+                "Pi_Z, Pi_Z^-1 = Pi_Y, yet FIXES the diagonals Q) - resolve whether they are one S3 " +
                 "in two realizations or two distinct S3's. GATE-FIRST hazard (learned twice in the mirrorgroup " +
                 "work): pin ONE representation - the coherence-space superoperators (target order 48), NOT the " +
                 "per-site order-128 monomial <r,d,h>; the convention twist (vec_F vs vec_R, the (-1)^{n_Y} of " +

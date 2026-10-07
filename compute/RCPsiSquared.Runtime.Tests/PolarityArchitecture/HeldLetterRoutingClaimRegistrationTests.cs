@@ -9,7 +9,8 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 /// <summary>Registration gates for <see cref="HeldLetterRoutingClaim"/> (the label layer,
 /// typed): registered, Tier 1 derived, and carrying its two typed parent edges to
 /// <see cref="AbsorptionTheoremClaim"/> (the −2γ·⟨n_XY⟩ price list) and
-/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the letter swap).</summary>
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (the Klein V₄ on the palindromizers, whose Q_zx, Q_yx
+/// carry the letter Z to X).</summary>
 public class HeldLetterRoutingClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>

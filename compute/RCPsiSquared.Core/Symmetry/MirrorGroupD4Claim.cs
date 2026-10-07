@@ -65,8 +65,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// router W (two-sided P ≠ Q, non-involutive; it covers the n_Z-odd ceiling scope that D₄
 /// provably cannot), the crossover mirror M (continuous R_z(π/4) object), F71's spatial
 /// bond mirror, and the dephase-letter swaps Q_zx / Q_yx of
-/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (D swaps the Z and Y palindromizers and is
-/// inside; the other two pairs need the X↔Z basis permutation and are outside). Adjoining them was
+/// <see cref="Pi2KleinV4DephaseSwapGroup"/> (its element D, which inverts the Z mirror,
+/// D·Π_Z·D = Π_Z⁻¹ = Π_Y, is inside; Q_zx and Q_yx (both carry Z ↔ X) need the X↔Z basis permutation and are outside). Adjoining them was
 /// expected to give an S₃ ⋉ D₄ completion; §5 of the proof disproves that:
 /// the letter moves do not normalize D₄ and the closure has order 768/gcd(N,4), never 48.</para>
 ///
@@ -104,7 +104,7 @@ public sealed class MirrorGroupD4Claim : Claim
     /// it is D's row of the palindrome split.</summary>
     public CommutatorDConjugationSign F114 { get; }
 
-    /// <summary>Typed parent: Welle 12's Klein-V₄ dephase-swap group, owner of the
+    /// <summary>Typed parent: Welle 12's Klein-V₄ on the palindromizers, owner of the
     /// diagonal D (<see cref="Pi2KleinV4DephaseSwapGroup.BuildD"/>). Its flagship identity
     /// D·Π_Z·D = Π_Y is re-read here as the dihedral inversion relation s·r·s = r⁻¹.</summary>
     public Pi2KleinV4DephaseSwapGroup KleinV4 { get; }

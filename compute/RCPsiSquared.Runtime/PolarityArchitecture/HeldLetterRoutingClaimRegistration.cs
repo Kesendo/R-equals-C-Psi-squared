@@ -11,8 +11,9 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <list type="bullet">
 ///   <item><see cref="AbsorptionTheoremClaim"/>: the rate law Re λ = −2γ·⟨n_XY⟩ — the price
 ///         list itself, light as the letters anticommuting with the held letter.</item>
-///   <item><see cref="Pi2KleinV4DephaseSwapGroup"/>: the {D, Q_zx, Q_yx} operator-space
-///         involutions — the letter swap that relocates which cells pay.</item>
+///   <item><see cref="Pi2KleinV4DephaseSwapGroup"/>: the Klein V₄ {I, D, Q_zx, Q_yx} on the
+///         palindromizers; its Q_zx, Q_yx carry the dephasing letter Z to X, the letter swap that
+///         relocates which cells pay, while the transpose D keeps the letter and inverts the Z mirror.</item>
 /// </list>
 ///
 /// <para>Tier consistency: Tier 1 derived (both parents Tier 1 derived; the exact core is

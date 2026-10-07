@@ -131,9 +131,9 @@ breaking the shared mirror.
 Everything above is Z-dephasing, where the lit (damped) axis is {X, Y} and the dark axis is {I, Z}.
 The three single-axis dephasing letters are related by local Clifford turns, the Hadamard for X ↔ Z and the
 quarter turn about X for Y ↔ Z. The Hadamard's operator-space form, Q_zx, belongs to the framework's Klein
-four-group of dephase swaps
+four-group on the palindromizers
 ([`Pi2KleinV4DephaseSwapGroup`](../compute/RCPsiSquared.Core/Symmetry/Pi2KleinV4DephaseSwapGroup.cs),
-[the Klein V4 dephase-swap proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)); the quarter
+[the Klein V4 proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)); the quarter
 turn lies outside it. So the routing should rotate rather than being a Z-accident. It does, exactly. Classifying all 36
 combinations under X- and Y-dephasing and relabelling the bilinears by the matching swap, the
 X-dephasing fate table is the Z table relabelled X↔Z and the Y table is the Z table relabelled Y↔Z,

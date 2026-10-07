@@ -36,7 +36,7 @@ public static class PauliBasis
     /// σ_k ↦ σ_k^T, so the resulting Pauli-basis matrix is D · L_natural · D where
     /// D = diag((−1)^n_Y(k)) is a real diagonal unitary involution. A bonus structural
     /// identity surfaced: D · Π_Z · D = Π_Y, so the twist coincides with the conjugation
-    /// that swaps the Z and Y palindrome operators.</para>
+    /// that inverts the Z palindrome operator (Π_Y = Π_Z⁻¹).</para>
     ///
     /// <para><b>Refinement (2026-07-29)</b>: the 2026-05-27 note above explained the
     /// invisibility by D-conjugation invariance alone. That is the right account for a

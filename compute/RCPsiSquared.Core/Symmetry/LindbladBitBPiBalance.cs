@@ -87,7 +87,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// independent route for the (Z, X) pair. See
 /// docs/proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md and
 /// simulations/f112_klein_v4_cross_dephase_verify.py (Welle 13). Caveat: the
-/// D-involution (the Z↔Y palindromizer swap in Pi2KleinV4DephaseSwapGroup) is operator-space-only
+/// D-involution (the transpose in Pi2KleinV4DephaseSwapGroup, D·Π_Z·D = Π_Z⁻¹ = Π_Y) is operator-space-only
 /// and does NOT rotate the dephasing letter (D·L_Z·D⁻¹ is L_Z again, with H → −Hᵀ);
 /// it does carry the F112-Z identity to F112-Y, since D·Π_Z·D = Π_Y = Π_Z⁻¹ and the
 /// hypothesis class is D-invariant (the same fact as asymmetry_Y = −asymmetry_Z, F155).</para>

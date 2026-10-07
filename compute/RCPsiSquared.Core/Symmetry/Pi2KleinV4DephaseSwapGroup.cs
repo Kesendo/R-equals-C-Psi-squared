@@ -8,13 +8,13 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The Klein-V₄ subgroup of unitary involutions on the 4^N Pauli basis that
-/// realizes the dephase-letter Klein V₄ {I, Z↔Y, Z↔X, Y↔X} on the operator-space
-/// F1 palindrome family {Π_Z, Π_X, Π_Y}.
+/// acts on the palindromizers: simply transitively on the four oriented operators
+/// {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹} of the operator-space F1 palindrome family.
 ///
 /// <para><b>Welle 12 closure (2026-05-27).</b> Surfaced during the Welle 10d audit when
 /// the F112 sparse-rep refactor uncovered the basis-convention twist D · L_natural · D
-/// in the standard codebase pipeline; the diagonal D turned out to swap the Z and Y
-/// palindrome operators, Π_Y = D·Π_Z·D, not just a basis change. Welle 12 Tasks 1
+/// in the standard codebase pipeline; the diagonal D turned out to invert the Z
+/// palindrome operator, D·Π_Z·D = Π_Z⁻¹ = Π_Y, not just a basis change. Welle 12 Tasks 1
 /// and 2 closed the universal-N structural proofs.</para>
 ///
 /// <para><b>Three involutions on operator space</b> (all order-2 unitary, all built as
@@ -23,22 +23,23 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>D</b> = ⊗_l d_l with d_l = diag(1, 1, 1, −1) on (I, X, Z, Y). Diagonal
 ///         entry at flat index k equals (−1)^n_Y(k) where n_Y(k) counts Y letters in
-///         the k-th Pauli string. Realizes Z↔Y: D · Π_Z · D = Π_Y. See
+///         the k-th Pauli string. D is the transpose (Y ↦ −Y per site) and inverts the
+///         Z mirror: D · Π_Z · D = Π_Z⁻¹ = Π_Y. See
 ///         <c>docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md</c>.</item>
 ///   <item><b>H</b> = ⊗_l h with h the 4×4 basis-permutation matrix that fixes the I
 ///         and Y basis vectors and swaps the X and Z basis indices per site. H is a
-///         pure permutation (signs all +1), self-inverse. Realizes Y↔X: H · Π_Y · H
-///         = Π_X (and H · Π_X · H = Π_Y). NOTE: h does NOT swap the physical Pauli
-///         operators σ_X ↔ σ_Z; it permutes their basis indices in the Pauli-string
-///         enumeration (see "Convention note" in
+///         pure permutation (signs all +1), self-inverse. Carries Π_Y to Π_X (on L:
+///         L_Z ↦ L_X): H · Π_Y · H = Π_X (and H · Π_X · H = Π_Y). NOTE: h is not
+///         conjugation by any Hilbert-space unitary (fixing σ_Y while exchanging σ_X
+///         and σ_Z reverses σ_Xσ_Y = iσ_Z); h = D·Q_zx (see "Convention note" in
 ///         <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md</c>).</item>
-///   <item><b>Q_zx</b> = H · D = ⊗_l (h · d_l). Order-2 involution. Realizes Z↔X:
-///         Q_zx · Π_Z · Q_zx = Π_X.</item>
+///   <item><b>Q_zx</b> = H · D = ⊗_l (h · d_l). Order-2 involution. Carries Π_Z to Π_X
+///         (on L: L_Z ↦ L_X): Q_zx · Π_Z · Q_zx = Π_X.</item>
 /// </list>
 ///
 /// <para><b>Klein-V₄ closure</b>: D · Q_zx · H = I (identity); D, Q_zx, H commute
 /// pairwise. The three operators together with I form a Klein four-group ≃ Z₂ × Z₂
-/// in U(4^N) for any N, faithfully representing the V₄ on dephase letters.</para>
+/// in U(4^N) for any N, faithfully representing the V₄ on the palindromizers.</para>
 ///
 /// <para><b>Universal N via tensor-product factorization</b>: each identity reduces
 /// via the Kronecker mixed-product property to a 4×4 per-site check. See
@@ -99,11 +100,12 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
     public string Theorem =>
         "On the 4^N Pauli basis for any N >= 1, the three unitary involutions " +
         "D, H, Q_zx = H · D form a faithful Klein V₄ subgroup of U(4^N) that " +
-        "realizes the dephase-letter Klein V₄ {I, Z↔Y, Z↔X, Y↔X} on the F1 " +
-        "palindrome family: D · Π_Z · D = Π_Y, H · Π_X · H = Π_Y, " +
+        "acts simply transitively on the palindromizers {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹} " +
+        "of the F1 family: D · Π_Z · D = Π_Z⁻¹ = Π_Y, H · Π_X · H = Π_Y, " +
         "Q_zx · Π_Z · Q_zx = Π_X.";
 
-    /// <summary>Build the D operator (diagonal involution, realizes Z↔Y).
+    /// <summary>Build the D operator (diagonal involution, the transpose; inverts the Z
+    /// mirror, D · Π_Z · D = Π_Z⁻¹ = Π_Y).
     /// D = ⊗_l diag(1, 1, 1, −1) on basis order (I, X, Z, Y). Each diagonal entry
     /// at flat index k equals (−1)^n_Y(k) where n_Y(k) counts Y letters in the
     /// k-th Pauli string (Y is letter index 3 under the <c>a + 2·b</c> packing).
@@ -177,7 +179,7 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
     public static ComplexMatrix BuildQzx(int N) => BuildH(N) * BuildD(N);
 
     public Pi2KleinV4DephaseSwapGroup()
-        : base("Pi2 Klein V₄ dephase-swap group: D, H, Q_zx form Klein V₄ subgroup of U(4^N), realizing the dephase-letter Klein V₄ on the F1 palindrome family {Π_Z, Π_X, Π_Y}; Tier1Derived universal N",
+        : base("Pi2 Klein V₄ on the palindromizers: D, H, Q_zx form Klein V₄ subgroup of U(4^N), acting simply transitively on the palindromizers {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹}; Tier1Derived universal N",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md + " +
                "docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md + " +
@@ -189,11 +191,12 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
     }
 
     public override string DisplayName =>
-        "Pi2 Klein V₄ dephase-swap group (D · Π_Z · D = Π_Y; H · Π_Y · H = Π_X; Q_zx · Π_Z · Q_zx = Π_X)";
+        "Pi2 Klein V₄ on the palindromizers (D · Π_Z · D = Π_Z⁻¹ = Π_Y; H · Π_Y · H = Π_X; Q_zx · Π_Z · Q_zx = Π_X)";
 
     public override string Summary =>
-        $"Klein V₄ subgroup {{I, D, H, Q_zx}} of U(4^N) realizing dephase-letter swaps " +
-        $"{{Z↔Y, Y↔X, Z↔X}} on the F1 palindrome family. D, H, Q_zx all order-2 " +
+        $"Klein V₄ subgroup {{I, D, H, Q_zx}} of U(4^N) acting simply transitively on the " +
+        $"palindromizers {{Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹}}: D (the transpose) inverts the Z " +
+        $"mirror, H and Q_zx carry it to Π_X⁻¹ and Π_X. D, H, Q_zx all order-2 " +
         $"involutions; D · Q_zx · H = I; pairwise commuting. Per-site factorization " +
         $"gives universal N. ({Tier.Label()})";
 
@@ -202,16 +205,18 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
         get
         {
             yield return new InspectableNode("Theorem", summary: Theorem);
-            yield return new InspectableNode("D involution (Z↔Y swap)",
+            yield return new InspectableNode("D involution (the transpose; inverts the Z mirror)",
                 summary: "D = ⊗ d_l with d_l = diag(1, 1, 1, −1) on (I, X, Z, Y); D² = I; " +
-                         "D · Π_Z · D = Π_Y. Pure diagonal involution. See " +
+                         "D · Π_Z · D = Π_Z⁻¹ = Π_Y. Pure diagonal involution; on L it keeps the " +
+                         "dephasing letter (D·L_Z(H)·D = L_Z(−Hᵀ)). See " +
                          "PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md (Welle 12 Task 1).");
-            yield return new InspectableNode("H involution (Y↔X swap)",
+            yield return new InspectableNode("H involution (Π_Y ↔ Π_X; carries L_Z to L_X)",
                 summary: "H = ⊗ h with h the 4×4 X↔Z basis-index permutation (I, Y fixed); " +
                          "H² = I; H · Π_Y · H = Π_X (and H · Π_X · H = Π_Y). Pure permutation " +
-                         "matrix; all signs +1. NOTE: h permutes basis indices, NOT the " +
-                         "physical Pauli operators σ_X ↔ σ_Z.");
-            yield return new InspectableNode("Q_zx involution (Z↔X swap)",
+                         "matrix; all signs +1. NOTE: h is not conjugation by any Hilbert-space " +
+                         "unitary (fixing σ_Y while exchanging σ_X and σ_Z reverses σ_Xσ_Y = iσ_Z); " +
+                         "h = D·Q_zx.");
+            yield return new InspectableNode("Q_zx involution (Π_Z ↔ Π_X; the Hadamard, L_Z to L_X)",
                 summary: "Q_zx = H · D = ⊗ (h · d_l). Q_zx² = I (because h and d_l commute " +
                          "per-site); Q_zx · Π_Z · Q_zx = Π_X.");
             yield return new InspectableNode("Klein-V₄ closure",
@@ -264,8 +269,8 @@ public sealed class Pi2KleinV4DephaseSwapGroup : Claim
                 summary: "CommutatorDConjugationSign (F114, Tier1Derived, ctor child of this Claim, " +
                          "Welle 15 closure 2026-05-27) characterizes D's action on the H-commutator " +
                          "superoperator L_σ = −i[σ, ·] with closed form ε(σ) = (−1)^{n_Y(σ) + 1}. " +
-                         "Whereas this Claim makes D the Π swap-operator across {Z, Y} dephase letters " +
-                         "(D · Π_Z · D = Π_Y), F114 makes D the L_H sign-flip-operator with per-term " +
+                         "Whereas this Claim makes D the inverter of the Z mirror " +
+                         "(D · Π_Z · D = Π_Z⁻¹ = Π_Y), F114 makes D the L_H sign-flip-operator with per-term " +
                          "n_Y bookkeeping. Together the two Claims characterize D's action on the two " +
                          "main dephase-letter-sensitive structures (Π and L_H).");
         }

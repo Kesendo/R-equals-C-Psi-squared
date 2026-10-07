@@ -23,8 +23,8 @@ public enum DConjugationSign
 /// <summary>F114 (Tier1Derived universal, bit-exact verified N = 1..4): closed-form sign
 /// functional ε(σ) for the action of D-conjugation on the H-commutator superoperator
 /// L_σ = −i[σ, ·] in the 4^N Pauli basis. D is the diagonal involution from
-/// <see cref="Pi2KleinV4DephaseSwapGroup.BuildD"/> (Welle 12: it swaps the Z and Y
-/// palindrome operators; D = diag((−1)^n_Y(α))).
+/// <see cref="Pi2KleinV4DephaseSwapGroup.BuildD"/> (Welle 12: the transpose, which inverts the Z
+/// palindrome operator, D·Π_Z·D = Π_Z⁻¹ = Π_Y; D = diag((−1)^n_Y(α))).
 ///
 /// <para><b>Theorem (F114):</b> For any single Pauli string σ ≠ I^{⊗N} on N qubits,</para>
 /// <code>
@@ -67,8 +67,8 @@ public enum DConjugationSign
 /// across all cases.</para>
 ///
 /// <para><b>Relationship to Pi2KleinV4DephaseSwapGroup (Welle 12):</b> the parent
-/// Claim makes D the Π swap-operator across {Z, Y} dephase letters
-/// (D · Π_Z · D = Π_Y). F114 makes D the L_H sign-flip-operator with per-term n_Y
+/// Claim makes D the inverter of the Z mirror
+/// (D · Π_Z · D = Π_Z⁻¹ = Π_Y). F114 makes D the L_H sign-flip-operator with per-term n_Y
 /// bookkeeping. Together they characterize the action of D on the two main
 /// dephase-letter-sensitive structures (Π and L_H).</para>
 ///
@@ -204,8 +204,8 @@ public sealed class CommutatorDConjugationSign : Claim
                          "parity; with Lemma N-B, for every H (PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE Step 5).");
             yield return new InspectableNode("Parent Welle 12 connection",
                 summary: "F114 uses D from Pi2KleinV4DephaseSwapGroup (Welle 12, ctor parent). " +
-                         "Welle 12 makes D the Π swap-operator across {Z, Y} dephase letters " +
-                         "(D · Π_Z · D = Π_Y); F114 makes D the L_H sign-flip-operator with " +
+                         "Welle 12 makes D the inverter of the Z mirror " +
+                         "(D · Π_Z · D = Π_Z⁻¹ = Π_Y); F114 makes D the L_H sign-flip-operator with " +
                          "per-term n_Y bookkeeping. Together they characterize D's action on " +
                          "the two main dephase-letter-sensitive structures (Π and L_H).");
             yield return new InspectableNode("No IZ2AxisClaim",

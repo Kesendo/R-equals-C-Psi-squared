@@ -112,7 +112,7 @@ def stage1_the_s3(N=2):
     print(f"   |<h_zx, t_yz>|        = {n_s3}   (S3: two involutions, product order 3)")
     print(f"   |<h_zx, t_yz, t_xy>|  = {n_three}  (all three involutive swaps -> the Clifford group; "
           f"the 3rd swap is NOT in the S3 of the first two, it differs by a Pauli sign)")
-    print(f"   |<D, h_zx>|           = {n_v4}   (the honest dephase-swaps {{I,D,H,Q_zx}} = Klein-V4, abelian)")
+    print(f"   |<D, h_zx>|           = {n_v4}   (the Klein-V4 {{I,D,H,Q_zx}} on the palindromizers, abelian)")
     assert order_of(h_zx) == 2 and order_of(t_yz) == 2, "the letter transpositions must be involutions."
     assert n_s3 == 6, f"<h_zx,t_yz> = {n_s3}, expected 6 (the letter-S3)."
     assert n_three == 24, f"<h_zx,t_yz,t_xy> = {n_three}, expected 24 (Clifford group)."

@@ -147,13 +147,13 @@ a direct observable prediction at zero or nonzero field.
 - **Companion scripts:**
   - [`simulations/carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (Painter Re/Im read on slow eigenmodes)
   - [`simulations/carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py) (Y/non-Y numerical classification at `1e-8` + selected-model probe-decay fits on two windows)
-- **Reading-flow companion:** [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter Klein-V₄ vocabulary; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
+- **Reading-flow companion:** [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's Klein-V₄ vocabulary on the three letters' palindromizers; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
 - **Cross-reference:** [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) (May 22 spectrum-palindrome result; the Painter alternation is a separate observation in the selected local-Z model)
 
 ---
 
 ## Threads back
 
-- **Earlier today, [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md)**: the morning explained the three-letter Klein-V₄ symmetry on dephasing and the F114 sign rule on n_Y parity. The Painter alternation is an operational selected-model reading of that Y-axis sectorization; an NMR observable remains a conditional translation.
+- **Earlier today, [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md)**: the morning explained the Klein-V₄ on the three letters' palindromizers and the F114 sign rule on n_Y parity. The Painter alternation is an operational selected-model reading of that Y-axis sectorization; an NMR observable remains a conditional translation.
 - **2026-05-22 [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md)**: the named local-Z channel is an F1 instance, while a selected bond jump lies outside F1's jump premise. The Painter alternation is a separate observation for the selected local-Z model; the two readings address different layers of that N = 4 calculation.
 - **2026-05-27 [`carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py)**: the selected sweep over its stated Hamiltonian and local-bath inventory records a distribution-mirror. The Painter alternation is a separate per-Painter model observation; it has no current NMR/material signature assignment.

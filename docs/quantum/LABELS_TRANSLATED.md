@@ -108,8 +108,9 @@ holding the other letter would bill the same object differently, a string
 diagonal in its held letter not at all (the held letter's own {I, P}^⊗N cell
 rides free, `HeldLetterRoutingClaim`; MirrorWorld's `PauliMode` holds the
 same sector in the other basis), and
-swapping the letter through the Klein V₄
-([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)) changes
+swapping the letter (Z ↔ X through the Klein V₄'s Q_zx
+([proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)), Z ↔ Y by the quarter
+turn about X outside it) changes
 which cells pay. That much is Tier-1 algebra, and since 2026-07-05 it is
 typed (`HeldLetterRoutingClaim`, live at `inspect --root label`). The reading
 on top of it,

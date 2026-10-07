@@ -111,9 +111,9 @@ public static class KnowledgeRegistryFactory
             .RegisterF88bPopcountPairLens(N: defaultChain.N, np: 1, nq: 2)
             // Operator-space mirror (number-side ↔ operator-side per qubit)
             .RegisterPi2OperatorSpaceMirror()
-            // Klein-V₄ dephase-swap group {I, D, H, Q_zx} on operator space: realizes the
-            // dephase-letter Klein V₄ {I, Z↔Y, Z↔X, Y↔X} on the F1 palindrome family
-            // {Π_Z, Π_X, Π_Y}. Tier1Derived universal N per Welle 12 Tasks 1 + 2 (2026-05-27).
+            // Klein-V₄ {I, D, H, Q_zx} on operator space, acting simply transitively on the
+            // palindromizers {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹}: the transpose D inverts the Z
+            // mirror, H and Q_zx carry the dephasing letter Z to X. Tier1Derived universal N per Welle 12 Tasks 1 + 2 (2026-05-27).
             // Standalone primitive (no ctor parents); consumed by F1-family transfer arguments.
             .RegisterPi2KleinV4DephaseSwapGroup()
             // F114: closed-form sign functional ε(σ) = (−1)^{n_Y(σ) + 1} for D-conjugation
@@ -440,7 +440,7 @@ public static class KnowledgeRegistryFactory
             // the identity is free under every held letter. The exact core of docs/quantum
             // LABELS_TRANSLATED s2 / DEPHASING_TRANSLATED s4;
             // the Tier-4 canvas reading rides as prose children, never promoted. Parents:
-            // AbsorptionTheoremClaim (the price list) + Pi2KleinV4DephaseSwapGroup (the swap), both
+            // AbsorptionTheoremClaim (the price list) + Pi2KleinV4DephaseSwapGroup (Q_zx, Q_yx: the Z-X swap), both
             // Tier1Derived. Live: inspect --root label (HeldLetterRoutingWitness).
             .RegisterHeldLetterRoutingClaim()
             // The record laws, typed (2026-07-19): F135 (who records is the parity arithmetic of

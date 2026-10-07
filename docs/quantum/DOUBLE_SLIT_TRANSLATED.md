@@ -261,8 +261,8 @@ Re[ρ_LR·e^(iφ(x))], an equatorial, X/Y-type question with a phase angle
 set by x, so the screen is a whole family of conjugate questions, one per
 fringe position. The two kinds anticommute, which is why answering one at
 full strength silences the other; and the change of held letter from Z
-to X is not exotic, it is the Hadamard element of the Klein V₄ that
-intertwines the three dephasing letters, the one element that lifts to a
+to X is not exotic, it is the Hadamard element of the Klein V₄ on the
+palindromizers, the one of its two elements carrying Z-dephasing to X-dephasing that lifts to a
 true Hilbert-space unitary
 ([Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
 Tier 1). Said in one line: the double slit is one object asked two

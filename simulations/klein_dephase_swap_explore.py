@@ -1,17 +1,19 @@
-"""Welle 12 Task 2: Z↔X and Y↔X dephase-letter swaps on operator space.
+"""Welle 12 Task 2: the Klein-V₄ on the palindromizers, the Π_Z → Π_X and Π_Y → Π_X maps on operator space.
 
 Companion to `d_pi_z_swap_verify.py` (Welle 10d / Welle 12 Task 1), which
-closed the Z↔Y case with the diagonal involution D = diag((-1)^n_Y).
+closed the Π_Z → Π_Y case with the diagonal involution D = diag((-1)^n_Y), the
+transpose: D inverts the Z mirror (Π_Y = Π_Z⁻¹) and keeps the dephasing letter.
 
 Question:
   Welle 12 Task 1 found: D · Π_Z · D = Π_Y bit-exact universal N, with D
   the Klein-V₄ involution diag((-1)^n_Y) (D² = I).
-  Does an analogous operator exist for Z↔X and Y↔X swaps? Conjecture
+  Does an analogous operator exist for Π_Z → Π_X and Π_Y → Π_X? Conjecture
   (controller pre-analysis):
     - Z↔X uses h_{X↔Z} (X↔Z permutation) + sign correction (h_l is not
       diagonal, so this is NOT a pure diagonal involution like D).
-    - Resulting q_l has order 4, not 2 → Klein-V₄ on dephase letters does
-      NOT lift to Klein-V₄ on operator-space conjugation operators.
+    - Resulting q_l has order 4, not 2 → the abstract Klein-V₄ on the
+      (bit_a, bit_b) letter labels does NOT lift to a Klein-V₄ of
+      operator-space conjugation operators.
 
 What we verify here:
   Symbolic per-site verification (sympy exact) + numerical N = 1, 2, 3, 4
@@ -128,7 +130,7 @@ def verify_per_site_pi_matches_framework():
 
 
 # ----------------------------------------------------------------------
-# Candidate q_l construction (Z↔X swap)
+# Candidate q_l construction (Π_Z → Π_X)
 # ----------------------------------------------------------------------
 # Controller's ansatz: q_l = S · h_l where h_l swaps X↔Z (Hadamard-like
 # permutation on per-site basis (I, X, Z, Y)) and S is a sign-flip diagonal.
@@ -247,7 +249,7 @@ def operator_order(M, max_order=8):
 
 def main():
     print("=" * 72)
-    print("Welle 12 Task 2: Z↔X and Y↔X dephase-letter swaps on operator space")
+    print("Welle 12 Task 2: the Klein-V₄ on the palindromizers (Π_Z → Π_X, Π_Y → Π_X) on operator space")
     print("=" * 72)
     print()
 
@@ -268,7 +270,7 @@ def main():
     # ------------------------------------------------------------------
     # Step 1: brute-force search for q_l (Z↔X) of the form S_L · h_{XZ} · S_R
     # ------------------------------------------------------------------
-    print("Step 1: brute-force search q_l = S_L · h_{X↔Z} · S_R for Z↔X swap")
+    print("Step 1: brute-force search q_l = S_L · h_{X↔Z} · S_R for Π_Z → Π_X")
     print("        (16 × 16 = 256 sign-vector combinations)")
     h_xz = build_h_xz()
     matches_zx = search_per_site_swap(pi_z_local, pi_x_local, h_xz)
@@ -369,9 +371,9 @@ def main():
     print()
 
     # ------------------------------------------------------------------
-    # Step 5: Y↔X swap — same construction with h_{X↔Y}
+    # Step 5: Π_Y → Π_X, the same construction with h_{X↔Y}
     # ------------------------------------------------------------------
-    print("Step 5: search q_l' for Y↔X swap")
+    print("Step 5: search q_l' for Π_Y → Π_X")
     print("   The naive guess (h_{X↔Y} swap permutation) does NOT work because")
     print("   Π_Y flips bit_a (Y/Z pair) while Π_X flips bit_b (X/Y pair).")
     print("   The correct per-site permutation is again h_{X↔Z}: swapping X")
@@ -452,7 +454,7 @@ def main():
     # ------------------------------------------------------------------
     # Step 8: Klein-V₄ closure check: {I, D, Q_zx, Q_yx} group structure
     # ------------------------------------------------------------------
-    # The three Klein-V₄ swaps on dephase letters {X, Y, Z} are non-trivial
+    # The three Klein-V₄ maps on the palindromizers are non-trivial
     # involutions of the abstract Klein group V₄ = Z₂ × Z₂. If our lifted
     # operators D, Q_zx, Q_yx satisfy the Klein group law (any two commute
     # and their product is the third up to global phase), then the lift is
@@ -517,7 +519,7 @@ def main():
     # Step 9: summary table (canonical forms)
     # ------------------------------------------------------------------
     print("=" * 72)
-    print("SUMMARY: Klein-V₄ on dephase letters → operator-space conjugation")
+    print("SUMMARY: Klein-V₄ on the palindromizers → operator-space conjugation")
     print("=" * 72)
     print()
     print("Canonical per-site forms (basis (I, X, Z, Y)):")
@@ -527,26 +529,27 @@ def main():
     print()
     print("Canonical N-site operators (D = ⊗d_l, H = ⊗h):")
     print()
-    print(f"  Swap     | Operator                         | Per-site order")
+    print(f"  Π move   | Operator                         | Per-site order")
     print(f"  ---------|----------------------------------|---------------")
-    print(f"  Z↔Y      | D = ⊗_l d_l                      | 2 (involution)")
-    print(f"  Z↔X      | Q_zx = ⊗_l (h · d_l) = H · D     | 2 (involution)")
-    print(f"  Y↔X      | Q_yx = ⊗_l h = H                 | 2 (involution)")
+    print(f"  Π_Z→Π_Y  | D = ⊗_l d_l (Π_Y = Π_Z⁻¹)        | 2 (involution)")
+    print(f"  Π_Z→Π_X  | Q_zx = ⊗_l (h · d_l) = H · D     | 2 (involution)")
+    print(f"  Π_Y→Π_X  | Q_yx = ⊗_l h = H                 | 2 (involution)")
     print()
     print("Klein-V₄ closure on operator space:")
     print(f"   D · Q_zx · Q_yx = I (per-site verified)")
     print(f"   D, Q_zx, Q_yx all pairwise commute (Klein V₄ is abelian)")
     print()
     if order_q_zx == 2 and order_q_yx == 2:
-        print("  POSITIVE RESULT: The Klein-V₄ permutation group on dephase")
-        print("  letters {X, Y, Z} lifts to a Klein-V₄ subgroup of operators")
-        print("  {I, D, Q_zx, Q_yx} on the 4^N Pauli basis, faithfully.")
-        print("  All three swaps are involutions; the controller's order-4")
+        print("  POSITIVE RESULT: The abstract Klein-V₄ on the (bit_a, bit_b) letter")
+        print("  labels lifts to a Klein-V₄ subgroup of operators {I, D, Q_zx, Q_yx}")
+        print("  on the 4^N Pauli basis, faithfully, acting simply transitively on")
+        print("  the palindromizers {Π_Z, Π_Y = Π_Z⁻¹, Π_X, Π_X⁻¹}.")
+        print("  All three elements are involutions; the controller's order-4")
         print("  conjecture is FALSIFIED.")
         print()
         print("  Structurally important: the F1 palindrome family")
-        print("  {Π_Z, Π_X, Π_Y} is SYMMETRIC under Klein-V₄, not asymmetric.")
-        print("  The Z↔Y case (D) was the simplest because it stays diagonal;")
+        print("  is SYMMETRIC under Klein-V₄ once Π_X⁻¹ joins it (four oriented operators).")
+        print("  The Π_Z → Π_Y = Π_Z⁻¹ case (D, the transpose) was the simplest because it stays diagonal;")
         print("  the X-axis cases (Q_zx, Q_yx) need the X↔Z basis permutation H,")
         print("  but H is still self-inverse and Klein-V₄ is preserved.")
     print()

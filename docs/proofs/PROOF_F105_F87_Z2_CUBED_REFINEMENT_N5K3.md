@@ -61,7 +61,7 @@ Klein (1,0) X-deph hard = (42, 8)   total 50
 Klein (1,1) Y-deph hard = ( 8, 42)  total 50   ← Y-inversion
 ```
 
-The Y-dephase swap reflects that Y itself carries y_par=1, so the "y_par favored by the dephase letter" inverts. **Bit-exact match to F103 N=4 in all 6 numbers.**
+The split flips under Y-dephasing because Y itself carries y_par=1, so the "y_par favored by the dephase letter" is the other one. **Bit-exact match to F103 N=4 in all 6 numbers.**
 
 ### 3.3 Same diagonal cells contain a soft 13:13 split
 

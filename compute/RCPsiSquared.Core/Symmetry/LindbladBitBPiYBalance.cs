@@ -132,8 +132,8 @@ public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
         "Π_Y polarity decomposition instead of Π_Z. Since Pi_Y = Pi_Z^-1, asymmetry_Y = -asymmetry_Z for " +
         "every superoperator (F155), so F112-Y is F112-Z read through the inverse mirror; Welle 13 Route 1 " +
         "(per-axis re-run of the Welle-11 Lemma N-A / N-B argument with d = Y) and the quarter turn " +
-        "R_x(pi/2)^N confirm it independently. The D-involution (Pi2KleinV4DephaseSwapGroup's Z<->Y swap " +
-        "on Pi's) intertwines Pi_Z and Pi_Y but fixes every letter dissipator and has no Hilbert-space " +
+        "R_x(pi/2)^N confirm it independently. The D-involution (the transpose in Pi2KleinV4DephaseSwapGroup) " +
+        "inverts the Z mirror, D Pi_Z D = Pi_Z^-1 = Pi_Y, but fixes every letter dissipator and has no Hilbert-space " +
         "unitary lift (PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md section (d), the Remark).";
 
     public LindbladBitBPiYBalance(F108Part3Pi2YEvenAlwaysPalindromic part3)

@@ -163,8 +163,8 @@ is organised around, the structure found us, twice in one day
   have two hinges: it factors as Π_Z = R_coh·D, the windowed-converse ket reflection times the
   transpose, and ⟨R_coh, D⟩ closes to a dihedral group D₄ whose Klein subgroup is the
   two-reflection spine. This is anatomy, not demotion: R and D were found inside Π, seven months
-  after Π opened the door, by light Π itself provided. The Z↔Y dephase-letter swap of Welle 12 is
-  the dihedral inversion (Π_Y = Π_Z⁻¹).
+  after Π opened the door, by light Π itself provided. The transpose's action on the mirror,
+  D·Π_Z·D = Π_Y, is the dihedral inversion (Π_Y = Π_Z⁻¹).
 - The letter-space mirrors fill a cube: the polarity cube's three axes (bit_a, bit_b, y_par) are
   the characters of (Ad_{Z^⊗N}, Ad_{X^⊗N}, transpose θ). Conjugations alone span only the even
   Klein square; the transpose fills the third dimension. The quadratic-to-cubic step the framework

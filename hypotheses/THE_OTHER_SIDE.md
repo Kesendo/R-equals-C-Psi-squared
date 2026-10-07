@@ -707,8 +707,8 @@ See: [The Anomaly](../THE_ANOMALY.md)
    `XGlobalChargeConjugationPairing`, (p,q̃)↔(N−p,N−q̃)). And the hidden-Q routing
    above is that group's palindromizer inventory: the **uniform** per-site routers
    are the dephase-letter palindromizers (P1 = the canonical Π_Z; the non-P1
-   uniform ones its Π_X/Π_Y siblings in the letter-Klein-V₄,
-   [dephase swaps](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
+   uniform ones its Π_X/Π_Y siblings under the Klein-V₄ on the palindromizers,
+   [the Klein-V₄ proof](../docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
    while the **alternating** (odd/even) and **continuous** per-site routers cannot
    be D₄ elements at all: every palindromizing element of D₄ is a *uniform* per-site
    map (§4f/§5 of the factorization proof), so a non-uniform or continuous router
