@@ -832,7 +832,7 @@ public static class KnowledgeRegistryFactory
             // closed at detailed balance; rung 1 is F113 (asymmetry = −4^N·slope⟨H⟩
             // exactly); the curvature is exactly affine and fingerprints X/Y-flavored
             // parasites while Z-flavored ones stay invisible (complementary to F113's
-            // Z-drive reader); the girth certificate is one-sided. NOT an IZ2AxisClaim
+            // Z-drive reader); the rung certificate is one-sided. NOT an IZ2AxisClaim
             // (cross-axis structural; cube-map counts unchanged). Typed parents:
             // LindbladBitBPiBreakMagnitude (F113, the bridge) and
             // F84ThermalAmplitudeDampingPi2Inheritance (the Δγ vacuum-rate pump weight),

@@ -48,7 +48,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the pump curvature reads the X/Y-flavor), both linearly with closed-form
 /// coefficients.</para>
 ///
-/// <para><b>The girth certificate, honestly one-sided:</b> the tower's first nonzero rung k
+/// <para><b>The rung certificate, honestly one-sided:</b> the tower's first nonzero rung k
 /// bounds the hardness moment, m* ≤ 2k+1, tight exactly when the deg-1 class fires at m*
 /// (always at k ≤ 2; PROOF_MOMENT_TOWER_PUMP_CHANNEL §4). k is not in general the girth ℓ, and the rung a
 /// slope fires at can be later than k. Silence of the deg-1
@@ -157,8 +157,8 @@ public sealed class MomentTowerPumpChannelClaim : Claim
         "read at first order: the complementary channel to F113's Z-drive reader, the two " +
         "partition the single-site parasite algebra.";
 
-    /// <summary>The one-sided girth certificate in one line.</summary>
-    public string GirthCertificate =>
+    /// <summary>The one-sided rung certificate in one line.</summary>
+    public string RungCertificate =>
         "The tower's first nonzero rung k bounds the hardness moment, m* ≤ 2k+1, tight exactly when " +
         "the deg-1 class fires at m* (always at k ≤ 2). Silence of the deg-1 tower is " +
         "NOT softness: witness IIXY+ZXZY has t_j ≡ 0 at every rung and site yet is hard at " +
@@ -236,7 +236,7 @@ public sealed class MomentTowerPumpChannelClaim : Claim
         "d/dt ⟨A⟩|_{I/d} = (1/d)·Σ_l Δγ_l·Tr(A·Z_l) reads the girth-ladder tower t_j(l) = Tr(Z_l·H^j) " +
         "linearly; dephasing-blind, evolution-blind, closed at detailed balance; rung 1 is F113 " +
         "(asymmetry = −4^N·slope⟨H⟩); the curvature is exactly affine and fingerprints X/Y-flavored " +
-        "parasites while Z-flavored ones stay invisible; the girth certificate is one-sided; " +
+        "parasites while Z-flavored ones stay invisible; the rung certificate is one-sided; " +
         $"{PassCount}/{Cases.Count} battery PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -249,7 +249,7 @@ public sealed class MomentTowerPumpChannelClaim : Claim
             yield return new InspectableNode("Rung one is F113 (the bridge)", summary: F113Bridge);
             yield return new InspectableNode("Curvature fingerprint (the complementary channel)",
                 summary: CurvatureFingerprint);
-            yield return new InspectableNode("Girth certificate (one-sided)", summary: GirthCertificate);
+            yield return new InspectableNode("Rung certificate (one-sided)", summary: RungCertificate);
             yield return new InspectableNode("GirthLadder primitive (prose edge only)",
                 summary: "The C# girth-ladder primitive (compute/RCPsiSquared.Diagnostics/F87/" +
                          "GirthLadder.cs) computes the same tower at the girth rung, t_ℓ(l) = Tr(Z_l·H^ℓ), and the " +

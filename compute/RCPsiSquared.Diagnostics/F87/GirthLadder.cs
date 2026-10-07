@@ -64,7 +64,9 @@ public sealed record GirthLadderForecast(
 /// <c>simulations/f87_windowed_monomial_converse.py</c>; proof
 /// <c>docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md</c> §4–§5): let ℓ be the effective
 /// odd-cycle order of H (a nonzero diagonal ⟹ ℓ = 1 diagonal lift; else the unsigned odd-girth of
-/// the basis-state hopping graph; no odd cycle ⟹ bipartite ⟹ soft). The girth moments
+/// the basis-state hopping graph; no odd cycle ⟹ bipartite ⟹ soft). The dichotomy holds in the
+/// setting F H F = −H with F = X^⊗N, which diagonal-cell terms (#Y + #Z odd) give term by term and
+/// which is all its argument uses; the forecast refuses any other template. The girth moments
 /// t_ℓ^(l) = Tr(Z_l·H^ℓ) decide the branch:</para>
 ///
 /// <list type="bullet">
@@ -98,9 +100,19 @@ public static class GirthLadder
     /// <param name="termTemplates">The templates (each <see cref="PauliTerm.Letters"/> of length
     /// k ≤ n plus a coefficient); mixed spans are allowed, exactly as in ChainKBody.</param>
     /// <param name="n">The chain length N; the dense H is 2^N × 2^N.</param>
+    /// <exception cref="ArgumentException">A template with nonzero coefficient has #Y + #Z even.
+    /// The dichotomy needs F H F = −H with F = X^⊗N, which holds exactly when every term has
+    /// #Y + #Z odd; outside it an even rung can fire below the girth (the bipartite witness
+    /// X₀ + X₀Z₁ + 0.7·X₁X₂ of PROOF_MOMENT_TOWER_PUMP_CHANNEL §4 has ℓ = 0 yet is hard at m* = 5),
+    /// so no branch here would be right.</exception>
     public static GirthLadderForecast Forecast(IReadOnlyList<PauliTerm> termTemplates, int n)
     {
         if (termTemplates is null) throw new ArgumentNullException(nameof(termTemplates));
+        foreach (var t in termTemplates)
+            if (t.Coefficient != Complex.Zero && t.Pi2Parity == 0)
+                throw new ArgumentException(
+                    $"template {PauliLabel.Format(t.Letters)} has #Y + #Z even, so F H F = −H fails " +
+                    "(F = X^⊗N) and the girth dichotomy does not apply", nameof(termTemplates));
 
         var H = termTemplates.ChainKBody(n);
 

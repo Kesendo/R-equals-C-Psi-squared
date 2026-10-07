@@ -153,4 +153,14 @@ public class GirthLadderTests
         Assert.Equal(0.0, f.Coefficient);
         Assert.Empty(f.GirthMoments);
     }
+
+    [Fact]
+    public void Forecast_TemplateWithEvenYZCount_IsRefused()
+    {
+        // XI + XZ windowed is bipartite with no diagonal, so without the guard it would read
+        // Bipartite (soft); but XI has #Y + #Z = 0, F H F = −H fails, and the even rung t₂ fires:
+        // H = X₀ + X₁ + X₀Z₁ + X₁Z₂, and H² carries 2·(Z₁ + Z₂) from the cross terms X_l·X_lZ_{l+1},
+        // so t₂ = (0, 16, 16), k = 2 and m* = 5: the pair is hard.
+        Assert.Throws<ArgumentException>(() => GirthLadder.Forecast(Pair("XI", "XZ"), n: 3));
+    }
 }
