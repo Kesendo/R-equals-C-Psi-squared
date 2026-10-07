@@ -198,7 +198,10 @@ public sealed class CommutatorDConjugationSign : Claim
                          "sectors that survives on the H-commutator component. F112's " +
                          "norm-level scope (‖M_+1/2‖² = ‖M_−1/2‖²) remains sign-invariant; " +
                          "F112 typed Claims (LindbladBitBPiBalance, LindbladBitAPiBalance, " +
-                         "LindbladBitBPiYBalance) are not affected.");
+                         "LindbladBitBPiYBalance) keep their tier. Read at the L level, this claim is half of a " +
+                         "second proof of F112 Step 5: D inverts Π (F118), so Ad_D swaps the ±i sectors, and the " +
+                         "sign law gives ‖L_{H,+i}‖ = ‖L_{H,−i}‖ wherever the bit_b-odd strings share one n_Y " +
+                         "parity; with Lemma N-B, for every H (PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE Step 5).");
             yield return new InspectableNode("Parent Welle 12 connection",
                 summary: "F114 uses D from Pi2KleinV4DephaseSwapGroup (Welle 12, ctor parent). " +
                          "Welle 12 makes D the Π swap-operator across {Z, Y} dephase letters " +
@@ -211,10 +214,7 @@ public sealed class CommutatorDConjugationSign : Claim
                          "the sign depends only on n_Y parity). Like the parent Klein-V₄ Claim, " +
                          "F114 does not sit on a single Z₂ axis cleanly.");
             yield return new InspectableNode("Open follow-ups",
-                summary: "N = 5, 6 verification (tractable but not run; estimated O(4^N) per " +
-                         "single-string sweep). Alternative derivation of F112 Lemma B via " +
-                         "F114 D-conjugation parity rather than dagger anti-Hermiticity. " +
-                         "Promotion of this Claim to a richer matrix-API (e.g., a Compute(L) " +
+                summary: "Promotion of this Claim to a richer matrix-API (e.g., a Compute(L) " +
                          "method that takes any L and returns its D-conjugation eigendecomposition) " +
                          "if downstream Claims need it.");
         }

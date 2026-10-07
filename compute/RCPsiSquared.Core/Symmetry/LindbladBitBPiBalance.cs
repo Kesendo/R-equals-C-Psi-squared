@@ -353,9 +353,10 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
                          "(M_±i)(L_H, Π_Y) = ε(H) · D · (M_±i)(L_H, Π_Z) · D bit-exact (when ε(H) is " +
                          "well-defined, i.e. all H terms share the same n_Y parity). Sharpens this " +
                          "Claim's Step 5 (L_H^† = −L_H + dagger maps Π +i ↔ Π −i): D-conjugation per-term " +
-                         "Y-parity carries equivalent sign information. F112's norm-level scope " +
-                         "‖M_+1/2‖² = ‖M_−1/2‖² is sign-invariant under ε(H); F114 is documentary " +
-                         "sharpening, not load-bearing for this Claim's Tier1Derived status.");
+                         "Y-parity carries equivalent sign information. At the L level F114 also gives a second route to " +
+                         "Step 5: D inverts Π (F118), so Ad_D swaps the ±i sectors, and D·L_σ·D = ε(σ)·L_σ gives " +
+                         "‖L_{H,+i}‖ = ‖L_{H,−i}‖ wherever the bit_b-odd strings share one n_Y parity, any " +
+                         "coefficients; with Lemma N-B for every H (PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE Step 5).");
         }
     }
 }

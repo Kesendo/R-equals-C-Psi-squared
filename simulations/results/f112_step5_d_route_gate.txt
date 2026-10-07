@@ -1,0 +1,19 @@
+PASS G1 N=1: D Pi D = Pi^-1 exactly
+PASS G1 control N=1: the sign diag((-1)^n_X) does not invert Pi at odd N
+PASS G1 N=2: D Pi D = Pi^-1 exactly
+PASS G1 N=3: D Pi D = Pi^-1 exactly
+PASS G1 control N=3: the sign diag((-1)^n_X) does not invert Pi at odd N
+PASS G2 N=2: D L_sigma D = (-1)^(n_Y+1) L_sigma for all 15 strings
+PASS G3 N=2: bit_b-odd strings of one n_Y parity plus bit_b-even strings of the other: D L_H D != eps L_H, yet D (L_H)_+i D = eps (L_H)_-i and ||L_+i||^2 = ||L_-i||^2 > 0  [16 ||L_+i||^2 = [4096, 5888, 3840]...]
+PASS G3 N=2 control: with bit_b-odd strings of both n_Y parities (IZ, IY), D (L_H)_+i D is neither +(L_H)_-i nor -(L_H)_-i
+PASS G4 N=2: <L_sigma,lambda, L_tau,lambda> = 0 for distinct strings, lambda = +-i (15 strings)
+PASS G4 N=2: bit_b-odd strings of both n_Y parities, non-Hermitian: ||L_+i||^2 = ||L_-i||^2 (a confirmation of the theorem)
+PASS G5 N=2: ||(A+B)_+i||^2 - ||(A+B)_-i||^2 = -4 Re<A_-i, B_-i> on generic superoperators, right side nonzero  [-512 = -512.0]
+PASS G2 N=3: D L_sigma D = (-1)^(n_Y+1) L_sigma for all 63 strings
+PASS G3 N=3: bit_b-odd strings of one n_Y parity plus bit_b-even strings of the other: D L_H D != eps L_H, yet D (L_H)_+i D = eps (L_H)_-i and ||L_+i||^2 = ||L_-i||^2 > 0  [16 ||L_+i||^2 = [31744, 38912, 27648]...]
+PASS G3 N=3 control: with bit_b-odd strings of both n_Y parities (IIZ, IIY), D (L_H)_+i D is neither +(L_H)_-i nor -(L_H)_-i
+PASS G4 N=3: <L_sigma,lambda, L_tau,lambda> = 0 for distinct strings, lambda = +-i (24 strings, sampled)
+PASS G4 N=3: bit_b-odd strings of both n_Y parities, non-Hermitian: ||L_+i||^2 = ||L_-i||^2 (a confirmation of the theorem)
+PASS G5 N=3: ||(A+B)_+i||^2 - ||(A+B)_-i||^2 = -4 Re<A_-i, B_-i> on generic superoperators, right side nonzero  [44032 = 44032.0]
+
+ALL PASS

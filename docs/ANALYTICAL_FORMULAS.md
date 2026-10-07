@@ -4812,7 +4812,8 @@ remains the historical numerical validation.
   2 · ‖L_{H,±i}‖².
 - Step 5 (Hermitian H): L_H^† = −L_H (anti-Hermitian as superoperator) plus
   dagger maps Π +i ↔ Π −i bijectively while preserving Frobenius. Combining
-  gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖².
+  gives ‖L_{H,+i}‖² = ‖L_{H,-i}‖². A second route, without Hermiticity, is the
+  transpose D (F114, below).
 
 **Connection axes (shared bit_b Z₂-grading on the Pauli group):**
 - F38: Π² = (−1)^{w_YZ} on Pauli strings; foundational input.
@@ -5138,14 +5139,18 @@ at word length j; F113 Lemma C is its Hermitian-conjugacy sibling.
 Bit-exact anchor: `simulations/mirror_inventory_d4.py`
 (blocks D/E: 63/63 strings at N = 3 plus an N = 5 case, dev 0.00e+00).
 
-**Open:** N = 5, 6 verification at scale (estimated O(4^N) per N for the
-single-string sweep, tractable but not run). *Superseded 2026-06-10:* the
-transpose reading above derives ε(σ) structurally for every σ and every N,
-and the `mirror_inventory_d4.py` anchor includes an N = 5 case
-bit-exact; the per-N sweep is closed. Connection to the Welle 11
-F112 Lemma A/B structural proof: does F114 give an alternative derivation
-of the parent F112 Step 5 (Lemma B) via D-conjugation parity rather than
-dagger anti-Hermiticity?
+**A second route to F112 Step 5.** D inverts Π (F118: D·Π_Z·D = Π_Z⁻¹, the dihedral relation), so conjugation
+by D is a unitary map that sends the Π-conjugation eigenvalue λ to λ̄: the +i part of a superoperator A goes onto
+the −i part of D·A·D, norm for norm. With D·L_σ·D = ε(σ)·L_σ this gives ‖L_{H,+i}‖ = ‖L_{H,−i}‖ whenever the
+bit_b-odd strings of H share one n_Y parity (bit_b-even strings have no ±i part), any complex coefficients in the
+commutator −i[H,·]: Step 5 on that class without Lemmas A and B. It is the θ face of F119's antilinear triangle,
+whose † face is Lemmas A and B: those cover H† = ±H, the transpose covers Hᵀ = ±H, each on the bit_b-odd part.
+With bit_b-odd strings of both n_Y parities, H_e and H_o the parts of even and odd n_Y, the two norms differ by
+−4·Re⟨L_{H_e,−i}, L_{H_o,−i}⟩, zero by the non-Hermitian extension's Lemma N-B since H_e and H_o share no string;
+so D and N-B close Step 5 for every H, as F155's aggregate form also does. The argument and its sweep are in
+[F112's Step 5](proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md). Gate:
+[`f112_step5_d_route_gate.py`](../simulations/f112_step5_d_route_gate.py) (exact; the inversion at N = 1 to 3,
+the rest at N = 2 and 3, N-B on all strings at N = 2 and a sample at N = 3, the cross-term identity on generic superoperators).
 
 **Source:** `simulations/m_level_sign_functional_explore.py`;
 parents: Welle 12 D · Π_Z · D = Π_Y identity
