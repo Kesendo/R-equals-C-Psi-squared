@@ -61,7 +61,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// exposed via <see cref="K3TripleN3ActualCount"/>.</para>
 ///
 /// <para>For k ≥ 2, d_real(k) becomes topology-dependent
-/// (Chain &lt; Star &lt; Ring &lt; Complete; cf. WEIGHT2_KERNEL).</para>
+/// (chain smallest, complete largest; cf. WEIGHT2_KERNEL) above the universal lower bound
+/// (k+1)(N−k+1) of the symmetrised Pauli multisets (DEGENERACY_PALINDROME).</para>
 ///
 /// <para><b>Breaks for:</b> anisotropic XXZ (Δ ≠ 1), where the ZZ term mixes
 /// X/Y types and the SWAP-invariance argument fails.</para>
@@ -187,7 +188,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("special cases",
                 summary: "T_0^{(X)} = 2·S_x, T_0^{(Y)} = 2·S_y (global SU(2) generators); T_{N−1}^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_{all others} (Jordan-Wigner-type)");
             yield return new InspectableNode("topology universality",
-                summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (Chain < Star < Ring < Complete; WEIGHT2_KERNEL).");
+                summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (chain smallest, complete largest; WEIGHT2_KERNEL) above the universal lower bound (k+1)(N−k+1) (DEGENERACY_PALINDROME).");
             yield return new InspectableNode("breaks for anisotropic XXZ",
                 summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
             yield return new InspectableNode("N=3 verified",

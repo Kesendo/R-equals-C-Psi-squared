@@ -106,8 +106,8 @@ dimension ⌊N/2⌋ on the uniform Heisenberg chain.
 [PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) §7 fixes the
 multiplicity of F140's corner root at the uniform point at exactly ⌊N/2⌋ for
 every J ≠ 0, its §10 files that point as "the uniform-γ commutant story", apart
-from the divisor's own mechanism, and its §12 asks how these modes embed into
-the d_real counts. [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md)
+from the divisor's own mechanism; how these modes embed into the d_real counts
+is read in [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts). [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md)
 Lemma 2.5 makes, on the XY chain, the composition §2 below makes on the
 Heisenberg chain: its seeds commute with h and have zero diagonal, and §7 of the
 frozen-divisor proof makes them the whole corner frozen space; F143 reads the
@@ -280,8 +280,10 @@ frozen corner modes of the uniform point are shared by L and L†, J-independent
 and semisimple, ⌊N/2⌋ of the real modes at 4γ that DEGENERACY_PALINDROME counts.
 At N = 3, Ω₂ is spanned by X₁. This is the Heisenberg face of the composition
 that PROOF_FROZEN_BAND_SO4's Lemma 2.5 makes on the XY chain, where chiral pairs
-of mode projectors play Ω₂'s part; what the frozen-divisor proof's §12 asks on the
-d_real side stays open.
+of mode projectors play Ω₂'s part. On the d_real side, for N ≥ 5, the corner rows with
+their (N−1,N−1) partners carry the chain's excess of the weight-2 commutant c_2 (the
+operators of pure XY-weight 2 that commute with H) over the bound 3(N − 1)
+([DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts)).
 
 ## 3. The reflection-odd sector
 

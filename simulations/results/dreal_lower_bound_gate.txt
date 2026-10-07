@@ -1,0 +1,17 @@
+PASS G1 N=3: every symmetrised multiset operator commutes with H on chain, ring, star, complete (random integer weights)
+PASS G1 N=4: every symmetrised multiset operator commutes with H on chain, ring, star, complete (random integer weights)
+PASS G1 N=5: every symmetrised multiset operator commutes with H on chain, ring, star, complete (random integer weights)
+PASS G1 control: the single string XIII does not commute with a weighted chain
+G2 chain c_k read (N, k, bound, c_k): (3,0,4,4) (3,1,6,6) (3,2,6,6) (3,3,4,4) (4,0,5,5) (4,1,8,8) (4,2,9,13) (4,3,8,8) (4,4,5,5) (5,0,6,6) (5,1,10,10) (5,2,12,14) (5,3,12,14) (5,4,10,10) (5,5,6,6) (6,0,7,7) (6,1,12,12) (6,2,15,19) (6,3,16,16) (6,4,15,19) (6,5,12,12) (6,6,7,7) (7,0,8,8) (7,1,14,14) (7,2,18,22) (7,3,20,20) (8,0,9,9) (8,1,16,16) (8,2,21,27) (8,3,24,24) (8,4,25,25)
+PASS G2 chain, unit weights, N = 3..8: c_k equals the bound (k+1)(N-k+1) for 3 <= k <= N-3 (exact: the multiset lower bound, a theorem, meets the two-prime upper bound)
+PASS G2 chain: c_2 = 3N - 5 + 2 floor(N/2) for N = 5..8 (the upper bound modulo two primes; G2b supplies the matching lower bound)
+G2b chain c_2 (N, lower from exact elements, upper modulo p, corner-commutant vectors): (5, 14, 14, 4) (6, 19, 19, 6) (7, 22, 22, 6) (8, 27, 27, 8)
+PASS G2b chain, N = 5..8: the multiset operators and the exact (1,1) and (N-1,N-1) weight-2 commutant vectors span 3N - 5 + 2 floor(N/2), meeting the upper bound: c_2 exact
+PASS G2c N = 4: c_2 = 13 on the chain and 23 on the ring exactly (ranks over Q), one below the stored d_real(2) = 14 and 24  [chain 13, ring 23]
+PASS G4 chain N = 8, block (4,4): two eigenvalues on the center line (within 1e-12 of -8 gamma, the next at least 1e-4 away; float, measured) against a weight-4 commutant of one there (modulo p): one weight-mixing real mode  [on line 2, gap 1.22e-03, commutant 1]
+G5 modular c_k against the stored d_real on ring, star, complete, N = 4..6: differences (kind, N, k, c_k, d_real) = [('ring', 4, 2, 23, 24)]
+PASS G5 the modular commutant counts equal the stored d_real everywhere except the ring at N = 4, k = 2 (23 against 24)
+G3 rows read from the topology comparison: {'ring': {4: [5, 8, 24, 8, 5], 5: [6, 10, 22, 22, 10, 6], 6: [7, 12, 33, 16, 33, 12, 7]}, 'star': {4: [5, 8, 16, 8, 5], 5: [6, 10, 30, 30, 10, 6], 6: [7, 12, 68, 32, 68, 12, 7]}, 'complete': {4: [5, 8, 36, 8, 5], 5: [6, 10, 54, 54, 10, 6], 6: [7, 12, 133, 140, 133, 12, 7]}}
+PASS G3 every stored d_real entry (chain N = 2..7 as in DEGENERACY_PALINDROME, ring/star/complete N = 4..6 from the topology comparison) sits at or above (k+1)(N-k+1)  [63 entries meet it]
+
+ALL PASS

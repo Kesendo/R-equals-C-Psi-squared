@@ -2,9 +2,9 @@
 
 <!-- Keywords: weight-2 commutator kernel, Liouvillian degeneracy topology dependence,
 SWAP representation theory, Heisenberg chain higher weight, d_real(2) formula,
-mixed S_N representation, multi-weight eigenvalue mixing, R=CPsi2 weight-2 kernel -->
+multi-weight eigenvalue mixing, R=CPsi2 weight-2 kernel -->
 
-**Status:** Numerically characterized (N = 3 through 6, three topologies)
+**Status:** Numerically characterized (N = 3 through 6, three topologies); at N = 5..8 the chain's weight-2 count is the multiset bound plus the corner commutant, exactly ([DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts))
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -35,15 +35,15 @@ interpretation is in [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md).
 
 ## What this document is about
 
-At weight 1, the Liouvillian degeneracy has a clean, proven formula:
-d_real(1) = 2N, independent of topology, explained by SWAP-invariant
-Z-count operators. This document asks: does the same structure extend
+At weight 1, the Liouvillian degeneracy has a clean formula: d_real(1) ≥ 2N
+on every graph (proven, by SWAP-invariant Z-count operators), with equality
+on the chain (measured) and the K_3 exception at N = 3. This document asks: does the same structure extend
 to weight 2?
 
-The answer is no. The weight-2 commutator kernel is fundamentally more
-complex: its dimension depends on the topology, the kernel vectors do
-not have definite SWAP eigenvalues, and the simple group-theoretic
-argument from weight 1 breaks down. This is not a failure of the method;
+The answer is no. The weight-2 commutator kernel is more complex: its dimension
+depends on the topology, and beyond its 3(N − 1) SWAP-invariant vectors (the
+multiset bound) it holds vectors without definite SWAP eigenvalues, so the
+simple group-theoretic argument from weight 1 covers only part of it. This is not a failure of the method;
 it is a structural discovery about where the symmetry protection ends.
 
 ---
@@ -71,18 +71,22 @@ the +2 excess at w=2 to pair up. See [`PROOF_WEIGHT1_DEGENERACY § Appendix
 matrix-commutator framework and per-weight centralizer breakdown that
 exposes the pairing.**
 
-All other (non-K_3-N=3) values match d_real(k=2) exactly.
+All other (non-K_3-N=3) values match d_real(k=2), except the chain at N = 4, where one real mode on that line mixes weights (13 against 14; the ring at N = 4 has one too, DEGENERACY_PALINDROME).
 
 ### SWAP eigenvalue structure: the key difference from weight 1
 
-**Weight 1 (proven):** Every kernel vector satisfies SWAP_{i,i+1}(v) = v
-for every bond. All kernel vectors live in the trivial representation
-of S_N. The triangle inequality forces this.
+**Weight 1:** On the chain every kernel vector satisfies SWAP_{i,i+1}(v) = v
+for every bond (measured; the weight-1 proof's construction gives the 2N SWAP-invariant ones,
+its triangle-inequality step, which would exclude others, has a gap, and K_3 at N = 3 has two more that are not).
 
-**Weight 2 (N ≥ 4):** No kernel vector has definite SWAP eigenvalue.
-SWAP_{i,i+1}(v) is neither +v nor −v; the ratio varies continuously
-between bonds. The kernel vectors transform under non-trivial, mixed
-representations of S_N (the symmetric group of all N! permutations; "trivial" means every permutation acts as +1, "mixed" means permutations act as matrices that are neither all +1 nor all ±1).
+**Weight 2 (N ≥ 4):** In the numerical kernel basis the solver returns, no basis vector has a
+definite SWAP eigenvalue: SWAP_{i,i+1}(v) is neither +v nor −v. The kernel itself does contain
+SWAP-invariant vectors, 3(N − 1) of them at every N (the symmetrised Pauli multisets of
+[DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts)),
+so the table below reads that basis, not the kernel's representation content. For the chain the kernel
+is not S_N-stable (swapping sites 0 and 1 carries kernel vectors out of it), so no S_N representation is read
+on it; on graphs whose automorphism group is S_N the irreps apply. The table's column "Mixed" counts basis vectors that
+are not SWAP eigenvectors (the symmetric group of all N! permutations; "trivial" means every permutation acts as +1, "mixed" means permutations act as matrices that are neither all +1 nor all ±1).
 
 | N | Trivial (+1) | Alternating (−1) | Mixed | Total |
 |---|-------------|-----------------|-------|-------|
@@ -91,9 +95,8 @@ representations of S_N (the symmetric group of all N! permutations; "trivial" me
 | 5 | 0 | 0 | 14 | 14 |
 | 6 | 0 | 0 | 19 | 19 |
 
-N = 3 is the exception: all kernel vectors are still SWAP-invariant
-(trivial representation), matching the weight-1 pattern. At N ≥ 4,
-the structure changes completely.
+At N = 3 the whole kernel is SWAP-invariant (6 = 3(N − 1)), matching the weight-1 pattern. At N = 4..8
+the kernel exceeds its SWAP-invariant part by the corner commutant (see Excess below).
 
 ### Type class decomposition: no antisymmetric modes
 
@@ -116,9 +119,9 @@ The weight-1 proof uses three steps:
 2. Triangle inequality → each SWAP_i(v) = v individually
 3. S_N-invariance → unique invariant per orbit → dim = 2N
 
-At weight 2, step 2 fails. The kernel vectors do NOT satisfy
-SWAP(v) = v for each bond. Instead, [H, v] = 0 is achieved through
-cancellation: different SWAPs pull v in different directions, but
+At weight 2, step 2 fails for part of the kernel. The 3(N − 1) multiset vectors satisfy
+SWAP(v) = v for each bond; the corner commutant vectors beyond one orbit sum per corner do not, and for them
+[H, v] = 0 is achieved through cancellation: different SWAPs pull v in different directions, but
 the sum cancels to zero. This is possible because the weight-2 sector
 has richer representation structure.
 
@@ -142,10 +145,12 @@ for N−2 passive positions):
 | 5 | 14 | 12 | 2 |
 | 6 | 19 | 15 | 4 |
 
-The excess [0, 4, 2, 4] does not follow a simple pattern. These extra
-kernel vectors arise from the non-trivial S_N representations that
-the weight-2 sector supports, and they cannot be understood through
-orbit-counting alone.
+The naive count 3(N − 1) is the lower bound (k + 1)(N − k + 1) at k = 2, which holds for every
+graph. The excess is the corner commutant: the (1,1) and (N−1,N−1) blocks carry ⌊N/2⌋ weight-2
+commutant vectors each, the frozen modes of the R90 frozen divisor at uniform γ, one of each
+SWAP-invariant, so the excess is at least 2(⌊N/2⌋ − 1) for N ≥ 5 and equal to it at N = 5..8 (2 at N = 5, 4 at N = 6); at N = 4,
+k = 2 = N − 2 puts both corner pairs on one line and the excess is 4
+([DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts)).
 
 ---
 
@@ -185,18 +190,20 @@ exemplifies the latter.
   hypothesized to contribute to the kernel via the alternating
   representation of S_N. This was not observed at any N.
 
-- **No closed-form formula for d_real(2).** The sequence [6, 13, 14, 19]
+- **No known combinatorial family for the raw sequence.** The sequence [6, 13, 14, 19]
   for Chain N = 3, ..., 6 (and 14 for d_real(2) including the mixed
-  mode at N=4) does not match known combinatorial families.
+  mode at N=4) matches none of the families tried; its structure is the
+  multiset bound plus the corner commutant, c_2 = 3N − 5 + 2⌊N/2⌋ at N = 5..8
+  (a lower bound at every N ≥ 5; DEGENERACY_PALINDROME).
 
 - **Burnside counting insufficient.** The orbit-counting approach (Burnside's lemma: count distinct patterns by averaging fixed points over all group elements)
   (number of S_N-invariant vectors per orbit) accounts for only
-  3(N−1) of the kernel vectors. The excess requires deeper
-  representation-theoretic analysis.
+  3(N−1) of the kernel vectors. The excess is the corner commutant of
+  the (1,1) and (N−1,N−1) blocks (Excess above).
 
 - **Triangle inequality does not force individual SWAP fixation.**
-  At weight 1, the triangle inequality argument proves SWAP(v) = v for
-  each bond individually. At weight 2 (N ≥ 4), the kernel vectors have
+  At weight 1, the triangle inequality argument aims at SWAP(v) = v for
+  each bond individually. At weight 2 (N ≥ 4), the vectors of the numerical kernel basis have
   SWAP ratios that are neither +1 nor −1 but continuously varying
   between bonds. The sum cancels to zero through destructive
   interference, not through individual fixation.
@@ -214,7 +221,7 @@ exemplifies the latter.
    weight mixing; see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
    So even weight 1 has irrep structure beyond the trivial; it just
    needs one specific graph (K_3) to surface. Weight 2 and beyond are
-   governed by more complex representation theory across many graphs.
+   governed by the corner commutant on the chain and by the automorphism group where it is large.
 
 2. **The topology matters.** A universal formula `d_real(k, N)` for k ≥ 2
    does not exist. Any formula must incorporate the bond structure
@@ -227,13 +234,10 @@ exemplifies the latter.
    topology. The palindrome is a spectral symmetry; the degeneracy
    counts are dynamical.
 
-4. **The Trivial/Alternating/Mixed table is the right framework.**
-   Today's K_3 N=3 weight-1 anomaly slots into this document's table
-   format with one new row (and one refined "Standard (2-dim, S_3)"
-   column inside what was previously labeled "Mixed"). The table at
-   weight-2 (N ≥ 4) entries in the "Mixed" column are also good
-   candidates for irrep-by-irrep refinement; doing this systematically
-   is open.
+4. **The Trivial/Alternating/Mixed table reads a basis.** For the chain the count is the multiset bound plus the corner
+   commutant at N = 5..8 (DEGENERACY_PALINDROME); the table format stays useful where the automorphism group acts: the K_3 N=3 weight-1 anomaly slots into it
+   with one new row and a "Standard (2-dim, S_3)" column. On graphs with a large automorphism group an
+   irrep-by-irrep refinement at weight 2 is open.
 
 ---
 

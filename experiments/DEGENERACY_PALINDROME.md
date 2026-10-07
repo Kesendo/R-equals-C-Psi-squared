@@ -78,7 +78,7 @@ Exact closed-form results at the boundaries:
 | Position | Formula | Origin |
 |---|---|---|
 | d_real(0) = d_real(N) | N + 1 | Magnetization conservation / XOR sector |
-| d_real(1) = d_real(N − 1) | 2N | Two non-oscillatory modes per site |
+| d_real(1) = d_real(N − 1) | 2N (≥ 2N on every graph) | Two non-oscillatory modes per site |
 | d_total(0) = d_total(N) | N + 1 | All boundary modes are purely real |
 | d_total(1) = d_total(N − 1) | 6N − 4 | For N ≥ 3; d_complex = 4(N − 1) |
 
@@ -193,7 +193,7 @@ N=6: d(-γ) = 12 = 2·6  ✓
 N=7: d(-γ) = 14 = 2·7  ✓
 ```
 
-**Analytically proven.** The 2N modes are the Z-count operators
+**Lower bound analytically proven, equality measured.** The 2N modes are the Z-count operators
 T_c^{(a)} = Σ_j σ_a^{(j)} · e_c(Z_{others}), symmetric sums of weight-1
 Pauli strings grouped by Z-dressing count c = 0, ..., N−1 and type
 a ∈ {X, Y}. They commute with H because the Heisenberg coupling is a sum
@@ -390,8 +390,9 @@ The inner real degeneracy d_real(2) grows with connectivity:
 The complete graph is always the largest (most SWAP pairs, the most degenerate weight-2 structure).
 The ordering is connectivity-monotone except at **N = 4**, where ring (24) overtakes star (16): the
 same N = 4 anomaly that recurs in the structural ceiling (the (2,2) half-filling sector, F122) and
-in the distinct-eigenvalue count. No universal closed form for the inner positions, consistent with
-the weight-2 kernel transforming under mixed (not trivial) S_N representations (Open Question 2).
+in the distinct-eigenvalue count. Every entry sits at or above the universal bound (k + 1)(N − k + 1) of
+[A lower bound at every k](#a-lower-bound-at-every-k-and-the-chains-commutant-counts) below; what lies above it depends
+on the topology (Open Question 2).
 
 ### Inner closed forms by parity (block decomposition to N=9)
 
@@ -409,12 +410,34 @@ have clean linear inner closed forms:
 | chain | **4N − 6** | 6, 14, 22, 30 |
 | ring  | **7N − 13** | 8, 22, 36, 50 |
 
-Both verified at four odd points. The **even**-N column is contaminated by the N=4 center spike
-(k=2 is the Π-invariant midpoint there) and stays under-determined (the next clean even point N=10
-needs the 63504² half-filling block). The **dense** topologies grow super-linearly (star odd
-6, 30, 136; complete odd 8, 54, 216), with no clean polynomial, consistent with the weight-2 kernel's
-mixed S_N representation. So the inner degeneracy splits two ways: by parity (the center spike) and by
-connectivity (sparse = linear, dense = rep-structured).
+Both verified at four odd points. The **even**-N chain column is 4N − 5 at N = 6, 8 (19, 27), with N = 4
+the exception where k = 2 is the Π-invariant midpoint ([A lower bound at every k](#a-lower-bound-at-every-k-and-the-chains-commutant-counts)). The **dense** topologies grow super-linearly (star odd
+6, 30, 136; complete odd 8, 54, 216), with no clean polynomial. So the inner degeneracy splits two ways: by
+parity (the center spike) and by connectivity (sparse = linear, dense = super-linear).
+
+### A lower bound at every k, and the chain's commutant counts
+
+A coherence |i⟩⟨j| decays at −2γ·Hamming(i, j) in the canonical book, which is −kγ in this document's γ with k = Hamming(i, j), so every operator X of pure XY-weight k that commutes with H is a real eigenvector on the k-th grid line. Write c_k for the dimension of this weight-k commutant. Then c_k is at most the geometric multiplicity of that eigenvalue, which is at most the algebraic one, so d_real(k) ≥ c_k, with equality exactly when every real eigenvector and generalized eigenvector on the line is of pure weight.
+
+**The bound (every SU(2)-invariant H).** [the uniform law](../docs/proofs/PROOF_UNIFORM_LAW.md)'s Lemma A1 puts every S_N orbit sum T_s, one per joint-popcount block (p, q) and Hamming class s, into the kernel of ad_H for every SU(2)-invariant H, which includes every Heisenberg graph with any bond weights (H = Σ J_ij(2·SWAP_ij − 1)). Their span is the S_N-invariant operators, equally spanned by the sums of the Pauli strings of one letter multiset (n_I, n_X, n_Y, n_Z); at XY-weight k there are (k + 1)(N − k + 1) multisets, so
+
+  **d_real(k) ≥ c_k ≥ (k + 1)(N − k + 1).**
+
+At k = 0 and k = 1 this is N + 1 and 2N, the boundary values of Result 2 (the k = 1 operators are the Z-count operators of the [weight-1 proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md)). Every stored entry of this document, of the [topology comparison](../simulations/results/topology_degeneracy_comparison.txt) and of the parity table above sits at or above it.
+
+**The uniform chain.** The uniform law's census (float, N = 5..8, every block) finds every class-pure kernel row one-dimensional except three, and its Layer B derives those three: (1,1) and (N−1,N−1) at class 2 with dimension ⌊N/2⌋, which are the frozen modes of [the R90 frozen divisor](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) at uniform γ (its §7 gives the same multiplicity), and (1,N−1) at class N − 2. Read as commutant counts, with c_k = c_{N−k} by Π conjugation:
+
+- for 3 ≤ k ≤ N − 3, c_k = (k + 1)(N − k + 1) at N = 6, 7, 8;
+- at k = 2, c_2 ≥ 3N − 5 + 2⌊N/2⌋ at every N ≥ 5 (the multisets with the two class-2 corners, each corner holding exactly one S_N-invariant vector, its orbit sum), with equality at N = 5..8; that is 4N − 6 at odd N, the linear form above, and 4N − 5 at even N;
+- at N = 4, k = 2 = N − 2 puts the class-2 corners and the (1,3), (3,1) class-2 rows on one line: c_2 = 9 + 4 = 13.
+
+The equalities are exact here, a second route beside the census: the lower bounds are exact elements (the multisets and the rational corner commutant), the upper bounds are ranks modulo two primes, block by block. At N = 9 the stored d_real(2) = 30 meets the lower bound, so c_2 = 30 there too.
+
+**Where d_real exceeds c_k.** Real modes that mix weights have so far appeared only in the center block (N/2, N/2) at even N: the chain and the ring at N = 4, one each in (2,2) (chain c_2 = 13 against d_real(2) = 14, [Weight-2 Kernel](WEIGHT2_KERNEL.md); ring c_2 = 23 against 24, exact), and the chain at N = 8, whose (4,4) block carries two real eigenvalues on the center line against a weight-4 commutant of one there (J = 1, canonical γ = 0.05: both within 10⁻¹² of the line, the next 1.2·10⁻³ away). The block-decomposed count (`block_dreal` of [`dreal_block_decomposed.py`](../simulations/dreal_block_decomposed.py)) gives the chain's N = 8 row as **[9, 16, 27, 24, 26, 24, 27, 16, 9]** (measured), equal to c_k everywhere except the center. On ring, star and complete at N = 4..6 the modular commutant counts equal the stored d_real rows everywhere except the ring at N = 4 (gate G5, measured).
+
+So the dip at the even-N center is, as far as computed, a small-N event: at N = 6 the center k = 3 sits on its bound, 16, beside k = 2 and 4 that carry the corner excess, 19; at N = 8 the neighbours of the center are interior and the center is above them, 26 against 24.
+
+The sweep for this went to the registry (F4, F50 and the F2 boundary values, F140), the weight-1, R90 frozen-divisor and uniform-law proofs, [the structural ceiling](../docs/proofs/PROOF_STRUCTURAL_CEILING.md), the Absorption Theorem, the experiments on the weight-2 kernel and on the reflection keeping past and future apart, the OpenArcs registry, `docs/CAUGHT_ERRORS.md` (the d_real(1) = 2N correction), the typed claims `F50WeightOneDegeneracyPi2Inheritance`, `F4KernelDimensionByComponentsClaim` and `FrozenDivisorClaim` with their witnesses, `fw.Confirmations` and the glossary; the uniform-law proof held the bound and the corner rows (below), the R90 proof the corner multiplicity, the weight-1 proof the k = 1 case and the per-weight table, CAUGHT_ERRORS the weight-1 correction, and the OpenArcs registry, `fw.Confirmations` and the glossary nothing on d_real for k ≥ 2. Checked for adjacency: the uniform law holds the bound as its Lemma A1 and the chain's three enhanced rows as its Layer B, here read as degeneracy counts; the reflection experiment identifies the frozen corner modes with those rows at the uniform point; the weight-2 kernel's naive count 3(N − 1) is the bound at k = 2; the [weight-1 proof's appendix](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) tabulates the same per-weight commutant dimensions on several graphs at N = 4, 5 (chain N = 4: 13, ring: 23) as an excess over the chain. Gate: [`dreal_lower_bound_gate.py`](../simulations/dreal_lower_bound_gate.py).
 
 ---
 
@@ -423,7 +446,8 @@ connectivity (sparse = linear, dense = rep-structured).
 | Quantity | Formula | Range | Status |
 |---|---|---|---|
 | d_real(0) | N + 1 | all N | proven (magnetization conservation) |
-| d_real(1) | 2N | all N | [proven](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (SWAP invariance) |
+| d_real(1) | ≥ 2N; 2N on the chain | ≥ 2N all N; = 2N on the chain N = 2..7 | [lower bound proven](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (SWAP invariance), equality measured; K₃ gives 8 |
+| d_real(k) | ≥ (k + 1)(N − k + 1) | all N, every graph | proven (symmetrised Pauli multisets) |
 | d_real(k) = d_real(N − k) | palindrome | all N | proven (Π conjugation) |
 | d_total(0) | N + 1 | all N | verified (= d_real, no oscillatory boundary modes) |
 | d_total(1) | 6N − 4 | N ≥ 3 | verified |
@@ -452,21 +476,31 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 ## Open questions
 
-1. ~~**Analytical derivation of d_real(1) = 2N.**~~ **RESOLVED.** The 2N
+1. ~~**Analytical derivation of d_real(1) = 2N.**~~ **RESOLVED as a lower bound.** The 2N
    modes are the Z-count operators T_c^{(a)}, proven via SWAP invariance.
    See [Proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
 
 2. **Closed form for inner positions: topology-dependent (systematized in Result 7).**
    d_real(2) differs between topologies (Chain=14, Star=16, Ring=24, Complete=36 at N=4),
    grows with connectivity, and shows the N=4 ring/star anomaly; see the full N=3..6 table in
-   Result 7. The boundary formulas are now resolved across topologies: d(k)=d(N−k) and
-   d_real(0)=N+1 are universal, d_real(1)=2N is universal for N≥4 (only K₃ breaks it). No
-   universal closed form for k ≥ 2: the weight-2 kernel vectors transform under mixed S_N
-   representations, not the trivial representation as at k=1. See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
+   Result 7. The boundary formulas are resolved across topologies: d(k)=d(N−k) and
+   d_real(0)=N+1 are universal, d_real(1) ≥ 2N for every graph. For k ≥ 2 every
+   SU(2)-invariant H gives d_real(k) ≥ c_k ≥ (k+1)(N−k+1) (the uniform law's Lemma A1 read as a count,
+   [A lower bound at every k](#a-lower-bound-at-every-k-and-the-chains-commutant-counts)); the
+   uniform chain's commutant count c_k meets it for 3 ≤ k ≤ N−3 (at N = 6..8) and exceeds it by the
+   corner rows at k = 2, N−2 (exact at N = 5..8). Open: a closed form for the excess above the bound on ring, star
+   and complete, and where real modes that mix weights occur (so far the even-N center block only:
+   chain and ring at N = 4, chain at N = 8). See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
 
 3. **Center minimum at N = 6.** The real degeneracy at the center
-   of N = 6 is 16, less than the adjacent values 19. Why does the
-   center show a *local minimum* at even N ≥ 6?
+   of N = 6 is 16, less than the adjacent values 19. In the chain's
+   commutant counts this is a small-N event: the center k = 3 sits on its
+   bound 4·4 = 16 while k = 2 and 4, its neighbours only at N = 6, carry
+   the corner excess; at N = 8 the commutant counts read [9, 16, 27, 24, 25, 24, 27,
+   16, 9] and d_real [9, 16, 27, 24, 26, 24, 27, 16, 9] (measured), the
+   center above its neighbours
+   ([A lower bound at every k](#a-lower-bound-at-every-k-and-the-chains-commutant-counts)).
+   No even N beyond 8 is computed.
 
 4. **Grid fraction convergence.** Does the grid fraction for even N
    converge to a finite limit, or does it eventually vanish?
@@ -489,9 +523,8 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 - **d_real(2): PARTIALLY RESOLVED by parity (see Result 7).** The chain sequence
   [3, 6, 14, 14, 19, 22] matched nothing because it **mixed even and odd N**. Split by parity, the
   sparse topologies have clean linear inner closed forms: chain odd = 4N − 6, ring odd = 7N − 13
-  (both verified at N = 3, 5, 7, 9 via the block decomposition). The even column stays
-  center-spike-contaminated and the dense topologies (star, complete) remain rep-structured
-  (super-linear, no clean polynomial). So it is not "no formula", it is "one formula per parity per
+  (both verified at N = 3, 5, 7, 9 via the block decomposition). The even chain column is 4N − 5 at
+  N = 6, 8, and the dense topologies (star, complete) are super-linear with no clean polynomial. So it is not "no formula", it is "one formula per parity per
   connectivity class".
 
 - **No sub-grid for off-grid eigenvalues.** Half-grid, third-grid, and

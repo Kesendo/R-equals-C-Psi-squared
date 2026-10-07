@@ -474,7 +474,7 @@ The empirical K_3 N=3 anomaly was first recorded in [`experiments/WEIGHT2_KERNEL
 
 WEIGHT2_KERNEL tentatively attributed the K_3 N=3 weight-1 anomaly to **multi-weight mixing** (by analogy with the chain N=4 weight-2 case at Re = -4γ, where one eigenvalue at that grid position does come from a multi-weight operator). The 2026-05-17 native verification of F50 checks this attribution explicitly: the 2 K_3 N=3 extras are **pure-weight-1** (verified: `|c_α|² in weight-1 sector = 1.000000`, all other weight sectors exactly zero). They are not multi-weight operators. The correct attribution is the **S_3 standard irrep on the weight-1 c=1 sector**, as derived above.
 
-WEIGHT2_KERNEL also introduced a **Trivial / Alternating / Mixed S_N-representation table** (§ SWAP eigenvalue structure: the key difference from weight 1) for weight-2 kernel vectors:
+WEIGHT2_KERNEL also introduced a **Trivial / Alternating / Mixed S_N-representation table** (§ SWAP eigenvalue structure: the key difference from weight 1) for weight-2 kernel vectors. It counts the vectors of a numerical kernel basis, not the kernel's representation content: the weight-2 kernel holds 3(N − 1) SWAP-invariant vectors at every N, the symmetrised Pauli multisets of [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts), whose bound d_real(k) ≥ (k + 1)(N − k + 1) carries this proof's Z-count construction to every k:
 
 | N | Trivial (+1) | Alternating (−1) | Mixed | Total |
 |---|-------------|-----------------|-------|-------|
@@ -495,7 +495,7 @@ Today's K_3 N=3 finding extends the same decomposition format **to weight-1**, w
 
 The Trivial column matches the F50 SWAP-invariant operators (T_c^{(a)} for `a ∈ {X, Y}, c ∈ {0, ..., N−1}`). At weight-1, the Sign and Standard columns are typically empty; **K_3 N=3 is the unique tested exception**, where the S_3 standard 2-dim irrep contributes 2 invariants.
 
-Connecting to WEIGHT2_KERNEL's weight-2 table: there, "Mixed" at N ≥ 4 captures non-trivial reps of S_N (standard 3-dim of S_4, etc.). At weight-1, the analogous non-trivial reps almost never produce kernel vectors (the dispersion structure rules them out), with K_3 N=3 as the unique witness.
+Connecting to WEIGHT2_KERNEL's weight-2 table: there, "Mixed" at N ≥ 4 counts vectors of a numerical basis; on the chain the weight-2 kernel is not S_N-stable (swapping sites 0 and 1 carries kernel vectors out of it), so no S_N representation is read there, while on graphs with S_N symmetry the non-trivial irreps (standard 3-dim of S_4, etc.) apply. At weight-1, the analogous non-trivial reps almost never produce kernel vectors (the dispersion structure rules them out), with K_3 N=3 as the unique witness.
 
 ### Resolution of the open question (full topology sweep)
 

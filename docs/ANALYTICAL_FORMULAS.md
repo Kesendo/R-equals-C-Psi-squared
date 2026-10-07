@@ -757,7 +757,9 @@ different cause; the two readings agree on every number and have never been reco
 **Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
-(Chain < Star < Ring < Complete). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
+(chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
+every bond weight give d_real(k) >= (k+1)(N-k+1), the symmetrised Pauli multisets
+(DEGENERACY_PALINDROME). See [Weight-2 Kernel](../experiments/WEIGHT2_KERNEL.md).
 **Resolution (2026-05-17 evening):** the K_3 N=3 "weight-1 anomaly" is not a special algebraic phenomenon. It is the **small-N manifestation of a universal "central-weight excess in high-symmetry topologies" pattern**: every connected graph with non-trivial automorphism beyond chain has centralizer excess at the central weights `w ∈ {floor(N/2), ceil(N/2)}`, palindromic by F1 Π-conjugation. K_N has the largest excess; ring, star, K_N − e all have smaller-but-non-zero central excess. F50 specifically tracks weight-1, which coincides with the central weight only at N=3. For N ≥ 4 the central weight is ≥ 2, so F50's weight-1 count remains 2N for all tested topologies (chain, ring, star, K_N, paw, bowtie, book, K_4 − e). Empirical magnitudes: K_3 N=3 (+2 at w=1 / w=2), K_4 N=4 (+23 at w=2, self-palindromic), K_5 N=5 (+40 at w=2 / w=3). [`experiments/WEIGHT2_KERNEL.md`](../experiments/WEIGHT2_KERNEL.md) (April 2026) had documented the topology dependence at weight-2 for N=4..6 weeks ago; we now understand the K_3 N=3 case as the SAME phenomenon at N=3 (where central weight = 1 = F50's tracked weight). What remains open: a closed-form formula for the excess in terms of (G, N, w), and a representation-theoretic micro-structural identification of the central-weight extras beyond the empirical magnitudes. See [the Weight-1 Degeneracy proof § Appendix Resolution](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full sweep table and the matrix-commutator-framework derivation.
 **Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight: max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [the Weight-1 Degeneracy proof § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
 **Max-spin closed-form (2026-05-17 late evening, Tier 1 derived):** the max-spin contribution to single-block has a complete identification as **Dicke endpoint ladder rungs**: `single_block(S=N/2, w) = 2 if w ∈ {0, N}, else 4`. Explicit basis: w=0 → {|D_0⟩⟨D_0|, |D_N⟩⟨D_N|} (diagonal endpoint projectors with closed-form `|D_0⟩⟨D_0| = (1/2^N) Π_i (I + Z_i)` and `|D_N⟩⟨D_N| = (1/2^N) Π_i (I - Z_i)`); w=N → {|D_0⟩⟨D_N| ± h.c.} (full-ladder jump); 1 ≤ w ≤ N-1 → {|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.} (two endpoint-anchored rungs). Total 4N pure-weight ops + (N-1)² multi-weight = (N+1)² operators in M(N+1). The multi-weight (N-1)² ops correspond to **middle-Dicke transitions** |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1} which intrinsically mix Pauli weights. Verified bit-exact N=2..5. Confirms structural reason for central-weight excess: max-spin is weight-uniform (no central bias), so excess MUST come from sub-max sectors. See [`simulations/f50_max_spin_closed_form.py`](../simulations/f50_max_spin_closed_form.py).
@@ -7011,9 +7013,9 @@ and, **when gbar != 0**, exactly floor(N/2) for all but finitely many J: one
 frozen mode per balanced pair. At gbar = 0, which the locus permits because the
 rates are nowhere asked to be positive, the proved lower bound is N, one per site;
 equality of the geometric count was exact-checked at selected nonzero J for N = 3..7 (below; at J = 0 a generic locus profile has N + 2*floor(N/2), which
-is a doubling only at even N). **No symmetry is behind it.** The eigenvectors move with J, the block
+is a doubling only at even N). **No symmetry is behind it.** On a generic locus profile the eigenvectors move with J, the block
 spectrum is not palindromic about the root, and no invariant subspace carries
-the modes; what pins the value is a dimension bottleneck of the cell mirror
+the modes (at the uniform point they are J-independent commutant modes, below); what pins the value is a dimension bottleneck of the cell mirror
 tauQ: (a,b) -> (Rb, Ra) has 2*floor(N/2) fixed rooms in the off-diagonal cells
 (the anti-diagonal), the D- constraint taxes away half, and the surplus must
 freeze. The same lesson as F139 on the other axis: **a wall can be a divisor
@@ -7177,10 +7179,14 @@ each; exact at N = 3..6); measured (the
 five non-negative N = 5 4x4 carriers located by a precision law, the 5x5 at
 N = 6, 7 by a precision law, and the growth floor(N/2) + 2 of the largest block
 found).
+At the uniform endpoint the frozen modes meet the commutant: on the uniform Heisenberg chain the floor(N/2) of the
+(1,1) corner are that block's weight-2 commutant (the uniform law's Layer B), and with the floor(N/2) of (N-1,N-1) they
+carry the excess of the chain's weight-2 commutant c_2 over the universal bound 3(N-1) at N >= 5; c_2 equals d_real(2)
+where measured except at N = 4, where one weight-mixing mode adds one (DEGENERACY_PALINDROME; the excess is a lower
+bound at every N >= 5 and exact at N = 5..8).
 **Open:** the one nonvanishing that would make the valuation law two-sided
 (each pair reaching its own outer anti-diagonal cell; the route is the
-uniqueness of the monotone walk); the uniform-endpoint embedding into the
-committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
+uniqueness of the monotone walk); a counting law for the
 real exceptional couplings; on the XY chain whether a real nilpotent point of m
 exists at every N (it does at N = 3..12); on the Heisenberg chain a proof
 that floor(N/2) + 2 bounds the block size, whether carriers of that size reach
