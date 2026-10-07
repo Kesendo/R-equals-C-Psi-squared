@@ -3581,7 +3581,8 @@ public static class OpenArcsRegistry
                 "mixing-time bound quoted, not verified], and F55 uses ONLY the gap (rate_min = 2 gamma). " +
                 "So the quoted-not-verified half is not the half F55 stands on, and the NextStep below is " +
                 "aimed too wide. The genuine caveat is narrower and already recorded in D06_SPECTRAL_GAP.md: " +
-                "Q*_gap(N) is bisected numerically and no lower bound on min<n_XY> is derived anywhere. The " +
+                "Q*_gap(N) is bisected, at N = 2..5 identified with an exact point of F50's exceptional set " +
+                "and not established beyond N = 5, and no lower bound on min<n_XY> is derived anywhere. The " +
                 "tier gap is smaller too: TRAPPED_LIGHT tiers K_death at Tier 2 in its own item list (:186), " +
                 "so it is Tier 1 against Tier 2, not against the document header's Tier 4-5.",
             ParkedAt: "nothing applied, deliberately: raising or lowering a tier is a claim about confidence KIND, " +
@@ -5045,10 +5046,13 @@ public static class OpenArcsRegistry
                 "AbsorptionTheoremClaim's own docstring stated as a general rule that mixing across weight " +
                 "sectors gives non-integer <n_XY> and lands BETWEEN the rungs. Four typed objects exhibit the " +
                 "opposite (the {0,2} family, LEffMirrorAxisClaim at <n_XY> = 2, WEIGHT2_KERNEL's non-pure mode " +
-                "at -4*gamma, HandoverFloorClaim's arrival at the floor). The docstring is repaired; what is " +
-                "NOT done is the converse fence on F50 itself, which several places still assert as a " +
-                "biconditional (simulations/f50_weight1_commutant_efficient.py and PROOF_WEIGHT1_DEGENERACY, " +
-                "both safe only because they restrict to REAL lambda, and neither says so). " +
+                "at -4*gamma, HandoverFloorClaim's arrival at the floor). The docstring is repaired, and the " +
+                "converse fence on F50 itself stands: 'real lambda = -2*gamma implies a weight-1 commutant' " +
+                "holds off a finite exceptional set E(N, G) of gamma/J only, and restricting to REAL lambda " +
+                "does not save it, since at a point of E a diagonal joint-popcount block (p,p) puts real modes " +
+                "mixing XY-weight 0 with weight >= 2 exactly on -2*gamma (PROOF_WEIGHT1_DEGENERACY, 'The count " +
+                "at exceptional couplings'; on the chain min E = 1/Q*_gap(N) at N = 2..5; gate " +
+                "simulations/f50_exceptional_couplings.py). " +
                 "(d) Repo hygiene the survey turned up. DONE 2026-08-02, in the commit that opened this " +
                 "arc: D10 Step 6 had backed its correct scope claim with 21 'frequencies of the w=1 sector', " +
                 "which are the spectrum of a COMPRESSION onto a span D10's own Step 2 proves non-invariant (leak " +
@@ -5287,7 +5291,8 @@ public static class OpenArcsRegistry
                 "no block carries both). The 'shell' rename was also wrong: rmt_analysis admits " +
                 "|rate - 2w*gamma| < 0.3*gamma, so the bin is a BAND of width ~1 in light content, not " +
                 "a shell at a rung, and most of its members are not at w; the word is now 'band'. And " +
-                "the {0,2} illustration written into RMT is false at N>=3 for Heisenberg (checked: every " +
+                "the {0,2} illustration written into RMT is false at N>=3 for Heisenberg at generic coupling " +
+                "(checked: every " +
                 "Re = -2*gamma mode at N=3,4,5 has ODD popcount difference); the honest witness, measured, " +
                 "is at N=4 on the 4*gamma rung with histogram {1: 1/2, 3: 1/2} and <n_XY> = 2 exactly. " +
                 "Two more were mine: 'only the two end sectors are flat' was imported from the |dp| = 1 " +

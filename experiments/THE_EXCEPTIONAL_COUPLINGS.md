@@ -502,6 +502,9 @@ criterion, so the word fits; what must never be dropped is which block and which
 multiplicity. The same document also proves that at the uniform point the corner has no
 exceptional coupling at all, which is exactly what the scans show: the corner block (1,1)
 carries ⌊N/2⌋ at every coupling tested, and the extra mode appears first at rung 2.
+F50 spends the word a third time, one rung down and of the same shape: a finite set of ratios
+γ/J at which real modes of the diagonal blocks (p, p) reach −2γ and exceed the weight-1 count
+([the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)).
 
 ## What is open
 

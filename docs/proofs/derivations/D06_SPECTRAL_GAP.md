@@ -3,8 +3,10 @@
 **What this derivation is about:** The spectral gap (the decay rate of the slowest non-stationary mode, which sets the timescale for the system to forget its initial state) is exactly 2γ in the strong-coupling regime, and the mixing time then scales as N·ln(4)/(2γ), growing linearly with system size. The gap is NOT independent of the coupling: below an N-dependent threshold in Q = J/γ it is Zeno-suppressed and far smaller.
 
 **Source formulas:** 3 (decay rate bounds); F1 plays no part in the derivation below
-**Tier:** 1 above Q*_gap(N). Note the provenance is empirical: Q*_gap(N) is bisected
-numerically, and no lower bound on min{<n_XY> > 0} is derived anywhere
+**Tier:** 1 above Q*_gap(N). Note: Q*_gap(N) is bisected; at N = 2..5 it is identified with an
+exact point of F50's exceptional set (closed forms at N = 2, 3, 4, an algebraic number of degree 48
+at N = 5; by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5), not established beyond N = 5, and no lower
+bound on min{<n_XY> > 0} is derived anywhere
 **Status:** VERIFIED for Q > Q*_gap(N) (N=2-5, deviation < 1e-14); FAILS below Q*_gap
 
 ## Derivation
@@ -19,7 +21,18 @@ is existence, not minimality. The minimum is a separate fact, and it is the one
 that fails below threshold.
 
 Measured Q*_gap(N) by bisection at gamma = 0.05: 0.5000 (N=2), 0.8002 (N=3),
-1.3422 (N=4), 1.8194 (N=5). Q*_gap is a function of the Hamiltonian as well: the
+1.3422 (N=4), 1.8194 (N=5). The chain's smallest exceptional gamma/J of F50, where
+a real eigenvalue -2*gamma from a diagonal joint-popcount block (p,p) sits on the line,
+is known exactly
+([the count at exceptional couplings](../PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings),
+gate [`f50_exceptional_couplings.py`](../../../simulations/f50_exceptional_couplings.py) G6),
+and at N = 2..5 it is 1/Q*_gap(N): by hand at N = 2, and at N = 3, 4, 5 the exact root agrees
+with the six decimals the bisection prints, with the spectrum checked on both sides of it at
+relative offset 10⁻⁶. The identification is not a consequence
+of F50 (a complex pair could set the gap) and is not established beyond N = 5.
+That gives closed forms at N = 2, 3, 4: Q*_gap(2) = 1/2, Q*_gap(3) = √((1 + √17)/8)
+= 0.800243, Q*_gap(4) = 1/x₀ = 1.342243 with x₀ = 0.745022 the smallest positive root
+of 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = gamma/J); at N = 5, Q*_gap(5) = 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block. Q*_gap is a function of the Hamiltonian as well: the
 same bisection on the XY chain gives 0.7071 (N=3), 0.9393 (N=4), 1.1861 (N=5).
 Q*_gap is independent of gamma, since gap/gamma depends on Q alone.
 

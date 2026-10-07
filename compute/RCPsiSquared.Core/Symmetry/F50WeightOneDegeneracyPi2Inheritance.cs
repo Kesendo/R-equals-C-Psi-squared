@@ -4,11 +4,13 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F50 closed form (≥2N lower bound Tier 1 proven; the =2N equality Tier 2
-/// verified N=2..7, with the K_3 N=3 exception at 2N+2):
+/// verified N=2..7, with the K_3 N=3 exception at 2N+2, at every γ/J outside a
+/// finite exceptional set E(N, G), see Breaks for):
 ///
 /// <code>
 ///   d_real(Re = −2γ) = 2N                    pure-real Liouvillian eigenvalue count
-///                                            on the k = 1 rung of the −2kγ grid
+///                                            on the k = 1 rung of the −2kγ grid,
+///                                            off E
 ///
 ///   T_c^{(a)} = Σⱼ Σ_{S ⊂ complement(j), |S|=c} σ_a^{(j)} ⊗ Z_S ⊗ I_rest
 ///   for a ∈ {X, Y} and c = 0, 1, ..., N−1
@@ -44,7 +46,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the same Pi2-Foundation anchor; F50 typifies them via two separate properties.</para>
 ///
 /// <para><b>Topology universality (with K_3 N=3 caveat, 2026-05-17):</b> F50
-/// holds for the chain at all tested N (= 2..7), for ring/star/complete at
+/// holds, off E, for the chain at all tested N (= 2..7), for ring/star/complete at
 /// N ≥ 4, and for graphs containing triangles inside larger structure (paw at
 /// N=4, bowtie + book at N=5). The single empirically-known anomaly is
 /// <b>N = 3 K_3 (= ring = triangle = complete on 3 vertices)</b>: this case
@@ -65,7 +67,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (k+1)(N−k+1) of the symmetrised Pauli multisets (DEGENERACY_PALINDROME).</para>
 ///
 /// <para><b>Breaks for:</b> anisotropic XXZ (Δ ≠ 1), where the ZZ term mixes
-/// X/Y types and the SWAP-invariance argument fails.</para>
+/// X/Y types and the SWAP-invariance argument fails. And, as an equality, at a
+/// finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-popcount
+/// block (p, p) has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with
+/// weight ≥ 2, and the count exceeds 2N (the lower bound still holds). The
+/// converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain at
+/// N = 2..5 the smallest point of E is 1/Q*_gap(N) (γ/J = 2 at N = 2; not a consequence
+/// of the theorem, since a complex pair could set the gap). See
+/// <c>PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings</c>.</para>
 ///
 /// <para>Tier consistency: lower bound (≥ 2N) Tier 1 derived via SWAP
 /// invariance constructing 2N kernel vectors. Upper bound (≤ 2N) was claimed
@@ -110,7 +119,8 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     /// <summary>Total degeneracy count <c>d_real(Re = −2γ) = 2N</c> on the k = 1
     /// rung of the −2kγ grid. The 2N value is the F50 lower bound (always
     /// correct, rigorously proven). For chain at all tested N + most connected
-    /// graphs at N ≥ 4 it is also the actual count (equality holds). The one
+    /// graphs at N ≥ 4 it is also the actual count (equality holds) at every γ/J
+    /// outside the finite exceptional set E(N, G). The one
     /// known empirical exception is N=3 K_3 (= ring = triangle = complete on
     /// 3 vertices), which actually gives 2N+2 = 8; see
     /// <see cref="K3TripleN3ActualCount"/>.</summary>
@@ -125,7 +135,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     /// complete on 3 vertices). Returns 8 = 2N + 2, exceeding the F50 lower
     /// bound by 2. The 2 extras are weight-1 operators in the standard 2-dim
     /// irrep of S_3 = Aut(K_3); they exist only on K_3 (any external bond
-    /// breaks the S_3 symmetry and restores the count to 2N). See
+    /// breaks the S_3 symmetry and restores the count to 2N, off E). See
     /// <c>F50NativeEigenvalueCountTests.NativeSpectrum_K3N3_Anomaly_Has8PureRealAtMinusTwoGamma</c>
     /// for the native verification.</summary>
     public const int K3TripleN3ActualCount = 8;
@@ -150,8 +160,9 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
         return N;
     }
 
-    /// <summary>True iff the topology universality applies. F50 holds for ANY
-    /// connected graph with isotropic Heisenberg + uniform Z-dephasing
+    /// <summary>True iff the topology universality applies. F50 holds on every tested
+    /// connected graph (off its finite exceptional set E, K_3 at N = 3 aside) with
+    /// isotropic Heisenberg + uniform Z-dephasing
     /// (anisotropy parameter Δ = 1). False for anisotropic XXZ (Δ ≠ 1).</summary>
     public bool AppliesToIsotropicHeisenberg(double anisotropyDelta)
     {
@@ -159,7 +170,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public F50WeightOneDegeneracyPi2Inheritance(Pi2DyadicLadderClaim ladder)
-        : base("F50 weight-1 degeneracy: d_real(Re = −2γ) = 2N (SWAP-invariant T_c^{(a)} for a ∈ {X, Y}, c = 0..N−1); both 2's = a_0. Lower bound ≥2N rigorous (Tier1Derived); the =2N equality holds for the chain (all N) and connected graphs at N≥4 (upper bound Tier2-verified, Step-5 gap), with the documented K_3 N=3 exception (=2N+2). Isotropic Heisenberg only (breaks for XXZ Δ≠1)",
+        : base("F50 weight-1 degeneracy: d_real(Re = −2γ) = 2N (SWAP-invariant T_c^{(a)} for a ∈ {X, Y}, c = 0..N−1); both 2's = a_0. Lower bound ≥2N rigorous (Tier1Derived); at every γ/J outside a finite exceptional set where (p,p)-block modes exceed it, the =2N equality holds for the chain (all N) and connected graphs at N≥4 (upper bound Tier2-verified, Step-5 gap), with the documented K_3 N=3 exception (=2N+2). Isotropic Heisenberg only (breaks for XXZ Δ≠1)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F50 + " +
                "docs/proofs/PROOF_WEIGHT1_DEGENERACY.md + " +
@@ -173,14 +184,14 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
         "F50 weight-1 degeneracy 2N as Pi2-Foundation a_0 inheritance (twice)";
 
     public override string Summary =>
-        $"d_real(Re = −2γ) = 2N: 2 = a_0 (count multiplier and decay rate); SWAP-invariant T_c^{{(a)}} for a ∈ {{X, Y}}, c = 0..N−1. The ≥2N lower bound is topology-universal for isotropic Heisenberg; the =2N equality is Tier-2 verified, chain at all N and other connected graphs at N≥4, with the K_3 N=3 exception (=2N+2) ({Tier.Label()})";
+        $"d_real(Re = −2γ) = 2N: 2 = a_0 (count multiplier and decay rate); SWAP-invariant T_c^{{(a)}} for a ∈ {{X, Y}}, c = 0..N−1. The ≥2N lower bound is topology-universal for isotropic Heisenberg; the =2N equality is Tier-2 verified, chain at all N and other connected graphs at N≥4, with the K_3 N=3 exception (=2N+2), at every γ/J outside a finite exceptional set ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F50 closed form",
-                summary: "d_real(Re = −2γ) = 2N exactly; verified bit-exact N=2..7; SWAP-invariant T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S ⊗ I for a ∈ {X, Y}, |S|=c, c=0..N−1");
+                summary: "d_real(Re = −2γ) = 2N exactly at every γ/J outside a finite exceptional set E(N, G); verified bit-exact N=2..7; SWAP-invariant T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S ⊗ I for a ∈ {X, Y}, |S|=c, c=0..N−1");
             yield return InspectableNode.RealScalar("DegeneracyFactor (= a_0 = 2)", DegeneracyFactor);
             yield return InspectableNode.RealScalar("DecayRateFactor (= a_0 = 2)", DecayRateFactor);
             yield return new InspectableNode("two Pi2 anchors share a_0",
@@ -188,9 +199,11 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("special cases",
                 summary: "T_0^{(X)} = 2·S_x, T_0^{(Y)} = 2·S_y (global SU(2) generators); T_{N−1}^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_{all others} (Jordan-Wigner-type)");
             yield return new InspectableNode("topology universality",
-                summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (chain smallest, complete largest; WEIGHT2_KERNEL) above the universal lower bound (k+1)(N−k+1) (DEGENERACY_PALINDROME).");
+                summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds, off the finite exceptional set E(N, G) of γ/J, for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (chain smallest, complete largest; WEIGHT2_KERNEL) above the universal lower bound (k+1)(N−k+1) (DEGENERACY_PALINDROME).");
             yield return new InspectableNode("breaks for anisotropic XXZ",
                 summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
+            yield return new InspectableNode("exceeded at exceptional couplings",
+                summary: "at a finite set E(N, G) of γ/J a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, not a consequence of the theorem (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings)");
             yield return new InspectableNode("N=3 verified",
                 summary: $"TotalDegeneracy(3) = {TotalDegeneracy(3)}; EigenvaluePosition(γ=0.05) = {EigenvaluePosition(0.05):G6}");
             yield return new InspectableNode("N=7 verified",

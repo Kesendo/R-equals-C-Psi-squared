@@ -83,6 +83,10 @@ The handover is the **longest-wavelength** mode (smallest q, the last to reach t
 The factor √3/2 against the SE coherence horizon is exactly the `⟨n_XY⟩ = 1` vs `⟨n_XY⟩ = 2` condition on the one
 dispersion: `√3 = √(Qq)²|_{⟨n_XY⟩=1}` against `2 = (Qq)|_{⟨n_XY⟩=2}` (the EP).
 
+At Q_h a real eigenvalue of the diagonal blocks (2,2) and (N−2,N−2) sits exactly on −2γ, so the handover
+is a point of F50's exceptional set for the XY ring, where the real count on the line exceeds the
+weight-1 commutant ([the count at exceptional couplings](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)).
+
 ## Cross-checks
 
 1. **The endpoint, numerically (the analogue of the SE proof's `q_min·N → π`).** Q_h·2π/N → √3 from above,

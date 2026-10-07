@@ -6,7 +6,10 @@ namespace MirrorWorld;
 // and many land OFF the integer grid. What stays on-grid is T1-derived (DEGENERACY_PALINDROME,
 // verified N=2..7): the edges stay N+1 (k=0 = identity + N magnetization projectors, the kernel; its
 // Pi-image k=N, the drain), and even N spikes the center k=N/2 (the Pi axis sits on the grid there).
-// The on-grid folds below are ADOPTED (the proven d_total numbers), not recomputed.
+// The on-grid folds below are ADOPTED (the verified d_total numbers), not recomputed. They hold at
+// generic coupling: N=2's 10 holds for gamma <= 2J (Pauli convention), and the N=3 numbers rise
+// (to 4, 16, 16, 4) at F50's exceptional couplings, where real modes of the diagonal blocks join
+// the rungs (PROOF_WEIGHT1_DEGENERACY, the count at exceptional couplings).
 public static class Redistribution
 {
     // d_total(k) on-grid, H on (DEGENERACY_PALINDROME Result 3). null = outside the adopted table.

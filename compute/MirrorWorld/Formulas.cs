@@ -126,7 +126,8 @@ public static class Formulas
     // below are the J/γ → ∞ limit of bands that split at finite coupling, NOT exact rationals (<n_XY> = 1, 4/3, 5/3).
     public static double[] F33_N3Rates(double gamma) => new[] { 2.0 * gamma, 8.0 * gamma / 3.0, 10.0 * gamma / 3.0 };
 
-    // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain); 8 for the K_3 triangle (N=3).
+    // F50 (T1 lower bound): weight-1 degeneracy d_real(-2γ) = 2N (chain, off a finite exceptional set
+    // of γ/J where a real weight-mixing mode exceeds it); 8 for the K_3 triangle (N=3).
     public static int F50_Weight1Degeneracy(int n, bool triangleK3 = false) => triangleK3 && n == 3 ? 8 : 2 * n;
 
     // F7 (T1, corollary of D10): Q-factor spectrum of the (0,1) coherence block (F2's object,

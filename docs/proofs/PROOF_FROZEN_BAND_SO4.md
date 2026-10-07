@@ -184,6 +184,8 @@ Hence **the depth is exactly ⌊N/2⌋ for all but finitely many couplings, at e
 
 That is what collapses the cost. The block has dimension C(N,p)², the reduced object has dimension dim V₀ = Σ_E m_E², the number of pairs of p-subsets of modes with equal Slater energy. At N = 12 on the middle rung that is 3584 against 853776.
 
+F50's weight-1 count at −2γ, one rung below, has the same shape: exact off a finite set of ratios γ/J, at whose points real modes of the diagonal blocks (p, p) join the line ([the count at exceptional couplings](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)). There a mode crosses the rung; here a mode freezes onto the root.
+
 **Proposition 5.2 (every even order vanishes).** Let T be the transpose involution (a, b) ↦ (b, a) on the operator basis. Then B is T-even and S is T-odd, so the n-th order reduced operator has T-parity (−1)^{n−1}. The frozen vectors are symmetric matrices, which is Lemma 2.5 step 2 for the corner seeds and is carried up the ladder by Φ, since Φ commutes with the transpose involution; hence they are of one T-parity, and a T-odd operator has zero matrix elements between two vectors of the same parity. Therefore **every even order vanishes identically on the surviving space**, and the next order after the first that can bite is the third.
 
 *Proof.* In the mode basis the (a,b) row of B is R_{ab}[c,d] = (U^T diag(v_a) Dm diag(v_b) U)[c,d] with Dm the symmetric cell-level multiplier, so R_{ab}[d,c] = R_{ba}[c,d], which is T-evenness. S is elementwise i/(E_α − E_β) and so is manifestly T-odd. The n-th order operator is a product of n factors B and n − 1 factors S. ∎

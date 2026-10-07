@@ -437,7 +437,12 @@ for the fastest paired modes (⟨n_XY⟩ ≈ N-1). The XOR drain at 2Nγ
 coupling ratio Q = J/γ, Hamiltonian mixing creates hybrid modes with rates
 below 2γ. This happens at every N including N=3, not only at N >= 4; what grows
 with N is the threshold. Located by bisection, Q*_gap = 0.5000 (N=2), 0.8002 (N=3), 1.3422 (N=4),
-1.8194 (N=5), so at the canonical Q = 1.5 the erosion first appears at N=5.
+1.8194 (N=5), so at the canonical Q = 1.5 the erosion first appears at N=5. The first three are
+closed forms, 1/2, √((1 + √17)/8) and 1/x₀ (x₀ = 0.745022, a root of a degree-12 polynomial in γ/J; D6
+below), exact as the chain's largest J/γ at which the F50 count is exceeded ([F50](#f50); gate
+[`f50_exceptional_couplings.py`](../simulations/f50_exceptional_couplings.py) G6). That this point is the
+bisected threshold is established at N = 2..5 only (by hand at N = 2, bisection and exact root agreeing
+otherwise); it does not follow from F50, since a complex pair could set the gap.
 Min nonzero rate in units of γ:
 
     Q      N=3      N=4      N=5
@@ -634,7 +639,12 @@ fraction. No operational irrelevance follows from that fraction alone.
 The N=3 Heisenberg chain has two kinds of decay rate, and they must not be
 quoted the same way.
 
-**Exact at every J** (the pure-weight rungs, multiplicities out of 64):
+**Exact at every J** (the pure-weight rungs; the positions hold at every coupling,
+the multiplicities out of 64 at every γ/J sampled, rising to 4, 16, 16, 4 at the two
+points of the chain's exceptional set E(3, chain) = {√((√17 − 1)/2), √3}, where real
+modes of the diagonal blocks join the rungs; the fence of
+[the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)
+reads only the real modes, so that the counts hold at every other coupling is measured, not proved):
 
     rate = 0        <n_XY> = 0   mult 4    (the F4 kernel)
     rate = 2*gamma  <n_XY> = 1   mult 14   (pure weight-1)
@@ -655,8 +665,9 @@ J -> infinity limit as the rate (at Q = 1.5 they are 5.31, 5.31, 9.69, 0.69 and
 
 Each of these is a *triple* of distinct levels at finite coupling, merging only
 as J/gamma -> infinity, the lowest level approaching its limit as
-0.46*(gamma/J)^2 and the band's spread closing as 0.53*(gamma/J)^2. Each band
-carries multiplicity 14, so the ladder closes at 36 + 28 = 64. In the canonical
+0.46*(gamma/J)^2 and the band's spread closing as 0.53*(gamma/J)^2. At every coupling
+sampled each band carries multiplicity 14, so the ladder closes at 36 + 28 = 64 (at the
+two points of E(3, chain) the rungs hold 40 and the mixed modes the other 24). In the canonical
 regime Q = 1.5 the "8*gamma/3" band is in fact 2.4607, 2.6040, 2.6980 gamma, up
 to 7.7% away from 8/3. Cite 8*gamma/3 and 10*gamma/3 as a limit, never as exact
 rational rates.
@@ -673,7 +684,8 @@ The theorem holds exactly in both cases, including for non-integer <n_XY>.
 
 Topology-dependence starts already at N=3, not at N >= 4: on the triangle the
 2.4607 level is absent and even the pure-rung multiplicities differ from the
-chain's (4, 16, 16, 4 vs 4, 14, 14, 4), which bears on F50's K_3 anomaly. Only
+chain's (4, 16, 16, 4 vs 4, 14, 14, 4, both at every coupling sampled; the
+triangle's rise to 4, 20, 20, 4 at γ/J = √3), which bears on F50's K_3 anomaly. Only
 the rung POSITIONS 2*gamma*n are topology-free; see F3's caveat for where even
 the band edges erode.
 
@@ -688,8 +700,8 @@ perfectly orthogonal at N=3 in that limit.
 <a id="f50"></a>
 ### F50. Weight-1 degeneracy / conserved operator count (Tier 1 lower bound proven; Tier 2 verified chain N=2-7 with K_3 N=3 anomaly)
 
-    d_real(Re = -2*gamma) = 2N    (chain at all tested N + most connected graphs)
-    d_real(Re = -2*gamma) = 8     for N=3 K_3 (triangle) instead of 2N=6  [2026-05-17 finding]
+    d_real(Re = -2*gamma) = 2N    (chain at all tested N + most connected graphs, off E)
+    d_real(Re = -2*gamma) = 8     for N=3 K_3 (triangle) instead of 2N=6, off E (12 at γ/J = √3)  [2026-05-17 finding]
 
 Lower bound `d_real >= 2N` is rigorously proven via the SWAP-invariant
 construction: there are 2N kernel operators
@@ -742,9 +754,12 @@ which commutes with H and is built from distance-1 coherences only, so it sits a
 reason the blocks do (residual exactly 0.0, gated at N = 3, 4, 5 and γ = 0.05 and 0.9). The 2N is then 4 + 2(N−2): one zero
 mode from each of the four blocks ([F2](#f2): the block is N-dimensional with one zero mode and N−1
 oscillating ones), plus the ladder. Scope, narrower than the count above: chain only (the ring at N=4
-puts extra oscillating modes on the same line, a statement the source document makes and no gate covers), Δ = 1 only, uniform γ load-bearing, and N ≥ 3. At N=2
-the line holds 10 rather than 8, because the (1,1) block mixes a population with a distance-2 coherence
-and leaves the pair at the midpoint. Gate
+puts extra oscillating modes on the same line, a statement the source document makes and no gate covers), Δ = 1 only, uniform γ load-bearing, N ≥ 3, and at the couplings sampled: E fences only the real
+modes, at its points real modes of the diagonal blocks join the line and the 6N−4 rises (to 16 at
+N=3), and that it holds at every other coupling is measured, not proved. At N=2
+the line holds 10 rather than 8 for γ ≤ 2J, because the (1,1) block mixes a population with a distance-2 coherence
+and leaves a pair on it: for γ < 2J a complex pair at the midpoint, at γ = 2J the double root (F50's
+exceptional point at N=2), above it split off the line. Gate
 [`simulations/veffect_finesse_law.py`](../simulations/veffect_finesse_law.py), which pins the 6N−4 and the
 4(N−1) at N = 3, 4, 5 and the ladder's exact-zero residual; the 2N, the 4 + 2(N−2) split and the N=2
 exception are read off those, not separately gated. The 6N−4 = 2N + 4(N−1) split itself is older and
@@ -752,9 +767,14 @@ independently verified at N = 3..7 in [DEGENERACY_PALINDROME](../experiments/DEG
 which reaches it through the shell BIN rather than the rate line and attributes the N=2 anomaly to a
 different cause; the two readings agree on every number and have never been reconciled on the mechanism.
 
-**Valid for:** chain at any N + most connected graphs at N >= 4.
-**Empirically violated for:** N=3 K_3 (= ring = triangle on 3 vertices) only.
+**Valid for:** chain at any N + most connected graphs at N >= 4, off E (below).
+**Empirically violated for:** N=3 K_3 (= ring = triangle on 3 vertices) only, among graphs.
 **Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
+And at a finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-popcount block (p,p)
+has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with weight ≥ 2, and the count exceeds
+2N; the converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain the smallest
+point of E is 1/Q*_gap(N) at N = 2..5 (by hand at N = 2, two routes agreeing at N = 3, 4, 5; not a
+consequence of the theorem, since a complex pair could set the gap) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
@@ -764,7 +784,7 @@ every bond weight give d_real(k) >= (k+1)(N-k+1), the symmetrised Pauli multiset
 **Partial closed-form (2026-05-17 late evening):** the central-weight excess decomposes by spin-isotypic sector as `central-w-excess(K_N) = Σ_{S < N/2} single_block(S, central_w) + multi_block_diff`. The **max-spin block** (S = N/2, dim N+1, 1 SU(2)-copy) contributes the universal palindromic pattern `(2, 4, 4, ..., 4, 2)` with sum `4N`, identical for all K_N and contributing equally to every weight: max-spin alone does NOT create central excess. The **sub-max spin blocks** concentrate their pure-weight content at central weights only, with a parity selection rule (K_6 S=2 contributes only at even w=2,4; K_6 S=0 vanishes entirely). The K_3 N=3 +2 excess is entirely a single-block phenomenon (S=1/2 block adds 2 at w=1, multi-block matches chain). The K_4 N=4 +23 excess decomposes as +27 single-block (mostly S=1 block adding 26 at w=2) minus −4 multi-block diff. A full closed-form for `single_block(S, w)` as `f(m_S, 2S+1, N, w)` is the remaining piece. See [`simulations/f50_spin_isotypic_decomposition.py`](../simulations/f50_spin_isotypic_decomposition.py) and [the Weight-1 Degeneracy proof § Spin-isotypic decomposition](proofs/PROOF_WEIGHT1_DEGENERACY.md) for the full per-(S, w) table at K_3..K_6.
 **Max-spin closed-form (2026-05-17 late evening, Tier 1 derived):** the max-spin contribution to single-block has a complete identification as **Dicke endpoint ladder rungs**: `single_block(S=N/2, w) = 2 if w ∈ {0, N}, else 4`. Explicit basis: w=0 → {|D_0⟩⟨D_0|, |D_N⟩⟨D_N|} (diagonal endpoint projectors with closed-form `|D_0⟩⟨D_0| = (1/2^N) Π_i (I + Z_i)` and `|D_N⟩⟨D_N| = (1/2^N) Π_i (I - Z_i)`); w=N → {|D_0⟩⟨D_N| ± h.c.} (full-ladder jump); 1 ≤ w ≤ N-1 → {|D_0⟩⟨D_w| ± h.c., |D_{N-w}⟩⟨D_N| ± h.c.} (two endpoint-anchored rungs). Total 4N pure-weight ops + (N-1)² multi-weight = (N+1)² operators in M(N+1). The multi-weight (N-1)² ops correspond to **middle-Dicke transitions** |D_k⟩⟨D_l| for k, l ∈ {1, ..., N-1} which intrinsically mix Pauli weights. Verified bit-exact N=2..5. Confirms structural reason for central-weight excess: max-spin is weight-uniform (no central bias), so excess MUST come from sub-max sectors. See [`simulations/f50_max_spin_closed_form.py`](../simulations/f50_max_spin_closed_form.py).
 **Replaces:** eigenvector analysis at the first grid position;
-numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
+numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case, off E).
 **Source:** [Weight-1 Degeneracy Proof](proofs/PROOF_WEIGHT1_DEGENERACY.md)
 (with 2026-05-17 K_3 N=3 anomaly + proof Step-5 gap appendix).
 
@@ -1576,7 +1596,14 @@ gap = 2γ · min{⟨n_XY⟩ > 0} and places NO lower bound on that minimum, so
 it does not by itself yield 2γ. Above an N-dependent threshold the slowest
 non-kernel modes do sit on pure weight-1 strings, ⟨n_XY⟩ is exactly 1, and
 the gap is exactly 2γ (deviation < 1e-14): the cost of one X/Y Pauli factor.
-Q*_gap(N) = 0.5000, 0.8002, 1.3422, 1.8194 at N = 2, 3, 4, 5.
+Q*_gap(N) = 0.5000, 0.8002, 1.3422, 1.8194 at N = 2, 3, 4, 5. At N = 2, 3, 4 these are closed
+forms: Q*_gap(2) = 1/2, Q*_gap(3) = √((1 + √17)/8) = 0.800243, Q*_gap(4) = 1/x₀ = 1.342243 with
+x₀ = 0.745022 the smallest positive root of 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256
+(x = γ/J). These closed forms are exact as points of F50's exceptional set: the chain's largest J/γ at
+which a real eigenvalue −2γ exceeds the F50 count. Their identification with the bisected Q*_gap holds at
+N = 2..5 (by hand at N = 2; at N = 3, 4, 5 the exact root agrees with the six decimals the bisection
+prints, with the spectrum checked on both sides of it at relative offset 10⁻⁶); it is not a consequence of F50, since a complex pair could set the gap ([the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings),
+gate [`f50_exceptional_couplings.py`](../simulations/f50_exceptional_couplings.py) G6); at N = 5, the point is 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block (the gate's `--n5` run).
 
 Below the threshold the gap is Zeno-suppressed, approaching as Q → 0
 

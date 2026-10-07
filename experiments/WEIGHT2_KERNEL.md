@@ -219,6 +219,9 @@ exemplifies the latter.
    vertices) gives `d_real(1) = 8` instead of `2N = 6`. The 2 extras
    are weight-1 operators in the S_3 standard 2-dim irrep, not multi-
    weight mixing; see [`PROOF_WEIGHT1_DEGENERACY § Appendix (2026-05-17)`](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
+   At F50's exceptional couplings, a finite set of γ/J, real weight-mixing
+   modes of the diagonal blocks (p, p) do reach rung 1
+   ([the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)).
    So even weight 1 has irrep structure beyond the trivial; it just
    needs one specific graph (K_3) to surface. Weight 2 and beyond are
    governed by the corner commutant on the chain and by the automorphism group where it is large.

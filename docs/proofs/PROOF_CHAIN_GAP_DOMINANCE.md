@@ -105,13 +105,14 @@ The crossover itself is not new here: the repository has recorded since 2026-06-
 
 Above that ratio the floor's maximum is the extras' frequency and **not** the band edge, measured directly on the full floor: at `Q = 20` the floor max is `1.997498` against `E1 = 1.000000`. So the headline statement of this document is false at `N = 2` in the high-Q regime, which is the regime the rest of the repository works in.
 
-At or below `Q = 2/√3` it is true, and below `Q = 1` it is true for a second, different reason: the square root turns real, the pair coalesces and leaves the floor altogether (the floor dimension drops from `10` to `8`), which is the coherence horizon's `Q*(2) = 1` exceptional point seen from this side. Three regimes, one statement:
+At or below `Q = 2/√3` it is true, and below `Q = 1` it is true for a second, different reason: the square root turns real, and the pair, coalesced on the floor at `Q = 1`, splits off it altogether (the floor dimension drops from `10` to `8`), which is the coherence horizon's `Q*(2) = 1` exceptional point seen from this side. Three regimes, one statement:
 
 | regime | extras on the floor | floor max | statement |
 |---|---|---|---|
 | `Q > 2/√3` | yes, at `2√(J²−γ²)` | the extras | **false** |
 | `1 < Q ≤ 2/√3` | yes, at `2√(J²−γ²)` | `E1` | true |
-| `Q ≤ 1` | none (coalesced off the floor) | `E1` | true |
+| `Q = 1` | the defective double root, on the floor at frequency 0 ([F50's exceptional point at N = 2](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings), γ/J = 2 in the Pauli convention; this document's `J` is 2·J_Pauli; the Heisenberg point carries over to this XY table because ZZ is constant on the `N = 2` (1,1) block) | `E1` | true |
+| `Q < 1` | none (split off the floor) | `E1` | true |
 
 `N = 2` is therefore a second band-edge counterexample beside the ring's 4-cycle, in the `Q > 2/√3` regime. [`PROOF_RING_GAP_DOMINANCE`](PROOF_RING_GAP_DOMINANCE.md) calls the 4-cycle the unique one; that uniqueness holds among the graphs it sweeps, which start at `N = 4`, and not across `N`.
 

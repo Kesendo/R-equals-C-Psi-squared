@@ -645,8 +645,15 @@ Above a threshold in Q = J/γ the slowest non-kernel modes sit on pure weight-1
 strings, ⟨n_XY⟩ is exactly 1, and the gap is exactly 2γ: the cost of a single X
 or Y factor. The threshold is not universal and grows with N. Located by
 bisection on the **Heisenberg** chain, Q*_gap = 0.5000 at N=2, 0.8002 at N=3,
-1.3422 at N=4, 1.8194 at N=5. No closed form is claimed; the successive gaps
-are 0.300, 0.542 and 0.477, so it is not linear in N over this range.
+1.3422 at N=4, 1.8194 at N=5. At N = 2..5 the threshold is the inverse of the
+chain's smallest point of F50's exceptional set (E is read in γ/J, Q in J/γ), where a real eigenvalue −2γ from a
+diagonal block (p, p) sits on the line ([the count at exceptional couplings](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings);
+by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5; not a
+consequence of F50, since a complex pair could set the gap),
+and that gives closed forms at N = 2, 3, 4: Q*_gap = 1/2, √((1 + √17)/8) =
+0.800243, and 1/x₀ = 1.342243 with x₀ = 0.745022 the smallest positive root of
+9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = γ/J); at N = 5, Q*_gap(5) = 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block. The successive gaps are 0.300, 0.542 and 0.477, so the threshold is
+not linear in N over this range.
 
 The threshold belongs to the Hamiltonian, not to N alone. On the **XY** chain
 the same bisection gives 0.7071 at N=3 (that is 1/√2 to five places), 0.9393 at
@@ -824,7 +831,12 @@ decay rates: 2γ, 8γ/3, 10γ/3.
 light, and doing so separates the N=3 spectrum into rates that are exact at
 every coupling and rates that are only a limit.
 
-*Exact at every J*, the four pure-weight rungs:
+*Exact at every J*, the four pure-weight rungs (the positions at every coupling;
+the multiplicities at every γ/J sampled, rising to 4, 16, 16, 4 at the two points
+of the chain's exceptional set E(3, chain) = {√((√17 − 1)/2), √3}, where real modes
+of the diagonal blocks join the rungs; the fence of
+[the count at exceptional couplings](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)
+reads only the real modes, so that the counts hold at every other coupling is measured, not proved):
 
     rate = 0      → ⟨n_XY⟩ = 0     multiplicity 4   (the F4 kernel)
     rate = 2γ     → ⟨n_XY⟩ = 1     multiplicity 14  (pure weight-1)
@@ -838,8 +850,9 @@ triple, and the triples merge only as J/γ → ∞:
     J/γ = 20:               2.6655γ  2.6663γ  2.6668γ
     J/γ → ∞:                8γ/3 = 2.6667γ
 
-Each band carries multiplicity 14, so the ladder closes: 36 modes on the four
-pure rungs plus 28 in the two mixed bands is the full 64. The band's lowest
+At every coupling sampled each band carries multiplicity 14, so the ladder closes: 36 modes
+on the four pure rungs plus 28 in the two mixed bands is the full 64 (at the two
+points of E(3, chain) the rungs hold 40 and the mixed modes the other 24). The band's lowest
 level approaches its limit as 0.46·(γ/J)², and the band's own spread closes as
 0.53·(γ/J)², both flat over three decades. So 8γ/3 is a J/γ → ∞
 face of the N=3 spectrum, not an exact rational rate, and in the regime this

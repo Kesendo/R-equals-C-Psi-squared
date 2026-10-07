@@ -5,18 +5,20 @@ degeneracy proof, SWAP invariance Pauli strings, Z-count conserved operators,
 palindromic degeneracy analytical derivation, d(-gamma) = 2N proof, open quantum
 system spectral structure, SU(2) symmetry weight-1, R=CPsi2 commutator kernel -->
 
-**Status:** Lower bound `dim(ker) ≥ 2N` Tier 1 derived for any connected graph (SWAP-invariant construction, Steps 1-4). Upper bound `dim(ker) ≤ 2N` holds for the chain and every tested connected graph EXCEPT K_3 at N=3 (where it is 2N+2); the original triangle-inequality upper-bound argument (Step 5) has a matrix-commutator vs conjugation-action gap, fully characterized in the Appendix. Tier 2 verified bit-exact for chain N = 2 through 7.
+**Status:** Lower bound `dim(ker) ≥ 2N` Tier 1 derived for any connected graph (SWAP-invariant construction, Steps 1-4). Upper bound `dim(ker) ≤ 2N` holds for the chain and every tested connected graph EXCEPT K_3 at N=3 (where it is 2N+2); the original triangle-inequality upper-bound argument (Step 5) has a matrix-commutator vs conjugation-action gap, fully characterized in the Appendix. Tier 2 verified bit-exact for chain N = 2 through 7. The count holds at every ratio γ/J outside a finite exceptional set, where real modes mixing XY-weight 0 with weight ≥ 2 land on the line ([The count at exceptional couplings](#the-count-at-exceptional-couplings)).
 **Date:** 2026-04-03
 **Reviewed:** 2026-07-03 (readability + numbers + em-dash pass: Δ-decomposition formula corrected, header / Step 5 / beyond-chain claims reconciled with the K_3 N=3 Appendix finding)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** `d_real(Re = −2γ) = 2N` for the isotropic Heisenberg coupling on any connected graph under uniform Z-dephasing. The 2N kernel operators are the symmetric sums `T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S(c) ⊗ I_rest` grouped by active type a ∈ {X, Y} and Z-count c ∈ {0, ..., N−1}.
+**Statement:** `d_real(Re = −2γ) = 2N` for the isotropic Heisenberg coupling on any connected graph under uniform Z-dephasing, at every ratio γ/J outside a finite exceptional set E(N, G) (K_3 at N = 3: 2N + 2). The 2N kernel operators are the symmetric sums `T_c^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_S(c) ⊗ I_rest` grouped by active type a ∈ {X, Y} and Z-count c ∈ {0, ..., N−1}.
 **Typed claim:** [`F50WeightOneDegeneracyPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F50WeightOneDegeneracyPi2Inheritance.cs) (Tier 1 derived; both 2s in 2N and 2γ inherit from the Pi2 dyadic ladder's a₀ anchor; F50 entry in [Analytical Formulas](../ANALYTICAL_FORMULAS.md)).
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md),
-[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)
+[Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md),
+[Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) (the exceptional couplings)
 **Verification:** [`simulations/kommutator_kern_analysis.py`](../../simulations/kommutator_kern_analysis.py),
 [`simulations/verify_triangle_inequality.py`](../../simulations/verify_triangle_inequality.py),
-`dotnet run -c Release -- eigvec`
+`dotnet run -c Release -- eigvec`,
+[`simulations/f50_exceptional_couplings.py`](../../simulations/f50_exceptional_couplings.py) (the exceptional couplings; `--n5` adds the N = 5 chain)
 
 ---
 
@@ -42,8 +44,8 @@ see [Weight-2 Kernel](../../experiments/WEIGHT2_KERNEL.md).
 ## What this document is about
 
 The Liouvillian spectrum of the Heisenberg chain with Z-dephasing has exactly
-2N purely-real eigenvalues at the first non-zero grid position Re = −2γ.
-This document proves that these 2N modes are weight-1 Pauli operators that
+2N purely-real eigenvalues at the first non-zero grid position Re = −2γ,
+at every ratio γ/J outside a finite exceptional set. This document proves that these 2N modes are weight-1 Pauli operators that
 commute with the Hamiltonian, and constructs all 2N of them explicitly via a
 SWAP-invariance argument.
 
@@ -89,7 +91,9 @@ the chain at every tested N but fails for K_3 at N=3, where the kernel is 2N+2.
 See Step 5 and the Appendix.)
 
 **Corollary.** The Liouvillian of the Heisenberg chain with uniform Z-dephasing
-γ has exactly 2N purely-real eigenvalues at Re = −2γ for all N.
+γ has exactly 2N purely-real eigenvalues at Re = −2γ at every N tested
+(N = 2 to 7; the upper bound carries the Step 5 gap), at every ratio γ/J
+outside the finite set E(N, chain).
 
 ---
 
@@ -109,8 +113,11 @@ If λ is purely real (Im = 0), then λ = −2γ and:
 
 −i[H, v] = 0, hence [H, v] = 0.
 
-The 2N modes at Re = −2γ with Im = 0 are exactly the weight-1 operators
-that commute with the Hamiltonian.
+The converse, that every real mode at −2γ is such an operator, holds at
+every ratio γ/J outside a finite set E(N, G) and fails on it
+([The count at exceptional couplings](#the-count-at-exceptional-couplings)).
+Off E, the 2N modes at Re = −2γ with Im = 0 are exactly the weight-1
+operators that commute with the Hamiltonian.
 
 ### Step 2: The SWAP structure of the Heisenberg Hamiltonian
 
@@ -308,14 +315,48 @@ if and only if the graph is connected).
 
 **Corollary.** For any connected graph with N sites and isotropic Heisenberg
 coupling, the Liouvillian with uniform Z-dephasing has exactly 2N purely-real
-eigenvalues at Re = −2γ, with the single tested exception of K_3 at N=3 (the
+eigenvalues at Re = −2γ at every γ/J outside E(N, G), with the single tested graph exception of K_3 at N=3 (the
 triangle = ring = complete graph on 3 vertices), which has 2N+2. The Appendix
 shows K_3 N=3 to be the small-N face of a general central-weight excess in
 high-symmetry topologies; the "exactly" here inherits the Step 5 gap, while the
 lower bound "≥ 2N" is unconditional.
 
 This extends the d(−γ) = 2N result from the chain to star, ring, complete,
-binary tree, and any other connected topology (K_3 N=3 excepted).
+binary tree, and any other connected topology (K_3 N=3 excepted), at every
+γ/J outside the finite set E(N, G) of the next section.
+
+---
+
+## The count at exceptional couplings
+
+The count 2N is a statement about every eigenvalue at −2γ, and Step 1 reads only the weight-1 ones. The converse, that every real eigenvalue at −2γ belongs to a weight-1 commutant, holds at all but finitely many ratios γ/J, and fails at the rest.
+
+**Theorem.** For the isotropic Heisenberg Hamiltonian H = J·Σ_bonds (X_iX_j + Y_iY_j + Z_iZ_j) on a graph G under uniform Z-dephasing, let E(N, G) be the set of positive ratios γ/J at which some diagonal joint-popcount block (p, p), 1 ≤ p ≤ N − 1, has −2γ as an eigenvalue. E(N, G) is finite. Off E(N, G), every eigenvector and generalized eigenvector at a real eigenvalue −2γ is a weight-1 commutant mode, so d_real(Re = −2γ) is the dimension of the weight-1 commutant (2N on every tested connected graph, 2N + 2 on K_3 at N = 3). At a point of E(N, G) the count exceeds it, and the extra modes mix XY-weight 0 with weight ≥ 2.
+
+*Proof.* L is block diagonal in the joint popcount (p, q) of |x⟩⟨y|, and its dissipator is −2γ times the Hamming distance of x and y. By the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md), Re λ = −2γ⟨n_XY⟩ for every eigenvector, so a real eigenvalue −2γ needs ⟨n_XY⟩ = 1. In block (p, q) every coherence has Hamming distance at least |p − q| and of the parity of p − q. If p − q is odd, every distance is at least 1, so ⟨n_XY⟩ = 1 forces pure weight 1, and the mode is a weight-1 operator commuting with H by Step 1. Such a mode v is also a left eigenvector, since L_H is anti-Hermitian and the dissipator Hermitian, so (L + 2γ)†v = 0; a generalized eigenvector w with (L + 2γ)w = v would give ‖v‖² = ⟨v, (L + 2γ)w⟩ = 0, so no Jordan chain grows on it. If p − q is even and nonzero, every distance is at least 2, which rules out ⟨n_XY⟩ = 1. That leaves the diagonal blocks (p, p), where the distances are even; off E(N, G) they have no eigenvalue −2γ at all, hence no generalized eigenvector there either. In them P_p(γ) = det(B_pp(γ) + 2γ·I) is a polynomial in γ whose leading coefficient is Π (2 − 2·Hamming) over the block's coherences, nonzero because no distance equals 1. So P_p has finitely many roots, and E(N, G) is the set of positive real ones over all p. ∎
+
+Of the Hamiltonian the proof uses only that it is Hermitian and conserves the excitation number, so the localization and the finiteness hold verbatim for XXZ and XY; off E the count is then that model's weight-1 commutant, and 2N is the isotropic one. The argument is special to the rung k = 1 through parity: in the blocks of odd p − q the smallest distance is 1, so ⟨n_XY⟩ = 1 forces pure weight there, and the blocks of even p − q never hold distance 1, so their leading coefficient cannot vanish. At k = 2 the diagonal blocks hold distance 2, the leading coefficient Π(4 − 2·Hamming) vanishes and the finiteness argument fails, and [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts) records weight-mixing real modes at generic coupling on the centre rung at even N. The F1 palindrome carries the exceptions to the mirror rung: Π sends −2γ to −2γ(N − 1) and real eigenvalues to real ones, so d_real at k = N − 1 is exceeded at the same points.
+
+The theorem says where the exceptions can be; it does not say that they exist. They do on every graph computed. In units of J (the Pauli convention above; the C# spin convention has J_s = 4J):
+
+| N, graph | E(N, G) as γ/J | count at −2γ there (2N generically) |
+|---|---|---|
+| 2 | 2 | 6: the (1,1) pair λ² + 4γλ + 16J² meets its double root, algebraic 2 extra, geometric 1 |
+| 3, chain | √((√17 − 1)/2) = 1.249621, √3 = 1.732051 | 8, one extra mode in (1,1) and one in (2,2) |
+| 3, K₃ | √3 | 12 (generic 8) |
+| 4, chain | 0.745022, 0.745439, 0.910180, 1.545936, 1.572303, 1.867978, 2.088800, 2.197368 | 9 or 10 |
+| 4, ring | 1.378129, 2, 2.309401 | 9, 16, 9 |
+| 4, star | 0.681250, 1.154701, 1.732051, 2.309401 | 12, 10, 10, 9 |
+| 4, complete | 2.309401 = 4/√3 | 11 |
+| 5, chain | 13 points from 0.549647 to 2.494351 (four from (1,1) and (4,4), the rest from (2,2) and (3,3)) | not counted |
+
+The values are exact algebraic numbers, pinned by their minimal polynomials for N ≤ 4 (for the N = 5 chain the gate pins the count per block and the degree, 48, of the smallest point), and the N = 2, 3 multiplicities are exact ranks; the N = 4 counts are an eigensolver's, eigenvalues within 10⁻⁶ of −2γ, with the nullity of L + 2γ read beside them ([`f50_exceptional_couplings.py`](../../simulations/f50_exceptional_couplings.py), gates G1 to G6; the N = 5 chain, about twenty minutes, under `--n5`). Most points are semisimple crossings. At γ/J = 2, both for N = 2 and on the N = 4 ring, the extra modes are defective: their geometric multiplicity is half the algebraic (1 of 2 at N = 2, exact; 4 of 8 on the ring, nullity 12 against 16 eigenvalues, measured).
+
+On the chain each block (p, p) carries exactly C(N, p) − 1 of the points (gate G3b, N = 2 to 4, and N = 5 under `--n5`), one for each non-stationary mode of the block's classical hopping generator, the population dynamics strong dephasing leaves behind (at p = 1 the path Laplacian of the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) §4.3). That count suggests the reading: each point is a real, overdamped mode of a diagonal block, Zeno-slow at large γ/J, brightening as J/γ grows until its light content ⟨n_XY⟩ reaches 1 and it crosses the line. The match with the generator's modes is a count; the crossing of each mode is not proved.
+
+**Where the exceptions were already standing.** At N = 2 to 5 the chain's smallest exceptional γ/J is the inverse of the Heisenberg spectral-gap threshold Q*_gap(N) of [D06](derivations/D06_SPECTRAL_GAP.md) and the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) §4.3, below which some mode decays slower than 2γ: Q*_gap = 1/2, √((1 + √17)/8) = 0.800243, 1/x₀ = 1.342243 with x₀ = 0.7450215 and 1/0.5496469 = 1.819350, the six decimals `absorption_ladder_regimes.py` bisects. At N = 2 this follows from the (1,1) pair by hand; at N = 3, 4, 5 it rests on two routes meeting, the exact root against the spectrum on both sides of it, where for γ just below γ* the gap is 2γ and for γ just above a real mode sits below it, and against the bisected decimals (gate G6). It is not a consequence of the theorem, which would also allow a complex pair to set the gap. So at N = 2 to 5 the gap threshold is the largest J/γ at which the F50 count is exceeded on the chain, and it is exact: closed forms at N = 2, 3, at N = 4 the root x₀ of 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = γ/J), and at N = 5 an algebraic number of degree 48 from the (2, 2) block. The event is the Heisenberg chain's handover: [HandoverFloorClaim](../../compute/RCPsiSquared.Diagnostics/Foundation/HandoverFloorClaim.cs) types it for the XY chain, a diagonal survivor whose light content rises until it meets the F50 floor ⟨n_XY⟩ = 1, and the [glossary](../GLOSSARY.md) reads the XY gap threshold as that handover. Since the theorem holds verbatim for XY, the XY ring's handover of [PROOF_RING_HANDOVER_SLOPE](PROOF_RING_HANDOVER_SLOPE.md), a real mode of the (2, 2) doublet reaching the floor (at Qq = √3 to leading order, in that proof's convention), is a point of the XY ring's exceptional set. At N = 3 the exceptions reach the registry's F33: the chain's rungs −2γ and −4γ hold 14 eigenvalues at every coupling sampled and 16 at the two points of E(3, chain) (the oscillating modes on those rungs lie outside the theorem, so the 14 elsewhere is measured). At N = 2 the same point is the coherence horizon's exceptional point Q*(2) = 1 in the carrier convention ([CoherenceHorizonClaim](../../compute/RCPsiSquared.Core/Symmetry/CoherenceHorizonClaim.cs), the F2b corollary), whose double root sits on the line. One rung up, on the XY chain at the frozen root −4γ̄, [THE_EXCEPTIONAL_COUPLINGS](../../experiments/THE_EXCEPTIONAL_COUPLINGS.md) and [PROOF_FROZEN_BAND_SO4](PROOF_FROZEN_BAND_SO4.md) Proposition 5.3 hold a result of the same shape, a count exact off a finite, non-empty set of couplings by a pencil argument, with the extra modes on the diagonal blocks. There a mode freezes onto the root; here a mode crosses the line.
+
+The sweep for this section went to the F50 entry and the D6 and F2b entries of the registry, this proof, the Absorption Theorem, D06, PROOF_CHAIN_GAP_DOMINANCE, PROOF_R90_FROZEN_DIVISOR, `experiments/DEGENERACY_PALINDROME.md` (whose equality criterion, d_real(k) = c_k exactly when every real eigenvector on the line has pure weight, is the general form of this fence), the glossary's Q table, the OpenArcs registry (the arc `site_resolved_vacuum_block` asked for this converse fence), `docs/CAUGHT_ERRORS.md`, `fw.Confirmations` (the XY chain's N = 3 exceptional point at Q*(3) = √2, a defective double root on −2γ in the (1,1) block: by the remark on XY above, a point of the XY chain's exceptional set, and the one a hardware entry names, though the flight did not resolve it), the typed claims F50, CoherenceHorizon, HandoverFloor and AbsorptionTheorem, the witnesses CoherenceHorizonWitness and IncompletenessSurvivorWitness, the F33 entry and claim, `experiments/THE_EXCEPTIONAL_COUPLINGS.md`, `experiments/WEIGHT2_KERNEL.md`, PROOF_FROZEN_BAND_SO4, PROOF_RING_HANDOVER_SLOPE, MirrorWorld's Formulas, and the F50 tests and scripts. The N = 2 pair on the line stood in the F50 entry and in the OpenArcs arc, not read as a failure of the count; the C# F50 tests pin it and the N = 3 point γ/J = √3; the gap threshold had no closed form. Checked for adjacency: the gap threshold, the handover (chain and XY ring), the coherence horizon at N = 2, F33's rung multiplicities and the frozen band's exceptional couplings are the results about the same object or the same shape, and none cited F50's count beside them.
 
 ---
 
@@ -385,7 +426,7 @@ contributions and graph extensions, are catalogued in the Appendix below
 
 ### What we found
 
-Native C# verification of F50 across topologies × N (sweep at J = γ = 1, counting pure-real Liouvillian eigenvalues at Re = -2γ, fully consistent across J ∈ [0.01, 5.0]):
+Native C# verification of F50 across topologies × N (sweep at J = γ = 1 in the C# spin convention, γ/J = 4 in the Pauli convention, outside every exceptional set computed, for N ≤ 4 and the N = 5 chain, counting pure-real Liouvillian eigenvalues at Re = -2γ):
 
 | Graph at given N | bonds | count at -2γ | 2N | diff |
 |---|---|---|---|---|
@@ -767,7 +808,8 @@ A complete closed-form formula `f(N, S, w)` exists in principle via Schur-Weyl +
 
 ### Status update
 
-The F50 formula `d_real(Re = −2γ) = 2N` should be read with the K_3 N=3 caveat:
+The F50 formula `d_real(Re = −2γ) = 2N` should be read with the K_3 N=3 caveat and with the exceptional couplings:
+- **At every γ/J outside a finite set E(N, G)**: at its points real modes of the diagonal blocks exceed the count ([The count at exceptional couplings](#the-count-at-exceptional-couplings)).
 - **Tier 1 lower bound `≥ 2N`**: rigorously proven via SWAP-invariant construction (Steps 1-4 of the original proof).
 - **Tier 2 upper bound `≤ 2N`**: empirically verified for chain N=2..7 and most other connected graphs at N ≥ 4, but **violated at N=3 K_3 by 2** (one S_3 standard 2-dim irrep contribution). The proof's Step 5 derivation has a matrix-commutator vs conjugation-action gap that explains the missed K_3 case.
 

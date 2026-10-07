@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-"""F50 Q4: efficient n_XY=1 commutant sweep — bypasses dense Liouvillian.
+"""F50 Q4: efficient n_XY=1 commutant sweep, bypassing dense Liouvillian.
 
-The F50 formula `d_real(-2γ) = 2N + δ_G(N)` counts Pauli operators A satisfying
-  L A = -2γ A  ⟺  [H_G, A] = 0  AND  n_XY(A) = 1
-where n_XY counts X- and Y-letters in A. The Z-dephasing dissipator acts diagonally
-on Pauli strings: D A = -2γ · n_XY(A) · A, so the eigenvalue λ = -2γ pins n_XY = 1.
+The F50 formula `d_real(-2γ) = 2N + δ_G(N)` counts operators A with
+  [H_G, A] = 0  AND  n_XY(A) = 1
+where n_XY counts X- and Y-letters in A; each satisfies L A = -2γ A. The Z-dephasing dissipator acts diagonally
+on Pauli strings: D A = -2γ · n_XY(A) · A, so a weight-1 commutant sits at λ = -2γ.
+The converse holds at every γ/J outside a finite exceptional set E(N, G), where
+real modes from the diagonal joint-popcount blocks (p,p), mixing n_XY = 0 with
+n_XY ≥ 2, also sit at -2γ (docs/proofs/PROOF_WEIGHT1_DEGENERACY.md, "The count at
+exceptional couplings"). This script counts the commutant, which is coupling-free,
+so it reads d_real off E.
 
 The n_XY=1 subspace has dimension 2N · 2^(N-1):
   - choose one of 2N (site, letter) positions for the X or Y
@@ -22,7 +27,7 @@ union n_XY ∈ {1, 3} subspace), then rank → kernel dim → δ_G(N).
   8 |       2048 |              ~17000
  10 |      10240 |              ~110000
 
-For Petersen N=10 the matrix is ~10240 × 110000 ≈ 1 G floats ≈ 8 GB — manageable
+For Petersen N=10 the matrix is ~10240 × 110000 ≈ 1 G floats ≈ 8 GB, manageable
 on a 32 GB machine via SciPy sparse; this script uses dense numpy for clarity at
 the cost of memory. Fall back to N ≤ 8 if Petersen exceeds available RAM.
 
@@ -273,7 +278,7 @@ GRAPH_SUITE = [
 
 def main():
     print("=" * 80)
-    print("F50 Q4: n_XY=1 commutant sweep — answers 'is K_3 N=3 the only anomaly?'")
+    print("F50 Q4: n_XY=1 commutant sweep: answers 'is K_3 N=3 the only anomaly?'")
     print("=" * 80)
     print()
     print(f"  {'graph':<54} {'edges':>5} {'2N':>4} {'dim':>5} {'δ':>5}")
@@ -295,7 +300,7 @@ def main():
     print("Interpretation")
     print("=" * 80)
     print("  δ = (n_XY=1 commutant dim) − 2N")
-    print("  δ = 0: F50 universal formula d_real(-2γ) = 2N holds")
+    print("  δ = 0: F50 universal formula d_real(-2γ) = 2N holds (off the exceptional set E)")
     print("  δ > 0: NEW anomaly beyond K_3 N=3")
     print()
     print("  Per PROOF_WEIGHT1_DEGENERACY.md Q4: Petersen + Q_3 cube + K_{3,3} are")

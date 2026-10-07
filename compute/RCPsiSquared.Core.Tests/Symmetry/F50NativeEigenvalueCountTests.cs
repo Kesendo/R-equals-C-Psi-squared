@@ -16,12 +16,16 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// counts eigenvalues whose real part is within tolerance of −2γ AND whose
 /// imaginary part is within tolerance of 0, and verifies the count matches
 /// <c>F50.TotalDegeneracy(N) = 2N</c>. Tested at the canonical J = γ = 1
-/// parameters for N = 2..5 — the regime where the docstring claims "verified
+/// parameters for N = 2..5, the regime where the docstring claims "verified
 /// N=2..7" via the same eigendecomposition.</para>
 ///
-/// <para>At very large J/γ (e.g. J ≥ 2γ at N = 2) the count can include
-/// accidental real degeneracies that aren't SWAP-invariants; those are
-/// outside F50's typical verified regime and not covered here.</para>
+/// <para>The count 2N holds at every γ/J outside a finite exceptional set,
+/// where a diagonal joint-popcount block (p, p) puts real modes that are not
+/// SWAP-invariants exactly on −2γ. In this C# spin convention J_s = 4J (Pauli),
+/// so J_s = 2γ is γ = 2J, the N = 2 exceptional point, where the count is 6. Two tests
+/// (ExceptionalCoupling_*) pin that point and the N = 3 chain's γ/J = √3. J = γ = 1 here is γ/J = 4 (Pauli), outside every
+/// exceptional set computed for N ≤ 4 and the N = 5 chain (PROOF_WEIGHT1_DEGENERACY § The count at
+/// exceptional couplings).</para>
 /// </summary>
 public class F50NativeEigenvalueCountTests
 {
@@ -29,9 +33,9 @@ public class F50NativeEigenvalueCountTests
     private const double J = 1.0;
     private const double Tol = 1e-6;
 
-    private static int CountPureRealEigenvaluesAt(int N, double targetRealPart)
+    private static int CountPureRealEigenvaluesAt(int N, double targetRealPart, double j = J)
     {
-        var L = new ChainSystem(N: N, J: J, GammaZero: Gamma,
+        var L = new ChainSystem(N: N, J: j, GammaZero: Gamma,
                                 HType: HamiltonianType.Heisenberg,
                                 Topology: TopologyKind.Chain).BuildLiouvillian();
         var eigs = L.Evd().EigenValues.ToArray();
@@ -69,16 +73,33 @@ public class F50NativeEigenvalueCountTests
         // Direct check against the integer constant 2N for N = 2..5.
         // Cross-validates F50.TotalDegeneracy against the SWAP-invariant
         // construction in the docstring (lower bound proven; upper bound
-        // proven; numerical here confirms both at canonical J = γ = 1).
+        // measured; numerical here confirms both at canonical J = γ = 1).
         int actual = CountPureRealEigenvaluesAt(N, -2.0 * Gamma);
         Assert.Equal(expected2N, actual);
+    }
+
+    [Fact]
+    public void ExceptionalCoupling_N2_AtJsEqualTwoGamma_CountIsSix()
+    {
+        // N = 2 at J_s = 2γ (γ = 2J Pauli): the (1,1) pair λ² + 4γλ + 16J² has its double root on
+        // −2γ (a defective pair; in floating point it splits by ~1e-8, inside the window), so the
+        // line holds 2N + 2 = 6 real eigenvalues.
+        Assert.Equal(6, CountPureRealEigenvaluesAt(2, -2.0 * Gamma, j: 2.0 * Gamma));
+    }
+
+    [Fact]
+    public void ExceptionalCoupling_N3Chain_AtGammaOverJEqualSqrt3_CountIsEight()
+    {
+        // N = 3 chain at γ/J = √3 (Pauli), J_s = 4γ/√3: one real mode from the (1,1) block and one
+        // from (2,2) join the line, semisimple, so the count is 2N + 2 = 8.
+        Assert.Equal(8, CountPureRealEigenvaluesAt(3, -2.0 * Gamma, j: 4.0 * Gamma / Math.Sqrt(3.0)));
     }
 
     [Fact]
     public void NativeSpectrum_NoExtraPureRealAtThreeGamma()
     {
         // Adjacent grid positions (Re = -γ, Re = -3γ) should NOT have 2N
-        // pure-real eigenvalues — F50 is specific to Re = -2γ. At N = 3
+        // pure-real eigenvalues; F50 is specific to Re = -2γ. At N = 3
         // these positions are not on the F50 grid; expect zero or far-from-2N
         // count.
         const int N = 3;

@@ -23,7 +23,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// non-zero mode of the FULL Liouvillian stops oscillating (the coherence hand freezes) at a
 /// slightly smaller Q, the handover Q_h = 1 / √2 / 1.87854 / 2.37217, the same pair's floor
 /// crossing; the two are one event at N=2,3 and separate from N=4. N=2 (Q*=1) is the exceptional point
-/// itself, where the ±J band mode ceases to be the gap mode.
+/// itself, where the ±J band mode ceases to be the gap mode. That coalescence on the line is F50's
+/// exceptional point at N=2, γ/J = 2 in the Pauli convention (carrier Q = 1), and at N=3 the XY EP at
+/// Q*(3) = √2 is a point of the XY chain's exceptional set (docs/proofs/PROOF_WEIGHT1_DEGENERACY.md, the
+/// count at exceptional couplings).
 ///
 /// <para>What the Hückel side supplies, and where it stops. The single-excitation block of H in the site
 /// basis IS the Hückel matrix at α=0, β=J: Jordan-Wigner sends (J/2)Σ(X_lX_{l+1} + Y_lY_{l+1}) onto the

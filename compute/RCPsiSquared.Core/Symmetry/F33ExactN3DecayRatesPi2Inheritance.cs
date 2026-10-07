@@ -6,11 +6,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>F33, the N=3 rate ladder (ANALYTICAL_FORMULAS F33):
 ///
 /// <code>
-///   Exact at every J (pure-weight rungs, multiplicities out of 64):
+///   Exact at every J (pure-weight rungs; positions at every coupling,
+///   multiplicities out of 64 at every γ/J sampled):
 ///     rate = 0·γ    ⟨n_XY⟩ = 0   mult 4    (kernel)
 ///     rate = 2·γ    ⟨n_XY⟩ = 1   mult 14   (pure weight-1)
 ///     rate = 4·γ    ⟨n_XY⟩ = 2   mult 14   (pure weight-2)
 ///     rate = 6·γ    ⟨n_XY⟩ = 3   mult 4    (XOR sector)
+///   At the two points of E(3, chain) = {√((√17 − 1)/2), √3} (γ/J) the
+///   2γ and 4γ rungs hold 16 each: 4, 16, 16, 4
+///   (docs/proofs/PROOF_WEIGHT1_DEGENERACY.md, the count at exceptional couplings).
+///   That fence reads only the real modes; that 4, 14, 14, 4 holds at every
+///   other coupling is measured, not proved.
 ///
 ///   A J/γ → ∞ limit only (each is a TRIPLE at finite J):
 ///     rate_2 →  8·γ / 3      ⟨n_XY⟩ → 4/3   (cross-sector mix)
@@ -34,7 +40,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// remain universal at all N. Topology-dependence
 /// of the internal spectrum starts already at N=3, not at N ≥ 4: on the triangle
 /// the 2.4607 level is absent and the pure-rung multiplicities are 4,16,16,4
-/// against the chain's 4,14,14,4.</para>
+/// against the chain's 4,14,14,4, both at every coupling sampled (the
+/// triangle's rise to 4,20,20,4 at γ/J = √3).</para>
 ///
 /// <para><b>Two independent information channels:</b> at N=3, frequency and
 /// decay are perfectly orthogonal (the imaginary and real parts of L
@@ -56,8 +63,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Clebsch-Gordan structure when weight sectors combine through the Heisenberg
 /// J·SWAP interaction.</para>
 ///
-/// <para>Tier1Derived: the pure-weight rungs are Tier 1 (exact at every J via
-/// N=3 diagonalization). The two fractional rates are Tier 1 as a J/γ → ∞
+/// <para>Tier1Derived: the pure-weight rungs are Tier 1 (positions exact at every
+/// J via N=3 diagonalization; multiplicities 4, 14, 14, 4 at every coupling sampled, 4, 16, 16, 4 at the points of E(3, chain)). The two fractional rates are Tier 1 as a J/γ → ∞
 /// limit, not as closed-form values at finite coupling. Valid for the N=3
 /// Heisenberg chain + Z-dephasing. Pi2-Foundation anchoring is composition
 /// through F50 + Pi2DyadicLadder.</para>
@@ -176,18 +183,18 @@ public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("F33 closed form",
-                summary: "exact at every J: 0 (kernel, mult 4), 2γ (w=1 pure, mult 14), 4γ (w=2 pure, mult 14), 6γ (XOR, mult 4); limit only: rate_2 → 8γ/3 and rate_3 → 10γ/3 (cross-sector mix, parity-preserving: w=0/w=2 and w=1/w=3, never w=1/w=2), each a triple at finite J whose lowest member approaches as 0.46·(γ/J)² and whose spread closes as 0.53·(γ/J)²");
+                summary: "positions exact at every J: 0 (kernel, mult 4), 2γ (w=1 pure, mult 14), 4γ (w=2 pure, mult 14), 6γ (XOR, mult 4), the multiplicities at every γ/J sampled, rising to 4, 16, 16, 4 at the two points of E(3, chain) = {√((√17 − 1)/2), √3} (PROOF_WEIGHT1_DEGENERACY, the count at exceptional couplings, whose fence reads only the real modes); limit only: rate_2 → 8γ/3 and rate_3 → 10γ/3 (cross-sector mix, parity-preserving: w=0/w=2 and w=1/w=3, never w=1/w=2), each a triple at finite J whose lowest member approaches as 0.46·(γ/J)² and whose spread closes as 0.53·(γ/J)²");
             yield return InspectableNode.RealScalar("WeightOneRateCoefficient (= a_0 = 2)", WeightOneRateCoefficient);
             yield return new InspectableNode("F50 specialization at N=3",
                 summary: $"F33's rate_1 = 2γ IS F50's universal weight-1 eigenvalue position. F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F33's WeightOneRateCoefficient.");
             yield return new InspectableNode("Absorption Theorem table",
-                summary: "rate_1 ↔ ⟨n_XY⟩ = 1 (pure weight-1, exact at every J); rate_2 ↔ ⟨n_XY⟩ → 4/3 and rate_3 ↔ ⟨n_XY⟩ → 5/3 (mixes, limit values, since the mixing weights themselves depend on J); the theorem α = 2γ·⟨n_XY⟩ holds exactly in both cases");
+                summary: "rate_1 ↔ ⟨n_XY⟩ = 1 (exact at every J; every real mode on it pure weight-1 off E(3, chain), where real modes mixing weight 0 with weight ≥ 2 join it, and the oscillating ones pure weight-1 at every coupling sampled); rate_2 ↔ ⟨n_XY⟩ → 4/3 and rate_3 ↔ ⟨n_XY⟩ → 5/3 (mixes, limit values, since the mixing weights themselves depend on J); the theorem α = 2γ·⟨n_XY⟩ holds exactly in both cases");
             yield return new InspectableNode("N=3 verified",
                 summary: $"rate_1(γ=0.05) = {Rate1(0.05):G6}; rate_2(γ=0.05) = {Rate2(0.05):G6}; rate_3(γ=0.05) = {Rate3(0.05):G6}; ratio 2/3 = {Rate2(1.0)/Rate3(1.0):F4} (= 4/5 = 0.8 exactly)");
             yield return new InspectableNode("two information channels",
                 summary: "at N=3 frequency (from H) and decay (from dissipator) are perfectly orthogonal channels; each rate factors into oscillation × decay cleanly");
             yield return new InspectableNode("universality breaks",
-                summary: "internal rates are topology-dependent already at N=3 (triangle rungs 4,16,16,4 vs chain 4,14,14,4); only the rung positions 2γ (weight-1, F50) and 2(N−1)γ (F3 band top) remain universal");
+                summary: "internal rates are topology-dependent already at N=3 (triangle rungs 4,16,16,4 vs chain 4,14,14,4, both at every coupling sampled; the triangle's 4,20,20,4 at γ/J = √3); only the rung positions 2γ (weight-1, F50) and 2(N−1)γ (F3 band top) remain universal");
         }
     }
 }

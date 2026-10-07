@@ -76,9 +76,11 @@ attractor, a physical interval, or a trajectory law.
    Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
 
 8. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
-   The Liouvillian has exactly 2N purely-real eigenvalues at the first
-   non-zero grid position. Proven via SWAP invariance (lower bound)
-   and triangle inequality (upper bound). Valid for any connected graph.
+   The Liouvillian has 2N purely-real eigenvalues at the first
+   non-zero grid position. The lower bound is proven via SWAP invariance
+   on any connected graph; equality is verified on the chain N = 2..7 and
+   the tested graphs, except K₃ at N = 3 (2N + 2) and a finite set of
+   exceptional couplings γ/J where the count is exceeded.
    The T_c^{(a)} operators are Z-count-dressed transverse spin.
 
 **The full journey:**
@@ -150,7 +152,7 @@ synthesized.
 | Internal noise candidates eliminated | 0; the survey constrains forms but does not determine origin | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | 1/√48 ≈ 14% of its two legs, γ-independent (1.8% of ‖L_c²‖ at γ = 0.05) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
-| Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |
+| Weight-1 degeneracy d_real(1) | ≥ 2N proven (any connected graph); = 2N verified (chain N = 2..7), except K₃ at N = 3 and finitely many γ/J | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |
 | Direct-sum sector dimension | 2^(2N−1) each (equal halves) | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |
 | Odd N: Π exchanges sectors | V_even ↔ V_odd | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |
 | Crossing cubic root | x ≈ 0.4239 (x³+x=½) | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |

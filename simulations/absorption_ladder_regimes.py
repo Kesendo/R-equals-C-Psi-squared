@@ -103,7 +103,15 @@ def levels(values, tol=1e-6):
 
 
 def check_n3_ladder():
-    """The four pure-weight rungs are exact at every J; multiplicities close to 64."""
+    """The four pure-weight rung positions are exact at every J; multiplicities close to 64.
+
+    The multiplicities 4, 14, 14, 4 hold at every coupling sampled here, all of which lie
+    off the chain's exceptional set E(3, chain) = {sqrt((sqrt(17) - 1)/2), sqrt(3)}; at
+    its points the 2 and 4 rungs hold 16 each
+    (docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings). That
+    fence reads only the real modes, so the counts at every other coupling are measured,
+    not proved.
+    """
     print("N=3 rate ladder (units of gamma)")
     for coupling, gamma in ((CANONICAL_J, CANONICAL_GAMMA), (1.0, 0.05), (1.0, 0.3), (1000.0, 0.3)):
         lv = levels(rates(3, coupling, gamma))
@@ -116,7 +124,8 @@ def check_n3_ladder():
             assert hit[0][1] == expected_mult, f"rung {rung}: {hit[0][1]} != {expected_mult}"
         print(f"  J/gamma={coupling / gamma:>8.1f}: "
               + "  ".join(f"{v:.4f}x{m}" for v, m in lv))
-    print("  rungs 0(x4), 2(x14), 4(x14), 6(x4) exact at every J -> 36 modes;")
+    print("  rung positions 0, 2, 4, 6 exact at every J; at the couplings sampled")
+    print("  they hold 0(x4), 2(x14), 4(x14), 6(x4) -> 36 modes;")
     print("  the two mixed bands carry 14 each -> 36 + 28 = 64\n")
 
 

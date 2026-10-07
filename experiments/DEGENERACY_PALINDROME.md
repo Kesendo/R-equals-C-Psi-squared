@@ -173,7 +173,9 @@ Verified for all N = 2, ..., 7.
 ### d_real(1) = d_real(N − 1) = 2N
 
 At the first non-boundary grid position Re = −γ, exactly 2N eigenvalues
-are purely real. This gives two non-oscillatory decay modes per qubit
+are purely real, at the document's coupling and at every ratio γ/J off a
+finite exceptional set, where a real weight-mixing mode joins them
+([the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)). This gives two non-oscillatory decay modes per qubit
 site.
 
 The weight-1 Pauli sector contains N · 2^N strings (choose 1 of N sites
@@ -220,7 +222,8 @@ from Result 4.
 
 ### d_total(1) = 6N − 4 for N ≥ 3
 
-The total count at the first non-boundary position decomposes cleanly:
+The total count at the first non-boundary position, at every coupling sampled,
+decomposes cleanly:
 
 ```
 d_total(1) = d_real(1) + d_complex(1) = 2N + 4(N − 1) = 6N − 4
@@ -229,8 +232,11 @@ d_total(1) = d_real(1) + d_complex(1) = 2N + 4(N − 1) = 6N − 4
 The 4(N − 1) complex eigenvalues form 2(N − 1) conjugate pairs:
 oscillatory modes at the minimal nonzero dephasing rate.
 
-Verified for N = 3, ..., 7. (N = 2 is anomalous with d_total = 10
-because all eigenvalues are on-grid.)
+Verified for N = 3, ..., 7. That it holds at every other coupling is measured, not proved:
+the fence of [the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)
+reads only the real modes, and at its finite set of points real modes of the diagonal
+blocks join the line, so the total rises there (to 16 at N = 3, at k = 1 and k = 2).
+(N = 2 is anomalous with d_total = 10 because all eigenvalues are on-grid while the (1,1) pair sits on the line, up to F50's N = 2 exceptional point; beyond it the pair leaves the line and the count is 8.)
 
 ### Pauli weight sector comparison
 
@@ -371,7 +377,7 @@ gate-first) separates what is universal from what is graph-specific.
 
 **Almost universal:**
 
-- **d_real(1) = 2N** holds for every topology at **N ≥ 4**. The lone exception is **N = 3**, where
+- **d_real(1) = 2N** holds for every topology tested at **N ≥ 4**, off a finite set of γ/J. The lone exception is **N = 3**, where
   ring = complete = the triangle K₃ gives d_real(1) = 8 (not 6). The triangle's full S₃ symmetry
   supports two extra SWAP-invariant weight-1 modes; chain = star = P₃ (the path) gives the generic
   6. So 2N is the path/sparse value, the maximally connected K₃ is the lone exception, and from
@@ -433,7 +439,7 @@ At k = 0 and k = 1 this is N + 1 and 2N, the boundary values of Result 2 (the k 
 
 The equalities are exact here, a second route beside the census: the lower bounds are exact elements (the multisets and the rational corner commutant), the upper bounds are ranks modulo two primes, block by block. At N = 9 the stored d_real(2) = 30 meets the lower bound, so c_2 = 30 there too.
 
-**Where d_real exceeds c_k.** Real modes that mix weights have so far appeared only in the center block (N/2, N/2) at even N: the chain and the ring at N = 4, one each in (2,2) (chain c_2 = 13 against d_real(2) = 14, [Weight-2 Kernel](WEIGHT2_KERNEL.md); ring c_2 = 23 against 24, exact), and the chain at N = 8, whose (4,4) block carries two real eigenvalues on the center line against a weight-4 commutant of one there (J = 1, canonical γ = 0.05: both within 10⁻¹² of the line, the next 1.2·10⁻³ away). The block-decomposed count (`block_dreal` of [`dreal_block_decomposed.py`](../simulations/dreal_block_decomposed.py)) gives the chain's N = 8 row as **[9, 16, 27, 24, 26, 24, 27, 16, 9]** (measured), equal to c_k everywhere except the center. On ring, star and complete at N = 4..6 the modular commutant counts equal the stored d_real rows everywhere except the ring at N = 4 (gate G5, measured).
+**Where d_real exceeds c_k.** At generic coupling, real modes that mix weights have so far appeared only in the center block (N/2, N/2) at even N; at F50's exceptional couplings ([the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)) they appear on the rung k = 1 as well, in the diagonal blocks (p, p). At generic coupling: the chain and the ring at N = 4, one each in (2,2) (chain c_2 = 13 against d_real(2) = 14, [Weight-2 Kernel](WEIGHT2_KERNEL.md); ring c_2 = 23 against 24, exact), and the chain at N = 8, whose (4,4) block carries two real eigenvalues on the center line against a weight-4 commutant of one there (J = 1, canonical γ = 0.05: both within 10⁻¹² of the line, the next 1.2·10⁻³ away). The block-decomposed count (`block_dreal` of [`dreal_block_decomposed.py`](../simulations/dreal_block_decomposed.py)) gives the chain's N = 8 row as **[9, 16, 27, 24, 26, 24, 27, 16, 9]** (measured), equal to c_k everywhere except the center. On ring, star and complete at N = 4..6 the modular commutant counts equal the stored d_real rows everywhere except the ring at N = 4 (gate G5, measured).
 
 So the dip at the even-N center is, as far as computed, a small-N event: at N = 6 the center k = 3 sits on its bound, 16, beside k = 2 and 4 that carry the corner excess, 19; at N = 8 the neighbours of the center are interior and the center is above them, 26 against 24.
 
@@ -489,8 +495,9 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
    [A lower bound at every k](#a-lower-bound-at-every-k-and-the-chains-commutant-counts)); the
    uniform chain's commutant count c_k meets it for 3 ≤ k ≤ N−3 (at N = 6..8) and exceeds it by the
    corner rows at k = 2, N−2 (exact at N = 5..8). Open: a closed form for the excess above the bound on ring, star
-   and complete, and where real modes that mix weights occur (so far the even-N center block only:
-   chain and ring at N = 4, chain at N = 8). See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
+   and complete, and where real modes that mix weights occur (at generic coupling so far the even-N center block only:
+   chain and ring at N = 4, chain at N = 8; at F50's exceptional couplings also the rung k = 1, in
+   the blocks (p, p), [the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)). See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
 
 3. **Center minimum at N = 6.** The real degeneracy at the center
    of N = 6 is 16, less than the adjacent values 19. In the chain's

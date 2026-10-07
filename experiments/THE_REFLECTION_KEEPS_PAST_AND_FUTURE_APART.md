@@ -73,7 +73,8 @@ reflection; [F118 and F119](../docs/ANALYTICAL_FORMULAS.md) hold the maps that
 turn L(H) into L(−H) = L†, the transpose and the antilinear triangle;
 [F33](../docs/ANALYTICAL_FORMULAS.md) is the N = 3 rate ladder, with the sentence
 that on the triangle the 2.4607 level is absent and the pure-rung multiplicities
-are 4, 16, 16, 4 against the chain's 4, 14, 14, 4; [F50](../docs/ANALYTICAL_FORMULAS.md)
+are 4, 16, 16, 4 against the chain's 4, 14, 14, 4 (both at every coupling
+sampled; the triangle's rise to 4, 20, 20, 4 at γ/J = √3); [F50](../docs/ANALYTICAL_FORMULAS.md)
 records the triangle's extra weight-1 modes; [F73](../docs/ANALYTICAL_FORMULAS.md)
 holds a 4γ law of a neighbouring kind, the spatial-sum coherence purity of a
 vacuum-to-single-excitation probe decaying as ½e^(−4γt) for every

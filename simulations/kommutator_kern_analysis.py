@@ -2,7 +2,9 @@
 Commutator kernel analysis: dim(ker([H, ·]|_{w=1})) = 2N
 ==========================================================
 For the Heisenberg chain with Z-dephasing, the 2N purely-real eigenvalues
-at Re = -2γ correspond to weight-1 operators that commute with H.
+at Re = -2γ correspond to weight-1 operators that commute with H, at every
+γ/J off a finite exceptional set (docs/proofs/PROOF_WEIGHT1_DEGENERACY.md,
+"The count at exceptional couplings").
 
 This script computes the kernel of the commutator map [H, ·] restricted
 to the weight-1 Pauli sector, verifies dim(ker) = 2N, and identifies
