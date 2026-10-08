@@ -125,6 +125,14 @@ A leg ⟨i|n_l|i'⟩ is DEAD iff
   more than the rule needs). The same zero makes every diagonal exact,
   ⟨i|n_l|i⟩ = 1/2, which kills the i = i' factor (1 − 2⟨i|n_l|i⟩).
 
+The same two zeros are the selection rules of F50's population compression
+W_p = Σ_l n_l ∘ n_l, whose entries are these legs squared and summed over the
+sites: the triangle zero makes W_p block-tridiagonal in total spin, the
+Clebsch–Gordan factor makes the whole family over p one reduced matrix, and
+the half-filling zero makes W_{N/2} bipartite with the diagonal N/4, so its
+spectrum is mirrored μ ↔ N/2 − μ
+([the sector's spin structure](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)).
+
 **The rule:** a mixed eigenspace breaks C_l = 0 iff some cross-parity dyad
 pair has BOTH legs alive. The two directions carry different weight. The HOLD
 direction is a theorem: R-conjugation makes the C_l element of a cross-parity

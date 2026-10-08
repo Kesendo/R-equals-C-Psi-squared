@@ -151,6 +151,14 @@ combination of the M_S, lies at ω = 0. Being supported on one class, T_s is
 class-pure: **T_s ∈ Ω_s of the ω = 0 eigenspace, for every block and every
 class.** ∎
 
+On a diagonal block (p, p) with a simple sector spectrum the M_S are the
+spin-shell sums of the eigenstate populations, and the lemma with the class
+purity of T_s gives F50's population compression W_p = Σ_l n_l ∘ n_l (n_l the
+site occupation, not this document's N_l) an exact invariant block with the
+eigenvalue p − s/2 on T_s, s = 0, 2, …, 2·min(p, N − p), so T_{2p} is in its
+kernel for p ≤ N/2 at every N with a simple sector spectrum
+([the sector's spin structure](PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)).
+
 **Lemma A2 (double count).** ⟨T̂_s, N_l T̂_s⟩ = s/N for every l, where T̂_s is
 T_s normalized.
 
