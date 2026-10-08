@@ -1279,10 +1279,10 @@ def gate11_strict_inequality_by_construction():
 
 
 # ---------------------------------------------------------------------------
-# Gate 12: N = 5 in BOTH directions, on two routes
+# Gate 12: N = 5, the rows on which the criterion can fail, on two routes
 
 def gate12_n5_both_directions(random_rows=8):
-    """N = 5 in both directions.
+    """N = 5: the rows on which the criterion can fail, on two routes.
 
     Through gate 7, N = 5 is reached by F103's three rows only, all three
     with agreeing counts and a pairing spectrum. Rows with DIFFERING counts,
@@ -1306,31 +1306,39 @@ def gate12_n5_both_directions(random_rows=8):
 
     The bisector row is the one that matters most: one Z jump on the middle
     site, an X field on site 0 and a Y field on site 4 of EQUAL magnitude. No
-    single Pauli string is in the far kernel there (checked over all 1024
-    strings), the counts agree, and the spectrum pairs: F158's "if" beyond any
-    colouring, at N = 5 and five sites apart. Its control, the same row with
-    the magnitudes unequal, breaks, as at N = 3. And the same row with Z jumps
-    on sites 1 to 3 breaks too, with an empty far kernel: the site reflection
-    carries Z_1 to Z_3, so the element negates the jump SET and not each jump
-    in place, and F158's far end asks for each jump in place. A symmetry of H
-    that permutes the jumps is a copy, never a reflection.
+    single Pauli string is in the far kernel there (the 1023 non-identity
+    strings tried, exactly), the counts agree, and the spectrum pairs: F158's
+    "if" beyond any colouring, at N = 5 and five sites apart. Its control, the
+    same row with the magnitudes unequal, breaks, as at N = 3. The same row
+    with Z jumps on sites 1 to 3 breaks too, its far kernel zero on both
+    routes; the U-family element is not in it, since the site reflection
+    carries Z_1 to -Z_3 and so negates the jump SET and not every jump in
+    place, which W asks for (Lemma 1; EndCount.SymmetryElement builds under
+    the same condition). At equal rates the two-sided Ad_U is then a copy and
+    the one-sided action no reflection.
 
-    Controls through the same door: the matching at the wrong centre
-    -2*sigma*11/10 and the modular palindrome at the wrong shift must both call
+    Which rows can fail. On a row with dim W = 0 nothing can: the identity is
+    in N, so the counts differ, and L is unital, so 0 is an eigenvalue and a
+    pairing would need an eigenvector at -2 sigma, which is an element of W.
+    Such rows only show the two routes agreeing. The rows that could fail are
+    those with agreeing counts (a break there would be a false positive) and
+    the strict rows 0 < dim W < dim N (a pairing there would be a false
+    negative). The strict row is BUILT, gate 11's construction at d = 32:
+    H = (1 + Z_4) X_0 + (1 - Z_4)(Z_0 + 5) with the one jump Z_0, two blocks
+    of disjoint spectra, the first carrying an invertible anticommuting
+    element and the second none, so W is nonzero and entirely singular.
+
+    Controls through the same door: the matching with the centre moved to
+    -1.1 sigma and the modular palindrome at the wrong shift must both call
     every holding row broken. Thresholds are read as separations in decades
     (the worst holding row against the best breaking row, on the matching
-    distance and on the singular values; the wrong centre's smallest distance
+    distance and on the singular values; the moved centre's smallest distance
     against the worst holding row), the convention gate 9 set.
-
-    One limit, stated rather than hidden: every breaking row here has dim W = 0,
-    where the break follows from Lemma 2 alone (0 is always an eigenvalue and
-    -2 sigma then has multiplicity 0). The strict case 0 < dim W < dim N is
-    gate 11's, at d = 4; no N = 5 row reaches it.
     """
     from scipy.optimize import linear_sum_assignment
     from f138_clause_two_sweep import FIELD_NUM, FIELD_DEN
     print()
-    print('## Gate 12: N = 5 in both directions, on two routes')
+    print('## Gate 12: N = 5, the rows on which the criterion can fail, on two routes')
     print()
     print('  Rows built to hold, rows built to break and random rows at')
     print('  N = 5, each read modular and float, the two routes compared')
@@ -1365,17 +1373,18 @@ def gate12_n5_both_directions(random_rows=8):
         for s in range(n):
             if fld[s]:
                 H += (signs[s] * mags[s] / FIELD_DEN) * strop(one_site(fld[s], s))
+        jumps = [strop(one_site(deph[s], s)) for s in range(n) if deph[s]]
+        return float_from(H, jumps)
+
+    def float_from(H, jumps):
+        d = 2 ** n
         ident = np.eye(d, dtype=complex)
         L = -1j * (np.kron(H, ident) - np.kron(ident, H.T))
         g = GAMMA[0] / GAMMA[1]
         sigma = 0.0
-        jumps = []
-        for s in range(n):
-            if deph[s]:
-                A = strop(one_site(deph[s], s))
-                jumps.append(A)
-                L += g * np.kron(A, A.T) - g * np.eye(d * d, dtype=complex)
-                sigma += g
+        for A in jumps:
+            L += g * np.kron(A, A.T) - g * np.eye(d * d, dtype=complex)
+            sigma += g
         ev = np.linalg.eigvals(L)
 
         def match(centre):
@@ -1398,6 +1407,9 @@ def gate12_n5_both_directions(random_rows=8):
             Hm = build_H_words(n, edges, list(words), P)
             Jm = [G.string_op(one_site(deph[s], s), P) for s in range(n) if deph[s]]
             L, shift = build_L_raw(Hm, Jm, GAMMA[0], GAMMA[1], P)
+        return modular_from(L, shift)
+
+    def modular_from(L, shift):
         D = L.shape[0]
         eye = np.eye(D, dtype=np.int64)
         nN = D - rank_mod(L, P)
@@ -1418,14 +1430,21 @@ def gate12_n5_both_directions(random_rows=8):
         return nN, nW, pal_at(shift), pal_at(wrong)
 
     def single_string_in_far_kernel(H, jumps):
-        """Is some Pauli string in W = {[H,F] = 0, A F = -F A for all A}?"""
+        """Is some non-identity Pauli string in W = {[H,F] = 0, A F = -F A for all A}?
+
+        Exact: FIELD_DEN * H has Gaussian-integer entries (J = 1, fields
+        n/FIELD_DEN with FIELD_DEN = 100, the assert below the guard), and a
+        Pauli string is a signed permutation, so both products are exact in
+        float64 and the residuals are compared with == 0."""
+        Hi = np.round(FIELD_DEN * H)
+        assert np.abs(Hi - FIELD_DEN * H).max() == 0.0
         for s in itertools.product((0, 1, 2, 3), repeat=n):
             if not any(s):
                 continue
             F = strop(s)
-            if np.abs(H @ F - F @ H).max() > 1e-12:
+            if np.abs(Hi @ F - F @ Hi).max() != 0.0:
                 continue
-            if all(np.abs(A @ F + F @ A).max() < 1e-12 for A in jumps):
+            if all(np.abs(A @ F + F @ A).max() == 0.0 for A in jumps):
                 return ''.join('IXYZ'[t] for t in s)
         return None
 
@@ -1470,6 +1489,22 @@ def gate12_n5_both_directions(random_rows=8):
                            ''.join('+' if t > 0 else '-' for t in signs)),
                         deph, fld, signs, HEIS, FIELD_NUM, None))
 
+    # the strict row, gate 11's construction at d = 32: two blocks of disjoint
+    # spectra, split by Z_4, the first carrying X_0 (anticommuting with the
+    # one jump Z_0, so its anticommutant holds invertible elements) and the
+    # second Z_0 + 5 (commuting with it, so its anticommutant is zero); W is
+    # nonzero and entirely singular, the counts differ, and a pairing here
+    # would be a false negative
+    def strict_row():
+        d = 2 ** n
+        Z4, X0, Z0 = strop(one_site(3, 4)), strop(one_site(1, 0)), strop(one_site(3, 0))
+        Hs = (np.eye(d) + Z4) @ X0 + (np.eye(d) - Z4) @ (Z0 + 5 * np.eye(d))
+        assert np.abs(Hs - np.round(Hs.real)).max() == 0.0
+        Hm = (np.round(Hs.real).astype(np.int64) % P)
+        Jm = [G.string_op(one_site(3, 0), P)]
+        Lm, sh = build_L_raw(Hm, Jm, GAMMA[0], GAMMA[1], P)
+        return float_from(Hs, [Z0]), modular_from(Lm, sh)
+
     holds = breaks = 0
     agree_hold = agree_break = differ_hold = differ_break = 0
     route_verdict_mismatch = route_nullity_mismatch = 0
@@ -1479,10 +1514,15 @@ def gate12_n5_both_directions(random_rows=8):
     wrong_centre_min = np.inf
     strict = 0
     bisector_string = 'unread'
-    for name, deph, fld, signs, bt, mags, expected in built + randoms:
+    strict_name = 'strict: H = (1 + Z4) X0 + (1 - Z4)(Z0 + 5), jump Z0 (gate 11 at d = 32)'
+    for name, deph, fld, signs, bt, mags, expected in built + [(strict_name,) + (None,) * 6] + randoms:
         t0 = time.time()
-        H, jumps, sigma, dist, dist_wrong, svL, svW = float_side(deph, fld, signs, bt, mags)
-        nN, nW, pal_m, pal_wrong = modular_side(deph, fld, signs, bt, mags)
+        if name == strict_name:
+            (H, jumps, sigma, dist, dist_wrong, svL, svW), (nN, nW, pal_m, pal_wrong) = strict_row()
+            expected = False
+        else:
+            H, jumps, sigma, dist, dist_wrong, svL, svW = float_side(deph, fld, signs, bt, mags)
+            nN, nW, pal_m, pal_wrong = modular_side(deph, fld, signs, bt, mags)
         cut = 1e-9 * max(1.0, svL[0])
         nf, nw = int(np.sum(svL < cut)), int(np.sum(svW < cut))
         for sv in (svL, svW):
@@ -1517,6 +1557,15 @@ def gate12_n5_both_directions(random_rows=8):
             gate('N=5 built row expected %s: %s' % ('HOLD' if expected else 'BREAK', name),
                  pal_m == expected and (nN == nW) == expected,
                  'dimN=%d dimW=%d palindrome=%s' % (nN, nW, pal_m))
+        if name == strict_name:
+            # the dimensions are DERIVED, not read: H = 2 P+ X0 + 2 P- (Z0 + 5)
+            # with P+- = (1 +- Z4)/2 has four eigenspaces of dimension 8, so
+            # its commutant has dimension 4 * 64; Ad(Z0) swaps the two X0
+            # eigenspaces (64 to N, 64 to W) and fixes each Z0 eigenspace of
+            # the other block (128 to N, nothing to W)
+            gate('N=5 strict row: 0 < dim W < dim N with (dim N, dim W) = (192, 64), and the spectrum breaks',
+                 (nN, nW) == (192, 64) and not pal_m and not pal_f,
+                 'dimN=%d dimW=%d palindrome=%s/%s' % (nN, nW, pal_m, pal_f))
     print()
     gate('N=5: the counts agree on every pairing row and differ on every broken one (modular)',
          agree_break == 0 and differ_hold == 0 and holds > 0 and breaks > 0,
@@ -1571,14 +1620,16 @@ def gate12_n5_both_directions(random_rows=8):
          'the middle jump negated in place; jump 1 carried onto jump 3, not negated in place')
     gate('and the control: with the site-4 field doubled the element no longer fixes H',
          np.abs(Ue @ (X0 + 2 * Y4) - (X0 + 2 * Y4) @ Ue).max() != 0.0,
-         'residual %.1f' % np.abs(Ue @ (X0 + 2 * Y4) - (X0 + 2 * Y4) @ Ue).max())
+         'largest entry of the commutator, for the unit element: %.1f'
+         % (np.abs(Ue @ (X0 + 2 * Y4) - (X0 + 2 * Y4) @ Ue).max() / 2 ** (n / 2)))
     sep = np.log10(best_break / max(worst_hold, 1e-300))
     svsep = np.log10(sv_live / max(sv_zero, 1e-300))
     gate('N=5: the spectral threshold is a law, not a number', sep > 6,
          'worst hold %.1e, smallest break %.1e, %.1f decades apart' % (worst_hold, best_break, sep))
     gate('N=5: and so is the singular-value threshold', svsep > 6,
          'largest zero %.1e, smallest live %.1e, %.1f decades apart' % (sv_zero, sv_live, svsep))
-    print('  rows with 0 < dim W < dim N at N = 5: %d (read, not gated)' % strict)
+    gate('N=5 sample: one strict row, the built one; the random rows of this seed are not strict (a statement about the sample)',
+         strict == 1, 'strict rows %d of %d breaking rows' % (strict, breaks))
 
 
 def main():

@@ -6723,7 +6723,7 @@ thermal case obstructed while its own body computed the valid pairing.
 ---
 
 <a id="f138"></a>
-### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition for bonds built of terms P⊗P, its two-term proviso holding with one dephasing axis per site and one bond letter per component; the one-colour case of a colouring of the graph; the converse is false, failing at fewer bond letters, at coincident field magnitudes and, at N = 3, at fields off the letters on the full bond, and F158 decides the setting exactly; minted 2026-07-21)
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (Tier 1 as the one-colour corollary of F158; a sufficient condition for bonds built of terms P⊗P, its two-term proviso holding with one dephasing axis per site and one bond letter per component; the one-colour case of a colouring of the graph; the converse is false, failing at fewer bond letters, at coincident field magnitudes and, at N = 3, at fields off the letters on the full bond, and F158 decides the setting exactly; minted 2026-07-21)
 
 For H a sum of bonds built of terms P⊗P, the same letter on both ends (Heisenberg, XXZ,
 XX + YY, ZZ), and one-site fields, the dephasing palindrome about −Σγᵢ holds **when**,
@@ -6970,24 +6970,30 @@ clause 2:
 on the exact kernel
 [`simulations/f138_exact_palindrome_test.py`](../simulations/f138_exact_palindrome_test.py)
 (run it directly, it self-tests its own escape channels).
-**Proof:** the Scope paragraphs of
-[MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
-(`1c7dcf9`, field-free clause refined in `08db70e`) carry the SUFFICIENT
-direction, and they carry it as a measured census rather than as a derivation:
-every qualifier there is reported as a row count (256/256 against 1/256, 64/64
-against 0/64). Read as a proof of the *only when* half it would contradict this
-very row, which counts that half failing in its letter-field sweeps at fewer bond letters and at
-coincident field magnitudes. That paragraph does not derive the clauses; this
-row's colouring paragraph does.
-[F158](#f158) decides the same
+**Proof:** [F158](#f158),
+[the two-end count](proofs/PROOF_PALINDROME_TWO_END_COUNT.md), through its
+sufficiency half, which is [THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md)'s
+and older than F158: a Pauli string in the far kernel is unitary, hence
+invertible, and carries the palindrome. This row's colouring paragraph reads
+clauses 1 and 2, with the two-term proviso, as the one-colour solutions of that
+string's letter conditions, and the paragraph after it gives the construction
+the other way, one letter anticommuting with every axis present and along the
+field colouring every site; a field direction that is not a letter is reached
+by the gauge rotation about the dephasing axis named with clause 2, a
+similarity that fixes the jump. So the clauses are a corollary of F158 and the
+sufficient direction is proved. F158 decides the same
 setting exactly (a dephasing axis n̂·σ⃗ is Hermitian and squares to 1, and
 on-site fields sit inside H, so every configuration this row sweeps is inside
-its class): these clauses are a
-sufficient condition whose exceptions are the configurations where the clauses
-fail and an invertible U exists anyway. Whether F158 becomes this Proof field's
-anchor is argued in the arc `f138_converse_failures`. **Typed:** not
-yet (Tier1Candidate). Open: typing; the
-F158 anchor move.
+its class), and the exceptions are the configurations where the clauses fail
+and an invertible element exists anyway. The Scope paragraphs of
+[MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md) carry the same
+direction as a measured census, every qualifier a row count (256/256 against
+1/256, 64/64 against 0/64), and do not derive the clauses; read as a proof of
+the *only when* half they would contradict this very row, which counts that
+half failing at fewer bond letters and at coincident field magnitudes.
+**Typed:** not yet; the home is a Tier1Derived corollary claim beside
+`PalindromeTwoEndCountClaim`, whose witness `inspect --root twoend` already
+reads every row of the clauses' class. Open: typing.
 
 ### F139. The seam identity: the F134 wall is a Chebyshev divisor (a chain of six lemmas ending in a finite exact-ℤ division; a priori from the F133 letters; minted 2026-07-21)
 
@@ -9473,10 +9479,10 @@ route and whose sufficiency calculation is consumed unchanged.
 **Gate:** [`simulations/f138_rank_criterion.py`](../simulations/f138_rank_criterion.py)
 → [`f138_rank_criterion.txt`](../simulations/results/f138_rank_criterion.txt):
 15,415 rows scored against the palindrome in both directions with FP = 0 and
-FN = 0, the two nullities read at one prime (each an upper bound on the rational one) and the
+FN = 0 (a false negative was possible only on the 212 strict rows 0 < dim 𝒲 < dim 𝒩, the identity in 𝒩 and the unital L forcing the other breaking rows), the two nullities read at one prime (each an upper bound on the rational one) and the
 palindrome side at three primes and two evaluation points on the 13,540 rows of the letter grids and at
 one prime and six points on the other 1,875, evidence rather than proof; 217 of the rows have no jump, sit
-outside the theorem's class and hold trivially (σ = 0, 𝒩 = 𝒲); at N = 5 both directions on 22 rows read on two routes, among them the bisector row whose far kernel holds no single Pauli string and whose element, the site reflection composed with the half-turn about (X + Y)/√2, is checked exactly (gate 12); beside two layers that encode the conditions
+outside the theorem's class and hold trivially (σ = 0, 𝒩 = 𝒲); at N = 5 ten rows with agreeing counts and one strict row 0 < dim 𝒲 < dim 𝒩, the two kinds on which a row can fail, read on two routes, among them the bisector row whose far kernel holds no single Pauli string and whose element, the site reflection composed with the half-turn about (X + Y)/√2, is checked exactly (gate 12); beside two layers that encode the conditions
 differently on fewer rows: exact ℚ(i) with Fraction arithmetic on seven named rows
 (Gate 1), and a float route on 885 rows that shares no construction code with the
 other two and whose thresholds are gated on measured separations of 10.6 and 11.9
@@ -9496,8 +9502,8 @@ strings (the proof's second corollary to Lemma 1), past the witness's N = 4 (the
 canonical chain is pinned there to N = 10), and computes §(f5)'s odd-word
 pre-filter. In the typed layer the same route is live at `inspect --root
 twoendstrings` (`PalindromeStringSpanWitness`, the one-jump words, N up to 12),
-which reads `twoend` beside itself at N ≤ 4. Open: whether F158 should become
-F138's Proof anchor, argued in the arc `f138_converse_failures`.
+which reads `twoend` beside itself at N ≤ 4. F158 is [F138](#f138)'s Proof
+anchor, the clauses its one-colour corollary through the colouring.
 
 ---
 

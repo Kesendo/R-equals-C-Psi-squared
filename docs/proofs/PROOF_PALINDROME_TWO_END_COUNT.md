@@ -671,8 +671,12 @@ The gate scores dim 𝒩 and dim 𝒲 from the operator equations, the commutant
 the jump-signed anticommutant; that these are dim ker L and dim ker(L + 2σ) is
 Lemma 1, checked exactly on gate 1's seven rows and in floats on gate 9's 885.
 
-**All 128 gates pass.** The criterion is scored against the palindrome on
-**15,415 rows**, in both directions, of which **2,596 hold and 12,819 break**:
+**All 131 gates pass.** The criterion is scored against the palindrome on
+**15,415 rows**, in both directions, of which **2,596 hold and 12,819 break**
+(a false positive could have occurred on any holding row; a false negative
+only on a breaking row with 0 < dim 𝒲 < dim 𝒩, the 212 strict rows counted
+below, since on the others the identity in 𝒩 forces the counts apart and the
+unital L cannot pair without an element of 𝒲):
 
 | what is scored | rows | holds | FP | FN |
 |---|---:|---:|---:|---:|
@@ -709,7 +713,7 @@ Beside the scoring, and on rows where the palindrome is not consulted at all:
 | §(f5), odd d | d = 3, 5, 24 random Hermitian H and 4 multiples of 1 (where dim 𝒲 > 0) | `dim 𝒲 < dim 𝒩` always, so by Lemma 3 no invertible element (a sampled search agrees) |
 | gate 10, depolarizing and the rate fence | N = 2, 3 | criterion tracks the palindrome through both |
 | gate 11, `0 < dim 𝒲 < dim 𝒩` by construction | 8 built rows at d = 4 | strictly between on all eight (so no invertible element; a sampled search agrees), criterion and spectrum agree |
-| gate 12, N = 5 in both directions, two routes | 14 built rows and 8 random rows at d = 32 | 10 pair and 12 break; the counts agree on every pairing row and differ on every broken one; the float route's verdicts and nullities match the modular ones on all 22; the wrong centre and the wrong shift call every pairing row broken |
+| gate 12, N = 5 on two routes | 14 built rows, 1 strict row and 8 random rows at d = 32 | 10 pair with agreeing counts, 13 break with differing counts, the strict row among them with (dim 𝒩, dim 𝒲) = (192, 64); the float route's verdicts and nullities match the modular ones on all 23; the moved centre and the wrong shift call every pairing row broken |
 
 **And one route whose construction shares no code with any of it.** The failure
 this file could not otherwise rule out is a shared helper making the two sides
@@ -763,29 +767,43 @@ disjoint spectra where one block carries an invertible anticommuting element and
 the other carries none, so 𝒲 is nonzero and entirely singular by construction.
 The criterion says BROKEN on all eight and the spectrum agrees.
 
-**Gate 12 is N = 5 in both directions.** Through gate 7, N = 5 is reached by
-F103's three rows, all three with agreeing counts and a pairing spectrum, so
-rows with differing counts, which test "pairs ⟹ counts agree" through its
-contrapositive, had no N = 5 row. Twenty-two rows at d = 32, each read on the modular route (the
-two nullities as 1024 − rank over GF(p), the palindrome at two evaluation
-points) and on the float route (the spectrum matched optimally against its
-reflection, the nullities from singular values), the four readings compared
-row by row: ten rows pair and twelve break, the counts agree on every pairing
-row and differ on every broken one, and the two routes agree on every verdict
-and every nullity. The built rows are the ones F138 names, carried to N = 5:
-the canonical chain with and without a field, X and Y fields, alternating
-signs, two dephasing axes, three axes on Heisenberg (broken) and on the Ising
-bond (pairing), the field along the dephasing axis, the mixed field of
-clause 2's boundary, and the two-letter term XX + XY. Two controls through the
-same door: the matching at the wrong centre −2σ·11/10 and the modular
-palindrome at the wrong shift call all ten pairing rows broken. The thresholds
-are read as separations: the matching distance separates 7.1e−13 from 3.8e−4
-(**8.7 decades**), the singular values 8.6e−16 from 3.8e−4 (**11.6 decades**),
-the smallest break being the bisector control below, whose two field
-magnitudes differ by a sixth. One limit, stated: every breaking row at N = 5
-has dim 𝒲 = 0, where the break follows from Lemma 2 alone (0 is always an
-eigenvalue, so −2σ has multiplicity 0); the strict case 0 < dim 𝒲 < dim 𝒩
-is gate 11's, at d = 4, and no N = 5 row reaches it.
+**Gate 12 is N = 5.** Through gate 7, N = 5 is reached by F103's three
+rows, all three with agreeing counts and a pairing spectrum. Which rows can
+fail is worth one sentence before the counts. On a row with dim 𝒲 = 0 nothing
+can: the identity lies in 𝒩, so the counts differ, and L is unital, so 0 is an
+eigenvalue and a pairing would need an eigenvector at −2σ, an element of 𝒲.
+Such a row shows only that the two routes agree. A row can fail in two ways:
+with agreeing counts, where a break would be a false positive, and with
+0 < dim 𝒲 < dim 𝒩, where a pairing would be a false negative. Gate 12 has
+both kinds at d = 32. Twenty-three rows, fourteen built, one strict and eight
+random, each read on the modular route (the two nullities as 1024 − rank over
+GF(p), the palindrome at two evaluation points) and on the float route (the
+spectrum matched optimally against its reflection, the nullities from singular
+values), the four readings compared row by row: ten rows pair with agreeing
+counts, thirteen break with differing counts, and the two routes agree on
+every verdict and every nullity. The built rows are the ones F138 names,
+carried to N = 5: the canonical chain with and without a field, X and Y
+fields, alternating signs, two dephasing axes, three axes on Heisenberg
+(broken) and on the Ising bond (pairing), the field along the dephasing axis,
+the mixed field of clause 2's boundary, and the two-letter term XX + XY. The
+strict row is gate 11's construction at d = 32, H = (1 + Z₄)X₀ + (1 − Z₄)(Z₀ + 5)
+with the one jump Z₀: two blocks of disjoint spectra split by Z₄, the first
+carrying X₀, which anticommutes with the jump, and the second Z₀ + 5, which
+commutes with it, so 𝒲 is nonzero and entirely singular, (dim 𝒩, dim 𝒲) =
+(192, 64), the counts differ and the spectrum breaks; a pairing there would
+need a Jordan chain at −2σ, so this is the one N = 5 row on which Lemma 2 is
+exercised. The count is derived, not read: H = 2P₊X₀ + 2P₋(Z₀ + 5) with
+P± = (1 ± Z₄)/2 has four eigenspaces of dimension 8, so its commutant has
+dimension 4·64; Ad(Z₀) swaps the two X₀ eigenspaces, giving 64 to 𝒩 and 64 to
+𝒲, and fixes each Z₀ eigenspace of the other block, giving 128 to 𝒩 and nothing
+to 𝒲. Every other breaking row of the gate has dim 𝒲 = 0, and the random
+rows of the seed are not strict. Two controls through the same door: the matching
+with the centre moved to −1.1σ and the modular palindrome at the wrong shift
+call all ten pairing rows broken. The thresholds are read as separations: the
+matching distance separates 7.1e−13 from 3.8e−4 (**8.7 decades**), the
+singular values 1.1e−14 from 3.8e−4 (**10.6 decades**), the smallest break
+being the bisector control below, whose two field magnitudes differ by a
+sixth, the largest zero singular value the strict row's.
 
 The row that matters most there is **the bisector at N = 5**: one Z jump on
 the middle site, an X field on site 0 and a Y field on site 4 of equal
@@ -799,8 +817,13 @@ the half-turn about the bisector (X + Y)/√2, which carries the site-0 X field
 onto the site-4 Y field and negates the middle Z, exhibited and checked
 exactly (U scaled to Gaussian-integer entries, [U, H] = 0 and U Z₂ = −Z₂ U
 compared with == 0; with the site-4 field doubled the commutator is nonzero):
-the "if" of the theorem beyond any colouring, at N = 5. Its control with the
-magnitudes unequal breaks, as at N = 3. And the same row with the Z jumps on
+the "if" of the theorem beyond any colouring, at N = 5 on the chain with four
+undephased sites, outside the sweep of
+[the colouring page](../../experiments/THE_PALINDROME_AS_A_COLOURING.md),
+whose five-site rows with two undephased sites find no symmetry element on
+the chain, 36 on the star and 60 on K₅, and which states the in-place rule on
+the five-site ring: every dephased site must stay fixed. Its control with the magnitudes unequal
+breaks, as at N = 3. And the same row with the Z jumps on
 sites 1, 2 and 3 breaks as well, its far kernel zero on both routes; the
 U-family element is not in it because the reflection carries Z₁ to −Z₃
 (U Z₁ = −Z₃ U exactly, while U Z₂ = −Z₂ U still holds), so U negates the jump
@@ -828,9 +851,12 @@ axis but a special case of "any Hermitian H"; any N; any finite dimension, with
 the odd-d case true because both sides are false (§(f5)).
 
 **Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N ≤ 4
-carries both directions on the letter grids; N = 5 carries both on gate 12's
-22 rows, ten pairing and twelve broken, each read on two routes (§(g)).
-Everything outside that range rests on the proof alone.
+carries both directions on the letter grids; at N = 5 gate 12 carries ten
+rows with agreeing counts, where a break would be a false positive, and one
+strict row 0 < dim 𝒲 < dim 𝒩, where a pairing would be a false negative, each
+read on two routes (§(g)); its twelve other broken rows have dim 𝒲 = 0, where
+neither side can fail. Everything outside that range rests on the proof
+alone.
 
 **Outside:** jump operators with A² ≠ 1, where F137 recentres the palindrome and
 the question changes; and rates that are zero or negative. Where the two counts differ
