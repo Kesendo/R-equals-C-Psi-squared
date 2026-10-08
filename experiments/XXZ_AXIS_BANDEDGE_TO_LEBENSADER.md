@@ -139,7 +139,16 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
     Z-coupled classical rate matrix among the half-filling XXZ eigenstates, a Pauli / Fermi-golden-rule
     relaxation), in the new self-validating verifier
     [`simulations/xxz_delta_star_descent.py`](../simulations/xxz_delta_star_descent.py) (γ·gap(R)
-    reproduces the full-Liouvillian Lebensader rate as γ→0, ratio→1). The **γ→0** sequence (the
+    reproduces the full-Liouvillian Lebensader rate as γ→0, ratio→1). R is the matrix F50's Hamiltonian end compresses the dissipator
+    onto, 4W_p − 4p·I with W_p = Σ_l n_l ∘ n_l entry for entry
+    ([`simulations/f50_isotropy_and_energy_mode.py`](../simulations/f50_isotropy_and_energy_mode.py) row E5),
+    so gap(R) = 2 is the threshold μ₂(W_p) = p − ½ of F50's open statement moved along Δ
+    ([the count as a plane crossing](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)):
+    at Δ = 1 the slowest height rises with N along each parity (1.2332 at N = 6 to 1.2830 at N = 12,
+    toward the SU(2) isotropy floor 4/3), while at Δ ≥ 1.2 it falls with N (0.9171 at Δ = 1.2, N = 12):
+    one lowest branch that bends with Δ, the gap to the next height not closing but shrinking with N
+    (0.283, 0.244, 0.214, 0.195 at N = 6, 8, 10, 12 on a Δ grid of 0.02, an avoided crossing read to
+    N = 12 with a closing trend); so the two limits are read as not commuting. The **γ→0** sequence (the
     physical fit target; the earlier Q=20 numbers sit below it, by a drift that grows with N) is
     **monotone decreasing**: Δ*(4..14) = 1.61961, 1.52798, 1.38463, 1.33007, 1.27243, 1.24738,
     1.21578, 1.19958, 1.17933, 1.16827, 1.15389.

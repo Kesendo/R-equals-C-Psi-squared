@@ -2455,7 +2455,10 @@ public static class OpenArcsRegistry
                 "anisotropy (Delta) axes. DELTA*(N) RESOLVED 2026-06-14 to N=14 (simulations/xxz_delta_star_descent.py, " +
                 "self-validating: the gamma->0 reduction Delta* <=> gap(R)=2, R the Z-coupled classical rate matrix among the " +
                 "half-filling XXZ eigenstates - a Pauli/Fermi-golden-rule relaxation, built sector-direct so N~14-16 is reachable; " +
-                "gamma*gap(R) reproduces the full-L Lebensader rate as gamma->0). NO clean elementary closed form (phi=2cos(pi/5) " +
+                "gamma*gap(R) reproduces the full-L Lebensader rate as gamma->0; R = 4 W_p - 4p I for F50's Hamiltonian-end " +
+                "compression W_p, so gap(R) = 2 is the threshold mu_2 = p - 1/2 of F50's open statement moved along Delta; at Delta = 1 the slowest height " +
+                "rises with N along each parity toward the SU(2) isotropy floor 4/3 (read to N = 16) while at Delta >= 1.2 it falls with N (read to " +
+                "N = 12), one lowest branch bending, the two limits read as not commuting, f50_isotropy_and_energy_mode.py E5). NO clean elementary closed form (phi=2cos(pi/5) " +
                 "is a 1.6e-3 N=4-only accident in the physical gamma->0 regime - the old '1e-4' was a Q=20 artifact; 2cos(pi/(N+1)) " +
                 "and 1+1/N both fail). VERDICT: the gamma->0 Delta*(N) is MONOTONE decreasing (1.61961..1.15389 at N=4..14) and the " +
                 "N->inf limit is the SU(2)/Heisenberg point Delta=1 (the closed-system critical point), consistent with EXACTLY 1: " +

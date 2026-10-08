@@ -41,7 +41,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// The witness reads the debt EXACTLY from the Sturm count (<see cref="ExceptionalCouplingWitness.Debts"/>) with the
 /// eigensolver's count beside it. On the chain the debt is zero and the count C(N, p) − 1: exactly through N = 5, N − 1
 /// at p = 1 for every N (proved), in float through N = 6 by the crossings and through N = 16 at the Hamiltonian end from the
-/// compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second eigenvalue below p − ½, open for every N), and proved
+/// compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second eigenvalue below p − ½, open for every N; in the full space
+/// h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector paying the difference, and W_p is the
+/// Δ-axis handover's rate matrix R = 4W_p − 4p·I, gap(R) = 2 being the same threshold along Δ), and proved
 /// on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
 /// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
@@ -79,7 +81,7 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                "mode of a diagonal block, and min E(chain) = 1/Q*_gap(N) is a theorem consequence wherever the 2γ regime " +
                "exists; on the uniform XY chain #E_p = C(N,p) − 1 at every p and every N (F141's ladder, F143's rung and F144's floor put every " +
                "non-stationary mode above the plane at γ → 0⁺). MEASURED: E non-empty on every graph computed; C(N,p) − 1 points " +
-               "at p ≥ 2 on the chain through N = 6, and through N = 12 by m_p = 0 at the Hamiltonian end (no non-stationary mode " +
+               "at p ≥ 2 on the chain through N = 6, and through N = 16 by m_p = 0 at the Hamiltonian end (no non-stationary mode " +
                "below the plane at γ → 0⁺, read from the compression W_p = Σ n_l ∘ n_l of the eigenstate populations); " +
                "the identification at N = 2..5 by two routes, the Heisenberg chain's handover (closed forms at " +
                "N = 2, 3, 4; degree 48 at N = 5). Pauli book: the spin book's J is four times this one.",

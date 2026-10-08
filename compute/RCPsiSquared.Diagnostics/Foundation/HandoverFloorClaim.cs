@@ -137,7 +137,8 @@ public sealed class HandoverFloorClaim : Claim
                          "axis AND the Hamiltonian-anisotropy (Delta) axis. Walking H=J(XX+YY)+Delta*ZZ, the Lebensader (the " +
                          "dead-centre I/Z survivor) overtakes the band edge exactly where its light content crosses 1, a LEVEL CROSSING " +
                          "(frozen Lebensader meets oscillating band edge, the ring family). RESOLVED to N=14 (gamma->0 reduction " +
-                         "Delta*<=>gap(R)=2, simulations/xxz_delta_star_descent.py): Delta*(N) descends MONOTONICALLY to the " +
+                         "Delta*<=>gap(R)=2, simulations/xxz_delta_star_descent.py; R = 4 W_p - 4p I for the compression W_p of F50's " +
+                         "Hamiltonian end, so gap(R) = 2 is the threshold mu_2 = p - 1/2 of F50's open statement along Delta, ExceptionalCouplingSetClaim): Delta*(N) descends MONOTONICALLY to the " +
                          "SU(2)/Heisenberg point Delta=1 (the closed-system critical point), consistent with EXACTLY 1 (free-exponent " +
                          "fits just above 1, fixed-1/N just below, bracketing it; no finite-N crossing); no clean closed form (phi a " +
                          "1.6e-3 N=4-only accident in the gamma->0 regime). The " +
