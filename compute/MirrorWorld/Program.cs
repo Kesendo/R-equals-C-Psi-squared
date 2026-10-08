@@ -15,6 +15,15 @@ if (args.Length > 0 && args[0] == "neural")
     Console.WriteLine($"  closed-quadratic complex pair: {-ns} ± {Math.Sqrt(3) / 8:G17}i (no eigensolver)");
     Console.WriteLine($"  fixed-seat example: diag(-0.5,-0.25,-0.5), permutation=[1,0,2]; residual={NeuralPalindrome.MaxResidual(fixedSeat, [1, 0, 2], ns)}");
     Console.WriteLine($"  biological-parameter pair sum F37(5,10)={Formulas.F37_NeuralPairSum(5, 10):0.0}");
+    Console.WriteLine("FlavorSplit: the flavor generator [[-gE+cA,-h],[h,-gI-cA]] meets F36 identically; per adjacency eigenvalue a the block -sI+[[x,-h],[h,-x]], x = (gI-gE)/2 + c a");
+    var ring = new double[4, 4];
+    for (int l = 0; l < 4; l++) { ring[l, (l + 1) % 4] = 0.5; ring[(l + 1) % 4, l] = 0.5; }
+    Console.WriteLine($"  C_4 ring (scaled spectrum 1, 0, -1, 0), h=0.5, c=0.25, gE=1, gI=2: F36 residual={FlavorSplit.F36Residual(ring, 0.5, 0.25, 1, 2)} (exact)");
+    foreach (double a in new[] { 1.0, 0.0, -1.0 })
+        Console.WriteLine($"  a={a,2}: disc={FlavorSplit.Discriminant(a, 0.5, 0.25, 1, 2),8:0.0000} slow flavor={FlavorSplit.SlowFlavor(a, 0.5, 0.25, 1, 2)}" +
+                          (FlavorSplit.IsOverdamped(a, 0.5, 0.25, 1, 2) ? $" rates {FlavorSplit.OverdampedRates(a, 0.5, 0.25, 1, 2)}" : FlavorSplit.IsDefective(a, 0.5, 0.25, 1, 2) ? " (Jordan block at -s)" : " (underdamped, weight 1/2)"));
+    Console.WriteLine($"  reported ratio (slowest E over the faster rate of the weakest overdamped block)={FlavorSplit.ReportedRatio([1, 0, -1, 0], 0.5, 0.25, 1, 2):0.000000} (neural_flavor_rule.txt ring N=4: 2.188155)");
+    Console.WriteLine($"  h=0: (gI + c a_min)/(gE - c a_max)={FlavorSplit.ZeroCrossCouplingRatio(-1, 1, 0.25, 1, 2):0.000000} (h0 control chain/ring/star: 2.333333)");
     return;
 }
 

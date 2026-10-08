@@ -166,8 +166,11 @@ relaxation, or carbon experiment follows from this selected sweep.
 ## The cube on the ring: which letter the pairing can see
 
 [The letter cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) places a term at
-(k_Z, k_X, k_Y), the number of its letters anticommuting with Z, X and Y. "Reading along P"
-is P dephasing on every site at one rate γ, σ = Nγ. Reading along P, the lit strings of
+(k_Z, k_X, k_Y), the number of its letters anticommuting with Z, X and Y. On this ring a coherence `|i⟩⟨j|`
+between two selected occupation patterns sits at `k_Z = popcount(i ⊕ j)`, the number of π sites
+whose selected occupation differs, and decays at `−2γ·k_Z` under Z dephasing: the carbon
+name for the cube's Z height, beside the wire's bonds in which two proton configurations
+disagree. "Reading along P" is P dephasing on every site at one rate γ, σ = Nγ. Reading along P, the lit strings of
 [F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md), those anticommuting with every jump,
 are the strings in the two other letters, written Q and R below (letters here, not the
 repo's Q = J/γ); a lit string that also commutes with H is a colouring, and the shift

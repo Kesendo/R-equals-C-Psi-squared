@@ -57,7 +57,8 @@ repo meets both conditions identically: the excitation/inhibition network of
 whose flavor split of lifetimes is this pairing read on its overdamped blocks (which
 flavor is the slow one is the sign of Δ + ca, not F36), each excitation-dominant mode at
 rate r having an inhibition-dominant partner at 2s − r, with the closed form λ = −s ± √((Δ + ca)² − h²) per adjacency eigenvalue a
-([`flavor_split_is_f36.py`](../../simulations/neural/flavor_split_is_f36.py)).
+([`flavor_split_is_f36.py`](../../simulations/neural/flavor_split_is_f36.py); typed as
+[`MirrorWorld.FlavorSplit`](../../compute/MirrorWorld/FlavorSplit.cs)).
 
 For the common-gain model W_eff = α diag(1/τ_i)W, with column j the source,
 the W-only condition is W[Q(i),Q(j)] = −(τ_Q(i)/τ_i)W[i,j] **only when

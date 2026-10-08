@@ -122,7 +122,11 @@ overdamped rate is carried by one mode of each flavor at once and only a non-bip
 splits genuinely. Which flavor is slow is the sign of Δ + ca and not F36: at γ_E = 1,
 γ_I = 2, h = 0.1, c = 1 on the chain, inhibition-dominant modes sit below s. Gate
 [`neural/flavor_split_is_f36.py`](../simulations/neural/flavor_split_is_f36.py), 65 checks,
-on the producer's own generator and its data files. [The view onto the memory](../reflections/THE_VIEW_ONTO_THE_MEMORY.md)
+on the producer's own generator and its data files; the closed form is typed as
+[`MirrorWorld.FlavorSplit`](../compute/MirrorWorld/FlavorSplit.cs) beside `NeuralPalindrome`, with its pins from the
+rational spectra of the rings, the star and the complete graph, the chain row and two rows off this page read to the
+producer's six digits (`dotnet run --project compute/MirrorWorld -- neural`).
+[The view onto the memory](../reflections/THE_VIEW_ONTO_THE_MEMORY.md)
 says the neural translation carries the palindrome rather than the split; this is that
 sentence with the data files' own rows under it.
 
