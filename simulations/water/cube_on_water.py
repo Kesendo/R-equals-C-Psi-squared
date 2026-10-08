@@ -24,6 +24,30 @@ C3  The half-turn row read on W8 (ii) of PROTON_WIRE_CROSSING: on a mirror-symme
     input the value does not contain, and the gate varies it. Controls: the mirror-EVEN bias [d, 0, d] breaks this copy
     (there Rev alone is one; under the odd bias Rev alone is not, the X^N is needed); at d = 0 X^N is lit, commutes, and the spectrum pairs.
 
+THE SECOND AXIS (which letter the environment reads; the sections above use Z only):
+C4  The letter swap. If the environment reads X (the delocalisation |L> +- |R>, the barrier) instead of Z (the
+    position), the lit strings are {Y, Z}^N and Z^N is the one tested: the roles of tunnelling and bias swap
+    exactly. Bias + ZZ with no tunnelling is palindromic under X reading (every term has even k_Z; the global Z flip
+    keeps every summation order, so exact at generic floats) and the tunnelling breaks it; under Z reading it is
+    the other way round. Both readings are printed for every wire, so the doc's table comes from one wire.
+C5  The doublet discriminator, one proton, H = -J X + Delta Z. At Delta = 0 under X reading the doublet
+    populations are dark (L(X) = 0 exactly) and the doublet coherence pays exactly 2 gamma; under Z reading the
+    population difference X is an eigenvector at exactly -2 gamma (T1 = 1/(2 gamma)), while the coherence is the
+    (Z, Y) block [[0, 2J], [-2J, -2 gamma]], pinned entry by entry, whose eigenvalues -gamma +- sqrt(gamma^2 - 4 J^2)
+    give T2 = 1/gamma = 2 T1 only while gamma < 2J (overdamped above: slow rate gamma - sqrt(gamma^2 - 4 J^2)).
+    Control: at Delta != 0 the upper level's population rate Tr(P L(P)) is nonzero under X reading. With both
+    letters read the Pauli rates are X: 2 gamma_Z, Z: 2 gamma_X, Y: 2 gamma_X + 2 gamma_Z (the cube's rate
+    2(gamma_Z k_Z + gamma_X k_X), THE_ONE_SQUARE section 7), so the coherence pair has real part -(2 gamma_X +
+    gamma_Z) exactly while gamma_Z < 2J, at any gamma_X, and T2/T1 = 2 gamma_Z/(2 gamma_X + gamma_Z), a dial
+    from 2 (pure Z) to 0 (pure X); gated against the eigensolver with gamma_Z > 2J as the control that must
+    fail. The Y rate at generic rates is the sum of two dissipators and its float residual is a summation-order
+    reading. The book is the unital Hermitian-jump one, D[rho] = gamma (P rho P - rho), which fixes no
+    temperature; a thermal bath is F137's channel and outside these rows.
+C6  The two-axis bath. With both Z and X jumps on every site the only string anticommuting with every jump is Y^N;
+    on the wire the tunnelling and the bias have odd k_Y, so no lit string commutes with H and by F158 the
+    spectrum does not pair, DEPOLARIZING_PALINDROME's "a field along either noise axis breaks the two-axis half"
+    on the wire; ZZ alone (k_Y = 2) keeps Y^N. The pairing distance at a ten percent X admixture is read.
+
 Exact rows compare to 0: the reflection and the turn in floats at dyadic and at generic couplings, the copy under the
 odd bias in rationals at a generic point and in floats under the mirror-paired summation order. The eigensolver's pairing distance
 is read beside them with its error model (eps times the spectral scale) and gated only on the controls, where it
@@ -197,6 +221,112 @@ check("C3 generic floats: the copy residual is a function of the summation order
       worst_paired == 0.0, f"worst {worst_paired}")
 check("C3 generic floats: the site-by-site summation is NOT exactly 0.0 at every draw (the residual exists and the order is what moves it)",
       nonzero > 0, f"nonzero in {nonzero} of 200; the two H differ by at most {same_H:.1e}")
+
+def liou_multi(N, H, rates):
+    """Row-stack Liouvillian with one dephasing letter per (letter, rate) pair on every site."""
+    d = 2 ** N; L = -1j * (np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T))
+    for letter, g in rates:
+        for l in range(N):
+            P = op(N, l, letter); L += g * (np.kron(P, P.T) - np.eye(d * d))
+    return L
+
+print("\n=== C4: the letter swap: under X reading the bias keeps the palindrome and the tunnelling breaks it ===")
+print("       wire J = 1 on every bond where present, K = 0.4, bias [0.3, 0.1, 0.2] where present, gamma = 0.5")
+N = 3; ZN = string('Z' * N); SZ = right_mult(N, ZN)
+def wire(J, K, dlt): return tfi([J, J, J], [K, K], dlt)
+bias = [0.3, 0.1, 0.2]
+for name, H, zn_commutes, xn_commutes in (("bias + ZZ, no tunnelling", wire(0.0, 0.4, bias), True, False),
+                                          ("control: tunnelling + bias + ZZ", wire(1.0, 0.4, bias), False, False),
+                                          ("control: tunnelling + ZZ, no bias", wire(1.0, 0.4, [0, 0, 0]), False, True)):
+    comm = maxabs(H @ ZN - ZN @ H)
+    LX = liou_multi(N, H, [(X, GAM)]); LZ = liou_multi(N, H, [(Z, GAM)]); sigma = N * GAM
+    resX = maxabs(SZ @ LX @ np.linalg.inv(SZ) + LX.conj().T + 2 * sigma * np.eye(64))
+    pdX, pdZ = pairing_distance(LX, sigma), pairing_distance(LZ, sigma); modelX, modelZ = EPS * scale(LX), EPS * scale(LZ)
+    check(f"C4 {name}: [H, Z^N] {'==' if zn_commutes else '!='} 0.0", (comm == 0.0) == zn_commutes, f"max {comm}")
+    check(f"C4 {name}: X reading, shift by Z^N is a reflection: residual {'==' if zn_commutes else '!='} 0.0", (resX == 0.0) == zn_commutes, f"max {resX}")
+    print(f"       pairing distance, Z reading {pdZ:.2e} = {pdZ / modelZ:.1e} x model, X reading {pdX:.2e} = {pdX / modelX:.1e} x model")
+    if zn_commutes: check(f"C4 {name}: Z reading does not pair (the bias breaks the Z palindrome)", pdZ > 1e6 * modelZ)
+    else: check(f"C4 {name}: X reading does not pair", pdX > 1e6 * modelX)
+    if xn_commutes: check(f"C4 {name}: Z reading pairs to rounding (read as a ratio to the model)", pdZ < 1e3 * modelZ)
+rng = np.random.default_rng(3); worst = 0.0
+for _ in range(50):
+    J, K, g = 0.0, rng.uniform(0.1, 2.0), rng.uniform(0.1, 2.0); dl = list(rng.uniform(-1, 1, 3))
+    H = wire(J, K, dl); LX = liou_multi(N, H, [(X, g)])
+    worst = max(worst, maxabs(SZ @ LX @ np.linalg.inv(SZ) + LX.conj().T + 2 * N * g * np.eye(64)))
+check("C4 bias + ZZ under X reading, 50 generic (K, bias profile, gamma): reflection residual == 0.0 at every draw", worst == 0.0, f"worst {worst}")
+
+print("\n=== C5: the doublet discriminator, one proton, H = -J X + Delta Z ===")
+J = 1.0; H1 = -J * X
+plus = np.array([1, 1]) / np.sqrt(2); minus = np.array([1, -1]) / np.sqrt(2)
+def apply(L, M): return (L @ M.reshape(-1)).reshape(2, 2)
+def coef(M, P): return np.trace(M @ P) / 2          # Pauli coefficient
+for g in (0.1, 0.7):
+    LZ1 = liou_multi(1, H1, [(Z, g)]); LX1 = liou_multi(1, H1, [(X, g)])
+    check(f"C5 gamma={g} X reading: L(X) == 0 exactly (the doublet populations are dark)", maxabs(apply(LX1, X)) == 0.0)
+    check(f"C5 gamma={g} X reading: L(Z) == -2 gamma Z + 2J Y exactly and L(Y) == -2 gamma Y - 2J Z exactly (the coherence pays 2 gamma)",
+          maxabs(apply(LX1, Z) + 2 * g * Z - 2 * J * Y) == 0.0 and maxabs(apply(LX1, Y) + 2 * g * Y + 2 * J * Z) == 0.0)
+    check(f"C5 gamma={g} Z reading: L(X) == -2 gamma X exactly (the doublet relaxes at 2 gamma, T1 = 1/(2 gamma))", maxabs(apply(LZ1, X) + 2 * g * X) == 0.0)
+    check(f"C5 gamma={g} Z reading: the (Z, Y) block is [[0, 2J], [-2J, -2 gamma]] exactly (L(Z) = 2J Y, L(Y) = -2J Z - 2 gamma Y)",
+          maxabs(apply(LZ1, Z) - 2 * J * Y) == 0.0 and maxabs(apply(LZ1, Y) + 2 * J * Z + 2 * g * Y) == 0.0)
+# the block's eigenvalues -gamma +- sqrt(gamma^2 - 4J^2) follow by hand; read them against the eigensolver in both regimes
+for g in (0.1, 5.0):
+    rates = np.sort(-np.linalg.eigvals(liou_multi(1, H1, [(Z, g)])).real)
+    pred = np.sort(np.real(np.array([0, 2 * g, g - np.sqrt(complex(g * g - 4 * J * J)), g + np.sqrt(complex(g * g - 4 * J * J))])))
+    print(f"       Z reading gamma={g} (J=1, {'under' if g < 2 * J else 'over'}damped): rates {np.round(rates, 4)}, by hand {np.round(pred, 4)}; "
+          f"slowest coherence rate {rates[1]:.4f} vs gamma = {g} (read)")
+# control: Delta != 0, the upper level's population rate is nonzero under X reading
+Hd = -J * X + 0.5 * Z; w, v = np.linalg.eigh(Hd); up = v[:, 1]; Pup = np.outer(up, up.conj())
+LXd = liou_multi(1, Hd, [(X, 0.1)]); rate = float(np.real(np.trace(Pup @ apply(LXd, Pup))))
+check("C5 control Delta=0.5, X reading: population rate Tr(P L(P)) of the upper level != 0 (no longer dark)", rate != 0.0, f"rate {rate:.4f}")
+check("C5 Delta=0, X reading: L(upper-level projector) == 0.0 exactly", maxabs(apply(liou_multi(1, H1, [(X, 0.1)]), np.outer(minus, minus))) == 0.0)
+# both letters read: the dial, generic rates
+rng = np.random.default_rng(11)
+for gz, gx in ((0.1, 0.0), (0.1, 0.05), (0.1, 0.1), tuple(rng.uniform(0.05, 0.9, 2)), tuple(rng.uniform(0.05, 0.9, 2))):
+    Lm = liou_multi(1, H1, [(Z, gz), (X, gx)])
+    xres = maxabs(apply(Lm, X) + 2 * gz * X); zres = abs(coef(apply(Lm, Z), Z) + 2 * gx); yres = abs(coef(apply(Lm, Y), Y) + 2 * gx + 2 * gz)
+    if gx == 0.0:
+        check(f"C5 both letters gamma_Z={gz:.4f}, gamma_X=0: L(X) == -2 gamma_Z X exactly (one dissipator, no sum)", xres == 0.0, f"max {xres}")
+    else:
+        print(f"       gamma_Z={gz:.4f}, gamma_X={gx:.4f}: Pauli-rate residuals X {xres:.1e}, Z {zres:.1e}, Y {yres:.1e} against 2 gamma_Z, 2 gamma_X, "
+              f"2 gamma_X + 2 gamma_Z: the two dissipators' diagonals are summed, a summation-order reading")
+    ev = np.linalg.eigvals(Lm); coh = sorted(ev, key=lambda z: abs(z.imag))[-2:]      # the rotating pair
+    re_res = max(abs(z.real + 2 * gx + gz) for z in coh); model = EPS * scale(Lm)
+    check(f"C5 both letters gamma_Z={gz:.4f}, gamma_X={gx:.4f}: coherence pair real part == -(2 gamma_X + gamma_Z) to the eigensolver (gamma_Z < 2J)",
+          re_res < 1e3 * model, f"residual {re_res:.1e} = {re_res / model:.1f} x model")
+    t2_over_t1 = (2 * gz) / (-np.mean([z.real for z in coh]))      # T2 = 1/(-Re lambda), T1 = 1/(2 gamma_Z)
+    print(f"       T2/T1 from L = {t2_over_t1:.3f}, formula 2 gamma_Z/(2 gamma_X + gamma_Z) = {2 * gz / (2 * gx + gz):.3f} (read)")
+gz, gx = 3.0, 0.2
+ev = np.linalg.eigvals(liou_multi(1, H1, [(Z, gz), (X, gx)])); reals = sorted(set(np.round(ev.real, 6)))
+check("C5 control gamma_Z=3 > 2J: the coherence pair is overdamped, two distinct real rates, neither -(2 gamma_X + gamma_Z)",
+      len(reals) == 4 and all(abs(r + 2 * gx + gz) > 1e-3 for r in reals), f"rates {[-r for r in reals]}")
+from scipy.linalg import expm
+g = 0.1; t = 5.0
+for letter, name, pop_form, coh_form in ((Z, "Z (position)", f"(1 + e^(-2 gamma t))/2 = {(1 + np.exp(-2 * g * t)) / 2:.6f}", "a damped rotation, no single exponential"),
+                                         (X, "X (barrier)", "1 exactly", f"e^(-2 gamma t)/2 = {np.exp(-2 * g * t) / 2:.6f}")):
+    L1 = liou_multi(1, H1, [(letter, g)]); U = expm(L1 * t)
+    rho = (U @ np.outer(plus, plus).reshape(-1)).reshape(2, 2); pop = float(np.real(plus @ rho @ plus))
+    rho0 = np.outer(plus, plus) / 2 + np.outer(minus, minus) / 2 + np.outer(plus, minus) / 2 + np.outer(minus, plus) / 2
+    coh = abs(plus @ (U @ rho0.reshape(-1)).reshape(2, 2) @ minus)
+    print(f"       gamma t = {g * t}: bath reads {name:13s}: doublet population 1 -> {pop:.6f} ({pop_form}), doublet coherence 0.5 -> {coh:.6f} ({coh_form}), read")
+
+print("\n=== C6: the mixed bath on the wire: both letters read, no lit element commutes with the tunnelling ===")
+N = 3
+jumps_zx = [op(N, l, P) for l in range(N) for P in (Z, X)]
+anti_all = [w for w in (''.join(t) for t in product('IXYZ', repeat=N)) if all(maxabs(string(w) @ Q + Q @ string(w)) == 0.0 for Q in jumps_zx)]
+check("C6 strings anticommuting with every Z_l and every X_l = ['YYY'] only (the lit span is one-dimensional, so [H, Y^N] != 0 means no colouring and, by F158, no pairing)", anti_all == ['YYY'], f"found {anti_all}")
+YN = string('YYY')
+for name, H, expect in (("tunnelling + ZZ", wire(1.0, 0.4, [0, 0, 0]), False), ("bias + ZZ", wire(0.0, 0.4, bias), False), ("ZZ only", wire(0.0, 0.4, [0, 0, 0]), True)):
+    comm = maxabs(H @ YN - YN @ H)
+    check(f"C6 {name}: [H, Y^N] {'==' if expect else '!='} 0.0", (comm == 0.0) == expect, f"max {comm}")
+H = wire(1.0, 0.4, [0, 0, 0])
+for gx, name in ((0.5, "Z and X equal"), (0.05, "Z with ten percent X")):
+    L = liou_multi(N, H, [(Z, 0.5), (X, gx)]); sigma = N * (0.5 + gx); pd = pairing_distance(L, sigma); model = EPS * scale(L)
+    if gx == 0.5:
+        check(f"C6 tunnelling + ZZ, bath {name}: spectrum does not pair", pd > 1e6 * model, f"{pd:.2e} = {pd / model:.1e} x model")
+    else:
+        print(f"       tunnelling + ZZ, bath {name}: pairing distance {pd:.2e} = {pd / model:.1e} x model (read, not gated)")
+L = liou_multi(N, wire(0.0, 0.4, [0, 0, 0]), [(Z, 0.5), (X, 0.5)]); pd = pairing_distance(L, 3.0)
+print(f"       ZZ only, bath Z and X equal: pairing distance {pd:.2e} = {pd / (EPS * scale(L)):.1f} x model (Y^N lit and commuting, read)")
 
 print(f"\n{'ALL OK' if not FAILS else 'FAILED: ' + ', '.join(FAILS)}")
 sys.exit(1 if FAILS else 0)

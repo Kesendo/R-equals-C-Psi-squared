@@ -306,7 +306,12 @@ which F1 premises it satisfies.
 
 1. Does a measured proton-position coordinate support a two-level reduction
    and a local Z-dephasing channel in liquid water?
-2. What is the proton-coordinate `T₂`, rather than a bond-lifetime proxy?
+2. What is the proton-coordinate `T₂`, rather than a bond-lifetime proxy? This is the
+   position-basis `T₂` of the `Q = 2JT₂/ℏ` convention above. The tunnel doublet's own
+   `T₂` is twice this position-basis `T₂` under Z reading, and the doublet's `T₂/T₁` at
+   Δ = 0 places the letter the environment reads on a dial from pure Z to pure X within
+   Pauli dephasing
+   ([the second axis](PROTON_WIRE_CROSSING.md#the-second-axis-which-letter-the-environment-reads)).
 3. Which literature-supported Zundel energy is a tunnelling splitting versus a
    shared-proton vibrational fundamental?
 4. For a selected molecular generator, which F1 premises hold, including the

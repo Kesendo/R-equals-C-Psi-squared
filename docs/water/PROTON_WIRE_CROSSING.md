@@ -4,7 +4,7 @@
 **Date:** 2026-07-31
 **Authors:** Thomas Wicht, Claude
 **Gate:** [`simulations/water/proton_wire_crossing.py`](../../simulations/water/proton_wire_crossing.py), 55 checks
-**Companion gates:** [`simulations/f98_scope.py`](../../simulations/f98_scope.py), 30 checks; [`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), the cube on the wire, 35 checks
+**Companion gates:** [`simulations/f98_scope.py`](../../simulations/f98_scope.py), 30 checks; [`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), the cube on the wire and its second axis, 68 checks
 
 Every result in this folder is graded by one number: the popcount `Ŵ = Σ_l (I − Z_l)/2`.
 The F4 kernel is `span(P_0, …, P_N)`, one projector per popcount. F98's long-time value
@@ -248,14 +248,15 @@ odd k_Z and even k_X; the Ising pair term `K Z_a Z_b` has (0, 2, 2) and keeps k_
 `Δ Z_l` has (0, 1, 1), odd k_X. [The table of moves](../THE_ONE_SQUARE.md#9-the-moves-and-the-two-questions)
 asks every move on the cube two questions, whether it commutes with L (a copy, an invariant
 subspace) and whether it is the one-sided action `ρ ↦ ρ·F` of an element F that commutes
-with H and anticommutes with every jump, a lit element (a reflection,
+with H and is lit, anticommuting with every jump (a reflection,
 `S·L·S⁻¹ = −L† − 2σ` with `σ = Σγ`, the far end of
 [F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md)). Laid on this folder, the two
 hydrogen-bond-qubit models and the wire, three of the table's moves are sighted and no new
-one; the moves of the Z side, the dark shift by `Z^⊗N`, the centre line, the quarter-turn
+one, and [the second axis](#the-second-axis-which-letter-the-environment-reads) reads a fourth,
+the letter permutation, as an equivalence between settings; the moves of the Z side, the dark shift by `Z^⊗N`, the centre line, the quarter-turn
 and the turn about Z, are broken by the tunnelling field, and the bond-and-field row and
 the plane are what the coordinates above and the decay rate read. Gate
-[`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), 35 checks,
+[`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), rows C1 to C3, 35 of its 68 checks,
 every exact row compared to 0 and every one with a control that must fail.
 
 - **Row 1, the corner shift `ρ ↦ ρ·F`, on the two hydrogen-bond-qubit models.** At `Δ = 0`
@@ -312,6 +313,115 @@ mirror after the site reversal, the two factors of S; the Z height against `Pair
 on the wire asks a question the chain had not asked; what the wire adds to the cube is a
 physical name for MirrorWorld's disagreement count: the number of bonds in which two proton
 configurations disagree.
+
+---
+
+## The second axis: which letter the environment reads
+
+The cube has three axes and the sections above use one. Every statement there takes the
+dephasing letter to be Z: the environment reads where each proton sits. The letter is a
+property of the environment, not of the model, and the cube says what each choice means on
+the wire, exactly, before anyone knows which choice water makes. Coordinates below are
+(k_Z, k_X, k_Y) as in the cube section; "lit" is [F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md)'s
+word for a string that anticommutes with every jump, and a lit string that also commutes
+with H is the colouring that makes the spectrum pair. Gate rows C4 to C6 of
+[`cube_on_water.py`](../../simulations/water/cube_on_water.py). Everything here is in the
+unital Hermitian-jump book, `D[ρ] = γ(PρP − ρ)`, which fixes no temperature; a thermal
+bath is the F137 caveat below.
+
+- **X reading swaps the roles of tunnelling and bias.** If the environment reads the
+  delocalisation `|L⟩ ± |R⟩` instead of the position, the lit strings are `{Y, Z}^⊗N`,
+  `Z^⊗N` the one tested, and the question is which terms commute with it: the bias
+  (0, 1, 1) and the Ising pair term (0, 2, 2) have even k_Z and do, the tunnelling
+  (1, 0, 1) does not. So a biased wire without tunnelling is exactly palindromic under X
+  reading, the shift by `Z^⊗N` a reflection entry for entry at fifty generic couplings and
+  bias profiles, while the tunnelling breaks it; under Z reading it is the other way round,
+  the pairing the sections above describe. One wire at N = 3 (J = 1 on every bond where
+  present, K = 0.4, bias profile (0.3, 0.1, 0.2) where present, γ = 0.5), the pairing
+  distance being the largest single cost in the min-sum assignment of the spectrum to its
+  mirror image about −σ, with J = 1 as the energy unit; the two small entries are the
+  eigensolver's floor, about twenty times eps times the spectral scale:
+
+  | wire | Z reading | X reading |
+  |---|---|---|
+  | tunnelling and ZZ, no bias | 3e-14 | 2.9 |
+  | bias and ZZ, no tunnelling | 1.2 | 1e-14 |
+
+  This is a row the table of moves already holds, the letter permutation, read as an
+  equivalence between settings rather than a symmetry: a global Hadamard carries X reading
+  of bias and ZZ to Z reading of a transverse field and XX, so the swap is
+  [the three diagonals](../THE_THREE_DIAGONALS.md)' letter orbit on the wire's own terms, F1
+  with the letter turned. Its content for the wire is which bath tolerates which term.
+- **What a measurement would have to see: the tunnel doublet's T₁, at Δ = 0.** One proton,
+  `H = −J X`, doublet `|±⟩`; in that basis X plays the role of the population difference
+  and Z, Y of the coherence, and the rates are the cube's own,
+  `2(γ_Z·k_Z + γ_X·k_X + γ_Y·k_Y)` per string ([the cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) §7,
+  [the depolarizing experiment](../../experiments/DEPOLARIZING_PALINDROME.md)'s rate vector). Under X reading the populations are dark, `L(X) = 0` exactly,
+  and only the coherence decays, at exactly `2γ`: the tunnelling line broadens and no
+  population moves between the split levels. Under Z reading X is an eigenvector of L at
+  exactly `−2γ`, so the doublet relaxes with `T₁ = 1/(2γ)`, while the coherence is the
+  (Z, Y) block `[[0, 2J], [−2J, −2γ]]` (rows the images, `L(Z) = 2J·Y`,
+  `L(Y) = −2J·Z − 2γ·Y`), pinned entry by entry, with eigenvalues
+  `−γ ± √(γ² − 4J²)`: for `γ < 2J` a damped rotation at rate γ, so `T₂ = 1/γ = 2T₁`, and
+  above `2J` an overdamped pair whose slow rate `γ − √(γ² − 4J²)` falls as `2J²/γ`. At
+  `γt = 1/2`, from `|+⟩`, the population reads `(1 + e^{−1})/2` under Z and stays at 1 under X;
+  from `|L⟩`, the hydrogen-bond page's own start, the coherence reads `e^{−1}/2` under X. At `Δ ≠ 0` the eigenbasis turns and the upper level
+  acquires a lifetime under X reading as well, so off `Δ = 0` the discriminator is a ratio,
+  not a lifetime against none. With both letters read the Pauli rates are X: `2γ_Z`,
+  Z: `2γ_X`, Y: `2γ_X + 2γ_Z` exactly, so the coherence pair has real part exactly `−(2γ_X + γ_Z)` while `γ_Z < 2J`, at any
+  γ_X, and the ratio `T₂/T₁ = 2γ_Z/(2γ_X + γ_Z)` runs from 2 (pure Z) to 0 (pure X): the
+  admixture is read off that dial, and the letter is where the dial sits. This T₂ is the doublet's, twice the
+  position-basis T₂ of [the hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md#open-questions)
+  under Z reading, whose open question it sharpens; that position-basis T₂, `1/(2γ)`, is the
+  doublet's T₁, both being the decay of ⟨X⟩. Feeding a doublet linewidth into the
+  glossary's `γ = 1/(2T₂)` is a third factor of two, beside the two
+  [the conversion note](../GLOSSARY.md#the-t₂--γ-conversion) warns about. A finite-temperature
+  position bath acts on the doublet as amplitude damping with Boltzmann-weighted rates,
+  [F137](../ANALYTICAL_FORMULAS.md#f137)'s channel, which is neither letter, so the
+  discriminator holds within pure Pauli dephasing. No repo tool reads a bath letter off
+  measured decay; `fw.diagnose_hardware` assumes Z and flags departures from it.
+- **A two-axis bath is not a third letter.** With both Z and X read on every site the only
+  string anticommuting with every jump is `Y^⊗N`, and the tunnelling and the bias both have
+  odd k_Y, so no lit string commutes with H and by F158 the spectrum does not pair; only the
+  Ising pair term (k_Y = 2) keeps `Y^⊗N`. That is
+  [the depolarizing experiment](../../experiments/DEPOLARIZING_PALINDROME.md)'s two-axis clause
+  on the wire: the two-axis half depends on H, and a field along either noise axis breaks it;
+  the tunnelling is such a field. On the N = 3 wire with tunnelling and ZZ, `γ_Z = 0.5`, a ten percent X admixture
+  `γ_X = 0.05` gives a pairing distance of 0.30, one sampled point between the pure Z
+  reading and equal rates.
+
+Which letter water reads, the position through the field of the neighbouring dipoles or the
+barrier through the distance between the oxygens, is a Tier 4 identification, the tier
+[the carbon sibling](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md) gives its own X axis. What
+would decide it, in a weak-coupling picture this framework does not derive, is the two
+channels' noise spectra, the field's at the splitting against the distance's near zero
+frequency, each weighted by the squared derivative of Δ or of J with respect to its bath
+coordinate. That is a measurement or an environment model, the way [Q belongs to no substance](../Q_BELONGS_TO_NO_SUBSTANCE.md) says a bath is
+chosen or measured, and what the arc `substrate_q_provenance` asks for as its first step.
+We do not know it; open item 4.
+
+The sweep for this section: the table of moves holds the swap as its letter-permutation
+row and the Z-reading half in its first row; the three diagonals hold the letter orbit
+abstractly and name no substrate; the carbon sibling reads the three letters on a selected
+model, its X and Y axes Tier 4 candidates with no bath; the formula registry's F1 entry
+breaks for depolarizing noise and points to the three diagonals, F82 and F84 hold the T₁
+corrections, F137 the thermal amplitude-damping channel; the depolarizing experiment holds
+the two-axis clause for a general H; the proofs hold the Klein-V₄ dephase swaps and the
+absorption theorem's dephase-letter remark, no substrate; the hydrogen-bond page holds the
+open T₂ question; the cube section §7 and the depolarizing experiment hold the per-string rate
+vector the dial is built from; the glossary holds the T₂ → γ conversion and its factors of two; the
+OpenArcs registry holds `substrate_q_provenance` asking for the proton coordinate's bath
+spectral density and two arcs that say "which letter" of fields and registers; the
+Confirmations registry and CAUGHT_ERRORS hold no X reading of the wire; the typed layer
+holds `LetterTurn`, `ThreeDephasingDiagonalsOrbitClaim` with its `DiagonalWitness`,
+`PalindromeTwoEndCountClaim` and the depolarizing claims `F5DepolarizingErrorPi2Inheritance`
+and `F1DepolResidualClosedForm`, none on a substrate. Checked for adjacency: the swap
+against the letter-permutation row and the orbit claim, the same statement with a substrate
+name; the doublet T₁ against the hydrogen-bond page's T₂ item and the glossary's conversion,
+the same unknown and its factor of two; the two-letter rates against the cube's rate and the depolarizing rate vector, the same
+formula; the thermal caveat against F137; the two-axis bath
+against the depolarizing clause, the same clause instanced; the closing unknown against
+`substrate_q_provenance`, the same request.
 
 ---
 
@@ -381,7 +491,13 @@ inside the corrected premise, so no number moved.
    the charge read as a popcount over incident bonds, which is a different operator.
 3. **The charged wire.** Adding an excess proton leaves this state space. Whether the
    framework's grading survives that extension, and what it becomes there, is untouched.
-4. **A displaced-charge observable.** An infrared or terahertz response along a confined
+4. **Which letter the environment reads.** Position (Z, the neighbouring dipoles' field)
+   or barrier (X, the distance between the oxygens), both Tier 4 identifications, or a
+   mixture, which is a point on a
+   dial rather than a letter. The cube gives the discriminator at Δ = 0, the tunnel
+   doublet's T₂/T₁ within pure Pauli dephasing; the two noise spectra that decide it are a
+   measurement or an environment model we do not have.
+5. **A displaced-charge observable.** An infrared or terahertz response along a confined
    wire couples to `Σ_l Z_l`. The model side is in "What a field along the wire reads":
    the reversal parity, a bias it can hide, and the local readout that shows it. Which
    spectroscopy resolves this on a real wire, with what bath and preparation, is open.
