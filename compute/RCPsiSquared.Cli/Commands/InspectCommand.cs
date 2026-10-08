@@ -889,6 +889,24 @@ public static class InspectCommand
             "as the live N=6 birth shows.",
             _ => new NodePairResolventWitness(),
             RequiresN: false, HonorsOptionalN: false),
+        new("depol", "F5 THE DEPOLARIZING ERROR AS A BOUND AND ITS ATTAINMENT (registry F5, claim " +
+            "F5DepolarizingErrorPi2Inheritance, gate simulations/f5_depolarizing_attainment.py): the rate shortfall " +
+            "2σ − r_max is at least (2/3)σ for every H, equal exactly when ad_H has an eigenvector among " +
+            "the operators traceless on every site; off the isotropic class a Pauli channel's bound is " +
+            "2 Σ_l min_P γ_P^l with the fast span in place of E. Three computations meet at inspect time: " +
+            "the certificate (a commuting string of the fast span, [H, P] = 0 on Gaussian integers, and " +
+            "30 L(P) = −(2σ − bound) P entry by entry, exact), the fastest rate off the dissipator over all " +
+            "4^N strings (exact), and the spectrum with the general criterion (floats, the rounding read against " +
+            "eps ‖L‖_F). A generic chain is read beside every non-generic row so the witness cannot silently " +
+            "lose the ability to report a strict bound. Args: --N (2..4, default 3), --model heisenberg|xy|xx|ising|xxz2|" +
+            "dm|heisdm|isingx|ladder|generic, --rates 3,7,11 (per-site totals in tenths), --pauli 1:5:7,2:9:4,1:3:8 " +
+            "(X:Y:Z per site in tenths, an anisotropic Pauli channel)",
+            c => new DepolarizingAttainmentWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("model"),
+                c.Parser.OptionalString("rates"),
+                c.Parser.OptionalString("pauli")),
+            RequiresN: false, HonorsOptionalN: true),
         new("twoend", "F158 THE PALINDROME AS A COUNT OF THE TWO ENDS (proof " +
             "PROOF_PALINDROME_TWO_END_COUNT.md, claim PalindromeTwoEndCountClaim): the spectrum pairs about " +
             "−σ exactly when dim ker L = dim ker(L + 2σ), so the criterion is two nullities compared and there " +

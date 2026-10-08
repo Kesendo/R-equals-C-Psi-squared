@@ -3,8 +3,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F5 closed form for depolarizing noise: <c>error = γ · 2N/3 = (2/3)·Σγ</c>
-/// (Tier 1 proven). Linear in γ and N; for every Hamiltonian a lower bound, exact when ad_H has
+/// <summary>F5 closed form for depolarizing noise: <c>error ≥ γ · 2N/3 = (2/3)·Σγ</c>
+/// (Tier 1 proven; a lower bound, with equality exactly under the condition named next).
 /// an eigenvector among the operators traceless on every site (for example a global Pauli string
 /// with no identity letter commuting with H, as on every chain the repo measured). Each constant
 /// in this closed form sits on the Pi2-Foundation:
@@ -124,6 +124,14 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
                 summary: "2 = number of off-diagonal Paulis (X, Y); 3 = total non-identity Paulis (X, Y, Z); 2/3 is the off-diagonal Pauli mass fraction in the depolarizing channel");
             yield return new InspectableNode("N linear factor",
                 summary: "per-site-additive (2/3)γ over all N sites (Σγ); NOT the F49 (N−2) overhead");
+            yield return new InspectableNode("live lab: inspect --root depol",
+                summary: "DepolarizingAttainmentWitness (Diagnostics) recomputes the bound and its attainment at " +
+                         "inspect time: the commuting string of the fast span and 30 L(P) = -(2 sigma - bound) P exactly on " +
+                         "Gaussian integers, the fastest rate off the dissipator over all 4^N strings exactly, the " +
+                         "spectrum's shortfall against the bound in floats with the rounding read, and the general " +
+                         "criterion (an eigenvector of ad_H in the fast span) that decides the ladder row; beside every " +
+                         "non-generic row a generic chain, on which the bound is strict. Also the Pauli-channel bound " +
+                         "2 sum_l min_P gamma_P^l (--pauli). Gate: simulations/f5_depolarizing_attainment.py.");
             for (int N = 2; N <= 6; N++)
             {
                 yield return new InspectableNode(

@@ -575,7 +575,7 @@ positive rate, and no nonzero operator anticommutes with X_l, Y_l and Z_l at
 once (their product is a multiple of the identity), so every site needs a zero
 rate; and
 only at the point −2σ must it also commute with H.
-**Gate:** [`simulations/f5_depolarizing_attainment.py`](../simulations/f5_depolarizing_attainment.py)
+**Typed:** live at `inspect --root depol` (`DepolarizingAttainmentWitness`, breadcrumbed from `F5DepolarizingErrorPi2Inheritance`): the commuting string of the fast span and 30·L(P) = −(2σ − bound)·P exactly on Gaussian integers, the fastest rate off the dissipator over all 4^N strings exactly, the spectrum's shortfall against the bound with the rounding read, the general criterion by singular values deciding the ladder row, a generic chain beside every non-generic row, and the Pauli-channel bound under `--pauli`; tests `DepolarizingAttainmentWitnessTests`. **Gate:** [`simulations/f5_depolarizing_attainment.py`](../simulations/f5_depolarizing_attainment.py)
 → [`f5_depolarizing_attainment.txt`](../simulations/results/f5_depolarizing_attainment.txt)
 checks the commuting string for every measured Hamiltonian and Ising in an X
 field at N = 2, 3, 4 entry by entry, applies L to X^3 at a non-uniform rational
