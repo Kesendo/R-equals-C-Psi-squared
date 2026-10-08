@@ -25,6 +25,10 @@ this neutral-wire model into a molecular, charged-carrier, or transport claim.
 - [PROTON_WIRE_CROSSING.md](PROTON_WIRE_CROSSING.md) supplies the domain map:
   the neutral-wire dipole identity, the fixed-dipole boundary, the bias
   exception, and the excluded physical situations.
+  Its section [the cube on the wire](PROTON_WIRE_CROSSING.md#the-cube-on-the-wire)
+  lays the letter cube on this folder: three of the table's moves sighted, no
+  new one, and the cube's Z axis, the disagreement count, named as the number of
+  bonds in which two proton configurations disagree.
 
 The associated model scripts live in
 [`simulations/water/`](../../simulations/water/), including

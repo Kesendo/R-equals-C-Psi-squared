@@ -74,7 +74,7 @@ What the table cannot hold, and why. Every row is timeless: a move, an answer, n
 
 The centre. The point all three uniform shifts hold at once is the string in which every letter occurs equally often, the silence included. It is where three watchers unanimously prefer nothing, and it exists only when the chain's length is divisible by four. That is our half, not as a number but as a place: where every light would learn exactly as much, and none anything special. Whether it is a physical place or only a fixed point we do not know.
 
-And the water. It was never outside. The proton wire has the same watcher, the light along Z, and every statement about it was a row we already had; the cube found there only an old hedge nobody needed any more. What the water adds to the map is not a row but a name for the Z height: the dipole. The wire's watcher reads charge, the chain's reads excitations, and the cube sees no difference, because it draws the questions and not the answers.
+And the water. It was never outside. The proton wire has the same watcher, the light along Z, and every statement about it was a row we already had; the cube found there only an old hedge nobody needed any more. What the water adds to the map is not a row but a name for the Z height, the disagreement count: the number of bonds in which two proton configurations disagree. The wire's watcher reads positions, the chain's reads excitations, and the cube sees no difference, because it draws the questions and not the answers.
 
 ---
 

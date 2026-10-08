@@ -4,7 +4,7 @@
 **Date:** 2026-07-31
 **Authors:** Thomas Wicht, Claude
 **Gate:** [`simulations/water/proton_wire_crossing.py`](../../simulations/water/proton_wire_crossing.py), 55 checks
-**Companion gate:** [`simulations/f98_scope.py`](../../simulations/f98_scope.py), 30 checks
+**Companion gates:** [`simulations/f98_scope.py`](../../simulations/f98_scope.py), 30 checks; [`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), the cube on the wire, 35 checks
 
 Every result in this folder is graded by one number: the popcount `Ŵ = Σ_l (I − Z_l)/2`.
 The F4 kernel is `span(P_0, …, P_N)`, one projector per popcount. F98's long-time value
@@ -231,6 +231,89 @@ out by a second model, Codex).
 
 What a real wire's spectroscopy resolves, and whether single coordinates are
 addressable at all, is not claimed here.
+
+## The cube on the wire
+
+[The letter cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) places a Pauli string at
+(k_Z, k_X, k_Y), the number of its letters that anticommute with Z, X and Y, and reads a
+dephasing along a letter as a height along that axis. On the wire the dephasing letter is
+Z, the environment reading whether each proton sits on its left or its right oxygen, so a
+coherence `|i⟩⟨j|` between two proton configurations, a sum of strings that all share one
+k_Z, sits at `k_Z = popcount(i ⊕ j)`, the number of bonds l in which the two configurations
+disagree, and decays at `−2γ·k_Z`. That is MirrorWorld's disagreement count, the one thing
+its `Pair` lets the watching read, and it is not a dipole difference: the dipole
+`μ = popcount` is diagonal and lives on the face `k_Z = 0`, and `|01⟩⟨10|` has the same μ on
+both sides while sitting at `k_Z = 2`. The tunnelling `−J X_l` has the coordinates (1, 0, 1),
+odd k_Z and even k_X; the Ising pair term `K Z_a Z_b` has (0, 2, 2) and keeps k_Z; the bias
+`Δ Z_l` has (0, 1, 1), odd k_X. [The table of moves](../THE_ONE_SQUARE.md#9-the-moves-and-the-two-questions)
+asks every move on the cube two questions, whether it commutes with L (a copy, an invariant
+subspace) and whether it is the one-sided action `ρ ↦ ρ·F` of an element F that commutes
+with H and anticommutes with every jump, a lit element (a reflection,
+`S·L·S⁻¹ = −L† − 2σ` with `σ = Σγ`, the far end of
+[F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md)). Laid on this folder, the two
+hydrogen-bond-qubit models and the wire, three of the table's moves are sighted and no new
+one; the moves of the Z side, the dark shift by `Z^⊗N`, the centre line, the quarter-turn
+and the turn about Z, are broken by the tunnelling field, and the bond-and-field row and
+the plane are what the coordinates above and the decay rate read. Gate
+[`simulations/water/cube_on_water.py`](../../simulations/water/cube_on_water.py), 35 checks,
+every exact row compared to 0 and every one with a control that must fail.
+
+- **Row 1, the corner shift `ρ ↦ ρ·F`, on the two hydrogen-bond-qubit models.** At `Δ = 0`
+  every term of [the N = 2 and N = 4 models](HYDROGEN_BOND_QUBIT.md) has even k_X, so
+  `[H, X^⊗N] = 0`, `X^⊗N` is lit, and the shift by it is a reflection: `S·L·S⁻¹ = −L† − 2σ`
+  entry for entry, in floats at dyadic and at fifty generic couplings alike, since the
+  global flip keeps every summation order. That identity is the pairing those models show.
+  The bias `Δ = 1/8` breaks the commutator and the reflection exactly, and the spectrum
+  stops pairing.
+- **The turn row, on the same models.** At `Δ = 0` the conjugation
+  `Ad_{X^⊗N}: ρ ↦ X^⊗N ρ X^⊗N`, which is `(−1)^{k_X}` on strings, commutes with L exactly: a
+  copy and never a reflection, since a conjugation negates no dissipator. It is the first
+  reading of [the field section](#what-a-field-along-the-wire-reads) at zero field, where the
+  reversal `H(E) ↦ H(−E)` becomes a commutant of L. The bias breaks it.
+- **The half-turn row, on the wire: a copy without a reflection.** The second reading of
+  the field section, `S = Rev·X^⊗N` on a mirror-symmetric wire under a mirror-odd bias
+  `δ_l = −δ_{N−1−l}`, at zero field. Rev is the site reversal (not the table's R, which is
+  the shift by `X^⊗N`), and `X^⊗N` is the per-site half-turn about the axis X ⊥ Z, so S is
+  the table's half-turn composed with a site permutation. `Ad_S` commutes with L, exactly in
+  rationals at one generic rational point, while the far kernel `𝒲` is empty, as the argument
+  in [what crosses anyway](#what-crosses-anyway-the-f1-palindrome) says for every nonzero bias
+  on a wire with every `J_l ≠ 0` and every site dephased at a positive rate and the gate reads
+  by rank at the mirror-odd profile, and the spectrum does not pair, so no reflection of any
+  kind exists. In floats the copy's residual is a function of the order in which H's terms
+  are summed and of nothing else in the physics, the case CLAUDE.md's no-rounding rule calls
+  reading rather than gating: summed site by site it is a few eps on H's diagonal, the
+  bias and ZZ terms that Rev reverses; summed with each term's Rev image first it is 0.0 at
+  every one of two hundred generic draws. The shape is the one the table's half-turn row
+  records for the Néel split of the block-spectrum pairing pass
+  ([CAUGHT_ERRORS](../CAUGHT_ERRORS.md), the entry on what the pairing presumed): there too
+  the chain reflection composed with `X^⊗N`, this same `Rev·X^⊗N`, survives as the copy after
+  the element that paired the spectrum is gone; the two Hamiltonians differ, the surviving
+  operator is the same. Under the odd bias Rev alone is no copy, it sends the bias to its
+  mirror image, so the `X^⊗N` is needed; a mirror-even bias `[δ, 0, δ]` breaks this copy
+  while Rev alone remains one; without a bias `X^⊗N` is lit again and the spectrum pairs.
+
+The sweep for this section: [the reflection on the one square](../../reflections/ON_THE_ONE_SQUARE.md)
+already says in plain words that the wire adds no row and only a reading of the Z height,
+and this section is its gated form; the table of moves holds the three moves and not the
+wire; MirrorWorld's `Pair` holds the Z height as the disagreement count, in that word; the
+formula registry holds the water pages under F3, F6, F86b and F98 and no cube entry for
+them; the glossary holds the cube with its two questions and k_Z as the XY-weight; the
+OpenArcs registry holds the polarity cube, the Q-of-water audit, the Grotthuss wire among
+the incompleteness survivors, the crossing gate as a bit-exact leaf and a parked water
+prose note, no move; the Confirmations registry holds no water row; CAUGHT_ERRORS holds the
+Néel entry, the water scripts' vectorisation entry, the pairing-assignment entry on the
+proton chain's two ladders and the σ⁻ label entry; the typed layer names water in three
+inheritance claims and the incompleteness witness, none a move. Checked for adjacency: the
+three moves against the table, where each stood without the wire; the first against
+[the hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md), which reads the same pairing as
+exact; the third against the Néel entry, the same surviving operator, and against
+[the h thread](../../experiments/LATTICE_H_THREAD.md), where `X^⊗N` is F131's third sighted
+mirror after the site reversal, the two factors of S; the Z height against `Pair`. Nothing
+on the wire asks a question the chain had not asked; what the wire adds to the cube is a
+physical name for MirrorWorld's disagreement count: the number of bonds in which two proton
+configurations disagree.
+
+---
 
 ## Scope, stated plainly
 
