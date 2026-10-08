@@ -38,6 +38,18 @@ sum of the cells of Hamming s in block (p,p), s = 0, 2, ..., 2 min(p, N-p).
       smallest eigenvalue (the open statement's face there) is read, above 1/2.
   G5  (reading)   at fixed N the smallest non-stationary height falls with p
       toward half filling.
+  G6  (reading)   that fall is the net of two opposed moves. h = 2 lambda_2 of
+      the Laplacian of the graph with weights W_ab; the step from |m| to |m|+1
+      removes the shell S = |m| from the graph and re-dresses the Clebsch-Gordan
+      weights. In that order, removing the shell at fixed dressing (the induced
+      subgraph of W^(m) on S >= |m|+1) LOWERS h, against the net rise, and the
+      re-dressing (the next sector itself on the same shells) overshoots it;
+      this decomposition gives no chain of one-signed moves (others tried in
+      review do not either: re-dressing first always raises, the removal after
+      it has no fixed sign). The within-shell edges carry none of the slow
+      mode's Rayleigh quotient at half filling (there are none; a cross-
+      reference to G0's squared model, not separate evidence) and their share
+      rises strictly with |m| at every N (gated as a reading).
 
 Rounding model for G3 and G4: eps sqrt(dim) p, the backward error of a dense
 symmetric eigensolver on a matrix of norm p; the first-order eigenvector error
@@ -285,6 +297,44 @@ def gate_g4(N, S, W):
     check(f"G4 N={N} half filling: second-smallest eigenvalue {mu[1]:.6f} > 1/2 (reading)", mu[1] > 0.5)
 
 
+def lap2(W):
+    A = W.copy()
+    np.fill_diagonal(A, 0.0)
+    L = np.diag(A.sum(1)) - A
+    ev, C = np.linalg.eigh(L)
+    return ev[1], C[:, 1], A
+
+
+def gate_g6(N, res):
+    ps = sorted(res, reverse=True)  # p = N//2 first: |m| rising
+    shares = []
+    for k, p in enumerate(ps):
+        E, S, W, m, lgap, hnorm = res[p]
+        lam, c, A = lap2(W)
+        within = np.abs(S[:, None] - S[None, :]) < 1e-9
+        q = A * (c[:, None] - c[None, :]) ** 2
+        share = q[within].sum() / q.sum()
+        if 2 * p == N:
+            # the within-shell edges are G0's zeros, squared matrix elements at their squared model
+            qm = ((EPS * hnorm * (1 / lgap[:, None] + 1 / lgap[None, :])) ** 2 * N) * (c[:, None] - c[None, :]) ** 2
+            ratio = q[within].sum() / qm[within].sum()
+            check(f"G6 N={N} |m|={abs(m):.1f}: the within-shell share of the slow mode's Rayleigh quotient is G0's zeros "
+                  f"(none at half filling), {share:.1e} against the squared model, ratio {ratio:.3f}", ratio < RATIO_CAP)
+        else:
+            print(f"       G6 N={N} |m|={abs(m):.1f}: within-shell share of the slow mode's Rayleigh quotient {share:.3f}")
+        shares.append(share)
+        if k + 1 < len(ps):
+            E2, S2_, W2, m2, _, _ = res[ps[k + 1]]
+            keep = S >= abs(m2) - 1e-9
+            lam_rm = lap2(W[np.ix_(keep, keep)])[0]
+            lam_next = lap2(W2)[0]
+            check(f"G6 N={N} |m|={abs(m):.1f} -> {abs(m2):.1f}: removing shell S={abs(m):.1f} lowers h "
+                  f"{2*lam:.4f} -> {2*lam_rm:.4f}, re-dressing raises it to {2*lam_next:.4f} (reading)",
+                  lam_rm < lam and lam_next > lam_rm)
+    check(f"G6 N={N}: the within-shell share rises strictly with |m| (reading) " +
+          ", ".join(f"{x:.3f}" for x in shares), all(a < b for a, b in zip(shares, shares[1:])))
+
+
 def main(nmax):
     for N in range(4, nmax + 1):
         res = {}
@@ -305,6 +355,7 @@ def main(nmax):
             if 2 * p == N:
                 gate_g4(N, S, W)
         gate_g2(N, res)
+        gate_g6(N, res)
         hs = [heights[p] for p in sorted(heights)]
         check(f"G5 N={N}: smallest height falls with p toward half filling (reading) " +
               ", ".join(f"{h:.4f}" for h in hs), all(a > b for a, b in zip(hs, hs[1:])))
