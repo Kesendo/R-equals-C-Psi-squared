@@ -34,12 +34,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>What is proved beside the theorem, and what is measured.</b> E is non-empty on every graph computed (N = 2: γ/J = 2, a
 /// defective double root; N = 3 chain: √((√17−1)/2) and √3; K₃: √3; N = 4: 8 chain, 3 ring, 4 star, 1
-/// complete; N = 5 chain: 13). On the chain block (p, p) carries exactly C(N, p) − 1 points at N = 2 to 6: at most
-/// that many on any connected graph (the Schur complement onto the populations, each eigencurve crossing 1 at most once),
-/// exactly N − 1 at p = 1 for every N (proved), and C(N, p) − 1 at p ≥ 2 measured: the lower bound needs m_p = 0 at the
-/// Hamiltonian end, read through N = 12 from the compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second
-/// eigenvalue below p − ½), and proved on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
-/// count as a plane crossing). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
+/// complete; N = 5 chain: 13). Block (p, p) carries exactly C(N, p) − c_p − m_p points counted with multiplicity (Theorem D of the plane-crossing
+/// section, the inertia identity n(γ) = #{r_j(γ) &lt; 1} on the Schur complement onto the populations): c_p the components of
+/// the exclusion graph, m_p the Krein debt, the block's non-stationary modes inside the half-plane Re λ &gt; −2γ at the
+/// Hamiltonian end, so that no mode returns below the plane on any graph and the 2γ regime exists iff every debt is zero.
+/// The witness reads the debt EXACTLY from the Sturm count (<see cref="ExceptionalCouplingWitness.Debts"/>) with the
+/// eigensolver's count beside it. On the chain the debt is zero and the count C(N, p) − 1: exactly through N = 5, N − 1
+/// at p = 1 for every N (proved), in float through N = 6 by the crossings and through N = 16 at the Hamiltonian end from the
+/// compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second eigenvalue below p − ½, open for every N), and proved
+/// on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
+/// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
 /// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
 /// threshold is 1/min E: closed forms Q*_gap = 1/2, √((1+√17)/8), 1/x₀ with x₀ the root 0.7450215 of
@@ -116,15 +120,19 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                 summary: LiveN3Chain(),
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("proved beside the theorem (the count as a plane crossing)",
-                summary: "every block (p,p) of a connected graph carries at most C(N,p) − 1 points (the Schur complement onto the " +
-                         "populations, each eigencurve crossing 1 at most once); nothing slower than 2γ is complex or defective (the transpose " +
+                summary: "every block (p,p) carries exactly C(N,p) − c_p − m_p points counted with multiplicity, c_p the components of the exclusion graph and m_p the " +
+                         "Krein debt, the block's modes inside the half-plane at the Hamiltonian end (Theorem D, the inertia identity " +
+                         "n(γ) = #{r_j(γ) < 1} on the Schur complement onto the populations: Haynsworth, the constant inertia of the coherence " +
+                         "corner, Theorem A); so no mode returns below the plane on any graph, and the 2γ regime exists iff every debt is zero, " +
+                         "a count read exactly by the witness; nothing slower than 2γ is complex or defective (the transpose " +
                          "as a Krein form), so a gap below 2γ is a real mode of a diagonal block and wherever the 2γ regime exists its " +
                          "threshold is 1/min E; on the chain exactly N − 1 points at p = 1 for every N; the (1,1) ring sectors carry " +
                          "the coherence-horizon dispersion");
             yield return new InspectableNode("measured",
                 summary: "E non-empty on every graph computed (N = 2: γ/J = 2 defective; N = 3 chain: 1.249621, 1.732051; " +
                          "K₃: √3 with count 12; N = 4: 8 chain, 3 ring, 4 star, 1 complete; N = 5 chain: 13); chain block " +
-                         "(p,p) carries C(N,p) − 1 points at p ≥ 2 through N = 6 (m_p = 0 at the Hamiltonian end through N = 12: the second eigenvalue of W_p = Σ n_l ∘ n_l below p − ½); min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
+                         "(p,p) carries C(N,p) − 1 points at p ≥ 2: exactly through N = 5, in float through N = 6, and m_p = 0 at the Hamiltonian end through N = 16 (the second eigenvalue of W_p = Σ n_l ∘ n_l below p − ½); " +
+                         "the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄, so there the 2γ regime does not exist; min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
                          "routes (the Heisenberg chain's handover, typed for XY by HandoverFloorClaim, and at " +
                          "N = 2 the coherence horizon's point of CoherenceHorizonClaim); totals with oscillating modes only " +
                          "measured off E; Pauli J throughout");

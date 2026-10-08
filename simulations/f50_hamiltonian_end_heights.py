@@ -13,7 +13,8 @@ configurations, the compression is
 
 so the limiting heights are 2 (p - mu) over the eigenvalues mu of W_p. W_p is nonnegative with every row sum p
 (sum_b (n_l)_ab^2 = (n_l)_aa and sum_l (n_l)_aa = p), so mu_1 = p is the stationary mode at height 0, and
-m_p = 0 exactly when the second-largest eigenvalue mu_2 lies below p - 1/2. At p = 1, W_1 is the overlap matrix W
+m_p = 0 if the second-largest eigenvalue mu_2 lies below p - 1/2 (at mu_2 = p - 1/2 a limiting height sits on the
+plane and first order does not decide). At p = 1, W_1 is the overlap matrix W
 of the proof's "The count at p = 1, every N".
 
 Rows (Pauli book, H = sum XX + YY + ZZ, J = 1, gamma/J the unit; every N from 4 to 12, every p from 1 to N/2):
@@ -26,7 +27,11 @@ Rows (Pauli book, H = sum XX + YY + ZZ, J = 1, gamma/J the unit; every N from 4 
   H3  the sector spectrum is simple in every block, so the kernel is the populations: the smallest level gap is printed
       and read against the eigensolver's resolution (eps * ||H||, about 1e-15 here; the smallest gap found is 7.8e-6 at
       N = 12), a reading with its error model rather than a threshold that merely passes.
-  H4  m_p read: #{heights < 1} - 1, and mu_2 against p - 1/2, every block N = 4..12. A reading, not a gate: it is
+  H4  m_p read: #{heights < 1} - 1, and mu_2 against p - 1/2, every block N = 4..12 (--n16 adds N = 13..16, about
+      fifteen minutes, the half-filling block at N = 16 having dimension 12870), with sigma_2(G)^2 beside it, G_xa = E_a(x)^2
+      the doubly stochastic matrix of the eigenstates' weights: the diagonal fraction of a traceless commutant element is at
+      most sigma_2(G)^2, and since every off-diagonal cell has Hamming >= 2 the height is at least 2 (1 - that fraction), so
+      sigma_2(G)^2 < 1/2 is a sufficient condition one step stronger than mu_2 < p - 1/2. A reading, not a gate: it is
       what the proof cites as measured.
   H5  control: the ZZ term dropped (XY chain) at p = 1 must give heights 2N/(N+1) and 2 (the proof's sine-mode
       formula), and the N = 4 ring at p = 1 must show a height exactly 1 at the Hamiltonian end (the K = pi mode
@@ -36,8 +41,10 @@ Rows (Pauli book, H = sum XX + YY + ZZ, J = 1, gamma/J the unit; every N from 4 
   H7  the uniform XY chain, every block N = 4..8, on the FULL kernel (its free-fermion levels are degenerate): m_p = 0
       and the smallest non-stationary height equals the l = 1 value 2N/(N + 1) (PROOF_FROZEN_BAND_SO4 Theorem 6.2,
       inherited to every rung by Corollary 4.2) and lies above the l >= 2 floor 2 l (N - l)/(N + 1) of Corollary 7.3.
-  H8  negative control: on the complete graph K4 and the ring at N = 4, block (2,2), the reader must register m_p = 2
-      and m_p = 1 (limiting heights 0.845 below the plane), so a reader that cannot see a mode below the plane fails.
+  H8  negative control: on the complete graph K4 and the ring at N = 4, block (2,2), the first-order reader must register
+      2 and 1 limiting heights strictly below the plane (0.845 on the ring), so a reader that cannot see a mode below the
+      plane fails. K4's two are its whole Krein debt m_2 = 2; the ring's debt is m_2 = 3, two more modes approaching the
+      plane from inside with limiting height exactly 1 (f50_inertia_identity.py I5), which first order cannot see.
 Prints ALL GATES PASS when H1, H2, H3, H5, H6, H7 and H8 hold. About two minutes.
 """
 import sys
@@ -158,16 +165,19 @@ for N in (4, 5):
              f"N={N} p={p}: {live.sum()} modes above rounding, ratios {np.array2string(ratios, precision=3)}; "
              f"{(~live).sum()} at rounding (max dev {at_rounding:.1e})")
 
-print("H3/H4  simple sector spectrum; m_p = #{heights < 1} - 1 and mu_2 vs p - 1/2, chain N = 4..12 (readings)")
-Ns = [int(a) for a in sys.argv[1:]] or list(range(4, 13))
+print("H3/H4  simple sector spectrum; m_p = #{heights < 1} - 1, mu_2 vs p - 1/2 and sigma_2(G)^2, chain N = 4..12 (--n16: ..16) (readings)")
+Ns = [int(a) for a in sys.argv[1:] if a.isdigit()] or list(range(4, 17 if "--n16" in sys.argv else 13))
 for N in Ns:
     for p in range(1, N // 2 + 1):
         E, V, confs, mu, k = heights(N, p, chain(N))
-        gate(min_gap(E) > 1e-9, f"H3 N={N} p={p}: dim {comb(N, p):4d}, min level gap {min_gap(E):.3e}")
+        gate(min_gap(E) > 1e-9, f"H3 N={N} p={p}: dim {comb(N, p):5d}, min level gap {min_gap(E):.3e}")
         below = int(np.sum(k < 1 - 1e-9))
         on = int(np.sum(np.abs(k - 1) <= 1e-9))
+        G = V * V
+        sigma2_sq = np.sort(np.linalg.eigvalsh(G.T @ G))[-2]
         print(f"        H4 N={N} p={p}: m_p = {below - 1}, on the plane {on}; mu_2 = {mu[1]:.6f} vs p - 1/2 = {p - 0.5}; "
-              f"smallest nonzero height {k[1]:.6f}, largest {k[-1]:.6f} (= 2p: {abs(k[-1] - 2 * p) < 1e-9})")
+              f"smallest nonzero height {k[1]:.6f}, largest {k[-1]:.6f} (= 2 min(p, N-p): {abs(k[-1] - 2 * min(p, N - p)) < 1e-9}); "
+              f"sigma_2(G)^2 = {sigma2_sq:.6f}", flush=True)
 
 print("H5  controls")
 for N in (4, 5, 6, 8):
@@ -231,10 +241,10 @@ for N in (4, 5, 6, 7, 8):
              f"smallest nonzero height {nonzero.min():.6f} = 2N/(N+1) = {2 * N / (N + 1):.6f}; "
              f"{others.size} heights off the l = 1 values, smallest {others.min() if others.size else float('nan'):.6f} >= l >= 2 floor {floor:.6f}")
 
-print("H8  negative control: the m_p reader must register m_p > 0 where it exists (N = 4, p = 2, full kernel)")
+print("H8  negative control: the first-order reader must register the limiting heights strictly below the plane (N = 4, p = 2, full kernel)")
 for label, bonds, expect in (("complete graph K4", [(a, b) for a in range(4) for b in range(a + 1, 4)], 2), ("ring", ring(4), 1)):
     E, degs, k = kernel_heights_general(4, 2, bonds)
     below = int(np.sum(k < 1 - 1e-9))
-    gate(below - 1 == expect, f"{label} (2,2): limiting heights below 1 {np.array2string(np.sort(k)[:4], precision=6)}, m_p = {below - 1} (expected {expect})")
+    gate(below - 1 == expect, f"{label} (2,2): limiting heights below 1 {np.array2string(np.sort(k)[:4], precision=6)}, strictly below the plane: {below - 1} (expected {expect})")
 
 print("\nALL GATES PASS" if ok_all else "\nSOME GATE FAILED")

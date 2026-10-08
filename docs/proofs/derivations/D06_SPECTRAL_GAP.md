@@ -32,7 +32,7 @@ with the six decimals the bisection prints, with the spectrum checked on both si
 relative offset 10⁻⁶. The identification is a consequence of F50 together with
 [the count as a plane crossing](../PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing): every mode
 slower than 2γ is a real, semisimple mode of a diagonal block, never a complex pair, and it leaves the
-half-plane above the line only at a point of E, so wherever the 2γ regime exists its threshold is 1/min E(N, G).
+half-plane above the line only at a point of E, so wherever the 2γ regime exists its threshold is 1/min E(N, G). The regime exists exactly when every block's count is full, #E_p = C(N, p) − c_p (Theorem D there, the inertia identity), which on the chain is read exactly through N = 5 and in float at N = 6, and fails on the N = 4 ring, star and K₄.
 That gives closed forms at N = 2, 3, 4: Q*_gap(2) = 1/2, Q*_gap(3) = √((1 + √17)/8)
 = 0.800243, Q*_gap(4) = 1/x₀ = 1.342243 with x₀ = 0.745022 the smallest positive root
 of 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = gamma/J); at N = 5, Q*_gap(5) = 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block. Q*_gap is a function of the Hamiltonian as well: the

@@ -135,6 +135,28 @@ public sealed class ExceptionalCouplingWitness : IInspectable
     /// <summary>One entry per rational point of E (the N = 2 chain's and the N = 4 ring's γ/J = 2, the defective ones).</summary>
     public IReadOnlyList<ExactMultiplicity> ExactAtRationalPoints { get; }
 
+    /// <summary>Theorem D of the plane-crossing section (the inertia identity n(γ) = #{r_j(γ) &lt; 1}) makes Theorem C an
+    /// equality: in block (p, p), #E_p = C(N, p) − c_p − m_p with c_p the components of the exclusion graph and m_p the
+    /// Krein debt, the non-stationary modes of the block inside the half-plane Re λ &gt; −2γ at the Hamiltonian end.
+    /// <see cref="Debt"/> is read EXACTLY from the Sturm count with multiplicity, no eigensolver; <see cref="DebtRead"/>
+    /// is the second route, the eigensolver's count of modes with Re λ + 2γ above 10⁻⁹ (Pauli J = 1) at J/γ = 30 and 60
+    /// (the same at both, the law), minus c_p. A limit-1 branch's height rises to 1 as (γ/J)², so Re λ + 2γ falls as
+    /// γ³/J²: at least 5.8·10⁻⁷ at J/γ = 60, 2.7 decades above the window, which is 5 decades above rounding
+    /// eps·‖B‖ ≈ 10⁻¹⁴. <see cref="StationaryRead"/> is the eigensolver's second route to c_p, the modes with |λ| below
+    /// 10⁻⁹ (the stationary modes, one per component). The routes meeting is the handshake; the 2γ regime of D06 exists
+    /// iff every debt is zero.</summary>
+    public sealed record KreinDebt(int P, int Binomial, int Components, int ExceptionalCountWithMultiplicity, int Debt, int DebtRead, int StationaryRead)
+    {
+        public bool RoutesMeet => Debt == DebtRead && Components == StationaryRead;
+    }
+
+    /// <summary>The Krein debt m_p of every diagonal block 1 ≤ p ≤ N − 1, exact and read.</summary>
+    public IReadOnlyList<KreinDebt> Debts { get; }
+
+    /// <summary>The 2γ regime exists (every mode slower than 2γ for γ below min E) iff m_p = 0 in every block, which by
+    /// Theorem D is #E_p = C(N, p) − c_p in every block: decided here by the exact count.</summary>
+    public bool GapRegimeExists => Debts.All(d => d.Debt == 0);
+
     /// <summary>The chain's gap reading on both sides of min E: (gap − 2γ just below, 2γ − gap just above,
     /// |Im| of the slow mode just above). Null off the chain or when E is empty.</summary>
     public (double BelowOffset, double AboveOffset, double AboveImag)? GapSides { get; }
@@ -176,6 +198,22 @@ public sealed class ExceptionalCouplingWitness : IInspectable
             }
         DiagonalBlocks = diag;
         OffDiagonalEvenBlocks = off;
+
+        var debts = new List<KreinDebt>();
+        foreach (var b in diag.Where(b => b.PKet >= 1 && b.PKet <= n - 1))
+        {
+            int components = ExclusionGraphComponents(n, b.PKet, Edges);
+            int binomial = (int)Binomial(n, b.PKet);
+            int debt = binomial - components - b.PositiveRootsWithMultiplicity;
+            var (inside30, stationary30) = ModesInsideTheHalfPlane(H, n, b.PKet, 1.0 / 30);
+            var (inside60, stationary60) = ModesInsideTheHalfPlane(H, n, b.PKet, 1.0 / 60);
+            if (inside30 != inside60 || stationary30 != stationary60)
+                throw new InvalidOperationException(
+                    $"block ({b.PKet},{b.PKet}): the eigensolver reads {inside30}/{stationary30} modes inside the half-plane/stationary at J/γ = 30 and " +
+                    $"{inside60}/{stationary60} at 60; both counts are constant below min E (Theorem D), so a change is a window failure, not a result.");
+            debts.Add(new KreinDebt(b.PKet, binomial, components, b.PositiveRootsWithMultiplicity, debt, inside30 - components, stationary30));
+        }
+        Debts = debts;
 
         var points = new SortedSet<double>();
         foreach (var b in diag) foreach (var r in b.Roots) points.Add(r);
@@ -610,6 +648,37 @@ public sealed class ExceptionalCouplingWitness : IInspectable
         return spectra.Sum(s => s.Count(v => v < 1e-8 * sigmaMax));
     }
 
+    /// <summary>c_p: the components of the exclusion graph on the popcount-p configurations (two configurations
+    /// adjacent when one bond moves one excitation between them), by union-find. One on every connected graph.</summary>
+    public static int ExclusionGraphComponents(int n, int p, IReadOnlyList<(int A, int B)> edges)
+    {
+        var confs = Enumerable.Range(0, 1 << n).Where(c => BitOperations.PopCount((uint)c) == p).ToArray();
+        var parent = confs.ToDictionary(c => c, c => c);
+        int Find(int c)
+        {
+            while (parent[c] != c) { parent[c] = parent[parent[c]]; c = parent[c]; }
+            return c;
+        }
+        foreach (var c in confs)
+            foreach (var (a, b) in edges)
+                if (((c >> a) & 1) != ((c >> b) & 1))
+                    parent[Find(c)] = Find(c ^ (1 << a) ^ (1 << b));
+        return confs.Select(Find).Distinct().Count();
+    }
+
+    /// <summary>n(γ) of Theorem C read by the eigensolver on block (p, p), the eigenvalues with Re λ + 2γ &gt; 10⁻⁹
+    /// (Pauli J = 1), and beside it the stationary count, the eigenvalues with |λ| &lt; 10⁻⁹ (c_p of them). A complex
+    /// pair running along the line (Re λ = −2γ exactly, Theorem A's boundary case) is not counted; a branch with
+    /// r_j(0⁺) = 1 sits inside with Re λ + 2γ of order γ³/J², about 4.6·10⁻⁶ at J/γ = 30.</summary>
+    public static (int Inside, int Stationary) ModesInsideTheHalfPlane(ComplexMatrix H, int n, int p, double gammaOverJ)
+    {
+        var gammas = Enumerable.Repeat(gammaOverJ, n).ToArray();
+        var flat = SectorBlock.SectorFlatIndices(n, p, p);
+        var B = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammas, flat);
+        var ev = B.Evd().EigenValues;
+        return (ev.Count(e => e.Real + 2 * gammaOverJ > 1e-9), ev.Count(e => e.Magnitude < 1e-9));
+    }
+
     private static IEnumerable<Complex> AllEigenvalues(ComplexMatrix H, int n, double gamma)
     {
         var gammas = Enumerable.Repeat(gamma, n).ToArray();
@@ -721,8 +790,15 @@ public sealed class ExceptionalCouplingWitness : IInspectable
                              $"root polynomial Q = {(b.ImagPart.Length == 0 ? "Re P (Im P ≡ 0)" : $"gcd(Re P, Im P), degree {b.Coefficients.Length - 1}")}; " +
                              $"positive roots: {b.DistinctPositiveRoots} distinct, {b.PositiveRootsWithMultiplicity} with multiplicity (Sturm); " +
                              (b.Roots.Count == 0 ? "none" : "at γ/J = " + string.Join(", ", b.Roots.Select(r => r.ToString("0.0000000000", Inv)))) +
-                             (Topology == "chain" && b.PKet > 0 && b.PKet < N ? $"; C(N,p) − 1 = {Binomial(N, b.PKet) - 1} (the Schur bound; attained at p = 1 for every N, measured at p ≥ 2)" : ""),
+                             (b.PKet > 0 && b.PKet < N ? $"; C(N,p) − c_p = {Binomial(N, b.PKet) - Debts.Single(d => d.P == b.PKet).Components} (the Schur bound), the shortfall is the Krein debt m_p = {Debts.Single(d => d.P == b.PKet).Debt} (Theorem D)" : ""),
                     provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode("the Krein debt, exactly (Theorem D: #E_p = C(N,p) − c_p − m_p)",
+                summary: string.Join("; ", Debts.Select(d =>
+                             $"p={d.P}: C(N,p) − c_p = {d.Binomial} − {d.Components}, #E_p = {d.ExceptionalCountWithMultiplicity} (Sturm, with multiplicity), " +
+                             $"m_p = {d.Debt} exact, {d.DebtRead} read by the eigensolver at J/γ = 30 and 60, c_p = {d.StationaryRead} read as the stationary modes{(d.RoutesMeet ? "" : " ROUTES DISAGREE")}")) +
+                         $"; the 2γ regime {(GapRegimeExists ? "exists: every mode slower than 2γ for γ below min E, and the threshold is 1/min E" : "does NOT exist: a block holds a mode inside the half-plane at every small γ")}",
+                provenance: NodeProvenance.Live);
 
             yield return new InspectableNode("the even off-diagonal blocks",
                 summary: OffDiagonalEvenBlocks.Count == 0 ? "none at this N" :

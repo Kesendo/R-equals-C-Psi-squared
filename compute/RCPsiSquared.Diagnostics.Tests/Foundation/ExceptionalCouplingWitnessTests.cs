@@ -25,6 +25,8 @@ public class ExceptionalCouplingWitnessTests
 {
     private static BigInteger[] Poly(params long[] ascending) => ascending.Select(c => new BigInteger(c)).ToArray();
 
+    private static double BinomialD(int n, int k) { double r = 1; for (int i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; }
+
     [Fact]
     public void Children_AreAllLive()
     {
@@ -261,6 +263,50 @@ public class ExceptionalCouplingWitnessTests
         // no positive root at all
         Assert.Equal(0, ExceptionalCouplingWitness.DistinctPositiveRoots(Poly(1, 0, 1)));
         Assert.Empty(ExceptionalCouplingWitness.IsolatePositiveRoots(Poly(1, 0, 1)));
+    }
+
+    // ---------------------------------------------------------------- Theorem D: the Krein debt, exactly
+
+    /// <summary>Theorem D (the inertia identity) makes Theorem C an equality, #E_p = C(N,p) − c_p − m_p, so the Krein debt
+    /// m_p is read EXACTLY from the Sturm count with multiplicity, and the 2γ regime's existence (every debt zero) is
+    /// decided without an eigensolver. The second route, the eigensolver's count of modes inside the half-plane at
+    /// J/γ = 30 and 60 (constant, the law), must meet it in every block: the handshake. The chain reads zero debt in
+    /// every block (the regime exists, threshold 1/min E); the N = 4 ring reads m₁ = 1 (the K = π mode, inside at every
+    /// finite γ, rising to the plane only in the limit) and m₂ = 3 (one mode of limiting height 0.845, two of limiting
+    /// height exactly 1 from inside), K₄ reads 3 and 2 (its (1,1) block has three limit-1 branches and no point of E),
+    /// the star 1 and 0; p and N − p mirror each other. The gate beside it: simulations/f50_inertia_identity.py I5.</summary>
+    [Theory]
+    [InlineData(2, "chain", new[] { 0 })]
+    [InlineData(3, "chain", new[] { 0, 0 })]
+    [InlineData(3, "complete", new[] { 0, 0 })]
+    [InlineData(4, "chain", new[] { 0, 0, 0 })]
+    [InlineData(4, "ring", new[] { 1, 3, 1 })]
+    [InlineData(4, "star", new[] { 1, 0, 1 })]
+    [InlineData(4, "complete", new[] { 3, 2, 3 })]
+    public void KreinDebt_IsExact_MeetsTheEigensolver_AndDecidesTheRegime(int n, string topology, int[] debts)
+    {
+        var w = new ExceptionalCouplingWitness(n, topology);
+        Assert.Equal(n - 1, w.Debts.Count);
+        Assert.Equal(Enumerable.Range(1, n - 1), w.Debts.Select(d => d.P));
+        Assert.All(w.Debts, d => Assert.Equal(1, d.Components));                        // every graph here is connected
+        Assert.Equal(debts, w.Debts.Select(d => d.Debt).ToArray());
+        Assert.All(w.Debts, d => Assert.True(d.RoutesMeet, $"p={d.P}: exact debt {d.Debt}, eigensolver reads {d.DebtRead}; c_p {d.Components}, stationary read {d.StationaryRead}"));
+        Assert.All(w.Debts, d => Assert.Equal(d.Components, d.StationaryRead));                    // the second route to c_p
+        Assert.Equal(debts.Select((m, i) => (int)Math.Round(BinomialD(n, i + 1)) - 1 - m), w.Debts.Select(d => d.ExceptionalCountWithMultiplicity)); // #E_p = C − 1 − m_p
+        Assert.Equal(debts.All(d => d == 0), w.GapRegimeExists);
+        var node = ((IInspectable)w).Children.Single(c => c.DisplayName.StartsWith("the Krein debt"));
+        Assert.Equal(NodeProvenance.Live, node.Provenance);
+        Assert.Contains(w.GapRegimeExists ? "exists" : "does NOT exist", node.Summary);
+    }
+
+    [Fact]
+    public void ExclusionGraphComponents_CountsTheTokenGraphsComponents()
+    {
+        var chain4 = new (int, int)[] { (0, 1), (1, 2), (2, 3) };
+        Assert.Equal(1, ExceptionalCouplingWitness.ExclusionGraphComponents(4, 2, chain4));
+        var twoBonds = new (int, int)[] { (0, 1), (2, 3) };                               // two components of the site graph
+        Assert.Equal(2, ExceptionalCouplingWitness.ExclusionGraphComponents(4, 1, twoBonds));     // p = 1: one per component of the site graph
+        Assert.Equal(3, ExceptionalCouplingWitness.ExclusionGraphComponents(4, 2, twoBonds));     // (2,0), (1,1), (0,2) excitations per half
     }
 
     // ---------------------------------------------------------------- the claim
