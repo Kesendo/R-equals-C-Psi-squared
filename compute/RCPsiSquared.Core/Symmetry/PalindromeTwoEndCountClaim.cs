@@ -56,7 +56,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the paragraph above both sides are false anyway.</para>
 ///
 /// <para>Proof <c>docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md</c>; gate
-/// <c>simulations/f138_rank_criterion.py</c> (103 gates, 15415 rows scored in both directions with
+/// <c>simulations/f138_rank_criterion.py</c> (128 gates, 15415 rows scored in both directions with
 /// FP = 0 and FN = 0, among them off-axis n.sigma jumps and multi-site Pauli strings; beside
 /// them F1's own canonical break under depolarizing, and one float route that shares no
 /// construction code with the rest). Live lab: <c>inspect --root twoend</c>, and for Pauli-string
@@ -206,7 +206,7 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                 summary: "Proved for any Hermitian H, any nonempty finite set of Hermitian jumps squaring to 1 (single " +
                          "letters, off-axis n.sigma at unit directions, multi-site Pauli strings and full " +
                          "depolarizing sites alike), any strictly positive profile, any topology, any N, any " +
-                         "finite dimension. Gated at d = 2^N with N <= 5, plus d = 3 and 5, where the inequality " +
+                         "finite dimension. Gated at d = 2^N with N <= 5 in both directions (N = 5 on gate 12's 22 rows, two routes), plus d = 3 and 5, where the inequality " +
                          "dim W < dim N behind the odd-d corollary is checked. OUTSIDE: jumps with A^2 != 1 (F137 recentres) and rates that are zero or " +
                          "negative. What the counts decide is the MULTISET; where they agree the proof's (f8) " +
                          "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
@@ -235,7 +235,7 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "operator conditions by a route that never forms L, and decides the palindrome by the " +
                          "characteristic-polynomial identity at sampled points over the same fields, then " +
                          "compares: inspect --root twoend. Three computations meeting, modular evidence rather " +
-                         "than an exact decision. Gate: simulations/f138_rank_criterion.py (103 gates), whose companion " +
+                         "than an exact decision. Gate: simulations/f138_rank_criterion.py (128 gates), whose companion " +
                          "simulations/f138_pairing_condition.py carries the 140861-row census the necessity " +
                          "direction no longer needs.");
         }

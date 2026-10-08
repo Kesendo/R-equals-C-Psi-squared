@@ -1278,6 +1278,309 @@ def gate11_strict_inequality_by_construction():
          '%d of 8 rows have 0 < dim W < dim N' % strict)
 
 
+# ---------------------------------------------------------------------------
+# Gate 12: N = 5 in BOTH directions, on two routes
+
+def gate12_n5_both_directions(random_rows=8):
+    """N = 5 in both directions.
+
+    Through gate 7, N = 5 is reached by F103's three rows only, all three
+    with agreeing counts and a pairing spectrum. Rows with DIFFERING counts,
+    which test "pairs => counts agree" through its contrapositive, had no
+    N = 5 row at all. Here N = 5 carries both kinds, rows BUILT to hold and
+    rows built to break, and random rows of the letter grid, each read on
+    two routes:
+
+      modular  : build_L over GF(p), the two nullities as 1024 - rank, and the
+                 char-poly palindrome at two evaluation points (the criterion's
+                 own numbers, the same code gate 4 scores);
+      float    : dense complex Liouvillian built here from the Paulis, the
+                 spectrum matched optimally against its reflection, and the two
+                 nullities from singular values.
+
+    Four comparisons per row, and they are different: the criterion against the
+    palindrome on each route, the two routes' nullities against each other, and
+    the two routes' verdicts against each other. A row where the counts agree
+    and the spectrum breaks, on either route, would falsify Lemma 3 or the
+    theorem at N = 5 and the gate names the row.
+
+    The bisector row is the one that matters most: one Z jump on the middle
+    site, an X field on site 0 and a Y field on site 4 of EQUAL magnitude. No
+    single Pauli string is in the far kernel there (checked over all 1024
+    strings), the counts agree, and the spectrum pairs: F158's "if" beyond any
+    colouring, at N = 5 and five sites apart. Its control, the same row with
+    the magnitudes unequal, breaks, as at N = 3. And the same row with Z jumps
+    on sites 1 to 3 breaks too, with an empty far kernel: the site reflection
+    carries Z_1 to Z_3, so the element negates the jump SET and not each jump
+    in place, and F158's far end asks for each jump in place. A symmetry of H
+    that permutes the jumps is a copy, never a reflection.
+
+    Controls through the same door: the matching at the wrong centre
+    -2*sigma*11/10 and the modular palindrome at the wrong shift must both call
+    every holding row broken. Thresholds are read as separations in decades
+    (the worst holding row against the best breaking row, on the matching
+    distance and on the singular values; the wrong centre's smallest distance
+    against the worst holding row), the convention gate 9 set.
+
+    One limit, stated rather than hidden: every breaking row here has dim W = 0,
+    where the break follows from Lemma 2 alone (0 is always an eigenvalue and
+    -2 sigma then has multiplicity 0). The strict case 0 < dim W < dim N is
+    gate 11's, at d = 4; no N = 5 row reaches it.
+    """
+    from scipy.optimize import linear_sum_assignment
+    from f138_clause_two_sweep import FIELD_NUM, FIELD_DEN
+    print()
+    print('## Gate 12: N = 5 in both directions, on two routes')
+    print()
+    print('  Rows built to hold, rows built to break and random rows at')
+    print('  N = 5, each read modular and float, the two routes compared')
+    print('  row by row. About twenty seconds per row.')
+    print()
+    n = 5
+    edges = [(i, i + 1) for i in range(n - 1)]
+    rnd_points = np.random.default_rng(20261008 + 1)
+    I2 = np.eye(2, dtype=complex)
+    PAc = [I2, np.array([[0, 1], [1, 0]], dtype=complex),
+           np.array([[0, -1j], [1j, 0]], dtype=complex),
+           np.array([[1, 0], [0, -1]], dtype=complex)]
+
+    def strop(letters):
+        out = np.ones((1, 1), dtype=complex)
+        for t in letters:
+            out = np.kron(out, PAc[t])
+        return out
+
+    def one_site(t, s):
+        return tuple(t if k == s else 0 for k in range(n))
+
+    LET = {'X': 1, 'Y': 2, 'Z': 3}
+
+    def float_side(deph, fld, signs, words, mags):
+        d = 2 ** n
+        H = np.zeros((d, d), dtype=complex)
+        for a, c in edges:
+            for w in words:
+                H += strop(tuple(LET[w[0]] if k == a else LET[w[1]] if k == c else 0
+                                 for k in range(n)))
+        for s in range(n):
+            if fld[s]:
+                H += (signs[s] * mags[s] / FIELD_DEN) * strop(one_site(fld[s], s))
+        ident = np.eye(d, dtype=complex)
+        L = -1j * (np.kron(H, ident) - np.kron(ident, H.T))
+        g = GAMMA[0] / GAMMA[1]
+        sigma = 0.0
+        jumps = []
+        for s in range(n):
+            if deph[s]:
+                A = strop(one_site(deph[s], s))
+                jumps.append(A)
+                L += g * np.kron(A, A.T) - g * np.eye(d * d, dtype=complex)
+                sigma += g
+        ev = np.linalg.eigvals(L)
+
+        def match(centre):
+            cost = np.abs(ev[:, None] - (-ev - 2 * centre)[None, :])
+            r, c = linear_sum_assignment(cost)
+            return float(cost[r, c].max())
+
+        svL = np.linalg.svd(L, compute_uv=False)
+        svW = np.linalg.svd(L + 2 * sigma * np.eye(d * d), compute_uv=False)
+        return H, jumps, sigma, match(sigma), match(sigma * 1.1), svL, svW
+
+    def modular_side(deph, fld, signs, words, mags):
+        if all(w[0] == w[1] for w in words):
+            L, shift = build_L(n, edges, deph, fld, P, signs=signs,
+                               bond_terms=tuple(LET[w[0]] for w in words),
+                               field_num=mags)
+        else:
+            # a two-letter term: built from words, field-free rows only
+            assert not any(fld)
+            Hm = build_H_words(n, edges, list(words), P)
+            Jm = [G.string_op(one_site(deph[s], s), P) for s in range(n) if deph[s]]
+            L, shift = build_L_raw(Hm, Jm, GAMMA[0], GAMMA[1], P)
+        D = L.shape[0]
+        eye = np.eye(D, dtype=np.int64)
+        nN = D - rank_mod(L, P)
+        nW = D - rank_mod((L + shift * eye) % P, P)
+
+        def pal_at(sh):
+            # this gate's own stream: the module's rng feeds gate 4's row
+            # sample, and drawing from it here would move that sample
+            for _ in range(2):
+                x = int(rnd_points.integers(0, P))
+                y = (-x - sh) % P
+                if (det_mod_np_p((x * eye - L) % P, P)
+                        != det_mod_np_p((y * eye - L) % P, P)):
+                    return False
+            return True
+
+        wrong = (shift * 11 * pow(10, P - 2, P)) % P
+        return nN, nW, pal_at(shift), pal_at(wrong)
+
+    def single_string_in_far_kernel(H, jumps):
+        """Is some Pauli string in W = {[H,F] = 0, A F = -F A for all A}?"""
+        for s in itertools.product((0, 1, 2, 3), repeat=n):
+            if not any(s):
+                continue
+            F = strop(s)
+            if np.abs(H @ F - F @ H).max() > 1e-12:
+                continue
+            if all(np.abs(A @ F + F @ A).max() < 1e-12 for A in jumps):
+                return ''.join('IXYZ'[t] for t in s)
+        return None
+
+    Z5, PL, HEIS = (3,) * 5, (1,) * 5, ('XX', 'YY', 'ZZ')
+    built = [
+        # name, deph, fld, signs, bond_terms, mags, expected
+        ('Heisenberg, Z on every site, no field', Z5, (0,) * 5, PL, HEIS, FIELD_NUM, True),
+        ('Heisenberg, Z on every site, X field on every site', Z5, PL, PL, HEIS, FIELD_NUM, True),
+        ('Heisenberg, Z on every site, X field, alternating signs', Z5, PL, (1, -1, 1, -1, 1), HEIS, FIELD_NUM, True),
+        ('Heisenberg, Z on every site, Y field on every site', Z5, (2,) * 5, PL, HEIS, FIELD_NUM, True),
+        ('Heisenberg, X on site 0 and Z elsewhere, no field (two axes)', (1, 3, 3, 3, 3), (0,) * 5, PL, HEIS, FIELD_NUM, True),
+        ('Heisenberg, X Y Z Z Z, no field (three axes)', (1, 2, 3, 3, 3), (0,) * 5, PL, HEIS, FIELD_NUM, False),
+        ('Heisenberg, Z on every site, X field site 0 + Z field site 4', Z5, (1, 0, 0, 0, 3), PL, HEIS, FIELD_NUM, False),
+        ('XX+ZZ, Z on every site, X field site 0 + Y field site 1', Z5, (1, 2, 0, 0, 0), PL, ('XX', 'ZZ'), FIELD_NUM, False),
+        ('ZZ only, X Y Z X Y (three axes on a single-term bond), no field', (1, 2, 3, 1, 2), (0,) * 5, PL, ('ZZ',), FIELD_NUM, True),
+        ('XX+XY (a two-letter term), Z on every site, no field', Z5, (0,) * 5, PL, ('XX', 'XY'), FIELD_NUM, False),
+        ('bisector: Z on site 2, X field site 0 = Y field site 4', (0, 0, 3, 0, 0), (1, 0, 0, 0, 2), PL, HEIS, (30, 0, 0, 0, 30), True),
+        ('bisector control: the two field magnitudes unequal', (0, 0, 3, 0, 0), (1, 0, 0, 0, 2), PL, HEIS, (30, 0, 0, 0, 35), False),
+        ('bisector with Z on sites 1-3: the reflection moves jumps 1 and 3', (0, 3, 3, 3, 0), (1, 0, 0, 0, 2), PL, HEIS, (30, 0, 0, 0, 30), False),
+        ('bisector with Z on sites 1 and 3 only: both jumps moved', (0, 3, 0, 3, 0), (1, 0, 0, 0, 2), PL, HEIS, (30, 0, 0, 0, 30), False),
+    ]
+    # random rows of the letter grid, seeded, at least one jump each
+    # two families: the full letter grid (almost every row breaks there) and
+    # Z jumps on a random support with one field letter on a random support,
+    # where F138 says the row holds exactly when the letter is not Z
+    rnd = np.random.default_rng(20261008)
+    randoms = []
+    while len(randoms) < random_rows:
+        if len(randoms) % 2 == 0:
+            deph = tuple(int(t) for t in rnd.integers(0, 4, size=n))
+            fld = tuple(int(t) for t in rnd.integers(0, 4, size=n))
+        else:
+            deph = tuple(3 * int(t) for t in rnd.integers(0, 2, size=n))
+            letter = int(rnd.integers(1, 4))
+            fld = tuple(letter * int(t) for t in rnd.integers(0, 2, size=n))
+        if not any(deph):
+            continue
+        signs = tuple(int(t) for t in rnd.choice((-1, 1), size=n))
+        randoms.append(('random %s / field %s signs %s'
+                        % (''.join(LETTER_NAME[t] for t in deph),
+                           ''.join(LETTER_NAME[t] for t in fld),
+                           ''.join('+' if t > 0 else '-' for t in signs)),
+                        deph, fld, signs, HEIS, FIELD_NUM, None))
+
+    holds = breaks = 0
+    agree_hold = agree_break = differ_hold = differ_break = 0
+    route_verdict_mismatch = route_nullity_mismatch = 0
+    worst_hold, best_break = 0.0, np.inf
+    sv_zero, sv_live = 0.0, np.inf
+    wrong_centre_ok = wrong_shift_ok = 0
+    wrong_centre_min = np.inf
+    strict = 0
+    bisector_string = 'unread'
+    for name, deph, fld, signs, bt, mags, expected in built + randoms:
+        t0 = time.time()
+        H, jumps, sigma, dist, dist_wrong, svL, svW = float_side(deph, fld, signs, bt, mags)
+        nN, nW, pal_m, pal_wrong = modular_side(deph, fld, signs, bt, mags)
+        cut = 1e-9 * max(1.0, svL[0])
+        nf, nw = int(np.sum(svL < cut)), int(np.sum(svW < cut))
+        for sv in (svL, svW):
+            dead, live = sv[sv < cut], sv[sv >= cut]
+            if dead.size:
+                sv_zero = max(sv_zero, float(dead.max()))
+            if live.size:
+                sv_live = min(sv_live, float(live.min()))
+        pal_f = dist < 1e-7
+        route_verdict_mismatch += (pal_f != pal_m)
+        route_nullity_mismatch += (nf != nN or nw != nW)
+        agree = (nN == nW)
+        if pal_m:
+            holds += 1
+            worst_hold = max(worst_hold, dist)
+            wrong_centre_ok += (dist_wrong > 1e-3)
+            wrong_centre_min = min(wrong_centre_min, dist_wrong)
+            wrong_shift_ok += (not pal_wrong)
+            agree_hold += agree
+            differ_hold += (not agree)
+        else:
+            breaks += 1
+            best_break = min(best_break, dist)
+            agree_break += agree
+            differ_break += (not agree)
+        strict += (0 < nW < nN)
+        if name.startswith('bisector:'):
+            bisector_string = single_string_in_far_kernel(H, jumps)
+        print('  %-66s dimN=%d dimW=%d pal(mod)=%-5s pal(float)=%-5s dist=%.1e  [%.0fs]'
+              % (name[:66], nN, nW, pal_m, pal_f, dist, time.time() - t0))
+        if expected is not None:
+            gate('N=5 built row expected %s: %s' % ('HOLD' if expected else 'BREAK', name),
+                 pal_m == expected and (nN == nW) == expected,
+                 'dimN=%d dimW=%d palindrome=%s' % (nN, nW, pal_m))
+    print()
+    gate('N=5: the counts agree on every pairing row and differ on every broken one (modular)',
+         agree_break == 0 and differ_hold == 0 and holds > 0 and breaks > 0,
+         'rows=%d holds=%d breaks=%d; agree&break=%d differ&hold=%d'
+         % (holds + breaks, holds, breaks, agree_break, differ_hold))
+    gate('N=5: the float route gives the same verdict on every row',
+         route_verdict_mismatch == 0, 'mismatches=%d' % route_verdict_mismatch)
+    gate('N=5: the two routes read the same two nullities on every row',
+         route_nullity_mismatch == 0, 'SVD against GF(p) rank, mismatches=%d' % route_nullity_mismatch)
+    gate('N=5: the bisector row pairs with NO single Pauli string in the far kernel',
+         bisector_string is None, 'string found: %s' % bisector_string)
+    # and the search's positive control, through the same function: on the
+    # canonical chain with an X field everywhere it must return X^5
+    Hc, jc, _, _, _, _, _ = float_side(Z5, PL, PL, HEIS, FIELD_NUM)
+    found = single_string_in_far_kernel(Hc, jc)
+    gate('and the string search finds XXXXX on the canonical chain with an X field (its positive control)',
+         found == 'XXXXX', 'string found: %s' % found)
+    gate('N=5: the wrong centre and the wrong shift call every pairing row broken',
+         wrong_centre_ok == holds and wrong_shift_ok == holds
+         and np.log10(wrong_centre_min / max(worst_hold, 1e-300)) > 6,
+         'wrong centre %d/%d (smallest distance %.1e, %.1f decades above the worst hold), wrong shift %d/%d'
+         % (wrong_centre_ok, holds, wrong_centre_min,
+            np.log10(wrong_centre_min / max(worst_hold, 1e-300)), wrong_shift_ok, holds))
+    # the element itself, exhibited and checked EXACTLY: U' = R . (X+Y)^(x)5
+    # with R the site reflection, all entries Gaussian integers, so every
+    # comparison below is == 0 in float64 without rounding. (X+Y)^2 = 2, so U'
+    # is 2^(5/2) times the unit element and commutes or anticommutes exactly
+    # where that one does.
+    d = 2 ** n
+    R = np.zeros((d, d), dtype=complex)
+    for x in range(d):
+        bits = [(x >> (n - 1 - k)) & 1 for k in range(n)]
+        R[sum(b << k for k, b in enumerate(bits)), x] = 1      # reflect the bit string
+    XY = np.ones((1, 1), dtype=complex)
+    for _ in range(n):
+        XY = np.kron(XY, PAc[1] + PAc[2])
+    Ue = R @ XY
+    Hheis = np.zeros((d, d), dtype=complex)
+    for a, c in edges:
+        for t in (1, 2, 3):
+            Hheis += strop(tuple(t if k in (a, c) else 0 for k in range(n)))
+    X0, Y4 = strop(one_site(1, 0)), strop(one_site(2, 4))
+    Z1, Z2, Z3 = (strop(one_site(3, s)) for s in (1, 2, 3))
+    gate('N=5 bisector element: [U, H_Heisenberg] == 0 and [U, X_0 + Y_4] == 0, exactly',
+         np.abs(Ue @ Hheis - Hheis @ Ue).max() == 0.0
+         and np.abs(Ue @ (X0 + Y4) - (X0 + Y4) @ Ue).max() == 0.0,
+         'Gaussian-integer entries, both residuals compared with == 0')
+    gate('N=5 bisector element: U Z_2 = -Z_2 U in place, exactly, and U Z_1 = -Z_3 U (moved)',
+         np.abs(Ue @ Z2 + Z2 @ Ue).max() == 0.0
+         and np.abs(Ue @ Z1 + Z3 @ Ue).max() == 0.0
+         and np.abs(Ue @ Z1 + Z1 @ Ue).max() != 0.0,
+         'the middle jump negated in place; jump 1 carried onto jump 3, not negated in place')
+    gate('and the control: with the site-4 field doubled the element no longer fixes H',
+         np.abs(Ue @ (X0 + 2 * Y4) - (X0 + 2 * Y4) @ Ue).max() != 0.0,
+         'residual %.1f' % np.abs(Ue @ (X0 + 2 * Y4) - (X0 + 2 * Y4) @ Ue).max())
+    sep = np.log10(best_break / max(worst_hold, 1e-300))
+    svsep = np.log10(sv_live / max(sv_zero, 1e-300))
+    gate('N=5: the spectral threshold is a law, not a number', sep > 6,
+         'worst hold %.1e, smallest break %.1e, %.1f decades apart' % (worst_hold, best_break, sep))
+    gate('N=5: and so is the singular-value threshold', svsep > 6,
+         'largest zero %.1e, smallest live %.1e, %.1f decades apart' % (sv_zero, sv_live, svsep))
+    print('  rows with 0 < dim W < dim N at N = 5: %d (read, not gated)' % strict)
+
+
 def main():
     print('The pairing condition as a rank equality')
     print('=' * 78)
@@ -1294,6 +1597,7 @@ def main():
     gate9_independent_route()
     gate10_boundaries()
     gate11_strict_inequality_by_construction()
+    gate12_n5_both_directions()
     gate4_scored()
     print()
     gate('the scored rows, tallied over gates 4, 7 and 8, are the proof table',

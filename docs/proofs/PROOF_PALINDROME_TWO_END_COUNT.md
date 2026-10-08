@@ -671,7 +671,7 @@ The gate scores dim 𝒩 and dim 𝒲 from the operator equations, the commutant
 the jump-signed anticommutant; that these are dim ker L and dim ker(L + 2σ) is
 Lemma 1, checked exactly on gate 1's seven rows and in floats on gate 9's 885.
 
-**All 103 gates pass.** The criterion is scored against the palindrome on
+**All 128 gates pass.** The criterion is scored against the palindrome on
 **15,415 rows**, in both directions, of which **2,596 hold and 12,819 break**:
 
 | what is scored | rows | holds | FP | FN |
@@ -709,6 +709,7 @@ Beside the scoring, and on rows where the palindrome is not consulted at all:
 | §(f5), odd d | d = 3, 5, 24 random Hermitian H and 4 multiples of 1 (where dim 𝒲 > 0) | `dim 𝒲 < dim 𝒩` always, so by Lemma 3 no invertible element (a sampled search agrees) |
 | gate 10, depolarizing and the rate fence | N = 2, 3 | criterion tracks the palindrome through both |
 | gate 11, `0 < dim 𝒲 < dim 𝒩` by construction | 8 built rows at d = 4 | strictly between on all eight (so no invertible element; a sampled search agrees), criterion and spectrum agree |
+| gate 12, N = 5 in both directions, two routes | 14 built rows and 8 random rows at d = 32 | 10 pair and 12 break; the counts agree on every pairing row and differ on every broken one; the float route's verdicts and nullities match the modular ones on all 22; the wrong centre and the wrong shift call every pairing row broken |
 
 **And one route whose construction shares no code with any of it.** The failure
 this file could not otherwise rule out is a shared helper making the two sides
@@ -762,6 +763,56 @@ disjoint spectra where one block carries an invertible anticommuting element and
 the other carries none, so 𝒲 is nonzero and entirely singular by construction.
 The criterion says BROKEN on all eight and the spectrum agrees.
 
+**Gate 12 is N = 5 in both directions.** Through gate 7, N = 5 is reached by
+F103's three rows, all three with agreeing counts and a pairing spectrum, so
+rows with differing counts, which test "pairs ⟹ counts agree" through its
+contrapositive, had no N = 5 row. Twenty-two rows at d = 32, each read on the modular route (the
+two nullities as 1024 − rank over GF(p), the palindrome at two evaluation
+points) and on the float route (the spectrum matched optimally against its
+reflection, the nullities from singular values), the four readings compared
+row by row: ten rows pair and twelve break, the counts agree on every pairing
+row and differ on every broken one, and the two routes agree on every verdict
+and every nullity. The built rows are the ones F138 names, carried to N = 5:
+the canonical chain with and without a field, X and Y fields, alternating
+signs, two dephasing axes, three axes on Heisenberg (broken) and on the Ising
+bond (pairing), the field along the dephasing axis, the mixed field of
+clause 2's boundary, and the two-letter term XX + XY. Two controls through the
+same door: the matching at the wrong centre −2σ·11/10 and the modular
+palindrome at the wrong shift call all ten pairing rows broken. The thresholds
+are read as separations: the matching distance separates 7.1e−13 from 3.8e−4
+(**8.7 decades**), the singular values 8.6e−16 from 3.8e−4 (**11.6 decades**),
+the smallest break being the bisector control below, whose two field
+magnitudes differ by a sixth. One limit, stated: every breaking row at N = 5
+has dim 𝒲 = 0, where the break follows from Lemma 2 alone (0 is always an
+eigenvalue, so −2σ has multiplicity 0); the strict case 0 < dim 𝒲 < dim 𝒩
+is gate 11's, at d = 4, and no N = 5 row reaches it.
+
+The row that matters most there is **the bisector at N = 5**: one Z jump on
+the middle site, an X field on site 0 and a Y field on site 4 of equal
+magnitude. No single Pauli string lies in the far kernel (the 1,023
+non-identity strings tried; the non-identity strings commuting with the
+Heisenberg chain are X^⊗5, Y^⊗5 and Z^⊗5, and none of them commutes with both
+fields; the same search returns X^⊗5 on the canonical chain with an X field,
+its positive control), yet the two counts agree at 1 and the spectrum pairs.
+The element is the one of F138's U family, the site reflection composed with
+the half-turn about the bisector (X + Y)/√2, which carries the site-0 X field
+onto the site-4 Y field and negates the middle Z, exhibited and checked
+exactly (U scaled to Gaussian-integer entries, [U, H] = 0 and U Z₂ = −Z₂ U
+compared with == 0; with the site-4 field doubled the commutator is nonzero):
+the "if" of the theorem beyond any colouring, at N = 5. Its control with the
+magnitudes unequal breaks, as at N = 3. And the same row with the Z jumps on
+sites 1, 2 and 3 breaks as well, its far kernel zero on both routes; the
+U-family element is not in it because the reflection carries Z₁ to −Z₃
+(U Z₁ = −Z₃ U exactly, while U Z₂ = −Z₂ U still holds), so U negates the jump
+set and not every jump in place, and 𝒲 asks for every jump in place, A_l W A_l
+= −W for every l (Lemma 1), which is the condition MirrorWorld's
+`EndCount.SymmetryElement` builds its element under: an involution fixing
+every site a jump acts on, each jump going to minus itself. At equal rates on
+the permuted jumps the two-sided Ad_U still commutes with L and is a copy; the
+one-sided action is a reflection only where the permutation fixes every
+dephased site. With the jumps on sites 1 and 3 alone the far kernel is zero as
+well.
+
 One flag the gate carries is a tautology and is gated as one, so that it cannot
 be read as evidence: under Z-dephasing "the operator is not diagonal" holds for
 every element of 𝒲, since A W A = −W already forces every diagonal entry to
@@ -776,11 +827,10 @@ positive rate profile, uniform or not; any topology, which is not an independent
 axis but a special case of "any Hermitian H"; any N; any finite dimension, with
 the odd-d case true because both sides are false (§(f5)).
 
-**Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N = 5 is
-thin and deserves its caveat: it is reached only by F103's three rows, all of
-them palindromic, so the false-positive direction is untested there. N ≤ 4
-carries both directions. Everything outside that range rests on the proof
-alone.
+**Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N ≤ 4
+carries both directions on the letter grids; N = 5 carries both on gate 12's
+22 rows, ten pairing and twelve broken, each read on two routes (§(g)).
+Everything outside that range rests on the proof alone.
 
 **Outside:** jump operators with A² ≠ 1, where F137 recentres the palindrome and
 the question changes; and rates that are zero or negative. Where the two counts differ

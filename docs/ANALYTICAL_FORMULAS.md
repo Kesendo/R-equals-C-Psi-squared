@@ -9476,7 +9476,7 @@ route and whose sufficiency calculation is consumed unchanged.
 FN = 0, the two nullities read at one prime (each an upper bound on the rational one) and the
 palindrome side at three primes and two evaluation points on the 13,540 rows of the letter grids and at
 one prime and six points on the other 1,875, evidence rather than proof; 217 of the rows have no jump, sit
-outside the theorem's class and hold trivially (σ = 0, 𝒩 = 𝒲); beside two layers that encode the conditions
+outside the theorem's class and hold trivially (σ = 0, 𝒩 = 𝒲); at N = 5 both directions on 22 rows read on two routes, among them the bisector row whose far kernel holds no single Pauli string and whose element, the site reflection composed with the half-turn about (X + Y)/√2, is checked exactly (gate 12); beside two layers that encode the conditions
 differently on fewer rows: exact ℚ(i) with Fraction arithmetic on seven named rows
 (Gate 1), and a float route on 885 rows that shares no construction code with the
 other two and whose thresholds are gated on measured separations of 10.6 and 11.9

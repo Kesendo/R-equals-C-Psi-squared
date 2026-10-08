@@ -213,18 +213,74 @@ the char-poly palindrome p(x) = p(-x - 2*sigma) holds exactly when
   [PASS] block pair (H1=Y, shift 13): criterion = palindrome      dimN=3 dimW=1 strict=True invertible=False palindrome=False
   [PASS] every constructed row really is strictly between         8 of 8 rows have 0 < dim W < dim N
 
+## Gate 12: N = 5 in both directions, on two routes
+
+  Rows built to hold, rows built to break and random rows at
+  N = 5, each read modular and float, the two routes compared
+  row by row. About twenty seconds per row.
+
+  Heisenberg, Z on every site, no field                              dimN=6 dimW=6 pal(mod)=True  pal(float)=True  dist=1.4e-13  [5s]
+  [PASS] N=5 built row expected HOLD: Heisenberg, Z on every site, no field dimN=6 dimW=6 palindrome=True
+  Heisenberg, Z on every site, X field on every site                 dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=3.4e-13  [25s]
+  [PASS] N=5 built row expected HOLD: Heisenberg, Z on every site, X field on every site dimN=1 dimW=1 palindrome=True
+  Heisenberg, Z on every site, X field, alternating signs            dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=1.7e-13  [25s]
+  [PASS] N=5 built row expected HOLD: Heisenberg, Z on every site, X field, alternating signs dimN=1 dimW=1 palindrome=True
+  Heisenberg, Z on every site, Y field on every site                 dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=7.1e-13  [25s]
+  [PASS] N=5 built row expected HOLD: Heisenberg, Z on every site, Y field on every site dimN=1 dimW=1 palindrome=True
+  Heisenberg, X on site 0 and Z elsewhere, no field (two axes)       dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=1.2e-13  [6s]
+  [PASS] N=5 built row expected HOLD: Heisenberg, X on site 0 and Z elsewhere, no field (two axes) dimN=1 dimW=1 palindrome=True
+  Heisenberg, X Y Z Z Z, no field (three axes)                       dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=9.8e-02  [9s]
+  [PASS] N=5 built row expected BREAK: Heisenberg, X Y Z Z Z, no field (three axes) dimN=1 dimW=0 palindrome=False
+  Heisenberg, Z on every site, X field site 0 + Z field site 4       dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=2.5e-01  [10s]
+  [PASS] N=5 built row expected BREAK: Heisenberg, Z on every site, X field site 0 + Z field site 4 dimN=1 dimW=0 palindrome=False
+  XX+ZZ, Z on every site, X field site 0 + Y field site 1            dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=1.6e-01  [22s]
+  [PASS] N=5 built row expected BREAK: XX+ZZ, Z on every site, X field site 0 + Y field site 1 dimN=1 dimW=0 palindrome=False
+  ZZ only, X Y Z X Y (three axes on a single-term bond), no field    dimN=2 dimW=2 pal(mod)=True  pal(float)=True  dist=8.4e-14  [5s]
+  [PASS] N=5 built row expected HOLD: ZZ only, X Y Z X Y (three axes on a single-term bond), no field dimN=2 dimW=2 palindrome=True
+  XX+XY (a two-letter term), Z on every site, no field               dimN=2 dimW=0 pal(mod)=False pal(float)=False dist=1.5e-01  [7s]
+  [PASS] N=5 built row expected BREAK: XX+XY (a two-letter term), Z on every site, no field dimN=2 dimW=0 palindrome=False
+  bisector: Z on site 2, X field site 0 = Y field site 4             dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=9.6e-14  [21s]
+  [PASS] N=5 built row expected HOLD: bisector: Z on site 2, X field site 0 = Y field site 4 dimN=1 dimW=1 palindrome=True
+  bisector control: the two field magnitudes unequal                 dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=3.8e-04  [17s]
+  [PASS] N=5 built row expected BREAK: bisector control: the two field magnitudes unequal dimN=1 dimW=0 palindrome=False
+  bisector with Z on sites 1-3: the reflection moves jumps 1 and 3   dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=1.3e-02  [17s]
+  [PASS] N=5 built row expected BREAK: bisector with Z on sites 1-3: the reflection moves jumps 1 and 3 dimN=1 dimW=0 palindrome=False
+  bisector with Z on sites 1 and 3 only: both jumps moved            dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=1.2e-02  [17s]
+  [PASS] N=5 built row expected BREAK: bisector with Z on sites 1 and 3 only: both jumps moved dimN=1 dimW=0 palindrome=False
+  random ...Z. / field ZZXZZ signs +---+                             dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=4.8e-02  [10s]
+  random .ZZZZ / field Z.ZZ. signs -----                             dimN=6 dimW=0 pal(mod)=False pal(float)=False dist=2.1e-01  [5s]
+  random .YXX. / field YYZYX signs --+--                             dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=1.5e-01  [21s]
+  random ...ZZ / field ..XX. signs +-+-+                             dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=1.7e-13  [11s]
+  random Z.ZYY / field .ZZZZ signs ++-+-                             dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=2.2e-01  [6s]
+  random ZZZZZ / field Y..YY signs ++-++                             dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=1.3e-13  [21s]
+  random .YYYZ / field XXXYX signs ---+-                             dimN=1 dimW=0 pal(mod)=False pal(float)=False dist=5.9e-02  [21s]
+  random ...ZZ / field Y.Y.Y signs ---++                             dimN=1 dimW=1 pal(mod)=True  pal(float)=True  dist=1.6e-13  [22s]
+
+  [PASS] N=5: the counts agree on every pairing row and differ on every broken one (modular) rows=22 holds=10 breaks=12; agree&break=0 differ&hold=0
+  [PASS] N=5: the float route gives the same verdict on every row mismatches=0
+  [PASS] N=5: the two routes read the same two nullities on every row SVD against GF(p) rank, mismatches=0
+  [PASS] N=5: the bisector row pairs with NO single Pauli string in the far kernel string found: None
+  [PASS] and the string search finds XXXXX on the canonical chain with an X field (its positive control) string found: XXXXX
+  [PASS] N=5: the wrong centre and the wrong shift call every pairing row broken wrong centre 10/10 (smallest distance 9.0e-02, 11.1 decades above the worst hold), wrong shift 10/10
+  [PASS] N=5 bisector element: [U, H_Heisenberg] == 0 and [U, X_0 + Y_4] == 0, exactly Gaussian-integer entries, both residuals compared with == 0
+  [PASS] N=5 bisector element: U Z_2 = -Z_2 U in place, exactly, and U Z_1 = -Z_3 U (moved) the middle jump negated in place; jump 1 carried onto jump 3, not negated in place
+  [PASS] and the control: with the site-4 field doubled the element no longer fixes H residual 5.7
+  [PASS] N=5: the spectral threshold is a law, not a number       worst hold 7.1e-13, smallest break 3.8e-04, 8.7 decades apart
+  [PASS] N=5: and so is the singular-value threshold              largest zero 8.6e-16, smallest live 3.8e-04, 11.6 decades apart
+  rows with 0 < dim W < dim N at N = 5: 0 (read, not gated)
+
 ## Gate 4: the rank equality scored against the exact palindrome
 
-  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (20 s)
-  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (21 s)
-  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (18 s)
-  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (20 s)
-  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (7 s)
+  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (25 s)
+  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (25 s)
+  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (20 s)
+  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (23 s)
+  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (8 s)
   [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (9 s)
   [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (6 s)
   [PASS] rank criterion under non-uniform J and gamma             rows=600 holds=77 breaks=523  0<dimW<dimN on 3  FP=0 FN=0  (5 s)
-  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (79 s)
-  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (78 s)
+  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (82 s)
+  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (81 s)
 
   And the same rows scored for T4, which is what replaces sampling:
   [PASS] invertible element <=> dim N == dim W, P3 equal          rows=2500  mismatches=0
@@ -233,6 +289,5 @@ the char-poly palindrome p(x) = p(-x - 2*sigma) holds exactly when
   [PASS] the scored rows, tallied over gates 4, 7 and 8, are the proof table rows=15415 holds=2596 breaks=12819, 0 < dim W < dim N on 212; 217 rows have no jump and hold trivially
 
 ==============================================================================
-  103 gates, 103 passed, 0 failed
+  128 gates, 128 passed, 0 failed
   ALL GATES PASS
-EXIT=0
