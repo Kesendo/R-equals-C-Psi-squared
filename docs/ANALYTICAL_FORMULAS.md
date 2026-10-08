@@ -778,7 +778,7 @@ point of E is 1/Q*_gap(N) wherever the 2γ regime exists, a consequence of the t
 plane-crossing section: every complex and every defective mode lies on or below the line, so a gap below 2γ is always
 a real mode of a diagonal block, which leaves the half-plane only at a point of E; every block (p, p) of a connected graph carries at most C(N, p) − 1 points (the Schur complement onto
 the populations), and on the chain exactly N − 1 at p = 1 for every N (proved) and C(N, p) − 1 at p ≥ 2 through N = 6
-(measured) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
+(measured) and through N = 12 by m_p = 0 at the Hamiltonian end, no non-stationary mode of the block below the plane at γ → 0⁺, read from the compression W_p = Σ_l n_l ∘ n_l of the eigenstate populations, whose second eigenvalue stays below p − ½; on the uniform XY chain m_p = 0 is proved at every N by [F141](#f141), [F143](#f143) and [F144](#f144), so there #E_p = C(N, p) − 1 at every p ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
@@ -7310,6 +7310,8 @@ sampled, though no rank read can see the defectiveness at the exceptional
 couplings. The chain is selectable: `inspect --root divisor --N 5 --chain xy`
 is the invocation that shows the census failing off Heisenberg.
 
+<a id="f141"></a>
+
 ### F141. The disagreement is eta-invariant: the ladder adds no disagreement, so the light has nothing new to separate (minted 2026-07-27)
 
 Write 𝒦 for the disagreement count of a coherence, the number of sites where
@@ -7556,6 +7558,8 @@ Heisenberg one. It is also not K, which is not even an antisymmetry of the Heise
 single-excitation matrix once the ZZ diagonal is in it.
 
 ---
+
+<a id="f144"></a>
 
 ### F144. The disagreement has a floor, and the other ladder sets it: no multiplet starts above the seed at any N ≥ 6 (minted 2026-07-27)
 

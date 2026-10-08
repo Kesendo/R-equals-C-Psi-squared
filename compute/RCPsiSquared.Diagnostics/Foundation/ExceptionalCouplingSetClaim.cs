@@ -36,7 +36,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// defective double root; N = 3 chain: √((√17−1)/2) and √3; K₃: √3; N = 4: 8 chain, 3 ring, 4 star, 1
 /// complete; N = 5 chain: 13). On the chain block (p, p) carries exactly C(N, p) − 1 points at N = 2 to 6: at most
 /// that many on any connected graph (the Schur complement onto the populations, each eigencurve crossing 1 at most once),
-/// exactly N − 1 at p = 1 for every N (proved), and C(N, p) − 1 at p ≥ 2 measured (PROOF_WEIGHT1_DEGENERACY § The
+/// exactly N − 1 at p = 1 for every N (proved), and C(N, p) − 1 at p ≥ 2 measured: the lower bound needs m_p = 0 at the
+/// Hamiltonian end, read through N = 12 from the compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second
+/// eigenvalue below p − ½), and proved on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
 /// count as a plane crossing). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
 /// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
@@ -71,8 +73,11 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                "the populations, each eigencurve crossing 1 at most once); exactly N − 1 at p = 1 on the chain for every N; " +
                "the Krein bound keeps every complex and defective mode on or below the line, so a gap below 2γ is a real " +
                "mode of a diagonal block, and min E(chain) = 1/Q*_gap(N) is a theorem consequence wherever the 2γ regime " +
-               "exists. MEASURED: E non-empty on every graph computed; C(N,p) − 1 points at p ≥ 2 on the chain through " +
-               "N = 6; the identification at N = 2..5 by two routes, the Heisenberg chain's handover (closed forms at " +
+               "exists; on the uniform XY chain #E_p = C(N,p) − 1 at every p and every N (F141's ladder, F143's rung and F144's floor put every " +
+               "non-stationary mode above the plane at γ → 0⁺). MEASURED: E non-empty on every graph computed; C(N,p) − 1 points " +
+               "at p ≥ 2 on the chain through N = 6, and through N = 12 by m_p = 0 at the Hamiltonian end (no non-stationary mode " +
+               "below the plane at γ → 0⁺, read from the compression W_p = Σ n_l ∘ n_l of the eigenstate populations); " +
+               "the identification at N = 2..5 by two routes, the Heisenberg chain's handover (closed forms at " +
                "N = 2, 3, 4; degree 48 at N = 5). Pauli book: the spin book's J is four times this one.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_WEIGHT1_DEGENERACY.md (The count at exceptional couplings) + " +
@@ -119,7 +124,7 @@ public sealed class ExceptionalCouplingSetClaim : Claim
             yield return new InspectableNode("measured",
                 summary: "E non-empty on every graph computed (N = 2: γ/J = 2 defective; N = 3 chain: 1.249621, 1.732051; " +
                          "K₃: √3 with count 12; N = 4: 8 chain, 3 ring, 4 star, 1 complete; N = 5 chain: 13); chain block " +
-                         "(p,p) carries C(N,p) − 1 points at p ≥ 2 through N = 6; min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
+                         "(p,p) carries C(N,p) − 1 points at p ≥ 2 through N = 6 (m_p = 0 at the Hamiltonian end through N = 12: the second eigenvalue of W_p = Σ n_l ∘ n_l below p − ½); min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
                          "routes (the Heisenberg chain's handover, typed for XY by HandoverFloorClaim, and at " +
                          "N = 2 the coherence horizon's point of CoherenceHorizonClaim); totals with oscillating modes only " +
                          "measured off E; Pauli J throughout");
