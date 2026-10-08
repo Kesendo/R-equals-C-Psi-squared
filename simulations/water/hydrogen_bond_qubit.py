@@ -3,8 +3,11 @@
 The hydrogen bond as a qubit.
 
 The proton in O-H...O tunnels between two wells: |L> (donor side)
-and |R> (acceptor side). This IS a qubit. d=2. The palindrome is
-PROVEN. CΨ MUST cross 1/4. We compute the timescales.
+and |R> (acceptor side), modelled as a qubit (d=2) with H = -J σ_X at Δ = 0
+under Z-dephasing. Every term of the Phase 2 and 3 Hamiltonians commutes with
+X^N while X^N anticommutes with every jump, so the decay spectrum is exactly
+palindromic about -Σγ (F158, the lit string X^N); this is checked exactly
+below. Whether CΨ crosses 1/4, and when, is computed, not assumed.
 
 Phase 1: Single proton qubit (N=1)
 Phase 2: One water molecule (N=2, two proton qubits)
@@ -196,8 +199,13 @@ print(f"\n  Parameters: J_intra={J_intra/meV:.1f} meV, K={K_OO/meV:.1f} meV, "
 print(f"  Liouvillian: {L2.shape[0]}x{L2.shape[0]}")
 print(f"  Oscillatory eigenvalues: {n_osc}")
 print(f"  Distinct frequencies: {len(freqs)}")
-print(f"  Palindromic pair sums: mean={pair_sum:.6f}, std={pair_std:.2e}")
-print(f"  Palindrome: {'EXACT' if pair_std < 1e-6 else 'approximate'}")
+XX = kron_list([sx, sx])
+commutes2 = np.max(np.abs(H2 @ XX - XX @ H2)) == 0.0
+print(f"  [H, X^N] = 0 exactly: {commutes2} "
+      f"({'X^N is a lit string of F158: the spectrum pairs about -Σγ exactly' if commutes2 else 'no lit string X^N: pairing not implied'})")
+print(f"  Palindromic pair sums: mean={pair_sum:.6f}, mean + 2Σγ/ℏ = {pair_sum + 2 * 2 * gamma_val / hbar:.3e}, "
+      f"std={pair_std:.2e}, relative {pair_std / abs(pair_sum):.1e}"
+      f"{' (eigensolver rounding of an exact pairing)' if commutes2 else ''}")
 
 # CΨ evolution
 rho0_2 = np.zeros((4, 4), dtype=complex)
@@ -275,8 +283,13 @@ print(f"\n  Parameters: J_intra={J_intra/meV:.1f}, J_inter={J_inter/meV:.1f}, "
 print(f"  Liouvillian: {L4.shape[0]}x{L4.shape[0]}")
 print(f"  Oscillatory eigenvalues: {n_osc4}")
 print(f"  Distinct frequencies: {len(freqs4)}")
-print(f"  Palindromic pair sums: mean={pair_sum4:.4f}, std={pair_std4:.2e}")
-print(f"  Palindrome: {'EXACT' if pair_std4 < 1e-4 else 'approximate'}")
+XXXX = kron_list([sx, sx, sx, sx])
+commutes4 = np.max(np.abs(H4 @ XXXX - XXXX @ H4)) == 0.0
+print(f"  [H, X^N] = 0 exactly: {commutes4} "
+      f"({'X^N is a lit string of F158: the spectrum pairs about -Σγ exactly' if commutes4 else 'no lit string X^N: pairing not implied'})")
+print(f"  Palindromic pair sums: mean={pair_sum4:.4f}, mean + 2Σγ/ℏ = {pair_sum4 + 2 * 4 * gamma_val / hbar:.3e}, "
+      f"std={pair_std4:.2e}, relative {pair_std4 / abs(pair_sum4):.1e}"
+      f"{' (eigensolver rounding of an exact pairing)' if commutes4 else ''}")
 
 # Finite frequency-bin census: compare with two isolated model molecules.
 print(f"\n  V-Effect census (finite generator-bin comparison):")
@@ -322,9 +335,9 @@ print("\n" + "=" * 65)
 print("SUMMARY")
 print("=" * 65)
 print(f"""
-The proton in a hydrogen bond IS a qubit (d=2).
-The palindrome MUST hold (proven for d=2 with Z-dephasing).
-CΨ MUST cross 1/4 (proven for all Markovian channels).
-
-The question was not WHETHER but WHEN and HOW FAST.
+The proton in a hydrogen bond is modelled as a qubit (d=2) at Δ = 0.
+The decay spectrum of Phases 2 and 3 is exactly palindromic (X^N commutes
+with H and anticommutes with every jump; checked exactly above).
+CΨ crosses 1/4 in the displayed rows where the output says so, and not
+elsewhere (Phase 1 at J/γ ≤ 0.1, the full N = 4 system).
 """)

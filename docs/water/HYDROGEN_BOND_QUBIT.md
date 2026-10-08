@@ -59,7 +59,8 @@ The displayed water-inspired rows are calculations at selected parameters.
 **Results:**
 - Selected single-coordinate runs: CΨ crosses 1/4 at 0.07-1.32 ps when
   `J/γ = 1` in the displayed model.
-- Selected two-coordinate run: a finite numerical pairing check is small and
+- Selected two-coordinate run: the decay spectrum is exactly palindromic
+  (every term commutes with `X⊗X`, which anticommutes with both jumps) and
   CΨ crosses at 0.46 ps.
 - Selected four-coordinate run: coupling changes the calculated frequency
   count from 11 per isolated model molecule to 126 for the coupled model.
@@ -171,9 +172,15 @@ Parameters: J_intra = 1.0 meV, K = 0.1 meV, γ = 1.0 meV (J/γ = 1).
 This γ is chosen to place the run at the fold, not derived from water; it is
 neither the 25 meV row below nor a measured rate.
 
-- Finite numerical pairing check: pair-sum std = 5.4e-3 relative to a mean
-  of ~6e12. This small residual is a model check, not a proof or a replacement
-  for the exact F1 theorem under its named premises.
+- Pairing: exact. Every term of `H2` (`−J σ_X` on each site, `K σ_Z σ_Z`)
+  commutes with `X⊗X`, and `X⊗X` anticommutes with both jump operators, so
+  `X⊗X` is a lit string in the far kernel of
+  [F158](../ANALYTICAL_FORMULAS.md#f158) and the spectrum pairs about `−Σγ`
+  exactly (the proof is in
+  [the two-end count](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md); the script
+  checks `[H2, X⊗X] = 0` exactly). The eigensolver reads the pairing back as a
+  pair-sum spread of 5.4e-3 s⁻¹ on pair sums of −2Σγ/ℏ = −6.08e12 s⁻¹, a
+  relative 8.9e-16: rounding of an exact pairing, not a deviation.
 - Distinct frequencies: 11
 - CΨ crosses 1/4 at **0.46 ps**
 
@@ -182,8 +189,10 @@ neither the 25 meV row below nor a measured rate.
 Parameters: J_intra = 1.0 meV, J_inter = 0.1 meV, K = 0.1 meV,
 γ = 1.0 meV.
 
-- Finite numerical pairing check: pair-sum std = 3.5e-2; it is not an
-  assertion of theorem-level exactness.
+- Pairing: exact, by the same lit string. The H-bond term `J_inter σ_X σ_X`
+  also commutes with `X^⊗4`, so adding it keeps the palindrome (pair-sum spread
+  3.5e-2 s⁻¹ on −2Σγ/ℏ = −1.22e13 s⁻¹, relative 2.9e-15, eigensolver
+  rounding).
 - Distinct frequencies: **126**
 - V-Effect census: 11 bins per isolated model molecule versus 126 bins for the
   coupled generator, a finite count excess **126 - 2*11 = 104**. No individual
@@ -311,7 +320,7 @@ which F1 premises it satisfies.
 
 | Script | What it computes |
 |--------|-----------------|
-| [hydrogen_bond_qubit.py](../../simulations/water/hydrogen_bond_qubit.py) | Phases 1-3 selected-model calculations; its greedy pairing output is not a proof |
+| [hydrogen_bond_qubit.py](../../simulations/water/hydrogen_bond_qubit.py) | Phases 1-3 selected-model calculations; the exact check is `[H, X^N] = 0`, the greedy pairing spread is the eigensolver's rounding |
 | [hydrogen_bond_palindrome.py](../../simulations/water/hydrogen_bond_palindrome.py) | V17 selected classical-model calculation (negative result) |
 
 ---
