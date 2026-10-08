@@ -51,7 +51,13 @@ It pairs the full complex eigenvalue multiset by λ ↦ −λ − 2s, preserving
 algebraic multiplicity: the centre is −s and the partner shift is −2s.
 [F37](../ANALYTICAL_FORMULAS.md#f37-neural-eigenvalue-pairing-tier-1-from-f36)
 gives λ + λ′ = −(1/τ_E + 1/τ_I) when d_i = −1/τ_i and Q exchanges the two
-time-constant populations, so s = (1/τ_E + 1/τ_I)/2.
+time-constant populations, so s = (1/τ_E + 1/τ_I)/2. One generator already in the
+repo meets both conditions identically: the excitation/inhibition network of
+[the flavor-split experiment](../../experiments/FLAVOR_RESOLVED_T2_INHERITANCE.md#neural-excitationinhibition-network),
+whose flavor split of lifetimes is this pairing read on its overdamped blocks (which
+flavor is the slow one is the sign of Δ + ca, not F36), each excitation-dominant mode at
+rate r having an inhibition-dominant partner at 2s − r, with the closed form λ = −s ± √((Δ + ca)² − h²) per adjacency eigenvalue a
+([`flavor_split_is_f36.py`](../../simulations/neural/flavor_split_is_f36.py)).
 
 For the common-gain model W_eff = α diag(1/τ_i)W, with column j the source,
 the W-only condition is W[Q(i),Q(j)] = −(τ_Q(i)/τ_i)W[i,j] **only when

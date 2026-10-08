@@ -43,6 +43,7 @@ character-match reading is not a current result.
 | [find_quarter.py](find_quarter.py) | Candidate-quarter probes. Its bounded-iteration endpoints include large equation residuals and support no equilibrium-stability or Hopf verdict. |
 | [cpsi_two_perspectives.py](cpsi_two_perspectives.py) | Normalized E/I amplitude readings. A product of 1/4 at equal fractions is arithmetic, not quantum CΨ or a neural threshold; its greedy real-part matcher is not the canonical complex/transport gate. |
 | [celegans_pairing_controls.py](celegans_pairing_controls.py) | Full-connectome support gate G0b, matcher/tolerance and normalization controls, dynamics probes and exact-rank checks. Its run rewrites [the result file](../results/celegans_pairing_controls.txt). |
+| [flavor_split_is_f36.py](flavor_split_is_f36.py) | The flavor generator of `neural_flavor_rule.py` meets F36 identically; it splits into 2×2 blocks per adjacency eigenvalue with closed form λ = −s ± √((Δ + ca)² − h²); every row of the flavor data files reproduced from it. |
 | [celegans_connectome.json](celegans_connectome.json), [neuron IDs](celegans_neuron_ids.txt) | Stored chemical/electrical matrices, Dale labels and names. Chemical sources are rows; respect transposition and rate-scaling conventions. |
 
 The two V-effect producers count |Im λ| activity bins and
