@@ -32,13 +32,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (THE_ONE_SQUARE §9, gate cube_moves_gate.py M7). The F1 palindrome carries the exceptions to the mirror rung N − 1,
 /// E_{N−k} = E_k.</para>
 ///
-/// <para><b>What is measured and not proved.</b> E is non-empty on every graph computed (N = 2: γ/J = 2, a
+/// <para><b>What is proved beside the theorem, and what is measured.</b> E is non-empty on every graph computed (N = 2: γ/J = 2, a
 /// defective double root; N = 3 chain: √((√17−1)/2) and √3; K₃: √3; N = 4: 8 chain, 3 ring, 4 star, 1
-/// complete; N = 5 chain: 13). On the chain block (p, p) carries exactly C(N, p) − 1 points at N = 2 to 5, one
-/// per non-stationary mode of the block's classical hopping generator: a count, with the crossing of each
-/// mode unproved. The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
-/// against the spectrum on both sides of it), which is NOT a consequence of the theorem, since a complex pair
-/// could set the gap: closed forms Q*_gap = 1/2, √((1+√17)/8), 1/x₀ with x₀ the root 0.7450215 of
+/// complete; N = 5 chain: 13). On the chain block (p, p) carries exactly C(N, p) − 1 points at N = 2 to 6: at most
+/// that many on any connected graph (the Schur complement onto the populations, each eigencurve crossing 1 at most once),
+/// exactly N − 1 at p = 1 for every N (proved), and C(N, p) − 1 at p ≥ 2 measured (PROOF_WEIGHT1_DEGENERACY § The
+/// count as a plane crossing). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
+/// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
+/// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
+/// threshold is 1/min E: closed forms Q*_gap = 1/2, √((1+√17)/8), 1/x₀ with x₀ the root 0.7450215 of
 /// 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256, and at N = 5 an algebraic number of degree 48. The
 /// event is the handover <see cref="HandoverFloorClaim"/> types for the XY chain, and at N = 2 the point is the
 /// coherence horizon's exceptional point of <see cref="CoherenceHorizonClaim"/> (carrier Q = 1). Units: the PAULI
@@ -64,10 +66,14 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                "d_real(Re = −2γ) is the weight-1 commutant's dimension, 2N on every tested connected graph and 2N+2 on " +
                "K₃. On E the count is exceeded by modes mixing XY-weight 0 with weight ≥ 2. Only Hermiticity and U(1) " +
                "of H are used (XXZ, XY verbatim). FENCES: real eigenvalues only; rung k = 1 only (at k = 2 the leading " +
-               "coefficient vanishes); the F1 mirror carries E to the rung N−1. MEASURED, not proved: E non-empty on " +
-               "every graph computed; chain block (p,p) carries C(N,p) − 1 points (N = 2..5); min E(chain) = " +
-               "1/Q*_gap(N) at N = 2..5 by two routes, the Heisenberg chain's handover (closed forms at N = 2, 3, 4; " +
-               "degree 48 at N = 5), not a theorem consequence. Pauli book: the spin book's J is four times this one.",
+               "coefficient vanishes); the F1 mirror carries E to the rung N−1. PROVED beside it (the count as a plane " +
+               "crossing): every block (p,p) of a connected graph holds at most C(N,p) − 1 points (the Schur complement onto " +
+               "the populations, each eigencurve crossing 1 at most once); exactly N − 1 at p = 1 on the chain for every N; " +
+               "the Krein bound keeps every complex and defective mode on or below the line, so a gap below 2γ is a real " +
+               "mode of a diagonal block, and min E(chain) = 1/Q*_gap(N) is a theorem consequence wherever the 2γ regime " +
+               "exists. MEASURED: E non-empty on every graph computed; C(N,p) − 1 points at p ≥ 2 on the chain through " +
+               "N = 6; the identification at N = 2..5 by two routes, the Heisenberg chain's handover (closed forms at " +
+               "N = 2, 3, 4; degree 48 at N = 5). Pauli book: the spin book's J is four times this one.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_WEIGHT1_DEGENERACY.md (The count at exceptional couplings) + " +
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
@@ -87,7 +93,7 @@ public sealed class ExceptionalCouplingSetClaim : Claim
         "a real eigenvalue −2γ needs ⟨n_XY⟩ = 1 (Absorption); odd blocks force pure weight 1, even off-diagonal " +
         "blocks are impossible, and the diagonal blocks (p,p) hold −2γ only at the finitely many positive roots of " +
         "det(B_pp + 2γ), leading coefficient Π(2 − 2·Hamming) ≠ 0; off E the count is the weight-1 commutant's " +
-        "(2N; K₃: 2N+2), on E it is exceeded; min E(chain) = 1/Q*_gap(N) measured at N = 2..5; live at " +
+        "(2N; K₃: 2N+2), on E it is exceeded; min E(chain) = 1/Q*_gap(N) measured at N = 2..5 and a consequence wherever the 2γ regime exists; live at " +
         $"inspect --root exceptional ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -104,11 +110,17 @@ public sealed class ExceptionalCouplingSetClaim : Claim
             yield return new InspectableNode("the live witness at N = 3 (chain)",
                 summary: LiveN3Chain(),
                 provenance: NodeProvenance.Live);
-            yield return new InspectableNode("measured, not proved",
+            yield return new InspectableNode("proved beside the theorem (the count as a plane crossing)",
+                summary: "every block (p,p) of a connected graph carries at most C(N,p) − 1 points (the Schur complement onto the " +
+                         "populations, each eigencurve crossing 1 at most once); nothing slower than 2γ is complex or defective (the transpose " +
+                         "as a Krein form), so a gap below 2γ is a real mode of a diagonal block and wherever the 2γ regime exists its " +
+                         "threshold is 1/min E; on the chain exactly N − 1 points at p = 1 for every N; the (1,1) ring sectors carry " +
+                         "the coherence-horizon dispersion");
+            yield return new InspectableNode("measured",
                 summary: "E non-empty on every graph computed (N = 2: γ/J = 2 defective; N = 3 chain: 1.249621, 1.732051; " +
                          "K₃: √3 with count 12; N = 4: 8 chain, 3 ring, 4 star, 1 complete; N = 5 chain: 13); chain block " +
-                         "(p,p) carries C(N,p) − 1 points; min E(chain) = 1/Q*_gap(N) at N = 2..5 (two routes, not a " +
-                         "theorem consequence; the Heisenberg chain's handover, typed for XY by HandoverFloorClaim, and at " +
+                         "(p,p) carries C(N,p) − 1 points at p ≥ 2 through N = 6; min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
+                         "routes (the Heisenberg chain's handover, typed for XY by HandoverFloorClaim, and at " +
                          "N = 2 the coherence horizon's point of CoherenceHorizonClaim); totals with oscillating modes only " +
                          "measured off E; Pauli J throughout");
             yield return new InspectableNode("fences",

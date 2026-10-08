@@ -3582,7 +3582,8 @@ public static class OpenArcsRegistry
                 "So the quoted-not-verified half is not the half F55 stands on, and the NextStep below is " +
                 "aimed too wide. The genuine caveat is narrower and already recorded in D06_SPECTRAL_GAP.md: " +
                 "Q*_gap(N) is bisected, at N = 2..5 identified with an exact point of F50's exceptional set " +
-                "and not established beyond N = 5, and no lower bound on min<n_XY> is derived anywhere. The " +
+                "(a theorem wherever the 2γ regime exists, since every mode slower than 2γ is a real mode of a " +
+                "diagonal block), and no lower bound on min⟨n_XY⟩ is derived anywhere for the real modes. The " +
                 "tier gap is smaller too: TRAPPED_LIGHT tiers K_death at Tier 2 in its own item list (:186), " +
                 "so it is Tier 1 against Tier 2, not against the document header's Tier 4-5.",
             ParkedAt: "nothing applied, deliberately: raising or lowering a tier is a claim about confidence KIND, " +

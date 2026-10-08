@@ -72,9 +72,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// block (p, p) has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with
 /// weight ≥ 2, and the count exceeds 2N (the lower bound still holds). The
 /// converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain at
-/// N = 2..5 the smallest point of E is 1/Q*_gap(N) (γ/J = 2 at N = 2; not a consequence
-/// of the theorem, since a complex pair could set the gap). See
-/// <c>PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings</c>.</para>
+/// N = 2..5 the smallest point of E is 1/Q*_gap(N) (γ/J = 2 at N = 2), and wherever the 2γ regime
+/// exists a consequence of the theorem with Theorems A and C of the plane-crossing section: every
+/// complex and every defective mode lies on or below the line, so a gap below 2γ is a real mode of
+/// a diagonal block, which leaves the half-plane only at a point of E. See
+/// <c>PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings</c> and
+/// <c>§ The count as a plane crossing</c>.</para>
 ///
 /// <para>Tier consistency: lower bound (≥ 2N) Tier 1 derived via SWAP
 /// invariance constructing 2N kernel vectors. Upper bound (≤ 2N) was claimed
@@ -203,7 +206,7 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("breaks for anisotropic XXZ",
                 summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
             yield return new InspectableNode("exceeded at exceptional couplings",
-                summary: "at a finite set E(N, G) of γ/J (Pauli J, the spin book's J being four times it) a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, not a consequence of the theorem (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings; typed as ExceptionalCouplingSetClaim, live witness ExceptionalCouplingWitness at inspect --root exceptional)");
+                summary: "at a finite set E(N, G) of γ/J (Pauli J, the spin book's J being four times it) a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, a consequence of the theorem wherever the 2γ regime exists, every mode slower than 2γ being a real mode of a diagonal block (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings and § The count as a plane crossing; typed as ExceptionalCouplingSetClaim, live witness ExceptionalCouplingWitness at inspect --root exceptional)");
             yield return new InspectableNode("N=3 verified",
                 summary: $"TotalDegeneracy(3) = {TotalDegeneracy(3)}; EigenvaluePosition(γ=0.05) = {EigenvaluePosition(0.05):G6}");
             yield return new InspectableNode("N=7 verified",

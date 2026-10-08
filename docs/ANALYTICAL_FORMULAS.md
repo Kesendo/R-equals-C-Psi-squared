@@ -441,8 +441,9 @@ with N is the threshold. Located by bisection, Q*_gap = 0.5000 (N=2), 0.8002 (N=
 closed forms, 1/2, √((1 + √17)/8) and 1/x₀ (x₀ = 0.745022, a root of a degree-12 polynomial in γ/J; D6
 below), exact as the chain's largest J/γ at which the F50 count is exceeded ([F50](#f50); gate
 [`f50_exceptional_couplings.py`](../simulations/f50_exceptional_couplings.py) G6). That this point is the
-bisected threshold is established at N = 2..5 only (by hand at N = 2, bisection and exact root agreeing
-otherwise); it does not follow from F50, since a complex pair could set the gap.
+bisected threshold holds wherever the 2γ regime exists (by hand at N = 2, bisection and exact root agreeing
+at N = 3, 4, 5): every mode slower than 2γ is a real, semisimple mode of a diagonal block, never a complex pair,
+and it leaves the half-plane only at a point of E ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)).
 Min nonzero rate in units of γ:
 
     Q      N=3      N=4      N=5
@@ -773,8 +774,11 @@ different cause; the two readings agree on every number and have never been reco
 And at a finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-popcount block (p,p)
 has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with weight ≥ 2, and the count exceeds
 2N; the converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain the smallest
-point of E is 1/Q*_gap(N) at N = 2..5 (by hand at N = 2, two routes agreeing at N = 3, 4, 5; not a
-consequence of the theorem, since a complex pair could set the gap) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
+point of E is 1/Q*_gap(N) wherever the 2γ regime exists, a consequence of the theorem with Theorems A and C of the
+plane-crossing section: every complex and every defective mode lies on or below the line, so a gap below 2γ is always
+a real mode of a diagonal block, which leaves the half-plane only at a point of E; every block (p, p) of a connected graph carries at most C(N, p) − 1 points (the Schur complement onto
+the populations), and on the chain exactly N − 1 at p = 1 for every N (proved) and C(N, p) − 1 at p ≥ 2 through N = 6
+(measured) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
@@ -1602,7 +1606,7 @@ x₀ = 0.745022 the smallest positive root of 9x¹² + 132x¹⁰ + 68x⁸ − 16
 (x = γ/J). These closed forms are exact as points of F50's exceptional set: the chain's largest J/γ at
 which a real eigenvalue −2γ exceeds the F50 count. Their identification with the bisected Q*_gap holds at
 N = 2..5 (by hand at N = 2; at N = 3, 4, 5 the exact root agrees with the six decimals the bisection
-prints, with the spectrum checked on both sides of it at relative offset 10⁻⁶); it is not a consequence of F50, since a complex pair could set the gap ([the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings),
+prints, with the spectrum checked on both sides of it at relative offset 10⁻⁶); wherever the 2γ regime exists it is a consequence of F50 with Theorems A and C of [the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing), every mode slower than 2γ being a real mode of a diagonal block that leaves the half-plane only at a point of E ([the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings),
 gate [`f50_exceptional_couplings.py`](../simulations/f50_exceptional_couplings.py) G6); at N = 5, the point is 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block (the gate's `--n5` run).
 
 Below the threshold the gap is Zeno-suppressed, approaching as Q → 0

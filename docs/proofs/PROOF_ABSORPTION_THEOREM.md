@@ -648,8 +648,10 @@ bisection on the **Heisenberg** chain, Q*_gap = 0.5000 at N=2, 0.8002 at N=3,
 1.3422 at N=4, 1.8194 at N=5. At N = 2..5 the threshold is the inverse of the
 chain's smallest point of F50's exceptional set (E is read in γ/J, Q in J/γ), where a real eigenvalue −2γ from a
 diagonal block (p, p) sits on the line ([the count at exceptional couplings](PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings);
-by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5; not a
-consequence of F50, since a complex pair could set the gap),
+by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5; a
+consequence of F50 with [the count as a plane crossing](PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing):
+every mode slower than 2γ is a real, semisimple mode of a diagonal block, never a complex pair, so wherever
+the 2γ regime exists its threshold is 1/min E),
 and that gives closed forms at N = 2, 3, 4: Q*_gap = 1/2, √((1 + √17)/8) =
 0.800243, and 1/x₀ = 1.342243 with x₀ = 0.745022 the smallest positive root of
 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = γ/J); at N = 5, Q*_gap(5) = 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block. The successive gaps are 0.300, 0.542 and 0.477, so the threshold is

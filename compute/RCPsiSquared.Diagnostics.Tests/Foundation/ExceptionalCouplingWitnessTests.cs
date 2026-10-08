@@ -284,7 +284,7 @@ public class ExceptionalCouplingWitnessTests
         Assert.Contains("FINITE", s);
         Assert.Contains("real eigenvalues only", s);
         Assert.Contains("rung k = 1 only", s);
-        Assert.Contains("not a theorem consequence", s);
+        Assert.Contains("theorem consequence wherever the 2γ regime exists", s);
         Assert.Contains("Pauli book", s);
     }
 }

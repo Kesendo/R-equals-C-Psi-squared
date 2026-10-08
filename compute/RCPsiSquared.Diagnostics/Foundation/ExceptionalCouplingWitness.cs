@@ -721,7 +721,7 @@ public sealed class ExceptionalCouplingWitness : IInspectable
                              $"root polynomial Q = {(b.ImagPart.Length == 0 ? "Re P (Im P ≡ 0)" : $"gcd(Re P, Im P), degree {b.Coefficients.Length - 1}")}; " +
                              $"positive roots: {b.DistinctPositiveRoots} distinct, {b.PositiveRootsWithMultiplicity} with multiplicity (Sturm); " +
                              (b.Roots.Count == 0 ? "none" : "at γ/J = " + string.Join(", ", b.Roots.Select(r => r.ToString("0.0000000000", Inv)))) +
-                             (Topology == "chain" && b.PKet > 0 && b.PKet < N ? $"; C(N,p) − 1 = {Binomial(N, b.PKet) - 1} (the measured chain pattern)" : ""),
+                             (Topology == "chain" && b.PKet > 0 && b.PKet < N ? $"; C(N,p) − 1 = {Binomial(N, b.PKet) - 1} (the Schur bound; attained at p = 1 for every N, measured at p ≥ 2)" : ""),
                     provenance: NodeProvenance.Live);
 
             yield return new InspectableNode("the even off-diagonal blocks",
@@ -762,7 +762,7 @@ public sealed class ExceptionalCouplingWitness : IInspectable
                     summary: GapSides is { } g
                         ? $"J/γ at the smallest point = {HandoverQ!.Value.ToString("0.0000000", Inv)}; the spectrum on both sides: gap − 2γ = {g.BelowOffset.ToString("0.0e0", Inv)} just below, " +
                           $"2γ − gap = {g.AboveOffset.ToString("0.0e0", Inv)} just above with |Im| = {g.AboveImag.ToString("0.0e0", Inv)}: " +
-                          (GapSidesHold ? "gap 2γ below, a real mode below 2γ above (the two-route reading; not a theorem consequence)" : "THE GAP READING FAILS")
+                          (GapSidesHold ? "gap 2γ below, a real mode below 2γ above (the two-route reading beside the theorem: a gap below 2γ is a real mode of a diagonal block)" : "THE GAP READING FAILS")
                         : "E is empty",
                     provenance: NodeProvenance.Live);
         }

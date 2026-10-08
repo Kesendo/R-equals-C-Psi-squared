@@ -5,8 +5,9 @@
 **Source formulas:** 3 (decay rate bounds); F1 plays no part in the derivation below
 **Tier:** 1 above Q*_gap(N). Note: Q*_gap(N) is bisected; at N = 2..5 it is identified with an
 exact point of F50's exceptional set (closed forms at N = 2, 3, 4, an algebraic number of degree 48
-at N = 5; by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5), not established beyond N = 5, and no lower
-bound on min{<n_XY> > 0} is derived anywhere
+at N = 5; by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5, and a theorem wherever the 2γ regime
+exists, since every mode slower than 2γ is a real mode of a diagonal block), and no lower
+bound on min{⟨n_XY⟩ > 0} is derived anywhere for the real modes (the complex ones have ⟨n_XY⟩ ≥ 1)
 **Status:** VERIFIED for Q > Q*_gap(N) (N=2-5, deviation < 1e-14); FAILS below Q*_gap
 
 ## Derivation
@@ -28,8 +29,10 @@ is known exactly
 gate [`f50_exceptional_couplings.py`](../../../simulations/f50_exceptional_couplings.py) G6),
 and at N = 2..5 it is 1/Q*_gap(N): by hand at N = 2, and at N = 3, 4, 5 the exact root agrees
 with the six decimals the bisection prints, with the spectrum checked on both sides of it at
-relative offset 10⁻⁶. The identification is not a consequence
-of F50 (a complex pair could set the gap) and is not established beyond N = 5.
+relative offset 10⁻⁶. The identification is a consequence of F50 together with
+[the count as a plane crossing](../PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing): every mode
+slower than 2γ is a real, semisimple mode of a diagonal block, never a complex pair, and it leaves the
+half-plane above the line only at a point of E, so wherever the 2γ regime exists its threshold is 1/min E(N, G).
 That gives closed forms at N = 2, 3, 4: Q*_gap(2) = 1/2, Q*_gap(3) = √((1 + √17)/8)
 = 0.800243, Q*_gap(4) = 1/x₀ = 1.342243 with x₀ = 0.745022 the smallest positive root
 of 9x¹² + 132x¹⁰ + 68x⁸ − 1696x⁶ − 2240x⁴ + 1280x² + 256 (x = gamma/J); at N = 5, Q*_gap(5) = 1/0.549647 = 1.819350 with 0.549647 a root of a degree-48 polynomial from the (2, 2) block. Q*_gap is a function of the Hamiltonian as well: the
