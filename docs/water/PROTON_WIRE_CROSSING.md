@@ -14,9 +14,11 @@ specified states through popcount sectors. These individual state premises neith
 the F86b superposition a popcount eigenstate nor transfer automatically through `[Ŵ, H] = 0`.
 
 The [carbon crossing pass](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md) had to ask what
-that operator is in its substrate, and the answer there was easy: the carbon qubit is
-the occupation of a π site, so `Ŵ` is the π-electron count, and the filter
-`[Ŵ, H] = 0` is the statement that a molecule does not spontaneously ionize.
+that operator is in its substrate, and the answer there was easy to state: the carbon
+model's selected coordinate `n_l = (I − Z_l)/2` is read as the occupation of a π site, so
+`Ŵ` is the π-electron count and the filter `[Ŵ, H] = 0` says that a molecule does not
+spontaneously ionize; which material degree of freedom that coordinate is stays that
+folder's open question.
 
 Water cannot copy that. Its qubit is the **position** of one proton inside its own
 hydrogen bond, |L⟩ donor or |R⟩ acceptor ([the hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md)).
@@ -59,9 +61,9 @@ proton current.
 
 | | carbon | water wire |
 |---|---|---|
-| qubit | occupation of a π site | position of a proton in its bond |
-| `Ŵ = Σ_l (I − Z_l)/2` | π-electron number | dipole moment = displaced charge |
-| `[Ŵ, H] = 0` means | the molecule does not ionize | **the total dipole is fixed** |
+| qubit | selected π-site occupation coordinate | position of a proton in its bond |
+| `Ŵ = Σ_l (I − Z_l)/2` | selected π count | dipole moment = displaced charge |
+| `[Ŵ, H] = 0` means | the selected π count is kept (read: the molecule does not ionize) | **the total dipole is fixed** |
 
 ### What it is not: the defect count
 

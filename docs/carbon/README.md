@@ -137,8 +137,8 @@ bit_b-homogeneous as a composite. F114 separately gives a closed-form sign rule
 under complex conjugation: pure Hückel benzene has ε(H) = −1 (every term real);
 the flux-induced bond current is purely imaginary, so mixing the two reads
 Mixed. The doc walks through the carbon analog of all three framework dephase
-letters (Z ↔ selected local-Z model, X ↔ hybridization-axis candidate, Y ↔ current-axis
-candidate), without assigning any of them to a material bath, and then asks which of its own operators are π-electron objects at
+letters (Z ↔ selected local-Z model; X and Y ↔ selected single-site model axes, Tier 4
+candidates, neither a hybridization nor a current), without assigning any of them to a material bath, and then asks which of its own operators are π-electron objects at
 all. Number conservation rules four of its seven Hamiltonians out, and opening
 up the balanced quantity shows it is not one global norm: against a
 number-conserving bath it is block-diagonal in the pair of pi counts, and the

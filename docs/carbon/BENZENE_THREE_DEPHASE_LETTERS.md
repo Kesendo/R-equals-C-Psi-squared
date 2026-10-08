@@ -163,6 +163,99 @@ amplitude-channel inputs. Whether any material system supplies those inputs is
 unassigned. No conclusion about a material T1 channel, heteroatom, molecular
 relaxation, or carbon experiment follows from this selected sweep.
 
+## The cube on the ring: which letter the pairing can see
+
+[The letter cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) places a term at
+(k_Z, k_X, k_Y), the number of its letters anticommuting with Z, X and Y. "Reading along P"
+is P dephasing on every site at one rate γ, σ = Nγ. Reading along P, the lit strings of
+[F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md), those anticommuting with every jump,
+are the strings in the two other letters, written Q and R below (letters here, not the
+repo's Q = J/γ); a lit string that also commutes with H is a colouring, and the shift
+`S: ρ ↦ ρ·F` by a colouring F is a reflection, `S·L·S⁻¹ = −L† − 2σ` entry for entry, so the
+spectrum pairs about −σ. Conjugation by the uniform string `Q^⊗N` is the sign `(−1)^{k_Q}` on
+every term, so `Q^⊗N` is a colouring exactly when no term of H is odd in Q. The rule is a rule
+on the SET of terms: **the uniform colouring along P survives when no term is odd in Q or no
+term is odd in R, and fails when some term is odd in Q and some term, the same or another,
+is odd in R.** A single term odd in both is one way to fail: a one-site field along P,
+(k_Q, k_R) = (1, 1), fails P reading and nothing else; a two-site term with two different
+letters, the DM terms, fails the reading along the third letter. Two terms each odd in one
+of them is the other way, with no term odd in both: a Y field with transverse DM fails Z
+reading, an X field with a Z field fails Y reading. On the selected C₄ ring at γ = 0.3
+(pairing distance, the largest cost in the min-sum assignment of the spectrum to its mirror
+about −σ; "floor" is the eigensolver's, 18 to 43 times eps times the spectral scale):
+
+| selected ring | Z reading | X reading | Y reading |
+|---|---|---|---|
+| Hückel XX+YY | floor | floor | floor |
+| + ZZ | floor | floor | floor |
+| + Y field | floor | floor | 1.66 |
+| + X field | floor | 1.66 | floor |
+| + Z field | 1.60 | floor | floor |
+| + axial DM, XY−YX | 0.61 | floor | floor |
+| + transverse DM, YZ−ZY | floor | 0.48 | floor |
+| + Y field + transverse DM | 0.38 | 0.50 | 0.49 |
+| + X field + Z field | 1.26 | 0.79 | 0.31 |
+
+Terms with one letter twice, XX, YY, ZZ, are even in every letter and never fail anything,
+so the bare Hückel ring, with or without ZZ, pairs under all three letters: on this model
+the pairing cannot tell which letter the environment reads (the Z spectrum differs from the
+X and Y spectra, which coincide by the quarter-turn about Z; the pairing does not differ).
+That is the difference from [the proton wire](../water/PROTON_WIRE_CROSSING.md#the-second-axis-which-letter-the-environment-reads),
+whose tunnelling is a one-site X field and whose bias is a one-site Z field, so that there
+the bias fails Z reading and the tunnelling fails X reading, the "role swap" being the first
+way twice; with both present, Y reading fails the second way.
+
+Where the uniform colouring fails the spectrum decides, and it can still pair, because a
+colouring need not be a uniform string. Two instances, both exact in rationals. An X field
+and a Y field together, common axis n, fail the uniform colouring under Z reading the second
+way, yet the circle string `(n·σ)^⊗N` is a colouring and carries the reflection, so the
+spectrum pairs at the floor; the half-turn row of
+[the table of moves](../THE_ONE_SQUARE.md#9-the-moves-and-the-two-questions) and the
+single-common-axis half of [F138](../ANALYTICAL_FORMULAS.md#f138)'s clause 2 are this same
+rescue, second-way failures of the uniform colouring that a rotated colouring repairs. And
+on the open chain the axial DM term is a frame of Hückel: the one-site rotations
+`U = Π_l exp(i·l·φ·Z_l/2)`, φ = arctan(D/J), carry Hückel + DM to `√(J² + D²)/J · Hückel`
+(J = 1 here), and `F = U†X^⊗N U = Π_l (cos lφ·X_l + sin lφ·Y_l)`, a lit element that is not
+itself a uniform string, is a colouring and carries the reflection;
+[the colouring page](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s colours on the
+circle with angle lφ at site l, the gauge argument of
+[the mirror-symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md) on a named term. At
+D/J = 3/4 every cos lφ and sin lφ is rational and the row is exact. On the ring the same term
+is a flux, Nφ through the cycle: at D = 0.37 J the pairing breaks, at D = J (flux π at N = 4,
+real hopping with one bond's sign flipped, which `X^⊗N` keeps) it pairs again (read); the
+break depends on D through the flux, not on the term's presence. Of the table's Z-side rows,
+the centre line needs `[H, Z^⊗N] = 0`, every term even in k_Z, which Hückel, ZZ, the Z field
+and axial DM keep and the X field, the Y field and transverse DM break; the quarter-turn
+about Z holds when H is U(1)-symmetric, `[H, Σ Z_l] = 0`, which is not a cube parity and holds
+for the same four terms here. Nothing in this section assigns a letter to a material bath;
+the rule says only what the pairing could and could not tell if one were assigned. Gate
+[`simulations/carbon/cube_on_ring.py`](../../simulations/carbon/cube_on_ring.py), 53 checks:
+the set rule on the parities with the separation from a per-term reading asserted on the
+two mixed rows, every commuting uniform string's shift compared to 0.0 as a reflection,
+every failed cell gated on the spectrum against the error model, the rotated colouring and
+the chain frame's F compared to 0 exactly in rationals with a wrong angle as control, the
+centre-line and U(1) rows gated per model. The frame is not called a gauge here because
+[the Hückel lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md) spends that word on the bipartite
+sublattice sign K, and "colouring" here is F158's per-site lit string, not that sign's
+two-colouring of the graph.
+
+The sweep for this section: this page and its siblings read the three letters on the ring
+and never the cube; the proton wire holds the rule's two water instances; the three
+diagonals hold the letter orbit; F138's clause 2 holds the single-common-axis condition and
+the non-letter direction carried by a rotation about the dephasing axis, and the F1 entry's
+Breaks-for points at it; the table of moves' half-turn row holds the bisector case; the
+colouring page holds the lit strings as colourings, its colours on the circle the chain
+frame; the mirror-symmetry proof holds the gauge argument; the F1 entry's DM clause holds DM
+alone on bipartite graphs under the alternating map, not the mixed Hückel-plus-DM ring; the
+glossary, the OpenArcs registry (`whirlpool_carbon_layers`, `benzene_center_tier_upgrade`),
+the Confirmations registry (no carbon row) and CAUGHT_ERRORS (its carbon entries are the
+coherence-horizon ladder and labels) hold no letter reading of the ring; the typed layer's
+carbon objects are clocks and anchors. Checked for adjacency: the set rule against F138's
+clause 2 and the half-turn row, the same condition in three places, and the rescue there
+against the rotated colouring here, the same repair; the chain frame against the colours on
+the circle and the gauge argument, the same object on a named term; the DM row against F1's
+DM clause, DM alone against DM beside hopping.
+
 ## Open selected-model work
 
 - Add non-vacuous bit_b content to the selected ring and test the F112 balance.
@@ -182,6 +275,7 @@ relaxation, or carbon experiment follows from this selected sweep.
 - **Proofs:** [the inversion D·Π_Z·D = Π_Y](../proofs/PROOF_D_PI_Z_EQUALS_PI_Y_UNIVERSAL_N.md),
   [Klein-V₄ on the palindromizers](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md),
   [F112 cross-dephase](../proofs/PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md)
-- **Verifier:** [`simulations/carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py)
+- **Verifier:** [`simulations/carbon_realistic_sweep.py`](../../simulations/carbon_realistic_sweep.py);
+  the cube on the ring: [`simulations/carbon/cube_on_ring.py`](../../simulations/carbon/cube_on_ring.py)
 - **Companion docs:** [Selected C₄/C₆ ring Liouvillians](BENZENE_LIOUVILLIAN_PALINDROME.md),
   [Benzene Hückel through the Framework Lens](BENZENE_HUCKEL_FRAMEWORK_LENS.md), [README](README.md)
