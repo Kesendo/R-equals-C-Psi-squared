@@ -5,12 +5,16 @@
 > **Note:** the CΨ column of §8 is C_final × 0.27, the retired tool's fixed psi_approx
 > (the Ψ ≈ 0.27 of §1 has the same value), not a Ψ read from the density matrix. Read with
 > the density matrix's own Ψ, the operator-feedback sweep stays above ¼
-> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §4, note there), and under an
+> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §4), and under an
 > active Hamiltonian CΨ crosses ¼ routinely
 > ([Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) §1–§2). So the empirical
 > confirmation this page reports, in its opening, §2, §6 and the Summary, is not what the
 > density matrix shows: CΨ ≤ ¼ is the condition for a real fixed point of the iteration
-> ([Core Algebra](CORE_ALGEBRA.md) §3), not a limit the dynamics keeps.
+> ([Core Algebra](CORE_ALGEBRA.md) §3), not a limit the dynamics keeps. §8, with the opening
+> and the Summary, sets operator feedback against the scalar bridges as genuine coupling
+> against post-processing; in the retired tool as it survives both set the rate at every
+> step; whether the simulator of 2026-02-04 did is not known
+> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §1).
 >
 > The R∞ ≈ 0.327 of the opening, §1, §6 and the Summary matches, at C ≈ 0.917 and
 > Ψ = 0.27, the larger root R₊ of R = C(Ψ + R)² (0.329 at C = 0.917, 0.327 at

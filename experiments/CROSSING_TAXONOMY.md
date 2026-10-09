@@ -35,7 +35,9 @@ df/dt = −4γC(f)f, so the bridge also changes the dynamics. Mutual information
 and concurrence make that law nonlinear; correlation keeps it linear while it
 sits on its cap, which lasts past the crossing, and the two constant bridges
 give linear constant-rate scalar decay. The feedback family is not one linear
-Lindblad generator.
+Lindblad generator. The same tool's operator law puts 1 − κf in C(f)'s
+place on Bell+ at h = 0; its readout is a bridge chosen separately, by default
+the mutual purity, which stays ½ there ([Operator Feedback](OPERATOR_FEEDBACK.md) §2 and §8.2).
 
 In each book the question is **C(f)f/3 = ¼**. Three bridges cross and two
 never cross, giving six finite crossings over the two books.

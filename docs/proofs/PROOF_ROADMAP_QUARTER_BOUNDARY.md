@@ -393,7 +393,7 @@ old universal channel story fails.
 
 **Finite mixed-noise catalogue.** The dynamic suite stores local, collective, operator-feedback, and memory-kernel-feedback configurations. Their recorded crossings are finite observations, not a channel classification.
 
-**Finite jump catalogue.** Stored runs use σ_z, σ_x, σ_y, xx, yy, zz, and x_pairs jumps. Their reported quarter-crossing times belong only to those runs.
+**Finite jump catalogue.** Stored runs use σ_z, xx, yy, zz, and x_pairs jumps ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §8); runs labelled σ_x or σ_y are the tool's σ_z run, since its local noise builds σ_z on every site whatever the jump setting says ([Noise Robustness](../../experiments/NOISE_ROBUSTNESS.md)). Their reported quarter-crossing times belong only to those runs.
 
 **Amplitude damping** (March 22, 2026). Direct amplitude damping
 (`L=√γ|0⟩⟨1|`) on both qubits of the named Bell+ pair gives a downward

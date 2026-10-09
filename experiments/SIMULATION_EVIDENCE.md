@@ -52,7 +52,7 @@ This document records what the Lindblad simulator actually shows when run with h
 
 Does CΨ ≤ ¼ hold in Lindblad simulations?
 
-**Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
+**Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. In the runs of §2 it stays below ¼ only at H = 0; other runs with active dynamics can stay below it too, as the GHZ₅ and GHZ₆ runs of [Operator Feedback](OPERATOR_FEEDBACK.md) §8.1 do.
 
 **What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) §3.
 
@@ -91,7 +91,7 @@ CΨ oscillates between 0.18 and 0.50, with final value 0.413. Well above ¼.
 
 ### Summary
 
-Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some point during evolution. The bound holds only in the trivial case of H = 0.
+Every configuration of this section with active Hamiltonian dynamics produces CΨ > ¼ at some point during evolution; here CΨ stays below ¼ only at H = 0.
 
 > **Reproduction note:** the feedback mechanism behind these runs is
 > documented and exact: every effective-γ value in §5 follows γ_eff = γ₀·(1
@@ -121,7 +121,14 @@ Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some p
 > below ¼ is the fixed Ψ, not a regime without dynamics: C_final × 0.27 < ¼
 > exactly when C_final < 25/27 ≈ 0.926, and weaker decoherence (γ₀ = 0.003,
 > h = 0.7) gives 0.255. The qualitative event stands: active Hamiltonian
-> dynamics drive CΨ across ¼ while H = 0 decays monotonically.
+> dynamics drive CΨ across ¼ while H = 0 decays monotonically. Under exact
+> propagation of the same model (DOP853), the three active runs end at 0.402
+> (Bell+), 0.248 (GHZ₃) and 0.421 (W₃). GHZ₃ ends at the edge of a crossing,
+> falling through ¼ at t = 4.998 exactly and between t = 5.01 and 5.02 in the
+> tool, so its "Yes" and the exact "No" at t = 5 are the window's edge, after
+> 3.89 of its 5 time units above ¼; and the GHZ₃ and W₃ ⟨O_int⟩ drifts of §5 are
+> the tool's clipping ([Operator Feedback](OPERATOR_FEEDBACK.md) §4 and §5,
+> [operator_feedback_jump_runs.py](../simulations/operator_feedback_jump_runs.py)).
 
 ---
 
@@ -137,19 +144,17 @@ The agents (Alpha, Beta, Gamma, Delta) reported:
 | 0.005 | 0.9 | 0.914 | 0.247 | Yes |
 | 0.005 | 1.0 | 0.917 | 0.248 | Yes |
 
-These results are numerically correct for those specific parameters. But:
+These are the tool's numbers for those parameters, and its transcription regenerates them (note in §2); they carry its integrator, the exact concurrence at t = 10 being 0.899 at γ₀ = 0.005 for every h ([Operator Feedback](OPERATOR_FEEDBACK.md) §4). But:
 
-1. **The γ range (0.003-0.006) produces negligible decoherence.** The system barely evolves from its initial state. CΨ ≤ ¼ holds because nothing happens, not because of deep physics.
+1. **The CΨ column is not the state's CΨ.** The tool's sweep routine multiplied C_final by a fixed Ψ = 0.27 rather than reading Ψ from the density matrix, so the column sits below ¼ whenever C_final < 25/27; read with the state's own Ψ, the same runs stay above ¼ at every step (note in §2).
 
 2. **The agents selected these parameters specifically because they gave CΨ ≤ ¼.** This is parameter tuning masquerading as confirmation.
-
-3. **Early simulator versions computed Ψ incorrectly** (hardcoded as C × bridge rather than derived from the density matrix). This made results circular.
 
 ### What's Genuinely Valid from the Agent Work
 
 Despite the methodological issues, two contributions are solid:
 
-- **The operator feedback mechanism** (Gamma's critique, §8 of Dynamic Fixed Points): Replacing scalar bridges with operator-level Lindblad feedback is mechanistically sound and a genuine advance.
+- **The operator feedback mechanism** (Gamma's critique, §6 of [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md)): the dephasing rate set at every step by an expectation value, γ_eff = γ₀·(1 − κ·⟨O_int⟩). In the tool as it survives, the scalar bridges set the rate at every step too; on Bell+ under the tool's Heisenberg Hamiltonian, where the default scalar law runs at the constant γ_base/2, what the operator law adds is a rate that moves with the state, and it moves in closed form: it slows the decay while the correlation is high and so shifts it later ([Operator Feedback](OPERATOR_FEEDBACK.md) §1–§2).
 
 - **The fixed-point mathematics** (Alpha and Beta): The derivation of R∞ = C(Ψ + R∞)² and the resulting CΨ ≤ ¼ discriminant bound is correct algebra. It just doesn't mean what they thought it meant.
 
@@ -157,7 +162,7 @@ Despite the methodological issues, two contributions are solid:
 
 ## 4. Ψ Dynamics
 
-An important observation: Ψ (computed as √(Tr(ρ²) × bridge); the values below follow the tool's l₁/(d−1) of the full state instead, note in §2) is not constant during evolution. It oscillates significantly:
+An important observation: Ψ, here the tool's l₁/(d−1) of the full state (note in §2), is not constant during evolution. It oscillates significantly:
 
 **Bell+ with active H:**
 - Ψ range: 0.35 → 0.99 → 0.37 → 0.81 (oscillating)
@@ -182,7 +187,7 @@ The operator feedback mechanism follows γ_eff = γ₀·(1 − κ·⟨O_int⟩) 
 | GHZ N=3 | 0.0 → 0.07 | 0.005 → 0.005 | Near-zero correlation (GHZ has no σ_x⊗σ_x expectation) |
 | W N=3 | 0.67 → 0.70 | 0.0033 → 0.0033 | Moderate correlation |
 
-**Note:** The GHZ state shows near-zero ⟨σ_x⊗σ_x⟩ because GHZ = (|000⟩ + |111⟩)/√2 is an eigenstate of σ_z⊗σ_z, not σ_x⊗σ_x. The choice of jump operator matters. The exact t = 0 values are ⟨σ_x⊗σ_x⟩ = 1 (Bell+), 2/3 (W₃, any pair), 0 (GHZ₃, any pair); the H-active Bell+ row's 0.95 start is a transcription slip, its own effective-γ start of 0.0025 implies exactly 1.0.
+**Note:** The GHZ row starts at zero because σ_x⊗σ_x flips two bits and has no matrix element between |000⟩ and |111⟩ (being a σ_z⊗σ_z eigenstate does not decide it: Bell+ is one too, with ⟨σ_x⊗σ_x⟩ = 1). Exactly it stays at zero, at h = 0.9 as at h = 0, and the W row falls from 2/3 to 0.623 instead of rising: with isotropic Heisenberg bonds, a uniform x field and σ_z on every site, GHZ₃ and W₃ keep their symmetry under permutations of the sites, so ⟨σ_x⊗σ_x⟩ is a third of ⟨Σ_{i<j} X_iX_j⟩, which the Hamiltonian conserves and the dephasing damps ([Operator Feedback](OPERATOR_FEEDBACK.md) §2). The rise of both rows is the tool's clipping (Operator Feedback §5); the same zero at h = 0 is the run of [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §3.1. The exact t = 0 values are ⟨σ_x⊗σ_x⟩ = 1 (Bell+), 2/3 (W₃, any pair), 0 (GHZ₃, any pair); the H-active Bell+ row's 0.95 start is a transcription slip, its own effective-γ start of 0.0025 implies exactly 1.0.
 
 ---
 
@@ -190,9 +195,9 @@ The operator feedback mechanism follows γ_eff = γ₀·(1 − κ·⟨O_int⟩) 
 
 ### Can Conclude
 
-- The Lindblad simulator correctly evolves quantum states under decoherence
-- CΨ > ¼ is the norm, not the exception, for systems with active dynamics
-- The operator feedback mechanism produces physically meaningful correlation-dependent decoherence
+- The Lindblad simulator evolves quantum states under decoherence by an Euler step with the negative eigenvalues clipped, which keeps ρ a density matrix and moves its digits against exact propagation ([Operator Feedback](OPERATOR_FEEDBACK.md) §5)
+- In these runs CΨ > ¼ is the norm, not the exception, under active dynamics (other runs with active dynamics stay below it, as the GHZ₅ and GHZ₆ runs of [Operator Feedback](OPERATOR_FEEDBACK.md) §8.1 do)
+- The operator feedback mechanism ties the dephasing rate to ⟨σ_x⊗σ_x⟩ at every step; on Bell+ it slows the decay while the correlation is high and so shifts it later by a closed-form time ([Operator Feedback](OPERATOR_FEEDBACK.md) §2)
 - CΨ ≤ ¼ as a *dynamic constraint* is falsified by simulation
 
 ### Cannot Conclude

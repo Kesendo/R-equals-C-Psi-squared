@@ -36,7 +36,7 @@ Conventions (the tool's): H = J * sum over the listed bonds of (XX + YY + ZZ) + 
 (heisenberg = open chain, heisenberg_ring = ring); Bell+ = (|00> + |11>)/sqrt(2); GHZ_3 and W_3
 with qubit 0 the most significant bit.
 
-Import-inert; prints only.
+Import-inert; prints only, and exits with status 1 if any check fails.
 """
 
 from functools import reduce
@@ -305,9 +305,11 @@ def main():
     held = sum(ok for _, ok in CLAIMS)
     print(f"\n{matched} of {len(VALUES)} printed values match at the page's precision;"
           f" {logged} of {len(LOGGED)} logged values; {held} of {len(CLAIMS)} claims hold.")
-    for label, ok in VALUES + LOGGED + CLAIMS:
-        if not ok:
-            print(f"  not reproduced: {label}")
+    failed = [label for label, ok in VALUES + LOGGED + CLAIMS if not ok]
+    for label in failed:
+        print(f"  not reproduced: {label}")
+    if failed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

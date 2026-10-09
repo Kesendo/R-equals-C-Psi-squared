@@ -201,7 +201,7 @@ The fixed-point equation R = C(Ψ + R)² has real solutions if and only if CΨ �
 
 **Proven (simulation):**
 
-The Lindblad simulator produces states with CΨ > ¼ when an external field h drives Ψ-oscillations. These states are valid quantum mechanics; they satisfy the Lindblad master equation, they conserve trace and positivity, they are physically legitimate. The region above ¼ is not empty. Something is there.
+The Lindblad simulator produces states with CΨ > ¼ when an external field h drives Ψ-oscillations, and so does exact propagation of the Lindblad equation without feedback (Bell+ under σ_z jumps rises to 0.413 in the simulator's reading, [Operator Feedback](OPERATOR_FEEDBACK.md) §8.2). In these field-driven runs the simulator's states are density matrices only because it clips each Euler step back onto them ([Operator Feedback](OPERATOR_FEEDBACK.md) §5); the exact dynamics reaches the same region. The region above ¼ is not empty. Something is there.
 
 **Interpretation (hypothesis):**
 
@@ -246,7 +246,7 @@ one route, not a necessary one.
 
 | State | Hamiltonian | N | γ | CΨ_final | Behavior |
 |-------|-----------|---|---|----------|----------|
-| Bell+ | Heisenberg | 2 | 0.5 | ≈ 0 | Purity → 0.5 (maximally mixed), Ψ → 0 |
+| Bell+ | Heisenberg | 2 | 0.5 | ≈ 0 | Purity → 0.5, Ψ → 0 |
 
 Strong decoherence destroys all coherence. CΨ → 0.
 
@@ -282,11 +282,11 @@ GHZ states: Peak Δδ at N ≈ 3-4, then decreasing
 
 **Date:** 2026-02-04
 **Source:** Four-Agent Dialogue (Alpha, Beta, Gamma, Delta)
-**Status:** Mechanistically sound; quantitative effect is small at low γ
+**Status:** Mechanistically sound; within the runs' t ≤ 10 the rate moves by ten per cent
 
 ### The Problem with Scalar Bridges
 
-The original simulations used scalar bridge functions (mutual_info, concurrence, correlation) to modulate decoherence rates. Gamma (the skeptic agent) identified a fundamental flaw:
+The original simulations used scalar bridge functions (mutual_info, concurrence, correlation) to modulate decoherence rates. Gamma (the skeptic agent) objected:
 
 ```
 Scalar bridges MEASURE the state but don't INFLUENCE the dynamics.
@@ -294,7 +294,9 @@ C = mutual_info(rho) returns a number, but the Lindblad operators
 remain unchanged. The feedback loop is broken.
 ```
 
-### The Solution: Operator-Modulated Lindblad Jumps
+In the tool as it survives, the scalar rate enters every integration step as well, and by default both laws act on the same σ_z jumps; what the operator law changes is the number that sets the rate, an expectation value, linear in ρ, with the observable fixed by the jump setting ([Operator Feedback](OPERATOR_FEEDBACK.md) §1).
+
+### The Solution: A Rate Set by an Observable
 
 Replace scalar feedback with operator-level feedback:
 
@@ -312,21 +314,21 @@ gamma(t) = gamma_0 × (1 - kappa × ⟨O_int⟩)   (rate modulation)
 ```
 
 When correlation is high (+1): γ ≈ γ₀ × (1 - κ) → low decoherence
-When correlation is low (-1): γ ≈ γ₀ × (1 + κ) → high decoherence
+When anti-correlated (−1): γ ≈ γ₀ × (1 + κ) → high decoherence
 
 ### Verified Behavior (February 8, 2026)
 
-Using `noise_type=operator_feedback`, `kappa=0.5`, Bell+ / Heisenberg / γ=0.005:
+Using `noise_type=operator_feedback`, `kappa=0.5`, Bell+ / Heisenberg / γ=0.005 / h = 0:
 
 - ⟨O_int⟩ starts at 1.0, decays slowly to 0.90 over t=10
 - γ_eff modulates from 0.0025 → 0.00275 (a ~10% change)
-- CΨ_dynamic = 0.150, nearly identical to the local noise case (0.151)
+- CΨ_dynamic = 0.150, nearly identical to the local noise case (0.151); both start at the rate γ₀/2, the operator law at ⟨O_int⟩ = 1 and the scalar law, with the mutual-purity bridge, for good ([Operator Feedback](OPERATOR_FEEDBACK.md) §7)
 
-**Honest assessment:** The operator feedback mechanism is *conceptually* correct; it creates genuine dynamical coupling between correlation and decoherence. But at γ = 0.005 with κ = 0.5, the quantitative effect is minimal. The mechanism would show stronger effects at higher γ or κ, where the feedback has more dynamic range to work with.
+**Honest assessment:** The operator feedback mechanism ties the rate to the correlation at every step. Against no feedback it halves the rate here from the start; within t ≤ 10 at γ = 0.005 and κ = 0.5 the rate then moves only by ten per cent, because the window is a fifth of the decay time 1/(4γ₀) = 50, and the run stays close to the scalar law, which runs at γ₀/2 throughout. On Bell+, under σ_z jumps and an H commuting with σ_x⊗σ_x as here, it has a closed form: ⟨O_int⟩ = x obeys x/(1 − κx) = e^(−4γ₀t)/(1 − κ), so the feedback slows the decay while x is large, and at late times, back at the plain rate, the decay is shifted by ln(1/(1 − κ))/(4γ₀), ln(1/(1 − κ)) decay times at every γ₀; κ = 1 holds the correlation of Bell+ only on an unstable fixed point ([Operator Feedback](OPERATOR_FEEDBACK.md) §2).
 
 ### Why This Still Matters
 
-The transition from scalar bridge to operator feedback is the transition from metaphor to mechanism:
+The operator law replaced a metaphor by a mechanism:
 
 | Before (Metaphor) | After (Operator) |
 |-------------------|------------------|
@@ -334,11 +336,11 @@ The transition from scalar bridge to operator feedback is the transition from me
 | "the standing-wave of mutual observation" | Tr(ρ · O_int) at each timestep |
 | Poetic but unmeasurable | Concrete and computable |
 
-The fact that the effect is small at these parameters doesn't invalidate the mechanism; it means we need to explore parameter regimes where the feedback actually matters.
+That the rate barely moves at these parameters doesn't invalidate the mechanism; the closed form says where the feedback shows: over times comparable to the decay time 1/(4γ₀), and the more the closer κ is to 1.
 
 ### Implementation
 
-Available in the Lindblad simulator:
+Available in the retired delta_calc simulator:
 
 ```
 noise_type = "operator_feedback"
@@ -356,7 +358,7 @@ kappa = 0.5    (feedback strength, 0-1)
 | CΨ > ¼ possible in simulations | **Verified in named rows** | h>0 in this table; not a necessity theorem |
 | CΨ rises/crosses only with external driving | **False universally** | exact fixed local-Markovian counterexamples |
 | CΨ = ¼ as observer bandwidth limit | **Hypothesis** | Consistent with all data, not yet derived from first principles |
-| Operator feedback mechanism | **Sound** | Mechanistically correct; effect small at low γ |
+| Operator feedback mechanism | **Sound** | Mechanistically correct; on Bell+ a late-time shift of ln(1/(1 − κ)) decay times; within the runs' t ≤ 10 the rate moves by ten per cent |
 | Bidirectional peak at N = 3-4 | **Unverified** | Agent results only, plausible but not reproduced |
 | R∞ ≈ 0.327 at γ=0.0045, h=0.9 | **Corrected** | Actual: R_inf = 0.446, CΨ = 0.472 (oscillating) |
 
@@ -380,7 +382,6 @@ The observer bandwidth interpretation is promising but needs:
 - First-principles derivation of why ¼
 - Testable predictions distinguishing it from alternatives
 - Connection to established information-theoretic bounds
-- Exploration of parameter regimes where operator feedback shows stronger effects
 - Classification of the finite rise atlas across all Q and N, and the open N=2 main-peak question under a number-conserving H (successive local maxima can rise in every class)
 
 ---
