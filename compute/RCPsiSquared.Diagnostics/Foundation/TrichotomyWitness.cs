@@ -179,7 +179,7 @@ public sealed class TrichotomyWitness : IInspectable
             //           asymptotically, so the mechanism is commutant throughout, not just near the ceiling.
             //   chain → UnfreezingSeEp: the dispersive-band SE-EP, where the (1,1) pair's beat dies at Q*(N); the gap's
             //   hand is handed to the band edge at Q_h just below it (= Q* at N=2,3 only; CoherenceHorizonWitness).
-            //   ring  → FrozenLevelCrossing: the wrap-bond (2,2) level crossing — EXCEPT the N=4 ring (2,2),
+            //   ring  → FrozenLevelCrossing: the (2,2) block's level crossing (the level every filling shares at odd N), EXCEPT the N=4 ring (2,2),
             //           which sits ON the K_4/ring-4 commutant ceiling (g2=1) and routes FrozenCommutant,
             //           caught by the relative rate-match to the high-Q commutant asymptote.
             double? commutant = StructuralCeilingWitness.CommutantDarkest(TopoString(topo), n, pc, pr);

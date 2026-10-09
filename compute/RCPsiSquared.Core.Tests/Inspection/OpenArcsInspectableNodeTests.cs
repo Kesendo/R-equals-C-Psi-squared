@@ -14,8 +14,8 @@ public class OpenArcsInspectableNodeTests
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
         Assert.Equal(62, OpenArcsRegistry.All.Count);   // +zeno_end_live_witness
-                                                        //   (2026-10-09: Theorem E's evidence lives in a
-                                                        //   Python gate, not yet in a live witness)
+                                                        //   (2026-10-09, retired the same day: Theorem
+                                                        //   E's evidence lives in ZenoEndWitness)
                                                         // +fragile_bridge_live_witness
                                                         //   (2026-09-25: the threshold certificate
                                                         //   lives in a producer and an xUnit test,

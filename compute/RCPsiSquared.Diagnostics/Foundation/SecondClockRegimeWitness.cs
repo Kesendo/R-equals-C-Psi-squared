@@ -163,7 +163,7 @@ public sealed class SecondClockRegimeWitness : IInspectable
         "coherence is ONE mode whose regime is set by the band — knob 1 (degeneracy m) → high-Q ceiling 4/(m+1) " +
         "(below the floor iff m≥4), knob 2 (dispersion) → low-Q √-EP horizon (dispersive) vs gradual (flat). " +
         "The N=4 frame is a self-validating full-Liouvillian gate (all three regimes present). " +
-        "Sector overview: inspect --root blockspectrum (this zooms the (2,2)/half-filling {0,2} sector).";
+        "Sector overview: inspect --root blockspectrum (this zooms the (2,2)/(p,p) {0,2} sector of the interior fillings).";
 
     public IEnumerable<IInspectable> Children
     {

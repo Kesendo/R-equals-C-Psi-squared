@@ -3,12 +3,12 @@
 **What this derivation is about:** The spectral gap (the decay rate of the slowest non-stationary mode, which sets the timescale for the system to forget its initial state) is exactly 2γ in the strong-coupling regime, and the mixing time then scales as N·ln(4)/(2γ), growing linearly with system size. The gap is NOT independent of the coupling: below an N-dependent threshold in Q = J/γ it is Zeno-suppressed and far smaller.
 
 **Source formulas:** 3 (decay rate bounds); F1 plays no part in the derivation below
-**Tier:** 1 above Q*_gap(N). Note: Q*_gap(N) is bisected; at N = 2..5 it is identified with an
+**Tier:** 1 above Q*_gap(N), and 1 for the Q → 0 asymptote below it, the leading term of the gap at every N ([Theorem E](../PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)). Note: Q*_gap(N) is bisected; at N = 2..5 it is identified with an
 exact point of F50's exceptional set (closed forms at N = 2, 3, 4, an algebraic number of degree 48
 at N = 5; by hand at N = 2, bisection and exact root agreeing at N = 3, 4, 5, and a theorem wherever the 2γ regime
 exists, since every mode slower than 2γ is a real mode of a diagonal block), and no lower
 bound on min{⟨n_XY⟩ > 0} is derived anywhere for the real modes (the complex ones have ⟨n_XY⟩ ≥ 1)
-**Status:** VERIFIED for Q > Q*_gap(N) (N=2-5, deviation < 1e-14); FAILS below Q*_gap
+**Status:** VERIFIED for Q > Q*_gap(N) (N=2-5, deviation < 1e-14); below Q*_gap the value 2γ fails and the gap tends to the Zeno asymptote, proved
 
 ## Derivation
 
@@ -49,7 +49,7 @@ which is the spin-½ ferromagnet Σ_b(1 − SWAP_b) for every anisotropy, and on
 chain, as on every tree, its gap in every popcount block 1 ≤ p ≤ N − 1 is that of block p = 1, the path's, so
 at uniform γ and J this asymptote is the gap of L as Q → 0 at every N
 ([the Zeno end](../PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end),
-gate [`f50_zeno_end_ferromagnet.py`](../../../simulations/f50_zeno_end_ferromagnet.py)),
+gate [`f50_zeno_end_ferromagnet.py`](../../../simulations/f50_zeno_end_ferromagnet.py), live at `inspect --root zeno`),
 reached in every block 1 ≤ p ≤ N − 1 by the same density wave Σ_l cos(π(l − ½)/N)·n_l, l = 1, …, N;
 under a positive profile of rates and couplings the bonds carry the weights 4J_b²/(γ_i + γ_j)
 and the gap is that weighted chain's. At N = 3, γ = 0.3, J = 0.001 the gap is 1.1·10⁻⁵ of 2γ. This is an

@@ -728,6 +728,22 @@ public static class InspectCommand
                 c.Parser.HasFlag("N") ? c.N : 3,
                 c.Parser.OptionalString("topology")),
             RequiresN: false, HonorsOptionalN: true),
+        new("zeno", "F50's ZENO END, Theorem E (proof PROOF_WEIGHT1_DEGENERACY.md, The Zeno end and the dispersion, " +
+            "Which filling lasts longest; claim ExceptionalCouplingSetClaim): as the rates grow the populations of every " +
+            "block (p,p) relax under the ferromagnet. Recomputed at inspect time on the repo's PauliHamiltonian and " +
+            "Liouvillian blocks, exactly: 2 L_p = n_B − (Σ XX + YY + ZZ)_p, (A²)_PP = 8 L_p at the given Δ, the lift " +
+            "L_p F_p = F_p L_site, the token gap = λ₁ in every block by Jacobi's rule on Bareiss minors at two " +
+            "rationals verified on the site Laplacian (a theorem on the chain and the star, the outside route read on the " +
+            "ring), and the detuning weights of Theorem E (d) against their closed forms; read on the Liouvillian at " +
+            "x = J/γ = 0.02, 0.04: the leading coefficient 2λ₁ per block and the filling the ZZ term picks, " +
+            "the split (block p's slowest level less block 1's)/x⁴ against the detuning form with its x² law. Pauli book, " +
+            "J = 1, γ = 1. " +
+            "Args: --N (chain, star 4..7; ring 5..7; default 5), --topology chain|ring|star, --delta (default 1)",
+            c => new ZenoEndWitness(
+                c.Parser.HasFlag("N") ? c.N : 5,
+                c.Parser.OptionalString("topology"),
+                c.Parser.OptionalDouble("delta") ?? 1.0),
+            RequiresN: false, HonorsOptionalN: true),
         new("pinned", "F153, the pinning criterion recomputed live: every one of the (N+1)² joint-popcount " +
             "blocks read ENTRY-WISE (no eigensolver, residuals compared to 0.0 exactly), showing that exactly " +
             "4N of them sit entirely on the Absorption floor Re λ = −2γ|p−q|, namely those with min(p,q) = 0 " +
@@ -770,8 +786,9 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("J") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
         new("survivor", "the dynamic survival probe: WHERE the longest-lived dissipative mode lives across the " +
-            "three physically-grounded topologies - the interior incompleteness (C=0.5) coherence on DISPERSIVE " +
-            "extended matter (chain: polyenes/spin-chains/proton-wire; ring: aromatics/light-harvesting), the " +
+            "three physically-grounded topologies - the interior incompleteness coherence on the DISPERSIVE " +
+            "ring at even N (aromatics/light-harvesting; its even fillings), the XY chain (polyenes/spin-chains/proton-wire) " +
+            "and the odd ring (read) filling-degenerate (a ZZ term picks the chain's half filling, the central pair at odd N), the " +
             "boundary hub coherence on the hub-localized central-spin STAR (NV/quantum-dot/mediator, the " +
             "counterexample); lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4 (model-independent)",
             c => new IncompletenessSurvivorWitness(
@@ -780,7 +797,7 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("stone", "THE STONE (felt_time arc B): the PTF painter closure Sum_i ln(alpha_i), via the CANONICAL " +
             "Symphony FitAlpha on the mode-isolating probe rho_0 = I/d + eps*Herm(mode), reads the mode's first-order " +
-            "RATE shift - OUT + sign-coherent (rate-shift) for the soft survivor interior (2,2), IN (frozen) for the " +
+            "RATE shift - OUT + sign-coherent (rate-shift) for the soft interior (2,2) mode, IN (frozen) for the " +
             "rigid (0,1) band edge: the TRAJECTORY-level dual of the eigenvalue value/vector split. Probe-state-specific " +
             "(review-pinned, not a universal law), the rate shift certified by sign-coherence; N in 4..5",
             c => new StoneSurvivorClosureWitness(

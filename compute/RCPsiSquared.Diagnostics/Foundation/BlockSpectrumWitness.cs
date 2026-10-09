@@ -570,17 +570,18 @@ public sealed class BlockSpectrumWitness : IInspectable
                          "coalesces, and the handover Q_h just below it where the slowest mode stops oscillating " +
                          "(the Haken-Strobl reduction 4^N→N², whose Hamiltonian block is the Hückel matrix exactly). " +
                          "inspect --root secondclock stitches the two regimes."),
-            new InspectableNode("(2,2)/(p,p) — half-filling: a DISTINCT {0,2}-coherence",
+            new InspectableNode("(2,2)/(p,p), the interior fillings: a DISTINCT {0,2}-coherence",
                 summary: "NOT the (1,1) mode — same n_diff∈{0,2} histogram, but the TWO-excitation filling sector " +
                          "(the V-Effect seam). inspect --root survivor (IncompletenessSurvivorWitness): the " +
-                         "longest-lived interior C=0.5 coherence (ring (2,2)/(N−2,N−2), chain dead-centre). The " +
+                         "longest-lived interior coherence (the even ring's even fillings, (2,2)/(N−2,N−2) at N = 6; the odd ring (read) and the XY chain tie every filling, " +
+                         "the ZZ term picking the half filling or, at odd N, the central pair). The " +
                          "reduction's {0,2} junction (N≥6) and secondclock's N=4 anomaly (ceiling's K_4 = 2−2/√3, " +
                          "ring-4 = 1) live here, not in (1,1)."),
         };
         return new InspectableNode("the sector map — which live witness zooms each load-bearing sector",
             summary: "the per-sector overview indexes the sector-specific witnesses; each is a max-zoom on one " +
                      "sector of THIS decomposition. (0,1) band edge → reduction; (1,1) single-excitation → ceiling " +
-                     "(high-Q) + horizon (low-Q EP), stitched by secondclock; (2,2)/(p,p) half-filling → survivor. " +
+                     "(high-Q) + horizon (low-Q EP), stitched by secondclock; (2,2)/(p,p) interior fillings → survivor. " +
                      "The (1,1) and (2,2) {0,2}-coherences are DISTINCT modes (same n_diff, different filling) — do " +
                      "not conflate them.",
             children: kids);

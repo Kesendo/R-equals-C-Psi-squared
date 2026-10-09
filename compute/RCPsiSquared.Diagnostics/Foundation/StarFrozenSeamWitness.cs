@@ -17,7 +17,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>So the star's frozen seam IS the structural ceiling (<see cref="StructuralCeilingWitness"/>),
 /// read DYNAMICALLY: the high-Q ceiling g2 ≤ 1 and the all-Q frozenness of the survivor are the same fact.
-/// It is the third member of the trichotomy chain (un-freezes at the SE-EP coherence horizon Q*(N)) / ring
+/// It is the third member of the trichotomy chain (un-freezes at its handover, at the SE-EP coherence horizon Q*(N)
+/// for N = 2, 3 and just below it from N = 4) / ring
 /// (frozen (2,2) level crossing) / star (frozen (1,1) commutant). This witness recomputes (a) the exact
 /// commutant ceiling g2 = 4/(N−1) (cheap, no 4^N), and (b) the |Im| of the global slowest mode of the full
 /// Liouvillian at N=4,5 across Q, showing N=5 frozen at every Q and N=4 un-freezing at high Q. The C# twin
@@ -167,7 +168,7 @@ public sealed class StarFrozenSeamWitness : IInspectable
     private static InspectableNode TheTrichotomy() =>
         new InspectableNode("the trichotomy (chain / ring / star) and the mechanism",
             summary: "as Q grows (the dephasing weakens), does the survivor acquire a frequency? CHAIN: yes, at " +
-                     "the SE-EP coherence horizon Q*(N) (CoherenceHorizonClaim). RING: yes, at the handover where " +
+                     "its handover, at the SE-EP coherence horizon Q*(N) for N = 2, 3 and just below it from N = 4 (CoherenceHorizonClaim). RING: yes, at the handover where " +
                      "the oscillating band edge overtakes the frozen (2,2) level-crossing seam. STAR: no (N≥5) — " +
                      "its survivor is the (1,1) commutant coherence, which commutes with H and cannot oscillate. " +
                      "The star's freeze is a DIFFERENT route to |Im|=0 than the ring's: a commutant (the mode " +

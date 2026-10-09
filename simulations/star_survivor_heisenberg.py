@@ -5,8 +5,8 @@ network (hopping only): StructuralCeilingClaim says "g2 = strict_gap/2gamma of a
 StructuralCeilingWitness.SectorH and StarFrozenSeamWitness.FullSlowest both build XY hopping with NO ZZ
 diagonal. For the XY star that gives g2 = 4/(N-1), correctly = the XY star survivor light content.
 
-The rest of the survivor framework (SurvivalIncompletenessMirrorClaim, SURVIVOR_FLIP_AND_REFLECTION_ODD)
-is the canonical HEISENBERG model (XX+YY+ZZ). The Heisenberg star survivor is a DIFFERENT number:
+SURVIVOR_FLIP_AND_REFLECTION_ODD reads the HEISENBERG chain (XX+YY+ZZ), while SurvivalIncompletenessMirrorClaim,
+like the structural ceiling, carries the XY network. The Heisenberg star survivor is a DIFFERENT number:
 4/N, not 4/(N-1). The ZZ potential (hub V0 = -(N-1), leaves Vl = N-3 in the single-excitation sector)
 shifts which ad_H-kernel commutant is darkest. This file is the Heisenberg companion: it pins 4/N and
 shows the ZZ term is the entire difference. (The earlier star_commutant_gate.py / star_frozen_gate.py
@@ -20,7 +20,7 @@ model-specific: XY 4/(N-1), Heisenberg 4/N.
 
 GATES (a firing gate is the find; do not loosen):
   G1  XY star (1,1) survivor light content -> 4/(N-1)   (reproduces the docs' g2; the docs are right for XY)
-  G2  Heisenberg star (1,1) survivor light content -> 4/N   (the canonical-model companion)
+  G2  Heisenberg star (1,1) survivor light content -> 4/N   (the Heisenberg companion)
   G3  the ad_H-kernel darkest commutant flips 4/(N-1) (XY) -> 4/N (Heisenberg) when the ZZ potential is
       added -- the ZZ term is the whole difference
   G4  both frozen (|Im|~0) and approach the exact commutant as Q grows (||[H,rho]|| ~ 1/Q)
@@ -81,7 +81,7 @@ def kernel_darkest(N, with_zz):
 
 
 def main():
-    print("=== star survivor light content: XY (docs) vs Heisenberg (canonical) -- the ZZ term is the difference ===\n",
+    print("=== star survivor light content: XY (the typed star) vs Heisenberg -- the ZZ term is the difference ===\n",
           flush=True)
     g1 = g2 = g3 = g4 = True
     print(f"{'N':>3} {'XY <nXY>':>9} {'4/(N-1)':>8} {'Heis <nXY>':>11} {'4/N':>7} {'XY ker':>7} {'Heis ker':>9}",
@@ -111,14 +111,14 @@ def main():
 
     print("\nGATES:", flush=True)
     print(f"  G1 XY -> 4/(N-1) (docs correct for XY)        [{'ok' if g1 else 'FIRED'}]", flush=True)
-    print(f"  G2 Heisenberg -> 4/N (canonical companion)    [{'ok' if g2 else 'FIRED'}]", flush=True)
+    print(f"  G2 Heisenberg -> 4/N (Heisenberg companion)    [{'ok' if g2 else 'FIRED'}]", flush=True)
     print(f"  G3 ad_H-kernel darkest: XY 4/(N-1), Heis 4/N  [{'ok' if g3 else 'FIRED'}]", flush=True)
     print(f"  G4 frozen + commutant only in the high-Q limit[{'ok' if g4 else 'FIRED'}]", flush=True)
     ok = g1 and g2 and g3 and g4
     print("\nVERDICT:", flush=True)
     if ok:
         print("  No bug. The structural-ceiling / star-frozen-seam framework is the XY network by design", flush=True)
-        print("  (g2 = 4/(N-1), correct). The canonical HEISENBERG star survivor is 4/N; the ZZ potential", flush=True)
+        print("  (g2 = 4/(N-1), correct). The HEISENBERG star survivor is 4/N; the ZZ potential", flush=True)
         print("  is the entire difference. Both are frozen, both commutant only in the high-Q limit.", flush=True)
     else:
         print("  a gate FIRED -- diagnose, do not loosen.", flush=True)

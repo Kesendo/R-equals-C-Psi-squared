@@ -49,7 +49,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Δ-axis handover's rate matrix R = 4W_p − 4p·I, gap(R) = 2 being the same threshold along Δ), and proved
 /// on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
 /// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. At the Zeno end the populations relax under the ferromagnet, whose
-/// gap in every block of a tree is the site Laplacian's λ₁ (Theorem E of the same section). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
+/// gap in every block of a tree is the site Laplacian's λ₁ (Theorem E of the same section), and on a chain the ZZ term picks the filling at the next order, the half filling on the uniform XXZ chain at Δ ≠ 0 (the central pair at odd N); live at <c>inspect --root zeno</c> (<see cref="ZenoEndWitness"/>). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
 /// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
 /// threshold is 1/min E: closed forms Q*_gap = 1/2, √((1+√17)/8), 1/x₀ with x₀ the root 0.7450215 of
@@ -94,7 +94,8 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
                "docs/proofs/derivations/D06_SPECTRAL_GAP.md (Q*_gap, the chain's smallest point) + " +
                "simulations/f50_exceptional_couplings.py (gates G1 to G6, --n5 for the N = 5 chain) + " +
-               "compute/RCPsiSquared.Diagnostics/Foundation/ExceptionalCouplingWitness.cs (inspect --root exceptional)")
+               "compute/RCPsiSquared.Diagnostics/Foundation/ExceptionalCouplingWitness.cs (inspect --root exceptional) + " +
+               "compute/RCPsiSquared.Diagnostics/Foundation/ZenoEndWitness.cs (inspect --root zeno, the Zeno end)")
     {
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
         WeightOne = weightOne ?? throw new ArgumentNullException(nameof(weightOne));
@@ -124,6 +125,9 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                          "nonzero, since no cell of a diagonal block has distance 1; E(N, G) = its positive roots over p");
             yield return new InspectableNode("the live witness at N = 3 (chain)",
                 summary: LiveN3Chain(),
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode("the Zeno end, live at N = 5 (chain, Theorem E)",
+                summary: new ZenoEndWitness(5, "chain", 1.0).Summary,
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("proved beside the theorem (the count as a plane crossing)",
                 summary: "every block (p,p) carries exactly C(N,p) − c_p − m_p points counted with multiplicity, c_p the components of the exclusion graph and m_p the " +

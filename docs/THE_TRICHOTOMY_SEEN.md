@@ -78,7 +78,7 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 └── the vocabulary: rate_slow = min over Δn-sorted joint-popcount sectors, two reads
 ```
 
-(Abridged; the live root sweeps Q ∈ {1, 1.5, 2, 3, 6, 12, 25, 50} and N = 4…8 in full.)
+(Abridged; the live root sweeps Q ∈ {1, 1.5, 2, 3, 6, 12, 25, 50} and N = 4…8 in full. The chain's sectors below its handover are picks: on the XY chain every filling shares the slowest rate.)
 
 ## The third axis: rigidity
 

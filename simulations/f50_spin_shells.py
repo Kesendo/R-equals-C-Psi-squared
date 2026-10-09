@@ -50,6 +50,10 @@ sum of the cells of Hamming s in block (p,p), s = 0, 2, ..., 2 min(p, N-p).
       mode's Rayleigh quotient at half filling (there are none; a cross-
       reference to G0's squared model, not separate evidence) and their share
       rises strictly with |m| at every N (gated as a reading).
+  G7  (reading)   the XY chain at the Hamiltonian end, x = J/gamma = 400 in the
+      Pauli book, N = 4..6: in every block the slowest mode oscillates, at
+      height 2(N - 1)/(N + 1), below the slowest mode that does not, at
+      2N/(N + 1); the heights G5 compares are of the second kind.
 
 Rounding model for G3 and G4: eps sqrt(dim) p, the backward error of a dense
 symmetric eigensolver on a matrix of norm p; the first-order eigenvector error
@@ -335,6 +339,28 @@ def gate_g6(N, res):
           ", ".join(f"{x:.3f}" for x in shares), all(a < b for a, b in zip(shares, shares[1:])))
 
 
+def gate_g7(nmax_xy=6, x=400.0):
+    for N in range(4, nmax_xy + 1):
+        rows = []
+        for p in range(1, N):
+            states, idx = sector_basis(N, p)
+            H = four_h_int(N, p, states, idx, delta=0).astype(float)    # 4H = sum (XX + YY), Pauli J = 1
+            d = len(states)
+            A = np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T)
+            B = -1j * x * A - 2.0 * np.diag(hamming_matrix(states).reshape(-1).astype(float))
+            ev = np.linalg.eigvals(B)
+            ev = ev[np.abs(ev) > 1e-9 * x]
+            k = -ev.real / 2
+            i = int(np.argmin(k))
+            kreal = min(kk for kk, e in zip(k, ev) if abs(e.imag) <= 1e-9 * x)
+            rows.append((k[i], abs(ev[i].imag) / x, kreal))
+        print(f"G7 N={N} (reading, XY chain, x = {x:.0f}): slowest height per block "
+              + ", ".join(f"{a:.5f}" for a, _, _ in rows) + f" against 2(N-1)/(N+1) = {2 * (N - 1) / (N + 1):.5f}, "
+              + "oscillating at |Im|/x " + ", ".join(f"{b:.3f}" for _, b, _ in rows)
+              + "; slowest that does not oscillate " + ", ".join(f"{c:.5f}" for _, _, c in rows)
+              + f" against 2N/(N+1) = {2 * N / (N + 1):.5f}")
+
+
 def main(nmax):
     for N in range(4, nmax + 1):
         res = {}
@@ -359,6 +385,7 @@ def main(nmax):
         hs = [heights[p] for p in sorted(heights)]
         check(f"G5 N={N}: smallest height falls with p toward half filling (reading) " +
               ", ".join(f"{h:.4f}" for h in hs), all(a > b for a, b in zip(hs, hs[1:])))
+    gate_g7()
     print()
     if FAIL:
         print(f"{len(FAIL)} GATE(S) FAILED:")

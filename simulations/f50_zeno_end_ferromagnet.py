@@ -1,7 +1,7 @@
 """F50's Zeno end: the population generator is the ferromagnet, and on every tree its gap is lambda_1(T).
 
 Gate for the Zeno-end paragraphs of docs/proofs/PROOF_WEIGHT1_DEGENERACY.md, section "The count as a plane
-crossing": "The Zeno end and the dispersion", Theorem E with its proof ("By the lift the token gap is at most"), and the Zeno half of "The Zeno end and the Hamiltonian end side by side" (its overlaps are read by
+crossing": "The Zeno end and the dispersion", Theorem E with its proofs ("By the lift the token gap is at most" and "The slow levels are the eigenvalues"), "Which filling lasts longest", and the Zeno half of "The Zeno end and the Hamiltonian end side by side" (its overlaps are read by
 f50_isotropy_and_energy_mode.py, rows E3 and E4).
 
 Objects (Pauli book, H = sum_b J_b (X_a X_b + Y_a Y_b + Delta Z_a Z_b), uniform Z-dephasing, x = J/gamma):
@@ -94,7 +94,87 @@ the ratio to it; a reading prints and gates nothing):
       N = 4, 5, 6, the N = 5 sweep Q = 0.5 to 2.5 and the Q = 0.5 mean over N = 4, 5, 6, beside the Zeno values
       N^2 (1 - cos(pi/N))/8 and /4.
 
-Run: python simulations/f50_zeno_end_ferromagnet.py   (about half a minute; prints "ALL GATES PASS" or a FAIL line)
+  Z9  Beyond the leading order (Theorem E (d)): the slow levels are those of -M1 + i M3 + M4 + lambda K up to O(s^-4),
+      M1 = A_PQ G^-1 A_QP, K = A_PQ G^-2 A_QP, M4 = A_PQ G^-1 A_QQ G^-1 A_QQ G^-1 A_QP.  The population ladder E'
+      (add a particle anywhere, (E'v)(B) = sum over l in B of v(B - l)) commutes with M1, K and M4 of the hops alone
+      in every block, exact over the rationals, on a chain with a bond and a rate profile, the chain N = 6, the
+      rings N = 5, 6, the stars N = 4..7 (one with a rate profile) and two random trees; its M1 is the leading term,
+      Lap(4 J_b^2/(gamma_i + gamma_j)), on the profile chain.  On the chain this is the
+      Jordan-Wigner ladder of PROOF_CODIM1_BY_ADDITIVITY at every order; on the rings N >= 5 the wrapped string
+      enters only after N hops; on the stars and trees the identity is read here and not proved.  Controls: on the
+      ring N = 4 (a path of four hops winds around it) and with the ZZ term present (Heisenberg chain N = 5) E'
+      commutes with M1 and K and not with M4; under a hop doubled when a third site is occupied (SU(2) gone) with
+      none of the three.  The graphs with squares K2,3 and K2,4, hops only: E' commutes with M1 and K and not with M4
+      on both (Z13 reads K2,3's fillings split at x^4 and K2,4's tied there).
+  Z10 The diagonal terms enter M4 only as the detuning form D_V, the exclusion graph's Laplacian with the weight
+      2 |t_e|^2 dV_e^2 / G_e^3 on each hop e, dV_e the change of the diagonal of H across it: M4(H) - M4(hops of H)
+      == D_V exactly in every block, on a chain with Delta = 1/2, fields, a next-nearest ZZ and a rate profile, the
+      ring N = 5, the star N = 5 with fields and a random tree N = 6.  Control: on the triangle graph the cross terms
+      of hop and diagonal survive.
+  Z11 The detuning weights W_b(p), read off F^T D_V F with F the lift (a bond sum by construction, every hop crossing
+      one bond): on the uniform XXZ chain, ring and star (J = gamma = 1) W_b(p) is 4 Delta^2 C(N-4, p-2) on a bond with two outer
+      neighbours (a hop there is detuned, by 4 Delta, exactly when they disagree), Delta^2 C(N-2, p-1)/2 on an end bond
+      of the chain (detuned by 2 Delta always) and Delta^2 (N - 2p)^2 C(N-2, p-1)/2 on every bond of the star
+      (detuned by 2 Delta |N - 2p|, the other arms' imbalance), exact for the chains and stars N = 4..7 and the rings
+      N = 5..7, Delta = 1, 1/2, every block.  Controls through the same comparison: the form with every bulk hop
+      detuned misses the chain N = 6 in every block, and the chain N = 6 with ZZ couplings (+1, +1, -1, -1, +1), whose
+      bulk hops are detuned when their outer neighbours agree, misses the uniform form in blocks 1, 3 and 5 and meets it
+      in blocks 2 and 4, where the two counts agree (2 C(2, p-1) + 2 C(2, p-3) against 4 C(2, p-2)).
+  Z11c The shape of the split on a chain with nearest-neighbour ZZ couplings K_b of any sign and no fields (J = gamma
+      = 1): W_b(p)/C(N-2, p-1) == ((K1 - K2)^2 (1 - phi(p)) + (K1 + K2)^2 phi(p))/2 on a bulk bond, K1 and K2 the
+      couplings beside it, phi(p) = 2 (p-1)(N-p-1)/((N-2)(N-3)), and K^2/2 on an end bond, K its neighbouring
+      coupling, exact in every block on four chains N = 6, 7 (one uniform, one with fractional couplings), so that
+      only 2 K1 K2 phi(p) depends on the filling.  Control: a next-nearest ZZ term leaves that form.  At any range,
+      ZZ couplings K_kl and no fields: W_b(p)/C(N-2, p-1) == ((sum c)^2 (1 - 2 phi(p)) + 2 phi(p) sum c^2)/2 on every
+      bond (i, i+1), c_k = K_ik - K_(i+1)k over the other sites, which hold p - 1 particles in every arrangement
+      alike, exact on the chain N = 6 with the next-nearest term (0, 2) and on two chains N = 7 with next-nearest
+      and longer-range terms.  Control: a field on one site of the Heisenberg chain N = 6 misses it.
+  Z11b The displayed delta_p of PROOF_WEIGHT1_DEGENERACY ("Which filling lasts longest"), the chain's in sines, the
+      ring's with its own lambda_1 = 4 sin^2(pi/N) and the star's, against the quotient on the closed-form weights
+      (which Z11 checks against D_V up to N = 7) with the site Laplacian's lowest nonconstant mode in closed form,
+      N = 4..12 (rings from 5), every block, at 30 and at 60 digits: the residual falls with the working precision.
+      Control: the ring's form with the chain's lambda_1 misses.
+  Z12 The filling split at order x^4: each block's slowest level less block 1's, over x^4, against
+      the difference of the detuning form's quotients on the lifted wave, on the chain N = 5 at Delta = 1, the chain
+      N = 6 at Delta = 1 and 1/2, the ring N = 6, the stars N = 5, 6, and the chain N = 6 with ZZ couplings
+      (1, 2, -1, -3, 1) and the uniform chain N = 6 with a next-nearest coupling 3/2, whose quotients use the exact
+      weights; and delta_p itself, each block's slowest level less the same block's without the ZZ term, over x^4,
+      against the quotient, on the chain N = 5 at Delta = 1, the chain N = 6 at Delta = 1/2, the ring N = 6 and the
+      star N = 5 (the hops' own correction, the same with and without the ZZ term, cancels); each deviation's law is
+      x^2 (the next even order), decided at the half-integer powers over x = 0.01, 0.02, 0.04 (ratio 4 per doubling),
+      the prediction scaled by 1 + 1e-2 fed through the same comparison as the control, read outside the window at
+      both doublings.
+  Z13 Reading, not gated: the block of the slowest non-stationary rate at x = 0.02 (blocks within 64 eps times the
+      largest block norm of it tie) and the growth of the spread across the blocks per doubling of x (x 16 for a split
+      at x^4, x 64 at x^6), for the Heisenberg chains N = 4, 5, 6, the
+      XXZ chain at Delta = 1/2, the XY chain, the Heisenberg ring N = 6, the Heisenberg star N = 6, the XY stars
+      N = 4..7, the XY
+      rings N = 4, 5, 6 and 7, the XY graphs K2,3 and K2,4, the XY and Heisenberg ladders of 2 x 3 sites (squares: the hops' own correction differs
+      between the fillings at x^4) and the XY star N = 6 with the Jordan-Wigner sign on its hops, free fermions, where
+      every filling ties, so that the spin star's split at x^6 is consistent with its exchange statistics, and the
+      chain N = 6 with ZZ couplings (+1, +1, -1, -1, +1), whose hops have flanking couplings of opposite sign and whose
+      split is the uniform chain's reversed, the boundary slowest; each row prints the split
+      (block p's slowest level less block 1's)/x^4; and the Heisenberg chain N = 5 under experiments/GAMMA_AS_BINDING.md's profile of rates (IBM
+      Torino T2, four of five sites far below J), at its own rates and with the same shape at the Zeno end, with the
+      slowest rate over every block (p, q) at those rates, the (0, 1) band edge's, and the next block's, and the same
+      chain at uniform rates 0.05, 0.5, 2; and
+      the chain N = 6 with fields, XY (every filling ties, the fields quadratic in the fermions) and Heisenberg
+      with a field 4 on both end sites (a third filling, block 4, picked).
+  Z14 The odd ring: the sublattice sign K = prod_{l odd} Z_l flips every bond of an odd ring but the wrapped one, so
+      K P_T A(ring) P_T K == A(the ring with its wrapped bond negated, a pi flux) entry by entry in every block at
+      N = 3, 5, 7, P_T the transpose |a><b| -> |b><a| and A the commutator with H (integer entries, signed
+      permutations: exact).  Control: on the even rings N = 4, 6 the same map returns A(ring) itself and misses the
+      flux.  Reading: the XY ring's slowest rate per block at x = 0.5, 1, 3 (N = 7 at 1), the odd rings tied to
+      rounding, the even rings split into the even fillings and the odd ones, each class tied within itself, and the
+      ring N = 8 at x = 0.3 (blocks 1..4, the rest by X^N), the classes' agreement read against the rounding, 64 eps
+      times the largest block norm.
+  Z15 Reading, not gated: the stars' survivor in block (1, 1) at Q = J/gamma = 1 to 5 and 20, N = 4..8, Heisenberg
+      and XY: the lifted wave (hub empty, arms carrying populations), the hub-against-arms mode or a mode without
+      populations, with its <n_XY> at Q = 20 against 4/N and 4/(N - 1) and its largest |Im| over those Q; and the Heisenberg ring N = 4's block (2, 2) at Q = 0.3 to 100: how many of
+      its modes lie below the plane <n_XY> = 1, the height of its slowest mode and that mode's populations against
+      the domain-wall count.
+
+Run: python simulations/f50_zeno_end_ferromagnet.py   (about two minutes; prints "ALL GATES PASS" or a FAIL line)
 """
 import sys
 from fractions import Fraction
@@ -912,6 +992,630 @@ print("    N = 5 XXX, <n_XY> N^2/Q^2 at Q = 0.5, 1, 1.5, 2, 2.5: "
 m = np.mean([spin_book_gap(N, 0.5, 1) * N * N / (g * 0.25) for N in (4, 5, 6)])
 print(f"    Q = 0.5, XXX, gap N^2/(gamma Q^2) mean over N = 4, 5, 6: {m:.4f}  "
       f"(Zeno mean {np.mean([N * N * (1 - np.cos(np.pi / N)) / 4 for N in (4, 5, 6)]):.4f})")
+
+
+# ----------------------------------------------------------------------------------------------------------
+# Z9-Z13: beyond the leading order, the filling the diagonal terms pick
+# ----------------------------------------------------------------------------------------------------------
+def zeno_terms4(N, H, p, gam):
+    """Exact M1 = A_PQ G^-1 A_QP, K = A_PQ G^-2 A_QP and M4 = A_PQ G^-1 A_QQ G^-1 A_QQ G^-1 A_QP on block (p, p),
+    G_xy = 2 sum gamma over the sites where x and y disagree; the slow levels are those of -M1 + i M3 + M4 + lambda K."""
+    cf = confs_of(N, p); pos = {x: k for k, x in enumerate(cf)}
+    H_cols = [dict() for _ in range(2 ** N)]
+    for r in range(2 ** N):
+        for c_, v in H[r].items():
+            H_cols[c_][r] = v
+
+    def A_vec(vec):
+        out = {}
+        for (x, y), a in vec.items():
+            for xp, v in H_cols[x].items():
+                if xp in pos:
+                    out[(xp, y)] = out.get((xp, y), 0) + v * a
+            for yp, v in H[y].items():
+                if yp in pos:
+                    out[(x, yp)] = out.get((x, yp), 0) - v * a
+        return {k_: v for k_, v in out.items() if v != 0}
+
+    def rate(x, y):
+        return 2 * sum(gam[l] for l in range(N) if bit(N, x, l) != bit(N, y, l))
+
+    n = len(cf)
+    M1 = [[0] * n for _ in range(n)]; K = [[0] * n for _ in range(n)]; M4 = [[0] * n for _ in range(n)]
+
+    def to_pop(vec, M, j):
+        for (u, w), v in A_vec(vec).items():
+            if u == w:
+                M[pos[u]][j] += v
+    for j, x in enumerate(cf):
+        first = {k_: v / rate(*k_) for k_, v in A_vec({(x, x): 1}).items()}               # G^-1 A_QP, all in Q
+        to_pop(first, M1, j)
+        to_pop({k_: v / rate(*k_) for k_, v in first.items()}, K, j)
+        second = {k_: v / rate(*k_) for k_, v in A_vec(first).items() if k_[0] != k_[1]}
+        third = {k_: v / rate(*k_) for k_, v in A_vec(second).items() if k_[0] != k_[1]}
+        to_pop(third, M4, j)
+    return cf, M1, K, M4
+
+
+def add_particle(N, p):
+    """E': block p -> block p + 1 on the populations, (E' v)(B) = sum over l in B of v(B - l)"""
+    lo, hi = confs_of(N, p), confs_of(N, p + 1)
+    pos = {x: k for k, x in enumerate(lo)}
+    Em = [[0] * len(lo) for _ in hi]
+    for r, y in enumerate(hi):
+        for l in range(N):
+            if bit(N, y, l):
+                Em[r][pos[y ^ (1 << (N - 1 - l))]] += 1
+    return Em
+
+
+def mat_mul(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(len(B)) if A[i][k]) for j in range(len(B[0]))] for i in range(len(A))]
+
+
+def ladder_commutes(N, H, gam):
+    """per term (M1, K, M4): does E' M^(p) == M^(p+1) E' hold for every p = 1..N-2, exactly?"""
+    T = {p: zeno_terms4(N, H, p, gam) for p in range(1, N)}
+    out = []
+    for idx in (1, 2, 3):
+        out.append(all(mat_mul(add_particle(N, p), T[p][idx]) == mat_mul(T[p + 1][idx], add_particle(N, p))
+                       for p in range(1, N - 1)))
+    return tuple(out)
+
+
+def off_diagonal(H):
+    return [{k_: v for k_, v in row.items() if k_ != r} for r, row in enumerate(H)]
+
+
+def detuning_form(N, H, p, gam):
+    """D_V = sum over the hops e = {x, y} of 2 |t_e|^2 dV_e^2 / G_e^3 times the edge Laplacian, dV_e = H_yy - H_xx"""
+    cf = confs_of(N, p); pos = {x: k for k, x in enumerate(cf)}
+    n = len(cf); D = [[0] * n for _ in range(n)]
+    for x in cf:
+        for y, t in H[x].items():                 # H[x][y] = H_xy, the hop y -> x
+            if y == x or y not in pos:
+                continue
+            dV = H[y].get(y, 0) - H[x].get(x, 0)
+            G = 2 * sum(gam[l] for l in range(N) if bit(N, x, l) != bit(N, y, l))
+            w = 2 * t * t.conjugate() * dV * dV / G ** 3
+            D[pos[x]][pos[x]] += w; D[pos[x]][pos[y]] -= w
+    return D
+
+
+def lift_matrix(N, p):
+    """F: site functions -> block p, F[S][i] = 1 if i in S"""
+    return [[bit(N, x, i) for i in range(N)] for x in confs_of(N, p)]
+
+
+def transpose(A):
+    return [list(r) for r in zip(*A)]
+
+
+GAM1 = [Fraction(1)] * 9
+print("Z9  beyond the leading order: the population ladder E' commutes with the hopping's own terms M1, K, M4 (exact)")
+gam_r = [Fraction(int(v), 5) for v in RNG.integers(3, 12, size=7)]
+for label, N, E, gam in (
+        ("chain N=5, bonds (1, 2, 1, 3), a rate profile", 5, chain(5, [1, 2, 1, 3]), gam_r[:5]),
+        ("chain N=6", 6, chain(6), GAM1[:6]),
+        ("ring N=5", 5, ring(5), GAM1[:5]), ("ring N=6", 6, ring(6), GAM1[:6]),
+        ("star N=4", 4, star(4), GAM1[:4]), ("star N=5", 5, star(5), GAM1[:5]),
+        ("star N=6, a rate profile", 6, star(6), gam_r[:6]), ("star N=7", 7, star(7), GAM1[:7]),
+        ("random tree N=6", 6, random_tree(6), GAM1[:6]), ("random tree N=7", 7, random_tree(7), gam_r[:7])):
+    res = ladder_commutes(N, ham_matrix(N, E, delta=Fraction(0)), gam)
+    check(f"{label}, H = hops only: E' commutes with M1, K, M4 in every block", res == (True, True, True))
+cf5, M1p, _, _ = zeno_terms4(5, ham_matrix(5, chain(5, [1, 2, 1, 3]), delta=Fraction(0)), 2, gam_r[:5])
+Lw5 = exclusion_laplacian(5, 2, [(a, b, Fraction(4) * Fraction(c) ** 2 / (gam_r[a] + gam_r[b])) for a, b, c in chain(5, [1, 2, 1, 3])])
+check("the M1 of these rows is the leading term of (a): M1 == Lap(4 J_b^2/(gamma_i + gamma_j)) on the profile chain, block 2",
+      all(M1p[i][j] == Lw5[i][j] for i in range(len(M1p)) for j in range(len(M1p))))
+gm5 = sum(gam_r[:5]) / 5
+Lu5 = exclusion_laplacian(5, 2, [(a, b, Fraction(4) * Fraction(c) ** 2 / (2 * gm5)) for a, b, c in chain(5, [1, 2, 1, 3])])
+check("control: the uniform-rate weights 4 J_b^2/(2 gamma_mean) miss that M1",
+      any(M1p[i][j] != Lu5[i][j] for i in range(len(M1p)) for j in range(len(M1p))))
+res = ladder_commutes(4, ham_matrix(4, ring(4), delta=Fraction(0)), GAM1[:4])
+check("control: on the ring N=4 (a path of four hops winds around it) E' commutes with M1 and K and not with M4",
+      res == (True, True, False))
+K23 = [(a, b, 1) for a in (0, 1) for b in (2, 3, 4)]                  # the complete bipartite graphs, squares inside
+K24 = [(a, b, 1) for a in (0, 1) for b in (2, 3, 4, 5)]
+for label, N, E in (("K2,3", 5, K23), ("K2,4", 6, K24)):
+    res = ladder_commutes(N, ham_matrix(N, E, delta=Fraction(0)), GAM1[:N])
+    check(f"squares: on {label}, H = hops only, E' commutes with M1 and K and not with M4", res == (True, True, False))
+res = ladder_commutes(5, ham_correlated_hop(5, chain(5), 2), GAM1[:5])
+check("control: a hop doubled when a third site is occupied (number conserving, SU(2) gone) breaks E' with M1, K and M4",
+      res == (False, False, False))
+res = ladder_commutes(5, ham_matrix(5, chain(5), delta=Fraction(1)), GAM1[:5])
+check("control: with the ZZ term (Heisenberg chain N=5) E' commutes with M1 and K and not with M4", res == (True, True, False))
+
+print("Z10 the diagonal terms enter M4 only as the detuning form, on graphs without triangles (exact)")
+for label, N, E, H, gam in (
+        ("chain N=5, Delta = 1/2, fields, next-nearest ZZ, a rate profile", 5, chain(5, [1, 2, 1, 3]),
+         add_diagonal(5, ham_matrix(5, chain(5, [1, 2, 1, 3]), delta=Fraction(1, 2)), fields=(1, 0, -2, 1, 3), zz=((0, 2, 1),)),
+         gam_r[:5]),
+        ("ring N=5, Delta = 1", 5, ring(5), ham_matrix(5, ring(5), delta=Fraction(1)), GAM1[:5]),
+        ("star N=5, Delta = 3/2, fields", 5, star(5), add_diagonal(5, ham_matrix(5, star(5), delta=Fraction(3, 2)), fields=(2, -1, 0, 1, 3)),
+         GAM1[:5]),
+        ("random tree N=6, Delta = 2", 6, random_tree(6), None, GAM1[:6])):
+    if H is None:
+        H = ham_matrix(N, E, delta=Fraction(2))
+    ok = True
+    for p in range(1, N):
+        M4 = zeno_terms4(N, H, p, gam)[3]; M4h = zeno_terms4(N, off_diagonal(H), p, gam)[3]
+        D = detuning_form(N, H, p, gam)
+        ok &= all(M4[i][j] - M4h[i][j] == D[i][j] for i in range(len(D)) for j in range(len(D)))
+    check(f"{label}: M4(H) - M4(hops of H) == D_V in every block", ok)
+H = add_diagonal(5, ham_matrix(5, TRI, delta=Fraction(3, 2)), fields=(1, -2, 0, 3, 1))
+M4 = zeno_terms4(5, H, 2, GAM1[:5])[3]; M4h = zeno_terms4(5, off_diagonal(H), 2, GAM1[:5])[3]
+D = detuning_form(5, H, 2, GAM1[:5])
+check("control: on the triangle graph (bonds 01, 12, 02, 23, 34) the cross terms of hop and diagonal survive, "
+      "M4(H) - M4(hops) != D_V in block 2", any(M4[i][j] - M4h[i][j] != D[i][j] for i in range(len(D)) for j in range(len(D))))
+
+print("Z11 the detuning weights W_b(p), read off F^T D_V F, in closed form (exact)")
+
+
+def bond_weights(N, E, H, p, gam):
+    """W_b(p) = sum over the hops across bond b of 2 |t|^2 dV^2 / G^3, read off F^T D_V F (a bond sum by construction:
+    every hop crosses exactly one bond, and F maps the hop's Laplacian to that bond's)"""
+    D = detuning_form(N, H, p, gam); F = lift_matrix(N, p)
+    Q = mat_mul(mat_mul(transpose(F), D), F)
+    return {(a, b): -Q[a][b] for a, b, _ in E}
+
+
+def closed_W(kind, N, p, delta, a, b):
+    """uniform book J = 1, gamma = 1: a detuned hop weighs 2 * 4 * dV^2 / 64 = dV^2/8"""
+    if kind == "star":
+        return Fraction(delta) ** 2 * (N - 2 * p) ** 2 * comb(N - 2, p - 1) / 2
+    end = kind == "chain" and (a == 0 or b == N - 1)
+    if end:
+        return Fraction(delta) ** 2 * comb(N - 2, p - 1) / 2
+    return 4 * Fraction(delta) ** 2 * (comb(N - 4, p - 2) if p >= 2 else 0)
+
+
+for kind, Ns, builder in (("chain", (4, 5, 6, 7), chain), ("ring", (5, 6, 7), ring), ("star", (4, 5, 6, 7), star)):
+    for N in Ns:
+        for delta in (Fraction(1), Fraction(1, 2)):
+            E = builder(N); H = ham_matrix(N, E, delta=delta); ok = True
+            for p in range(1, N):
+                W = bond_weights(N, E, H, p, GAM1[:N])
+                ok &= all(W[(a, b)] == closed_W(kind, N, p, delta, a, b) for a, b, _ in E)
+            check(f"{kind} N={N}, Delta = {delta}: W_b(p) equals the closed form on every bond, every block", ok)
+def naive_W(kind, N, p, delta, a, b):
+    """every hop across a bulk bond taken as detuned by 4 Delta: 2 Delta^2 C(N-2, p-1); the end bonds as closed_W"""
+    end = kind == "chain" and (a == 0 or b == N - 1)
+    return closed_W(kind, N, p, delta, a, b) if end else 2 * Fraction(delta) ** 2 * comb(N - 2, p - 1)
+
+
+def weights_match(N, E, H, p, form, kind, delta):
+    """the comparison of the rows above: W_b(p) read off F^T D_V F against a form, on every bond of block p"""
+    W = bond_weights(N, E, H, p, GAM1[:N])
+    return all(W[(a, b)] == form(kind, N, p, delta, a, b) for a, b, _ in E)
+
+
+H6 = ham_matrix(6, chain(6), delta=Fraction(1))
+check("control: the form with every hop across a bulk bond detuned, 2 Delta^2 C(N-2, p-1), misses the chain N=6 in "
+      "every block", not any(weights_match(6, chain(6), H6, p, naive_W, "chain", 1) for p in range(1, 6)))
+H6m = add_diagonal(6, ham_matrix(6, chain(6), delta=Fraction(0)), zz=((0, 1, 1), (1, 2, 1), (2, 3, -1), (3, 4, -1), (4, 5, 1)))
+meets = [p for p in range(1, 6) if weights_match(6, chain(6), H6m, p, closed_W, "chain", 1)]
+check(f"control: the chain N=6 with ZZ couplings (+1, +1, -1, -1, +1), its bulk hops detuned when their outer "
+      f"neighbours agree, misses the uniform closed form in blocks 1, 3, 5 and meets it in blocks {meets}, where "
+      f"2 C(2, p-1) + 2 C(2, p-3) = 4 C(2, p-2)", meets == [2, 4])
+
+print("Z11c the split's shape on a chain with ZZ couplings of any sign and range: the filling enters only through phi(p) (exact)")
+
+
+def mixed_chain(N, Ks, extra=()):
+    """hops of the uniform XY chain, ZZ coupling K_b on bond (b, b+1), plus any extra diagonal ZZ terms"""
+    return add_diagonal(N, ham_matrix(N, chain(N), delta=Fraction(0)),
+                        zz=tuple((b, b + 1, K) for b, K in enumerate(Ks)) + tuple(extra))
+
+
+def weights_have_the_shape(N, H, Ks):
+    """W_b(p)/C(N-2, p-1) == ((K1 - K2)^2 (1 - phi) + (K1 + K2)^2 phi)/2 on a bulk bond, K^2/2 on an end bond"""
+    for p in range(1, N):
+        W = bond_weights(N, chain(N), H, p, GAM1[:N])
+        phi = Fraction(2 * (p - 1) * (N - p - 1), (N - 2) * (N - 3))
+        for b in range(N - 1):
+            w = W[(b, b + 1)] / comb(N - 2, p - 1)
+            if b == 0 or b == N - 2:
+                expected = Fraction(Ks[1] if b == 0 else Ks[N - 3]) ** 2 / 2
+            else:
+                K1, K2 = Fraction(Ks[b - 1]), Fraction(Ks[b + 1])
+                expected = ((K1 - K2) ** 2 * (1 - phi) + (K1 + K2) ** 2 * phi) / 2
+            if w != expected:
+                return False
+    return True
+
+
+for N, Ks in ((6, (1, 2, -1, -3, 1)), (7, (2, -1, 1, 3, -2, 1)), (6, (1, 1, 1, 1, 1)),
+              (7, (Fraction(1, 2), -2, 1, 1, Fraction(-3, 2), 1))):
+    check(f"chain N={N}, ZZ couplings ({', '.join(str(Fraction(k)) for k in Ks)}): the weights have the shape in every block",
+          weights_have_the_shape(N, mixed_chain(N, Ks), Ks))
+check("control: with a next-nearest ZZ term (0, 2) added to the chain N=6 the weights leave the shape",
+      not weights_have_the_shape(6, mixed_chain(6, (1, 2, -1, -3, 1), extra=((0, 2, 1),)), (1, 2, -1, -3, 1)))
+
+
+def weights_have_the_general_shape(N, H, K):
+    """ZZ couplings K[(k, l)], k < l, of any range and no fields: W_b(p)/C(N-2, p-1) == ((sum c)^2 (1 - 2 phi)
+    + 2 phi sum c^2)/2 on every bond (i, i+1), c_k = K_ik - K_(i+1)k over the other sites"""
+    def k_of(a, b):
+        return Fraction(K.get((min(a, b), max(a, b)), 0))
+    for p in range(1, N):
+        W = bond_weights(N, chain(N), H, p, GAM1[:N])
+        phi = Fraction(2 * (p - 1) * (N - p - 1), (N - 2) * (N - 3))
+        for i in range(N - 1):
+            c = [k_of(i, k) - k_of(i + 1, k) for k in range(N) if k not in (i, i + 1)]
+            s1, s2 = sum(c), sum(v * v for v in c)
+            if W[(i, i + 1)] / comb(N - 2, p - 1) != (s1 * s1 * (1 - 2 * phi) + 2 * phi * s2) / 2:
+                return False
+    return True
+
+
+LONGER = (("nearest (1, 2, -1, -3, 1) and the next-nearest (0, 2) 1", 6,
+           {(0, 1): 1, (1, 2): 2, (2, 3): -1, (3, 4): -3, (4, 5): 1, (0, 2): 1}),
+          ("nearest 1 and next-nearest 3/2 throughout", 7,
+           {**{(b, b + 1): 1 for b in range(6)}, **{(b, b + 2): Fraction(3, 2) for b in range(5)}}),
+          ("eleven couplings of ranges 1 to 6", 7,
+           {(0, 1): 2, (1, 2): -1, (2, 3): 1, (3, 4): 3, (4, 5): -2, (5, 6): 1, (0, 2): Fraction(1, 2), (1, 3): -1,
+            (2, 5): Fraction(3, 2), (0, 6): -1, (3, 6): 2}))
+for label, N, K in LONGER:
+    H = add_diagonal(N, ham_matrix(N, chain(N), delta=Fraction(0)), zz=tuple((a, b, v) for (a, b), v in K.items()))
+    check(f"chain N={N}, ZZ couplings of longer range, {label}: the weights have the general shape in every block",
+          weights_have_the_general_shape(N, H, K))
+check("control: the uniform Heisenberg chain N=6 with a field 1 on site 0 misses the general shape (a field adds a "
+      "part linear in the filling)",
+      not weights_have_the_general_shape(6, add_diagonal(6, mixed_chain(6, (1, 1, 1, 1, 1)), fields=(1, 0, 0, 0, 0, 0)),
+                                         {(b, b + 1): 1 for b in range(5)}))
+
+print("Z11b the displayed delta_p of the chain, the ring and the star against the quotient on the exact weights")
+import mpmath
+
+
+def displayed_residuals(dps):
+    """max |displayed - quotient| over N = 4..12 (rings from 5), every block, at J = gamma = Delta = 1, f the site
+    Laplacian's lowest nonconstant mode in closed form; the second value is the ring with the chain's lambda_1"""
+    mpmath.mp.dps = dps
+    mpf, cos, sin, pi = mpmath.mpf, mpmath.cos, mpmath.sin, mpmath.pi
+    worst, wrong = mpf(0), mpf(0)
+    for N in range(4, 13):
+        fc = [cos(pi * (l + mpf(1) / 2) / N) for l in range(N)]
+        fr = [cos(2 * pi * l / N) for l in range(N)]
+        fs = [mpf(0), mpf(1), mpf(-1)] + [mpf(0)] * (N - 3)
+        for p in range(1, N):
+            C = comb(N - 2, p - 1)
+            Wc = [closed_W("chain", N, p, 1, a, a + 1) for a in range(N - 1)]
+            q_chain = sum(mpf(Wc[a].numerator) / Wc[a].denominator * (fc[a + 1] - fc[a]) ** 2 for a in range(N - 1)) / (sum(v * v for v in fc) * C)
+            lam_c = 4 * sin(pi / (2 * N)) ** 2
+            shown_chain = (2 * lam_c / N) * (2 * (N - 4 * sin(pi / N) ** 2) * (p - 1) * (N - p - 1) / mpf((N - 2) * (N - 3)) + sin(pi / N) ** 2)
+            Ws = closed_W("star", N, p, 1, 0, 1)
+            q_star = sum(mpf(Ws.numerator) / Ws.denominator * (fs[0] - fs[l]) ** 2 for l in range(1, N)) / (sum(v * v for v in fs) * C)
+            shown_star = mpf(1) * (N - 2 * p) ** 2 / 2
+            worst = max(worst, abs(q_chain - shown_chain), abs(q_star - shown_star))
+            if N >= 5:
+                Wr = closed_W("ring", N, p, 1, 0, 1)
+                q_ring = sum(mpf(Wr.numerator) / Wr.denominator * (fr[(a + 1) % N] - fr[a]) ** 2 for a in range(N)) / (sum(v * v for v in fr) * C)
+                shown_ring = 4 * 4 * sin(pi / N) ** 2 * (p - 1) * (N - p - 1) / mpf((N - 2) * (N - 3))
+                wrong_ring = 4 * lam_c * (p - 1) * (N - p - 1) / mpf((N - 2) * (N - 3))
+                worst = max(worst, abs(q_ring - shown_ring))
+                wrong = max(wrong, abs(q_ring - wrong_ring))
+    return worst, wrong
+
+
+r30, w30 = displayed_residuals(30)
+r60, w60 = displayed_residuals(60)
+mpmath.mp.dps = 15
+check(f"the displayed forms equal the quotient: residual {mpmath.nstr(r30, 3)} at 30 digits, {mpmath.nstr(r60, 3)} at 60 "
+      f"(an identity: the residual is the working precision's, falling by about 30 decades)",
+      r30 < mpmath.mpf(10) ** -25 and r60 < mpmath.mpf(10) ** -55)
+check(f"control: the ring's form with the chain's lambda_1 = 4 sin^2(pi/(2N)) in place of 4 sin^2(pi/N) misses, by "
+      f"{mpmath.nstr(w60, 3)} at 60 digits", w30 > mpmath.mpf(10) ** -2 and w60 > mpmath.mpf(10) ** -2)
+
+print("Z12 the filling split at order x^4 is the detuning form's difference (float; the law of the deviation is x^2)")
+
+
+def slowest_per_block(N, H, x, with_scale=False):
+    """the slowest non-stationary level of every block; with_scale also returns the largest block 1-norm, the
+    eigensolver's rounding being of order eps times it"""
+    out, scale = [], 0.0
+    for p in range(1, N):
+        A_f, ham_f = float_block(N, H, p)
+        B = -1j * x * A_f + np.diag(-2.0 * ham_f)
+        scale = max(scale, np.abs(B).sum(axis=0).max())
+        ev = np.linalg.eigvals(B)
+        ev = ev[np.abs(ev) > 1e-11]
+        out.append(ev[np.argmin(np.abs(ev.real))].real)
+    return (np.array(out), scale) if with_scale else np.array(out)
+
+
+def lifted_quotient(N, E, W, p):
+    """sum_b W_b(p) (f_a - f_b)^2 / (|f|^2 C(N-2, p-1)) on the lowest nonconstant site mode f (any one, if degenerate)"""
+    w, V = np.linalg.eigh(np.array(site_laplacian(N, E), float))
+    f = V[:, 1]
+    return sum(float(W[(a, b)]) * (f[a] - f[b]) ** 2 for a, b, _ in E) / (f @ f * comb(N - 2, p - 1))
+
+
+XS12 = (0.01, 0.02, 0.04)
+for label, kind, N, builder, delta in (("chain", "chain", 5, chain, 1), ("chain", "chain", 6, chain, 1),
+                                       ("chain", "chain", 6, chain, Fraction(1, 2)), ("ring", "ring", 6, ring, 1),
+                                       ("star", "star", 5, star, 1), ("star", "star", 6, star, 1)):
+    E = builder(N); H = ham_matrix(N, E, delta=Fraction(delta))
+    pred = np.array([lifted_quotient(N, E, {(a, b): closed_W(kind, N, p, delta, a, b) for a, b, _ in E}, p)
+                     for p in range(1, N)])
+    pred_split = pred - pred[0]
+    devs, wrong = [], []
+    for x in XS12:
+        r = slowest_per_block(N, H, x)
+        d = (r - r[0]) / x ** 4
+        devs.append(np.max(np.abs(d - pred_split)))
+        wrong.append(np.max(np.abs(d - pred_split * (1 + 1e-2))))
+    ratios = [devs[1] / devs[0], devs[2] / devs[1]]
+    wr = [wrong[1] / wrong[0], wrong[2] / wrong[1]]
+    check(f"{kind} N={N}, Delta = {delta}: (block p's slowest level less block 1's)/x^4 -> {np.round(pred_split, 5).tolist()} "
+          f"for p = 1..{N - 1}, the deviation growing by {ratios[0]:.2f}, {ratios[1]:.2f} per doubling of x (x^2: 4, decided "
+          f"at the half-integer powers; control: the prediction scaled by 1 + 1e-2, {wr[0]:.2f}, {wr[1]:.2f}, read outside "
+          f"the window both times)",
+          all(2 ** 1.5 < q < 2 ** 2.5 for q in ratios) and not any(2 ** 1.5 < q < 2 ** 2.5 for q in wr))
+
+for Ks, extra in (((1, 2, -1, -3, 1), ()), ((1, 1, 1, 1, 1), tuple((b, b + 2, Fraction(3, 2)) for b in range(4)))):
+    N = 6
+    E = chain(N); H = mixed_chain(N, Ks, extra=extra)
+    pred = np.array([lifted_quotient(N, E, bond_weights(N, E, H, p, GAM1[:N]), p) for p in range(1, N)])
+    pred_split = pred - pred[0]
+    devs, wrong = [], []
+    for x in XS12:
+        r = slowest_per_block(N, H, x)
+        d = (r - r[0]) / x ** 4
+        devs.append(np.max(np.abs(d - pred_split)))
+        wrong.append(np.max(np.abs(d - pred_split * (1 + 1e-2))))
+    ratios = [devs[1] / devs[0], devs[2] / devs[1]]
+    wr = [wrong[1] / wrong[0], wrong[2] / wrong[1]]
+    check(f"chain N=6, ZZ couplings {Ks}{' and next-nearest 3/2' if extra else ''}, exact weights: the split -> "
+          f"{np.round(pred_split, 5).tolist()}, the deviation "
+          f"growing by {ratios[0]:.2f}, {ratios[1]:.2f} per doubling of x (control {wr[0]:.2f}, {wr[1]:.2f} outside the window)",
+          all(2 ** 1.5 < q < 2 ** 2.5 for q in ratios) and not any(2 ** 1.5 < q < 2 ** 2.5 for q in wr))
+
+for kind, N, builder, delta in (("chain", 5, chain, 1), ("chain", 6, chain, Fraction(1, 2)), ("ring", 6, ring, 1),
+                                ("star", 5, star, 1)):
+    E = builder(N); H = ham_matrix(N, E, delta=Fraction(delta)); H0 = off_diagonal(H)
+    pred = np.array([lifted_quotient(N, E, {(a, b): closed_W(kind, N, p, delta, a, b) for a, b, _ in E}, p)
+                     for p in range(1, N)])
+    devs, wrong = [], []
+    for x in XS12:
+        d = (slowest_per_block(N, H, x) - slowest_per_block(N, H0, x)) / x ** 4
+        devs.append(np.max(np.abs(d - pred)))
+        wrong.append(np.max(np.abs(d - pred * (1 + 1e-2))))
+    ratios = [devs[1] / devs[0], devs[2] / devs[1]]
+    wr = [wrong[1] / wrong[0], wrong[2] / wrong[1]]
+    check(f"{kind} N={N}, Delta = {delta}: delta_p itself, (block p's slowest level less the same block's without the "
+          f"ZZ term)/x^4 -> {np.round(pred, 5).tolist()} for p = 1..{N - 1}, the deviation growing by {ratios[0]:.2f}, "
+          f"{ratios[1]:.2f} per doubling of x (control {wr[0]:.2f}, {wr[1]:.2f} outside the window)",
+          all(2 ** 1.5 < q < 2 ** 2.5 for q in ratios) and not any(2 ** 1.5 < q < 2 ** 2.5 for q in wr))
+
+LADDER23 = [(0, 1, 1), (1, 2, 1), (3, 4, 1), (4, 5, 1), (0, 3, 1), (1, 4, 1), (2, 5, 1)]   # two rails of 3, three rungs
+
+
+def ham_star_free_fermion(N):
+    """the XY star with the Jordan-Wigner sign on every hop between the hub 0 and an arm l, (-1) to the number of
+    occupied arms between them in the site order: free fermions on the star's graph"""
+    d = 2 ** N
+    H = [dict() for _ in range(d)]
+    for l in range(1, N):
+        for x in range(d):
+            if bit(N, x, 0) != bit(N, x, l):
+                y = x ^ (1 << (N - 1)) ^ (1 << (N - 1 - l))
+                sign = (-1) ** sum(bit(N, x, k) for k in range(1, l))
+                H[y][x] = H[y].get(x, 0) + 2 * sign
+    return H
+
+
+print("Z13 reading, not gated: which block holds the slowest non-stationary rate at x = J/gamma = 0.02, and the split's order")
+for label, N, E, delta in (("Heisenberg chain", 4, chain(4), 1), ("Heisenberg chain", 5, chain(5), 1),
+                           ("Heisenberg chain", 6, chain(6), 1), ("XXZ chain Delta = 1/2", 6, chain(6), Fraction(1, 2)),
+                           ("XY chain", 6, chain(6), 0), ("Heisenberg ring", 6, ring(6), 1),
+                           ("Heisenberg star", 6, star(6), 1), ("XY star", 6, star(6), 0),
+                           ("XY star", 4, star(4), 0), ("XY star", 5, star(5), 0), ("XY star", 7, star(7), 0),
+                           ("XY ring", 4, ring(4), 0), ("XY ring", 6, ring(6), 0),
+                           ("XY ring", 5, ring(5), 0), ("XY ring", 7, ring(7), 0),
+                           ("XY K2,3", 5, K23, 0), ("XY K2,4", 6, K24, 0),
+                           ("XY ladder 2x3", 6, LADDER23, 0), ("Heisenberg ladder 2x3", 6, LADDER23, 1),
+                           ("XY star, Jordan-Wigner-signed hops (free fermions)", 6, None, 0),
+                           ("chain, ZZ couplings (+1, +1, -1, -1, +1)", 6, chain(6), None)):
+    if E is None:
+        H = ham_star_free_fermion(N)
+    elif delta is None:
+        H = add_diagonal(N, ham_matrix(N, E, delta=Fraction(0)), zz=((0, 1, 1), (1, 2, 1), (2, 3, -1), (3, 4, -1), (4, 5, 1)))
+    else:
+        H = ham_matrix(N, E, delta=Fraction(delta))
+    (r1, s1), r2 = slowest_per_block(N, H, 0.02, with_scale=True), slowest_per_block(N, H, 0.04)
+    tie = 64 * np.finfo(float).eps * s1                      # the eigensolver's rounding, eps times the block norm
+    spread1, spread2 = r1.max() - r1.min(), r2.max() - r2.min()
+    top = [p + 1 for p in range(N - 1) if r1[p] >= r1.max() - tie] if spread1 > tie else "every block (spread at rounding)"
+    order = f"spread x {spread2 / spread1:.1f} per doubling of x" if spread1 > tie else "no split"
+    split = np.round((r1 - r1[0]) / 0.02 ** 4, 3).tolist() if spread1 > tie else "at rounding"
+    print(f"    {label} N={N}: slowest block(s) {top}; {order}; (block p's slowest level less block 1's)/x^4 at x = 0.02: {split}")
+
+
+for label, N, delta, fields in (("XY chain with fields (1, -2, 1/2, 3, -1, 2)", 6, 0, (1, -2, Fraction(1, 2), 3, -1, 2)),
+                                ("Heisenberg chain with a field 4 on both end sites", 6, 1, (4, 0, 0, 0, 0, 4))):
+    H = add_diagonal(N, ham_matrix(N, chain(N), delta=Fraction(delta)), fields=fields)
+    (r1, s1), r2 = slowest_per_block(N, H, 0.02, with_scale=True), slowest_per_block(N, H, 0.04)
+    tie = 64 * np.finfo(float).eps * s1
+    spread1, spread2 = r1.max() - r1.min(), r2.max() - r2.min()
+    top = [p + 1 for p in range(N - 1) if r1[p] >= r1.max() - tie] if spread1 > tie else "every block (spread at rounding)"
+    order = f"spread x {spread2 / spread1:.1f} per doubling of x" if spread1 > tie else "no split"
+    split = np.round((r1 - r1[0]) / 0.02 ** 4, 3).tolist() if spread1 > tie else "at rounding"
+    print(f"    {label} N={N}: slowest block(s) {top}; {order}; (block p's slowest level less block 1's)/x^4 at x = 0.02: {split}")
+
+
+def slowest_rate_per_block_profile(N, H, gam, x):
+    """-Re of the slowest non-stationary eigenvalue of each block (p, p), B = -i x A - diag(2 sum gamma over the
+    disagreeing sites), the rates in units of the hop's J; also the largest block 1-norm"""
+    out, scale = [], 0.0
+    for p in range(1, N):
+        A_f, _ = float_block(N, H, p)
+        cf = confs_of(N, p)
+        rate = np.array([2 * sum(gam[l] for l in range(N) if bit(N, a, l) != bit(N, b, l)) for a in cf for b in cf])
+        B = -1j * x * A_f - np.diag(rate)
+        scale = max(scale, np.abs(B).sum(axis=0).max())
+        ev = np.linalg.eigvals(B)
+        ev = ev[np.abs(ev) > 1e-11]
+        out.append(-ev[np.argmin(np.abs(ev.real))].real)
+    return np.array(out), scale
+
+
+# experiments/GAMMA_AS_BINDING.md's profile: rates proportional to 1/T2 of IBM Torino, the smallest 0.05, at J = 1
+T2_TORINO = np.array([5.22, 122.70, 243.85, 169.97, 237.57])
+g_ibm = (1 / (2 * T2_TORINO)) / (1 / (2 * T2_TORINO)).min() * 0.05
+H5 = ham_matrix(5, chain(5), delta=Fraction(1))
+own, own_scale = slowest_rate_per_block_profile(5, H5, g_ibm, 1.0)
+zeno, zeno_scale = slowest_rate_per_block_profile(5, H5, g_ibm / g_ibm.min(), 0.02)
+
+
+def slowest_blocks(r, scale):
+    """the blocks within the eigensolver's rounding (64 eps times the block norm) of the slowest rate"""
+    return [p + 1 for p in range(len(r)) if r[p] <= r.min() + 64 * np.finfo(float).eps * scale]
+
+
+def slowest_over_every_block(N, H, gam, x):
+    """the slowest non-stationary eigenvalue of every block (p, q), cells |a><b| with popcount a = p and b = q,
+    B = -i x (H_p (x) 1 - 1 (x) H_q^T) - diag(2 sum of gamma_l over the sites where a and b differ): the list of
+    (rate, |Im|, (p, q)), slowest first, and the largest block 1-norm"""
+    out, scale = [], 0.0
+    for p in range(N + 1):
+        for q in range(N + 1):
+            ca, cb = confs_of(N, p), confs_of(N, q)
+            Hp = np.array([[complex(H[r].get(s, 0)) for s in ca] for r in ca])
+            Hq = np.array([[complex(H[r].get(s, 0)) for s in cb] for r in cb])
+            rate = [2.0 * sum(float(gam[l]) for l in range(N) if bit(N, a, l) != bit(N, b, l)) for a in ca for b in cb]
+            B = -1j * x * (np.kron(Hp, np.eye(len(cb))) - np.kron(np.eye(len(ca)), Hq.T)) - np.diag(rate)
+            scale = max(scale, np.abs(B).sum(axis=0).max())
+            ev = np.linalg.eigvals(B)
+            ev = ev[np.abs(ev) > 1e-11]
+            if len(ev):
+                k = np.argmax(ev.real)
+                out.append((-ev[k].real, abs(ev[k].imag), (p, q)))
+    return sorted(out), scale
+
+
+every, every_scale = slowest_over_every_block(5, H5, g_ibm, 1.0)
+tie_every = 64 * np.finfo(float).eps * every_scale
+first_blocks = [b for r, _, b in every if r <= every[0][0] + tie_every]
+second_rate = min(r for r, _, _ in every if r > every[0][0] + tie_every)
+second_blocks = [b for r, _, b in every if abs(r - second_rate) <= tie_every]
+uniform = {g: slowest_blocks(*slowest_rate_per_block_profile(5, H5, [g] * 5, 1.0)) for g in (0.05, 0.5, 2.0)}
+print(f"    Heisenberg chain N=5 under GAMMA_AS_BINDING's profile, rates {np.round(g_ibm, 4).tolist()} against J = 1: "
+      f"slowest rate per block p = 1..4 {np.round(own, 3).tolist()}, slowest block(s) {slowest_blocks(own, own_scale)}; "
+      f"the same shape at the Zeno end, x = J/gamma_min = 0.02: rate/x^2 {np.round(zeno / 0.02 ** 2, 5).tolist()}, "
+      f"slowest block(s) {slowest_blocks(zeno, zeno_scale)}; the slowest rate over every block (p, q) at these "
+      f"rates {every[0][0]:.4f}, |Im| {every[0][1]:.4f}, in the blocks {first_blocks}, the next {second_rate:.4f} in "
+      f"{second_blocks}; at uniform rates 0.05, 0.5, 2 the slowest diagonal block(s) "
+      f"{uniform[0.05]}, {uniform[0.5]}, {uniform[2.0]}")
+
+print("Z14 the odd ring: a pi flux through it changes no block's spectrum (exact), and its fillings at finite Q (reading)")
+
+
+def ring_flux(N):
+    """the ring with its wrapped bond negated: a pi flux through it"""
+    return ring(N)[:-1] + [(N - 1, 0, -1)]
+
+
+def flux_map(N, p):
+    """K P_T A(ring) P_T K in block p, and A(ring): K = prod_{l odd} Z_l acts on |a><b| by k(a) k(b), P_T is the
+    transpose |a><b| -> |b><a|; A has integer entries and both maps are signed permutations, so nothing rounds"""
+    A0, _ = float_block(N, ham_matrix(N, ring(N), delta=Fraction(0)), p)
+    cf = confs_of(N, p)
+    m = len(cf)
+    k = np.array([(-1) ** sum(bit(N, a, l) for l in range(1, N, 2)) for a in cf])
+    sgn = np.outer(k, k).reshape(-1)
+    perm = np.array([j * m + i for i in range(m) for j in range(m)])
+    return A0[np.ix_(perm, perm)] * np.outer(sgn, sgn), A0
+
+
+for N in (3, 5, 7):
+    ok = True
+    for p in range(1, N):
+        M, _ = flux_map(N, p)
+        ok &= np.array_equal(M, float_block(N, ham_matrix(N, ring_flux(N), delta=Fraction(0)), p)[0])
+    check(f"ring N={N}: K and the transpose carry A(ring) onto A(ring with a pi flux) in every block, exactly", ok)
+for N in (4, 6):
+    ok = True
+    for p in range(1, N):
+        M, A0 = flux_map(N, p)
+        ok &= np.array_equal(M, A0) and not np.array_equal(M, float_block(N, ham_matrix(N, ring_flux(N), delta=Fraction(0)), p)[0])
+    check(f"control: on the even ring N={N} the same map returns A(ring) itself in every block and misses the flux", ok)
+for N, xs in ((3, (0.5, 1.0, 3.0)), (5, (0.5, 1.0, 3.0)), (7, (1.0,)), (4, (0.5, 1.0, 3.0)), (6, (0.5, 1.0, 3.0))):
+    H = ham_matrix(N, ring(N), delta=Fraction(0))
+    out = []
+    for x in xs:
+        r, s = slowest_per_block(N, H, x, with_scale=True)
+        tie = 64 * np.finfo(float).eps * s
+        spread = r.max() - r.min()
+        if spread <= tie:
+            out.append(f"x = {x}: every block tied (spread {spread:.0e}, rounding {tie:.0e})")
+        else:
+            even, odd = r[1::2], r[0::2]                 # blocks 2, 4, ... and 1, 3, ...
+            out.append(f"x = {x}: the even blocks within {even.max() - even.min():.0e} of each other, the odd ones within "
+                       f"{odd.max() - odd.min():.0e}, the classes {abs(even.max() - odd.max()):.3g} apart, slowest block(s) "
+                       f"{[p + 1 for p in range(N - 1) if r[p] >= r.max() - tie]}")
+    print(f"    XY ring N={N}: " + "; ".join(out))
+H8 = ham_matrix(8, ring(8), delta=Fraction(0))
+H8d = np.zeros((256, 256))
+for r_ in range(256):
+    for s_, v_ in H8[r_].items():
+        H8d[r_, s_] = float(v_)
+r8, scale8 = [], 0.0
+for p in range(1, 5):
+    cf = confs_of(8, p)
+    Hs, I_ = H8d[np.ix_(cf, cf)], np.eye(len(cf))                       # vectorised: the block (p, p) as in float_block
+    A_f = np.kron(Hs, I_) - np.kron(I_, Hs.T)
+    ham_f = np.array([bin(a ^ b).count("1") for a in cf for b in cf], dtype=float)
+    B8 = -1j * 0.3 * A_f + np.diag(-2.0 * ham_f)
+    scale8 = max(scale8, np.abs(B8).sum(axis=0).max())
+    ev = np.linalg.eigvals(B8)
+    ev = ev[np.abs(ev) > 1e-11]
+    r8.append(ev[np.argmin(np.abs(ev.real))].real)
+tie8 = 64 * np.finfo(float).eps * scale8
+def same8(a, b):
+    return "share one level" if abs(r8[a] - r8[b]) <= tie8 else f"differ by {abs(r8[a] - r8[b]):.1e}"
+print("    XY ring N=8, x = 0.3, slowest level of blocks 1..4 (5..7 their X^N images): " + ", ".join(f"{v:.12f}" for v in r8) +
+      f"; blocks 2 and 4, the half filling, {same8(1, 3)}; blocks 1 and 3 {same8(0, 2)}; the classes {abs(r8[1] - r8[0]):.2e} "
+      f"apart (rounding {tie8:.0e}), the slower {'the even one' if r8[1] > r8[0] else 'the odd one'}")
+
+print("Z15 reading, not gated: the stars' survivor in block (1, 1) across Q = J/gamma, the lifted wave or the hub-against-arms mode")
+QS15 = (1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 20.0)
+for label, delta in (("Heisenberg", 1), ("XY", 0)):
+    for N in (4, 5, 6, 7, 8):
+        A, ham = float_block(N, ham_matrix(N, star(N), delta=Fraction(delta)), 1)
+        cf = confs_of(N, 1)
+        m = len(cf)
+        hub = cf.index(1 << (N - 1))
+        kinds, last, im_max = [], None, 0.0
+        for Q in QS15:
+            ev, V = np.linalg.eig(-1j * Q * A - 2.0 * np.diag(ham.astype(float)))
+            cand = [k for k in range(len(ev)) if abs(ev[k]) > 1e-9]
+            k = max(cand, key=lambda k: ev[k].real)
+            pops = np.array([V[i * m + i, k] for i in range(m)])
+            if np.linalg.norm(pops) <= 1e-9 * np.linalg.norm(V[:, k]):
+                kinds.append("no populations")
+            else:
+                kinds.append("wave" if abs(pops[hub]) <= 1e-9 * np.abs(pops).max() else "hub")
+            last = ev[k]
+            im_max = max(im_max, abs(ev[k].imag))
+        print(f"    {label} star N={N}: " + ", ".join(f"Q = {Q:g} {kd}" for Q, kd in zip(QS15, kinds)) +
+              f"; <n_XY> at Q = 20: {-last.real / 2:.4f} (4/N = {4 / N:.4f}, 4/(N - 1) = {4 / (N - 1):.4f}); the "
+              f"slowest mode's largest |Im| over these Q {im_max:.1e}")
+A4, ham4 = float_block(4, ham_matrix(4, ring(4), delta=Fraction(1)), 2)
+cf4 = confs_of(4, 2)
+walls = np.array([sum(bit(4, c, a) != bit(4, c, b) for a, b, _ in ring(4)) for c in cf4], float)
+walls -= walls.mean()
+rows4 = []
+for Q in (0.3, 0.6, 1.0, 2.0, 4.0, 10.0, 30.0, 100.0):
+    ev, V = np.linalg.eig(-1j * Q * A4 - 2.0 * np.diag(ham4.astype(float)))
+    cand = [k for k in range(len(ev)) if abs(ev[k]) > 1e-9]
+    k = max(cand, key=lambda k: ev[k].real)
+    pops = np.array([V[i * len(cf4) + i, k] for i in range(len(cf4))])
+    cos = abs(np.vdot(walls, pops)) / (np.linalg.norm(walls) * np.linalg.norm(pops))
+    below = sum(1 for kk in cand if -ev[kk].real / 2 < 1)
+    rows4.append(f"Q = {Q:g}: {below} below the plane, the slowest at height {-ev[k].real / 2:.4f}, its populations' "
+                 f"|cos| with the wall count {cos:.3f}")
+print("    Heisenberg ring N=4, block (2, 2): " + "; ".join(rows4))
 
 print()
 if FAILS:

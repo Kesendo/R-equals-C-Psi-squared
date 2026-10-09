@@ -127,10 +127,11 @@ public class TrichotomyWitnessTests
     public void ClassifyUnfreeze_Ring5_FrozenLevelCrossing()
     {
         // GATE-FIRST CORRECTION (2026-06-18): the spec's Q=1.5 is ABOVE the ring N=5 interior handover —
-        // at Q=1.5 the ring survivor is the (0,1) band edge (Dn=1), gap=2γ=1.333 (gate-measured). The ring
-        // interior (the frozen V-Effect level crossing) only wins below Q≈1.3 (handover slope √3/(2π)≈0.276, derived). At
-        // Q=1.0 the survivor is the frozen (1,1) interior (slowIm=0), whose rate sits 76% below its commutant
-        // ceiling (a level crossing, not a commutant ceiling) -> FrozenLevelCrossing. Diagnosed, not loosened.
+        // at Q=1.5 the ring survivor is the (0,1) band edge (Dn=1), gap=2γ=1.333 (gate-measured). The ring's
+        // diagonal level (frozen, a level crossing) only wins below its handover Q≈1.49 (the asymptotic slope √3/(2π)≈0.276 approached from above). At
+        // Q=1.0 the survivor is frozen (slowIm=0) and every filling of this odd ring holds it alike, (1,1) the solver's
+        // pick; its rate sits 76% below its commutant ceiling (a level crossing, not a commutant ceiling) ->
+        // FrozenLevelCrossing. Diagnosed, not loosened.
         var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Ring, 5, 1.0);
         Assert.Equal(0, r.Dn);
         Assert.True(r.ImMax < 1e-6, $"ring interior is a frozen level crossing; got |Im|={r.ImMax}");

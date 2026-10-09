@@ -23,8 +23,9 @@ frequency. `g2 = 4/(N−1)` is the star's structural ceiling, the darkest reacha
 
 A dephased spin network's longest-lived coherence is either frozen (overdamped, `|Im λ| = 0`) or
 oscillating, and which one it is as `Q = J/γ` grows separates the topologies. The chain and ring both
-*un-freeze*: the chain's `(p,p)` interior survivor yields to an oscillating `(0,1)` band edge above its
-coherence horizon `Q*(N)` (a square-root exceptional point of the dispersive band), and the ring's
+*un-freeze*: the chain's survivor, every filling tied, yields to an oscillating `(0,1)` band edge above its
+handover, at its coherence horizon `Q*(N)` for N = 2, 3 and just below it from N = 4 (a square-root exceptional
+point of the dispersive band), and the ring's
 `(2,2)` frozen level crossing yields to its band edge above the handover. The **star does not.** Its
 survivor is the darkest `[H,A] = 0` commutant `(1,1)` coherence, which lies in the `ad_H` kernel
 (`−i[H,ρ] = 0`) and so cannot oscillate; it is frozen at *every* `Q`. But it is the survivor (the slowest
@@ -42,29 +43,34 @@ The light content value `g2 = 4/(N−1)` here is the **XY network** (hopping-onl
 and `StarFrozenSeamWitness` build the star's XY hopping Hamiltonian with no ZZ diagonal. For the XY star
 this is exactly the survivor light content, `⟨n_XY⟩(Q→∞) = 4/(N−1)`.
 
-The project's canonical survivor model is **Heisenberg** (`XX+YY+ZZ`: the chain survivor,
-[`SurvivalIncompletenessMirrorClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivalIncompletenessMirrorClaim.cs),
-[`SURVIVOR_FLIP_AND_REFLECTION_ODD`](../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md)). The Heisenberg
-star survivor darkens *further*, to **`⟨n_XY⟩(Q→∞) = 4/N`** (verified N = 5..8, full-`4^N` cross-checked
-at N = 6): the single-excitation ZZ potential (hub `−(N−1)`, leaves `N−3`) shifts which `ad_H`-kernel
+The **Heisenberg** survivor (`XX+YY+ZZ`) is the one
+[`SURVIVOR_FLIP_AND_REFLECTION_ODD`](../experiments/SURVIVOR_FLIP_AND_REFLECTION_ODD.md) reads, the chain's at half filling,
+the choice proved at the Zeno end by [Theorem E (d)](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), while
+`SurvivalIncompletenessMirrorClaim` and this star's own witness carry the XY network. The Heisenberg
+star survivor darkens *further*, to **`⟨n_XY⟩(Q→∞) = 4/N`** (verified N = 5..8 on the boundary block
+(1, 1)): the single-excitation ZZ potential (hub `−(N−1)`, leaves `N−3`) shifts which `ad_H`-kernel
 commutant is darkest, from `4/(N−1)` (XY) to `4/N` (Heisenberg). Companion verifier:
 [`star_survivor_heisenberg.py`](../simulations/star_survivor_heisenberg.py).
 
 What is **model-robust** (holds in both XY and Heisenberg): the survivor is frozen (`|Im λ| = 0`) at
 every Q for N ≥ 5; it is the `[H,ρ] = 0` commutant only in the high-Q *limit* (`‖[H,ρ]‖ ∝ 1/Q`, not zero
-at finite Q); it sits at the `(1,1)/(N−1,N−1)` popcount boundary; the star has no coherence horizon. Only
+at finite Q); it sits at the `(1,1)/(N−1,N−1)` popcount boundary (toward the Zeno end every filling of the star
+shares the leading slowest rate, and with ZZ the next order picks the boundary, a hop between the hub and an arm
+being detuned by the imbalance of the other arms (the detuning form of [the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), the hops' own
+correction read shared on the stars N = 4 to 7 and not proved there); without ZZ the boundary arrives at the order
+after, (J/γ)⁶, consistent with the spins' exchange statistics, free fermions on the same star tying every filling; in the Heisenberg star the block's slowest mode changes on the way, from the lifted wave to the hub-against-arms mode, in the arm-symmetric sector, whose populations are by that symmetry the energy mode's, at a level crossing between Q = 2 and 4 for N = 5 to 8 in the Pauli book, the mode whose ⟨n_XY⟩ → 4/N is the value above, a limiting height below 1 from N = 5 (read at N = 5 to 8) that makes it a Krein debt of [Theorem D](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing), and at N = 4, where the limit is 1 itself, the star's (1, 1) debt that Corollary D.1 counts, below the plane at every Q, which is why this star never hands its survivor to the band edge, while the XY star keeps the wave, row Z15 of [`f50_zeno_end_ferromagnet.py`](../simulations/f50_zeno_end_ferromagnet.py)); the star has no coherence horizon. Only
 the light content *value* is model-specific. (The XY threshold logic, frozen iff `g2 = 4/(N−1) ≤ 1` with the N=4
-outlier, is likewise XY-specific; the Heisenberg `4/N` analog is not characterized below N = 5 here.)
+outlier, is likewise XY-specific; the Heisenberg star's `4/N` is at most 1 at N = 4 to 8 where read, and at N = 4 its survivor stays real at every Q read, its height rising to 1 (row Z15), so the N = 4 outlier is the XY star's alone.)
 
 ## The finding
 
 A single `Q` does not tell the topologies apart: *below* its coherence horizon every topology's slowest
-mode is overdamped (real, `|Im| = 0`). At `Q = 1.5` the chain `(2,2)`, ring `(2,2)`, and star `(1,1)`
+mode is overdamped (real, `|Im| = 0`). At `Q = 1.5` the chain (every filling tied), ring `(2,2)`, and star `(1,1)`
 survivors are all frozen. The signature is the `|Im|(Q)` *curve* (gate-verified, `simulations/star_frozen_seam.py`):
 
 | topology | survivor as `Q` grows | un-freezes? |
 |---|---|---|
-| **chain** | `(p,p)` interior, frozen, then the `(0,1)` band edge takes over above `Q*(N)` | **yes** (the coherence horizon) |
+| **chain** | `(p,p)`, every filling tied, frozen, then the `(0,1)` band edge takes over above its handover, `Q*(N)` at N = 2, 3 and just below it from N = 4 | **yes** (the coherence horizon's floor crossing) |
 | **ring** | `(2,2)` frozen seam, then the oscillating band edge above the handover | **yes** (the handover) |
 | **star** | `(1,1)` boundary survivor, frozen at **every** `Q` (for `N ≥ 5`) | **no** |
 

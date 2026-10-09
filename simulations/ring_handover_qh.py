@@ -1,4 +1,4 @@
-"""Gate-first: the RING half-filling double-excitation HANDOVER Q_h(N) -- the hard open piece of the
+"""Gate-first: the RING double-excitation HANDOVER Q_h(N) -- the hard open piece of the
 clock_hand_ladder arc (keeps CoherenceHorizonClaim + SecondClockRegimeClaim at Tier1Candidate).
 
 THE OBJECT (operational, from handover_q.py, reframed via the Absorption Theorem):
@@ -14,13 +14,13 @@ THE OBJECT (operational, from handover_q.py, reframed via the Absorption Theorem
   sqrt(B^2-(2g)^2) (that is the on-floor {0,2} frequency at ring N=4 ONLY); this is the off-floor handover.
 
 THE OPEN QUESTION THIS GATES: which sector k? Benzene N=6 survivor is the 2-excitation (2,2). But a FIXED
-2-particle band saturates (4J cos(pi/N) -> 4J), so a linear Q_h~0.29N would suggest a GROWING half-filling
-(N/2,N/2) sector. STAGE 1 computes BOTH k=2 and k=N/2 and lets the data decide which grows ~0.29N and
+2-particle band saturates (4J cos(pi/N) -> 4J), so a linearly growing Q_h would suggest a GROWING half-filling
+(N/2,N/2) sector. STAGE 1 computes BOTH k=2 and k=N/2 and lets the data decide which grows linearly and
 matches the full-L survivor.
 
   STAGE 0  GROUND TRUTH (full 4^N L, N=6): the global interior survivor below Q_h, its (ket#,bra#) sector
            and light content; the (k,k)-block reproduces it. Plus Hk(N=4,k=2) = 2sqrt2 J (anti-periodic gate).
-  STAGE 1  SECTOR DISCRIMINATOR: Q_h(N) for k=2 AND k=N/2 (even N); which is linear ~0.29N, which saturates.
+  STAGE 1  SECTOR DISCRIMINATOR: Q_h(N) for k=2 AND k=N/2 (even N); which is linear, which saturates.
   STAGE 2  THE LAW: c_eff = (N/Q_h)^2 -- flat (not sqrt-N)?  closed form (c_eff=12 -> Q_h=N/(2sqrt3))?
 
 A firing gate is the find: if k=2 saturates while k=N/2 grows linearly, the survivor is half-filling, not
@@ -206,8 +206,9 @@ def main():
     for N in (6, 8, 10, 12):
         q2 = qh_sector(N, 2)
         qh2[N] = q2
-        # half-filling only as the small-N discriminator (N=6,8): at N=6, k=2 matches the full-L Q_h while
-        # k=N/2 does NOT, so the survivor is the 2-excitation doublet, NOT half-filling. Skip the costly N>=10.
+        # half-filling only as the small-N discriminator (N=6,8): at N=6 the half filling (3,3) is an odd filling and
+        # its Q_h misses the full-L survivor's, k=2's meets it; at N=8 the half filling (4,4) is an even filling and
+        # carries the (2,2) level, so the two columns agree there. Skip the costly N>=10.
         if N <= 8:
             qh = qh_sector(N, N // 2)
             qhh[N] = qh
@@ -251,7 +252,7 @@ def main():
 
     print("\n" + "=" * 100)
     print(f"GATES: {'ALL PASS' if not GATE['fired'] else str(len(GATE['fired'])) + ' FIRED -> ' + str(GATE['fired'])}")
-    print("Read the Stage-1 table: which sector's Q_h grows linearly ~0.29N (the real survivor) vs saturates.")
+    print("Read the Stage-1 table: which sector's Q_h grows linearly vs saturates (at N = 8 the two columns are one level).")
     print("=" * 100)
     if GATE["fired"]:
         sys.exit(1)

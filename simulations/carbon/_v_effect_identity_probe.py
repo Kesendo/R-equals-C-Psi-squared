@@ -23,7 +23,7 @@ TEST: build the slowest non-kernel RIGHT eigenvector of each candidate low-light
     - the (XY-weight, Z-weight) split        [shows the Z-shadow that separates the two axes]
     - the survivor's squared mass at total weight w = N/2 (the V-Effect "self-pair" shell)
   Also disentangles (2,2) [the junction / ring survivor] vs (3,3)=(N/2,N/2) [the half-filling
-  "V-Effect" block, where the chain survivor is pinned by the C# battery] -- same "half" word, two
+  "V-Effect" block; the XY chain's fillings all tie, the ZZ term picking this one] -- same "half" word, two
   blocks. Carbon convention: XY (free fermions, no ZZ), J=1, gamma=1/Q.
 """
 import numpy as np
@@ -249,7 +249,7 @@ if __name__ == "__main__":
             rates[(0, 1)] = -r01[0].real if r01 else float("nan")
             win = min((k for k in rates if rates[k] == rates[k]), key=rates.get)
             print(f"   N={N} {topo:>5}: " + "  ".join(f"{k}:{v:.6f}" for k, v in rates.items())
-                  + f"   -> winner {win}")
+                  + f"   -> slowest {win} (a pick where the rates tie)")
 
     print("\n== VERDICT INPUTS ==")
     print("If the survivor's Pauli total-weight mass concentrates at w=N/2 -> identity HOLDS.")

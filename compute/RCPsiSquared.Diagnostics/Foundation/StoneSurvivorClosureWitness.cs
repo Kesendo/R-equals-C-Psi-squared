@@ -33,7 +33,8 @@ public readonly record struct ModeClosure(
 /// steady state L(I/d)=0, so the single-site purity is driven almost only by the chosen eigenmode), the
 /// PTF painter closure Sum_i ln(alpha_i) -- computed through the CANONICAL Symphony FitAlpha / PuritySites
 /// -- reads the mode's first-order RATE shift under a delta-J bond defect: it BREAKS (out of the +-0.05
-/// window) AND is sign-coherent for the soft survivor interior (2,2) mode (Re lambda moves), and HOLDS
+/// window) AND is sign-coherent for the soft interior (2,2) mode, on the XY chain one of the slowest modes every
+/// filling ties for (Re lambda moves), and HOLDS
 /// (in window) for the rigid (0,1) band edge (Re = -2gamma, frozen). This is the TRAJECTORY-level dual of
 /// the eigenvalue-level value/vector split (A) -- a CONSTRUCTIVE confirmation for this probe, NOT a
 /// universal trajectory law.</para>
@@ -65,8 +66,9 @@ public sealed class StoneSurvivorClosureWitness : IInspectable
     }
 
     private ModeClosure? _survivor, _bandEdge;
-    /// <summary>The soft interior incompleteness survivor (2,2): OUT + sign-coherent = a rate shift.</summary>
-    public ModeClosure Survivor { get { _survivor ??= ComputeMode("survivor interior", 2, 2); return _survivor.Value; } }
+    /// <summary>The soft interior (2,2) mode, one of the XY chain's tied slowest modes: OUT + sign-coherent = a rate
+    /// shift.</summary>
+    public ModeClosure Survivor { get { _survivor ??= ComputeMode("interior mode", 2, 2); return _survivor.Value; } }
     /// <summary>The rigid (0,1) band edge (Re = -2gamma): IN window = frozen.</summary>
     public ModeClosure BandEdge { get { _bandEdge ??= ComputeMode("band edge", 0, 1); return _bandEdge.Value; } }
 
@@ -161,7 +163,7 @@ public sealed class StoneSurvivorClosureWitness : IInspectable
     public string Summary =>
         "the stone (felt_time arc B): the PTF painter closure Sum_i ln(alpha_i), through the CANONICAL Symphony " +
         "FitAlpha on the mode-isolating probe rho_0=I/d+eps*Herm(mode), reads the mode's first-order RATE shift. " +
-        $"survivor interior (2,2) -> {(Survivor.IsRateShift ? "OUT + sign-coherent = RATE-SHIFT" : "in window")} " +
+        $"interior (2,2) -> {(Survivor.IsRateShift ? "OUT + sign-coherent = RATE-SHIFT" : "in window")} " +
         $"(Sum ln a={Survivor.Closure.ToString("+0.000;-0.000", Inv)}, coh={Survivor.SignCoherence.ToString("0.00", Inv)}); " +
         $"band edge (0,1) -> {(BandEdge.InWindow ? "IN = FROZEN" : "out of window")} " +
         $"(Sum ln a={BandEdge.Closure.ToString("+0.000;-0.000", Inv)}). The TRAJECTORY-level dual of the eigenvalue " +

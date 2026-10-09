@@ -43,7 +43,8 @@ public class HandoverFloorClaimRegistrationTests
     [Fact]
     public void HandoverFloorClaim_BatteryAllPass()
     {
-        // The 5-case battery (the F50 floor, chain = Q*(N) at N=4 and the trace-dressing gap at N=6,
+        // The 5-case battery (the F50 floor, the chain's floor crossing Q_h(4) just below the EP Q*(4) and the
+        // trace-dressing gap at N=6,
         // the distinct ring (2,2) seam, the ring growth) is computed live via the witness.
         var claim = HandoverFloorClaim.Shared;
         Assert.Equal(claim.Cases.Count, claim.PassCount);

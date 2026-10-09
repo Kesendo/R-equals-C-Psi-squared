@@ -444,15 +444,107 @@ public class SmokeTests
         Assert.Equal(1.0, Formulas.F122_RingCommutant(4), 10);                              // ring-4 co-occupies the band edge
     }
 
-    // --- the even/odd self-mirror: half-filling survivor exists only at even N ---
+    // --- the even/odd self-mirror: with the ZZ term the half-filling survivor exists only at even N, and at odd N
+    //     the two central fillings hold it together; the world's XY chain ties every filling ---
     [Theory]
     [InlineData(2, true)]
     [InlineData(3, false)]
     [InlineData(4, true)]
     [InlineData(5, false)]
-    public void HalfFillingSurvivor_Iff_Even(int n, bool expected)
+    public void HalfFillingSurvivor_Iff_Even_With_ZZ(int n, bool expected)
     {
-        Assert.Equal(expected, new Survivor(W, n).HasHalfFillingSurvivor);
+        var s = new Survivor(W, n, zz: 1.0);
+        Assert.Equal(expected, s.HasHalfFillingSurvivor);
+        Assert.Equal(!expected, s.HasCentralPairSurvivor);
+        Assert.Equal(n == 3, s.FillingDegenerate);   // at N = 3 the central pair is every filling
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void XyChain_Ties_Every_Filling(int n)
+    {
+        var s = new Survivor(W, n);
+        Assert.True(s.FillingDegenerate);
+        Assert.False(s.HasHalfFillingSurvivor);
+        Assert.False(s.HasCentralPairSurvivor);
+    }
+
+    [Fact]
+    public void AtN2_The_Half_Is_The_Only_Filling()
+    {
+        foreach (var s in new[] { new Survivor(W, 2), new Survivor(W, 2, zz: 1.0) })
+        {
+            Assert.True(s.HasHalfFillingSurvivor);
+            Assert.False(s.HasCentralPairSurvivor);
+            Assert.False(s.FillingDegenerate);
+        }
+    }
+
+    // From below, Theorem E (d) of PROOF_WEIGHT1_DEGENERACY: the detuning form's quotient on the lifted density wave,
+    // built here from the configurations, sum over the hops of dV^2 (v(S) - v(S'))^2 over sum_S v(S)^2, with
+    // v(S) = sum over the occupied sites of the lowest Neumann cosine and dV the change of sum_b zz_b z_b z_(b+1)
+    // across the hop. The constants of the form (|t|^2, the rates) are the same for every hop of a uniform chain and
+    // drop out of the comparison between blocks.
+    private static double[] DetuningQuotients(int n, double[] zz)
+    {
+        var f = Enumerable.Range(0, n).Select(l => Math.Cos(Math.PI * (l + 0.5) / n)).ToArray();
+        double V(int s) => Enumerable.Range(0, n).Where(l => ((s >> l) & 1) == 1).Sum(l => f[l]);
+        double E(int s) => Enumerable.Range(0, n - 1).Sum(b => zz[b] * (1 - 2 * ((s >> b) & 1)) * (1 - 2 * ((s >> (b + 1)) & 1)));
+        var q = new double[n + 1];
+        for (int p = 1; p < n; p++)
+        {
+            double num = 0, den = 0;
+            for (int s = 0; s < (1 << n); s++)
+            {
+                if (System.Numerics.BitOperations.PopCount((uint)s) != p) continue;
+                double vs = V(s);
+                den += vs * vs;
+                for (int b = 0; b < n - 1; b++)
+                {
+                    if (((s >> b) & 1) != 1 || ((s >> (b + 1)) & 1) != 0) continue;   // each hop once, from its left end
+                    int t = s ^ (1 << b) ^ (1 << (b + 1));
+                    double dv = E(t) - E(s), dw = vs - V(t);
+                    num += dv * dv * dw * dw;
+                }
+            }
+            q[p] = num / den;
+        }
+        return q;
+    }
+
+    // The named blocks agree to the sums' rounding (X^N carries one onto the other, a few hundred terms each, so a part
+    // in 10^12 of the top), and every other block lies below by more than a part in a thousand (the closed form's gap is
+    // at least a tenth of the top through N = 8).
+    [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void TheDetuningQuotient_Is_Largest_In_The_Blocks_The_Rule_Names(int n)
+    {
+        var q = DetuningQuotients(n, Enumerable.Repeat(1.0, n - 1).ToArray());
+        var s = new Survivor(W, n, zz: 1.0);
+        var named = s.HasHalfFillingSurvivor ? new[] { n / 2 } : new[] { n / 2, n / 2 + 1 };
+        Assert.Equal(n % 2 == 1, s.HasCentralPairSurvivor);
+        double top = named.Min(p => q[p]);
+        Assert.True(named.Max(p => q[p]) - top <= 1e-12 * top, $"N={n}: the named blocks differ");
+        for (int p = 1; p < n; p++)
+            if (!named.Contains(p)) Assert.True(q[p] < top * (1 - 1e-3), $"N={n}: block {p} is not below the named blocks");
+    }
+
+    // The control through the same quotient: the rule needs the two bonds beside a hop to carry ZZ of one sign. With
+    // the couplings (+1, +1, -1, -1, +1) at N = 6 a bulk hop is detuned when its outer neighbours agree, and the
+    // quotient is then largest at the ends.
+    [Fact]
+    public void TheDetuningQuotient_With_ZZ_Of_Both_Signs_Picks_The_Ends()
+    {
+        var q = DetuningQuotients(6, new[] { 1.0, 1.0, -1.0, -1.0, 1.0 });
+        double top = Math.Min(q[1], q[5]);
+        Assert.True(Math.Abs(q[1] - q[5]) <= 1e-12 * top);
+        for (int p = 2; p <= 4; p++) Assert.True(q[p] < top * (1 - 1e-3), $"block {p} is not below the ends");
     }
 
     // The full-generator floor crossing is a second event from N=4 onward. These values
@@ -470,6 +562,8 @@ public class SmokeTests
         Assert.True(n4.HandoverQ < n4.Qstar);
         Assert.True(n5.HandoverQ < n5.Qstar);
         Assert.Null(new Survivor(W, 6).HandoverQ); // this object carries no later full-L census
+        Assert.Null(new Survivor(W, 4, zz: 1.0).HandoverQ); // nor any census with the ZZ term
+        Assert.Null(new Survivor(W, 4, zz: 1.0).Qstar);
     }
 
     [Fact]

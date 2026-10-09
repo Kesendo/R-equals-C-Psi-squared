@@ -1,6 +1,6 @@
 # PROOF: the ring double-excitation handover slope is √3/(2π)
 
-**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its light content reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `⟨n_XY⟩ = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically (the sector at N = 6; the endpoint Q_h·2π/N → √3 monotonically from above at N = 8..14, tail faster than 1/N, Aitken-extrapolating to ≈ √3) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and corrects its sector label (the 2-excitation doublet, not half-filling).
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its light content reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `⟨n_XY⟩ = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically (the sector at N = 6; the endpoint Q_h·2π/N → √3 monotonically from above at N = 8..14, tail faster than 1/N, Aitken-extrapolating to ≈ √3) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and names its sector, the 2-excitation doublet, a level every even filling carries, the half filling among them only when 4 divides N.
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Sibling of:** [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (the single-excitation coherence horizon, slope 2/π chain / 1/π ring) and the parallel ceiling result [the ring g2=1 / commutant 2(N−2)/N, commit b191df3].
@@ -13,7 +13,7 @@ This proof pins how that tipping point grows with the ring's length: a straight 
 
 ## Abstract
 
-On the cyclic XY ring under uniform Z-dephasing, below a crossover Q the longest-lived interior mode is the 2-excitation `(2,2)/(N−2,N−2)` doublet coherence (particle-hole partners, isospectral); above it, the single-excitation band edge wins. The handover Q_h is defined by the doublet survivor's light content reaching the F50 / Absorption floor `⟨n_XY⟩ = 1` exactly (`Re(λ) = −2γ`).
+On the cyclic XY ring at even N under uniform Z-dephasing, below a crossover Q the longest-lived interior mode lies in the 2-excitation `(2,2)/(N−2,N−2)` doublet coherence (particle-hole partners, isospectral), a level every even filling carries, the half filling among them when 4 divides N ([the Zeno end](PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), read at N = 8); above it, the single-excitation band edge wins. At odd N every filling ties instead, read, a π flux through the ring changing no block's spectrum, and the (2,2) block holds the level they share. The handover Q_h is defined by the doublet survivor's light content reaching the F50 / Absorption floor `⟨n_XY⟩ = 1` exactly (`Re(λ) = −2γ`).
 
 The (2,2) slow mode is a two-particle density coupled to the **entire ladder of coherence ranges**, the same structure PROOF_COHERENCE_HORIZON_SLOPE resums for one particle: dilute on the ring, the two particles act as two independent single-particle density modes, so the long-wavelength dispersion is the same `λ² + 8γλ + 4J²q²` (throughout, lowercase q is the density-wave WAVEVECTOR, `2π·k/N` on the ring, not the GLOSSARY coupling ratio `q = Q/2`). This is confirmed directly by the SE proof's own discriminator: the overdamped slow eigenvalue, fed back through `λ² + 8γλ + 4J²q² = 0`, yields a γ-constant `q` (CV = 0.012 at N = 12, 0.019 at N = 10; the 4γ-truncated telegrapher scatters ~10× worse), with `q → q_min = 2π/N` (q_eff/q_min = 0.986 at N = 12).
 
@@ -34,10 +34,11 @@ small-N values are transcendental (the short-ladder accident); √3/(2π) is the
 
 The XY ring conserves excitation number and Z-dephasing is diagonal in the coherence basis, so the
 Liouvillian block-decomposes by `(ket #, bra #)` sectors. The longest-lived interior mode below Q_h lives
-in the 2-excitation `(2,2)` sector (full-Liouvillian-verified at N = 6: the global survivor is the
-particle-hole partner `(4,4)`, isospectral to `(2,2)`; the half-filling `(N/2,N/2)` sector gives a
-different, non-matching Q_h, so the survivor is the **2-excitation doublet, not half-filling**, correcting
-the earlier label). On the `(2,2)` block (dimension `C(N,2)²`, sector-projected, reaching N = 14):
+in the 2-excitation `(2,2)` sector (full-Liouvillian-verified at N = 6: the global survivor lies in the
+doublet `(2,2)/(4,4)` of particle-hole partners, isospectral, the eigensolver's vector in one of them, a pick; the half-filling `(3,3)` sector, an odd filling, gives a
+different, non-matching Q_h, so the survivor there is the **2-excitation doublet**; every even filling carries
+its level, and at N = 8 the half-filling `(4,4)` block gives the same Q_h, the two rows of
+`ring_handover_qh.py`'s Stage 1 agreeing in every printed digit). On the `(2,2)` block (dimension `C(N,2)²`, sector-projected, reaching N = 14):
 
     Re(λ) = −2γ·⟨n_XY⟩   (the Absorption Theorem),   handover:   ⟨n_XY⟩ = 1.
 
@@ -104,8 +105,8 @@ weight-1 commutant ([the count at exceptional couplings](PROOF_WEIGHT1_DEGENERAC
    high-Q `(2,2)` light content is `2(N−2)/N` (1.333 / 1.500 / 1.600 / 1.667 at N = 6 / 8 / 10 / 12, exact to
    4-5 digits), which equals the parallel-session commutant closed form `2(N−2)/N → 2` (b191df3): the
    handover's overdamped curve and the high-Q ceiling are the two ends of one dispersion. One object.
-4. **The sector.** The full-Liouvillian survivor at N = 6 is the `(2,2)/(4,4)` doublet (verified, 100%
-   weight on the PH partner), not half-filling; the `(2,2)`-block Q_h matches the full-L Q_h, the
+4. **The sector.** The full-Liouvillian survivor at N = 6 is the `(2,2)/(4,4)` doublet (verified, the
+   eigensolver's vector wholly in one partner, a pick within the doublet), not half-filling; the `(2,2)`-block Q_h matches the full-L Q_h, the
    half-filling block does not.
 
 ## Scope

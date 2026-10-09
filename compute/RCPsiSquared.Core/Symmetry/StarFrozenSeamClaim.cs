@@ -11,8 +11,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>The finding.</b> Watch the slowest non-kernel mode as the dephasing weakens (Q = J/γ grows): does
 /// it stay frozen or acquire a frequency (un-freeze)? A single Q does not separate the topologies (below its
-/// horizon every survivor is overdamped). The |Im|(Q) curve does: the CHAIN un-freezes at the SE-EP coherence
-/// horizon Q*(N) (<see cref="CoherenceHorizonClaim"/>); the RING un-freezes at its handover (the oscillating
+/// horizon every survivor is overdamped). The |Im|(Q) curve does: the CHAIN un-freezes at its handover, at the
+/// SE-EP coherence horizon Q*(N) for N = 2, 3 and just below it from N = 4 (<see cref="CoherenceHorizonClaim"/>); the RING un-freezes at its handover (the oscillating
 /// band edge overtakes the frozen (2,2) level-crossing seam); the STAR never un-freezes (N ≥ 5).</para>
 ///
 /// <para><b>The mechanism and the threshold.</b> The star's survivor is the darkest [H,A]=0 commutant (1,1)
@@ -37,9 +37,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Model scope (XY ceiling vs Heisenberg survivor).</b> g2 = 4/(N−1) here is the XY-network
 /// (hopping-only) value, by design: this claim's witness and <see cref="StructuralCeilingClaim"/> build
 /// the star's XY hopping H with no ZZ diagonal, so for the XY star it is exactly the survivor light content.
-/// The project's canonical Heisenberg star (XX+YY+ZZ) survivor darkens further to ⟨n_XY⟩(Q→∞) = 4/N: the
+/// The Heisenberg star (XX+YY+ZZ) survivor darkens further to ⟨n_XY⟩(Q→∞) = 4/N: the
 /// single-excitation ZZ potential (hub −(N−1), leaves N−3) shifts which ad_H-kernel commutant is darkest,
-/// from 4/(N−1) (XY) to 4/N (Heisenberg), verified N=5..8 + full-4^N at N=6 (simulations/star_survivor_heisenberg.py).
+/// from 4/(N−1) (XY) to 4/N (Heisenberg), verified N=5..8 (simulations/star_survivor_heisenberg.py, on block (1,1));
+/// the Heisenberg block (1,1) changes its slowest mode on the way, from the lifted wave to the hub-against-arms mode,
+/// whose populations are by its arm symmetry the energy mode's, at a level crossing between Q = 2 and 4 (N = 5..8, Pauli book; PROOF_WEIGHT1_DEGENERACY gate row Z15), while the
+/// XY star keeps the lifted wave.
 /// Model-robust (both XY and Heisenberg): frozen at every Q (N≥5), commutant only in the high-Q LIMIT
 /// (‖[H,ρ]‖ ∝ 1/Q, not zero at finite Q), the (1,1) boundary sector, no horizon. Only the light content VALUE
 /// (and the XY g2≤1 threshold / N=4 outlier logic) is model-specific.</para>
@@ -94,13 +97,13 @@ public sealed class StarFrozenSeamClaim : Claim
         {
             yield return new InspectableNode("the |Im|(Q) signature (frozen vs un-freeze)",
                 summary: "a single Q does not separate the topologies (below its horizon every survivor is " +
-                         "overdamped, |Im|=0). The signature is the curve: the chain un-freezes at Q*(N), the ring " +
+                         "overdamped, |Im|=0). The signature is the curve: the chain un-freezes at its handover, near Q*(N), the ring " +
                          "at its handover, the star never (N≥5). The star's survivor stays frozen at every Q.");
             yield return new InspectableNode("the mechanism: the commutant commutes with H",
                 summary: "the survivor is the darkest [H,A]=0 commutant (1,1) coherence — it lies in the ad_H " +
                          "kernel, so −i[H,ρ]=0 and it cannot oscillate. Frozen by construction. The ring's (2,2) " +
                          "seam is frozen by a DIFFERENT route (a level crossing: two real eigenvalues coincide); " +
-                         "the chain is neither (it oscillates above Q*).");
+                         "the chain is neither (its survivor oscillates above its handover, near Q*).");
             yield return new InspectableNode("the threshold = the structural ceiling g2 = 4/(N−1) ≤ 1",
                 summary: "the commutant coherence is the survivor only when it undercuts the −2γ floor, i.e. " +
                          "g2=4/(N−1)≤1 (N≥5). At N=4 (4/3>1) it is brighter than the floor → an oscillating band-edge " +

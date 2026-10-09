@@ -257,7 +257,9 @@ public static class KnowledgeRegistryFactory
             // Survival mirrors incompleteness (the survival_incompleteness_mirror arc, 2026-06-13):
             // a_0 (2γ, AbsorptionTheorem, = the qubit dim d) and a_2 (C=1/2, the V-Effect/incompleteness,
             // = 1/d) are Pi2-ladder inversion-mirror partners (a_0·a_2 = d·(1/d) = 1). Dynamically the
-            // longest-lived mode is the interior incompleteness coherence on DISPERSIVE matter (chain/ring);
+            // longest-lived mode is the interior incompleteness coherence on the DISPERSIVE ring at even N, the odd
+            // ring (read) and the XY chain filling-degenerate and the uniform ZZ chain at its half filling below its handover
+            // (the central pair at odd N);
             // the hub-localized central-spin STAR is the boundary counterexample. Tier1Candidate. Typed
             // parents AbsorptionTheoremClaim (registered above) + HalfAsStructuralFixedPointClaim (a_2, the
             // foundation root, constructed fresh). Live witness IncompletenessSurvivorWitness (inspect --root survivor).
@@ -597,7 +599,8 @@ public static class KnowledgeRegistryFactory
             // both registered in this chain: ClockHandLadderClaim (the clock's Q-floor made exact,
             // directly above) + F2bXyChainSpectrumPi2Inheritance (the band edge, registered earlier in this chain).
             .RegisterCoherenceHorizonClaim()
-            // The handover Q = the F50-floor condition (chain = Q*(N), ring = a distinct (2,2) level
+            // The handover Q = the F50-floor condition (chain = the horizon's floor crossing, at Q*(N) for N = 2, 3 and just
+            // below it from N = 4; even ring = a distinct (2,2) level
             // crossing). Parents AbsorptionTheoremClaim (the -2g<n_XY> rate, registered above), F50WeightOne-
             // DegeneracyPi2Inheritance (the floor =1, above), CoherenceHorizonClaim (the chain solution, directly
             // above). Live witness: IncompletenessSurvivorWitness handover node (inspect --root survivor).

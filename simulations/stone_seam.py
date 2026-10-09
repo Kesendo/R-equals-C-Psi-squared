@@ -3,11 +3,16 @@ Seam hypothesis: the closure is ORTHOGONAL to <n_XY>; it reads STRUCTURE (defect
 trajectory-warp geometry), not the dynamical rate magnitude. Two facets, one investigation:
   (a) GEOMETRIC value: closure ∝ dJ (linear response, so closure/dJ = Sum f is the geometric quantity),
       and it DEPENDS on the defect-bond position (a property of the mode's structure at that bond).
-  (b) RIGIDITY ⊥ <n_XY>: on the RING the (p,p) are NOT filling-degenerate, so <n_XY> truly varies by
-      sector -- the seam predicts ALL soft (p,p) break (OUT+coh) regardless of <n_XY>, only the
-      structurally-pinned (0,1) (Re=-2gamma) holds; likewise the non-dispersive star.
-Gates that can fire: closure NOT linear in dJ; closure position-INDEPENDENT; a soft ring (p,p) HOLDS,
-or the break tracks <n_XY> instead of rigidity. N<=5 (full-L eig); flush per line."""
+  (b) RIGIDITY ⊥ <n_XY>: the seam predicts ALL soft (p,p) break (OUT+coh) whatever their <n_XY>, only the
+      structurally-pinned (0,1) (Re=-2gamma) holds; on the RING and on the non-dispersive star. On the ring
+      (N = 5 here, an odd ring) the (p,p) all share one <n_XY>, every filling tied, so a difference among their
+      outcomes is one <n_XY> cannot make; the star's (p,p) differ in <n_XY>. Each row prints its rigidity
+      (pinned at 1 or soft) beside its outcome. Within a degenerate level (the ring's twofold levels, the star's
+      lifted level) a row reads the eigensolver's pick, not its block: X^N carries a (p,p) mode onto an
+      (N-p,N-p) mode with the same closure. Read at N = 5, Q = 1.5, soft modes that hold exist, so the rigidity
+      half of the reading fails there, and modes at one <n_XY> that differ keep the closure apart from <n_XY>.
+Gates that can fire: closure NOT linear in dJ; closure position-INDEPENDENT; a soft (p,p) HOLDS, or the
+break tracks <n_XY> instead of rigidity. N<=5 (full-L eig); flush per line."""
 import sys
 import importlib.util
 import numpy as np
@@ -69,7 +74,7 @@ def main():
         print(f"{str(r['defect']):>6} {r['clo']:>+9.4f} {r['sumf']:>7.2f} {peak:>12}", flush=True)
     print(flush=True)
 
-    print("=== (b) RIGIDITY ⊥ <n_XY> on RING + STAR (N=5, Q=1.5): do ALL soft (p,p) break, only (0,1) hold? ===", flush=True)
+    print("=== (b) RIGIDITY ⊥ <n_XY> on RING + STAR (N=5, Q=1.5): do ALL soft (p,p) break, only (0,1) hold? (a degenerate level's row reads the solver's pick) ===", flush=True)
     print(f"{'topo':>6} {'sector':>7} {'<n_XY>':>7} {'Sum ln a':>9} {'win':>4} {'coh':>5}  reads", flush=True)
     for topo in ("ring", "star"):
         cands = [(p, p) for p in range(1, 5)] + [(0, 1)]
@@ -78,8 +83,8 @@ def main():
             if r is None:
                 continue
             rigid = abs(r['nxy'] - 1.0) < 1e-6
-            reads = ("structural-1 -> FROZEN" if r['win'] == "IN" else
-                     f"soft (dressed <n_XY>={r['nxy']:.2f}) -> BREAKS")
+            reads = (("pinned at <n_XY> = 1" if rigid else f"soft (dressed <n_XY>={r['nxy']:.2f})") +
+                     (" -> HOLDS" if r['win'] == "IN" else " -> BREAKS"))
             print(f"{topo:>6} ({pc},{pr}) {r['nxy']:>7.3f} {r['clo']:>+9.4f} {r['win']:>4} {r['coh']:>5.2f}  {reads}", flush=True)
         print(flush=True)
 

@@ -20,10 +20,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (Bortz-Stolze), the optical-cavity point-focus (STAR_CONFOCAL_LIMIT), the mediator.</item>
 /// </list></para>
 ///
-/// <para><b>Finding (verified):</b> on the DISPERSIVE substrates (chain, ring) the survivor is the
-/// INTERIOR (incompleteness, C=0.5) coherence - the open XY chain filling-degenerate; the ring at the even
-/// off-centre (2,2)/(N-2,N-2); the central-spin STAR is the COUNTEREXAMPLE (boundary (1,1), no central
-/// momentum mode). Lifetime &lt;n_XY&gt; ~ Q^2/N^2, ring/chain -&gt; 4 (cyclic-vs-open k_min^2,
+/// <para><b>Finding (verified):</b> on the even RING the survivor is the INTERIOR (incompleteness)
+/// coherence of the even fillings, every one of which carries the (2,2) block's level ((2,2)/(N-2,N-2) at N = 6, the
+/// half filling among them when 4 divides N), the wrapped string's split; the odd ring ties every filling, read at every Q
+/// tried (PROOF_WEIGHT1_DEGENERACY: a pi flux through it changes no block's spectrum, and at the Zeno end the ladder
+/// carries the tie wherever each block's slowest level is the lifted pair, read at N = 5 to 9); the open XY chain is
+/// filling-degenerate (every filling ties, measured to rounding here and proved at the Zeno end by
+/// PROOF_CODIM1_BY_ADDITIVITY's ladder with Theorem E (c)), the ZZ term picking the half
+/// filling, or the central pair at odd N (PROOF_WEIGHT1_DEGENERACY, Theorem E (d) at the Zeno end); the central-spin STAR is the COUNTEREXAMPLE
+/// (boundary (1,1); with ZZ its hub hops are detuned by the other arms' imbalance, the Zeno end's detuning form
+/// with the hops' own share read on the stars N = 4..7; in XY the boundary wins only at order (J/gamma)^6 at the
+/// Zeno end, consistent with the spins' exchange statistics, free fermions on the same star tying every filling). Lifetime &lt;n_XY&gt; ~ Q^2/N^2, ring/chain -&gt; 4 (cyclic-vs-open k_min^2,
 /// model-independent). Reuses <see cref="SectorReductionWitness.SectorSlowest"/> (no full 4^N).</para>
 ///
 /// <para>Convention (carbon, XY/free-fermion, no ZZ): J=1, gamma=1/Q. SectorReductionWitness takes
@@ -78,8 +85,10 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// <summary>The slowest non-kernel rate of each diagonal (p,p) filling sector, p=1..N-1 (carbon
     /// XY convention). On the OPEN chain these are degenerate to machine precision (the free-fermion
     /// dressed-magnon rate is filling-blind), so the "survivor sector" is a tie-break artifact; the ZZ
-    /// of Heisenberg lifts it to the dead-centre (the CHAIN_GAP result). On the ring they split by
-    /// parity (the even fillings are slower).</summary>
+    /// of Heisenberg lifts it to the half filling, the central pair at odd N (the CHAIN_GAP result, proved at the Zeno end by
+    /// PROOF_WEIGHT1_DEGENERACY Theorem E (d): a hop that changes the ZZ energy is a slower hop). On the even ring they split by
+    /// parity, the even fillings slower at Q = 1 and 2 (N = 4, 6) and the odd ones at Q = 6 (N = 6); the odd ring ties
+    /// every filling (read; a pi flux through it changes no block's spectrum).</summary>
     public static double[] SectorRates(int n, double q, TopologyKind topology)
     {
         double gamma = 1.0 / q;
@@ -92,7 +101,9 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
 
     /// <summary>True iff every diagonal (p,p) filling sector shares the slowest rate (max-min &lt; tol):
     /// the open XY chain's free-fermion degeneracy, where NO single filling is the survivor (the
-    /// dead-centre is the Heisenberg/ZZ result). The ring splits by parity, so it is not degenerate.</summary>
+    /// half filling, or the central pair at odd N, is the Heisenberg/ZZ result). The even ring splits by parity, at the
+    /// order gamma (J/gamma)^N at small Q, and reads as degenerate only where that split is below tol; the odd ring ties
+    /// (read; a pi flux through it changes no block's spectrum).</summary>
     public static bool IsFillingDegenerate(int n, double q, TopologyKind topology, double tol = 1e-9)
     {
         var r = SectorRates(n, q, topology);
@@ -100,7 +111,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     }
 
     /// <summary>The interior survivor's light content ⟨n_XY⟩ in the (2,2) two-fermion block at this Q
-    /// (= rate/2γ). On the RING this is the darkest interior (the V-Effect seam, p*=2); on the open
+    /// (= rate/2γ). On the even RING this is the darkest interior (the V-Effect seam, p*=2; on the odd ring the level every filling shares); on the open
     /// XY CHAIN every (p,p) ties (filling-degenerate), so (2,2) equals the global interior survivor -
     /// so the (2,2) block gives the handover for BOTH topologies (N≥4), cheaply.</summary>
     public static double Interior22NXy(int n, double q, TopologyKind topology)
@@ -116,7 +127,8 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// floor wins. A closed, F50-grounded condition; spectral, γ-independent (depends only on Q=J/γ).
     /// Bisects <see cref="Interior22NXy"/> = 1; NaN if no crossing in [lo,hi]. (CHAIN handover = the coherence
     /// horizon's floor crossing by filling-degeneracy: the EP Q*(N) at N=2,3, below it from N=4 by the floor
-    /// strain ((2w2−1)/c)²; RING = a distinct (2,2) level crossing that grows ~linearly. Verifier:
+    /// strain ((2w2−1)/c)²; RING at even N = a distinct (2,2) level crossing that grows ~linearly, the odd ring's (2,2) block
+    /// holding the level every filling shares. Verifier:
     /// simulations/carbon/handover_q.py.)</summary>
     public static double HandoverQ(int n, TopologyKind topology, double lo = 0.5, double hi = 12.0, double tol = 1e-4)
     {
@@ -152,14 +164,29 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         foreach (var topo in new[] { TopologyKind.Chain, TopologyKind.Ring, TopologyKind.Star })
         {
             var (gap, pc, pr, nxy) = Survivor(N, Q, topo);
-            if (IsFillingDegenerate(N, Q, topo))
+            bool partsBelowTol = (topo == TopologyKind.Ring && N % 2 == 0) || topo == TopologyKind.Star;
+            if (partsBelowTol && IsFillingDegenerate(N, Q, topo))
+            {
+                var rates = SectorRates(N, Q, topo);
+                string how = topo == TopologyKind.Star
+                    ? "the spin XY star's fillings, which part toward the boundary at the order gamma (J/gamma)^6 (read at N = 4 to 7), part"
+                    : "the even ring's two parity classes, each tied within itself and parting at the order gamma (J/gamma)^N, part";
+                kids.Add(new InspectableNode($"{topo}",
+                    summary: $"survivor sector ({pc},{pr}), <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)}: " +
+                             $"{how} here by {(rates.Max() - rates.Min()).ToString("E1", Inv)}, below this reading's tolerance 1e-9, so " +
+                             "the sector is the solver's pick among the fillings"));
+            }
+            else if (IsFillingDegenerate(N, Q, topo))
             {
                 var rates = SectorRates(N, Q, topo);
                 kids.Add(new InspectableNode($"{topo}",
                     summary: $"FILLING-DEGENERATE: every (p,p) sector shares the slowest rate {rates[0].ToString("0.000", Inv)} " +
-                             $"(spread {(rates.Max() - rates.Min()).ToString("E1", Inv)}) -> the free-fermion XY chain has NO " +
-                             "unique survivor sector. The dead-centre (N/2,N/2) winner is the HEISENBERG (ZZ) result " +
-                             $"(CHAIN_GAP); the ZZ lifts this degeneracy. Shared <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)}."));
+                             $"(spread {(rates.Max() - rates.Min()).ToString("E1", Inv)}) -> the free-fermion XY {(topo == TopologyKind.Ring ? "odd ring" : topo.ToString().ToLowerInvariant())} has NO " +
+                             "unique survivor sector. The half filling, or the central pair at odd N, is the HEISENBERG (ZZ) result " +
+                             "(CHAIN_GAP); the ZZ lifts this degeneracy. " +
+                             ((pc, pr) == (0, 1)
+                                 ? $"The global survivor is the (0,1) band edge past its handover, <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)}."
+                                 : $"Shared <n_XY>={nxy.ToString("0.000", Inv)}, gap={gap.ToString("0.000", Inv)}.")));
             }
             else
                 kids.Add(new InspectableNode($"{topo}",
@@ -167,9 +194,13 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
                              $"-> {Kind(N, pc, pr)}"));
         }
         return new InspectableNode($"where the survivor lives (N={N}, Q={Q.ToString("0.##", Inv)})",
-            summary: "the dispersive RING puts the survivor at the even off-centre interior (incompleteness); the open XY " +
-                     "CHAIN is filling-degenerate (no unique sector, the ZZ-free accident; Heisenberg's ZZ pins the dead-centre); " +
-                     "the hub-spoke STAR sits at the boundary (no momentum mode). The label is physical.",
+            summary: "the dispersive RING at even N puts the survivor in its even fillings, every one of which carries the (2,2) " +
+                     "block's level ((2,2)/(N-2,N-2) at N = 6, the half filling among them when 4 divides N; incompleteness), the " +
+                     "wrapped string's split, and at odd N ties every filling (read; a pi flux through it changes no block's spectrum); " +
+                     "the open XY CHAIN is filling-degenerate (no unique sector, measured to rounding, at the Zeno end " +
+                     "at every order by the ladder of PROOF_CODIM1_BY_ADDITIVITY; a ZZ term picks the half filling, the central pair at odd N, " +
+                     "PROOF_WEIGHT1_DEGENERACY Theorem E (d)); the hub-spoke STAR sits at the boundary (with ZZ by the " +
+                     "other arms' imbalance, read; in XY at the order (J/gamma)^6, consistent with the exchange statistics). The label is physical.",
             children: kids);
     }
 
@@ -179,10 +210,12 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         foreach (int n in new[] { 4, 5, 6 })
         {
             double cNxy = Survivor(n, Q, TopologyKind.Chain).NXy;
-            double rNxy = Survivor(n, Q, TopologyKind.Ring).NXy;
+            var ringSurvivor = Survivor(n, Q, TopologyKind.Ring);
+            double rNxy = ringSurvivor.NXy;
             double ratio = cNxy > 1e-9 ? rNxy / cNxy : double.NaN;
+            string ringEdge = (ringSurvivor.PCol, ringSurvivor.PRow) == (0, 1) ? " (the (0,1) band edge, past its handover)" : "";
             kids.Add(new InspectableNode($"N={n}",
-                summary: $"chain <n_XY>={cNxy.ToString("0.0000", Inv)}, ring <n_XY>={rNxy.ToString("0.0000", Inv)}, " +
+                summary: $"chain <n_XY>={cNxy.ToString("0.0000", Inv)}, ring <n_XY>={rNxy.ToString("0.0000", Inv)}{ringEdge}, " +
                          $"ring/chain={ratio.ToString("0.00", Inv)}"));
         }
         return new InspectableNode($"lifetime scaling (Q={Q.ToString("0.##", Inv)})",
@@ -211,7 +244,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         {
             double qh = HandoverQ(n, TopologyKind.Ring);
             kids.Add(new InspectableNode($"ring N={n} ((2,2) seam)",
-                summary: $"handover Q={qh.ToString("0.0000", Inv)} (the 2-excitation (2,2) doublet, a LEVEL " +
+                summary: $"handover Q={qh.ToString("0.0000", Inv)} (the level of the (2,2) block, which every even filling carries, a LEVEL " +
                          $"CROSSING; c_eff=(N/Qh)^2={((n / qh) * (n / qh)).ToString("0.00", Inv)}, climbs toward 4pi^2/3=13.16 => " +
                          $"slope sqrt3/(2pi)~0.276 derived, PROOF_RING_HANDOVER_SLOPE)"));
         }
@@ -219,10 +252,10 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
             summary: "the diagonal (p,p) survivor brightens with Q until ⟨n_XY⟩ reaches the F50 OFF-diagonal floor =1 " +
                      "(the (0,1) band edge / Uhr 1, Re=-2γ exactly), where the band edge takes over: a closed, F50-grounded " +
                      "condition (spectral, depends only on Q=J/γ). CHAIN: filling-degenerate, so the handover is the " +
-                     "coherence horizon's floor crossing: the EP Q*(N) at N=2,3, below it from N=4 by the trace dressing. RING: a distinct 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
-                     "half-filling) free-fermion LEVEL CROSSING, asymptotic slope sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, " +
-                     "reviewed 2026-07-19; the <n_XY> = 1 sibling of Q*, ratio sqrt3/2; the earlier ~0.29N/c_eff~12 was finite-N Q_h/N, " +
-                     "refuted, c_eff climbs toward 4pi^2/3=13.16); NOT " +
+                     "coherence horizon's floor crossing: the EP Q*(N) at N=2,3, below it from N=4 by the trace dressing. RING at even N: a distinct 2-excitation (2,2)/(N-2,N-2) level (NOT half-filling at N = 6; every even filling " +
+                     "carries it, the half filling too when 4 divides N; at odd N every filling ties, read) free-fermion LEVEL CROSSING, asymptotic slope sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, " +
+                     "reviewed 2026-07-19; the <n_XY> = 1 sibling of Q*, ratio sqrt3/2; " +
+                     "c_eff climbs toward 4pi^2/3=13.16); NOT " +
                      "co-located with the ring SE-EP (curves cross near N~10; benzene's 2.0-vs-1.609 split is small-N). " +
                      "Verifier simulations/carbon/handover_q.py; the F50 floor = F50WeightOneDegeneracyPi2Inheritance.",
             children: kids);
@@ -231,9 +264,9 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     public string DisplayName => $"IncompletenessSurvivorWitness (N={N}, Q={Q.ToString("0.##", Inv)})";
 
     public string Summary =>
-        "the dynamic survival probe: the dispersive RING puts the longest-lived mode at the even off-centre interior " +
-        "(incompleteness, C=0.5) coherence; the open XY CHAIN is filling-degenerate (no unique survivor sector - the " +
-        "dead-centre is the Heisenberg/ZZ result, CHAIN_GAP); the central-spin STAR is the boundary counterexample. " +
+        "the dynamic survival probe: the dispersive RING at even N puts the longest-lived mode in its even fillings' " +
+        "interior coherence ((2,2)/(N-2,N-2) at N = 6; incompleteness); the odd ring (read) and the open XY CHAIN are filling-degenerate " +
+        "(no unique survivor sector - the half filling, the central pair at odd N, is the Heisenberg/ZZ result, CHAIN_GAP); the central-spin STAR is the boundary counterexample. " +
         "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4. Reuses SectorReductionWitness.SectorSlowest. " +
         "Sector overview: inspect --root blockspectrum (this zooms the diagonal (p,p) interior sectors — the " +
         "(2,2) two-excitation {0,2}, half-filling at N=4; DISTINCT from horizon's (1,1) single-excitation {0,2}).";

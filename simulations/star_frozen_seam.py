@@ -2,11 +2,12 @@
 """Gate-first: the STAR survivor NEVER un-freezes -- its own seam, the third member of the trichotomy.
 
 A single-Q snapshot does not distinguish the topologies: below its coherence horizon EVERY topology's
-slowest mode is overdamped (real, |Im|=0). incompleteness_survivor.py at Q=1.5 finds chain (2,2), ring
-(2,2), star (1,1) ALL frozen. The distinction is the |Im|(Q) CURVE -- does the survivor UN-FREEZE
+slowest mode is overdamped (real, |Im|=0). incompleteness_survivor.py at Q=1.5 finds the XY chain with every
+filling tied (its printed sector a pick), the ring at (2,2) and the star at (1,1), ALL frozen. The distinction is the |Im|(Q) CURVE -- does the survivor UN-FREEZE
 (acquire a frequency) as the dephasing weakens (Q grows)?
 
-  chain : un-freezes at Q*(N) (the coherence horizon; the {0,2}-EP pair oscillates above it).
+  chain : un-freezes at its handover, Q*(N) at N = 2, 3 and just below it from N = 4 (the coherence horizon's
+          floor crossing; the {0,2}-EP pair oscillates above Q*).
   ring  : un-freezes at its handover (the oscillating band edge overtakes the frozen (2,2) seam).
   star  : frozen at EVERY Q -- iff g2 = 4/(N-1) <= 1, i.e. N >= 5 (N=4 is the known outlier).
 
@@ -44,7 +45,8 @@ def _pin_at_Q15():
     for topo in ("chain", "ring", "star"):
         for N in (4, 6):
             im, sec = im_of(N, topo, 1.5)
-            print(f"     {topo:>5} N={N}: sector={sec} |Im|={im:.3e}")
+            pick = "  (the XY chain ties every filling: the sector is a pick)" if topo == "chain" else ""
+            print(f"     {topo:>5} N={N}: sector={sec} |Im|={im:.3e}{pick}")
             assert im < FROZEN, f"{topo} N={N} Q=1.5 should be frozen, got |Im|={im}"
     print("     => |Im|=0 at one Q is NOT a topology signature. The signature is whether it un-freezes.")
 
@@ -61,7 +63,8 @@ def _sweep_and_gate(N=6):
         cells = {}
         for topo in ("chain", "ring", "star"):
             im, sec = im_of(N, topo, Q)
-            cells[topo] = f"{im:.2e} {sec}"
+            mark = "*" if topo == "chain" and sec[0] == sec[1] else ""
+            cells[topo] = f"{im:.2e} {sec}{mark}"
             if topo == "star":
                 star_max = max(star_max, im)
             elif topo == "chain":
@@ -69,6 +72,7 @@ def _sweep_and_gate(N=6):
             else:
                 ring_max = max(ring_max, im)
         print(f"  {Q:>6.1f}" + "".join(f"{cells[t]:>22}" for t in ("chain", "ring", "star")))
+    print("  (* the XY chain ties every filling: a diagonal sector printed there is a pick)")
 
     # the finding: the star NEVER un-freezes; the chain and ring DO.
     assert star_max < FROZEN, (
@@ -83,7 +87,7 @@ def _sweep_and_gate(N=6):
     print(f"\n  star max |Im| over the sweep = {star_max:.2e} (frozen at EVERY Q); "
           f"chain {chain_max:.2f}, ring {ring_max:.2f} (un-freeze).")
     print("  => the STAR survivor never acquires a frequency: its own frozen seam, the third member of")
-    print("  chain(un-freezes at Q*) / ring(un-freezes at the handover) / star(frozen at all Q). This is")
+    print("  chain(un-freezes at its handover, near Q*) / ring(un-freezes at the handover) / star(frozen at all Q). This is")
     print("  the survivor-level form of PROOF_STRUCTURAL_CEILING sec.7's no-horizon.")
 
 

@@ -17,7 +17,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>For the near-stationary MODE-ISOLATING probe rho_0 = I/d + eps*Herm(mode), the PTF painter
 /// closure Sum_i ln(alpha_i) -- computed through the CANONICAL Symphony FitAlpha -- reads the chosen
 /// mode's first-order RATE shift under a delta-J bond defect: OUT of the +-0.05 window AND sign-coherent
-/// for the soft survivor interior (2,2) (Re lambda moves; K_decay defect-sensitive, soft light content), and
+/// for the soft interior (2,2) mode (on the XY chain one of the slowest modes every filling ties for; Re lambda
+/// moves; K_decay defect-sensitive, soft light content), and
 /// IN the window for the rigid (0,1) band edge (Re = -2gamma frozen; K_decay defect-invariant). It is a
 /// CONSTRUCTIVE confirmation of (A) for this probe, NOT a universal trajectory law (review-pinned):
 /// probe-state-specific (a polarized survivor-dominated state holds), the rate shift certified by
@@ -55,7 +56,7 @@ public sealed class StoneSurvivorClosureClaim : Claim
         : base("THE STONE (felt_time arc B): the TRAJECTORY-level dual of the eigenvalue value/vector split. For the " +
                "near-stationary mode-isolating probe rho_0 = I/d + eps*Herm(mode), the PTF painter closure Sum_i ln(alpha_i) " +
                "(through the CANONICAL Symphony FitAlpha) reads the chosen mode's first-order RATE shift under a delta-J bond " +
-               "defect: OUT of the +-0.05 window AND sign-coherent for the soft survivor interior (2,2) (Re moves; K_decay " +
+               "defect: OUT of the +-0.05 window AND sign-coherent for the soft interior (2,2) mode (Re moves; K_decay " +
                "defect-sensitive), IN the window for the rigid (0,1) band edge (Re=-2gamma frozen; K_decay defect-invariant). " +
                "A CONSTRUCTIVE confirmation of (A) for this probe (two-lens reviewed 2026-06-19), NOT a universal trajectory " +
                "law: probe-state-specific (a polarized survivor-dominated state holds), the rate shift certified by " +
@@ -76,7 +77,7 @@ public sealed class StoneSurvivorClosureClaim : Claim
     public override string Summary =>
         "the PTF painter closure Sum_i ln(alpha_i), via the CANONICAL Symphony FitAlpha on the mode-isolating probe " +
         "I/d+eps*Herm(mode), reads the mode's first-order RATE shift: OUT + sign-coherent (rate-shift) for the soft " +
-        "survivor interior (2,2), IN (frozen) for the rigid band edge (0,1) - the trajectory-level dual of (A). " +
+        "interior (2,2) mode, IN (frozen) for the rigid band edge (0,1) - the trajectory-level dual of (A). " +
         "Probe-state-specific (review-pinned, not a universal law), the rate shift certified by sign-coherence. " +
         $"Tier1Candidate. Live: inspect --root stone.";
 
@@ -104,7 +105,7 @@ public sealed class StoneSurvivorClosureClaim : Claim
 
     private static IReadOnlyList<BatteryCase> BuildBattery()
     {
-        var w = new StoneSurvivorClosureWitness(4);   // N=4: interior survivor (2,2) + band edge (0,1)
+        var w = new StoneSurvivorClosureWitness(4);   // N=4: the interior (2,2) mode, one of the XY chain's tied slowest modes, + band edge (0,1)
         var s = w.Survivor;
         var be = w.BandEdge;
         return new List<BatteryCase>

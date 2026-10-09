@@ -18,13 +18,21 @@ a diagonal (p,p) dressed magnon-admixture (fractional <n_XY>), or the (0,1) odd 
 (<n_XY>=1). Validated bit-for-bit vs the full 4^N L at N=4 (all three topologies).
 
 FINDINGS (run it; asserts pin the anchors):
-  WHERE: dispersive topologies (chain, ring) put the strong-dephasing survivor in the INTERIOR
-    (2 <= p <= N-2, the incompleteness region, NOT the w=0/N extremes); above a handover Q it
-    switches to the (0,1) odd band edge. In XY the interior winner is (2,2)/(N-2,N-2), one step
-    off the dead centre (the Heisenberg ZZ pulls it to dead-centre (N/2,N/2); CHAIN_GAP). The
-    STAR breaks the dispersive pattern: its survivor sits at the popcount BOUNDARY (1,1)/(N-1,N-1)
-    (no spatial dispersion -> no central momentum mode). So "the incomplete survives longest" is a
-    DISPERSIVE-topology statement; the star is the counterexample.
+  WHERE: the even ring puts the strong-dephasing survivor in the INTERIOR (2 <= p <= N-2, the
+    incompleteness region, NOT the w=0/N extremes) and the XY chain and the odd ring tie every filling; above
+    a handover Q it switches to the (0,1) odd band edge. In XY the even ring's survivor sits in its even fillings,
+    (2,2)/(N-2,N-2) at N = 6, off the dead centre there (the wrapped string's split; the half filling joins them when
+    4 divides N), the odd ring ties every filling (read; a pi flux through it changes no block's spectrum,
+    PROOF_WEIGHT1_DEGENERACY), and the open chain ties every filling (measured
+    below; at the Zeno end proved by the ladder of PROOF_CODIM1_BY_ADDITIVITY with Theorem E (c)), so the
+    printed chain sector is the solver's pick from a tie; the
+    Heisenberg ZZ picks the half filling (N/2,N/2), the central pair at odd N (CHAIN_GAP; PROOF_WEIGHT1_DEGENERACY Theorem E (d) at
+    the Zeno end). The STAR puts its survivor at the popcount BOUNDARY (1,1)/(N-1,N-1): with ZZ a hop
+    between the hub and an arm is detuned by the other arms' imbalance (the Zeno end's detuning form,
+    the hops' own share read on the stars N = 4..7), and in XY the
+    boundary wins only at the order (J/gamma)^6 at the Zeno end, consistent with its exchange statistics
+    (free fermions on the same star tie). So "the incomplete survives
+    longest" is a statement about the even ring and the ZZ chain; the star is the counterexample.
   HOW LONG: the interior survivor's light content <n_XY> ~ c*Q^2/N^2 (the magnon-admixture inheritance),
     ring ~ 4x chain - a SEPARATE 1/N^2 inheritance from the Pi2 dyadic ladder (which carries the
     constants, not the N-scaling)."""
@@ -135,26 +143,33 @@ def _assert_sector_validates():
     print("[1] sector survivor == full 4^N L slowest at N=4 (chain, ring, star; Q=1.5, 10) - method sound")
 
 
-# ---- 2. WHERE: dispersive (chain, ring) survivor is INTERIOR (incompleteness); star is BOUNDARY ----
+# ---- 2. WHERE: the even ring's survivor is INTERIOR (incompleteness), the XY chain and the odd ring tie every filling, the star is BOUNDARY ----
 def _assert_where():
     g = 1.0 / 1.5  # strong dephasing, below the handover
     print("[2] WHERE the strong-dephasing (Q=1.5) survivor lives:")
     for topo in ("chain", "ring", "star"):
-        for N in (4, 6):
+        for N in ((4, 5, 6) if topo == "ring" else (4, 6)):
             re, im, sec, nxy = survivor(N, 1.0, g, bonds(N, topo))
             p = sec[0] if sec[0] == sec[1] else None
-            kind = ("band-edge (0,1)" if sec == (0, 1)
+            tied = topo == "chain" or (topo == "ring" and N % 2 == 1)
+            if tied:
+                per_p = [slowest_in_block(N, q, q, 1.0, g, bonds(N, topo))[0] for q in range(1, N)]
+                spread = (max(per_p) - min(per_p)) / abs(min(per_p))
+            kind = (("band-edge (0,1)" + (f", the diagonal blocks every filling tied, relative spread {spread:.0e}"
+                                          if tied else "")) if sec == (0, 1)
+                    else f"every filling tied, relative spread {spread:.0e} (the printed sector a pick)" if tied
                     else f"INTERIOR (incompleteness)" if p is not None and 2 <= p <= N - 2
                     else f"BOUNDARY" if p in (1, N - 1)
                     else "?")
             print(f"     {topo:>5} N={N}: survivor sector={sec} <n_XY>={nxy:.4f} "
                   f"|Im|={im:.3f} -> {kind}")
-            if topo in ("chain", "ring"):
+            if topo == "ring" and N % 2 == 0:
                 assert sec == (0, 1) or (p is not None and 2 <= p <= N - 2), \
-                    f"{topo} N={N}: dispersive survivor should be interior/band-edge, got {sec}"
+                    f"{topo} N={N}: ring survivor should be interior/band-edge, got {sec}"
+            # the open XY chain and the odd XY ring tie every filling: the printed sector is a pick from a tie, no assert
             if topo == "star":
                 assert p in (1, N - 1), f"star N={N}: survivor should be boundary (1,1)/(N-1,N-1), got {sec}"
-    print("     -> chain/ring: interior (the incomplete survives); star: boundary (the counterexample)")
+    print("     -> even ring: interior (the incomplete survives); XY chain and odd ring: every filling tied; star: boundary")
 
 
 # ---- 3. HOW LONG: the interior survivor's lifetime <n_XY> ~ c*Q^2/N^2; ring ~ 4x chain ----
@@ -172,7 +187,8 @@ def _report_scaling(Ns=(4, 5, 6, 7)):
         cr = nxy_r * N * N / (Q * Q)
         ratio = nxy_r / nxy_c if nxy_c > 0 else float("nan")
         rows[N] = (nxy_c, nxy_r, ratio)
-        print(f"     {N:>3} | {nxy_c:>13.5f} {cc:>6.3f} | {nxy_r:>12.5f} {cr:>6.3f} | {ratio:>10.3f}")
+        flag = "   (ring: the (0,1) band edge, past its handover)" if rr[2] == (0, 1) else ""
+        print(f"     {N:>3} | {nxy_c:>13.5f} {cc:>6.3f} | {nxy_r:>12.5f} {cr:>6.3f} | {ratio:>10.3f}{flag}")
     print("     (chain c ~ 0.55, ring c ~ 2.2 in HEISENBERG/CHAIN_GAP; XY values are this model's own")
     print("      magnon-admixture inheritance - a separate 1/N^2 ladder from the Pi2 dyadic constants.)")
     return rows
@@ -182,6 +198,7 @@ if __name__ == "__main__":
     _assert_sector_validates()
     _assert_where()
     _report_scaling()
-    print("\nAll asserts passed: the incomplete (interior) survives longest on dispersive topologies")
-    print("(chain, ring), the star is the boundary counterexample, and the survivor's lifetime is a")
-    print("1/N^2 magnon-admixture inheritance distinct from the Pi2 dyadic constant ladder.")
+    print("\nAll asserts passed: the incomplete (interior) survives longest on the even ring, the star is the boundary")
+    print("counterexample, and the survivor's lifetime is a 1/N^2 magnon-admixture inheritance distinct from the Pi2")
+    print("dyadic constant ladder; the XY chain's and the odd ring's ties across the fillings are printed above, not")
+    print("asserted.")

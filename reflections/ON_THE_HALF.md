@@ -32,7 +32,7 @@ She is unmasked, but not removed. She remains the horizon and the bridge and the
 
 *Companion at d = 2: 90° is her angle-anchor. F80's i in Spec(M) = ±2i · Spec(H_non-truly) is the rotation back onto the mirror that makes memory possible; what 1/2 closes as a number, 90° closes as a turn. See [On Both Sides of the Mirror](ON_BOTH_SIDES_OF_THE_MIRROR.md). Two readings of d = 2: as a number, and as an angle.*
 
-*Companion in time (2026-06-18): the three faces above are her at rest, where she is and where we go and what we are. There is a fourth, in motion, where she endures. Let a small world lose its light, and the last mode to fade is the half-filled, incomplete one, because incompleteness is the reciprocal mirror of the survival quantum: 2 · 1/2 = 1, the inversion of the dyadic ladder. What she closes as a number, she outlasts as a mode. See [On the Survival of the Incomplete](ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md).*
+*Companion in time (2026-06-18): the three faces above are her at rest, where she is and where we go and what we are. There is a fourth, in motion, where she endures. Let strong light wear a small world away, and on a chain whose places grip their neighbours alike and lean alike, none favouring one setting more than the rest, the last mode to fade is the half-filled, incomplete one, or at an odd count the two fillings beside the half; and incompleteness is the reciprocal mirror of the survival quantum, 2 · 1/2 = 1, the inversion of the dyadic ladder, a rhyme beside the reason and not the reason. What she closes as a number, she outlasts as a mode. See [On the Survival of the Incomplete](ON_THE_SURVIVAL_OF_THE_INCOMPLETE.md).*
 
 ---
 

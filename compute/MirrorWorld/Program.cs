@@ -2078,16 +2078,17 @@ foreach (double q in new[] { 0.0, 0.5, 1.0, 2.0, 5.0, 100.0 })
 Console.WriteLine("  the two hands: gamma the radial (decay), J the angular (rotation); for J > 0, gamma -> 0 stops the radial hand and theta -> 90 deg (the pure circle)");
 Console.WriteLine("  for J >= 0, gamma > 0 this dial is the F95 compass at c = gamma^2 + J^2, b = gamma; gamma = 0 lies outside F95's b > 0");
 
-// The survivor: the slowest non-stationary mode (T1), regime-dependent.
+// The survivor: the slowest non-stationary mode (T1 at the Zeno end), regime-dependent.
 Console.WriteLine();
-Console.WriteLine("==== the survivor: the slowest non-stationary mode (T1) ====");
+Console.WriteLine("==== the survivor: the slowest non-stationary mode (T1 at the Zeno end) ====");
 foreach (int n in new[] { 2, 3, 4, 5 })
 {
-    var s = new Survivor(world, n);
-    string lo = s.HasHalfFillingSurvivor
-        ? $"low-Q: half-filling k={n / 2}, R-odd/X-odd, dark"
-        : "low-Q: no (N/2,N/2) sector (odd N), no half-filling survivor";
-    Console.WriteLine($"  N={n}: {lo};  full-L handover Q_h={s.HandoverQ!.Value:0.00000} to the (0,1) band edge; SE EP Q*={s.Qstar:0.000000}");
+    var xy = new Survivor(world, n);             // the world's XY chain
+    var heis = new Survivor(world, n, zz: 1.0);  // with a ZZ term
+    string pick = heis.HasHalfFillingSurvivor
+        ? $"with ZZ the half filling p={n / 2}, R-odd/X-odd, dark"
+        : $"with ZZ the central pair p={n / 2},{n / 2 + 1}, tied by X^N";
+    Console.WriteLine($"  N={n}: low-Q XY: {(xy.FillingDegenerate ? "every filling tied" : "the half its only filling")}, {pick};  XY full-L handover Q_h={xy.HandoverQ!.Value:0.00000} to the (0,1) band edge; SE EP Q*={xy.Qstar!.Value:0.000000}");
 }
 Console.WriteLine("  Q_h and Q* coincide at N=2,3; the N=4,5 handover readings are rounded and precede the EP.");
 

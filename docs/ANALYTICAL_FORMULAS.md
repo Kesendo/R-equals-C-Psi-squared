@@ -338,15 +338,18 @@ swept γ instead of a swept J, and the coefficient is a different one; and this 
 λ²+4γλ+c·J² above. It gives 0.000197 / 0.001499 / 0.005004 against the measured gaps
 0.000197 / 0.001496 / 0.004972, the leading-order error growing 0.04% / 0.23% / 0.66% / 1.3% /
 2.2% at N=4..8 (`inspect --root horizon`, the excess-light node, which carries the series).
-**Ring:** the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
-full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label), and the handover is a
+**Ring:** at N = 6 the survivor is the 2-EXCITATION doublet (2,2)/(N−2,N−2) (particle-hole partners, isospectral;
+full-Liouvillian-verified at N=6, NOT half-filling there); at even N every even filling carries
+that level, the half filling among them when 4 divides N, and at odd N every filling ties, read, a π flux through the
+ring changing no block's spectrum ([the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)), the (2,2) block
+holding the common level, and the handover is a
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
 **asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [the ring handover-slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md),
 Tier1-standard, reviewed 2026-07-19): the (2,2) slow mode obeys the SE coherence-ladder dispersion
 λ² + 8γλ + 4J²q² (CV-confirmed), light content = 2 − √(4 − (Qq)²), so the handover (⟨n_XY⟩ = 1) is at
 Qq = √3, the **⟨n_XY⟩ = 1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
-Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,
-refuted as a constant, c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
+Q* = N/π); Q_h/Q* = √3/2 asymptotically. (c_eff = (N/Q_h)² climbs toward 4π²/3 = 13.16, so Q_h/N of about 0.29
+at moderate N is finite-N.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
 SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (the N=6 ring's 2.0-vs-1.609
 split is a small-N feature; N=6 = exactly 2 is a hexagon coincidence).
 **Verified:** the ladder N=2..5 and which of the two events its three decimals belong to
@@ -783,7 +786,7 @@ point of E is 1/Q*_gap(N) wherever the 2γ regime exists, a consequence of the t
 plane-crossing section: every complex and every defective mode lies on or below the line, so a gap below 2γ is always
 a real mode of a diagonal block, which leaves the half-plane only at a point of E; every block (p, p) carries exactly C(N, p) − c_p − m_p points counted with multiplicity, c_p the components of the exclusion graph and m_p the Krein debt, the block's non-stationary modes inside the half-plane at the Hamiltonian end (the Schur complement onto
 the populations with the inertia identity n(γ) = #{r_j(γ) < 1}, Theorem D), so no mode returns below the plane on any graph and the 2γ regime exists iff every debt is zero; on the chain the debt is zero and the count C(N, p) − 1: exactly through N = 5 (the exact root counts, the regime and its threshold proved there), N − 1 at p = 1 for every N (proved), in float through N = 6 by the crossings
-and through N = 16 at the Hamiltonian end from the compression W_p = Σ_l n_l ∘ n_l of the eigenstate populations, whose second eigenvalue stays below p − ½ (open for every N; equivalently the golden-rule graph on the eigenstates has algebraic connectivity above ½; in the full space the floor is a theorem, h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector P_p paying the difference, and the same matrix is the Δ-axis handover's R = 4W_p − 4p·I, so Δ* is μ₂(W_p) = p − ½ moved along Δ; W_p is one reduced matrix per N dressed per sector by Clebsch-Gordan factors, its spin-shell sums carry the exact heights 0, 2, …, 2·min(p, N − p), so T_{2p}, the orbit sum over the cells of Hamming 2p, is in its kernel for p ≤ N/2 at every N with a simple sector spectrum, and at half filling W_p is mirrored μ ↔ N/2 − μ with the open statement the second-smallest eigenvalue above ½, read 0.59 to 0.64 at N = 4 to 12, [the sector's spin structure](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)); at the Zeno end, as γ → ∞, the populations relax instead under the ferromagnet Σ_b|t_b|²/(γ_i + γ_j)·(1 − SWAP_b) for every anisotropy, whose gap in every block of a tree is the site Laplacian's λ₁ (Theorem E, [the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄; on the uniform XY chain m_p = 0 is proved at every N by [F141](#f141), [F143](#f143) and [F144](#f144), so there #E_p = C(N, p) − 1 at every p ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
+and through N = 16 at the Hamiltonian end from the compression W_p = Σ_l n_l ∘ n_l of the eigenstate populations, whose second eigenvalue stays below p − ½ (open for every N; equivalently the golden-rule graph on the eigenstates has algebraic connectivity above ½; in the full space the floor is a theorem, h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector P_p paying the difference, and the same matrix is the Δ-axis handover's R = 4W_p − 4p·I, so Δ* is μ₂(W_p) = p − ½ moved along Δ; W_p is one reduced matrix per N dressed per sector by Clebsch-Gordan factors, its spin-shell sums carry the exact heights 0, 2, …, 2·min(p, N − p), so T_{2p}, the orbit sum over the cells of Hamming 2p, is in its kernel for p ≤ N/2 at every N with a simple sector spectrum, and at half filling W_p is mirrored μ ↔ N/2 − μ with the open statement the second-smallest eigenvalue above ½, read 0.59 to 0.64 at N = 4 to 12, [the sector's spin structure](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)); at the Zeno end, as γ → ∞, the populations relax instead under the ferromagnet Σ_b|t_b|²/(γ_i + γ_j)·(1 − SWAP_b) for every anisotropy, whose gap in every block of a tree is the site Laplacian's λ₁, so that every filling holds it, and on a chain the ZZ term picks the filling at the next order, the half filling on the uniform XXZ chain at Δ ≠ 0, the central pair at odd N (Theorem E, [the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), live at `inspect --root zeno`); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄; on the uniform XY chain m_p = 0 is proved at every N by [F141](#f141), [F143](#f143) and [F144](#f144), so there #E_p = C(N, p) − 1 at every p ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
@@ -1595,7 +1598,7 @@ N=3: 36.  N=5: 898.  Fraction --> 1 exponentially.
 **Caveat:** exact at gamma -> 0 only. At finite gamma, the
 Hamiltonian mixes weight-parity sectors (w with w +/- 2).
 
-### D6. Spectral gap and mixing time [gap VERIFIED above Q*_gap(N); mixing-time bound quoted, not verified]
+### D6. Spectral gap and mixing time [gap VERIFIED above Q*_gap(N), its Q → 0 asymptote proved; mixing-time bound quoted, not verified]
 
     Spectral gap = 2*gamma            (Q = J/gamma above Q*_gap(N) only)
     Mixing time  <= N*ln(4) / (2*gamma)   (same condition)
@@ -1624,7 +1627,7 @@ exclusion graph's Laplacian, the spin-½ ferromagnet Σ_b(1 − SWAP_b) for ever
 couplings reweights the bonds to 4J_b²/(γ_i + γ_j)), whose gap in every popcount block 1 ≤ p ≤ N − 1 of the chain, and of every
 tree, is that of block p = 1
 ([the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), by cutting a leaf; gate
-[`f50_zeno_end_ferromagnet.py`](../simulations/f50_zeno_end_ferromagnet.py)).
+[`f50_zeno_end_ferromagnet.py`](../simulations/f50_zeno_end_ferromagnet.py), live at `inspect --root zeno`).
 
 At N=3, γ=0.3, J=0.001 the gap is 1.1e-5 of 2γ, five orders below the value
 above. The mixing-time bound inverts the gap and fails with it in that regime.
@@ -5794,7 +5797,7 @@ XY chain.
 (gate-first, the all-Ω mechanism vs full-L, the `4/N` and `4/(N−1)` exactness, the `N=4`
 unification, the ring non-universality diagnostic);
 [`simulations/ring_ceiling_commutant_sweep.py`](../simulations/ring_ceiling_commutant_sweep.py)
-(the ring `g2 = 1`, the `(1,1)` commutant closed form to N=11, the half-filling seam); typed claim
+(the ring `g2 = 1`, the `(1,1)` commutant closed form to N=11, the half-filling block); typed claim
 `StructuralCeilingClaim` (parent `AbsorptionTheoremClaim`), `compute/RCPsiSquared.Core/Symmetry/`;
 the ring sweep is rendered live by `StructuralCeilingWitness` (`inspect --root ceiling`, the
 RingNode); the Im-side companion is the topology band edge `= J·ρ` (`TopologyBandEdgeClaim`).
@@ -5803,8 +5806,11 @@ RingNode); the Im-side companion is the topology band edge `= J·ρ` (`TopologyB
 
 ### F123. The closure functional: the survivor's bond rate shift is the squared density gradient (Tier 1 candidate; diffusion Rayleigh quotient, gate-exact N=4..7; 2026-06-19)
 
-The longest-lived mode on a dispersive chain is the half-filling **survivor**, whose single-site occupation
-profile `n(j)` is a standing density wave. The survivor is **predominantly** a density mode (a dominant
+The half-filling **survivor** of a dispersive chain is its slowest mode at half filling, whose single-site occupation
+profile `n(j)` is a standing density wave; on the XY chain it is one of a filling-degenerate family, every member
+obeying the law below and none the slowest alone, and with nonzero nearest-neighbour ZZ couplings of one sign and no fields
+the half filling is the slowest, the central pair at odd N ([Theorem E (d)](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end),
+at the Zeno end). The survivor is **predominantly** a density mode (a dominant
 real diagonal carrying `n(j)`) dressed by a rate-bearing Hamming-2 coherence admixture: the HD-0 diagonal
 is **dark** (`⟨n_XY⟩ = 0`) and the decay rate `−2γ⟨n_XY⟩` is carried by the HD-2 coherence; `Tr(M†H_b) = 0`
 rules out only nearest-neighbour hopping (the single-particle `φ·φ` current picture), not diagonality. Under

@@ -81,12 +81,14 @@ def _assert_sector_method_validates():
 
 def _assert_selected_strong_dephasing_rows():
     """For the selected C4/C6/C8 rows at Q=1.5, the slowest mode is a frozen
-    diagonal double-excitation sector. This is not a universal or material claim."""
+    diagonal sector of the even fillings (at C8 the fillings 2, 4 and 6 share its level, the half filling among
+    them, so the printed sector is a pick). This is not a universal or material claim."""
     for N in (4, 6, 8):
         re, im, (a, b) = global_slowest(N, 1.0, 1.0 / 1.5, ring=True)
         assert im < 1e-6, f"C{N} Q=1.5: slowest should be FROZEN, got |Im|={im}"
         assert a == b and 2 <= a <= N - 2, f"C{N} Q=1.5: slowest sector {(a, b)} is not double-excitation (a,a)"
-        print(f"[2] selected C{N} row, Q=1.5: frozen double-excitation sector {(a, b)} (Re={re:+.4f})")
+        pick = " (the even fillings 2, 4, 6 share this level: a pick)" if N == 8 else ""
+        print(f"[2] selected C{N} row, Q=1.5: frozen diagonal sector {(a, b)} (Re={re:+.4f}){pick}")
 
 
 def _assert_selected_weak_dephasing_rows():

@@ -197,7 +197,8 @@ def _assert_v_effect_is_ring_specific():
     print(f"[5] ring-specific: open chain N=6 overtaker spreads across fillings {sectors};")
     print("    single-excitation present, double-excitation not dominant, UNLIKE benzene's pure (2,2)/(4,4).")
     print("    The V-Effect two-excitation seam is a feature of the closed ring's (2,2)/(N-2,N-2)")
-    print("    doublet, not of half filling and not of even N alone.")
+    print("    doublet, at N = 6 not the half filling (which carries it only when 4 divides N), and not of")
+    print("    even N alone.")
 
 
 if __name__ == "__main__":

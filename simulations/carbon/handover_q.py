@@ -27,13 +27,15 @@ depends only on Q=J/g, NOT on J and g separately).
    (closed 2/sqrt(c) at N=2,3, transcendental ~0.59N at N>=4).
 
 3. THE RING SOLUTION = a distinct (2,2) free-fermion level crossing, GROWING ~linearly (NOT
-   saturating). The wrap bond breaks filling-degeneracy (Fermi degeneracy at half-filling); the
+   saturating). At even N the wrap bond parts the fillings by parity (its Jordan-Wigner sign is set by the particle number's parity;
+   at odd N every filling ties, read, a pi flux through the ring changing no block's spectrum; the even
+   fillings share one level where read, the half filling among them when 4 divides N); the
    darkest interior is the (2,2) two-fermion seam (in pure XY a free-fermion dephasing mode, NOT a
    Hamiltonian bound pair). Its handover is a LEVEL CROSSING (|Im| ~ 1e-15, the frozen (2,2) mode
    meets the floor), a different SECTOR/mechanism than the single-excitation SE-EP (a coalescence).
-   It grows ~linearly, Q_h ~ N/sqrt(c_eff) with c_eff ~ 12 FLAT in N (so faster than sqrt(N); not
-   saturating) = ~4x the chain's light content constant, so ~half the chain's handover slope (~0.29N vs
-   ~0.59N). The handover and the ring SE-EP are mechanistically distinct but their VALUES CROSS near
+   It grows ~linearly, Q_h ~ N/sqrt(c_eff) with c_eff climbing slowly, 9.0, 11.6, 12.4 at N = 6, 8, 10, toward
+   4pi^2/3 = 13.2 (faster than sqrt(N); not saturating), the asymptotic slope sqrt3/(2pi) = 0.276
+   (PROOF_RING_HANDOVER_SLOPE) against the chain's ~0.59N. The handover and the ring SE-EP are mechanistically distinct but their VALUES CROSS near
    N~=10 (handover slope ~0.24 < SE-EP slope ~0.32): the benzene "split" (2.0 vs 1.609, gap 0.39) is
    a small-N feature, NOT a clean universal separation. N=6 ~ exactly 2 is a hexagon coincidence.
 """
@@ -195,13 +197,14 @@ def _assert_ring():
     print(f"    the (2,2) seam handover is a frozen LEVEL CROSSING (|Im|~0), distinct sector from the")
     print(f"    single-excitation SE-EP; their VALUES cross near N~10 (gap {split[6]:+.2f}/{split[8]:+.2f}/{split[10]:+.2f}")
     print(f"    at N=6/8/10) - the benzene split is a small-N feature, not a clean universal separation.")
-    # 3e. GROWS (not saturating), and faster than sqrt(N): c_eff = (N/Q_h)^2 stays ~flat (linear),
+    # 3e. GROWS (not saturating), and faster than sqrt(N): c_eff = (N/Q_h)^2 stays nearly flat (linear),
     #     whereas sqrt(N) growth would force c_eff ∝ N (c_eff(10)/c_eff(8) -> 10/8 = 1.25).
     assert Qh[10] > Qh[8] > Qh[6], f"ring handover not growing: {Qh}"
     ceff_ratio = (10 / Qh[10]) ** 2 / ((8 / Qh[8]) ** 2)
     assert ceff_ratio < 1.15, f"ring c_eff rising like sqrt(N) (ratio {ceff_ratio} ~ 1.25), not linear"
-    print(f"    GROWS: Q_h(6,8,10) = {Qh[6]:.3f}, {Qh[8]:.3f}, {Qh[10]:.3f}; c_eff flat "
-          f"(ratio 10:8 = {ceff_ratio:.3f} << 1.25=sqrt-N) -> LINEAR ~0.29N, NOT saturating, faster than sqrt(N).")
+    print(f"    GROWS: Q_h(6,8,10) = {Qh[6]:.3f}, {Qh[8]:.3f}, {Qh[10]:.3f}; c_eff nearly flat "
+          f"(ratio 10:8 = {ceff_ratio:.3f} << 1.25=sqrt-N) -> ~linear, Q_h/N = {Qh[10] / 10:.3f} at N = 10 toward the "
+          f"slope sqrt3/(2pi) = 0.276 (PROOF_RING_HANDOVER_SLOPE), NOT saturating, faster than sqrt(N).")
 
 
 if __name__ == "__main__":
@@ -210,5 +213,6 @@ if __name__ == "__main__":
     _assert_ring()
     print("\nAll asserts passed. The handover Q has a CLOSED CONDITION (the diagonal incompleteness")
     print("survivor reaches the F50 off-diagonal floor <n_XY>=1); the CHAIN solution is the coherence")
-    print("horizon Q*(N) (free-fermion filling-degeneracy); the RING solution is a distinct (2,2)")
-    print("free-fermion level crossing that grows ~linearly (~0.29N), neither co-located nor saturating.")
+    print("horizon's floor crossing (Q*(N) at N = 2, 3, just below it from N = 4; free-fermion filling-degeneracy);")
+    print("the RING solution is a distinct (2,2) free-fermion level crossing that grows ~linearly (the slope")
+    print("sqrt3/(2pi) asymptotically), neither co-located nor saturating.")

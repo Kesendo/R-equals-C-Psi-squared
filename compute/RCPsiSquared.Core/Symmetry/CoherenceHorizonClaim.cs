@@ -67,8 +67,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Tier1Derived (2026-07-19): the two pieces that kept it a candidate are both closed. The gap-dominance is
 /// PROVEN (docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md, which already graduated the parent
 /// <see cref="ClockHandLadderClaim"/>), and the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam
-/// (NOT half-filling: at N=6 the (2,2) block's handover Q_h matches the full-L survivor, the half-filling
-/// (3,3) block does not) is resolved by docs/proofs/PROOF_RING_HANDOVER_SLOPE.md: slope Q_h → N·√3/(2π),
+/// (at N = 6 not the half filling: there the (2,2) block's handover Q_h matches the full-L survivor and the
+/// half-filling (3,3) block's does not; every even filling carries the (2,2) level, the half filling among them when
+/// 4 divides N) is resolved by docs/proofs/PROOF_RING_HANDOVER_SLOPE.md: slope Q_h → N·√3/(2π),
 /// the ⟨n_XY⟩ = 1 sibling of Q*, adversarially reviewed 2026-07-19 (two refute-first lenses, independent
 /// rebuilds; the proof's Review section holds the record). Concrete ring instance:
 /// the N=6 ring's own Q* = 1.609 (simulations/carbon/benzene_two_clocks.py).</para>
@@ -207,12 +208,15 @@ public sealed class CoherenceHorizonClaim : Claim
                          "<n_XY> = 1 criterion, simulations/ring_handover_qh.py; 2 is this ring's value and not a law, the " +
                          "same solve giving 2.35038584 at N=8 and 2.83519426 at N=10 against the derived slope √3/(2π)) " +
                          "SPLITS from the clean SE-EP Uhr 2 " +
-                         "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ (that IS the " +
+                         "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ at N = 2, 3, the handover falling " +
+                         "just below the EP from N = 4 (that IS the " +
                          "ladder); the closed ring does not. The split is RING-SPECIFIC: the open even-N chain N=6 overtaker " +
                          "spreads across all fillings at its own SE-EP, so the double-excitation seam is a feature of the " +
                          "closed ring's interior 2-excitation doublet, not even N alone. The 4n+2 / 4n labels " +
-                         "do not discriminate across the N=4 and N=8 ring scans (simulations/carbon/aromatic_ring_v_effect.py): the " +
-                         "seam is RING-UNIVERSAL, the off-centre (2,2)/(N−2,N−2) doublet (not half-filling; the " +
+                         "do not decide whether the seam appears across the N=4 and N=8 ring scans (simulations/carbon/aromatic_ring_v_effect.py): on " +
+                         "the even rings the seam is universal, the (2,2)/(N−2,N−2) doublet, off the centre at N = 6 and joined by the " +
+                         "half filling when 4 divides N, the one thing the 4n / 4n+2 labels do decide (at odd N every " +
+                         "filling ties, read; the " +
                          "sector gate in PROOF_RING_HANDOVER_SLOPE.md), a sibling of the " +
                          "incompleteness V-Effect (docs/HIERARCHY_OF_INCOMPLETENESS.md). The N=4 and N=8 rings " +
                          "do NOT group (N=4 is a small-ring anomaly, its seam dominates even at weak dephasing). Hückel-side " +

@@ -18,7 +18,7 @@ THE SURVEY (from below, 3-agent) sharpened WHICH mirror -- and pre-flagged one b
 
 GATES (gate-first; a FIRING gate is the FIND -- diagnose, do not loosen):
   G0  the survivor here IS the dark half-filling (N/2,N/2) interior mode (Heisenberg chain, low Q
-      below the coherence horizon).  If not, the conjecture's premise is void in this regime.
+      below the chain's own handover Q*_gap(N), G5).  If not, the conjecture's premise is void in this regime.
   G1  the INTERTWINER: for each operator S, how does the conjugation superoperator relate to L
       (commute / anticommute)?  The relationship sets the MEANING of G2.
   G2  the FIXED-POINT PROBE: is the survivor an eigenvector of S (parity +-1)?
@@ -26,6 +26,20 @@ GATES (gate-first; a FIRING gate is the FIND -- diagnose, do not loosen):
       U -> the open question.  A clean separation X(-1)/R(+1) IS the find.
   G3  CAUSE vs CORRELATION: across the (p,p) spectrum, does S-parity sort DARK from BRIGHT
       (<n_XY> = -Re(lambda)/2gamma, the Absorption Theorem)?  Is light content == a definite parity?
+  G4  THE LEVEL, not the solver's pick: X and R commute with L and with each other, so the half-filling block
+      splits into four joint sectors (X = +-1, R = +-1); the slowest rate of each, with how many eigenvalues of
+      that sector lie within the eigensolver's rounding (64 eps ||L||_1) of it, says which parities the block's
+      slowest level holds and how often, and that mode's weight by the Hamming distance of its cells (the number
+      of X/Y letters).  Then the survivor's populations (the diagonal of the slowest
+      eigenvector of the first sector holding the level, scaled to 1 at its largest entry) and their Rayleigh
+      quotient under the block's exclusion Laplacian, beside that Laplacian's smallest nonzero and largest
+      eigenvalue: near the smallest for a density wave, at the largest for the mode a hop changes most; and their
+      overlap with the block's diagonal of H, its mean removed, the populations of the energy mode; and the site
+      profile n(j), the populations summed over the configurations with j occupied, scaled to 1 at its largest, with
+      n . n_reflected / |n|^2 (at half filling n . n_complement / |n|^2 = -1 for every traceless population, whatever
+      its shape, so only the reflection reads the shape).
+  G5  the Heisenberg chain's handover Q*_gap(N) (N = 4, 6), read by bisection: the Q where the diagonal
+      blocks' slowest <n_XY> reaches the band edge's 1, the edge of the regime this note reads.
   MATH-LENS GUARD: U and X must COMPLEMENT (|a> -> |~a>), non-trivial on diagonals;
       a pure Z-string would fix ANY diagonal mode trivially.  Assert they actually complement.
 """
@@ -151,6 +165,40 @@ def rel(A, B):
     return np.linalg.norm(A - B) / (np.linalg.norm(B) + 1e-300)
 
 
+def sector_slowest(L, S_list, signs, tol):
+    """the slowest strictly-decaying eigenvalue of L on the joint eigenspace of the commuting involutions S_list (real
+    permutation superoperators commuting with L) with the given signs, how many of that sector's eigenvalues lie within
+    tol of it, and its eigenvector in the block's coordinates"""
+    d2 = L.shape[0]
+    P = np.eye(d2)
+    for S, s in zip(S_list, signs):
+        P = P @ (np.eye(d2) + s * S.real) / 2
+    w, U = np.linalg.eigh((P + P.T) / 2)
+    B = U[:, w > 0.5]                                       # an orthonormal basis of the projector's range
+    if B.shape[1] == 0:
+        return None, 0, None
+    Ls = B.T @ L @ B
+    ev, V = np.linalg.eig(Ls)
+    cand = [k for k in range(len(ev)) if ev[k].real < -1e-9]
+    if not cand:
+        return None, 0, None
+    k = max(cand, key=lambda k: ev[k].real)
+    mult = sum(1 for e in ev if abs(e - ev[k]) <= tol)
+    return ev[k], mult, B @ V[:, k]
+
+
+def exclusion_laplacian(N, bs, bnds):
+    """the configuration graph of the p-sector: one edge per hop of one excitation across one bond"""
+    idx = {a: i for i, a in enumerate(bs)}
+    Lex = np.zeros((len(bs), len(bs)))
+    for i, a in enumerate(bs):
+        for (u, v) in bnds:
+            if ((a >> u) & 1) != ((a >> v) & 1):
+                Lex[i, i] += 1
+                Lex[idx[a ^ (1 << u) ^ (1 << v)], i] -= 1
+    return Lex
+
+
 # ---------------------------------------------------------------- the gates
 def g0_survivor_sector(N, J, g, bnds, model):
     """Scan (p,p) diagonal sectors + the (0,1) band edge; return (Re, sector) of the GLOBAL survivor."""
@@ -251,21 +299,89 @@ def run(N, J, g, topo, model):
         mm = np.mean(minus_nxy) if minus_nxy else float("nan")
         print(f"      {kind:4s}: <n_XY|+1>={mp:.3f} (n={len(plus_nxy)})   <n_XY|-1>={mm:.3f} (n={len(minus_nxy)})", flush=True)
 
+    # G4 -- the level in the joint sectors of X and R, and the survivor's populations
+    tol = 64 * np.finfo(float).eps * np.abs(L).sum(axis=0).max()
+    print(f"G4  the block's slowest level by sector (rounding 64 eps ||L||_1 = {tol:.1e}):", flush=True)
+    sectors = {}
+    for sx in (+1, -1):
+        for sr in (+1, -1):
+            lam, mult, vec = sector_slowest(L, [ops["X"], ops["R"]], [sx, sr], tol)
+            sectors[(sx, sr)] = (lam, mult, vec)
+            txt = "no decaying mode" if lam is None else f"Re={lam.real:+.6f} |Im|={abs(lam.imag):.6f}, {mult} eigenvalue(s) there"
+            print(f"      X={sx:+d} R={sr:+d}: {txt}", flush=True)
+    top = max(lam.real for lam, _, _ in sectors.values() if lam is not None)
+    holding = [key for key, (lam, _, _) in sectors.items() if lam is not None and lam.real >= top - tol]
+    mult = sum(sectors[key][1] for key in holding)
+    print(f"      the slowest level, Re={top:+.6f}: {mult}-fold, in the sector(s) "
+          f"{', '.join(f'X={sx:+d} R={sr:+d}' for sx, sr in holding)}", flush=True)
+    vec = sectors[holding[0]][2]
+    pops = np.array([vec[i * d + i] for i in range(d)])
+    pops = pops / pops[np.argmax(np.abs(pops))]
+    Lex = exclusion_laplacian(N, bs, bnds)
+    ew = np.linalg.eigvalsh(Lex)
+    pr = pops.real
+    rq = pr @ Lex @ pr / (pr @ pr)
+    label = {a: "".join(str((a >> l) & 1) for l in range(N)) for a in bs}
+    print(f"      populations of its slowest mode in X={holding[0][0]:+d} R={holding[0][1]:+d} (largest = 1; imaginary "
+          f"part {np.abs(pops.imag).max():.1e}): " + ", ".join(f"{label[a]} {pops[i].real:+.3f}" for i, a in enumerate(bs)),
+          flush=True)
+    print(f"      their Rayleigh quotient under the block's exclusion Laplacian {rq:.4f}, its smallest nonzero eigenvalue "
+          f"{min(e for e in ew if e > 1e-9):.4f} and largest {ew.max():.4f}", flush=True)
+    hdist = np.array([bin(a ^ b).count("1") for a in bs for b in bs])
+    wt = np.abs(vec) ** 2 / np.sum(np.abs(vec) ** 2)
+    print("      its weight by the Hamming distance of the cells |a><b|, the number of X/Y letters: " +
+          ", ".join(f"{h}: {wt[hdist == h].sum():.3g}" for h in sorted(set(hdist.tolist()))), flush=True)
+    prof = np.array([sum(pr[i] for i, a in enumerate(bs) if (a >> j) & 1) for j in range(N)])
+    if np.linalg.norm(prof) <= 1e-9 * np.linalg.norm(pr):
+        # every site equally occupied: the populations read a correlation, not a density
+        print(f"      its site profile n(j) vanishes (|n| / |populations| = {np.linalg.norm(prof) / np.linalg.norm(pr):.1e}): "
+              f"no density wave", flush=True)
+    else:
+        prof = prof / prof[np.argmax(np.abs(prof))]
+        print(f"      its site profile n(j), j = 0..{N - 1}: [" + ", ".join(f"{v:+.3f}" for v in prof) + "], n . n_reflected / |n|^2 = "
+              f"{prof @ prof[::-1] / (prof @ prof):+.4f}", flush=True)
+    hd = np.diag(sector_H(N, bs, J, bnds, model)).copy()
+    hd -= hd.mean()
+    if np.linalg.norm(hd) > 0:
+        print(f"      their overlap with the block's diagonal of H, its mean removed (the energy mode's populations): "
+              f"|cos| = {abs(pr @ hd) / (np.linalg.norm(pr) * np.linalg.norm(hd)):.4f}", flush=True)
+
     return verdicts
 
 
 def main():
     print("=== SURVIVOR vs PARTICLE-HOLE SELF-MIRROR (gate-first; a firing gate is the find) ===", flush=True)
     J = 1.0
-    # half-filling survivor lives BELOW the coherence horizon Q*(N)~0.59N: use strong dephasing (low Q).
-    for g in (1.0, 0.5):                                    # Q = 1, 2  (below Q*(6)~3.5)
+    # the half-filling survivor lives below the Heisenberg chain's own handover Q*_gap(N) (G5): strong dephasing.
+    for g in (1.0, 0.5):                                    # Q = 1, 2  (below Q*_gap(6) = 2.448, G5)
         run(6, J, g, "chain", "heisenberg")
+    # the chain N=4 at Q = 1: half filling, odd under both; the rings N=4, 6 at Q = 1: the density wave as a twofold
+    # level holding both R-parities (the R printed is the solver's pick); at Q = 2 the chain N=4 and the ring N=6 hand
+    # over to the (0,1) band edge, and the ring N=4's survivor is the energy mode's Neel pattern, even under both,
+    # the fastest population mode at the Zeno end become the slowest
+    for N, topo in ((4, "chain"), (4, "ring"), (6, "ring")):
+        for g in (1.0, 0.5):
+            run(N, J, g, topo, "heisenberg")
     # XY control: U_PH is the clean E->-E symmetry of XY (no ZZ)
     run(6, J, 1.0, "chain", "xy")
     # counter-case: the star has NO interior half-filling survivor (G0 should fire gracefully)
     run(6, J, 1.0, "star", "heisenberg")
-    # weak dephasing (above the horizon): survivor should LEAVE half-filling (G0 fires gracefully)
+    # weak dephasing (above the handover): survivor should LEAVE half-filling (G0 fires gracefully)
     run(6, J, 0.05, "chain", "heisenberg")
+    # G5 -- the Heisenberg chain's own handover Q*_gap(N), where the diagonal blocks' slowest light content reaches the
+    # band edge's 1; below it the half-filling wave is the survivor this note reads (not the XY chain's horizon Q*(N))
+    for N in (4, 6):
+        bnds = bonds(N, "chain")
+
+        def kmin(Q):
+            g = J / Q
+            return min(-slowest_eig(block_L(N, p, p, J, g, bnds, "heisenberg")[0])[0].real / (2 * g) for p in range(1, N))
+        lo, hi = 0.5, 4.0
+        for _ in range(40):
+            mid = 0.5 * (lo + hi)
+            lo, hi = (mid, hi) if kmin(mid) < 1 else (lo, mid)
+        print(f"G5  Heisenberg chain N={N}: the diagonal blocks' slowest <n_XY> reaches the band edge's 1 at "
+              f"Q*_gap = {0.5 * (lo + hi):.4f}", flush=True)
     print("\n=== done ===", flush=True)
 
 

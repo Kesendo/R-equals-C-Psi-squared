@@ -7,8 +7,8 @@ The junction: as Q=J/g falls, the global-slowest Liouvillian mode hands the crow
 survivor. handover_q.py pinned the interior survivor's nature at UNIFORM gamma:
   - CHAIN: filling-degenerate (free-fermion OBC) => the single-excitation (1,1) {0,2} SE-EP, a
     square-root COALESCENCE.
-  - RING: the wrap bond breaks filling-degeneracy => the (2,2) two-excitation seam, a frozen LEVEL
-    CROSSING.
+  - RING (even N): the wrap bond parts the fillings by parity => the (2,2) two-excitation seam, a frozen LEVEL
+    CROSSING (at odd N every filling ties, read, a pi flux through the ring changing no block's spectrum).
 birth_canal_n6.py found that on a DEEP-EDGE (non-uniform) chain the low-Q global slowest is the (2,2)
 {0,2}-coherence -- but never measured its NATURE. The open question:
 

@@ -8,7 +8,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The survival law and the V-Effect/incompleteness are INVERSION-MIRROR PARTNERS on the
 /// Pi2 dyadic ladder, and the longest-lived dissipative mode dynamically lives in the incompleteness
-/// region on dispersive matter (Tier1Candidate: the algebra is derived + live, the dynamic enactment
+/// region on the dispersive ring at even N, the XY chain and the odd ring (read) tying every filling (Tier1Candidate: the algebra is derived + live, the dynamic enactment
 /// is verified at N&lt;=7, not proven). The thread (a)+(b) result of the
 /// <c>survival_incompleteness_mirror</c> arc; the C# witness is
 /// <see cref="IncompletenessSurvivorWitness"/> (<c>inspect --root survivor</c>).
@@ -23,12 +23,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// obeys the same law model-independently (the Absorption Theorem; the XY-vs-Heisenberg reconciliation).</para>
 ///
 /// <para><b>(b) THE DYNAMIC ENACTMENT (verified).</b> Below the handover Q the longest-lived mode lives
-/// in the incompleteness region (interior filling) on DISPERSIVE EXTENDED matter - the labels are
+/// in the incompleteness region (interior filling) on the even ring, and the open XY chain and the odd ring (read) tie every
+/// filling - the labels are
 /// physical: the open XY CHAIN = conjugated polyene chains / spin chains / the Grotthuss proton wire (filling-
-/// degenerate, no unique sector; the dead-centre is the Heisenberg/ZZ result); RING = aromatic rings / light-harvesting macrocycles (off-centre interior
-/// (2,2)/(N-2,N-2)). The HUB-LOCALIZED central-spin STAR (NV centre / quantum dot / the mediator) is the
-/// COUNTEREXAMPLE: its survivor is the boundary hub coherence (1,1)/(N-1,N-1), because a hub-spoke bath
-/// has no dispersion and thus no central momentum mode. Lifetime &lt;n_XY&gt; ~ c*Q^2/N^2, ring/chain -&gt; 4
+/// degenerate, no unique sector; the half filling, the central pair at odd N, is the Heisenberg/ZZ result, PROOF_WEIGHT1_DEGENERACY Theorem E (d)); RING = aromatic rings / light-harvesting macrocycles (at even N the
+/// even fillings, (2,2)/(N-2,N-2) at N = 6, the half filling among them when 4 divides N; at odd N every filling tied, read, a pi flux through the ring changing no block's spectrum). The HUB-LOCALIZED central-spin STAR (NV centre / quantum dot / the mediator) is the
+/// COUNTEREXAMPLE: its survivor is the boundary hub coherence (1,1)/(N-1,N-1); with a ZZ term a hop between
+/// the hub and an arm is detuned by the other arms' imbalance (the detuning form of PROOF_WEIGHT1_DEGENERACY's
+/// Zeno end, the hops' own share read on the stars N = 4..7, not proved there), in XY the boundary wins only at
+/// order (J/gamma)^6 at the Zeno end, consistent with the spins' exchange statistics (free fermions on the star tie). Lifetime &lt;n_XY&gt; ~ c*Q^2/N^2, ring/chain -&gt; 4
 /// (the cyclic-vs-open k_min^2 ratio, model-independent, the SAME 4x CHAIN_GAP reports for Heisenberg) -
 /// a SEPARATE 1/N^2 magnon-admixture inheritance from the Pi2 dyadic CONSTANT ladder, the two meeting at
 /// the per-mode Absorption Theorem (a_0).</para>
@@ -68,8 +71,9 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
                "and the V-Effect/incompleteness (a_2=1/2=Half, C=1/2 = 1/d) are inversion-mirror partners on the Pi2 dyadic " +
                "ladder (a_0*a_2 = d*(1/d) = 1, self-mirror a_1=1 between, forced by d^2-2d=0) - the algebra of 'der V-Effekt " +
                "vererbt sich', DERIVED+live. Dynamically VERIFIED (N<=7): below the handover Q the longest-lived mode lives in " +
-               "the incompleteness region on DISPERSIVE extended matter (the RING at the even off-centre interior; the open XY " +
-               "CHAIN is filling-degenerate, the dead-centre being the Heisenberg/ZZ result); " +
+               "the incompleteness region on the DISPERSIVE RING at even N (its even fillings, (2,2)/(N-2,N-2) at N = 6), while " +
+               "the open XY CHAIN and the odd ring (read) are filling-degenerate, the half filling (the central pair at odd N) being " +
+               "the Heisenberg/ZZ result; " +
                "the hub-localized central-spin STAR is the boundary counterexample. Lifetime <n_XY> ~ Q^2/N^2, ring/chain->4 " +
                "(model-independent), a separate 1/N^2 inheritance from the dyadic constants. RESOLVED (2026-06-14): the " +
                "Pauli-weight w=N/2 V-Effect is DISTINCT from the {0,2}-coherence (w = n_diff + Z-shadow, two gradings).",
@@ -110,7 +114,7 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
     public override string Summary =>
         $"the survival law (a_0={A0Text}) and the V-Effect/incompleteness (a_2={A2Text}) are inversion-mirror partners " +
         $"(a_0*a_2={MirrorProductText}=d*1/d); dynamically the longest-lived mode is the interior incompleteness coherence on " +
-        $"dispersive matter (chain/ring), the central-spin star the boundary counterexample; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
+        $"the dispersive ring at even N, the odd ring (read) and the XY chain filling-degenerate, the central-spin star the boundary counterexample; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -120,9 +124,10 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
                 summary: $"a_0={A0Text} (survival quantum 2gamma == qubit dim d) and a_2={A2Text} (incompleteness C=1/2 == 1/d) " +
                          $"are Pi2-ladder inversion-mirror partners: MirrorPartnerIndex(0)={MirrorPartnerText}, " +
                          $"a_0*a_2={MirrorProductText}=d*(1/d), self-mirror a_1=1 between, forced by d^2-2d=0.");
-            yield return new InspectableNode("(b) the dynamic enactment (the incomplete survives on dispersive matter)",
+            yield return new InspectableNode("(b) the dynamic enactment (the incomplete survives on the even ring)",
                 summary: "below the handover Q the longest-lived mode is the interior incompleteness coherence on the dispersive " +
-                         "RING (even off-centre); the open XY CHAIN is filling-degenerate (no unique sector - the dead-centre is " +
+                         "RING at even N (its even fillings, (2,2)/(N-2,N-2) at N = 6); the odd ring (read) and the open XY CHAIN are " +
+                         "filling-degenerate (no unique sector - the half filling, the central pair at odd N, is " +
                          "the Heisenberg/ZZ result, CHAIN_GAP); the hub-localized central-spin star is the boundary counterexample. " +
                          "Lifetime <n_XY> ~ Q^2/N^2, ring/chain -> 4 (model-independent). Live: inspect --root survivor.");
             foreach (var c in Cases)
@@ -171,6 +176,13 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
         cases.Add(new BatteryCase("ring survivor = off-centre interior (dispersive, even filling)",
             $"N=6 Q=1.5 -> sector ({ring.PCol},{ring.PRow}), filling split {ringSplit}", "off-centre interior",
             ringSplit ? Classify(6, ring.PCol, ring.PRow) : "degenerate"));
+        // the odd ring ties every filling, read here at finite Q; K = prod_{l odd} Z_l flips every bond of an odd ring but
+        // the wrapped one, so, with the transpose, a pi flux through it changes no block's spectrum at any Q, and at the
+        // Zeno end the ladder carries the tie (PROOF_WEIGHT1_DEGENERACY, gate row Z14)
+        bool oddRingDegen = IncompletenessSurvivorWitness.IsFillingDegenerate(5, 1.5, TopologyKind.Ring);
+        cases.Add(new BatteryCase("odd ring = filling-degenerate (read; a pi flux through it changes no block's spectrum)",
+            "N=5 Q=1.5: every (p,p) sector shares the slowest rate", "filling-degenerate",
+            oddRingDegen ? "filling-degenerate" : "split"));
         cases.Add(new BatteryCase("star survivor = boundary (central-spin counterexample)",
             $"N=6 Q=1.5 -> sector ({star.PCol},{star.PRow})", "boundary", Classify(6, star.PCol, star.PRow)));
         double ratio = chain.NXy > 1e-9 ? ring.NXy / chain.NXy : 0.0;

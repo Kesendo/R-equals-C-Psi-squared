@@ -1,7 +1,8 @@
 """Mining the stone tool (felt_time arc B): feed N x Q x sector x topology, read the output numbers,
 look for DERIVABLE STRUCTURE. Not adversarial re-validation (that was the two-lens review) -- broad
 domain driving per use-the-tool-mine-the-data. Surfaces fields the witness computes but does not show
-(per-site f, the rate <n_XY>, biorth). N<=5 (full-L eig); flushes per line."""
+(per-site f, the rate <n_XY>, biorth). N<=5 (full-L eig); flushes per line. The (2,2) mode the sections call the
+survivor is, on the XY chain, one of the slowest modes every filling ties for."""
 import sys
 import importlib.util
 import numpy as np
@@ -77,7 +78,8 @@ def main():
     print(f"  reliable       = {list(r['rel'].astype(int))}", flush=True)
     print(flush=True)
 
-    print("=== 4. TOPOLOGY (N=5, Q=1.5): chain vs ring survivor closure ===", flush=True)
+    print("=== 4. TOPOLOGY (N=5, Q=1.5): chain vs ring (2,2)-mode closure (both tie every filling; the ring is past its "
+          "handover, the band edge holding its survivor, and its (2,2) level is twofold, the mode the solver's pick) ===", flush=True)
     print(f"{'topo':>6} {'sector':>7} {'<n_XY>':>7} {'Sum ln a':>9} {'win':>4} {'coh':>5}", flush=True)
     for topo, (pc, pr) in [("chain", (2, 2)), ("ring", (2, 2))]:
         r = readout(5, 1.5, pc, pr, topo, dJ)
