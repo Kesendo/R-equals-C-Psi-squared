@@ -677,7 +677,13 @@ the second factor being the Zeno-suppressed rate and the first the spectral gap
 of the path-graph Laplacian on N sites, the classical hopping generator that
 survives strong dephasing, not a coherent band edge. Measured against 2J²/γ at
 γ=0.3, J=0.001: 2.000022 at N=2, 1.000003 at N=3, 0.585784 at N=4, 0.381964 at
-N=5, against 2(1−cos(π/N)) = 2, 1, 0.585786, 0.381966. The bare form Δ = 2J²/γ
+N=5, against 2(1−cos(π/N)) = 2, 1, 0.585786, 0.381966. That the path's gap is the
+gap of every diagonal popcount block (p, p), 1 ≤ p ≤ N − 1, so of the whole spectrum, holds at every N to
+leading order in J/γ (at uniform γ and J; a positive profile reweights the bonds to 4J_b²/(γ_i + γ_j)): the hopping generator
+is the spin-½ ferromagnet Σ_b(1 − SWAP_b) for every anisotropy, and on a chain, as
+on every tree, its gap in each block is that of block p = 1
+([PROOF_WEIGHT1_DEGENERACY](PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end),
+the Zeno end). The bare form Δ = 2J²/γ
 is the N=3 case only. At N=3, γ=0.3, J=0.001 the gap is 1.1·10⁻⁵ of 2γ: five
 orders below the quoted value.
 

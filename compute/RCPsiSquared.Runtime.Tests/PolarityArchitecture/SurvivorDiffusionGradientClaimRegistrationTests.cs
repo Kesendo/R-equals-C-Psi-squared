@@ -42,7 +42,7 @@ public class SurvivorDiffusionGradientClaimRegistrationTests
     public void Claim_BatteryAllPass()
     {
         // the live battery: the diffusion-Rayleigh law at N=4 -- dRe ~ grad^2 (slope ~2), the ratio
-        // bond-independent, and the gradient quiet at the no-flux chain ends.
+        // bond-independent, and the gradient smallest at the no-flux chain ends.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<SurvivorDiffusionGradientClaim>();
         Assert.Equal(claim.Cases.Count, claim.PassCount);

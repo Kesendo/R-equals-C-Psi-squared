@@ -1,10 +1,10 @@
 # τ_max vs the Spectral Gap: γ Is the Timekeeper
 
 <!-- Keywords: tau_max spectral gap formula rejected, gamma is the timekeeper, coherence time
-1/(2gamma), inverse spectral gap clock, palindromic Liouvillian 2gamma floor, decay rate
-J-independent, gamma=0 clock stops, R=CPsi2 gamma time, auto-extracted formula consistency test -->
+1/(2gamma), inverse spectral gap clock, palindromic Liouvillian 2gamma floor, gap
+J-independent above Q*_gap, gamma=0 clock stops, R=CPsi2 gamma time, auto-extracted formula consistency test -->
 
-**Status:** Rejected: the formula is wrong; the clock is τ = 1/(2γ)
+**Status:** Rejected: the formula is wrong; the clock is τ = 1/(2γ) above Q*_gap(N)
 **Date:** May 28, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** [tau_max_spectral_gap.py](../simulations/tau_max_spectral_gap.py),
@@ -26,9 +26,9 @@ it is **rejected**. The relaxation timescale is the **inverse spectral gap**,
 
     τ = 1 / λ₂ = 1 / (2γ),
 
-set by **γ alone; γ is the timekeeper**. At γ = 0 the gap is exactly 0 and the clock stops
-(τ → ∞: no dephasing, only Hamiltonian oscillation). The coupling J sets oscillation
-*frequencies*, never decay *rates*. The formula is wrong twice over: it puts the gap under a
+set by **γ alone; γ is the timekeeper**, above the threshold Q*_gap of D6, where these measurements sit. At γ = 0 the gap is exactly 0 and the clock stops
+(τ → ∞: no dephasing, only Hamiltonian oscillation). Above the threshold the gap does not move with the coupling J,
+which sets the oscillation *frequencies*; below it the gap is Zeno-suppressed and J enters it, 2(1 − cos(π/N))·2J²/γ as Q → 0 ([the Zeno end](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)). The formula is wrong twice over: it puts the gap under a
 square root (1/√λ₂ where the timescale is 1/λ₂ → γ-power −½ instead of −1), and it injects a
 spurious 1/J (J-power −1 instead of 0). Both errors are exhibited as clean fitted exponents.
 
@@ -70,7 +70,7 @@ already dimensionally wrong; the experiment below confirms the consequence quant
   §4.3. The τ_max rejection below is unaffected: it argues from the rate scale, which is γ.
 - **Gap is γ-linear:** gap = 2γ for γ ∈ 0.02…0.20.
 
-The only rate scale in the problem is γ. The `ħ/√(λ₂·J²)` form appears nowhere in the repo.
+Above Q*_gap the only rate scale in the problem is γ. The `ħ/√(λ₂·J²)` form appears nowhere in the repo.
 
 **This positive law is the Absorption Theorem / D6.** τ = 1/λ₂ = 1/(2γ) is the slowest-mode
 (⟨popcount(i⊕j)⟩ = 1) reading of the **Absorption Theorem** `Re(λ) = −2γ⟨n_XY⟩`
@@ -83,7 +83,7 @@ closes the Absorption Theorem's former complex-Hamiltonian caveat.
 
 ## γ is the timekeeper
 
-The relaxation clock is the inverse gap, τ = 1/λ₂ = 1/(2γ). Three facts pin it down:
+The relaxation clock is the inverse gap, τ = 1/λ₂, which is 1/(2γ) above Q*_gap(N). Three facts pin it down:
 
 1. **At γ = 0 the clock stops.** With no dephasing the Liouvillian is anti-Hermitian; every
    eigenvalue is purely imaginary, the gap is exactly 0, and τ = ∞. There is no decay clock:
@@ -97,7 +97,7 @@ The relaxation clock is the inverse gap, τ = 1/λ₂ = 1/(2γ). Three facts pin
    power. It also does not touch the clock: the modes that fall below 2γ are population
    modes, and every coherence keeps its 2γ floor at any coupling, so τ = 1/(2γ) as a
    coherence lifetime stands regardless.)
-3. **The scale is purely γ.** τ = 1/(2γ): halve γ, double the clock.
+3. **The scale is purely γ above Q*_gap(N).** τ = 1/(2γ): halve γ, double the clock.
 
 ---
 
@@ -144,7 +144,7 @@ and divergent at γ = 0 (the clock stops without dephasing). The formula's two e
 
 - **Wrong functional form:** 1/√λ₂ gives a γ-power of −½; the true timescale 1/λ₂ has γ-power −1.
 - **Spurious coupling dependence:** a J-power of −1, where the true clock is J-independent
-  (J sets oscillation frequency, never the decay rate).
+  (J sets the oscillation frequencies and leaves the gap at 2γ).
 
 The only correct kernel one might salvage, "the gap matters", is true but trivial here, since
 λ₂ = 2γ; stripped of the square root and the J, the statement is simply **the clock is γ**.
@@ -167,7 +167,7 @@ point.
 ## What this does and does not claim
 
 - **Does** claim: the formula is rejected (wrong γ-power *and* spurious J); the relaxation
-  clock is τ = 1/(2γ), set by γ; at γ = 0 the clock stops; J is frequency, not rate.
+  clock is τ = 1/(2γ) above Q*_gap(N), set by γ; at γ = 0 the clock stops; above Q*_gap(N), J sets frequencies and not the gap.
 - **Does not** claim: any reproduction of the (unrecoverable) historical "τ_max ~ N" figures;
   a quantum-speed-limit interpretation (not tested here).
 
@@ -194,5 +194,5 @@ rᵢ + r₍ₙ₋₁₋ᵢ₎ = 2Nγ holds across the full rate multiset.
 - [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md): **D6** (spectral gap = 2γ, mixing time); F3 / F8 / F74 are decay-rate corollaries of the Absorption Theorem.
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the 2γ floor / palindromic spectrum.
 - [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md): gamma as the declared decay-clock scale; experienced time remains open.
-- `simulations/decay_derivation.py`: decay spectrum is J-independent rational multiples of γ.
+- `simulations/decay_derivation.py`: where the decay rates 2γ, 8γ/3 and 10γ/3 come from.
 - Lindblad, G. (1976). "On the generators of quantum dynamical semigroups." Commun. Math. Phys. 48, 119–130.

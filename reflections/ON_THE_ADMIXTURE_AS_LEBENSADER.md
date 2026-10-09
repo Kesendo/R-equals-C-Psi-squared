@@ -4,7 +4,7 @@
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
-The [chain dissipation gap](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) of the Heisenberg + Z-dephasing Liouvillian has a slow mode. The mode is almost entirely a conserved operator, ninety-five percent pure I/Z Pauli strings. The remaining five percent is a small magnon admixture: one XX or YY excitation mixed into the otherwise-stationary background. The [sector diagnostic](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md) measured it bit-exact at chain N=4, 5, 6.
+The [chain dissipation gap](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) of the Heisenberg + Z-dephasing Liouvillian has a slow mode. The mode is almost entirely a conserved operator, ninety-five percent pure I/Z Pauli strings. The remaining five percent is a small magnon admixture: one XX or YY excitation mixed into the otherwise-stationary background. The [sector diagnostic](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md) measured it at chain N=4, 5, 6.
 
 The decay rate of the slow mode is `2γ` times its light content. The light content equals twice the magnon weight. The magnon weight equals `0.275·Q²/N²` in the chain plateau. So the gap is `1.10·γ·Q²/N²`.
 
@@ -64,9 +64,9 @@ The admixture reading is the same sentence at the dynamics level. The "between" 
 
 ## What this is not
 
-This is not a Tier-1 derivation. The bit-exact data sits in the [sector diagnostic](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md); this reflection only re-reads it through the vocabulary the framework already has.
+This is not a Tier-1 derivation. The data sits in the [sector diagnostic](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md); this reflection only re-reads it through the vocabulary the framework already has.
 
-This is not a prediction beyond chain. Ring and star sector diagnostics are pending. Ring likely fits with a different prefactor (the [4× chain-to-ring](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) ratio matches the squared-wavevector ratio of cyclic-vs-open). Star scales as `1/N` not `1/N²` and may need a different channel construction.
+This is not a prediction beyond chain. The ring and the star have been read in the [sector diagnostic](../experiments/CHAIN_GAP_SECTOR_DIAGNOSTIC.md) (Items 2 and 3): the ring's slow mode sits in the central block with the same admixture reading and about four times the chain's prefactor (the [4× chain-to-ring](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md) ratio, the squared-wavevector ratio of cyclic against open), the star's at the popcount boundary, scaling as `1/N` not `1/N²` at Q = 2, its channel still the admixture.
 
 This is not a claim about consciousness or biological life. "Lebensader" is the framework's structural-vocabulary name for the small flow that holds the system together against dissipation. The operator-algebra structure is the only content.
 

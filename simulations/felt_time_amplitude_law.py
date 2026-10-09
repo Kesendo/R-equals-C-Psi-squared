@@ -17,9 +17,10 @@ D_b of the slow density mode. First-order, the decay rate of a diffusion mode is
 (n(j)-n(j+1))^2 / ||n||^2 (a Rayleigh quotient over bond gradients), so
     dRe(b) = d lambda / d D_b  ~  (n(j) - n(j+1))^2     -- the SQUARED density GRADIENT at bond b.
 This is "amplitude^2": amplitude = the density-wave gradient (the diffusion-current driver), SQUARED
-because the diffusion rate is quadratic in the gradient. It vanishes at the no-flux (reflecting) chain
-ENDS (gradient -> 0) and peaks in the INTERIOR, mirror-symmetric -- exactly the seam's shape. The shape
-is Q-invariant because the slowest diffusion harmonic (k_min) is Q-fixed.
+because the diffusion rate is quadratic in the gradient. It is smallest at the no-flux (reflecting) chain
+ENDS (the gradient flattest there, the shift ~ sin^2(pi/N)) and peaks in the INTERIOR, mirror-symmetric --
+exactly the seam's shape. The shape is Q-invariant at leading order because the slowest diffusion harmonic
+(k_min) is Q-fixed there.
 
 GATES that can fire:
   G1  dRe(b) ~ |grad n_b|^p with p = 2: log-log slope of dRe vs |grad| ~ 2 (NOT 1). If ~1, the
@@ -102,7 +103,7 @@ def main():
             r = dRe[i] / grad2[i] if grad2[i] > 1e-12 else float("nan")
             print(f"{str(b):>7} {dRe[i]:>8.4f} {grad[i]:>8.4f} {grad2[i]:>9.5f} {r:>11.3f} {sinpred[i]:>9.4f}",
                   flush=True)
-        # gates over supported bonds (grad not ~0; the ~0-end bonds are ill-conditioned for a ratio)
+        # gates over supported bonds (grad above 5% of its maximum; a near-zero gradient is ill-conditioned for a ratio)
         sup = grad > 0.05 * grad.max()
         slope, corr = loglog_slope(grad[sup], dRe[sup])
         ratio_cv = cv(dRe[sup] / np.maximum(grad2[sup], 1e-12)) if sup.sum() >= 2 else float("nan")
@@ -131,8 +132,8 @@ def main():
         print("  => g IS amplitude^2: Sum f(b) ~ dRe(b) ~ (density-gradient at bond b)^2. The "
               "earlier phi*phi guess used the SINGLE-PARTICLE wave; the real survivor is a multi-magnon mode "
               "(predominantly diagonal n(j), rate carried by a Hamming-2 coherence dressing) and the square is "
-              "the diffusion-rate Rayleigh quotient (secular effective theory). ~0 at ends = no-flux boundary; "
-              "shape Q-invariant = k_min harmonic is Q-fixed.")
+              "the diffusion-rate Rayleigh quotient (secular effective theory). Smallest at the ends = no-flux boundary; "
+              "shape Q-invariant at leading order = k_min harmonic is Q-fixed there.")
     else:
         print("  => a gate fired -- the functional is NOT clean amplitude^2; diagnose, do not loosen.")
     return ok

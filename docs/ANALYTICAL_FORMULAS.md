@@ -783,7 +783,7 @@ point of E is 1/Q*_gap(N) wherever the 2γ regime exists, a consequence of the t
 plane-crossing section: every complex and every defective mode lies on or below the line, so a gap below 2γ is always
 a real mode of a diagonal block, which leaves the half-plane only at a point of E; every block (p, p) carries exactly C(N, p) − c_p − m_p points counted with multiplicity, c_p the components of the exclusion graph and m_p the Krein debt, the block's non-stationary modes inside the half-plane at the Hamiltonian end (the Schur complement onto
 the populations with the inertia identity n(γ) = #{r_j(γ) < 1}, Theorem D), so no mode returns below the plane on any graph and the 2γ regime exists iff every debt is zero; on the chain the debt is zero and the count C(N, p) − 1: exactly through N = 5 (the exact root counts, the regime and its threshold proved there), N − 1 at p = 1 for every N (proved), in float through N = 6 by the crossings
-and through N = 16 at the Hamiltonian end from the compression W_p = Σ_l n_l ∘ n_l of the eigenstate populations, whose second eigenvalue stays below p − ½ (open for every N; equivalently the golden-rule graph on the eigenstates has algebraic connectivity above ½; in the full space the floor is a theorem, h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector P_p paying the difference, and the same matrix is the Δ-axis handover's R = 4W_p − 4p·I, so Δ* is μ₂(W_p) = p − ½ moved along Δ; W_p is one reduced matrix per N dressed per sector by Clebsch–Gordan factors, its spin-shell sums carry the exact heights 0, 2, …, 2·min(p, N − p), so T_{2p}, the orbit sum over the cells of Hamming 2p, is in its kernel for p ≤ N/2 at every N with a simple sector spectrum, and at half filling W_p is mirrored μ ↔ N/2 − μ with the open statement the second-smallest eigenvalue above ½, read 0.59 to 0.64 at N = 4 to 12, [the sector's spin structure](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄; on the uniform XY chain m_p = 0 is proved at every N by [F141](#f141), [F143](#f143) and [F144](#f144), so there #E_p = C(N, p) − 1 at every p ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
+and through N = 16 at the Hamiltonian end from the compression W_p = Σ_l n_l ∘ n_l of the eigenstate populations, whose second eigenvalue stays below p − ½ (open for every N; equivalently the golden-rule graph on the eigenstates has algebraic connectivity above ½; in the full space the floor is a theorem, h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector P_p paying the difference, and the same matrix is the Δ-axis handover's R = 4W_p − 4p·I, so Δ* is μ₂(W_p) = p − ½ moved along Δ; W_p is one reduced matrix per N dressed per sector by Clebsch-Gordan factors, its spin-shell sums carry the exact heights 0, 2, …, 2·min(p, N − p), so T_{2p}, the orbit sum over the cells of Hamming 2p, is in its kernel for p ≤ N/2 at every N with a simple sector spectrum, and at half filling W_p is mirrored μ ↔ N/2 − μ with the open statement the second-smallest eigenvalue above ½, read 0.59 to 0.64 at N = 4 to 12, [the sector's spin structure](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)); at the Zeno end, as γ → ∞, the populations relax instead under the ferromagnet Σ_b|t_b|²/(γ_i + γ_j)·(1 − SWAP_b) for every anisotropy, whose gap in every block of a tree is the site Laplacian's λ₁ (Theorem E, [the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄; on the uniform XY chain m_p = 0 is proved at every N by [F141](#f141), [F143](#f143) and [F144](#f144), so there #E_p = C(N, p) − 1 at every p ([the count as a plane crossing](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-as-a-plane-crossing)) (D6; [the count at exceptional couplings](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings); typed as `ExceptionalCouplingSetClaim`, live at `inspect --root exceptional` for N ≤ 4, where the block polynomials are recovered exactly over ℤ[i] and the pinned minimal polynomials are certified by exact division).
 **Caveat:** This universality (with the K_3 N=3 exception noted) is UNIQUE
 to k=0 and k=1. For k >= 2, d_real(k) is topology-dependent
 (chain smallest, complete largest) above a universal lower bound for isotropic exchange and uniform dephasing: every graph and
@@ -1619,7 +1619,12 @@ Below the threshold the gap is Zeno-suppressed, approaching as Q → 0
     gap -> 2*(1 - cos(pi/N)) * 2*J^2/gamma
 
 (an asymptote, good to ~1% only for Q ≲ 0.1, not a second closed form
-covering (0, Q*_gap); see D06)
+covering (0, Q*_gap); see D06). At uniform γ and J it is the gap of L as Q → 0 at every N: the populations relax under the
+exclusion graph's Laplacian, the spin-½ ferromagnet Σ_b(1 − SWAP_b) for every anisotropy (a positive profile of rates and
+couplings reweights the bonds to 4J_b²/(γ_i + γ_j)), whose gap in every popcount block 1 ≤ p ≤ N − 1 of the chain, and of every
+tree, is that of block p = 1
+([the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), by cutting a leaf; gate
+[`f50_zeno_end_ferromagnet.py`](../simulations/f50_zeno_end_ferromagnet.py)).
 
 At N=3, γ=0.3, J=0.001 the gap is 1.1e-5 of 2γ, five orders below the value
 above. The mixing-time bound inverts the gap and fails with it in that regime.
@@ -5809,16 +5814,16 @@ density gradient** across that bond:
   **∂(Re λ)/∂J_b ∝ (n(j) − n(j+1))²**
 
 *Mechanism* (the secular effective theory, the coherence admixture eliminated into a population diffusion):
-the slow density `n(j)` decays through `Re λ ∝ −Σ_b D_b·(n(j) − n(j+1))² / ‖n‖²`, so `∂/∂D_b` (Hellmann-Feynman on the real-symmetric reduced Laplacian) selects the local squared gradient. The shift is
-therefore ≈ 0 at the no-flux (reflecting) chain **ends** (the gradient vanishes there) and maximal in the
-**interior**, mirror-symmetric. Its bond-*shape* is **Q-invariant** (set by the lowest diffusion harmonic
-`k_min`); the overall rate scale is not.
+the slow density `n(j)` decays through `Re λ ∝ −Σ_b D_b·(n(j) − n(j+1))² / ‖n‖²`, so `∂/∂D_b` (Hellmann-Feynman on the real-symmetric reduced Laplacian) selects the local squared gradient. That the sector's slowest mode is this single-site density, at every filling and for every positive profile `D_b`, is a theorem at the Zeno end: the configuration graph's Laplacian is the spin-½ ferromagnet `Σ_b D_b(1 − SWAP_b)`, and on a chain its gap in every block is the single-site one, reached only by the lifted density profile ([PROOF_WEIGHT1_DEGENERACY](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), the Zeno end). The shift is
+therefore smallest at the no-flux (reflecting) chain **ends**, ∝ sin²(π/N) where the gradient is flattest and vanishing only as N → ∞, and maximal in the
+**interior**, mirror-symmetric. Its bond-*shape* is **Q-invariant** at leading order (set by the lowest diffusion harmonic
+`k_min`, exact there at every N) and dressed at finite Q; the overall rate scale is not.
 
 *Verification* (the engine itself, `inspect --root gradient --N 5 --q …`): the slope of `dRe` against
 `|grad|` `→ 2.00` and `CV → 0` as `Q → 0` (the exact diffusion limit, off-diagonal weight `→ 0`), and drifts
 above 2 as the finite-`Q` coherence dressing grows (`2.12` at `Q=1.5`, `2.39` at `Q=2.0`, a finite-`Q`
 effect, not a boundary one), until the handover `Q* ≈ 2.5` where the survivor becomes the rigid `(0,1)` band
-edge and the law no longer applies. The continuum `sin²` shape-miss converges with N (`0.17 → 0.06`). The
+edge and the law no longer applies. The `sin²` shape-miss at Q = 1.5 shrinks with N (`0.17 → 0.06`); at Q → 0 it vanishes at every N, the cosine being exact there. The
 earlier single-particle `φ·φ` candidate used the wrong standing wave (the survivor is multi-magnon): right
 power, wrong wave.
 

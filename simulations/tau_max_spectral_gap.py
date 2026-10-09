@@ -9,8 +9,9 @@ Finding: the relaxation timescale is the INVERSE spectral gap,
 
 set by gamma alone -- gamma is the timekeeper. At gamma = 0 the gap is 0 and the
 clock stops (tau -> infinity, no decay; only Hamiltonian oscillation remains).
-The coupling J sets oscillation frequencies, never decay rates (the decay
-spectrum is exact multiples of gamma, J-independent). The extracted formula is
+Above the threshold Q*_gap of D6, where every run here sits (Q = J/gamma from 5 to 80),
+the coupling J sets oscillation frequencies and leaves the gap at 2 gamma; below it the
+gap is Zeno-suppressed and J enters it. The extracted formula is
 wrong twice over: it uses 1/sqrt(lambda2) where the timescale is 1/lambda2
 (gamma-power -1/2 instead of -1), and it injects a spurious 1/J (J-power -1
 instead of 0).
@@ -126,7 +127,7 @@ def main(out_path="simulations/results/tau_max_spectral_gap.txt"):
     out = []
     out.append("tau_max vs the spectral gap")
     out.append("formula under test:  tau_max = h / sqrt(lambda2(L) * J^2)")
-    out.append("true clock:          tau = 1 / lambda2 = 1 / (2 gamma)")
+    out.append("true clock:          tau = 1 / lambda2 = 1 / (2 gamma) above Q*_gap")
     out.append("=" * 72)
     out.append(f"{'sweep':>6} {'N':>2} {'J':>5} {'gamma':>6} {'lambda2':>8} {'clock=1/gap':>12} {'formula':>9}")
     for tag, rows in (("N", a["N_sweep"]), ("J", a["J_sweep"]), ("gamma", a["gamma_sweep"])):
@@ -135,14 +136,14 @@ def main(out_path="simulations/results/tau_max_spectral_gap.txt"):
                        f"{r['lambda2']:>8.4f} {r['clock']:>12.3f} {r['formula']:>9.3f}")
     out.append("=" * 72)
     out.append("fitted power-law exponents (log-log slope):")
-    out.append(f"  clock   ~ J^({e['clock_vs_J']:+.3f})       truth J^0     (J sets frequency, not the rate)")
+    out.append(f"  clock   ~ J^({e['clock_vs_J']:+.3f})       truth J^0     (above Q*_gap J sets frequency, not the gap)")
     out.append(f"  formula ~ J^({e['formula_vs_J']:+.3f})       WRONG         (formula injects a spurious 1/J)")
     out.append(f"  clock   ~ gamma^({e['clock_vs_gamma']:+.3f})   truth gamma^-1 (tau = 1/(2 gamma))")
     out.append(f"  formula ~ gamma^({e['formula_vs_gamma']:+.3f})   WRONG         (formula gives gamma^-1/2)")
     out.append(f"gamma=0:  spectral gap = {a['gap_at_zero']:.4f}  ->  clock stops (tau = infinity)")
     out.append("=" * 72)
     out.append(f"VERDICT: {a['verdict'].upper()}")
-    out.append("The timescale is 1/lambda2 = 1/(2 gamma), set by gamma alone (the timekeeper).")
+    out.append("The timescale is 1/lambda2 = 1/(2 gamma) above Q*_gap, where every run here sits, set by gamma alone.")
     out.append("The formula's square root and its J are both wrong: 1/sqrt(lambda2*J^2) is")
     out.append("neither the right functional form (1/lambda2) nor J-independent.")
     text = "\n".join(out)

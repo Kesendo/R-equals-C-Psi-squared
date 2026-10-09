@@ -12,9 +12,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>The labels are physical, not abstract graph types:</b>
 /// <list type="bullet">
 /// <item>CHAIN = extended <b>dispersive</b> 1D matter: conjugated polyene chains (polyacetylene/SSH, the
-/// carbon work), spin chains, the Grotthuss proton wire (water). k_min = pi/(N+1).</item>
+/// carbon work), spin chains, the Grotthuss proton wire (water). k_min = pi/N, the lowest Neumann cosine of
+/// the population diffusion (PROOF_WEIGHT1_DEGENERACY, the Zeno end).</item>
 /// <item>RING = extended <b>dispersive</b> 1D periodic: aromatic rings (benzene, the Frost circle),
-/// light-harvesting macrocycles. k_min = 2pi/N (4x the chain).</item>
+/// light-harvesting macrocycles. k_min = 2pi/N (2x the chain's k, 4x its k^2).</item>
 /// <item>STAR = hub-spoke <b>NON-dispersive</b> central-spin: NV centre / quantum dot / donor-spin bath
 /// (Bortz-Stolze), the optical-cavity point-focus (STAR_CONFOCAL_LIMIT), the mediator.</item>
 /// </list></para>

@@ -38,7 +38,7 @@ to it; a measured row prints what it measured):
       the plane.
   R8  Zeno end: (A^2)_PP = 8 Lap(token graph) exactly; the slow eigenvalues of B are -2 x^2 ell_j + O(x^4)
       (ratio 16 between x = 0.02 and 0.01); the p-token graph's Laplacian carries the path's spectrum and the same
-      gap (measured, N = 5..7).
+      gap (checked here in float, N = 5..7; proved on every tree and gated exactly in f50_zeno_end_ferromagnet.py).
 
 Run: python simulations/f50_plane_crossing_count.py   (about two minutes; prints "ALL GATES PASS" or a FAIL line)
 """
@@ -598,7 +598,7 @@ for N, p in ((5, 2), (6, 2), (6, 3), (7, 3)):
     ev = np.sort(np.linalg.eigvalsh(Lap))
     path = 2 - 2 * np.cos(pi * np.arange(N) / N)
     c = max(np.abs(ev - e).min() for e in path) / (EPS * 4)
-    check(f"N={N} p={p}: the token graph's Laplacian carries the path Laplacian's spectrum (c = {c:.1f}) and the same gap {ev[1]:.6f} (measured)",
+    check(f"N={N} p={p}: the token graph's Laplacian carries the path Laplacian's spectrum (c = {c:.1f}) and the same gap {ev[1]:.6f} (float check; the theorem is gated in f50_zeno_end_ferromagnet.py)",
           c < 100 and abs(ev[1] - path[1]) < 100 * EPS * 4)
 
 print()

@@ -172,7 +172,7 @@ def run(topology: str, N: int, J: float, gamma: float,
         print(f"  predicted gap from Absorption Theorem (-2γ·⟨n_XY⟩) "
               f"= {2 * gamma * n_xy_avg:.6e}  (match within {abs(2*gamma*n_xy_avg - gap)/gap*100:.3f}%)")
         if topology == "chain" and gamma > 0:
-            print(f"  chain closed-form ⟨n_XY⟩ ≈ 0.55·Q²/N² = {0.55*Q*Q/(N*N):.6f}")
+            print(f"  chain empirical form at Q = 2, ⟨n_XY⟩ ≈ 0.55·Q²/N² = {0.55*Q*Q/(N*N):.6f}")
 
     weights_dist = np.zeros(N + 1)
     for w in range(N + 1):

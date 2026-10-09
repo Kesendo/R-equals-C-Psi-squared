@@ -39,13 +39,13 @@ public class SurvivorDiffusionGradientWitnessTests
     }
 
     [Fact]
-    public void Density_gradient_is_quiet_at_the_no_flux_ends()
+    public void Density_gradient_is_smallest_at_the_no_flux_ends()
     {
         var w = new SurvivorDiffusionGradientWitness(5);
         var b = w.Bonds;
         double endMax = System.Math.Max(b[0].GradSq, b[^1].GradSq);
-        double interiorMax = b.Skip(1).Take(b.Count - 2).Max(x => x.GradSq);
-        Assert.True(endMax < 0.5 * interiorMax,     // reflecting (no-flux) boundary: gradient -> 0 at the ends
-            $"end grad^2 max {endMax} should be < 0.5 * interior max {interiorMax}");
+        double interiorMin = b.Skip(1).Take(b.Count - 2).Min(x => x.GradSq);
+        Assert.True(endMax < interiorMin,     // reflecting (no-flux) boundary: the gradient is flattest at the ends
+            $"end grad^2 max {endMax} should lie below every interior bond (min {interiorMin})");
     }
 }

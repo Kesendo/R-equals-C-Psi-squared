@@ -791,7 +791,7 @@ public static class InspectCommand
         new("gradient", "(D) THE CLOSURE FUNCTIONAL (felt_time arc D): the survivor's first-order bond rate shift " +
             "dRe(b) ~ (density-mode gradient at bond b)^2 - the diffusion Rayleigh quotient (amplitude^2). The slow " +
             "survivor is a DENSITY/diffusion mode; a delta-J defect perturbs the local diffusion coefficient, so dRe ~ " +
-            "(n(j)-n(j+1))^2, ~0 at the no-flux chain ends, mirror-symmetric, Q-invariant. The eigenvalue-level dual of " +
+            "(n(j)-n(j+1))^2, smallest at the no-flux chain ends, mirror-symmetric, Q-invariant at leading order. The eigenvalue-level dual of " +
             "the PTF closure (inspect --root stone). dRe/grad^2 bond-independent, log-log slope ~2; N in 4..5",
             c => new SurvivorDiffusionGradientWitness(
                     c.Parser.HasFlag("N") ? c.N : 4,

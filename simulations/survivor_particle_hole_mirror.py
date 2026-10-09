@@ -185,7 +185,15 @@ def run(N, J, g, topo, model):
         print("    (odd N: no (N/2,N/2) sector exists; particle-hole has no fixed sector -- skipping fixed-point test)", flush=True)
         return
     if not half_ok:
-        print("    (survivor is NOT at half-filling in this regime; G2 would test the wrong mode -- skipping)", flush=True)
+        Lh, _, _ = block_L(N, half, half, J, g, bnds, model)
+        lam_h, _ = slowest_eig(Lh)
+        # a tie across fillings, to the eigensolver's rounding (eps ||L||_1 per block): on the XY chain the ladder puts
+        # each block's spectrum into the next one's up to half filling, and every filling ties for the slowest rate
+        if lam_h is not None and abs(lam_h.real - re_glob) <= 64 * np.finfo(float).eps * np.abs(Lh).sum(axis=0).max():
+            print("    (every filling ties for the slowest rate here, to rounding: the survivor is not unique -- skipping)",
+                  flush=True)
+        else:
+            print("    (survivor is NOT at half-filling in this regime; G2 would test the wrong mode -- skipping)", flush=True)
         return
 
     # build the half-filling block + its survivor

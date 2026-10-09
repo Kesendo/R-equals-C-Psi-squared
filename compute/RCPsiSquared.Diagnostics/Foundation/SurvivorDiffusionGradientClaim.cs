@@ -21,9 +21,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// nearest-neighbour hopping -- the phi*phi current picture -- NOT diagonality),
 /// so a delta-J defect on bond b=(j,j+1) perturbs the LOCAL diffusion coefficient D_b, and the first-order
 /// rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = dlambda/dD_b ~ (n(j)-n(j+1))^2 -- the
-/// SQUARED density GRADIENT ("amplitude^2"). It vanishes at the no-flux (reflecting) chain ends (gradient
-/// -> 0) and peaks in the interior, mirror-symmetric, Q-invariant (the lowest diffusion harmonic k_min is
-/// Q-fixed). Gate-first: the slope dRe vs |grad| -> 2.00 and CV -> 0 as Q -> 0 (the exact diffusion limit,
+/// SQUARED density GRADIENT ("amplitude^2"). It is smallest at the no-flux (reflecting) chain ends (the
+/// gradient flattest there, the shift ~ sin^2(pi/N)) and peaks in the interior, mirror-symmetric, Q-invariant at
+/// leading order (the lowest diffusion harmonic k_min is Q-fixed there). Gate-first: the slope dRe vs |grad| -> 2.00 and CV -> 0 as Q -> 0 (the exact diffusion limit,
 /// off-diagonal weight -> 0); it drifts above 2 with the finite-Q coherence dressing, not a boundary effect.
 /// The earlier single-particle phi*phi candidate used the WRONG standing wave
 /// (single-particle, not the multi-magnon density mode): right power, wrong wave.</para>
@@ -59,8 +59,8 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
                "survivor is PREDOMINANTLY a density mode (dominant diagonal n(j)) with a rate-bearing Hamming-2 coherence " +
                "admixture (the diagonal is DARK, the HD-2 coherence carries the rate; Tr(M^dag H_b)=0 rules out only " +
                "nearest-neighbour hopping, NOT diagonality). In the secular effective theory a delta-J defect perturbs the " +
-               "local diffusion coefficient D_b and dRe(b)=dlambda/dD_b ~ (n(j)-n(j+1))^2: ~0 at the " +
-               "no-flux chain ends, peaked interior, mirror-symmetric, Q-invariant in shape (k_min harmonic Q-fixed). " +
+               "local diffusion coefficient D_b and dRe(b)=dlambda/dD_b ~ (n(j)-n(j+1))^2: smallest at the " +
+               "no-flux chain ends, peaked interior, mirror-symmetric, Q-invariant in shape at leading order (k_min harmonic Q-fixed). " +
                "Gate-first: slope dRe vs |grad| -> 2.00 and CV -> 0 as Q -> 0 (exact diffusion limit), drifting above 2 " +
                "with the finite-Q coherence dressing. The exact " +
                "bond functional UNDERLYING the PTF closure (B, the trajectory-level dual). The earlier single-particle " +
@@ -81,7 +81,7 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
         "the survivor's first-order bond rate shift dRe(b) ~ (density-mode gradient)^2 -- the diffusion Rayleigh quotient. " +
         "The slow survivor is predominantly a density mode (dominant diagonal n(j)) with a rate-bearing coherence " +
         "admixture (the diagonal is dark, the coherence carries the rate); in the secular effective theory a delta-J bond " +
-        "defect perturbs the local diffusion coefficient, so dRe ~ (n(j)-n(j+1))^2, ~0 at the no-flux ends. The exact " +
+        "defect perturbs the local diffusion coefficient, so dRe ~ (n(j)-n(j+1))^2, smallest at the no-flux ends. The exact " +
         "bond functional underlying the PTF closure (B). " +
         "Tier1Candidate. Live: inspect --root gradient.";
 
@@ -94,7 +94,7 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
                          "dominant part is a density standing wave n(j) (the rate carried by its subdominant coherence admixture, " +
                          "the diagonal dark); in the secular effective theory dRe(b) is the diffusion Rayleigh-quotient derivative " +
                          "~ (n(j)-n(j+1))^2 (the squared gradient): LINEAR in grad^2 (bond-independent ratio), quadratic in " +
-                         "the per-site amplitude, ~0 at the reflecting chain ends. The trajectory-level dual is inspect --root stone.");
+                         "the per-site amplitude, smallest at the reflecting chain ends. The trajectory-level dual is inspect --root stone.");
             foreach (var c in Cases)
                 yield return new InspectableNode(c.Name,
                     summary: $"{c.Detail}; expected {c.Expected}, got {c.Actual}, " + (c.Passes ? "PASS" : "FAIL"));
@@ -105,24 +105,25 @@ public sealed class SurvivorDiffusionGradientClaim : Claim
 
     private static IReadOnlyList<BatteryCase> BuildBattery()
     {
-        var w = new SurvivorDiffusionGradientWitness(4);   // N=4: interior survivor (2,2), 3 bonds
+        var w = new SurvivorDiffusionGradientWitness(4);   // N=4, 3 bonds; on this XY chain every filling ties
+        string blk = $"N=4 ({w.SurvivorP},{w.SurvivorP})";   // the block the scan picked, named as read
         var b = w.Bonds;
         double endMax = Math.Max(b[0].GradSq, b[^1].GradSq);
-        double interiorMax = b.Skip(1).Take(b.Count - 2).DefaultIfEmpty(b[0]).Max(x => x.GradSq);
+        double interiorMin = b.Skip(1).Take(b.Count - 2).DefaultIfEmpty(b[0]).Min(x => x.GradSq);
         string slopeStr = w.PowerSlope.ToString("0.00", CultureInfo.InvariantCulture);
         string cvStr = w.RatioCv.ToString("0.000", CultureInfo.InvariantCulture);
         return new List<BatteryCase>
         {
             new("rate shift is amplitude^2 in the density gradient (log-log slope ~2)",
-                $"N=4 (2,2): slope dRe vs |grad| = {slopeStr}", "p~2",
+                $"{blk}: slope dRe vs |grad| = {slopeStr}", "p~2",
                 w.PowerSlope is > 1.6 and < 2.4 ? "p~2" : "off"),
             new("dRe/grad^2 bond-independent (the diffusion Rayleigh law)",
-                $"N=4 (2,2): CV(dRe/grad^2) = {cvStr}", "bond-independent",
+                $"{blk}: CV(dRe/grad^2) = {cvStr}", "bond-independent",
                 w.RatioCv < 0.15 ? "bond-independent" : "varies"),
-            new("the density gradient is quiet at the no-flux chain ends",
-                $"N=4 (2,2): end grad^2 max = {endMax.ToString("0.0000", CultureInfo.InvariantCulture)}, " +
-                $"interior = {interiorMax.ToString("0.0000", CultureInfo.InvariantCulture)}", "quiet-ends",
-                endMax < 0.5 * interiorMax ? "quiet-ends" : "loud-ends"),
+            new("the density gradient is smallest at the no-flux chain ends",
+                $"{blk}: end grad^2 max = {endMax.ToString("0.0000", CultureInfo.InvariantCulture)}, " +
+                $"interior min = {interiorMin.ToString("0.0000", CultureInfo.InvariantCulture)}", "smallest-at-ends",
+                endMax < interiorMin ? "smallest-at-ends" : "not-smallest"),
         };
     }
 }

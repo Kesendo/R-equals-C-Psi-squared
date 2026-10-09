@@ -1,5 +1,6 @@
-"""felt_time D, extend the sin^2 shape-miss to high N (Tom 2026-06-19): does the density-mode profile
-keep converging to the continuum cos/sin^2 harmonic as N grows? Proof table has 0.17/0.12/0.08/0.06 at
+"""felt_time D, extend the sin^2 shape-miss to high N (Tom 2026-06-19): does the density-mode profile's
+shape-miss against the cos/sin^2 harmonic keep shrinking as N grows (at the landing Q, where the profile is
+dressed; at the Zeno end the harmonic is exact at every N)? Proof table has 0.17/0.12/0.08/0.06 at
 N=4/5/6/7; push to N=8, N=9 (the dense ceiling on 128GB). PYTHON/numpy => no .NET managed-array/int32
 limit (the half-filling block is C(N,N//2)^2: N=8->4900, N=9->15876; 15876^2=2.5e8 elements < int.MaxValue,
 ~4GB dense, eig ~16GB -- feasible on 128GB, and numpy allocates natively anyway).
@@ -66,7 +67,9 @@ def main():
         print(f"{N:>3} ({p},{p}) {D:>9} {nxy:>7.3f} {miss:>11.3f} {dt:>7.1f}", flush=True)
     print("\nREAD: proof table is 0.17/0.12/0.08/0.06 for N=4..7. If N=8, N=9 continue downward, the",
           flush=True)
-    print("continuum cos/sin^2 harmonic is confirmed as the large-N limit of the density profile.", flush=True)
+    print("finite-Q dressing of the density profile shrinks with N; at the Zeno end the cos/sin^2 harmonic is",
+          flush=True)
+    print("exact at every N (PROOF_WEIGHT1_DEGENERACY, the Zeno end).", flush=True)
 
 
 if __name__ == "__main__":

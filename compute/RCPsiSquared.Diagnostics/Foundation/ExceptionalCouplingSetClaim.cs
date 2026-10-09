@@ -42,13 +42,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// eigensolver's count beside it. On the chain the debt is zero and the count C(N, p) − 1: exactly through N = 5, N − 1
 /// at p = 1 for every N (proved), in float through N = 6 by the crossings and through N = 16 at the Hamiltonian end from the
 /// compression W_p = Σ n_l ∘ n_l of the eigenstate populations (second eigenvalue below p − ½, open for every N; W_p is one
-/// Clebsch–Gordan-dressed reduced matrix per N whose spin-shell block is exact, heights 0, 2, …, 2·min(p, N − p), so the orbit
+/// Clebsch-Gordan-dressed reduced matrix per N whose spin-shell block is exact, heights 0, 2, …, 2·min(p, N − p), so the orbit
 /// sum T_{2p} over the cells of Hamming 2p is in its kernel for p ≤ N/2 at every N with a simple sector spectrum, and at half
 /// filling W_p is mirrored μ ↔ N/2 − μ, the open statement there the second-smallest eigenvalue above ½; in the full space
 /// h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector paying the difference, and W_p is the
 /// Δ-axis handover's rate matrix R = 4W_p − 4p·I, gap(R) = 2 being the same threshold along Δ), and proved
 /// on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
-/// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
+/// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. At the Zeno end the populations relax under the ferromagnet, whose
+/// gap in every block of a tree is the site Laplacian's λ₁ (Theorem E of the same section). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
 /// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
 /// threshold is 1/min E: closed forms Q*_gap = 1/2, √((1+√17)/8), 1/x₀ with x₀ the root 0.7450215 of

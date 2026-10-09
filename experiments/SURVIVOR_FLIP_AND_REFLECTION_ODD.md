@@ -28,7 +28,7 @@ For the half-filling **survivor** (the slowest non-stationary Liouvillian mode o
 3. The **staggered (bipartite) particle-hole** operator `U = X^⊗N · ∏_{l odd} Z_l` does **not** fix it: the survivor is not an eigenvector of `U`, and `U` does not even commute with the Heisenberg Liouvillian.
 4. It is **dark**: `⟨n_XY⟩ ≪ 1`, falling as `~Q²/N²` and `→ 0` as `Q = J/γ → 0`, with a real eigenvalue (`|Im| = 0`, overdamped, non-oscillating).
 
-These are not four coincidences. The survivor's dominant part is a real diagonal density operator `M ≈ diag(n_a)` whose single-site occupation profile is the lowest antisymmetric Neumann standing wave `n(j) ∝ cos(π(j−½)/N)` (numerically `[−0.74, −0.46, +0.46, +0.74]` at N=4, antisymmetric about the chain centre). Facts 1, 2, 4 are three readings of that antisymmetry; fact 3 is the one place where the Heisenberg `ZZ` term matters. Gate-verified: under both `X^⊗N` and `R` the survivor returns eigenvalue exactly −1, and the diagonal density vector itself satisfies `n · n_complement / ‖n‖² = −1` and `n · n_reflected / ‖n‖² = −1` (machine precision, N=4).
+These are not four coincidences. The survivor's dominant part is a real diagonal density operator `M ≈ diag(n_a)` whose single-site occupation profile is the lowest antisymmetric Neumann standing wave `n(j) ∝ cos(π(j−½)/N)` (numerically `[−0.74, −0.46, +0.46, +0.74]` at N=4 and finite Q, dressed, antisymmetric about the chain centre). Facts 1, 2, 4 are three readings of that antisymmetry; fact 3 is the one place where the Heisenberg `ZZ` term matters. Gate-verified: under both `X^⊗N` and `R` the survivor returns eigenvalue exactly −1, and the diagonal density vector itself satisfies `n · n_complement / ‖n‖² = −1` and `n · n_reflected / ‖n‖² = −1` (machine precision, N=4).
 
 ## 1. The setup and the measured result
 
@@ -41,17 +41,17 @@ Running the gate-first verifier (`survivor_particle_hole_mirror.py`) on the N=6 
 | 1 | (3,3) half-filling | −0.405 | 0.000 | 0.203 | **−1** (fid 1.000) | **−1** (fid 1.000) | not an eigenvector (fid 0.82) |
 | 2 | (3,3) half-filling | −0.636 | 0.000 | 0.636 | **−1** (fid 1.000) | **−1** (fid 1.000) | not an eigenvector (fid 0.55) |
 
-The intertwiner gate (`G1`) confirms `X^⊗N` and `R` both **commute** with `L` exactly (so the survivor *can* have a definite parity under each), while `U` is "neither" (mixed: it neither commutes nor anticommutes with the Heisenberg `L`). The same signs hold on the ring. Control runs pin the regime: in pure XY (no `ZZ`) or on the star, the survivor leaves half-filling, so the half-filling premise is specifically a Heisenberg-on-dispersive-matter, low-Q statement; and at Q=20 the survivor has moved to the `(0,1)` band edge (`⟨n_XY⟩ = 1`, oscillating), the regime above the coherence horizon where this whole picture is replaced (cf. [the chain gap-dominance proof](../docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md)).
+The intertwiner gate (`G1`) confirms `X^⊗N` and `R` both **commute** with `L` exactly (so the survivor *can* have a definite parity under each), while `U` is "neither" (mixed: it neither commutes nor anticommutes with the Heisenberg `L`). The same signs hold on the ring. Control runs pin the regime: in pure XY (no `ZZ`) every filling ties for the slowest rate, and on the star the survivor leaves half-filling, so the half-filling premise is specifically a Heisenberg-on-dispersive-matter, low-Q statement; and at Q=20 the survivor has moved to the `(0,1)` band edge (`⟨n_XY⟩ = 1`, oscillating), the regime above the coherence horizon where this whole picture is replaced (cf. [the chain gap-dominance proof](../docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md)).
 
 ## 2. Why dark: the survivor is a density standing wave
 
 By the [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), `Re λ = −2γ⟨n_XY⟩`: the decay rate is `2γ` per unit of "light" content `⟨n_XY⟩` (the average number of `X`/`Y` Pauli factors), and pure `{I,Z}` operators are dark (rate 0). The survivor is *almost* such an operator. As shown in [the diffusion Rayleigh-closure proof](../docs/proofs/PROOF_DIFFUSION_RAYLEIGH_CLOSURE.md), it is **predominantly a real diagonal density mode**: a dominant `{I,Z}`-diagonal carrying the single-site occupation profile `n(j)`, dressed by a subdominant Hamming-distance-2 coherence admixture. The diagonal is dark; the decay runs entirely through the small admixture the density stirs up. As `Q → 0` the admixture vanishes and `⟨n_XY⟩ → 0`: the strict diffusion limit is the dark, density-only mode. So "dark + real" is just "this is a slowly-relaxing population, not a precessing coherence"; the eigenvalue is real because the dominant content does not rotate.
 
-The shape of `n(j)` is fixed by the diffusion: under strong dephasing the slow density obeys a classical diffusion on the chain with **no-flux (Neumann) ends**, whose slowest non-trivial mode is the lowest Neumann harmonic
+The shape of `n(j)` is fixed by the diffusion: under strong dephasing the slow density obeys a classical diffusion on the chain with **no-flux (Neumann) ends**, whose slowest non-trivial mode is the lowest Neumann harmonic, exactly at every N as Q → 0 ([the Zeno end](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)),
 
     n(j) ∝ cos(π (j − ½) / N).
 
-This is the swell: low at one end, high at the other, zero in the middle, **antisymmetric about the chain centre**. Numerically (the dominant diagonal of the survivor at N=4, mean-removed): `n = [−0.74, −0.46, +0.46, +0.74]`. The two oddnesses are now immediate.
+This is the swell: low at one end, high at the other, zero in the middle, **antisymmetric about the chain centre**. Numerically (the dominant diagonal of the survivor at N=4 and finite Q, mean-removed, dressed away from the cosine): `n = [−0.74, −0.46, +0.46, +0.74]`. The two oddnesses are now immediate.
 
 ## 3. Why X-odd and R-odd: two readings of the same antisymmetry
 

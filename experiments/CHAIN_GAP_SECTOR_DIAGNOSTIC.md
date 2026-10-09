@@ -1,9 +1,9 @@
 # Chain Dissipation-Gap Sector Diagnostic: the slow mode is a near-stationary magnon-admixture
 
-**Status:** Tier 1 candidate (3 structural findings, verified at N=4, 5, 6; closed-form prefactor 0.55·Q²/N² ≈ matches to ~1%). Closes the "which weight sector hosts the slow mode" question from F1_DISSIPATION_GAP_PATTERN.md Q5.
+**Status:** Tier 1 candidate (3 structural findings, verified at N=4, 5, 6; empirical prefactor 0.55·Q²/N² at Q = 2, matching to ~1%, its Q → 0 value N²(1 − cos(π/N))/8 closed). Closes the "which weight sector hosts the slow mode" question from F1_DISSIPATION_GAP_PATTERN.md Q5.
 **Date:** 2026-05-19
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Depends on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the weight-1 degeneracy proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50's 2γ floor on the distance-1 coherences), [the F1 dissipation-gap pattern](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
+**Depends on:** [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), [the weight-1 degeneracy proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (F50's 2γ floor on the distance-1 coherences, and its Zeno end for the Q → 0 values), [the F1 dissipation-gap pattern](../hypotheses/F1_DISSIPATION_GAP_PATTERN.md)
 
 **Verification:** [`simulations/chain_gap_sector_diagnostic.py`](../simulations/chain_gap_sector_diagnostic.py) (chain N=4, 5, 6 at γ=0.5, J=1, Q=2)
 
@@ -47,7 +47,7 @@ Read the third column as an error floor between two float routes, not as a quali
 
 Do not read a trend into the third column, and in particular not the "grows with N" one that a first draft of this repair put here. It is a RELATIVE deviation and the gap it divides by falls like 1/N², so most of the apparent growth is the denominator. In absolute terms the deviation is 2.5e-16 / 6.0e-15 / 6.3e-15 at N = 4 / 5 / 6: one step up between N=4 and N=5, then flat to 4% between N=5 and N=6. Three points at a single (γ, J) do not carry a scaling law, and no error model has been stated here, so the honest reading is a floor of order 1e-15 in absolute size with its N-dependence unmeasured.
 
-The closed-form conjecture `⟨n_XY⟩_slow ≈ 0.55·Q²/N²` agrees with the measurements to ~1%:
+The empirical form `⟨n_XY⟩_slow ≈ 0.55·Q²/N²` at Q = 2 agrees with the measurements to ~1%:
 
 | N | ⟨n_XY⟩_slow observed | 0.55·Q²/N² predicted | error |
 |---|---:|---:|---:|
@@ -55,7 +55,7 @@ The closed-form conjecture `⟨n_XY⟩_slow ≈ 0.55·Q²/N²` agrees with the m
 | 5 | 0.08837 | 0.08800 | 0.4% |
 | 6 | 0.06069 | 0.06111 | 0.7% |
 
-The 0.55 coefficient is approximately N-independent; the small finite-N drift suggests a sub-leading `1/N²` correction that vanishes as N → ∞. Closed-form derivation of 0.55 (likely Bethe-ansatz at the magnon-admixture amplitude) is still open.
+The 0.55 coefficient is approximately N-independent; the small finite-N drift suggests a sub-leading `1/N²` correction that vanishes as N → ∞. Its Q → 0 value is closed: at strong dephasing the populations relax under the exclusion graph's Laplacian, whose gap in every block of the chain is the path's ([PROOF_WEIGHT1_DEGENERACY](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end), the Zeno end), so D06's asymptote gives, in this document's book H = (J/4)·Σ σ_i·σ_j, `⟨n_XY⟩_slow·N²/Q² → N²(1 − cos(π/N))/8` = 0.586, 0.597, 0.603 at N = 4, 5, 6 and π²/16 = 0.617 as N → ∞. The 0.55 at Q = 2 is that value moved by the finite coupling, and the form of that drift is open.
 
 ### Finding 3. The slow mode is a **near-stationary magnon-admixture**
 
@@ -69,9 +69,9 @@ The Pauli-basis weight distribution of the slow mode is sharply peaked at `n_XY 
 
 The slow mode is **93-97% pure I/Z Pauli strings** (operators diagonal in the computational basis, the "dark" / n_XY=0 sector that F50 pins at the kernel = Re=0). The remaining 3-7% is **n_XY=2** (two X/Y operators, typically an XX or YY pair: a single magnon excitation). The n_XY=4 weight is below 10⁻⁴ at all N.
 
-This explains everything: `⟨n_XY⟩_slow = 0·w_0 + 2·w_2 + 4·w_4 + ... ≈ 2·w_2` since w_4 vanishes. The empirical amplitude is `w_2 ≈ 0.275·Q²/N²` (so that `⟨n_XY⟩ ≈ 2·w_2 = 0.55·Q²/N²` matches the table above). The `Q²/N²` scaling is the perturbation-theoretic order of magnitude (mixing amplitude `~ J·k_min/2γ ~ Q/N`, squared); the empirical 0.275 prefactor is what a Bethe-ansatz / explicit perturbation-theory calculation would need to derive in closed form.
+This explains everything: `⟨n_XY⟩_slow = 0·w_0 + 2·w_2 + 4·w_4 + ... ≈ 2·w_2` since w_4 vanishes. The empirical amplitude is `w_2 ≈ 0.275·Q²/N²` (so that `⟨n_XY⟩ ≈ 2·w_2 = 0.55·Q²/N²` matches the table above). The `Q²/N²` scaling is the perturbation-theoretic order of magnitude (mixing amplitude `~ J·k_min/2γ ~ Q/N`, squared); at Q → 0 the 0.275 becomes N²(1 − cos(π/N))/16, half of the closed value above, and its drift with Q is what a further calculation would need to derive in closed form.
 
-The physical picture: in the limit Q → 0 (no Hamiltonian, only dephasing), the slow mode is **exactly stationary** (n_XY=0, in the kernel of L). Turning on H mixes a small `k_min = π/(N+1)` magnon excitation (n_XY=2, since one nearest-neighbour XY-bond flip introduces two X or Y letters) into the otherwise-stationary mode. The dephasing dissipator only "sees" this small magnon admixture; the decay rate of the mode is therefore `2γ × w_2 ≈ γ·Q²/N²`. The slow mode is a **nearly-conserved operator dressed with a small magnon component**, and the magnon-mixing amplitude is the gap prefactor.
+The physical picture: in the limit Q → 0 (no Hamiltonian, only dephasing), the slow mode is **exactly stationary** (n_XY=0, in the kernel of L). Turning on H mixes a small magnon excitation (n_XY=2, since one nearest-neighbour XY-bond flip introduces two X or Y letters), carried by `k_min = π/N`, the lowest Neumann cosine of the population diffusion, into the otherwise-stationary mode. The dephasing dissipator only "sees" this small magnon admixture; the decay rate of the mode is therefore `2γ⟨n_XY⟩ = 4γ × w_2 ≈ γ·Q²/N²`. The slow mode is a **nearly-conserved operator dressed with a small magnon component**, and the magnon-mixing amplitude is the gap prefactor.
 
 ## Structural role of the admixture
 
@@ -85,7 +85,7 @@ Turning on H opens precisely one decay channel for that conserved subspace: the 
 
     gap  =  2γ · w_admixture · (n_XY of the admixture)  ≈  2γ · w_2 · 2  =  4γ · w_2.
 
-The empirical amplitude is `w_2 ≈ 0.275·Q²/N²` (chain plateau N ≥ 4 from the Q-sweep; the plateau itself has ~10% sub-Q² drift across Q ∈ [0.5, 2.5], so `c = 1.10` should be read as the plateau-mean of `c(Q)`, not a perfect constant), giving `gap ≈ 4γ · 0.275 · Q²/N² = 1.10·γ·Q²/N²` consistent with the observed chain plateau. The `Q²/N²` scaling is the perturbation-theoretic order of magnitude (mixing amplitude `~ J·k_min/2γ ~ Q/N`, squared); the prefactor 0.275 is empirical and awaits closed-form derivation via Bethe ansatz or explicit perturbation theory on the chain Hamiltonian eigenmodes.
+The empirical amplitude is `w_2 ≈ 0.275·Q²/N²` (chain plateau N ≥ 4 from the Q-sweep; the plateau itself has ~10% sub-Q² drift across Q ∈ [0.5, 2.5], so `c = 1.10` should be read as the plateau-mean of `c(Q)`, not a perfect constant), giving `gap ≈ 4γ · 0.275 · Q²/N² = 1.10·γ·Q²/N²` consistent with the observed chain plateau. The `Q²/N²` scaling is the perturbation-theoretic order of magnitude (mixing amplitude `~ J·k_min/2γ ~ Q/N`, squared); the prefactor 0.275 is the finite-Q value, its Q → 0 limit N²(1 − cos(π/N))/16 is closed as above, and its drift with Q awaits a closed form.
 
 The admixture is therefore **the unique decay channel** for the otherwise-conserved population content: without it, gap = 0 exactly, and the slow mode would be a true zero-mode of L_H + L_D. The magnon admixture is the structural "loophole" that lets dissipation reach an operator that is otherwise protected by conservation. The small size of the admixture (3-7%) is what makes the slow mode slow: a 50% admixture would land at the 2γ floor F50 pins (no slow mode at all), and zero admixture would make the mode a kernel addition (infinite lifetime). The empirical `Q²/N²` scaling is the scaling of the loophole's opening.
 
@@ -93,20 +93,20 @@ The admixture is therefore **the unique decay channel** for the otherwise-conser
 
 Each of the May 2026 typed claims plays an explicit role in the admixture's structure, and together they form a self-consistent decomposition of the slow mode:
 
-- **F50** (`PROOF_WEIGHT1_DEGENERACY`): if the admixture lived alone in an off-diagonal popcount sector, it would be pinned at Re = −2γ exactly. The relation is an inclusion and not an equivalence: a weight-1 Pauli string carries one X or Y letter, so on a computational-basis state |α⟩⟨β| it flips exactly one bit, and the weight-1 operators span the coherences at Hamming distance 1. Those sit inside the off-diagonal popcount sectors `(k, k±1)` but do not fill them, because a popcount step of ±1 also admits Hamming distance 3, 5, and so on: at N=5 the weight-1 span is 160-dimensional against the sectors' 420. Only the two end sectors, `(0,1)` and `(N−1,N)`, lie at distance 1 throughout, and only they sit at Re = −2γ as a whole; the interior ones do not. Measured at N=5, γ=0.05, the `(1,2)` sector's 50 eigenvalues run Re ∈ [−0.300, −0.100]. So F50 pins the distance-1 coherences, not whole popcount sectors, and D10 Step 6 carries the scope. The admixture inherits this 2γ scale; the slow-mode rate is `2γ × (admixture weight)`.
+- **F50** (`PROOF_WEIGHT1_DEGENERACY`): if the admixture lived alone in an off-diagonal popcount sector, it would be pinned at Re = −2γ exactly. The relation is an inclusion and not an equivalence: a weight-1 Pauli string carries one X or Y letter, so on a computational-basis state |α⟩⟨β| it flips exactly one bit, and the weight-1 operators span the coherences at Hamming distance 1. Those sit inside the off-diagonal popcount sectors `(k, k±1)` but do not fill them, because a popcount step of ±1 also admits Hamming distance 3, 5, and so on: at N=5 the weight-1 span is 160-dimensional against the sectors' 420. Only the two end sectors, `(0,1)` and `(N−1,N)`, lie at distance 1 throughout, and only they sit at Re = −2γ as a whole; the interior ones do not. Measured at N=5, γ=0.05, the `(1,2)` sector's 50 eigenvalues run Re ∈ [−0.300, −0.100]. So F50 pins the distance-1 coherences, not whole popcount sectors, and D10 Step 6 carries the scope. The admixture inherits this 2γ scale; the slow-mode rate is `2γ·⟨n_XY⟩ = 4γ × (admixture weight)`.
 - **F2** (`F2W1DispersionPi2Inheritance`): the magnon component carries the open-chain dispersion `ω_k = 4J·(1 − cos(πk/N))`. The slowest magnon mode is at k = 1 with ω_1 ≈ 2π²·J/N², which is the "kinetic" frequency that drives the mixing. F2 explains why the admixture-amplitude scales as `Q/N`: the mixing is set by the ratio of H's hopping rate (k_min × J) to the dissipator's decay rate (2γ). F2 does not describe the slow mode itself, in two separate ways. Its object is the `(0,1)` coherence block, not any off-diagonal sector as a whole, and the slow mode is not in an off-diagonal sector at all; and the slow mode has `Im(λ) ≈ 0` to machine precision, because it lives in a diagonal-popcount sector where nothing oscillates. What F2 supplies here is the magnon's intrinsic frequency scale, borrowed.
 - **F3 / Absorption Theorem**: the operator-level identity `Re(λ) = −2γ·⟨n_XY⟩` reads the decay rate of any Lindblad eigenmode directly from its Pauli-basis light content. Applied to the slow mode (`⟨n_XY⟩ ≈ 2·w_2`), it gives the gap.
 - **X⊗N pairing**: the slow mode at sector `(k, k)` is partnered by X⊗N (Π², F1²) with a mode at sector `(N−k, N−k)` with identical decay rate. The per-block analysis confirms this to the precision the readings are quoted at: e.g. for N=6, sectors `(2, 2)` and `(4, 4)` both give slow eigenvalue −0.0626; `(1, 1)` and `(5, 5)` both give −0.0681. The admixture obeys the X⊗N symmetry by inheriting it from its host population.
 
-Read together: **X⊗N, the square of F1, pairs the diagonal sectors around the center, F50 puts a 2γ floor under the off-diagonal popcount sectors, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where each formula contributes one structural ingredient and all four must compose consistently. The fact that the four contributions reproduce the empirical `gap ≈ 1.10·γ·Q²/N²` to ~1% is the multi-formula synthesis check.
+Read together: **X⊗N, the square of F1, pairs the diagonal sectors around the center, F50 puts a 2γ floor under the off-diagonal popcount sectors, F2 governs the magnon's intrinsic frequency, F3 / Absorption Theorem reads decay from light content, and the admixture is where all four meet.** The slow mode at the central diagonal popcount block (⌈N/2⌉, ⌈N/2⌉) is the unique operator where, at finite Q, each formula contributes one structural ingredient and all four must compose consistently.
 
-This is also why the empirical 0.55 constant is non-trivial: it is the product of four structural inputs (X⊗N sector pairing, F50 2γ floor, F2 k_min² coefficient, F3 light-content scale) plus an XXX-specific Bethe-amplitude correction. A closed form follows from doing the perturbation-theory product explicitly.
+The 0.55 is non-trivial in its drift, not in its limit: at Q → 0 two of the four inputs suffice and the X⊗N pairing and the F50 floor drop out, the Zeno generator being the exclusion graph's Laplacian, blind to the anisotropy, whose gap read through the Absorption Theorem gives the N²(1 − cos(π/N))/8 above, that gap being F2's slowest frequency times J/γ in the Pauli book, one Laplacian running the (0,1) block and the populations (F152). The drift from there to 0.55 at Q = 2 is what remains, the ZZ term turning it downward (item 1 below).
 
 ---
 
 ## Extensions (resolved 2026-05-19) and remaining open work
 
-Items 2-5 from the original open list were closed in a sector-diagnostic sweep on 2026-05-19 (`simulations/slow_mode_sector_sweep.py`). Item 1 (closed-form derivation of `c ≈ 0.55`) remains analytical work.
+Items 2-5 from the original open list were closed in a sector-diagnostic sweep on 2026-05-19 (`simulations/slow_mode_sector_sweep.py`). Item 1, the closed form of `c ≈ 0.55`, is closed at Q → 0 (above) and open in its drift with Q.
 
 ### Item 2 resolved: Ring N=4..6 sector
 
@@ -118,7 +118,7 @@ Ring slow mode lives in the **central diagonal popcount sector**, same as chain,
 | 5 | (3, 3) | 0.317 | 0.317 | 0.842 | 0.157 | 0.001 |
 | 6 | (3, 3) | 0.230 | 0.230 | 0.885 | 0.114 | 0.000 |
 
-Predicted `⟨n_XY⟩ = 2·Q²/N²` (4× chain coefficient) gives 0.500 / 0.320 / 0.222 for N=4/5/6; observed 0.379 / 0.317 / 0.230 (N=5 is exact; N=4 has finite-size deviation, N=6 within 4%). The "4× ring/chain prefactor matches cyclic-vs-open k_min² ratio" reading from the F1_DISSIPATION_GAP_PATTERN doc is structurally confirmed.
+Predicted `⟨n_XY⟩ = 2·Q²/N²` (4× chain coefficient) gives 0.500 / 0.320 / 0.222 for N=4/5/6; observed 0.379 / 0.317 / 0.230 (N=5 within 1%; N=4 has finite-size deviation, N=6 within 4%). The "4× ring/chain prefactor matches cyclic-vs-open k_min² ratio" reading from the F1_DISSIPATION_GAP_PATTERN doc is structurally confirmed.
 
 ### Item 3 resolved: Star N=3..6 sector (surprise: NOT central)
 
@@ -131,13 +131,13 @@ Star slow mode lives at **boundary popcount sectors** `(1, 1)` or `(N−1, N−1
 | 5 | (1, 1) | 0.164 | 0.164 | 0.918 | 0.082 |
 | 6 | (5, 5) | 0.130 | 0.130 | 0.935 | 0.065 |
 
-This is the structural signature of the star's separate scaling family (`gap ~ 1/N` rather than `1/N²`): the hub-spoke geometry has no spatial dispersion, so there is no "central momentum mode" for the slow mode to occupy. Instead the slow mode is localised at the popcount-boundary sector `(1, 1)` (or its X⊗N partner `(N−1, N−1)`), i.e. the sector of single-excitation operators on either bra or ket. The admixture-as-channel picture still holds (gap = 2γ·⟨n_XY⟩), but the channel content sits at the popcount boundary rather than the centre.
+This is the structural signature of the star's separate scaling family at Q = 2 (`gap ~ 1/N` rather than `1/N²` there; toward Q → 0 the star is a tree, its Zeno gap N-independent and shared by every block): the hub-spoke geometry has no spatial dispersion, so there is no "central momentum mode" for the slow mode to occupy. Instead the slow mode is localised at the popcount-boundary sector `(1, 1)` (or its X⊗N partner `(N−1, N−1)`), i.e. the sector of single-excitation operators on either bra or ket. The admixture-as-channel picture still holds (gap = 2γ·⟨n_XY⟩), but the channel content sits at the popcount boundary rather than the centre.
 
 Promotion implication: the chain reading "slow mode in central diagonal popcount sector" was N-universal for chain and ring, but NOT for star. Future "slow mode lives at the central popcount block" statements need a topology qualifier (open-chain or cyclic ↔ dispersive ↔ central; hub-spoke ↔ non-dispersive ↔ boundary).
 
 ### Item 4 resolved: N=7, 8, 9 chain sector confirmed
 
-| N | source | sector | gap | ⟨n_XY⟩ | closed-form 0.55·Q²/N² | match |
+| N | source | sector | gap | ⟨n_XY⟩ | 0.55·Q²/N² (Q = 2 form) | match |
 |---|---|---|---|---|---|---|
 | 4 | dense N=4 | (2, 2) | 0.1362 | 0.1362 | 0.1375 | 1.0% |
 | 5 | dense N=5 | (3, 3) | 0.0884 | 0.0884 | 0.0880 | 0.4% |
@@ -161,7 +161,7 @@ Q-sweep at chain N=5, γ₀=0.05, across the six canonical Q-anchors gives `⟨n
 | 2.0  | 0.08837 | 0.08800 | **1.004** |
 | 2.5  | 0.13352 | 0.13750 | **0.971** |
 
-The "0.55" coefficient is therefore Q-specific: ~0.59 at Q=0.5, exactly 0.55 at Q=2, ~0.53 at Q=2.5. The drift matches the ~10% sub-Q² drift in the chain plateau f(Q)/Q² documented separately in `F1_DISSIPATION_GAP_PATTERN.md`. Closed-form derivation needs to produce a c(Q) function, not just a single number.
+The "0.55" coefficient is therefore Q-specific: ~0.59 at Q=0.5, 0.55 at Q=2, ~0.53 at Q=2.5. The drift matches the ~10% sub-Q² drift in the chain plateau f(Q)/Q² documented separately in `F1_DISSIPATION_GAP_PATTERN.md`. Closed-form derivation needs to produce a c(Q) function, not just a single number.
 
 The Q-sweep also surfaces that the slow-mode sector at N=5 alternates between `(2, 2)` and `(3, 3)` across Q values. Both are X⊗N-paired (N=5 central is `⌈5/2⌉ = 3` so `(2, 2)` and `(3, 3)` are X⊗N partners carrying the same spectrum up to eigensolver noise, the two blocks being diagonalised separately), so the "winner" is numerical chance from the eigensolver. The sector identity is "(2,2)+(3,3) X⊗N pair", not a single block.
 
@@ -188,16 +188,16 @@ Chain ratio stays around 1.03 at Q=1.5 across N (matches the Q-sweep prediction)
 
 The framework's `lebensader.py + cockpit_panel` workflow defaults run at this convention; the chain N=5, ring N=5, star N=5 numbers above are therefore directly comparable to any hardware data taken under the same convention.
 
-## Item 1 remains open: closed-form for c(Q)
+## Item 1: closed at Q → 0, open in its drift
 
-Still requires Bethe-ansatz / first-order PT on XXX chain. The empirical c(Q) line is `c ≈ 0.59 − 0.05·Q` to first approximation across Q ∈ [0.5, 2.5]; the closed form should be a Q-rational function the perturbation theory produces. MEP 2016 (`arXiv:1606.09122`) gives `2π² · Q² · γ/N²` for periodic XX as the Bethe-ansatz result; our `c(Q=2) ≈ 0.55` and the periodic XX `c_XX(Q=2) = 2π² / 4 = 4.93` differ by a factor of about 9, the XXX ZZ-correction. The 4× chain-to-ring ratio in our data matches MEP's open vs cyclic k_min² ratio.
+At N = 5 the coefficient runs 0.593, 0.584, 0.569, 0.552, 0.534 at Q = 0.5, 1, 1.5, 2, 2.5, down from the Zeno value N²(1 − cos(π/N))/8 = 0.597 above and even in Q, as the Zeno expansion requires (c(Q) = c(0) + O(Q²), no linear term); the form of that drift is open. MEP 2016 (`arXiv:1606.09122`) gives `2π² · Q² · γ/N²` for periodic XX; in this document's book that is `2π²/4 = π²/2 = 4.93`, the ring's Zeno-end coefficient `gap·N²/(γQ²) → N²(1 − cos(2π/N))/4 → π²/2`, which the Zeno generator gives for XX and XXX alike (the ring's gap equality holds by the outside route the Zeno end recognizes, and gate row Z7 of [`f50_zeno_end_ferromagnet.py`](../simulations/f50_zeno_end_ferromagnet.py) reads it in every block of the rings N = 4 to 9). The factor of about 9 between it and the chain's `c(Q=2) ≈ 0.55` is 4 (ring against chain) times 2 (a gap against ⟨n_XY⟩), neither of which sees the ZZ term, times 1.12, which is finite N and finite Q together (at N = 5, 0.617/0.597 = 1.034 times 0.597/0.552 = 1.081). The ZZ term turns that drift downward: at Q = 2 the XX chain sits at 0.632, 0.624, 0.620 for N = 4, 5, 6, above its Zeno values 0.586, 0.597, 0.603, the Heisenberg chain at 0.545, 0.552, 0.546, below them (gate row Z8 prints these). The 4× chain-to-ring ratio in our data matches the open vs cyclic k_min² ratio.
 
 ## Open extensions (not closed today)
 
-- **Closed-form derivation of c(Q)** (item 1 above): the dominant remaining analytical item. Bethe-ansatz on XXX with magnon-mixing amplitude is the natural path.
+- **Closed-form derivation of the drift of c(Q)** away from its Zeno value (item 1 above): the dominant remaining analytical item.
 - **Star sector beyond N=6**: at N=7 the dense N=7 method costs ~50s; star N=7,8 sector via the block-spectrum bridge could confirm the boundary-popcount-sector reading at scale.
 - **Ring N≥7 sector**: similar; would verify that the 4× chain-to-ring prefactor and central-popcount-sector picture persist.
-- **`c(Q) ≈ 0.59 − 0.05·Q` empirical fit**: only verified at N=5. Would a different N give the same line? Worth a quick N=4, 6 Q-sweep cross-check.
+- **The drift of c(Q) at other N**: the Q-sweep of item 5 is at N=5 only; an N=4, 6 sweep would show how the Q² drift away from the Zeno value depends on N.
 
 ## Reproduction
 

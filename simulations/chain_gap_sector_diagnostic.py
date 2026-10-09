@@ -188,7 +188,7 @@ def run(N: int, J: float, gamma: float) -> dict:
     rel_dev = abs(2 * gamma * n_xy_avg - gap) / gap
     print(f"  predicted gap from Absorption Theorem (-2γ·⟨n_XY⟩) "
           f"= {2 * gamma * n_xy_avg:.6e}  (relative deviation {rel_dev:.3e})")
-    print(f"  closed-form prediction ⟨n_XY⟩ ≈ 0.55·Q²/N² = {0.55*Q*Q/(N*N):.6f}")
+    print(f"  empirical form at Q = 2, ⟨n_XY⟩ ≈ 0.55·Q²/N² = {0.55*Q*Q/(N*N):.6f}")
 
     # Distribution of ⟨n_XY⟩ across Pauli weights for the slow mode
     weights_dist = np.zeros(N + 1)
@@ -244,7 +244,8 @@ def main() -> None:
     print("\nAbsorption Theorem reading: gap = 2γ·⟨n_XY⟩_slow holds exactly as a theorem; the "
           "per-N relative deviations printed above are the floor of the two float routes "
           "compared (eigensolver vs Pauli projection), not a measure of the theorem.")
-    print(f"Closed-form conjecture ⟨n_XY⟩ ≈ 0.55·Q²/N² should be accurate to ~1%.")
+    print("Empirical form at Q = 2, ⟨n_XY⟩ ≈ 0.55·Q²/N², read to ~1%; its Q → 0 value is "
+          "N²(1 − cos(π/N))/8 (PROOF_WEIGHT1_DEGENERACY, the Zeno end).")
 
 
 if __name__ == "__main__":

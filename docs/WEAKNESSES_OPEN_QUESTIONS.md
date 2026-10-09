@@ -208,7 +208,7 @@ These were once on the active list. They have since been answered.
 | Gravitational invariance | Scoped result retained in [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md): the Bell+ Lindblad runs exhibit the stated dimensionless rate/time scaling. The interpretation of γ as gravitational field strength or a GR metric coefficient is retired there. |
 | Spectral boundaries | Scoped result: for the uniform-Z Heisenberg chain above Q*_gap(N), the generic band has min 2γ and max 2(N−1)γ; the kernel and XOR drain lie outside it. The identity Re(λ) = −2γ⟨n_XY⟩ is broader than those edge formulas. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Why factor 2 | Resolved within the F8 scope: for local Z-dephasing instances with Σγ > 0 satisfying the F1 palindromizer hypotheses whose spectrum reaches both endpoints, it is the ratio of the full range (0 to 2Σγ) to the centre (Σγ), not a ratio between two sets of modes. See [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §4.4 and [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) Result 3 |
-| Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound; see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
+| Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound, its Q → 0 end being D06's asymptote, the leading term of the gap at every N ([the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)); see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
 | IBM hardware | Resolved as far as one qubit reaches: on Q52 the Absorption Theorem ratio is 1.03, the consistency of two fits to one decay (the rate ladder needs N ≥ 2). The apparent fringes are the echo-versus-free-decay baseline mismatch plus a qubit-frame detuning (−5.7 kHz as the alias nearest zero), not cavity resonances. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 
 ---
@@ -259,7 +259,7 @@ hypotheses hold and both endpoints are reached (answer: the full decay
 range 0...2Σγ divided by its centre Σγ), and what sets the
 spectral gap (answer: one absorption quantum, 2γ, above an N-dependent
 coupling threshold; below it the gap is Zeno-suppressed and the theorem
-supplies no lower bound). These are now formulas, not observations. See
+supplies no lower bound, its Q → 0 end closed by [the Zeno end](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)). These are now formulas, not observations. See
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
 
 Under that uniform-rate specialization, the decay-rate identity is

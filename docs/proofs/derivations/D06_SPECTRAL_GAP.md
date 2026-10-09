@@ -44,9 +44,17 @@ As Q -> 0 the gap approaches
     Spectral gap -> 2*(1 - cos(pi/N)) * 2*J^2/gamma               (Q -> 0)
 
 Zeno suppression: strong dephasing freezes the transport that would give a mode
-its light. At N=3, gamma=0.3, J=0.001 the gap is 1.1e-5 of 2*gamma. This is an
+its light. The populations then relax under the Laplacian of the exclusion graph,
+which is the spin-½ ferromagnet Σ_b(1 − SWAP_b) for every anisotropy, and on the
+chain, as on every tree, its gap in every popcount block 1 ≤ p ≤ N − 1 is that of block p = 1, the path's, so
+at uniform γ and J this asymptote is the gap of L as Q → 0 at every N
+([the Zeno end](../PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end),
+gate [`f50_zeno_end_ferromagnet.py`](../../../simulations/f50_zeno_end_ferromagnet.py)),
+reached in every block 1 ≤ p ≤ N − 1 by the same density wave Σ_l cos(π(l − ½)/N)·n_l, l = 1, …, N;
+under a positive profile of rates and couplings the bonds carry the weights 4J_b²/(γ_i + γ_j)
+and the gap is that weighted chain's. At N = 3, γ = 0.3, J = 0.001 the gap is 1.1·10⁻⁵ of 2γ. This is an
 asymptote, not a second regime covering (0, Q*_gap). It is good to about 1% only for
-Q <~ 0.1, and near Q*_gap it fails badly and not even in one direction: at 98% of
+Q ≲ 0.1, and near Q*_gap it fails badly and not even in one direction: at 98% of
 Q*_gap the measured/predicted ratio is 1.67 (N=2), 1.43 (N=3), 0.91 (N=4), 0.77
 (N=5), so the asymptote undershoots at small N and overshoots from N=4 on. In
 between neither closed form applies and the gap is a number one computes.

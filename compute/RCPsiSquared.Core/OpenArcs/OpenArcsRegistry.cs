@@ -9816,6 +9816,30 @@ public static class OpenArcsRegistry
                 "(4) optionally the first-block runs on a coarse grid. Then let the xUnit test " +
                 "assert against the witness.",
             Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "zeno_end_live_witness",
+            Opened: "2026-10-09",
+            Origin: "Theorem E of PROOF_WEIGHT1_DEGENERACY, the Zeno end (as the rates grow, the populations of " +
+                "every block (p, p) relax under the ferromagnet sum_b |t_b|^2/(gamma_i + gamma_j) (1 - SWAP_b) for " +
+                "every XXZ anisotropy, fields and ZZ couplings of any range; its gap is the site Laplacian's " +
+                "lambda_1 in every block of a tree, by a leaf cut; on a chain the slowest mode is the lifted lowest " +
+                "Neumann mode), is evidenced by the Python gate simulations/f50_zeno_end_ferromagnet.py and not by " +
+                "an IInspectable recomputed at inspect time, which house rule 5 asks of a claim's evidence. The " +
+                "gate's exact rows: Z1 to Z4 over the integers and rationals (the ferromagnet identity, (A^2)_PP = " +
+                "8 Lap(J_b^2) at every Delta, the lift as (S^-)^(p-1), the assembled generator commuting with " +
+                "S^-), Z2b over Fractions and Gaussian rationals (the profile weights 4 J_b^2/(gamma_i + gamma_j), " +
+                "the next term zero for a real H and on graphs without triangles, purely imaginary and " +
+                "antisymmetric under a flux), and Z5 by Bareiss minors and Jacobi's rule (the token gap equal to " +
+                "lambda_1 in every block of paths, stars and random trees to N = 9).",
+            ParkedAt: "Nothing typed. The D6, F50 and F123 entries, D06, the Absorption Theorem's section 4.3 " +
+                "and the F123 proof cite the theorem and the gate; the ExceptionalCouplingSetClaim doc comment " +
+                "names it; no claim or witness builds the Zeno generator at general p, the token gap or the lift.",
+            NextStep: "Build a Zeno-end witness (Diagnostics), wired into InspectRootCatalog and breadcrumbed " +
+                "from the D6 and F50 claims: (1) the exclusion Laplacian against 2 sum_b c_b (1 - SWAP_b) and " +
+                "(A^2)_PP against 8 Lap(J_b^2), exact; (2) the token gap against lambda_1 per block by an exact " +
+                "inertia count, the Sturm route ExceptionalCouplingWitness already carries; (3) the lifted Neumann " +
+                "mode on the chain. The Python gate then keeps its float rows (Z6, Z6c) and its readings.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

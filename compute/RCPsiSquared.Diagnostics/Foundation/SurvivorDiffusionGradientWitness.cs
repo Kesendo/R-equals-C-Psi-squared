@@ -28,9 +28,9 @@ public readonly record struct GradientBond(int SiteA, int SiteB, double RateShif
 /// Tr(M^dag H_b)=0 is no-nearest-neighbour-hopping, not diagonality); in the secular effective theory
 /// a delta-J defect on bond b=(j,j+1) perturbs the LOCAL diffusion coefficient D_b, and the first-order
 /// rate shift is the diffusion Rayleigh-quotient derivative dRe(b) = dlambda/dD_b ~ (n(j)-n(j+1))^2 -- the
-/// SQUARED density GRADIENT ("amplitude^2"). It vanishes at the no-flux (reflecting) chain ends (the
-/// gradient -> 0 there) and peaks in the interior, mirror-symmetric, Q-invariant (the lowest diffusion
-/// harmonic k_min is Q-fixed).</para>
+/// SQUARED density GRADIENT ("amplitude^2"). It is smallest at the no-flux (reflecting) chain ends (the
+/// gradient flattest there, the shift ~ sin^2(pi/N)) and peaks in the interior, mirror-symmetric, Q-invariant
+/// at leading order (the lowest diffusion harmonic k_min is Q-fixed there).</para>
 ///
 /// <para>dRe(b) is the biorthogonal first-order shift of the slowest (p,p) block mode: with R the block
 /// eigenvector matrix, dRe(b) = Re[(R^-1 row)_s . V_b . (R col)_s], where V_b = BondPerturbation (the
@@ -63,7 +63,8 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
     /// <summary>Per-bond readout (all chain bonds, in order): |dRe(b)|, grad^2(b), and the ratio.</summary>
     public IReadOnlyList<GradientBond> Bonds { get { _bonds ??= Compute(); return _bonds; } }
 
-    /// <summary>The survivor's half-filling sector p (the (p,p) block carrying the global-slowest mode).</summary>
+    /// <summary>The survivor's sector p (the (p,p) block carrying the global-slowest mode; on the XY chain every
+    /// filling ties, and the scan's rounding picks one of them).</summary>
     public int SurvivorP { get { _ = Bonds; return _survivorP; } }
 
     /// <summary>The slow diffusion mode's per-site density profile n(j).</summary>
@@ -216,7 +217,7 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
         "(density-mode gradient at bond b)^2 -- the diffusion Rayleigh quotient (amplitude^2). The slow " +
         $"survivor (sector ({SurvivorP},{SurvivorP})) is predominantly a density mode (dominant diagonal n(j), rate-bearing " +
         "coherence dressing); a delta-J defect perturbs the " +
-        "local diffusion coefficient, so dRe = dlambda/dD_b ~ (n(j)-n(j+1))^2, ~0 at the no-flux chain ends. " +
+        "local diffusion coefficient, so dRe = dlambda/dD_b ~ (n(j)-n(j+1))^2, smallest at the no-flux chain ends. " +
         $"dRe/grad^2 bond-independent (CV={RatioCv.ToString("0.000", Inv)}), log-log slope dRe vs |grad| = " +
         $"{PowerSlope.ToString("0.00", Inv)} ({(LawHolds ? "amplitude^2 CONFIRMED" : "law not clean")}). The " +
         "eigenvalue-level functional underlying the PTF closure (inspect --root stone); right power, wrong " +
@@ -234,7 +235,7 @@ public sealed class SurvivorDiffusionGradientWitness : IInspectable
                 summary: $"n(j) = [{string.Join(", ", Density.Select(x => x.ToString("+0.00;-0.00", Inv)))}] " +
                          $"(off-diag weight {OffDiagonalWeight.ToString("0.000", Inv)}: " +
                          $"{(OffDiagonalWeight < 0.1 ? "a pure density mode (strong-dephasing limit)" : "dressed with coherence at this Q")}; " +
-                         "antisymmetric, quiet at the reflecting ends).");
+                         "antisymmetric, flattest at the reflecting ends).");
             foreach (var b in Bonds)
                 yield return new InspectableNode($"bond ({b.SiteA},{b.SiteB})",
                     summary: $"|dRe| = {b.RateShift.ToString("0.0000", Inv)}, grad^2 = {b.GradSq.ToString("0.00000", Inv)}, " +
