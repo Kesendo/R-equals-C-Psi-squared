@@ -1622,7 +1622,7 @@ neural justifications without classifying unrelated entries.
 **Date:** February 18, 2026
 **Tag:** numerical-verification
 **Status:** resolved for Bell+
-**Disposition:** On Bell+ the additive jump √γ(Z1+Z2) keeps the state in the same family and drains the coherence at 8γ, the Absorption Theorem's collective rate 2γ·(Δpopcount)², and the whole state is the local run at twice the time, ρ_coll(t) = ρ_local(2t), so the taxonomy is the same, only twice as fast (`experiments/NOISE_ROBUSTNESS.md` Q1). Other states are not classified.
+**Disposition:** On Bell+ the additive jump √γ(Z1+Z2) keeps the state in the same family and drains the coherence at 8γ, the Absorption Theorem's collective rate 2γ·(Δpopcount)², and the whole state is the local run at twice the time, ρ_coll(t) = ρ_local(2t), so the taxonomy is the same, only twice as fast (`experiments/NOISE_ROBUSTNESS.md` Q1). For pure states under a field of any correlation η the initial loss follows the spin-spin covariance, and the four Bell states' initial losses and darkness are given, with the singlet's crossing time (`experiments/SINGLET_UNDER_A_SHARED_FIELD.md`); the five-bridge taxonomy of other states is not given.
 
 ### OQ-149
 

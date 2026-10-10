@@ -4,16 +4,20 @@
 > the split drops out ([Mathematical Findings](../../experiments/MATHEMATICAL_FINDINGS.md),
 > Section 9), and the retired tool's comparison gives −0.111 against −0.074
 > ([Mediator as Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
-> TROSY entered as a pointer from an NMR expert, who answered our question that the idea
-> was reminiscent of it (two relaxation mechanisms interfering because the same motions
-> drive both) and found a TROSY-like cancellation hard to imagine for the radical pair in
-> cryptochrome. The "experimental evidence" and "experimental support" of this page, and its
+> TROSY entered as a pointer from an NMR expert, who answered our question about internal
+> correlation that the idea was reminiscent of it (two relaxation mechanisms interfering
+> because the same motions drive both), found a TROSY-like cancellation hard to imagine for
+> the radical pair in cryptochrome, whose many hyperfine couplings are, in a dynamic protein,
+> probably little correlated, and pointed to long-lived nuclear singlet states as a related
+> idea. The "experimental evidence" and "experimental support" of this page, and its
 > "validated", "proves" and "in action", are the January reading of that pointer.
 > An interference of the same shape, a common field's cross term, is in the repository
 > exactly: under one common dephasing field, the single jump √γ·Σ_k Z_k, a coherence pays
 > 2γ times the square of the difference in excitation number between its two labels, so
 > |00⟩⟨11| pays twice its local rate and |01⟩⟨10| nothing
-> ([Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) §2).
+> ([Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) §2); and the singlet is the one
+> pure two-spin state that a field shared by both spins in every axis leaves alone
+> ([Singlet Under a Shared Field](../../experiments/SINGLET_UNDER_A_SHARED_FIELD.md)).
 > The structural distinction between bidirectional and unidirectional observation
 > remains a proposal. Preserved for research context.
 

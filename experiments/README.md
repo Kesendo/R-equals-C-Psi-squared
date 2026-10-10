@@ -123,6 +123,7 @@ interference require additional gates.
 | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) | Crossing is local to entangled pairs, not a whole-system property |
 | [N-Scaling Barrier](N_SCALING_BARRIER.md) | Finite GHZ/W normalization comparison and subsystem readouts; no all-state barrier or quantum/classical classifier |
 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) | Product states can cross 1/4 upward (entanglement generation) |
+| [Singlet Under a Shared Field](SINGLET_UNDER_A_SHARED_FIELD.md) | A field correlated between two spins (correlation η) moves a pure state's initial loss by its spin-spin covariance: the singlet is never touched by a field shared in every axis, the triplets cross sooner as η grows; the singlet's CΨ crossing of ¼ is a fixed dose at (1 − η)γ and vanishes at η = 1 |
 | [Noise Robustness](NOISE_ROBUSTNESS.md) | The retired tool's σ_x and σ_y columns repeat its σ_z run; run for real, σ_x keeps every C curve but freezes Ψ and moves every crossing, and depolarizing turns the correlation bridge Type B, as predicted |
 | [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) | The CΨ ≤ 1/4 bound as attractor of the self-referential map |
 | [Observer Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) | Different scalar readouts/evolution books give different finite roots, not different physical observers |
