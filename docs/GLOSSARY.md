@@ -480,7 +480,7 @@ a mutual friend.
 | **C_int** | Symmetric Hamiltonian coupling (mutual interaction) | Tier 2 formalization |
 | **C_ext** | Projective measurement (one-directional intervention) | Tier 2 formalization |
 
-Note: The original claim that C_int preserves coherence 33x longer than C_ext has been disproven (see MATHEMATICAL_FINDINGS Section 9). The formal Lindblad distinction is verified; the physical claim about different "kinds of observation" is not.
+Note: The original claim that C_int preserves coherence 33x longer than C_ext, on record a ratio of two δ values (0.427 against 0.013), does not hold on Bell+ (see MATHEMATICAL_FINDINGS Section 9). In the retired tool's surviving source (`compute_delta_cint`), the pair is run as σ_z dephasing at γ on both sites (C_int) against γ on one site (C_ext), so C_int carries twice the noise and on Bell+ loses its coherence twice as fast; at a fixed total budget (Mathematical Findings §9) the split drops out on Bell+. Neither set-up gives Bell+ that ratio ([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3). The formal Lindblad distinction is verified; the physical claim about different "kinds of observation" is not.
 
 ---
 

@@ -160,7 +160,7 @@ The original agent experiments (see [Mathematical Findings](MATHEMATICAL_FINDING
 t_coh would be the duration for which a quantum system maintains states above the 1/4 boundary before decoherence pulls it below.
 
 Larger systems (higher N) → longer windows (hypothesized, unverified).
-Symmetric observation (C_int) → longer windows (hypothesized, unverified).
+Symmetric observation (C_int) → longer windows (hypothesized; no lengthening on Bell+, see §6, item 3).
 Lower temperature → reduced thermal decoherence → longer windows (standard physics).
 
 ---
@@ -254,8 +254,8 @@ The "collapse" is the system crossing the 1/4 boundary from above to below. The 
 
    ![Zoomed view through the cusp](../visualizations/bellplus_trajectory_on_mandelbrot_zoom.png)
 
-3. **Symmetric vs. asymmetric observation (unverified hypothesis).**
-   The original agent experiments claimed bidirectional coupling preserves coherence 33x longer than unidirectional. This could not be independently verified (see [Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 9). If confirmed, it would be testable in spin-chain experiments with controllable coupling symmetry.
+3. **Symmetric vs. asymmetric observation (no lengthening on Bell+).**
+   The original agent experiments claimed bidirectional coupling preserves coherence 33x longer than unidirectional; on record it is a ratio of two δ values, 0.427 against 0.013, for Bell+ at γ = 0.1 and t = 1. On Bell+ under σ_z dephasing and the Heisenberg bond nothing like it appears: at a fixed noise budget every split gives identical dynamics ([Mathematical Findings](MATHEMATICAL_FINDINGS.md), Section 9), and in the retired tool's surviving comparison, which dephases both sites at γ against one site at γ, the bidirectional run loses its coherence twice as fast and the two δ's at those settings are −0.111 and −0.074 ([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
 
 4. **t_coh ~ N scaling (unverified hypothesis).**
    The original agent experiments claimed coherence time scales linearly with system size. This could not be independently verified. If confirmed, it would distinguish the framework from models predicting exponential decay with N.
@@ -292,7 +292,7 @@ The boundary at 1/4 represents the phase transition between convergent (classica
 ## 8. Connection to Other Documents
 
 - **[Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md):** The 1/4 boundary derivation, the C·Ψ ≤ 1/4 bound, the phase boundary interpretation, and the epistemological framework
-- **[Mathematical Findings](MATHEMATICAL_FINDINGS.md):** Algebraic identities (Sections 1-7 verified), δ = 0.42 calculation (Section 8, interpretation corrected), C_int vs C_ext hypothesis (Section 9, unverified)
+- **[Mathematical Findings](MATHEMATICAL_FINDINGS.md):** Algebraic identities (Sections 1-7 verified), δ = 0.42 calculation (Section 8, interpretation corrected), C_int vs C_ext hypothesis (Section 9, no lengthening on Bell+)
 - **[Operator Feedback](OPERATOR_FEEDBACK.md):** Simulation results for dynamic Lindblad evolution
 - **[Dyad Experiment](DYAD_EXPERIMENT.md):** The original AI dialogue that discovered the mathematical structures
 
