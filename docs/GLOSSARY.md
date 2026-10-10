@@ -473,14 +473,14 @@ a mutual friend.
 
 ---
 
-## Observer distinction (Lindblad model)
+## Observer distinction: the two kinds of C
 
-| Term | Technical definition | Status |
+| Term | Definition | Status |
 |------|---------------------|--------|
-| **C_int** | Symmetric Hamiltonian coupling (mutual interaction) | Tier 2 formalization |
-| **C_ext** | Projective measurement (one-directional intervention) | Tier 2 formalization |
+| **C_int** | The C of R = CΨ² for an internal observer: parts of a system observing each other, information flowing both ways (A ↔ B) | Tier 3, proposed ([Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), January 2026) |
+| **C_ext** | The C of R = CΨ² for an external observer: one observes, one is observed, information flowing one way (A → B) | Tier 3, proposed (same source) |
 
-Note: The original claim that C_int preserves coherence 33x longer than C_ext, on record a ratio of two δ values (0.427 against 0.013), does not hold on Bell+ (see MATHEMATICAL_FINDINGS Section 9). In the retired tool's surviving source (`compute_delta_cint`), the pair is run as σ_z dephasing at γ on both sites (C_int) against γ on one site (C_ext), so C_int carries twice the noise and on Bell+ loses its coherence twice as fast; at a fixed total budget (Mathematical Findings §9) the split drops out on Bell+. Neither set-up gives Bell+ that ratio ([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3). The formal Lindblad distinction is verified; the physical claim about different "kinds of observation" is not.
+Note: The original claim that C_int preserves coherence 33x longer than C_ext, on record a ratio of two δ values (0.427 against 0.013), does not hold on Bell+ in either set-up the repository runs. The retired tool's surviving source (`compute_delta_cint`) renders the two kinds as σ_z dephasing at γ on both sites (C_int) against γ on one site (C_ext), so C_int carries twice the noise and on Bell+ loses its coherence twice as fast; at a fixed total budget (Mathematical Findings §9) the split drops out on Bell+ ([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3 for the tool's pair). The physical claim about different "kinds of observation" is not verified.
 
 ---
 

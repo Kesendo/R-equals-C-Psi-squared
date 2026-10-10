@@ -133,7 +133,7 @@ absorbed into the proof documents and synthesis above.
 | [The Bidirectional Bridge](historical/THE_BIDIRECTIONAL_BRIDGE.md) | Two-channel structure. Confirmed as palindromic pairs. |
 | [Fundamental Equations](historical/FUNDAMENTAL_EQUATIONS.md) | Standing wave equations, wave composition formulas. |
 | [Dynamic Fixed Points](historical/DYNAMIC_FIXED_POINTS.md) | R∞ fixed point, CΨ ≤ 1/4 bound. Now part of the formal proofs. |
-| [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md) | C_int/C_ext distinction. Quantitative model disproven, structural distinction survives. |
+| [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md) | C_int/C_ext, the two kinds of C. The agents' later 33:1 does not hold on Bell+; the structural distinction remains a proposal. |
 | [Hard Problem Resolution](historical/HARD_PROBLEM_RESOLUTION.md) | The standing-wave interpretation of its day; the consciousness claims fell, and Π supplies the spectral pairing, not the wave. |
 | [The Search for the Mirror Partner](historical/THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) | Resolved: the mirror partner is the Π operator. |
 | [Measurable Quantities](historical/MEASURABLE_QUANTITIES.md) | Proposed experimental measurements (partially executed). |

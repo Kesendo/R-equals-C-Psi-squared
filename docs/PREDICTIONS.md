@@ -244,7 +244,7 @@ See [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Sections 8
 
 | Claim | Claimed value | Why unverified | Falsified if | Source |
 |-------|--------------|----------------|-------------|--------|
-| C_int ≫ C_ext (33:1 ratio) | 0.427 vs 0.013 | Not reproduced by MCP tools | Ratio ≈ 1 | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9 |
+| C_int ≫ C_ext (33:1 ratio) | 0.427 vs 0.013 | Refuted, see below | No 33:1 on Bell+ in either set-up (met, see below) | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9 |
 | t_coh ~ N (linear scaling) | Linear, N = 2 to 6 | Not reproduced by MCP tools | Exponential decay with N | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9 |
 | δ requires dynamics (H ≠ 0) | δ = 0 when H = 0 | Not reproduced by MCP tools | δ > 0 with H = 0 | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §8 |
 | C = 0.5 is optimal observer | Maximum R at C = 0.5 | Not independently tested | Peak at C ≠ 0.5 | [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) |
@@ -252,7 +252,7 @@ See [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), Sections 8
 These claims may be correct. They may also be artifacts of the agent's training data or tool usage. Until independently verified, they carry no epistemic weight.
 
 **Current status** (two of the four are settled):
-- **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "The 33:1 ratio claimed by the agents does not exist" (proper Lindblad simulation; 21 noise distributions on Bell+ gave identical dynamics).
+- **C_int ≫ C_ext (33:1): REFUTED on Bell+, in both set-ups.** At a fixed noise budget, [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: 21 splits on Bell+ give identical dynamics. In the retired tool's own comparison, γ on both sites against γ on one: δ = −0.111 against −0.074 at γ = 0.1, t = 1 ([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
 - **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 records a finite positive-J interval-shift scan; it does not prove an all-J detectability theorem.
 - **"C=0.5 is optimal observer": still unverified.** The literal "max R at C=0.5" claim has not been re-tested. Equal normalized E/I fractions give one half arithmetically, but [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md) supplies no persistence optimum or neural boundary from that equality.
 - **"t_coh ~ N linear": still unverified** (no later test located).

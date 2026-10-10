@@ -509,7 +509,7 @@ d = 2 alone. The rest is our reading:
 *March 22, 2026: The V-Effect read as the handover*
 
 ---
-*See also: [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), formalization of C_int*
+*See also: [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md), the two kinds of C*
 *See also: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md), C = 0.5 as optimal observer*
 *See also: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md), the algebraic proof*
 *See also: [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md), the finite census we read as the handover*

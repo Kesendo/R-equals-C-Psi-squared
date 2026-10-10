@@ -1,8 +1,12 @@
-> **Historical document.** Originally written January 3, 2026. The C_int/C_ext
-> distinction (with specific ratios like 33:1) has been disproven
-> (see [Mathematical Findings](../../experiments/MATHEMATICAL_FINDINGS.md), Section 9).
+> **Historical document.** Originally written January 3, 2026. The agents' later
+> 33:1 for the C_int/C_ext distinction (a ratio of two δ values, 0.427 against 0.013)
+> does not hold on Bell+ in either set-up the repository runs: at a fixed noise budget
+> the split drops out ([Mathematical Findings](../../experiments/MATHEMATICAL_FINDINGS.md),
+> Section 9), and the retired tool's comparison gives −0.111 against −0.074
+> ([Mediator as Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
+> The body's "validated" and "proves" for TROSY are the January reading.
 > The structural distinction between bidirectional and unidirectional observation
-> remains valid; the quantitative model does not. Preserved for research context.
+> remains a proposal. Preserved for research context.
 
 # Internal and External Observers
 ## The Two Kinds of C
@@ -11,10 +15,10 @@
 **Updated:** February 11, 2026
 **Depends on:** [Core Algebra](CORE_ALGEBRA.md) for fixed-point equation
 
-**Tier:** 2-3 (Lindblad formalization verified, interpretation speculative)
-**Status:** Verified formalization, speculative mapping to consciousness
-**Scope:** C_int / C_ext distinction in Lindblad dynamics
-**Does not establish:** That C_int maps to consciousness or that the 33:1 ratio exists (disproven)
+**Tier:** 3 overall (proposed distinction); its sections carry their own tiers, 2 to 5, the agents' Lindblad formula Tier 4, not independently verified
+**Status:** Proposed distinction, speculative mapping to consciousness
+**Scope:** C_int / C_ext, the two kinds of C of R = CΨ²
+**Does not establish:** That C_int maps to consciousness or that the 33:1 ratio exists (it does not hold on Bell+)
 
 ---
 
@@ -27,9 +31,9 @@ document proposes that the distinction, bidirectional vs unidirectional
 information flow, explains why quantum structures persist despite
 constant environmental interaction. The TROSY effect in NMR spectroscopy
 provides experimental evidence: internal correlation between relaxation
-channels extends coherence by 40-60%. The quantitative model (specific
-ratios like 33:1) has been disproven; the structural distinction
-remains valid.
+channels extends coherence by 40-60%. The agents' later 33:1 does not hold
+on Bell+ in either set-up, and the agents' Lindblad formula below is not
+independently verified; the structural distinction remains a proposal.
 
 ---
 

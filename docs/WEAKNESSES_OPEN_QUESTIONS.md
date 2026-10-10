@@ -53,9 +53,12 @@ happen). It is actually a compass (telling you *where you are* relative
 to the quantum-classical boundary). The number still works; our
 interpretation of what it measures was wrong.
 
-**3. The 33:1 coherence ratio (refuted).** The claimed ratio was not a
-property of the stated protocol. Proper Lindblad simulations over 21
-distributions contradicted it.
+**3. The 33:1 coherence ratio (refuted).** On Bell+ it holds in neither
+set-up: proper Lindblad simulations over 21 splits of a fixed noise budget
+give identical dynamics ([Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md)
+§9), and the retired tool's own comparison, γ on both sites against γ on
+one, gives δ = −0.111 against −0.074 at γ = 0.1, t = 1
+([Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
 
 **4. The t_coh ~ N scaling (downgraded).** Agent claim, not reproduced.
 

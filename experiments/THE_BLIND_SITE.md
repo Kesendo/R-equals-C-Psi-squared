@@ -141,8 +141,9 @@ spatially symmetric **γ profiles**, a different lever from the symmetric
 `MATHEMATICAL_FINDINGS.md` §9 finds the noise split irrelevant on Bell+ under
 the Heisenberg bond and traces it to a parity condition, not to the swap
 symmetry: Bell+ carries no coherence between the two Z⊗Z parity sectors and the
-bond commutes with Z⊗Z. That closes a bipartition question, C_int against
-C_ext, on two qubits. Here the Hamiltonian is symmetric, where γ is placed
+bond commutes with Z⊗Z. That settles the fixed-budget form of the bipartition
+question, C_int against C_ext, on two qubits for Bell+ and every state without
+coherence between the two sectors. Here the Hamiltonian is symmetric, where γ is placed
 decides everything, and what is broken is the chain's own reflection rather than a split
 between two parties. The two do not overlap, but the resemblance is close enough
 to say so out loud.
