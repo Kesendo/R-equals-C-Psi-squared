@@ -59,8 +59,8 @@ the decoherence-free subalgebra (Step 2). Among the experiments,
 this tool, [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) the same
 integrator lifting a ring's neighbouring pairs over ¼ (0.251 in the tool, 0.247
 exactly), and [Core Algebra](../docs/historical/CORE_ALGEBRA.md) §11 a run of the
-tool's third law, `memory_kernel_feedback` (κ = 0.5, τ = 1.0), read there as
-non-Markovian noise; [Crossing Taxonomy](CROSSING_TAXONOMY.md) holds its scalar feedback
+tool's third law, `memory_kernel_feedback` (κ = 0.5, τ = 1.0), whose curvature
+of ln Ψ is reproduced by plain dephasing at a time-dependent rate; [Crossing Taxonomy](CROSSING_TAXONOMY.md) holds its scalar feedback
 book, df/dt = −4γ·C(f)·f, whose dynamics the operator law on Bell+ at h = 0
 joins with C(f) = 1 − κf in the rate (its readout a bridge chosen separately, by
 default the mutual purity, which stays ½ there); [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md)

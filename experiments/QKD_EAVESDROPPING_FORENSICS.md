@@ -421,8 +421,9 @@ that scales L1 by (1-p_extra). This gives ξ_new = ξ_old + ln(1-p_extra),
 identical for both noise-only and Eve-plus-noise states. The offset
 Δξ is constant, not curved.
 
-ξ-curvature remains valid for detecting non-Markovian noise
-(see ALGEBRAIC_EXPLORATION.md), but does not help with Eve detection.
+ξ-curvature alone does not certify non-Markovian noise either: dephasing at
+a time-dependent rate curves ξ without memory
+([Core Algebra](../docs/historical/CORE_ALGEBRA.md) §11).
 
 
 ## 12. Complete Forensic Protocol
