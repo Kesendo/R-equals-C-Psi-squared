@@ -800,14 +800,16 @@ def section_4():
     check("the historical copy's row gamma_0 0.006, h 1.0: C_final (Euler with clipping)", 0.901,
           concurrence(euler_final(bell(), hamiltonian(2, h=1.0), 0.006, 0.5, True)))
     print("  Simulation Evidence §2 (sigma_z, kappa 0.5, gamma_0 0.005, h 0.9, t_max 5, the tool's reading), exact:")
-    for label, rho0, n, H, p_end, p_max, p_above in (
-            ("Bell+, chain", bell(), 2, hamiltonian(2, h=0.9), 0.402, None, None),
-            ("GHZ3, ring", ghz(3), 3, hamiltonian(3, h=0.9, ring=True), 0.248, 0.493, 3.89),
-            ("W3, ring", w_state(3), 3, hamiltonian(3, h=0.9, ring=True), 0.421, None, None)):
+    for label, rho0, n, H, p_end, p_max, p_above, pur_end in (
+            ("Bell+, chain", bell(), 2, hamiltonian(2, h=0.9), 0.402, None, None, 0.951),
+            ("GHZ3, ring", ghz(3), 3, hamiltonian(3, h=0.9, ring=True), 0.248, 0.493, 3.89, 0.864),
+            ("W3, ring", w_state(3), 3, hamiltonian(3, h=0.9, ring=True), 0.421, None, None, 0.909)):
         L_n, O_n = jumps_and_observable(n, "sigma_z")
         sol = feedback_exact(rho0, H, L_n, O_n, 0.005, 0.5, 5.0)
         fun = lambda t, sol=sol, n=n: cpsi(sol.sol(t).reshape(2**n, 2**n), n)
         check(f"{label}: C*Psi at t = 5", p_end, fun(5.0))
+        # the tool's purity of the same run is gated in delta_calc_feedback_runs.py
+        check(f"{label}: purity at t = 5", pur_end, purity(sol.sol(5.0).reshape(2**n, 2**n)))
         xs = [np.real(np.trace(sol.sol(t).reshape(2**n, 2**n) @ O_n)) for t in (0.0, 5.0)]
         print(f"    <X0X1> from {xs[0]:.6f} to {xs[1]:.6f}")
         if p_max is not None:

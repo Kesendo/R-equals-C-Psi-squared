@@ -92,8 +92,9 @@ changed evolution law, not competing estimates of one universal constant.
 **Historical nomenclature:** Type A, B and C label the three response shapes
 recorded by the retired delta_calc tool, whose source is kept outside the repo
 and was read there.
-The tables preserve the numerical record, including finite-step discrepancies;
-the current reconstruction does not certify every printed late-time entry.
+The tables preserve the numerical record, including finite-step discrepancies,
+except the table of crossing coefficients, which is exact; the current
+reconstruction does not certify every printed late-time entry.
 
 ### Setup
 
@@ -110,13 +111,14 @@ the current reconstruction does not certify every printed late-time entry.
 
 | Bridge | γ = 0.01 | γ = 0.05 | γ = 0.10 | γ = 0.20 | K |
 |--------|----------|----------|----------|----------|----------|
-| mutual_info | t=3.264, K=0.03265 | t=0.653, K=0.03265 | t=0.326, K=0.03265 | t=0.163, K=0.03265 | **0.03265** |
-| concurrence | t=3.868, K=0.03868 | t=0.773, K=0.03868 | t=0.387, K=0.03868 | t=0.193, K=0.03868 | **0.03868** |
+| mutual_info | t=3.264, K=0.03264 | t=0.653, K=0.03264 | t=0.326, K=0.03264 | t=0.163, K=0.03264 | **0.03264** |
+| concurrence | t=3.868, K=0.03868 | t=0.774, K=0.03868 | t=0.387, K=0.03868 | t=0.193, K=0.03868 | **0.03868** |
 | correlation | t=7.192, K=0.07192 | t=1.438, K=0.07192 | t=0.719, K=0.07192 | t=0.360, K=0.07192 | **0.07192** |
 
-The twelve finite rows are three bridges over four γ values. The committed
-default producer uses γ = 0.05; the other γ columns follow from the fixed K
-by t = K/γ. These are not independent evidence for a universal scaling law.
+The twelve cells are three bridges over four γ values. The γ = 0.05 column is
+the committed default producer's exact crossing (the Type B table below keeps the
+record's 0.773 for the concurrence crossing there); the other γ columns follow
+from the fixed K by t = K/γ. These are not independent evidence for a universal scaling law.
 
 ### Matched dimensionless time
 
@@ -157,7 +159,7 @@ sudden physical loss of a protected correlation.
 
 Concurrence and mutual information change with f. Their scalar crossings
 precede the constant-C crossing in these books. The feedback spread is about
-2.2× (0.0327 to 0.0719); the clean spread is about 2.4×
+2.2× (0.0326 to 0.0719); the clean spread is about 2.4×
 (0.02966 to 0.07192).
 
 ### Type C: initially below the adopted threshold
@@ -171,7 +173,7 @@ quarter crossing; no quantum/classical conclusion follows from that absence.
 | Class | Mechanism | C at crossing | Bridges | K (tool) | K (exact) |
 |-------|-----------|---------------|---------|------|------|
 | **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 | 0.07192 |
-| **Type B** | C and Ψ both decay | 0.84-0.87 | concurrence, mutual_info | 0.039, 0.033 | 0.03596, 0.02966 |
+| **Type B** | C and Ψ both decay | 0.84-0.87 | concurrence, mutual_info | 0.039, 0.033 | 0.03868, 0.03264 (clean book 0.03596, 0.02966) |
 | **Type C** | CΨ(0) < 1/4 already | n/a | mutual_purity, overlap | never | never |
 
 <!-- CROSSING-CURRENT -->

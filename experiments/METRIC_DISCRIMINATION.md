@@ -137,7 +137,7 @@ The [two-book producer](../simulations/crossing_taxonomy_books.py) reconstructs
 the five scalar bridges on the Hamiltonian-dead Bell+ family. At γ = 0.05,
 feedback concurrence gives t ≈ 0.7735 and clean concurrence t ≈ 0.7192.
 The other clean K values are about 0.02966 and 0.07192 for mutual
-information and correlation; feedback gives about 0.03265 and 0.07192.
+information and correlation; feedback gives about 0.03264 and 0.07192.
 These are bridge- and book-specific values.
 
 The unresolved spatial question is a model-building question. The finite

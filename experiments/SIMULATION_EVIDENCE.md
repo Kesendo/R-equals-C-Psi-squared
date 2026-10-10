@@ -123,7 +123,8 @@ Every configuration of this section with active Hamiltonian dynamics produces C�
 > h = 0.7) gives 0.255. The qualitative event stands: active Hamiltonian
 > dynamics drive CΨ across ¼ while H = 0 decays monotonically. Under exact
 > propagation of the same model (DOP853), the three active runs end at 0.402
-> (Bell+), 0.248 (GHZ₃) and 0.421 (W₃). GHZ₃ ends at the edge of a crossing,
+> (Bell+), 0.248 (GHZ₃) and 0.421 (W₃), with exact purity 0.951, 0.864
+> and 0.909 where the tool's step reads 0.955, 0.875 and 0.923. GHZ₃ ends at the edge of a crossing,
 > falling through ¼ at t = 4.998 exactly and between t = 5.01 and 5.02 in the
 > tool, so its "Yes" and the exact "No" at t = 5 are the window's edge, after
 > 3.89 of its 5 time units above ¼; and the GHZ₃ and W₃ ⟨O_int⟩ drifts of §5 are

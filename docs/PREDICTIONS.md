@@ -77,7 +77,7 @@ below).
 
 ## 2. Computationally Verified
 
-**Tier: 2, Reproducible via delta_calc MCP tools or standalone Lindblad simulation**
+**Tier: 2, computed by standalone Lindblad simulation or by the retired delta_calc tool; a tool row is regenerated where its source page names a transcription script in `simulations/`**
 
 | Prediction | Value | Falsified if | Source |
 |------------|-------|-------------|--------|
