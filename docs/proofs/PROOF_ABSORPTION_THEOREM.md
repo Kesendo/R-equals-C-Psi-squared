@@ -335,7 +335,13 @@ holds and only the Pauli reading goes; the rate is then a weighted average in
 whichever basis diagonalizes Herm(L_D). Collective dephasing through the one
 jump Σ_k Z_k (pure dephasing, built from Z alone, moving no population; Pauli
 off-diagonal 0.2 at N=3, γ=0.05) is diagonal in the coherence basis, where
-|A⟩⟨B| pays 2γ·(popcount A − popcount B)² and Re λ = −2γ⟨(Δpopcount)²⟩. The
+|A⟩⟨B| pays 2γ·(popcount A − popcount B)² and Re λ = −2γ⟨(Δpopcount)²⟩.
+On two qubits that is a common field's interference: |00⟩⟨11| pays 8γ, twice
+its local rate, and |01⟩⟨10| pays nothing, where local dephasing charges each
+4γ (the 8γ of Bell+ in [Noise Robustness](../../experiments/NOISE_ROBUSTNESS.md)
+Q1; with the jump normalised as (Z₀ + Z₁)/√2, as in
+[Monotonicity](PROOF_MONOTONICITY_CPSI.md) Test B, |00⟩⟨11| pays 4γ, the local
+rate). The
 Hermitian part of a local dissipator such as amplitude damping is diagonal in
 the product of its per-site eigenbases, and Re λ is the weighted mean of each product element's summed
 per-site Hermitian eigenvalues, which for σ⁻ alone are (−1 ± √2)γ_T1/2 and −γ_T1/2 twice, one of them

@@ -25,7 +25,7 @@ For refreshed neural entries, read the per-entry status and disposition.
 | ω_max of the (0,1) coherence block | OQ-228, 229 | ω_max = 4J(1+cos(π/N)) is the k = N−1 member of F2's dispersion, proven in `docs/proofs/derivations/D10_W1_DISPERSION.md`. Both entries were the same question, scraped twice from `experiments/THERMAL_BREAKING.md`, and both carried the "w=1" mislabel: the object is the (0,1) coherence block. Closed 2026-08-02 |
 | Crossing speed → dwell time | OQ-051, 106, 107, 108, 112, 113 | t_dwell = 2δ/\|dCΨ/dt\|, K-invariant (γ cancels), prefactor 1.0801. `experiments/CRITICAL_SLOWING_AT_THE_CUSP.md` §8 |
 | Symmetric vs asymmetric decoherence | OQ-142 | Only γ_total for states without coherence between the Z⊗Z parity sectors under a bond that commutes with Z⊗Z (Bell+); otherwise the split can matter, and in the star it does. `experiments/MATHEMATICAL_FINDINGS.md` §9 (2026-03-08) |
-| Correlated-product Z⊗Z Bell+ special case | OQ-144, 145 | Resolved only for Z⊗Z: Bell+ is an eigenstate and that dissipator vanishes on it. Additive Z1+Z2 and amplitude-damping taxonomy remain open (OQ-146, 147, 148, 150). `experiments/NOISE_ROBUSTNESS.md` |
+| Correlated-product Z⊗Z Bell+ special case | OQ-144, 145 | Resolved only for Z⊗Z: Bell+ is an eigenstate and that dissipator vanishes on it. Additive Z1+Z2 resolved for Bell+ (same taxonomy, twice as fast, OQ-146); amplitude-damping taxonomy remains open (OQ-147, 148, 150). `experiments/NOISE_ROBUSTNESS.md` |
 | Subsystem-pair crossing | OQ-153, 154, 155, 156, 217, 219, 220 | Bell-pairs yes, GHZ/W no; non-monotonic threshold; ring 9× faster. `experiments/N_SCALING_BARRIER.md`, `SUBSYSTEM_CROSSING.md` |
 | Star-topology observer scaling | OQ-187, 189, 190, 199, 200–207, 211 | Cross/no-cross N=2..5; J_th(γ) ≈ 7.35·γ^1.08 + 1.18; the "zero window" was a sampling artifact. `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8 |
 | Ring dihedral-lock N→∞ limit | (F1_DISSIPATION_GAP, STAR_SPECTRUM_COMPACTNESS) | c_∞ = ln 2 = 0.6931 (NOT 1/√2, which it crosses at N=8). Im_max = ΔE_max(H) at every N by F148 (bound + attainment, on every graph; the ring meets both hypotheses at every N) ⟹ c_N = 1/4 − E₀/(JN) → ln 2 (Hulthén). Resolved 2026-06-04: `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, `simulations/ring_dihedral_lock_limit.py` |
@@ -1621,8 +1621,8 @@ neural justifications without classifying unrelated entries.
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** numerical-verification
-**Status:** open
-**Disposition:** The Z⊗Z eigenstate calculation does not answer this different jump-operator question.
+**Status:** resolved for Bell+
+**Disposition:** On Bell+ the additive jump √γ(Z1+Z2) keeps the state in the same family and drains the coherence at 8γ, the Absorption Theorem's collective rate 2γ·(Δpopcount)², and the whole state is the local run at twice the time, ρ_coll(t) = ρ_local(2t), so the taxonomy is the same, only twice as fast (`experiments/NOISE_ROBUSTNESS.md` Q1). Other states are not classified.
 
 ### OQ-149
 

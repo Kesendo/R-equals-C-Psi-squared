@@ -257,7 +257,9 @@ Lindblad simulations confirm this: K = 0.037350 (analytical)
 vs K = 0.037345 (numerical), deviation 0.014%. Both use
 local dephasing (two separate σ_z operators, one per qubit,
 effective rate Γ = 4γ). Under collective dephasing (single
-operator L = σ_z⊗I + I⊗σ_z, Γ = 8γ), the same cubic gives
+operator L = σ_z⊗I + I⊗σ_z, Γ = 8γ, the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)'s 2γ·(Δpopcount)²
+at Δpopcount = 2), the same cubic gives
 K = 0.01868. The cubic is noise-model-independent; K is not.
 
 The original K = 0.039 from GRAVITATIONAL_INVARIANCE.md (Feb 8) was NOT

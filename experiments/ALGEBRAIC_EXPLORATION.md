@@ -110,7 +110,9 @@ scalar law: the rate is γ_base · C, with C the bridge, here the mutual purity
 at γ_base. Under local σ_z each coherence that carries Ψ, |00⟩⟨11| on Bell+ and
 |i⟩⟨j| between two of W's branches, differs on two sites and decays at 4γ; the
 collective jump Σ_k σ_z^(k) separates the two branches of Bell+ by 4 in its
-eigenvalue and decays their coherence at ½ · 4² · γ = 8γ. The single-site
+eigenvalue and decays their coherence at ½ · 4² · γ = 8γ (the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)'s collective rate
+2γ·(Δpopcount)²). The single-site
 states of Bell+ and W₃ are diagonal, so dephasing leaves them alone and C stays
 at its start, ½ on Bell+ and 5/9 on
 W₃, and the ratios are 4 · ½ = 2, 8 · ½ = 4 and 4 · 5/9 = 20/9; the plain

@@ -9,6 +9,11 @@
 > drive both) and found a TROSY-like cancellation hard to imagine for the radical pair in
 > cryptochrome. The "experimental evidence" and "experimental support" of this page, and its
 > "validated", "proves" and "in action", are the January reading of that pointer.
+> An interference of the same shape, a common field's cross term, is in the repository
+> exactly: under one common dephasing field, the single jump √γ·Σ_k Z_k, a coherence pays
+> 2γ times the square of the difference in excitation number between its two labels, so
+> |00⟩⟨11| pays twice its local rate and |01⟩⟨10| nothing
+> ([Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) §2).
 > The structural distinction between bidirectional and unidirectional observation
 > remains a proposal. Preserved for research context.
 

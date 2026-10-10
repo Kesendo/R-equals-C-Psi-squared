@@ -238,8 +238,13 @@ The collective dephasing operator does literally nothing to this state.
 Concurrence, Ψ, CΨ, and purity remain at their initial values forever.
 The additive collective form, jump √γ(σ_z⊗I + I⊗σ_z), is a different channel from
 two independent local σ_z operators: its dissipator carries cross terms.
-On Bell+ it keeps the state in the same family and drains the coherence at
-8γ instead of 4γ, so the taxonomy is the same, only twice as fast (the
+On Bell+, where the bond does not act, it keeps the state in the same family:
+the whole state is the local run at twice the time, ρ_coll(t) = ρ_local(2t),
+and the coherence drains at 8γ instead of 4γ, the [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)'s
+collective rate 2γ·(Δpopcount)² at Δpopcount = 2 (normalised as
+(σ_z⊗I + I⊗σ_z)/√2 the rate is the local 4γ, which is why
+[Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) Test B sees local and
+collective runs alike), so the taxonomy is the same, only twice as fast (the
 cubic then gives K = 0.01868 against 0.03735, see
 [Decoherence Relativity](DECOHERENCE_RELATIVITY.md)).
 

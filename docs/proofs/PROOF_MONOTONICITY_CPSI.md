@@ -315,7 +315,12 @@ moves against each other) was within the catalogue's reach.
 
 ### Collective noise (Test B)
 
-The named local and collective Z/X runs gave the same CΨ trajectories on Bell+. Anti-correlated Z noise
+The named local and collective Z/X runs gave the same CΨ trajectories on Bell+, the collective jumps
+normalised as √γ(Z₁+Z₂)/√2 and √γ(X₁+X₂)/√2. Local dephasing is exactly the sum of that collective jump
+and the anti-correlated √γ(Z₁−Z₂)/√2 ([Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) §2, the pair
+(Z₀ ± Z₁)/√2), and Bell+ is dark to the anti-correlated one, so on Bell+ the two runs agree; the same
+holds for X in the X basis. Without the 1/√2 the collective rate on Bell+'s coherence is 8γ
+([Noise Robustness](../../experiments/NOISE_ROBUSTNESS.md) Q1). Anti-correlated Z noise
 `Z₁-Z₂` leaves Bell+ in a decoherence-free subspace. These finite and symmetry-specific facts do not
 classify all collective noise.
 
