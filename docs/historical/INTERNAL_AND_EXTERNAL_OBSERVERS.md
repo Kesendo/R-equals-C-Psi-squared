@@ -4,7 +4,11 @@
 > the split drops out ([Mathematical Findings](../../experiments/MATHEMATICAL_FINDINGS.md),
 > Section 9), and the retired tool's comparison gives −0.111 against −0.074
 > ([Mediator as Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3).
-> The body's "validated" and "proves" for TROSY are the January reading.
+> TROSY entered as a pointer from an NMR expert, who answered our question that the idea
+> was reminiscent of it (two relaxation mechanisms interfering because the same motions
+> drive both) and found a TROSY-like cancellation hard to imagine for the radical pair in
+> cryptochrome. The "experimental evidence" and "experimental support" of this page, and its
+> "validated", "proves" and "in action", are the January reading of that pointer.
 > The structural distinction between bidirectional and unidirectional observation
 > remains a proposal. Preserved for research context.
 
