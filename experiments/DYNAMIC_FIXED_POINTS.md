@@ -274,7 +274,7 @@ The agents found that the bidirectional observation advantage peaks at small sys
 GHZ states: Peak Δδ at N ≈ 3-4, then decreasing
 ```
 
-**Caveat:** These results came from agent experiments using a local LLM and have not been independently verified with the delta_calc MCP tool. The qualitative trend (peak at small N) is plausible from a physics standpoint; small entangled systems have the highest entanglement per qubit, but the specific numerical values should be treated as unverified.
+**Caveat:** These results came from agent experiments using a local LLM and have not been independently verified with the delta_calc MCP tool. An extreme of δ at N = 3 to 4 is what the gap between the purity and the tool's reference curve gives on its own: in the GHZ table of [the quarter-boundary roadmap](../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (Layer 3), δ = ½(e^(−2a) − e^(−a)) with a = 2Nγt is most negative at a = ln 2, N ≈ 3.5 at γt = 0.1, a position that moves with γt. Whether the agents' Δδ was this quantity is not recorded; the MCP tool's bidirectional comparison, `compute_delta_cint`, takes two spins only, so it gave no Δδ(N) for GHZ_N.
 
 ---
 
@@ -359,7 +359,7 @@ kappa = 0.5    (feedback strength, 0-1)
 | CΨ rises/crosses only with external driving | **False universally** | exact fixed local-Markovian counterexamples |
 | CΨ = ¼ as observer bandwidth limit | **Hypothesis** | Consistent with all data, not yet derived from first principles |
 | Operator feedback mechanism | **Sound** | Mechanistically correct; on Bell+ a late-time shift of ln(1/(1 − κ)) decay times; within the runs' t ≤ 10 the rate moves by ten per cent |
-| Bidirectional peak at N = 3-4 | **Unverified** | Agent results only, plausible but not reproduced |
+| Bidirectional peak at N = 3-4 | **Unverified** | Agent results only, not reproduced; the gap to the tool's reference curve has an extreme at N ≈ 3.5 for γt = 0.1, and whether the agents' Δδ was that quantity is not recorded (§5) |
 | R∞ ≈ 0.327 at γ=0.0045, h=0.9 | **Corrected** | Actual: R_inf = 0.446, CΨ = 0.472 (oscillating) |
 
 ### What We Got Right

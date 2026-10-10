@@ -193,9 +193,9 @@ has its own crossing dose; the F25 value is recorded below.
 
 **Bidirectional vs. unidirectional observation.** The $C_{int}$ (both spins observed) vs. $C_{ext}$ (one spin observed) comparison shows:
 
-- $\delta_{int} = -0.1109$ vs. $\delta_{ext} = -0.0743$ for Bell+ at t = 1, γ = 0.1
-- Bidirectional observation produces *larger* purity deficit than unidirectional
-- The difference is a finite observation. A mutual-observation feedback explanation is an open hypothesis and is not derived from $R=C\Psi^2$.
+- $\delta_{int} = -0.1109$ vs. $\delta_{ext} = -0.0743$ for Bell+ at t = 1, γ = 0.1, in the tool's Euler step of dt = 0.01
+- Dephasing both sites lowers the purity more than dephasing one (0.724 against 0.835 in the tool; 0.725 and 0.835 exactly)
+- These δ's come from the tool's prediction, the purity that dephasing at half the rate would give, in both modes: exactly $\delta_{int} = \tfrac12(e^{-8\gamma t} - e^{-4\gamma t})$ and $\delta_{ext} = \tfrac12(e^{-4\gamma t} - e^{-2\gamma t})$ (−0.1105 and −0.0742 here), and both vanish against a prediction whose coherence decays at the run's actual rate ([Mediator as Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md) §2.3). The GHZ table of Layer 3 carries the same reference curve.
 
 ### What the finite calculations recorded
 
@@ -250,7 +250,14 @@ Purity(Lindblad) ≈ ½ + ½e^(−4Nγt) and Purity(predicted) = ½ + ½e^(−2N
 t = 1, γ = 0.1 (March-era delta_calc Lindblad suite). The deficit MAGNITUDE
 is non-monotonic: it grows from N = 2 to N = 3 (N = 3 and 4 are tied), then
 shrinks. The purity deficit has a maximum at intermediate N, not at the
-extremes.
+extremes. The maximum comes from the gap to the reference curve: δ = ½(e^(−2a) − e^(−a))
+with a = 2Nγt is most negative at a = ln 2, N ≈ 3.5 at γt = 0.1, which puts
+N = 3 and 4 close together (exactly −0.1238 and −0.1237; the four-digit tie of
+the table is the tool's Euler step,
+[delta_calc_mediator_runs.py](../../simulations/delta_calc_mediator_runs.py)).
+Nothing else enters: the two branches of GHZ_N are degenerate eigenstates of the
+Heisenberg ring and dephasing keeps the state on them, so H does nothing, and the
+purity is the dephasing form of What Is CLOSED below.
 
 **Full-system vs. subsystem distinction.** For GHZ with N≥3, the full-system $C\Psi$ starts below 1/4 in the canonical purity book: its l1-norm is $O(1)$ while the denominator `d−1=2^N−1` is $O(2^N)$, so $\Psi\to0$. Two-qubit marginals remain `d=4` objects and must be evaluated in their own book; a named pair can therefore begin above the quarter even when the full-system reading does not.
 
@@ -266,7 +273,7 @@ This finite hierarchy is compatible with a monogamy explanation, but that mechan
 
 **W-state behavior differs from GHZ.** W states $|W_N\rangle = (|10\cdots 0\rangle + |01\cdots 0\rangle + \cdots + |00\cdots 1\rangle)/\sqrt{N}$ have more robust subsystem entanglement (each pair shares $O(1/N)$ entanglement rather than GHZ's all-or-nothing structure). Preliminary simulations suggest W-state subsystem pairs cross 1/4 at later times than GHZ pairs of the same N.
 
-**Power-law scaling of δ with N.** The sweep_R_scaling tool reports power-law fits for δ(N). For GHZ under local dephasing, the exponent is approximately −0.3 to −0.5 depending on the bridge metric used. This is not yet understood analytically.
+**Power-law fits of δ with N (reported, not regenerated).** An exponent of approximately −0.3 to −0.5 was reported for δ(N) of GHZ under local dephasing, depending on the bridge metric. No logged call reproduces it: the tool's fit keeps only values above 0.001, so it cannot fit the negative δ of the GHZ table, and both logged GHZ δ scaling calls (2026-02-08 and 02-09) returned no δ fit. Where the number came from is not known. For the GHZ table above δ(N) has a closed form, which is no power law.
 
 ### What Is CONJECTURED
 
@@ -277,7 +284,7 @@ The quarter remains the discriminant coordinate of the chosen scalar
 recurrence, not a state-space ceiling. The surviving subsystem statement is
 the conditional convergence implication in Layer 2.
 
-**Conjecture 3.2 (Palindromic Origin), the spectral half proven.** The
+**Former Conjecture 3.2 (Palindromic Origin): the spectral half proven; the δ(N) half answered.** The
 palindromic structure of the Lindbladian spectrum is proven analytically for
 ALL Heisenberg/XXZ systems on ANY graph with local Z-dephasing
 ([Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)), verified exhaustively
@@ -285,11 +292,9 @@ through N=8 (87,376 eigenvalues; chain, star, ring, complete; binary tree at
 N=4,5). Time propagation extends the framework's dynamics to N=11, where
 MI(end-to-end) decays exponentially with N
 ([Scaling Curve](../../experiments/SCALING_CURVE.md)).
-What remains conjectural is the δ(N) reading: that the non-monotonic δ(N)
-scaling arises from competition between (a) increasing system dimension
-diluting per-qubit coherence, and (b) the Heisenberg ring creating
-longer-range correlations at intermediate N that temporarily protect
-coherence.
+The non-monotonic δ(N) of the GHZ table needs no mechanism beyond the
+dephasing: the Heisenberg ring does nothing on GHZ_N, and δ(N) is the gap between the purity and the tool's reference curve, most
+negative at a = 2Nγt = ln 2 (What Is ALREADY PROVEN, above).
 
 ### What Is CLOSED
 
@@ -596,8 +601,6 @@ open edges, gathered:
 - **Main peaks of N=2 states under a number-conserving H** (Layer 5): the largest value of CΨ in each
   period of the one-excitation block clock is the same in every period at γ = 0, for every state; does it
   always fall once γ > 0?
-- **The δ(N) reading of Conjecture 3.2** (Layer 3): the competition mechanism
-  behind the non-monotonic purity deficit.
 - **Crossing-cubic number theory** (Layer 1): whether the real root of
   b³ + b = 1/2 connects to other constants.
 - **Holography** (Layer 7): still wildly speculative, still noted.
