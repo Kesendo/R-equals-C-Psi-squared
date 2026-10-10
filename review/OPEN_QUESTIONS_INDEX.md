@@ -31,6 +31,7 @@ For refreshed neural entries, read the per-entry status and disposition.
 | Ring dihedral-lock N→∞ limit | (F1_DISSIPATION_GAP, STAR_SPECTRUM_COMPACTNESS) | c_∞ = ln 2 = 0.6931 (NOT 1/√2, which it crosses at N=8). Im_max = ΔE_max(H) at every N by F148 (bound + attainment, on every graph; the ring meets both hypotheses at every N) ⟹ c_N = 1/4 − E₀/(JN) → ln 2 (Hulthén). Resolved 2026-06-04: `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, `simulations/ring_dihedral_lock_limit.py` |
 | ph03 phase-freezing (OQ-096) | `experiments/COCKPIT_SCALING.md` §10.6 | The central-pair coherence is exactly REAL (ph03 ∈ {0,π}) by the global spin-flip Π² = X^⊗N (which commutes with H + Z-dephasing and fixes the symmetric initial state). Universal, all N; the "N≥7 only" was a PCA-variance-gate artifact (arg of the real coherence near an ESD dip). Resolved 2026-06-04: `simulations/phase_freezing_real_coherence.py` |
 | F69 central-Dicke-triple asymptote | `docs/ANALYTICAL_FORMULAS.md` (F69) | The N→∞ limit cpsi_∞ ≈ 0.4312363 is a sextic root (no elementary closed form); finite-N approaches it as ~1.08/N. Was already derived in the WIP scripts; the doc said "asymptotic form unknown" (stale). Near-misses a/b≈3/4, x≈9/34 (the 3rd "pretty constant" trap after s*=0.709 and the ring lock). Resolved 2026-06-04: `simulations/eq016_central_triple_n_infinity.py`, `eq016_central_triple_bf_confirm.py` |
+| Why operator feedback works | OQ-037, 050 | The rate law has a closed form: on Bell+ under σ_z jumps and an H commuting with σ_x⊗σ_x, x = ⟨σ_x⊗σ_x⟩ obeys x/(1 − κx) = x(0)/(1 − κx(0))·e^(−4γ₀t), and the same at every N on permutation-invariant states under isotropic Heisenberg bonds and a uniform x field. On two qubits O_int sits at the far end of the palindrome (F158's far kernel, rate 2Σγ), not in a slow mode; the feedback lowers the rate in front of it. `experiments/OPERATOR_FEEDBACK.md` §2. Closed 2026-10-10 |
 | Partial palindrome at d>2 (OQ-002) | OQ-002 | The dissipator's partial pairing = symmetric overlap of c_k = d^N·C(N,k)·(d−1)^k under k↔N−k; ceiling Σ d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2, 54/81 at d=3,N=2. F121, `docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md`. Full interacting spectrum still open. |
 
 ### Stale / retired / falsified
@@ -42,6 +43,7 @@ For refreshed neural entries, read the per-entry status and disposition.
 | Single closed-form ψ_opt for the lens | `experiments/CONCENTRATOR_GEOMETRY.md` | Many-body effect; no single-particle closed form (cosine 0.925, not exact) |
 | Bridge-protocol signaling at J=0 | `hypotheses/BRIDGE_PROTOCOL.md` §6 | No-signaling holds exactly; crossing times are consequences of preparation, not signals |
 | δ requires H≠0 | `docs/THE_GENESIS_OF_AN_OSCILLATION.md` | REFUTED: the oscillation is J-driven, born at Q=0+, no threshold |
+| Only operator feedback preserves δ (OQ-038) | `experiments/OPERATOR_FEEDBACK.md` §3 | FALSE PREMISE: the tool's δ is the purity minus a fixed half-rate curve; the default scalar law runs Bell+ at that rate and gives δ = 0 at h = 0 in exact propagation, while the operator law at κ = 0.5 only starts there. The slow-mode mechanism was never computed (`docs/CAUGHT_ERRORS.md`, 2026-09-06) |
 | s* = 0.709 birth-canal boundary | `simulations/birth_canal_boundary_pathdependence.py` | STALE 2026-06-04: path-specific (0.11–0.77), not a constant; the boundary is a surface |
 
 ### Not a question (scrape artifacts)
@@ -201,7 +203,8 @@ neural justifications without classifying unrelated entries.
 **Section:** Active weaknesses
 **Date:** unknown
 **Tag:** untagged
-**Status:** unclassified
+**Status:** closed
+**Disposition:** Explained by its closed form, `experiments/OPERATOR_FEEDBACK.md` §2 (see the Resolved table).
 
 ### OQ-050
 
@@ -211,7 +214,8 @@ neural justifications without classifying unrelated entries.
 **Section:** Open questions
 **Date:** unknown
 **Tag:** untagged
-**Status:** unclassified
+**Status:** closed
+**Disposition:** No slow modes: on two qubits O_int is an eigen-operator at the palindrome's far end, and the feedback acts through the rate in front of it, `experiments/OPERATOR_FEEDBACK.md` §2.
 
 ### OQ-051
 
@@ -1385,7 +1389,8 @@ neural justifications without classifying unrelated entries.
 **Section:** Active weaknesses
 **Date:** unknown
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** retired premise
+**Disposition:** δ is the purity minus a fixed half-rate curve, and the default scalar law keeps it at zero on Bell+ at h = 0, `experiments/OPERATOR_FEEDBACK.md` §3 (see the Stale table).
 
 ### OQ-039
 

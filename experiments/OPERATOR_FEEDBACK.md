@@ -1,4 +1,4 @@
-# Operator Feedback: State-Dependent Decoherence via Lindblad Jump Operators
+# Operator Feedback: A Decoherence Rate Set by an Observable
 
 <!-- Keywords: operator feedback state-dependent decoherence, Lindblad rate set
 by an expectation value, nonlinear master equation feedback, logistic decay
