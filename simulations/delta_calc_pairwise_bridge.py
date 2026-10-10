@@ -19,7 +19,8 @@ are DYNAMIC_ENTANGLEMENT §9 and §11.2. This script recomputes both, with two p
     DYNAMIC_ENTANGLEMENT §5.1 unitary and §5.2 gamma = 0.05 tables, §6 pair diagonal
   the tool's Euler loop (dt 0.01, Hermitian part, negative eigenvalues clipped, trace
   renormalized, t_max as in each call), for DYNAMIC_ENTANGLEMENT §9.2 (the tool's Ising,
-  an open chain), §9.1's N = 4 column, the §9.3 gamma sweep and §11.2's Bell-pair line,
+  an open chain), the tool half of §9.1's N = 4 column (the rest of §9.1:
+  delta_calc_pairwise_bridge_n6.py), the §9.3 gamma sweep and §11.2's Bell-pair line,
   and without the clipping, as the routine's first version ran, for that version's
   Bell-pair crossing and runaway maximum;
 and it checks the claims the pages make about these runs under exact propagation: the

@@ -396,24 +396,34 @@ count; at γ = 0.05 the ring neighbours stay at 0.247 and only (0,2)
 crosses (§5.2); at γ = 0.09 (0,2) still crosses (0.258) and at γ = 0.10
 no pair does, (0,2) peaking at 0.245, so its γ_c is 0.096;
 at γ = 0.20 the (0,2) maximum is 0.157; and in the Ising run of §9.2
-every pair stays at C·Ψ = 0. The N = 6 column of §9.1 was not rerun.
+every pair stays at C·Ψ = 0. The N = 6 column of §9.1 is rerun, in the tool's
+reading and exactly, by
+[delta_calc_pairwise_bridge_n6.py](../simulations/delta_calc_pairwise_bridge_n6.py).
 
-### 9.1 N = 6 Longer Chain (Question 2)
+### 9.1 N = 6 Ring (Question 2)
 
-| Pair type | Example | max C·Ψ (N=6) | max C·Ψ (N=4) |
-|-----------|---------|---------------|---------------|
-| Ring neighbor | (0,1) | 0.248 | 0.251 |
-| Same-basis diagonal | (0,2) | 0.131 | **0.339** |
-| Opposite-basis diagonal | (1,3) | 0.113 | 0.234 |
-| Next-next-neighbor | (0,3) | 0.111 | - |
+The run is the alternating state |0+0+0+⟩ on the six-site Heisenberg ring at
+γ = 0.05, t ≤ 5; the N = 4 column is |0+0+⟩ on the four-site ring at the same
+γ and t. The tool returns its maxima to four digits, read here at three.
 
-**Zero crossings at N = 6.** The entanglement dilutes across 15 pairs
-instead of 6. Pair (0,2), the sole survivor at N = 4 under exact
-propagation (§5.2, max 0.320), drops from max C·Ψ = 0.339 in the Euler
-run to 0.131 at N = 6, well below threshold. On a 6-qubit ring,
-qubits 0 and 2 are no longer directly opposite; the Hamiltonian must
-route correlations through more intermediaries, and each intermediary
-leaks coherence to the environment.
+| Pair type | Example | max C·Ψ (N=6), tool / exact | max C·Ψ (N=4), tool / exact |
+|-----------|---------|-----------------------------|-----------------------------|
+| Ring neighbor | (0,1) | 0.248 / 0.248 | 0.251 / 0.247 |
+| Distance 2, both start in \|0⟩ | (0,2) | 0.131 / 0.122 | **0.339** / **0.320** |
+| Distance 2, both start in \|+⟩ | (1,3) | 0.113 / 0.102 | 0.234 / 0.224 |
+| Antipodal (distance 3) | (0,3) | 0.111 / 0.129 | - |
+
+Every pair of the six-site ring falls into one of these four classes, and pairs
+of one class carry the same maximum. On four sites the distance-2 pairs are the
+antipodal ones, so the N = 4 cells of those two rows are antipodal pairs.
+
+**Zero crossings at N = 6**, in the tool and under exact propagation. Under
+exact propagation the ring neighbours stay at about 0.248 and the distance-2
+pairs drop: pair (0,2), the sole survivor at N = 4 (§5.2), falls from 0.320 to
+0.122 at N = 6, well below threshold. On six sites (0,2) and (1,3) are no longer opposite,
+as they are on four. Under exact propagation the antipodal pairs carry the most
+of the three non-neighbour classes, where the tool's step ranked them last. Why
+the distance-2 pairs fall and the antipodal ones lead is not known.
 
 ### 9.2 Ising Hamiltonian (Question 3)
 
@@ -516,9 +526,12 @@ with bidirectional crossing detection via Task 010c:
 
 ```
 simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
-# Expected: pair (0,2) crosses up at t ~ 0.275, down at t ~ 0.470
+# Expected (the tool's output): pair (0,2) crosses up at t ~ 0.275, down at t ~ 0.470
 #           pair (1,3) does NOT cross, max CΨ ~ 0.234
-#           ring-neighbor pairs borderline (max CΨ ~ 0.251)
+#           ring-neighbor pairs cross briefly (max CΨ ~ 0.251)
+# Under exact propagation (§5.2; the downward time from
+# delta_calc_pairwise_bridge_n6.py) (0,2) crosses at 0.285 and 0.453, (1,3)
+# peaks at 0.224 and the neighbours at 0.247, below 1/4.
 ```
 
 ### 11.3 Key Numbers to Check
@@ -528,7 +541,7 @@ simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
 3. |0+0+⟩ unitary, pair (0,1) first crossing: t = 0.073
 4. |0+0+⟩ with dephasing, pair (0,2) crossing: t = 0.285
 5. |0+0+⟩ with dephasing, pair (0,1) max CΨ: 0.247 (no crossing)
-6. N=6 alternating, pair (0,2) max CΨ: 0.131 (no crossing; the tool's Euler run)
+6. N=6 alternating, pair (0,2) max CΨ: 0.122 under exact propagation (0.131 in the tool's Euler run; no crossing either way)
 7. N=4 Ising alternating, all C_corr: 0.000 (no dynamics)
 8. N=4 alternating γ=0.01, pair (0,2) upward passages in t ≤ 10: 5 (the tool's Euler run: 13)
 9. N=4 alternating γ=0.10: no pair crosses, (0,2) peaks at 0.245 (the tool's Euler run: only (0,2) crosses)
