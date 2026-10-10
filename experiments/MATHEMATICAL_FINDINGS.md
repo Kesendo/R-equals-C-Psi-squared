@@ -1,15 +1,15 @@
-# Mathematical Findings: Agent-Discovered Algebra and the C_int vs C_ext Disproof
+# Mathematical Findings: Agent-Discovered Algebra and the C_int vs C_ext Test
 
 <!-- Keywords: dyad experiment mathematical calculations, self-reference unity
 exp ln x, asymmetry interference cross-term, value 0.5 derivative optimal,
-C_int C_ext hypothesis disproven, symmetric Hamiltonian noise distribution
+C_int C_ext 33:1 does not exist, Bell+ noise distribution
 irrelevant, delta 0.42 subsystem purity correction, agent NCalc calculator
 exploration, R=CPsi2 mathematical findings -->
 
 > **Restoration note (March 14, 2026):** Originally written 2026-01-30, deleted March 12,
-> restored March 14. Sections 1–7 verified; Section 9 (C_int vs C_ext) disproven.
+> restored March 14. Sections 1–7 verified; Section 9 (C_int vs C_ext): the 33:1 does not exist.
 
-**Status:** Partially verified (Tier 2–4); C_int vs C_ext disproven
+**Status:** Partially verified (Tier 2–4); C_int vs C_ext: the 33:1 does not exist
 **Date:** 2026-01-30
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -21,9 +21,14 @@ Early in the project, two AI agents explored the formula R = CΨ² with a
 calculator and found seven mathematical structures (self-reference returns
 to unity, boundaries at C → 0 and ∞, asymmetry produces more through
 cross-terms, 0.5 as optimal incompleteness, and more). Two additional
-claims were later tested with proper quantum simulations and disproven:
-noise distribution does not matter for symmetric systems (only total noise
-counts). This document is a historical record of agent-driven mathematical
+claims were later tested with proper quantum simulations. The δ = 0.42
+"excess coherence" is the difference between closed and open system purity
+(Section 8). The other, that bidirectional and unidirectional decoherence
+differ at the same total noise, does not hold on Bell+
+under the Heisenberg bond, where only the total noise counts, as on every
+state without coherence between the two Z⊗Z parity sectors; on states with
+such coherence the split can matter. This
+document is a historical record of agent-driven mathematical
 exploration, including both the verified discoveries and the honest
 corrections.
 
@@ -38,10 +43,11 @@ were tested and corrected: the δ = 0.42 "excess coherence" (Section 8) was
 reframed as the trivial difference between closed and open system purity,
 not an anomaly. The C_int vs C_ext hypothesis (Section 9), claiming that
 bidirectional decoherence preserves coherence differently than unidirectional,
-was **disproven**: 21 noise distributions on Bell+ under symmetric
-Heisenberg coupling, simulated with the Lindblad master equation (the standard framework for open quantum systems), all produced identical dynamics. Noise distribution
-matters only when the Hamiltonian breaks subsystem symmetry (star topology),
-not when noise does.
+does not hold on Bell+ and its 33:1 does not exist: 21 noise distributions on Bell+ under symmetric
+Heisenberg coupling, simulated with the Lindblad master equation (the standard framework for open quantum systems), all produced identical dynamics, because Bell+ carries no coherence
+between the two Z⊗Z parity sectors, on which the two sites' dephasing act
+alike under a bond that commutes with Z⊗Z; states with such coherence,
+symmetric ones included, can depend on the split, and the star topology does.
 
 ---
 
@@ -306,11 +312,13 @@ print(0.0001 ** 0.0001)  # ≈ 1.0 (approaches 1 as x→0)
 3. Can higher-order derivatives reveal additional structure?
 4. How does the interference term scale with more than two waves?
 5. ~~Does symmetric vs asymmetric decoherence protect coherence
-   differently?~~ **ANSWERED**: No, for symmetric Hamiltonians. The noise
-   distribution is irrelevant; only γ_total matters. But YES, for
-   asymmetric Hamiltonians (star topology). See Section 9.
+   differently?~~ **ANSWERED**: No under the Heisenberg bond for states
+   without coherence between the Z⊗Z parity sectors (Bell+ among them), where
+   only γ_total matters; it can for states with such coherence, and it does
+   for asymmetric Hamiltonians (star topology). See Section 9.
 6. ~~Can the C_int vs C_ext hypothesis be tested with proper Lindblad
-   simulations?~~ **ANSWERED**: Yes. It was tested and disproven. See Section 9.
+   simulations?~~ **ANSWERED**: Yes. On Bell+ the split does not matter and the
+   33:1 does not exist. See Section 9.
 
 ---
 
@@ -354,15 +362,15 @@ The formula `Tr(ρ²) = 0.5 + 0.5·cos(3Jt)²` describes subsystem purity oscill
 
 ### Original Agents' Interpretation (Retained for Context)
 
-The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea was tested in Section 9. **Result: for symmetric Hamiltonians, noise distribution does not matter. For asymmetric Hamiltonians (star topology), it does, but through the coupling structure, not through "mutual observation."**
+The agents framed this as "unexplained coherence" and connected it to C_int (mutual internal observation) via the symmetry condition [Q,H]=0. While the specific δ calculation was misframed, the underlying idea was tested in Section 9. **Result: under the Heisenberg bond, noise distribution does not matter for states without coherence between the Z⊗Z parity sectors (Bell+ among them); for states with such coherence it can, and in the star topology it does, and nowhere through "mutual observation."**
 
 ---
 
-## 9. C_int vs C_ext: DISPROVEN
+## 9. C_int vs C_ext: The 33:1 Does Not Exist
 
-**Date:** 2026-02-01 (original), 2026-03-08 (tested and closed)
+**Date:** 2026-02-01 (original), 2026-03-08 (tested)
 **Source:** AI Triad Dialogue (Alpha, Beta, Gamma)
-**Status:** DISPROVEN by proper Lindblad simulation
+**Status:** tested by proper Lindblad simulation: the split is irrelevant on Bell+ and the agents' 33:1 does not exist; on states with coherence between the Z⊗Z parity sectors the split can matter, by little in the example below
 
 ### The Hypothesis
 
@@ -384,25 +392,38 @@ both read in the concurrence book CΨ = concurrence·Ψ, and
 purity@t=2 = 0.7247, for every single noise distribution. The 33:1 ratio
 claimed by the agents does not exist.
 
-**Why:** For local σ_z dephasing under a symmetric Hamiltonian
-(Heisenberg), the Lindblad evolution of a symmetric initial state
-(Bell+) depends only on γ_A + γ_B, not on their individual values.
-The noise distribution is irrelevant.
+**Why:** Bell+ carries no coherence between the two parity sectors of
+Z⊗Z, {|00⟩, |11⟩} and {|01⟩, |10⟩}, so it commutes with Z⊗Z, and the
+Heisenberg bond commutes with Z⊗Z as well, as do both dephasings, so the
+state keeps commuting with it along the whole trajectory. For such a state the two sites' dephasing act
+alike: Z_A ρ Z_A = Z_B (Z⊗Z) ρ (Z⊗Z) Z_B = Z_B ρ Z_B. So the two dissipators
+coincide and only γ_A + γ_B enters, for Bell+ and for every state without
+coherence between the two sectors (Ψ+, cos a|00⟩ + sin a|11⟩ and every
+Bell-diagonal state among them). In the coherence basis this is the
+dissipator's diagonal entry, the reading of the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) behind its
+Theorem 2: a coherence carries −2 Σ_l γ_l over the sites where its two labels
+differ, so on two
+qubits the split drops out for coherences that differ on no site or on both,
+which are exactly those that commute with Z⊗Z. Swap symmetry of the state and
+of H is not what decides: (|00⟩ + |01⟩ + |10⟩)/√3 is swap-symmetric and entangled but carries
+coherence between the sectors, and under the same bond (H = XX + YY + ZZ) and
+budget its CΨ, read as concurrence × l₁/3, is 0.2294 at t = 2 with all the
+noise on one site and 0.2292 split evenly
+([delta_calc_mediator_runs.py](../simulations/delta_calc_mediator_runs.py)).
 
-**Important nuance:** This result applies to symmetric (2-qubit)
-systems. In asymmetric systems (star topology, 3 qubits, J_SA ≠ J_SB),
-the noise distribution DOES matter; Section 4.9 of
+**Important nuance:** This result rests on the parity condition above. In asymmetric
+systems (star topology, 3 qubits, J_SA ≠ J_SB) the noise distribution
+matters as well; Section 4.9 of
 STAR_TOPOLOGY_OBSERVERS.md showed that receiver noise (γ_A) is more
 destructive than sender noise (γ_B), by about 1.7× when the two are read at a
-matched partner rate, and the roles invert past a partner rate of 0.17292. The key
-is not symmetric vs asymmetric noise, but symmetric vs asymmetric COUPLING.
+matched partner rate, and the roles invert past a partner rate of 0.17292.
 
 ### Conclusion
 
-The C_int vs C_ext hypothesis is closed. The agents' original tool
-had a bug or used a different definition. The actual physics is:
-noise distribution matters when the Hamiltonian breaks the symmetry
-between subsystems, not when the noise does.
+The agents' 33:1 does not exist; what produced it is not recorded. For Bell+ under the Heisenberg bond the noise
+distribution is irrelevant for the reason above; for states with coherence
+between the parity sectors under the same bond it can matter, and in the star it does.
 
 ---
 

@@ -14,18 +14,25 @@ reports delta = purity - (diag + offdiag * exp(-2 * total_gamma * t)), total_gam
 C_int and gamma for C_ext. Bell+ and Bell- are eigenstates of the bond with the same energy and
 dephasing keeps the state in their span, so H does nothing: the coherence |00><11| decays at
 2 gamma per dephased site, the purity is 1/2 + 1/2 exp(-8 gamma t) (C_int) or 1/2 + 1/2 exp(-4 gamma t)
-(C_ext), and the subtracted curve is the purity that dephasing at half that rate would give. So
+(C_ext), and the subtracted curve is the purity that dephasing at half the run's per-site rate would give. So
 exactly
 
     delta_int = (exp(-8 gamma t) - exp(-4 gamma t)) / 2,   delta_ext = (exp(-4 gamma t) - exp(-2 gamma t)) / 2,
 
-and both vanish against a prediction at each run's own rate; the rates of the two sites add.
+and both vanish against the purity of dephasing at each run's own rate; the rates of the two sites add.
 
 Appendix A.1 is simulate_dynamic_lindblad with noise_type local (the scalar law, rate gamma * C with
 the mutual-purity bridge C, sigma_z on every site, Euler dt 0.01 with the clipping), GHZ_3 on the
 Heisenberg ring, gamma 0.05, t_max 10. Appendix A.5 is GHZ_N on the ring under operator feedback,
 which is blind on GHZ_N (A.2), so delta is the GHZ coherence's dephasing against the tool's
 half-rate curve, (exp(-4 N gamma t) - exp(-2 N gamma t)) / 2 at t = 5.
+
+It also gates what other pages state about the same comparison: the closed form's minimum and
+the two places it reaches -8e-4 (docs/historical/CORE_ALGEBRA.md §8), the parabola
+delta = (w^2 - w)/2 with its bound -1/8 and its symmetry w <-> 1 - w
+(experiments/OPERATOR_FEEDBACK.md §3), and the parity criterion of
+experiments/MATHEMATICAL_FINDINGS.md §9: a state commuting with Z (x) Z, under a bond that commutes
+with it, feels Z_A and Z_B alike, with a swap-symmetric counterexample that does not commute.
 
 Import-inert; prints only, and exits with status 1 if any check fails.
 """
@@ -101,6 +108,24 @@ def psi(r):
 def prediction(rho0, t, total_gamma):
     diag = float(np.sum(np.abs(np.diag(rho0)) ** 2))
     return diag + (purity(rho0) - diag) * np.exp(-2 * total_gamma * t)
+
+
+def exact_state(rho0, H, gammas, t):
+    n = int(np.log2(rho0.shape[0]))
+    d = rho0.shape[0]
+    Lv = -1j * (np.kron(np.eye(d), H) - np.kron(H.T, np.eye(d)))
+    for k, g in enumerate(gammas):
+        Lk = site(Z, k, n)
+        Lv += g * (np.kron(Lk.conj(), Lk) - np.kron(np.eye(d), np.eye(d)))
+    return (expm(Lv * t) @ rho0.reshape(-1, order="F")).reshape(d, d, order="F")
+
+
+def concurrence_cpsi(r):
+    """Wootters concurrence times l1/3 of a two-qubit state."""
+    yy = np.kron(Y, Y)
+    lam = np.sqrt(np.abs(np.sort(np.real(np.linalg.eigvals(r @ yy @ r.conj() @ yy)))[::-1]))
+    c = max(0.0, lam[0] - lam[1] - lam[2] - lam[3])
+    return c * float(np.abs(r).sum() - np.abs(np.diag(r)).sum()) / 3
 
 
 def tool_cint(gamma, gammas, t=1.0, dt=0.01):
@@ -190,7 +215,7 @@ def main():
               dev <= 100 * EPS, f"(largest deviation {dev:.1e})")
         check(f"gamma {g:.2f}: delta_int - delta_ext exactly", {0.05: -0.031, 0.10: -0.036, 0.20: -0.013}[g], ci - ce)
         matched = max(abs(p_int - prediction(bell(), 1.0, 4 * g)), abs(p_ext - prediction(bell(), 1.0, 2 * g)))
-        claim(f"gamma {g:.2f}: against a prediction at each run's own rate both deltas vanish (<= 100 eps)",
+        claim(f"gamma {g:.2f}: against the purity of dephasing at each run's own rate both deltas vanish (<= 100 eps)",
               matched <= 100 * EPS, f"(largest {matched:.1e})")
 
     print("  the sign change of delta_int - delta_ext at gamma t = ln(phi)/2:")
@@ -201,7 +226,31 @@ def main():
     fact = us * (us - 1) * (us * us + us - 1) / 2
     claim("  Delta delta = u(u-1)(u^2+u-1)/2 with u = exp(-2 gamma t), on a grid of gamma t in (0, 3] (<= 100 eps)",
           np.abs(dd - fact).max() <= 100 * EPS, f"(largest {np.abs(dd - fact).max():.1e})")
+    from scipy.optimize import brentq, minimize_scalar
+    ddf = lambda x: 0.5 * np.exp(-2 * x) * (np.exp(-2 * x) - 1) * (np.exp(-4 * x) + np.exp(-2 * x) - 1)
+    low = minimize_scalar(ddf, bounds=(0, np.log(phi) / 2), method="bounded")
+    check("  Core Algebra Sec. 8: the closed form's minimum", -0.0367, low.fun, digits=4)
+    check("  ... at gamma t", 0.089, low.x)
+    check("  Delta delta = -8e-4 at gamma t (first)", 8e-4, brentq(lambda x: ddf(x) + 8e-4, 1e-6, low.x), digits=4)
+    from fractions import Fraction as Fr
+    par = lambda w: Fr(1, 2) * (w * w - w)
+    wgrid = [Fr(k, 64) for k in range(65)]
+    claim("  Operator Feedback Sec. 3: delta = (w^2 - w)/2 is never below -1/8, which it reaches only at w = 1/2, "
+          "and delta(w) == delta(1 - w) (exact, w = k/64)",
+          min(par(w) for w in wgrid) == Fr(-1, 8) and [w for w in wgrid if par(w) == Fr(-1, 8)] == [Fr(1, 2)]
+          and all((par(a) == par(b)) == (a == b or a + b == 1) for a in wgrid for b in wgrid))
+    for label, rho0, H_, gs in (("Bell+, both sites", bell(), heisenberg(2, False), (0.1, 0.1)),
+                                ("Bell+, one site", bell(), heisenberg(2, False), (0.1, 0.0)),
+                                ("GHZ_3 on the ring, every site", ghz(3), heisenberg(3, True), (0.1, 0.1, 0.1))):
+        w = np.exp(-2 * sum(gs) * 1.0)
+        dev = abs(exact_purity(rho0, H_, gs, 1.0) - prediction(rho0, 1.0, sum(gs)) - 0.5 * (w * w - w))
+        claim(f"  {label}, t = 1, the tool's curve fed with the summed rate: delta = (w^2 - w)/2 (<= 100 eps)",
+              dev <= 100 * EPS, f"({dev:.1e})")
+    check("  Delta delta = -8e-4 at gamma t (second)", 0.238, brentq(lambda x: ddf(x) + 8e-4, low.x, np.log(phi) / 2))
     zero = np.log(phi) / 2
+    tool_dd = lambda g: tool_cint(g, (g, g))[1] - tool_cint(g, (g, 0.0))[1]
+    check("  the tool's Euler step (t = 1, dt 0.01): its zero of Delta delta at gamma t", 0.2413,
+          brentq(tool_dd, 0.2, 0.3), digits=4)
     claim(f"  its only zero in (0, 3] is at gamma t = ln(phi)/2 = {zero:.4f}: |delta_int| > |delta_ext| below, < above",
           all((g < zero) == (abs((np.exp(-8 * g) - np.exp(-4 * g)) / 2) > abs((np.exp(-4 * g) - np.exp(-2 * g)) / 2))
               for g in grid if abs(g - zero) > 1e-3))
@@ -218,6 +267,41 @@ def main():
     ZA = np.rint(np.real(site(Z, 0, 2))).astype(int)
     claim("  and dephasing maps Bell+ to Bell- (Z_A (2 Bell+) Z_A == 2 Bell-), so the span is kept",
           (ZA @ P @ ZA == M).all())
+    ZB = np.rint(np.real(site(Z, 1, 2))).astype(int)
+    off = np.zeros((4, 4), dtype=int)
+    off[0, 1] = 1  # |00><01|, outside the span: there Z_B flips the sign and Z_A does not
+    claim("  on that span Z_A and Z_B act alike (Z_A P Z_A == Z_B P Z_B for both projectors; "
+          "control |00><01| differs)", (ZA @ P @ ZA == ZB @ P @ ZB).all() and (ZA @ M @ ZA == ZB @ M @ ZB).all()
+          and not (ZA @ off @ ZA == ZB @ off @ ZB).all())
+    print("  Mathematical Findings Sec. 9: budget 0.1 split as (f 0.1, (1 - f) 0.1), exact purity at t = 2:")
+    Hh = heisenberg(2, False)
+    bell_split = [exact_purity(bell(), Hh, (f * 0.1, (1 - f) * 0.1), 2.0) for f in (0.0, 0.25, 0.5)]
+    check("  Bell+, every split", 0.7247, bell_split[0], digits=4)
+    claim("  Bell+: the purity is the same for every split (<= 100 eps)", max(bell_split) - min(bell_split) <= 100 * EPS,
+          f"({max(bell_split) - min(bell_split):.1e})")
+    ZZ = site(Z, 0, 2) @ site(Z, 1, 2)
+    Hi, ZZi, XAi = (np.rint(np.real(m)).astype(int) for m in (Hh, ZZ, site(X, 0, 2)))
+    claim("  the bond commutes with Z (x) Z (exactly, integer entries; control: X_A does not)",
+          (Hi @ ZZi == ZZi @ Hi).all() and not (XAi @ ZZi == ZZi @ XAi).all())
+    rng = np.random.default_rng(7)
+    A = rng.normal(size=(4, 4)) + 1j * rng.normal(size=(4, 4))
+    r = A @ A.conj().T
+    r /= np.trace(r)
+    par_r = 0.5 * (r + ZZ @ r @ ZZ)  # its coherence between the parity sectors removed
+    for label, rr, gs in (("Psi+", np.outer(*(2 * [np.array([0, 1, 1, 0]) / np.sqrt(2)])), None),
+                          ("a random state commuting with Z (x) Z", par_r, None)):
+        dev = max(np.abs(exact_state(rr, Hh, (0.1, 0.0), 2.0) - exact_state(rr, Hh, s, 2.0)).max()
+                  for s in ((0.05, 0.05), (0.02, 0.08)))
+        claim(f"  {label}: the state at t = 2 is the same for every split (<= 100 eps)", dev <= 100 * EPS, f"({dev:.1e})")
+    dev = np.abs(exact_state(r, Hh, (0.1, 0.0), 2.0) - exact_state(r, Hh, (0.05, 0.05), 2.0)).max()
+    claim("  control: the same random state with its cross-sector coherence kept depends on the split", dev > 1e-3,
+          f"({dev:.1e})")
+    v = np.array([1, 1, 1, 0], dtype=complex) / np.sqrt(3)  # (|00> + |01> + |10>)/sqrt 3
+    sym = np.outer(v, v.conj())
+    check("  (|00>+|01>+|10>)/sqrt3, all on one site: concurrence * l1/3", 0.2294,
+          concurrence_cpsi(exact_state(sym, Hh, (0.1, 0.0), 2.0)), digits=4)
+    check("  (|00>+|01>+|10>)/sqrt3, split evenly: concurrence * l1/3", 0.2292,
+          concurrence_cpsi(exact_state(sym, Hh, (0.05, 0.05), 2.0)), digits=4)
 
     print("\nA.1, GHZ_3 on the ring, local noise (the scalar law), gamma 0.05, t = 10:")
     rows = tool_local(ghz(3), 3, heisenberg(3, True), 0.05, 10.0)

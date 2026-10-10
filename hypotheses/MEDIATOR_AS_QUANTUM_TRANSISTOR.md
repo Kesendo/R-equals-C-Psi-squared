@@ -137,13 +137,13 @@ Can A→M→B and B→M→A happen at the same time? No run on this page tests i
 | C_int (both sites dephased, γ_A=γ_B=0.05) | 0.835 | -0.074 |
 | C_ext (one site dephased, γ_A=0.05, γ_B=0) | 0.909 | -0.043 |
 
-Dephasing both sites lowers the purity more, as it should. The δ's carry no interference. Bell+ and Bell− are eigenstates of the bond with the same energy, and dephasing keeps the state in their span, so H does nothing: the coherence |00⟩⟨11| decays at 2γ per watched site, and the tool's δ subtracts the purity that dephasing at half that rate would give, in both modes,
+Dephasing both sites lowers the purity more, as it should. The δ's carry no interference. Bell+ and Bell− are eigenstates of the bond with the same energy, and dephasing keeps the state in their span, so H does nothing: the coherence |00⟩⟨11| decays at 2γ per watched site, and the tool's δ subtracts the purity that dephasing at half the run's per-site rate would give, in both modes,
 
 ```
 δ_int = ½(e^(−8γt) − e^(−4γt)),    δ_ext = ½(e^(−4γt) − e^(−2γt)).
 ```
 
-Against a prediction at each run's own rate both vanish; the rates of the two sites add, as [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9 found for the whole dynamics of Bell+, which depends on γ_A + γ_B alone.
+Against the purity of dephasing at each run's own rate both vanish; the rates of the two sites add, as [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9 found for the whole dynamics of Bell+, which depends on γ_A + γ_B alone.
 
 **Scaling with γ** (the tool's values, and Δδ exactly):
 

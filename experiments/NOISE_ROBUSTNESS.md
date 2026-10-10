@@ -145,7 +145,10 @@ dephasing P_A = P_B = ½ and P_AB = (1 + f²)/2, so C = min(1, ½ + f²). It
 holds at 1 until f = 1/√2, t = ln 2/(8γ) ≈ 1.73, the recorded "until
 t ≈ 1.7", and then slides as ½ + f². Past that point the tool's step gives 0.986
 and 0.950 (Crossing Taxonomy stores the 0.986), exact propagation at the same rate
-γ·C gives 0.987 and 0.951; where the table's 0.987 came from is not recorded.
+γ·C gives 0.987 and 0.951
+([delta_calc_noise_correlation_runs.py](../simulations/delta_calc_noise_correlation_runs.py));
+where the table's 0.987 came from is not recorded: the call log holds the
+runs of 2026-02-18 of the correlation bridge but truncates their output.
 
 **Run for real.** Purity cannot tell which Pauli axis dephased Bell+, and
 neither can concurrence or mutual information: under σ_x and σ_y every

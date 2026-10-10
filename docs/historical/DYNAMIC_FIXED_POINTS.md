@@ -24,6 +24,11 @@
 > §5's 0.3–0.35 included, lies on the unstable branch, and from R = 0 the iteration settles
 > on R₋ ≈ 0.22, reaching |ΔR| < 10⁻⁴ after 42 steps rather than three. §1's own iteration
 > re-reads C and Ψ as functions of R without saying how, so its three steps cannot be rerun.
+>
+> The negative difference of Δδ's of §4, read as a "lubricant" there, in §6's table and in
+> the Summary, comes from the agents, as do §3's Δδ peaks, and no run of theirs survives. The one Δδ of that name the repository regenerates is a difference of two gaps to
+> half-rate references and says nothing of bidirectional observation smoothing decoherence
+> ([Core Algebra](CORE_ALGEBRA.md) §8).
 
 # Dynamic Fixed Points and the CΨ ≤ ¼ Bound
 

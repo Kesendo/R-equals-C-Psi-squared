@@ -99,7 +99,10 @@ is about +8% relative to the clean crossing.
 | 2.0 | 0.2380 | 0.2406 | 0.2236 | 0.2729 | 0.3016 |
 | 3.0 | 0.2082 | 0.2100 | 0.1876 | 0.2469 | 0.2869 |
 
-### 3.3 Reported scalar and θ traces
+### 3.3 Reported scalar traces, with θ
+
+The θ column is computed from each row's CΨ by θ = arctan √(4CΨ − 1); the tool
+computes no θ.
 
 Concurrence:
 

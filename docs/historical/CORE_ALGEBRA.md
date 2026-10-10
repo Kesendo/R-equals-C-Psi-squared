@@ -317,31 +317,45 @@ See [GRAVITATIONAL_INVARIANCE.md](../../experiments/GRAVITATIONAL_INVARIANCE.md)
 
 <!-- F14-CURRENT -->
 
-## 8. The Ψ_interaction Finding
+## 8. The Ψ_interaction Question
 
-When two observers interact bidirectionally (C_int), an interaction term
-Ψ_interaction emerges in the joint wave function.
+**Question:** Does an interaction term Ψ_interaction between two observers
+change the ¼ boundary?
 
-**Question:** Does Ψ_interaction change the ¼ boundary?
+**Answer:** Not the condition. The ¼ is where the recurrence R = C(Ψ + R)²
+loses its real fixed point, 1 − 4CΨ = 0 (§3), for whatever C and Ψ enter it,
+and no δ appears in it. An interaction term counted into Ψ, read as the
+recurrence R = C₁C₂(Ψ₁ + Ψ₂ + Ψ_interaction + R)² (the agents' form below has no R
+on the right and so no fixed point), changes the product that meets the
+condition, not the condition; whether it moves where a single observer's own
+CΨ crosses is a different question, not answered here.
 
-**Answer:** No. Numerical simulation shows:
+The reported value
 
 ```
 Δδ = δ_bidirectional - δ_unidirectional ≈ -8 × 10⁻⁴
 ```
 
-The interaction accelerates convergence to the stable fixed-point branch
-but does not shift the boundary. The ¼ limit is absolute.
+came from the February agents: it entered on 2026-02-02 as their "Agent
+Discovery", with Ψ_interaction set up as R = C₁C₂(Ψ₁ + Ψ₂ + Ψ_interaction)², and
+no run of theirs survives; the agents also reported a difference of Δδ's of
+about −0.1 under a related name ([historical Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) §4). The
+one Δδ of this name the repository regenerates is the retired tool's C_int / C_ext comparison on Bell+
+([Mediator as Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
+§2.3, [delta_calc_mediator_runs.py](../../simulations/delta_calc_mediator_runs.py)):
+in exact propagation, with u = e^(−2γt), it is ½u(u − 1)(u² + u − 1), negative below γt = ½ ln φ ≈ 0.24
+and positive above, and −γt to first order; it falls to −0.0367 at γt ≈ 0.089
+and comes back, so a value of −8 × 10⁻⁴ there is reached twice, at γt ≈ 8 × 10⁻⁴
+and at γt ≈ 0.238. Each δ in it is the purity against the purity that dephasing at
+half the run's rate would give; against the purity of dephasing at the run's own rate both
+vanish, so the sign of Δδ says nothing about which run decoheres more (the run
+dephased on both sites does, at twice the rate).
 
-| Aspect | Effect of Ψ_interaction |
-|--------|-------------------------|
-| Convergence speed | Faster |
-| Stability region | Unchanged |
-| ¼ boundary | Unchanged |
-
-**Epistemic status:** Tier 2: computationally verified. The negativity of Δδ
-(bidirectional causes slightly more decoherence) is an empirical finding,
-not yet theoretically explained.
+**Epistemic status:** the ¼ statement is algebraic, for the product that enters
+the recurrence. The sign of Δδ in the
+tool's comparison follows from the closed form in exact propagation (the tool's
+Euler step, at t = 1 and dt 0.01, moves its zero from γt = 0.2406 to 0.2413); the −8 × 10⁻⁴ itself is not
+regenerated.
 
 ---
 
@@ -409,7 +423,7 @@ open. See [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md), item 
 | Uniqueness of quadratic form | 1 | Exhaustion of alternatives |
 | θ as compass (not frequency predictor) | 2 | Computationally verified |
 | τ_cross = γ·t_cross = constant | 2 | Computationally verified |
-| Ψ_interaction doesn't shift ¼ | 2 | Computationally verified |
+| The ¼ threshold carries no δ term | 1 | Algebraic, for the product that enters the recurrence (§8) |
 | C = purity, Ψ = normalized coherence | 3 | Proposed mapping |
 | Observer bandwidth interpretation | 3 | Physically motivated |
 | Shannon capacity analogy | 5 | Speculative |
@@ -705,7 +719,7 @@ See [ALGEBRAIC_EXPLORATION.md](../../experiments/ALGEBRAIC_EXPLORATION.md).
 | Uniqueness of quadratic form | 1 | Exhaustion of alternatives |
 | θ as compass (not frequency predictor) | 2 | Computationally verified |
 | τ_cross = γ·t_cross = constant | 2 | Computationally verified |
-| Ψ_interaction doesn't shift 1/4 | 2 | Computationally verified |
+| The 1/4 threshold carries no δ term | 1 | Algebraic, for the product that enters the recurrence (§8) |
 | ξ = ln(Ψ) decoherence clock | 2 | Computationally verified in runs where H does nothing (§11) |
 | State-specific C(ξ) closed forms | 2 | Analytically derived, numerically verified |
 | C = purity, Ψ = normalized coherence | 3 | Proposed mapping |

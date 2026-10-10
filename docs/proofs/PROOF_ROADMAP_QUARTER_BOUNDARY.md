@@ -273,7 +273,7 @@ This finite hierarchy is compatible with a monogamy explanation, but that mechan
 
 **W-state behavior differs from GHZ.** W states $|W_N\rangle = (|10\cdots 0\rangle + |01\cdots 0\rangle + \cdots + |00\cdots 1\rangle)/\sqrt{N}$ have more robust subsystem entanglement (each pair shares $O(1/N)$ entanglement rather than GHZ's all-or-nothing structure). Preliminary simulations suggest W-state subsystem pairs cross 1/4 at later times than GHZ pairs of the same N.
 
-**Power-law fits of δ with N (reported, not regenerated).** An exponent of approximately −0.3 to −0.5 was reported for δ(N) of GHZ under local dephasing, depending on the bridge metric. No logged call reproduces it: the tool's fit keeps only values above 0.001, so it cannot fit the negative δ of the GHZ table, and both logged GHZ δ scaling calls (2026-02-08 and 02-09) returned no δ fit. Where the number came from is not known. For the GHZ table above δ(N) has a closed form, which is no power law.
+**Power-law fits of δ with N (reported, not regenerated).** An exponent of approximately −0.3 to −0.5 was reported for δ(N) of GHZ under local dephasing, depending on the bridge metric. No logged call reproduces it: the tool's fit keeps only values above 0.001, so it cannot fit the negative δ of the GHZ table, and both logged GHZ δ scaling calls (2026-02-08 and 02-09) returned no δ fit. Where the number came from is not known: it first appears in this roadmap (2026-03-21), attributed to the tool's sweep_R_scaling, whose fit is of R_inf, not δ. For the GHZ table above δ(N) has a closed form, which is no power law.
 
 ### What Is CONJECTURED
 

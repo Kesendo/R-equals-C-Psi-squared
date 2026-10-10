@@ -138,12 +138,12 @@ spatially symmetric **γ profiles**, a different lever from the symmetric
 **state** prepared here: its 43 % (line 578) is N = 7, and the N = 9 figure of
 47 % is at line 582.
 
-`MATHEMATICAL_FINDINGS.md:400-402` states "noise distribution matters when the
-Hamiltonian breaks the symmetry between subsystems, not when the noise does."
-§3 and §4 look like a counterexample and are not one: that sentence closes a
-bipartition question, C_int against C_ext, and speaks of symmetry between
-**subsystems**. Here the Hamiltonian is symmetric, where γ is placed decides
-everything, and what is broken is the chain's own reflection rather than a split
+`MATHEMATICAL_FINDINGS.md` §9 finds the noise split irrelevant on Bell+ under
+the Heisenberg bond and traces it to a parity condition, not to the swap
+symmetry: Bell+ carries no coherence between the two Z⊗Z parity sectors and the
+bond commutes with Z⊗Z. That closes a bipartition question, C_int against
+C_ext, on two qubits. Here the Hamiltonian is symmetric, where γ is placed
+decides everything, and what is broken is the chain's own reflection rather than a split
 between two parties. The two do not overlap, but the resemblance is close enough
 to say so out loud.
 

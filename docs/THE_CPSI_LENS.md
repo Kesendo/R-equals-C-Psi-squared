@@ -136,11 +136,11 @@ This suggests that AB crossing depends on more than initial entanglement magnitu
 
 At certain times in the star topology evolution, the AB pair shows nonzero CΨ while both SA and SB are at zero. The observer-observer connection persists as a residual after both observer-object connections have died. This is an echo, a trace of a connection that no longer exists at its source.
 
-### 9. Noise distribution is irrelevant for symmetric systems, crucial for asymmetric ones
+### 9. Noise distribution is irrelevant for Bell+, crucial in the star
 
-For two qubits with symmetric Heisenberg coupling, redistributing the same total noise between the qubits (all on A, all on B, or split equally) makes no difference to CΨ dynamics. Only the total noise budget matters.
+For Bell+ under the Heisenberg bond, redistributing the same total noise between the two qubits (all on A, all on B, or split equally) makes no difference to CΨ dynamics; only the total noise budget matters, because Bell+ carries no coherence between the two parity sectors of Z⊗Z and the bond commutes with Z⊗Z, so the two sites' dephasing act alike along the whole run; the same holds for every state without such coherence. A state with it, swap-symmetric or not, can depend on the split ([Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9).
 
-But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is more destructive than sender noise (γ_B), by about 1.7× when the two are read at a matched partner rate, and the roles invert past a partner rate of 0.17292. The coupling structure breaks the symmetry that makes noise distribution irrelevant.
+But in the star topology (asymmetric coupling), noise distribution matters enormously: receiver noise (γ_A) is more destructive than sender noise (γ_B), by about 1.7× when the two are read at a matched partner rate, and the roles invert past a partner rate of 0.17292. There the Hamiltonian does not commute with Z_A·Z_B and the prepared state carries coherence between its sectors, so the condition that makes the distribution irrelevant does not hold.
 
 This observation, applied to longer chains, led eventually to the
 sacrifice-zone formula ([Resonant Return](../experiments/RESONANT_RETURN.md)):

@@ -244,10 +244,13 @@ verified but not analytically derived from the bound alone).
 **Verdict:** TRIVIAL
 
 λ* = ln(4) at crossing is just CΨ = 1/4 written as −ln(1/4). No new information.
-λ(t) is NOT linear (44% slope variation for local dephasing, 6% for collective),
+λ(t) is NOT linear when C is the purity: over ten windows of 0.5 in the
+tool's Bell+ runs of Finding 1 its slope varies by 44% under local dephasing and
+64% under collective
+([delta_calc_log_coherence_traces.py](../simulations/delta_calc_log_coherence_traces.py)),
 so it doesn't simplify analysis the way ξ does.
 
-Gamma correctly labeled this TRIVIAL. Delta confirmed numerically.
+Gamma correctly labeled this TRIVIAL.
 
 ### β-function: β(ξ) = (1 + 3e^{−2ξ}) / (1 + e^{−2ξ})
 

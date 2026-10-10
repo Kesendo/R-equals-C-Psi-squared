@@ -261,7 +261,19 @@ them, and the rest rests on the source alone:
   κ = 0.5, so there δ stays near zero at first (at h = 0, γ₀ = 0.1: −0.004 at
   t = 0.5, against −0.074 without feedback), and the rate at which the default
   scalar law runs on Bell+ throughout, so at h = 0 its δ is zero at every t in
-  exact propagation.
+  exact propagation. Where H does not act and every coherence of ρ(0) differs
+  on every dephased site (Bell+ under σ_z on one or both sites, GHZ_N), the
+  purity's off-diagonal part decays as e^(−4Γt), Γ the run's summed rate,
+  while the tool's reference curve fed with a rate Γ′ decays as e^(−2Γ′t), the
+  purity of dephasing at Γ′/2. The default scalar law runs at Γ = Γ′/2, so its
+  δ vanishes. Fed instead with the run's own Γ, as the tool's C_int / C_ext
+  comparison does, the reference is the purity at Γ/2 and δ = off·(w² − w) with w = e^(−2Γt) and
+  off the off-diagonal part of the initial purity (½ on Bell+ and GHZ_N): a
+  parabola in w, never below −off/4 (−⅛ there), which it reaches at
+  2Γt = ln 2, and two different w give the same δ exactly when they add to 1.
+  The golden ratio at which the bidirectional and the unidirectional δ of
+  [Mediator as Quantum Transistor](../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
+  §2.3 meet (w = u² and w = u, u² + u = 1) is that symmetry and nothing more.
 
 This C·Ψ is neither of the two products the repository names (the
 [Glossary](../docs/GLOSSARY.md): purity × l₁/(d − 1), or concurrence × l₁/(d − 1)
@@ -275,7 +287,9 @@ regenerates the §4 sweep and the runs of [Simulation Evidence](SIMULATION_EVIDE
 [operator_feedback_jump_runs.py](../simulations/operator_feedback_jump_runs.py)
 checks the identities of §2 and §8 exactly, regenerates §8 against the tool's
 logged values, and compares the page's other results with their exact or
-regenerated values (the two quoted from Dynamic Entanglement excepted). Exact, here and below, means propagation by expm of the
+regenerated values (the two quoted from Dynamic Entanglement excepted);
+[delta_calc_mediator_runs.py](../simulations/delta_calc_mediator_runs.py)
+checks the parabola of the δ bullet above. Exact, here and below, means propagation by expm of the
 Liouvillian or by DOP853 at rtol 10⁻¹² (10⁻¹¹ for the GHZ runs of §8.1).
 
 ---

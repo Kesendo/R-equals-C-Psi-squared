@@ -1,7 +1,8 @@
 """
 The log-coherence traces of February 19 in the retired tool's own reading, and exactly
 =====================================================================================
-experiments/ALGEBRAIC_EXPLORATION.md (Finding 1) and docs/historical/CORE_ALGEBRA.md §11 report
+experiments/ALGEBRAIC_EXPLORATION.md (Finding 1, and the slope spread of lambda among its rejected
+findings) and docs/historical/CORE_ALGEBRA.md §11 report
 rate ratios gamma_eff/gamma_base of xi = ln(Psi) from four runs of the retired delta_calc MCP tool
 (its source is kept outside the repo and is transcribed here, not imported), and a fifth run under
 its memory-kernel feedback. The Claude Desktop log of the chat's MCP holds the five calls
@@ -243,6 +244,15 @@ def main():
             check(f"{label}: the spread, in per cent (February: 0.009)", 0.009, 100 * np.ptp(s) / s.mean())
         else:
             print(f"    (W3: February printed 0.002; this reading gives {100 * np.ptp(s) / s.mean():.3f})")
+    print("  lambda = -ln(P Psi) with P the purity, on Bell+ P = (1 + 9 Psi^2)/2, the same windows:")
+    for label, rho0, n, H, L_ops, *_ in configs:
+        if "Bell+" not in label:
+            continue
+        p = np.array(tool_run(rho0, n, H, L_ops)[0])
+        lam = -np.log((1 + 9 * p * p) / 2 * p)
+        s = np.diff(lam[::5]) / 0.5
+        page = 44 if "local" in label else 64
+        check(f"{label}: lambda's spread, in per cent", page, 100 * np.ptp(s) / s.mean(), digits=0)
 
     print("\nThe rate ratio gamma_eff/gamma_base of xi = ln Psi, three ways:")
     for label, rho0, n, H, L_ops, k, C, page in configs:

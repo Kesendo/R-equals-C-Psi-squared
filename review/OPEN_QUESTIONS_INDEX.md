@@ -24,7 +24,7 @@ For refreshed neural entries, read the per-entry status and disposition.
 |---|---|---|
 | ω_max of the (0,1) coherence block | OQ-228, 229 | ω_max = 4J(1+cos(π/N)) is the k = N−1 member of F2's dispersion, proven in `docs/proofs/derivations/D10_W1_DISPERSION.md`. Both entries were the same question, scraped twice from `experiments/THERMAL_BREAKING.md`, and both carried the "w=1" mislabel: the object is the (0,1) coherence block. Closed 2026-08-02 |
 | Crossing speed → dwell time | OQ-051, 106, 107, 108, 112, 113 | t_dwell = 2δ/\|dCΨ/dt\|, K-invariant (γ cancels), prefactor 1.0801. `experiments/CRITICAL_SLOWING_AT_THE_CUSP.md` §8 |
-| Symmetric vs asymmetric decoherence | OQ-142 | Only γ_total for symmetric H; star topology differs. `experiments/MATHEMATICAL_FINDINGS.md` §9 (2026-03-08) |
+| Symmetric vs asymmetric decoherence | OQ-142 | Only γ_total for states without coherence between the Z⊗Z parity sectors under a bond that commutes with Z⊗Z (Bell+); otherwise the split can matter, and in the star it does. `experiments/MATHEMATICAL_FINDINGS.md` §9 (2026-03-08) |
 | Correlated-product Z⊗Z Bell+ special case | OQ-144, 145 | Resolved only for Z⊗Z: Bell+ is an eigenstate and that dissipator vanishes on it. Additive Z1+Z2 and amplitude-damping taxonomy remain open (OQ-146, 147, 148, 150). `experiments/NOISE_ROBUSTNESS.md` |
 | Subsystem-pair crossing | OQ-153, 154, 155, 156, 217, 219, 220 | Bell-pairs yes, GHZ/W no; non-monotonic threshold; ring 9× faster. `experiments/N_SCALING_BARRIER.md`, `SUBSYSTEM_CROSSING.md` |
 | Star-topology observer scaling | OQ-187, 189, 190, 199, 200–207, 211 | Cross/no-cross N=2..5; J_th(γ) ≈ 7.35·γ^1.08 + 1.18; the "zero window" was a sampling artifact. `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8 |
@@ -566,7 +566,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-142
 
-**Question:** ~~Does symmetric vs asymmetric decoherence protect coherence differently?~~ **ANSWERED**: No, for symmetric Hamiltonians. The noise distribution is irrelevant; only γ_total matters. But YES, for asymmetric Hamiltonians (star topology). See Section 9.
+**Question:** ~~Does symmetric vs asymmetric decoherence protect coherence differently?~~ **ANSWERED**: No under the Heisenberg bond for states without coherence between the Z⊗Z parity sectors (Bell+ among them), where only γ_total matters; it can for states with such coherence, and it does for asymmetric Hamiltonians (star topology). See Section 9.
 
 **Source:** `experiments/MATHEMATICAL_FINDINGS.md` (line 308)
 **Section:** Open Questions
@@ -1605,7 +1605,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-143
 
-**Question:** ~~Can the C_int vs C_ext hypothesis be tested with proper Lindblad simulations?~~ **ANSWERED**: Yes. It was tested and disproven. See Section 9.
+**Question:** ~~Can the C_int vs C_ext hypothesis be tested with proper Lindblad simulations?~~ **ANSWERED**: Yes. On Bell+ the split does not matter and the 33:1 does not exist. See Section 9.
 
 **Source:** `experiments/MATHEMATICAL_FINDINGS.md` (line 312)
 **Section:** Open Questions
