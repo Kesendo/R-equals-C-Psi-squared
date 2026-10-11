@@ -69,11 +69,21 @@ The script checks, exactly:
      failure sitting in the off-diagonal part of a; under the shared field the failure is a shift only,
      [L, S+] = -8 kappa (d + 1) S+ on each source block, and for random a it is not; control: the
      Heisenberg chain breaks W through the Hamiltonian.
+  H. the dark cells: for a positive semidefinite a, a matrix unit |i><j| has dissipator
+     rate zero exactly when u = z(i) - z(j) lies in the kernel of a, read on random positive definite a,
+     the shared field at eta = 3/10 and 1, the anti-correlated end eta = -1/(N - 1) (a_kk = N - 1,
+     a_kl = -1, every row summing to zero), a random weighted graph Laplacian (a >= 0, every row summing
+     to zero, its weights not all equal from N = 3 on), and a random rank-deficient a whose kernel is
+     one random {0, +-1} direction that can single out particular sites from N = 3 on: 2^N cells for a
+     positive definite a, C(2N, N) at eta = 1, and 2^N + 2 at that end, the populations plus
+     |0...0><1...1| and its transpose; and on all six the GHZ coherence dark exactly when every row of
+     a sums to zero (N = 2..5).
 
-Every input is an integer (gamma = 10, eta in {3/10, -2/10, 9/10, 1}, so a has integer entries; H
-integer), and the script works with 2L, whose entries are Gaussian integers. Every comparison is an
-integer comparison; no tolerance appears in any gate (a float eigenvalue only selects which random
-indefinite matrix to test).
+Every input is an integer (gamma = 10, eta in {3/10, -2/10, 9/10, 1}, so a has integer entries; the
+anti-correlated end of section H at gamma = N - 1; the Hamiltonian integer), and the script works
+with 2L, whose entries are Gaussian integers. Every comparison is an integer comparison; no tolerance
+appears in any gate (a float eigenvalue only selects which random indefinite matrix to test). In
+section H the kernel test a u = 0 is the commutation with every jump, since ker a = ker B for a = B^T B.
 
 Import-inert; prints only, and exits with status 1 if any check fails.
 """
@@ -81,10 +91,11 @@ Import-inert; prints only, and exits with status 1 if any check fails.
 import itertools
 import sys
 from fractions import Fraction
+from math import comb
 
 import numpy as np
 from scipy.sparse import csr_matrix
-from sympy import I as SYM_I, Poly, Rational, symbols
+from sympy import I as SYM_I, Matrix as SymMatrix, Poly, Rational, symbols
 from sympy.polys.domains import QQ_I
 from sympy.polys.matrices import DomainMatrix
 
@@ -178,6 +189,15 @@ def k_operator(a, N):
     return sum(int(a[k][l]) * Zs[l] @ Zs[k] for k in range(N) for l in range(N))
 
 
+def dark_cells(a, N):
+    """The dark cells: the matrix units |i><j| whose dissipator rate is zero, read off the diagonal of 2L
+    with H = 0."""
+    d = 2 ** N
+    re, _ = two_l(GaussH(np.zeros((d, d), dtype=np.int64)), a, N)
+    diag = np.diag(re)
+    return {(i, j) for i in range(d) for j in range(d) if diag[i * d + j] == 0}
+
+
 def pi_perm(N):
     """Pi_Z(|i><j|) = |i><j|^T X^N = |j><i_bar|: the index map, a pure permutation of matrix units."""
     d = 2 ** N
@@ -222,6 +242,30 @@ def random_psd(N, rng):
         a = (B.T @ B + np.eye(N, dtype=np.int64)).astype(np.int64)
         if all(a[k, l] != 0 for k in range(N) for l in range(N) if k != l):
             return a
+
+
+def random_psd_with_kernel(N, rng):
+    """a = B^T B with every row of B orthogonal to one random v in {0, +-1}^N of support >= 2 that is not
+    all-equal, so ker a = span(v) (checked by an exact rank) and the cells with u = +-2 v are dark:
+    unlike {0}, the all-ones direction and its complement, such a kernel can single out particular sites
+    from N = 3 on (at N = 2 the only admissible v is +-(1, -1), the sum-zero line), so a site-order
+    mismatch between the rate and the kernel would show where it does."""
+    while True:
+        v = rng.integers(-1, 2, size=N).astype(np.int64)
+        supp = [k for k in range(N) if v[k] != 0]
+        if len(supp) < 2 or (len(supp) == N and len(set(v.tolist())) == 1):
+            continue
+        s0 = supp[0]
+        gens = [np.eye(N, dtype=np.int64)[k] for k in range(N) if v[k] == 0]
+        for l in supp[1:]:
+            g = np.zeros(N, dtype=np.int64)
+            g[l], g[s0] = v[s0], -v[l]
+            gens.append(g)
+        G = np.array(gens, dtype=np.int64)
+        B = rng.integers(-2, 3, size=(N - 1, N - 1)).astype(np.int64) @ G
+        a = (B.T @ B).astype(np.int64)
+        if not (a @ v).any() and SymMatrix(a.tolist()).rank() == N - 1:
+            return a, v
 
 
 def random_xn_even(N, rng):
@@ -867,6 +911,48 @@ def main():
         re, im = two_l(xxz_chain(N, 1, 1), np.diag([GAMMA] * N).astype(np.int64), N)
         claim(f"control N={N}: the Heisenberg chain breaks W through the H door (local noise)",
               not (comm_zero(re, W) and comm_zero(im, W)))
+
+    print("\nH. The dark cells: for a positive semidefinite a, |i><j| has rate 0 exactly when u = z(i) - z(j) lies in the kernel of a")
+    for N in (2, 3, 4, 5):
+        d = 2 ** N
+        anti = (N * np.eye(N, dtype=np.int64) - np.ones((N, N), dtype=np.int64)).astype(np.int64)
+        # the anti-correlated end eta = -1/(N - 1) at gamma = N - 1: a_kk = N - 1, a_kl = -1, every row sum 0
+        ak, v = random_psd_with_kernel(N, rng)
+        while True:                                         # a weighted graph Laplacian: a >= 0, rows sum to 0
+            lap = np.zeros((N, N), dtype=np.int64)
+            ws = []
+            for k in range(N):
+                for l in range(k + 1, N):
+                    w = int(rng.integers(1, 4))
+                    ws.append(w)
+                    lap[k, k] += w
+                    lap[l, l] += w
+                    lap[k, l] -= w
+                    lap[l, k] -= w
+            if N == 2 or len(set(ws)) > 1:                  # not uniform from N = 3 on (N = 2 has one weight)
+                break
+        cases = (("random positive definite a", random_psd(N, rng), 2 ** N),
+                 ("shared field, eta 3/10", kossakowski_shared(N, ETAS[0]), 2 ** N),
+                 ("shared field, eta 1", kossakowski_shared(N, Fraction(1)), comb(2 * N, N)),
+                 ("anti-correlated end, eta -1/(N - 1)", anti, 2 ** N + 2),
+                 (f"rank-deficient random a, ker a = span{tuple(int(x) for x in v)}", ak, None),
+                 ("random weighted graph Laplacian", lap, None))
+        ghz_ok = True
+        for name, a, closed in cases:
+            dark = dark_cells(a, N)
+            kernel = {(i, j) for i in range(d) for j in range(d)
+                      if not (a @ np.array([zval(i, k, N) - zval(j, k, N) for k in range(N)], dtype=np.int64)).any()}
+            if closed is None:
+                claim(f"N={N} {name}: the cells of rate zero are exactly those with a u = 0, coherences among them",
+                      dark == kernel and len(dark) > d)
+            else:
+                claim(f"N={N} {name}: the cells of rate zero are exactly those with a u = 0", dark == kernel)
+                check(f"N={N} {name}: dark cells", closed, len(dark))
+            ghz_ok &= ((0, d - 1) in dark) == (not (a @ np.ones(N, dtype=np.int64)).any())
+        claim(f"N={N}: on all six, the GHZ coherence is dark exactly when every row of a sums to zero (uniform at the anti-correlated end, not uniform on the Laplacian from N = 3)", ghz_ok)
+        coh = {cell for cell in dark_cells(anti, N) if cell[0] != cell[1]}
+        claim(f"N={N} anti-correlated end: the dark coherences are exactly |0...0><1...1| and its transpose",
+              coh == {(0, d - 1), (d - 1, 0)})
 
     held, matched = sum(CLAIMS), sum(CHECKS)
     print(f"\n{matched} of {len(CHECKS)} printed values match exactly; {held} of {len(CLAIMS)} claims hold.")

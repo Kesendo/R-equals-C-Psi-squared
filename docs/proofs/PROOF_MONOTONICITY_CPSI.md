@@ -322,7 +322,12 @@ and the anti-correlated √γ(Z₁−Z₂)/√2 ([Absorption Theorem](PROOF_ABSO
 holds for X in the X basis. Without the 1/√2 the collective rate on Bell+'s coherence is 8γ
 ([Noise Robustness](../../experiments/NOISE_ROBUSTNESS.md) Q1). Anti-correlated Z noise
 `Z₁-Z₂` leaves Bell+ in a decoherence-free subspace. These finite and symmetry-specific facts do not
-classify all collective noise.
+classify all collective noise. One exact statement, on the coherence rather than on CΨ, reaches
+further. At N sites the analogue of Bell+'s coherence is the GHZ coherence |0…0⟩⟨1…1|, which is free
+of dephasing exactly when every row of the noise's Kossakowski matrix over the Z_k sums to zero (that
+matrix being positive semidefinite, the covariance matrix of the site fields); the anti-correlated
+jump above is the two-site case
+([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
 
 ### N > 2 subsystems (Test C)
 
