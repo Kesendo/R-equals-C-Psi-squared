@@ -64,6 +64,8 @@ from .lindblad import (
     lindbladian_general,
     lindbladian_z_dephasing,
     lindbladian_pauli_dephasing,
+    lindbladian_correlated_z_dephasing,
+    shared_field_kossakowski,
     lindbladian_z_plus_t1,
     bond_perturbation,
     palindrome_residual,

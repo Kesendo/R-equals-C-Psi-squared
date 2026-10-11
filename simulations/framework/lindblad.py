@@ -3,6 +3,8 @@
 Public API:
   lindbladian_general(H, c_ops)
   lindbladian_z_dephasing(H, gamma_l)
+  lindbladian_correlated_z_dephasing(H, a)
+  shared_field_kossakowski(gamma_l, kappa)
   lindbladian_z_plus_t1(H, gamma_l, gamma_t1_l)
   palindrome_residual(L, Sigma_gamma, N)
   palindrome_residual_norm_squared_factor(N, class)
@@ -87,6 +89,60 @@ def lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z'):
         Pl = site_op(N, l, dephase_letter)
         L = L + gamma * (np.kron(Pl, Pl.conj()) - np.kron(Id, Id))
     return L
+
+
+def lindbladian_correlated_z_dephasing(H, a):
+    """L = -i[H,·] + Σ_kl a_kl (Z_k ρ Z_l − ½{Z_l Z_k, ρ}): Z dephasing with correlated site fields.
+
+    a is the N×N Kossakowski matrix of the Z_k: the site rates on its diagonal, the field
+    covariances off it; real symmetric for classical fields, Hermitian in general, positive
+    semidefinite for a valid generator. A diagonal a is `lindbladian_z_dephasing(H, diag(a))`;
+    a field shared alike by every pair is `shared_field_kossakowski(gamma_l, kappa)`.
+
+    The price of the palindrome is then the operator {K, ·}, K = Σ_kl a_kl Z_l Z_k, not the
+    number 2Σγ: for real a and real H with [H, X^⊗N] = 0, Π_Z L Π_Z⁻¹ = −L − {K, ·}, so
+    `palindrome_residual(L, trace(a), N)` carries the norm of −{K − tr(a), ·},
+    ‖M‖_F² = 8·4^N·Σ_{k<l} a_kl² (experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md).
+
+    SITE ORDER as `lindbladian_z_dephasing`: big-endian, a[k][l] couples the k-th and l-th
+    Kronecker factors from the left.
+    """
+    if not np.allclose(H, H.conj().T):
+        raise ValueError("Hamiltonian H must be Hermitian.")
+    a = np.asarray(a)
+    d = H.shape[0]
+    N = int(round(math.log2(d)))
+    if a.shape != (N, N):
+        raise ValueError(f"Kossakowski matrix must be {N}x{N}; got shape {a.shape}")
+    if not np.allclose(a, a.conj().T):
+        raise ValueError("Kossakowski matrix a must be Hermitian.")
+    Id = np.eye(d, dtype=complex)
+    Zs = [site_op(N, k, 'Z') for k in range(N)]
+    L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    for k in range(N):
+        for l in range(N):
+            if a[k, l] == 0:
+                continue
+            ZlZk = Zs[l] @ Zs[k]
+            L = L + a[k, l] * (np.kron(Zs[k], Zs[l])            # Z real symmetric: (Z_l)ᵀ = Z_l
+                               - 0.5 * np.kron(ZlZk, Id) - 0.5 * np.kron(Id, ZlZk.T))
+    return L
+
+
+def shared_field_kossakowski(gamma_l, kappa):
+    """Kossakowski matrix of Z fields shared alike by every pair: a_kk = γ_k, a_kl = κ (k ≠ l).
+
+    At uniform rates γ and correlation coefficient η, κ = γη, positive semidefinite for
+    −1/(N − 1) ≤ η ≤ 1; η = 1 is the single collective jump √γ·Σ_k Z_k. Under a
+    popcount-conserving H this noise acts on each joint-popcount block (p, q) as local
+    dephasing at the rates γ_k − κ plus the constant −2κ(p − q)²
+    (experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md).
+    """
+    gamma_l = np.asarray(gamma_l, dtype=float)
+    N = len(gamma_l)
+    a = np.full((N, N), float(kappa))
+    np.fill_diagonal(a, gamma_l)
+    return a
 
 
 _BOND_KIND_TERMS = {
