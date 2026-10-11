@@ -578,11 +578,12 @@ F50 spends the word a third time, one rung down and of the same shape: a finite 
      does not. E6(f) is that break-input, and it is one of five the `sideways_spin_ladder` arc
      had already run (`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`, opened
      2026-08-07): a next-nearest bond, an on-site potential, the ring at odd N and the star.
-     That arc also measured S⁻ = (S⁺)† intertwining before this note did. A correlated site
-     field breaks the dissipator half for S⁺: under one common covariance S⁺ still maps
-     eigenvectors to eigenvectors but shifts the eigenvalue by an amount that depends on the
-     block, so it no longer keeps ker(L − λ)
-     ([The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md), which treats S⁺).
+     That arc also measured S⁻ = (S⁺)† intertwining before this note did. Z dephasing whose
+     sites' noise is correlated breaks the dissipator half for S⁺: under one covariance κ common
+     to every pair of sites, S⁺ still maps eigenvectors to eigenvectors or to zero but shifts the eigenvalue by −8κ(p − q + 1) on its source block (p, q),
+     an amount that depends on the block, so it no longer keeps ker(L − λ)
+     ([The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md), which treats S⁺
+     and not S⁻).
    - **[S⁺, S⁻] = 2S_z.** "Shifts p − q by 2" does not by itself exclude a module living at one
      weight and nothing else; only the algebra does, since such a module would make the relation
      read 0 = 2. Without this step the words "integer spin" name nothing. E6(e), exact. This is

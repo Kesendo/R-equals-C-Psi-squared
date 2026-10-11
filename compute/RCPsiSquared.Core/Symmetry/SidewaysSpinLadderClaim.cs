@@ -14,8 +14,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// F142's spin raising (<c>docs/proofs/PROOF_FROZEN_BAND_SO4.md</c> Lemma 2.3): the (−1)^l is the whole
 /// difference, and it is what makes S⁺ commute with the Hamiltonian part. Two halves with two standings:
 ///
-/// <para><b>The intertwining half is DERIVED</b> (F142 Lemma 2.1 + Lemma 2.3): [D, S⁺] = 0 for every rate
-/// profile γ_l (the ladder never moves the disagreement set), and, for REAL SYMMETRIC h (Lemma 2.3's
+/// <para><b>The intertwining half is DERIVED</b> (F142 Lemma 2.1 + Lemma 2.3): [D, S⁺] = 0 for every local rate
+/// profile γ_l (the ladder never moves the disagreement set; a correlated field reads the signs of the disagreements, CorrelatedZDephasingPriceClaim), and, for REAL SYMMETRIC h (Lemma 2.3's
 /// hypothesis, load-bearing: its proof uses h_{la} = h_{al}), [K, S⁺] = 0 iff Σ h Σ = −h with
 /// Σ = diag((−1)^l), i.e. iff the hopping matrix connects only opposite-parity sites. SCOPE, stated once
 /// and not softened: S⁺ does NOT cover F125's H class. On-site terms and any same-parity hopping are
@@ -100,7 +100,8 @@ public sealed class SidewaysSpinLadderClaim : Claim
     public SidewaysSpinLadderClaim(SpectatorIntertwinerClaim intertwiner)
         : base("The sideways spin ladder: S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† (§6's V of PROOF_CODIM1_BY_ADDITIVITY " +
                "with the stagger restored = F142's spin raising) intertwines the Liouvillian exactly, " +
-               "(p,q̃)→(p+1,q̃−1), for any rate profile γ_l and any REAL SYMMETRIC pure-hopping h with " +
+               "(p,q̃)→(p+1,q̃−1), for any local rate profile γ_l (a correlated field breaks it, CorrelatedZDephasingPriceClaim) " +
+               "and any REAL SYMMETRIC pure-hopping h with " +
                "ΣhΣ = −h (derived, F142 Lemmas 2.1 + 2.3; NOT F125's H class: on-site terms and same-parity " +
                "hopping excluded, nearest-neighbour bond disorder and arbitrary γ_l admitted, and the " +
                "measured break-inputs are the boundary: next-nearest bond, on-site potential, odd ring, star " +
@@ -131,7 +132,7 @@ public sealed class SidewaysSpinLadderClaim : Claim
         "Sideways spin ladder: S⁺ = Σ (−1)^l c_l†(·)c_l† carries the F125 fold family as one spin-(N−3)/2 multiplet";
 
     public override string Summary =>
-        "S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† intertwines L exactly for Σ-odd real-symmetric pure hopping and any γ_l " +
+        "S⁺(ρ) = Σ_l (−1)^l c_l†ρc_l† intertwines L exactly for Σ-odd real-symmetric pure hopping and any local γ_l " +
         "(derived, F142 L2.1+2.3; scope NARROWER than F125's H class, break-inputs measured); preserves p+q̃ " +
         "(the parity fact behind §6 item (ii)); the fold family = the two S⁺ chain interiors at p+q̃ = N∓1, " +
         "spin ℓ = (N−3)/2 per chain, odd-N orbit 4N−8 = 4(N−2); S⁺ transport norms = CG coefficients, " +
@@ -149,7 +150,7 @@ public sealed class SidewaysSpinLadderClaim : Claim
                 CgTransportNorm(2.0, -2.0));
             yield return InspectableNode.RealScalar("CG norm at N=7, middle rung (ℓ=2, m=−1) (= √6)",
                 CgTransportNorm(2.0, -1.0));
-            yield return new InspectableNode("the derived half: [D,S⁺] = 0 always; [K,S⁺] = 0 iff ΣhΣ = −h (real symmetric h)",
+            yield return new InspectableNode("the derived half: [D,S⁺] = 0 for every local profile; [K,S⁺] = 0 iff ΣhΣ = −h (real symmetric h)",
                 summary: "F142 Lemma 2.1: neither ladder moves the disagreement set, at any profile γ_l. " +
                          "Lemma 2.3, stated for REAL SYMMETRIC h (the hypothesis is load-bearing, the proof uses " +
                          "h_{la} = h_{al}): [K,S⁺] = Σ h_{al}((−1)^a + (−1)^l)c†_{a↑}c_{l↓}, zero iff " +

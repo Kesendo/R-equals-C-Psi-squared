@@ -67,7 +67,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// fills the other three: the Π²-image, the X⊗N partner, by copying, and the Π- and
 /// Π³-images by the reflection λ ↦ −2σ − λ. Both rules hold whenever a unitary W = X^⊗N·D
 /// with D diagonal commutes with H. W anticommutes with every Z jump, so ρ ↦ ρ·W carries L to
-/// −L† − 2σ (the far-end relation of <c>experiments/THE_PAIRING_CONDITION.md</c>, written
+/// −L† − 2σ under local Z dephasing (−L† − {K, ·} when the site fields are correlated,
+/// <see cref="Symmetry.CorrelatedZDephasingPriceClaim"/>) (the far-end relation of <c>experiments/THE_PAIRING_CONDITION.md</c>, written
 /// there with U on the left); composed with F119's dagger ρ ↦ ρ†, which every Lindbladian
 /// commutes with and which sends sector (p_c, p_r) to (p_r, p_c) and conjugates its spectrum,
 /// the map ρ ↦ ρ†·W moves sector s onto Π(s), W moving sectors as X^⊗N does, so

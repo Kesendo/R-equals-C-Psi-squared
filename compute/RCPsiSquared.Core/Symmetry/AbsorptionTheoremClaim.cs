@@ -89,7 +89,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// their Hermitian part is local Z-dephasing at rate a + b. Where Herm(L_D) is not diagonal in the Pauli
 /// basis (collective dephasing through the one jump Σ_k Z_k, amplitude damping) the Rayleigh identity
 /// still holds and reads the rate in the basis that diagonalizes Herm(L_D) (proof §2, "Where the
-/// boundary actually runs"; each case checked in <c>simulations/absorption_ladder_regimes.py</c>).</para>
+/// boundary actually runs"; each case checked in <c>simulations/absorption_ladder_regimes.py</c>). A field that
+/// every pair shares with correlation η and every site feels at γ has a dissipator still diagonal in the
+/// coherence basis, |A⟩⟨B| paying 2γ[(1 − η)·Hamming(A, B) + η·(Δpopcount)²] (proof §2;
+/// <c>experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md</c>, <see cref="CorrelatedZDephasingPriceClaim"/>).</para>
 ///
 /// <para><b>The coefficient 2.</b> It comes straight from Step 2: Z anticommutes with X and Y, so
 /// ZXZ − X = −2X, and no dimension enters. The repository also carries it as the Pi2 dyadic
@@ -100,12 +103,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// quantum": a cell cost, not a spacing of the interacting rate spectrum.</para>
 ///
 /// <para><b>Direct typed children.</b> In the default registry
-/// (<c>KnowledgeRegistryFactory.BuildDefault</c>) thirty-four claims take this claim as a direct
-/// typed parent. Fourteen of them name themselves by an F-number of
+/// (<c>KnowledgeRegistryFactory.BuildDefault</c>) thirty-six claims take this claim as a direct
+/// typed parent. Fifteen of them name themselves by an F-number of
 /// <c>docs/ANALYTICAL_FORMULAS.md</c>, and those numbers are <see cref="FNumberedDirectChildren"/>:
 /// F25, F33, F50, F55, F64–F68, F74 and F89 (the Pi2 inheritances), F135
 /// (<see cref="RecordParityLawClaim"/>), F153 (<c>PinnedBlockFloorClaim</c>) and F154
-/// (<c>CompressedDensityLocusClaim</c>). The rule is mechanical and reads the child alone: a child
+/// (<c>CompressedDensityLocusClaim</c>), F50 named twice, by its Pi2 inheritance and by
+/// <c>ExceptionalCouplingSetClaim</c>. The rule is mechanical and reads the child alone: a child
 /// counts when its class name or its Name opens with the number, or when the title of its Name, the
 /// text before the first colon, closes with the number in parentheses. A number cited in passing does
 /// not count (<see cref="ClockHandLadderClaim"/>'s Name mentions the F2b band edge after its title),
@@ -175,7 +179,7 @@ public sealed class AbsorptionTheoremClaim : Claim
     /// <summary>The F-numbers of <c>docs/ANALYTICAL_FORMULAS.md</c> by which the direct typed children
     /// of this claim in the default registry name themselves: a child's class name or Name opens with
     /// the number, or the title of its Name (the text before the first colon) closes with it in
-    /// parentheses. Fourteen children, fourteen numbers. Pinned by equality in
+    /// parentheses. Fifteen children, fourteen numbers (F50 twice). Pinned by equality in
     /// <c>AbsorptionTheoremClaimRegistrationTests</c>, which applies this rule to every direct child
     /// <c>KnowledgeRegistryFactory.BuildDefault</c> returns.</summary>
     public static IReadOnlyList<string> FNumberedDirectChildren { get; } = new[]

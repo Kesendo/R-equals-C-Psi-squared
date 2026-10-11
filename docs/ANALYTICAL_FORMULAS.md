@@ -39,16 +39,16 @@ The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 eigenvector traceless on every site, for example a global Pauli string with no
 identity letter commuting with H, F5); Z dephasing with correlated site
 fields (a real Kossakowski matrix whose off-diagonal entries are the fields'
-covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N carries L
+covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N, F1's Π, carries L
 to −L − {Σc†c, ·}, the jumps' decay operator Σc†c no longer a number: no single
 centre serves the spectrum once the covariances sum to a positive number (the
 Kossakowski matrix positive semidefinite, H keeping the all-0 and all-1 states as
 eigenstates), nor at the one negative
-correlation read (a correlation η = −1/5 shared by every pair, XXZ chain, N = 2 and
-3), and a
+correlation read (a correlation η = −1/5 shared by every pair at uniform rates γ,
+a_kl = γη, XXZ chain, N = 2 and 3), and a
 joint-popcount block of a popcount-conserving X^⊗N-even H pairs with its Π_Z image (q, N − p), p and q its ket and bra popcounts, about a
 centre of its own wherever Σc†c takes one value on each of the block's two
-popcounts, every block under one covariance common to every pair
+popcounts, which every block does under one covariance common to every pair
 ([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
 the component, orthogonal to every dephasing axis present) **on the full
@@ -110,9 +110,9 @@ and there are fields violating clause 2 whose spectrum pairs regardless; at N = 
 - Anchor: [the depolarizing residual closed-form proof](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
 
 **Correlated Z-dephasing residual (closed form, 2026-10-10):**
-- For Z dephasing with a real symmetric Kossakowski matrix a over the Z_k (the site rates on its diagonal, the fields' covariances off it), against F1's shift 2σ, σ = tr(a): the dissipator's residual is M_D = −{K − σ, ·}, K = Σ_kl a_kl Z_l Z_k, with ‖M_D‖²_F = 8·4^N·Σ_{k<l} a_kl² (H-independent, zero exactly for local noise), and ‖M‖²_F = ‖M_H‖²_F + ‖M_D‖²_F for every Hermitian H, M_D being real and diagonal on matrix units while the diagonal of M_H is imaginary.
-- M_D is Π-invariant: jumps built linearly from the Z_k are of one bit_b parity and have no Π²-odd part (F82's "Other dissipators").
-- Anchor: [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md); verification: [simulations/mirror_under_shared_field.py](../simulations/mirror_under_shared_field.py) (exact, N = 2..5); typed: none yet
+- For Z dephasing with a real symmetric Kossakowski matrix a over the Z_k (the site rates on its diagonal, the fields' covariances off it), against F1's shift 2σ, σ = tr(a): the dissipator's residual is M_D = −{K − σ, ·}, K = Σ_kl a_kl Z_l Z_k (the jumps' Σc†c), with ‖M_D‖²_F = 8·4^N·Σ_{k<l} a_kl² (H-independent, zero exactly for local noise), and ‖M‖²_F = ‖M_H‖²_F + ‖M_D‖²_F for every Hermitian H, M_D being real and diagonal on matrix units while the diagonal of M_H is imaginary.
+- M_D is Π-invariant: jumps built linearly from the Z_k are of one bit_b parity and have no Π²-odd part, so F82's Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} ("Other dissipators") adds no dissipator term.
+- Anchor: [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md); verification: [simulations/mirror_under_shared_field.py](../simulations/mirror_under_shared_field.py) (exact, N = 2..5); typed: CorrelatedZDephasingPriceClaim, live as CorrelatedZDephasingPriceWitness (`inspect --root sharedfield`, N = 3..5)
 
 **General-topology universality (closed 2026-05-18):**
 - The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
@@ -7421,7 +7421,7 @@ Both
 commute with the dephasing at any rate profile (F141; under correlated site fields the
 dissipator D still commutes with Φ for every real symmetric Kossakowski matrix over the
 Z_k, and with S⁺ for no correlated one; under one common covariance κ,
-[D, S⁺] = −8κ(p − q + 1)·S⁺ on block (p, q),
+[D, S⁺] = −8κ(p − q + 1)·S⁺ on the source block (p, q),
 [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)), and
 
     [K, S⁺] = 0   ⟺   Σ h Σ = −h,   Σ := diag((−1)^l)   (real symmetric h, Lemma 2.3's hypothesis),

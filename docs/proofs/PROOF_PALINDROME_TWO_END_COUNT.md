@@ -7,7 +7,7 @@ positive rate profile, any topology, any N, and any finite dimension. What the
 CRITERION decides is the eigenvalue multiset; sufficiency in fact delivers more,
 a full similarity `L ~ −L − 2σ`, so where the criterion holds the entire Jordan
 structure is reflection-symmetric (§(f8)). Two fences are load bearing rather
-than decorative: `A² = 1` (F137 recentres the palindrome for non-unitary jumps)
+than decorative: `A² = 1` (F137 recentres the palindrome under T1)
 and `γ_l > 0` with at least one jump present (a zero rate drops a condition and
 can move the verdict; with no jump at all the equivalence holds trivially, and
 §(f5)'s odd-d corollary, Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9) fail). Even TOTAL dimension d is not a fence but a
@@ -858,17 +858,20 @@ read on two routes (§(g)); its twelve other broken rows have dim 𝒲 = 0, wher
 neither side can fail. Everything outside that range rests on the proof
 alone.
 
-**Outside:** jump operators with A² ≠ 1, where F137 recentres the palindrome and
-the question changes; and rates that are zero or negative. Where the two counts differ
+**Outside:** jump operators with A² ≠ 1, where the question changes (F137 recentres
+the palindrome under T1); and rates that are zero or negative. Where the two counts differ
 the multiset is broken, and the criterion says nothing about the Jordan
 structure there; where they agree, §(f8) gives it in full. Z dephasing with
-correlated site fields is an A² ≠ 1 case that F137 does not recentre (a jump in the
-span of the Z_k squares to 1 only when it is a single ±Z_k): for a positive
-semidefinite Kossakowski matrix whose covariances sum to a positive number, and an H
-keeping the all-0 and all-1 states as eigenstates, no single centre serves the
-spectrum, while for a popcount-conserving, X^⊗N-even H a joint-popcount block still
-pairs with its image wherever Σc†c takes one value on each of its two popcounts, every
-block under one covariance common to every pair
+correlated site fields is an A² ≠ 1 case as well: its jumps c_μ are built linearly
+from the Z_k, c_μ = Σ_k b_μk Z_k (b real) with Kossakowski matrix a_kl = Σ_μ b_μk b_μl, and such a
+jump squares to a multiple of 1 only when it is a multiple of a single Z_k. There F137's only
+candidate centre, −σ with σ = tr a, fails whenever the positive semidefinite a has covariances
+summing to a positive number and H keeps the all-0 and all-1 states as eigenstates: then no
+single centre serves the spectrum. For an H that conserves the
+magnetization and commutes with X^⊗N, the sector of coherences |i⟩⟨j| with ket and bra
+popcounts (p, q) still pairs with the sector (q, N − p), about −(K_p + K_q)/2, wherever
+K = Σ_μ c_μ†c_μ takes one value K_p on popcount p and one value K_q on popcount q, which every
+sector does under one covariance common to every pair
 ([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
 
 **What would falsify it:** one configuration where the two nullities agree and

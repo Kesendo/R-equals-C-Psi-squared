@@ -46,7 +46,7 @@ public sealed class ZeroSectorImmunityClaim : Claim
         AbsorptionTheoremClaim absorptionTheorem)
         : base(
             "Zero-Sector Immunity: the palindromic residual M vanishes identically on the (w=0,w=0) " +
-            "block ({I,Z}^⊗N) for every 2-body Hamiltonian under uniform Z-dephasing; by Π-symmetry also on (w=N,w=N)",
+            "block ({I,Z}^⊗N) for every 2-body Hamiltonian under uniform local Z-dephasing; by Π-symmetry also on (w=N,w=N)",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_ZERO_IMMUNITY.md")
     {
@@ -57,12 +57,12 @@ public sealed class ZeroSectorImmunityClaim : Claim
     }
 
     public override string DisplayName =>
-        "Zero-Sector Immunity: M|(w=0) = M|(w=N) = 0 for every 2-body H + Z-dephasing";
+        "Zero-Sector Immunity: M|(w=0) = M|(w=N) = 0 for every 2-body H + uniform local Z-dephasing";
 
     public override string Summary =>
         "the centered palindromic residual M = Π·L·Π⁻¹ + L + 2Σγ·I vanishes identically on the " +
         "{I,Z}^⊗N (XY-weight 0) and {X,Y}^⊗N (XY-weight N) Pauli-string blocks for EVERY 2-body " +
-        "Hamiltonian (Heisenberg, XXZ, XY, parity-violating, even random) under uniform Z-dephasing; " +
+        "Hamiltonian (Heisenberg, XXZ, XY, parity-violating, even random) under uniform local Z-dephasing; " +
         "the classical extreme can neither decohere nor break the palindrome, the all-transverse extreme " +
         "is its Π-mirror, and all H-dependent dynamics live in the boundary sectors 0<w<N " +
         "(Tier 1 derived; live witness: inspect --root zeroimmune).";

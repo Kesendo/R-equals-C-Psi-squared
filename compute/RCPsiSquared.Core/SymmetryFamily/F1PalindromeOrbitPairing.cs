@@ -12,7 +12,7 @@ namespace RCPsiSquared.Core.SymmetryFamily;
 /// <para>F1 (<c>docs/proofs/MIRROR_SYMMETRY_PROOF.md</c>) is the identity
 /// <c>Π·L·Π⁻¹ = −L − 2Σγ·I</c>, which holds for the truly Hamiltonians. The sector relation
 /// the builders use is wider: a sector and its Π-image have spectra related by the
-/// reflection <c>λ ↦ −2Σγ − λ</c> whenever H commutes with X⊗N, a complex H included
+/// reflection <c>λ ↦ −2Σγ − λ</c> under local Z dephasing whenever H commutes with X⊗N, a complex H included
 /// (ρ ↦ ρ·X⊗N carries L to −L† − 2Σγ, and the antilinear ρ ↦ ρ†·X⊗N maps each sector onto
 /// its Π-image); with every site dephased at a positive rate the relation holds for every
 /// sector, the Π-fixed sector with itself included, exactly when the spectrum is palindromic
@@ -201,7 +201,7 @@ public sealed class F1PalindromeOrbitPairing : Claim
         "F1PalindromeOrbitPairing: Π orbits joint-popcount sectors (p_c, p_r) ↦ (N − p_r, p_c) in 4-cycles; quarters the eig-call count when H commutes with X⊗N";
 
     public override string Summary =>
-        $"F1 Π-orbit sector-grouping for H commuting with X⊗N under Z-dephasing; (N+1)² sectors collapse to ≈ (N+1)²/4 distinct spectral classes ({Tier.Label()})";
+        $"F1 Π-orbit sector-grouping for H commuting with X⊗N under local Z-dephasing; (N+1)² sectors collapse to ≈ (N+1)²/4 distinct spectral classes ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -212,7 +212,7 @@ public sealed class F1PalindromeOrbitPairing : Claim
             yield return new InspectableNode("Π² = X⊗N",
                 summary: "(p_c, p_r) ↦ (N − p_c, N − p_r): the XGlobalChargeConjugationPairing rule");
             yield return new InspectableNode("follower derivation",
-                summary: "when H commutes with X⊗N, Π²-image: spectrum copied verbatim; Π/Π³-image: reflected through λ ↦ −2Σγ − λ");
+                summary: "when H commutes with X⊗N, Π²-image: spectrum copied verbatim; Π/Π³-image: reflected through λ ↦ −2Σγ − λ (local Z dephasing; under one shared covariance the reflection is about −σ(p, q) block by block, CorrelatedZDephasingPriceClaim)");
             yield return new InspectableNode("N=8 distinct classes",
                 summary: $"{DistinctSpectralClasses(8)} (vs {XGlobalChargeConjugationPairing.DistinctSpectralClasses(8)} for X⊗N alone, 81 unpaired)");
             yield return new InspectableNode("N=10 distinct classes",

@@ -10,7 +10,7 @@ namespace RCPsiSquared.Core.F1;
 /// </code>
 ///
 /// Equivalently, the per-Pauli-string residual <c>M = Π·L·Π⁻¹ + L + 2Σγ·I</c> vanishes
-/// identically for every Heisenberg/XY/Ising/XXZ Hamiltonian under Z-dephasing, uniform
+/// identically for every Heisenberg/XY/Ising/XXZ Hamiltonian under local Z-dephasing, uniform
 /// or site-dependent.
 /// Every Liouvillian eigenvalue λ pairs with −λ − 2Σγ; every decay rate d pairs with
 /// 2Σγ − d.
@@ -32,8 +32,12 @@ namespace RCPsiSquared.Core.F1;
 /// equivalent with identical spectra, and the correspondingly rotated Π satisfies the identity
 /// exactly. The residual under a fixed Π grades the ANGLE to that mirror's preferred axis. A
 /// LONGITUDINAL h·ΣZ_i field is the genuine exception and breaks both the identity and the
-/// pairing. Z-dephasing,
-/// uniform or site-dependent; any N. Mixed dephasing axes across sites also stay palindromic
+/// pairing. Local Z-dephasing,
+/// uniform or site-dependent; any N. Under Z dephasing with correlated site fields and a real H
+/// commuting with X^⊗N (Π_Z(ρ) = ρᵀ·X^⊗N being this claim's Π; a Y-directed field lies outside this fixed Π but inside the rotated one above,
+/// R_z(π/2) commuting with every Z_k), the identity
+/// becomes Π_Z·L·Π_Z⁻¹ = −L − {Σc†c, ·}, Σc†c the jumps' decay operator (<c>CorrelatedZDephasingPriceClaim</c>,
+/// <c>experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md</c>). Mixed dephasing axes across sites also stay palindromic
 /// as long as at most two distinct axes appear in any one connected component of the graph.
 /// Two Π families exist (P1, P4). The DM bond is palindromic too, but
 /// under a site-alternating Π, not this uniform one, so it is NOT in this claim's validity
@@ -69,9 +73,9 @@ public sealed class F1PalindromeIdentity : Claim
             yield return new InspectableNode("Π operator",
                 summary: "RCPsiSquared.Core.Symmetry.PiOperator: unitary order-4, signed permutation in Pauli basis");
             yield return new InspectableNode("validity",
-                summary: "Heisenberg/XY/Ising/XXZ on any graph, bond terms plus a transverse on-site field directed uniformly WITHIN EACH CONNECTED COMPONENT (F138 clause 2 is per component; two components may differ, magnitudes are free); uniform or site-dependent Z-dephasing");
+                summary: "Heisenberg/XY/Ising/XXZ on any graph, bond terms plus a transverse on-site field directed uniformly WITHIN EACH CONNECTED COMPONENT (F138 clause 2 is per component; two components may differ, magnitudes are free); local Z-dephasing, uniform or site-dependent");
             yield return new InspectableNode("breaks for",
-                summary: "depolarizing noise (γ/3 per axis) → max residual (2/3)Σγ in the Pauli basis, linear in γ and N; an on-site field failing either half of F138's clause 2 (not on a single common axis within the component, or on one not orthogonal to every dephasing axis in play) ON THE FULL THREE-LETTER BOND AT THE ONE MAGNITUDE TUPLE SWEPT -- drop a bond letter, or let two sites the GRAPH CAN EXCHANGE carry the same field magnitude, and clause-2 violations exist whose spectrum pairs anyway (which two sites decides it: on the 3-path the two ends do it and an end with the middle does not), so this half fails outside that scope; where the converse holds exactly is PROOF_PALINDROME_COMPLEMENT_CONNECTION's (Theorems 1, 3, 5 and the N = 3 triangle locus). Note the genre: F138's sweep decides the SPECTRUM (the char-poly identity, multiplicities included), while this claim is the OPERATOR identity, which also sees the Jordan structure. A row where the spectrum pairs anyway falsifies the spectral converse and says nothing about whether Π conjugates L there; T1 alongside CO-AXIAL dephasing (transverse dephasing composes with T1 exactly) or T1 with any on-site field");
+                summary: "Z dephasing with correlated site fields (a real symmetric Kossakowski matrix over the Z_k with nonzero off-diagonal entries), where for a real X^⊗N-even H this claim's Π (Π_Z(ρ) = ρᵀ·X^⊗N) gives Π L Π⁻¹ = −L − {K, ·}, K = Σ a_kl Z_l Z_k (Σc†c for a ⪰ 0), and, for an H keeping the all-0 and all-1 states as eigenstates, no single centre serves the spectrum once the covariances of a positive semidefinite matrix sum to a positive number (CorrelatedZDephasingPriceClaim); depolarizing noise (γ/3 per axis) → max residual (2/3)Σγ in the Pauli basis, linear in γ and N; an on-site field failing either half of F138's clause 2 (not on a single common axis within the component, or on one not orthogonal to every dephasing axis in play) ON THE FULL THREE-LETTER BOND AT THE ONE MAGNITUDE TUPLE SWEPT -- drop a bond letter, or let two sites the GRAPH CAN EXCHANGE carry the same field magnitude, and clause-2 violations exist whose spectrum pairs anyway (which two sites decides it: on the 3-path the two ends do it and an end with the middle does not), so this half fails outside that scope; where the converse holds exactly is PROOF_PALINDROME_COMPLEMENT_CONNECTION's (Theorems 1, 3, 5 and the N = 3 triangle locus). Note the genre: F138's sweep decides the SPECTRUM (the char-poly identity, multiplicities included), while this claim is the OPERATOR identity, which also sees the Jordan structure. A row where the spectrum pairs anyway falsifies the spectral converse and says nothing about whether Π conjugates L there; T1 alongside CO-AXIAL dephasing (transverse dephasing composes with T1 exactly) or T1 with any on-site field");
             yield return new InspectableNode("verification",
                 summary: "replaces brute-force palindrome scan at N=8 (all 65,536 eigenvalues paired, zero exceptions; chain, star, ring, K₄ plus disjoint 4-chain)");
         }

@@ -25,7 +25,7 @@ public static class F87OpenQuestions
             "(II + XX + YY + ZZ)/2, and Z dephasing with correlated site fields, jumps built " +
             "linearly from the Z_k (no odd part for any coefficients; for a real Kossakowski matrix " +
             "a over the Z_k the F1 residual of the dissipator against 2·tr(a) has " +
-            "‖M_D‖² = 8·4^N·Σ_{k<l} a_kl², experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md). The " +
+            "‖M_D‖² = 8·4^N·Σ_{k<l} a_kl², experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md, typed as CorrelatedZDephasingPriceClaim). The " +
             "pair-decay jump σ⁻⊗σ⁻ and its siblings σ⁺⊗σ⁺, σ⁻⊗σ⁺, σ⁺⊗σ⁻, each on one pair of " +
             "sites, have ‖D_odd‖² = (3/2)·γ²·4^(N−2) (derived for σ⁻⊗σ⁻ in PROOF_F84 by PROOF_F82's " +
             "'Other dissipators' rule, the value simulations/2qubit_dissipator_exploration.py measures for " +

@@ -108,8 +108,8 @@ public class AbsorptionTheoremClaimRegistrationTests
     /// <summary>The claim's F-numbered list, pinned by equality against the default registry: the
     /// self-naming rule runs on every direct child the registry returns, and the numbers it finds must be
     /// exactly <see cref="AbsorptionTheoremClaim.FNumberedDirectChildren"/>, each with its entry heading
-    /// in <c>docs/ANALYTICAL_FORMULAS.md</c>. The two counts the claim's doc comment states, thirty-four
-    /// direct children and fourteen that name themselves by a number, are read off the same
+    /// in <c>docs/ANALYTICAL_FORMULAS.md</c>. The two counts the claim's doc comment states, thirty-six
+    /// direct children and fifteen that name themselves by a number, are read off the same
     /// registry.</summary>
     [Fact]
     public void DefaultRegistry_SelfNamedDirectChildren_EqualTheClaimsList()
@@ -131,8 +131,8 @@ public class AbsorptionTheoremClaimRegistrationTests
             $"[{string.Join(", ", labelled.Select(x => x.Child + " " + x.Number))}], the claim lists " +
             $"[{string.Join(", ", claimed)}]. Update AbsorptionTheoremClaim.FNumberedDirectChildren, its doc " +
             "comment and the Preface of docs/proofs/PROOF_ABSORPTION_THEOREM.md.");
-        Assert.Equal(34, direct.Count);
-        Assert.Equal(14, labelled.Count);
+        Assert.Equal(36, direct.Count);
+        Assert.Equal(15, labelled.Count);
 
         // Each number is a registry entry, not only a label: its heading "### Fnn." exists.
         var root = RepoRootLocator.Find();

@@ -4969,3 +4969,11 @@ The open pass of the entry above ("Found beside the pass, not repaired in it").
 - **How caught.** The sweep for The Mirror under a Shared Field found the typed entry still listing two-site dissipators ("correlated decay, ZZ-cross-channel, swap channels") as analytically open; a fresh referee then pointed to the 2026-10-04 answer the entry had missed.
 - **Shape.** A correct statement found beside a document and not propagated into it, here into the typed layer and a reflection.
 - **Anchor:** `compute/RCPsiSquared.Diagnostics/F87/F87OpenQuestions.cs` (two-site dissipators), `reflections/ON_THE_RESIDUAL.md` (what is open), `docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md` (pair decay), `docs/ANALYTICAL_FORMULAS.md` (F82, "Other dissipators").
+
+## 2026-10-11, the Absorption Theorem's direct-child pin: red on master for 34 commits
+
+- **What stood.** `AbsorptionTheoremClaimRegistrationTests.DefaultRegistry_SelfNamedDirectChildren_EqualTheClaimsList` asserted 34 direct children and 14 self-named ones, and the claim's doc comment said the same, while `ExceptionalCouplingSetClaim` (51176a44, 2026-10-07) had added a 35th direct child whose Name opens with "F50", making the self-named count 15. Nobody ran the test in between.
+- **The repair.** Typing `CorrelatedZDephasingPriceClaim` added a 36th child; the pin, the doc comment and the claim's FNumberedDirectChildren note now read 36 and 15, F50 named twice (its Pi2 inheritance and ExceptionalCouplingSetClaim).
+- **How caught.** Fresh reviewers of the typing step counted the `Get<AbsorptionTheoremClaim>()` registration sites by hand; the filtered test run then reported 34 against 36, and 14 against 15.
+- **Shape.** A count pinned in a test and in prose, left behind by a commit that changed the count without running the test that pins it.
+- **Anchor:** `compute/RCPsiSquared.Runtime.Tests/PolarityArchitecture/AbsorptionTheoremClaimRegistrationTests.cs`, `compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs` (Direct typed children).

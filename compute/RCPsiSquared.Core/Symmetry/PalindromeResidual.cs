@@ -7,8 +7,9 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The F1-palindrome residual M = Π · L_Pauli · Π⁻¹ + L_Pauli + 2σ·I.
 ///
-/// For "truly" Hamiltonians and pure dephasing, the residual is exactly zero
-/// (machine precision): Π·L·Π⁻¹ + L = −2σ·I, the F1 palindrome identity. For
+/// For "truly" Hamiltonians and local pure dephasing, the residual is exactly zero
+/// (machine precision): Π·L·Π⁻¹ + L = −2σ·I, the F1 palindrome identity (under Z dephasing with
+/// correlated site fields it is −{K − σ, ·}, <see cref="CorrelatedZDephasingPriceClaim"/>). For
 /// non-truly Hamiltonians or T1 dissipators, ‖M‖²_F has the closed-form scaling
 /// given by <see cref="Lindblad.PalindromeResidualScaling"/>.
 ///

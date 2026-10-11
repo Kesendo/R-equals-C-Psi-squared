@@ -857,6 +857,7 @@ public static class KnowledgeRegistryFactory
             // + Z-dephasing. Parents F1PalindromeIdentity + F61 + F63 + AbsorptionTheoremClaim, all
             // registered above. Live: inspect --root zeroimmune.
             .RegisterZeroSectorImmunityClaim()
+            .RegisterCorrelatedZDephasingPriceClaim()   // the palindrome's price under correlated Z dephasing (THE_MIRROR_UNDER_A_SHARED_FIELD)
             // Direct-sum decomposition (Tier1Derived, DIRECT_SUM_DECOMPOSITION): L = L_even ⊕ L_odd
             // by n_XY parity, equal halves 2^(2N−1), odd-N Π sector exchange with mirror-image
             // dynamics, superselection charge P_XY = Π²_X. Parents F1PalindromeIdentity + F61,

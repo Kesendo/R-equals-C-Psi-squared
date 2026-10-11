@@ -1042,6 +1042,13 @@ public static class InspectCommand
             c => new ZeroSectorImmunityWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
+        new("sharedfield", "the palindrome under a shared field, live: for integer jumps c_μ = Σ_k B_μk Z_k plus one Z_k per site (every " +
+            "covariance nonzero) and the XXZ chain the residual is exactly −{Σc†c − σ, ·} with ‖M‖² = 8·4^N·Σ_{k<l} a_kl², " +
+            "against the local generator at the shifted rates, a shared field shifts every joint-popcount block by −2κ(p − q)², " +
+            "the mean of Σc†c over a block's two popcounts is the claim's σ(p, q), the edge blocks decay at the local rates " +
+            "(N = 3..5; typed: CorrelatedZDephasingPriceClaim)",
+            c => new CorrelatedZDephasingPriceWitness(c.Parser.HasFlag("N") ? c.N : 3),
+            RequiresN: false, HonorsOptionalN: true),
         new("selfmirror", "the conjugate-composite fixed line AS AN OBJECT: Re λ = −σ is fixed by λ ↦ −2σ − conj(λ); only its Im λ = 0 subset at λ = −σ is fixed by linear F1 λ ↦ −2σ − λ. The System bears x/y/z and the Object inherits that frame",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("seedcount", "the endpoint-nullity surplus theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +

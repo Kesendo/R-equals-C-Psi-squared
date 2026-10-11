@@ -207,7 +207,8 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "letters, off-axis n.sigma at unit directions, multi-site Pauli strings and full " +
                          "depolarizing sites alike), any strictly positive profile, any topology, any N, any " +
                          "finite dimension. Gated at d = 2^N with N <= 5 (N = 5 on gate 12: ten rows with agreeing counts and one strict row 0 < dim W < dim N, the two kinds on which a row can fail, two routes), plus d = 3 and 5, where the inequality " +
-                         "dim W < dim N behind the odd-d corollary is checked. OUTSIDE: jumps with A^2 != 1 (F137 recentres) and rates that are zero or " +
+                         "dim W < dim N behind the odd-d corollary is checked. OUTSIDE: jumps with A^2 != 1 (F137 recentres under T1; for correlated Z dephasing see " +
+                         "CorrelatedZDephasingPriceClaim) and rates that are zero or " +
                          "negative. What the counts decide is the MULTISET; where they agree the proof's (f8) " +
                          "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
                          "F1PalindromeIdentity is the operator identity for the particular Pi, which is why a " +

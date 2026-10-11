@@ -26,7 +26,8 @@ namespace RCPsiSquared.Core.F1;
 /// 4·(2N−1)/(2N−3) (single-body).</para>
 ///
 /// <para><b>γ-independence (uniform AND non-uniform γ, closed 2026-05-18).</b> F(N, G)
-/// holds verbatim for arbitrary per-site γ_l: the dissipator-block residual
+/// holds verbatim for arbitrary local per-site γ_l (correlated site fields add the H-independent floor
+/// 8·4^N·Σ_{k&lt;l} a_kl², <c>CorrelatedZDephasingPriceClaim</c>): the dissipator-block residual
 /// M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string, so ‖M‖²_F = ‖M_H‖²_F and
 /// M_H carries no γ dependence by construction. Closes the earlier F1 OpenQuestion that
 /// conjectured a Σγ_l² replacement of (Σγ)² in F(N, G); no formula change required.
