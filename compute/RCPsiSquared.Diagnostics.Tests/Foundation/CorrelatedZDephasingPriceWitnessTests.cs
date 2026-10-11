@@ -99,6 +99,45 @@ public class CorrelatedZDephasingPriceWitnessTests
         Assert.True(w.MeanCovarianceHolds, $"K on a single-value popcount must be the shared field's at the mean covariance at N={n}");
     }
 
+    // the third moment read from L (2(L + sigma) has integer entries) is the claim's closed form, for the witness's own a
+    // and for a covariance -1 between the end sites alone, where the summed covariance is negative, the H-weighted sum is
+    // at most zero and the third moment is nonzero: the break the GHZ argument cannot see
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void ThirdMoment_ReadFromL_IsTheClosedForm_AndTheEndSiteControlBreaks(int n)
+    {
+        var w = new CorrelatedZDephasingPriceWitness(n);
+        Assert.True(w.CubeTrace.Imaginary.IsZero, $"imaginary part {w.CubeTrace.Imaginary} at N={n}");
+        Assert.Equal(8 * w.ThirdMomentPredicted, w.CubeTrace.Real);
+        Assert.True(w.ThirdMomentNoiseTerm > 0);
+        Assert.True(w.EndCovarianceCubeTrace.Imaginary.IsZero);
+        Assert.Equal(8 * w.EndCovarianceThirdMomentPredicted, w.EndCovarianceCubeTrace.Real);
+        Assert.True(w.EndCovarianceWeightedSum <= 0, $"weighted sum {w.EndCovarianceWeightedSum} at N={n}");
+        Assert.False(w.EndCovarianceThirdMomentPredicted.IsZero);
+        Assert.Empty(w.EndCovarianceFarEndPopcounts);
+        Assert.True(w.ThirdMomentHolds);
+    }
+
+    // the far-end modes of a negatively shared field (jumps Z_k - Z_l for every pair plus one Z_k per site) are read live
+    // as eigenvectors of L at -2 K_p; the popcounts with K_p > sigma = N^2 are the middle ones, (N - 2p)^2 < N
+    [Theory]
+    [InlineData(3, new[] { 1, 2 })]
+    [InlineData(4, new[] { 2 })]
+    [InlineData(5, new[] { 2, 3 })]
+    public void FarEndModes_AreEigenvectors_AndTheMiddleBreaks(int n, int[] middle)
+    {
+        var w = new CorrelatedZDephasingPriceWitness(n);
+        Assert.All(w.FarEndModes, m => Assert.True(m.Eigenvector, $"P_{m.Popcount} X^N at N={n}"));
+        Assert.Equal((long)n * n, w.FarEndSigma);
+        foreach (var m in w.FarEndModes)
+            Assert.Equal((long)n * n + n - (n - 2 * m.Popcount) * (n - 2 * m.Popcount), m.K);
+        Assert.Equal(middle, w.FarEndRead);
+        Assert.Equal(middle, w.FarEndPredicted);
+        Assert.True(w.FarEndHolds);
+    }
+
     [Fact]
     public void Kossakowski_HasEveryCovarianceNonzero()
     {
@@ -113,7 +152,7 @@ public class CorrelatedZDephasingPriceWitnessTests
     {
         var w = new CorrelatedZDephasingPriceWitness(3);
         var children = ((IInspectable)w).Children.ToList();
-        Assert.Equal(6, children.Count);
+        Assert.Equal(8, children.Count);
         Assert.Contains("price identity", children[0].DisplayName);
     }
 

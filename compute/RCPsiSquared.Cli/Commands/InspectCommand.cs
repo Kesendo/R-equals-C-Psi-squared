@@ -1045,7 +1045,9 @@ public static class InspectCommand
         new("sharedfield", "the palindrome under a shared field, live: for integer jumps c_μ = Σ_k B_μk Z_k plus one Z_k per site (every " +
             "covariance nonzero) and the XXZ chain the residual is exactly −{Σc†c − σ, ·} with ‖M‖² = 8·4^N·Σ_{k<l} a_kl², " +
             "against the local generator at the shifted rates, a shared field shifts every joint-popcount block by −2κ(p − q)², " +
-            "the mean of Σc†c over a block's two popcounts is the claim's σ(p, q), the edge blocks decay at the local rates " +
+            "the mean of Σc†c over a block's two popcounts is the claim's σ(p, q), the edge blocks decay at the local rates, " +
+            "the popcounts on which Σc†c is one number meet the four-shapes law, the third moment read from L meets the claim's " +
+            "closed form, and the far-end modes of a negatively shared field are eigenvectors decaying faster than 2σ in the middle " +
             "(N = 3..5; typed: CorrelatedZDephasingPriceClaim)",
             c => new CorrelatedZDephasingPriceWitness(c.Parser.HasFlag("N") ? c.N : 3),
             RequiresN: false, HonorsOptionalN: true),

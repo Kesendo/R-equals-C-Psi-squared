@@ -34,7 +34,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// takes one value read cell by cell (from the jumps for this witness's own a, from K = Σ_kl a_kl Z_l Z_k for a ring,
 /// a star and one common covariance) against the claim's
 /// <see cref="CorrelatedZDephasingPriceClaim.SingleValuePopcounts"/>, read from the covariances alone, with K there
-/// the shared field's value at the mean covariance, compared in the integers.</para>
+/// the shared field's value at the mean covariance, compared in the integers; the third moment, Tr((L + σ)³) read from
+/// L itself (2(L + σ) has integer entries, so the trace of its cube is an integer sum over its nonzero entries) against
+/// the claim's <see cref="CorrelatedZDephasingPriceClaim.ThirdMoment"/>, for this witness's a and for a covariance −1
+/// between the two end sites alone, where the summed covariance is negative, the GHZ argument says nothing, and the
+/// third moment is nonzero; the far-end modes, a shared field of negative covariance realised by the jumps Z_k − Z_l
+/// for every pair plus one Z_k per site (a_kk = N, a_kl = −1), on which P_p·X^⊗N is read live as an eigenvector of L
+/// at −2K_p for every popcount p, the popcounts with K_p > σ (a rate above 2σ) against the claim's
+/// <see cref="CorrelatedZDephasingPriceClaim.FarEndBreakPopcounts"/>.</para>
 ///
 /// <para>Guard: N ∈ {3, 4, 5} (4^N ≤ <see cref="MaxDim"/>; at N = 2 the image (1, N) is itself an
 /// edge block). Typed home <see cref="CorrelatedZDephasingPriceClaim"/>.</para></summary>
@@ -110,6 +117,57 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
     /// <summary>True iff on every pattern and every popcount p that sees one value of K, C(N, 2)·K_p =
     /// C(N, 2)·σ − N·T + T·(N − 2p)², the shared field's value at the mean covariance T/C(N, 2), in the integers.</summary>
     public bool MeanCovarianceHolds { get; }
+
+    /// <summary>Tr((2L + 2σ)³) read from this witness's L, real and imaginary part, exact.</summary>
+    public (BigInteger Real, BigInteger Imaginary) CubeTrace { get; }
+
+    /// <summary>Tr((L + σ)³) by the claim's closed form, from this witness's a and the chain's Tr(H²Z_kZ_l), Tr(H Z_k).</summary>
+    public BigInteger ThirdMomentPredicted { get; }
+
+    /// <summary>The noise term of the bracket for this witness's a, positive for a ⪰ 0 with a covariance.</summary>
+    public BigInteger ThirdMomentNoiseTerm { get; }
+
+    /// <summary>The control the GHZ argument cannot reach: jumps Z_0 − Z_{N−1} plus one Z_k per site, so the only
+    /// covariance is −1, between the two end sites, and the summed covariance is negative.</summary>
+    public long[,] EndCovarianceKossakowski { get; }
+
+    /// <summary>Σ_{k≠l} a_kl·Tr(H²Z_kZ_l) for the end-site control: at most zero, so the break follows.</summary>
+    public BigInteger EndCovarianceWeightedSum { get; }
+
+    /// <summary>Tr((2L + 2σ)³) read from the end-site control's L.</summary>
+    public (BigInteger Real, BigInteger Imaginary) EndCovarianceCubeTrace { get; }
+
+    /// <summary>Tr((L + σ)³) by the closed form for the end-site control.</summary>
+    public BigInteger EndCovarianceThirdMomentPredicted { get; }
+
+    /// <summary>The far-end modes of a negatively shared field (jumps Z_k − Z_l for every pair plus one Z_k per site, so
+    /// a_kk = N and a_kl = −1): for each popcount p, whether P_p·X^⊗N is an eigenvector of L at −2K_p exactly, and K_p.</summary>
+    public IReadOnlyList<(int Popcount, bool Eigenvector, long K)> FarEndModes { get; }
+
+    /// <summary>σ of the negatively shared field, N².</summary>
+    public long FarEndSigma { get; }
+
+    /// <summary>The popcounts whose far-end mode decays faster than 2σ, read from L, against the claim's law.</summary>
+    public IReadOnlyList<int> FarEndRead { get; }
+    public IReadOnlyList<int> FarEndPredicted { get; }
+
+    /// <summary>Every P_p·X^⊗N is an eigenvector at −2K_p, the middle decays faster than 2σ, and the read popcounts
+    /// are the claim's law.</summary>
+    public bool FarEndHolds => FarEndModes.All(m => m.Eigenvector) && FarEndRead.SequenceEqual(FarEndPredicted)
+                               && FarEndRead.Contains(N / 2);
+
+    /// <summary>The far-end popcounts of the end-site control by the claim's law: empty, so no far-end mode (and, the
+    /// summed covariance being negative, no GHZ coherence) decides there.</summary>
+    public IReadOnlyList<int> EndCovarianceFarEndPopcounts { get; }
+
+    /// <summary>Both readings equal 8 times the closed form with a zero imaginary part, and the end-site control's third
+    /// moment is nonzero where the summed covariance is negative, no far-end mode decides, and the weighted sum is at
+    /// most zero.</summary>
+    public bool ThirdMomentHolds =>
+        CubeTrace == (8 * ThirdMomentPredicted, BigInteger.Zero)
+        && EndCovarianceCubeTrace == (8 * EndCovarianceThirdMomentPredicted, BigInteger.Zero)
+        && ThirdMomentNoiseTerm > 0 && EndCovarianceFarEndPopcounts.Count == 0
+        && EndCovarianceWeightedSum <= 0 && EndCovarianceThirdMomentPredicted != 0;
 
     public CorrelatedZDephasingPriceWitness(int n = 3, int seed = 7)
     {
@@ -330,6 +388,131 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
         }
         FourShapes = shapes;
         MeanCovarianceHolds = meanHolds;
+
+        // The third moment: Tr(H²Z_kZ_l) and Tr(H Z_k) of the (traceless) chain, read off its diagonal.
+        var H2 = H * H;
+        var twoSite = new long[n, n];
+        var single = new long[n];
+        long ReadInteger(double x, string what)
+        {
+            if (x != Math.Round(x)) throw new InvalidOperationException($"{what} must be an integer; got {x}");
+            return (long)x;
+        }
+        long traceH = 0;
+        for (int i = 0; i < d; i++) traceH += ReadInteger(H[i, i].Real, "a diagonal entry of H");
+        if (traceH != 0) throw new InvalidOperationException($"the closed form is written for a traceless H; Tr H = {traceH}");
+        for (int k = 0; k < n; k++)
+        {
+            double t1 = 0;
+            for (int i = 0; i < d; i++) t1 += H[i, i].Real * zval[k, i];
+            single[k] = ReadInteger(t1, "Tr(H Z_k)");
+            for (int l = 0; l < n; l++)
+            {
+                double t2 = 0;
+                for (int i = 0; i < d; i++) t2 += H2[i, i].Real * zval[k, i] * zval[l, i];
+                twoSite[k, l] = ReadInteger(t2, "Tr(H² Z_k Z_l)");
+            }
+        }
+        var aLong = new long[n, n];
+        for (int k = 0; k < n; k++)
+            for (int l = 0; l < n; l++) aLong[k, l] = a[k, l];
+        CubeTrace = CubeTraceOfTwoL(L, sigma);
+        ThirdMomentPredicted = CorrelatedZDephasingPriceClaim.ThirdMoment(aLong, twoSite, single);
+        ThirdMomentNoiseTerm = CorrelatedZDephasingPriceClaim.ThirdMomentNoiseTerm(aLong);
+
+        var endJumps = new List<ComplexMatrix> { zs[0] - zs[n - 1] };
+        for (int k = 0; k < n; k++) endJumps.Add(zs[k]);
+        var aEnd = new long[n, n];
+        for (int k = 0; k < n; k++) aEnd[k, k] = k == 0 || k == n - 1 ? 2 : 1;
+        aEnd[0, n - 1] = aEnd[n - 1, 0] = -1;
+        EndCovarianceKossakowski = aEnd;
+        var endCov = new long[n, n];
+        endCov[0, n - 1] = endCov[n - 1, 0] = -1;
+        EndCovarianceFarEndPopcounts = CorrelatedZDephasingPriceClaim.FarEndBreakPopcounts(endCov);
+        BigInteger weighted = 0;
+        for (int k = 0; k < n; k++)
+            for (int l = 0; l < n; l++)
+                if (k != l) weighted += (BigInteger)aEnd[k, l] * twoSite[k, l];
+        EndCovarianceWeightedSum = weighted;
+        double sigmaEnd = 0;
+        for (int k = 0; k < n; k++) sigmaEnd += aEnd[k, k];
+        EndCovarianceCubeTrace = CubeTraceOfTwoL(LindbladianBuilder.Build(H, endJumps), sigmaEnd);
+        EndCovarianceThirdMomentPredicted = CorrelatedZDephasingPriceClaim.ThirdMoment(aEnd, twoSite, single);
+
+        // The far-end modes of a negatively shared field: jumps Z_k − Z_l for every pair plus one Z_k per site.
+        var antiJumps = new List<ComplexMatrix>();
+        for (int k = 0; k < n; k++)
+            for (int l = k + 1; l < n; l++) antiJumps.Add(zs[k] - zs[l]);
+        for (int k = 0; k < n; k++) antiJumps.Add(zs[k]);
+        ComplexMatrix La = LindbladianBuilder.Build(H, antiJumps);
+        FarEndSigma = (long)n * n;
+        var modes = new List<(int, bool, long)>();
+        var farRead = new List<int>();
+        for (int p = 0; p <= n; p++)
+        {
+            var v = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(d * d);
+            long kp = 0;
+            for (int i = 0; i < d; i++)
+            {
+                if (pop[i] != p) continue;
+                v[i * d + (d - 1 - i)] = Complex.One;
+                long s = (long)n * n;                                    // K(i) = σ − Σ_{k≠l} z_k z_l
+                for (int k = 0; k < n; k++)
+                    for (int l = 0; l < n; l++)
+                        if (k != l) s -= zval[k, i] * zval[l, i];
+                kp = s;
+            }
+            var Lv = La * v;
+            bool eig = true;
+            for (int r = 0; r < d * d && eig; r++)
+                if (Lv[r] != (Complex)(-2.0 * kp) * v[r]) eig = false;
+            modes.Add((p, eig, kp));
+            if (kp > FarEndSigma) farRead.Add(p);
+        }
+        FarEndModes = modes;
+        FarEndRead = farRead;
+        var antiCov = new long[n, n];
+        for (int k = 0; k < n; k++)
+            for (int l = 0; l < n; l++)
+                if (k != l) antiCov[k, l] = -1;
+        FarEndPredicted = CorrelatedZDephasingPriceClaim.FarEndBreakPopcounts(antiCov);
+    }
+
+    /// <summary>Tr((2L + 2σ)³) exactly: the jumps are integer and the dissipator halves them, so 2(L + σ) has integer
+    /// entries, and the trace of its cube is a sum of integer products over its nonzero entries, accumulated in
+    /// BigInteger.</summary>
+    private static (BigInteger Real, BigInteger Imaginary) CubeTraceOfTwoL(ComplexMatrix L, double sigma)
+    {
+        int dim = L.RowCount;
+        var re = new long[dim, dim];
+        var im = new long[dim, dim];
+        var rows = new List<int>[dim];
+        for (int r = 0; r < dim; r++)
+        {
+            rows[r] = new List<int>();
+            for (int c = 0; c < dim; c++)
+            {
+                var z = L[r, c] + (r == c ? (Complex)sigma : Complex.Zero);
+                double x = 2 * z.Real, y = 2 * z.Imaginary;
+                if (x != Math.Round(x) || y != Math.Round(y) || Math.Abs(x) > 1e15 || Math.Abs(y) > 1e15)
+                    throw new InvalidOperationException($"2(L + σ) must have integer entries; got {z} at ({r}, {c})");
+                re[r, c] = (long)x;
+                im[r, c] = (long)y;
+                if (re[r, c] != 0 || im[r, c] != 0) rows[r].Add(c);
+            }
+        }
+        BigInteger tRe = 0, tIm = 0;
+        for (int i = 0; i < dim; i++)
+            foreach (int j in rows[i])
+                foreach (int k in rows[j])
+                {
+                    if (re[k, i] == 0 && im[k, i] == 0) continue;
+                    BigInteger pr = (BigInteger)re[i, j] * re[j, k] - (BigInteger)im[i, j] * im[j, k];
+                    BigInteger pi = (BigInteger)re[i, j] * im[j, k] + (BigInteger)im[i, j] * re[j, k];
+                    tRe += pr * re[k, i] - pi * im[k, i];
+                    tIm += pr * im[k, i] + pi * re[k, i];
+                }
+        return (tRe, tIm);
     }
 
     private static double MaxAbs(ComplexMatrix A)
@@ -369,7 +552,10 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
         $"local generator at the shifted rates, a shared field {(BlockLawHolds ? "shifts" : "does NOT shift")} every block " +
         $"by −2κ(p − q)² with K averaging to σ(p, q) on each block{(CentreHolds ? "" : " (that average FAILS)")}, and the four edge blocks {(EdgeHolds ? "decay at the local rates" : "do NOT decay at the local rates")} " +
         $"whatever the covariances{(ImageBlockCarriesCovariance ? "" : " (their image control FAILS)")}; the popcounts on which K takes one " +
-        $"value {(FourShapesAgree ? "are" : "are NOT")} the claim's four-shapes law on {FourShapes.Count} patterns ({DistinctShapes} shapes){(MeanCovarianceHolds ? "" : ", the mean-covariance values FAIL")}.";
+        $"value {(FourShapesAgree ? "are" : "are NOT")} the claim's four-shapes law on {FourShapes.Count} patterns ({DistinctShapes} shapes){(MeanCovarianceHolds ? "" : ", the mean-covariance values FAIL")}; " +
+        $"the third moment read from L {(ThirdMomentHolds ? "is" : "is NOT")} the claim's closed form, a negative covariance between the end sites alone " +
+        $"{(EndCovarianceCubeTrace.Real != 0 ? "breaks" : "does NOT break")} the complex pairing, and under a negatively shared field the far-end modes " +
+        $"{(FarEndHolds ? "are eigenvectors and the middle decays faster than 2σ, as the claim's law says" : "FAIL the claim's law")}.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -419,6 +605,25 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
                              $"{{{string.Join(",", s.Predicted)}}} from the covariances alone")) +
                          $"; {(FourShapesAgree ? "the two routes meet" : "the routes DIFFER")} on {DistinctShapes} distinct shapes, and on every such " +
                          $"popcount K {(MeanCovarianceHolds ? "is" : "is NOT")} the shared field's value at the mean covariance.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the third moment",
+                summary: $"Tr((2L + 2σ)³) read from L = {CubeTrace.Real} + {CubeTrace.Imaginary}i against 8 times the claim's ThirdMoment " +
+                         $"{8 * ThirdMomentPredicted} for this witness's a (noise term {ThirdMomentNoiseTerm}, positive for a ⪰ 0 with a covariance); " +
+                         $"for a covariance −1 between the two end sites alone (summed covariance −1, so the GHZ argument says nothing, and " +
+                         $"no far-end mode decides: FarEndBreakPopcounts {{{string.Join(",", EndCovarianceFarEndPopcounts)}}}; " +
+                         $"Σ_{{k≠l}} a_kl·Tr(H²Z_kZ_l) = {EndCovarianceWeightedSum}) read {EndCovarianceCubeTrace.Real} + {EndCovarianceCubeTrace.Imaginary}i " +
+                         $"against {8 * EndCovarianceThirdMomentPredicted}: {(ThirdMomentHolds ? "both meet, and the end-site third moment is nonzero, so no single centre serves that spectrum's complex eigenvalues" : "a reading DIFFERS or the control is void")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the far-end modes",
+                summary: $"a negatively shared field (jumps Z_k − Z_l for every pair plus one Z_k per site: a_kk = N, a_kl = −1, σ = {FarEndSigma}): " +
+                         string.Join("; ", FarEndModes.Select(m => $"P_{m.Popcount}·X^⊗N {(m.Eigenvector ? "is" : "is NOT")} an eigenvector at −2K = {-2 * m.K}")) +
+                         $"; K_p > σ, a rate above 2σ whose partner about −σ would grow, on popcounts {{{string.Join(",", FarEndRead)}}} read from L against " +
+                         $"{{{string.Join(",", FarEndPredicted)}}} from the claim's FarEndBreakPopcounts: " +
+                         $"{(FarEndHolds ? "they meet, so the summed covariance being negative, the middle breaks the single mirror, the rates included" : "they DIFFER")}.",
                 provenance: NodeProvenance.Live);
         }
     }
