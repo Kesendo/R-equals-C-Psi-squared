@@ -77,7 +77,17 @@ The script checks, exactly:
      one random {0, +-1} direction that can single out particular sites from N = 3 on: 2^N cells for a
      positive definite a, C(2N, N) at eta = 1, and 2^N + 2 at that end, the populations plus
      |0...0><1...1| and its transpose; and on all six the GHZ coherence dark exactly when every row of
-     a sums to zero (N = 2..5).
+     a sums to zero (N = 2..5). The dark classes, the configurations grouped by a z: on all six the dark
+     cells number the sum of the squared class sizes, at eta = 1 the classes are the popcount sectors and
+     at the anti-correlated end the one class beyond single configurations is the GHZ pair; anti-correlated
+     pairs a = [[1, -1], [-1, 1]] multiply the dark cells, (2^2 + 2)^(N/2) at N = 2 and 4, the largest
+     class taking 00 or 11 on every pair (N = 2 is the anti-correlated end itself); a ring of covariances
+     at gamma = 2|kappa| (its Laplacian D - A, its signless Laplacian D + A) leaves the GHZ pair at
+     N = 3, 4, 5 (N = 3 the anti-correlated end again), the Neel pair at N = 4 and nothing beyond the
+     populations at N = 3 and 5, and at N = 4 the flip on every other site carries the one set of dark
+     cells onto the other; the open XY chain at N = 4 conserves each popcount, keeps the span of the
+     popcount sectors (the commutator of every dark cell at eta = 1 stays inside them), commutes with the
+     GHZ cell and carries the Neel cell out of the dark cells.
 
 Every input is an integer (gamma = 10, eta in {3/10, -2/10, 9/10, 1}, so a has integer entries; the
 anti-correlated end of section H at gamma = N - 1; the Hamiltonian integer), and the script works
@@ -196,6 +206,15 @@ def dark_cells(a, N):
     re, _ = two_l(GaussH(np.zeros((d, d), dtype=np.int64)), a, N)
     diag = np.diag(re)
     return {(i, j) for i in range(d) for j in range(d) if diag[i * d + j] == 0}
+
+
+def dark_classes(a, N):
+    """The configurations grouped by a z(i), each class sorted, in order of first appearance."""
+    groups = {}
+    for i in range(2 ** N):
+        key = tuple(int(x) for x in a @ np.array([zval(i, k, N) for k in range(N)], dtype=np.int64))
+        groups.setdefault(key, []).append(i)
+    return list(groups.values())
 
 
 def pi_perm(N):
@@ -953,6 +972,54 @@ def main():
         coh = {cell for cell in dark_cells(anti, N) if cell[0] != cell[1]}
         claim(f"N={N} anti-correlated end: the dark coherences are exactly |0...0><1...1| and its transpose",
               coh == {(0, d - 1), (d - 1, 0)})
+        claim(f"N={N} on all six: the dark cells are exactly the cells inside the classes of a z",
+              all(dark_cells(a, N) == {(i, j) for c in dark_classes(a, N) for i in c for j in c} for _, a, _ in cases))
+        claim(f"N={N} eta 1: the dark classes are the popcount sectors",
+              sorted(dark_classes(kossakowski_shared(N, Fraction(1)), N))
+              == sorted([i for i in range(d) if popcount(i) == p] for p in range(N + 1)))
+        claim(f"N={N} anti-correlated end: the one class beyond single configurations is the GHZ pair",
+              [c for c in dark_classes(anti, N) if len(c) > 1] == [[0, d - 1]])
+
+    print("\nH, continued. Classes that multiply, and the ring at the edge of positive semidefiniteness")
+    for N in (2, 4):
+        d = 2 ** N
+        apairs = np.zeros((N, N), dtype=np.int64)
+        for k in range(0, N, 2):
+            apairs[k, k] = apairs[k + 1, k + 1] = 1
+            apairs[k, k + 1] = apairs[k + 1, k] = -1
+        check(f"N={N} anti-correlated pairs: dark cells, (2^2 + 2)^(N/2)", 6 ** (N // 2), len(dark_cells(apairs, N)))
+        alike = [i for i in range(d) if all(((i >> k) & 1) == ((i >> (k + 1)) & 1) for k in range(0, N, 2))]
+        claim(f"N={N} anti-correlated pairs: the largest class takes 00 or 11 on every pair",
+              max(dark_classes(apairs, N), key=len) == alike)
+    for N in (3, 4, 5):
+        d = 2 ** N
+        adj = np.zeros((N, N), dtype=np.int64)
+        for k in range(N):
+            adj[k, (k + 1) % N] = adj[(k + 1) % N, k] = 1
+        lap, signless = 2 * np.eye(N, dtype=np.int64) - adj, 2 * np.eye(N, dtype=np.int64) + adj
+        coh = {c for c in dark_cells(lap, N) if c[0] != c[1]}
+        claim(f"N={N} ring, kappa = -1 at gamma = 2 (D - A): the dark coherences are the GHZ pair's", coh == {(0, d - 1), (d - 1, 0)})
+        coh = {c for c in dark_cells(signless, N) if c[0] != c[1]}
+        neel = sum(1 << k for k in range(0, N, 2))
+        if N % 2 == 0:
+            claim(f"N={N} ring, kappa = +1 at gamma = 2 (D + A): the dark coherences are the Neel pair's",
+                  coh == {(neel, neel ^ (d - 1)), (neel ^ (d - 1), neel)})
+        else:
+            claim(f"N={N} ring, kappa = +1 at gamma = 2 (D + A): no dark coherence, no alternating pattern closes", coh == set())
+        if N == 4:
+            m = 0b0101                                       # X on every other site
+            claim("N=4: the flip on every other site carries the dark cells of D + A onto those of D - A",
+                  {(i ^ m, j ^ m) for i, j in dark_cells(signless, N)} == dark_cells(lap, N))
+            H = xxz_chain(N, 1, 0).r                            # the open XY chain
+            unit = lambda i, j: csr_matrix(([1], ([i], [j])), shape=(d, d)).toarray()
+            claim("N=4 open XY chain: it conserves each popcount",
+                  all(comm_zero(H, np.diag([1 if popcount(i) == p else 0 for i in range(d)])) for p in range(N + 1)))
+            sectors = dark_cells(kossakowski_shared(N, Fraction(1)), N)
+            claim("N=4 open XY chain: the commutator of every dark cell at eta = 1 stays inside the popcount sectors",
+                  all({(r, c) for r, c in zip(*np.nonzero(comm(H, unit(i, j))))} <= sectors for i, j in sectors))
+            out = {(r, c) for r, c in zip(*np.nonzero(comm(H, unit(neel, neel ^ (d - 1)))))}
+            claim("N=4 open XY chain: it commutes with the GHZ cell |0000><1111| and carries the Neel cell out of the dark cells",
+                  comm_zero(H, unit(0, d - 1)) and bool(out) and not out <= dark_cells(signless, N))
 
     held, matched = sum(CLAIMS), sum(CHECKS)
     print(f"\n{matched} of {len(CHECKS)} printed values match exactly; {held} of {len(CLAIMS)} claims hold.")
