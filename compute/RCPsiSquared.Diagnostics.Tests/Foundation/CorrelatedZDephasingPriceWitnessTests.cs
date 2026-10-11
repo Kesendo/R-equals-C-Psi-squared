@@ -82,6 +82,23 @@ public class CorrelatedZDephasingPriceWitnessTests
             $"the image (1, N) of (0, 1) must carry the covariances at N={n}");
     }
 
+    // the four shapes: the popcounts on which K takes one value, read cell by cell (from the jumps for the witness's
+    // own a), meet the claim's closed form on every pattern, over 2, 4 and 3 distinct shapes at N = 3, 4, 5, and K
+    // there is the shared field's value at the mean covariance, in the integers
+    [Theory]
+    [InlineData(3, 2)]
+    [InlineData(4, 4)]
+    [InlineData(5, 3)]
+    public void FourShapes_ReadCellByCell_MeetTheClosedForm(int n, int shapes)
+    {
+        var w = new CorrelatedZDephasingPriceWitness(n);
+        Assert.Equal(4, w.FourShapes.Count);
+        Assert.True(w.FourShapesAgree, string.Join("; ", w.FourShapes.Select(s =>
+            $"{s.Pattern}: read {{{string.Join(",", s.Read)}}} predicted {{{string.Join(",", s.Predicted)}}}")));
+        Assert.Equal(shapes, w.DistinctShapes);
+        Assert.True(w.MeanCovarianceHolds, $"K on a single-value popcount must be the shared field's at the mean covariance at N={n}");
+    }
+
     [Fact]
     public void Kossakowski_HasEveryCovarianceNonzero()
     {
@@ -96,7 +113,7 @@ public class CorrelatedZDephasingPriceWitnessTests
     {
         var w = new CorrelatedZDephasingPriceWitness(3);
         var children = ((IInspectable)w).Children.ToList();
-        Assert.Equal(5, children.Count);
+        Assert.Equal(6, children.Count);
         Assert.Contains("price identity", children[0].DisplayName);
     }
 

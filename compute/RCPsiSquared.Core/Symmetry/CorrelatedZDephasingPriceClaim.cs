@@ -19,7 +19,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// centre −σ(p, q), σ(p, q) = σ − Nκ + κ(d² + m²); the single
 /// centre −σ fails for a positive semidefinite a whose covariances sum to a positive number (H
 /// keeping the all-0 and all-1 states as eigenstates); for a general pattern and a popcount-conserving
-/// X^⊗N-even H a block pairs wherever K takes one value on each of its two popcounts; the four edge blocks pay the local bill whatever the
+/// X^⊗N-even H a block pairs wherever K takes one value on each of its two popcounts, and the popcounts that do
+/// are settled for every pattern (<see cref="SingleValuePopcounts"/>: 0 and N always, 1 and N − 1 exactly when every
+/// site carries the same summed covariance, N/2 exactly when the covariances are additive, a_kl = y_k + y_l, every
+/// other popcount exactly when they are one number), K there taking the shared field's values at the mean
+/// covariance; the four edge blocks pay the local bill whatever the
 /// covariances. Π_Z carries the spectator ladder W onto the sideways ladder S⁺, an operator identity
 /// at every N; on the open XY chain W commutes for every real symmetric a, while S⁺ fails for every
 /// correlated one, under one common covariance only by the block shift −8κ(d + 1).</para>
@@ -61,6 +65,54 @@ public sealed class CorrelatedZDephasingPriceClaim : Claim
         return sigma - n * kappa + kappa * (d * d + m * m);
     }
 
+    /// <summary>The popcounts on which K = Σ_kl a_kl Z_l Z_k takes one value, read from the covariances alone (the
+    /// off-diagonal part of a; its diagonal enters K only through σ and is ignored here): 0 and N always; 1 and N − 1
+    /// exactly when every site carries the same summed covariance; N/2, for 2 ≤ N/2 ≤ N − 2, exactly when the
+    /// covariances are additive, a_kl = y_k + y_l (k ≠ l); every other popcount exactly when they are one number. The
+    /// page's proof writes the covariances as κ̄ + x_k + x_l + Ω_kl (Σx = 0, Ω with zero row sums) and cut(𝒜), the
+    /// summed covariance across the excited set 𝒜, as κ̄·p(N − p) + (N − 2p)·x(𝒜) − 2·Ω(𝒜). The qualifying blocks are
+    /// the pairs of these popcounts, 4, 16, 9 (even N) or (N + 1)², and on each (K_p + K_q)/2 is <see cref="BlockSigma"/>
+    /// at the mean covariance κ = T/C(N, 2), T the summed covariance. Integer covariances (|a_kl| ≤ 10⁹), so every test
+    /// is exact.</summary>
+    public static IReadOnlyList<int> SingleValuePopcounts(long[,] covariance)
+    {
+        ArgumentNullException.ThrowIfNull(covariance);
+        int n = covariance.GetLength(0);
+        if (n < 1 || covariance.GetLength(1) != n)
+            throw new ArgumentException("the covariances form a square N × N matrix, N ≥ 1", nameof(covariance));
+        for (int k = 0; k < n; k++)
+            for (int l = 0; l < n; l++)
+            {
+                if (covariance[k, l] != covariance[l, k])
+                    throw new ArgumentException("a Kossakowski matrix is symmetric", nameof(covariance));
+                if (k != l && (covariance[k, l] > 1_000_000_000L || covariance[k, l] < -1_000_000_000L))
+                    throw new ArgumentOutOfRangeException(nameof(covariance), covariance[k, l], "|a_kl| ≤ 10⁹ (k ≠ l) keeps every sum exact");
+            }
+        if (n <= 2) return Enumerable.Range(0, n + 1).ToArray();
+
+        bool constant = true, equalRows = true, additive = true;
+        for (int k = 0; k < n; k++)
+            for (int l = k + 1; l < n; l++)
+                if (covariance[k, l] != covariance[0, 1]) constant = false;
+        long RowSum(int k) { long r = 0; for (int l = 0; l < n; l++) if (l != k) r += covariance[k, l]; return r; }
+        long r0 = RowSum(0);
+        for (int k = 1; k < n; k++) if (RowSum(k) != r0) equalRows = false;
+        var y2 = new long[n];                                   // 2·y_k, so the additive test stays in the integers
+        y2[0] = covariance[0, 1] + covariance[0, 2] - covariance[1, 2];
+        for (int k = 1; k < n; k++) y2[k] = 2 * covariance[0, k] - y2[0];
+        for (int k = 0; k < n && additive; k++)
+            for (int l = k + 1; l < n; l++)
+                if (2 * covariance[k, l] != y2[k] + y2[l]) { additive = false; break; }
+
+        var popcounts = new List<int>();
+        for (int p = 0; p <= n; p++)
+            if (p == 0 || p == n || constant
+                || ((p == 1 || p == n - 1) && equalRows)
+                || (2 * p == n && additive))
+                popcounts.Add(p);
+        return popcounts;
+    }
+
     public CorrelatedZDephasingPriceClaim(F1PalindromeIdentity f1Palindrome, AbsorptionTheoremClaim absorptionTheorem)
         : base(
             "Correlated Z dephasing: Π_Z·L·Π_Z⁻¹ = −L − {K, ·}, K = Σ_kl a_kl Z_l Z_k, for a real symmetric Kossakowski " +
@@ -81,7 +133,9 @@ public sealed class CorrelatedZDephasingPriceClaim : Claim
         "‖M_D‖² = 8·4^N·Σ_{k<l} a_kl²; one common covariance κ and such an H that also conserves the popcount: block (p, q) pairs with " +
         "(q, N − p) about −σ(p, q), σ(p, q) = σ − Nκ + κ(d² + m²), d = p − q, m = p + q − N; no single centre " +
         "serves the spectrum for a positive semidefinite a with a positive covariance sum (H keeping the all-0 and all-1 " +
-        "states as eigenstates) " +
+        "states as eigenstates); for a general pattern popcount p sees one value of K exactly when p = 0, N, when p = 1, " +
+        "N − 1 and every site carries the same summed covariance, when p = N/2 and the covariances are additive, and " +
+        "otherwise when they are one number, K there the shared field's at the mean covariance " +
         "(Tier 1 derived; live witness: inspect --root sharedfield).";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -98,6 +152,8 @@ public sealed class CorrelatedZDephasingPriceClaim : Claim
                 summary: "for a positive semidefinite a whose covariances sum to a positive number and an H keeping the all-0 and all-1 states as eigenstates, no single centre serves the spectrum (the GHZ coherence's partner would grow)");
             yield return new InspectableNode("general pattern",
                 summary: "for a popcount-conserving X^⊗N-even H a joint-popcount block pairs with its image about −(K_p + K_q)/2 wherever K takes one value on each of its two popcounts; the four edge blocks pay the local bill whatever the covariances");
+            yield return new InspectableNode("the four shapes",
+                summary: "popcount p sees one value of K exactly when p = 0 or N; p = 1 or N − 1 and every site carries the same summed covariance; p = N/2 (2 ≤ p ≤ N − 2) and the covariances are additive, a_kl = y_k + y_l; or the covariances are one number (SingleValuePopcounts); so the qualifying blocks number 4, 16, 9 (even N) or (N + 1)², and on each (K_p + K_q)/2 = σ(p, q) at κ = T/C(N, 2), the mean covariance; whether any other block pairs is read, not proved");
             yield return new InspectableNode("ladders",
                 summary: "Π_Z W Π_Z⁻¹ = S⁺ at every N, carried by the bra flip alone (a staggered Shiba map); on the open XY chain W commutes for every real symmetric a, while S⁺ fails for every correlated one, under one common covariance only by [L, S⁺] = −8κ(d + 1)·S⁺ on the source block (p, q), d = p − q");
         }

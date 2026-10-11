@@ -30,7 +30,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// block, and whose K, averaged over a block's two popcounts, is the claim's
 /// <see cref="CorrelatedZDephasingPriceClaim.BlockSigma"/> on every block; the edge blocks (0,1),
 /// (1,0), (N−1,N), (N,N−1), where each coherence disagrees at one site l and decays at the rate 2·a_ll
-/// whatever the covariances, while the image (1,N) of (0,1) does not.</para>
+/// whatever the covariances, while the image (1,N) of (0,1) does not; the four shapes, the popcounts on which K
+/// takes one value read cell by cell (from the jumps for this witness's own a, from K = Σ_kl a_kl Z_l Z_k for a ring,
+/// a star and one common covariance) against the claim's
+/// <see cref="CorrelatedZDephasingPriceClaim.SingleValuePopcounts"/>, read from the covariances alone, with K there
+/// the shared field's value at the mean covariance, compared in the integers.</para>
 ///
 /// <para>Guard: N ∈ {3, 4, 5} (4^N ≤ <see cref="MaxDim"/>; at N = 2 the image (1, N) is itself an
 /// edge block). Typed home <see cref="CorrelatedZDephasingPriceClaim"/>.</para></summary>
@@ -88,6 +92,24 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
     /// for the shared field, σ(p, q) read from <see cref="CorrelatedZDephasingPriceClaim.BlockSigma"/>.
     /// The block law says 0.</summary>
     public double SharedFieldCentreResidual { get; }
+
+    /// <summary>For each of the four patterns read (this witness's own a; and a ring, a star and one common covariance,
+    /// those three with a covariance of 1 on each of their pairs), the popcounts on which K takes one value, read cell by
+    /// cell, beside the claim's prediction.</summary>
+    public IReadOnlyList<(string Pattern, int[] Read, int[] Predicted)> FourShapes { get; }
+
+    /// <summary>True iff on every pattern the popcounts read cell by cell are the claim's
+    /// <see cref="CorrelatedZDephasingPriceClaim.SingleValuePopcounts"/>.</summary>
+    public bool FourShapesAgree => FourShapes.All(s => s.Read.SequenceEqual(s.Predicted));
+
+    /// <summary>The number of distinct sets of popcounts among the patterns read, at the default seed 2 at N = 3, 4 at
+    /// N = 4 and 3 at N = 5 (the N = 4 count needs the seed's own a to be generic), so the agreement is not read on one
+    /// shape.</summary>
+    public int DistinctShapes => FourShapes.Select(s => string.Join(",", s.Read)).Distinct().Count();
+
+    /// <summary>True iff on every pattern and every popcount p that sees one value of K, C(N, 2)·K_p =
+    /// C(N, 2)·σ − N·T + T·(N − 2p)², the shared field's value at the mean covariance T/C(N, 2), in the integers.</summary>
+    public bool MeanCovarianceHolds { get; }
 
     public CorrelatedZDephasingPriceWitness(int n = 3, int seed = 7)
     {
@@ -245,6 +267,69 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
             }
         EdgeBlockResidual = edge;
         ImageBlockCarriesCovariance = imageCarries;
+
+        // The four shapes: the popcounts on which K takes one value, cell by cell, against the claim's closed form.
+        long[,] Pattern(Func<int, int, bool> on)
+        {
+            var c = new long[n, n];
+            for (int k = 0; k < n; k++)
+                for (int l = 0; l < n; l++)
+                    if (k != l && on(k, l)) c[k, l] = 1;
+            return c;
+        }
+        var own = new long[n, n];
+        for (int k = 0; k < n; k++)
+            for (int l = 0; l < n; l++)
+                if (k != l) own[k, l] = a[k, l];
+        var patterns = new List<(string Name, long[,] Cov, long[] Diagonal, Func<int, long> K)>
+        {
+            ("this witness's a", own, Enumerable.Range(0, n).Select(k => (long)a[k, k]).ToArray(), i =>
+            {
+                var entry = K[i, i];
+                if (entry.Imaginary != 0.0 || entry.Real != Math.Round(entry.Real))
+                    throw new InvalidOperationException($"K from integer jumps must be an integer on every configuration; got {entry}");
+                return (long)entry.Real;
+            }),
+        };
+        foreach (var (name, cov) in new[]
+                 {
+                     ("a ring", Pattern((k, l) => (k - l + n) % n == 1 || (l - k + n) % n == 1)),
+                     ("a star", Pattern((k, l) => k == 0 || l == 0)),
+                     ("one common covariance", Pattern((k, l) => true)),
+                 })
+        {
+            var diag = Enumerable.Repeat(5L, n).ToArray();
+            var cv = cov;
+            patterns.Add((name, cv, diag, i =>
+            {
+                long e = 0;
+                for (int k = 0; k < n; k++)
+                    for (int l = 0; l < n; l++)
+                        e += (k == l ? diag[k] : cv[k, l]) * zval[k, i] * zval[l, i];
+                return e;
+            }));
+        }
+        var shapes = new List<(string, int[], int[])>();
+        bool meanHolds = true;
+        long pairs = n * (n - 1) / 2;
+        foreach (var (name, cov, diag, kOf) in patterns)
+        {
+            var read = new List<int>();
+            long sigmaP = diag.Sum(), total = 0;
+            for (int k = 0; k < n; k++)
+                for (int l = k + 1; l < n; l++) total += cov[k, l];
+            for (int p = 0; p <= n; p++)
+            {
+                var values = Enumerable.Range(0, d).Where(i => pop[i] == p).Select(kOf).Distinct().ToList();
+                if (values.Count != 1) continue;
+                read.Add(p);
+                long np2 = n - 2 * p;
+                if (pairs * values[0] != pairs * sigmaP - n * total + total * np2 * np2) meanHolds = false;
+            }
+            shapes.Add((name, read.ToArray(), CorrelatedZDephasingPriceClaim.SingleValuePopcounts(cov).ToArray()));
+        }
+        FourShapes = shapes;
+        MeanCovarianceHolds = meanHolds;
     }
 
     private static double MaxAbs(ComplexMatrix A)
@@ -283,7 +368,8 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
         $"with ‖M‖² = {ResidualNormSquared.ToString("0", Inv)} {(NormHolds ? "=" : "≠")} 8·4^N·Σ_{{k<l}} a_kl²; against the " +
         $"local generator at the shifted rates, a shared field {(BlockLawHolds ? "shifts" : "does NOT shift")} every block " +
         $"by −2κ(p − q)² with K averaging to σ(p, q) on each block{(CentreHolds ? "" : " (that average FAILS)")}, and the four edge blocks {(EdgeHolds ? "decay at the local rates" : "do NOT decay at the local rates")} " +
-        $"whatever the covariances{(ImageBlockCarriesCovariance ? "" : " (their image control FAILS)")}.";
+        $"whatever the covariances{(ImageBlockCarriesCovariance ? "" : " (their image control FAILS)")}; the popcounts on which K takes one " +
+        $"value {(FourShapesAgree ? "are" : "are NOT")} the claim's four-shapes law on {FourShapes.Count} patterns ({DistinctShapes} shapes){(MeanCovarianceHolds ? "" : ", the mean-covariance values FAIL")}.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -324,6 +410,15 @@ public sealed class CorrelatedZDephasingPriceWitness : IInspectable
                 summary: $"on (0,1), (1,0), (N−1,N), (N,N−1) every coherence disagrees at one site l and {(EdgeHolds ? "decays" : "does NOT decay")} at the rate 2·a_ll " +
                          $"whatever the covariances (max deviation {EdgeBlockResidual.ToString("e3", Inv)}); the image (1,N) " +
                          $"of (0,1) {(ImageBlockCarriesCovariance ? "carries the covariances" : "does NOT carry them, gate compromised")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the four shapes",
+                summary: string.Join("; ", FourShapes.Select(s =>
+                             $"{s.Pattern}: one value of K on popcounts {{{string.Join(",", s.Read)}}} read cell by cell, " +
+                             $"{{{string.Join(",", s.Predicted)}}} from the covariances alone")) +
+                         $"; {(FourShapesAgree ? "the two routes meet" : "the routes DIFFER")} on {DistinctShapes} distinct shapes, and on every such " +
+                         $"popcount K {(MeanCovarianceHolds ? "is" : "is NOT")} the shared field's value at the mean covariance.",
                 provenance: NodeProvenance.Live);
         }
     }
