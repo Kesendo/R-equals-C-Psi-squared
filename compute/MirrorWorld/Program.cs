@@ -664,6 +664,91 @@ if (args.Length > 0 && args[0] == "divisor")
     return;
 }
 
+// ---- run mode "atmosphere": the mirror's price when the watchings co-vary ----
+if (args.Length > 0 && args[0] == "atmosphere")
+{
+    int atN = args.Length > 1 ? int.Parse(args[1]) : 4;
+    if (atN < 2 || atN > 6)
+    {
+        Console.Error.WriteLine("atmosphere N: 2 <= N <= 6");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var atWorld = new World();
+    var atRng = new Random(7);
+    var atPattern = new long[atN, atN];
+    for (int atK = 0; atK < atN; atK++)
+        for (int atL = atK + 1; atL < atN; atL++)
+        {
+            long atV = 0;
+            while (atV == 0) atV = atRng.Next(-3, 4);
+            atPattern[atK, atL] = atPattern[atL, atK] = atV;
+        }
+    long atBinom = 1;
+    for (int atI = 1; atI <= atN; atI++) atBinom = atBinom * (atN + atI) / atI;     // C(2N, N)
+    long atCells = 1L << atN;
+    var atWeathers = new (string Name, long Gamma, long[,] Cov, long? Dark)[]
+    {
+        ("featureless (gamma_0)", 10, new long[atN, atN], atCells),
+        ("shared, kappa = 3", 10, Atmosphere.Uniform(atN, 3), atCells),
+        ("integer pattern (seed 7)", 10, atPattern, null),
+        ("full correlation", 10, Atmosphere.Uniform(atN, 10), atBinom),
+        ("anti-correlated end", atN - 1, Atmosphere.Uniform(atN, -1), atCells + 2),
+    };
+
+    Console.WriteLine("the atmosphere: the mirror's price when the watchings co-vary (adopted 2026-10-11)");
+    Console.WriteLine("  source experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md (typed: CorrelatedZDephasingPriceClaim)");
+    Console.WriteLine("  The Mirror pays its fold one number, 2*N*gamma. Let the sites' Z watchings co-vary, a = gamma*I + C,");
+    Console.WriteLine("  and the fold pays each cell its Ising energy K(ket) + K(bra) instead; the table reads whether the legs hold.");
+    Console.WriteLine();
+    Console.WriteLine($"  N = {atN}, open XY chain, J = 1");
+    Console.WriteLine($"  {"weather",-26} {"gamma",5} {"folds",6} {"free",6} {"footprint",10} {"closed",10} {"one-K popcounts",16} {"centres",7} {"mean",5} {"dark",5} {"adopted",7}");
+    bool atLegs = true, atCentres = true, atMean = true, atDark = true;
+    foreach (var atW in atWeathers)
+    {
+        var atAtm = new Atmosphere(new Mirror(atWorld, atN, 1.0, atW.Gamma), atW.Cov);
+        double atFolds = 0, atFree = 0, atCentre = 0;
+        var atQual = atAtm.QualifyingPopcounts();
+        for (int atP = 0; atP <= atN; atP++)
+            for (int atQ = 0; atQ <= atN; atQ++)
+            {
+                atFolds = Math.Max(atFolds, Math.Max(atAtm.BraFoldResidual(atP, atQ), atAtm.KetFoldResidual(atP, atQ)));
+                atFree = Math.Max(atFree, Math.Max(atAtm.TransposeResidual(atP, atQ), atAtm.KleinResidual(atP, atQ)));
+                if (Array.IndexOf(atQual, atP) >= 0 && Array.IndexOf(atQual, atQ) >= 0)
+                    atCentre = Math.Max(atCentre, atAtm.BraFoldResidualAtScalarPrice(atP, atQ, atAtm.BlockPrice(atP, atQ)));
+            }
+        long atFoot = atAtm.FootprintByCells(), atClosed = atAtm.FootprintClosedForm();
+        bool atMeanOk = atAtm.IsingSum() == atCells * atN * atW.Gamma;
+        int atDarkCount = atAtm.DarkCount();
+        atLegs &= atFolds == 0.0 && atFree == 0.0 && atFoot == atClosed;
+        atCentres &= atCentre == 0.0;
+        atMean &= atMeanOk;
+        if (atW.Dark is long atExpect) atDark &= atDarkCount == atExpect;
+        string atQualText = "{" + string.Join(",", atQual) + "}";
+        string atExpectText = atW.Dark is long atE ? atE.ToString() : "-";
+        Console.WriteLine($"  {atW.Name,-26} {atW.Gamma,5} {atFolds,6:G3} {atFree,6:G3} {atFoot,10} {atClosed,10} {atQualText,16} {atCentre,7:G3} {(atMeanOk ? "yes" : "NO"),5} {atDarkCount,5} {atExpectText,7}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  folds / free: the worst entry-wise residual of the two fold legs at the cell price, and of the");
+    Console.WriteLine("  transpose and Klein legs. footprint: the residual the mirror no longer cancels, summed cell by cell,");
+    Console.WriteLine("  beside its closed form 8*4^N*sum_{k<l} C_kl^2. one-K popcounts: where the Ising energy is one number;");
+    Console.WriteLine("  centres: the worst bra-fold residual of the blocks with both popcounts there, at the one price K_p + K_q");
+    Console.WriteLine("  (each such block and its image pair about -(K_p + K_q)/2).");
+    Console.WriteLine("  mean: K averages to N*gamma. dark: the cells of rate zero, beside the adopted count where one is adopted");
+    Console.WriteLine("  (2^N, C(2N,N) at full correlation, 2^N + 2 at the anti-correlated end, gamma = N - 1, kappa = -1).");
+    Console.WriteLine($"  every leg exact and the footprint met: {(atLegs ? "yes" : "NO")}; the qualifying blocks fold at one number: {(atCentres ? "yes" : "NO")};");
+    Console.WriteLine($"  the Mirror's price is the mean: {(atMean ? "yes" : "NO")}; the dark counts meet their adopted forms: {(atDark ? "yes" : "NO")}.");
+    Console.WriteLine();
+    var atLast = new Atmosphere(new Mirror(atWorld, atN, 1.0, 10), Atmosphere.Uniform(atN, 3));
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. Its parent is the MIRROR: what changes is the mirror's price, so the leg maps,");
+    Console.WriteLine("  the orbit and the price as a mean stay the mirror's, and the variance with them (every site at the");
+    Console.WriteLine("  Mirror's gamma). The atmosphere owns the covariance-dressed rate and price and what follows from them:");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", atLast.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", atLast.Inherited)}");
+    Console.WriteLine($"  The inherited price stays true in every weather as the mean ({(atMean ? "read above" : "FAILED above")}).");
+    return;
+}
+
 // ---- run mode "blind": the blind seat -- what a one-seat watching cannot touch ----
 if (args.Length > 0 && args[0] == "blind")
 {

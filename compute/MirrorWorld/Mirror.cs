@@ -83,6 +83,10 @@ public sealed class Mirror : GameObject
         return l;
     }
 
+    // the block a leg reads: the Mirror's own, or a child's dressed copy of it, one
+    // signature so the legs are written once.
+    internal delegate Complex[,] BlockBuilder(int p, int q, out List<int> kets, out List<int> bras);
+
     // ---- the four legs, each a worst entry-wise residual over the two blocks (0 = the identity holds) ----
 
     // t: (a,b) -> (b,a). L(q,p)[t(i),t(j)] = e_i e_j L(p,q)[i,j].
@@ -96,6 +100,17 @@ public sealed class Mirror : GameObject
     // f_Q: the ket-side twin.
     public double KetFoldResidual(int p, int q)
         => LegResidual(p, q, N - p, q, (a, b) => (Complement(a), b), sign: -1, shift: Price);
+
+    // the same three legs on any block builder, the folds at a per-cell price of the SOURCE cell
+    // (ket, bra): the Mirror's own legs pass the constant price, a child that dresses the block its cell price.
+    internal double TransposeResidual(BlockBuilder build, int p, int q)
+        => LegResidual(build, p, q, q, p, (a, b) => (b, a), +1, (_, _) => 0.0);
+
+    internal double BraFoldResidual(BlockBuilder build, int p, int q, Func<int, int, double> cellPrice)
+        => LegResidual(build, p, q, p, N - q, (a, b) => (a, Complement(b)), -1, cellPrice);
+
+    internal double KetFoldResidual(BlockBuilder build, int p, int q, Func<int, int, double> cellPrice)
+        => LegResidual(build, p, q, N - p, q, (a, b) => (Complement(a), b), -1, cellPrice);
 
     // ---- where a RATE reading is certified for every coupling ----
     //
@@ -160,10 +175,12 @@ public sealed class Mirror : GameObject
     }
 
     // f_P f_Q = the Klein full flip: both complemented, same q-couplings, no gauge, no price.
-    public double KleinResidual(int p, int q)
+    public double KleinResidual(int p, int q) => KleinResidual(BuildBlock, p, q);
+
+    internal double KleinResidual(BlockBuilder build, int p, int q)
     {
-        var src = BuildBlock(p, q, out var kets, out var bras);
-        var tgt = BuildBlock(N - p, N - q, out var tk, out var tb);
+        var src = build(p, q, out var kets, out var bras);
+        var tgt = build(N - p, N - q, out var tk, out var tb);
         var map = BuildMap(kets, bras, tk, tb, (a, b) => (Complement(a), Complement(b)));
         double worst = 0;
         int dim = kets.Count * bras.Count;
@@ -174,20 +191,28 @@ public sealed class Mirror : GameObject
     }
 
     double LegResidual(int p, int q, int tp, int tq, Func<int, int, (int, int)> relabel, int sign, double shift)
+        => LegResidual(BuildBlock, p, q, tp, tq, relabel, sign, (_, _) => shift);
+
+    double LegResidual(BlockBuilder build, int p, int q, int tp, int tq, Func<int, int, (int, int)> relabel,
+        int sign, Func<int, int, double> cellShift)
     {
-        var src = BuildBlock(p, q, out var kets, out var bras);
-        var tgt = BuildBlock(tp, tq, out var tk, out var tb);
+        var src = build(p, q, out var kets, out var bras);
+        var tgt = build(tp, tq, out var tk, out var tb);
         var map = BuildMap(kets, bras, tk, tb, relabel);
         int dim = kets.Count * bras.Count;
         var gauge = new int[dim];
+        var shift = new double[dim];
         for (int ka = 0; ka < kets.Count; ka++)
             for (int bb = 0; bb < bras.Count; bb++)
+            {
                 gauge[ka * bras.Count + bb] = GaugeSign(kets[ka]) * GaugeSign(bras[bb]);
+                shift[ka * bras.Count + bb] = cellShift(kets[ka], bras[bb]);
+            }
         double worst = 0;
         for (int i = 0; i < dim; i++)
             for (int j = 0; j < dim; j++)
             {
-                var expected = sign * gauge[i] * gauge[j] * src[i, j] - (i == j ? shift : 0.0);
+                var expected = sign * gauge[i] * gauge[j] * src[i, j] - (i == j ? shift[i] : 0.0);
                 worst = Math.Max(worst, (tgt[map[i], map[j]] - expected).Magnitude);
             }
         return worst;
