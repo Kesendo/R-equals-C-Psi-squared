@@ -88,6 +88,19 @@ The script checks, exactly:
      cells onto the other; the open XY chain at N = 4 conserves each popcount, keeps the span of the
      popcount sectors (the commutator of every dark cell at eta = 1 stays inside them), commutes with the
      GHZ cell and carries the Neel cell out of the dark cells.
+  I. which popcounts see one value of K: K(A) = sigma + 2T - 4 cut(A), and with a_kl = kbar + x_k + x_l
+     + Omega_kl (sum x = 0, every row of Omega summing to zero) cut(A) = kbar p(N - p) + (N - 2p) x(A)
+     - 2 Omega(A); K is one number on popcount p (1 <= p <= N - 1) exactly when x = 0 at p = 1, N - 1,
+     Omega = 0 at p = N/2, and x = Omega = 0 elsewhere, checked against K = z^T a z itself on every integer pattern with
+     entries in -2..2 at N = 3 and 4 and in -1..1 at N = 5, each at unequal rates, and on additive,
+     equal-row-sum, mixed and random patterns at N = 6, 7, 8; the cut form of K, the decomposition
+     (sum x = 0, the rows of Omega summing to zero, the parts adding back to the covariances) and the cut formula read set by
+     set at N = 4..6; the shapes seen (two at N = 3, four at N = 4, three at N = 5); on every qualifying popcount K_p = sigma - N kbar + kbar (N - 2p)^2, the shared field at
+     the mean covariance; for an additive C, K = sigma - 2 sum y + 2 (N - 2p) sum_k y_k z_k exactly; the
+     page's sign pattern s = (1, 1, 1, -1) additive; on the open XY chain at N = 4 and 5, K one number on
+     popcount p exactly when it commutes with the chain there; and the ZZ faces, ZZ couplings on the bonds
+     of a ring, a star and an open chain one number on popcount p exactly where the law says (ring
+     {0, 1, N - 1, N}, star {0, N/2, N} at even N, chain {0, N} from N = 4).
 
 Every input is an integer (gamma = 10, eta in {3/10, -2/10, 9/10, 1}, so a has integer entries; the
 anti-correlated end of section H at gamma = N - 1; the Hamiltonian integer), and the script works
@@ -215,6 +228,53 @@ def dark_classes(a, N):
         key = tuple(int(x) for x in a @ np.array([zval(i, k, N) for k in range(N)], dtype=np.int64))
         groups.setdefault(key, []).append(i)
     return list(groups.values())
+
+
+_ZM = {}
+
+
+def k_on_configs(c, diag, N):
+    """K(i) = z(i)^T a z(i) with a = c off the diagonal and diag on it, on every configuration i, integers."""
+    Zm = _ZM.get(N)
+    if Zm is None:
+        Zm = _ZM[N] = np.array([[zval(i, k, N) for k in range(N)] for i in range(2 ** N)], dtype=np.int64)
+    a = np.array(c, dtype=np.int64).copy()
+    for k in range(N):
+        a[k, k] = diag[k]
+    return np.einsum("ik,kl,il->i", Zm, a, Zm)
+
+
+def qualifying_popcounts(c, diag, N):
+    kv = k_on_configs(c, diag, N)
+    out = []
+    for p in range(N + 1):
+        vals = {int(kv[i]) for i in range(2 ** N) if popcount(i) == p}
+        if len(vals) == 1:
+            out.append(p)
+    return out
+
+
+def three_parts(c, N):
+    """C_kl = kbar + x_k + x_l + R_kl, Fractions; N >= 3."""
+    T = sum(Fraction(int(c[k][l])) for k in range(N) for l in range(k + 1, N))
+    kbar = T / comb(N, 2)
+    r = [sum(Fraction(int(c[k][l])) for l in range(N) if l != k) for k in range(N)]
+    x = [(r[k] - (N - 1) * kbar) / (N - 2) for k in range(N)]
+    Rm = [[(Fraction(int(c[k][l])) - kbar - x[k] - x[l]) if k != l else Fraction(0) for l in range(N)] for k in range(N)]
+    return T, kbar, x, Rm
+
+
+def predicted_popcounts(c, N):
+    if N == 2:
+        return [0, 1, 2]
+    _, _, x, Rm = three_parts(c, N)
+    x0 = all(v == 0 for v in x)
+    r0 = all(v == 0 for row in Rm for v in row)
+    out = []
+    for p in range(N + 1):
+        if p in (0, N) or (x0 and r0) or (p in (1, N - 1) and x0) or (2 * p == N and 2 <= p <= N - 2 and r0):
+            out.append(p)
+    return out
 
 
 def pi_perm(N):
@@ -1020,6 +1080,128 @@ def main():
             out = {(r, c) for r, c in zip(*np.nonzero(comm(H, unit(neel, neel ^ (d - 1)))))}
             claim("N=4 open XY chain: it commutes with the GHZ cell |0000><1111| and carries the Neel cell out of the dark cells",
                   comm_zero(H, unit(0, d - 1)) and bool(out) and not out <= dark_cells(signless, N))
+
+    print("\nI. Which popcounts see one value of K: x = 0 at p = 1, N - 1; Omega = 0 at p = N/2; x = Omega = 0 elsewhere")
+    lrng = np.random.default_rng(20261011)
+
+    def sym(N, entries):
+        c = np.zeros((N, N), dtype=np.int64)
+        t = 0
+        for k in range(N):
+            for l in range(k + 1, N):
+                c[k, l] = c[l, k] = entries[t]
+                t += 1
+        return c
+
+    for N, lo, hi in ((3, -2, 2), (4, -2, 2), (5, -1, 1)):
+        diag = [3 + 2 * k for k in range(N)]                           # unequal rates: the diagonal enters only through sigma
+        shapes, ok, d = {}, True, 2 ** N
+        for entries in itertools.product(range(lo, hi + 1), repeat=N * (N - 1) // 2):
+            c = sym(N, entries)
+            got = qualifying_popcounts(c, diag, N)
+            ok &= got == predicted_popcounts(c, N)
+            shapes[tuple(got)] = shapes.get(tuple(got), 0) + 1
+        claim(f"N={N} every pattern with entries in {lo}..{hi} at unequal rates: the qualifying popcounts are the law's", ok)
+        expect = {3: {(0, 3), (0, 1, 2, 3)}, 4: {(0, 4), (0, 1, 3, 4), (0, 2, 4), (0, 1, 2, 3, 4)},
+                  5: {(0, 5), (0, 1, 4, 5), (0, 1, 2, 3, 4, 5)}}[N]
+        claim(f"N={N}: the shapes seen are exactly {sorted(len(s) ** 2 for s in expect)} blocks", set(shapes) == expect)
+
+    def additive(N):
+        y = lrng.integers(-3, 4, N)
+        return np.array([[0 if k == l else y[k] + y[l] for l in range(N)] for k in range(N)], dtype=np.int64), y
+
+    def circulant(N):
+        c = np.zeros((N, N), dtype=np.int64)
+        for s_ in range(1, N // 2 + 1):
+            w = int(lrng.integers(-3, 4))
+            for k in range(N):
+                l = (k + s_) % N
+                if 2 * s_ == N and k >= s_:
+                    continue
+                c[k, l] += w
+                c[l, k] += w
+        return c
+
+    def random_pattern(N):
+        e = lrng.integers(-3, 4, N * (N - 1) // 2)
+        return sym(N, e)
+
+    for N in (6, 7, 8):
+        diag = [1 + k for k in range(N)]
+        ok, mean_ok, add_ok, d = True, True, True, 2 ** N
+        for _ in range(60):
+            for c in (additive(N)[0], circulant(N), additive(N)[0] + circulant(N), random_pattern(N)):
+                got = qualifying_popcounts(c, diag, N)
+                ok &= got == predicted_popcounts(c, N)
+                T, kbar, _, _ = three_parts(c, N)
+                kv = k_on_configs(c, diag, N)
+                sigma = sum(diag)
+                for p_ in got:
+                    kp = int(next(kv[i] for i in range(d) if popcount(i) == p_))
+                    mean_ok &= comb(N, 2) * kp == comb(N, 2) * sigma - N * T + T * (N - 2 * p_) ** 2
+            c, y = additive(N)
+            kv = k_on_configs(c, diag, N)
+            add_ok &= all(int(kv[i]) == sum(diag) - 2 * int(y.sum())
+                          + 2 * (N - 2 * popcount(i)) * sum(int(y[k]) * zval(i, k, N) for k in range(N)) for i in range(d))
+        claim(f"N={N} additive, circulant (equal row sums), their sums and random patterns: the qualifying popcounts are the law's", ok)
+        claim(f"N={N}: on every qualifying popcount K_p = sigma - N kbar + kbar (N - 2p)^2, the shared field at the mean covariance", mean_ok)
+        claim(f"N={N} additive C: K = sigma - 2 sum y + 2 (N - 2p) sum_k y_k z_k on every configuration", add_ok)
+
+    for N in (4, 5, 6):
+        diag = [2 + 3 * k for k in range(N)]
+        ident_ok = True
+        for _ in range(40):
+            c = random_pattern(N)
+            T, kbar, x, Rm = three_parts(c, N)
+            ident_ok &= sum(x) == 0 and all(sum(Rm[k]) == 0 for k in range(N))
+            ident_ok &= all(Fraction(int(c[k][l])) == kbar + x[k] + x[l] + Rm[k][l]
+                            for k in range(N) for l in range(N) if k != l)
+            kv = k_on_configs(c, diag, N)
+            for i in range(2 ** N):
+                exc = [k for k in range(N) if zval(i, k, N) == -1]
+                cut = sum(int(c[k][l]) for k in exc for l in range(N) if l not in exc)
+                pp = len(exc)
+                ident_ok &= int(kv[i]) == sum(diag) + 2 * int(T) - 4 * cut
+                ident_ok &= cut == kbar * pp * (N - pp) + (N - 2 * pp) * sum(x[k] for k in exc) \
+                    - 2 * sum(Rm[k][l] for k in exc for l in exc if k < l)
+        claim(f"N={N} random patterns at unequal rates: K = sigma + 2T - 4 cut(A), the parts of the covariances add back "
+              f"with sum x = 0 and zero row sums of Omega, and cut(A) = kbar p(N - p) + (N - 2p) x(A) - 2 Omega(A), set by set", ident_ok)
+
+    s4 = (1, 1, 1, -1)
+    sign = np.array([[0 if k == l else 3 * s4[k] * s4[l] for l in range(4)] for k in range(4)], dtype=np.int64)
+    _, kbar4, x4, Rm = three_parts(sign, 4)
+    y4 = [x4[k] + kbar4 / 2 for k in range(4)]
+    claim("the page's sign pattern s = (1, 1, 1, -1) is additive, y proportional to (1, 1, 1, -3)",
+          all(v == 0 for row in Rm for v in row) and predicted_popcounts(sign, 4) == [0, 2, 4]
+          and y4[0] == y4[1] == y4[2] and y4[3] == -3 * y4[0] != 0
+          and qualifying_popcounts(sign, [10] * 4, 4) == [0, 2, 4])
+
+    for N in (4, 5):
+        d = 2 ** N
+        H = xxz_chain(N, 1, 0).r
+        diag = [GAMMA] * N
+        agree = True
+        for c in (random_pattern(N), circulant(N), additive(N)[0], sign if N == 4 else random_pattern(N)):
+            kv = k_on_configs(c, diag, N)
+            qual = qualifying_popcounts(c, diag, N)
+            for p_ in range(N + 1):
+                idx = [i for i in range(d) if popcount(i) == p_]
+                Hs = H[np.ix_(idx, idx)]
+                Ks = np.diag([int(kv[i]) for i in idx])
+                agree &= comm_zero(Hs, Ks) == (p_ in qual)
+        claim(f"N={N} open XY chain: K is one number on popcount p exactly when it commutes with the chain there", agree)
+
+    for N in (4, 5, 6, 7):
+        bonds = {"ring": [(k, (k + 1) % N) for k in range(N)], "star": [(0, l) for l in range(1, N)],
+                 "chain": [(k, k + 1) for k in range(N - 1)]}
+        want = {"ring": [0, 1, N - 1, N], "star": [0, N // 2, N] if N % 2 == 0 else [0, N], "chain": [0, N]}
+        for name, bl in bonds.items():
+            w = np.zeros((N, N), dtype=np.int64)
+            for a_, b_ in bl:
+                w[a_, b_] = w[b_, a_] = 1
+            got = qualifying_popcounts(w, [0] * N, N)
+            claim(f"N={N} ZZ on the bonds of the {name}: one number on popcounts {got}, the law's {want[name]}",
+                  got == want[name] == predicted_popcounts(w, N))
 
     held, matched = sum(CLAIMS), sum(CHECKS)
     print(f"\n{matched} of {len(CHECKS)} printed values match exactly; {held} of {len(CLAIMS)} claims hold.")
