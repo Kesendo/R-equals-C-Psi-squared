@@ -30,14 +30,26 @@ Formulas in ASCII; prose uses Unicode (Ψ, Π, Σ, γ).
 Every Liouvillian eigenvalue λ has a partner at -λ - 2Σγ.
 Every decay rate d pairs with 2Σγ - d.
 
-**Valid for:** Heisenberg, XY, Ising, and XXZ with Z-dephasing on any graph;
+**Valid for:** Heisenberg, XY, Ising, and XXZ with local Z-dephasing on any graph;
 DM on any bipartite graph, whatever the orientation and signs of its edges
 (odd cycles fail where tested); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one letter orbit.
 **Breaks for:** depolarizing noise (error at least (2/3)Σγ, exactly that when ad_H has an
 eigenvector traceless on every site, for example a global Pauli string with no
-identity letter commuting with H, F5); an
+identity letter commuting with H, F5); Z dephasing with correlated site
+fields (a real Kossakowski matrix whose off-diagonal entries are the fields'
+covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N carries L
+to −L − {Σc†c, ·}, the jumps' decay operator Σc†c no longer a number: no single
+centre serves the spectrum once the covariances sum to a positive number (the
+Kossakowski matrix positive semidefinite, H keeping the all-0 and all-1 states as
+eigenstates), nor at the one negative
+correlation read (a correlation η = −1/5 shared by every pair, XXZ chain, N = 2 and
+3), and a
+joint-popcount block of a popcount-conserving X^⊗N-even H pairs with its Π_Z image (q, N − p), p and q its ket and bra popcounts, about a
+centre of its own wherever Σc†c takes one value on each of the block's two
+popcounts, every block under one covariance common to every pair
+([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
 the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
@@ -79,7 +91,7 @@ and there are fields violating clause 2 whose spectrum pairs regardless; at N = 
 
 **H-block residual is γ-independent (uniform AND non-uniform γ; closed 2026-05-18):**
 - The dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift `2Σγ·I` cancels the sum exactly.
-- Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every γ pattern.
+- Hence ‖M‖²_F = ‖M_H‖²_F = c_H · F(N, G) for every local γ profile.
 - Distinct from the T1/depol siblings below, whose per-site kernels are not proportional to I. Whether their residuals keep a cross-site `(Σγ)²` term is a matter of where σ sits, not of the channel: at each channel's own spectral mean (σ = Σγ for depolarizing, σ = Σγ/2 for T1) the per-site trace vanishes and only `Σγ²` remains, `(16/9)Σγ²` and `3Σγ²`; the T1 formula below is recorded at σ = Σγ_Z, where `(Σγ)²` appears.
 - Closes the earlier F1 OpenQuestion conjecturing a Σγ_l² replacement of (Σγ)² in F(N, G); the conjecture was incorrect, no formula change to F(N, G) is required.
 - Anchor: [the non-uniform γ proof](proofs/PROOF_F1_NONUNIFORM_GAMMA.md); verification: [simulations/f1_nonuniform_gamma_verify.py](../simulations/f1_nonuniform_gamma_verify.py); typed: PalindromeResidualScalingClaim (unchanged; XML doc notes γ-independence).
@@ -96,6 +108,11 @@ and there are fields violating clause 2 whose spectrum pairs regardless; at N = 
 - Π²-decomposition: trivial, M_l is Pauli-basis-diagonal ⟹ M_anti = 0. The bare residual has `(16/9)Σγ²+16(Σγ)²`; centering removes its trace and the cross-site term.
 - The spectral norm of the centered diagonal residual is (2/3)Σγ, H-free since that residual contains no H, not a trace projection of the bare one; F5's pair-sum shortfall is at least that and equals it exactly when F5's bound is attained.
 - Anchor: [the depolarizing residual closed-form proof](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
+
+**Correlated Z-dephasing residual (closed form, 2026-10-10):**
+- For Z dephasing with a real symmetric Kossakowski matrix a over the Z_k (the site rates on its diagonal, the fields' covariances off it), against F1's shift 2σ, σ = tr(a): the dissipator's residual is M_D = −{K − σ, ·}, K = Σ_kl a_kl Z_l Z_k, with ‖M_D‖²_F = 8·4^N·Σ_{k<l} a_kl² (H-independent, zero exactly for local noise), and ‖M‖²_F = ‖M_H‖²_F + ‖M_D‖²_F for every Hermitian H, M_D being real and diagonal on matrix units while the diagonal of M_H is imaginary.
+- M_D is Π-invariant: jumps built linearly from the Z_k are of one bit_b parity and have no Π²-odd part (F82's "Other dissipators").
+- Anchor: [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md); verification: [simulations/mirror_under_shared_field.py](../simulations/mirror_under_shared_field.py) (exact, N = 2..5); typed: none yet
 
 **General-topology universality (closed 2026-05-18):**
 - The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
@@ -417,7 +434,9 @@ Amplitude damping (T1, the jump σ⁻) adds a non-diagonal part to Herm(L_D) and
 shifts the rate (see F82, F84); the sum rule's *form* is what breaks, not the
 pairing itself: under T1 alone the spectrum stays palindromic about a halved
 centre ([F137](#f137)). Collective dephasing through the one jump Σ_k Z_k leaves
-the Pauli diagonal as well. The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
+the Pauli diagonal as well, and there no single centre serves the spectrum at any N ≥ 2
+for an H keeping the all-0 and all-1 states as eigenstates
+([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)). The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
 every case. No Hamiltonian, real or complex, breaks the theorem (Step 1 of the
 proof); the boundary is the dissipator.
 **Replaces:** nothing computationally, since <n_XY> is read off the eigenvector; what it replaces is the separate derivation of the palindromic sum rule and
@@ -3938,6 +3957,7 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 ---
 
+<a id="f93"></a>
 ### F93. F71-anti-palindromic h spectral invariance (h-detuning parameter-Klein-V₄ twin of F91/F92) (Tier 1 derived, algebraic + witnessed to rounding at N=4,5; 2026-05-12)
 
 **For chain XY + per-site Z-detuning + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous longitudinal detuning h_l (Hamiltonian H = (J/2) Σ_b (XX+YY) + Σ_l h_l Z_l), the F71-refined diagonal-block eigenvalue multiset is invariant under any h-distribution satisfying**
@@ -7398,7 +7418,11 @@ which steps sideways off the diagonal onto the two neighbouring lines.
 **Both ladders are F125's, under other names.** Φ is F125's site-summed spectator W, the same map under a different letter: that entry calls the chain's Jordan-Wigner fermion c where this one calls it d, so its W(ρ) = Σ_l c_l† ρ c_l is Σ_l d†_l ρ d_l verbatim. The doubled-species form Σ_l c†_{l↑}c†_{l↓} above is the same object again, and note that c means the chain fermion in F125 and a doubled species here. Its Theorem B is Lemma 2.2 below with the Φ case of Lemma 2.1. And S⁺ is that document's §6 map V = Σ_l c_l†(·)c_l† with the stagger restored: V fails the Hamiltonian part, S⁺ does not, and the (−1)^l is the whole difference. What F125 supplies in return is the sharp transport premise, a Jordan chain moving exactly when its eigenvector avoids ker Φ. Measured beside them, typed 2026-08-09 as `SidewaysSpinLadderClaim` (parent F125's `SpectatorIntertwinerClaim`; live witness `inspect --root sideways`): the F125 fold family is exactly the interiors of the two S⁺ chains at p + q̃ = N∓1, each of interior length N−2 carrying spin ℓ = (N−3)/2, and the S⁺ transport norms are the Clebsch-Gordan coefficients √(ℓ(ℓ+1) − m(m+1)) with no free parameter, derived from the closed form and measured at N=7 as 2, √6, √6, 2 and at N=9 as √6, √10, √12, √12, √10, √6 (each predicted before its run, the arc entry the record; N=9 walked past the dense wall by LU shift-invert, `SidewaysSpinLadderSparse`). The two η chains carry the same spin by the count alone, fold + band = 4N−8 = 4(N−2) at odd N being the multiplet-dimension accounting; their transport norms are untested. Read the word band carefully across the link: this entry's band is |p − q| ∈ {0, 2} with j_η = N/2 − 1, F125's is |p − q̃| = 1 with spin (N−3)/2, and they are different sets. (open arc `sideways_spin_ladder`; the chain walk is gated at four N-groups, by [`simulations/eta_ladder_chain.py`](../simulations/eta_ladder_chain.py) and by `SidewaysSpinLadderGateTests` in C# at N=5,7, by `SidewaysSpinLadderSparseTests` at N=9, and at the even N=4 by [`simulations/eta_ladder_chain_n4.py`](../simulations/eta_ladder_chain_n4.py) + `Gate_N4` (all four complex-λ loci, band and fold freight a conjugate pair on the shared 4-orbit, ℓ = 1/2; the arc entry carries the port's calibration), with Φ on the chain rungs as the exact-zero control throughout; the full rung sweep for BOTH ladders beyond the chains is measured and not gated, `simulations/eta_ladder_blocks.py`).
 
 Both
-commute with the dephasing at any rate profile (F141), and
+commute with the dephasing at any rate profile (F141; under correlated site fields the
+dissipator D still commutes with Φ for every real symmetric Kossakowski matrix over the
+Z_k, and with S⁺ for no correlated one; under one common covariance κ,
+[D, S⁺] = −8κ(p − q + 1)·S⁺ on block (p, q),
+[The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)), and
 
     [K, S⁺] = 0   ⟺   Σ h Σ = −h,   Σ := diag((−1)^l)   (real symmetric h, Lemma 2.3's hypothesis),
 

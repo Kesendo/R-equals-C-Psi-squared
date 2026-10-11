@@ -5,8 +5,9 @@ namespace MirrorWorld;
 // The first mirror IN the world of mirrors (adopted 2026-07-03 from the fold-lattice lemma,
 // docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md section 7). Until now this world held only mirror
 // SIGNATURES (the Pi^2 parity signs, the Klein cells); the mirror itself lived elsewhere. Here it is,
-// as an object -- and it is not an eigen-story but a REARRANGEMENT: on the block lattice (p,q) the
-// three legs
+// as an object -- and it is not an eigen-story but a REARRANGEMENT: on the block lattice (p,q)
+// (p the popcount of the ket, q that of the bra, as BuildBlock takes them; Block names the two the
+// other way round) the three legs
 //
 //   t   : swap bra and ket        (p,q) -> (q,p)      spectrum unchanged
 //   f_P : flip the bra            (p,q) -> (p,N-q)    spectrum folded: lambda -> -lambda - price

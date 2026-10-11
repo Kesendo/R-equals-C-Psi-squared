@@ -308,7 +308,19 @@ Jump operators with A² ≠ 1 break Σ c†c = σ·1, and the palindrome does no
 die there: **F137** records that T1 alone keeps it, about **−σ/2** rather than −σ.
 So a criterion phrased "pairs about −σ" is answering the wrong question in that
 regime, and the premise is doing more work than a footnote. F82 to F84 own the
-separate matter of Π failing there.
+separate matter of Π failing there. Z dephasing with correlated site fields sits
+on the same axis, with Hermitian jumps whose Σ c†c is not a number: the same one-sided
+computation with U = X^⊗N, which anticommutes with every jump built linearly from the Z_k
+(H commuting with it), premise dropped, gives −L† − {Σ c†c, ·}, so the shift 2σ becomes
+the operator {Σ c†c, ·}. When the off-diagonal Kossakowski entries (the fields'
+covariances) of a positive semidefinite Kossakowski matrix over the Z_k sum to a positive
+number and H keeps the all-0 and all-1 states as
+eigenstates, no single centre serves the whole spectrum.
+Under a field shared alike by every pair, with a popcount-conserving H that
+commutes with X^⊗N, the block (p, q) (ket popcount p, bra popcount q) pairs with
+(q, N − p): ℒ_U sends it to (N − p, q), and ρ ↦ ρ† turns that into (q, N − p), each
+pair about a centre of its own
+([The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
 
 **Necessity is derived, not only measured.** Sufficiency is a short
 calculation; necessity is proved in

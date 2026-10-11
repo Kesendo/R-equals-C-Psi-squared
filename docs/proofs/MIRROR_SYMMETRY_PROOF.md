@@ -278,7 +278,16 @@ exception:
   uniformity doing the work, not U(1) conservation, since a non-uniform
   longitudinal field is equally U(1)-conserving and takes the rates to
   28/64. It is the complex statement that fails first, which is why the
-  theorem is stated on λ and not on d.
+  theorem is stated on λ and not on d. Block by block the pattern is visible:
+  the commutator with a uniform field h·Σ_k Z_k is one constant on each
+  joint-popcount block (p, q) (p the popcount of the row label i of |i⟩⟨j|,
+  q that of the column label j; Π maps |i⟩⟨j| to |j⟩⟨ī|), so for an
+  H that conserves the popcount and commutes with X⊗N, as the Heisenberg and
+  XXZ chains do, the spectrum of each block still pairs with that of its
+  Π image (q, N − p), λ ↦ −λ − 2Σγᵢ + 2ih(2p − N), the real parts
+  about the one centre and each complex centre moved off the axis by its own
+  h(2p − N), never zero at N = 3
+  ([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
 
 **Why X looks special and is not.** Held against this proof's fixed Π, a
 transverse field's residual comes out as 2·maxᵢ|hᵢ·sin φᵢ|, zero along X and

@@ -38,8 +38,8 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
-**Index coverage:** 238 experiment writeups are tracked in this folder; 216 are
-linked below. Twenty-two are not yet indexed.
+**Index coverage:** 241 experiment writeups are tracked in this folder; 218 are
+linked below. Twenty-three are not yet indexed.
 
 ---
 
@@ -146,6 +146,7 @@ interference require additional gates.
 | [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) | Π gives `lambda -> -lambda - 2Sigma_gamma` (`mu -> -mu` centred); past/future, physical time reversal, and standing-wave interference are not implied |
 | [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) | Reports scoped Pauli-observable oscillation patterns; node/antinode language is an interpretation and is not supplied universally by Π |
 | [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) | Palindrome extends beyond Heisenberg to XY, Ising, XXZ, DM interaction. Two Π families (P1/P4) |
+| [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) | Under correlated Z dephasing, for a real X^⊗N-even H, the palindrome's price becomes the operator {Σc†c, ·}, and when the covariances sum to a positive number (a positive semidefinite Kossakowski matrix, H keeping the all-0 and all-1 states as eigenstates) the global mirror breaks; for a field shared alike by every pair and a popcount-conserving, X^⊗N-even H, each block pairs with its image about a centre set by its distance from half filling; on the open XY chain the spectator ladder survives any real symmetric correlation, the sideways ladder commutes under no correlated field, though under one common covariance it still carries eigenvectors, their eigenvalues shifted |
 | [XOR Space](XOR_SPACE.md) | The N+1 fastest modes X^⊗N·P_k are left and right eigenvectors, so a state's XOR share is invariant: GHZ's coherence 100%, W's 0% (N ≥ 3); the mixed-XY predictor is retired |
 | [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) | Why depolarizing noise breaks the palindrome: 1:3 per-site split vs 2:2 for Z-dephasing |
 | [V-Effect](V_EFFECT_PALINDROME.md) | Finite broken/control census: N=3 has 14/36 hard cases; the four-decimal fixture is 11/4 and the separate three-decimal side table is 8/4. In the cross-generator comparison, simultaneous Hamiltonian and dephasing-profile changes prevent attributing the extra bins to palindrome failure; in the within-N 11/4 fixture, H changes while dephasing is held fixed, so it likewise is not a causal palindrome-failure mutation. |

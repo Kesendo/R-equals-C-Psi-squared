@@ -341,7 +341,18 @@ its local rate, and |01⟩⟨10| pays nothing, where local dephasing charges eac
 4γ (the 8γ of Bell+ in [Noise Robustness](../../experiments/NOISE_ROBUSTNESS.md)
 Q1; with the jump normalised as (Z₀ + Z₁)/√2, as in
 [Monotonicity](PROOF_MONOTONICITY_CPSI.md) Test B, |00⟩⟨11| pays 4γ, the local
-rate). The
+rate). A field that every pair shares with correlation η and every site feels at
+γ (local dephasing at η = 0, the jump √γ·Σ_k Z_k at η = 1) has a dissipator that
+is still diagonal in the coherence basis, so the diagonal-mean (Rayleigh) reading above carries over
+with these cell rates in place of the local disagreement count or the collective
+(Δpopcount)²: |A⟩⟨B| pays
+2γ[(1 − η)·Hamming(A, B) + η·(Δpopcount)²], the local rate at (1 − η)γ plus an
+excess that is one constant on each joint-popcount block (A's popcount p, B's
+q). For a popcount-conserving H that commutes with X^⊗N, the F1 palindrome
+survives between each block (p, q) and its Π image (q, N − p), Π(|A⟩⟨B|) = |B⟩⟨Ā|, each pair about
+a centre of its own
+([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md), checked in
+[`mirror_under_shared_field.py`](../../simulations/mirror_under_shared_field.py)). The
 Hermitian part of a local dissipator such as amplitude damping is diagonal in
 the product of its per-site eigenbases, and Re λ is the weighted mean of each product element's summed
 per-site Hermitian eigenvalues, which for σ⁻ alone are (−1 ± √2)γ_T1/2 and −γ_T1/2 twice, one of them

@@ -861,7 +861,15 @@ alone.
 **Outside:** jump operators with A² ≠ 1, where F137 recentres the palindrome and
 the question changes; and rates that are zero or negative. Where the two counts differ
 the multiset is broken, and the criterion says nothing about the Jordan
-structure there; where they agree, §(f8) gives it in full.
+structure there; where they agree, §(f8) gives it in full. Z dephasing with
+correlated site fields is an A² ≠ 1 case that F137 does not recentre (a jump in the
+span of the Z_k squares to 1 only when it is a single ±Z_k): for a positive
+semidefinite Kossakowski matrix whose covariances sum to a positive number, and an H
+keeping the all-0 and all-1 states as eigenstates, no single centre serves the
+spectrum, while for a popcount-conserving, X^⊗N-even H a joint-popcount block still
+pairs with its image wherever Σc†c takes one value on each of its two popcounts, every
+block under one covariance common to every pair
+([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
 
 **What would falsify it:** one configuration where the two nullities agree and
 the spectrum does not pair, or one where it pairs and they differ. Either would
