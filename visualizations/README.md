@@ -374,6 +374,44 @@ dotnet run --project compute/RCPsiSquared.Cli -c Release -- route-b-n6-atlas --o
 python simulations/route_b_a2_n6_atlas.py --manifest simulations/results/route_b_a2_n6_atlas.json --out-dir visualizations
 ```
 
+## The Atmosphere: Its Price, and What It Cannot Tell Apart
+
+MirrorWorld's [`Atmosphere`](../compute/MirrorWorld/Atmosphere.cs) carries its `Mirror`, the object that holds the spectral mirror of a dephased spin chain, over to correlated Z dephasing ([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)). Every site dephases along Z at one rate γ, and the sites' fields are correlated through a matrix C of covariances, zero on its diagonal, so the dissipator Σ_kl a_kl (Z_k ρ Z_l − ½{Z_l Z_k, ρ}) carries the Kossakowski matrix a = γ·I + C. A cell |ket⟩⟨bra| of the density matrix decays under it at the rate ½uᵀa u, u = z(ket) − z(bra), z the sites' Z values ±1. Under local dephasing (C = 0) the conjugation Π_Z(ρ) = ρᵀ·X^⊗N maps the Liouvillian L to −L − 2Nγ for every real Hamiltonian that commutes with flipping every spin, so the spectrum is a palindrome about −Nγ; the Mirror holds this fold block by block on its open XY chain, and 2Nγ is what the fold costs, its price. With covariances the number becomes the operator {K, ·}, K = Σ_kl a_kl Z_l Z_k: a cell and its image under Π_Z decay at rates that sum to K(ket) + K(bra), the two configurations' Ising energies K(i) = z(i)ᵀa z(i), and that sum is the cell's price. A covariance pattern is called a weather here, the popcount of a configuration is its number of excited sites, and both figures are at N = 6.
+
+### The price over the block lattice
+
+![The atmosphere's price over the 7 × 7 block lattice at N = 6: a dome at the anti-correlated end, a flat floor without covariance, a bowl under a positive shared covariance, and below four weathers with four shapes of the blocks whose two popcounts each see one value of K.](atmosphere_price_landscape.png)
+
+Each tile is a joint-popcount block (p, q), p the popcount of the ket and q that of the bra. Where K takes one value K_p on every configuration of popcount p and one value K_q on every configuration of popcount q, the source page proves, for a Hamiltonian that conserves the popcount and commutes with flipping every spin (the Mirror's open XY chain is one), that the generator's eigenvalues on the block and on its mirror image (q, N − p) pair as λ ↔ −λ − (K_p + K_q), about the centre −(K_p + K_q)/2. The tile shows the depth of that centre, (K_p + K_q)/2; the figure computes the depth, not the spectra.
+
+**The top row** is one covariance κ common to every pair of sites, at γ = 10. There the depth is Nγ − Nκ + κ(d² + m²), d = p − q and m = p + q − N, a paraboloid that is circular about the middle of the lattice. The mirror image (p, q) ↦ (q, N − p) is a quarter turn of the lattice about that middle, so a block and its image always sit on one circle; the four pink-framed tiles are one orbit, all at the same depth. Without covariance every tile is at Nγ = 60, the Mirror's one centre. Read as a height, the depth rises from the middle to the corners under a positive κ (here 3), a bowl, and at the anti-correlated end, κ = −γ/(N − 1), the most negative common covariance a valid generator allows, it falls toward the corners, a dome, and its four corner tiles reach depth zero: four blocks of one cell each, the two populations |0…0⟩⟨0…0| and |1…1⟩⟨1…1| and the two GHZ cells, all four dark.
+
+**The bottom row** sets four weathers side by side, three patterns that are not one common covariance and the shared field for comparison. In an integer pattern (seed 7, every covariance between −3 and 3 and nonzero) only popcounts 0 and N see one value of K, as they always do, each holding a single configuration, and only the four corner blocks qualify. A ring of covariances κ = 3 between neighbours gives every site the same summed covariance, and popcounts 1 and 5 qualify as well (16 blocks). A star, κ = 3 from site 0 to every other site, qualifies popcount 3 (9 blocks). The shared field qualifies all 49. On a dashed tile K takes several values on at least one of the block's two popcounts; whether such a block still pairs with its image is open, and in the source page's thirteen patterns, on the open XXZ chain at N = 3 and 4, none did.
+
+### The cells the atmosphere cannot tell apart
+
+![The 64 × 64 cells of N = 6 in six weathers, dark cells green and the rest shaded by their rate: the GHZ pair at the anti-correlated end, the populations alone without covariance, the popcount sectors at full correlation, product classes for three anti-correlated pairs, the Néel pair on a ring at its signless Laplacian, and nothing beyond the populations on two triangles.](atmosphere_dark_classes.png)
+
+Every cell |ket⟩⟨bra| of six sites, the configurations ordered by popcount so that the faint lines cut out the blocks of the figure above. A green cell has rate exactly zero. All six weathers have a positive semidefinite a, and there a cell is dark, commuting with every jump, exactly when a u = 0. The object reads this as a partition, following the source page: configurations with the same a·z are ones the noise cannot tell apart, a dark class, and the dark cells are the cells inside the classes, the sum of the squared class sizes. Every other cell is shaded by its rate under the noise alone (a cell rate, not an eigenvalue of the full generator), brighter for slower decay, its position on the colour scale linear in the rate and scaled per panel; here brighter means slower, while in the first figure a brighter tile is a deeper centre.
+
+- **The anti-correlated end** (γ = 10, κ = −2, every row of a summing to zero): one class of two, the GHZ pair |000000⟩ and |111111⟩ (its two cells ringed), beside single configurations: 66 dark cells.
+- **Featureless** (no covariance): only the populations, 64; the shading is the disagreement count k alone, the rate 2γk.
+- **Full correlation** (κ = γ): the classes are the popcount sectors, and every cell of every diagonal block is dark, C(12, 6) = 924. The other blocks decay at 2γd², d = p − q, so the closer a block lies to the diagonal, the brighter it is.
+- **Three anti-correlated pairs** (γ = 1, a covariance of −1 on the site pairs (0, 1), (2, 3) and (4, 5)): no pair can tell 00 from 11, and the classes multiply, (2² + 2)³ = 216 dark cells; the largest class, eight configurations, holds 00 or 11 on every pair.
+- **A ring with a positive covariance between neighbours at half the rate** (γ = 2, κ = 1, so a is the ring's signless Laplacian D + A): the alternating pattern is the silent one, and the class is the Néel pair 101010 and 010101 (its two cells ringed, inside the half-filled block): 66. With the sign turned, a the ring's Laplacian D − A, the class is the GHZ pair instead; flipping every other site carries one weather onto the other, which only an even ring allows ([F152](../docs/ANALYTICAL_FORMULAS.md#f152) holds the pair as cospectral on a bipartite graph).
+- **Two triangles with a positive covariance** (γ = 2, κ = 1 within each triangle, so each triangle's a is its signless Laplacian D + A): no pattern of signs alternates around a triangle, so a has no kernel, the frustration the panel's title names, and nothing beyond the populations is dark: 64.
+
+Dark here means dark to the noise. A class stays dark under the whole dynamics when the Hamiltonian also keeps its span, the sufficient form of the second of two conditions the source page names. The ring is a pattern of the noise's covariances; the Hamiltonian stays the Mirror's open XY chain. That chain conserves the popcount and so keeps the span of each popcount sector, its cells moving only among themselves; it annihilates |0…0⟩ and |1…1⟩ and so leaves the GHZ cells, each alone in its block, unmoved; and its hopping carries the Néel cells out of the dark cells (the last two pinned in `AtmosphereTests`).
+
+### How it was computed
+
+Every number comes from the C# object: `QualifyingPopcounts` and `BlockPrice` for the tiles, `Rate` cell by cell, `DarkCount` and `DarkClasses` for the cells, all in integer arithmetic. The run mode exports them, and a Python script draws them, halving the prices and counting the class sizes on the way; it checks each panel's reading ("the GHZ pair", "the Néel pair", the popcount sectors, the pairs) against the exported classes before drawing. The pairing itself is the source page's theorem and is not computed here. The layout, the colours, the circles, the pink orbit, the amber rings and the shading are drawing choices.
+
+```
+dotnet run --project compute/MirrorWorld -- atmosphere gallery simulations/results/atmosphere_gallery.json
+python simulations/atmosphere_gallery.py
+```
+
 ---
 
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
