@@ -665,6 +665,102 @@ if (args.Length > 0 && args[0] == "divisor")
 }
 
 // ---- run mode "atmosphere": the mirror's price when the watchings co-vary ----
+if (args.Length > 1 && args[0] == "atmosphere" && args[1] == "gallery")
+{
+    // the data behind the two gallery images (visualizations/README.md, "The Atmosphere"), read off the object:
+    // the block prices K_p + K_q (each block's centre is -(K_p + K_q)/2) and the cell rates and dark classes of
+    // six weathers each, at N = 6
+    if (args.Length < 3)
+    {
+        Console.Error.WriteLine("atmosphere gallery <out.json>");
+        Environment.ExitCode = 2;
+        return;
+    }
+    const int agN = 6;
+    var agWorld = new World();
+    long[,] AgRing(long kappa)
+    {
+        var m = new long[agN, agN];
+        for (int k = 0; k < agN; k++) m[k, (k + 1) % agN] = m[(k + 1) % agN, k] = kappa;
+        return m;
+    }
+    long[,] AgStar(long kappa)
+    {
+        var m = new long[agN, agN];
+        for (int l = 1; l < agN; l++) m[0, l] = m[l, 0] = kappa;
+        return m;
+    }
+    long[,] AgPairs(long kappa)
+    {
+        var m = new long[agN, agN];
+        for (int k = 0; k + 1 < agN; k += 2) m[k, k + 1] = m[k + 1, k] = kappa;
+        return m;
+    }
+    long[,] AgTriangles(long kappa)
+    {
+        var m = new long[agN, agN];
+        foreach (int b in new[] { 0, 3 })
+            for (int k = b; k < b + 3; k++)
+                for (int l = k + 1; l < b + 3; l++) m[k, l] = m[l, k] = kappa;
+        return m;
+    }
+    long[,] AgSeeded()                      // the run mode's integer pattern: seed 7, every covariance in {-3..3} \ {0}
+    {
+        var rng = new Random(7);
+        var m = new long[agN, agN];
+        for (int k = 0; k < agN; k++)
+            for (int l = k + 1; l < agN; l++)
+            {
+                long v = 0;
+                while (v == 0) v = rng.Next(-3, 4);
+                m[k, l] = m[l, k] = v;
+            }
+        return m;
+    }
+    long[][] AgRows(long[,] m) => Enumerable.Range(0, agN).Select(k => Enumerable.Range(0, agN).Select(l => m[k, l]).ToArray()).ToArray();
+    object AgBowl(string name, long gamma, long[,] cov)
+    {
+        var at = new Atmosphere(new Mirror(agWorld, agN, 1.0, gamma), cov);
+        var ok = at.QualifyingPopcounts();
+        var prices = new List<long[]>();
+        foreach (int p in ok)
+            foreach (int q in ok) prices.Add(new long[] { p, q, at.BlockPrice(p, q) });
+        return new { name, N = agN, gamma, covariance = AgRows(cov), qualifying = ok, prices };
+    }
+    object AgCells(string name, long gamma, long[,] cov)
+    {
+        var at = new Atmosphere(new Mirror(agWorld, agN, 1.0, gamma), cov);
+        int d = 1 << agN;
+        var rates = Enumerable.Range(0, d).Select(i => Enumerable.Range(0, d).Select(j => at.Rate(i, j)).ToArray()).ToArray();
+        return new { name, N = agN, gamma, covariance = AgRows(cov), dark = at.DarkCount(), rates, classes = at.DarkClasses() };
+    }
+    var agDoc = new
+    {
+        source = "dotnet run --project compute/MirrorWorld -- atmosphere gallery <out.json> (MirrorWorld's Atmosphere)",
+        bowl = new object[]
+        {
+            AgBowl("anti-correlated end", 10, Atmosphere.Uniform(agN, -2)),
+            AgBowl("featureless", 10, new long[agN, agN]),
+            AgBowl("shared field", 10, Atmosphere.Uniform(agN, 3)),
+            AgBowl("integer pattern", 10, AgSeeded()),
+            AgBowl("ring", 10, AgRing(3)),
+            AgBowl("star", 10, AgStar(3)),
+        },
+        cells = new object[]
+        {
+            AgCells("anti-correlated end", 10, Atmosphere.Uniform(agN, -2)),
+            AgCells("featureless", 10, new long[agN, agN]),
+            AgCells("full correlation", 10, Atmosphere.Uniform(agN, 10)),
+            AgCells("three anti-correlated pairs", 1, AgPairs(-1)),
+            AgCells("ring, positive covariance", 2, AgRing(1)),
+            AgCells("two triangles, positive covariance", 2, AgTriangles(1)),
+        },
+    };
+    File.WriteAllText(args[2], System.Text.Json.JsonSerializer.Serialize(agDoc));
+    Console.WriteLine($"the atmosphere gallery data: {args[2]}");
+    return;
+}
+
 if (args.Length > 0 && args[0] == "atmosphere")
 {
     int atN = args.Length > 1 ? int.Parse(args[1]) : 4;
@@ -738,6 +834,25 @@ if (args.Length > 0 && args[0] == "atmosphere")
     Console.WriteLine("  (2^N, C(2N,N) at full correlation, 2^N + 2 at the anti-correlated end, gamma = N - 1, kappa = -1).");
     Console.WriteLine($"  every leg exact and the footprint met: {(atLegs ? "yes" : "NO")}; the qualifying blocks fold at one number: {(atCentres ? "yes" : "NO")};");
     Console.WriteLine($"  the Mirror's price is the mean: {(atMean ? "yes" : "NO")}; the dark counts meet their adopted forms: {(atDark ? "yes" : "NO")}.");
+    Console.WriteLine();
+    Console.WriteLine("  THE DARK CLASSES: the configurations the noise cannot tell apart (site 0 first, classes of one");
+    Console.WriteLine("  configuration left out); for a positive semidefinite a the dark cells are the cells inside them, the");
+    Console.WriteLine("  sum of their squared sizes. Dark to the noise, not thereby to the chain (AtmosphereTests pins the");
+    Console.WriteLine("  open XY chain carrying the Neel cells of a positive ring out of the dark cells and leaving the GHZ");
+    Console.WriteLine("  cells unmoved).");
+    foreach (var atW in atWeathers)
+    {
+        var atAtm = new Atmosphere(new Mirror(atWorld, atN, 1.0, atW.Gamma), atW.Cov);
+        var atClasses = atAtm.DarkClasses();
+        long atSquares = atClasses.Sum(cl => (long)cl.Length * cl.Length);
+        var atBig = atClasses.Where(cl => cl.Length > 1).ToList();
+        string AtBits(int i) => new string(Enumerable.Range(0, atN).Select(k => ((i >> k) & 1) == 1 ? '1' : '0').ToArray());
+        string atText = atBig.Count == 0 ? "none"
+            : atBig.Count <= 2 && atBig.All(cl => cl.Length <= 4)
+                ? string.Join("  ", atBig.Select(cl => "{" + string.Join(" ", cl.Select(AtBits)) + "}"))
+                : "sizes " + string.Join(" ", atBig.Select(cl => cl.Length));
+        Console.WriteLine($"    {atW.Name,-26} {atText}   (sum of squares {atSquares}, dark {atAtm.DarkCount()})");
+    }
     Console.WriteLine();
     var atLast = new Atmosphere(new Mirror(atWorld, atN, 1.0, 10), Atmosphere.Uniform(atN, 3));
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. Its parent is the MIRROR: what changes is the mirror's price, so the leg maps,");

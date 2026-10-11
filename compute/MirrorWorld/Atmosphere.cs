@@ -44,7 +44,15 @@ namespace MirrorWorld;
 // only the inherited rate gamma_0 remains. "Dark" is EndCount's word, a cell commuting with every jump
 // (cells a third carrier beside EndCount's strings and BlindSeat's states), which for a positive
 // semidefinite a is a cell of rate zero (for an indefinite a, which no jumps realise, the count is of
-// zero-rate cells only). The four SINGLE-DISAGREEMENT blocks (0,1), (1,0), (N-1,N), (N,N-1), which a
+// zero-rate cells only); a dark CLASS is a set of configurations the noise cannot tell apart, the whole a
+// and not the covariance alone (at C = 0 and gamma != 0 every class is one configuration), dark to the
+// noise and not thereby to a Hamiltonian. It is not called a code, which would claim protection under the
+// whole dynamics, and it is none of the other classes here: not ParameterKlein's anti-palindromic class,
+// not Router's {I,Z} <-> {X,Y} letter classes, not Hardness's classes, not EndCount's F158 class, not the
+// Formulas' Pi^2-class, and not Witness's Dark record family. A GHZ or Neel "pair" is a pair of
+// configurations, whose cross cells are Pairs; the Neel pair is the Z-basis 0101.. and 1010.., the pair the
+// main repo's LiouvillianBlockSpectrum calls "both Neel states", not the X-basis Neel state of its
+// ZGlobalMirror; independent "pairs" are pairs of sites. The four SINGLE-DISAGREEMENT blocks (0,1), (1,0), (N-1,N), (N,N-1), which a
 // covariance cannot touch (nor the population corners (0,0) and (N,N)), are named so here (the source page's
 // "four edge blocks"; "edge" is also Crack's band edge
 // and EndCount's, "corner" Divisor's and F140's, and Mirror calls its 1x1 blocks one-cell). The lower end
@@ -286,5 +294,30 @@ public sealed class Atmosphere : GameObject
             for (int j = 0; j < d; j++)
                 if (Rate(i, j) == 0) n++;
         return n;
+    }
+
+    // the dark classes: the configurations the noise cannot tell apart, grouped by a*z(i), largest first.
+    // A cell lies inside a class exactly when a u = 0, so for a positive semidefinite a the dark cells are the
+    // cells inside the classes and DarkCount is the sum of the squared class sizes: on the configurations of
+    // one class every coherence commutes with every jump. Dark to the noise, not to the dynamics: a Hamiltonian
+    // may still move a class (the Mirror's XY chain leaves the GHZ cells still, each alone in its block (0,N)
+    // or (N,0), and carries out of the dark cells the Neel pair, which a positive covariance between ring
+    // neighbours at half the rate, gamma = 2*kappa, leaves dark at even N >= 4). For an indefinite a, which no
+    // jumps realise, a rate can vanish off the classes, and where one does the zero-rate cells outnumber the
+    // cells inside them.
+    public IReadOnlyList<int[]> DarkClasses()
+    {
+        var groups = new Dictionary<string, List<int>>();
+        for (int i = 0; i < (1 << N); i++)
+        {
+            var az = new long[N];
+            for (int k = 0; k < N; k++)
+                for (int l = 0; l < N; l++)
+                    az[k] += (k == l ? Gamma : c[k, l]) * Z(i, l);
+            string key = string.Join(",", az);
+            if (!groups.TryGetValue(key, out var members)) groups[key] = members = new List<int>();
+            members.Add(i);
+        }
+        return groups.Values.OrderByDescending(m => m.Count).ThenBy(m => m[0]).Select(m => m.ToArray()).ToList();
     }
 }

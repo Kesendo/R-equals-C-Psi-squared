@@ -325,4 +325,142 @@ public class AtmosphereTests
         Assert.Equal(0, antiEnd.Rate(0, d - 1));
         Assert.Equal(0, antiEnd.Rate(d - 1, 0));
     }
+
+    // ---- the dark classes: what the atmosphere cannot tell apart ----
+
+    static long[,] Ring(int n, long kappa)
+    {
+        var m = new long[n, n];
+        for (int k = 0; k < n; k++) m[k, (k + 1) % n] = m[(k + 1) % n, k] = kappa;
+        return m;
+    }
+
+    static long[,] Pairs(int n, long kappa)
+    {
+        var m = new long[n, n];
+        for (int k = 0; k + 1 < n; k += 2) m[k, k + 1] = m[k + 1, k] = kappa;
+        return m;
+    }
+
+    // positive semidefinite weathers: the dark cells are exactly the cells inside a class, read two ways
+    // (the rate, cell by cell, against the classes, which are built from a*z alone)
+    public static IEnumerable<object[]> SemidefiniteWeathers()
+    {
+        foreach (int n in new[] { 3, 4, 5, 6 })
+        {
+            yield return new object[] { n, 10L, new long[n, n] };
+            yield return new object[] { n, 10L, Atmosphere.Uniform(n, 3) };
+            yield return new object[] { n, 10L, Atmosphere.Uniform(n, 10) };
+            yield return new object[] { n, (long)(n - 1), Atmosphere.Uniform(n, -1) };
+            yield return new object[] { n, 2L, Ring(n, 1) };
+            if (n > 3) yield return new object[] { n, 2L, Ring(n, -1) };     // at N = 3 the anti-correlated end itself
+            yield return new object[] { n, 1L, Pairs(n, -1) };
+        }
+    }
+
+    [Theory, MemberData(nameof(SemidefiniteWeathers))]
+    public void The_Dark_Cells_Are_The_Cells_Inside_A_Class(int n, long gamma, long[,] cov)
+    {
+        var atm = Make(n, gamma, cov);
+        var classes = atm.DarkClasses();
+        Assert.Equal(1 << n, classes.Sum(cl => cl.Length));                    // a partition by construction: a guard
+        foreach (var cl in classes)
+            foreach (int i in cl)
+                foreach (int j in cl)
+                    Assert.Equal(0, atm.Rate(i, j));
+        Assert.Equal(atm.DarkCount(), classes.Sum(cl => cl.Length * cl.Length));
+    }
+
+    [Theory, InlineData(3), InlineData(4), InlineData(5), InlineData(6)]
+    public void The_Two_Ends_Of_The_Shared_Field_Leave_Different_Classes(int n)
+    {
+        int d = 1 << n;
+        // full correlation: the classes are the popcount sectors
+        var full = Make(n, 10, Atmosphere.Uniform(n, 10)).DarkClasses();
+        Assert.Equal(n + 1, full.Count);
+        foreach (var cl in full)
+        {
+            int p = BitOperations.PopCount((uint)cl[0]);
+            Assert.All(cl, i => Assert.Equal(p, BitOperations.PopCount((uint)i)));
+            Assert.Equal(Binomial(n, p), cl.Length);
+        }
+        // the anti-correlated end: one class of two, the GHZ pair, and every other configuration alone
+        var anti = Make(n, n - 1, Atmosphere.Uniform(n, -1)).DarkClasses();
+        Assert.Equal(new[] { 0, d - 1 }, anti[0]);
+        Assert.All(anti.Skip(1), cl => Assert.Single(cl));
+    }
+
+    // anti-correlated pairs, each a = [[1, -1], [-1, 1]]: the classes multiply, (2^2 + 2)^(N/2) dark cells, and
+    // the largest class takes 00 or 11 on every pair
+    [Theory, InlineData(2, 6), InlineData(4, 36), InlineData(6, 216)]
+    public void Independent_Pairs_Multiply_The_Darkness(int n, int dark)
+    {
+        var atm = Make(n, 1, Pairs(n, -1));
+        Assert.Equal(dark, atm.DarkCount());
+        var largest = atm.DarkClasses()[0];
+        Assert.Equal(1 << (n / 2), largest.Length);
+        foreach (int i in largest)
+            for (int k = 0; k < n; k += 2)
+                Assert.Equal((i >> k) & 1, (i >> (k + 1)) & 1);
+    }
+
+    // a covariance between ring neighbours at gamma = 2: negative (a the ring's Laplacian) leaves the GHZ pair
+    // dark at every N; positive leaves the Neel pair dark at even N and nothing beyond the populations at odd N,
+    // where no alternating pattern closes around the ring
+    [Theory, InlineData(4), InlineData(5), InlineData(6), InlineData(7)]
+    public void A_Ring_Leaves_The_GHZ_Pair_Or_The_Neel_Pair_Or_Nothing(int n)
+    {
+        int d = 1 << n;
+        var negative = Make(n, 2, Ring(n, -1));
+        Assert.Equal(new[] { 0, d - 1 }, negative.DarkClasses()[0]);
+        Assert.Single(negative.DarkClasses(), cl => cl.Length > 1);
+        Assert.Equal(d + 2, negative.DarkCount());
+        var positive = Make(n, 2, Ring(n, 1));
+        if (n % 2 == 0)
+        {
+            int neel = 0;
+            for (int k = 0; k < n; k += 2) neel |= 1 << k;
+            Assert.Equal(new[] { Math.Min(neel, neel ^ (d - 1)), Math.Max(neel, neel ^ (d - 1)) }, positive.DarkClasses()[0]);
+            Assert.Single(positive.DarkClasses(), cl => cl.Length > 1);
+            Assert.Equal(d + 2, positive.DarkCount());
+        }
+        else
+        {
+            Assert.All(positive.DarkClasses(), cl => Assert.Single(cl));
+            Assert.Equal(d, positive.DarkCount());
+        }
+    }
+
+    // dark to the noise, not to the chain: the Neel cell's dressed diagonal entry is zero while the Mirror's XY
+    // hopping writes out of it into cells that decay; the GHZ cell's block (0, N) is the cell alone, entry zero
+    [Fact]
+    public void A_Dark_Class_Is_Dark_To_The_Noise_Not_Necessarily_To_The_Chain()
+    {
+        int n = 6, d = 1 << n, neel = 0b010101, other = neel ^ (d - 1);
+        var ring = Make(n, 2, Ring(n, 1));
+        var l = ring.BuildBlock(3, 3, out var kets, out var bras);
+        int cell = kets.IndexOf(neel) * bras.Count + bras.IndexOf(other);
+        Assert.Equal(Complex.Zero, l[cell, cell]);
+        int moved = 0;
+        for (int r = 0; r < kets.Count * bras.Count; r++)
+            if (r != cell && l[r, cell] != Complex.Zero && ring.Rate(kets[r / bras.Count], bras[r % bras.Count]) != 0)
+                moved++;
+        Assert.True(moved > 0, "the XY chain carries the Neel cell into cells that are not dark");
+
+        var anti = Make(n, n - 1, Atmosphere.Uniform(n, -1));
+        var ghz = anti.BuildBlock(0, n, out var gk, out var gb);
+        Assert.Equal(1, gk.Count * gb.Count);
+        Assert.Equal(Complex.Zero, ghz[0, 0]);
+    }
+
+    // off a positive semidefinite a the classes undercount: at N = 5, gamma = 3, kappa = -1 (below the
+    // anti-correlated end -3/4) a has no kernel, yet a cell whose four disagreements point one way has
+    // u^T a u = 4 * ((gamma - kappa) * 4 + kappa * 16) = 0, so rate 0: 20 such cells beside the 32 populations
+    [Fact]
+    public void Off_A_Semidefinite_A_A_Rate_Vanishes_Outside_The_Classes()
+    {
+        var atm = Make(5, 3, Atmosphere.Uniform(5, -1));
+        Assert.All(atm.DarkClasses(), cl => Assert.Single(cl));
+        Assert.Equal(52, atm.DarkCount());
+    }
 }
