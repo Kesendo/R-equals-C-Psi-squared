@@ -63,7 +63,12 @@ namespace MirrorWorld;
 // dressed by the covariance. kappa is a common covariance, not Crack's k = i*kappa; eta = kappa/gamma is
 // not CollisionGap's reflection sign. "Centres" holds only the sufficient direction: a block whose two
 // popcounts each see one value of K pairs with its image about -(K_p + K_q)/2; that no other block pairs is
-// read on the source page, not proved, and is not held here.
+// read on the source page, not proved, and is not held here. Which popcounts see one value is the page's
+// four-shapes law, adopted beside the enumeration: 0 and N always, 1 and N-1 exactly when every site carries
+// the same summed covariance, N/2 exactly when the covariances are additive, C_kl = y_k + y_l, every other
+// popcount exactly when they are one number, and there K is the shared field's value at the mean covariance.
+// "Additive" is that form, not PROOF_CODIM1_BY_ADDITIVITY's additivity; the page's "cut" is a graph's cut,
+// not the Cone's memory cut.
 //
 // WHAT STAYS OUTSIDE: the global break (F137's one candidate centre), the two ladders, longitudinal fields,
 // the XXZ chain and complex or DM Hamiltonians, unequal rates with a covariance, and every eigen-question
@@ -95,7 +100,7 @@ public sealed class Atmosphere : GameObject
             {
                 if (covariance[k, l] != covariance[l, k])
                     throw new ArgumentException("a Kossakowski matrix is symmetric", nameof(covariance));
-                if (Math.Abs(covariance[k, l]) > 1_000_000_000L)
+                if (covariance[k, l] > 1_000_000_000L || covariance[k, l] < -1_000_000_000L)
                     throw new ArgumentOutOfRangeException(nameof(covariance), covariance[k, l],
                         "|C_kl| <= 10^9 keeps every entry a small exact integer");
             }
@@ -258,6 +263,41 @@ public sealed class Atmosphere : GameObject
             if (one) res.Add(p);
         }
         return res.ToArray();
+    }
+
+    // the same popcounts read from the covariances alone, the page's four-shapes law: no configuration is
+    // enumerated. Integer tests: equal row sums; additive, 2*C_kl = y2_k + y2_l with y2 the doubled site values;
+    // one number. The tests pin this against QualifyingPopcounts, two routes meeting.
+    public int[] QualifyingPopcountsByLaw()
+    {
+        if (N <= 2) return Enumerable.Range(0, N + 1).ToArray();
+        bool constant = true, equalRows = true, additive = true;
+        for (int k = 0; k < N; k++)
+            for (int l = k + 1; l < N; l++)
+                if (c[k, l] != c[0, 1]) constant = false;
+        long RowSum(int k) { long r = 0; for (int l = 0; l < N; l++) if (l != k) r += c[k, l]; return r; }
+        for (int k = 1; k < N; k++) if (RowSum(k) != RowSum(0)) equalRows = false;
+        var y2 = new long[N];
+        y2[0] = c[0, 1] + c[0, 2] - c[1, 2];
+        for (int k = 1; k < N; k++) y2[k] = 2 * c[0, k] - y2[0];
+        for (int k = 0; k < N && additive; k++)
+            for (int l = k + 1; l < N; l++)
+                if (2 * c[k, l] != y2[k] + y2[l]) { additive = false; break; }
+        var res = new List<int>();
+        for (int p = 0; p <= N; p++)
+            if (p == 0 || p == N || constant || ((p == 1 || p == N - 1) && equalRows) || (2 * p == N && additive))
+                res.Add(p);
+        return res.ToArray();
+    }
+
+    // the summed covariance T = sum_{k<l} C_kl: on every popcount that sees one value, N(N-1)/2 * K_p =
+    // N(N-1)/2 * N*gamma - N*T + T*(N-2p)^2, the shared field's value at the mean covariance T/(N(N-1)/2)
+    public long TotalCovariance()
+    {
+        long t = 0;
+        for (int k = 0; k < N; k++)
+            for (int l = k + 1; l < N; l++) t += c[k, l];
+        return t;
     }
 
     // K_p + K_q, the one fold price of a block whose two popcounts each see one value of K

@@ -783,10 +783,19 @@ if (args.Length > 0 && args[0] == "atmosphere")
     long atBinom = 1;
     for (int atI = 1; atI <= atN; atI++) atBinom = atBinom * (atN + atI) / atI;     // C(2N, N)
     long atCells = 1L << atN;
+    var atRing = new long[atN, atN];
+    var atStar = new long[atN, atN];
+    for (int atK = 0; atK < atN; atK++)
+    {
+        atRing[atK, (atK + 1) % atN] = atRing[(atK + 1) % atN, atK] = 3;
+        if (atK > 0) atStar[0, atK] = atStar[atK, 0] = 3;
+    }
     var atWeathers = new (string Name, long Gamma, long[,] Cov, long? Dark)[]
     {
         ("featureless (gamma_0)", 10, new long[atN, atN], atCells),
         ("shared, kappa = 3", 10, Atmosphere.Uniform(atN, 3), atCells),
+        ("ring, kappa = 3", 10, atRing, atCells),
+        ("star, kappa = 3", 10, atStar, atCells),
         ("integer pattern (seed 7)", 10, atPattern, null),
         ("full correlation", 10, Atmosphere.Uniform(atN, 10), atBinom),
         ("anti-correlated end", atN - 1, Atmosphere.Uniform(atN, -1), atCells + 2),
@@ -799,12 +808,13 @@ if (args.Length > 0 && args[0] == "atmosphere")
     Console.WriteLine();
     Console.WriteLine($"  N = {atN}, open XY chain, J = 1");
     Console.WriteLine($"  {"weather",-26} {"gamma",5} {"folds",6} {"free",6} {"footprint",10} {"closed",10} {"one-K popcounts",16} {"centres",7} {"mean",5} {"dark",5} {"adopted",7}");
-    bool atLegs = true, atCentres = true, atMean = true, atDark = true;
+    bool atLegs = true, atCentres = true, atMean = true, atDark = true, atLaw = true;
     foreach (var atW in atWeathers)
     {
         var atAtm = new Atmosphere(new Mirror(atWorld, atN, 1.0, atW.Gamma), atW.Cov);
         double atFolds = 0, atFree = 0, atCentre = 0;
         var atQual = atAtm.QualifyingPopcounts();
+        atLaw &= atQual.SequenceEqual(atAtm.QualifyingPopcountsByLaw());
         for (int atP = 0; atP <= atN; atP++)
             for (int atQ = 0; atQ <= atN; atQ++)
             {
@@ -833,7 +843,8 @@ if (args.Length > 0 && args[0] == "atmosphere")
     Console.WriteLine("  mean: K averages to N*gamma. dark: the cells of rate zero, beside the adopted count where one is adopted");
     Console.WriteLine("  (2^N, C(2N,N) at full correlation, 2^N + 2 at the anti-correlated end, gamma = N - 1, kappa = -1).");
     Console.WriteLine($"  every leg exact and the footprint met: {(atLegs ? "yes" : "NO")}; the qualifying blocks fold at one number: {(atCentres ? "yes" : "NO")};");
-    Console.WriteLine($"  the Mirror's price is the mean: {(atMean ? "yes" : "NO")}; the dark counts meet their adopted forms: {(atDark ? "yes" : "NO")}.");
+    Console.WriteLine($"  the Mirror's price is the mean: {(atMean ? "yes" : "NO")}; the dark counts meet their adopted forms: {(atDark ? "yes" : "NO")};");
+    Console.WriteLine($"  the one-K popcounts are the four-shapes law's, read from the covariances alone: {(atLaw ? "yes" : "NO")}.");
     Console.WriteLine();
     Console.WriteLine("  THE DARK CLASSES: the configurations the noise cannot tell apart (site 0 first, classes of one");
     Console.WriteLine("  configuration left out); for a positive semidefinite a the dark cells are the cells inside them, the");

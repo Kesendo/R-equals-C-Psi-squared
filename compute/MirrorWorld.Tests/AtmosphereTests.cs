@@ -89,6 +89,8 @@ public class AtmosphereTests
         var m = new long[3, 3];
         m[0, 1] = m[1, 0] = 2_000_000_000L;
         Assert.Throws<ArgumentOutOfRangeException>(() => Make(3, 10, m));
+        m[0, 1] = m[1, 0] = long.MinValue;                    // no Math.Abs overflow on the way to the refusal
+        Assert.Throws<ArgumentOutOfRangeException>(() => Make(3, 10, m));
     }
 
     [Fact]
@@ -309,6 +311,106 @@ public class AtmosphereTests
                 count++;
             }
         Assert.Equal(expectedBlocks, count);
+    }
+
+    // ---- the four shapes: which popcounts see one value of K, read from the covariances alone ----
+
+    static long[,] Symmetric(int n, long[] upper)
+    {
+        var m = new long[n, n];
+        int t = 0;
+        for (int k = 0; k < n; k++)
+            for (int l = k + 1; l < n; l++) { m[k, l] = m[l, k] = upper[t]; t++; }
+        return m;
+    }
+
+    // every integer pattern with entries in -2..2 at N = 3 and in -1..1 at N = 4 and 5: the law meets the
+    // enumeration, and the shapes seen are two at N = 3 (every pattern additive there), four at N = 4, three at N = 5
+    [Theory, InlineData(3, 2, 2), InlineData(4, 1, 4), InlineData(5, 1, 3)]
+    public void The_Four_Shapes_Law_Meets_The_Enumeration_On_Every_Small_Pattern(int n, int r, int shapes)
+    {
+        int pairs = n * (n - 1) / 2, vals = 2 * r + 1;
+        long total = 1;
+        for (int i = 0; i < pairs; i++) total *= vals;
+        var seen = new HashSet<string>();
+        for (long code = 0; code < total; code++)
+        {
+            var upper = new long[pairs];
+            long t = code;
+            for (int i = 0; i < pairs; i++) { upper[i] = t % vals - r; t /= vals; }
+            var atm = Make(n, 10, Symmetric(n, upper));
+            var read = atm.QualifyingPopcounts();
+            Assert.Equal(read, atm.QualifyingPopcountsByLaw());
+            seen.Add(string.Join(",", read));
+        }
+        Assert.Equal(shapes, seen.Count);
+    }
+
+    // structured families at N = 6..8: additive (the middle at even N), circulant (equal row sums), their sums and
+    // random patterns; on every popcount that sees one value, K is the shared field's at the mean covariance (of
+    // either sign: the bowl, or the dome for a negative mean)
+    [Theory, InlineData(6), InlineData(7), InlineData(8)]
+    public void The_Four_Shapes_Law_Holds_On_Families_And_K_Is_The_Shared_Fields_At_The_Mean_Covariance(int n)
+    {
+        var rng = new Random(n);
+        long pairs = n * (n - 1) / 2;
+        long[,] Additive()
+        {
+            var y = Enumerable.Range(0, n).Select(_ => (long)rng.Next(-3, 4)).ToArray();
+            var m = new long[n, n];
+            for (int k = 0; k < n; k++) for (int l = 0; l < n; l++) if (k != l) m[k, l] = y[k] + y[l];
+            return m;
+        }
+        long[,] Circulant()
+        {
+            var m = new long[n, n];
+            for (int s = 1; s <= n / 2; s++)
+            {
+                long w = rng.Next(-3, 4);
+                for (int k = 0; k < n; k++)
+                {
+                    if (2 * s == n && k >= s) continue;
+                    int l = (k + s) % n;
+                    m[k, l] += w; m[l, k] += w;
+                }
+            }
+            return m;
+        }
+        long[,] Random3() => Symmetric(n, Enumerable.Range(0, (int)pairs).Select(_ => (long)rng.Next(-3, 4)).ToArray());
+        var seen = new HashSet<string>();
+        for (int round = 0; round < 30; round++)
+        {
+            var add = Additive();
+            var circ = Circulant();
+            var both = new long[n, n];
+            for (int k = 0; k < n; k++) for (int l = 0; l < n; l++) both[k, l] = add[k, l] + circ[k, l];
+            foreach (var cov in new[] { add, circ, both, Random3() })
+            {
+                var atm = Make(n, 10, cov);
+                var read = atm.QualifyingPopcounts();
+                Assert.Equal(read, atm.QualifyingPopcountsByLaw());
+                seen.Add(string.Join(",", read));
+                long tsum = atm.TotalCovariance();
+                foreach (int p in read)
+                    foreach (int q in read)
+                    {
+                        long d = p - q, m = p + q - n;
+                        Assert.Equal(2 * (pairs * n * 10 - n * tsum + tsum * (d * d + m * m)), pairs * atm.BlockPrice(p, q));
+                    }
+            }
+        }
+        Assert.Contains(n % 2 == 0 ? $"0,{n / 2},{n}" : $"0,1,{n - 1},{n}", seen);
+    }
+
+    // the star of covariances is additive (y at the hub, 0 at the leaves): at even N it keeps the middle popcount
+    [Theory, InlineData(4), InlineData(6), InlineData(8)]
+    public void A_Star_Of_Covariances_Keeps_Half_Filling(int n)
+    {
+        var star = new long[n, n];
+        for (int l = 1; l < n; l++) star[0, l] = star[l, 0] = 3;
+        var atm = Make(n, 10, star);
+        Assert.Equal(new[] { 0, n / 2, n }, atm.QualifyingPopcounts());
+        Assert.Equal(new[] { 0, n / 2, n }, atm.QualifyingPopcountsByLaw());
     }
 
     // ---- dark: what the atmosphere does not see ----
