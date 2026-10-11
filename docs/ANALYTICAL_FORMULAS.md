@@ -43,9 +43,17 @@ covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N, F
 to −L − {Σc†c, ·}, the jumps' decay operator Σc†c no longer a number: no single
 centre serves the spectrum once the covariances sum to a positive number (the
 Kossakowski matrix positive semidefinite, H keeping the all-0 and all-1 states as
-eigenstates), nor at the one negative
-correlation read (a correlation η = −1/5 shared by every pair at uniform rates γ,
-a_kl = γη, XXZ chain, N = 2 and 3), and a
+eigenstates), nor, for a positive semidefinite Kossakowski matrix and a popcount-conserving
+X^⊗N-even H, wherever Σc†c takes one value above the summed site rate tr a (a the Kossakowski
+matrix) on some popcount p (the far-end mode P_p·X^⊗N then decays faster than 2·tr a), which under one covariance κ ≠ 0 shared by every
+pair holds at every N for either sign, nor, for a positive semidefinite Kossakowski matrix
+with a covariance and any H, at weak enough coupling (an eigenvalue continued from the coherence between the
+configuration with the largest Σc†c and its full flip lies below −2·tr a), nor, for a
+positive semidefinite Kossakowski matrix with a covariance and a traceless H commuting with
+X^⊗N, wherever Σ_{k≠l} a_kl·Tr(H²Z_kZ_l) ≤ 0, whatever the sign of the
+summed covariance (the third moment Tr((L + tr a)³), zero for a palindrome about −tr a: its
+noise contribution has a definite sign for such a matrix and the Hamiltonian's the same
+sign or none; this rules out the pairing of the complex eigenvalues), and a
 joint-popcount block of a popcount-conserving X^⊗N-even H pairs with its Π_Z image (q, N − p), p and q its ket and bra popcounts, about a
 centre of its own wherever Σc†c takes one value on each of the block's two
 popcounts, which every block does under one covariance common to every pair

@@ -101,6 +101,29 @@ The script checks, exactly:
      popcount p exactly when it commutes with the chain there; and the ZZ faces, ZZ couplings on the bonds
      of a ring, a star and an open chain one number on popcount p exactly where the law says (ring
      {0, 1, N - 1, N}, star {0, N/2, N} at even N, chain {0, N} from N = 4).
+  J. the third moment about the one candidate centre -sigma: for every real symmetric a (either sign) and
+     every traceless Hermitian H, Tr((L + sigma)^3) = -4^N [4 tr(C(2a + Lambda)C) - 3 tr(C Theta) - 6 xi^T a xi],
+     C the covariances, Lambda the diagonal, Theta_kl = Tr(H^2 Z_k Z_l)/2^N, xi_k = Tr(H Z_k)/2^N, read against
+     the exact trace of (2L + 2 sigma)^3 for random complex H at N = 2..4, for X^N-even H (xi = 0), and for
+     local noise with fields, where it is F117's third-moment face 6 * 4^N sum gamma_k xi_k^2 carried to
+     site-dependent rates; at H = 0 for N = 2..5; the noise part as 12 tr(Lambda C^2) + 8 tr(C^3) and in triangle
+     form at N = 2..8, and as 8 tr(CaC) + 4 tr(C Lambda C) > 0 on positive definite draws (an indefinite a turns it
+     negative, -48 at N = 3); Theta on the open XY and Heisenberg chains at N = 3..6; the shared field's
+     closed forms on both chains at N = 2..4; a negative covariance between the end sites of the XY chain
+     at N = 3, where the GHZ argument says nothing: the third moment sees the break, and the whole
+     characteristic polynomial does not pair; and the shared field at the anti-correlated end with J = gamma
+     at N = 3, where the third moment is exactly 0, the fifth is -11520 gamma^5 (the value of the companion
+     script shared_field_odd_moments.py, met here by matrix powers), the far-end mode at p = 1 sits below
+     -2 sigma, and the whole characteristic polynomial does not pair.
+  K. the far-end modes: for a popcount-conserving X^N-even H and a pattern on which K takes one value K_p on
+     popcount p, P_p X^N (the bra-flipped populations; F22's X^N P_p is its adjoint) is an eigenvector at -2 K_p, read on the XXZ chain under one common covariance at
+     N = 2..5 for eta = -1/5 and 3/10 (K_p = sigma - N kappa + kappa (N - 2p)^2, above sigma for kappa < 0 at
+     p = floor(N/2), so a rate above 2 sigma whose partner about -sigma would grow), on an additive pattern
+     with a negative sum at N = 4 (K = sigma - N kbar on popcount 2), the law K_p > sigma exactly when
+     T ((N - 2p)^2 - N) > 0 on every popcount where K is one number, on every integer pattern in -1..1 at
+     N = 3..5 (T the summed covariance), and the end-site covariance at N = 3..5, where K is one number only
+     on popcounts 0 and N and there lies below sigma, so neither the GHZ coherence nor a far-end mode decides, while the closed-form third
+     moment on the XY chain is nonzero.
 
 Every input is an integer (gamma = 10, eta in {3/10, -2/10, 9/10, 1}, so a has integer entries; the
 anti-correlated end of section H at gamma = N - 1; the Hamiltonian integer), and the script works
@@ -358,6 +381,58 @@ def random_xn_even(N, rng):
 
 
 Y_SYM = symbols("y")
+
+
+def random_symmetric(N, rng):
+    """A real symmetric integer matrix with entries of either sign, not necessarily positive semidefinite."""
+    B = rng.integers(-4, 5, size=(N, N))
+    return (B + B.T).astype(np.int64)
+
+
+def random_hermitian(N, rng):
+    """A traceless Hermitian H with integer real and imaginary parts and no symmetry at all."""
+    d = 2 ** N
+    M = rng.integers(-3, 4, size=(d, d))
+    A = rng.integers(-3, 4, size=(d, d))
+    Hr = (M + M.T).astype(np.int64)
+    Hr[0, 0] -= int(np.trace(Hr))
+    return GaussH(Hr, (A - A.T).astype(np.int64))
+
+
+def power_trace(re, im, shift, n):
+    """Tr((2L + shift)^n) for n = 3 or 5 as (real, imaginary) Python integers, exact (object arithmetic)."""
+    assert n in (3, 5)
+    size = re.shape[0]
+    R = re.astype(object) + shift * np.eye(size, dtype=np.int64).astype(object)
+    Im = im.astype(object)
+    R2, I2 = R.dot(R) - Im.dot(Im), R.dot(Im) + Im.dot(R)
+    if n == 3:
+        return int(np.sum(R2 * R.T) - np.sum(I2 * Im.T)), int(np.sum(R2 * Im.T) + np.sum(I2 * R.T))
+    R4, I4 = R2.dot(R2) - I2.dot(I2), R2.dot(I2) + I2.dot(R2)
+    return int(np.sum(R4 * R.T) - np.sum(I4 * Im.T)), int(np.sum(R4 * Im.T) + np.sum(I4 * R.T))
+
+
+def noise_part(a):
+    """4 tr(C (2a + Lambda) C), C the covariances, Lambda the diagonal: the noise term of the third moment's bracket."""
+    N = len(a)
+    A = [[int(a[k][l]) for l in range(N)] for k in range(N)]
+    C = [[A[k][l] if k != l else 0 for l in range(N)] for k in range(N)]
+    W = [[2 * A[l][m] + (A[l][l] if l == m else 0) for m in range(N)] for l in range(N)]
+    return 4 * sum(C[k][l] * W[l][m] * C[m][k] for k in range(N) for l in range(N) for m in range(N))
+
+
+def third_moment_closed(H, a, N):
+    """Tr((2L + 2 sigma)^3) = 8 Tr((L + sigma)^3) from the closed form -4^N [4 tr(C(2a + Lambda)C) - 3 tr(C Theta)
+    - 6 xi^T a xi], with Theta_kl = Tr(H^2 Z_k Z_l)/2^N and xi_k = Tr(H Z_k)/2^N, H traceless; in integers."""
+    d = 2 ** N
+    assert int(np.trace(H.r)) == 0, "the closed form is written for a traceless H"
+    Zs = [op(Z, k, N) for k in range(N)]
+    Hsq = H.r @ H.r - H.i @ H.i                          # the real part of H^2; its imaginary part has a zero diagonal
+    T2 = [[int(np.trace(Hsq @ Zs[k] @ Zs[l])) for l in range(N)] for k in range(N)]
+    T1 = [int(np.trace(H.r @ Zs[k])) for k in range(N)]
+    h_two = sum(int(a[k][l]) * T2[k][l] for k in range(N) for l in range(N) if k != l)
+    h_one = sum(int(a[k][l]) * T1[k] * T1[l] for k in range(N) for l in range(N))
+    return -(8 * d * d * noise_part(a) - 24 * d * h_two - 48 * h_one)
 
 
 def charpoly(re, im):
@@ -1202,6 +1277,195 @@ def main():
             got = qualifying_popcounts(w, [0] * N, N)
             claim(f"N={N} ZZ on the bonds of the {name}: one number on popcounts {got}, the law's {want[name]}",
                   got == want[name] == predicted_popcounts(w, N))
+
+    print("\nJ. the third moment about the one candidate centre: Tr((L + sigma)^3) = -4^N [4 tr(C(2a + Lambda)C) - 3 tr(C Theta) - 6 xi^T a xi]")
+    jrng = np.random.default_rng(20261012)
+    for N in (2, 3, 4):
+        agree = True
+        for _ in range(3):
+            a = random_symmetric(N, jrng)
+            H = random_hermitian(N, jrng)
+            re, im = two_l(H, a, N)
+            got = power_trace(re, im, 2 * int(np.trace(a)), 3)
+            agree &= got == (third_moment_closed(H, a, N), 0)
+        claim(f"N={N} three random real symmetric a of either sign, three random complex traceless H: the closed form is the trace, the imaginary part zero", agree)
+    for N in (2, 3, 4):
+        Zs = [op(Z, k, N) for k in range(N)]
+        XN = np.ones((1, 1), dtype=np.int64)
+        for _ in range(N):
+            XN = np.kron(XN, X)
+        agree, no_c = True, True
+        for _ in range(2):
+            H = random_xn_even(N, jrng)
+            t = int(np.trace(H.r))                       # a multiple of 4; the shift keeps H commuting with X^N
+            H.r[0, 0] -= t // 2
+            H.r[-1, -1] -= t // 2
+            no_c &= (int(np.trace(H.r)) == 0 and comm_zero(H.r, XN)
+                     and all(int(np.trace(H.r @ Zs[k])) == 0 for k in range(N)))
+            a = random_symmetric(N, jrng)
+            re, im = two_l(H, a, N)
+            agree &= power_trace(re, im, 2 * int(np.trace(a)), 3) == (third_moment_closed(H, a, N), 0)
+        claim(f"N={N} two traceless H commuting with X^N: Tr(H Z_k) = 0 at every site (xi = 0), and the closed form is the trace", agree and no_c)
+    for N in (2, 3, 4):
+        diag = [int(v) for v in jrng.integers(1, 9, size=N)]
+        h = [int(v) for v in jrng.integers(-3, 4, size=N)]
+        Zs = [op(Z, k, N) for k in range(N)]
+        H = xxz_chain(N, 2, 1) + GaussH(sum(h[k] * Zs[k] for k in range(N)))
+        a = np.diag(diag).astype(np.int64)
+        re, im = two_l(H, a, N)
+        got = power_trace(re, im, 2 * sum(diag), 3)
+        want = 8 * 6 * 4 ** N * sum(diag[k] * h[k] ** 2 for k in range(N))
+        claim(f"N={N} local noise at rates {diag}, the XXZ chain plus fields {h}: the trace is 8 * 6 * 4^N sum gamma_k h_k^2, F117's third-moment face carried to site-dependent rates",
+              got == (want, 0) and third_moment_closed(H, a, N) == want)
+    for N in (2, 3, 4, 5):
+        agree = True
+        for _ in range(4):
+            a = random_symmetric(N, jrng)
+            re, _ = two_l(GaussH(np.zeros((2 ** N, 2 ** N), dtype=np.int64)), a, N)
+            dg = [int(v) + 2 * int(np.trace(a)) for v in np.diag(re)]
+            agree &= sum(v ** 3 for v in dg) == -8 * 4 ** N * noise_part(a)
+        claim(f"N={N} H = 0, four random real symmetric a of either sign: the cube sum of the cell entries is -8 * 4^N * 4 tr(C(2a + Lambda)C)", agree)
+    agree = True
+    for N in range(2, 9):
+        for _ in range(4):
+            a = random_symmetric(N, jrng)
+            A = [[int(a[k][l]) for l in range(N)] for k in range(N)]
+            edges = sum(A[k][l] ** 2 * (A[k][k] + A[l][l]) for k in range(N) for l in range(k + 1, N))
+            tri = sum(A[k][l] * A[l][m] * A[k][m] for k in range(N) for l in range(k + 1, N) for m in range(l + 1, N))
+            C = np.array([[A[k][l] if k != l else 0 for l in range(N)] for k in range(N)], dtype=object)
+            Dl = np.diag([A[k][k] for k in range(N)]).astype(object)
+            agree &= noise_part(a) == 12 * edges + 48 * tri == 12 * int(np.trace(Dl.dot(C).dot(C))) + 8 * int(np.trace(C.dot(C).dot(C)))
+    claim("N=2..8 the noise term is 12 sum_{k<l} a_kl^2 (a_kk + a_ll) + 48 sum_triangles a_kl a_lm a_km = 12 tr(Lambda C^2) + 8 tr(C^3)", agree)
+    agree, low = True, None
+    for N in range(2, 9):
+        for _ in range(4):
+            a = random_psd(N, jrng)
+            A = np.array([[int(a[k][l]) for l in range(N)] for k in range(N)], dtype=object)
+            C = A.copy()
+            for k in range(N):
+                C[k, k] = 0
+            Dl = np.diag([A[k][k] for k in range(N)]).astype(object)
+            caC, cdC = int(np.trace(C.dot(A).dot(C))), int(np.trace(C.dot(Dl).dot(C)))
+            agree &= noise_part(a) == 8 * caC + 4 * cdC and caC >= 0 and cdC > 0
+            low = noise_part(a) if low is None else min(low, noise_part(a))
+    claim("N=2..8 four positive definite a each: the noise term is 8 tr(CaC) + 4 tr(C Lambda C), the first >= 0 and the second > 0", agree, f"(smallest {low})")
+    a_ind = np.array([[0, -1, -1], [-1, 0, -1], [-1, -1, 0]], dtype=np.int64)
+    check("N=3 the indefinite a with zero diagonal and every covariance -1: noise term 8 tr(C^3)", -48, noise_part(a_ind))
+    for N in (3, 4, 5, 6):
+        Zs = [op(Z, k, N) for k in range(N)]
+        for jz, name in ((0, "XY"), (1, "Heisenberg")):
+            H = xxz_chain(N, 1, jz)
+            Hsq = H.r @ H.r - H.i @ H.i
+            h2 = {(k, l): Fraction(int(np.trace(Hsq @ Zs[k] @ Zs[l])), 2 ** N) for k in range(N) for l in range(k + 1, N)}
+            want = {(k, l): (-2 if l == k + 1 else (2 * jz if l == k + 2 else 0)) for k in range(N) for l in range(k + 1, N)}
+            claim(f"N={N} open {name} chain at J = 1: Tr(H^2 Z_k Z_l)/2^N is -2 on the bonds" + (", +2 on next-nearest pairs" if jz else "") + ", 0 elsewhere", h2 == want)
+    agree = True
+    for N in (2, 3, 4):
+        for J in (1, 2):
+            for eta in ETAS:
+                kap = int(GAMMA * eta)
+                g = GAMMA
+                for jz in (0, 1):
+                    re, im = two_l(xxz_chain(N, J, jz * J), kossakowski_shared(N, eta), N)
+                    got = power_trace(re, im, 2 * N * g, 3)
+                    if jz == 0:
+                        m3 = -4 ** N * 4 * (N - 1) * kap * (2 * N * (N - 2) * kap ** 2 + 3 * N * g * kap + 3 * J ** 2)
+                    else:
+                        m3 = -4 ** N * 4 * kap * (3 * N * (N - 1) * g * kap + 2 * N * (N - 1) * (N - 2) * kap ** 2 + 3 * J ** 2)
+                    agree &= got == (8 * m3, 0)
+    claim("N=2..4, J in {1, 2}, every eta: the shared field's third moment on the open XY chain is -4^N 4 (N - 1) kappa [2N(N - 2) kappa^2 + 3N gamma kappa + 3J^2], "
+          "on the open Heisenberg chain -4^N 4 kappa [3N(N - 1) gamma kappa + 2N(N - 1)(N - 2) kappa^2 + 3J^2]", agree)
+    # where the GHZ argument says nothing: a negative covariance between two sites that share no bond of the XY chain
+    a_nb = np.array([[10, 0, -3], [0, 10, 0], [-3, 0, 10]], dtype=np.int64)
+    re, im = two_l(xxz_chain(3, 5, 0), a_nb, 3)
+    check("N=3 open XY chain J = 5, covariance -3 between the end sites only: Tr((2L + 2 sigma)^3)", (-8 * 4 ** 3 * 2160, 0), power_trace(re, im, 60, 3))
+    p_all = charpoly(re, im)
+    claim("N=3 the same: the summed covariance is negative, and the whole characteristic polynomial does not pair about -sigma",
+          sum(int(a_nb[k, l]) for k in range(3) for l in range(k + 1, 3)) < 0
+          and p_all != p_all.compose(Poly(Rational(-120) - Y_SYM, Y_SYM, domain=QQ_I)))
+    # where the third moment is blind: the shared field at the anti-correlated end, gamma = J = 10 at N = 3
+    re, im = two_l(xxz_chain(3, 10, 0), kossakowski_shared(3, Fraction(-1, 2)), 3)
+    check("N=3 open XY chain J = 10, shared field at the anti-correlated end (kappa = -5): Tr((2L + 2 sigma)^3)", (0, 0), power_trace(re, im, 60, 3))
+    m5 = power_trace(re, im, 60, 5)
+    check("N=3 the same: Tr((2L + 2 sigma)^5), 32 * 10^5 times the odd-moments script's -11520 at gamma = 1", (-36864000000, 0), m5)
+    p_all = charpoly(re, im)
+    claim("N=3 the same: the whole characteristic polynomial does not pair about -sigma (the fifth moment sees what the third does not)",
+          p_all != p_all.compose(Poly(Rational(-120) - Y_SYM, Y_SYM, domain=QQ_I)) and m5[0] != 0)
+    v1 = np.zeros(64, dtype=np.int64)
+    for i in range(8):
+        if popcount(i) == 1:
+            v1[i * 8 + (7 - i)] = 1
+    claim("N=3 the same: the far-end mode P_1 X^N is an eigenvector at -2 K_1 = -80 = -8 gamma, below -2 sigma = -60",
+          np.array_equal(re @ v1, -160 * v1) and not np.any(im @ v1))
+
+    print("\nK. the far-end modes: P_p X^N is an eigenvector at -2 K_p wherever K takes one value K_p on popcount p")
+
+    def far_end_vec(N, p_):
+        """vec(P_p X^N) in the row-major vec of two_l: the cells |i><i-bar| with popcount(i) = p_"""
+        d = 2 ** N
+        v = np.zeros(d * d, dtype=np.int64)
+        for i in range(d):
+            if popcount(i) == p_:
+                v[i * d + (d - 1 - i)] = 1
+        return v
+
+    for N in (2, 3, 4, 5):
+        d = 2 ** N
+        for eta in (Fraction(-2, 10), Fraction(3, 10)):
+            re, im = two_l(xxz_chain(N, 5, 2), kossakowski_shared(N, eta), N)
+            sigma = N * GAMMA
+            agree, below = True, []
+            for p_ in range(N + 1):
+                v = far_end_vec(N, p_)
+                kp = sigma - N * GAMMA * eta + GAMMA * eta * (N - 2 * p_) ** 2
+                agree &= (np.array_equal(re @ v, -4 * kp * v) and not np.any(im @ v)) if kp.denominator == 1 else False
+                if kp > sigma:
+                    below.append(p_)
+            want = [p_ for p_ in range(N + 1) if ((N - 2 * p_) ** 2 > N if eta > 0 else (N - 2 * p_) ** 2 < N)]
+            claim(f"N={N} eta {eta} XXZ chain: P_p X^N is an eigenvector at -2 K_p, K_p = sigma - N kappa + kappa (N - 2p)^2, for every p; "
+                  f"K_p > sigma (a rate above 2 sigma, whose partner about -sigma would grow) at p = {below}",
+                  agree and below == want and len(below) > 0 and (eta < 0) == (N // 2 in below))
+    # the law: on a popcount where K is one number, K_p > sigma exactly when T ((N - 2p)^2 - N) > 0
+    for N in (3, 4, 5):
+        agree, seen = True, set()
+        idx_pairs = [(k, l) for k in range(N) for l in range(k + 1, N)]
+        for vals in itertools.product((-1, 0, 1), repeat=len(idx_pairs)):
+            c = np.zeros((N, N), dtype=np.int64)
+            for (k, l), v in zip(idx_pairs, vals):
+                c[k, l] = c[l, k] = v
+            kv = k_on_configs(c, [GAMMA] * N, N)
+            T = sum(vals)
+            for p_ in qualifying_popcounts(c, [GAMMA] * N, N):
+                kp = int(kv[next(i for i in range(2 ** N) if popcount(i) == p_)])
+                above = kp > N * GAMMA
+                agree &= above == (T * ((N - 2 * p_) ** 2 - N) > 0)
+                seen.add(above)
+        claim(f"N={N} every pattern in -1..1: on every popcount where K is one number, K_p > sigma exactly when T ((N - 2p)^2 - N) > 0",
+              agree and seen == {True, False})
+    # an additive pattern at even N with a negative sum: K takes one value on popcount N/2, sigma - N kbar > sigma
+    y = (-1, -1, 0, 0)
+    a_add = np.array([[GAMMA if k == l else y[k] + y[l] for l in range(4)] for k in range(4)], dtype=np.int64)
+    re, im = two_l(xxz_chain(4, 5, 2), a_add, 4)
+    k2 = Fraction(int(k_on_configs(a_add - np.diag(np.diag(a_add)), [GAMMA] * 4, 4)[0b0011]))
+    v = far_end_vec(4, 2)
+    T = sum(int(a_add[k, l]) for k in range(4) for l in range(k + 1, 4))
+    claim(f"N=4 additive pattern y = {y} (summed covariance {T}, so the GHZ argument is silent): K is one number {k2} on popcount 2, "
+          f"above sigma = {4 * GAMMA}, and P_2 X^N is an eigenvector at -2 K_2",
+          T < 0 and qualifying_popcounts(a_add - np.diag(np.diag(a_add)), [GAMMA] * 4, 4) == [0, 2, 4]
+          and k2 == 4 * GAMMA - 4 * Fraction(T, 6) and k2 > 4 * GAMMA
+          and np.array_equal(re @ v, -4 * int(k2) * v) and not np.any(im @ v))
+    # the end-site covariance, where neither eigenvector argument reaches: K takes one value only on popcounts 0 and N,
+    # and there it is sigma + 2T < sigma
+    for N in (3, 4, 5):
+        a_end = np.diag([GAMMA] * N).astype(np.int64)
+        a_end[0, N - 1] = a_end[N - 1, 0] = -3
+        c_end = a_end - np.diag(np.diag(a_end))
+        kv = k_on_configs(c_end, [GAMMA] * N, N)
+        claim(f"N={N} covariance -3 between the end sites only: K takes one value only on popcounts {qualifying_popcounts(c_end, [GAMMA] * N, N)}, "
+              f"and there it is sigma - 6 < sigma, so no far-end mode and no GHZ coherence decides; the closed-form third moment "
+              f"on the XY chain at J = 5 is {third_moment_closed(xxz_chain(N, 5, 0), a_end, N) // 8}, nonzero",
+              qualifying_popcounts(c_end, [GAMMA] * N, N) == [0, N] and int(kv[0]) == N * GAMMA - 6 == int(kv[2 ** N - 1])
+              and third_moment_closed(xxz_chain(N, 5, 0), a_end, N) != 0)
 
     held, matched = sum(CLAIMS), sum(CHECKS)
     print(f"\n{matched} of {len(CHECKS)} printed values match exactly; {held} of {len(CLAIMS)} claims hold.")
