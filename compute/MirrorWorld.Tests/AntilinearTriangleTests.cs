@@ -257,6 +257,26 @@ public class AntilinearTriangleTests
         Assert.True(bellXxStar > 0.1, $"on the XX star the Bell pair must differ: {bellXxStar:E2}");
     }
 
+    // the silence reading: a Bell pair sent from one pair to another over the rest in |0>, the receiving pair
+    // read with the rest projected on |0...0>, gives the same pair state entry for entry whichever pair sends,
+    // so every function of it agrees, CPsi included; read by habit (the rest traced out) the two directions
+    // differ. Order by order through t^12 on the uneven Heisenberg and XX chains and on a star: the |11>
+    // transfer first appears at t^12 on the chain (six hops on each side, pure hopping at that order, so
+    // there the anisotropy and the rates enter only through the coherence) and at t^8 on the star, the
+    // vacuum-to-|11> coherence at t^6 and t^4. Every entry is a dyadic number whose odd part stays far
+    // below 2^53 at these orders, so the comparison is exact.
+    [Fact]
+    public void Read_With_The_Silence_The_Channel_Is_The_Same_From_Both_Ends()
+    {
+        var triangle = new AntilinearTriangle(W, 5);
+        foreach (var (delta, star) in new[] { (1, false), (0, false), (1, true) })
+        {
+            var (silence, habit) = triangle.SilenceReadingResiduals(delta, 12, star);
+            Assert.True(silence == 0.0, $"delta={delta}, star={star}: the silence-read pair must agree: {silence:E2}");
+            Assert.True(habit > 0.1, $"delta={delta}, star={star}: the habit-read pair must differ: {habit:E2}");
+        }
+    }
+
     // with a flux the swap lands on the ring with the flux reversed (H^T = H-bar): exact against the
     // reversed ring, broken against the same ring.
     [Fact]

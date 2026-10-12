@@ -239,31 +239,8 @@ public sealed class AntilinearTriangle : GameObject
         if (N < 4)
             throw new InvalidOperationException("two disjoint end pairs need N >= 4");
         int d = 1 << N;
-        var h = new Complex[d, d];
-        int hub = N / 2;
-        var bonds = star
-            ? Enumerable.Range(0, N).Where(l => l != hub).Select(l => (Math.Min(l, hub), Math.Max(l, hub))).ToArray()
-            : Enumerable.Range(0, N - 1).Select(a => (a, a + 1)).ToArray();
-        for (int k = 0; k < bonds.Length; k++)
-        {
-            var (a, b) = bonds[k];
-            int weight = k % 3 + 1;
-            foreach (var (letter, scale) in new[] { ('X', 1), ('Y', 1), ('Z', delta) })
-            {
-                var letters = Enumerable.Repeat('I', N).ToArray();
-                letters[a] = letter;
-                letters[b] = letter;
-                var term = Dense.PauliString(letters);
-                for (int p = 0; p < d; p++)
-                    for (int q = 0; q < d; q++)
-                        h[p, q] += weight * scale * term[p, q];
-            }
-        }
+        var h = NumberConservingHamiltonian(delta, star, field);
         var zs = SiteZs(N);
-        if (field)
-            for (int l = 0; l < N; l++)
-                for (int p = 0; p < d; p++)
-                    h[p, p] += (l + 1) * zs[l][p, p];
         var rates = Rates(N);
         Complex[,] L(Complex[,] r) => Lindblad(h, zs, rates, r);
 
@@ -332,6 +309,99 @@ public sealed class AntilinearTriangle : GameObject
                 Residual(Population(Bit(0)), Excited(last - 1), Population(Bit(last)), Excited(1)),
                 Residual(PlusOverQuiet(0), SiteX(last), PlusOverQuiet(last), SiteX(0)),
                 Residual(BellOverQuiet(0), BellRead(N - 2), BellOverQuiet(N - 2), BellRead(0)));
+    }
+
+    // the silence reading: on a number-conserving real H (any graph, unequal Z rates) send a Bell pair from
+    // the pair at sites 0, 1 over the rest in |0>, and read the pair at sites N-2, N-1 WITH THE SILENCE (the
+    // rest projected on |0...0>, the pair kept as it is). That pair lives in span{|00>, |11>}, built from the
+    // stationary vacuum population, the |11> transfer and the vacuum-to-|11> coherence, all three fixed by
+    // the corollary, so the same experiment run from the other pair gives the same pair state entry for
+    // entry, and with it every function of it (CPsi, R = CPsi^2, a mutual information). Compared order by
+    // order in t, every entry of the unnormalized silence-read pair; the habit reading (the rest traced out)
+    // as the control.
+    public (double Silence, double Habit) SilenceReadingResiduals(int delta, int maxOrder, bool star = false)
+    {
+        if (N < 4)
+            throw new InvalidOperationException("two disjoint pairs need N >= 4");
+        int d = 1 << N;
+        var h = NumberConservingHamiltonian(delta, star, field: false);
+        var zs = SiteZs(N);
+        var rates = Rates(N);
+        Complex[,] L(Complex[,] r) => Lindblad(h, zs, rates, r);
+        int Bit(int site) => 1 << (N - 1 - site);
+        Complex[,] BellOverQuiet(int first)
+        {
+            var m = new Complex[d, d];
+            int both = Bit(first) | Bit(first + 1);
+            foreach (int r in new[] { 0, both })
+                foreach (int c in new[] { 0, both })
+                    m[r, c] = 0.5;
+            return m;
+        }
+        // the pair's basis state ab (a on the pair's first site) as a full basis index, the rest in |0>
+        int Index(int first, int ab) => ((ab >> 1) & 1) * Bit(first) + (ab & 1) * Bit(first + 1);
+        Complex[,] Habit(Complex[,] rho, int first)
+        {
+            var m = new Complex[4, 4];
+            int pairMask = Bit(first) | Bit(first + 1);
+            for (int rest = 0; rest < d; rest++)
+            {
+                if ((rest & pairMask) != 0) continue;             // each configuration of the rest once
+                for (int ab = 0; ab < 4; ab++)
+                    for (int cd = 0; cd < 4; cd++)
+                        m[ab, cd] += rho[rest | Index(first, ab), rest | Index(first, cd)];
+            }
+            return m;
+        }
+        int near = 0, far = N - 2;
+        Complex[,] x = BellOverQuiet(near), y = BellOverQuiet(far);
+        double silence = 0, habit = 0;
+        for (int p = 0; p <= maxOrder; p++)
+        {
+            for (int ab = 0; ab < 4; ab++)
+                for (int cd = 0; cd < 4; cd++)
+                    silence = Math.Max(silence,
+                        (x[Index(far, ab), Index(far, cd)] - y[Index(near, ab), Index(near, cd)]).Magnitude);
+            habit = Math.Max(habit, Dense.MaxAbsDiff(Habit(x, far), Habit(y, near)));
+            x = L(x);
+            y = L(y);
+        }
+        return (silence, habit);
+    }
+
+    // uneven XXZ bonds of weights 1, 2, 3, 1, ... along a chain or out of a star's hub at site N/2, with an
+    // optional uneven longitudinal field sum_l (l+1) Z_l: real and number-conserving, integer entries.
+    Complex[,] NumberConservingHamiltonian(int delta, bool star, bool field)
+    {
+        int d = 1 << N;
+        var h = new Complex[d, d];
+        int hub = N / 2;
+        var bonds = star
+            ? Enumerable.Range(0, N).Where(l => l != hub).Select(l => (Math.Min(l, hub), Math.Max(l, hub))).ToArray()
+            : Enumerable.Range(0, N - 1).Select(a => (a, a + 1)).ToArray();
+        for (int k = 0; k < bonds.Length; k++)
+        {
+            var (a, b) = bonds[k];
+            int weight = k % 3 + 1;
+            foreach (var (letter, scale) in new[] { ('X', 1), ('Y', 1), ('Z', delta) })
+            {
+                var letters = Enumerable.Repeat('I', N).ToArray();
+                letters[a] = letter;
+                letters[b] = letter;
+                var term = Dense.PauliString(letters);
+                for (int p = 0; p < d; p++)
+                    for (int q = 0; q < d; q++)
+                        h[p, q] += weight * scale * term[p, q];
+            }
+        }
+        if (field)
+        {
+            var zs = SiteZs(N);
+            for (int l = 0; l < N; l++)
+                for (int p = 0; p < d; p++)
+                    h[p, p] += (l + 1) * zs[l][p, p];
+        }
+        return h;
     }
 
     // the transpose law on a deterministic NON-Hermitian H at integer rates, with Pauli-string jumps (Z on
