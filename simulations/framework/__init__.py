@@ -9,6 +9,7 @@ Modules:
   observables   — state-conditioned silent census (compatibility API retained)
   lebensader    — cockpit_panel: census + trace + quarter classifier
   chain_system  — ChainSystem (Section 18 cockpit, the workhorse class)
+  dephased_system: DephasedSystem (any H + per-site rates + covariance: the system every instrument reads)
   receiver      — Receiver (state-bearing F71-aware wrapper)
   confirmations — Confirmations (hardware-confirmed predictions registry)
   letter_cube   — the letter cube: a string's point (k_Z, k_X, k_Y), its rate, the Hamiltonian's moves
@@ -116,6 +117,7 @@ from .letter_cube import (
     cube_centroid,
 )
 from .chain_system import ChainSystem
+from .dephased_system import DephasedSystem
 from .receiver import Receiver
 from .confirmations import Confirmations
 from .pauli_hamiltonian import PauliTerm, PauliHamiltonian
