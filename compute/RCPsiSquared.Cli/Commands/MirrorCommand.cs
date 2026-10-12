@@ -88,7 +88,7 @@ public static class MirrorCommand
         Console.WriteLine();
         if (!noSpectrum)
         {
-            Console.WriteLine($"Spectrum (slowest {top} nonzero modes, rate + angle theta=arctan(omega/rate) (deg) + per-channel difference portfolio):");
+            Console.WriteLine($"Spectrum (slowest {top} nonzero rates, rate + angle theta=arctan(omega/rate) (deg) + multiplicity + per-channel difference portfolio averaged over the eigenspace):");
             foreach (var grp in sys.Spectrum.Modes
                          .Where(m => m.ActualDecayRate > 1e-9)
                          .GroupBy(m => m.ActualDecayRate.ToString("0.000000", inv))
@@ -100,7 +100,7 @@ public static class MirrorCommand
                 // voice's gap reading (which takes max|omega| over the modes at the gap).
                 var rep = grp.OrderByDescending(m => Math.Abs(m.OscillationFrequency)).First();
                 double theta = Math.Atan2(Math.Abs(rep.OscillationFrequency), rep.ActualDecayRate) * 180.0 / Math.PI;
-                Console.WriteLine($"  rate {rep.ActualDecayRate.ToString("0.0000", inv),9}   angle {theta.ToString("0.0", inv),5} deg   {Portfolio(rep, inv)}");
+                Console.WriteLine($"  rate {rep.ActualDecayRate.ToString("0.0000", inv),9}   angle {theta.ToString("0.0", inv),5} deg   {MirrorSystem.Multiplicity(rep, grp.Count())}   {Portfolio(rep, inv)}");
             }
             Console.WriteLine();
             Console.WriteLine($"F1 palindrome (rate r pairs with 2*sigma - r): holds = {sys.PalindromeHolds}");
@@ -200,10 +200,10 @@ public static class MirrorCommand
                 var slow = spectrum.Modes
                     .Where(m => m.ActualDecayRate > 1e-9).OrderBy(m => m.ActualDecayRate).FirstOrDefault();
                 if (slow is null) { Console.WriteLine($"  {J.ToString("0.000", inv),8}  (no nonzero mode)"); continue; }
-                double res = Math.Abs(slow.ActualDecayRate - slow.Portfolio.DecayRate(spectrum.Carrier));
+                double res = Math.Abs(slow.ActualDecayRate - slow.EigenspacePortfolio.DecayRate(spectrum.Carrier));
                 Console.WriteLine($"  {J.ToString("0.000", inv),8}  {slow.ActualDecayRate.ToString("0.0000", inv),9}   {Portfolio(slow, inv)}   (law res {res.ToString("E1", inv)})");
                 w?.WriteLine(J.ToString("0.000000", inv) + "," + slow.ActualDecayRate.ToString("0.000000", inv) + "," +
-                    string.Join(",", slow.Portfolio.Activity.Select(a => a.Delta.ToString("0.000000", inv))));
+                    string.Join(",", slow.EigenspacePortfolio.Activity.Select(a => a.Delta.ToString("0.000000", inv))));
             }
         }
         finally { w?.Dispose(); }
@@ -211,7 +211,8 @@ public static class MirrorCommand
         return 0;
     }
 
-    private static string Portfolio(CarrierMode m, CultureInfo inv) => PortfolioOf(m.Portfolio, inv);
+    // The eigenspace average: on a degenerate rate the single returned eigenvector's split is a basis choice.
+    private static string Portfolio(CarrierMode m, CultureInfo inv) => PortfolioOf(m.EigenspacePortfolio, inv);
 
     private static string PortfolioOf(ChannelDifferencePortfolio p, CultureInfo inv) =>
         string.Join("  ", p.Activity.Select(a => $"{a.Channel} {(100 * a.Delta).ToString("0", inv),3}%"));

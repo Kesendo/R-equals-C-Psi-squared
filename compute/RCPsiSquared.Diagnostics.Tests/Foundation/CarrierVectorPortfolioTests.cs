@@ -144,6 +144,108 @@ public class CarrierVectorPortfolioTests
         Assert.True(blocked.MaxLawResidual < 1e-9, $"blocked law residual {blocked.MaxLawResidual:E3} exceeds 1e-9");
     }
 
+    // Heisenberg ring: the chain plus the wrap bond (n-1, 0); translation-invariant.
+    private static Matrix<Complex> HeisRing(int n, double J)
+    {
+        var H = HeisChain(n, J);
+        var X = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
+        var Y = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, -Complex.ImaginaryOne }, { Complex.ImaginaryOne, 0 } });
+        var Z = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 1, 0 }, { 0, -1 } });
+        var I2 = Matrix<Complex>.Build.DenseIdentity(2);
+        foreach (var P in new[] { X, Y, Z })
+        {
+            Matrix<Complex>? term = null;
+            for (int s = 0; s < n; s++)
+            {
+                var op = (s == 0 || s == n - 1) ? P : I2;
+                term = term is null ? op : term.KroneckerProduct(op);
+            }
+            H += term!.Multiply((Complex)J);
+        }
+        return H;
+    }
+
+    private static ChannelRate[] Uniform(int n, double g) =>
+        Enumerable.Range(0, n).Select(l => new ChannelRate($"q{l}", g)).ToArray();
+
+    // Tolerances below are eigensolver tolerances (CLAUDE.md case 2): the eigenspace trace is
+    // exact in exact arithmetic, and the float route carries eps times the conditioning of the
+    // returned eigenvector basis, observed near 1e-13 here; 1e-9 leaves four decades of margin.
+
+    [Fact]
+    public void Ring5_DegenerateRates_EigenspaceReadingIsTranslationInvariant()
+    {
+        // The case that exposed the artifact: the 5-ring's slowest rate 2γ is 26-fold degenerate,
+        // and the one returned eigenvector showed 26/4/4/26/40 % on a ring that cannot prefer a site.
+        // The eigenspace average must be the same on every site, for every mode.
+        var spec = CarrierVectorPortfolio.DecomposeBlocked(5, HeisRing(5, 0.25), Uniform(5, 0.05));
+        foreach (var m in spec.Modes)
+        {
+            var a = m.EigenspacePortfolio.Activity.Select(x => x.Delta).ToArray();
+            Assert.True(a.Max() - a.Min() < 1e-9,
+                $"rate {m.ActualDecayRate:F6}: eigenspace portfolio spread {a.Max() - a.Min():E2} on a translation-invariant ring");
+            Assert.True(Math.Abs(m.ActualDecayRate - m.EigenspacePortfolio.DecayRate(spec.Carrier)) < 1e-9,
+                $"rate {m.ActualDecayRate:F6}: the eigenspace portfolio breaks the rate law");
+        }
+        var slowest = spec.Modes.Where(m => Math.Abs(m.ActualDecayRate - 0.1) < 1e-9).ToList();
+        Assert.Equal(26, slowest.Count);
+        Assert.All(slowest, m => Assert.Equal(0.2, m.EigenspacePortfolio.ActivityIn("q0"), 9));
+    }
+
+    [Fact]
+    public void EigenspacePortfolio_IsTheSameFromTheFullAndTheBlockedDecomposition()
+    {
+        // Two routes, two different sets of returned eigenvectors (one 256-row geev against
+        // (N+1)² block geevs), one basis-free answer: the handshake the raw Portfolio cannot pass
+        // on a degenerate λ.
+        var H = HeisRing(4, 0.25);
+        var channels = Uniform(4, 0.05);
+        var full = CarrierVectorPortfolio.Decompose(4, H, channels);
+        var blocked = CarrierVectorPortfolio.DecomposeBlocked(4, H, channels);
+        Assert.Contains(blocked.Modes, m => m.EigenspaceDimension > 1);
+        foreach (var b in blocked.Modes)
+        {
+            var f = full.Modes.First(m => Math.Abs(m.ActualDecayRate - b.ActualDecayRate) < 1e-9
+                                          && Math.Abs(m.OscillationFrequency - b.OscillationFrequency) < 1e-9);
+            Assert.Equal(f.EigenspaceDimension, b.EigenspaceDimension);
+            Assert.Equal(f.EigenvalueMultiplicity, b.EigenvalueMultiplicity);
+            for (int l = 0; l < 4; l++)
+                Assert.True(Math.Abs(f.EigenspacePortfolio.Activity[l].Delta - b.EigenspacePortfolio.Activity[l].Delta) < 1e-9,
+                    $"rate {b.ActualDecayRate:F6} ω {b.OscillationFrequency:F6} site {l}: full and blocked eigenspace readings differ");
+        }
+    }
+
+    [Fact]
+    public void EigenspacePortfolio_OnASimpleEigenvalue_IsThePortfolio()
+    {
+        // At odd N a bare Heisenberg chain has no simple eigenvalue: the global flip X^N commutes
+        // with L and pairs block (p,q) with (N−p,N−q), which at odd N is never the same block, so
+        // every λ is at least twofold. A longitudinal
+        // field on one site (still number-conserving) breaks the flip.
+        var channels = new[] { new ChannelRate("q0", 0.05), new ChannelRate("q1", 0.13), new ChannelRate("q2", 0.20) };
+        var Z0 = Matrix<Complex>.Build.DenseOfDiagonalArray(
+            Enumerable.Range(0, 8).Select(a => (Complex)(((a >> 2) & 1) == 0 ? 1.0 : -1.0)).ToArray());
+        var spec = CarrierVectorPortfolio.DecomposeBlocked(3, HeisChain(3, 1.0) + Z0.Multiply((Complex)0.3), channels);
+        var simple = spec.Modes.Where(m => m.EigenvalueMultiplicity == 1).ToList();
+        Assert.NotEmpty(simple);
+        foreach (var m in simple)
+        {
+            Assert.Equal(1, m.EigenspaceDimension);
+            for (int l = 0; l < 3; l++)
+                Assert.True(Math.Abs(m.Portfolio.Activity[l].Delta - m.EigenspacePortfolio.Activity[l].Delta) < 1e-12,
+                    $"rate {m.ActualDecayRate:F6} site {l}: a simple eigenvalue's eigenspace reading differs from its vector");
+        }
+    }
+
+    [Fact]
+    public void HandBuiltMode_EigenspacePortfolio_FallsBackToItsPortfolio()
+    {
+        var p = Portfolio(("e", 0), ("n", 1));
+        var m = new CarrierMode(0.002, p);
+        Assert.Same(p, m.EigenspacePortfolio);
+        Assert.Equal(1, m.EigenspaceDimension);
+    }
+
     [Fact]
     public void IsNumberConserving_SeesTheDifference()
     {

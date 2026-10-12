@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using RCPsiSquared.Core.BlockSpectrum;
 using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
 
@@ -104,13 +105,42 @@ public sealed record ChannelDifferencePortfolio(IReadOnlyList<ChannelActivity> A
         fastChannels.All(c => ActivityIn(c) < tol);
 }
 
-/// <summary>One mode: its measured decay rate −Re(λ) and its difference-portfolio.</summary>
+/// <summary>One mode: its measured decay rate −Re(λ) and its difference-portfolio.
+///
+/// <para><see cref="Portfolio"/> is read off the one eigenvector the eigensolver returned. Where λ
+/// is degenerate that vector is one arbitrary member of the eigenspace: it obeys the rate law
+/// exactly, but its split across the channels is a basis choice (on a translation-invariant ring
+/// it can show 26/4/4/26/40 % where symmetry demands 20 % each). The basis-free reading is
+/// <see cref="EigenspacePortfolio"/>: the trace of each channel's disagreement projector over an
+/// orthonormal basis of the eigenspace, divided by its dimension. Read that one whenever the
+/// question is where a rate lives.</para></summary>
 public sealed record CarrierMode(double ActualDecayRate, ChannelDifferencePortfolio Portfolio)
 {
     /// <summary>Im(λ), the mode's oscillation frequency ω (signed; modes come in ±ω
     /// conjugate pairs). 0 for non-oscillating modes. The angular companion to
     /// ActualDecayRate = −Re(λ).</summary>
     public double OscillationFrequency { get; init; }
+
+    private readonly ChannelDifferencePortfolio? _eigenspacePortfolio;
+
+    /// <summary>The portfolio averaged over this mode's whole λ-eigenspace, basis-free; equal to
+    /// <see cref="Portfolio"/> when λ is simple, and <see cref="Portfolio"/> itself on a mode built
+    /// by hand rather than by a decomposition. Obeys the same rate law, since every vector in the
+    /// eigenspace does.</summary>
+    public ChannelDifferencePortfolio EigenspacePortfolio
+    {
+        get => _eigenspacePortfolio ?? Portfolio;
+        init => _eigenspacePortfolio = value;
+    }
+
+    /// <summary>The dimension of this mode's λ-eigenspace (the geometric multiplicity, summed
+    /// over the joint-popcount blocks that carry λ); 1 when λ is simple.</summary>
+    public int EigenspaceDimension { get; init; } = 1;
+
+    /// <summary>How many modes the eigensolver returned at this λ (the algebraic multiplicity).
+    /// Larger than <see cref="EigenspaceDimension"/> exactly when λ is defective, an exceptional
+    /// point, where the eigenvectors fail to span.</summary>
+    public int EigenvalueMultiplicity { get; init; } = 1;
 }
 
 /// <summary>The whole Liouvillian spectrum read as portfolios at once: the carrier vector
@@ -211,6 +241,9 @@ public static class CarrierVectorPortfolio
         var vals = evd.EigenValues;
         var vecs = evd.EigenVectors;
 
+        var ledger = new EigenspaceLedger(N);
+        ledger.AddBlock(vals, vecs, (i, l) => nDiag[l][i] != 0.0);
+
         var modes = new List<CarrierMode>(d2);
         var absSq = new double[d2];
         for (int k = 0; k < d2; k++)
@@ -235,7 +268,7 @@ public static class CarrierVectorPortfolio
             modes.Add(new CarrierMode(-vals[k].Real, new ChannelDifferencePortfolio(activity)) { OscillationFrequency = vals[k].Imaginary });
         }
 
-        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
+        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), ledger.Finish(modes, siteChannels));
     }
 
     /// <summary>True iff H preserves total popcount (Sz): H[a,b] = 0 whenever popcount(a) ≠
@@ -316,6 +349,7 @@ public static class CarrierVectorPortfolio
         }
 
         var modes = new List<CarrierMode>(d2);
+        var ledger = new EigenspaceLedger(N);
         foreach (var flat in sectors.Values)
         {
             var B = PerBlockLiouvillianBuilder.BuildBlockZ(hamiltonian, gammasForBlock, flat);
@@ -323,6 +357,11 @@ public static class CarrierVectorPortfolio
             var vals = evd.EigenValues;
             var vecs = evd.EigenVectors;
             int bs = flat.Count;
+            ledger.AddBlock(vals, vecs, (i, s) =>
+            {
+                int bit = N - 1 - s;
+                return (((flat[i] / d) >> bit) & 1) != (((flat[i] % d) >> bit) & 1);
+            });
             var absSq = new double[bs];
             for (int k = 0; k < bs; k++)
             {
@@ -351,6 +390,121 @@ public static class CarrierVectorPortfolio
             }
         }
 
-        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), modes);
+        return new CarrierPortfolioSpectrum(new CarrierVector(siteChannels), ledger.Finish(modes, siteChannels));
+    }
+
+    /// <summary>Collects, block by block, each eigenvalue cluster's eigenspace, orthonormalized,
+    /// and the trace of every channel's disagreement projector over it; then merges equal λ across
+    /// blocks (their supports are disjoint, so traces and dimensions add) and stamps each mode with
+    /// the basis-free <see cref="CarrierMode.EigenspacePortfolio"/>.
+    ///
+    /// <para>Error model of the two thresholds. Eigenvalues are clustered when
+    /// |λ − λ'| ≤ 1e-6·max(1, |λ|, |λ'|): a diagonalizable degenerate λ comes back from geev split
+    /// by about eps·cond, near 1e-14, a defective EP2 by about √eps, near 1e-8, both far inside.
+    /// An EPm splits by about eps^(1/m)·‖L‖, which for m ≥ 3 can exceed the threshold: such a
+    /// cluster may fall apart into separate pieces, each read as simple, and the defective tag
+    /// then does not fire. Two distinct eigenvalues closer than the threshold are merged, and the
+    /// reading is then the trace over the sum of their eigenspaces, still basis-free. The span is
+    /// taken from a thin QR of the unit eigenvectors and an SVD of its small R factor (the same
+    /// singular values as the eigenvector matrix, with Q orthonormal to machine precision):
+    /// directions with singular value below 1e-6 of the largest are dropped, which is how a
+    /// defective cluster shows a dimension smaller than its multiplicity.</para></summary>
+    private sealed class EigenspaceLedger
+    {
+        private const double ClusterTol = 1e-6;
+        private const double SpanTol = 1e-6;
+
+        private readonly int _channels;
+        private readonly List<Piece> _pieces = new();
+        private readonly List<int> _pieceOfMode = new();
+
+        private sealed record Piece(Complex Lambda, int Rank, int Count, double[] Trace);
+
+        public EigenspaceLedger(int channels) => _channels = channels;
+
+        private static bool Close(Complex a, Complex b) =>
+            (a - b).Magnitude <= ClusterTol * Math.Max(1.0, Math.Max(a.Magnitude, b.Magnitude));
+
+        private static List<List<int>> Cluster(IReadOnlyList<Complex> lambdas)
+        {
+            int n = lambdas.Count;
+            var parent = Enumerable.Range(0, n).ToArray();
+            int Find(int x) { while (parent[x] != x) x = parent[x] = parent[parent[x]]; return x; }
+            var order = Enumerable.Range(0, n).OrderBy(i => lambdas[i].Real).ToArray();
+            for (int a = 0; a < n; a++)
+            {
+                var la = lambdas[order[a]];
+                // Close() never accepts a pair whose real parts differ by more than this.
+                double reach = 2.0 * ClusterTol * Math.Max(1.0, la.Magnitude);
+                for (int b = a + 1; b < n && lambdas[order[b]].Real - la.Real <= reach; b++)
+                    if (Close(la, lambdas[order[b]])) parent[Find(order[a])] = Find(order[b]);
+            }
+            return Enumerable.Range(0, n).GroupBy(Find).Select(g => g.ToList()).ToList();
+        }
+
+        public void AddBlock(MathNet.Numerics.LinearAlgebra.Vector<Complex> vals, Matrix<Complex> vecs, Func<int, int, bool> differs)
+        {
+            int bs = vals.Count;
+            int first = _pieceOfMode.Count;
+            for (int k = 0; k < bs; k++) _pieceOfMode.Add(-1);
+            foreach (var cluster in Cluster(vals.ToArray()))
+            {
+                int k = cluster.Count;
+                var V = Matrix<Complex>.Build.Dense(bs, k);
+                for (int c = 0; c < k; c++)
+                {
+                    var col = vecs.Column(cluster[c]);
+                    V.SetColumn(c, col.Divide(col.L2Norm()));
+                }
+                var qr = V.QR(QRMethod.Thin);
+                var svd = qr.R.Svd(true);
+                var sv = svd.S.Select(z => z.Real).ToArray();
+                double sMax = sv.Max();
+                var keep = Enumerable.Range(0, k).Where(r => sv[r] > SpanTol * sMax).ToList();
+                var trace = new double[_channels];
+                foreach (int r in keep)
+                {
+                    var u = qr.Q * svd.U.Column(r);
+                    for (int i = 0; i < bs; i++)
+                    {
+                        var c = u[i];
+                        double m = c.Real * c.Real + c.Imaginary * c.Imaginary;
+                        if (m == 0.0) continue;
+                        for (int l = 0; l < _channels; l++)
+                            if (differs(i, l)) trace[l] += m;
+                    }
+                }
+                Complex mean = cluster.Aggregate(Complex.Zero, (acc, i) => acc + vals[i]) / k;
+                _pieces.Add(new Piece(mean, keep.Count, k, trace));
+                foreach (int i in cluster) _pieceOfMode[first + i] = _pieces.Count - 1;
+            }
+        }
+
+        public IReadOnlyList<CarrierMode> Finish(IReadOnlyList<CarrierMode> modes, IReadOnlyList<ChannelRate> channels)
+        {
+            var portfolioOfPiece = new ChannelDifferencePortfolio[_pieces.Count];
+            var rankOfPiece = new int[_pieces.Count];
+            var countOfPiece = new int[_pieces.Count];
+            foreach (var group in Cluster(_pieces.Select(p => p.Lambda).ToList()))
+            {
+                int rank = group.Sum(p => _pieces[p].Rank);
+                int count = group.Sum(p => _pieces[p].Count);
+                var activity = Enumerable.Range(0, _channels)
+                    .Select(l => new ChannelActivity(channels[l].Channel, group.Sum(p => _pieces[p].Trace[l]) / rank))
+                    .ToList();
+                var portfolio = new ChannelDifferencePortfolio(activity);
+                foreach (int p in group) { portfolioOfPiece[p] = portfolio; rankOfPiece[p] = rank; countOfPiece[p] = count; }
+            }
+            return modes.Select((m, i) =>
+            {
+                int p = _pieceOfMode[i];
+                return m with
+                {
+                    EigenspacePortfolio = portfolioOfPiece[p],
+                    EigenspaceDimension = rankOfPiece[p],
+                    EigenvalueMultiplicity = countOfPiece[p],
+                };
+            }).ToList();
+        }
     }
 }

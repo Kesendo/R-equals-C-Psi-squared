@@ -127,7 +127,7 @@ public sealed class MirrorSystem : IInspectable
         if (K < 0) throw new ArgumentOutOfRangeException(nameof(K), K, "K (carrier-ticks elapsed) must be >= 0");
         double scale = TotalDephasing > 0 ? TotalDephasing : 1.0;
         return Spectrum.Modes
-            .Select(m => new ModeSurvival(m.ActualDecayRate, Math.Exp(-(m.ActualDecayRate / scale) * K), m.Portfolio))
+            .Select(m => new ModeSurvival(m.ActualDecayRate, Math.Exp(-(m.ActualDecayRate / scale) * K), m.EigenspacePortfolio))
             .ToList();
     }
 
@@ -300,7 +300,10 @@ public sealed class MirrorSystem : IInspectable
 
     /// <summary>The slowest <paramref name="top"/> distinct-rate modes (the most-rotating
     /// representative at each rate, matching the Rotation voice), each carrying its per-channel
-    /// Δ-portfolio as a Vector payload , the bars the renderer draws under --draw.</summary>
+    /// Δ-portfolio as a Vector payload , the bars the renderer draws under --draw. The portfolio
+    /// shown is the representative's EIGENSPACE average, not the one vector the eigensolver
+    /// returned: on a degenerate λ that vector's split is a basis choice. The line also says how
+    /// many modes share the rate and how large the representative's eigenspace is.</summary>
     private InspectableNode SpectrumNode(int top = 8)
     {
         var modes = Spectrum.Modes
@@ -308,24 +311,34 @@ public sealed class MirrorSystem : IInspectable
             .GroupBy(m => m.ActualDecayRate.ToString("0.000000", Inv))
             .OrderBy(g => g.First().ActualDecayRate)
             .Take(top)
-            .Select(g => g.OrderByDescending(m => Math.Abs(m.OscillationFrequency)).First())
-            .Select(ModeNode)
+            .Select(g => ModeNode(g.OrderByDescending(m => Math.Abs(m.OscillationFrequency)).First(), g.Count()))
             .ToList();
         return InspectableNode.Group("Spectrum", modes, modes.Count);
     }
 
-    private static IInspectable ModeNode(CarrierMode m)
+    private static IInspectable ModeNode(CarrierMode m, int shelfCount)
     {
         double theta = Math.Atan2(Math.Abs(m.OscillationFrequency), m.ActualDecayRate) * 180.0 / Math.PI;
-        var labels = m.Portfolio.Activity.Select(a => a.Channel).ToList();
+        var p = m.EigenspacePortfolio;
+        var labels = p.Activity.Select(a => a.Channel).ToList();
         var deltas = ComplexVector.Build.DenseOfEnumerable(
-            m.Portfolio.Activity.Select(a => new Complex(a.Delta, 0.0)));
+            p.Activity.Select(a => new Complex(a.Delta, 0.0)));
         string portfolio = string.Join("  ",
-            m.Portfolio.Activity.Select(a => $"{a.Channel} {a.Delta.ToString("0%", Inv)}"));
+            p.Activity.Select(a => $"{a.Channel} {a.Delta.ToString("0%", Inv)}"));
         return new InspectableNode(
-            displayName: $"rate {m.ActualDecayRate.ToString("0.0000", Inv)}  θ {theta.ToString("0.0", Inv)}°",
+            displayName: $"rate {m.ActualDecayRate.ToString("0.0000", Inv)}  θ {theta.ToString("0.0", Inv)}°  {Multiplicity(m, shelfCount)}",
             summary: portfolio,
             payload: new InspectablePayload.Vector("Δ-portfolio", deltas, labels));
+    }
+
+    /// <summary>"×26 at this rate, eigenspace 4" style tag; "defective" when the eigenvectors at λ
+    /// span fewer dimensions than the eigenvalue's multiplicity.</summary>
+    public static string Multiplicity(CarrierMode m, int shelfCount)
+    {
+        string tag = $"×{shelfCount} at this rate, eigenspace {m.EigenspaceDimension}";
+        return m.EigenvalueMultiplicity > m.EigenspaceDimension
+            ? tag + $" (defective: multiplicity {m.EigenvalueMultiplicity})"
+            : tag;
     }
 
     private InspectableNode PalindromeNode()
