@@ -5551,10 +5551,22 @@ commutes with every unitary conjugation.
 
 **Qudit generalization (§6):** on the Weyl-Heisenberg operators P_{a,b} = X^a Z^b (a, b ∈ Z_d) the three involutions act with a symplectic phase, θ(P_{a,b}) = ω^{−ab}P_{−a,b}, conj(P_{a,b}) = P_{a,−b}, †(P_{a,b}) = ω^{ab}P_{−a,−b} (ω = e^{2πi/d}); the transport law is basis-free at every d; the qubit (−1)^{n_Y} is the d = 2 degeneration (ω^{ab} at the one label (1,1) = Y where the a ↦ −a flip collapses), and for d > 2 the triangle is a reflection of the Z_d × Z_d lattice, dovetailing with F121's Z_d ≀ Z₂.
 
+**One level up (§7): the generator's transpose and reciprocity.** The transpose of a superoperator's matrix in the matrix-unit basis is θ one level up (= conj∘S\*∘conj). It carries the Lindbladian to the Lindbladian of the transposed system, Lᵀ = L_{Hᵀ} + Σ r_k D_{J_kᵀ}, exactly when L is unital (Σ r_k [J_k, J_k†] = 0; normal jumps term by term); for Pauli-string jumps the noise is its own transpose, Lᵀ = L_{Hᵀ} + D. Through the trace pairing, Tr(B·e^{tL}(A)) = Tr(Aᵀ·e^{tLᵀ}(Bᵀ)), so for symmetric (for Hermitian operators: real) A and B, **Tr(B·e^{tL}(A)) = Tr(A·e^{tLᵀ}(B))**: for real H under Pauli-string noise the generator is complex symmetric and preparing A, reading B gives what preparing B, reading A gives, whatever the couplings and the rate profile; with a flux the swap lands on the system with the flux reversed. With complex conjugation as the time reversal this is the infinite-temperature, time-reversal form of quantum detailed balance from which Onsager-Casimir reciprocity is drawn (the flux reversal is Casimir's field reversal). What trades places are the preparation and readout operators: moving an experiment to the other end of a chain is covered where the two coincide, as for one excitation or any single-qubit state sent end site to end site over a number-conserving chain, not for an interior readout or a Bell pair, whose |00⟩ population holds the preparation's own return probability (where a Bell readout agrees from both ends, a further symmetry does it: the spin flip X^⊗N at N = 4, or the free-fermion closure of the one-body correlations on the XX chain). σ⁻ alone breaks the law, σ⁻ with σ⁺ at equal rates keeps it. This is the reading on the flow of the complex symmetry Lᵀ = L that the weight-one Krein form, the frozen divisor, Route B and the F89 holonomy already use as a rigidity tool.
+
 **Verified (exact):** the V₄ table and Pauli action; the transport law for all four
 vertices on non-Hermitian H (machine-exact, N = 2, 3); each leg re-derived from the
 engine and cross-checked against its home formulation; the order-16 closure with
-exactly 8 antilinear members (N = 2); the dial trio at a generic angle.
+exactly 8 antilinear members (N = 2); the dial trio at a generic angle; the §7 transpose
+law (N = 1..3, non-Hermitian H, Pauli-string jumps incl. Y, and from N = 2 a normal
+non-unitary phased cycle), its σ⁻ break, the complex
+symmetry at real H (N = 4), the unital σ⁻σ⁺ pair, reciprocity order by order with its
+flux reversal, the operator swap against the positional mirror, and when positions follow
+(one excitation end to end and |+⟩ agree from both ends of an uneven Heisenberg or XXZ chain
+at N = 5 through t¹⁰, an interior readout and the Bell pair differ, the Bell pair agrees on
+the XX chain and at N = 4 under the spin flip, which a longitudinal field breaks, and differs
+on the XX star), on integer inputs in `AntilinearTriangleTests`
+(`compute/MirrorWorld.Tests`): identities compared exactly, breaks as exact residuals above
+0.1.
 
 **Source:** [Proof](proofs/PROOF_ANTILINEAR_TRIANGLE.md);
 [`simulations/antilinear_triangle.py`](../simulations/antilinear_triangle.py)
