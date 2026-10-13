@@ -167,6 +167,44 @@ public class AntilinearTriangleTests
         }
     }
 
+    // at a finite temperature the transpose is L seen through the thermal weight: cooling at g_l and heating at
+    // g_l / 4 on every site (one ratio, rates free per site), Z dephasing, a real number-conserving H give
+    // L^T = Gamma^-1 L Gamma with Gamma(X) = s X s, s = 2^{-n}, exactly. A different ratio on one site, an X
+    // field, or X dephasing each break it.
+    [Fact]
+    public void At_Finite_Temperature_The_Transpose_Is_L_Through_The_Thermal_Weight()
+    {
+        foreach (int n in new[] { 1, 2, 3 })
+        {
+            var (thermal, unequalRatio, xField, xDephasing) = new AntilinearTriangle(W, n).ThermalTransposeResiduals();
+            Assert.True(thermal == 0.0, $"N={n}: L^T must equal Gamma^-1 L Gamma: {thermal:E2}");
+            Assert.True(unequalRatio > 0.1, $"N={n}: a different ratio on site 0 must break it: {unequalRatio:E2}");
+            Assert.True(xField > 0.1, $"N={n}: an X field must break it: {xField:E2}");
+            Assert.True(xDephasing > 0.1, $"N={n}: X dephasing must break it: {xDephasing:E2}");
+        }
+    }
+
+    // what that says about the two ends, order by order in t: the |11> transfer from the pair at sites 0, 1 to
+    // the pair at N-2, N-1 and the vacuum-to-|11> coherence carried across (as a complex number) are the same
+    // both ways at a single ratio; one excitation decaying to the vacuum stands to its reverse as e^beta = 4. The
+    // controls: without that weight the decay does not agree, and a different ratio on one site breaks the transfer.
+    [Fact]
+    public void At_Finite_Temperature_The_Two_Ends_Trade_Places_Up_To_The_Boltzmann_Weight()
+    {
+        foreach (int n in new[] { 4, 5 })
+        {
+            var (transfer, coherence, decay, unweighted, offRatio, coherenceOffRatio) =
+                new AntilinearTriangle(W, n).ThermalReciprocityResiduals(6);
+            Assert.True(transfer == 0.0, $"N={n}: the |11> transfer must agree both ways: {transfer:E2}");
+            Assert.True(coherence == 0.0, $"N={n}: the coherence carried across must agree both ways: {coherence:E2}");
+            Assert.True(decay == 0.0, $"N={n}: a decay must stand to its reverse as e^beta: {decay:E2}");
+            Assert.True(unweighted > 0.1, $"N={n}: without the weight the decay must not agree: {unweighted:E2}");
+            Assert.True(offRatio > 0.1, $"N={n}: a different ratio on one site must break the transfer: {offRatio:E2}");
+            if (n == 4)        // at N = 5 the ratio reaches the coherence only after t^6
+                Assert.True(coherenceOffRatio > 0.1, $"N=4: a different ratio must break the coherence: {coherenceOffRatio:E2}");
+        }
+    }
+
     // a real H (here generic: a dense integer symmetric matrix, not number-conserving)
     // under Z dephasing gives a complex-symmetric generator, M^T = M exactly. A flux through a ring (the
     // XY - YX term on the wrap bond, H Hermitian but not real) does not. The rates carry no teeth here: Z

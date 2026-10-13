@@ -439,6 +439,126 @@ public sealed class AntilinearTriangle : GameObject
                 TransposedSystemResidual(h, jumps, Dense.Transpose, new[] { 1.0, 2.0 }));
     }
 
+    // at a finite temperature the transpose is not L but L seen through the thermal weight. Cooling (sigma-minus)
+    // at rate g_l and heating (sigma-plus) at q * g_l on every site l, a single ratio q = e^{-beta} for all
+    // sites and the rates free per site, Z dephasing at any rates, a real number-conserving H: then
+    // L^T = Gamma^-1 L Gamma, Gamma(X) = s X s, with s = q^{n/2} on a basis state of n excitations (pi_beta^{1/2}
+    // up to its norm, pi_beta ~ e^{-beta n}). The weight commutes with H and with every Z, and turns sigma-minus
+    // into q^{1/2} sigma-minus and sigma-plus into q^{-1/2} sigma-plus, which trades the two jumps' rates. At
+    // q = 1 it is the unital law above. q = 1/4 makes s = 2^{-n} dyadic, so every entry is exact. Controls: a
+    // different ratio on site 0, an X field on site 0 (H no longer number-conserving), X dephasing on site 0;
+    // each breaks the uniform weight.
+    public (double Thermal, double UnequalRatio, double XField, double XDephasing) ThermalTransposeResiduals()
+    {
+        int d = 1 << N;
+        var h = NumberConservingHamiltonian(2, star: false, field: true);
+        var cool = Enumerable.Range(0, N).Select(l => 4.0 * (l % 3 + 1)).ToArray();
+        var xField = Dense.PauliString(Enumerable.Range(0, N).Select(l => l == 0 ? 'X' : 'I').ToArray());
+        var hx = new Complex[d, d];
+        for (int p = 0; p < d; p++)
+            for (int q = 0; q < d; q++)
+                hx[p, q] = h[p, q] + xField[p, q];
+        double Residual(Complex[,] hh, Complex[][,] jumps, double[] rates)
+        {
+            Complex[,] L(Complex[,] r) => Lindblad(hh, jumps, rates, r);
+            return TransposeResidual(L, r => ThermalWeigh(L(ThermalWeigh(r, inverse: false)), inverse: true), d);
+        }
+        var (jumps, rates) = ThermalJumps(cool, cool.Select(g => g / 4).ToArray());
+        var heatOff = cool.Select(g => g / 4).ToArray();
+        heatOff[0] = cool[0] / 16;
+        var (jumpsOff, ratesOff) = ThermalJumps(cool, heatOff);
+        return (Residual(h, jumps, rates),
+                Residual(h, jumpsOff, ratesOff),
+                Residual(hx, jumps, rates),
+                Residual(h, jumps.Append(xField).ToArray(), rates.Append(1.0).ToArray()));
+    }
+
+    // what the thermal transpose says about the two ends. For all A and B,
+    // Tr(B L^p(A)) = Tr(Gamma^-1(A^T) L^p(Gamma(B^T))); on basis dyads the weights are numbers: the transfer of
+    // |x><y| to |x'><y'| is q^{-(n_x + n_y - n_x' - n_y')/2} times the transfer of |x'><y'| to |x><y|. So the
+    // |11> transfer from the pair at sites 0, 1 to the pair at N-2, N-1 and the vacuum-to-|11> coherence carried
+    // across (as a complex number) are the same both ways at a single ratio, and one excitation decaying to the
+    // vacuum stands to its reverse as 1/q = e^{beta} = 4: detailed balance. The controls that must fail: the
+    // decay compared without the weight, and the transfer and the coherence with a different ratio on site 0 (the
+    // coherence only where the ratio reaches it within maxOrder, at N = 4 first at t^6). Order by order in t at q = 1/4,
+    // exactly.
+    public (double Transfer, double Coherence, double Decay, double DecayUnweighted, double TransferUnequalRatio,
+        double CoherenceUnequalRatio) ThermalReciprocityResiduals(int maxOrder)
+    {
+        if (N < 4)
+            throw new InvalidOperationException("two disjoint pairs need N >= 4");
+        int d = 1 << N;
+        var h = NumberConservingHamiltonian(2, star: false, field: true);
+        var cool = Enumerable.Range(0, N).Select(l => 4.0 * (l % 3 + 1)).ToArray();
+        var (jumps, rates) = ThermalJumps(cool, cool.Select(g => g / 4).ToArray());
+        var heatOff = cool.Select(g => g / 4).ToArray();
+        heatOff[0] = cool[0] / 16;
+        var (jumpsOff, ratesOff) = ThermalJumps(cool, heatOff);
+        int Bit(int site) => 1 << (N - 1 - site);
+        Complex[,] Dyad(int r, int c)
+        {
+            var m = new Complex[d, d];
+            m[r, c] = Complex.One;
+            return m;
+        }
+        int near = Bit(0) | Bit(1), far = Bit(N - 2) | Bit(N - 1);
+        // max over p of |Tr(b L^p(a)) - weight * Tr(a^T L^p(b^T))|
+        double Residual(Complex[,] a, Complex[,] b, double weight, bool offRatio = false)
+        {
+            Complex[,] L(Complex[,] r) => offRatio ? Lindblad(h, jumpsOff, ratesOff, r) : Lindblad(h, jumps, rates, r);
+            Complex[,] x = a, y = Dense.Transpose(b);
+            var aT = Dense.Transpose(a);
+            double worst = 0;
+            for (int p = 0; p <= maxOrder; p++)
+            {
+                worst = Math.Max(worst, (Dense.Trace(Dense.Mul(b, x)) - weight * Dense.Trace(Dense.Mul(aT, y))).Magnitude);
+                x = L(x);
+                y = L(y);
+            }
+            return worst;
+        }
+        return (Residual(Dyad(near, near), Dyad(far, far), 1.0),
+                Residual(Dyad(0, near), Dyad(far, 0), 1.0),
+                Residual(Dyad(Bit(0), Bit(0)), Dyad(0, 0), 4.0),
+                Residual(Dyad(Bit(0), Bit(0)), Dyad(0, 0), 1.0),
+                Residual(Dyad(near, near), Dyad(far, far), 1.0, offRatio: true),
+                Residual(Dyad(0, near), Dyad(far, 0), 1.0, offRatio: true));
+    }
+
+    // Z on every site at rates 1..N, sigma-minus at cool[l] and sigma-plus at heat[l] on every site l.
+    (Complex[][,] Jumps, double[] Rates) ThermalJumps(double[] cool, double[] heat)
+    {
+        var lower = Enumerable.Range(0, N).Select(Lowering).ToArray();
+        var jumps = SiteZs(N).Concat(lower).Concat(lower.Select(Dense.Dagger)).ToArray();
+        var rates = Rates(N).Concat(cool).Concat(heat).ToArray();
+        return (jumps, rates);
+    }
+
+    // sigma-minus on one site: clears that site's bit (site 0 the most significant).
+    Complex[,] Lowering(int site)
+    {
+        int d = 1 << N, bit = 1 << (N - 1 - site);
+        var m = new Complex[d, d];
+        for (int p = 0; p < d; p++)
+            if ((p & bit) != 0)
+                m[p & ~bit, p] = Complex.One;
+        return m;
+    }
+
+    // Gamma(X) = s X s with s = 2^{-n} (q = 1/4, s = pi_beta^{1/2} up to its norm), or its inverse.
+    Complex[,] ThermalWeigh(Complex[,] x, bool inverse)
+    {
+        int d = x.GetLength(0);
+        var y = new Complex[d, d];
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+            {
+                double w = Math.Pow(2.0, BitOperations.PopCount((uint)i) + BitOperations.PopCount((uint)j));
+                y[i, j] = inverse ? x[i, j] * w : x[i, j] / w;
+            }
+        return y;
+    }
+
     // Lindblad is a Lindbladian: it preserves the trace exactly with the non-normal sigma-minus and the
     // phased cycle among its jumps, and with H = 0 and Z jumps it is the world's dephasing dissipator.
     public (double Trace, double Dephasing) LindbladFormResidual()

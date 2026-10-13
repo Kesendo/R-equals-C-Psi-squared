@@ -47,9 +47,9 @@ Swept on 2026-10-13 by store. One store-sweep agent went over the markdown store
 
 - **[`docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md`](../docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7** holds the law and both readings.
   - **The transpose law:** the transposed generator is the transposed system's generator exactly when L is unital (line 129). For Pauli-string jumps, Lᵀ = L_{Hᵀ} + D (line 135).
-  - **The breakers** (line 189): "an added σ⁻ breaks the law; σ⁻ with σ⁺ at equal rates keeps it, at unequal rates breaks it".
-  - **Reading 3 (line 155, its Bell pair at line 159).** The Bell pair's p11 and c are transfers the corollary fixes. Its |00⟩ population holds a return probability, which agrees on the XX chain (free fermions) and differs on uneven Heisenberg and XXZ chains. Where the readout restricted to what the dynamics reaches is the mirrored preparation, the operator swap covers it.
-  - **Reading 4.** "The silence is what makes the readout the mirrored preparation". Read with the rest projected on |0…0⟩, the pair and the probability of the silence are the same from either end, under a number-conserving real H and Z dephasing.
+  - **The breakers** (line 249): "an added σ⁻ breaks the law; σ⁻ with σ⁺ at equal rates keeps it, at unequal rates breaks it".
+  - **Reading 3 (line 211, its Bell pair at line 215).** The Bell pair's p11 and c are transfers the corollary fixes. Its |00⟩ population holds a return probability, which agrees on the XX chain (free fermions) and differs on uneven Heisenberg and XXZ chains. Where the readout restricted to what the dynamics reaches is the mirrored preparation, the operator swap covers it.
+  - **Reading 4 (line 219).** "The silence is what makes the readout the mirrored preparation". Read with the rest projected on |0…0⟩, the pair and the probability of the silence are the same from either end, under a number-conserving real H and Z dephasing.
   - **The rigidity list closes on a path:** the edge block's bipartite conjugation and the open arc `site_resolved_vacuum_block`, "the reason that a path is a tree and its hop phases carry no flux".
   - **The flux ring:** "the swap is exact against the reversed ring and broken against the same ring".
 - **[`docs/ANALYTICAL_FORMULAS.md`](../docs/ANALYTICAL_FORMULAS.md)**
@@ -90,8 +90,8 @@ Swept on 2026-10-13 by store. One store-sweep agent went over the markdown store
 Adjacency, asked as its own question:
 
 - **Reading 3 and this design are one object.**
-- **F137's block-triangularity and limit 3 are one object.** §7 names F137 only in its sweep (line 121), for the words "detailed balance"; that F137 decides where σ⁻ can reach a payload is not drawn there.
-- **F84's net-cooling vector and the law's condition are one object:** L(I) = Σ_l Δγ_l Z_l. §7 names F84 only in the same sweep line.
+- **F137's block-triangularity and limit 3 are one object.** §7 names F137 in its sweep (line 121) and in its finite-temperature notes, where it points to this record's argument that F137 decides where σ⁻ can reach a payload; the argument itself is drawn here.
+- **F84's net-cooling vector and the law's condition are one object:** L(I) = Σ_l Δγ_l Z_l. §7 names F84 in its sweep line and in its finite-temperature notes on the words "detailed balance", not as the vector its condition reads.
 - **The counting law of limit 4 has the shape of a common mode the repository already names.** One is the absorption theorem's collapse to the count ([PROOF_ABSORPTION_THEOREM.md](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) lines 133 to 137: "a function of the count alone … The collapse is where the uniform hypothesis is spent"). The other is [CMRR_BREAK_NONUNIFORM_GAMMA.md](CMRR_BREAK_NONUNIFORM_GAMMA.md) (line 149). There it is dephasing; here it is T1.
 - **The no-flux sentence and limit 1 are one object.** It closes §7's rigidity list, which reads it for the one-excitation block, not for a transposed circuit.
 
@@ -185,7 +185,7 @@ The numbers below are in `limits_output.txt` unless a line names `gate_output.tx
 - **The conditions.** The unnormalized p11 and c then agree from both ends at any T1 profile, as long as:
   - every other element conserves the number;
   - the way back is the exact reverse of the way out;
-  - the bath is cold. A heating channel σ⁺ raises from below and is not covered. F84's flight found the bath cold on other qubits, and this line's own excited population is not measured.
+  - the bath is cold. A heating channel σ⁺ raises from below and is not covered: at a single ratio on every site §7's thermal transpose still ties the silence-read coherence, but heating feeds p11 from the payload's vacuum part, which no swap ties, and parts the habit reading from the silence reading. F84's flight found the bath cold on other qubits, and this line's own excited population is not measured.
 - **The check.** `gate_output.txt`'s stress row puts T1 = 12 to 34 µs and T2* = 5.6 to 11.2 µs, unevenly per qubit, at layer boundaries with no gate error, and reads at most 2.8·10⁻¹⁶.
 - **Where it leaks.** In the native placement the sx pulses do not conserve the number, and the idle placed as late as possible is not a palindrome. There T1 alone reads 1.3·10⁻⁴ and 7.1·10⁻⁵ (`gate_output.txt` Part 1).
 
