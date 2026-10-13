@@ -1,0 +1,155 @@
+A  metric relation Lu M Lu^-1 = -M^dag, compared exactly (== 0.0)
+  [PASS] N=3 Heisenberg chain, uneven J and g: residual 0
+  [PASS] N=3 XY chain + X field: residual 0
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): residual 0
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): residual 0
+  [PASS] N=3 named row: X dephasing on site 1, U = SWAP02 Z0 Z1 Z2: residual 0
+  [PASS] N=3 control: chain + DM (XY - YX): residual 4 (must break)
+  [PASS] N=3 control: chain + Z field: residual 1.5 (must break)
+  [PASS] N=3 control: ring, quarter flux: residual 4 (must break)
+  [PASS] N=3 control: chain + sigma- on site 0: residual 0.375 (must break)
+  [PASS] N=4 Heisenberg chain, uneven J and g: residual 0
+  [PASS] N=4 XY chain + X field: residual 0
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): residual 0
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): residual 0
+  [PASS] N=4 control: chain + DM (XY - YX): residual 4 (must break)
+  [PASS] N=4 control: chain + Z field: residual 1.5 (must break)
+  [PASS] N=4 control: ring, quarter flux: residual 4 (must break)
+  [PASS] N=4 control: chain + sigma- on site 0: residual 0.375 (must break)
+  [PASS] N=4 admissible U = X^N 2^Nhat, not unitary (both association orders): residual 0
+  [PASS] N=4 Pi^2 = (rho -> U rho U^T) commutes with L, and differs from Ad_U: |[Pi^2, L]| = 0, |Pi^2 - Ad_U| = 255
+  [read] N=4 non-dyadic rates (0.3, 0.7, 0.1, 0.45), U = X^N: residual 2.2e-16, off the diagonal 0 (a rounding of the rate sums)
+
+B  flow identity Tr(B e^{tM} A) = Tr(e^{-tM}(B U^-1) . U A); Pi form for U = X^N
+  [PASS] N=3 Pi is its own transpose under Tr(B X): max |Pi^b - Pi| = 0
+  [table] N=3 Heisenberg chain, uneven J and g: |Pi L Pi^-1 + L + 2 sigma| = 0, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=3 Heisenberg chain, uneven J and g: composite exact: 0
+  [PASS] N=3 Heisenberg chain, uneven J and g: both halves exact: 0, 0
+  [PASS] N=3 Heisenberg chain, uneven J and g: deviation / rounding scale = 2.23e-03
+  [PASS] N=3 Heisenberg chain, uneven J and g: forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 7.18e-04
+  [PASS] N=3 Heisenberg chain, uneven J and g, Pi form: deviation / rounding scale = 1.75e-03
+  [table] N=3 XY chain + X field: |Pi L Pi^-1 + L + 2 sigma| = 0, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=3 XY chain + X field: composite exact: 0
+  [PASS] N=3 XY chain + X field: both halves exact: 0, 0
+  [PASS] N=3 XY chain + X field: deviation / rounding scale = 1.23e-03
+  [PASS] N=3 XY chain + X field: forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 1.98e-03
+  [PASS] N=3 XY chain + X field, Pi form: deviation / rounding scale = 1.20e-03
+  [table] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): |Pi L Pi^-1 + L + 2 sigma| = 1, |L^T - L| = 1, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): composite exact: 0
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): factors fail, composite holds: |Pi L Pi^-1 + L + 2 sigma| = 1, |L^T - L| = 1, |Pi L^T Pi^-1 + L + 2 sigma| = 0.0e+00
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): deviation / rounding scale = 9.25e-04
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 1.54e-03
+  [PASS] N=3 chain + Y0 Z1 (Pi_Z no similarity, L^T != L), Pi form: deviation / rounding scale = 6.62e-04
+  [table] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): |Pi L Pi^-1 + L + 2 sigma| = 2, |L^T - L| = 2, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): composite exact: 0
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): factors fail, composite holds: |Pi L Pi^-1 + L + 2 sigma| = 2, |L^T - L| = 2, |Pi L^T Pi^-1 + L + 2 sigma| = 0.0e+00
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): deviation / rounding scale = 2.61e-03
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 8.55e-04
+  [PASS] N=3 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L), Pi form: deviation / rounding scale = 1.40e-03
+  [PASS] N=3 named row: X dephasing on site 1, U = SWAP02 Z0 Z1 Z2: deviation / rounding scale = 8.16e-03
+  [PASS] N=3 named row: X dephasing on site 1, U = SWAP02 Z0 Z1 Z2: forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 8.17e-03
+  [table] N=3 control: chain + DM (XY - YX): |Pi L Pi^-1 + L + 2 sigma| = 4, |L^T - L| = 4, |Pi L^T Pi^-1 + L + 2 sigma| = 4  (largest entry)
+  [PASS] N=3 control: chain + DM (XY - YX): composite breaks: 4
+  [PASS] N=3 control: chain + DM (XY - YX): deviation / rounding scale = 2.82e+12 (must break)
+  [table] N=3 control: chain + Z field: |Pi L Pi^-1 + L + 2 sigma| = 1.5, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 1.5  (largest entry)
+  [PASS] N=3 control: chain + Z field: composite breaks: 1.5
+  [PASS] N=3 control: chain + Z field: keeps F119's transpose exactly: |L^T - L| = 0
+  [PASS] N=3 control: chain + Z field: deviation / rounding scale = 8.28e+11 (must break)
+  [table] N=3 control: ring, quarter flux: |Pi L Pi^-1 + L + 2 sigma| = 4, |L^T - L| = 4, |Pi L^T Pi^-1 + L + 2 sigma| = 4  (largest entry)
+  [PASS] N=3 control: ring, quarter flux: composite breaks: 4
+  [PASS] N=3 control: ring, quarter flux: deviation / rounding scale = 5.55e+12 (must break)
+  [table] N=3 control: chain + sigma- on site 0: |Pi L Pi^-1 + L + 2 sigma| = 0.375, |L^T - L| = 0.25, |Pi L^T Pi^-1 + L + 2 sigma| = 0.375  (largest entry)
+  [PASS] N=3 control: chain + sigma- on site 0: composite breaks: 0.375
+  [PASS] N=3 control: chain + sigma- on site 0: deviation / rounding scale = 2.89e+11 (must break)
+  [PASS] N=4 Pi is its own transpose under Tr(B X): max |Pi^b - Pi| = 0
+  [table] N=4 Heisenberg chain, uneven J and g: |Pi L Pi^-1 + L + 2 sigma| = 0, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=4 Heisenberg chain, uneven J and g: composite exact: 0
+  [PASS] N=4 Heisenberg chain, uneven J and g: both halves exact: 0, 0
+  [PASS] N=4 Heisenberg chain, uneven J and g: deviation / rounding scale = 2.43e-04
+  [PASS] N=4 Heisenberg chain, uneven J and g: forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 2.78e-04
+  [PASS] N=4 Heisenberg chain, uneven J and g, Pi form: deviation / rounding scale = 2.30e-04
+  [table] N=4 XY chain + X field: |Pi L Pi^-1 + L + 2 sigma| = 0, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=4 XY chain + X field: composite exact: 0
+  [PASS] N=4 XY chain + X field: both halves exact: 0, 0
+  [PASS] N=4 XY chain + X field: deviation / rounding scale = 5.81e-04
+  [PASS] N=4 XY chain + X field: forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 5.04e-04
+  [PASS] N=4 XY chain + X field, Pi form: deviation / rounding scale = 2.87e-04
+  [table] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): |Pi L Pi^-1 + L + 2 sigma| = 1, |L^T - L| = 1, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): composite exact: 0
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): factors fail, composite holds: |Pi L Pi^-1 + L + 2 sigma| = 1, |L^T - L| = 1, |Pi L^T Pi^-1 + L + 2 sigma| = 0.0e+00
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): deviation / rounding scale = 1.49e-04
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 2.16e-04
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L), Pi form: deviation / rounding scale = 2.50e-04
+  [table] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): |Pi L Pi^-1 + L + 2 sigma| = 2, |L^T - L| = 2, |Pi L^T Pi^-1 + L + 2 sigma| = 0  (largest entry)
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): composite exact: 0
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): factors fail, composite holds: |Pi L Pi^-1 + L + 2 sigma| = 2, |L^T - L| = 2, |Pi L^T Pi^-1 + L + 2 sigma| = 0.0e+00
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): deviation / rounding scale = 2.84e-04
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): forward-only rewrite Tr(UBU^-1 . e^(tM)(UAU^-1)): deviation / rounding scale = 1.37e-04
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L), Pi form: deviation / rounding scale = 1.93e-04
+  [table] N=4 control: chain + DM (XY - YX): |Pi L Pi^-1 + L + 2 sigma| = 4, |L^T - L| = 4, |Pi L^T Pi^-1 + L + 2 sigma| = 4  (largest entry)
+  [PASS] N=4 control: chain + DM (XY - YX): composite breaks: 4
+  [PASS] N=4 control: chain + DM (XY - YX): deviation / rounding scale = 2.84e+11 (must break)
+  [table] N=4 control: chain + Z field: |Pi L Pi^-1 + L + 2 sigma| = 1.5, |L^T - L| = 0, |Pi L^T Pi^-1 + L + 2 sigma| = 1.5  (largest entry)
+  [PASS] N=4 control: chain + Z field: composite breaks: 1.5
+  [PASS] N=4 control: chain + Z field: keeps F119's transpose exactly: |L^T - L| = 0
+  [PASS] N=4 control: chain + Z field: deviation / rounding scale = 2.63e+11 (must break)
+  [table] N=4 control: ring, quarter flux: |Pi L Pi^-1 + L + 2 sigma| = 4, |L^T - L| = 4, |Pi L^T Pi^-1 + L + 2 sigma| = 4  (largest entry)
+  [PASS] N=4 control: ring, quarter flux: composite breaks: 4
+  [PASS] N=4 control: ring, quarter flux: deviation / rounding scale = 4.10e+11 (must break)
+  [table] N=4 control: chain + sigma- on site 0: |Pi L Pi^-1 + L + 2 sigma| = 0.375, |L^T - L| = 0.25, |Pi L^T Pi^-1 + L + 2 sigma| = 0.375  (largest entry)
+  [PASS] N=4 control: chain + sigma- on site 0: composite breaks: 0.375
+  [PASS] N=4 control: chain + sigma- on site 0: deviation / rounding scale = 3.09e+10 (must break)
+
+B2 the trace form and its forward-only rewrite with U = X^N 2^(Nhat^2), N = 4: U^2 is not a
+   multiple of 1, so writing U where U^-1 belongs (or the reverse) would show
+  [PASS] U^2 is not a multiple of the identity: diagonal of U^2 spans 256 .. 6.55e+04
+  [PASS] trace form Tr(e^(-tM)(B U^-1) . U A): deviation / rounding scale = 2.31e-09
+  [PASS] forward-only rewrite Tr(U B U^-1 . e^(tM)(U A U^-1)): deviation / rounding scale = 1.65e-09
+  [PASS] controls: B U in place of B U^-1, and U^-1 B U in place of U B U^-1, break: 6.81e+10, 4.17e+08
+  [PASS] the U-weighted product is constant under M at t = 2 with this U: drift / rounding scale = 6.64e-07
+
+C  K(t) = Tr(rho_B(t)^dag U rho_A(t)) under the centred flow, both run FORWARD
+  [PASS] N=4 Heisenberg chain, uneven J and g: K(0) = -0.005647-0.003898j, drift to t = 4 / rounding scale = 3.17e-04
+  [PASS] N=4 XY chain + X field: K(0) = -0.002106-0.001402j, drift to t = 4 / rounding scale = 3.03e-04
+  [PASS] N=4 chain + Y0 Z1 (Pi_Z no similarity, L^T != L): K(0) = -0.001812+0.003820j, drift to t = 4 / rounding scale = 1.09e-03
+  [PASS] N=4 chain + X0 Y1 Z2 (Pi_Z no similarity, L^T != L): K(0) = 0.013766-0.000966j, drift to t = 4 / rounding scale = 2.90e-04
+  [PASS] N=4 control: chain + DM (XY - YX): drift / rounding scale = 2.27e+11 (must drift)
+  [PASS] N=4 control: chain + Z field: drift / rounding scale = 2.54e+11 (must drift)
+
+D  N = 4, block (2, 2), which Lu maps to itself (Lu sends ket popcount p to N - p);
+   K(r, r) on the modes of the centred block M = L + sigma
+  -- XY uniform
+  [PASS] off-centre modes neutral at g = 0.4: 26 modes, max |K(r,r)|/|r|^2 = 4.6e-14, scale eps*dim*cond(V) = 2.7e-14 (gate: 10x)
+  [PASS] off the line at g = 1e-6 within Krein's bound from the g = 0 eigenspaces (an upper bound): 22 modes off the line, sum of 2 min(n+, n-) = 24
+  [PASS] first detected collision (1.3x grid, then bisection), g* = 0.29961298: the modes that leave: omega 4.1546 lean -0.0004, omega 4.1548 lean +0.0004  (two, opposite signs, required)
+  [read] g* refined from the squared splitting: 0.2996129795 (threshold bisection 0.2996129778)
+  [PASS] lean^2 / (1 - g/g*) -> c0, a limit of the series' own size: square-root exponent: c0 = 1.7726 against the correction c1 sqrt(1e-2) = 2.12e-05 and 0.1 r(1e-2) = 0.177
+  [read] lean^2/(1 - g/g*) at 1e-2..1e-5: 1.76790, 1.77215, 1.77257, 1.77261; limit c0 = 1.77262; fourth decade predicted to 9.6e-07
+  [PASS] the series converges geometrically (each decade's step <= 1/3 of the last): steps 4.2e-03, 4.2e-04, 4.2e-05
+  -- Heisenberg uniform
+  [PASS] off-centre modes neutral at g = 0.4: 8 modes, max |K(r,r)|/|r|^2 = 2.2e-15, scale eps*dim*cond(V) = 2.9e-14 (gate: 10x)
+  [PASS] control: + Z field (U no longer commutes with H), off-centre modes lean: max |K(r,r)|/|r|^2 = 0.90
+  [PASS] off the line at g = 1e-6 within Krein's bound from the g = 0 eigenspaces (an upper bound): 4 modes off the line, sum of 2 min(n+, n-) = 6
+  [PASS] first detected collision (1.3x grid, then bisection), g* = 0.06358514: the modes that leave: omega 1.2642 lean -0.0005, omega 1.2643 lean +0.0005  (two, opposite signs, required)
+  [read] g* refined from the squared splitting: 0.0635851387 (threshold bisection 0.0635851385)
+  [PASS] lean^2 / (1 - g/g*) -> c0, a limit of the series' own size: square-root exponent: c0 = 2.0640 against the correction c1 sqrt(1e-2) = 8.23e-06 and 0.1 r(1e-2) = 0.205
+  [read] lean^2/(1 - g/g*) at 1e-2..1e-5: 2.05240, 2.06286, 2.06390, 2.06401; limit c0 = 2.06402; fourth decade predicted to 3.7e-07
+  [PASS] the series converges geometrically (each decade's step <= 1/3 of the last): steps 1.0e-02, 1.0e-03, 1.0e-04
+  -- XY uneven J = (1, 0.6, 1.4)
+  [PASS] off-centre modes neutral at g = 0.4: 22 modes, max |K(r,r)|/|r|^2 = 7.6e-14, scale eps*dim*cond(V) = 9.7e-14 (gate: 10x)
+  [PASS] off the line at g = 1e-6 within Krein's bound from the g = 0 eigenspaces (an upper bound): 22 modes off the line, sum of 2 min(n+, n-) = 24
+  [PASS] first detected collision (1.3x grid, then bisection), g* = 1.56493622: the modes that leave: omega 3.6442 lean -0.0005, omega 3.6455 lean +0.0005  (two, opposite signs, required)
+  [read] g* refined from the squared splitting: 1.5649362169 (threshold bisection 1.5649362158)
+  [PASS] lean^2 / (1 - g/g*) -> c0, a limit of the series' own size: square-root exponent: c0 = 2.7808 against the correction c1 sqrt(1e-2) = 1.37e-03 and 0.1 r(1e-2) = 0.279
+  [read] lean^2/(1 - g/g*) at 1e-2..1e-5: 2.78500, 2.78150, 2.78095, 2.78089; limit c0 = 2.78078; fourth decade predicted to 6.2e-05
+  [PASS] the series converges geometrically (each decade's step <= 1/3 of the last): steps 3.5e-03, 5.5e-04, 5.7e-05
+
+E  U = X^N: the overlap <rho, X^N rho> between the world and its one-sided reading
+  [PASS] N=4 Heisenberg chain, uneven J and g: <rho(t), X^N rho(t)> = e^(-2 sigma t) <rho(0), X^N rho(0)>: deviation / rounding scale = 3.9e-04
+  [PASS] N=4 XY chain + X field: <rho(t), X^N rho(t)> = e^(-2 sigma t) <rho(0), X^N rho(0)>: deviation / rounding scale = 5.0e-04
+  [PASS] N=4 control: chain + Z field: deviation / rounding scale = 3.7e+11 (must break)
+  [PASS] cat pair, theta = 0.3, two couplings: 2 cos sin e^(-2 sigma t): deviation / rounding scale = 4.9e-04
+  [PASS] the anti-cat (|0..0> - |1..1>)/sqrt2 leans -1: lean -1.0
+  [PASS] two copies: Tr(rho_B U rho_A) = Tr[(U x 1) SWAP (rho_B x rho_A)], X^N and a random unitary: max deviation 1.7e-18; the other order of the copies misses by at least 0.0019
+
+ALL PASS

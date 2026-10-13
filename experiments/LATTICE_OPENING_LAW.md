@@ -71,6 +71,15 @@ chirality of the seed as its floor. The turn trades spook and sock drawer (the
 spook cell sits on L's and R's DIAGONAL), so the same law read from the turned side
 says: the turned worlds' STRUCTURE decays toward the untouched chirality gap.
 
+The spook term is one face of the far-end parity: wherever [H, X^N] = 0 and the
+dissipator is Z dephasing alone, independent on each site,
+⟨X^N⟩(t) = Tr(X^N·ρ(t)) = e^(−2Γt)·⟨X^N⟩(0) for every state, Γ = Σ_l γ_l, which on
+the cat pair is 2·cos θ·sin θ·e^(−2Γt), twice the spook term; for a pure seed the
+two-copy overlap Tr(ρ·X^N·ρ) equals it at every t. The parity is J-blind for every
+state; the opening itself, an entry-wise maximum, is J-blind here because the cat
+sector is H-dead (above). See
+[the pairing condition on the flow](THE_PAIRING_CONDITION.md#what-u-buys-on-the-flow).
+
 Not minted as an F-number; candidate if it earns siblings. The site-resolved turned
 rule (gate T0) is the one genuinely new lattice ingredient beyond the committed
 uniform-γ `Lattice.cs`; it stays gate-level here (the C# `Lattice` object keeps
