@@ -41,6 +41,8 @@ THE STATEMENT UNDER TEST. For L(rho) = -i[H, rho] + sum_l gamma_l (A_l rho A_l
   [PASS] the probe row has a NON-symmetric H (a Y field)      
   [PASS] an admissible U still exists there                   subspace dim=1
   [PASS] the metric relation still holds                      
+  [PASS] in the Pauli basis L^dagger is L^T                   residual entries=0
+  [PASS] in the matrix-unit basis it is not (control, any non-scalar H) residual entries=168
   [PASS] the similarity Pi FAILS there, as it must            residual entries=128
   [PASS] and the char-poly palindrome holds regardless        
 
@@ -83,5 +85,5 @@ THE STATEMENT UNDER TEST. For L(rho) = -i[H, rho] + sum_l gamma_l (A_l rho A_l
   [PASS] N=4 path, non-uniform J                              rows=120  nonempty-but-singular=0  FP=0 FN=0
 
 ==============================================================================
-  42 gates, 42 passed, 0 failed
+  44 gates, 44 passed, 0 failed
   ALL GATES PASS

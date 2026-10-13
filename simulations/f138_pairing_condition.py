@@ -22,11 +22,12 @@ WHAT U BUYS, IN TWO STEPS, AND THE SECOND ONE IS CONDITIONAL.
     Pi L Pi^-1   = -L - 2*sigma             needs H = H^T as well (gates 3, 4)
 
 A Y field makes H non-real and the second step FAILS there, which gate 4 pins
-on a row inside the scored grid. The palindrome survives anyway, and the reason
-is not modular and cannot be gated here: L preserves hermiticity, so its
-characteristic polynomial is real and its spectrum is conjugation-closed, which
-collapses the metric relation's reflection lambda -> -conj(lambda) - 2*sigma
-onto the palindrome. That step is stated, not measured, and the page says so.
+on a row inside the scored grid. The palindrome survives anyway: L preserves
+hermiticity, so in the Pauli-string basis it is a real matrix and L^dagger is
+its matrix transpose, similar to L over any field. With the metric relation
+that gives L ~ -L^T - 2*sigma ~ -L - 2*sigma (PROOF_PALINDROME_TWO_END_COUNT
+(f8)). No step needs a conjugation; gate 4 checks the transpose link mod p on
+the same row, and M ~ M^T is a theorem, not computed.
 
 WHY THE CRITERION IS DECIDABLE AND NOT SCANNED. Both conditions are LINEAR in U,
 so the admissible U form a subspace whose dimension is a rank over GF(p), and
@@ -347,12 +348,13 @@ def gate4_transpose_scope():
     """Where the transpose leg stops, and what carries the palindrome there.
 
     A Y field makes H non-real, so T no longer turns L into L^dagger and Pi is
-    NOT a reflector. The palindrome survives anyway, and the reason cannot be
-    seen in GF(p) at all: L preserves hermiticity, so its characteristic
-    polynomial is real and its spectrum is conjugation-closed, which collapses
-    the metric relation's reflection lambda -> -conj(lambda) - 2*sigma onto the
-    palindrome. This gate pins the two halves that ARE modular and states the
-    third rather than pretending to measure it.
+    NOT a reflector. The palindrome survives anyway: L preserves hermiticity,
+    so in the Pauli-string basis L is a real matrix and L^dagger is its matrix
+    transpose, which is similar to L over any field. This gate checks mod p the
+    two computed links, the metric relation and L^dagger as the Pauli-basis
+    transpose, and the palindrome they conclude. The matrix-unit basis is the
+    control: there L^dagger - L^T misses for any non-scalar H, Y field or not,
+    so the check is one that can fail; M ~ M^T itself is a theorem.
     """
     print()
     print('## Gate 4: where the transpose leg stops')
@@ -380,6 +382,17 @@ def gate4_transpose_scope():
     sim = int(np.count_nonzero((((Pi @ L % p) @ inverse_mod(Pi, p) % p)
                                - (-L - shift * I2) % p) % p))
     gate('the metric relation still holds', met == 0)
+    B = np.stack([string_op(w, p).reshape(-1)
+                  for w in itertools.product(range(4), repeat=3)], axis=1) % p
+    Binv = inverse_mod(B, p)
+    Lp = (Binv @ L % p) @ B % p
+    Ldp = (Binv @ Ldag % p) @ B % p
+    pauli_t = int(np.count_nonzero((Ldp - Lp.T) % p))
+    unit_t = int(np.count_nonzero((Ldag - L.T) % p))
+    gate('in the Pauli basis L^dagger is L^T', pauli_t == 0,
+         'residual entries=%d' % pauli_t)
+    gate('in the matrix-unit basis it is not (control, any non-scalar H)', unit_t != 0,
+         'residual entries=%d' % unit_t)
     gate('the similarity Pi FAILS there, as it must', sim != 0,
          'residual entries=%d' % sim)
     gate('and the char-poly palindrome holds regardless',

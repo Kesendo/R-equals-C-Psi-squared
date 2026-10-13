@@ -149,16 +149,23 @@ U H U⁻¹ ρ − ρ H = Hρ − ρH and is untouched, the dissipator's U A U⁻
 −AρA, and the surviving −σρ against the +σρ of −L† is where the −2σ comes from.
 This is the Q₋ shape KMS_DETAILED_BALANCE names.
 
-**The step from −L† to the palindrome is not the transpose, and it is not
-modular.** spec(−L† − 2σ) = −conj(spec L) − 2σ, a reflection in the vertical line
+**The step from −L† to the palindrome is not the state transpose ρ ↦ ρᵀ.**
+spec(−L† − 2σ) = −conj(spec L) − 2σ, a reflection in the vertical line
 Re = −σ. It collapses onto the palindrome λ ↦ −λ − 2σ because **L preserves
-hermiticity**, so its characteristic polynomial is real and its spectrum is
-conjugation-closed. That is the whole sufficiency argument, it holds with no
-condition on H beyond hermiticity, and it can never be seen in GF(p), where there is no conjugation.
-It is stated here and gated nowhere, deliberately.
+hermiticity**: in the Pauli-string basis L is a real matrix, so L† is its matrix
+transpose, and every square matrix is similar to its transpose over any field.
+Hence L ~ −L† − 2σ ~ −L − 2σ, a similarity and not only an equal spectrum, as
+[the two-end count §(f8)](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+derives for the Jordan structure. That is the whole sufficiency argument, and it
+holds with no condition on H beyond hermiticity. No step needs a conjugation, so
+it runs over GF(p): gate 4, on a row with a Y field where the explicit similarity
+below fails, checks modulo p the metric relation, that L† is the Pauli-basis
+transpose of L (in the matrix-unit basis it is not, for any non-scalar H, which
+is what makes the check one that can fail), and the palindrome the chain
+concludes; the step M ~ Mᵀ is a theorem and is not computed.
 
 When H is additionally real symmetric in the computational basis, the transpose
-upgrades the metric relation to a **similarity**:
+upgrades the metric relation to an **explicit similarity**:
 
     Π = ℒ_U ∘ T,   Π(ρ) = U ρᵀ,   Π L Π⁻¹ = −L − 2σ
 
@@ -167,7 +174,7 @@ and Π²(ρ) = U ρ Uᵀ, a commuting operator, which is Ad_U when U is orthogon
 Yᵀ = −Y, and 37 of the 64 field patterns on the scored grid carry one. There Π
 is not a reflector: gate 4 exhibits a row where U exists, the metric relation
 holds, Π misses by 128 entries, and the palindrome holds regardless. The
-similarity is the special case; the metric relation is the law.
+explicit Π is the special case; the metric relation is the law.
 
 That Π² is the two-sided map ρ ↦ U ρ Uᵀ is an identity, not a measurement: Π = (U⊗I)·T and
 T(U⊗I)T = I⊗U, so Π² = U⊗U for any invertible U at all. The **reading** is what
