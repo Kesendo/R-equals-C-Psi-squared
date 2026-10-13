@@ -1,0 +1,13 @@
+channel_both_ways_gate v5: N=5, pairs (0, 1)/(3, 4), J=(1.3, 2.2, 1.4, 1.4), DELTA_ON=1.5 and 0, dt=0.5, steps (3, 5), replica at m=5, layer 0.4 us, T2* = T2 x 0.5
+   min 0.085 m=9 J=(2.11, 1.47, 1.08, 0.96) DELTA=0.5 dt=0.5: habit |dp00| 0.090 control 0.085 reach p11 0.076
+   min 0.080 m=8 J=(2.11, 1.47, 1.08, 0.96) DELTA=0.5 dt=0.5: habit |dp00| 0.080 control 0.093 reach p11 0.134
+   min 0.078 m=7 J=(1.26, 2.17, 1.38, 1.39) DELTA=1.5 dt=0.5: habit |dp00| 0.078 control 0.087 reach p11 0.057
+   min 0.076 m=9 J=(0.95, 1.88, 1.3, 1.27) DELTA=1.5 dt=0.5: habit |dp00| 0.076 control 0.102 reach p11 0.106
+   min 0.076 m=5 J=(1.26, 2.17, 1.38, 1.39) DELTA=1.5 dt=0.5: habit |dp00| 0.106 control 0.076 reach p11 0.044
+   min 0.073 m=6 J=(1.65, 1.47, 2.12, 1.53) DELTA=1.5 dt=0.35: habit |dp00| 0.118 control 0.073 reach p11 0.020
+   min 0.072 m=7 J=(1.03, 1.97, 1.86, 0.72) DELTA=1.5 dt=0.5: habit |dp00| 0.087 control 0.072 reach p11 0.050
+   min 0.070 m=5 J=(0.95, 1.88, 1.3, 1.27) DELTA=1.5 dt=0.5: habit |dp00| 0.076 control 0.070 reach p11 0.032
+   min 0.069 m=5 J=(0.66, 1.62, 1.57, 1.9) DELTA=1.0 dt=0.5: habit |dp00| 0.069 control 0.084 reach p11 0.054
+   min 0.067 m=9 J=(0.66, 1.62, 1.57, 1.9) DELTA=1.0 dt=0.5: habit |dp00| 0.069 control 0.067 reach p11 0.107
+   min 0.067 m=6 J=(1.47, 1.78, 1.5, 1.86) DELTA=1.5 dt=0.35: habit |dp00| 0.067 control 0.070 reach p11 0.016
+   min 0.066 m=8 J=(1.26, 2.17, 1.38, 1.39) DELTA=1.5 dt=0.5: habit |dp00| 0.066 control 0.107 reach p11 0.101

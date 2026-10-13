@@ -1,0 +1,63 @@
+channel_both_ways_gate v5: N=5, pairs (0, 1)/(3, 4), J=(1.3, 2.2, 1.4, 1.4), DELTA_ON=1.5 and 0, dt=0.5, steps (3, 5), replica at m=5, layer 0.4 us, T2* = T2 x 0.5
+Part 1 (exact, no shots). Transfer D: main, main0, transposed, control | habit |dp00|: main, main0 | silence |dp00| main | sentinels fwd, bwd | reach = forward silence p11/|c| of main, main0, first order
+   device: {'file': 'results/channel_both_ways/kingston_lines_2026-10-13T0550Z.json', 'candidate': 0, 'chain': [74, 73, 79, 93, 94], 'properties_last_update': '2026-10-13 07:30:10+02:00'}
+   noiseless
+      m=3: 1.7e-16 1.2e-16 2.0e-16 0.1339 | 0.0712 0.0e+00 | 0.0e+00 | -0.0000, -0.0000 | reach 0.0191/0.098, 0.0652/0.181, 0.0083/0.064
+      m=5: 4.7e-16 1.6e-16 3.9e-16 0.0874 | 0.1396 1.1e-16 | 0.0e+00 | -0.0000, -0.0000 | reach 0.0789/0.199, 0.2005/0.317, 0.0542/0.165
+   idealized placement, all noise
+      m=3: 2.1e-04 2.3e-04 1.0e-04 0.1139 | 0.0591 1.6e-03 | 4.7e-05 | -0.0190, -0.0176 | reach 0.0182/0.081, 0.0584/0.154, 0.0088/0.055
+      m=5: 1.7e-04 2.1e-04 7.4e-05 0.0666 | 0.1086 5.6e-04 | 7.9e-05 | -0.0252, -0.0248 | reach 0.0649/0.148, 0.1694/0.247, 0.0469/0.126
+   native: dephasing only
+      m=3: 1.0e-03 6.1e-05 5.6e-04 0.1235 | 0.0689 1.5e-03 | 1.0e-04 | -0.0098, -0.0092 | reach 0.0192/0.091, 0.0617/0.166, 0.0089/0.060
+      m=5: 1.1e-03 9.9e-05 1.0e-03 0.0754 | 0.1315 4.2e-04 | 3.2e-05 | -0.0137, -0.0150 | reach 0.0744/0.176, 0.1840/0.278, 0.0523/0.147
+   native: T1 only
+      m=3: 1.3e-04 1.4e-05 2.3e-04 0.1304 | 0.0696 1.1e-04 | 8.3e-05 | -0.0056, -0.0049 | reach 0.0193/0.095, 0.0637/0.177, 0.0089/0.063
+      m=5: 7.1e-05 7.3e-05 1.6e-04 0.0837 | 0.1348 9.3e-05 | 1.0e-04 | -0.0076, -0.0070 | reach 0.0766/0.190, 0.1924/0.306, 0.0532/0.158
+   native: gates + preparation only
+      m=3: 1.5e-04 2.6e-04 5.5e-05 0.1225 | 0.0621 2.2e-03 | 1.7e-05 | -0.0240, -0.0239 | reach 0.0200/0.088, 0.0622/0.167, 0.0100/0.059
+      m=5: 1.6e-04 2.0e-04 2.6e-04 0.0752 | 0.1198 1.1e-03 | 2.9e-04 | -0.0356, -0.0359 | reach 0.0727/0.169, 0.1830/0.281, 0.0517/0.142
+   native: all (readout enters in Part 2)
+      m=3: 6.5e-04 2.7e-04 7.2e-04 0.1100 | 0.0587 3.7e-03 | 1.4e-04 | -0.0383, -0.0370 | reach 0.0203/0.080, 0.0578/0.151, 0.0112/0.054
+      m=5: 9.0e-04 2.4e-04 9.7e-04 0.0622 | 0.1089 1.7e-03 | 2.6e-04 | -0.0547, -0.0553 | reach 0.0670/0.143, 0.1620/0.239, 0.0493/0.123
+   zero-depth end arms, native all: silence (p00, p11, |c|) at A and at B, and their D:
+      A (0.4996, 0.4996, 0.4991)  B (0.4997, 0.4997, 0.4993)  D 3.0e-04
+   counterexamples to a single property (noiseless otherwise; max over the steps of the main transfer D):
+      Rx(0.01) on the left qubit before and after every gate (U^T = U kept, number not conserved): 5.7e-04
+      Z dephasing p = 0.01 on the left qubit after every gate (off the palindrome): 2.9e-02
+      two-qubit and one-qubit depolarizing around every gate (transpose kept, number not conserved): 1.7e-04
+      an XY - YX part of 0.05 rad after every gate (not its own transpose): 1.1e-02
+   diagonal errors (noiseless otherwise; max over the steps): transfer D main / transposed / complex c difference main
+      a static Z profile after every gate (sd 0.05 rad)    3.0e-16 / 3.3e-16 / 1.4e-02
+      Rz(0.02) on the left qubit after every gate          4.6e-16 / 4.1e-16 / 2.4e-02
+      a static ZZ profile after every gate (sd 0.05 rad)   1.5e-03 / 2.2e-03 / 1.8e-03
+      a Z phase drawn anew at every gate occurrence (sd 0.05 rad): main transfer D 2.5e-02
+      static ZZ crosstalk -3.9 kHz on every bond, native device model: main transfer D 9.0e-04 (without it 9.0e-04)
+   stress, idealized placement, T1 = 20 us x (1, 1.7, 0.6, 1.3, 0.8), T2* = 8 us x (1.2, 0.7, 1, 1.4, 0.9); main: transfer D / complex c difference / P_silence fwd, bwd / sentinel fwd / |c|:  m=3: 1.7e-16 / 1.2e-16 / P_silence 0.5570, 0.5569 / sentinel +0.0446 / |c| 0.048 | m=5: 2.8e-16 / 2.0e-16 / P_silence 0.6195, 0.6158 / sentinel +0.0851 / |c| 0.064
+   native coherent errors (max over the steps): main / transposed transfer D, noiseless otherwise; then on top of the native device model
+      CZ conditional phase 0.01 rad per CZ   2.5e-03 / 2.8e-03;  on the device 9.8e-04 / 2.7e-03
+      CZ conditional phase 0.02 rad per CZ   4.4e-03 / 6.0e-03;  on the device 2.4e-03 / 4.8e-03
+      SX over-rotation 0.5 %                 1.2e-03 / 1.6e-03;  on the device 1.6e-03 / 1.9e-03
+      SX over-rotation 1 %                   1.8e-03 / 3.0e-03;  on the device 2.1e-03 / 3.2e-03
+
+Part 2 (counts level, native device model): 60000 synthetic flights split in three (scales / F thresholds / rates), 16384 shots per circuit, CAL pooled 32768 shots per type, the science circuits' shot noise inflated by s = 1.3 for calibration, seed 20261013
+   m=3 (t=1.50): transfer D median main 0.0042 (scale 0.0146), main0 0.0050 (scale 0.0147), transposed 0.0039 (scale 0.0148); control 0.1100 [q001 0.0950] (null 0.0145)
+        habit |dp00| median main 0.0587 [q001 0.0389] (null 0.0183); main0 0.0056 [q999 0.0266] (null 0.0204); silence main 0.0049
+   m=5 (t=2.50): transfer D median main 0.0053 (scale 0.0153), main0 0.0061 (scale 0.0168), transposed 0.0049 (scale 0.0146); control 0.0623 [q001 0.0480] (null 0.0148)
+        habit |dp00| median main 0.1089 [q001 0.0869] (null 0.0204); main0 0.0051 [q999 0.0248] (null 0.0202); silence main 0.0049
+   zero-depth spam D median 0.0077; replica threshold (q999 at m = 5) 0.0186
+   F: q99 1.120 [1.110, 1.133], q999 1.304 [1.287, 1.414] (q999 rests on about 20 tail samples)
+   held-out third, s = 1.3: P(reading) 0.9819, P(control) 1.0000, P(holds) 0.9906, P(departs) 0.0012, P(withheld) 0.0008, P(headline) 0.9726
+
+Part 3 (power and false rates): 6000 synthetic flights per alternative, native device model plus the alternative, judged with the constants above
+   the device model, s = 1.0                                  reading 0.998  control 1.000  holds 1.000  departs 0.000  withheld 0.000  headline 0.998
+   the device model, s = 1.3                                  reading 0.981  control 1.000  holds 0.991  departs 0.001  withheld 0.001  headline 0.972
+   the device model, s = 1.6                                  reading 0.935  control 1.000  holds 0.930  departs 0.015  withheld 0.012  headline 0.872
+   the device model, s = 2.0                                  reading 0.848  control 1.000  holds 0.695  departs 0.102  withheld 0.061  headline 0.594
+   T2* = T2 (echo), s = 1.0                                   reading 0.998  control 1.000  holds 1.000  departs 0.000  withheld 0.000  headline 0.998
+   static ZZ crosstalk -3.9 kHz, s = 1.0                      reading 0.998  control 1.000  holds 1.000  departs 0.000  withheld 0.000  headline 0.998
+   CZ conditional phase 0.01 rad per CZ, s = 1.0              reading 0.998  control 1.000  holds 0.999  departs 0.000  withheld 0.000  headline 0.997
+   CZ conditional phase 0.02 rad per CZ, s = 1.0              reading 0.998  control 1.000  holds 0.997  departs 0.000  withheld 0.000  headline 0.995
+   SX over-rotation 0.5 %, s = 1.0                            reading 0.998  control 1.000  holds 1.000  departs 0.000  withheld 0.000  headline 0.998
+   SX over-rotation 1 %, s = 1.0                              reading 0.999  control 1.000  holds 1.000  departs 0.000  withheld 0.000  headline 0.999
+   Bell preparation on (3,4), 0.02 more depolarizing, s = 1.0 reading 0.997  control 1.000  holds 0.993  departs 0.000  withheld 0.000  headline 0.990
+   Bell preparation on (3,4), 0.05 more depolarizing, s = 1.0 reading 0.992  control 1.000  holds 0.496  departs 0.166  withheld 0.000  headline 0.492

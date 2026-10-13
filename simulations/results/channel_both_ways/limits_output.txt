@@ -1,0 +1,56 @@
+channel_both_ways_gate v5: N=5, pairs (0, 1)/(3, 4), J=(1.3, 2.2, 1.4, 1.4), DELTA_ON=1.5 and 0, dt=0.5, steps (3, 5), replica at m=5, layer 0.4 us, T2* = T2 x 0.5
+Limit 1, the tree gauge, with limit 2's free-chain rows. A two-site unitary that conserves the excitation number has |beta| = |gamma| in its
+   one-excitation block, so G^T = D G D^-1 with D a relative site phase; on a path (a tree) the phases of all
+   bonds glue into one global diagonal when each bond carries ONE gate. The transposed arm does; the main arm
+   carries the E bonds at f = 1/2 and f = 1, two different gates. Noiseless otherwise; a fixed random
+   number-conserving error after every bond gate (seeded), max over the steps:
+   eps 0.05: per-gate gauge residual 4.0e-16; transfer D transposed 4.8e-16, main 2.7e-03, main0 4.5e-04; habit |dp00| main0 9.5e-04 (complex c difference transposed 5.8e-02)
+   eps 0.15: per-gate gauge residual 4.3e-16; transfer D transposed 3.4e-16, main 2.8e-02, main0 1.3e-02; habit |dp00| main0 1.9e-02 (complex c difference transposed 5.5e-02)
+   eps 0.30: per-gate gauge residual 3.0e-16; transfer D transposed 3.7e-16, main 1.0e-01, main0 5.2e-02; habit |dp00| main0 4.0e-02 (complex c difference transposed 2.2e-01)
+   eps 0.05 on the O bonds only: transfer D main 4.3e-16, transposed 3.8e-16
+   eps 0.05 on the E bonds only: transfer D main 7.1e-03, transposed 3.9e-16
+   an error that reaches past the bond, ZZ of 0.05 rad on the neighbouring bonds after every bond gate: transfer D main 9.6e-03, transposed 2.3e-03
+   the way back that the transposition asks for is the exact reverse of the way out: the layers AND the bonds
+   within each layer in reverse order, each error before its gate. The design's transposed arm reverses only
+   the layers and keeps each error after its gate. Transposed transfer D, max over the steps:
+   ZZ of 0.05 rad on the neighbouring bonds (static, past the bond): the design's way back 2.3e-03, the exact reverse 2.9e-16
+   Z dephasing p = 0.01 on the bond's left site (stochastic, on the bond): the design's way back 2.4e-02, the exact reverse 4.5e-16
+   an XY - YX part of theta rad after every bond gate (not its own transpose), max over the steps:
+   theta 0.05: transfer D main 1.1e-02, main0 6.8e-04, transposed 5.5e-16; habit |dp00| main0 1.9e-04, main at m = 3, 5: 0.0708, 0.1548
+   theta 0.10: transfer D main 2.4e-02, main0 2.7e-03, transposed 5.0e-16; habit |dp00| main0 7.3e-04, main at m = 3, 5: 0.0693, 0.1674
+   theta 0.20: transfer D main 5.0e-02, main0 1.1e-02, transposed 4.1e-16; habit |dp00| main0 2.5e-03, main at m = 3, 5: 0.0630, 0.1832
+Limit 4, T1 through the silence. The main arm with a delay of tau us between its layers (the sequence stays
+   a palindrome). dP = P_silence forward - backward (tied only through number conservation), transfer D, and
+   dF = F_sil forward - backward, the silence-read Phi+ fidelity (the operator swap's own observable), with
+   its shot noise at 16384 shots per setting:
+   m=3 tau  0.0: idealized, all -1.6e-03 / 2e-04 / -1.1e-04; idealized, T1 off -3.8e-04 / 2e-04 / -7.2e-05; native, all -1.1e-03 / 7e-04 / +5.1e-04; native, T1 off -4.2e-04 / 8e-04 / +6.7e-04  (native all, forward: P_silence 0.482, p11 0.020, |c| 0.080; shot noise on dF 3.8e-03)
+   m=3 tau  5.0: idealized, all -1.5e-02 / 5e-04 / -2.0e-03; idealized, T1 off -5.4e-04 / 2e-04 / -5.7e-05; native, all -1.4e-02 / 4e-04 / -1.7e-03; native, T1 off -1.7e-04 / 4e-04 / +3.7e-04  (native all, forward: P_silence 0.510, p11 0.014, |c| 0.032; shot noise on dF 3.9e-03)
+   m=3 tau 10.0: idealized, all -2.7e-02 / 7e-04 / -5.7e-03; idealized, T1 off -6.7e-04 / 3e-04 / -5.0e-05; native, all -2.6e-02 / 6e-04 / -5.5e-03; native, T1 off -4.6e-05 / 2e-04 / +2.1e-04  (native all, forward: P_silence 0.539, p11 0.010, |c| 0.013; shot noise on dF 4.0e-03)
+   m=3 tau 20.0: idealized, all -4.7e-02 / 9e-04 / -1.4e-02; idealized, T1 off -8.4e-04 / 3e-04 / -4.5e-05; native, all -4.5e-02 / 1e-03 / -1.4e-02; native, T1 off +4.6e-05 / 1e-04 / +8.2e-05  (native all, forward: P_silence 0.600, p11 0.006, |c| 0.002; shot noise on dF 4.1e-03)
+   m=3 tau 40.0: idealized, all -6.2e-02 / 1e-03 / -2.4e-02; idealized, T1 off -9.7e-04 / 3e-04 / -4.4e-05; native, all -6.1e-02 / 2e-03 / -2.4e-02; native, T1 off +7.2e-05 / 1e-04 / +1.0e-05  (native all, forward: P_silence 0.711, p11 0.003, |c| 0.000; shot noise on dF 4.2e-03)
+   m=5 tau  0.0: idealized, all -6.0e-04 / 2e-04 / -6.3e-05; idealized, T1 off +2.4e-04 / 1e-04 / -5.5e-07; native, all +1.2e-03 / 9e-04 / -1.7e-04; native, T1 off +2.0e-03 / 1e-03 / -1.6e-04  (native all, forward: P_silence 0.512, p11 0.067, |c| 0.143; shot noise on dF 3.8e-03)
+   m=5 tau  5.0: idealized, all -1.5e-02 / 7e-04 / -3.3e-03; idealized, T1 off -7.6e-05 / 2e-04 / -3.2e-05; native, all -1.4e-02 / 4e-04 / -3.1e-03; native, T1 off +1.0e-03 / 4e-04 / +4.5e-05  (native all, forward: P_silence 0.546, p11 0.029, |c| 0.032; shot noise on dF 4.0e-03)
+   m=5 tau 10.0: idealized, all -3.0e-02 / 1e-03 / -8.3e-03; idealized, T1 off -3.0e-04 / 2e-04 / -4.0e-05; native, all -2.8e-02 / 9e-04 / -8.0e-03; native, T1 off +6.5e-04 / 2e-04 / +8.0e-05  (native all, forward: P_silence 0.594, p11 0.017, |c| 0.007; shot noise on dF 4.1e-03)
+   m=5 tau 20.0: idealized, all -4.7e-02 / 1e-03 / -1.7e-02; idealized, T1 off -5.8e-04 / 3e-04 / -4.3e-05; native, all -4.4e-02 / 1e-03 / -1.6e-02; native, T1 off +3.8e-04 / 9e-05 / +5.3e-05  (native all, forward: P_silence 0.686, p11 0.008, |c| 0.000; shot noise on dF 4.3e-03)
+   m=5 tau 40.0: idealized, all -4.5e-02 / 1e-03 / -1.8e-02; idealized, T1 off -8.0e-04 / 3e-04 / -4.3e-05; native, all -4.3e-02 / 2e-03 / -1.8e-02; native, T1 off +2.2e-04 / 5e-05 / +6.1e-06  (native all, forward: P_silence 0.819, p11 0.003, |c| 0.000; shot noise on dF 4.3e-03)
+   shot noise on dP (binomial at P = 1/2, pooled over the 5 settings at 16384 shots, no readout inversion): 2.5e-03
+   unital but not number-conserving (idealized placement, the gates' depolarizing and Z dephasing), dP / dF / dp00_sil at tau = 0, 10 us, m = 3: -3.6e-04 / -1.1e-16 / +1.8e-04; -6.3e-04 / -2.2e-16 / +2.6e-04
+   which T1 profile sets it (idealized placement, no gate, preparation or readout error, T2* the line's mean,
+   m = 3), dP at tau = 0, 5, 10 us, then dF and dp00_sil at tau = 10 us:
+   uniform 240                          +2.0e-04, +1.8e-03, +2.6e-03 | dF +1.1e-16, dp00_sil +2.2e-16
+   q4 at 137                            -1.2e-03, -1.5e-02, -2.8e-02 | dF -6.7e-03, dp00_sil -1.3e-02
+   q0 at 137                            +1.6e-03, +1.7e-02, +3.1e-02 | dF +5.9e-03, dp00_sil +1.2e-02
+   q2 at 137                            +5.8e-04, +6.0e-03, +1.0e-02 | dF +2.1e-03, dp00_sil +4.2e-03
+   palindromic 137, 240, 240, 240, 137  +1.8e-04, +9.4e-04, +6.1e-04 | dF -6.3e-04, dp00_sil -1.3e-03
+   uniform 240 on the palindromic couplings J = (1.4, 2.2, 2.2, 1.4), tau = 10 us: dP -5.4e-03, dF -2.8e-16
+   phases in F_sil, a static Z profile after every gate (sd 0.05 rad, the Part 1 row), noiseless otherwise: dF main m=3 -8.8e-05, main m=5 +1.3e-03, transposed m=3 +6.8e-03, transposed m=5 -1.0e-02
+   phases in F_sil, Rz(0.02) on the left qubit after every gate, noiseless otherwise: dF main m=3 -4.8e-03, main m=5 +1.1e-02, transposed m=3 -7.3e-03, transposed m=5 +1.9e-02
+   the counting law: uniform T1 240 us, 3 us of idle per layer, dP_vac (the vacuum population, forward - backward): main m=3 +6.7e-16, main m=5 +1.3e-15, control m=3 +8.9e-16, control m=5 +7.8e-16
+   dp00_sil at tau = 10 us (idealized, no gate error), with an added phase error after every gate: none, uniform 240: m=3 +2.22e-16, m=5 +1.11e-16; none, q4 at 137: m=3 -1.33e-02, m=5 -1.99e-02; Rz(0.02), uniform 240: m=3 +3.33e-16, m=5 +1.11e-16; Rz(0.02), q4 at 137: m=3 -1.33e-02, m=5 -2.00e-02; static Z profile, uniform 240: m=3 +2.22e-16, m=5 +0.00e+00; static Z profile, q4 at 137: m=3 -1.36e-02, m=5 -2.10e-02
+   shot noise on dp00_sil (ZZ setting alone, binomial at 1/2, both directions, no readout error): 5.5e-03
+   phases at the signal's operating point: dF at tau = 10 us, idealized placement, the line's T2*, no gate or preparation error, with an added phase error after every gate: none, line T1: m=3 -5.76e-03, m=5 -8.81e-03; none, uniform T1 240: m=3 +0.00e+00, m=5 -3.89e-16; Rz(0.02), line T1: m=3 -6.53e-03, m=5 -8.31e-03; Rz(0.02), uniform T1 240: m=3 -7.56e-04, m=5 +5.32e-04; static Z profile, line T1: m=3 -5.78e-03, m=5 -9.29e-03; static Z profile, uniform T1 240: m=3 +6.04e-05, m=5 -4.12e-05
+The identity behind limits 3 and 4. For a real H with Z dephasing and thermal damping
+   (cooling g_down, heating g_up per site), L - L^T = sum_l dg_l (s-_l . s+_l - s+_l . s-_l), with A . B the map
+   rho -> A rho B, and L(I) = sum_l dg_l Z_l, dg_l = g_down_l - g_up_l (F84's net cooling); both vanish only at
+   dg = 0. Five sites, a random integer symmetric H, random integer rates (row-stacked superoperators, exact):
+   max |(L - L^T) - sum dg (s-.s+ - s+.s-)| = 0.0e+00; max |L(I) - sum dg Z| = 0.0e+00

@@ -4985,3 +4985,37 @@ The open pass of the entry above ("Found beside the pass, not repaired in it").
 - **How caught.** Pointing the `mirror` root at a foreign system for the first time (a ring, while learning the tools) and finding the weights at odds with the symmetry; a full numpy diagonalization confirmed the 26-fold degeneracy.
 - **Shape.** A reading of one member of a degenerate set reported as a property of the set; a check (the rate law) that every member passes cannot tell them apart.
 - **Anchor:** `compute/RCPsiSquared.Diagnostics/Foundation/CarrierVectorPortfolio.cs` (EigenspaceLedger), `compute/RCPsiSquared.Diagnostics.Tests/Foundation/CarrierVectorPortfolioTests.cs` (the ring and the full-against-blocked handshake).
+
+## 2026-10-13, a hardware design whose discriminating test was never put against a channel whose way back is not the transposed circuit
+
+- **What stood.** The draft pre-registration of the channel-both-ways flight went through five review rounds and was never committed.
+  - **Its claim.** It called its free-chain arm (Δ = 0) "the part that discriminates" a channel that keeps F119's transposition from one that breaks it.
+  - **Its power table** priced coherent calibration errors and an asymmetric preparation. The coherent ones do break the transposition, through the native synthesis, but at sizes below the statistic's scale. Every arm, the free-chain arm included, was judged only against errors that small.
+  - **Its transposed arm** counted as a test, although on a path every static number-conserving coherent error that stays on its bond leaves that arm's moduli exactly equal.
+  - **Its gating** covered the transferred moduli, the habit-read p00 and the control, not the silence-read Φ⁺ fidelity, though that is the corollary's own observable and was in its estimator.
+  - **Its amplitude-damping statement** was called "pinned only numerically", while F137 derives the block-triangularity it rests on.
+- **The repair.** Not flown. The page is now a design record of four limits, computed by the gate (`--limits`, and the stress row of its default run):
+  - the tree gauge, and the exact reverse it asks for outside the gauge;
+  - the free-chain contrast as reading 3;
+  - σ⁻'s jumps kept out of the transferred entries;
+  - σ⁻ in the silence-read fidelity: a uniform cold T1 leaves it tied by counting, and a non-uniform one moves it, readable with long delays but set by the day's T1 profile.
+- **How caught.**
+  - **The sixth round:** three empty reviewers, all three independently, each by running the gate's own statistics under an XY − YX part or random number-conserving errors after every gate.
+  - **F137** through Tom's pointer that the repository had recently said something about T1.
+  - **The seventh to thirteenth rounds** checked the repairs, each with empty reviewers.
+- **The repairs erred eleven times, every time in an explanation, never in a number:**
+  - a gauge stated without its condition;
+  - a vector called measured on qubits it was never flown on;
+  - a schedule cause named wrongly;
+  - a stochastic error counted under a gauge that holds only for static ones;
+  - twice, a mechanism for the silence probability that the computation contradicts;
+  - a phase confound stated wider than computed;
+  - the vacuum population called the carrier of the law's condition, though the corollary does not tie it;
+  - two operating points compared as one: phase errors at no delay against a T1 signal at 10 µs;
+  - the vacuum population said to move under a uniform T1, which the counting law forbids;
+  - a condition of the counting law left out: every site decaying at one rate over the same intervals.
+- **Shape.** Three parts:
+  - a power table without an alternative aimed at what the test was said to discriminate;
+  - a sweep that searched the law's own entry rather than the mechanisms the design turned on (block-triangularity under σ⁻, the net-cooling vector, the no-flux gauge on a tree), so the facts that decided the design sat in the repository unconnected to it;
+  - in the repairs, mechanism stories added faster than controls were run against them. Each round that cut a story down to what logic or a printed number carries left less for the next to find.
+- **Anchor:** `experiments/THE_CHANNEL_BOTH_WAYS_ON_A_PATH.md`, `simulations/channel_both_ways_gate.py` (`--limits`).
