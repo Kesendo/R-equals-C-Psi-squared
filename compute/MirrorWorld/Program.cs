@@ -2230,9 +2230,18 @@ if (args.Length > 0 && args[0] == "lettercube")
     Console.WriteLine("  the height of a string under dephasing at one rate per letter, 2(g_Z k_Z + g_X k_X + g_Y k_Y); which half-turns pair the rates:");
     foreach (var (gz, gx, gy) in new[] { (1L, 0L, 0L), (0L, 1L, 1L), (1L, 1L, 1L), (2L, 0L, 1L) })
         Console.WriteLine($"    (g_Z, g_X, g_Y) = ({gz}, {gx}, {gy}): half-turns about [{string.Join(", ", LetterCube.PairingHalfTurns(gz, gx, gy))}]");
+    Console.WriteLine("  the Hamiltonian's steps (§8) on the chain, every move (dk_Z, dk_X, dk_Y) the placed terms make:");
+    int sn = Math.Min(ln, 4);
+    foreach (var (name, templates) in new[] { ("Heisenberg XX + YY + ZZ", new[] { "XX", "YY", "ZZ" }), ("XY XX + YY", new[] { "XX", "YY" }),
+                                              ("Ising ZZ", new[] { "ZZ" }), ("Heisenberg + an X field", new[] { "XX", "YY", "ZZ", "X" }) })
+    {
+        var mv = LetterCube.Moves(LetterCube.ChainTerms(templates, sn), sn).OrderBy(d => (d.KZ, d.KX, d.KY));
+        Console.WriteLine($"    {name} (N = {sn}): {string.Join(" ", mv)}");
+    }
+    Console.WriteLine("    a bond steps w by one; P (x) P steps +-2 along one axis other than P; a field P steps on a face diagonal of k_P = const");
     Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The axes are 'anticommutes with the frame's z, x, y': the frame is inherited,");
-    Console.WriteLine("  the coordinates and the heights are the cube's own.");
+    Console.WriteLine("  the coordinates, the heights and the steps are the cube's own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", lcube.Own)}");
     Console.WriteLine($"    inherited (right): {string.Join(", ", lcube.Inherited)}");
     return;

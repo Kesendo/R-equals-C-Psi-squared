@@ -12,10 +12,10 @@ public class LetterCubeTests
     static readonly World W = new();
 
     [Fact]
-    public void The_Cube_Owns_Coordinates_And_Height_And_Inherits_The_Frame()
+    public void The_Cube_Owns_Coordinates_Height_And_Step_And_Inherits_The_Frame()
     {
         var cube = new LetterCube(W);
-        Assert.Equal(new[] { "coordinates", "height" }, cube.Own);
+        Assert.Equal(new[] { "coordinates", "height", "step" }, cube.Own);
         Assert.Equal(new[] { "x", "y", "z" }, cube.Inherited);
     }
 
@@ -222,6 +222,149 @@ public class LetterCubeTests
         foreach (var s in LetterCube.Strings(3))
             Assert.Equal(Hardness.Cube(s.ToString(3).ToCharArray()), LetterCube.Parities(LetterCube.Coordinates(s)));
     }
+
+    // ---- the steps (§8, gate S9) ----
+
+    static readonly LetterCube.Point O = new(0, 0, 0);
+
+    // [T, sigma] is 0 when they commute and 2 i^k Target when they anticommute (T sigma = i^k Target, Target the
+    // phase-free product): every placed term against every
+    // string on two sites, judged by the dense commutator built letter by letter, compared exactly.
+    [Fact]
+    public void The_Commutator_Coefficient_Is_The_Dense_Commutator()
+    {
+        foreach (var t in LetterCube.Strings(2))
+            foreach (var s in LetterCube.Strings(2))
+            {
+                var T = DenseString(t.ToString(2));
+                var S = DenseString(s.ToString(2));
+                var ts = Mul(T, S);
+                var st = Mul(S, T);
+                var c = LetterCube.CommutatorCoefficient(t, s);
+                var expected = new Complex[4, 4];
+                if (c is { } r)
+                {
+                    var target = DenseString(r.Target.ToString(2));
+                    for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) expected[i, j] = 2 * Phase(r.PhasePower) * target[i, j];
+                }
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                        Assert.True(ts[i, j] - st[i, j] == expected[i, j]);
+            }
+    }
+
+    // §8, gate S9(a): every nonzero move of a two-site term P (x) Q changes w by exactly one; a bond P (x) P steps
+    // +-2 along exactly one axis, never P's own, and ZZ moves only k_X and k_Y, XX only k_Z and k_Y, YY only k_Z and
+    // k_X; a mixed term is not an axis step (X (x) Y sends Y (x) I to Z (x) Y, a step (0, 1, 1)).
+    [Fact]
+    public void A_Bond_Steps_To_The_Adjacent_Plane_And_P_P_Along_One_Axis()
+    {
+        foreach (char p in "XYZ")
+            foreach (char q in "XYZ")
+            {
+                var term = PauliString.Parse($"{p}{q}");
+                var axesSeen = new HashSet<char>();
+                foreach (var s in LetterCube.Strings(2))
+                {
+                    if (LetterCube.Step(term, s) is not { } r) continue;
+                    Assert.Equal(1, Math.Abs(LetterCube.Weight(r.Target) - LetterCube.Weight(s)));
+                    if (p != q) continue;
+                    var d = r.Step;
+                    var nonzero = new[] { ('Z', d.KZ), ('X', d.KX), ('Y', d.KY) }.Where(a => a.Item2 != 0).ToList();
+                    Assert.Single(nonzero);
+                    Assert.Equal(2, Math.Abs(nonzero[0].Item2));
+                    Assert.NotEqual(p, nonzero[0].Item1);
+                    axesSeen.Add(nonzero[0].Item1);
+                }
+                if (p == q) Assert.Equal("XYZ".Where(c => c != p).ToHashSet(), axesSeen);
+            }
+        var mixed = LetterCube.Step(PauliString.Parse("XY"), PauliString.Parse("YI"));
+        Assert.NotNull(mixed);
+        Assert.Equal("ZY", mixed!.Value.Target.ToString(2));
+        Assert.Equal(new LetterCube.Point(0, 1, 1), mixed.Value.Step);
+    }
+
+    // §8, gate S9(a): a one-site field P keeps w and steps (+-1, -+1) on the face diagonal of the plane k_P = const.
+    [Fact]
+    public void A_Field_Steps_On_A_Face_Diagonal()
+    {
+        foreach (char p in "XYZ")
+        {
+            int moved = 0;
+            foreach (var s in LetterCube.Strings(1))
+            {
+                if (LetterCube.Step(PauliString.Parse(p.ToString()), s) is not { } r) continue;
+                moved++;
+                Assert.Equal(LetterCube.Weight(s), LetterCube.Weight(r.Target));
+                var d = r.Step;
+                int own = p switch { 'Z' => d.KZ, 'X' => d.KX, _ => d.KY };
+                Assert.Equal(0, own);
+                Assert.Equal(0, d.KZ + d.KX + d.KY);
+                Assert.Equal(2, Math.Abs(d.KZ) + Math.Abs(d.KX) + Math.Abs(d.KY));
+            }
+            Assert.Equal(2, moved);                                  // the two letters other than I and P
+        }
+    }
+
+    // §8, gate S9(b): on the chain at N = 3 every move of bonds of the XYZ family with no field is an axis step. The
+    // moves are read term by term, so the coefficients never enter: the term sets {XX, YY, ZZ} (Heisenberg, XXZ, any
+    // triple of bond weights), {XX, YY}, {ZZ} and {XX} cover every such chain. An X field adds face diagonals in the
+    // plane k_X = const.
+    [Fact]
+    public void An_XYZ_Chain_Moves_Only_Along_The_Axes_And_A_Field_Adds_Face_Diagonals()
+    {
+        static bool Axis(LetterCube.Point d)
+            => new[] { d.KZ, d.KX, d.KY }.Count(v => v != 0) == 1 && Math.Abs(d.KZ + d.KX + d.KY) == 2;
+        foreach (var bonds in new[] { new[] { "XX", "YY", "ZZ" }, new[] { "XX", "YY" }, new[] { "ZZ" }, new[] { "XX" } })
+        {
+            var moves = LetterCube.Moves(LetterCube.ChainTerms(bonds, 3), 3);
+            Assert.NotEmpty(moves);
+            Assert.All(moves, d => Assert.True(Axis(d)));
+        }
+        var withField = LetterCube.Moves(LetterCube.ChainTerms(new[] { "XX", "YY", "ZZ", "X" }, 3), 3);
+        Assert.Contains(withField, d => !Axis(d));
+        Assert.All(withField.Where(d => !Axis(d)), d => Assert.True(d.KX == 0 && d.KZ == -d.KY && Math.Abs(d.KZ) == 1));
+    }
+
+    // §8: the parity rule's 0. The moves of XX + YY that keep k_Z are exactly its steps along k_X and k_Y; every
+    // other move changes k_Z by +-2.
+    [Fact]
+    public void The_Parity_Rules_Zero_Is_A_Step_Along_Another_Axis()
+    {
+        var moves = LetterCube.Moves(LetterCube.ChainTerms(new[] { "XX", "YY" }, 3), 3);
+        Assert.Equal(
+            new HashSet<LetterCube.Point> { new(0, 2, 0), new(0, -2, 0), new(0, 0, 2), new(0, 0, -2) },
+            moves.Where(d => d.KZ == 0).ToHashSet());
+        Assert.Equal(new HashSet<LetterCube.Point> { new(2, 0, 0), new(-2, 0, 0) }, moves.Where(d => d.KZ != 0).ToHashSet());
+    }
+
+    // The edges at N = 3, pinned against the Python primitive's cube_edges (12, 12, 8 and 22 for Heisenberg, XY,
+    // Ising and Heisenberg with an X field); the identity, which commutes with everything, lies on no edge; and a
+    // three-site term XYZ at N = 4 makes the zero step, which Moves keeps and Edges drops (42 edges in Python).
+    [Fact]
+    public void The_Edges_Are_Axis_Steps_Between_Reached_Points()
+    {
+        foreach (var (templates, count) in new[] { (new[] { "XX", "YY", "ZZ" }, 12), (new[] { "XX", "YY" }, 12),
+                                                   (new[] { "ZZ" }, 8), (new[] { "XX", "YY", "ZZ", "X" }, 22) })
+            Assert.Equal(count, LetterCube.Edges(LetterCube.ChainTerms(templates, 3), 3).Count);
+        var xyz = LetterCube.ChainTerms(new[] { "XYZ" }, 4);
+        Assert.Contains(O, LetterCube.Moves(xyz, 4));
+        var xyzEdges = LetterCube.Edges(xyz, 4);
+        Assert.Equal(42, xyzEdges.Count);
+        Assert.DoesNotContain(xyzEdges, e => e.Item1 == e.Item2);
+        var terms = LetterCube.ChainTerms(new[] { "XX", "YY", "ZZ" }, 3);
+        var moves = LetterCube.Moves(terms, 3);
+        var points = LetterCube.Points(3);
+        foreach (var (a, b) in LetterCube.Edges(terms, 3))
+        {
+            Assert.True(points.ContainsKey(a) && points.ContainsKey(b));
+            var d = new LetterCube.Point(b.KZ - a.KZ, b.KX - a.KX, b.KY - a.KY);
+            Assert.True(moves.Contains(d) || moves.Contains(new LetterCube.Point(-d.KZ, -d.KX, -d.KY)));
+        }
+        Assert.DoesNotContain(LetterCube.Edges(terms, 3), e => e.Item1 == O || e.Item2 == O);
+    }
+
+    static Complex Phase(int k) => (k % 4) switch { 0 => 1, 1 => Complex.ImaginaryOne, 2 => -1, _ => -Complex.ImaginaryOne };
 
     // ---- dense helpers, built letter by letter (the second route) ----
 

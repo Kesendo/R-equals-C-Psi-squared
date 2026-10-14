@@ -2,8 +2,8 @@ using System.Numerics;
 
 namespace MirrorWorld;
 
-// The letter cube (adopted 2026-10-14 from docs/THE_ONE_SQUARE.md §7, the cube of the three one-site squares;
-// gates simulations/diagonal_square_gate.py S8 and S9(e), the Python primitive simulations/framework/letter_cube.py).
+// The letter cube (adopted 2026-10-14 from docs/THE_ONE_SQUARE.md §7 and §8, the cube of the three one-site squares;
+// gates simulations/diagonal_square_gate.py S8 and S9, the Python primitive simulations/framework/letter_cube.py).
 //
 // Each dephasing letter P in {Z, X, Y} has its own one-site square, and a letter sits on P's anti-diagonal exactly
 // when it anticommutes with P. Give each letter one coordinate per square: I = (0,0,0), X = (1,0,1), Y = (1,1,0),
@@ -27,7 +27,11 @@ namespace MirrorWorld;
 // mod 2 in its first two coordinates, with the third read as half a sum: y_par = (k_Z + k_X - k_Y)/2 mod 2,
 // which is no coordinate's parity.
 //
-// This is the fixed cube, with §8's two edges; the Hamiltonian's steps (§8) and the move table of §9 are not here.
+// The Hamiltonian moves strings (§8, gate S9). A placed Pauli term T gives [T, sigma] = 0 when the two commute and
+// 2 i^k Target when they anticommute, T sigma = i^k Target with Target the phase-free product, one string; a two-site term changes w by exactly one, a bond P (x) P steps
+// +-2 along one of the two axes other than P, and a one-site field keeps w and steps on a face diagonal of the plane
+// k_P = const. The Pauli dissipator never moves a string, so every move a string makes on the cube is the
+// Hamiltonian's. The move table of §9 asked of a given system is not here.
 //
 // Deliberately outside: spectra, eigenvalue counts on a plane, centroid trajectories (paths, the main repo's).
 //
@@ -45,7 +49,7 @@ public sealed class LetterCube : GameObject
     public LetterCube(World world) : base(world) { }
 
     // left: what the cube itself produces.
-    public override IReadOnlyList<string> Own => new[] { "coordinates", "height" };
+    public override IReadOnlyList<string> Own => new[] { "coordinates", "height", "step" };
 
     public readonly record struct Point(int KZ, int KX, int KY)
     {
@@ -161,6 +165,70 @@ public sealed class LetterCube : GameObject
             if (sums == 1) axes.Add(p);
         }
         return axes;
+    }
+
+    // ---- the steps (§8) ----
+
+    // The move a placed term makes on a string: null when they commute (the commutator is zero), else the string
+    // the commutator is proportional to and the step (dk_Z, dk_X, dk_Y).
+    public static (PauliString Target, Point Step)? Step(PauliString term, PauliString s)
+    {
+        if (PauliString.Commute(term, s)) return null;
+        var (target, _) = PauliString.Multiply(term, s);
+        var a = Coordinates(s);
+        var b = Coordinates(target);
+        return (target, new Point(b.KZ - a.KZ, b.KX - a.KX, b.KY - a.KY));
+    }
+
+    // [term, sigma] = 2 i^PhasePower Target when they anticommute (term sigma = i^PhasePower Target, sigma term =
+    // -term sigma), null when they commute. Enough to rebuild every entry of ad_H in the string basis.
+    public static (PauliString Target, int PhasePower)? CommutatorCoefficient(PauliString term, PauliString s)
+    {
+        if (PauliString.Commute(term, s)) return null;
+        return PauliString.Multiply(term, s);
+    }
+
+    // every step the placed terms make on any string of n sites
+    public static IReadOnlySet<Point> Moves(IEnumerable<PauliString> terms, int n)
+    {
+        var ts = terms.ToList();
+        var steps = new HashSet<Point>();
+        foreach (var s in Strings(n))
+            foreach (var t in ts)
+                if (Step(t, s) is { } r) steps.Add(r.Step);
+        return steps;
+    }
+
+    // the pairs of distinct lattice points the placed terms join (a move that lands on the point it started from,
+    // possible for terms on three or more sites, gives no edge), each pair ordered
+    public static IReadOnlySet<(Point, Point)> Edges(IEnumerable<PauliString> terms, int n)
+    {
+        var ts = terms.ToList();
+        var edges = new HashSet<(Point, Point)>();
+        foreach (var s in Strings(n))
+            foreach (var t in ts)
+                if (Step(t, s) is { } r)
+                {
+                    var a = Coordinates(s);
+                    var b = Coordinates(r.Target);
+                    if (a == b) continue;
+                    edges.Add(Order(a, b));
+                }
+        return edges;
+    }
+
+    static (Point, Point) Order(Point a, Point b)
+        => (a.KZ, a.KX, a.KY).CompareTo((b.KZ, b.KX, b.KY)) <= 0 ? (a, b) : (b, a);
+
+    // the placed terms of a template on every window of an open chain of n sites: a k-letter template sits on sites
+    // i..i+k-1, a one-letter template on every site
+    public static IReadOnlyList<PauliString> ChainTerms(IEnumerable<string> templates, int n)
+    {
+        var placed = new List<PauliString>();
+        foreach (var t in templates)
+            for (int i = 0; i + t.Length <= n; i++)
+                placed.Add(PauliString.Parse(new string('I', i) + t + new string('I', n - t.Length - i)));
+        return placed;
     }
 
     // R, the right multiplication by X^N, letter by letter (I <-> X, Y <-> Z), up to phase
