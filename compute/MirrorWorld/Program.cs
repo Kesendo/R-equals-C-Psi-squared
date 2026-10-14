@@ -2236,8 +2236,25 @@ if (args.Length > 0 && args[0] == "sextant")
             Console.WriteLine($"      {f.Map.Describe()}  (c = {f.Reading.C})");
     }
     Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine($"  THE DECISION (does the spectrum pair about -c/2?), chains at N = {mn}: a witness is a yes, an odd centred trace");
+    Console.WriteLine("  that is not zero is a no for every element (both exact); odd traces vanishing modulo two primes with no witness are");
+    Console.WriteLine("  evidence of a pairing the search does not see, not a proof.");
+    foreach (var (dname, dsetting) in new (string, Sextant.Setting)[]
+    {
+        ("Heisenberg, thermal (loss 3, gain 1)", Sextant.Setting.Chain(mn, new[] { ("XX", 1L), ("YY", 1L), ("ZZ", 1L) },
+            Sextant.Setting.OnEverySite(mn, LetterCube.Lowering, 3).Concat(Sextant.Setting.OnEverySite(mn, LetterCube.Raising, 1)))),
+        ("DNA model: X fields, ZZ, loss, gain and Z", Sextant.Setting.Chain(mn, new[] { ("X", -1L), ("ZZ", 2L) },
+            Sextant.Setting.OnEverySite(mn, LetterCube.Lowering, 3).Concat(Sextant.Setting.OnEverySite(mn, LetterCube.Raising, 1)).Concat(Sextant.Setting.OnEverySite(mn, LetterCube.LetterMatrix('Z'), 1)))),
+        ("DM bonds XY - YX, loss", Sextant.Setting.Chain(mn, new[] { ("XY", 1L), ("YX", -1L) }, Sextant.Setting.OnEverySite(mn, LetterCube.Lowering, 1))),
+    })
+    {
+        var dec = Sextant.Decide(dsetting);
+        Console.WriteLine($"    {dname,-44} {dec.Kind}: {dec.Detail}");
+    }
+    Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The sextant reads with the cube: coordinates, heights, steps, arrows and moves are");
-    Console.WriteLine("  inherited; the verdict and the search are its own.");
+    Console.WriteLine("  inherited; the verdict, the search and the decision are its own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", sextant.Own)}");
     Console.WriteLine($"    inherited (right): {string.Join(", ", sextant.Inherited)}");
     return;

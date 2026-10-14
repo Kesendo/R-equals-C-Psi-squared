@@ -17,7 +17,7 @@ public class SextantTests
     public void The_Sextant_Owns_The_Verdict_And_The_Search_And_Inherits_The_Cube()
     {
         var sextant = new Sextant(new LetterCube(W));
-        Assert.Equal(new[] { "verdict", "search" }, sextant.Own);
+        Assert.Equal(new[] { "verdict", "search", "decision" }, sextant.Own);
         Assert.Equal(new[] { "coordinates", "height", "step", "arrow", "moves", "x", "y", "z" }, sextant.Inherited);
     }
 
@@ -257,4 +257,153 @@ public class SextantTests
         return m;
     }
 
+    // ---- the no (the odd centred traces) and the decision ----
+
+    // The sextant's three exact answers on settings §9 and F137 already hold: the thermal Heisenberg chain is WITNESSED
+    // (S_XY's class); the warm DNA model (transverse X fields, ZZ, loss, gain and Z) is OBSTRUCTED at the third power,
+    // so no element of any kind reflects it; DM bonds under loss, which F137 pairs by another route, are
+    // SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo two primes and no element of the closure
+    // reflects. Read only to the fifth power, the DM setting is OPEN. With no jumps the identity reflects (WITNESSED).
+    [Fact]
+    public void The_Sextant_Answers_Yes_No_And_Symmetric_Unseen()
+    {
+        const int n = 3;
+        var thermal = Heisenberg(n, Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)));
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(thermal).Kind);
+        var warm = Sextant.Setting.Chain(n, new[] { ("X", -1L), ("ZZ", 2L) },
+            Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)).Concat(Every(n, LetterCube.LetterMatrix('Z'), 1)));
+        var dWarm = Sextant.Decide(warm);
+        Assert.Equal(Sextant.Palindrome.Obstructed, dWarm.Kind);
+        Assert.Equal(3, Sextant.OddTraceObstruction(warm, 9)!.Value.Power);
+        var dm = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("YX", -1L) }, Every(n, LetterCube.Lowering, 1));
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(dm).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(dm, maxPower: 5).Kind);
+        var bare = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("X", 1L), ("ZX", 1L) }, Array.Empty<(int, LetterCube.Gauss[,], long)>());
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(bare).Kind);
+    }
+
+    // The DM reading by an exact second route: on two sites the generator is built densely from H and the jumps, scaled
+    // to 4 dim M with Gaussian-integer entries, and its odd powers up to the dimension are traced in BigInteger
+    // arithmetic: every one is exactly zero for DM bonds under loss (so the modular SYMMETRIC-MOD-P is exact there),
+    // and the warm DNA model's third trace is the integer whose residue the obstruction reads.
+    [Fact]
+    public void The_DM_Symmetry_Is_Exact_On_Two_Sites()
+    {
+        const int n = 2;
+        (System.Numerics.BigInteger Re, System.Numerics.BigInteger Im)[,] Scaled(Sextant.Setting s)
+        {
+            int d = 1 << n, dim = d * d;
+            var H = new Complex[d, d];
+            foreach (var (term, c) in s.H) Acc(H, DenseString(term.ToString(n)), c);
+            var L = new Complex[dim, dim];
+            for (int a = 0; a < dim; a++)
+            {
+                var e = new Complex[d, d]; e[a / d, a % d] = 1;
+                var hr = Mul(H, e); var rh = Mul(e, H);
+                var o = new Complex[d, d];
+                for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) o[i, j] = -Complex.ImaginaryOne * (hr[i, j] - rh[i, j]);
+                foreach (var (site, jump, rate) in s.Jumps)
+                {
+                    var J = Site(n, site, ToComplex(jump)); var Jd = Dag4(J); var JdJ = Mul(Jd, J);
+                    var sand = Mul(J, Mul(e, Jd)); var l = Mul(JdJ, e); var r = Mul(e, JdJ);
+                    for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) o[i, j] += rate * (sand[i, j] - 0.5 * (l[i, j] + r[i, j]));
+                }
+                for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) L[i * d + j, a] = o[i, j];
+            }
+            Complex tr = 0; for (int i = 0; i < dim; i++) tr += L[i, i];
+            var M = new (System.Numerics.BigInteger, System.Numerics.BigInteger)[dim, dim];
+            for (int i = 0; i < dim; i++)
+                for (int j = 0; j < dim; j++)
+                {
+                    var v = 4 * dim * L[i, j] - (i == j ? 4 * tr : Complex.Zero);   // 4 dim (L + c/2), integral
+                    Assert.True(v.Real == Math.Round(v.Real) && v.Imaginary == Math.Round(v.Imaginary));
+                    M[i, j] = (new System.Numerics.BigInteger(v.Real), new System.Numerics.BigInteger(v.Imaginary));
+                }
+            return M;
+        }
+        (System.Numerics.BigInteger, System.Numerics.BigInteger)[,] MulG((System.Numerics.BigInteger Re, System.Numerics.BigInteger Im)[,] a, (System.Numerics.BigInteger Re, System.Numerics.BigInteger Im)[,] b)
+        {
+            int d = a.GetLength(0);
+            var c = new (System.Numerics.BigInteger, System.Numerics.BigInteger)[d, d];
+            for (int i = 0; i < d; i++)
+                for (int j = 0; j < d; j++)
+                {
+                    System.Numerics.BigInteger re = 0, im = 0;
+                    for (int k = 0; k < d; k++)
+                    {
+                        re += a[i, k].Re * b[k, j].Re - a[i, k].Im * b[k, j].Im;
+                        im += a[i, k].Re * b[k, j].Im + a[i, k].Im * b[k, j].Re;
+                    }
+                    c[i, j] = (re, im);
+                }
+            return c;
+        }
+        (System.Numerics.BigInteger Re, System.Numerics.BigInteger Im) Trace((System.Numerics.BigInteger Re, System.Numerics.BigInteger Im)[,] m)
+        {
+            System.Numerics.BigInteger re = 0, im = 0;
+            for (int i = 0; i < m.GetLength(0); i++) { re += m[i, i].Re; im += m[i, i].Im; }
+            return (re, im);
+        }
+        var dm = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("YX", -1L) }, Every(n, LetterCube.Lowering, 1));
+        var M = Scaled(dm);
+        var P = M;
+        for (int m = 1; m <= 16; m++)
+        {
+            if (m > 1) P = MulG(P, M);
+            if (m % 2 == 1) Assert.Equal((System.Numerics.BigInteger.Zero, System.Numerics.BigInteger.Zero), Trace(P));
+        }
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(dm).Kind);
+        var warm = Sextant.Setting.Chain(n, new[] { ("X", -1L), ("ZZ", 2L) },
+            Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)).Concat(Every(n, LetterCube.LetterMatrix('Z'), 1)));
+        var W = Scaled(warm);
+        var t3 = Trace(MulG(MulG(W, W), W));
+        Assert.NotEqual(System.Numerics.BigInteger.Zero, t3.Re);
+        var (power, prime) = Sextant.OddTraceObstruction(warm, 15)!.Value;
+        Assert.Equal(3, power);
+        Assert.NotEqual(System.Numerics.BigInteger.Zero, System.Numerics.BigInteger.Remainder(t3.Re, prime));
+    }
+
+    // The traces by a second route: Tr(M^m), M = L + c/2, built densely in complex numbers on two sites from H and the
+    // jumps, is not zero at m = 3 for the warm DNA model and zero at m = 1, 3, 5 for the thermal Heisenberg chain, as
+    // the modular reading says (all entries small dyadics, compared exactly).
+    [Fact]
+    public void The_Odd_Traces_Agree_With_The_Dense_Generator()
+    {
+        const int n = 2;
+        Complex OddTrace(Sextant.Setting s, int m)
+        {
+            int d = 1 << n, dim = d * d;
+            var H = new Complex[d, d];
+            foreach (var (term, c) in s.H) Acc(H, DenseString(term.ToString(n)), c);
+            var L = new Complex[dim, dim];
+            for (int a = 0; a < dim; a++)
+            {
+                var e = new Complex[d, d]; e[a / d, a % d] = 1;
+                var hr = Mul(H, e); var rh = Mul(e, H);
+                var out1 = new Complex[d, d];
+                for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) out1[i, j] = -Complex.ImaginaryOne * (hr[i, j] - rh[i, j]);
+                foreach (var (site, jump, rate) in s.Jumps)
+                {
+                    var J = Site(n, site, ToComplex(jump)); var Jd = Dag4(J); var JdJ = Mul(Jd, J);
+                    var sand = Mul(J, Mul(e, Jd)); var l = Mul(JdJ, e); var r = Mul(e, JdJ);
+                    for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) out1[i, j] += rate * (sand[i, j] - 0.5 * (l[i, j] + r[i, j]));
+                }
+                for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) L[i * d + j, a] = out1[i, j];
+            }
+            Complex tr = 0; for (int i = 0; i < dim; i++) tr += L[i, i];
+            for (int i = 0; i < dim; i++) L[i, i] -= tr / dim;          // M = L + c/2, c = -2 Tr L / dim
+            var P = L;
+            for (int k = 1; k < m; k++) P = Mul(P, L);
+            Complex t = 0; for (int i = 0; i < dim; i++) t += P[i, i];
+            return t;
+        }
+        var warm = Sextant.Setting.Chain(n, new[] { ("X", -1L), ("ZZ", 2L) },
+            Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)).Concat(Every(n, LetterCube.LetterMatrix('Z'), 1)));
+        Assert.True(OddTrace(warm, 1) == Complex.Zero);
+        Assert.True(OddTrace(warm, 3) != Complex.Zero);
+        Assert.Equal(3, Sextant.OddTraceObstruction(warm, 9)!.Value.Power);
+        var thermal = Heisenberg(n, Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)));
+        foreach (int m in new[] { 1, 3, 5 }) Assert.True(OddTrace(thermal, m) == Complex.Zero);
+        Assert.Null(Sextant.OddTraceObstruction(thermal, 5));
+    }
 }

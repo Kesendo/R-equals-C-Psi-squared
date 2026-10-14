@@ -14,8 +14,23 @@ using static MirrorWorld.LetterCube;
 // the transpose followed by R is Pi_Z), under loss (a copy keeps the arrow, S_XY reflects) and in a thermal bath,
 // where the search finds S_XY times the copies as the only reflections by itself.
 //
+// Its decision has two exact answers and two that are not. WITNESSED: an element of the closure reflects (a yes, exact
+// at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0. OBSTRUCTED: an odd
+// centred trace Tr((L + c/2)^m) is not zero modulo a prime, so no element of any kind, inside the search or outside
+// it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo the two fixed
+// primes and no element of the closure reflects; evidence that the spectrum is symmetric, not a proof (the integers
+// could be multiples of both primes), and even a symmetric spectrum is a pairing, not yet an element (Jordan blocks).
+// DM bonds under loss read so, where F137 proves the pairing by its own route. OPEN: the traces were read below the
+// dimension and none obstructs. A failed search alone is never a no.
+//
+// The traces are the moment route the repo already holds: Hardness.OddPowerSums (F117's trace face, odd power sums
+// of the recentred A + gamma Q under Z dephasing), F120's moment tower (docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md)
+// and the third-moment row of experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md. Its fence holds here too: the traces
+// decide the pairing of the complex spectrum, not whether the rates (real parts) alone pair. The reflection logic uses
+// that L is real in the Pauli basis (it preserves Hermiticity), so its spectrum is closed under conjugation.
+//
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
-// cube's and inherited; its own are the verdict and the search.
+// cube's and inherited; its own are the verdict, the search and the decision.
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations (EndCount.SymmetryElement holds the half-turn composed with one), non-uniform moves beyond what a
@@ -30,7 +45,7 @@ public sealed class Sextant : GameObject
     public Sextant(LetterCube cube) : base(cube) { }
 
     // left: what the sextant itself produces.
-    public override IReadOnlyList<string> Own => new[] { "verdict", "search" };
+    public override IReadOnlyList<string> Own => new[] { "verdict", "search", "decision" };
 
 
     // A setting: n sites, H as Pauli strings with integer coefficients, and one-site jumps (site, matrix, integer
@@ -202,4 +217,89 @@ public sealed class Sextant : GameObject
         return found;
     }
 
+    // ---- the no: the odd centred traces ----
+    //
+    // A witness proves a palindrome; the search failing proves nothing. The no comes from an invariant every reflecting
+    // element would force: if any similarity carries L to -L^dagger - c or to -L - c, the spectrum is symmetric about
+    // -c/2, so every odd power of M = L + c/2 has trace zero. One odd trace that is not zero rules out every element,
+    // inside the search space or outside it. Computed exactly modulo the two primes of ModP (both 1 mod 4, so i is a
+    // number there), on 4 dim M, which has Gaussian-integer entries: a trace that is not zero modulo a prime is not zero.
+    // When every odd trace up to the dimension vanishes modulo both primes, the characteristic polynomial is even or odd
+    // (Newton's identities), so the spectrum is symmetric about -c/2, read modulo two primes.
+
+    // Tr((4 dim M)^m) modulo p for every odd m up to maxPower, the first that is not zero
+    public static (int Power, long Prime)? OddTraceObstruction(Setting s, int maxPower)
+    {
+        var strings = LetterCube.Strings(s.N).ToList();
+        int dim = strings.Count;
+        var index = new Dictionary<PauliString, int>();
+        for (int i = 0; i < dim; i++) index[strings[i]] = i;
+        long trace4 = 0;
+        var full = new Dictionary<(PauliString, PauliString), Gauss>();
+        foreach (var kv in s.HamiltonianTimesFour) Add(full, kv.Key, kv.Value);
+        foreach (var kv in s.DissipatorTimesFour) Add(full, kv.Key, kv.Value);
+        foreach (var ((r, c), v) in full) if (r == c) trace4 += v.Re;
+        foreach (long p in ModP.Primes)
+        {
+            long root = ModP.SqrtMinusOne(p);
+            long G(Gauss g) => ModP.Mod(ModP.Mod(g.Re, p) + ModP.MulMod(ModP.Mod(g.Im, p), root, p), p);
+            // the columns of 4 dim M = dim (4L) - (4 Tr L) 1, sparse
+            var cols = new List<(int Row, long Value)>[dim];
+            for (int j = 0; j < dim; j++) cols[j] = new List<(int, long)>();
+            var diag = new long[dim];
+            foreach (var ((r, c), v) in full)
+            {
+                long x = ModP.MulMod(ModP.Mod(dim, p), G(v), p);
+                if (r == c) diag[index[r]] = ModP.AddMod(diag[index[r]], x, p);
+                else cols[index[c]].Add((index[r], x));
+            }
+            long shift = ModP.Mod(-trace4, p);
+            for (int i = 0; i < dim; i++) cols[i].Add((i, ModP.AddMod(diag[i], shift, p)));
+            // P = M^m, dense, advanced by P <- P M column by column
+            var P = new long[dim, dim];
+            for (int j = 0; j < dim; j++) foreach (var (r, v) in cols[j]) P[r, j] = ModP.AddMod(P[r, j], v, p);
+            for (int m = 1; m <= maxPower; m++)
+            {
+                if (m > 1)
+                {
+                    var next = new long[dim, dim];
+                    for (int j = 0; j < dim; j++)
+                        foreach (var (k, v) in cols[j])
+                            for (int i = 0; i < dim; i++)
+                                if (P[i, k] != 0) next[i, j] = ModP.AddMod(next[i, j], ModP.MulMod(P[i, k], v, p), p);
+                    P = next;
+                }
+                if (m % 2 == 0) continue;
+                long tr = 0;
+                for (int i = 0; i < dim; i++) tr = ModP.AddMod(tr, P[i, i], p);
+                if (tr != 0) return (m, p);
+            }
+        }
+        return null;
+    }
+
+    public enum Palindrome { Witnessed, Obstructed, SymmetricModP, Open }
+
+    // The sextant's answer to "does the spectrum pair about -c/2?" (the class header has the levels): WITNESSED
+    // (exact), OBSTRUCTED (exact), SYMMETRIC-MOD-P (evidence: the odd traces vanish modulo two primes, no element of
+    // the closure reflects), OPEN (read below the dimension). By default the traces are read up to the dimension when
+    // it is at most 256 (N <= 4) and up to 64 beyond, which leaves the answer OPEN there unless a trace obstructs.
+    public sealed record Decision(Palindrome Kind, string Detail);
+
+    public static Decision Decide(Setting s, int? maxPower = null)
+    {
+        if (s.DissipatorTimesFour.Count == 0)
+            return new Decision(Palindrome.Witnessed, "no jumps: -L^dagger = L, the identity reflects with c = 0");
+        var witness = Search(s).FirstOrDefault(f => f.Reading.Verdict is Verdict.Reflection or Verdict.PiReflection);
+        if (witness.Map is not null)
+            return new Decision(Palindrome.Witnessed, $"{witness.Reading.Verdict}: {witness.Map.Describe()} (c = {witness.Reading.C})");
+        int dim = 1 << (2 * s.N);
+        int upTo = maxPower ?? (dim <= 256 ? dim : 64);
+        var obstruction = OddTraceObstruction(s, upTo);
+        if (obstruction is { } o)
+            return new Decision(Palindrome.Obstructed, $"Tr(M^{o.Power}) is not zero modulo {o.Prime}");
+        return upTo >= dim
+            ? new Decision(Palindrome.SymmetricModP, $"every odd trace up to m = {dim} vanishes modulo two primes (evidence, not proof); no element of the closure reflects")
+            : new Decision(Palindrome.Open, $"no odd trace up to m = {upTo} obstructs, below the dimension {dim}; no element of the closure reflects");
+    }
 }
