@@ -40,7 +40,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para><b>The confinement is the ZZ term's, not the divisor's, and it is the quarticity rather
 /// than the diagonal on h.</b> That the remaining
 /// (N+1)² − 4 blocks carry nothing at either root is verified on the HEISENBERG chain (full
-/// census, N = 4, 5, 6). Drop the ZZ diagonal and it fails: on the XY chain the two roots are
+/// census, N = 4, 5, 6) on the census profile, a non-uniform point of the locus; at the uniform
+/// point the orbit sums T_2 and T_{N−2} of PROOF_UNIFORM_LAW Lemma A1 commute with H and carry
+/// the two roots into every block holding their cells. Drop the ZZ diagonal and it fails: on the XY chain the two roots are
 /// carried at the same multiplicity ⌊N/2⌋ by many more blocks, counting a block that carries
 /// either: nine of twenty-five at N = 4, twenty-four of thirty-six at N = 5, twenty-one of
 /// forty-nine at N = 6, of which nine, twelve and fifteen carry the unfolded root itself. Never
@@ -137,8 +139,9 @@ public sealed class FrozenDivisorClaim : Claim
                "by a room shortage of the cell mirror tauQ (2*floor(N/2) fixed anti-diagonal cells, " +
                "floor(N/2) taxed away by the even diagonal pairs), so the modes hear only the mean " +
                "rate and nothing of the Hamiltonian; the four corner blocks p,q in {1, N-1} " +
-               "carry, the root picked by gamma-fold parity, and on the Heisenberg chain nothing " +
-               "else does (the confinement is the ZZ term's quarticity, not a diagonal on h: on " +
+               "carry, the root picked by gamma-fold parity, and on the Heisenberg chain, on the " +
+               "census profile, nothing else does (at the uniform point the orbit sums T_2 and " +
+               "T_{N-2} carry the roots further; the confinement is the ZZ term's quarticity, not a diagonal on h: on " +
                "the XY chain the same root spreads at the same multiplicity along an exact " +
                "ladder), while partial balance yields nothing on either " +
                "chain; as J -> 0 the cofactor vanishes to order at least 2*floor(N^2/4), equality measured on generic profiles, each pair departing " +
@@ -192,7 +195,7 @@ public sealed class FrozenDivisorClaim : Claim
         "frozen mode per balanced pair; no symmetry behind it, only a room shortage of the cell mirror τQ " +
         "(2⌊N/2⌋ fixed anti-diagonal cells minus the ⌊N/2⌋ even diagonal pairs), so the modes hear the mean " +
         "rate and nothing else; the four corners carry, the root picked by gamma-fold parity, and on the " +
-        "Heisenberg chain nothing else does; partial balance yields nothing; the ladder J^{2d_c} makes the " +
+        "Heisenberg chain, on the census profile, nothing else does; partial balance yields nothing; the ladder J^{2d_c} makes the " +
         "outermost pair the last to let go " +
         $"({Tier.Label()})";
 
@@ -217,8 +220,9 @@ public sealed class FrozenDivisorClaim : Claim
                 summary: "p, q ∈ {1, N−1}: (1,1) and (N−1,N−1) at −4γ̄, (1,N−1) and (N−1,1) at 4γ̄ − 2σ, the " +
                          "root chosen by how many one-sided gamma folds separate the block from (1,1), each " +
                          "fold sending r ↦ −r − 2σ; at N = 4 the two roots coincide. That the remaining " +
-                         "(N+1)² − 4 blocks carry nothing is a HEISENBERG statement (full census, " +
-                         "N = 4, 5, 6): drop the ZZ diagonal and the same root spreads, at the same " +
+                         "(N+1)² − 4 blocks carry nothing is a HEISENBERG statement on the census " +
+                         "profile (full census, N = 4, 5, 6; at the uniform point the orbit sums T_2 " +
+                         "and T_{N−2} carry the roots into every block holding their cells): drop the ZZ diagonal and the same root spreads, at the same " +
                          "multiplicity, over many more blocks. The confinement belongs to the ZZ term as a " +
                          "QUARTIC term, not as the diagonal it puts on h: an R-invariant diagonal on h leaves " +
                          "the diagonal band full, and what ZZ removes is the ladder ρ ↦ Σ_l d†_l ρ d_l that " +

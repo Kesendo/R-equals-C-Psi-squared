@@ -205,7 +205,10 @@ public sealed class FrozenDivisorWitness : IInspectable
 
     /// <summary>A non-corner sample block (2, 2) and its two reads; null when the block exceeds
     /// <see cref="ControlBlockSizeCap"/> or N is too small for (2, 2) to be off-corner. On the
-    /// Heisenberg chain both reads are 0; on the XY chain they are not.</summary>
+    /// Heisenberg chain both reads are 0 on this witness's profile (non-uniform, see HalfSeed; at the
+    /// uniform point the orbit sum T_2 of PROOF_UNIFORM_LAW Lemma A1 sits in (2, 2) at −4γ̄, and T_{N−2}
+    /// at the fold root where (2, 2) holds Hamming-(N−2) cells); on the XY
+    /// chain they are not.</summary>
     public (int P, int Q, int Size, int AtRoot, int AtFoldRoot)? ControlBlock { get; }
 
     /// <summary>Every (p, q) block carrying either root, for N ≤ <see cref="FullCensusMaxN"/>;
@@ -216,7 +219,9 @@ public sealed class FrozenDivisorWitness : IInspectable
     public bool CensusRan { get; }
 
     /// <summary>Whether the census found the four corners and nothing else. TRUE on the Heisenberg
-    /// chain, which is what the proof document verified; FALSE on the XY chain, where the quartic ZZ
+    /// chain on this witness's non-uniform profile, which is what the proof document verified on its
+    /// own census profile (at the uniform point the orbit sums T_2 and T_{N−2} carry the roots into
+    /// more blocks); FALSE on the XY chain, where the quartic ZZ
     /// term that confines the divisor is missing (with it goes the ladder ρ ↦ Σ_l d†_l ρ d_l that
     /// carries the corner up the diagonal) and many more blocks carry the same root at the same
     /// multiplicity. Meaningless when <see cref="CensusRan"/> is false.</summary>
@@ -651,8 +656,8 @@ public sealed class FrozenDivisorWitness : IInspectable
                                $"−4γ̄ and {cb.AtFoldRoot} at 4γ̄ − 2σ. "
                              : "") +
                          (Chain == DivisorChain.Heisenberg
-                             ? "On the Heisenberg chain only the four corners carry, which is the proof " +
-                               "document's census: what confines the divisor is ZZ as a QUARTIC term, not " +
+                             ? "On the Heisenberg chain, on this non-uniform profile, only the four corners carry, " +
+                               "which agrees with the proof document's census: what confines the divisor is ZZ as a QUARTIC term, not " +
                                "the diagonal it puts on h."
                              : "On the XY chain the confinement is GONE. The same root is carried at the same " +
                                "multiplicity ⌊N/2⌋ by blocks that are not corners" +

@@ -846,7 +846,8 @@ public static class InspectCommand
             "the Hamiltonian. No symmetry is behind it: the cell mirror τQ fixes 2⌊N/2⌋ anti-diagonal cells, an " +
             "involution's even rooms exceed its odd rooms by exactly its fixed count, an odd operator must " +
             "overflow, and the even diagonal pairs tax half away. The four corners p,q ∈ {1, N−1} carry, the " +
-            "root picked by gamma-fold parity, and on the Heisenberg chain nothing else does; the confinement " +
+            "root picked by gamma-fold parity, and on the Heisenberg chain, on the census profile, nothing else " +
+            "does (at the uniform point the orbit sums T_2 and T_{N−2} carry the roots further); the confinement " +
             "is the ZZ term's quarticity rather than the diagonal it puts on h, and `--chain xy` shows the " +
             "same root spreading at the same multiplicity. " +
             "Off the locus, partial balance yields NOTHING. Every " +

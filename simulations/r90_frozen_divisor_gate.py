@@ -10,10 +10,13 @@
 #       on the locus, machine zero (N = 4, 5, 6); antilinear variant must FAIL
 #   G2  corner-block frozen census: multiplicity floor(N/2) at lambda = -4gbar
 #       for J in {0.6, 1.0, 2.3} (N = 3..6); plus the FULL (p,q) block census at
-#       N = 4, 5, 6 against both roots: exactly the four corner blocks carry
-#       floor(N/2), each at the root its fold parity selects, all others none
-#       (Heisenberg); plus G2c, the same census on the XY chain, where the
-#       confinement is GONE (more blocks carry, each the whole floor(N/2))
+#       N = 4, 5, 6 against both roots, on the non-uniform census profile
+#       r90_profile: exactly the four corner blocks carry floor(N/2), each at the
+#       root its fold parity selects, all others none (Heisenberg); plus G2c, the
+#       same census on the XY chain, where the confinement is GONE (more blocks
+#       carry, each the whole floor(N/2)); plus G2d, the uniform profile, also on
+#       the locus, where the orbit sums T_2 and T_{N-2} commute with H exactly and
+#       carry the two roots into every block holding their cells
 #   G3  the pencil kernel dim(ker of (E', K_{D-})) on O+ equals floor(N/2)
 #   G4  eigenvector predictions: v_D = 0 and tauQ-even O-part (machine zero);
 #       plus dim(ker K cap anti-diagonal of O) = 1 at even N, 0 at odd (N = 3..8)
@@ -414,6 +417,52 @@ for N in (4, 5, 6):
     check(f"N={N} XY: every carrier carries the WHOLE floor(N/2), and -4gbar only on p+q even",
           not partial and not odd_at_root,
           f"partial {partial}, odd-at-root {odd_at_root}")
+# G2d: the confinement of G2a2 is a reading on the census profile, not a law of the locus.
+# The uniform profile lies on the locus (gbar != 0), and there the orbit sums T_s of
+# PROOF_UNIFORM_LAW Lemma A1 (the sum of every cell at Hamming s in a block) commute with
+# the Heisenberg H, so with uniform rates each is an eigenmode at -2 s gbar: T_2 at
+# -4gbar and T_{N-2} at the fold root (4 - 2N) gbar, in every block holding such cells.
+# Exact part: [H, T_s] = 0 on every block, integer arithmetic; it is the law, and the
+# census part reads it with G2a2's own eigenvalue window. Census part: at the uniform
+# profile every block the T_s predict carries the root, so more than the four corners do.
+for N in (4, 5, 6):
+    d = 2 ** N
+    Hi = np.rint(build_H(N)).astype(np.int64)
+    assert np.array_equal(Hi, build_H(N))
+    pc = [bin(i).count('1') for i in range(d)]
+    ham = np.array([[bin(i ^ j).count('1') for j in range(d)] for i in range(d)])
+    worst, predicted = 0, {0: set(), 1: set()}
+    for p in range(N + 1):
+        for q in range(N + 1):
+            blk = np.outer(np.array(pc) == p, np.array(pc) == q)
+            for t, s in enumerate((2, N - 2)):
+                Ts = (blk & (ham == s)).astype(np.int64)
+                if Ts.any():
+                    worst = max(worst, int(np.abs(Hi @ Ts - Ts @ Hi).max()))
+                    predicted[t].add((p, q))
+    check(f"N={N} [H, T_s] = 0 exactly on every block, s = 2 and N - 2 (Lemma A1)", worst == 0,
+          f"max |[H, T_s]| = {worst}")
+    gbar = 0.09
+    gl = [gbar] * N
+    roots = (-4 * gbar, (4 - 2 * N) * gbar)
+    carriers, missing = set(), []
+    for p in range(N + 1):
+        for q in range(N + 1):
+            got = [N * N, N * N]
+            for J in (0.6, 1.0, 2.3):
+                ev = np.linalg.eigvals(general_block(N, gl, J, p, q))
+                for t, r in enumerate(roots):
+                    got[t] = min(got[t], int(np.sum(np.abs(ev - r) < 1e-9)))
+            if got[0] or got[1]:
+                carriers.add((p, q))
+            for t in (0, 1):
+                if (p, q) in predicted[t] and not got[t]:
+                    missing.append((p, q, t))
+    union = predicted[0] | predicted[1]
+    want = {4: 9, 5: 24, 6: 21}[N]
+    check(f"N={N} uniform profile: the carriers are exactly the T_s blocks, {len(carriers)} (want {want}, > 4)",
+          not missing and carriers == union and len(carriers) == want,
+          f"missing {missing}, unexplained {sorted(carriers - union)}")
 # ---------- G3 + G4: pencil kernel dims and eigenvector form ----------
 
 print("G3/G4  pencil kernel dims; v_D = 0 and tauQ-even O-part")

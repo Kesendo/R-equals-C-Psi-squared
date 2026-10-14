@@ -7118,12 +7118,17 @@ instead of a symmetry.** Why this result and F153 stand on the same locus is ans
 reflection action, and the failure of F153's size-class condition on this corner is the same defect
 matrix 8*gbar*P_D that tauQ carries, reached antilinearly.
 
-**Where it sits.** Exactly four joint-popcount blocks carry, the corners
+**Where it sits.** The four corner joint-popcount blocks carry,
 p,q in {1, N-1}: (1,1) and (N-1,N-1) at -4*gbar, (1,N-1) and (N-1,1) at
 4*gbar - 2*sigma, the root chosen by the parity of how many one-sided gamma
 folds separate the block from (1,1), each fold sending r -> -r - 2*sigma.
 Every one of the remaining (N+1)^2 - 4 blocks carries nothing at either root
-(full census, N = 4, 5, 6), **on the Heisenberg chain and for gbar != 0**. The
+(full census, N = 4, 5, 6), **on the Heisenberg chain, for gbar != 0, on the
+census profile**, a non-uniform point of the locus. At the uniform point, also
+on the locus, the confinement fails: the orbit sums T_s of PROOF_UNIFORM_LAW
+Lemma A1 commute with H, so T_2 carries -4*gbar into every block with cells at
+Hamming 2 and T_{N-2} the fold root into every block with cells at Hamming
+N - 2, at least once each and outside the corners often only once (gate G2d). The
 confinement goes with the tightness, and for a reason: what stops the
 recentering at the corners is the center's |S|-dependence, and the center is
 -2*gbar*|S| (the corner's |S| = 2 is where the root -4*gbar comes from).
@@ -7132,7 +7137,7 @@ recenters, two mirrors serving the two diagonals of the block grid, tauQ on
 (p,p) and its two-sided X^N bridge on (p,N-p), each with C(N,p) fixed cells.
 So the same index gives multiplicity at least C(N,p) on every block with q = p
 or q = N - p. Measured, not derived: that the bound is ATTAINED and that no
-other block carries (Heisenberg, N = 4, 5, 6). The confinement is
+other block carries (Heisenberg, N = 4, 5, 6, on the census profile). The confinement is
 the ZZ diagonal's doing, not the divisor's: drop it and on the XY chain, still
 at gbar != 0, the two roots are carried at the same multiplicity by many more
 blocks, counting a

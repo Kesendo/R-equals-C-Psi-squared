@@ -20,7 +20,7 @@ Three things come with it.
 - **The depth is constant.** Every carrying block carries the whole ⌊N/2⌋ and never a part of it, across the range the census reaches: from the 6-dimensional (0,2) block at N = 4 to the 1225-dimensional (3,3) at N = 7. It is the corner's number, in every block the census reached.
 - **The gamma-fold partner sits on the image.** The blocks carrying 4γ̄ − 2σ are exactly the image of the band under one one-sided fold p ↦ N − p. Written out that is p + q ∈ {N−2, N, N+2} **less the images of the two excluded one-cell blocks**, namely (N,0) and (0,N); without that exclusion the set would hold 3N − 1 blocks instead of the 3(N − 1) counted above, and the two extra ones do not carry. One law, folded once, as in [F140](../docs/ANALYTICAL_FORMULAS.md)'s own corner census.
 
-On the Heisenberg chain only the four corner blocks carry anything at all, two of them at −4γ̄ and two at the fold partner. The proof document's Section 5 census is a Heisenberg census, and it is now scoped as one.
+On the Heisenberg chain, on the locus profiles of the census, only the four corner blocks carry anything at all, two of them at −4γ̄ and two at the fold partner; at the uniform point the orbit sums T₂ and T_{N−2} of [PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md) Lemma A1 carry both roots into many more blocks, often at depth one rather than ⌊N/2⌋. The proof document's Section 5 census is a Heisenberg census, and it is scoped as one.
 
 ## Two traps on the way to that statement
 
