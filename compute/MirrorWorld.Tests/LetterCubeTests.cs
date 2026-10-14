@@ -12,10 +12,10 @@ public class LetterCubeTests
     static readonly World W = new();
 
     [Fact]
-    public void The_Cube_Owns_Coordinates_Height_And_Step_And_Inherits_The_Frame()
+    public void The_Cube_Owns_Coordinates_Height_Step_And_Arrow_And_Inherits_The_Frame()
     {
         var cube = new LetterCube(W);
-        Assert.Equal(new[] { "coordinates", "height", "step" }, cube.Own);
+        Assert.Equal(new[] { "coordinates", "height", "step", "arrow" }, cube.Own);
         Assert.Equal(new[] { "x", "y", "z" }, cube.Inherited);
     }
 
@@ -362,6 +362,146 @@ public class LetterCubeTests
             Assert.True(moves.Contains(d) || moves.Contains(new LetterCube.Point(-d.KZ, -d.KX, -d.KY)));
         }
         Assert.DoesNotContain(LetterCube.Edges(terms, 3), e => e.Item1 == O || e.Item2 == O);
+    }
+
+    // ---- the arrows (§9, gates M8, M9) ----
+
+    static LetterCube.Gauss G(long re, long im = 0) => new(re, im);
+
+    static Complex[,] ToComplex(LetterCube.Gauss[,] g)
+    {
+        var c = new Complex[2, 2];
+        for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) c[i, j] = new Complex(g[i, j].Re, g[i, j].Im);
+        return c;
+    }
+
+    static Complex[,] Dag(Complex[,] a)
+    {
+        var d = new Complex[2, 2];
+        for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) d[i, j] = Complex.Conjugate(a[j, i]);
+        return d;
+    }
+
+    // The transfer matrix, 4 T[a, b] = 2 Tr(P_a D(P_b)), judged by the dissipator built densely in complex numbers
+    // here, for loss, gain, the three Pauli jumps, the unital non-Pauli jump X + Z and an arbitrary Gaussian jump.
+    [Fact]
+    public void The_Transfer_Matrix_Is_The_Dense_Dissipator_Read_On_The_Letters()
+    {
+        var jumps = new[]
+        {
+            LetterCube.Lowering, LetterCube.Raising, LetterCube.LetterMatrix('X'), LetterCube.LetterMatrix('Y'),
+            LetterCube.LetterMatrix('Z'), new[,] { { G(1), G(1) }, { G(1), G(-1) } },
+            new[,] { { G(1, 1), G(2) }, { G(-1), G(0, 3) } },
+        };
+        foreach (var jg in jumps)
+            foreach (long rate in new long[] { 1, 3 })
+            {
+                var t4 = LetterCube.TransferTimesFour(jg, rate);
+                var J = ToComplex(jg);
+                var Jd = Dag(J);
+                var JdJ = Mul(Jd, J);
+                for (int b = 0; b < 4; b++)
+                {
+                    var Pb = Letter("IXYZ"[b]);
+                    var sandwich = Mul(J, Mul(Pb, Jd));
+                    var left = Mul(JdJ, Pb);
+                    var right = Mul(Pb, JdJ);
+                    var D = new Complex[2, 2];
+                    for (int i = 0; i < 2; i++)
+                        for (int j = 0; j < 2; j++)
+                            D[i, j] = rate * (sandwich[i, j] - 0.5 * (left[i, j] + right[i, j]));
+                    for (int a = 0; a < 4; a++)
+                    {
+                        var prod = Mul(Letter("IXYZ"[a]), D);
+                        var fourT = 2 * (prod[0, 0] + prod[1, 1]);
+                        Assert.True(fourT == new Complex(t4[a, b].Re, t4[a, b].Im));
+                    }
+                }
+                // what leaves I is the commutator: 4 T[a, I] = 2 r Tr(P_a [J, J^dagger]) for a != I, so an arrow leaves
+                // I exactly when J is not normal
+                var comm = Mul(J, Jd);
+                var comm2 = Mul(Jd, J);
+                bool normal = true;
+                for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) if (comm[i, j] != comm2[i, j]) normal = false;
+                for (int a = 1; a < 4; a++)
+                {
+                    var pc = Mul(Letter("IXYZ"[a]), comm);
+                    var pc2 = Mul(Letter("IXYZ"[a]), comm2);
+                    var expected = 2 * rate * (pc[0, 0] + pc[1, 1] - pc2[0, 0] - pc2[1, 1]);
+                    Assert.True(expected == new Complex(t4[a, 0].Re, t4[a, 0].Im));
+                }
+                Assert.Equal(!normal, LetterCube.Arrows(t4).Any(x => x.From == 'I'));
+            }
+    }
+
+    // §9, gate M8: sigma^- at rate r is the lights r/4 along X and along Y (heights r/2, r/2, r on X, Y, Z, the cube's
+    // height 2(r/4)(k_X + k_Y)) plus exactly one arrow, I -> Z with coefficient +r.
+    [Fact]
+    public void Damping_Is_A_Height_And_One_Arrow()
+    {
+        foreach (long r in new long[] { 1, 4 })
+        {
+            var t4 = LetterCube.TransferTimesFour(LetterCube.Lowering, r);
+            var h4 = LetterCube.HeightsTimesFour(t4);
+            Assert.Equal(new[] { G(0), G(2 * r), G(2 * r), G(4 * r) }, h4);
+            foreach (char c in "IXYZ")
+                Assert.Equal(G(LetterCube.Height(LetterCube.Coordinates(c.ToString()), 0, r, r)), h4["IXYZ".IndexOf(c)]);
+            var arrows = LetterCube.Arrows(t4);
+            Assert.Single(arrows);
+            Assert.Equal(('I', 'Z', G(4 * r)), arrows[0]);
+        }
+    }
+
+    // A Pauli jump is a height and no arrow: P at rate r charges the two letters anticommuting with P the rate 2r,
+    // the cube's height with gamma_P = r.
+    [Fact]
+    public void A_Pauli_Jump_Is_A_Height_Alone()
+    {
+        foreach (char p in "XYZ")
+        {
+            var t4 = LetterCube.TransferTimesFour(LetterCube.LetterMatrix(p), 2);
+            Assert.Empty(LetterCube.Arrows(t4));
+            var h4 = LetterCube.HeightsTimesFour(t4);
+            foreach (char c in "IXYZ")
+            {
+                var pt = LetterCube.Coordinates(c.ToString());
+                long height = p switch { 'Z' => LetterCube.Height(pt, 2, 0, 0), 'X' => LetterCube.Height(pt, 0, 2, 0), _ => LetterCube.Height(pt, 0, 0, 2) };
+                Assert.Equal(G(4 * height), h4["IXYZ".IndexOf(c)]);
+            }
+        }
+    }
+
+    // §9: gain carries the arrow with the other sign; a thermal bath (loss g_down, gain g_up) has the heights of the
+    // total rate r = g_down + g_up, [0, r/2, r/2, r], and its one arrow carries the net rate g_down - g_up (F84's);
+    // at equal rates the arrows cancel and the lights remain (gate M8's infinite temperature).
+    [Fact]
+    public void Gain_Turns_The_Arrow_And_Equal_Rates_Cancel_It()
+    {
+        var up = LetterCube.Arrows(LetterCube.TransferTimesFour(LetterCube.Raising, 1));
+        Assert.Equal(new[] { ('I', 'Z', G(-4)) }, up);
+        foreach (var (down, gain) in new[] { (3L, 1L), (2L, 5L), (4L, 4L) })
+        {
+            var t4 = LetterCube.TransferTimesFour(new[] { (LetterCube.Lowering, down), (LetterCube.Raising, gain) });
+            long r = down + gain;
+            Assert.Equal(new[] { G(0), G(2 * r), G(2 * r), G(4 * r) }, LetterCube.HeightsTimesFour(t4));
+            var arrows = LetterCube.Arrows(t4);
+            if (down == gain) Assert.Empty(arrows);
+            else Assert.Equal(new[] { ('I', 'Z', G(4 * (down - gain))) }, arrows);
+        }
+    }
+
+    // An arrow out of I is the non-unital part: a normal jump (J J^dagger = J^dagger J, Hermitian ones among them)
+    // sends nothing out of I, and X + Z, unital but not a Pauli string, has arrows between X and Z instead.
+    [Fact]
+    public void Only_A_NonNormal_Jump_Has_An_Arrow_Out_Of_I()
+    {
+        var xz = LetterCube.Arrows(LetterCube.TransferTimesFour(new[,] { { G(1), G(1) }, { G(1), G(-1) } }, 1));
+        Assert.NotEmpty(xz);
+        Assert.DoesNotContain(xz, a => a.From == 'I');
+        Assert.All(xz, a => Assert.True((a.From, a.To) is ('X', 'Z') or ('Z', 'X')));
+        var phase = LetterCube.Arrows(LetterCube.TransferTimesFour(new[,] { { G(0, 1), G(0) }, { G(0), G(1) } }, 1));
+        Assert.DoesNotContain(phase, a => a.From == 'I');                       // diag(i, 1), normal, not Hermitian
+        Assert.Contains(LetterCube.Arrows(LetterCube.TransferTimesFour(LetterCube.Lowering, 1)), a => a.From == 'I');
     }
 
     static Complex Phase(int k) => (k % 4) switch { 0 => 1, 1 => Complex.ImaginaryOne, 2 => -1, _ => -Complex.ImaginaryOne };

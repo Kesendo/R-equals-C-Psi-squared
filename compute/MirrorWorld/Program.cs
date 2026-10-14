@@ -2239,9 +2239,24 @@ if (args.Length > 0 && args[0] == "lettercube")
         Console.WriteLine($"    {name} (N = {sn}): {string.Join(" ", mv)}");
     }
     Console.WriteLine("    a bond steps w by one; P (x) P steps +-2 along one axis other than P; a field P steps on a face diagonal of k_P = const");
+    Console.WriteLine("  the arrows of a jump (§9): heights (rates of I, X, Y, Z) and arrows (moves between letters), from its Pauli-transfer matrix:");
+    foreach (var (name, jumps) in new (string, (LetterCube.Gauss[,], long)[])[]
+    {
+        ("dephasing Z at 1", new[] { (LetterCube.LetterMatrix('Z'), 1L) }),
+        ("loss sigma^- at 4", new[] { (LetterCube.Lowering, 4L) }),
+        ("gain sigma^+ at 4", new[] { (LetterCube.Raising, 4L) }),
+        ("thermal: loss 3, gain 1", new[] { (LetterCube.Lowering, 3L), (LetterCube.Raising, 1L) }),
+        ("infinite temperature: loss 2, gain 2", new[] { (LetterCube.Lowering, 2L), (LetterCube.Raising, 2L) }),
+    })
+    {
+        var t4 = LetterCube.TransferTimesFour(jumps);
+        var heights = LetterCube.HeightsTimesFour(t4).Select(h => h.Re / 4.0);
+        var arrows = LetterCube.Arrows(t4).Select(x => $"{x.From} -> {x.To} ({x.CoefficientTimesFour.Re / 4.0})");
+        Console.WriteLine($"    {name}: heights [{string.Join(", ", heights)}], arrows [{string.Join(", ", arrows)}]");
+    }
     Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The axes are 'anticommutes with the frame's z, x, y': the frame is inherited,");
-    Console.WriteLine("  the coordinates, the heights and the steps are the cube's own.");
+    Console.WriteLine("  the coordinates, the heights, the steps and the arrows are the cube's own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", lcube.Own)}");
     Console.WriteLine($"    inherited (right): {string.Join(", ", lcube.Inherited)}");
     return;

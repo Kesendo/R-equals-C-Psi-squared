@@ -31,7 +31,16 @@ namespace MirrorWorld;
 // 2 i^k Target when they anticommute, T sigma = i^k Target with Target the phase-free product, one string; a two-site term changes w by exactly one, a bond P (x) P steps
 // +-2 along one of the two axes other than P, and a one-site field keeps w and steps on a face diagonal of the plane
 // k_P = const. The Pauli dissipator never moves a string, so every move a string makes on the cube is the
-// Hamiltonian's. The move table of §9 asked of a given system is not here.
+// Hamiltonian's.
+//
+// A jump that is not a Pauli string moves strings too (§9, the amplitude-damping paragraph, gates M8, M9). Any
+// one-site jump J at rate r acts on the four letters through its Pauli-transfer matrix T[a, b] = Tr(P_a D(P_b))/2,
+// D(rho) = r (J rho J^dagger - {J^dagger J, rho}/2): its diagonal is a height (minus each letter's rate), its
+// off-diagonal entries are arrows, a move from letter b to letter a with a coefficient. sigma^- = |0><1| at rate r is
+// the lights r/4 along X and along Y (heights r/2, r/2, r on X, Y, Z) plus one arrow I -> Z with coefficient +r;
+// sigma^+ carries the arrow -r; at equal loss and gain the arrows cancel and the lights remain. Computed exactly in
+// Gaussian integers: 4T is integral for an integral J and rate. The move table of §9 asked of a given system is not
+// here.
 //
 // Deliberately outside: spectra, eigenvalue counts on a plane, centroid trajectories (paths, the main repo's).
 //
@@ -49,7 +58,7 @@ public sealed class LetterCube : GameObject
     public LetterCube(World world) : base(world) { }
 
     // left: what the cube itself produces.
-    public override IReadOnlyList<string> Own => new[] { "coordinates", "height", "step" };
+    public override IReadOnlyList<string> Own => new[] { "coordinates", "height", "step", "arrow" };
 
     public readonly record struct Point(int KZ, int KX, int KY)
     {
@@ -229,6 +238,105 @@ public sealed class LetterCube : GameObject
             for (int i = 0; i + t.Length <= n; i++)
                 placed.Add(PauliString.Parse(new string('I', i) + t + new string('I', n - t.Length - i)));
         return placed;
+    }
+
+    // ---- the arrows (§9, gates M8, M9) ----
+
+    // A Gaussian integer, the exact arithmetic of the transfer matrices.
+    public readonly record struct Gauss(long Re, long Im)
+    {
+        public static readonly Gauss Zero = new(0, 0);
+        public static readonly Gauss One = new(1, 0);
+        public static readonly Gauss I = new(0, 1);
+        public static Gauss operator +(Gauss a, Gauss b) => new(a.Re + b.Re, a.Im + b.Im);
+        public static Gauss operator -(Gauss a, Gauss b) => new(a.Re - b.Re, a.Im - b.Im);
+        public static Gauss operator -(Gauss a) => new(-a.Re, -a.Im);
+        public static Gauss operator *(Gauss a, Gauss b) => new(a.Re * b.Re - a.Im * b.Im, a.Re * b.Im + a.Im * b.Re);
+        public static Gauss operator *(long k, Gauss a) => new(k * a.Re, k * a.Im);
+        public Gauss Conj => new(Re, -Im);
+        public bool IsZero => Re == 0 && Im == 0;
+        public override string ToString() => Im == 0 ? $"{Re}" : Re == 0 ? $"{Im}i" : $"{Re}{(Im < 0 ? "-" : "+")}{Math.Abs(Im)}i";
+    }
+
+    static readonly string Letters = "IXYZ";
+
+    // the four letters as 2x2 Gaussian matrices
+    public static Gauss[,] LetterMatrix(char letter) => letter switch
+    {
+        'I' => new[,] { { Gauss.One, Gauss.Zero }, { Gauss.Zero, Gauss.One } },
+        'X' => new[,] { { Gauss.Zero, Gauss.One }, { Gauss.One, Gauss.Zero } },
+        'Y' => new[,] { { Gauss.Zero, -Gauss.I }, { Gauss.I, Gauss.Zero } },
+        'Z' => new[,] { { Gauss.One, Gauss.Zero }, { Gauss.Zero, -Gauss.One } },
+        _ => throw new ArgumentException($"'{letter}' is not a Pauli letter", nameof(letter)),
+    };
+
+    // sigma^- = |0><1| and sigma^+ = |1><0|, Z|0> = |0>
+    public static Gauss[,] Lowering => new[,] { { Gauss.Zero, Gauss.One }, { Gauss.Zero, Gauss.Zero } };
+    public static Gauss[,] Raising => new[,] { { Gauss.Zero, Gauss.Zero }, { Gauss.One, Gauss.Zero } };
+
+    static Gauss[,] Mul2(Gauss[,] a, Gauss[,] b)
+    {
+        var c = new Gauss[2, 2];
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                c[i, j] = a[i, 0] * b[0, j] + a[i, 1] * b[1, j];
+        return c;
+    }
+
+    static Gauss[,] Dagger2(Gauss[,] a) => new[,] { { a[0, 0].Conj, a[1, 0].Conj }, { a[0, 1].Conj, a[1, 1].Conj } };
+
+    // 4 T[a, b] = 2 Tr(P_a D(P_b)) with D(rho) = r (J rho J^dagger - {J^dagger J, rho}/2), letters in the order
+    // I, X, Y, Z; integral for an integral J and rate.
+    public static Gauss[,] TransferTimesFour(Gauss[,] jump, long rate)
+    {
+        var jd = Dagger2(jump);
+        var jdj = Mul2(jd, jump);
+        var t = new Gauss[4, 4];
+        for (int b = 0; b < 4; b++)
+        {
+            var pb = LetterMatrix(Letters[b]);
+            var sandwich = Mul2(jump, Mul2(pb, jd));
+            var left = Mul2(jdj, pb);
+            var right = Mul2(pb, jdj);
+            var d2 = new Gauss[2, 2];                         // 2 D(P_b) / rate, integral
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
+                    d2[i, j] = 2 * sandwich[i, j] - left[i, j] - right[i, j];
+            for (int a = 0; a < 4; a++)
+            {
+                var pa = LetterMatrix(Letters[a]);
+                var prod = Mul2(pa, d2);
+                t[a, b] = rate * (prod[0, 0] + prod[1, 1]);   // Tr(P_a 2D(P_b)) = 4 T[a, b]
+            }
+        }
+        return t;
+    }
+
+    // several jumps on one site add
+    public static Gauss[,] TransferTimesFour(IEnumerable<(Gauss[,] Jump, long Rate)> jumps)
+    {
+        var t = new Gauss[4, 4];
+        foreach (var (j, r) in jumps)
+        {
+            var tj = TransferTimesFour(j, r);
+            for (int a = 0; a < 4; a++) for (int b = 0; b < 4; b++) t[a, b] = t[a, b] + tj[a, b];
+        }
+        return t;
+    }
+
+    // The height of each letter, times four: minus the transfer's diagonal (I, X, Y, Z).
+    public static Gauss[] HeightsTimesFour(Gauss[,] transferTimesFour)
+        => Enumerable.Range(0, 4).Select(a => -transferTimesFour[a, a]).ToArray();
+
+    // The arrows: every off-diagonal entry, a move from letter From to letter To with its coefficient times four.
+    public static IReadOnlyList<(char From, char To, Gauss CoefficientTimesFour)> Arrows(Gauss[,] transferTimesFour)
+    {
+        var arrows = new List<(char, char, Gauss)>();
+        for (int b = 0; b < 4; b++)
+            for (int a = 0; a < 4; a++)
+                if (a != b && !transferTimesFour[a, b].IsZero)
+                    arrows.Add((Letters[b], Letters[a], transferTimesFour[a, b]));
+        return arrows;
     }
 
     // R, the right multiplication by X^N, letter by letter (I <-> X, Y <-> Z), up to phase
