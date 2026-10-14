@@ -2199,6 +2199,45 @@ if (args.Length > 0 && args[0] == "endcount")
     return;
 }
 
+if (args.Length > 0 && args[0] == "lettercube")
+{
+    int ln = 4;
+    if (args.Length > 1 && !int.TryParse(args[1], out ln)) ln = -1;
+    if (ln < 1 || ln > 8)
+    {
+        Console.Error.WriteLine("lettercube N: N from 1 to 8");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var lcube = new LetterCube(new World());
+    Console.WriteLine($"=== the letter cube, N = {ln} (docs/THE_ONE_SQUARE.md §7) ===");
+    Console.WriteLine("  the letters: I (0,0,0), X (1,0,1), Y (1,1,0), Z (0,1,1) in (k_Z, k_X, k_Y), k_P = letters anticommuting with P");
+    var lpoints = LetterCube.Points(ln);
+    Console.WriteLine($"  {1L << (2 * ln)} strings on {lpoints.Count} lattice points, the even points of the tetrahedron, C(N+3, 3) = {LetterCube.TetrahedronCount(ln)}");
+    Console.WriteLine($"  the centre (N/2, N/2, N/2): {LetterCube.CentreCount(ln)} strings (only when 4 | N)");
+    Console.WriteLine("  the edges R exchanges, (k_Z, k_X, k_Y) -> (N - k_Z, k_X, N - k_Y):");
+    long rAgrees = 0, rTotal = 0, quietToFar = 0;
+    foreach (var ls in LetterCube.Strings(ln))
+    {
+        var lp = LetterCube.Coordinates(ls);
+        var limage = LetterCube.Coordinates(LetterCube.RightByXN(ls, ln));
+        rTotal++;
+        if (limage == LetterCube.RAsPoint(lp, ln)) rAgrees++;
+        if (lp.KZ == 0 && limage.KZ == ln) quietToFar++;
+    }
+    Console.WriteLine($"    R applied letter by letter lands on (N - k_Z, k_X, N - k_Y) for {rAgrees} of {rTotal} strings;");
+    Console.WriteLine($"    it carries all {quietToFar} populations {{I, Z}}^N (k_Z = 0) onto the far edge k_Z = N");
+    Console.WriteLine("  the height of a string under dephasing at one rate per letter, 2(g_Z k_Z + g_X k_X + g_Y k_Y); which half-turns pair the rates:");
+    foreach (var (gz, gx, gy) in new[] { (1L, 0L, 0L), (0L, 1L, 1L), (1L, 1L, 1L), (2L, 0L, 1L) })
+        Console.WriteLine($"    (g_Z, g_X, g_Y) = ({gz}, {gx}, {gy}): half-turns about [{string.Join(", ", LetterCube.PairingHalfTurns(gz, gx, gy))}]");
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The axes are 'anticommutes with the frame's z, x, y': the frame is inherited,");
+    Console.WriteLine("  the coordinates and the heights are the cube's own.");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", lcube.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", lcube.Inherited)}");
+    return;
+}
+
 if (args.Length > 0)
 {
     Console.Error.WriteLine($"unknown run mode '{args[0]}'");
