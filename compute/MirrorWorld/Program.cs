@@ -2199,6 +2199,50 @@ if (args.Length > 0 && args[0] == "endcount")
     return;
 }
 
+if (args.Length > 0 && args[0] == "sextant")
+{
+    int sn3 = 3;
+    if (args.Length > 1 && !int.TryParse(args[1], out sn3)) sn3 = -1;
+    if (sn3 < 1 || sn3 > 4)
+    {
+        Console.Error.WriteLine("sextant N: N from 1 to 4");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var sextant = new Sextant(new LetterCube(new World()));
+    int mn = sn3;
+    Console.WriteLine($"=== the sextant: the cube's moves asked of a setting, the Heisenberg chain at N = {mn} (docs/THE_ONE_SQUARE.md §9) ===");
+    Console.WriteLine("  on L_H keeps / flips / breaks,");
+    Console.WriteLine("  on the dissipator keeps / reflects (with c) / breaks, and the verdict on the full L; then the search over the whole one-site closure.");
+    var settings = new (string, Sextant.Setting)[]
+    {
+        ("Z dephasing at 1", Sextant.Setting.Chain(mn, new[] { ("XX", 1L), ("YY", 1L), ("ZZ", 1L) }, Sextant.Setting.OnEverySite(mn, LetterCube.LetterMatrix('Z'), 1))),
+        ("loss sigma^- at 2", Sextant.Setting.Chain(mn, new[] { ("XX", 1L), ("YY", 1L), ("ZZ", 1L) }, Sextant.Setting.OnEverySite(mn, LetterCube.Lowering, 2))),
+        ("thermal: loss 3, gain 1", Sextant.Setting.Chain(mn, new[] { ("XX", 1L), ("YY", 1L), ("ZZ", 1L) },
+            Sextant.Setting.OnEverySite(mn, LetterCube.Lowering, 3).Concat(Sextant.Setting.OnEverySite(mn, LetterCube.Raising, 1)))),
+    };
+    foreach (var (sname, setting) in settings)
+    {
+        Console.WriteLine($"  {sname}:");
+        foreach (var mv in LetterCube.TableMoves(mn))
+        {
+            var rd = Sextant.Ask(setting, mv);
+            string cText = rd.C != "" ? $" (c = {rd.C})" : "";
+            Console.WriteLine($"    {mv.Name,-34} L_H {rd.OnH,-6}  D {rd.OnD,-8}{cText,-10} -> {rd.Verdict}");
+        }
+        var found = Sextant.Search(setting);
+        Console.WriteLine($"    search: {found.Count(f => f.Reading.Verdict == Sextant.Verdict.Copy)} copies, {found.Count(f => f.Reading.Verdict == Sextant.Verdict.Reflection)} reflections (-L^dagger - c) and {found.Count(f => f.Reading.Verdict == Sextant.Verdict.PiReflection)} Pi-reflections (-L - c) among the closure; the reflections:");
+        foreach (var f in found.Where(f => f.Reading.Verdict == Sextant.Verdict.Reflection))
+            Console.WriteLine($"      {f.Map.Describe()}  (c = {f.Reading.C})");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The sextant reads with the cube: coordinates, heights, steps, arrows and moves are");
+    Console.WriteLine("  inherited; the verdict and the search are its own.");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", sextant.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", sextant.Inherited)}");
+    return;
+}
+
 if (args.Length > 0 && args[0] == "lettercube")
 {
     int ln = 4;
@@ -2255,8 +2299,10 @@ if (args.Length > 0 && args[0] == "lettercube")
         Console.WriteLine($"    {name}: heights [{string.Join(", ", heights)}], arrows [{string.Join(", ", arrows)}]");
     }
     Console.WriteLine();
+    Console.WriteLine($"  the moves (§9): the one-site closure of the generators, {LetterCube.Closure().Count} maps modulo a global phase; asked of a setting: run mode `sextant N`");
+    Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The axes are 'anticommutes with the frame's z, x, y': the frame is inherited,");
-    Console.WriteLine("  the coordinates, the heights, the steps and the arrows are the cube's own.");
+    Console.WriteLine("  the coordinates, the heights, the steps, the arrows and the moves are the cube's own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", lcube.Own)}");
     Console.WriteLine($"    inherited (right): {string.Join(", ", lcube.Inherited)}");
     return;

@@ -26,6 +26,8 @@ namespace MirrorWorld;
 // Deliberately outside: the letter group S3, K1, the golden router W (F116), and F71's bond
 // mirror. The former S3 semidirect-product proposal was resolved: S3 does not normalize D4;
 // the coherence-space closure has order 768/gcd(N,4), never 48 (PROOF_PI_FACTORS_AS_R_TIMES_D §5, 'Resolution of the S3 side').
+// The letter moves themselves live in LetterCube, as candidate moves: its one-site closure (192 maps modulo a
+// global phase) holds the letter swaps beside R and D, and the Sextant asks each of a setting; this group stays D4.
 public sealed class MirrorGroup : GameObject
 {
     public int N { get; }

@@ -12,10 +12,10 @@ public class LetterCubeTests
     static readonly World W = new();
 
     [Fact]
-    public void The_Cube_Owns_Coordinates_Height_Step_And_Arrow_And_Inherits_The_Frame()
+    public void The_Cube_Owns_Coordinates_Height_Step_Arrow_And_Moves_And_Inherits_The_Frame()
     {
         var cube = new LetterCube(W);
-        Assert.Equal(new[] { "coordinates", "height", "step", "arrow" }, cube.Own);
+        Assert.Equal(new[] { "coordinates", "height", "step", "arrow", "moves" }, cube.Own);
         Assert.Equal(new[] { "x", "y", "z" }, cube.Inherited);
     }
 
@@ -366,16 +366,16 @@ public class LetterCubeTests
 
     // ---- the arrows (§9, gates M8, M9) ----
 
-    static LetterCube.Gauss G(long re, long im = 0) => new(re, im);
+    internal static LetterCube.Gauss G(long re, long im = 0) => new(re, im);
 
-    static Complex[,] ToComplex(LetterCube.Gauss[,] g)
+    internal static Complex[,] ToComplex(LetterCube.Gauss[,] g)
     {
         var c = new Complex[2, 2];
         for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) c[i, j] = new Complex(g[i, j].Re, g[i, j].Im);
         return c;
     }
 
-    static Complex[,] Dag(Complex[,] a)
+    internal static Complex[,] Dag(Complex[,] a)
     {
         var d = new Complex[2, 2];
         for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) d[i, j] = Complex.Conjugate(a[j, i]);
@@ -504,11 +504,26 @@ public class LetterCubeTests
         Assert.Contains(LetterCube.Arrows(LetterCube.TransferTimesFour(LetterCube.Lowering, 1)), a => a.From == 'I');
     }
 
+    // ---- the moves (§9) ----
+
+    // The one-site closure of the generators (one-sided X and Z on either side, the letter swap X <-> Z, the
+    // quarter-turn about Z, the transpose) holds every named move of the table, each once modulo a global phase;
+    // its size is pinned at 192.
+    [Fact]
+    public void The_Closure_Holds_Every_Named_Move()
+    {
+        var closure = LetterCube.Closure();
+        Assert.Equal(192, closure.Count);
+        var keys = closure.Select(m => m.Key).ToHashSet();
+        foreach (var m in LetterCube.TableMoves(1)) Assert.Contains(m.Sites[0].Key, keys);
+        Assert.All(closure, m => Assert.Equal(4, m.Image.Distinct().Count()));
+    }
+
     static Complex Phase(int k) => (k % 4) switch { 0 => 1, 1 => Complex.ImaginaryOne, 2 => -1, _ => -Complex.ImaginaryOne };
 
     // ---- dense helpers, built letter by letter (the second route) ----
 
-    static Complex[,] Letter(char c) => c switch
+    internal static Complex[,] Letter(char c) => c switch
     {
         'I' => new Complex[,] { { 1, 0 }, { 0, 1 } },
         'X' => new Complex[,] { { 0, 1 }, { 1, 0 } },
@@ -517,7 +532,7 @@ public class LetterCubeTests
         _ => throw new ArgumentException(c.ToString()),
     };
 
-    static Complex[,] Kron(Complex[,] a, Complex[,] b)
+    internal static Complex[,] Kron(Complex[,] a, Complex[,] b)
     {
         int ra = a.GetLength(0), rb = b.GetLength(0);
         var k = new Complex[ra * rb, ra * rb];
@@ -529,14 +544,14 @@ public class LetterCubeTests
         return k;
     }
 
-    static Complex[,] DenseString(string letters)
+    internal static Complex[,] DenseString(string letters)
     {
         var m = Letter(letters[0]);
         for (int l = 1; l < letters.Length; l++) m = Kron(m, Letter(letters[l]));
         return m;
     }
 
-    static Complex[,] Mul(Complex[,] a, Complex[,] b)
+    internal static Complex[,] Mul(Complex[,] a, Complex[,] b)
     {
         int d = a.GetLength(0);
         var c = new Complex[d, d];
