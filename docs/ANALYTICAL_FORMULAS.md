@@ -6694,7 +6694,15 @@ dephasing breaks it (Z 8/64; on T1's own bond of a disjoint pair 192/256,
 on the other bond 256/256); no on-site field in T1's component (transverse
 1/64; on T1's own bond 16/256 vs 256/256 on the other; a longitudinal field
 pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
-28/64).
+28/64). The transverse composition is derived at every N for an H that commutes with
+X⊗N and Y⊗N, with or without a heating channel: one site's X or Y dephasing gives I and Z, and X
+and Y, rates that sum to 2γ, which the element S_XY above pairs, so S_XY reflects damping and
+transverse dephasing together, the centre above included; Z dephasing gives I and Z both rate 0 and
+is not paired. The three breaks are exact at N = 3 on the Heisenberg chain (J = 1, damping 1,
+dephasing ½, fields of strength 1, all uniform): co-axial Z, a transverse field and a longitudinal
+field give Tr((L + c/2)³) = 36, 288 and −768 in exact rationals, so no element reflects the
+spectrum there; the longitudinal field's rates still pair, as above
+([`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M10).
 
 **Extended to a thermal bath (2026-08-05; the thermal pairing exact at the script's rational
 rate profiles (two at N=2, one at N=3, J = 1) with the Heisenberg H, measured to N=5, and derived at every N for every H
@@ -6760,7 +6768,7 @@ Caveat, because "different objects" invites over-reading: at H ≠ 0 the
 *spectrum* does depend on the net rate; only the *centre* does not.
 
 **Gate:** [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G7 for the
-cooling-only derivation; [`simulations/cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9 for the element S_XY;
+cooling-only derivation; [`simulations/cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9 for the element S_XY and M10 for the composition;
 [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → the T1 and per-component sections of
 [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt); the

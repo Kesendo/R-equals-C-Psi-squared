@@ -422,7 +422,12 @@ because it is a different channel rather than another axis:
   *co-axial* Z-dephasing breaks it, down to 8/64. So the realistic hardware
   case, T1 alongside Z-dephasing, is the one combination that fails, and it
   fails because the two channels share an axis rather than because dephasing
-  is present at all.
+  is present at all. The transverse composition holds at every N for an H that
+  commutes with X⊗N and Y⊗N: X or Y dephasing gives I and Z, and X and Y, rates
+  summing to 2γ on each site, which the element S_XY of the thermal paragraph
+  below pairs; Z dephasing gives I and Z both rate 0. At N = 3 the co-axial
+  break is exact: Tr((L + c/2)³) is nonzero in exact rationals
+  ([`cube_moves_gate.py`](../../simulations/cube_moves_gate.py) M10).
 
 - **T1 admits no on-site field** in the component it acts on: 1/64 for a
   transverse field at N=3 with the non-uniform h used throughout here, and a

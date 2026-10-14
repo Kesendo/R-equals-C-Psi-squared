@@ -53,6 +53,11 @@ M9  the arrow reversed: S(ρ) = X^N·ρ·Y^N (per site I ↦ iZ, Z ↦ −iI, X 
     S·D·S⁻¹ = −D† − (γ↓ + γ↑), symbolic in the two rates at one site, while ρ·Z alone does not; at N = 3 with unequal
     site rates it reflects the full L exactly for the Heisenberg chain, for XX bonds alone and at γ↑ = 0, centre
     −Σ(γ↓ + γ↑)/2; co-axial Z dephasing, a longitudinal Z field and DM bonds each break it.
+M10 F137's composition decided: S_XY reflects one site's X or Y dephasing (symbolic, with and without heating; Z
+    dephasing is the control that fails), so damping plus transverse
+    dephasing (X, Y, or X, Y, X on the sites) is reflected exactly at N = 3 with c = Σγ_T1 + 2Σγ_deph; co-axial Z, a
+    transverse field and a longitudinal field each give an exactly nonzero Tr((L + c/2)^3) (exact rationals), which
+    rules out every reflecting element; the trace is zero where S_XY reflects.
 """
 import sys
 from itertools import product
@@ -506,6 +511,71 @@ badF, _ = xy_refl(thermal(N, heis(N, chain(N)) + sum(op(N, l, Z) for l in range(
 badD, _ = xy_refl(thermal(N, DMH, DOWN, UP))
 check("M9 controls: co-axial Z dephasing, a longitudinal Z field (odd under X^N) and DM bonds XY − YX (odd under X^N) each break the reflection",
       not badZ and not badF and not badD)
+
+
+# ---------------------------------------------------------------- M10 F137's composition, decided
+# Transverse dephasing (X or Y on a site) is a height with no arrow, and S_XY pairs its heights (I with Z, X with Y,
+# each pair summing to 2 gamma), so the one-site identity of M9 holds for it too and the composition with the
+# damping is a reflection at every N; co-axial Z, a transverse field and a longitudinal field each make an odd
+# centred trace Tr((L + c/2)^3) nonzero, which rules out every reflecting element (exact rationals, N = 3).
+gx = sp.symbols('gamma_x', positive=True)
+for name, P in (("X", sX), ("Y", sY)):
+    DP = sdiss(P, gx)
+    check(f"M10 one site, symbolic: S_XY·D[{name}]·S_XY⁻¹ = −D[{name}]† − 2γ for {name} dephasing at rate γ (I and Z, X and Y at rates summing to 2γ)",
+          sp.simplify(S1 * DP * S1 + DP.H + 2 * gx * sp.eye(4)) == sp.zeros(4, 4))
+DZs = sdiss(sp.diag(1, -1), gx)
+check("M10 control: Z dephasing is not paired by S_XY (I and Z both at rate 0): S·D[Z]·S⁻¹ + D[Z]† + 2γ is not zero",
+      sp.simplify(S1 * DZs * S1 + DZs.H + 2 * gx * sp.eye(4)) != sp.zeros(4, 4))
+DT = Ds + sdiss(sX, gx)
+check("M10 one site, symbolic: with a heating channel too, S·(D_thermal + D[X])·S⁻¹ = −(…)† − (γ↓ + γ↑ + 2γ)",
+      sp.simplify(S1 * DT * S1 + DT.H + (gd + gu + 2 * gx) * sp.eye(4)) == sp.zeros(4, 4))
+N = 3
+HEIS = heis(N, chain(N))
+def damped(H, extra):
+    L = thermal(N, H, [1.0, 1.0, 1.0], [0, 0, 0])
+    for l, P, r in extra:
+        L += diss(N, op(N, l, P), r)
+    return L
+comp = {"X on every site": [(l, X, 0.5) for l in range(N)], "Y on every site": [(l, Y, 0.5) for l in range(N)],
+        "X, Y, X": [(0, X, 0.5), (1, Y, 0.5), (2, X, 0.5)]}
+for name, extra in comp.items():
+    ok, c = xy_refl(damped(HEIS, extra))
+    check(f"M10 N=3, Heisenberg, damping at 1 plus transverse dephasing ({name}) at ½: S_XY reflects the full L exactly, c = Σγ_T1 + 2Σγ_deph = {c} (F137's centre −(Σγ_deph + Σγ_T1/2))",
+          ok and c == 3 * 1.0 + 2 * 3 * 0.5)
+def odd_trace3(L):
+    """Tr((L - Tr(L)/d)^3) in exact complex rationals: every entry of L here is a dyadic complex number, so
+    Fraction(float) is exact; the trace is basis-free, so the computational basis serves."""
+    from fractions import Fraction
+    d = L.shape[0]
+    C = lambda z: (Fraction(z.real), Fraction(z.imag))
+    tr = (sum(Fraction(L[i, i].real) for i in range(d)), sum(Fraction(L[i, i].imag) for i in range(d)))
+    shift = (tr[0] / d, tr[1] / d)
+    M = {}
+    for i in range(d):
+        for j in range(d):
+            re, im = C(L[i, j])
+            if i == j: re, im = re - shift[0], im - shift[1]
+            if re or im: M[(i, j)] = (re, im)
+    rows = {}
+    for (i, j), v in M.items(): rows.setdefault(i, []).append((j, v))
+    def mul(A):
+        out = {}
+        for (i, k), (ar, ai) in A.items():
+            for j, (br, bi) in rows.get(k, []):
+                r0, i0 = out.get((i, j), (Fraction(0), Fraction(0)))
+                out[(i, j)] = (r0 + ar * br - ai * bi, i0 + ar * bi + ai * br)
+        return out
+    M3 = mul(mul(M))
+    return (sum(M3.get((i, i), (0, 0))[0] for i in range(d)), sum(M3.get((i, i), (0, 0))[1] for i in range(d)))
+breaks = {"co-axial Z dephasing at ½": damped(HEIS, [(l, Z, 0.5) for l in range(N)]),
+          "a transverse field X": damped(HEIS + sum(op(N, l, X) for l in range(N)), []),
+          "a longitudinal field Z": damped(HEIS + sum(op(N, l, Z) for l in range(N)), [])}
+pairs = {"damping alone": damped(HEIS, []), "transverse X dephasing": damped(HEIS, comp["X on every site"])}
+t_break = {k: odd_trace3(L) for k, L in breaks.items()}
+t_pair = {k: odd_trace3(L) for k, L in pairs.items()}
+check("M10 N=3: Tr((L + c/2)^3) is exactly nonzero under co-axial Z, a transverse field and a longitudinal field (no element reflects the spectrum), and exactly zero where S_XY reflects",
+      all(v != (0, 0) for v in t_break.values()) and all(v == (0, 0) for v in t_pair.values()),
+      "; ".join(f"{k}: {v[0]}{'' if v[1] == 0 else f' + {v[1]}i'}" for k, v in t_break.items()))
 
 print()
 print("FAILED: " + ", ".join(FAIL) if FAIL else "ALL GATES PASS")
