@@ -17,7 +17,8 @@ G7  F137 at H != 0, pure amplitude damping, any site rates: the ingredients of t
     identities on XXZ chains and a ring (dyadic rates and couplings, so floating point is exact here): L is block-triangular in
     the joint popcount, its diagonal blocks are -i(H_eff (x) I - I (x) H_eff^*) with H_eff = H - (i/2) sum g_l n_l, and
     X^N H_eff X^N = H_eff^dagger - (i/2) Gamma. The palindrome about -Gamma/2 is printed as a reading, and so is
-    the pairing of two Hamiltonians outside the conditions (XX bonds alone, DM bonds XY - YX). For DM the weaker
+    the pairing of two Hamiltonians outside the conditions (XX bonds alone, checked by cube_moves_gate.py M9;
+    DM bonds XY - YX). For DM the weaker
     X^N step is exact: X^N H X^N = conj(H) and X^N H_eff X^N = conj(H_eff) - (i/2) Gamma.
 G8  F49's cross term under amplitude damping: D[sigma^-] = (g/4)(D_X + D_Y) + M, M the move I -> Z;
     {L_H, lights} and {L_H, M} are orthogonal and the move's part is 32 (N-1)^2, 32 (N-1)(2N-3), 32 (N^2-N-1),

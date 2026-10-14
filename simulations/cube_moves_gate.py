@@ -42,6 +42,17 @@ M7  the plane: at rung k the blocks (p, q) with p − q ≢ k (mod 2) whose Hamm
     wrong-parity blocks (0 is the fence) and some in the right-parity blocks (measured, not fenced); exactly one real
     eigenvalue per root; E_{N−k} = E_k block by block (the F1 mirror sends (p, q) to (p, N − q)) and
     E_2(4, chain) = {0.947023, 1.059767, √2} from the blocks (1, 2) and (2, 3), minimal polynomials asserted.
+M8  amplitude damping, a height and an arrow: σ⁻ at one site is the two transverse lights (¼ along X and along Y) plus
+    one move I → Z, the only nonzero Pauli-transfer entry of the rest. At N = 3 the moves that keep the arrow, I and Z
+    fixed with their signs (the turn by Z^N, the quarter-turn about Z, the transpose), commute with the damping
+    exactly; the turns by X^N and Y^N, the shift by Z^N, R and the letter swap X ↔ Z do not, and none of the eight reflects it.
+    The turn by Z^N and the quarter-turn still commute with the full L (Heisenberg, Z dephasing and damping). At
+    infinite temperature, loss and gain at equal rates, the arrows cancel and the lights remain exactly: the turns by
+    X^N and Y^N carry copies again and the shift by Z^N reflects the full Heisenberg L exactly, R no longer.
+M9  the arrow reversed: S(ρ) = X^N·ρ·Y^N (per site I ↦ iZ, Z ↦ −iI, X ↔ Y) reflects the thermal damping,
+    S·D·S⁻¹ = −D† − (γ↓ + γ↑), symbolic in the two rates at one site, while ρ·Z alone does not; at N = 3 with unequal
+    site rates it reflects the full L exactly for the Heisenberg chain, for XX bonds alone and at γ↑ = 0, centre
+    −Σ(γ↓ + γ↑)/2; co-axial Z dephasing, a longitudinal Z field and DM bonds each break it.
 """
 import sys
 from itertools import product
@@ -392,6 +403,109 @@ MINPOLY = [x**10 + 2*x**8 - 12*x**6 + 88*x**4 - 64, x**4 + 6*x**2 - 8, x**2 - 2]
 check("M7 N=4: E_2 (the self-mirror rung) = {0.947023, 1.059767, √2} from the blocks (1,2) and (2,3), minimal polynomials x¹⁰+2x⁸−12x⁶+88x⁴−64, x⁴+6x²−8, x²−2 asserted",
       len(e2) == 3 and abs(float(e2[0]) - 0.947023) < 5e-7 and abs(float(e2[1]) - 1.059767) < 5e-7
       and all(sp.Poly(sp.minimal_polynomial(r, x), x) == sp.Poly(m, x) for r, m in zip(e2, MINPOLY)))
+
+# ---------------------------------------------------------------- M8 amplitude damping: a height and an arrow
+SM = np.array([[0, 1], [0, 0]], dtype=complex)        # sigma^- (|1> -> |0>), integer entries
+def diss(N, Lk, rate):
+    d = 2 ** N; Id = np.eye(d)
+    LdL = Lk.conj().T @ Lk
+    return rate * (np.kron(Lk, Lk.conj()) - 0.5 * (np.kron(LdL, Id) + np.kron(Id, LdL.T)))
+# one site: the damping is the two transverse lights plus one move I -> Z (Pauli transfer: one entry)
+D1 = diss(1, SM, 1.0)
+LIGHTS1 = diss(1, X, 0.25) + diss(1, Y, 0.25)
+A1 = D1 - LIGHTS1
+PT = np.array([[np.trace(LET[a].conj().T @ (A1 @ LET[b].reshape(-1)).reshape(2, 2)) / 2 for b in 'IXYZ'] for a in 'IXYZ'])
+nz = [(a, b) for i, a in enumerate('IXYZ') for j, b in enumerate('IXYZ') if PT[i, j] != 0]
+check("M8 one site: σ⁻ at rate 1 = the lights ¼ along X and along Y (rates ½, ½, 1 on X, Y, Z) plus one arrow I → Z, the only nonzero Pauli-transfer entry of the rest",
+      nz == [('Z', 'I')] and exact_zero(np.diag([0, 0.5, 0.5, 1.0]) + np.array([[np.trace(LET[a].conj().T @ (LIGHTS1 @ LET[b].reshape(-1)).reshape(2, 2)) / 2 for b in 'IXYZ'] for a in 'IXYZ'])),
+      f"arrow entry {PT[3, 0].real:+.1f}")
+N = 3
+DT = sum(diss(N, op(N, l, SM), GAM) for l in range(N))
+LT = liou(N, heis(N, chain(N)), GAM) + DT
+Hd = X + Z                                             # the letter swap X <-> Z, unnormalised (integer entries)
+TRANSPOSE = np.zeros((4 ** N, 4 ** N))
+for a in range(2 ** N):
+    for b in range(2 ** N):
+        TRANSPOSE[b * 2 ** N + a, a * 2 ** N + b] = 1
+MOVES = {
+    "the turn by Z^N": conj_super(N, string('ZZZ')),
+    "the quarter-turn about Z": conj_super(N, kron_all([np.diag([1, 1j])] * N)),
+    "the transpose": TRANSPOSE,
+    "the turn by X^N": conj_super(N, string('XXX')),
+    "the turn by Y^N": conj_super(N, string('YYY')),
+    "the shift by Z^N": right_mult(N, string('ZZZ')),
+    "R, the shift by X^N": right_mult(N, string('XXX')),
+    "the letter swap X ↔ Z": conj_super(N, kron_all([Hd] * N)),
+}
+KEEP = {"the turn by Z^N", "the quarter-turn about Z", "the transpose"}
+got = {name: exact_zero(M @ DT - DT @ M) for name, M in MOVES.items()}
+check("M8 N=3, damping σ⁻ at rate ½ on every site: the moves that keep the arrow (I and Z fixed, sign included) commute with the damping exactly, "
+      "the turns by X^N and Y^N (Z ↦ −Z, loss ↦ gain), the shift by Z^N (the arrow's ends exchanged), R and the swap X ↔ Z (ends moved off the edge) do not",
+      all(got[n] == (n in KEEP) for n in MOVES), "; ".join(f"{n}: {'keeps' if g else 'breaks'}" for n, g in got.items()))
+CT = -2 * np.trace(DT).real / DT.shape[0]
+refl = {name: exact_zero(M @ DT @ np.linalg.inv(M) + DT.conj().T + CT * np.eye(DT.shape[0])) for name, M in MOVES.items()}
+check("M8 none of the eight gated moves carries a reflection of the damping (S·D·S⁻¹ + D† + c·1 nonzero for every move, c fixed by the trace)",
+      not any(refl.values()))
+check("M8 on the full L (Heisenberg chain, Z dephasing and damping at ½): the turn by Z^N and the quarter-turn about Z still carry copies exactly",
+      exact_zero(LT @ MOVES["the turn by Z^N"] - MOVES["the turn by Z^N"] @ LT)
+      and exact_zero(LT @ MOVES["the quarter-turn about Z"] - MOVES["the quarter-turn about Z"] @ LT))
+# infinite temperature: loss and gain at equal rates, the two arrows cancel and the lights remain
+DI = sum(diss(N, op(N, l, SM), GAM) + diss(N, op(N, l, SM.conj().T), GAM) for l in range(N))
+LIGHTS = sum(diss(N, op(N, l, X), GAM / 2) + diss(N, op(N, l, Y), GAM / 2) for l in range(N))
+check("M8 infinite temperature: loss and gain at ½ each are exactly the lights at ¼ along X and along Y (the arrows cancel)", exact_zero(DI - LIGHTS))
+gotI = {name: exact_zero(M @ DI - DI @ M) for name, M in MOVES.items()}
+check("M8 infinite temperature: the turns by X^N and Y^N carry copies again, with the turn by Z^N, the quarter-turn and the transpose",
+      all(gotI[n] for n in ("the turn by Z^N", "the turn by X^N", "the turn by Y^N", "the quarter-turn about Z", "the transpose")))
+LI = -1j * (np.kron(heis(N, chain(N)), np.eye(2 ** N)) - np.kron(np.eye(2 ** N), heis(N, chain(N)).T)) + DI
+CI = -2 * np.trace(LI).real / LI.shape[0]
+SZ3 = MOVES["the shift by Z^N"]; SX3 = MOVES["R, the shift by X^N"]
+check("M8 infinite temperature on the Heisenberg chain: the shift by Z^N, the half-turn about the k_Z axis, reflects the full L exactly "
+      "(S·L·S⁻¹ = −L† − c, c = 2σ of the lights), and R no longer does",
+      exact_zero(SZ3 @ LI @ np.linalg.inv(SZ3) + LI.conj().T + CI * np.eye(LI.shape[0]))
+      and not exact_zero(SX3 @ LI @ np.linalg.inv(SX3) + LI.conj().T + CI * np.eye(LI.shape[0])), f"c = {CI}")
+
+# ---------------------------------------------------------------- M9 the arrow reversed: the thermal reflection
+# S(ρ) = X^N·ρ·Y^N, the turn by X^N followed by the shift by Z^N up to a phase: per site I ↦ iZ, Z ↦ −iI, X ↔ Y.
+gd, gu = sp.symbols('gamma_down gamma_up', positive=True)
+sX = sp.Matrix([[0, 1], [1, 0]]); sY = sp.Matrix([[0, -sp.I], [sp.I, 0]])
+smm = sp.Matrix([[0, 1], [0, 0]]); spp = smm.T
+def sdiss(Lk, rate):
+    LdL = Lk.H * Lk
+    I2s = sp.eye(2)
+    return rate * (sp.kronecker_product(Lk, Lk.conjugate()) - sp.Rational(1, 2) * (sp.kronecker_product(LdL, I2s) + sp.kronecker_product(I2s, LdL.T)))
+Ds = sdiss(smm, gd) + sdiss(spp, gu)
+S1 = sp.kronecker_product(sX, sY.T)                    # vec(XρY) = (X ⊗ Yᵀ) vec ρ; S1 is its own inverse
+check("M9 one site, symbolic rates: S·D·S⁻¹ = −D† − (γ↓ + γ↑) for the thermal damping γ↓·D[σ⁻] + γ↑·D[σ⁺], exactly (S = X·ρ·Y reverses the arrow and pairs the heights I with Z and X with Y)",
+      sp.simplify(S1 * Ds * S1 + Ds.H + (gd + gu) * sp.eye(4)) == sp.zeros(4, 4) and S1 * S1 == sp.eye(4))
+check("M9 one site control: the shift by Z alone (ρ·Z, the same letter pairs without the phases) does not reflect it",
+      sp.simplify(sp.kronecker_product(sp.eye(2), sp.diag(1, -1)) * Ds * sp.kronecker_product(sp.eye(2), sp.diag(1, -1)) + Ds.H + (gd + gu) * sp.eye(4)) != sp.zeros(4, 4))
+N = 3
+SXY = np.kron(string('XXX'), string('YYY').T)
+def thermal(N, H, down, up, zdeph=0.0):
+    d = 2 ** N; Id = np.eye(d)
+    L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    for l in range(N):
+        L += diss(N, op(N, l, SM), down[l]) + diss(N, op(N, l, SM.conj().T), up[l])
+        if zdeph:
+            Zl = op(N, l, Z); L += zdeph * (np.kron(Zl, Zl.T) - np.eye(d * d))
+    return L
+def xy_refl(L):
+    c = -2 * np.trace(L).real / L.shape[0]
+    return exact_zero(SXY @ L @ SXY + L.conj().T + c * np.eye(L.shape[0])), c
+DOWN = [0.5, 1.0, 1.5]; UP = [0.125, 0.25, 0.375]
+XXH = sum(op(N, a, X) @ op(N, b, X) for a, b in chain(N))
+DMH = sum(op(N, a, X) @ op(N, b, Y) - op(N, a, Y) @ op(N, b, X) for a, b in chain(N))
+okH, cH = xy_refl(thermal(N, heis(N, chain(N)), DOWN, UP))
+okX, _ = xy_refl(thermal(N, XXH, DOWN, UP))
+okC, _ = xy_refl(thermal(N, heis(N, chain(N)), DOWN, [0, 0, 0]))
+check("M9 N=3, site rates γ↓ = (½, 1, 3⁄2), γ↑ = γ↓/4: X^N·ρ·Y^N reflects the full L exactly for the Heisenberg chain and for XX bonds alone "
+      "(which do not conserve the excitation number), and at γ↑ = 0; c = Σ(γ↓ + γ↑), so the centre is −Σ(γ↓ + γ↑)/2",
+      okH and okX and okC and cH == sum(DOWN) + sum(UP), f"c = {cH}")
+badZ, _ = xy_refl(thermal(N, heis(N, chain(N)), DOWN, UP, zdeph=GAM))
+badF, _ = xy_refl(thermal(N, heis(N, chain(N)) + sum(op(N, l, Z) for l in range(N)), DOWN, UP))
+badD, _ = xy_refl(thermal(N, DMH, DOWN, UP))
+check("M9 controls: co-axial Z dephasing, a longitudinal Z field (odd under X^N) and DM bonds XY − YX (odd under X^N) each break the reflection",
+      not badZ and not badF and not badD)
 
 print()
 print("FAILED: " + ", ".join(FAIL) if FAIL else "ALL GATES PASS")

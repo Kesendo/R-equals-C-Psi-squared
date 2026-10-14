@@ -8,7 +8,7 @@ occupation spectral census F137 palindrome centre frequency bins V(N)
 uniform Z-dephasing and proven for all N through D10; that the block also holds
 the Liouvillian's best Q is measured at N = 2 to 6 and open beyond. The thermal
 palindrome is exact at the script's rational rate profiles at N = 2 and 3 (rational characteristic polynomial) and at
-the eigensolver floor to N = 5. The self-consistent occupation is excluded by
+the eigensolver floor to N = 5, and derived at every N for a Hamiltonian that commutes with X⊗N and Y⊗N. The self-consistent occupation is excluded by
 an identity for β > 0. The frequency counts are a four-decimal binning protocol
 on a finite grid; n̄ is an external channel parameter throughout.
 **Date:** March 30, 2026
@@ -335,7 +335,7 @@ found the bath cold: flat up-legs putting the thermal populations at 0.23% to
 pinned near zero. The regime that matters on real machines is T1 beside
 co-axial Z, the one combination that fails.
 
-Still open: a proof of the thermal H ≠ 0 pairing at general N. With cooling alone the pairing is derived at every N for an excitation-conserving, X⊗N-symmetric H ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
+The thermal H ≠ 0 pairing is derived at every N and any rates per site for a Hamiltonian that commutes with X⊗N and Y⊗N: S_XY: ρ ↦ X⊗N·ρ·Y⊗N reflects the Liouvillian, S_XY·L·S_XY⁻¹ = −L† − Σ(γ↓ + γ↑) ([F137](../docs/ANALYTICAL_FORMULAS.md#f137), [THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §9). Outside that class, DM bonds among them, the thermal pairing is not derived.
 
 ---
 

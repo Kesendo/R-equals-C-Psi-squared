@@ -364,9 +364,9 @@ because it is a different channel rather than another axis:
   gates the three steps exactly. The two conditions are sufficient. The X⊗N step
   needs less: X⊗N H X⊗N = H̄ gives X⊗N H_eff X⊗N = H_eff* − (i/2)Σγᵢ, whose
   spectrum is again that of H_eff†, which covers DM bonds XY − YX (G7, exactly).
-  Whether excitation conservation is needed is not settled here: XX bonds alone
-  read palindromic at the eigensolver floor (G7, chains N = 3, 4 and the ring
-  N = 4 at one rate profile);
+  Excitation conservation is not needed when H commutes with X⊗N and Y⊗N: the
+  element ρ ↦ X⊗N·ρ·Y⊗N of the thermal paragraph below reflects L, XX bonds alone
+  included;
   a longitudinal field breaks the X⊗N step and a transverse X field the triangularity.
 
   **A thermal bath changes only which rate appears.** Add the heating channel
@@ -376,7 +376,19 @@ because it is a different channel rather than another axis:
   −r/2, so the same tensor sum settles H = 0 and the centre is
   −Σᵢ(γ↓ᵢ + γ↑ᵢ)/2. At γ↑ = 0 it is the line above.
 
-  With the Heisenberg H the thermal case does better than "measured". At
+  At H ≠ 0 one element derives it at every N and any rates per site. The map
+  S_XY: ρ ↦ X⊗N·ρ·Y⊗N sends each site's I to iZ and Z to −iI and exchanges X and Y,
+  so it pairs the rates [0, r/2, r/2, r] and turns the dissipator's single
+  off-diagonal entry, at (Z, I), round: S_XY·L_D·S_XY⁻¹ = −L_D† − Σᵢ(γ↓ᵢ + γ↑ᵢ), with L_D the
+  thermal dissipator and † the Hilbert–Schmidt adjoint, a one-site
+  identity in the two rates summed over the sites. If H commutes with X⊗N and
+  Y⊗N, S_XY keeps the commutator part L_H = −i[H, ·] = −L_H†, so S_XY·L·S_XY⁻¹ = −L† − Σᵢ(γ↓ᵢ + γ↑ᵢ), and the spectrum, closed
+  under conjugation, pairs about −Σᵢ(γ↓ᵢ + γ↑ᵢ)/2. Every Pauli term whose numbers of X, Y and Z
+  letters have one parity qualifies, XYZ bonds with any couplings and XX bonds alone among them; co-axial Z
+  dephasing, a longitudinal field and DM bonds break the element
+  ([THE_ONE_SQUARE](../THE_ONE_SQUARE.md) §9, [`cube_moves_gate.py`](../../simulations/cube_moves_gate.py) M9).
+
+  With the Heisenberg H a second, independent route meets it. At
   rational rates the Liouvillian is rational over ℚ(i), so its characteristic
   polynomial is exact and the palindrome is the identity p(2c − x) ≡ p(x): it
   holds at N=2 and N=3 at the rational rate profiles of

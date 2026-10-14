@@ -6656,7 +6656,7 @@ sober base.
 
 <a id="f137"></a>
 
-### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with an excitation-conserving X⊗N-symmetric H such as XXZ derived at every N by block-triangularity and the X⊗N conjugation, 18/18 measured configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
+### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with an excitation-conserving X⊗N-symmetric H such as XXZ derived at every N by block-triangularity and the X⊗N conjugation, and, thermal bath included, for every H commuting with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N; 18/18 measured configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
 
 Pure amplitude damping (T1, jump σ⁻ per site, rates γᵢ) leaves the Liouvillian
 spectrum an exact palindrome, centered at **Re λ = −Σγᵢ/2**: half the dephasing
@@ -6679,9 +6679,9 @@ and X⊗N H_eff X⊗N = H_eff† − (i/2)Σγᵢ carries the block of popcounts
 G7 gates the three steps exactly; the triangularity is also pinned in
 `compute/RCPsiSquared.Core.Tests/BlockSpectrum/T1BreakingInformationalTests.cs`). The two conditions are
 sufficient. The X⊗N step needs less: X⊗N H X⊗N = H̄ gives X⊗N H_eff X⊗N = H_eff* − (i/2)Σγᵢ, and
-H_eff* has the spectrum of H_eff†, which covers DM bonds XY − YX (G7, exactly). Whether excitation
-conservation is needed is not settled here: XX bonds alone read palindromic at the eigensolver floor
-(G7, on chains N = 3, 4 and the ring N = 4 at one rate profile). A longitudinal field
+H_eff* has the spectrum of H_eff†, which covers DM bonds XY − YX (G7, exactly). Excitation
+conservation is not needed when H commutes with X⊗N and with Y⊗N: then S_XY: ρ ↦ X⊗N·ρ·Y⊗N reflects L,
+S_XY·L·S_XY⁻¹ = −L† − Σγᵢ, XX bonds alone included (the thermal paragraph below). A longitudinal field
 breaks the X⊗N step, a transverse X field the triangularity. The 18
 swept configurations agree exactly as multisets (N=2–5; chain, ring, star, complete; uniform and
 site-dependent rates; anisotropies δ = −0.5 to 2). Pairing fractions here and
@@ -6697,14 +6697,22 @@ pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
 28/64).
 
 **Extended to a thermal bath (2026-08-05; the thermal pairing exact at the script's rational
-rate profiles (two at N=2, one at N=3, J = 1) with the Heisenberg H, measured to N=5).** With a heating channel σ⁺
+rate profiles (two at N=2, one at N=3, J = 1) with the Heisenberg H, measured to N=5, and derived at every N for every H
+that commutes with X⊗N and Y⊗N).** With a heating channel σ⁺
 beside the cooling channel σ⁻, per-site rates γ↓ᵢ and γ↑ᵢ, the palindrome
 survives and the centre becomes
 
     Re λ = −Σᵢ (γ↓ᵢ + γ↑ᵢ) / 2
 
 which is the line above with γᵢ replaced by the *total* per-site rate, and
-reduces to it at γ↑ = 0. The H = 0 face needs nothing new: the thermal
+reduces to it at γ↑ = 0. At H ≠ 0 one element carries it at every N and any rates per site: S_XY: ρ ↦ X⊗N·ρ·Y⊗N
+sends each site's I to iZ and Z to −iI and exchanges X and Y, so it pairs the rates [0, r/2, r/2, r] and turns the
+dissipator's one off-diagonal entry round, S_XY·D·S_XY⁻¹ = −D† − Σᵢ(γ↓ᵢ + γ↑ᵢ) for the dissipator D, † the Hilbert–Schmidt adjoint (a one-site identity, symbolic in the two
+rates, summed over the sites); a Hamiltonian that commutes with X⊗N and Y⊗N is kept, L_H = −L_H†, so
+S_XY·L·S_XY⁻¹ = −L† − Σᵢ(γ↓ᵢ + γ↑ᵢ), which pairs the spectrum with its Jordan structure. Every Pauli term whose numbers of X, Y and Z
+letters have one parity qualifies: XYZ bonds with any couplings on any graph, XX bonds alone. Co-axial Z dephasing, a longitudinal
+field and DM bonds break the element ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9, [`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9).
+The H = 0 face needs nothing new: the thermal
 single-site Pauli rates are **[0, r/2, r/2, r] with r = γ↓ + γ↑**, already
 worked out in [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), so the same
 tensor-sum argument applies with r in place of γ.
@@ -6752,7 +6760,7 @@ Caveat, because "different objects" invites over-reading: at H ≠ 0 the
 *spectrum* does depend on the net rate; only the *centre* does not.
 
 **Gate:** [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G7 for the
-cooling-only derivation;
+cooling-only derivation; [`simulations/cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9 for the element S_XY;
 [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → the T1 and per-component sections of
 [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt); the
@@ -6763,9 +6771,9 @@ thermal extension in
 [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)
 (the boundary-law rewrite, `1c7dcf9`); the H=0 face and the cooling-only face with an
 excitation-conserving X⊗N-symmetric H are derived there, the thermal face with the Heisenberg H is
-exact at the script's rational rate profiles at N=2, 3 and measured to N=5. **Typed:** not yet (Tier1Candidate). Open: typing;
-a proof of the thermal H ≠ 0 **pairing** at general N (σ⁺ beside σ⁻ breaks the
-triangularity). The centre at H ≠ 0 is the trace identity above and needs no
+exact at the script's rational rate profiles at N=2, 3 and measured to N=5, and derived at every N for an H commuting
+with X⊗N and Y⊗N by the element S_XY above. **Typed:** not yet (Tier1Candidate). Open: typing; the thermal pairing
+for a Hamiltonian outside S_XY's class, DM bonds among them. The centre at H ≠ 0 is the trace identity above and needs no
 proof.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
