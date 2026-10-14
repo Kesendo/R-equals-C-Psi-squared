@@ -42,8 +42,23 @@ Rows (all exact, sympy over Q(i) and Q(i)[gamma] / Q(Delta, gamma); a row compar
       (PROOF_UNIFORM_LAW Lemma A1); the X-even half has rank 16 over Q(i)(gamma), so nullity 2 at generic gamma; exact
       at gamma = 2/3, 7/5 the block holds -4 gamma with nullity 2, one mode of pure weight 2 (T2) and one that mixes
       weights, and the X-odd half holds none, so both sit in the X-even half that C4 finds singular at every gamma.
+  C8  the X-even half is the dephasing compressed onto the commutant: with C_E, C_O the commutants of h_E, h_O
+      (dimensions c_E, c_O), their pair diagonals (read in the bases a_i, b_i) spanning L_E, L_O in R^3, and r the rank
+      of the pairing <delta(C), delta(C')> between them, the X-even half holds -4 gamma with nullity
+      (c_E - r) + (c_O - r), of which (c_E - dim L_E) + (c_O - dim L_O) are of pure weight 2; exact at gamma = 2/3, 7/5
+      on the chain at Delta = 1, 1/2, 0 and on the chain (1, 3/5, 7/5), six random bonds, the star, the ring and the
+      complete graph at Delta = 1, 1/2; ring (c_E, c_O, r) = (3, 5, 2); on the chain the pair diagonals of 1, h, h^2 have
+      determinant 16 Delta (Delta^2 - 1) on the E side and 16 Delta (Delta^2 + 1) on the O side. The ring's whole
+      block (2, 2) at Delta = 1 has nullity 4, three of pure weight 2, none X-odd. On the chain at Delta = 1 the partner
+      of T2 is C = P_O - 3|b3><b3|, whose pair diagonal (1, 1, -2) is orthogonal to L_E, and C + gamma C' with C' on
+      Hamming-2 cells is in the kernel at symbolic gamma.
+  C9  the N = 8 chain at Delta = 1, block (4, 4): the restrictions of H to the 35 X-even and the 35 X-odd states are
+      cyclic (their powers span 35 dimensions mod two primes, so the commutants are the powers), share no eigenvalue and
+      have simple spectra (exact characteristic polynomials), and the E-O matrix of D + 8 between the two power bases has
+      rank 34 mod both primes, so at most 2 over Q; the orbit sum of the block's Hamming-4 cells commutes with H
+      (exact integers) and lies in the kernel, so exactly 2.
 
-Run: python simulations/f50_centre_rung_green.py   (a few minutes; prints "ALL GATES PASS" or a FAIL line)
+Run: python simulations/f50_centre_rung_green.py   (under a minute; prints "ALL GATES PASS" or a FAIL line)
 """
 import itertools
 import sympy as sp
@@ -276,5 +291,156 @@ for gam in (Q(2, 3), Q(7, 5)):
     n_odd = nullity(split(T)[0])
     check(f"gamma = {gam}: nullity 2 = one pure weight-2 + one weight-mixing, none in the X-odd half",
           null == 2 and pure == 1 and n_odd == 0, f"nullity {null}, pure weight 2: {pure}, X-odd: {n_odd}")
+
+print("C8  the X-even half: the dephasing compressed onto the commutant")
+
+
+def commutant_diagonals(h):
+    """A basis of the commutant of the 3 x 3 matrix h: the 3 x c matrix of the elements' diagonals, and c."""
+    X = sp.Matrix(3, 3, sp.symbols('x0:9'))
+    A_, _ = sp.linear_eq_to_matrix(list(h * X - X * h), list(X))
+    basis = A_.nullspace()
+    return sp.Matrix.hstack(*[sp.Matrix([v[0], v[4], v[8]]) for v in basis]), len(basis)
+
+
+PAIR_DIAG = [i * 3 + i for i in range(3)] + [9 + i * 3 + i for i in range(3)]   # |a_i><a_i|, |b_i><b_i| in the X-even half
+PIN = sp.zeros(6, 18)
+for i, c in enumerate(PAIR_DIAG):
+    PIN[i, c] = 1
+RING = {(0, 1): 1, (1, 2): 1, (2, 3): 1, (0, 3): 1}
+C8_RUNS = [("chain", CHAIN, d) for d in (1, Q(1, 2), 0)]
+C8_RUNS += [(name, bonds, d) for name, bonds in (
+    ("chain (1, 3/5, 7/5)", {(0, 1): 1, (1, 2): Q(3, 5), (2, 3): Q(7, 5)}),
+    ("six random bonds", {(0, 1): Q(5, 7), (1, 2): Q(9, 4), (2, 3): Q(2, 3), (0, 2): Q(1, 3), (1, 3): Q(6, 5), (0, 3): Q(3, 8)}),
+    ("star", {(0, 1): 1, (0, 2): 1, (0, 3): 1}), ("ring", RING),
+    ("complete", {(i, j): 1 for i in range(4) for j in range(i + 1, 4)})) for d in (1, Q(1, 2))]
+for name, bonds, delta in C8_RUNS:
+    H = hamiltonian(bonds, delta)
+    dE, cE = commutant_diagonals(Eb.T * H * Eb)
+    dO, cO = commutant_diagonals(Ob.T * H * Ob)
+    rK = (dE.T * dO).rank()
+    pred, pred_pure = cE + cO - 2 * rK, cE + cO - dE.rank() - dO.rank()
+    got = []
+    for gam in (Q(2, 3), Q(7, 5)):
+        Tev = split(block_T(H, gam))[1]
+        got.append((nullity(Tev), nullity(sp.Matrix.vstack(Tev, PIN)) - 6))
+    check(f"{name}, Delta = {delta}: X-even nullity (c_E - r) + (c_O - r) = {pred}, of pure weight 2: {pred_pure}",
+          all(n == pred and q == pred_pure for n, q in got), f"c_E {cE}, c_O {cO}, r {rK}; exact (nullity, pure) {got}")
+    if name == "ring":
+        check(f"ring, Delta = {delta}: (c_E, c_O, r) = (3, 5, 2)", (cE, cO, rK) == (3, 5, 2), f"{(cE, cO, rK)}")
+H = hamiltonian(CHAIN, D_)
+for h, want in ((Eb.T * H * Eb, 16 * D_ * (D_ ** 2 - 1)), (Ob.T * H * Ob, 16 * D_ * (D_ ** 2 + 1))):
+    h = h.applyfunc(sp.simplify)
+    M = sp.Matrix([[(h ** k)[i, i] for k in range(3)] for i in range(3)])
+    check(f"chain: det of the pair diagonals of 1, h, h^2 = {want}", sp.expand(M.det() - want) == 0, f"{sp.factor(M.det())}")
+for gam in (Q(2, 3), Q(7, 5)):
+    T = block_T(hamiltonian(RING, 1), gam)
+    PF = [c for c in range(36) if HAM[c] != 2]
+    pin = sp.zeros(len(PF), 36)
+    for i, c in enumerate(PF):
+        pin[i, c] = 1
+    null, pure, n_odd = nullity(T), nullity(sp.Matrix.vstack(T, pin)) - len(PF), nullity(split(T)[0])
+    check(f"ring, Delta = 1, gamma = {gam}: the whole block holds -4 gamma with nullity 4, three of pure weight 2, none X-odd",
+          (null, pure, n_odd) == (4, 3, 0), f"nullity {null}, pure {pure}, X-odd {n_odd}")
+H = hamiltonian(CHAIN, 1)
+Cm = Ob * sp.diag(1, 1, -2) * Ob.T
+check("chain, Delta = 1: C = P_O - 3|b3><b3|, pair diagonal (1, 1, -2), commutes with H", (H * Cm - Cm * H).is_zero_matrix)
+dE, _ = commutant_diagonals(Eb.T * H * Eb)
+check("(1, 1, -2) is orthogonal to every pair diagonal the commutant of h_E reaches", (sp.Matrix([[1, 1, -2]]) * dE).is_zero_matrix)
+Cv = sp.Matrix([Cm[k, l] for k, l in CELLS])
+H2 = [c for c in range(36) if HAM[c] == 2]
+vs = sp.symbols('v0:%d' % len(H2))
+R = sp.zeros(36, 1)
+for s_, c in zip(vs, H2):
+    R[c] = s_
+sol = sp.solve(list(block_T(H, 0) * R + (block_T(H, 1) - block_T(H, 0)) * Cv), vs, dict=True)   # -i[H, R] + (D + 4) C = 0
+ok = bool(sol) and (block_T(H, g) * (Cv + g * R.subs(sol[0]).subs({s_: 0 for s_ in vs}))).applyfunc(sp.expand).is_zero_matrix
+check("the partner C + gamma C', C' on Hamming-2 cells, is in the kernel of T4 at symbolic gamma", ok)
+
+print("C9  the centre block (4, 4) of the N = 8 chain at Delta = 1: the same compression, an upper bound")
+
+
+def centre_compression_n8(prime):
+    """Rank mod prime of the E-O matrix of D + 8 on the power bases of h_E, h_O (block (4, 4), N = 8 chain, Delta = 1)."""
+    n8 = 8
+    st = [x for x in range(2 ** n8) if bin(x).count("1") == 4]
+    ix = {x: i for i, x in enumerate(st)}
+    full = 2 ** n8 - 1
+    prs = [(x, x ^ full) for x in st if x < x ^ full]
+    d = len(prs)
+    Hm = [[0] * len(st) for _ in st]
+    for c, x in enumerate(st):
+        for i in range(n8 - 1):
+            bi, bj = (x >> i) & 1, (x >> (i + 1)) & 1
+            Hm[c][c] += 1 if bi == bj else -1
+            if bi != bj:
+                Hm[ix[x ^ (1 << i) ^ (1 << (i + 1))]][c] += 2
+
+    def restrict(sign):   # H on span{x + sign x~}, the basis vectors orthogonal and of one norm
+        return [[Hm[ix[u]][ix[a]] + sign * Hm[ix[u]][ix[b]] for (a, b) in prs] for (u, v) in prs]
+
+    def mul(A, B):
+        return [[sum(A[i][k] * B[k][j] for k in range(d)) % prime for j in range(d)] for i in range(d)]
+
+    def rank(M):
+        M = [r[:] for r in M]
+        rk = 0
+        for c in range(len(M[0])):
+            piv = next((r for r in range(rk, len(M)) if M[r][c] % prime), None)
+            if piv is None:
+                continue
+            M[rk], M[piv] = M[piv], M[rk]
+            inv = pow(M[rk][c], prime - 2, prime)
+            M[rk] = [v * inv % prime for v in M[rk]]
+            for r in range(len(M)):
+                if r != rk and M[r][c] % prime:
+                    f = M[r][c]
+                    M[r] = [(a - f * b) % prime for a, b in zip(M[r], M[rk])]
+            rk += 1
+        return rk
+
+    def cells(m, s):   # sum_lk m[l][k] |u_l + s v_l><u_k + s v_k| on the cells
+        X = {}
+        for l, (u, v) in enumerate(prs):
+            for k, (a, b) in enumerate(prs):
+                if m[l][k]:
+                    for r, sr in ((u, 1), (v, s)):
+                        for c, sc in ((a, 1), (b, s)):
+                            X[(r, c)] = (X.get((r, c), 0) + m[l][k] * sr * sc) % prime
+        return X
+
+    hs = {s: restrict(s) for s in (1, -1)}
+    pw = {}
+    for s in (1, -1):
+        out = [[[int(i == j) for j in range(d)] for i in range(d)]]
+        for _ in range(d - 1):
+            out.append(mul(out[-1], hs[s]))
+        pw[s] = out
+    cyc = [rank([[m[i][j] for i in range(d) for j in range(d)] for m in pw[s]]) for s in (1, -1)]
+    CE, CO = [cells(m, 1) for m in pw[1]], [cells(m, -1) for m in pw[-1]]
+    dep = lambda r, c: n8 - 2 * bin(r ^ c).count("1")
+    K = [[sum(dep(r, c) * v * co[(r, c)] for (r, c), v in ce.items() if (r, c) in co) % prime for co in CO] for ce in CE]
+    return d, cyc, rank(K), [[sp.Integer(x) for x in row] for row in hs[1]], [[sp.Integer(x) for x in row] for row in hs[-1]]
+
+
+lam = sp.Symbol('lam')
+for prime in (1000003, 998244353):
+    d8, cyc, rK8, hE8, hO8 = centre_compression_n8(prime)
+    check(f"p = {prime}: h_E, h_O cyclic (commutant = powers, dim {d8} each), rank of the E-O compression 34, first-order nullity at most 2",
+          cyc == [d8, d8] and rK8 == 34 and d8 == 35, f"cyclic {cyc}, rank {rK8}")
+cE8, cO8 = sp.Matrix(hE8).charpoly(lam).as_expr(), sp.Matrix(hO8).charpoly(lam).as_expr()
+st8 = [x for x in range(256) if bin(x).count("1") == 4]
+H8 = sp.zeros(70, 70)
+for c, x in enumerate(st8):
+    for i in range(7):
+        bi, bj = (x >> i) & 1, (x >> (i + 1)) & 1
+        H8[c, c] += 1 if bi == bj else -1
+        if bi != bj:
+            H8[st8.index(x ^ (1 << i) ^ (1 << (i + 1))), c] += 2
+T4o = sp.Matrix(70, 70, lambda k, l: 1 if bin(st8[k] ^ st8[l]).count("1") == 4 else 0)
+check("the orbit sum of the Hamming-4 cells of (4, 4) commutes with H (exact), so it is in the kernel and the rank is 34 over Q",
+      (H8 * T4o - T4o * H8).is_zero_matrix)
+check("h_E and h_O share no eigenvalue and both spectra are simple (exact characteristic polynomials)",
+      sp.gcd(cE8, cO8) == 1 and sp.gcd(cE8, sp.diff(cE8, lam)) == 1 and sp.gcd(cO8, sp.diff(cO8, lam)) == 1)
 
 print("\nALL GATES PASS" if not FAILS else "\nFAILED: " + ", ".join(FAILS))

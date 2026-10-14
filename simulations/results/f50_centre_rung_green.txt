@@ -40,5 +40,33 @@ C7  the permanent modes of the chain's block at Delta = 1
   [ok] rank of the X-even half over Q(i)(gamma) is 16 (generic nullity 2): rank 16
   [ok] gamma = 2/3: nullity 2 = one pure weight-2 + one weight-mixing, none in the X-odd half: nullity 2, pure weight 2: 1, X-odd: 0
   [ok] gamma = 7/5: nullity 2 = one pure weight-2 + one weight-mixing, none in the X-odd half: nullity 2, pure weight 2: 1, X-odd: 0
+C8  the X-even half: the dephasing compressed onto the commutant
+  [ok] chain, Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 2, of pure weight 2: 1: c_E 3, c_O 3, r 2; exact (nullity, pure) [(2, 1), (2, 1)]
+  [ok] chain, Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 0, of pure weight 2: 0: c_E 3, c_O 3, r 3; exact (nullity, pure) [(0, 0), (0, 0)]
+  [ok] chain, Delta = 0: X-even nullity (c_E - r) + (c_O - r) = 2, of pure weight 2: 2: c_E 3, c_O 3, r 2; exact (nullity, pure) [(2, 2), (2, 2)]
+  [ok] chain (1, 3/5, 7/5), Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 2, of pure weight 2: 1: c_E 3, c_O 3, r 2; exact (nullity, pure) [(2, 1), (2, 1)]
+  [ok] chain (1, 3/5, 7/5), Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 0, of pure weight 2: 0: c_E 3, c_O 3, r 3; exact (nullity, pure) [(0, 0), (0, 0)]
+  [ok] six random bonds, Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 2, of pure weight 2: 1: c_E 3, c_O 3, r 2; exact (nullity, pure) [(2, 1), (2, 1)]
+  [ok] six random bonds, Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 0, of pure weight 2: 0: c_E 3, c_O 3, r 3; exact (nullity, pure) [(0, 0), (0, 0)]
+  [ok] star, Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 4, of pure weight 2: 4: c_E 5, c_O 5, r 3; exact (nullity, pure) [(4, 4), (4, 4)]
+  [ok] star, Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 4, of pure weight 2: 4: c_E 5, c_O 5, r 3; exact (nullity, pure) [(4, 4), (4, 4)]
+  [ok] ring, Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 4, of pure weight 2: 3: c_E 3, c_O 5, r 2; exact (nullity, pure) [(4, 3), (4, 3)]
+  [ok] ring, Delta = 1: (c_E, c_O, r) = (3, 5, 2): (3, 5, 2)
+  [ok] ring, Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 4, of pure weight 2: 3: c_E 3, c_O 5, r 2; exact (nullity, pure) [(4, 3), (4, 3)]
+  [ok] ring, Delta = 1/2: (c_E, c_O, r) = (3, 5, 2): (3, 5, 2)
+  [ok] complete, Delta = 1: X-even nullity (c_E - r) + (c_O - r) = 8, of pure weight 2: 8: c_E 5, c_O 9, r 3; exact (nullity, pure) [(8, 8), (8, 8)]
+  [ok] complete, Delta = 1/2: X-even nullity (c_E - r) + (c_O - r) = 8, of pure weight 2: 8: c_E 5, c_O 9, r 3; exact (nullity, pure) [(8, 8), (8, 8)]
+  [ok] chain: det of the pair diagonals of 1, h, h^2 = 16*Delta*(Delta**2 - 1): 16*Delta*(Delta - 1)*(Delta + 1)
+  [ok] chain: det of the pair diagonals of 1, h, h^2 = 16*Delta*(Delta**2 + 1): 16*Delta*(Delta**2 + 1)
+  [ok] ring, Delta = 1, gamma = 2/3: the whole block holds -4 gamma with nullity 4, three of pure weight 2, none X-odd: nullity 4, pure 3, X-odd 0
+  [ok] ring, Delta = 1, gamma = 7/5: the whole block holds -4 gamma with nullity 4, three of pure weight 2, none X-odd: nullity 4, pure 3, X-odd 0
+  [ok] chain, Delta = 1: C = P_O - 3|b3><b3|, pair diagonal (1, 1, -2), commutes with H
+  [ok] (1, 1, -2) is orthogonal to every pair diagonal the commutant of h_E reaches
+  [ok] the partner C + gamma C', C' on Hamming-2 cells, is in the kernel of T4 at symbolic gamma
+C9  the centre block (4, 4) of the N = 8 chain at Delta = 1: the same compression, an upper bound
+  [ok] p = 1000003: h_E, h_O cyclic (commutant = powers, dim 35 each), rank of the E-O compression 34, first-order nullity at most 2: cyclic [35, 35], rank 34
+  [ok] p = 998244353: h_E, h_O cyclic (commutant = powers, dim 35 each), rank of the E-O compression 34, first-order nullity at most 2: cyclic [35, 35], rank 34
+  [ok] the orbit sum of the Hamming-4 cells of (4, 4) commutes with H (exact), so it is in the kernel and the rank is 34 over Q
+  [ok] h_E and h_O share no eigenvalue and both spectra are simple (exact characteristic polynomials)
 
 ALL GATES PASS

@@ -159,10 +159,13 @@ k = 2 = N − 2 puts both corner pairs on one line and the excess is 4
 For Chain N = 4, d_real(2) = 14 but dim(ker([H,·]|_{w=2})) = 13.
 One purely-real eigenvalue at Re = −4γ = −0.2 is not a pure weight-2
 mode. It arises from Hamiltonian mixing between weight sectors: the
-eigenoperator has components at multiple weights (w=0, w=2, w=4, ...),
+eigenoperator has components at the weights w = 0, 2 and 4,
 and the combination of different dephasing rates averages to exactly
-Re = −4γ. It sits in the X^⊗N-even half of the (2,2) block, which on the
-XXZ chain is singular at every coupling only at Δ ∈ {0, ±1}
+Re = −4γ. It sits in the X^⊗N-even half of the (2,2) block as the partner
+of the pure weight-2 orbit sum T₂: an operator C commuting with H, of
+weights 0 and 4, whose image under the dephasing is cancelled by the
+commutator of H with a weight-2 operator C′, so that the mode is
+C + γC′, exact at every γ
 ([The centre rung at N = 4](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-centre-rung-at-n--4)).
 
 The same `d_real(k) > ker(w=k)` discrepancy was originally suspected
