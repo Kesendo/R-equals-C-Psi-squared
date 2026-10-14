@@ -22,9 +22,21 @@ Rows:
   D3  (--pointwise) the class's kernel computed directly at mu = 1..600 modulo 1000003 is one-dimensional at
       every point, and each of four coordinates divided by a random functional of the kernel vector is a
       rational function of degree 267 (the larger of numerator and denominator degree), not less: the degree by a route without the chain.
+  D4  (--real, floating point) which roots lie at real g. For real g the class's pencil is equivalent to the real
+      pencil [[A_e, -g B_o], [g B_e, A_o]]; bordered with two random borders, QZ gives 298 eigenvalues common to
+      both, their matching distances six decades and more below the unshared ones' (34 at 0, 264 elsewhere,
+      the count D2's reading gives), and 16 of the 264 come out exactly real, +-g at eight couplings, the others at least a tenth of
+      their modulus off the axis. (The X-odd half is not read here.) On the full block (4,4), 4900 dimensions, the four smallest singular values of
+      T(g) at each lie six decades and more below the fifth (two modes more than the generic two, one per
+      class, the X-odd half adding none). Off each coupling by g t, t = 1e-3 and 1e-4, the two eigenvalues of T beside
+      the generic two scale linearly in t (ratio 10 within 5 percent), so the pair grows linearly off g rather
+      than branching, and at g exactly four eigenvalues lie below 1e-6 (a Jordan block would split at rounding by about
+      sqrt(eps |T|) ~ 1e-7), so the four modes are the whole eigenvalue; the pair classifies the coupling: an oscillating pair on the
+      line -8g whose frequency passes through 0, or a real palindromic pair -8g +- r whose r passes through 0.
 
-Exact modular arithmetic throughout. D1 takes under two minutes; D2 about twenty and D3 about forty minutes on eight processes.
-Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise]
+D1 to D3 in exact modular arithmetic, D4 in floating point. D1 takes under two minutes; D2 about twenty and D3
+about forty minutes on eight processes; D4 about fifteen minutes.
+Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise] [--real]
 """
 import sys
 import numpy as np
@@ -205,6 +217,82 @@ def _init_kernel():
     _kernel_at.AB = _class_pencil(P_B)
 
 
+def _float_blocks():
+    """Class-O blocks over the reals (the pencil() construction without the modulus), N = 8."""
+    N = 8
+    st = [x for x in range(2 ** N) if bin(x).count("1") == N // 2]
+    n = len(st); idx = {x: i for i, x in enumerate(st)}
+    H = np.zeros((n, n))
+    for c, x in enumerate(st):
+        for i in range(N - 1):
+            bi, bj = (x >> i) & 1, (x >> (i + 1)) & 1
+            H[c, c] += 1 if bi == bj else -1
+            if bi != bj:
+                H[idx[x ^ (1 << i) ^ (1 << (i + 1))], c] += 2
+    full = 2 ** N - 1
+    reps = [x for x in st if x < (x ^ full)]
+    m = len(reps)
+    Ev = np.zeros((n, m)); Ov = np.zeros((n, m))
+    for k, x in enumerate(reps):
+        Ev[idx[x], k] = 1; Ev[idx[x ^ full], k] = 1
+        Ov[idx[x], k] = 1; Ov[idx[x ^ full], k] = -1
+    ham = np.array([[bin(x ^ y).count("1") for y in st] for x in st])
+    bcell = (N - 2 * ham).astype(float)
+    sym = [(i, j) for i in range(m) for j in range(i, m)]
+    asy = [(i, j) for i in range(m) for j in range(i + 1, m)]
+
+    def ops(U, pairs, s):
+        out = []
+        for i, j in pairs:
+            W = np.outer(U[:, i], U[:, j])
+            out.append(W + W.T if (s and i != j) else (W if s else W - W.T))
+        return out
+
+    def mat(src, f, U, pairs):
+        I = np.array([q[0] for q in pairs]); J = np.array([q[1] for q in pairs])
+        return np.array([((U.T @ f(W) @ U) / 4)[I, J] for W in src]).T
+
+    Aop = lambda W: H @ W - W @ H
+    Bop = lambda W: bcell * W
+    es, os_ = ops(Ov, sym, True), ops(Ev, asy, False)
+    blocks = mat(es, Aop, Ov, asy), mat(es, Bop, Ev, sym), mat(os_, Aop, Ev, sym), mat(os_, Bop, Ov, asy)
+    return blocks, H, ham
+
+
+def real_couplings():
+    import scipy.linalg as sl
+    (A_e, B_e, A_o, B_o), H, ham = _float_blocks()
+    r0, s0 = A_e.shape
+    M0 = np.zeros((r0 + A_o.shape[0], s0 + A_o.shape[1])); M1 = np.zeros_like(M0)
+    M0[:r0, :s0] = A_e; M0[r0:, s0:] = A_o
+    M1[:r0, s0:] = -B_o; M1[r0:, :s0] = B_e
+    nn = M0.shape[0]
+
+    def roots(seed):
+        rng = np.random.default_rng(seed)
+        P0 = np.zeros((nn + 1, nn + 1)); P1 = np.zeros_like(P0)
+        P0[:nn, :nn] = M0; P1[:nn, :nn] = M1
+        P0[:nn, nn] = rng.standard_normal(nn); P0[nn, :nn] = rng.standard_normal(nn)
+        w = sl.eigvals(P0, -P1)
+        return w[np.isfinite(w)]
+    ra, rb = roots(1), roots(2)
+    # a root of c does not depend on the border: sort the distances to the other border's spectrum and cut at the gap
+    d = np.array([np.min(np.abs(rb - z)) / max(1.0, abs(z)) for z in ra])
+    o = np.argsort(d)
+    eps = np.finfo(float).eps                       # distances below the rounding unit count as the rounding unit
+    k = int(np.argmax(np.log(np.maximum(d[o][1:], eps)) - np.log(np.maximum(d[o][:-1], eps)))) + 1
+    match_gap = (d[o][k - 1], d[o][k])
+    common = ra[o[:k]]
+    a = np.sort(np.abs(common))
+    k0 = int(np.argmax(np.log(np.maximum(a[1:], eps)) - np.log(np.maximum(a[:-1], eps)))) + 1
+    zero_gap = (a[k0 - 1], a[k0])
+    nz = common[np.abs(common) >= a[k0]]
+    real = np.sort(nz[nz.imag == 0.0].real)          # QZ on a real pencil returns a simple real root with imag exactly 0
+    others = nz[nz.imag != 0.0]
+    margin = np.min(np.abs(others.imag) / np.abs(others))
+    return (len(common), k0, len(nz), real, match_gap, zero_gap, margin), H, ham
+
+
 def _init():
     _border_det.blocks = pencil(8, P_B)
 
@@ -250,5 +338,35 @@ if __name__ == "__main__":
                 M = np.hstack([V, (-(r[:, None] * V)) % P_B])
                 return M.shape[1] - rank(M, P_B) > 0
             check(f"coordinate {c}: a ratio of degree 267 fits, 266 does not", fits_ratio(267) and not fits_ratio(266))
+    if "--real" in sys.argv:
+        print("D4  the roots at real coupling (floating point)", flush=True)
+        (nc, n0, nnz, real, mg, zg, margin), H, ham = real_couplings()
+        check(f"two borders share {nc} roots (largest shared distance {mg[0]:.1e}, smallest unshared {mg[1]:.1e}), "
+              f"{n0} at 0 (largest {zg[0]:.1e}, next {zg[1]:.1e}) and {nnz} elsewhere; expected 298, 34, 264",
+              (nc, n0, nnz) == (298, 34, 264) and mg[1] > 1e6 * mg[0] and zg[1] > 1e6 * zg[0])
+        pos = real[real > 0]
+        check(f"{len(real)} of them real (imaginary part exactly 0), the others at least {margin:.2f} of their modulus "
+              "off the axis; symmetric under g -> -g: " + ", ".join(f"{x:.6f}" for x in pos),
+              len(real) == 16 and np.allclose(np.sort(-real), real, rtol=1e-9) and margin > 0.1)
+        n = H.shape[0]; Id = np.eye(n)
+        A = np.kron(H, Id) - np.kron(Id, H.T)
+        bd = np.diag((8 - 2 * ham).ravel().astype(float))
+        for g in pos:
+            s0 = np.linalg.svd(-1j * A + g * bd, compute_uv=False)[-5:][::-1]
+            # a fifth eigenvalue joining in a Jordan block would split at rounding by about sqrt(eps |T|) ~ 1e-7,
+            # so exactly four eigenvalues below 1e-6 at g makes the four kernel vectors the whole eigenvalue 0
+            at0 = int(np.sum(np.abs(np.linalg.eigvals(-1j * A + g * bd)) < 1e-6))
+            pairs = []
+            for t in (1e-3, 1e-4):
+                w = np.linalg.eigvals(-1j * A + (1 + t) * g * bd)
+                o = np.argsort(np.abs(w))
+                pairs.append(w[o[2:4]])
+            ratio = np.mean(np.abs(pairs[0])) / np.mean(np.abs(pairs[1]))
+            pr = pairs[1]
+            kind = ("oscillating pair on the line" if np.all(np.abs(pr.real) < 1e-6 * np.abs(pr)) else
+                    "real pair crossing the line" if np.all(np.abs(pr.imag) < 1e-6 * np.abs(pr)) else "other")
+            check(f"g = {g:.6f}: singular values 4th {s0[3]:.1e}, 5th {s0[4]:.1e}; {at0} eigenvalues below 1e-6; "
+                  f"the pair beside the generic two grows linearly off g (ratio {ratio:.3f} for offsets 1e-3 : 1e-4); {kind}",
+                  s0[4] > 1e6 * s0[3] and at0 == 4 and abs(ratio / 10 - 1) < 0.05 and kind != "other")
     print("\nALL GATES PASS" if not FAILS else f"\n{len(FAILS)} FAILED")
     sys.exit(1 if FAILS else 0)

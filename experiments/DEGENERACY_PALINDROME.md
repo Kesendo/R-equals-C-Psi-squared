@@ -496,7 +496,7 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
    uniform chain's commutant count c_k meets it for 3 ≤ k ≤ N−3 (at N = 6..8) and exceeds it by the
    corner rows at k = 2, N−2 (exact at N = 5..8). Open: a closed form for the excess above the bound on ring, star
    and complete, and where real modes that mix weights occur (at generic coupling so far the even-N center block only:
-   chain and ring at N = 4, where the centre-rung count accounts for them, and the chain at N = 8, where the same count bounds the line by 2, the value measured, and the second mode can be taken as a polynomial in γ, of degree 267 modulo two primes and at least 267 over ℚ, [the centre rung](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-centre-rung-at-n--4); at F50's exceptional couplings also the rung k = 1, in
+   chain and ring at N = 4, where the centre-rung count accounts for them, and the chain at N = 8, where the same count bounds the center block's real eigenvalue −8γ to 2 at all but finitely many γ, the value measured, and the second mode can be taken as a polynomial in γ, of degree 267 modulo two primes and at least 267 over ℚ; at eight of the finitely many couplings, measured in floating point, the center block holds −8γ four times, its X-odd half not read ([the centre rung](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-centre-rung-at-n--4)); at F50's exceptional couplings also the rung k = 1, in
    the blocks (p, p), [the count at exceptional couplings](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings)). See [Weight-2 Kernel](WEIGHT2_KERNEL.md).
 
 3. **Center minimum at N = 6.** The real degeneracy at the center
