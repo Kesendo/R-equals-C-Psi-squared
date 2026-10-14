@@ -1,0 +1,44 @@
+C1  the X flip and the shape of the X-odd half
+  [ok] X commutes with T (chain, Delta = 1, symbolic gamma)
+  [ok] T is block diagonal in X-odd (+) X-even
+  [ok] centred dephasing on the X-odd half = the pair swap 4 gamma, zero elsewhere
+C2  det T_odd = (det S)^2 det(I - 16 gamma^2 G^2)
+  [ok] chain Delta=1: identity in gamma, G symmetric: charpoly G = u*(4*u - 1)*(4*u + 1)/16
+  [ok] chain Delta=1/2: identity in gamma, G symmetric: charpoly G = (16*u - 5)*(256*u**2 + 80*u + 3)/4096
+  [ok] chain Delta=2: identity in gamma, G symmetric: charpoly G = (16*u - 5)*(4*u**2 - 10*u - 3)/64
+  [ok] chain Delta=3: identity in gamma, G symmetric: charpoly G = (12*u - 5)*(4*u**2 - 45*u - 18)/48
+  [ok] chain (1,3/5,7/5): identity in gamma, G symmetric: charpoly G = u*(3528*u**2 + 1526*u - 141)/3528
+  [ok] chain (1,3/5,7/5): no doubled modulus of G
+  [ok] five random bonds: identity in gamma, G symmetric: charpoly G = (61870453568*u**3 + 71302555232*u**2 + 7747166697*u - 651397572)/61870453568
+  [ok] five random bonds: no doubled modulus of G
+  [ok] star: identity in gamma, G symmetric: charpoly G = (4*u - 1)**2*(8*u + 1)/128
+  [ok] star: charpoly G = (4u - 1)^2 (8u + 1)/128
+  [ok] ring Delta=1: outside the hypothesis, h_E and h_O share the eigenvalue 0 only: shared [0]
+  [ok] ring Delta=1/2: outside the hypothesis, h_E and h_O share the eigenvalue 0 only: shared [0]
+  [ok] control: a dephasing shift on an X-symmetric quadruple of off-pair cells breaks the identity
+C3  the chain at symbolic Delta
+  [ok] b = |0110> - |1001> is an eigenvector of H at -Delta
+  [ok] G splits 1 + 2 under the reflection
+  [ok] G+ = (1 + Delta^2)/(8 Delta)
+  [ok] G- = (Delta/8)[[-1, 1], [1, 4 Delta^2 - 5]] (up to the order of the two pairs)
+  [ok] det(I - 16 gamma^2 G^2) = closed form x a gamma-free factor: factor -268435456
+  [ok] det T_odd equals (det S)^2 det(I - 16 gamma^2 G^2) identically in Delta, gamma: det T_odd = -268435456*(Delta**2*gamma - 2*Delta + gamma)*(Delta**2*gamma + 2*Delta + gamma)*(Delta**4*gamma**2 - 2*Delta**3*gamma - Delta**2*gamma**2 + 3*Delta*gamma - 1)*(Delta**4*gamma**2 + 2*Delta**3*gamma - Delta**2*gamma**2 - 3*Delta*gamma - 1)
+  [ok] det S = 32768 Delta (the hypothesis holds at every Delta != 0)
+  [ok] gamma* = 2 Delta/(1 + Delta^2) <= 1 with equality only at Delta = 1
+C4  the chain's X-even half
+  [ok] det T_even = c Delta^4 (Delta^2-1)^2 (Delta^2+1)^2 gamma^6, c a nonzero constant: c = -268435456
+C5  exact nullities at the points
+  [ok] Delta = 1, gamma = 1: nullity of T_odd = 2: read 2
+  [ok] Delta = 1/2, gamma = 4/5: nullity of T_odd = 1: read 1
+  [ok] Delta = 1/2, gamma = 1: nullity of T_odd = 0: read 0
+C6  the chain (1, r, 1) at Delta = 1
+  [ok] eigenvalues of G are 0, r/(4(2-r)), -(r^2-2r+2)/(4r): charpoly u*(4*r*u + r - 8*u)*(r**2 + 4*r*u - 2*r + 2)/(16*r*(r - 2))
+  [ok] k1 + k2 = 0 for r > 0 only at r = 1
+  [ok] k1 = k2 for r > 0 only at the real root of r^3 - 5r^2 + 6r - 4: r0 = 3.658967, gamma there = 0.4533977
+C7  the permanent modes of the chain's block at Delta = 1
+  [ok] the orbit sum T2 of the Hamming-2 cells is in the kernel of T4 at symbolic gamma (Lemma A1)
+  [ok] rank of the X-even half over Q(i)(gamma) is 16 (generic nullity 2): rank 16
+  [ok] gamma = 2/3: nullity 2 = one pure weight-2 + one weight-mixing, none in the X-odd half: nullity 2, pure weight 2: 1, X-odd: 0
+  [ok] gamma = 7/5: nullity 2 = one pure weight-2 + one weight-mixing, none in the X-odd half: nullity 2, pure weight 2: 1, X-odd: 0
+
+ALL GATES PASS
