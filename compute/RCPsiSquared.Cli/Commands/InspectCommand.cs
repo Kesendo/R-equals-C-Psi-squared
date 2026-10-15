@@ -1038,7 +1038,7 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("zeroimmune", "Zero-Sector Immunity, live: a random parity-violating 2-body H gives M ≈ 0 on the " +
             "w=0 ({I,Z}^⊗N) and w=N ({X,Y}^⊗N) Pauli blocks while ‖M‖ > 0 (the non-trivial gate); the classical " +
-            "extreme is immune to every 2-body coupling, the palindrome-breaking lives in 0<w<N " +
+            "extreme is immune to every 2-body coupling, on the diagonal the palindrome-breaking lives in 0<w<N " +
             "(typed: ZeroSectorImmunityClaim)",
             c => new ZeroSectorImmunityWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                c.Parser.OptionalDouble("gamma") ?? 0.05),

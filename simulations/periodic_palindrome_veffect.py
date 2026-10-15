@@ -3,9 +3,10 @@ V-Effect's boundary-sector breaking?
 
 periodic_palindrome.py establishes that per-element properties (IE_1, Pauling EN,
 Allen EN) across a period are palindromic: value_k + value_{N+1-k} ~ const, with
-shuffle p-values down to 1e-4. V_EFFECT_BOUNDARY_LOCALIZATION.md establishes that
-the framework's palindrome break is confined to boundary sectors 0 < w < N (the
-extreme sectors w=0, w=N immune, exact to 1e-15).
+shuffle p-values down to 1e-4. V_EFFECT_BOUNDARY_LOCALIZATION.md establishes that,
+on the residual's diagonal blocks, the framework's palindrome break is confined to
+boundary sectors 0 < w < N (the extreme diagonal blocks w=0, w=N immune, exact to
+1e-15; off the diagonal the break reaches the extremes).
 
 Question 6 asks: does the periodic palindrome's deviation pattern match the
 V-Effect's boundary localization? The proposed correspondence maps closed shells
@@ -15,7 +16,7 @@ middle) onto the breaking boundary sectors.
 This script computes the PER-PAIR deviation (each pair sum's distance from the
 period mean) that periodic_palindrome.py's aggregate CoV hides, and asks whether
 the deviation localizes to the inner (partly-filled) pairs the way the V-Effect
-localizes its break to boundary sectors. Investigation only.
+localizes its diagonal break to boundary sectors. Investigation only.
 """
 import sys
 
@@ -57,8 +58,8 @@ def main():
     print("=" * 78)
     print("Q6: per-pair periodic-palindrome deviation vs the V-Effect boundary picture")
     print("=" * 78)
-    print("V-Effect: the palindrome break is confined to boundary sectors 0<w<N;")
-    print("the extreme sectors w=0, w=N are immune. Mapped onto a period, the")
+    print("V-Effect: on the diagonal blocks the palindrome break is confined to 0<w<N;")
+    print("the extreme diagonal blocks w=0, w=N are immune. Mapped onto a period, the")
     print("deviation should sit in the INNER (partly-filled) pairs and leave the")
     print("OUTER (closed-shell-end) pairs near-palindromic.\n")
 

@@ -27,7 +27,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>Guard: 4^N ≤ <see cref="MaxDim"/> (= 1024), admitting N ∈ {2,3,4,5}; N=6 (4096²) is
 /// excluded. Children: the w=0 immunity (the assert made visible), the non-trivial full-M gate, the
 /// Π-mirror w=N block, and a curve of ‖M[w,w]‖_F across XY-weight w (the extremes vanish, the
-/// boundary sectors 0&lt;w&lt;N carry the breaking — the V-Effect localization).</para>
+/// boundary sectors 0&lt;w&lt;N carry the diagonal breaking, the V-Effect localization; off the
+/// diagonal the break can reach the extremes, which this curve does not read).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_ZERO_IMMUNITY.md</c> +
 /// <c>experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md</c>; typed home
@@ -132,7 +133,7 @@ public sealed class ZeroSectorImmunityWitness : IInspectable
         $"so it breaks the global F1 palindrome) leaves M EXACTLY zero on the w=0 ({{I,Z}}^⊗N) block " +
         $"(‖·‖ = {ZeroSectorNorm.ToString("e2", Inv)}) and the w=N ({{X,Y}}^⊗N) block " +
         $"(‖·‖ = {MirrorSectorNorm.ToString("e2", Inv)}). The classical extreme is immune to every " +
-        $"2-body coupling; the breaking lives in the boundary sectors 0<w<N.";
+        $"2-body coupling; on the diagonal the breaking lives in the boundary sectors 0<w<N.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -154,15 +155,16 @@ public sealed class ZeroSectorImmunityWitness : IInspectable
 
             yield return new InspectableNode(
                 displayName: "the Π-mirror (w=N block)",
-                summary: $"Π maps {{I,Z}}^⊗N ↔ {{X,Y}}^⊗N (flips bit_a at every site), so M also vanishes on the " +
+                summary: $"Π maps {{I,Z}}^⊗N ↔ {{X,Y}}^⊗N (flips bit_a at every site); on w=N, L is the uniform −2Σγ " +
+                         $"with no Hamiltonian part (only ZZ keeps the sector, and it commutes), so M also vanishes on the " +
                          $"w=N block: ‖·‖_F = {MirrorSectorNorm.ToString("e3", Inv)} ≈ 0. The all-transverse extreme " +
                          $"is the mirror image of the classical one.");
 
             yield return new InspectableNode(
                 displayName: "‖M[w,w]‖ across XY-weight (the V-Effect localization)",
                 summary: "the diagonal block norm of M by XY-weight w: the extremes w=0 and w=N vanish (immune), " +
-                         "while the boundary sectors 0<w<N carry the palindrome-breaking — exactly the V-Effect " +
-                         "boundary localization (V_EFFECT_BOUNDARY_LOCALIZATION).",
+                         "while the boundary sectors 0<w<N carry the diagonal palindrome-breaking, the V-Effect " +
+                         "boundary localization (V_EFFECT_BOUNDARY_LOCALIZATION); the off-diagonal blocks are not read here.",
                 payload: new InspectablePayload.Curve("‖M[w,w]‖_F by XY-weight", _weightAxis, _blockNormByWeight,
                     "XY-weight w", "‖M[w,w]‖_F"));
         }

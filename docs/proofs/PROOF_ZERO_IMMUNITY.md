@@ -1,4 +1,4 @@
-# Zero-Sector Immunity: The (w=0, w=N) Palindrome Holds for Every 2-Body Hamiltonian
+# Zero-Sector Immunity: The Palindrome Holds on the Diagonal (w=0) and (w=N) Blocks for Every 2-Body Hamiltonian
 
 **Tier:** 1 (analytical proof) + 2 (numerical verification at N=3, N=4 to 10⁻¹⁵ precision).
 **Date:** 2026-04-25
@@ -10,13 +10,13 @@
 
 ## Abstract
 
-The palindromic residual M = Π·L·Π⁻¹ + L + 2Σγ·I measures how far an open spin chain departs from exact mirror symmetry when its Hamiltonian is not palindromic. This proof shows that on the two extreme XY-weight sectors, w=0 (the classical strings {I, Z}^⊗N) and w=N (the fully transverse strings {X, Y}^⊗N), the residual vanishes identically for **every** 2-body Hamiltonian under uniform Z-dephasing, with no assumption on H beyond 2-body locality (parity-violating, exotic, and random couplings included). Three facts force it: the Z-dephasing dissipator cannot reach w=0 (I and Z commute with Z), the commutator [H, ·] cannot remain in w=0 (the only w=0-preserving bond term is ZZ, which also commutes), and Π maps w=0 ↔ w=N so the uniform −2Σγ decay at w=N returns as exactly the shift the centered palindrome requires.
+The palindromic residual M = Π·L·Π⁻¹ + L + 2Σγ·I measures how far an open spin chain departs from exact mirror symmetry when its Hamiltonian is not palindromic. This proof shows that on the two extreme XY-weight sectors, w=0 (the classical strings {I, Z}^⊗N) and w=N (the fully transverse strings {X, Y}^⊗N), the diagonal blocks of the residual vanish identically for **every** 2-body Hamiltonian under Z-dephasing at any rate per site, with no assumption on H beyond being a sum of two-site bilinears (parity-violating, exotic, and random couplings included). Three facts force it: the Z-dephasing dissipator cannot reach w=0 (I and Z commute with Z); the commutator [H, ·] cannot remain in w=0 or in w=N (the only bond term that keeps either sector is ZZ, since a letter X or Y flips its site's weight bit, and ZZ commutes with every I/Z string and, anticommuting at both of its sites, with every all-transverse string); and Π maps w=0 ↔ w=N, so the uniform −2Σγ decay at w=N returns as exactly the shift the centered palindrome requires. A single-site Z field, the one I/Z term with an odd number of Z, breaks both blocks.
 
-The extreme sectors are thus the eternal mirror within the dissipative system: they are protected not by any choice of Hamiltonian but by the Pauli algebra itself, and they carry the Σγ=0 mirror ground state of ZERO_IS_THE_MIRROR (eigenvalues paired λ ↔ −λ) forward to every noise level, with w=0 and w=N always living as if in the unitary limit. The "zero" generalizes from zero noise (Σγ=0) to zero XY-weight (w=0). All Hamiltonian-specific dynamics, and all palindrome-breaking such as the V-Effect mode-orphaning first seen at N=3, are confined to the boundary sectors 0 < w < N, which is exactly where the next level of structure forms.
+The extreme sectors are thus the eternal mirror within the dissipative system: they are protected not by any choice of Hamiltonian but by the Pauli algebra itself, and they carry the Σγ=0 mirror ground state of ZERO_IS_THE_MIRROR (eigenvalues paired λ ↔ −λ) forward to every noise level. The "zero" generalizes from zero noise (Σγ=0) to zero XY-weight (w=0). On the diagonal, the palindrome-breaking, such as the V-Effect mode-orphaning first seen at N=3, sits in the boundary sectors 0 < w < N, which is where the next level of structure forms; off the diagonal it reaches w=0 and w=N as well (§"Where the theorem stops").
 
 ## Theorem statement
 
-Let L be the Lindblad superoperator for an N-qubit chain with arbitrary 2-body Hamiltonian H and uniform Z-dephasing rates γ_l per site:
+Let L be the Lindblad superoperator for an N-qubit chain with an arbitrary 2-body Hamiltonian H, a real combination of two-site bilinears σ_a^l σ_b^m with a, b ∈ {X, Y, Z}, and Z-dephasing rates γ_l per site:
 
 ```
 L(ρ) = −i [H, ρ] + Σ_l γ_l · (Z_l · ρ · Z_l − ρ).
@@ -30,13 +30,13 @@ Define the centered residual:
 M = Π · L · Π⁻¹ + L + 2Σγ · I    where Σγ = Σ_l γ_l.
 ```
 
-**Theorem (Zero-Sector Immunity).** The matrix M restricted to the (w=0, w=0) block is identically zero for **every** 2-body Hamiltonian H, regardless of whether H respects bit_a or bit_b parity. Equivalently, for every Pauli string σ_α with σ_α ∈ {I, Z}^⊗N:
+**Theorem (Zero-Sector Immunity).** The matrix M restricted to the (w=0, w=0) block is identically zero for **every** 2-body Hamiltonian H, regardless of whether H respects bit_a or bit_b parity. Equivalently, for every pair of Pauli strings σ_α, σ_β ∈ {I, Z}^⊗N:
 
 ```
-⟨σ_α | (Π · L · Π⁻¹ + L + 2Σγ · I) | σ_α⟩ = 0.
+⟨σ_α | (Π · L · Π⁻¹ + L + 2Σγ · I) | σ_β⟩ = 0.
 ```
 
-By Π-symmetry the analogous statement holds for the (w=N, w=N) block.
+The analogous statement holds for the (w=N, w=N) block: there L carries the dissipator's uniform −2Σγ and no Hamiltonian part (Lemma 2', below), and Π carries the empty (w=0, w=0) block of L onto it, so the same cancellation −2Σγ + 0 + 2Σγ = 0 closes it.
 
 ## Proof
 
@@ -57,7 +57,7 @@ The full Z-dephasing dissipator gives zero on the w=0 sector.
 
 ### Lemma 2: (w=0, w=0)-block of [H, ·] vanishes
 
-Let H = Σ_(l, l+1) bond_term_(l, l+1) be a 2-body Hamiltonian. Each bond_term has the form J · σ_a^l · σ_b^{l+1} with a, b ∈ {0, 1, 2, 3} = {I, X, Y, Z} and J real (Hermiticity).
+Let H = Σ bond_term be a 2-body Hamiltonian, written on chain bonds (l, l+1) for definiteness; nothing below uses adjacency, so any pair of sites (l, m) works the same way. Each bond_term has the form J · σ_a^l · σ_b^{l+1} with a, b ∈ {0, 1, 2, 3} = {I, X, Y, Z} and J real (Hermiticity).
 
 For σ_α in w=0 (each site I or Z), consider [bond_term, σ_α]. Per site l, the relevant operations are:
 
@@ -154,7 +154,7 @@ First, Π⁻¹ takes σ_β (w=0) to a w=N string σ_β' with some phase: Π⁻¹
 Apply L to σ_β'':
 - L(σ_β'') = −i [H, σ_β''] + dissipator(σ_β'').
 - dissipator(σ_β'') = −2Σγ · σ_β'' (Lemma 4).
-- For the [H, σ_β''] part: by the same argument as Lemma 2 (with X, Y replacing I, Z), the (w=N, w=N)-projection of [H, σ_β''] is determined entirely by the {XX, XY, YX, YY} bond terms of H. Since these all preserve w=N, the (w=N, w=N)-projection picks up [bond_term_w=N, σ_β''].
+- For the [H, σ_β''] part, **Lemma 2'** (the w=N analogue of Lemma 2): a bond letter X or Y on a site where σ_β'' carries X or Y gives I or Z there (X·X = I, X·Y = iZ, Y·X = −iZ, Y·Y = I), so the product leaves w=N; a letter I or Z keeps the site transverse. The (w=N, w=N)-projection of [H, σ_β''] therefore comes only from bond terms built of I and Z, which among the bilinears is ZZ alone. ZZ anticommutes with σ_β'' at both of its sites, so it commutes with σ_β'', and the projection is zero.
 
 Now apply Π to L(σ_β''). Π maps w=N → w=0. The (w=0)-projection of Π(L(σ_β'')) equals Π applied to the (w=N)-projection of L(σ_β'').
 
@@ -164,9 +164,9 @@ Combining the phase factors of Π and Π⁻¹: Π · Π⁻¹ = identity, so Π·
 
 (w=0, w=0)-projection of Π · (dissipator part of L · Π⁻¹) (σ_β) = −2Σγ · σ_β.
 
-For the Hamiltonian part, by Π-symmetry (Lemma 3 connects w=0 ↔ w=N closed sector) and the parallel structure of Lemma 2 applied at w=N:
+For the Hamiltonian part, Π carries the (w=N, w=N)-projection of −i[H, ·] onto the (w=0, w=0) block (Lemma 3), and that projection is zero (Lemma 2'):
 
-(w=0, w=0)-projection of Π · (−i[H, ·]) · Π⁻¹ on w=0 strings = same parallel structure as Lemma 2 result, which gives 0 in this block.
+(w=0, w=0)-projection of Π · (−i[H, ·]) · Π⁻¹ on w=0 strings = 0.
 
 Therefore:
 
@@ -190,30 +190,38 @@ Therefore:
 
 3. **The Π-conjugation perfectly accounts for the dissipator shift.** Π maps w=0 ↔ w=N. On w=N, dissipator gives −2Σγ uniformly. Π brings this back to w=0 as exactly the −2Σγ shift that the palindrome relation requires.
 
-These three facts together force the (w=0, w=0)-block of the palindromic residual to vanish identically, **without any assumption on the form of H beyond 2-body locality**.
+These three facts together force the (w=0, w=0)-block of the palindromic residual to vanish identically, **without any assumption on the form of H beyond being a sum of two-site bilinears**.
 
 ## What this implies structurally
 
-The "extreme sector" w=0 is the algebraic fixed point of the Lindblad palindrome. Whatever Hamiltonian we write down (Heisenberg, XXZ, XY-model, parity-violating exotic, even random), the (w=0, w=0)-block of the palindromic residual is zero.
+The "extreme sector" w=0 is the algebraic fixed point of the Lindblad palindrome. Whatever sum of two-site bilinears we write down (Heisenberg, XXZ, XY-model, parity-violating exotic, even random), the (w=0, w=0)-block of the palindromic residual is zero.
 
-This means: **the parts of the operator algebra that are entirely in the {I, Z}-sector are immune to every form of 2-body coupling**. They cannot decohere (Z-dephasing trivial), they cannot evolve (commutator trivial), they cannot break palindrome.
+This means: **the parts of the operator algebra that are entirely in the {I, Z}-sector are immune to every form of 2-body coupling**. They cannot decohere (Z-dephasing trivial), they cannot evolve within the sector (the commutator carries every {I,Z} string out of it or to zero), and the diagonal block of the residual on them is zero.
 
-The (w=N, w=N)-block has the symmetric story by Π-conjugation: w=N is "all transverse", and the same arguments apply with X, Y replacing I, Z.
+The (w=N, w=N)-block has the mirrored story: w=N is "all transverse", decays at the uniform −2Σγ, and again only ZZ keeps the sector, commuting with it (Lemma 2').
 
-The boundary sectors 0 < w < N are where Hamiltonian-form-specific dynamics live. The V-Effect break observed at N=3 in the {XX+XY, ZZ+XY} cases (V_EFFECT_BOUNDARY_LOCALIZATION) is confined to these boundary sectors precisely because the extremes are protected by this analytical immunity.
+On the diagonal, the V-Effect break observed at N=3 in the cases with XX or ZZ on bond (0,1) and XY on bond (1,2) ([V_EFFECT_BOUNDARY_LOCALIZATION](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md)) sits in the boundary sectors 0 < w < N because the extreme diagonal blocks are protected by this immunity. The same break also reaches the extremes off the diagonal, which the theorem does not cover.
+
+## Where the theorem stops
+
+Three limits, each computed exactly in the Pauli-string basis (unit couplings; the field at N = 3, 4, 5, the off-diagonal blocks at N = 3, 4, the one-letter terms at N = 3; [`veffect_residual_all_blocks.py`](../../simulations/veffect_residual_all_blocks.py)). The second was already read in [the V-Effect palindrome](../../experiments/V_EFFECT_PALINDROME.md), whose cross blocks w = 0↔2 and 1↔3 fire.
+
+1. **A single-site Z field breaks both extreme blocks.** It is an I/Z term with one Z, so it anticommutes with every all-transverse string and Lemma 2' fails: a unit field on one site gives ‖M|(w=0)‖ = ‖M|(w=N)‖ = 4√2, 8, 8√2 at N = 3, 4, 5. A single-site X field breaks nothing; it leaves M = 0 everywhere.
+2. **The off-diagonal blocks are not protected.** The theorem is about the diagonal blocks (w=0, w=0) and (w=N, w=N). A block that joins w=0 or w=N to another weight can carry the breaking: XX on bond (0,1) with XY on bond (1,2) gives ‖M‖ = 4√2 on the blocks (0,2), (2,0), (1,3) and (3,1) at N = 3, and at N = 4 it reaches (0,2) and (2,4) and their transposes with norm 8.
+3. **Terms with one X/Y letter never touch a diagonal block.** A Pauli letter X or Y flips its site's weight bit and I or Z keeps it, so a term with m letters X or Y changes w by an amount of the same parity as m. A term with one X/Y letter (XZ, YZ, ZX, ZY) has no diagonal part at all, and when it breaks the palindrome it does so only in the blocks (w, w ± 1): YZ on every bond leaves every diagonal block of M zero and breaks (0,1), (1,2), (2,3) and their transposes at N = 3.
 
 ## Connection to ZERO_IS_THE_MIRROR
 
 [Zero Is the Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md) shows that at Σγ = 0, the centered Liouvillian satisfies Π·L·Π⁻¹ = −L exactly, with eigenvalue pairing λ ↔ −λ.
 
-The current theorem is a refined statement: even at Σγ > 0, the **w=0 portion** of the spectrum lies on the imaginary axis (no decay, palindromic exact). The "zero" of ZERO_IS_THE_MIRROR generalizes from "zero noise" (Σγ = 0) to "zero-weight sector" (w = 0). Both are about the algebra reaching back to a center where dissipation does not bite.
+The current theorem is a refined statement: even at Σγ > 0, the (w=0, w=0) block of L itself vanishes (no decay and no motion within the sector), and the residual's diagonal block there is zero. The "zero" of ZERO_IS_THE_MIRROR generalizes from "zero noise" (Σγ = 0) to "zero-weight sector" (w = 0). Both are about the algebra reaching back to a center where dissipation does not bite.
 
-The deeper reading: w=0 is the eternal mirror within the dissipative system. The Hamiltonian shapes the dynamics in w > 0, but w=0 itself is fixed. The palindrome at zero is not about a single point in parameter space; it is a structural feature of the operator algebra at the extreme weight sectors, present at every Σγ ≥ 0.
+The deeper reading: w=0 is the eternal mirror within the dissipative system. The Hamiltonian carries w=0 strings out into w > 0, but the residual's block on w=0 itself stays at zero. The palindrome at zero is not about a single point in parameter space; it is a structural feature of the operator algebra at the extreme weight sectors, present at every Σγ ≥ 0.
 
 ## References
 
 - [V-Effect Boundary Localization](../../experiments/V_EFFECT_BOUNDARY_LOCALIZATION.md): N=3, N=4 numerical verification.
-- [Bit-b Parity Symmetry](PROOF_BIT_B_PARITY_SYMMETRY.md): [L, Π²] = 0 for all N, all 2-body Hamiltonians.
+- [Bit-b Parity Symmetry](PROOF_BIT_B_PARITY_SYMMETRY.md): [L, Π²] = 0 for all N, for Hamiltonians whose terms each hold an even number of Y's and Z's.
 - [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md): [L, n_XY-parity] = 0 (bit_a parity is conserved).
 - [Zero Is the Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md): Σγ=0 as the palindromic ground state.
 - [Primordial Qubit](../../hypotheses/PRIMORDIAL_QUBIT.md): C²⊗C² parity structure (bit_a, bit_b).

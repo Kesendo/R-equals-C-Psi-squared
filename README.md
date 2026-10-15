@@ -323,7 +323,7 @@ survives partially, with a closed-form ceiling, full only at d = 2. Water and ca
 live in their own folders, written in the target layer's language.
 
 → **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the limit cycle that survives it) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
-→ [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form the two parities select) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
+→ [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form the two parities select) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (the extreme diagonal blocks of the palindrome residual immune to any two-site bilinear H)
 → [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the ceiling at d > 2) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
 
 ---

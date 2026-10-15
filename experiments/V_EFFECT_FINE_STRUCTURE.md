@@ -112,13 +112,13 @@ The soft-break category corresponds to systems where spectroscopy looks symmetri
 
 ## Cross-reference to PROOF_ZERO_IMMUNITY
 
-[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) showed that the (w=0, w=N) extreme sectors of any 2-body Hamiltonian's Liouvillian preserve palindrome exactly. The break, when present, lives in boundary sectors 0 < w < N.
+[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) showed that the residual's diagonal blocks on the extreme sectors (w=0, w=N) vanish for every two-body bilinear H. On the diagonal the break, when present, lives in the boundary sectors 0 < w < N; off the diagonal it can reach the extremes ([V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md)).
 
-For the 33 OP-broken cases here, the break lives in boundary sectors at N=3 (w=1, w=2). Among these:
+For the 33 OP-broken cases here, the extreme diagonal blocks therefore stay exact at N=3, and the break sits in the blocks the theorem does not cover; in all 33 it reaches the extreme sectors off the diagonal. In 18 of them, every pair whose non-truly terms carry a single X/Y letter (XX+XZ, YZ+ZY, ZX+ZZ, ...), the diagonal is clean and the break sits only in the blocks one weight apart. Among the 33:
 - 14 hard-breaks: the boundary break propagates to off-diagonal eigenvalue structure ⇒ eigenvalue pairing fails.
 - 19 soft-breaks: the boundary break is structured such that off-diagonal eigenvalue parity-symmetry still holds ⇒ eigenvalue pairs intact.
 
-The two categories share the boundary-residing break but differ in whether the boundary-mode coupling structure is "spectrally symmetric" or not.
+The two categories differ in whether the coupling structure the break lives in is "spectrally symmetric" or not.
 
 ## Hardware verification (2026-04-26)
 

@@ -120,7 +120,7 @@ closed form no longer applies. On the exact propagator:
 | Edge concentrator | 0.200 | 19.583 | 3.9166 |
 
 The edge concentrator needs 1.196 times the total exposure to reach the same
-purity. The chain is what carries the edge's light to the rest: with the
+purity. The chain is what spreads the edge's dephasing to the rest: with the
 coupling switched off the three dim sites would take t ≈ 745 to get there.
 These rows compare total exposure at one purity threshold; they say nothing
 about mode selection or the mutual-information benefit the concentrator was
