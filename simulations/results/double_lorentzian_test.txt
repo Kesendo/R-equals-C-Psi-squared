@@ -256,9 +256,9 @@ VERDICT
    The palindrome is a structural property of the Liouvillian
    operator algebra, hidden behind an XY-weight superselection.
 
-4. IMPLICATION FOR gamma_0 UNIVERSALITY:
-   The gamma_0 hypothesis cannot be tested via photon spectra.
-   This is consistent with the Inside-Outside Correspondence:
-   the inside observer sees Q = J/gamma but cannot separate
-   J and gamma. The palindrome, being 'outside' structure,
-   is invisible to 'inside' (electromagnetic) measurements.
+4. IMPLICATION FOR gamma_0:
+   The gamma_0 hypothesis cannot be tested via photon spectra:
+   the XY-weight superselection keeps Sigma_gamma behind a sector
+   wall that none of the electromagnetic observables run here crosses.
+   What gamma_0 is, this run does not decide; the reading of it as a
+   framework constant is hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md (Tier 2).
