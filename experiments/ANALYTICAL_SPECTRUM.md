@@ -113,11 +113,11 @@ Under uniform Z-dephasing with rate γ per qubit:
 | Property | Formula |
 |:---------|:--------|
 | Maximum Q | Q_{N-1} = 2J/γ · (1+cos(π/N)) |
-| Minimum Q | Q_1 = 2J/γ · (1-cos(π/N)) → 2Jπ²/(γN²) for large N |
+| Minimum Q | Q_1 = 2J/γ · (1-cos(π/N)) → Jπ²/(γN²) for large N |
 | Mean Q | Q_mean = 2J/γ (exactly, from Σcos = 0) |
 | Q spread | Q_{max}/Q_{min} = (1+cos(π/N))/(1-cos(π/N)) = cot²(π/(2N)) |
 
-The Q spread grows as ~N²/π² for large N. Longer chains have a wider
+The Q spread grows as ~4N²/π² for large N. Longer chains have a wider
 range of mode lifetimes.
 
 ### C. Frequency bandwidth

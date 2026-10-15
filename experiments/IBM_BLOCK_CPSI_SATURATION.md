@@ -10,8 +10,8 @@
 
 The framework's PROOF_BLOCK_CPSI_QUARTER carries three theorems about the block-purity content `C_block` on the (popcount-n, popcount-(n+1)) coherence block of any density matrix. This run anchors two of them:
 
-- **Theorem 1:** the canonical Dicke superposition `(|D_n⟩+|D_{n+1}⟩)/√2` saturates `C_block = 1/4` exactly. This is the universal Mandelbrot-cardioid ceiling realised at a unique state.
-- **Theorem 3:** under pure Z-dephasing γ on each site, `C_block(t) = (1/4)·exp(−4γ·t)`, a clean closed-form trajectory from the ceiling down to zero (chromaticity-universal).
+- **Theorem 1:** the canonical Dicke superposition `(|D_n⟩+|D_{n+1}⟩)/√2` saturates `C_block = 1/4` exactly. The proof states it for c ≥ 2; at c = 1, the block flown here, the same count gives 1/4 directly, two cells of |1/(2√2)|². This is the universal Mandelbrot-cardioid ceiling; the Dicke state is one C_block maximiser of a continuous family, and the unique maximiser of the full CΨ_block.
+- **Theorem 3:** under pure Z-dephasing γ on each site, `C_block(t)` is a sum of exponentials `exp(−4γ·(2k+1)·t)`, one per Hamming distance 2k+1 present in the block. At chromaticity c = 1, the block (0,1) flown here at N = 2, every cell has Hamming distance 1 and the trajectory is the single exponential `C_block(t) = (1/4)·exp(−4γ·t)`, from the ceiling down to zero.
 
 (Theorem 2 of the same proof, the universal upper bound `C_block ≤ 1/4` for any density matrix, is not directly tested by this single-state run; the run is consistent with it because the measured value never exceeds 1/4.)
 
@@ -61,7 +61,7 @@ This is the first hardware run that places a state *on* the 1/4 ceiling and watc
 
 ## Cross-references
 
-- [PROOF_BLOCK_CPSI_QUARTER.md](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md): Theorems 1 + 2.
+- [PROOF_BLOCK_CPSI_QUARTER.md](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md): Theorems 1 and 3, anchored by this run, and Theorem 2, the bound it is consistent with.
 - `compute/RCPsiSquared.Core/F86/BlockCoherenceContent.cs`: state-level helper used both in the C# typed claim and (via Python re-implementation) in the analysis here.
 - `compute/RCPsiSquared.Core/F86/IbmBlockCpsiHardwareTable.cs`: the existing table for the 2026-04-26 `|+−+⟩` runs (parallel data, different protocol).
 - `compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs`: entry `block_cpsi_saturation_kingston_may2026`.

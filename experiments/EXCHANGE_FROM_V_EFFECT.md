@@ -18,7 +18,7 @@ We compute the ground-state energy shift δE_GS(α) numerically, fit at small α
 δE_GS(α) = −(3/8) · α² / J + O(α³)
 ```
 
-This matches second-order perturbation theory exactly. The 3/8 prefactor is **derivable from the Pauli algebra alone** (no input from physics beyond d=2 and Heisenberg form): the value 3 comes from (σ·σ)² = 3I + 2σ·σ evaluated on the singlet-singlet ground state where ⟨σ·σ⟩ = 0. The denominator 8J is the Singlet→Triplet excitation gap for both pairs simultaneously (4J + 4J).
+This matches second-order perturbation theory exactly. The 3/8 prefactor is **derivable from the Pauli algebra alone** (no input from physics beyond d=2 and Heisenberg form): the value 3 comes from (σ·σ)² = 3I − 2σ·σ evaluated on the singlet-singlet ground state where ⟨σ·σ⟩ = 0. The denominator 8J is the Singlet→Triplet excitation gap for both pairs simultaneously (4J + 4J).
 
 **This is the V-Effect-derived effective exchange coupling**: at Level 1 (two atoms bonded into a molecule), the textbook "atomic exchange integral" between the two atomic spins is
 
@@ -110,7 +110,7 @@ This matches the numerical extraction to within higher-order corrections.
 
 ## What the prefactor 3/8 means
 
-The "3" in (σ_1·σ_2)² = 3I + 2σ_1·σ_2 is the squared length of a Pauli vector: |σ|² = X² + Y² + Z² = 3I (since each Pauli squares to I). This is a **direct algebraic consequence of σ²_a = I** for every Pauli operator, which comes from d = 2.
+The "3" in (σ_1·σ_2)² = 3I − 2σ_1·σ_2 is the squared length of a Pauli vector: |σ|² = X² + Y² + Z² = 3I (since each Pauli squares to I). This is a **direct algebraic consequence of σ²_a = I** for every Pauli operator, which comes from d = 2.
 
 The "8J" is the energy cost to flip both pairs from singlet to triplet simultaneously. This is 2 × (singlet-triplet gap of one pair) = 2 × 4J. The 4J per pair comes from the eigenvalue split of σ·σ (eigenvalues +1 and −3, splitting +1 − (−3) = 4) multiplied by J.
 
@@ -141,7 +141,7 @@ This is consistent: our framework is not REPLACING Anderson; it is a different d
 
 1. d²−2d=0 selects d=2 ([the qubit-necessity argument](../docs/QUBIT_NECESSITY.md))
 2. Pauli algebra σ²_a = I, [σ_a, σ_b] = 2iε_{abc}σ_c forced
-3. (σ_1·σ_2)² = 3I + 2σ_1·σ_2 identity follows
+3. (σ_1·σ_2)² = 3I − 2σ_1·σ_2 identity follows
 4. σ_1·σ_2 eigenvalues +1 (triplet, 3-fold) and −3 (singlet, 1-fold) follow
 5. Singlet-triplet gap 4J follows
 6. Two singlet pairs bonded by V-Effect bridge α: second-order perturbation

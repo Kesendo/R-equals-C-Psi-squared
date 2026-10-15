@@ -90,7 +90,7 @@ rho = p|Psi-><Psi-| + (1-p)I/4 show the gap clearly:
 | 0.8 | 0.700 | 0.267 | 0.187 | 3.8 |
 | 1.0 | 1.000 | 0.333 | 0.333 | 3.0 |
 
-At p=0.5: Concurrence says "entangled" (C=0.250, exactly at the threshold).
+At p=0.5: Concurrence says "entangled" (C=0.250; C = (3p−1)/2 reaches zero at the threshold p = 1/3).
 CΨ says "barely visible" (CΨ=0.042, far below 1/4).
 
 The ratio C/CΨ ranges from 3.0 (pure states) to 7.5 (near the entanglement

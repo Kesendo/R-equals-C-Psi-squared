@@ -47,7 +47,7 @@ Door C of the F89 Galois arc asked a sharp question and got a clean **null**: th
 S_8/18/32/53 for path 3..6) does **not** read as dissipative quantum chaos. Its complex spacing
 ratio (CSR, Sá-Ribeiro-Prosen) is Poisson-like, not GinUE: algebraic chaos over the coupling q and
 spectral chaos at fixed q are different things here (`inspect --root galoischaos`,
-[RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md) Result 3).
+[RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md) Result 5).
 
 The Door-C sweeps distinguish three Hamiltonian cases:
 
@@ -176,8 +176,8 @@ tagged `[Trait("Category", "SLOW_FILLCSR")]` (the N=8 EVDs run minutes); run the
 
 ## See also
 
-- [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md): Result 3 (the galoischaos null, the dilute control)
-  and Result 5 (this finding).
+- [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md): Result 5 (this finding, with the galoischaos null
+  and the dilute control).
 - [F89_PATH_K_GALOIS.md](F89_PATH_K_GALOIS.md): the live-Galois section (S_d over q).
 - `inspect --root galoischaos` (the Δ=0 / dilute control) and `inspect --root fillcsr` (this result);
   the Door-C staged sweep + methodology live in the `IntegrabilityBreakingCsr` harness.

@@ -66,7 +66,7 @@ Some formulas keep γ₀ (or σ = Σγ) explicit. In each, keeping it is what ma
 - **PTF.** `K_i = γ·α_i·t`. γ₀ is the shared carrier all observers hold fixed; what redistributes is α_i·t. Because γ₀ is the *common* term, the per-site rescalings become visible as the structured, non-atmospheric content.
 - **F82 / F84 (the vacuum fingerprint).** The Π-palindrome-breaking term is *linear in γ₀*: `f81_violation = γ₀·√N·2^(N−1)`. Keeping γ₀ is what shows the breaking is a "fingerprint of zero-point fluctuations"; cancel γ₀ and the vacuum component is hidden.
 - **Absorption Theorem.** `Re(λ) = −2γ₀·⟨n_XY⟩`: basis-cell costs are quantised in units of `2γ₀`, while an eigenmode expectation `⟨n_XY⟩` is generally non-integer, so eigenmode decay is not generally quantised.
-- **F73 / PROOF_BLOCK_CPSI_QUARTER Theorem 3 (the inverse case).** `C_block(t) = (1/4)·exp(−4γ·t)` chromaticity-universal. Here it is *J* that cancels (the channel-uniform initial state sits in the H-kernel), and γ₀ is kept; the trajectory is set purely by γ₀, which makes γ₀ directly extractable. The mirror image of Mechanism A.
+- **F73 / PROOF_BLOCK_CPSI_QUARTER Theorem 3 (the inverse case).** `C_block(t)` is a sum of exponentials `exp(−4γ·(2k+1)·t)`, one per Hamming distance 2k+1 in the block, the single `(1/4)·exp(−4γ·t)` at chromaticity c = 1. Here it is *J* that cancels (the channel-uniform initial state sits in the H-kernel), and γ₀ is kept; the trajectory is set purely by γ₀, which makes γ₀ directly extractable. The mirror image of Mechanism A.
 
 ---
 

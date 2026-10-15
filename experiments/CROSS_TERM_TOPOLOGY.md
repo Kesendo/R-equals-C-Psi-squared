@@ -152,22 +152,23 @@ between Pauli strings that differ at sites i and j. The w_XY change at
 the bond is determined by the Heisenberg coupling structure; the
 remaining N-2 "spectator" sites contribute their w_XY unchanged.
 
-The anti-commutator {L_H, L_Dc} is a sum over bonds. For each bond,
-the contribution to the anti-commutator depends on the w_XY distribution
-of transitions, which is the same for every bond (since all bonds are
-Heisenberg XXX). The norm ||{L_H, L_Dc}|| and the norm ||L_H|| both
-scale linearly with the number of bonds (for orthogonal bond
-contributions) or with a topology-dependent factor, but the ratio
-cancels the scaling.
+The anti-commutator {L_H, L_Dc} is a sum over bonds, and so is L_H.
+Every non-identity Pauli coupling changes both sites of its bond, so two
+different bonds never connect the same pair of Pauli strings: their
+transitions have disjoint supports, and since L_Dc is diagonal in the
+Pauli string basis the same holds for their contributions to the
+anti-commutator. The cross terms between bonds are therefore exactly zero
+(property (d) of [Cross-Term Formula](CROSS_TERM_FORMULA.md)), and
 
-Specifically:
-- ||L_H||^2 = sum over bonds of ||L_H^bond||^2 + cross terms
-- ||{L_H, L_Dc}||^2 = sum over bonds of ||{L_H^bond, L_Dc}||^2 + cross terms
+- ||L_H||^2 = sum over bonds of ||L_H^bond||^2
+- ||{L_H, L_Dc}||^2 = sum over bonds of ||{L_H^bond, L_Dc}||^2
 
-The cross terms between different bonds contribute to both numerator and
-denominator in the same proportion, preserving the ratio. The underlying
-reason is that L_Dc is diagonal in the Pauli string basis and each bond
-generates transitions with the same w_XY statistics relative to L_Dc.
+Within one bond, every Heisenberg transition satisfies the bond-sum rule
+w_XY(a) + w_XY(b) = 2 at the two bond sites, so the bond sites cancel
+against the dissipator's centre and only the N-2 spectators contribute,
+with the same variance for every bond. Each bond therefore carries the
+same ratio ||{L_H^bond, L_Dc}||^2 / ||L_H^bond||^2, and summing over any
+set of bonds leaves it unchanged.
 
 ---
 

@@ -32,10 +32,10 @@ The reconstructed scalar starts high and passes 1/4 under the stated
 preparation, tomography, fit, and readout convention. That event is a measured
 row, not confirmation of a universal physical boundary.
 The main surprise: IBM's published coherence time (T₂ from Hahn echo)
-is 2.7× too optimistic for free decoherence; the correct timescale
-is T₂*, which accounts for all noise sources. Once corrected, the
-theoretical crossing equation matches the data to 5% error, and the
-fitted scalar passes 1/4 without that value being a fit target. A separate
+is too optimistic for free decoherence; the measured free-induction T₂*,
+which sees all noise sources, is 2.7× shorter. A model with freely fitted
+T₁ and T₂ and the measured initial state matches the data with MAE 0.053,
+and the fitted scalar passes 1/4 without that value being a fit target. A separate
 historical sweep of 24,073 calibration-only records evaluates a free-|+⟩ model
 and must not be read as tomography or observed crossing events.
 
@@ -67,8 +67,9 @@ Three critical findings emerged:
 2. **T₂ ≠ T₂*.** IBM calibration reports T₂ from Hahn echo. Our experiment is a free
    induction decay, governed by T₂* ≈ T₂/2.7. The correct comparison timescale matters.
 3. **The generalized equation works, but only with the right inputs.** A three-model
-   comparison shows that correcting for imperfect initial state (6% effect) and using
-   T₂* instead of T₂(echo) (dominant effect, 2.7× shorter) reduces the model error
+   comparison shows that correcting for imperfect initial state (a 4.6% MAE improvement) and fitting
+   T₁ and T₂ instead of taking the calibration values (dominant effect; the fitted T₂
+   is 1.85× shorter than T₂(echo), the measured T₂* 2.7×) reduces the model error
    from MAE = 0.428 to MAE = 0.053. The corrected model passes through the ¼ crossing
    point exactly, even though ¼ was not a fit parameter.
 
@@ -291,7 +292,11 @@ T2_eff = 161.6 us    (calibration: 298.2)    ratio: 0.54x
 r_eff  = 0.135       (calibration: 0.674)    ratio: 0.20x
 ```
 
-The fitted T₂ is the free induction T₂*, 2.7× shorter than the Hahn echo T₂.
+The fitted T₂ is 1.85× shorter than the Hahn echo T₂ (161.6 against 298.2 μs). It
+sits between the echo value and the measured free-induction T₂* = 110.1 μs (T₂/2.7);
+the fit's T₂ and the measured T₂* are two different numbers from the same run, the first
+from a joint T₁/T₂ fit that minimizes the MAE of the whole trajectory, the second from a
+decay fit of |ρ₀₁| alone.
 The fitted T₁ is longer because the
 model relaxes to a cold |0⟩ with no floor, so a slow T₁ is its only way to hold the
 purity near the observed late value (0.740 over the last five samples).
@@ -371,7 +376,8 @@ Stable high-r qubits with r_calib above 0.40. Qubit 52 is in this group
 ### What this means for the T₂*/T₂ correction
 
 All 24,073 data points use Hahn echo T₂ from calibration. Our Run 1 analysis showed
-that T₂* is approximately 54% of T₂(echo) for qubit 52. If this ratio holds across
+that free decoherence on qubit 52 runs well below T₂(echo): the measured T₂* is 37%
+of it and the tomography fit's T₂ is 54%. If a ratio of this size holds across
 the chip, the effective r values are systematically lower than calibration suggests,
 the model classes would shift. How actual free-induction trajectories distribute
 requires measurements and cannot be inferred by applying one qubit's ratio chip-wide.
@@ -409,7 +415,7 @@ to that same trace; the resulting agreement is not a fully independent test.
 
 ## What This Does Not Prove
 
-1. The T₂*/T₂ ratio of 0.54 has only been measured on one qubit. It may differ across
+1. The ratio to the echo T₂ (0.37 for the measured T₂*, 0.54 for the fitted T₂) has only been measured on one qubit. It may differ across
    the chip or between backends. The March run includes a Ramsey measurement (a simpler, single-basis interference experiment that directly measures T₂* without full state reconstruction) to test this.
 2. A single qubit on one backend is not statistical evidence for the crossing equation.
    Independent preparations and r values would be needed for a stronger test.
@@ -442,8 +448,8 @@ The final run targets three questions with 75 circuit batches in ~8 minutes:
 1. **Repeat crossing measurement on qubit 52** with 12 points clustered around the
    crossing region (5 of 12 points in the 0.9-1.3 T₂* window).
 2. **Independent T₂* via Ramsey** on qubit 52 (15 points, single-basis, 3x cheaper
-   than tomography). This directly tests whether T₂*/T₂ = 0.54 is real or an artifact
-   of the tomography fitting procedure.
+   than tomography). This measures T₂* independently of tomography, checking the FID's T₂*/T₂ = 0.37 and
+   with it whether the fit's 0.54 is an artifact of the tomography fitting procedure.
 3. **Frequent proxy-below history** (qubit 15 or 80 in the calibration model). This
    provides a second data point at a dramatically different r regime (r_eff = 0.03-0.06
    vs qubit 52's r_eff = 0.14), with a much deeper crossing (C·Ψ_min << 0.25).

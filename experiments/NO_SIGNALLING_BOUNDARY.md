@@ -21,7 +21,8 @@ trajectory shared schedule, R=CPsi2 no-signalling -->
 ## Abstract
 
 A Z-basis measurement on qubit B of a Bell+ pair changes CΨ from 0.500
-to 0.250 (exactly on the ¼ boundary) while leaving qubit A's reduced
+to 0.250 (exactly on the ¼ boundary, with Ψ read as A's largest
+eigenvalue; see the convention note below) while leaving qubit A's reduced
 state completely unchanged (‖Δρ_A‖ = 0 to machine precision). The
 mechanism is that global purity C drops (1.0 → 0.5) while A's local
 coherence factor Ψ stays at 0.5. No-signalling holds exactly: every
@@ -78,9 +79,11 @@ CΨ = C × Ψ where C = Tr(ρ²) is global purity and
 
 **Convention note:** This document uses Ψ = max eigenvalue of ρ_A (local, = 0.5 for Bell+),
 not the CORE_ALGEBRA convention Ψ = L₁(ρ)/(d−1) (= 0.333 for Bell+). The numerical values
-0.500 → 0.250 are specific to this convention. The core argument, that C drops (1.0 → 0.5)
-while ρ_A is unchanged, shifting the regime from quantum to boundary, holds under any
-consistent definition of Ψ.
+0.500 → 0.250 are specific to this convention, and so is the landing on the boundary.
+That C drops (1.0 → 0.5) while ρ_A is unchanged holds under any definition of Ψ. Where
+the regime lands does not: under Ψ = L₁(ρ)/(d−1) the measurement on B removes the XX and
+YY strings that carry the whole off-diagonal content, so Ψ falls from 1/3 to 0 and CΨ
+from 1/3 to 0, the classical side rather than the boundary.
 
 ```
 Before measurement on B:

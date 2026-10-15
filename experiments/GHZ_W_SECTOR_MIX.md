@@ -74,7 +74,7 @@ The same family at N ≥ 4 stays below the fold: best min pair-CΨ(0) is 0.167 (
 
 has real amplitudes α/√2 at indices 0, 7 and β/√3 at indices 1, 2, 4. Tracing out qubit 2 (LSB) from ρ = |ψ⟩⟨ψ| gives a permutation-symmetric 4×4 reduction ρ_AB whose entries are polynomials in α and α·β:
 
-    ρ_AB[00,00] = 1/6 + α²/6     ρ_AB[00,ij] = α β / √6 · [1,1,1]
+    ρ_AB[00,00] = 1/3 + α²/6     ρ_AB[00,ij] = α β / √6 · [1,1,1]
     ρ_AB[ij,kl] = (1/3 - α²/3) · off-W-block
     ρ_AB[11,11] = α²/2
 
@@ -148,7 +148,7 @@ Almost all the entanglement in |ψ_opt⟩ is genuinely three-body: τ ≈ 0.80 o
 
 ## Relation to F60, F61, F62
 
-F60 exact: |GHZ_3⟩ → CΨ(0) = 0 on every pair (the off-diagonal ρ_{03} = 1/2 survives globally but traces to zero in any pair reduction since |000⟩ and |111⟩ have no matching pair-content at any bit position).
+|GHZ_3⟩ (F60's full-state CΨ is 1/7): CΨ(0) = 0 on every pair (the off-diagonal ρ_{03} = 1/2 survives globally but traces to zero in any pair reduction since |000⟩ and |111⟩ have no matching pair-content at any bit position).
 
 F62 exact: |W_3⟩ → CΨ(0) = 10/81 ≈ 0.1235 on every pair.
 
@@ -170,7 +170,7 @@ These odd-parity cross-terms are the L1 contribution that neither parent has. GH
 
 F69 is not a protection result. It does not claim the optimum state lives longer under Z-dephasing than W or GHZ. Under dynamics, F61 still applies: the odd-n_XY cross-terms are in odd-parity Liouvillian eigenmodes and decay normally. F69 is a **starting condition** above the fold, not a long-lived resource. The sector mixing is allowed at t = 0 because preparation is unconstrained; the fold-crossing that follows is standard Lindblad evolution.
 
-CΨ = C · Ψ is a product. F60 starves the L1 side, F62 starves the purity side. Neither parent has both factors strong simultaneously. F69 arranges both through cross-sector interference in the preparation step.
+CΨ = C · Ψ is a product. GHZ's pair reduction has purity ½ and no off-diagonal content; W's has purity (N² − 4N + 8)/N² but L1 only 2/N (F62). Neither parent supplies enough off-diagonal weight. F69 supplies it through cross-sector interference in the preparation step.
 
 ## Scope: the GHZ+W slice is N = 3 specific (other slices are N-generic, see post-2026-04-27 update)
 
@@ -185,7 +185,7 @@ Running the same optimization inside α|GHZ_N⟩ + β|W_N⟩ at larger N gives n
 
 (201-point grid sweep, `ghz_w_optimum_n3.py` function `family_fails_for_larger_N`.)
 
-Why does N = 3 work and N ≥ 4 fail? The purity contribution from |GHZ_N⟩'s pair reduction scales as 1/(2^N - 1) (F60), vanishing exponentially. The L1 contribution from |W_N⟩'s pair reduction scales as 2/N (F62). At N = 3 both are close enough to 1/4 that their product lifts the pair above the fold; at N ≥ 4 the GHZ side has collapsed too far.
+Why does N = 3 work and N ≥ 4 fail? Not through the GHZ side's own pair reduction: that is (|00⟩⟨00| + |11⟩⟨11|)/2 at every N, purity ½ and no off-diagonal content (F60's 1/(2^N − 1) is the full-state CΨ, not a pair quantity). What N = 3 has and N ≥ 4 lacks is one cross term. A coherence |a⟩⟨b| survives the trace over the other sites only if a and b agree there, and |1…1⟩ differs from every single-excitation state on N − 1 sites, which fit inside the pair only at N = 3. So ρ_AB[00,11] = αβ/√6, from |001⟩⟨111|, exists at N = 3 alone. Losing that term carries most of the drop: restoring it at its N = 3 value lifts the N = 4 optimum from 0.167 to 0.269. The rest comes from the GHZ-W cross terms ρ_AB[00,01] = ρ_AB[00,10] = αβ/√(2N), which shrink with N, and from the W side's pair L1 falling as 2/N (F62).
 
 **The landscape question.** At the time of the sextic derivation, whether any broader permutation-symmetric family clears the fold at N ≥ 4 was open. The next section resolves it: no non-product local maxima exist on the full Dicke subspace at any N ∈ {3..8}. The GHZ+W slice is the widest fold-crossing family; outside it, pair-CΨ has no isolated non-product extrema. An earlier single-state survey in `cpsi_birth_landscape.py` (max: Dicke(4, 2) at CΨ = 0.111) is consistent with this.
 
@@ -220,7 +220,7 @@ All entries below 1/4 except the N = 3 GHZ+W optimum. All entries are saddles: t
 
 F69 is stationary only on the c_2 = 0 slice. Opening c_2 > 0 raises pair-CΨ monotonically; gradient ascent terminates at |+⟩^3 (pair-CΨ = 1, product state). F69 is a real algebraic fact about the α·GHZ + β·W slice, not a local max on the full CP^3.
 
-**Regression at N = 3.** Library recovers pair-CΨ = 0.32041 (Δ = 1.4·10⁻⁶ from the sextic root), c-vector to ≤ 10⁻³ (α-grid resolution), τ_ABC = 0.7994 vs F69 reference 0.7995, pair concurrence 0.022 vs 0.021. Cross-checks against F62 (W_3 pair-CΨ = 10/81 to machine precision) and F60 (GHZ_N pair-CΨ = 0 to machine precision) confirm the library is trustworthy independent of the scan parameters.
+**Regression at N = 3.** Library recovers pair-CΨ = 0.32041 (Δ = 1.4·10⁻⁶ from the sextic root), c-vector to ≤ 10⁻³ (α-grid resolution), τ_ABC = 0.7994 vs F69 reference 0.7995, pair concurrence 0.022 vs 0.021. Cross-checks against F62 (W_3 pair-CΨ = 10/81 to machine precision) and the GHZ_N pair reduction (pair-CΨ = 0 to machine precision) confirm the library is trustworthy independent of the scan parameters.
 
 **Interpretation.** Every R=CΨ² result tested so far exists inside a narrow atmosphere: V-Effect lives on uniform Heisenberg chains with endpoint Z-dephasing (F6), F33 on N = 3 exactly, F11 on N = 5 exactly, F65 on uniform XX chains with endpoint dephasing. F69 fits the same pattern: the 0.3204 value is tight inside the α·GHZ + β·W slice and dissolves outside it. This is not a weakness of F69 but characteristic of how structure emerges in the framework. The mathematics enforces narrow windows in which extremal facts appear, and opening the window removes the extremality.
 

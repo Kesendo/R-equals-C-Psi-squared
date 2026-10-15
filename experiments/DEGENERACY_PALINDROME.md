@@ -71,7 +71,7 @@ two palindromic sequences:
 2. **d_total(k)**: all eigenvalues (any Im) at grid position k
 
 Both satisfy d(k) = d(N − k) for all k, a direct consequence of the
-Π conjugation operator (the map that flips every I↔Z and X↔Y in a Pauli string, sending each eigenvalue λ to its mirror partner −Nγ − λ̄).
+Π conjugation operator (the map that swaps I↔X and Z↔Y at every site of a Pauli string, up to phases, so that a string of XY-weight k goes to one of weight N − k, sending each eigenvalue λ to its mirror partner −Nγ − λ̄).
 
 Exact closed-form results at the boundaries:
 
