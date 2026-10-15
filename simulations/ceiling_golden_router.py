@@ -48,7 +48,7 @@ Provenance: discovered 2026-06-10 (identity-column lemma -> golden locus -> full
 closed form), adversarially verified by 5 independent re-implementations. The 2026-06-07
 "site-dependent routing at N=4" finding, then dismissed as a small-N artifact, was this router;
 the genuine artifact was only the period-3 N=4 hit (the 3-cycle closes only for N <= 4).
-Scope: OPEN chains (rings/PBC untested). Run: python simulations/ceiling_golden_router.py (~3 min).
+Scope: OPEN chains (rings: PROOF_CEILING_GOLDEN_ROUTER §6). Run: python simulations/ceiling_golden_router.py (~3 min).
 """
 from __future__ import annotations
 

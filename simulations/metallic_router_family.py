@@ -103,7 +103,7 @@ whether the weighted family is soft at all away from (1,1,1); the soft-set mappe
 t2 = t3 (on-line soft ~1e-13 at N=5 across c in {0.25..7.5, e, pi, 0, -1, -2}, the tilts it tried
 off the line hard from delta = 0.02, N=6 spot-checks; the plane t1 = 0 is soft as well, by X^N); the moment probe pinned the off-line witness (1,2,1) at m* = 11
 with p_11 = 1730150400 * gamma^3 exact (CRT); the router scouts transported the F116 construction
-verbatim. Scope: OPEN chains (rings/PBC untested), dephase letter Z.
+verbatim. Scope: OPEN chains (rings: PROOF_CEILING_GOLDEN_ROUTER §6), dephase letter Z.
 Run: python simulations/metallic_router_family.py (~4.5 min; Block 3's six N=6 exact ring
 anticommutators at ~15 s each and Block 5's two exact CRT pins at ~40 s each carry most of it).
 """

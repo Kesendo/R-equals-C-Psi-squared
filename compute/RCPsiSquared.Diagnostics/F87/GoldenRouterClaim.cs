@@ -22,8 +22,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// per-site maps follow the [a, a, b, b] rhythm a = φX + Y, b = X − φY on the golden locus
 /// α² − αβ − β² = 0, with h_l = q_l(Z) = (−1)^(l+1)·i·R(g_l) and q_l² = −(2+φ)·I (so cond(W) = 1). The
 /// two-sided form W(ρ) = (2+φ)^(N/2)·P ρ Q reduces {W, [H,·]} = 0 to the chiral conditions
-/// P H P⁻¹ = −H and Q H Q⁻¹ = −H. The palindromizer is a per-site PRODUCT: the Z-middle ceiling cases are
-/// continuous-periodic-LOCAL, not non-local.</para>
+/// P H P⁻¹ = −H and Q H Q⁻¹ = −H, and the dephaser asks the two factors to differ in Z-parity at every
+/// site: the golden chiral a^⊗N on one side and the Z pattern ⊗[I,I,Z,Z] on the other is the router. The
+/// palindromizer is a per-site PRODUCT: the Z-middle ceiling cases are continuous-periodic-LOCAL, not
+/// non-local. On a periodic ring the same router exists at every N divisible by four; for 4 ∤ N and c ≠ 0
+/// no per-site class-swapping router exists.</para>
 ///
 /// <para><b>Mechanism (the window lemma).</b> The three-site, template-summed anticommutator
 /// {q_w⊗q_{w+1}⊗q_{w+2}, [XZX+XZY+YZX,·]₃} = 0 EXACTLY (in the ring ℤ[φ]+iℤ[φ]) at every window offset,
@@ -57,7 +60,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// parents, both Tier1Derived (5 ≥ 5): <see cref="F1PalindromeIdentity"/> (the global palindrome
 /// Π·L·Π⁻¹ = −L − 2Σγ·I that W realizes locally for the ceiling class) and
 /// <see cref="WindowedConverseThresholdClaim"/> (the F87 two-reflection chiral spine 𝓕=F⊗F whose chiral
-/// driving F H F = −H the two-sided form distributes into P ≠ Q). This router is the construction that
+/// driving F H F = −H the two-sided form places on both sides, chirals of opposite Z-parity at every site). This router is the construction that
 /// CLOSES <see cref="PalindromeSoftCertifierClaim"/>'s k=3 windowed soft-certifier ceiling at zero (the
 /// 2 → 0 step); the certifier USES it as a helper, so the certifier is logically downstream, expressed
 /// here as a see-cref, not a parent edge. Anchor: docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md +
@@ -111,7 +114,8 @@ public sealed class GoldenRouterClaim : Claim
     /// <summary>The metallic family evaluated live at c ∈ {0, 1, 2, 3}: live root vs closed-form mean.</summary>
     public IReadOnlyList<MetallicReading> MetallicReadings { get; }
 
-    public IReadOnlyList<BatteryCase> Battery { get; }
+    public IReadOnlyList<BatteryCase> Battery => _battery.Value;
+    private readonly Lazy<IReadOnlyList<BatteryCase>> _battery;
     public int PassCount => Battery.Count(c => c.Passes);
     public bool SelfCheckPasses => PassCount == Battery.Count;
 
@@ -162,7 +166,176 @@ public sealed class GoldenRouterClaim : Claim
             .OrderBy(s => s, StringComparer.Ordinal)
             .ToList();
 
-        Battery = BuildBattery();
+        RingRhythmCounts = Enumerable.Range(3, 7)
+            .Select(n => Enumerable.Range(0, 1 << n)
+                .Count(bits => Enumerable.Range(0, n).All(w => ((bits >> w) & 1) + ((bits >> ((w + 2) % n)) & 1) == 1)))
+            .ToList();
+
+        _splitRouterReadings = new Lazy<IReadOnlyList<SplitRouterReading>>(() => new[]
+        {
+            ReadSplitRouter("a^⊗N | S, open N=4", 4, ring: false, SplitFactor.Golden, SplitFactor.Rhythm),
+            ReadSplitRouter("a^⊗N | S, open N=5", 5, ring: false, SplitFactor.Golden, SplitFactor.Rhythm),
+            ReadSplitRouter("a^⊗N | S, periodic ring N=4", 4, ring: true, SplitFactor.Golden, SplitFactor.Rhythm),
+            ReadSplitRouter("S | a^⊗N, open N=4", 4, ring: false, SplitFactor.Rhythm, SplitFactor.Golden),
+            ReadSplitRouter("control a^⊗N | a^⊗N, open N=4", 4, ring: false, SplitFactor.Golden, SplitFactor.Golden),
+            ReadSplitRouter("control a^⊗N·S | I, open N=4", 4, ring: false, SplitFactor.Both, SplitFactor.Identity),
+            ReadSplitRouter("control a^⊗N | S, periodic ring N=5", 5, ring: true, SplitFactor.Golden, SplitFactor.Rhythm),
+        });
+
+        _battery = new Lazy<IReadOnlyList<BatteryCase>>(BuildBattery);
+    }
+
+    /// <summary>One exact reading of a two-sided map ρ ↦ P ρ Q against W∘L = (−L − 2σ)∘W (PROOF §2, "Why
+    /// two-sided?"): the per-site parity rule needs P and Q to differ in Z-parity at every site, and the
+    /// Hamiltonian leg needs both to be chiral; the golden chiral a^⊗N (lit at every site) and the Z pattern
+    /// S = ⊗[I,I,Z,Z] (dead at every site) are such a pair.</summary>
+    public readonly record struct SplitRouterReading(string Name, bool Routes);
+
+    /// <summary>The split router read exactly at the rational metallic point c = 3/2, where r = 2 and
+    /// a = 2X + Y (H = Σ 3·XZX + 2·XZY + 2·YZX, integer rates γ_l = l + 1), in Gaussian integers: the routing
+    /// pairs, with the sides swapped, on the open chain and on the ring N = 4, and the three controls that must
+    /// fail (a^⊗N on both sides, the identity column on one side, the ring at N = 5 where S is not chiral).</summary>
+    public IReadOnlyList<SplitRouterReading> SplitRouterReadings => _splitRouterReadings.Value;
+    private readonly Lazy<IReadOnlyList<SplitRouterReading>> _splitRouterReadings;
+
+    /// <summary>On a periodic ring of N = 3..9 sites, the number of Z patterns with exactly one Z on every window's end
+    /// pair (w, w+2 mod N). Since b ∝ a·Z, this is also the number of ways §4's alternation a ↔ b can close
+    /// along the ring's parity cycles; it is nonzero exactly when 4 | N.</summary>
+    public IReadOnlyList<int> RingRhythmCounts { get; }
+
+    private enum SplitFactor { Identity, Golden, Rhythm, Both }
+
+    // Gaussian-integer square matrices: (real part, imaginary part).
+    private readonly record struct GMat(long[,] Re, long[,] Im)
+    {
+        public int D => Re.GetLength(0);
+        public static GMat Zero(int d) => new(new long[d, d], new long[d, d]);
+    }
+
+    private static GMat GMul(GMat x, GMat y)
+    {
+        int d = x.D;
+        var p = GMat.Zero(d);
+        for (int i = 0; i < d; i++)
+            for (int k = 0; k < d; k++)
+            {
+                long xr = x.Re[i, k], xi = x.Im[i, k];
+                if (xr == 0 && xi == 0) continue;
+                for (int j = 0; j < d; j++)
+                {
+                    long yr = y.Re[k, j], yi = y.Im[k, j];
+                    if (yr == 0 && yi == 0) continue;
+                    p.Re[i, j] += xr * yr - xi * yi;
+                    p.Im[i, j] += xr * yi + xi * yr;
+                }
+            }
+        return p;
+    }
+
+    private static GMat GKron(GMat x, GMat y)
+    {
+        int dx = x.D, dy = y.D;
+        var p = GMat.Zero(dx * dy);
+        for (int i = 0; i < dx; i++)
+            for (int j = 0; j < dx; j++)
+                for (int k = 0; k < dy; k++)
+                    for (int l = 0; l < dy; l++)
+                    {
+                        p.Re[i * dy + k, j * dy + l] = x.Re[i, j] * y.Re[k, l] - x.Im[i, j] * y.Im[k, l];
+                        p.Im[i * dy + k, j * dy + l] = x.Re[i, j] * y.Im[k, l] + x.Im[i, j] * y.Re[k, l];
+                    }
+        return p;
+    }
+
+    private static GMat Letter(char c) => c switch
+    {
+        'I' => new(new long[,] { { 1, 0 }, { 0, 1 } }, new long[2, 2]),
+        'X' => new(new long[,] { { 0, 1 }, { 1, 0 } }, new long[2, 2]),
+        'Y' => new(new long[2, 2], new long[,] { { 0, -1 }, { 1, 0 } }),
+        'Z' => new(new long[,] { { 1, 0 }, { 0, -1 } }, new long[2, 2]),
+        'a' => new(new long[,] { { 0, 2 }, { 2, 0 } }, new long[,] { { 0, -1 }, { 1, 0 } }),   // 2X + Y
+        _ => throw new ArgumentOutOfRangeException(nameof(c)),
+    };
+
+    private static GMat Product(string letters) =>
+        letters.Skip(1).Aggregate(Letter(letters[0]), (m, c) => GKron(m, Letter(c)));
+
+    private static GMat Combine(GMat x, long kx, GMat y, long ky)
+    {
+        int d = x.D;
+        var s = GMat.Zero(d);
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+            {
+                s.Re[i, j] = kx * x.Re[i, j] + ky * y.Re[i, j];
+                s.Im[i, j] = kx * x.Im[i, j] + ky * y.Im[i, j];
+            }
+        return s;
+    }
+
+    private static bool GEqual(GMat x, GMat y)
+    {
+        for (int i = 0; i < x.D; i++)
+            for (int j = 0; j < x.D; j++)
+                if (x.Re[i, j] != y.Re[i, j] || x.Im[i, j] != y.Im[i, j]) return false;
+        return true;
+    }
+
+    private static SplitRouterReading ReadSplitRouter(string name, int n, bool ring, SplitFactor left, SplitFactor right)
+    {
+        int d = 1 << n;
+        string rhythm = string.Concat(Enumerable.Range(0, n).Select(l => l % 4 < 2 ? 'I' : 'Z'));
+        GMat Factor(SplitFactor f) => f switch
+        {
+            SplitFactor.Identity => Product(new string('I', n)),
+            SplitFactor.Golden => Product(new string('a', n)),
+            SplitFactor.Rhythm => Product(rhythm),
+            _ => GMul(Product(new string('a', n)), Product(rhythm)),
+        };
+        var p = Factor(left);
+        var q = Factor(right);
+
+        // H = Σ_windows 3·XZX + 2·XZY + 2·YZX: c = 3/2 on the soft line, r = 2.
+        var h = GMat.Zero(d);
+        int windows = ring ? n : n - 2;
+        foreach (var (template, weight) in new[] { ("XZX", 3L), ("XZY", 2L), ("YZX", 2L) })
+            for (int w = 0; w < windows; w++)
+            {
+                var letters = Enumerable.Repeat('I', n).ToArray();
+                for (int k = 0; k < 3; k++) letters[(w + k) % n] = template[k];
+                h = Combine(h, 1, Product(new string(letters)), weight);
+            }
+        long[] gamma = Enumerable.Range(1, n).Select(l => (long)l).ToArray();
+        long twoSigma = 2 * gamma.Sum();
+
+        // L(ρ) = −i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l − ρ); Z_l is diagonal, site 0 the most significant bit.
+        GMat L(GMat rho)
+        {
+            var comm = Combine(GMul(h, rho), 1, GMul(rho, h), -1);
+            var outp = GMat.Zero(d);
+            for (int i = 0; i < d; i++)
+                for (int j = 0; j < d; j++)
+                {
+                    long rate = 0;
+                    for (int l = 0; l < n; l++)
+                        if ((((i ^ j) >> (n - 1 - l)) & 1) == 1) rate += 2 * gamma[l];
+                    outp.Re[i, j] = comm.Im[i, j] - rate * rho.Re[i, j];                       // −i·comm, then −2γ_l
+                    outp.Im[i, j] = -comm.Re[i, j] - rate * rho.Im[i, j];                      // per site where i, j differ
+                }
+            return outp;
+        }
+
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+            {
+                var e = GMat.Zero(d);
+                e.Re[i, j] = 1;
+                var wle = GMul(GMul(p, L(e)), q);
+                var we = GMul(GMul(p, e), q);
+                var rhs = Combine(L(we), -1, we, -twoSigma);
+                if (!GEqual(wle, rhs)) return new SplitRouterReading(name, false);
+            }
+        return new SplitRouterReading(name, true);
     }
 
     /// <summary>The period-4 Z patterns (I/Z per site mod 4) that put exactly one Z on every window's end pair
@@ -337,6 +510,28 @@ public sealed class GoldenRouterClaim : Claim
             Expected: "IIZZ, IZZI, ZIIZ, ZZII",
             Actual: string.Join(", ", RhythmSolutions)));
 
+        // Why two-sided: the dephaser reads the product of the two factors' Z-parities at each site, so P and Q
+        // must differ there; the golden chiral (lit everywhere) and the Z pattern (dead everywhere) do.
+        string Verdicts(IEnumerable<SplitRouterReading> rs) => string.Join(", ", rs.Select(r => r.Routes ? "routes" : "fails"));
+        cases.Add(new BatteryCase(
+            Name: "why two-sided: ρ ↦ a^⊗N ρ S routes L exactly, either side, open N = 4, 5 and periodic ring N = 4",
+            Detail: "W∘L = (−L − 2σ)∘W on every matrix unit, Gaussian integers, c = 3/2 (r = 2, a = 2X + Y), γ_l = l + 1: " +
+                    string.Join("; ", SplitRouterReadings.Take(4).Select(r => r.Name)),
+            Expected: "routes, routes, routes, routes",
+            Actual: Verdicts(SplitRouterReadings.Take(4))));
+
+        cases.Add(new BatteryCase(
+            Name: "controls: equal Z-parity on both sides, a one-sided identity column, the periodic ring at N = 5",
+            Detail: string.Join("; ", SplitRouterReadings.Skip(4).Select(r => r.Name)),
+            Expected: "fails, fails, fails",
+            Actual: Verdicts(SplitRouterReadings.Skip(4))));
+
+        cases.Add(new BatteryCase(
+            Name: "on a periodic ring the rhythm closes exactly at 4 | N",
+            Detail: "Z patterns with one Z on every end pair (w, w+2 mod N), N = 3..9",
+            Expected: "0, 4, 0, 0, 0, 4, 0",
+            Actual: string.Join(", ", RingRhythmCounts)));
+
         // The residual ‖{W,S}‖_F vanishes at the golden mean and is nonzero off it (the dip the witness draws).
         double phi = KBodyPalindromeRouting.MetallicMean(1.0);
         double atMean = KBodyPalindromeRouting.WindowSummedAnticommutatorNorm(1.0, phi);
@@ -379,6 +574,17 @@ public sealed class GoldenRouterClaim : Claim
                          "Q H Q⁻¹ = −H; G = PQ is a Hermitian product involution, an exact eigenmode at the floor " +
                          "L(G) = −2σ·G.");
 
+            yield return new InspectableNode("why two-sided: the two chirals on the two sides",
+                summary: "For ρ ↦ PρQ with product factors, the dephaser reads at each site the product of the two " +
+                         "factors' Z-parities, and the class swap needs it to be −1 at every dephased site: there one " +
+                         "factor carries a lit letter and the other a dead one. The Hamiltonian leg needs both " +
+                         "factors chiral. So P = Q fails once any rate is nonzero, and no one-sided map reaches −L − 2σ (I is not chiral). The " +
+                         "golden chiral a^⊗N is lit at every site and the Z pattern S = ⊗[I,I,Z,Z] dead at every " +
+                         "site, so ρ ↦ a^⊗N ρ S is the router: per site §1's closed form with B signs [−,−,+,+] " +
+                         "and h signs [+,−,+,−], a B-sign and an h-sign decoration of §5. On a periodic ring a^⊗N stays chiral at every N " +
+                         "and S exists exactly at 4 | N; for 4 ∤ N and c ≠ 0, §4's alternation cannot " +
+                         "close along the ring's parity cycles, so no per-site class-swapping router exists.");
+
             yield return new InspectableNode("the window lemma (cross-template, exact in the ring)",
                 summary: "{q_w⊗q_{w+1}⊗q_{w+2}, [XZX+XZY+YZX,·]₃} = 0 exactly (ℤ[φ]+iℤ[φ]) at every window " +
                          "offset, while no single template's anticommutator vanishes: the cancellation is " +
@@ -390,13 +596,13 @@ public sealed class GoldenRouterClaim : Claim
                 summary: "The end letters of c·XZX+XZY+YZX carry the table M_c = [[c,1],[1,0]] over {X,Y}×{X,Y}; " +
                          "the middle Z is turned by every lit letter. A uniform product â^⊗N, â = αX+βY a unit " +
                          "direction, flips the middle Z and reflects both end letters, so it is chiral " +
-                         "(â^⊗N H â^⊗N = −H; not the router's left factor P) iff the " +
+                         "(â^⊗N H â^⊗N = −H) iff the " +
                          "reflection commutes with M_c, i.e. iff â is an EIGENVECTOR of M_c: α² − cαβ − β² = 0, " +
                          "the metallic locus, whose eigen equation r² = cr + 1 is the metallic mean (golden at " +
                          "c=1). Exact in integer polynomials in r: the residual is (r²−cr−1)·K(r) with K nowhere " +
                          "zero, live at c=0..3, with the hard reflected table as the failing control. The uniform " +
-                         "chiral alone gives spec(H) = −spec(H) but not the palindrome: one-sided it fixes the " +
-                         "dephaser, which is why the router needs P ≠ Q and the [a,a,b,b] rhythm (§2, §4). The " +
+                         "chiral alone gives spec(H) = −spec(H) but not the palindrome: conjugation by it fixes the " +
+                         "dephaser; on one side, with the Z pattern on the other, it is the router (§2). The " +
                          "exclusion 'no uniform router' concerns the commuting G, not this chiral.");
 
             yield return new InspectableNode("the exclusion theorems (deductive from K₁, K₂)",
@@ -462,9 +668,9 @@ public sealed class GoldenRouterClaim : Claim
             yield return new InspectableNode("parent: WindowedConverseThresholdClaim",
                 summary: "the F87 two-reflection chiral spine (𝓕=F⊗F, R=I⊗F) and its chiral driving lemma " +
                          "F H F = −H (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §2); the router's two-sided form " +
-                         "distributes that chiral action into DIFFERENT left and right factors P ≠ Q, the move " +
-                         "that routes the Z-middle case where the single-reflection F H F = −H fails on the " +
-                         "cross-terms.");
+                         "puts a chiral on EACH side, of opposite Z-parity at every site (the golden a^⊗N and " +
+                         "the Z pattern), the move that routes the Z-middle case where the single reflection " +
+                         "F H F = −H fails on the cross-terms.");
         }
     }
 }

@@ -143,6 +143,24 @@ public class GoldenRouterClaimRegistrationTests
     }
 
     [Fact]
+    public void GoldenRouterClaim_TwoSided_GoldenChiralOnOneSide_ZPatternOnTheOther()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<GoldenRouterClaim>();
+
+        // The dephaser needs opposite Z-parity on the two sides at every site, the Hamiltonian needs both
+        // sides chiral: ρ ↦ a^⊗N ρ S routes L exactly (either side, open chain, ring at 4 | N), and equal
+        // parity, a one-sided identity column, and the ring at N = 5 do not. The two groups are one gate: a
+        // dropped commutator keeps the four positives true and is caught only by the controls.
+        Assert.Equal(
+            new[] { true, true, true, true, false, false, false },
+            claim.SplitRouterReadings.Select(r => r.Routes));
+
+        // On a ring the alternation a ↔ b closes along the parity cycles exactly when 4 | N.
+        Assert.Equal(new[] { 0, 4, 0, 0, 0, 4, 0 }, claim.RingRhythmCounts);
+    }
+
+    [Fact]
     public void GoldenRouterClaim_SelfCheck_Passes()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();

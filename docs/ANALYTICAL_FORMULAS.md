@@ -5346,6 +5346,13 @@ where the Z pattern anticommutes with H because it puts exactly one Z on every w
 pair, so the product of the two chirals commutes. Two-sided form: W(ρ) = (2+φ)^(N/2)·P ρ Q with product
 unitaries P, Q each anticommuting with H (so spec(H) is exactly ±E-symmetric, and
 G = PQ is a weak Z₂ symmetry of L and an exact eigenmode at the palindrome floor −2σ).
+**Why two-sided:** the dephaser reads at each site the product of the two factors' Z-parities
+and needs it to be −1, so at every dephased site one side carries a lit letter and the other a dead one;
+the Hamiltonian needs both sides chiral. So P = Q fails once any rate is nonzero, no one-sided map
+reaches −L − 2σ, and the two chirals above fill the rule exactly: ρ ↦ a^⊗N ρ S, golden on one side,
+the Z pattern S = ⊗[I, I, Z, Z] on the other,
+is the router (the closed form with one B-sign and one h-sign decoration), a second route independent of the
+window lemma.
 
 **Mechanism:** the window-summed anticommutator {Q₃, [XZX+XZY+YZX, ·]₃} = 0 exactly at
 every window offset (cross-template cancellation inside one window; per-term it fails,
@@ -5362,7 +5369,9 @@ by itself; it colours the chain by letters from span{X, Y}, the plane Z-dephasin
 **Rigidity:** zero continuous moduli; the invertible solution set at N=5 is exhaustively
 4 cyclic shifts × an explicit order-32 sign group, all golden. The ceiling arc closes
 6 → 4 → 2 → **0**: no case in the k=3 windowed soft family needs a non-local mirror.
-Open chains only (rings untested).
+**Rings:** a^⊗N stays chiral at every N, and the Z pattern closes around the ring exactly at
+4 | N, so the router exists there; for 4 ∤ N and c ≠ 0 the alternation cannot close
+along the ring's parity cycles and no per-site class-swapping router exists.
 
 **Verified:** {W,A} = 0 and the window lemma EXACT over ℤ[φ]+iℤ[φ] at N = 3..6 (both
 siblings); end-to-end vs the framework Lindbladian at N = 5, 6, γ ∈ {0.3, 0.7, 1.0} and
