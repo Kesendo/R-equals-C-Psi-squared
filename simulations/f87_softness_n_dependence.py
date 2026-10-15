@@ -28,7 +28,9 @@ Four corollaries this script also confirms:
   4. F158 reads the crossing with no spectrum: end_count_check() takes the near and far ends of
      XXXX+XYYY+YYYX as exact rational ranks, 8 and 8 at N=4,5, 8 and 4 at N=6, 8 and 0 from
      N=7, with the two lit soft sets (equal ends at every N) and the hard control XXX+XXY+YXX
-     (equal ends only at N=3) as controls.
+     (equal ends only at N=3) as controls; Theorem 2 of the complement connection on the
+     basis-state graph meets them, and square_law() checks the hand-derived holonomy of every
+     square of two window flips (offset 2 closes iff the six bits under it have even parity).
 
 Pipeline matches the C# authority PauliPairTrichotomy.Classify (same sliding-window k-body builder,
 same Σγ, same greedy spectrum pairing, inlined below); this script only also reads out the
@@ -411,9 +413,8 @@ def _gauss_mul(a, b):
     return (a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0])
 
 
-def complement_connection(N, templates):
-    """Theorem 2 of PROOF_PALINDROME_COMPLEMENT_CONNECTION, exactly: (components of Γ_H, components of Γ,
-    good components, {failed condition: count}). H_xy are Gaussian integers built bit by bit."""
+def _basis_entries(N, templates):
+    """H_xy of the sliding-window chain as Gaussian rationals (Fraction pairs), built bit by bit."""
     k = len(templates[0])
     H = {}
     for w in range(N - k + 1):
@@ -426,7 +427,13 @@ def complement_connection(N, templates):
                 key = (y ^ flip, y)
                 old = H.get(key, (0, 0))
                 H[key] = (old[0] + sign * re, old[1] + sign * im)
-    H = {key: (Fraction(v[0]), Fraction(v[1])) for key, v in H.items() if v != (0, 0)}
+    return {key: (Fraction(v[0]), Fraction(v[1])) for key, v in H.items() if v != (0, 0)}
+
+
+def complement_connection(N, templates):
+    """Theorem 2 of PROOF_PALINDROME_COMPLEMENT_CONNECTION, exactly: (components of Γ_H, components of Γ,
+    good components, {failed condition: count})."""
+    H = _basis_entries(N, templates)
     full = (1 << N) - 1
     zero = (Fraction(0), Fraction(0))
     entry = lambda x, y: H.get((x, y), zero)
@@ -478,6 +485,36 @@ def complement_connection(N, templates):
     return n_hop, n_union, good, failed
 
 
+def square_law(N, templates=("XXXX", "XYYY", "YYYX")):
+    """The holonomy around every square of two window flips, exactly, against the law read by hand.
+
+    For each basis state y and windows w < w', the square y → y⊕m_w → y⊕m_w⊕m_w' → y⊕m_w' → y carries
+    the product of the complement connection's ratios H_xy / H_x̄ȳ. Returns the number of squares that
+    break the law: offset 1 and offset ≥ 4 always flat; offset 2 flat exactly when the six bits under
+    the two windows have even parity. Offset 3 is not part of the law and is skipped.
+    """
+    H = _basis_entries(N, templates)
+    full = (1 << N) - 1
+    one = (Fraction(1), Fraction(0))
+    ratio = lambda x, y: _gauss_div(H[(x, y)], H[(x ^ full, y ^ full)])
+    masks = [_string(templates[0], w)[0] for w in range(N - len(templates[0]) + 1)]
+    broken = 0
+    for y in range(1 << N):
+        for i, mi in enumerate(masks):
+            for j in range(i + 1, len(masks)):
+                offset, mj = j - i, masks[j]
+                if offset == 3:
+                    continue
+                hol = one
+                for a, b in ((y, y ^ mi), (y ^ mi, y ^ mi ^ mj), (y ^ mi ^ mj, y ^ mj), (y ^ mj, y)):
+                    hol = _gauss_mul(hol, ratio(a, b))
+                flat = hol == one
+                six = (y >> i) & 0b111111
+                expected = offset != 2 or bin(six).count("1") % 2 == 0
+                broken += flat != expected
+    return broken
+
+
 def end_count_check():
     """F158 reads the crossing: the far end of XXXX + XYYY + YYYX shrinks as windows overlap.
 
@@ -514,6 +551,11 @@ def end_count_check():
         assert (n_hop, good) == expected[N][:2], f"N={N}: Theorem 2 must meet the string route"
         assert failed["modulus"] == failed["diagonal"] == 0, "only holonomy may fail"
         assert failed["holonomy"] == n_union - good
+    print("\n  The square law (offset 1 flat; offset 2 flat iff the six bits under it have even parity):")
+    for N in (5, 6, 7, 8):
+        broken = square_law(N)
+        print(f"    N={N}  squares breaking the law: {broken}")
+        assert broken == 0, f"N={N}: {broken} squares break the hand-derived law"
     print("\nThe ends agree exactly where the spectrum pairs: XXXX+XYYY+YYYX at N = 4, 5 and not")
     print("from N = 6; the soft controls at every N; the hard control only at N = 3.")
 
