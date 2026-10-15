@@ -188,7 +188,7 @@ is verified on two states with different stationary weights (W₀ = 1/2 and W₀
 - The formula contains Bell+ as a special case and correctly predicts W₃.
 
 **What remains open:**
-- States with k ≠ 2 (e.g., GHZ_2 has k = 2, but hypothetical states at k = 3 or k = 4 would test the 4/k prefactor).
+- Mixed states with k ≠ 2. Pure ones cannot test the 4/k prefactor at k ≥ 3, because none of them starts above the quarter. A pure state whose coherences all sit at one Hamming distance k lives on a binary code whose words lie pairwise k apart. For odd k that code has at most two words, since three pairwise distances k would sum to an odd number while d(a,b) + d(b,c) + d(a,c) is always even; for even k it has at most N + 1. With m words, CΨ(0) = Ψ(0) = L1/(2^N − 1) ≤ (m − 1)/(2^N − 1), which is at most N/(2^N − 1) ≤ 5/31 for N ≥ 5, and the largest codes at N = 3 and 4 (found by exhausting them, as for N up to 7) leave only N = 2 (k = 1 or 2) and N = 3 with k = 2 above ¼ (at most 3/7 there; W₃ has 2/7). The GHZ corollary above is the case m = 2. Away from k = 2, a pure state tests the prefactor only at k = 1, N = 2 (|+0⟩, Ψ = 1/3), where the odd-weight caveat below applies.
 - States that populate multiple coherent sectors simultaneously (the |+⟩^{⊗2} case from [Dwell-Time Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md), where dΨ/dt involves √W₁ and the two-sector assumption breaks down).
 - Odd-weight Pauli content, where the linear Ψ-to-f relation may not hold.
 

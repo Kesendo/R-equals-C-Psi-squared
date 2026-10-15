@@ -123,7 +123,13 @@ Heisenberg XX + YY terms flip two Pauli letters at once, so the weight can
 only move in steps of two, and the ZZ term moves it not at all.
 
 The diagonal is not empty, and it is the larger channel: 768 against 384 at
-N=4, 4096 against 2048 at N=5. So the shells are not a chain of second
+N=4, 4096 against 2048 at N=5, 20480 against 10240 at N=6. The 2 : 1 is one
+bond's arithmetic and holds at every N. On a bond, ZZ anticommutes with 8 of
+the 16 two-site strings and never changes their weight (a Z letter keeps a
+site's weight bit); XX and YY each anticommute with 8, four of them at Δw = 0
+and two each at Δw = ±2. So every bond gives 16 diagonal and 8 off-diagonal
+elements for each string on the other N − 2 sites, no two terms meet in one
+element, and the totals are 16 : 8 times (N − 1)·4^(N−2). The shells are therefore not a chain of second
 neighbours passing light along; each shell talks to itself more than to
 anything else, and the two-step moves are the smaller traffic on top of that.
 The cavity reading has to live with a propagation structure whose dominant

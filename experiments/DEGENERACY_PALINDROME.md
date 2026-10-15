@@ -425,7 +425,7 @@ parity (the center spike) and by connectivity (sparse = linear, dense = super-li
 
 A coherence |i⟩⟨j| decays at −2γ·Hamming(i, j) in the canonical book, which is −kγ in this document's γ with k = Hamming(i, j), so every operator X of pure XY-weight k that commutes with H is a real eigenvector on the k-th grid line. Write c_k for the dimension of this weight-k commutant. Then c_k is at most the geometric multiplicity of that eigenvalue, which is at most the algebraic one, so d_real(k) ≥ c_k, with equality exactly when every real eigenvector and generalized eigenvector on the line is of pure weight.
 
-**The bound (every SU(2)-invariant H).** [the uniform law](../docs/proofs/PROOF_UNIFORM_LAW.md)'s Lemma A1 puts every S_N orbit sum T_s, one per joint-popcount block (p, q) and Hamming class s, into the kernel of ad_H for every SU(2)-invariant H, which includes every Heisenberg graph with any bond weights (H = Σ J_ij(2·SWAP_ij − 1)). Their span is the S_N-invariant operators, equally spanned by the sums of the Pauli strings of one letter multiset (n_I, n_X, n_Y, n_Z); at XY-weight k there are (k + 1)(N − k + 1) multisets, so
+**The bound (every SU(2)-invariant H).** [the uniform law](../docs/proofs/PROOF_UNIFORM_LAW.md)'s Lemma A1 puts every S_N orbit sum T_s, one per joint-popcount block (p, q) and Hamming class s, into the kernel of ad_H for every SU(2)-invariant H, which includes every Heisenberg graph with any bond weights (H = Σ J_ij(2·SWAP_ij − 1)). Their span is the S_N-invariant operators, equally spanned by the sums of the Pauli strings of one letter multiset (n_I, n_X, n_Y, n_Z), one per point of the [letter cube](../docs/THE_ONE_SQUARE.md); at XY-weight k there are (k + 1)(N − k + 1) multisets, the points of the cube's height plane k (C(N+3, 3) points over all k), so
 
   **d_real(k) ≥ c_k ≥ (k + 1)(N − k + 1).**
 
@@ -482,7 +482,7 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 ## Open questions
 
-1. ~~**Analytical derivation of d_real(1) = 2N.**~~ **RESOLVED as a lower bound.** The 2N
+1. **d_real(1) = 2N, resolved as a lower bound.** The 2N
    modes are the Z-count operators T_c^{(a)}, proven via SWAP invariance.
    See [Proof](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
 
@@ -518,7 +518,7 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
    on any simple sub-grid. Can they be expressed in terms of Hamiltonian
    coupling parameters (Bethe ansatz roots (the exact solution method for integrable spin chains), magnon dispersion (the energy-momentum relation for spin wave excitations))?
 
-6. ~~**Does degeneracy shape state-space geometry?**~~ **PARTIALLY RESOLVED.**
+6. **Does degeneracy shape state-space geometry? Partially resolved.**
    QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4);
    weaker at odd N (r ≈ 0.55). The center spike drives the peak QFI
    speed, independent of initial state. See [Bures Degeneracy](BURES_DEGENERACY.md).
