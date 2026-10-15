@@ -8,7 +8,7 @@ set): its eigenvalue spectrum pairs to machine precision at N=5 (soft) and break
 (hard). This is not a tolerance artifact; the soft side sits at ~1e-13 and the hard side at ~1e-1,
 each landing cleanly on its class.
 
-Three corollaries this script also confirms:
+Four corollaries this script also confirms:
   1. The PalindromeSoftCertifier's certified 2-body site-swap cases (XX+XY+YX, YY+XY+YX) stay soft
      to N=6 at machine precision (pairErr ~1e-13, N-k = 4). The shipped certifier is sound past the
      N=5 it was verified to.
@@ -25,6 +25,10 @@ Three corollaries this script also confirms:
      2 soft, the same at N=4 and N=5. So a fully-lit k>=3 soft verdict CAN be finite-size
      grace (XXXX+XYYY+YYYX is), but it is not grace by construction, and within these twelve
      what sorts the verdicts is whether a router exists.
+  4. F158 reads the crossing with no spectrum: end_count_check() takes the near and far ends of
+     XXXX+XYYY+YYYX as exact rational ranks, 8 and 8 at N=4,5, 8 and 4 at N=6, 8 and 0 from
+     N=7, with the two lit soft sets (equal ends at every N) and the hard control XXX+XXY+YXX
+     (equal ends only at N=3) as controls.
 
 Pipeline matches the C# authority PauliPairTrichotomy.Classify (same sliding-window k-body builder,
 same Σγ, same greedy spectrum pairing, inlined below); this script only also reads out the
@@ -42,6 +46,7 @@ Companion experiment: experiments/SOFTNESS_IS_N_DEPENDENT.md.
 from __future__ import annotations
 
 import sys
+from fractions import Fraction
 from itertools import combinations, product
 from pathlib import Path
 
@@ -317,6 +322,200 @@ def router_census():
     assert _first_router(4, [tuple("XZX")]) is None
     assert _first_router(4, [tuple("XZY")]) is not None
     print("\nRoutability splits the twelve 4 against 8, and XZX alone is the obstruction.")
+    end_count_check()
+
+
+# The two ends of F158, exactly. With Z jumps on every site the near end is the
+# commutant of H among the {I, Z} strings and the far end among the lit {X, Y}
+# strings (F158 Lemma 1); the palindrome holds iff the two have equal dimension.
+# A Pauli string is an (x, z) bit pair; [T, P] = 2·T·P = ±2i·(string) when they
+# anticommute, so the commutator is an integer matrix on strings and its rank is
+# taken exactly over the rationals (a rank modulo a prime would only bound it).
+
+
+def _string(word, offset=0):
+    x = z = 0
+    for i, c in enumerate(word):
+        if c in "XY":
+            x |= 1 << (i + offset)
+        if c in "YZ":
+            z |= 1 << (i + offset)
+    return x, z
+
+
+def _anticommute(a, b):
+    return (bin(a[0] & b[1]).count("1") + bin(a[1] & b[0]).count("1")) % 2 == 1
+
+
+def _commutator_sign(a, b):
+    """T·P = (±i)·(a xor b) for anticommuting strings; returns the sign of the i."""
+    order = {(1, 0): 0, (1, 1): 1, (0, 1): 2}   # X, Y, Z; X→Y→Z cyclic gives +i
+    exponent = 0
+    for s in range(max(a[0] | a[1] | b[0] | b[1], 1).bit_length()):
+        p = ((a[0] >> s) & 1, (a[1] >> s) & 1)
+        q = ((b[0] >> s) & 1, (b[1] >> s) & 1)
+        if p != (0, 0) and q != (0, 0) and p != q:
+            exponent += 1 if (order[q] - order[p]) % 3 == 1 else -1
+    return 1 if exponent % 4 == 1 else -1
+
+
+def _rank_q(columns):
+    """Exact rank over the rationals of sparse integer columns (Gaussian elimination in Fraction)."""
+    pivots = {}
+    for column in columns:
+        row = {k: Fraction(v) for k, v in column.items() if v}
+        while row:
+            k = min(row)
+            if k not in pivots:
+                pivots[k] = row
+                break
+            pivot = pivots[k]
+            f = row[k] / pivot[k]
+            for kk, vv in pivot.items():
+                row[kk] = row.get(kk, 0) - f * vv
+                if row[kk] == 0:
+                    del row[kk]
+    return len(pivots)
+
+
+def end_counts(N, templates):
+    """(near, far, colourings) for the sliding-window chain of the templates, Z jumps on every site."""
+    k = len(templates[0])
+    H = [_string(t, w) for w in range(N - k + 1) for t in templates]
+
+    def kernel(strings):
+        columns = []
+        for s in strings:
+            column = {}
+            for T in H:
+                if _anticommute(T, s):
+                    out = (T[0] ^ s[0], T[1] ^ s[1])
+                    column[out] = column.get(out, 0) + _commutator_sign(T, s)
+            columns.append({key: v for key, v in column.items() if v})
+        return len(strings) - _rank_q(columns)
+
+    lit = (1 << N) - 1
+    near = kernel([(0, z) for z in range(1 << N)])
+    far_strings = [(lit, z) for z in range(1 << N)]
+    colourings = sum(1 for s in far_strings if not any(_anticommute(T, s) for T in H))
+    return near, kernel(far_strings), colourings
+
+
+def _gauss_div(a, b):
+    """a / b for Gaussian rationals held as (Fraction, Fraction)."""
+    n = b[0] * b[0] + b[1] * b[1]
+    return ((a[0] * b[0] + a[1] * b[1]) / n, (a[1] * b[0] - a[0] * b[1]) / n)
+
+
+def _gauss_mul(a, b):
+    return (a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0])
+
+
+def complement_connection(N, templates):
+    """Theorem 2 of PROOF_PALINDROME_COMPLEMENT_CONNECTION, exactly: (components of Γ_H, components of Γ,
+    good components, {failed condition: count}). H_xy are Gaussian integers built bit by bit."""
+    k = len(templates[0])
+    H = {}
+    for w in range(N - k + 1):
+        for t in templates:
+            flip, phase_z, n_y = _string(t, w)[0], _string(t, w)[1], t.count("Y")
+            for y in range(1 << N):
+                # P|y> = i^{n_Y} (−1)^{popcount(z & y)} |y xor x>, with Y = iXZ on each site
+                sign = -1 if bin(phase_z & y).count("1") % 2 else 1
+                re, im = [(1, 0), (0, 1), (-1, 0), (0, -1)][n_y % 4]
+                key = (y ^ flip, y)
+                old = H.get(key, (0, 0))
+                H[key] = (old[0] + sign * re, old[1] + sign * im)
+    H = {key: (Fraction(v[0]), Fraction(v[1])) for key, v in H.items() if v != (0, 0)}
+    full = (1 << N) - 1
+    zero = (Fraction(0), Fraction(0))
+    entry = lambda x, y: H.get((x, y), zero)
+
+    def components(adjacent):
+        label, count = {}, 0
+        for s in range(1 << N):
+            if s in label:
+                continue
+            label[s], stack = count, [s]
+            while stack:
+                x = stack.pop()
+                for y in adjacent[x]:
+                    if y not in label:
+                        label[y] = count
+                        stack.append(y)
+            count += 1
+        return label, count
+
+    hop = {x: [y for y in range(1 << N) if y != x and entry(x, y) != zero] for x in range(1 << N)}
+    _, n_hop = components(hop)
+    union = {x: sorted(set(hop[x]) | {y ^ full for y in hop[x ^ full]}) for x in range(1 << N)}
+    label, n_union = components(union)
+    good, failed = 0, {"modulus": 0, "diagonal": 0, "holonomy": 0}
+    for c in range(n_union):
+        vertices = [x for x in range(1 << N) if label[x] == c]
+        bad = set()
+        for x in vertices:
+            if entry(x, x) != entry(x ^ full, x ^ full):
+                bad.add("diagonal")
+            for y in union[x]:
+                a, b = entry(x, y), entry(x ^ full, y ^ full)
+                if a[0] ** 2 + a[1] ** 2 != b[0] ** 2 + b[1] ** 2:
+                    bad.add("modulus")
+        if not bad:
+            section, stack = {vertices[0]: (Fraction(1), Fraction(0))}, [vertices[0]]
+            while stack and not bad:
+                x = stack.pop()
+                for y in union[x]:
+                    value = _gauss_mul(_gauss_div(entry(x, y), entry(x ^ full, y ^ full)), section[x])
+                    if y not in section:
+                        section[y] = value
+                        stack.append(y)
+                    elif section[y] != value:
+                        bad.add("holonomy")
+        for reason in bad:
+            failed[reason] += 1
+        good += not bad
+    return n_hop, n_union, good, failed
+
+
+def end_count_check():
+    """F158 reads the crossing: the far end of XXXX + XYYY + YYYX shrinks as windows overlap.
+
+    Near 8 at every N; far 8 at N = 4, 5, then 4 at N = 6 and 0 from N = 7: soft
+    exactly where the spectrum pairs, hard from N = 6. No lit string commutes with
+    H at any N (XXXX and XYYY differ on three letters of one window, so a lit
+    string meets them with opposite parities). The controls: the two lit soft sets
+    have equal ends at every N, carried by colourings; the hard control
+    XXX + XXY + YXX has equal ends only at N = 3, its own crossing.
+    """
+    print("\n" + "=" * 78)
+    print("F158 end counts (near, far, colourings), exact over the rationals, Z jumps on every site")
+    print("=" * 78)
+    witness = ["XXXX", "XYYY", "YYYX"]
+    expected = {4: (8, 8, 0), 5: (8, 8, 0), 6: (8, 4, 0), 7: (8, 0, 0), 8: (8, 0, 0)}
+    for N, want in expected.items():
+        got = end_counts(N, witness)
+        print(f"    N={N}  {'+'.join(witness):16s} {got}")
+        assert got == want, f"N={N}: expected {want}, got {got}"
+    controls = [
+        (["XXY", "XYX", "YXX"], {N: (4, 4, 4) for N in range(3, 8)}),
+        (["XXY", "YXX", "YYY"], {N: (4, 4, 4) for N in range(3, 8)}),
+        (["XXX", "XXY", "YXX"], {3: (4, 4, 0), 4: (4, 2, 0), 5: (4, 0, 0), 6: (4, 0, 0), 7: (4, 0, 0)}),
+    ]
+    for templates, table in controls:
+        for N, want in table.items():
+            got = end_counts(N, templates)
+            print(f"    N={N}  {'+'.join(templates):16s} {got}")
+            assert got == want, f"{templates} N={N}: expected {want}, got {got}"
+    print("\n  Theorem 2 on the basis-state graph (components of Γ_H, of Γ, good ones, failures):")
+    for N in expected:
+        n_hop, n_union, good, failed = complement_connection(N, witness)
+        print(f"    N={N}  {n_hop} {n_union} {good}  {failed}")
+        assert (n_hop, good) == expected[N][:2], f"N={N}: Theorem 2 must meet the string route"
+        assert failed["modulus"] == failed["diagonal"] == 0, "only holonomy may fail"
+        assert failed["holonomy"] == n_union - good
+    print("\nThe ends agree exactly where the spectrum pairs: XXXX+XYYY+YYYX at N = 4, 5 and not")
+    print("from N = 6; the soft controls at every N; the hard control only at N = 3.")
 
 
 if __name__ == "__main__":

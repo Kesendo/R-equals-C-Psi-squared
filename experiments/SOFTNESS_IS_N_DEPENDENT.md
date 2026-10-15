@@ -10,9 +10,10 @@ N-invariance this qualifies), the soft-certifier
 [F103 §7](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (the two soft mechanisms: the
 diagonal chiral K and the hidden-Q routing).
 **Scripts:** [`simulations/f87_softness_n_dependence.py`](../simulations/f87_softness_n_dependence.py)
-(self-validating, three sections: the per-witness residual ‖M‖ and maximum spectral pairing-error at
-N=4,5,6; the twelve-set census of the lit k=3 family; and the uniform-router check that builds
-Π = P4^⊗N and conjugates L, with the hard control run through it as the discriminator).
+(self-validating, four sections: the per-witness residual ‖M‖ and maximum spectral pairing-error at
+N=4,5,6; the twelve-set census of the lit k=3 family; the uniform-router check that builds
+Π = P4^⊗N and conjugates L, with the hard control run through it as the discriminator; and the
+F158 end counts, exact over the rationals, with the soft and hard controls).
 
 ---
 
@@ -52,10 +53,86 @@ numerical wobble; it is the whole reason this crossing can be called genuine.
 
 The crossing is clean. At N=5 the spectrum pairs to 8.7×10⁻¹⁴, indistinguishable from a certified-soft
 case; at N=6 it misses by 0.2, square in the hard band that the control XXX+XXY+YXX occupies at every
-length (≈0.02 at N=4, ≈0.24 at N=5). Nothing borderline sits between: the same template is exactly
+length from N=4 on (≈0.02 at N=4, ≈0.24 at N=5). Nothing borderline sits between: the same template is exactly
 palindromic on five sites and decisively broken on six. The finite-size window that carried the
 softness closes when the chain lengthens. At N=5 the 4-body template slides over only two positions;
 at N=6 a third window appears, and the grace is gone.
+
+## What the two ends say
+
+[F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) decides the palindrome without a spectrum: it
+holds exactly when the near end (the commutant of H among the strings of I and Z, the strings the
+dephasing does not see) and the far end (the commutant among the strings of X and Y, lit on every
+site) have the same dimension. For this witness both are kernels of integer matrices, taken exactly
+over the rationals:
+
+| N | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|
+| near end | 8 | 8 | 8 | 8 | 8 |
+| far end | 8 | 8 | 4 | 0 | 0 |
+
+So the crossing is read with no eigensolver at all: palindromic at N = 4 and 5, broken from N = 6,
+where the far end loses half of itself and the near end does not move.
+
+**Where the far end is lost: holonomy.** With Z on every site the witness lies in the class of
+Theorem 2 of [the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md),
+which reads both ends on the graph of basis states that H connects: the near end is its number of
+components, the far end the number of *good* components of that graph joined with its image under
+the bitwise complement (the same graph here, which the complement maps onto itself), with equal moduli
+|H_xy| = |H_x̄ȳ|, equal diagonals H_xx = H_x̄x̄, and trivial holonomy of the complement connection
+d_y/d_x = H_xy/H_x̄ȳ around every cycle. Every term flips the four bits of its window, and the graph
+has eight components at each N computed. Read exactly, the components fail on one condition only:
+
+| N | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|
+| components (near end) | 8 | 8 | 8 | 8 | 8 |
+| good components (far end) | 8 | 8 | 4 | 0 | 0 |
+| failed on holonomy | 0 | 0 | 4 | 8 | 8 |
+
+The moduli and the diagonals agree on every component at every N; what the third window adds is
+cycles around which the connection does not close, on half the components at N = 6 and on all of
+them from N = 7. That is the grace the chain loses, read as a holonomy. Which cycles carry the
+nontrivial holonomy, and why the third window breaks it on exactly half, is not worked out here.
+
+Two more things follow from the letters by hand.
+
+- **No single lit string carries it, at any N.** A string of X and Y letters commutes with a lit
+  template when the two disagree on an even number of sites. XXXX and XYYY share their first letter
+  and differ on the other three, so any lit string disagrees with them on numbers of opposite parity
+  on one window: it commutes with at most one of the two. Whatever the far end holds, it holds as
+  sums, never as the [colouring](THE_PALINDROME_AS_A_COLOURING.md) of one string, and the count of
+  lit strings commuting with H is 0 at every N above.
+- **The far end is decided window by window.** A template on one window turns the lit string it
+  meets into one with I or Z on exactly that window's four sites and lit letters everywhere else.
+  Two windows leave I and Z on two different sets of sites, so their products never meet on one
+  string and cannot cancel: [H, C] = 0 holds for each window separately. So for every window, a far
+  element C, with the letters off the window held fixed, has its window part in the commutant K of
+  that window's three terms among the sixteen lit strings of four sites (C lies in K ⊗ the lit strings
+  elsewhere), and dim K = 8, the far count at N = 4, where the chain is one window. The windows
+  overlap, so their conditions meet on shared sites: two windows still leave eight, a third four,
+  a fourth none, the string-side face of the holonomy above.
+
+The same check reads the controls the way the spectrum does. The two lit soft sets XXY + XYX + YXX
+and XXY + YXX + YYY have ends 4 and 4 at every N from 3 to 7, carried by four colourings each. The
+hard control XXX + XXY + YXX has ends 4 and 4 at N = 3, 4 and 2 at N = 4, and 4 and 0 from N = 5:
+it is palindromic at N = 3 and crosses at N = 4, where eight of the twelve sets below turn hard.
+
+The script's `end_count_check` takes both routes exactly on the witness and requires them to meet:
+the ranks of the commutator on strings over the rationals, and Theorem 2 on the basis-state graph
+with Gaussian rational sections, holonomy the only failure; the controls run on the first route.
+
+*Sweep for this section.* The witness's name appears in this note, its script,
+`KBodyPalindromeRouting` and the experiments index, and nowhere in `docs/ANALYTICAL_FORMULAS.md`,
+the proofs, the OpenArcs registry, the glossary, `docs/CAUGHT_ERRORS.md` or `fw.Confirmations`; the
+documents that cite this note do so on other points. Searched by its class instead (a real Pauli
+Hamiltonian under Z on every site), the repo answers with F158 and its proof (the criterion), the
+complement connection's Theorem 2 (the reading above, typed as `PalindromeComplementConnectionClaim`,
+live at `inspect --root complement` and in MirrorWorld's `EndCount.ComplementConnection`), and [the
+palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md), whose frame theorem is Theorem 2's
+statement from the string side and whose per-term rule and anticommuting sums the bullets use;
+none of them is applied to this witness. Checked for adjacency: the colouring page's section on
+the golden router reads its chains window by window too, for a G that commutes with H, and finds a
+period-4 rhythm forced along each parity chain, where here the window conditions run out instead.
 
 So the discriminator we set out to find, a rule on the X/Y phase pattern that would call
 XXXX+XYYY+YYYX soft and XXX+XXY+YXX hard, does not exist as a property of the Hamiltonian, for a simple
