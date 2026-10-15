@@ -36,9 +36,9 @@ ratio of their lifetimes is just the ratio of those two rates.
 
 The ratio is not a constant. It slides with the field strength, the bath rate, the
 graph, and the size. The once-hoped-for clean fraction (the 4/3, 8/7, 14/13, 20/19
-sequence) does not hold; for carbon and water the number is exact only as the
-quotient of the two slowest flavor-rates, not as a closed form in the parameters (the
-neural look-alike has one, below).
+sequence) does not hold; for carbon and water beyond the single unit the number is
+exact only as the quotient of the two slowest flavor-rates, not as a closed form in the
+parameters (the single unit has one, below, and so does the neural look-alike).
 
 ## Why it should travel
 
@@ -56,18 +56,26 @@ network below does not map onto the shape, and gets its split from elsewhere.
 Hückel hopping on a ring, a transverse field, on-site phase noise. The transverse
 relaxation is isotropic with no field and splits as soon as a field is switched on.
 On the four-, five-, and six-site rings the field-aligned channel is the
-shorter-lived one; the ratio runs from about 1.08 to 1.61 as the field and the
+shorter-lived one; the ratio runs from about 1.08 to 1.64 as the field and the
 noise rate move, and sits at 1.27 at the canonical four-site, half-strength,
 unit-noise point. Benzene (six sites) gives 1.26, so the split is not a small-ring
 artifact. Data: [`carbon_painter_t2_sweep.txt`](../simulations/results/carbon_painter_t2_sweep.txt),
-[`..._n6_ring_g1.txt`](../simulations/results/carbon_painter_t2_sweep_n6_ring_g1.txt).
+[`..._n6_ring_g1.txt`](../simulations/results/carbon_painter_t2_sweep_n6_ring_g1.txt),
+[`..._n6_ring_g2.txt`](../simulations/results/carbon_painter_t2_sweep_n6_ring_g2.txt).
 
 ### Water proton wire and hydrogen bond
 
 Read a chain of hydrogen-bonded proton sites as two-level position units with the
 same phase-noise bath and a transverse field. The proton wire (a chain) carries the
 same anisotropy, ratio about 1.37 to 1.60 along the chain from two to five sites; a
-single hydrogen bond (one unit) gives a clean factor of two. The point is not that
+single hydrogen bond (one unit) gives a clean factor of two. That factor is derived: it is the
+tunnel doublet's T₂ = 2T₁ of [the proton wire crossing](../docs/water/PROTON_WIRE_CROSSING.md#the-second-axis-which-letter-the-environment-reads)
+(the field-aligned channel this page calls a T2 is the doublet's T₁): the field-aligned letter
+decays at exactly 2γ while the field turns the other two into each other at
+−γ ± √(γ² − 4h²), real part −γ whenever 2h ≥ γ. Below that the pair is overdamped, its slow rate
+γ − √(γ² − 4h²) falls under γ, and the ratio, 2γ/(γ − √(γ² − 4h²)), exceeds two. The sweep's point,
+h = 0.5 at γ = 1, sits exactly on the boundary 2h = γ, where the pair is defective at −γ, an
+exceptional point. The point is not that
 a proton wire is an aromatic ring; it is that the relaxation reads the same split
 off whatever chain it is handed. Data:
 [`water_proton_wire_t2_flavor_sweep.txt`](../simulations/results/water_proton_wire_t2_flavor_sweep.txt),
@@ -132,7 +140,7 @@ sentence with the data files' own rows under it.
 
 ## Honest seams
 
-- **No closed form for carbon and water.** There the ratio is substrate- and
+- **No closed form for carbon and water beyond one unit.** There the ratio is substrate- and
   parameter-dependent; only its status as a ratio of two mode-rates is exact. This is
   the open question settled in the [NMR bridge](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md).
   The neural ratio has one, above.
@@ -147,8 +155,15 @@ sentence with the data files' own rows under it.
   ratio flips below one (0.49). The split is about the field axis relative to the
   bath, exactly as it should be.
   ([`flavor_rule_chain_n5_z_control.txt`](../simulations/results/flavor_rule_chain_n5_z_control.txt))
-- **The graph is load-bearing for carbon and water.** There an empty graph (no
-  coupling) shows no split; the effect needs the sites to talk to each other. The neural
+- **What the graph does for carbon and water.** An empty graph (no coupling) is N single
+  units, so it shows the single unit's split, two for 2h ≥ γ and more below
+  ([`flavor_rule_empty_n5_x.txt`](../simulations/results/flavor_rule_empty_n5_x.txt), five
+  uncoupled sites at h = 0.5, γ = 1: 2.000000 in its table, 2.0000000729 in its compact line, the
+  float splitting of the defective pair at that exceptional point). The coupling moves the ratio
+  off the single unit's value: at h = 0.5, γ = 1, where the uncoupled sites read two, the rings
+  read 1.25 to 1.27, the wire 1.37 to 1.60, the star 1.16 and the complete graph 1.14 at five
+  sites ([`flavor_rule_star_n5_x.txt`](../simulations/results/flavor_rule_star_n5_x.txt),
+  [`flavor_rule_complete_n5_x.txt`](../simulations/results/flavor_rule_complete_n5_x.txt)). The neural
   empty graph at the default parameters sits exactly at an exceptional point (Δ = h), a
   defective block at −s whose eigenvector has weight one half, and at h = 0 it splits at
   γ_I/γ_E; what the neural graph does is decide which blocks are overdamped.
