@@ -5338,7 +5338,12 @@ g_l = q_l(I) follows [a, a, b, b] with a = φX + Y, b = X − φY; h_l = q_l(Z) 
 (−1)^(l+1)·i·R(g_l); q_l(X) = −(g_l)_X·I + (h_l)_X·Z, q_l(Y) = −(g_l)_Y·I + (h_l)_Y·Z.
 Each q_l is class-swapping with q_l² = −(2+φ)·I (a scalar times a unitary, cond(W) = 1).
 The frame directions are the two roots of the **golden locus α² − αβ − β² = 0**
-(slopes 1/φ and −φ; tan 2θ = 2). Two-sided form: W(ρ) = (2+φ)^(N/2)·P ρ Q with product
+(slopes 1/φ and −φ; tan 2θ = 2), which is the eigen equation of the XZX case's window
+letter table M = [[1,1],[1,0]] over the end letters {X, Y}: a and b are its eigenvectors,
+and the uniform product of the normalized â (a or b) over all sites is a chiral unitary of H
+exactly because of that. The rhythm is a second chiral: ⊗[a, a, b, b] ∝ a^⊗N·⊗[I, I, Z, Z],
+where the Z pattern anticommutes with H because it puts exactly one Z on every window's end
+pair, so the product of the two chirals commutes. Two-sided form: W(ρ) = (2+φ)^(N/2)·P ρ Q with product
 unitaries P, Q each anticommuting with H (so spec(H) is exactly ±E-symmetric, and
 G = PQ is a weak Z₂ symmetry of L and an exact eigenmode at the palindrome floor −2σ).
 
@@ -5347,7 +5352,8 @@ every window offset (cross-template cancellation inside one window; per-term it 
 which is why the per-term certifier search could never see it); window additivity gives
 every N ≥ 3. **Exclusion side (derived):** the identity-column functional forces
 [H, ⊗g_l] = 0 with per-window equations whose only uniform or period-2 solution is g = 0
-(the committed optimization floors are now theorems), period 3 is impossible for N ≥ 5,
+(the committed optimization floors are now theorems; this is the commuting G, not the
+uniform chiral above), period 3 is impossible for N ≥ 5,
 and the discrete Klein candidates P1/P4/M2/M sit off the locus (values +1, −1, −1, −1/2).
 The identity column is also sufficient for the palindrome (not for the per-site two-sided W):
 ⊗g_l is an invertible element of [F158](#f158)'s kernel of L + 2σ, so it carries the palindrome

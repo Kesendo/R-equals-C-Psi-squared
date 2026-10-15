@@ -151,7 +151,127 @@ public sealed class GoldenRouterClaim : Claim
                 KBodyPalindromeRouting.MetallicMean(c)));
         MetallicReadings = readings;
 
+        LetterTableReadings = new[] { 0L, 1L, 2L, 3L }.Select(ReadLetterTable).ToList();
+        ReflectedTableLeavesRemainder = ResidualEntries(new long[,] { { 1, 1 }, { -1, 0 } })
+            .Any(e => !IsZero(DivideMonic(e, Locus(1)).Remainder));
+
+        RhythmSolutions = Enumerable.Range(0, 16)
+            .Select(bits => Enumerable.Range(0, 4).Select(l => (bits >> l) & 1).ToArray())
+            .Where(z => Enumerable.Range(0, 4).All(w => z[w] + z[(w + 2) % 4] == 1))
+            .Select(z => string.Concat(z.Select(b => b == 1 ? 'Z' : 'I')))
+            .OrderBy(s => s, StringComparer.Ordinal)
+            .ToList();
+
         Battery = BuildBattery();
+    }
+
+    /// <summary>The period-4 Z patterns (I/Z per site mod 4) that put exactly one Z on every window's end pair
+    /// (w, w+2): the chiral S of the rhythm and its shifts. Periods 1 and 2 are included in the enumeration
+    /// (they are period-4 patterns too) and fail, since their two end sites carry the same letter.</summary>
+    public IReadOnlyList<string> RhythmSolutions { get; }
+
+    /// <summary>One reading of the window's letter table at integer weight c (PROOF §2): the end letters of
+    /// c·XZX + XZY + YZX carry M_c = [[c,1],[1,0]] over {X,Y}×{X,Y}. For the direction v = (r, 1), i.e.
+    /// â = rX + Y, the eigen condition det[v, M_c v] is the locus polynomial r² − cr − 1; and conjugation by
+    /// the uniform product â^⊗N flips the middle Z (−(r²+1)), reflects both end letters by
+    /// R̃ = [[r²−1, 2r], [2r, 1−r²]] and scales every other site by r²+1, so â^⊗N H â^⊗N = −(r²+1)^N·H iff
+    /// R̃M_cR̃ = (r²+1)²M_c. Computed in integer
+    /// polynomials in r, that residual is exactly (r² − cr − 1)·K(r) with K = [[4r, 2(1−r²)], [2(1−r²), −4r]],
+    /// whose entries 4r and 2(1−r²) never vanish together: the uniform product is chiral exactly on the
+    /// metallic locus, where â is an eigenvector of M_c. Both the residual and (r² − cr − 1)·K are affine in
+    /// c, so agreement at two values of c settles every c; the battery reads four.</summary>
+    public readonly record struct LetterTableReading(long C, bool EigenEquationIsLocus, bool ChiralResidualIsLocusTimesK);
+
+    /// <summary>The letter-table readings at c ∈ {0, 1, 2, 3} (exact, integer polynomial arithmetic).</summary>
+    public IReadOnlyList<LetterTableReading> LetterTableReadings { get; }
+
+    /// <summary>True iff the hard reflected table [[1,1],[−1,0]] (t₃ = −t₂) leaves a nonzero remainder modulo
+    /// r² − r − 1: the control on which the letter-table check must fail.</summary>
+    public bool ReflectedTableLeavesRemainder { get; }
+
+    // Integer polynomials in r: index i holds the coefficient of r^i.
+    private static long[] P(params long[] coefficients) => coefficients;
+    private static long[] Locus(long c) => P(-1, -c, 1);
+
+    private static long[] Add(long[] a, long[] b)
+    {
+        var s = new long[Math.Max(a.Length, b.Length)];
+        for (int i = 0; i < a.Length; i++) s[i] += a[i];
+        for (int i = 0; i < b.Length; i++) s[i] += b[i];
+        return s;
+    }
+
+    private static long[] Scale(long[] a, long k) => a.Select(x => k * x).ToArray();
+
+    private static long[] Mul(long[] a, long[] b)
+    {
+        var p = new long[a.Length + b.Length - 1];
+        for (int i = 0; i < a.Length; i++)
+            for (int j = 0; j < b.Length; j++)
+                p[i + j] += a[i] * b[j];
+        return p;
+    }
+
+    private static bool IsZero(long[] a) => a.All(x => x == 0);
+
+    private static bool Equal(long[] a, long[] b) => IsZero(Add(a, Scale(b, -1)));
+
+    /// <summary>Division by a monic polynomial over ℤ (exact, no rounding).</summary>
+    private static (long[] Quotient, long[] Remainder) DivideMonic(long[] a, long[] monic)
+    {
+        int d = monic.Length - 1;
+        var rem = (long[])a.Clone();
+        var q = new long[Math.Max(1, a.Length - d)];
+        for (int i = a.Length - 1; i >= d; i--)
+        {
+            long lead = rem[i];
+            if (lead == 0) continue;
+            q[i - d] = lead;
+            for (int j = 0; j <= d; j++) rem[i - d + j] -= lead * monic[j];
+        }
+        return (q, rem);
+    }
+
+    /// <summary>R̃MR̃ − (r²+1)²M for an integer 2×2 letter table M, entry-wise as polynomials in r
+    /// (row-major: entries 0..3 = (0,0), (0,1), (1,0), (1,1)).</summary>
+    private static long[][] ResidualEntries(long[,] m)
+    {
+        var rt = new[,] { { P(-1, 0, 1), P(0, 2) }, { P(0, 2), P(1, 0, -1) } };   // R̃ = [[r²−1, 2r], [2r, 1−r²]]
+        var n4 = Mul(P(1, 0, 1), P(1, 0, 1));                                      // (r²+1)²
+        var entries = new long[4][];
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+            {
+                var s = P(0);
+                for (int k = 0; k < 2; k++)
+                    for (int l = 0; l < 2; l++)
+                        s = Add(s, Scale(Mul(rt[i, k], rt[l, j]), m[k, l]));
+                entries[2 * i + j] = Add(s, Scale(n4, -m[i, j]));
+            }
+        return entries;
+    }
+
+    private static LetterTableReading ReadLetterTable(long c)
+    {
+        var locus = Locus(c);
+        var table = new long[,] { { c, 1 }, { 1, 0 } };
+        // det[v, M_c v] with v = (r, 1), M_c v read off the same table.
+        var v = new[] { P(0, 1), P(1) };
+        var mv = new[]
+        {
+            Add(Scale(v[0], table[0, 0]), Scale(v[1], table[0, 1])),
+            Add(Scale(v[0], table[1, 0]), Scale(v[1], table[1, 1])),
+        };
+        var eigen = Add(Mul(v[0], mv[1]), Scale(Mul(mv[0], v[1]), -1));
+
+        var k = new[] { P(0, 4), P(2, 0, -2), P(2, 0, -2), P(0, -4) };
+        var residual = ResidualEntries(table);
+        bool locusTimesK = residual.Select((e, i) => (e, i)).All(x =>
+        {
+            var (q, rem) = DivideMonic(x.e, locus);
+            return IsZero(rem) && Equal(q, k[x.i]);
+        });
+        return new LetterTableReading(c, Equal(eigen, locus), locusTimesK);
     }
 
     private IReadOnlyList<BatteryCase> BuildBattery()
@@ -190,6 +310,32 @@ public sealed class GoldenRouterClaim : Claim
             Detail: $"|live {silver.LiveRatio.ToString("0.######", Inv)} − closed {silver.ClosedForm.ToString("0.######", Inv)}| < {MatchTolerance:0.0e+00}",
             Expected: "MATCH",
             Actual: silver.Matches ? "MATCH" : "MISMATCH"));
+
+        // Where the direction comes from, exactly: the window's letter table and the uniform chiral.
+        foreach (var t in LetterTableReadings)
+            cases.Add(new BatteryCase(
+                Name: $"c={t.C}: the locus is the letter table's eigen equation; â^⊗N is chiral exactly on it",
+                Detail: $"det[v, M_c v] = r²−{t.C}r−1 for v = (r,1); R̃M_cR̃ − (r²+1)²M_c = (r²−{t.C}r−1)·K(r), " +
+                        "K = [[4r, 2(1−r²)], [2(1−r²), −4r]] nowhere zero (integer polynomials in r)",
+                Expected: "eigen, chiral iff locus",
+                Actual: t.EigenEquationIsLocus && t.ChiralResidualIsLocusTimesK ? "eigen, chiral iff locus" : "FAIL"));
+
+        // The control the divisibility test must fire on: the reflected line t₃ = −t₂ (M = [[1,1],[−1,0]],
+        // hard by PROOF §8) leaves a remainder modulo the golden locus.
+        cases.Add(new BatteryCase(
+            Name: "control: the reflected table [[1,1],[−1,0]] leaves a remainder mod r²−r−1",
+            Detail: "R̃MR̃ − (r²+1)²M mod (r²−r−1) for the hard reflected line",
+            Expected: "remainder",
+            Actual: ReflectedTableLeavesRemainder ? "remainder" : "FAIL"));
+
+        // The rhythm as a count: S = ⊗[I,I,Z,Z] puts exactly one Z on every window's end pair, so it is
+        // chiral; uniform and period-2 Z patterns put zero or two and commute (PROOF §2, "a second chiral").
+        cases.Add(new BatteryCase(
+            Name: "the rhythm is a chiral: one Z per window end pair has exactly the four period-4 solutions",
+            Detail: "over the 16 Z patterns of period dividing 4, one Z on (w, w+2) at every offset w " +
+                    "(period 3 cannot toggle an odd cycle)",
+            Expected: "IIZZ, IZZI, ZIIZ, ZZII",
+            Actual: string.Join(", ", RhythmSolutions)));
 
         // The residual ‖{W,S}‖_F vanishes at the golden mean and is nonzero off it (the dip the witness draws).
         double phi = KBodyPalindromeRouting.MetallicMean(1.0);
@@ -239,6 +385,19 @@ public sealed class GoldenRouterClaim : Claim
                          "cross-template inside one window. Additivity over windows ⟹ {W,A}=0 at every N≥3 " +
                          "(single window included). This is why the per-term certifier cannot see the router; " +
                          "the per-term lens (KBodyPalindromeRouting.Routes) correctly returns false here.");
+
+            yield return new InspectableNode("where the direction comes from: the window's letter table",
+                summary: "The end letters of c·XZX+XZY+YZX carry the table M_c = [[c,1],[1,0]] over {X,Y}×{X,Y}; " +
+                         "the middle Z is turned by every lit letter. A uniform product â^⊗N, â = αX+βY a unit " +
+                         "direction, flips the middle Z and reflects both end letters, so it is chiral " +
+                         "(â^⊗N H â^⊗N = −H; not the router's left factor P) iff the " +
+                         "reflection commutes with M_c, i.e. iff â is an EIGENVECTOR of M_c: α² − cαβ − β² = 0, " +
+                         "the metallic locus, whose eigen equation r² = cr + 1 is the metallic mean (golden at " +
+                         "c=1). Exact in integer polynomials in r: the residual is (r²−cr−1)·K(r) with K nowhere " +
+                         "zero, live at c=0..3, with the hard reflected table as the failing control. The uniform " +
+                         "chiral alone gives spec(H) = −spec(H) but not the palindrome: one-sided it fixes the " +
+                         "dephaser, which is why the router needs P ≠ Q and the [a,a,b,b] rhythm (§2, §4). The " +
+                         "exclusion 'no uniform router' concerns the commuting G, not this chiral.");
 
             yield return new InspectableNode("the exclusion theorems (deductive from K₁, K₂)",
                 summary: "{W,A}=0 on the identity column I^⊗N forces G = ⊗_l g_l to commute with H, reducing per " +

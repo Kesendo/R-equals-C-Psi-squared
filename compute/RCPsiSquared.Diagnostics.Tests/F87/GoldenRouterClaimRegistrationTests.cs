@@ -114,6 +114,35 @@ public class GoldenRouterClaimRegistrationTests
     }
 
     [Fact]
+    public void GoldenRouterClaim_LetterTable_EigenEquationIsLocus_UniformChiralExactlyOnIt()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<GoldenRouterClaim>();
+
+        // The golden direction is an eigenvector of the window's letter table M_c = [[c,1],[1,0]], and the
+        // uniform product â^⊗N is chiral exactly there (integer polynomial arithmetic, no rounding).
+        Assert.Equal(new long[] { 0, 1, 2, 3 }, claim.LetterTableReadings.Select(t => t.C));
+        foreach (var t in claim.LetterTableReadings)
+        {
+            Assert.True(t.EigenEquationIsLocus, $"c={t.C}: det[v, M_c v] must equal r² − cr − 1");
+            Assert.True(t.ChiralResidualIsLocusTimesK, $"c={t.C}: the chiral residual must be (r²−cr−1)·K(r)");
+        }
+        Assert.True(claim.ReflectedTableLeavesRemainder,
+            "the hard reflected table [[1,1],[−1,0]] must leave a remainder: the divisibility test fires off the line");
+    }
+
+    [Fact]
+    public void GoldenRouterClaim_Rhythm_IsTheOneZPerWindowPattern_FourShifts()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<GoldenRouterClaim>();
+
+        // The [a,a,b,b] rhythm is a^⊗N times the Z pattern [I,I,Z,Z]; one Z per window end pair admits
+        // exactly its four cyclic shifts, and no uniform or period-2 pattern.
+        Assert.Equal(new[] { "IIZZ", "IZZI", "ZIIZ", "ZZII" }, claim.RhythmSolutions);
+    }
+
+    [Fact]
     public void GoldenRouterClaim_SelfCheck_Passes()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
