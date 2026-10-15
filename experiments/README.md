@@ -362,7 +362,7 @@ interference require additional gates.
 | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) | Application to quantum key distribution |
 | [Degeneracy Palindrome](DEGENERACY_PALINDROME.md) | Palindromic degeneracy structure of Liouvillian eigenvalues |
 | [Weight-2 Kernel](WEIGHT2_KERNEL.md) | Topology-dependent commutator kernel at weight 2 |
-| [Bures Degeneracy](BURES_DEGENERACY.md) | Null result for \|+⟩^⊗N: its QFI speed is the closed form ½√(N·4γ²g²/(1−g²)), monotone and independent of J and of the degeneracy profile; every state run starts pure and peaks at t → 0; open at later times and for mixed starts |
+| [Bures Degeneracy](BURES_DEGENERACY.md) | Null result for \|+⟩^⊗N: its QFI speed is the closed form ½√(N·4γ²g²/(1−g²)), monotone and independent of J and of the degeneracy profile; for random states the Hamiltonian moves the speed is the Hamiltonian part, and the more degenerate chain is not faster than the star; open in the on-grid/off-grid form |
 | [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
 | [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | Finite N=2..5 frequency-census comparison. Each cold-target frequency has a reusable warm-target frequency within the stated strict `< 0.1` tolerance; this is one-sided numerical coverage, not eigenvector identity, mode survival, or a causal account of complexity. |
 | [Born Rule Shadow](BORN_RULE_SHADOW.md) | Born rule is a shadow, not a photograph: zero past/future interference in P(i) along the Σγ cut; at N = 2 the purity splits cleanly too, and for \|++⟩ the fading future sets when the CΨ fold comes (the Born rule assumed, not derived) |

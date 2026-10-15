@@ -358,6 +358,64 @@ log("READING: every trajectory here starts pure, so each speed peaks at the firs
 log("for |+>^N the speed is the closed form checked above, which no eigenvalue of L enters, and")
 log("these correlations only record which shell carries the most weight at t = 0.01.")
 
+# ─── Trajectories the Hamiltonian moves: chain vs star at equal bond count ───
+# Both have three Heisenberg bonds (equal ‖H‖); their centre degeneracies differ
+# (d_total(2) = 152 on the chain, 126 on the star). 60 random pure and 60 random
+# rank-4 states (seeded), the speed and its Hamiltonian and dissipative parts
+# (√F_Q/2 with ρ̇ replaced by L_H ρ or L_D ρ) at six times.
+
+log()
+log("=" * 75)
+log("N=4, H-MOVED RANDOM STATES: CHAIN vs STAR (three bonds each)")
+log("=" * 75)
+
+
+def build_parts(N, bonds):
+    d = 2**N
+    Id = np.eye(d, dtype=complex)
+    H = np.zeros((d, d), dtype=complex)
+    for (i, j) in bonds:
+        for P in [Xm, Ym, Zm]:
+            ops = [I2] * N
+            ops[i] = P
+            ops[j] = P
+            H += J * kron_chain(ops)
+    LH = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+    LD = np.zeros_like(LH)
+    for k in range(N):
+        ops = [I2] * N
+        ops[k] = Zm
+        Zk = kron_chain(ops)
+        LD += GAMMA * (np.kron(Zk, Zk.conj()) - np.kron(Id, Id))
+    return LH, LD
+
+
+rng = np.random.default_rng(7)
+d4 = 16
+rand_states = []
+for rank in [1] * 60 + [4] * 60:
+    A = rng.normal(size=(d4, rank)) + 1j * rng.normal(size=(d4, rank))
+    r = A @ A.conj().T
+    rand_states.append(r / np.trace(r))
+parts = {"chain": build_parts(4, [(0, 1), (1, 2), (2, 3)]), "star": build_parts(4, [(0, 1), (0, 2), (0, 3)])}
+log(f"  {'t':>5s} {'chain':>8s} {'star':>8s} {'star>chain':>11s} {'H part c/s':>16s} {'D part c/s':>16s}")
+for t in [0.5, 2.0, 5.0, 10.0, 20.0, 40.0]:
+    res = {}
+    for name, (LH, LD) in parts.items():
+        L = LH + LD
+        vs, vh, vd = [], [], []
+        for r0 in rand_states:
+            v = expm_multiply(L * t, r0.ravel())
+            rho = v.reshape(d4, d4)
+            rho = (rho + rho.conj().T) / 2
+            vs.append(qfi_speed(rho, (L @ v).reshape(d4, d4)))
+            vh.append(qfi_speed(rho, (LH @ v).reshape(d4, d4)))
+            vd.append(qfi_speed(rho, (LD @ v).reshape(d4, d4)))
+        res[name] = (np.array(vs), np.mean(vh), np.mean(vd))
+    wins = int(np.sum(res["star"][0] > res["chain"][0]))
+    log(f"  {t:5.1f} {res['chain'][0].mean():8.3f} {res['star'][0].mean():8.3f} {wins:5d} of {len(rand_states)}"
+        f" {res['chain'][1]:7.3f}/{res['star'][1]:7.3f} {res['chain'][2]:7.3f}/{res['star'][2]:7.3f}")
+
 # Save
 out_path = RESULTS_DIR / "qfi_degeneracy_correlation.txt"
 with open(out_path, 'w', encoding='utf-8') as f:

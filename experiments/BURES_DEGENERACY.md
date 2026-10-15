@@ -4,7 +4,7 @@
 quantum state space geometry, weight sector dynamics, palindrome geometry,
 open quantum system information geometry, R=CPsi2 Bures degeneracy -->
 
-**Status:** Null result for the trajectories tested: the |+⟩^⊗N speed is a closed form that the degeneracy profile does not enter, and every state run starts pure, so every speed peaks at t → 0. Whether the profile shapes the speed at later times, or for states that start mixed, is open.
+**Status:** Null result for the trajectories tested: the |+⟩^⊗N speed is a closed form that the degeneracy profile does not enter; for random pure and mixed states the Hamiltonian moves, the speed is carried by the Hamiltonian part, and the chain with more centre degeneracy is not faster than the star with less. Whether the profile shapes the speed in any other way is open.
 **Date:** April 3, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -125,15 +125,46 @@ k = 4 (the one coherence), never on k = 2.
 
 ---
 
-## What is open
+## Trajectories the Hamiltonian moves
 
-A trajectory the Hamiltonian moves is the place where the degeneracy profile
-could enter the speed at all. Of the states above only the random one is
-moved by it (W, like |+⟩^⊗N, is a state the Hamiltonian never touches under
-equal dephasing), and it starts pure like the others, so its speed too peaks
-at t → 0.
-Comparing speeds at a fixed later time, or over states that start mixed,
-would be the next question.
+A single trajectory's speed is fixed by ρ(t) and ρ̇ = L(ρ): by the
+eigenvalues the trajectory populates and their amplitudes. How many other
+modes sit on the same grid line cannot enter it, so the degeneracy profile can
+shape the speed only through which states it is asked of. Of the states
+above only the random one is moved by the Hamiltonian (W, like |+⟩^⊗N, is
+a state the Hamiltonian never touches under equal dephasing), and it starts
+pure, so its speed too peaks at t → 0.
+
+Random states at later times, pure and mixed, give a first look. The N = 4
+chain and star both have three bonds, so equal Frobenius norm ‖H‖ = 12
+(the chain's spectral radius is the larger, 6.46 against 5.0), but different
+centre degeneracies, d_total(2) = 152 on the chain and 126 on the star. Over 60
+random pure and 60 random rank-4 states:
+
+| t | chain | star | star faster |
+|---|---|---|---|
+| 0.5 | 2.646 | 2.678 | 58 of 120 |
+| 2 | 2.199 | 2.235 | 60 of 120 |
+| 5 | 1.502 | 1.556 | 73 of 120 |
+| 10 | 0.780 | 0.834 | 85 of 120 |
+| 20 | 0.212 | 0.242 | 86 of 120 |
+| 40 | 0.024 | 0.027 | 76 of 120 |
+
+The more degenerate chain is not faster, although its spectral radius is
+the larger: the star's mean is ahead at every time, by about 1% early on,
+where it wins only half the states, and by up to 14% later. The speed is carried by the Hamiltonian part: computed
+with L_D(ρ) alone in place of ρ̇ it is 3 to 14% of the total, and the same
+for both graphs. This is in line with the simulated Bures-velocity check of EQ-030 in
+[`review/EMERGING_QUESTIONS.md`](../review/EMERGING_QUESTIONS.md), in a
+different setting (N = 3, six soft Hamiltonians under T1), where the Bures
+speed at the cusp was uncorrelated with the count of Π-protected observables
+and its fast cases were read as fast oscillation. One comparison of two graphs is a sighting, not
+a law. A sharper form of the question follows the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): d(k) counts
+the modes exactly on the grid lines Re λ = −2kγ, while a trajectory the
+Hamiltonian moves runs largely on modes between them, so the split of ρ(t)
+between on-grid and off-grid modes, not d(k), is what could matter. That is
+open.
 
 ---
 

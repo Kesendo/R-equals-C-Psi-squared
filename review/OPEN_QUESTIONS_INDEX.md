@@ -1565,7 +1565,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-126
 
-**Question:** ~~**Does degeneracy shape state-space geometry?**~~ **PARTIALLY RESOLVED.** QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4); weaker at odd N (r ≈ 0.55). The center spike drives the peak QFI speed, independent of initial state. See [Bures Degeneracy](../experiments/BURES_DEGENERACY.md).
+**Question:** **Does degeneracy shape state-space geometry?** Not for |+⟩^⊗N (a closed-form speed no degeneracy enters); for random states the Hamiltonian moves the speed is carried by the Hamiltonian part and the more degenerate N = 4 chain is not faster than the star. Open in the sharper on-grid versus off-grid form. See [Bures Degeneracy](../experiments/BURES_DEGENERACY.md).
 
 **Source:** `experiments/DEGENERACY_PALINDROME.md` (line 413)
 **Section:** Open questions

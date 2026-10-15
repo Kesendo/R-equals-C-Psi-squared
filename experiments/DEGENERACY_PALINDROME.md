@@ -521,8 +521,10 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
 
 6. **Does degeneracy shape state-space geometry?** Not for |+⟩^⊗N: the
    Hamiltonian never touches that state, and its quantum-Fisher speed is a
-   closed form in γt that no eigenvalue of L enters. Open for speeds at
-   later times and for states that start mixed. See [Bures Degeneracy](BURES_DEGENERACY.md).
+   closed form in γt that no degeneracy enters. For random states the
+   Hamiltonian moves, the speed is carried by the Hamiltonian part, and the
+   N = 4 chain (centre 152) is not faster than the star (126). Open in the
+   sharper form of on-grid against off-grid modes. See [Bures Degeneracy](BURES_DEGENERACY.md).
 
 ---
 

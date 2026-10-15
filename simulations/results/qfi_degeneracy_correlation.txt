@@ -155,7 +155,7 @@ N=5: d=32, initial state |+⟩^5
    150.345     0.000000      0
    200.000     0.000000      0
 
-  largest relative distance from the closed form: 8.95e-12
+  largest relative distance from the closed form: 9.96e-12
 
   Peak QFI speed: 2.498750 at t = 0.010
   Weight profile at peak: [0.031 0.157 0.313 0.312 0.156 0.031]
@@ -197,3 +197,14 @@ All correlations positive: ✓
 READING: every trajectory here starts pure, so each speed peaks at the first grid point;
 for |+>^N the speed is the closed form checked above, which no eigenvalue of L enters, and
 these correlations only record which shell carries the most weight at t = 0.01.
+
+===========================================================================
+N=4, H-MOVED RANDOM STATES: CHAIN vs STAR (three bonds each)
+===========================================================================
+      t    chain     star  star>chain       H part c/s       D part c/s
+    0.5    2.646    2.678    58 of 120   2.631/  2.663   0.370/  0.373
+    2.0    2.199    2.235    60 of 120   2.196/  2.231   0.174/  0.175
+    5.0    1.502    1.556    73 of 120   1.501/  1.555   0.077/  0.078
+   10.0    0.780    0.834    85 of 120   0.779/  0.833   0.033/  0.033
+   20.0    0.212    0.242    86 of 120   0.212/  0.242   0.008/  0.008
+   40.0    0.024    0.027    76 of 120   0.024/  0.027   0.001/  0.001
