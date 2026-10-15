@@ -57,11 +57,11 @@ mathematical model, not a transfer of the theorem to arbitrary hydrogen bonds.
 The displayed water-inspired rows are calculations at selected parameters.
 
 **Results:**
-- Selected single-coordinate runs: CΨ crosses 1/4 at 0.07-1.32 ps when
-  `J/γ = 1` in the displayed model.
+- Selected single-coordinate runs: CΨ rises above 1/4 and falls back
+  through it at 0.07–1.32 ps when `J/γ = 1` in the displayed model.
 - Selected two-coordinate run: the decay spectrum is exactly palindromic
   (every term commutes with `X⊗X`, which anticommutes with both jumps) and
-  CΨ crosses at 0.46 ps.
+  CΨ falls back through 1/4 at 0.46 ps.
 - Selected four-coordinate run: coupling changes the calculated frequency
   count from 11 per isolated model molecule to 126 for the coupled model.
 - Illustrative conditional ceiling: `Q ≲ 4.6` under the stated coordinate,
@@ -122,8 +122,8 @@ bias, whatever its profile.
 | Selected model J/γ | Model-run label | CΨ crosses 1/4 in this model? | Interpretation |
 |--------------------|-----------------|-------------------------------|----------------|
 | << 1 | classical | No (overdamped) | selected model run, not a water diagnosis |
-| ~ 1 | **fold** | **Yes (sub-ps)** | selected model run |
-| >> 1 | quantum | Yes (slower) | selected model run |
+| ~ 1 | **fold** | **Yes (rises within 0.2 ps, falls back by 1.32 ps at J = 0.5 meV)** | selected model run |
+| >> 1 | quantum | Yes (rises sooner and higher, falls back later) | selected model run |
 
 ### Two selected coordinates (N=2): a one-molecule model
 
@@ -158,13 +158,20 @@ displayed `J/γ` rows, not the state of water, ice, enzymes, or chemistry.
 
 ### Phase 1: Single-coordinate model
 
-| J (meV) | J/γ | CΨ crossing time | Regime |
+| J (meV) | J/γ | CΨ falls back through 1/4 | Regime |
 |---------|-----|------------------|--------|
 | 0.5 | 0.01 | no crossing | classical |
 | 0.5 | 1.0 | 1.32 ps | fold |
 | 1.0 | 1.0 | 0.66 ps | fold |
 | 5.0 | 1.0 | 0.13 ps | fold |
 | 10.0 | 1.0 | 0.07 ps | fold |
+
+CΨ starts at 0 from `|L⟩`, rises above 1/4, peaks and falls back; the
+table gives the time of the first fall back through 1/4. At `J/γ = 1` it
+rises through 1/4 at 0.19 ps (J = 0.5 meV) and peaks at CΨ = 0.46; at
+`J/γ = 10` it rises sooner (0.17 ps), peaks at CΨ = 0.87 and falls back
+later (1.85 ps), and then crosses 1/4 again several times as the tunnelling
+oscillation decays. Both times scale as 1/J at fixed `J/γ`.
 
 ### Phase 2: One-molecule model (N=2)
 
@@ -182,7 +189,7 @@ neither the 25 meV row below nor a measured rate.
   pair-sum spread of 5.4e-3 s⁻¹ on pair sums of −2Σγ/ℏ = −6.08e12 s⁻¹, a
   relative 8.9e-16: rounding of an exact pairing, not a deviation.
 - Distinct frequencies: 11
-- CΨ crosses 1/4 at **0.46 ps**
+- CΨ falls back through 1/4 at **0.46 ps**
 
 ### Phase 3: Two-molecule hydrogen-bond model (N=4)
 

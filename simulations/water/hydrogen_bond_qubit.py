@@ -222,7 +222,7 @@ for k in range(len(cpsi2) - 1):
         break
 
 print(f"  CΨ(0) = {cpsi2[0]:.4f}")
-print(f"  CΨ crosses 1/4: {'t = ' + f'{t_cross2/1e-12:.2f} ps' if t_cross2 else 'no crossing'}")
+print(f"  CΨ falls back through 1/4: {'t = ' + f'{t_cross2/1e-12:.2f} ps' if t_cross2 else 'no crossing'}")
 
 
 # ================================================================
