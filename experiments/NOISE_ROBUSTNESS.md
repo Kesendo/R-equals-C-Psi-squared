@@ -176,8 +176,15 @@ values: Type B, as the February prediction said.
 
 For Bell+ the bridges' C curves are the same under any single Pauli axis:
 they read the pair's surviving correlation or its
-marginals, and the swap of axes leaves both alone. Ψ is read in the computational basis, which is the Z
-basis, and it sees the axis. The classes combine the two, so they follow the
+marginals, and the swap of axes leaves both alone. In Pauli strings
+the reason is one line. Bell+ is (II + XX − YY + ZZ)/4, the three
+correlators with equal weight, and dephasing along one axis leaves
+exactly one of them, the one along that axis, untouched and damps the
+other two at 4γ alike, so a reading that does not pick a basis cannot
+tell the axes apart. Ψ is read in the computational basis, which is
+the Z basis, and it sees the axis: its l1 is max(|⟨XX⟩|, |⟨YY⟩|), the
+XX and YY correlators, both of which σ_z damps (Ψ = f/3) and only one
+of which σ_x damps (Ψ = 1/3 for all time, §4). The classes combine the two, so they follow the
 noise after all: under a real σ_x every crossing is carried by C alone.
 
 ### 5.2 What We Expected Would Change the Taxonomy
