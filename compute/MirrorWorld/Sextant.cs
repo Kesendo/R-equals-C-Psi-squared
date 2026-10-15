@@ -15,9 +15,12 @@ using static MirrorWorld.LetterCube;
 // where the search finds S_XY times the copies as the only reflections by itself.
 //
 // Its decision has two exact answers and two that are not. WITNESSED: an element of the closure reflects (a yes, exact
-// at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0. OBSTRUCTED: an odd
-// centred trace Tr((L + c/2)^m) is not zero modulo a prime, so no element of any kind, inside the search or outside
-// it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo the two fixed
+// at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0, or every jump is a Pauli
+// letter at a positive rate (F158's hypothesis) and EndCount's verdict is an exact palindrome; there the element can
+// sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
+// X⊗Z⊗(Y − 2X), whose angle the couplings set. OBSTRUCTED: an exact broken EndCount verdict there (F158's necessity),
+// or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no element of any kind, inside the search or
+// outside it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo the two fixed
 // primes and no element of the closure reflects; evidence that the spectrum is symmetric, not a proof (the integers
 // could be multiples of both primes), and even a symmetric spectrum is a pairing, not yet an element (Jordan blocks).
 // DM bonds under loss read so, where F137 proves the pairing by its own route. OPEN: the traces were read below the
@@ -30,7 +33,9 @@ using static MirrorWorld.LetterCube;
 // that L is real in the Pauli basis (it preserves Hermiticity), so its spectrum is closed under conjugation.
 //
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
-// cube's and inherited; its own are the verdict, the search and the decision.
+// cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
+// EndCount (a sibling under the frame, not a parent), so the zone left SYMMETRIC-MOD-P holds mainly jumps outside it,
+// such as loss with DM bonds, and Pauli-letter settings whose end count stays a rank reading.
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations (EndCount.SymmetryElement holds the half-turn composed with one), non-uniform moves beyond what a
@@ -42,6 +47,34 @@ using static MirrorWorld.LetterCube;
 // verdict and its Reading.
 public sealed class Sextant : GameObject
 {
+    // F158's hypothesis on the jumps: every one a Pauli letter at a positive rate. There the end count decides the
+    // palindrome about -sigma, and its exact readings are the sextant's exact answers; a rank reading is not taken.
+    static Decision? EndCountReading(Setting s)
+    {
+        var letters = new List<string>();
+        foreach (var (site, jump, rate) in s.Jumps)
+        {
+            char? letter = "XYZ".Cast<char?>().FirstOrDefault(c => SameMatrix(jump, LetterMatrix(c!.Value)));
+            if (letter is null || rate <= 0) return null;
+            letters.Add(new string(Enumerable.Range(0, s.N).Select(l => l == site ? letter.Value : 'I').ToArray()));
+        }
+        var count = new EndCount(new World(), s.N, s.H.Select(h => (h.Term.ToString(s.N), h.Coefficient)).ToList(), letters);
+        var reading = count.Verdict();
+        if (!EndCount.IsExact(reading)) return null;
+        long c = 2 * s.Jumps.Sum(j => j.Rate);
+        return EndCount.IsPalindrome(reading)
+            ? new Decision(Palindrome.Witnessed, $"F158, the end count: {reading} (c = {c}; no element of the closure reflects, the element sits outside it)")
+            : new Decision(Palindrome.Obstructed, $"F158, the end count: {reading}");
+    }
+
+    static bool SameMatrix(Gauss[,] a, Gauss[,] b)
+    {
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                if (a[i, j] != b[i, j]) return false;
+        return true;
+    }
+
     public Sextant(LetterCube cube) : base(cube) { }
 
     // left: what the sextant itself produces.
@@ -65,6 +98,11 @@ public sealed class Sextant : GameObject
             N = n;
             H = h.ToList();
             Jumps = jumps.ToList();
+            ulong inside = (1UL << n) - 1;
+            foreach (var (term, _) in H)
+                if (((term.X | term.Z) & ~inside) != 0) throw new ArgumentException($"a term of H reaches past site {n - 1}", nameof(h));
+            foreach (var (site, _, _) in Jumps)
+                if (site < 0 || site >= n) throw new ArgumentOutOfRangeException(nameof(jumps), site, $"sites run from 0 to {n - 1}");
             var lh = new Dictionary<(PauliString, PauliString), Gauss>();
             foreach (var s in LetterCube.Strings(n))
                 foreach (var (t, c) in H)
@@ -293,6 +331,8 @@ public sealed class Sextant : GameObject
         var witness = Search(s).FirstOrDefault(f => f.Reading.Verdict is Verdict.Reflection or Verdict.PiReflection);
         if (witness.Map is not null)
             return new Decision(Palindrome.Witnessed, $"{witness.Reading.Verdict}: {witness.Map.Describe()} (c = {witness.Reading.C})");
+        if (EndCountReading(s) is { } ended)
+            return ended;
         int dim = 1 << (2 * s.N);
         int upTo = maxPower ?? (dim <= 256 ? dim : 64);
         var obstruction = OddTraceObstruction(s, upTo);

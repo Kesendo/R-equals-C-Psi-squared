@@ -406,4 +406,62 @@ public class SextantTests
         foreach (int m in new[] { 1, 3, 5 }) Assert.True(OddTrace(thermal, m) == Complex.Zero);
         Assert.Null(Sextant.OddTraceObstruction(thermal, 5));
     }
+
+    // Five palindromes at N = 3 from a random sweep that no element of the one-site closure reflects: Pauli-letter jumps,
+    // so F158 decides them, and EndCount's verdict is exact for each (by an element or by the two lifted counts); the
+    // sextant reports them WITNESSED through it. Where EndCount names no element, a product with a turned letter is one:
+    // X⊗Z⊗(Y − 2X) in the first setting and Z⊗(2X − Y)⊗Z in the third, every factor anticommuting with its site's jumps,
+    // the product commuting with H, its square a nonzero scalar, so it is invertible and lies in F158's far kernel.
+    [Fact]
+    public void Five_Palindromes_Outside_The_Closure_Are_Witnessed_Through_The_End_Count()
+    {
+        var cases = new (string[] Terms, long[] Coeffs, string[] Jumps, long[] Rates)[]
+        {
+            (new[] { "IXZ", "IZX", "IZY", "XZI", "ZXI", "ZYI" }, new[] { 1L, 2, -1, 1, 2, -1 }, new[] { "IYI" }, new[] { 1L }),
+            (new[] { "IYX", "IZY", "IZZ", "YXI", "ZYI", "ZZI" }, new[] { 2L, 2, -2, 2, 2, -2 }, new[] { "XII" }, new[] { 1L }),
+            (new[] { "IXZ", "IYZ", "XZI", "YZI" }, new[] { 2L, -1, 2, -1 }, new[] { "YII", "IIX" }, new[] { 3L, 1 }),
+            (new[] { "IXY", "IXZ", "XYI", "XZI" }, new[] { 2L, 1, 2, 1 }, new[] { "ZII", "YII", "IXI", "IIX" }, new[] { 2L, 3, 2, 1 }),
+            (new[] { "IXY", "IXZ", "IYX", "XYI", "XZI", "YXI" }, new[] { 1L, -1, -2, 1, -1, -2 }, new[] { "XII", "IYI", "IIX" }, new[] { 3L, 3, 1 }),
+        };
+        var counts = new List<EndCount>();
+        foreach (var (t, c, j, r) in cases)
+        {
+            var h = t.Zip(c, (a, b) => (a, b)).ToList();
+            var jumps = j.Zip(r, (s, rate) => { int l = s.IndexOfAny(new[] { 'X', 'Y', 'Z' }); return (l, LetterCube.LetterMatrix(s[l]), rate); });
+            var setting = new Sextant.Setting(3, h.Select(x => (PauliString.Parse(x.a), x.b)), jumps);
+            Assert.DoesNotContain(Sextant.Search(setting), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+            var d = Sextant.Decide(setting);
+            Assert.Equal(Sextant.Palindrome.Witnessed, d.Kind);
+            Assert.StartsWith("F158", d.Detail);
+            var count = new EndCount(new World(), 3, h, j);
+            Assert.True(EndCount.IsExact(count.Verdict()) && EndCount.IsPalindrome(count.Verdict()));
+            counts.Add(count);
+        }
+        foreach (var (index, element) in new[] { (0, new[] { ("XZY", 1L), ("XZX", -2L) }), (2, new[] { ("ZXZ", 2L), ("ZYZ", -1L) }) })
+        {
+            var check = counts[index].CheckElement(element);
+            Assert.True(check.AllLit && check.CommutesWithH);
+            Assert.Equal(new System.Numerics.BigInteger(5), check.SquareScalar);
+        }
+        // the control: a turned letter at the wrong angle is not in the far kernel
+        Assert.False(counts[0].CheckElement(new[] { ("XZY", 1L), ("XZX", 2L) }).CommutesWithH);
+    }
+
+    // The end count's no, and the sites: H = ZZ + XI with X watched on site 0 and Z on site 1 has the ends 2 and 0, so
+    // F158's necessity rules every element out; the same H with the two watchings swapped pairs (the string XY is a
+    // colouring). A dock that read the sites reversed would answer each with the other's verdict.
+    [Fact]
+    public void The_End_Count_Says_No_And_Reads_The_Sites_In_Order()
+    {
+        var h = new[] { (PauliString.Parse("ZZ"), 1L), (PauliString.Parse("XI"), 1L) };
+        var X = LetterCube.LetterMatrix('X'); var Z = LetterCube.LetterMatrix('Z');
+        var broken = Sextant.Decide(new Sextant.Setting(2, h, new[] { (0, X, 1L), (1, Z, 1L) }));
+        Assert.Equal(Sextant.Palindrome.Obstructed, broken.Kind);
+        Assert.StartsWith("F158", broken.Detail);
+        var swapped = Sextant.Decide(new Sextant.Setting(2, h, new[] { (1, X, 1L), (0, Z, 1L) }));
+        Assert.Equal(Sextant.Palindrome.Witnessed, swapped.Kind);
+        var e = new EndCount(new World(), 2, new[] { ("ZZ", 1L), ("XI", 1L) }, new[] { "XI", "IZ" });
+        Assert.Equal((2, 0), e.UpperCounts());
+        Assert.Throws<ArgumentException>(() => new Sextant.Setting(2, new[] { (PauliString.Parse("XXX"), 1L) }, new[] { (0, X, 1L) }));
+    }
 }
