@@ -1,119 +1,51 @@
-<!-- F14-CURRENT -->
-
-CURRENT READING
-
-The stored J=1 |++> purity-target 0.26 sweep reports 61.816% intermediate-rate discrepancy and 58.326% total spread. With isotropic two-qubit coupling and equal local Z-dephasing this swap-symmetric trajectory is Hamiltonian-dead, so the discrepancy is unresolved legacy numerics, not a certified physical reciprocity failure. The separate eigensystems are paired by column without a demonstrated pairing; no cause is assigned here. K_system=N*K_qubit is a uniform-rate arithmetic identity. The stored sacrifice ratio 1.2367 changes K_total. The old summaries below do not certify universal dose, independent absorption, or preserved exposure.
-
-<!-- F14-HISTORICAL -->
-
-Historical record: unregenerated original output follows; its numerical and as-run lines are retained.
-
 ===========================================================================
-K-DOSIMETRY: THE EXPOSURE NUMBER OF QUANTUM MECHANICS
+K-DOSIMETRY: K = gamma*t FOR A HAMILTONIAN-DEAD STATE
 ===========================================================================
+closed form (|+>^N, uniform gamma, any J): K = -(1/4) ln(2 P^(1/N) - 1)
 
-===========================================================================
-STEP 1: K = gamma × t_cross PER INITIAL STATE (N=2)
-===========================================================================
+STEP 1: N=2, |++>, target purity 0.26, gamma sweep (exact propagation)
+closed form K = 0.980469063427
+   gamma        t_cross      K = gamma*t    rel. dev.
+   0.001     980.469063   0.980469063426     3.86e-13
+   0.005     196.093813   0.980469063427     3.03e-14
+   0.010      98.046906   0.980469063427     1.03e-14
+   0.020      49.023453   0.980469063427     2.09e-14
+   0.050      19.609381   0.980469063427     6.11e-15
+   0.100       9.804691   0.980469063427     5.89e-15
+   0.200       4.902345   0.980469063427     4.30e-15
+   0.500       1.960938   0.980469063427     4.64e-15
+   1.000       0.980469   0.980469063427     4.98e-15
+   2.000       0.490235   0.980469063427     4.19e-15
+   5.000       0.196094   0.980469063427     4.98e-15
+largest relative deviation from the closed form: 3.86e-13
 
-gamma = 0.05, target purity = 0.26
-     state  purity_0    t_cross      K=g*t
----------------------------------------------
-     Bell+    1.0000   (not reached)
-     Bell-    1.0000   (not reached)
-      |01>    1.0000   (not reached)
-      |++>    1.0000    19.6601   0.983006
+STEP 2: N=2, gamma=0.05, Bell+ and |01>: purity floor (populations survive)
+ Bell+: purity at t = 50, 200, 800: 0.5000000010, 0.5000000000, 0.5000000000
+  |01>: purity at t = 50, 200, 800: 0.5000222810, 0.5000000000, 0.5000000000
 
-===========================================================================
-STEP 2: RECIPROCITY TEST (K invariant over gamma?)
-===========================================================================
+STEP 3: N=2, |++>, gamma=0.05, purity-target sweep
+  target     K closed      t_cross    K numeric
+   0.900     0.027073     0.541454     0.027073
+   0.750     0.077976     1.559527     0.077976
+   0.500     0.220343     4.406868     0.220343
+   0.400     0.332090     6.641806     0.332090
+   0.300     0.587301    11.746020     0.587301
+   0.270     0.809575    16.191506     0.809575
+   0.260     0.980469    19.609381     0.980469
+   0.255     1.152533    23.050665     1.152533
+   0.251     1.553902    31.078033     1.553902
 
-State: |++>, target purity = 0.26
-     gamma    t_cross      K=g*t     dev%
-------------------------------------------
-     0.001   980.7354   0.980735   0.000%
-     0.005   197.6687   0.988344   0.776%
-     0.010   101.1731   1.011731   3.160%
-     0.020    54.6655   1.093311  11.479%
-     0.050    31.7398   1.586989  61.816%
-     0.100     9.8048   0.980478   0.026%
-     0.200     4.9025   0.980503   0.024%
-     0.500     1.9613   0.980665   0.007%
-     1.000     0.9805   0.980471   0.027%
-     2.000     0.4876   0.975151   0.569%
-     5.000     0.1961   0.980520   0.022%
+STEP 4: N=2..5, |+>^N, gamma=0.05, target 1/2^N + 0.01
+  N    target     K closed    K numeric     K_system
+  2   0.26000     0.980469     0.980469     1.960938
+  3   0.13500     0.912553     0.912553     2.737660
+  4   0.07250     0.818848     0.818848     3.275394
+  5   0.04125     0.715752     0.715752     3.578758
 
-K mean = 1.048991, std = 0.173210, spread = 58.326%
-Reciprocity: FAILS (spread > 1%)
+STEP 5: N=4 edge-concentrator profile, same total sum(gamma) = 0.2, target 1/16 + 0.01
+profile [0.197, 0.001, 0.001, 0.001]
+uniform:   t = 16.376968, K_total = 3.275394
+edge conc.: t = 19.582837, K_total = 3.916567
+K_total ratio (edge concentrator/uniform) = 1.195755
+same profile without coupling (J = 0, closed form): t = 745.3707
 
-===========================================================================
-STEP 3: DOSE-RESPONSE CURVE (K vs CΨ target)
-===========================================================================
-
-State: |++>, gamma = 0.05
-  target    t_cross      K=g*t
---------------------------------
-   0.900     0.5415   0.027073
-   0.750     1.5596   0.077980
-   0.500     4.4069   0.220346
-   0.400     6.6419   0.332093
-   0.300    13.5309   0.676546
-   0.270    18.2925   0.914623
-   0.260    19.8796   0.993982
-   0.255    25.3016   1.265080
-   0.251    32.2449   1.612245
-
-===========================================================================
-STEP 4: MULTI-QUBIT K (N=2..5)
-===========================================================================
-
-N=2: purity_0=1.0000, target=0.2600, t_cross=19.6601
-  K_qubit = gamma × t = 0.983006
-  K_system = Σγ × t = 1.966012
-  K_system / K_qubit = 2.0 (= N = 2)
-
-N=3: purity_0=1.0000, target=0.1350, t_cross=17.8720
-  K_qubit = gamma × t = 0.893599
-  K_system = Σγ × t = 2.680798
-  K_system / K_qubit = 3.0 (= N = 3)
-
-N=4: purity_0=1.0000, target=0.0725, t_cross=18.2626
-  K_qubit = gamma × t = 0.913131
-  K_system = Σγ × t = 3.652523
-  K_system / K_qubit = 4.0 (= N = 4)
-
-N=5: purity_0=1.0000, target=0.0413, t_cross=13.3942
-  K_qubit = gamma × t = 0.669711
-  K_system = Σγ × t = 3.348557
-  K_system / K_qubit = 5.0 (= N = 5)
-
-===========================================================================
-STEP 5: SACRIFICE ZONE DOSE (N=4)
-===========================================================================
-
-N=4, target purity = 0.0725
-  Uniform:  Σγ=0.200, t=18.2626, K_total=3.652523
-  Sacrifice: Σγ=0.200, t=22.5861, K_total=4.517211
-  K_edge (entrance pupil dose) = 4.449452
-  K_total ratio (sacrifice/uniform) = 1.2367
-  Same total dose? NO
-
-===========================================================================
-SUMMARY
-===========================================================================
-
-1. K = gamma × t_cross is state-dependent, parameter-independent.
-   Different initial states need different total doses to crystallize.
-
-2. Reciprocity holds across tested gamma range (within stated spread).
-   Same total dose = same result, regardless of illumination rate.
-
-3. The dose-response curve is the H&D curve of the quantum cavity.
-   It maps total absorbed light to the degree of crystallization.
-
-4. K_system = Σγ × t scales with N. The total system dose is N× the
-   per-qubit dose. Each qubit absorbs its share independently.
-
-5. The sacrifice zone preserves the total dose (K_total) while
-   redirecting it through the entrance pupil. Same total light,
-   better mode selection, better photograph.

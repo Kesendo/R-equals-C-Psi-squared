@@ -48,11 +48,10 @@ below is part of the result. Every displayed coefficient is derived analytically
 The second half treats one continuous case: the ideal N=2 Bell+ trajectory
 under pure Z-dephasing, whose closed form depends on `f=exp(-4γt)`. For that
 fixed state, Hamiltonian action and channel, the dwell interval in `K=γt`
-is exactly γ-independent. This does not make K a universal crossing dose:
-the K-Dosimetry record reports 61.816% (about 62%) as an unresolved legacy
-stored numerical discrepancy, not a physical reciprocity counterexample.
-Its isotropic two-qubit |++> preparation with equal local dephasing remains
-Hamiltonian-dead; see [K-Dosimetry](K_DOSIMETRY.md).
+is exactly γ-independent. This does not make K a universal crossing dose;
+the γ-independence belongs to trajectories the Hamiltonian cannot touch,
+like this one and the |+⟩^⊗N preparation of [K-Dosimetry](K_DOSIMETRY.md),
+whose exposure is exact at every γ.
 
 ---
 
@@ -370,8 +369,8 @@ trajectory. The fixed K-interval follows because its observables depend only
 on `γt`; changing γ at fixed active H generally changes `J/γ`, and for a
 state the Hamiltonian moves the cancellation can then fail. The |++⟩
 preparation of [K-dosimetry](K_DOSIMETRY.md) is not such a state: it stays
-Hamiltonian-dead throughout, and its stored intermediate-rate deviation is a
-numerical discrepancy, not a physical failure of the cancellation.
+Hamiltonian-dead throughout, and its K = −¼·ln(2√P − 1) at purity target P
+holds at every γ.
 
 The later γ₀-as-Maßstab and "tick" readings are interpretations of this
 scale-covariant special case. They do not identify a universal experienced

@@ -1,124 +1,143 @@
-<!-- F14-CURRENT -->
+# K-Dosimetry: the exposure number of a state the Hamiltonian cannot touch
 
-# K-Dosimetry: finite purity-threshold readings and an unresolved discrepancy
-
-**Status:** Unregenerated legacy calculation; the intermediate-rate discrepancy is unresolved.
-**Date:** April 4, 2026.
+**Status:** Closed form for every |+⟩^⊗N row (exact, checked against the full Lindblad propagation); the edge-concentrator row is numerical, on the exact propagator.
+**Date:** April 4, 2026
 **Source:** [k_dosimetry.py](../simulations/k_dosimetry.py),
 [stored output](../simulations/results/k_dosimetry.txt).
 
-The stored J = 1 calculation reports a 61.816% intermediate-rate deviation in
-K = γt for |++⟩ at target purity 0.26. This is a historical numerical
-discrepancy, not a certified physical reciprocity failure. With isotropic
-two-qubit coupling and equal local Z-dephasing the stated swap-symmetric
-preparation remains Hamiltonian-dead throughout its trajectory.
+A photographer trades aperture against shutter time: bright and brief, dim
+and long, the same picture. Film obeys this reciprocity (Bunsen-Roscoe) as
+long as only the product of brightness and time matters. The question here
+is whether K = γt, illumination times time, plays that part for a fading
+quantum state: does the same K bring the state to the same place, whatever
+the rate?
 
-That distinction matters: F14 concerns a fixed readout and a fixed
-dimensionless evolution book. A general fixed-J state can depend on J/γ,
-but this particular symmetric preparation does not supply that counterexample.
-The exact product-trajectory explanation is given in
-[Observer-Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md). The legacy source
-pairs independently computed eigensystems by column without proving their
-correspondence. This repair leaves that reconstruction unchanged and does not
-assign the discrepancy to a diagnosed mechanism.
+For the preparation this experiment uses, |+⟩^⊗N on the isotropic Heisenberg
+chain with the same Z-dephasing rate γ on every site, the answer is yes,
+exactly, at every γ and at every coupling J. The reason is that the
+Hamiltonian never touches the state, and the letter cube says what the
+dephasing then charges.
 
-The target here is **purity 0.26**, not CΨ = ¼. A purity-target time
-must not be relabelled as a scalar quarter crossing or a measurement event.
+## Why the answer is exact
 
-<!-- F14-HISTORICAL -->
+Each one-site state (I + X)/2 is a sum of two Pauli letters. Under
+Z-dephasing (jump √γ·Z, the convention of the script) the letter I sits at
+height 0 and pays nothing, the letter X sits at height 1 and fades as
+g = e^(−2γt). So without the chain the state at time t is
 
-**Historical record:** The following tables retain the finite calculations.
-They are not regenerated in this label repair; the source writes its result
-at module scope and includes larger computations.
+  ρ(t) = ⊗ (I + g·X)/2.
 
-## Preparations at N = 2, γ = 0.05, purity target 0.26
+The chain does not change this. Every Heisenberg bond is XX + YY + ZZ =
+2·SWAP − I, and a product of N identical one-site states commutes with
+every SWAP, so [H, ρ(t)] = 0 along the whole trajectory: the state is
+Hamiltonian-dead, as [Observer-Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md)
+derives for |++⟩ at N = 2;
+every further bond is one more SWAP. With equal rates the one-site states
+stay identical, so it stays dead. The purity is a product of one-site
+purities,
 
-| State | Initial purity | t_cross | K = γ × t |
-|---|---|---|---|
-| \|++⟩ | 1.000 | 19.7 | 0.983 |
-| Bell+ | 1.000 | (not reached) | -- |
-| \|01⟩ | 1.000 | (not reached) | -- |
+  Tr ρ² = ((1 + g²)/2)^N,
 
-The recorded Bell+ and |01⟩ arms did not reach the target. This is a
-finite record, not a general classification of preparations by absorbed dose.
+and the exposure needed to reach a purity target P is
 
-## The reported gamma sweep
+  **K = γt = −¼ · ln(2·P^(1/N) − 1).**
 
-| γ | t_cross | K = γ × t | Deviation |
-|---|---------|-----------|-----------|
-| 0.001 | 980.7 | 0.9807 | 0.00% |
-| 0.01 | 101.2 | 1.0117 | 3.2% |
-| 0.05 | 31.7 | **1.5870** | **61.8%** |
-| 0.10 | 9.80 | 0.9805 | 0.03% |
-| 0.50 | 1.96 | 0.9807 | 0.01% |
-| 1.00 | 0.98 | 0.9805 | 0.03% |
-| 5.00 | 0.20 | 0.9805 | 0.02% |
+J does not appear, and γ enters only through γt. That is reciprocity, exact,
+for this state.
 
-The displayed intermediate deviation is 61.8%, or about 62%; the stored
-six-digit output reports 61.816%. Its overall K spread is 58.326%.
-The sampled extreme-gamma rows cluster near K ≈ 0.98, but neither that
-agreement nor the intermediate discrepancy certifies the legacy propagator.
-The proposed explanation by competing Hamiltonian oscillations does not
-apply to this swap-symmetric trajectory.
+## The γ sweep at N = 2, target purity 0.26
 
-## Purity-target sweep
+K = −¼·ln(2√0.26 − 1) = 0.980469. The full Lindblad propagation (dense
+expm, crossing found by root search) gives the same K at every rate tried:
 
-| Target purity | t_cross | K = γ × t |
+| γ | t_cross | K = γt |
 |---|---|---|
-| 0.900 | 0.54 | 0.027 |
-| 0.750 | 1.56 | 0.078 |
-| 0.500 | 4.41 | 0.220 |
-| 0.400 | 6.64 | 0.332 |
-| 0.300 | 13.5 | 0.677 |
-| 0.260 | 19.9 | 0.994 |
-| 0.255 | 25.3 | 1.265 |
-| 0.251 | 32.2 | 1.612 |
+| 0.001 | 980.47 | 0.980469 |
+| 0.01 | 98.047 | 0.980469 |
+| 0.05 | 19.609 | 0.980469 |
+| 0.1 | 9.8047 | 0.980469 |
+| 0.5 | 1.9609 | 0.980469 |
+| 1.0 | 0.98047 | 0.980469 |
+| 5.0 | 0.19609 | 0.980469 |
 
-These are the reported threshold readings, with distinct targets. Purity 0.25
-is the maximally mixed value for two qubits; it is not interchangeable with
-the algebraic CΨ quarter boundary.
+The largest relative distance from the closed form over the eleven rates the
+script runs (0.001 to 5) is 4·10⁻¹³, at the longest time.
 
-## Uniform-rate bookkeeping across N
+## Bell+ and |01⟩ never get there
 
-| N | K_qubit = γ × t | K_system = Σγ × t | Ratio |
+Both stop at purity ½, and the cube says why. Bell+ is (II + XX − YY + ZZ)/4:
+XX and YY sit at height 2 and fade, II and ZZ sit at height 0 and stay, and
+what stays has purity (1 + 1)/4 = ½. |01⟩ is (II + ZI − IZ − ZZ)/4: the
+chain turns ZI − IZ into the spin current XY − YX, which sits at height 2
+and fades; II − ZZ stays, again purity ½. A target of 0.26 is below what
+the populations keep.
+
+## The purity-target sweep (N = 2, γ = 0.05)
+
+| Target purity | K = γt | t_cross |
+|---|---|---|
+| 0.900 | 0.02707 | 0.541 |
+| 0.750 | 0.07798 | 1.560 |
+| 0.500 | 0.22034 | 4.407 |
+| 0.400 | 0.33209 | 6.642 |
+| 0.300 | 0.58730 | 11.746 |
+| 0.270 | 0.80958 | 16.192 |
+| 0.260 | 0.98047 | 19.609 |
+| 0.255 | 1.15253 | 23.051 |
+| 0.251 | 1.55390 | 31.078 |
+
+This is the film's response curve for this state. Near the floor ¼ (the
+maximally mixed value of two qubits) the last step costs a logarithm: with
+P = ¼ + δ the closed form gives K ≈ −¼·ln(2δ), so each tenfold step
+toward ¼ adds the same ¼·ln 10 ≈ 0.576 to the exposure. Purity ¼ is a
+purity, not the CΨ quarter boundary; the two are different readings.
+
+## Across N (γ = 0.05, target 1/2^N + 0.01)
+
+| N | K_qubit = γt | K_system = Σγ·t |
+|---|---|---|
+| 2 | 0.98047 | 1.96094 |
+| 3 | 0.91255 | 2.73766 |
+| 4 | 0.81885 | 3.27539 |
+| 5 | 0.71575 | 3.57876 |
+
+K_system = Nγt = N·K_qubit is arithmetic for a uniform rate profile, so the
+ratio N says nothing about independent absorption
+([Beer-Lambert](BEER_LAMBERT_BREAKDOWN.md) takes that question up). K_qubit
+falls with N because the target moves with N, not because the sites
+interact: every row is the closed form with that target.
+
+## The edge-concentrator profile (N = 4)
+
+Put almost all of the light on one end, γ = (0.197, 0.001, 0.001, 0.001),
+with the same total Σγ = 0.2 as the uniform γ = 0.05, at J = 1. Now the one-site
+states differ, the product no longer commutes with the chain, and the
+closed form no longer applies. On the exact propagator:
+
+| Profile | Σγ | t_cross | K_total = Σγ·t |
 |---|---|---|---|
-| 2 | 0.983 | 1.966 | 2.0 |
-| 3 | 0.894 | 2.681 | 3.0 |
-| 4 | 0.913 | 3.653 | 4.0 |
-| 5 | 0.670 | 3.349 | 5.0 |
+| Uniform | 0.200 | 16.377 | 3.2754 |
+| Edge concentrator | 0.200 | 19.583 | 3.9166 |
 
-K_system = (Σγ)t = Nγt = N·K_qubit is an arithmetic identity for a
-uniform rate profile. The ratio N cannot demonstrate independent absorption.
-The stated target also changes with N, as 1/d + 0.01.
+The edge concentrator needs 1.196 times the total exposure to reach the same
+purity. The chain is what carries the edge's light to the rest: with the
+coupling switched off the three dim sites would take t ≈ 745 to get there.
+These rows compare total exposure at one purity threshold; they say nothing
+about mode selection or the mutual-information benefit the concentrator was
+built for ([Concentrator Geometry](CONCENTRATOR_GEOMETRY.md)).
 
-## The sacrifice profile
+## What the picture is, and is not
 
-| Profile | Σγ | t_cross | K_total = Σγ × t |
-|---|---|---|---|
-| Uniform | 0.200 | 18.3 | 3.653 |
-| Sacrifice | 0.200 | 22.6 | 4.517 |
+The photographer's image stays a picture: there is no photon absorption
+model and no crystallization event behind these thresholds. What it gets
+right is narrow and exact: for a state the Hamiltonian cannot touch, the
+exposure γt alone decides how far the state has faded. For a state the
+Hamiltonian moves, a γ sweep at fixed J also changes J/γ, and the dose can
+move with it; [Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md)
+holds that negative control.
 
-The stored sacrifice/uniform K_total ratio is 1.2367, about 24% higher.
-These rows change total exposure to the selected threshold; they do not
-demonstrate preserved dose, independent shares, or a cause for an MI benefit.
-The [Beer-Lambert comparison](BEER_LAMBERT_BREAKDOWN.md) is a separate
-coupled-system experiment.
+## Reproduction
 
-<!-- F14-INTERPRETIVE -->
-
-**Interpretive invitation, not a result:** A photographer can trade aperture
-against shutter time. That makes dose an attractive picture for γt: bright
-and brief, dim and long, a scene slowly appearing on film. The tables invited
-us to ask whether a quantum state has a comparable sensitivity or response
-curve. The picture remains worth exploring, but no photon absorption model
-or physical crystallization event is defined by these purity thresholds.
-
-<!-- F14-CURRENT -->
-
-## Reproduction boundary
-
-Read the [stored output](../simulations/results/k_dosimetry.txt) together with
-its current-reading wrapper. The script is syntax-checked only here; its
-legacy numerical reconstruction remains an open diagnostic task.
-The independently specified fixed-J negative control lives in
-[Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md).
+`python simulations/k_dosimetry.py` checks the closed form against the full
+propagation at every row, reads the Bell+ and |01⟩ floors, and runs the
+edge-concentrator profile, in about half a minute.

@@ -59,11 +59,8 @@ Joint optimization of (γ_Z, γ_T1) over all 45 hardware
 observable-Hamiltonian pairs converges to γ_T1 ≈ 0 with γ_Z = 0.143;
 the data does not support adding T1.
 
-The Trotter prediction also recovers the correct hardware sign for all
-Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩), where continuous
-Lindblad predicts the wrong sign. This is independent confirmation that
-the hardware is in the regime where continuous evolution is the wrong
-physics, not a noise-channel correction.
+On the Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩) continuous Lindblad,
+Trotter and hardware agree in sign; Trotter changes the magnitudes.
 
 ## Other discriminating Pauli expectations
 

@@ -1026,9 +1026,9 @@ The boundary between theorem and interpretation is sharp:
 - **Proven:** α = 2γ⟨n_XY⟩ for Z-dephasing, any Hermitian H, real or complex.
   Other Pauli-string jump operators keep the form but change the count
   (n_YZ, n_XZ, or 4γ·n_nonI for depolarizing), per §2.
-- **Observed:** K = γt is a dimensionless exposure coordinate. The
-  [K-Dosimetry](../../experiments/K_DOSIMETRY.md) sweep is reciprocal only in
-  its low- and high-γ regimes and departs by up to 62% at intermediate γ.
+- **Observed:** K = γt works as a dimensionless exposure coordinate (for the
+  Hamiltonian-dead |+⟩^⊗N of [K-Dosimetry](../../experiments/K_DOSIMETRY.md)
+  the reciprocity is exact at every γ).
 - **Interpreted:** γ is illumination, {I,Z} is the lens, the cavity is an optical instrument
 
 ---

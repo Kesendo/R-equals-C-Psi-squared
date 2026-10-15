@@ -1,26 +1,26 @@
 """
-K-Dosimetry: finite legacy purity-threshold readings
-==================================================
-The stored J=1, |++> sweep at target purity 0.26 reports a 61.816%
-intermediate-rate discrepancy in K = gamma*t. This swap-symmetric two-qubit
-trajectory under equal local Z-dephasing is Hamiltonian-dead, so the stored
-spread is an unresolved legacy numerical discrepancy, not a physical F14
-counterexample. The spectral reconstruction pairs separate eigensystems by
-column without establishing their pairing; its cause is not diagnosed here.
-The stored sacrifice dose ratio is 1.2367, not preserved total dose.
-Photography and crystallization are interpretive images, not measured events.
-This module remains a legacy writer: syntax-check only in the label repair.
+K-Dosimetry: the exposure number K = gamma*t of a state the Hamiltonian cannot touch
+===================================================================================
+|+>^N under the isotropic Heisenberg chain with equal Z-dephasing on every site is
+Hamiltonian-dead: rho(t) = ((I + g X)/2)^{(x)N} with g = exp(-2 gamma t), so the purity
+is ((1 + g^2)/2)^N and the time to reach a purity target P is K/gamma with
+
+    K = -(1/4) * ln(2 * P^(1/N) - 1),
+
+at every gamma and every J. This script checks the closed form against the full
+Lindblad propagation (dense expm, root-found crossing), reads the Bell+ and |01>
+floors, and runs the one profile that is not Hamiltonian-dead (the N=4 edge
+concentrator) with the same exact propagator.
 
 Output: simulations/results/k_dosimetry.txt
 """
 
-import numpy as np
+import sys
 from pathlib import Path
-import sys, os
 
-if sys.platform == "win32":
-    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
-    sys.stdout.reconfigure(encoding="utf-8")
+import numpy as np
+from scipy.linalg import expm
+from scipy.optimize import brentq
 
 RESULTS_DIR = Path(__file__).parent / "results"
 J = 1.0
@@ -30,307 +30,142 @@ Xm = np.array([[0, 1], [1, 0]], dtype=complex)
 Ym = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Zm = np.array([[1, 0], [0, -1]], dtype=complex)
 
+
 def kron_chain(ops):
     r = ops[0]
     for o in ops[1:]:
         r = np.kron(r, o)
     return r
 
-def build_liouvillian(N, gammas):
+
+def build_liouvillian(N, gammas, coupling=J):
+    """Row-major vec: L = -i(H(x)I - I(x)H^T) + sum_k D[sqrt(gamma_k) Z_k]."""
     d = 2**N
     Id = np.eye(d, dtype=complex)
     H = np.zeros((d, d), dtype=complex)
     for i in range(N - 1):
-        for P in [Xm, Ym, Zm]:
-            ops = [I2] * N; ops[i] = P; ops[i + 1] = P
-            H += J * kron_chain(ops)
+        for P in (Xm, Ym, Zm):
+            ops = [I2] * N
+            ops[i] = P
+            ops[i + 1] = P
+            H += coupling * kron_chain(ops)
     L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
     for k in range(N):
-        ops = [I2] * N; ops[k] = Zm
+        ops = [I2] * N
+        ops[k] = Zm
         Lk = np.sqrt(gammas[k]) * kron_chain(ops)
         LdL = Lk.conj().T @ Lk
         L += np.kron(Lk, Lk.conj()) - 0.5 * (np.kron(LdL, Id) + np.kron(Id, LdL.T))
     return L
 
-def purity(rho):
-    return np.real(np.trace(rho @ rho))
 
-def find_purity_crossing(N, gammas, rho0, target, t_max=500):
-    """Find time when purity crosses target. Returns (t_cross, rho_cross) or (None, None)."""
-    d = 2**N
-    L = build_liouvillian(N, gammas)
-    eigvals, R = np.linalg.eig(L)
-    _, Lf = np.linalg.eig(L.T)
-    ov = Lf.conj().T @ R
-    for j in range(len(eigvals)):
-        Lf[:, j] /= ov[j, j]
-
-    coeffs = Lf.conj().T @ rho0.ravel()
-
-    # Adaptive time stepping: fine at start, coarser later
-    times = np.concatenate([
-        np.linspace(0.001, 1, 500),
-        np.linspace(1, 10, 200),
-        np.linspace(10, t_max, 200)
-    ])
-
-    prev_p = purity(rho0)
-    for t in times:
-        exp_l = np.exp(eigvals * t)
-        rv = R @ (coeffs * exp_l)
-        rho = rv.reshape(d, d)
-        rho = (rho + rho.conj().T) / 2
-        tr = np.trace(rho).real
-        if tr > 1e-15:
-            rho /= tr
-        p = purity(rho)
-        if prev_p >= target and p < target:
-            # Linear interpolation for better precision
-            alpha = (prev_p - target) / (prev_p - p + 1e-30)
-            t_cross = times[max(0, np.searchsorted(times, t) - 1)] * (1 - alpha) + t * alpha
-            return t_cross, rho
-        prev_p = p
-    return None, None
-
-out = []
-def log(msg=""):
-    print(msg)
-    out.append(msg)
-
-log("=" * 75)
-log("K-DOSIMETRY: FINITE LEGACY PURITY-THRESHOLD READINGS")
-log("=" * 75)
-log()
-
-# ─────────────────────────────────────────────
-# Initial states for N=2
-# ─────────────────────────────────────────────
-
-d2 = 4
-plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
-
-states_n2 = {
-    "Bell+": np.outer([1,0,0,1], [1,0,0,1]) / 2.0,
-    "Bell-": np.outer([1,0,0,-1], [1,0,0,-1]) / 2.0,
-    "|01>": np.outer([0,1,0,0], [0,1,0,0]).astype(complex),
-    "|++>": np.outer(np.kron(plus, plus), np.kron(plus, plus).conj()),
-}
-
-# Fix: proper 4-element state vectors
-psi_bell_p = np.array([1,0,0,1], dtype=complex) / np.sqrt(2)
-psi_bell_m = np.array([1,0,0,-1], dtype=complex) / np.sqrt(2)
-psi_01 = np.array([0,1,0,0], dtype=complex)
-psi_pp = np.kron(plus, plus)
-
-states_n2 = {
-    "Bell+": np.outer(psi_bell_p, psi_bell_p.conj()),
-    "Bell-": np.outer(psi_bell_m, psi_bell_m.conj()),
-    "|01>": np.outer(psi_01, psi_01.conj()),
-    "|++>": np.outer(psi_pp, psi_pp.conj()),
-}
-
-# ─────────────────────────────────────────────
-# Step 1: K per initial state
-# ─────────────────────────────────────────────
-
-log("=" * 75)
-log("STEP 1: K = gamma × t_cross PER INITIAL STATE (N=2)")
-log("=" * 75)
-log()
-
-gamma_ref = 0.05
-target_purity = 0.26  # just above 1/d = 0.25 for d=4
-
-log(f"gamma = {gamma_ref}, target purity = {target_purity}")
-log(f"{'state':>10s} {'purity_0':>9s} {'t_cross':>10s} {'K=g*t':>10s}")
-log("-" * 45)
-
-K_per_state = {}
-for name, rho0 in states_n2.items():
-    p0 = purity(rho0)
-    if p0 <= target_purity:
-        log(f"{name:>10s} {p0:9.4f}   (already below target)")
-        continue
-    t_cross, _ = find_purity_crossing(2, [gamma_ref]*2, rho0, target_purity)
-    if t_cross is not None:
-        K = gamma_ref * t_cross
-        K_per_state[name] = K
-        log(f"{name:>10s} {p0:9.4f} {t_cross:10.4f} {K:10.6f}")
-    else:
-        log(f"{name:>10s} {p0:9.4f}   (not reached)")
-
-log()
-
-# ─────────────────────────────────────────────
-# Step 2: Reciprocity (Bunsen-Roscoe test)
-# ─────────────────────────────────────────────
-
-log("=" * 75)
-log("STEP 2: RECIPROCITY TEST (K invariant over gamma?)")
-log("=" * 75)
-log()
-
-# Use |++> state which reliably crosses
-rho0 = states_n2["|++>"]
-gamma_values = [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0]
-
-log(f"State: |++>, target purity = {target_purity}")
-log(f"{'gamma':>10s} {'t_cross':>10s} {'K=g*t':>10s} {'dev%':>8s}")
-log("-" * 42)
-
-K_values = []
-for gamma in gamma_values:
-    t_cross, _ = find_purity_crossing(2, [gamma]*2, rho0, target_purity, t_max=5000)
-    if t_cross is not None:
-        K = gamma * t_cross
-        K_values.append(K)
-        dev = abs(K - K_values[0]) / K_values[0] * 100 if K_values else 0
-        log(f"{gamma:10.3f} {t_cross:10.4f} {K:10.6f} {dev:7.3f}%")
-    else:
-        log(f"{gamma:10.3f}   (not reached)")
-
-if len(K_values) > 1:
-    K_mean = np.mean(K_values)
-    K_std = np.std(K_values)
-    K_spread = (max(K_values) - min(K_values)) / K_mean * 100
-    log(f"\nK mean = {K_mean:.6f}, std = {K_std:.6f}, spread = {K_spread:.3f}%")
-    log(f"Reciprocity: {'HOLDS' if K_spread < 1.0 else 'FAILS'} (spread {'<' if K_spread < 1 else '>'} 1%)")
-log()
-
-# ─────────────────────────────────────────────
-# Step 3: Dose-response curve
-# ─────────────────────────────────────────────
-
-log("=" * 75)
-log("STEP 3: FINITE K VS PURITY TARGET")
-log("=" * 75)
-log()
-
-gamma_dose = 0.05
-rho0 = states_n2["|++>"]
-
-targets = [0.90, 0.75, 0.50, 0.40, 0.30, 0.27, 0.26, 0.255, 0.251]
-log(f"State: |++>, gamma = {gamma_dose}")
-log(f"{'target':>8s} {'t_cross':>10s} {'K=g*t':>10s}")
-log("-" * 32)
-
-for target in targets:
-    t_cross, _ = find_purity_crossing(2, [gamma_dose]*2, rho0, target, t_max=2000)
-    if t_cross is not None:
-        K = gamma_dose * t_cross
-        log(f"{target:8.3f} {t_cross:10.4f} {K:10.6f}")
-    else:
-        log(f"{target:8.3f}   (asymptotic)")
-
-log()
-
-# ─────────────────────────────────────────────
-# Step 4: Multi-qubit (N=2,3,4,5)
-# ─────────────────────────────────────────────
-
-log("=" * 75)
-log("STEP 4: MULTI-QUBIT K (N=2..5)")
-log("=" * 75)
-log()
-
-gamma_multi = 0.05
-
-for N in range(2, 6):
-    d = 2**N
-    target_n = 1.0/d + 0.01  # just above maximally mixed
-
-    # |+>^N initial state
-    plus_n = plus
+def plus_state(N):
+    p = np.ones(2, dtype=complex) / np.sqrt(2)
+    v = p
     for _ in range(N - 1):
-        plus_n = np.kron(plus_n, plus)
-    rho0_n = np.outer(plus_n, plus_n.conj())
+        v = np.kron(v, p)
+    return np.outer(v, v.conj())
 
-    p0 = purity(rho0_n)
-    sigma_gamma = N * gamma_multi
 
-    t_cross, _ = find_purity_crossing(N, [gamma_multi]*N, rho0_n, target_n, t_max=500)
+def purity_at(L, rho0, t):
+    d = rho0.shape[0]
+    rho = (expm(L * t) @ rho0.ravel()).reshape(d, d)
+    return float(np.real(np.trace(rho @ rho)))
 
-    if t_cross is not None:
-        K_qubit = gamma_multi * t_cross
-        K_system = sigma_gamma * t_cross
-        log(f"N={N}: purity_0={p0:.4f}, target={target_n:.4f}, t_cross={t_cross:.4f}")
-        log(f"  K_qubit = gamma × t = {K_qubit:.6f}")
-        log(f"  K_system = Σγ × t = {K_system:.6f}")
-        log(f"  K_system / K_qubit = {K_system/K_qubit:.1f} (= N = {N})")
-    else:
-        log(f"N={N}: not reached (target={target_n:.4f})")
+
+def crossing_time(L, rho0, target, t_lo, t_hi, n_scan=400):
+    """First time the purity falls below target: scan, then brentq on the bracket."""
+    ts = np.linspace(t_lo, t_hi, n_scan)
+    prev = purity_at(L, rho0, ts[0])
+    for a, b in zip(ts[:-1], ts[1:]):
+        cur = purity_at(L, rho0, b)
+        if prev >= target > cur:
+            return brentq(lambda t: purity_at(L, rho0, t) - target, a, b, xtol=1e-14, rtol=1e-14)
+        prev = cur
+    return None
+
+
+def k_closed(N, target):
+    return -0.25 * np.log(2.0 * target ** (1.0 / N) - 1.0)
+
+
+def main():
+    out = []
+
+    def log(msg=""):
+        print(msg)
+        out.append(msg)
+
+    log("=" * 75)
+    log("K-DOSIMETRY: K = gamma*t FOR A HAMILTONIAN-DEAD STATE")
+    log("=" * 75)
+    log("closed form (|+>^N, uniform gamma, any J): K = -(1/4) ln(2 P^(1/N) - 1)")
     log()
 
-# ─────────────────────────────────────────────
-# Step 5: Sacrifice zone dose
-# ─────────────────────────────────────────────
+    log("STEP 1: N=2, |++>, target purity 0.26, gamma sweep (exact propagation)")
+    target = 0.26
+    K0 = k_closed(2, target)
+    log(f"closed form K = {K0:.12f}")
+    log(f"{'gamma':>8s} {'t_cross':>14s} {'K = gamma*t':>16s} {'rel. dev.':>12s}")
+    rho0 = plus_state(2)
+    worst = 0.0
+    for gamma in [0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0]:
+        L = build_liouvillian(2, [gamma] * 2)
+        t = crossing_time(L, rho0, target, 0.0, 3.0 / gamma)
+        K = gamma * t
+        dev = abs(K - K0) / K0
+        worst = max(worst, dev)
+        log(f"{gamma:8.3f} {t:14.6f} {K:16.12f} {dev:12.2e}")
+    log(f"largest relative deviation from the closed form: {worst:.2e}")
+    log()
 
-log("=" * 75)
-log("STEP 5: SACRIFICE ZONE DOSE (N=4)")
-log("=" * 75)
-log()
+    log("STEP 2: N=2, gamma=0.05, Bell+ and |01>: purity floor (populations survive)")
+    L = build_liouvillian(2, [0.05] * 2)
+    for name, v in [("Bell+", np.array([1, 0, 0, 1]) / np.sqrt(2)), ("|01>", np.array([0, 1, 0, 0]))]:
+        r = np.outer(v, v.conj()).astype(complex)
+        ps = [purity_at(L, r, t) for t in (50.0, 200.0, 800.0)]
+        log(f"{name:>6s}: purity at t = 50, 200, 800: " + ", ".join(f"{p:.10f}" for p in ps))
+    log()
 
-N = 4
-d = 2**N
-EPS = 0.001
-gamma_base = 0.05
-target_sz = 1.0/d + 0.01
+    log("STEP 3: N=2, |++>, gamma=0.05, purity-target sweep")
+    log(f"{'target':>8s} {'K closed':>12s} {'t_cross':>12s} {'K numeric':>12s}")
+    L = build_liouvillian(2, [0.05] * 2)
+    for tg in [0.90, 0.75, 0.50, 0.40, 0.30, 0.27, 0.26, 0.255, 0.251]:
+        t = crossing_time(L, rho0, tg, 0.0, 40.0)
+        log(f"{tg:8.3f} {k_closed(2, tg):12.6f} {t:12.6f} {0.05 * t:12.6f}")
+    log()
 
-plus_4 = plus
-for _ in range(N - 1):
-    plus_4 = np.kron(plus_4, plus)
-rho0_4 = np.outer(plus_4, plus_4.conj())
+    log("STEP 4: N=2..5, |+>^N, gamma=0.05, target 1/2^N + 0.01")
+    log(f"{'N':>3s} {'target':>9s} {'K closed':>12s} {'K numeric':>12s} {'K_system':>12s}")
+    t_uniform4 = None
+    for N in range(2, 6):
+        tg = 1.0 / 2**N + 0.01
+        L = build_liouvillian(N, [0.05] * N)
+        t = crossing_time(L, plus_state(N), tg, 0.0, 40.0, n_scan=160)
+        if N == 4:
+            t_uniform4 = t
+        log(f"{N:3d} {tg:9.5f} {k_closed(N, tg):12.6f} {0.05 * t:12.6f} {N * 0.05 * t:12.6f}")
+    log()
 
-# Uniform
-gammas_u = [gamma_base] * N
-sigma_u = sum(gammas_u)
-t_u, _ = find_purity_crossing(N, gammas_u, rho0_4, target_sz)
+    log("STEP 5: N=4 edge-concentrator profile, same total sum(gamma) = 0.2, target 1/16 + 0.01")
+    eps = 0.001
+    gs = [4 * 0.05 - 3 * eps] + [eps] * 3
+    tg = 1.0 / 16 + 0.01
+    L = build_liouvillian(4, gs)
+    t_s = crossing_time(L, plus_state(4), tg, 0.0, 40.0, n_scan=160)
+    t_free = brentq(lambda t: (1 + np.exp(-4 * gs[0] * t)) / 2 * ((1 + np.exp(-4 * eps * t)) / 2) ** 3 - tg, 1.0, 5000.0)
+    log(f"profile {gs}")
+    log(f"uniform:   t = {t_uniform4:.6f}, K_total = {0.2 * t_uniform4:.6f}")
+    log(f"edge conc.: t = {t_s:.6f}, K_total = {0.2 * t_s:.6f}")
+    log(f"K_total ratio (edge concentrator/uniform) = {t_s / t_uniform4:.6f}")
+    log(f"same profile without coupling (J = 0, closed form): t = {t_free:.4f}")
+    log()
 
-# Sacrifice
-g_edge = N * gamma_base - (N - 1) * EPS
-gammas_s = [g_edge] + [EPS] * (N - 1)
-sigma_s = sum(gammas_s)
-t_s, _ = find_purity_crossing(N, gammas_s, rho0_4, target_sz)
+    RESULTS_DIR.mkdir(exist_ok=True)
+    (RESULTS_DIR / "k_dosimetry.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 
-log(f"N={N}, target purity = {target_sz:.4f}")
-if t_u and t_s:
-    K_total_u = sigma_u * t_u
-    K_total_s = sigma_s * t_s
-    K_edge = g_edge * t_s
-    log(f"  Uniform:  Σγ={sigma_u:.3f}, t={t_u:.4f}, K_total={K_total_u:.6f}")
-    log(f"  Sacrifice: Σγ={sigma_s:.3f}, t={t_s:.4f}, K_total={K_total_s:.6f}")
-    log(f"  K_edge (entrance pupil dose) = {K_edge:.6f}")
-    log(f"  K_total ratio (sacrifice/uniform) = {K_total_s/K_total_u:.4f}")
-    log(f"  Same total dose? {'YES' if abs(K_total_s/K_total_u - 1) < 0.05 else 'NO'}")
-else:
-    log("  Crossing not reached")
 
-log()
-
-# ─────────────────────────────────────────────
-# Summary
-# ─────────────────────────────────────────────
-
-log("=" * 75)
-log("SUMMARY")
-log("=" * 75)
-log()
-log("1. These are finite J=1, stated-preparation and purity-target readings.")
-log("   They do not establish parameter-independent absorbed dose.")
-log()
-log("2. The stored sweep reports 61.816% deviation at intermediate gamma.")
-log("   Its Hamiltonian-dead |++> trajectory makes this a legacy numerical discrepancy.")
-log()
-log("3. The table varies a purity threshold in the stated calculation.")
-log("   The photography/dose image remains interpretation.")
-log()
-log("4. K_system = N*K_qubit is arithmetic for a uniform gamma profile.")
-log("   This identity does not demonstrate independently absorbed shares.")
-log()
-log("5. The stored sacrifice/uniform K_total ratio is 1.2367.")
-log("   Those finite rows change the total dose; they do not prove preservation.")
-
-out_path = RESULTS_DIR / "k_dosimetry.txt"
-with open(out_path, 'w', encoding='utf-8') as f:
-    f.write('\n'.join(out))
-print(f"\n>>> Results saved to: {out_path}")
+if __name__ == "__main__":
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8")
+    main()

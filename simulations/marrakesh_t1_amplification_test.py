@@ -34,11 +34,9 @@ has systematic bias that points outward in operator space (toward stronger
 soft-break magnitude), not inward. The 'amplification' Tom observed is a Trotter discretization artifact
 of the circuit, not a noise channel effect.
 
-Note on Y-axis sign flip: continuous Lindblad predicts ⟨Y₀Z₂⟩_truly = -0.408
-(via Heisenberg dynamics), Trotter n=3 predicts +0.439, hardware +0.583.
-Trotter recovers the correct hardware sign for all Y-containing observables.
-This is independent confirmation that the hardware is in the Trotter regime
-where continuous evolution is the wrong physics.
+Signs: continuous Lindblad, Trotter n=3 and hardware agree in sign on every
+Y-containing observable (e.g. truly ⟨Y₀Z₂⟩ = +0.354, +0.381, +0.583); Trotter
+changes the magnitudes.
 """
 from __future__ import annotations
 
@@ -81,8 +79,10 @@ def _setup():
     return hw, N, J, t, n_trot, bonds, rho0, cases
 
 
-def vec_F(M): return M.flatten("F")
-def unvec_F(v, d): return v.reshape((d, d), order="F")
+# framework.lindblad builds L row-major (vec(AXB) = kron(A, Bᵀ) vec(X)), so the
+# vectorisation is row-major too; column-major here would evolve ρ(t)ᵀ.
+def vec_F(M): return M.flatten()
+def unvec_F(v, d): return v.reshape((d, d))
 
 
 def predict_continuous(case_terms, N, bonds, rho0, t, gamma_z, gamma_t1):
@@ -198,7 +198,8 @@ def main():
     res = minimize(lambda x: total_rms(max(x[0], 0), max(x[1], 0)),
                    x0=[0.1, 0.05], method="Nelder-Mead",
                    options={"xatol": 1e-3, "fatol": 1e-4})
-    g_opt, gt1_opt = res.x
+    # the objective clips both rates at 0, so report the clipped values
+    g_opt, gt1_opt = max(res.x[0], 0.0), max(res.x[1], 0.0)
     print(f"  optimal γ_Z   = {g_opt:.4f}")
     print(f"  optimal γ_T1  = {gt1_opt:.6f}")
     print(f"  total RMS     = {res.fun:.4f}")
@@ -230,4 +231,6 @@ def main():
 
 
 if __name__ == "__main__":
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8")
     main()

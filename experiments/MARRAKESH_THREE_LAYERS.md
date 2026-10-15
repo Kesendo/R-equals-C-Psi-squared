@@ -78,23 +78,23 @@ Each of the 16 two-qubit Pauli expectations on (q₀, q₂) lands in one of 7 ca
 
 | # | Category | Count | Examples (idealized) | Hardware confirms |
 |---|----------|-------|----------------------|-------------------|
-| A | **truly only** ≠ 0 | 2 | ⟨Y₀Z₂⟩, ⟨Z₀Y₂⟩ ≈ −0.35 | yes (category); sign opposite, +0.58 and +0.19, as Trotter predicts (below) |
+| A | **truly only** ≠ 0 | 2 | ⟨Y₀Z₂⟩, ⟨Z₀Y₂⟩ ≈ +0.35 | yes (+0.58, +0.19) |
 | B | **truly = soft, hard = 0** | 2 | ⟨Y₀Y₂⟩ +0.52, ⟨Z₀Z₂⟩ +0.23 | yes |
 | C | **soft signature** (truly = 0 = hard) | 2 | ⟨Z₀I₂⟩ −0.28, ⟨Z₀X₂⟩ −0.62 | yes |
-| D | **hard signature** (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ −0.56, ⟨X₀Y₂⟩ −0.47 | yes (category); sign opposite, +0.47 and +0.36, as Trotter predicts (below) |
+| D | **hard signature** (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ +0.56, ⟨X₀Y₂⟩ +0.47 | yes (+0.47, +0.36) |
 | E | **all three differ** (truly = 0, soft and hard non-zero, opposite sign) | 2 | ⟨I₀Z₂⟩, **⟨X₀Z₂⟩** | yes |
 | F | **truly = soft preserved, hard differs** | 3 | ⟨I₀X₂⟩, ⟨X₀I₂⟩, ⟨X₀X₂⟩ | yes |
 | G | **always trivial** (= 0 or = 1) | 3 | ⟨I₀I₂⟩=1, ⟨Y₀I₂⟩=⟨Y₀X₂⟩=0 by initial-state symmetry | yes |
 
-**16 = 2 + 2 + 2 + 2 + 2 + 3 + 3.** Each category has a structural reason:
+**16 = 2 + 2 + 2 + 2 + 2 + 3 + 3.** Which expectations vanish follows from one symmetry per Hamiltonian, each read off a single letter. Each holds for the continuous evolution and for the Trotter circuit alike, since every gate keeps it and so does the Z-dephasing:
 
-- **Category A** (truly only) holds the Heisenberg-Y-Z correlations that XX+YY naturally generates from |+,−,+⟩. Both soft (XY+YX) and hard (XX+XY) destroy them: soft because its eigenvector pairing is broken in the right way to suppress the YZ-class observables; hard because the parity mix kills them.
+- **truly** (XX + YY) commutes with X^⊗3, Z-dephasing respects X^⊗3, and |+,−,+⟩ is an X^⊗3 eigenstate, so ρ(t) stays X^⊗3-symmetric. ⟨P₀P₂⟩ = 0 whenever the string anticommutes with X^⊗3, that is, carries an odd number of Y and Z letters: the Π²-odd strings of Layer 1's bit_b ([the bit-b parity symmetry](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), odd k_X in the [letter cube](../docs/THE_ONE_SQUARE.md): IY, IZ, XY, XZ, YI, YX, ZI, ZX.
+- **soft** (XY + YX) is purely imaginary, so the evolution keeps the real ρ₀ real (each Trotter gate exp(−iδt·XY) is a real matrix). ⟨P₀P₂⟩ = 0 whenever the string carries an odd number of Y letters, the Y-parity that `fw.y_parity_panel` reads: IY, XY, YI, YX, YZ, ZY.
+- **hard** (XX + XY) puts only X on site 0 in every term, so X₀ commutes with H; Z-dephasing respects X₀, and |+⟩ on site 0 is an X₀ eigenstate. ⟨P₀P₂⟩ = 0 whenever P₀ is Y or Z: YI, YX, YY, YZ, ZI, ZX, ZY, ZZ.
 
-- **Category C** is the *direct* F87 signature: observables that vanish for truly (Π palindrome holds) and for hard (XY's Π²-odd contribution doesn't reach Z₀X₂ from the |+,−,+⟩ initial state without YX as a partner), but light up for soft (XY+YX has both partners).
+These are symmetries of the state and the generator together, not of M: truly, whose M vanishes, has a zero set of its own. The three zero sets are the categories. A (YZ, ZY) is zero for soft and hard, B (YY, ZZ) for hard only, C (ZI, ZX) for truly and hard, D (IY, XY) for truly and soft, E (IZ, XZ) for truly only, F (IX, XI, XX) for none, and G is the identity plus the two strings (YI, YX) zero for all three. In the simulation these zeros are exact (|value| ≤ 2·10⁻¹⁶, continuous and Trotter) and every other entry is at least 0.039 in magnitude; on hardware the predicted zeros read at most 0.022 for truly, 0.098 for soft and 0.062 for hard. The equality truly = soft in B and F comes from one more single-site symmetry. The middle-site Clifford V = (X + Y)/√2 exchanges X and Y and sends Z to −Z, so it maps XX + YY onto XY + YX bond by bond and leaves the Z-dephasing and every site-0/2 observable unchanged; it changes only the middle site's initial state, from |−⟩ to a Y eigenstate, and on the five strings of B and F the soft evolution gives the same value from either middle state, continuous and Trotter alike. The continuous evolution keeps the equality exactly at every γ and t tried. The Trotter circuit keeps it only on IX and XI; on XX (0.0401 against 0.0397), YY (0.323 against 0.453) and ZZ (0.489 against 0.199) it does not, since V turns truly's gate order into a different order of the same soft terms.
 
-- **Category D** is hard's exclusive: observables that need the parity-mixing structure of XX+XY to be generated. Soft cannot create them.
-
-- **Category E** is the *trichotomy resolver*: observables where all three classes give meaningfully different values. The hardware's flagship ⟨X₀Z₂⟩ lives here:
+**Category E** is the *trichotomy resolver*: observables where all three classes give meaningfully different values. The hardware's flagship ⟨X₀Z₂⟩ lives here:
 
   | | continuous | Trotter n=3 | hardware |
   |---|---|---|---|
@@ -153,7 +153,7 @@ Trotter matches hardware to **0.0014**, well below the 0.015 shot-noise statisti
 
 ```
 optimal γ_Z   = 0.143
-optimal γ_T1  = 0.0001 (≈ 0)
+optimal γ_T1  = 0 (at the clip; the rates are bounded below by 0)
 total RMS     = 0.0805
 ```
 
@@ -161,7 +161,7 @@ The data does not support adding T1 at all.
 
 **Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.76, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t) that points outward in the \|X₀Z₂\| direction by ≈ +0.10. Trotter is the *circuit's actual physics*, not a noise channel.
 
-**Independent confirmation from sign structure:** continuous Lindblad predicts the WRONG SIGN for all Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩); Trotter recovers the correct hardware sign. This is not a noise correction; it is a regime correction.
+**The signs agree.** Continuous evolution, Trotter and hardware give the same sign on every Y-containing observable (truly ⟨Y₀Z₂⟩ +0.354, +0.381, +0.583; hard ⟨I₀Y₂⟩ +0.563, +0.520, +0.467); what Trotter changes is the magnitudes.
 
 ---
 
@@ -191,7 +191,7 @@ Even with optimal Trotter + γ_Z = 0.143 + no T1, residual RMS ≈ 0.08 remains 
 
 1. **⟨Y₀Z₂⟩ ≠ ⟨Z₀Y₂⟩ on hardware** (+0.583 vs +0.187 for truly). Framework F71 chain-mirror predicts equality; hardware breaks F71 by 3×. **Mechanism**: per-qubit T1/T2 differences and bond-asymmetric ZZ-crosstalk on the Marrakesh path [48, 49, 50] break the spatial chain mirror. The framework's Π is diagonal (parity); F71 (spatial reflection q₀ ↔ q₂) is a separate symmetry that real hardware respects only approximately.
 
-2. **⟨Y₀Y₂⟩ and ⟨Z₀Z₂⟩ truly off** (predicted +0.61, +0.46 vs hardware +0.47, +0.16). These correlation observables are sensitive to gate-level CR phase calibration, which drifted slightly during the run.
+2. **⟨Y₀Y₂⟩ and ⟨Z₀Z₂⟩ truly off** (Trotter at the fitted γ_Z = 0.143 gives +0.29, +0.46 against hardware +0.47, +0.16). These correlation observables are sensitive to gate-level CR phase calibration, which drifted slightly during the run.
 
 Neither is a framework-level signature; both are hardware-instrument signatures readable via the framework. The cockpit's 5-symmetry diagnostic suite (Π², Z⊗N, Y-parity, K, F71) is exactly the right tool to *isolate* such hardware-specific asymmetries.
 
@@ -219,6 +219,6 @@ The `framework/` package now operates on all three layers plus the d=0 cross-rea
 - `fw.predict_M_spectrum_pi2_odd(chain, terms, c)` for Layer 2 (framework primitive, commit `e30eeb6`)
 - `chain.cockpit_panel(receiver, terms, gamma_t1)` for Layer 3 trichotomy classification + Π-protected drop count
 - `fw.sector_populations(rho_or_psi, N)` for the d=0 cross-reading (one Pauli basis suffices)
-- For the 16-Pauli signature pattern itself, the right primitive does not yet exist; this synthesis surfaces the recurring question.
+- For the 16-Pauli zero pattern, the three one-letter symmetries of Layer 3: Π² parity and `fw.y_parity_panel` carry two of them, and the X₀ conservation of the hard case has no primitive yet
 
 For the original raw data and the corrected interpretation, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the philosophical framing of soft-break as super-operator signature, see [On the Soft Break](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [On the Shape of the Gap](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).

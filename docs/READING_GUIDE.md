@@ -612,12 +612,11 @@ explains what previously required separate derivations.
    toward the fold.
 
 5. [K-Dosimetry](../experiments/K_DOSIMETRY.md):
-   K = γ×t is the exposure number. At the sampled extremes of γ, K
-   clusters near 0.98. At intermediate γ one sweep jumps by 62%, on a
-   state the Hamiltonian cannot touch, where no jump can be physical: a
-   numerical discrepancy still unresolved.
-   The sacrifice profile needs about 24% more total dose to reach the
-   same threshold.
+   K = γ×t is the exposure number. For |+⟩^⊗N, a state the Hamiltonian
+   cannot touch, it is exact at every γ: each X letter pays its height,
+   and K = −¼·ln(2P^(1/N) − 1) at purity target P (0.980469 at N = 2,
+   P = 0.26). The edge concentrator, whose state the chain does move, needs
+   1.196 times the total exposure to reach the same threshold.
 
 6. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md):
    The Absorption Theorem on IBM hardware, read retrospectively on a
@@ -809,11 +808,13 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    change of variables) and which are still open.
 
 4. [K-Dosimetry](../experiments/K_DOSIMETRY.md) (shared with Story 6):
-   Crossing the fold costs a fixed dose, as long as state, readout and
-   dynamics are held fixed. For a Bell pair the Hamiltonian cannot
-   touch, K = γ·t is exact: double the illumination, halve the time,
-   and runs at different rates become comparable. Where the Hamiltonian does act, a γ sweep at fixed
-   coupling also changes their ratio, and the dose moves with it.
+   For a state the Hamiltonian cannot touch, fading costs a fixed dose:
+   |+⟩^⊗N reaches each purity at the same K = γ·t at every rate, so
+   double the illumination, halve the time, and runs at different rates
+   become comparable. The Bell pair's dwell at the fold in
+   [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
+   is a trajectory of the same kind. Where the Hamiltonian does act, a γ sweep at fixed
+   coupling also changes J/γ, and the dose moves with it.
 
 5. [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md):
    Where a single excitation goes once it has forgotten where it

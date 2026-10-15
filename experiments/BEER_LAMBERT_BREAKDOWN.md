@@ -214,8 +214,8 @@ The three regimes of J/γ summarize when this picture applies:
 - **K_system/K_qubit = N is trivially exact.** This holds for any γ
   profile because K_system = Σγ · t and K_qubit = γ_mean · t, so the
   ratio just equals Σγ/γ_mean. It says nothing about Beer-Lambert.
-  The original K-Dosimetry Result 4 was correct but misleadingly
-  interpreted as evidence for independent absorption.
+  K-Dosimetry's K_system = N·K_qubit row is correct and is no
+  evidence for independent absorption.
 
 - **Perfect 1/N sharing not achieved at finite N.** The chain geometry
   (edge vs interior neighbors) introduces ~10-15% deviations from

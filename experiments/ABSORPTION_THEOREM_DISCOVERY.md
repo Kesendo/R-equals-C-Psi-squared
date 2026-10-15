@@ -258,8 +258,9 @@ The Lindblad equation is **first-order in time**: dρ/dt = L(ρ).
 Eigenvalues determine exponential decay: e^{λt}.
 The dimensionless exposure coordinate is K = γt (first power of γ).
 It is invariant under a uniform rescaling of the whole generator and time;
-varying γ at fixed H changes J/γ, and K-Dosimetry finds reciprocity failure in
-its intermediate-γ regime.
+varying γ at fixed H changes J/γ, which can matter for any state the
+Hamiltonian moves; K-Dosimetry's |+⟩^⊗N is one it does not move, and there K
+is exact at every γ.
 
 In relativity, the interval is `ds²=c²dt²-dx²`; in the Lindblad model,
 `K=γt` is a dimensionless time coordinate. Placing them side by side is an
