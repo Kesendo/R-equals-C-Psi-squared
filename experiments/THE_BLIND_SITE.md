@@ -131,7 +131,7 @@ object from a subspace inside one sector. `J_BLIND_RECEIVER_CLASSES.md` (lines
 L_D[ρ_0] = 0 … (ii) ρ_0 is a simultaneous eigenstate of every bond Hamiltonian",
 with the explicit warning that "(i) alone is NOT sufficient".
 
-`GAMMA_CONTROL.md:31` points the other way for its own observable and is
+`GAMMA_CONTROL.md` (Abstract) points the other way for its own observable and is
 confronted in §7. `SYMMETRY_CENSUS.md:101` reports one steady state per sector
 and "no … dark states", reconciled in §6. `RESONANT_RETURN.md` falsifies
 spatially symmetric **γ profiles**, a different lever from the symmetric
@@ -757,13 +757,12 @@ state outside them decays. What these spaces mean for a single population curve 
 
 `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` measures site 5 at 15.57 % response and
 reads the node structure as one its own observable cannot see, a scoping that
-page carries on the strength of this section. `GAMMA_CONTROL.md:31` says
-"the mediator's own noise always harms; it merely harms least". Both stand and
-this page corrects neither, because both measure a **different preparation**: a
-Bell-on-vacuum state living in popcount {0, 2}. The measurements stand
-untouched; one reading does not, and `GAMMA_CONTROL.md:31`'s "always" is
-corrected in scope below by a counterexample on a preparation that page did not
-run.
+page carries on the strength of this section. `GAMMA_CONTROL.md` (Abstract)
+says "the mediator's own noise harms on every preparation and rate swept here;
+it merely harms least". Both stand and this page corrects neither, because both
+measure a **different preparation**: a Bell-on-vacuum state living in popcount
+{0, 2}. The measurements stand untouched, and the reach of that clause ends at
+the counterexample below, on a preparation that page did not run.
 
 The rank alone would not settle that. In the popcount-2 sector the blind
 dimension at N = 11 is 0 at every one of the eleven seats, but that rank covers
@@ -902,9 +901,10 @@ the seat every A-to-B path crosses blocks the transport, and the preparation
 keeps more of the maximal I(A:B) it started with. The repo names this class
 already (`docs/GLOSSARY.md` on ENAQT, `D06_SPECTRAL_GAP`,
 `PROOF_ABSORPTION_THEOREM`). Stated rather than hidden: this is a
-counterexample, **on this preparation**, to `GAMMA_CONTROL.md:31`'s "the
-mediator's own noise always harms; it merely harms least", which was measured on
-another.
+counterexample, **on this preparation**, to carrying the clause of
+`GAMMA_CONTROL.md` (Abstract), "the mediator's own noise harms on every
+preparation and rate swept here; it merely harms least", past the preparations
+it was measured on.
 
 **The percentages are a window, the ratio is the law.** Unlike the committed
 peak, which that page reports as window-converged at 15.566 % for t_max = 20, 40
@@ -1056,7 +1056,7 @@ generalised from two measured cases.
 | **the §7 sweep on a blind preparation, gated against the committed eleven rows** | this page |
 | **the like-for-like contrast under one functional, 7.635 % against 0.0809 %** | this page |
 | **the residual as a cancellation of both signs rather than a leak size** | this page |
-| **the sign flip as a counterexample, on this preparation, to `GAMMA_CONTROL.md:31`'s "always"** | this page |
+| **the sign flip as a counterexample, on this preparation, to carrying `GAMMA_CONTROL.md`'s mediator-noise clause past its preparations** | this page |
 
 ## 11. Open
 

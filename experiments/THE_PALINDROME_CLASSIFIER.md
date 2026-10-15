@@ -118,12 +118,12 @@ under Z-dephasing at N=4, with the certifier's reason where it certifies:
 | Heisenberg | XX+YY+ZZ | truly | RoutingKBody |
 | XXZ (Δ=0.5) | XX+YY+0.5·ZZ | truly | RoutingKBody |
 | Ising coupling | ZZ | truly | RoutingKBody |
-| Dzyaloshinskii-Moriya | XY+YX | soft | ExcitationPairing |
+| symmetric off-diagonal (Γ) exchange | XY+YX | soft | ExcitationPairing |
 | transverse field | X | truly | ExcitationParity |
 | longitudinal field | Z | **hard** | (none: spectral only) |
 | frustrated 3-body | XXX+XXY+YXX | **hard** | (none) |
 
-The protection is generic. The exchange models, the magnets, the antisymmetric coupling, the transverse
+The protection is generic. The exchange models, the magnets, the off-diagonal coupling, the transverse
 field, all of them keep the mirror. They are not special cases hand-picked to work; they are where most of
 the usual physics lives. The classifier draws an island, a broad protected interior holding the standard
 models, and only two of the rows fall off it: the longitudinal (Z) field, and frustration. Those two are the

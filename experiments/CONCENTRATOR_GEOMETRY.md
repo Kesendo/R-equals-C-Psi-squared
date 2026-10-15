@@ -219,7 +219,7 @@ The lens method emerged after three failed optimization approaches (slow-band we
 
 ## Files from this investigation
 
-**Lens Pipeline (C#, N=2-6 survey, April 10):**
+**Lens Pipeline (C#, N=2-7 survey, April 10):**
 - `compute/RCPsiSquared.Compute/LensAnalysis.cs`
 - `simulations/results/lens_survey/lens_survey_results.json`
 - `simulations/results/lens_survey/lens_survey_summary.txt`

@@ -119,9 +119,10 @@ The computed average is approximately 0.93 rather than 1. The palindromic
 pairing constrains rate sums (= 2Σγ), but does not fix this exponential
 transform of the rate differences.
 
-The exponential average is below 1 because the rate distribution is
-concentrated near Σγ (most pairs have small Δd), with a few outliers
-at large Δd that contribute little to the exponential average.
+The exponential average is below 1 by construction: Δd = d_fast − d_slow ≥ 0
+for every pair, so each term exp(−Δd) ≤ 1, with equality only at Δd = 0. It
+stays close to 1 because the rate distribution is concentrated near Σγ (most
+pairs have small Δd).
 
 ---
 

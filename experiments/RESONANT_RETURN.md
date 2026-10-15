@@ -481,9 +481,9 @@ exist in this repository, both telling the same story from different angles.
 | Mode | sigma | Pattern | Role |
 |------|-------|---------|------|
 | 1 | 6.28 | [0.42, 0.46, 0.46, 0.46, 0.42] | Mean - 7.7× strongest, zero transport |
-| 2 | 0.82 | [0.47, -0.06, -0.74, -0.06, 0.47] | Edge-hot, center-cold - transport |
+| 2 | 0.82 | [0.47, -0.06, -0.74, -0.06, 0.47] | Edge-hot, center-cold: SumMI, symmetric (no directional transport) |
 
-### Why Mode 1 is useless and Mode 2 carries all transport
+### Why Mode 1 is useless and Jacobian Mode 2 carries all transport
 
 Mode 1 is the "volume knob": it raises or lowers all gamma values together.
 It has the highest gain by far (21.4 in the Jacobian, 6.28 in the response
@@ -491,21 +491,24 @@ matrix), but it creates no spatial contrast. Uniform noise produces uniform
 decoherence. Every qubit pair sees the same environment. SumMI from a
 uniform profile = 0 (confirmed at N=5 through N=13, see formula scaling).
 
-Mode 2 is the "contrast knob": it pushes noise toward the edges and away
-from the center (or vice versa). This breaks left-right symmetry and creates
-a gradient in decoherence rates across the chain. Adjacent pairs now see
-different environments, which generates mutual information.
+Mode 2 is the "contrast knob". In the response matrix it pushes noise
+toward the edges and away from the center (or vice versa); in the Jacobian
+it is a left-right gradient. Either way it creates a gradient in
+decoherence rates across the chain. Adjacent pairs now see different
+environments, which generates mutual information.
 
-Modes 2, 4, 5 are antisymmetric (odd under spatial reflection).
-Modes 1, 3 are symmetric (even under spatial reflection).
+The two bases sort by reflection parity differently. In the Jacobian,
+modes 2 and 5 are antisymmetric (odd under spatial reflection) and modes
+1, 3, 4 are symmetric; in the response matrix, modes 1, 2, 3 are symmetric
+and modes 4, 5 antisymmetric (`resonant_return_v2.txt`).
 Only the antisymmetric modes create directional transport.
 
-### The formula as constrained optimization on Mode 2
+### The formula as constrained optimization on Jacobian Mode 2
 
 The physical constraint is fixed mean gamma (noise budget):
 mean(gamma_k) = gamma_base = 0.05. This fixes Mode 1.
 
-The optimization problem: maximize Mode 2 projection (transport)
+The optimization problem: maximize Jacobian Mode 2 projection (transport)
 subject to Mode 1 = const (budget) and gamma_k >= epsilon >= 0.
 
 The solution is a delta function at the boundary (a "spike": all the
@@ -584,11 +587,10 @@ was tested as three configurations at N=7:
 | Dual full [0.344, 0.001x5, 0.344] | 0.319 | 0.011 | 1.00 | 78% |
 | Dual half [0.172, 0.001x5, 0.172] | 0.177 | 0.008 | 1.00 | 43% |
 
-The dual wall profile is spatially symmetric. Its projection onto all
-antisymmetric modes (2, 4, 5) is exactly zero. Only symmetric modes
-(1, 3) survive. Mode 3 creates local MI at both edges but carries no
-directional transport - confirmed by PeakMI collapsing to 30% while
-SumMI falls only to 78%.
+The dual wall profile is spatially symmetric. Its projection onto every
+antisymmetric mode is exactly zero; only symmetric modes survive, which
+create local MI at both edges but carry no directional transport. PeakMI
+collapsing to 30% while SumMI falls only to 78% confirms it.
 
 At equal noise budget (dual half), two walls achieve only 43% of one wall.
 Even with double the budget (dual full), they reach only 78%. The
@@ -641,11 +643,11 @@ different optimal architectures. There is no compromise profile.
 ### Summary: formula derivation in five steps
 
 1. Mode 1 (uniform) is the budget constraint: mean gamma = gamma_base.
-2. Transport requires antisymmetric modes (2, 4, 5).
+2. Transport requires antisymmetric modes (Jacobian modes 2, 5).
 3. Maximizing antisymmetric projection under budget constraint = delta
    function at one edge.
 4. Edge beats interior because edge qubits have one neighbor (minimal
-   correlation destruction) and maximal Mode 2 projection.
+   correlation destruction) and maximal Jacobian Mode 2 projection.
 5. Symmetric profiles (two walls, uniform) zero out all transport modes.
 
 The formula gamma_edge = N * gamma_base - (N-1) * epsilon follows

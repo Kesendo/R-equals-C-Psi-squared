@@ -23,8 +23,9 @@ discrete oscillation frequencies determined by energy-level differences)
 appear and existing ones shift. The detection threshold is J_SC ~ 0.1 (10% of J_SA)
 under the current FFT protocol (t_max=20, dt=0.005). Fingerprints are
 generically distinct for different coupling configurations. The two-sector
-frequency structure survives in chains (tested up to 5 qubits) and is
-completely immune to correlated noise, though bath geometry selects which
+frequency structure survives in chains (tested up to 5 qubits), and
+correlated noise moves its frequencies only far below the FFT resolution
+(about 230 times below one bin), though bath geometry selects which
 amplitude sector dominates. IBM hardware investigation (Q80, Q102 on Torino)
 traced apparent phase anomalies to qubit-specific detuning (19.4 kHz for
 Q102), not the sonar effect. The sonar mechanism is verified in simulation
@@ -150,7 +151,7 @@ does not leave the frequencies where they were.
 survives at both extremes (pure ZZ AND pure XX). Mixing breaks it.
 
 **Result: GPT's prediction #1 confirmed.** Bath geometry is a sector
-selector. Frequencies never move. But the bath chooses which channel
+selector. Frequencies move only far below the FFT resolution. But the bath chooses which channel
 is louder. The phase map needs a fifth role:
 
 1. Topology sets frequencies

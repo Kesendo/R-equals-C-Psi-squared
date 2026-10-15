@@ -90,17 +90,13 @@ discriminating window is early, t·γ ≲ 1, or a coupling-constant (spectroscop
 ## What this gives the hardware feeler
 
 The measurable face of F130 is now derived: **the absence of the q² beat between two
-equal-level triple coherences, with the q² beat intact on a detuned control**. What remains
-undone before any IBM design: the lifts live in Liouville space (a 2-excitation ket against
-a 1-excitation bra), and no committed source yet maps w_τ to a PREPARABLE state and its
-readout; that mapping is the next design step, and the flight question only exists after it.
-
-**Resolved 2026-07-15 (same repository, design stage, no QPU):** the mapping question was
-taken to its budget and the beat protocol is NOT flyable; even an everywhere-optimistic
-amplitude bound sits ~2 orders below the discrimination bar. Verdict + numbers:
-[F130_HW_INFEASIBILITY.md](F130_HW_INFEASIBILITY.md). What flies instead is F129's
-collision as a first-order standing Ramsey fringe:
-[IBM_F129_RAMSEY_FRINGE.md](IBM_F129_RAMSEY_FRINGE.md) (design draft).
+equal-level triple coherences, with the q² beat intact on a detuned control**. The lifts live
+in Liouville space (a 2-excitation ket against a 1-excitation bra), and mapping w_τ to a
+PREPARABLE state and its readout, taken to its budget at design stage, shows the beat
+protocol is NOT flyable: even an everywhere-optimistic amplitude bound sits ~2 orders below
+the discrimination bar. Verdict + numbers: [F130_HW_INFEASIBILITY.md](F130_HW_INFEASIBILITY.md).
+What flies instead is F129's collision as a first-order standing Ramsey fringe:
+[IBM_F129_RAMSEY_FRINGE.md](IBM_F129_RAMSEY_FRINGE.md) (flown, standing fringe confirmed).
 
 ## What is NOT claimed
 
@@ -111,7 +107,7 @@ collision as a first-order standing Ramsey fringe:
   is an observation with a parity suspect; no derivation of the q⁴ coefficient is offered.
 - **Float grade.** numpy linear algebra at 605 dimensions; the exactness of F130 itself
   lives in the cited proofs and the exact C# witness (`inspect --root crosstriple`).
-- **No claim about preparability.** The Liouville-space lift is not yet a hardware state.
+- **No claim about preparability.** The Liouville-space lift is not a hardware state ([F130_HW_INFEASIBILITY](F130_HW_INFEASIBILITY.md)).
 
 ## Links
 

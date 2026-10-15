@@ -20,7 +20,7 @@ decomposes by XY-weight sector (w = total number of X or Y operators across all 
 
 1. **Extreme-sector immunity (Π-fixed).** The (w=0, w=N) sectors satisfy (*) **exactly, for every two-body Hamiltonian H**, regardless of whether H respects or violates either Z₂ parity. This is an algebraic consequence of Π's action, not of H's form.
 
-2. **Boundary-sector locality (H-fixed).** Sectors with 0 < w < N satisfy (*) iff H contains only bit_b-parity-preserving terms. The break, when present, is confined to these boundary sectors and scales discretely with the parity-violating Hamiltonian content.
+2. **Boundary-sector locality (H-fixed).** Sectors with 0 < w < N satisfy (*) when every term of H is truly (an even number of Y and an even number of Z, F85/F87); every term tested here that breaks is bit_b-odd. bit_b parity alone (an even Y + Z count) does not suffice: YZ is bit_b-even and still breaks (*), as does XX + YZ (not run here; by F85/F87 a term is truly iff its Y count and its Z count are both even, and the anchor table of [OPERATOR_RIGIDITY_ACROSS_CUSP](OPERATOR_RIGIDITY_ACROSS_CUSP.md) gives YZ a nonzero residual class). The break, when present, is confined to these boundary sectors and scales discretely with the non-truly Hamiltonian content.
 
 The V-Effect "14 of 36 mode-pairs break, 22 remain palindromic" reading is now structurally located: **all** breaking lives in 0 < w < N. The extreme sectors w=0 (all I, Z) and w=N (all X, Y) are off limits to any 2-body parity-violating perturbation.
 
@@ -79,21 +79,21 @@ The palindrome-relation (*) splits into two independent facts:
 - Π pairs these two extreme behaviors exactly.
 - Any 2-body Hamiltonian's commutator action on (w=0, w=N) preserves the palindromic structure between these two sectors, because both sectors have uniform bit_a (all 0 or all 1 per site), so commutator outputs respect the Π-image of inputs.
 
-**(II) Boundary-sector dependence.** Sectors with 0 < w < N have Pauli strings with mixed bit_a per site. Within these, the Hamiltonian's freedom to mix bit_b parities directly controls whether Π·L·Π⁻¹ matches −L − 2Σγ·I.
+**(II) Boundary-sector dependence.** Sectors with 0 < w < N have Pauli strings with mixed bit_a per site. Within these, whether every term is truly (even Y count, even Z count) controls whether Π·L·Π⁻¹ matches −L − 2Σγ·I.
 
-If H respects bit_b parity (every term has even total Y+Z count), then [H, ρ] also preserves bit_b, and Π's action commutes with the dynamics → palindrome holds.
+If every term of H is truly (even Y count and even Z count), Π's action is compatible with the dynamics → palindrome holds. Even total Y+Z alone (bit_b parity) is not enough: YZ breaks (*).
 
 If H violates bit_b parity (terms with odd total Y+Z, e.g., XY which has 1 Y), then [H, ρ] mixes bit_b sectors, and Π's action gives different results on the mixed pieces → palindrome breaks.
 
-The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) scales with the sector size and the strength of the parity-violating term.
+The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) scales with the sector size and the strength of the non-truly term.
 
 ## Why this matters
 
 **For V-Effect:** The "14 of 36 mode-pairs break" finding is now spatially located. The breaking is not distributed across all modes; it is **strictly confined to boundary sectors**. The boundary sectors are "where chemistry happens" in HIERARCHY_OF_INCOMPLETENESS terms (orphaned valence modes, the carbon-like incomplete shells). The extreme sectors are the inert cores.
 
-**For Heisenberg-form selection:** The C²⊗C² parity argument from PRIMORDIAL_QUBIT says Heisenberg is the unique both-parity-even 2-body bilinear. This finding adds: **Heisenberg is the unique form that preserves the boundary-sector palindrome through V-Effect transitions**. Other 2-body coupling forms (XY, ZX, etc.) couple sites but introduce parity-violations that break boundary-sector palindromes. Heisenberg is the only form that makes inter-level coupling possible without breaking the inheritance.
+**For Heisenberg-form selection:** The C²⊗C² parity argument from PRIMORDIAL_QUBIT says Heisenberg is the unique both-parity-even 2-body bilinear. This finding does not single Heisenberg out by itself: **every truly coupling (even Y and even Z count per term) preserves the boundary-sector palindrome through V-Effect transitions**, Heisenberg, XX + YY and XX + ZZ alike (Tests 1, 2, 4 in the tables above). Coupling forms with non-truly terms (XY, ZX, and also the bit_b-even YZ) couple sites but break boundary-sector palindromes.
 
-**For inheritance up the level stack:** When V-Effect bridges Level 0 to Level 1, the algebra that gets transferred is the algebra of the boundary sectors. If the bridge respects parity (Heisenberg-form), the inheritance is clean. If it doesn't, the bridge breaks the boundary palindrome and that level becomes algebraically inconsistent with the next one above. This is the structural reason why Heisenberg coupling is the form that propagates: it is the only form that does not damage what it inherits.
+**For inheritance up the level stack:** When V-Effect bridges Level 0 to Level 1, the algebra that gets transferred is the algebra of the boundary sectors. If the bridge is truly (Heisenberg, XX + YY, XX + ZZ), the inheritance is clean. If it is not, the bridge breaks the boundary palindrome and that level becomes algebraically inconsistent with the next one above. This is the structural reason why truly coupling is the form that propagates: it does not damage what it inherits.
 
 ## What this does and does not establish
 
@@ -101,7 +101,7 @@ The **break magnitude** (8.0 at N=3, 11.314 ≈ 8√2 and 16.0 = 8·2 at N=4) sc
 
 - The (w=0, w=N) sectors are immune to palindromic-relation breakdown for any 2-body Hamiltonian. Verified at N=3 and N=4 to machine precision (10⁻¹⁵).
 - The break, when present, is confined exactly to 0 < w < N and is discrete in magnitude, not continuous.
-- The break occurs if and only if H contains bit_b-parity-violating terms (Tests 3 and 5 break; Tests 1, 2, 4 do not).
+- The break occurs if and only if H contains a non-truly term (Tests 3 and 5 break; Tests 1, 2, 4 do not); among the tested Hamiltonians every non-truly term is bit_b-odd; the bit_b-even YZ is not in this document's tests, but it is non-truly by F85/F87 and breaks as well.
 - The Π-pairing structure (w ↔ N−w) is respected: the off-diagonal blocks follow the same break logic as the diagonal.
 
 **Does not establish:**

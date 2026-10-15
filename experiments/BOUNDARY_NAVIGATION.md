@@ -419,7 +419,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Mandelbrot Connection](MANDELBROT_CONNECTION.md): algebraic equivalence R = CΨ² ↔ z² + c
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md): Type A/B/C classification at the boundary
 - [Theta-Palindrome-Echo](THETA_PALINDROME_ECHO.md): θ as channel quality indicator (r = 0.87)
-- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): θ always decreases under Markovian dynamics
+- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): θ decreases for Bell+ under the named Z, Pauli and amplitude-damping channels; local Markovian dynamics in general can raise it
 - [IBM Run 3](IBM_RUN3_PALINDROME.md): hardware validation of the crossing at 1.9%
 - [Mathematical Connections](../docs/MATHEMATICAL_CONNECTIONS.md): fold catastrophe, Feigenbaum cascade
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic channel that makes CΨ readable

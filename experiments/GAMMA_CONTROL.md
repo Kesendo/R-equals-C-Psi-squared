@@ -28,8 +28,8 @@ partial concentration worth +6%. The March headline of "+124% from the
 V-shape" compared arms with different Σγ (0.13 against 0.25) and so
 measured mostly the budget, and its conclusion that gate noise HELPS is
 refuted by the one-factor controls, including two rows the March run
-computed and never reported: the mediator's own noise always harms; it
-merely harms least, because sensitivity to noise falls from the chain ends
+computed and never reported: the mediator's own noise harms on every
+preparation and rate swept here; it merely harms least, because sensitivity to noise falls from the chain ends
 toward the centre. Dynamical decoupling follows the same positional law,
 the two ends equally first, the centre last. AC modulation of the gate and
 state-dependent feedback both fail. The March "time-resolved decoder"
@@ -39,10 +39,12 @@ small, and the readable form of that fact is the full channel analysis
 ([γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits capacity at 1% readout
 noise, 100% classification noiseless).
 
-**Scope on "always harms", added 2026-08-23.** That clause is measured on the
-preparations swept here, and it turns out to be preparation-dependent rather than
-general. The counterexample is on a **different system**, so read it as a limit
-on the word "always" and not as a correction of any number on this page:
+**Scope of the mediator-noise clause.** The clause above, that the mediator's
+own noise harms on every preparation and rate swept here, is measured on those
+preparations, and the sign turns out to be preparation-dependent rather than
+general. The counterexample is on a **different system**, so read it as showing
+the clause does not carry over to other preparations, not as a correction of any
+number on this page:
 [The Blind Site](THE_BLIND_SITE.md) §7 runs an **eleven**-site chain (not the
 five-site one used here), observes I(A:B) between five-site halves (not the
 end-pair MI used here), and prepares a reflection-odd single excitation, for
@@ -58,7 +60,7 @@ background of 0.05, this page's own baseline, the crossover needs γ_M between 5
 and 20, which is one to two decades above anything swept here; at a background of
 0.2, which is above this page's range, γ_M = 0.5 already helps by 0.024 %. So the
 counterexample does not reach into the rates this page measured and no number
-above changes. What it limits is the word **always**: the sign of the mediator's
+above changes. What it shows is that the clause does not carry over to other preparations: the sign of the mediator's
 own noise is a fact about the prepared state and the rate, not about the seat.
 
 ---
@@ -86,7 +88,8 @@ every seat tried, and the chain centre is by far the cheapest seat. The
 two levers cross, so neither is "the dominant" one: all of 0.25 on the
 centre beats uniform 0.13 at nearly twice the budget (0.747 vs 0.709 at
 t = 5.0, +16.7% on the trajectory integrated over t = 0-10). The mediator's
-own noise still harms, always and monotonically; concentration at the
+own noise still harms, monotonically, across the rates swept here (the
+scope note above); concentration at the
 centre wins because sensitivity to noise falls from the ends toward the
 centre, so the centre is where each unavoidable unit does the least
 damage. The March version of this page instead concluded that gate noise

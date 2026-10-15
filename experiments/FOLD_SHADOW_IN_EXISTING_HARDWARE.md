@@ -4,7 +4,7 @@
 
 ## What this means
 
-Before spending scarce QPU budget on a new run, we asked a simple question: is the thing we want to measure already sitting in data we have? For the fold/price law (F89d) the answer is *almost*. The law's own shape has left a fingerprint in an orphaned hardware run that no document or registry ever indexed, and a second, cleaner fingerprint in a mirror-partner run. But both are shadows: the first is broken by the device noise floor, the second is a single snapshot. The clean law cannot be read off either. So the pre-registered `price_pair` run is genuinely needed, and this note is the honest record of the shadows so they are not lost again.
+Before spending scarce QPU budget on a new run, we asked a simple question: is the thing we want to measure already sitting in data we have? For the fold/price law (F89d) the answer is *almost*. The law's own shape has left a fingerprint in an orphaned hardware run that no document or registry indexed before this note, and a second, cleaner fingerprint in a mirror-partner run. But both are shadows: the first is broken by the device noise floor, the second is a single snapshot. The clean law cannot be read off either. So it needed its own run, the pre-registered `price_pair` campaign, which flew on ibm_marrakesh on 2026-07-04 (Confirmations entry `price_pair_locality_marrakesh_july2026`, [PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md)), and this note is the honest record of the shadows so they are not lost again.
 
 ## The question (the corollary gate)
 
@@ -22,12 +22,12 @@ No existing run measures what the law needs, namely complementary pattern envelo
 
 ## The shadow: block_cpsi_ladder (the orphan run)
 
-One run carries the fold's own representation, and no document, experiment writeup, or registry ever mentions it (a `grep` for `block_cpsi_ladder` across all tracked `.py`/`.md`/`.cs` returns zero hits).
+One run carries the fold's own representation, an orphan run that no experiment writeup or registry indexed before this note.
 
-In the block-CΨ ladder a coherence |a⟩⟨b| has disagreement k = popcount(a⊕b); its bitwise complement has N−k. So the Hamming channels k and N−k **are** the fold pair D ↔ D̄, and the price law becomes rate(k) + rate(N−k) = rate(N) = 4γN, i.e. the linear ladder rate(k) = 4γk.
+In the block-CΨ ladder a coherence |a⟩⟨b| has disagreement k = popcount(a⊕b); its bitwise complement has N−k. So the Hamming channels k and N−k **are** the fold pair D ↔ D̄, and the price law becomes rate(k) + rate(N−k) = rate(N) = 4γN. The linear ladder rate(k) = 4γk (each disagreeing site pays its own 4γ on |ρ|²) satisfies it but says more: the fold fixes only the pair sum, the ladder fixes each rung, and the ratio test below reads the ladder.
 
 - **Simulation (N=5, γ = 0.005/µs):** the law holds exactly. `rung_fits` gives rate(k) = {0.0200, 0.0600, 0.1000} for k = {1, 3, 5}, all R² = 1.0, `checks.all = true`. rate(k) = 4γk to the digit, and rate(5) = 4γ·5 = 0.100 is the price.
-- **Hardware (N=4, ibm_kingston q12-15, idle, n_trotter=1):** the complementary pair k=1 and k=3 (= N−1) is present, but the fold is **broken**. Fitted rate(hd=1) = 0.0565/µs (R² = 0.96), rate(hd=3) = 0.0766/µs (R² = 0.81), so **rate(hd=3)/rate(hd=1) = 1.36**, where the linear law demands 3.0. The reason is visible in the raw channel amplitudes:
+- **Hardware (N=4, ibm_kingston q12-15, idle, n_trotter=1):** the complementary pair k=1 and k=3 (= N−1) is present, but the ladder is **broken**. Fitted rate(hd=1) = 0.0565/µs (R² = 0.96), rate(hd=3) = 0.0766/µs (R² = 0.81), so **rate(hd=3)/rate(hd=1) = 1.36**, where the linear ladder demands 3.0 (the fold alone fixes only the sum rate(1) + rate(3) = rate(4), which needs the k = N channel as well). The reason is visible in the raw channel amplitudes:
 
 | t (µs) | hd=1 | hd=3 |
 | --- | --- | --- |
@@ -46,7 +46,7 @@ In `zn_mirror_ibm_marrakesh_20260429_102824.json` (N=3, J=1, t=0.8, ibm_marrakes
 
 ## Conclusion
 
-The fold is peeking through existing hardware, in the complementary Hamming channels of an orphan idle run and in a mirror-odd correlator, exactly where the structure predicts. But neither is a measurement of the law: the first is broken by the noise floor (ratio 1.36 vs 3.0), the second is a single snapshot. The clean, low-γ, readout-mitigated, pattern-resolved test remains genuinely necessary, and the shadows are evidence it would succeed. See `PRICE_PAIR_HARDWARE_PREDICTION.md`.
+The fold is peeking through existing hardware, in the complementary Hamming channels of an orphan idle run and in a mirror-odd correlator, exactly where the structure predicts. But neither is a measurement of the law: the first is broken by the noise floor (ladder ratio 1.36 vs 3.0), the second is a single snapshot. The clean, low-γ, readout-mitigated, pattern-resolved test is the `price_pair` campaign, flown on ibm_marrakesh (Confirmations entry `price_pair_locality_marrakesh_july2026`). See `PRICE_PAIR_HARDWARE_PREDICTION.md`.
 
 ## Provenance
 

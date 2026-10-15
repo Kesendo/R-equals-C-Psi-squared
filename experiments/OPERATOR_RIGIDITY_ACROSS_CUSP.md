@@ -150,9 +150,9 @@ The **(N − 1) · 4^(N − 2)** structure of the main-class formula is
 exactly bond count (N − 1 bonds in a chain with N sites) times the
 operator-space extension factor (4^(N − 2) for one extra Liouvillian-d²
 factor per added qubit beyond the bond's 2 native sites). The constant
-c_H absorbs the per-Hamiltonian per-bond contribution including any
-adjacent-bond cross-terms; empirically c_H is a clean integer multiple
-of 16 = d²(N=2) (e.g., 64 for IX+IY, 128 for XX+YZ, 192 for XY+YZ).
+c_H is the per-Hamiltonian per-bond contribution, a sum over terms with
+no cross-terms (F85, `predict_residual_norm_squared_from_terms`), and an
+integer multiple of 16 = d²(N=2) (e.g., 64 for IX+IY, 128 for XX+YZ, 192 for XY+YZ).
 
 The **(2N − 3) = (N − 1) + (N − 2)** structure of the single-body
 formula is bond count plus interior-site count. Single-body bilinears
@@ -248,14 +248,15 @@ deforms states; the cusp does not see operator-class membership at all.
 
 ## Open follow-ups
 
-1. **Per-Hamiltonian c_H structure.** The anchor c_H = ‖M(2)‖² is an
-   integer multiple of 16 = d²(N=2) for every tested Hamiltonian, with
-   integer coefficients in {4, 8, 12} for our sample. What combinatorial
-   feature of the Pauli-pair (Π-symmetric vs. -antisymmetric letter
-   counts, BPE membership, bit_a/bit_b parities) determines the
-   coefficient? A closed form for c_H would upgrade the absolute
-   formula from "anchor + scaling" to fully predictive without any
-   N=2 measurement.
+1. ~~Per-Hamiltonian c_H structure.~~ **Closed.** The anchor c_H = ‖M(2)‖² has a
+   closed form, registry [F85](../docs/ANALYTICAL_FORMULAS.md) (proof:
+   [PROOF_F85_KBODY_GENERALIZATION](../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md);
+   `fw.predict_residual_norm_squared_from_terms`): each term contributes
+   4·c·‖H_k‖²_F·2^N with c = 0 for a truly term (#Y and #Z both even),
+   1 for a Π²-odd term, 2 for a Π²-even non-truly term, so at N = 2 each
+   unit-coefficient term gives 64·c. That reproduces every anchor in the
+   table: IX+IY 0 + 64, XY+YZ 64 + 128, XX+YZ 0 + 128, IY+YI and IZ+ZI
+   64 + 64. The absolute formula is predictive without any N=2 measurement.
 
 2. ~~Topology dependence.~~ **Closed.** Verified at chain, ring, star,
    and K_N for N=4, 5: only B(G) and D2(G) appear. No higher graph

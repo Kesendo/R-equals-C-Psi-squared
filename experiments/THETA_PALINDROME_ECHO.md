@@ -160,7 +160,10 @@ purity-coherence product to cross the bifurcation boundary.
 
 The gap: max CPsi_SB = 0.168, gap to 1/4 = 0.082.
 
-Echo timing confirmed: period = 0.790, matching pi/(4J) = 0.785.
+Echo timing: the first two SB concurrence peaks sit at t = 0.240 and 1.030, 0.790
+apart, but this spacing is not a period: the next peaks follow at 2.080 and 4.180. The
+initial state occupies only the energies {−4, 0, 2}J, so ρ(t) carries the Bohr
+frequencies {2, 4, 6}J and nothing at the period π/(4J) = 0.785.
 
 ### Channel scenario: window exists for coherent inputs!
 

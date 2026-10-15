@@ -57,7 +57,7 @@ a longer-lived best mode). Two things keep it from being the coating. It
 matches impedance by linear accumulation instead of the geometric mean of
 classical optics. And it does not hold the resonance frequencies fixed, which
 a coating does. Any NON-uniform profile moves them, this one included, by an
-amount that is small up to N=7 and larger than a linewidth above it.
+amount that is small up to N=7 and larger than a half-width above it.
 
 ---
 
@@ -177,7 +177,7 @@ N=3,4,5. That is small: at N=5 the ω = 0 level acquires a frequency of 0.029
 against a decay rate of 0.094, a quality factor of 0.3, so it does not
 complete a radian of phase before it is gone. But the ratio keeps climbing,
 crosses 1 at **N=8** (1.115) and reaches 2.73 at N=12. Above N=7 the shift is
-larger than the level's own linewidth, which is the scale at which a
+larger than the level's own half-width, which is the scale at which a
 resonance has moved in any sense a measurement could see. The concentrator's
 own working range in this repository runs to N=15.
 
@@ -235,10 +235,10 @@ improves the coupling between outside and inside.
   not quantitative.
 
 - **The resonances are not held fixed either**, which a coating would do.
-  They move (Result 3), by less than a linewidth in the range measured, and
-  by an amount that follows the profile's unevenness. This is a fence on the
-  analogy rather than a property of the concentrator: uniform dephasing moves
-  them harder.
+  They move (Result 3), by less than a half-width up to N=7 and by more from
+  N=8 on, and by an amount that follows the profile's unevenness. This is a
+  fence on the analogy rather than a property of the concentrator: uniform
+  dephasing moves them by a comparable amount.
 
 - **The gain is in the best mode, not the typical one.** T_eff and Q_max rise
   at every N, but the *median* Q falls at N=3, 4 and 6. The concentrator buys

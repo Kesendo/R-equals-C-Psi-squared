@@ -39,7 +39,7 @@ N=5, uniform γ = 0.1. Full 1024×1024 Liouvillian at each ε (sector restrictio
 
 The slow mode leaks out of the SE sector as ε increases, but remains identifiable (tracking overlap > 0.38 up to ε = 1.0). The rate increases gradually (the mode decays faster when sectors mix).
 
-### Bell-pair dependence emerges linearly
+### Bell-pair dependence emerges quadratically
 
 | ε | Bell(0,1) | Bell(1,2) | Bell(2,3) | Spread |
 |---|-----------|-----------|-----------|--------|
@@ -49,17 +49,17 @@ The slow mode leaks out of the SE sector as ε increases, but remains identifiab
 | 0.05 | 0.0895 | 0.1255 | 0.0890 | 3.7e-02 |
 | 0.1 | 0.0677 | 0.1105 | 0.0667 | 4.4e-02 |
 
-At ε = 0: spread is exactly zero (proven in EQ-001). At ε > 0: the central Bell pair (1,2) consistently gives higher c_slow than the edge pairs. The spread grows **linearly** in ε (log-log slope = 0.95 ≈ 1).
+At ε = 0: spread is exactly zero (proven in EQ-001). At ε > 0: the central Bell pair (1,2) consistently gives higher c_slow than the edge pairs. At small ε the spread grows **quadratically**: the log-log slope over ε = 0.001, 0.005, 0.01, 0.02 (the raw data's finer grid) is 2.19, each step between 2.08 and 2.26. Past that the spread peaks near ε = 0.1 and falls again (0.0077 at ε = 1.0), so a single fit over the whole range, which gives 0.95, is not a power law.
 
 ---
 
 ## Interpretation
 
-The decoupling between Bell-pair coherence and slow-mode coupling at ε = 0 is a **sharp boundary**, not a soft threshold. Any nonzero transverse field, no matter how small, creates measurable Bell-pair dependence. The coupling grows linearly in the breaking strength.
+The decoupling between Bell-pair coherence and slow-mode coupling at ε = 0 is a **sharp boundary**, not a soft threshold. Any nonzero transverse field, no matter how small, creates measurable Bell-pair dependence. The coupling grows quadratically in the breaking strength at small ε.
 
 The mechanism: at ε > 0, the transverse field X_k mixes excitation sectors (|0⟩ ↔ |1⟩ flips). The Liouvillian is no longer block-diagonal. The slow mode acquires cross-sector content, and the Bell pair's (w=1, w=3) coherence becomes visible to it. The central Bell pair (1,2) couples more strongly because it sits where the slow mode's spatial profile peaks (center of the chain for uniform γ).
 
-The linear scaling means: to first order in ε, the coupling is proportional to ε. There is no quadratic suppression, no threshold effect. The U(1) conservation is a knife edge.
+The quadratic scaling means: the spread has no first-order term in ε, so small breaking is suppressed, but there is no threshold: any nonzero ε gives a nonzero spread. The U(1) conservation is a knife edge.
 
 ---
 
@@ -72,4 +72,4 @@ The linear scaling means: to first order in ε, the coupling is proportional to 
 
 ---
 
-*April 13, 2026. U(1) conservation is a knife edge: any transverse field creates Bell-pair coupling, linearly in ε.*
+*April 13, 2026. U(1) conservation is a knife edge: any transverse field creates Bell-pair coupling, quadratically in ε at small ε.*

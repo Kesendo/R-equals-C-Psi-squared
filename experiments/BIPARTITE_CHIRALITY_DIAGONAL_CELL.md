@@ -7,10 +7,12 @@ is also swept through N=8. The direction **bipartite ⟹ soft is derived**
 (the chiral K, modulo the F80 one-sidedness M = −2i(H⊗I), itself bit-exact). The converse
 splits by support: **at full support (k=N) it closes** , a Mixed+Mixed pair has only two flip
 generators, so it is always bipartite, hence soft (modulo M), which settles F111's blocked
-"Mixed+Mixed = soft" , while the **windowed regime (k<N)** is reduced to a validated first-order statement (the degenerate
-D̂-block set-asymmetry, c=0 ⟺ bipartite, bit-exact; moment route ruled out), the set-level proof
-still open. **[UPDATE: since closed 2026-06-10]** the windowed converse non-bipartite ⟹ hard is now a theorem with no residual, typed `WindowedConverseAllGammaClaim` (Tier1Derived) via the Phase-B two-reflection / Pascal-Gram positivity (F117); see the 2026-06-08 typed split in the body below and [the F103 proof §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
-**Date:** 2026-05-30 (top-Status windowed-converse line updated 2026-07-02: since closed, no residual)
+"Mixed+Mixed = soft" , and the **windowed regime (k<N)** closes as well: the windowed converse
+non-bipartite ⟹ hard is a theorem with no residual, typed `WindowedConverseAllGammaClaim` (Tier1Derived),
+through the first-order reduction (the degenerate D̂-block set-asymmetry, c=0 ⟺ bipartite, bit-exact) and the
+Phase-B two-reflection / Pascal-Gram positivity at the first nonvanishing odd moment (F117); see the typed
+split in the body below and [the F103 proof §7.3](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
+**Date:** 2026-05-30
 **Regenerate:**
 - [`simulations/f87_42_8_bipartite_fullcell.py`](../simulations/f87_42_8_bipartite_fullcell.py) `[N] [letters]` , k=3 criterion over the whole diagonal cell (default N=4, all letters; pass `5 Z` for the N=5 Z check)
 - [`simulations/f87_k4_bipartite_bridge.py`](../simulations/f87_k4_bipartite_bridge.py) , k=4 criterion + the F111 template cross-check (N=4)
@@ -150,8 +152,8 @@ into three links:
 
 F111's cell is k = N = 4, full support, so all three links hold: **"Mixed+Mixed = soft" is derived
 there, modulo M** , the converse that stalled F111 across three derivation paths, now closed, with
-the chiral K exhibited constructively as the separating functional φ. What stays open is the
-*windowed* converse (k < N), where a third mask can close an odd cycle.
+the chiral K exhibited constructively as the separating functional φ. The *windowed* converse
+(k < N), where a third mask can close an odd cycle, needs a different argument, the one below.
 
 ## The windowed converse as a first-order perturbation (the clock's tick)
 

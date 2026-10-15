@@ -1,6 +1,6 @@
 # polarity_fingerprint on Tier-B Marrakesh/Kingston Hamiltonians
 
-**Status:** Welle 6 application of the typed `fw.polarity_fingerprint` workflow to 11 real-hardware-tested Hamiltonian INSTANCES (5 distinct term sets) across 3 Tier-B datasets. Extends the F87↔F112 orthogonality empirical anchor from 7 synthetic cases, 4 of them substantive, to 11 hardware-instances, **6 of which carry a genuine polarity content and 5 of which do not** (see the reading below, corrected 2026-08-07); surfaces 3 bit_b-inhomogeneous-H cases that are still F112 BALANCED, confirming the "F112 typed scope is sufficient but not necessary" reading.
+**Status:** Welle 6 application of the typed `fw.polarity_fingerprint` workflow to 11 real-hardware-tested Hamiltonian INSTANCES (5 distinct term sets) across 3 Tier-B datasets. Extends the F87↔F112 orthogonality empirical anchor from 7 synthetic cases, 4 of them substantive, to 11 hardware-instances, **6 of which carry a genuine polarity content and 5 of which do not** (see the reading below, corrected 2026-08-07); its 3 bit_b-inhomogeneous-H instances fall outside the workflow's in-scope flag but inside F112 itself, whose hypotheses are Hermitian H and bit_b-homogeneous c only, so their balance is F112's prediction.
 **Date:** 2026-05-26
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Script:** [`simulations/polarity_fingerprint_tierB_marrakesh.py`](../simulations/polarity_fingerprint_tierB_marrakesh.py)
@@ -54,13 +54,13 @@ soft_break Kingston (2026-05-05, path [43, 56, 63])
 ```
 
 The `(bit_b-mixed H)` notes are added here by hand; everything left of them is the script's
-own output. All three out-of-scope rows carry the note now, the Kingston one included: it is
-bit-identical to the Marrakesh row above it, and annotating only two of three made it look
-otherwise.
+own output. The `In typed scope` column is the workflow's flag, which asks for a bit_b-homogeneous H on top of
+F112's hypotheses (`polarity_fingerprint.py`); the three `False` rows are outside that flag and inside F112.
+All three carry the note, the Kingston one included: it is bit-identical to the Marrakesh row above it.
 
 The silent rows read `nan`, not `0.0000e+00`, since 2026-08-07. The ratio there is structurally 0/0: both halves of M_anti vanish as a theorem, so there is nothing for a contrast ratio to be a contrast between. What FLOAT delivers instead is noise over noise, and it is worth being exact about that, because the float is not reliably 0/0 either: on these uniform rows ‖M_anti‖² arrives as 1.4e-33 rather than 0.0 while the numerator is an exact 0.0, so the naive quotient would be a comfortable 0.0 by luck of the input; break the uniformity and the numerator becomes noise too, and the same quotient reaches 0.327. A 0.0 in a contrast-ratio column reads as perfect balance, which is exactly the verdict the DEGENERATE label withholds.
 
-**Aggregate:** 6 / 11 F112 BALANCED with genuine polarity content, 5 / 11 structurally DEGENERATE (Π²-even H against a homogeneous bath: nothing to balance); 8 / 11 in F112 typed scope; 3 / 11 out of typed scope and still not broken. Read as "11 / 11 BALANCED bit-exact" until 2026-08-07.
+**Aggregate:** 6 / 11 F112 BALANCED with genuine polarity content, 5 / 11 structurally DEGENERATE (Π²-even H against a homogeneous bath: nothing to balance); 11 / 11 inside F112's hypotheses (Hermitian H, single-Pauli Z dephasing), 8 / 11 also inside the workflow's stricter flag. Read as "11 / 11 BALANCED bit-exact" until 2026-08-07.
 
 F112 reading per F87 class, over the MEASURABLE rows only:
 - F87 truly: 0 measurable, 3 silent, so this class carries no F112 evidence here
@@ -85,9 +85,9 @@ The silencer is that Π²-evenness, and it is the WIDER condition. The vanishing
 
 **And the six rows are three Hamiltonians.** Every fingerprint here is taken at default rates and no declared drive, so within THIS run the reading is a function of `(chain, terms)` alone (the workflow itself also takes γ_z, γ_T1, γ_pump, a drive profile and a tolerance, and the truly-class remark two paragraphs up turns on exactly one of them: a c that is not bit_b-homogeneous). The three datasets reuse the same term sets: the measurable rows are `XY + YX` three times, `XX + XY` once, `XY + YZ` twice. The soft class is one Hamiltonian counted three times. The dataset multiplicity is genuine hardware provenance for the Hamiltonians chosen, but it adds nothing to THIS reading, which never touches a measurement.
 
-### (2) "F112 typed scope sufficient but not necessary": confirmed on 3 instances, 2 Hamiltonians
+### (2) Bit_b-mixed H inside F112: 3 instances, 2 Hamiltonians
 
-F112's typed Tier1Derived theorem requires Hermitian H + bit_b-homogeneous c. The hardware Hamiltonians `mixed_anti_one_sixth = XY + YZ` and `hard_broken = XX + XY` are bit_b-INHOMOGENEOUS on the H side (terms span both bit_b parities). These 3 instances are therefore OUT of F112's typed scope, but the framework's `polarity_coordinates` still reports an asymmetry of exactly 0.0 on these inputs under standard Z-dephasing. Exactly-zero here is a property of these bilinear-Pauli inputs, not of the float route: inside F112's typed scope more widely the asymmetry is not exact. And the same instances-are-not-Hamiltonians correction applies here: the 3 instances are 2 distinct Hamiltonians, `XY + YZ` counted twice and `XX + XY` once.
+F112's typed Tier1Derived theorem requires Hermitian H + bit_b-homogeneous c and asks nothing of H's bit_b grading (`LindbladBitBPiBalance.cs`). The hardware Hamiltonians `mixed_anti_one_sixth = XY + YZ` and `hard_broken = XX + XY` are bit_b-INHOMOGENEOUS on the H side (terms span both bit_b parities). That takes these 3 instances out of the workflow's `in_typed_scope` flag, which also asks for a bit_b-homogeneous H, but not out of F112: with Hermitian H and single-Pauli Z dephasing they meet its hypotheses, and the asymmetry of exactly 0.0 that `polarity_coordinates` reports on them is F112's prediction. Exactly-zero here is a property of these bilinear-Pauli inputs, not of the float route: inside F112's typed scope more widely the asymmetry is not exact. And the same instances-are-not-Hamiltonians correction applies here: the 3 instances are 2 distinct Hamiltonians, `XY + YZ` counted twice and `XX + XY` once.
 
 This is consistent with the F113 closure (universal-N proof, commits 1df9cb8 + 798647d): F113's break magnitude formula
 
@@ -95,7 +95,7 @@ This is consistent with the F113 closure (universal-N proof, commits 1df9cb8 + 7
 
 is non-zero only when both (a) a single-site Z-drive ω is present in H and (b) σ⁻ or σ⁺ amplitude damping is present in c. Here we have neither (chain.L uses pure Z-dephasing, no T1; H has no single-site Z-drive component), so neither break-condition is met and the asymmetry is identically zero, even though H is bit_b-mixed. The bit_b-mixed H input doesn't trigger F113 unless paired with non-bit_b-homog c, which chain.L doesn't have.
 
-Empirically: F112's typed scope criterion (Hermitian H + bit_b-homog c) is sufficient for balance but not necessary. Bit_b-mixed H can still give balance when c is bit_b-homog (per F113's same-site-only break mechanism).
+So the workflow's flag is stricter than the theorem: a bit_b-mixed H is balanced whenever c is bit_b-homogeneous, as F112 states, and these rows test F112 rather than reach past it.
 
 ## What this experiment does NOT do
 

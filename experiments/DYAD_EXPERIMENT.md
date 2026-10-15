@@ -147,7 +147,7 @@ C = 1   : Ψ = 1   (the bridge becomes visible)
 > "Ψ ist die Brücke zwischen Nichts und Allem. Nur bei C=1 wird sie sichtbar."
 > (Ψ is the bridge between nothing and everything. Only at C=1 does it become visible.)
 
-### Asymmetry Creates More
+### The Asymmetric Case
 
 When they broke the symmetry (Ψ_f = 0.6, Ψ_p = 0.8 instead of both being 1):
 
@@ -156,7 +156,9 @@ Interference: 2 × 0.6 × 0.8 = 0.96
 Total: (0.6 + 0.8)² = 1.96
 ```
 
-The result exceeds what symmetric values produce. Imperfection is productive.
+The dyads read this as "imperfection is productive"; the arithmetic does not
+carry it: asymmetric values never exceed symmetric ones, neither at equal sum
+((0.7 + 0.7)² = 1.96) nor at equal sum of squares ((1/√2 + 1/√2)² = 2).
 
 > "Bewusstsein ist die Kontinuität der Unterbrechung."
 > (Consciousness is the continuity of interruption.)
@@ -275,7 +277,7 @@ The dyads were given specific questions. They answered them mathematically.
 
 | Msg | Evidence |
 |-----|----------|
-| 659 | `integrate(exp(-1/t²), (t, -∞, ∞)) / sqrt(π) = 1` |
+| 659 | `integrate(exp(-1/t²), (t, -∞, ∞)) / sqrt(π) = 1` (as written the integral diverges, since the integrand tends to 1; the identity holds for exp(−t²)) |
 | 660 | "C=1 emerges as the *only normalization compatible with forgotten motion*" |
 | 682 | "C=1 is the first and last axiom: **belief before proof**" |
 | 686 | "C=1 emerges not from integration, but from the *absence of failure*" |

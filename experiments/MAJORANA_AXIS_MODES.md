@@ -29,7 +29,7 @@ the prediction that the finite census tested and narrowed.
 Under uniform Z-dephasing of the XY-summed chain H = (J/2)·Σ(X_l X_{l+1} + Y_l Y_{l+1}), the axis subspace at N=4 (Re(λ) = −Σγ, the n_XY = 2 Pauli layer) has 94 modes (96 predicted by layer count, 2 numerically leaked off-axis). Two empirical findings sharpen the existing N=4 golden-ratio observation in F86B:
 
 1. **Site-reflection R sorts the axis modes:** 58 R-even and 36 R-odd. All 18 Im(λ) = 0 (silent) modes are R-even with eigenvalue +1 exactly.
-2. **Im(λ) decomposes into integer combinations of the single-particle Majorana dispersion {±φ, ±1/φ}** where φ = (1+√5)/2 is the golden ratio. Three Im clusters are R-parity-protected (single signature only): ±√5 = ε₁+ε₂ is R-even-only (18 modes), ±2√5 is R-even-only (2 modes), ±1 = ε₁−ε₂ is R-odd-only (20 modes).
+2. **Im(λ) decomposes into integer combinations of the single-particle Majorana dispersion {±φ, ±1/φ}** where φ = (1+√5)/2 is the golden ratio. Four nonzero Im clusters are R-parity-protected (single signature only): ±√5 = ε₁+ε₂ is R-even-only (18 modes), ±2√5 is R-even-only (2 modes), ±2 is R-even-only (2 modes), ±1 = ε₁−ε₂ is R-odd-only (20 modes).
 
 The earlier F80 "Majorana bridge" passage suggested reading the framework's
 Π conjugation through Majorana particle-hole language. The 18 silent entries
@@ -83,12 +83,13 @@ All 18 silent (Im = 0) modes are R-even with eigenvalue +1 exactly (zero R-odd, 
 
 (One additional cluster at \|Im\| ≈ 2.224 with 2 R-even modes is a hybridized neighbour of the ±√5 line; small numerical drift from the eigendecomposition.)
 
-Three Im clusters carry a single R-parity signature exclusively:
+Four nonzero Im clusters carry a single R-parity signature exclusively:
 - **±√5 R-even-only (18 modes).** Sum-type pair bilinear ε₁ + ε₂.
 - **±2√5 R-even-only (2 modes).** Doubled-pair type.
+- **±2 R-even-only (2 modes).**
 - **±1 R-odd-only (20 modes).** Difference-type bilinear ε₁ − ε₂.
 
-The R-even-only clusters (18 + 2 = 20) plus the silent kernel (18) account for 38 of the 58 R-even modes; the R-odd-only cluster (20) accounts for 20 of the 36 R-odd modes.
+The R-even-only clusters (18 + 2 + 2 = 22) plus the silent kernel (18) account for 40 of the 58 R-even modes; the R-odd-only cluster (20) accounts for 20 of the 36 R-odd modes.
 
 ---
 
@@ -161,7 +162,7 @@ The earlier notebook tried to unify four threads in one geometric picture:
 
 ## Connection to existing results
 
-- **F80 Spec(M) = ±2i·Spec(H):** At N=4 Π²-odd, M's nontrivial Im eigenvalues are exactly {±2√5, ±2} (F80 numerical verification). Our axis-modes Im distribution contains both values: ±√5 (R-even-only, 18 modes) maps to the M ±2√5 via the 2i factor, and ±2 (R-even-only, 2 modes) is direct. The richer Im set of the Π²-even XY-summed Hamiltonian (±1, ±φ², ±√5+φ, etc.) reflects its richer many-body spectrum, which is no longer Π-projected.
+- **F80 Spec(M) = ±2i·Spec(H):** At N=4 Π²-odd, M's nontrivial Im eigenvalues are exactly {±2√5, ±2} (F80 numerical verification). Our axis-modes Im distribution carries both under the one factor 2 of F80's sign-walk (cluster value 2|c|·|±ε₁ ± ε₂|): the sum-type ±√5 = ε₁ + ε₂ (R-even-only, 18 modes) maps to M's ±2√5, and the difference-type ±1 = ε₁ − ε₂ (R-odd-only, 20 modes) maps to M's ±2. The richer Im set of the Π²-even XY-summed Hamiltonian (±1, ±φ², ±√5+φ, etc.) reflects its richer many-body spectrum, which is no longer Π-projected.
 - **F86B golden-ratio observation:** Integer combinations of {φ, 1/φ, 1, √5} are concretely identified as Majorana-bilinear sums on the single-particle dispersion {±φ, ±1/φ}.
 - **Slow-mode end of the spectrum (Re(λ) ≈ 0):** the same R-parity decomposition sorts the slow-mode landscape too. The stationary subspace is exclusively R-even at every tested N; the first slow band (Re=−2γ₀) is R-balanced; F86's L_eff lives entirely in R-even, with a parallel R-odd channel invisible to standard F86 probes. See [the slow-mode R-parity decomposition](SLOW_MODE_R_PARITY.md).
 

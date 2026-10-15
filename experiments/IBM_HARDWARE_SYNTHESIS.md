@@ -62,16 +62,16 @@ properties through two independent processes:
 - **T1 (energy relaxation):** how long the qubit retains its energy
   before decaying to the ground state.
 - **T2 (dephasing):** how long the qubit retains phase coherence
-  (the ability to interfere). Always T2 < 2T1.
+  (the ability to interfere). Always T2 ≤ 2T1.
 
 **r = T2/(2T1)** measures the balance between these two processes.
 At r = 1, dephasing is entirely caused by energy loss. At r << 1,
 the qubit loses phase information much faster than energy (pure
 dephasing dominates).
 
-**CΨ = C x Ψ** (concurrence times coherence): a composite measure
-of quantum correlation. It combines how entangled the qubit is (C)
-with how coherent it is (Ψ). CΨ = 1/4 is the algebraically exact
+**CΨ = C x Ψ** (purity times coherence): a composite measure
+of quantum correlation. It combines how pure the qubit's state is
+(C = Tr(ρ²)) with how coherent it is (Ψ = L₁/(d−1)). CΨ = 1/4 is the algebraically exact
 threshold where the self-referential purity equation R = CΨ² loses
 its real solutions. Below 1/4, the qubit has irreversibly left the
 quantum regime.
@@ -119,7 +119,7 @@ never returns. The crossing is a fold catastrophe (two real fixed
 points merge and vanish).
 
 **Data:** [Run 3](IBM_RUN3_PALINDROME.md) tomography, Q80, 8 delay
-points. CΨ = C (concurrence) x Ψ (coherence), computed from
+points. CΨ = C (purity) x Ψ (coherence), computed from
 state tomography (measuring the full quantum state) at each delay.
 
 | t (us) | t/T2* | C | Ψ | CΨ | Distance from 1/4 |

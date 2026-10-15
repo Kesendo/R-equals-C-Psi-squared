@@ -78,10 +78,10 @@ Each of the 16 two-qubit Pauli expectations on (q₀, q₂) lands in one of 7 ca
 
 | # | Category | Count | Examples (idealized) | Hardware confirms |
 |---|----------|-------|----------------------|-------------------|
-| A | **truly only** ≠ 0 | 2 | ⟨Y₀Z₂⟩, ⟨Z₀Y₂⟩ ≈ −0.35 | yes (sign and magnitude) |
+| A | **truly only** ≠ 0 | 2 | ⟨Y₀Z₂⟩, ⟨Z₀Y₂⟩ ≈ −0.35 | yes (category); sign opposite, +0.58 and +0.19, as Trotter predicts (below) |
 | B | **truly = soft, hard = 0** | 2 | ⟨Y₀Y₂⟩ +0.52, ⟨Z₀Z₂⟩ +0.23 | yes |
 | C | **soft signature** (truly = 0 = hard) | 2 | ⟨Z₀I₂⟩ −0.28, ⟨Z₀X₂⟩ −0.62 | yes |
-| D | **hard signature** (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ −0.56, ⟨X₀Y₂⟩ −0.47 | yes |
+| D | **hard signature** (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ −0.56, ⟨X₀Y₂⟩ −0.47 | yes (category); sign opposite, +0.47 and +0.36, as Trotter predicts (below) |
 | E | **all three differ** (truly = 0, soft and hard non-zero, opposite sign) | 2 | ⟨I₀Z₂⟩, **⟨X₀Z₂⟩** | yes |
 | F | **truly = soft preserved, hard differs** | 3 | ⟨I₀X₂⟩, ⟨X₀I₂⟩, ⟨X₀X₂⟩ | yes |
 | G | **always trivial** (= 0 or = 1) | 3 | ⟨I₀I₂⟩=1, ⟨Y₀I₂⟩=⟨Y₀X₂⟩=0 by initial-state symmetry | yes |

@@ -37,8 +37,10 @@ protecting the rest. On IBM Torino hardware, this produces 1.97x
 improvement in coherence survival. But WHY does concentrating noise help?
 
 We answer this by computing the full Liouvillian spectrum of the N=5
-chain using real IBM T2* data (Q85-Q94). The same 43 cavity mode
-frequencies exist under all noise profiles. Only the damping changes.
+chain using real IBM T2* data (Q85-Q94). The 43 cavity mode
+frequencies of the noiseless chain persist under all three profiles
+computed here, each keeping a descendant within 3.2e-2 under the
+sacrifice profile; what changes most is the damping.
 The sacrifice zone does not protect qubits. It protects **cavity modes**.
 
 Key results:
@@ -66,8 +68,8 @@ most is the damping: each mode acquires a decay rate that depends on how
 much noise it "sees." The frequencies themselves are not fixed, and this
 page runs a deliberately non-uniform profile, which is the case that moves
 them (see [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md); the grouping
-below bins at freq_tol = 0.1, and the worst shift it has to swallow under
-this profile is 3.2e-2, so the margin is about threefold, not the order of
+below bins at freq_tol = 0.1, and under this profile every noiseless
+frequency keeps a descendant within 3.2e-2, so the margin is about threefold, not the order of
 magnitude the median shift would suggest). Modes localized on quiet qubits (Q86-Q94) see less
 noise. Modes touching the sacrifice qubit (Q85) see more.
 
@@ -333,7 +335,7 @@ The sacrifice-zone formula is not an engineering hack. It is a precise
 intervention in the mode structure of a quantum resonator:
 
 1. The cavity has 43 distinct frequencies (at zero noise)
-2. Noise damps these modes without changing their frequencies
+2. Noise damps these modes and shifts their frequencies only slightly
 3. Concentrating noise on one edge qubit creates a spatial gradient
 4. Modes localized away from the sacrifice see less damping
 5. The slowest oscillating modes survive 2.80x longer

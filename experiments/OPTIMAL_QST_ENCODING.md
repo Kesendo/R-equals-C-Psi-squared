@@ -131,8 +131,10 @@ separation from the palindrome theorem.
 | Chain 4q mirror [1,2,1] | 0.872 | 1.57 |
 | Chain 4q uniform [1,1,1] | 0.834 | 3.17 |
 
-The 2:1 coupling asymmetry provides a 3.4% fidelity gain over the symmetric
-star, equivalent to a 4% gain over the standard 3-qubit chain. This is the
+The 2:1 coupling asymmetry raises F_avg by 0.034 over the symmetric star
+(3.4 percentage points, 4.0% relative). The symmetric 3-qubit star and the
+3-qubit chain are the same graph, a centre with two neighbours, which is why
+their rows are identical. This is the
 Wojcik effect (weak sender, strong receiver), and it works because the
 asymmetric coupling shifts the Liouvillian eigenstructure to favor slow
 palindromic modes. The encoding cannot do what the hardware already does.

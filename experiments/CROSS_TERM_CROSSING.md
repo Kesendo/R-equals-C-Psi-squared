@@ -63,7 +63,7 @@ independence confirmed (5 values at N=3).
 
 ## Comparison: balanced vs crossing
 
-| N | Balanced: (N-2)/(N*4^(N-1)) | Crossing: (N-1)/(N*4^(N-1)) | Ratio |
+| N | Balanced: sqrt((N-2)/(N*4^(N-1))) | Crossing: sqrt((N-1)/(N*4^(N-1))) | Ratio |
 |---|-------|---------|-------|
 | 2 | 0 | 1/sqrt(8) = 0.3536 | n/a |
 | 3 | 0.1443 | 0.2041 | sqrt(2) |

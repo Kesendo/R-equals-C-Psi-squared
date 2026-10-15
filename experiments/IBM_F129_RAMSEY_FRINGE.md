@@ -509,7 +509,7 @@ the runner printout agreed):**
   repairs in the same change: the gate script's convention comment
   (`simulations/f129_ramsey_7a_gate.py`, code untouched — the flown code is the
   record) and the convention line in
-  [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md). the ζ²
+  [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md). The ζ²
   anti-protection law got its own derived surface,
   [PROOF_ZETA2_ANTI_PROTECTION](../docs/proofs/PROOF_ZETA2_ANTI_PROTECTION.md)
   + gate `zeta2_anti_protection.py` (design round: 3 fresh lenses, math/physics/
@@ -523,7 +523,8 @@ the runner printout agreed):**
   and the estimator-free physics constant is the clean-limit 0.002522, derived
   and gate-pinned; (iii) the RECORD's "+3.36σ_a positive, the direction the
   law predicts" is to be read as sign-CONSISTENCY within the blended budget
-  (b_zz2 ≈ 38 % of the excess, the rest under the unknown-sign b_qs draw), not
+  (b_zz2 ≈ 9 % of the excess under the corrected ζ normalization, the rest under
+  the unknown-sign b_qs draw), not
   as a ζ²-sign measurement; the flight banks the standing fringe, nothing
   more. Load-bearing fence recorded in §9: the law is Θ-mirror-pair-only; the
   n = 12 pair carries first-order ZZ.

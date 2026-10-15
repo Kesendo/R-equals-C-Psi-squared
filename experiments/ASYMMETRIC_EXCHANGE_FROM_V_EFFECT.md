@@ -76,7 +76,7 @@ The prediction holds across nearly two orders of magnitude in J_A/J_B asymmetry 
 
 ## What this calculation does
 
-**First end-to-end use of framework.py primitives.** The Hamiltonian construction goes through `framework._build_bilinear`, the prediction call uses `framework.v_effect_emergent_exchange` for the symmetric reference, and the script verifies that framework.py's symmetric formula agrees with this script's symmetric special case. Self-consistency check passes at machine precision.
+**First end-to-end use of framework.py primitives.** The Hamiltonian construction goes through `framework._build_bilinear` (still in the live package). The symmetric reference is `v_effect_emergent_exchange`, which lives only in `framework_archive.py`: run against the monolith, its symmetric formula agreed with this script's symmetric special case at machine precision; under the live package the script's final cross-check stops with an AttributeError after the results table has printed.
 
 **Generalization of EXCHANGE_FROM_V_EFFECT to asymmetric atoms.** The inheritance Level 0 → Level 1 V-Effect bridge produces an effective Level-1 exchange that scales as α² / (J_A + J_B), which is the textbook Anderson superexchange shape applied to asymmetric atoms (where in the original Hubbard derivation, the "U" for each atom can differ).
 

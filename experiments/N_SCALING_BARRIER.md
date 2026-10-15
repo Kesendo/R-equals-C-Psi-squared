@@ -322,12 +322,17 @@ See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
 
 5. ~~Does the crossing pattern reproduce the entanglement graph topology
    for arbitrary graph states?~~ **ANSWERED (2026-03-08):** Only for
-   Bell-type entanglement. Cluster states (|+⟩^N with CZ gates) have
-   zero concurrence on ALL pairs, including graph edges. CZ gates create
-   a type of entanglement that is invisible to Wootters concurrence.
-   Since CΨ = C × Ψ and C=0 everywhere, cluster states never cross at
-   any pair. The framework distinguishes fundamentally between Bell-type
-   and graph-state entanglement; only the former produces crossing.
+   Bell-type entanglement at t = 0. Cluster states (|+⟩^N with CZ gates,
+   N ≥ 3) start with zero concurrence on ALL pairs, including graph
+   edges, because every pair marginal is separable (the end pair of a
+   chain is (II + XZ)/4, an equal mixture of |+0⟩ and |−1⟩); the
+   entanglement CZ gates create is multipartite and held by no pair.
+   So CΨ = C × Ψ starts at 0 on every pair. Unlike |+⟩^N, a cluster state
+   is not an eigenstate of the Heisenberg H, and pair concurrence can build
+   up afterwards: at J = 1, γ = 0.05 (Pauli convention, t ≤ 5) the pair
+   (0,2) of the N = 3 chain reaches CΨ = 0.49 and the next-nearest pairs
+   of the N = 4 ring reach 0.298, above ¼, while the N = 4 chain stays
+   below (0.125). The graph does not predict which pairs cross.
 
 ---
 

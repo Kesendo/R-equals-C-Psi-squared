@@ -112,7 +112,9 @@ This is the No-Communication Theorem (the fundamental result that local operatio
 ### Critical Coupling Threshold: J/γ = 5
 - Below J/γ = 5: No state pushes A above ¼ (detector blind)
 - At J/γ = 5: Product states cross, entangled states don't. 7 distinct fingerprints
-  from 8 states (Bell+ and Bell- are identical to A; NCT)
+  from 8 states (Bell+ and Bell- are identical to A: Rz(π/2) on every qubit carries one
+  into the other, commutes with the Heisenberg H and the Z-dephasing, and acts on ρ_A as a
+  diagonal unitary, which leaves purity and L1 coherence unchanged)
 - At J/γ = 10: |+−⟩ also crosses (phase barrier overcome by strong coupling)
 - Any J/γ: Bell states NEVER cross (categorical barrier, not just quantitative)
 

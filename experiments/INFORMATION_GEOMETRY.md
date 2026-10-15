@@ -56,7 +56,7 @@ metric along the Lindblad trajectory and find:
    intrinsic curvature, so this number is a shape of the coordinate,
    not a curvature of the state space.
 
-5. **d²CΨ/dγ² = 9.8 at fixed time.** Finite, as it must be for Bell+,
+5. **d²CΨ/dγ² = 9.92 at fixed time.** Finite, as it must be for Bell+,
    whose CΨ at a fixed time is analytic in γ. CΨ = 1/4 is a smooth
    crossing, not a dynamical phase transition, but this number is not
    what shows it.
@@ -185,7 +185,9 @@ which sits in the smooth middle of the curve.
 
 d²CΨ/dγ² at fixed observation time (t = 0.75):
 
-**d²CΨ/dγ² = 9.8 at the γ where CΨ = 1/4.** Finite, and it could not
+**d²CΨ/dγ² = 9.92 at the γ where CΨ = 1/4** (γ = 0.0498; with
+f = e^(−4γt), CΨ = f(1+f²)/6 gives (8t²/3)·f(1+9f²); the script's 30-point
+γ grid reads 9.8 at its nearest point, where CΨ = 0.248). Finite, and it could not
 be otherwise: for Bell+ every entry of the state is analytic in γ (a
 matrix exponential) and the coherence e^(−4γt)/2 never passes through
 zero, so CΨ, which sums absolute values, is analytic too. This is not a fidelity

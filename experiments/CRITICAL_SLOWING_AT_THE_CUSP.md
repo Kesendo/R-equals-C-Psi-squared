@@ -367,8 +367,11 @@ The numerical scan from γ = 0.1 to 10.0 has standard deviation below
 
 The dwell time in physical units scales as `1/γ` in this Hamiltonian-blind
 trajectory. The fixed K-interval follows because its observables depend only
-on `γt`; changing γ at fixed active H generally changes `J/γ`, and
-[K-dosimetry](K_DOSIMETRY.md) shows that the cancellation then fails.
+on `γt`; changing γ at fixed active H generally changes `J/γ`, and for a
+state the Hamiltonian moves the cancellation can then fail. The |++⟩
+preparation of [K-dosimetry](K_DOSIMETRY.md) is not such a state: it stays
+Hamiltonian-dead throughout, and its stored intermediate-rate deviation is a
+numerical discrepancy, not a physical failure of the cancellation.
 
 The later γ₀-as-Maßstab and "tick" readings are interpretations of this
 scale-covariant special case. They do not identify a universal experienced

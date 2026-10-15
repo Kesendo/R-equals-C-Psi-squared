@@ -266,7 +266,8 @@ resonator** described in [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHA
 When noise shifts the palindrome from zero, these frequencies persist as a
 comb, and what noise mainly does to them is add decay. It moves them too,
 uniform dephasing included, and it lifts degeneracies: at N=5 the 44
-distinct zero-noise frequencies become 113 under a uniform gamma and 121
+distinct zero-noise frequencies (the table's 43 nonzero ones plus ω = 0)
+become 113 under a uniform gamma and 121
 under a profile. So "persist" here means the comb survives with every mode
 having a nearby descendant, not that the individual values hold still. The
 one place where a frequency is exactly immune is a subspace on which the

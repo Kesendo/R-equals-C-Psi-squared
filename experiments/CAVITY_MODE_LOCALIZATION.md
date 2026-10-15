@@ -47,7 +47,10 @@ For each Liouvillian eigenvector v (1024 components for N=5), we:
 2. Decompose V into the Pauli basis: c_j = Tr(P_j^dag V) / d
 3. Compute per-qubit weight: weight[k] = Sum |c_j|^2 over all Pauli
    strings where qubit k is active (not identity)
-4. Normalize to a probability distribution over qubits
+4. Divide by the mode's total Pauli weight Sum |c_j|^2, so weight[k] is
+   the fraction of the mode carried by strings active on qubit k (each
+   in [0, 1]; a profile sums to the mean number of active qubits, not
+   to 1)
 
 ---
 

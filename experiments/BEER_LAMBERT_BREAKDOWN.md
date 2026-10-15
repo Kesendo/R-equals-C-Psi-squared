@@ -96,7 +96,9 @@ to its share of the incoming light. The cavity disagrees.
 The actual edge share stays at ~0.21 to 0.23 regardless of how extreme
 the asymmetry gets. That is close to 1/N = 0.25. At asymmetry 200,
 Beer-Lambert predicts 98.5% for the edge; the cavity delivers 21.6%.
-The interior qubits absorb 4,700% more than their local γ would suggest.
+Interior qubit Q1's share of the purity loss is about 4,700% above what
+its local γ would suggest; the light itself is still taken up only where γ is
+(the Absorption Theorem below), and the coupling J carries the loss inward.
 
 The cavity does not care where the light enters. It equalizes.
 

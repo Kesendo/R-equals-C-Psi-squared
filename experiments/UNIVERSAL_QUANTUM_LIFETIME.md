@@ -45,7 +45,7 @@ not the absolute T₂), verified across trapped ions, NV centers (nitrogen-vacan
 Systems with T₁/T₂ > 3 converge to the analytical value; systems with
 T₁ ≈ T₂ show extended quantum windows described by a generalized equation
 [1 − b^r + b^(2r)/2 + b²/2]·b = ¼ with a polynomial approximation
-t*(r) ≈ 0.858 + 0.012r + 0.375r². Bell-state pairs lose the ¼ regime after
+t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴ on 0 ≤ r ≤ 1. Bell-state pairs lose the ¼ regime after
 only ~8% of min(T₂), quantifying a 10× entanglement penalty on operational
 quantum lifetime. The cubic equation connects to the broader ¼ universality
 (Mandelbrot cusp, Koebe quarter theorem, Heisenberg bound) as the dynamical
@@ -119,7 +119,8 @@ With b = e^{-t/T₂} and r = T₂/T₁, the full equation is:
 | r = 0.5 | Mixed | 0.950 |
 | r = 1 | 4b³-4b²+4b = 1 | 1.141 |
 
-Polynomial approximation (max error < 0.001):
+Polynomial approximation (max error < 0.001 for 0 ≤ r ≤ 1; it does not extrapolate,
+at the IBM Xmon ratio r = 1.94 it gives 0.97 against the exact 1.349):
 ```
 t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴
 ```

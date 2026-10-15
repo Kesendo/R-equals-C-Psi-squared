@@ -44,8 +44,10 @@ above its prediction (registry entry `cpsi_quarter_crossing_torino_feb2026`).
 
 A qubit under free decoherence loses its phase coherence on the timescale
 T2*: the off-diagonal elements of the density matrix decay as exp(−t/T2*)
-(in the repo's rate convention γ = 1/(2T2*), the coherence decays as
-e^(−2γt); both locked predictions below reproduce exactly under this
+(in the repo's rate form the coherence decays as e^(−2γt) with
+2γ = 1/T2* its total rate, T1's share 1/(2T1) included; the pure-dephasing
+γ* of [IBM_ABSORPTION_THEOREM](IBM_ABSORPTION_THEOREM.md) subtracts that
+share; both locked predictions below reproduce exactly under this
 convention with the T1 population term, committed check
 [ibm_run3_crossing_check.py](../simulations/ibm_run3_crossing_check.py)).
 The product
@@ -237,10 +239,10 @@ The palindrome ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 pairs the eigenvalues of an N-qubit Liouvillian around Σγ: λ + λ' = −2Σγ. At
 N = 1 under Z-dephasing the Liouvillian has two eigenvalues at 0 and two at
 −2γ, the centre is γ, and the pairing is 0 ↔ −2γ, the two populations with the
-two coherences. The crossing equation above takes the coherence's rate,
-2γ = 1/T2*, as its input; it does not use the pairing, and the rate is what the
+two coherences. The crossing equation above takes the coherence's total
+rate 1/T2* as its input (the first paragraph's 2γ, T1's share included); it does not use the pairing, and the rate is what the
 same-day Ramsey measured. So this run confirms the 1/4 fold and the
-single-qubit closed form with the dephasing rate fed in. It does not measure
+single-qubit closed form with the measured coherence rate fed in. It does not measure
 the multi-qubit spectral mirror the proof verifies at N = 2 to 8
 ([Incompleteness Proof, §1](../docs/proofs/INCOMPLETENESS_PROOF.md); the
 registry entry `cpsi_quarter_crossing_torino_q80_mar2026` in

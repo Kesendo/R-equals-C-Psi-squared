@@ -25,8 +25,9 @@ distance from the quantum-classical boundary at CΨ = ¼. The
 structural cartography showed that CΨ visibility windows live on
 a low-dimensional manifold with 3 principal components. We test
 whether θ aligns with a single PC. It does not. θ requires
-all 3 PCs for a reasonable fit (R^2 ~ 0.87), and its strongest
-single-PC correlation is with PC3 (the Psi- sector, 11% variance),
+all 3 PCs for a reasonable fit (R^2 ≈ 0.87 for the SA and AB pairs, only
+0.70 for SB), and for SA its strongest single-PC correlation is with
+PC3 (the Psi- sector, 11% variance),
 not with the dominant PC1 (57%) or PC2 (22%). θ reads a diagonal
 of the manifold, combining information from all principal directions.
 
@@ -103,7 +104,8 @@ visible in peak-only sampling.
 
 **No single PC captures θ.** The strongest single-PC correlation
 varies by pair: PC3 for SA, PC1 and PC2 (nearly tied) for SB, PC1
-for AB. In all cases, at least 2 PCs are needed for R^2 > 0.85.
+for AB. All three PCs together reach R^2 = 0.872 (SA) and 0.864 (AB), and
+only 0.700 for SB.
 
 ## Result 4: Missing dimensions
 
@@ -123,7 +125,7 @@ THETA_PALINDROME_ECHO found r(theta_SB, F_channel) = 0.87
 (r^2 = 0.757, 24.3% unexplained).
 
 The 3-PC regression for theta_SA gives R^2 = 0.872, numerically
-close to 0.87^2. This is likely coincidence: different pairs (SB vs
+close to that r = 0.87 (not to r^2 = 0.757). This is likely coincidence: different pairs (SB vs
 SA), different CΨ definitions, different datasets.
 
 For theta_SB in the quantum regime: R^2(3PC) = 0.700, **worse** than

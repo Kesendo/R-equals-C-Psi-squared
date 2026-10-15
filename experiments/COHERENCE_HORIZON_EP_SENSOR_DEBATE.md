@@ -27,7 +27,7 @@ The two metrological papers reach *opposite verdicts* and are not in explicit di
 
 ## Our object: an EP on one axis
 
-The coherence horizon Q\*(N) is the point on the axis Q = J/γ below which the slowest non-zero Liouvillian mode stops oscillating: the single-excitation {0,2}-coherence mode coalesces. Its dispersion in the Haken-Strobl single-excitation block is λ² + 8γλ + 4J²q² = 0, an exact square-root EP where the discriminant vanishes. (Typed: `CoherenceHorizonClaim`; proof: `docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`.)
+The coherence horizon Q\*(N) is the point on the axis Q = J/γ below which the slowest non-zero Liouvillian mode stops oscillating: the single-excitation {0,2}-coherence mode coalesces. Its dispersion in the Haken-Strobl single-excitation block is, to leading order in q (the resummed coherence-range ladder), λ² + 8γλ + 4J²q² = 0, a square-root EP where the discriminant vanishes; at N = 2, 3 the coalescing pair is an exact 2×2, for N ≥ 4 the exact condition is transcendental and the dispersion fixes the asymptotic slope. (Typed: `CoherenceHorizonClaim`; proof: `docs/proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`.)
 
 The structural point that the debate's gain/loss PT sensors do not have: in their systems the gain/loss rate γ (which the noise couples to) and the distance to the EP ε̄ are **separate knobs**. Here there is **one knob**, Q = J/γ. The same γ is the whole dissipation, the observer, the only source of irreversibility, *and* one of the two numbers that locate the EP at Q\* = J/γ\*. You cannot perturb the noise without walking along the very axis the EP sits on.
 

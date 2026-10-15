@@ -33,20 +33,20 @@ The test runs for both XY (pure hopping, H^(1) = hopping matrix) and Heisenberg 
 
 At γ/J = 0.01 (first-order PT regime), N ∈ {5, 7}, all topologies, all B, both Hamiltonian types:
 
-    max relative error   < 0.001   (mostly < 0.0001)
-    max absolute error   O(γ · 10⁻⁶)
+    max relative error   < 0.007   (< 0.001 outside the N=7 Heisenberg chain and Y-tree)
+    max absolute error   4.6 · 10⁻⁵
 
-Consistent with expected (γ/J)² = 10⁻⁴ scaling of second-order PT corrections. F64 holds at first order on all tested configurations. The worst case is XX+YY star with B = leaf: max rel err = 1.0e-4, abs err = 2.8e-7. The chain control matches the previously reported N=3, 4 accuracy.
+F64 holds at first order on all tested configurations. The worst case is the N=7 Heisenberg chain with B = end site: max rel err = 6.3e-3, abs err = 4.6e-5. The residual is the next-order correction: on that case it falls as γ², 6.3e-3, 1.4e-3, 3.5e-4 at γ = 0.01, 0.005, 0.0025. The chain control matches the previously reported N=3, 4 accuracy.
 
 ### Table of max relative errors
 
 |        | N=5 XY | N=5 Heis | N=7 XY | N=7 Heis |
 |--------|--------|----------|--------|----------|
-| chain    | 0.0001 | 0.0008 | 0.0002 | 0.0008 |
-| star     | 0.0001 | 0.0004 | 0.0000 | 0.0003 |
-| ring     | 0.0000 | 0.0000 | 0.0001 | 0.0000 |
+| chain    | 0.0001 | 0.0008 | 0.0002 | 0.0063 |
+| star     | 0.0001 | 0.0004 | 0.0000 | 0.0007 |
+| ring     | 0.0000 | 0.0000 | 0.0001 | 0.0001 |
 | complete | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| Y-tree   | 0.0001 | 0.0008 | 0.0001 | 0.0008 |
+| Y-tree   | 0.0001 | 0.0008 | 0.0001 | 0.0054 |
 
 Max over (B ∈ sites) shown. Ring shows identical errors across all B because of translational symmetry. Star shows identical errors across leaves for the same reason.
 
@@ -68,7 +68,7 @@ This is an instance of standard degenerate perturbation theory. It was not neede
 
 ## Non-uniform J extension (2026-04-24)
 
-After the uniform-J topology scan above, the same test was extended to non-uniform J per bond (random J values in [0.5, 1.5]) on all five topologies at N=5 and N=7, three trials per N. In 29 of 30 (topology, Hamiltonian, trial) configurations the worst-site relative error remained below 0.02; the remaining case (star + Heisenberg at N=7, trial 2) sat at 0.068, still well inside the first-order PT envelope. The elevated error in that configuration is consistent with expected second-order PT corrections of magnitude ~(γ · δJ)/J² that grow when δJ is non-zero.
+After the uniform-J topology scan above, the same test was extended to non-uniform J per bond (random J values in [0.5, 1.5]) on all five topologies at N=5 and N=7, three trials per N. In 58 of the 60 (N, topology, Hamiltonian, trial) configurations the worst-site relative error remained below 0.02; the remaining two (star + Heisenberg at N=7, trial 2, at 0.068, and complete + Heisenberg at N=7, trial 3, at 0.027) stay well inside the first-order PT envelope. The elevated error in those configurations is consistent with expected second-order PT corrections of magnitude ~(γ · δJ)/J² that grow when δJ is non-zero.
 
 F64 is therefore confirmed across **any graph topology, any uniform or per-bond J assignment**, XX+YY or Heisenberg single-excitation H, any dephased site B, at first-order PT tolerance. The structural backstop for [the primordial-gamma constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md) is now complete at γ/J = 0.01 on the tested (N, topology) grid.
 

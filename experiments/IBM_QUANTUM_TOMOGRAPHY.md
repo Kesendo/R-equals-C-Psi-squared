@@ -222,7 +222,7 @@ loss from dephasing, delaying the crossing. Larger r means stronger T₁ effect,
 Within this free-|+⟩ model, 1/4 is the selected scalar level and the modeled
 arrival time changes with r. No channel-independent physical boundary follows.
 
-### Polynomial approximation (max error < 0.001)
+### Polynomial approximation (max error < 0.001 for 0 ≤ r ≤ 1)
 
 ```
 t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴

@@ -180,8 +180,8 @@ Bell+ crosses the cusp at t = 0.258 with dwell prefactor 3.63. F59 in `docs/ANAL
 
 | | psi_opt | Bell+center |
 |---|---|---|
-| Purity | 0.200 = 1/5 | 0.034 = 1/29 |
-| SE sector pop | 100% | 25% |
+| Purity | 0.200 = 1/5 | 0.034 = 11/320 |
+| SE sector pop | 100% | 18.75% = 3/16 |
 | Top populations | each \|e_k> at 20% | \|00000>, \|11111> at 6.25% |
 
 Script: `simulations/psi_opt_cusp_trajectory.py`. Data: `simulations/results/psi_opt_cusp/`.

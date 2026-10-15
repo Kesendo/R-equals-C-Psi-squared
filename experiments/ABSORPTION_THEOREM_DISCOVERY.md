@@ -106,13 +106,15 @@ has CV ≈ 0.15-0.31.
 ### Statement
 
 For the Liouvillian L = -i[H,·] + Σ_k γ_k D[Z_k] with any
-Hermitian Hamiltonian H (real or complex), every eigenvalue λ with right eigenvector v
-satisfies:
+Hermitian Hamiltonian H (real or complex) and uniform rates γ_k = γ, every
+eigenvalue λ with right eigenvector v satisfies:
 
     Re(λ) = -2γ ⟨n_XY⟩
 
 where ⟨n_XY⟩ is the expectation of the X/Y factor count in the Pauli
-decomposition of v.
+decomposition of v. For site-dependent rates the same proof gives
+Re(λ) = -Σ_k 2γ_k ⟨[σ_k ∈ {X,Y}]⟩. The theorem's proof page is
+[PROOF_ABSORPTION_THEOREM](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).
 
 ### Proof
 
@@ -217,7 +219,7 @@ Only K is exactly N-independent. The theorem holds at any chain length.
 
 ### Why α_fast + α_slow = 2Σγ
 
-The palindromic weight swap (Homework #10) showed:
+The palindromic weight swap ([the mirror-symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π maps XY-weight k to N−k) gives:
 
     sector_w[k, fast] = sector_w[N-k, slow]
 
@@ -227,7 +229,7 @@ This implies ⟨n_XY⟩_fast + ⟨n_XY⟩_slow = N. Combined with the theorem:
 
 The palindromic sum rule is a **direct consequence** of two facts:
 1. α = 2γ⟨n_XY⟩ (this theorem)
-2. Π maps weight sector k to sector N-k (Homework #10)
+2. Π maps weight sector k to sector N-k ([the mirror-symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
 
 Three independently observed properties; any two imply the third:
 - The palindromic sum rule (α_f + α_s = 2Σγ)

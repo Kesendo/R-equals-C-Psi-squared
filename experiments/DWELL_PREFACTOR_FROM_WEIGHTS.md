@@ -16,7 +16,7 @@ For a long time these two views were used in parallel in this project. The stati
 
 The question was whether these two views carry the same information. Specifically: the dwell time near the fold has a prefactor, a fixed number that scales how the duration depends on how close you pass to the boundary. For the Bell+ state under Z-dephasing, that number is 1.080088. It was computed from the dynamic equations. The question is whether the same number can be read off directly from the static Pauli weights, without ever solving the dynamics.
 
-The answer is half yes, half no, and the half-line is precise. For states whose Pauli content sits only in even-weight sectors (like Bell+, which has no single-qubit terms), the dwell prefactor is a pure algebraic function of one static quantity: the weight in the light face at the crossing moment. Static and dynamic are the same object. For states with odd-weight content (like the simple product state of two qubits in superposition), the dwell prefactor needs more information than the sector weights alone. It needs the actual sizes of individual Pauli coefficients, which the sector weights, being sums of squares, have already lost.
+The answer is half yes, half no, and the half-line is precise. For states whose coherence sits at a single XY-weight (like Bell+, whose off-diagonal Pauli content is all at weight 2), the dwell prefactor is a pure algebraic function of one static quantity: the weight in the light face at the crossing moment. Static and dynamic are the same object. For states with coherence at more than one XY-weight (like the simple product state of two qubits in superposition, at weights 1 and 2), the dwell prefactor needs more information than the sector weights alone. It needs the actual sizes of individual Pauli coefficients, which the sector weights, being sums of squares, have already lost.
 
 This is a precise result about where algebra replaces dynamics and where it does not. It is also a worked example of the project's broader claim that static and dynamic descriptions are often two views of the same structure, and that the useful work is figuring out exactly when they diverge.
 
@@ -34,7 +34,7 @@ This gives 1.080088, matching the direct computation exactly. The static
 face-swap algebra and the dynamic cusp passage are the same object for
 Bell+: an algebraic identity, not an analogy.
 
-For states with odd-weight Pauli content (like |+⟩^{⊗2}), the prefactor
+For states with coherence at more than one XY-weight (like |+⟩^{⊗2}, at k = 1 and 2), the prefactor
 additionally requires individual Pauli coefficient magnitudes (via √W₁),
 not just sector weights. The extra structure is the sign pattern of Pauli
 coefficients, which determines L1-coherence but is not reconstructible
@@ -142,13 +142,14 @@ The Bell+ weight formula (2+4W₂)/(1+6W₂) applied to |+⟩^{⊗2} gives
 
 ### The dividing line
 
-States with **only even-weight Pauli content** (Bell+, GHZ, any state
-that is a superposition of computational basis states differing in all
-bits): the prefactor is a pure weight function. The face-swap algebra
-and the cusp dynamics are algebraically identical.
+States whose coherence sits at **a single XY-weight k** (Pauli content only
+at weights 0 and k: Bell+, GHZ_N at k = N for every N, odd N included, any
+superposition of two computational basis states differing in all bits): the
+prefactor is a pure weight function, since Ψ = c·√W_k with a state constant c.
+The face-swap algebra and the cusp dynamics are algebraically identical.
 
-States with **odd-weight content** (product states, W states, any state
-with single-qubit coherence): the prefactor additionally requires the
+States with coherence at **more than one XY-weight** (product states such as
+|+⟩^{⊗2}, with content at k = 1 and 2): the prefactor additionally requires the
 Pauli coefficient magnitudes, not just sector weights. The connection is
 structural but not a pure weight identity.
 
@@ -176,10 +177,11 @@ carries the sign-pattern information that sector weights do not encode.
 
 ## Verdict
 
-**Partial success.** For Bell+ (and states with only even-weight Pauli
-content), the dwell-time prefactor is a pure function of the light-face
-sector weight W₂ at the crossing. The static face-swap algebra and the
-dynamic cusp passage are algebraically identical: **prefactor = (2+4W₂)/(1+6W₂)**.
+**Partial success.** For Bell+, the dwell-time prefactor is a pure function
+of the light-face sector weight W₂ at the crossing. The static face-swap
+algebra and the dynamic cusp passage are algebraically identical:
+**prefactor = (2+4W₂)/(1+6W₂)**. The same holds, with the state's own constant
+in Ψ = c·√W_k, for any state whose coherence sits at a single XY-weight k.
 
 For general states, the prefactor requires the Pauli coefficient
 magnitudes, not just sector weights. The missing information is the

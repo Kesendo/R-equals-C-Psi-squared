@@ -12,7 +12,7 @@ For a Lindblad-form Liouvillian L = -i[H, ·] + Σ_k γ_k · D[c_k] with:
 
 - Hermitian H that may include single-site Z-drives of the form Σ_l (ω_l/2)·Z_l
 - Dissipator c_k that may include σ⁻_l (amplitude damping) at rate γ_T1,l per site and σ⁺_l (pumping) at rate γ_pump,l per site
-- Any other bit_b-homogeneous additions (Z-dephasing, ZZ/XX/YY/XY bilinear bonds, single-site X-drives, single-site Y-drives), which contribute 0 individually by F112
+- Any other additions inside F112's hypotheses (Z-dephasing on the c side, a single Pauli and so bit_b-homogeneous; on the H side ZZ/XX/YY/XY bilinear bonds and single-site X- and Y-drives, which need no bit_b condition since F112 asks only for Hermitian H, and which span both bit_b parities), which contribute 0 individually by F112
 
 the F112 polarity-coordinate asymmetry has the closed form:
 

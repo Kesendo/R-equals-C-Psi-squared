@@ -146,8 +146,11 @@ non-central obstruction is a theorem, not a measurement: σ_T ≠ id and Z(S_8) 
 with the monodromy" exactly, so the headline is airtight (the numerics are needed only for the stronger
 braid-set question, not for it). All of this is path-3 (the N = 4 chain (SE, DE) octic); the seven
 exceptional points are the near-real-axis cluster, not the full count (about ten lie in the right half
-plane), and the lift to other topologies and N is Tier 2 until checked, the same frontier as the
-[branch-locus palindrome](F89_BRANCH_LOCUS_PALINDROME.md).
+plane). The lift to other N and topologies is open on the monodromy side: the
+[branch-locus palindrome](F89_BRANCH_LOCUS_PALINDROME.md)'s scope check found the within-block self-fold
+at N_block = 4 alone and the global mirror lifting to every N as a cross-block pairing
+(SE,DE) ↔ (SE,w_{N−2}), and the monodromy among those cross-block partners still needs the path-3
+witness generalized.
 
 Live: `inspect --root galoismonodromy` (the S_8 generation, gate G3) and `inspect --root monodromymirror`
 (the spectral sanities, the per-EP q ↦ −q̄ intertwining, and σ_T's fixed-and-twin structure). Typed:

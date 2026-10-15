@@ -253,7 +253,9 @@ R_SA + R_SB is NOT conserved. It peaks at 2.4× initial value then decays.
 
 ### 4.4 |+⟩³: Maximum Coherence, Zero Entanglement
 
-All pairs: C_conc = 0 at all times. Ψ = 1.0 but no connection.
+All pairs: C_conc = 0 at all times. Ψ = 1.0 at t = 0, then it decays with the
+dephasing alone (at the uniform γ of the symmetric setting the state stays a product of three
+dephasing |+⟩ qubits, since every Heisenberg bond commutes with it), but no connection.
 
 ### 4.5 |0++⟩: Dynamic Entanglement, No Crossing
 

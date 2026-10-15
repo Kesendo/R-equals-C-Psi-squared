@@ -398,7 +398,9 @@ approximation is the closest available implementation.
    ratio SIZE stays floor-sensitive, and floor-correcting raises it).
 2. **DD on bad qubits appears harmful here.** The likely reading is that gate
    errors on Q85 outweigh DD's benefit (itself a gate-cost, Interpretation-A
-   mechanism); single run, no error bars, so read as directional not established.
+   mechanism); single run, and the 2026-07-11 bootstrap gives this
+   uniform-vs-no-DD comparison no ordering confidence (it tests selective
+   against each of the other two), so read as directional not established.
 3. **Natural T2 variation is exploitable.** Q85's T2=5us is a feature, not a bug.
 
 **Does not yet show:**

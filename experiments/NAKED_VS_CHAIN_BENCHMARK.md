@@ -72,9 +72,9 @@ The decay rate of the bonding-mode encoding follows the closed-form formula
 
     α₁ = (4γ₀ / (N+1)) sin²(π/(N+1))
 
-verified numerically to better than 0.6% for N=3 and N=5 (fit against full Liouvillian propagation). T₂ scales cubically: T₂ ~ (N+1)³ / (4π²γ₀).
+verified numerically to 0.11% at N=3, 0.26% at N=4 and 0.37% at N=5 (fit against full Liouvillian propagation; the fit residual tracks the O((γ₀/J)²) shift of the caveat below). T₂ scales cubically: T₂ ~ (N+1)³ / (4π²γ₀).
 
-**Caveat for N > 5.** The formula above is derived by applying the Absorption Theorem to single-excitation coherence operators as if they were decoupled Liouvillian eigenvectors. This is exact only to first order in γ₀/J. The full Liouvillian mixes these coherences with other sectors; the actual eigenvalue shifts by O((γ₀/J)²). At γ₀/J = 0.05 and N=5 the relative shift is about 4×10⁻³ (verified in [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py)). For the larger N in the table above the perturbative correction is unverified. The palindromic structure [F1](../docs/ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven) is algebraically exact regardless: the bonding rate and its partner rate sum to exactly 2γ₀ at every N, even when individual rates deviate from the first-order formula.
+**Caveat for N > 5.** The formula above is derived by applying the Absorption Theorem to single-excitation coherence operators as if they were decoupled Liouvillian eigenvectors. This is exact only to first order in γ₀/J. The coherences |vacuum⟩⟨single excitation| span a closed N×N block of the Liouvillian, and inside it the endpoint dephasing mixes the k-modes with each other; the exact rate is that block's slowest eigenvalue, shifted from the formula by O((γ₀/J)²). At γ₀/J = 0.05 and N=5 the relative shift is about 4×10⁻³ (verified in [`palindromic_partner_f67.py`](../simulations/palindromic_partner_f67.py)). For the larger N in the table above the perturbative correction is unverified. The palindromic structure [F1](../docs/ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven) is algebraically exact regardless: the bonding rate and its partner rate sum to exactly 2γ₀ at every N, even when individual rates deviate from the first-order formula.
 
 ## What this protection factor means
 
@@ -86,7 +86,7 @@ This is not a per-qubit metric. Storing M/2 parallel naked Bell pairs gives you 
 
 **1. Variant B gives a pure exponential from t=0.** No transient, no multi-exponential behavior. All initial entanglement is placed in the slowest eigenmode of the Liouvillian. Variants A and C show an initial fast transient (losing entanglement to faster-decaying modes) before settling into the same long-time decay rate. The bonding-mode encoding is not just slower on average; it is optimal at every point in time.
 
-**2. Variants A and C are dynamically identical on the uniform chain.** The inner-localized and outer-localized encodings produce the same entanglement trajectory. "Distance from the noise source" is not the protection mechanism. The bonding mode is. Its amplitude |a_B|² = (2/(N+1)) sin²(π/(N+1)) at the dephased endpoint determines the effective dephasing rate via γ_eff = γ₀·|a_B|². The chain does not reduce γ₀; it provides an encoding basis in which the relevant mode barely touches the dephased site.
+**2. Variants A and C end on the same rate on the uniform chain.** The inner-localized and outer-localized encodings differ early (at N=5, γ₀ = 0.05, the outer one has lost 7% of its coherence by t = 1, the inner one 0.002%), but both settle into the bonding mode's decay rate. "Distance from the noise source" shapes the transient; it is not the protection mechanism. The bonding mode is. Its amplitude |a_B|² = (2/(N+1)) sin²(π/(N+1)) at the dephased endpoint determines the effective dephasing rate via γ_eff = γ₀·|a_B|². The chain does not reduce γ₀; it provides an encoding basis in which the relevant mode barely touches the dephased site.
 
 ## What the chain does and does not do
 

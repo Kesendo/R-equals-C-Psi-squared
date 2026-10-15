@@ -168,10 +168,15 @@ effect.
 | GHZ | 0.000 | (none) | −0.31 |
 
 The correlation holds for most initial states. The GHZ state is the
-exception: it is a superposition of computational basis states
-(\|0000⟩ + \|1111⟩)/√2, which the Z-dephasing kills instantly by
-destroying the off-diagonal coherence. The state collapses to a
-classical mixture before any weight sector can drive geometric motion.
+exception: (\|0000⟩ + \|1111⟩)/√2 carries a single coherence
+\|0000⟩⟨1111\|, at XY-weight N = 4, which the Z-dephasing removes at the
+finite rate 2Nγ. The state never leaves span{\|0000⟩, \|1111⟩}: its
+eigenvectors (\|0000⟩ ± \|1111⟩)/√2 stay fixed and only their weights
+(1 ± e^(−2Nγt))/2 change. The script's speed counts only eigenvector motion
+(the (p_i − p_j)² terms) and leaves out the population term, so a trajectory
+with fixed eigenvectors reads 0.000, and the r = −0.31 beside it is computed on
+a numerically zero speed; a full quantum Fisher information along this
+trajectory is not zero.
 
 The peak always occurs at k = 2 (the most degenerate sector) regardless
 of initial state, but the magnitude differs. This confirms: the

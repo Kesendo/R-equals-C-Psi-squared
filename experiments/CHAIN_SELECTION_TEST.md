@@ -127,20 +127,23 @@ the 1.384× that separates the ten chains in the mapping run. Full working in
 
 ### 2. Mode localization is geometric (chain-determined)
 
-Both chains show identical spatial profiles for their slowest modes:
+Both chains' slowest modes carry profiles fixed by the chain, but not the
+same one:
 
 ```
 Chain A slowest 4 modes: [0.519, 0.631, 0.700, 0.631, 0.519]
 Chain B slowest 4 modes: [0.631, 0.519, 0.700, 0.519, 0.631]
 ```
 
-The center qubit (position 2) has 70% weight. Edge qubits have 52%.
-The profile is determined by chain geometry, not noise distribution.
-This confirms [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md).
-
-Chain B's profile is reflected (position 1 and 3 swap roles) because
-its noise is nearly symmetric, while Chain A's profile matches the
-asymmetric noise shape.
+Each is the profile (1 + |ψ_m(j)|²)/2 of a single-excitation standing wave
+ψ_m of the Heisenberg chain (a coherence between the vacuum and one
+excitation), and it decays at 2·Σ_j γ_j|ψ_m(j)|² to first order in γ/J. The set of waves is
+determined by the chain geometry; the noise only picks which wave is
+slowest. Chain A's noisy ends (Q80, Q85) select the wave with the least
+edge weight (rate 0.01876, frequency 7.236), Chain B's nearly flat noise
+selects a different wave (rate 0.00457). Both profiles are mirror-symmetric;
+B's is a different standing wave, not a reflection of A's. This confirms
+[Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md).
 
 ### 3. Time evolution: two stories depending on initial state
 
@@ -157,8 +160,11 @@ asymmetric noise shape.
 
 Chain A wins massively. This is expected: |+>^5 is a Heisenberg
 eigenstate with zero energy variance. Without noise, nothing happens.
-More noise = more signal. Chain A's 11x more noise + 44x contrast
-creates orders of magnitude more dynamics.
+Uniform noise does not help either: the same dephasing on every site keeps
+|+>^5 a product state, ⊗(I + e^(−2γt)X)/2, and SumMI stays exactly 0. Only
+the site-to-site differences of the noise seed correlation, so Chain A's
+large site-to-site differences (0.0023 to 0.100 against B's 0.0018 to
+0.0035) create orders of magnitude more dynamics.
 
 #### |01010> (Néel state, the alternating up-down pattern that maximizes nearest-neighbor energy -- Hamiltonian drives dynamics)
 
@@ -230,11 +236,12 @@ useful when noise IS the channel (gamma-as-signal, |+>^5). It is
 harmful when the Hamiltonian IS the channel and noise is the enemy
 (QST, |01010>).
 
-**For the April A/B test:** If the experiment uses |+>^5 (or |0...0>
-which on IBM Trotter circuits effectively behaves like noise-driven
-dynamics), then sacrifice chain selection may show an advantage even
-without DD. If it uses a state that evolves under the Hamiltonian,
-the quieter chain wins.
+**For the April A/B test:** If the experiment uses |+>^5, where the
+dynamics is noise-driven, then sacrifice chain selection may show an
+advantage even without DD. If it uses a state that evolves under the
+Hamiltonian, the quieter chain wins. |0...0> shows neither: it is a
+Heisenberg eigenstate, stationary under Z-dephasing and the fixed point
+of T1 decay, so in this model nothing moves.
 
 ---
 
@@ -253,16 +260,17 @@ the quieter chain wins.
 3. **Trotter initial state:** What is the effective initial state on IBM
    hardware? The standard Trotter circuit for Heisenberg evolution starts
    from |0...0> or |+...+>. If |+>^5, it is a Heisenberg eigenstate and
-   the noise-driven regime applies. If |0...0>, the ZZ interaction creates
-   some dynamics but not the full Neel dynamics.
+   the noise-driven regime applies. If |0...0>, there are no dynamics at
+   all in this model: it is an eigenstate of every Heisenberg bond XX + YY + ZZ (XX + YY annihilates it, ZZ gives +1), Z-dephasing
+   leaves it unchanged, and T1 decay has it as its fixed point.
 
 ---
 
 ## Verdict
 
 The sacrifice-zone mode protection is **confirmed** (2.86x vs 1.06x).
-The localization profile is **geometric** (identical standing wave shape
-for both chains, determined by the Hamiltonian;
+The localization profile is **geometric** (standing-wave shapes
+determined by the Hamiltonian, the noise picking which one is slowest;
 see [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)). But chain selection based on sacrifice score alone is
 **insufficient** for Hamiltonian-driven dynamics -- the total noise
 level dominates. The sacrifice zone is a within-chain optimization

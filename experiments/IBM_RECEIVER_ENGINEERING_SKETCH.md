@@ -150,11 +150,11 @@ Template for new script: copy `run_bonding_mode.py`, strip the R-qubit block (li
 1. ✅ **Write `run_receiver_engineering.py`** in the IBM pipeline directory; done 2026-04-24.
 2. ✅ **Run MVE on Aer simulator** with Kingston noise; done 2026-04-24.
 3. ✅ **MVE on Kingston hardware**; done 2026-04-24, ~2 QPU min, ratio 2.80×.
-4. **Follow-ups (not yet run):**
+4. ✅ **Receiver menu at N=5, t=0.8**: run 2026-04-25 on ibm_marrakesh as the [K-partnership run](IBM_K_PARTNERSHIP_SKETCH.md), bonding:1 through bonding:5 with XX-only evolution.
+5. **Follow-ups (not yet run):**
    - Evolution-time sweep at bonding:2 vs alt-z-bits (6 points at t = 0.1, 0.3, 0.5, 0.8, 1.2, 2.0), ~12 QPU min. Confirms the peak-at-t~0.8 prediction and rules out coincidence.
-   - Receiver menu (bonding:1, bonding:2, bonding:3) at N=5 t=0.8, ~6 QPU min. Confirms F67 mode-k structure on hardware.
    - N-sweep: N=7 bonding:2 vs alt-z-bits at t near respective peaks, ~5 QPU min. Tests whether advantage grows at larger N on hardware.
-5. Error-mitigation: ZNE or dynamical decoupling to lift absolute MI values. Optional for qualitative test; useful for quantitative comparison to framework.
+6. Error-mitigation: ZNE or dynamical decoupling to lift absolute MI values. Optional for qualitative test; useful for quantitative comparison to framework.
 
 ## References
 

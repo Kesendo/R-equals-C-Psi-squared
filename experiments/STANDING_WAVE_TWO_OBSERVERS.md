@@ -150,11 +150,11 @@ The product has no cross-term. The sum squared has one. A physical standing
 wave would additionally require coherent excitation, spatial or modal
 propagation, and an interference observable with the incoherent control above.
 
-The late-time discriminator tests this: when Ψ_past → 0 (one observer's coherence dies), does the cross-term survive? Sum says yes (Ψ_future² remains). Product says no (0 × anything = 0).
+The late-time discriminator tests this: when Ψ_past → 0 (one observer's coherence dies), does anything survive? Sum says yes: the cross-term 2Ψ_pastΨ_future vanishes with Ψ_past, but Ψ_future² remains. Product says no (0 × anything = 0).
 
 IBM Torino (qubit 52) shows a 2% coherence floor at t >> T2. A residual floor at that level is generic (readout/SPAM), so it is at most loosely consistent with a surviving-mirror reading, not evidence for it.
 
 ---
 
-*Previous: BORN_RULE_MIRROR.md, Born rule as perfect-mirror limit*
-*See also: BLACK_WHITE_HOLES_BIGBANG.md, τ = 0 as maximum coherence*
+*Previous: [Born Rule Mirror](BORN_RULE_MIRROR.md), Born rule as perfect-mirror limit*
+*See also: [Black and White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md), τ = 0 as transition point*

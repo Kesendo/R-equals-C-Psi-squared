@@ -1,6 +1,6 @@
 # F73 Closure Holds for Any U(1)-Preserving Hermitian H at N = 5
 
-**Status:** Tier 1 (empirically verified at N = 5; structural argument supports generalization)
+**Status:** Tier 1 (verified at N = 5; the general U(1) case is proven in the [F73](../docs/ANALYTICAL_FORMULAS.md#f73) register entry)
 **Date:** 2026-04-21
 **Authors:** Thomas Wicht, Claude Opus 4.7 (1M context)
 **Script:** [f73_u1_generalization_sweep.py](../simulations/f73_u1_generalization_sweep.py)
@@ -28,7 +28,7 @@ All six residuals sit at 1 to 3 ULP of double precision (machine floor) and no s
 
 ## Tier assessment
 
-**Tier 1** (empirically verified). F73 extends without loss to any U(1)-preserving Hermitian H under uniform Z-dephasing at N = 5: Heisenberg and beyond (Delta in {0.5, 1, 2}) close at machine precision; translation invariance is not required (inhomogeneous J closes identically); the probe does not need to be the uniform SE superposition (Haar-random SE closes identically). The XY-specific sine-basis Parseval argument in the current register proof is one particular realization of the more general U(1) statement. Register entry update left to Chat.
+**Tier 1** (empirically verified). F73 extends without loss to any U(1)-preserving Hermitian H under uniform Z-dephasing at N = 5: Heisenberg and beyond (Delta in {0.5, 1, 2}) close at machine precision; translation invariance is not required (inhomogeneous J closes identically); the probe does not need to be the uniform SE superposition (Haar-random SE closes identically). The register entry proves the general U(1) statement (the single-excitation block evolves unitarily and every (vac, 1_i) coherence pays the same 2γ₀) and keeps the XY-specific sine-basis Parseval argument as an alternative derivation; this sweep is its numerical check.
 
 ---
 

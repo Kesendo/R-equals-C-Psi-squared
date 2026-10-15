@@ -170,9 +170,12 @@ Hence:
 The flight (ibm_kingston, job d9br4vmg26ic73dgbgk0, Confirmation 24) measured
 the A0 deviation +0.0114 = +3.36σ_a, positive, inside the pre-registered
 budgeted window. That is **sign-consistency within a blended budget**, not a
-measurement of the ζ² sign: b_zz2 = +0.0043 is about 38 % of the observed
-excess, the remainder sits in the two-sided quasi-static draw b_qs = ±0.008
-whose sign on one device is a single frozen unknown. The flight banks the
+measurement of the ζ² sign. Under the ζ normalization above
+(H = (πζ/2)·ZZ) the corrected-transfer ζ² budget is b_zz2/4 ≈ +0.0011 (still
+carrying the deliberate 2× ζ headroom), about 9 % of the observed excess; the
+remainder, ~0.010, lies within the statistical 3σ_a together with the two-sided
+quasi-static draw b_qs = ±0.008, whose sign on one device is a single frozen
+unknown. The flight banks the
 standing fringe (clauses a ∧ b ∧ c), and the excess direction is consistent
 with this law in the same-sign regime; no more is claimed.
 
@@ -180,5 +183,5 @@ with this law in the same-sign regime; no more is claimed.
 
 - This proof + the gate [`simulations/zeta2_anti_protection.py`](../../simulations/zeta2_anti_protection.py) (G0 lift, G1 cited certificate, G2 clean limit + PT2, G3 exact antisymmetry, G4 evenness, G5 Trotter-split consistency; all PASS, exit 0).
 - The static owner: [PROOF_K_PARTNERSHIP](PROOF_K_PARTNERSHIP.md) + `ChiralKClaim` (class BDI; K linear, T = conjugation, Θ = T·K the PHS line).
-- The instrument constants (b_zz2, the 1.22 estimator uplift, the 2× transferred-ζ policy, one-sidedness, the 40-draw same-sign check): [IBM_F129_RAMSEY_FRINGE](../../experiments/IBM_F129_RAMSEY_FRINGE.md) §5, unchanged and normative for the flight record.
+- The instrument constants (b_zz2 = 0.0043 as pre-registered, of which the corrected transfer b_zz2/4 ≈ 0.0011 of §6 is the quarter, the 1.22 estimator uplift, the 2× transferred-ζ policy, one-sidedness, the 40-draw same-sign check): [IBM_F129_RAMSEY_FRINGE](../../experiments/IBM_F129_RAMSEY_FRINGE.md) §5, unchanged and normative for the flight record.
 - Typed surface: deferred; when it lands it is a child of `ChiralKClaim` (the Floquet lift), not of the crosstriple family and not a MirrorWorld adoption.
