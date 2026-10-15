@@ -75,22 +75,10 @@ def build_liouvillian(H, jump_ops):
 
 
 def biorthogonal_eig(L):
-    """Right/left eigenvectors, matched and biorthonormalized."""
+    """Right eigenvectors and their dual (left) basis from R^-1, biorthonormal also
+    inside degenerate eigenspaces (VL[:, i]^H VR[:, j] = delta_ij)."""
     vals_r, VR = np.linalg.eig(L)
-    _vals_l, VL = np.linalg.eig(L.conj().T)
-    used = set()
-    order = []
-    for i, v in enumerate(vals_r):
-        j = min((j for j in range(len(_vals_l)) if j not in used),
-                key=lambda j: abs(_vals_l[j] - v.conjugate()))
-        used.add(j)
-        order.append(j)
-    VL = VL[:, order]
-    for i in range(len(vals_r)):
-        s = VL[:, i].conj() @ VR[:, i]
-        if abs(s) > 1e-14:
-            VR[:, i] /= np.sqrt(s)
-            VL[:, i] /= np.sqrt(np.conj(s))
+    VL = np.linalg.inv(VR).conj().T
     return vals_r, VR, VL
 
 

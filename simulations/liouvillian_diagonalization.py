@@ -39,21 +39,10 @@ def liouvillian_super(H, L_ops):
 
 
 def build_biorthogonal_eigensystem(L):
+    """Right eigenvectors and their dual (left) basis from R^-1, biorthonormal also
+    inside degenerate eigenspaces, so cluster sums in observable_amplitudes are exact."""
     vals_r, VR = np.linalg.eig(L)
-    vals_l, VL = np.linalg.eig(L.conj().T)
-    matched = []
-    used = set()
-    for i, v in enumerate(vals_r):
-        j = min((j for j in range(len(vals_l)) if j not in used),
-                key=lambda j: abs(vals_l[j] - v.conjugate()))
-        used.add(j)
-        matched.append(j)
-    VL = VL[:, matched]
-    for i in range(len(vals_r)):
-        s = VL[:, i].conj().T @ VR[:, i]
-        if abs(s) > 1e-14:
-            VR[:, i] /= np.sqrt(s)
-            VL[:, i] /= np.sqrt(np.conj(s))
+    VL = np.linalg.inv(VR).conj().T
     return vals_r, VR, VL
 
 

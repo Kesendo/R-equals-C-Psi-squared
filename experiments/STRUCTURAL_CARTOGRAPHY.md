@@ -627,7 +627,7 @@ good structural guess to actual spectral claim."
 
 **Slow antisymmetric/mixing sector (c- and aX coordinates):**
 - Frequency: f = 0.404 cycles/time
-- Decay rate: ~0.13
+- Decay rate: 0.100 on its strongest branch, 0.167 on the next (exact projection onto the eigenvalue groups); the 0.133 beside them belongs to a third frequency, 1.103
 - This is the mode involved in sector switches
 
 **Effective AB model verification:**

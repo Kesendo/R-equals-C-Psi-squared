@@ -248,7 +248,7 @@ deforms states; the cusp does not see operator-class membership at all.
 
 ## Open follow-ups
 
-1. ~~Per-Hamiltonian c_H structure.~~ **Closed.** The anchor c_H = ‖M(2)‖² has a
+1. **Per-Hamiltonian c_H structure: closed.** The anchor c_H = ‖M(2)‖² has a
    closed form, registry [F85](../docs/ANALYTICAL_FORMULAS.md) (proof:
    [PROOF_F85_KBODY_GENERALIZATION](../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md);
    `fw.predict_residual_norm_squared_from_terms`): each term contributes
@@ -258,7 +258,7 @@ deforms states; the cusp does not see operator-class membership at all.
    table: IX+IY 0 + 64, XY+YZ 64 + 128, XX+YZ 0 + 128, IY+YI and IZ+ZI
    64 + 64. The absolute formula is predictive without any N=2 measurement.
 
-2. ~~Topology dependence.~~ **Closed.** Verified at chain, ring, star,
+2. **Topology dependence: closed.** Verified at chain, ring, star,
    and K_N for N=4, 5: only B(G) and D2(G) appear. No higher graph
    invariants required.
 

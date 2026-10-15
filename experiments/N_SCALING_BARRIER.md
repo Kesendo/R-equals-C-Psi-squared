@@ -131,9 +131,11 @@ C·Ψ = 0.143 < 0.25. **Nothing crosses.** The entire taxonomy collapses
 to Type C. Not because the mechanisms changed, but because the starting
 point is already below the boundary.
 
-Note: concurrence returns C = 0.5 constant for GHZ N = 3. This is
-different from Bell+ where concurrence starts at C = 1.0 and decays
-(Type B). For N > 2, the concurrence metric itself behaves differently.
+Note: the concurrence bridge returns C = 0.5 constant for GHZ N = 3,
+where Bell+ starts at C = 1.0 and decays (Type B). The pair marginal of
+GHZ N = 3 is (|00⟩⟨00| + |11⟩⟨11|)/2, separable, with Wootters concurrence
+0; the 0.5 the bridge returns equals that marginal's purity, which
+dephasing leaves unchanged.
 
 ### 4.2 W N = 3: Type A Survives, and It's Stronger
 
@@ -258,8 +260,9 @@ simulate_dynamic_lindblad(
 2. **Correlation C = 1.0**: Must hold for W N=3 (until t ≈ 2.3) and
    W N=4 (until t ≈ 1.5). Type A is intact regardless of crossing.
 
-3. **GHZ concurrence = 0.5 constant**: Different from Bell+ (decaying).
-   The concurrence metric changes behavior for N > 2.
+3. **GHZ concurrence bridge = 0.5 constant**: Different from Bell+
+   (decaying). The GHZ pair marginal has Wootters concurrence 0; the
+   bridge's 0.5 equals the marginal's purity.
 
 ### 6.3 What Could Resolve This
 
