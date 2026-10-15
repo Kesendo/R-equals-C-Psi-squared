@@ -1,6 +1,6 @@
 # IBM Hardware: K-Partnership Cross-Validation on Marrakesh (Heron r2)
 
-**Status:** Run 1 complete 2026-04-25 on ibm_marrakesh (Kingston was down at run time). K-partner pair deviations on hardware: 15 % (bonding:2/4) and 46 % (bonding:1/5) Δ/mean, vs 0.02 to 0.25 % on Aer. Hardware-Site-/Bond-Asymmetrie measurably visible.
+**Status:** Run 1 complete 2026-04-25 on ibm_marrakesh (Kingston was down at run time). K-partner pair deviations on hardware: 15 % (bonding:2/4) and 46 % (bonding:1/5) Δ/mean, vs 0.02 to 0.25 % on Aer. Hardware site and bond asymmetry measurably visible.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `run_receiver_engineering.py` in the external `ibm_quantum_tomography` pipeline at `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\` (extension of Run 1 from 2026-04-24)
@@ -16,10 +16,10 @@ Five F67 bonding-mode receivers on the same N=5 hardware path, in one job-set. T
 
 Two questions in one run:
 
-1. Does the receiver-menu folding survive real hardware? Aer + Marrakesh noise model predicts K-partner pair Δ/mean of 0.02 to 0.25 % (preserved to within shot-noise). Live hardware adds non-uniform γ_l profiles, asymmetric bond errors, and crosstalk that the noise model does not capture. The K-partner spread quantifies the **hardware Site-/Bond-Asymmetrie** visible through the K-difference channel.
+1. Does the receiver-menu folding survive real hardware? Aer + Marrakesh noise model predicts K-partner pair Δ/mean of 0.02 to 0.25 % (preserved to within shot-noise). Live hardware adds asymmetric gate and readout errors, unequal state-preparation circuits for the two partners, and crosstalk that the noise model does not capture. The K-partner spread quantifies the **hardware site and bond asymmetry** visible through the K-difference channel.
 2. Cross-validation of the bonding-mode pipeline at five receivers in one job-set, distinct from Run 1 which was bonding:2 only.
 
-The K-partner-spread reading is operationally a γ-profile diagnostic: under uniform γ_l the K-Lindblad is K-equivariant and the pair identity holds; deviations measure the local inhomogeneity. This is the same physics that GAMMA_AS_SIGNAL reads via the spatial-sum channel and CMRR_BREAK_NONUNIFORM_GAMMA reads via the (vac, S_1)-coherence kernel; the K-difference channel is a third route to the same observation.
+The K-partner spread is blind to the γ-profile. K = diag((−1)^l) is a product of Z on the odd sites, letters that dephasing never charges: it commutes with every D[Z_l] at any rate, which is why [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md) holds for any γ_l profile, and with every D[σ⁻_l] as well (σ⁻ goes to ±σ⁻ and the sign squares away). No dephasing profile and no T1 profile can split a pair. What can is whatever leaves that structure: H-side terms (detuning, ZZ crosstalk, next-nearest couplings) and, outside the Lindbladian, coherent errors in the partners' unequal preparation circuits and readout bias. GAMMA_AS_SIGNAL and CMRR_BREAK_NONUNIFORM_GAMMA read the γ-profile through channels that do see it.
 
 ## Setup
 
@@ -74,7 +74,7 @@ K-partner deviations on hardware (Δ/mean):
 | (bonding:1, bonding:5) | **46 %** | 0.25 % |
 | (bonding:2, bonding:4) | **15 %** | 0.02 % |
 
-The hardware spreads are orders of magnitude larger than Aer alone predicts. The difference is the Hardware-γ-profile inhomogeneity that the noise model does not capture (T1 site-asymmetry, asymmetric CZ errors, transversal crosstalk). This is the same inhomogeneity that the spatial-sum channel reads in GAMMA_AS_SIGNAL and the (vac, S_1)-kernel reads in CMRR_BREAK_NONUNIFORM_GAMMA. The K-difference is a third reading of the same physics.
+The hardware spreads are orders of magnitude larger than Aer alone predicts. The difference is hardware asymmetry beyond what the Aer model reproduces. In the continuous-time model no γ or T1 profile can split a pair, and Pauli and relaxation channels in general commute with ρ ↦ (KρK)*; in the circuits they split a pair only through the gate-level differences between the partners' circuits, small at these error rates and consistent with Aer's 0.02 to 0.25 %. What is left: coherent (non-Pauli) errors acting through the partners' different preparation circuits, crosstalk, and any readout bias the Aer model does not carry. The calibration asymmetries along the path (CZ error 5.9× between bonds (0,1) and (3,4), readout 1.9× between sites 0 and 4) are context, not by themselves the mechanism.
 
 bonding:3 (self-partner, no K-comparison) gives MI = 0.170 on hardware vs 0.770 on Aer (HW/Aer = 0.22), an absolute decoherence-depth anchor for this path.
 
@@ -87,12 +87,12 @@ Result file: `data/ibm_k_partnership_april2026/k_partnership_marrakesh_20260425_
 **Establishes:**
 
 - The receiver-menu folding ⌈N/2⌉ is a real operational structure on Marrakesh hardware: K-partner pairs deviate by 15 to 46 %, much less than between distinct K-classes (bonding:1/5 at MI ≈ 0.06, bonding:2/4 at MI ≈ 0.07, bonding:3 at MI ≈ 0.17 are clearly different classes).
-- The hardware-Site-/Bond-Asymmetrie is read out through the K-difference channel at the 15-46 % level on this path.
+- The hardware site and bond asymmetry is read out through the K-difference channel at the 15–46 % level on this path.
 
 **Does not establish:**
 
-- A new fundamental phenomenon. The K-partner-spread reading is an alternative diagnostic of the same Hardware γ-profile that GAMMA_AS_SIGNAL and CMRR_BREAK_NONUNIFORM_GAMMA already document. This run replicates the existing γ-profile-as-signal logic via the K-difference channel; it does not add a new structural claim beyond PROOF_K_PARTNERSHIP itself.
-- A specific dominant breaker. T1, T2, readout, and CZ errors all contribute non-uniformly across the K-pairs; trying to attribute the spread to one channel (e.g. T1 alone, or lifetime alone) is not supported by the data.
+- A new fundamental phenomenon. The run reads hardware asymmetry through the K-difference channel; it does not add a new structural claim beyond PROOF_K_PARTNERSHIP itself.
+- A specific dominant breaker. Readout, CZ and preparation-circuit asymmetries are all present across the K-pairs (T1 and T2 profiles drop out, above); attributing the spread to one of them is not supported by the data.
 
 ## References
 

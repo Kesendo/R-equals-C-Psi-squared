@@ -1,7 +1,8 @@
 """Slow-mode R-parity decomposition for the F86 diagnostic question.
 
-R = site-reflection on the spin chain = momentum-reversal k ↔ N+1-k on JW
-Bogoliubov modes. R commutes with the full Liouvillian L for uniform-γ
+R = site-reflection on the spin chain; on the open chain it maps the JW Bogoliubov
+mode b_k to (−1)^(k+1)·P·b_k with P the fermion parity, so a bilinear b_p†·b_q
+carries the R-sign (−1)^(p+q) (SLOW_MODE_R_PARITY.md, Step 3). R commutes with the full Liouvillian L for uniform-γ
 Z-dephasing on the XY chain, so L block-diagonalizes by R-parity.
 
 This script:

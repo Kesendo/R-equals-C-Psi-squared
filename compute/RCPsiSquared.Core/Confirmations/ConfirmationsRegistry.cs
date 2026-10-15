@@ -81,11 +81,13 @@ public static class ConfirmationsRegistry
             JobId: "k_partnership_marrakesh_20260425",
             Observable: "Bloch components of K-partner pair states",
             PredictedValue: "Chiral mirror identity from K=diag((-1)^l)",
-            MeasuredValue: "retrospective verification, identity holds",
+            MeasuredValue: "site 0 <Z> mirror holds to 0.25 %; site 4 <Z> mirror breaks at 47 % and site purities at 3-19 %; Aer with the Marrakesh noise model holds to 0.04-0.11 %",
             HardwareData: "data/ibm_k_partnership_april2026/k_partnership_marrakesh_20260425_140913.json",
             ExperimentDoc: "experiments/CHIRAL_MIRROR_HARDWARE_PREDICTION.md",
             FrameworkPrimitive: "K_full chiral conjugation (Symmetry/ChiralK)",
-            Description: "Chiral mirror law (K H K = -H spectral inversion) verified retrospectively on Marrakesh K-partnership data."),
+            Description: "Chiral mirror law (K H K = -H with real H, partner trajectories related by K-conjugation and complex conjugation), " +
+                "read retrospectively on the Marrakesh K-partnership data: it holds in simulation and at site 0, and breaks at site 4 on hardware. " +
+                "The break tracks gate and preparation asymmetry; K commutes with every dephasing and T1 dissipator, so no rate profile can cause it."),
 
         new Confirmation(
             Name: "pi_protected_xiz_yzzy",

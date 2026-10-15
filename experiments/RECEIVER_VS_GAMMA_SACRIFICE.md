@@ -18,7 +18,7 @@ The 360× ratio is correct for its own setup. The absolute value it reaches (0.2
 
 Three transport metrics matter. **Sum-MI** over all adjacent pairs (distributed correlation across the chain). **MI(0, N-1)** between the two outer endpoints (single-end direct transport). **Mirror-Pair MM** = Σ_k MI(site k, site N-1-k) over all F71-mirror partners (multi-end transport, e.g. 4 pairs at N=9). The main body below compares γ-Sacrifice against receiver-engineering on all three. The receiver-engineering advantage is largest on Sum-MI (factor 7 to 15 across N=5 to 9), intermediate on Mirror-Pair MM (factor ~6 to 8), and smallest on single-end MI(0, N-1) (factor 3 to 5). The three metrics select different optimal J-profiles: Sum-MI prefers moderate J-modulation, MI(0, N-1) and MM both prefer uniform J (same J-optimum for both transport metrics). The Mirror-Pair MM/MI(0,N-1) ratio grows with N (1.49× → 1.74× → 2.05× at N=5, 7, 9), so multi-end usage partially compensates the single-end scaling loss with N.
 
-Each metric has its own optimal receiver. **alt-z-bits** (e.g. \|01010⟩) maximises Sum-MI. **F67 bonding modes** (single-excitation sinusoidal eigenstates |ψ_k⟩ of the uniform-J chain) maximise both MI(0, N-1) and Mirror-Pair MM. The best k depends on N: k=2 at N=5, 7; k=3 at N=9; k=4 at N=11, 13 for single-end; the static MM optimum is among even k (k=6 at N=11, k=2 or k=4 tied at N=13), predictable directly from F75's amplitude-multiset formula without propagation. Best-bonding advantage over alt-z-bits GROWS superlinearly with N: 1.39× → 1.48× → 2.02× → 3.02× → 4.59× on MI(0, N-1) and tied → 1.37× → 1.88× → 3.26× → 5.25× on MM at N=5, 7, 9, 11, 13. **bonding:1** (k=1) is the slowest-decaying state for long-time memory. One hardware setup (uniform γ₀ = const, uniform J, Heisenberg chain) supports all three application categories via receiver choice at preparation time only.
+Each metric has its own optimal receiver. **alt-z-bits** (e.g. \|01010⟩) maximises Sum-MI. **F67 bonding modes** (single-excitation sinusoidal eigenstates |ψ_k⟩ of the uniform-J chain) maximise both MI(0, N-1) and Mirror-Pair MM. The best k depends on N: k=2 at N=5, 7; k=3 at N=9; k=4 at N=11, 13 for single-end; the static MM optimum is among even k (k=6 at N=11, k=2 or k=4 tied at N=13), predictable directly from F75's amplitude-multiset formula without propagation. Best-bonding advantage over alt-z-bits GROWS superlinearly with N: 1.39× → 1.48× → 2.02× → 3.02× → 4.59× on MI(0, N-1) and tied → 1.37× → 1.88× → 3.26× → 5.25× on MM at N=5, 7, 9, 11, 13. One hardware setup (uniform γ₀ = const, uniform J, Heisenberg chain) supports the correlation and transport categories via receiver choice at preparation time only.
 
 ## Correction note (2026-04-23 evening)
 
@@ -212,11 +212,11 @@ Each pair has lower bandwidth than a dedicated single-end link, but the aggregat
 
 ## F67 bonding-mode receivers: beating alt-z-bits at end-to-end and multi-end transport
 
-[F65](../docs/ANALYTICAL_FORMULAS.md) identifies the single-excitation eigenmodes of a uniform-J open Heisenberg chain (F67 is the optimality result built on these modes):
+[F65](../docs/ANALYTICAL_FORMULAS.md) identifies the single-excitation eigenmodes of a uniform-J open XX chain (F67 is the optimality result built on these modes):
 
 |ψ_k⟩ = √(2/(N+1)) Σ_{j=0..N-1} sin(πk(j+1)/(N+1)) |1_j⟩   for k ∈ {1, ..., N}
 
-with dephasing decay rate α_k = (4γ₀/(N+1)) sin²(πk/(N+1)). The k=1 ("bonding") mode is the slowest-decaying, F67 notes it as the optimal single-excitation state under dephasing.
+Under dephasing on one end site only, these modes decay at first order in γ₀/J at α_k = (4γ₀/(N+1)) sin²(πk/(N+1)), and the k=1 ("bonding") mode is the slowest, which is F67's optimality statement. The runs below use uniform γ₀ on every site, where that rate does not apply: in the block that carries |ψ_k⟩⟨ψ_k| the populations carry no X/Y letter and decay at 0, every coherence |1_i⟩⟨1_j| carries two and decays at 4γ₀, and no single rate per k exists.
 
 The C# brecher mode (commit `0917038`) now accepts `bonding:<k>` as initial-state spec and tests k=1, 2, 3 against existing SU(2)-breaking baselines.
 
@@ -270,6 +270,8 @@ At N=5: \|ψ_2⟩ = (\|1_0⟩ + \|1_1⟩ − \|1_3⟩ − \|1_4⟩)/2 with c_2 =
 | 11 | 0.432 / 0.143 = **3.02×** (k=4) | 1.066 / 0.327 = **3.26×** (k=6) |
 | 13 | 0.349 / 0.076 = **4.59×** (k=4) | 1.008 / 0.192 = **5.25×** (k=2) |
 
+The k=4 MM entries at N = 7 and 9 come from runs not listed in the data table; they agree with F75's 0.93·MM(0), 1.158 and 1.052.
+
 The "best-bonding" column uses the k that maximises each metric at each N; F75 predicts the MM winner from the amplitude multiset alone (MM(0) formula), and the dynamical MI(0, N-1) peak shifts to the F75-predicted static optimum k = (N+1)/2 with a decay envelope of ~0.93. Both ratios grow superlinearly with N: doubling N from 5 to 11 grows the MI(0, N-1) advantage factor from 1.39× to 3.02× (2.17×) and the MM advantage from 0.99× to 3.26× (3.29×). alt-z-bits multi-mode MI dilutes rapidly with N, while a single F65 bonding mode concentrates amplitude where the Heisenberg dynamics can build end-to-end coherence.
 
 ### Analytical MM(0) closed form ([F75](../docs/ANALYTICAL_FORMULAS.md))
@@ -280,7 +282,7 @@ For any single-excitation mirror-symmetric state |ψ⟩ = Σ_j c_j |1_j⟩ with 
 
 where p_ℓ = |c_ℓ|² and h is binary entropy. Summed over all ⌊N/2⌋ pairs this gives MM(0), which for bonding:k uses p_ℓ(k, N) = (2/(N+1)) sin²(πk(ℓ+1)/(N+1)) from F65. The analytic MM(0) matches C# brecher simulation PeakMM with remarkable consistency across N = 5, 7, 9, 11 and k = 1, 2, 3, 4, 6: at γ₀ = 0.05, uniform J = 1 the sim/analytic ratio sits at **0.925-0.931** for every (N, k) combination tested at N ≥ 7, i.e. PeakMM = **0.93 × MM(0)**. The 7% decay envelope is caused by e^{−4γ₀·t} coherence decay plus same-parity Heisenberg oscillation at the first observable grid point. **Peak MM sits at or near t = 0**: bonding:k achieves its maximum MM structurally, and F75 predicts the peak to within 7% without any propagation.
 
-The F75 analysis also explains why k = 2 wins: for even k the chain center has zero amplitude (p_{N/2} = 0 for odd N), so all probability mass is on mirror-pairs (Σ_pairs p_ℓ = 1/2); the function f(p) = 2h(p) − h(2p) is convex on (0, 1/2), so concentrating mass on fewer pairs gives higher MM, and k = 2 is the smallest k that both concentrates on pairs and places opposite signs on ends (thereby lifting MI(0, N−1) above zero).
+The F75 analysis also explains why even k wins: for even k the chain center has zero amplitude (p_{N/2} = 0 for odd N), so all probability mass is on mirror-pairs (Σ_pairs p_ℓ = 1/2); the function f(p) = 2h(p) − h(2p) is convex on (0, 1/2), so concentrating mass on fewer pairs gives higher MM, and k = 2 is the smallest k that both concentrates on pairs and places opposite signs on ends (thereby lifting MI(0, N−1) above zero).
 
 The MI(0, N-1) multiplier grows monotonically from 1.39× at N=5 to 4.59× at N=13. Unlike alt-z-bits where MI(0, N-1) decays roughly as 1/N under receiver-engineering (0.843 → 0.490 → 0.274 → 0.143 → 0.076 at N=5, 7, 9, 11, 13, factor ~1.85× per 2-N-step), the best-bonding MI(0, N-1) decays much slower: 1.168 → 0.723 → 0.553 → 0.432 → 0.349 at N=5, 7, 9, 11, 13, factor ~1.35× per 2-N-step. The dynamical optimum k shifts upward with N (k=2 at small N, k=4 at N=11, 13) as the F75 static optimum k = (N+1)/2 also shifts, and the dynamical peak tracks the static profile with a decay envelope of ~0.93. Extrapolated to N ~ 15-17, best-bonding MI(0, N-1) would hold in the 0.20-0.27 range while alt-z-bits would be 0.04 or below.
 
@@ -292,7 +294,7 @@ This answers the Open question ("is there a receiver optimised specifically for 
 
 - **End amplitudes have opposite sign.** c_0·c_{N-1} = −(2/(N+1))sin²(π·2/(N+1)) < 0. This already creates coherent off-diagonal ⟨1_0, 0_{N-1}\|ρ\|0_0, 1_{N-1}⟩ ≠ 0 at t=0.
 - **Node at center.** Dephasing on (and bond-coupling around) the central site has no effect on bonding:2 at t=0 (the central amplitude is zero). For N=5 with cut-center J profile \[1, 1, 0.01, 1\], bonding:2 keeps MI(0, 4) = 0.628 (down from 1.17 at uniform J, but still substantial), while alt-z-bits \|01010⟩ collapses to MI(0, 4) ≈ 0.001 under the same cut. The alt-z-bits state has its central \|1⟩ population where the cut happens; bonding:2 does not.
-- **Single-mode coherence.** The dynamics under uniform-J H exactly preserves the k=2 mode as an eigenstate of H itself. Dephasing decays it with rate α_2 = (4γ₀/(N+1)) sin²(2π/(N+1)) ≈ 16π²γ₀/(N+1)³ in the large-N limit (general formula α_k ≈ 4π²k²γ₀/(N+1)³). This is the slowest decay consistent with a non-trivial end-to-end structure: k=1 has slower decay by 4× but same-sign ends so no end-to-end coherence; k=2 is the lowest k that places opposite-sign ends, i.e. the first mode that actually carries MI(0, N-1).
+- **Single-mode coherence.** On the XX chain |ψ_k⟩ is an eigenstate of H; on the Heisenberg chain run here the ZZ boundary term mixes it, and dephasing charges every coherence between two sites 4γ₀. k=2 is the lowest k that places opposite-sign ends.
 
 ### bonding:2 loses on Sum-MI
 
@@ -303,11 +305,11 @@ Trade-off: at N=9 uniform J, bonding:2 PeakSumMI = 1.65 vs alt-z-bits 4.70 (fact
 | Application | Best receiver | Reason |
 |-------------|---------------|--------|
 | Distributed correlation (Sum-MI) | alt-z-bits | multi-mode adjacent-pair buildup |
-| Single-end transport (MI(0, N-1)) | bonding:2 | opposite-sign ends, k=2 eigenmode of H |
-| Multi-end transport (MM) | bonding:2 | mirror-symmetric sin profile, single-mode coherence |
-| Long-time memory | bonding:1 | slowest decay α_1 |
+| Single-end transport (MI(0, N-1)) | bonding:2 | opposite-sign ends |
+| Multi-end transport (MM) | bonding:k, even k (F75 picks which) | mirror-symmetric sin profile (F75) |
+| Long-time memory | not ordered by k here | α_1 is the slowest rate only when the dephasing sits on an end site (F65) |
 
-Four different optimal states, one hardware setup (uniform γ₀, uniform J, Heisenberg chain). Alice selects via initial-state preparation only: each state is reachable via single-qubit gates (bonding:k via an N-mode quantum Fourier-like layer, alt-z-bits via X on odd sites, bonding:1 via the same QFT structure with k=1 coefficient).
+Different optimal states for different metrics, one hardware setup (uniform γ₀, uniform J, Heisenberg chain). Alice selects via initial-state preparation only: each state is reachable via single-qubit gates (bonding:k via an N-mode quantum Fourier-like layer and alt-z-bits via X on odd sites).
 
 ### Operational consequence
 
@@ -318,7 +320,6 @@ Under γ₀ = const, with the F67 menu:
 - **End-to-end QST**: use bonding:2. Hardware-minimal: prepare via \|ψ_2⟩ amplitude-encoding layer (1 or 2 two-qubit gates for the multi-qubit superposition at N=5, about 4 at N=9), evolve uniformly, measure site N-1. IBM-plausible today.
 - **Multi-end Bell-pair distribution**: use bonding:2. Same preparation, measure N/2 mirror-pairs simultaneously.
 - **Distributed correlation / many-body observables**: use alt-z-bits.
-- **Storage / delay line**: use bonding:1.
 
 ## Open questions
 

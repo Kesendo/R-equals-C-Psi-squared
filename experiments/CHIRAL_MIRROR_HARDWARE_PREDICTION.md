@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-27
 **Source:** EQ-014 (chiral mirror law, site-painter), EQ-020 (extension to all k-painter).
-**Tier:** 1 (kinematic prediction; follows from K_1 symmetry of H + Z-dephasing).
+**Tier:** 1 (kinematic prediction; follows from H being real and K_1-odd, K_1HK_1 = −H, under Z-dephasing).
 **Scripts:** [`eq020_chiral_mirror_hw_prediction.py`](../simulations/eq020_chiral_mirror_hw_prediction.py)
 **Framework primitives:** [`single_excitation_sine_mode`](../simulations/framework_archive.py), [`k_local_reduced_density`](../simulations/framework_archive.py) (historical location; both predate the framework.py → framework/ package split).
 
@@ -29,18 +29,13 @@ For initial state |φ_k⟩ = (|vac⟩ + |ψ_k⟩)/√2 with |ψ_k⟩ = √(2/(N+
 
 1. **K_1 ψ_k = ψ_{N+1−k}** exactly. Per the trigonometric identity sin(π(N+1−k)(i+1)/(N+1)) = (−1)^i sin(πk(i+1)/(N+1)). No sign factor on the global state.
 
-2. **K_1 commutes with H_XY and Z-dephasing.** Both H_XY = Σ J(X_i X_{i+1} + Y_i Y_{i+1})/2 and Lindbladians L_dephasing = γ_i (Z_i ρ Z_i − ρ) are K_1-invariant (K_1 = ⊗_i (−1)^i is a product of single-site Z's). Therefore L commutes with K_1-conjugation.
+2. **K_1 anticommutes with H_XY and commutes with Z-dephasing.** K_1 = ⊗_i Z_i^{i mod 2} puts a Z on every odd site. Every bond of the chain has exactly one site on the odd sublattice, so each X_iX_{i+1} and Y_iY_{i+1} meets exactly one Z and changes sign: K_1 H_XY K_1 = −H_XY. Each dissipator term γ_i(Z_iρZ_i − ρ) commutes with K_1 at any rate.
 
-3. **K_1-paired initial states evolve identically up to K_1-conjugation:** ρ^{N+1−k}(t) = K_1 ρ^k(t) K_1†.
+3. **K_1-paired initial states evolve into each other up to K_1-conjugation and complex conjugation.** H_XY is real, so the sign from step 2 is undone by complex conjugation, and ρ^{N+1−k}(t) = (K_1 ρ^k(t) K_1)* ([PROOF_PTF_CHIRAL_MIRROR_RATE_LAW](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md); for single-excitation states [PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), Statement 4).
 
-4. **K_1-conjugation acts on the per-site reduced state as Z_i conjugation:** ρ_i^{K} = Z_i ρ_i Z_i. Z_i (a, b) Z_i = (a)(b)(−1)^{a+b}_diag effects sign flip on off-diagonals.
-   Specifically ρ_i^{K}[0,1] = −ρ_i[0,1], so:
-   - ⟨X_i⟩^K = 2 Re ρ_i^K[0,1] = −2 Re ρ_i[0,1] = −⟨X_i⟩
-   - ⟨Y_i⟩^K = −2 Im ρ_i^K[0,1] = +2 Im ρ_i[0,1] = −⟨Y_i⟩
-   - ⟨Z_i⟩^K = ρ_i^K[0,0] − ρ_i^K[1,1] = ρ_i[0,0] − ρ_i[1,1] = ⟨Z_i⟩ (diagonal preserved)
-   So Z_i conjugation flips X and Y, leaves Z.
+4. **On one site, the two operations give the table.** K_1-conjugation is Z_i-conjugation on odd sites and the identity on even sites, so it flips ⟨X_i⟩ and ⟨Y_i⟩ by (−1)^i and leaves ⟨Z_i⟩. Complex conjugation flips ⟨Y_i⟩ on every site and leaves ⟨X_i⟩ and ⟨Z_i⟩. Together: ⟨X_i⟩ → (−1)^i·⟨X_i⟩, ⟨Y_i⟩ → −(−1)^i·⟨Y_i⟩, ⟨Z_i⟩ → ⟨Z_i⟩.
 
-5. **The site-i extra sign factor (−1)^i** comes from K_1 = ⊗_i (−1)^i. The cleanest derivation uses the explicit formula. For single-excitation bonding state under H_XY, ρ_i[0,1](t) = e^{iE_k t} ψ_k(i)*/2 (sine modes have ψ_k real, so * is trivial). Adding Z-dephasing scales by e^{−γ_i t}.
+5. **The site-i extra sign factor (−1)^i** comes from K_1 = ⊗_i Z_i^{i mod 2}. The cleanest derivation uses the explicit formula. For single-excitation bonding state under H_XY, ρ_i[0,1](t) = e^{iE_k t} ψ_k(i)*/2 (sine modes have ψ_k real, so * is trivial). Adding uniform Z-dephasing scales it by e^{−2γt}: every cell |vac⟩⟨1_j| carries exactly one X/Y letter.
 
    K_1-paired state: ψ_{N+1-k}(i) = (−1)^i ψ_k(i), E_{N+1-k} = −E_k, so:
    ρ_i[0,1]_{ψ_{N+1-k}}(t) = e^{−iE_k t} (−1)^i ψ_k(i) / 2 = (−1)^i (e^{iE_k t} ψ_k(i) / 2)*
@@ -89,7 +84,7 @@ The prediction is verified at machine precision (10⁻¹⁶) at every tested tim
 | K_1-symmetric noise (DD-like) | preserves all three relations to within DD efficacy | not distinguishable from prediction (the prediction *survives* DD) |
 | Coherent K_1-breaking error (fab inhomogeneity) | breaks all three relations equally | YES: all three deviate together |
 
-The simultaneous validity of (A) AND (B) AND (C) is the strongest signature: it requires the Hamiltonian to be K_1-symmetric AND the dynamical phases to obey energy-reversal (chiral pairing). The Y-flip alone (C) is the most diagnostic; it cannot be faked by simple sublattice symmetry.
+The simultaneous validity of (A) AND (B) AND (C) is the strongest signature: it requires the Hamiltonian to be real and K_1-odd (K_1HK_1 = −H) AND the dynamical phases to obey energy-reversal (chiral pairing). The Y-flip alone (C) is the most diagnostic; it cannot be faked by simple sublattice symmetry.
 
 ---
 
@@ -114,7 +109,7 @@ The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) a
 **Aer simulation with Marrakesh noise model:**
 - ⟨Z_a⟩-mirror at K_1-paired states: **0.04-0.11% deviation** (machine-precision-level, confirms chiral mirror)
 - P_a-mirror: **0.00-0.06% deviation**
-- ⟨X⟩, ⟨Y⟩ near zero (XX-only Hamiltonian + real sine modes → off-diagonal is real → ⟨Y⟩ = 0 structurally), so the X/Y mirror tests are dominated by shot noise on Aer.
+- ⟨X⟩, ⟨Y⟩ near zero: the Marrakesh states were single-excitation, without the vacuum component, so every per-site off-diagonal vanishes by number conservation and the X/Y mirror tests are dominated by shot noise on Aer.
 
 **Live Marrakesh hardware:**
 - Site 0 (Q48): ⟨Z_0⟩-mirror at K_1-paired states **0.25%** (preserved despite hardware noise)
@@ -123,6 +118,6 @@ The April 25 Marrakesh K-partnership run (`data/ibm_k_partnership_april2026/`) a
 
 **The hardware-mirror-breakage diagnoses gate asymmetry exactly as predicted.** Q48 readout error 5.85%, Q58 readout 3.06%; CZ error bond (0,1) 0.876% vs bond (3,4) 0.149%. The K_1-paired states (k=1, k=5) and (k=2, k=4) have different state-prep circuits with different gate-application order; the hardware-asymmetric gate errors leak into the trajectory and break K_1-equivalence.
 
-Because the Marrakesh run used XX-only (real) Hamiltonian, the energy-reversal sharp test (⟨Y⟩ flip with extra sign) cannot be cleanly tested in this data. The Heisenberg-with-ZZ run on a chain (or extending K-partnership to the Heisenberg case after PROOF_K_PARTNERSHIP scope check) would provide non-zero ⟨Y⟩ values that distinguish naive (−1)^i from the energy-reversal signature.
+Because the Marrakesh run prepared single-excitation states, whose per-site ⟨X⟩ and ⟨Y⟩ are zero, the energy-reversal sharp test (⟨Y⟩ flip with extra sign) cannot be tested in this data. A Heisenberg run on the open chain would not help: ZZ is K_1-even, so it breaks K_1HK_1 = −H at the boundary and with it the mirror ([PROOF_K_PARTNERSHIP](../docs/proofs/PROOF_K_PARTNERSHIP.md), robustness table). On the ring at even N the single-excitation partnership survives because ZZ is a constant shift there, but for this vacuum-superposition preparation the shift separates the vacuum from the excitation and complex conjugation reverses it, so the ⟨X⟩ and ⟨Y⟩ relations fail there too.
 
-**Verdict:** Aer simulation confirms the chiral mirror prediction (~0.1%); live hardware breaks it at the hardware-noise-asymmetry level (~0.25-47%), which is itself the predicted diagnostic (breakage tracks gate asymmetry). So existing data confirms the diagnostic in simulation, not the mirror on hardware. The cleaner test of the Y-flip diagnostic requires a Heisenberg evolution or non-real H.
+**Verdict:** Aer simulation confirms the chiral mirror prediction (~0.1%); live hardware breaks it at the hardware-noise-asymmetry level (~0.25–47%), which is itself the predicted diagnostic (breakage tracks gate asymmetry). So existing data confirms the diagnostic in simulation, not the mirror on hardware. The cleaner test of the Y-flip diagnostic needs non-zero ⟨Y⟩ under a Hamiltonian that stays real and K_1-odd, for example the vacuum-superposition preparation of the prediction above under H_XY.

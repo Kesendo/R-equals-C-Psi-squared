@@ -44,7 +44,7 @@ Five independent tests show it is not:
 2. **Chiral blocks have full rank (N=5).** The off-diagonal blocks of
    L_c in the Pi-eigenbasis have no zero singular values. Winding
    number = 0. No topological zero modes. (N=4 shows 4+3 zero SVs,
-   a finite-size effect that vanishes at N=5.)
+   the even-N centre modes of Phase 2, absent at N = 3, 5.)
 
 3. **Berry phase = -0.77 (0.25pi).** Not quantized. No topological
    invariant protects the mode structure.
@@ -116,10 +116,16 @@ rank, the topology is trivial.
 | 5 | +/-1 | 256x256 | 2.4e-03 | 0 | **Full rank (trivial)** |
 | 5 | +/-i | 256x256 | 2.4e-03 | 0 | **Full rank (trivial)** |
 
-**N=4 has 7 zero singular values (4+3).** These are likely finite-size
-artifacts: the 4-site chain has special symmetries (spatial inversion
-exchanges two 2-site pairs) that create accidental degeneracies. They
-do not persist at N=5.
+**N=4 has 7 zero singular values (4+3).** A zero singular value is a mode
+of L exactly at the spectral centre −Σγ, which is XY-weight N/2. At even N
+that weight holds, among others, the orbit sums of letter multisets with N/2
+letters X or Y, each of which commutes with the Heisenberg H and decays at
+exactly the centre rate (at N = 4 they give 9 of the 14; the rest are
+commutant elements of the corner rows and one weight-mixing mode); at odd N the weight N/2 is not an integer, so no pure-weight mode can sit
+there, and none does at N = 3, 5. So the zero modes are an even-N law, not a finite-size artifact:
+dim ker(L + Σγ) is 0, 14, 0, 16 at N = 3, 4, 5, 6 (the centre counts of
+[Degeneracy Palindrome](DEGENERACY_PALINDROME.md)), and the table lists the
+A blocks only, 7 of the 14 at N = 4. Testing N = 5 alone could not see them.
 
 **N=5 is the system where the r = 0.994 localization was measured.**
 Full rank, no zero modes. Winding number (an integer invariant that counts how many times the system's parameters "wrap around" a cycle; nonzero means topologically protected edge states) = 0. The topology is trivial.
@@ -244,9 +250,10 @@ chain, not from a topological invariant.
    quantized, no sharp phase boundary, no bulk-edge correspondence.
    Five independent tests agree.
 
-4. **N=4 zero SVs are finite-size.** The 7 zero singular values at N=4
-   do not persist at N=5 and are likely due to spatial inversion symmetry
-   of even-length chains. Not a topological signal.
+4. **The N=4 zero SVs are the even-N centre modes.** They sit exactly at
+   −Σγ, which no pure-weight mode can reach at odd N, and they return at N = 6 (16 modes).
+   They come from operators commuting with H at XY-weight N/2, not
+   from a topological invariant.
 
 5. **The profile reverses with noise.** Edge sacrifice protects center
    modes. Center sacrifice protects edge modes. The Hamiltonian modes

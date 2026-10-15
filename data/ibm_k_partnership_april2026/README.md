@@ -41,17 +41,17 @@ Per-receiver MI(0, 4) on live Marrakesh:
 
 ## Reading
 
-K-partnership ([PROOF_K_PARTNERSHIP](../../docs/proofs/PROOF_K_PARTNERSHIP.md)) predicts pair-identity to within shot-noise under uniform γ_l-profile and K-symmetric Hamiltonian. Aer with the Marrakesh noise model gives 0.02 to 0.25 %. Live Marrakesh shows 15 to 46 %; the difference is the Hardware-γ-profile inhomogeneity along the chosen path that the noise model does not capture.
+K-partnership ([PROOF_K_PARTNERSHIP](../../docs/proofs/PROOF_K_PARTNERSHIP.md)) predicts pair-identity to within shot-noise under any γ_l-profile and a real, K-odd Hamiltonian (KHK = −H). Aer with the Marrakesh noise model gives 0.02 to 0.25 %. Live Marrakesh shows 15 to 46 %. A γ or T1 profile cannot produce that: K is a product of Z on the odd sites, which commutes with every dephasing and amplitude-damping dissipator at any rate. Pauli gate errors commute with that symmetry too; in the circuits they split a pair only through the gate-level differences between the partners' circuits, small at these error rates and consistent with Aer. The difference is hardware asymmetry of another kind: coherent (non-Pauli) errors acting through the partners' different preparation circuits, crosstalk, and any readout bias the Aer model does not carry.
 
-This is the same physics that [GAMMA_AS_SIGNAL](../../experiments/GAMMA_AS_SIGNAL.md) reads via the spatial-sum channel and [CMRR_BREAK_NONUNIFORM_GAMMA](../../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md) reads via the (vac, S_1)-coherence kernel. The K-difference channel is a third route to the same observation: non-uniform γ_l breaks a closure that the symmetric setup preserves; the size of the break measures the inhomogeneity.
+[GAMMA_AS_SIGNAL](../../experiments/GAMMA_AS_SIGNAL.md) and [CMRR_BREAK_NONUNIFORM_GAMMA](../../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md) read the γ-profile through channels that do see it; the K-difference channel is blind to it.
 
 The run does not establish a new fundamental phenomenon beyond what is already in PROOF_K_PARTNERSHIP. It is a hardware existence proof: the receiver-menu folding ⌈N/2⌉ is operationally distinguishable on Marrakesh (different K-classes give different MI; K-partner pairs sit much closer to each other than to other classes), and the size of the K-partner deviation is consistent with the Marrakesh path-asymmetry.
 
 ## Caveats
 
 - bonding:1 and bonding:5 hardware MI values (0.046, 0.074) sit slightly above the Aer prediction (0.040, 0.039). At MI < 0.1, two-qubit tomography reconstruction noise can systematically bias eigenvalues (positivity-projected ρ). The K-partner Δ/mean within the pair is the cleaner observable than absolute HW/Aer ratios in this regime.
-- Single run, one path, one calibration snapshot. The 15 % vs 46 % pair-asymmetry is not a falsifiable structural prediction; it reflects this specific Marrakesh path's Site-/Bond-Asymmetrie. A different path (or different calibration day) gives different numbers.
-- ZZ excluded by `--xx-only`. With full Heisenberg (ZZ included), Aer pre-flight already shows 7-16× K-partner spread on the open chain, dominated by the F65-boundary-breakdown of K (PROOF_K_PARTNERSHIP "XXZ boundary scaling"); that is a separate effect from the hardware-γ-profile reading.
+- Single run, one path, one calibration snapshot. The 15 % vs 46 % pair-asymmetry is not a falsifiable structural prediction; it reflects this specific Marrakesh path's site and bond asymmetry. A different path (or different calibration day) gives different numbers.
+- ZZ excluded by `--xx-only`. With full Heisenberg (ZZ included), Aer pre-flight already shows 7-16× K-partner spread on the open chain, dominated by the F65-boundary-breakdown of K (PROOF_K_PARTNERSHIP "XXZ boundary scaling"); that is a separate effect from the hardware asymmetry above.
 
 ## Reproducing the run
 

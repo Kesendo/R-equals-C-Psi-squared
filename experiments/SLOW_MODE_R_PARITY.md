@@ -1,6 +1,6 @@
 # Slow-Mode R-Parity Decomposition: F86 Lives in R-Even, a Parallel R-Odd Channel Awaits a Probe
 
-**Status:** Empirically verified at N = 4, 5, 6 (script `slow_modes_r_parity.py`, dense eigendecomposition of L). Structural connection: R = site-reflection = momentum-reversal on JW Bogoliubov modes (see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md) for the operator-space context). R commutes with L for uniform-γ Z-dephasing on the XY chain, so L block-diagonalizes by R-parity at every N.
+**Status:** Empirically verified at N = 4, 5, 6 (script `slow_modes_r_parity.py`, dense eigendecomposition of L). Structural connection: R = site-reflection; R maps b_k to (−1)^(k+1)·P·b_k, P = Z^⊗N the fermion parity, so on parity-even operators such as b_p†·b_q it acts by the sign (−1)^(p+q) (Step 3; see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md) for the operator-space context). R commutes with L for uniform-γ Z-dephasing on the XY chain, so L block-diagonalizes by R-parity at every N.
 **Date:** 2026-05-15
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -30,7 +30,7 @@ R is the site-reflection l ↔ N−1−l on the spin chain. Its action on operat
 - L_D = γ·Σ_l (σ_z_l ⊗ σ_z_l − I). Each summand is R-symmetric pair-by-pair under l ↔ N−1−l. So [L_D, R_op] = 0.
 - Hence [L, R_op] = 0, and L decomposes into R-even (R_op = +1) and R-odd (R_op = −1) blocks.
 
-Under Jordan-Wigner, R corresponds to momentum-reversal k ↔ N+1−k on the Bogoliubov single-particle modes. The single-particle dispersion ε(k) = 2J·cos(πk/(N+1)) satisfies ε(N+1−k) = −ε(k), so R coincides with particle-hole symmetry in the JW basis (see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md)).
+Under Jordan-Wigner, R maps b_k to (−1)^(k+1)·P·b_k, P = Z^⊗N the fermion parity, so on parity-even operators such as b_p†·b_q it acts by the sign (−1)^(p+q) (Step 3). The single-particle dispersion ε(k) = 2J·cos(πk/(N+1)) satisfies ε(N+1−k) = −ε(k); the particle-hole partners k and N+1−k carry opposite R-parities at even N and equal ones at odd N (Step 4; see [Majorana Axis Modes](MAJORANA_AXIS_MODES.md)).
 
 ---
 
@@ -180,11 +180,11 @@ SVD each R-block, top σ_0 per parity. The 2×2 L_eff on the top-σ singular-vec
 
 ### Structural reason: Majorana zero mode at odd N
 
-For odd N, the JW Bloch dispersion ε(k) = 2cos(πk/(N+1)) has a zero mode at k = (N+1)/2. This mode is R-fixed (k = N+1−k at this k). The R-fixed zero mode contributes asymmetrically to R-even and R-odd subspaces, adding a dimension only to the R-even side, and breaks the singular-value symmetry between R-blocks. For even N, no zero mode exists; R-even and R-odd subspaces are mapped onto each other by an internal symmetry that preserves singular values.
+For odd N, the JW Bloch dispersion ε(k) = 2cos(πk/(N+1)) has a zero mode at k = (N+1)/2. This mode is its own particle-hole partner (k = N+1−k at this k), so particle-hole symmetry has no partner to pair it with, and the singular-value symmetry between R-blocks breaks. For even N, no zero mode exists; R-even and R-odd subspaces are mapped onto each other by an internal symmetry that preserves singular values.
 
-### Dimensional fingerprint of the zero mode
+### Dimensional fingerprint at odd N
 
-The R-fixed zero mode also shows in the HD subspace dimensions:
+The odd-N asymmetry also shows in the HD subspace dimensions, as a count of R-fixed operators (Step 5):
 
 | N | R-even HD=1 | R-odd HD=1 | Asymmetry |
 |---:|---:|---:|---:|
@@ -193,7 +193,7 @@ The R-fixed zero mode also shows in the HD subspace dimensions:
 | 5 | 84 | 76 | yes (+8) |
 | 6 | 192 | 192 | balanced |
 
-At odd N, R-even is larger than R-odd by 2^((N−1)/2) within HD=1 (the count of palindromic bit-string pairs from the R-fixed central site).
+At odd N, R-even is larger than R-odd by 2^((N+1)/2) within HD=1 (the count of palindromic bit-string pairs from the R-fixed central site).
 
 ### Q-sweep verification at N=4
 
@@ -242,12 +242,12 @@ At N=5: Q_EP⁺ = 0.588 vs Q_EP⁻ = 0.650, a 10% relative difference. R-antisym
                 = √(2/(N+1))·sin(πk − πk(l+1)/(N+1))
                 = −cos(πk)·φ_k(l) = (−1)^(k+1)·φ_k(l)
 
-So `R · b_k · R⁻¹ = (−1)^(k+1)·b_k`. **R is diagonal on Bogoliubov modes** (NOT a momentum-mirror k ↔ N+1−k; that would be PBC). The R-eigenvalue is (−1)^(k+1): b_k is R-even when k is odd, R-odd when k is even.
+So `R · b_k · R⁻¹ = (−1)^(k+1)·P·b_k`, where P = Z^⊗N is the fermion parity that the reversed Jordan-Wigner string turns into. **R is diagonal on Bogoliubov modes up to P** (NOT a momentum-mirror k ↔ N+1−k; that would be PBC). On parity-even operators P cancels: a bilinear b_p†·b_q carries the R-sign (−1)^(p+q).
 
 **Step 4 (particle-hole partner R-parity at even vs odd N).** Particle-hole partners (k, N+1−k) satisfy ε_{N+1−k} = −ε_k. Sum of indices: k + (N+1−k) = N+1.
 
 - **N even ⟹ N+1 odd ⟹ k and N+1−k have OPPOSITE parities.** Particle-hole partners carry **opposite R-eigenvalues**.
-- **N odd ⟹ N+1 even ⟹ k and N+1−k have SAME parity.** Partners carry **same R-eigenvalue**. Plus a self-paired R-fixed zero mode at k = (N+1)/2 with ε = 0.
+- **N odd ⟹ N+1 even ⟹ k and N+1−k have SAME parity.** Partners carry **same R-eigenvalue**. Plus a self-paired zero mode at k = (N+1)/2 with ε = 0, its own particle-hole partner.
 
 This is the structural pivot. At even N, particle-hole symmetry of H simultaneously exchanges R-parity. At odd N, particle-hole symmetry preserves R-parity and leaves one mode (the zero mode) without a partner.
 
@@ -265,7 +265,7 @@ By the same argument at HD=3 (R-fixed size-3 flip-sets = one mirror pair + cente
 
 **Step 6 (V⁺⁺ ≅ V⁻⁻ at even N via particle-hole-induced R-flip).** At even N, V⁺⁺ and V⁻⁻ have the SAME dimensions (no R-asymmetry from Step 5). Particle-hole symmetry of H (Step 4) provides an operation that exchanges R-even and R-odd Bogoliubov modes in pairs (k, N+1−k). Lifted to operator space, this gives a unitary U: HD=1⁺ ⊕ HD=3⁺ → HD=1⁻ ⊕ HD=3⁻ with U L_H U⁻¹ = L_H, hence U V⁺⁺ U⁻¹ = V⁻⁻. Singular value spectra coincide: Spec(V⁺⁺) = Spec(V⁻⁻).
 
-**Step 7 (V⁺⁺ ≠ V⁻⁻ at odd N).** At odd N, particle-hole symmetry preserves R-parity (Step 4), so there is no R-flip isomorphism between V⁺⁺ and V⁻⁻. The R-fixed zero mode at k = (N+1)/2 contributes additional dimensions only to V⁺⁺ (or V⁻⁻ depending on the parity of (N+1)/2), making the two blocks structurally distinct. Spec(V⁺⁺) ≠ Spec(V⁻⁻) follows from the dimensional asymmetry plus the absence of a relating symmetry.
+**Step 7 (V⁺⁺ ≠ V⁻⁻ at odd N).** At odd N, particle-hole symmetry preserves R-parity (Step 4), so there is no R-flip isomorphism between V⁺⁺ and V⁻⁻. The R-fixed operators of Step 5 add dimensions only to the R-even side, and the zero mode at k = (N+1)/2 has no particle-hole partner, so the two blocks are structurally distinct. Spec(V⁺⁺) ≠ Spec(V⁻⁻) follows from the dimensional asymmetry plus the absence of a relating symmetry.
 
 **Status of the proof:** Steps 1-5 and 7 are fully analytical. Step 6 is closed on the c=2 stratum (popcount-1 ↔ popcount-2 coherences) via the F71-mirror cluster-equivalence argument of `JwClusterDEigenstructure` (Tier1Derived), with bit-exact verification at N=3..6; see "Step 6 closure" section below. Extension to the full V_inter (over all c-strata) follows by per-c-stratum decomposition; the mechanism is identical at every c-stratum, and typing analogous primitives at higher c is bounded follow-up work. The empirical full-V_inter equality (Spec(V⁺⁺) = Spec(V⁻⁻) at machine precision for even N) is therefore explained by a structural argument, not just an isolated numerical observation.
 
@@ -388,7 +388,7 @@ For each c (chromaticity = number of distinct popcount-difference HD-channels), 
 
 ## Connection to existing results
 
-- **MAJORANA_AXIS_MODES at the fast end (Re = −Nγ₀):** The same R-parity decomposition sorts the axis subspace (n_XY = N/2 layer) into R-even (Sum-type Majorana bilinears, including the 18 silent modes at N=4) and R-odd (Difference-type bilinears). The structural framework (R = momentum-reversal under JW, particle-hole symmetry in operator space) is identical; only the spectrum location differs (Re = 0 → −Nγ₀).
+- **MAJORANA_AXIS_MODES at the fast end (Re = −Nγ₀):** The same R-parity decomposition sorts the axis subspace (n_XY = N/2 layer) into R-even and R-odd parts; the Sum/Difference split that MAJORANA_AXIS_MODES read there is not re-derived under this action. The structural framework (R acts on Bogoliubov bilinears b_p†·b_q by the sign (−1)^(p+q), Step 3) is identical; only the spectrum location differs (Re = 0 → −Nγ₀).
 - **F86b obstruction:** This experiment does not lift the F86b obstruction on closed-form Q_peak. It identifies a parallel observable (R-odd Q_peak) which may or may not admit a closed form independently; that is open.
 - **F71 mirror symmetry (PROOF_F86C):** F71 is the spatial-mirror invariant that constrains F86's per-bond / per-orbit structure. R IS F71's site-reflection on the chain. The slow-mode R-parity decomposition refines F71's role from "the EP positions are R-mirror-symmetric across bonds" to "the slow-mode spectrum block-diagonalizes by R-parity, and F86 sees only one block".
 

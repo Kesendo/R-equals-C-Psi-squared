@@ -84,7 +84,7 @@ The partner tuple h̃ = (N, N+1-k, t, basis) therefore records a broader equival
 The following F-formulas constrain which handshake tuples produce which observable correlations. They are not additional assumptions; they are the existing framework, re-read as the rule set of the handshake algebra. Each rule below respects the R-axis above.
 
 - **F64** (cavity-mode exposure, graph-universal after 2026-04-24 generalisation): the Liouvillian decay constant for any single-excitation mode is α = 2γ · |a_B(ψ_k)|² (equivalently γ_eff = γ · |a_B|² in Lorentzian-half-width convention). Determines which modes are accessible to local measurements at a given site B, independent of topology.
-- **F65** (bonding-mode spectrum): the eigenmode index k ranges over 1..N, with decay rates α_k = (4γ₀/(N+1)) sin²(kπ/(N+1)). Fixes the slots available for the k coordinate of the handshake.
+- **F65** (bonding-mode spectrum): the eigenmode index k ranges over 1..N, with decay rates α_k = (4γ₀/(N+1)) sin²(kπ/(N+1)) when the dephasing sits on an end site. Fixes the slots available for the k coordinate of the handshake.
 - **F67** (receiver menu): bonding:k modes are operationally complete receivers under γ₀ = const. No further receiver choice extends the algebra.
 - **F75** (static MI closed form): for mirror-symmetric amplitudes, MI(ℓ, N-1-ℓ)(t=0) = 2h(p_ℓ) − h(2p_ℓ). Lets both observers compute, before running, the correlation they will read at their chosen tuple.
 - **F76** (decay envelope): PeakMM ≈ 0.93 · MM(0) at γ₀·t = 0.005; pure dephasing signature with Heisenberg mixing at ≲ 0.5 % correction. Determines how the t coordinate in the tuple maps to observable correlations.

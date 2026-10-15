@@ -1,7 +1,7 @@
 # Degeneracy Hunt: Where Does the High Multiplicity Come From?
 
-**Status:** Finite-N census complete. SU(2) is excluded as a Liouvillian symmetry. Joint-popcount blocks and X^⊗N pairing explain part of the recurrence, while the Absorption Theorem explains only the common real part; the full complex-eigenvalue multiplicity is not closed by those facts.
-**Last refreshed:** 2026-09-07 (the change history lives in git)
+**Status:** Finite-N census complete, and the maximal multiplicity is accounted for at N = 4..7. It belongs to a real eigenvalue on the grid, −2γk, whose eigenvectors are weight-k operators commuting with H: the commutant counts c_k of [Degeneracy Palindrome](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts), plus at N = 4 one weight-mixing mode. SU(2) is excluded as a Liouvillian symmetry; what it supplies is commutant elements, one orbit sum per letter multiset.
+**Last refreshed:** 2026-10-15 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/three_values.py` (Track A)
 **Data:** `simulations/results/values_investigations/three_values_results.json`
@@ -47,8 +47,18 @@ eigenspace with a commuting block projector produces block-supported
 eigenvectors. The [absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)
 gives Re(λ)=−2Σ_kγ_k⟨1_XY(k)⟩_v and, at uniform γ,
 Re(λ)=−2γ⟨n_XY⟩_v. It accounts for the common real part −0.400 through
-⟨n_XY⟩_v=2, but it says nothing about equality of the imaginary parts and
-therefore does not explain a 14-fold complex eigenvalue by itself.
+⟨n_XY⟩_v=2. The eigenvalue is real, −0.4 + 0i: with the script's H and γ the maximal
+multiplicity sits at −0.4 and −0.6 for N = 5 (14-fold each), at −0.4 for
+N = 4 (14) and at −0.4 and −0.8 for N = 6 (19 each), the real on-grid counts
+d_real(k) of [Degeneracy Palindrome](DEGENERACY_PALINDROME.md). There are no
+imaginary parts to match.
+At N = 5 the 14 eigenvectors can be taken as weight-2 operators that commute
+with H: the 12 orbit sums of the letter multisets with two X/Y letters, each
+of which commutes with every SU(2)-invariant H and decays at exactly 4γ, and 2
+more from the class-2 corner rows (1,1) and (4,4), which is the count
+c_2 = 3N − 5 + 2⌊N/2⌋ = 14 of [Degeneracy Palindrome](DEGENERACY_PALINDROME.md#a-lower-bound-at-every-k-and-the-chains-commutant-counts).
+The measured row {6, 14, 14, 19, 22} is the maximum of that document's d_real
+rows at N = 3..7.
 
 ## 3. SU(2) Casimir check
 
@@ -60,9 +70,10 @@ therefore does not explain a 14-fold complex eigenvalue by itself.
 
 **Conclusion:** SU(2) total spin is a symmetry of the Heisenberg Hamiltonian but is broken by Z-dephasing. The dephasing jump operators Z_k do not commute with S² (because Z only detects the z-component, not the total spin). SU(2) is therefore NOT a hidden symmetry of the Liouvillian.
 
-The SU(2) candidate is excluded. The absorption theorem accounts for shared
-decay rates, not full complex-eigenvalue multiplicities; the remaining
-cross-block coincidences require separate spectral or symmetry explanations.
+The SU(2) candidate is excluded as a symmetry of L. Its trace survives in
+the commutant: every letter-multiset orbit sum commutes with the
+SU(2)-invariant H and is an exact eigenvector of uniform Z-dephasing, which
+is where the high multiplicity comes from (§2).
 
 ---
 
@@ -91,7 +102,7 @@ The April-12 conclusion is correct but at the time we lacked the typed primitive
 
 **Useful as forward regression test:** the multiplicity sequence `{6, 14, 14, 19, 22}` for N=3..7 at uniform γ is what `LiouvillianBlockSpectrum.ComputeSpectrumPerBlock` should reproduce under the same numerical clustering convention. A typed witness asserting the tolerance and multiplicity rule could replace the ad-hoc table at §1.
 
-**Current conclusion:** SU(2) is not the missing Liouvillian symmetry. X⊗N gives exact recurrence for its paired blocks, and the absorption theorem fixes the common real part. These facts do not close the full 14-fold complex-eigenvalue multiplicity; the remainder is open.
+**Current conclusion:** SU(2) is not the missing Liouvillian symmetry. The maximal multiplicity is a real grid eigenvalue whose eigenspace is the weight-k commutant of H, counted exactly by c_k at N = 5, 6, 7 and by c_2 + 1 = 13 + 1 at N = 4, where one real mode mixes weights (§2). X⊗N pairs the blocks that carry it.
 
 ---
 

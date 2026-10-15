@@ -49,7 +49,7 @@ The closed form [F73](../docs/ANALYTICAL_FORMULAS.md) holds to machine precision
 
 Saturation interpretation: once γ_0 becomes substantially larger than the other sites, the (vac, S_1) coherence at site 0 decays too fast to carry information, and further increase of γ_0 does not add to the K_CC magnitude; the k=1-mode contribution at site 0 saturates at its uncoupled limit.
 
-### 3. Linear gradient (first-harmonic break)
+### 3. Linear gradient (reflection-odd break)
 
 γ_i = 0.05 + α · (i − (N−1)/2):
 
@@ -81,13 +81,15 @@ Saturation interpretation: once γ_0 becomes substantially larger than the other
 
 The CMRR break is determined by how the γ-profile projects onto the detector's mode basis, not by the γ-profile's variance alone.
 
-**Gradient** (α≠0) is pure k=1 mode in the spatial Fourier decomposition of the γ-profile (first harmonic of the chain). It couples directly to the dominant k=1 sine mode of the (vac, S_1) coherence. At N=5, the sine-basis expansion coefficient `s_1 = ⟨ψ_1 | S_1⟩` evaluates (via [F2b](../docs/ANALYTICAL_FORMULAS.md) sine basis) to s_1 ≈ 0.964, so s_1² ≈ 0.93. Hence the large slope 1.35.
+The sine modes of the chain satisfy ψ_k(N−1−i) = (−1)^{k+1}·ψ_k(i): odd k is even under the chain reflection, even k is odd. The detector state S_1 is reflection-even, so it lives on the odd modes only (at N=5, s_1 = ⟨ψ_1|S_1⟩ ≈ 0.964, ⟨ψ_2|S_1⟩ = ⟨ψ_4|S_1⟩ = 0, ⟨ψ_3|S_1⟩ ≈ 0.258).
 
-**Single-site bump** at site 0 is a delta function, which in the Fourier decomposition is `δ_i = Σ_k ψ_k(0)·ψ_k(i)`. It couples to all modes, weighted by `ψ_k(0)²`. The k=1 contribution at site 0 at N=5 is `ψ_1(0)² = (1/3)·(1/2)² = 1/12 ≈ 0.083`. So only a small fraction of the single-site-bump energy couples to the dominant channel. Hence the smaller slope 0.19.
+**Gradient** (α≠0) is odd under the reflection, so it has no k=1 content: its expansion uses only k = 2 and k = 4. On the (vac, S_1) coherence block every cell carries exactly one X/Y letter, so a γ-profile acts there as the diagonal −2·diag(δγ), and its matrix element between two sine modes, Σ_i δγ_i·ψ_k(i)·ψ_m(i), vanishes for an odd profile whenever k and m have the same parity. The gradient therefore shifts no mode's decay rate at first order; it only mixes the odd detector modes into even ones. Yet it gives the larger and exactly linear response, slope 1.35.
 
-**Ratio:** 1.35 / 0.19 ≈ 7.1. Predicted from mode overlap: roughly `1 / ψ_1(0)² ~ 12` for the full single-site-to-k=1 ratio, partially attenuated by the off-resonant k=3, k=5 contributions. Order of magnitude consistent; exact value needs a proper analytic derivation.
+**Single-site bump** at site 0 is not odd and does both: it shifts the rates (the k=1 contribution at site 0 is `ψ_1(0)² = (1/3)·(1/2)² = 1/12 ≈ 0.083`) and it mixes. Its slope is −0.19, opposite in sign to the gradient's.
 
-**Random profiles** contain a mixture of modes. Trial 1 happens to have a strong k=1 component (γ_0 + γ_4 > γ_2, matching the gradient sign), giving a large K_CC. Trial 0 has a more symmetric profile across the chain (k=1 content is small, k=2 and k=3 content dominates but both have zero overlap with the single-odd-mode (vac, S_1) expansion), giving a small K_CC. Trial 2 is small in magnitude, small K_CC.
+**Ratio:** the gradient, which only mixes, responds more strongly than the bump, which does both: 1.35 / 0.19 ≈ 7.1 per unit α against δg, about 2.2 per unit profile norm (the gradient's norm is √10·α). Why, and with which sign, is not derived here.
+
+**Random profiles** contain a mixture of modes, which is why similar Var(γ) can give K_CC values a factor of 28 apart.
 
 ## Analytical expectation
 
@@ -103,7 +105,7 @@ where c_k = Σ_i ψ_k(i)·δγ_i. Then K_CC[0, 1]_pr (first order in δγ) shoul
 K_CC[0, 1]_pr ≈ Σ_k c_k · A_k
 ```
 
-where A_k are mode-specific CMRR coefficients, with A_1 the dominant one (largest |s_k|²).
+where A_k are mode-specific CMRR coefficients. The gradient row has c_1 = 0 and the largest slope, so even-mode coefficients carry a large response; A_1 is not the whole story.
 
 This is a testable prediction: measure K_CC for δγ-profiles along each basis mode ψ_k independently, extract A_k, and verify reconstruction.
 
@@ -140,7 +142,7 @@ Prediction (d) is confirmed, and the empirical structure is sharper than just "t
 
 1. Pure mode scan: measure A_k coefficients by taking γ-profile = ε·ψ_k for each k = 1..N separately. Reconstruct K_CC predictions for arbitrary δγ via linear superposition. Testable in ~10 minutes Python for N=5.
 
-2. N-scaling of A_1: the dominant coefficient's N-dependence should follow from the analytical structure (`s_1² · ψ_1(site_of_perturbation)²` or similar). A clean closed form would be strong.
+2. N-scaling of the A_k, the even-mode ones included (the gradient row shows they are large). A clean closed form would be strong.
 
 3. Cross-check on Heisenberg chain: does the same CMRR-break-under-non-uniform-γ hold on the Heisenberg chain (where the sine-basis argument for uniform γ also works, d_H = 1 coherences still decay at 2γ)? Expected yes.
 

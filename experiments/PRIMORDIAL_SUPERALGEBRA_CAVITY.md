@@ -23,9 +23,9 @@ instrument has aberrations.
 We measured this. At N = 2 qubits, the cavity is a PERFECT lens: the
 Hamiltonian and dissipator are exactly perpendicular (like two walls
 meeting at a 90° corner). At N = 3 and above, there is some aberration,
-but it halves with each additional qubit. Larger cavities are better
-lenses: the aberration falls monotonically from N=3 to N=6, suggesting it
-keeps shrinking as the cavity grows (the N→∞ limit is extrapolated, not proven).
+but it roughly halves with each additional qubit. Larger cavities are better
+lenses: the aberration is 2^(1−N)·√((N−2)/N) (F49), falling monotonically from
+N = 3 and tending to 0 as the cavity grows.
 
 The quantum state splits naturally into two halves: "lens" (the {I,Z}
 components that survive dephasing, the structure) and "light" (the
@@ -121,11 +121,15 @@ each additional qubit improves the lens.
 | N=4 → 5 | ×0.548 |
 | N=5 → 6 | ×0.527 |
 
-The ratio trends toward ~0.5 over the three measured transitions
-(0.612, 0.548, 0.527): aberration roughly halves with each qubit.
-Linear extrapolation gives ε ≈ 1.4% at N=7 and ε ≈ 0.7% at N=8 (untested).
-If the ratio stays below 1, ε → 0 as N → ∞, but this limit is extrapolated
-from N=2-6, not proven.
+Every number in the table is the closed form of
+[F49](../docs/ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven),
+proven in [the cross-term proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md):
+
+    ε(N) = √((N−2)/(N·4^(N−1))) = 2^(1−N)·√((N−2)/N)
+
+which gives 14.43%, 8.84%, 4.84%, 2.55% at N = 3..6, then 1.32% at N = 7
+and 0.68% at N = 8. The ratio ε(N+1)/ε(N) = ½·√((N−1)N/((N+1)(N−2))) tends
+to ½ exactly, and ε → 0 as N → ∞.
 
 This is exactly what physical optics predicts: larger apertures produce
 sharper images.
@@ -160,8 +164,8 @@ with γ. The ratio ε depends only on the geometry of L_H and C in
 operator space, not on the illumination intensity.
 
 The 14.4% at N=3 is not "a lot of dephasing." It is a fixed geometric
-angle between the Hamiltonian and dissipator superoperators, determined
-entirely by the chain topology and the Pauli algebra. Increasing γ
+angle between the Hamiltonian and dissipator superoperators, set by N
+and the Pauli algebra alone: the same value on every graph (F49). Increasing γ
 does not make the lens worse; it only makes the light brighter.
 
 ---
@@ -406,14 +410,13 @@ of this balance.
 
 ### Why larger cavities are better lenses
 
-The aberration decreases with N because each additional qubit adds
-more structure to both the Hamiltonian (more bonds, more coupling
-paths) and the dissipator (more dephasing channels). The Hamiltonian
-grows by adding bonds; the dissipator grows by adding sites. At N=2,
-these two growth modes are perfectly matched. At N ≥ 3, the chain
-geometry introduces a slight mismatch (the interior sites couple
-differently from the edges). But as N grows, the relative contribution
-of the mismatch shrinks.
+The aberration comes from the spectators. Every Heisenberg bond move
+joins two strings whose XY-weights at the bond sites sum to 2, so the bond
+sites cancel against the dissipator's centre; what remains is the XY-weight
+of the N − 2 other sites, whose variance grows as N − 2 (F49's spectator variance). At N = 2 there are no
+spectators and the angle is exactly 90°. Against that, ‖L_D + Σγ‖² grows as
+N·4^N, so the angle closes toward 90° as 2^(1−N)·√((N−2)/N) (F49), on every
+graph alike.
 
 In physical optics: a 10 cm lens has more aberration per unit aperture
 than a 1 m lens. The wavefront error of a single edge becomes a smaller

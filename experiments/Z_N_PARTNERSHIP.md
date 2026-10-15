@@ -16,7 +16,7 @@ Initial states:
 
 ```
 |N⟩       = |+−+−+⟩       (X-basis Néel)
-|N̄⟩       = |−+−+−⟩       (Z⊗N-mirror, what a global π/2 Z-pulse produces)
+|N̄⟩       = |−+−+−⟩       (Z⊗N-mirror, what a π rotation about Z on every qubit produces)
 ```
 
 These are Z⊗N-partners: (Z⊗N) |+⟩ = |−⟩, (Z⊗N) |−⟩ = |+⟩.
@@ -25,7 +25,7 @@ The question: does the symmetry Z⊗N survive the Heisenberg-Lindblad dynamics, 
 
 ## Theorem (Z⊗N-Partnership)
 
-For an N-qubit Lindblad evolution `dρ/dt = −i[H, ρ] + Σ_k γ_k D[L_k] ρ`, if every term in H and every jump operator L_k has an **even number of X/Y operators per term**, then Z⊗N = Π_l Z_l is a strong symmetry. Consequence: if ρ_b(0) = (Z⊗N) ρ_a(0) (Z⊗N), then ρ_b(t) = (Z⊗N) ρ_a(t) (Z⊗N) for all t.
+For an N-qubit Lindblad evolution `dρ/dt = −i[H, ρ] + Σ_k γ_k D[L_k] ρ`, if every term in H and every jump operator L_k has an **even number of X/Y operators per term**, then Z⊗N = Π_l Z_l is a strong symmetry; under T1, whose jump σ⁻ has one transverse operator (Z σ⁻ Z = −σ⁻) while its dissipator is invariant, it is a weak one. Consequence: if ρ_b(0) = (Z⊗N) ρ_a(0) (Z⊗N), then ρ_b(t) = (Z⊗N) ρ_a(t) (Z⊗N) for all t.
 
 Proof sketch: Z⊗N anti-commutes with X_l, Y_l and commutes with Z_l. A term with k transverse operators (X or Y) picks up (−1)^k under conjugation. Even k preserves the term; T1 dissipator D[σ⁻] picks up two transverse operators per Lindblad action (one in σ⁻, one in σ⁺), so signs cancel.
 
@@ -72,7 +72,7 @@ Initial M_X verifies the partner identity: M_X(t=0) = +1.0000 for |+−+−+⟩,
 
 Test 4 confirms first-order scaling: |ΔMI| ≈ 0.04 · h_x and |M_X(a)+M_X(b)| ≈ 0.009 · h_x at t_max = 3.0. Linear in h_x, as expected from first-order perturbation theory in the transverse field.
 
-Test 5 vs Test 4b: at comparable max-amplitude (h_l max ≈ 0.10), the non-uniform profile gives ~33× larger |M_X-sum| break. The non-uniformity adds a second mode of breaking; the K-spread reading in single-exc has the same structure (uniform γ preserves K-partnership exactly; non-uniform breaks it).
+Test 5 vs Test 4b: at comparable max-amplitude (h_l max ≈ 0.10), the non-uniform profile gives ~33× larger |M_X-sum| break. The non-uniformity adds a second mode of breaking.
 
 ## Why this matters: a third orthogonal Hardware-Diagnostic channel
 
@@ -80,7 +80,7 @@ Same chain, three independent symmetry channels reading three different asymmetr
 
 | Channel | Sector | Observable | Broken by |
 |---------|--------|------------|-----------|
-| K-partnership (PROOF_K_PARTNERSHIP) | single-exc | bonding-mode k vs N+1−k | non-uniform γ_l, asymmetric J_l, ZZ-boundary |
+| K-partnership (PROOF_K_PARTNERSHIP) | single-exc | bonding-mode k vs N+1−k | on-site potential, NNN hopping, ZZ on the open chain (any γ_l profile and any J_l keep it) |
 | (vac, S_1)-CMRR (CMRR_BREAK_NONUNIFORM_GAMMA) | single-exc cross-cohärence | (vac, S_1) coherence kernel | non-uniform γ_l (longitudinal) |
 | **Z⊗N-partnership (this)** | **multi-exc Néel** | **MI(0,N−1) and M_X** | **transverse field / X-Y crosstalk** |
 
@@ -91,7 +91,7 @@ K and CMRR both read longitudinal (Z) asymmetry. Z⊗N reads transverse asymmetr
 - Off-resonant drive bleed-through
 - Single-qubit X/Y-rotation calibration error
 
-These are **calibration-side** asymmetries, distinct from coherence-time and dephasing asymmetries that K reads.
+These are **calibration-side** asymmetries, distinct from the coherence-time and dephasing asymmetries that the γ-profile channels read.
 
 ## Hardware sketch (open)
 
@@ -109,7 +109,7 @@ A minimum hardware test on IBM Heron-class:
 - N=5 is small. The breaking-amplitude scaling with N is not yet measured; multi-excitation states have richer Hilbert space, but the leading-order |⟨O⟩_a + ⟨O⟩_b|-scaling is set by the perturbation strength, not N.
 - Single-X, single-Y are the only Hamiltonian generators with one transverse operator. ZX, ZY, ZZX, etc. also break Z⊗N; not tested here.
 - The simulation runs at γ_z = 0.1, J = 1; the break-magnitude per unit transverse field has a γ-dependence and t-dependence not yet characterised.
-- Z⊗N is a **strong symmetry** in the sense of dissipative-symmetry classification (Buča-Prosen 2012): it is preserved by both H and {L_k}. Weak symmetries (preserved only by total Lindbladian, not individual jump operators) are not tested here.
+- In the dissipative-symmetry classification (Buča-Prosen 2012), Z⊗N is a **strong symmetry** when the jumps are Z-type, preserved by H and by every L_k. With T1 it is a weak symmetry: Z σ⁻ Z = −σ⁻, so the jump operator changes sign while its dissipator is invariant. Either kind gives the partner identity ρ_b(t) = (Z⊗N) ρ_a(t) (Z⊗N).
 
 ## What this run does and does not establish
 

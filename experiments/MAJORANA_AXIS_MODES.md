@@ -96,7 +96,7 @@ The R-even-only clusters (18 + 2 = 20) plus the silent kernel (18) account for 3
 
 In the JW-Bogoliubov basis, single-particle modes are labelled by k ∈ {1, ..., N}. The single-particle dispersion ε(k) = 2cos(πk/(N+1)) satisfies ε(N+1−k) = −ε(k), i.e. the momentum mirror k ↔ N+1−k is the particle-hole map on Bogoliubov modes.
 
-Site-reflection R on the spin chain corresponds to this momentum-reversal on the JW fermion modes. Under R:
+On the open chain, site-reflection R does not act as this momentum reversal: it maps b_k to (−1)^(k+1)·P·b_k with P the fermion parity ([Slow-Mode R-Parity](SLOW_MODE_R_PARITY.md), Step 3), so a bilinear b_p†·b_q carries the R-sign (−1)^(p+q), and particle-hole partners carry opposite signs at even N. The candidate split below was read under the momentum-reversal premise and is not re-derived with that action:
 - Sum-type bilinears (operators on Bogoliubov modes (p, q) with both same particle-hole sign) are R-EVEN.
 - Difference-type bilinears (one particle, one hole) are R-ODD.
 
@@ -179,6 +179,6 @@ The earlier notebook tried to unify four threads in one geometric picture:
 2. **Odd N (N=3, 5): ill-posed as written.** For odd N, n_XY = N/2 is not integer, so there is no exact axis layer at Re(λ) = −Nγ₀ on the absorption grid. The Majorana zero mode at k = (N+1)/2 (which motivated the original question) instead manifests in the V_inter SVD R-parity split at odd N (σ_0⁺ ≠ σ_0⁻ at N=3, 5; σ_0⁺ = σ_0⁻ at N=4, 6), documented in [Slow-Mode R-Parity](SLOW_MODE_R_PARITY.md) "V_inter SVD R-parity decomposition" section. The odd-N structural effect is real and characterised, just not in the axis-layer language.
 
 3. **Formal F80 Step 5 (Π action on Bogoliubov modes): open.** The finite
-   R-parity census is compatible with a momentum-reversal lens but does not
-   demonstrate operator equivalence. A projector-level proof or counterexample
+   R-parity census was read through a momentum-reversal lens, which the open
+   chain's R does not realise (above); it does not demonstrate operator equivalence. A projector-level proof or counterexample
    across degenerate blocks remains the analytical task.

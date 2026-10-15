@@ -167,13 +167,13 @@ Specific data points:
 | Run | What was measured | What it shows about Level 0 |
 |-----|-------------------|------------------------------|
 | Kingston Heron r2 (2026-04-24, [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)) | bonding:2 / alt-z-bits = 2.80× | Receiver-engineering F65-F76 reads bonding-mode amplitudes directly |
-| Marrakesh Heron r2 (2026-04-25, [IBM K-Partnership Sketch](../experiments/IBM_K_PARTNERSHIP_SKETCH.md)) | K-partnership Δ/mean 15-46% on hardware vs 0.02-0.25% on Aer | Bipartite K-symmetry preserved on noisy hardware; gap = γ-profile asymmetry |
+| Marrakesh Heron r2 (2026-04-25, [IBM K-Partnership Sketch](../experiments/IBM_K_PARTNERSHIP_SKETCH.md)) | K-partnership Δ/mean 15-46% on hardware vs 0.02-0.25% on Aer | Bipartite K-symmetry preserved on noisy hardware; the gap is not the γ-profile (K commutes with every dephasing and T1 dissipator); the candidates are coherent errors in the partners' preparation circuits, crosstalk and readout bias |
 | Bell+ trajectory (F57 anchor; ibm_kingston 2026-04-16) | K_dwell/δ = 1.0801 in the Bell+/pure-Z closed form; the hardware pairs read 0.649 and 0.694 | A Bell+-specific constant, γ-independent in its own book |
 | IBM Run 3 ([IBM Run 3 Palindrome](../experiments/IBM_RUN3_PALINDROME.md)) | CΨ crosses 1/4 at 1.9% error | The 1/4 fold (UNIQUENESS_PROOF, Level 0) directly visible on hardware |
 | 24,073 calibration records ([IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)) | the calibration proxy's r* = 0.2128, each record classified to a resolution of 0.000014 | A threshold of the purity proxy, not a reading of the palindrome |
 | Inside-Outside ([Primordial Qubit](PRIMORDIAL_QUBIT.md) Sec 9) | Only Q = J/γ measurable, not J or γ alone | Inside observer cannot separate the two readings of the doubling |
 
-**Reading:** the agreement between Aer (pure algebra) and hardware (algebra + γ-profile noise) at the Level-0 invariants tells us, as we read it, that the algebra propagates through Level 1+ with its form intact. Discrepancies show up exactly where they should: in the magnitude of γ-profile asymmetry (which is Level 1 specific), not in the form of the palindrome (which is Level 0 universal).
+**Reading:** the agreement between Aer (pure algebra) and hardware (algebra + hardware errors) at the Level-0 invariants tells us, as we read it, that the algebra propagates through Level 1+ with its form intact. Discrepancies show up exactly where they should: in the magnitude of hardware asymmetry (which is Level 1 specific), not in the form of the palindrome (which is Level 0 universal).
 
 This section requires a deeper review of the existing IBM data with the Level-0-as-primary lens. Open work item.
 

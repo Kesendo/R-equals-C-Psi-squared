@@ -2,7 +2,7 @@
 """Néel-zu-Spiegel test: Z⊗N-partnership of antiferromagnetic xpatterns.
 
 The xpattern |+−+−+⟩ is the antiferromagnetic Néel state of the Heisenberg-XXZ
-chain (in X-basis). Its Z⊗N-mirror |−+−+−⟩ is what a global π/2 Z-magnet-puls
+chain (in X-basis). Its Z⊗N-mirror |−+−+−⟩ is what a π rotation about Z on every qubit
 would produce. Z⊗N anti-commutes with X_l, Y_l (each Z X Z = −X) and commutes
 with Z_l. So Z⊗N is preserved by any operator with an even number of X/Y per
 term: XXZ, ZZ-detuning, Z-dephasing, and T1 (σ⁻σ⁺ pairs). It is broken only

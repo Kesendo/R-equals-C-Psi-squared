@@ -309,14 +309,12 @@ Script: [`simulations/decay_derivation.py`](../simulations/decay_derivation.py)
 ## Connection to the Mirror Symmetry Proof (March 14, 2026)
 
 The two orthogonal channels c+ and c- are NOT a palindromic mode pair. The
-reading that they are was carried here for months and the bullet three below
-refutes it in this document's own numbers: Π-partners sum to 2Σγ = 6γ, and
+third bullet below shows it in this document's own numbers: Π-partners sum to 2Σγ = 6γ, and
 c- at 2γ pairs with 4γ while c+ at 10γ/3 pairs with 8γ/3. What survives is
 that the spectrum this channel basis reads IS palindromic, mode by mode,
-under the conjugation operator Π proven in docs/MIRROR_SYMMETRY_PROOF.md.
+under the conjugation operator Π proven in [the Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
-Two mechanisms that were offered for the withdrawn reading, and what is left
-of each:
+Four features that could suggest a pairing, and what each one is:
 - **Π swaps light and lens** per site (I→X, X→I, Y→iZ, Z→iY; it is not an
   involution letter by letter, iZ mapping back to -Y). It does not act as a
   map between the two supermodes, which live in one sector and differ by a
@@ -326,8 +324,8 @@ of each:
   table above, so they are not an ω / -ω pair at all. It is a sign
   convention, as this document already says where the channel basis is
   defined.
-- **The different decay rates** obey the palindrome, but not in the pairing an
-  earlier version of this bullet gave. Every decay rate d has a partner at
+- **The different decay rates** obey the palindrome, but not as a pair of each
+  other. Every decay rate d has a partner at
   2Σγᵢ - d, and here 2Σγᵢ = 6γ = 0.30, so the two rates the exact eigendecomposition
   gives, 0.1000 (c- dominant) and 0.1667 (c+ dominant), are NOT partners of each
   other: their sum is 16γ/3 = 0.2667. The slow mode's partner is 4γ = 0.2000,
@@ -344,9 +342,9 @@ of each:
   intermediate decay rate 8γ/3. That is not the middle of the palindromic
   spectrum: the middle is the fixed point of the pairing, Σγ = 3γ = 0.15.
 
-What the signal processing view discovered empirically (two channels,
-anti-phase, sector-specific damping) is exactly the structure the proof
-derives analytically from the Π operator. The "two independent information
+What the proof derives from Π is the pairing of the spectrum these channels
+read; the two channels themselves, their anti-phase and their different
+damping are not that structure (the bullets above). The "two independent information
 channels" are each read by a palindromic spectrum, though they are not partners of one another.
 
 See: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
