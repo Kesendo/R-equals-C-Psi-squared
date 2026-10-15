@@ -161,15 +161,14 @@ Caught by reviews; the chronological record is
   a fresh catch on 2026-06-27; reconciled in prose, enforced nowhere in
   notation. Expect recurrence.
 - **"Center" is ambiguous at odd N** (the chain/sector center splits across
-  two positions, weakening center-dependent scores); flagged in
-  [Bures Degeneracy](../../experiments/BURES_DEGENERACY.md). Resolved for the
+  two positions, weakening center-dependent scores). Resolved for the
   palindrome centre specifically
   ([Thermal Breaking](../../experiments/THERMAL_BREAKING.md), 2026-08-05): that centre is not a chain
   position at all but the mean eigenvalue, read off the trace, so the recipe
   is exact and channel-agnostic while the value is not (−Σγ under
   Z-dephasing, −Σγ/2 under amplitude damping, and no centre exists when both
-  act). The ambiguity remains for the other center-dependent
-  scores named there.
+  act). The ambiguity remains for center-dependent scores
+  read at a chain or sector position.
 - **Π's temporal language** ("past→future") is deliberately tier-split
   (algebra Tier 2, temporal language Tier 3, philosophical reading Tier 5)
   in [The Interpretation](../THE_INTERPRETATION.md); an acknowledged seam

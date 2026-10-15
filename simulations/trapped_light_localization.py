@@ -4,7 +4,11 @@ Correction: surviving mode energy per site (not populations)
 Computes the spatial distribution of trapped light (surviving {X,Y}
 coherence energy), the correct observable for "mass = trapped light."
 
-Output: printed to console (results go into TRAPPED_LIGHT_LOCALIZATION.md)
+The per-mode weights are read per eigenvalue GROUP: ρ0 is projected onto each
+group's eigenspace with the dual basis R⁻¹ (biorthogonal inside a degenerate
+group), so the profile does not depend on which basis an eigensolver returns.
+
+Output: simulations/results/trapped_light_localization.txt
 """
 
 import numpy as np
@@ -14,6 +18,12 @@ import sys, os
 if sys.platform == "win32":
     os.environ.setdefault("PYTHONIOENCODING", "utf-8")
     sys.stdout.reconfigure(encoding="utf-8")
+
+_OUT = []
+_print = print
+def print(*args, **kw):
+    _print(*args, **kw)
+    _OUT.append(" ".join(str(a) for a in args))
 
 J = 1.0; GAMMA = 0.05; EPS = 0.001
 I2 = np.eye(2, dtype=complex)
@@ -84,43 +94,48 @@ for N in [4, 5]:
     ]:
         L = build_liouvillian(N, gammas)
         eigvals, R = np.linalg.eig(L)
-        _, Lf = np.linalg.eig(L.T)
-        ov = Lf.conj().T @ R
-        for j in range(d2): Lf[:,j] /= ov[j,j]
+        Rinv = np.linalg.inv(R)
 
         # Initial state |+>^N
         plus = np.array([1,1],dtype=complex)/np.sqrt(2)
         psi = plus
         for _ in range(N-1): psi = np.kron(psi, plus)
         rho0 = np.outer(psi, psi.conj())
-        coeffs = Lf.conj().T @ rho0.ravel()
+        coeffs = Rinv @ rho0.ravel()
+        # eigenvalue groups (degenerate clusters)
+        groups, used = [], np.zeros(d2, bool)
+        for mi in range(d2):
+            if used[mi]:
+                continue
+            members = np.where(np.abs(eigvals - eigvals[mi]) < 1e-8)[0]
+            used[members] = True
+            groups.append(members)
 
-        # Surviving mode energy at t = K_fold / gamma ~ 20
+        # Surviving mode energy at t = 20
         t_eval = 20.0
 
         # For each mode: survival factor and XY weight per site
         total_xy_per_site = np.zeros(N)
         total_weight = 0
 
-        for mi in range(d2):
-            # Mode properties
-            re_lam = eigvals[mi].real
-            im_lam = abs(eigvals[mi].imag)
+        for members in groups:
+            lam = eigvals[members].mean()
+            im_lam = abs(lam.imag)
 
-            if im_lam < 1e-6:  # non-oscillating mode, skip
+            if im_lam < 1e-6:  # non-oscillating group, skip
                 continue
 
-            # Survival at t_eval
-            survival = np.abs(coeffs[mi] * np.exp(eigvals[mi] * t_eval))**2
+            # The group's component of rho(t_eval): projector onto its eigenspace
+            comp = (R[:, members] @ coeffs[members]) * np.exp(lam * t_eval)
+            survival = np.real(np.vdot(comp, comp))
             if survival < 1e-20:
                 continue
 
-            # Energy weight: frequency × survival × initial amplitude
+            # Energy weight: frequency × surviving amplitude
             energy_weight = im_lam * survival
 
-            # XY weight per site from eigenvector
-            eigvec = R[:, mi]
-            site_xy = xy_weight_per_site(eigvec, N)
+            # XY weight per site from the group's component
+            site_xy = xy_weight_per_site(comp, N)
 
             # Normalize site_xy
             total_xy = np.sum(site_xy)
@@ -149,3 +164,5 @@ for N in [4, 5]:
 print("Reference from CAVITY_MODE_LOCALIZATION (March 30):")
 print("  Sacrifice zone Q0 weight: [0.519, 0.631, 0.700, 0.631, 0.519]")
 print("  r = 0.994 correlation between edge weight and decay rate")
+
+(Path(__file__).parent / "results" / "trapped_light_localization.txt").write_text(chr(10).join(_OUT) + chr(10), encoding="utf-8")

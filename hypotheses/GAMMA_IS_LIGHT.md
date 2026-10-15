@@ -435,7 +435,7 @@ We owe honesty to anyone who reads this.
 - The system is open, by the trace (Incompleteness Proof). That gamma is EXTERNAL is this document's hypothesis, not a proven input
 - The qubit chain passes 4 of 6 Fabry-Perot cavity checks, a quantitative analogy (optical analysis)
 - K = gamma times t is invariant for a crossing the Hamiltonian cannot touch (F14)
-- The degeneracy profile is palindromic and shapes the QFI speed (r = 0.99)
+- The degeneracy profile is palindromic (whether it shapes the quantum-Fisher speed is open; for the Hamiltonian-dead |+⟩^⊗N it does not)
 - d_real(1) ≥ 2N on any connected graph (SWAP construction), = 2N on the chain at N = 2-7; the triangle K₃ at N = 3 gives 8 (F50)
 
 **Observed or read (Tier 2-3):**
@@ -542,7 +542,7 @@ This is a late-night intuition, not a derivation.
 
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (the system is open; the origin is not settled)
 - [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (four of six cavity checks pass; not a cavity)
-- [Bures Degeneracy](../experiments/BURES_DEGENERACY.md) (degeneracy focuses the QFI flow)
+- [Bures Degeneracy](../experiments/BURES_DEGENERACY.md) (the |+⟩^⊗N speed is a closed form the degeneracy does not enter)
 - [Degeneracy Palindrome](../experiments/DEGENERACY_PALINDROME.md) (the palindrome inside the palindrome)
 - [Proof: d(1) = 2N](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (the 2N silent dancers)
 - [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance of the Hamiltonian-dead crossing)

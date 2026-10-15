@@ -32,8 +32,9 @@ The 2N moths at the first lamp are the "silent dancers": weight-1 operators
 that commute with the Hamiltonian. Their proof is in
 [Proof: Weight-1 Degeneracy](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md).
 What happens at weight 2 (two dancers at once) is in
-[Weight-2 Kernel](WEIGHT2_KERNEL.md). How the degeneracy shapes the
-geometry of the flow is in [Bures Degeneracy](BURES_DEGENERACY.md). The
+[Weight-2 Kernel](WEIGHT2_KERNEL.md). Whether the degeneracy shapes the
+geometry of the flow is asked in [Bures Degeneracy](BURES_DEGENERACY.md); for the
+Hamiltonian-dead |+⟩^⊗N it cannot. The
 optical interpretation that ties it all together is in
 [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md).
 
@@ -518,10 +519,10 @@ If the patterns hold at N = 8 (65,536 eigenvalues, ~73 GB RAM):
    on any simple sub-grid. Can they be expressed in terms of Hamiltonian
    coupling parameters (Bethe ansatz roots (the exact solution method for integrable spin chains), magnon dispersion (the energy-momentum relation for spin wave excitations))?
 
-6. **Does degeneracy shape state-space geometry? Partially resolved.**
-   QFI speed correlates with d_total(k) at even N (r = 0.99 at N = 4);
-   weaker at odd N (r ≈ 0.55). The center spike drives the peak QFI
-   speed, independent of initial state. See [Bures Degeneracy](BURES_DEGENERACY.md).
+6. **Does degeneracy shape state-space geometry?** Not for |+⟩^⊗N: the
+   Hamiltonian never touches that state, and its quantum-Fisher speed is a
+   closed form in γt that no eigenvalue of L enters. Open for speeds at
+   later times and for states that start mixed. See [Bures Degeneracy](BURES_DEGENERACY.md).
 
 ---
 

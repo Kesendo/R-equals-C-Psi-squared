@@ -9,19 +9,19 @@ does each qubit absorb proportionally to its share γ_k/Σγ of the total
 dose? Or do correlations (strong J) redistribute absorption away from
 the Beer-Lambert prediction?
 
-We measure per-qubit decoherence rates from the Liouvillian eigenvalues
-and compare the ACTUAL absorption share of each qubit against the
+We measure per-qubit purity loss over the first time unit (exact propagation
+with expm) and compare the ACTUAL absorption share of each qubit against the
 naive prediction γ_k/Σγ. We scan J/γ from 0.01 to 100 to test whether
 correlations break the proportional sharing.
 
 Additionally: does K_qubit (per-qubit dose to reach purity target)
-depend systematically on J, and how does the Schwarzschild effect
-interact with non-uniform dephasing?
+depend systematically on J under non-uniform dephasing?
 
 Output: simulations/results/k_dosimetry_beer_lambert.txt
 """
 
 import numpy as np
+from scipy.sparse.linalg import expm_multiply
 from pathlib import Path
 import sys, os, time
 
@@ -43,19 +43,20 @@ def kron_chain(ops):
         r = np.kron(r, o)
     return r
 
-def build_hamiltonian(N, J):
+def build_hamiltonian(N, J, ring=False):
     d = 2**N
     H = np.zeros((d, d), dtype=complex)
-    for i in range(N - 1):
+    bonds = [(i, i + 1) for i in range(N - 1)] + ([(N - 1, 0)] if ring else [])
+    for i, j in bonds:
         for P in [Xm, Ym, Zm]:
-            ops = [I2] * N; ops[i] = P; ops[i + 1] = P
+            ops = [I2] * N; ops[i] = P; ops[j] = P
             H += J * kron_chain(ops)
     return H
 
-def build_liouvillian(N, J, gammas):
+def build_liouvillian(N, J, gammas, ring=False):
     d = 2**N
     Id = np.eye(d, dtype=complex)
-    H = build_hamiltonian(N, J)
+    H = build_hamiltonian(N, J, ring)
     L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
     for k in range(N):
         ops = [I2] * N; ops[k] = Zm
@@ -87,22 +88,20 @@ def subsystem_purity(rho_full, N, qubit_k):
     return np.real(np.trace(rho_k @ rho_k))
 
 
-def propagate_and_measure(N, J, gammas, rho0, times):
-    """Propagate via eigendecomposition, return per-qubit purities at each time."""
+def propagate_and_measure(N, J, gammas, rho0, times, ring=False):
+    """Propagate with the exact action of expm(L·Δt), step by step through the
+    (increasing) times, and return per-qubit purities at each time. (A separate
+    eig(L) and eig(Lᵀ) paired by column is wrong inside degenerate eigenspaces.)"""
     d = 2**N
-    L = build_liouvillian(N, J, gammas)
-    eigvals, R = np.linalg.eig(L)
-    _, Lf = np.linalg.eig(L.T)
-    ov = Lf.conj().T @ R
-    for j in range(len(eigvals)):
-        Lf[:, j] /= ov[j, j]
-    coeffs = Lf.conj().T @ rho0.ravel()
+    L = build_liouvillian(N, J, gammas, ring)
+    v = rho0.ravel().astype(complex)
+    t_prev = 0.0
 
     results = []
     for t in times:
-        exp_l = np.exp(eigvals * t)
-        rv = R @ (coeffs * exp_l)
-        rho = rv.reshape(d, d)
+        v = expm_multiply(L * (t - t_prev), v)
+        t_prev = t
+        rho = v.reshape(d, d)
         rho = (rho + rho.conj().T) / 2
         tr = np.trace(rho).real
         if tr > 1e-15:
@@ -113,14 +112,14 @@ def propagate_and_measure(N, J, gammas, rho0, times):
     return results
 
 
-def measure_decoherence_rates(N, J, gammas, rho0, t_window=5.0):
+def measure_decoherence_rates(N, J, gammas, rho0, t_window=5.0, ring=False):
     """Measure effective decoherence rate per qubit from early-time purity decay.
 
     Rate_k = -d(purity_k)/dt at t→0, normalized.
     Returns list of rates per qubit.
     """
     times = np.linspace(0.01, t_window, 100)
-    data = propagate_and_measure(N, J, gammas, rho0, times)
+    data = propagate_and_measure(N, J, gammas, rho0, times, ring)
 
     rates = []
     for k in range(N):
@@ -258,6 +257,13 @@ for jg_ratio in J_over_gamma_edge:
         log(f"  {jg_ratio:8.2f} {J_val:8.5f} (rates too small)")
 
 log()
+log("  Strong-coupling limit, all four shares (chain, then ring), J/γ_e = 100, 300, 1000, 3000:")
+for ring in (False, True):
+    for jg_ratio in (100.0, 300.0, 1000.0, 3000.0):
+        rates = measure_decoherence_rates(N, jg_ratio * gamma_edge_fixed, gammas_fixed, rho0, ring=ring)
+        sh = [r / sum(rates) for r in rates]
+        log(f"    {'ring ' if ring else 'chain'} {jg_ratio:7.0f}: [{', '.join(f'{x:.4f}' for x in sh)}]")
+log()
 
 # ─────────────────────────────────────────────────────────
 # TEST 3: Per-qubit purity evolution (visualize redistribution)
@@ -289,10 +295,16 @@ log("  Per-qubit time to reach purity 0.55:")
 for k in range(N):
     for i in range(len(data_traj)-1):
         if data_traj[i][2][k] >= 0.55 and data_traj[i+1][2][k] < 0.55:
-            t_cross = data_traj[i][0]
+            # refine inside the bracketing grid interval by bisection on the exact propagation
+            lo, hi = data_traj[i][0], data_traj[i + 1][0]
+            for _ in range(40):
+                mid = 0.5 * (lo + hi)
+                pur = propagate_and_measure(N, J_test, gammas_fixed, rho0, [mid])[0][2][k]
+                lo, hi = (mid, hi) if pur >= 0.55 else (lo, mid)
+            t_cross = 0.5 * (lo + hi)
             label = "EDGE" if k == 0 else "interior"
             gamma_k = gammas_fixed[k]
-            log(f"    Q{k} ({label}, γ={gamma_k:.5f}): t ≈ {t_cross:.1f}, K_k = γ_k × t = {gamma_k * t_cross:.4f}")
+            log(f"    Q{k} ({label}, γ={gamma_k:.5f}): t = {t_cross:.2f}, K_k = γ_k × t = {gamma_k * t_cross:.4f}")
             break
     else:
         label = "EDGE" if k == 0 else "interior"

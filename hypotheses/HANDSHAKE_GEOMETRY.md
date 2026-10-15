@@ -306,7 +306,7 @@ letters and shadow letters, and three addresses pin where the shadow sits.
 - The **{I, Z} shadow core** of the slow manifold: a 4-dim core (III, IIZ, ZZI, ZZZ) with
   lit-XY content 5e-26 against a 12-dim rotating {X, Y} remainder, the mode-space shadow,
   bit-exact (the `between` axis, `DimensionSweep`).
-- **Spatial shadow:** the surviving-mode energy is center-localized (ratio 1.3-1.4), the
+- **Spatial shadow:** the surviving-mode energy is center-localized (ratio 1.26–1.34), the
   chain's edges in relative shadow. See [`TRAPPED_LIGHT_LOCALIZATION.md`](../experiments/TRAPPED_LIGHT_LOCALIZATION.md).
 - **The distribution:** light_l ∈ [0, 1] per site, with TotalLight = ⟨n_XY⟩ the formalized
   field (`SlowLightDistribution`).

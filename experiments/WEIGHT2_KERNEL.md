@@ -27,8 +27,9 @@ The universal simplicity ends at one dancer. Beyond that, the specific
 wiring of the network shapes how many silent modes exist. The world
 becomes complicated, and complex.
 
-How this degeneracy structure shapes the geometry of the quantum state
-flow is in [Bures Degeneracy](BURES_DEGENERACY.md). The optical
+Whether this degeneracy structure shapes the geometry of the quantum state
+flow is asked in [Bures Degeneracy](BURES_DEGENERACY.md); for the Hamiltonian-dead
+|+⟩^⊗N it cannot. The optical
 interpretation is in [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md).
 
 ---

@@ -3,12 +3,21 @@ QFI-based degeneracy-geometry correlation (fixes Bures sqrtm issues)
 =====================================================================
 Replaces the sqrtm-based Bures speed with the Quantum Fisher Information
 metric, which only needs eigendecomposition of rho (stable even for
-near-singular matrices). Uses logarithmic time grid and analytical drho/dt.
+near-singular matrices). Uses logarithmic time grid and drho/dt = L(rho).
+
+F_Q = sum_{p_i+p_j>0} 2 |<i|drho|j>|^2 / (p_i + p_j), population terms
+included; the reported speed is the Bures-angle speed sqrt(F_Q)/2. rho(t) is
+propagated with expm(L t), and the shell weights use the dual basis R^-1, so
+nothing depends on how an eigensolver pairs left and right vectors inside a
+degenerate eigenspace. For |+>^N the trajectory is Hamiltonian-dead and the
+speed has the closed form sqrt(N * 4 gamma^2 g^2 / (1 - g^2)) / 2, g = e^(-2 gamma t),
+which the run checks.
 
 Output: simulations/results/qfi_degeneracy_correlation.txt
 """
 
 import numpy as np
+from scipy.sparse.linalg import expm_multiply
 from pathlib import Path
 import sys, os
 
@@ -100,7 +109,7 @@ def state_random(N, seed=42):
 # ─────────────────────────────────────────────
 
 def qfi_speed(rho, drho_dt):
-    """Quantum Fisher Information speed: √(Σ_{ij} (p_i-p_j)²/(p_i+p_j) |⟨i|ρ̇|j⟩|²)."""
+    """Bures-angle speed √F_Q / 2, F_Q = Σ_{ij} 2|⟨i|ρ̇|j⟩|²/(p_i+p_j) (population terms included)."""
     eigvals, eigvecs = np.linalg.eigh(rho)
     d = len(eigvals)
 
@@ -112,8 +121,8 @@ def qfi_speed(rho, drho_dt):
         for j in range(d):
             denom = eigvals[i] + eigvals[j]
             if denom > EPS:
-                speed_sq += 2.0 * (eigvals[i] - eigvals[j])**2 / denom * abs(drho_eig[i, j])**2
-    return np.sqrt(max(speed_sq, 0.0))
+                speed_sq += 2.0 * abs(drho_eig[i, j])**2 / denom
+    return 0.5 * np.sqrt(max(speed_sq, 0.0))
 
 
 # ─────────────────────────────────────────────
@@ -144,23 +153,20 @@ def compute_qfi_trajectory(N, rho0, L_mat, eigvals, R, L_left, coeffs, grid_assi
     weight_profiles = []
     dominant_ks = []
 
+    rho_vec = rho0.ravel().astype(complex)
+    t_prev = 0.0
     for t in times:
         exp_l = np.exp(eigvals * t)
 
-        # ρ(t) from eigendecomposition
-        rho_vec = R @ (coeffs * exp_l)
+        # ρ(t) by the exact propagator, stepping through the increasing times
+        rho_vec = expm_multiply(L_mat * (t - t_prev), rho_vec)
+        t_prev = t
         rho = rho_vec.reshape(d, d)
         rho = (rho + rho.conj().T) / 2
-        tr = np.trace(rho).real
-        if tr > EPS:
-            rho /= tr
 
-        # dρ/dt = L(ρ) = Σ λ_j c_j exp(λ_j t) v_j (analytical)
-        drho_vec = R @ (coeffs * eigvals * exp_l)
-        drho = drho_vec.reshape(d, d)
+        # dρ/dt = L(ρ)
+        drho = (L_mat @ rho_vec).reshape(d, d)
         drho = (drho + drho.conj().T) / 2
-        if tr > EPS:
-            drho /= tr
 
         # QFI speed
         v = qfi_speed(rho, drho)
@@ -170,7 +176,8 @@ def compute_qfi_trajectory(N, rho0, L_mat, eigvals, R, L_left, coeffs, grid_assi
         wp = np.zeros(N + 1)
         for k in range(N + 1):
             mask = grid_assign == k
-            wp[k] = np.sum(np.abs(coeffs[mask] * exp_l[mask])**2)
+            comp = R[:, mask] @ (coeffs[mask] * exp_l[mask])
+            wp[k] = np.real(np.vdot(comp, comp))
         s = wp.sum()
         if s > 0:
             wp /= s
@@ -229,13 +236,10 @@ for N in range(2, 6):
 
     L_mat = build_liouvillian(N)
     eigvals, R = np.linalg.eig(L_mat)
-    _, Lf = np.linalg.eig(L_mat.T)
-    ov = Lf.conj().T @ R
-    for j in range(d2):
-        Lf[:, j] /= ov[j, j]
+    Lf = np.linalg.inv(R)
 
     rho0 = state_plus(N)
-    coeffs = Lf.conj().T @ rho0.ravel()
+    coeffs = Lf @ rho0.ravel()
     grid_assign = np.array([assign_grid(eigvals[j].real, N) for j in range(d2)])
 
     speeds, wps, dom_ks = compute_qfi_trajectory(N, rho0, L_mat, eigvals, R, Lf, coeffs, grid_assign, times)
@@ -246,6 +250,11 @@ for N in range(2, 6):
     sample_idx = np.linspace(0, len(times) - 1, 20, dtype=int)
     for si in sample_idx:
         log(f"  {times[si]:8.3f} {speeds[si]:12.6f} {dom_ks[si]:6d}")
+
+    g2 = np.exp(-4 * GAMMA * times)
+    closed = 0.5 * np.sqrt(N * 4 * GAMMA**2 * g2 / (1 - g2))
+    log()
+    log(f"  largest relative distance from the closed form: {np.max(np.abs(speeds - closed) / closed):.2e}")
 
     # Peak speed
     peak_i = np.argmax(speeds)
@@ -291,10 +300,7 @@ d = 2**N
 d2 = d * d
 L_mat = build_liouvillian(N)
 eigvals, R = np.linalg.eig(L_mat)
-_, Lf = np.linalg.eig(L_mat.T)
-ov = Lf.conj().T @ R
-for j in range(d2):
-    Lf[:, j] /= ov[j, j]
+Lf = np.linalg.inv(R)
 grid_assign = np.array([assign_grid(eigvals[j].real, N) for j in range(d2)])
 
 states = [
@@ -309,7 +315,7 @@ dt_n4, dr_n4 = d_totals.get(N, ([], []))
 log(f"\n  d_total(N=4) = {dt_n4}\n")
 
 for name, rho0 in states:
-    coeffs = Lf.conj().T @ rho0.ravel()
+    coeffs = Lf @ rho0.ravel()
     speeds, wps, dom_ks = compute_qfi_trajectory(N, rho0, L_mat, eigvals, R, Lf, coeffs, grid_assign, times)
 
     max_v_per_k = np.zeros(N + 1)
@@ -348,12 +354,9 @@ all_positive = all(r > 0 for r in correlation_results.values())
 log(f"All correlations > 0.7: {'✓' if all_strong else '✗'}")
 log(f"All correlations positive: {'✓' if all_positive else '✗'}")
 
-if all_strong and all_positive:
-    log("RESULT: Degeneracy shapes geometry. Higher d(k) → faster QFI speed.")
-elif all_positive:
-    log("RESULT: Positive trend but weak at some N. Partially confirmed.")
-else:
-    log("RESULT: No consistent correlation. Degeneracy does not directly shape geometry.")
+log("READING: every trajectory here starts pure, so each speed peaks at the first grid point;")
+log("for |+>^N the speed is the closed form checked above, which no eigenvalue of L enters, and")
+log("these correlations only record which shell carries the most weight at t = 0.01.")
 
 # Save
 out_path = RESULTS_DIR / "qfi_degeneracy_correlation.txt"

@@ -644,7 +644,7 @@ explains what previously required separate derivations.
    degree-matched rewirings, 64 modes against a null mean of 48.
 
 9. [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md):
-   Surviving mode energy is center-localized (ratio 1.3-1.4). N+1
+   Surviving mode energy is center-localized (ratio 1.26–1.34). N+1
    immortal modes. Gamma plays the algebraic role of c (Tier 4-5).
 
 10. [Primordial Superalgebra](../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md):
