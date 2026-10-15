@@ -205,92 +205,16 @@ public sealed class GoldenRouterClaim : Claim
 
     private enum SplitFactor { Identity, Golden, Rhythm, Both }
 
-    // Gaussian-integer square matrices: (real part, imaginary part).
-    private readonly record struct GMat(long[,] Re, long[,] Im)
-    {
-        public int D => Re.GetLength(0);
-        public static GMat Zero(int d) => new(new long[d, d], new long[d, d]);
-    }
-
-    private static GMat GMul(GMat x, GMat y)
-    {
-        int d = x.D;
-        var p = GMat.Zero(d);
-        for (int i = 0; i < d; i++)
-            for (int k = 0; k < d; k++)
-            {
-                long xr = x.Re[i, k], xi = x.Im[i, k];
-                if (xr == 0 && xi == 0) continue;
-                for (int j = 0; j < d; j++)
-                {
-                    long yr = y.Re[k, j], yi = y.Im[k, j];
-                    if (yr == 0 && yi == 0) continue;
-                    p.Re[i, j] += xr * yr - xi * yi;
-                    p.Im[i, j] += xr * yi + xi * yr;
-                }
-            }
-        return p;
-    }
-
-    private static GMat GKron(GMat x, GMat y)
-    {
-        int dx = x.D, dy = y.D;
-        var p = GMat.Zero(dx * dy);
-        for (int i = 0; i < dx; i++)
-            for (int j = 0; j < dx; j++)
-                for (int k = 0; k < dy; k++)
-                    for (int l = 0; l < dy; l++)
-                    {
-                        p.Re[i * dy + k, j * dy + l] = x.Re[i, j] * y.Re[k, l] - x.Im[i, j] * y.Im[k, l];
-                        p.Im[i * dy + k, j * dy + l] = x.Re[i, j] * y.Im[k, l] + x.Im[i, j] * y.Re[k, l];
-                    }
-        return p;
-    }
-
-    private static GMat Letter(char c) => c switch
-    {
-        'I' => new(new long[,] { { 1, 0 }, { 0, 1 } }, new long[2, 2]),
-        'X' => new(new long[,] { { 0, 1 }, { 1, 0 } }, new long[2, 2]),
-        'Y' => new(new long[2, 2], new long[,] { { 0, -1 }, { 1, 0 } }),
-        'Z' => new(new long[,] { { 1, 0 }, { 0, -1 } }, new long[2, 2]),
-        'a' => new(new long[,] { { 0, 2 }, { 2, 0 } }, new long[,] { { 0, -1 }, { 1, 0 } }),   // 2X + Y
-        _ => throw new ArgumentOutOfRangeException(nameof(c)),
-    };
-
-    private static GMat Product(string letters) =>
-        letters.Skip(1).Aggregate(Letter(letters[0]), (m, c) => GKron(m, Letter(c)));
-
-    private static GMat Combine(GMat x, long kx, GMat y, long ky)
-    {
-        int d = x.D;
-        var s = GMat.Zero(d);
-        for (int i = 0; i < d; i++)
-            for (int j = 0; j < d; j++)
-            {
-                s.Re[i, j] = kx * x.Re[i, j] + ky * y.Re[i, j];
-                s.Im[i, j] = kx * x.Im[i, j] + ky * y.Im[i, j];
-            }
-        return s;
-    }
-
-    private static bool GEqual(GMat x, GMat y)
-    {
-        for (int i = 0; i < x.D; i++)
-            for (int j = 0; j < x.D; j++)
-                if (x.Re[i, j] != y.Re[i, j] || x.Im[i, j] != y.Im[i, j]) return false;
-        return true;
-    }
-
     private static SplitRouterReading ReadSplitRouter(string name, int n, bool ring, SplitFactor left, SplitFactor right)
     {
         int d = 1 << n;
         string rhythm = string.Concat(Enumerable.Range(0, n).Select(l => l % 4 < 2 ? 'I' : 'Z'));
         GMat Factor(SplitFactor f) => f switch
         {
-            SplitFactor.Identity => Product(new string('I', n)),
-            SplitFactor.Golden => Product(new string('a', n)),
-            SplitFactor.Rhythm => Product(rhythm),
-            _ => GMul(Product(new string('a', n)), Product(rhythm)),
+            SplitFactor.Identity => GMat.Product(new string('I', n)),
+            SplitFactor.Golden => GMat.Product(new string('a', n)),
+            SplitFactor.Rhythm => GMat.Product(rhythm),
+            _ => GMat.Mul(GMat.Product(new string('a', n)), GMat.Product(rhythm)),
         };
         var p = Factor(left);
         var q = Factor(right);
@@ -303,7 +227,7 @@ public sealed class GoldenRouterClaim : Claim
             {
                 var letters = Enumerable.Repeat('I', n).ToArray();
                 for (int k = 0; k < 3; k++) letters[(w + k) % n] = template[k];
-                h = Combine(h, 1, Product(new string(letters)), weight);
+                h = GMat.Combine(h, 1, GMat.Product(new string(letters)), weight);
             }
         long[] gamma = Enumerable.Range(1, n).Select(l => (long)l).ToArray();
         long twoSigma = 2 * gamma.Sum();
@@ -311,7 +235,7 @@ public sealed class GoldenRouterClaim : Claim
         // L(ρ) = −i[H, ρ] + Σ_l γ_l (Z_l ρ Z_l − ρ); Z_l is diagonal, site 0 the most significant bit.
         GMat L(GMat rho)
         {
-            var comm = Combine(GMul(h, rho), 1, GMul(rho, h), -1);
+            var comm = GMat.Combine(GMat.Mul(h, rho), 1, GMat.Mul(rho, h), -1);
             var outp = GMat.Zero(d);
             for (int i = 0; i < d; i++)
                 for (int j = 0; j < d; j++)
@@ -330,10 +254,10 @@ public sealed class GoldenRouterClaim : Claim
             {
                 var e = GMat.Zero(d);
                 e.Re[i, j] = 1;
-                var wle = GMul(GMul(p, L(e)), q);
-                var we = GMul(GMul(p, e), q);
-                var rhs = Combine(L(we), -1, we, -twoSigma);
-                if (!GEqual(wle, rhs)) return new SplitRouterReading(name, false);
+                var wle = GMat.Mul(GMat.Mul(p, L(e)), q);
+                var we = GMat.Mul(GMat.Mul(p, e), q);
+                var rhs = GMat.Combine(L(we), -1, we, -twoSigma);
+                if (!GMat.Equal(wle, rhs)) return new SplitRouterReading(name, false);
             }
         return new SplitRouterReading(name, true);
     }

@@ -5430,7 +5430,9 @@ of H. Multi-indices carry no arrow: l, a, α, β, k are d-tuples, one entry per 
 entries l_i, α_i, ... and |α| = Σ_i α_i, while the l of Q above is a single site.
 Since at least one class is positive, p_{m\*}(γ) > 0 for every γ > 0: **hard at one
 γ is hard at all γ**, the windowed converse with no residual (this resolved R-sign, the
-last residual, on 2026-06-10; the same day's girth dichotomy had retired R-deg). The d = 1
+last residual, on 2026-06-10; the same day's girth dichotomy had retired R-deg). The chain uses the
+diagonal cell only through F = X^⊗N reversing H and every Z_l, so it holds for any H with such a lit
+chiral ([converse §7](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md#7-any-lit-chiral-serves)). The d = 1
 face is the girth-dichotomy sum of squares P_{2ℓ+1,1} = (2ℓ+1)·C(2ℓ,ℓ)·Σ_l t_ℓ²; the ℓ = 1
 face of that is F87's P_{3,1} = 6·4^N·Σ_l c_l², and that m = 3 face is **cell-free** (the
 companion coefficients of p₃ vanish for every Hermitian H, no diagonal-cell premise:

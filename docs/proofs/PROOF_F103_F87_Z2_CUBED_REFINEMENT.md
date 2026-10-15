@@ -863,7 +863,8 @@ Porting the mask test off the chain (Door 2a) exposed that the site/mask-biparti
 showed what it is a proxy FOR. The §7.5 −N mode, a diagonal D with {H, D} = 0, unpacks for an off-diagonal
 H into {H, D}_{ij} = H_{ij}(D_i + D_j) = 0 on every nonzero off-diagonal, i.e. D_i = −D_j on every edge of
 the BASIS-STATE hopping graph (the 2^N basis states, edges = H's nonzero off-diagonals). A bipartite
-basis-state graph supplies that D, so among the non-truly (M ≠ 0) Hamiltonians
+basis-state graph supplies that D, so among the non-truly (M ≠ 0) Hamiltonians, wherever a lit chiral stands beside it (an operator reversing H and
+every Z_l, F = X^⊗N inside the diagonal cell; [the windowed converse §7](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md#7-any-lit-chiral-serves))
 
   **a bipartite basis-state graph ⟹ soft,**
 
@@ -900,8 +901,8 @@ clean: the linear c(s) = ⟨φ, s⟩ (the chiral K of §7.1, the chain proxy); t
 c(s) = ⌊n/2⌋ mod 2 (every basis-edge Δn = ±2, a pure Δn = ±2 pairing); and the parity grading
 c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y). The two excitation gradings
 are topology-independent. The parity grading needs a bit_b-homogeneity gate, though: the n mod 2 colouring
-exists for any all-odd-flip set, but a bipartite basis-state graph only certifies soft WITHIN one Klein
-cell (§7.6), so a bit_b-MIXED all-odd set can be HARD despite the colouring (XZ + ZXZ is all-odd with
+exists for any all-odd-flip set, but a bipartite basis-state graph certifies soft only beside a lit chiral,
+which inside one Klein cell is F (§7.6), so a bit_b-MIXED all-odd set with none can be HARD despite the colouring (XZ + ZXZ is all-odd with
 bit_b = {1, 0} and spectrally hard at N = 3..4) while another is soft (XZ + ZX + YZ + ZY); the gate keeps
 the certificate sound. But even with the gates the structured
 colourings are SOUND, not complete, and the incompleteness is two-layered. (a) A scalability gap: some
@@ -924,7 +925,10 @@ explicit open frontier, resolved constructively by the period-4 golden router, a
 product in the golden frame a = φX+Y, b = X−φY with W L W⁻¹ = −L − 2σ exact at every N ≥ 3
 ([ceiling golden router](PROOF_CEILING_GOLDEN_ROUTER.md), F116), and the banked all-Q obstruction
 answered negatively (no obstruction; the uniform and period-2 emptiness are now theorems, and the per-term
-lens misses the router because the cancellation is window-summed, cross-template). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
+lens misses the router because the cancellation is window-summed, cross-template). Those two cases are
+linearly colourable all along, by the Z pattern ⊗[I, I, Z, Z]; what the Klein-cell gate could not see beside
+the colouring is a lit chiral, since F does not reverse XZY, and the golden a^⊗N is one
+([the windowed converse §7](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md#7-any-lit-chiral-serves)). Two cases once counted here, XIX+XIY+YIX and YIY+XIY+YIX, are
 in fact LOCAL: a continuous-uniform per-site Q palindromizes them (verified N=3,4,5), it simply routes via
 continuous-sum cancellation rather than per term. Two further cases once counted here, the I-heavy
 IXI+IIY+YII and IYI+IIX+XII, are also LOCAL, by the single-site transverse-field lemma below. See

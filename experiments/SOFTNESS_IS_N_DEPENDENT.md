@@ -241,8 +241,10 @@ Q, neither the uniform nor the alternating families of the
 [Klein routing](TWO_TERM_PALINDROME_KLEIN_ROUTING.md) reach it (the discrete candidates sit off the
 golden locus). Its actual router is the period-4 golden product in the frame a = φX+Y, b = X−φY
 ([the ceiling golden-router proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)), a
-soft mechanism distinct from the lit chiral-K colouring and exact at every N ≥ 3, a single window already
-suffices, which is exactly the length-independence seen here. The router's identity column G is a colouring of another kind than the chiral-K one, a string of letters from span{X, Y} that commutes with H where K anticommutes with it ([the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md)). So the k≥3 soft cases divide by whether
+soft mechanism exact at every N ≥ 3, a single window already
+suffices, which is exactly the length-independence seen here. The case is chiral-K colourable, the Z
+pattern ⊗[I, I, Z, Z] being a linear 2-colouring of its basis-state graph; what F = X^⊗N cannot supply beside it is
+the lit chiral, and the golden a^⊗N does ([the windowed converse §7](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md#7-any-lit-chiral-serves)). The router's identity column G is a colouring of another kind than the chiral-K one, a string of letters from span{X, Y} that commutes with H where the chiral-K colouring anticommutes with it ([the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md)). So the k≥3 soft cases divide by whether
 a router is known, not by whether a Z is present, and on that cut the Z-middle case is the HARDER of
 the two: nothing in the three-representative period-≤2 family the census searches routes it, and the period-4 golden product
 that does route it does so only window-summed. Its obstruction is one template of the three: XZX alone

@@ -187,7 +187,9 @@ excitation-pairing map, and those are different per-site structures. A product Q
 down the chain; we concluded it can be one of the two routers, not both. That inference died on 2026-06-10:
 a product is one per-site rule, but the rule does not have to serve either half. The period-4 golden router
 serves the sum while routing neither half alone, by cross-template cancellation inside each window
-([the golden router ceiling proof §2](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)). What the
+([the golden router ceiling proof §2](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)). Read as a colouring, the
+joined sum is a single linear colouring, ⊗[I, I, Z, Z]; what F = X^⊗N lacks beside it is the lit chiral, and the
+golden a^⊗N supplies it ([the windowed converse §7](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md#7-any-lit-chiral-serves)). What the
 uniform-continuous search witnesses is narrower and still true: across the whole 16-parameter uniform
 family there is no common map, and the residual rests at the ~0.30 floor, the gap between serving one
 router and serving both. This refines the uniform-lens reading above: it is not that one sector resists

@@ -60,7 +60,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// non-local Π", route after all: the period-4 GOLDEN per-site router palindromizes each under the
 /// WINDOW-SUMMED anticommutator condition (Stufe B′, <see cref="CertifyByRoutingWindowSummed"/>; the
 /// cancellation is cross-template inside one window, which the per-term Stufe B cannot see), so they are
-/// now certified, see docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116. The formerly-counted cases were
+/// now certified, see docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md + F116. Their basis-state graphs are
+/// linearly colourable all along (the Z pattern ⊗[I,I,Z,Z]), and the Klein-cell gate refuses that
+/// colouring. Read through docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md §7, a colouring certifies
+/// wherever a lit chiral (reversing H and every Z_l) stands beside it; F = X^⊗N does not reverse XZY, the
+/// golden a^⊗N does. No strategy here checks a lit chiral other than through the cell gate. The formerly-counted cases were
 /// already LOCAL: XIX+XIY+YIX, YIY+XIY+YIX route via a continuous-uniform per-site Q (continuous-sum, the
 /// 6 to 4 step), and IXI+IIY+YII, IYI+IIX+XII route via a site-varying product of single-site crossover
 /// maps, certified by <see cref="CertifyBySingleSiteField"/> (the 4 to 2 step). The arc completes
