@@ -61,11 +61,11 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 │   ├── ring
 │   │   ├── Q=1.5   (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.51 | ⟨n_XY⟩=0.632
 │   │   ├── Q=2     (2,2) Δn=0 | FrozenLevelCrossing | frozen      | r=0.50 | ⟨n_XY⟩=1     ← bounded r: a crossing, not an EP
-│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp      | oscillating | r=0.98 | ⟨n_XY⟩=1
+│   │   └── Q=3     (0,1) Δn=1 | UnfreezingSeEp      | oscillating | r=1.00 | ⟨n_XY⟩=1
 │   └── star
-│       ├── Q=1.5   (1,1) Δn=0 | FrozenCommutant | frozen | r=0.43 | ⟨n_XY⟩=0.425
-│       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | r=0.91 | ⟨n_XY⟩=0.774
-│       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | r=0.87 | ⟨n_XY⟩=0.8       ← saturates on the ceiling
+│       ├── Q=1.5   (1,1) Δn=0 | FrozenCommutant | frozen | r=0.75 | ⟨n_XY⟩=0.425
+│       ├── Q=6     (5,5) Δn=0 | FrozenCommutant | frozen | r=0.96 | ⟨n_XY⟩=0.774
+│       └── Q=50    (1,1) Δn=0 | FrozenCommutant | frozen | r=1.00 | ⟨n_XY⟩=0.8       ← saturates on the ceiling
 ├── the threshold ladder over N   (chain: the handover Q_h, the floor crossing; = the EP Q*(N) at N=2,3 only, below it from N=4 by the trace dressing ((2w2−1)/c)²)
 │   ├── N=4   chain Q_h=1.879 | ring Q_h=n/a | star g₂=1.333 → UN-FREEZES (g₂>1; the star outlier)
 │   ├── N=5   chain Q_h=2.372 | ring Q_h=1.491 | star g₂=1.0   → UN-FREEZES (marginal)
@@ -83,11 +83,18 @@ TrichotomyWitness (N=6, Q=1.5)  —  the chain/ring/star survivor trichotomy as 
 ## The third axis: rigidity
 
 The route row carries a third number besides `⟨n_XY⟩` (the rate) and `|Im|` (does it oscillate):
-`r`, the **Petermann phase rigidity** of the survivor's slowest mode, the same `r = 1/(‖R⁻¹_row‖·‖R_col‖)`
-the horizon witness uses to locate the chain EP. The witness computed it all along; the row now shows it.
+`r`, the **Petermann phase rigidity** of the survivor's slowest mode, for a simple mode the same
+`r = 1/(‖R⁻¹_row‖·‖R_col‖)` the horizon witness uses to locate the chain EP.
 `r ∈ (0,1]`: `r = 1` is a clean, isolated, normal mode; `r → 0` is an **exceptional point** (left and
 right eigenvectors coalesce, the Petermann factor `1/r²` diverges), not the same thing as a mere
 eigenvalue degeneracy, where `r` stays bounded. So `r` reads the **mechanism**, not just the outcome.
+
+The ring's and the star's survivors are exactly such degeneracies (the ring's `k ↔ −k` pairs, the
+star's hub multiplets), and every mode of the `(0,1)` band edge decays at the same `−2γ`. Inside a
+degenerate eigenspace a single eigenvector's `r` is whichever basis the eigensolver returned, so the
+witness reads the eigenspace instead: `r = 1/‖P‖₂` of its spectral projector `P`, which for a simple
+mode is the per-mode Petermann rigidity and at a degeneracy does not depend on the basis. Where the
+slowest rate is shared by several eigenvalues, `|Im|` is the largest among them and `r` the smallest.
 
 A caveat on this instrument, and what the EP-ness actually rests on. `r` here is **eig-based** (it reads
 `r = 1/√K` from a single eigendecomposition); that is the same family that *misfired* for F86a (it read
@@ -108,8 +115,8 @@ sees `r` while that sector is the survivor; pinning shows the whole curve):
 
 | sector `(m,m)` | chain | ring | star |
 |----------------|-------|------|------|
-| N=4 `(2,2)` | `r → 0` at **Q=1.88**, coincident with the `|Im|` birth, an **EP** at `Q*(4)=1.879` | `r` stays bounded (bottoms `~0.4`), `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips but stays bounded, `|Im|` **never born**, frozen |
-| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth, an **EP** at `Q*(6)=2.889` (the handover `Q_h(6)=2.884` just below) | `r` stays bounded (bottoms `~0.3`), dip and onset at different `Q`, a **level crossing** | `r` dips but stays bounded, no `|Im|` onset, frozen |
+| N=4 `(2,2)` | `r → 0` at **Q=1.88**, coincident with the `|Im|` birth, an **EP** at `Q*(4)=1.879` | `r` stays bounded (bottoms `~0.66`), `|Im|` **never born**: the ring's lone frozen case, its `(2,2)` sector sitting on the same commutant ceiling as the complete graph `K₄` (no handover; the ladder's `Q_h=n/a`) | `r` dips but stays bounded (`~0.2`, where its slowest level changes), `|Im|` **never born**, frozen |
+| N=6 `(3,3)` | `r → 0` at **Q=2.89**, coincident with the `|Im|` birth, an **EP** at `Q*(6)=2.889` (the handover `Q_h(6)=2.884` just below) | `r` stays bounded (bottoms `~0.3` at `Q≈1.5`, `|Im|` onset at `Q≈1.8`), dip and onset at different `Q`, a **level crossing** | `r` dips but stays bounded (`~0.4`), no `|Im|` onset, frozen |
 
 (The chain's `r`-at-the-bottom is *not* a fixed number: it is the value of an unbounded `1/√K` evaluated
 wherever the finite `Q`-grid happens to land relative to the singularity, so it swings by orders of
@@ -142,7 +149,8 @@ shape of a second-order-EP `K ~ 1/|Q − Q*|`:
 
 The shape is a **certificate of the EP, not a load-bearing measurement of it.** The specific numbers a
 finite `Q`-grid reads off this curve, the fitted exponent (≈ 0.49 / 0.49 / 0.58 at N = 4 / 5 / 6, near ½
-but scattered by the fit window and finite size), the peak height (e.g. an N=6 spike of order `K ~ 10⁴`–`10⁵`
+but scattered by the fit window, finite size, and the grid's centre: the sweep is centred on the
+handover `Q_h(N)`, which at N=6 sits 0.005 below the EP), the peak height (e.g. an N=6 spike of order `K ~ 10⁴`–`10⁵`
 at the smallest resolved `r`), and the apparent `K ~ 1/|Q − Q*|` law itself, are **grid-sensitive
 artifacts**. Sitting on an essentially unresolvable coalescence, `Kmax` swings by `~5·10¹⁰`–`6·10¹¹`× under a
 `ΔQ = 1e-3` shift of where the grid lands relative to the singularity (the same lesson the F86a magnitude
@@ -155,8 +163,12 @@ the coalescing `(m,m)` pair: as the pair-split → 0 its **departure-from-normal
 multiplicity (1) is strictly below its algebraic multiplicity (2)**, the Schur off-diagonal equals that
 departure value (the literal Jordan coupling), and the two compression-eigenvectors **merge** (`|cos| → 1`).
 That is a genuine second-order **defective** exceptional point, read without eig-based eigenvectors. The ring stays
-bounded (a level crossing is not an EP); the star's smaller, off-`Q*` spikes are separate real coalescences
-in this non-survivor sector, not the horizon. The chain-vs-ring EP/crossing distinction therefore rests on
+bounded (a level crossing is not an EP), and so does the star's survivor, though not for want of a
+coalescence: at N=4 its slowest level is a degenerate real pair heading for one, at `Q = 2`, where two
+such pairs merge at `λ = −4γ` and split into two coincident complex pairs (`±0.063i` at `Q = 2.001`, `±0.199i` at
+`2.01`, the square root of an EP). At `Q ≈ 1.85` another level overtakes it and becomes the survivor,
+so the survivor's `K` peaks there, at about 32 (`r ≈ 0.18`), and the coalescence stays in a level that
+is no longer the slowest. The chain-vs-ring EP/crossing distinction therefore rests on
 this artifact-free measure; the eig-`K`/`r` curve above corroborates it but is the F86a-misfire-prone family.
 
 Physically: at the horizon the longest-lived coherence becomes a **defective, self-orthogonal** mode (its
@@ -212,6 +224,6 @@ found this, and the split is the fix.
   [`simulations/trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP, from a
   half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`) and
   [`simulations/trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor
-  `K=1/r²` climbing toward a divergence at the horizon, from a log-spaced `δ`-sweep around `Q*(N)`, the
+  `K=1/r²` climbing toward a divergence at the horizon, from a log-spaced `δ`-sweep around the handover `Q_h(N)`, just below the EP `Q*(N)`, the
   curve is a grid-sensitive certificate of the EP, its height/exponent not load-bearing; the artifact-free
   result is the defective Jordan structure, see the Petermann section above).

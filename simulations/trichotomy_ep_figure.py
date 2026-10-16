@@ -65,7 +65,7 @@ for ax, n in zip(axes, Ns):
     qs = QSTAR.get(n)
     if qs == qs:
         ax.axvline(qs, color="k", ls=":", lw=1.4)
-        ax.text(qs, 1.03, f"Q*={qs:.3f}", ha="center", va="bottom", fontsize=9)
+        ax.text(qs, 1.03, f"Q_h={qs:.3f}", ha="center", va="bottom", fontsize=9)
     ax.set_title(f"N={n}, half-filling sector ({half},{half})")
     ax.set_xlabel("Q = J/γ")
     ax.set_ylim(-0.03, 1.06)
@@ -77,7 +77,7 @@ for ax, n in zip(axes, Ns):
     if n == Ns[-1]:
         ax2.set_ylabel("chain |Im λ_slow|  (dashed; oscillation onset)")
 
-fig.suptitle("The coherence horizon Q*(N) is a measured exceptional point — chain r→0 at the |Im| birth; "
+fig.suptitle("The coherence horizon Q*(N) is a measured exceptional point: chain r→0 at the |Im| birth; "
              "ring stays bounded (level crossing); star never oscillates (frozen commutant)",
              y=1.0, fontsize=10)
 fig.tight_layout(rect=(0, 0, 1, 0.96))

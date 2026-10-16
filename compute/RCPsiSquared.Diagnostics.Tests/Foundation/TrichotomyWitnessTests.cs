@@ -105,6 +105,33 @@ public class TrichotomyWitnessTests
     }
 
     [Fact]
+    public void CarbonImAndRigidity_BandEdgeTie_ReadsTheWholeBand()
+    {
+        // Every mode of the (0,1) band edge decays at exactly 2γ, and the N=4 star's band holds a
+        // zero-frequency member beside ±√3. A single "slowest" eigenvector was whichever member rounding
+        // put first, and at Q=25 that was the zero one, so the row printed "frozen" between oscillating
+        // neighbours. Read over the tie, the band oscillates at √3 and, the block being normal, r = 1.
+        // Reference values from an independent numpy rebuild of the block; the tolerance is two
+        // eigensolvers' rounding on an O(1) spectrum.
+        var (imMax, rigidity) = TrichotomyWitness.CarbonImAndRigidity(TopologyKind.Star, 4, 25.0, 0, 1);
+        Assert.Equal(Math.Sqrt(3.0), imMax, 9);
+        Assert.Equal(1.0, rigidity, 9);
+    }
+
+    [Fact]
+    public void CarbonImAndRigidity_DegenerateRingSurvivor_ReadsTheProjectorNorm()
+    {
+        // The N=4 ring's (2,2) survivor is an exact two-fold eigenvalue (k ↔ −k). One eigenvector's
+        // Petermann r is a basis choice there (0.42 or 0.66 depending on the solver's pick); the
+        // eigenspace's spectral projector is not, and 1/‖P‖₂ = 0.658762261400 (independent numpy
+        // rebuild). The simple chain survivor at the same Q keeps its per-mode value.
+        Assert.Equal(0.658762261400,
+            TrichotomyWitness.CarbonImAndRigidity(TopologyKind.Ring, 4, 1.25, 2, 2).Rigidity, 9);
+        Assert.Equal(0.741377003794,
+            TrichotomyWitness.CarbonImAndRigidity(TopologyKind.Chain, 4, 1.25, 2, 2).Rigidity, 9);
+    }
+
+    [Fact]
     public void ClassifyUnfreeze_Star5_FrozenCommutant()
     {
         var r = TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Star, 5, 8.0);

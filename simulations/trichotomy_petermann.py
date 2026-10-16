@@ -8,7 +8,8 @@ log grid and ask (i) does chain K spike while ring/star stay bounded, and (ii) w
 K ~ |delta|^(-beta) (from r ~ |delta|^alpha, beta = 2*alpha).
 
 DATA: results/trichotomy_cube/petermann_divergence.csv, from the witness statics CarbonImAndRigidity /
-CarbonSlowestRate at the (m,m) sector, Q* = IncompletenessSurvivorWitness.HandoverQ(N, Chain). Throwaway
+CarbonSlowestRate at the (m,m) sector, centred on the handover Q_h = IncompletenessSurvivorWitness.HandoverQ(N, Chain),
+which sits just below the EP Q*(N) (0.005 below at N=6; the CSV's Qstar column holds Q_h). Throwaway
 [Fact] _PetermannDivergenceSweep generated it (recreate if the tap recurs).
 """
 import csv
@@ -84,7 +85,7 @@ def main():
             lw = 2.6 if topo == "chain" else 1.6
             ax.semilogy(Q, K, "-o", color=C[topo], lw=lw, ms=3, label=topo)
         ax.axvline(qs, color="k", ls=":", lw=1.4)
-        ax.text(qs, ax.get_ylim()[1], f"Q*={qs:.3f}", ha="center", va="bottom", fontsize=9)
+        ax.text(qs, ax.get_ylim()[1], f"Q_h={qs:.3f}", ha="center", va="bottom", fontsize=9)
         ax.set_title(f"N={n}, half-filling ({n//2},{n//2})")
         ax.set_xlabel("Q = J/γ")
         ax.grid(alpha=0.25, which="both")
@@ -92,8 +93,8 @@ def main():
             ax.set_ylabel("Petermann factor  K = 1/r²")
             ax.legend(loc="upper right")
     fig.suptitle("The Petermann factor K = 1/r² diverges at the coherence horizon Q*(N): the chain is a "
-                 "2nd-order EP, r~|Q−Q*|^½ ⇒ K~1/|Q−Q*| (clean, symmetric, ON Q*). Ring stays bounded "
-                 "(level crossing); the star's smaller off-Q* spikes are separate real coalescences. "
+                 "2nd-order EP, r~|Q−Q*|^½ ⇒ K~1/|Q−Q*| (grid centred on the handover Q_h, just below Q*). Ring stays bounded "
+                 "(level crossing), and so does the star's survivor (its largest K sits where another level overtakes it). "
                  "Petermann's 1979 laser scale, located in the dephased chain.", fontsize=9.5, y=1.0)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(OUT, dpi=130, bbox_inches="tight")

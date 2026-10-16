@@ -84,6 +84,46 @@ public class PhaseRigidityTests
     }
 
     [Fact]
+    public void ExactSemisimpleDegeneracy_ClusterRigidityIsTheSameInEveryEigenbasis()
+    {
+        // The matrix of the test above, built from two eigenbases that differ only inside the
+        // degenerate lambda=0 eigenspace. The per-vector values differ (K = 10, 1 against 5.5, 5.5);
+        // the projector onto the eigenspace is [[1,0,-3],[0,1,0],[0,0,0]], whose 2-norm is sqrt(10),
+        // in either basis. The simple lambda=1 mode has projector (3,0,1)^T (0,0,1), norm sqrt(10) too,
+        // equal to its per-mode 1/r.
+        double c = 1.0 / Math.Sqrt(2.0);
+        var eigenvalues = Matrix<Complex>.Build.DiagonalOfDiagonalArray(new[]
+        {
+            Complex.Zero, Complex.Zero, Complex.One,
+        });
+        var basisA = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            { Complex.One, Complex.Zero, new Complex(3.0, 0.0) },
+            { Complex.Zero, Complex.One, Complex.Zero },
+            { Complex.Zero, Complex.Zero, Complex.One },
+        });
+        var rotate = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            { new Complex(c, 0.0), new Complex(-c, 0.0), Complex.Zero },
+            { new Complex(c, 0.0), new Complex(c, 0.0), Complex.Zero },
+            { Complex.Zero, Complex.Zero, Complex.One },
+        });
+        var basisB = basisA * rotate;
+
+        foreach (var basis in new[] { basisA, basisB })
+        {
+            var clusters = PhaseRigidity.ComputeClusters(basis * eigenvalues * basis.Inverse(), 1e-8);
+            Assert.Equal(2, clusters.Count);
+            var zero = clusters.Single(cl => cl.Lambda.Magnitude < 0.5);
+            var one = clusters.Single(cl => cl.Lambda.Magnitude > 0.5);
+            Assert.Equal(2, zero.Size);
+            Assert.Equal(1, one.Size);
+            Assert.Equal(1.0 / Math.Sqrt(10.0), zero.Rigidity, 12);
+            Assert.Equal(1.0 / Math.Sqrt(10.0), one.Rigidity, 12);
+        }
+    }
+
+    [Fact]
     public void Hermitian_AllRigiditiesAreOne()
     {
         // A Hermitian matrix is normal: left = right eigenvectors, so r = 1 for every mode.

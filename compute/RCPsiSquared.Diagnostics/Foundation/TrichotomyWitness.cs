@@ -138,26 +138,37 @@ public sealed class TrichotomyWitness : IInspectable
     public static double CarbonSlowestRate(TopologyKind topo, int n, double Q, int pc, int pr) =>
         SectorReductionWitness.SectorSlowest(n, CarbonHamiltonianQ, CarbonProfile(n, Q), pc, pr, topo);
 
-    /// <summary>|Im| / phase-rigidity of the SINGLE slowest non-kernel mode of the carbon (pc,pr) survivor
-    /// block (canonical Hamiltonian Q=1, uniform γ=1/Q — bit-identical to <see cref="IncompletenessSurvivorWitness.Survivor"/>'s
-    /// block; pinned by <see cref="CarbonSlowestRate"/> == Survivor.Gap). The un-freeze read
-    /// is about the SURVIVOR itself: the single slowest mode (not a 2-mode pair, which would catch a band-edge
-    /// {0,2} EP). Below Q* the chain (1,1) survivor is the
-    /// overdamped-REAL SE-EP (|Im|≈0, frozen) while a far faster pair in the same block oscillates — taking
-    /// the pair would mislabel the frozen survivor. This matches the Python verifier's slowest() (the single
-    /// slowest mode's |Im|), the discriminator birth_canal_junction_nature.py reads.</summary>
+    private const double ClusterTol = 1e-8; // eigenvalues this close form one eigenspace; the exact degeneracies
+                                            // of these blocks (the ring's k ↔ −k pairs, the star's hub multiplets)
+                                            // sit within ~1e-14. Only an EP pair can come closer without being
+                                            // degenerate, at |Q − Q*| ≲ 1e-16, which no grid here reaches
+
+    /// <summary>|Im| / phase-rigidity of the SLOWEST RATE of the carbon (pc,pr) survivor block (canonical
+    /// Hamiltonian Q=1, uniform γ=1/Q, bit-identical to <see cref="IncompletenessSurvivorWitness.Survivor"/>'s
+    /// block; pinned by <see cref="CarbonSlowestRate"/> == Survivor.Gap). The un-freeze read is about the
+    /// SURVIVOR itself: the modes at the slowest rate, not a faster pair (which would catch a band-edge {0,2}
+    /// EP). Below Q* the chain (1,1) survivor is the overdamped-REAL SE-EP (|Im|≈0, frozen) while a far faster
+    /// pair in the same block oscillates; taking the pair would mislabel the frozen survivor.
+    /// The slowest rate is often shared exactly: every mode of the (0,1) band edge decays at −2γ, and the ring's
+    /// and star's interior survivors are exact multiplets. So the reading is over every eigenvalue tied at the
+    /// slowest rate (<see cref="RateTieTol"/>): |Im| is the largest among them (a band that oscillates is
+    /// oscillating even when it also holds a zero-frequency member), and the rigidity is the smallest
+    /// 1/‖P‖₂ over their eigenvalue clusters (<see cref="PhaseRigidity.ComputeClusters"/>), which does not depend
+    /// on the basis the eigensolver returns inside a degenerate eigenspace. A single eigenvector's |Im| or r
+    /// there would be whichever member rounding picked.</summary>
     public static (double ImMax, double Rigidity) CarbonImAndRigidity(
         TopologyKind topo, int n, double Q, int pc, int pr)
     {
         var h = QHUnit(n, CarbonHamiltonianQ, topo);
         int[] flat = SectorFlat(n, pc, pr);
         var block = PerBlockLiouvillianBuilder.BuildBlockZ(h, CarbonProfile(n, Q), flat);
-        var slow = PhaseRigidity.Compute(block)
-            .Where(m => m.Lambda.Magnitude > KernelTol)   // drop the kernel (steady states)
-            .OrderByDescending(m => m.Lambda.Real)         // slowest = largest (least negative) Re
-            .FirstOrDefault();
-        if (slow.Right is null) return (0.0, 1.0);
-        return (Math.Abs(slow.Lambda.Imaginary), slow.Rigidity);
+        var clusters = PhaseRigidity.ComputeClusters(block, ClusterTol)
+            .Where(c => c.Lambda.Magnitude > KernelTol)   // drop the kernel (steady states)
+            .ToList();
+        if (clusters.Count == 0) return (0.0, 1.0);
+        double slowest = clusters.Max(c => c.Lambda.Real);  // slowest = largest (least negative) Re
+        var tied = clusters.Where(c => slowest - c.Lambda.Real <= RateTieTol).ToList();
+        return (tied.Max(c => Math.Abs(c.Lambda.Imaginary)), tied.Min(c => c.Rigidity));
     }
 
     /// <summary>The carbon-convention un-freeze read (Q = J/γ, uniform γ = 1/Q): frozen (p,p) interior below
