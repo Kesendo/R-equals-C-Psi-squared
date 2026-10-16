@@ -26,7 +26,7 @@ Rows:
       pencil [[A_e, -g B_o], [g B_e, A_o]]; bordered with two random borders, QZ gives 298 eigenvalues common to
       both, their matching distances six decades and more below the unshared ones' (34 at 0, 264 elsewhere,
       the count D2's reading gives), and 16 of the 264 come out exactly real, +-g at eight couplings, the others at least a tenth of
-      their modulus off the axis. (The X-odd half is not read here.) On the full block (4,4), 4900 dimensions, the four smallest singular values of
+      their modulus off the axis. (The X-odd half is D5's.) On the full block (4,4), 4900 dimensions, the four smallest singular values of
       T(g) at each lie six decades and more below the fifth (two modes more than the generic two, one per
       class, the X-odd half adding none). Off each coupling by g t, t = 1e-3 and 1e-4, the two eigenvalues of T beside
       the generic two scale linearly in t (ratio 10 within 5 percent), so the pair grows linearly off g rather
@@ -34,9 +34,27 @@ Rows:
       sqrt(eps |T|) ~ 1e-7), so the four modes are the whole eigenvalue; the pair classifies the coupling: an oscillating pair on the
       line -8g whose frequency passes through 0, or a real palindromic pair -8g +- r whose r passes through 0.
 
-D1 to D3 in exact modular arithmetic, D4 in floating point. D1 takes under two minutes; D2 about twenty and D3
-about forty minutes on eight processes; D4 about fifteen minutes.
-Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise] [--real]
+  D5  (--odd) the X-odd half, U on E><O and V on O><E: A keeps each side, R (-1 on E><O, +1 on O><E) reflects
+      D + N, so D + N maps one side to the other, and transposition carries one side onto the other. Where h_E
+      and h_O share no eigenvalue the half is singular exactly at g = 1/|omega|, omega a real nonzero eigenvalue
+      of G = t S^-1 (D + N) on O><E, S(U) = h_E U - U h_O. N = 4: g = 1 twice (the Proposition), the kernel
+      two-dimensional there and the two pairs changing sign in opposite directions. N = 8, modulo two
+      primes: D + 8 has rank 595 between the sides and G has 566 nonzero eigenvalues (the stable rank of its
+      powers). Floating point: the same 566 (a magnitude gap of at least six decades), 48 real (imaginary part
+      exactly 0), 48 distinct couplings, split 24 + 24 by the chain reflection, which commutes with G (exactly, in
+      integer bases), none among
+      D4's eight; the half rebuilt from the cells of the block (4,4), [H, .] and D + 8 projected onto it, equals
+      the construction and stays invariant, exactly in integer bases (a second route to the matrices read below);
+      the non-real eigenvalue nearest the axis is genuinely non-real (along real g the half's smallest singular
+      value stays far above eps |T| near it). Each coupling is an exceptional point: nullity one, which with the
+      even multiplicity sigma(rho) = rho^T X^N forces makes a 2 x 2 Jordan block (two eigenvalues at the
+      sqrt(eps |T|) rounding scale, far above eps |T|), the pair +-mu growing as the square root of the offset
+      (exponent within 0.05 of 1/2, a crossing giving 1), real on one side and oscillating on the other (offsets taken away from the nearest other
+      coupling: 0.295030 and 0.295382 lie 1.2e-3 apart, relatively).
+
+D1 to D3 and D5's counts in exact modular arithmetic, D4 and D5's couplings in floating point. D1 takes under two
+minutes; D2 about twenty and D3 about forty minutes on eight processes; D4 about fifteen minutes; D5 about ten minutes.
+Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise] [--real] [--odd]
 """
 import sys
 import numpy as np
@@ -297,6 +315,83 @@ def _init():
     _border_det.blocks = pencil(8, P_B)
 
 
+def odd_half(N, p=None):
+    """The X-odd half of the block (N/2, N/2): operators U on |E><O| and V on |O><E| (35 x 35 at N = 8, in
+    the bases e_k = x + xbar, o_k = x - xbar of the popcount-N/2 states, normalized when p is None).
+    A acts within each side, A1(U) = h_E U - U h_O; D + N maps O><E to E><O by B (R anticommutes with it),
+    and transposition t carries the E><O side to the O><E side. Returns (A1, B, t, H, P_E, P_O) with the
+    chain reflection restricted to E and O; mod p (integer, unnormalized) or in floating point."""
+    st = [x for x in range(2 ** N) if bin(x).count("1") == N // 2]
+    n = len(st); idx = {x: i for i, x in enumerate(st)}
+    H = np.zeros((n, n), dtype=np.int64)
+    for c, x in enumerate(st):
+        for i in range(N - 1):
+            bi, bj = (x >> i) & 1, (x >> (i + 1)) & 1
+            H[c, c] += 1 if bi == bj else -1
+            if bi != bj:
+                H[idx[x ^ (1 << i) ^ (1 << (i + 1))], c] += 2
+    full = 2 ** N - 1
+    reps = [x for x in st if x < (x ^ full)]; m = len(reps)
+    e = np.zeros((n, m), dtype=np.int64); o = np.zeros((n, m), dtype=np.int64)
+    for k, x in enumerate(reps):
+        e[idx[x], k] = e[idx[x ^ full], k] = 1
+        o[idx[x], k] = 1; o[idx[x ^ full], k] = -1
+    ham = np.array([[bin(x ^ y).count("1") for y in st] for x in st])
+    bc = (N - 2 * ham).astype(np.int64)
+    rev = lambda x: int(format(x, f"0{N}b")[::-1], 2)
+    P = np.zeros((n, n), dtype=np.int64)
+    for x in st:
+        P[idx[rev(x)], idx[x]] = 1
+    if p is None:
+        e, o, H, bc, P = e / np.sqrt(2), o / np.sqrt(2), H.astype(float), bc.astype(float), P.astype(float)
+    hE, hO = e.T @ H @ e, o.T @ H @ o
+    Im = np.eye(m, dtype=e.dtype)
+    A1 = np.kron(Im, hE) - np.kron(hO.T, Im)            # column-major vec: U -> hE U - U hO
+    B = np.zeros((m * m, m * m), dtype=e.dtype)
+    for k in range(m * m):
+        V = np.zeros(m * m, dtype=e.dtype); V[k] = 1; V = V.reshape((m, m), order="F")
+        B[:, k] = (e.T @ (bc * (o @ V @ e.T)) @ o).reshape(-1, order="F")
+    t = np.zeros((m * m, m * m), dtype=e.dtype)
+    for k in range(m * m):
+        t[(k // m) + (k % m) * m, k] = 1
+    if p is not None:
+        A1, B = A1 % p, B % p
+    return A1, B, t, (H, e, o, bc), e.T @ P @ e, o.T @ P @ o
+
+
+def _odd_svd(args):
+    """At a coupling g of the X-odd half T(g) = -iA + g(D + N): its two smallest singular values and its norm, its
+    three smallest eigenvalue moduli, and the two eigenvalues nearest 0 at g(1 + s d), d = 1e-5, 1e-6, -1e-5, with
+    s = +-1 pointing away from the nearest other coupling (two of them lie 1.2e-3 apart, relatively)."""
+    # Only the bottom of the spectrum is needed, so everything goes through one LU factorization per matrix:
+    # the two smallest singular values by Lanczos on (T^H T)^-1, the eigenvalues nearest 0 by shift-invert at 0.
+    import scipy.linalg as sl
+    from scipy.sparse.linalg import LinearOperator, eigsh, eigs
+    g, sgn = args
+    Aodd, Dodd = _odd_svd.mats
+    T = -1j * Aodd + g * Dodd
+    n = T.shape[0]
+    lu = sl.lu_factor(T)
+    inv_gram = LinearOperator((n, n), dtype=complex,
+                              matvec=lambda x: sl.lu_solve(lu, sl.lu_solve(lu, x, trans=2)))
+    s = np.sort(1 / np.sqrt(np.abs(eigsh(inv_gram, k=2, which="LM", return_eigenvectors=False))))
+    norm = np.sqrt(eigsh(LinearOperator((n, n), dtype=complex, matvec=lambda x: T.conj().T @ (T @ x)),
+                         k=1, which="LM", return_eigenvectors=False)[0].real)
+    near0 = lambda M, k: eigs(M, k=k, sigma=0, which="LM", return_eigenvectors=False)
+    lam = np.sort(np.abs(near0(T, 3)))
+    pairs = []
+    for d in (1e-5, 1e-6, -1e-5):
+        w = near0(-1j * Aodd + g * (1 + sgn * d) * Dodd, 4)
+        pairs.append(w[np.argsort(np.abs(w))[:2]])
+    return g, (s[0], s[1], norm, lam, pairs)
+
+
+def _init_odd():
+    A1, B, t, _, _, _ = odd_half(8)
+    mm = A1.shape[0]; Z = np.zeros((mm, mm))
+    _odd_svd.mats = (np.block([[A1, Z], [Z, -(t @ A1 @ t)]]), np.block([[Z, B], [t @ B @ t, Z]]))
+
+
 if __name__ == "__main__":
     print("D1  the chain's first meet with ker(D + N)", flush=True)
     d4, _, _ = first_meet(4, 1000003, 6)
@@ -368,5 +463,122 @@ if __name__ == "__main__":
             check(f"g = {g:.6f}: singular values 4th {s0[3]:.1e}, 5th {s0[4]:.1e}; {at0} eigenvalues below 1e-6; "
                   f"the pair beside the generic two grows linearly off g (ratio {ratio:.3f} for offsets 1e-3 : 1e-4); {kind}",
                   s0[4] > 1e6 * s0[3] and at0 == 4 and abs(ratio / 10 - 1) < 0.05 and kind != "other")
+    if "--odd" in sys.argv:
+        print("D5  the X-odd half: a Green's matrix at every even N, read at N = 8", flush=True)
+        # N = 4: the Proposition's single point gamma = J, twice
+        A1, B, t, _, _, _ = odd_half(4)
+        w4 = np.linalg.eigvals(t @ np.linalg.solve(A1, B))
+        r4 = w4[(w4.imag == 0) & (np.abs(w4) > 1e-9)].real
+        check(f"N = 4: real nonzero eigenvalues of G give gamma = 1/|omega| = {np.round(1 / np.abs(r4), 12)}, expected [1, 1]",
+              len(r4) == 2 and np.allclose(1 / np.abs(r4), 1.0, rtol=1e-12))
+        # at gamma = J two pairs meet at once: nullity two, and off J one pair is real on one side, the other on the other
+        m4 = A1.shape[0]; Z4 = np.zeros((m4, m4))
+        Ao4 = np.block([[A1, Z4], [Z4, -(t @ A1 @ t)]]); Do4 = np.block([[Z4, B], [t @ B @ t, Z4]])
+        s4 = np.linalg.svd(-1j * Ao4 + Do4, compute_uv=False)
+        mu2 = []
+        for d in (-1e-6, 1e-6):
+            w = np.linalg.eigvals(-1j * Ao4 + (1 + d) * Do4); w = w[np.argsort(np.abs(w))[:4]]
+            v = (w ** 2).real
+            mu2.append(v[np.argsort(np.abs(v))][[0, 2]])         # one mu^2 per pair, the pairs told apart by size
+        check(f"N = 4 at gamma = J: kernel two-dimensional (singular values {s4[-1]:.0e}, {s4[-2]:.0e}, next {s4[-3]:.2f}); "
+              f"the two pairs' mu^2 are {mu2[0]} below J and {mu2[1]} above: each changes sign, in opposite directions",
+              s4[-3] > 1e12 * s4[-2] and np.all(mu2[0] * mu2[1] < 0) and mu2[0][0] * mu2[0][1] < 0)
+        for p in (1000003, 1000033):
+            A1p, Bp, tp, _, _, _ = odd_half(8, p)
+            Gp = tp @ (inv_mod(A1p, p) @ Bp % p) % p
+            G2 = Gp @ Gp % p
+            rB, r2, r3 = rank(Bp, p), rank(G2, p), rank(G2 @ Gp % p, p)
+            check(f"N = 8 mod {p}: rank of D + 8 from O><E to E><O {rB}, G has {r2} = {r3} nonzero eigenvalues "
+                  "(the stable rank of its powers, multiplicity counted); expected 595 and 566", (rB, r2, r3) == (595, 566, 566))
+        A1, B, t, _, PE, PO = odd_half(8)
+        G = t @ np.linalg.solve(A1, B)
+        w, vec = np.linalg.eig(G)
+        a = np.sort(np.abs(w)); eps = np.finfo(float).eps
+        k0 = int(np.argmax(np.log(np.maximum(a[1:], eps)) - np.log(np.maximum(a[:-1], eps)))) + 1
+        nz = np.abs(w) >= a[k0]
+        real = nz & (w.imag == 0.0)                      # a real eigenvalue of a real matrix comes back with imag exactly 0
+        gam = np.sort(1 / np.abs(w[real].real))
+        Rop = np.kron(PE, PO)                            # the chain reflection on O><E coordinates
+        par = np.array([np.real(np.vdot(vec[:, k], Rop @ vec[:, k]) / np.vdot(vec[:, k], vec[:, k]))
+                        for k in np.where(real)[0]])
+        offr = np.abs(w[nz & ~real].imag) / np.abs(w[nz & ~real])
+        check(f"N = 8 floating point: {int(nz.sum())} nonzero eigenvalues (gap {a[k0 - 1]:.1e} to {a[k0]:.1e}), "
+              f"{int(real.sum())} real, giving {len(np.unique(np.round(gam, 9)))} couplings; the reflection "
+              f"(exact commutation below) splits them {int((par > 0).sum())} even, {int((par < 0).sum())} odd; "
+              "expected 566, 48, 48, 24 + 24",
+              int(nz.sum()) == 566 and int(real.sum()) == 48 and len(np.unique(np.round(gam, 9))) == 48
+              and a[k0] > 1e6 * a[k0 - 1] and np.all(np.abs(np.abs(par) - 1) < 1e-6)
+              and int((par > 0).sum()) == 24)
+        print("    couplings: " + ", ".join(f"{g:.6f}" for g in gam), flush=True)
+        _init_odd()
+        Aodd, Dodd = _odd_svd.mats
+        # a second route to the half itself: the cell-basis generator of the block (4,4) in the unnormalized
+        # integer bases; every entry and partial sum is an integer far below 2^53, so the float products are exact
+        A1i, Bi, ti, (Hf, ef, of, bcf), PEi, POi = odd_half(8, 1 << 40)
+        Hf, ef, of, bcf, A1i, Bi, ti = (x.astype(float) for x in (Hf, ef, of, bcf, A1i, Bi, ti))
+        A1i[A1i > (1 << 39)] -= 1 << 40; Bi[Bi > (1 << 39)] -= 1 << 40           # undo the modulus's sign shift
+        mq = ef.shape[1]; Zq = np.zeros_like(A1i)
+        Q = np.array([np.outer(*((ef[:, i], of[:, j]) if s == 0 else (of[:, i], ef[:, j]))).ravel()
+                      for s in (0, 1) for j in range(mq) for i in range(mq)]).T     # same column-major order as U, V
+        cellA = np.array([(Hf @ q.reshape(Hf.shape) - q.reshape(Hf.shape) @ Hf).ravel() for q in Q.T]).T
+        cellD = bcf.ravel()[:, None] * Q
+        # Q^T Q = 4, the integer h's are twice the normalized ones and the integer B four times, so exactly:
+        okA = np.array_equal(Q.T @ cellA, 2 * np.block([[A1i, Zq], [Zq, -(ti @ A1i @ ti)]]))
+        okD = np.array_equal(Q.T @ cellD, np.block([[Zq, Bi], [ti @ Bi @ ti, Zq]]))
+        inv = np.array_equal(4 * cellA, Q @ (Q.T @ cellA)) and np.array_equal(4 * cellD, Q @ (Q.T @ cellD))
+        check("the half built from the cells: [H, .] and D + 8 projected onto it equal the construction and leave "
+              "it invariant, exactly in the integer bases", okA and okD and inv)
+        PEi, POi = PEi.astype(float), POi.astype(float)
+        R_eo, R_oe = np.kron(POi, PEi), np.kron(PEi, POi)                  # the reflection on E><O and O><E
+        refl = (np.array_equal(A1i @ R_eo, R_eo @ A1i) and np.array_equal(Bi @ R_oe, R_eo @ Bi)
+                and np.array_equal(ti @ R_eo, R_oe @ ti))
+        check("the chain reflection commutes with S, D + 8 and t, hence with G, exactly in the integer bases", refl)
+        x_even = (0.099186, 0.282490, 0.624282, 0.784448, 0.873035, 1.334206, 1.518087, 6.551270)   # D4
+        sep = min(abs(g / x - 1) for g in gam for x in x_even)
+        check(f"none of the 48 among the X-even half's eight (nearest relative distance {sep:.1e})", sep > 1e-4)
+        near = w[nz & ~real & (w.imag > 0)]; near = near[np.abs(near.imag) / np.abs(near) < 1e-2]
+        print(f"    {len(near)} non-real eigenvalue(s) within 1e-2 of the axis to examine", flush=True)
+        from scipy.optimize import minimize_scalar
+        for z in near:
+            g0, rel = 1 / abs(z.real), abs(z.imag) / abs(z)
+            f = lambda g: np.linalg.svd(-1j * Aodd + g * Dodd, compute_uv=False)[-1]
+            res = minimize_scalar(f, bounds=(g0 * (1 - 5 * rel), g0 * (1 + 5 * rel)), method="bounded",
+                                  options={"xatol": 1e-12})
+            nT = np.linalg.norm(-1j * Aodd + res.x * Dodd, 2)
+            check(f"the non-real eigenvalue nearest the axis ({rel:.1e} of its modulus off it, at 1/|Re| = {g0:.6f}): "
+                  f"the smallest singular value found along real g is {res.fun:.1e}, {res.fun / (eps * nT):.0e} "
+                  "times eps |T|: the pair is non-real, not a real double split by rounding",
+                  res.fun > 1e6 * eps * nT)
+        away = [1.0 if (k == len(gam) - 1 or (k > 0 and gam[k] - gam[k - 1] < gam[k + 1] - gam[k])) else -1.0
+                for k in range(len(gam))]
+        rows = [_odd_svd(a) for a in zip(gam, away)]
+        bad = []; nreal = 0; worst_expo = 0.0
+        for g, (s0, s1, nT, lam, (pa, pb, pc)) in rows:
+            # nullity one: a backward-stable SVD reads an exactly singular matrix at a few eps |T|, the next six
+            # decades above. Algebraic multiplicity two: a 2 x 2 Jordan block at 0 splits at rounding by about
+            # sqrt(eps |T|), so two eigenvalues below 10 sqrt(eps |T|) yet far above the eps |T| at which a semisimple
+            # double zero would split, and the third three decades above.
+            # Off g the pair is +-mu with mu^2 linear in the offset: |mu| at 1e-5 : 1e-6 is sqrt 10,
+            # and mu^2 = -(product of the pair) changes sign across g (a real pair on one side, oscillating on the other).
+            r = np.sqrt(eps * nT)
+            m2a, m2c = -(pa[0] * pa[1]).real, -(pc[0] * pc[1]).real
+            grow = np.mean(np.abs(pa)) / np.mean(np.abs(pb))
+            # The Jordan block itself follows from nullity one and the even multiplicity sigma forces; the growth law
+            # is read as a classification: the exponent log10(grow) is 1/2 at an exceptional point and 1 at a crossing,
+            # so the band (0.45, 0.55) separates them (second order in the offset and rounding move it by at most
+            # 0.007 over the 48)
+            expo = np.log10(grow)
+            ok = (s0 < 10 * eps * nT and s1 > 1e6 * s0 and 1e3 * eps * nT < lam[0] and lam[1] < 10 * r
+                  and lam[2] > 1e3 * lam[1] and abs(expo - 0.5) < 0.05 and m2a * m2c < 0)
+            worst_expo = max(worst_expo, abs(expo - 0.5))
+            nreal += m2a > 0
+            if not ok:
+                bad.append((g, s0 / (eps * nT), lam / r, grow, m2a, m2c))
+        check("every coupling is an exceptional point of the X-odd half: nullity one (smallest singular value at most "
+              "10 eps |T|, the next six decades above), algebraic multiplicity two (two eigenvalues between "
+              "1e3 eps |T| and 10 sqrt(eps |T|), the third three decades above), the pair +-mu growing as the square root of the "
+              f"offset (exponent within {worst_expo:.3f} of 1/2; a crossing gives 1) and mu^2 changing sign across g "
+              f"({nreal} of 48 with the real pair on the side away from "
+              "the neighbour)" + (f"; failing: {bad}" if bad else ""), not bad)
     print("\nALL GATES PASS" if not FAILS else f"\n{len(FAILS)} FAILED")
     sys.exit(1 if FAILS else 0)
