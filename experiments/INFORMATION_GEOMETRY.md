@@ -74,7 +74,6 @@ metric along the Lindblad trajectory and find:
 | STRUCTURAL_CARTOGRAPHY | Lives on 3D manifold (98% in 3 PCs) | Computed |
 | CIRCUIT_DIAGRAM | "Voltmeter" metaphor | Analogy |
 | ANALYTICAL_FORMULAS | F15 (angular distance) | Catalogued |
-| TOPOLOGICAL_EDGE_MODES | Used as Berry phase parameter (φ = -0.77) | Computed |
 
 Never computed: Riemannian metric, geodesics, second derivatives of either.
 

@@ -28,13 +28,13 @@ on each qubit. The correlation between sacrifice-qubit weight and decay
 rate is **r = 0.9937** (p = 0.00). Modes concentrated on the chain
 center survive longest. Modes concentrated on the edges die fastest.
 
-The spatial profile is **geometric**: the same mode has the same
+The spatial profile is **geometric**: the same mode has nearly the same
 qubit-weight pattern under IBM sacrifice noise and uniform noise. The
 geometry of the chain (standing wave patterns) determines WHERE modes
 live. The noise profile determines WHICH modes survive. The sacrifice
 zone exploits a pre-existing geometric structure. (Not topologically
-protected in the Altland-Zirnbauer sense: winding number = 0, Berry
-phase not quantized. See
+protected: no zero modes in the chiral blocks, no sharp phase boundary.
+See
 [Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md).)
 
 ---
@@ -123,7 +123,7 @@ asymmetric noise is applied, it selectively damps the edge-heavy
 modes (because the sacrifice qubit is on the edge). The center-heavy
 modes survive. Crucially, which modes are "slowest" REVERSES when
 noise moves from edge to center: edge sacrifice selects center-heavy
-modes, center sacrifice selects edge-heavy modes
+modes, center sacrifice selects modes dark at the center
 ([Topological Edge Modes](TOPOLOGICAL_EDGE_MODES.md)).
 
 ---

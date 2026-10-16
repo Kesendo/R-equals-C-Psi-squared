@@ -7,7 +7,7 @@ protected, or is it geometric (standing wave pattern on a chain)?
 
 Phase 1: SSH analogy ((0,1) coherence block = tight-binding, uniform hopping → trivial)
 Phase 2: Chiral block structure (Π eigenspaces, off-diagonal blocks, singular values)
-Phase 3: Berry phase along uniform → sacrifice path
+Phase 3: Berry phase on the uniform → sacrifice path (an open one-parameter segment)
 Phase 4: Mode counting for N=3,4,5
 Phase 5: Robustness sweep (sacrifice-edge → uniform → sacrifice-center)
 
@@ -132,8 +132,9 @@ def build_liouvillian_vec(N, gamma_per_site, J=1.0):
     return L
 
 
-def localization_profile(eigvec, N):
-    """Compute per-qubit weight of a Liouvillian eigenvector."""
+def site_weights(eigvec, N):
+    """Unnormalized per-qubit weight of an operator: the Pauli weight carried
+    by strings that are not the identity at that site."""
     d = 2**N
     V = eigvec.reshape(d, d)
     pstack, all_idx = build_pauli_matrices(N)
@@ -145,8 +146,24 @@ def localization_profile(eigvec, N):
         for site in range(N):
             if idx[site] != 0:  # not identity at this site
                 weights[site] += c2
+    return weights
+
+
+def localization_profile(eigvec, N):
+    """Per-qubit weight of a Liouvillian eigenvector, normalized to mean 1."""
+    weights = site_weights(eigvec, N)
     total = np.sum(weights)
     return weights / total * N if total > 0 else weights
+
+
+def eigenspace_profile(vectors, N):
+    """Profile of an eigenspace, read from an orthonormal basis of the span of
+    its eigenvectors: the summed weights are the trace of the site-weight form
+    on the eigenspace, so they do not depend on which basis the eigensolver
+    returned (a single vector of a degenerate eigenvalue does)."""
+    Q, _ = np.linalg.qr(vectors)
+    weights = sum(site_weights(Q[:, m], N) for m in range(Q.shape[1]))
+    return weights / np.sum(weights) * N
 
 
 # ========================================================================
@@ -340,17 +357,17 @@ for N in [4, 5]:
 
 
 # ========================================================================
-# PHASE 3: BERRY PHASE ALONG UNIFORM → SACRIFICE
+# PHASE 3: WHAT A BERRY PHASE CAN SAY ON THIS PATH
 # ========================================================================
 log()
 log()
 log("=" * 72)
-log("PHASE 3: BERRY PHASE (BIORTHOGONAL)")
+log("PHASE 3: BERRY PHASE ON AN OPEN ONE-PARAMETER PATH")
 log("=" * 72)
 log()
 
 N = 5
-n_theta = 60
+d = 2**N
 gamma_base = 0.01
 gamma_high = 0.5
 
@@ -358,75 +375,83 @@ gamma_high = 0.5
 # γ_k(θ) = (1-θ)·γ_mean + θ·sacrifice_k
 gamma_mean = (gamma_high + (N - 1) * gamma_base) / N
 gamma_sacrifice = [gamma_high] + [gamma_base] * (N - 1)
-gamma_uniform_path = [gamma_mean] * N
 
-thetas = np.linspace(0, 1, n_theta)
-prev_vr = None
-prev_vl = None
-berry_phase_accum = 0.0
-target_eval_prev = None
+# The tracked mode lives in the (popcount 1, popcount 0) coherence block,
+# which H and Z dephasing leave exactly invariant. In the full space it has an
+# exact twin (its X^N image in the (4,5) block), so a full-space eigensolver
+# hands back an arbitrary mix of the two; inside the block it is simple.
+# L is linear in γ, so the block is assembled from its parts.
+popc = lambda x: bin(x).count("1")
+blk = [i * d + j for i in range(d) for j in range(d) if popc(i) == 1 and popc(j) == 0]
+rest = np.setdiff1d(np.arange(d * d), blk)
+L_H = build_liouvillian_vec(N, [0.0] * N)
+L_D = [build_liouvillian_vec(N, [1.0 if m == k else 0.0 for m in range(N)]) - L_H
+       for k in range(N)]
+for M in [L_H] + L_D:
+    assert np.max(np.abs(M[np.ix_(rest, blk)])) == 0.0, "block not invariant"
+bH = L_H[np.ix_(blk, blk)]
+bD = [M[np.ix_(blk, blk)] for M in L_D]
+
+
+def path_block(theta):
+    g = [(1 - theta) * gamma_mean + theta * gamma_sacrifice[k] for k in range(N)]
+    return bH + sum(g[k] * bD[k] for k in range(N))
+
+
+def berry_readings(n_theta):
+    """Track the slowest mode of the block from θ=1, where it is the unique
+    slowest, back to θ=0, where all five block modes share Re λ = -2·γ_mean
+    and only continuity names it. Returns (per-step sum, closed phase,
+    min gap, modulus of the closed product)."""
+    picks, lam = [], None
+    for theta in np.linspace(1, 0, n_theta):
+        w, vl, vr = eig(path_block(theta), left=True, right=True)
+        i = int(np.argmax(w.real)) if lam is None else int(np.argmin(np.abs(w - lam)))
+        lam = w[i]
+        picks.append((w, vl[:, i], vr[:, i], i))
+    picks.reverse()
+    naive, prev_r, Ls, Rs, min_gap = 0.0, None, [], [], np.inf
+    for w, l, r, i in picks:
+        min_gap = min(min_gap, np.sort(np.abs(w - w[i]))[1])
+        if prev_r is not None:
+            # -arg<L_{n+1}|R_n>, each vector in LAPACK's own phase
+            naive += -np.imag(np.log(np.vdot(l, prev_r)))
+        prev_r = r
+        Ls.append(l / np.vdot(l, r).conj())     # biorthonormal: <L_n|R_n> = 1
+        Rs.append(r)
+    prod = 1.0 + 0j
+    for k in range(n_theta - 1):
+        prod *= np.vdot(Ls[k], Rs[k + 1])
+    prod *= np.vdot(Ls[-1], Rs[0])              # close the open segment
+    return naive, -np.angle(prod), min_gap, abs(prod)
+
 
 log(f"  N={N}, path: uniform (θ=0) → sacrifice-edge (θ=1)")
 log(f"  γ_mean={gamma_mean:.4f}, sacrifice=[{gamma_high}, {gamma_base}×{N-1}]")
-log(f"  Tracking the slowest oscillating mode pair.")
+log(f"  Slowest mode of the (1,0) coherence block (5×5, exactly invariant).")
 log()
-
-log(f"  {'θ':>6}  {'Re(λ)':>10}  {'Im(λ)':>10}  {'Δφ':>10}  {'accum φ':>10}")
-log(f"  {'─'*50}")
-
+log(f"  {'steps':>6}  {'per-step Σ -arg<L|R>':>24}  {'closed biorthonormal phase':>27}  {'min gap':>8}")
+log(f"  {'─'*72}")
 t0 = clock.perf_counter()
-for ti, theta in enumerate(thetas):
-    gammas = [(1 - theta) * gamma_uniform_path[k] + theta * gamma_sacrifice[k]
-              for k in range(N)]
-
-    L = build_liouvillian_vec(N, gammas)
-    w, vl, vr = eig(L, left=True, right=True)
-
-    # Find slowest oscillating mode
-    osc = np.abs(w.imag) > 0.1
-    if not np.any(osc):
-        continue
-    rates = -w[osc].real
-    osc_idx = np.where(osc)[0]
-    best = osc_idx[np.argmin(rates)]
-
-    if prev_vr is not None:
-        # Match to previous eigenvector by maximum overlap
-        overlaps = np.abs(prev_vl.conj() @ vr[:, best])
-        if overlaps < 0.5:
-            # Search all eigenvectors for best match
-            all_overlaps = np.abs(prev_vr.conj() @ vr)
-            best = np.argmax(all_overlaps)
-
-        # Biorthogonal Berry connection
-        overlap = vl[:, best].conj() @ prev_vr
-        if abs(overlap) > 1e-15:
-            delta_phi = -np.imag(np.log(overlap / abs(overlap)))
-            berry_phase_accum += delta_phi
-        else:
-            delta_phi = 0.0
-
-        if ti % 10 == 0 or ti == n_theta - 1:
-            log(f"  {theta:>6.3f}  {w[best].real:>10.4e}  {w[best].imag:>10.4f}"
-                f"  {delta_phi:>10.4f}  {berry_phase_accum:>10.4f}")
-    else:
-        if ti == 0:
-            log(f"  {theta:>6.3f}  {w[best].real:>10.4e}  {w[best].imag:>10.4f}"
-                f"  {'---':>10}  {'---':>10}")
-
-    prev_vr = vr[:, best].copy()
-    prev_vl = vl[:, best].copy()
-
-log()
-log(f"  Total Berry phase: φ = {berry_phase_accum:.6f}")
-log(f"  φ/π = {berry_phase_accum/np.pi:.6f}")
+readings = {}
+for n_theta in (60, 600, 6000):
+    naive, closed, gap, modulus = berry_readings(n_theta)
+    readings[n_theta] = (naive, closed)
+    log(f"  {n_theta:>6}  {naive:>24.4f}  {closed:>27.4e}  {gap:>8.3f}   |product| = {modulus:.6f}")
 log(f"  ({clock.perf_counter()-t0:.1f}s)")
 log()
-if abs(berry_phase_accum) < 0.1 or abs(abs(berry_phase_accum) - np.pi) < 0.1:
-    log(f"  Berry phase ≈ {'0' if abs(berry_phase_accum) < 0.1 else 'π'}"
-        f" (quantized → possible topological)")
-else:
-    log(f"  Berry phase = {berry_phase_accum:.4f} (NOT quantized → geometric)")
+ratio = readings[6000][0] / readings[600][0]
+log(f"  The per-step sum grows with the step count (600 → 6000: ×{ratio:.1f}): it sums")
+log("  the eigensolver's per-step phase convention, not a geometric phase. The")
+log("  biorthonormal phase closed by <L(1)|R(0)> converges, to"
+    f" {readings[6000][1]:.3e} rad.")
+log("  Neither decides topology. The path is an open segment of an interval,")
+log("  so a phase is gauge-invariant only with a closing rule, and the closed")
+log("  value depends on that rule; a loop on an interval retraces itself.")
+log("  The block is complex symmetric (H real), so the biorthogonal connection")
+log("  vanishes: a loop in several γ would read 0 or π, π only around an")
+log("  exceptional point, and this path encircles none. The Berry test")
+log("  cannot decide here.")
 
 
 # ========================================================================
@@ -491,26 +516,51 @@ for ti, theta in enumerate(thetas_sweep):
     min_rates[ti] = min_r
     spectral_gaps[ti] = gap
 
-    if ti % 4 == 0 or ti == n_sweep - 1:
+    if ti % 5 == 0:
         log(f"  {theta:>+6.2f}  {min_r:>10.4f}  {max_r:>10.4f}"
             f"  {prot:>12.2f}  {gap:>10.4f}")
 
 log(f"  ({clock.perf_counter()-t0:.1f}s)")
 
-# Check for sharp transition
-dprot = np.diff(prot_factors)
-max_jump_idx = np.argmax(np.abs(dprot))
-max_jump = np.abs(dprot[max_jump_idx])
-theta_at_jump = (thetas_sweep[max_jump_idx] + thetas_sweep[max_jump_idx + 1]) / 2
+# Sharp transition or steep tail? A jump in a continuous curve halves when
+# the grid is doubled; a discontinuity keeps its size. The steepest stretch
+# is the tail toward θ = -1, where the slowest rate falls to 2γ_low.
+L_H5 = build_liouvillian_vec(N, [0.0] * N)
+L_D5 = [build_liouvillian_vec(N, [1.0 if m == k else 0.0 for m in range(N)]) - L_H5
+        for k in range(N)]
 
-log()
-log(f"  Max protection factor jump: {max_jump:.2f}"
-    f" at θ ≈ {theta_at_jump:+.2f}")
 
-if max_jump > 5 * np.median(np.abs(dprot)):
-    log("  Relatively sharp transition → POSSIBLE topological boundary")
+def protection_on_grid(n):
+    ths = np.linspace(-1, 1, n)
+    out = []
+    for theta in ths:
+        if theta >= 0:
+            g = [(1 - theta) * profile_uniform_s[k] + theta * profile_edge_sac[k] for k in range(N)]
+        else:
+            g = [(1 + theta) * profile_uniform_s[k] - theta * profile_center_sac[k] for k in range(N)]
+        r = -eigvals(L_H5 + sum(g[k] * L_D5[k] for k in range(N))).real
+        r = r[r > 1e-10]
+        out.append(r.max() / r.min())
+    return ths, np.array(out)
+
+
+jumps = {}
+for n_grid, (ths, prot) in [(n_sweep, (thetas_sweep, prot_factors)),
+                            (2 * n_sweep - 1, protection_on_grid(2 * n_sweep - 1))]:
+    dj = np.abs(np.diff(prot))
+    k = int(np.argmax(dj))
+    jumps[n_grid] = dj[k]
+    log()
+    log(f"  {n_grid} grid points: max protection-factor jump {dj[k]:.2f}"
+        f" at θ ≈ {(ths[k] + ths[k + 1]) / 2:+.3f}")
+shrink = jumps[n_sweep] / jumps[2 * n_sweep - 1]
+log(f"  Doubling the grid shrinks the largest jump by ×{shrink:.2f}"
+    f" (a continuous curve → ×2, a discontinuity → ×1).")
+log(f"  Slowest rate never closes: min over the sweep {np.min(min_rates):.4f}.")
+if shrink > 1.5:
+    log("  Continuous, steep only in its tail → no sharp phase boundary")
 else:
-    log("  Smooth variation → GEOMETRIC (no topological phase transition)")
+    log("  The largest jump does not shrink with the grid → a discontinuity to examine")
 
 # Localization profiles at three key points
 log()
@@ -532,16 +582,27 @@ for theta_key, label in [(1.0, "edge sacrifice"),
 
     osc = np.abs(w.imag) > 0.1
     if np.any(osc):
-        rates_osc = -w[osc].real
-        osc_idx = np.where(osc)[0]
-        slow4 = osc_idx[np.argsort(rates_osc)[:4]]
-        profiles_key = []
-        for i in slow4:
-            profiles_key.append(localization_profile(vr[:, i], N))
-        avg_prof = np.mean(profiles_key, axis=0)
-        slow_rate = np.mean(-w[slow4].real)
+        # every oscillating mode at the slowest rate, grouped by eigenvalue;
+        # each eigenspace is read basis-free, and the modes are averaged
+        rates_osc = -w.real
+        slow_rate = np.min(rates_osc[osc])
+        tied = np.where(osc & (np.abs(rates_osc - slow_rate) < 1e-8))[0]
+        groups = []
+        for i in tied:
+            for g in groups:
+                if abs(w[i] - w[g[0]]) < 1e-8:
+                    g.append(i)
+                    break
+            else:
+                groups.append([i])
+        avg_prof = sum(len(g) * eigenspace_profile(vr[:, g], N) for g in groups) / len(tied)
         log(f"  θ={theta_key:+4.1f} ({label}): rate={slow_rate:.4f}"
+            f"  {len(tied)} modes, {len(groups)} eigenvalues"
             f"  profile={['%.3f' % p for p in avg_prof]}")
+        for g in groups:
+            if w[g[0]].imag > 0:
+                log(f"      Im λ = {w[g[0]].imag:+8.4f} ({len(g)}):"
+                    f"  {['%.3f' % p for p in eigenspace_profile(vr[:, g], N)]}")
 
 
 # ========================================================================
@@ -554,29 +615,60 @@ log("PHASE 4: CENTER-LOCALIZED MODE COUNT")
 log("=" * 72)
 log()
 
+# A per-mode label needs a per-mode vector, and the full spectrum is degenerate
+# (every oscillating eigenvalue has its X^N twin in the mirrored popcount
+# block). So each mode is taken from its own (popcount row, popcount column)
+# block, which H and Z dephasing leave invariant: the sector-pure basis.
 for N in [3, 4, 5]:
+    d = 2**N
     gammas = [0.05] * N
     L = build_liouvillian_vec(N, gammas)
-    w, vr = eig(L, right=True)
-
-    osc = np.abs(w.imag) > 0.01
-    if not np.any(osc):
-        log(f"  N={N}: no oscillating modes")
-        continue
-
-    osc_idx = np.where(osc)[0]
-    n_center = 0
-    n_osc = len(osc_idx)
-
-    for i in osc_idx:
-        prof = localization_profile(vr[:, i], N)
-        # "Center-localized": center qubit has highest weight
-        center_q = N // 2
-        if prof[center_q] >= np.max(prof) - 0.01:
-            n_center += 1
+    popc = lambda x: bin(x).count("1")
+    n_center = n_osc = 0
+    max_in_block = 1
+    mixed_label = 0  # in-block clusters whose label changes under mixing
+    rng = np.random.default_rng(1)
+    # the middle: one site at odd N, the pair N/2-1, N/2 at even N (the
+    # reflection makes their weights exactly equal in every mode)
+    middle = [N // 2] if N % 2 else [N // 2 - 1, N // 2]
+    # "center-localized": a middle site carries the highest weight, equal to
+    # rounding (1e-9); exact ties come from the reflection, and the nearest
+    # genuine gap is 8.6e-5 (N=5). A coarser threshold counts more modes:
+    is_center = lambda v, tol=1e-9: (lambda pr: np.max(pr[middle]) >= np.max(pr) - tol)(
+        localization_profile(v, N))
+    n_center_coarse = {1e-3: 0, 1e-2: 0}
+    for p in range(N + 1):
+        for q in range(N + 1):
+            blk = [i * d + j for i in range(d) for j in range(d)
+                   if popc(i) == p and popc(j) == q]
+            wb, vb = eig(L[np.ix_(blk, blk)], right=True)
+            for i in np.where(np.abs(wb.imag) > 0.01)[0]:
+                cl = np.where(np.abs(wb - wb[i]) < 1e-8)[0]
+                max_in_block = max(max_in_block, len(cl))
+                v = np.zeros(d * d, dtype=complex)
+                v[blk] = vb[:, i]
+                n_osc += 1
+                # "Center-localized": center qubit has highest weight
+                label = is_center(v)
+                n_center += label
+                for tol in n_center_coarse:
+                    n_center_coarse[tol] += is_center(v, tol)
+                if len(cl) > 1 and i == cl[0]:
+                    # a degenerate in-block eigenvalue: does the label survive
+                    # a change of basis inside its eigenspace?
+                    for _ in range(20):
+                        c = rng.normal(size=len(cl)) + 1j * rng.normal(size=len(cl))
+                        u = np.zeros(d * d, dtype=complex)
+                        u[blk] = vb[:, cl] @ c
+                        if is_center(u) != label:
+                            mixed_label += 1
+                            break
 
     log(f"  N={N}: {n_center}/{n_osc} oscillating modes are center-localized"
-        f" ({100*n_center/n_osc:.1f}%)")
+        f" ({100*n_center/n_osc:.1f}%), middle sites {middle}, sector-pure basis;"
+        f" largest in-block multiplicity {max_in_block},"
+        f" labels changed by 20 random mixes {mixed_label};"
+        f" within 1e-3: {n_center_coarse[1e-3]}, within 1e-2: {n_center_coarse[1e-2]}")
 
 
 # ========================================================================
@@ -594,22 +686,24 @@ log("  Localization profile matches the cos (Neumann) standing waves this")
 log("  phase computes, not the Dirichlet sin family, which belongs to F2b.")
 log()
 log("Phase 2: Chiral block structure exists (Π eigenspaces give")
-log("  off-diagonal L_c), but off-diagonal blocks have FULL RANK")
-log("  (no zero singular values) → winding number 0 → TRIVIAL.")
+log("  off-diagonal L_c). At N=5 the off-diagonal blocks have FULL RANK;")
+log("  the N=4 zero singular values are the even-N centre modes at -Σγ.")
 log()
-log("Phase 3: Berry phase is NOT quantized → no topological invariant.")
+log("Phase 3: the path is an open one-parameter segment, so no Berry phase can")
+log("  decide; a per-step phase sum grows with the step count.")
 log()
-log("Phase 5: Protection factor varies SMOOTHLY from edge to center")
-log("  sacrifice → no sharp topological phase boundary.")
-log("  The localization profile is IDENTICAL at all γ profiles")
-log("  (same modes, different survival rates).")
+log("Phase 5: the protection factor is continuous (its largest jump shrinks")
+log("  with the grid) and the slowest rate never closes → no sharp phase")
+log("  boundary. Each mode keeps its standing-wave profile; the γ profile")
+log("  selects which modes are slowest (center-heavy under edge sacrifice,")
+log("  center-dark under center sacrifice, all tied under uniform noise).")
 log()
-log("Phase 4: Center-localized fraction is a geometric property of the")
-log("  chain (standing waves), not a topological invariant.")
+log("Phase 4: the center-localized fraction depends on what counts as the")
+log("  middle and on any tolerance; it is no topological invariant.")
 log()
 log("CONCLUSION: The localization [0.52, 0.63, 0.70, 0.63, 0.52] is")
 log("GEOMETRIC, not topological. It arises from standing wave patterns")
-log("on a 1D chain (sin(πkj/N) eigenstates). The sacrifice zone")
+log("on a 1D chain (cos (Neumann) eigenstates). The sacrifice zone")
 log("EXPLOITS this geometry by placing noise where fast modes live")
 log("(edges) and quiet where slow modes live (center). The chain")
 log("topology provides the mode structure. The noise provides the")

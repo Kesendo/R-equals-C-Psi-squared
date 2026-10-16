@@ -147,7 +147,6 @@ log("  - θ = 0 at CΨ = 1/4, θ = π/4 at CΨ = 1/2, θ → π/2 at CΨ → ∞
 log("  - Correlates with fidelity r = 0.87 (THETA_PALINDROME_ECHO.md)")
 log("  - Palindromic rate predictions per component")
 log("  - Lives on 3D manifold (STRUCTURAL_CARTOGRAPHY.md, 98% in 3 PCs)")
-log("  - Used as Berry-phase parameter (TOPOLOGICAL_EDGE_MODES, φ = -0.77)")
 log("  - Described as 'voltmeter' in CIRCUIT_DIAGRAM.md")
 log()
 log("  NOT computed:")

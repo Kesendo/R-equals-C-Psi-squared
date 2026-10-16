@@ -1,6 +1,6 @@
 ========================================================================
 TOPOLOGICAL EDGE MODES ANALYSIS
-Started: 2026-08-02 16:53:46
+Started: 2026-10-16 07:57:45
 ========================================================================
 
 ========================================================================
@@ -29,7 +29,7 @@ PHASE 1: SSH ANALOGY CHECK ((0,1) COHERENCE BLOCK)
   This is the standard 1D standing wave pattern. No alternating
   structure, no sublattice, no SSH topology.
 
-  Actual Liouvillian (N=5, uniform γ=0.05, 1.9s):
+  Actual Liouvillian (N=5, uniform γ=0.05, 2.1s):
     Slowest oscillating modes: rate=0.1000
     Modes sharing the slowest rate 0.1000: 16
     Their frequencies: ['0.764', '2.764', '5.236', '7.236']
@@ -63,7 +63,7 @@ PHASE 2: CHIRAL BLOCK STRUCTURE
       On-diagonal residual: 3.93e-16  (0 = perfect off-diagonal)
       Singular values of A: min=3.6533e-16, max=9.4653e+00, zero count=3
       *** 3 ZERO SINGULAR VALUES → topological zero modes!
-    (0.3s)
+    (0.2s)
   N=5 (1024×1024):
     Π eigenspace dims: +1:256, -1:256, +i:256, -i:256
     Pair ±1 (256×256):
@@ -74,32 +74,34 @@ PHASE 2: CHIRAL BLOCK STRUCTURE
       On-diagonal residual: 3.93e-16  (0 = perfect off-diagonal)
       Singular values of A: min=2.3812e-03, max=1.1713e+01, zero count=0
       Full rank → NO topological zero modes (trivial)
-    (2.4s)
+    (2.6s)
 
 
 ========================================================================
-PHASE 3: BERRY PHASE (BIORTHOGONAL)
+PHASE 3: BERRY PHASE ON AN OPEN ONE-PARAMETER PATH
 ========================================================================
 
   N=5, path: uniform (θ=0) → sacrifice-edge (θ=1)
   γ_mean=0.1080, sacrifice=[0.5, 0.01×4]
-  Tracking the slowest oscillating mode pair.
+  Slowest mode of the (1,0) coherence block (5×5, exactly invariant).
 
-       θ       Re(λ)       Im(λ)          Δφ     accum φ
-  ──────────────────────────────────────────────────
-   0.000  -2.1600e-01      7.2361         ---         ---
-   0.169  -1.8912e-01      7.2358     -0.0044     -0.0229
-   0.339  -1.6219e-01      7.2352     -0.0089     -0.0914
-   0.508  -1.3517e-01      7.2341     -0.0133     -0.2047
-   0.678  -1.0803e-01      7.2326     -0.0176     -0.3614
-   0.847  -8.0716e-02      7.2306     -0.0216     -0.5596
-   1.000  -5.5960e-02      7.2286     -0.0251     -0.7717
+   steps      per-step Σ -arg<L|R>   closed biorthonormal phase   min gap
+  ────────────────────────────────────────────────────────────────────────
+      60                   -0.7717                  -4.0637e-04     2.000   |product| = 1.001007
+     600                   -7.8344                  -4.0036e-04     2.000   |product| = 1.000992
+    6000                  -78.4622                  -3.9977e-04     2.000   |product| = 1.000991
+  (0.2s)
 
-  Total Berry phase: φ = -0.771673
-  φ/π = -0.245631
-  (112.4s)
-
-  Berry phase = -0.7717 (NOT quantized → geometric)
+  The per-step sum grows with the step count (600 → 6000: ×10.0): it sums
+  the eigensolver's per-step phase convention, not a geometric phase. The
+  biorthonormal phase closed by <L(1)|R(0)> converges, to -3.998e-04 rad.
+  Neither decides topology. The path is an open segment of an interval,
+  so a phase is gauge-invariant only with a closing rule, and the closed
+  value depends on that rule; a loop on an interval retraces itself.
+  The block is complex symmetric (H real), so the biorthogonal connection
+  vanishes: a loop in several γ would read 0 or π, π only around an
+  exceptional point, and this path encircles none. The Berry test
+  cannot decide here.
 
 
 ========================================================================
@@ -114,36 +116,45 @@ PHASE 5: ROBUSTNESS SWEEP
        θ    min rate    max rate  prot. factor         gap
   ───────────────────────────────────────────────────────
    -1.00      0.0200      1.0800         54.00      0.0200
-   -0.80      0.0592      1.0800         18.24      0.0592
-   -0.60      0.0984      1.0800         10.98      0.0984
-   -0.40      0.1376      1.0800          7.85      0.1376
-   -0.20      0.1768      1.0800          6.11      0.1768
+   -0.75      0.0690      1.0800         15.65      0.0690
+   -0.50      0.1180      1.0800          9.15      0.1180
+   -0.25      0.1670      1.0800          6.47      0.1670
    +0.00      0.2160      1.0800          5.00      0.2160
-   +0.20      0.1843      1.0800          5.86      0.1843
-   +0.40      0.1525      1.0800          7.08      0.1525
-   +0.60      0.1205      1.0800          8.96      0.1205
-   +0.80      0.0884      1.0800         12.22      0.0884
+   +0.25      0.1763      1.0800          6.12      0.1763
+   +0.50      0.1365      1.0800          7.91      0.1365
+   +0.75      0.0964      1.0800         11.20      0.0964
    +1.00      0.0560      1.0800         19.30      0.0560
-  (56.6s)
+  (59.7s)
 
-  Max protection factor jump: 17.76 at θ ≈ -0.97
-  Relatively sharp transition → POSSIBLE topological boundary
+  41 grid points: max protection-factor jump 17.76 at θ ≈ -0.975
+
+  81 grid points: max protection-factor jump 10.63 at θ ≈ -0.988
+  Doubling the grid shrinks the largest jump by ×1.67 (a continuous curve → ×2, a discontinuity → ×1).
+  Slowest rate never closes: min over the sweep 0.0200.
+  Continuous, steep only in its tail → no sharp phase boundary
 
 ────────────────────────────────────────────────────────────────────────
   Localization profiles at key θ values:
 
-  θ=+1.0 (edge sacrifice): rate=0.0560  profile=['0.864', '1.049', '1.168', '1.054', '0.866']
-  θ=+0.0 (uniform): rate=0.2160  profile=['0.933', '1.026', '1.083', '1.026', '0.933']
-  θ=-1.0 (center sacrifice): rate=0.0200  profile=['1.042', '1.042', '0.833', '1.042', '1.042']
+  θ=+1.0 (edge sacrifice): rate=0.0560  4 modes, 2 eigenvalues  profile=['0.864', '1.049', '1.168', '1.054', '0.866']
+      Im λ =  +7.2286 (2):  ['0.864', '1.049', '1.168', '1.054', '0.866']
+  θ=+0.0 (uniform): rate=0.2160  16 modes, 8 eigenvalues  profile=['1.000', '1.000', '1.000', '1.000', '1.000']
+      Im λ =  +7.2361 (2):  ['0.865', '1.052', '1.167', '1.052', '0.865']
+      Im λ =  +5.2361 (2):  ['0.948', '1.135', '0.833', '1.135', '0.948']
+      Im λ =  +2.7639 (2):  ['1.052', '0.865', '1.167', '0.865', '1.052']
+      Im λ =  +0.7639 (2):  ['1.135', '0.948', '0.833', '0.948', '1.135']
+  θ=-1.0 (center sacrifice): rate=0.0200  8 modes, 4 eigenvalues  profile=['1.042', '1.042', '0.833', '1.042', '1.042']
+      Im λ =  +5.2361 (2):  ['0.948', '1.135', '0.833', '1.135', '0.948']
+      Im λ =  +0.7639 (2):  ['1.135', '0.948', '0.833', '0.948', '1.135']
 
 
 ========================================================================
 PHASE 4: CENTER-LOCALIZED MODE COUNT
 ========================================================================
 
-  N=3: 20/40 oscillating modes are center-localized (50.0%)
-  N=4: 178/202 oscillating modes are center-localized (88.1%)
-  N=5: 407/904 oscillating modes are center-localized (45.0%)
+  N=3: 20/40 oscillating modes are center-localized (50.0%), middle sites [1], sector-pure basis; largest in-block multiplicity 1, labels changed by 20 random mixes 0; within 1e-3: 20, within 1e-2: 20
+  N=4: 178/202 oscillating modes are center-localized (88.1%), middle sites [1, 2], sector-pure basis; largest in-block multiplicity 2, labels changed by 20 random mixes 0; within 1e-3: 178, within 1e-2: 178
+  N=5: 356/904 oscillating modes are center-localized (39.4%), middle sites [2], sector-pure basis; largest in-block multiplicity 1, labels changed by 20 random mixes 0; within 1e-3: 372, within 1e-2: 404
 
 
 ========================================================================
@@ -156,26 +167,28 @@ Phase 1: the (0,1) coherence block is tight-binding with UNIFORM hopping.
   phase computes, not the Dirichlet sin family, which belongs to F2b.
 
 Phase 2: Chiral block structure exists (Π eigenspaces give
-  off-diagonal L_c), but off-diagonal blocks have FULL RANK
-  (no zero singular values) → winding number 0 → TRIVIAL.
+  off-diagonal L_c). At N=5 the off-diagonal blocks have FULL RANK;
+  the N=4 zero singular values are the even-N centre modes at -Σγ.
 
-Phase 3: Berry phase is NOT quantized → no topological invariant.
+Phase 3: the path is an open one-parameter segment, so no Berry phase can
+  decide; a per-step phase sum grows with the step count.
 
-Phase 5: Protection factor varies SMOOTHLY from edge to center
-  sacrifice → no sharp topological phase boundary.
-  The localization profile is IDENTICAL at all γ profiles
-  (same modes, different survival rates).
+Phase 5: the protection factor is continuous (its largest jump shrinks
+  with the grid) and the slowest rate never closes → no sharp phase
+  boundary. Each mode keeps its standing-wave profile; the γ profile
+  selects which modes are slowest (center-heavy under edge sacrifice,
+  center-dark under center sacrifice, all tied under uniform noise).
 
-Phase 4: Center-localized fraction is a geometric property of the
-  chain (standing waves), not a topological invariant.
+Phase 4: the center-localized fraction depends on what counts as the
+  middle and on any tolerance; it is no topological invariant.
 
 CONCLUSION: The localization [0.52, 0.63, 0.70, 0.63, 0.52] is
 GEOMETRIC, not topological. It arises from standing wave patterns
-on a 1D chain (sin(πkj/N) eigenstates). The sacrifice zone
+on a 1D chain (cos (Neumann) eigenstates). The sacrifice zone
 EXPLOITS this geometry by placing noise where fast modes live
 (edges) and quiet where slow modes live (center). The chain
 topology provides the mode structure. The noise provides the
 selection pressure. No topological invariant protects anything.
 
-Completed: 2026-08-02 16:57:32
+Completed: 2026-10-16 08:03:35
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\topological_edge_modes.txt

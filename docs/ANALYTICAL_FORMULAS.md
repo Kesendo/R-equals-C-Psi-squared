@@ -929,10 +929,10 @@ initial state, N = 2..9, 11, 13, 15.
     fastest modes (edge concentrator): [0.98, 0.87, 0.80, 0.87, 0.98]
 
 Profile of each individual mode is identical under all noise profiles
-(geometric, from standing wave patterns sin(πkj/N)). But which modes
-are slowest depends on the noise profile: edge concentrator selects
-center-heavy modes, center concentrator selects edge-heavy modes. Not
-topologically protected (winding number = 0, Berry phase not quantized).
+(geometric, from the Neumann standing waves cos(πk(j−½)/N)). But which
+modes are slowest depends on the noise profile: edge concentrator selects
+center-heavy modes, center concentrator selects modes dark at the center. Not
+topologically protected (no zero modes in the chiral blocks, no sharp phase boundary).
 Correlation edge-weight vs rate: r = 0.994.
 
 **Valid for:** N=5 Heisenberg chain, ALL Z-dephasing profiles.

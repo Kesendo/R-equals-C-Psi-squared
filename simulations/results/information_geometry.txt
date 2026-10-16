@@ -1,6 +1,6 @@
 ========================================================================
 INFORMATION GEOMETRY: θ AS RIEMANNIAN COORDINATE
-Started: 2026-09-25 06:32:59
+Started: 2026-10-16 07:40:31
 ========================================================================
 
 ========================================================================
@@ -15,7 +15,6 @@ PHASE 0: θ INVENTORY (what the repo already knows)
   - Correlates with fidelity r = 0.87 (THETA_PALINDROME_ECHO.md)
   - Palindromic rate predictions per component
   - Lives on 3D manifold (STRUCTURAL_CARTOGRAPHY.md, 98% in 3 PCs)
-  - Used as Berry-phase parameter (TOPOLOGICAL_EDGE_MODES, φ = -0.77)
   - Described as 'voltmeter' in CIRCUIT_DIAGRAM.md
 
   NOT computed:
@@ -196,5 +195,5 @@ transformation, not a geometric regularization. The fold at
 CΨ = 1/4 has no singularity in the Bures path coefficient.
 θ is useful as a 'compass' (angular distance from the boundary).
 
-Completed: 2026-09-25 06:32:59
+Completed: 2026-10-16 07:40:31
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\information_geometry.txt

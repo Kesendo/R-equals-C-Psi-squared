@@ -5430,18 +5430,7 @@ public static class OpenArcsRegistry
                 "gated (an XX-only H at N=2 gives Q_mean 20 against the header's 40 and still passes); " +
                 "D5's third check is the first two subtracted from 4^N, an identity that cannot fire; D6's " +
                 "Zeno branch needs Q <= 0.1, which is below every threshold entry, so it is dead code at " +
-                "any parameter. topological_edge_modes.py: the whole SUMMARY block is constant text and " +
-                "three of its five statements are contradicted by numbers printed above it in the same " +
-                "run (it says the off-diagonal blocks have full rank where Phase 2 printed four zero " +
-                "singular values; it says the protection varies smoothly where Phase 5 printed a sharp " +
-                "transition; it says the localisation profile is identical at all gamma profiles where the " +
-                "third profile printed is centre-DIPPED); Phase 3's Berry phase is not gauge invariant " +
-                "because the theta path is open, so the same code returns -7.34, +27.06 or -10.03 " +
-                "depending on the phase LAPACK hands back, and it grows with grid density instead of " +
-                "converging; Phase 5's 'sharp transition' test fires on any curve with a tail, including " +
-                "the analytic hyperbola the sweep actually produces; Phase 4's 'centre-localised' fraction " +
-                "is 33% or 88% depending on a tolerance, the 88% coming from exact ties at N=4 where " +
-                "reflection symmetry exchanges the two middle sites. sacrifice_zone_optics.py: Step 2's " +
+                "any parameter. sacrifice_zone_optics.py: Step 2's " +
                 "conclusion is a tautology on its own defining formula, Step 5 fits only a quadratic and " +
                 "then rejects an exponential it never fitted (linear R^2 = 0.9948 against quadratic " +
                 "0.99928 on the same ten points, and SIGNAL_ANALYSIS_SCALING fits the same series with an " +
