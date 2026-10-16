@@ -21,6 +21,7 @@ public class StoneSurvivorClosureWitnessTests
         Assert.False(w.Survivor.InWindow);              // OUT of +-0.05: K_decay (Re lambda) moves
         Assert.True(w.Survivor.SignCoherence > 0.8);    // sign-coherent reliable f => a real rate shift
         Assert.True(w.Survivor.IsRateShift);
+        Assert.Equal(1, w.Survivor.Members);            // the interior mode is a single one, no tie to choose from
     }
 
     [Theory]
@@ -30,6 +31,7 @@ public class StoneSurvivorClosureWitnessTests
     {
         var w = new StoneSurvivorClosureWitness(n);
         Assert.True(w.BandEdge.InWindow);               // IN window: K_decay frozen (rigid light content)
+        Assert.Equal(n, w.BandEdge.Members);            // ... for every one of the N band modes tied at -2 gamma
         Assert.False(w.BandEdge.IsRateShift);
     }
 }

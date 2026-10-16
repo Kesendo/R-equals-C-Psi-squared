@@ -19,7 +19,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// sites, its sign-coherence coh = |Sum f|/Sum|f| (1 = a global RATE shift, ~0 = a redistribution),
 /// and whether it sits in the +-0.05 window.</summary>
 public readonly record struct ModeClosure(
-    string Label, int PCol, int PRow, double Closure, double SignCoherence, int Reliable, int Sites, bool InWindow)
+    string Label, int PCol, int PRow, double Closure, double SignCoherence, int Reliable, int Sites, bool InWindow,
+    int Members = 1)
 {
     /// <summary>A genuine K_decay (rate) shift: OUT of the window AND sign-coherent, so it is a global
     /// rate change, not an asymmetric per-site redistribution (which would also move Sum ln alpha).</summary>
@@ -69,24 +70,49 @@ public sealed class StoneSurvivorClosureWitness : IInspectable
     /// <summary>The soft interior (2,2) mode, one of the XY chain's tied slowest modes: OUT + sign-coherent = a rate
     /// shift.</summary>
     public ModeClosure Survivor { get { _survivor ??= ComputeMode("interior mode", 2, 2); return _survivor.Value; } }
-    /// <summary>The rigid (0,1) band edge (Re = -2gamma): IN window = frozen.</summary>
+    /// <summary>The rigid (0,1) band edge (Re = -2gamma): IN window = frozen, for every one of its N modes.</summary>
     public ModeClosure BandEdge { get { _bandEdge ??= ComputeMode("band edge", 0, 1); return _bandEdge.Value; } }
 
-    private ModeClosure ComputeMode(string label, int pc, int pr)
+    private const double RateTieTol = 1e-9;
+
+    /// <summary>The closure of every mode of the (pc,pr) block tied at its slowest rate, in Evd order. Every mode of
+    /// the (0,1) band edge decays at exactly −2γ, so "the slowest" there is all N of them, one per frequency; the
+    /// interior (2,2) mode is a single one.</summary>
+    public IReadOnlyList<ModeClosure> MemberClosures(string label, int pc, int pr)
     {
-        int d = 1 << N;
-        double gamma = 1.0 / Q;
-        var profile = Enumerable.Repeat(gamma, N).ToArray();
         var chain = new ChainSystem(N, 2.0 * Qh, 1.0, HamiltonianType.XY, TopologyKind.Chain);
         var H = chain.BuildHamiltonian();
-
-        // 1. the (pc,pr) block slowest right-eigenmode, embedded as a d x d operator
-        //    (the SectorReductionWitness.DensityMode recipe; flat = row*d + col).
+        var profile = Enumerable.Repeat(1.0 / Q, N).ToArray();
         var flat = SectorFlat(N, pc, pr);
         var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, profile, flat);
-        var slow = PhaseRigidity.Compute(block)
-            .Where(m => m.Lambda.Magnitude > KernelTol)
-            .OrderByDescending(m => m.Lambda.Real).First();
+        var modes = PhaseRigidity.Compute(block).Where(m => m.Lambda.Magnitude > KernelTol).ToList();
+        double slowest = modes.Max(m => m.Lambda.Real);
+        return modes.Where(m => slowest - m.Lambda.Real <= RateTieTol)
+            .Select(m => ClosureOf(label + $" Im={m.Lambda.Imaginary.ToString("+0.000;-0.000", Inv)}", pc, pr, chain, H, profile, flat, m))
+            .ToList();
+    }
+
+    /// <summary>The block's reading over all its tied slowest modes, not over whichever one an eigensolver lists
+    /// first: the member with the largest |Sum ln alpha| stands for the block, and it is in the window only when
+    /// every member is.</summary>
+    private ModeClosure ComputeMode(string label, int pc, int pr)
+    {
+        var members = MemberClosures(label, pc, pr);
+        var worst = members.OrderByDescending(m => Math.Abs(m.Closure)).First();
+        return worst with
+        {
+            Label = members.Count == 1 ? label : $"{label} ({members.Count} tied modes)",
+            InWindow = members.All(m => m.InWindow),
+            Members = members.Count,
+        };
+    }
+
+    private ModeClosure ClosureOf(string label, int pc, int pr, ChainSystem chain, ComplexMatrix H, double[] profile,
+        int[] flat, PhaseRigidity.Mode slow)
+    {
+        int d = 1 << N;
+        // 1. the chosen right-eigenmode of the (pc,pr) block, embedded as a d x d operator
+        //    (the SectorReductionWitness.DensityMode recipe; flat = row*d + col).
         double reMode = slow.Lambda.Real;
         var full = ComplexVector.Build.Dense(d * d);
         for (int k = 0; k < flat.Length; k++) full[flat[k]] = slow.Right[k];
@@ -165,8 +191,8 @@ public sealed class StoneSurvivorClosureWitness : IInspectable
         "FitAlpha on the mode-isolating probe rho_0=I/d+eps*Herm(mode), reads the mode's first-order RATE shift. " +
         $"interior (2,2) -> {(Survivor.IsRateShift ? "OUT + sign-coherent = RATE-SHIFT" : "in window")} " +
         $"(Sum ln a={Survivor.Closure.ToString("+0.000;-0.000", Inv)}, coh={Survivor.SignCoherence.ToString("0.00", Inv)}); " +
-        $"band edge (0,1) -> {(BandEdge.InWindow ? "IN = FROZEN" : "out of window")} " +
-        $"(Sum ln a={BandEdge.Closure.ToString("+0.000;-0.000", Inv)}). The TRAJECTORY-level dual of the eigenvalue " +
+        $"band edge (0,1) -> {(BandEdge.InWindow ? "IN = FROZEN" : "out of window")} for all {BandEdge.Members} of its tied modes " +
+        $"(largest Sum ln a={BandEdge.Closure.ToString("+0.000;-0.000", Inv)}). The TRAJECTORY-level dual of the eigenvalue " +
         "value/vector split (inspect --root survivor / horizon). Review-pinned: probe-state-specific (a polarized " +
         "survivor-dominated state holds), the rate shift certified by sign-coherence, magnitude = scaling+sign.";
 
