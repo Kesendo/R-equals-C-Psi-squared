@@ -52,9 +52,23 @@ Rows:
       (exponent within 0.05 of 1/2, a crossing giving 1), real on one side and oscillating on the other (offsets taken away from the nearest other
       coupling: 0.295030 and 0.295382 lie 1.2e-3 apart, relatively).
 
-D1 to D3 and D5's counts in exact modular arithmetic, D4 and D5's couplings in floating point. D1 takes under two
-minutes; D2 about twenty and D3 about forty minutes on eight processes; D4 about fifteen minutes; D5 about ten minutes.
-Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise] [--real] [--odd]
+  D6  (--krein) the real couplings of the X-odd half from below. S' = t S t and M = t (D + N) are both symmetric,
+      so G = S'^-1 M is self-adjoint for both (S' G = M, M G = M S'^-1 M). M is the pair form
+      V -> sum beta_ij V_ij V_ji with beta_ij = N - 2 h(x_i, x_j), exactly (integer bases), and M's spectrum has
+      the inertia that form predicts: signature C(N, N/2)/2 whatever H is. The construction gives D5's 48 couplings,
+      and so does the half's pencil without the elimination. The M-signs of the real eigenvalues (all simple) and
+      M on the zero root space add up to that signature, complex pairs carrying none: chain N = 4, 6, 8 with real
+      counts 2, 14, 48, zero-root parts 1, 0, 1, so 2, 10, 34 forced; at N = 8 per reflection sector 24, 24 real
+      against 14, 20 forced. At N = 6 there is no rung cell and M is invertible, so every H with S invertible has
+      at least 10: forty random connected XXZ graphs give 10 to 20, never fewer. Where S is singular the bound has
+      no hold, and the half's pencil reads 15 on the chain at Delta = 1/2 and 8 on a five-site chain beside an
+      isolated site. Real means exactly on the axis, the rest lying at least 1e-5 of the modulus off it (a split
+      double root would sit between).
+
+D1 to D3 and D5's counts in exact modular arithmetic, D4 and D5's couplings in floating point, D6's inertia of M
+by eigvalsh against the pair form's exact count, its sign characteristics in floating point. D1 takes under two minutes; D2 about twenty and D3 about
+forty minutes on eight processes; D4 about fifteen minutes; D5 about ten minutes; D6 about two minutes.
+Usage: python simulations/f50_centre_mode_degree.py [--border] [--pointwise] [--real] [--odd] [--krein]
 """
 import sys
 import numpy as np
@@ -392,6 +406,97 @@ def _init_odd():
     _odd_svd.mats = (np.block([[A1, Z], [Z, -(t @ A1 @ t)]]), np.block([[Z, B], [t @ B @ t, Z]]))
 
 
+def krein_half(N, bonds):
+    """The X-odd half on |O><E| for XXZ bonds (i, j, J, Delta), normalized bases, as the symmetric pair (S', M):
+    S' = t S t from the Sylvester operator, M[(i, j), (j, i)] = w_ij = N - 2 h(x_i, x_j) from the dephasing,
+    G = S'^-1 M. Column-major V, as odd_half. Also the pair weights w."""
+    st = [x for x in range(2 ** N) if bin(x).count("1") == N // 2]
+    n = len(st); idx = {x: i for i, x in enumerate(st)}
+    H = np.zeros((n, n))
+    for c, x in enumerate(st):
+        for i, j, J, Dl in bonds:
+            bi, bj = (x >> i) & 1, (x >> j) & 1
+            H[c, c] += J * Dl * (1 if bi == bj else -1)
+            if bi != bj:
+                H[idx[x ^ (1 << i) ^ (1 << j)], c] += 2 * J
+    full = 2 ** N - 1
+    reps = [x for x in st if x < (x ^ full)]; m = len(reps)
+    e = np.zeros((n, m)); o = np.zeros((n, m))
+    for k, x in enumerate(reps):
+        e[idx[x], k] = e[idx[x ^ full], k] = 1 / np.sqrt(2)
+        o[idx[x], k] = 1 / np.sqrt(2); o[idx[x ^ full], k] = -1 / np.sqrt(2)
+    hE, hO = e.T @ H @ e, o.T @ H @ o
+    Im = np.eye(m)
+    S = np.kron(Im, hE) - np.kron(hO.T, Im)
+    t = np.zeros((m * m, m * m))
+    for k in range(m * m):
+        t[(k // m) + (k % m) * m, k] = 1
+    w = np.array([[N - 2 * bin(x ^ y).count("1") for y in reps] for x in reps])
+    M = np.zeros((m * m, m * m))
+    for i in range(m):
+        for j in range(m):
+            M[i + j * m, j + i * m] = w[i, j]
+    return t @ S @ t, M, w
+
+
+def krein_count(Sp, M, P=None):
+    """Real nonzero eigenvalues of G = S'^-1 M (restricted to the columns of P if given): their number, the sum of
+    their sign characteristics sign(v^T M v), and the inertia of M on G's zero root space and on the whole."""
+    import scipy.linalg as sl
+    if P is not None:
+        Sp, M = P.T @ Sp @ P, P.T @ M @ P
+    G = np.linalg.solve(Sp, M)
+    w, V = np.linalg.eig(G)
+    tiny = 1e-7 * np.abs(w).max()
+    real = (np.abs(w) > tiny) & (w.imag == 0.0)          # a real eigenvalue of a real matrix comes back with imag 0
+    # the sign of v^T M v is the block's sign only at a simple real eigenvalue (at a defective one v is neutral),
+    # so the real eigenvalues must be separated and their vectors far from neutral
+    wr = np.sort(w[real].real)
+    simple = bool(len(wr) < 2 or np.min(np.diff(wr) / np.maximum(np.abs(wr[1:]), np.abs(wr[:-1]))) > 1e-6)
+    q = np.array([V[:, k].real @ M @ V[:, k].real / (V[:, k].real @ V[:, k].real) for k in np.where(real)[0]])
+    simple = simple and bool(np.all(np.abs(q) > 1e-6))
+    # a real double root can come back as a complex pair split by rounding, which imag == 0 would miss: no nonzero
+    # eigenvalue may sit closer to the axis than 1e-5 of its modulus without being exactly on it
+    rel = np.abs(w.imag) / np.maximum(np.abs(w), tiny)
+    simple = simple and not bool(np.any((np.abs(w) > tiny) & (w.imag != 0.0) & (rel < 1e-5)))
+    eps_sum = int(np.sum(np.sign(q)))
+    side = (int(np.sum((w[real].real > 0) & (q > 0))), int(np.sum((w[real].real > 0) & (q < 0))),
+            int(np.sum((w[real].real < 0) & (q > 0))), int(np.sum((w[real].real < 0) & (q < 0))))
+    _, Z, sdim = sl.schur(G, output="real", sort=lambda x, y: abs(x + 1j * y) < tiny)
+
+    def sig(X):
+        if X.size == 0:
+            return 0
+        ev = np.linalg.eigvalsh((X + X.T) / 2); c = 1e-9 * max(1.0, np.abs(ev).max())
+        return int((ev > c).sum() - (ev < -c).sum())
+    Z0 = Z[:, :sdim]
+    return int(real.sum()), eps_sum, sig(Z0.T @ M @ Z0), sig(M), simple, side, wr
+
+
+def half_couplings(Sp, M):
+    """The couplings of the X-odd half without the elimination, so also where S is singular: with V scaled by i the
+    half's T(g) is the real pencil [[S, 0], [0, -t S t]] - g [[0, B], [-t B t, 0]], B = t M from |O><E| to |E><O|
+    and S = t S' t. Returns the number of finite real g > 0, multiplicity counted, and the gap that separates them
+    from the rest: QZ returns a simple real root with imaginary part exactly 0, while a real double root may come
+    back split by rounding, so roots within 1e-6 of the axis (relative) count as real, and the gap is the largest
+    relative distance among those against the smallest among the others."""
+    import scipy.linalg as sl
+    k = Sp.shape[0]
+    t = np.zeros((k, k)); m = int(round(np.sqrt(k)))
+    for c in range(k):
+        t[(c // m) + (c % m) * m, c] = 1
+    S, B = t @ Sp @ t, t @ M
+    Z = np.zeros((k, k))
+    Ar = np.block([[S, Z], [Z, -Sp]]); Br = np.block([[Z, B], [-(t @ B @ t), Z]])
+    g = sl.eigvals(Ar, Br)
+    g = g[np.isfinite(g)]
+    g = g[np.abs(g) > 1e-7 * max(1.0, np.abs(g).max())]
+    rel = np.abs(g.imag) / np.abs(g)
+    on = rel < 1e-6
+    gap = (float(rel[on].max()) if on.any() else 0.0, float(rel[~on].min()) if (~on).any() else 1.0)
+    return int(np.sum(on & (g.real > 0))), gap
+
+
 if __name__ == "__main__":
     print("D1  the chain's first meet with ker(D + N)", flush=True)
     d4, _, _ = first_meet(4, 1000003, 6)
@@ -580,5 +685,105 @@ if __name__ == "__main__":
               f"offset (exponent within {worst_expo:.3f} of 1/2; a crossing gives 1) and mu^2 changing sign across g "
               f"({nreal} of 48 with the real pair on the side away from "
               "the neighbour)" + (f"; failing: {bad}" if bad else ""), not bad)
+    if "--krein" in sys.argv:
+        print("D6  the X-odd half's real couplings from below: the transpose's two forms", flush=True)
+        from math import comb
+        chain = lambda N: [(i, i + 1, 1.0, 1.0) for i in range(N - 1)]
+
+        def inertia(X):
+            ev = np.linalg.eigvalsh(X); c = 1e-9 * max(1.0, np.abs(ev).max())
+            return int((ev > c).sum()), int((ev < -c).sum()), int((np.abs(ev) <= c).sum())
+        for N in (4, 6, 8):
+            m = comb(N, N // 2) // 2
+            # the integer half of odd_half (unnormalized bases, so B is four times the normalized one) against the
+            # pair form: t B sends V_ij to beta_ij at (j, i), nothing else, exactly
+            _, Bi, ti, _, _, _ = odd_half(N, 1 << 40)
+            Bi = Bi.astype(np.int64); Bi[Bi > (1 << 39)] -= 1 << 40
+            Sp, M, w = krein_half(N, chain(N))
+            Mi = np.zeros_like(Bi)
+            for i in range(m):
+                for j in range(m):
+                    Mi[i + j * m, j + i * m] = 4 * w[i, j]
+            exact = np.array_equal(ti.astype(np.int64) @ Bi, Mi)
+            # the inertia the pair form predicts (m diagonal squares beta_ii = N > 0, one positive and one negative
+            # square per pair i < j with beta_ij != 0, two zeros per pair with beta_ij = 0) against M's own spectrum
+            off = [w[i, j] for i in range(m) for j in range(i + 1, m)]
+            nz = sum(1 for x in off if x != 0)
+            pred = (m + nz, nz, 2 * (len(off) - nz))
+            check(f"N = {N}: t(D + N) on the half is the pair form exactly; its spectrum has inertia {inertia(M)}, "
+                  f"the pair form's count {pred}: signature {m} = C({N}, {N // 2})/2",
+                  exact and inertia(M) == pred)
+        # D5's couplings by this construction, and by the pencil without the elimination
+        A1, B, t, _, _, _ = odd_half(8)
+        w5 = np.linalg.eigvals(t @ np.linalg.solve(A1, B))
+        g5 = np.sort(1 / np.abs(w5[(w5.imag == 0.0) & (np.abs(w5) > 1e-6)].real))
+        Sp, M, _ = krein_half(8, chain(8))
+        nr, es, s0, sM, simple, side, wr = krein_count(Sp, M)
+        g6 = np.sort(1 / np.abs(wr))
+        hc, hgap = half_couplings(Sp, M)
+        check(f"N = 8 chain: the same {len(g6)} couplings as D5's construction (largest relative difference "
+              f"{np.max(np.abs(g6 / g5 - 1)):.1e}); the pencil without the elimination finds {hc} (on the axis within "
+              f"{hgap[0]:.0e}, the rest at least {hgap[1]:.0e} off it)",
+              len(g5) == len(g6) == 48 and np.allclose(g5, g6, rtol=1e-9) and hc == 48 and hgap[0] == 0.0 and hgap[1] > 1e-5)
+        # sign characteristics: on the real eigenvalues of G = S'^-1 M they and M on the zero root space add up to
+        # sig(M), complex pairs carrying none, so #real >= sig(M) - s0; read per reflection sector at N = 8
+        for N, expect in ((4, (2, 1)), (6, (14, 0)), (8, (48, 1))):
+            m = comb(N, N // 2) // 2
+            Sp, M, _ = krein_half(N, chain(N))
+            nr, es, s0, sM, simple, side, _ = krein_count(Sp, M)
+            check(f"N = {N} chain: {nr} real nonzero omega, simple, their M-signs summing to {es} (omega > 0: {side[0]} "
+                  f"positive, {side[1]} negative; omega < 0: {side[2]} positive, {side[3]} negative), M on the zero root "
+                  f"space {s0}, total {es + s0} = sig M = {m}; forced {m - s0}, expected (real, s0) = {expect}",
+                  simple and sM == m and es + s0 == m and (nr, s0) == expect and nr >= m - s0
+                  and side == {4: (1, 0, 1, 0), 6: (6, 2, 6, 0), 8: (20, 4, 21, 3)}[N])
+        _, _, _, _, PE, PO = odd_half(8)
+        rv, rV = np.linalg.eigh(np.kron(PE, PO))
+        Sp, M, _ = krein_half(8, chain(8))
+        rows = [krein_count(Sp, M, rV[:, np.isclose(rv, s)]) for s in (1, -1)]
+        check("N = 8 chain per reflection sector (+, -): real " + ", ".join(str(r[0]) for r in rows) + "; signature of M "
+              + ", ".join(str(r[3]) for r in rows) + "; M on the zero root space " + ", ".join(str(r[2]) for r in rows)
+              + "; forced " + ", ".join(str(r[3] - r[2]) for r in rows) + "; expected 24, 24; 15, 20; 1, 0; 14, 20",
+              all(r[4] and r[1] + r[2] == r[3] for r in rows) and [r[0] for r in rows] == [24, 24]
+              and [r[3] for r in rows] == [15, 20] and [r[2] for r in rows] == [1, 0])
+        # N = 6: no rung cell (h is even, N - 2h = 2 mod 4), M invertible, s0 = 0: at least 10 wherever S is invertible
+        rng = np.random.default_rng(7)
+        counts = []
+
+        def connected(E):
+            seen, todo = {0}, [0]
+            while todo:
+                a = todo.pop()
+                for i, j in E:
+                    for x, y in ((i, j), (j, i)):
+                        if x == a and y not in seen:
+                            seen.add(y); todo.append(y)
+            return len(seen) == 6
+        while len(counts) < 40:
+            E = [(i, j) for i in range(6) for j in range(i + 1, 6) if rng.random() < 0.5]
+            if not connected(E):
+                continue
+            Sp, M, _ = krein_half(6, [(i, j, rng.uniform(0.3, 2), rng.uniform(-2, 2)) for i, j in E])
+            if np.linalg.svd(Sp, compute_uv=False)[-1] < 1e-6:
+                continue
+            nr, es, s0, sM, simple, _, _ = krein_count(Sp, M)
+            hc, hgap = half_couplings(Sp, M)
+            counts.append((nr, simple and es + s0 == sM == 10 and s0 == 0, hc, hgap))
+        check(f"N = 6, 40 random connected XXZ graphs with S invertible: real counts from {min(c[0] for c in counts)} to "
+              f"{max(c[0] for c in counts)}, never below 10, the sign identity holding with s0 = 0 and the pencil without "
+              f"the elimination agreeing in each (on the axis within {max(c[3][0] for c in counts):.0e}, the rest at least "
+              f"{min(c[3][1] for c in counts):.0e} off it)",
+              all(c[0] >= 10 and c[1] and c[2] == c[0] and c[3][0] == 0.0 and c[3][1] > 1e-5 for c in counts))
+        # where S is singular the bound has no hold, and the pencil reads what is there: the chain at Delta = 1/2
+        # (h_E and h_O share an eigenvalue) stays above 10, five chained sites beside an isolated sixth fall below
+        rows = []
+        for name, b in (("the chain at Delta = 1/2", [(i, i + 1, 1.0, 0.5) for i in range(5)]),
+                        ("a five-site chain beside an isolated site", [(i, i + 1, 1.0, 1.0) for i in range(4)])):
+            Sp, M, _ = krein_half(6, b)
+            hc, hgap = half_couplings(Sp, M)
+            rows.append((name, np.linalg.svd(Sp, compute_uv=False)[-1], hc, hgap))
+        check("N = 6 with S singular, read by the pencil: " + "; ".join(
+              f"{r[0]}: smallest singular value of S {r[1]:.0e}, {r[2]} couplings with multiplicity" for r in rows)
+              + "; expected 15 and 8",
+              all(r[1] < 1e-12 and r[3][0] == 0.0 and r[3][1] > 1e-5 for r in rows) and [r[2] for r in rows] == [15, 8])
     print("\nALL GATES PASS" if not FAILS else f"\n{len(FAILS)} FAILED")
     sys.exit(1 if FAILS else 0)
