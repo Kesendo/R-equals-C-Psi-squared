@@ -7,9 +7,9 @@ Cockpit Navigation on the CPsi Manifold
   2. PC1(t)        -- compass (sector balance, ~57% variance)
   3. PC2(t)        -- speedometer (mixedness/coherence, ~22%)
   4. PC3(t)        -- fuel gauge (Psi- sector, ~11%)
-  5. d_dominant(t)  -- variometer (dominant mode decay rate)
+  5. d_dominant(t)  -- variometer (decay rate of the dominant eigenvalue cluster)
   6. v_Bures(t)    -- Bures velocity + path-coefficient shape
-  7. K_Peter(t)    -- Petermann factor of dominant mode
+  7. ||P||(t)      -- projector norm of the dominant eigenvalue cluster
 
 Part A: Star topology (Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05)
 Part B: 2-qubit Heisenberg (multiple initial states)
@@ -102,52 +102,67 @@ def build_liouvillian(H, gamma_list, n_qubits):
     return L
 
 
+CLUSTER_TOL = 1e-8
+
+
 def eigendecompose_liouvillian(L_super):
-    """Full eigendecomposition with left/right eigenvectors."""
-    w, vl, vr = linalg.eig(L_super, left=True, right=True)
-    # Sort by real part (most negative last)
+    """Eigenvalues, right eigenvectors and their dual rows R^-1, grouped into
+    eigenvalue clusters. These Liouvillians are heavily degenerate (every
+    eigenvalue of the Part A star sits in a cluster of size 2, 4 or 6), and
+    inside a cluster a single eigenvector is an arbitrary basis choice, so
+    everything below is read per cluster through its spectral projector
+    P_c = R[:, c] R^-1[c, :], which does not depend on that choice."""
+    w, vr = linalg.eig(L_super)
     idx = np.argsort(-w.real)
-    w = w[idx]
-    vl = vl[:, idx]
-    vr = vr[:, idx]
-    return w, vl, vr
+    w, vr = w[idx], vr[:, idx]
+    dual = np.linalg.inv(vr)
+    clusters = []
+    for k in range(len(w)):
+        for c in clusters:
+            if abs(w[k] - w[c[0]]) < CLUSTER_TOL:
+                c.append(k)
+                break
+        else:
+            clusters.append([k])
+    # The tolerance must separate: spread inside a cluster far below it,
+    # distance between clusters far above it.
+    spread = max(np.max(np.abs(w[c] - w[c[0]])) for c in clusters)
+    centres = np.array([w[c[0]] for c in clusters])
+    gaps = np.abs(centres[:, None] - centres[None, :])
+    np.fill_diagonal(gaps, np.inf)
+    if not (spread < 1e-3 * CLUSTER_TOL and gaps.min() > 1e3 * CLUSTER_TOL):
+        raise RuntimeError(f"ambiguous clusters: spread {spread:.2e}, gap {gaps.min():.2e}")
+    projectors = [vr[:, c] @ dual[c, :] for c in clusters]
+    # A Jordan block would make R singular and its projector meaningless:
+    # check L P_c = lambda_c P_c on every cluster.
+    res = max(np.linalg.norm(L_super @ P - w[c[0]] * P) for P, c in zip(projectors, clusters))
+    if res > CLUSTER_TOL:
+        raise RuntimeError(f"cluster is not an eigenspace: residual {res:.2e}")
+    return w, clusters, projectors
 
 
-def mode_amplitudes(w, vl, vr, rho0_vec):
-    """Compute expansion coefficients c_k = <w_k|rho0> / <w_k|v_k>."""
-    n = len(w)
-    c = np.zeros(n, dtype=complex)
-    for k in range(n):
-        overlap = vl[:, k].conj() @ vr[:, k]
-        if abs(overlap) > 1e-15:
-            c[k] = (vl[:, k].conj() @ rho0_vec) / overlap
-    return c
+def cluster_amplitudes(projectors, rho0_vec):
+    """a_c = ||P_c rho0||, the size of rho0's component in each eigenvalue cluster."""
+    return np.array([np.linalg.norm(P @ rho0_vec) for P in projectors])
 
 
-def petermann_factors(vl, vr):
-    """K_k = 1/|<w_k|v_k>|^2 (normalized)."""
-    n = vl.shape[1]
-    K = np.ones(n)
-    for k in range(n):
-        overlap = abs(vl[:, k].conj() @ vr[:, k])
-        K[k] = 1.0 / (overlap**2 + 1e-30)
-    return K
+def projector_norms(projectors):
+    """||P_c||_2, the cluster's spectral-projector norm: 1 for a normal cluster,
+    sqrt(K_Petermann) for a simple mode, large near an exceptional point."""
+    return np.array([np.linalg.norm(P, 2) for P in projectors])
 
 
-def dominant_mode_at_t(w, c, t, skip_ss=True):
-    """Find the mode with largest amplitude at time t.
-    Returns (index, decay_rate, amplitude)."""
-    amps = np.abs(c * np.exp(w * t))
+def dominant_cluster_at_t(w, clusters, a, t, skip_ss=True):
+    """The cluster with the largest a_c * exp(Re lambda_c * t).
+    Returns (cluster index, decay rate, amplitude)."""
+    rates = np.array([w[c[0]].real for c in clusters])
+    amps = a * np.exp(rates * t)
     if skip_ss:
-        # Mask out near-zero eigenvalues (steady state)
-        mask = np.abs(w.real) > 1e-8
-        amps_masked = np.where(mask, amps, 0)
-    else:
-        amps_masked = amps
-    if np.max(amps_masked) < 1e-15:
+        amps = np.where(np.abs(rates) > 1e-8, amps, 0.0)
+    if np.max(amps) < 1e-15:
         return 0, 0.0, 0.0
-    idx = int(np.argmax(amps_masked))
-    return idx, float(-w[idx].real), float(amps_masked[idx])
+    i = int(np.argmax(amps))
+    return i, float(-rates[i]), float(amps[i])
 
 
 feat_names = ['Phi+', 'Phi-', 'Psi+', 'Psi-', 'Pur', 'SvN', 'C', 'Psi', 'ph03', 'S_coh']
@@ -183,16 +198,12 @@ rho0 = gpt.density_from_statevector(psi_init)
 # --- Liouvillian eigendecomposition ---
 out("\nBuilding 3-qubit Liouvillian (64x64)...")
 L_super = build_liouvillian(H3, [gamma]*3, 3)
-w3, vl3, vr3 = eigendecompose_liouvillian(L_super)
+w3, cl3, P3 = eigendecompose_liouvillian(L_super)
 
-# Steady state
-rho_ss_vec = vr3[:, 0] / np.sum(vr3[:, 0])  # normalize trace
-rho_ss = rho_ss_vec.reshape(8, 8)
-
-# Mode amplitudes
+# Cluster amplitudes and projector norms
 rho0_vec = rho0.reshape(-1)
-c3 = mode_amplitudes(w3, vl3, vr3, rho0_vec)
-K_peter3 = petermann_factors(vl3, vr3)
+a3 = cluster_amplitudes(P3, rho0_vec)
+Pn3 = projector_norms(P3)
 
 # Report eigenvalue spectrum
 out(f"\nLiouvillian spectrum (top 10 by |Re(lambda)|):")
@@ -201,11 +212,14 @@ out(f"  Spectral gap (slowest decay): {unique_rates[1]:.6f}")
 out(f"  Fastest decay: {unique_rates[-1]:.4f}")
 out(f"  Number of distinct decay rates: {len(unique_rates)}")
 
-out(f"\n  {'k':>3} {'Re(lam)':>10} {'Im(lam)':>10} {'|c_k|':>10} {'K_Peter':>10}")
-out(f"  {'-'*48}")
-for k in range(min(12, len(w3))):
-    out(f"  {k:>3} {w3[k].real:>+10.5f} {w3[k].imag:>+10.4f} "
-        f"{abs(c3[k]):>10.5f} {K_peter3[k]:>10.1f}")
+out(f"  Eigenvalue clusters: {len(cl3)} (sizes {sorted(set(len(c) for c in cl3))})")
+
+out(f"\n  {'c':>3} {'Re(lam)':>10} {'Im(lam)':>10} {'size':>5} {'||P rho0||':>11} {'||P||':>8}")
+out(f"  {'-'*52}")
+for i in range(min(12, len(cl3))):
+    lam = w3[cl3[i][0]]
+    out(f"  {i:>3} {lam.real:>+10.5f} {lam.imag:>+10.4f} {len(cl3[i]):>5} "
+        f"{a3[i]:>11.5f} {Pn3[i]:>8.4f}")
 
 # --- Simulate trajectory ---
 out("\nSimulating trajectory...")
@@ -215,7 +229,7 @@ n_steps = 2000
 times, feats = [], []
 theta_arr, cpsi_arr, conc_arr, pur_arr, psi_arr = [], [], [], [], []
 bures_dists, bures_vels = [], []
-dom_rate, dom_amp, dom_Kp = [], [], []
+dom_rate, dom_amp, dom_Pn = [], [], []
 rho_prev_AB = None
 
 rho = rho0.copy()
@@ -242,10 +256,10 @@ for step in range(n_steps + 1):
         rho_prev_AB = rAB.copy()
 
         # Dominant mode at this time
-        idx_d, rate_d, amp_d = dominant_mode_at_t(w3, c3, t)
+        idx_d, rate_d, amp_d = dominant_cluster_at_t(w3, cl3, a3, t)
         dom_rate.append(rate_d)
         dom_amp.append(amp_d)
-        dom_Kp.append(K_peter3[idx_d])
+        dom_Pn.append(Pn3[idx_d])
 
         times.append(t)
         feats.append(feat)
@@ -268,7 +282,7 @@ pur_arr = np.array(pur_arr)
 psi_arr = np.array(psi_arr)
 bures_vels = np.array(bures_vels)
 dom_rate = np.array(dom_rate)
-dom_Kp = np.array(dom_Kp)
+dom_Pn = np.array(dom_Pn)
 N = len(times)
 
 # --- PCA ---
@@ -331,7 +345,7 @@ if t_cross_AB:
 key_times = sorted(set(key_times))
 
 out(f"\n  {'t':>5} | {'theta':>6} {'PC1':>7} {'PC2':>7} {'PC3':>7} | "
-    f"{'d_dom':>7} {'v_B':>7} {'K_P':>7} | {'CPsi':>6} {'C':>6} {'Pur':>5}")
+    f"{'d_dom':>7} {'v_B':>7} {'||P||':>7} | {'CPsi':>6} {'C':>6} {'Pur':>5}")
 out(f"  {'-' * 85}")
 
 for t_key in key_times:
@@ -342,13 +356,13 @@ for t_key in key_times:
         label = " <-- landing"
     out(f"  {t_actual:>5.2f} | {theta_arr[idx]:>6.1f} {PC1[idx]:>+7.2f} {PC2[idx]:>+7.2f} "
         f"{PC3[idx]:>+7.2f} | {dom_rate[idx]:>7.4f} {bures_vels[idx]:>7.4f} "
-        f"{dom_Kp[idx]:>7.1f} | {cpsi_arr[idx]:>6.3f} {conc_arr[idx]:>6.3f} "
+        f"{dom_Pn[idx]:>7.4f} | {cpsi_arr[idx]:>6.3f} {conc_arr[idx]:>6.3f} "
         f"{pur_arr[idx]:>5.3f}{label}")
 
 out(f"\n  Legend:")
 out(f"    theta: altimeter (deg), PC1-3: PCA scores,")
 out(f"    d_dom: dominant decay rate, v_B: Bures velocity,")
-out(f"    K_P: Petermann factor of dominant mode")
+out(f"    ||P||: projector norm of the dominant eigenvalue cluster")
 
 
 # ================================================================
@@ -415,15 +429,16 @@ out("=" * 70)
 # Build 2-qubit Heisenberg Hamiltonian: H = J(XX + YY + ZZ)
 H2 = gpt.two_qubit_heisenberg_term(0, 1, 2, J=1.0)
 L_super_2q = build_liouvillian(H2, [gamma, gamma], 2)
-w2, vl2, vr2 = eigendecompose_liouvillian(L_super_2q)
-K_peter2 = petermann_factors(vl2, vr2)
+w2, cl2, P2 = eigendecompose_liouvillian(L_super_2q)
+Pn2 = projector_norms(P2)
 L_ops_2q = gpt.dephasing_ops_n([gamma, gamma])
 
-out(f"\n  Liouvillian spectrum (16x16):")
-out(f"  {'k':>3} {'Re(lam)':>10} {'Im(lam)':>10} {'K_Peter':>10}")
-out(f"  {'-' * 38}")
-for k in range(min(10, len(w2))):
-    out(f"  {k:>3} {w2[k].real:>+10.5f} {w2[k].imag:>+10.4f} {K_peter2[k]:>10.2f}")
+out(f"\n  Liouvillian spectrum (16x16), {len(cl2)} eigenvalue clusters:")
+out(f"  {'c':>3} {'Re(lam)':>10} {'Im(lam)':>10} {'size':>5} {'||P||':>8}")
+out(f"  {'-' * 41}")
+for i in range(len(cl2)):
+    lam = w2[cl2[i][0]]
+    out(f"  {i:>3} {lam.real:>+10.5f} {lam.imag:>+10.4f} {len(cl2[i]):>5} {Pn2[i]:>8.4f}")
 
 # Initial states
 up = np.array([1, 0], dtype=complex)
@@ -450,7 +465,7 @@ n_steps2 = 6000  # t_max = 30
 for state_name, psi_2q in initial_states.items():
     rho2 = np.outer(psi_2q, psi_2q.conj())
     rho2_vec = rho2.reshape(-1)
-    c2 = mode_amplitudes(w2, vl2, vr2, rho2_vec)
+    a2 = cluster_amplitudes(P2, rho2_vec)
 
     # Simulate
     times2, theta2, cpsi2, conc2, pur2, bv2 = [], [], [], [], [], []
@@ -495,7 +510,7 @@ for state_name, psi_2q in initial_states.items():
             break
 
     # Dominant mode
-    idx_d, rate_d, amp_d = dominant_mode_at_t(w2, c2, 0.0)
+    idx_d, rate_d, amp_d = dominant_cluster_at_t(w2, cl2, a2, 0.0)
 
     out(f"\n  --- {state_name} ---")
     out(f"    CPsi(0)={cpsi2[0]:.4f}, theta(0)={theta2[0]:.1f} deg")
@@ -659,15 +674,15 @@ out(f"""
   4. FUEL GAUGE (PC3 ~ Psi- fidelity): Temporal decay marker.
      {var_exp[2]*100:.0f}% of variance. Smallest but irreversible.
 
-  5. VARIOMETER (d_dominant): Dominant eigenmode decay rate.
+  5. VARIOMETER (d_dominant): Decay rate of the dominant eigenvalue cluster.
      Spectral gap = {unique_rates[1]:.4f}. Determines late-time behavior.
 
   6. SHAPE (S_CPsi): coordinate-shape second derivative of the Bures path-metric coefficient.
      S ~ -25 at the fold; grows toward the initial state.
 
-  7. SENSITIVITY (K_Petermann): Eigenvector condition number.
-     Range: {K_peter3.min():.1f} to {K_peter3.max():.0f}.
-     High K = sensitive mode = turbulent flight.
+  7. SENSITIVITY (||P||): Spectral-projector norm per eigenvalue cluster.
+     Range: {Pn3.min():.4f} to {Pn3.max():.4f}.
+     High ||P|| = sensitive (non-normal) cluster = turbulent flight.
 
   KEY FINDING: theta reads a DIAGONAL of the cockpit.
   It mixes compass, speedometer, and fuel gauge into one number.
