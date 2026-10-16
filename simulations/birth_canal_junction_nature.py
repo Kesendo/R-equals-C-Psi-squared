@@ -76,14 +76,19 @@ def sector_L(N, prow, pcol, profile, bnds, J=1.0):
 
 
 def slowest(L):
-    """(rate, |Im|, rigidity) of the slowest non-kernel mode. rigidity = Petermann r of THAT mode."""
-    w, vl, vr = eig(L, left=True, right=True)
+    """(rate, |Im|, rigidity, cluster size) of the slowest non-kernel mode. rigidity = 1/||P||_2 of
+    the spectral projector P = R[:, c] R^-1[c, :] onto that eigenvalue's cluster c: the Petermann r
+    of the mode when it is simple, and still basis-independent when it is not (the ring's (2,2)
+    slowest mode is an exact two-fold cluster at every Q, where a single eigenvector's r is any
+    value the solver's basis happens to give)."""
+    w, vr = eig(L)
     nz = np.where(w.real < -1e-9)[0]
     if len(nz) == 0:
         return None
     i = nz[np.argmax(w[nz].real)]
-    r = abs(np.vdot(vl[:, i], vr[:, i])) / (np.linalg.norm(vl[:, i]) * np.linalg.norm(vr[:, i]))
-    return -w[i].real, abs(w[i].imag), float(r)
+    c = np.where(np.abs(w - w[i]) < 1e-8)[0]
+    P = vr[:, c] @ np.linalg.inv(vr)[c, :]
+    return -w[i].real, abs(w[i].imag), float(1.0 / np.linalg.norm(P, 2)), len(c)
 
 
 def uniform(N):
@@ -99,17 +104,18 @@ def scan_sector(N, topo, prow, pcol, shape, qlo, qhi, npts=25, J=1.0):
     """Scan Q in [qlo,qhi]; return (min_rigidity, Q@min, max|Im|) of the (prow,pcol) slowest mode.
     min_rigidity -> ~0 signals an EP coalescence somewhere in the window; staying O(1) = level crossing."""
     bnds = bonds(N, topo)
-    min_rig, q_at, max_im = 1.0, None, 0.0
+    min_rig, q_at, max_im, max_cl = 1.0, None, 0.0, 1
     for Q in np.linspace(qlo, qhi, npts):
         g = J / Q
         res = slowest(sector_L(N, prow, pcol, [c * g for c in shape], bnds, J))
         if res is None:
             continue
-        _, im, rig = res
+        _, im, rig, cl = res
         if rig < min_rig:
             min_rig, q_at = rig, Q
         max_im = max(max_im, im)
-    return min_rig, q_at, max_im
+        max_cl = max(max_cl, cl)
+    return min_rig, q_at, max_im, max_cl
 
 
 # ============================ CONTROL: the (0,1) band edge = the F50 floor ============================
@@ -117,7 +123,7 @@ def _control_floor():
     for N in (5, 6):
         for topo in ("chain", "ring"):
             g = 1.0 / 1.7
-            rate, _, _ = slowest(sector_L(N, 0, 1, [g] * N, bonds(N, topo)))
+            rate = slowest(sector_L(N, 0, 1, [g] * N, bonds(N, topo)))[0]
             assert abs(rate - 2 * g) < 1e-9, f"{topo} N={N}: (0,1) rate {rate} != 2g (F50 floor)"
     print("[control] (0,1) band edge sits at the F50 floor rate=2g exactly (uniform g, every N/topology).")
 
@@ -143,13 +149,13 @@ def _gate_nature():
         ("ring  (2,2)",      "ring",  2, 2, "deep", deep_edge(N), "ring under the profile"),
     ]
     res = {}
-    print(f"  {'sector/topo':<18}{'prof':<6}{'max|Im|':>10}{'min rig':>9}{'Q@minrig':>10}   nature")
+    print(f"  {'sector/topo':<18}{'prof':<6}{'max|Im|':>10}{'min rig':>9}{'Q@minrig':>10}{'cluster':>8}   nature")
     for label, topo, pr, pc, prof, shape, note in cases:
-        mr, qa, mi = scan_sector(N, topo, pr, pc, shape, qlo=1.0, qhi=4.0, npts=25)
+        mr, qa, mi, cl = scan_sector(N, topo, pr, pc, shape, qlo=1.0, qhi=4.0, npts=25)
         res[(label, prof)] = (mr, qa, mi)
         frozen = mi < FROZEN_IM
         nat = "FROZEN crossing" if frozen else ("oscillating EP" if mr < EP_RIG else "oscillating")
-        print(f"  {label:<18}{prof:<6}{mi:>10.2e}{mr:>9.3f}{(qa or 0):>10.2f}   {nat} | {note}")
+        print(f"  {label:<18}{prof:<6}{mi:>10.2e}{mr:>9.3f}{(qa or 0):>10.2f}{cl:>8}   {nat} | {note}")
 
     # Anchors: chain (1,1) is the SE-EP (oscillates + rigidity dips at Q*); ring (2,2) uniform is the
     # FROZEN V-Effect level crossing (never oscillates). The clean separator is max|Im|.
