@@ -2,9 +2,13 @@
 
 **Date:** 2026-10-17
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 5.5)
-**Verifier:** [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (`python simulations/sodium_two_mirrors.py`; exact, sympy 1.14, every parameter a symbol where it can be; 48 checks)
+**Verifier:** [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (`python simulations/sodium_two_mirrors.py`; exact, sympy 1.14, every parameter a symbol where it can be; 71 checks)
 **Rates, not ours:** A. M. Souza, A. Gavini-Viana, I. S. Oliveira, R. S. Sarthour, R. Auccaise, J. Teles, E. R. deAzevedo, T. J. Bonagamba, *Nuclear spin 3/2 electric quadrupole relaxation as a quantum computation*, [arXiv:1105.2539](https://arxiv.org/abs/1105.2539), Eqs. (15) to (27), which cite R. Auccaise et al., J. Magn. Reson. 192, 17 (2008); the spectral densities follow J. R. C. van der Maarel, J. Chem. Phys. 94, 4765 (1991), and G. Jaccard, S. Wimperis, G. Bodenhausen, J. Chem. Phys. 85, 6282 (1986).
-**A word fence:** *order* p = m − m′ is the coherence order of |m⟩⟨m′|; J₀, J₁, J₂ are the spectral densities of the electric field gradient at 0, ω₀ and 2ω₀ as they enter the secular Redfield generator; *dark* here means untouched by the J₀ dissipator, an operator |m⟩⟨m′| that commutes with T₂₀: the operator sense of [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)'s DARK (commuting with every jump), restricted to the one jump T₂₀, and not a state annihilated by a jump (the sense of [Singlet Under a Shared Field](SINGLET_UNDER_A_SHARED_FIELD.md)); *bright* the rest; a *mirror about −c* is the map λ ↦ −λ̄ − 2c on the eigenvalues of one order block, and c is called its centre. Inside a block every eigenvalue carries the block's frequency with one sign, so the repository's F1 form λ ↦ −λ − 2σ would send it to the block of order −p; since the order −p block has the complex-conjugate characteristic polynomial of the order p block (checked), the map used here is F1's map followed by that conjugation, read inside one block.
+**A word fence.**
+- *Order* p = m − m′ is the coherence order of |m⟩⟨m′|.
+- J₀, J₁, J₂ are the spectral densities of the electric field gradient at 0, ω₀ and 2ω₀, as they enter the secular Redfield generator.
+- *Dark* means untouched by the J₀ dissipator: an operator |m⟩⟨m′| that commutes with T₂₀. This is the operator sense of DARK in MirrorWorld's `EndCount` (commuting with every jump), restricted to the one jump T₂₀. It is not a state annihilated by a jump, which is the sense of [Singlet Under a Shared Field](SINGLET_UNDER_A_SHARED_FIELD.md). *Bright* is the rest.
+- A *mirror about −c* is the map λ ↦ −λ̄ − 2c on the eigenvalues of one order block, and c is called its centre. The spectrum of the order p block is symmetric about Im λ = −p·ω, not about 0, so the repository's F1 form λ ↦ −λ − 2σ would send it to the block of order −p. The order −p block has the complex-conjugate characteristic polynomial of the order p block (checked), so the map used here is F1's map followed by that conjugation, read inside one block.
 
 **Conventions.** Spin operators I_z, I_± for I = 3/2; T₂₀ = (3I_z² − I(I + 1))/√6, T₂,±₁ = ∓(I_zI_± + I_±I_z)/2, T₂,±₂ = I_±²/2; Lindblad dissipator Σ_m J_|m|·(T₂ₘρT₂ₘ† − ½{T₂ₘ†T₂ₘ, ρ}); Hamiltonian ω_Q·T₂₀ + ω·I_z, so ω_Q is the coefficient of T₂₀ in this normalization, not the conventional quadrupolar splitting. With these conventions Souza et al.'s rates are reproduced with their constant set to C = 3; that is a normalization of the J here, not a value of their physical constant. Dynamic frequency shifts (the imaginary parts of the spectral densities) and the finite polarization of the equilibrium state are not in the model.
 
@@ -16,7 +20,7 @@ When all three spectral densities are present it has no single mirror. It has tw
 
 ## Abstract
 
-One spin 3/2 under the secular Redfield generator of quadrupolar relaxation at infinite temperature (jumps T₂,ₘ, m = −2 … 2, at rates J₀, J₁, J₁, J₂, J₂), with a static splitting ω_Q·T₂₀ and an offset ω·I_z. The generator is block diagonal in the coherence order. Exactly, with every parameter a symbol: the populations decay at 0, 6J₁, 6J₂, 6(J₁ + J₂); the central transition and the triple quantum at 3(J₁ + J₂), shifted only by their frequencies; at ω_Q = 0 the satellites at 3(J₀ + J₁) and 3(J₀ + J₁) + 6J₂, the double quantum at 3(J₀ + J₂) and 3(J₀ + J₂) + 6J₁ (Souza et al.'s rates with their constant set to 3); a splitting draws each pair together (after the frequency shift p·ω), and past 6ω_Q² = 9J₂² (satellites) or 6ω_Q² = 9J₁² (double quantum) turns it into a pair on the same real part, conjugate after the frequency shift p·ω. The dark set pairs under λ ↦ −λ̄ − 2c₁ with c₁ = 3(J₁ + J₂), the bright set under the same map with c₂ = 3(J₀ + J₁ + J₂) = c₁ + 3J₀; with ω_Q and ω present, the satellite and double-quantum polynomials keep real coefficients after the frequency shift p·ω and the root sum −2c₂. The two centres coincide exactly when J₀ = 0. The whole spectrum has one centre exactly when J₀ = 0, or when ω_Q = ω = 0 and one of J₁, J₂ vanishes (proved below).
+One spin 3/2 under the secular Redfield generator of quadrupolar relaxation at infinite temperature (jumps T₂,ₘ, m = −2 … 2, at rates J₀, J₁, J₁, J₂, J₂), with a static splitting ω_Q·T₂₀ and an offset ω·I_z. The generator is block diagonal in the coherence order. Exactly, with every parameter a symbol: the populations decay at 0, 6J₁, 6J₂, 6(J₁ + J₂); the central transition and the triple quantum at 3(J₁ + J₂), shifted only by their frequencies; at ω_Q = 0 the satellites at 3(J₀ + J₁) and 3(J₀ + J₁) + 6J₂, the double quantum at 3(J₀ + J₂) and 3(J₀ + J₂) + 6J₁ (Souza et al.'s rates with their constant set to 3); a splitting draws each pair together (after the frequency shift p·ω), and past 6ω_Q² = 9J₂² (satellites) or 6ω_Q² = 9J₁² (double quantum) turns it into a pair on the same real part, conjugate after the frequency shift p·ω. The dark set pairs under λ ↦ −λ̄ − 2c₁ with c₁ = 3(J₁ + J₂), the bright set under the same map with c₂ = 3(J₀ + J₁ + J₂) = c₁ + 3J₀; with ω_Q and ω present, the satellite and double-quantum polynomials keep real coefficients after the frequency shift p·ω and the root sum −2c₂. The two centres coincide exactly when J₀ = 0. The whole spectrum has one centre exactly when J₀ = 0, or when ω_Q = ω = 0 and one of J₁, J₂ vanishes (proved below; for non-negative densities a second, independent route gives it again). The reason is that at I = 3/2, and at no other spin, the five Hermitian components of T₂,ₘ are Dirac matrices: the dissipator is Pauli-string dephasing, and one map, X ↦ Γ₀·Xᵀ, carries both mirrors. At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror (proved); at I = 1, 2, 5/2, 3 and 7/2 no global centre appears at any of the rates sampled at ω_Q = ω = 0.
 
 ## The sweep: what the repository held
 
@@ -26,16 +30,25 @@ Swept 2026-10-17 by one survey agent, stores by name.
 - `docs/proofs/`: [PROOF_QUDIT_PARTIAL_PALINDROME](../docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md), the equidistant ladder, the ceiling, the product cap and its clock-shift mirror, checked at d = 4, N = 1, 2. Nothing on spin 3/2 as an angular momentum or on non-equidistant levels.
 - `docs/`: [Qubit Necessity](../docs/QUBIT_NECESSITY.md), the trunk d² − 2d = 0, and §8a: 0 of 236 sampled qutrit dissipators paired fully, non-dephasing dissipators at d > 2 left open.
 - The typed layer: `QuditPartialPalindromeCeiling`, `QuditProductMirrorCap`, `QuditMirrorProtectionScalingClaim` (Tier 1) and the live `QuditPartialPalindromeWitness` (`inspect --root qudit`), all on the equidistant model. MirrorWorld: `Formulas.F121_*`, d = 2 and 3 only.
-- `docs/GLOSSARY.md`: nothing on spin > 1/2 physics; its table of the spent senses of *dark* (a long-lived mode, the record class, the lens letters, an unlit site) does not hold F158's operator sense used here, which the word fence names.
+- `docs/GLOSSARY.md`: nothing on spin > 1/2 physics; its table of the spent senses of *dark* (a long-lived mode, the record class, the lens letters, an unlit site) does not hold the operator sense used here, which the word fence names.
 - `experiments/`, the OpenArcs registry, `docs/CAUGHT_ERRORS.md`, `fw.Confirmations`: nothing on spin > 1/2 physics or quadrupolar relaxation; CAUGHT_ERRORS holds the qudit counting corrections (the product cap holds for d ≤ 5, so at d = 4).
 
-Checked for adjacency: F121 and this page are about the same Hilbert space and different dissipators; F121's single-centre count (8 of 16) and this page's two-centre pairing (16 of 16) do not contradict each other. [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) found the same shape for qubit chains under correlated Z noise: the global mirror breaks, mirrors survive block by block about centres that differ by what the watching charges. [The Shared Field in a Crystal](THE_SHARED_FIELD_IN_A_CRYSTAL.md) is the companion page on multiple-quantum NMR.
+- The Clifford side, searched for Dirac matrices, SO(5), spin 3/2, ququarts, anticommuting strings, depolarizing noise and colourings:
+  - [Qubit Necessity](../docs/QUBIT_NECESSITY.md)'s ququart row (4 immune operators against 12) assumes a dephasing with four distinct eigenvalues. T₂₀ has two, each twice, so the count here is 8 against 8, the qubit's balance on one bit of two; the row and this page agree.
+  - [Why Depolarizing Noise Breaks the Palindrome](DEPOLARIZING_PALINDROME.md) §3: under Pauli noise on one qubit the pairing exists exactly when one of γ_X, γ_Y, γ_Z vanishes. That is the shape of this page's theorem at ω_Q = ω = 0, with three channels Γ₀, {Γ₁, Γ₂}, {Γ₃, Γ₄} in place of X, Y, Z. F158's registry entry breaks the depolarizing case by the product argument used below.
+  - [The palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md) defines colourings and anticommuting sums, the grade-one vectors of the Clifford algebra the strings generate, which the Γ's are.
+  - [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) and [F118](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) apply as they stand once the Γ's are read as strings.
+  - MirrorWorld's `EndCount` and `PauliString` hold nothing on this nucleus, and nothing else in the repository holds Dirac matrices or SO(5).
+
+Checked for adjacency: F121 and this page are about the same Hilbert space and different dissipators; F121's single-centre count (8 of 16) and this page's two-centre pairing (16 of 16) do not contradict each other. F158's end count is a second route to this page's global-centre theorem, and F118's palindromizer is the shape of its one map. [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) found the same shape for qubit chains under correlated Z noise: the global mirror breaks, mirrors survive block by block about centres that differ by what the watching charges. [The Shared Field in a Crystal](THE_SHARED_FIELD_IN_A_CRYSTAL.md) is the companion page on multiple-quantum NMR.
 
 **Prior art.** The rates are Souza et al.'s Eqs. (15) to (27), and the reading of the four levels as two qubits, |3/2⟩, |1/2⟩, |−1/2⟩, |−3/2⟩ as |00⟩, |01⟩, |10⟩, |11⟩, is theirs too, with a quantum-circuit model of the same relaxation; in their labelling the outer/inner property below is the parity Z⊗Z. They also state that the triple quantum and the central transition are the only coherences free of J₀, a decoherence-free subspace of the J₀ channel spanned by Bell states: this page's dark coherences are theirs. That the two share the slow rate J₁ + J₂, that the longitudinal relaxation is biexponential, and that the satellites of a resolved splitting decay at the bright centre's rate, is the standard picture behind triple-quantum-filtered sodium NMR; both centres are known rates. What this page adds is reading them as the centres of two exact palindromes, and the global-centre rule below; the literature was not searched for either, and the mean-rate identity follows in one line from the cited rates.
 
 ## The prediction and how it fared
 
 **Written before computing:** with J₀ alone the spectrum is an exact palindrome, since T₂₀ is a Z on one bit (held at ω_Q = ω = 0: two levels of rate, 0 and 3J₀, eight modes each; a splitting or an offset breaks it, as the theorem below shows); with J₁, J₂ present the palindrome breaks in general, and a guess that extreme narrowing (J₀ = J₁ = J₂) restores it. The guess failed: at extreme narrowing the two centres sit at 6J and 9J and the global mirror breaks. The prediction was also too coarse in the other direction: with J₀ = 0 the palindrome survives J₁ and J₂ at every splitting. What survives is the block structure below.
+
+**Written before computing, for other spins.** From the J₀ cell prices alone: J₀ alone is no palindrome at I = 1 (5 zero-price cells against 4), I = 5/2 and I = 7/2 (held, and proved below for every I ≥ 1 other than 3/2). Guessed: 3/2 is the only spin where J₀ alone is a palindrome, because only there the classes of |m| make one bit of two equal halves (held, and proved below for every I ≥ 1; the reason found is sharper than the guess, the five quadrupole components are Dirac matrices only at 3/2). Guessed, as an even chance: with J₀ = 0 a global centre might survive at higher spin (failed at every sampled rate triple). Guessed: at I = 5/2 the cells blind to J₀ do not share one rate (ill-posed: there they are not an invariant set).
 
 ## The one bit the slow field reads
 
@@ -54,7 +67,7 @@ T₂₀ = (3I_z² − 15/4)/√6 is diagonal, (3, −3, −3, 3)/√6 on m = 3/2
 The verifier computes the characteristic polynomial of every order block with J₀, J₁, J₂, ω_Q, ω as symbols; the blocks of order −p have the conjugate polynomials of those of order p, so the statements below for p ≥ 0 carry over.
 
 - **Dark, centre c₁ = 3(J₁ + J₂).** The populations have roots 0, −6J₁, −6J₂, −6(J₁ + J₂) at every ω_Q and ω, two pairs about −c₁. The central transition is the factor x + c₁ + iω of the order-1 polynomial and the triple quantum the whole order-3 polynomial x + c₁ + 3iω: both sit at Re λ = −c₁, each its own mirror image.
-- **Bright, centre c₂ = 3(J₀ + J₁ + J₂).** The remaining order-1 quadratic and the order-2 quadratic, written in y = x + p·iω, have real coefficients and the linear coefficient 6(J₀ + J₁ + J₂). Their roots are either a real pair about −c₂ or a complex pair on Re = −c₂ (the static splitting enters only the constant term, as 6ω_Q²), and in both cases λ ↦ −λ̄ − 2c₂ maps the pair to itself. Under the conjugated map a pair is its own mirror only if its two roots share their real part or their frequency, and the real coefficients of the shifted quadratic give exactly that. What the two mirrors carry beyond the single block is that the centres coincide: the populations' four roots centred on −c₁ with the central transition and the triple quantum on it, both bright quadratics centred on −c₂.
+- **Bright, centre c₂ = 3(J₀ + J₁ + J₂).** The remaining order-1 quadratic and the order-2 quadratic, written in y = x + p·iω, have real coefficients and the linear coefficient 6(J₀ + J₁ + J₂). Their roots are either a real pair about −c₂ or a complex pair on Re = −c₂ (the static splitting enters only the constant term, as 6ω_Q²), and in both cases λ ↦ −λ̄ − 2c₂ maps the pair to itself. Under the conjugated map a pair is its own mirror only if both roots sit on Re λ = −c, or share their frequency with real parts summing to −2c; the real coefficients and the root sum of the shifted quadratic give exactly that. What the two mirrors carry beyond the single block is that the blocks of one sector share one centre: the populations' four roots centred on −c₁ with the central transition and the triple quantum on it, both bright quadratics centred on −c₂.
 - **The distance between the centres** is c₂ − c₁ = 3J₀, the J₀ cost of a bright cell. The two centres coincide exactly when J₀ = 0, so then the whole spectrum has one centre, for every ω_Q and ω.
 
 ## When the whole spectrum has one centre
@@ -75,11 +88,77 @@ which are the ideal's reduced Gröbner basis in lexicographic order, and equal i
 
 The offset enters only because it gives every block of order p ≠ 0 the frequency p·ω, while the partner of 0 must be real. The secular dissipator commutes with rotations about z, so the frame rotating at ω removes the offset; in that frame the theorem reads: one centre exactly when J₀ = 0, or ω_Q = 0 and J₁·J₂ = 0. In the laboratory frame a rate at 2s is not enough, because the partners must also match in number: at J₁ = J₂ = 0, J₀ = 1, ω_Q = √6, ω = 6 a satellite eigenvalue is real and sits exactly at −2s = −3, but 0 is a fourfold eigenvalue there and −3 only a twofold one, so the pairing still fails. The static splitting cannot be rotated away. In the rotating frame at J₁ = 0 < J₂ it draws the upper satellite inward below 2s (while 6ω_Q² < 9J₂²; beyond, the pair is complex at the rate 3(J₀ + J₂)) and turns the double-quantum pair complex; at J₁ = J₂ = 0 the satellites are complex as well. In each case the real eigenvalue 0 has no real partner at rate 2s.
 
-The verifier gates the trace, the identity through the Gröbner basis, and the three reflections at a vanishing density. It also checks sixteen exact points, each twice: the roots matched under both maps, and P(−x − 2s) − P(x) zero or non-zero at that point. The gates can fail: a Gröbner basis that differs from the one above, or a single point that disagrees, fails the run. The points cover both outcomes; among them are six breaking cases with J₀ > 0 and J₁·J₂ = 0 away from ω_Q = ω = 0, the counting point above one of them, and J₀ = 0 with both frequencies on.
+The verifier gates the trace, the identity through the Gröbner basis, and the three reflections at a vanishing density. It also checks sixteen exact points, each by two routes: P(−x − 2s) − P(x) zero or non-zero at that point, and F158's end count (in the section after next). The gates can fail: a Gröbner basis that differs from the one above, or a single point that disagrees, fails the run. The points cover both outcomes; among them are six breaking cases with J₀ > 0 and J₁·J₂ = 0 away from ω_Q = ω = 0, the counting point above one of them, and J₀ = 0 with both frequencies on.
+
+## Why spin 3/2: five Dirac matrices
+
+The five Hermitian components of the quadrupole operators are
+
+  Γ₀ = T₂₀,  Γ₁ = T₂,₁ + T₂,₁†,  Γ₂ = i(T₂,₁ − T₂,₁†),  Γ₃ = T₂,₂ + T₂,₂†,  Γ₄ = i(T₂,₂ − T₂,₂†).
+
+At I = 3/2 they anticommute pairwise and square to 3/2, 3, 3, 3 and 3 times the identity: five Dirac matrices. In Souza et al.'s labelling of the levels as two qubits, |3/2⟩, |1/2⟩, |−1/2⟩, |−3/2⟩ = |00⟩, |01⟩, |10⟩, |11⟩, they are, up to scalars, the Pauli strings ZZ, ZX, ZY, XI and YI. (In the bits a, b of the section above T₂₀ is Z_a; Souza et al.'s two bits are another pair, whose parity is a.) The algebra is known: C. Wu, J.-P. Hu and S.-C. Zhang, *Exact SO(5) symmetry in the spin-3/2 fermionic system*, Phys. Rev. Lett. 91, 186402 (2003), [arXiv:cond-mat/0302165](https://arxiv.org/abs/cond-mat/0302165), build the SO(5) of spin-3/2 fermions on five Dirac matrices whose bilinears carry spin 2, so their five Γ's span the quadrupole matrices. What follows is what the algebra does to the relaxation.
+
+**The dissipator is Pauli-string dephasing.** Each pair T₂,±ₘ is the pair of its two Hermitian components at half the rate, so the generator's dissipator is Σₐ γₐ·(Γ̂ₐρΓ̂ₐ − ρ), with Γ̂ₐ the Γₐ scaled to square 1 and γ = 3J₀/2, 3J₁/2, 3J₁/2, 3J₂/2, 3J₂/2. At ω_Q = ω = 0 the sixteen products 1, Γₐ and ΓₐΓ_b (a < b) are its eigenoperators, and each decays at twice the summed rate of the jumps it anticommutes with. That one rule is the whole rate table of the Abstract:
+
+| operators | coherence | rate |
+|---|---|---|
+| 1 | population | 0 |
+| Γ₀ | population | 6(J₁ + J₂) |
+| Γ₁Γ₂ | population | 6J₁ |
+| Γ₃Γ₄ | population | 6J₂ |
+| Γ₁Γ₃, Γ₁Γ₄, Γ₂Γ₃, Γ₂Γ₄ | central transition and triple quantum | 3(J₁ + J₂) |
+| Γ₁, Γ₂ | satellites | 3J₀ + 3J₁ + 6J₂ |
+| Γ₀Γ₁, Γ₀Γ₂ | satellites | 3(J₀ + J₁) |
+| Γ₃, Γ₄ | double quantum | 3J₀ + 6J₁ + 3J₂ |
+| Γ₀Γ₃, Γ₀Γ₄ | double quantum | 3(J₀ + J₂) |
+
+The dark operators are the eight that commute with Γ₀, the bright ones the eight that anticommute with it.
+
+**One map for both mirrors.** With Γ₀ scaled to diag(1, −1, −1, 1), the linear map S(X) = Γ₀·Xᵀ satisfies, exactly and at every ω_Q and ω,
+
+  S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂),
+
+and so does X ↦ Xᵀ·Γ₀. Here L_{J₀} is the J₀ part of the dissipator, L_{J₀} = −3J₀·P with P the projector on the bright cells; P commutes with L and with S. So S maps each sector to itself, with λ ↦ −λ − 2c₁ on the dark sector and λ ↦ −λ − 2c₂ on the bright one. The two mirrors of this page are one map:
+- The transpose reverses the Hamiltonian part, because H is real, and keeps every jump term, because every Γ is symmetric or antisymmetric.
+- Multiplying by Γ₀ keeps the Hamiltonian part, because Γ₀ commutes with H.
+- It reflects the J₁ and J₂ dissipators, whose jumps anticommute with Γ₀.
+- It keeps the J₀ dissipator, whose jump is Γ₀ itself, and that kept part moves the bright centre out by 3J₀.
+
+At J₀ = 0 nothing is kept and S is an F1 palindromizer. It is built the way [F118](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) builds the qubit palindromizers, Π_Z(ρ) = ρᵀ·X^⊗N and Π_Y(ρ) = X^⊗N·ρᵀ, with Γ₀ in place of X^⊗N.
+
+**A second route, for non-negative densities.** The normalized jumps are Hermitian and square to 1. So for J ≥ 0, a jump of rate zero being simply absent, [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) applies as it stands, with σ = Σγ = s. The spectrum pairs about −s exactly when dim ker L = dim ker(L + 2s). The near kernel holds the operators that commute with H and with every jump present; the far kernel holds those that commute with H and anticommute with every jump present. One fact about H keeps the count short. H is diagonal, so an operator commutes with it exactly when it lives on the cells |m⟩⟨m′| whose energy gap E_m − E_m′ vanishes, where E_m is the diagonal of H.
+- **All three densities positive.** The five Γ's generate every 4 × 4 matrix, so the near kernel holds only the scalars. Nothing anticommutes with all five, because their product is a multiple of 1, so the far kernel is empty. The count is one against none: no centre.
+- **J₀ = 0.** Γ₀ anticommutes with every jump present, and it commutes with H, both being diagonal, at every ω_Q and ω. It is invertible, and by F158 an invertible element of the far kernel forces the two kernels to have equal dimension, which gives the centre. In the two-qubit labelling Γ₀ is the string ZZ: a Pauli string in the far kernel commuting with H, what `EndCount` calls a colouring after [the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md), whose colourings are the one-letter-per-site case. If J₁ = J₂ = 0 as well, L = −i[H, ·], and its spectrum, the energy gaps, is symmetric about 0 = s.
+- **J₁ = 0 < J₀, J₂.** The operators that anticommute with Γ₀, Γ₃ and Γ₄ span Γ₁ and Γ₂, which is the span of T₂,₁ and T₂,₁†. T₂,₁ lives on the two cells |3/2⟩⟨1/2| and |−1/2⟩⟨−3/2|, with gaps √6·ω_Q + ω and −√6·ω_Q + ω, and T₂,₁† lives on their transposes. So the far kernel is two-dimensional at ω_Q = ω = 0 and empty otherwise. The near kernel is spanned by 1 and Γ₁Γ₂ at every ω_Q and ω. A centre exists exactly at ω_Q = ω = 0. The case J₂ = 0 < J₀, J₁ is the same, with Γ₃, Γ₄, T₂,₂ and the gaps ±√6·ω_Q + 2ω.
+- **J₁ = J₂ = 0 < J₀.** The near kernel holds the dark operators with zero gap, the far kernel the bright ones.
+  - The dark gaps are 0 (four populations), ±ω (central transition) and ±3ω (triple quantum).
+  - The bright gaps are ±(√6·ω_Q + ω) and ±(√6·ω_Q − ω) for the satellites, ±(√6·ω_Q + 2ω) and ±(√6·ω_Q − 2ω) for the double quantum.
+  - At ω = 0 the counts are 8 against 8 if ω_Q = 0, and 8 against 0 otherwise.
+  - At ω ≠ 0 the near kernel has dimension 4. At most one of the four conditions √6·ω_Q = ±ω, ±2ω can hold, so the far kernel has dimension at most 2, and there is no centre. The counting point above, ω = √6·ω_Q, is a case with exactly 2.
+
+This is the theorem again, for J ≥ 0. Negative densities lie outside F158's class, and the Gröbner route alone covers them. The verifier checks the rank equality at all sixteen points beside the polynomial identity: two exact routes, one answer.
+
+**Only at 3/2.** For I ≥ 1, Γ₀² ∝ (3m² − I(I + 1))² is a multiple of 1 only if 3m² − I(I + 1) takes two opposite values. At I = 3/2 the values are ±3. At I = 1 they are 1 and −2, and every I ≥ 2 has at least three values of m². So among the spins with a quadrupole moment, 3/2 is the only one whose quadrupole operators form a Clifford algebra.
+
+## Beyond spin 3/2
+
+**J₀ alone breaks the mirror at every I ≥ 1 other than 3/2 (proved).** The J₀ dissipator charges |m⟩⟨m′| the price J₀·½(t_m − t_m′)², where t_m = (3m² − I(I + 1))/√6. A mirror must send the price 0 to the top price, so the two must occur equally often.
+- The cells of price 0 are those with m² = m′². Each class of m² holds two levels, except m = 0 at integer I, so these cells number 4I + 2 at half-integer I and 4I + 1 at integer I.
+- The top price joins only the two extreme classes, m² = I² and the smallest m². It falls on 2·2·2 = 8 cells at half-integer I and on 2·2·1 = 4 at integer I.
+
+The counts agree only at I = 3/2 (8 against 8). At I = 1, 2, 5/2, 3 and 7/2 they are 5 against 4, 9 against 4, 12 against 8, 13 against 4 and 16 against 8.
+
+**No global centre at the rates sampled.** At I = 1, 2, 5/2, 3 and 7/2, and at ω_Q = ω = 0, none of eight sample rate triples gives a global centre. At each of them the generator's polynomial, with rational coefficients, fails the identity exactly. The triples are:
+- J₀, J₁ or J₂ alone;
+- J₀ = 0, J₁ = 0 or J₂ = 0, with the other two positive;
+- extreme narrowing;
+- one generic triple.
+
+At I = 3/2 the same triples give a centre exactly where one density vanishes. This is a sample, not a proof for all rates. At I = 5/2 the dark/bright split itself is gone: the cells with |m| = |m′|, blind to J₀, are not an invariant set, because J₁ and J₂ carry them into the rest.
 
 ## What a sodium measurement can read
 
-Under this generator the triple-quantum rate, equal to the slow transverse rate, is the mean of the two biexponential longitudinal rates: c₁ = (6J₁ + 6J₂)/2, at every static splitting, since none of the three rates depends on ω_Q. In Souza et al.'s units (rates C·J) the longitudinal rates are 2CJ₁ and 2CJ₂ (the third population rate, 2C(J₁ + J₂), is their sum and not a separate longitudinal rate), and the slow transverse and triple-quantum rate is C(J₁ + J₂). It is a property of the model, not a new measurement: a relaxation study that reports these rates of one sample can check it, and a deviation beyond the measurement error and the fit bias says that something outside the model is present (more than one sodium environment in the voxel, dynamic frequency shifts, motion that the secular Redfield form does not capture).
+Under this generator the triple-quantum rate, equal to the slow transverse rate, is the mean of the two biexponential longitudinal rates: c₁ = (6J₁ + 6J₂)/2, at every static splitting, since none of the three rates depends on ω_Q. In Souza et al.'s units (rates C·J) the longitudinal rates are 2CJ₁ and 2CJ₂ (the third population rate, 2C(J₁ + J₂), belongs to the quadrupolar-order mode Γ₀ of the section on Dirac matrices below, which I_z recovery does not enter), and the slow transverse and triple-quantum rate is C(J₁ + J₂). It is a property of the model, not a new measurement: a relaxation study that reports these rates of one sample can check it, and a deviation beyond the measurement error and the fit bias says that something outside the model is present (more than one sodium environment in the voxel, dynamic frequency shifts, motion that the secular Redfield form does not capture).
 
 ## What this does not show
 
@@ -88,7 +167,9 @@ No sodium data were compared. The model is a single isolated spin 3/2 at infinit
 ## Open
 
 - The identity against measured sodium relaxation rates (gels, cartilage, brain), whether it is already in use as a consistency check, and which deviation a two-compartment voxel produces.
-- Whether the two-centre structure extends to spin 5/2 and 7/2 (more bits, more centres), and to an ensemble of spins with a shared gradient.
+- Beyond spin 3/2: a proof that no rates at all give a global centre (sampled only), and whether a weaker, block-wise mirror survives there.
+- An ensemble of spins 3/2. With an independent gradient on each spin the Clifford reading makes it a Pauli-string chain on twice as many qubits, inside [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)'s class. A shared gradient gives collective jumps, sums of strings that do not square to 1, which is the setting of [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) instead.
+- A C# witness: MirrorWorld's `EndCount` at N = 2 could carry the theorem now, with the jumps ZZ, ZX, ZY, XI, YI and H = ω_Q·(3/√6)·ZZ + ω·(ZI + ½·IZ), since T₂₀ = (3/√6)·ZZ and I_z = ZI + ½·IZ in this labelling. `EndCount` takes integer inputs, so ω_Q is to be chosen as a multiple of √6/3, or the ZZ coefficient taken as the parameter.
 - The general d > 2 question of Qubit Necessity §8a: which other physical dissipators split a palindrome into centres instead of breaking it.
 
 ## Links
@@ -97,3 +178,5 @@ No sodium data were compared. The model is a single isolated spin 3/2 at infinit
 - [Qubit Necessity](../docs/QUBIT_NECESSITY.md), the d² − 2d = 0 trunk and the open d > 2 dissipators.
 - [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md), blockwise centres for qubit chains.
 - [The Shared Field in a Crystal](THE_SHARED_FIELD_IN_A_CRYSTAL.md), the multiple-quantum companion page.
+- [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md), the two-end count, and [F118](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), the palindromizer as a transpose and a multiplication.
+- [Why Depolarizing Noise Breaks the Palindrome](DEPOLARIZING_PALINDROME.md) and [the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md), the qubit cases of the same count.
