@@ -5960,6 +5960,7 @@ Since the block pencil `L(q) = A + q·C` is linear in q, the relation holds for 
 
 ---
 
+<a id="f126"></a>
 ### F126. The dephasing front renewal: the walk in the light is the wave, caught and released (representation + Green's function Tier 1 exact; the survival readings Tier 1 candidate; 2026-07-13)
 
 The single-excitation sector under local Z-dephasing (`ρ̇ = −i[h,ρ] − Γ(ρ − diag ρ)`, `Γ = 4γ = γ_φ`, the
@@ -5982,6 +5983,24 @@ chain, at uniform γ and J, the renewal closes mode by mode instead: its kernel 
 modes, the partner pairs (k, l) and (N − l, N − k) cancelling the cross terms, so each population curve is
 a sum of one channel per mode (an experiment-page derivation, checked in exact integers, in
 [What One Readout Sees](../experiments/OPERATOR_PAIR_VIEW_COMPARISON.md); no tier of its own here).
+
+*The bi-chromatic blocks* (Tier 1, exact): the split of the generator into a uniformly damped free evolution and
+a refill onto the lower-rate cells needs only two rates. For any number-conserving H at uniform γ, every
+joint-popcount block (p, q) of chromaticity `min(p, q, N − p, N − q) + 1 = 2` (bi-chromatic, F86's word, here on
+every block), the 4N − 8 blocks (N ≥ 3) next to [F153](#f153)'s 4N pinned blocks, has its cells at two Hamming
+distances, the heights `h₋ = |p − q|` and `h₊ = h₋ + 2`, and its dephasing is **−2γh₊ + 4γ·𝒫** with `𝒫` the projector
+onto the cells at `h₋`, the block's floor cells. The refill `4γ·𝒫` is, up to a constant, the term `4γD̂` that
+PROOF_FROZEN_BAND_SO4 calls a discount for agreement (written there on the diagonal blocks, `D̂` the overlap),
+[F140](#f140)'s even defect on `(1, 1)`, and on `(1, 2)` the term `4γ·Π_HD1` of the split that F86a, F86e, F89e and
+F90 write there. The same renewal holds
+with the envelope `e^{−2γh₊t}` and the refill `4γ`. The envelope's rate `2γh₊` equals the refill, and the refill
+re-seeds a probability, only on `(1, 1)` and the single hole `(N − 1, N − 1)`, where the floor is the populations;
+on the other bi-chromatic blocks a single hopping bond makes the kernel `𝒫e^{τL_H}𝒫`, `L_H = −i[H, ·]`, non-stochastic, its
+first-order term being anti-Hermitian and non-zero. At uniform rates F140's recentred block on `(1, 1)` is the
+generator of `S(t) = e^{4γt}ρ(t)`, the undamped renewal sum, its frozen modes the solutions the refill never reaches and H never moves
+([the bi-chromatic blocks](proofs/PROOF_DEPHASING_FRONT_RENEWAL.md#the-same-split-on-every-bi-chromatic-block);
+gate [`simulations/f126_bichromatic_blocks.py`](../simulations/f126_bichromatic_blocks.py), exact, with controls
+that fail).
 
 *The survival readings* (corollaries on the exact object, each Tier 1 candidate): the front-peak survival
 exponent has the fixed-γ ceiling **A_∞(γ) = 4 − φ(2J)/γ**, `φ(2J) = √(Γ(Γ+4J)) − 4J·arcsinh√(Γ/4J)`
@@ -8635,6 +8654,11 @@ divides the (N+1)² Dicke transitions |D_k⟩⟨D_l| into 4N endpoint-anchored p
 index pinned to an endpoint". Whether that is more than the same combinatorics counted twice is not
 claimed here; the two live in different spaces, one splitting Liouvillian blocks and the other operators
 inside a single max-spin block, and nothing measured joins them.
+
+**One step further in.** The 4N − 8 bi-chromatic blocks (N ≥ 3), the blocks next to the pinned ones, hold cells at two
+disagreement counts, n_diff = |p − q| and |p − q| + 2, and at uniform γ their dephasing is the upper rate plus one
+refill 4γ onto the cells at |p − q|: the split behind [F126](#f126)'s renewal
+([the bi-chromatic blocks](proofs/PROOF_DEPHASING_FRONT_RENEWAL.md#the-same-split-on-every-bi-chromatic-block)).
 
 ---
 
