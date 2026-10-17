@@ -18,6 +18,9 @@ Checks:
     polynomials have real coefficients and root sum -6(J0+J1+J2), so their roots pair about
     -3(J0+J1+J2) under λ -> -conj(λ) - 2c, for every wQ and w;
   - T20 is diagonal, (3, -3, -3, 3)/sqrt(6) on m = 3/2, 1/2, -1/2, -3/2: one Z on the outer/inner bit.
+  - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
+    lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
+    reflections at a vanishing density; and sixteen exact points, both maps, both outcomes.
 
 Import-inert; prints only, and exits with status 1 if any check fails.
 """
@@ -127,10 +130,29 @@ def main():
         disc = sp.expand(co[1] ** 2 / 4 - co[2])
         claim(f"p = {p}: the pair is real while 6wQ² < 9·{Jp}², a conjugate pair beyond (discriminant/4 = 9{Jp}² - 6wQ²)",
               sp.expand(disc - (9 * Jp ** 2 - 6 * wQ ** 2)) == 0)
-    claim("the triple-quantum rate is the mean of the two population rates 6J1, 6J2",
-          sp.expand(c1 - (6 * J1 + 6 * J2) / 2) == 0)
+    pop_rates = sorted((sp.expand(-r) for r in sp.roots(sp.Poly(blocks[0], x))), key=str)
+    claim("the triple-quantum rate, read off the p = 3 block, is the mean of the two longitudinal rates "
+          "6J1, 6J2 read off the population block",
+          {6 * J1, 6 * J2} <= set(pop_rates) and sp.expand(sp.expand(blocks[3] - x).subs(w, 0) - (6 * J1 + 6 * J2) / 2) == 0)
 
-    print("\nglobal pairing (one centre for the whole spectrum), exact at rational rates, wQ = w = 0")
+    print("\nthe global centre: one centre for the whole spectrum iff J0 = 0, or wQ = w = 0 and J1·J2 = 0")
+    claim("Tr L = -24·J0 - 48·J1 - 48·J2 at every wQ and w, so 2s = 3J0 + 6J1 + 6J2",
+          sp.expand(L.trace() + 24 * J0 + 48 * J1 + 48 * J2) == 0)
+    s2 = 3 * J0 + 6 * J1 + 6 * J2
+    P = sp.expand(sp.prod([blocks[p] for p in range(-3, 4)]))
+    coeffs = [c for c in sp.Poly(sp.expand(P.subs(x, -x - s2) - P), x).all_coeffs() if sp.expand(c) != 0]
+    G = sp.groebner(coeffs, J0, J1, J2, wQ, w, order="lex")
+    target = sp.groebner([J0 * wQ ** 2, J0 * (9 * J1 ** 2 + w ** 2) * (9 * J2 ** 2 + 4 * w ** 2)], J0, J1, J2, wQ, w, order="lex")
+    claim("P(-x - 2s) - P(x): its coefficients generate the ideal with lex Groebner basis "
+          "{J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)} (real zeros: J0 = 0, or wQ = w = 0 and J1·J2 = 0)",
+          len(coeffs) == 14 and list(G.exprs) == list(target.exprs), f"({len(coeffs)} coefficients)")
+    # the closed rates at wQ = w = 0, taken from the gated list above, sixteen with multiplicity
+    rates = (expect[0] + [expect[1][0]] * 2 + expect[1][1:] * 2 + expect[2] * 2 + expect[3] * 2)
+    claim("the closed rates count sixteen and sum to 16·s", len(rates) == 16 and sp.expand(sum(rates) - 8 * s2) == 0)
+    for z in (J0, J1, J2):
+        R0, S0 = [sp.expand(sp.sympify(r).subs(z, 0)) for r in rates], sp.expand(s2.subs(z, 0))
+        claim(f"{z} = 0, wQ = w = 0: the sixteen rates are invariant under r -> {S0} - r",
+              Counter(R0) == Counter(sp.expand(S0 - r) for r in R0))
 
     def spectrum(vals):
         roots = []
@@ -139,26 +161,39 @@ def main():
         return roots
 
     def has_global_centre(vals):
+        """Exact, under both maps; they must agree, the spectrum being closed under conjugation."""
         lam = spectrum(vals)
-        c = -sum(sp.re(r) for r in lam) / len(lam)   # a pairing fixes its centre at minus the mean
-        canon = lambda z: sp.nsimplify(sp.expand(z))
-        return Counter(canon(r) for r in lam) == Counter(canon(-sp.conjugate(r) - 2 * c) for r in lam)
+        s = -sum(sp.re(r) for r in lam) / len(lam)   # a pairing fixes its centre at minus the mean
+        canon = lambda z: sp.nsimplify(sp.expand(sp.radsimp(z)))
+        own = Counter(canon(r) for r in lam)
+        conj = own == Counter(canon(-sp.conjugate(r) - 2 * s) for r in lam)
+        flat = own == Counter(canon(-r - 2 * s) for r in lam)
+        return conj, flat
 
     R = sp.Rational
     cases = [("J0 alone", {J0: 1, J1: 0, J2: 0, wQ: 0, w: 0}, True),
              ("J1 alone", {J0: 0, J1: 1, J2: 0, wQ: 0, w: 0}, True),
              ("J1 and J2, no J0", {J0: 0, J1: R(2, 5), J2: R(7, 3), wQ: 0, w: 0}, True),
+             ("J1 and J2, no J0, with wQ and w", {J0: 0, J1: R(2, 5), J2: R(7, 3), wQ: 1, w: 3}, True),
              ("extreme narrowing J0 = J1 = J2", {J0: 1, J1: 1, J2: 1, wQ: 0, w: 0}, False),
              ("J0 with J1, no J2", {J0: 1, J1: R(1, 3), J2: 0, wQ: 0, w: 0}, True),
              ("J0 with J2, no J1", {J0: R(3, 4), J1: 0, J2: R(5, 2), wQ: 0, w: 0}, True),
+             ("J0 with J2, no J1, with wQ", {J0: R(3, 4), J1: 0, J2: R(5, 2), wQ: 1, w: 0}, False),
+             ("J0 with J2, no J1, with w", {J0: R(3, 4), J1: 0, J2: R(5, 2), wQ: 0, w: 1}, False),
+             ("J0 with J1, no J2, with wQ", {J0: 1, J1: R(1, 3), J2: 0, wQ: R(1, 2), w: 0}, False),
+             ("J0 with J1, no J2, with w", {J0: 1, J1: R(1, 3), J2: 0, wQ: 0, w: 3}, False),
+             ("J0 alone with a static splitting", {J0: 1, J1: 0, J2: 0, wQ: 1, w: 0}, False),
+             ("J0 alone, w = sqrt(6)·wQ: a real eigenvalue at -2s, twice, against four zeros",
+              {J0: 1, J1: 0, J2: 0, wQ: sp.sqrt(6), w: 6}, False),
              ("generic, all three positive", {J0: 1, J1: R(37, 100), J2: R(81, 100), wQ: 0, w: 0}, False),
              ("all three positive, other ratios", {J0: R(15, 2), J1: 21, J2: 2, wQ: 0, w: 0}, False),
              ("all three positive, small J0", {J0: R(1, 5), J1: R(16, 5), J2: R(8, 3), wQ: 0, w: 0}, False)]
     for name, vals, expected in cases:
-        got = has_global_centre(vals)
-        claim(f"{name}: global centre {'exists' if expected else 'does not exist'}", got == expected)
-    claim("J0 alone with a static splitting: the cross-block pairing breaks",
-          not has_global_centre({J0: 1, J1: 0, J2: 0, wQ: 1, w: 0}))
+        conj, flat = has_global_centre(vals)
+        zero = all(sp.expand(sp.radsimp(c.subs(vals))) == 0 for c in coeffs)
+        claim(f"{name}: global centre {'exists' if expected else 'does not exist'} "
+              "(roots under both maps, and the polynomial identity at the point)",
+              conj == flat == zero == expected)
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")
