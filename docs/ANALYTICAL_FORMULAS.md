@@ -4115,7 +4115,7 @@ with asymptote `α(∞) → 1/4` as `N → ∞` (the [`QuarterAsBilinearMaxvalCl
 
 **Derivation:**
 
-`P_n = Σ_{b: pc(b) = n} |b⟩⟨b| = (1/2^N) Σ_S K_{|S|}(n; N)·σ_S^Z` in Pauli basis, where `K_k(n; N) = Σ_{b: pc(b) = n} (−1)^{|S ∩ b|}` is the binary Krawtchouk number for any fixed S with `|S| = k`. The Π²-odd part is `Σ_{k odd}`. Two facts:
+`P_n = Σ_{b: pc(b) = n} |b⟩⟨b| = (1/2^N) Σ_S K_{|S|}(n; N)·σ_S^Z` in Pauli basis, where `K_k(n; N) = Σ_{b: pc(b) = n} (−1)^{|S ∩ b|}` is the binary Krawtchouk number for any fixed S with `|S| = k`. In [the letter cube](THE_ONE_SQUARE.md)'s coordinates σ_S^Z sits at (0, |S|, |S|), so |S|, this entry's subscript and the argument s of F88b's K_n(s; N), is k_X = k_Y on the population edge; the expansion is the transform of [The One Square](THE_ONE_SQUARE.md) §10 at the disagreement pattern x = 0, and X^⊗N·P_n of F22 is the same expansion at x = 1…1, each X^⊗N·σ_S^Z being (−i)^|S| times a Pauli string. The Π²-odd part is `Σ_{k odd}`. Two facts:
 
 - **Mid-popcount Krawtchouk parity vanishing**: `K_k(N/2; N) = 0` for all odd k, hence `‖P_{N/2}_odd‖² = 0`.
 - **Sub-mid half-rank identity (F98a)**: `(1/2^N) Σ_{k odd} C(N, k)·K_k(N/2−1; N)² = C(N, N/2−1) / 2`. Equivalently, the Π²-odd Frobenius² of `P_{N/2−1}` is exactly half its rank. Verified bit-exact N = 4..16 via direct Krawtchouk enumeration.

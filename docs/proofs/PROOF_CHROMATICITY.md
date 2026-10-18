@@ -91,6 +91,8 @@ For an operator v with all Pauli coefficients living at a single n_XY value, the
 
 collapses to the single value HD. ∎
 
+Read backwards, the expansion is a change between two bases: at each fixed disagreement pattern the cells and the products X^x·Z^z (a Y is i·X·Z on its site) are two bases of one space, joined by a Walsh transform. [The One Square](../THE_ONE_SQUARE.md) §10 writes it out and reads which processes are diagonal on which of the two.
+
 ### Combining the lemmas.
 
 At J = 0, the Liouvillian reduces to the dephasing dissipator L = L_D. In the Pauli basis, L_D acts diagonally:
@@ -145,7 +147,7 @@ The theorem is purely combinatorial plus one application of the Absorption Theor
 
 - **Non-uniform γ_i (site-dependent dephasing).** The dissipator eigenvalue on a basis pair with differ-site set D becomes −2 · Σ_{i ∈ D} γ_i rather than −2γ₀ · HD. Pairs with the same HD but different differ-site patterns then decay at different rates, breaking the clean c-label structure. The block still decomposes into HD-classes, but each HD-class further splits by differ-set, and the number of distinct rates can exceed c(n, N).
 - **Non-U(1) Hamiltonians** (transverse fields X_i, Y_i, odd-popcount interactions). The (n, n+1) sector decomposition is no longer H-invariant, so the H-mixing picture in C3 breaks down. At J = 0 the theorem still holds (Lemma 1 and Lemma 2 are U(1)-independent), but the dynamical interpretation as a stable sector label requires U(1).
-- **Dissipators with off-diagonal Pauli action** (amplitude damping, X-dephasing, depolarizing). L_D no longer acts with eigenvalue −2γ₀ · n_XY on single Pauli strings, so the basis pair |x⟩⟨y| is no longer an eigenvector of L_D at rate 2γ₀ · HD. Chromaticity remains a useful Pauli-counting label but loses its dynamical rate interpretation.
+- **Non-Z dissipators** (amplitude damping, X-dephasing, depolarizing). They break the diagonal action of L_D on the |x⟩⟨y| basis: X-dephasing and depolarizing stay diagonal on Pauli strings, at rates other than 2γ₀ · n_XY, and amplitude damping is diagonal on neither ([The One Square](../THE_ONE_SQUARE.md) §10). The basis pair |x⟩⟨y| is no longer an eigenvector of L_D at rate 2γ₀ · HD. Chromaticity remains a useful Pauli-counting label but loses its dynamical rate interpretation.
 - **Coherences across popcount gaps larger than 1** (|ΔN| ≥ 2 blocks). Lemma 1 counts HD in the (n, n+1) block specifically. For (n, n+k) blocks the analogous counting gives HD ∈ {k, k+2, ..., min(2n+k, 2N−2n−k)}, with min(n, N−n−k) + 1 distinct values. This generalises the formula but the site-local invisibility result from [F70](../ANALYTICAL_FORMULAS.md) applies: |ΔN| ≥ 2 blocks contribute zero to any single-site observable.
 
 ## Empirical verification

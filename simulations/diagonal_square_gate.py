@@ -73,12 +73,38 @@
 #      sends X_1 Y_2 to -Y_1 X_2, whose centroid leaves the plane (float control); the Hermitian part of L in
 #      the string basis is -2 gamma diag(k_Z) exactly; the populations and the XOR strings are
 #      the opposite edges I^N - Z^N and X^N - Y^N, exchanged by R's letter flip
+#   S10 the cells and the strings, two bases of one pattern: at every disagreement pattern x the
+#      products X^x Z^z and the cells |b xor x><b| are related by a Walsh transform,
+#      X^x Z^z = sum_b (-1)^(z.b) |b xor x><b| (N = 1..4; control: the sign read on the ket fails);
+#      the Pauli string is i^|x and z| X^x Z^z, and inside a pattern the two bases are mutually
+#      unbiased (N = 1..3); one site is PROOF_CHROMATICITY's Lemma 2 (control: the other
+#      orientation fails); the quarter-turn about Z multiplies the cell |a><b| by i^(p - q),
+#      p = popcount a (N = 1..4; control: i^(q - p) fails), and its square, the conjugation by Z^N,
+#      is (-1)^(p - q) on the cells and (-1)^k_Z on the strings; at N = 3, which processes are
+#      diagonal on the strings, diagonal on the cells, and keep (p, q), against a fixed table whose
+#      every column holds both answers; correlated Z noise with real covariances sends a string to
+#      -4 C_kl Z_k Z_l sigma per pair of lit sites and does nothing else (control: counting pairs with
+#      any lit site fails), and collective dephasing has largest off-diagonal entry 4 gamma; a string
+#      spreads over several blocks (N = 3) and a cell over every point of its height plane,
+#      (k+1)(N-k+1) of them (N = 1..4); amplitude damping's off-diagonal part is the jump |1><1| -> |0><0| on the cells and
+#      the arrow I -> Z (+rate) on the strings, two different operators; F98's Krawtchouk expansion is
+#      the transform at x = 0 with |S| = k_X = k_Y, and X^N Z_S is (-i)^|S| times the string with Y on S
+#      and X elsewhere (control: the Krawtchouk number without its sign fails); the doubled site of
+#      PROOF_FROZEN_BAND_SO4 at one site: two commuting su(2) (eta on the populations, spin on the
+#      coherences), the letters as their x-eigenvectors, X rho X = 2(eta^x + S^x), Y rho Y =
+#      2(eta^x - S^x), Z rho Z = 1 - 8 (S^z)^2, the quarter-turn about Z = exp(i pi S^z), R exchanging
+#      the doublets, D = 1 on the eta doublet and 2 S^x on the spin one (these are the local, string-free
+#      operators; the frozen-band proof's ladders carry Jordan-Wigner strings); at N = 3 correlated Z noise
+#      is -8 sum_{k,l} a_kl S^z_k S^z_l, the k = l terms the local price and the k != l terms the exchange;
+#      the quarter-turn's Z4 on the cells has the multiplicities sum_{d = r mod 4} C(2N, N + d), the multiset
+#      of ONE_FOUR_THESIS's Majorana-degree count (N = 1..8), while the two gradings differ and agree mod 2
 #
 # Runtime: under a second.
 import sys
 import random
 from fractions import Fraction
 from itertools import product
+from math import comb
 
 import numpy as np
 
@@ -796,6 +822,384 @@ for M in range(1, 6):
 check("N=1..5: populations = strings with k_Z = 0, on the edge I^N - Z^N; XOR strings = k_Z = N, on the "
       "opposite edge X^N - Y^N; R's letter flip maps (k_Z, k_X, k_Y) to (N - k_Z, k_X, N - k_Y), one edge "
       "onto the other", ok_e)
+
+# ---------- S10: the cells and the strings, two bases of one pattern ----------
+print()
+print("S10 the cells and the strings: two bases of one pattern")
+
+
+def xz_operator(x, z):
+    """X^x Z^z as a product site by site (the Hermitian string is i^(#Y) times this, Y = i X Z)."""
+    M = np.array([[1]], dtype=complex)
+    for xb, zb in zip(x, z):
+        M = np.kron(M, np.linalg.matrix_power(LET["X"], xb) @ np.linalg.matrix_power(LET["Z"], zb))
+    return M
+
+
+def cell_matrix(a, b):
+    """|a><b| for bit tuples a, b; site 0 is the leftmost tensor factor, the top bit of the index."""
+    M = np.zeros((2 ** len(a), 2 ** len(a)), dtype=complex)
+    M[int("".join(map(str, a)), 2), int("".join(map(str, b)), 2)] = 1
+    return M
+
+
+def dot(u, v):
+    return sum(i * j for i, j in zip(u, v))
+
+
+def flip(b, x):
+    return tuple(i ^ j for i, j in zip(b, x))
+
+
+# (a) the Walsh transform between the strings and the cells of one disagreement pattern
+ok_w, ok_wc = True, True
+for N_ in range(1, 5):
+    bits = list(product((0, 1), repeat=N_))
+    sign_on_ket_fails = False
+    for x in bits:
+        for z in bits:
+            lhs = xz_operator(x, z)
+            ok_w &= np.array_equal(lhs, sum((-1) ** dot(z, b) * cell_matrix(flip(b, x), b) for b in bits))
+            sign_on_ket_fails |= not np.array_equal(
+                lhs, sum((-1) ** dot(z, flip(b, x)) * cell_matrix(flip(b, x), b) for b in bits))
+    ok_wc &= sign_on_ket_fails
+check("N=1..4: X^x Z^z = sum_b (-1)^(z.b) |b xor x><b| for every disagreement pattern x and every z, so the "
+      "strings and the cells with disagreement set x are two bases of one 2^N space", ok_w)
+check("control: reading the sign on the ket, (-1)^(z.(b xor x)), fails at every N = 1..4", ok_wc)
+# the Pauli string is i^|x and z| X^x Z^z (a Y is i X Z on its site), and inside a pattern every string meets every
+# cell with modulus 1 and the cells of other patterns with 0: the two bases are mutually unbiased there
+ok_h, ok_mub = True, True
+for N_ in range(1, 4):
+    for s in product("IXYZ", repeat=N_):
+        x = tuple(int(ch in "XY") for ch in s)
+        z = tuple(int(ch in "ZY") for ch in s)
+        Ms = string_matrix(s)
+        ok_h &= np.array_equal(Ms, (1j) ** (dot(x, z) % 4) * xz_operator(x, z))
+        for a in product((0, 1), repeat=N_):
+            for b in product((0, 1), repeat=N_):
+                entry = Ms[int("".join(map(str, a)), 2), int("".join(map(str, b)), 2)]
+                ok_mub &= (abs(entry) == 1) if flip(b, x) == a else (entry == 0)
+check("N=1..3: every Pauli string is i^|x and z| X^x Z^z", ok_h)
+check("N=1..3: inside its pattern x every string meets every cell |b xor x><b| with modulus 1 and meets no other cell: "
+      "the two bases of one pattern are mutually unbiased", ok_mub)
+
+# (b) one site: PROOF_CHROMATICITY's Lemma 2
+lemma2 = {(0, 0): (LET["I"] + LET["Z"]) / 2, (1, 1): (LET["I"] - LET["Z"]) / 2,
+          (0, 1): (LET["X"] + 1j * LET["Y"]) / 2, (1, 0): (LET["X"] - 1j * LET["Y"]) / 2}
+check("one site (PROOF_CHROMATICITY Lemma 2): |0><0| = (I+Z)/2, |1><1| = (I-Z)/2, |0><1| = (X+iY)/2, "
+      "|1><0| = (X-iY)/2: the dark letters span the populations, the lit letters the coherences",
+      all(np.array_equal(cell_matrix((a,), (b,)), M) for (a, b), M in lemma2.items()))
+check("control: the coherences the other way round, |0><1| = (X-iY)/2, fail",
+      not np.array_equal(cell_matrix((0,), (1,)), (LET["X"] - 1j * LET["Y"]) / 2))
+
+# (c) the quarter-turn about Z on the cells: |a><b| -> i^(p - q) |a><b|, p = popcount a (the ket, as in §3)
+ok_q, ok_qc = True, True
+for N_ in range(1, 5):
+    S_ = np.array([[1]], dtype=complex)
+    for _ in range(N_):
+        S_ = np.kron(S_, S1)
+    bits = list(product((0, 1), repeat=N_))
+    other_orientation_fails = False
+    for a in bits:
+        for b in bits:
+            C = cell_matrix(a, b)
+            img = S_ @ C @ S_.conj().T
+            ok_q &= np.array_equal(img, (1j) ** ((sum(a) - sum(b)) % 4) * C)
+            other_orientation_fails |= not np.array_equal(img, (1j) ** ((sum(b) - sum(a)) % 4) * C)
+    ok_qc &= other_orientation_fails
+check("N=1..4: the quarter-turn about Z, S = diag(1, i) on every site, multiplies the cell |a><b| by i^(p - q), "
+      "p = popcount a, q = popcount b: diagonal on the cells, a signed permutation of the strings (S9)", ok_q)
+check("control: the other orientation, i^(q - p), fails at every N = 1..4", ok_qc)
+# its square is the conjugation by Z^N (S^2 = Z): on every cell it is the sign (-1)^(p - q), on every string (-1)^k_Z,
+# so d mod 2 is k_Z mod 2, which is bit_a
+ok_sq = True
+for N_ in range(1, 5):
+    S_ = np.array([[1]], dtype=complex)
+    for _ in range(N_):
+        S_ = np.kron(S_, S1)
+    ZN_ = string_matrix("Z" * N_)
+    ok_sq &= np.array_equal(S_ @ S_, ZN_)
+    for a in product((0, 1), repeat=N_):
+        for b in product((0, 1), repeat=N_):
+            C = cell_matrix(a, b)
+            ok_sq &= np.array_equal(ZN_ @ C @ ZN_, (-1) ** (sum(a) - sum(b)) * C)
+    if N_ <= 3:
+        for s in product("IXYZ", repeat=N_):
+            M_ = string_matrix(s)
+            ok_sq &= np.array_equal(ZN_ @ M_ @ ZN_, (-1) ** kvec(s)[0] * M_)
+check("N=1..4: (S^N)^2 = Z^N; the conjugation by Z^N is (-1)^(p - q) on every cell and (-1)^k_Z on every string "
+      "(N <= 3): d mod 2 is k_Z mod 2, bit_a", ok_sq)
+
+# (d) which processes are diagonal on which basis, N = 3 (S9's strs, pauli_super, site_op, Id; row-major vec,
+#     rho -> A rho B is kron(A, B^T)); integer rates and couplings, exact comparisons
+assert N == 3 and d == 8
+cells3 = [(a, b) for a in range(d) for b in range(d)]       # row-major: index a * d + b
+
+
+def conj_super(P):                                          # rho -> P rho P, P a Hermitian string
+    return np.kron(P, P.conj())
+
+
+def ham_super(h):                                           # rho -> -i [h, rho]
+    return -1j * (np.kron(h, Id) - np.kron(Id, h.T))
+
+
+COV = np.array([[0, 2, -1], [2, 0, 3], [-1, 3, 0]])         # covariances C_kl of correlated Z noise
+
+
+def corr_super(C=COV):                                      # sum_{k != l} C_kl (Z_k rho Z_l - {Z_l Z_k, rho}/2)
+    out = np.zeros((d * d, d * d), dtype=complex)
+    for k in range(N):
+        for l in range(N):
+            if k != l:
+                zk, zl = site_op("Z", k), site_op("Z", l)
+                out += C[k, l] * (np.kron(zk, zl.T) - 0.5 * np.kron(zl @ zk, Id) - 0.5 * np.kron(Id, (zl @ zk).T))
+    return out
+
+
+def site_matrix(A, l):                                     # a one-site 2x2 matrix on site l of the N = 3 chain
+    out = np.array([[1]], dtype=complex)
+    for k in range(N):
+        out = np.kron(out, A if k == l else np.eye(2))
+    return out
+
+
+one = np.kron(Id, Id)
+SM0 = site_matrix(np.array([[0, 1], [0, 0]]), 0)           # sigma^- = |0><1| on site 0 (Z|0> = |0>, as in §9)
+DAMP = 2 * (np.kron(SM0, SM0.conj()) - 0.5 * np.kron(SM0.conj().T @ SM0, Id) - 0.5 * np.kron(Id, (SM0.conj().T @ SM0).T))
+X0, Z0 = site_op("X", 0), site_op("Z", 0)                 # the jump (X + Z)/sqrt2 at rate 2, written without sqrt2
+TILT = (np.kron(X0, X0) + np.kron(X0, Z0) + np.kron(Z0, X0) + np.kron(Z0, Z0)) - 2 * one
+PROCESSES = {
+    "Z dephasing, rates 1, 2, 3 per site": sum(g_ * (conj_super(site_op("Z", l)) - one) for l, g_ in enumerate((1, 2, 3))),
+    "X dephasing, rates 1, 2, 3": sum(g_ * (conj_super(site_op("X", l)) - one) for l, g_ in enumerate((1, 2, 3))),
+    "Y dephasing, rates 2, 1, 1": sum(g_ * (conj_super(site_op("Y", l)) - one) for l, g_ in enumerate((2, 1, 1))),
+    "correlated Z dephasing, the covariances": corr_super(),
+    "Z field 2 Z_0 + Z_2": ham_super(2 * site_op("Z", 0) + site_op("Z", 2)),
+    "ZZ bond on sites 0, 1": ham_super(site_op("Z", 0) @ site_op("Z", 1)),
+    "XX + YY bond on sites 0, 1": ham_super(site_op("X", 0) @ site_op("X", 1) + site_op("Y", 0) @ site_op("Y", 1)),
+    "XX bond alone on sites 1, 2": ham_super(site_op("X", 1) @ site_op("X", 2)),
+    "X field on site 1": ham_super(site_op("X", 1)),
+    "amplitude damping, rate 2 on site 0": DAMP,
+    "dephasing along (X + Z)/sqrt2, rate 2 on site 0": TILT,
+}
+EXPECT = {   # (diagonal on the strings, diagonal on the cells, keeps (p, q)); each column holds both answers
+    "Z dephasing, rates 1, 2, 3 per site": (True, True, True),
+    "X dephasing, rates 1, 2, 3": (True, False, False),
+    "Y dephasing, rates 2, 1, 1": (True, False, False),
+    "correlated Z dephasing, the covariances": (False, True, True),
+    "Z field 2 Z_0 + Z_2": (False, True, True),
+    "ZZ bond on sites 0, 1": (False, True, True),
+    "XX + YY bond on sites 0, 1": (False, False, True),
+    "XX bond alone on sites 1, 2": (False, False, False),
+    "X field on site 1": (False, False, False),
+    "amplitude damping, rate 2 on site 0": (False, False, False),
+    "dephasing along (X + Z)/sqrt2, rate 2 on site 0": (False, False, False),
+}
+
+
+def is_diagonal(M):
+    return np.array_equal(M, np.diag(np.diag(M)))
+
+
+def keeps_charges(M):
+    rows, cols = np.nonzero(M)
+    return all((pc(cells3[i][0]), pc(cells3[i][1])) == (pc(cells3[j][0]), pc(cells3[j][1])) for i, j in zip(rows, cols))
+
+
+got = {name: (is_diagonal(pauli_super(M)), is_diagonal(M), keeps_charges(M)) for name, M in PROCESSES.items()}
+# every column of EXPECT holds both answers, so a reader of either basis that answered the same for every process
+# would turn some row red; the rows are the control
+for name in PROCESSES:
+    check(f"N=3, {name}: diagonal on the strings {got[name][0]}, on the cells {got[name][1]}, keeps (p, q) "
+          f"{got[name][2]}", got[name] == EXPECT[name])
+
+# (e) correlated Z noise on a string: -4 C_kl Z_k Z_l sigma for every pair k < l of lit sites, nothing else
+ok_c, one_lit_fails = True, False
+for s in strs:
+    sig = string_matrix(s)
+    v = (PROCESSES["correlated Z dephasing, the covariances"] @ sig.reshape(-1)).reshape(d, d)
+    lit = [ch in "XY" for ch in s]
+    pairs = [(k, l) for k in range(N) for l in range(k + 1, N)]
+    want = sum((-4 * COV[k, l] * site_op("Z", k) @ site_op("Z", l) @ sig for k, l in pairs if lit[k] and lit[l]),
+               np.zeros((d, d), dtype=complex))
+    loose = sum((-4 * COV[k, l] * site_op("Z", k) @ site_op("Z", l) @ sig for k, l in pairs if lit[k] or lit[l]),
+                np.zeros((d, d), dtype=complex))
+    ok_c &= np.array_equal(v, want)
+    one_lit_fails |= not np.array_equal(v, loose)
+check("N=3: correlated Z noise sends a string to -4 C_kl Z_k Z_l sigma for each pair of its lit sites and to "
+      "nothing else: on the strings a covariance moves letters at fixed k_Z, it is no height", ok_c)
+check("control: counting every pair with a lit site, not only the pairs lit at both, fails", one_lit_fails)
+# collective dephasing (one jump sum_k Z_k at rate gamma): every C_kl = gamma; at gamma = 1 the largest off-diagonal
+# entry on the strings is 4 = 4 C_kl, so the absorption theorem's 0.2 at gamma = 0.05 is this 4 gamma
+collective = pauli_super(corr_super(np.ones((N, N)) - np.eye(N)))
+off = collective - np.diag(np.diag(collective))
+check("N=3, collective dephasing at gamma = 1 (all C_kl = 1): the largest off-diagonal entry on the strings is 4, "
+      "and every nonzero one is +-4", np.max(np.abs(off)) == 4 and set(np.abs(off[off != 0])) == {4.0})
+
+# (f) neither labelling is a function of the other: a string spreads over several blocks (N = 3), and a single cell
+#     spreads over every point of its height plane k_Z = k, all (k + 1)(N - k + 1) of them (N = 1..4)
+blocks_of = {s: {(pc(a), pc(b)) for a in range(d) for b in range(d) if string_matrix(s)[a, b] != 0} for s in strs}
+ok_plane = True
+for N_ in range(1, 5):
+    strs_ = ["".join(t) for t in product("IXYZ", repeat=N_)]
+    mats_ = {s: string_matrix(s) for s in strs_}
+    for a in range(2 ** N_):
+        for b in range(2 ** N_):
+            k_ = pc(a ^ b)
+            pts = {kvec(s) for s in strs_ if mats_[s][a, b] != 0}
+            plane = {kvec(s) for s in strs_ if kvec(s)[0] == k_}
+            ok_plane &= pts == plane and len(plane) == (k_ + 1) * (N_ - k_ + 1)
+check("N=3: the string ZII touches the four blocks (p, p), p = 0..3",
+      blocks_of["ZII"] == {(0, 0), (1, 1), (2, 2), (3, 3)})
+check("N=1..4: every cell |a><b| spreads over every point of its height plane k_Z = popcount(a xor b), all "
+      "(k + 1)(N - k + 1) of them", ok_plane)
+
+# (h) amplitude damping keeps d and splits differently in the two bases (N = 3, site 0, rate 2): on the cells its only
+#     off-diagonal entries are the jump |1><1| -> |0><0| at site 0 (p and q down by one); on the strings they are the
+#     arrow I -> Z at site 0; the two off-diagonal parts are different operators
+cells_off = DAMP - np.diag(np.diag(DAMP))
+ok_cell_jump = len(np.nonzero(cells_off)[0]) > 0
+for i, j in zip(*np.nonzero(cells_off)):
+    (a1, b1), (a0, b0) = cells3[i], cells3[j]
+    top = 1 << (N - 1)                                      # site 0 is the top bit
+    ok_cell_jump &= bool(a0 & top) and bool(b0 & top) and a1 == a0 ^ top and b1 == b0 ^ top
+P_damp = pauli_super(DAMP)
+strings_off = P_damp - np.diag(np.diag(P_damp))
+ok_arrow = len(np.nonzero(strings_off)[0]) > 0
+for i, j in zip(*np.nonzero(strings_off)):                  # the arrow I -> Z with coefficient +rate, sign included
+    ok_arrow &= strs[j][0] == "I" and strs[i] == "Z" + strs[j][1:] and strings_off[i, j] == 2
+same_operator = np.array_equal(cells_off, B0 @ strings_off @ B0.conj().T / d)
+check("N=3, amplitude damping on site 0: on the cells the only off-diagonal entries are the jump |1><1| -> |0><0| "
+      "there, lowering p and q by one", ok_cell_jump)
+check("N=3, amplitude damping on site 0: on the strings the only off-diagonal entries are the arrow I -> Z there, "
+      "coefficient +rate", ok_arrow)
+check("N=3: the two off-diagonal parts are different operators (the jump is not the arrow)", not same_operator)
+
+# (g) F98's Krawtchouk expansion is the transform at x = 0; at x = 1...1 the same expansion carries X^N
+ok_k, ok_kc = True, True
+for N_ in range(1, 5):
+    bits = list(product((0, 1), repeat=N_))
+    XN_ = string_matrix("X" * N_)
+    unsigned_fails = False
+    for n_ in range(N_ + 1):
+        P = sum(cell_matrix(b, b) for b in bits if sum(b) == n_)
+        acc, acc_unsigned = np.zeros_like(P), np.zeros_like(P)
+        for S in bits:                                       # S as an indicator tuple
+            k_ = sum(S)
+            # F98's K_|S|(n; N) = sum over b with popcount n of (-1)^|S & b|: j of the |S| sites in S set, n - j outside
+            K = sum((-1) ** j * comb(k_, j) * comb(N_ - k_, n_ - j) for j in range(min(k_, n_) + 1))
+            K_unsigned = sum(comb(k_, j) * comb(N_ - k_, n_ - j) for j in range(min(k_, n_) + 1))
+            zs = "".join("Z" if t else "I" for t in S)
+            ys = "".join("Y" if t else "X" for t in S)
+            ZS = string_matrix(zs)
+            acc = acc + K * ZS
+            acc_unsigned = acc_unsigned + K_unsigned * ZS
+            ok_k &= kvec(zs) == (0, k_, k_) and kvec(ys) == (N_, k_, N_ - k_)
+            ok_k &= np.array_equal(XN_ @ ZS, (-1j) ** (k_ % 4) * string_matrix(ys))    # X Z = -i Y on each site of S
+        ok_k &= np.array_equal(2 ** N_ * P, acc)
+        unsigned_fails |= not np.array_equal(2 ** N_ * P, acc_unsigned)
+    ok_kc &= unsigned_fails
+check("N=1..4: P_n = 2^-N sum_S K Z_S with K = sum_j (-1)^j C(s, j) C(N - s, n - j) at s = |S| (F88b's and "
+      "PopcountCoherencePi2Odd's K_n(s; N), which is F98's K_|S|(n; N)) is the transform at x = 0, Z_S at "
+      "(0, |S|, |S|), so |S| is k_X = k_Y; X^N Z_S is (-i)^|S| times the string with Y on S and X elsewhere, at "
+      "(N, |S|, N - |S|)", ok_k)
+check("control: the Krawtchouk number without its sign (-1)^j fails at every N = 1..4", ok_kc)
+
+# (i) the doubled site of PROOF_FROZEN_BAND_SO4, the ket as one species and the bra as the other: on one site the cells
+#     |0><0|, |1><1| are the eta doublet (empty, doubly occupied) and |1><0|, |0><1| the spin doublet (up, down); the maps
+#     rho -> s+ rho s- and rho -> s+ rho s+ raise them (the two ladders Phi and S+ of that proof at one site); the cells are
+#     the eigenbasis of both z-components and the letters that of both x-components
+sp, sm, n1 = np.array([[0, 0], [1, 0]]), np.array([[0, 1], [0, 0]]), np.array([[0, 0], [0, 1]])
+I2_ = np.eye(2)
+
+
+def sup(A, B):                                              # rho -> A rho B on one site, row-major vec
+    return np.kron(A, B.T)
+
+
+def comm(A, B):
+    return A @ B - B @ A
+
+
+eta_p, eta_m = sup(sp, sm), sup(sm, sp)
+spin_p, spin_m = sup(sp, sp), sup(sm, sm)
+eta_z = 0.5 * (sup(n1, I2_) + sup(I2_, n1)) - 0.5 * np.eye(4)
+spin_z = 0.5 * (sup(n1, I2_) - sup(I2_, n1))
+eta_x, spin_x = (eta_p + eta_m) / 2, (spin_p + spin_m) / 2
+ok_su2 = (np.array_equal(comm(eta_z, eta_p), eta_p) and np.array_equal(comm(eta_p, eta_m), 2 * eta_z)
+          and np.array_equal(comm(spin_z, spin_p), spin_p) and np.array_equal(comm(spin_p, spin_m), 2 * spin_z)
+          and all(not comm(A, B).any() for A in (eta_p, eta_m, eta_z) for B in (spin_p, spin_m, spin_z)))
+check("one site: rho -> s+ rho s- and rho -> s+ rho s+, their adjoints, and the Cartans eta^z = (n_ket + n_bra - 1)/2 "
+      "and S^z = (n_ket - n_bra)/2 form two commuting su(2), eta on |0><0|, |1><1| and spin on |1><0|, |0><1|", ok_su2)
+
+
+def vec(M):
+    return np.asarray(M, dtype=complex).reshape(-1)
+
+
+letters_ok = (np.array_equal(eta_x @ vec(LET["I"]), 0.5 * vec(LET["I"]))
+              and np.array_equal(eta_x @ vec(LET["Z"]), -0.5 * vec(LET["Z"]))
+              and np.array_equal(spin_x @ vec(LET["X"]), 0.5 * vec(LET["X"]))
+              and np.array_equal(spin_x @ vec(LET["Y"]), -0.5 * vec(LET["Y"]))
+              and not (spin_x @ vec(LET["I"])).any() and not (spin_x @ vec(LET["Z"])).any()
+              and not (eta_x @ vec(LET["X"])).any() and not (eta_x @ vec(LET["Y"])).any())
+check("one site: I and Z are the eta^x = +1/2, -1/2 eigenvectors and X and Y the S^x = +1/2, -1/2 eigenvectors, each "
+      "pair annihilated by the other su(2)'s x-component", letters_ok)
+ok_axes = (np.array_equal(sup(LET["X"], LET["X"]), 2 * (eta_x + spin_x))
+           and np.array_equal(sup(LET["Y"], LET["Y"]), 2 * (eta_x - spin_x))
+           and np.array_equal(sup(LET["Z"], LET["Z"]), np.eye(4) - 8 * spin_z @ spin_z))
+check("one site: X rho X = 2(eta^x + S^x), Y rho Y = 2(eta^x - S^x), Z rho Z = 1 - 8 (S^z)^2 (-1 on the spin doublet); "
+      "the sums over the sites, Q_X, Q_Y and Q_Z = N - 2 (singly occupied sites), follow site by site", ok_axes)
+two_s = [int(t) for t in 2 * np.real(np.diag(spin_z))]
+check("one site: the quarter-turn about Z, rho -> S rho S^dagger, is exp(i pi S^z), a half-turn of the spin",
+      np.array_equal(sup(S1, S1.conj().T), np.diag([(1j) ** (t % 4) for t in two_s])))
+R1 = sup(I2_, LET["X"])                                     # rho -> rho X, its own inverse
+D1 = np.zeros((4, 4))
+for a_ in range(2):
+    for b_ in range(2):
+        D1[2 * b_ + a_, 2 * a_ + b_] = 1                    # rho -> rho^T
+P_eta = np.diag([1.0, 0.0, 0.0, 1.0])                       # the cells |0><0|, |1><1|
+check("one site: R exchanges the doublets, R eta^z R = S^z and R S^z R = eta^z, which is section 3's (d, m) -> (m, d); the "
+      "transpose D is 1 on the eta doublet and 2 S^x on the spin doublet, (-1)^n_Y on the strings",
+      np.array_equal(R1 @ eta_z @ R1, spin_z) and np.array_equal(R1 @ spin_z @ R1, eta_z)
+      and np.array_equal(D1, P_eta + 2 * spin_x))
+
+
+def spin_z_at(l):                                           # S^z of site l on the N = 3 chain, as a superoperator
+    nl = site_matrix(n1, l)
+    return 0.5 * (np.kron(nl, Id) - np.kron(Id, nl.T))
+
+
+a_full = np.eye(N) + COV                                   # a = gamma I + C at gamma = 1
+full_corr = sum(conj_super(site_op("Z", l)) - one for l in range(N)) + corr_super()
+ising = -8 * sum(a_full[k, l] * spin_z_at(k) @ spin_z_at(l) for k in range(N) for l in range(N))
+local_part = -8 * sum(spin_z_at(l) @ spin_z_at(l) for l in range(N))
+check("N=3: correlated Z noise with a = gamma I + C is -8 sum_{k,l} a_kl S^z_k S^z_l, the shared field's form: the k = l "
+      "terms are the local price -2 gamma on each lit site, the k != l terms the Ising exchange",
+      np.array_equal(full_corr, ising) and np.array_equal(sum(conj_super(site_op("Z", l)) - one for l in range(N)),
+                                                          local_part))
+
+# (j) the quarter-turn's Z4 on the cells: multiplicities sum_{d = r mod 4} C(2N, N + d), the same multiset as the
+#     Majorana-degree count 4^(N-1) + 2^(N-1) Re(i^(N-r)) of ONE_FOUR_THESIS, never Pi's uniform 4^(N-1); the two
+#     gradings differ (at one site Z has d = 0 but Majorana degree 2) and agree mod 2
+ok_mult = True
+for N_ in range(1, 9):
+    cells_mult = sorted(sum(comb(2 * N_, N_ + dd) for dd in range(-N_, N_ + 1) if (dd - r) % 4 == 0) for r in range(4))
+    a4, b2 = 4 ** (N_ - 1), 2 ** (N_ - 1)
+    thesis = sorted(a4 + b2 * [1, 0, -1, 0][(N_ - r) % 4] for r in range(4))      # Re(i^k), k = 0..3
+    ok_mult &= cells_mult == thesis and cells_mult != [a4] * 4
+    if N_ <= 4:                                                                  # counted from the cells themselves
+        direct = sorted(sum(1 for a in range(2 ** N_) for b in range(2 ** N_) if (pc(a) - pc(b) - r) % 4 == 0)
+                        for r in range(4))
+        ok_mult &= direct == cells_mult
+check("N=1..8: the quarter-turn's Z4 has the multiplicities sum_{d = r mod 4} C(2N, N + d) on the cells (counted "
+      "directly for N <= 4), the multiset of the Majorana-degree count 4^(N-1) + 2^(N-1) Re(i^(N-r)), never Pi's "
+      "uniform 4^(N-1)", ok_mult)
+majorana_deg = {"I": 0, "X": 1, "Y": 1, "Z": 2}                                  # one site
+check("one site: the two gradings differ, Z is fixed by the quarter-turn (d = 0) and has Majorana degree 2, and they "
+      "agree mod 2 on every letter (k_Z = Majorana degree mod 2)",
+      np.array_equal(S1 @ LET["Z"] @ S1.conj().T, LET["Z"]) and majorana_deg["Z"] % 4 != 0
+      and all(coord[L][0] == majorana_deg[L] % 2 for L in "IXYZ"))
 
 print()
 if FAILURES:
