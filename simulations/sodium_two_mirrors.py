@@ -30,6 +30,14 @@ Checks:
     exact isolating intervals), the counts of common zeros, of positive ones and of ordered ones (J0 > J1 > J2) pinned;
     at 3/2 the same route's closed forms vanish exactly on the theorem's zero set (one way only: three vanishing moments would not prove a centre); the jump identities behind
     the offset argument (T_{2,-m} = ±T_{2,m}^†, [Iz, T_{2,m}] = m·T_{2,m}) checked at every spin;
+  - a static splitting at w = 0, I = 1, 2, 5/2, ..., 6 (not 3/2): mu3, mu5, mu7, mu9 as exact polynomials in
+    J0, J1, J2 and q = wQ/sqrt(6) (over Q(i), real traces), their common real zeros by exact elimination: none
+    at I >= 2 other than all rates zero, six rays at I = 1, five of them with wQ real and a centre by the
+    characteristic polynomial (nine eigenvalues: the four moments are the whole condition), two with
+    non-negative rates, both J0 = 0; a detuned splitting and an offset w = 1 break both as complex maps while
+    the decay rates stay palindromic; the same two rays again by hand from the block polynomials; at both,
+    simple block eigenvalues, semisimple, the pairing crossing the coherence orders, just below the
+    single-quantum exceptional point, 3 of 9 paired without the splitting;
   - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
     lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
     reflections at a vanishing density; and sixteen exact points, both outcomes, each by the identity at the
@@ -195,6 +203,126 @@ def common_real_zeros(m, syms):
         assert "?" not in (sign(X), sign(x1)), "a sign not decided"
         out.append((sign(X), sign(x1), not m7.a <= 0 <= m7.b, X.a > x1.b and x1.a > 1))
     return out
+
+
+def split_moments(I, syms, ks=(3, 5, 7, 9)):
+    """mu_k = Tr (L + s)^k with the static splitting wQ·T20 at offset w = 0, exact over Q(i), as polynomials in
+    J0, J1, J2 and q = wQ/sqrt(6), homogeneous of degree k.
+
+    The splitting is diagonal and commutes with the rational similarity, so it adds -i·q·(t_a - t_b) to the
+    cell (a, b), t_m = 3m² - I(I+1); real and imaginary parts are carried as two rational matrices. Fitted on
+    the principal lattice (i, j, l, J2 = 1), i + j + l <= k, checked off the lattice, and every trace is real.
+    """
+    from sympy.polys.matrices import DomainMatrix
+    n, blocks = rational_blocks(I)
+    ms = [I - k for k in range(int(2 * I) + 1)]
+    d = len(ms)
+    t = [3 * m * m - I * (I + 1) for m in ms]
+    QQ = sp.QQ
+    dm = []
+    for p, parts in zip(range(-(d - 1), d), blocks):
+        cells = [(i, i + p) for i in range(d) if 0 <= i + p < d]
+        size = len(cells)
+        conv = [DomainMatrix([[QQ.from_sympy(P[r, c]) for c in range(size)] for r in range(size)], (size, size), QQ)
+                for P in parts]
+        h = DomainMatrix.diag([QQ.from_sympy(-(t[i] - t[j])) for i, j in cells], QQ, (size, size))
+        dm.append((conv, h, size))
+
+    def tr(M):
+        return sum((M[i, i].element for i in range(M.shape[0])), QQ(0))
+
+    def moments(J, q):
+        A_s = [conv[0] * QQ.from_sympy(sp.Rational(J[0])) + conv[1] * QQ.from_sympy(sp.Rational(J[1]))
+               + conv[2] * QQ.from_sympy(sp.Rational(J[2])) for conv, _, _ in dm]
+        s = -sum((tr(A) for A in A_s), QQ(0)) / n
+        out = {k: [QQ(0), QQ(0)] for k in ks}
+        for A, (_, h, size) in zip(A_s, dm):
+            A = A + DomainMatrix.eye(size, QQ) * s
+            B = h * QQ.from_sympy(sp.Rational(q))
+            X, Y = A, B
+            for k in range(2, max(ks) + 1):
+                X, Y = X * A - Y * B, X * B + Y * A
+                if k in out:
+                    out[k][0] += tr(X)
+                    out[k][1] += tr(Y)
+        return out
+
+    J0, J1, J2, q = syms
+    polys = {}
+    for k in ks:
+        monos = [(a, b, c) for a in range(k + 1) for b in range(k + 1 - a) for c in range(k + 1 - a - b)]
+        A = DomainMatrix([[QQ(p[0] ** a * p[1] ** b * p[2] ** c) for a, b, c in monos] for p in monos], (len(monos),) * 2, QQ)
+        vals = [moments((p[0], p[1], 1), p[2])[k] for p in monos]
+        assert all(v[1] == 0 for v in vals), "an imaginary trace"
+        sol = A.lu_solve(DomainMatrix([[v[0]] for v in vals], (len(monos), 1), QQ)).to_Matrix()
+        polys[k] = sp.expand(sum(sol[r] * J0 ** a * J1 ** b * q ** c * J2 ** (k - a - b - c) for r, (a, b, c) in enumerate(monos)))
+        for test in [(3, -2, 5, 7), (-7, 4, 2, -3), (1, 1, 0, 2), (2, 0, 0, 1), (0, 3, 0, 0)]:
+            got = moments(test[:3], test[3])[k]
+            assert got[1] == 0 and sp.Rational(got[0]) == polys[k].subs(dict(zip(syms, test))), (I, k, test)
+    return polys
+
+
+def split_centre_points(P, syms):
+    """Exact elimination of mu3 = mu5 = mu7 = mu9 = 0 at w = 0 with a splitting.
+
+    In u = q², mu3 = c + l·u. Chart J2 = 1, branch l != 0: u = -c/l, g_k = l^deg·mu_k(u = -c/l) with the spurious
+    powers of l divided out; candidate J0 are the roots of gcd(Res_J1(g5, g7), Res_J1(g5, g9)). A linear factor is
+    solved exactly; a non-linear one must have its common zeros with g5, g7, g9 on l = 0 (the ideal with 1 - z·l
+    added is the unit ideal). Branch l = 0 (then c = 0 too): mu5, mu7, mu9 must share a root in u, here a gcd of resultants.
+    The line J2 = 0 by Groebner bases. Returns the rational points (J0, J1, u) of the chart and whether every
+    other case is empty.
+    """
+    J0, J1, J2, q = syms
+    u = sp.Symbol("u")
+
+    def in_u(e):
+        return sp.expand(sp.expand(e).replace(lambda w_: w_.is_Pow and w_.base == q, lambda w_: u ** (w_.exp // 2)))
+
+    F = {k: in_u(P[k].subs(J2, 1)) for k in P}
+    assert all(not f.has(q) for f in F.values()), "an odd power of q"
+    p3 = sp.Poly(F[3], u)
+    assert p3.degree() == 1
+    c, l = p3.coeff_monomial(1), p3.coeff_monomial(u)
+    Lp = sp.Poly(l, J0, J1)
+    assert Lp.degree(J1) == 1 and Lp.coeff_monomial(J1).is_Rational, "l is not linear in J1 with a constant coefficient"
+
+    def sub(f):
+        pf = sp.Poly(f, u)
+        g = sp.Poly(sum(co * (-c) ** e[0] * l ** (pf.degree() - e[0]) for e, co in pf.terms()), J0, J1)
+        while g.rem(Lp).is_zero:
+            g = g.quo(Lp)
+        return g.as_expr()
+
+    g5, g7, g9 = sub(F[5]), sub(F[7]), sub(F[9])
+    r57, r59 = sp.Poly(sp.resultant(g5, g7, J1), J0), sp.Poly(sp.resultant(g5, g9, J1), J0)
+    assert r57.degree() > 0 and r59.degree() > 0
+    points, rest_empty = [], True
+    for f, _ in sp.factor_list(sp.gcd(r57, r59).as_expr())[1]:
+        if not f.has(J0):
+            continue
+        if sp.Poly(f, J0).degree() == 1:
+            x0 = sp.solve(f, J0)[0]
+            h = sp.gcd(sp.gcd(sp.Poly(g5.subs(J0, x0), J1), sp.Poly(g7.subs(J0, x0), J1)), sp.Poly(g9.subs(J0, x0), J1))
+            for x1 in sp.Poly(h, J1).all_roots():
+                if x1.is_real and l.subs({J0: x0, J1: x1}) != 0:
+                    uv = -c.subs({J0: x0, J1: x1}) / l.subs({J0: x0, J1: x1})
+                    assert all(sp.simplify(F[k].subs({J0: x0, J1: x1, u: uv})) == 0 for k in (3, 5, 7, 9))
+                    points.append((x0, x1, uv))
+        else:
+            z = sp.Symbol("z")              # Rabinowitsch: no common zero with l != 0
+            rest_empty &= sp.groebner([f, g5, g7, g9, 1 - z * l], z, J1, J0, order="grevlex").exprs == [1]
+    x1_of = sp.solve(l, J1)[0]
+    M = [sp.expand(F[k].subs(J1, x1_of)) for k in (5, 7, 9)]
+    rest_empty &= sp.gcd(sp.gcd(sp.Poly(sp.expand(c.subs(J1, x1_of)), J0), sp.Poly(sp.resultant(M[0], M[1], u), J0)),
+                         sp.Poly(sp.resultant(M[0], M[2], u), J0)).degree() == 0
+    line = [in_u(P[k].subs({J2: 0, J1: 1})) for k in (3, 5, 7, 9)]
+    rest_empty &= sp.groebner(line, u, J0, order="lex").exprs == [1]
+    corner = [sp.Poly(in_u(P[k].subs({J0: 1, J1: 0, J2: 0})), u) for k in (3, 5, 7, 9)]
+    g = corner[0]
+    for f in corner[1:]:
+        g = sp.gcd(g, f)
+    rest_empty &= g.degree() == 0
+    return points, rest_empty
 
 
 def build():
@@ -439,6 +567,123 @@ def main():
               f"all zero give a centre",
               all(z[2] for z in zeros) and (len(zeros), positive) == want.get(I_, (3, 0))
               and ordered == ordered_want.get(I_, 0))
+
+    print("\na static splitting beyond spin 3/2 (w = 0, exact): centres appear at spin 1 only, on five rays")
+    Q4 = sp.symbols("J0 J1 J2 q", real=True)
+    mu32 = split_moments(R(3, 2), Q4)
+    claim("I = 3/2 with the splitting: mu3 = 1296·J0·q², zero exactly at J0 = 0 (the theorem's centre) or q = 0 "
+          "(the rule without a splitting)",
+          sp.expand(mu32[3] - 1296 * Q4[0] * Q4[3] ** 2) == 0)
+    spin1_rays = {(4, 0, R(-1, 36)), (-6, 2, R(1, 12)), (-12, -4, R(5, 12)), (0, -1, R(1, 48)), (0, R(4, 5), R(1, 60)),
+                  (0, 8, R(7, 4))}
+    for I_ in [R(1)] + [R(k, 2) for k in range(4, 13)]:
+        pts, rest_empty = split_centre_points(split_moments(I_, Q4), Q4)
+        want_pts = spin1_rays if I_ == 1 else set()
+        claim(f"I = {I_}: mu3, mu5, mu7, mu9 vanish together on {len(pts)} rays (J0, J1, J2 = 1, q²) and nowhere else "
+              f"but at all rates zero (outside the charts, L = -i[H, .], trivially centred)",
+              rest_empty and set(pts) == want_pts, str(sorted(pts)) if pts else "")
+
+    def centred_at(J0_, J1_, J2_, wQ2, w_=0):
+        # the offset shifts the block of order p by -i·p·w: P_w(x) = prod_p P_p(x + i·p·w), P_p the block at w = 0
+        _, _, L_ = generator(R(1), J0_, J1_, J2_, sp.sqrt(wQ2), 0)
+        P_ = sp.Integer(1)
+        for p in range(-2, 3):
+            idx = [i * 3 + (i + p) for i in range(3) if 0 <= i + p < 3]
+            P_ *= L_.extract(idx, idx).charpoly(x).as_expr().subs(x, x + sp.I * p * w_)
+        P_ = sp.Poly(sp.expand(P_), x)
+        s_ = P_.all_coeffs()[1] / P_.degree()
+        return sp.expand(sp.simplify((-1) ** P_.degree() * P_.as_expr().subs(x, -x - 2 * s_) - P_.as_expr())) == 0, P_
+    real_rays = [r for r in spin1_rays if r[2] > 0]
+    claim("I = 1: at five of the six rays q² > 0, and at each of them the characteristic polynomial satisfies "
+          "(-1)^n P(-x - 2s) = P(x), n = 9, exactly (at nine eigenvalues the four odd moments are the whole condition)",
+          len(real_rays) == 5 and all(centred_at(a, b, 1, 6 * u_)[0] for a, b, u_ in real_rays))
+    phys = sorted(r for r in real_rays if r[0] >= 0 and r[1] >= 0)
+    ok_a, P_a = centred_at(0, R(4, 5), 1, R(1, 10))
+    ok_b, P_b = centred_at(0, 8, 1, R(21, 2))
+    claim("I = 1, non-negative rates: exactly two rays, J0 = 0 on both: J1 = 4J2/5 at wQ² = J2²/10, spectrum "
+          "{0, -1², -(6/5)³, -(7/5)², -12/5}·J2 about -6/5·J2; J1 = 8J2 at wQ² = 21J2²/2, {0, -5², -6³, -7², -12}·J2 "
+          "about -6·J2",
+          phys == [(0, R(4, 5), R(1, 60)), (0, 8, R(7, 4))] and ok_a and ok_b
+          and sp.expand(P_a.as_expr() - x * (x + 1) ** 2 * (x + R(6, 5)) ** 3 * (x + R(7, 5)) ** 2 * (x + R(12, 5))) == 0
+          and sp.expand(P_b.as_expr() - x * (x + 5) ** 2 * (x + 6) ** 3 * (x + 7) ** 2 * (x + 12)) == 0)
+    def rates_palindromic(J0_, J1_, J2_, wQ2, w_):
+        _, _, L_ = generator(R(1), J0_, J1_, J2_, sp.sqrt(wQ2), 0)
+        re_ = []
+        for p in range(-2, 3):
+            idx = [i * 3 + (i + p) for i in range(3) if 0 <= i + p < 3]
+            for ev, am in sp.roots(sp.Poly(L_.extract(idx, idx).charpoly(x).as_expr(), x)).items():
+                re_ += [sp.re(sp.nsimplify(ev) - sp.I * p * w_)] * am
+        s_ = -sum(re_) / len(re_)
+        return sorted(re_) == sorted(-r - 2 * s_ for r in re_)
+    claim("I = 1: off the tuned splitting the centre is gone at both rays (wQ² detuned by 6/5 and by 21/20), and an "
+          "offset w = 1 breaks the complex map at both, while the nine decay rates (real parts) stay palindromic in "
+          "every frame tried (w = 1, 5)",
+          not centred_at(0, R(4, 5), 1, R(6, 50))[0] and not centred_at(0, 8, 1, R(21, 2) * R(21, 20))[0]
+          and not centred_at(0, R(4, 5), 1, R(1, 10), 1)[0] and not centred_at(0, 8, 1, R(21, 2), 1)[0]
+          and all(rates_palindromic(0, R(4, 5), 1, R(1, 10), w_) and rates_palindromic(0, 8, 1, R(21, 2), w_) for w_ in (1, 5)))
+
+    # the second route, by hand: the block polynomials at I = 1 in the rates r = -lambda
+    K0_, K1_, K2_ = sp.symbols("J0 J1 J2", real=True)
+    W = sp.Symbol("wQ", positive=True)
+    _, _, L1 = generator(R(1), K0_, K1_, K2_, W, 0)
+    blk = {}
+    for p in (0, 1, 2):
+        idx = [i * 3 + (i + p) for i in range(3) if 0 <= i + p < 3]
+        blk[p] = sp.factor(sp.Poly(sp.expand(L1.extract(idx, idx).charpoly(x).as_expr().subs(x, -x)), x).monic().as_expr())
+    two_s = sp.Rational(4, 3) * (K0_ / 2 + K1_ + K2_)
+    sq = sp.Poly(sp.expand(16 * blk[1]), x)
+    sigma1, prod1 = -sq.coeff_monomial(x) / 16, sq.coeff_monomial(1) / 16
+    cq = (K1_ + 2 * K2_) / 2
+    claim("I = 1 by hand: populations 0, 3J1/2, (J1 + 4J2)/2; double quantum (J1 + 2J2)/2; the single-quantum "
+          "pair has sum (3J0 + 3J1 + 2J2)/2 and carries 3wQ²/2 in its product, the only place wQ enters; "
+          "2s = 4(J0/2 + J1 + J2)/3",
+          sp.expand(blk[0] - x * (x - R(3, 2) * K1_) * (x - (K1_ + 4 * K2_) / 2)) == 0
+          and sp.expand(blk[2] - (x - cq)) == 0 and sp.expand(sigma1 - (3 * K0_ + 3 * K1_ + 2 * K2_) / 2) == 0
+          and sp.expand(prod1 - prod1.subs(W, 0) - R(3, 2) * W ** 2) == 0 and sp.expand(-L1.trace() * 2 / 9 - two_s) == 0)
+    s_ = two_s / 2
+    j0_forced = sp.solve(sp.Eq(sigma1, 3 * s_ - cq), K0_)
+    hand = []
+    for single in (sp.Eq(R(3, 2) * K1_, s_), sp.Eq((K1_ + 4 * K2_) / 2, s_)):
+        k1 = sp.solve(single.subs(K0_, 0), K1_)[0]
+        w2 = sp.solve(sp.Eq(prod1.subs({K0_: 0, K1_: k1}), (s_ * (2 * s_ - cq)).subs({K0_: 0, K1_: k1})), W)
+        hand.append((k1, sorted({sp.factor(v ** 2) for v in w2}, key=str)))
+    claim("I = 1 by hand: one single-quantum rate at s and the other mirroring the double quantum forces J0 = 0; the "
+          "populations then fix J1 = 4J2/5 or 8J2, the single-quantum product wQ² = J2²/10 or 21J2²/2: the same two rays",
+          j0_forced == [0] and hand == [(4 * K2_ / 5, [K2_ ** 2 / 10]), (8 * K2_, [21 * K2_ ** 2 / 2])])
+
+    def block_structure(J0_, J1_, J2_, wQ2):
+        _, _, L_ = generator(R(1), J0_, J1_, J2_, sp.sqrt(wQ2), 0)
+        L_ = L_.applyfunc(lambda z: sp.nsimplify(sp.expand(z)))
+        out = {}
+        for p in range(-2, 3):
+            idx = [i * 3 + (i + p) for i in range(3) if 0 <= i + p < 3]
+            B = L_.extract(idx, idx)
+            for ev, am in sp.roots(sp.Poly(B.charpoly(x).as_expr(), x)).items():
+                out.setdefault(ev, []).append((p, am, len((B - ev * sp.eye(B.rows)).nullspace())))
+        return out
+    bs = block_structure(0, R(4, 5), 1, R(1, 10))
+    bs2 = block_structure(0, 8, 1, R(21, 2))
+    claim("I = 1 at both rays: every eigenvalue is simple in its block and semisimple (no exceptional point); at "
+          "J1 = 4J2/5 the mirror pairs 0 with -12/5 among the populations and -1 (orders ±1) with -7/5 (orders ±2), "
+          "-6/5 on the centre; at J1 = 8J2, -7 (orders ±1) with -5 (orders ±2), -6 on the centre",
+          all(am == 1 and gm == 1 for b_ in (bs, bs2) for v in b_.values() for _, am, gm in v)
+          and sorted(p for p, _, _ in bs[-1]) == [-1, 1] and sorted(p for p, _, _ in bs[R(-7, 5)]) == [-2, 2]
+          and sorted(p for p, _, _ in bs[R(-6, 5)]) == [-1, 0, 1] and bs[0] == [(0, 1, 1)] and bs[R(-12, 5)] == [(0, 1, 1)]
+          and sorted(p for p, _, _ in bs2[-7]) == [-1, 1] and sorted(p for p, _, _ in bs2[-5]) == [-2, 2]
+          and sorted(p for p, _, _ in bs2[-6]) == [-1, 0, 1])
+    disc = sp.factor(sp.Poly(sp.expand(16 * blk[1]), x).discriminant())
+    paired = []
+    for J1_, w2 in ((R(4, 5), R(1, 10)), (8, R(21, 2))):
+        for wq2 in (0, w2):
+            ev = sp.roots(sp.Poly(sp.expand(generator(R(1), 0, J1_, 1, sp.sqrt(wq2), 0)[2].charpoly(x).as_expr()), x), multiple=True)
+            sh = -sum(ev) / len(ev)
+            paired.append(sum(1 for e in ev if any(sp.simplify(e + f + 2 * sh) == 0 for f in ev)))
+    claim("I = 1: the single-quantum pair's exceptional point (zero discriminant) is 6wQ² = J1² at J0 = 0; the rays sit "
+          "at 6wQ²/J1² = 15/16 and 63/64, just below it; without the splitting 3 of 9 eigenvalues pair about -s, with it 9; "
+          "the pair is drawn from {7/10, 3/2}·J2 at the first ray",
+          sp.expand(disc.subs(K0_, 0) - 256 * (K1_ ** 2 - 6 * W ** 2)) == 0
+          and [6 * R(1, 10) / R(4, 5) ** 2, 6 * R(21, 2) / 64] == [R(15, 16), R(63, 64)] and paired == [3, 9, 3, 9]
+          and set(sp.roots(sp.Poly(blk[1].subs({K0_: 0, K1_: R(4, 5), K2_: 1, W: 0}), x))) == {R(7, 10), R(3, 2)})
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")
