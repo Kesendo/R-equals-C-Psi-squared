@@ -22,7 +22,14 @@ Checks:
     two-qubit labelling); their sixteen products diagonalize the generator at wQ = w = 0, class by class; S(X) = Gamma0·X^T gives S L S^-1 = -L + 2·L_J0 - 6(J1+J2)
     at every wQ and w, both mirrors in one map;
   - beyond spin 3/2 (I = 1 .. 7/2): T20² is scalar only at 3/2; J0 alone counts more zero-price cells
-    than top-price cells; no global centre at eight sample rate triples;
+    than top-price cells;
+  - no global centre beyond spin 3/2 at wQ = w = 0, for every real rate triple other than all zero, at each I = 1, 2, 5/2, ..., 6:
+    a centre would sit at -s (the trace) and make every odd centred moment m_k = Tr (L + s)^k vanish;
+    m3, m5, m7 are exact homogeneous polynomials (a rational similarity, block by block), and m7 is
+    non-zero at every real common zero of m3 and m5 (resultant, subresultant, interval arithmetic on
+    exact isolating intervals), the counts of common zeros, of positive ones and of ordered ones (J0 > J1 > J2) pinned;
+    at 3/2 the same route's closed forms vanish exactly on the theorem's zero set (one way only: three vanishing moments would not prove a centre); the jump identities behind
+    the offset argument (T_{2,-m} = ±T_{2,m}^†, [Iz, T_{2,m}] = m·T_{2,m}) checked at every spin;
   - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
     lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
     reflections at a vanishing density; and sixteen exact points, both outcomes, each by the identity at the
@@ -70,6 +77,124 @@ def generator(I, J0, J1, J2, wQ=0, w=0):
         AdA = A.H * A
         L += g * (kron(A, A.conjugate()) - kron(AdA, Id) / 2 - kron(Id, AdA.T) / 2)
     return ms, T, L
+
+
+def rational_blocks(I):
+    """The three rate parts of the generator at wQ = w = 0, one block per coherence order, in rationals.
+
+    The diagonal similarity D with D·I+·D^-1 = (c_k²) above the diagonal and D·I-·D^-1 = 1 below it makes
+    every jump rational; rho -> D·rho·D^-1 is a similarity of the superoperator, so the spectrum is kept.
+    """
+    ms = [I - k for k in range(int(2 * I) + 1)]
+    d = len(ms)
+    Iz = sp.diag(*ms)
+    Ip, Im = sp.zeros(d), sp.zeros(d)
+    for k in range(1, d):
+        Ip[k - 1, k] = I * (I + 1) - ms[k] * (ms[k] + 1)
+        Im[k, k - 1] = 1
+    T0 = 3 * Iz * Iz - I * (I + 1) * sp.eye(d)             # sqrt(6)·T20, so its rate carries 1/6
+    T1, Tm1 = -(Iz * Ip + Ip * Iz) / 2, (Iz * Im + Im * Iz) / 2
+    T2, Tm2 = Ip * Ip / 2, Im * Im / 2
+    jumps = [(0, T0, T0, sp.Rational(1, 6)), (1, T1, -Tm1, 1), (1, Tm1, -T1, 1), (2, T2, Tm2, 1), (2, Tm2, T2, 1)]
+    blocks = []
+    for p in range(-(d - 1), d):
+        cells = [(i, i + p) for i in range(d) if 0 <= i + p < d]
+        index = {c: t for t, c in enumerate(cells)}
+        parts = [sp.zeros(len(cells)) for _ in range(3)]
+        for part, A, Adag, scale in jumps:
+            AdA = Adag * A
+            for (i, j), col in index.items():
+                for (k, l), row in index.items():      # <k|A E_ij Adag - (AdA E_ij + E_ij AdA)/2|l>
+                    v = A[k, i] * Adag[j, l] - (AdA[k, i] * int(j == l) + int(k == i) * AdA[j, l]) / 2
+                    if v:
+                        parts[part][row, col] += scale * v
+        blocks.append(parts)
+    return d * d, blocks
+
+
+def odd_moments(I, syms):
+    """m_k = Tr (L + s)^k, k = 3, 5, 7, at wQ = w = 0, as exact homogeneous polynomials in J0, J1, J2.
+
+    Fitted on the principal lattice (i, j, 1), i + j <= k, unisolvent for degree <= k in two variables,
+    homogenized, and checked exactly at points off the lattice, J2 = 0 among them.
+    """
+    from sympy.polys.matrices import DomainMatrix
+    n, blocks = rational_blocks(I)
+
+    def moments(J):
+        mats = [sum((sp.Rational(J[t]) * parts[t] for t in range(3)), sp.zeros(parts[0].rows)) for parts in blocks]
+        s = -sum(M.trace() for M in mats) / n
+        out = {}
+        for M in mats:
+            M = M + s * sp.eye(M.rows)
+            Q = M
+            for k in range(2, 8):
+                Q = Q * M
+                if k % 2:
+                    out[k] = out.get(k, 0) + Q.trace()
+        return out
+
+    J0, J1, J2 = syms
+    polys = {}
+    for k in (3, 5, 7):
+        monos = [(i, j) for i in range(k + 1) for j in range(k + 1 - i)]
+        A = DomainMatrix([[sp.QQ(p[0] ** a * p[1] ** b) for a, b in monos] for p in monos], (len(monos),) * 2, sp.QQ)
+        b = DomainMatrix([[sp.QQ.from_sympy(sp.Rational(moments((p[0], p[1], 1))[k]))] for p in monos], (len(monos), 1), sp.QQ)
+        c = A.lu_solve(b).to_Matrix()
+        polys[k] = sp.expand(sum(c[t] * J0 ** a * J1 ** b_ * J2 ** (k - a - b_) for t, (a, b_) in enumerate(monos)))
+        for test in [(3, -2, 5), (-7, 4, 2), (1, 1, 0), (2, 0, 0), (0, 3, 0)]:
+            assert moments(test)[k] == polys[k].subs({J0: test[0], J1: test[1], J2: test[2]}), (I, k, test)
+    return polys
+
+
+def common_real_zeros(m, syms):
+    """Every real projective common zero of m3, m5: the signs of J0, J1 (at J2 = 1), whether m7 != 0 there,
+    and whether J0 > J1 > J2 = 1 holds at it.
+
+    J2 = 0 must carry none (resultant of the two binary forms non-zero, m3(1, 0, 0) non-zero). On J2 = 1 the
+    common zeros sit at the real roots of the resultant in J1 (the leading coefficients in J1 are constants, so
+    it specializes), and since the degree-1 subresultant's leading coefficient is checked non-zero at each root,
+    there J1 = -s10/s11. Signs and m7 are read by interval arithmetic on exact isolating intervals.
+    """
+    import mpmath
+    iv = mpmath.iv
+    iv.dps = 60
+    J0, J1, J2 = syms
+    a0, b0 = m[3].subs({J2: 0, J1: 1}), m[5].subs({J2: 0, J1: 1})
+    assert sp.resultant(a0, b0, J0) != 0 and m[3].subs({J0: 1, J1: 0, J2: 0}) != 0, "a common zero on J2 = 0"
+    a, b, c = (sp.expand(m[k].subs(J2, 1)) for k in (3, 5, 7))
+    assert sp.Poly(a, J1).LC().is_Rational and sp.Poly(b, J1).LC().is_Rational
+    res = sp.Poly(sp.resultant(a, b, J1), J0)
+    assert res.degree() > 0, "m3 and m5 share a factor: the resultant vanishes"
+    S1 = sp.Poly(sp.subresultants(a, b, J1)[-2], J1)
+    assert S1.degree() == 1
+    s11, s10 = S1.coeff_monomial(J1), S1.coeff_monomial(1)
+
+    def ev(e, *args):
+        tot = iv.mpf(0)
+        for mono, co in sp.Poly(e, *(J0, J1)[:len(args)]).terms():
+            p, q = sp.fraction(co)
+            t = iv.mpf(int(p)) / iv.mpf(int(q))
+            for v, e_ in zip(args, mono):
+                t = t * v ** e_
+            tot = tot + t
+        return tot
+
+    def sign(v):
+        return "+" if v.a > 0 else "-" if v.b < 0 else "?"
+
+    out = []
+    for (lo, hi), _ in res.intervals(eps=sp.Rational(1, 10**40)):
+        p_lo, q_lo = sp.fraction(lo)
+        p_hi, q_hi = sp.fraction(hi)
+        X = iv.mpf([(iv.mpf(int(p_lo)) / iv.mpf(int(q_lo))).a, (iv.mpf(int(p_hi)) / iv.mpf(int(q_hi))).b])
+        den = ev(s11, X)
+        assert not den.a <= 0 <= den.b, "degree-1 subresultant degenerate at a root"
+        x1 = ev(-s10, X) / den
+        m7 = ev(c, X, x1)
+        assert "?" not in (sign(X), sign(x1)), "a sign not decided"
+        out.append((sign(X), sign(x1), not m7.a <= 0 <= m7.b, X.a > x1.b and x1.a > 1))
+    return out
 
 
 def build():
@@ -289,22 +414,31 @@ def main():
     claim("at I = 5/2 the cells blind to J0 (|m| = |m'|) are not an invariant set: J1, J2 mix them with the rest",
           not ((sp.eye(len(ms5) ** 2) - blind) * L5 * blind).applyfunc(lambda z: sp.nsimplify(sp.expand(z))).is_zero_matrix)
 
-    def centred(I_, vals):
-        _, _, L_ = generator(I_, *vals)
-        P_ = sp.Poly(sp.expand(L_.applyfunc(sp.nsimplify).charpoly(x).as_expr()), x)
-        if not all(c.is_Rational for c in P_.all_coeffs()):          # else the identity is not decided exactly
-            return None
-        n_ = P_.degree()
-        s_ = P_.all_coeffs()[1] / n_
-        return sp.expand((-1) ** n_ * P_.as_expr().subs(x, -x - 2 * s_) - P_.as_expr()) == 0
-
-    points = [(1, 0, 0), (0, 1, 0), (0, 0, 1), (0, R(2, 5), R(7, 3)), (1, R(1, 3), 0), (R(3, 4), 0, R(5, 2)),
-              (1, 1, 1), (1, R(37, 100), R(81, 100))]
-    for I_ in spins:
-        got = [centred(I_, v) for v in points]
-        want = [v[0] * v[1] * v[2] == 0 if I_ == R(3, 2) else False for v in points]
-        claim(f"I = {I_}: one centre for the whole spectrum at {sum(got)} of the 8 sample rate triples "
-              f"({'exactly where one density vanishes' if I_ == R(3, 2) else 'none'})", got == want)
+    print("\nno global centre beyond spin 3/2 (wQ = w = 0, every real rate triple other than all zero, exact)")
+    K0, K1, K2 = sp.symbols("J0 J1 J2", real=True)
+    m = {}
+    for I_ in [R(3, 2)] + [R(k, 2) for k in range(2, 13) if k != 3]:
+        m[I_] = odd_moments(I_, (K0, K1, K2))
+    claim("I = 3/2: m3 = 0, m5 = 14580·J0·J1²·J2², m7 = 229635·J0·J1²·J2²·(J0² + 2J1² + 2J2²), zero exactly "
+          "where the theorem puts a centre (the route does not say no where the theorem says yes)",
+          m[R(3, 2)][3] == 0 and sp.expand(m[R(3, 2)][5] - 14580 * K0 * K1**2 * K2**2) == 0
+          and sp.expand(m[R(3, 2)][7] - 229635 * K0 * K1**2 * K2**2 * (K0**2 + 2 * K1**2 + 2 * K2**2)) == 0)
+    ordered_want = {R(4): 1, R(9, 2): 1, R(5): 1, R(11, 2): 2, R(6): 2}
+    want = {R(1): (5, 0), R(4): (11, 6), R(9, 2): (11, 6), R(5): (11, 6), R(11, 2): (11, 5), R(6): (11, 5)}
+    for I_ in m:
+        _, Iz_, T_ = spin_ops(I_)
+        claim(f"I = {I_}: every jump comes with its adjoint, T_(2,-m) = (-1)^m T_(2,m)^dagger, and [Iz, T_(2,m)] = m T_(2,m)",
+              all((T_[-q] - (-1) ** q * T_[q].H).applyfunc(sp.simplify).is_zero_matrix
+                  and (Iz_ * T_[q] - T_[q] * Iz_ - q * T_[q]).applyfunc(sp.simplify).is_zero_matrix for q in (-2, -1, 0, 1, 2)))
+    for I_ in [I_ for I_ in m if I_ != R(3, 2)]:
+        zeros = common_real_zeros(m[I_], (K0, K1, K2))
+        positive = sum(1 for z in zeros if z[0] == "+" and z[1] == "+")
+        ordered = sum(1 for z in zeros if z[3])
+        claim(f"I = {I_}: m3, m5 share {len(zeros)} real zeros on J2 = 1 and none on J2 = 0, {positive} of them "
+              f"with J0, J1 > 0 ({ordered} with J0 > J1 > J2); m7 is non-zero at every one, so no rates other than "
+              f"all zero give a centre",
+              all(z[2] for z in zeros) and (len(zeros), positive) == want.get(I_, (3, 0))
+              and ordered == ordered_want.get(I_, 0))
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")
