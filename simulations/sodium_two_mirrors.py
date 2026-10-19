@@ -35,6 +35,12 @@ Checks:
     the blocks of order 2I, 2I-1, 2I-2 must be 1, 2, 3 times -s, three linear forms in J0, J1, J2 whose determinant
     I(I-1)(2I-3)²(2I-1)³(2I+5)(4I+3)/60 vanishes for I >= 1 only at 1 and 3/2; there the kernel is the ray
     (0, 2, 1) and the plane J0 = 0;
+  - every offset and splitting, every spin I >= 2: the populations block W carries neither J0, wQ nor w,
+    and the orders p, -p have conjugate polynomials, so a centre leaves the odd-multiplicity rates of W symmetric;
+    nu3, nu5 of W exact in I and t = J2/J1 by interpolation (degree <= 4k + 1); nu3 at J1 = 0 and the
+    resultant in t vanish at no spin I >= 2, so W simple forbids a centre; the route reaches 3/2 (identically 0)
+    and the spin-1 rays (t = 1/8, 5/4); the repeated-rate ratios are finitely many (integer I: J2 = 0 is an
+    irreducible chain; half-integer I to 61/2: a squarefree point mod 1000003), six real ones at I = 2;
   - a static splitting at w = 0, I = 1, 2, 5/2, ..., 6 (not 3/2): mu3, mu5, mu7, mu9 as exact polynomials in
     J0, J1, J2 and q = wQ/sqrt(6) (over Q(i), real traces), their common real zeros by exact elimination: none
     at I >= 2 other than all rates zero, six rays at I = 1, five of them with wQ real and a centre by the
@@ -626,6 +632,138 @@ def main():
           "I = 3/2 the plane J0 = 0, which is the theorem's centre",
           len(ker1) == 1 and list(ker1[0] / ker1[0][2]) == [0, 2, 1]
           and len(ker32) == 2 and all(v[0] == 0 for v in ker32))
+
+    print("\nevery offset and splitting, every spin I >= 2: a centre needs a repeated population rate (exact)")
+    tt = sp.Symbol("t")
+    wQs = sp.Symbol("wQ", real=True)
+    ws = sp.Symbol("w", real=True)
+
+    def populations(I_):
+        """The populations block (order 0) of the J1 and J2 parts, rational similarity of the generator's."""
+        _, blocks_ = rational_blocks(I_)
+        d_ = int(2 * I_) + 1
+        return blocks_[d_ - 1][1], blocks_[d_ - 1][2]
+    blind_ok, conj_ok = True, True
+    for I_ in (R(2), R(5, 2)):
+        ms_I, _, L_ = generator(I_, K0, K1, K2, wQs, ws)
+        d_ = len(ms_I)
+        pop = [a_ * d_ + a_ for a_ in range(d_)]
+        blind_ok &= not (L_.extract(pop, pop).free_symbols & {K0, wQs, ws})
+        for p_ in range(1, d_):
+            up_ = [a_ * d_ + a_ + p_ for a_ in range(d_ - p_)]
+            dn_ = [(a_ + p_) * d_ + a_ for a_ in range(d_ - p_)]
+            cu = sp.Poly(L_.extract(up_, up_).charpoly(x).as_expr(), x).all_coeffs()
+            cd = sp.Poly(L_.extract(dn_, dn_).charpoly(x).as_expr(), x).all_coeffs()
+            conj_ok &= all(sp.expand(sp.conjugate(a_) - b_) == 0 for a_, b_ in zip(cu, cd))
+    claim("the populations block depends on J1 and J2 only (not on J0, the splitting or the offset), and the "
+          "blocks of order p and -p have complex-conjugate characteristic polynomials, I = 2, 5/2, wQ and w symbols",
+          blind_ok and conj_ok)
+
+    def nu_closed(k, extra=3):
+        """nu_k = Tr (W + c)^k at J1 = 1, J2 = t, c = -Tr W / d, as a polynomial in I and t. Each entry of W is a
+        polynomial of degree 4 in m and I and the trace sums over m = -I .. I, so nu_k has degree <= 4k + 1 in I:
+        interpolation at 4k + 2 spins fixes it, and three more spins check it."""
+        deg = 4 * k + 1
+        spins_ = [R(n, 2) for n in range(2, 2 + deg + 1 + extra)]
+        forms = {}
+        for I_ in spins_:
+            W1_, W2_ = populations(I_)
+            vals = []
+            for j_ in range(k + 1):
+                W_ = W1_ + j_ * W2_
+                A_ = W_ - (W_.trace() / W_.rows) * sp.eye(W_.rows)
+                vals.append((R(j_), (A_**k).trace()))
+            forms[I_] = sp.Poly(sp.interpolate(vals, tt), tt)
+        out, agree = 0, True
+        for e in range(k + 1):
+            q = sp.expand(sp.interpolate([(I_, forms[I_].coeff_monomial(tt**e)) for I_ in spins_[:deg + 1]], Is))
+            agree &= all(q.subs(Is, I_) == forms[I_].coeff_monomial(tt**e) for I_ in spins_[deg + 1:])
+            out += q * tt**e
+        return sp.expand(out), agree
+    nu3, ok3 = nu_closed(3)
+    nu5, ok5 = nu_closed(5)
+    claim("nu3, nu5 of the populations block as exact polynomials in I and t = J2/J1 (degrees <= 13 and 21 in I), "
+          "fixed by 14 and 22 spins and checked at three more", ok3 and ok5)
+    lead3 = sp.factor(nu3.coeff(tt, 3))                         # nu3 at J1 = 0, J2 = 1
+    res_ = sp.factor(sp.resultant(nu3, nu5, tt))
+
+    def no_spin_root(poly_expr):
+        """True if the polynomial in I vanishes at no spin I >= 2 (exact: values at spins up to a bound past every
+        real root, and no root beyond the bound)."""
+        out = sp.expand(poly_expr) != 0                         # an identically zero polynomial decides nothing
+        for f_, _ in sp.factor_list(poly_expr, Is)[1]:
+            P_ = sp.Poly(f_, Is)
+            if P_.degree() == 0:
+                continue
+            B = int(sp.ceiling(max([sp.N(r_) for r_ in P_.real_roots()] + [2]))) + 1
+            out &= P_.count_roots(B, None) == 0 and all(P_.eval(R(n, 2)) != 0 for n in range(4, 2 * B + 1))
+        return out
+    claim("the populations block is palindromic at no spin I >= 2 for real rates other than J1 = J2 = 0: nu3 at "
+          "J1 = 0 and the resultant of nu3 and nu5 in t vanish at no spin I >= 2",
+          no_spin_root(lead3) and no_spin_root(res_), f"[resultant: {len(sp.factor_list(res_, Is)[1])} factors in I]")
+    z1 = sp.Poly(sp.gcd(sp.Poly(nu3.subs(Is, 1), tt), sp.Poly(nu5.subs(Is, 1), tt)), tt)
+    claim("the route reaches the known cases: nu3 and nu5 vanish identically at I = 3/2, and at I = 1 they share "
+          "exactly the ratios J2/J1 = 1/8, 5/4 (the populations of the spin-1 rays) and -1",
+          nu3.subs(Is, R(3, 2)) == 0 and nu5.subs(Is, R(3, 2)) == 0
+          and set(sp.roots(z1, multiple=True)) == {R(1, 8), R(5, 4), -1})
+    jacobi_ok = True
+    for I_ in [R(n) for n in range(2, 11)]:
+        W1_, _ = populations(I_)
+        jacobi_ok &= all(W1_[i_, i_ + 1] * W1_[i_ + 1, i_] > 0 for i_ in range(W1_.rows - 1)) \
+            and all(W1_[i_, j_] == 0 for i_ in range(W1_.rows) for j_ in range(W1_.rows) if abs(i_ - j_) > 1)
+    from sympy.polys.matrices import DomainMatrix
+    from sympy.polys.domains import GF
+    prime = 1000003
+    simple_half = []
+    for n in range(5, 62, 2):
+        W1_, W2_ = populations(R(n, 2))
+        for j_ in (1, 2, 3, 5, 7):
+            M_ = W1_ + j_ * W2_
+            den = sp.ilcm(*[sp.fraction(v_)[1] for v_ in M_])
+            cp = DomainMatrix.from_Matrix((den * M_).applyfunc(sp.Integer)).convert_to(GF(prime)).charpoly()
+            f_ = sp.Poly([int(c_) % prime for c_ in cp], x, modulus=prime)
+            if sp.degree(sp.gcd(f_, f_.diff()), x) == 0:
+                simple_half.append(n)
+                break
+    claim("the repeated rates lie on finitely many ratios J2/J1 (plus J1 = 0): at integer I, J2 = 0 makes the "
+          "populations block an irreducible tridiagonal chain, so simple (I = 2 .. 10 shown, the argument holds at "
+          "every integer I); at half-integer I = 5/2 .. 61/2 a rational point with a characteristic polynomial "
+          "squarefree mod 1000003", jacobi_ok and simple_half == list(range(5, 62, 2)))
+    def flip_sectors(I_):
+        """Characteristic polynomials (in x) of the populations block at J1 = 1, J2 = t on the m -> -m even and
+        odd populations; the block is taken from the generator itself, where it is real symmetric."""
+        ms_I, _, L_ = generator(I_, 0, 1, tt)
+        d_ = len(ms_I)
+        pop = [a_ * d_ + a_ for a_ in range(d_)]
+        W_ = L_.extract(pop, pop).applyfunc(lambda z_: sp.nsimplify(sp.expand(z_)))
+        sym_ok = (W_ - W_.T).applyfunc(sp.expand).is_zero_matrix
+        cols = {+1: [], -1: []}
+        for i_ in range(d_):
+            j_ = d_ - 1 - i_
+            for sgn in (+1, -1):
+                if i_ < j_ or (i_ == j_ and sgn == 1):
+                    v_ = sp.zeros(d_, 1)
+                    v_[i_] += 1
+                    v_[j_] += sgn
+                    cols[sgn].append(v_)
+        out = []
+        for sgn in (+1, -1):
+            B_ = sp.Matrix.hstack(*cols[sgn])
+            out.append(sp.expand(((B_.T * B_).inv() * B_.T * W_ * B_).charpoly(x).as_expr()))
+        return sym_ok, out
+    sym2, (pe2, po2) = flip_sectors(R(2))
+    cross2 = set(sp.Poly(sp.resultant(pe2, po2, x), tt).real_roots())
+    within2 = set(sp.Poly(sp.discriminant(pe2, x), tt).real_roots())
+    claim("the exceptional set is more than the two lines: at I = 2 the populations block (real symmetric) has a "
+          "repeated rate at six real ratios J2/J1, five where an even rate under m -> -m crosses an odd one (two of "
+          "them positive) and one, J2/J1 = -3/14, where two even rates meet",
+          sym2 and len(cross2) == 5 and sum(1 for r_ in cross2 if r_ > 0) == 2 and within2 == {R(-3, 14)}
+          and not sp.Poly(sp.discriminant(po2, x), tt).real_roots(), str(sorted(sp.N(r_, 4) for r_ in cross2)))
+    W1_, W2_ = populations(R(7, 2))
+    claim("at I = 7/2 and J1 = J2 (the populations of extreme narrowing, rotation invariant) two ranks share a "
+          "rate: the populations decay at 0, 30, 84 twice, 150, 210 twice, 240 (times J1)",
+          sp.expand((W1_ + W2_).charpoly(x).as_expr()
+                    - x * (x + 30) * (x + 84)**2 * (x + 150) * (x + 210)**2 * (x + 240)) == 0)
 
     print("\na static splitting beyond spin 3/2 (w = 0, exact): centres appear at spin 1 only, on five rays")
     Q4 = sp.symbols("J0 J1 J2 q", real=True)
