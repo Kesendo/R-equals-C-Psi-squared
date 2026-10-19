@@ -30,6 +30,11 @@ Checks:
     exact isolating intervals), the counts of common zeros, of positive ones and of ordered ones (J0 > J1 > J2) pinned;
     at 3/2 the same route's closed forms vanish exactly on the theorem's zero set (one way only: three vanishing moments would not prove a centre); the jump identities behind
     the offset argument (T_{2,-m} = ±T_{2,m}^†, [Iz, T_{2,m}] = m·T_{2,m}) checked at every spin;
+  - off resonance (w != 0, wQ = 0) at every spin I >= 2: the diagonal of -L on |m><m'| as a closed polynomial in m
+    and I(I+1), checked against the generator in every cell at I = 1 .. 6, the mean rate likewise; the traces of
+    the blocks of order 2I, 2I-1, 2I-2 must be 1, 2, 3 times -s, three linear forms in J0, J1, J2 whose determinant
+    I(I-1)(2I-3)²(2I-1)³(2I+5)(4I+3)/60 vanishes for I >= 1 only at 1 and 3/2; there the kernel is the ray
+    (0, 2, 1) and the plane J0 = 0;
   - a static splitting at w = 0, I = 1, 2, 5/2, ..., 6 (not 3/2): mu3, mu5, mu7, mu9 as exact polynomials in
     J0, J1, J2 and q = wQ/sqrt(6) (over Q(i), real traces), their common real zeros by exact elimination: none
     at I >= 2 other than all rates zero, six rays at I = 1, five of them with wQ real and a centre by the
@@ -567,6 +572,60 @@ def main():
               f"all zero give a centre",
               all(z[2] for z in zeros) and (len(zeros), positive) == want.get(I_, (3, 0))
               and ordered == ordered_want.get(I_, 0))
+
+    print("\nwith an offset w != 0, every spin I >= 2 (wQ = 0, every real rate triple other than all zero, exact)")
+    Is, ms_ = sp.symbols("I m")
+    X_ = Is * (Is + 1)
+    # diagonal of the sum of T^dag·T over each channel's jumps at level m, and the diagonal of T20
+    A0 = (3 * ms_**2 - X_) ** 2 / 6
+    A1 = ((2 * ms_ + 1) ** 2 * (X_ - ms_ * (ms_ + 1)) + (2 * ms_ - 1) ** 2 * (X_ - ms_ * (ms_ - 1))) / 4
+    A2 = ((X_ - ms_ * (ms_ + 1)) * (X_ - (ms_ + 1) * (ms_ + 2)) + (X_ - ms_ * (ms_ - 1)) * (X_ - (ms_ - 1) * (ms_ - 2))) / 4
+    t20 = (3 * ms_**2 - X_) / sp.sqrt(6)
+    gm = K0 * A0 + K1 * A1 + K2 * A2
+
+    def cell_rate(a, b):
+        """The diagonal of -L on |a><b| at wQ = w = 0, closed in I: (g_a + g_b)/2 - J0·t_a·t_b."""
+        return sp.expand(gm.subs(ms_, a) / 2 + gm.subs(ms_, b) / 2 - K0 * t20.subs(ms_, a) * t20.subs(ms_, b))
+    s_closed = (K0 + 2 * K1 + 2 * K2) * X_ * (4 * X_ - 3) / 30
+    spins = [R(k, 2) for k in range(2, 13)]
+    cells_ok, mean_ok = True, True
+    for I_ in spins:
+        ms_I, _, L_ = generator(I_, K0, K1, K2)
+        d_ = len(ms_I)
+        for a_ in range(d_):
+            for b_ in range(d_):
+                if sp.expand(L_[a_ * d_ + b_, a_ * d_ + b_] + cell_rate(ms_I[a_], ms_I[b_]).subs(Is, I_)) != 0:
+                    cells_ok = False
+        mean_ok &= sp.expand(-L_.trace() / d_**2 - s_closed.subs(Is, I_)) == 0
+    claim("the cell diagonals of -L, (g_m + g_m')/2 - J0·t_m·t_m', closed polynomials in m and I(I+1), equal the "
+          "generator's diagonal in every cell at I = 1, 3/2, ..., 6", cells_ok)
+    claim("the mean rate s = -Tr L / d² = (J0 + 2J1 + 2J2)·X(4X - 3)/30, X = I(I + 1), at I = 1, 3/2, ..., 6", mean_ok)
+    E_top = [cell_rate(Is, -Is) - s_closed,
+             cell_rate(Is, 1 - Is) + cell_rate(Is - 1, -Is) - 2 * s_closed,
+             cell_rate(Is, 2 - Is) + cell_rate(Is - 1, 1 - Is) + cell_rate(Is - 2, -Is) - 3 * s_closed]
+    traces_ok = True
+    for I_ in (R(2), R(5, 2), R(3)):
+        ms_I, _, L_ = generator(I_, K0, K1, K2)
+        d_ = len(ms_I)
+        s_I = -L_.trace() / d_**2
+        for k_, E_ in enumerate(E_top):
+            p_ = d_ - 1 - k_
+            block = [a_ * d_ + a_ + p_ for a_ in range(d_ - p_)]    # cells |m_a><m_b|, b = a + p, so m - m' = p
+            traces_ok &= sp.expand(-sum(L_[c_, c_] for c_ in block) - (k_ + 1) * s_I - E_.subs(Is, I_)) == 0
+    claim("the three trace conditions, as written in I, equal the generator's own traces of its blocks of order 2I, "
+          "2I - 1, 2I - 2 minus 1, 2, 3 times s at I = 2, 5/2, 3", traces_ok)
+    M_top = sp.Matrix([[sp.diff(e, k) for k in (K0, K1, K2)] for e in E_top])
+    det_top = sp.factor(M_top.det())
+    claim("the traces of the blocks of order 2I, 2I - 1, 2I - 2 equal 1, 2, 3 times s only where the matrix of the three "
+          "linear forms is singular, det = I(I - 1)(2I - 3)²(2I - 1)³(2I + 5)(4I + 3)/60, non-zero at every I >= 2",
+          sp.expand(det_top - Is * (Is - 1) * (2 * Is - 3) ** 2 * (2 * Is - 1) ** 3 * (2 * Is + 5) * (4 * Is + 3) / 60) == 0,
+          f"[{det_top}]")
+    ker1 = M_top.subs(Is, 1).nullspace()
+    ker32 = M_top.subs(Is, R(3, 2)).nullspace()
+    claim("at the two roots the forms leave what the moments and the theorem decide: at I = 1 the ray (0, 2, 1), at "
+          "I = 3/2 the plane J0 = 0, which is the theorem's centre",
+          len(ker1) == 1 and list(ker1[0] / ker1[0][2]) == [0, 2, 1]
+          and len(ker32) == 2 and all(v[0] == 0 for v in ker32))
 
     print("\na static splitting beyond spin 3/2 (w = 0, exact): centres appear at spin 1 only, on five rays")
     Q4 = sp.symbols("J0 J1 J2 q", real=True)
