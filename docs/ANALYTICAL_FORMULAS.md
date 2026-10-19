@@ -439,9 +439,8 @@ strings give it, and then dephasing along X or Y and depolarizing only rename
 the count (n_YZ or n_XZ; Re λ = −4γ⟨n_nonI⟩ for depolarizing), but other jump
 sets can give it too ([PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §2).
 Amplitude damping (T1, the jump σ⁻) adds a non-diagonal part to Herm(L_D) and
-shifts the rate (see F82, F84); the sum rule's *form* is what breaks, not the
-pairing itself: under T1 alone the spectrum stays palindromic about a halved
-centre ([F137](#f137)). Collective dephasing through the one jump Σ_k Z_k leaves
+shifts the rate (see F82, F84); the sum rule's *form* is what breaks; for the Hamiltonians [F137](#f137) names,
+the pairing itself does not: under T1 alone their spectrum stays palindromic about a halved centre. Collective dephasing through the one jump Σ_k Z_k leaves
 the Pauli diagonal as well, and there no single centre serves the spectrum at any N ≥ 2
 for an H keeping the all-0 and all-1 states as eigenstates
 ([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)). The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
@@ -2334,7 +2333,7 @@ bit_b (w_YZ parity, F63). Combined, they decompose the operator space into
 
 **Valid for:** any isotropic Heisenberg (XX+YY+ZZ) or XY (XX+YY) model,
 any graph topology, any site-dependent Z-dephasing gamma_k, any N.
-**Breaks for:** transverse fields (odd-n_XY Hamiltonian terms enter the commutator one-sided and mix the sectors). NOT broken by amplitude damping (T1): a dissipator acts bilinearly and σ∓'s Pauli components share odd parity, so the n_XY grading survives exactly (off-parity block exactly zero, [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)); what T1 breaks is the Π operator's identity (F82/F84) and the U(1) popcount grading, not this one, and not the spectral palindrome either ([F137](#f137): T1 alone keeps it, at a halved centre).
+**Breaks for:** transverse fields (odd-n_XY Hamiltonian terms enter the commutator one-sided and mix the sectors). NOT broken by amplitude damping (T1): a dissipator acts bilinearly and σ∓'s Pauli components share odd parity, so the n_XY grading survives exactly (off-parity block exactly zero, [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py)); what T1 breaks is the Π operator's identity (F82/F84) and the U(1) popcount grading, not this one, and not the spectral palindrome either ([F137](#f137): T1 alone keeps it for the Hamiltonians named there, at a halved centre).
 **Verified:** 69 configurations (chain N=2-7, ring N=2-6, star N=3-6,
 complete N=3-4, 4 gamma profiles each, plus the IBM-sacrifice profile at
 N=5 chain). Zero violations: all 60 configs with a distinct second slow
@@ -5569,15 +5568,15 @@ commutes with every unitary conjugation.
 
 **Qudit generalization (§6):** on the Weyl-Heisenberg operators P_{a,b} = X^a Z^b (a, b ∈ Z_d) the three involutions act with a symplectic phase, θ(P_{a,b}) = ω^{−ab}P_{−a,b}, conj(P_{a,b}) = P_{a,−b}, †(P_{a,b}) = ω^{ab}P_{−a,−b} (ω = e^{2πi/d}); the transport law is basis-free at every d; the qubit (−1)^{n_Y} is the d = 2 degeneration (ω^{ab} at the one label (1,1) = Y where the a ↦ −a flip collapses), and for d > 2 the triangle is a reflection of the Z_d × Z_d lattice, dovetailing with F121's Z_d ≀ Z₂.
 
-**One level up (§7): the generator's transpose and reciprocity.** The transpose of a superoperator's matrix in the matrix-unit basis is θ one level up (= conj∘S\*∘conj). It carries the Lindbladian to the Lindbladian of the transposed system, Lᵀ = L_{Hᵀ} + Σ r_k D_{J_kᵀ}, exactly when L is unital (Σ r_k [J_k, J_k†] = 0; normal jumps term by term); for Pauli-string jumps the dissipator is its own transpose, Lᵀ = L_{Hᵀ} + D. Through the trace pairing, Tr(B·e^{tL}(A)) = Tr(Aᵀ·e^{tLᵀ}(Bᵀ)), so for symmetric (for Hermitian operators: real) A and B, **Tr(B·e^{tL}(A)) = Tr(A·e^{tLᵀ}(B))**: for real H with Pauli-string jumps the generator is complex symmetric and preparing A, reading B gives what preparing B, reading A gives, whatever the couplings and the rate profile; with a flux the swap lands on the system with the flux reversed. With complex conjugation as the time reversal this is the infinite-temperature, time-reversal form of quantum detailed balance from which Onsager-Casimir reciprocity is drawn (the flux reversal is Casimir's field reversal). What trades places are the preparation and readout operators: moving an experiment to the other end of a chain is covered where the two coincide, as for one excitation or any single-qubit state sent end site to end site over a number-conserving chain, not for an interior readout or a Bell pair, whose |00⟩ population holds the preparation's own return probability (where a Bell readout agrees from both ends, a further symmetry does it: the spin flip X^⊗N at N = 4, or the free-fermion closure of the one-body correlations on the XX chain). Read with the silence (the rest projected on |0…0⟩ instead of traced out), a span{|00⟩, |11⟩} payload sent from one pair to another over a number-conserving real chain or graph with Z dephasing arrives as the same pair state from either side, entry for entry, so every function of it agrees, CΨ and R = CΨ² included; by habit it does not. σ⁻ alone breaks the law, σ⁻ with σ⁺ at equal rates keeps it. At unequal rates the law returns up to the thermal weight, for a real number-conserving H, Z dephasing, and cooling and heating at a single ratio γ↑/γ↓ = e^{−β} on every site: Lᵀ = Γ_β⁻¹ L Γ_β with Γ_β(X) = π_β^½Xπ_β^½, π_β ∝ e^{−βN̂}. Transfers in which bra and ket together keep their excitation count then agree both ways, and a decay stands to its reverse as e^β (detailed balance in the standard sense). The silence reading above needs Z dephasing alone: amplitude damping, cooling or heating, moves the probability of the silence it renormalizes by, and at a single ratio only the unnormalized silence-read coherence of a Φ⁺ payload stays tied. This is the reading on the flow of the complex symmetry Lᵀ = L that the weight-one Krein form, the frozen divisor, Route B and the F89 holonomy already use as a rigidity tool.
+**One level up (§7): the generator's transpose and reciprocity.** The transpose of a superoperator's matrix in the matrix-unit basis is θ one level up (= conj∘S\*∘conj). It carries the Lindbladian to the Lindbladian of the transposed system, Lᵀ = L_{Hᵀ} + Σ r_k D_{J_kᵀ}, exactly when L is unital (Σ r_k [J_k, J_k†] = 0; normal jumps term by term); for Pauli-string jumps the dissipator is its own transpose, Lᵀ = L_{Hᵀ} + D. Through the trace pairing, Tr(B·e^{tL}(A)) = Tr(Aᵀ·e^{tLᵀ}(Bᵀ)), so for symmetric (for Hermitian operators: real) A and B, **Tr(B·e^{tL}(A)) = Tr(A·e^{tLᵀ}(B))**: for real H with Pauli-string jumps the generator is complex symmetric and preparing A, reading B gives what preparing B, reading A gives, whatever the couplings and the rate profile; with a flux the swap lands on the system with the flux reversed. With complex conjugation as the time reversal this is the infinite-temperature, time-reversal form of quantum detailed balance from which Onsager-Casimir reciprocity is drawn (the flux reversal is Casimir's field reversal). What trades places are the preparation and readout operators: moving an experiment to the other end of a chain is covered where the two coincide, as for one excitation or any single-qubit state sent end site to end site over a number-conserving chain, not for an interior readout or a Bell pair, whose |00⟩ population holds the preparation's own return probability (where a Bell readout agrees from both ends, a further symmetry does it: the spin flip X^⊗N at N = 4, or the free-fermion closure of the one-body correlations on the XX chain). Read with the silence (the rest projected on |0…0⟩ instead of traced out), a span{|00⟩, |11⟩} payload sent from one pair to another over a number-conserving real chain or graph with Z dephasing arrives as the same pair state from either side, entry for entry, so every function of it agrees, CΨ and R = CΨ² included; by habit it does not. σ⁻ alone breaks the law, σ⁻ with σ⁺ at equal rates keeps it. At unequal rates the law returns up to the thermal weight, for a real number-conserving H, Z dephasing, and cooling and heating at a single ratio γ↑/γ↓ = e^{−β} on every site: Lᵀ = Γ_β⁻¹ L Γ_β with Γ_β(X) = π_β^½Xπ_β^½, π_β ∝ e^{−βN̂}. Transfers in which bra and ket together keep their excitation count then agree both ways, and a decay stands to its reverse as e^β (detailed balance in the standard sense). For a complex number-conserving H the same steps give L(H)ᵀ = Γ_β⁻¹ L(Hᵀ) Γ_β, so L(H) and the flux-reversed L(H̄) share their spectrum (§7, the paragraph after the proof; [F137](#f137)'s paragraph on loss and gain exchanged). The silence reading above needs Z dephasing alone: amplitude damping, cooling or heating, moves the probability of the silence it renormalizes by, and at a single ratio only the unnormalized silence-read coherence of a Φ⁺ payload stays tied. This is the reading on the flow of the complex symmetry Lᵀ = L that the weight-one Krein form, the frozen divisor, Route B and the F89 holonomy already use as a rigidity tool.
 
 **Verified (exact):** the V₄ table and Pauli action; the transport law for all four
 vertices on non-Hermitian H (machine-exact, N = 2, 3); each leg re-derived from the
 engine and cross-checked against its home formulation; the order-16 closure with
 exactly 8 antilinear members (N = 2); the dial trio at a generic angle; the §7 transpose
 law (N = 1..3, non-Hermitian H, Pauli-string jumps incl. Y, and from N = 2 a normal
-non-unitary phased cycle), its σ⁻ break, the complex
-symmetry at real H (N = 4), the unital σ⁻σ⁺ pair, reciprocity order by order with its
+non-unitary phased cycle), its thermal form at a complex H and one ratio (N = 3, `cube_moves_gate.py` M11), its σ⁻ break,
+the complex symmetry at real H (N = 4), the unital σ⁻σ⁺ pair, reciprocity order by order with its
 flux reversal, the operator swap against the positional mirror, and when positions follow
 (one excitation end to end and |+⟩ agree from both ends of an uneven Heisenberg or XXZ chain
 at N = 5 through t¹⁰, an interior readout and the Bell pair differ, the Bell pair agrees on
@@ -6693,10 +6692,10 @@ sober base.
 
 <a id="f137"></a>
 
-### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with an excitation-conserving X⊗N-symmetric H such as XXZ derived at every N by block-triangularity and the X⊗N conjugation, and, thermal bath included, for every H commuting with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N; 18/18 measured configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
+### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (spectra in the frame rotating with the qubits wherever H conserves the excitation number and the jumps keep the coherence order; H=0 derived by tensor sum; with an excitation-conserving X⊗N-symmetric H such as XXZ derived at every N by block-triangularity and the X⊗N conjugation, and, thermal bath included, for every H commuting with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N; 18/18 measured configurations N=2–5; and beyond the class of that element, for H commuting with Z⊗N under cooling, heating and dephasing in the XY plane, exactly when exchanging loss and gain on every site leaves the spectrum unchanged; for XXZ bonds with axial DM terms, without fields or dephasing, that is evenness under flux reversal, derived for them at one ratio γ↑/γ↓ per component of the hopping bonds on any graph, on every tree at any rates, and by the further carriers named there; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
 
 Pure amplitude damping (T1, jump σ⁻ per site, rates γᵢ) leaves the Liouvillian
-spectrum an exact palindrome, centered at **Re λ = −Σγᵢ/2**: half the dephasing
+spectrum an exact palindrome, at H = 0 and for the Hamiltonians named below, centered at **Re λ = −Σγᵢ/2**: half the dephasing
 center −Σγᵢ. The shift is halved, not lost, although Π itself fails; no
 site-local conjugation of the dephasing shape reproduces T1, which makes this
 the sharpest case of "Π fails" and "the palindrome fails" being different
@@ -6704,6 +6703,15 @@ claims. (The Π-identity break is the object F82/F84 quantify, and the
 direct-sum scope probe's T1 row,
 [`direct_sum_scope_probe.py`](../simulations/direct_sum_scope_probe.py),
 measures that break under co-axial T1 + Z-dephasing, not this spectrum.)
+With H ≠ 0 conserving the excitation number and jumps that keep the coherence order p − q, the complex
+spectra of this entry are those of the frame rotating with the qubits' common bare frequency, the uniform Σ Z_l term of the lab-frame H (for qubits of
+different frequencies their mean, so that the remaining fields sum to zero);
+the lab frame keeps the decay rates paired where the rotating frame pairs them and need not keep the single centre of the complex spectrum (the paragraph on loss and gain exchanged, below).
+This frame is the entry's own: [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md) reads a uniform
+longitudinal field under Z dephasing in the lab frame, where each joint-popcount block keeps its pairing with its Π image about a centre moved by its own
+h(2p − N) and the eigenvalues as a whole no longer pair; that is
+the same frame change. Settings with other jumps, or with terms that do not conserve the
+excitation number, are read as written, the generator taken in the frame where it is given.
 Derived at H = 0: the single-site T1 dissipator has
 Pauli-basis eigenvalues **{0, −γ/2, −γ/2, −γ}**, already mirrored about −γ/2,
 and N sites are a tensor sum. With a Hamiltonian that conserves the excitation
@@ -6724,21 +6732,25 @@ swept configurations agree exactly as multisets (N=2–5; chain, ring, star, com
 site-dependent rates; anisotropies δ = −0.5 to 2). Pairing fractions here and
 in F138 count eigenvalues with an exact mirror partner out of the full 4^N
 (…/64 is N=3, …/256 is N=4). Composition, all per
-connected component: dephasing *transverse* to T1 composes exactly, the pairs
+connected component: dephasing *transverse* to T1 along X or Y composes exactly for an H that commutes with X⊗N and
+Y⊗N (for such an H that also conserves the excitation number, also along one orthogonal pair of axes in
+the XY plane, by a common turn about Z; a tilted axis beside X can break it, gate M11), the pairs
 now summing to −(2Σγ_deph + Σγ_T1), i.e. center **−(Σγ_deph + Σγ_T1/2)**
 (X 64/64, Y 64/64, XYX 64/64); *co-axial*
 dephasing breaks it (Z 8/64; on T1's own bond of a disjoint pair 192/256,
-on the other bond 256/256); no on-site field in T1's component (transverse
-1/64; on T1's own bond 16/256 vs 256/256 on the other; a longitudinal field
-pairs the rates, the real parts, 64/64, but not the complex eigenvalues,
-28/64). The transverse composition is derived at every N for an H that commutes with
+on the other bond 256/256); at Heisenberg bonds the measured field profiles break it in T1's component (transverse
+1/64 at h = (0.3, −0.2, 0.5); an X field (0.3, −0.2) on T1's own bond 16/256 vs 256/256 on the other; the longitudinal profile of that h at one damping rate on every site pairs the rates, the real parts, 64/64, but not the complex
+eigenvalues, 28/64), while at these real bonds, with any dephasing along X or Y, a longitudinal profile that a site permutation
+keeping the bonds, the rates and each site's dephasing axis turns into its negative keeps the pairing; on a bipartite graph of XX + YY bonds, with or without
+axial DM terms and without ZZ terms, any longitudinal field does (below). The transverse composition is derived at every N for an H that commutes with
 X⊗N and Y⊗N, with or without a heating channel: one site's X or Y dephasing gives I and Z, and X
 and Y, rates that sum to 2γ, which the element S_XY above pairs, so S_XY reflects damping and
 transverse dephasing together, the centre above included; Z dephasing gives I and Z both rate 0 and
-is not paired. The three breaks are exact at N = 3 on the Heisenberg chain (J = 1, damping 1,
-dephasing ½, fields of strength 1, all uniform): co-axial Z, a transverse field and a longitudinal
-field give Tr((L + c/2)³) = 36, 288 and −768 in exact rationals, so no element reflects the
-spectrum there; the longitudinal field's rates still pair, as above
+is not paired. The breaks are exact at N = 3 on the Heisenberg chain (J = 1, damping 1, dephasing ½, fields of
+strength 1, all uniform): co-axial Z and a transverse field give Tr((L + c/2)³) = 36 and 288 in exact
+rationals, so no element reflects the spectrum there. A uniform longitudinal field gives −768 as
+written, but it is the lab frame of the field-free chain, which pairs in the entry's frame (the lab-frame paragraph below), and
+its rates pair, as above
 ([`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M10).
 
 **Extended to a thermal bath (2026-08-05; the thermal pairing exact at the script's rational
@@ -6756,11 +6768,174 @@ dissipator's one off-diagonal entry round, S_XY·D·S_XY⁻¹ = −D† − Σ�
 rates, summed over the sites); a Hamiltonian that commutes with X⊗N and Y⊗N is kept, L_H = −L_H†, so
 S_XY·L·S_XY⁻¹ = −L† − Σᵢ(γ↓ᵢ + γ↑ᵢ), which pairs the spectrum with its Jordan structure. Every Pauli term whose numbers of X, Y and Z
 letters have one parity qualifies: XYZ bonds with any couplings on any graph, XX bonds alone. Co-axial Z dephasing, a longitudinal
-field and DM bonds break the element ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9, [`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9).
+field and DM bonds break the element ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9, [`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9); axial DM
+bonds without fields or dephasing keep the pairing at one ratio γ↑/γ↓ on the damped sites of each hopping component, at any rates on every
+tree, and in the further cases below.
 The H = 0 face needs nothing new: the thermal
 single-site Pauli rates are **[0, r/2, r/2, r] with r = γ↓ + γ↑**, already
 worked out in [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), so the same
 tensor-sum argument applies with r in place of γ.
+
+**Outside S_XY's class: loss and gain exchanged.** (Spectra here, as for every excitation-conserving
+H ≠ 0 of this entry under jumps that keep the coherence order p − q, are those of the frame rotating with the qubits' common frequency; the lab frame is taken up below, and other settings are read as
+written.) Let H commute with Z⊗N, and let every jump A be odd
+under Z⊗N with A†A + AA† a multiple of the identity (more generally, the rate-weighted sum Σ γ_A(A†A + AA†) a
+multiple of the identity; automatic for one-site jumps odd under Z⊗N; a collective jump such as Σσ⁻, alone or beside Σσ⁺, is excluded), among them cooling σ⁻ = |0⟩⟨1| (|1⟩ the excited
+level) and heating σ⁺ on each site and dephasing along any axis in the XY plane, γ⊥ᵢ its total rate on site i.
+Then the shift S_IZ: ρ ↦ I⊗N·ρ·Z⊗N = ρ·Z⊗N (right multiplication by Z⊗N, named like S_XY; the sibling of F118's R, the shift by X⊗N) carries L onto the reflection of the Liouvillian whose jumps are the A†:
+
+    S_IZ·L·S_IZ⁻¹ = −L′† − c,   L′ = L with every A replaced by A†,   c = Σᵢ(γ↓ᵢ + γ↑ᵢ) + 2Σᵢγ⊥ᵢ
+
+(H commutes with Z⊗N, so S_IZ keeps the commutator part; for one jump, Z⊗N·A†·Z⊗N = −A† and
+A†A + AA† ∝ 1 give the dissipator part; in general c is the constant of
+Σ γ_A(A†A + AA†); c is the offset and −c/2 the centre, where the centre identity below calls the centre
+itself c). Replacing σ⁻ by σ⁺ exchanges cooling and heating on a site, which keeps its sum γ↓ + γ↑ and flips its net rate γ↓ − γ↑ (the paragraph on which rate, below), for a local bath at one ratio the reversal of
+its temperature's sign, and a dephasing jump is its own adjoint, so the exchange cannot see it (in the energy basis dephasing along X is a bit-flip channel, loss and gain at equal rates plus the terms σ⁺ρσ⁺ and
+σ⁻ρσ⁻, noise locked in phase to the rotating frame; along a·X + b·Y those two terms carry opposite phases
+set by the axis). L preserves Hermiticity, so its spectrum is closed under
+conjugation, and the palindrome holds exactly when the spectrum does not change as every A is
+replaced by A†, for the jumps listed, as every site's cooling and heating rates trade places: when
+exchanging loss and gain goes unnoticed by the spectrum. Every odd
+centred trace changes sign under the exchange, so the criterion is the palindrome in another form;
+what explains a pairing is an identity that gives the exchanged Liouvillian the spectrum of L, by a
+similarity, a transposition or a conjugation, the carriers below. This is the shift by Z⊗N of
+[THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9, which turns the arrow round "with the wrong sign" and reflects
+at equal loss and gain: the wrong sign is the exchange, and where the two rates are equal it changes
+nothing, so there S_IZ reflects L for every H that commutes with Z⊗N, longitudinal fields included.
+More generally a site permutation P that keeps H and carries each site's cooling and heating rates
+onto the image site's heating and cooling rates, and any dephasing rate and axis onto the image site's
+up to sign, carries the exchanged Liouvillian back to L, so P after S_IZ reflects L, fields included
+(gate M11 runs it without fields, as the shift by two sites on a 4-ring).
+The element S_XY is the spin flip (the turn by X⊗N of §9) composed with S_IZ, up to a phase; the spin flip exchanges cooling and
+heating back, carries H to X⊗N·H·X⊗N and mirrors each dephasing axis a·X + b·Y to a·X − b·Y, so that
+S_XY·L(H)·S_XY⁻¹ = −L(X⊗N·H·X⊗N)† − c with the rates as they are where the dephasing runs along X or Y;
+the class above, X⊗N·H·X⊗N = H with dephasing along X or Y only, is a case where S_XY reflects outright.
+
+For bonds J(XX + YY) + D_z(XY − YX) + Δ·ZZ with axial DM terms, without fields and without dephasing,
+which conserve the excitation number, X⊗N·H·X⊗N = H̄ = Hᵀ, with H̄ the complex conjugate in the
+computational basis: every hopping phase is reversed, and exchanging loss and gain is spectrally the
+same as reversing every flux, the flux of the hopping excitations (for the spins, the DM vector
+D_z ↦ −D_z; the spin time reversal keeps these bonds but, being antilinear, turns the generator of H
+into that of −H while it exchanges loss and gain, and so only restates the criterion as
+spec L(H) = spec L(−H)). The bath here
+is the local one of the master equation above, a cooling and a heating rate on each site, valid while the baths cannot resolve the splittings H makes; a global bath whose ratios follow the transitions of H itself is not this case, and what it
+does is not shown here. These bonds, like every excitation-conserving H of this entry, are read in the
+frame rotating with the qubits' common frequency: in
+the lab frame that frequency is a uniform longitudinal field, which adds to each coherence order p − q
+its own imaginary constant and so keeps the decay rates paired where the rotating frame pairs. What it
+need not keep is the single centre of the complex spectrum: on M10's Heisenberg chain under cooling
+alone the uniform field leaves a nonzero odd centred trace, and each coherence order, which S_XY sends
+to its negative and the adjoint ρ ↦ ρ† sends back, keeps its own mirror instead, about −c/2 shifted by
+that order's constant (gate M11). A carrier that still applies with a uniform Σ Z_l added to H keeps that single centre in the lab frame
+too: P after S_IZ, the conjugation on a bipartite graph and the fourth carrier below do. S_XY alone,
+and the one-ratio transpose, the turns and Ad_P∘S_XY composed with it, do not: S_XY turns a uniform
+field into its negative, and only the conjugation, in the third and the fourth carrier, turns it back.
+Qubits of different frequencies leave site-dependent fields in every frame rotating at one common
+frequency, and with fields H is no longer one of these bonds. Where a site permutation keeps the rates, carries the bonds onto their flux-reversed image (P·H̄_b·P† = H_b for the bond part H_b) and
+negates the fields, Ad_P∘S_XY (the general form below) still
+carries the pairing, the conjugation does on a
+bipartite graph at Δ = 0, and the fourth carrier below may; elsewhere the pairing can break at flux 0.
+The triangle below with real hopping, fields Σ h_l·Z_l with h = (−½, 0, ½) and cooling alone at
+γ↓ = (½, 1, 3⁄2) has Tr((L + c/2)⁵) = −2560 in that frame, and no common frame pairs it: with κ·Σ Z_l
+added the fifth power sum is −2560 − 15360κ, zero only at κ = −1/6, where the seventh is 1708448/9
+(exact, gate M11). Its decay rates, which no such choice moves, miss their mirror
+(read: by 0.109, in double precision and at 30 digits alike); at flux ±π/2 the same triangle pairs, by the
+fourth carrier below. Three things carry the evenness; with fields the second and the third carry the pairing as well, and a
+fourth, built from all three, carries it at one ratio.
+
+- *One ratio γ↑ᵢ/γ↓ᵢ on every damped site* (an undamped site fits any; per component of the hopping bonds, below), one temperature of the local
+  baths for qubits of one frequency (a ratio above 1 a negative one): every flux pairs, on any graph and at any rate magnitudes. For a ratio strictly between 0 and ∞ the thermal transpose of
+  [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md#7-one-level-up-the-generators-transpose-and-the-two-ends-of-a-channel)
+  §7 does it, read for a number-conserving H that need not be real: L(H)ᵀ = Γ⁻¹·L(Hᵀ)·Γ with
+  Γ: ρ ↦ π_β^½·ρ·π_β^½ and π_β ∝ (γ↑/γ↓)^N̂, the Gibbs state of the bare energy
+  ω·N̂ for qubits of one frequency ω and not of H, so L(H) and L(Hᵀ) = L(H̄)
+  share their spectrum (at a ratio of 1 Γ is the identity). The ratio may differ between components of the hopping
+  bonds, by §7's weight ⊗_l diag(1, (γ↑/γ↓)_l), as long as no hopping joins two sites of different ratio;
+  and since the characteristic polynomial depends polynomially on the rates, a component may also sit at
+  ratio 0 or ∞ beside the others (a whole component; a cooling-only site inside a thermal component
+  is a different ratio, not an undamped site). Cooling alone, ratio 0, is the H_eff route above, and
+  heating alone is the same after the spin flip.
+- *A unitary V whose conjugation commutes with the dissipator*, with V·(X⊗N·H·X⊗N)·V† = H, for
+  these bonds V·H̄·V† = H; Ad_V∘S_XY is the element. Under that condition the jumps may take phases and may trade
+  places, σ⁻ of one site with σ⁺ of another included where the cooling rate of each equals the heating rate of the other, which is less than the frame theorem of
+  [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md#beyond-the-colouring-the-same-string-in-another-frame)
+  asks, a V commuting with every jump. Turns about Z, g_l = diag(1, e^{iθ_l}) on each site, give σ⁻
+  and σ⁺ only a phase at any rates, and they undo the reversal exactly when every cycle of the hopping
+  bonds (J + iD_z ≠ 0) carries flux 0 or π. So on every tree, the open chain and the star among them, the
+  spectrum pairs at every N and any rates per site: with θ_b = θ_a − arg(J + iD_z) along each bond
+  (a, b), oriented as in D_z(X_aY_b − Y_aX_b), the turned Hamiltonian is real, and the element is S_XY
+  with each site's X and Y turned about Z, ρ ↦ ⊗_l(g_l†Xg_l)·ρ·⊗_l(g_l†Yg_l). At uniform J and D_z its
+  left factor is the open chain's frame U†X⊗N·U on
+  [the selected ring's page](carbon/BENZENE_THREE_DEPHASE_LETTERS.md#the-cube-on-the-ring-which-letter-the-pairing-can-see),
+  which carries the same Hamiltonian's palindrome under Z dephasing. At J = 0 every turn is a multiple
+  of π/2 and the element is a pair of site-dependent Pauli strings, X⊗Y⊗X·ρ·Y⊗X⊗Y at N = 3 up to sign: the DM
+  chain under loss that MirrorWorld's `Sextant` reads as symmetric modulo p has it, outside the
+  uniform moves its search runs over. A site permutation that keeps the rates and the bonds and
+  reverses the flux, composed with turns where needed, serves at any flux: on the triangle, the
+  reflection fixing one site, with rates symmetric under it. The general form covers fields too, then no longer as evenness under flux reversal: on the Heisenberg
+  chain a longitudinal profile that the chain's reflection turns into its negative keeps the pairing at
+  rates the reflection keeps (gate M11).
+- *Complex conjugation with a sign.* σ⁻ and σ⁺ are real, so conjugating ρ entry by entry carries L(H)
+  to L(−H̄) and keeps the dissipator; the map is antilinear, so spec L(−H̄) is the conjugate of
+  spec L(H), and by the closure under conjugation equal to it. For these bonds the palindrome is then
+  equally spec L(H) = spec L(−H), and a unitary W of the kind above with W·H·W† = −H carries it. On a
+  bipartite graph at Δ = 0, W = Z on one sublattice does, at any flux and any rates; with longitudinal
+  fields added, W·(−conj(X⊗N·H·X⊗N))·W† = H still, so it carries the palindrome there too, though no
+  longer as evenness under flux reversal.
+- *The three chained, with fields.* With longitudinal fields F, without dephasing and at one ratio per
+  component of the hopping bonds, S_XY, the transpose and the conjugation give in turn
+  spec L(H + F) = −spec L(H̄ − F) − c, spec L(H̄ − F) = spec L(H − F) and
+  spec L(H − F) = spec L(−H̄ + F), so the palindrome holds exactly when spec L(H + F) =
+  spec L(−H̄ + F), and turns about Z with W·(−H̄)·W† = H carry it, since they keep F and the
+  dissipator. At Δ = 0 such turns exist exactly when every cycle of the hopping bonds, of length ℓ and
+  flux Φ, has e^{2iΦ} = (−1)^ℓ: flux 0 or π on even cycles, ±π/2 on odd ones. The triangle below with
+  fields (−½, 0, ½) under cooling alone, which breaks at flux 0, pairs at flux π/2, and the triangle
+  with fields (3⁄10, −⅕, ½) at one ratio ¼ pairs at flux ±π/2; Δ = 7⁄10, flux arccos(3/5) and three
+  ratios break it (exact characteristic polynomials, gate M11). With fields one ratio is no longer one
+  temperature: qubits of different frequencies at one temperature have ratios that differ by e^{−β·δω}
+  across a detuning δω, so for them the carrier holds exactly at cooling alone and at equal rates.
+
+Where none of these applies the pairing can fail (exactly for the complex spectrum, by an odd power
+sum; for the decay rates, as a reading). For these bonds without fields or dephasing, with all the
+bonds forming one connected graph, a break needs at least a flux other than 0 and π, ratios that
+differ between damped sites of one component of the hopping bonds, and a hopping graph that is not
+bipartite or Δ ≠ 0 on some bond, each somewhere and not necessarily in one component of the hopping
+bonds, since each carrier needs its own condition on the whole graph. On one triangle with |J + iD_z| = 1 on every bond, J = 1 on the bonds (0, 1) and (1, 2) and
+J + iD_z = e^{iΦ} on the bond (2, 0), oriented as D_z(X₂Y₀ − Y₂X₀), Δ = 0, and γ↓ = (½, 1, 3⁄2),
+γ↑ = (⅛, ⅓, ⅕) on sites 0, 1, 2, the ratios ¼, ⅓ and 2⁄15,
+
+    Tr((L + c/2)⁵) = −656·sin Φ,
+
+so no element reflects that spectrum at any flux other than 0 and π, where the bonds are real and S_XY
+reflects it; the decay rates themselves miss their mirror at flux π/2 (read: the sorted real parts by
+2.53·10⁻² with an eigensolver in double precision and again at 30 digits, where flux 0 misses only by
+each one's rounding; a reading in the gate, not an exact check). With cooling and heating exchanged on
+every site the trace is +656·sin Φ (the sign change above; gated at π/2), and with γ↑ = γ↓/4 on every site instead the same triangle pairs
+at flux π/2. On a 4-ring at Δ = 7⁄10 without fields, at four ratios and flux π/2, the characteristic
+polynomial is not palindromic either.
+
+Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
+Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
+a·X + b·Y to a·X − b·Y, the conjugation mirrors it back, and Z on a site negates the axis, which its
+dephasing cannot see. Along X or Y it also keeps the turns where they can be chosen as multiples of
+π/2 on the dephased sites, since S_XY reflects dephasing along a·X + b·Y only where ab = 0 (the
+dephasing itself sees every turn by an angle that is not a multiple of π; the element survives the
+quarter-turns because S_XY reflects X and Y dephasing alike). It does not keep the thermal weight at a ratio other than 1 (PROOF_ANTILINEAR_TRIANGLE §7; at ratio
+1 S_IZ itself reflects, and P after S_IZ keeps its condition at any axes), and away from the bipartite case at Δ = 0 each dephasing axis is a
+phase reference, so what matters is the flux together with each dephased site's axis angle relative
+to the hopping phases carried to it. The triangle above at γ↑ = γ↓/4 with X dephasing at 3⁄10 on every site
+pairs with real hopping and not with the phase π/2 on one bond, where the seventh power sum about the
+spectrum's mean, Tr((L + c/2)⁷) with c including the dephasing, is −263277/400; and at flux 0 written with the phases (θ, −θ, 0),
+cos θ = 3⁄5, it does not pair either (a nonzero ninth power sum). Under Z dephasing without the damping the question is a different
+one: the jump Z is even under Z⊗N, S_IZ keeps the dissipator instead of reflecting it, and the flux
+reversal costs nothing, since for Pauli jumps §7's transpose is L(H)ᵀ = L(Hᵀ), the dissipator being its own transpose. The one-sided ρ·X⊗N
+carries L(H) onto a reflection only where X⊗N·H·X⊗N = H, and the same triangle at flux π/2 under
+uniform Z dephasing does not pair (its characteristic polynomial, exact), as the colouring page's frame
+theorem under uniform Z dephasing and the holonomy of
+[PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) Theorem 2
+have it. Gate: [`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M11, exact over ℚ(i) at N = 3
+and, for the four-site rows, N = 4 (the one-site facts symbolic in the angle and the rates), with the
+two eigensolver readings named above.
 
 **The centre is an identity and carries no evidence.** A multiset closed under
 λ ↦ 2c − λ has Σλ = n·c, so c = mean(λ) = trace(L)/dim exactly; and the
@@ -6796,16 +6971,18 @@ equation dz/dt = a − b·z with a = γ↓ − γ↑ and b = γ↓ + γ↑ = 1/T
 in [the F81 hardware bridge](../experiments/F81_VIOLATION_HARDWARE_BRIDGE.md):
 the sum is the decay rate, the difference is the affine constant. So the only
 new sentence is the join, and it is the reason F137's centre and F84's
-violation can never be the same rate. Detailed balance separates
+violation can never be the same function of the rates. Detailed balance separates
 the two cleanly: at γ↓ = γ↑ F84's violation is exactly zero, the centre is
 **not** zero but −Σγ↓, and the pairing is exact at the N=2 profile above. That is F137's
 own "Π fails ≠ the palindrome fails", read in the other direction.
 
 Caveat, because "different objects" invites over-reading: at H ≠ 0 the
-*spectrum* does depend on the net rate; only the *centre* does not.
+*spectrum* does depend on the net rate; only the *centre* does not. For an H that commutes with Z⊗N, under the jumps listed in the paragraph on loss and gain exchanged
+(above), the spectrum pairs exactly when it does not change as every site's net rate flips
+sign at once.
 
 **Gate:** [`simulations/cube_old_questions_gate.py`](../simulations/cube_old_questions_gate.py) G7 for the
-cooling-only derivation; [`simulations/cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9 for the element S_XY and M10 for the composition;
+cooling-only derivation; [`simulations/cube_moves_gate.py`](../simulations/cube_moves_gate.py) M9 for the element S_XY, M10 for the composition and M11 for loss and gain exchanged;
 [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → the T1 and per-component sections of
 [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt); the
@@ -6817,9 +6994,22 @@ thermal extension in
 (the boundary-law rewrite, `1c7dcf9`); the H=0 face and the cooling-only face with an
 excitation-conserving X⊗N-symmetric H are derived there, the thermal face with the Heisenberg H is
 exact at the script's rational rate profiles at N=2, 3 and measured to N=5, and derived at every N for an H commuting
-with X⊗N and Y⊗N by the element S_XY above. **Typed:** not yet (Tier1Candidate). Open: typing; the thermal pairing
-for a Hamiltonian outside S_XY's class, DM bonds among them. The centre at H ≠ 0 is the trace identity above and needs no
-proof.
+with X⊗N and Y⊗N by the element S_XY above; outside that class, for H commuting with Z⊗N under cooling,
+heating and dephasing in the XY plane, the criterion
+(the spectrum unchanged when loss and gain are exchanged) is derived at every N, and the pairing wherever
+one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** not yet (Tier1Candidate). Open: typing; whether, for XXZ
+bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
+other than 0 and π,
+with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above; and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
+with damped sites. Neither is known.
+Transverse DM bonds are such a Hamiltonian and can break it, at zero splitting (YZ − ZY does not
+conserve the excitation number, so no rotating frame removes the qubits' frequency, and a thermal bath
+there has equal rates): the open chain of three sites with YZ − ZY on both bonds has
+Tr((L + c/2)⁵) = 240 under cooling alone at rate 1, and 1280 at equal cooling and heating rates 1,
+where every H commuting with Z⊗N pairs (exact, gate M11). So without fields or dephasing axial DM pairs
+on every tree, and transverse DM need not. The centre at H ≠ 0 is
+the trace identity above and needs no proof.
+**Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no F137 claim) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y commutes with [H, ·], the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing). None held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
 [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose summary row called the
@@ -9575,8 +9765,7 @@ multiplicities; so with at least one jump, at odd TOTAL dimension the
 palindrome is impossible rather than merely absent. The local dimension is free: on a qutrit tensored with a
 qubit the row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X.
 
-**Two fences, both load bearing, and one consequence.** A_l² = 1: with T1 jumps
-[F137](#f137) keeps a palindrome about a different centre, stated there exactly
+**Two fences, both load bearing, and one consequence.** A_l² = 1: with T1 jumps [F137](#f137) keeps a palindrome, for the Hamiltonians it names, about a different centre, stated there exactly
 as trace(L)/dim, so a criterion phrased about −2σ answers a different question.
 γ_l > 0: a zero rate drops that site's condition from both spaces and can move
 the verdict (a ZZ bond with an X field on site 0 and X-dephasing on both sites is

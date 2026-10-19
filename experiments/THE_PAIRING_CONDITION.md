@@ -649,10 +649,13 @@ answered there: orthogonality of directions is not what the criterion asks for.
 
 **And one axis where the criterion is not merely untested but mis-centred.**
 Jump operators with A² ≠ 1 break Σ c†c = σ·1, and the palindrome does not simply
-die there: **F137** records that T1 alone keeps it, about **−σ/2** rather than −σ.
+die there: **F137** records that T1 alone keeps it for the Hamiltonians it names, about **−σ/2** rather than −σ.
 So a criterion phrased "pairs about −σ" is answering the wrong question in that
-regime, and the premise is doing more work than a footnote. F82 to F84 own the
-separate matter of Π failing there. Z dephasing with correlated site fields sits
+regime, and the premise is doing more work than a footnote. With the string Z⊗N in place of U
+(H commuting with it) the one-sided step above carries over to jumps that anticommute with that
+string and satisfy A†A + AA† ∝ 1, σ⁻ and σ⁺ among them, and lands on the reflection of the
+Liouvillian with every A replaced by A† ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged). F82 to F84 own the
+separate matter of Π failing in that regime. Z dephasing with correlated site fields sits
 on the same axis, with Hermitian jumps whose Σ c†c is not a number: the same one-sided
 computation with U = X^⊗N, which anticommutes with every jump built linearly from the Z_k
 (H commuting with it), premise dropped, gives −L† − {Σ c†c, ·}, so the shift 2σ becomes

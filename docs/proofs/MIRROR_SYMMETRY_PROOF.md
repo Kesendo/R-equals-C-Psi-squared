@@ -68,7 +68,8 @@ sign may differ from qubit to qubit freely. Noise using different axes on
 different qubits is also fine, as long as at most two axes turn up in any one
 connected group. And energy loss to the environment (amplitude damping, or
 T1), the dominant noise on today's hardware, does not destroy the palindrome
-when it acts alone; it halves the shift.
+when it acts alone on chains like these without fields; it halves the shift (with fields and other
+couplings it can break, F137).
 
 Two warnings before the details. These are conditions on the whole system,
 not a checklist: two of them can each hold and still fail together. And
@@ -287,7 +288,8 @@ exception:
   Π image (q, N − p), λ ↦ −λ − 2Σγᵢ + 2ih(2p − N), the real parts
   about the one centre and each complex centre moved off the axis by its own
   h(2p − N), never zero at N = 3
-  ([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)).
+  ([The Mirror under a Shared Field](../../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)). These shifts are a change of frame: in the frame rotating with the qubits the uniform field is gone and
+  the eigenvalues pair again, so the uniform field's break is the lab frame's; [F137](../ANALYTICAL_FORMULAS.md#f137) reads its spectra in the rotating frame.
 
 **Why X looks special and is not.** Held against this proof's fixed Π, a
 transverse field's residual comes out as 2·maxᵢ|hᵢ·sin φᵢ|, zero along X and
@@ -338,8 +340,8 @@ is exact; it does not say everything outside is equally far away.
 because it is a different channel rather than another axis:
 
 - **T1 alone** is outside Π's reach but not outside the palindrome's. No
-  site-local Π of the shape used here reproduces T1, and yet the spectrum
-  still pairs, centered on −Σγᵢ/2 instead of −Σγᵢ: the shift is halved, not
+  site-local Π of the shape used here reproduces T1, and yet, for the Hamiltonians
+  [F137](../ANALYTICAL_FORMULAS.md#f137) names, the spectrum still pairs, centered on −Σγᵢ/2 instead of −Σγᵢ: the shift is halved, not
   lost. Exact as a multiset on all 18 configurations swept (N=2 through 5,
   chain, ring, star and complete, uniform and site-dependent rates,
   anisotropies δ=−0.5 to δ=2). This is the sharpest case of "Π fails" and
@@ -396,6 +398,15 @@ because it is a different channel rather than another axis:
   (two at N=2, one at N=3, J = 1), with no eigensolver anywhere, and fails for T1 + Z, so
   the break is proven too. To N=5 the canonical F1 distance sits at the floor.
 
+  Axial DM bonds, which break the element (above), can still keep the pairing. Under the damping alone, for H commuting with Z⊗N, the
+  pairing holds exactly when exchanging loss and gain on every site leaves the spectrum unchanged;
+  for XXZ bonds with axial DM terms and no fields that is evenness under flux reversal. The turns about
+  Z that carry it on every tree, one angle per site about the damping's own axis and invisible to it,
+  are the kind of frame that the colouring page's frame theorem and the selected ring's chain frame
+  use under Z dephasing, here for the damping, which gives σ⁻ and σ⁺ only a phase
+  ([F137](../ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged, gate M11, with the
+  other carriers and a break at site-dependent ratios).
+
   Two things this section deliberately keeps apart. The **centre** is a trace
   identity, and the trace of the commutator part is zero, so it is fixed by the
   dissipator alone and needs no proof at H ≠ 0. The **pairing** is the claim.
@@ -416,29 +427,33 @@ because it is a different channel rather than another axis:
   ([`thermal_palindrome_centre.py`](../../simulations/thermal_palindrome_centre.py))
 
 - **T1 with dephasing** depends entirely on the axis, and the obvious guess
-  is wrong. Dephasing *transverse* to T1 composes with it exactly: T1 plus
+  is wrong. Dephasing *transverse* to T1 along X or Y composes with it exactly: T1 plus
   X-dephasing and T1 plus Y-dephasing both pair 64/64, as does T1 plus a
-  two-axis XYX pattern, at the combined shift 2Σγ_deph + Σγ_T1. Only
-  *co-axial* Z-dephasing breaks it, down to 8/64. So the realistic hardware
-  case, T1 alongside Z-dephasing, is the one combination that fails, and it
+  two-axis XYX pattern, at the combined shift 2Σγ_deph + Σγ_T1. Among X, Y and Z only *co-axial* Z-dephasing breaks it, down to 8/64 (tilted axes in the XY plane
+  that no common turn about Z brings to X and Y can break it too, F137). So the realistic hardware
+  case, T1 alongside Z-dephasing, is the one combination of these channels that fails, and it
   fails because the two channels share an axis rather than because dephasing
   is present at all. The transverse composition holds at every N for an H that
   commutes with X⊗N and Y⊗N: X or Y dephasing gives I and Z, and X and Y, rates
   summing to 2γ on each site, which the element S_XY of the thermal paragraph
-  below pairs; Z dephasing gives I and Z both rate 0. At N = 3 the co-axial
+  above pairs; Z dephasing gives I and Z both rate 0. At N = 3 the co-axial
   break is exact: Tr((L + c/2)³) is nonzero in exact rationals
   ([`cube_moves_gate.py`](../../simulations/cube_moves_gate.py) M10).
 
-- **T1 admits no on-site field** in the component it acts on: 1/64 for a
-  transverse field at N=3 with the non-uniform h used throughout here, and a
-  longitudinal one leaves the rates paired but not the eigenvalues.
+- **At Heisenberg bonds the non-uniform field profile h used throughout here breaks T1's pairing**
+  in the component it acts on: 1/64 for a transverse field at N=3, and a longitudinal one at one
+  damping rate on every site leaves the rates paired but not the eigenvalues. At these real bonds, under T1 alone, a
+  longitudinal profile that a site permutation keeping the bonds and the rates turns into its negative
+  keeps the pairing;
+  on a bipartite graph of XX + YY bonds at Δ = 0 any longitudinal field does
+  ([F137](../ANALYTICAL_FORMULAS.md#f137)).
 
 - **Both T1 restrictions are per component**, exactly like the two clauses
   above, and this is easy to miss because the bullets read globally. T1 on
   one bond of a disconnected pair sits happily beside co-axial Z-dephasing on
   the *other* bond (256/256), and beside a field there too (256/256). Put
-  either on T1's own component and it goes: co-axial dephasing there gives
-  192/256, a field there 16/256.
+  either on T1's own component and, in the measured cases, it goes: co-axial dephasing there gives
+  192/256, the X field there 16/256.
 
 The T1 corrections have their own treatment in F82 and F84 of the
 [formula registry](../ANALYTICAL_FORMULAS.md) (F83, between them, is a

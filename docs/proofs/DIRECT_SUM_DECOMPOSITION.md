@@ -400,7 +400,7 @@ and the two standard perturbations break OPPOSITE halves of the structure
   n_XY grading and \[P_XY, L\] = 0 survive EXACTLY, and with them the
   direct-sum decomposition. What T₁ breaks is the Π content of
   Statements 2/3 (the operator, not the spectral palindrome, which T₁ alone
-  preserves at a halved centre, F137) (a damping channel has a fixed arrow of time; closed-form
+  preserves at a halved centre for the Hamiltonians F137 names) (a damping channel has a fixed arrow of time; closed-form
   residuals in F82/F84), so the two sectors persist but stop being mirror
   images of each other.
 - The purely combinatorial parts (Statement 1's dimension count, Step 4's

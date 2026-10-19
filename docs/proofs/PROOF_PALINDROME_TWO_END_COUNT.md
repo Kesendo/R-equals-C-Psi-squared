@@ -7,7 +7,7 @@ positive rate profile, any topology, any N, and any finite dimension. What the
 CRITERION decides is the eigenvalue multiset; sufficiency in fact delivers more,
 a full similarity `L ~ −L − 2σ`, so where the criterion holds the entire Jordan
 structure is reflection-symmetric (§(f8)). Two fences are load bearing rather
-than decorative: `A² = 1` (F137 recentres the palindrome under T1)
+than decorative: `A² = 1` (F137 recentres the palindrome under T1 where it survives)
 and `γ_l > 0` with at least one jump present (a zero rate drops a condition and
 can move the verdict; with no jump at all the equivalence holds trivially, and
 §(f5)'s odd-d corollary, Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9) fail). Even TOTAL dimension d is not a fence but a
@@ -51,7 +51,7 @@ reviewers checked it against the stores at source.
   `dim ker = Σ mᵢ²` appears only in the one-seat, γ > 0, single-popcount-sector
   bullet for the algebra ⟨H_w, n_seat⟩. F138 holds the law under test, with two
   operators exhibited on its exceptions. F137 fences the premise rather than answering
-  it: T1 jumps keep a palindrome and recentre it, and F137 states that centre
+  it: T1 jumps keep a palindrome for the Hamiltonians it names and recentre it, and F137 states that centre
   **exactly**, as trace(L)/dim. Nothing anywhere on the two counts as a
   **criterion**.
 - **[`docs/proofs/`](.), and the sharpest hit first.**
@@ -262,7 +262,7 @@ is symmetric about 0 for any Hermitian H, and the equivalence holds trivially.
 Without a jump §(f5)'s odd-d corollary fails, and so do Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9).
 
 **A_l² = 1** is where the class ends. F137 records that under T1 jumps, which
-are not unitary, the palindrome survives about a different centre, which F137
+are not unitary, the palindrome survives, for the Hamiltonians it names, about a different centre, which F137
 states exactly as trace(L)/dim, so a criterion phrased about −2σ is answering a
 different question there. What the hypothesis buys, positively, is broader than
 the letters: any `n̂·σ⃗` at a unit direction qualifies, as does any Pauli STRING,
@@ -858,8 +858,7 @@ read on two routes (§(g)); its twelve other broken rows have dim 𝒲 = 0, wher
 neither side can fail. Everything outside that range rests on the proof
 alone.
 
-**Outside:** jump operators with A² ≠ 1, where the question changes (F137 recentres
-the palindrome under T1); and rates that are zero or negative. Where the two counts differ
+**Outside:** jump operators with A² ≠ 1, where the question changes (F137 recentres the palindrome under T1 where it survives); and rates that are zero or negative. Where the two counts differ
 the multiset is broken, and the criterion says nothing about the Jordan
 structure there; where they agree, §(f8) gives it in full. Z dephasing with
 correlated site fields is an A² ≠ 1 case as well: its jumps c_μ are built linearly

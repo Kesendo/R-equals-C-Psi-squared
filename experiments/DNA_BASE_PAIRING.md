@@ -59,8 +59,8 @@ Six results:
    Z) pairs 249 cm⁻¹ (A-T) and 318 cm⁻¹ (G-C) away from its mirror at the
    trace centre. The producer does not separate the causes. This H carries
    on-site transverse fields, which lie outside
-   [F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s scope (amplitude damping
-   alone keeps the palindrome for XXZ-type H with no on-site field), and the
+   [F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s scope (amplitude damping alone keeps the palindrome for the Hamiltonians it
+   names, XXZ-type H without on-site fields among them), and the
    warm set also puts amplitude damping beside co-axial Z-dephasing.
 
 5. **Sacrifice zone works in G-C.** Edge sacrifice (outer H-bonds noisy,

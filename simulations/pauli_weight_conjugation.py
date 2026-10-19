@@ -700,7 +700,7 @@ if __name__ == '__main__':
     print("dephasing: it is not orthogonal to X. With Z alone the whole plane is")
     print("orthogonal to the noise, so the same 45° field is exact.")
 
-    print("\n### Per-component freedom, and T1's field intolerance\n")
+    print("\n### Per-component freedom, and T1 under fields\n")
     ev, shift, _ = mixed_direction_field(
         4, [(0, 1), (2, 3)], [0.3, -0.2, 0.5, 0.4],
         [0.0, 0.0, np.pi / 2, np.pi / 2], deph_axes=[(3,)] * 4)
@@ -724,7 +724,9 @@ if __name__ == '__main__':
         rt = multiset_pairs(list(-ev.real), lambda d: s - d)
         print(f"  T1 alone plus a {lbl:14s} field:             "
               f"{f'{cx}/64':>7} complex, {f'{rt}/64':>7} rates")
-    print("\nT1 tolerates no on-site field at all, unlike the dephasing-only case.")
+    print("\nAt Heisenberg bonds this field profile breaks T1's pairing, unlike the dephasing-only case")
+    print("(at these real bonds a longitudinal profile that a site permutation keeping the bonds and the rates turns into its")
+    print("negative keeps it, and on a bipartite graph of XX + YY bonds at Δ = 0 any longitudinal field does; F137).")
 
     print("\nBoth T1 restrictions are per component. Two disjoint Heisenberg")
     print("bonds (0-1),(2-3) at N=4, T1 on sites 0-1 at 0.05; pairing about the")
@@ -872,7 +874,7 @@ if __name__ == '__main__':
               f"{f'{pairs}/{len(ev)}':>20}")
     print(f"\nAll rows fully paired: {t1_all}")
     print("\nT1 WITH dephasing depends entirely on the axis, and the obvious guess is")
-    print("wrong: dephasing TRANSVERSE to T1 composes with it exactly. Only co-axial")
+    print("wrong: dephasing TRANSVERSE to T1 (X or Y) composes with it exactly. Only co-axial")
     print("Z-dephasing breaks it (N=3 chain, both channels at 0.05, paired about the")
     print("combined shift 2Σγ_deph + Σγ_T1):\n")
     print(f"{'dephasing beside T1':>26} {'pairing':>10}")

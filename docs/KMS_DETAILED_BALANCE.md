@@ -56,8 +56,8 @@ Assigning BDI, CI, or another SRP class still requires the complete symmetry
 algebra after all strong/unitary symmetries are resolved. The known Π construction uses the 2:2
 per-site Pauli split of pure Z dephasing. That is an algebraic property of the
 jump channel, not a bath-temperature assignment. The spectral palindrome for
-thermal jump operators is a separate question; it survives at the centre
-−Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)). Here `2Sγ` is the algebraic
+thermal jump operators is a separate question; for a Hamiltonian that commutes with X⊗N and Y⊗N it
+survives at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)). Here `2Sγ` is the algebraic
 shift of the pure-Z palindrome, not an entropy-production rate.
 
 ---
@@ -366,8 +366,8 @@ The Roberts et al. hidden TRS is conceptually the right direction for
 finite T. Their framework is defined in the doubled Hilbert space and
 involves an antiunitary operator that depends on the bath temperature.
 Whether *their* construction produces a palindromic spectrum is still open.
-That the spectrum IS palindromic under a thermal bath is not: it is, at the
-centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)).
+That the spectrum IS palindromic under a thermal bath, for a Hamiltonian that commutes with X⊗N and
+Y⊗N, is not: it is, at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)).
 
 ### Assessment
 

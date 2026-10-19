@@ -100,7 +100,7 @@ sit near 40%. Under that model Q85's D[Z] rate would fall several-fold more than
 the interior's and the ranking would not survive. A σ⁻ channel also breaks the Π
 operator (F82/F84), and beside the co-axial Z-dephasing these chains carry it
 breaks the spectral palindrome too, so the column below would not survive
-either. (σ⁻ *alone* would not break it: it would move the centre to
+either. (σ⁻ *alone* would not break it for these chains' Hamiltonian: it would move the centre to
 −Σγ/2, [F137](../docs/ANALYTICAL_FORMULAS.md#f137). It is the co-axial pair
 that breaks.) Everything below is a statement about the dephasing-only model
 these scripts implement.

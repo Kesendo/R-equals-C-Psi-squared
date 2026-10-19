@@ -37,7 +37,7 @@ Coupling sets how the best Q grows with the chain, through a closed form,
 V(N) = 1 + cos(π/N), in which the dephasing rate cancels. Z-dephasing splits
 degenerate frequencies and leaves the palindromic pairing exact. A bath with a finite thermal occupation
 n̄ multiplies the frequency count and lowers Q, and the sacrifice profile's
-Q advantage fades as n̄ grows. The palindrome survives the bath at a centre that
+Q advantage fades as n̄ grows. On this page's Heisenberg chain the palindrome survives the bath at a centre that
 moves with the total rate, and breaks only where amplitude damping shares its
 axis with Z-dephasing.
 
@@ -325,17 +325,20 @@ three share one centre to every digit, and only the distance tells them apart:
 the centre must be computed **and** the distance checked; neither decides
 alone.
 
-Where this leaves temperature: the palindrome's existence does not depend on n̄,
-only the position of its centre does. There is no critical temperature to look
-for. And the hardware operating point is not the hot one. A flown two-leg
+Where this leaves temperature: for a Hamiltonian that commutes with X⊗N and Y⊗N the palindrome's
+existence does not depend on n̄, only the position of its centre does, and there is no critical
+temperature to look for. Outside that class it can depend on n̄: at infinite temperature, where exchanging loss and
+gain changes nothing, the pairing holds for every H that commutes with Z⊗N, without Z dephasing; at zero temperature it
+can break; and n̄ varying from site to site can break it too
+([F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged). And the hardware operating point is not the hot one. A flown two-leg
 protocol on ibm_kingston, repeated on ibm_marrakesh
 (`fw.Confirmations.lookup('f84_heating_leg_attribution_kingston_july2026')`),
 found the bath cold: flat up-legs putting the thermal populations at 0.23% to
 0.83% on the three Kingston qubits and at most 0.5% on Marrakesh, with γ↑
 pinned near zero. The regime that matters on real machines is T1 beside
-co-axial Z, the one combination that fails.
+co-axial Z, the one combination of these channels that fails.
 
-The thermal H ≠ 0 pairing is derived at every N and any rates per site for a Hamiltonian that commutes with X⊗N and Y⊗N: S_XY: ρ ↦ X⊗N·ρ·Y⊗N reflects the Liouvillian, S_XY·L·S_XY⁻¹ = −L† − Σ(γ↓ + γ↑) ([F137](../docs/ANALYTICAL_FORMULAS.md#f137), [THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §9). Outside that class, DM bonds among them, the thermal pairing is not derived.
+The thermal H ≠ 0 pairing is derived at every N and any rates per site for a Hamiltonian that commutes with X⊗N and Y⊗N: S_XY: ρ ↦ X⊗N·ρ·Y⊗N reflects the Liouvillian, S_XY·L·S_XY⁻¹ = −L† − Σ(γ↓ + γ↑) ([F137](../docs/ANALYTICAL_FORMULAS.md#f137), [THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §9). Outside that class, for H commuting with Z⊗N under the damping alone, the same element carries L onto the reflection of another Liouvillian, S_XY·L(H)·S_XY⁻¹ = −L(X⊗N·H·X⊗N)† − Σ(γ↓ + γ↑), and conjugation by X⊗N turns L(X⊗N·H·X⊗N) into L(H) with loss and gain exchanged, so the pairing holds exactly when exchanging loss and gain on every site leaves the spectrum unchanged; for XXZ bonds with axial DM terms and no fields that is evenness under flux reversal, and on one triangle with three different ratios every flux other than 0 and π breaks it, exactly ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged, with what carries the pairing).
 
 ---
 

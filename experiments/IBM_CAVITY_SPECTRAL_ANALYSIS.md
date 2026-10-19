@@ -114,7 +114,7 @@ Build the σ⁻ and the page changes subject, because σ⁻ beside co-axial
 Z-dephasing is what breaks the SPECTRAL palindrome (GLOSSARY, the paragraph
 after the table). Note the distinction that paragraph exists to protect: σ⁻
 breaks Π, and Π breaking is not the palindrome breaking. By F137 a σ⁻ channel
-alone leaves the spectrum palindromic at the halved centre. So the reason to
+alone leaves the spectrum palindromic at the halved centre for this model's Hamiltonian. So the reason to
 stay on row 1 is the model, not the symmetry.
 
 **What that choice moves, and what it does not.** Two things scale exactly with

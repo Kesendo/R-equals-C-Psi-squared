@@ -5,11 +5,11 @@ Z-dephasing at rate γ the Hermitian part of L is −2γ·k_Z, so a rung −2kγ
 
 Every move is asked two questions. (1) Does it commute with L? Then it carries a COPY: an invariant subspace, a sector,
 a reading that survives. (2) Is it the one-sided multiplication ρ ↦ ρ·F by an element F that commutes with H and
-anticommutes with every jump? Then it carries a REFLECTION: an element of F158's far end, and the palindrome.
+anticommutes with every jump (Hermitian jumps that square to 1)? Then it carries a REFLECTION: an element of F158's far end, and the palindrome.
 (Conjugation by such an F negates the jumps and still carries a copy, the dissipator of −Z being that of Z.) The gate below checks both answers for each row of the table, exactly where an exact route
 exists (integer or dyadic entries, residuals compared to 0.0) and with a control that must fail.
 
-Conventions: Pauli book H = J·Σ_bonds (XX + YY + ZZ) with J = 1 (integer entries); site l is bit N−1−l; row-major vec,
+Conventions (M1 to M10; M11 states its own bonds, rates and fields and works over ℚ(i)): Pauli book H = J·Σ_bonds (XX + YY + ZZ) with J = 1 (integer entries); site l is bit N−1−l; row-major vec,
 vec(AρB) = (A ⊗ Bᵀ) vec ρ; γ = 1/2 so every entry of L is a Gaussian integer or a half-integer and products are exact.
 
 M1  the corner shift ρ ↦ ρ·F: F = Z^N (a dark corner, [H, F] = 0) commutes with L exactly; F = X^N (a lit corner,
@@ -57,7 +57,55 @@ M10 F137's composition decided: S_XY reflects one site's X or Y dephasing (symbo
     dephasing is the control that fails), so damping plus transverse
     dephasing (X, Y, or X, Y, X on the sites) is reflected exactly at N = 3 with c = Σγ_T1 + 2Σγ_deph; co-axial Z, a
     transverse field and a longitudinal field each give an exactly nonzero Tr((L + c/2)^3) (exact rationals), which
-    rules out every reflecting element; the trace is zero where S_XY reflects.
+    rules out every reflecting element of these generators as written (the uniform longitudinal field is the lab
+    frame of the field-free chain, M11); the trace is zero where S_XY reflects.
+M11 outside S_XY's class: loss and gain exchanged. One site, symbolic: a turn about Z, g = diag(1, e^{iθ}), commutes
+    with the thermal damping at any angle (σ± only take a phase) and with X dephasing exactly where sin θ = 0 (the
+    commutator is sin θ times a fixed nonzero matrix); S_XY reflects dephasing along
+    a·X + b·Y exactly where ab = 0. For H commuting with Z^N and jumps odd under Z^N with A†A + AA† ∝ 1 (σ±,
+    dephasing along any axis in the XY plane), the shift S_IZ: ρ ↦ ρ·Z^N carries L onto −L′† − c, L′ with every A replaced
+    by A†, cooling and heating exchanged (exact at N = 3 with a hopping phase, Z fields, a term XX − YY that does
+    not conserve the excitation number, ZZ, and dephasing along three different axes; L itself is the control),
+    so the palindrome is the spectrum unchanged by exchanging loss and gain; S_XY is the spin flip after it, and
+    with dephasing along X or Y (the flip mirrors a tilted axis) S_XY·L(H)·S_XY⁻¹ = −L(X^N·H·X^N)† − c and
+    Ad_{X^N}·L(X^N·H·X^N)·Ad_{X^N} = L(H) exchanged (exact, the fifth power sum changing sign), and at γ↑ = γ↓
+    S_IZ reflects L itself (unequal rates the control); the decay rates of the triangle at flux π/2 miss their
+    mirror by 2.53·10⁻² with numpy in double precision and with mpmath at 30 digits alike, at flux 0 only by each
+    one's rounding (printed as a reading, no pass or fail);
+    transverse DM YZ − ZY on the three-site chain, not commuting with Z^N, breaks under cooling alone (240) and at
+    equal rates (1280). For bonds
+    J(XX + YY) + D_z(XY − YX) + Δ·ZZ, X^N·H·X^N = H̄, every hopping phase reversed (exact on a triangle at flux
+    arccos(3/5); L(H) itself in place of L(X^N·H·X^N) is the control). Carriers, each exact with a control: turns
+    about Z on the chain (N = 3, Pythagorean J, D_z per bond, ZZ of both signs; at J = 0 the Sextant's DM chain
+    under loss, the element X⊗Y⊗X·ρ·Y⊗X⊗Y); the site reflection of the triangle at rates symmetric under it
+    (fluxes π/2 and arccos(3/5)); the spin flip with the shift by two sites on a 4-ring at ratios 3, 2, ⅓, ½;
+    the general form V·(X^N·H·X^N)·V† = H with fields, the Heisenberg chain with fields (−½, 0, ½) under its
+    reflection at rates the reflection keeps, with heating and under cooling alone;
+    infinite temperature with ρ·Z^N;
+    the bipartite ring at Δ = 0 with dephasing along two tilted axes and X; one ratio, γ↑ = γ↓/4 on every site, by the thermal transpose
+    L(H)ᵀ = Γ⁻¹·L(Hᵀ)·Γ, Hᵀ = H̄ (F119 §7 at a complex H), palindromic characteristic polynomials at flux π/2 on
+    two triangles and at ratio 4 (three ratios give a nonzero fifth power sum on the same H), and one ratio per
+    component of the hopping bonds (a pendant joined by ZZ alone at its own ratio pairs, joined by hopping it does
+    not); X dephasing beside the one-ratio damping breaks it at flux π/2 (a nonzero seventh power sum) and not
+    with real hopping, and sees the gauge (flux 0 written with phases, a nonzero ninth power sum); a bipartite ring
+    at Δ = 0 with fields and four ratios (N = 4), by complex conjugation and Z on one sublattice (Δ = 7⁄10 with the
+    fields, and without them, the controls). On the triangle with three ratios Tr((L + c/2)^5) = −656·sin Φ at
+    twelve points e^{iΦ} = (1 + it)²/(1 + t²), t rational, eleven of which fix a trigonometric polynomial of
+    degree 5, so the power sum is −656·sin Φ at every flux and nothing reflects the spectrum off Φ = 0, π (+656
+    with cooling and heating exchanged; at flux π S_XY itself reflects, at π/2 not); with cooling alone the odd
+    power sums to 7 vanish at flux π/2; site-dependent fields at flux 0 under cooling alone give −2560 in that frame (the
+    decay rates, which a common frame shift does not move, miss their mirror by 0.109 in both precisions, read);
+    in the lab frame, M10's uniform field on the Heisenberg chain under cooling alone, L is block-diagonal in the
+    coherence order and each order keeps its own mirror about −c/2 + iκ, κ growing with the order (exact,
+    centred characteristic polynomials of the blocks; the triangle with those fields the control). The detuned triangle pairs in no common frame (the fifth power sum
+    linear in the offset, zero once, where the seventh is not). Beside cooling on the Heisenberg chain one orthogonal pair of tilted
+    axes pairs and a tilted axis beside X does not (exact). With longitudinal fields the
+    three chained at one ratio (S_XY, the transpose, the conjugation) and turns with W·(−H̄)·W† = H carry the pairing,
+    at Δ = 0 where e^{2iΦ} = (−1)^ℓ on every cycle: the triangle at flux ±π/2 pairs with fields (−½, 0, ½) under
+    cooling alone and with fields (3⁄10, −⅕, ½) at ratio ¼ (exact characteristic polynomials; Δ = 7⁄10, flux
+    arccos(3/5) and three ratios the controls). Contrast: under uniform Z dephasing the same triangle at flux π/2 is not
+    palindromic and at flux π it is (exact characteristic polynomials), the one-sided ρ·X^N carrying L(H) onto a
+    reflection only where X^N·H·X^N = H.
 """
 import sys
 from itertools import product
@@ -573,9 +621,381 @@ breaks = {"co-axial Z dephasing at ½": damped(HEIS, [(l, Z, 0.5) for l in range
 pairs = {"damping alone": damped(HEIS, []), "transverse X dephasing": damped(HEIS, comp["X on every site"])}
 t_break = {k: odd_trace3(L) for k, L in breaks.items()}
 t_pair = {k: odd_trace3(L) for k, L in pairs.items()}
-check("M10 N=3: Tr((L + c/2)^3) is exactly nonzero under co-axial Z, a transverse field and a longitudinal field (no element reflects the spectrum), and exactly zero where S_XY reflects",
+check("M10 N=3: Tr((L + c/2)^3) is exactly nonzero under co-axial Z, a transverse field and a longitudinal field (no element reflects these generators as written; the uniform longitudinal field is the lab frame of the field-free chain, M11), and exactly zero where S_XY reflects",
       all(v != (0, 0) for v in t_break.values()) and all(v == (0, 0) for v in t_pair.values()),
       "; ".join(f"{k}: {v[0]}{'' if v[1] == 0 else f' + {v[1]}i'}" for k, v in t_break.items()))
+
+
+# ---------------------------------------------------------------- M11 outside S_XY's class: loss and gain exchanged
+# Exact over Q(i) (sympy DomainMatrix): the J, D of the bonds and the rates are rational, the turns' phases Pythagorean.
+from sympy import QQ_I
+cs, sn = sp.symbols('c s', real=True)
+def on_circle(e): return sp.simplify(sp.expand(e).subs(sn**2, 1 - cs**2))
+g1 = sp.diag(1, cs + sp.I * sn)
+def turn_cofactor_independent():
+    """[Ad_g, D[X]] = sin θ·M with M a fixed nonzero matrix (free of the angle), so it vanishes exactly where sin θ = 0."""
+    comm = (sp.kronecker_product(g1, g1.conjugate()) * sdiss(sX, gx) - sdiss(sX, gx) * sp.kronecker_product(g1, g1.conjugate()))
+    M = comm.applyfunc(lambda e: sp.cancel(on_circle(e) / sn))
+    return not (M.free_symbols - {gx}) and M != sp.zeros(4, 4) and (comm.applyfunc(on_circle) - sn * M).applyfunc(sp.expand) == sp.zeros(4, 4)
+Adg1 = sp.kronecker_product(g1, g1.conjugate())
+check("M11 one site, symbolic angle and rates: the turn about Z, g = diag(1, e^{iθ}), commutes with the thermal damping γ↓·D[σ⁻] + γ↑·D[σ⁺] at any angle, "
+      "and with X dephasing exactly where sin θ = 0 (the commutator is sin θ times a fixed nonzero matrix)",
+      (Adg1 * Ds - Ds * Adg1).applyfunc(on_circle) == sp.zeros(4, 4)
+      and (Adg1 * sdiss(sX, gx) - sdiss(sX, gx) * Adg1).applyfunc(on_circle) != sp.zeros(4, 4)
+      and turn_cofactor_independent())
+ta, tb = sp.symbols('a b', real=True)
+Dab = sdiss(ta * sX + tb * sY, gx)
+res_ab = (S1 * Dab * S1 + Dab.H + 2 * gx * sp.eye(4)).applyfunc(lambda e: sp.factor(sp.expand(e).subs(tb**2, 1 - ta**2)))
+check("M11 one site: S_XY reflects dephasing along a·X + b·Y (a² + b² = 1) only where ab = 0, so a turned element carries transverse dephasing only where the turn is a multiple of π/2",
+      res_ab != sp.zeros(4, 4) and (res_ab / (ta * tb)).applyfunc(sp.simplify).free_symbols <= {gx}, f"residual entry {res_ab[1, 2]}")
+sZm, sMm = sp.diag(1, -1), sp.Matrix([[0, 1], [0, 0]])
+def s_op(n, l, P): return sp.kronecker_product(*[P if j == l else sp.eye(2) for j in range(n)]) if n > 1 else P
+def s_string(n, P): return sp.kronecker_product(*[P] * n)
+def u1_bond(n, a, b, J, D, Dl=0):
+    """J(XX + YY) + D(XY − YX) + Δ·ZZ on (a, b): amplitude 2(J + iD) for the hop from a to b, ⟨01|H|10⟩."""
+    return sp.expand(J * (s_op(n, a, sX) * s_op(n, b, sX) + s_op(n, a, sY) * s_op(n, b, sY))
+                     + D * (s_op(n, a, sX) * s_op(n, b, sY) - s_op(n, a, sY) * s_op(n, b, sX)) + Dl * s_op(n, a, sZm) * s_op(n, b, sZm))
+def s_thermal(n, H, down, up):
+    d = 2 ** n; Id = sp.eye(d)
+    L = -sp.I * (sp.kronecker_product(H, Id) - sp.kronecker_product(Id, H.T))
+    for l in range(n):
+        for Lk, r in ((s_op(n, l, sMm), down[l]), (s_op(n, l, sMm.T), up[l])):
+            LdL = Lk.H * Lk
+            L += r * (sp.kronecker_product(Lk, Lk.conjugate()) - sp.Rational(1, 2) * (sp.kronecker_product(LdL, Id) + sp.kronecker_product(Id, LdL.T)))
+    return L
+def qi(M): return DomainMatrix.from_Matrix(M.applyfunc(sp.expand)).convert_to(QQ_I)
+def qi_zero(A): return all(v == 0 for v in A.to_Matrix())
+def reflects(S, L, c):
+    """S·L + (L† + c)·S = 0, i.e. S·L·S⁻¹ = −L† − c for invertible S."""
+    n2 = L.shape[0]
+    return qi_zero(qi(S) * qi(L) + (qi(L.H) + qi(c * sp.eye(n2))) * qi(S))
+def centred_odd_trace(L, k):
+    n2 = L.shape[0]
+    M = qi(L) - qi((L.trace() / n2) * sp.eye(n2))
+    P = M
+    for _ in range(k - 1): P = P * M
+    return sp.nsimplify(sum(P.to_Matrix()[i, i] for i in range(n2)))
+def turns(n, bonds):
+    """the turn about Z at each site that makes the bonds real: e^{iθ_b} = e^{iθ_a}·(J − iD)/|J + iD| along each (a, b)."""
+    z = [sp.Integer(1)] * n
+    for a, b, J, D, _ in bonds:
+        z[b] = sp.expand(z[a] * (J - sp.I * D) / sp.sqrt(J**2 + D**2))
+    return sp.diag(*[sp.expand(sp.prod([z[l] for l in range(n) if (i >> (n - 1 - l)) & 1])) for i in range(2 ** n)])
+R_ = sp.Rational
+N = 3
+DOWN3 = [R_(1, 2), R_(1), R_(3, 2)]; UP3 = [R_(1, 8), R_(1, 3), R_(1, 5)]   # unequal, symmetric under no site permutation
+C3 = sum(DOWN3) + sum(UP3)
+XN3, YN3, ZN3 = s_string(N, sX), s_string(N, sY), s_string(N, sZm)
+SXY3 = sp.kronecker_product(XN3, YN3.T)
+def triangle(w):
+    """unit hopping, real on (0, 1) and (1, 2), J + iD = w = e^{iΦ} on (2, 0), Δ = 0."""
+    return u1_bond(N, 0, 1, 1, 0) + u1_bond(N, 1, 2, 1, 0) + u1_bond(N, 2, 0, sp.re(w), sp.im(w))
+W35 = (3 + 4 * sp.I) / 5
+HT = triangle(W35)
+LT_ = s_thermal(N, HT, DOWN3, UP3)
+LTc = s_thermal(N, (XN3 * HT * XN3).applyfunc(sp.expand), DOWN3, UP3)
+check("M11 N=3 triangle at flux arccos(3/5), unequal rates: X^N·H·X^N = H̄ (every hopping phase reversed) and S_XY·L(H)·S_XY⁻¹ = −L(X^N·H·X^N)† − Σ(γ↓ + γ↑), exactly; "
+      "with L(H) itself on the right it fails (control)",
+      (XN3 * HT * XN3 - HT.conjugate()).applyfunc(sp.expand).is_zero_matrix
+      and qi_zero(qi(SXY3) * qi(LT_) * qi(SXY3) + qi(LTc.H) + qi(C3 * sp.eye(64)))
+      and not qi_zero(qi(SXY3) * qi(LT_) * qi(SXY3) + qi(LT_.H) + qi(C3 * sp.eye(64))))
+# the chain: the turns make H real and carry S_XY to S' = Ad_G⁻¹∘S_XY∘Ad_G
+BONDS = [(0, 1, 4, 3, 2), (1, 2, 12, 5, -1)]
+HC = sum((u1_bond(N, a, b, J, D, Dl) for a, b, J, D, Dl in BONDS), sp.zeros(8))
+G3 = turns(N, BONDS)
+HG = (G3 * HC * G3.H).applyfunc(sp.expand)
+LC_ = s_thermal(N, HC, DOWN3, UP3)
+SP3 = sp.kronecker_product(G3.H, G3.T) * SXY3 * sp.kronecker_product(G3, G3.conjugate())
+check("M11 N=3 chain, bonds (J, D, Δ) = (4, 3, 2) and (12, 5, −1), unequal rates: the turns e^{iθ_b} = e^{iθ_a}·(J − iD)/√(J² + D²) make G·H·G† real and commuting with X^N and Y^N, "
+      "and S' = Ad_G⁻¹∘S_XY∘Ad_G, ρ ↦ ⊗(g†Xg)·ρ·⊗(g†Yg), reflects the full L exactly; the bare S_XY does not",
+      all(sp.im(v) == 0 for v in HG) and (HG * XN3 - XN3 * HG).is_zero_matrix and (HG * YN3 - YN3 * HG).is_zero_matrix
+      and reflects(SP3, LC_, C3) and not reflects(SXY3, LC_, C3))
+# the Sextant's DM chain under loss (XY − YX on each bond, loss at rate 1): the turns are quarter turns, the element a pair of strings
+BONDS_DM = [(0, 1, 0, 1, 0), (1, 2, 0, 1, 0)]
+HD = sum((u1_bond(N, a, b, J, D, Dl) for a, b, J, D, Dl in BONDS_DM), sp.zeros(8))
+GD = turns(N, BONDS_DM)
+LD_ = s_thermal(N, HD, [1, 1, 1], [0, 0, 0])
+AL, AR = (GD.H * XN3 * GD).applyfunc(sp.expand), (GD.H * YN3 * GD).applyfunc(sp.expand)
+def pauli_string_up_to_sign(M):
+    for word in product('IXYZ', repeat=N):
+        P = sp.kronecker_product(*[{'I': sp.eye(2), 'X': sX, 'Y': sY, 'Z': sZm}[c] for c in word])
+        if (M - P).is_zero_matrix or (M + P).is_zero_matrix: return ''.join(word)
+    return None
+SPD = sp.kronecker_product(AL, AR.T)
+check("M11 the Sextant's DM chain under loss (N=3, XY − YX on each bond, σ⁻ at rate 1): the turns are quarter turns, the element is ρ ↦ A·ρ·B with A = XYX and B = YXY up to sign, "
+      "and it reflects the full L exactly; the bare S_XY does not",
+      pauli_string_up_to_sign(AL) == "XYX" and pauli_string_up_to_sign(AR) == "YXY"
+      and reflects(SPD, LD_, 3) and not reflects(SXY3, LD_, 3), f"A = {pauli_string_up_to_sign(AL)}, B = {pauli_string_up_to_sign(AR)}")
+# the triangle at flux pi/2: the reflection fixing site 1 reverses the flux; with rates symmetric under it, Ad_P∘S_XY reflects
+PERM = sp.zeros(8)
+for i in range(8):
+    b0, b1, b2 = (i >> 2) & 1, (i >> 1) & 1, i & 1
+    PERM[(b2 << 2) | (b1 << 1) | b0, i] = 1
+HQ = triangle(sp.I)
+DOWN_S = [R_(1, 2), R_(1), R_(1, 2)]; UP_S = [R_(1, 8), R_(1, 3), R_(1, 8)]
+EP = sp.kronecker_product(PERM, PERM) * SXY3
+check("M11 N=3 triangle at flux π/2 and arccos(3/5): the site reflection P fixing site 1 gives P·H·P† = X^N·H·X^N, and Ad_P∘S_XY reflects the full L exactly at rates symmetric under P; at flux π/2 not at the unequal rates",
+      all((PERM * triangle(w) * PERM.T - XN3 * triangle(w) * XN3).applyfunc(sp.expand).is_zero_matrix
+          and reflects(EP, s_thermal(N, triangle(w), DOWN_S, UP_S), sum(DOWN_S) + sum(UP_S)) for w in (sp.I, W35))
+      and not reflects(EP, s_thermal(N, HQ, DOWN3, UP3), C3))
+# the general second carrier, V·(X^N·H·X^N)·V† = H, with fields: the Heisenberg chain with a field profile the reflection negates
+HHF = (u1_bond(N, 0, 1, 1, 0, 1) + u1_bond(N, 1, 2, 1, 0, 1) - R_(1, 2) * s_op(N, 0, sZm) + R_(1, 2) * s_op(N, 2, sZm)).applyfunc(sp.expand)
+check("M11 N=3 Heisenberg chain with fields (−½, 0, ½): P·(X^N·H·X^N)·P† = H for the reflection P, and Ad_P∘S_XY reflects the full L exactly at rates P keeps "
+      "(cooling (½, 1, ½) with heating (⅛, ⅓, ⅛) and under cooling alone), not at γ↓ = (½, 1, 3⁄2) under cooling alone",
+      (PERM * XN3 * HHF * XN3 * PERM.T - HHF).applyfunc(sp.expand).is_zero_matrix
+      and reflects(EP, s_thermal(N, HHF, DOWN_S, UP_S), sum(DOWN_S) + sum(UP_S))
+      and reflects(EP, s_thermal(N, HHF, DOWN_S, [0, 0, 0]), sum(DOWN_S))
+      and not reflects(EP, s_thermal(N, HHF, DOWN3, [0, 0, 0]), sum(DOWN3)))
+# infinite temperature: gamma_up = gamma_down on every site, the spin flip is invisible, the element is rho·Z^N
+SZ3 = sp.kronecker_product(sp.eye(8), ZN3.T)
+inf_ok = all(reflects(SZ3, s_thermal(N, triangle(w), DOWN3, DOWN3), 2 * sum(DOWN3)) for w in (sp.I, W35))
+off_tr = centred_odd_trace(s_thermal(N, HQ, DOWN3, [R_(1, 2), R_(1), R_(1, 2)]), 5)
+check("M11 N=3 triangle, γ↑ = γ↓ = (½, 1, 3⁄2) on the sites: ρ ↦ ρ·Z^N (Ad_{X^N}∘S_XY up to a phase) reflects the full L exactly at flux π/2 and arccos(3/5); "
+      "with site 2's heating moved to ½ the fifth trace at flux π/2 is nonzero",
+      inf_ok and off_tr != 0, f"fifth trace off the end: {off_tr}")
+# one ratio gamma_up/gamma_down on every site; the thermal transpose (F119 §7) holds for complex H too
+xs = sp.symbols('x')
+def palindromic_charpoly(L, c):
+    pz = sp.Poly([QQ_I.to_sympy(cf) for cf in qi(L).charpoly()], xs).as_expr()
+    q = sp.expand(pz.subs(xs, -c - xs))
+    return sp.expand(q - pz) == 0   # even degree (4^N), so a palindrome is q = p
+HW = u1_bond(N, 0, 1, 1, 0, R_(7, 10)) + u1_bond(N, 1, 2, 2, 0, R_(7, 10)) + u1_bond(N, 2, 0, 0, 3, R_(7, 10))
+UP_Q = [x / 4 for x in DOWN3]
+LW = s_thermal(N, HW, DOWN3, UP_Q)
+SW = sp.diag(*[R_(1, 2) ** bin(i).count('1') for i in range(2 ** N)])   # pi_beta^(1/2), e^(-beta) = 1/4
+XD3 = sum((R_(3, 10) * (sp.kronecker_product(s_op(N, l, sX), s_op(N, l, sX).T) - sp.eye(64)) for l in range(N)), sp.zeros(64))
+GW = sp.kronecker_product(SW, SW)                                          # rho -> pi^(1/2) rho pi^(1/2)
+check("M11 N=3 triangle, one ratio (γ↑ = γ↓/4 on every site, γ↓ = (½, 1, 3⁄2)), hoppings 1, 2 and 3i, Δ = 7⁄10, flux π/2: the thermal transpose holds for this complex H, "
+      "L(H)ᵀ = Γ⁻¹·L(Hᵀ)·Γ with Γ: ρ ↦ π^½ρπ^½, Hᵀ = H̄ = X^N·H·X^N, and the characteristic polynomial is palindromic about −c/2 (exact); "
+      "L(H) in place of L(Hᵀ) is the identity's control, and the same H with γ↑ = (⅛, ⅓, ⅕), three ratios, gives Tr((L + c/2)^5) = −3936 (control)",
+      (LW.T - GW.inv() * s_thermal(N, HW.T, DOWN3, UP_Q) * GW).applyfunc(sp.expand).is_zero_matrix
+      and not (LW.T - GW.inv() * s_thermal(N, HW, DOWN3, UP_Q) * GW).applyfunc(sp.expand).is_zero_matrix
+      and (HW.T - XN3 * HW * XN3).applyfunc(sp.expand).is_zero_matrix
+      and palindromic_charpoly(LW, sum(DOWN3) + sum(UP_Q))
+      and centred_odd_trace(s_thermal(N, HW, DOWN3, UP3), 5) == -3936)
+check("M11 N=3 unit triangle at flux π/2 (the H of the fifth-trace row): at one ratio, γ↑ = γ↓/4, the characteristic polynomial is palindromic, and at ratio 4, γ↑ = 4γ↓, too (exact); "
+      "with X dephasing at 3⁄10 on every site beside the one-ratio damping it pairs at flux 0 and not at π/2, the seventh power sum about the mean −263277/400 (the weight does not carry dephasing)",
+      palindromic_charpoly(s_thermal(N, HQ, DOWN3, UP_Q), sum(DOWN3) + sum(UP_Q))
+      and palindromic_charpoly(s_thermal(N, HQ, DOWN3, [4 * x for x in DOWN3]), 5 * sum(DOWN3))
+      and palindromic_charpoly(s_thermal(N, triangle(sp.Integer(1)), DOWN3, UP_Q) + XD3, sum(DOWN3) + sum(UP_Q) + R_(9, 5))
+      and centred_odd_trace(s_thermal(N, HQ, DOWN3, UP_Q) + XD3, 7) == R_(-263277, 400))
+# a bipartite ring at Delta = 0: complex conjugation sends L(H) to L(-Hbar); Z on one sublattice sends -hopping to hopping
+N4 = 4
+def u1_bond4(a, b, J, D, Dl=0):
+    return sp.expand(J * (s_op(N4, a, sX) * s_op(N4, b, sX) + s_op(N4, a, sY) * s_op(N4, b, sY))
+                     + D * (s_op(N4, a, sX) * s_op(N4, b, sY) - s_op(N4, a, sY) * s_op(N4, b, sX)) + Dl * s_op(N4, a, sZm) * s_op(N4, b, sZm))
+H4 = (u1_bond4(0, 1, 1, 0) + u1_bond4(1, 2, 2, 0) + u1_bond4(2, 3, 3, 0) + u1_bond4(3, 0, 0, R_(17, 10))
+      + R_(3, 10) * s_op(N4, 0, sZm) - R_(1, 2) * s_op(N4, 2, sZm))
+D4 = [R_(1, 2), R_(1), R_(3, 2), R_(2)]; U4 = [R_(1, 8), R_(1, 3), R_(1, 5), R_(1, 7)]
+XN4, W4 = s_string(N4, sX), s_op(N4, 1, sZm) * s_op(N4, 3, sZm)
+H4z = H4 + R_(7, 10) * sum((s_op(N4, a, sZm) * s_op(N4, (a + 1) % N4, sZm) for a in range(N4)), sp.zeros(16))
+check("M11 N=4 ring, Δ = 0, hoppings 1, 2, 3 and 1.7i (flux π/2), longitudinal fields on two sites, four ratios: the characteristic polynomial is palindromic (exact), "
+      "carried by complex conjugation (L(H) entry by entry conjugated is L(−H̄), exact) and W = Z on sites 1 and 3 (W·(−conj(X^N·H·X^N))·W† = H, exact); with Δ = 7⁄10 it is not",
+      palindromic_charpoly(s_thermal(N4, H4, D4, U4), sum(D4) + sum(U4))
+      and not palindromic_charpoly(s_thermal(N4, H4z, D4, U4), sum(D4) + sum(U4))
+      and s_thermal(N4, H4, D4, U4).conjugate() == s_thermal(N4, (-H4.conjugate()).applyfunc(sp.expand), D4, U4)
+      and (W4 * (-(XN4 * H4 * XN4).conjugate()) * W4 - H4).applyfunc(sp.expand).is_zero_matrix)
+# the arrow exchange: for any H commuting with Z^N, X or Y dephasing beside, X^N carries L(X^N·H·X^N) to L(H) with cooling and heating exchanged
+HA = (triangle(W35) + u1_bond(N, 1, 2, 1, 0) + R_(1, 3) * s_op(N, 0, sZm) - R_(2, 5) * s_op(N, 2, sZm)
+      + R_(1, 2) * (s_op(N, 0, sX) * s_op(N, 1, sX) - s_op(N, 0, sY) * s_op(N, 1, sY))).applyfunc(sp.expand)
+XDA = sum((r * (sp.kronecker_product(s_op(N, l, sX), s_op(N, l, sX).T) - sp.eye(64)) for l, r in ((0, R_(3, 10)), (2, R_(1, 5)))), sp.zeros(64))
+LA = s_thermal(N, HA, DOWN3, UP3) + XDA
+LAx = s_thermal(N, (XN3 * HA * XN3).applyfunc(sp.expand), DOWN3, UP3) + XDA
+LAswap = s_thermal(N, HA, UP3, DOWN3) + XDA
+AdX3 = sp.kronecker_product(XN3, XN3)
+CA = C3 + 2 * (R_(3, 10) + R_(1, 5))
+tA, tAs = centred_odd_trace(LA, 5), centred_odd_trace(LAswap, 5)
+check("M11 N=3, H with a hopping phase, Z fields on two sites and a term XX − YY that does not conserve the excitation number (commuting with Z^N), X dephasing on two sites: "
+      "S_XY·L·S_XY⁻¹ = −L(X^N·H·X^N)† − c and Ad_{X^N}·L(X^N·H·X^N)·Ad_{X^N} = L(H) with cooling and heating exchanged, exactly; the fifth trace changes sign under the exchange",
+      (HA * ZN3 - ZN3 * HA).is_zero_matrix
+      and qi_zero(qi(SXY3) * qi(LA) * qi(SXY3) + qi(LAx.H) + qi(CA * sp.eye(64)))
+      and (AdX3 * LAx * AdX3 - LAswap).applyfunc(sp.expand).is_zero_matrix
+      and tA == -tAs and tA != 0, f"fifth trace {tA} against {tAs}")
+check("M11 N=3, the same H and dephasing at γ↑ = γ↓ = (½, 1, 3⁄2), no arrow: ρ ↦ ρ·Z^N reflects the full L exactly, fields and the non-conserving term included; at the unequal rates it does not",
+      reflects(SZ3, s_thermal(N, HA, DOWN3, DOWN3) + XDA, 2 * sum(DOWN3) + 2 * (R_(3, 10) + R_(1, 5)))
+      and not reflects(SZ3, s_thermal(N, HA, DOWN3, UP3) + XDA, CA))
+# the spin flip composed with a site permutation that keeps the flux and exchanges each site's cooling and heating
+N4b = 4
+def u1_ring4(ts, Dl):
+    return sum((u1_bond4(a, (a + 1) % N4b, sp.re(t), sp.im(t), Dl) for a, t in enumerate(ts)), sp.zeros(16))
+H4f = u1_ring4([W35, 2, W35, 2], R_(7, 10))
+D4f = [R_(1, 2), R_(1), R_(3, 2), R_(2)]; U4f = [R_(3, 2), R_(2), R_(1, 2), R_(1)]
+PERM4 = sp.zeros(16)
+for i in range(16):
+    bits = [(i >> (N4b - 1 - l)) & 1 for l in range(N4b)]
+    nb = [0] * N4b
+    for l in range(N4b): nb[(l + 2) % N4b] = bits[l]
+    PERM4[sum(b << (N4b - 1 - l) for l, b in enumerate(nb)), i] = 1
+XN4s, YN4s = s_string(N4b, sX), s_string(N4b, sY)
+V4 = PERM4 * XN4s
+E4 = sp.kronecker_product(V4, V4.conjugate()) * sp.kronecker_product(XN4s, YN4s.T)
+U4bad = [R_(3, 2), R_(2), R_(1, 2), R_(3, 4)]
+check("M11 N=4 ring, Δ = 7⁄10, hoppings (3 + 4i)/5, 2, (3 + 4i)/5, 2, ratios 3, 2, ⅓, ½: V = P·X^N with P the shift by two sites keeps H̄ onto H, and Ad_V∘S_XY reflects the full L exactly; "
+      "with site 3's heating at ¾ it does not",
+      (V4 * H4f.conjugate() * V4.H - H4f).applyfunc(sp.expand).is_zero_matrix
+      and reflects(E4, s_thermal(N4b, H4f, D4f, U4f), sum(D4f) + sum(U4f))
+      and not reflects(E4, s_thermal(N4b, H4f, D4f, U4bad), sum(D4f) + sum(U4bad)))
+# the shift S_IZ: ρ ↦ ρ·Z^N: for H commuting with Z^N and jumps odd under Z^N with A†A + AA† ∝ 1, S_IZ·L·S_IZ⁻¹ = −L(J → J†)† − c
+TILT = [(R_(3, 5), R_(4, 5)), (R_(1), R_(0)), (R_(5, 13), R_(-12, 13))]; GT = [R_(3, 10), R_(1, 4), R_(1, 5)]
+HR = (HA + R_(3, 7) * s_op(N, 0, sZm) * s_op(N, 2, sZm)).applyfunc(sp.expand)
+def tilted(n_down, n_up):
+    L = s_thermal(N, HR, n_down, n_up)
+    for l, ((a, b), g) in enumerate(zip(TILT, GT)):
+        J = s_op(N, l, a * sX + b * sY); L += g * (sp.kronecker_product(J, J.conjugate()) - sp.eye(64))
+    return L
+LR, LRs = tilted(DOWN3, UP3), tilted(UP3, DOWN3)
+CR = C3 + 2 * sum(GT)
+check("M11 N=3, the same H with a ZZ bond added, damping at unequal rates and dephasing along (3X + 4Y)/5, X and (5X − 12Y)/13 on the three sites: "
+      "S_IZ: ρ ↦ ρ·Z^N carries L onto −L′† − c with L′ the Liouvillian of cooling and heating exchanged, exactly; with L itself on the right it fails (control)",
+      qi_zero(qi(SZ3) * qi(LR) * qi(SZ3) + qi(LRs.H) + qi(CR * sp.eye(64)))
+      and not qi_zero(qi(SZ3) * qi(LR) * qi(SZ3) + qi(LR.H) + qi(CR * sp.eye(64))))
+# one ratio per component of the hopping bonds: a pendant joined by ZZ alone may carry its own ratio
+def pendant(join_by_hopping):
+    H = (u1_bond4(0, 1, 1, 0) + u1_bond4(1, 2, 1, 0) + u1_bond4(2, 0, 0, 1)).applyfunc(sp.expand)
+    H += u1_bond4(3, 0, 1, 0, 1) if join_by_hopping else u1_bond4(3, 0, 0, 0, 1)
+    return H
+DP = [R_(1, 2), R_(1), R_(3, 2), R_(1)]; UPp = [R_(1, 8), R_(1, 4), R_(3, 8), R_(1, 9)]
+H4zz = (u1_bond4(0, 1, 1, 0, R_(7, 10)) + u1_bond4(1, 2, 2, 0, R_(7, 10)) + u1_bond4(2, 3, 3, 0, R_(7, 10)) + u1_bond4(3, 0, 0, R_(17, 10), R_(7, 10))).applyfunc(sp.expand)
+check("M11 N=4: the unit triangle at flux π/2 at ratio ¼ with a fourth site at ratio 1⁄9 joined by a ZZ bond alone is palindromic, joined by a hopping bond it is not; "
+      "the ring of the conjugation row at Δ = 7⁄10 without fields, four ratios, flux π/2, is not palindromic (exact characteristic polynomials)",
+      palindromic_charpoly(s_thermal(N4, pendant(False), DP, UPp), sum(DP) + sum(UPp))
+      and not palindromic_charpoly(s_thermal(N4, pendant(True), DP, UPp), sum(DP) + sum(UPp))
+      and not palindromic_charpoly(s_thermal(N4, H4zz, D4, U4), sum(D4) + sum(U4)))
+# transverse DM does not commute with Z^N: the three-site chain breaks under cooling alone, the axial chain does not
+HTD = sum((s_op(N, a, sY) * s_op(N, b, sZm) - s_op(N, a, sZm) * s_op(N, b, sY) for a, b in ((0, 1), (1, 2))), sp.zeros(8)).applyfunc(sp.expand)
+LTD = s_thermal(N, HTD, [1, 1, 1], [0, 0, 0])
+check("M11 N=3 open chain, transverse DM YZ − ZY on both bonds (not commuting with Z^N), cooling alone at rate 1: Tr((L + c/2)^5) = 240, a break on a tree; "
+      "the same chain at equal cooling and heating rates 1, where every H commuting with Z^N pairs, gives 1280; the axial DM chain under the same cooling has its odd power sums to 7 at zero",
+      not (HTD * ZN3 - ZN3 * HTD).is_zero_matrix and centred_odd_trace(LTD, 5) == 240
+      and centred_odd_trace(s_thermal(N, HTD, [1, 1, 1], [1, 1, 1]), 5) == 1280
+      and all(centred_odd_trace(LD_, k) == 0 for k in (3, 5, 7)))
+# the conjugation carrier at any dephasing axes in the XY plane: the bipartite ring at Δ = 0
+def tilted4(H):
+    L = s_thermal(N4, H, D4, U4)
+    for l, (a, b), g in ((0, (R_(3, 5), R_(4, 5)), R_(3, 10)), (1, (R_(5, 13), R_(-12, 13)), R_(1, 4)), (2, (R_(1), R_(0)), R_(1, 5))):
+        J = s_op(N4, l, a * sX + b * sY); L += g * (sp.kronecker_product(J, J.conjugate()) - sp.eye(256))
+    return L
+C4T = sum(D4) + sum(U4) + 2 * (R_(3, 10) + R_(1, 4) + R_(1, 5))
+check("M11 N=4 ring of the conjugation row (Δ = 0, flux π/2, fields, four ratios) with dephasing along (3X + 4Y)/5, (5X − 12Y)/13 and X on three sites: "
+      "palindromic (exact characteristic polynomial); at Δ = 7⁄10 not",
+      palindromic_charpoly(tilted4(H4), C4T) and not palindromic_charpoly(tilted4(H4z), C4T))
+# the triangle at unequal rates: the fifth odd trace as a function of the flux
+TS = [R_(0), R_(1, 2), R_(1, 3), R_(2), R_(3), R_(1, 4), R_(4), R_(2, 3), R_(3, 2), R_(1, 5), R_(5), R_(1)]
+tr5, tr3 = [], []
+for t in TS:
+    w = sp.expand((1 + sp.I * t) ** 2 / (1 + t ** 2))
+    Lw = s_thermal(N, triangle(w), DOWN3, UP3)
+    tr5.append((w, centred_odd_trace(Lw, 5))); tr3.append(centred_odd_trace(Lw, 3))
+check("M11 N=3 triangle, unequal rates: Tr((L + c/2)^5) = −656·sin Φ at twelve points e^{iΦ} = (1 + it)²/(1 + t²), t rational, Φ in [0, π) (eleven fix a trigonometric polynomial of degree 5, "
+      "L being linear in e^{±iΦ}), so the trace is −656·sin Φ at every flux and nothing reflects the spectrum off Φ = 0, π; Tr((L + c/2)^3) = 0 at the twelve",
+      all(v == -656 * sp.im(w) for w, v in tr5) and all(v == 0 for v in tr3), f"Φ = π/2: {[v for w, v in tr5 if w == sp.I][0]}")
+check("M11 N=3 triangle: with cooling and heating exchanged on every site the fifth trace at flux π/2 is +656; at flux π (the bond −1, real) S_XY itself reflects at the three ratios, at flux π/2 it does not",
+      centred_odd_trace(s_thermal(N, HQ, UP3, DOWN3), 5) == 656 and reflects(SXY3, s_thermal(N, triangle(sp.Integer(-1)), DOWN3, UP3), C3)
+      and not reflects(SXY3, s_thermal(N, HQ, DOWN3, UP3), C3))
+WT = (3 + 4 * sp.I) / 5
+HG0 = (u1_bond(N, 0, 1, sp.re(WT), sp.im(WT)) + u1_bond(N, 1, 2, sp.re(WT), -sp.im(WT)) + u1_bond(N, 2, 0, 1, 0)).applyfunc(sp.expand)
+tg9 = centred_odd_trace(s_thermal(N, HG0, DOWN3, UP_Q) + XD3, 9)
+check("M11 N=3 triangle at one ratio with X dephasing at 3⁄10: flux 0 written with hopping phases (θ, −θ, 0), cos θ = 3⁄5, does not pair (a nonzero ninth power sum), so X dephasing sees the gauge; with real hopping it pairs (control)",
+      tg9 != 0 and palindromic_charpoly(s_thermal(N, triangle(sp.Integer(1)), DOWN3, UP_Q) + XD3, sum(DOWN3) + sum(UP_Q) + R_(9, 5)), f"ninth trace {tg9}")
+# the decay rates themselves: a reading with two eigensolvers, numpy in double precision and mpmath at 30 digits
+import mpmath as mp
+def to_mp(z):
+    a, b = sp.Rational(sp.re(z)), sp.Rational(sp.im(z))
+    return mp.mpc(mp.mpf(a.p) / a.q, mp.mpf(b.p) / b.q)
+def rate_miss(L, c):
+    re = np.sort(np.linalg.eigvals(np.array(L.evalf(), dtype=complex)).real)
+    miss = float(np.max(np.abs(re + re[::-1] + float(c))))
+    with mp.workdps(30):
+        ev = mp.eig(mp.matrix([[to_mp(L[i, j]) for j in range(L.shape[1])] for i in range(L.shape[0])]), left=False, right=False)
+        r30 = sorted(mp.re(e) for e in ev)
+        return miss, float(max(abs(x + y + to_mp(c).real) for x, y in zip(r30, reversed(r30))))
+(m_flux, m_flux30), (m_zero, m_zero30) = rate_miss(s_thermal(N, triangle(sp.I), DOWN3, UP3), C3), rate_miss(s_thermal(N, triangle(sp.Integer(1)), DOWN3, UP3), C3)
+print(f"READ M11 N=3 triangle, three ratios (two eigensolvers, no pass or fail): the sorted decay rates miss their mirror about −c/2 by "
+      f"{m_flux:.6e} in double precision and {m_flux30:.6e} at 30 digits at flux π/2, by {m_zero:.1e} and {m_zero30:.1e} at flux 0", flush=True)
+LDet = s_thermal(N, (triangle(sp.Integer(1)) - R_(1, 2) * s_op(N, 0, sZm) + R_(1, 2) * s_op(N, 2, sZm)).applyfunc(sp.expand), DOWN3, [0, 0, 0])
+missD, missD30 = rate_miss(LDet, sum(DOWN3))
+print(f"READ M11 N=3 triangle, flux 0, fields (−½, 0, ½), cooling alone (two eigensolvers, no pass or fail): the sorted decay rates miss their mirror by "
+      f"{missD:.6f} in double precision and {missD30:.6f} at 30 digits; the rates are what no common frame shift moves", flush=True)
+# the three chained, with fields: at one ratio S_XY, the transpose and the conjugation make the palindrome
+# spec L(H + F) = spec L(−H̄ + F), and turns with W·(−H̄)·W† = H carry it (on a triangle at Δ = 0: flux ±π/2)
+def centred_even(L):
+    n2 = L.shape[0]; mu = sp.nsimplify(L.trace() / n2)
+    cf = qi(L - mu * sp.eye(n2)).charpoly()
+    return all(QQ_I.to_sympy(cf[j]) == 0 for j in range(1, len(cf), 2))   # a domain zero is not the integer 0
+def fields3(h): return sum((h[l] * s_op(N, l, sZm) for l in range(N)), sp.zeros(2 ** N))
+def triangle_zz(w, Dl): return u1_bond(N, 0, 1, 1, 0, Dl) + u1_bond(N, 1, 2, 1, 0, Dl) + u1_bond(N, 2, 0, sp.re(w), sp.im(w), Dl)
+hF = [R_(3, 10), -R_(1, 5), R_(1, 2)]
+pairs_c = [centred_even(s_thermal(N, (triangle(w) + fields3([-R_(1, 2), 0, R_(1, 2)])).applyfunc(sp.expand), DOWN3, [0, 0, 0])) for w in (sp.I, -sp.I)] + [
+           centred_even(s_thermal(N, (triangle(w) + fields3(hF)).applyfunc(sp.expand), DOWN3, UP_Q)) for w in (sp.I, -sp.I)]
+breaks_c = [centred_even(s_thermal(N, (triangle_zz(sp.I, R_(7, 10)) + fields3(hF)).applyfunc(sp.expand), DOWN3, UP_Q)),
+            centred_even(s_thermal(N, (triangle(W35) + fields3(hF)).applyfunc(sp.expand), DOWN3, UP_Q)),
+            centred_even(s_thermal(N, (triangle(sp.I) + fields3(hF)).applyfunc(sp.expand), DOWN3, UP3))]
+check("M11 the three chained, with fields: on the triangle at flux ±π/2 the characteristic polynomial is palindromic with fields (−½, 0, ½) "
+      "under cooling alone (which break at flux 0, −2560 below) and with fields (3⁄10, −⅕, ½) at one ratio ¼, at both signs of the flux; "
+      "Δ = 7⁄10, flux arccos(3/5) and three ratios break it (controls)",
+      all(pairs_c) and not any(breaks_c), f"pairs {pairs_c}, controls {breaks_c}")
+# no common frame pairs the detuned triangle: Tr5 is a polynomial of degree at most 5 in the frame offset κ, fixed by six offsets
+kk = sp.symbols('kk')
+ZSUM3 = sum((s_op(N, l, sZm) for l in range(N)), sp.zeros(2 ** N))
+def l_det(k): return s_thermal(N, (triangle(sp.Integer(1)) - R_(1, 2) * s_op(N, 0, sZm) + R_(1, 2) * s_op(N, 2, sZm) + k * ZSUM3).applyfunc(sp.expand), DOWN3, [0, 0, 0])
+t5_line = sp.expand(sp.interpolate([(k, centred_odd_trace(l_det(k), 5)) for k in range(6)], kk))
+t5_roots = sp.solve(t5_line, kk)
+t7_at_roots = [centred_odd_trace(l_det(r), 7) for r in t5_roots]
+check("M11 the detuned triangle (real hopping, fields (−½, 0, ½), cooling alone at γ↓ = (½, 1, 3⁄2)) pairs in no common frame: with κ·Σ Z_l added, "
+      "Tr((L + c/2)^5) = −2560 − 15360κ (six offsets fix the degree-5 polynomial), zero only at κ = −1/6, where Tr((L + c/2)^7) = 1708448/9",
+      t5_line == -2560 - 15360 * kk and t5_roots == [-R_(1, 6)] and t7_at_roots == [R_(1708448, 9)], f"Tr5 = {t5_line}, Tr7 at its zero {t7_at_roots}")
+# transverse composition beside cooling: X or Y, or one orthogonal pair of axes (a common turn about Z), pairs; a tilted axis beside X can break
+def deph3(axes):
+    M = sp.zeros(4 ** N)
+    for l, (n_ax, g) in enumerate(axes):
+        if g:
+            A = s_op(N, l, n_ax); M += g * (sp.kronecker_product(A, A.T) - sp.eye(4 ** N))
+    return M
+TI, TP = (3 * sX + 4 * sY) / 5, (-4 * sX + 3 * sY) / 5
+LC1 = s_thermal(N, (u1_bond(N, 0, 1, 1, 0, 1) + u1_bond(N, 1, 2, 1, 0, 1)).applyfunc(sp.expand), [1, 1, 1], [0, 0, 0])
+check("M11 transverse composition beside cooling, Heisenberg chain N=3: dephasing at ½ along the orthogonal pair (3X + 4Y)/5, (−4X + 3Y)/5, (3X + 4Y)/5 pairs "
+      "(a common turn about Z brings it to X and Y), while (3X + 4Y)/5 on site 0 beside X on site 1 does not (an odd coefficient of the centred characteristic polynomial)",
+      centred_even(LC1 + deph3([(TI, R_(1, 2)), (TP, R_(1, 2)), (TI, R_(1, 2))])) and not centred_even(LC1 + deph3([(TI, R_(1, 2)), (sX, R_(1, 2)), (sX, 0)])))
+# the lab frame: a uniform field is a constant on each coherence order p − q
+pcN = [bin(i).count('1') for i in range(2 ** N)]
+order = [pcN[i // 2 ** N] - pcN[i % 2 ** N] for i in range(4 ** N)]
+def order_mirrors(L):
+    """L block-diagonal in the coherence order, and each block's characteristic polynomial, centred on the block's mean, even or odd about it; returns the means"""
+    if any(order[i] != order[j] for (i, j) in L.todok()):
+        return None
+    cents = []
+    for m in range(-N, N + 1):
+        idx = [i for i in range(4 ** N) if order[i] == m]
+        B = L.extract(idx, idx); mu = sp.nsimplify(B.trace() / len(idx)); cents.append(mu)
+        cf = qi(B - mu * sp.eye(len(idx))).charpoly()
+        if any(QQ_I.to_sympy(cf[j]) != 0 for j in range(1, len(cf), 2)):   # a domain zero is not the integer 0
+            return None
+    return cents
+HLab = (u1_bond(N, 0, 1, 1, 0, 1) + u1_bond(N, 1, 2, 1, 0, 1) + sum((s_op(N, l, sZm) for l in range(N)), sp.zeros(2 ** N))).applyfunc(sp.expand)
+cLab = order_mirrors(s_thermal(N, HLab, [1] * N, [0] * N))
+cDet = order_mirrors(LDet)
+check("M11 lab frame, N=3: the Heisenberg chain under cooling alone at rate 1 with the uniform field Σ Z_l (M10's uniform-field case, its lab frame): L is block-diagonal in the coherence order "
+      "and each order's characteristic polynomial, centred on the order's mean −c/2 + iκ, is even or odd about it, κ growing with the order, so each order keeps its own mirror; "
+      "the triangle with fields (−½, 0, ½) under cooling alone does not (control)",
+      cLab is not None and all(sp.re(z) == -sp.Rational(N, 2) for z in cLab) and all(sp.im(cLab[k]) < sp.im(cLab[k + 1]) for k in range(2 * N))
+      and cDet is None, f"means {cLab}")
+check("M11 N=3 triangle with real hopping (flux 0) and fields Σ h_l·Z_l, h = (−½, 0, ½), cooling alone at γ↓ = (½, 1, 3⁄2): Tr((L + c/2)^5) = −2560 in this frame, so the complex spectrum does not pair here, and a uniform field ½ added (another common frame) moves that power sum; "
+      "without the fields the odd power sums to 7 vanish",
+      centred_odd_trace(LDet, 5) == -2560
+      and centred_odd_trace(LDet - sp.I * (sp.kronecker_product(R_(1, 2) * sum((s_op(N, l, sZm) for l in range(N)), sp.zeros(8)), sp.eye(8))
+                                            - sp.kronecker_product(sp.eye(8), (R_(1, 2) * sum((s_op(N, l, sZm) for l in range(N)), sp.zeros(8))).T)), 5) != -2560
+      and all(centred_odd_trace(s_thermal(N, triangle(sp.Integer(1)), DOWN3, [0, 0, 0]), k) == 0 for k in (3, 5, 7)))
+LQc = s_thermal(N, HQ, DOWN3, [0, 0, 0])
+check("M11 N=3 triangle at flux π/2, γ↓ = (½, 1, 3⁄2), cooling alone: the odd traces to 7 vanish (a necessary reading; the proof at every flux is F137's route through H_eff), while with γ↑ = (⅛, ⅓, ⅕) the fifth is −656",
+      all(centred_odd_trace(LQc, k) == 0 for k in (3, 5, 7)) and centred_odd_trace(s_thermal(N, HQ, DOWN3, UP3), 5) == -656)
+def z_dephased(H):
+    L = -sp.I * (sp.kronecker_product(H, sp.eye(8)) - sp.kronecker_product(sp.eye(8), H.T))
+    for l in range(N):
+        Zl = s_op(N, l, sZm); L += R_(1, 2) * (sp.kronecker_product(Zl, Zl.T) - sp.eye(64))
+    return L
+check("M11 contrast, N=3 triangle under uniform Z dephasing at ½: the characteristic polynomial is not palindromic about −σ at flux π/2 and is at flux π (exact), "
+      "the one-sided ρ·X^N carrying L(H) onto a reflection only where X^N·H·X^N = H (derived; the rows compare characteristic polynomials)",
+      not palindromic_charpoly(z_dephased(HQ), 3) and palindromic_charpoly(z_dephased(triangle(sp.Integer(-1))), 3))
 
 print()
 print("FAILED: " + ", ".join(FAIL) if FAIL else "ALL GATES PASS")

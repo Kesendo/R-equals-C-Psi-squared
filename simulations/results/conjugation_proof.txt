@@ -192,7 +192,7 @@ The 45° field lies along neither Z nor X, yet dies once both are
 dephasing: it is not orthogonal to X. With Z alone the whole plane is
 orthogonal to the noise, so the same 45° field is exact.
 
-### Per-component freedom, and T1's field intolerance
+### Per-component freedom, and T1 under fields
 
   two disjoint bonds, X field on one, Y on the other: 256/256
   the same pattern on a connected chain:              4/256
@@ -200,7 +200,9 @@ orthogonal to the noise, so the same 45° field is exact.
   T1 alone plus a transverse X   field:                1/64 complex,    1/64 rates
   T1 alone plus a longitudinal Z field:               28/64 complex,   64/64 rates
 
-T1 tolerates no on-site field at all, unlike the dephasing-only case.
+At Heisenberg bonds this field profile breaks T1's pairing, unlike the dephasing-only case
+(at these real bonds a longitudinal profile that a site permutation keeping the bonds and the rates turns into its
+negative keeps it, and on a bipartite graph of XX + YY bonds at Δ = 0 any longitudinal field does; F137).
 
 Both T1 restrictions are per component. Two disjoint Heisenberg
 bonds (0-1),(2-3) at N=4, T1 on sites 0-1 at 0.05; pairing about the
@@ -314,7 +316,7 @@ claims, and only the first holds for pure T1.
 All rows fully paired: True
 
 T1 WITH dephasing depends entirely on the axis, and the obvious guess is
-wrong: dephasing TRANSVERSE to T1 composes with it exactly. Only co-axial
+wrong: dephasing TRANSVERSE to T1 (X or Y) composes with it exactly. Only co-axial
 Z-dephasing breaks it (N=3 chain, both channels at 0.05, paired about the
 combined shift 2Σγ_deph + Σγ_T1):
 

@@ -226,7 +226,12 @@ circle with angle lφ at site l, the gauge argument of
 D/J = 3/4 every cos lφ and sin lφ is rational and the row is exact. On the ring the same term
 is a flux, Nφ through the cycle: at D = 0.37 J the pairing breaks, at D = J (flux π at N = 4,
 real hopping with one bond's sign flipped, which `X^⊗N` keeps) it pairs again (read); the
-break depends on D through the flux, not on the term's presence. Of the table's Z-side rows,
+break depends on D through the flux, not on the term's presence. Loss and gain on every site cannot
+see the chain frame any more than Z reading can: its F is the left factor of the element that pairs
+the same Hamiltonian's spectrum under loss and gain on every site ([F137](../ANALYTICAL_FORMULAS.md#f137), whose
+gate M11 runs the turned element on a chain with unequal bonds). The selected rings are even, so
+bipartite, and at Δ = 0 loss and gain on every site pair them at every DM flux, by complex
+conjugation with a sign on one sublattice (F137), where the Z reading breaks at D = 0.37 J. Of the table's Z-side rows,
 the centre line needs `[H, Z^⊗N] = 0`, every term even in k_Z, which Hückel, ZZ, the Z field
 and axial DM keep and the X field, the Y field and transverse DM break; the quarter-turn
 about Z holds when H is U(1)-symmetric, `[H, Σ Z_l] = 0`, which is not a cube parity and holds

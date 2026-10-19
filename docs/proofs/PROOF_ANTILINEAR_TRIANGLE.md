@@ -1,6 +1,6 @@
 # PROOF: the antilinear triangle (θ, conj, †: one Klein four-group, five proofs, one engine)
 
-**Status:** Tier 1 derived (one-line algebraic identities, universal N; verified machine-exact at N = 1..3, the closure block exact at N = 2; §7 exact at N = 1..5 in `AntilinearTriangleTests`). The five corollary legs are existing, independently derived repository proofs; this document does not re-prove them, it exhibits the one engine they share.
+**Status:** Tier 1 derived (one-line algebraic identities, universal N; verified machine-exact at N = 1..3, the closure block exact at N = 2; §7 exact at N = 1..5 in `AntilinearTriangleTests`, its paragraph on a complex H at N = 3 in `cube_moves_gate.py` M11, there without Z dephasing). The five corollary legs are existing, independently derived repository proofs; this document does not re-prove them, it exhibits the one engine they share.
 **Date:** 2026-06-11
 **Authors:** Thomas Wicht, Claude (Fable 5)
 **Builds on:**
@@ -146,6 +146,8 @@ with N̂ the excitation number: the transpose of the generator is the generator 
 - **What they change.** They carry the sandwich σ⁻·σ⁺ (the map X ↦ σ⁻Xσ⁺) to e^{−β}·σ⁻·σ⁺, and σ⁺·σ⁻ to e^{β}·σ⁺·σ⁻, since e^{βN̂/2}σ⁻e^{−βN̂/2} = e^{−β/2}σ⁻.
 - **Comparing with the transpose.** So Γ_β⁻¹LΓ_β carries γ↓_l·e^{−β} = γ↑_l on σ⁻·σ⁺ and γ↑_l·e^{β} = γ↓_l on σ⁺·σ⁻. That is the transpose of the two sandwiches, because the transpose of X ↦ AXB is X ↦ AᵀXBᵀ and (σ⁻)ᵀ = σ⁺. ∎
 
+For a number-conserving H that is not real the same steps give **L(H)ᵀ = Γ_β⁻¹ ∘ L(Hᵀ) ∘ Γ_β**: the transpose of L_H is L_{Hᵀ}, and Hᵀ conserves N̂ as well. With a flux, Hᵀ is the system with the flux reversed, as in the second of the four readings below, and then the identity has spectral content: L(H) and L(H̄) share their spectrum. Without the Z dephasing, which S_XY does not reflect, and composed with [F137](../ANALYTICAL_FORMULAS.md#f137)'s element S_XY, this carries the thermal palindrome at that single ratio and every flux for XXZ bonds with axial DM terms and no fields, where Hᵀ = X⊗N·H·X⊗N (F137's paragraph on loss and gain exchanged; exact at N = 3 in `cube_moves_gate.py` M11).
+
 **Where the weight exists, and where it does not.**
 - **A weight of this kind is a stationary state.** Trace preservation is Lᵀ(I) = 0. So a similarity Lᵀ = Γ⁻¹LΓ with Γ(X) = ρ^½Xρ^½, ρ positive and invertible, forces L(ρ) = 0. In particular L(π_β) = 0, and normalized, π_β is the stationary product state diag(1 − p, p)^⊗N of [the thermal breaking study](../../experiments/THERMAL_BREAKING.md), with p/(1 − p) = γ↑/γ↓.
 - **β = 0.** The weight is the identity, and this is Lᵀ = L above.
@@ -174,7 +176,7 @@ with N̂ the excitation number: the transpose of the generator is the generator 
   - [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) holds the same Roberts-Lingenfelter-Clerk thread.
   - [PRIMORDIAL_QUBIT_ALGEBRA](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Step 7) finds the modular conjugation at I/d to be a complex conjugation, there in the Pauli basis.
 - **`hypotheses/`:** [PRIMORDIAL_QUBIT](../../hypotheses/PRIMORDIAL_QUBIT.md) (lines 366 to 371) finds the strict, untwisted condition maximally violated for every state of its steady manifold. The K-twisted form at β = 0 is §7's corollary; what this proposition adds is β > 0.
-- **[The open questions index](../../review/OPEN_QUESTIONS_INDEX.md):** OQ-168 asks for a finite-temperature hidden-time-reversal construction tied to the thermal palindrome F137. The proposition supplies a finite-temperature time reversal of the generator, K with the thermal weight; whether that is Roberts, Lingenfelter and Clerk's hidden time reversal is not checked (above). It says nothing spectral, since every matrix is similar to its transpose and the content lies in the form of the weight, so the tie to the palindrome stays open.
+- **[The open questions index](../../review/OPEN_QUESTIONS_INDEX.md):** OQ-168 asks for a finite-temperature hidden-time-reversal construction tied to the thermal palindrome F137. The proposition supplies a finite-temperature time reversal of the generator, K with the thermal weight; whether that is Roberts, Lingenfelter and Clerk's hidden time reversal is not checked (above). For a real H it says nothing spectral, since every matrix is similar to its transpose and the content lies in the form of the weight; for a flux the tie to the palindrome is the paragraph after the proof.
 - **The OpenArcs registry, `fw.Confirmations`, the glossary and [the caught errors](../CAUGHT_ERRORS.md):** nothing on a weighted transpose.
 - **The typed layer:** `F84ThermalAmplitudeDampingPi2Inheritance` uses "detailed balance" for γ↓ = γ↑. MirrorWorld's unital-pair test shows the plain law breaking at unequal rates. No Core claim or Diagnostics witness holds the weighted law; MirrorWorld pins it (below).
 
