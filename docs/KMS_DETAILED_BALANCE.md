@@ -71,9 +71,11 @@ shift of the pure-Z palindrome, not an entropy-production rate.
 ## Executive Summary
 
 The Π anti-similarity is **not** a standard quantum detailed balance (QDB)
-condition, but it is closely
-related to a recently identified class of **hidden time-reversal symmetries** in
-open quantum systems (Roberts-Lingenfelter-Clerk, PRX Quantum 2021). The comparison
+condition. Its closest relative in the literature is a recently identified class
+of **hidden time-reversal symmetries** in open quantum systems
+(Roberts-Lingenfelter-Clerk, PRX Quantum 2021), which also gives time-reversal-like
+structure where standard detailed balance fails; the formal connection is not
+established (Question 6). The comparison
 to KMS at β=0 is formal, not a bath assignment: a generator that is strictly
 KMS-symmetric as a whole at equilibrium `I/d` is self-adjoint (real spectrum),
 while Π gives
@@ -186,11 +188,10 @@ part `L₀` is self-adjoint. Conditions involving an antiunitary time reversal o
 a modular transform are related detailed-balance definitions, not automatically
 equivalent to `L̃=L` without their additional hypotheses.
 
-where:
-- L̃ is the adjoint of L with respect to the inner product ⟨a,b⟩_ρ = tr(ρ a*b)
-- L† is the Hilbert-Schmidt adjoint
-- Θ is a superoperator constructed from the modular operator Δ = ρ_ss ⊗ ρ_ss⁻¹
-- ρ_ss is the steady state
+Here `L̃` is the adjoint for the GNS product tr(ρ a* b) or the KMS product
+tr(ρ^½ a* ρ^½ b); both reduce to the Hilbert-Schmidt product at ρ = I/d, so `L̃`
+becomes the Hilbert-Schmidt adjoint `L†` there (Question 3). `ρ_ss` below is the
+same ρ, the steady state that serves as the weight.
 
 **What QDB says physically:** the forward and backward transition rates between
 any two states are related by the Boltzmann factor. The Liouvillian "looks the
@@ -221,8 +222,8 @@ The key structural differences:
 | Sign | Same in the strict symmetric part | Opposite (minus sign) |
 | Constant shift | None | 2Sγ |
 | Spectral consequence | strict full-generator form: real; Alicki form: full spectrum may be complex | Palindromic complex pairs |
-| Involves adjoint? | Yes (L†) | No (L itself) |
-| Steady state role | Central (Θ depends on ρ_ss) | None; the shift is algebraic |
+| Involves adjoint? | Yes (the weighted adjoint L̃) | No (L itself) |
+| Steady state role | Central (ρ_ss is the weight) | None; the shift is algebraic |
 
 Detailed balance constrains a weighted adjoint, either for the full generator
 in the strict symmetry convention or for its dissipative part after a commuting
@@ -270,7 +271,7 @@ equilibrium state is
 
     Δ = ρ_ss ⊗ ρ_ss⁻¹ = (I/d) ⊗ (dI) = I.
 
-its strict symmetry condition therefore becomes
+Its strict symmetry condition therefore becomes
 
     L† = L     (self-adjointness in Hilbert-Schmidt norm).
 
@@ -478,13 +479,13 @@ through the transpose and weighted by the thermal state: M_β gives Π's shape
 the phased pairing S_XY gives −L† − c at any rates for an H that commutes with
 X⊗N and Y⊗N ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9).
 
-**Numerical test recommended, and run on 2026-08-05:** compute the Liouvillian
-spectrum for XXZ + thermal bath at various temperatures and check whether any
-palindromic structure survives. It does, and not only approximately: exactly,
-about the centre −Σ(γ↓+γ↑)/2, proven by rational characteristic polynomial at
-N=2 and N=3 ([`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py),
-[F137](ANALYTICAL_FORMULAS.md)). The rate that appears is the sum γ↓+γ↑,
-which is the r this document computed. The operator of the shape −L − c at one
+**The spectrum.** The Liouvillian spectrum of XXZ under a thermal bath is
+palindromic exactly, about the centre −Σ(γ↓+γ↑)/2, at every N through S_XY
+(above; [F137](ANALYTICAL_FORMULAS.md)), and checked by rational characteristic
+polynomial at the rate profiles of
+[`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py) at
+N = 2 and 3. The rate that appears is r = γ↓ + γ↑ of the
+rates above. The operator of the shape −L − c at one
 ratio is the element M_β above. Where a palindrome is observed without a known
 element, construct Π numerically from eigenvector
 pairing (the fallback construction in NON_HEISENBERG_PALINDROME.md; note it
@@ -538,8 +539,8 @@ symmetries in systems that violate standard detailed balance.
 **Key difference:** Their hidden TRS requires the doubled Hilbert space
 and thermofield double state (a purification trick that represents a thermal mixed state as a pure state in a doubled system). Our Π acts directly on the Liouvillian
 superoperator space. These might be related through vectorization (the
-Choi-Jamiolkowski isomorphism, the standard mapping that converts a superoperator into a matrix in the doubled Hilbert space, maps superoperators to operators in the
-doubled space), but the formal connection is not established.
+Choi-Jamiolkowski isomorphism, which maps superoperators to operators in the
+doubled Hilbert space), but the formal connection is not established.
 
 Their follow-up paper (PRL 134, 130404, 2025) extends hidden TRS to
 driven spin chains and finds new dissipative phase transitions, suggesting
@@ -607,7 +608,7 @@ dynamics. No palindromic structures.
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
 | 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or Z dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11); a temperature gradient along the hopping, a Z field, Z dephasing and X or Y dephasing at a ratio other than 1 break the element; beyond it **OPEN** |
-| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
+| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
 
@@ -642,13 +643,11 @@ cooling-to-heating ratio, M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½, with M_�
 (Question 4): the finite-temperature mirror is built from the thermal weight of
 detailed balance in its K-twisted (Agarwal) form.
 
-**It is not an obstruction to the palindrome.** The thermal-jump section above
-computes the per-site rates
-[0, r/2, r/2, r] with r = γ(2n̄+1), notices that (0, r) and (r/2, r/2) both sum
-to r, and concludes that rate-pairing is possible in principle. It is: r is the
-total per-site rate γ↓ + γ↑, the tensor sum over sites gives a palindrome
-centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too,
-exact at the script's rational rate profiles at N = 2 and 3, measured through 5, and derived at every N for an H that
+**Nor is there an obstruction to the palindrome.** The per-site thermal rates
+[0, r/2, r/2, r], r = γ↓ + γ↑, pair as (0, r) and (r/2, r/2); their negatives are the
+one-site eigenvalues, since the arrow I → Z is the generator's only off-diagonal
+entry and makes it triangular, so the tensor sum over sites gives a palindrome
+centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too, exact at the script's rational rate profiles at N = 2 and 3, measured through 5, and derived at every N for an H that
 commutes with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c. See [F137](ANALYTICAL_FORMULAS.md). That
 element needs no common ratio; M_β needs one across the hopping, and with real
 hopping a gradient breaks M_β while the spectrum still pairs.
@@ -699,15 +698,15 @@ hopping a gradient breaks M_β while the spectrum still pairs.
    Phys. Rev. B 106, 035408. [arXiv:2201.09283](https://arxiv.org/abs/2201.09283)
    *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. This is a catalogued comparison for the SHAPE of Π's shifted spectrum. The repository separately establishes an interacting k-body Π and a 6 → 4 → 2 per-site-product-vs-entangled locality ceiling; equivalence and prior-art coverage remain open.*
 
-10. **Haga et al. (2023)**: Incoherenton paper.
+11. **Haga et al. (2023)**: Incoherenton paper.
     *XY-weight grading = incoherenton number. Bands but no palindrome.*
 
-11. **Chen, Kastoryano, Gilyén (2025)**: "Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition."
+12. **Chen, Kastoryano, Gilyén (2025)**: "Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition."
     Comm. Math. Phys. [arXiv:2404.05998](https://arxiv.org/abs/2404.05998)
    *Strict KMS-symmetric Lindbladians for Gibbs sampling; real spectra for that
    symmetric generator.*
 
-12. **Roberts et al. (2025)**: "Hidden Time Reversal in Driven Spin Chains."
+13. **Roberts et al. (2025)**: "Hidden Time Reversal in Driven Spin Chains."
     Phys. Rev. Lett. 134, 130404. [PRL](https://doi.org/10.1103/PhysRevLett.134.130404)
     *Extension of hidden TRS to spin chains; new dissipative phase transitions.*
 
@@ -746,8 +745,8 @@ hopping a gradient breaks M_β while the spectrum still pairs.
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
    recognize the significance of a shifted anti-similarity. Roberts for
    the hidden TRS connection, Prosen for the η-pairing generalization.
-   **Update (2026-07-05):** the classification side of this step now has
-   its vehicle: the outbound adapter
+   The classification side of this step has its vehicle: the outbound
+   adapter
    [Shifted Order-4 Chiral Symmetry](outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)
    packages the placement walk of this document, the generalized-P
    resolution, and the statistics data point in the classification
