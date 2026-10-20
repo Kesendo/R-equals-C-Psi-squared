@@ -13,11 +13,19 @@ using static MirrorWorld.LetterCube;
 // diagonal, diag(1, x), or anti-diagonal, [[0, x], [1, 0]]. On the letters such a factor is a pure turn: it multiplies
 // sigma^+ by a power of its turn x or swaps sigma^+ and sigma^-, and keeps or flips Z. So every condition the mirror
 // must meet is binomial, a product of turns equal to a constant read off the rates and the couplings (Binomials):
-//   per site      E_l·L_l° = T(L_l°)·E_l, with T(M) = -M for the Pi-reflection -L - c and -M^dagger for the
-//                 reflection -L^dagger - c, from the site's heights, arrows and field;
+//   per site      E_l·L_l° = T(L_l°)·E_l, with T(M) = -M for the Pi-reflection -L - c, -M^dagger for the
+//                 reflection -L^dagger - c and M for a copy (E·L = L·E, a symmetry), from the site's heights,
+//                 arrows and field;
 //   per support   A_S·h_S^(T)·A_S^-1 = s·h_S and B_S^-1·h_S^(T)·B_S = s·h_S, the left and the right factor apart,
-//                 s = -1 for (Pi, plain) and (reflection, transposed) and +1 otherwise: the Hamiltonian part of the
-//                 sector split, exactly, since a bond's terms are traceless on every site and no constant enters.
+//                 s = -1 for (Pi, plain), (reflection, transposed) and (copy, transposed) and +1 otherwise: the
+//                 Hamiltonian part of the sector split, exactly, since a bond's terms are traceless on every site and
+//                 no constant enters. A copy's bonds read like a reflection's (-L_H^dagger = L_H for a Hermitian H);
+//                 only its sites differ.
+// The plain all-diagonal copies are left out: they form a group holding the identity, which the solver would return,
+// so a copy's silence means no copy of the other kinds, not no symmetry (the turns about Z and the moves by Z^N, the
+// turn rho -> Z^N·rho·Z^N and the shift rho -> rho·Z^N, are in the group left out). The first copy read so is U =
+// Sigma·rho^T·Sigma on the XY chain, Sigma the sign on every second site, the involution
+// docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md splits the block (1, 1) by.
 // A reading is the reduced binomial system with the kinds of the factors; it never holds a number. On a chain built
 // from one repeated cell the same equations with a step per site, x_l = x_0·r^l and y_l = y_0·s^l, read every length
 // at once: two positions of a window fix the step, so a traverse holds on every open chain. Uniform: one map on every
@@ -45,7 +53,14 @@ public sealed class Theodolite : GameObject
     // left: what the theodolite itself produces.
     public override IReadOnlyList<string> Own => new[] { "letters", "reading", "every N" };
 
-    public enum Relation { Pi, Reflection }
+    public enum Relation { Pi, Reflection, Copy }
+
+    // the branches asked: null both (plain first), or one of them
+    static bool[] Branches(bool? transposed) => transposed is { } t ? new[] { t } : new[] { false, true };
+
+    // the plain all-diagonal copies, the group that holds the identity (left out, see the head comment)
+    static bool Gauge(Relation rel, bool transposed, IEnumerable<(Kind A, Kind B)> kinds)
+        => rel == Relation.Copy && !transposed && kinds.All(k => k == (Kind.Diagonal, Kind.Diagonal));
     public enum Kind { Diagonal, AntiDiagonal }
     public enum Shape { Uniform, Turned, Periodic, Stepped }
 
@@ -230,6 +245,7 @@ public sealed class Theodolite : GameObject
 
     static Gauss[,] Target(Gauss[,] m, Relation rel)
     {
+        if (rel == Relation.Copy) return m;
         var t = rel == Relation.Pi ? m : Dagger(m);
         int d = t.GetLength(0);
         var o = new Gauss[d, d];
@@ -329,7 +345,7 @@ public sealed class Theodolite : GameObject
         IReadOnlyList<string> turns, bool left, string origin)
     {
         int k = kinds.Count, d = 1 << k;
-        int sign = (rel == Relation.Pi && !transposed) || (rel == Relation.Reflection && transposed) ? -1 : 1;
+        int sign = (rel == Relation.Pi && !transposed) || (rel != Relation.Pi && transposed) ? -1 : 1;
         var ht = transposed ? Transpose(h) : h;
         int Bit(int i, int p) => (i >> (k - 1 - p)) & 1;
         int Image(int i)
@@ -412,14 +428,16 @@ public sealed class Theodolite : GameObject
     static string Y(int l) => $"y{l}";
 
     // A monomial sandwich carrying L onto T(L) - c, read from the letters, or null when the letters are silent.
-    public static Reading? Read(Setting s, Relation rel)
+    // branch: null asks the plain branch and then the transposed one, false or true only that one.
+    public static Reading? Read(Setting s, Relation rel, bool? branch = null)
     {
+        var branches = Branches(branch);
         int n = s.N;
         var pieces = Enumerable.Range(0, n).Select(l => SitePieces(s, l, rateFree: false)).ToList();
         var supports = Supports(s);
         var hams = supports.ToDictionary(sup => string.Join(",", sup), sup => HamiltonianOn(s, sup));
         var doneAt = Enumerable.Range(0, n).Select(l => supports.Where(sup => sup.Max() == l).ToList()).ToList();
-        foreach (bool transposed in new[] { false, true })
+        foreach (bool transposed in branches)
         {
             var allowed = new List<List<((Kind A, Kind B) K, List<Binomial> Eqs)>>();
             for (int l = 0; l < n; l++)
@@ -464,7 +482,7 @@ public sealed class Theodolite : GameObject
 
             bool Rec(int l)
             {
-                if (l == n) return true;
+                if (l == n) return !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
                 for (int ci = 0; ci < allowed[l].Count; ci++)
                 {
                     choice[l] = ci;
@@ -572,14 +590,15 @@ public sealed class Theodolite : GameObject
     }
 
     // A chain built from one repeated cell, read from the letters for every length (open chains), or null when the
-    // letters are silent. rateFree: the element must hold at every rate of every channel.
-    public static Traverse? EveryN(Cell cell, Relation rel, bool rateFree = false, int maxPeriod = 4)
+    // letters are silent. rateFree: the element must hold at every rate of every channel. branch: as in Read.
+    public static Traverse? EveryN(Cell cell, Relation rel, bool rateFree = false, int maxPeriod = 4, bool? branch = null)
     {
+        var branches = Branches(branch);
         cell = cell.Normalized();
         int span = cell.Span;
         var pieces = Pieces(cell.Fields, cell.Jumps, rateFree);
         var allowed = new Dictionary<bool, List<(Kind, Kind)>>();
-        foreach (bool transposed in new[] { false, true })
+        foreach (bool transposed in branches)
         {
             allowed[transposed] = new List<(Kind, Kind)>();
             foreach (var kp in KindPairs)
@@ -600,9 +619,10 @@ public sealed class Theodolite : GameObject
             var (root, step) = u[0] == 'x' ? ("X0", "r") : ("Y0", "s");
             return l == 0 ? new Dictionary<string, int> { [root] = 1 } : new Dictionary<string, int> { [root] = 1, [step] = l };
         }
-        foreach (bool transposed in new[] { false, true })
+        foreach (bool transposed in branches)
             foreach (var kp in allowed[transposed])
             {
+                if (Gauge(rel, transposed, new[] { kp })) continue;
                 try
                 {
                     var eqs = ChainEquations(cell, rel, transposed, Enumerable.Repeat(kp, length).ToList(), length, pieces);
@@ -643,9 +663,10 @@ public sealed class Theodolite : GameObject
                 int l = int.Parse(u[1..]);
                 return new Dictionary<string, int> { [$"{(u[0] == 'x' ? 'P' : 'Q')}{l % p}"] = 1 };
             }
-            foreach (bool transposed in new[] { false, true })
+            foreach (bool transposed in branches)
                 foreach (var pattern in Patterns(allowed[transposed], p))
                 {
+                    if (Gauge(rel, transposed, pattern)) continue;
                     try
                     {
                         var eqs = ChainEquations(cell, rel, transposed, Enumerable.Range(0, len).Select(l => pattern[l % p]).ToList(), len, pieces);

@@ -2365,6 +2365,17 @@ if (args.Length > 0 && args[0] == "theodolite")
         if (tdRead is null) { Console.WriteLine("    silent: no monomial sandwich (here nothing site-local exists; the pre-check of the Python twin proves it)"); continue; }
         foreach (var tdLine in tdRead.Lines()) Console.WriteLine($"    {tdLine}");
     }
+    Console.WriteLine("  the XY chain, Z dephasing at 1, a copy (a symmetry, the plain all-diagonal group holding the identity left out):");
+    var tdXy = Theodolite.Setting.Of(tdN, Enumerable.Range(0, tdN - 1)
+        .SelectMany(a => new[] { "XX", "YY" }.Select(b => (new string('I', a) + b + new string('I', tdN - 2 - a), 1L))), tdEvery(l => new[] { (tdZ, 1L) }));
+    foreach (var (tdBranch, tdWhat) in new[] { (false, "plain, the turn by X^N"),
+                 (true, "transposed, U = Sigma·rho^T·Sigma of docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md") })
+    {
+        Console.WriteLine($"    {tdWhat}:");
+        var tdCopy = Theodolite.Read(tdXy, Theodolite.Relation.Copy, tdBranch);
+        if (tdCopy is null) { Console.WriteLine("      silent"); continue; }
+        foreach (var tdLine in tdCopy.Lines()) Console.WriteLine($"      {tdLine}");
+    }
     Console.WriteLine();
     Console.WriteLine("  every N, a chain of one repeated cell, every open chain at once:");
     var tdBond = new[] { 0, 1 };

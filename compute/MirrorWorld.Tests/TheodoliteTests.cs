@@ -193,8 +193,16 @@ public class TheodoliteTests
         long den = 2L * (dd / 4);
         Assert.True(tr.Im == 0 && tr.Re % den == 0, $"4c must be an integer, tr(4L) = {tr}");
         long fourC = -tr.Re / den;                                          // c = -tr(L) / (2·4^(n-1))
-        var T = rel == Theodolite.Relation.Pi ? L : Dagger(L);
         var lhs = Mul(E, L);
+        if (rel == Theodolite.Relation.Copy)
+        {
+            var le = Mul(L, E);                                             // a copy: E·L = L·E, no constant
+            for (int i = 0; i < dd; i++)
+                for (int j = 0; j < dd; j++)
+                    if (lhs[i, j] != le[i, j]) return false;
+            return true;
+        }
+        var T = rel == Theodolite.Relation.Pi ? L : Dagger(L);
         var rhsPart = Mul(T, E);
         for (int i = 0; i < dd; i++)
             for (int j = 0; j < dd; j++)
@@ -353,6 +361,53 @@ public class TheodoliteTests
         }
     }
 
+    static IEnumerable<(string, long)> XyChain(int n, long dz = 0) => Enumerable.Range(0, n - 1).SelectMany(a => Bond(n, a, a + 1, 1, 0, dz));
+
+    [Fact]
+    public void A_Copy_Reads_The_Sublattice_Transpose_On_The_XY_Chain()
+    {
+        // U(rho) = Sigma·rho^T·Sigma, Sigma the sign on every second site: the involution
+        // docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md splits the block (1, 1) by on the XY chain; it needs no ZZ
+        long[] rates = { 3, 5, 7, 4 };
+        foreach (int n in new[] { 3, 4 })
+        {
+            var jumps = Enumerable.Range(0, n).Select(l => (l, Zm, rates[l])).ToList();
+            var s = Theodolite.Setting.Of(n, XyChain(n), jumps);
+            var r = Theodolite.Read(s, Theodolite.Relation.Copy, branch: true);
+            Assert.NotNull(r);
+            Assert.All(r!.Kinds, k => Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), k));
+            var sol = Binomials.RationalSolution(r.System);
+            Assert.NotNull(sol);
+            for (int l = 0; l + 1 < n; l++)                                  // the sign alternates, on both factors
+            {
+                Assert.Equal(sol![$"x{l + 1}"].Num * sol[$"x{l}"].Den, -(sol[$"x{l}"].Num * sol[$"x{l + 1}"].Den));
+                Assert.Equal(sol[$"y{l + 1}"].Num * sol[$"y{l}"].Den, -(sol[$"y{l}"].Num * sol[$"y{l + 1}"].Den));
+            }
+            Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Copy, r));
+            var heis = Theodolite.Setting.Of(n, XyChain(n, 1), jumps);
+            Assert.Null(Theodolite.Read(heis, Theodolite.Relation.Copy, branch: true));
+            var x = Enumerable.Range(0, n).Select(l => sol![$"x{l}"]).ToList();
+            var y = Enumerable.Range(0, n).Select(l => sol![$"y{l}"]).ToList();
+            Assert.False(Reflects(heis, Theodolite.Relation.Copy, true, r.Kinds, x, y));   // ZZ breaks it on the full generator
+        }
+    }
+
+    [Fact]
+    public void A_Copy_Leaves_Out_The_Gauge_And_Reads_The_Turn_By_X()
+    {
+        // plain: the all-diagonal copies hold the identity and are left out; what is read is the turn by X^N, a copy
+        // wherever H commutes with X^N, the move carrying (1, 1) onto (N - 1, N - 1)
+        var s = Theodolite.Setting.Of(3, Heisenberg(3), new[] { (0, Zm, 1L), (1, Zm, 1L), (2, Zm, 1L) });
+        var r = Theodolite.Read(s, Theodolite.Relation.Copy, branch: false);
+        Assert.NotNull(r);
+        Assert.All(r!.Kinds, k => Assert.Equal((Theodolite.Kind.AntiDiagonal, Theodolite.Kind.AntiDiagonal), k));
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Copy, r));
+        // silent outside the plain all-diagonal group, which is not read: the turns about Z (and Z^N's moves) live in
+        // it, so null says no copy of the other kinds, not no symmetry
+        var damped = Theodolite.Setting.Of(3, Heisenberg(3), new[] { (0, Lowering, 1L), (1, Lowering, 1L), (2, Lowering, 1L) });
+        Assert.Null(Theodolite.Read(damped, Theodolite.Relation.Copy));
+    }
+
     // ---- every N ----
 
     static Theodolite.Cell Cell(IEnumerable<(Gauss[,], long)> jumps, params (string, int[], long)[] windows)
@@ -448,6 +503,21 @@ public class TheodoliteTests
     {
         foreach (var (t1, t2) in new[] { ("XX", "XY"), ("XY", "XZ") })
             Assert.Null(Theodolite.EveryN(Cell(new[] { (Zm, 1L) }, (t1, new[] { 0, 1 }, 1), (t2, new[] { 0, 1 }, 1)), Theodolite.Relation.Pi));
+    }
+
+    [Fact]
+    public void A_Copy_Turns_The_XY_Chain_By_A_Quarter_From_Site_To_Site()
+    {
+        // Sigma on every second site: a transposed sandwich's factor steps by z^-2, so the sign is a quarter turn, z^2 = -1
+        var xy = Cell(new[] { (Zm, 1L) }, ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1));
+        var t = Theodolite.EveryN(xy, Theodolite.Relation.Copy, branch: true);
+        Assert.NotNull(t);
+        Assert.Equal(Theodolite.Shape.Turned, t!.Shape);
+        var (k, num, den) = t.Turn!.Value;
+        Assert.Equal(2, k);
+        Assert.Equal(num, -den);
+        Assert.Equal(Theodolite.Shape.Uniform, Theodolite.EveryN(xy, Theodolite.Relation.Copy)!.Shape);   // plain first: X^N
+        Assert.Null(Theodolite.EveryN(Cell(new[] { (Zm, 1L) }, HeisCell), Theodolite.Relation.Copy, branch: true));
     }
 
     [Fact]
