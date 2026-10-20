@@ -74,7 +74,9 @@ So these are local, with no caveat: a per-site product Q palindromizes them, ver
 But they are local in an awkward register. The routers the optimizer lands on are arbitrary continuous
 maps; they are not order-4, and they differ from case to case. That makes them poor citizens for a clean
 "addable" certifier, which wants a small fixed alphabet of routers, not a bespoke continuous map per
-Hamiltonian. The honest reading is that their absence from the earlier list was a coverage gap, not a
+Hamiltonian. For XIX+XIY+YIX a closed form exists, one map of order four: its next-nearest bonds carry the
+golden letter table [[1, 1], [1, 0]], ρ ↦ X·(g·ρ)ᵀ·X with g = φX + Y on every site routes it, and every uniform
+router of it has its identity column in that golden frame ([THE_CUBE_SITE_BY_SITE](THE_CUBE_SITE_BY_SITE.md)). The honest reading is that their absence from the earlier list was a coverage gap, not a
 discovery about them: the per-term lens was blind to continuous-sum routing. Fill the gap and they fall
 out of the non-local class. They were never non-local; they were unseen.
 

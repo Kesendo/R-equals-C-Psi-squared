@@ -1749,7 +1749,7 @@ def verify_round4_artifacts_and_consumers():
             ("F44. Crooks-like", "β_eff = 1/Σγ", "F40. Fragile bridge gamma_crit",
              "b=−γ₀")),
         "review/OPEN_QUESTIONS_INDEX.md": (("OQ-168", "pure Z-dephasing assigns no bath temperature",
-            "is neither KMS nor quantum detailed balance", "operator at one ratio answered, gradient and hidden-TRS connection open"),
+            "is neither KMS nor quantum detailed balance", "operator at one ratio answered, the gradient answered for site-local elements"),
             ("pure dephasing (infinite-temperature bath)", "pure Z-dephasing is an infinite-temperature bath")),
         "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": ((
             "Returns zero at c = 1/4", "if (c < Threshold)", "if (c < thresh)",

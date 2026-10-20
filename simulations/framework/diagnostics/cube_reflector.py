@@ -1,6 +1,6 @@
 """Device B (a working name): does a product of dressed cube moves reflect the generator?
 
-Spec: docs/superpowers/specs/2026-10-20-letter-cube-device-b-design.md. Per site one of the cube's moves P,
+See experiments/THE_CUBE_SITE_BY_SITE.md. Per site one of the cube's moves P,
 dressed with a cell weight w (a diagonal map on the Z-basis cells) after or before it, E_l = w·P or P·w: 40
 distinct families of the 192 moves. The product E = ⊗E_l is
 asked to carry L onto

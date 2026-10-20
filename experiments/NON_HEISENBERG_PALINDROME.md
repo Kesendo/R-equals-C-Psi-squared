@@ -110,7 +110,7 @@ combinations break (Result 4), and depolarizing noise breaks every model
 | YY alone | 100% | 100% | Uniform Π (64 valid maps, 32 exclusive) |
 | XXZ (δ=0.5, 2.0) | 100% | 100% | Uniform Π (P1 family) |
 | DM interaction (XY−YX), chain | 100% | 100% | Non-uniform alternating Π |
-| Heisenberg + DM, chain | 100% | 100% | Non-uniform alternating Π |
+| Heisenberg + DM, chain | 100% | 100% | Π turned about Z by arctan(D/J) from site to site; no period-2 product (checked at D/J = 1/2, [THE_CUBE_SITE_BY_SITE](THE_CUBE_SITE_BY_SITE.md)) |
 
 Unequal coefficients are also palindromic. Every dephasing axis works
 (Z, X, or Y), each with its own Π operator.
@@ -158,8 +158,8 @@ is the even-site M₂ of Result 3.)
 
 ## Result 3: XY/YX Terms Require Alternating Operators
 
-No uniform per-site map works for XY or YX coupling terms. They require
-different transformations on odd vs even sites:
+No uniform per-site map from these two families works for XY or YX coupling
+terms. They require different transformations on odd vs even sites:
 
 ```
 M₁ (odd sites):  I→+X, X→+I, Y→+iZ, Z→+iY    (our known Π)
@@ -167,7 +167,10 @@ M₂ (even sites): I→+Y, X→−iZ, Y→+I, Z→−iX     (new, P4 family)
 ```
 
 Π = M₁ ⊗ M₂ ⊗ M₁ for N=3 chain. Verified on full Liouvillian.
-The DM interaction (XY−YX) uses the same alternating Π.
+The DM interaction (XY−YX) uses the same alternating Π. A continuous
+uniform map can carry XY and YX terms: for XX + XY + YX it is
+ρ ↦ X·(g·ρ)ᵀ·X with g = φX + Y on every site
+([THE_CUBE_SITE_BY_SITE](THE_CUBE_SITE_BY_SITE.md)).
 
 ---
 

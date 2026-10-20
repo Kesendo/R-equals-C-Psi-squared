@@ -6851,7 +6851,7 @@ fourth, built from all three, carries it at one ratio.
   ω·N̂ for qubits of one frequency ω and not of H, so L(H) and L(Hᵀ) = L(H̄)
   share their spectrum (at a ratio of 1 Γ is the identity). With S_XY and the transpose of the state, the same weight gives one
   site-local linear element of Π's shape: M_β(ρ) = π_β^½·Y⊗N·ρᵀ·X⊗N·π_β^½ carries L to −L − Σ(γ↓ + γ↑) exactly for these bonds
-  without fields or Z dephasing, at one ratio across the hopping ([KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) Question 4; gate M11). The ratio may differ between components of the hopping
+  without fields or dephasing, at one ratio across the hopping ([KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) Question 4; gate M11). The ratio may differ between components of the hopping
   bonds, by §7's weight ⊗_l diag(1, (γ↑/γ↓)_l), as long as no hopping joins two sites of different ratio;
   and since the characteristic polynomial depends polynomially on the rates, a component may also sit at
   ratio 0 or ∞ beside the others (a whole component; a cooling-only site inside a thermal component
@@ -6926,8 +6926,11 @@ dephasing cannot see. Along X or Y it also keeps the turns where they can be cho
 dephasing itself sees every turn by an angle that is not a multiple of π; the element survives the
 quarter-turns because S_XY reflects X and Y dephasing alike). It does not keep the thermal weight at a ratio other than 1 (PROOF_ANTILINEAR_TRIANGLE §7; at ratio
 1 S_IZ itself reflects, and P after S_IZ keeps its condition at any axes), and away from the bipartite case at Δ = 0 each dephasing axis is a
-phase reference, so what matters is the flux together with each dephased site's axis angle relative
-to the hopping phases carried to it. The triangle above at γ↑ = γ↓/4 with X dephasing at 3⁄10 on every site
+phase reference, so for S_XY what matters is the flux together with each dephased site's axis angle relative
+to the hopping phases carried to it; the Π-shaped element weighted by the one-site steady state carries any flux and
+any axes in the XY plane where that steady state's ratio is finite, nonzero and the same along the hopping
+([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); in the example that follows the
+ratios differ from site to site (17/32, 11/26, 3/8), so that element does not apply there either. The triangle above at γ↑ = γ↓/4 with X dephasing at 3⁄10 on every site
 pairs with real hopping and not with the phase π/2 on one bond, where the seventh power sum about the
 spectrum's mean, Tr((L + c/2)⁷) with c including the dephasing, is −263277/400; and at flux 0 written with the phases (θ, −θ, 0),
 cos θ = 3⁄5, it does not pair either (a nonzero ninth power sum). Under Z dephasing without the damping the question is a different

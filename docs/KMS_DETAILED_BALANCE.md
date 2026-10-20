@@ -8,7 +8,7 @@ finite-temperature thermal-jump comparison, 2:2 split Pi operator not palindrome
 algebraic palindrome shift
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
-**Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN; a finite-temperature element of Π's shape CONFIRMED for XXZ bonds with axial DM terms, without fields, Z dephasing, or X or Y dephasing at a ratio other than 1, where one cooling-to-heating ratio holds across the hopping
+**Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN; a finite-temperature element of Π's shape CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where one ratio holds across the hopping: the cooling-to-heating ratio, or with X or Y dephasing the one-site steady state's, whose square root is then the weight; no site-local element exists where that ratio differs across a hopping bond
 **Last refreshed:** 2026-10-20
 **Authors:** Thomas Wicht, Claude (Anthropic, Cowork Research)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -32,8 +32,9 @@ are the correct objects: Π gives a P-type anticommutation there after resolving
 Π². The final SRP class of our fully reduced sectors has not been computed.
 The pure-Z channel algebra alone does not identify a thermal bath or a temperature.
 A thermal bath does give a mirror of Π's shape for XXZ bonds with axial DM terms
-without fields or Z dephasing, built from its weight where one cooling-to-heating
-ratio holds across the hopping (Question 4).
+without fields or dephasing, built from its weight where one cooling-to-heating
+ratio holds across the hopping, and with X or Y dephasing from the weight of the
+one-site steady state where that state's ratio does (Question 4).
 
 ---
 
@@ -62,8 +63,9 @@ jump channel, not a bath-temperature assignment. The spectral palindrome for
 thermal jump operators is a separate question; for a Hamiltonian that commutes with X⊗N and Y⊗N it
 survives at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)), and where one
 cooling-to-heating ratio holds across the hopping, for XXZ bonds with axial DM terms,
-no fields and no Z dephasing, an exact site-local element of Π's shape carries it,
-built from the thermal weight (Question 4). Here `2Sγ` is the algebraic
+no fields and no dephasing, an exact site-local element of Π's shape carries it,
+built from the thermal weight; with X or Y dephasing the one-site steady state takes
+the bath's place (Question 4). Here `2Sγ` is the algebraic
 shift of the pure-Z palindrome, not an entropy-production rate.
 
 ---
@@ -84,9 +86,10 @@ symmetries with different consequences. For SRP classification one first centers
 L, resolves the commuting Π² sectors, and phase-normalizes Π in each sector. The
 remaining sectorwise class is OPEN until the full symmetry algebra is computed.
 At a finite temperature, a site-local element of Π's shape exists for XXZ bonds
-with axial DM terms, without fields or Z dephasing, where one cooling-to-heating
+with axial DM terms, without fields or dephasing, where one cooling-to-heating
 ratio holds across the hopping; it is built from the thermal
-weight of detailed balance (Question 4).
+weight of detailed balance, and with X or Y dephasing from the one-site steady
+state's (Question 4).
 
 ---
 
@@ -312,7 +315,7 @@ Gibbs state or bath temperature.
 
 ## Question 4: Does a Finite-Temperature Generalization Exist?
 
-**Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields, Z dephasing, or X or Y dephasing at a ratio other than 1, where cooling and heating keep one ratio on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight); OPEN beyond it**
+**Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where the one-site steady-state ratio is the same on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight, and with X or Y dephasing from the steady state's); no site-local element where that ratio differs across a hopping bond; OPEN beyond it**
 
 **Swept for the element.** [ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md): F137 holds the
 thermal palindrome and the element S_XY of the shape −L† − c, and its one-ratio carrier
@@ -457,17 +460,30 @@ X dephasing beside the damping at γ↑ = γ↓/4; three ratios with the weight 
 site by site on a connected triangle, a weight that does not commute with the
 hopping; the two components joined by a hopping bond instead.
 
-Where it stops. A temperature gradient along the hopping, a Z field, Z
-dephasing, and X or Y dephasing at a ratio other than 1 each break the
-element. Pure cooling (γ↑ = 0) and pure heating (γ↓ = 0) make the weight
+Where it stops. A temperature gradient along the hopping, a Z field and Z
+dephasing break the element; X or Y dephasing at a ratio other than 1 breaks it
+only through its weight (below). Pure cooling (γ↑ = 0) and pure heating (γ↓ = 0) make the weight
 singular; under cooling alone F137 carries the palindrome by its route through
 the effective Hamiltonian ([F137](ANALYTICAL_FORMULAS.md)). A broken element is not
 always a broken spectrum: with real hopping a gradient still pairs, through S_XY
 (F137's paragraph on loss and gain exchanged), while with complex hopping a
 gradient can break the pairing itself, and there no element of any kind exists.
-Whether an element of the shape −L − c exists where the spectrum pairs and M_β
-does not is open, and so is whether the hidden time reversal of Roberts et al. in
-the doubled space is M_β read through the Choi-Jamiolkowski map.
+With the weight of the one-site steady state in place of the bath's,
+w = diag(1, q) with q² = (γ↑ + γ⊥)/(γ↓ + γ⊥) for dephasing at γ⊥ along any axis
+in the XY plane, the same map reflects L onto −L − c, c = Σ(γ↓ + γ↑ + 2γ⊥) with
+the dephasing included, wherever that ratio is finite, nonzero and the same on
+every set of sites joined by hopping. Where it differs across a hopping bond no
+site-local element of this shape exists at all: applied to the identity, such
+an element would have to produce a product of one-site operators Z_l + κ_l·I,
+κ_l = (q_l² − 1)/(q_l² + 1), commuting with H, and a hopping bond between
+unequal κ does not ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)). Where fields break M_β, an element
+of the shape −L − c can still be site-local: on F137's triangle with fields
+(3⁄10, −⅕, ½) at ratio ¼, Δ = 0 and flux ±π/2, its hopping phase on the bond
+(2, 0), the spin flip with the whole thermal weight on one side,
+ρ ↦ π·Z₀Z₂·X⊗N·ρ·X⊗N·Z₁, is one, exactly. Whether an element of that shape exists
+wherever the spectrum pairs and M_β does not, a product over sites or not, is
+open, and so is whether the hidden time reversal of Roberts et al. in the doubled
+space is M_β read through the Choi-Jamiolkowski map.
 
 ### Assessment
 
@@ -607,7 +623,7 @@ dynamics. No palindromic structures.
 | 1. Is Π a known symmetry type? | For the centered generator `L_c=L+SγI`, Π supplies a sectorwise P generator after resolving Π²; the complete irreducible-sector SRP algebra is not yet computed | **CONFIRMED algebra / OPEN class** |
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
-| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or Z dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11); a temperature gradient along the hopping, a Z field, Z dephasing and X or Y dephasing at a ratio other than 1 break the element; beyond it **OPEN** |
+| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element; a Z field and Z dephasing break M_β, though with fields at Δ = 0 a site-local element of another shape can remain; beyond it **OPEN** |
 | 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
