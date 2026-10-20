@@ -11,6 +11,7 @@ import); import it as `from framework import cube_tables`.
 
 Public API:
   Setting(n, terms, jumps)          terms: [(letters, sites, coefficient)], jumps: [(sites, A, rate)]
+  normalized_terms(terms)           each term reduced to its support (identity letters removed)
   outside_reason(setting)           why B cannot read a setting, or None
   site_table(setting, l)            4x4 one-site generator in cells (fields and jumps on site l)
   support_tables(setting)           {sorted support tuple: 4^k x 4^k table in cells, per-site order}
@@ -54,11 +55,23 @@ def _in_q_i(x) -> bool:
     return bool(sp.sympify(re).is_rational) and bool(sp.sympify(im).is_rational)
 
 
+def normalized_terms(terms):
+    """Each term reduced to the sites where its letter is not I. A Pauli term is traceless exactly on those sites,
+    so they are its support; an all-identity term is a constant and drops out of the generator."""
+    out = []
+    for letters, sites, coef in terms:
+        kept = [(c, s) for c, s in zip(letters, sites) if c != 'I']
+        if kept:
+            out.append((''.join(c for c, _ in kept), tuple(s for _, s in kept), coef))
+    return out
+
+
 def outside_reason(setting: Setting):
     """Why B cannot read this setting (scope of the spec), or None."""
     for letters, sites, coef in setting.terms:
-        if len(sites) != len(letters) or len(set(sites)) != len(sites):
+        if len(sites) != len(letters) or len(set(sites)) != len(sites) or set(letters) - set(LETTERS):
             return f"term {letters} on {sites}: letters and sites do not match"
+    for letters, sites, coef in normalized_terms(setting.terms):
         if len(sites) > 3:
             return f"term {letters} on {sites}: more than three sites"
         if not _in_q_i(coef) or sp.im(sp.nsimplify(coef)) != 0:
@@ -87,7 +100,7 @@ def dissipator(A, rate):
 def site_table(setting: Setting, l: int):
     """The one-site generator of site l: -i[h_l, .] for its one-letter terms, plus its jumps."""
     h = sp.zeros(2, 2)
-    for letters, sites, coef in setting.terms:
+    for letters, sites, coef in normalized_terms(setting.terms):
         if len(sites) == 1 and sites[0] == l:
             h += sp.nsimplify(coef) * PAULI[letters]
     L = -sp.I * (lr(h, sp.eye(2)) - lr(sp.eye(2), h))
@@ -116,7 +129,7 @@ def hamiltonian_on(setting: Setting, support: tuple):
     support = tuple(sorted(support))
     k = len(support)
     H = sp.zeros(2 ** k, 2 ** k)
-    for letters, sites, coef in setting.terms:
+    for letters, sites, coef in normalized_terms(setting.terms):
         if tuple(sorted(sites)) != support:
             continue
         on = dict(zip(sites, letters))
@@ -126,7 +139,7 @@ def hamiltonian_on(setting: Setting, support: tuple):
 
 def support_tables(setting: Setting) -> dict:
     """{support: table} for every support set of the Hamiltonian with at least two sites, terms summed."""
-    supports = sorted({tuple(sorted(sites)) for _, sites, _ in setting.terms if len(sites) >= 2})
+    supports = sorted({tuple(sorted(sites)) for _, sites, _ in normalized_terms(setting.terms) if len(sites) >= 2})
     out = {}
     for S in supports:
         k = len(S)

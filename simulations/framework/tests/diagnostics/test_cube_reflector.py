@@ -188,6 +188,26 @@ def test_xz_plus_zxz_has_none():
         assert cr.answer(s, rel, timeout=None).kind == 'NONE'
 
 
+def test_identity_letters_inside_a_term_do_not_change_the_answer():
+    # a term is traceless only where its letter is not I; padded with I it must land in its true support
+    jumps = [((l,), ct.PAULI['Z'], 1) for l in range(2)]
+    as_fields = ct.Setting(2, [('X', (0,), 1), ('Y', (0,), 1)], jumps)
+    padded = ct.Setting(2, [('XI', (0, 1), 1), ('Y', (0,), 1)], jumps)
+    for rel in cr.RELATIONS:
+        assert cr.answer(as_fields, rel, timeout=None).kind == 'CUBE MOVES'
+        assert cr.answer(padded, rel, timeout=None).kind == 'CUBE MOVES'
+
+
+def test_every_n_reads_windows_at_any_offset():
+    for off in ((0, 1), (1, 2)):
+        hard = cr.Cell(jumps=[(ct.PAULI['Z'], 1)], windows=[('XX', off, 1), ('XY', off, 1)])
+        assert cr.every_n(hard, 'pi') is None
+    heis = [('XX', (0, 1), 1), ('YY', (0, 1), 1), ('ZZ', (0, 1), 1)]
+    by_field = cr.Cell(jumps=[(ct.PAULI['Z'], 1)], fields=[('X', 1)], windows=heis)
+    by_window = cr.Cell(jumps=[(ct.PAULI['Z'], 1)], windows=heis + [('X', (1,), 1)])
+    assert cr.every_n(by_field, 'pi') == cr.every_n(by_window, 'pi')
+
+
 def test_outside_is_reported():
     s = ct.Setting(4, [('XXXX', (0, 1, 2, 3), 1)])
     assert cr.answer(s, 'pi').kind == 'OUTSIDE'

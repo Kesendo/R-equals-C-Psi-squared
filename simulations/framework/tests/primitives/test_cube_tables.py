@@ -82,6 +82,14 @@ def test_one_support_table_entry_against_the_commutator():
         assert L[idx(i0, i1, j0, j1), col] == out[2 * i0 + i1, 2 * j0 + j1]
 
 
+def test_identity_letters_are_stripped_from_a_term():
+    padded = ct.Setting(3, [('XIZ', (0, 1, 2), 2), ('IY', (0, 1), 1)])
+    plain = ct.Setting(3, [('XZ', (0, 2), 2), ('Y', (1,), 1)])
+    assert ct.support_tables(padded).keys() == ct.support_tables(plain).keys() == {(0, 2)}
+    assert ct.support_tables(padded)[(0, 2)] == ct.support_tables(plain)[(0, 2)]
+    assert ct.site_table(padded, 1) == ct.site_table(plain, 1)
+
+
 def test_outside_reasons():
     assert ct.outside_reason(ct.Setting(4, [('XXXX', (0, 1, 2, 3), 1)])) is not None
     assert ct.outside_reason(ct.Setting(2, [('XY', (0, 1), sp.I)])) is not None

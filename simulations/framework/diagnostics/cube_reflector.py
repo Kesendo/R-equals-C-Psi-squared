@@ -82,7 +82,7 @@ def precheck(setting, relation, max_charts=4096):
     sites = [ct.site_table(setting, l) for l in range(n)]
     vec_i = sp.Matrix([1, 0, 0, 1])
     unital = all((L * vec_i).applyfunc(sp.expand).is_zero_matrix for L in sites)
-    supports = sorted({tuple(sorted(s)) for _, s, _ in setting.terms if len(s) >= 2})
+    supports = sorted({tuple(sorted(s)) for _, s, _ in ct.normalized_terms(setting.terms) if len(s) >= 2})
     hams = {S: ct.hamiltonian_on(setting, S) for S in supports}
     rows = (['column'] if unital else []) + ['row']
     for row in rows:
@@ -402,8 +402,20 @@ class Cell:
     fields: list = field(default_factory=list)
     windows: list = field(default_factory=list)
 
+    def normalized(self):
+        """The same cell with identity letters removed from its windows, each window's offsets shifted to start at 0
+        (the chain is translation invariant), and one-letter windows moved to the fields."""
+        fields, windows = list(self.fields), []
+        for letters, off, coef in ct.normalized_terms(self.windows):
+            if len(off) == 1:
+                fields.append((letters, coef))
+            else:
+                m = min(off)
+                windows.append((letters, tuple(o - m for o in off), coef))
+        return Cell(list(self.jumps), fields, windows)
+
     def span(self):
-        return max(max(off) for _, off, _ in self.windows) + 1
+        return max(max(off) for _, off, _ in self.windows) + 1 if self.windows else 1
 
     def chain(self, length):
         terms = [(letter, (l,), coef) for l in range(length) for letter, coef in self.fields]
@@ -452,8 +464,6 @@ def _uniform_or_turned(cell, relation, rate_free, turned):
     else:
         maps = [E] * span
     for S, LS in tables.items():
-        if S[0] != 0:
-            continue
         if turned:
             gS = sp.kronecker_product(*[g(1)] * len(S))
             for M in (LS, target(LS, relation)):
@@ -468,6 +478,7 @@ def every_n(cell, relation, rate_free=False, max_period=4, max_calls=2000):
     turned about Z by a fixed angle from site to site, exact), ('PERIODIC', p) for p = 2..max_period (cube moves
     on an open chain of p + span - 1 sites tied across the period, one equation per window position; found
     only), or None: then an answer holds at the computed N only."""
+    cell = cell.normalized()
     if _uniform_or_turned(cell, relation, rate_free, turned=False):
         return 'UNIFORM'
     if _uniform_or_turned(cell, relation, rate_free, turned=True):
