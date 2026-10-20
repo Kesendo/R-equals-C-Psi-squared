@@ -19,7 +19,7 @@ proves it exactly.
 The palindromic mirror symmetry (proven in the
 [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)) says the Liouvillian's
 rates come in mirror pairs. A mirror has a centre, and the centre is not free
-to choose: a spectrum closed under λ ↦ 2c − λ has c = trace(L)/dim,
+to choose: a spectrum closed under λ ↦ 2μ − λ has μ = trace(L)/dim,
 identically. The Hamiltonian part of any generator contributes nothing to
 that trace, and any dissipator that dissipates anything drives it strictly
 negative. So the centre is zero exactly for a closed system, and a measured
@@ -59,8 +59,8 @@ same place from the other side, calling the unitary case the palindrome's
 ground state.
 
 So the pairing is not what separates the framework's claim from unitarity.
-The **centre** is. A multiset closed under λ ↦ 2c − λ has Σλ = c·dim, hence
-c = trace(L)/dim exactly ([F137](../ANALYTICAL_FORMULAS.md)): one candidate
+The **centre** is. A multiset closed under λ ↦ 2μ − λ has Σλ = μ·dim, hence
+μ = trace(L)/dim exactly ([F137](../ANALYTICAL_FORMULAS.md)): one candidate
 centre, read off the generator without an eigensolver, so "does not pair at
 it" is a measurement and never a failed search. The commutator part
 contributes nothing to that trace and every jump that dissipates anything

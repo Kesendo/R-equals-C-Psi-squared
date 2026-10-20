@@ -156,8 +156,8 @@ def palindrome_reading(evals):
     THE CENTRE. The old call sites passed the Z-dephasing centre even for rows
     with an amplitude-damping channel running, which is the "centre is
     estimated" caveat experiments/THERMAL_BREAKING.md warned about. It need not
-    be estimated at all: a multiset closed under lambda -> 2c - lambda has
-    sum(lambda) = n*c, so c = mean(lambda) EXACTLY. There is one candidate
+    be estimated at all: a multiset closed under lambda -> 2*mu - lambda has
+    sum(lambda) = n*mu, so mu = mean(lambda) EXACTLY. There is one candidate
     centre and it is read off the trace, whatever the channels are. A large
     distance at that centre means no centre works.
 

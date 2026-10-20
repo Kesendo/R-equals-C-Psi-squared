@@ -39,8 +39,8 @@ WHAT WAS MISSING, and what this script measures
 TWO THINGS THIS SCRIPT IS CAREFUL NOT TO CONFUSE
 
   THE CENTRE IS AN IDENTITY, NOT EVIDENCE. If a multiset is closed under
-  lambda -> 2c - lambda then each pair sums to 2c, so sum(lambda) = n*c and
-  c = mean(lambda) exactly. The mean is trace(L)/dim, and the commutator part
+  lambda -> 2*mu - lambda then each pair sums to 2*mu, so sum(lambda) = n*mu and
+  mu = mean(lambda) exactly. The mean is trace(L)/dim, and the commutator part
   of L is traceless, so the centre is fixed by the DISSIPATOR alone and does
   not depend on H at all. It therefore needs no proof at H != 0 and carries no
   information about whether a palindrome exists: a broken spectrum has the same
@@ -52,7 +52,7 @@ TWO THINGS THIS SCRIPT IS CAREFUL NOT TO CONFUSE
 
   THE PAIRING IS THE CLAIM, and where the rates are rational it is settled
   EXACTLY (section 2): the characteristic polynomial over Q(i) satisfies
-  p(2c - x) == p(x) identically, with no eigensolver and no tolerance. Section 3
+  p(2*mu - x) == p(x) identically, with no eigensolver and no tolerance. Section 3
   then reaches the N the exact route cannot afford, using the canonical F1
   distance (fw.max_f1_pairing_distance) in units of eps * spectral radius. That
   floor grows with N and the greedy matcher adds an order-dependence spread on
@@ -149,8 +149,8 @@ def exact_liouvillian(N, J, g_down, g_up, gz=None):
 
     Every rate enters bilinearly, so with rational rates and rational J the
     whole matrix is rational over Q(i) and its characteristic polynomial is
-    exact. That turns "is the spectrum palindromic about c?" into the exact
-    identity p(2c - x) == p(x): no eigensolver, no tolerance. Case 1 of the
+    exact. That turns "is the spectrum palindromic about mu?" into the exact
+    identity p(2*mu - x) == p(x): no eigensolver, no tolerance. Case 1 of the
     house rule, an exact route exists, so compare exactly.
     """
     import sympy as sp
@@ -188,20 +188,20 @@ def exact_liouvillian(N, J, g_down, g_up, gz=None):
 
 
 def exact_palindrome_verdict(N, J, g_down, g_up, gz=None):
-    """EXACT: is p(2c - x) equal to p(x)? Returns (verdict, centre)."""
+    """EXACT: is p(2*mu - x) equal to p(x)? Returns (verdict, centre mu)."""
     import sympy as sp
 
     x = sp.symbols('x')
     L = exact_liouvillian(N, J, g_down, g_up, gz)
     p = sp.expand(L.charpoly(x).as_expr())
-    c = (-(sum(g_down) + (sum(g_up) if g_up else 0)) / 2
-         - (sum(gz) if gz else 0))
-    q = sp.expand(p.subs(x, 2 * c - x))
+    mu = (-(sum(g_down) + (sum(g_up) if g_up else 0)) / 2
+          - (sum(gz) if gz else 0))
+    q = sp.expand(p.subs(x, 2 * mu - x))
     if sp.simplify(sp.expand(q - p)) == 0:
-        return "EXACT palindrome, p(2c-x) == p(x)", c
+        return "EXACT palindrome, p(2*mu-x) == p(x)", mu
     if sp.simplify(sp.expand(q + p)) == 0:
-        return "EXACT anti-palindrome, p(2c-x) == -p(x)", c
-    return "BROKEN, neither identity holds", c
+        return "EXACT anti-palindrome, p(2*mu-x) == -p(x)", mu
+    return "BROKEN, neither identity holds", mu
 
 
 def single_site_dissipator_pauli(g_down, g_up):
@@ -258,7 +258,7 @@ def main():
                 f" {abs(pred - meas):11.2e}")
 
     out()
-    out("--- 2. EXACT, no eigensolver: p(2c - x) == p(x) over the rationals ---")
+    out("--- 2. EXACT, no eigensolver: p(2*mu - x) == p(x) over the rationals ---")
     out("    Rational rates and rational J make L rational over Q(i), so the")
     out("    characteristic polynomial is exact and the palindrome becomes a")
     out("    polynomial identity instead of a small number.")
@@ -351,8 +351,8 @@ def main():
                     ("thermal + X  (transverse)", {'gx': g2}),
                     ("thermal + Y  (transverse)", {'gy': g2})):
         ev = np.linalg.eigvals(liouvillian(H, N, g_down=gd, g_up=gu, **kw))
-        c = trace_centre(ev)
-        out(f"    {tag:26s} centre {c:+.8f}   F1 dist {distance_at(ev, c):14.4g}")
+        mu = trace_centre(ev)
+        out(f"    {tag:26s} centre {mu:+.8f}   F1 dist {distance_at(ev, mu):14.4g}")
     out("    The three added-channel rows share a centre to every digit, because")
     out("    the centre is the trace and all three add the same total rate. Only")
     out("    the co-axial one breaks the pairing. So the centre must be computed")

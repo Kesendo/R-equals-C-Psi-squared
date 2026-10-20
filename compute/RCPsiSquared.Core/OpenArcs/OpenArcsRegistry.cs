@@ -7336,7 +7336,8 @@ public static class OpenArcsRegistry
                 "Thermodynamic grounding: pure Z dephasing is unital and non-primitive, fixing every " +
                 "Z-diagonal state rather than selecting a beta = 0 bath. Pi's own 2:2 CONSTRUCTION is " +
                 "a channel algebra, while the palindrome is NOT a bath assignment (F137: the thermal " +
-                "spectrum is palindromic about -Sum(g_down+g_up)/2, exact at rational rates at N = 2, 3 and measured to N = 5); the operational light " +
+                "spectrum is palindromic about -Sum(g_down+g_up)/2 for the Hamiltonians it names, derived at every N for an H " +
+                "commuting with X^N and Y^N); the operational light " +
                 "content was always sender-side " +
                 "(GAMMA_AS_SIGNAL's Alice SETS the rates, 15.5 bits at 1% measurement precision; the " +
                 "relay protocol; 'Alice designs antennas, not signals', " +

@@ -148,7 +148,7 @@ def analyze_spectrum(L, label="", z_rates=None, H=None):
         unique_f = []
 
     # Palindrome check. The centre is not searched: a spectrum closed under
-    # lambda -> 2c - lambda has c = mean(lambda) = trace(L)/dim exactly (F137).
+    # lambda -> 2*mu - lambda has mu = mean(lambda) = trace(L)/dim exactly (F137).
     # Z-dephasing only (z_rates, H given): the operator identity Pi.L.Pi^-1 + L + 2*Sigma*I = 0 in
     # the Pauli basis, Pi the uniform Z-dephasing palindromizer. The residual is linear in L, so it
     # splits into the dissipator's part (with the 2*Sigma shift) and the Hamiltonian's part (no

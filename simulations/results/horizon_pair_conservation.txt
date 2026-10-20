@@ -16,7 +16,7 @@ N=4 Heisenberg chain, uniform Z-dephasing gamma=0.05, Sigma_gamma=0.2
     The deviation grows with the spectral radius and stays at the floor in
     eps*rho, which is the law; the raw digits do not survive J=50 and were
     never the point. An exact route exists where the rates are rational:
-    p(2c - x) == p(x) over Q(i), implemented in thermal_palindrome_centre.py.
+    p(2*mu - x) == p(x) over Q(i) about the centre mu, in thermal_palindrome_centre.py.
     The separation runs from 0 (a self-paired mode sits at the centre) to
     2*sigma (the extreme pair). That spread is the whole content of the
     reading: the binding never loosens, the fates diverge.

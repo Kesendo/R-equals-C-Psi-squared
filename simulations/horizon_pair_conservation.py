@@ -6,7 +6,8 @@ WHAT THE REPO ALREADY HOLDS
   eigenvalue multiset is closed under lambda -> -2*sigma - lambda.
 
   F137 (docs/ANALYTICAL_FORMULAS.md, extended 2026-08-05): amplitude damping
-  keeps the palindrome at a HALVED centre, a thermal bath at
+  keeps the palindrome, for the Hamiltonians F137 names (XXZ among them), at a
+  HALVED centre, a thermal bath at
   -Sum(gamma_down + gamma_up)/2; the centre is trace(L)/dim and the commutator
   part of L is traceless, so no Hamiltonian can move it.
 
@@ -123,7 +124,7 @@ def main():
     out("    The deviation grows with the spectral radius and stays at the floor in")
     out("    eps*rho, which is the law; the raw digits do not survive J=50 and were")
     out("    never the point. An exact route exists where the rates are rational:")
-    out("    p(2c - x) == p(x) over Q(i), implemented in thermal_palindrome_centre.py.")
+    out("    p(2*mu - x) == p(x) over Q(i) about the centre mu, in thermal_palindrome_centre.py.")
     out("    The separation runs from 0 (a self-paired mode sits at the centre) to")
     out("    2*sigma (the extreme pair). That spread is the whole content of the")
     out("    reading: the binding never loosens, the fates diverge.")

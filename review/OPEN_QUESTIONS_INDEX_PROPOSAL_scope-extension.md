@@ -31,10 +31,10 @@
 **Proposed Status:** partially-resolved
 **Confidence:** high
 **Resolving documents:**
-- `docs/proofs/PROOF_PARITY_SELECTION_RULE.md` (lines 186-193): proves the sigma_minus jump operator is parity-odd, hence breaks the Pi OPERATOR. It does not prove the spectral palindrome breaks, and that does not follow: T1 alone preserves it at a halved centre (F137).
+- `docs/proofs/PROOF_PARITY_SELECTION_RULE.md` (lines 186-193): proves the sigma_minus jump operator is parity-odd, hence breaks the Pi OPERATOR. It does not prove the spectral palindrome breaks, and that does not follow: T1 alone preserves it at a halved centre for the Hamiltonians F137 names, XXZ among them.
 - `experiments/NOISE_ROBUSTNESS.md` (lines 215-250): amplitude damping tested, preserves taxonomy but with different decay rates
 - `experiments/DEPOLARIZING_PALINDROME.md`: depolarizing noise fully characterized (error at least (2/3)N*gamma, exactly that on the measured chains; F5 gives the condition)
-**Rationale:** Amplitude damping is proven to break the Pi operator via the parity selection rule, NOT the spectral palindrome, which it preserves at the halved centre -Sum(gamma)/2 (F137). Depolarizing noise is fully characterized. Thermal baths are no longer untested (F137 extended, 2026-08-05, exact at N=2,3); non-Markovian environments remain untested. The broader scope (all non-dephasing dissipators) is only partially covered.
+**Rationale:** Amplitude damping is proven to break the Pi operator via the parity selection rule, NOT the spectral palindrome, which it preserves at the halved centre -Sum(gamma)/2 for the Hamiltonians F137 names, XXZ among them. Depolarizing noise is fully characterized. Thermal baths are no longer untested (F137: derived at every N for H commuting with X⊗N and Y⊗N; beyond that class, for XXZ bonds with axial DM terms without fields or dephasing, derived only where one of F137's carriers applies, and a triangle with unequal ratios at a flux other than 0 and π breaks exactly); non-Markovian environments remain untested. The broader scope (all non-dephasing dissipators) is only partially covered.
 **Search terms used:** "amplitude damping", "thermal bath", "non-Markovian", "parity selection", "DEPOLARIZING_PALINDROME"
 
 ---
@@ -311,7 +311,7 @@
 **Confidence:** high
 **Resolving documents:**
 - `docs/KMS_DETAILED_BALANCE.md`: comprehensive analysis proving Pi is NOT quantum detailed balance and NOT KMS; it is a distinct "shifted anti-similarity" (Pi*L*Pi^-1 = -L - 2S*gamma*I) that appears to be a genuinely new Liouvillian symmetry type
-**Rationale:** The question asked about the connection to KMS/detailed balance. The answer exists in a dedicated document: there is NO connection. Pi is a new symmetry type, and finite-temperature generalization is obstructed by the 2:2 Pauli split specific to pure dephasing (T=infinity). The original question is resolved (negatively), but the follow-up (what IS the finite-temperature analogue?) remains open.
+**Rationale:** The question asked about the connection to KMS/detailed balance. The answer exists in a dedicated document: Pi itself is neither KMS nor quantum detailed balance, a shifted anti-similarity of its own kind. Finite-temperature operators carrying the palindrome exist. For every H commuting with X⊗N and Y⊗N, without Z dephasing, rho -> X⊗N·rho·Y⊗N reflects L onto -L^† - c at any rates, c the total rate as in F137 (Sum(gamma_down + gamma_up) under cooling and heating alone), and is not built from the thermal weight (F137). Built from the weight, of Pi's shape: for XXZ bonds with axial DM terms, without fields, Z dephasing, or X or Y dephasing at a ratio other than 1, where cooling and heating keep one ratio strictly between 0 and infinity on every set of sites joined by hopping, the site-local element M_beta(rho) = pi^(1/2)·Y⊗N·rho^T·X⊗N·pi^(1/2) reflects L exactly onto -L - c (KMS_DETAILED_BALANCE Question 4). Open: the same tie outside the bonds whose transpose is X⊗N·H·X⊗N, an element of that shape under a temperature gradient along the hopping (real hopping; with a flux a gradient can break the pairing itself), and the tie to Roberts et al.'s hidden time reversal.
 **Search terms used:** "KMS", "detailed balance", "PI_AS_TIME_REVERSAL", "finite temperature", "KMS_DETAILED_BALANCE"
 
 ---

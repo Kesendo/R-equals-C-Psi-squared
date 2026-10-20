@@ -28,7 +28,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// cross of <c>simulations/direct_sum_scope_probe.py</c>): adding amplitude
 /// damping keeps the off-parity block at exactly 0 while the palindrome residual
 /// jumps to O(γ_T1) (T1 breaks the Pi mirror, not the wall; the spectral
-/// palindrome is a separate claim and survives T1 alone, F137); adding a transverse
+/// palindrome is a separate claim and survives T1 alone for the Hamiltonians F137
+/// names, XXZ among them); adding a transverse
 /// field breaks the off-parity block at O(h) while the palindrome residual stays
 /// machine-zero (the field the wall, not the mirror). A construction error
 /// (scrambled parity index, wrong Π sign) fails one of the four cells.</para></summary>

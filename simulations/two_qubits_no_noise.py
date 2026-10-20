@@ -227,7 +227,7 @@ def main(output_path=OUT_PATH):
         Sg = 0.10
 
         # Each spectrum is scored at ITS OWN centre. A multiset closed under
-        # lambda -> 2c - lambda has c = trace(L)/dim identically (F137), so there is
+        # lambda -> 2*mu - lambda has mu = trace(L)/dim identically (F137), so there is
         # one candidate centre per generator and it is read off the generator, never
         # searched. The two centres here are different numbers: the clean generator is
         # traceless, so its centre is 0, while the noisy one sits at -Sg. Scoring both

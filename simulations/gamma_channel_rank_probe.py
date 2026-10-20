@@ -3,8 +3,9 @@
 Discriminating test for the mechanism claim in experiments/GAMMA_AS_SIGNAL.md
 ("the palindromic pairing creates a full-rank response matrix"). Strategy: keep
 the knobs (per-site dephasing rates) and the feature set fixed, and destroy the
-spectral palindrome with a spectator amplitude-damping channel (T1 breaks the
-mirror; see simulations/direct_sum_scope_probe.py). If the Jacobian stays full
+spectral palindrome with a spectator amplitude-damping channel beside the
+co-axial Z dephasing (the pair breaks the mirror, F137; amplitude damping alone
+would not; see simulations/direct_sum_scope_probe.py). If the Jacobian stays full
 rank with comparable conditioning, full rank is a generic property of local
 rate perturbations, not a consequence of the palindrome.
 
@@ -134,10 +135,11 @@ def palindrome_residual(hx, ad):
     beside CO-AXIAL Z-dephasing, never amplitude damping alone. That matters for
     reading the output: the amplitude-damping row below measures the co-axial
     PAIR, which is the combination that genuinely breaks (F137). A sigma^-
-    channel on its own would keep the palindrome, at a centre of -Sum(gamma)/2.
+    channel on its own would keep the palindrome, at a centre of -Sum(gamma)/2,
+    for the Hamiltonians F137 names; the transverse field hx is not among them.
 
-    The centre is not a choice either. A multiset closed under lambda -> 2c - x
-    has c = mean(lambda) exactly, so it is read off the trace; the old fixed
+    The centre is not a choice either. A multiset closed under lambda -> 2*mu - lambda
+    has mu = mean(lambda) exactly, so it is read off the trace; the old fixed
     -2*N*GAMMA0 was the Z-only centre and ignored the amplitude channel.
     """
     H = build_H(hx)

@@ -295,7 +295,7 @@ Dephasing pays the full shift, amplitude damping half of it, and the thermal
 bath half of the **total** per-site rate γ↓ + γ↑ = γ_amp·(2n̄ + 1).
 
 The centre is not estimated; it is read off the trace. If a multiset is closed
-under λ ↦ 2c − λ, every pair sums to 2c, so Σλ = n·c and c = mean(λ) exactly.
+under λ ↦ 2μ − λ, every pair sums to 2μ, so Σλ = n·μ and μ = mean(λ) exactly.
 There is one candidate centre, and the commutator part of L is traceless, so it
 never depends on H. That turns "is it palindromic?" into a check: a large
 distance at that centre means no centre works. The
@@ -303,7 +303,7 @@ distance at that centre means no centre works. The
 what "the centre" means for a palindrome.
 
 Where the rates are rational the characteristic polynomial is exact, and the
-palindrome is the identity p(2c − x) ≡ p(x). It holds with the Heisenberg H at
+palindrome is the identity p(2μ − x) ≡ p(x). It holds with the Heisenberg H at
 N = 2 and N = 3 at the rational rate profiles the script uses (two at N = 2, one at N = 3), no eigensolver anywhere, and the same test returns "neither"
 for N = 2 with the thermal bath beside Z-dephasing, so that break is proven
 there as well. At N = 2 to 5, with independently drawn per-site rates, the

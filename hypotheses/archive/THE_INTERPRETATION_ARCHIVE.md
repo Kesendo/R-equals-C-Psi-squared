@@ -140,8 +140,9 @@ depolarizing blend in this run, which
 [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
 proves does break, so the vacuity is visible twice in one output file.
 The center observation is the half of this entry that survived: amplitude
-damping alone keeps the palindrome, at Ng/2, which is
-[F137](../../docs/ANALYTICAL_FORMULAS.md#f137). The blend does break,
+damping alone keeps the palindrome, at Ng/2, for the Hamiltonians
+[F137](../../docs/ANALYTICAL_FORMULAS.md#f137) names (the Heisenberg chains
+measured here among them). The blend does break,
 and the reason needs no new measurement: every alpha strictly between the
 endpoints carries BOTH channels on EVERY site, which is the co-axial row
 "Z-dephasing and amplitude damping: none exists" in
