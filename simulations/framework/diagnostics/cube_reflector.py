@@ -1,4 +1,4 @@
-"""Device B (a working name): does a product of dressed cube moves reflect the generator?
+"""The Theodolite: does a product of dressed cube moves reflect the generator?
 
 See experiments/THE_CUBE_SITE_BY_SITE.md. Per site one of the cube's moves P,
 dressed with a cell weight w (a diagonal map on the Z-basis cells) after or before it, E_l = w·P or P·w: 40

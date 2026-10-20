@@ -2325,6 +2325,77 @@ if (args.Length > 0 && args[0] == "lettercube")
     return;
 }
 
+if (args.Length > 0 && args[0] == "theodolite")
+{
+    int tdN = 3;
+    if (args.Length > 1 && !int.TryParse(args[1], out tdN)) tdN = -1;
+    if (tdN < 2 || tdN > 6)
+    {
+        Console.Error.WriteLine("theodolite N: N from 2 to 6");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var tdTheodolite = new Theodolite(new LetterCube(new World()));
+    Console.WriteLine($"=== the theodolite: site-local mirrors read off the letters, a chain of N = {tdN} (experiments/THE_CUBE_SITE_BY_SITE.md) ===");
+    Console.WriteLine("  a sandwich rho -> A·rho^(T)·B, every site factor diagonal or anti-diagonal, a turn on the letters; every equation");
+    Console.WriteLine("  binomial, a product of turns equal to a constant; the answer is the reduced system, never a number.");
+    Func<int, IEnumerable<(string, long)>> tdHeis = n => Enumerable.Range(0, n - 1)
+        .SelectMany(a => new[] { "XX", "YY", "ZZ" }.Select(b => (new string('I', a) + b + new string('I', n - 2 - a), 1L)));
+    Func<Func<int, IEnumerable<(LetterCube.Gauss[,], long)>>, IEnumerable<(int, LetterCube.Gauss[,], long)>> tdEvery =
+        perSite => Enumerable.Range(0, tdN).SelectMany(l => perSite(l).Select(j => (l, j.Item1, j.Item2)));
+    var tdZ = LetterCube.LetterMatrix('Z');
+    var tdX = LetterCube.LetterMatrix('X');
+    var tdReadings = new (string, Theodolite.Setting, Theodolite.Relation)[]
+    {
+        ("Heisenberg, Z dephasing at 1, the Pi-reflection -L - c",
+            Theodolite.Setting.Of(tdN, tdHeis(tdN), tdEvery(l => new[] { (tdZ, 1L) })), Theodolite.Relation.Pi),
+        ("Heisenberg, loss 4 and gain 1 on every site (one ratio 1/4), the Pi-reflection",
+            Theodolite.Setting.Of(tdN, tdHeis(tdN), tdEvery(l => new[] { (LetterCube.Lowering, 4L), (LetterCube.Raising, 1L) })), Theodolite.Relation.Pi),
+        ("Heisenberg, loss 2 and X dephasing 1 (the steady state's ratio 1/3), the Pi-reflection",
+            Theodolite.Setting.Of(tdN, tdHeis(tdN), tdEvery(l => new[] { (LetterCube.Lowering, 2L), (tdX, 1L) })), Theodolite.Relation.Pi),
+        ("Heisenberg, a temperature gradient (loss l + 2, gain 1 on site l), the Pi-reflection",
+            Theodolite.Setting.Of(tdN, tdHeis(tdN), tdEvery(l => new[] { (LetterCube.Lowering, (long)(l + 2)), (LetterCube.Raising, 1L) })), Theodolite.Relation.Pi),
+        ("the same gradient, the reflection -L^dagger - c",
+            Theodolite.Setting.Of(tdN, tdHeis(tdN), tdEvery(l => new[] { (LetterCube.Lowering, (long)(l + 2)), (LetterCube.Raising, 1L) })), Theodolite.Relation.Reflection),
+    };
+    foreach (var (tdName, tdSetting, tdRel) in tdReadings)
+    {
+        Console.WriteLine($"  {tdName}:");
+        var tdRead = Theodolite.Read(tdSetting, tdRel);
+        if (tdRead is null) { Console.WriteLine("    silent: no monomial sandwich (here nothing site-local exists; the pre-check of the Python twin proves it)"); continue; }
+        foreach (var tdLine in tdRead.Lines()) Console.WriteLine($"    {tdLine}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  every N, a chain of one repeated cell, every open chain at once:");
+    var tdBond = new[] { 0, 1 };
+    var tdWindow = new[] { 0, 1, 2 };
+    var tdCells = new (string, Theodolite.Cell)[]
+    {
+        ("Heisenberg, Z dephasing", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XX", tdBond, 1L), ("YY", tdBond, 1L), ("ZZ", tdBond, 1L) })),
+        ("the golden bond XX + XY + YX", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XX", tdBond, 1L), ("XY", tdBond, 1L), ("YX", tdBond, 1L) })),
+        ("the c = 0 window XZY + YZX", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XZY", tdWindow, 1L), ("YZX", tdWindow, 1L) })),
+        ("Heisenberg + DM, D/J = 1/2", new Theodolite.Cell(new[] { (tdZ, 1L) }, null,
+            new[] { ("XX", tdBond, 2L), ("YY", tdBond, 2L), ("ZZ", tdBond, 2L), ("XY", tdBond, 1L), ("YX", tdBond, -1L) })),
+        ("pure DM", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XY", tdBond, 1L), ("YX", tdBond, -1L) })),
+        ("the golden window XZX + XZY + YZX", new Theodolite.Cell(new[] { (tdZ, 1L) }, null,
+            new[] { ("XZX", tdWindow, 1L), ("XZY", tdWindow, 1L), ("YZX", tdWindow, 1L) })),
+        ("the hard row XX + XY", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XX", tdBond, 1L), ("XY", tdBond, 1L) })),
+    };
+    foreach (var (tdName, tdCell) in tdCells)
+    {
+        Console.WriteLine($"  {tdName}:");
+        var tdTraverse = Theodolite.EveryN(tdCell, Theodolite.Relation.Pi);
+        if (tdTraverse is null) { Console.WriteLine("    silent for every N"); continue; }
+        foreach (var tdLine in tdTraverse.Lines()) Console.WriteLine($"    {tdLine}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The letters, heights, steps, arrows and moves are the cube's; the equations a");
+    Console.WriteLine("  mirror must meet, the reading and every N are the theodolite's own.");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", tdTheodolite.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", tdTheodolite.Inherited)}");
+    return;
+}
+
 if (args.Length > 0)
 {
     Console.Error.WriteLine($"unknown run mode '{args[0]}'");

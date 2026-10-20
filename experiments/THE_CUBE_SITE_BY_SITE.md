@@ -49,7 +49,10 @@ solve over all invertible site maps (Gröbner bases over ℚ(i)) shake hands: no
 that is not such a sandwich. Code: [`framework/cube_tables.py`](../simulations/framework/cube_tables.py),
 [`framework/diagnostics/cube_letters.py`](../simulations/framework/diagnostics/cube_letters.py) (`read`, `every_n`)
 and [`framework/diagnostics/cube_reflector.py`](../simulations/framework/diagnostics/cube_reflector.py) (`answer`,
-`every_n`), with their tests; "Device B" is a working name. Out of its reach by design: a relabelling of the sites,
+`every_n`), with their tests. The instrument is the Theodolite, and its C# twin,
+[`compute/MirrorWorld/Theodolite.cs`](../compute/MirrorWorld/Theodolite.cs), reads the same letters as equations and
+never as numbers: the turns satisfy x² = 3 rather than equal a root, and solvability is decided by integer
+elimination alone (`Binomials`). Out of its reach by design: a relabelling of the sites,
 a weight along X or Y, an element that is not a product over sites, a term on four sites.
 
 The findings below came from running it on settings taken from the dephasing documents (F1, MIRROR_SYMMETRY_PROOF,

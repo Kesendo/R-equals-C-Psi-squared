@@ -1,0 +1,473 @@
+using MirrorWorld;
+using static MirrorWorld.LetterCube;
+
+namespace MirrorWorldTests;
+
+// From-below guard for the theodolite (built 2026-10-20 beside experiments/THE_CUBE_SITE_BY_SITE.md and its Python twin
+// simulations/framework/diagnostics/cube_letters.py). A reading with rational turns is judged by a route that never
+// sees the letters: the generator built row-major from the Lindblad formula, times four in Gaussian integers, permuted
+// to the per-site order, must satisfy E·L - (T(L) - c)·E = 0 exactly. A reading that needs a root (x^2 = 3, the golden
+// ratio) is pinned as equations: consistent with the right one, inconsistent with a wrong one. Silent rows have a reason
+// to be silent: nothing site-local exists, or the spectrum does not pair at every N.
+public class TheodoliteTests
+{
+    static readonly World W = new();
+    static readonly Gauss[,] Zm = LetterMatrix('Z');
+    static readonly Gauss[,] Xm = LetterMatrix('X');
+
+    [Fact]
+    public void The_Theodolite_Owns_The_Letters_The_Reading_And_Every_N_And_Inherits_The_Cube()
+    {
+        var theodolite = new Theodolite(new LetterCube(W));
+        Assert.Equal(new[] { "letters", "reading", "every N" }, theodolite.Own);
+        Assert.Equal(new[] { "coordinates", "height", "step", "arrow", "moves", "x", "y", "z" }, theodolite.Inherited);
+    }
+
+    // ---- the binomial systems: equations, never numbers ----
+
+    static Binomial B(string monomial, long num, long den = 1, long numIm = 0, long denIm = 0)
+    {
+        var e = new Dictionary<string, int>();
+        foreach (var part in monomial.Split('·'))
+        {
+            var bits = part.Split('^');
+            e[bits[0]] = bits.Length > 1 ? int.Parse(bits[1]) : 1;
+        }
+        return new Binomial(e, GaussBig.Of(num, numIm), GaussBig.Of(den, denIm), "test");
+    }
+
+    [Fact]
+    public void A_Root_Stays_An_Equation()
+    {
+        // x/y = -3 and x·y = -1: the elimination leaves y^2 = 1/3, never a square root of 3
+        var red = Binomials.Solve(new[] { B("x·y^-1", -3), B("x·y", -1) }, new[] { "x", "y" });
+        Assert.NotNull(red);
+        var y = red!.Alone("y");
+        Assert.NotNull(y);
+        Assert.Equal(2, y!.Value.K);
+        Assert.Equal(y.Value.Num * GaussBig.Of(3), y.Value.Den);            // y^2 = 1/3
+        Assert.Null(Binomials.RationalSolution(red));                          // a root is needed
+    }
+
+    [Fact]
+    public void A_Cycle_Closes_Only_When_Its_Constants_Multiply_To_One()
+    {
+        var ring = new[] { B("x·y^-1", 0, 1, 1), B("y·z^-1", 0, 1, 1) };   // x/y = i, y/z = i
+        Assert.NotNull(Binomials.Solve(ring.Append(B("z·x^-1", -1)), new[] { "x", "y", "z" }));
+        Assert.Null(Binomials.Solve(ring.Append(B("z·x^-1", 1)), new[] { "x", "y", "z" }));
+        Assert.Null(Binomials.Solve(new[] { B("x", 2), B("x", 3) }, new[] { "x" }));
+    }
+
+    // ---- the independent route: the full generator, row-major, from the Lindblad formula ----
+
+    static Gauss G(GaussBig g) => new((long)g.Re, (long)g.Im);
+
+    static Gauss[,] Factor(Theodolite.Kind k, (GaussBig Num, GaussBig Den) t)
+        => k == Theodolite.Kind.Diagonal
+            ? new[,] { { G(t.Den), Gauss.Zero }, { Gauss.Zero, G(t.Num) } }
+            : new[,] { { Gauss.Zero, G(t.Num) }, { G(t.Den), Gauss.Zero } };
+
+    static Gauss[,] Kron(Gauss[,] a, Gauss[,] b)
+    {
+        int ra = a.GetLength(0), rb = b.GetLength(0);
+        var m = new Gauss[ra * rb, ra * rb];
+        for (int i = 0; i < ra; i++) for (int j = 0; j < ra; j++)
+            for (int k = 0; k < rb; k++) for (int l = 0; l < rb; l++)
+                m[i * rb + k, j * rb + l] = a[i, j] * b[k, l];
+        return m;
+    }
+
+    static Gauss[,] Mul(Gauss[,] a, Gauss[,] b)
+    {
+        int n = a.GetLength(0);
+        var c = new Gauss[n, n];
+        for (int i = 0; i < n; i++)
+            for (int k = 0; k < n; k++)
+            {
+                var aik = a[i, k];
+                if (aik.IsZero) continue;
+                for (int j = 0; j < n; j++) c[i, j] = c[i, j] + aik * b[k, j];
+            }
+        return c;
+    }
+
+    static Gauss[,] Conjugate(Gauss[,] a)
+    {
+        int n = a.GetLength(0);
+        var c = new Gauss[n, n];
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) c[i, j] = a[i, j].Conj;
+        return c;
+    }
+
+    static Gauss[,] Dagger(Gauss[,] a)
+    {
+        int n = a.GetLength(0);
+        var c = new Gauss[n, n];
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) c[i, j] = a[j, i].Conj;
+        return c;
+    }
+
+    static Gauss[,] Embed(int n, int site, Gauss[,] op)
+    {
+        var m = new Gauss[1, 1] { { Gauss.One } };
+        for (int l = 0; l < n; l++) m = Kron(m, l == site ? op : LetterMatrix('I'));
+        return m;
+    }
+
+    // 4L in the per-site order of the theodolite (site 0 first, cells |i><j| per site)
+    static Gauss[,] GeneratorTimesFour(Theodolite.Setting s)
+    {
+        int n = s.N, d = 1 << n, dd = d * d;
+        var h = new Gauss[d, d];
+        foreach (var (t, c) in s.H)
+        {
+            var m = new Gauss[1, 1] { { Gauss.One } };
+            for (int l = 0; l < n; l++) m = Kron(m, LetterMatrix(t.Letter(l)));
+            for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) h[i, j] = h[i, j] + c * m[i, j];
+        }
+        var L = new Gauss[dd, dd];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++)
+            for (int k = 0; k < d; k++) for (int l = 0; l < d; l++)
+            {
+                // -i [H, rho] times four: -4i (H ⊗ 1 - 1 ⊗ H^T)
+                var v = Gauss.Zero;
+                if (j == l) v = v + h[i, k];
+                if (i == k) v = v - h[l, j];
+                if (!v.IsZero) L[i * d + j, k * d + l] = L[i * d + j, k * d + l] + new Gauss(0, -4) * v;
+            }
+        foreach (var (site, jump, rate) in s.Jumps)
+        {
+            var J = Embed(n, site, jump);
+            var jbar = Conjugate(J);
+            var jdj = Mul(Dagger(J), J);
+            for (int i = 0; i < d; i++) for (int j = 0; j < d; j++)
+                for (int k = 0; k < d; k++) for (int l = 0; l < d; l++)
+                {
+                    // rate (J ⊗ conj J - (J^dagger J ⊗ 1 + 1 ⊗ (J^dagger J)^T)/2), times four
+                    var v = 4 * (J[i, k] * jbar[j, l]);
+                    if (j == l) v = v - 2 * jdj[i, k];
+                    if (i == k) v = v - 2 * jdj[l, j];
+                    if (!v.IsZero) L[i * d + j, k * d + l] = L[i * d + j, k * d + l] + rate * v;
+                }
+        }
+        var perm = new int[dd];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++)
+        {
+            int ps = 0;
+            for (int l = 0; l < n; l++)
+            {
+                int bi = (i >> (n - 1 - l)) & 1, bj = (j >> (n - 1 - l)) & 1;
+                ps = ps * 4 + 2 * bi + bj;
+            }
+            perm[i * d + j] = ps;
+        }
+        var P = new Gauss[dd, dd];
+        for (int r = 0; r < dd; r++) for (int c = 0; c < dd; c++) P[perm[r], perm[c]] = L[r, c];
+        return P;
+    }
+
+    static bool Reflects(Theodolite.Setting s, Theodolite.Relation rel, bool transposed,
+        IReadOnlyList<(Theodolite.Kind A, Theodolite.Kind B)> kinds,
+        IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y)
+    {
+        int n = s.N;
+        var E = new Gauss[1, 1] { { Gauss.One } };
+        int[] perm = { 0, 2, 1, 3 };
+        for (int l = 0; l < n; l++)
+        {
+            var a = Factor(kinds[l].A, x[l]);
+            var b = Factor(kinds[l].B, y[l]);
+            var el = Kron(a, new[,] { { b[0, 0], b[1, 0] }, { b[0, 1], b[1, 1] } });   // rho -> a rho b: kron(a, b^T)
+            if (transposed)
+            {
+                var t = new Gauss[4, 4];
+                for (int r = 0; r < 4; r++) for (int c = 0; c < 4; c++) t[r, c] = el[r, perm[c]];
+                el = t;
+            }
+            E = Kron(E, el);
+        }
+        var L = GeneratorTimesFour(s);
+        int dd = L.GetLength(0);
+        var tr = Gauss.Zero;
+        for (int i = 0; i < dd; i++) tr = tr + L[i, i];
+        long den = 2L * (dd / 4);
+        Assert.True(tr.Im == 0 && tr.Re % den == 0, $"4c must be an integer, tr(4L) = {tr}");
+        long fourC = -tr.Re / den;                                          // c = -tr(L) / (2·4^(n-1))
+        var T = rel == Theodolite.Relation.Pi ? L : Dagger(L);
+        var lhs = Mul(E, L);
+        var rhsPart = Mul(T, E);
+        for (int i = 0; i < dd; i++)
+            for (int j = 0; j < dd; j++)
+            {
+                // E·L - (T(L) - c)·E with T(L) = -L or -L^dagger
+                var v = lhs[i, j] + rhsPart[i, j] + fourC * E[i, j];
+                if (!v.IsZero) return false;
+            }
+        return true;
+    }
+
+    static bool ReflectsAtRationalPoint(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r)
+    {
+        var sol = Binomials.RationalSolution(r.System);
+        Assert.NotNull(sol);
+        var x = Enumerable.Range(0, s.N).Select(l => sol![$"x{l}"]).ToList();
+        var y = Enumerable.Range(0, s.N).Select(l => sol![$"y{l}"]).ToList();
+        return Reflects(s, rel, r.Transposed, r.Kinds, x, y);
+    }
+
+    // ---- settings ----
+
+    static IEnumerable<(string, long)> Bond(int n, int a, int b, long j, long dm, long dz)
+    {
+        string Two(char p, char q)
+        {
+            var c = Enumerable.Repeat('I', n).ToArray();
+            c[a] = p;
+            c[b] = q;
+            return new string(c);
+        }
+        if (j != 0) { yield return (Two('X', 'X'), j); yield return (Two('Y', 'Y'), j); }
+        if (dm != 0) { yield return (Two('X', 'Y'), dm); yield return (Two('Y', 'X'), -dm); }
+        if (dz != 0) yield return (Two('Z', 'Z'), dz);
+    }
+
+    static (string, long) Field(int n, int l, char p, long c)
+    {
+        var s = Enumerable.Repeat('I', n).ToArray();
+        s[l] = p;
+        return (new string(s), c);
+    }
+
+    static IEnumerable<(string, long)> Heisenberg(int n) => Enumerable.Range(0, n - 1).SelectMany(a => Bond(n, a, a + 1, 1, 0, 1));
+
+    static Gauss[,] Combo(long cx, long cy)        // cx·X + cy·Y
+        => new[,] { { Gauss.Zero, new Gauss(cx, -cy) }, { new Gauss(cx, cy), Gauss.Zero } };
+
+    // ---- reading settings ----
+
+    [Fact]
+    public void It_Reads_Pi_Under_Z_Dephasing()
+    {
+        var s = Theodolite.Setting.Of(3, Heisenberg(3), new[] { (0, Zm, 7L), (1, Zm, 10L), (2, Zm, 12L) });
+        var r = Theodolite.Read(s, Theodolite.Relation.Pi);
+        Assert.NotNull(r);
+        Assert.True(r!.Transposed);
+        Assert.All(r.Kinds, k => Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.AntiDiagonal), k));
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Pi, r));
+    }
+
+    [Fact]
+    public void The_Thermal_Weight_Is_The_Steady_State_On_Three_Unaligned_Axes()
+    {
+        // the flux-pi/2 triangle (hoppings 1, 2, 3i), Delta = 7/10, axes (3X+4Y)/5, X, (5X-12Y)/13 at 1/5, 1/4, 1/3, cooling
+        // 1 and heating 1/10, 1/16, 0: every steady-state ratio is 1/4. Each site scaled to integers (a jump (3X+4Y)/5 at
+        // rate 1/5 is 3X+4Y at 1/125), every bond by ten; each equation is homogeneous, so the readings stay.
+        var h = Bond(3, 0, 1, 10, 0, 7).Concat(Bond(3, 1, 2, 20, 0, 7)).Concat(Bond(3, 2, 0, 0, 30, 7));
+        var jumps = new (int, Gauss[,], long)[]
+        {
+            (0, Lowering, 250), (0, Raising, 25), (0, Combo(3, 4), 2),
+            (1, Lowering, 16), (1, Raising, 1), (1, Xm, 4),
+            (2, Lowering, 507), (2, Combo(5, -12), 1),
+        };
+        var s = Theodolite.Setting.Of(3, h, jumps);
+        var r = Theodolite.Read(s, Theodolite.Relation.Pi);
+        Assert.NotNull(r);
+        Assert.True(r!.Transposed);
+        Assert.All(r.Kinds, k => Assert.Equal((Theodolite.Kind.AntiDiagonal, Theodolite.Kind.AntiDiagonal), k));
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Pi, r));
+        // the control: heating on site 0 raised by 1/10 (25 -> 50 at the site's scale) leaves the letters silent
+        var raised = Theodolite.Setting.Of(3, h, jumps.Select(j => j.Item1 == 0 && j.Item3 == 25 ? (0, Raising, 50L) : j));
+        Assert.Null(Theodolite.Read(raised, Theodolite.Relation.Pi));
+    }
+
+    [Fact]
+    public void With_X_Dephasing_The_Turn_Is_A_Root_Kept_As_An_Equation()
+    {
+        // the Heisenberg chain, cooling 1 and X dephasing 1/2 (scaled by two): x/y = -3 and x·y = -1, so x^2 = 3
+        var s = Theodolite.Setting.Of(3, Heisenberg(3), Enumerable.Range(0, 3).SelectMany(l => new[] { (l, Lowering, 2L), (l, Xm, 1L) }));
+        var r = Theodolite.Read(s, Theodolite.Relation.Pi);
+        Assert.NotNull(r);
+        Assert.True(r!.Transposed);
+        var unknowns = r.System.Unknowns;
+        for (int l = 0; l < 3; l++)
+        {
+            Assert.NotNull(Binomials.Solve(r.Equations.Append(B($"x{l}^2", 3)), unknowns));
+            Assert.Null(Binomials.Solve(r.Equations.Append(B($"x{l}^2", 2)), unknowns));
+            Assert.NotNull(Binomials.Solve(r.Equations.Append(B($"x{l}·y{l}", -1)), unknowns));
+        }
+    }
+
+    [Fact]
+    public void The_Gradient_Is_Silent_For_Pi_And_Reads_S_XY_For_The_Reflection()
+    {
+        // cooling 1/2, 1, 3/2 and heating 1/8, 1/3, 1/5 (each site scaled)
+        var jumps = new (int, Gauss[,], long)[]
+        {
+            (0, Lowering, 4), (0, Raising, 1), (1, Lowering, 3), (1, Raising, 1), (2, Lowering, 15), (2, Raising, 2),
+        };
+        var s = Theodolite.Setting.Of(3, Heisenberg(3), jumps);
+        Assert.Null(Theodolite.Read(s, Theodolite.Relation.Pi));
+        var r = Theodolite.Read(s, Theodolite.Relation.Reflection);
+        Assert.NotNull(r);
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Reflection, r!));
+    }
+
+    static Theodolite.Setting FieldTriangle(long delta, long j2, long d2)
+    {
+        // F137's triangle: unit hopping, real on (0, 1) and (1, 2), J + iD on (2, 0); fields 3/10, -1/5, 1/2; cooling
+        // 1/2, 1, 3/2 at one ratio 1/4 (site 0 times 40, site 1 times 20, site 2 times 8; bonds times 10)
+        var h = Bond(3, 0, 1, 10, 0, delta).Concat(Bond(3, 1, 2, 10, 0, delta)).Concat(Bond(3, 2, 0, 10 * j2, 10 * d2, delta))
+            .Append(Field(3, 0, 'Z', 12)).Append(Field(3, 1, 'Z', -4)).Append(Field(3, 2, 'Z', 4));
+        var jumps = new (int, Gauss[,], long)[]
+        {
+            (0, Lowering, 20), (0, Raising, 5), (1, Lowering, 20), (1, Raising, 5), (2, Lowering, 12), (2, Raising, 3),
+        };
+        return Theodolite.Setting.Of(3, h, jumps);
+    }
+
+    [Fact]
+    public void Fields_Read_F137s_Chain_As_One_Map_And_The_Controls_Stay_Silent()
+    {
+        var s = FieldTriangle(0, 0, 1);
+        var r = Theodolite.Read(s, Theodolite.Relation.Pi);
+        Assert.NotNull(r);
+        Assert.False(r!.Transposed);
+        Assert.All(r.Kinds, k => Assert.Equal((Theodolite.Kind.AntiDiagonal, Theodolite.Kind.AntiDiagonal), k));
+        for (int l = 0; l < 3; l++)                                          // the spin flip with the ratio of the arrows
+            Assert.NotNull(Binomials.Solve(r.Equations.Append(B($"x{l}·y{l}^-1", -4)), r.System.Unknowns));
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Pi, r));
+        Assert.Null(Theodolite.Read(FieldTriangle(7, 0, 1), Theodolite.Relation.Pi));
+        Assert.Null(Theodolite.Read(FieldTriangle(0, 1, 0), Theodolite.Relation.Pi));
+    }
+
+    [Fact]
+    public void Identity_Letters_Inside_A_Term_Do_Not_Change_The_Reading()
+    {
+        var jumps = new (int, Gauss[,], long)[] { (0, Zm, 1), (1, Zm, 1) };
+        var asFields = Theodolite.Setting.Of(2, new[] { ("XI", 1L), ("YI", 1L) }, jumps);
+        foreach (var rel in new[] { Theodolite.Relation.Pi, Theodolite.Relation.Reflection })
+        {
+            var r = Theodolite.Read(asFields, rel);
+            Assert.NotNull(r);
+            Assert.True(ReflectsAtRationalPoint(asFields, rel, r!));
+        }
+    }
+
+    // ---- every N ----
+
+    static Theodolite.Cell Cell(IEnumerable<(Gauss[,], long)> jumps, params (string, int[], long)[] windows)
+        => new(jumps, null, windows);
+
+    static readonly (string, int[], long)[] HeisCell = { ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1), ("ZZ", new[] { 0, 1 }, 1) };
+
+    [Fact]
+    public void Every_N_Uniform_Rows()
+    {
+        foreach (var cell in new[]
+                 {
+                     Cell(new[] { (Zm, 1L) }, HeisCell),
+                     Cell(new[] { (Lowering, 2L), (Xm, 1L) }, HeisCell),
+                     Cell(new[] { (Lowering, 4L), (Raising, 1L) }, HeisCell),
+                 })
+        {
+            var t = Theodolite.EveryN(cell, Theodolite.Relation.Pi);
+            Assert.NotNull(t);
+            Assert.Equal(Theodolite.Shape.Uniform, t!.Shape);
+        }
+    }
+
+    [Fact]
+    public void The_Golden_Bond_Turns_By_The_Phase_Of_Its_Pair_Amplitude()
+    {
+        // XX + XY + YX: the sigma^+ sigma^+ amplitude is 1 + 2i, and the uniform element's turn is its phase:
+        // x^2 = (1 + 2i)^2 / 5 = (-3 + 4i)/5, the golden ratio being tan of half that angle
+        var t = Theodolite.EveryN(Cell(new[] { (Zm, 1L) }, ("XX", new[] { 0, 1 }, 1), ("XY", new[] { 0, 1 }, 1), ("YX", new[] { 0, 1 }, 1)),
+            Theodolite.Relation.Pi);
+        Assert.NotNull(t);
+        Assert.Equal(Theodolite.Shape.Uniform, t!.Shape);
+        var eqs = t.System.Lines().ToList();
+        var rows = t.System;
+        var withPhase = Binomials.Solve(Pinned(rows).Append(B("X0^2", -3, 5, 4)), rows.Unknowns);
+        var withOne = Binomials.Solve(Pinned(rows).Append(B("X0^2", 1)), rows.Unknowns);
+        Assert.True(withPhase is not null || Binomials.Solve(Pinned(rows).Append(B("Y0^2", -3, 5, 4)), rows.Unknowns) is not null,
+            string.Join("; ", eqs));
+        Assert.True(withOne is null || Binomials.Solve(Pinned(rows).Append(B("Y0^2", 1)), rows.Unknowns) is null);
+    }
+
+    // the reduced rows of a system, back as binomials
+    static IEnumerable<Binomial> Pinned(Binomials.Reduced red)
+    {
+        for (int r = 0; r < red.Exponents.Count; r++)
+        {
+            var e = new Dictionary<string, int>();
+            for (int j = 0; j < red.Unknowns.Count; j++)
+                if (red.Exponents[r][j] != 0) e[red.Unknowns[j]] = red.Exponents[r][j];
+            yield return new Binomial(e, red.Constants[r].Num, red.Constants[r].Den, "row");
+        }
+    }
+
+    [Fact]
+    public void The_C0_Window_Routes_With_One_Map_On_Every_Site()
+    {
+        var cell = Cell(new[] { (Zm, 1L) }, ("XZY", new[] { 0, 1, 2 }, 1), ("YZX", new[] { 0, 1, 2 }, 1));
+        var t = Theodolite.EveryN(cell, Theodolite.Relation.Pi);
+        Assert.NotNull(t);
+        Assert.Equal(Theodolite.Shape.Uniform, t!.Shape);
+        var sol = Binomials.RationalSolution(t.System);
+        Assert.NotNull(sol);
+        var s = cell.Chain(4);
+        var x = Enumerable.Repeat(sol!["X0"], 4).ToList();
+        var y = Enumerable.Repeat(sol["Y0"], 4).ToList();
+        Assert.True(Reflects(s, Theodolite.Relation.Pi, t.Transposed, Enumerable.Repeat(t.Kinds[0], 4).ToList(), x, y));
+    }
+
+    [Fact]
+    public void Heisenberg_Plus_DM_Turns_By_Arctan_D_Over_J_And_Pure_DM_By_A_Quarter()
+    {
+        // D/J = 1/2: J = 2, D = 1, Delta = 1 (scaled); the turn z has z^2 = (2 + i)^2/5 = (3 + 4i)/5
+        var dm = Cell(new[] { (Zm, 1L) }, ("XX", new[] { 0, 1 }, 2), ("YY", new[] { 0, 1 }, 2), ("ZZ", new[] { 0, 1 }, 2),
+            ("XY", new[] { 0, 1 }, 1), ("YX", new[] { 0, 1 }, -1));
+        var t = Theodolite.EveryN(dm, Theodolite.Relation.Pi);
+        Assert.NotNull(t);
+        Assert.Equal(Theodolite.Shape.Turned, t!.Shape);
+        Assert.NotNull(t.Turn);
+        var (k, num, den) = t.Turn!.Value;
+        Assert.Equal(2, k);
+        Assert.Equal(num * GaussBig.Of(5), den * GaussBig.Of(3, 4));
+        var pure = Cell(new[] { (Zm, 1L) }, ("XY", new[] { 0, 1 }, 1), ("YX", new[] { 0, 1 }, -1));
+        var q = Theodolite.EveryN(pure, Theodolite.Relation.Pi);
+        Assert.NotNull(q);
+        Assert.Equal(Theodolite.Shape.Turned, q!.Shape);
+        var (k2, n2, d2) = q.Turn!.Value;
+        Assert.Equal(2, k2);
+        Assert.Equal(n2, -d2);                                               // z^2 = -1
+    }
+
+    [Fact]
+    public void The_Hard_Rows_Are_Silent_For_Every_N()
+    {
+        foreach (var (t1, t2) in new[] { ("XX", "XY"), ("XY", "XZ") })
+            Assert.Null(Theodolite.EveryN(Cell(new[] { (Zm, 1L) }, (t1, new[] { 0, 1 }, 1), (t2, new[] { 0, 1 }, 1)), Theodolite.Relation.Pi));
+    }
+
+    [Fact]
+    public void Rate_Free_Rows()
+    {
+        var thermal = new[] { (Lowering, 4L), (Raising, 1L) };
+        var heis = Theodolite.EveryN(Cell(thermal, HeisCell), Theodolite.Relation.Reflection, rateFree: true);
+        Assert.Equal(Theodolite.Shape.Uniform, heis!.Shape);
+        var dm = Cell(thermal, ("XX", new[] { 0, 1 }, 4), ("YY", new[] { 0, 1 }, 4), ("XY", new[] { 0, 1 }, 3), ("YX", new[] { 0, 1 }, -3));
+        var t = Theodolite.EveryN(dm, Theodolite.Relation.Reflection, rateFree: true);
+        Assert.Equal(Theodolite.Shape.Turned, t!.Shape);
+    }
+
+    [Fact]
+    public void The_Golden_Window_Repeats_With_Period_Four()
+    {
+        var golden = Cell(new[] { (Zm, 1L) }, ("XZX", new[] { 0, 1, 2 }, 1), ("XZY", new[] { 0, 1, 2 }, 1), ("YZX", new[] { 0, 1, 2 }, 1));
+        var t = Theodolite.EveryN(golden, Theodolite.Relation.Pi);
+        Assert.NotNull(t);
+        Assert.Equal(Theodolite.Shape.Periodic, t!.Shape);
+        Assert.Equal(4, t.Period);
+    }
+}

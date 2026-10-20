@@ -1,4 +1,4 @@
-"""Tests for framework.diagnostics.cube_letters, the letter layer of Device B. Read elements are checked by an
+"""Tests for framework.diagnostics.cube_letters, the letter layer of the Theodolite. Read elements are checked by an
 independent route: the full generator built row-major from the Lindblad formula, only then permuted to per-site order,
 must satisfy E·L·E⁻¹ = 𝒯(L) - c exactly. Silent rows have a reason to be silent (no site-local element at all, or a
 spectrum that does not pair at every N); slow rows are marked."""

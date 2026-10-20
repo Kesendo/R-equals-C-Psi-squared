@@ -1,4 +1,4 @@
-"""What the letter cube, applied site by site (Device B, a working name), found in the repo: exact checks with controls.
+"""What the letter cube, applied site by site (the Theodolite), found in the repo: exact checks with controls.
 
 experiments/THE_CUBE_SITE_BY_SITE.md. Exact arithmetic (sympy over Q(i), or with sqrt where a point needs it).
 Every row prints PASS or FAIL and the script exits nonzero on any FAIL. Conventions of framework.cube_tables: one
@@ -11,7 +11,7 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
      κ = (u − d)/(u + d + 2p) = (q² − 1)/(q² + 1), and with damping it spans that eigenspace.
   B  On whole chains: the matched element reflects L onto −L − c exactly (Heisenberg, cooling plus X dephasing; the
      flux-pi/2 triangle at Δ = 7/10 with three unaligned XY axes and one common q² = 1/4); a ratio that differs across
-     a hopping bond leaves no product Pi-reflection (Device B's pre-check, exact, and the identity-row commutator
+     a hopping bond leaves no product Pi-reflection (the Theodolite's pre-check, exact, and the identity-row commutator
      ‖[H, ⊗(Z_l + κ_l)]‖_F = 8√803/85 on the Heisenberg chain with a temperature gradient) while the reflection
      −L† − c persists; raising one heating rate breaks the triangle's spectrum (Tr((L − μ)^5) = 192).
   C  The golden family. At c = 0 (windows XZY + YZX) one site map on every site, rho -> (X + Y)·rho·diag(1, −i),
@@ -20,7 +20,7 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
      (α² − αβ − β² = 0 for g = αX + βY); it solves XIX + XIY + YIX bond by bond. In letters φ is a half angle: the
      bond's sigma^+ sigma^+ amplitude is 1 + 2i, the letters' uniform element turns by its phase arctan 2, and
      tan(½·arctan 2) = 1/φ. Controls: c = 3/2, the weights (0, 1, 2), g = 2X + Y.
-  D  Heisenberg + DM on a chain has no period-2 product of any invertible site maps (pure DM has one); Device B reads
+  D  Heisenberg + DM on a chain has no period-2 product of any invertible site maps (pure DM has one); the Theodolite reads
      it as TURNED: the canonical Pi turned about Z by arctan(D/J) from site to site reflects it exactly, and twice that
      angle does not.
   E  The boundary of A, computed and not proven: with cooling alone (ratio 0) an isolated site has a site-local
@@ -171,7 +171,7 @@ check("raising the heating on site 0 by 1/10 breaks the spectrum: Tr((L − μ)^
 down, up = [R(1, 2), R(1), R(3, 2)], [R(1, 8), R(1, 3), R(1, 5)]
 g = ct.Setting(3, heisenberg(3), [((l,), ct.LOWER, x) for l, x in enumerate(down)]
                + [((l,), ct.RAISE, x) for l, x in enumerate(up)])
-check("temperature gradient: Device B's pre-check proves no product Pi-reflection", cr.precheck(g, 'pi')[0] == 'NONE')
+check("temperature gradient: the Theodolite's pre-check proves no product Pi-reflection", cr.precheck(g, 'pi')[0] == 'NONE')
 check("... while the reflection −L† − c is found as cube moves", cr.cube_search(g, 'refl')[0] == 'FOUND')
 kap = [(x - y) / (x + y) for y, x in zip(down, up)]
 Hn = sp.zeros(8, 8)
@@ -232,7 +232,7 @@ check("Heisenberg + DM (D/J = 1/2), Z dephasing: no period-2 product of any inve
 check("control: pure DM has one", period2_exists(pure_dm, 'pi'))
 cell = cr.Cell(jumps=[(Z, 1)], windows=[('XX', (0, 1), 1), ('YY', (0, 1), 1), ('ZZ', (0, 1), 1),
                                         ('XY', (0, 1), R(1, 2)), ('YX', (0, 1), -R(1, 2))])
-check("Device B reads Heisenberg + DM as TURNED", cr.every_n(cell, 'pi') == 'TURNED')
+check("the Theodolite reads Heisenberg + DM as TURNED", cr.every_n(cell, 'pi') == 'TURNED')
 PI_P = sp.zeros(4, 4)
 for src, dst, ph in ((0, 1, 1), (1, 0, 1), (2, 3, sp.I), (3, 2, sp.I)):     # I -> X, X -> I, Y -> iZ, Z -> iY
     PI_P[dst, src] = ph

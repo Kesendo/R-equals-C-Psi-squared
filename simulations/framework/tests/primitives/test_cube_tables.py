@@ -1,4 +1,4 @@
-"""Tests for framework.cube_tables (Device B's tables). Each number is checked against a route the module does
+"""Tests for framework.cube_tables (the Theodolite's tables). Each number is checked against a route the module does
 not use: the hand-computed Pauli transfer of sigma^-, the C# TransferTimesFour numbers, the trace argument for
 the support sectors, and a direct commutator for one table entry."""
 from __future__ import annotations

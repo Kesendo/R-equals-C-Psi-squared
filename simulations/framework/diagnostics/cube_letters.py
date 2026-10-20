@@ -1,4 +1,4 @@
-"""The letter layer of Device B (a working name): site-local mirrors read off the letters, in closed form.
+"""The letter layer of the Theodolite: site-local mirrors read off the letters, in closed form.
 
 See experiments/THE_CUBE_SITE_BY_SITE.md. The element is a sandwich E(rho) = A·rho^(T)·B with A = ⊗A_l and
 B = ⊗B_l, every site factor monomial: diagonal 'd' = diag(1, x) or anti-diagonal 'a' = [[0, x], [1, 0]] = X·diag(1, x).
@@ -300,14 +300,17 @@ def _substitute(eqs, subst):
 
 def turn_of(kinds, transposed, r, s):
     """z with u = diag(1, z) and Ad_u∘E_l∘Ad_u⁻¹ = E_{l+1} up to a factor, the sandwich's turns stepping by r (left)
-    and s (right); candidates are the square roots of the steps and their inverses, each checked exactly. None if no
-    turn about Z carries one site's map onto the next."""
+    and s (right); candidates are the square roots of the steps and their inverses, each checked exactly. Only a turn
+    by an angle counts, |z| = 1, as in the C# twin (compute/MirrorWorld/Theodolite.cs); None if no such turn carries
+    one site's map onto the next."""
     kA, kB = kinds
     x, y = sp.symbols('x y', nonzero=True)
     E0 = site_map(kA, x, kB, y, transposed)
     E1 = site_map(kA, x * r, kB, y * s, transposed)
     cands = {_simp(root) for step in (r, s, 1 / r, 1 / s) for root in (sp.sqrt(step), -sp.sqrt(step))}
     for z in sorted(cands, key=str):
+        if sp.simplify(z * sp.conjugate(z) - 1) != 0:
+            continue
         u, ui = sp.diag(1, z), sp.diag(1, 1 / z)
         M = (ct.lr(u, u.H) * E0 * ct.lr(ui, ui.H)).applyfunc(sp.simplify)
         ratio, ok = None, True

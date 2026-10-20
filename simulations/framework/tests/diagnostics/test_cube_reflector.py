@@ -1,4 +1,4 @@
-"""Tests for framework.diagnostics.cube_reflector (Device B). Found answers are checked by an independent route:
+"""Tests for framework.diagnostics.cube_reflector (the Theodolite). Found answers are checked by an independent route:
 the full generator, built row-major from the Lindblad formula and only then permuted to per-site order, must
 satisfy E·L·E⁻¹ = 𝒯(L) exactly. NONE rows are spectra that do not pair (an exact odd trace, or F137's −656
 triangle); slow rows are marked and deselected by default with -m 'not slow'."""

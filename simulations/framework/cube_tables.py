@@ -1,6 +1,6 @@
 """The letter cube's tables, site by site: one-site and per-window generator tables, and the 192 one-site moves.
 
-Device B (a working name), experiments/THE_CUBE_SITE_BY_SITE.md. One site's
+The Theodolite's tables, experiments/THE_CUBE_SITE_BY_SITE.md. One site's
 operators are written on the four cells |i><j| in the order (0,0), (0,1), (1,0), (1,1), stacked row-major, so
 the superoperator rho -> A rho B is kron(A, B^T) and a product of site maps is a Kronecker product. The same 4x4
 map in the Pauli basis {I, X, Y, Z} has column P = the image of the letter P, normalised as
