@@ -476,14 +476,17 @@ every set of sites joined by hopping. Where it differs across a hopping bond no
 site-local element of this shape exists at all: applied to the identity, such
 an element would have to produce a product of one-site operators Z_l + κ_l·I,
 κ_l = (q_l² − 1)/(q_l² + 1), commuting with H, and a hopping bond between
-unequal κ does not ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)). Where fields break M_β, an element
-of the shape −L − c can still be site-local: on F137's triangle with fields
-(3⁄10, −⅕, ½) at ratio ¼, Δ = 0 and flux ±π/2, its hopping phase on the bond
-(2, 0), the spin flip with the whole thermal weight on one side,
-ρ ↦ π·Z₀Z₂·X⊗N·ρ·X⊗N·Z₁, is one, exactly. Whether an element of that shape exists
-wherever the spectrum pairs and M_β does not, a product over sites or not, is
-open, and so is whether the hidden time reversal of Roberts et al. in the doubled
-space is M_β read through the Choi-Jamiolkowski map.
+unequal κ does not ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)). Where fields break M_β,
+F137's chained carrier still gives an element of the shape −L − c: S_XY, the
+thermal transpose, the conjugation and the turns W about Z with W·(−H̄)·W† = H
+are each an identity between generators, and composed they are one site-local
+linear map, ρ ↦ W·π^½·X⊗N·ρ·Y⊗N·π^½·W†, wherever that chain applies (no
+dephasing, one ratio on every set of sites joined by hopping, and at Δ = 0 turns
+exist exactly when e^{2iΦ} = (−1)^ℓ on every cycle; [F137](ANALYTICAL_FORMULAS.md)).
+Whether an element of the shape −L − c exists wherever the spectrum pairs and
+neither M_β nor that chain carries it, a product over sites or not, is open, and
+so is whether the hidden time reversal of Roberts et al. in the doubled space is
+M_β read through the Choi-Jamiolkowski map.
 
 ### Assessment
 
@@ -623,7 +626,7 @@ dynamics. No palindromic structures.
 | 1. Is Π a known symmetry type? | For the centered generator `L_c=L+SγI`, Π supplies a sectorwise P generator after resolving Π²; the complete irreducible-sector SRP algebra is not yet computed | **CONFIRMED algebra / OPEN class** |
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
-| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element; a Z field and Z dephasing break M_β, though with fields at Δ = 0 a site-local element of another shape can remain; beyond it **OPEN** |
+| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element; a Z field and Z dephasing break M_β, while with fields F137's chained carrier composes into a site-local element of another shape wherever its turns exist; beyond it **OPEN** |
 | 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |

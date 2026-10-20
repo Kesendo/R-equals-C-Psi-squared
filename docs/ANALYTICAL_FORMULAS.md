@@ -6891,7 +6891,9 @@ fourth, built from all three, carries it at one ratio.
   spec L(H + F) = −spec L(H̄ − F) − c, spec L(H̄ − F) = spec L(H − F) and
   spec L(H − F) = spec L(−H̄ + F), so the palindrome holds exactly when spec L(H + F) =
   spec L(−H̄ + F), and turns about Z with W·(−H̄)·W† = H carry it, since they keep F and the
-  dissipator. At Δ = 0 such turns exist exactly when every cycle of the hopping bonds, of length ℓ and
+  dissipator. Each step is an identity between generators, so the four compose into one site-local
+  linear element of Π's shape, ρ ↦ W·π_β^½·X⊗N·ρ·Y⊗N·π_β^½·W†, carrying L onto −L − c
+  ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)). At Δ = 0 such turns exist exactly when every cycle of the hopping bonds, of length ℓ and
   flux Φ, has e^{2iΦ} = (−1)^ℓ: flux 0 or π on even cycles, ±π/2 on odd ones. The triangle below with
   fields (−½, 0, ½) under cooling alone, which breaks at flux 0, pairs at flux π/2, and the triangle
   with fields (3⁄10, −⅕, ½) at one ratio ¼ pairs at flux ±π/2; Δ = 7⁄10, flux arccos(3/5) and three

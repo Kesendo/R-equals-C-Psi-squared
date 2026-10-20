@@ -4,7 +4,7 @@
 KMS detailed balance, temperature gradient, golden router uniform, Heisenberg DM spiral gauge, Groebner exact -->
 
 **Status:** an instrument and three findings, 2026-10-20. The findings are reproduced exactly, each with a control
-that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (31
+that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (35
 checks, ALL PASS); where a statement below rests on an argument or on a computation rather than on a check, it
 says so.
 
@@ -24,7 +24,8 @@ the OpenArcs registry (`f138_converse_failures`, a monomial search never ported)
 a site map that carries a weight beside the move beyond Z dephasing. Checked for adjacency: the instrument's
 support-set equations against `KBodyPalindromeRouting` (the same condition, continuous here); its identity row
 against the router proof's identity column (§4); its weight against M_β's thermal weight and the transpose law of
-`AntilinearTriangleClaim`; its turned maps against F137's turns about Z.
+`AntilinearTriangleClaim`; its turned maps against F137's turns about Z; its answer with fields against F137's
+chained carriers, which compose into it.
 
 ## The instrument
 
@@ -75,11 +76,14 @@ zero or infinity (cooling or heating alone, without dephasing) the weight is sin
 cooling alone still has a Π-reflection, and two sites joined by a Heisenberg bond have none, a computation, not a
 proof for every bond. For a temperature gradient this settles the site-local half of OQ-168 and of the open
 question in KMS Question 4; F137 scopes its sentence on the flux and the dephasing axes to S_XY, since for the
-steady-state element the axes in the XY plane do not matter and the ratios do. Where fields break M_β, an element
-of the shape −L − c can still be site-local: on F137's triangle with fields (3⁄10, −⅕, ½) at ratio ¼, Δ = 0 and
-flux ±π/2 (the hopping phase on the bond (2, 0)) the instrument returns ρ ↦ π_β·Z₀Z₂·X⊗N·ρ·X⊗N·Z₁, with
-π_β ∝ ⊗diag(1, ¼) the bath's thermal state: the spin flip with the whole thermal weight on one side. It holds
-exactly and fails at Δ = 7⁄10 and at flux 0.
+steady-state element the axes in the XY plane do not matter and the ratios do. Where fields break M_β, F137's
+chained carrier gives an element of the same shape: S_XY, the thermal transpose, the conjugation and the turns W
+about Z with W·(−H̄)·W† = H are each an identity between generators, so composed they are one site-local linear
+map, ρ ↦ W·π_β^½·X⊗N·ρ·Y⊗N·π_β^½·W†, carrying L onto −L − c wherever the chain applies (π_β the bath's thermal
+state). On F137's triangle with fields (3⁄10, −⅕, ½) at ratio ¼, Δ = 0 and flux ±π/2 (the hopping phase on the
+bond (2, 0), W = Z₁) the instrument returns it as ρ ↦ π_β·Z₀Z₂·X⊗N·ρ·X⊗N·Z₁, the composite after the similarity
+by Z⊗N·π_β^½, which commutes with L. Checked exactly there and on an open chain of four sites with hoppings 1,
+3 + 4i and −5 + 12i; the same maps fail at Δ = 7⁄10 and at flux 0.
 
 **2. The golden family routes with one map on every site at c = 0, and the golden bond with a uniform golden map.**
 At the c = 0 station of the metallic line (windows XZY + YZX) the site map ρ ↦ (X + Y)·ρ·diag(1, −i), the same on
@@ -108,6 +112,5 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 ## What stays open
 
 Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; elements that are
-not products over sites; the zero-ratio boundary of finding 1 beyond the computed cases; the reach of the field
-element beyond F137's triangle; the per-site turn reported
+not products over sites; the zero-ratio boundary of finding 1 beyond the computed cases; the per-site turn reported
 relative to the neighbour rather than as one representative's absolute value; the instrument's name.

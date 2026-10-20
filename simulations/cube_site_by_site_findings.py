@@ -24,9 +24,11 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
      angle does not.
   E  The boundary of A, computed and not proven: with cooling alone (ratio 0) an isolated site has a site-local
      Pi-reflection, two sites joined by a Heisenberg bond have none.
-  F  Where fields break M_beta: on F137's triangle with fields (3/10, −1/5, 1/2) at ratio 1/4, Δ = 0 and flux ±pi/2
-     the spin flip with the whole thermal weight on one side, rho -> π·Z₀Z₂·X^N·rho·X^N·Z₁, is a site-local
-     Pi-reflection; controls Δ = 7/10 and flux 0.
+  F  Where fields break M_beta, F137's chained carrier (S_XY, the thermal transpose, the conjugation, turns W about Z
+     with W(−H̄)W† = H) composes into one site-local map rho -> W·π^½·X^N·rho·Y^N·π^½·W† with E·L·E⁻¹ = −L − c:
+     on F137's field triangle (fields (3/10, −1/5, 1/2), ratio 1/4, Δ = 0, flux ±pi/2) and on an open chain of four
+     sites; the instrument's answer on the triangle, rho -> π·Z₀Z₂·X^N·rho·X^N·Z₁, is the composite after the
+     similarity by Z^N·π^½. Controls Δ = 7/10 and flux 0.
 """
 from __future__ import annotations
 
@@ -282,7 +284,7 @@ check("cooling alone, an isolated site: the general solve finds a site-local Pi-
 check("cooling alone, two sites joined by a Heisenberg bond: the general solve finds none",
       cr.machine(pair, 'pi', timeout=None) == 'NONE')
 
-print("F  where fields break M_beta")
+print("F  where fields break M_beta: F137's chained carrier, composed into one map")
 
 
 def field_triangle(delta, J2, D2):
@@ -293,13 +295,64 @@ def field_triangle(delta, J2, D2):
                       + [((l,), ct.RAISE, x / 4) for l, x in enumerate(down)])
 
 
-flip_end = ct.lr(sp.diag(1, R(1, 4)) * Z * X, X)         # rho -> diag(1, 1/4)·Z·X·rho·X
-flip_mid = ct.lr(sp.diag(1, R(1, 4)) * X, X * Z)         # rho -> diag(1, 1/4)·X·rho·X·Z
-flip = [flip_end, flip_mid, flip_end]
-check("fields (3/10, −1/5, 1/2), ratio 1/4, Δ = 0, flux ±pi/2: rho -> π·Z₀Z₂·X^N·rho·X^N·Z₁ is a Pi-reflection",
-      reflects_pi(field_triangle(0, 0, 1), flip) and reflects_pi(field_triangle(0, 0, -1), flip))
+HALF = sp.diag(1, R(1, 2))                                # π^½ on one site at ratio 1/4
+
+
+def composite(zs):
+    """rho -> W·π^½·X^N·rho·Y^N·π^½·W†, W = ⊗diag(1, z_l): S_XY, the thermal weight and the turns, site by site."""
+    return [ct.lr(sp.diag(1, zz) * HALF * X, Y * HALF * sp.diag(1, sp.conjugate(zz))) for zz in zs]
+
+
+def turns_flip_hopping(setting, zs):
+    """W·(−H̄_hop)·W† = H_hop on the hopping part (the fields are diagonal and kept by any turn about Z)."""
+    n = setting.n
+    Hh = sp.zeros(2 ** n, 2 ** n)
+    for letters, sites, coef in setting.terms:
+        if letters != 'Z':
+            Hh += coef * sp.kronecker_product(*[ct.PAULI[letters[sites.index(l)]] if l in sites else sp.eye(2)
+                                                for l in range(n)])
+    W = sp.kronecker_product(*[sp.diag(1, zz) for zz in zs])
+    return (W * (-Hh.conjugate()) * W.H - Hh).applyfunc(sp.expand).is_zero_matrix
+
+
+def reflects_pi_qi(setting, E1s):
+    """reflects_pi over Q(i) with DomainMatrix, for maps with Gaussian-rational entries."""
+    L = full_generator(setting)
+    Ld = DomainMatrix.from_Matrix(L).convert_to(sp.QQ_I)
+    E = DomainMatrix.from_Matrix(sp.kronecker_product(*E1s).applyfunc(sp.expand)).convert_to(sp.QQ_I)
+    cI = DomainMatrix.eye(L.shape[0], sp.QQ_I) * sp.QQ_I.convert(cr.constant_c(setting))
+    return (E * Ld + (Ld + cI) * E).is_zero_matrix
+
+
+chain3 = composite([1, -1, 1])
+check("the triangle at flux pi/2: the turn W = Z₁ carries −H̄ onto H on the hopping part",
+      turns_flip_hopping(field_triangle(0, 0, 1), [1, -1, 1]))
+check("fields (3/10, −1/5, 1/2), ratio 1/4, Δ = 0, flux ±pi/2: the composite W·π^½·X^N·rho·Y^N·π^½·W† is a "
+      "Pi-reflection", reflects_pi(field_triangle(0, 0, 1), chain3) and reflects_pi(field_triangle(0, 0, -1), chain3))
 check("controls: at Δ = 7/10 or at flux 0 it is not",
-      not reflects_pi(field_triangle(R(7, 10), 0, 1), flip) and not reflects_pi(field_triangle(0, 1, 0), flip))
+      not reflects_pi(field_triangle(R(7, 10), 0, 1), chain3) and not reflects_pi(field_triangle(0, 1, 0), chain3))
+flip_end = ct.lr(sp.diag(1, R(1, 4)) * Z * X, X)         # the instrument's answer, rho -> π·Z₀Z₂·X^N·rho·X^N·Z₁
+flip_mid = ct.lr(sp.diag(1, R(1, 4)) * X, X * Z)
+D_sim = sp.diag(1, -R(1, 2))                              # Z·π^½ on one site
+check("the instrument's answer π·Z₀Z₂·X^N·rho·X^N·Z₁ is the composite after the similarity by Z^N·π^½: "
+      "site by site, composite = i·answer∘Ad(Z·π^½)",
+      all((sp.I * m * ct.lr(D_sim, D_sim.inv()) - cm3).applyfunc(sp.expand).is_zero_matrix
+          for m, cm3 in zip([flip_end, flip_mid, flip_end], chain3)))
+hops4, down4 = [(1, 0), (3, 4), (-5, 12)], [R(1, 2), R(1), R(3, 2), R(2, 3)]
+
+
+def open_chain4(delta):
+    terms = [t for l, (J, D) in enumerate(hops4) for t in bond(l, l + 1, J, D, delta)]
+    terms += [('Z', (l,), h) for l, h in enumerate((R(3, 10), R(-1, 5), R(1, 2), R(1, 7)))]
+    return ct.Setting(4, terms, [((l,), ct.LOWER, x) for l, x in enumerate(down4)]
+                      + [((l,), ct.RAISE, x / 4) for l, x in enumerate(down4)])
+
+
+zs4 = [1, -1, -R(7, 25) + R(24, 25) * sp.I, -R(3713, 4225) + R(2016, 4225) * sp.I]
+check("open chain of four sites, hoppings 1, 3 + 4i, −5 + 12i, fields, ratio 1/4, Δ = 0: the turns carry −H̄ onto H "
+      "and the composite is a Pi-reflection",
+      turns_flip_hopping(open_chain4(0), zs4) and reflects_pi_qi(open_chain4(0), composite(zs4)))
+check("control: at Δ = 7/10 it is not", not reflects_pi_qi(open_chain4(R(7, 10)), composite(zs4)))
 
 print()
 if FAILURES:
