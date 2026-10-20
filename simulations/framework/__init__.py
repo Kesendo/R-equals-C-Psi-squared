@@ -13,6 +13,7 @@ Modules:
   receiver      — Receiver (state-bearing F71-aware wrapper)
   confirmations — Confirmations (hardware-confirmed predictions registry)
   letter_cube   — the letter cube: a string's point (k_Z, k_X, k_Y), its rate, the Hamiltonian's moves
+  cube_tables   — Device B's tables: per-site and per-window generator tables, the 192 one-site moves (sympy; import it explicitly, it is not re-exported)
 
 Quick start:
     import framework as fw
