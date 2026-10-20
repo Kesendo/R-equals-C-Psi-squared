@@ -4,7 +4,7 @@
 KMS detailed balance, temperature gradient, golden router uniform, Heisenberg DM spiral gauge, Groebner exact -->
 
 **Status:** an instrument and three findings, 2026-10-20. The findings are reproduced exactly, each with a control
-that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (35
+that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (36
 checks, ALL PASS); where a statement below rests on an argument or on a computation rather than on a check, it
 says so.
 
@@ -35,14 +35,20 @@ instrument works one level beneath. Per site it takes one of the cube's 192 one-
 that is diagonal on the cells |i⟩⟨j| (a turn about Z, a thermal weight), before or after the move, and asks
 exactly whether the product of these site maps carries the generator L onto −L − c (a **Π-reflection**, the point
 reflection of the spectrum about −c/2) or onto −L† − c (a **reflection**, the line reflection across Re = −c/2),
-with c = −Σ_l tr L_l / 2 the total rate, dephasing included. On a given graph the question splits into one linear
-equation per site and one multilinear equation per support set of the Hamiltonian, so it is decided from the local
-tables, exactly (Gröbner bases over ℚ(i)). A map repeated along a chain, the same on every site, turned from site to
+with c = −Σ_l tr L_l / 2 the total rate, dephasing included. On a given graph the question splits into one equation
+per site and one per support set of the Hamiltonian. The letters answer it. When every site factor is diagonal or
+anti-diagonal, a sandwich ρ ↦ A·ρ^(T)·B with A and B products over the sites, each factor acts on the letters as a
+pure turn: it multiplies σ⁺ by a power of its turn or swaps σ⁺ and σ⁻, and keeps or flips Z. Every equation then
+becomes binomial, a product of turns equal to a constant read off the rates and the couplings: the site's heights and
+arrows give one or two, each bond's letter table the rest, the left and the right factor apart. Such a system is
+solved by integer elimination on the exponents and radicals of the constants, in closed form and without a Gröbner
+basis, and a step per site in the same equations gives every N: a map the same on every site, turned from site to
 site, or periodic, answers on every open chain, and on the rings whose length the period divides (for a turned map,
-where the total turn closes). Where no cube move works, a general solve over all invertible site maps shakes hands:
-no site-local reflector at all, or one the cube's moves do not reach. Code:
-[`framework/cube_tables.py`](../simulations/framework/cube_tables.py) and
-[`framework/diagnostics/cube_reflector.py`](../simulations/framework/diagnostics/cube_reflector.py) (`answer`,
+where the total turn closes). Where the letters are silent, the identity pre-check, the cube search and a general
+solve over all invertible site maps (Gröbner bases over ℚ(i)) shake hands: no site-local reflector at all, or one
+that is not such a sandwich. Code: [`framework/cube_tables.py`](../simulations/framework/cube_tables.py),
+[`framework/diagnostics/cube_letters.py`](../simulations/framework/diagnostics/cube_letters.py) (`read`, `every_n`)
+and [`framework/diagnostics/cube_reflector.py`](../simulations/framework/diagnostics/cube_reflector.py) (`answer`,
 `every_n`), with their tests; "Device B" is a working name. Out of its reach by design: a relabelling of the sites,
 a weight along X or Y, an element that is not a product over sites, a term on four sites.
 
@@ -94,7 +100,8 @@ whose letter table [[1, 1], [1, 0]] is the golden window's, the uniform map ρ �
 golden ratio) is a Π-reflection on every graph whose bonds carry that table, and g = 2X + Y is not. The golden
 frame is forced: applied to the identity, a uniform Π-reflection of that bond gives g⊗g, g = αX + βY its identity
 column, which must commute with the bond, and it does only where α² − αβ − β² = 0; without the middle Z there is
-nothing to force the period-4 rhythm. `PalindromeSoftCertifier` certifies the same bond through the chain's
+nothing to force the period-4 rhythm. In letters φ is a half angle: the bond's σ⁺σ⁺ amplitude is 1 + 2i, the
+element's diagonal factor turns by its phase arctan 2, and tan(½·arctan 2) = 1/φ. `PalindromeSoftCertifier` certifies the same bond through the chain's
 reversal, a branch verified empirically and not derived ([SOFTNESS_IS_N_DEPENDENT](SOFTNESS_IS_N_DEPENDENT.md) holds
 it to N = 6); the golden map is a product certificate, exact at every N. It is also a closed form, one map of
 order four, for [CEILING_FOUR_NONLOCAL_CASES](CEILING_FOUR_NONLOCAL_CASES.md)'s XIX + XIY + YIX, whose next-nearest

@@ -10,8 +10,10 @@ with c = -Σ_l tr L_l / 2. On a given graph the question splits exactly into one
 E_l·L_l° = 𝒯(L_l°)·E_l (L_l° the traceless part, 𝒯 the target map), and one per support set,
 (⊗_{l∈S} E_l)·L_S = 𝒯(L_S)·(⊗ E_l). Conventions are those of framework.cube_tables.
 
-The cube answers first; the general machine (any invertible site maps) only shakes hands: did the cube stay
-silent, or is there nothing at all? Exact arithmetic over Q(i) (sympy Groebner bases).
+The letters answer first (framework.diagnostics.cube_letters: monomial sandwiches, every equation binomial, solved
+in closed form without a Groebner basis). The pre-check, the cube search below and the general machine (any
+invertible site maps, sympy Groebner bases over Q(i)) only shake hands: did the letters stay silent because
+nothing site-local exists, or because the element is not a monomial sandwich?
 
 Public API:
   site_family(L_site, relation)                 basis of {E: E·L° = 𝒯(L°)·E}
@@ -371,10 +373,18 @@ class Verdict:
 
 
 def answer(setting, relation, max_calls=2000, timeout=600):
+    """The letters answer first (framework.diagnostics.cube_letters: a monomial sandwich, every equation binomial,
+    solved in closed form); when they are silent the handshake decides: the pre-check (exact), then the cube search
+    and the machine (Groebner bases)."""
+    from . import cube_letters as cl
     reason = ct.outside_reason(setting)
     if reason:
         return Verdict('OUTSIDE', relation, note=reason)
     c = constant_c(setting)
+    rd = cl.read(setting, relation)
+    if rd is not None and cl.verify(setting, relation, rd.maps):
+        return Verdict('CUBE MOVES', relation, c, moves=cl.describe(rd), point=rd.maps,
+                       note='read from the letters: a monomial sandwich, every equation binomial')
     pre, why = precheck(setting, relation)
     if pre == 'NONE':
         return Verdict('NONE', relation, c, note=f'pre-check (exact): {why}')
@@ -382,7 +392,8 @@ def answer(setting, relation, max_calls=2000, timeout=600):
     if status == 'FOUND':
         point = extract(hit)
         return Verdict('CUBE MOVES', relation, c, moves=reading(hit, point), point=point,
-                       note='' if point else 'weights not extracted')
+                       note='the letters are silent; found by the cube search' + ('' if point else
+                                                                                   ', weights not extracted'))
     result = machine(setting, relation, timeout)
     if result == 'FOUND':
         return Verdict('NO CUBE MOVE', relation, c,
@@ -475,9 +486,14 @@ def _uniform_or_turned(cell, relation, rate_free, turned):
 
 def every_n(cell, relation, rate_free=False, max_period=4, max_calls=2000):
     """For a chain built from one repeated cell: 'UNIFORM' (one dressed map everywhere, exact), 'TURNED' (the map
-    turned about Z by a fixed angle from site to site, exact), ('PERIODIC', p) for p = 2..max_period (cube moves
-    on an open chain of p + span - 1 sites tied across the period, one equation per window position; found
-    only), or None: then an answer holds at the computed N only."""
+    turned about Z by a fixed angle from site to site, exact), ('PERIODIC', p) for p = 2..max_period, 'STEPPED'
+    (the letters' turns step from site to site without a turn of the map), or None: then an answer holds at the
+    computed N only. The letters answer first (cube_letters.every_n, exact on every open chain); when they are
+    silent the handshake below decides (site families or cube moves, Groebner bases; PERIODIC found only)."""
+    from . import cube_letters as cl
+    read_out = cl.every_n(cell, relation, rate_free=rate_free, max_period=max_period)
+    if read_out is not None:
+        return ('PERIODIC', read_out[1]) if read_out[0] == 'PERIODIC' else read_out[0]
     cell = cell.normalized()
     if _uniform_or_turned(cell, relation, rate_free, turned=False):
         return 'UNIFORM'

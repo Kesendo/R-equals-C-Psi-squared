@@ -17,8 +17,9 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
   C  The golden family. At c = 0 (windows XZY + YZX) one site map on every site, rho -> (X + Y)·rho·diag(1, −i),
      solves the site and window equations (every open chain, every ring); the bond XX + XY + YX has the uniform map
      rho -> X·(g·rho)^T·X with g = φX + Y, of order four, and its identity column is forced into the golden frame
-     (α² − αβ − β² = 0 for g = αX + βY); it solves XIX + XIY + YIX bond by bond. Controls: c = 3/2, the weights
-     (0, 1, 2), g = 2X + Y.
+     (α² − αβ − β² = 0 for g = αX + βY); it solves XIX + XIY + YIX bond by bond. In letters φ is a half angle: the
+     bond's sigma^+ sigma^+ amplitude is 1 + 2i, the letters' uniform element turns by its phase arctan 2, and
+     tan(½·arctan 2) = 1/φ. Controls: c = 3/2, the weights (0, 1, 2), g = 2X + Y.
   D  Heisenberg + DM on a chain has no period-2 product of any invertible site maps (pure DM has one); Device B reads
      it as TURNED: the canonical Pi turned about Z by arctan(D/J) from site to site reflects it exactly, and twice that
      angle does not.
@@ -42,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.stdout.reconfigure(encoding='utf-8')
 
 from framework import cube_tables as ct  # noqa: E402
+from framework.diagnostics import cube_letters as cl  # noqa: E402
 from framework.diagnostics import cube_reflector as cr  # noqa: E402
 
 R = sp.Rational
@@ -271,6 +273,15 @@ cm = [e for e in (hb * sp.kronecker_product(gab, gab) - sp.kronecker_product(gab
       if e != 0]
 check("the identity column g = αX + βY: g⊗g commutes with XX + XY + YX only on α² − αβ − β² = 0, the golden frame",
       bool(cm) and all(sp.simplify(e / (al ** 2 - al * be - be ** 2)).is_number for e in cm))
+h_bond = sp.kronecker_product(X, X) + sp.kronecker_product(X, Y) + sp.kronecker_product(Y, X)
+pair = h_bond[3, 0]                                       # <11|h|00>: the coefficient of sigma^+ ⊗ sigma^+
+gold = cl.every_n(cr.Cell(jumps=[(Z, 1)], windows=[('XX', (0, 1), 1), ('XY', (0, 1), 1), ('YX', (0, 1), 1)]), 'pi')
+turns = [t for t in (gold[1]['x'], gold[1]['y']) if sp.simplify(t - 1) != 0] if gold and gold[0] == 'UNIFORM' else []
+check("in letters φ is a half angle: the sigma^+ sigma^+ amplitude is 1 + 2i, the letters' uniform element turns by "
+      "its phase (|t| = 1, Re t = ±1/√5), and tan(½·arctan 2) = 1/φ (the double angle: 2t/(1 − t²) = 2 at t = 1/φ)",
+      pair == 1 + 2 * sp.I and len(turns) == 1
+      and sp.simplify(sp.Abs(turns[0]) - 1) == 0 and sp.simplify(sp.re(turns[0]) ** 2 - R(1, 5)) == 0
+      and sp.simplify(2 * (1 / phi) / (1 - 1 / phi ** 2) - 2) == 0)
 G2, G4 = (gmap * gmap).applyfunc(sp.simplify), (gmap ** 4).applyfunc(sp.simplify)
 check("the golden map has order four up to scale: its fourth power is a multiple of 1, its square is not",
       G4[0, 0] != 0 and (G4 - G4[0, 0] * sp.eye(4)).applyfunc(sp.simplify).is_zero_matrix
