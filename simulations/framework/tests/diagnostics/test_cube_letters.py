@@ -56,12 +56,13 @@ def full_generator(setting):
 def handshake(setting, relation, maps):
     E = sp.kronecker_product(*maps)
     L = full_generator(setting)
-    rhs = (cr.target(L, relation) - cr.constant_c(setting) * sp.eye(L.shape[0])) * E
+    c = 0 if relation == 'copy' else cr.constant_c(setting)
+    rhs = (cr.target(L, relation) - c * sp.eye(L.shape[0])) * E
     return (E * L - rhs).applyfunc(lambda e: sp.simplify(sp.expand(e))).is_zero_matrix
 
 
-def read_and_check(setting, relation):
-    rd = cl.read(setting, relation)
+def read_and_check(setting, relation, transposed=None):
+    rd = cl.read(setting, relation, transposed)
     assert rd is not None
     assert cl.verify(setting, relation, rd.maps)
     assert handshake(setting, relation, rd.maps)
@@ -140,6 +141,38 @@ def test_identity_letters_inside_a_term_do_not_change_the_reading():
             read_and_check(s, rel)
 
 
+def xy_chain(n, zz=0):
+    return [t for a in range(n - 1) for t in bond(a, a + 1, 1, 0, zz)]
+
+
+def test_copy_reads_the_sublattice_transpose_on_the_xy_chain():
+    # U(rho) = Sigma·rho^T·Sigma, Sigma the sign on every second site: the involution PROOF_DEPHASING_FRONT_RENEWAL
+    # splits the block (1, 1) by on the XY chain (from PROOF_R90_FROZEN_DIVISOR §9.1, §9.2); it needs no ZZ
+    for n in (3, 4):
+        s = ct.Setting(n, xy_chain(n), [((l,), Z, g) for l, g in enumerate([R(1, 3), R(2, 5), R(1, 7), R(3, 4)][:n])])
+        rd = read_and_check(s, 'copy', transposed=True)
+        assert all(k == ('d', 'd') for k in rd.kinds)
+        for l in range(n - 1):                 # the sign alternates from site to site, on both factors
+            assert rd.x[l + 1] == -rd.x[l] and rd.y[l + 1] == -rd.y[l]
+        heis = ct.Setting(n, xy_chain(n, 1), s.jumps)
+        assert cl.read(heis, 'copy', transposed=True) is None
+        assert not handshake(heis, 'copy', rd.maps)          # the ZZ bonds break it on the full generator too
+
+
+def test_copy_leaves_out_the_gauge_and_reads_the_turn_by_x():
+    # plain: the all-diagonal copies hold the identity and are left out; what is read is the turn by X^N, a copy
+    # wherever H commutes with X^N (PROOF_UNIFORM_LAW B3), the move carrying (1, 1) onto (N - 1, N - 1)
+    s = ct.Setting(3, heisenberg(3), [((l,), Z, R(1, 3)) for l in range(3)])
+    rd = read_and_check(s, 'copy', transposed=False)
+    assert all(k == ('a', 'a') for k in rd.kinds)
+    damped = ct.Setting(3, heisenberg(3), [((l,), ct.LOWER, 1) for l in range(3)])
+    # silent outside the plain all-diagonal group, which is not read: the turns about Z (and Z^N's moves) live in it,
+    # so None says no copy of the other kinds, not no symmetry
+    assert cl.read(damped, 'copy') is None
+    with pytest.raises(ValueError):
+        cr.answer(s, 'copy')
+
+
 def test_answer_reads_the_letters_first():
     s = ct.Setting(3, heisenberg(3), [((l,), ct.LOWER, 1) for l in range(3)] + [((l,), X, R(1, 2)) for l in range(3)])
     v = cr.answer(s, 'pi', timeout=None)
@@ -172,6 +205,16 @@ def test_every_n_heisenberg_dm_turns_by_arctan_d_over_j():
 def test_every_n_hard_rows_are_silent():
     for t1, t2 in (('XX', 'XY'), ('XY', 'XZ')):
         assert cl.every_n(cr.Cell(jumps=[(Z, 1)], windows=[(t1, (0, 1), 1), (t2, (0, 1), 1)]), 'pi') is None
+
+
+def test_every_n_copy_turns_the_xy_chain_by_a_quarter():
+    # Sigma on every second site is a quarter turn about Z from site to site: a transposed sandwich's factor steps
+    # by z^-2 (the reading trap of a turn-reversing move), z^2 = -1
+    xy = cr.Cell(jumps=[(Z, 1)], windows=[('XX', (0, 1), 1), ('YY', (0, 1), 1)])
+    out = cl.every_n(xy, 'copy', transposed=True)
+    assert out[0] == 'TURNED' and out[1]['r'] == -1 and sp.simplify(out[1]['turn'] ** 2 + 1) == 0
+    assert cl.every_n(xy, 'copy')[0] == 'UNIFORM'           # plain first: the turn by X^N
+    assert cl.every_n(cr.Cell(jumps=[(Z, 1)], windows=HEIS), 'copy', transposed=True) is None
 
 
 def test_every_n_rate_free():

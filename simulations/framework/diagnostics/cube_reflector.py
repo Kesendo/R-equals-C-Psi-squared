@@ -39,11 +39,21 @@ RELATIONS = ('pi', 'refl')
 
 
 def target(M, relation):
+    """𝒯 of a relation. 'copy' (E·L = L·E, a symmetry, c = 0) is read by the letters alone (cube_letters): the
+    identity is always a copy, so the pre-check, the cube search and the machine below have nothing to decide."""
     if relation == 'pi':
         return -M
     if relation == 'refl':
         return -M.H
-    raise ValueError(f"relation must be 'pi' or 'refl', not {relation!r}")
+    if relation == 'copy':
+        return M
+    raise ValueError(f"relation must be 'pi', 'refl' or 'copy', not {relation!r}")
+
+
+def _reflections_only(relation):
+    if relation not in RELATIONS:
+        raise ValueError(f"the handshake asks 'pi' or 'refl', not {relation!r}; a copy is read by "
+                         "cube_letters.read / cube_letters.every_n")
 
 
 def traceless(M):
@@ -377,6 +387,7 @@ def answer(setting, relation, max_calls=2000, timeout=600):
     solved in closed form); when they are silent the handshake decides: the pre-check (exact), then the cube search
     and the machine (Groebner bases)."""
     from . import cube_letters as cl
+    _reflections_only(relation)
     reason = ct.outside_reason(setting)
     if reason:
         return Verdict('OUTSIDE', relation, note=reason)
@@ -491,6 +502,7 @@ def every_n(cell, relation, rate_free=False, max_period=4, max_calls=2000):
     computed N only. The letters answer first (cube_letters.every_n, exact on every open chain); when they are
     silent the handshake below decides (site families or cube moves, Groebner bases; PERIODIC found only)."""
     from . import cube_letters as cl
+    _reflections_only(relation)
     read_out = cl.every_n(cell, relation, rate_free=rate_free, max_period=max_period)
     if read_out is not None:
         return ('PERIODIC', read_out[1]) if read_out[0] == 'PERIODIC' else read_out[0]

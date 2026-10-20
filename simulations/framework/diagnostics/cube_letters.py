@@ -6,8 +6,15 @@ On the letters such a factor is a pure turn: it multiplies sigma^+ by a power of
 phases, and keeps or flips Z. Every condition is therefore binomial in the turns, a monomial equal to a constant:
   site l      E_l·L_l° = 𝒯(L_l°)·E_l (heights, arrows and field of the site);
   support S   A_S·h_S^(T)·A_S⁻¹ = s·h_S and B_S⁻¹·h_S^(T)·B_S = s·h_S, the left and right factors apart,
-              s = -1 for ('pi', plain) and ('refl', transposed), +1 otherwise (the commutator part of the sector
-              split, exactly: the bond terms are traceless on every site, so no constant can enter).
+              s = -1 for ('pi', plain), ('refl', transposed) and ('copy', transposed), +1 otherwise (the
+              commutator part of the sector split, exactly: the bond terms are traceless on every site, so no
+              constant can enter).
+The relations: 'pi' (-L - c), 'refl' (-L^† - c) and 'copy' (L itself, a symmetry). A copy's bonds read like a
+reflection's, since -L_H^† = L_H for a Hermitian H; only the sites differ. The plain all-diagonal copies are left
+out: they form a group holding the identity (with the turns about Z where H conserves the excitation number), and
+the solver, which sets every free turn to 1, would return the identity from them. So a copy's None means no copy of
+the other kinds, not no symmetry: the turns about Z and the moves by Z^N (the turn ρ ↦ Z^N·ρ·Z^N and the shift
+ρ ↦ ρ·Z^N) are in the group left out.
 A binomial system is solved by integer elimination on the exponents (Euclid on the columns) and radicals of the
 constants: exact, in closed form, without a Groebner basis. Every N follows from the same equations with a step per
 site, x_l = x_0·r^l and y_l = y_0·s^l: two positions of a window fix the step, so an answer holds on every open chain.
@@ -15,10 +22,11 @@ site, x_l = x_0·r^l and y_l = y_0·s^l: two positions of a window fix the step,
 Public API:
   factor(kind, x), site_map(kA, x, kB, y, transposed)
   solve_binomials(eqs, unknowns)            one solution (free turns set to 1) or None
-  read(setting, relation)                   Reading | None   (None: the letters are silent)
+  read(setting, relation, transposed)       Reading | None   (None: the letters are silent; transposed None
+                                            asks both branches, plain first, True/False one of them)
   verify(setting, relation, maps)           exact check of every site and support equation
   describe(reading)                         the equations in words
-  every_n(cell, relation, rate_free, max_period)
+  every_n(cell, relation, rate_free, max_period, transposed)
         ('UNIFORM', info) | ('TURNED', info) | ('PERIODIC', p, info) | ('STEPPED', info) | None
   turn_of(kinds, transposed, r, s)          the turn about Z carrying one site's map onto the next, or None
 """
@@ -49,7 +57,16 @@ def site_map(kA, x, kB, y, transposed):
 
 
 def h_sign(relation, transposed):
-    return -1 if (relation, transposed) in (('pi', False), ('refl', True)) else 1
+    return -1 if (relation, transposed) in (('pi', False), ('refl', True), ('copy', True)) else 1
+
+
+def _branches(transposed):
+    return (False, True) if transposed is None else (transposed,)
+
+
+def _gauge(relation, transposed, kinds):
+    """the plain all-diagonal copies, the group that holds the identity (left out, see the module docstring)"""
+    return relation == 'copy' and not transposed and all(k == ('d', 'd') for k in kinds)
 
 
 class Silent(Exception):
@@ -158,16 +175,18 @@ class Reading:
     equations: list = field(default_factory=list)
 
 
-def read(setting, relation):
+def read(setting, relation, transposed=None):
     """A monomial sandwich carrying L onto 𝒯(L) - c, read from the letters, or None when the letters are silent
-    (no such sandwich exists, or an equation had more than two monomials)."""
+    (no such sandwich exists, or an equation had more than two monomials). transposed: None asks the plain branch
+    and then the transposed one, True or False only that one."""
+    branches = _branches(transposed)
     n = setting.n
     pieces = [[cr.traceless(ct.site_table(setting, l))] for l in range(n)]
     supports = list(ct.support_tables(setting))
     hams = {S: ct.hamiltonian_on(setting, S) for S in supports}
     xs, ys = sp.symbols(f'x0:{n}'), sp.symbols(f'y0:{n}')
     done_at = {l: [S for S in supports if max(S) == l] for l in range(n)}
-    for transposed in (False, True):
+    for transposed in branches:
         allowed = []
         for l in range(n):
             opts = []
@@ -198,7 +217,7 @@ def read(setting, relation):
 
         def rec(l):
             if l == n:
-                return True
+                return not _gauge(relation, transposed, [allowed[k][choice[k]][0] for k in range(n)])
             for ci in range(len(allowed[l])):
                 choice[l] = ci
                 try:
@@ -332,14 +351,15 @@ def turn_of(kinds, transposed, r, s):
     return None
 
 
-def every_n(cell, relation, rate_free=False, max_period=4):
+def every_n(cell, relation, rate_free=False, max_period=4, transposed=None):
     """A chain built from one repeated cell, read from the letters for every length (open chains):
       ('UNIFORM', info)        one sandwich on every site;
       ('TURNED', info)         the map turned about Z by info['turn'] from site to site (exact);
       ('PERIODIC', p, info)    kinds and turns repeating with period p (2..max_period);
       ('STEPPED', info)        the turns step by info['r'], info['s'], which no turn about Z produces;
       None                     the letters are silent.
-    rate_free: the element must hold at every rate of every channel (each channel apart)."""
+    rate_free: the element must hold at every rate of every channel (each channel apart). transposed: as in read."""
+    branches = _branches(transposed)
     cell = cell.normalized()
     span = cell.span()
     pieces = _cell_pieces(cell, relation, rate_free)
@@ -351,7 +371,7 @@ def every_n(cell, relation, rate_free=False, max_period=4):
         except Silent:
             return False
 
-    allowed = {tr: [k for k in product(KINDS, KINDS) if site_ok(tr, *k)] for tr in (False, True)}
+    allowed = {tr: [k for k in product(KINDS, KINDS) if site_ok(tr, *k)] for tr in branches}
     length = span + 1
     xs, ys = sp.symbols(f'x0:{length}'), sp.symbols(f'y0:{length}')
     x0, y0, r, s = sp.symbols('X0 Y0 r s')
@@ -360,8 +380,10 @@ def every_n(cell, relation, rate_free=False, max_period=4):
         geo[xs[l]] = {x0: 1, r: l} if l else {x0: 1}
         geo[ys[l]] = {y0: 1, s: l} if l else {y0: 1}
     systems = []
-    for transposed in (False, True):
+    for transposed in branches:
         for kinds in allowed[transposed]:
+            if _gauge(relation, transposed, [kinds]):
+                continue
             try:
                 eqs = _chain_binomials(cell, relation, transposed, [kinds] * length, length, xs, ys, pieces)
             except Silent:
@@ -391,8 +413,10 @@ def every_n(cell, relation, rate_free=False, max_period=4):
         for l in range(length):
             per[xs[l]] = {cx[l % p]: 1}
             per[ys[l]] = {cy[l % p]: 1}
-        for transposed in (False, True):
+        for transposed in branches:
             for pattern in product(allowed[transposed], repeat=p):
+                if _gauge(relation, transposed, pattern):
+                    continue
                 try:
                     eqs = _chain_binomials(cell, relation, transposed, [pattern[l % p] for l in range(length)],
                                            length, xs, ys, pieces)
