@@ -841,6 +841,11 @@ check("M11 two ratios on two hopping components: sites 0 and 1 hopping at γ↑ 
 YD3 = R_(1, 5) * (sp.kronecker_product(s_op(N, 2, sY), s_op(N, 2, sY).conjugate()) - sp.eye(64))
 check("M11 equal cooling and heating (γ↑ = γ↓ = (½, 1, 3⁄2)) on the triangle with hoppings 1, 2, 3i: τ alone (the weight is the identity) reflects L with X dephasing at 3⁄10 on every site and Y dephasing at ⅕ on site 2 beside the damping, −L − c with c = Σ 2γ↓ + 9⁄5 + ⅖",
       pi_reflects(TAU3, s_thermal(N, HW, DOWN3, DOWN3) + XD3 + YD3, 2 * sum(DOWN3) + R_(9, 5) + R_(2, 5)))
+HEIS3 = u1_bond(N, 0, 1, 1, 0, 1) + u1_bond(N, 1, 2, 1, 0, 1)
+check("M11 F137's measured field profile, Heisenberg chain N=3 (J = 1), cooling alone at rate 1: with fields h = (3⁄10, −⅕, ½) as written Tr((L + c/2)³) = −384/5, "
+      "and in the frame of the mean field, h − ⅕ = (1⁄10, −⅖, 3⁄10), it is 384/5; the complex spectrum pairs in neither frame",
+      centred_odd_trace(s_thermal(N, HEIS3 + sum((h_ * s_op(N, l, sZm) for l, h_ in enumerate((R_(3, 10), R_(-1, 5), R_(1, 2)))), sp.zeros(8)), [1, 1, 1], [0, 0, 0]), 3) == R_(-384, 5)
+      and centred_odd_trace(s_thermal(N, HEIS3 + sum((h_ * s_op(N, l, sZm) for l, h_ in enumerate((R_(1, 10), R_(-2, 5), R_(3, 10)))), sp.zeros(8)), [1, 1, 1], [0, 0, 0]), 3) == R_(384, 5))
 check("M11 N=3 unit triangle at flux π/2 (the H of the fifth-trace row): at one ratio, γ↑ = γ↓/4, the characteristic polynomial is palindromic, and at ratio 4, γ↑ = 4γ↓, too (exact); "
       "with X dephasing at 3⁄10 on every site beside the one-ratio damping it pairs at flux 0 and not at π/2, the seventh power sum about the mean −263277/400 (the weight does not carry dephasing)",
       palindromic_charpoly(s_thermal(N, HQ, DOWN3, UP_Q), sum(DOWN3) + sum(UP_Q))

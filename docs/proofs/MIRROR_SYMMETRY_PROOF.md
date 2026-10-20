@@ -387,12 +387,13 @@ because it is a different channel rather than another axis:
   Y⊗N, S_XY keeps the commutator part L_H = −i[H, ·] = −L_H†, so S_XY·L·S_XY⁻¹ = −L† − Σᵢ(γ↓ᵢ + γ↑ᵢ), and the spectrum, closed
   under conjugation, pairs about −Σᵢ(γ↓ᵢ + γ↑ᵢ)/2. Every Pauli term whose numbers of X, Y and Z
   letters have one parity qualifies, XYZ bonds with any couplings and XX bonds alone among them; co-axial Z
-  dephasing, a longitudinal field and DM bonds break the element
+  dephasing, a longitudinal field as written and DM bonds break the element
   ([THE_ONE_SQUARE](../THE_ONE_SQUARE.md) §9, [`cube_moves_gate.py`](../../simulations/cube_moves_gate.py) M9).
 
   With the Heisenberg H a second, independent route meets it. At
   rational rates the Liouvillian is rational over ℚ(i), so its characteristic
-  polynomial is exact and the palindrome is the identity p(2c − x) ≡ p(x): it
+  polynomial is exact and the palindrome is the identity p(2μ − x) ≡ p(x) about the centre
+  μ = −Σᵢ(γ↓ᵢ + γ↑ᵢ)/2: it
   holds at N=2 and N=3 at the rational rate profiles of
   [`thermal_palindrome_centre.py`](../../simulations/thermal_palindrome_centre.py)
   (two at N=2, one at N=3, J = 1), with no eigensolver anywhere, and fails for T1 + Z, so
