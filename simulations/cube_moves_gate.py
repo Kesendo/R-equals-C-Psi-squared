@@ -773,6 +773,74 @@ check("M11 N=3 triangle, one ratio (γ↑ = γ↓/4 on every site, γ↓ = (½, 
       and (HW.T - XN3 * HW * XN3).applyfunc(sp.expand).is_zero_matrix
       and palindromic_charpoly(LW, sum(DOWN3) + sum(UP_Q))
       and centred_odd_trace(s_thermal(N, HW, DOWN3, UP3), 5) == -3936)
+# the weighted element at one ratio (docs/KMS_DETAILED_BALANCE.md, Question 4): M_β(ρ) = π^½·Y^N·ρᵀ·X^N·π^½, one factor per site
+def transposer(d):
+    P = sp.zeros(d * d)
+    for a_ in range(d):
+        for b_ in range(d):
+            P[a_ * d + b_, b_ * d + a_] = 1
+    return P
+qw = sp.symbols('q', positive=True)
+w1 = sp.diag(1, qw)
+M1 = sp.kronecker_product(w1 * sY, (sX * w1).T) * transposer(2)                  # ρ ↦ w·Y·ρᵀ·X·w on one site
+L1 = gx * (sp.kronecker_product(sMm, sMm) - R_(1, 2) * (sp.kronecker_product(sMm.T * sMm, sp.eye(2)) + sp.kronecker_product(sp.eye(2), sMm.T * sMm))) \
+    + gx * qw**2 * (sp.kronecker_product(sMm.T, sMm.T) - R_(1, 2) * (sp.kronecker_product(sMm * sMm.T, sp.eye(2)) + sp.kronecker_product(sp.eye(2), sMm * sMm.T)))
+img1 = {k: (w1 * sY * M.T * sX * w1) for k, M in (('I', sp.eye(2)), ('X', sX), ('Y', sY), ('Z', sZm))}
+check("M11 one site, symbolic rate γ and weight q (γ↑ = q²·γ↓): M1: ρ ↦ w·Y·ρᵀ·X·w, w = diag(1, q), carries the damping to −L − γ(1 + q²) exactly; "
+      "at q = 1 it is the letter map I → −iZ, Z → iI, X → Y, Y → −X, which keeps the diagonal diagonal; without the weight at q² = ¼ it fails (control)",
+      (M1 * L1 + (L1 + gx * (1 + qw**2) * sp.eye(4)) * M1).applyfunc(sp.simplify) == sp.zeros(4, 4)
+      and img1['I'].subs(qw, 1) == -sp.I * sZm and img1['Z'].subs(qw, 1) == sp.I * sp.eye(2)
+      and img1['X'].subs(qw, 1) == sY and img1['Y'].subs(qw, 1) == -sX
+      and (M1.subs(qw, 1) * L1.subs(qw, R_(1, 2)) + (L1.subs(qw, R_(1, 2)) + gx * R_(5, 4) * sp.eye(4)) * M1.subs(qw, 1)).applyfunc(sp.simplify) != sp.zeros(4, 4))
+def vec_r(M): return sp.Matrix(M.reshape(1, 4)).T                                  # row-major vec, as everywhere in this gate
+PAULI1 = {'I': sp.eye(2), 'X': sX, 'Y': sY, 'Z': sZm}
+F108X = {'I': sZm, 'Z': -sp.eye(2), 'X': -sp.I * sY, 'Y': sp.I * sX}             # F108 Part 2's Π_5b(X), one site
+F108S = sum((vec_r(F108X[k]) * vec_r(PAULI1[k]).H / 2 for k in PAULI1), sp.zeros(4, 4))
+M1q = M1.subs(qw, 1)
+check("M11 one site: at q = 1, −i times the map is the inverse of F108 Part 2's X-dephasing Π (Π_5b(X)·(−i·M1) = 1, the other orientation), "
+      "and it is not Π_5b(X) itself up to any of the phases 1, i, −1, −i (control)",
+      (F108S * (-sp.I * M1q)).applyfunc(sp.expand) == sp.eye(4)
+      and all((F108S - ph * M1q).applyfunc(sp.expand) != sp.zeros(4, 4) for ph in (1, sp.I, -1, -sp.I)))
+TAU3 = sp.kronecker_product(YN3, XN3.T) * transposer(8)                            # ρ ↦ Y^N·ρᵀ·X^N
+def l_ham(H): return -sp.I * (sp.kronecker_product(H, sp.eye(8)) - sp.kronecker_product(sp.eye(8), H.T))
+LHW, LHR = l_ham(HW), l_ham(triangle(sp.Integer(1)))
+YX3 = sp.kronecker_product(YN3, XN3.T)                                             # ρ ↦ Y^N·ρ·X^N, the same letter pairs
+check("M11 the letter map ρ ↦ Y^N·ρᵀ·X^N, which pairs I with Z and X with Y, ANTIcommutes with [H, ·] exactly, on the triangle with hoppings 1, 2, 3i "
+      "and Δ = 7⁄10 and on the real unit triangle (the transpose reverses the product); the two-sided ρ ↦ Y^N·ρ·X^N, with the same letter pairs, "
+      "commutes with it on the real triangle (control)",
+      qi_zero(qi(TAU3) * qi(LHW) + qi(LHW) * qi(TAU3)) and qi_zero(qi(TAU3) * qi(LHR) + qi(LHR) * qi(TAU3))
+      and qi_zero(qi(YX3) * qi(LHR) - qi(LHR) * qi(YX3)) and not qi_zero(qi(YX3) * qi(LHR) + qi(LHR) * qi(YX3)))
+check("M11 the same H at one ratio: the antilinear element K∘Γ∘S_XY (K the entry-by-entry conjugation) carries L to −L − c exactly, "
+      "Γ·S_XY·L·S_XY⁻¹·Γ⁻¹ = −conj(L) − c; without the weight Γ it does not (control)",
+      qi_zero(qi(GW) * qi(SXY3) * qi(LW) * qi(SXY3) * qi(GW.inv()) + qi(LW.conjugate()) + qi((sum(DOWN3) + sum(UP_Q)) * sp.eye(64)))
+      and not qi_zero(qi(SXY3) * qi(LW) * qi(SXY3) + qi(LW.conjugate()) + qi((sum(DOWN3) + sum(UP_Q)) * sp.eye(64))))
+def weighted_T(ws):
+    W_ = sp.kronecker_product(*[sp.diag(1, t) for t in ws])
+    return sp.kronecker_product(W_ * YN3, (XN3 * W_).T) * transposer(8)          # ρ ↦ π^½·Y^N·ρᵀ·X^N·π^½
+def pi_reflects(S, L, c): return qi_zero(qi(S) * qi(L) + (qi(L) + qi(c * sp.eye(L.shape[0]))) * qi(S))
+TLIN = weighted_T([R_(1, 2)] * 3)
+CW = sum(DOWN3) + sum(UP_Q)
+QS = [R_(1, 2), R_(1, 3), R_(2, 3)]; UP_S = [x * t**2 for x, t in zip(DOWN3, QS)]
+ZD3 = sum((R_(3, 10) * (sp.kronecker_product(s_op(N, l, sZm), s_op(N, l, sZm)) - sp.eye(64)) for l in range(N)), sp.zeros(64))
+check("M11 the same H at one ratio: composed with ρ ↦ ρ† the element is linear and site-local, M_β(ρ) = π^½·Y^N·ρᵀ·X^N·π^½, and carries L to −L − c exactly; "
+      "controls that must fail: M_β without the weight, a Z field on one site, Z dephasing at 3⁄10 (M_β commutes with its dissipator), "
+      "three ratios with the weight matched site by site, q_l² = γ↑_l/γ↓_l (that weight does not commute with the hopping), and X dephasing at 3⁄10",
+      pi_reflects(TLIN, LW, CW)
+      and not pi_reflects(weighted_T([1, 1, 1]), LW, CW)
+      and not pi_reflects(TLIN, s_thermal(N, HW + R_(1, 2) * s_op(N, 0, sZm), DOWN3, UP_Q), CW)
+      and not pi_reflects(TLIN, LW + ZD3, CW + R_(9, 5)) and qi_zero(qi(TLIN) * qi(ZD3) - qi(ZD3) * qi(TLIN))
+      and not pi_reflects(weighted_T(QS), s_thermal(N, HW, DOWN3, UP_S), sum(DOWN3) + sum(UP_S))
+      and not pi_reflects(TLIN, LW + XD3, CW + R_(9, 5)))
+HC = u1_bond(N, 0, 1, 3, 4, R_(7, 10)) + R_(1, 2) * s_op(N, 1, sZm) * s_op(N, 2, sZm)   # hopping joins 0 and 1; site 2 by ZZ alone
+QC = [R_(1, 2), R_(1, 2), R_(1, 3)]; UP_C = [x * t**2 for x, t in zip(DOWN3, QC)]
+HC2 = u1_bond(N, 0, 1, 3, 4, R_(7, 10)) + u1_bond(N, 1, 2, 1, 0, R_(1, 2))
+check("M11 two ratios on two hopping components: sites 0 and 1 hopping at γ↑ = γ↓/4, site 2 joined by a ZZ bond alone at γ↑ = γ↓/9; "
+      "M_β with the weight matched per component carries L to −L − c exactly; with a hopping bond in place of the ZZ bond it does not (control)",
+      pi_reflects(weighted_T(QC), s_thermal(N, HC, DOWN3, UP_C), sum(DOWN3) + sum(UP_C))
+      and not pi_reflects(weighted_T(QC), s_thermal(N, HC2, DOWN3, UP_C), sum(DOWN3) + sum(UP_C)))
+YD3 = R_(1, 5) * (sp.kronecker_product(s_op(N, 2, sY), s_op(N, 2, sY).conjugate()) - sp.eye(64))
+check("M11 equal cooling and heating (γ↑ = γ↓ = (½, 1, 3⁄2)) on the triangle with hoppings 1, 2, 3i: τ alone (the weight is the identity) reflects L with X dephasing at 3⁄10 on every site and Y dephasing at ⅕ on site 2 beside the damping, −L − c with c = Σ 2γ↓ + 9⁄5 + ⅖",
+      pi_reflects(TAU3, s_thermal(N, HW, DOWN3, DOWN3) + XD3 + YD3, 2 * sum(DOWN3) + R_(9, 5) + R_(2, 5)))
 check("M11 N=3 unit triangle at flux π/2 (the H of the fifth-trace row): at one ratio, γ↑ = γ↓/4, the characteristic polynomial is palindromic, and at ratio 4, γ↑ = 4γ↓, too (exact); "
       "with X dephasing at 3⁄10 on every site beside the one-ratio damping it pairs at flux 0 and not at π/2, the seventh power sum about the mean −263277/400 (the weight does not carry dephasing)",
       palindromic_charpoly(s_thermal(N, HQ, DOWN3, UP_Q), sum(DOWN3) + sum(UP_Q))

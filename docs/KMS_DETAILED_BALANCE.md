@@ -8,8 +8,8 @@ finite-temperature thermal-jump comparison, 2:2 split Pi operator not palindrome
 algebraic palindrome shift
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
-**Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN
-**Last refreshed:** 2026-09-07
+**Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN; a finite-temperature element of Π's shape CONFIRMED for XXZ bonds with axial DM terms, without fields, Z dephasing, or X or Y dephasing at a ratio other than 1, where one cooling-to-heating ratio holds across the hopping
+**Last refreshed:** 2026-10-20
 **Authors:** Thomas Wicht, Claude (Anthropic, Cowork Research)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
@@ -31,6 +31,9 @@ framework, however, the centered generator and irreducible symmetry sectors
 are the correct objects: Π gives a P-type anticommutation there after resolving
 Π². The final SRP class of our fully reduced sectors has not been computed.
 The pure-Z channel algebra alone does not identify a thermal bath or a temperature.
+A thermal bath does give a mirror of Π's shape for XXZ bonds with axial DM terms
+without fields or Z dephasing, built from its weight where one cooling-to-heating
+ratio holds across the hopping (Question 4).
 
 ---
 
@@ -57,7 +60,10 @@ algebra after all strong/unitary symmetries are resolved. The known Π construct
 per-site Pauli split of pure Z dephasing. That is an algebraic property of the
 jump channel, not a bath-temperature assignment. The spectral palindrome for
 thermal jump operators is a separate question; for a Hamiltonian that commutes with X⊗N and Y⊗N it
-survives at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)). Here `2Sγ` is the algebraic
+survives at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)), and where one
+cooling-to-heating ratio holds across the hopping, for XXZ bonds with axial DM terms,
+no fields and no Z dephasing, an exact site-local element of Π's shape carries it,
+built from the thermal weight (Question 4). Here `2Sγ` is the algebraic
 shift of the pure-Z palindrome, not an entropy-production rate.
 
 ---
@@ -75,6 +81,10 @@ palindromic spectral pairing (complex spectrum with μ → -μ). These are diffe
 symmetries with different consequences. For SRP classification one first centers
 L, resolves the commuting Π² sectors, and phase-normalizes Π in each sector. The
 remaining sectorwise class is OPEN until the full symmetry algebra is computed.
+At a finite temperature, a site-local element of Π's shape exists for XXZ bonds
+with axial DM terms, without fields or Z dephasing, where one cooling-to-heating
+ratio holds across the hopping; it is built from the thermal
+weight of detailed balance (Question 4).
 
 ---
 
@@ -156,7 +166,7 @@ an object-and-scope comparison, not an ownership, priority, or novelty claim.
 
 ## Question 2: Is Π Related to Quantum Detailed Balance?
 
-**Classification: UNLIKELY (structurally parallel but formally distinct)**
+**Classification: DISTINCT CONDITIONS for Π; the thermal element M_β of Question 4 is built from the detailed-balance weight**
 
 ### Detailed-balance conventions that must not be conflated
 
@@ -219,6 +229,12 @@ in the strict symmetry convention or for its dissipative part after a commuting
 Hamiltonian derivation is split off. Our Π is a statement about L being similar
 to its own *negative*. These are distinct constraints.
 
+The table compares Π. At a finite temperature the weight does enter a mirror: the
+element of Π's shape for a thermal bath, M_β of Question 4, is F137's S_XY followed
+by the transpose of the state and the detailed-balance weight of
+[PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7, the square root
+of the stationary state on both sides.
+
 **A Lindbladian can satisfy both constraints, one, or neither.** Pure dephasing
 without a Hamiltonian is Hilbert-Schmidt self-adjoint and has a real palindromic
 spectrum; that algebraic fact does not choose a thermal bath. Heisenberg plus
@@ -244,7 +260,7 @@ unitary evolution or reproducing the dissipative map.
 
 ## Question 3: Does KMS at β=0 Reduce to Our Π?
 
-**Classification: UNLIKELY (different symmetries; the pure-Z channel has no β)**
+**Classification: NO (different symmetries; the pure-Z channel has no β)**
 
 ### The β=0 KMS reference point
 
@@ -295,18 +311,46 @@ Gibbs state or bath temperature.
 
 ## Question 4: Does a Finite-Temperature Generalization Exist?
 
-**Classification: PLAUSIBLE (theoretical arguments exist, no proof yet)**
+**Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields, Z dephasing, or X or Y dephasing at a ratio other than 1, where cooling and heating keep one ratio on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight); OPEN beyond it**
 
-### The argument for existence
+**Swept for the element.** [ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md): F137 holds the
+thermal palindrome and the element S_XY of the shape −L† − c, and its one-ratio carrier
+holds the weighted transpose as an equality of spectra; F119 and F84 hold the transpose
+law and the β = 0 reading; F108 Part 2 holds the X-dephasing Π, Π_5b(X), per site
+I → Z, Z → −I, X → −iY, Y → iX, and
+[PROOF_F108_KLEIN_V4_EQUIVALENCE](proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md) its other
+orientation Π_5b(X)⁻¹; `PiOperator` types a further phase variant, and
+[MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md) records that either sign of the
+X ↔ Y phase works.
+[PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 holds the weight
+itself, L(H)ᵀ = Γ_β⁻¹·L(Hᵀ)·Γ_β, and says it composes with S_XY into the palindrome,
+again for spectra; [PROOF_PI_FACTORS_AS_R_TIMES_D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)
+holds the transpose inside Π_Z. [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9,
+MIRROR_SYMMETRY_PROOF and [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md) hold
+S_XY. OQ-168 in [the open-questions index](../review/OPEN_QUESTIONS_INDEX.md) holds the
+question of the thermal operator. MirrorWorld's `AntilinearTriangle` pins the weighted
+transpose; its `Sextant` searches the one-site closure, which holds no weight, and finds
+S_XY times the copies and nothing of Π's shape in a thermal bath at ratio ⅓. The OpenArcs
+registry, `fw.Confirmations`, the glossary, [CAUGHT_ERRORS](CAUGHT_ERRORS.md), the Core
+claims and the Diagnostics witnesses: nothing on a weighted mirror. No store held a
+single operator of the shape −L − c at finite temperature. Checked for adjacency: the
+weight against §7's (the same object); the letter map below at equal rates against
+F108 Part 2's X-dephasing Π (per site −i·τ is Π_5b(X)⁻¹, the other orientation);
+τ against Π_Z (τ(ρ) = Y⊗N·Π_Z(ρ), the shift by Y⊗N after Π_Z, two reflections of the
+Z-dephasing dissipator, so τ keeps that dissipator, which is why Z dephasing breaks
+the element).
 
-At finite temperature T, the bath has jump operators:
+### The rates
 
-    L₊ = √(γ(n̄+1)) σ₊    (emission, rate γ(n̄+1))
-    L₋ = √(γn̄) σ₋          (absorption, rate γn̄)
+At finite temperature the bath has, on each site, the jump operators
 
-where n̄ = 1/(exp(ℏω/kT) - 1) is the Bose-Einstein occupation number.
+    J↓ = √(γ(n̄+1)) σ⁻    (emission, rate γ↓ = γ(n̄+1))
+    J↑ = √(γn̄) σ⁺          (absorption, rate γ↑ = γn̄)
 
-The emission/absorption asymmetry ratio is (n̄+1)/n̄ = exp(ℏω/kT).
+where n̄ = 1/(exp(ℏω/kT) − 1) is the Bose-Einstein occupation number and
+σ⁻ lowers the qubit.
+
+The emission/absorption ratio is γ↓/γ↑ = (n̄+1)/n̄ = exp(ℏω/kT).
 At T→∞: ratio → 1, giving symmetric excitation and relaxation; this is not
 pure Z dephasing.
 At T→0: ratio → ∞, pure emission (amplitude damping).
@@ -320,65 +364,119 @@ Pauli rates for the thermal bath are:
 - Y: rate γ(2n̄+1)/2 (same as X)
 - Z: rate γ(2n̄+1) (nonzero; Z is no longer immune!)
 
-The rates are [0, r/2, r/2, r] where r = γ(2n̄+1). This is NOT the
+The rates are [0, r/2, r/2, r] where r = γ(2n̄+1) = γ↓ + γ↑. This is NOT the
 1:3 isotropic split of depolarizing noise. The rate-pairing condition
 from DEPOLARIZING_PALINDROME.md requires the 4 rates to partition
 into 2 equal-sum pairs. Here: (0, r) and (r/2, r/2) both sum to r.
 So rate-pairing IS possible in principle.
 
-### The obstruction
+### Where the pairing has to sit
 
-However, rate-pairing alone is not sufficient. The Π operator must
-ALSO anti-commute with [H, ·] (Step 2 of the proof). Our known Π
+Rate-pairing alone is not sufficient: the element must also
+anti-commute with [H, ·] (Step 2 of the proof). Our known Π
 maps {I,Z} ↔ {X,Y}, which is exactly the swap needed for Z-dephasing
 where {I,Z} are immune and {X,Y} decay.
 
 For the thermal bath rates [0, r/2, r/2, r], the rate-pairing requires
-I ↔ Z (rates 0 and r) and X ↔ Y (rates r/2 and r/2). But this map
-(I↔Z, X↔Y) does NOT swap diagonal ↔ off-diagonal sectors. It permutes
-within each sector. Such a map would COMMUTE with [H, ·] rather than
-anti-commute, giving Π·L_H·Π⁻¹ = +L_H instead of -L_H. The overall
-conjugation would yield L_H - L_D - c·I, which is NOT -L - c·I.
+I ↔ Z (rates 0 and r) and X ↔ Y (rates r/2 and r/2). This pairing does not
+swap diagonal and off-diagonal sectors; it permutes within each. Written
+as a multiplication on both sides, ρ ↦ Y⊗N·ρ·X⊗N, it sends I to −iZ, Z to iI,
+X to Y and Y to X on each site. A two-sided map ρ ↦ A·ρ·B with
+A·H·A⁻¹ = B⁻¹·H·B = H′ carries [H, ·] to [H′, ·]; the strings Y⊗N and X⊗N
+leave real XXZ bonds unchanged, so this one commutes with [H, ·] there and
+cannot give −L − c. Through the transpose the same pairing does: the transpose
+reverses products, [H, ρ]ᵀ = −[Hᵀ, ρᵀ], and
 
-So the existing Π (which requires {I,Z}↔{X,Y}) does not produce the
-right rate pairing for the thermal bath. And a Π that does pair the
-thermal bath rates (I↔Z, X↔Y) does not anti-commute with the
-Hamiltonian.
+    τ(ρ) = Y⊗N · ρᵀ · X⊗N
 
-**This is a more subtle obstruction than the depolarizing case.** For
-depolarizing noise, even rate-pairing is impossible (1:3 split). For
-the thermal bath, rate-pairing is possible, but the paired permutation
-is incompatible with Hamiltonian anti-commutation.
+(I to −iZ, Z to iI, X to Y, Y to −X on each site) anticommutes with [H, ·]
+exactly when X⊗N·H̄·X⊗N = H (H̄ the entry-wise complex conjugate) and H commutes
+with Z⊗N, since then
+X⊗N·Hᵀ·X⊗N = Y⊗N·Hᵀ·Y⊗N = H. XXZ bonds with axial DM terms on any graph,
+real hopping included and fields excluded, satisfy it. Per site, −i·τ is the
+inverse of F108 Part 2's X-dephasing Π, the other orientation that
+PROOF_F108_KLEIN_V4_EQUIVALENCE records; the inverse of a reflection reflects too.
+For depolarizing noise even
+rate-pairing is impossible (1:3 split); for the thermal bath it is possible, and
+the transpose carries it past the Hamiltonian.
 
-### A subtler possibility
+### The element
 
-The palindrome might be partially restored if:
-1. A DIFFERENT Π exists that simultaneously pairs thermal bath rates
-   AND anti-commutes with [H, ·], which would require going beyond
-   Pauli permutations to Pauli-mixing operators
-2. A modified Π incorporates the Boltzmann factor exp(-βH) explicitly,
-   as suggested by the modular operator structure in KMS theory
-3. The Roberts et al. "hidden TRS" framework (which works in the
-   thermofield double and CAN handle thermal baths) produces a
-   palindromic-type condition in doubled space
+Notation: N̂ counts the excitations; c = Σ_l (γ↓_l + γ↑_l) is the shift;
+S_XY is F137's element ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c for an H commuting
+with X⊗N and Y⊗N; D[J](ρ) = J·ρ·J† − ½{J†J, ρ}; σ⁻ = |0⟩⟨1| lowers the excited
+state |1⟩; Γ_β is ρ ↦ π^½·ρ·π^½ for the weight π defined below.
 
-The Roberts et al. hidden TRS is conceptually the right direction for
-finite T. Their framework is defined in the doubled Hilbert space and
-involves an antiunitary operator that depends on the bath temperature.
-Whether *their* construction produces a palindromic spectrum is still open.
-That the spectrum IS palindromic under a thermal bath, for a Hamiltonian that commutes with X⊗N and
-Y⊗N, is not: it is, at the centre −Σ(γ↓+γ↑)/2 ([F137](ANALYTICAL_FORMULAS.md)).
+At equal cooling and heating, γ↑_l = γ↓_l on every site, τ itself reflects L,
+τ·L·τ⁻¹ = −L − c, and dephasing along X or Y beside the damping is reflected
+with it, as under the X-dephasing Π. At a ratio other than 1 the jumps carry an
+arrow (the generator applied to the identity is (γ↓ − γ↑)·Z on each site), and
+τ needs the thermal weight. Let π ∝ e^{−βN̂} with e^{−β} = γ↑/γ↓, the stationary
+product state of the damping (β in units of the bare qubit splitting, as in
+PROOF_ANTILINEAR_TRIANGLE §7), and let the ratio γ↑_l/γ↓_l be the same on every
+set of sites joined by hopping, the rates themselves free; on each such set π
+takes that set's β, so π is a product over the sites. Then
+
+    M_β(ρ) = π^½ · Y⊗N · ρᵀ · X⊗N · π^½,      M_β · L · M_β⁻¹ = −L − c.
+
+M_β is linear and site-local, a product of one-site maps, since the transpose, the
+strings and the weight all factor over the sites. The proof has three lines.
+(i) On one site, M₁(ρ) = w·Y·ρᵀ·X·w with w = diag(1, q) and q² = γ↑/γ↓ carries
+γ↓·D[σ⁻] + γ↑·D[σ⁺] to its negative minus (γ↓ + γ↑), for symbolic rate and q.
+(ii) τ anticommutes with [H, ·], as above, and Γ_β commutes with [H, ·]
+because the weight commutes with H: hopping conserves N̂ and joins only sites of
+one β, and ZZ bonds are diagonal. (iii) The dissipator is a sum over sites, each
+acted on by its own factor. The two conditions in (ii) are different: τ needs
+X⊗N·H̄·X⊗N = H with [H, Z⊗N] = 0, which XYZ bonds meet without conserving N̂;
+the weight needs the excitation number conserved; at a ratio of 1 the weight is
+the identity and only the first is used.
+
+What the element is made of. At q ≠ 1 it goes beyond Pauli permutations (w mixes
+I with Z), and it carries a Boltzmann factor, of the bare energy N̂ rather than of
+H, in the symmetric split π^½·(·)·π^½ that KMS detailed balance uses (detailed
+balance in the K-twisted (Agarwal) sense of PROOF_ANTILINEAR_TRIANGLE §7, not the
+Alicki form of Question 2; F84 and MIRROR_SYMMETRY_PROOF use the words
+for the β = 0 point γ↓ = γ↑ only). As maps on ρ it is S_XY followed by the transpose of the state and the weight,
+M_β = (−1)^N·Γ_β∘(ρ ↦ ρᵀ)∘S_XY. The pieces were in the repository: S_XY in F137,
+the weight in
+[PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md#7-one-level-up-the-generators-transpose-and-the-two-ends-of-a-channel)
+§7, where it enters through the transpose of the generator; and followed by ρ ↦ ρ†,
+M_β is, up to the same sign, the antilinear K∘Γ_β∘S_XY, with K the entry-by-entry
+conjugation. Read the other way, it is the X-dephasing Π carried to a finite
+temperature by the thermal weight.
+
+Exact over ℚ(i) in [`cube_moves_gate.py`](../simulations/cube_moves_gate.py) M11:
+the one-site identity with symbolic rate and q; the anticommutation of τ on a real
+triangle and on one with hoppings 1, 2 and 3i at Δ = 7⁄10; the full element on that
+triangle at γ↑ = γ↓/4 with three different rates; two ratios, a hopping pair
+and a lone site joined to it by a ZZ bond; the ratio-1 map against the inverse of
+F108 Part 2's Π, per site. The controls that must fail: the element without
+the weight; a Z field on one site; Z dephasing (M_β commutes with its dissipator);
+X dephasing beside the damping at γ↑ = γ↓/4; three ratios with the weight matched
+site by site on a connected triangle, a weight that does not commute with the
+hopping; the two components joined by a hopping bond instead.
+
+Where it stops. A temperature gradient along the hopping, a Z field, Z
+dephasing, and X or Y dephasing at a ratio other than 1 each break the
+element. Pure cooling (γ↑ = 0) and pure heating (γ↓ = 0) make the weight
+singular; under cooling alone F137 carries the palindrome by its route through
+the effective Hamiltonian ([F137](ANALYTICAL_FORMULAS.md)). A broken element is not
+always a broken spectrum: with real hopping a gradient still pairs, through S_XY
+(F137's paragraph on loss and gain exchanged), while with complex hopping a
+gradient can break the pairing itself, and there no element of any kind exists.
+Whether an element of the shape −L − c exists where the spectrum pairs and M_β
+does not is open, and so is whether the hidden time reversal of Roberts et al. in
+the doubled space is M_β read through the Choi-Jamiolkowski map.
 
 ### Assessment
 
-The thermal-jump comparison faces a non-trivial obstruction: the known Π
-requires {I,Z} to be immune (2:2 split), whereas the thermal jump model gives
-Z a nonzero decay rate. Alternative pairings exist
-for the thermal bath rates but are incompatible with Hamiltonian
-anti-commutation, so no site-local pairing of this kind gives Π·L·Π⁻¹ = −L − c.
-The palindrome needs less: the phased pairing ρ ↦ X⊗N·ρ·Y⊗N commutes with
-[H, ·] for an H that commutes with X⊗N and Y⊗N and gives −L† − c
-([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9).
+The known Π requires {I,Z} to be immune (2:2 split), whereas the thermal jump
+model gives Z a nonzero decay rate, so Π itself does not carry over. The
+pairing the thermal rates ask for, I ↔ Z and X ↔ Y, does carry over, written
+through the transpose and weighted by the thermal state: M_β gives Π's shape
+−L − c exactly wherever one ratio holds across the hopping. Without the weight,
+the phased pairing S_XY gives −L† − c at any rates for an H that commutes with
+X⊗N and Y⊗N ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9).
 
 **Numerical test recommended, and run on 2026-08-05:** compute the Liouvillian
 spectrum for XXZ + thermal bath at various temperatures and check whether any
@@ -386,9 +484,9 @@ palindromic structure survives. It does, and not only approximately: exactly,
 about the centre −Σ(γ↓+γ↑)/2, proven by rational characteristic polynomial at
 N=2 and N=3 ([`thermal_palindrome_centre.py`](../simulations/thermal_palindrome_centre.py),
 [F137](ANALYTICAL_FORMULAS.md)). The rate that appears is the sum γ↓+γ↑,
-which is the r this document computed. What remains open below is the operator
-question for a site-local operator of the shape −L − c, not the spectral one. If approximate
-palindrome is observed, construct Π numerically from eigenvector
+which is the r this document computed. The operator of the shape −L − c at one
+ratio is the element M_β above. Where a palindrome is observed without a known
+element, construct Π numerically from eigenvector
 pairing (the fallback construction in NON_HEISENBERG_PALINDROME.md; note it
 returns an entangled representative under spectral degeneracy even when a
 product Π exists, so test candidate products directly, see
@@ -428,6 +526,10 @@ This is the closest existing work. Key parallels:
 | Consequence | Time-symmetric correlation functions | Palindromic spectrum |
 | Relates to detailed balance | Yes (defines a generalized DB) | Parallel but distinct |
 | Works for driven systems | Yes | Only for dephasing + Hamiltonian |
+
+The table compares Π. The thermal element M_β of Question 4, followed by ρ ↦ ρ† the antilinear
+K∘Γ_β∘S_XY up to sign, carries the bath's weight; whether it is their hidden time reversal
+read in the single Liouville space is open.
 
 Roberts et al. show that hidden TRS provides exact steady-state solutions.
 Our Π provides exact spectral pairing. Both are "time-reversal-like"
@@ -504,7 +606,7 @@ dynamics. No palindromic structures.
 | 1. Is Π a known symmetry type? | For the centered generator `L_c=L+SγI`, Π supplies a sectorwise P generator after resolving Π²; the complete irreducible-sector SRP algebra is not yet computed | **CONFIRMED algebra / OPEN class** |
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
-| 4. Finite-T generalization of **Π**? | Obstructed: the thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y), a map that commutes with [H, ·] instead of anti-commuting, so no Π of this shape exists at T < ∞ | **UNLIKELY** (fundamental obstruction, and it is against Π) |
+| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or Z dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11); a temperature gradient along the hopping, a Z field, Z dephasing and X or Y dephasing at a ratio other than 1 break the element; beyond it **OPEN** |
 | 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
@@ -531,10 +633,14 @@ violate standard detailed balance. Establishing the formal connection
 and doubled Hilbert space) is the most promising direction for connecting
 Π to the broader literature.
 
-The thermal-jump obstruction is real and fundamental, and it is an obstruction
-**to Π**: the 2:2 per-site split that makes Π work is a property of pure Z
-dephasing and is absent from the thermal jump model. This identifies a channel
-algebra, not an intrinsically infinite-temperature phenomenon.
+The thermal jump model has no 2:2 per-site split, so Π itself does not carry
+over: that split is a property of pure Z dephasing, a channel algebra and not an
+intrinsically infinite-temperature phenomenon. The rate pairing the thermal
+model asks for does carry over. Written through the transpose and weighted by
+the thermal state it is a site-local linear element of Π's shape at one
+cooling-to-heating ratio, M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½, with M_β·L·M_β⁻¹ = −L − c
+(Question 4): the finite-temperature mirror is built from the thermal weight of
+detailed balance in its K-twisted (Agarwal) form.
 
 **It is not an obstruction to the palindrome.** The thermal-jump section above
 computes the per-site rates
@@ -543,9 +649,9 @@ to r, and concludes that rate-pairing is possible in principle. It is: r is the
 total per-site rate γ↓ + γ↑, the tensor sum over sites gives a palindrome
 centred at −Σ(γ↓ᵢ + γ↑ᵢ)/2, and that survives the Heisenberg Hamiltonian too,
 exact at the script's rational rate profiles at N = 2 and 3, measured through 5, and derived at every N for an H that
-commutes with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c. See [F137](ANALYTICAL_FORMULAS.md). What is
-lost at finite T is the site-local operator of the shape −L − c, not the symmetry of the spectrum, which is
-the distinction F137 was minted to draw.
+commutes with X⊗N and Y⊗N by the element ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c. See [F137](ANALYTICAL_FORMULAS.md). That
+element needs no common ratio; M_β needs one across the hopping, and with real
+hopping a gradient breaks M_β while the spectrum still pairs.
 
 ---
 
@@ -611,11 +717,15 @@ the distinction F137 was minted to draw.
 
 1. **Formalize the Choi-Jamiolkowski connection.** Map Π from superoperator
    space to an operator in the doubled Hilbert space. Check if it corresponds
-   to an antiunitary operator in the Roberts et al. thermofield double framework.
+   to an antiunitary operator in the Roberts et al. thermofield double framework,
+   and do the same for the thermal element M_β of Question 4, whose antilinear
+   form K∘Γ_β∘S_XY already carries a bath temperature.
 
 2. **Test Roberts et al. hidden TRS for our system.** Compute whether the
-   XXZ + Z-dephasing Liouvillian satisfies their hidden TRS condition.
-   If yes, Π and hidden TRS may be dual descriptions of the same symmetry.
+   XXZ + Z-dephasing Liouvillian satisfies their hidden TRS condition, and the
+   XXZ + thermal one at one ratio.
+   If the first holds, Π and hidden TRS may be dual descriptions of one symmetry;
+   if the second, M_β and hidden TRS.
 
 3. **Complete the sectorwise Sá et al. classification.** Work with the centered
    Liouvillian L_c, resolve Π² and every other commuting unitary/strong symmetry,
@@ -647,6 +757,7 @@ the distinction F137 was minted to draw.
 
 *The Π anti-similarity is not a detailed-balance or KMS condition. It is an
 algebraic mirror of the pure-Z dephasing generator; no bath temperature or
-thermodynamic equilibrium is implied by that mirror. The same generator may
+thermodynamic equilibrium is implied by Π's mirror; the thermal element M_β of
+Question 4 is where a temperature enters. The pure-Z generator may
 independently satisfy Alicki/standard QDB with respect to `I/d` after its
 Hamiltonian derivation is split off.*
