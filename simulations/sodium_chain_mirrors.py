@@ -21,6 +21,9 @@ truncation; two splittings and two offsets for the Ising coupling, which is what
 of different resonance frequencies. The common rates J0 >= J1 >= J2, the order a motional spectral density gives;
 the triples per nucleus (G4b, G7b) are arbitrary.
 
+G10 reads the full coupling at two nuclei: the invariant part of the two-sided kernel of its sqrt3 part, and what
+K_0 holds beyond it; the float spectra of that part are printed as a reading.
+
 Run: python simulations/sodium_chain_mirrors.py [--n3]   (n = 2 and 3 nuclei; --n3 adds the sharp subspaces at n = 3, slow)
 """
 from __future__ import annotations
@@ -408,6 +411,7 @@ def main():
         sharp_gate(2, rational, root, couplings, Jp,
                    {'dipolar, equal splittings (times 2)': ((24, 128, 24), (True, True, True)),
                     'full dipolar': ((10, 12, 1), (False, True, True))})
+    kernel_gate(rational, root, J)
     if '--n3' in sys.argv:
         sharp_gate(3, rational, root, couplings, J,
                    {'dipolar, equal splittings (times 2)': ((64, 140, 84, 16), (True, True, True, True)),
@@ -416,6 +420,80 @@ def main():
     fails = [nm for nm, ok in RESULTS if not ok]
     print(f'\n{len(RESULTS) - len(fails)}/{len(RESULTS)} PASS')
     return 1 if fails else 0
+
+
+def kernel_gate(rational, root, J):
+    """G10, the full coupling at two nuclei: what carries the readings. The premises of the page's proposition exactly
+    (H3, the sqrt3 part, is real and anticommutes with Q; rank H3 = 4 of 16), then U_m, the largest L-invariant subspace
+    inside the operators x with H3·x = 0 = x·H3 and m bright nuclei, over GF(p): its dimensions and its palindrome
+    (a code check of the proposition, which holds without the reduction)."""
+    n, nq, dim = 2, 4, 16
+    H3 = sum(c * string(place(nq, 0, w)) for w, c in root.items())
+    Qm = string('ZZ' * n)
+    check('G10 H3 is symmetric and anticommutes with Q (realness: next check)',
+          np.abs(H3 - H3.T).max() == 0 and np.abs(Qm @ H3 @ Qm + H3).max() == 0)
+    check('G10 rank H3 = 4 of 16 (exact)', sp.Matrix(np.rint(H3.real).astype(int)).rank() == 4
+          and np.abs(H3.imag).max() == 0)
+    W = sum(bright(n))
+    dims, pal = {}, {}
+    for p in PRIMES:
+        r3p = next(x for x in range(p) if x * x % p == 3)
+        Lp = (to_mod(lindbladian(n, rational, J, q=(0,))[0], p)
+              + r3p * to_mod(lindbladian(n, {}, J, q=(0,), root=root, r3=1.0)[0] - lindbladian(n, {}, J, q=(0,))[0], p)) % p
+        H3p = to_mod(H3, p)
+        left = np.kron(H3p, np.eye(dim, dtype=np.int64)) % p           # x -> H3·x on the row-major vec
+        right = np.kron(np.eye(dim, dtype=np.int64), H3p.T) % p         # x -> x·H3
+        dims[p], pal[p] = [], []
+        for m in range(n + 1):
+            E, O = np.where(W == m)[0], np.where(W != m)[0]
+            C, _ = rref_mod(np.vstack([np.eye(dim * dim, dtype=np.int64)[O], left, right]) % p, p)
+            while True:
+                Cn, _ = rref_mod(np.vstack([C, C @ Lp % p]) % p, p)
+                if Cn.shape[0] == C.shape[0]:
+                    break
+                C = Cn
+            B = null_mod(C, p, dim * dim)
+            dims[p].append(B.shape[1])
+            if m == 0:
+                MU = restricted(Lp, E, B[E], p)
+                if p == PRIMES[0]:
+                    check('G10 control: the part with no bright nucleus is not palindromic about -s_1 (a code check)',
+                          not palindromic_mod(MU, 6 * J[0] + 6 * n * (J[1] + J[2]), p))
+                # what K_0 holds beyond U_0: char(K_0) = char(U_0)·x(x + 48)^2((x + 36)^2 + 1600) at J = (6, 4, 2)
+                Bk = sharp_subspace(Lp, E, O, p)
+                MK = restricted(Lp, E, Bk, p)
+                ok = J == (6, 4, 2)
+                for x in range(1, MK.shape[0] + 2):
+                    lhs = det_mod(x * np.eye(MK.shape[0], dtype=np.int64) - MK, p)
+                    rhs = det_mod(x * np.eye(MU.shape[0], dtype=np.int64) - MU, p) * x * (x + 48) ** 2 * ((x + 36) ** 2 + 1600) % p
+                    ok &= lhs == rhs
+                check(f'G10 K_0 beyond U_0 holds exactly 0, a double -48 and the pair -36 ± 40i over GF({p}) (evidence)', ok)
+            pal[p].append(palindromic_mod(restricted(Lp, E, B[E], p), 6 * m * J[0] + 6 * n * (J[1] + J[2]), p)
+                          if B.shape[1] else None)
+    check('G10 n=2 the invariant part inside the two-sided kernel of H3 has dimensions (5, 12, 1) over both primes '
+          '(upper bounds)', all(tuple(dims[p]) == (5, 12, 1) for p in PRIMES))
+    check('G10 n=2 it is palindromic about -s_m on every m over both primes (proved; a code check)',
+          all(tuple(pal[p]) == (True, True, True) for p in PRIMES))
+    # a reading, printed, not gated: the float spectra of U_m (the dimensions from GF(p)), which show where the
+    # mirror does more than conjugation: an eigenvalue off Re = -s_m needs a partner of another real part
+    L = lindbladian(n, rational, J, q=(0,), root=root, r3=np.sqrt(3))[0]
+    for m, k in zip(range(n + 1), dims[PRIMES[0]]):
+        Pm = np.diag((W == m).astype(float))
+        _, sv, vh = np.linalg.svd(np.vstack([np.kron(H3, np.eye(dim)), np.kron(np.eye(dim), H3.T), np.eye(dim * dim) - Pm]))
+        B = vh.conj().T[:, -int(np.sum(sv < 1e-9) + (dim * dim - len(sv))):] if len(sv) < dim * dim else vh.conj().T[:, sv < 1e-9]
+        for _ in range(100):
+            if B.shape[1] <= k:
+                break
+            R = L @ B - B @ (B.conj().T @ (L @ B))
+            _, s2, v2 = np.linalg.svd(R)
+            s2 = np.concatenate([s2, np.zeros(max(0, B.shape[1] - len(s2)))])
+            B = B @ v2.conj().T[:, np.argsort(s2)[:max(k, int(np.sum(s2 < 1e-8 * max(1, s2.max()))))]]
+        ev = np.sort_complex(np.linalg.eigvals(B.conj().T @ L @ B))
+        s_m = 3 * m * J[0] + 3 * n * (J[1] + J[2])
+        off = [complex(round(e.real, 3), round(e.imag, 3)) for e in ev if abs(e.real + s_m) > 1e-6]
+        inv = np.abs(L @ B - B @ (B.conj().T @ L @ B)).max()
+        print(f'      reading: U_{m} (dim {B.shape[1]}, invariance residual {inv:.0e}), centre -{s_m}: '
+              f'eigenvalues off Re = -s_m: {off or "none"}')
 
 
 def sharp_gate(n, rational, root, couplings, J, cases):
