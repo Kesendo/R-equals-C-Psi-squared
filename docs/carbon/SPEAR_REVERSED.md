@@ -39,6 +39,15 @@ columns reproduce the producer's curated labels only; matching fractions does
 not identify an atomic state, chemical mechanism, or material realization of
 the framework quantity.
 
+Sodium as a physical system, the ²³Na nucleus as a spin 3/2 under a specified
+relaxation generator, is read in
+[The Sodium Nucleus: Two Mirrors](../../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md),
+where the degree of freedom, the bath channel (the fluctuating field gradient)
+and the observables are named, the rates kept as symbols and no sodium data
+compared; its section *The handshake with NMR* sets textbook relaxation beside
+that model row by row as exact equations. It does not involve the fraction 1/8,
+and the label Na above is unrelated to it.
+
 ---
 
 ## Dyadic arithmetic
