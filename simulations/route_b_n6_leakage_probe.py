@@ -6,7 +6,6 @@ q=J/gamma in the octic book, t=i*q, H=J sum(XX+YY), delta=0.
 from __future__ import annotations
 
 import json
-import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -188,14 +187,7 @@ def main():
     report = {'conventions': __doc__, 'dimension': len(d), 'selection':
               'Largest full-90D third-eigenvalue distance among E seeds with Re q, Im q >= 0',
               'probes': {}}
-    source = ROOT / 'simulations/results/route_b_a2_n6.json'
-    digest = hashlib.sha256(source.read_bytes()).hexdigest()
-    atlas = json.loads((ROOT / 'simulations/results/route_b_a2_n6_atlas.json').read_text())
-    if digest != atlas['sourceSha256']:
-        raise ValueError('Atlas and seed source disagree')
-    report['provenance'] = {'source_sha256': digest,
-        'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        'numpy_version': np.__version__, 'scipy_version': scipy.__version__}
+    report['provenance'] = {'numpy_version': np.__version__, 'scipy_version': scipy.__version__}
     report['builder_checks'] = {str(e): float(la.norm(c+e*end-independent_hop(e)))
                                 for e in (0, 0.125, -0.25)}
     if any(report['builder_checks'].values()):

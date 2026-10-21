@@ -260787,19 +260787,6 @@
   "gap_control_rejected": true,
   "wrong_fold_control_rejected": true,
   "proof": "At t=0 the exact quadratic root and eliminated v solve K=Kv=0. Uniform contraction tiles identify the same root via contained endpoint enclosures. The final uniqueness box contains the exact fold. For t>0, F_epsilon=(256/27)t K_u and F_omegaomega=(256/27)K_vv are nonzero. P4 is excluded, but the other octic is tracked without exclusion: cross-parity coincidences can raise full spectral multiplicity. The original t=0 eigenvalue remains the independently certified semisimple seed.",
-  "source_hashes": {
-    "simulations\\route_b_n4_incoming_certificate.py": "e3e3e543fc086cceb97241d6f8eac88b47bc0bb53e2c78d55de96acff9ca9b8f",
-    "simulations\\route_b_n4_bridge_certificate.py": "a590a762cb2d8d18163c19461c4a800a5318e410186e6d7c58ef4ec336b12352",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-    "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a",
-    "simulations\\route_b_n4_self_fold.py": "da0d7af271cbd1d50f7ef68f0302634029ac0601ecd14f18d82448ff8af2346d",
-    "simulations\\results\\route_b_n4_self_fold.json": "049a8f35c3be3b6471acc01546fae043c19e1f5803335dc937138bca08c64c94",
-    "simulations\\route_b_n4_parity_factors.py": "0c0d0b4cf48af5704b5e4cf0359ff328872b6ff58d8d73c8995af71ec8c12156",
-    "simulations\\results\\route_b_n4_parity_factors.json": "08b7e2813b71fd734c731aca88f8d20bb7a783c95a9ec27928c0826b21fd5d41",
-    "simulations\\route_b_n4_incoming_crossing.py": "aa7cffb0aa33a6c0d6812c1552989c53bedb8b37269cbe6609ba5bb1baca4676",
-    "simulations\\results\\route_b_n4_incoming_crossing.json": "afd726722c5d4cebe943a15c96c72bcd27ed80cb4f45a124a5d373704dd39d93"
-  },
   "other_seed_anchor_dyadic": [
     {
       "mid": [
@@ -260939,6 +260926,5 @@
   "crossing_completeness_certified": true,
   "crossing_record_omission_control_rejected": true,
   "duplicate_crossing_record_control_rejected": true,
-  "crossing_certificate_sha256": "afd726722c5d4cebe943a15c96c72bcd27ed80cb4f45a124a5d373704dd39d93",
   "crossing_completeness_proof": "Every tile outside the listed strips excludes a zero of the other octic. Within each contiguous strip the derivative along the certified path has one strict sign; certified endpoint signs are opposite. Each strip therefore contains exactly one crossing. Both independent three-dimensional root boxes map wholly into path uniqueness tiles, identifying them as those crossings. Their full Jordan type is J2 direct sum J1."
 }

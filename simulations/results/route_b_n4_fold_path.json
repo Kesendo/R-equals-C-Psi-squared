@@ -39459,11 +39459,5 @@
       "distance": "0.0000004284738992970296489575694220894663764821897928297204954"
     },
     "scope": "Numerical continuation from final finite point to small z; exact germs are supplied separately."
-  },
-  "source_hashes": {
-    "D:\\Entwicklung\\Projekte Privat\\R-equals-C-Psi-squared\\simulations\\route_b_n4_fold_path.py": "1ec2d431414fa1c40401051aadc424b0231b8a897592ea9f25bfe9753a28fe97",
-    "D:\\Entwicklung\\Projekte Privat\\R-equals-C-Psi-squared\\simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "D:\\Entwicklung\\Projekte Privat\\R-equals-C-Psi-squared\\simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-    "D:\\Entwicklung\\Projekte Privat\\R-equals-C-Psi-squared\\simulations\\route_b_n4_fold_infinity.py": "0979a8b8897a3848431ea8b543e936f021c3830246ffa62377589773def85f63"
   }
 }

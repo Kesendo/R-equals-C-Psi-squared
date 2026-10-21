@@ -377,9 +377,7 @@ python simulations/route_b_n6_exact_unfolding.py
 The run rebuilds integer matrices, proves the source-polynomial identities,
 reruns the bounded-CRT discriminant proof, executes the Rabin checks and
 the modular nonzero witnesses, and writes the exact JSON certificate.
-The certificate binds the wrapper, the exact source producer, every transitive
-local Python dependency discovered from that producer, and the integer fixture
-by LF-normalized SHA-256; the C# consumer requires the complete dependency set.
+The certificate records the digest of the exact source pencil it was built from.
 It invokes no eigenvalue solver and no floating-point rank tolerance.
 The companion numerical probe evaluates (1) and checks the local paths;
 its decimal values are not premises of this proof.
@@ -394,5 +392,8 @@ dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category
 dotnet test compute/RCPsiSquared.Runtime.Tests -c Release --filter "Category=ROUTE_B_A2_N6_UNFOLDING"
 ```
 
-The witness reads the certificate rather than the proof text, so a producer
-rerun that changes any bound hash fails the witness before it reaches a number.
+The witness reads the certificate rather than the proof text. It checks the
+digest of the 134 A2 coefficients and the source-pencil digest, joins the CRT
+bound and modulus to the certified inventory, and compares the integer fixture
+coefficient by coefficient with both pencils rebuilt in Core, so a certificate
+whose polynomial or pencils differ fails the witness before it reaches a number.

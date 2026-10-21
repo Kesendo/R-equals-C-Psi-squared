@@ -3,7 +3,7 @@
 384-bit contraction certifies F=F_w=F(-w)=0 locally. This is not a
 completeness certificate for the incoming arm, nor an EP3 assertion.
 """
-import hashlib,json
+import json
 from pathlib import Path
 import mpmath as mp
 import sympy as s
@@ -55,8 +55,6 @@ def certify(guess):
     cols=qr(numeric,pivoting=True)[2][:22];rowids=qr(numeric[:,cols].T,pivoting=True)[2][:22]
     minor=acb_mat([[matrix[int(i),int(j)]for j in cols]for i in rowids]).det();assert not minor.contains(0)
     data=dict(scope=__doc__,precision_bits=ctx.prec,coordinates=['omega','qCSharp','epsilon'],center=[str(v)for v in root],box_dyadic=[pack_ball(v)for v in box],radius_dyadic=pack_ball(radius),contraction_rows_dyadic=[pack_ball(v)for v in rows],image_bounds_dyadic=[pack_ball(v)for v in images],nonzero_gates={k:dict(display=str(v),dyadic=pack_ball(v))for k,v in gates.items()},full_characteristic_factorization_exact=True,full_eigenvalue_algebraic_multiplicity=3,rank_lower_bound=22,rank22_minor=dict(rows=list(map(int,rowids)),columns=list(map(int,cols)),real=pack_ball(minor.real),imag=pack_ball(minor.imag),display=str(minor)),jordan_claim='J2 plus J1; exact parity factors give one eigenvector in each sector, and the nonzero rank22 minor excludes any additional eigenvector.',full_nullity=2,jordan_block_sizes=[2,1],displaced_control_rejected=True,success=True)
-    paths=[Path(__file__),ROOT/'simulations/route_b_n4_range_polynomial.py',ROOT/'simulations/results/route_b_n4_range_polynomial.json',ROOT/'simulations/route_b_n4_range_certificate.py',ROOT/'simulations/route_b_n4_bridge_certificate.py',ROOT/'simulations/route_b_other_n_unfolding.py',ROOT/'simulations/framework/weight_coherence_block.py']
-    data['source_hashes']={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in paths}
     print('PASS crossing',data['center'],flush=True);print({k:str(v)for k,v in gates.items()},flush=True)
     return data
 
@@ -64,7 +62,6 @@ def main():
     from route_b_n4_parity_factors import derive
     ownership=derive()
     roots=[certify(guess)for guess in [('1.3136606858010466953','.66512116752370169947','-.011642506556512168505'),('1.231','.99','-.375')]]
-    path=ROOT/'simulations/route_b_n4_parity_factors.py'
-    out=dict(scope=__doc__,roots=roots,parity_ownership=ownership,parity_producer_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),completeness_claim=False)
+    out=dict(scope=__doc__,roots=roots,parity_ownership=ownership,completeness_claim=False)
     (ROOT/'simulations/results/route_b_n4_incoming_crossing.json').write_text(json.dumps(out,indent=2)+'\n')
 if __name__=='__main__':main()

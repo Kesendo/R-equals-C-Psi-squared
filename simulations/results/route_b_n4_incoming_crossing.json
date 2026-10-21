@@ -268,16 +268,7 @@
         1
       ],
       "displaced_control_rejected": true,
-      "success": true,
-      "source_hashes": {
-        "simulations\\route_b_n4_incoming_crossing.py": "aa7cffb0aa33a6c0d6812c1552989c53bedb8b37269cbe6609ba5bb1baca4676",
-        "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-        "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-        "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a",
-        "simulations\\route_b_n4_bridge_certificate.py": "a590a762cb2d8d18163c19461c4a800a5318e410186e6d7c58ef4ec336b12352",
-        "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
-        "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
-      }
+      "success": true
     },
     {
       "scope": "Isolated real crossing of the two equal-end N4 frequency octics.\n\n384-bit contraction certifies F=F_w=F(-w)=0 locally. This is not a\ncompleteness certificate for the incoming arm, nor an EP3 assertion.\n",
@@ -546,16 +537,7 @@
         1
       ],
       "displaced_control_rejected": true,
-      "success": true,
-      "source_hashes": {
-        "simulations\\route_b_n4_incoming_crossing.py": "aa7cffb0aa33a6c0d6812c1552989c53bedb8b37269cbe6609ba5bb1baca4676",
-        "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-        "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-        "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a",
-        "simulations\\route_b_n4_bridge_certificate.py": "a590a762cb2d8d18163c19461c4a800a5318e410186e6d7c58ef4ec336b12352",
-        "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
-        "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
-      }
+      "success": true
     }
   ],
   "parity_ownership": {
@@ -582,6 +564,5 @@
     "wrong_parity_control_rejected": true,
     "character_rule": "At an F=Fw=0, Fww!=0, Fe!=0 point with F(-w)=0 and its w derivative nonzero, and both quartics nonzero: R+ has EP2 and R- a simple eigenvalue; full character is J2 plus J1, not J3."
   },
-  "parity_producer_sha256": "0c0d0b4cf48af5704b5e4cf0359ff328872b6ff58d8d73c8995af71ec8c12156",
   "completeness_claim": false
 }

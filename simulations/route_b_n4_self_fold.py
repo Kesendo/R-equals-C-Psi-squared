@@ -4,7 +4,6 @@ The embedding is t=i*q0, q0=sqrt((sqrt(13)-1)/6), gamma=1.
 Run: python simulations/route_b_n4_self_fold.py
 """
 import json
-import hashlib
 from pathlib import Path
 import sympy as s
 from sympy.polys.matrices import DomainMatrix as DM
@@ -102,8 +101,7 @@ def main():
     control_disc = s.expand(2*s.trace(control**2)-s.trace(control)**2)
     assert control_disc == -4*(x*x+e*e)
     assert s.discriminant(s.Symbol('r')**2+1,s.Symbol('r')) == -4
-    dependencies = [ROOT/'simulations/route_b_other_n_unfolding.py',ROOT/'simulations/framework/weight_coherence_block.py']
-    out = dict(scope=__doc__,q0=str(q0),lambda0='-4+2*i*q0',dimension=24,nullity=2,squared_nullity=2,alpha_relative=str(polynomial(alpha)),profiles=records,fold_mutation_rejected=True,swapped_branch_control='q=1 +/- i*epsilon, lambda=-4',dependencies={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in dependencies},script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    out = dict(scope=__doc__,q0=str(q0),lambda0='-4+2*i*q0',dimension=24,nullity=2,squared_nullity=2,alpha_relative=str(polynomial(alpha)),profiles=records,fold_mutation_rejected=True,swapped_branch_control='q=1 +/- i*epsilon, lambda=-4')
     path=ROOT/'simulations/results/route_b_n4_self_fold.json'
     path.write_text(json.dumps(out,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(out,indent=2))

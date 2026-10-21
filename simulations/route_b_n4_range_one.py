@@ -3,7 +3,6 @@
 Forty-digit polynomial continuation is not a maximal-interval certificate.
 Labels 0/1 are the negative/positive leading q slope at epsilon=0.
 """
-import hashlib
 import json
 from pathlib import Path
 import mpmath as mp
@@ -103,12 +102,7 @@ def main():
             smallest_full24_singular_values=singular[-4:].tolist(),
             beyond_epsilon=text(beyond_e),beyond=beyond))
         print('endpoint',branch,sign,text(e),flush=True)
-    files=[Path(__file__),ROOT/'simulations/route_b_n4_range_polynomial.py',
-           ROOT/'simulations/results/route_b_n4_range_polynomial.json',
-           ROOT/'simulations/route_b_other_n_unfolding.py',
-           ROOT/'simulations/framework/weight_coherence_block.py']
-    output=dict(scope=__doc__,precision_digits=mp.mp.dps,tracks=tracks,endpoints=endpoints,
-                source_hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files})
+    output=dict(scope=__doc__,precision_digits=mp.mp.dps,tracks=tracks,endpoints=endpoints)
     (ROOT/'simulations/results/route_b_n4_range_one.json').write_text(json.dumps(output,indent=2)+'\n')
 
 

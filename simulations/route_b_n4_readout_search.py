@@ -13,7 +13,6 @@ import numpy as np
 import scipy.linalg as la
 from route_b_n4_virtual_readout import (
     ROOT, EP, TIMES, generator, verify_generator_contract,
-    artifact_provenance, verify_artifact_provenance,
 )
 
 
@@ -156,9 +155,7 @@ def main():
     output = dict(preparations=len(prep), readouts=len(read), times=len(TIMES),
                   q=2, gamma=1, rows=rows, transferred_ep_protocols=transfers,
                   canonical_winner_jordan=jordan,
-                  scope='Finite ideal mean-SNR search; M each setting, 2M total; design search is numerical, not experimental shots.',
-                  **artifact_provenance(__file__))
-    verify_artifact_provenance(output, __file__)
+                  scope='Finite ideal mean-SNR search; M each setting, 2M total; design search is numerical, not experimental shots.')
     (ROOT/'simulations/results/route_b_n4_readout_search.json').write_text(json.dumps(output, indent=2)+'\n', encoding='utf-8')
     print('ALL PASS')
 

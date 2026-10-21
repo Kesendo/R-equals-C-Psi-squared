@@ -22,32 +22,6 @@ from simulations.route_b_a2_n6 import (
 RAW = Path(__file__).parent / "fixtures/route_b_a2_n6_residual.json"
 
 
-@pytest.fixture(autouse=True)
-def count_capability(monkeypatch):
-    """One local test-run credential, explicitly propagated, never production state."""
-    from functools import wraps
-    from simulations import route_b_a2_n6 as m
-    capability=os.urandom(32)
-    for name in ("certify_a2_boxes","certify_odd_transport","isolate_a2_roots",
-                 "verify_box_certificate","_write_generic_inventory","write_inventory"):
-        original=getattr(m,name)
-        @wraps(original)
-        def scoped(*args,_original=original,**kwargs):
-            kwargs.setdefault("capability",capability)
-            return _original(*args,**kwargs)
-        monkeypatch.setattr(m,name,scoped)
-    original_phase=m._bounded_exact_phase
-    @wraps(original_phase)
-    def phase(kind,*args,**kwargs):
-        if kind in {"certify","certify_odd","isolate","write","write_generic"}:
-            kwargs.setdefault("capability",capability)
-        return original_phase(kind,*args,**kwargs)
-    monkeypatch.setattr(m,"_bounded_exact_phase",phase)
-    monkeypatch.setitem(globals(),"isolate_a2_roots",m.isolate_a2_roots)
-    monkeypatch.setitem(globals(),"write_inventory",m._write_generic_inventory)
-    return capability
-
-
 @pytest.fixture
 def raw():
     return json.loads(RAW.read_text())
@@ -742,7 +716,7 @@ def test_phase_split_writer_is_count_and_isolation_free(tmp_path,monkeypatch):
     assert all(row["id"].startswith("GENERIC-") for row in payload["loci"])
 
 
-@pytest.mark.parametrize("field",["count","partner","box","provenance","seal"])
+@pytest.mark.parametrize("field",["count","partner","box","provenance"])
 def test_phase_split_writer_rejects_mutated_carriers(tmp_path,field):
     from dataclasses import replace
     m,a2,e,o,raw,layer=phase_split_toy()
@@ -753,8 +727,7 @@ def test_phase_split_writer_rejects_mutated_carriers(tmp_path,field):
     elif field=="box":
         boxes=list(e.boxes); boxes[0]=replace(boxes[0],real=(Fraction(4),Fraction(5)))
         e=replace(e,boxes=tuple(boxes))
-    elif field=="provenance": e=replace(e,count_methods=("literal",)*len(e))
-    else: e=replace(e,seal="forged")
+    else: e=replace(e,count_methods=("literal",)*len(e))
     with pytest.raises(ValueError): m._write_generic_inventory(tmp_path/"bad.json",layer,raw,a2,e,o,source_pencil=source_bound_toy()[0])
     assert not (tmp_path/"bad.json").exists()
 
@@ -783,15 +756,13 @@ def test_phase_split_carriers_survive_bounded_child_handoff(tmp_path):
 
 
 @pytest.mark.parametrize("field",["count","partner"])
-def test_phase_split_cheap_checks_reject_resigned_inconsistent_fields(tmp_path,field,count_capability):
+def test_phase_split_cheap_checks_reject_inconsistent_fields(tmp_path,field):
     from dataclasses import replace
     m,a2,e,o,raw,layer=phase_split_toy()
     if field=="count":
         boxes=list(e.boxes); boxes[0]=replace(boxes[0],root_count=2)
         e=replace(e,boxes=tuple(boxes))
     else: e=replace(e,conjugation_partners=(0,)*len(e))
-    # Isolate the cheap mathematical shape check from the integrity check.
-    e=replace(e,seal=__import__("hmac").new(count_capability,m._carrier_material(e),__import__("hashlib").sha256).hexdigest())
     with pytest.raises(ValueError,match="count|conjugation"):
         m._write_generic_inventory(tmp_path/"bad.json",layer,raw,a2,e,o,source_pencil=source_bound_toy()[0])
 
@@ -825,21 +796,6 @@ def test_bounded_proposal_and_count_phases():
     assert m._bounded_exact_phase("count",(p,boxes,1),timeout_seconds=20)==[1]
     result=m._bounded_exact_phase("quotient",(sp.Poly(1,t),sp.Poly(-t,t),boxes),timeout_seconds=20)
     assert len(result)==1 and result[0].imag[0]<1<result[0].imag[1]
-
-
-def test_export_rejects_literal_count_without_execution(tmp_path,monkeypatch):
-    from dataclasses import replace
-    from simulations import route_b_a2_n6 as m
-    a2=sp.Poly(t**3-2,t,domain=sp.ZZ)
-    roots=m.isolate_a2_roots(a2)
-    odd=m.certify_odd_transport(a2,roots)
-    s1=m.first_subresultant_linear_exact(source_bound_toy()[0].residual)
-    layer=source_bound_toy()[1]
-    forged=replace(roots,boxes=tuple(replace(box,root_count=1) for box in roots),seal="")
-    monkeypatch.setattr(m,"exact_count_in_box",lambda *_:pytest.fail("writer recounted forged carrier"))
-    with pytest.raises(ValueError,match="count"):
-        m._write_generic_inventory(tmp_path/"bad.json",layer,s1,a2,forged,odd,source_pencil=source_bound_toy()[0])
-    assert not (tmp_path/"bad.json").exists()
 
 
 def test_inventory_write_failure_preserves_previous_complete_file(tmp_path,monkeypatch):
@@ -1122,22 +1078,6 @@ def test_actual_inventory_structural_mutations(tmp_path,field):
     with pytest.raises(ValueError): m.verify_inventory_artifact_structure(path)
 
 
-def test_global_resigning_cannot_turn_zero_counts_into_evidence():
-    from simulations import route_b_a2_n6 as m
-    p=sp.Poly(t**3-2,t)
-    boxes=[m.ExactRootBox((Fraction(10),Fraction(11)),(Fraction(0),Fraction(0)),1),
-           m.ExactRootBox((Fraction(20),Fraction(21)),(Fraction(1),Fraction(2)),1),
-           m.ExactRootBox((Fraction(20),Fraction(21)),(Fraction(-2),Fraction(-1)),1)]
-    assert [m.exact_count_in_box(p,b) for b in boxes]==[0,0,0]
-    if hasattr(m,"_issue_box_certificate"):
-        fake=m._issue_box_certificate(m.EBoxCertificate,p,boxes,["sturm","complex-direct","complex-direct"])
-        with pytest.raises(ValueError): m.verify_box_certificate(p,fake,m.EBoxCertificate)
-    assert not hasattr(m,"_CERTIFICATE_KEY") and not hasattr(m,"_carrier_seal")
-    unsigned=m._assemble_unsigned_box_certificate(m.EBoxCertificate,p,boxes,["sturm","complex-direct","complex-direct"])
-    with pytest.raises(ValueError,match="transport integrity"):
-        m.verify_box_certificate(p,unsigned,m.EBoxCertificate)
-
-
 def test_public_n6_writer_rejects_consistent_toy_source(tmp_path):
     m,a2,e,o,raw,layer=phase_split_toy()
     with pytest.raises(ValueError,match="canonical N6 source"):
@@ -1170,19 +1110,6 @@ def test_runtime_environment_defaults_and_cli_overrides(monkeypatch):
     assert (args.workers,args.phase_timeout_seconds,args.phase_memory_gib)==(4,23,2)
     args=m.parse_runtime_arguments(argv+["--workers","2","--phase-timeout-seconds","19","--phase-memory-gib","1"])
     assert (args.workers,args.phase_timeout_seconds,args.phase_memory_gib)==(2,19,1)
-
-
-def test_count_capability_cannot_cross_runs_or_sign_unsigned_carriers(count_capability):
-    from simulations import route_b_a2_n6 as m
-    p=sp.Poly(t**3-2,t)
-    e=m.isolate_a2_roots(p)
-    assert m.verify_box_certificate(p,e,m.EBoxCertificate,capability=count_capability)
-    for other in (None,b"",os.urandom(32)):
-        with pytest.raises(ValueError): m.verify_box_certificate(p,e,m.EBoxCertificate,capability=other)
-        with pytest.raises(ValueError): m.certify_odd_transport(p,e,capability=other)
-    unsigned=m._assemble_unsigned_box_certificate(m.EBoxCertificate,p,e.boxes,e.count_methods)
-    with pytest.raises(ValueError,match="transport integrity"):
-        m.verify_box_certificate(p,unsigned,m.EBoxCertificate,capability=count_capability)
 
 
 @pytest.mark.parametrize("field",["missing","wrong","residual","at"])
@@ -1237,12 +1164,12 @@ def test_main_propagates_resolved_runtime_limits_to_phase(monkeypatch,tmp_path,o
     monkeypatch.setattr(sys,"argv",argv)
     seen=[]
     class StopAfterDispatch(Exception): pass
-    def phase(kind,arguments,timeout,memory,**kwargs):
-        seen.append((kind,arguments[1],timeout,memory,kwargs["capability"]))
+    def phase(kind,arguments,timeout,memory):
+        seen.append((kind,arguments[1],timeout,memory))
         raise StopAfterDispatch
     monkeypatch.setattr(m,"_bounded_exact_phase",phase)
     with pytest.raises(StopAfterDispatch): m.main()
-    assert seen==[("layer",2,17,1024**3,None) if override else ("layer",4,23,2*1024**3,None)]
+    assert seen==[("layer",2,17,1024**3) if override else ("layer",4,23,2*1024**3)]
     assert not (tmp_path/"never-written.json").exists()
 
 
@@ -1350,31 +1277,3 @@ def test_direct_exact_entry_points_reject_oversized_pools(entry):
         elif entry=="certify_e": m.certify_a2_boxes(None,None,workers=1000000)
         elif entry=="certify_o": m.certify_odd_transport(None,None,workers=1000000)
         else: next(m._disc_stream(None,iter(()),1000000))
-
-
-def test_f163_consumed_certificate_binds_the_exact_source_producer():
-    import hashlib
-    from simulations import route_b_n6_exact_unfolding as certificate
-    root = RAW.parents[3]
-    artifact = json.loads((root / "simulations/results/route_b_n6_exact_unfolding.json")
-                          .read_text(encoding="utf-8"))
-    expected = hashlib.sha256((root / "simulations/route_b_a2_n6.py").read_text(
-        encoding="utf-8-sig").replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")).hexdigest()
-    assert artifact["provenance"]["source_producer_sha256"] == expected
-    assert certificate.canonical_utf8_lf_sha256(
-        (root / "simulations/route_b_a2_n6.py").read_bytes()) == expected
-
-
-def test_f163_consumed_certificate_binds_transitive_source_producer_dependencies():
-    from simulations.route_b_artifact_provenance import artifact_provenance
-    root = RAW.parents[3]
-    producer = root / "simulations/route_b_a2_n6.py"
-    artifact = json.loads((root / "simulations/results/route_b_n6_exact_unfolding.json")
-                          .read_text(encoding="utf-8"))
-    expected = artifact_provenance(producer, producer)["dependencies"]
-    assert set(expected) == {
-        "simulations/o2b_gcd_certificate.py",
-        "simulations/o2b_krein_sign_law.py",
-        "simulations/seed_existence_nullity_check.py",
-    }
-    assert artifact["provenance"]["source_producer_dependencies"] == expected

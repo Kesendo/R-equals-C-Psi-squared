@@ -10,7 +10,6 @@ certified enclosure must be contained in the next uniqueness box. Mere box
 overlap is never used as connection evidence. Removing a tile or substituting
 the other negative infinity germ must fail the connection audit.
 """
-import hashlib
 import json
 from fractions import Fraction
 from pathlib import Path
@@ -185,14 +184,12 @@ def main():
         lower=min(a for a,b in bounds);upper=max(b for a,b in bounds)
         summaries[name]={'lower_exact':str(lower),'upper_exact':str(upper),
                          'lower_decimal':float(lower),'upper_decimal':float(upper)}
-    paths=[Path(__file__),ROOT/'simulations/route_b_n4_fold_infinity.py',ROOT/'simulations/route_b_n4_range_polynomial.py',ROOT/'simulations/results/route_b_n4_range_polynomial.json',ROOT/'simulations/route_b_n4_range_certificate.py']
     out=dict(scope=__doc__,precision_bits=ctx.prec,z_interval='[0,1/2]',q_interval='[2,infinity)',
              tile_count=len(tiles),rejected_attempts=rejections,tiles=tiles,
              exact_start='z=1/2,u=-2,v=0',exact_end='z=0,u=-5sqrt(5)/4,v=-sqrt(5)/16',
              global_gate_bounds=summaries,
              gap_control_rejected=True,wrong_infinity_germ_control_rejected=True,success=True,
-             proof='Uniform contraction gives a unique root in each tile box for each z. The preceding endpoint enclosure is wholly inside the next box, so uniqueness identifies the branches. Endpoint enclosures are mean-value images of the proved root, never floating identities. At z=0 the exact negative-sqrt(5) root belongs to the last uniqueness box. Nonzero derivatives and spectators prove full EP2 for finite q; u<0,k>0,r>0 keep positive end bonds and epsilon<sqrt(3)-2<0.',
-             source_hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in paths})
+             proof='Uniform contraction gives a unique root in each tile box for each z. The preceding endpoint enclosure is wholly inside the next box, so uniqueness identifies the branches. Endpoint enclosures are mean-value images of the proved root, never floating identities. At z=0 the exact negative-sqrt(5) root belongs to the last uniqueness box. Nonzero derivatives and spectators prove full EP2 for finite q; u<0,k>0,r>0 keep positive end bonds and epsilon<sqrt(3)-2<0.')
     (ROOT/'simulations/results/route_b_n4_bridge_certificate.json').write_text(json.dumps(out,indent=2)+'\n')
     print('PASS',len(tiles),'tiles, gap and wrong-germ controls rejected',flush=True)
 

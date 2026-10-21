@@ -1,9 +1,6 @@
 {
   "scope": "F163 next EP-location coefficient from a fixed-plane graph recurrence.\nNumerical evaluation of an algebraic formula, not an interval remainder bound.\nRun: python simulations/route_b_n6_next_coefficient.py\n",
   "seed_id": "N6-E-A2-T-007",
-  "script_sha256": "8da37eb0c27586187101f257bb9e0c105d23f0eca36a14533125c86281bba630",
-  "source_sha256": "679a6d41283bb43c7c1f75793ffbeb9e27c168051108103b81e0a257f97cd114",
-  "validation_sha256": "1165aacade876d7ba8ed9cfdbe45fcb3343267592491dcebd02818e32d3d8b63",
   "profiles": {
     "one": {
       "order": 1,

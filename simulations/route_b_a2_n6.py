@@ -11,7 +11,6 @@ from dataclasses import dataclass, replace
 from fractions import Fraction
 import json
 import hashlib
-import hmac
 import multiprocessing as mp
 import queue as queue_module
 import os
@@ -108,8 +107,6 @@ class ParityBoxCertificate:
     count_methods: tuple
     conjugation_partners: tuple
     e_partners: tuple = ()
-    source_e_seal: str = ""
-    seal: str = ""
 
     def __len__(self): return len(self.boxes)
     def __iter__(self): return iter(self.boxes)
@@ -126,39 +123,26 @@ class OBoxCertificate(ParityBoxCertificate):
     pass
 
 
-def _carrier_material(certificate):
-    material=(type(certificate).__name__,certificate.polynomial_coefficients,
-              certificate.boxes,certificate.count_methods,certificate.conjugation_partners,
-              certificate.e_partners,certificate.source_e_seal)
-    return repr(material).encode("ascii")
-
-
-def _assemble_unsigned_box_certificate(cls,poly,boxes,methods,e_certificate=None):
-    """Shape assembly only: this helper cannot issue transport credentials."""
+def _assemble_box_certificate(cls,poly,boxes,methods,e_certificate=None):
+    """Shape assembly only: this helper counts nothing."""
     pairs=sorted(zip(boxes,methods),key=lambda pair:(pair[0].real,pair[0].imag))
     boxes,methods=map(tuple,zip(*pairs))
     conjugation=tuple(_find_exact_partner(boxes,_box_conjugate(box)) for box in boxes)
     e_partners=(() if e_certificate is None else
                 tuple(_find_exact_partner(e_certificate,_box_neg(box)) for box in boxes))
     result=cls(tuple(int(c) for c in reversed(poly.all_coeffs())),boxes,methods,conjugation,
-               e_partners,"" if e_certificate is None else e_certificate.seal)
+               e_partners)
     return result
 
 
-def verify_box_certificate(poly,certificate,cls,e_certificate=None,*,capability=None):
-    """Check run-local transport integrity and shape, NOT mathematical roots.
+def verify_box_certificate(poly,certificate,cls,e_certificate=None):
+    """Check the certificate's shape, NOT its mathematical roots.
 
-    The explicit ephemeral capability belongs to the run orchestrator. Only the
-    E/O certifiers sign, inline after executed exact counts; no re-sign API exists.
-    This is not a security boundary against code possessing that run capability.
+    Only the E/O certifiers build these carriers, inline after executed exact
+    counts; the persisted inventory's E counts are re-executed on replay.
     """
-    if type(capability) is not bytes or len(capability)!=32:
-        raise ValueError("explicit run-local count transport capability required")
     if type(certificate) is not cls:
         raise ValueError("completed executed-count parity certificate required")
-    expected=hmac.new(capability,_carrier_material(certificate),hashlib.sha256).hexdigest()
-    if not hmac.compare_digest(certificate.seal,expected):
-        raise ValueError("count carrier transport integrity failed")
     if certificate.polynomial_coefficients!=tuple(int(c) for c in reversed(poly.all_coeffs())):
         raise ValueError("certificate polynomial mismatch")
     boxes=certificate.boxes; degree=poly.degree()
@@ -182,10 +166,10 @@ def verify_box_certificate(poly,certificate,cls,e_certificate=None,*,capability=
                 or boxes[partner]!=_box_conjugate(boxes[index])):
             raise ValueError("conjugation partner involution failed")
     if cls is EBoxCertificate:
-        if certificate.e_partners or certificate.source_e_seal:
+        if certificate.e_partners:
             raise ValueError("invalid E provenance")
     else:
-        if e_certificate is None or certificate.source_e_seal!=e_certificate.seal:
+        if e_certificate is None:
             raise ValueError("O certificate lacks its completed E source")
         if sorted(certificate.e_partners)!=list(range(degree)):
             raise ValueError("parity partner map is not total")
@@ -507,7 +491,7 @@ def _count_job(args):
     return count
 
 
-def certify_a2_boxes(poly,proposals,dyadic_bits=64,workers=1,sturm_chain=None,*,capability=None):
+def certify_a2_boxes(poly,proposals,dyadic_bits=64,workers=1,sturm_chain=None):
     """Local exact counts only; FLINT supplies no evidence or multiplicities."""
     _validate_workers(workers)
     if (not isinstance(poly,sp.Poly) or poly.gens!=(t,) or poly.domain!=sp.ZZ
@@ -547,20 +531,17 @@ def certify_a2_boxes(poly,proposals,dyadic_bits=64,workers=1,sturm_chain=None,*,
     result=[ExactRootBox(box.real,box.imag,count) for box,count in zip(real+nonreal,counts)]
     if sum(counts)!=poly.degree():
         raise ValueError("executed exact counts do not exhaust degree")
-    certificate=_assemble_unsigned_box_certificate(EBoxCertificate,poly,result,
+    certificate=_assemble_box_certificate(EBoxCertificate,poly,result,
                                        ["sturm"]*len(real)+["complex-direct"]*len(nonreal))
-    if type(capability) is not bytes or len(capability)!=32:
-        raise ValueError("explicit run-local count transport capability required")
-    certificate=replace(certificate,seal=hmac.new(capability,_carrier_material(certificate),hashlib.sha256).hexdigest())
-    verify_box_certificate(poly,certificate,EBoxCertificate,capability=capability)
+    verify_box_certificate(poly,certificate,EBoxCertificate)
     print(f"E certificate: real={len(real)} nonreal={len(nonreal)} executed_sum={sum(counts)}",flush=True)
     return certificate
 
 
-def certify_odd_transport(a2,e_certificate,workers=1,sturm_chain=None,*,capability=None):
+def certify_odd_transport(a2,e_certificate,workers=1,sturm_chain=None):
     """Own only O counts; derive every box by the exact parameter involution."""
     _validate_workers(workers)
-    verify_box_certificate(a2,e_certificate,EBoxCertificate,capability=capability)
+    verify_box_certificate(a2,e_certificate,EBoxCertificate)
     odd=sp.Poly(a2.as_expr().subs(t,-t),t,domain=sp.ZZ)
     boxes=tuple(sorted((_box_neg(box) for box in e_certificate),key=lambda box:(box.real,box.imag)))
     sturm_chain=build_exact_sturm_chain(a2) if sturm_chain is None else sturm_chain
@@ -574,9 +555,8 @@ def certify_odd_transport(a2,e_certificate,workers=1,sturm_chain=None,*,capabili
         raise ValueError("O transport exact counts fail")
     certified=[ExactRootBox(box.real,box.imag,count) for box,count in zip(boxes,counts)]
     methods=["sturm-pullback" if box.imag==(0,0) else "complex-direct" for box in boxes]
-    result=_assemble_unsigned_box_certificate(OBoxCertificate,odd,certified,methods,e_certificate)
-    result=replace(result,seal=hmac.new(capability,_carrier_material(result),hashlib.sha256).hexdigest())
-    verify_box_certificate(odd,result,OBoxCertificate,e_certificate,capability=capability)
+    result=_assemble_box_certificate(OBoxCertificate,odd,certified,methods,e_certificate)
+    verify_box_certificate(odd,result,OBoxCertificate,e_certificate)
     real=sum(box.imag==(0,0) for box in boxes)
     print(f"O certificate: real={real} nonreal={len(boxes)-real} executed_sum={sum(counts)}",flush=True)
     return result
@@ -1216,10 +1196,10 @@ def _box_half(a):
     return ExactRootBox((a.real[0]/2,a.real[1]/2),(a.imag[0]/2,a.imag[1]/2))
 
 
-def isolate_a2_roots(poly,eps_den=10**24,*,capability=None):
+def isolate_a2_roots(poly,eps_den=10**24):
     """Hybrid local certification in direct t; never global complex isolation."""
     proposals=propose_a2_boxes_flint(poly,128)
-    return certify_a2_boxes(poly,proposals,max(16,int(eps_den).bit_length()),capability=capability)
+    return certify_a2_boxes(poly,proposals,max(16,int(eps_den).bit_length()))
 
 
 
@@ -1262,17 +1242,17 @@ def verify_fujiwara_radius(poly,radius):
     return True
 
 
-def _bounded_phase_worker(kind,args,queue,capability):
+def _bounded_phase_worker(kind,args,queue):
     try:
         if kind=="layer": result=prove_layer_identity(*args)
         elif kind=="layer_candidates": result=_lift_layers(*args)
         elif kind=="s1": result=first_subresultant_linear_exact(*args)
         elif kind=="verify_source": result=verify_inventory_source(*args)
-        elif kind=="isolate": result=isolate_a2_roots(*args,capability=capability)
+        elif kind=="isolate": result=isolate_a2_roots(*args)
         elif kind=="propose": result=propose_a2_boxes_flint(*args)
         elif kind=="sturm": result=build_exact_sturm_chain(*args)
-        elif kind=="certify": result=certify_a2_boxes(*args,capability=capability)
-        elif kind=="certify_odd": result=certify_odd_transport(*args,capability=capability)
+        elif kind=="certify": result=certify_a2_boxes(*args)
+        elif kind=="certify_odd": result=certify_odd_transport(*args)
         elif kind=="quotient":
             a,b,boxes=args
             result=[_lambda_box(a,b,box) for box in boxes]
@@ -1286,8 +1266,8 @@ def _bounded_phase_worker(kind,args,queue,capability):
         elif kind=="pair_at":
             a2,at,s1=args
             result=(prove_pair_uniqueness(a2,s1),prove_at_nonoverlap(a2,at,s1))
-        elif kind=="write": result=write_inventory(*args,capability=capability)
-        elif kind=="write_generic": result=_write_generic_inventory(*args,capability=capability)
+        elif kind=="write": result=write_inventory(*args)
+        elif kind=="write_generic": result=_write_generic_inventory(*args)
         elif kind=="count":
             poly,boxes,workers=args
             _validate_workers(workers)
@@ -1301,7 +1281,7 @@ def _bounded_phase_worker(kind,args,queue,capability):
         queue.put(("error",f"{type(exc).__name__}: {exc}"))
 
 
-def _bounded_exact_phase(kind,args,timeout_seconds=None,memory_bytes=None,*,capability=None):
+def _bounded_exact_phase(kind,args,timeout_seconds=None,memory_bytes=None):
     """Run one exact phase in a monitored process tree; fail on its cost boundary."""
     import psutil
     if timeout_seconds is None:
@@ -1312,12 +1292,7 @@ def _bounded_exact_phase(kind,args,timeout_seconds=None,memory_bytes=None,*,capa
             or type(memory_bytes) is not int or not 0<memory_bytes<=16*1024**3):
         raise ValueError("phase caps must be positive and at most 600s/16GiB")
     queue=mp.Queue()
-    needs_capability=kind in {"certify","certify_odd","isolate","write","write_generic"}
-    if needs_capability and (type(capability) is not bytes or len(capability)!=32):
-        raise ValueError("explicit run-local count transport capability required")
-    if not needs_capability and capability is not None:
-        raise ValueError("count capability must not enter unrelated phases")
-    process=mp.Process(target=_bounded_phase_worker,args=(kind,args,queue,capability),name="n6-"+kind)
+    process=mp.Process(target=_bounded_phase_worker,args=(kind,args,queue),name="n6-"+kind)
     process.start(); started=time.perf_counter(); peak=0
     identity=psutil.Process(process.pid)
     created,command=identity.create_time(),identity.cmdline()
@@ -1486,8 +1461,8 @@ def _projective_seed_target(a,b,real,imag):
 def _verify_generic_inventory_source(source_pencil,layer,s1,workers=1):
     """Bind both algebraic certificates to the supplied authoritative E pencil.
 
-    Box-carrier seals check transport integrity only. This independently reruns
-    the integer discriminant proof and raw fixed-minor proof; it counts no roots.
+    This independently reruns the integer discriminant proof and raw
+    fixed-minor proof; it counts no roots.
     """
     if not isinstance(source_pencil,ParityPencil) or source_pencil.parity!="E":
         raise ValueError("writer requires the E source pencil")
@@ -1509,10 +1484,10 @@ def verify_inventory_source(source_pencil,layer,s1,workers=1):
     return _verify_generic_inventory_source(source_pencil,layer,s1,workers)
 
 
-def _make_inventory(layer,s1,a2,roots,odd_certificate,quotient_certificate=None,source_pencil=None,workers=1,*,capability=None,_n6=False):
-    verify_box_certificate(a2,roots,EBoxCertificate,capability=capability)
+def _make_inventory(layer,s1,a2,roots,odd_certificate,quotient_certificate=None,source_pencil=None,workers=1,*,_n6=False):
+    verify_box_certificate(a2,roots,EBoxCertificate)
     odd=sp.Poly(a2.as_expr().subs(t,-t),t,domain=sp.ZZ)
-    verify_box_certificate(odd,odd_certificate,OBoxCertificate,roots,capability=capability)
+    verify_box_certificate(odd,odd_certificate,OBoxCertificate,roots)
     if len(roots)!=a2.degree() or a2!=layer.a2:
         raise ValueError("root inventory is incomplete")
     verifier=verify_inventory_source if _n6 else _verify_generic_inventory_source
@@ -1582,17 +1557,17 @@ def _make_inventory(layer,s1,a2,roots,odd_certificate,quotient_certificate=None,
     return payload
 
 
-def write_inventory(path,layer,s1,a2,roots,odd_certificate=None,payload=None,workers=1,quotient_certificate=None,source_pencil=None,*,capability=None):
+def write_inventory(path,layer,s1,a2,roots,odd_certificate=None,payload=None,workers=1,quotient_certificate=None,source_pencil=None):
     """Public canonical N6 schema-3 writer. Generic pencils are never N6-labelled."""
     _require_canonical_n6_source(source_pencil)
     return _write_generic_inventory(path,layer,s1,a2,roots,odd_certificate,payload,workers,
-                                    quotient_certificate,source_pencil,capability=capability,_n6=True)
+                                    quotient_certificate,source_pencil,_n6=True)
 
 
-def _write_generic_inventory(path,layer,s1,a2,roots,odd_certificate=None,payload=None,workers=1,quotient_certificate=None,source_pencil=None,*,capability=None,_n6=False):
+def _write_generic_inventory(path,layer,s1,a2,roots,odd_certificate=None,payload=None,workers=1,quotient_certificate=None,source_pencil=None,*,_n6=False):
     """Internal polynomial writer; generic output has no N6 model claim."""
     canonical=_make_inventory(layer,s1,a2,roots,odd_certificate,quotient_certificate,source_pencil,workers,
-                              capability=capability,_n6=_n6)
+                              _n6=_n6)
     if payload is not None and payload!=canonical:
         raise ValueError("supplied inventory differs from exact canonical reconstruction")
     target=Path(path)
@@ -1773,7 +1748,7 @@ def _reconstruct_inventory_semantics(data,source_pencil,layer,s1,workers):
     if any(count!=1 for count in counts) or sum(counts)!=a2.degree():
         raise ValueError("persisted E exact root counts do not exhaust degree")
     # The authoritative pencils obey F_O(Lambda,t)=F_E(Lambda,-t); no numerical
-    # proposals, O root finder, or run-local count-carrier seal enters this replay.
+    # proposals and no O root finder enter this replay.
     o=tuple(sorted((_box_neg(box) for box in e),key=lambda box:(box.real,box.imag)))
     if tuple(read_box(row["tBox"]) for row in rows if row["parity"]=="O")!=o:
         raise ValueError("persisted O boxes differ from exact parity transport")
@@ -2053,12 +2028,9 @@ def parse_runtime_arguments(argv=None):
 
 def main():
     args=parse_runtime_arguments()
-    # Private to this run; never stored on a carrier or in module state.
-    capability=os.urandom(32)
     def phase(kind,arguments):
-        credential=capability if kind in {"certify","certify_odd","isolate","write"} else None
         return _bounded_exact_phase(kind,arguments,args.phase_timeout_seconds,
-                                    args.phase_memory_gib*1024**3,capability=credential)
+                                    args.phase_memory_gib*1024**3)
     if args.out is not None or args.probe_isolation:
         _require_flint()
     if args.benchmark:

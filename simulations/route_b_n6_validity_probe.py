@@ -2,7 +2,6 @@
 Run with OPENBLAS_NUM_THREADS=1: python simulations/route_b_n6_validity_probe.py
 Errors are relative to actual branch displacement, not total q.
 """
-import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -31,7 +30,7 @@ def main():
         lower=sampled-2*r*np.sin(np.pi/(2*n))
         contour.append(dict(radius=r,nodes=n,sampled_min_sigma=float(sampled),angular_correction=float(2*r*np.sin(np.pi/(2*n))),continuum_lower_estimate=float(lower)))
     best=max(contour,key=lambda x:x['continuum_lower_estimate'])
-    report=dict(seed_id=old['seed_id'],source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),scope=__doc__,contours=contour,profiles={})
+    report=dict(seed_id=old['seed_id'],scope=__doc__,contours=contour,profiles={})
     ep.EPSILONS=(0.01,0.02,0.03,0.05,0.075,0.1)
     for name,(a,b) in ep.DIRECTIONS.items():
         original=old['profiles'][name]

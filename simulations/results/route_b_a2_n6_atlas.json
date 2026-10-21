@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "n": 6,
   "sourceArtifact": "simulations/results/route_b_a2_n6.json",
-  "sourceSha256": "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47",
   "coordinateMeaning": "exact t-box midpoint converted to display double; not an algebraic root",
   "reconciliation": {
     "totalLoci": 266,

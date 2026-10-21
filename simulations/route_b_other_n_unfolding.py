@@ -16,7 +16,6 @@ from scipy.optimize import root
 from framework.weight_coherence_block import weight_block_build,weight_block_configs
 import route_b_n6_end_profile_probe as ep
 from route_b_n6_next_coefficient import graph_coefficients,polar
-from route_b_artifact_provenance import artifact_provenance, verify_artifact_provenance
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'simulations/results/route_b_a2_n5.json'
 PROFILE_ORDERS={'one':1,'even':1,'odd':2}
@@ -412,10 +411,6 @@ def validate_continuations(continuations):
         raise ValueError('Invalid continuation schema') from error
 
 
-def validate_provenance(payload):
-    """Compare canonical source/script/transitive hashes against current files."""
-    verify_artifact_provenance(payload,Path(__file__),SOURCE)
-
 def residue_control(record):
     n=record['n']; q=z(record['q']); lam=z(record['lambda0'])
     d,c,left,right,reflection=parts(n); l=d+q*c; V=(left-right)/2
@@ -443,14 +438,13 @@ def main():
     rows=build_coefficient_survey(data)
     validate_coefficient_survey(rows,data)
     selected=[next(r for r in rows if r['id']==identifier) for identifier in SELECTED]
-    output=dict(scope=__doc__,**artifact_provenance(Path(__file__),SOURCE),loci=rows,continuations={})
+    output=dict(scope=__doc__,loci=rows,continuations={})
     for r in selected:
         print('selected',r['id'],'gap',r['third_distance'],flush=True)
         r['residue_control']=residue_control(r)
         output['continuations'][r['id']]=follow(r['n'],z(r['q']),z(r['lambda0']),r)
     validate_coefficient_survey(rows,data)
     validate_continuations(output['continuations'])
-    validate_provenance(output)
     path=ROOT/'simulations/results/route_b_other_n_unfolding.json'
     path.write_text(json.dumps(output,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print('count',len(rows),'worst relative identity',max(r['identity_relative_residual'] for r in rows),flush=True)

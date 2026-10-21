@@ -1948,12 +1948,5 @@
         }
       ]
     }
-  ],
-  "source_hashes": {
-    "simulations\\route_b_n4_range_one.py": "61afb3cf33b9db525d7b094f8e0031741c36aacadcf09cf6fe9e432c8872f36d",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-    "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
-    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
-  }
+  ]
 }

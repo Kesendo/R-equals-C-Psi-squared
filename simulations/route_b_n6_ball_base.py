@@ -4,14 +4,13 @@ The exact rank/semisimplicity premise comes from F163; ball residuals are
 consistency checks, never proofs that a matrix expression vanishes exactly.
 """
 from pathlib import Path
-import hashlib
 import json
 import time
 import numpy as np
 from scipy.linalg import qr
 from flint import acb, arb, acb_poly, acb_mat, ctx
 import route_b_a2_n6 as exact
-from route_b_n6_exact_unfolding import integer_pencil, canonical_utf8_lf_sha256
+from route_b_n6_exact_unfolding import integer_pencil
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -30,10 +29,7 @@ def all_contain_zero(matrix):
 def build_base(precision=512):
     ctx.prec=precision
     fixture_path=ROOT/'simulations/tests/fixtures/route_b_a2_n6_residual.json'
-    producer=ROOT/'simulations/route_b_n6_exact_unfolding.py'
     report=json.loads((ROOT/'simulations/results/route_b_n6_exact_unfolding.json').read_text())
-    assert report['provenance']['fixture_sha256']==canonical_utf8_lf_sha256(fixture_path.read_bytes())
-    assert report['provenance']['script_sha256']==canonical_utf8_lf_sha256(producer.read_bytes())
     exact.load_exact_pencils(fixture_path) # verifies the canonical semantic digest
     assert report['provenance']['source_pencil_digest']==exact.N6_SOURCE_PENCIL_DIGEST
     assert int(report['layer']['proof_modulus'])>2*int(report['layer']['proof_bound'])

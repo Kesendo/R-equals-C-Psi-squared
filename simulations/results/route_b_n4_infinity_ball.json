@@ -21,12 +21,5 @@
     "scaled_other_octic": "[-6912.0 +/- 0.0136]"
   },
   "success": true,
-  "displaced_center_control_rejected": true,
-  "source_hashes": {
-    "simulations\\route_b_n4_infinity_ball.py": "ceba7688a9e3f995f995c03ec1184f75a586f662d3df9aaca7e71eefdfcca405",
-    "simulations\\route_b_n4_fold_infinity.py": "0979a8b8897a3848431ea8b543e936f021c3830246ffa62377589773def85f63",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-    "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a"
-  }
+  "displaced_center_control_rejected": true
 }

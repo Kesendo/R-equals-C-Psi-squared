@@ -9,7 +9,6 @@ root along the open segment; opposite-parity coincidences are retained.
 
 Run: python simulations/route_b_n4_incoming_certificate.py
 """
-import hashlib
 import json
 import sys
 from fractions import Fraction
@@ -22,16 +21,6 @@ from route_b_n4_range_certificate import ball_function
 from route_b_n4_range_polynomial import even_frequency_factor,factor_expression
 
 ROOT=Path(__file__).resolve().parents[1]
-
-
-def source_hashes():
-    names=['route_b_n4_bridge_certificate.py','route_b_n4_range_polynomial.py',
-           'results/route_b_n4_range_polynomial.json','route_b_n4_range_certificate.py',
-           'route_b_n4_self_fold.py','results/route_b_n4_self_fold.json',
-           'route_b_n4_parity_factors.py','results/route_b_n4_parity_factors.json',
-           'route_b_n4_incoming_crossing.py','results/route_b_n4_incoming_crossing.json']
-    paths=[Path(__file__)]+[ROOT/'simulations'/name for name in names]
-    return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in paths}
 
 
 def setup():
@@ -263,7 +252,6 @@ def close_crossings(data):
     data.update(crossing_strips=strips,crossing_associations=associations,
                 opposite_sector_crossing_count=2,crossing_completeness_certified=True,
                 crossing_record_omission_control_rejected=True,duplicate_crossing_record_control_rejected=True,
-                crossing_certificate_sha256=hashlib.sha256(crossing_path.read_bytes()).hexdigest(),
                 crossing_completeness_proof='Every tile outside the listed strips excludes a zero of the other octic. Within each contiguous strip the derivative along the certified path has one strict sign; certified endpoint signs are opposite. Each strip therefore contains exactly one crossing. Both independent three-dimensional root boxes map wholly into path uniqueness tiles, identifying them as those crossings. Their full Jordan type is J2 direct sum J1.')
     return data
 
@@ -300,8 +288,7 @@ def main():
                 tiles=tiles,global_gate_bounds=summaries,success=True,gap_control_rejected=True,
                 wrong_fold_control_rejected=True,
                 wrong_seed_branch_control_rejected=True,
-                proof='At t=0 the exact quadratic root and eliminated v solve K=Kv=0. Uniform contraction tiles identify the same root via contained endpoint enclosures. The final uniqueness box contains the exact fold. For t>0, F_epsilon=(256/27)t K_u and F_omegaomega=(256/27)K_vv are nonzero. P4 is excluded, but the other octic is tracked without exclusion: cross-parity coincidences can raise full spectral multiplicity. The original t=0 eigenvalue remains the independently certified semisimple seed.',
-                source_hashes=source_hashes())
+                proof='At t=0 the exact quadratic root and eliminated v solve K=Kv=0. Uniform contraction tiles identify the same root via contained endpoint enclosures. The final uniqueness box contains the exact fold. For t>0, F_epsilon=(256/27)t K_u and F_omegaomega=(256/27)K_vv are nonzero. P4 is excluded, but the other octic is tracked without exclusion: cross-parity coincidences can raise full spectral multiplicity. The original t=0 eigenvalue remains the independently certified semisimple seed.')
     close_crossings(data)
     (ROOT/'simulations/results/route_b_n4_incoming_certificate.json').write_text(json.dumps(data,indent=2)+'\n')
     print('PASS',len(tiles),'incoming tiles, gap and wrong-fold controls rejected',flush=True)
@@ -318,7 +305,6 @@ if __name__=='__main__':
         assert not audit(data['tiles'],data['other_seed_anchor_dyadic'],data['fold_anchor_dyadic'])
         data['wrong_seed_branch_control_rejected']=True
         close_crossings(data)
-        data['source_hashes']=source_hashes()
         path.write_text(json.dumps(data,indent=2)+'\n')
         print('PASS exact crossing completeness and association')
     else:main()

@@ -1,7 +1,7 @@
 """High-precision continuation of equal-end N4 EPs in the selected octic.
 Numerical paths and endpoint candidates, not certified interval bounds.
 """
-import hashlib,json,sys
+import json,sys
 from pathlib import Path
 import mpmath as mp
 import sympy as s
@@ -55,7 +55,7 @@ def follow(branch,direction,limit,funcs):
     return dict(branch=branch,direction=direction,limit=limit,rows=rows,candidates=candidates)
 
 def main():
-    funcs=functions();out=dict(scope=__doc__,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),paths={})
+    funcs=functions();out=dict(scope=__doc__,paths={})
     f,(w,q,e)=even_frequency_factor();point={w:2,q:2,e:s.sqrt(2)-2}
     exact={name:str(s.simplify(value.subs(point))) for name,value in
            [('F',f),('Fw',s.diff(f,w)),('Fq',s.diff(f,q)),
@@ -99,7 +99,6 @@ def enrich_algebra():
     assert nullities==[2,4,4]
     out['decoupled_full_block']=dict(q='1/2',epsilon='-2',characteristic=str(s.factor(L.charpoly(z).as_expr())),
         nullities_M_M2_M3=nullities,character='At lambda=-4: two Jordan blocks of size2, not EP4.')
-    out['algebra_enrichment_script_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     target.write_text(json.dumps(out,indent=2)+'\n')
 
 if __name__=='__main__':

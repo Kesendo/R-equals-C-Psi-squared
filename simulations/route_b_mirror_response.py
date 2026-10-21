@@ -3,7 +3,7 @@ N=4,5,6 selected seeds; XY, gamma=1, q=qCSharp. Real-coefficient end profiles.
 Exact dyadic matrix identities plus numerical independent partner-plane readings.
 Run: python simulations/route_b_mirror_response.py
 """
-import hashlib,json
+import json
 from pathlib import Path
 import numpy as np
 import scipy.linalg as la
@@ -37,7 +37,7 @@ def main():
     earlier=json.loads(sources[0].read_text());six=json.loads(sources[1].read_text())
     seeds=[next(r for r in earlier['loci'] if r['id']==key) for key in ('N4-real-lambda-plus','N5-O-A2-W-006-Q-plus')]
     seeds.append(dict(n=6,id=six['seed_id'],q=six['q0'],lambda0=six['lambda0']))
-    out=dict(scope=__doc__,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),dependencies={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'simulations/route_b_n6_end_profile_probe.py',ROOT/'simulations/route_b_n6_next_coefficient.py',ROOT/'simulations/route_b_n6_leakage_probe.py',ROOT/'simulations/framework/weight_coherence_block.py']},sources={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},readings=[])
+    out=dict(scope=__doc__,readings=[])
     for seed in seeds:
         n=seed['n'];bs,d,c,left,right,R=setup(n,2);bt,dp,cp,lp,rp,Rp=setup(n,n-2)
         index={x:i for i,x in enumerate(bt)};mask=(1<<n)-1

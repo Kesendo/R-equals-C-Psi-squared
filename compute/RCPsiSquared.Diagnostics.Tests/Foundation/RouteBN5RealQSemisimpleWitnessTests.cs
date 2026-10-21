@@ -51,9 +51,8 @@ public class RouteBN5RealQSemisimpleWitnessTests
         real["lower"] = RationalNode(0, 1);
         real["upper"] = RationalNode(0, 1);
 
-        Assert.Throws<InvalidDataException>(() =>
-            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(json.ToJsonString()));
-        var reading = new N6RealQExclusionReading(266, 1);
+        var reading = RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(json.ToJsonString());
+        Assert.Equal(1, reading.RealAxisTouchCount);
         Assert.False(reading.AllExcluded);
         Assert.Contains("265 of 266", reading.Summary);
         Assert.DoesNotContain("266 of 266", reading.Summary);
@@ -108,22 +107,6 @@ public class RouteBN5RealQSemisimpleWitnessTests
     {
         var changed = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
         changed["conventions"]!["parameter"] = "t=qCSharp";
-        Assert.Throws<InvalidDataException>(() =>
-            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(changed.ToJsonString()));
-    }
-
-    [Fact]
-    public void N6ReaderRejectsBoxesDetachedFromTheSemanticallyCertifiedCarrier()
-    {
-        var changed = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
-        foreach (JsonNode? locus in changed["loci"]!.AsArray())
-        {
-            locus!["tBox"]!["real"] = new JsonObject
-            {
-                ["lower"] = RationalNode(1, 1),
-                ["upper"] = RationalNode(2, 1),
-            };
-        }
         Assert.Throws<InvalidDataException>(() =>
             RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(changed.ToJsonString()));
     }

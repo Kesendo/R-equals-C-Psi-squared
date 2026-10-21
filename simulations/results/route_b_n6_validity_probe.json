@@ -1,7 +1,5 @@
 {
   "seed_id": "N6-E-A2-T-007",
-  "source_sha256": "679a6d41283bb43c7c1f75793ffbeb9e27c168051108103b81e0a257f97cd114",
-  "script_sha256": "a4403b19613e1cca2168e207cef2de60a0404bf4e5136049b79b1daa3b3a1bd0",
   "scope": "Numerical validity of F163 at N6-E-A2-T-007; no certified epsilon radius.\nRun with OPENBLAS_NUM_THREADS=1: python simulations/route_b_n6_validity_probe.py\nErrors are relative to actual branch displacement, not total q.\n",
   "contours": [
     {

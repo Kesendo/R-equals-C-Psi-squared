@@ -240,10 +240,5 @@
       "success": true,
       "displaced_control_rejected": true
     }
-  ],
-  "source_hashes": {
-    "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9"
-  }
+  ]
 }

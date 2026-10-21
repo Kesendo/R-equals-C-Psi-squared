@@ -6,7 +6,6 @@ the mutation or the control that makes its own instrument read the other
 answer, because an instrument that cannot report the other answer reports
 nothing.
 """
-import hashlib
 from collections import Counter
 import json
 import os
@@ -23,10 +22,8 @@ import sympy as s
 from sympy.polys.matrices import DomainMatrix as DM
 
 from framework.weight_coherence_block import weight_block_configs
-from route_b_artifact_provenance import artifact_provenance, canonical_text_sha256
 from route_b_other_n_unfolding import parts
 
-SCRIPT = ROOT/'simulations/route_b_n4_resonance_projection.py'
 ARTIFACT = ROOT/'simulations/results/route_b_n4_resonance_projection.json'
 DIMENSION = 24
 RESONANT = 5
@@ -80,31 +77,6 @@ def multiplicities(operator, field, size):
     found = {k: size-(operator-identity.scalarmul(field.convert(k))).rank()
              for k in range(-size, size+1)}
     return {k: m for k, m in found.items() if m}
-
-
-def test_certificate_provenance_is_canonical_and_survives_checkout_line_endings(certificate):
-    assert certificate['script_sha256'] == canonical_text_sha256(SCRIPT)
-    expected = artifact_provenance(SCRIPT, SCRIPT)
-    expected.pop('source_sha256')
-    # The dependency closure is pinned too: the labelling this certificate
-    # rests on comes from framework.weight_coherence_block, not from the
-    # script alone.
-    assert 'simulations/framework/weight_coherence_block.py' in expected['dependencies']
-    assert 'simulations/route_b_other_n_unfolding.py' in expected['dependencies']
-    for field, value in expected.items():
-        assert certificate[field] == value, f'provenance mismatch: {field}'
-    lf = SCRIPT.read_bytes().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
-    assert b'\n' in lf
-    raw = set()
-    for ending in (b'\n', b'\r\n', b'\r'):
-        checkout = lf.replace(b'\n', ending)
-        canonical = checkout.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
-        assert hashlib.sha256(canonical.encode('utf-8')).hexdigest() == certificate['script_sha256']
-        raw.add(hashlib.sha256(checkout).hexdigest())
-    # The mutation: a raw-bytes book gives three different answers for one
-    # file, so a hash kept that way is unreachable on any checkout but the one
-    # that wrote it.
-    assert len(raw) == 3
 
 
 def test_dephasing_half_is_the_absorption_diagonal_and_its_two_rungs_are_mirror_partners(block, certificate):

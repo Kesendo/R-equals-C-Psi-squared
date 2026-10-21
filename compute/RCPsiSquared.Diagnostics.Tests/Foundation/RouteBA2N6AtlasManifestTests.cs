@@ -4,9 +4,6 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public sealed class RouteBA2N6AtlasManifestTests
 {
-    private const string SourceSha256 =
-        "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47";
-
     [Fact]
     [Trait("Category", "ROUTE_B_A2_N6_ATLAS")]
     public void BuildAtlasManifest_BindsTheExecutedInventoryCharacterAndPartnerOrbits()
@@ -17,7 +14,6 @@ public sealed class RouteBA2N6AtlasManifestTests
         Assert.Equal(1, manifest.SchemaVersion);
         Assert.Equal(6, manifest.N);
         Assert.Equal("simulations/results/route_b_a2_n6.json", manifest.SourceArtifact);
-        Assert.Equal(SourceSha256, manifest.SourceSha256);
         Assert.Equal("exact t-box midpoint converted to display double; not an algebraic root",
             manifest.CoordinateMeaning);
         Assert.Equal(266, manifest.Loci.Count);

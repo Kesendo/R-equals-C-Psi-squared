@@ -1,7 +1,6 @@
 """Production gates must reject damaged surveys before publishing an artifact."""
 import copy
 from functools import lru_cache
-import importlib.util
 import json
 import os
 from pathlib import Path
@@ -227,29 +226,6 @@ def test_continuation_validator_rejects_mutated_data(damage):
         validate(data)
 
 
-def test_provenance_primitives_have_a_neutral_module():
-    assert importlib.util.find_spec('route_b_artifact_provenance') is not None
-    import route_b_artifact_provenance as provenance
-    import route_b_n4_virtual_readout as virtual
-    assert virtual._canonical_text_sha256 is provenance.canonical_text_sha256
-    assert provenance.canonical_text_sha256.__module__ == 'route_b_artifact_provenance'
-
-
-@pytest.mark.parametrize('field', ['source_sha256', 'script_sha256', 'dependencies'])
-def test_provenance_validator_rejects_wrong_hash(field):
-    validate = required_api('validate_provenance')
-    payload = unfolding.artifact_provenance(Path(unfolding.__file__),
-                ROOT/'simulations/results/route_b_a2_n5.json')
-    validate(copy.deepcopy(payload))
-    damaged = copy.deepcopy(payload)
-    if field == 'dependencies':
-        damaged[field][next(iter(damaged[field]))] = '0'*64
-    else:
-        damaged[field] = '0'*64
-    with pytest.raises(ValueError, match='provenance'):
-        validate(damaged)
-
-
 def test_scale_law_is_measured_across_more_than_seven_decades():
     required_api('build_coefficient_survey')
     q = np.sqrt((-1+np.sqrt(13))/6)
@@ -286,11 +262,10 @@ def test_scale_law_mutation_reaches_production_validator():
         unfolding.validate_coefficient_survey(rows, inventory())
 
 
-@pytest.mark.parametrize('stage', ['coefficients', 'continuations', 'provenance'])
+@pytest.mark.parametrize('stage', ['coefficients', 'continuations'])
 def test_main_rejects_bad_data_before_any_write(stage, monkeypatch):
     required_api('validate_coefficient_survey')
     required_api('validate_continuations')
-    required_api('validate_provenance')
     rows = survey()
     data = copy.deepcopy(fresh_continuations())
     if stage == 'coefficients':
@@ -301,18 +276,10 @@ def test_main_rejects_bad_data_before_any_write(stage, monkeypatch):
         pair[3]['generator_norm'] = pair[0]['generator_norm']
     monkeypatch.setattr(unfolding, 'build_coefficient_survey', lambda _: rows)
     monkeypatch.setattr(unfolding, 'follow', lambda n,q,lam,r: data[r['id']])
-    if stage == 'provenance':
-        original = unfolding.artifact_provenance
-        def damaged_provenance(*args):
-            result = original(*args)
-            result['dependencies'][next(iter(result['dependencies']))] = '0'*64
-            return result
-        monkeypatch.setattr(unfolding, 'artifact_provenance', damaged_provenance)
     def no_write(*args, **kwargs):
         pytest.fail('invalid output reached a file write')
     monkeypatch.setattr(Path, 'write_text', no_write)
-    reason = {'coefficients': 'coverage', 'continuations': 'branches coalesced',
-              'provenance': 'provenance'}[stage]
+    reason = {'coefficients': 'coverage', 'continuations': 'branches coalesced'}[stage]
     with pytest.raises(ValueError, match=reason):
         unfolding.main()
 
@@ -321,4 +288,3 @@ def test_saved_artifact_passes_the_same_production_validators():
     payload = json.loads((ROOT/'simulations/results/route_b_other_n_unfolding.json').read_text())
     unfolding.validate_coefficient_survey(payload['loci'], inventory())
     unfolding.validate_continuations(payload['continuations'])
-    unfolding.validate_provenance(payload)

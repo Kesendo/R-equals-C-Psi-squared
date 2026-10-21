@@ -54,10 +54,5 @@
     }
   },
   "fold_mutation_rejected": true,
-  "swapped_branch_control": "q=1 +/- i*epsilon, lambda=-4",
-  "dependencies": {
-    "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
-    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
-  },
-  "script_sha256": "da0d7af271cbd1d50f7ef68f0302634029ac0601ecd14f18d82448ff8af2346d"
+  "swapped_branch_control": "q=1 +/- i*epsilon, lambda=-4"
 }

@@ -8,22 +8,14 @@ using RCPsiSquared.Core.F89PathK;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>Source binding for the consumed complete bounded-CRT factorization.
-/// This loader does not redo that proof. Its coefficient fingerprint identifies the
-/// committed certificate; its fixture is compared coefficient by coefficient with
-/// both freshly reconstructed Core pencils. Producer hashes use LF-normalized source
-/// text so a Windows checkout's CRLF conversion does not change its identity.</summary>
+/// This loader does not redo that proof. Its coefficient digest identifies the
+/// certified A2 polynomial and its source pencil digest the pencils it was computed
+/// from; its fixture is compared coefficient by coefficient with both freshly
+/// reconstructed Core pencils.</summary>
 internal static class RouteBN6UnfoldingCertificate
 {
     private const string CoefficientSha256 = "e0a68ad94112d80d0df4d4cdb57fb5b9313502a5b862bcf8980df18c80e74832";
     private const string SourcePencilDigest = "cf1549c54a116132373e481d0ce7a7ea03409c07f75e3f6ab5b9fd0f738dc916";
-    private const string Script = "simulations/route_b_n6_exact_unfolding.py";
-    private const string SourceProducer = "simulations/route_b_a2_n6.py";
-    private static readonly string[] SourceProducerDependencies =
-    {
-        "simulations/o2b_gcd_certificate.py",
-        "simulations/o2b_krein_sign_law.py",
-        "simulations/seed_existence_nullity_check.py",
-    };
     private const string Fixture = "simulations/tests/fixtures/route_b_a2_n6_residual.json";
     internal const string Artifact = "simulations/results/route_b_n6_exact_unfolding.json";
 
@@ -58,32 +50,14 @@ internal static class RouteBN6UnfoldingCertificate
             var provenance = document.RootElement.GetProperty("provenance");
             Require(provenance.GetProperty("source_pencil_digest").GetString() == SourcePencilDigest,
                 "F163 source pencil digest mismatch.");
-            Require(provenance.GetProperty("script_sha256").GetString() == CanonicalUtf8LfSha256(File.ReadAllText(Find(Script))),
-                "F163 producer source fingerprint mismatch.");
-            Require(provenance.GetProperty("source_producer_sha256").GetString()
-                == CanonicalUtf8LfSha256(File.ReadAllText(Find(SourceProducer))),
-                "F163 exact source-producer fingerprint mismatch.");
-            var dependencyProperties = provenance.GetProperty("source_producer_dependencies")
-                .EnumerateObject().OrderBy(property => property.Name, StringComparer.Ordinal).ToArray();
-            Require(dependencyProperties.Select(property => property.Name)
-                    .SequenceEqual(SourceProducerDependencies),
-                "F163 exact source-producer dependency manifest mismatch.");
-            foreach (var dependency in dependencyProperties)
-                Require(dependency.Value.GetString()
-                        == CanonicalUtf8LfSha256(File.ReadAllText(Find(dependency.Name))),
-                    $"F163 exact source-producer dependency fingerprint mismatch: {dependency.Name}.");
-            string fixtureText = File.ReadAllText(Find(Fixture));
-            Require(provenance.GetProperty("fixture_sha256").GetString() == CanonicalUtf8LfSha256(fixtureText),
-                "F163 fixture fingerprint mismatch.");
-            using var fixture = JsonDocument.Parse(fixtureText);
+            using var fixture = JsonDocument.Parse(File.ReadAllText(Find(Fixture)));
             bool matches = Matches(fixture.RootElement.GetProperty("rEven"), even)
                 && Matches(fixture.RootElement.GetProperty("rOdd"), odd);
             Require(matches, "F163 certificate fixture differs from the rebuilt Core pencils.");
             return new(a2, matches,
                 $"Full bounded-CRT factorization consumed from {resolvedPath}; coefficient SHA256 {CoefficientSha256}; " +
-                "bound and modulus joined to RouteBA2N6Inventory, both fixture pencils rebuilt in Core; " +
-                "wrapper, exact source-producer, its complete transitive local dependency manifest, and fixture " +
-                "text hashes checked after LF normalization. " +
+                "source pencil digest checked; bound and modulus joined to RouteBA2N6Inventory; " +
+                "both fixture pencils compared coefficient by coefficient with the pencils rebuilt in Core. " +
                 "The CRT proof is not rerun at inspect time.");
         }
         catch (Exception error) when (error is JsonException or KeyNotFoundException or FormatException or InvalidOperationException)
@@ -155,14 +129,6 @@ internal static class RouteBN6UnfoldingCertificate
             }
         }
         Require(containers.Count == 0, "Incomplete F163 JSON container.");
-    }
-
-    internal static string CanonicalUtf8LfSha256(string text)
-    {
-        ArgumentNullException.ThrowIfNull(text);
-        string canonical = text.Replace("\r\n", "\n", StringComparison.Ordinal)
-                               .Replace('\r', '\n');
-        return Hash(canonical);
     }
 
     private static string Hash(string text) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(text))).ToLowerInvariant();

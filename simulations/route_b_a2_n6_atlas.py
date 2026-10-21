@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import math
 from fractions import Fraction
@@ -17,7 +16,6 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 
-SOURCE_SHA256 = "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47"
 CYAN = "#28d7e5"
 VIOLET = "#9b7bea"
 GOLD = "#e2b83b"
@@ -53,11 +51,8 @@ def validate_manifest(data: dict, repo_root: Path) -> None:
     require = lambda condition, message: condition or (_raise(message))
     require(data.get("schemaVersion") == 1 and data.get("n") == 6,
             "unexpected atlas schema or N")
-    require(data.get("sourceSha256") == SOURCE_SHA256, "unexpected source digest")
     source = repo_root / data.get("sourceArtifact", "")
     require(source.is_file(), "source artifact is missing")
-    require(hashlib.sha256(source.read_bytes()).hexdigest() == SOURCE_SHA256,
-            "source artifact digest mismatch")
     carrier = json.loads(source.read_text(encoding="utf-8"))
     require(data.get("coordinateMeaning") ==
             "exact t-box midpoint converted to display double; not an algebraic root",

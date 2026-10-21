@@ -20,7 +20,6 @@ from collections import Counter
 from pathlib import Path
 import sympy as s
 from sympy.polys.matrices import DomainMatrix as DM
-from route_b_artifact_provenance import artifact_provenance
 from route_b_other_n_unfolding import parts
 from framework.weight_coherence_block import weight_block_configs
 
@@ -206,11 +205,9 @@ def main():
         assert entry['compression_scalar']=={'end_weight_term':False,'dephasing_term':False}
         twin.append(entry)
 
-    provenance=artifact_provenance(Path(__file__),Path(__file__))
-    provenance.pop('source_sha256')  # This producer builds its object from code alone.
     out=dict(scope=__doc__,resonant_dimension=5,reflection='+I',D_projection=str(DD),end_hop_projection=str(TT),
              effective_determinant=str(polynomial),residual_cubic=str(s.expand(H)),quotient=str(s.cancel(polynomial/H)),
-             single_particle_energies=[-3,-1,1,3],**provenance)
+             single_particle_energies=[-3,-1,1,3])
     out.update(effective_ranks=ranks)
     out.update(absorption_rate_per_stratum=rate,
                hamming_strata={str(k):hamming.count(k) for k in strata},

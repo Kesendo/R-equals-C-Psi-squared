@@ -56595,12 +56595,5 @@
   "gap_control_rejected": true,
   "wrong_infinity_germ_control_rejected": true,
   "success": true,
-  "proof": "Uniform contraction gives a unique root in each tile box for each z. The preceding endpoint enclosure is wholly inside the next box, so uniqueness identifies the branches. Endpoint enclosures are mean-value images of the proved root, never floating identities. At z=0 the exact negative-sqrt(5) root belongs to the last uniqueness box. Nonzero derivatives and spectators prove full EP2 for finite q; u<0,k>0,r>0 keep positive end bonds and epsilon<sqrt(3)-2<0.",
-  "source_hashes": {
-    "simulations\\route_b_n4_bridge_certificate.py": "a590a762cb2d8d18163c19461c4a800a5318e410186e6d7c58ef4ec336b12352",
-    "simulations\\route_b_n4_fold_infinity.py": "0979a8b8897a3848431ea8b543e936f021c3830246ffa62377589773def85f63",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
-    "simulations\\route_b_n4_range_certificate.py": "2a328d974646caa5c6215791a4d2c2594bcf4dbb8b30651fd0c3fcc883b4ad3a"
-  }
+  "proof": "Uniform contraction gives a unique root in each tile box for each z. The preceding endpoint enclosure is wholly inside the next box, so uniqueness identifies the branches. Endpoint enclosures are mean-value images of the proved root, never floating identities. At z=0 the exact negative-sqrt(5) root belongs to the last uniqueness box. Nonzero derivatives and spectators prove full EP2 for finite q; u<0,k>0,r>0 keep positive end bonds and epsilon<sqrt(3)-2<0."
 }

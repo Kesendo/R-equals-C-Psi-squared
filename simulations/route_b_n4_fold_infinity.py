@@ -6,7 +6,6 @@ These are local full-block EP2 germs. Association with a finite seed
 or its second fold arm is a separate continuation question.
 Run: python simulations/route_b_n4_fold_infinity.py
 """
-import hashlib
 import json
 from pathlib import Path
 import sympy as s
@@ -80,7 +79,5 @@ def derive():
 
 if __name__ == '__main__':
     output=derive()
-    paths=[Path(__file__),ROOT/'simulations/route_b_n4_range_polynomial.py',ROOT/'simulations/results/route_b_n4_range_polynomial.json']
-    output['source_hashes']={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     (ROOT/'simulations/results/route_b_n4_fold_infinity.json').write_text(json.dumps(output,indent=2)+'\n')
     print(json.dumps(output['germs'],indent=2))

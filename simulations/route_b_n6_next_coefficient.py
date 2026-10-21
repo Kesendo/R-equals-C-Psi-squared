@@ -2,7 +2,6 @@
 Numerical evaluation of an algebraic formula, not an interval remainder bound.
 Run: python simulations/route_b_n6_next_coefficient.py
 """
-import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -42,7 +41,7 @@ def main():
     original=json.loads(original_path.read_text()); measured=json.loads(check_path.read_text())
     q0,lam0=z(original['q0']),z(original['lambda0'])
     d,c,left=ep.base.parts(); right,_=ep.reflected_end(left)
-    result=dict(scope=__doc__,seed_id=original['seed_id'],script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),source_sha256=hashlib.sha256(original_path.read_bytes()).hexdigest(),validation_sha256=hashlib.sha256(check_path.read_bytes()).hexdigest(),profiles={})
+    result=dict(scope=__doc__,seed_id=original['seed_id'],profiles={})
     for name,(a,b) in ep.DIRECTIONS.items():
         old=original['profiles'][name]; order=old['order']
         slopes=np.array(old['leading_slopes']['real'])+1j*np.array(old['leading_slopes']['imag'])

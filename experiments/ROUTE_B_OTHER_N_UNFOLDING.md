@@ -185,8 +185,8 @@ explicit radius and does not certify the finite grids in this note.
 The N=5 statements here remain numerical.
 
 The [JSON](../simulations/results/route_b_other_n_unfolding.json) retains the
-60 coefficient rows, 36 continuation rows, projector-residue controls,
-imaginary components and source/dependency hashes. Independent reviews
+60 coefficient rows, 36 continuation rows, projector-residue controls
+and imaginary components. Independent reviews
 recomputed the coefficients and representative Jordan signatures. This work
 does not transfer the N=6 ball-radius certificate to N=4/5 and does not survey
 N=7. At odd N the staggered gauge preserves reflection parity, so N=6's

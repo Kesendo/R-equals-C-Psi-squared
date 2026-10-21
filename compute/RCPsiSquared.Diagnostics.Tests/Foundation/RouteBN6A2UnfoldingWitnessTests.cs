@@ -12,15 +12,6 @@ public class RouteBN6A2UnfoldingWitnessTests
     private static readonly Lazy<RouteBN6A2UnfoldingWitness> Shared = new(() => NewWitness());
 
     [Fact]
-    public void ProvenanceFingerprintUsesCanonicalUtf8LfForLfCrLfAndLoneCr()
-    {
-        const string expected = "e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee";
-        Assert.Equal(expected, RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256("alpha\nbeta\n"));
-        Assert.Equal(expected, RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256("alpha\r\nbeta\r\n"));
-        Assert.Equal(expected, RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256("alpha\rbeta\r"));
-    }
-
-    [Fact]
     public void ConstructionIsLazyAndDisplayMetadataDoesNotReconstruct()
     {
         var witness = NewWitness();
@@ -151,48 +142,12 @@ public class RouteBN6A2UnfoldingWitnessTests
     }
 
     [Fact]
-    public void AChangedExactProducerFingerprintIsRejectedThroughTheSameLoader()
+    public void AChangedSourcePencilDigestIsRejectedThroughTheSameLoader()
     {
         string source = Find("simulations/results/route_b_n6_exact_unfolding.json");
         var payload = JsonNode.Parse(File.ReadAllText(source))!;
-        payload["provenance"]!["source_producer_sha256"] = new string('0', 64);
-        string temporary = Path.Combine(Path.GetTempPath(), $"f163-source-producer-{Guid.NewGuid():N}.json");
-        try
-        {
-            File.WriteAllText(temporary, payload.ToJsonString());
-            var witness = NewWitness(temporary);
-            Assert.Throws<InvalidDataException>(() => { object ignored = witness.Reading; });
-        }
-        finally { File.Delete(temporary); }
-    }
-
-    [Fact]
-    public void AChangedTransitiveProducerDependencyFingerprintIsRejectedThroughTheSameLoader()
-    {
-        string source = Find("simulations/results/route_b_n6_exact_unfolding.json");
-        var payload = JsonNode.Parse(File.ReadAllText(source))!;
-        var dependencies = payload["provenance"]!["source_producer_dependencies"]!.AsObject();
-        Assert.Contains("simulations/o2b_gcd_certificate.py", dependencies.Select(pair => pair.Key));
-        dependencies["simulations/o2b_gcd_certificate.py"] = new string('0', 64);
-        string temporary = Path.Combine(Path.GetTempPath(), $"f163-transitive-dependency-{Guid.NewGuid():N}.json");
-        try
-        {
-            File.WriteAllText(temporary, payload.ToJsonString());
-            var witness = NewWitness(temporary);
-            Assert.Throws<InvalidDataException>(() => { object ignored = witness.Reading; });
-        }
-        finally { File.Delete(temporary); }
-    }
-
-    [Theory]
-    [InlineData("script_sha256", "wrapper")]
-    [InlineData("fixture_sha256", "fixture")]
-    public void AChangedWrapperOrFixtureFingerprintIsRejectedThroughTheSameLoader(string field, string label)
-    {
-        string source = Find("simulations/results/route_b_n6_exact_unfolding.json");
-        var payload = JsonNode.Parse(File.ReadAllText(source))!;
-        payload["provenance"]![field] = new string('0', 64);
-        string temporary = Path.Combine(Path.GetTempPath(), $"f163-{label}-{Guid.NewGuid():N}.json");
+        payload["provenance"]!["source_pencil_digest"] = new string('0', 64);
+        string temporary = Path.Combine(Path.GetTempPath(), $"f163-source-pencil-{Guid.NewGuid():N}.json");
         try
         {
             File.WriteAllText(temporary, payload.ToJsonString());

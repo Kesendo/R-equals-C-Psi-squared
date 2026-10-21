@@ -1,7 +1,5 @@
 {
   "scope": "Complex eta-circle exploration of the corrected F163 remainder.\nNot a validated bound: sampled maxima, floating-point solves and closure tests\ncannot prove holomorphy inside a circle. eta=epsilon for one/even, epsilon^2 for odd.\nRun: python simulations/route_b_n6_complex_remainder.py\n",
-  "source_sha256": "dd275d784f18e3a943302b727e9638262f1b7fe22326cd14b2d52ad21491a84c",
-  "script_sha256": "d7491f92d8929ee0ea61b23d27e5cfc834851b188cb323a8842914620c52984b",
   "profiles": {
     "one": [
       {

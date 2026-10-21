@@ -2,7 +2,7 @@
 
 Certifies a tail at large q, not its connection to the finite fold.
 """
-import hashlib,json
+import json
 from pathlib import Path
 import sympy as s
 from flint import arb,acb,acb_mat,ctx
@@ -46,10 +46,8 @@ def main():
         value=ball_function(expr,variables)(box);assert not value.contains(0)
         bounds[name]=str(value)
     root=Path(__file__).resolve().parents[1]
-    paths=[Path(__file__),root/'simulations/route_b_n4_fold_infinity.py',root/'simulations/route_b_n4_range_polynomial.py',root/'simulations/results/route_b_n4_range_polynomial.json',root/'simulations/route_b_n4_range_certificate.py']
     out=dict(scope=__doc__,precision_bits=ctx.prec,z_interval='[0, 1e-6]',q_range='q >= 1000000',u_center=str(center[0]),v_center=str(center[1]),radius_uv=str(rho),
-        row_bounds=[str(a) for a in rows],image_bounds=[str(a) for a in images],nonzero_bounds=bounds,success=True,displaced_center_control_rejected=True,
-        source_hashes={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths})
+        row_bounds=[str(a) for a in rows],image_bounds=[str(a) for a in images],nonzero_bounds=bounds,success=True,displaced_center_control_rejected=True)
     (root/'simulations/results/route_b_n4_infinity_ball.json').write_text(json.dumps(out,indent=2)+'\n')
     print(json.dumps(out,indent=2))
 

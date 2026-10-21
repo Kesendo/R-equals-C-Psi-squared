@@ -40,9 +40,9 @@ holds no hardware measurement touching this.
 The typed layer holds this result on its claim side only.
 `RouteBN6RemainderBoundClaim` carries the statement with F163 as its single typed parent,
 and `RouteBN6RemainderBoundClaimTests` reads the certified radii, the η orders, ρ, the
-worst-branch remainders, every Newton image and every producer and premise digest back out
-of the committed certificate, so a producer rerun that moves a radius, or a premise that
-moves underneath it, turns the gate red instead of leaving this page ahead of its evidence:
+worst-branch remainders and every Newton image back out of the committed certificate, so a
+producer rerun that moves a radius turns the gate red instead of leaving this page ahead of
+its evidence:
 
 ```powershell
 dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category=ROUTE_B_A2_N6_REMAINDER"
@@ -109,7 +109,7 @@ enclosure failed; it does not locate a singularity or a Taylor radius.
 
 The [base helper](../../simulations/route_b_n6_ball_base.py) imports the exact
 rank, semisimplicity, characteristic-factor and unique repeated-root results
-of [F163](PROOF_ROUTE_B_N6_UNFOLDING.md). Its fixture and producer hashes and
+of [F163](PROOF_ROUTE_B_N6_UNFOLDING.md). Its source-pencil digest and
 the stored CRT bound are checked. This helper does not rerun the CRT proof;
 the exact theorem is an explicit premise of this computation.
 
@@ -221,7 +221,7 @@ python simulations/route_b_n6_remainder_ball.py
 ```
 
 The [JSON](../../simulations/results/route_b_n6_remainder_ball.json) records
-successful and failed candidate radii, outward bounds, centers, source hashes,
+successful and failed candidate radii, outward bounds, centers,
 precision, and the Cauchy reading. The program raises if any branch has no
 successful radius. Moving the first z center by +1 fails the same inclusion
 test; it is retained as a negative control. Independent differentiation checks

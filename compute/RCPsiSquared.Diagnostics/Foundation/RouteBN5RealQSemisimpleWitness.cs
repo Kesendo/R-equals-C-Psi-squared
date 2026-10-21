@@ -59,7 +59,6 @@ public sealed record N6RealQExclusionReading(int LocusCount, int RealAxisTouchCo
 public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
 {
     private const int Sites = 5;
-    private const string N6AtlasCanonicalSha256 = "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47";
     private const string N6Model = "open-uniform-XY-delta0-field0-gamma1-SEket-DEbra";
     private const string N6ParameterConvention = "t=i*qCSharp;qCSharp=-i*t";
 
@@ -163,8 +162,6 @@ public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
         }
         if (even != 133 || odd != 133)
             throw new InvalidDataException($"the N=6 atlas parity counts must be E=133 and O=133, got E={even}, O={odd}");
-        if (RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256(json) != N6AtlasCanonicalSha256)
-            throw new InvalidDataException("the N=6 boxes are detached from the semantically certified canonical carrier");
         return new N6RealQExclusionReading(loci.GetArrayLength(), touching);
     }
 

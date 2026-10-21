@@ -27,7 +27,6 @@ public sealed record RouteBA2N6AtlasManifest(
     int SchemaVersion,
     int N,
     string SourceArtifact,
-    string SourceSha256,
     string CoordinateMeaning,
     RouteBA2N6ReconciliationReport Reconciliation,
     IReadOnlyList<RouteBA2N6AtlasLocus> Loci,
@@ -40,9 +39,6 @@ internal static class RouteBA2N6AtlasManifestBuilder
         IReadOnlyList<(RouteBA2N6Locus Locus, IReadOnlyList<A2CharacterReading> Contours)> classified,
         RouteBA2N6ReconciliationReport reconciliation)
     {
-        if (string.IsNullOrWhiteSpace(inventory.SourcePayloadSha256))
-            throw new InvalidOperationException("N6 atlas: source payload digest is unavailable.");
-
         var loci = classified.Select(item =>
         {
             A2CharacterReading middle = item.Contours[1];
@@ -100,7 +96,6 @@ internal static class RouteBA2N6AtlasManifestBuilder
             1,
             inventory.N,
             "simulations/results/route_b_a2_n6.json",
-            inventory.SourcePayloadSha256,
             "exact t-box midpoint converted to display double; not an algebraic root",
             reconciliation,
             loci,

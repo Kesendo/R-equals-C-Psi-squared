@@ -144,14 +144,12 @@ which is not a measured departure.
 ## Provenance and reproduction
 
 The source of geometry is
-[`simulations/results/route_b_a2_n6.json`](../simulations/results/route_b_a2_n6.json),
-SHA-256
-`c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47`.
+[`simulations/results/route_b_a2_n6.json`](../simulations/results/route_b_a2_n6.json).
 The broader double-root interpretation and the boundary to other N live in
 [`THE_DOUBLE_ROOT.md`](../docs/THE_DOUBLE_ROOT.md).
 
-The atlas manifest binds that digest to every accepted character reading and
-orbit:
+The atlas manifest joins every accepted character reading and orbit to the
+loci of that source, by locus ID and exact t-box midpoint:
 
 ```powershell
 dotnet run --project compute/RCPsiSquared.Cli -c Release -- route-b-n6-atlas --out simulations/results/route_b_a2_n6_atlas.json

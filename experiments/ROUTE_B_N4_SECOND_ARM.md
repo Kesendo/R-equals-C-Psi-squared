@@ -532,9 +532,9 @@ python simulations/route_b_n4_incoming_certificate.py
 python -m pytest simulations/tests/test_route_b_n4_resonance_projection.py
 ```
 
-The last line is the gate on the projection's certificate: ten checks,
+The last line is the gate on the projection's certificate: nine checks,
 eight of them re-derived from `parts(4)` and compared against the
-committed artifact, one on its provenance, and one on the certificate's
+committed artifact, and one on the certificate's
 limit profile as the perfect-transfer chain, 2·I_x of spin 3/2, against
 the uniform one. Most carry the mutation or
 control that makes their own instrument read the other answer; the

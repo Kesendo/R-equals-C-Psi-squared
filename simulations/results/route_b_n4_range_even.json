@@ -1,6 +1,5 @@
 {
   "scope": "High-precision continuation of equal-end N4 EPs in the selected octic.\nNumerical paths and endpoint candidates, not certified interval bounds.\n",
-  "script_sha256": "fb1034ececdb093a64057f30c98e6f9484efbacf9c57cbcaafcca9225a9d7e9e",
   "paths": {
     "0_1": {
       "branch": 0,
@@ -8256,6 +8255,5 @@
       4
     ],
     "character": "At lambda=-4: two Jordan blocks of size2, not EP4."
-  },
-  "algebra_enrichment_script_sha256": "fb1034ececdb093a64057f30c98e6f9484efbacf9c57cbcaafcca9225a9d7e9e"
+  }
 }

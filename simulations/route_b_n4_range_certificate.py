@@ -3,7 +3,7 @@
 Certifies singularity existence/type, not absence of earlier obstructions
 along a numerically tracked path and not a maximal Taylor disk.
 """
-import hashlib,json
+import json
 from pathlib import Path
 import sympy as s
 import mpmath as mp
@@ -113,8 +113,6 @@ def main():
     for name,kind,guess in TARGETS:
         result=certify(name,kind,guess);output['roots'].append(result)
         print(name,kind,result['epsilon'],'certified',flush=True)
-    paths=[Path(__file__),ROOT/'simulations/route_b_n4_range_polynomial.py',ROOT/'simulations/results/route_b_n4_range_polynomial.json']
-    output['source_hashes']={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     (ROOT/'simulations/results/route_b_n4_range_certificate.json').write_text(json.dumps(output,indent=2)+'\n')
 
 

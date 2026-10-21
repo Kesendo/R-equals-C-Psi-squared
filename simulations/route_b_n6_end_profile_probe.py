@@ -8,7 +8,6 @@ odd=(1+e/2,1-e/2). All three internal bonds retain strength 1.
 """
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
@@ -140,10 +139,6 @@ def main():
     d, c, el = base.parts()
     er, reflection = reflected_end(el)
     source_path = ROOT / 'simulations/results/route_b_a2_n6.json'
-    digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
-    atlas = json.loads((ROOT / 'simulations/results/route_b_a2_n6_atlas.json').read_text())
-    if digest != atlas['sourceSha256']:
-        raise ValueError('Atlas source digest mismatch')
     source = json.loads(source_path.read_text())
     seed = next(r for r in source['loci'] if r['id'] == 'N6-E-A2-T-007')
     q0, lam0 = base.seed(seed, 'qPhysicalCSharpSeed'), base.seed(seed, 'lambdaPhysicalSeed')
@@ -158,10 +153,7 @@ def main():
     a = dual@c@v0
     report = {'conventions': __doc__, 'seed_id': seed['id'], 'q0': base.encode(q0),
         'lambda0': base.encode(lam0), 'dimension': 90, 'initial_third_distance': isolation,
-        'provenance': {'source_sha256': digest,
-            'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            'base_script_sha256': hashlib.sha256(Path(base.__file__).read_bytes()).hexdigest(),
-            'numpy_version': np.__version__, 'scipy_version': scipy.__version__},
+        'provenance': {'numpy_version': np.__version__, 'scipy_version': scipy.__version__},
         'initial_reflection_even_residual': float(la.norm(v0[reflection]-v0)),
         'reduced_resolvent_residual': float(la.norm((lam0*np.eye(90)-l0)@resolvent-complement)),
         'profiles': {}}

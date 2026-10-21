@@ -143,7 +143,7 @@ python simulations/route_b_n6_validity_probe.py
 ```
 
 [Machine-readable rows](../simulations/results/route_b_n6_validity_probe.json)
-carry source/script hashes, both branches, residuals, isolation distances,
+carry both branches, residuals, isolation distances,
 perturbation norms and contour estimates. The inherited contour/signature
 checks at epsilon=0.01 and 0.05 are retained. The maximum scaled discriminant
 residual in this run is 1.50e-9; EP numerical gaps are roundoff-sensitive.
@@ -227,8 +227,8 @@ every finite argument, and the larger-branch table must not conceal that.
 
 [Coefficient producer](../simulations/route_b_n6_next_coefficient.py) and
 [its output](../simulations/results/route_b_n6_next_coefficient.json) retain
-both branches, observed next-coefficient quotients, scaled remainders and
-source hashes. Reproduce with the same single-thread environment as above,
+both branches, observed next-coefficient quotients and scaled remainders.
+Reproduce with the same single-thread environment as above,
 then `python simulations/route_b_n6_next_coefficient.py`. The graph recurrence
 uses only matrices at epsilon=0; the comparison rows come from the separate
 full-block continuation. No fitting is performed.
@@ -262,7 +262,7 @@ Reproduce with `python simulations/route_b_n6_remainder_ball.py` in the same
 single-thread environment; the [certificate](../simulations/results/route_b_n6_remainder_ball.json)
 records failed and successful attempts and rejects a displaced-center control.
 The program fails if any branch has no certified radius. The F163 exact
-algebraic certificate is an imported premise, with source hashes checked.
+algebraic certificate is an imported premise, with its source-pencil digest checked.
 
 The [complex-circle scout](../simulations/route_b_n6_complex_remainder.py)
 also explores larger circles (up to |epsilon|=0.05 one/even and 0.10 odd).

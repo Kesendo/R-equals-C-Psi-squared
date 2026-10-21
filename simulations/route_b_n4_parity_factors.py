@@ -4,7 +4,7 @@ Gamma=1, XY, end weights (1+epsilon/2,1,1+epsilon/2), lambda=-4+i*omega.
 Build the full coherence matrix and exact integer reflection orbit bases.
 This factor identity is not a numerical root or Jordan-character certificate.
 """
-import hashlib,json
+import json
 from pathlib import Path
 import sympy as s
 from sympy.polys.matrices import DomainMatrix
@@ -50,11 +50,6 @@ def derive():
 
 def main():
     out=derive();root=Path(__file__).resolve().parents[1]
-    paths=[Path(__file__),root/'simulations/route_b_other_n_unfolding.py',
-           root/'simulations/route_b_n4_range_polynomial.py',
-           root/'simulations/results/route_b_n4_range_polynomial.json',
-           root/'simulations/framework/weight_coherence_block.py']
-    out['source_hashes']={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     (root/'simulations/results/route_b_n4_parity_factors.json').write_text(json.dumps(out,indent=2)+'\n')
     print(json.dumps(out,indent=2))
 

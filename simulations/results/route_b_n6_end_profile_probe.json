@@ -12,9 +12,6 @@
   "dimension": 90,
   "initial_third_distance": 0.6858561333381055,
   "provenance": {
-    "source_sha256": "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47",
-    "script_sha256": "87304dc5d0b0766789bc0b1c80ec0447c0efa3539fee07dd0c8b84342a9c32b7",
-    "base_script_sha256": "63688efc139e4f0bd8d8d901a4c065ff81270931dd563f53ce7e737b74fc8d07",
     "numpy_version": "2.4.2",
     "scipy_version": "1.16.3"
   },

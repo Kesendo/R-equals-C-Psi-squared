@@ -1,6 +1,5 @@
 {
   "scope": "Exact full N4 (1,2) characteristic polynomial for end weights (a,1,b).\n\nP(x,y,a,b)=det(lambda I-L), x=(lambda+4)^2, y=qCSharp^2,\ngamma=1, XY. Sparse records are [x power,y power,a power,b power,integer].\nNo branch count or endpoint certificate is asserted by this producer.\n",
-  "script_sha256": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
   "variables": [
     "x=(lambda+4)^2",
     "y=qCSharp^2",

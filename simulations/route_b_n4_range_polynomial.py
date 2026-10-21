@@ -4,7 +4,7 @@ P(x,y,a,b)=det(lambda I-L), x=(lambda+4)^2, y=qCSharp^2,
 gamma=1, XY. Sparse records are [x power,y power,a power,b power,integer].
 No branch count or endpoint certificate is asserted by this producer.
 """
-import hashlib,json
+import json
 from pathlib import Path
 import sympy as s
 from sympy.polys.matrices import DomainMatrix
@@ -109,7 +109,7 @@ def main():
     factor_records=[dict(degree_x=int(s.degree(f,x)),multiplicity=m,
                          terms=[list(powers)+[int(v)] for powers,v in s.Poly(f,x,y,a,b).terms()])
                     for f,m in factors]
-    output=dict(scope=__doc__,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    output=dict(scope=__doc__,
         variables=['x=(lambda+4)^2','y=qCSharp^2','a=left end weight','b=right end weight'],
         degree_x=12,term_count=len(records),terms=records,factors=factor_records,
         exact_determinant_checks=checks,missing_left_bond_control_rejected=bool(mutant_detected))

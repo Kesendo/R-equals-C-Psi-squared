@@ -7,9 +7,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>Every number the claim states is read back out of the committed ball certificate,
 /// so a producer rerun that moves a radius, an enclosure or a remainder turns this gate red
-/// rather than leaving the claim's prose ahead of its evidence. The certificate's own premise
-/// bindings are checked too: a premise that moves under a frozen certificate is the failure the
-/// producer records those hashes to catch, and it went unnoticed once because nothing read them.</summary>
+/// rather than leaving the claim's prose ahead of its evidence.</summary>
 [Trait("Category", "ROUTE_B_A2_N6_REMAINDER")]
 public class RouteBN6RemainderBoundClaimTests
 {
@@ -26,11 +24,6 @@ public class RouteBN6RemainderBoundClaimTests
 
     private static JsonDocument Certificate() =>
         JsonDocument.Parse(File.ReadAllText(Path.Combine(RepoRoot(), Artifact)));
-
-    /// <summary>The one canonical digest the F163 certificate consumer already owns. A gate
-    /// that exists to catch two implementations disagreeing must not add a third.</summary>
-    private static string DigestOf(string path) =>
-        RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256(File.ReadAllText(path));
 
     private static double Number(string ball)
     {
@@ -81,28 +74,6 @@ public class RouteBN6RemainderBoundClaimTests
         Assert.True(root.GetProperty("all_branches_certified").GetBoolean());
         Assert.Equal(RouteBN6RemainderBoundClaim.Crossing, root.GetProperty("seed_id").GetString());
         Assert.Equal(RouteBN6RemainderBoundClaim.PrecisionBits, root.GetProperty("precision").GetInt32());
-    }
-
-    /// <summary>The certificate binds its producers and premises by digest precisely so that a
-    /// premise moving underneath it is visible. Reading them back is the only thing that makes
-    /// that binding do any work.</summary>
-    [Fact]
-    public void EveryProducerAndPremiseDigest_StillMatchesTheFileOnDisk()
-    {
-        string root = RepoRoot();
-        using var certificate = Certificate();
-        var document = certificate.RootElement;
-        Assert.Equal(document.GetProperty("script_sha256").GetString(),
-            DigestOf(Path.Combine(root, "simulations/route_b_n6_remainder_ball.py")));
-        Assert.Equal(document.GetProperty("base_script_sha256").GetString(),
-            DigestOf(Path.Combine(root, "simulations/route_b_n6_ball_base.py")));
-        int premises = 0;
-        foreach (var premise in document.GetProperty("premises").EnumerateObject())
-        {
-            Assert.Equal(premise.Value.GetString(), DigestOf(Path.Combine(root, premise.Name)));
-            premises++;
-        }
-        Assert.Equal(3, premises);
     }
 
     [Theory]

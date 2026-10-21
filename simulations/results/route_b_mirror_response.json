@@ -1,16 +1,5 @@
 {
   "scope": "F89d palindrome and F131 spatial-reflection action on F163 response objects.\nN=4,5,6 selected seeds; XY, gamma=1, q=qCSharp. Real-coefficient end profiles.\nExact dyadic matrix identities plus numerical independent partner-plane readings.\nRun: python simulations/route_b_mirror_response.py\n",
-  "script_sha256": "8b2cf00f16dbc94317fb26a6573cb39b8a3b4e8a137abd85ef6874b292bd8636",
-  "dependencies": {
-    "simulations\\route_b_n6_end_profile_probe.py": "87304dc5d0b0766789bc0b1c80ec0447c0efa3539fee07dd0c8b84342a9c32b7",
-    "simulations\\route_b_n6_next_coefficient.py": "8da37eb0c27586187101f257bb9e0c105d23f0eca36a14533125c86281bba630",
-    "simulations\\route_b_n6_leakage_probe.py": "63688efc139e4f0bd8d8d901a4c065ff81270931dd563f53ce7e737b74fc8d07",
-    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
-  },
-  "sources": {
-    "simulations\\results\\route_b_other_n_unfolding.json": "0e6e7f44eb6d2cbf091e9b35aeb56201060547f2951fb254f21598d9d9e319c2",
-    "simulations\\results\\route_b_n6_end_profile_probe.json": "679a6d41283bb43c7c1f75793ffbeb9e27c168051108103b81e0a257f97cd114"
-  },
   "readings": [
     {
       "n": 4,

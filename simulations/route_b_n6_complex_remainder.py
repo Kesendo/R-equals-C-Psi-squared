@@ -3,7 +3,6 @@ Not a validated bound: sampled maxima, floating-point solves and closure tests
 cannot prove holomorphy inside a circle. eta=epsilon for one/even, epsilon^2 for odd.
 Run: python simulations/route_b_n6_complex_remainder.py
 """
-import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -19,7 +18,7 @@ def main():
     q0,lam0=z(original['q0']),z(original['lambda0'])
     d,c,left=ep.base.parts(); right,_=ep.reflected_end(left)
     radius=original['initial_third_distance']*0.4
-    output=dict(scope=__doc__,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),profiles={})
+    output=dict(scope=__doc__,profiles={})
     for name,(a,b) in ep.DIRECTIONS.items():
         v=a*left+b*right
         m=coefficients['profiles'][name]['order']

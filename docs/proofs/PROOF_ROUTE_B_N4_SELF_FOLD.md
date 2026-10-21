@@ -170,4 +170,4 @@ python simulations/route_b_n4_self_fold.py
 ```
 
 The [JSON](../../simulations/results/route_b_n4_self_fold.json) stores the
-exact coefficients, decimal readings, control outcomes and source hashes.
+exact coefficients, decimal readings and control outcomes.

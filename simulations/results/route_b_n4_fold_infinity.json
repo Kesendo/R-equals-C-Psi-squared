@@ -66,10 +66,5 @@
   "mutation_rejected": true,
   "spectator_P4_leading": "16*(u**2 - 8*u*v + 16*v**2 + 64)",
   "spectator_other_octic_constant": "-6912",
-  "interpretation": "Implicit function theorem: each nonzero Jacobian gives a unique real analytic (u(z),v(z)) germ. omega=q+v0+v1/q+O(q^-2); epsilon=sqrt(3)-2+e1/q+e2/q^2+O(q^-3). Nonzero Hvv gives multiplicity two; the spectator factors stay nonzero. Nonzero Hu gives nonzero epsilon derivative of the full determinant at its root, excluding matrix nullity >=2 by the adjugate derivative identity, hence EP2. No finite-path connection or explicit radius certified.",
-  "source_hashes": {
-    "simulations\\route_b_n4_fold_infinity.py": "0979a8b8897a3848431ea8b543e936f021c3830246ffa62377589773def85f63",
-    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
-    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9"
-  }
+  "interpretation": "Implicit function theorem: each nonzero Jacobian gives a unique real analytic (u(z),v(z)) germ. omega=q+v0+v1/q+O(q^-2); epsilon=sqrt(3)-2+e1/q+e2/q^2+O(q^-3). Nonzero Hvv gives multiplicity two; the spectator factors stay nonzero. Nonzero Hu gives nonzero epsilon derivative of the full determinant at its root, excluding matrix nullity >=2 by the adjugate derivative identity, hence EP2. No finite-path connection or explicit radius certified."
 }

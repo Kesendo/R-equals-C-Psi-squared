@@ -2,7 +2,7 @@
 
 Numerical path association, not a certified global connection.
 """
-import json,hashlib
+import json
 from pathlib import Path
 import mpmath as mp
 import sympy as s
@@ -69,8 +69,7 @@ def main():
         point=new;tangent=nt;step=min(step*mp.mpf('1.12'),mp.mpf('.04'))
         if mp.norm(point)>200:stop='norm_limit';break
     compact=compact_track(rows[-1]) if stop=='step_limit' else None
-    out=dict(scope=__doc__,rows=rows,stop=stop,uniform_crossing=crossing,compactification=compact,
-             source_hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),Path(__file__).parent/'route_b_n4_range_polynomial.py',Path(__file__).parent/'results/route_b_n4_range_polynomial.json',Path(__file__).parent/'route_b_n4_fold_infinity.py']})
+    out=dict(scope=__doc__,rows=rows,stop=stop,uniform_crossing=crossing,compactification=compact)
     (Path(__file__).parent/'results/route_b_n4_fold_path.json').write_text(json.dumps(out,indent=2)+'\n')
     print(stop,crossing,'last',rows[-1],flush=True)
     if compact:print('compact limiting germ',compact['nearest_germ'],flush=True)

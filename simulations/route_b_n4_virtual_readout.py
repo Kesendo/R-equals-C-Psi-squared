@@ -14,16 +14,10 @@ import numpy as np
 import scipy.linalg as la
 from scipy.sparse.linalg import expm_multiply
 from route_b_other_n_unfolding import parts
-from route_b_artifact_provenance import (
-    canonical_text_sha256 as _canonical_text_sha256,
-    artifact_provenance as _artifact_provenance,
-    verify_artifact_provenance as _verify_artifact_provenance,
-)
 
 ROOT = Path(__file__).resolve().parents[1]
 EP = np.sqrt(2)-2
 TIMES = np.linspace(0, 2, 401)
-SOURCE = ROOT/'simulations/results/route_b_n4_self_fold.json'
 
 
 def generator(epsilon, q=2):
@@ -56,16 +50,6 @@ def verify_generator_contract(builder=generator):
             residual = float(np.max(abs(actual-expected)))
             raise ValueError(f'generator contract failed at epsilon={epsilon}: '
                              f'max entry residual={residual}')
-
-
-def artifact_provenance(script):
-    """Canonical source and transitive-import manifest for the N4 artifact."""
-    return _artifact_provenance(script, SOURCE)
-
-
-def verify_artifact_provenance(artifact, script):
-    """Reject absent/stale source, script or dependency hashes before writing."""
-    _verify_artifact_provenance(artifact, script, SOURCE)
 
 
 def run(epsilon, q=2):
@@ -141,10 +125,8 @@ def main():
                   jordan_readout=dict(a=[a.real, a.imag], b=[b.real, b.imag],
                                       nilpotent_norm=float(la.norm(nil))),
                   comparisons=rows,
-                  caveat='Grid optimum, ideal independent ternary shots; mean SNR is not a test power or EP certificate.',
-                  **artifact_provenance(__file__))
+                  caveat='Grid optimum, ideal independent ternary shots; mean SNR is not a test power or EP certificate.')
     path = ROOT/'simulations/results/route_b_n4_virtual_readout.json'
-    verify_artifact_provenance(output, __file__)
     path.write_text(json.dumps(output, indent=2)+'\n', encoding='utf-8')
     import matplotlib
     matplotlib.use('Agg')
