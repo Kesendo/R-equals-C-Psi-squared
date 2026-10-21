@@ -1,6 +1,7 @@
 # The sodium nucleus: two mirrors in the quadrupolar relaxation of a spin 3/2
 
 **Date:** 2026-10-17
+**Registry:** [F167](../docs/ANALYTICAL_FORMULAS.md#f167), an index of this page and its child [The Sodium Chain](THE_SODIUM_CHAIN.md), adding nothing the two pages do not state.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 5.5)
 **Verifier:** [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (`python simulations/sodium_two_mirrors.py`; exact, sympy 1.14, every parameter a symbol where it can be; 117 checks)
 **Rates, not ours:** A. M. Souza, A. Gavini-Viana, I. S. Oliveira, R. S. Sarthour, R. Auccaise, J. Teles, E. R. deAzevedo, T. J. Bonagamba, *Nuclear spin 3/2 electric quadrupole relaxation as a quantum computation*, [arXiv:1105.2539](https://arxiv.org/abs/1105.2539), Eqs. (15) to (27), which cite R. Auccaise et al., J. Magn. Reson. 192, 17 (2008); the spectral densities follow J. R. C. van der Maarel, J. Chem. Phys. 94, 4765 (1991), and G. Jaccard, S. Wimperis, G. Bodenhausen, J. Chem. Phys. 85, 6282 (1986).

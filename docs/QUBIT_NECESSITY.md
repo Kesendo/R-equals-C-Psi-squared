@@ -326,6 +326,13 @@ finite census, not the whole space of d=3 dissipators.
 Remaining open avenue: amplitude damping, thermal noise, or other
 non-dephasing dissipators at d > 2. These have fundamentally different
 Lindblad structure and are not covered by the per-site rate argument.
+One physical case at d = 4 is decided: the quadrupolar relaxation of a
+spin 3/2 is Pauli-string dephasing once the four levels are read as two
+qubits (its slow jump T₂₀ is then a Z on one of them), and it pairs fully
+about two centres at every rate, which coincide where the zero-frequency
+spectral density J₀ of the field gradient vanishes; at every other spin
+I ≥ 1 the J₀ channel alone breaks the pairing
+([F167](ANALYTICAL_FORMULAS.md#f167)).
 
 ### 8b. Relaxed mirror conditions
 
