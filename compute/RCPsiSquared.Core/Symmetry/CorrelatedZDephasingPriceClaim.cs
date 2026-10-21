@@ -205,14 +205,14 @@ public sealed class CorrelatedZDephasingPriceClaim : Claim
             "matrix a over the Z_k and a real H commuting with X^⊗N; for such an H that also conserves the popcount, under " +
             "one common covariance the spectrum pairs block by block, each joint-popcount block with its image about a centre of its own",
             Tier.Tier1Derived,
-            "experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md")
+            "experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md + docs/ANALYTICAL_FORMULAS.md (F166, the index entry)")
     {
         F1Palindrome = f1Palindrome ?? throw new ArgumentNullException(nameof(f1Palindrome));
         AbsorptionTheorem = absorptionTheorem ?? throw new ArgumentNullException(nameof(absorptionTheorem));
     }
 
     public override string DisplayName =>
-        "Correlated Z dephasing: the palindrome's price is the operator {Σc†c, ·}";
+        "F166: correlated Z dephasing, the palindrome's price is the operator {Σc†c, ·}";
 
     public override string Summary =>
         "Π_Z·L·Π_Z⁻¹ = −L − {K, ·}, K = Σ_kl a_kl Z_l Z_k, for a real symmetric Kossakowski matrix a and a real X^⊗N-even H; " +

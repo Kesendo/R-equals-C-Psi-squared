@@ -39,25 +39,13 @@ The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 eigenvector traceless on every site, for example a global Pauli string with no
 identity letter commuting with H, F5); Z dephasing with correlated site
 fields (a real Kossakowski matrix whose off-diagonal entries are the fields'
-covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N, F1's Π, carries L
-to −L − {Σc†c, ·}, the jumps' decay operator Σc†c no longer a number: no single
-centre serves the spectrum once the covariances sum to a positive number (the
-Kossakowski matrix positive semidefinite, H keeping the all-0 and all-1 states as
-eigenstates), nor, for a positive semidefinite Kossakowski matrix and a popcount-conserving
-X^⊗N-even H, wherever Σc†c takes one value above the summed site rate tr a (a the Kossakowski
-matrix) on some popcount p (the far-end mode P_p·X^⊗N then decays faster than 2·tr a), which under one covariance κ ≠ 0 shared by every
-pair holds at every N for either sign, nor, for a positive semidefinite Kossakowski matrix
-with a covariance and any H, at weak enough coupling (an eigenvalue continued from the coherence between the
-configuration with the largest Σc†c and its full flip lies below −2·tr a), nor, for a
-positive semidefinite Kossakowski matrix with a covariance and a traceless H commuting with
-X^⊗N, wherever Σ_{k≠l} a_kl·Tr(H²Z_kZ_l) ≤ 0, whatever the sign of the
-summed covariance (the third moment Tr((L + tr a)³), zero for a palindrome about −tr a: its
-noise contribution has a definite sign for such a matrix and the Hamiltonian's the same
-sign or none; this rules out the pairing of the complex eigenvalues), and a
-joint-popcount block of a popcount-conserving X^⊗N-even H pairs with its Π_Z image (q, N − p), p and q its ket and bra popcounts, about a
-centre of its own wherever Σc†c takes one value on each of the block's two
-popcounts, which every block does under one covariance common to every pair
-([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)); an
+covariances), where for a real X^⊗N-even H the map Π_Z(ρ) = ρᵀ·X^⊗N, F1's Π,
+carries L to −L − {Σc†c, ·}, the jumps' decay operator Σc†c no longer a number:
+for a valid field (a positive semidefinite Kossakowski matrix) the single
+centre fails wherever one of four routes reaches, while for a
+popcount-conserving such H a joint-popcount block (p, q) still pairs with its
+image (q, N − p) about a centre of its own wherever Σc†c takes one value on each of its
+two popcounts ([F166](#f166)); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
 the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
@@ -120,7 +108,7 @@ and there are fields violating clause 2 whose spectrum pairs regardless; at N = 
 **Correlated Z-dephasing residual (closed form, 2026-10-10):**
 - For Z dephasing with a real symmetric Kossakowski matrix a over the Z_k (the site rates on its diagonal, the fields' covariances off it), against F1's shift 2σ, σ = tr(a): the dissipator's residual is M_D = −{K − σ, ·}, K = Σ_kl a_kl Z_l Z_k (the jumps' Σc†c), with ‖M_D‖²_F = 8·4^N·Σ_{k<l} a_kl² (H-independent, zero exactly for local noise), and ‖M‖²_F = ‖M_H‖²_F + ‖M_D‖²_F for every Hermitian H, M_D being real and diagonal on matrix units while the diagonal of M_H is imaginary.
 - M_D is Π-invariant: jumps built linearly from the Z_k are of one bit_b parity and have no Π²-odd part, so F82's Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} ("Other dissipators") adds no dissipator term.
-- Anchor: [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md); verification: [simulations/mirror_under_shared_field.py](../simulations/mirror_under_shared_field.py) (exact, N = 2..5); typed: CorrelatedZDephasingPriceClaim, live as CorrelatedZDephasingPriceWitness (`inspect --root sharedfield`, N = 3..5)
+- Anchor: [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md), indexed as [F166](#f166); verification: [simulations/mirror_under_shared_field.py](../simulations/mirror_under_shared_field.py) (exact, N = 2..5); typed: CorrelatedZDephasingPriceClaim, live as CorrelatedZDephasingPriceWitness (`inspect --root sharedfield`, N = 3..5)
 
 **General-topology universality (closed 2026-05-18):**
 - The (B, D2) parameterisation of ‖M(N, G)‖²_F = c_H · F(N, G) extends to all connected graphs (path, cycle, star, K_N, K_{2,N−2}, random connected Erdős-Rényi), disconnected components (B and D2 sum across components), weighted edges (B → Σ_b J²_b), and the single-body class (D2/2 prefactor).
@@ -443,7 +431,7 @@ shifts the rate (see F82, F84); the sum rule's *form* is what breaks; for the Ha
 the pairing itself does not: under T1 alone their spectrum stays palindromic about a halved centre. Collective dephasing through the one jump Σ_k Z_k leaves
 the Pauli diagonal as well, and there no single centre serves the spectrum at any N ≥ 2
 for an H keeping the all-0 and all-1 states as eigenstates
-([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)). The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
+([The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md), [F166](#f166)). The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
 every case. No Hamiltonian, real or complex, breaks the theorem (Step 1 of the
 proof); the boundary is the dissipator.
 **Replaces:** nothing computationally, since <n_XY> is read off the eigenvector; what it replaces is the separate derivation of the palindromic sum rule and
@@ -7700,7 +7688,7 @@ commute with the dephasing at any rate profile (F141; under correlated site fiel
 dissipator D still commutes with Φ for every real symmetric Kossakowski matrix over the
 Z_k, and with S⁺ for no correlated one; under one common covariance κ,
 [D, S⁺] = −8κ(p − q + 1)·S⁺ on the source block (p, q),
-[The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)), and
+[The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md), [F166](#f166)), and
 
     [K, S⁺] = 0   ⟺   Σ h Σ = −h,   Σ := diag((−1)^l)   (real symmetric h, Lemma 2.3's hypothesis),
 
@@ -10715,6 +10703,163 @@ dephased.
 **Source:** [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md);
 parent [F158](#f158); the colouring rule and frame theorem of
 [the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md).
+
+---
+
+<a id="f166"></a>
+### F166. Under correlated Z dephasing the palindrome's price becomes the operator {Σc†c, ·}: for a real symmetric Kossakowski matrix a over the Z_k and a real H commuting with X^⊗N, Π_Z·L·Π_Z⁻¹ = −L − {K, ·} with K = Σ_kl a_kl Z_l Z_k; under one covariance common to every pair and a popcount-conserving such H, each joint-popcount block pairs with its image about a centre of its own, and for any pattern a block pairs where K takes one value on each of its two popcounts, which a four-shapes law settles; the single centre −σ fails along four routes (Tier 1: derived and gated 2026-10-10 and 2026-10-11 in [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md); registered 2026-10-21 as an INDEX of that page)
+
+**Why a number, and why it says so.** This entry indexes; it does not
+discover. Everything below is stated, proven and gated on the page named in
+the header, or held by its typed owners. The registry carries pieces of the
+result at F1 (the residual's closed form as a sub-entry, the global break in
+its Breaks-for), at the Absorption Theorem and at F142; its positive half, a
+mirror kept block by block with centres of its own, is not a breaking of F1.
+The number gives the object one place and a name. The caution is [F160](#f160)'s: an indexing gap
+is not a result, and this entry claims nothing its sources do not. The sweep
+is the page's own record (its section *What the repo already held*); beside
+it, the glossary holds nothing on correlated dephasing and the OpenArcs
+registry only a passing mention (Quantum Sonar's correlated-bath row, scoped to
+that page's knobs).
+
+**The setting.** Z dephasing with a real symmetric Kossakowski matrix a, the
+site rates γ_k = a_kk on its diagonal and the covariances of the sites' fields
+off it (positive semidefinite for a valid generator; the identities below need
+only a real symmetric a):
+
+    D_a(ρ) = Σ_kl a_kl·(Z_k ρ Z_l − ½{Z_l Z_k, ρ}),   K = Σ_kl a_kl Z_l Z_k,   σ = tr a
+
+K is Σ_μ c_μ†c_μ for any jumps c_μ = Σ_k b_μk Z_k realising a ⪰ 0. Write
+z(i) for the ±1 Z values of basis state i, K(i) = z(i)ᵀa z(i) for K on it, and
+for a joint-popcount block (p, q) (ket popcount p, bra popcount q) its charges
+d = p − q and m = p + q − N; the *image* of (p, q) is (q, N − p). F1 is the case
+a diagonal, where K = σ·1.
+
+**The price identity.** For every real symmetric a and every real H with
+[H, X^⊗N] = 0, with F1's map Π_Z(ρ) = ρᵀ·X^⊗N,
+
+    Π_Z · L · Π_Z⁻¹ = −L − {K, ·}
+
+For a complex X^⊗N-even H the one-sided map ρ ↦ X^⊗N·ρ gives −L† − {K, ·}, and
+with ρ ↦ ρ† the same spectral statements below, Jordan structure included.
+Cell by cell: the cell |i⟩⟨j| decays at ½uᵀa u, u = z(i) − z(j), its image at
+½vᵀa v, v = z(i) + z(j), and the two sum to z(i)ᵀa z(i) + z(j)ᵀa z(j), one
+number for local noise and a classical Ising energy of the two configurations
+otherwise. For a ⪰ 0 a cell is dark (commutes with every jump) exactly when
+au = 0, and the GHZ coherence |0…0⟩⟨1…1| exactly when every row of a sums to
+zero. The residual against F1's shift, M_D = −{K − σ, ·} with
+‖M_D‖²_F = 8·4^N·Σ_{k<l} a_kl², is F1's sub-entry *Correlated Z-dephasing
+residual*.
+
+**One covariance common to every pair** (a_kl = κ for k ≠ l) and an H that
+also conserves the popcount: on every block
+
+    L|_(p,q) = L_local(γ_k − κ)|_(p,q) − 2κd²·1
+
+entry by entry, so every diagonal block (p, p) runs exactly as under local
+noise at the rates γ_k − κ, at uniform rates (1 − η)γ with η = κ/γ (a formula
+rather than a physical generator where some γ_k − κ < 0). Each block pairs with
+its image,
+
+    spec(q, N − p) = −spec(p, q) − 2σ(p, q),   σ(p, q) = σ − Nκ + κ(d² + m²),
+
+Jordan structure included; at uniform rates σ(p, q) = N(1 − η)γ + γη(d² + m²).
+On the block lattice the image map is the quarter turn (d, m) ↦ (m, −d) of
+[The One Square](THE_ONE_SQUARE.md), and the centre depends only on the
+distance from the half-filling point.
+
+**Any covariance pattern** (H popcount-conserving and X^⊗N-even): a block
+(p, q) pairs with its image about −(K_p + K_q)/2 wherever K takes one value K_p
+on the configurations of popcount p and one value K_q on those of popcount q.
+Which popcounts these are is settled for every pattern, the *four shapes*:
+0 and N always; 1 and N − 1 exactly when every site carries the same summed
+covariance; N/2 at even N ≥ 4 exactly when the pattern is additive,
+a_kl = y_k + y_l for k ≠ l; every other popcount exactly under one common
+covariance. So the blocks that qualify number 4, 16 (from N = 4), 9 (at even N) or (N + 1)²,
+and on
+those popcounts K equals its value under one common covariance set to the mean
+covariance. That the qualifying blocks pair is proved; that no other block pairs
+is read in thirteen patterns on the open XXZ chain at N = 3 and 4, not proved.
+The four edge blocks (0, 1), (1, 0), (N − 1, N) and (N, N − 1) run exactly as
+under local noise at the site rates γ_k, for every pattern.
+
+**Where the single centre fails.** By F137 the only candidate centre of the
+whole spectrum is −σ. Write a = Λ + C, Λ the diagonal and C the covariances.
+The third moment has a closed form for every real symmetric a and every
+Hermitian H, taken traceless,
+
+    Tr((L + σ)³) = −4^N·[4·tr(C·(2a + Λ)·C) − 3·tr(CΘ) − 6·ξᵀa ξ],
+    Θ_kl = Tr(H²Z_kZ_l)/2^N,   ξ_k = Tr(H Z_k)/2^N
+
+(Tr over the 4^N cells for a map such as L, over the 2^N basis states for an
+operator such as H²Z_kZ_l; tr over N × N matrices); under local noise it
+reduces to F117's third-moment face. For a valid field (a ⪰ 0) the centre −σ
+fails along four routes, the first three for the rates as well as for the
+complex eigenvalues:
+
+| Route | Noise | Hamiltonian |
+|---|---|---|
+| the GHZ coherence | covariances with a positive sum | keeps \|0…0⟩ and \|1…1⟩ as eigenstates |
+| a far-end mode P_p·X^⊗N, at −2K_p | K one value K_p > σ on some popcount p (one common covariance: every allowed κ ≠ 0, every N) | conserves the popcount, X^⊗N-even |
+| the fastest cell at weak coupling | at least one covariance | any H = J·H₀, J small enough |
+| the third moment (complex eigenvalues only) | at least one covariance | X^⊗N-even, taken traceless: at every coupling when Σ_{k≠l} a_kl·Tr(H²Z_kZ_l) ≤ 0, otherwise at all but at most two nonzero strengths τ per line a = Λ + τC |
+
+For the shared field at uniform rates on the open
+XY and Heisenberg chains the third and fifth moments together reach the far-end
+modes' verdict for the complex eigenvalues by a second route at N = 2..7.
+
+**Two further faces.** A uniform longitudinal field h·Σ_k Z_k, added to a
+popcount-conserving X^⊗N-even H under one common covariance, moves each block
+pair's centre off the real axis by h(2p − N), zero only where the ket is half
+filled: spec(q, N − p) = −spec(p, q) − 2σ(p, q) + 2ih(2p − N). And Π_Z carries
+the spectator ladder W onto the sideways ladder S⁺ (the two ladders of F141 and
+F142, sites counted from 0), Π_Z W Π_Z⁻¹ = S⁺ at every N; on
+the open XY chain W commutes with L for every real symmetric a and S⁺ for no
+correlated one, under one common covariance by the block shift
+[L, S⁺] = −8κ(d + 1)·S⁺ on the source block (F142).
+
+**Adjacent.** [F137](#f137)'s T1 half-shift has the same price operator from the
+other side: there X^⊗N carries K to Σ_k Γ_k − K, so K + X^⊗N K X^⊗N is a number
+and one centre survives; under Z noise X^⊗N fixes K, so the sum is 2K and nothing
+cancels the correlation. [The price-pair hardware page](../experiments/PRICE_PAIR_HARDWARE_PREDICTION.md)'s
+law Γ(D) + Γ(D̄) = P + 2·Σ Cov·[same side] is the cell-sum identity on the
+coherences that flight reads, and its Confirmations entry
+`price_pair_locality_marrakesh_july2026` is the hardware reading of the same
+covariances. [F158](#f158) does not reach this setting: a jump
+in the real span of the Z_k squares to a multiple of the identity only when it
+is a multiple of one Z_k.
+
+**Scope:** Z dephasing, jumps built linearly from the Z_k, a real Kossakowski
+matrix (a Kossakowski matrix that is not real, such as that of the Absorption
+Theorem's pair √α(Z₀ + iZ₁), √β(Z₀ − iZ₁) with α ≠ β, breaks the identity); the
+similarity needs H real, the block statements a popcount-conserving H. A shared
+field along one other axis is the same statement in a turned basis, the block
+statements then needing an H that conserves the popcount and commutes with the
+global flip in that basis (they fail for the z-anisotropic XXZ chain under a
+shared x or y field).
+**Typed/live owner:** `CorrelatedZDephasingPriceClaim` (Tier 1 derived, parents
+`F1PalindromeIdentity` and `AbsorptionTheoremClaim`); live witness
+`CorrelatedZDephasingPriceWitness` at `inspect --root sharedfield`, N = 3..5;
+in MirrorWorld the object `Atmosphere` (`atmosphere N`) at one uniform site rate
+on the open XY chain; in the framework `fw.lindbladian_correlated_z_dephasing`
+and `fw.shared_field_kossakowski`. Gated by
+[`mirror_under_shared_field.py`](../simulations/mirror_under_shared_field.py)
+(integer inputs, every comparison exact, 478 claims) and
+[`shared_field_odd_moments.py`](../simulations/shared_field_odd_moments.py)
+(exact computer algebra, 53 claims).
+**Open:** whether the rates pair where none of the three rate routes reaches;
+whether a block outside the four shapes ever pairs with its image; whether the
+third moment breaks the complex pairing anywhere no eigenvalue lies below −2σ;
+where the third moment vanishes, outside the cross-check's setting and with no
+rate route reaching, whether the complex pairing breaks; whether the η chains of
+F141 (the pairing ladder, not η = κ/γ) on d = ±1 inherit the measured S⁺ transport norms (a multiplicity
+not checked).
+**Replaces:** building the correlated Liouvillian to locate its centres: the
+block centres are −σ(p, q) under one common covariance, or −(K_p + K_q)/2 on the
+qualifying blocks of any pattern.
+**Source:** [The Mirror under a Shared Field](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md);
+parents [F1](#f1) and the Absorption Theorem; grew from
+[the singlet under a shared field](../experiments/SINGLET_UNDER_A_SHARED_FIELD.md).
 
 ---
 

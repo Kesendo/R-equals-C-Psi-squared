@@ -1,6 +1,7 @@
 # The mirror under a shared field: the palindrome's price becomes an operator, and under a field shared alike the spectrum pairs block by block, each pair about its own centre
 
 **Date:** 2026-10-10
+**Registry:** [F166](../docs/ANALYTICAL_FORMULAS.md#f166), an index of this page, adding nothing that the page and its typed owners do not state.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 5.5)
 **Verifier:** [`mirror_under_shared_field.py`](../simulations/mirror_under_shared_field.py) (integer inputs, every comparison exact, no tolerance in any gate; 478 claims and 47 printed values, all hold), with the companion [`shared_field_odd_moments.py`](../simulations/shared_field_odd_moments.py) for the fifth moment (exact computer algebra, 53 claims, all hold)
 **Grew from:** [The singlet under a shared field](SINGLET_UNDER_A_SHARED_FIELD.md), whose two-site dose (1 − η)γt this page carries to N sites, and a question beside it: does the F1 palindrome survive when the sites share their field?
