@@ -6,7 +6,7 @@ Quarter-valued entries are algebraic or named-model objects with the scope
 stated in their individual rows.
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-09-10 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-10-21 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -7122,7 +7122,7 @@ middle gives none, and the ends are exactly the pair the path can exchange,
 while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
-exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3). A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
+exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3). A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
 where [the triangle's palindromic locus](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
@@ -9806,6 +9806,7 @@ other two and whose thresholds are gated on measured separations of 10.6 and 11.
 decades; the 15,415 include F103 §7.12's three
 rows at N = 3, 4, 5, nine in all; beside them the depolarizing break, the rate fence, odd d, and eight constructed rows
 with 0 < dim 𝒲 < dim 𝒩 where the equality says more than nonemptiness.
+**With every site dephased** both ends are counts of components of one graph on the bitstrings: [F165](#f165).
 **Typed:** `PalindromeTwoEndCountClaim`
 ([compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs](../compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs),
 child of `F1PalindromeIdentity`) with the live witness `inspect --root twoend`
@@ -10556,6 +10557,164 @@ degree-133 A₂ factor is irreducible, one real Hermitian embedding carries
 semisimplicity to each of its conjugates, and a diagonal sign operator exchanging
 the two reflection sectors transports the verdict to the 133 odd loci, covering all
 266.
+
+---
+
+<a id="f165"></a>
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-06 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7; registered 2026-10-21 as an INDEX of that proof)
+
+**Why a number, and why it says so.** This entry indexes; it does not
+discover. Everything below is stated, proven and gated in the proof named in
+the header, or held by its typed owners, and eight entries of this registry
+already cite the proof by section: F1 (its Breaks-for and the F1² bullet), F4
+(the cross-sector weight), F88a (the kernel's split), F111 (condition (ii)),
+F115 (the Mixed strings), F137, F138 (the three classes of its converse), and
+F157 (the blind dephased seats). What none of them had is a name for the
+object they all point at, so each citation carried its own paraphrase of the
+theorem. The number buys that name. The caution is [F160](#f160)'s: an
+indexing gap is not a result, and this entry claims nothing its sources do
+not. The sweep is the proof's own record (its section *What the repo already
+held*); beside it, the OpenArcs arc `f138_converse_failures` records the
+converse as settled in the classes below and holds the open item on fields off
+the letters at N = 3.
+
+**The setting.** N sites, H a real combination of Pauli strings, and on every
+site l one jump, a Pauli letter A_l, at a rate γ_l > 0:
+L(ρ) = −i[H, ρ] + Σ_l γ_l·(A_l ρ A_l − ρ), σ_γ = Σ_l γ_l. By [F158](#f158) the
+spectrum pairs about −σ_γ exactly when the two ends agree,
+dim ker L = dim ker(L + 2σ_γ): the near end at 0 and the far end at −2σ_γ. A
+proper one-site rotation (a one-site unitary permuting the letters up to
+sign) turns every A_l into Z_l and changes no kernel
+dimension, so take A_l = Z_l, write x for a bitstring and x̄ for its bitwise
+complement. By F158's corollary the near end is then the diagonal matrices
+commuting with H, and the far end is the set of X^⊗N·D with D diagonal and
+H·X^⊗N·D = X^⊗N·D·H, which entry by entry is
+
+    H_x̄ȳ · d_y = d_x · H_xy   for all bitstrings x, y          (★)
+
+**The theorem (Theorem 2).** Let Γ_H be the hopping graph of H (vertices the
+bitstrings, an edge x–y where H_xy ≠ 0) and Γ the union of its edge set with
+its image under x ↦ x̄. A component of Γ is **good** when |H_xy| = |H_x̄ȳ| on
+every edge, H_xx = H_x̄x̄ on every vertex, and the complement connection
+d_y/d_x = H_xy/H_x̄ȳ has trivial holonomy around every cycle (the product of
+the edge ratios around the cycle is 1). A solution d of (★) is a section of
+that connection: on a component that is not good it vanishes, and on a good
+component it is fixed by its value at one vertex. Hence
+
+    dim ker L           = #components(Γ_H)
+    dim ker(L + 2σ_γ)   = #good components(Γ)
+    palindrome  ⟺  every component of Γ is good
+
+and where it holds, W = X^⊗N·D, with D assembled from a flat section of
+modulus one on each component, is a unitary carrier of the palindrome (F158, Lemma 3); the map ρ ↦ Wρ takes L to
+−L† − 2σ_γ. A colouring, a single Pauli string that
+anticommutes with every jump and commutes with H (here X^⊗N·Z^s up to a
+phase), is exactly a flat section that is a character, d_x ∝ (−1)^(s·x); other
+flat sections are other carriers. In the canonical case (Heisenberg or
+XX + YY bonds on a connected graph, no field, Z on every site) the components
+are the popcount shells, all good, so both ends count N + 1.
+
+**What it decides.** Three classes, each on a connected graph with every
+coupling J_ij nonzero and real, in which [F138](#f138)'s converse holds
+exactly, at every field magnitude (for Theorem 1, at the bond sets of F138
+that contain hopping). A letter field is a one-site field
+h_l·P_l along one Pauli letter P_l.
+
+- **Theorem 1:** hopping bonds J_ij(XX + YY) with any diagonal part unchanged
+  under x ↦ x̄ (Heisenberg, XXZ and XY bonds among them), Z on every site,
+  letter fields: the palindrome holds exactly when no field lies along Z and
+  the fields, taken over all sites, do not use both X and Y. At Heisenberg and
+  XX + YY bonds, the bond sets of F138 that contain hopping, this is F138's
+  converse.
+- **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
+  at least two letters among the axes, fields of any direction: the near end
+  is one-dimensional, and the palindrome holds exactly when exactly two axes
+  occur and every field lies along the third letter c, carried by the
+  colouring c^⊗N and no other element. Three axes never pair: on the triangle
+  with three different axes the pair flips close a cycle of holonomy −1.
+- **Theorem 5:** Heisenberg bonds, exactly one site undephased, every other
+  site under one letter jump, letter fields: the palindrome holds exactly when
+  some letter p is the axis of no dephased site and every nonzero field, the
+  undephased site's included, lies along p, carried by the colouring p^⊗N. With two undephased sites it fails, F138 (b)'s 78
+  coincident-magnitude rows pairing through SWAP₀₂·(n·σ)^⊗3, so one free site
+  is the boundary.
+
+With undephased sites the reading carries over under three separate
+hypotheses, with at least one site dephased, writing H̄ for the complement
+image, (H̄)_xy = H_x̄ȳ over the dephased bits:
+
+- **Theorem 4,** every undephased site keeping a letter (every term of H has I
+  or that letter there): turning the kept letters to Z, H = Σ_τ H_τ ⊗ |τ⟩⟨τ|
+  with τ a bitstring of the undephased sites and each H_τ a matrix on the
+  dephased bitstrings, and with
+  hom(A, B) = dim{g : B_xy·g_y = g_x·A_xy for all x, y}, the number of good
+  components of the graph of the nonzero off-diagonal entries of A or B (good:
+  |A_xy| = |B_xy| on every edge, A_xx = B_xx, trivial holonomy of A_xy/B_xy),
+
+      dim ker L = Σ_{τ,τ'} hom(H_τ', H_τ),   dim ker(L + 2σ_γ) = Σ_{τ,τ'} hom(H_τ', H̄_τ).
+
+  The cross-sector terms τ ≠ τ' are the elements no single sector holds.
+- **Theorem 6,** writing H = Σ_{x,y} |x⟩⟨y| ⊗ H_xy over the dephased
+  bitstrings, each block H_xy an operator on the undephased sites, and each
+  component of the union of the block graphs of H and H̄ having a spanning tree
+  whose blocks of H and of H̄ are invertible: the connection is then a local
+  system (both ends are read at one base point per component), and the
+  palindrome holds exactly when on every component the supports of H and H̄
+  agree and the two tuples of generators g, ḡ (the blocks transported to the
+  base point along the tree) are simultaneously similar, ḡ = d·g·d⁻¹ for one
+  invertible d and every generator,
+  which traces of words decide; with one undephased site words of length at
+  most 3 suffice and length 2 does not.
+- **Theorem 7,** at least one site undephased and H conserving a nonconstant
+  diagonal charge Σ w_l·Z_l, read in the frame after the turns to Z: both
+  ends split into sums of Hom dimensions between charge sectors, each a count
+  of good components where every sector space is at most one-dimensional.
+  F4's cross-sector weight is the near end's part between different sectors.
+
+**Beyond the seven,** in the same proof, on the Heisenberg triangle with
+couplings s = J_du, t = J_dv, r = J_uv, only site d dephased (along Z), and
+e₂ = st + sr + tr. With a field of free real magnitude, zero allowed, along
+one letter on every site and the graph connected
+(at most one coupling zero), the triangle is settled exactly at N = 3: a row
+pairs exactly when it is coloured, carries the u ↔ v swap composed with a π
+rotation R_n about an axis n perpendicular to z (s = t, R_n f_d = f_d and
+R_n f_u = f_v, f_l the field vector at site l), or has e₂ = 0 with no field
+on d and fields of equal magnitude perpendicular to z on u and v (exact and
+computer-assisted, with a stored certificate). On the field line h(X_u + Y_v)
+with s, t, r nonzero, one carrier serves every h exactly when (s − t)·e₂ = 0,
+and −(s − t)·e₂ is the Krylov determinant of the dephased seat: its two
+factors are the two ways for that seat to be blind in [F157](#f157)'s sense.
+Beyond the triangle, with one dephased seat, Heisenberg bonds and letter
+fields, an N = 4 family and an N = 7 construction pair with neither a
+colouring nor a site symmetry, their dephased seat blind all the same.
+
+**Adjacent.** F103 §7.12's chiral sign rule (D_x = −D_y on an edge) is the
+same kind of object as the complement connection (d_y/d_x = H_xy/H_x̄ȳ on an
+edge): a diagonal function on the basis-state graph obeying an edge rule.
+
+**Typed/live owner:** `PalindromeComplementConnectionClaim` (Tier 1 derived,
+parent F158's `PalindromeTwoEndCountClaim`); live witnesses
+`ComplementConnectionWitness` at `inspect --root complement` (Theorems 1 to 4,
+with Theorem 5's rule printed beside the string route) and
+`TrianglePalindromeLocusWitness` at `inspect --root trianglelocus`; under Z on
+every site the certifier `PalindromeSoftCertifier.DecideAtN` decides Theorem 2
+exactly for real template sets on the open chain, up to its constant
+`MaxComplementConnectionN = 20`. Gated in MirrorWorld against the end count's
+own verdict (`EndCount.ComplementConnection`, `SectorConnection`,
+`LocalSystem`, `ChargeSectors`, `EndCountTests`): Theorems 1 to 5 exactly,
+Theorems 6 and 7, proven alike, gated as an agreement of two modular upper
+bounds.
+**Open,** among the proof's items: two undephased sites under Heisenberg
+bonds; fields off the letters and other bonds at N = 3; whether a blind
+dephased seat is necessary at every N; undephased sites that keep no letter
+without an invertible spanning tree
+([the proof's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+**Replaces:** the end count's two modular kernel ranks by an exact walk over
+the components of a graph on the 2^N bitstrings, wherever every site is
+dephased.
+**Source:** [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md);
+parent [F158](#f158); the colouring rule and frame theorem of
+[the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md).
 
 ---
 

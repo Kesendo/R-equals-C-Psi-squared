@@ -133,6 +133,7 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "a common invertible carrier independent of h exists iff (s-t)(st+sr+tr)=0; its space is a line.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7 and common triangle carrier) + " +
+               "docs/ANALYTICAL_FORMULAS.md (F165, the index entry) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
                "experiments/THE_PALINDROME_AS_A_COLOURING.md (the colouring rule and the frame theorem)")
@@ -141,7 +142,7 @@ public sealed class PalindromeComplementConnectionClaim : Claim
     }
 
     public override string DisplayName =>
-        "With every site dephased, the palindrome is a flat connection (the complement connection)";
+        "F165: with every site dephased, the palindrome is a flat connection (the complement connection)";
 
     public override string Summary =>
         "near = components of the hopping graph, far = its good components joined with the complement image; " +

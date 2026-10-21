@@ -17,7 +17,7 @@ still on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became a registry: [160 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [161 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where
@@ -43,7 +43,7 @@ the quarter, hardware), each with a reading order
 readings
 
 → **[Analytical Formulas](docs/ANALYTICAL_FORMULAS.md)**: the F-registry,
-F1 through F164, each formula with its proof, scope, and verification
+F1 through F165, each formula with its proof, scope, and verification
 
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening the hardware answered for
