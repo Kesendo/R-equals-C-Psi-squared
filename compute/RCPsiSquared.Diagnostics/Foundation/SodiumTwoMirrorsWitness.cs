@@ -32,7 +32,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// theorem at a fixed set of exact points covering both outcomes, each read by route A (F158's two
 /// ends, dim ker L against dim ker(L + 2s) as exact ranks, only for J ≥ 0) and route B (the
 /// characteristic polynomial χ with χ(−x − 2s) = χ(x) identically, any real J), the two routes
-/// against each other and against the claim's <see cref="Spin32QuadrupolarMirrorsClaim.HasGlobalCentre"/>.</para>
+/// against each other and against the claim's <see cref="Spin32QuadrupolarMirrorsClaim.HasGlobalCentre"/>;
+/// and the handshake with NMR: the textbook biexponential relaxation (Hubbard's weights 1/5 and 4/5
+/// for I_z, 3/5 and 2/5 for I_+ at ω_Q = 0), the 3:4:3 triplet, the central transition and the
+/// triple quantum blind to J₀ and to the splitting, extreme narrowing, the rank-2 coherence T₂,₁ as
+/// the satellites' mirror image, each as an exact eigenoperator equation on string parts, with a
+/// splitting and swapped rate assignments as the controls.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
 public sealed class SodiumTwoMirrorsWitness : IInspectable
@@ -123,6 +128,27 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     public bool DarkSectorPairs { get; }
     public bool BrightSectorPairs { get; }
     public bool SectorMirrorsHold => ProjectorCommutesWithL && ProjectorCommutesWithS && J0PartIsMinusThreeJ0P && DarkSectorPairs && BrightSectorPairs;
+
+    // gate 5: the handshake with NMR
+    public bool LongitudinalSplitHolds { get; }
+    public IReadOnlyList<GaussianRational> LongitudinalWeights { get; }
+    public bool TransverseSplitHolds { get; }
+    public IReadOnlyList<GaussianRational> TransverseWeights { get; }
+    public bool SplittingDetunesSatellites { get; }
+    public bool SwappedAssignmentBreaks { get; }
+    public bool SplittingFeedsPartner { get; }
+    public IReadOnlyList<GaussianRational> TripletIntensities { get; }
+    public bool DarkLinesBlindToJ0AndSplitting { get; }
+    public bool TripleQuantumOnDarkCentre { get; }
+    public bool PopulationsPairAboutDarkCentre { get; }
+    public bool ExtremeNarrowingOneRate { get; }
+    public bool SatellitePartnerOnBrightMirror { get; }
+    /// <summary>The eigenoperator equations and their controls; the weights and the triplet are
+    /// readings of the spin matrices (no generator input) and stand beside it.</summary>
+    public bool HandshakeHolds => LongitudinalSplitHolds && TransverseSplitHolds && SplittingDetunesSatellites && SwappedAssignmentBreaks
+        && SplittingFeedsPartner
+        && DarkLinesBlindToJ0AndSplitting && TripleQuantumOnDarkCentre && PopulationsPairAboutDarkCentre
+        && ExtremeNarrowingOneRate && SatellitePartnerOnBrightMirror;
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -235,7 +261,90 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         J0PartIsMinusThreeJ0P = Equal(lj0, Scale(_p, -3 * j0));
         DarkSectorPairs = SectorPairs(l, dark: true, 2 * Spin32QuadrupolarMirrorsClaim.DarkCentre(j1, j2));
         BrightSectorPairs = SectorPairs(l, dark: false, 2 * Spin32QuadrupolarMirrorsClaim.BrightCentre(j0, j1, j2));
+
+        // ---- gate 5: the handshake with NMR, the textbook relaxation read as strings and counted
+        long c1 = Spin32QuadrupolarMirrorsClaim.DarkCentre(j1, j2), c2 = Spin32QuadrupolarMirrorsClaim.BrightCentre(j0, j1, j2);
+        var zi = Diagonal(1, 1, -1, -1);                   // ZI on |00⟩, |01⟩, |10⟩, |11⟩
+        var iz2 = Diagonal(1, -1, 1, -1);                  // IZ
+        var central = ipA;                                 // the CT part of I_+: 2·|1/2⟩⟨−1/2|
+        var satellites = ipB;                              // I_+ = central + √3·satellites
+        var partner = Zero(Levels);                        // the satellites' antisymmetric partner
+        partner[0, 1] = GaussianRational.One;
+        partner[2, 3] = -GaussianRational.One;
+        var tq = Zero(Levels);
+        tq[0, 3] = GaussianRational.One;
+        GaussianRational Rate(long re, long freq) => new(-re, -freq);   // −re − i·freq
+        var l0 = Generator(j0, j1, j2, 0, omega).L;                       // the user's rates, no splitting
+
+        // T₁: I_z = ZI + ½·IZ, the parts at 6J₂ and 6J₁, the weights their norms squared
+        LongitudinalSplitHolds = Equal(_iz, Add(zi, Scale(iz2, new BigRational(1, 2))))
+                                 && Eigen(l, zi, Rate(6 * j2, 0)) && Eigen(l, iz2, Rate(6 * j1, 0));
+        LongitudinalWeights = new[] { Weight(zi, _iz), Weight(Scale(iz2, new BigRational(1, 2)), _iz) };
+        // T₂ at ω_Q = 0: I_+ = CT + √3·satellites, the CT part at c₁, the satellites at 3(J₀ + J₁)
+        TransverseSplitHolds = Eigen(l, central, Rate(c1, omega)) && Eigen(l0, satellites, Rate(3 * (j0 + j1), omega));
+        var sNorm = 3 * Trace(Mul(Adjoint(satellites), satellites));
+        var cNorm = Trace(Mul(Adjoint(central), central));
+        TransverseWeights = new[] { sNorm / (sNorm + cNorm), cNorm / (sNorm + cNorm) };
+        // controls: a splitting detunes the two satellite cells (ω ± 2q); at the control point, where J₁ ≠ J₂ and
+        // J₀ ≠ J₂, the swapped rate assignments fail
+        SplittingDetunesSatellites = !Eigen(Generator(j0, j1, j2, 1, omega).L, satellites, Rate(3 * (j0 + j1), omega));
+        var (cj0c, cj1c, cj2c, _, cwc) = ControlPoint;
+        var cl0 = Generator(cj0c, cj1c, cj2c, 0, cwc).L;
+        SwappedAssignmentBreaks = !Eigen(cl0, zi, Rate(6 * cj1c, 0)) && !Eigen(cl0, iz2, Rate(6 * cj2c, 0))
+                                  && !Eigen(cl0, satellites, Rate(Spin32QuadrupolarMirrorsClaim.DarkCentre(cj1c, cj2c), cwc))
+                                  && !Eigen(cl0, central, Rate(3 * (cj0c + cj1c), cwc));
+        // 3:4:3, the squared entries of I_+
+        TripletIntensities = new[] { 3 * satellites[0, 1] * satellites[0, 1], central[1, 2] * central[1, 2], 3 * satellites[2, 3] * satellites[2, 3] };
+        // the central transition and the triple quantum: dark to J₀ and to the splitting alike, on −c₁
+        var lj0Unit = Generator(1, 0, 0, 0, 0).LJ0;
+        var splittingUnit = Generator(0, 0, 0, 1, 0).L;
+        DarkLinesBlindToJ0AndSplitting = IsZero(Apply(lj0Unit, central)) && IsZero(Apply(splittingUnit, central))
+                                         && IsZero(Apply(lj0Unit, tq)) && IsZero(Apply(splittingUnit, tq))
+                                         && !IsZero(Apply(lj0Unit, satellites)) && !IsZero(Apply(splittingUnit, satellites));
+        // the splitting reaches the partner and nothing else: −i[Γ̂₀, satellites] = −2i·partner
+        SplittingFeedsPartner = Equal(Apply(splittingUnit, satellites), Scale(partner, new GaussianRational(0, -2)));
+        TripleQuantumOnDarkCentre = Eigen(l, tq, Rate(c1, 3 * omega));
+        // the populations pair about −c₁: quadrupolar order Γ̂₀ at −2c₁ against equilibrium at 0 (L is unital), and
+        // the two T₁ modes 6J₁ + 6J₂ = 2c₁ with each other (their eigen equations above)
+        PopulationsPairAboutDarkCentre = Eigen(l, _g0, Rate(2 * c1, 0)) && IsZero(Apply(l, Identity(Levels)));
+        // extreme narrowing: one density for all three, one rate for the four observable parts
+        var ln = Generator(1, 1, 1, 0, omega).L;
+        ExtremeNarrowingOneRate = Eigen(ln, zi, Rate(6, 0)) && Eigen(ln, iz2, Rate(6, 0))
+                                  && Eigen(ln, central, Rate(6, omega)) && Eigen(ln, satellites, Rate(6, omega));
+        // at ω_Q = 0: the satellites' mirror image −S(satellites)† (S keeps the bright sector, † brings the order back) is
+        // the rank-2 coherence T₂,₁ (up to a factor), an eigenoperator at 2c₂ − 3(J₀ + J₁), orthogonal to I_+
+        SatellitePartnerOnBrightMirror = Equal(Scale(Adjoint(Apply(_s, satellites)), -1), partner)
+                                         && ProportionalFactor(partner, _r[1]) is not null
+                                         && Trace(Mul(Adjoint(partner), satellites)).IsZero && Trace(Mul(Adjoint(partner), central)).IsZero
+                                         && Eigen(l0, partner, Rate(2 * c2 - 3 * (j0 + j1), omega));
     }
+
+    // ===== the handshake =====
+
+    /// <summary>The superoperator applied to a 4 × 4 operator, vec index 4i + j.</summary>
+    private static Mat Apply(Mat super, Mat op)
+    {
+        var r = Zero(Levels);
+        for (int a = 0; a < Levels; a++)
+            for (int b = 0; b < Levels; b++)
+                for (int i = 0; i < Levels; i++)
+                    for (int j = 0; j < Levels; j++)
+                        if (!op[i, j].IsZero) r[a, b] += super[Levels * a + b, Levels * i + j] * op[i, j];
+        return r;
+    }
+
+    private static bool Eigen(Mat super, Mat op, GaussianRational lambda) => Equal(Apply(super, op), Scale(op, lambda));
+
+    private static GaussianRational Trace(Mat a)
+    {
+        var t = GaussianRational.Zero;
+        for (int i = 0; i < a.GetLength(0); i++) t += a[i, i];
+        return t;
+    }
+
+    /// <summary>Tr(part†part)/Tr(whole†whole), the weight of an orthogonal part in the decay of the whole.</summary>
+    private static GaussianRational Weight(Mat part, Mat whole) =>
+        Trace(Mul(Adjoint(part), part)) / Trace(Mul(Adjoint(whole), whole));
 
     // ===== the generator =====
 
@@ -594,7 +703,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"{Verdict(TheoremHolds, "holds", "FAILS")} at {Points.Count(p => p.Rule)} pairing and " +
         $"{Points.Count(p => !p.Rule)} breaking fixed points and at the user point, route A (F158's kernels) and route B (χ) " +
         $"{Verdict(TheoremHolds, "agreeing with it and with each other", "DISAGREEING")}; at the user point the spectrum " +
-        $"{(UserPoint.CharpolySymmetric ? "has" : "has no")} global centre −s, 2s = {UserPoint.TwoS}.";
+        $"{(UserPoint.CharpolySymmetric ? "has" : "has no")} global centre −s, 2s = {UserPoint.TwoS}; the handshake with NMR " +
+        $"{Verdict(HandshakeHolds, "holds (the textbook parts of I_z and I_+ are eigenoperators at the textbook rates)", "FAILS")}.";
 
     private static string Show(CentrePoint p) =>
         $"(J₀, J₁, J₂, q, ω) = ({p.J0}, {p.J1}, {p.J2}, {p.Q}, {p.Omega}), 2s = {p.TwoS}: rule {(p.Rule ? "pairs" : "breaks")}, " +
@@ -641,6 +751,23 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"{Verdict(DarkSectorPairs, "pairs", "does NOT pair")} about −c₁ = −{Spin32QuadrupolarMirrorsClaim.DarkCentre(J1, J2)} and the bright part " +
                          $"{Verdict(BrightSectorPairs, "pairs", "does NOT pair")} about −c₂ = −{Spin32QuadrupolarMirrorsClaim.BrightCentre(J0, J1, J2)} (χ of each 8 × 8 block); " +
                          $"{Verdict(Points.All(p => p.SectorMirrorsHold), "the same at every fixed point", "NOT at every fixed point")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the handshake with NMR",
+                summary: $"the textbook relaxation of a spin 3/2, read as strings: I_z = ZI + ½·IZ with ZI at 6J₂ and IZ at 6J₁ " +
+                         $"{Verdict(LongitudinalSplitHolds, "(eigenoperators)", "(NOT eigenoperators)")}, squared norms {string.Join(", ", LongitudinalWeights)}; " +
+                         $"I_+ = CT + √3·satellites with the CT part at c₁ = {Spin32QuadrupolarMirrorsClaim.DarkCentre(J1, J2)} and, at ω_Q = 0, the satellites at " +
+                         $"3(J₀ + J₁) = {3 * (J0 + J1)} {Verdict(TransverseSplitHolds, "(eigenoperators)", "(NOT eigenoperators)")}, squared norms {string.Join(", ", TransverseWeights)}" +
+                         $"{(J1 == J2 || J0 == J2 ? " (at this point two of the rates coincide; the control point below separates them)" : "")}; " +
+                         $"controls: a splitting {Verdict(SplittingDetunesSatellites, "detunes the satellites", "does NOT detune the satellites")}, " +
+                         $"{Verdict(SplittingFeedsPartner, "feeding exactly the partner below (−i[Γ̂₀, satellites] = −2i·partner)", "NOT feeding the partner alone")}, and at {ControlPoint} the swapped " +
+                         $"assignments {Verdict(SwappedAssignmentBreaks, "fail", "do NOT fail")}; the squared entries of I_+ {string.Join(" : ", TripletIntensities)}; " +
+                         $"the central transition and the triple quantum {Verdict(DarkLinesBlindToJ0AndSplitting, "blind to J₀ and to the splitting alike, the satellites not", "NOT blind as stated")}; " +
+                         $"the triple quantum {Verdict(TripleQuantumOnDarkCentre, "on −c₁, the mean of the two T₁ rates", "NOT on −c₁")}; quadrupolar order Γ̂₀ " +
+                         $"{Verdict(PopulationsPairAboutDarkCentre, "at −2c₁, the partner of equilibrium about −c₁, as the two T₁ modes are partners", "NOT at −2c₁")}; extreme narrowing " +
+                         $"{Verdict(ExtremeNarrowingOneRate, "gives one rate", "does NOT give one rate")}; R₂′ − R₂″ = 3(J₀ − J₂) = (c₂ − c₁) − 3J₂ (arithmetic); " +
+                         $"at ω_Q = 0 the satellites' mirror image −S(satellites)† {Verdict(SatellitePartnerOnBrightMirror, $"is the rank-2 coherence T₂,₁, orthogonal to I_+, and sits at 2c₂ − 3(J₀ + J₁) = {3 * (J0 + J1 + 2 * J2)}, the satellites' partner about −c₂", "is NOT T₂,₁ at its rate as stated")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

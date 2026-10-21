@@ -156,13 +156,44 @@ public class SodiumTwoMirrorsWitnessTests
     }
 
     [Fact]
+    public void Handshake_TheTextbookRelaxation_IsStringsAndCounting()
+    {
+        Assert.True(Default.LongitudinalSplitHolds);            // I_z = ZI + ½·IZ, ZI at 6J₂, IZ at 6J₁
+        Assert.Equal(new GaussianRational[] { new BigRational(4, 5), new BigRational(1, 5) }, Default.LongitudinalWeights);
+        Assert.True(Default.TransverseSplitHolds);              // at ω_Q = 0: CT at c₁, satellites at 3(J₀ + J₁)
+        Assert.Equal(new GaussianRational[] { new BigRational(3, 5), new BigRational(2, 5) }, Default.TransverseWeights);
+        Assert.True(Default.SplittingDetunesSatellites);        // the controls: a splitting, and swapped rate assignments
+        Assert.True(Default.SwappedAssignmentBreaks);
+        Assert.True(Default.SplittingFeedsPartner);             // −i[Γ̂₀, satellites] = −2i·partner
+        Assert.Equal(new GaussianRational[] { 3, 4, 3 }, Default.TripletIntensities);
+        Assert.True(Default.DarkLinesBlindToJ0AndSplitting);
+        Assert.True(Default.TripleQuantumOnDarkCentre);
+        Assert.True(Default.PopulationsPairAboutDarkCentre);
+        Assert.True(Default.ExtremeNarrowingOneRate);
+        Assert.True(Default.SatellitePartnerOnBrightMirror);      // −S(satellites)† = T₂,₁ up to a factor, at 2c₂ − 3(J₀ + J₁)
+        Assert.True(Default.HandshakeHolds);
+        Assert.Contains("the handshake with NMR holds", Default.Summary);
+        Assert.Contains(Default.Children, c => c.DisplayName == "the handshake with NMR");
+    }
+
+    [Theory]
+    [InlineData(0, 5, 1, 3, 7)]
+    [InlineData(4, 1, 9, 0, 0)]
+    [InlineData(-2, 3, 5, 2, -1)]
+    public void Handshake_HoldsAtOtherPoints(long j0, long j1, long j2, long q, long omega)
+    {
+        var w = new SodiumTwoMirrorsWitness(j0, j1, j2, q, omega);
+        Assert.True(w.HandshakeHolds);
+    }
+
+    [Fact]
     public void Summary_AndFirstChild_ShowTheGate()
     {
         Assert.Contains("hold", Default.Summary);
         Assert.DoesNotContain("FAIL", Default.Summary);
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
-        Assert.True(Default.Children.Count() >= 5);
+        Assert.True(Default.Children.Count() >= 6);
     }
 
     [Fact]

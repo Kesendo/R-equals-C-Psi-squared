@@ -11008,7 +11008,11 @@ spin matrices exactly over ℚ(i) (the √3 of I_± factored out, the splitting 
 q = ω_Q·√6/2) and reads the Dirac algebra with a spin control at 1, 2 and 5/2,
 the one map with two controls, the two sectors, and the global-centre rule at
 fourteen fixed points and a chosen one, by F158's exact kernel dimensions (for
-non-negative, not all zero densities) and by the characteristic polynomial. The
+non-negative, not all zero densities) and by the characteristic polynomial; it
+also reads the handshake with NMR (Hubbard's biexponential weights as squared
+norms of string parts, the transverse ones at ω_Q = 0, the 3 : 4 : 3 triplet,
+the dark lines blind to J₀ and to the splitting alike, and at ω_Q = 0 T₂,±1 as
+the satellites' mirror image, exact). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
