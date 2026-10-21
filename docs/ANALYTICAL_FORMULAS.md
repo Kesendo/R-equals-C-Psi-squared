@@ -10996,9 +10996,14 @@ figure of [F137](#f137)'s kept jump and of MirrorWorld's `GammaFold`, and the
 ladder is [F166](#f166)'s blockwise centres in another dissipator; the pages
 leave open whether one statement holds them all.
 
-**Typed/live owner:** none yet. The parent page names the witness: MirrorWorld's
-`EndCount` at N = 2 with the jumps ZZ, ZX, ZY, XI, YI and
-H = ω_Q·(3/√6)·ZZ + ω·(ZI + ½·IZ). Gated by
+**Typed/live owner:** `Spin32QuadrupolarMirrorsClaim` (Tier 1 derived, parent
+F158's `PalindromeTwoEndCountClaim`), the single nucleus only; live witness
+`SodiumTwoMirrorsWitness` at `inspect --root sodium`, which builds L from the
+spin matrices exactly over ℚ(i) (the √3 of I_± factored out, the splitting as
+q = ω_Q·√6/2) and reads the Dirac algebra with a spin control at 1, 2 and 5/2,
+the one map with two controls, the two sectors, and the global-centre rule at
+fourteen fixed points and a chosen one, by F158's exact kernel dimensions (for
+non-negative, not all zero densities) and by the characteristic polynomial. The chain is not typed. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
 117 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
@@ -11014,7 +11019,7 @@ outside. No sodium data were compared.
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation; K_m beyond three nuclei;
-whether U_m = K_m over ℂ for m = 1, 2 at two nuclei; shared or partly correlated gradients; the C# witness.
+whether U_m = K_m over ℂ for m = 1, 2 at two nuclei; shared or partly correlated gradients; a typed home for the chain.
 **Replaces:** diagonalising the 16 × 16 generator to find its centres: c₁ and
 c₂ are read off the densities.
 **Source:** [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md);

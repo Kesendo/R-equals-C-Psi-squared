@@ -1085,6 +1085,20 @@ public static class InspectCommand
             c => new HeldLetterRoutingWitness(c.Parser.HasFlag("N") ? c.N : 3,
                                                  c.Parser.OptionalDouble("gamma") ?? 0.05),
             RequiresN: false, HonorsOptionalN: true),
+        new("sodium", "F167, the spin-3/2 nucleus and its two mirrors, live: the 16 × 16 quadrupolar-relaxation generator built " +
+            "from the spin matrices, exact over ℚ(i) (the √3 of I_± factored out of every T₂,ₘ, the splitting taken as the integer " +
+            "q = ω_Q·√6/2), recomputing at inspect time the five Dirac matrices (ZZ, ZX, ZY, XI, YI; the control spins 1, 2, 5/2 break " +
+            "the algebra), the one map S(X) = Γ₀·Xᵀ with S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂) beside two controls that break it, the " +
+            "dark and bright sectors paired about −3(J₁ + J₂) and −3(J₀ + J₁ + J₂), and the global-centre theorem at fixed exact points " +
+            "and at the user point by F158's two kernel ranks and by the characteristic polynomial. Optional integers --J0 --J1 --J2 " +
+            "--q --omega (defaults 1, 2, 3, 1, 1) (typed: Spin32QuadrupolarMirrorsClaim; experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md)",
+            c => new SodiumTwoMirrorsWitness(
+                c.Parser.HasFlag("J0") ? c.Parser.RequireInt("J0") : 1,
+                c.Parser.HasFlag("J1") ? c.Parser.RequireInt("J1") : 2,
+                c.Parser.HasFlag("J2") ? c.Parser.RequireInt("J2") : 3,
+                c.Parser.HasFlag("q") ? c.Parser.RequireInt("q") : 1,
+                c.Parser.HasFlag("omega") ? c.Parser.RequireInt("omega") : 1),
+            RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

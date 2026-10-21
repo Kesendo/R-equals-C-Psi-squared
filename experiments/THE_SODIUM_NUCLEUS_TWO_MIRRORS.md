@@ -3,7 +3,7 @@
 **Date:** 2026-10-17
 **Registry:** [F167](../docs/ANALYTICAL_FORMULAS.md#f167), an index of this page and its child [The Sodium Chain](THE_SODIUM_CHAIN.md), adding nothing the two pages do not state.
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 5.5)
-**Verifier:** [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (`python simulations/sodium_two_mirrors.py`; exact, sympy 1.14, every parameter a symbol where it can be; 117 checks)
+**Verifier:** [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (`python simulations/sodium_two_mirrors.py`; exact, sympy 1.14, every parameter a symbol where it can be; 117 checks); live in C# as `SodiumTwoMirrorsWitness` (`inspect --root sodium`, typed as `Spin32QuadrupolarMirrorsClaim`), built from the spin matrices exactly over ℚ(i), the global-centre rule read at fourteen fixed points and a chosen one by F158's kernel dimensions (for non-negative densities, not all zero) and by the characteristic polynomial
 **Rates, not ours:** A. M. Souza, A. Gavini-Viana, I. S. Oliveira, R. S. Sarthour, R. Auccaise, J. Teles, E. R. deAzevedo, T. J. Bonagamba, *Nuclear spin 3/2 electric quadrupole relaxation as a quantum computation*, [arXiv:1105.2539](https://arxiv.org/abs/1105.2539), Eqs. (15) to (27), which cite R. Auccaise et al., J. Magn. Reson. 192, 17 (2008); the spectral densities follow J. R. C. van der Maarel, J. Chem. Phys. 94, 4765 (1991), and G. Jaccard, S. Wimperis, G. Bodenhausen, J. Chem. Phys. 85, 6282 (1986).
 **A word fence.**
 - *Order* p = m − m′ is the coherence order of |m⟩⟨m′|.
@@ -224,7 +224,6 @@ No sodium data were compared. The model is a single isolated spin 3/2 at infinit
 - The identity against measured sodium relaxation rates (gels, cartilage, brain), whether it is already in use as a consistency check, and which deviation a two-compartment voxel produces.
 - Beyond spin 3/2: a proof that no rates other than all zero give a global centre at every spin. Without a splitting it is proved spin by spin to I = 6, and off resonance for every I ≥ 2. At every offset, with or without a splitting, it is open only on the planes where two population rates coincide, finitely many at every integer spin and at every half-integer spin checked, to 61/2: beyond I = 6 on resonance, and at every spin I ≥ 2 with a splitting off resonance. Also open: at spin 1 with a splitting, which offsets ω ≠ 0 could still give a centre off the two rays (finitely many at each point away from all rates zero); and whether a weaker, block-wise mirror survives there.
 - An ensemble of spins 3/2 under a shared gradient: collective jumps, sums of strings that do not square to 1, the setting of [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md).
-- A C# witness: MirrorWorld's `EndCount` at N = 2 could carry the theorem now, with the jumps ZZ, ZX, ZY, XI, YI and H = ω_Q·(3/√6)·ZZ + ω·(ZI + ½·IZ), since T₂₀ = (3/√6)·ZZ and I_z = ZI + ½·IZ in this labelling. `EndCount` takes integer inputs, so ω_Q is to be chosen as a multiple of √6/3, or the ZZ coefficient taken as the parameter.
 - The general d > 2 question of Qubit Necessity §8a: which other physical dissipators split a palindrome into centres instead of breaking it.
 
 ## Links

@@ -658,4 +658,26 @@ public class InspectRootCatalogTests
         var labelsWithout = rootWithout.Children.Select(c => c.DisplayName).ToList();
         Assert.DoesNotContain("movement: the seam", labelsWithout);
     }
+
+    [Fact]
+    public void Catalog_SodiumFactory_BuildsTheLiveWitness_DefaultsAndOptionalIntegers()
+    {
+        var sodium = InspectCommand.Catalog.Single(e => e.Name == "sodium");
+        Assert.False(sodium.RequiresN);
+        Assert.Contains("Spin32QuadrupolarMirrorsClaim", sodium.Description);
+        var names = InspectCommand.Catalog.Select(e => e.Name).ToList();
+        Assert.True(names.IndexOf("sodium") < names.IndexOf("world"));
+
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var w = Assert.IsType<SodiumTwoMirrorsWitness>(sodium.Factory(ctx));
+        Assert.Equal((1L, 2L, 3L, 1L, 1L), (w.J0, w.J1, w.J2, w.Q, w.Omega));
+
+        var ctxArgs = new InspectRootContext(new ArgParser(new[] { "--J0", "0", "--J1", "4", "--J2", "-1", "--q", "2", "--omega", "5" }), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var w2 = Assert.IsType<SodiumTwoMirrorsWitness>(sodium.Factory(ctxArgs));
+        Assert.Equal((0L, 4L, -1L, 2L, 5L), (w2.J0, w2.J1, w2.J2, w2.Q, w2.Omega));
+        Assert.True(w2.UserPoint.Rule);
+        Assert.True(w2.UserPoint.CharpolySymmetric);
+    }
 }

@@ -22,7 +22,7 @@ Spins 3/2, each with its own field gradient (independent quadrupolar relaxation,
 
 Swept 2026-10-20 and 2026-10-21 by three survey agents, stores by name.
 
-- The parent page: one nucleus only; its Open list keeps the shared gradient (collective jumps), and the C# `EndCount` witness at N = 2 it names is not built. At the time of the sweep nothing in the repository cited the parent page except the experiments index and its verifier.
+- The parent page: one nucleus only; its Open list keeps the shared gradient (collective jumps); its single-nucleus theorem is typed as `Spin32QuadrupolarMirrorsClaim`, live at `inspect --root sodium`. At the time of the sweep nothing in the repository cited the parent page except the experiments index and its verifier.
 - `docs/ANALYTICAL_FORMULAS.md`, `docs/proofs/`, the OpenArcs registry, `docs/CAUGHT_ERRORS.md`, `fw.Confirmations`, the glossary, the typed layer in both halves (the Claim graph in Core, the witnesses in Diagnostics): no coupling between quadrupolar nuclei, no dipolar or J coupling of spins 3/2, no sodium entry. The spin operators I_x, I_y as two-qubit strings are written nowhere; the dictionary below is gated here.
 - [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) and MirrorWorld's `Atmosphere`: qubit chains under correlated Z dephasing, blocks that pair about their own centres when the excess price is one constant on the block and break when it is not. It holds Z jumps only and places collective Z jumps outside F158; the parent page draws the sodium consequence.
 - [The Shared Field in a Crystal](THE_SHARED_FIELD_IN_A_CRYSTAL.md): multiple-quantum NMR of spin-1/2 clusters; not this object. `reflections/`: the portfolio page below; `hypotheses/` was not searched.
