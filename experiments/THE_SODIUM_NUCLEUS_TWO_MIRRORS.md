@@ -222,7 +222,7 @@ No sodium data were compared. The model is a single isolated spin 3/2 at infinit
 
 - The identity against measured sodium relaxation rates (gels, cartilage, brain), whether it is already in use as a consistency check, and which deviation a two-compartment voxel produces.
 - Beyond spin 3/2: a proof that no rates other than all zero give a global centre at every spin. Without a splitting it is proved spin by spin to I = 6, and off resonance for every I ≥ 2. At every offset, with or without a splitting, it is open only on the planes where two population rates coincide, finitely many at every integer spin and at every half-integer spin checked, to 61/2: beyond I = 6 on resonance, and at every spin I ≥ 2 with a splitting off resonance. Also open: at spin 1 with a splitting, which offsets ω ≠ 0 could still give a centre off the two rays (finitely many at each point away from all rates zero); and whether a weaker, block-wise mirror survives there.
-- An ensemble of spins 3/2. With an independent gradient on each spin the Clifford reading makes it a Pauli-string chain on twice as many qubits, inside [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)'s class. A shared gradient gives collective jumps, sums of strings that do not square to 1, which is the setting of [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md) instead.
+- An ensemble of spins 3/2 under a shared gradient: collective jumps, sums of strings that do not square to 1, the setting of [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md).
 - A C# witness: MirrorWorld's `EndCount` at N = 2 could carry the theorem now, with the jumps ZZ, ZX, ZY, XI, YI and H = ω_Q·(3/√6)·ZZ + ω·(ZI + ½·IZ), since T₂₀ = (3/√6)·ZZ and I_z = ZI + ½·IZ in this labelling. `EndCount` takes integer inputs, so ω_Q is to be chosen as a multiple of √6/3, or the ZZ coefficient taken as the parameter.
 - The general d > 2 question of Qubit Necessity §8a: which other physical dissipators split a palindrome into centres instead of breaking it.
 
@@ -230,6 +230,7 @@ No sodium data were compared. The model is a single isolated spin 3/2 at infinit
 
 - [F121](../docs/ANALYTICAL_FORMULAS.md) and [PROOF_QUDIT_PARTIAL_PALINDROME](../docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md), the equidistant d > 2 case.
 - [Qubit Necessity](../docs/QUBIT_NECESSITY.md), the d² − 2d = 0 trunk and the open d > 2 dissipators.
+- [The Sodium Chain](THE_SODIUM_CHAIN.md), coupled nuclei: a ladder of centres, one per number of bright nuclei.
 - [The Mirror under a Shared Field](THE_MIRROR_UNDER_A_SHARED_FIELD.md), blockwise centres for qubit chains.
 - [The Shared Field in a Crystal](THE_SHARED_FIELD_IN_A_CRYSTAL.md), the multiple-quantum companion page.
 - [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md), the two-end count, and [F118](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), the palindromizer as a transpose and a multiplication.
