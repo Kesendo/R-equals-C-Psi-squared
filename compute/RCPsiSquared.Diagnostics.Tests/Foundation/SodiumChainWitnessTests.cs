@@ -154,6 +154,56 @@ public class SodiumChainWitnessTests
     }
 
     [Fact]
+    public void Explicit_E1AndE2_LieInUmAtEveryParameter_AndAreTheSharpSpacesHere()
+    {
+        Assert.Equal(12, Default.E1Dimension);
+        Assert.Equal(1, Default.E2Dimension);
+        Assert.True(Default.E1InOneBrightCells);
+        Assert.True(Default.E2InTwoBrightCells);
+        Assert.True(Default.E1InvariantUnderEveryPiece);   // each parameter piece alone, so at every parameter
+        Assert.True(Default.E2InvariantUnderEveryPiece);
+        Assert.True(Default.E1InSqrtThreeKernel);
+        Assert.True(Default.E2InSqrtThreeKernel);
+        Assert.True(Default.E2OnItsRung);                  // L·E₂ = −6(J₀ + J₁ + J₂)·E₂
+        Assert.True(Default.ExplicitAreTheSharpSpacesHere);
+        Assert.True(Default.ExplicitHolds);
+    }
+
+    [Fact]
+    public void Explicit_Controls_RatesPerNucleusBreakBoth_TheExchangeSymmetricPartnersLeaveTheKernel()
+    {
+        Assert.True(Default.E1BreaksWithRatesPerNucleus);
+        Assert.True(Default.E2BreaksWithRatesPerNucleus);
+        Assert.True(Default.E1TopBlockKeepsRatesPerNucleus);
+        Assert.True(Default.SymmetricPartnersKeepRationalCoupling);   // the kernel check bites: same coupling leg, outside V
+        Assert.True(Default.SymmetricPartnersLeaveSqrtThreeKernel);
+        Assert.True(Default.BareColumnBreaksRationalCoupling);        // the invariance check bites on a Hamiltonian piece
+        Assert.True(Default.UnequalSplittingBreaksBoth);              // the scope: identical nuclei, one offset, equal splittings
+        Assert.True(Default.UnequalOffsetBreaksBoth);
+    }
+
+    [Theory]
+    [InlineData(1, 1, 4, 1)]
+    [InlineData(7, 5, 1, 10)]
+    [InlineData(11, 13, 17, 19)]
+    [InlineData(1, 1, 1, 1000)]
+    [InlineData(5, 3, 3, 7)]
+    [InlineData(1000, 1, 1, 1)]
+    public void AwayFromThePagePoint_UmEqualsKm_AndJ1EqualsJ2RaisesK0AndU0(long j0, long j1, long j2, long d)
+    {
+        var w = new SodiumChainWitness(j0, j1, j2, d);
+        Assert.True(w.ExplicitHolds);
+        Assert.True(w.ExplicitAreTheSharpSpacesHere);
+        bool level = j1 == j2;
+        Assert.Equal(level, w.IzTotalIsEigenoperator);
+        Assert.False(w.IzTotalInSqrtThreeKernel);
+        Assert.Equal(level ? new[] { 12, 12, 1 } : new[] { 10, 12, 1 }, w.FullSharp.Select(h => h.Dimension));
+        Assert.Equal(level ? new[] { 6, 12, 1 } : new[] { 5, 12, 1 }, w.FullKernelHull.Select(h => h.Dimension));
+        Assert.Equal(new bool?[] { false, true, true }, w.FullSharp.Select(h => h.Pairs));
+        Assert.True(w.HullsInvariant);
+    }
+
+    [Fact]
     public void Summary_AndFirstChild_ShowTheGate()
     {
         Assert.Contains("holds", Default.Summary);
@@ -161,7 +211,7 @@ public class SodiumChainWitnessTests
         Assert.DoesNotContain("NOT", Default.Summary);
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
-        Assert.Equal(5, Default.Children.Count());
+        Assert.Equal(6, Default.Children.Count());
     }
 
     [Fact]

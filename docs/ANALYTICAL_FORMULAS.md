@@ -10983,7 +10983,11 @@ any graph; Q = ⊗_k ZZ_k and S(ρ) = Q·ρᵀ.
   candidate centre, breaks exactly at every length (F158). The
   largest L-invariant subspace U_m inside the operators x with H₃x = 0 = xH₃ and
   the m-bright cells is palindromic about −s_m (proved, any number of nuclei,
-  any graph); under this coupling K₀ is not palindromic about −s₀ at every
+  any graph); at two nuclei with identical rates, one offset and an equal
+  splitting, U_m = K_m, both spaces written down, for m = 1, 2 at every
+  parameter off a proper algebraic set (proved; the set contains d = 0 and is
+  not decided elsewhere; E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block
+  and four order ±4 differences); under this coupling K₀ is not palindromic about −s₀ at every
   length (proved: the identity's partner at −2s₀ could only be Q, and Q is no
   eigenvector since [H, Q] ≠ 0).
 
@@ -11010,8 +11014,9 @@ and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
 both truncations with the √3 strings as control, the ladder, the full coupling's
 break at J₀ = 0, and the hulls K_m and U_m at √3 itself through a diagonal
-similarity that makes the generator rational, where U₁ = K₁ and U₂ = K₂ hold
-exactly at the verifier's parameters. Gated by
+similarity that makes the generator rational, and the explicit spaces of
+U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
+the verifier's parameters and, in its tests, at six further points. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
 117 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
@@ -11027,7 +11032,7 @@ outside. No sodium data were compared.
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation; K_m beyond three nuclei;
-whether U_m = K_m for m = 1, 2 at two nuclei away from the verifier's parameters; shared or partly correlated gradients.
+whether U_m = K_m (m = 1, 2, two nuclei) at every parameter, in particular on the planes J₁ = 0 and J₂ = 0, where single-point readings find K_m larger than the written-down spaces; shared or partly correlated gradients.
 **Replaces:** diagonalising the 16 × 16 generator to find its centres: c₁ and
 c₂ are read off the densities.
 **Source:** [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md);

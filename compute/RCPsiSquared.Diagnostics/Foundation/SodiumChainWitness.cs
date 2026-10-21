@@ -42,9 +42,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// palindromic about −s_B and about no neighbouring rung; (4) the full coupling at J₀ = 0: F158's
 /// far span (the strings anticommuting with every jump are Q alone, none once the J₀ jumps are
 /// on), its two ends as exact kernel dimensions at √3 and at c, and the characteristic polynomial
-/// at √3 not palindromic about −σ, the equal truncation pairing by both routes as the control.
-/// Readings, not gates: the exact dimensions of K_m (equal truncation) and of K_m and U_m (full
-/// coupling at √3) by Krylov stabilisation, and whether each is palindromic about −s_m.</para>
+/// at √3 not palindromic about −σ, the equal truncation pairing by both routes as the control;
+/// (5) the explicit sharp spaces: E₁ (twelve operators, σσσ on three qubits) and E₂ (the
+/// signed satellite flip-flop) built from strings, each invariant under every parameter piece of L
+/// separately and annihilated by the √3 coupling from both sides, so E_m ⊆ U_m ⊆ K_m at every
+/// parameter with identical rates, one offset and an equal splitting; the controls: rates per
+/// nucleus, a splitting or an offset on one nucleus break both, the exchange-symmetric order ±4
+/// partners leave the kernel, a bare column breaks the rational coupling. Readings, not gates:
+/// the exact dimensions of K_m (equal truncation) and of K_m and U_m (full coupling at √3) by
+/// Krylov stabilisation, and whether each is palindromic about −s_m.</para>
 ///
 /// <para>Typed home <see cref="SodiumChainMirrorLadderClaim"/>.</para></summary>
 public sealed class SodiumChainWitness : IInspectable
@@ -162,6 +168,37 @@ public sealed class SodiumChainWitness : IInspectable
     /// <summary>χ(K₀)/χ(U₀) = x(x + 48)²((x + 36)² + 1600) exactly, read at <see cref="PagePoint"/>
     /// only (null elsewhere, where the page states nothing).</summary>
     public bool? K0BeyondU0MatchesPage { get; }
+
+    // gate 5: the explicit sharp spaces E₁ ⊆ U₁ ⊆ K₁ and E₂ ⊆ U₂ ⊆ K₂ at every parameter with identical rates
+    public int E1Dimension { get; }
+    public int E2Dimension { get; }
+    public bool E1InOneBrightCells { get; }
+    public bool E2InTwoBrightCells { get; }
+    public bool E1InvariantUnderEveryPiece { get; }
+    public bool E2InvariantUnderEveryPiece { get; }
+    public bool E1InSqrtThreeKernel { get; }
+    public bool E2InSqrtThreeKernel { get; }
+    public bool E2OnItsRung { get; }
+    public bool E1BreaksWithRatesPerNucleus { get; }
+    public bool E2BreaksWithRatesPerNucleus { get; }
+    public bool E1TopBlockKeepsRatesPerNucleus { get; }
+    public bool SymmetricPartnersKeepRationalCoupling { get; }
+    public bool SymmetricPartnersLeaveSqrtThreeKernel { get; }
+    public bool BareColumnBreaksRationalCoupling { get; }
+    public bool UnequalSplittingBreaksBoth { get; }
+    public bool UnequalOffsetBreaksBoth { get; }
+    /// <summary>At these parameters dim K_m = dim U_m = dim E_m for m = 1, 2, so E_m = U_m = K_m here.</summary>
+    public bool ExplicitAreTheSharpSpacesHere { get; }
+    public bool ExplicitHolds => E1Dimension == 12 && E2Dimension == 1 && E1InOneBrightCells && E2InTwoBrightCells
+        && E1InvariantUnderEveryPiece && E2InvariantUnderEveryPiece && E1InSqrtThreeKernel && E2InSqrtThreeKernel && E2OnItsRung
+        && E1BreaksWithRatesPerNucleus && E2BreaksWithRatesPerNucleus && E1TopBlockKeepsRatesPerNucleus
+        && SymmetricPartnersKeepRationalCoupling && SymmetricPartnersLeaveSqrtThreeKernel && BareColumnBreaksRationalCoupling
+        && UnequalSplittingBreaksBoth && UnequalOffsetBreaksBoth;
+
+    /// <summary>I_z,tot is an eigenoperator of L (identical rates) exactly when J₁ = J₂; it lies in the
+    /// dark cells, so then in K₀, and outside the kernel of the √3 coupling.</summary>
+    public bool IzTotalIsEigenoperator { get; }
+    public bool IzTotalInSqrtThreeKernel { get; }
 
     private readonly Mat _rat;     // the dipolar coupling 3I_zI_z − I·I, rational part
     private readonly Mat _root;    // its √3 part, the coefficient of √3
@@ -304,6 +341,150 @@ public sealed class SodiumChainWitness : IInspectable
             var scale = CommonScale(restrictionsK[0].Concat(restrictionsU[0]));
             K0BeyondU0MatchesPage = PageQuotientMatches(Chi(restrictionsK[0], scale), Chi(restrictionsU[0], scale), scale);
         }
+
+        // ---- gate 5: the explicit sharp spaces, for every parameter
+        var e1 = ExplicitE1();
+        var e2 = Columns(new[] { Strings(("IXZX", 1), ("IYZY", 1), ("ZXIX", 1), ("ZYIY", 1)) });
+        var e1Top = TakeColumns(e1, 8);
+        E1Dimension = Rank(e1);
+        E2Dimension = Rank(e2);
+        E1InOneBrightCells = InCells(e1, 1);
+        E2InTwoBrightCells = InCells(e2, 2);
+        var izTot = Add(Kron(iz, Identity(Levels)), Kron(Identity(Levels), iz));
+        var zeroH = Zero(HDim);
+        var ratePieces = new[] { (1L, 0L, 0L), (0L, 1L, 0L), (0L, 0L, 1L) }
+            .Select(r => Generator(zeroH, new[] { r, r })).ToArray();
+        // one offset, an equal splitting on both nuclei (zero included), the coupling's two parts
+        var hamiltonianPieces = new[] { HamiltonianPart(izTot), HamiltonianPart(_rat), HamiltonianPart(_root),
+                                        HamiltonianPart(Add(Str("ZZII"), Str("IIZZ"))) };
+        var pieces = ratePieces.Concat(hamiltonianPieces).ToArray();
+        E1InvariantUnderEveryPiece = pieces.All(p => Invariant(e1, p));
+        E2InvariantUnderEveryPiece = pieces.All(p => Invariant(e2, p));
+        var left3 = LeftMultiplication(_root);
+        var right3 = RightMultiplication(_root);
+        E1InSqrtThreeKernel = IsZero(Mul(left3, e1)) && IsZero(Mul(right3, e1));
+        E2InSqrtThreeKernel = IsZero(Mul(left3, e2)) && IsZero(Mul(right3, e2));
+        var minusSix = (GaussianRational)(BigRational)(-6);
+        E2OnItsRung = ratePieces.All(p => Equal(Mul(p, e2), Scale(e2, minusSix)))
+                      && hamiltonianPieces.All(p => IsZero(Mul(p, e2)))
+                      && SodiumChainMirrorLadderClaim.TwiceRung(Nuclei, 2, j0, j1, j2) == 12 * (j0 + j1 + j2);   // the cross-dock to the claim's rung
+        var perNucleusPieces = Enumerable.Range(0, Nuclei)
+            .SelectMany(k => new[] { (1L, 0L, 0L), (0L, 1L, 0L), (0L, 0L, 1L) }
+                .Select(r => Generator(zeroH, k == 0 ? new[] { r, (0L, 0L, 0L) } : new[] { (0L, 0L, 0L), r })))
+            .ToArray();
+        E1BreaksWithRatesPerNucleus = !perNucleusPieces.All(p => Invariant(e1, p));
+        E2BreaksWithRatesPerNucleus = !perNucleusPieces.All(p => Invariant(e2, p));
+        E1TopBlockKeepsRatesPerNucleus = perNucleusPieces.Concat(hamiltonianPieces).All(p => Invariant(e1Top, p));
+        // controls on the coupling legs: the exchange-symmetric order ±4 partners keep the rational coupling and leave V;
+        // one bare TQ ⊗ satellite column breaks the rational coupling
+        var symmetric = Columns("IZ".SelectMany(letter => new[] { false, true }
+            .Select(imag => Add(SigmaTriple(new[] { 1, 2, 3 }, 0, letter, imag), SigmaTriple(new[] { 0, 1, 3 }, 2, letter, imag)))).ToArray());
+        SymmetricPartnersKeepRationalCoupling = Invariant(symmetric, hamiltonianPieces[1]);
+        SymmetricPartnersLeaveSqrtThreeKernel = !(IsZero(Mul(left3, symmetric)) && IsZero(Mul(right3, symmetric)));
+        BareColumnBreaksRationalCoupling = !Invariant(Columns(new[] { SigmaTriple(new[] { 1, 2, 3 }, 0, 'I', false) }), hamiltonianPieces[1]);
+        // the scope: a splitting or an offset on one nucleus alone breaks both spaces
+        var oneSplitting = HamiltonianPart(Str("ZZII"));
+        var oneOffset = HamiltonianPart(Kron(iz, Identity(Levels)));
+        UnequalSplittingBreaksBoth = !Invariant(e1, oneSplitting) && !Invariant(e2, oneSplitting);
+        UnequalOffsetBreaksBoth = !Invariant(e1, oneOffset) && !Invariant(e2, oneOffset);
+        // E_m ⊆ U_m needs the cells, the invariance and the kernel; equal dimension then makes E_m = U_m = K_m here
+        ExplicitAreTheSharpSpacesHere = E1InOneBrightCells && E2InTwoBrightCells && E1InvariantUnderEveryPiece && E2InvariantUnderEveryPiece
+                                        && E1InSqrtThreeKernel && E2InSqrtThreeKernel && HullsInvariant
+                                        && FullSharp[1].Dimension == E1Dimension && FullKernelHull[1].Dimension == E1Dimension
+                                        && FullSharp[2].Dimension == E2Dimension && FullKernelHull[2].Dimension == E2Dimension;
+
+        // the total magnetisation: an eigenoperator of L exactly when J₁ = J₂ (the longitudinal rates 6J₁, 6J₂ meet)
+        var izVec = Columns(new[] { izTot });
+        var lRates = Generator(zeroH, identical);
+        IzTotalIsEigenoperator = Rank(HStack(izVec, Mul(lRates, izVec))) == 1 && hamiltonianPieces.All(p => IsZero(Mul(p, izVec)));
+        IzTotalInSqrtThreeKernel = IsZero(Mul(left3, izVec)) && IsZero(Mul(right3, izVec));
+    }
+
+    // ===== the explicit sharp spaces =====
+
+    /// <summary>The twelve operators of E₁, written in σ = X + iY on three qubits and I or Z on the
+    /// fourth: Re and Im of σσσ on the qubits (1, 2, 3) and on (1, 3, 4), the remaining qubit I or Z
+    /// (the whole block of coherence order ±5: TQ on one nucleus, DQ on the other); then Re and Im
+    /// of σσσ on (2, 3, 4) with I or Z on qubit 1 minus the same on (1, 2, 4) with that letter on
+    /// qubit 3 (TQ ⊗ satellite − satellite ⊗ TQ, order ±4).</summary>
+    private static Mat ExplicitE1()
+    {
+        var cols = new List<Mat>();
+        foreach (var (qs, free) in new[] { (new[] { 0, 1, 2 }, 3), (new[] { 0, 2, 3 }, 1) })
+            foreach (var letter in "IZ")
+                foreach (var imag in new[] { false, true })
+                    cols.Add(SigmaTriple(qs, free, letter, imag));
+        foreach (var letter in "IZ")
+            foreach (var imag in new[] { false, true })
+                cols.Add(Sub(SigmaTriple(new[] { 1, 2, 3 }, 0, letter, imag), SigmaTriple(new[] { 0, 1, 3 }, 2, letter, imag)));
+        return Columns(cols);
+    }
+
+    /// <summary>Re (or Im) of σ ⊗ σ ⊗ σ on the qubits <paramref name="qs"/>, σ = X + iY, the letter on
+    /// the qubit <paramref name="free"/>: the strings with n_Y letters Y carry the real (imaginary)
+    /// part of iⁿ.</summary>
+    private static Mat SigmaTriple(int[] qs, int free, char letter, bool imag)
+    {
+        var m = Zero(HDim);
+        for (int bits = 0; bits < 1 << qs.Length; bits++)
+        {
+            int ny = BitOperations.PopCount((uint)bits);
+            int coef = imag ? (ny % 4 == 1 ? 1 : ny % 4 == 3 ? -1 : 0) : (ny % 4 == 0 ? 1 : ny % 4 == 2 ? -1 : 0);
+            if (coef == 0) continue;
+            var word = new char[4];
+            word[free] = letter;
+            for (int t = 0; t < qs.Length; t++) word[qs[t]] = ((bits >> t) & 1) == 1 ? 'Y' : 'X';
+            m = Add(m, Scale(Str(new string(word)), (BigRational)coef));
+        }
+        return m;
+    }
+
+    private static Mat Strings(params (string Word, long Coefficient)[] terms)
+    {
+        var m = Zero(HDim);
+        foreach (var (w, c) in terms) m = Add(m, Scale(Str(w), (BigRational)c));
+        return m;
+    }
+
+    /// <summary>The operators as columns of a 256 × k matrix, cell 16i + j holding ρ[i, j].</summary>
+    private static Mat Columns(IReadOnlyList<Mat> ops)
+    {
+        var r = Zero(Dim, ops.Count);
+        for (int k = 0; k < ops.Count; k++)
+            for (int i = 0; i < HDim; i++)
+                for (int j = 0; j < HDim; j++) r[HDim * i + j, k] = ops[k][i, j];
+        return r;
+    }
+
+    private static Mat TakeColumns(Mat a, int count)
+    {
+        var r = Zero(a.GetLength(0), count);
+        for (int i = 0; i < a.GetLength(0); i++)
+            for (int k = 0; k < count; k++) r[i, k] = a[i, k];
+        return r;
+    }
+
+    private static Mat HStack(Mat a, Mat b)
+    {
+        int n = a.GetLength(0), p = a.GetLength(1), q = b.GetLength(1);
+        var r = Zero(n, p + q);
+        for (int i = 0; i < n; i++)
+        {
+            for (int k = 0; k < p; k++) r[i, k] = a[i, k];
+            for (int k = 0; k < q; k++) r[i, p + k] = b[i, k];
+        }
+        return r;
+    }
+
+    /// <summary>M maps the column span of E into itself: rank [E | M·E] = rank E, exactly.</summary>
+    private static bool Invariant(Mat e, Mat m) => Rank(HStack(e, Mul(m, e))) == Rank(e);
+
+    private static bool InCells(Mat e, int brightCount)
+    {
+        for (int r = 0; r < Dim; r++)
+            for (int k = 0; k < e.GetLength(1); k++)
+                if (!e[r, k].IsZero && BrightCount(r) != brightCount) return false;
+        return true;
     }
 
     // ===== the generator =====
@@ -965,7 +1146,9 @@ public sealed class SodiumChainWitness : IInspectable
         $"dim ker L = {NearKernel} against dim ker(L + 2σ) = {FarKernel} at √3 ({NearKernelAtC} against {FarKernelAtC} at c), " +
         $"χ {(CharpolyPairsAboutSigma ? "=" : "≠")} its mirror about −σ, 2σ = {TwoSigma}. Readings: K_m {string.Join(" + ", EqualSharp.Select(h => h.Dimension))} " +
         $"(equal truncation), K_m {string.Join(" + ", FullSharp.Select(h => h.Dimension))} and U_m {string.Join(" + ", FullKernelHull.Select(h => h.Dimension))} (full coupling), " +
-        $"the invariance L·B = B·M {Verdict(HullsInvariant, "checked on every hull", "FAILING")}.";
+        $"the invariance L·B = B·M {Verdict(HullsInvariant, "checked on every hull", "FAILING")}; the explicit E₁ ({E1Dimension}) and E₂ ({E2Dimension}) " +
+        $"{Verdict(ExplicitHolds, "lie in U₁ and U₂ at every parameter with identical rates, one offset and an equal splitting", "do NOT hold as stated")}" +
+        $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1013,6 +1196,30 @@ public sealed class SodiumChainWitness : IInspectable
                          $"route B, χ(−x − 2σ) {(CharpolyPairsAboutSigma ? "=" : "≠")} χ(x) at √3. Control, the equal truncation at J₀ = 0: " +
                          $"{ControlNearKernel} against {ControlFarKernel}, χ {(ControlCharpolyPairs ? "palindromic" : "NOT palindromic")} " +
                          $"({Verdict(GlobalBreakHolds, "both routes as the page states", "a route DISAGREES with the page")}).",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the explicit sharp spaces, at every parameter",
+                summary: $"E₁ (σ = X + iY: Re and Im of σσσ on three qubits, I or Z on the fourth; the whole order ±5 block, TQ ⊗ DQ, " +
+                         $"and TQ ⊗ satellite − satellite ⊗ TQ at order ±4) has dimension {E1Dimension}, " +
+                         $"{Verdict(E1InOneBrightCells, "inside the cells with one bright nucleus", "OUTSIDE the one-bright cells")}; " +
+                         $"E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), the satellite flip-flop signed by Z₁ + Z₃, dimension {E2Dimension}, " +
+                         $"{Verdict(E2InTwoBrightCells, "inside the two-bright cells", "OUTSIDE the two-bright cells")}. Each is invariant under " +
+                         $"every piece of L separately (J₀, J₁, J₂ with identical rates, ω·I_z,tot, an equal splitting q(ZZ₁ + ZZ₂), the rational and the √3 coupling): " +
+                         $"E₁ {Verdict(E1InvariantUnderEveryPiece, "yes", "NO")}, E₂ {Verdict(E2InvariantUnderEveryPiece, "yes", "NO")}; " +
+                         $"both annihilated by the √3 coupling from both sides: E₁ {Verdict(E1InSqrtThreeKernel, "yes", "NO")}, E₂ {Verdict(E2InSqrtThreeKernel, "yes", "NO")}; " +
+                         $"E₂ {Verdict(E2OnItsRung, "is an eigenoperator at −s₂ = −6(J₀ + J₁ + J₂), on its rung", "is NOT on its rung")}. So E_m ⊆ U_m ⊆ K_m " +
+                         $"at every parameter with identical rates, one offset and an equal splitting. Controls: with rates per nucleus E₁ {Verdict(E1BreaksWithRatesPerNucleus, "breaks", "does NOT break")} " +
+                         $"and E₂ {Verdict(E2BreaksWithRatesPerNucleus, "breaks", "does NOT break")}, while the order ±5 block of E₁ " +
+                         $"{Verdict(E1TopBlockKeepsRatesPerNucleus, "keeps", "does NOT keep")} its invariance; the exchange-symmetric order ±4 partners " +
+                         $"{Verdict(SymmetricPartnersKeepRationalCoupling, "keep", "do NOT keep")} the rational coupling and " +
+                         $"{Verdict(SymmetricPartnersLeaveSqrtThreeKernel, "leave", "do NOT leave")} the kernel of the √3 one, and one bare TQ ⊗ satellite column " +
+                         $"{Verdict(BareColumnBreaksRationalCoupling, "breaks", "does NOT break")} the rational coupling; a splitting on one nucleus alone " +
+                         $"{Verdict(UnequalSplittingBreaksBoth, "breaks", "does NOT break")} both spaces, and so {Verdict(UnequalOffsetBreaksBoth, "does", "does NOT")} " +
+                         $"an offset on one nucleus alone. At these parameters dim K_m = dim U_m = dim E_m " +
+                         $"for m = 1, 2: {Verdict(ExplicitAreTheSharpSpacesHere, "yes, so E_m = U_m = K_m here", "NO")}. " +
+                         $"I_z,tot {Verdict(IzTotalIsEigenoperator, "is", "is not")} an eigenoperator of L (J₁ {(J1 == J2 ? "=" : "≠")} J₂), " +
+                         $"{Verdict(IzTotalInSqrtThreeKernel, "inside", "outside")} the kernel of the √3 coupling.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

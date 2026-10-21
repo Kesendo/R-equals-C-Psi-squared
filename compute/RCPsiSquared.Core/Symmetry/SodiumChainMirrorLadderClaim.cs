@@ -25,11 +25,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// subspace inside V = {x : H₃x = 0 = xH₃} and the m-bright cells, is palindromic about −s_m for any
 /// real H₃ anticommuting with Q; K₀ is not palindromic about −s₀ (the identity has no partner).</para>
 ///
-/// <para>What the page reads modulo two primes, not proved: the dimensions of K_m (at most 24, 128,
-/// 24 at two nuclei for the equal truncation, 64, 140, 84, 16 at three) and, for the full coupling,
-/// of K_m (10, 12, 1) and U_m (5, 12, 1), and the palindromic readings of K₁, K₂ under the full
-/// coupling; float spectra of the U_m are a further reading. The live witness reads the two-nucleus
-/// dimensions exactly at its parameters, as readings.</para>
+/// <para>Proved at two nuclei with identical rates, one offset and an equal splitting: K₁ = U₁ and
+/// K₂ = U₂, both spaces written down (E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block and four
+/// exchange-antisymmetric order ±4 operators), at every parameter off a proper algebraic set, since
+/// E_m lies in U_m at every parameter and one exact point has dim K_m = dim E_m; the set contains
+/// d = 0. What the page reads modulo two
+/// primes, not proved: the dimensions of K_m (at most 24, 128, 24 at two nuclei for the equal
+/// truncation, 64, 140, 84, 16 at three) and, for the full coupling, of K₀ (10) and U₀ (5); float
+/// spectra of the U_m are a further reading. The live witness reads the two-nucleus dimensions
+/// exactly at its parameters and gates E₁, E₂ against every parameter piece of L.</para>
 ///
 /// <para>Adjacency the page names and leaves open: the lemma's kept part is the dark remainder of
 /// the corner-shift row of <c>docs/THE_ONE_SQUARE.md</c> §9, F137's kept jump, and MirrorWorld's
