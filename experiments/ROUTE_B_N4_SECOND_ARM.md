@@ -337,7 +337,20 @@ The limiting bond weights are
 
 Their single-excitation Hamiltonian divided by q is the real symmetric
 tridiagonal matrix with off-diagonals (√3,2,√3), whose eigenvalues are
-exactly −3,−1,1,3. The two-excitation energies are sums of two distinct
+exactly −3,−1,1,3. These are the couplings √(n(N−n)) of the N = 4
+perfect-state-transfer chain of Christandl et al. (PRL 92, 187902 (2004);
+[QST Bridge](QST_BRIDGE.md)) and the Clebsch-Gordan factors
+√(ℓ(ℓ+1) − m(m+1)) at ℓ = 3/2: the matrix is 2·I_x of spin 3/2, and its
+energies are 2m, which is why they are equally spaced. It is a hopping
+matrix, the one-excitation block of a qubit chain, with spin-3/2
+couplings, not a chain of spins 3/2, the distinction
+[Spin Translated](../docs/quantum/SPIN_TRANSLATED.md) §7 quotes from
+`sideways_spin_ladder` (hopping matrices, not spin chains), whose
+transport chains at ℓ = 3/2 are predicted, and not yet run, to carry the
+same three norms. Half of this matrix is a sodium nucleus's I_x, written
+in two-qubit strings in [The Sodium Chain](THE_SODIUM_CHAIN.md) for the
+nucleus of [The Sodium Nucleus](THE_SODIUM_NUCLEUS_TWO_MIRRORS.md).
+The two-excitation energies are sums of two distinct
 single-excitation energies. Several ket–bra differences therefore have
 the same frequency +q.
 
@@ -519,9 +532,11 @@ python simulations/route_b_n4_incoming_certificate.py
 python -m pytest simulations/tests/test_route_b_n4_resonance_projection.py
 ```
 
-The last line is the gate on the projection's certificate: nine checks,
+The last line is the gate on the projection's certificate: ten checks,
 eight of them re-derived from `parts(4)` and compared against the
-committed artifact and one on its provenance. Most carry the mutation or
+committed artifact, one on its provenance, and one on the certificate's
+limit profile as the perfect-transfer chain, 2·I_x of spin 3/2, against
+the uniform one. Most carry the mutation or
 control that makes their own instrument read the other answer; the
 cardinality checks and the structural identities do not, having no other
 answer to give.

@@ -359,3 +359,29 @@ def test_the_plane_meets_one_multiplet_and_not_the_other_so_the_descent_premise_
         invariant = s.Matrix.hstack(*vectors).applyfunc(s.simplify)
         columns = s.Matrix.hstack(invariant, (dephasing*invariant).applyfunc(s.simplify))
         assert DM.from_Matrix(columns).convert_to(numberfield).rank() == 2
+
+
+def test_the_limit_profile_is_the_perfect_transfer_chain_and_twice_spin_three_halves_I_x(certificate):
+    # the certificate's limit end weight at hopping 2q: H/q on the single excitation has off-diagonals
+    # (sqrt3, 2, sqrt3), the couplings sqrt(n(N - n)) of Christandl et al.'s N = 4 perfect-transfer chain and the
+    # Clebsch-Gordan factors sqrt(l(l+1) - m(m+1)) of l = 3/2, so H/q = 2·I_x of spin 3/2, eigenvalues 2m
+    (weight,) = certificate['end_weight_lifting_the_multiplet_to_five']
+    a = s.sympify(weight)
+    assert a == s.sqrt(3) / 2
+    h = s.zeros(4, 4)
+    for k, w in enumerate((a, 1, a)):
+        h[k, k + 1] = h[k + 1, k] = 2 * w
+    christandl = [s.sqrt(n * (4 - n)) for n in (1, 2, 3)]
+    assert [h[k, k + 1] for k in range(3)] == christandl
+    ms = [s.Rational(3, 2) - k for k in range(4)]
+    Ix = s.zeros(4, 4)
+    for k in range(3):
+        Ix[k, k + 1] = Ix[k + 1, k] = s.sqrt(s.Rational(15, 4) - ms[k + 1] * (ms[k + 1] + 1)) / 2
+    assert s.simplify(h - 2 * Ix) == s.zeros(4, 4)
+    assert sorted(h.eigenvals()) == [-3, -1, 1, 3] == certificate['single_particle_energies']
+    # control: the uniform profile is not that chain, and its spectrum is not equally spaced
+    hu = s.zeros(4, 4)
+    for k in range(3):
+        hu[k, k + 1] = hu[k + 1, k] = 2
+    assert s.simplify(hu - 2 * Ix) != s.zeros(4, 4)
+    assert sorted(hu.eigenvals(), key=lambda e: float(e)) != [-3, -1, 1, 3]
