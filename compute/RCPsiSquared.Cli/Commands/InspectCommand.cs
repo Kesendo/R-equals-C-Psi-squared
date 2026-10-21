@@ -1099,6 +1099,21 @@ public static class InspectCommand
                 c.Parser.HasFlag("q") ? c.Parser.RequireInt("q") : 1,
                 c.Parser.HasFlag("omega") ? c.Parser.RequireInt("omega") : 1),
             RequiresN: false),
+        new("sodiumchain", "F167, the sodium chain, live at two nuclei: the 256 × 256 generator exact over ℚ(i), the coupling read from " +
+            "the spin-3/2 matrices (22 dipolar strings, the eight √3 ones exactly those anticommuting with Q = ZZ₁ZZ₂), recomputing at " +
+            "inspect time the lemma S·L(J₀)·S⁻¹ = −L(−J₀) − 6Σ(J₁ + J₂) for the Ising coupling and both truncations (the √3 strings at a " +
+            "rational stand-in c breaking it), the ladder (every bright-set block palindromic about its own rung and no neighbour, the " +
+            "equal truncation moving brightness), the full coupling's global break at J₀ = 0 at √3 itself (a diagonal similarity makes " +
+            "the generator rational) by F158's two kernel dimensions and by the characteristic polynomial, and as readings the exact " +
+            "dimensions of the sharp subspaces K_m and U_m. Optional integers --J0 --J1 --J2 --d --c (defaults 6, 4, 2, 4, 1) " +
+            "(typed: SodiumChainMirrorLadderClaim; experiments/THE_SODIUM_CHAIN.md)",
+            c => new SodiumChainWitness(
+                c.Parser.HasFlag("J0") ? c.Parser.RequireInt("J0") : 6,
+                c.Parser.HasFlag("J1") ? c.Parser.RequireInt("J1") : 4,
+                c.Parser.HasFlag("J2") ? c.Parser.RequireInt("J2") : 2,
+                c.Parser.HasFlag("d") ? c.Parser.RequireInt("d") : 4,
+                c.Parser.HasFlag("c") ? c.Parser.RequireInt("c") : 1),
+            RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

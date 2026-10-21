@@ -680,4 +680,27 @@ public class InspectRootCatalogTests
         Assert.True(w2.UserPoint.Rule);
         Assert.True(w2.UserPoint.CharpolySymmetric);
     }
+
+    [Fact]
+    public void Catalog_SodiumChainFactory_BuildsTheLiveWitness_DefaultsAndOptionalIntegers()
+    {
+        var chain = InspectCommand.Catalog.Single(e => e.Name == "sodiumchain");
+        Assert.False(chain.RequiresN);
+        Assert.Contains("SodiumChainMirrorLadderClaim", chain.Description);
+        var names = InspectCommand.Catalog.Select(e => e.Name).ToList();
+        Assert.True(names.IndexOf("sodiumchain") < names.IndexOf("world"));
+
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var w = Assert.IsType<SodiumChainWitness>(chain.Factory(ctx));
+        Assert.Equal((6L, 4L, 2L, 4L, 1L), (w.J0, w.J1, w.J2, w.D, w.C));
+        Assert.True(w.GlobalBreakHolds);
+
+        var ctxArgs = new InspectRootContext(new ArgParser(new[] { "--J0", "3", "--J1", "2", "--J2", "1", "--d", "-2", "--c", "5" }), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var w2 = Assert.IsType<SodiumChainWitness>(chain.Factory(ctxArgs));
+        Assert.Equal((3L, 2L, 1L, -2L, 5L), (w2.J0, w2.J1, w2.J2, w2.D, w2.C));
+        Assert.True(w2.LemmaHolds);
+        Assert.True(w2.LadderHolds);
+    }
 }

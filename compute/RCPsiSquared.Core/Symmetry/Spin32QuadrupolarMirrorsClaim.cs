@@ -33,7 +33,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Typed parent: <see cref="PalindromeTwoEndCountClaim"/> (F158), which for non-negative
 /// densities gives the global-centre theorem a second, independent route (the normalised jumps are
 /// Hermitian strings squaring to 1, σ = s). The coupled-nuclei ladder of
-/// <c>experiments/THE_SODIUM_CHAIN.md</c> is indexed by F167 as well and is not typed here.</para>
+/// <c>experiments/THE_SODIUM_CHAIN.md</c>, indexed by F167 as well, is typed as its child
+/// <see cref="SodiumChainMirrorLadderClaim"/>.</para>
 ///
 /// <para>Live witness: <c>inspect --root sodium</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SodiumTwoMirrorsWitness.cs</c>), which builds L

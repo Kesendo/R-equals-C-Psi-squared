@@ -10972,8 +10972,9 @@ any graph; Q = ⊗_k ZZ_k and S(ρ) = Q·ρᵀ.
   splittings, |ω_Q,1| ≠ |ω_Q,2|, both non-zero, at equal offsets.
 - *Equal splittings:* the lemma holds, brightness moves by satellite spin
   diffusion, and for identical rates the ladder is exact on K_m, the largest L-invariant subspace
-  inside the cells with m bright nuclei (dimensions read as upper bounds, GF(p)
-  ranks at two primes, at two and three nuclei); at J₀ = 0 the whole spectrum is
+  inside the cells with m bright nuclei (dimensions exact over ℚ(i) at two
+  nuclei at the verifier's parameters, upper bounds from GF(p) ranks at two primes
+  at three); at J₀ = 0 the whole spectrum is
   palindromic at every length.
 - *The full secular dipolar coupling* keeps eight strings with coefficient √3,
   a satellite of one nucleus against the central transition of the other,
@@ -11003,7 +11004,14 @@ spin matrices exactly over ℚ(i) (the √3 of I_± factored out, the splitting 
 q = ω_Q·√6/2) and reads the Dirac algebra with a spin control at 1, 2 and 5/2,
 the one map with two controls, the two sectors, and the global-centre rule at
 fourteen fixed points and a chosen one, by F158's exact kernel dimensions (for
-non-negative, not all zero densities) and by the characteristic polynomial. The chain is not typed. Gated by
+non-negative, not all zero densities) and by the characteristic polynomial. The
+chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
+and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
+nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
+both truncations with the √3 strings as control, the ladder, the full coupling's
+break at J₀ = 0, and the hulls K_m and U_m at √3 itself through a diagonal
+similarity that makes the generator rational, where U₁ = K₁ and U₂ = K₂ hold
+exactly at the verifier's parameters. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
 117 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
@@ -11019,7 +11027,7 @@ outside. No sodium data were compared.
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation; K_m beyond three nuclei;
-whether U_m = K_m over ℂ for m = 1, 2 at two nuclei; shared or partly correlated gradients; a typed home for the chain.
+whether U_m = K_m for m = 1, 2 at two nuclei away from the verifier's parameters; shared or partly correlated gradients.
 **Replaces:** diagonalising the 16 × 16 generator to find its centres: c₁ and
 c₂ are read off the densities.
 **Source:** [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md);
