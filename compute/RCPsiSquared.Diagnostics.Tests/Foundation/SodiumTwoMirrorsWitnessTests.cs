@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Foundation;
@@ -8,7 +10,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live witness for F167 (<c>experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md</c>): one
-/// spin 3/2 under secular quadrupolar relaxation, the generator built from the spin matrices and
+/// spin 3/2 under quadrupolar relaxation secular in the Larmor frequency, the generator built from the spin matrices and
 /// read exactly over ℚ(i) (the √3 of I_± factored out of every T₂,ₘ with m ≠ 0, the √6 of T₂₀ taken
 /// into the integer parameter q). Every gate is two-sided: the statement holds and its control
 /// breaks; at every exact point the kernel count (F158) and the characteristic polynomial agree
@@ -184,6 +186,106 @@ public class SodiumTwoMirrorsWitnessTests
     {
         var w = new SodiumTwoMirrorsWitness(j0, j1, j2, q, omega);
         Assert.True(w.HandshakeHolds);
+    }
+
+    [Fact]
+    public void ExceptionalPoint_BrightPairs_AreClosedBlocks_WithTheSumRuleAndTheirDiscriminants()
+    {
+        Assert.True(Default.BrightPairsClosed);              // the control set {satellite, central transition} is not
+        Assert.True(Default.BrightPairTracesHold);           // tr = −2c₂ − 2ip·ω: a pair's two rates sum to 2c₂
+        Assert.True(Default.BrightPairDiscriminantsHold);    // 4(9J₂² − 4q²), 4(9J₁² − 4q²); the swapped assignment fails
+    }
+
+    [Fact]
+    public void ExceptionalPoint_SatellitesAndDoubleQuantum_AreJordanPairsOfTheWholeGenerator()
+    {
+        foreach (var e in new[] { Default.SatelliteEp, Default.DoubleQuantumEp })
+        {
+            Assert.True(e.PartNonZero);
+            Assert.True(e.PartSquaresToZero);
+            Assert.Equal((15, 14, 14), (e.Rank1, e.Rank2, e.Rank3));
+            Assert.Equal((1, 2), (e.Geometric, e.Algebraic));
+            Assert.Equal((16, 16), (e.RankStepDown, e.RankStepUp));
+            Assert.True(e.IsJordanPair);
+        }
+        Assert.Equal(new GaussianRational(-21, -1), Default.SatelliteEp.Lambda);      // −c₂ − iω at (1, 4, 2, 3, 1)
+        Assert.Equal(new GaussianRational(-21, -2), Default.DoubleQuantumEp.Lambda);  // −c₂ − 2iω at (1, 2, 4, 3, 1)
+    }
+
+    [Fact]
+    public void ExceptionalPoint_TheJordanReading_FailsOffTheExceptionalPoint_AndOnTheScalarControl()
+    {
+        var below = Default.ReadEpAt((1, 4, 2, 2, 1), 1);           // one step below the satellites' EP
+        Assert.Equal(16, below.Rank1);                                // λ* is no eigenvalue at all
+        Assert.False(below.IsJordanPair);
+        Assert.False(Default.ReadEpAt((1, 4, 2, 3, 1), 2).IsJordanPair);   // the double quantum at the satellites' EP
+        var scalar = Default.ReadEpAt(SodiumTwoMirrorsWitness.DiabolicPoint, 1);
+        Assert.False(scalar.PartNonZero);                             // the scalar block: N = 0
+        Assert.Equal((2, 2), (scalar.Geometric, scalar.Algebraic));
+        Assert.False(scalar.IsJordanPair);
+        Assert.True(Default.DiabolicControlSemisimple);
+    }
+
+    [Fact]
+    public void ExceptionalPoint_TheCoalescedVector_IsSelfOrthogonal()
+    {
+        Assert.True(Default.EpVectorSelfOrthogonal);
+        Assert.True(Default.GeneratorComplexSymmetric);
+    }
+
+    [Fact]
+    public void ExceptionalPoint_TheSatelliteSignal_InitialRate_BelowAndAboveTheExceptionalPoint()
+    {
+        Assert.True(Default.InitialSlopeSplittingFree);              // R₂′ = 3(J₀ + J₁) at every splitting, one cell alone not
+        Assert.Equal(9, Default.BelowEpOmega);                       // pin of the closed form √(9·25 − 4·36) at (1, 3, 5, 6, 1)
+        Assert.Equal(16, Default.AboveEpOmega);                      // pin of √(4·100 − 9·16) at (1, 3, 4, 10, 1); the ranks test it on L
+        Assert.True(Default.BelowEpTwoRates);
+        Assert.Equal(new GaussianRational[] { new BigRational(4, 3), new BigRational(-1, 3) }, Default.BelowEpWeights);
+        Assert.True(Default.AboveEpFrequenciesPulled);               // modes at ±16, neither at ±20; D_ω² + R₁(4/5)² = D²
+        Assert.True(Default.EpAtTheLongitudinalRates);               // 4q = R₁(4/5) for the satellites, R₁(1/5) for the double quantum
+        Assert.True(Default.ExceptionalPointHolds);
+        Assert.Contains("the bright pairs' exceptional point holds", Default.Summary);
+        Assert.Contains(Default.Children, c => c.DisplayName == "the bright pairs' exceptional point");
+    }
+
+    [Theory]
+    [InlineData(1, 4, 2, 3, 1, "on its exceptional point")]
+    [InlineData(1, 2, 3, 1, 1, "below its exceptional point")]
+    [InlineData(1, 3, 4, 10, 1, "past its exceptional point")]
+    [InlineData(1, 3, 0, 2, 1, "uncoupled")]
+    [InlineData(1, 4, 0, 0, 1, "a scalar")]
+    public void ExceptionalPoint_TheSatelliteRegime_IsReadOffTheGenerator(long j0, long j1, long j2, long q, long omega, string expected)
+    {
+        var w = new SodiumTwoMirrorsWitness(j0, j1, j2, q, omega);
+        Assert.StartsWith(expected, w.SatelliteRegime);
+        Assert.True(w.BrightPairsClosed && w.BrightPairTracesHold && w.BrightPairDiscriminantsHold);
+    }
+
+    [Fact]
+    public void ExceptionalPoint_TheRepositoryEpInstrument_ReadsDefectiveOnBothPairs_DiabolicAtTheControl()
+    {
+        // a third route, numerical and artifact-free (EpCharacter: a Riesz projector, the departure from normality,
+        // geometric against algebraic multiplicity) on the same exact generator in doubles: the exact gate
+        // certifies, this classifies
+        static double ToDouble(BigRational r) => (double)r.Numerator / (double)r.Denominator;
+        static Matrix<Complex> ToComplex(GaussianRational[,] m) =>
+            Matrix<Complex>.Build.Dense(16, 16, (i, j) => new Complex(ToDouble(m[i, j].Re), ToDouble(m[i, j].Im)));
+        // at two isolating radii (the nearest other eigenvalue is at least 2 away at every point read)
+        foreach (double radius in new[] { 0.25, 0.5 })
+        {
+            EpCharacter.Reading At((long J0, long J1, long J2, long Q, long Omega) p, Complex centre) =>
+                EpCharacter.Characterize(ToComplex(Default.GeneratorMatrix(p.J0, p.J1, p.J2, p.Q, p.Omega)), centre, radius);
+
+            var sat = At(SodiumTwoMirrorsWitness.SatelliteEpPoint, new Complex(-21, -1));
+            Assert.Equal(EpCharacter.EpKind.Defective, sat.Kind);
+            Assert.Equal((2, 1), (sat.Algebraic, sat.Geometric));
+            var dq = At(SodiumTwoMirrorsWitness.DoubleQuantumEpPoint, new Complex(-21, -2));
+            Assert.Equal(EpCharacter.EpKind.Defective, dq.Kind);
+            Assert.Equal((2, 1), (dq.Algebraic, dq.Geometric));
+            var control = At(SodiumTwoMirrorsWitness.DiabolicPoint, new Complex(-15, -1));
+            Assert.Equal(EpCharacter.EpKind.Diabolic, control.Kind);
+            Assert.Equal((2, 2), (control.Algebraic, control.Geometric));
+        }
     }
 
     [Fact]

@@ -1090,7 +1090,10 @@ public static class InspectCommand
             "q = ω_Q·√6/2), recomputing at inspect time the five Dirac matrices (ZZ, ZX, ZY, XI, YI; the control spins 1, 2, 5/2 break " +
             "the algebra), the one map S(X) = Γ₀·Xᵀ with S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂) beside two controls that break it, the " +
             "dark and bright sectors paired about −3(J₁ + J₂) and −3(J₀ + J₁ + J₂), and the global-centre theorem at fixed exact points " +
-            "and at the user point by F158's two kernel ranks and by the characteristic polynomial. Optional integers --J0 --J1 --J2 " +
+            "and at the user point by F158's two kernel ranks and by the characteristic polynomial; the handshake with NMR; and the " +
+            "bright pairs' exceptional point (the satellites and the double quantum each a 2 × 2 Jordan block, at 2q = 3J₂ and at " +
+            "2q = 3J₁ respectively with the density non-zero, by exact ranks beside a scalar control, and the satellite signal around " +
+            "it in the rates a measurement reads). Optional integers --J0 --J1 --J2 " +
             "--q --omega (defaults 1, 2, 3, 1, 1) (typed: Spin32QuadrupolarMirrorsClaim; experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md)",
             c => new SodiumTwoMirrorsWitness(
                 c.Parser.HasFlag("J0") ? c.Parser.RequireInt("J0") : 1,

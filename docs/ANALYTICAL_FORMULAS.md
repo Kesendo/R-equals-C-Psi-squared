@@ -10878,15 +10878,17 @@ of the J₀-free coherences as a decoherence-free subspace; the Dirac algebra of
 the five quadrupole components is Wu, Hu and Zhang's (Phys. Rev. Lett. 91,
 186402, 2003). What the pages add is the reading of the known rates as the
 centres of two exact palindromes, the global-centre theorem, the statements
-beyond spin 3/2, and the chain. The caution is [F160](#f160)'s: an indexing
+beyond spin 3/2, the reading of the bright pairs' exceptional point as a mode
+merging with its mirror image, and the chain. The caution is [F160](#f160)'s: an indexing
 gap is not a result. The sweep is the pages' own record (their sections *The
 sweep: what the repository held*), which found nothing on quadrupolar
 relaxation in any store, and on four levels only F121's equidistant model and
 the ququart row of [Qubit Necessity](QUBIT_NECESSITY.md), both read on the
 parent page.
 
-**The setting.** One spin 3/2 under the secular Redfield generator of
-quadrupolar relaxation at infinite temperature: jumps T₂,ₘ (m = −2 … 2, the
+**The setting.** One spin 3/2 under the Redfield generator of quadrupolar
+relaxation, secular in the Larmor frequency with the static splitting kept
+whole, at infinite temperature: jumps T₂,ₘ (m = −2 … 2, the
 rank-2 spherical tensor operators, T₂,±₁ = ∓(I_zI_± + I_±I_z)/2,
 T₂,±₂ = I_±²/2) at the spectral densities J₀, J₁, J₁, J₂, J₂ of the field
 gradient at 0, ω₀ and 2ω₀ (ω₀ the Larmor frequency), in the dissipator
@@ -10926,6 +10928,58 @@ with P the projector on the bright cells, which commutes with L and with S: one
 map, λ ↦ −λ − 2c₁ on the dark sector and λ ↦ −λ − 2c₂ on the bright one. At
 J₀ = 0 it is an F1 palindromizer, built in F118's shape ([PROOF_PI_FACTORS_AS_R_TIMES_D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)) with Γ₀ in
 place of X^⊗N.
+
+**The bright pairs' exceptional point.** With q = ω_Q·√6/2 the splitting is
+q·Γ₀, Γ₀ scaled to diag(1, −1, −1, 1) as above, and each bright pair is a closed
+2 × 2 block, the satellites at −c₂ − iω ± √(9J₂² − 4q²), the double quantum at
+−c₂ − 2iω ± √(9J₁² − 4q²), so the two rates of a pair sum to 2c₂ at every
+splitting. At 2q = 3J₂ with J₂ ≠ 0 (2q = 3J₁ with J₁ ≠ 0 for the double
+quantum) the pair is one 2 × 2 Jordan block on Re λ = −c₂, a defective
+exceptional point (a simple zero of the discriminant in q; at the witness's
+point, where nothing else meets the eigenvalue, geometric multiplicity 1 against
+algebraic 2 in the exact generator; `EpCharacter`). At every q the splitting
+carries each bright string into its own mirror image. On the pair the bright
+mirror's antilinear form is the P·T of a passive-PT dimer: it exchanges the two
+modes below the point and fixes each past it, where both sit on the centre (the
+unbroken phase, in the sense of
+[The Pairing Condition](../experiments/THE_PAIRING_CONDITION.md)); at the point
+the two become one mode. On resonance
+the satellite part of the transverse signal is (1 + 3J₂t)·e^{−c₂t} there; below
+the point it is two exponentials with a negative fast weight, past it two modes
+oscillating D_ω = √(D² − R₁(4/5)²) apart, with D = 4q the nominal separation and
+R₁(4/5) = 6J₂ the rate of the 4/5 longitudinal component. The eigenvalues meet
+at the point; the satellite part's lines separate only at
+(2q)² = (c₂ + 3J₂)³/(3c₂ + 3J₂), the line merging of two-site exchange in form
+(no exchange is in the model), which the whole spectrum's side maxima need as
+well. Which comes first is the observable's: a pair read through the sum of its
+two cells, with c its centre and κ the coupling between them (c > |κ|), has its
+line threshold past the exceptional point by c²(c + 3κ)/(3c + κ) in g², g half
+the frequency difference of the two cells, so the satellites' lines (κ = 3J₂)
+separate later, while the double quanta read by T₂,₂ (κ = −3J₁) can show two
+maxima before their exceptional point where J₀ + J₂ < 2J₁ (read through the
+rank-3 difference, their lines separate later), and at spin 1 the I₊ spectrum
+has two maxima on both rays below the single-quantum exceptional point. At the point the satellite line is the
+double-pole line of a size-2 Jordan block. The eigenvalue form and the signal
+are probably in the literature of ordered media (recalled, not looked up); what
+the pages add is the repository's reading carried to this exact mirror.
+What one sample can check at one orientation is the relaxation model itself,
+through R₁(4/5) = 2·3J₂ (the coupling read off its transverse signal in time
+against its longitudinal recovery; in its satellite part the splitting enters at
+second order in time and the coupling only at third); the mirrors follow from the model
+exactly and are a reading, not a prediction. In the same rates
+c₂ = R₂(3/5) + R₁(4/5)/2, with R₂(3/5) = 3(J₀ + J₁), the satellite part's
+initial rate at every splitting. On the bright sector the algebra is
+[F48](#f48-pythagorean-decomposition-tier-2-exact-at-n2)'s Pythagorean form: on
+the bright sector the splitting's part anticommutes with the dissipator centred
+at c₂, an instance with two-site jumps outside F48's stated scope, and an
+orthogonality, not a commuting. It is the one-proton tunnel doublet's of
+[the proton wire crossing](water/PROTON_WIRE_CROSSING.md#the-second-axis-which-letter-the-environment-reads),
+where a Hamiltonian along the colouring X does what the splitting along ZZ does
+here at J₀ = 0; with the N = 2 edge block of
+[PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)
+§(d) and the F86 two-level toy the point is the same kind of place, in the sense
+of [The Double Root](THE_DOUBLE_ROOT.md), which keeps a roster of spectral double
+roots.
 
 **The global-centre theorem.** For real J₀, J₁, J₂, ω_Q, ω the sixteen
 eigenvalues, with multiplicity, have one common centre −s (s fixed by the
@@ -11012,7 +11066,11 @@ non-negative, not all zero densities) and by the characteristic polynomial; it
 also reads the handshake with NMR (Hubbard's biexponential weights as squared
 norms of string parts, the transverse ones at ω_Q = 0, the 3 : 4 : 3 triplet,
 the dark lines blind to J₀ and to the splitting alike, and at ω_Q = 0 T₂,±1 as
-the satellites' mirror image, exact). The
+the satellites' mirror image, exact) and the bright pairs' exceptional point
+(both pairs as closed blocks with the sum rule, each a 2 × 2 Jordan block on
+its exceptional point by exact ranks beside a scalar control, the merged mode,
+and the satellite signal around it in the rates a measurement reads; its tests read the point
+once more with `EpCharacter`). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11022,20 +11080,24 @@ similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
 the verifier's parameters and, in its tests, at six further points. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-117 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
+145 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, the
 statements beyond 3/2 for one spin I ≥ 1, and the chain for spins 3/2 with
 independent gradients and a static coupling (the local form, d·τ_c ≪ 1, with d
-the coupling and τ_c the gradient's correlation time); all in the secular
-Redfield picture at infinite temperature. Dynamic frequency shifts, finite
-polarization, multiple compartments, exchange and non-secular terms are
+the coupling and τ_c the gradient's correlation time); all in the Redfield
+picture, secular in the Larmor frequency with the splitting kept whole, at
+infinite temperature. Dynamic frequency shifts, finite polarization, multiple
+compartments, exchange and terms non-secular in the Larmor frequency are
 outside. No sodium data were compared.
 **Open:** a global centre on the planes where two population rates coincide,
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
-longitudinal rates against measured sodium relaxation; K_m beyond three nuclei;
+longitudinal rates against measured sodium relaxation; the bright pairs'
+exceptional point against a measurement (the coupling read off a transverse
+signal in time against half the 4/5 longitudinal rate);
+K_m beyond three nuclei;
 whether U_m = K_m (m = 1, 2, two nuclei) at every parameter, in particular on the planes J₁ = 0 and J₂ = 0, where single-point readings find K_m larger than the written-down spaces; shared or partly correlated gradients.
 **Replaces:** diagonalising the 16 × 16 generator to find its centres: c₁ and
 c₂ are read off the densities.

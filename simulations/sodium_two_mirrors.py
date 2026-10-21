@@ -2,8 +2,9 @@
 The sodium nucleus: two mirrors in the quadrupolar relaxation of a spin 3/2
 ==========================================================================
 experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md. One spin 3/2 (23Na), Lindblad generator with the five
-rank-2 jumps T_{2,m}, m = -2..2, at rates J0, J1, J1, J2, J2 (the secular Redfield form of
-quadrupolar relaxation at infinite temperature), a static quadrupolar splitting wQ·T20 and an offset
+rank-2 jumps T_{2,m}, m = -2..2, at rates J0, J1, J1, J2, J2 (the Redfield form of quadrupolar
+relaxation, secular in the Larmor frequency with the splitting kept whole, at infinite temperature), a static
+quadrupolar splitting wQ·T20 and an offset
 w·Iz. All exact, in sympy, with J0, J1, J2, wQ, w as symbols: no eigensolver, no tolerance.
 
 Checks:
@@ -17,6 +18,23 @@ Checks:
   - the bright mirror: after removing the block frequency p·w, the satellite and double-quantum
     polynomials have real coefficients and root sum -6(J0+J1+J2), so their roots pair about
     -3(J0+J1+J2) under λ -> -conj(λ) - 2c, for every wQ and w;
+  - the bright pairs' exceptional point: the satellites and the double quanta are closed pairs of cells whose
+    blocks are [[-c2 - i(pw ± sqrt6·wQ), ±3Jp]] (Jp = J2, J1), with a discriminant 4(9Jp² - 6wQ²) whose zero at
+    6wQ² = 9Jp² is simple; there the block minus its double root is non-zero for Jp != 0 and squares to zero (a
+    2 x 2 Jordan block; at wQ = 0 it squares to 9Jp²·1), the coalesced vector is self-orthogonal, the block in the
+    basis of the satellites' sum and difference is the edge block's form, and the whole generator at the C#
+    witness's two points has geometric multiplicity 1, algebraic 2; the satellite signal
+    e^{mu t}[cosh(Omega t) + 3J2 sinh(Omega t)/Omega] with its initial rate 3(J0 + J1) at every splitting, against
+    the exponential of the order-1 block below, on and above the exceptional point; eigenvalues are not lines: the
+    satellite spectrum (z + 3J2)/(z² + 4q² - 9J2²) has two maxima exactly when (2q)²(3c2 + 3J2) > (c2 + 3J2)³, past the
+    exceptional point at every non-negative density and 2q = sqrt2·3J2 at J0 = J1 = 0, inside +-Omega' where they show,
+    and a single maximum at the witness's point past it, read off the generator; which comes first is the observable's,
+    a pair read through the sum of its cells with the coupling kappa having its line threshold past the exceptional
+    point by c²(c + 3kappa)/(3c + kappa) (the satellites kappa = 3J2, the double quanta through T22 kappa = -3J1); the
+    mirror's antilinear form on the satellite cells is the dimer's P·T; how weakly the coupling shows in the signal,
+    and how a shift of the time origin moves it; and in the rates a measurement reads
+    disc/4 = (R/2)² - (D/2)², R the populations' ZI rate (satellites) or IZ rate (double quanta), D = 2·sqrt6·wQ the
+    nominal separation, with the satellite coupling 3J2 half of R1(4/5);
   - T20 is diagonal, (3, -3, -3, 3)/sqrt(6) on m = 3/2, 1/2, -1/2, -3/2: one Z on the outer/inner bit.
   - why spin 3/2: the five Hermitian components of T_{2,m} are Dirac matrices (ZZ, ZX, ZY, XI, YI in the
     two-qubit labelling); their sixteen products diagonalize the generator at wQ = w = 0, class by class; S(X) = Gamma0·X^T gives S L S^-1 = -L + 2·L_J0 - 6(J1+J2)
@@ -42,13 +60,14 @@ Checks:
     and the spin-1 rays (t = 1/8, 5/4); the repeated-rate ratios are finitely many (integer I: J2 = 0 is an
     irreducible chain; half-integer I to 61/2: a squarefree point mod 1000003), six real ones at I = 2;
   - a static splitting at w = 0, I = 1, 2, 5/2, ..., 6 (not 3/2): mu3, mu5, mu7, mu9 as exact polynomials in
-    J0, J1, J2 and q = wQ/sqrt(6) (over Q(i), real traces), their common real zeros by exact elimination: none
+    J0, J1, J2 and q6 = wQ/sqrt(6) (not the exceptional point's q = wQ·sqrt6/2; over Q(i), real traces), their common real zeros by exact elimination: none
     at I >= 2 other than all rates zero, six rays at I = 1, five of them with wQ real and a centre by the
     characteristic polynomial (nine eigenvalues: the four moments are the whole condition), two with
     non-negative rates, both J0 = 0; a detuned splitting and an offset w = 1 break both as complex maps while
     the decay rates stay palindromic; the same two rays again by hand from the block polynomials; at both,
     simple block eigenvalues, semisimple, the pairing crossing the coherence orders, just below the
-    single-quantum exceptional point, 3 of 9 paired without the splitting;
+    single-quantum exceptional point, 3 of 9 paired without the splitting; and the I+ spectrum with two maxima at
+    both rays, I+ reading its pair with kappa = -J1/2, c + 3kappa = (3J0 - 3J1 + 2J2)/4 negative there;
   - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
     lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
     reflections at a vanishing density; and sixteen exact points, both outcomes, each by the identity at the
@@ -61,6 +80,9 @@ import sys
 from collections import Counter
 
 import sympy as sp
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 CLAIMS = []
 
@@ -218,7 +240,7 @@ def common_real_zeros(m, syms):
 
 def split_moments(I, syms, ks=(3, 5, 7, 9)):
     """mu_k = Tr (L + s)^k with the static splitting wQ·T20 at offset w = 0, exact over Q(i), as polynomials in
-    J0, J1, J2 and q = wQ/sqrt(6), homogeneous of degree k.
+    J0, J1, J2 and q6 = wQ/sqrt(6), homogeneous of degree k.
 
     The splitting is diagonal and commutes with the rational similarity, so it adds -i·q·(t_a - t_b) to the
     cell (a, b), t_m = 3m² - I(I+1); real and imaginary parts are carried as two rational matrices. Fitted on
@@ -276,7 +298,7 @@ def split_moments(I, syms, ks=(3, 5, 7, 9)):
 def split_centre_points(P, syms):
     """Exact elimination of mu3 = mu5 = mu7 = mu9 = 0 at w = 0 with a splitting.
 
-    In u = q², mu3 = c + l·u. Chart J2 = 1, branch l != 0: u = -c/l, g_k = l^deg·mu_k(u = -c/l) with the spurious
+    In u = q6², mu3 = c + l·u. Chart J2 = 1, branch l != 0: u = -c/l, g_k = l^deg·mu_k(u = -c/l) with the spurious
     powers of l divided out; candidate J0 are the roots of gcd(Res_J1(g5, g7), Res_J1(g5, g9)). A linear factor is
     solved exactly; a non-linear one must have its common zeros with g5, g7, g9 on l = 0 (the ideal with 1 - z·l
     added is the unit ideal). Branch l = 0 (then c = 0 too): mu5, mu7, mu9 must share a root in u, here a gcd of resultants.
@@ -417,6 +439,299 @@ def main():
           "6J1, 6J2 read off the population block",
           {6 * J1, 6 * J2} <= set(pop_rates) and sp.expand(sp.expand(blocks[3] - x).subs(w, 0) - (6 * J1 + 6 * J2) / 2) == 0
           and sp.diag(*ms).trace() == 0 and (sp.diag(*ms) * T[0]).trace() == 0)   # Iz has no weight on 1 or on T20
+
+    print("\nthe bright pairs' exceptional point: each pair a closed 2 x 2 block, a Jordan block where 6wQ² = 9Jp²")
+    r6 = sp.sqrt(6)
+    sat_idx, dq_idx, ct_idx = [0 * d + 1, 2 * d + 3], [0 * d + 2, 1 * d + 3], 1 * d + 2   # vec index d·i + j
+
+    def closed(Lm, idx):
+        return all(sp.simplify(Lm[r, c]) == 0 for c in idx for r in range(d * d) if r not in idx)
+
+    claim("the satellites |3/2><1/2|, |-1/2><-3/2| and the double quanta |3/2><-1/2|, |1/2><-3/2| are closed pairs of "
+          "cells at every J, wQ, w; a satellite with the central transition in place of its partner is not",
+          closed(L, sat_idx) and closed(L, dq_idx) and not closed(L, [sat_idx[0], ct_idx]))
+    discs = {}
+    for p, idx, Jp, sgn in ((1, sat_idx, J2, 1), (2, dq_idx, J1, -1)):
+        M = L.extract(idx, idx)
+        pw = "w" if p == 1 else f"{p}w"
+        form = sp.Matrix([[-c2 - sp.I * (p * w + r6 * wQ), sgn * 3 * Jp], [sgn * 3 * Jp, -c2 - sp.I * (p * w - r6 * wQ)]])
+        claim(f"p = {p}: the block is [[-c2 - i({pw} + sqrt6·wQ), {sgn * 3}·{Jp}], [{sgn * 3}·{Jp}, -c2 - i({pw} - sqrt6·wQ)]]: "
+              f"the splitting detunes the two cells, the {Jp} jumps couple them",
+              (M - form).applyfunc(sp.simplify).is_zero_matrix)
+        discs[p] = sp.expand((M[0, 0] + M[1, 1]) ** 2 - 4 * M.det())
+        claim(f"p = {p}: the discriminant 4(9{Jp}² - 6wQ²) has a SIMPLE zero in wQ at 6wQ² = 9{Jp}² (a simple zero forces a "
+              "2 x 2 Jordan block, the one-sided order test of docs/THE_DOUBLE_ROOT.md)",
+              sp.expand(discs[p] - 4 * (9 * Jp ** 2 - 6 * wQ ** 2)) == 0
+              and sp.expand(sp.diff(discs[p], wQ).subs(wQ, r6 * Jp / 2)) != 0)
+        part = M - (-c2 - p * sp.I * w) * sp.eye(2)
+        N = part.subs(wQ, r6 * Jp / 2).applyfunc(sp.expand)
+        N0 = part.subs(wQ, 0).applyfunc(sp.expand)
+        claim(f"p = {p}: at 6wQ² = 9{Jp}² the block minus its double root -c2 - i·{pw} is non-zero for {Jp} != 0 and squares to "
+              f"zero, a 2 x 2 Jordan block at every J0, w and every {Jp} != 0; at wQ = 0 it squares to 9{Jp}²·1 (two rates)",
+              any(sp.expand(e) != 0 for e in N) and (N * N).applyfunc(sp.expand).is_zero_matrix
+              and (N0 * N0 - 9 * Jp ** 2 * sp.eye(2)).applyfunc(sp.expand).is_zero_matrix)
+        v = sp.Matrix([N[0, 1], -N[0, 0]])
+        claim(f"p = {p}: the coalesced vector (N01, -N00) is non-zero, in the kernel and self-orthogonal (v^T v = 0); with two "
+              "components that puts as much on the pair's sum as on its difference, the two mirror partners",
+              any(sp.expand(e) != 0 for e in v) and (N * v).applyfunc(sp.expand).is_zero_matrix and sp.expand((v.T * v)[0]) == 0)
+
+    # F48's Pythagorean form on the whole bright sector, read off the generator's two parts on resonance
+    bright = [d * i + j for i in range(d) for j in range(d) if abs(ms[i]) != abs(ms[j])]
+    Hb = generator(R(3, 2), 0, 0, 0, wQ, 0)[2].extract(bright, bright)            # the splitting alone
+    Db = generator(R(3, 2), J0, J1, J2, 0, 0)[2].extract(bright, bright) + c2 * sp.eye(len(bright))
+    claim("on the whole bright sector (8 cells) the splitting's part anticommutes with the dissipator centred at c2, so on "
+          "resonance (L + c2)² = L_H² + (D + c2)² with L_H² = -(2q)²·1: F48's Pythagorean form, its cross term zero; "
+          "centred at the dark centre c1 the cross term is -6J0·L_H, and the two parts do not commute",
+          closed(L, bright) and (Hb * Db + Db * Hb).applyfunc(sp.simplify).is_zero_matrix
+          and (Hb * Hb + 6 * wQ ** 2 * sp.eye(len(bright))).applyfunc(sp.simplify).is_zero_matrix
+          and (Hb * (Db - 3 * J0 * sp.eye(len(bright))) + (Db - 3 * J0 * sp.eye(len(bright))) * Hb
+               + 6 * J0 * Hb).applyfunc(sp.simplify).is_zero_matrix
+          and not Hb.is_zero_matrix and not (Hb * Db - Db * Hb).applyfunc(sp.simplify).is_zero_matrix)
+    U2 = sp.Matrix([[1, 1], [1, -1]]) / sp.sqrt(2)
+    Ksat = L.extract(sat_idx, sat_idx) - (-c2 - sp.I * w) * sp.eye(2)
+    claim("in the normalized basis of the satellites' sum and difference the satellite block minus -c2 - i·w is "
+          "[[3J2, -i·sqrt6·wQ], [-i·sqrt6·wQ, -3J2]] (rates c2 -+ 3J2 linked by the splitting 2q = sqrt6·wQ), and at its "
+          "exceptional point 3J2·[[1, -i], [-i, -1]]: the N = 2 edge block's [[2J, 2iJ], [2iJ, -2J]] "
+          "(PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE §(d)) up to the factor and the sign of i",
+          (U2.T * Ksat * U2 - sp.Matrix([[3 * J2, -sp.I * r6 * wQ], [-sp.I * r6 * wQ, -3 * J2]])).applyfunc(sp.simplify).is_zero_matrix
+          and (U2.T * Ksat.subs(wQ, r6 * J2 / 2) * U2 - 3 * J2 * sp.Matrix([[1, -sp.I], [-sp.I, -1]])).applyfunc(sp.simplify).is_zero_matrix)
+
+    # the satellite signal: K = M - mu·1 squares to Omega²·1, and the satellite part s = (1, 1) of I+ reads 3J2 on it
+    M1 = L.extract(sat_idx, sat_idx)
+    mu = (M1[0, 0] + M1[1, 1]) / 2
+    K = (M1 - mu * sp.eye(2)).applyfunc(sp.simplify)
+    ones = sp.Matrix([1, 1])
+    claim("the satellite block minus its mean -c2 - i·w squares to (9J2² - 6wQ²)·1 and the satellite part of I+ reads 3J2 on "
+          "it at every wQ and w: its signal is e^{mu t}[cosh(Omega t) + 3J2·sinh(Omega t)/Omega], (1 + 3J2·t)·e^{mu t} at "
+          "the exceptional point, its initial rate c2 - 3J2 = 3(J0 + J1) whatever the splitting",
+          sp.simplify(mu + c2 + sp.I * w) == 0
+          and (K * K - (9 * J2 ** 2 - 6 * wQ ** 2) * sp.eye(2)).applyfunc(sp.simplify).is_zero_matrix
+          and sp.simplify((ones.T * K * ones)[0] / 2 - 3 * J2) == 0)
+    tt = sp.Symbol("t", positive=True)
+    Ipl = sp.zeros(d)
+    for k in range(1, d):
+        Ipl[k - 1, k] = sp.sqrt(R(15, 4) - ms[k] * (ms[k] + 1))
+    p1 = [r * d + c for r in range(d) for c in range(d) if ms[r] - ms[c] == 1]
+    vIp = Ipl.reshape(d * d, 1).extract(p1, [0])
+    fid_ok = []
+    for j2v, qv in ((5, 6), (2, 3), (4, 10)):            # below (Omega = 9), on (Omega = 0) and above (Omega = 16i) the EP
+        vals = {J0: 1, J1: 3, J2: j2v, wQ: r6 * qv / 3, w: 0}   # q = wQ·sqrt6/2
+        B1 = L.extract(p1, p1).subs(vals).applyfunc(lambda z: sp.nsimplify(sp.expand(z)))
+        fid = sp.simplify((vIp.H * (B1 * tt).exp() * vIp)[0] / (vIp.H * vIp)[0])
+        c2v, c1v, om = 3 * (1 + 3 + j2v), 3 * (3 + j2v), sp.sqrt(9 * j2v ** 2 - 4 * qv ** 2)
+        sat_t = (1 + 3 * j2v * tt) if om == 0 else sp.cosh(om * tt) + 3 * j2v * sp.sinh(om * tt) / om
+        pred = R(3, 5) * sp.exp(-c2v * tt) * sat_t + R(2, 5) * sp.exp(-c1v * tt)
+        fid_ok.append(sp.simplify(sp.expand((fid - pred).rewrite(sp.exp))) == 0)
+    claim("the whole transverse signal Tr(I+^dag e^{Lt} I+)/Tr(I+^dag I+), by the exponential of the order-1 block (the "
+          "order blocks being invariant, gated above) at "
+          "J = (1, 3, J2), w = 0: 3/5 of the satellite signal plus 2/5 of e^{-c1 t}, below the exceptional point "
+          "(J2 = 5, q = 6), on it (J2 = 2, q = 3) and above it (J2 = 4, q = 10)", fid_ok == [True, True, True], f"({fid_ok})")
+    # eigenvalues are not lines: the satellite part's spectrum, on resonance, its maxima against the exceptional point
+    qq, nu = sp.symbols("q nu", positive=True)
+    Mq = M1.subs({wQ: 2 * qq / r6, w: 0}).applyfunc(sp.simplify)            # q = wQ·sqrt6/2
+    G = sp.simplify((ones.T * (sp.I * nu * sp.eye(2) - Mq).inv() * ones)[0] / 2)
+    zz = c2 + sp.I * nu
+    A = sp.simplify(sp.re(sp.expand_complex(G)))
+    num, den = sp.fraction(sp.together(A))
+    Pn, Pd = sp.Poly(sp.expand(num), nu), sp.Poly(sp.expand(den), nu)
+    lead = Pd.coeff_monomial(nu ** 4)
+    a_, b_ = sp.simplify(Pn.coeff_monomial(1) / lead), sp.simplify(Pn.coeff_monomial(nu ** 2) / lead)
+    c_, d_ = sp.simplify(Pd.coeff_monomial(1) / lead), sp.simplify(Pd.coeff_monomial(nu ** 2) / lead)
+    width_sq = c2 ** 2 - 9 * J2 ** 2 + 4 * qq ** 2                        # c2² - 9J2² + 4q², positive for J >= 0, q > 0
+    thr = (2 * qq) ** 2 * (3 * c2 + 3 * J2) - (c2 + 3 * J2) ** 3
+    A2 = sp.simplify(sp.diff(A, nu, 2).subs(nu, 0))
+    gap = sp.Poly(sp.expand(((c2 + 3 * J2) ** 3 - 9 * J2 ** 2 * (3 * c2 + 3 * J2)).subs(J0, sp.Symbol("u") - J1)), sp.Symbol("u"), J2)
+    uu = sp.Symbol("u", nonnegative=True)                                 # u = nu²
+    Au = (a_ + b_ * uu) / (c_ + d_ * uu + uu ** 2)
+    nonneg = lambda e, gens: all(cf > 0 for cf in sp.Poly(sp.expand(e), *gens).coeffs())
+    claim("eigenvalues are not lines: the satellite part's spectrum on resonance is G(nu) = (z + 3J2)/(z² + 4q² - 9J2²), "
+          "z = c2 + i·nu, smooth in q across the exceptional point; its real part is (a + b·u)/(c + d·u + u²) in u = nu², "
+          "with b = 3(J0 + J1), a = 3(J0 + J1 + 2J2)·(c2² - 9J2² + 4q²) and c = (c2² - 9J2² + 4q²)², b and both factors of a "
+          "polynomials with positive coefficients (so b >= 0, a > 0 for non-negative densities); its slope in u has the "
+          "numerator -b·u² - 2a·u + (bc - ad), strictly falling on u >= 0, so it has one maximum or two, two exactly when "
+          "bc - ad > 0; bc - ad = (c2² - 9J2² + 4q²)·[(2q)²(3c2 + 3J2) - (c2 + 3J2)³] (A''(0) = 2(bc - ad)/c²): the satellite "
+          "part's lines separate at (2q)² = (c2 + 3J2)³/(3c2 + 3J2), past the exceptional point 9J2² at every non-negative "
+          "density (the difference has only positive coefficients in J0 + J1 and J2), and at J0 = J1 = 0 at (2q)² = 18J2², "
+          "2q = sqrt2·3J2",
+          sp.simplify(G - (zz + 3 * J2) / (zz ** 2 + 4 * qq ** 2 - 9 * J2 ** 2)) == 0
+          and Pn.degree() == 2 and Pd.degree() == 4 and all(k % 2 == 0 for (k,) in Pn.monoms() + Pd.monoms())
+          and sp.simplify(A - Au.subs(uu, nu ** 2)) == 0
+          and sp.expand(b_ - 3 * (J0 + J1)) == 0 and sp.expand(a_ - 3 * (J0 + J1 + 2 * J2) * width_sq) == 0
+          and sp.expand(c_ - width_sq ** 2) == 0
+          and nonneg(b_, (J0, J1)) and nonneg(3 * (J0 + J1 + 2 * J2), (J0, J1, J2)) and nonneg(width_sq, (J0, J1, J2, qq))
+          and sp.expand(b_ * c_ - a_ * d_ - width_sq * thr) == 0 and sp.simplify(A2 - 2 * (b_ * c_ - a_ * d_) / c_ ** 2) == 0
+          and all(cf > 0 for cf in gap.coeffs()) and len(gap.coeffs()) == 4
+          and sp.simplify(((c2 + 3 * J2) ** 3 / (3 * c2 + 3 * J2)).subs({J0: 0, J1: 0}) - 18 * J2 ** 2) == 0)
+    claim("at the exceptional point, 2q = 3J2, the satellite part's line is c2/(c2² + nu²) + 3J2·(c2² - nu²)/(c2² + nu²)², "
+          "a Lorentzian plus the real part of a squared complex one, Re 1/z², which is negative beyond |nu| = c2: the "
+          "double-pole line of a size-2 Jordan block",
+          sp.simplify(A.subs(qq, 3 * J2 / 2) - (c2 / (c2 ** 2 + nu ** 2) + 3 * J2 * (c2 ** 2 - nu ** 2) / (c2 ** 2 + nu ** 2) ** 2)) == 0
+          and sp.simplify(sp.re(sp.expand_complex(1 / zz ** 2)) - (c2 ** 2 - nu ** 2) / (c2 ** 2 + nu ** 2) ** 2) == 0)
+    slope_num = -b_ * uu ** 2 - 2 * a_ * uu + (b_ * c_ - a_ * d_)
+    claim("where two maxima show they sit inside +-Omega': at u = Omega'² = 4q² - 9J2² the slope numerator is "
+          "-c2²·(c2³ + 9J2·c2² + 12J2·Omega'²), negative past the exceptional point",
+          sp.expand(slope_num.subs(uu, 4 * qq ** 2 - 9 * J2 ** 2)
+                    + c2 ** 2 * (c2 ** 3 + 9 * J2 * c2 ** 2 + 12 * J2 * (4 * qq ** 2 - 9 * J2 ** 2))) == 0)
+
+    def line_coeffs(B, vv):
+        """Re v^H (i·nu - B)^-1 v / v^H v as (n0 + n1·u)/(d0 + d1·u + u²) in u = nu², read off the block B."""
+        Gx = sp.simplify((vv.H * (sp.I * nu * sp.eye(B.rows) - B).inv() * vv)[0] / (vv.H * vv)[0])
+        nm, dn = sp.fraction(sp.together(sp.simplify(sp.re(sp.expand_complex(Gx)))))
+        Pn_, Pd_ = sp.Poly(sp.expand(nm), nu), sp.Poly(sp.expand(dn), nu)
+        ld = Pd_.coeff_monomial(nu ** 4)
+        return [sp.simplify(e / ld) for e in (Pn_.coeff_monomial(1), Pn_.coeff_monomial(nu ** 2),
+                                              Pd_.coeff_monomial(1), Pd_.coeff_monomial(nu ** 2))]
+    vw = {J0: 1, J1: 3, J2: 4, wQ: r6 * 10 / 3, w: 0}                    # q = 10, past the exceptional point
+    Bw = M1.subs(vw).applyfunc(lambda z: sp.nsimplify(sp.expand(z)))
+    wn0, wn1, wd0, wd1 = line_coeffs(Bw, ones)
+    claim("at the witness's point past the exceptional point, J = (1, 3, 4) with q = 10, read off the generator's satellite "
+          "block: the modes at -c2 -+ 16i and the satellite part of the spectrum with a single maximum, at nu = 0 "
+          "(n1 >= 0, n0 > 0, n1·d0 - n0·d1 < 0)",
+          set(Bw.eigenvals()) == {-24 - 16 * sp.I, -24 + 16 * sp.I} and wn1 >= 0 and wn0 > 0 and wn1 * wd0 - wn0 * wd1 < 0)
+    # which comes first is the observable's: a pair -c + [[-i·g, kappa], [kappa, i·g]] read through the sum of its cells
+    cg, gg = sp.symbols("c g", positive=True)
+    kg = sp.Symbol("kappa", real=True)
+    gn0, gn1, gd0, gd1 = line_coeffs(sp.Matrix([[-cg - sp.I * gg, kg], [kg, -cg + sp.I * gg]]), ones)
+    Wg = cg ** 2 + gg ** 2 - kg ** 2
+    claim("which comes first is the observable's: for a pair -c + [[-i·g, kappa], [kappa, i·g]] read through the sum of its "
+          "two cells, n1 = c - kappa, n0 = (c + kappa)·W, d0 = W², d1 = 2c² - 2g² + 2kappa² (W = c² + g² - kappa²), so "
+          "n1·d0 - n0·d1 = W·[g²(3c + kappa) - (c + kappa)³], and the line threshold lies past the exceptional point "
+          "g² = kappa² by c²(c + 3kappa)/(3c + kappa)",
+          sp.expand(gn1 - (cg - kg)) == 0 and sp.expand(gn0 - (cg + kg) * Wg) == 0 and sp.expand(gd0 - Wg ** 2) == 0
+          and sp.expand(gd1 - (2 * cg ** 2 - 2 * gg ** 2 + 2 * kg ** 2)) == 0
+          and sp.expand(gn1 * gd0 - gn0 * gd1 - Wg * (gg ** 2 * (3 * cg + kg) - (cg + kg) ** 3)) == 0
+          and sp.simplify((cg + kg) ** 3 / (3 * cg + kg) - kg ** 2 - cg ** 2 * (cg + 3 * kg) / (3 * cg + kg)) == 0)
+    Mdq = L.extract(dq_idx, dq_idx).subs(w, 0)
+    T22 = T[2].reshape(d * d, 1)
+    vdiff = sp.Matrix([1, -1])
+    claim("the satellites read by I+ have kappa = 3J2 and c + 3kappa = 3(J0 + J1 + 4J2) > 0, their lines later at every "
+          "non-negative density; the double quanta read by T22, whose components on their two cells are equal (its sum), have "
+          "kappa = -3J1 and c + 3kappa = 3(J0 + J2 - 2J1), their lines earlier where J0 + J2 < 2J1, while their "
+          "difference, orthogonal to T22, reads +3J1; both pairs with g = 2q and c = c2",
+          sp.simplify(M1.subs(w, 0)[0, 1] - 3 * J2) == 0 and sp.simplify(Mdq[0, 1] + 3 * J1) == 0
+          and sp.simplify((vdiff.T * Mdq * vdiff)[0] / 2 - (Mdq[0, 0] + Mdq[1, 1]) / 2 - 3 * J1) == 0
+          and sp.simplify((vdiff.T * T22.extract(dq_idx, [0]))[0]) == 0
+          and all(sp.simplify(m_[0, 0] + c2 + sp.I * r6 * wQ) == 0 and sp.simplify(m_[1, 1] + c2 - sp.I * r6 * wQ) == 0
+                  for m_ in (M1.subs(w, 0), Mdq))
+          and sp.expand(c2 + 3 * 3 * J2 - 3 * (J0 + J1 + 4 * J2)) == 0 and sp.expand(c2 - 3 * 3 * J1 - 3 * (J0 + J2 - 2 * J1)) == 0
+          and sp.simplify(T22[dq_idx[0]] - T22[dq_idx[1]]) == 0 and T22[dq_idx[0]] != 0
+          and all(T22[i] == 0 for i in range(d * d) if i not in dq_idx))
+    # the rule in rates read at zero splitting, and the double quanta's condition for one Lorentzian density
+    M10, Mdq0 = M1.subs({w: 0, wQ: 0}), Mdq.subs(wQ, 0)
+    rate_on = lambda m_, v_: -sp.simplify((v_.T * m_ * v_)[0] / 2)
+    tl, al = sp.symbols("tau a", positive=True)                            # a = (w0·tau)²
+    claim("in rates read at zero splitting the rule's c + 3kappa is 2·R_partner - R_read, twice the partner's rate less the "
+          "read combination's (satellites: 3(J0 + J1 + 4J2); double quanta through T22: 3(J0 + J2 - 2J1)); for one "
+          "Lorentzian density J(w) = tau/(1 + w²tau²), J0 + J2 - 2J1 = 2tau·a(2a - 1)/((1 + a)(1 + 4a)) with a = (w0·tau)², "
+          "negative exactly for w0·tau < 1/sqrt2",
+          sp.expand(2 * rate_on(M10, vdiff) - rate_on(M10, ones) - 3 * (J0 + J1 + 4 * J2)) == 0
+          and sp.expand(2 * rate_on(Mdq0, vdiff) - rate_on(Mdq0, ones) - 3 * (J0 + J2 - 2 * J1)) == 0
+          and sp.simplify(tl + tl / (1 + 4 * al) - 2 * tl / (1 + al) - 2 * tl * al * (2 * al - 1) / ((1 + al) * (1 + 4 * al))) == 0)
+    # the mirror's antilinear form on the satellite cells is the dimer's P·T
+    G0m = sp.diag(1, -1, -1, 1)
+    Pfull = sp.kronecker_product(G0m, sp.eye(d))                          # X -> Gamma0·X, the linear part of S∘†
+    Psat = Pfull.extract(sat_idx, sat_idx)
+    Xg = sp.Matrix(d, d, lambda i, j: sp.Symbol(f"x{i}{j}"))
+    Sm = Pfull * sp.Matrix(d * d, d * d, lambda r, c: 1 if r == d * (c % d) + c // d else 0)   # X -> Gamma0·X^T
+    claim("the bright mirror's antilinear form X -> S(X^dag) is X -> Gamma0·conj(X), which on the satellite cells is P·T, "
+          "P = diag(1, -1) (it swaps the sum and the difference) and T the complex conjugation, with "
+          "P·conj(M)·P = -M - 2c2; in the basis of the sum and the difference the block is -c2 - i·w - i·[[3i·J2, 2q], "
+          "[2q, -3i·J2]], whose bracket is PT-symmetric with P the swap",
+          (Sm * Xg.H.reshape(d * d, 1) - Pfull * Xg.conjugate().reshape(d * d, 1)).applyfunc(sp.simplify).is_zero_matrix
+          and all(Pfull[r_, c_] == 0 for c_ in sat_idx for r_ in range(d * d) if r_ not in sat_idx)
+          and Psat == sp.diag(1, -1) and (U2.T * Psat * U2 - sp.Matrix([[0, 1], [1, 0]])).applyfunc(sp.simplify).is_zero_matrix
+          and (Psat * M1.conjugate() * Psat + M1 + 2 * c2 * sp.eye(2)).applyfunc(sp.simplify).is_zero_matrix
+          and (U2.T * M1 * U2 - (-c2 - sp.I * w) * sp.eye(2)
+               + sp.I * sp.Matrix([[3 * sp.I * J2, r6 * wQ], [r6 * wQ, -3 * sp.I * J2]])).applyfunc(sp.simplify).is_zero_matrix
+          and (sp.Matrix([[0, 1], [1, 0]]) * sp.Matrix([[3 * sp.I * J2, r6 * wQ], [r6 * wQ, -3 * sp.I * J2]]).conjugate()
+               * sp.Matrix([[0, 1], [1, 0]]) - sp.Matrix([[3 * sp.I * J2, r6 * wQ], [r6 * wQ, -3 * sp.I * J2]])).applyfunc(sp.simplify).is_zero_matrix)
+    # the lean under the form P = diag(1, -1) of the two modes past the point, read off the generator's block
+    leans = []
+    for vec in Bw.eigenvects():
+        vv = vec[2][0]
+        leans.append(sp.nsimplify(sp.simplify((sp.Abs(vv[0]) ** 2 - sp.Abs(vv[1]) ** 2) / (sp.Abs(vv[0]) ** 2 + sp.Abs(vv[1]) ** 2))))
+    Jl, ql = sp.symbols("Jl ql", positive=True)
+    Oml = sp.sqrt(4 * ql ** 2 - 9 * Jl ** 2)                                # Omega' past the point
+    Kl = K.subs({J2: Jl, wQ: 2 * ql / r6}).applyfunc(sp.simplify)
+    vl = sp.Matrix([3 * Jl, sp.I * (2 * ql + Oml)])
+    claim("past the point the two modes lean -+Omega'/(2q) under P (|v0|² - |v1|² over the norm), the lean The Pairing "
+          "Condition follows to the collision where modes leave the centre: in general v = (3J2, i(2q + Omega')) is the "
+          "mode at +i·Omega' of the generator's block and leans -Omega'/(2q) = -sqrt(1 - 9J2²/(4q²)), the other mode the "
+          "opposite; at J = (1, 3, 4), q = 10, -+16/20 off the generator's numbers; the merged mode, |v0| = |v1|, is neutral",
+          (Kl * vl - sp.I * Oml * vl).applyfunc(sp.simplify).is_zero_matrix
+          and sp.simplify((9 * Jl ** 2 - (2 * ql + Oml) ** 2) / (9 * Jl ** 2 + (2 * ql + Oml) ** 2) + Oml / (2 * ql)) == 0
+          and set(leans) == {R(-4, 5), R(4, 5)}, f"({leans})")
+    # how weakly the coupling shows: the satellite signal over its initial exponential, as a series read off the block
+    ts = sp.Symbol("t")
+    kap_read = sp.simplify((ones.T * K * ones)[0] / 2)
+    sat_series = sum(ts ** n / sp.factorial(n) * (ones.T * K ** n * ones)[0] / 2 for n in range(5))
+    hser = sp.expand(sp.series(sp.exp(-kap_read * ts) * sat_series, ts, 0, 4).removeO())
+    hc = [sp.simplify(hser.coeff(ts, n)) for n in range(4)]
+    claim("how weakly the coupling shows: read off the generator's satellite block, the satellite signal is "
+          "e^{-3(J0 + J1)t} times 1 - (2q)²t²/2 + 4J2·q²·t³ + O(t⁴) at every splitting (2q = sqrt6·wQ): the splitting "
+          "enters at second order, free of J2, so (2q)² = f'(0)² - f''(0) for the satellite part f, and the coupling only "
+          "at third, (3J2·t)³/3 at the point; 3J2/c2 = J2/(J0 + J1 + J2), whose complement to 1/3 is "
+          "((J0 - J2) + (J1 - J2))/(3(J0 + J1 + J2))",
+          hc[0] == 1 and hc[1] == 0 and sp.simplify(hc[2] + 3 * wQ ** 2) == 0 and sp.diff(hc[2], J2) == 0
+          and sp.simplify((mu.subs(w, 0) + kap_read) ** 2
+                          - (mu.subs(w, 0) ** 2 + 2 * mu.subs(w, 0) * kap_read + (ones.T * K ** 2 * ones)[0] / 2) - 6 * wQ ** 2) == 0
+          and sp.simplify(hc[3] - 6 * J2 * wQ ** 2) == 0 and sp.simplify(hc[3].subs(wQ, r6 * J2 / 2) - (3 * J2) ** 3 / 3) == 0
+          and sp.simplify(mu.subs(w, 0) + kap_read + 3 * (J0 + J1)) == 0
+          and sp.simplify(R(1, 3) - 3 * J2 / c2 - ((J0 - J2) + (J1 - J2)) / (3 * (J0 + J1 + J2))) == 0, f"({hc})")
+    tau, Omg, jj, cc_ = sp.symbols("tau Omega j c", positive=True)
+    fsig = lambda s_: sp.exp(-cc_ * s_) * (sp.cosh(Omg * s_) + jj * sp.sinh(Omg * s_) / Omg)
+    jprime = Omg * (sp.sinh(Omg * tau) + jj * sp.cosh(Omg * tau) / Omg) / (sp.cosh(Omg * tau) + jj * sp.sinh(Omg * tau) / Omg)
+    claim("a shift tau of the time origin keeps the form of f and moves its coupling: f(t + tau) = "
+          "f(tau)·e^{-ct}[cosh(Omega t) + j'·sinh(Omega t)/Omega] with j' = Omega·(sinh + (j/Omega)·cosh)/(cosh + (j/Omega)·sinh) "
+          "at Omega·tau, which differs from j (j = 3, Omega = 2, tau = 1/10)",
+          sp.simplify(sp.expand((fsig(tt + tau) - fsig(tau) * sp.exp(-cc_ * tt) * (sp.cosh(Omg * tt) + jprime * sp.sinh(Omg * tt) / Omg)).rewrite(sp.exp))) == 0
+          and sp.simplify(jprime.subs({jj: 3, Omg: 2, tau: R(1, 10)}) - 3) != 0)
+    # in the rates a measurement reads: the populations' ZI and IZ modes (weights 4/5 and 1/5 in Iz) against the pairs' discriminants
+    Zs, Is = sp.diag(1, -1), sp.eye(2)
+
+    def rate_of(op, Lm):
+        vv = op.reshape(d * d, 1)
+        Lv = (Lm * vv).applyfunc(sp.simplify)
+        k = next(i for i in range(d * d) if vv[i] != 0)
+        r = sp.simplify(-Lv[k] / vv[k])
+        return r if (Lv + r * vv).applyfunc(sp.simplify).is_zero_matrix else None
+    Xs, Ys = sp.Matrix([[0, 1], [1, 0]]), sp.Matrix([[0, -sp.I], [sp.I, 0]])
+    R45, R15 = rate_of(sp.kronecker_product(Zs, Is), L), rate_of(sp.kronecker_product(Is, Zs), L)
+    Dnom = 2 * r6 * wQ
+    claim("in the rates a measurement reads: each pair's discriminant/4 is (R/2)² - (D/2)², D = 2·sqrt6·wQ the pair's nominal separation and R "
+          "the rate of a population mode read off the generator, ZI (weight 4/5 in Iz) for the satellites and IZ (weight 1/5) "
+          "for the double quanta: past the exceptional point the two mode frequencies sit sqrt(D² - R²) apart, and the "
+          "eigenvalues merge where D = R; the coupling the satellite part reads on its block, 3J2, is half of R1(4/5) (a "
+          "relation of the model between two measurements); the two pairs share D, so D_w,sat² + R1(4/5)² = D_w,DQ² + R1(1/5)² "
+          "without it; the swapped modes fail",
+          R45 is not None and R15 is not None
+          and sp.expand(discs[1] / 4 - ((R45 / 2) ** 2 - (Dnom / 2) ** 2)) == 0
+          and sp.expand(discs[2] / 4 - ((R15 / 2) ** 2 - (Dnom / 2) ** 2)) == 0
+          and sp.expand(R45 - 2 * (ones.T * K * ones)[0] / 2) == 0
+          and sp.expand((-discs[1] + R45 ** 2) - (-discs[2] + R15 ** 2)) == 0
+          and sp.expand(discs[1] / 4 - ((R15 / 2) ** 2 - (Dnom / 2) ** 2)) != 0)
+    L00 = L.subs({wQ: 0, w: 0})
+    R35 = rate_of(sp.kronecker_product(Is, Xs), L00)            # the satellites IX: the 3/5 transverse rate at zero splitting
+    R_partner = rate_of(sp.kronecker_product(Zs, Ys), L00)      # ZY, in the partner's family
+    c2_read = -sp.simplify((M1[0, 0] + M1[1, 1]).subs(w, 0)) / 2   # the bright centre from the satellite block, every wQ
+    claim("in the textbook's rates, three readings off the generator: the bright centre (half the satellite block's trace, "
+          "any splitting) is R2(3/5) + R1(4/5)/2 and the partner's rate at zero splitting R2(3/5) + R1(4/5), with R2(3/5) the "
+          "satellites' rate at zero splitting (IX) and R1(4/5) the 4/5 longitudinal rate (ZI); R2(3/5) = 3(J0 + J1) is also "
+          "the satellite part's initial rate at every splitting, so read at one orientation this is R1(4/5) = 2·3J2 again",
+          R35 is not None and R_partner is not None
+          and sp.expand(c2_read - (R35 + R45 / 2)) == 0 and sp.expand(R_partner - (R35 + R45)) == 0
+          and sp.expand(c2_read - (R35 + R15 / 2)) != 0)
+
+    def full_ranks(vals, lam):
+        Lp = L.subs(vals).applyfunc(lambda z: sp.nsimplify(sp.expand(z)))
+        A = Lp - lam * sp.eye(d * d)
+        A2 = A * A
+        return A.rank(simplify=True), A2.rank(simplify=True), (A2 * A).rank(simplify=True)
+    claim("the whole generator at the witness's two points, read by this second construction: at J = (1, 4, 2), wQ = sqrt6 "
+          "(q = 3), w = 1 the eigenvalue -c2 - i·w, and at J = (1, 2, 4) the eigenvalue -c2 - 2i·w, each of geometric "
+          "multiplicity 1 and algebraic 2 (ranks of (L - lambda)^k, k = 1, 2, 3: 15, 14, 14)",
+          full_ranks({J0: 1, J1: 4, J2: 2, wQ: r6, w: 1}, -21 - sp.I) == (15, 14, 14)
+          and full_ranks({J0: 1, J1: 2, J2: 4, wQ: r6, w: 1}, -21 - 2 * sp.I) == (15, 14, 14))
 
     print("\nthe global centre: one centre for the whole spectrum iff J0 = 0, or wQ = w = 0 and J1·J2 = 0")
     claim("Tr L = -24·J0 - 48·J1 - 48·J2 at every wQ and w, so 2s = 3J0 + 6J1 + 6J2",
@@ -766,9 +1081,9 @@ def main():
                     - x * (x + 30) * (x + 84)**2 * (x + 150) * (x + 210)**2 * (x + 240)) == 0)
 
     print("\na static splitting beyond spin 3/2 (w = 0, exact): centres appear at spin 1 only, on five rays")
-    Q4 = sp.symbols("J0 J1 J2 q", real=True)
+    Q4 = sp.symbols("J0 J1 J2 q6", real=True)                 # q6 = wQ/sqrt(6), the moment route's splitting
     mu32 = split_moments(R(3, 2), Q4)
-    claim("I = 3/2 with the splitting: mu3 = 1296·J0·q², zero exactly at J0 = 0 (the theorem's centre) or q = 0 "
+    claim("I = 3/2 with the splitting: mu3 = 1296·J0·q6², zero exactly at J0 = 0 (the theorem's centre) or q6 = 0 "
           "(the rule without a splitting)",
           sp.expand(mu32[3] - 1296 * Q4[0] * Q4[3] ** 2) == 0)
     spin1_rays = {(4, 0, R(-1, 36)), (-6, 2, R(1, 12)), (-12, -4, R(5, 12)), (0, -1, R(1, 48)), (0, R(4, 5), R(1, 60)),
@@ -776,7 +1091,7 @@ def main():
     for I_ in [R(1)] + [R(k, 2) for k in range(4, 13)]:
         pts, rest_empty = split_centre_points(split_moments(I_, Q4), Q4)
         want_pts = spin1_rays if I_ == 1 else set()
-        claim(f"I = {I_}: mu3, mu5, mu7, mu9 vanish together on {len(pts)} rays (J0, J1, J2 = 1, q²) and nowhere else "
+        claim(f"I = {I_}: mu3, mu5, mu7, mu9 vanish together on {len(pts)} rays (J0, J1, J2 = 1, q6²) and nowhere else "
               f"but at all rates zero (outside the charts, L = -i[H, .], trivially centred)",
               rest_empty and set(pts) == want_pts, str(sorted(pts)) if pts else "")
 
@@ -791,7 +1106,7 @@ def main():
         s_ = P_.all_coeffs()[1] / P_.degree()
         return sp.expand(sp.simplify((-1) ** P_.degree() * P_.as_expr().subs(x, -x - 2 * s_) - P_.as_expr())) == 0, P_
     real_rays = [r for r in spin1_rays if r[2] > 0]
-    claim("I = 1: at five of the six rays q² > 0, and at each of them the characteristic polynomial satisfies "
+    claim("I = 1: at five of the six rays q6² > 0, and at each of them the characteristic polynomial satisfies "
           "(-1)^n P(-x - 2s) = P(x), n = 9, exactly (at nine eigenvalues the four odd moments are the whole condition)",
           len(real_rays) == 5 and all(centred_at(a, b, 1, 6 * u_)[0] for a, b, u_ in real_rays))
     phys = sorted(r for r in real_rays if r[0] >= 0 and r[1] >= 0)
@@ -875,12 +1190,48 @@ def main():
             ev = sp.roots(sp.Poly(sp.expand(generator(R(1), 0, J1_, 1, sp.sqrt(wq2), 0)[2].charpoly(x).as_expr()), x), multiple=True)
             sh = -sum(ev) / len(ev)
             paired.append(sum(1 for e in ev if any(sp.simplify(e + f + 2 * sh) == 0 for f in ev)))
-    claim("I = 1: the single-quantum pair's exceptional point (zero discriminant) is 6wQ² = J1² at J0 = 0; the rays sit "
+    claim("I = 1: the single-quantum pair's exceptional point (zero discriminant) is 6wQ² = J1² at every J0 and J2; the rays sit "
           "at 6wQ²/J1² = 15/16 and 63/64, just below it; without the splitting 3 of 9 eigenvalues pair about -s, with it 9; "
           "the pair is drawn from {7/10, 3/2}·J2 at the first ray",
-          sp.expand(disc.subs(K0_, 0) - 256 * (K1_ ** 2 - 6 * W ** 2)) == 0
+          sp.expand(disc - 256 * (K1_ ** 2 - 6 * W ** 2)) == 0
           and [6 * R(1, 10) / R(4, 5) ** 2, 6 * R(21, 2) / 64] == [R(15, 16), R(63, 64)] and paired == [3, 9, 3, 9]
           and set(sp.roots(sp.Poly(blk[1].subs({K0_: 0, K1_: R(4, 5), K2_: 1, W: 0}), x))) == {R(7, 10), R(3, 2)})
+    # the rays' spectrum: I+ reads its single-quantum pair through the sum of the two cells, kappa < 0
+    nu1 = sp.Symbol("nu", positive=True)
+    p1s = [r * 3 + c for r in range(3) for c in range(3) if c == r + 1]
+    B1s = L1.extract(p1s, p1s).applyfunc(sp.simplify)
+    kap1, cen1 = sp.simplify(B1s[0, 1]), -sp.simplify((B1s[0, 0] + B1s[1, 1]) / 2)
+    g1 = sp.simplify(sp.I * (B1s[0, 0] - B1s[1, 1]) / 2)
+    Ip1 = sp.zeros(3)
+    for k in range(1, 3):
+        Ip1[k - 1, k] = sp.sqrt(2 - (1 - k) * (2 - k))                  # m = 1 - k
+    vI1 = Ip1.reshape(9, 1).extract(p1s, [0])
+    rays_ok, dips = [], []
+    for J1_, w2 in ((R(4, 5), R(1, 10)), (8, R(21, 2))):
+        vals = {K0_: 0, K1_: J1_, K2_: 1, W: sp.sqrt(w2)}
+        Bn = B1s.subs(vals).applyfunc(lambda z: sp.nsimplify(sp.expand(z)))
+        Gn = sp.simplify((vI1.H * (sp.I * nu1 * sp.eye(2) - Bn).inv() * vI1)[0] / (vI1.H * vI1)[0])
+        A2n = sp.nsimplify(sp.simplify(sp.diff(sp.re(sp.expand_complex(Gn)), nu1, 2).subs(nu1, 0)))
+        kv, cv, gv = kap1.subs(vals), cen1.subs(vals), sp.simplify(g1.subs(vals))
+        # the line's depth: its value at nu = 0 against its maximum, at the root of the strictly falling slope numerator
+        e0, e1, f0, f1 = line_coeffs(Bn, vI1)
+        top = sp.simplify(e1 * f0 - e0 * f1)
+        u_top = sp.simplify((-e0 + sp.sqrt(e0 ** 2 + e1 * top)) / e1)
+        line = lambda u_: (e0 + e1 * u_) / (f0 + f1 * u_ + u_ ** 2)
+        dips.append(sp.simplify(1 - line(0) / line(u_top)))
+        rays_ok.append(bool(A2n > 0) and bool(top > 0) and bool(cv > abs(kv)) and bool(cv + 3 * kv < 0)
+                       and bool(gv ** 2 - kv ** 2 < 0) and bool(R(1, 2) + kv / (2 * sp.sqrt(kv ** 2 - gv ** 2)) < 0))
+    claim("I = 1: the single-quantum pair is -c + [[-i·g, kappa], [kappa, i·g]] with c = (3J0 + 3J1 + 2J2)/4, "
+          "kappa = -J1/2, g² = 3wQ²/2, read by I+ through the sum of its two cells (equal components), so "
+          "c + 3kappa = (3J0 - 3J1 + 2J2)/4; at both rays c > |kappa| and c + 3kappa < 0, the pair below its exceptional "
+          "point, the I+ spectrum with exactly two maxima (Re G''(0) > 0) while the two modes share one frequency, the "
+          "dip at nu = 0 under one percent of the maximum at the first ray and over a fifth at the second, and the slow "
+          "mode's weight in the signal negative",
+          sp.expand(kap1 + K1_ / 2) == 0 and sp.expand(cen1 - (3 * K0_ + 3 * K1_ + 2 * K2_) / 4) == 0
+          and sp.simplify(B1s[1, 0] - B1s[0, 1]) == 0 and sp.simplify(g1 ** 2 - R(3, 2) * W ** 2) == 0
+          and sp.simplify(vI1[0] - vI1[1]) == 0 and vI1[0] != 0
+          and sp.expand(cen1 + 3 * kap1 - (3 * K0_ - 3 * K1_ + 2 * K2_) / 4) == 0 and rays_ok == [True, True]
+          and bool(0 < dips[0] < R(1, 100)) and bool(dips[1] > R(1, 5)), f"({rays_ok}, dips {[sp.N(v_, 4) for v_ in dips]})")
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")

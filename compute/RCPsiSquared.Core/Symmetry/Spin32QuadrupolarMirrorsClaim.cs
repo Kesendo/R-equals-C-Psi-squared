@@ -5,7 +5,8 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F167, the spin-3/2 nucleus and its two mirrors (Tier 1 derived,
 /// <c>experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md</c>): one spin 3/2, levels m = 3/2, 1/2, −1/2,
-/// −3/2, under the secular Redfield generator of quadrupolar relaxation at infinite temperature,
+/// −3/2, under the Redfield generator of quadrupolar relaxation, secular in the Larmor frequency with the
+/// static splitting kept whole, at infinite temperature,
 /// dissipator Σ_m J_|m|·(T₂ₘρT₂ₘ† − ½{T₂ₘ†T₂ₘ, ρ}) (m = −2 … 2, T₂₀ = (3I_z² − I(I + 1))/√6,
 /// T₂,±₁ = ∓(I_zI_± + I_±I_z)/2, T₂,±₂ = I_±²/2), Hamiltonian ω_Q·T₂₀ + ω·I_z.
 ///
@@ -19,7 +20,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// ω_Q and ω: the dark modes pair about −c₁, c₁ = 3(J₁ + J₂), the bright ones about −c₂,
 /// c₂ = c₁ + 3J₀. The global-centre theorem: the sixteen eigenvalues have one centre −s,
 /// 2s = 3J₀ + 6J₁ + 6J₂ (fixed by the trace), exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0,
-/// for every real J (<see cref="HasGlobalCentre"/>).</para>
+/// for every real J (<see cref="HasGlobalCentre"/>). With a splitting, q = ω_Q·√6/2 the coefficient of
+/// diag(1, −1, −1, 1) in H, each bright pair is a closed
+/// 2 × 2 block whose two rates sum to 2c₂, and at 2q = 3J₂ (3J₁ for the double quantum), that density
+/// non-zero, it is one 2 × 2 Jordan block on Re λ = −c₂: a defective exceptional point where the
+/// splitting, which carries each bright string into its own mirror image, makes a mode and its mirror
+/// image one, an exceptional point of the eigenvalues; where the lines of a spectrum separate depends on
+/// the observable (the page's rule).</para>
 ///
 /// <para>Shape and neighbours. At J₀ = 0 the map S is an F1 palindromizer built in F118's shape
 /// (<c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c>: Π_Y(ρ) = X^⊗N·ρᵀ), with Γ₀ in place of
@@ -94,6 +101,13 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
                 summary: "S(X) = Γ₀·Xᵀ, Γ₀ = diag(1, −1, −1, 1): S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂), L_{J₀} = −3J₀·P, P the bright " +
                          "projector commuting with L and S; the transpose reverses the real H and keeps every jump term, Γ₀ commutes " +
                          "with H, reflects the J₁ and J₂ dissipators and keeps the J₀ one; at J₀ = 0 an F1 palindromizer in F118's shape");
+            yield return new InspectableNode("the bright pairs' exceptional point",
+                summary: "with a splitting q = ω_Q·√6/2 each bright pair is a closed 2 × 2 block, the satellites at −c₂ − iω ± √(9J₂² − 4q²), " +
+                         "the double quantum at −c₂ − 2iω ± √(9J₁² − 4q²), so the two rates of a pair sum to 2c₂ at every splitting; at " +
+                         "2q = 3J₂ (resp. 3J₁), that density non-zero, the pair is one 2 × 2 Jordan block on Re λ = −c₂, a defective " +
+                         "exceptional point of the eigenvalues (where lines separate depends on the observable); at " +
+                         "every q the splitting q·diag(1, −1, −1, 1) carries each bright string X into its own mirror image S(X) = ±Γ₀X, and the coalesced " +
+                         "vector is self-orthogonal, vᵀv = 0");
             yield return new InspectableNode("global-centre theorem",
                 summary: "one centre −s, 2s = 3J₀ + 6J₁ + 6J₂, exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0, every real J; the " +
                          "coefficients of χ(−x − 2s) − χ(x) generate the ideal (J₀·ω_Q², J₀·(9J₁² + ω²)·(9J₂² + 4ω²)); for J ≥ 0 " +

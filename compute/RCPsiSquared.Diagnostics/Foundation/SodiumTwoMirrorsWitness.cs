@@ -7,8 +7,8 @@ using Mat = RCPsiSquared.Core.Numerics.GaussianRational[,];
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The live lab for F167 (<c>experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md</c>): one spin
-/// 3/2, levels m = 3/2, 1/2, −1/2, −3/2, under secular quadrupolar relaxation at infinite
-/// temperature, dissipator Σ_m J_|m|·(T₂ₘρT₂ₘ† − ½{T₂ₘ†T₂ₘ, ρ}), Hamiltonian ω_Q·T₂₀ + ω·I_z.
+/// 3/2, levels m = 3/2, 1/2, −1/2, −3/2, under quadrupolar relaxation secular in the Larmor frequency
+/// (the splitting kept whole) at infinite temperature, dissipator Σ_m J_|m|·(T₂ₘρT₂ₘ† − ½{T₂ₘ†T₂ₘ, ρ}), Hamiltonian ω_Q·T₂₀ + ω·I_z.
 ///
 /// <para>The page's verifier works with sympy symbols, a Gröbner basis and F158 through Pauli
 /// strings. This witness takes the other road: it builds the 16 × 16 generator from the SPIN
@@ -37,7 +37,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// for I_z, 3/5 and 2/5 for I_+ at ω_Q = 0), the 3:4:3 triplet, the central transition and the
 /// triple quantum blind to J₀ and to the splitting, extreme narrowing, the rank-2 coherence T₂,₁ as
 /// the satellites' mirror image, each as an exact eigenoperator equation on string parts, with a
-/// splitting and swapped rate assignments as the controls.</para>
+/// splitting and swapped rate assignments as the controls; and the bright pairs' exceptional point:
+/// the satellite and double-quantum pairs as closed 2 × 2 blocks whose two rates sum to 2c₂ at every
+/// splitting, with the discriminants 4(9J₂² − 4q²) and 4(9J₁² − 4q²), each read ON its exceptional
+/// point (2q = 3J₂, 2q = 3J₁, the density non-zero) as a 2 × 2 Jordan block of the full generator
+/// (geometric multiplicity 1, algebraic 2, no eigenvalue there one step off in q) beside the scalar
+/// control at J₂ = q = 0, the coalesced vector self-orthogonal, and the satellite part of I_+ in the rates a
+/// measurement reads: its initial rate R₂′ = 3(J₀ + J₁) at the five splittings read, below the exceptional point two simple
+/// rates with the weights 4/3 and −1/3 (at <see cref="BelowEpPoint"/>), above it two mode frequencies
+/// pulled in to D_ω² = D² − R₁(4/5)², and the merging where the nominal separation D = 4q equals the
+/// 4/5 longitudinal rate. These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
 public sealed class SodiumTwoMirrorsWitness : IInspectable
@@ -96,6 +106,31 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     /// has something to break).</summary>
     public static readonly (long J0, long J1, long J2, long Q, long Omega) ControlPoint = (1, 2, 3, 1, 1);
 
+    /// <summary>The fixed points of gate 6, (J₀, J₁, J₂, q, ω), integers chosen so that every root read is a
+    /// Gaussian integer: the satellite pair ON its exceptional point (2q = 3J₂), the double-quantum pair ON
+    /// its own (2q = 3J₁), the diabolic control (J₂ = 0 at q = 0, where the satellite block is a scalar), one
+    /// point below the satellite EP (√(9J₂² − 4q²) = 9) and one above it (√(4q² − 9J₂²) = 16). J₀ > 0 keeps
+    /// the central transition off the bright centre and ω ≠ 0 keeps the orders ±p apart, so no other
+    /// eigenvalue meets the one read.</summary>
+    public static readonly (long J0, long J1, long J2, long Q, long Omega) SatelliteEpPoint = (1, 4, 2, 3, 1);
+    public static readonly (long J0, long J1, long J2, long Q, long Omega) DoubleQuantumEpPoint = (1, 2, 4, 3, 1);
+    public static readonly (long J0, long J1, long J2, long Q, long Omega) DiabolicPoint = (1, 4, 0, 0, 1);
+    public static readonly (long J0, long J1, long J2, long Q, long Omega) BelowEpPoint = (1, 3, 5, 6, 1);
+    public static readonly (long J0, long J1, long J2, long Q, long Omega) AboveEpPoint = (1, 3, 4, 10, 1);
+
+    /// <summary>One bright pair read ON its exceptional point, λ* = −c₂ − ip·ω (order p = 1 the satellites, 2
+    /// the double quantum): the block's part N = M − λ*·1, non-zero with N² = 0; the full generator's ranks
+    /// of (L − λ*)^k, k = 1, 2, 3, so the geometric multiplicity 16 − rank₁ and the algebraic 16 − rank₃;
+    /// and the rank of L − λ* one step off in q on either side, where λ* is no eigenvalue.</summary>
+    public sealed record EpReading(long J0, long J1, long J2, long Q, long Omega, int Order, GaussianRational Lambda,
+        bool PartNonZero, bool PartSquaresToZero, int Rank1, int Rank2, int Rank3, int RankStepDown, int RankStepUp)
+    {
+        public int Geometric => Dim - Rank1;
+        public int Algebraic => Dim - Rank3;
+        public bool IsJordanPair => PartNonZero && PartSquaresToZero && Geometric == 1 && Algebraic == 2
+                                    && RankStepDown == Dim && RankStepUp == Dim;
+    }
+
     public long J0 { get; }
     public long J1 { get; }
     public long J2 { get; }
@@ -149,6 +184,69 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         && SplittingFeedsPartner
         && DarkLinesBlindToJ0AndSplitting && TripleQuantumOnDarkCentre && PopulationsPairAboutDarkCentre
         && ExtremeNarrowingOneRate && SatellitePartnerOnBrightMirror;
+
+    // gate 6: the bright pairs' exceptional point
+    /// <summary>Both bright pairs, the satellites |3/2⟩⟨1/2|, |−1/2⟩⟨−3/2| and the double quantum
+    /// |3/2⟩⟨−1/2|, |1/2⟩⟨−3/2|, span L-invariant sets of two cells at the user point and at the two EP
+    /// points; the control set, a satellite with the central transition in place of its partner, does not
+    /// (at the satellite EP point, where J₂ ≠ 0).</summary>
+    public bool BrightPairsClosed { get; }
+    /// <summary>The sum rule: at the user point each pair's block has the trace −2c₂ − 2ip·ω, so its two rates
+    /// sum to 2c₂ there (at every splitting in the verifier's symbolic blocks); the control set's trace differs (in its real part where J₀ ≠ 0, and in its imaginary
+    /// part by 2q).</summary>
+    public bool BrightPairTracesHold { get; }
+    /// <summary>At the user point the discriminants (tr M)² − 4·det M are 4(9J₂² − 4q²) (satellites) and
+    /// 4(9J₁² − 4q²) (double quantum); at the two EP points, where J₁ ≠ J₂, the swapped assignment fails.</summary>
+    public bool BrightPairDiscriminantsHold { get; }
+    public EpReading SatelliteEp { get; }
+    public EpReading DoubleQuantumEp { get; }
+    /// <summary>The same-object control: at J₂ = 0 and q = 0 the satellite block is the scalar −c₂ − iω, and in
+    /// the full generator that eigenvalue is semisimple (L − λ and (L − λ)² both of rank 14).</summary>
+    public bool DiabolicControlSemisimple { get; }
+    /// <summary>At the satellite EP the kernel vector of L − λ*, read off N as (N₀₁, −N₀₀), is non-zero, lies on
+    /// the two satellite cells and is self-orthogonal (vᵀv = 0); with two components that gives equal weight on
+    /// the satellites' sum, the observable part of I_+, and on their mirror image, the partner. The control: below
+    /// the exceptional point (<see cref="BelowEpPoint"/>) the slow eigenvector of the same pair is not
+    /// self-orthogonal.</summary>
+    public bool EpVectorSelfOrthogonal { get; }
+    /// <summary>A reading: the generator is complex symmetric in the cell basis at the satellite EP point (H
+    /// diagonal, and the jumps T₂,±ₘ in pairs of equal rate, so that the dissipator is the Γₐ's, each symmetric or
+    /// antisymmetric), the setting in which a coalesced vector is
+    /// self-orthogonal.</summary>
+    public bool GeneratorComplexSymmetric { get; }
+    /// <summary>The satellite part s of I_+ has ⟨s|L|s⟩/⟨s|s⟩ = −3(J₀ + J₁) − iω, the initial decay rate R₂′,
+    /// at the user point, at ω_Q = 0 and at the three points around the satellite EP. The control: one satellite
+    /// cell alone does not, its quotient carrying the full −c₂ and the splitting (at the satellite EP point).</summary>
+    public bool InitialSlopeSplittingFree { get; }
+    /// <summary>Ω = √(9J₂² − 4q²) at <see cref="BelowEpPoint"/> and Ω′ = √(4q² − 9J₂²) at
+    /// <see cref="AboveEpPoint"/>, from these closed forms at the declared points (9 and 16), the values the rank
+    /// readings below test against the generator and the node prints.</summary>
+    public long BelowEpOmega { get; }
+    public long AboveEpOmega { get; }
+    /// <summary>Below the satellite EP (<see cref="BelowEpPoint"/>): the weights of the satellite part on its
+    /// slow and its fast mode, at the rates c₂ ∓ Ω.</summary>
+    public IReadOnlyList<GaussianRational> BelowEpWeights { get; }
+    /// <summary>c₂ ∓ Ω are simple eigenvalues of L (L − λ and (L − λ)² both of rank 15) and the slow weight is
+    /// 4/3; the fast weight, −1/3, is one minus it (the two spectral projectors sum to the identity), shown beside
+    /// the gate rather than in it.</summary>
+    public bool BelowEpTwoRates { get; }
+    /// <summary>Above the satellite EP (<see cref="AboveEpPoint"/>): the two modes oscillate at ±Ω′ about the order
+    /// frame and not at the nominal ±2q (neither nominal position is an eigenvalue), and their separation
+    /// obeys D_ω² + R₁(4/5)² = D², with D = 4q and R₁(4/5) read off L as the rate of ZI; the 1/5 mode's rate in its
+    /// place fails. Mode frequencies, not line positions (the lines are the page's verifier's).</summary>
+    public bool AboveEpFrequenciesPulled { get; }
+    /// <summary>The merging in the rates a measurement reads: the satellite pair is a Jordan block at the satellite EP
+    /// point (the reading <see cref="SatelliteEp"/>, which carries the location), and there the nominal separation 4q is
+    /// the rate of the 4/5 longitudinal mode ZI read off L, not the 1/5 mode's IZ; the double-quantum pair is one at
+    /// the double-quantum EP point, where 4q is IZ's rate and not ZI's.</summary>
+    public bool EpAtTheLongitudinalRates { get; }
+    /// <summary>Readings at the user point: where each bright pair stands against its exceptional point, from
+    /// the sign of its discriminant and from its coupling, both read off the generator's block.</summary>
+    public string SatelliteRegime { get; }
+    public string DoubleQuantumRegime { get; }
+    public bool ExceptionalPointHolds => BrightPairsClosed && BrightPairTracesHold && BrightPairDiscriminantsHold
+        && SatelliteEp.IsJordanPair && DoubleQuantumEp.IsJordanPair && DiabolicControlSemisimple && EpVectorSelfOrthogonal
+        && InitialSlopeSplittingFree && BelowEpTwoRates && AboveEpFrequenciesPulled && EpAtTheLongitudinalRates;
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -317,6 +415,109 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                                          && ProportionalFactor(partner, _r[1]) is not null
                                          && Trace(Mul(Adjoint(partner), satellites)).IsZero && Trace(Mul(Adjoint(partner), central)).IsZero
                                          && Eigen(l0, partner, Rate(2 * c2 - 3 * (j0 + j1), omega));
+
+        // ---- gate 6: the bright pairs' exceptional point
+        var (sj0, sj1, sj2, sq, sw) = SatelliteEpPoint;
+        var (dj0, dj1, dj2, dq, dw) = DoubleQuantumEpPoint;
+        var lSat = Generator(sj0, sj1, sj2, sq, sw).L;
+        var lDq = Generator(dj0, dj1, dj2, dq, dw).L;
+        // both pairs are closed sets of two cells; a satellite with the central transition in place of its partner is not
+        BrightPairsClosed = Closed(l, SatelliteIdx) && Closed(l, DoubleQuantumIdx)
+                            && Closed(lSat, SatelliteIdx) && Closed(lDq, DoubleQuantumIdx)
+                            && !Closed(lSat, SatelliteWithCentralIdx);
+        // the sum rule: the trace of each pair's block, −2c₂ − 2ip·ω at every splitting; the control set's is not
+        long c2Sat = Spin32QuadrupolarMirrorsClaim.BrightCentre(sj0, sj1, sj2);
+        BrightPairTracesHold = Trace(Block(l, SatelliteIdx)) == new GaussianRational(-2 * c2, -2 * omega)
+                               && Trace(Block(l, DoubleQuantumIdx)) == new GaussianRational(-2 * c2, -4 * omega)
+                               && Trace(Block(lSat, SatelliteWithCentralIdx)) != new GaussianRational(-2 * c2Sat, -2 * sw);
+        // the discriminants: the satellites carry J₂, the double quantum J₁; the swapped assignment fails where J₁ ≠ J₂
+        GaussianRational DiscFormula(long jp, long qq) => new(4 * (9 * jp * jp - 4 * qq * qq), 0);
+        BrightPairDiscriminantsHold = Disc2(Block(l, SatelliteIdx)) == DiscFormula(j2, q)
+                                      && Disc2(Block(l, DoubleQuantumIdx)) == DiscFormula(j1, q)
+                                      && Disc2(Block(lSat, SatelliteIdx)) != DiscFormula(sj1, sq)
+                                      && Disc2(Block(lDq, DoubleQuantumIdx)) != DiscFormula(dj2, dq);
+        SatelliteRegime = Regime(Block(l, SatelliteIdx));
+        DoubleQuantumRegime = Regime(Block(l, DoubleQuantumIdx));
+        // ON the exceptional points: a 2 × 2 Jordan block of the whole generator
+        SatelliteEp = ReadEp(lSat, SatelliteEpPoint, 1);
+        DoubleQuantumEp = ReadEp(lDq, DoubleQuantumEpPoint, 2);
+        // the same-object control: no coupling and no splitting leave the satellite block a scalar, semisimple
+        var (aj0, aj1, aj2, aq, aw) = DiabolicPoint;
+        var lDia = Generator(aj0, aj1, aj2, aq, aw).L;
+        var lambdaDia = new GaussianRational(-Spin32QuadrupolarMirrorsClaim.BrightCentre(aj0, aj1, aj2), -aw);
+        var shiftedDia = Shift(lDia, lambdaDia);
+        DiabolicControlSemisimple = IsScalar(Block(lDia, SatelliteIdx), out var scalarDia) && scalarDia == lambdaDia
+                                    && Rank(shiftedDia) == Dim - 2 && Rank(Mul(shiftedDia, shiftedDia)) == Dim - 2;
+        // the coalesced vector, read off the rank-one part N = [[a, b], [c, d]] as (b, −a): non-zero, an eigenvector of
+        // the whole generator, and self-orthogonal (for two components that already puts as much on the satellites'
+        // sum (1, 1) as on their mirror image, the partner (1, −1))
+        var partSat = Sub(Block(lSat, SatelliteIdx), Scale(Identity(2), SatelliteEp.Lambda));
+        var (va, vb) = (partSat[0, 1], -partSat[0, 0]);
+        var coalesced = Zero(Levels);
+        coalesced[0, 1] = va;
+        coalesced[2, 3] = vb;
+        bool coalescedSelfOrthogonal = !(va.IsZero && vb.IsZero) && Eigen(lSat, coalesced, SatelliteEp.Lambda)
+                                       && (va * va + vb * vb).IsZero;
+        GeneratorComplexSymmetric = Equal(Transpose(lSat), lSat);
+        // the satellite part of I_+ starts at R₂′ = 3(J₀ + J₁) whatever the splitting: its Rayleigh quotient
+        var (bj0, bj1, bj2, bq, bw) = BelowEpPoint;
+        var (uj0, uj1, uj2, uq, uw) = AboveEpPoint;
+        var lBelow = Generator(bj0, bj1, bj2, bq, bw).L;
+        var lAbove = Generator(uj0, uj1, uj2, uq, uw).L;
+        var satNorm = Trace(Mul(Adjoint(satellites), satellites));
+        GaussianRational Rayleigh(Mat lx) => Trace(Mul(Adjoint(satellites), Apply(lx, satellites))) / satNorm;
+        // the control: one satellite cell alone carries the full −c₂ and the splitting in its quotient
+        var oneCell = Zero(Levels);
+        oneCell[0, 1] = GaussianRational.One;
+        var oneCellQuotient = Trace(Mul(Adjoint(oneCell), Apply(lSat, oneCell)));
+        InitialSlopeSplittingFree = Rayleigh(l) == new GaussianRational(-3 * (j0 + j1), -omega)
+                                    && Rayleigh(l0) == new GaussianRational(-3 * (j0 + j1), -omega)
+                                    && Rayleigh(lSat) == new GaussianRational(-3 * (sj0 + sj1), -sw)
+                                    && Rayleigh(lBelow) == new GaussianRational(-3 * (bj0 + bj1), -bw)
+                                    && Rayleigh(lAbove) == new GaussianRational(-3 * (uj0 + uj1), -uw)
+                                    && oneCellQuotient != new GaussianRational(-3 * (sj0 + sj1), -sw);
+        // below the satellite EP: two real rates c₂ ∓ Ω, and the weights of the satellite part on them from the
+        // block's spectral projectors (M − λ∓)/(λ± − λ∓), read on s = (1, 1)
+        long c2Below = Spin32QuadrupolarMirrorsClaim.BrightCentre(bj0, bj1, bj2);
+        long omBelow = ExactSqrt(9 * bj2 * bj2 - 4 * bq * bq);
+        BelowEpOmega = omBelow;
+        var lamSlow = new GaussianRational(-c2Below + omBelow, -bw);
+        var lamFast = new GaussianRational(-c2Below - omBelow, -bw);
+        var mBelow = Block(lBelow, SatelliteIdx);
+        GaussianRational OnSum(Mat m) => m[0, 0] + m[0, 1] + m[1, 0] + m[1, 1];
+        var wSlow = OnSum(Sub(mBelow, Scale(Identity(2), lamFast))) / (2 * (lamSlow - lamFast));
+        var wFast = OnSum(Sub(mBelow, Scale(Identity(2), lamSlow))) / (2 * (lamFast - lamSlow));
+        BelowEpWeights = new[] { wSlow, wFast };
+        bool Simple(Mat lx, GaussianRational lam)
+        {
+            var sh = Shift(lx, lam);
+            return Rank(sh) == Dim - 1 && Rank(Mul(sh, sh)) == Dim - 1;
+        }
+        BelowEpTwoRates = Simple(lBelow, lamSlow) && Simple(lBelow, lamFast) && wSlow == new BigRational(4, 3);
+        // the self-orthogonality control: below the point the slow eigenvector of the same pair, a column of
+        // M − λ_fast (whose columns span the slow eigenspace), is not self-orthogonal
+        var (sa, sb) = (mBelow[0, 0] - lamFast, mBelow[1, 0]);
+        EpVectorSelfOrthogonal = coalescedSelfOrthogonal && !(sa.IsZero && sb.IsZero) && !(sa * sa + sb * sb).IsZero;
+        // above it: the two modes at ±Ω′ about the order frame, at neither nominal position ±2q; their separation 2Ω′
+        // against D = 4q and the 4/5 longitudinal rate, read off L as the rate of ZI (the 1/5 rate, IZ's, in its place
+        // fails). Mode frequencies, not the maxima of a spectrum.
+        long c2Above = Spin32QuadrupolarMirrorsClaim.BrightCentre(uj0, uj1, uj2);
+        long omAbove = ExactSqrt(4 * uq * uq - 9 * uj2 * uj2);
+        AboveEpOmega = omAbove;
+        BigRational dOmega = 2 * omAbove, dNom = 4 * uq;
+        AboveEpFrequenciesPulled = Rank(Shift(lAbove, new GaussianRational(-c2Above, -uw + omAbove))) == Dim - 1
+                                   && Rank(Shift(lAbove, new GaussianRational(-c2Above, -uw - omAbove))) == Dim - 1
+                                   && Rank(Shift(lAbove, new GaussianRational(-c2Above, -uw + 2 * uq))) == Dim
+                                   && Rank(Shift(lAbove, new GaussianRational(-c2Above, -uw - 2 * uq))) == Dim
+                                   && RealRateOf(lAbove, zi) is { } r45 && dOmega * dOmega + r45 * r45 == dNom * dNom
+                                   && RealRateOf(lAbove, iz2) is { } r15 && dOmega * dOmega + r15 * r15 != dNom * dNom;
+        // the merging in the rates a measurement reads: where each pair is a Jordan block, the nominal separation 4q meets the
+        // 4/5 rate for the satellites and the 1/5 rate for the double quantum, each read off L
+        EpAtTheLongitudinalRates = SatelliteEp.IsJordanPair && DoubleQuantumEp.IsJordanPair
+                                   && RealRateOf(lSat, zi) is { } sat45 && sat45 == 4 * sq
+                                   && RealRateOf(lSat, iz2) is { } sat15 && sat15 != 4 * sq
+                                   && RealRateOf(lDq, iz2) is { } dq15 && dq15 == 4 * dq
+                                   && RealRateOf(lDq, zi) is { } dq45 && dq45 != 4 * dq;
     }
 
     // ===== the handshake =====
@@ -345,6 +546,92 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     /// <summary>Tr(part†part)/Tr(whole†whole), the weight of an orthogonal part in the decay of the whole.</summary>
     private static GaussianRational Weight(Mat part, Mat whole) =>
         Trace(Mul(Adjoint(part), part)) / Trace(Mul(Adjoint(whole), whole));
+
+    // ===== the bright pairs' exceptional point =====
+
+    private static readonly int[] SatelliteIdx = { 1, 11 };             // |3/2⟩⟨1/2|, |−1/2⟩⟨−3/2| (vec index 4i + j)
+    private static readonly int[] DoubleQuantumIdx = { 2, 7 };          // |3/2⟩⟨−1/2|, |1/2⟩⟨−3/2|
+    private static readonly int[] SatelliteWithCentralIdx = { 1, 6 };   // the control: |3/2⟩⟨1/2| with |1/2⟩⟨−1/2|
+
+    /// <summary>Whether the cells span an L-invariant subspace: no column of a cell has an entry outside the cells.</summary>
+    private static bool Closed(Mat l, int[] idx)
+    {
+        foreach (int c in idx)
+            for (int r = 0; r < Dim; r++)
+                if (Array.IndexOf(idx, r) < 0 && !l[r, c].IsZero) return false;
+        return true;
+    }
+
+    private static Mat Block(Mat l, int[] idx)
+    {
+        var b = Zero(idx.Length);
+        for (int a = 0; a < idx.Length; a++)
+            for (int c = 0; c < idx.Length; c++) b[a, c] = l[idx[a], idx[c]];
+        return b;
+    }
+
+    /// <summary>(tr M)² − 4·det M of a 2 × 2 block, zero exactly where its two eigenvalues meet.</summary>
+    private static GaussianRational Disc2(Mat m)
+    {
+        var tr = m[0, 0] + m[1, 1];
+        return tr * tr - 4 * (m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]);
+    }
+
+    private static Mat Shift(Mat l, GaussianRational lambda) => Sub(l, Scale(Identity(l.GetLength(0)), lambda));
+
+    /// <summary>The Jordan reading at any point, for the tests that feed it points where the pair is NOT at its
+    /// exceptional point and watch it fail.</summary>
+    internal EpReading ReadEpAt((long J0, long J1, long J2, long Q, long Omega) pt, int order) =>
+        ReadEp(Generator(pt.J0, pt.J1, pt.J2, pt.Q, pt.Omega).L, pt, order);
+
+    private EpReading ReadEp(Mat l, (long J0, long J1, long J2, long Q, long Omega) pt, int order)
+    {
+        var lambda = new GaussianRational(-Spin32QuadrupolarMirrorsClaim.BrightCentre(pt.J0, pt.J1, pt.J2), -order * pt.Omega);
+        var part = Shift(Block(l, order == 1 ? SatelliteIdx : DoubleQuantumIdx), lambda);
+        var a = Shift(l, lambda);
+        var a2 = Mul(a, a);
+        int RankOffBy(long step) => Rank(Shift(Generator(pt.J0, pt.J1, pt.J2, pt.Q + step, pt.Omega).L, lambda));
+        return new EpReading(pt.J0, pt.J1, pt.J2, pt.Q, pt.Omega, order, lambda, !IsZero(part), IsZero(Mul(part, part)),
+            Rank(a), Rank(a2), Rank(Mul(a2, a)), RankOffBy(-1), RankOffBy(1));
+    }
+
+    /// <summary>r with L(op) = −r·op for a real r, read off the first non-zero entry of op and checked on every
+    /// entry; null when op is no eigenoperator at a real rate.</summary>
+    private static BigRational? RealRateOf(Mat super, Mat op)
+    {
+        var image = Apply(super, op);
+        for (int i = 0; i < Levels; i++)
+            for (int j = 0; j < Levels; j++)
+                if (!op[i, j].IsZero)
+                {
+                    var lambda = image[i, j] / op[i, j];
+                    return lambda.Im.IsZero && Equal(image, Scale(op, lambda)) ? -lambda.Re : null;
+                }
+        return null;
+    }
+
+    /// <summary>√v for a perfect square v ≥ 0; the gate-6 points are chosen so, anything else throws.</summary>
+    private static long ExactSqrt(long v)
+    {
+        if (v < 0) throw new InvalidOperationException($"{v} < 0 has no real square root");
+        var r = (long)ISqrt(v);
+        return r * r == v ? r : throw new InvalidOperationException($"{v} is not a perfect square");
+    }
+
+    /// <summary>Where a bright pair stands, from its discriminant read off the generator (real for real inputs).</summary>
+    private static string Regime(Mat block)
+    {
+        var disc = Disc2(block);
+        bool coupled = !block[0, 1].IsZero;
+        return !disc.Im.IsZero ? "with a complex discriminant (NOT expected for real inputs)"
+            : disc.Re.Sign > 0 ? "below its exceptional point (two real rates about the bright centre)"
+            : disc.Re.Sign < 0 ? (coupled ? "past its exceptional point (two mode frequencies on one width c₂)" : "uncoupled (two detuned cells, no exceptional point at this density zero)")
+            : coupled ? "on its exceptional point (a 2 × 2 Jordan block)" : "a scalar (no coupling and no splitting: diabolic)";
+    }
+
+    /// <summary>The exact generator at a point, for a caller that reads it with another instrument (the tests read
+    /// the exceptional point once more with <c>EpCharacter</c>, numerically).</summary>
+    public GaussianRational[,] GeneratorMatrix(long j0, long j1, long j2, long q, long omega) => Generator(j0, j1, j2, q, omega).L;
 
     // ===== the generator =====
 
@@ -704,7 +991,15 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"{Points.Count(p => !p.Rule)} breaking fixed points and at the user point, route A (F158's kernels) and route B (χ) " +
         $"{Verdict(TheoremHolds, "agreeing with it and with each other", "DISAGREEING")}; at the user point the spectrum " +
         $"{(UserPoint.CharpolySymmetric ? "has" : "has no")} global centre −s, 2s = {UserPoint.TwoS}; the handshake with NMR " +
-        $"{Verdict(HandshakeHolds, "holds (the textbook parts of I_z and I_+ are eigenoperators at the textbook rates)", "FAILS")}.";
+        $"{Verdict(HandshakeHolds, "holds (the textbook parts of I_z and I_+ are eigenoperators at the textbook rates)", "FAILS")}; " +
+        $"the bright pairs' exceptional point {Verdict(ExceptionalPointHolds, "holds (the satellites and the double quantum each a 2 × 2 Jordan block on Re λ = −c₂, at 2q = 3J₂ and at 2q = 3J₁ respectively, the density non-zero; the scalar control semisimple)", "FAILS")}, " +
+        $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}.";
+
+    private static string Show(EpReading e, string name, string condition) =>
+        $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
+        $"{(e.PartNonZero ? "non-zero" : "ZERO")} with N² {(e.PartSquaresToZero ? "= 0" : "≠ 0")}, geometric multiplicity {e.Geometric} and " +
+        $"algebraic {e.Algebraic} in L (ranks {e.Rank1}, {e.Rank2}, {e.Rank3}), and one step off in q no eigenvalue there (ranks " +
+        $"{e.RankStepDown}, {e.RankStepUp}): {(e.IsJordanPair ? "a 2 × 2 Jordan block" : "NOT a Jordan pair")}";
 
     private static string Show(CentrePoint p) =>
         $"(J₀, J₁, J₂, q, ω) = ({p.J0}, {p.J1}, {p.J2}, {p.Q}, {p.Omega}), 2s = {p.TwoS}: rule {(p.Rule ? "pairs" : "breaks")}, " +
@@ -768,6 +1063,24 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"{Verdict(PopulationsPairAboutDarkCentre, "at −2c₁, the partner of equilibrium about −c₁, as the two T₁ modes are partners", "NOT at −2c₁")}; extreme narrowing " +
                          $"{Verdict(ExtremeNarrowingOneRate, "gives one rate", "does NOT give one rate")}; R₂′ − R₂″ = 3(J₀ − J₂) = (c₂ − c₁) − 3J₂ (arithmetic); " +
                          $"at ω_Q = 0 the satellites' mirror image −S(satellites)† {Verdict(SatellitePartnerOnBrightMirror, $"is the rank-2 coherence T₂,₁, orthogonal to I_+, and sits at 2c₂ − 3(J₀ + J₁) = {3 * (J0 + J1 + 2 * J2)}, the satellites' partner about −c₂", "is NOT T₂,₁ at its rate as stated")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the bright pairs' exceptional point",
+                summary: $"the satellites (|3/2⟩⟨1/2|, |−1/2⟩⟨−3/2|) and the double quantum (|3/2⟩⟨−1/2|, |1/2⟩⟨−3/2|) " +
+                         $"{Verdict(BrightPairsClosed, "are closed 2 × 2 blocks (a satellite with the central transition is not)", "are NOT closed as stated")}, " +
+                         $"their traces {Verdict(BrightPairTracesHold, "are −2c₂ − 2ip·ω at the user point, the two rates of a pair summing to 2c₂ there (at every splitting in the verifier's symbolic blocks)", "are NOT −2c₂ − 2ip·ω")}, " +
+                         $"their discriminants {Verdict(BrightPairDiscriminantsHold, "are 4(9J₂² − 4q²) and 4(9J₁² − 4q²) (the swapped assignment fails)", "are NOT as stated")}; " +
+                         $"at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}; " +
+                         $"ON the exceptional point: {Show(SatelliteEp, "satellites", $"2q = 3J₂ {(2 * SatelliteEp.Q == 3 * SatelliteEp.J2 ? "there" : "NOT there")}")}; " +
+                         $"{Show(DoubleQuantumEp, "double quantum", $"2q = 3J₁ {(2 * DoubleQuantumEp.Q == 3 * DoubleQuantumEp.J1 ? "there" : "NOT there")}")}; " +
+                         $"the control at {DiabolicPoint}, J₂ = q = 0, {Verdict(DiabolicControlSemisimple, "is a scalar block and semisimple in L (ranks 14, 14)", "is NOT semisimple as stated")}; " +
+                         $"the coalesced vector {Verdict(EpVectorSelfOrthogonal, "is self-orthogonal, vᵀv = 0 (with two components: as much on the satellites' sum as on their mirror image), the pair's slow eigenvector below the point not", "is NOT as stated")}" +
+                         $"{(GeneratorComplexSymmetric ? " (L is complex symmetric in the cell basis)" : " (L is NOT complex symmetric in the cell basis)")}; " +
+                         $"the satellite part of I_+ {Verdict(InitialSlopeSplittingFree, "starts at R₂′ = 3(J₀ + J₁) at each of the five splittings read (every splitting in the verifier's symbolic series), one satellite cell alone not", "does NOT start at R₂′")}, " +
+                         $"below the exceptional point at {BelowEpPoint} {Verdict(BelowEpTwoRates, $"decays at the two rates c₂ ∓ {BelowEpOmega} with the weights {string.Join(" and ", BelowEpWeights)}", "does NOT decay as stated")}, " +
+                         $"above it at {AboveEpPoint} {Verdict(AboveEpFrequenciesPulled, $"has its two modes at ±{AboveEpOmega} about the order frame and at neither ±2q = ±{2 * AboveEpPoint.Q}, with D_ω² + R₁(4/5)² = D² for D = 4q and R₁(4/5) the rate of ZI read off L, the 1/5 rate failing in its place (mode frequencies, not line positions)", "is NOT as stated")}; " +
+                         $"the merging {Verdict(EpAtTheLongitudinalRates, "sits where the nominal separation 4q equals the 4/5 longitudinal rate (satellites) or the 1/5 one (double quantum), both read off L", "is NOT at the longitudinal rates")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(
