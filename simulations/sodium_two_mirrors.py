@@ -75,7 +75,13 @@ Checks:
   - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
     lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
     reflections at a vanishing density; and sixteen exact points, both outcomes, each by the identity at the
-    point and by F158's end count dim ker L = dim ker(L + 2s) as a second route.
+    point and by F158's end count dim ker L = dim ker(L + 2s) as a second route;
+  - a spin-lock: the central transition's part of Ix keeps both mirrors, the whole field breaks them at generic
+    rates; at extreme narrowing the dissipator is one number on each rank; the global centre's element under a lock;
+  - the irreducible tensors in strings: the sixteen T_{l,p} against the page's table, ranks 1 and 3 as the ten
+    products of two Dirac strings, ten eigenoperators at wQ = 0 (any offset, under the shift; four with a
+    splitting) and six turned between two string classes by Hubbard's weights, the rank-3 content of e^{Lt}·T_{1,1},
+    S on the tensors, the order filters' string spans, and the magic angle's rank-3 null.
 
 Import-inert; prints only, and exits with status 1 if any check fails.
 """
@@ -360,6 +366,214 @@ def split_centre_points(P, syms):
         g = sp.gcd(g, f)
     rest_empty &= g.degree() == 0
     return points, rest_empty
+
+
+def tensor_dictionary(L, syms):
+    """The sixteen irreducible tensors T_{l,p} in Pauli strings, against the generator's string classes."""
+    print("\nthe irreducible tensors in strings")
+    J0, J1, J2, wQ, w = syms
+    R = sp.Rational
+    t = sp.symbols("t", positive=True)
+    ms, Iz, Tj = spin_ops(R(3, 2))
+    d = 4
+    Ip = sp.zeros(d)
+    for k in range(1, d):
+        Ip[k - 1, k] = sp.sqrt(R(15, 4) - ms[k] * (ms[k] + 1))
+    Im = Ip.T
+    Ix, Iy = (Ip + Im) / 2, (Ip - Im) / (2 * sp.I)
+    cm = lambda A, B: A * B - B * A
+    ip = lambda A, B: sp.simplify((A.H * B).trace())
+    zero = lambda M: M.applyfunc(sp.simplify).is_zero_matrix
+    # T_{l,l} ∝ I+^l, lowered by [I-, ·]; normalized to Tr(T†T) = 1
+    Tl = {}
+    for l in range(4):
+        top = Ip ** l
+        Tl[(l, l)] = top / sp.sqrt(ip(top, top))
+        for p in range(l, -l, -1):
+            Tl[(l, p - 1)] = (cm(Im, Tl[(l, p)]) / sp.sqrt((l + p) * (l - p + 1))).applyfunc(sp.simplify)
+    claim("the sixteen T_{l,p} built by the lowering ladder are orthonormal, carry rank l (Casimir l(l + 1)) and order p",
+          all(zero(cm(Ix, cm(Ix, M)) + cm(Iy, cm(Iy, M)) + cm(Iz, cm(Iz, M)) - l * (l + 1) * M) and zero(cm(Iz, M) - p * M)
+              for (l, p), M in Tl.items())
+          and all(ip(Tl[a], Tl[b]) == (1 if a == b else 0) for a in Tl for b in Tl))
+
+    claim("at rank 2 the ladder's tensors are the Conventions' T_{2,m} normalized (the ladder's phases and Condon-Shortley's "
+          "agree there, (-1)^l = 1)",
+          all(ip(Tj[m], Tj[m]) == 6 and zero(Tl[(2, m)] - Tj[m] / sp.sqrt(6)) for m in range(-2, 3)))
+
+    P1 = {"I": sp.eye(2), "X": sp.Matrix([[0, 1], [1, 0]]), "Y": sp.Matrix([[0, -sp.I], [sp.I, 0]]), "Z": sp.diag(1, -1)}
+    St = {a + b: sp.kronecker_product(P1[a], P1[b]) for a in "IXYZ" for b in "IXYZ"}
+    gam = ["ZZ", "ZX", "ZY", "XI", "YI"]
+    biv = [k for k in St if k != "II" and k not in gam]
+
+    def same_span(A, B):
+        vA = sp.Matrix.hstack(*[M.reshape(d * d, 1) for M in A])
+        vB = sp.Matrix.hstack(*[M.reshape(d * d, 1) for M in B])
+        return vA.rank(simplify=True) == vB.rank(simplify=True) == sp.Matrix.hstack(vA, vB).rank(simplify=True)
+    claim("rank 0 is II, rank 2 spans the five Dirac strings ZZ, ZX, ZY, XI, YI, and ranks 1 and 3 together span the "
+          "ten remaining strings, the products of two Dirac strings; rank 1 alone and rank 3 alone are the span of no set of "
+          "strings: of the ten, none lies in rank 1 (dimension 3) and two, XZ and YZ, in rank 3 (dimension 7)",
+          same_span([Tl[(0, 0)]], [St["II"]]) and same_span([Tl[(2, p)] for p in range(-2, 3)], [St[k] for k in gam])
+          and same_span([Tl[(l, p)] for l in (1, 3) for p in range(-l, l + 1)], [St[k] for k in biv])
+          and {l: sorted(k for k in biv if sum(sp.Abs(ip(Tl[(l, p)], St[k])) ** 2 for p in range(-l, l + 1)) == 4)
+               for l in (1, 3)} == {1: [], 3: ["XZ", "YZ"]})
+
+    s3 = sp.sqrt(3)
+    ct = lambda sg: St["XX"] + St["YY"] + sg * sp.I * (St["YX"] - St["XY"])
+    table = {(0, 0): St["II"], (1, 0): 2 * St["ZI"] + St["IZ"], (2, 0): St["ZZ"], (3, 0): 2 * St["IZ"] - St["ZI"]}
+    for sg in (1, -1):
+        table[(1, sg)] = s3 * (St["IX"] + sg * sp.I * St["IY"]) + ct(sg)
+        table[(3, sg)] = 2 * (St["IX"] + sg * sp.I * St["IY"]) - s3 * ct(sg)
+        table[(2, sg)] = St["ZX"] + sg * sp.I * St["ZY"]
+        table[(2, 2 * sg)] = St["XI"] + sg * sp.I * St["YI"]
+        table[(3, 2 * sg)] = St["XZ"] + sg * sp.I * St["YZ"]
+        table[(3, 3 * sg)] = St["XX"] - St["YY"] + sg * sp.I * (St["XY"] + St["YX"])
+
+    def proportional(A, B):
+        v, u = A.reshape(d * d, 1), B.reshape(d * d, 1)
+        return sp.Matrix.hstack(v, u).rank(simplify=True) == 1
+    claim("the page's table: each T_{l,p} is proportional to its string combination (sixteen rows), and a row with the "
+          "rank-1 and rank-3 weights at order 1 swapped is not",
+          len(table) == 16 and all(proportional(Tl[k], M) for k, M in table.items())
+          and not proportional(Tl[(1, 1)], 2 * (St["IX"] + sp.I * St["IY"]) - s3 * ct(1)))
+
+    L0 = L.subs({wQ: 0, w: 0})
+    vec = lambda M: M.reshape(d * d, 1)
+
+    def rate(M):
+        v, m = L0 * vec(M), vec(M)
+        k = next(i for i in range(d * d) if m[i] != 0)
+        lam = sp.simplify(v[k] / m[k])
+        return lam if zero(v - lam * m) else None
+    eigen = {(0, 0): 0, (2, 0): -6 * (J1 + J2), (2, 1): -3 * (J0 + J1 + 2 * J2), (2, -1): -3 * (J0 + J1 + 2 * J2),
+             (2, 2): -3 * (J0 + 2 * J1 + J2), (2, -2): -3 * (J0 + 2 * J1 + J2),
+             (3, 2): -3 * (J0 + J2), (3, -2): -3 * (J0 + J2), (3, 3): -3 * (J1 + J2), (3, -3): -3 * (J1 + J2)}
+    claim("at wQ = w = 0 ten of the sixteen are eigenoperators of the generator with the string classes' rates (rank 0, "
+          "all of rank 2, rank 3 at |p| = 2, 3); the six T_{1,p}, T_{3,p} with |p| <= 1 are not",
+          all(rate(Tl[k]) is not None and sp.expand(rate(Tl[k]) - r) == 0 for k, r in eigen.items())
+          and all(rate(Tl[(l, p)]) is None for l in (1, 3) for p in (-1, 0, 1)))
+
+    def split(M, keys):
+        A = sum((ip(St[k], M) / 4 * St[k] for k in keys), sp.zeros(d))
+        return A, M - A
+    sat_keys, pop_keys = ("IX", "IY"), ("ZI",)
+    weights = {}
+    for (l, p) in [(1, 0), (3, 0), (1, 1), (3, 1), (1, -1), (3, -1)]:
+        A, B = split(Tl[(l, p)], pop_keys if p == 0 else sat_keys)
+        weights[(l, p)] = (ip(A, A), ip(B, B), rate(A), rate(B))
+    claim("each of the six is a turn of two string classes: T_{1,0} = 4/5 on ZI (6J2) + 1/5 on IZ (6J1) and T_{3,0} the "
+          "other way round; T_{1,±1} = 3/5 on the satellites (3(J0 + J1)) + 2/5 on the central transition (c1), T_{3,±1} "
+          "the other way round (squared norms)",
+          sp.expand(weights[(1, 0)][2] + 6 * J2) == 0 and sp.expand(weights[(1, 0)][3] + 6 * J1) == 0
+          and weights[(1, 0)][:2] == (R(4, 5), R(1, 5)) and weights[(3, 0)][:2] == (R(1, 5), R(4, 5))
+          and all(weights[(1, p)][:2] == (R(3, 5), R(2, 5)) and weights[(3, p)][:2] == (R(2, 5), R(3, 5))
+                  and sp.expand(weights[(1, p)][2] + 3 * (J0 + J1)) == 0 and sp.expand(weights[(1, p)][3] + 3 * (J1 + J2)) == 0
+                  for p in (1, -1)))
+
+    sat, ct = split(Tl[(1, 1)], sat_keys)
+    f13 = sp.simplify(ip(Tl[(3, 1)], sat) * sp.exp(rate(sat) * t) + ip(Tl[(3, 1)], ct) * sp.exp(rate(ct) * t))
+    claim("the rank-3 content of e^{Lt}·T_{1,1} at wQ = w = 0 is (sqrt6/5)·(e^{-3(J0 + J1)t} - e^{-c1·t}) in the ladder's phases: zero at t = 0, "
+          "and identically zero exactly when J0 = J2, where the satellites' rate meets the dark centre",
+          sp.simplify(f13 - sp.sqrt(6) / 5 * (sp.exp(-3 * (J0 + J1) * t) - sp.exp(-3 * (J1 + J2) * t))) == 0
+          and sp.simplify(f13.subs(J0, J2)) == 0 and sp.simplify(f13.subs({J0: 1, J1: 1, J2: 2, t: 1})) != 0)
+
+    S = lambda X: sp.diag(1, -1, -1, 1) * X.T
+    coef = lambda M: {k: ip(Tl[k], M) for k in Tl if ip(Tl[k], M) != 0}
+    claim("the one map S(X) = Gamma0·X^T on the tensors: T_{0,0} <-> T_{2,0} (equilibrium and quadrupolar order), "
+          "T_{2,±2} -> ±T_{3,∓2} and back (the double quanta of rank 2 and 3 are each other's mirror image, rates summing "
+          "to 2c2), T_{3,±3} -> -T_{3,∓3}; on (T_{1,0}, T_{3,0}) the reflection [[4/5, 3/5], [3/5, -4/5]]",
+          coef(S(Tl[(0, 0)])) == {(2, 0): 1} and coef(S(Tl[(2, 0)])) == {(0, 0): 1}
+          and coef(S(Tl[(2, 2)])) == {(3, -2): 1} and coef(S(Tl[(2, -2)])) == {(3, 2): -1}
+          and coef(S(Tl[(3, 2)])) == {(2, -2): 1} and coef(S(Tl[(3, -2)])) == {(2, 2): -1}
+          and coef(S(Tl[(3, 3)])) == {(3, -3): -1} and coef(S(Tl[(3, -3)])) == {(3, 3): -1}
+          and coef(S(Tl[(1, 0)])) == {(1, 0): R(4, 5), (3, 0): R(3, 5)}
+          and coef(S(Tl[(3, 0)])) == {(1, 0): R(3, 5), (3, 0): R(-4, 5)}
+          and sp.expand(eigen[(2, 2)] + eigen[(3, 2)] + 6 * (J0 + J1 + J2)) == 0)
+
+    claim("S at order 1 mixes ranks 1, 2 and 3: S(T_{1,1}) = (2/5)·T_{1,-1} - (sqrt15/5)·T_{2,-1} - (sqrt6/5)·T_{3,-1}; and the "
+          "double quanta of rank 2 and 3 are the sum and the difference of the pair's two cells |3/2><-1/2|, |1/2><-3/2|",
+          coef(S(Tl[(1, 1)])) == {(1, -1): R(2, 5), (2, -1): -sp.sqrt(15) / 5, (3, -1): -sp.sqrt(6) / 5}
+          and proportional(Tl[(2, 2)], sp.Matrix(4, 4, lambda a, b: 1 if (a, b) in ((0, 2), (1, 3)) else 0))
+          and proportional(Tl[(3, 2)], sp.Matrix(4, 4, lambda a, b: {(0, 2): -1, (1, 3): 1}.get((a, b), 0))))
+
+    Lw = L.subs({wQ: 0})
+    Lq = L.subs({w: 0})
+
+    def value_at(Lx, M):
+        """The eigenvalue of M under Lx, or None when M is no eigenoperator."""
+        v, m = Lx * vec(M), vec(M)
+        k = next(i for i in range(d * d) if m[i] != 0)
+        lam = sp.simplify(v[k] / m[k])
+        return lam if zero(v - lam * m) else None
+    claim("at wQ = 0 and any offset the same ten are eigenoperators, at the rate less i·p·w, and the six are not; with a "
+          "splitting only T_{0,0}, T_{2,0} and T_{3,±3} stay eigenoperators",
+          all(value_at(Lw, Tl[k]) is not None and sp.expand(value_at(Lw, Tl[k]) - r + sp.I * k[1] * w) == 0
+              for k, r in eigen.items())
+          and all(value_at(Lw, Tl[(l, p)]) is None for l in (1, 3) for p in (-1, 0, 1))
+          and {k for k in Tl if value_at(Lq, Tl[k]) is not None} == {(0, 0), (2, 0), (3, 3), (3, -3)})
+
+    Kp1, Kp2 = sp.symbols("K1 K2", real=True)
+    unvec = lambda v: v.reshape(d, d)
+    HLS = (Kp1 * (Tj[1].H * Tj[1] - Tj[-1].H * Tj[-1]) + Kp2 * (Tj[2].H * Tj[2] - Tj[-2].H * Tj[-2])).applyfunc(sp.simplify)
+    ad = lambda Hx, M: (Hx * M - M * Hx).applyfunc(sp.simplify)
+
+    def freq(M):
+        A = ad(HLS, M)
+        k = next((a, b) for a in range(d) for b in range(d) if M[a, b] != 0)
+        f = sp.simplify(A[k] / M[k])
+        return f if zero(A - f * M) else None
+    sat11, ct11 = split(Tl[(1, 1)], sat_keys)
+    turned_parts = [split(Tl[(l, p)], sat_keys) for l in (1, 3) for p in (1, -1)]
+    claim("the dynamic frequency shift keeps all ten: the Lamb-shift Hamiltonian gives each of them one frequency on all "
+          "its cells; in the four at |p| = 1 it moves the satellite part (-6K1) against the central transition (6(K1 - K2)), "
+          "and the two at order 0 it leaves still",
+          all(freq(Tl[k]) is not None for k in eigen)
+          and all(freq(a_) is not None and freq(b_) is not None and sp.expand(freq(a_) - freq(b_)) != 0
+                  and sp.expand(sp.Abs(freq(a_)) - sp.Abs(freq(sat11))) == 0 for a_, b_ in turned_parts)
+          and sp.expand(freq(sat11) + 6 * Kp1) == 0 and sp.expand(freq(ct11) - 6 * (Kp1 - Kp2)) == 0
+          and all(freq(Tl[(l, p)]) is None for l in (1, 3) for p in (1, -1)) and freq(Tl[(1, 0)]) == 0 and freq(Tl[(3, 0)]) == 0)
+
+    fed = ad(Tj[0], Tl[(2, 1)])
+    span3 = lambda *Ms: sp.Matrix.hstack(*[vec(M) for M in Ms]).rank(simplify=True)
+    claim("the splitting carries T_{2,1} onto the satellite direction, the part of T_{1,1} and T_{3,1} on IX, IY, which it "
+          "meets in both ranks; relaxation alone keeps T_{1,1} inside span(T_{1,1}, T_{3,1}), so it reaches rank 3 and "
+          "not rank 2",
+          span3(fed, sat11) == 1 and ip(Tl[(1, 1)], fed) != 0 and ip(Tl[(3, 1)], fed) != 0
+          and span3(Tl[(1, 1)], Tl[(3, 1)], L0 * vec(Tl[(1, 1)])) == 2
+          and ip(Tl[(2, 1)], unvec(L0 * vec(Tl[(1, 1)]))) == 0)
+
+    def cells_of(ks):
+        return [(a, b) for a in range(d) for b in range(d) if abs(ms[a] - ms[b]) in ks]
+    inside = lambda ks: [k for k, M in St.items()
+                         if all((a, b) in cells_of(ks) for a in range(d) for b in range(d) if M[a, b] != 0)]
+    claim("an order filter projects onto a span of strings exactly at p = 0 (II, IZ, ZI, ZZ) and |p| = 2 (XI, YI, XZ, YZ): "
+          "there the strings inside fill the order space; at |p| = 1 four strings for six cells, at |p| = 3 none for two",
+          sorted(inside({0})) == ["II", "IZ", "ZI", "ZZ"] and sorted(inside({2})) == ["XI", "XZ", "YI", "YZ"]
+          and len(cells_of({1})) == 6 and sorted(inside({1})) == ["IX", "IY", "ZX", "ZY"]
+          and len(cells_of({3})) == 2 and inside({3}) == [])
+
+    from sympy.physics.quantum.spin import Rotation
+    beta = sp.symbols("beta", real=True)
+    dW = lambda j, m, mp: sp.simplify(Rotation.d(j, m, mp, beta).doit())
+    magic = sp.acos(1 / sp.sqrt(3))
+    combos = lambda j: [sp.simplify(sp.expand_trig(dW(j, 2, 1) + sg * dW(j, 2, -1))) for sg in (1, -1)]
+    claim("the magic angle: a rotation by beta = arccos(1/sqrt3) carries no rank-3 coherence between the orders ±1 and ±2 in "
+          "the combination d3_{2,1} - d3_{2,-1} (a multiple of sin(beta)(3cos²beta - 1), sympy's convention for d), while "
+          "d3_{2,1} + d3_{2,-1} and neither rank-2 combination vanishes there",
+          sp.simplify(combos(3)[1].subs(beta, magic)) == 0 and sp.simplify(combos(3)[0].subs(beta, magic)) != 0
+          and not sp.simplify(combos(3)[1] / (sp.sin(beta) * (3 * sp.cos(beta) ** 2 - 1))).free_symbols
+          and all(sp.simplify(c.subs(beta, magic)) != 0 for c in combos(2)))
+
+    xx_yy = St["XX"] + St["YY"]
+    xx_my = St["XX"] - St["YY"]
+    order = lambda M: {p for p in range(-3, 4) for a in range(d) for b in range(d) if M[a, b] != 0 and ms[a] - ms[b] == p}
+    popc = lambda M: {bin(a).count("1") - bin(b).count("1") for a in range(d) for b in range(d) if M[a, b] != 0}
+    claim("coherence order is not a property of one string: XX holds p = ±1 and ±3; XX + YY is the central transition "
+          "(p = ±1), XX - YY the triple quantum (p = ±3), both in one string class at c1, so a triple-quantum filter splits "
+          "what the watching does not; and p is not the qubit popcount difference (the triple quantum's is ±2, the central "
+          "transition's 0)",
+          order(St["XX"]) == {-3, -1, 1, 3} and order(xx_yy) == {-1, 1} and order(xx_my) == {-3, 3}
+          and sp.expand(rate(xx_yy) + 3 * (J1 + J2)) == 0 and sp.expand(rate(xx_my) + 3 * (J1 + J2)) == 0
+          and popc(xx_my) == {-2, 2} and popc(xx_yy) == {0})
 
 
 def build():
@@ -1409,6 +1623,8 @@ def main():
           and sp.simplify(coef(yi_) - sp.sqrt(3) * sp.I * (3 * Kp2 - w)) == 0
           and sp.simplify(coef(yz_) + 3 * sp.sqrt(2) / 2 * sp.I * wQ) == 0
           and all(coef(A_) == 0 for A_ in strings if A_ != yi_ and A_ != yz_))
+
+    tensor_dictionary(L, (J0, J1, J2, wQ, w))
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")

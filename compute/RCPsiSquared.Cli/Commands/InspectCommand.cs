@@ -1094,7 +1094,7 @@ public static class InspectCommand
             "bright pairs' exceptional point (the satellites and the double quantum each a 2 × 2 Jordan block, at 2q = 3J₂ and at " +
             "2q = 3J₁ respectively with the density non-zero, by exact ranks beside a scalar control, and the satellite signal around " +
             "it in the rates a measurement reads); and the dynamic frequency shift (both mirrors and the exceptional point kept, " +
-            "the global centre in the shifted frame); and a spin-lock (the central-transition part keeps both mirrors, the whole field breaks them at generic rates, read at points by the verifier). Optional integers --J0 --J1 --J2 " +
+            "the global centre in the shifted frame); and a spin-lock (the central-transition part keeps both mirrors, the whole field breaks them at generic rates, read at points by the verifier); and the irreducible tensors in strings (ten eigenoperators, six turned between two string classes, the one map on the tensors). Optional integers --J0 --J1 --J2 " +
             "--q --omega (defaults 1, 2, 3, 1, 1) (typed: Spin32QuadrupolarMirrorsClaim; experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md)",
             c => new SodiumTwoMirrorsWitness(
                 c.Parser.HasFlag("J0") ? c.Parser.RequireInt("J0") : 1,

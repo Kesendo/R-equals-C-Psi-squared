@@ -230,6 +230,17 @@ public class SodiumTwoMirrorsWitnessTests
     }
 
     [Fact]
+    public void TensorDictionary_SixteenRows_TenEigenoperators_SixTurned_PathMirrorAndOrder()
+    {
+        Assert.True(Default.TensorRowsHold);          // rank and order of each row from the spin matrices; rank-3 row as rank 1 fails
+        Assert.True(Default.TensorBasesTurned);       // ten eigenoperators; 4/5 : 1/5 and 3/5 : 2/5 on two string classes
+        Assert.True(Default.TripleQuantumPathHolds);  // squared overlap 6/25 with T₁,₁'s satellite part; the CT part's is its negative by orthogonality
+        Assert.True(Default.MirrorOnTensorsHolds);    // S on the tensors, the order-0 reflection
+        Assert.True(Default.OrderSplitsAStringClass); // XX ± YY: orders ±1 and ±3, one rate c₁
+        Assert.True(Default.TensorDictionaryHolds);
+    }
+
+    [Fact]
     public void SpinLock_GlobalCentre_OnlyJ1_AtTheDoubleQuantaResonance_BothRoutesAgainstLiterals()
     {
         // only J₁ at q = 0, ω = 3K₂ pairs (twice, once with K₁ off the satellites' resonance), and at ω = 0 unshifted;

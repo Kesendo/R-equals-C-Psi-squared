@@ -11025,6 +11025,20 @@ lock's axis; [H, E] = √3·i(3K₂ − ω)·YI − √3·i·q·YZ, so E commute
 q = 0 and ω = 3K₂: one centre there where J₀ = J₂ = 0, the "only" read at the witness's
 ten points, not proven.
 
+**The irreducible tensors in strings (spin 3/2).** Rank 0 is II, rank 2 the five Dirac
+strings (Clifford grade 1), ranks 1 and 3 together the ten products of two (grade 2) (T₁,₀ ∝ 2·ZI + IZ,
+T₃,₀ ∝ 2·IZ − ZI, T₃,±₂ ∝ XZ ± i·YZ, T₃,±₃ ∝ (XX − YY) ± i·(XY + YX)). At ω_Q = 0 ten of
+the sixteen tensors are eigenoperators (rank 0, rank 2, rank 3 at |p| = 2, 3, at any offset
+and under the dynamic shift; a splitting leaves T₀,₀, T₂,₀, T₃,±₃); the six
+rank-1 and rank-3 tensors at |p| ≤ 1 are turned between two string classes, 4/5 : 1/5 on
+ZI, IZ and 3/5 : 2/5 on the satellites and the central transition, Hubbard's NMR relaxation
+weights. The
+rank-3 content of e^{Lt}·T₁,₁ at ω_Q = ω = 0, in the ladder's phases, is (√6/5)(e^{−3(J₀ + J₁)t} − e^{−c₁t}), identically zero exactly
+when J₀ = J₂; S carries T₂,±₂ onto T₃,∓₂, the double quanta of rank 2 and 3 being mirror
+partners about −c₂; the order p is not a property of one string (XX + YY at ±1, XX − YY
+at ±3, one rate c₁), so a filter keeping the order pair ±p projects onto a span of strings
+only at p = 0 and |p| = 2; nor is p the popcount difference of the qubits.
+
 **Beyond spin 3/2.**
 - At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror: the cells of
   price 0 and of the top price do not occur equally often (proved).
@@ -11107,7 +11121,11 @@ moves at one point, the closed form of the shift from the spin
 matrices, the satellites' Jordan block at the shifted eigenvalue, and the shifted global-centre rule
 on both routes, the kernel dimensions and the characteristic polynomial, at eleven points),
 and a spin-lock (the split of I_x from the spin matrices, the mirror and the sectors with
-each part at one point, the lock's global centre on both routes at ten points). The
+each part at one point, the lock's global centre on both routes at ten points), and the
+irreducible tensors in strings (the sixteen rows read for rank and order off the spin
+matrices, ten eigenoperators and six turned with their weights, the triple-quantum
+path's squared overlap 6/25 as a consistency reading of the weights, the one map on the tensors up to factors, the order filters'
+string spans). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11117,7 +11135,7 @@ similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
 the verifier's parameters and, in its tests, at six further points. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-157 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
+172 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, the

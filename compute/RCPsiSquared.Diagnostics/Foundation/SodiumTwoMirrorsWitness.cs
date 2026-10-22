@@ -52,7 +52,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// on both routes, the kernel dimensions and the characteristic polynomial, at eleven points; and a spin-lock (gate 8): the
 /// split of I_x into its central-transition and satellite parts read off the spin matrices, the mirror identity and the
 /// sectors kept by the central-transition part and broken by the satellite part at one point, and the global centre under
-/// a lock on both routes at ten points (integer mixtures of the two parts; the spectral break is the verifier's). These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// a lock on both routes at ten points (integer mixtures of the two parts; the spectral break is the verifier's); and the
+/// irreducible tensors in strings (gate 9, at <see cref="TensorPoint"/>): the page's sixteen rows read for rank and order
+/// off the spin matrices, the ten that are eigenoperators and the six turned between two string classes with their
+/// weights, the triple-quantum path's two equal and opposite overlaps, the one map on the tensors, and one string class
+/// split by the order. These are statements on eigenvalues, not on the lines of a spectrum; which come
 /// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
@@ -332,6 +336,36 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     public IReadOnlyList<LockCentreReading> LockCentreReadings { get; }
     public bool SpinLockHolds => LockSplitHolds && SelectiveLockKeepsMirror && SatelliteLockBreaksMirror
         && LockCentreReadings.All(r => r.Agrees) && LockCentreReadings.Any(r => r.Rule) && LockCentreReadings.Any(r => !r.Rule);
+
+    // gate 9: the irreducible tensors in strings, at the fixed TensorPoint
+    /// <summary>(J₀, J₁, J₂, ω) of gate 9, with J₀ ≠ J₂ and J₁ ≠ J₂ so that the turned pairs' two string classes decay
+    /// at different rates.</summary>
+    public static readonly (long J0, long J1, long J2, long Omega) TensorPoint = (1, 2, 3, 1);
+    /// <summary>Each of the page's sixteen string combinations (rank l, order p) satisfies Σₐ[Iₐ, [Iₐ, M]] = l(l + 1)·M
+    /// and [I_z, M] = p·M with the spin matrices in ℚ(√3); the rank-3 row at order 1 read as rank 1 fails.</summary>
+    public bool TensorRowsHold { get; }
+    /// <summary>At ω_Q = 0 the ten rows of rank 0, rank 2 and rank 3 at |p| = 2, 3 are eigenoperators at the string
+    /// classes' rates; each of the six rank-1 and rank-3 rows at |p| ≤ 1 splits into its parts on two string classes,
+    /// read off the row, each an eigenoperator, at two different rates, with the squared-norm weights 4/5 : 1/5 (p = 0)
+    /// and 3/5 : 2/5 (p = ±1) and their reverse.</summary>
+    public bool TensorBasesTurned { get; }
+    /// <summary>A consistency reading of the weights, not an independent route: the rank-3 row at order 1 meets the
+    /// satellite part of the rank-1 row, read off the row, with a squared normalized overlap of exactly 6/25, and the two
+    /// rows are orthogonal, so the central-transition part's overlap is its negative; with the parts' rates of
+    /// <see cref="TensorBasesTurned"/> the rank-3 content of e^{Lt}·T₁,₁ at ω = 0 (otherwise times e^{−iωt}) is
+    /// ±(√6/5)·(e^{−3(J₀ + J₁)t} − e^{−c₁t}), the sign the phases' (fixed by the verifier). Both numbers follow from the
+    /// 3/5 : 2/5 weights once each order-1 part is one direction.</summary>
+    public bool TripleQuantumPathHolds { get; }
+    /// <summary>S(X) = Γ₀·Xᵀ: T₀,₀ ↔ T₂,₀, T₂,±₂ onto T₃,∓₂, T₃,±₃ onto T₃,∓₃ (onto: proportional, the signs in the
+    /// ladder's phases are the verifier's), and the reflection [[4/5, 3/5], [3/5, −4/5]] on the order-0 rows of rank 1
+    /// and 3 (equal norms).</summary>
+    public bool MirrorOnTensorsHolds { get; }
+    /// <summary>XX + YY lives on the central-transition cells (p = ±1), XX − YY on the triple-quantum cells (p = ±3),
+    /// and at ω = 0 both are eigenoperators at c₁: one string class, two orders; and the strings inside the cells of
+    /// order |p| fill them only at p = 0 and |p| = 2, so only there is an order filter a projection onto strings.</summary>
+    public bool OrderSplitsAStringClass { get; }
+    public bool TensorDictionaryHolds => TensorRowsHold && TensorBasesTurned && TripleQuantumPathHolds
+        && MirrorOnTensorsHolds && OrderSplitsAStringClass;
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -667,6 +701,138 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                 Dim - Rank(lc), Dim - Rank(Add(lc, Scale(Identity(Dim), two))),
                 CharpolySymmetric(lc, Enumerable.Range(0, Dim).ToArray(), two));
         }).ToArray();
+
+        (TensorRowsHold, TensorBasesTurned, TripleQuantumPathHolds, MirrorOnTensorsHolds, OrderSplitsAStringClass) =
+            ReadTensors(ip, im);
+    }
+
+    // ===== the irreducible tensors in strings =====
+
+    private (bool Rows, bool Turned, bool Path, bool Mirror, bool Order) ReadTensors(Root3 ip, Root3 im)
+    {
+        Mat S2(Mat a, Mat b) => Kron(a, b);
+        Mat Lin(params (GaussianRational C, Mat M)[] terms) =>
+            terms.Aggregate(Zero(Levels), (acc, t) => Add(acc, Scale(t.M, t.C)));
+        GaussianRational G(long v) => new(v, 0);
+        Root3 R(Mat a) => new(a, Zero(Levels));
+        bool Zero3(Root3 u) => IsZero(u.A) && IsZero(u.B);
+        Root3 Comm(Root3 u, Root3 v) => u * v + (v * u).Scale(-1);
+
+        var (ii, zi, iz, zz) = (S2(PI, PI), S2(PZ, PI), S2(PI, PZ), S2(PZ, PZ));
+        Mat Sat(int sg) => Lin((G(1), S2(PI, PX)), (new GaussianRational(0, sg), S2(PI, PY)));
+        Mat Ct(int sg) => Lin((G(1), S2(PX, PX)), (G(1), S2(PY, PY)), (new GaussianRational(0, sg), S2(PY, PX)), (new GaussianRational(0, -sg), S2(PX, PY)));
+        var rows = new Dictionary<(int L, int P), Root3>
+        {
+            [(0, 0)] = R(ii), [(1, 0)] = R(Lin((G(2), zi), (G(1), iz))),
+            [(2, 0)] = R(zz), [(3, 0)] = R(Lin((G(2), iz), (G(-1), zi))),
+        };
+        foreach (int sg in new[] { 1, -1 })
+        {
+            rows[(1, sg)] = new Root3(Ct(sg), Sat(sg));                                // (XX + YY …) + √3·(IX ± i·IY)
+            rows[(3, sg)] = new Root3(Scale(Sat(sg), 2), Scale(Ct(sg), -1));            // 2·(IX ± i·IY) − √3·(XX + YY …)
+            rows[(2, sg)] = R(Lin((G(1), S2(PZ, PX)), (new GaussianRational(0, sg), S2(PZ, PY))));
+            rows[(2, 2 * sg)] = R(Lin((G(1), S2(PX, PI)), (new GaussianRational(0, sg), S2(PY, PI))));
+            rows[(3, 2 * sg)] = R(Lin((G(1), S2(PX, PZ)), (new GaussianRational(0, sg), S2(PY, PZ))));
+            rows[(3, 3 * sg)] = R(Lin((G(1), S2(PX, PX)), (G(-1), S2(PY, PY)), (new GaussianRational(0, sg), S2(PX, PY)), (new GaussianRational(0, sg), S2(PY, PX))));
+        }
+
+        var ix = (ip + im).Scale(new BigRational(1, 2));
+        var iyTimesI = (ip + im.Scale(-1)).Scale(new BigRational(1, 2));          // i·I_y = (I₊ − I₋)/2
+        var izR = R(_iz);
+        bool Carries(Root3 m, int l, int p)
+        {
+            // Σ[Iₐ, [Iₐ, M]] with [I_y, [I_y, M]] = −[i·I_y, [i·I_y, M]]
+            var cas = Comm(ix, Comm(ix, m)) + Comm(iyTimesI, Comm(iyTimesI, m)).Scale(-1) + Comm(izR, Comm(izR, m));
+            return Zero3(cas + m.Scale(-l * (l + 1))) && Zero3(Comm(izR, m) + m.Scale(-p));
+        }
+        bool rowsHold = rows.Count == 16 && rows.All(kv => Carries(kv.Value, kv.Key.L, kv.Key.P))
+                        && !Carries(rows[(3, 1)], 1, 1);
+
+        var (j0, j1, j2, omega) = TensorPoint;
+        var l = Generator(j0, j1, j2, 0, omega).L;
+        long c1 = Spin32QuadrupolarMirrorsClaim.DarkCentre(j1, j2);
+        GaussianRational Rate(long re, long freq) => new(-re, -freq);
+        var eigenRates = new Dictionary<(int, int), long>
+        {
+            [(0, 0)] = 0, [(2, 0)] = 6 * (j1 + j2), [(2, 1)] = 3 * (j0 + j1 + 2 * j2), [(2, -1)] = 3 * (j0 + j1 + 2 * j2),
+            [(2, 2)] = 3 * (j0 + 2 * j1 + j2), [(2, -2)] = 3 * (j0 + 2 * j1 + j2),
+            [(3, 2)] = 3 * (j0 + j2), [(3, -2)] = 3 * (j0 + j2), [(3, 3)] = c1, [(3, -3)] = c1,
+        };
+        bool ten = eigenRates.All(kv => Eigen(l, rows[kv.Key].A, Rate(kv.Value, kv.Key.Item2 * omega)));
+        GaussianRational Norm(Mat a) => Trace(Mul(Adjoint(a), a));
+        // a row's part on a set of strings, read off the row itself: Σ Tr(s·M)/4 · s on both of its ℚ(√3) components
+        Mat OnStrings(Mat m, Mat[] strings) => strings.Aggregate(Zero(Levels),
+            (acc, st) => Add(acc, Scale(st, Trace(Mul(st, m)) / G(4))));
+        Root3 Part(Root3 r, Mat[] strings) => new(OnStrings(r.A, strings), OnStrings(r.B, strings));
+        // ⟨u, v⟩ = rational + √3·root, with ⟨A + √3B, C + √3D⟩ = ⟨A, C⟩ + 3⟨B, D⟩ + √3(⟨A, D⟩ + ⟨B, C⟩)
+        (GaussianRational Rational, GaussianRational Root) Inner(Root3 u, Root3 v) =>
+            (Trace(Mul(Adjoint(u.A), v.A)) + G(3) * Trace(Mul(Adjoint(u.B), v.B)),
+             Trace(Mul(Adjoint(u.A), v.B)) + Trace(Mul(Adjoint(u.B), v.A)));
+        bool EigenPart(Root3 part, GaussianRational lambda) => !Zero3(part)
+            && (IsZero(part.A) || Eigen(l, part.A, lambda)) && (IsZero(part.B) || Eigen(l, part.B, lambda));
+        var (zis, izs) = (new[] { zi }, new[] { iz });
+        var sats = new[] { S2(PI, PX), S2(PI, PY) };
+        var cts = new[] { S2(PX, PX), S2(PX, PY), S2(PY, PX), S2(PY, PY) };
+        // each turned row: its part on class a (weight wa) and on class b, both eigenoperators at two different rates,
+        // the two parts summing to the row
+        bool TurnedRow((int L, int P) key, Mat[] a, long rateA, Mat[] b, long rateB, BigRational wa)
+        {
+            var row = rows[key];
+            var (pa, pb) = (Part(row, a), Part(row, b));
+            var (na, nb, nr) = (Inner(pa, pa), Inner(pb, pb), Inner(row, row));
+            return Zero3(row + (pa + pb).Scale(-1)) && rateA != rateB
+                   && EigenPart(pa, Rate(rateA, key.P * omega)) && EigenPart(pb, Rate(rateB, key.P * omega))
+                   && na.Root.IsZero && nb.Root.IsZero && nr.Root.IsZero
+                   && na.Rational / nr.Rational == new GaussianRational(wa, BigRational.Zero)
+                   && nb.Rational / nr.Rational == new GaussianRational(1 - wa, BigRational.Zero);
+        }
+        long satRate = 3 * (j0 + j1);
+        bool sixTurned = TurnedRow((1, 0), zis, 6 * j2, izs, 6 * j1, new BigRational(4, 5))
+                         && TurnedRow((3, 0), zis, 6 * j2, izs, 6 * j1, new BigRational(1, 5))
+                         && new[] { 1, -1 }.All(sg => TurnedRow((1, sg), sats, satRate, cts, c1, new BigRational(3, 5))
+                                                      && TurnedRow((3, sg), sats, satRate, cts, c1, new BigRational(2, 5)));
+        bool turned = ten && sixTurned;
+
+        // the rank-3 row meets the satellite part of the rank-1 row at order 1 in a pure √3 overlap whose square, over
+        // the two rows' squared norms, is 6/25; the CT part's overlap is its negative (the rows are orthogonal), so with
+        // the parts' two rates (TensorBasesTurned) the rank-3 content of e^{Lt}·T₁,₁ is ±(√6/5)·(e^{−3(J₀+J₁)t} − e^{−c₁t})
+        var row11 = rows[(1, 1)];
+        var row31 = rows[(3, 1)];
+        var oSat = Inner(row31, Part(row11, sats));
+        var (n11, n31) = (Inner(row11, row11), Inner(row31, row31));
+        bool path = oSat.Rational.IsZero && n11.Root.IsZero && n31.Root.IsZero
+                    && G(3) * oSat.Root * oSat.Root / (n11.Rational * n31.Rational) == G(6) / G(25)
+                    && Inner(row31, row11).Rational.IsZero && Inner(row31, row11).Root.IsZero;
+
+        Mat Mir(Mat x) => Mul(_g0, Transpose(x));
+        bool Onto(Mat x, Mat y) => ProportionalFactor(Mir(x), y) is not null;
+        var (t10, t30) = (rows[(1, 0)].A, rows[(3, 0)].A);
+        bool mirror = Equal(Mir(ii), zz) && Equal(Mir(zz), ii)
+                      && new[] { 1, -1 }.All(sg => Onto(rows[(2, 2 * sg)].A, rows[(3, -2 * sg)].A)
+                                                  && Onto(rows[(3, 2 * sg)].A, rows[(2, -2 * sg)].A)
+                                                  && Onto(rows[(3, 3 * sg)].A, rows[(3, -3 * sg)].A))
+                      && Norm(t10) == Norm(t30)
+                      && Equal(Mir(t10), Add(Scale(t10, new BigRational(4, 5)), Scale(t30, new BigRational(3, 5))))
+                      && Equal(Mir(t30), Add(Scale(t10, new BigRational(3, 5)), Scale(t30, new BigRational(-4, 5))));
+
+        var plus = Add(S2(PX, PX), S2(PY, PY));
+        var minus = Sub(S2(PX, PX), S2(PY, PY));
+        bool OnCells(Mat m, params (int, int)[] cells) => Enumerable.Range(0, Levels).All(a =>
+            Enumerable.Range(0, Levels).All(b => m[a, b].IsZero != cells.Contains((a, b))));
+        var l0 = Generator(j0, j1, j2, 0, 0).L;
+        // an order filter projects onto a span of strings exactly where the strings inside its cells fill them:
+        // at p = 0 and |p| = 2, not at |p| = 1 (four strings, six cells) and |p| = 3 (none, two cells)
+        var paulis = new[] { PI, PX, PY, PZ };
+        var all = paulis.SelectMany(a => paulis.Select(b => S2(a, b))).ToArray();
+        int OrderOf(int a, int b) => Math.Abs(b - a);                     // |m_a − m_b| with m_k = 3/2 − k
+        (int Cells, int Strings) Fill(int absP) => (
+            Enumerable.Range(0, Levels).Sum(a => Enumerable.Range(0, Levels).Count(b => OrderOf(a, b) == absP)),
+            all.Count(m => Enumerable.Range(0, Levels).All(a => Enumerable.Range(0, Levels)
+                .All(b => m[a, b].IsZero || OrderOf(a, b) == absP))));
+        bool order = OnCells(plus, (1, 2), (2, 1)) && OnCells(minus, (0, 3), (3, 0))
+                     && Eigen(l0, plus, Rate(c1, 0)) && Eigen(l0, minus, Rate(c1, 0))
+                     && Fill(0) == (4, 4) && Fill(2) == (4, 4) && Fill(1) == (6, 4) && Fill(3) == (2, 0);
+        return (rowsHold, turned, path, mirror, order);
     }
 
     // ===== the handshake =====
@@ -1154,7 +1320,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"the bright pairs' exceptional point {Verdict(ExceptionalPointHolds, "holds (the satellites and the double quantum each a 2 × 2 Jordan block on Re λ = −c₂, at 2q = 3J₂ and at 2q = 3J₁ respectively, the density non-zero; the scalar control semisimple)", "FAILS")}, " +
         $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}; " +
         $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}; " +
-        $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}.";
+        $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}; " +
+        $"the irreducible tensors in strings {Verdict(TensorDictionaryHolds, "hold (sixteen rows of rank and order; ten eigenoperators, six turned between two string classes)", "FAIL")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
@@ -1260,6 +1427,15 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"at {ShiftPoint} the selective lock ω₁ = {LockNu} {Verdict(SelectiveLockKeepsMirror, "keeps the mirror identity and the sectors", "BREAKS the mirror identity")}, the satellite part " +
                          $"{Verdict(SatelliteLockBreaksMirror, "breaks the identity and mixes the sectors", "does NOT break it")}; the global centre under a lock (only J₁, q = 0, ω = 3K₂; read with integer mixtures a:b of the two parts in place of √3:1, whose lit element is ZZ − (a/b)·XI) " +
                          $"{Verdict(LockCentreReadings.All(r => r.Agrees), $"agrees with both routes at all {LockCentreReadings.Count} points ({LockCentreReadings.Count(r => r.Rule)} pairing, {LockCentreReadings.Count(r => !r.Rule)} breaking)", "DISAGREES with a route")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the irreducible tensors in strings",
+                summary: $"the page's sixteen string combinations {Verdict(TensorRowsHold, "carry rank l and order p (Casimir l(l + 1), [I_z, ·] = p, from the spin matrices in ℚ(√3)), the rank-3 row at order 1 failing as rank 1", "do NOT carry their rank and order")}; " +
+                         $"at (J₀, J₁, J₂, ω) = {TensorPoint}, ω_Q = 0, {Verdict(TensorBasesTurned, "rank 0, rank 2 and rank 3 at |p| = 2, 3 are eigenoperators, and the six rank-1 and rank-3 rows at |p| ≤ 1 are turned between two string classes at two rates, 4/5 : 1/5 (ZI, IZ) and 3/5 : 2/5 (satellites, central transition) and the reverse", "the two bases are NOT as stated")}; " +
+                         $"the rank-3 content of e^(Lt)·T₁,₁ (off resonance times e^(−iωt)) {Verdict(TripleQuantumPathHolds, "is ±(√6/5)(e^(−3(J₀ + J₁)t) − e^(−c₁t)), the squared overlap 6/25 a consistency reading of the weights", "is NOT that")}; " +
+                         $"S(X) = Γ₀·Xᵀ {Verdict(MirrorOnTensorsHolds, "carries T₀,₀ ↔ T₂,₀, T₂,±₂ onto T₃,∓₂ and back, T₃,±₃ onto T₃,∓₃ (up to factors; the signs are the verifier's), and reflects the order-0 rows of rank 1 and 3 by [[4/5, 3/5], [3/5, −4/5]]", "does NOT act as stated")}; " +
+                         $"XX + YY and XX − YY {Verdict(OrderSplitsAStringClass, "sit at orders ±1 and ±3 and decay in one string class at c₁", "do NOT split as stated")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

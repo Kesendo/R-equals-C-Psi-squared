@@ -30,7 +30,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// of the shifts K(m·ω₀) = Im Γ, is real and diagonal: both mirrors and the exceptional points survive it, and
 /// the global centre follows <see cref="HasGlobalCentreWithShift"/>. Under a spin-lock the central transition's part
 /// ½(XX + YY) keeps both mirrors and the whole field breaks them at generic rates; the global centre under a lock
-/// follows <see cref="HasGlobalCentreUnderLock"/>.</para>
+/// follows <see cref="HasGlobalCentreUnderLock"/>. In the irreducible tensors T_l,p of NMR, rank 2 is the five Dirac
+/// strings and ranks 1 and 3 together the ten products of two; ten of the sixteen tensors are eigenoperators at ω_Q = 0
+/// and six are turned between two string classes (Hubbard's NMR relaxation weights 4/5 : 1/5 and 3/5 : 2/5), and S carries the rank-2 double
+/// quanta onto the rank-3 ones.</para>
 ///
 /// <para>Shape and neighbours. At J₀ = 0 the map S is an F1 palindromizer built in F118's shape
 /// (<c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c>: Π_Y(ρ) = X^⊗N·ρᵀ), with Γ₀ in place of
@@ -140,6 +143,13 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
                          "turns to E = ½·ZZ − (√3/2)·XI = −(3I_x² − 15/4)/3, up to sign the quadrupole along the lock's axis, " +
                          "commuting with H exactly when q = 0 and " +
                          "ω = 3K₂, one centre there where J₀ = J₂ = 0 (sufficient by F158; the only one read at points)");
+            yield return new InspectableNode("the irreducible tensors in strings",
+                summary: "rank 0 is II, rank 2 the five Dirac strings, ranks 1 and 3 together the ten products of two; at " +
+                         "ω_Q = 0 ten of the sixteen T_l,p are eigenoperators (rank 0, rank 2, rank 3 at |p| = 2, 3) and the six " +
+                         "rank-1 and rank-3 tensors at |p| ≤ 1 are turned between two string classes, 4/5 : 1/5 on ZI, IZ and " +
+                         "3/5 : 2/5 on the satellites and the central transition (Hubbard's NMR relaxation weights); the rank-3 content of " +
+                         "e^(Lt)·T₁,₁ at ω_Q = ω = 0, in the ladder's phases, is (√6/5)(e^(−3(J₀ + J₁)t) − e^(−c₁t)); S carries T₂,±₂ onto T₃,∓₂, the double quanta of " +
+                         "rank 2 and 3 being mirror partners about −c₂; XX + YY and XX − YY share one rate at orders ±1 and ±3, so an order filter projects onto a span of strings only at p = 0 and |p| = 2");
             yield return new InspectableNode("global-centre theorem",
                 summary: "one centre −s, 2s = 3J₀ + 6J₁ + 6J₂, exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0, every real J; the " +
                          "coefficients of χ(−x − 2s) − χ(x) generate the ideal (J₀·ω_Q², J₀·(9J₁² + ω²)·(9J₂² + 4ω²)); for J ≥ 0 " +
