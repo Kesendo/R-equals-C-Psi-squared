@@ -405,7 +405,7 @@ point; the repository reads both already, with other metrics, in the β-exotic
 genericity study, in the fragile bridge and in the PT-symmetry analysis (the
 signatures ±0.0158 at δ = −10⁻⁴, shrinking to zero at the collision). Whether
 ℒ_U, G, τ and the bipartite metric give the same signs where more than one
-exists is not checked here.
+exists is not checked here. Where such a collision is met as an exact closed 2 × 2, the settings are gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
 
 **The world and its one-sided reading.** For U = X^⊗N, ℒ_U ρ is the reading
 X^⊗N ρ that [the bridged lattice](../compute/MirrorWorld/Lattice.cs) runs beside

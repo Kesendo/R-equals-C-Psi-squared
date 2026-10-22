@@ -425,6 +425,8 @@ formula; the thermal caveat against F137; the two-axis bath
 against the depolarizing clause, the same clause instanced; the closing unknown against
 `substrate_q_provenance`, the same request.
 
+The same closed 2 × 2 is written out in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ---
 
 ## Scope, stated plainly

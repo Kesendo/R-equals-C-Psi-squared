@@ -367,6 +367,8 @@ The coefficient `2γ/ω` is fixed by the initial data `a(0)=1`, `v(0)=0`: it mak
 `a'(0)=0` and satisfies both equations above. In the named `J≫γ` approximation the sine correction is
 small, leaving `a(t)≈1/2+(1/2)e^{-2γt}cos(ωt)` and `ω≈4J`.
 
+This pair's 2 × 2 is met in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ### CΨ for |01⟩
 
 In the full 4×4 basis, only ρ_{01,10} and ρ_{10,01} are nonzero off-diagonal:

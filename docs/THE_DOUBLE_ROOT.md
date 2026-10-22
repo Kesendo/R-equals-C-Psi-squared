@@ -61,6 +61,17 @@ verdicts, inside an errors ledger, and the cusp/EP sibling pair was already
 typed. What this page adds is the broader roster across both rooms and a
 sharper account of how far the order test reaches.
 
+For the section *One 2 × 2 in many settings*, three survey agents swept the
+markdown stores (`docs/`, `docs/proofs/`, `experiments/` with the null
+results, `hypotheses/`, `reflections/`), the typed layer in both halves with
+the OpenArcs registry and MirrorWorld, and this page with the glossary and
+`docs/CAUGHT_ERRORS.md`, by form (every written 2 × 2, every λ = −c ± √…,
+Jordan block, nilpotent, self-orthogonal, critical damping, PT dimer, Krein).
+They returned the rows of that section, most of them citing none of the others;
+the sodium page's paragraph on the same 2 × 2 as the nearest list; the glossary
+with no entry for an exceptional point; the OpenArcs registry with no arc on
+the family; `reflections/` with no reading of it as one object.
+
 ---
 
 ## The object
@@ -281,6 +292,64 @@ the R₉₀ locus in one row and the uniform-point object in the other.
 `THE_EXCEPTIONAL_COUPLINGS.md` has a section on exactly this, headed *The word
 that is already spent*, and its rule is the one to carry: never drop which
 block and which multiplicity.
+
+### One 2 × 2 in many settings
+
+Near an isolated meeting of two eigenvalues any matrix reduces to a 2 × 2 on the pair's invariant subspace (the
+Riesz projector, Kato's local picture), so that a pair meets "in a 2 × 2" says nothing by itself. What the rows
+below share is more: in each the 2 × 2 is exact and written out, a closed block of a generator, or the page's own
+reduction, toy or control. Write it −c·1 + M₀ with M₀ traceless; the two diagonal entries are −c ∓ δ, symmetric
+about half the trace, with δ possibly imaginary, and −c is the half trace, c not in general the F1 centre. M₀² = d·1
+(every traceless 2 × 2 squares to a multiple of the identity), the eigenvalues are −c ± √d, and they meet where
+d = 0; there M₀, non-zero, is nilpotent, one 2 × 2 Jordan block, by the rule that a 2 × 2 with a double root and a
+non-zero traceless part is defective ([Caught Errors](CAUGHT_ERRORS.md), the coherence-horizon entry). Each row's
+matrix is the one its page writes, or, where the page writes a characteristic polynomial or a second-order
+equation, that equation's companion matrix, this page's construction. A companion matrix with a double root is
+always one Jordan block, so its Jordan block proves nothing about the physics: the verdict has to come from the
+physical block, which is one Jordan block exactly when it is not scalar at the point; the rows say where that is
+shown. [`two_by_two_ep_family.py`](../simulations/two_by_two_ep_family.py) checks its transcription
+of every row exactly: d against the row's value, the page's eigenvalues as roots, the nilpotent part at the page's point (for
+a companion matrix a reading that cannot fail). A
+roster, not a census.
+
+**Closed blocks of a generator.**
+
+| Setting | The 2 × 2 as its page writes it | Where the pair meets | What the page records |
+|---|---|---|---|
+| The pair {\|01⟩, \|10⟩} of two coupled qubits under Z dephasing, in four writings: the coherence horizon at N = 2 ([F2b corollary](ANALYTICAL_FORMULAS.md#f2b); the short ladder of [Fold and Cusp](../experiments/FOLD_AND_CUSP_TWO_SEAMS.md)); the (1,1) pair of [F50's exceptional point](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-count-at-exceptional-couplings), seen from the floor in [the chain gap](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); the population and coherence of [the CΨ monotonicity proof](proofs/PROOF_MONOTONICITY_CPSI.md); the two qubits of [γ₀ Is Always There](../experiments/GAMMA0_IS_ALWAYS_THERE.md) | λ² + 4γλ + 4J² (the horizon, κ_N = 4); λ² + 4γλ + 16J² (the Pauli book, F50); ẋ = −4Jv, v̇ = 4Jx − 4γv, the block [[0, −4J], [4J, −4γ]] on (x, v) (monotonicity, Pauli book); z̈ + 4γż + 4J²z = 0 (γ₀) | J = γ, Q = 1; γ = 2J in the Pauli book | the horizon row of *In a spectrum*; algebraic 2 extra, geometric 1 (F50); the damped a, v oscillation, its point not named (monotonicity); critical damping in the ideal model (γ₀). The block [[0, −4J], [4J, −4γ]] is this page's, from the monotonicity page's equations of motion with x = a − ½, and not scalar at the point |
+| The coherence horizon at N = 3 ([F2b corollary](ANALYTICAL_FORMULAS.md#f2b), the short ladder of [Fold and Cusp](../experiments/FOLD_AND_CUSP_TWO_SEAMS.md), the {0,2} family at N = 3 in [the chain gap](proofs/PROOF_CHAIN_GAP_DOMINANCE.md) §4), typed as `CoherenceHorizonClaim` | λ² + 4γλ + 2J² (κ_N = 2) | Q\* = √2 | the clean 2 × 2 exists only at N = 2, 3; defective by the live witness |
+| The ring's {0, 2} block ([ring gap](proofs/PROOF_RING_GAP_DOMINANCE.md)) | [[0, B], [−B, −4γ]] | B = 2γ | "coalescing defectively", the block minus its root of rank 1 |
+| The tunnel doublet of one proton ([proton wire](water/PROTON_WIRE_CROSSING.md#the-second-axis-which-letter-the-environment-reads)) | [[0, 2J], [−2J, −2γ]], the (Z, Y) coherence block, rows the images | γ = 2J | T₂ = 2T₁ below the point, an overdamped pair above; the point is not named |
+| The N = 2 edge block ([§(d)](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md#d-n--2-in-closed-form)) | [[−2γ₀, 2iJ], [2iJ, −2γ₁]] | \|γ₁ − γ₀\| = 2J | K = [[2J, 2iJ], [2iJ, −2J]], K² = 0, symbolic |
+| The sodium bright pairs ([sodium](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md#the-bright-pairs-exceptional-point)), typed as `Spin32QuadrupolarMirrorsClaim` | −c₂ − iω + [[−2iq, 3J₂], [3J₂, 2iq]] (satellites; the double quanta with −2iω and −3J₁) | 2q = 3J₂ (3J₁) | a Jordan block by exact ranks and by N² = 0, the merged mode self-orthogonal; the page names the spin-1 single-quantum pair the same shape |
+| The neural pair ([flavor-resolved T₂](../experiments/FLAVOR_RESOLVED_T2_INHERITANCE.md), MirrorWorld's `FlavorSplit`) | −s·1 + [[Δ + ca, −h], [h, −Δ − ca]] | Δ + ca = ±h, with h ≠ 0 | a Jordan block at −s from the closed form, the eigenvector's weight one half |
+
+**Reductions, toys and controls.**
+
+| Setting | The 2 × 2 as its page writes it | Where the pair meets | What the page records |
+|---|---|---|---|
+| The F86 two-level toy ([F86a](proofs/PROOF_F86A_EP_MECHANISM.md); the same toy in [F86b's universal shape](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)), typed as `TwoLevelEpModel`, its mirror axis in `LEffMirrorAxisClaim`, read in time by `ExceptionalPointClock` | [[−2γ₀(2k−1), iJg], [iJg, −2γ₀(2k+1)]] | J·g_eff = 2γ₀, Q_EP = 2/g_eff | a heuristic reduction, the discriminant; the known-defective toy of `EpCharacterWitness`. Its Jordan block is the toy's, not a statement about the full generator |
+| The seed toy ([seed holonomy](../experiments/SEED_HOLONOMY_THIRD_CLOCK.md)) | [[s, 1], [1, −s]] | s = i, a complex parameter (and s = −i by the same arithmetic) | the coalesced vector self-orthogonal; a quarter-turn per loop in the vᵀv gauge |
+| The Route-B control ([self-fold](proofs/PROOF_ROUTE_B_N4_SELF_FOLD.md)) | −4·1 + i[[q − 1, ε], [ε, −(q − 1)]] | q = 1 ± iε, λ = −4 | the discriminant, as a control family for the self-fold identity |
+
+**A Hamiltonian.** F155's PT dimer J(XX + YY)/2 + ig(Z₀ − Z₁)/2 ([F155](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md), corollary 7, which names its exceptional point at g = J) has, computed here, the single-excitation block [[ig, J], [J, −ig]] on |01⟩, |10⟩, with the eigenvalues ±√(J² − g²), a Jordan block at g = J: an exceptional point of a non-Hermitian Hamiltonian, not of a Liouvillian. F155's own generator for it, the no-jump map ρ ↦ −i(Hρ − ρH†), carries there a Jordan block of size 3.
+
+Two settings meet a collision of this kind inside a larger block rather than as a closed 2 × 2, and are not rows.
+The fragile bridge ([its page](../hypotheses/FRAGILE_BRIDGE.md), and [the PT-symmetry analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)) is a
+gain-loss system whose collision is a Krein collision, certified an EP2 from singular values and a √δ law at
+J_bridge = 1.0 and 1.9 and found as one by the sweep at the other sampled couplings; at its exact couplings the onset is linear and there is no EP. [The Pairing
+Condition](../experiments/THE_PAIRING_CONDITION.md) follows a passive-PT collision numerically, a lean closing as √(1 − γ/γ\*),
+consistent with an EP2 and not certified.
+
+Two writings recur among the rows: real entries of opposite sign, [[a, g], [−g, b]] (the ring, the proton, the
+neural pair, the monotonicity block), and
+a complex-symmetric one, [[a, ig], [ig, b]] (the edge block, the F86 toy), to which the sodium pairs, the seed
+toy, the Route-B control and the dimer's block belong too, symmetric with an imaginary or complex diagonal. In a complex-symmetric writing the coalesced
+vector is self-orthogonal, vᵀv = 0, the signature the seed holonomy and the sodium page read and [the antilinear
+triangle](proofs/PROOF_ANTILINEAR_TRIANGLE.md) gathers; the similarity diag(1, i) carries the first writing into
+the second, and under it the ring's coalesced vector (1, −1), with vᵀv = 2, becomes (1, i), with vᵀv = 0. So
+self-orthogonality belongs to the bilinear form of the writing, which only a complex-orthogonal change of basis
+keeps, not to the block.
 
 ---
 

@@ -137,6 +137,8 @@ is the Absorption theorem read in reverse: the rate the carrier writes onto a co
 by its Hamming weight is the same rate that sets where the dance falls into step. The
 beat's formula sits exactly on the line. (`simulations/takt_absorption_overlay.py`.)
 
+This pair's 2 × 2 is met in other settings of the repository, gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ## Why the simplest won
 
 This is where the night's path matters. We first went after the popcount ladder, a ratio

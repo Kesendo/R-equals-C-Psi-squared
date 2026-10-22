@@ -145,7 +145,7 @@ exchanged by conjugation and leave real q immediately. The producer
 checks this control through the same discriminant formula. A separate
 one-cell dissipator mutation breaks the full-block fold equation and is
 rejected. The positive discriminants above are essential instance data,
-not a consequence of the word “self-fold”.
+not a consequence of the word “self-fold”. The control is one of the settings of this 2 × 2 gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
 
 The theorem does not provide a maximal real interval, a certified
 numerical ε radius, a guarantee for other directions or ZZ perturbations,

@@ -116,6 +116,8 @@ At or below `Q = 2/√3` it is true, and below `Q = 1` it is true for a second, 
 
 `N = 2` is therefore a second band-edge counterexample beside the ring's 4-cycle, in the `Q > 2/√3` regime. [`PROOF_RING_GAP_DOMINANCE`](PROOF_RING_GAP_DOMINANCE.md) calls the 4-cycle the unique one; that uniqueness holds among the graphs it sweeps, which start at `N = 4`, and not across `N`.
 
+This pair's 2 × 2 is met in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ### 4.3 The extras need uniform bonds; the maximality does not
 
 The `{0,2}` block closes only on the uniform chain. Detuning a single bond by `δ` takes every extra off the floor: at `N = 3, γ = 0.05` the count goes `4 → 0` at `δ = 10⁻²`, `10⁻³` and `10⁻⁴`. This is the same fine-tuning the ring sibling records for its own case, and it is a fence on §4 only, not on §§2-3: the free-fermion family survives non-uniform bonds, since Jordan-Wigner diagonalizes any bond profile.

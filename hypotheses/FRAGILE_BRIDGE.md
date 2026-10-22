@@ -425,6 +425,8 @@ at 5 and 10). At 5 and 10 the first block is the (1,2) orbit, so there the
 collision happens in two blocks at once. Whether the threshold frequency tends
 to zero as the bridge grows is open.
 
+A collision of this kind is met elsewhere as an exact closed 2 × 2; those settings are gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ### 3.1 Relation to the local-EP question
 
 This file's own exceptional point is certified at J_bridge = 1.0 and 1.9 and

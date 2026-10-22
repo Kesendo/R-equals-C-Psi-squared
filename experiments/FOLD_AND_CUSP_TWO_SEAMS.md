@@ -48,6 +48,8 @@ Consequence for the gap: it is (N − 2)γ at small N (cusp near −2γ) and ten
 
 (We first read the cusp as "pinned at −2γ" from the N = 2..5 witness alone; the slope proof's short-vs-full ladder shows the drift continues toward −4γ. Ground the whole ladder, not the first rungs: the same subtlety the slope proof settles for Q\*(N) itself.)
 
+The short ladder is one of the settings of this 2 × 2 gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ---
 
 ## They coincide only at N=2

@@ -138,6 +138,8 @@ producer's six digits (`dotnet run --project compute/MirrorWorld -- neural`).
 says the neural translation carries the palindrome rather than the split; this is that
 sentence with the data files' own rows under it.
 
+The same closed 2 × 2 is written out in other settings of the repository, gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ## Honest seams
 
 - **No closed form for carbon and water beyond one unit.** There the ratio is substrate- and

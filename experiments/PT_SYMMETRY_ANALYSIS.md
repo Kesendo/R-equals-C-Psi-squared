@@ -287,6 +287,8 @@ map onto partners; there the full L carries the collision once in each, twice or
 four times at the sampled couplings, and at five exact couplings the threshold
 is zero with no exceptional point at all (the same page).
 
+A collision of this kind is met elsewhere as an exact closed 2 × 2; those settings are gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ### Basis-invariant evidence boundary
 
 The Phase 2 producer reports the spectral-axis departure but does not report

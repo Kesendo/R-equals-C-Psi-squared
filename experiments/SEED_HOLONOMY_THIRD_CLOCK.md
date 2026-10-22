@@ -82,6 +82,8 @@ Additionally the vᵀv gauge's precondition on OUR block, Lᵀ = L, established 
 hop C = iK, K real symmetric), is now pinned from below at N = 5 and N = 9
 (`WeightCoherenceBlock_IsComplexSymmetric_TheVTvGaugePrecondition`).
 
+The same 2 × 2 shape is written out in other settings of the repository, gathered in [The Double Root](../docs/THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ## What is decided, and what is not
 
 **Decided:** the holonomy Z₄ is not Π's Z₄ and not the Clifford-degree mod-4. A Π-free

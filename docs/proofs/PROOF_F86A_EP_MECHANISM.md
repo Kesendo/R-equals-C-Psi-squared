@@ -107,6 +107,8 @@ The discriminant vanishes when J·g_eff = 2γ₀, giving the EP at Q_EP = 2/g_ef
 
 Numerical verification of this 2-level form: at α = J·g_eff = 2γ₀ the eigenvalues of `[[−2γ₀, +i·2γ₀], [+i·2γ₀, −6γ₀]]` coalesce at λ = −4γ₀ (verified by direct diagonalisation). For α > 2γ₀ they become λ = −4γ₀ ± i·√(α² − 4γ₀²), the post-EP oscillation observed in the (n, n+1) block dynamics.
 
+The same 2 × 2 shape is written out in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
+
 ### t_peak universality
 
 The slowest mode is k = 1 with λ_±(1) = −4γ₀ at the EP. Its e-folding time is 1/(4γ₀). Higher k decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by k=1 in the long-time observable. Therefore
