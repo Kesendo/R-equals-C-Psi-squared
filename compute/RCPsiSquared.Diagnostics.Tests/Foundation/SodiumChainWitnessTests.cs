@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
@@ -194,6 +195,26 @@ public class SodiumChainWitnessTests
         Assert.True(Default.UnequalOffsetBreaksBoth);
     }
 
+    [Fact]
+    public void Resonance_AtQEqualsD_TheSqrtThreeCouplingItselfIsAModeOfK1OutsideV_PairedAboutTheRungButNotByS()
+    {
+        Assert.True(Default.SqrtThreePartCommutesAtResonance);
+        Assert.True(Default.SplittingAloneDoesNotCommute);        // so the plane q = d and nothing else
+        Assert.True(Default.ResonantModesInOneBrightCells);
+        Assert.True(Default.ResonantModesAreEigenoperators);      // includes the control: the splitting alone moves them
+        Assert.Equal((GaussianRational)(BigRational)(-3 * (6 + 2 * 4 + 2)), Default.ResonantRateT);
+        Assert.Equal((GaussianRational)(BigRational)(-3 * (6 + 2 * 4 + 3 * 2)), Default.ResonantRateB);
+        Assert.True(Default.ResonantModesPairAboutRung);
+        Assert.True(Default.ResonantModesOutsideKernel);
+        Assert.True(Default.SDoesNotKeepResonantPair);
+        Assert.True(Default.ResonanceHolds);
+        // readings at q = d: K₁ = E₁ ⊕ ⟨T, B⟩ is two larger than U₁ = E₁, K₂ = U₂ = E₂, and K₁ still pairs about −s₁
+        Assert.Equal(new[] { 14, 1 }, Default.ResonantSharp.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new[] { 12, 1 }, Default.ResonantKernelHull.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new bool?[] { true, true }, Default.ResonantSharp.Skip(1).Select(h => h.Pairs));
+        Assert.True(Default.HullsInvariant);
+    }
+
     [Theory]
     [InlineData(1, 1, 4, 1)]
     [InlineData(7, 5, 1, 10)]
@@ -201,7 +222,7 @@ public class SodiumChainWitnessTests
     [InlineData(1, 1, 1, 1000)]
     [InlineData(5, 3, 3, 7)]
     [InlineData(1000, 1, 1, 1)]
-    public void AwayFromThePagePoint_UmEqualsKm_AndJ1EqualsJ2RaisesK0AndU0(long j0, long j1, long j2, long d)
+    public void AwayFromThePagePoint_UmEqualsKm_J1EqualsJ2RaisesK0AndU0_AndTheResonanceSeparatesK1(long j0, long j1, long j2, long d)
     {
         var w = new SodiumChainWitness(j0, j1, j2, d);
         Assert.True(w.ExplicitHolds);
@@ -212,6 +233,12 @@ public class SodiumChainWitnessTests
         Assert.Equal(level ? new[] { 12, 12, 1 } : new[] { 10, 12, 1 }, w.FullSharp.Select(h => h.Dimension));
         Assert.Equal(level ? new[] { 6, 12, 1 } : new[] { 5, 12, 1 }, w.FullKernelHull.Select(h => h.Dimension));
         Assert.Equal(new bool?[] { false, true, true }, w.FullSharp.Select(h => h.Pairs));
+        Assert.True(w.ResonanceHolds);
+        Assert.Equal((GaussianRational)(BigRational)(-3 * (j0 + 2 * j1 + j2)), w.ResonantRateT);       // the channel shares, each J
+        Assert.Equal((GaussianRational)(BigRational)(-3 * (j0 + 2 * j1 + 3 * j2)), w.ResonantRateB);
+        Assert.Equal(new[] { 14, 1 }, w.ResonantSharp.Skip(1).Select(h => h.Dimension));        // E₁ ⊕ ⟨T, B⟩, and E₂
+        Assert.Equal(new[] { 12, 1 }, w.ResonantKernelHull.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new bool?[] { true, true }, w.ResonantSharp.Skip(1).Select(h => h.Pairs));
         Assert.True(w.HullsInvariant);
     }
 
@@ -223,7 +250,7 @@ public class SodiumChainWitnessTests
         Assert.DoesNotContain("NOT", Default.Summary);
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
-        Assert.Equal(7, Default.Children.Count());
+        Assert.Equal(8, Default.Children.Count());
     }
 
     [Fact]

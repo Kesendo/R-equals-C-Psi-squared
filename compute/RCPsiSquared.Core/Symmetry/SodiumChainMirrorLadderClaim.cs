@@ -36,11 +36,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// K₂ = U₂, both spaces written down (E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block and four
 /// exchange-antisymmetric order ±4 operators), at every parameter off a proper algebraic set, since
 /// E_m lies in U_m at every parameter and one exact point has dim K_m = dim E_m; the set contains
-/// d = 0. What the page reads modulo two
+/// d = 0 and the plane q = d ≠ 0 (q the coefficient of ZZ_k, d the coupling's), where U₁ ≠ K₁: there the √3
+/// part commutes with the rest of H, and it and ½{Z₁ + Z₃, H₃} are eigenoperators of L at −s₁ ± 3J₂, outside the kernel,
+/// a pair about the rung that S does not carry. Its other components of codimension one (J₁ = 0, J₂ = 0, 2q = d,
+/// 2q = 3d, 28(q − d)² = 25d²) are a reading over GF(p), evidence, not proved. What the page reads modulo two
 /// primes, not proved: the dimensions of K_m (at most 24, 128, 24 at two nuclei for the equal
 /// truncation, 64, 140, 84, 16 at three) and, for the full coupling, of K₀ (10) and U₀ (5); float
 /// spectra of the U_m are a further reading. The live witness reads the two-nucleus dimensions
-/// exactly at its parameters and gates E₁, E₂ against every parameter piece of L.</para>
+/// exactly at its parameters and on the plane q = d, gates E₁, E₂ against every parameter piece of L, and gates the resonant pair
+/// (gate 7).</para>
 ///
 /// <para>Adjacency the page names and leaves open: the lemma's kept part is the dark remainder of
 /// the corner-shift row of <c>docs/THE_ONE_SQUARE.md</c> §9, F137's kept jump, and MirrorWorld's

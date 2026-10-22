@@ -29,7 +29,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// d·(3I_zI_z − I·I)), q = (12, 20) and ω = (20, 28) for the Ising coupling, q = (12, 20) and
 /// ω = 20 for the unequal truncation, q = 12 and ω = 20 for the equal one (its coupling at 2d, as
 /// the verifier builds it, twice the secular part), q = 0 and ω = 20 for
-/// the full coupling; identical rates (J₀, J₁, J₂) = (6, 4, 2) and, for the Ising coupling with
+/// the full coupling, and q = d, ω = 20 for its resonance (gate 7); identical rates (J₀, J₁, J₂) = (6, 4, 2) and, for the Ising coupling with
 /// rates per nucleus, (J₀, J₁, J₂) and (10, 2, 4). User inputs: the identical rates and d, and c.</para>
 ///
 /// <para>Gates, each with a control that can fail: (1) the dictionary I_z, I_x, I_y, T₂₀ against
@@ -51,9 +51,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// partners leave the kernel, a bare column breaks the rational coupling; (6) a shared gradient: the
 /// price identity with the operator K at three (J, c), with and without the equal splitting and offset, a √3 string
 /// breaking it, K's form, the four commuting Γ_a⊗Γ_a, the conserved sign pattern without a Hamiltonian and the terms
-/// that break it (the spectral readings are the verifier's). Readings, not gates:
-/// the exact dimensions of K_m (equal truncation) and of K_m and U_m (full coupling at √3) by
-/// Krylov stabilisation, and whether each is palindromic about −s_m.</para>
+/// that break it (the spectral readings are the verifier's); (7) the resonance q = d of an equal splitting q(ZZ₁ + ZZ₂)
+/// and the coupling d(3I_zI_z − I·I): the √3 part T commutes with the rest of H there (the splitting alone not, the
+/// control), T and ½{Z₁ + Z₃, T} are eigenoperators of L in the one-bright cells, outside V, a pair about −s₁ that S
+/// does not keep, so U₁ ≠ K₁ on that plane (d ≠ 0, which the constructor requires). Readings, not gates:
+/// the exact dimensions of K_m (equal truncation) and of K_m and U_m (full coupling at √3, at zero splitting and at
+/// q = d) by Krylov stabilisation, and whether each is palindromic about −s_m.</para>
 ///
 /// <para>Typed home <see cref="SodiumChainMirrorLadderClaim"/>.</para></summary>
 public sealed class SodiumChainWitness : IInspectable
@@ -202,6 +205,32 @@ public sealed class SodiumChainWitness : IInspectable
     /// dark cells, so then in K₀, and outside the kernel of the √3 coupling.</summary>
     public bool IzTotalIsEigenoperator { get; }
     public bool IzTotalInSqrtThreeKernel { get; }
+
+    // gate 7: the resonance q = d, where U₁ ≠ K₁
+    /// <summary>[ZZ₁ + ZZ₂ + R, T] = 0 for the coupling's rational part R and its √3 part T (H₃ = √3·d·T): with an equal
+    /// splitting q(ZZ₁ + ZZ₂) and the coupling d(3I_zI_z − I·I) the √3 part commutes with the rest of H on the plane q = d.</summary>
+    public bool SqrtThreePartCommutesAtResonance { get; }
+    /// <summary>The control: [ZZ₁ + ZZ₂, T] ≠ 0, so off q = d (d ≠ 0) the commutator (q − d)·[ZZ₁ + ZZ₂, T] is not zero.</summary>
+    public bool SplittingAloneDoesNotCommute { get; }
+    /// <summary>T and B = ½{Z₁ + Z₃, T} lie in the cells with one bright nucleus.</summary>
+    public bool ResonantModesInOneBrightCells { get; }
+    /// <summary>On q = d both are eigenoperators of L: each rate piece scales them, and the offset, the √3 part and the
+    /// splitting plus the rational part annihilate them, while the splitting alone does not (the control).</summary>
+    public bool ResonantModesAreEigenoperators { get; }
+    /// <summary>Their eigenvalues at these rates, λ_T = −3(J₀ + 2J₁ + J₂) and λ_B = −3(J₀ + 2J₁ + 3J₂).</summary>
+    public GaussianRational ResonantRateT { get; }
+    public GaussianRational ResonantRateB { get; }
+    /// <summary>λ_T + λ_B = −2s₁ (the claim's rung) and λ_T ≠ −s₁: a pair about the rung, off it.</summary>
+    public bool ResonantModesPairAboutRung { get; }
+    /// <summary>T·T and T·B are linearly independent: no combination of T and B lies in V, so ⟨T, B⟩ meets U₁ only in 0.</summary>
+    public bool ResonantModesOutsideKernel { get; }
+    /// <summary>S does not keep span{T, B}: the pair is not the mirror's.</summary>
+    public bool SDoesNotKeepResonantPair { get; }
+    public bool ResonanceHolds => SqrtThreePartCommutesAtResonance && SplittingAloneDoesNotCommute && ResonantModesInOneBrightCells
+        && ResonantModesAreEigenoperators && ResonantModesPairAboutRung && ResonantModesOutsideKernel && SDoesNotKeepResonantPair;
+    /// <summary>Readings at q = d, ω = <see cref="FullOmega"/>: K_m and U_m of the full coupling at √3, exact.</summary>
+    public IReadOnlyList<HullReading> ResonantSharp { get; }
+    public IReadOnlyList<HullReading> ResonantKernelHull { get; }
 
     // gate 6: a shared gradient, two nuclei under one Kossakowski matrix g·[[1, c], [c, 1]] per channel
     /// <summary>The points (J₀, J₁, J₂, c = num/den) of gate 6.</summary>
@@ -430,6 +459,40 @@ public sealed class SodiumChainWitness : IInspectable
         IzTotalIsEigenoperator = Rank(HStack(izVec, Mul(lRates, izVec))) == 1 && hamiltonianPieces.All(p => IsZero(Mul(p, izVec)));
         IzTotalInSqrtThreeKernel = IsZero(Mul(left3, izVec)) && IsZero(Mul(right3, izVec));
 
+        // ---- gate 7: the resonance q = d
+        var splitting = Add(Str("ZZII"), Str("IIZZ"));
+        SqrtThreePartCommutesAtResonance = IsZero(Commutator(Add(splitting, _rat), _root));
+        SplittingAloneDoesNotCommute = !IsZero(Commutator(splitting, _root));
+        var z13 = Add(Str("ZIII"), Str("IIZI"));
+        var resB = Scale(Add(Mul(z13, _root), Mul(_root, z13)), half);
+        var tCol = Columns(new[] { _root });
+        var bCol = Columns(new[] { resB });
+        var pair = HStack(tCol, bCol);
+        ResonantModesInOneBrightCells = InCells(pair, 1);
+        var muT = ratePieces.Select(p => EigenScalar(p, tCol)).ToArray();
+        var muB = ratePieces.Select(p => EigenScalar(p, bCol)).ToArray();
+        var resonantH = new[] { hamiltonianPieces[0], hamiltonianPieces[2], Add(hamiltonianPieces[3], hamiltonianPieces[1]) };
+        ResonantModesAreEigenoperators = muT.All(m => m is not null) && muB.All(m => m is not null)
+                                         && resonantH.All(p => IsZero(Mul(p, pair)))
+                                         && !IsZero(Mul(hamiltonianPieces[3], tCol)) && !IsZero(Mul(hamiltonianPieces[3], bCol));
+        if (ResonantModesAreEigenoperators)
+        {
+            var js = new[] { j0, j1, j2 };
+            ResonantRateT = Enumerable.Range(0, 3).Aggregate(GaussianRational.Zero, (s, i) => s + (GaussianRational)(BigRational)js[i] * muT[i]!.Value);
+            ResonantRateB = Enumerable.Range(0, 3).Aggregate(GaussianRational.Zero, (s, i) => s + (GaussianRational)(BigRational)js[i] * muB[i]!.Value);
+            var twoS1 = (GaussianRational)(BigRational)SodiumChainMirrorLadderClaim.TwiceRung(Nuclei, 1, j0, j1, j2);
+            ResonantModesPairAboutRung = ResonantRateT + ResonantRateB == -twoS1 && ResonantRateT + ResonantRateT != -twoS1;
+        }
+        ResonantModesOutsideKernel = Rank(Mul(left3, pair)) == 2;
+        var sPair = HStack(Columns(new[] { Mul(q, Transpose(_root)) }), Columns(new[] { Mul(q, Transpose(resB)) }));
+        SDoesNotKeepResonantPair = Rank(HStack(pair, sPair)) > Rank(pair);
+        bool resonantInvariant = true;
+        var (lRes, rationalRes) = Rationalised(Add(Local(iz, d, d, FullOmega, FullOmega), fullRat), fullRoot, identical);
+        SimilarityIsRational &= rationalRes;
+        ResonantSharp = Hulls(lRes, identical, Array.Empty<Mat>(), ref resonantInvariant, out _);
+        ResonantKernelHull = Hulls(lRes, identical, new[] { LeftMultiplication(h3), RightMultiplication(h3) }, ref resonantInvariant, out _);
+        HullsInvariant &= resonantInvariant;
+
         (SharedPriceIdentityHolds, SqrtThreeBreaksSharedIdentity, SharedPriceIsAnOperator, SignOperatorsCommute, PatternConserved,
          HamiltonianBreaksPattern) = ReadSharedGradient(iz);
     }
@@ -618,6 +681,17 @@ public sealed class SodiumChainWitness : IInspectable
             for (int k = 0; k < q; k++) r[i, p + k] = b[i, k];
         }
         return r;
+    }
+
+    private static Mat Commutator(Mat a, Mat b) => Sub(Mul(a, b), Mul(b, a));
+
+    /// <summary>μ with M·v = μ·v for the single column v, exactly, or null when v is no eigenvector of M.</summary>
+    private static GaussianRational? EigenScalar(Mat m, Mat v)
+    {
+        var mv = Mul(m, v);
+        int r = Enumerable.Range(0, v.GetLength(0)).First(i => !v[i, 0].IsZero);
+        var mu = mv[r, 0] / v[r, 0];
+        return Equal(mv, Scale(v, mu)) ? mu : null;
     }
 
     /// <summary>M maps the column span of E into itself: rank [E | M·E] = rank E, exactly.</summary>
@@ -1292,7 +1366,8 @@ public sealed class SodiumChainWitness : IInspectable
         $"(equal truncation), K_m {string.Join(" + ", FullSharp.Select(h => h.Dimension))} and U_m {string.Join(" + ", FullKernelHull.Select(h => h.Dimension))} (full coupling), " +
         $"the invariance L·B = B·M {Verdict(HullsInvariant, "checked on every hull", "FAILING")}; the explicit E₁ ({E1Dimension}) and E₂ ({E2Dimension}) " +
         $"{Verdict(ExplicitHolds, "lie in U₁ and U₂ at every parameter with identical rates, one offset and an equal splitting", "do NOT hold as stated")}" +
-        $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}; under a shared gradient " +
+        $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}; at the resonance q = d " +
+        $"{Verdict(ResonanceHolds, "the √3 coupling itself and ½{Z₁ + Z₃, H₃} are a pair of K₁ about −s₁ outside V, so U₁ ≠ K₁ there", "the resonance gate FAILS")}; under a shared gradient " +
         $"{Verdict(SharedGradientHolds, "the price becomes the operator {K, ·}, the sign pattern t is conserved without a Hamiltonian and broken by each of its terms", "the shared-gradient gate FAILS")}.";
 
     public IEnumerable<IInspectable> Children
@@ -1365,6 +1440,19 @@ public sealed class SodiumChainWitness : IInspectable
                          $"for m = 1, 2: {Verdict(ExplicitAreTheSharpSpacesHere, "yes, so E_m = U_m = K_m here", "NO")}. " +
                          $"I_z,tot {Verdict(IzTotalIsEigenoperator, "is", "is not")} an eigenoperator of L (J₁ {(J1 == J2 ? "=" : "≠")} J₂), " +
                          $"{Verdict(IzTotalInSqrtThreeKernel, "inside", "outside")} the kernel of the √3 coupling.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the resonance q = d: K₁ larger than U₁",
+                summary: $"with an equal splitting q(ZZ₁ + ZZ₂) and the coupling d(3I_zI_z − I·I), the √3 part T (H₃ = √3·d·T) " +
+                         $"{Verdict(SqrtThreePartCommutesAtResonance, "commutes", "does NOT commute")} with the rest of H on the plane q = d, and the splitting alone " +
+                         $"{Verdict(SplittingAloneDoesNotCommute, "does not (so nowhere else)", "DOES (the control FAILS)")}. There T and B = ½{{Z₁ + Z₃, T}} " +
+                         $"{Verdict(ResonantModesInOneBrightCells, "lie in the cells with one bright nucleus", "lie OUTSIDE the one-bright cells")} and " +
+                         $"{Verdict(ResonantModesAreEigenoperators, $"are eigenoperators of L, λ_T = {ResonantRateT}, λ_B = {ResonantRateB}", "are NOT eigenoperators")}; " +
+                         $"{Verdict(ResonantModesPairAboutRung, "the two pair about −s₁, off it", "they do NOT pair about −s₁")}; " +
+                         $"{Verdict(ResonantModesOutsideKernel, "T·T and T·B are independent, so no combination of the two lies in V, and U₁ ≠ K₁ on the whole plane with d ≠ 0", "they lie INSIDE V")}; " +
+                         $"S {Verdict(SDoesNotKeepResonantPair, "does not keep their span: the pairing is not the mirror's", "KEEPS their span")}. " +
+                         $"Readings at q = d = {D}: K_m {ShowHulls(ResonantSharp)}; U_m {ShowHulls(ResonantKernelHull)}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(
