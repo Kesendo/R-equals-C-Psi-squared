@@ -28,7 +28,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// image one, an exceptional point of the eigenvalues; where the lines of a spectrum separate depends on
 /// the observable (the page's rule). The dynamic frequency shift, the Lamb-shift Hamiltonian −3K₂·ZI − 3K₁·IZ
 /// of the shifts K(m·ω₀) = Im Γ, is real and diagonal: both mirrors and the exceptional points survive it, and
-/// the global centre follows <see cref="HasGlobalCentreWithShift"/>.</para>
+/// the global centre follows <see cref="HasGlobalCentreWithShift"/>. Under a spin-lock the central transition's part
+/// ½(XX + YY) keeps both mirrors and the whole field breaks them at generic rates; the global centre under a lock
+/// follows <see cref="HasGlobalCentreUnderLock"/>.</para>
 ///
 /// <para>Shape and neighbours. At J₀ = 0 the map S is an F1 palindromizer built in F118's shape
 /// (<c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c>: Π_Y(ρ) = X^⊗N·ρᵀ), with Γ₀ in place of
@@ -78,6 +80,13 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
     public static bool HasGlobalCentreWithShift(long j0, long j1, long j2, long q, long omega, long k1, long k2) =>
         j0 == 0 || (q == 0 && ((j1 == 0 && omega == checked(6 * k1)) || (j2 == 0 && omega == checked(3 * k2))));
 
+    /// <summary>The global-centre rule under a spin-lock ω₁·I_x (both of its parts non-zero) with the shift: the lit
+    /// element turns to E = ZZ/2 − (√3/2)·XI = −(3I_x² − 15/4)/3, up to sign the quadrupole along the lock's axis, lit only when
+    /// J₀ = J₂ = 0 and commuting with H exactly when q = 0 and ω = 3K₂; sufficient by F158, the "only" read at the
+    /// witness's points, not proven. With every density zero there is no dissipator and L = −i[H, ·] pairs about 0.</summary>
+    public static bool HasGlobalCentreUnderLock(long j0, long j1, long j2, long q, long omega, long k1, long k2) =>
+        (j0 == 0 && j1 == 0 && j2 == 0) || (j0 == 0 && j2 == 0 && q == 0 && omega == checked(3 * k2));
+
     public Spin32QuadrupolarMirrorsClaim(PalindromeTwoEndCountClaim twoEndCount)
         : base(
             "Spin-3/2 quadrupolar relaxation: the five Hermitian quadrupole components are Dirac matrices (only at " +
@@ -123,6 +132,14 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
                          "still holds, each bright pair moves as a whole (6K₁, 6K₂), so the exceptional points stay, the central " +
                          "transition moves 6(2K₁ − K₂) off the satellites, and one global centre exists exactly when J₀ = 0, or " +
                          "q = 0 and J₁ = 0 with ω = 6K₁, or q = 0 and J₂ = 0 with ω = 3K₂");
+            yield return new InspectableNode("a spin-lock",
+                summary: "ω₁·I_x in the field's frame, I_x = (√3/2)·IX + ½(XX + YY): the central-transition part is real and " +
+                         "commutes with Γ₀, so the lock's first-order truncation onto it keeps both mirrors; the whole field " +
+                         "breaks them at generic rates and at second order in ω₁/q when ω₁ ≪ |2q ± ω| (both read at points by the verifier), and keeps them, " +
+                         "turned with the field, in the extreme-narrowing limit with no splitting; the global centre's element " +
+                         "turns to E = ½·ZZ − (√3/2)·XI = −(3I_x² − 15/4)/3, up to sign the quadrupole along the lock's axis, " +
+                         "commuting with H exactly when q = 0 and " +
+                         "ω = 3K₂, one centre there where J₀ = J₂ = 0 (sufficient by F158; the only one read at points)");
             yield return new InspectableNode("global-centre theorem",
                 summary: "one centre −s, 2s = 3J₀ + 6J₁ + 6J₂, exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0, every real J; the " +
                          "coefficients of χ(−x − 2s) − χ(x) generate the ideal (J₀·ω_Q², J₀·(9J₁² + ω²)·(9J₂² + 4ω²)); for J ≥ 0 " +

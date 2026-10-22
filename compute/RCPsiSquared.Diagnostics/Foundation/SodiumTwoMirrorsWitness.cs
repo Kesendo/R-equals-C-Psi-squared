@@ -49,7 +49,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// 4/5 longitudinal rate; and the dynamic frequency shift (gate 7, at the fixed <see cref="ShiftPoint"/>, K₁ and K₂
 /// integers): the Lamb-shift Hamiltonian from the spin matrices against its closed form, the mirror identity with it,
 /// the bright pairs moving as wholes, the Jordan block at the shifted eigenvalue, and the shifted global-centre rule
-/// on both routes, the kernel dimensions and the characteristic polynomial, at eleven points. These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// on both routes, the kernel dimensions and the characteristic polynomial, at eleven points; and a spin-lock (gate 8): the
+/// split of I_x into its central-transition and satellite parts read off the spin matrices, the mirror identity and the
+/// sectors kept by the central-transition part and broken by the satellite part at one point, and the global centre under
+/// a lock on both routes at ten points (integer mixtures of the two parts; the spectral break is the verifier's). These are statements on eigenvalues, not on the lines of a spectrum; which come
 /// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
@@ -294,6 +297,42 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     public bool DynamicShiftHolds => ShiftClosedForm && ShiftKeepsMirror && ShiftMovesPairsWhole && ShiftKeepsJordan
         && ShiftCentreReadings.All(r => r.Agrees) && ShiftCentreReadings.Any(r => r.Rule) && ShiftCentreReadings.Any(r => !r.Rule);
 
+    // gate 8: a spin-lock, ω₁·I_x in the rotating frame, split by the spin matrices into its two parts
+    /// <summary>I_x = (I_+ + I_−)/2 splits along I_+'s rational and √3 parts: the rational part is the central
+    /// transition, (XX + YY)/2, real and commuting with Γ₀; the √3 part is the satellites, (√3/2)·IX, anticommuting.</summary>
+    public bool LockSplitHolds { get; }
+    /// <summary>The lock strength of gate 8.</summary>
+    public const long LockNu = 2;
+    /// <summary>At <see cref="ShiftPoint"/> with LockNu times the central-transition part added: the mirror identity
+    /// holds and the bright projector still commutes with L.</summary>
+    public bool SelectiveLockKeepsMirror { get; }
+    /// <summary>With the satellite direction added instead, the mirror identity fails and the projector no longer
+    /// commutes. Both residuals are linear in the coefficient, so the √3 the exact field
+    /// carries changes neither; the spectral break itself is the verifier's (x times an irreducible factor of degree 15,
+    /// no eigenvalue paired at either centre).</summary>
+    public bool SatelliteLockBreaksMirror { get; }
+    public sealed record LockCentreCase(long A, long B, long J0, long J1, long J2, long Q, long Omega, long K1, long K2);
+    public sealed record LockCentreReading(LockCentreCase Case, bool Rule, int NearKernel, int FarKernel, bool CharpolySymmetric)
+    {
+        public bool Agrees => Rule == CharpolySymmetric && Rule == (NearKernel == FarKernel);
+    }
+    /// <summary>The global centre under a lock a·(satellite direction) + b·(central transition), a and b non-zero
+    /// integers in place of the field's √3 and 1: only J₁ on, q = 0 and ω = 3K₂ pairs (also with K₁ off the satellites'
+    /// resonance, and at ω = 0 with no shift); the satellites' resonance ω = 6K₁ with K₂ = 0, ω off, a splitting, J₂ or J₀
+    /// switched on break, and so do the two branches the lock removes, J₂ alone at the satellites' resonance (the shift's
+    /// J₁ = 0 branch) and J₀ alone at q = ω = 0 (the theorem's J₁·J₂ = 0 branch).</summary>
+    public static readonly IReadOnlyList<LockCentreCase> LockCentreCases = new[]
+    {
+        new LockCentreCase(2, 1, 0, 2, 0, 0, 3, 0, 1), new LockCentreCase(5, 3, 0, 2, 0, 0, 3, 5, 1),
+        new LockCentreCase(2, 1, 0, 2, 0, 0, 0, 0, 0), new LockCentreCase(2, 1, 0, 2, 0, 0, 6, 1, 0),
+        new LockCentreCase(2, 1, 0, 2, 0, 0, 1, 0, 0), new LockCentreCase(2, 1, 0, 2, 0, 1, 3, 0, 1),
+        new LockCentreCase(2, 1, 0, 2, 3, 0, 3, 0, 1), new LockCentreCase(2, 1, 1, 2, 0, 0, 3, 0, 1),
+        new LockCentreCase(2, 1, 0, 0, 3, 0, 6, 1, 0), new LockCentreCase(2, 1, 1, 0, 0, 0, 0, 0, 0),
+    };
+    public IReadOnlyList<LockCentreReading> LockCentreReadings { get; }
+    public bool SpinLockHolds => LockSplitHolds && SelectiveLockKeepsMirror && SatelliteLockBreaksMirror
+        && LockCentreReadings.All(r => r.Agrees) && LockCentreReadings.Any(r => r.Rule) && LockCentreReadings.Any(r => !r.Rule);
+
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
     public CentrePoint UserPoint { get; }
@@ -302,6 +341,7 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     private readonly Mat _d;                         // D = 3I_z² − 15/4
     private readonly Mat _g0;                        // Γ̂₀ = D/3 = diag(1, −1, −1, 1)
     private readonly Mat _iz;
+    private readonly Mat _ixCt, _ixSat;               // I_x = _ixCt + √3·_ixSat: the central transition and the satellites
     private readonly Dictionary<int, Mat> _r = new(); // T₂,ₘ = √3·R₂,ₘ, m = ±1, ±2
     private readonly Mat _s, _sInv, _p;
 
@@ -327,6 +367,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
             ipB[k - 1, k] = b;
         }
         var ip = new Root3(ipA, ipB);
+        _ixCt = Scale(Add(ipA, Transpose(ipA)), new BigRational(1, 2));
+        _ixSat = Scale(Add(ipB, Transpose(ipB)), new BigRational(1, 2));
         var im = new Root3(Transpose(ipA), Transpose(ipB)); // I_− = I_+ᵀ (real)
         var izR = new Root3(_iz, Zero(Levels));
         var t = new Dictionary<int, Root3>
@@ -602,6 +644,29 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                 Dim - Rank(lc), Dim - Rank(Add(lc, Scale(Identity(Dim), two))),
                 CharpolySymmetric(lc, Enumerable.Range(0, Dim).ToArray(), two));
         }).ToArray();
+
+        // gate 8: the spin-lock
+        var half = new GaussianRational(new BigRational(1, 2), BigRational.Zero);
+        bool Pattern(Mat m, (int, int)[] cells, GaussianRational v) => Enumerable.Range(0, Levels).All(i =>
+            Enumerable.Range(0, Levels).All(j => m[i, j] == (cells.Contains((i, j)) ? v : GaussianRational.Zero)));
+        LockSplitHolds = Pattern(_ixCt, new[] { (1, 2), (2, 1) }, GaussianRational.One)
+                         && Pattern(_ixSat, new[] { (0, 1), (1, 0), (2, 3), (3, 2) }, half)
+                         && Equal(Mul(_ixCt, _g0), Mul(_g0, _ixCt)) && Equal(Mul(_ixSat, _g0), Scale(Mul(_g0, _ixSat), -1));
+        var (lockL, lockJ0) = Generator(hj0, hj1, hj2, hq, hw, hk1, hk2, Scale(_ixCt, LockNu));
+        SelectiveLockKeepsMirror = Equal(Mul(Mul(_s, lockL), _sInv), MirrorRight(lockL, lockJ0, hj1, hj2))
+                                   && Equal(Mul(_p, lockL), Mul(lockL, _p));
+        var (satL, satJ0) = Generator(hj0, hj1, hj2, hq, hw, hk1, hk2, _ixSat);
+        SatelliteLockBreaksMirror = !Equal(Mul(Mul(_s, satL), _sInv), MirrorRight(satL, satJ0, hj1, hj2))
+                                    && !Equal(Mul(_p, satL), Mul(satL, _p));
+        LockCentreReadings = LockCentreCases.Select(c =>
+        {
+            var lc = Generator(c.J0, c.J1, c.J2, c.Q, c.Omega, c.K1, c.K2, Add(Scale(_ixSat, c.A), Scale(_ixCt, c.B))).L;
+            long two = Spin32QuadrupolarMirrorsClaim.TwiceGlobalCentre(c.J0, c.J1, c.J2);
+            return new LockCentreReading(c,
+                Spin32QuadrupolarMirrorsClaim.HasGlobalCentreUnderLock(c.J0, c.J1, c.J2, c.Q, c.Omega, c.K1, c.K2),
+                Dim - Rank(lc), Dim - Rank(Add(lc, Scale(Identity(Dim), two))),
+                CharpolySymmetric(lc, Enumerable.Range(0, Dim).ToArray(), two));
+        }).ToArray();
     }
 
     // ===== the handshake =====
@@ -720,10 +785,11 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     // ===== the generator =====
 
     /// <summary>L and its J₀ part L_{J₀}, as 16 × 16 superoperators on vec index 4i + j of |i⟩⟨j|.</summary>
-    private (Mat L, Mat LJ0) Generator(long j0, long j1, long j2, long q, long omega, long k1 = 0, long k2 = 0)
+    private (Mat L, Mat LJ0) Generator(long j0, long j1, long j2, long q, long omega, long k1 = 0, long k2 = 0, Mat? extra = null)
     {
         var h = Add(Scale(_g0, q), Scale(_iz, omega));
         if (k1 != 0 || k2 != 0) h = Add(h, LambShift(k1, k2));
+        if (extra is not null) h = Add(h, extra);
         var d2 = Mul(_d, _d);
         Mat Dissipate(Mat c, Mat cDagC, Mat rho) =>
             Sub(Mul(Mul(c, rho), Adjoint(c)), Scale(Add(Mul(cDagC, rho), Mul(rho, cDagC)), new BigRational(1, 2)));
@@ -1087,7 +1153,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"{Verdict(HandshakeHolds, "holds (the textbook parts of I_z and I_+ are eigenoperators at the textbook rates)", "FAILS")}; " +
         $"the bright pairs' exceptional point {Verdict(ExceptionalPointHolds, "holds (the satellites and the double quantum each a 2 × 2 Jordan block on Re λ = −c₂, at 2q = 3J₂ and at 2q = 3J₁ respectively, the density non-zero; the scalar control semisimple)", "FAILS")}, " +
         $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}; " +
-        $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}.";
+        $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}; " +
+        $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
@@ -1185,6 +1252,14 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"the satellite exceptional point {Verdict(ShiftKeepsJordan, "stays a 2 × 2 Jordan block, at λ* + 6i·K₁ (ranks 15, 14, 14)", "is NOT a Jordan block there")}; " +
                          $"the global centre with the shift (J₀ = 0, or q = 0 and J₁ = 0 with ω = 6K₁, or q = 0 and J₂ = 0 with ω = 3K₂) " +
                          $"{Verdict(ShiftCentreReadings.All(r => r.Agrees), $"agrees with dim ker L = dim ker(L + 2s) and with χ(−x − 2s) = χ(x) at all {ShiftCentreReadings.Count} points ({ShiftCentreReadings.Count(r => r.Rule)} pairing, {ShiftCentreReadings.Count(r => !r.Rule)} breaking)", "DISAGREES with a route")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "a spin-lock",
+                summary: $"ω₁·I_x in the rotating frame, split by the spin matrices: {Verdict(LockSplitHolds, "the central transition (XX + YY)/2 commutes with Γ₀, the satellites (√3/2)·IX anticommute", "the split is NOT as stated")}; " +
+                         $"at {ShiftPoint} the selective lock ω₁ = {LockNu} {Verdict(SelectiveLockKeepsMirror, "keeps the mirror identity and the sectors", "BREAKS the mirror identity")}, the satellite part " +
+                         $"{Verdict(SatelliteLockBreaksMirror, "breaks the identity and mixes the sectors", "does NOT break it")}; the global centre under a lock (only J₁, q = 0, ω = 3K₂; read with integer mixtures a:b of the two parts in place of √3:1, whose lit element is ZZ − (a/b)·XI) " +
+                         $"{Verdict(LockCentreReadings.All(r => r.Agrees), $"agrees with both routes at all {LockCentreReadings.Count} points ({LockCentreReadings.Count(r => r.Rule)} pairing, {LockCentreReadings.Count(r => !r.Rule)} breaking)", "DISAGREES with a route")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

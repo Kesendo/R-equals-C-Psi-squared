@@ -1312,6 +1312,104 @@ def main():
           and sp.limit(sp.simplify((2 * Kl(wq0) - Kl(2 * wq0)) / (3 * Jl(2 * wq0))), tq, sp.oo) == sp.oo
           and sp.limit(sp.simplify((2 * Kl(wq0) - Kl(2 * wq0)) / tq ** 4), tq, 0) == 6 * wq0 ** 3)
 
+    print("\na spin-lock: an RF field along x in the rotating frame, nu·Ix, split into its central-transition and satellite parts")
+    nu = sp.symbols("nu", real=True)
+    ms3, Iz3, T3 = spin_ops(R(3, 2))
+    Ipm = sp.zeros(d)
+    for k in range(1, d):
+        Ipm[k - 1, k] = sp.sqrt(R(3, 2) * R(5, 2) - ms3[k] * (ms3[k] + 1))
+    Ixm = (Ipm + Ipm.T) / 2
+    CT = sp.zeros(d)
+    CT[1, 2], CT[2, 1] = Ixm[1, 2], Ixm[2, 1]
+    SAT = Ixm - CT
+    xx, yy = sp.kronecker_product(Xs2, Xs2), sp.kronecker_product(Ys2, Ys2)
+    ix = sp.kronecker_product(I2s, Xs2)
+    claim("Ix = (sqrt3/2)·IX + (XX + YY)/2: the central-transition part (XX + YY)/2 commutes with Gamma0 = ZZ and is real, "
+          "the satellite part (sqrt3/2)·IX anticommutes with it",
+          (CT - (xx + yy) / 2).applyfunc(sp.simplify).is_zero_matrix
+          and (SAT - sp.sqrt(3) / 2 * ix).applyfunc(sp.simplify).is_zero_matrix
+          and (CT * zz - zz * CT).is_zero_matrix and (SAT * zz + zz * SAT).is_zero_matrix and CT == CT.conjugate())
+    sup = lambda A_: -sp.I * (sp.kronecker_product(A_, sp.eye(d)) - sp.kronecker_product(sp.eye(d), A_.T))
+    Lct = (Lk + nu * sup(CT)).applyfunc(sp.simplify)
+    claim("the lock's first-order truncation onto the central transition, nu·(XX + YY)/2 (the satellite part detuned by "
+          "the splitting), keeps both mirrors: S·L·S^-1 = -L + 2·L_J0 - 6(J1 + J2) with it and H_LS added, at every wQ, w, "
+          "K1, K2, nu (the chain lemma: H real and commuting with ZZ)",
+          (Sm2 * Lct * Sm2.inv() + Lct + 6 * J0 * Pbr + 6 * (J1 + J2) * sp.eye(d * d)).applyfunc(sp.simplify).is_zero_matrix)
+
+    from sympy.polys.matrices import DomainMatrix
+    Fld = sp.QQ.algebraic_field(sp.sqrt(3), sp.I)
+    def factors(M_):
+        cf = DomainMatrix.from_Matrix(M_.applyfunc(sp.nsimplify)).convert_to(Fld).charpoly()
+        poly = sp.expand(sum(Fld.to_sympy(ci) * x ** (len(cf) - 1 - i) for i, ci in enumerate(cf)))
+        return [sp.Poly(f_, x) for f_, m_ in sp.factor_list(poly, x, extension=[sp.sqrt(3), sp.I])[1] for _ in range(m_)]
+    def partner(f_, fs_, c_):   # a factor whose roots are f's roots mirrored about -c
+        g_ = sp.Poly(f_.as_expr().subs(x, -x - 2 * c_), x).monic().as_expr()
+        return any(sp.expand(g_ - h_.monic().as_expr()) == 0 for h_ in fs_)
+    def at(jv_, q_, w_, extra_):
+        Lp = L.subs({J0: jv_[0], J1: jv_[1], J2: jv_[2], wQ: 2 * q_ / sp.sqrt(6), w: w_}) + sup(extra_)
+        return factors(Lp), 3 * (jv_[1] + jv_[2]), 3 * sum(jv_)
+    whole_ok, trunc_ok, degs = True, True, []
+    for q_ in (1, 10):
+        fs_, c1v, c2v = at((1, 2, 3), q_, 1, Ixm)
+        degs.append(sorted(f_.degree() for f_ in fs_))
+        whole_ok &= sorted(f_.degree() for f_ in fs_) == [1, 15] and not any(
+            partner(f_, fs_, c_) for f_ in fs_ for c_ in (c1v, c2v))
+        ft_, c1v, c2v = at((1, 2, 3), q_, 1, CT)
+        trunc_ok &= all(partner(f_, ft_, c1v) or partner(f_, ft_, c2v) for f_ in ft_)
+    claim("at generic rates the whole field breaks both mirrors: at J = (1, 2, 3), w = 1, nu = 1 and q = 1 or 10 the "
+          "characteristic polynomial with the whole Ix is x times one irreducible factor of degree 15 over Q(sqrt3, i), and "
+          "no factor's mirror image about -c1 or -c2 is a factor, so no eigenvalue has a partner at either centre (an "
+          "irreducible factor shares a root with its image only if they are equal; 0's partner -2c is rational); the "
+          "truncation at the same points pairs every factor",
+          whole_ok and trunc_ok, f"(degrees {degs})")
+
+    # extreme narrowing: equal rates make the dissipator rotation invariant, and the mirror turns with the field
+    Iym = (Ipm - Ipm.T) / (2 * sp.I)
+    Leq = L.subs({J0: 1, J1: 1, J2: 1, wQ: 0, w: 0})
+    Ry = sup(Iym)
+    Lneq = L.subs({J0: 1, J1: 2, J2: 3, wQ: 0, w: 0})
+    en_ok = all(all(partner(f_, fs_, 6) or partner(f_, fs_, 9) for f_ in fs_)
+                for fs_ in (at((1, 1, 1), 0, w_, nu_ * Ixm)[0] for w_, nu_ in ((0, 1), (R(7, 10), 5))))
+    en_q = at((1, 1, 1), 1, 1, Ixm)[0]
+    claim("at extreme narrowing with no splitting any lock keeps both mirrors: with J0 = J1 = J2 the dissipator commutes "
+          "with the rotation generator -i[Iy, .] (with J = (1, 2, 3) it does not), so a real rotation about y carries "
+          "w·Iz + nu·Ix to a multiple of Iz and the turned S is a mirror; every factor pairs at (w, nu) = (0, 1) and "
+          "(7/10, 5); with q = 1 a factor has no partner",
+          ((Leq * Ry - Ry * Leq).applyfunc(sp.simplify)).is_zero_matrix
+          and not ((Lneq * Ry - Ry * Lneq).applyfunc(sp.simplify)).is_zero_matrix
+          and en_ok and not all(partner(f_, en_q, 6) or partner(f_, en_q, 9) for f_ in en_q))
+
+    LD = Leq                                                       # the dissipator alone at J0 = J1 = J2 = 1
+    Id16 = sp.eye(d * d)
+    rk = lambda M_: M_.rank(simplify=True)
+    grey_ok = ((LD * (LD + 6 * Id16) * (LD + 12 * Id16)).applyfunc(sp.simplify).is_zero_matrix
+               and [d * d - rk(LD), d * d - rk(LD + 6 * Id16), d * d - rk(LD + 12 * Id16)] == [1, 10, 5]
+               and all(((LD * sup(G_) - sup(G_) * LD).applyfunc(sp.simplify)).is_zero_matrix for G_ in (Ixm, Iym, Izm))
+               and not ((LD * sup(T[0]) - sup(T[0]) * LD).applyfunc(sp.simplify)).is_zero_matrix)
+    claim("at extreme narrowing the dissipator is one number on each rank of spherical tensors: L_D(L_D + 6)(L_D + 12) = 0 "
+          "with multiplicities 1, 10, 5 (rank 0; ranks 1 and 3; rank 2, at J = 1), and it commutes with Ix, Iy, Iz but not "
+          "with T20; so offset and lock only turn inside the ranks and Re λ keeps the three values 0, -6J, -12J under any "
+          "lock, while the splitting mixes the ranks",
+          grey_ok)
+
+    Ecol = zz / 2 - sp.sqrt(3) / 2 * sp.kronecker_product(Xs2, I2s)
+    Hrf = (sp.sqrt(6) * wQ / 2) * zz + w * Izm + HLS + nu * Ixm
+    cE = (Hrf * Ecol - Ecol * Hrf).applyfunc(sp.expand)
+    yi_, yz_ = sp.kronecker_product(Ys2, I2s), sp.kronecker_product(Ys2, Zs2)
+    strings = [sp.kronecker_product(a_, b_) for a_ in (I2s, Xs2, Ys2, Zs2) for b_ in (I2s, Xs2, Ys2, Zs2)]
+    coef = lambda A_: sp.simplify((A_ * cE).trace() / 4)
+    claim("under the lock the global centre's element turns: E = ZZ/2 - (sqrt3/2)·XI = -(3Ix² - 15/4)/3, the quadrupole "
+          "along the lock's axis as Gamma0 = ZZ = (3Iz² - 15/4)/3 is along z; E² = 1, E anticommutes with the J1 jumps ZX, "
+          "ZY and with neither ZZ nor XI, and [H, E] = sqrt3·i(3K2 - w)·YI - (3sqrt2/2)·i·wQ·YZ, two independent strings, "
+          "so E commutes with H exactly when wQ = 0 and w = 3K2 (K1 and nu free): one global centre there where J0 = J2 = 0",
+          (Ecol + (3 * Ixm ** 2 - R(15, 4) * sp.eye(d)) / 3).applyfunc(sp.simplify).is_zero_matrix
+          and (zz - (3 * Izm ** 2 - R(15, 4) * sp.eye(d)) / 3).applyfunc(sp.simplify).is_zero_matrix
+          and (Ecol * Ecol - sp.eye(d)).applyfunc(sp.simplify).is_zero_matrix
+          and all(acomm(Ecol, B_) for B_ in (zx, zy)) and not acomm(Ecol, zz) and not acomm(Ecol, xi)
+          and sp.simplify(coef(yi_) - sp.sqrt(3) * sp.I * (3 * Kp2 - w)) == 0
+          and sp.simplify(coef(yz_) + 3 * sp.sqrt(2) / 2 * sp.I * wQ) == 0
+          and all(coef(A_) == 0 for A_ in strings if A_ != yi_ and A_ != yz_))
+
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")
     if held < len(CLAIMS):

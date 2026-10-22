@@ -221,6 +221,27 @@ public class SodiumTwoMirrorsWitnessTests
                      Spin32QuadrupolarMirrorsClaim.HasGlobalCentreWithShift(j0, j1, j2, q, omega, 0, 0));
 
     [Fact]
+    public void SpinLock_CentralTransitionPartKeepsTheMirror_SatellitePartBreaksTheIdentityAndTheSectors()
+    {
+        Assert.True(Default.LockSplitHolds);              // I_x = (XX + YY)/2 + (√3/2)·IX from the spin matrices
+        Assert.True(Default.SelectiveLockKeepsMirror);    // identity and sectors with ν·(XX + YY)/2
+        Assert.True(Default.SatelliteLockBreaksMirror);   // identity fails and the sectors mix with IX
+        Assert.True(Default.SpinLockHolds);
+    }
+
+    [Fact]
+    public void SpinLock_GlobalCentre_OnlyJ1_AtTheDoubleQuantaResonance_BothRoutesAgainstLiterals()
+    {
+        // only J₁ at q = 0, ω = 3K₂ pairs (twice, once with K₁ off the satellites' resonance), and at ω = 0 unshifted;
+        // ω = 6K₁ with K₂ = 0, ω off, a splitting, J₂ on, J₀ on, not; nor the two branches the lock removes (J₂ alone at
+        // ω = 6K₁, J₀ alone at q = ω = 0)
+        var expected = new[] { true, true, true, false, false, false, false, false, false, false };
+        Assert.Equal(expected, Default.LockCentreReadings.Select(r => r.CharpolySymmetric).ToArray());
+        Assert.Equal(expected, Default.LockCentreReadings.Select(r => r.Rule).ToArray());
+        Assert.Equal(expected, Default.LockCentreReadings.Select(r => r.NearKernel == r.FarKernel).ToArray());
+    }
+
+    [Fact]
     public void ExceptionalPoint_BrightPairs_AreClosedBlocks_WithTheSumRuleAndTheirDiscriminants()
     {
         Assert.True(Default.BrightPairsClosed);              // the control set {satellite, central transition} is not

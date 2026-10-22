@@ -11009,6 +11009,22 @@ and J₁ = 0 with ω = 6K₁, or ω_Q = 0 and J₂ = 0 with ω = 3K₂ (the idea
 the frame in which the satellites or the double quanta are on resonance; for
 non-negative densities F158's route gives every branch again.
 
+**A spin-lock (spin 3/2).** ω₁·I_x in the frame of the field, I_x = (√3/2)·IX +
+½(XX + YY): the central-transition part ½(XX + YY) is real and commutes with Γ₀ = ZZ,
+so the lock's first-order truncation onto the central transition (ω₁ ≪ |2q ± ω|) keeps
+both mirrors at every ω_Q, ω, K₁, K₂, ω₁, and the whole field breaks them at second
+order in ω₁/q (read numerically). At generic rates the whole field breaks them outright
+(read at J = (1, 2, 3), ω = ω₁ = 1, q = 1 and 10: x times an irreducible factor of
+degree 15 over ℚ(√3, i), no eigenvalue paired at either centre); in the
+extreme-narrowing limit J₀ = J₁ = J₂ with no splitting any lock keeps them, the
+equal-rate dissipator being one number on each rank of spherical tensors (0 for rank 0,
+−6J for ranks 1 and 3, −12J for rank 2), so a lock only turns inside the ranks and the
+mirror turns with the field. The global centre's element
+turns to E = ½·ZZ − (√3/2)·XI = −(3I_x² − 15/4)/3, up to sign the quadrupole along the
+lock's axis; [H, E] = √3·i(3K₂ − ω)·YI − √3·i·q·YZ, so E commutes with H exactly when
+q = 0 and ω = 3K₂: one centre there where J₀ = J₂ = 0, the "only" read at the witness's
+ten points, not proven.
+
 **Beyond spin 3/2.**
 - At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror: the cells of
   price 0 and of the top price do not occur equally often (proved).
@@ -11089,7 +11105,9 @@ and the satellite signal around it in the rates a measurement reads; its tests r
 once more with `EpCharacter`), and the dynamic frequency shift (the mirror and the pairs'
 moves at one point, the closed form of the shift from the spin
 matrices, the satellites' Jordan block at the shifted eigenvalue, and the shifted global-centre rule
-on both routes, the kernel dimensions and the characteristic polynomial, at eleven points). The
+on both routes, the kernel dimensions and the characteristic polynomial, at eleven points),
+and a spin-lock (the split of I_x from the spin matrices, the mirror and the sectors with
+each part at one point, the lock's global centre on both routes at ten points). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11099,7 +11117,7 @@ similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
 the verifier's parameters and, in its tests, at six further points. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-151 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
+157 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, the
