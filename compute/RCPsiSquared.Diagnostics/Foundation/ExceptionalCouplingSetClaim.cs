@@ -161,7 +161,7 @@ public sealed class ExceptionalCouplingSetClaim : Claim
         var w = new ExceptionalCouplingWitness(3, "chain");
         return $"E(3, chain) = {{{string.Join(", ", w.ExceptionalSet.Select(r => r.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture)))}}} " +
                $"(pinned {(w.PinnedCoversAllRoots ? "exactly" : "NOT certified")}); count at −2γ {w.GenericCount} generic, " +
-               $"[{string.Join(", ", w.CountsAtPoints)}] at E (nullities [{string.Join(", ", w.NullitiesAtPoints)}]); J/γ at min E = {w.HandoverQ!.Value.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture)} " +
+               $"[{string.Join(", ", w.CountsAtPoints)}] at E (nullities [{string.Join(", ", w.NullitiesAtPoints)}]); J/γ at min E = {w.JOverGammaAtMinE!.Value.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture)} " +
                $"against Q*_gap(3) = √((1+√17)/8) = {Math.Sqrt((1 + Math.Sqrt(17)) / 8).ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture)}, " +
                $"the gap read on both sides: {(w.GapSidesHold ? "2γ below, a real mode below 2γ above (measured)" : "THE GAP READING FAILS")}";
     }

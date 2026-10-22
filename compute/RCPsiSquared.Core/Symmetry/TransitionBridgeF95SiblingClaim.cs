@@ -84,12 +84,9 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
     /// CΨ &lt; ¼; exactly zero at the discriminant-zero boundary CΨ = ¼.</summary>
     public double CuspAngle(double cpsi) => F95.ThetaGeneral(cpsi, CuspAnchorB);
 
-    /// <summary>Q_EP = 2/g_eff, where the EP block's discriminant vanishes (the modes coalesce).</summary>
-    public static double QEp(double gEff)
-    {
-        RequirePositiveFiniteGEff(gEff);
-        return 2.0 / gEff;
-    }
+    /// <summary>Q_EP = 2/g_eff, where the EP block's discriminant vanishes (the modes coalesce); read from
+    /// <see cref="Resonance.EpAlgebra.QEp"/>.</summary>
+    public static double QEp(double gEff) => Resonance.EpAlgebra.QEp(gEff);
 
     /// <summary>Positive quadratic anchor b = 4γ₀ in z_decay = −λ, the absorption rung ⟨n_XY⟩ = 2.</summary>
     public double EpAnchorB(double gamma0)

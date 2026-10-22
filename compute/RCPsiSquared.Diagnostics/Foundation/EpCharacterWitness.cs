@@ -120,7 +120,8 @@ public sealed class EpCharacterWitness : IInspectable
 
     /// <summary>The single-excitation coherence horizon Q*(N) = J/g*, where g* is the largest g (smallest
     /// Q) at which the slowest non-zero SE mode stops oscillating (the EP), by bisection on g — exactly
-    /// the Python <c>qstar_se</c>. Cached per N.</summary>
+    /// the Python <c>qstar_se</c>. Cached per N. The same quantity as <see cref="CoherenceHorizonWitness.EpQ"/>, both
+    /// read from <see cref="BisectEpQ"/>.</summary>
     public double Qstar(int n)
     {
         if (n < MinN || n > MaxN)

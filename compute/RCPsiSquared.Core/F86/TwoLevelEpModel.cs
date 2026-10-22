@@ -39,6 +39,14 @@ public sealed class TwoLevelEpModel : Claim
     public (double LamPlus, double LamMinus) Eigenvalues { get; }
     public EpRegime Regime { get; }
 
+    /// <summary>The AtEp band in the scale-free variable x = J·g_eff/(2γ₀): |x − 1| ≤ 2ε. The error model: a point
+    /// built on the EP as <see cref="AtQ"/>(γ₀, 2/g_eff, g_eff) passes three roundings (2/g_eff, Q·γ₀, J·g_eff), each at
+    /// most ε/2 relative, so |x − 1| ≤ 1.5ε to first order, at every scale of γ₀ (the subtraction J·g_eff − 2γ₀ is exact
+    /// there). Sampled over γ₀ from 10⁻⁹ to 10¹⁰ and g_eff in [0.1, 10], the worst |x − 1|/ε per decade lies between
+    /// about 1.05 and 1.2, below the bound in every decade. A point passed directly with J·g_eff = 2γ₀ exact in doubles
+    /// lands at x = 1 exactly; an AtQ point need not (g_eff = 49 at γ₀ = 1 misses).</summary>
+    public const double AtEpRelativeTolerance = 2 * 2.220446049250313e-16;
+
     /// <summary>Decay time at the EP for this level pair: <c>1/(4γ₀·k)</c>.</summary>
     public double DecayTimeAtEp => 1.0 / (4.0 * GammaZero * K);
 
@@ -60,6 +68,8 @@ public sealed class TwoLevelEpModel : Claim
         : base($"2-level EP model (k={k})", Tier.Tier1Derived, "docs/proofs/PROOF_F86A_EP_MECHANISM.md Statement 1")
     {
         if (k < 1) throw new ArgumentOutOfRangeException(nameof(k), $"k must be ≥ 1; got {k}");
+        if (!double.IsFinite(gammaZero) || gammaZero <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), $"γ₀ must be finite and > 0; got {gammaZero}");
         K = k;
         GammaZero = gammaZero;
         J = j;
@@ -69,11 +79,10 @@ public sealed class TwoLevelEpModel : Claim
         // Shift by -(k-1)·4γ₀ to land at level k's trace centre.
         double shift = -4.0 * gammaZero * (k - 1);
         Eigenvalues = (slowest.LamPlus + shift, slowest.LamMinus + shift);
-        const double epTol = 1e-10;
-        if (Math.Abs(Discriminant) < epTol) Regime = EpRegime.AtEp;
+        RelativeDistanceToEp = Math.Abs(j * gEff - 2 * gammaZero) / (2 * gammaZero);
+        if (RelativeDistanceToEp <= AtEpRelativeTolerance) Regime = EpRegime.AtEp;
         else if (Discriminant > 0) Regime = EpRegime.PreEp;
         else Regime = EpRegime.PostEp;
-        RelativeDistanceToEp = Math.Abs(j * gEff - 2 * gammaZero) / (2 * gammaZero);
     }
 
     /// <summary>Build at a chosen Q (uniform-J): <c>J = Q·γ₀</c>.</summary>

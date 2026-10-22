@@ -31,8 +31,9 @@ public sealed class LEffSpectralAtQ : IInspectable
     public ComplexVector Eigenvalues => _evd.Value.EigenValues;
     public ComplexMatrix Eigenvectors => _evd.Value.EigenVectors;
 
-    /// <summary>Largest |Im(λ)| among the four eigenvalues. Spikes when Q crosses the EP and
-    /// the slowest pair acquires an imaginary part — an empirical EP locator.</summary>
+    /// <summary>Largest |Im(λ)| among the four eigenvalues. Over Q it grows from the start (the
+    /// Hamiltonian part oscillates on its own), its slope changing where a pair leaves the real axis; it
+    /// does not spike at an exceptional point and locates none (see <see cref="LEffSweepView"/>).</summary>
     public double MaxImaginaryPart => _maxImaginaryPart.Value;
 
     public LEffSpectralAtQ(double q, double gammaZero, ComplexMatrix lEff)

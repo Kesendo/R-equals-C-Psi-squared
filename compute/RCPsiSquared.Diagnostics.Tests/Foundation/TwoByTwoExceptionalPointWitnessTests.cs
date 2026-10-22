@@ -52,4 +52,12 @@ public class TwoByTwoExceptionalPointWitnessTests
         Assert.True(TwoByTwoExceptionalPointClaim.D(scalar).IsZero);
         Assert.False(TwoByTwoExceptionalPointClaim.IsJordanBlock(scalar));
     }
+
+    [Fact]
+    public void HorizonKappa_IsTheOwners_AtNTwoAndThree_AndNoneBeyond()
+    {
+        Assert.Equal(4, CoherenceHorizonClaim.CleanTwoByTwoKappa(2));   // Q*(2) = 2/√4 = 1
+        Assert.Equal(2, CoherenceHorizonClaim.CleanTwoByTwoKappa(3));   // Q*(3) = 2/√2 = √2
+        Assert.Throws<ArgumentOutOfRangeException>(() => CoherenceHorizonClaim.CleanTwoByTwoKappa(4));
+    }
 }

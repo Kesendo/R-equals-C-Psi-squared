@@ -226,6 +226,15 @@ public sealed class CoherenceHorizonClaim : Claim
         }
     }
 
+    /// <summary>κ_N of the clean 2 × 2 at N = 2, 3: the coalescing pair are the roots of λ² + 4γλ + κ_N·J², κ_N = 4, 2,
+    /// so Q*(N) = 2/√κ_N = 1, √2. From N = 4 the pair is collectively dressed and no such 2 × 2 exists; throws there.</summary>
+    public static int CleanTwoByTwoKappa(int n) => n switch
+    {
+        2 => 4,
+        3 => 2,
+        _ => throw new ArgumentOutOfRangeException(nameof(n), $"the horizon is a clean 2 × 2 at N = 2, 3 only; got {n}"),
+    };
+
     public static CoherenceHorizonClaim Build()
     {
         // Reuse one ladder within the F2b band-edge subtree; the ClockHandLadder subtree builds its

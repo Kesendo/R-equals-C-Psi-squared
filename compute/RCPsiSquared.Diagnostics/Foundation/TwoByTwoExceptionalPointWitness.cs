@@ -26,8 +26,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// shift and change no verdict, so only 2q = 3J is read there); the F86 toy is asked of <see cref="TwoLevelEpModel"/>,
 /// whose discriminant, centre and eigenvalues must equal the law's at an integer EP point and one step off; and
 /// <see cref="QEpLaw"/>'s value, set as the coupling, must put the toy's block on d = 0 and a quarter step off it not.
-/// The horizon's Q* = 2/√κ_N is not read from an owner here (CoherenceHorizonClaim exposes no value): its rows are the
-/// companions λ² + 4γλ + κJ² at κ = 4, 2. The toy's Q_EP and the horizon's Q* are critical damping of a 2 × 2 whose
+/// The horizon's rows take κ_N = 4, 2 from <see cref="CoherenceHorizonClaim.CleanTwoByTwoKappa"/> and are companions
+/// λ² + 4γλ + κ_N·J², so their on-point reading cannot fail. The toy's Q_EP and the horizon's Q* are critical damping of a 2 × 2 whose
 /// diagonal splitting is 4γ, the same shape; they are different modes (docs/Q_REGIME_ANCHORS.md), and no gate here
 /// joins them.</para>
 ///
@@ -85,8 +85,13 @@ public sealed class TwoByTwoExceptionalPointWitness : IInspectable
         // closed blocks of a generator, each at an integer point on its exceptional point and one step off it
         Row("two dephased qubits, the monotonicity block [[0, −4J], [4J, −4γ]] at γ = 2J (J = 1, γ = 2; off: γ = 3)", "real opposite sign", false,
             new[,] { { G(0), G(-4) }, { G(4), G(-8) } }, new[,] { { G(0), G(-4) }, { G(4), G(-12) } }, true);
-        Row("the horizon at N = 2, λ² + 4γλ + 4J² at J = γ = 1 (off: J = 2)", "companion", true, Companion(4, 4), Companion(4, 16), false);
-        Row("the horizon at N = 3, λ² + 4γλ + 2J² at γ = 1, J² = 2 (off: J² = 3)", "companion", true, Companion(4, 4), Companion(4, 6), false);
+        // the horizon's κ_N from its owner (CoherenceHorizonClaim): at γ = 1 the point is J² = 4/κ_N, one step off J² + 1
+        foreach (int nh in new[] { 2, 3 })
+        {
+            int kappa = CoherenceHorizonClaim.CleanTwoByTwoKappa(nh);
+            Row($"the horizon at N = {nh}, λ² + 4γλ + {kappa}J² (κ_N from CoherenceHorizonClaim) at γ = 1, J² = 4/κ_N " +
+                "(off: J² + 1)", "companion", true, Companion(4, 4), Companion(4, 4 + kappa), false);
+        }
         Row("γ₀'s oscillator z̈ + 4γż + 4J²z at J = γ = 1 (off: J = 2)", "companion", true, Companion(4, 4), Companion(4, 16), false);
         Row("the ring's {0, 2} block [[0, B], [−B, −4γ]] at B = 2γ = 2 (off: B = 3)", "real opposite sign", false,
             new[,] { { G(0), G(2) }, { G(-2), G(-4) } }, new[,] { { G(0), G(3) }, { G(-3), G(-4) } }, true);

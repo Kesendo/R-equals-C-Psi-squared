@@ -50,4 +50,15 @@ public class EpAlgebraTests
         Assert.Equal(-4.0 * gamma, lp, 12);
         Assert.Equal(-4.0 * gamma, lm, 12);
     }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-1.0)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void QEp_RejectsNonPositiveAndNonFiniteGEff(double gEff)
+    {
+        // a sign test alone lets NaN through (NaN <= 0 is false), and 2/∞ is 0
+        Assert.Throws<ArgumentOutOfRangeException>(() => EpAlgebra.QEp(gEff));
+    }
 }

@@ -161,8 +161,12 @@ public sealed class ExceptionalCouplingWitness : IInspectable
     /// |Im| of the slow mode just above). Null off the chain or when E is empty.</summary>
     public (double BelowOffset, double AboveOffset, double AboveImag)? GapSides { get; }
 
-    /// <summary>J/γ at the smallest point of E (the handover ratio); null when E is empty.</summary>
-    public double? HandoverQ => ExceptionalSet.Count == 0 ? null : 1.0 / ExceptionalSet[0];
+    /// <summary>J/γ at the smallest point of E, where the 2γ gap regime ends; null when E is empty. Pauli book of the
+    /// Heisenberg chain (XX + YY + ZZ): 0.5, 0.800243, 1.342243 at N = 2, 3, 4. Not the XY chain's handover Q_h
+    /// (CoherenceHorizonWitness.HandoverQ, MirrorWorld's Survivor.HandoverQ: 1, √2, 1.87854 in the hopping convention
+    /// (J/2)(XX + YY)): at N = 2 the ZZ term is constant on the one-excitation pair and the factor 2 in J accounts for
+    /// 0.5 against 1; from N = 3 the ZZ term makes it another quantity (0.800243 against √2/2).</summary>
+    public double? JOverGammaAtMinE => ExceptionalSet.Count == 0 ? null : 1.0 / ExceptionalSet[0];
 
     /// <summary>The chain's gap reading holds: gap = 2γ below min E (within 10⁻⁹) and a real mode below 2γ above it.</summary>
     public bool GapSidesHold => GapSides is { } g && Math.Abs(g.BelowOffset) < 1e-9 && g.AboveOffset > 1e-8 && g.AboveImag < 1e-9;
@@ -764,7 +768,7 @@ public sealed class ExceptionalCouplingWitness : IInspectable
             string pinned = HasPinnedTable ? (PinnedCoversAllRoots ? "pinned exactly" : "PINNED TABLE NOT CERTIFIED") : "unpinned";
             return $"E({N}, {Topology}) = {pts} as γ/J (Pauli book), {pinned}; count at −2γ: {GenericCount} at γ/J = {GenericGammaOverJ.ToString(Inv)}, " +
                    $"[{string.Join(", ", CountsAtPoints)}] at E" +
-                   (HandoverQ is { } q && Topology == "chain" ? $"; J/γ at min E = {q.ToString("0.000000", Inv)}" : "");
+                   (JOverGammaAtMinE is { } q && Topology == "chain" ? $"; J/γ at min E = {q.ToString("0.000000", Inv)}" : "");
         }
     }
 
@@ -836,7 +840,7 @@ public sealed class ExceptionalCouplingWitness : IInspectable
             if (Topology == "chain")
                 yield return new InspectableNode("the handover: min E(chain) = 1/Q*_gap",
                     summary: GapSides is { } g
-                        ? $"J/γ at the smallest point = {HandoverQ!.Value.ToString("0.0000000", Inv)}; the spectrum on both sides: gap − 2γ = {g.BelowOffset.ToString("0.0e0", Inv)} just below, " +
+                        ? $"J/γ at the smallest point = {JOverGammaAtMinE!.Value.ToString("0.0000000", Inv)}; the spectrum on both sides: gap − 2γ = {g.BelowOffset.ToString("0.0e0", Inv)} just below, " +
                           $"2γ − gap = {g.AboveOffset.ToString("0.0e0", Inv)} just above with |Im| = {g.AboveImag.ToString("0.0e0", Inv)}: " +
                           (GapSidesHold ? "gap 2γ below, a real mode below 2γ above (the two-route reading beside the theorem: a gap below 2γ is a real mode of a diagonal block)" : "THE GAP READING FAILS")
                         : "E is empty",

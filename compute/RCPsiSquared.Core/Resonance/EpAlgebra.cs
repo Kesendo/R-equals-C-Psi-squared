@@ -24,11 +24,12 @@ public static class EpAlgebra
     }
 
     /// <summary>Q_EP = 2/g_eff, the dimensionless coupling at which the slowest pair
-    /// coalesces. g_eff is the heuristic 2-level inter-channel coupling.</summary>
+    /// coalesces. g_eff is the heuristic 2-level inter-channel coupling. The one implementation; the other
+    /// Q_EP surfaces read it here.</summary>
     public static double QEp(double gEff)
     {
-        if (gEff <= 0) throw new ArgumentOutOfRangeException(nameof(gEff),
-            $"g_eff must be > 0; got {gEff}.");
+        if (!double.IsFinite(gEff) || gEff <= 0) throw new ArgumentOutOfRangeException(nameof(gEff),
+            $"g_eff must be finite and > 0; got {gEff}.");
         return 2.0 / gEff;
     }
 

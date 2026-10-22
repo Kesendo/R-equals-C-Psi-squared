@@ -103,7 +103,7 @@ public class ExceptionalCouplingWitnessTests
         Assert.Equal((2, 1), (e.Algebraic, e.Geometric));
         Assert.Equal(5, w.NullitiesAtPoints[0]);                            // 4 generic + 1 geometric, at γ/J = 2 exactly
         Assert.True(w.CountsAtPoints[0] > 5, $"defective: the window count {w.CountsAtPoints[0]} should exceed the nullity 5");
-        Assert.Equal(0.5, w.HandoverQ!.Value, 9);
+        Assert.Equal(0.5, w.JOverGammaAtMinE!.Value, 9);
         Assert.True(w.GapSidesHold);
     }
 
@@ -123,8 +123,8 @@ public class ExceptionalCouplingWitnessTests
         Assert.Equal(new[] { 8, 8 }, w.CountsAtPoints);
         Assert.Equal(w.CountsAtPoints, w.NullitiesAtPoints);                 // semisimple: the window is a law here
         // Q*_gap(3) = √((1+√17)/8) = 0.800243, the six decimals absorption_ladder_regimes.py bisects
-        Assert.Equal(Math.Sqrt((1 + Math.Sqrt(17)) / 8), w.HandoverQ!.Value, 10);
-        Assert.InRange(Math.Abs(w.HandoverQ.Value - 0.800243), 0, 5e-7);
+        Assert.Equal(Math.Sqrt((1 + Math.Sqrt(17)) / 8), w.JOverGammaAtMinE!.Value, 10);
+        Assert.InRange(Math.Abs(w.JOverGammaAtMinE.Value - 0.800243), 0, 5e-7);
         Assert.True(w.GapSidesHold);
     }
 
@@ -157,7 +157,7 @@ public class ExceptionalCouplingWitnessTests
         Assert.Equal(new[] { 9, 9, 10, 9, 10, 9, 9, 10 }, w.CountsAtPoints);
         Assert.Equal(w.CountsAtPoints, w.NullitiesAtPoints);                 // all eight semisimple
         // Q*_gap(4) = 1/x₀, x₀ the root of the degree-12 pinned polynomial from the (2,2) block, 1.342243 bisected
-        Assert.InRange(Math.Abs(w.HandoverQ!.Value - 1.342243), 0, 5e-7);
+        Assert.InRange(Math.Abs(w.JOverGammaAtMinE!.Value - 1.342243), 0, 5e-7);
         Assert.True(w.GapSidesHold);
         var deg12 = Poly(256, 0, 1280, 0, -2240, 0, -1696, 0, 68, 0, 132, 0, 9);
         var b22 = w.DiagonalBlocks.Single(b => b.PKet == 2);

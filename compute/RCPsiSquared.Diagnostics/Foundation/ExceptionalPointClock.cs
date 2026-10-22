@@ -37,7 +37,8 @@ public static class ExceptionalPointClock
     public const double XPeak = C2BareDoubledPtfClosedForm.XPeakPrecise;
 
     /// <summary>The toy 2×2 exceptional point Q_EP = 2/g_eff (where the toy's two slow modes coalesce
-    /// defectively; the physical block has no such real-axis coalescence, see the class summary).</summary>
+    /// defectively). The physical block does not coalesce here; its own real-axis defective EPs are F89's
+    /// scattered seeds, elsewhere and in windows far narrower (see the class summary).</summary>
     public static double QEp(double gEff) => EpAlgebra.QEp(gEff);
 
     /// <summary>The resonance peak Q_peak = x_peak·Q_EP (where K_b peaks, in the post-EP regime).</summary>
