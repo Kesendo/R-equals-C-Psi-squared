@@ -11090,6 +11090,34 @@ any graph; Q = ⊗_k ZZ_k and S(ρ) = Q·ρᵀ.
   and four order ±4 differences); under this coupling K₀ is not palindromic about −s₀ at every
   length (proved: the identity's partner at −2s₀ could only be Q, and Q is no
   eigenvector since [H, Q] ≠ 0).
+- *A shared gradient* (two nuclei, one Kossakowski matrix g·[[1, c_q], [c_q, 1]] per
+  channel, equal rates, c_q real and one per coherence order q): for a real H commuting with Q,
+  S·L·S⁻¹ = −L + 2·L_J₀ − {K, ·} exactly, L_J₀ the whole J₀ part,
+  K = g₁(4 + 2c₁(ZXZX + ZYZY)) + g₂(4 + 2c₂(XIXI + YIYI)), a number exactly when
+  g₁c₁ = g₂c₂ = 0. With c₁ or c₂ on, the rungs with no bright nucleus and with two
+  mix, the rung with one stays separate and loses its centre (exact at a point),
+  and at J₀ = 0 the whole spectrum
+  has no centre (exact at the verifier's rates: c = 1/2 in every channel, c₁ or c₂
+  alone, and with an equal splitting and couplings); with c₀
+  alone (nuclei of different resonance frequencies) the generator equals the one at
+  c = 0 off the cells where both nuclei are bright, so the rungs with no bright
+  nucleus and with one stay palindromic exactly (the lemma), and the rung with two
+  does not (exact, at a point). Without a
+  Hamiltonian the four commuting Γ_a⊗Γ_a give a conserved sign pattern
+  t = s_ket ⊙ s_bra, sixteen sectors of dimension 16, kept by a real H in their
+  algebra and broken by the splitting, an Ising coupling, the
+  central-transition flip-flop and a complex cross-correlation (the common offset
+  breaks it too, but commutes with the dissipator and moves no rate). On
+  t = (−,−,−,−) the two nuclei's sandwiches cancel channel by channel, so at
+  J₀ = 0 that sector is an eigenspace at −6(J₁ + J₂) at every correlation, sixteen
+  modes the sharing does not touch; it is no eigenspace and not palindromic at
+  J₀ = 2, c = 1/2 (exact; at c = 0 it pairs, evidence), and at J₀ = 0 the other fifteen sectors have no centre at
+  c = 1/2 and c = 1 (exact, at the verifier's rates). A property of the
+  dissipator: the dipolar coupling of nuclei that share a gradient breaks the
+  pattern. A relative azimuth of the two gradients is the generator conjugated by a
+  rotation of one nucleus about the field; for a Hamiltonian commuting with it the
+  spectral statements carry over (the flip-flop does not commute). Excluded: a
+  cross-correlation with an imaginary part, and one that differs within an order.
 
 **Adjacent.** F121 is the same Hilbert space (d = 4) under another
 dissipator: its single-centre count 8 of 16 and the two-centre pairing 16 of 16
@@ -11133,10 +11161,12 @@ both truncations with the √3 strings as control, the ladder, the full coupling
 break at J₀ = 0, and the hulls K_m and U_m at √3 itself through a diagonal
 similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
-the verifier's parameters and, in its tests, at six further points. Gated by
+the verifier's parameters and, in its tests, at six further points, and a shared
+gradient (the price identity with an operator price, the conserved sign pattern
+and the Hamiltonian terms that break it). Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
 172 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
-(63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
+(99 checks, 103 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, any
 nucleus of that spin whose relaxation is quadrupolar (²³Na is the one the pages'
@@ -11144,7 +11174,7 @@ sources wrote for; ¹¹B, ³⁹K, ⁸⁷Rb and the others are the same generator
 densities, where other mechanisms do not compete and the Redfield condition
 holds), the
 statements beyond 3/2 for one spin I ≥ 1, and the chain for spins 3/2 with
-independent gradients and a static coupling (the local form, d·τ_c ≪ 1, with d
+independent gradients (a shared one at two nuclei) and a static coupling (the local form, d·τ_c ≪ 1, with d
 the coupling and τ_c the gradient's correlation time); all in the Redfield
 picture, secular in the Larmor frequency with the splitting kept whole, at
 infinite temperature. Finite polarization, multiple compartments, exchange and

@@ -23,7 +23,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// J₁, J₂ > 0 the global mirror about −σ breaks (F158: the far span is Q alone and Q does not
 /// commute with H, for any non-zero coefficient of the √3 strings); U_m, the largest L-invariant
 /// subspace inside V = {x : H₃x = 0 = xH₃} and the m-bright cells, is palindromic about −s_m for any
-/// real H₃ anticommuting with Q; K₀ is not palindromic about −s₀ (the identity has no partner).</para>
+/// real H₃ anticommuting with Q; K₀ is not palindromic about −s₀ (the identity has no partner). Under a gradient
+/// shared with one real correlation c_q per coherence order (two nuclei, equal rates, a real H commuting with Q) the price
+/// becomes the operator {K, ·},
+/// K = g₁(4 + 2c₁(ZXZX + ZYZY)) + g₂(4 + 2c₂(XIXI + YIYI)) with g_q = 3J_q/2; with the
+/// satellite or double-quantum correlation on, the rungs with no and with two bright nuclei mix, the rung with one loses
+/// its centre and at J₀ = 0 the spectrum has none (the verifier's, exact at points), and without a
+/// Hamiltonian a conserved sign pattern holds one sector of sixteen modes where the two nuclei's jumps of the channels
+/// a ≥ 1 cancel, at J₀ = 0 an eigenspace at −6(J₁ + J₂) whatever the correlation (the verifier's).</para>
 ///
 /// <para>Proved at two nuclei with identical rates, one offset and an equal splitting: K₁ = U₁ and
 /// K₂ = U₂, both spaces written down (E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block and four

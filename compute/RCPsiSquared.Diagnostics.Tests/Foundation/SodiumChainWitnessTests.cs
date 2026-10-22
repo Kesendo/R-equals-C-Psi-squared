@@ -17,6 +17,18 @@ public class SodiumChainWitnessTests
     private static readonly SodiumChainWitness Default = new();
 
     [Fact]
+    public void SharedGradient_PriceIsAnOperator_PatternConservedWithoutH_BrokenByEachTerm()
+    {
+        Assert.True(Default.SharedPriceIdentityHolds);   // S L S⁻¹ = −L + 2 L_J₀ − {K, ·} at three (J, c), with and without H
+        Assert.True(Default.SqrtThreeBreaksSharedIdentity); // the control: a √3 string (IXXX) in H breaks it
+        Assert.True(Default.SharedPriceIsAnOperator);    // K a number at c = 0, Σ g_a(2 + 2c Γ_a⊗Γ_a) at c = 1/2
+        Assert.True(Default.SignOperatorsCommute);       // the four Γ_a⊗Γ_a commute, with Q too; their product is Q
+        Assert.True(Default.PatternConserved);           // X ↦ Γ_a⊗Γ_a X Γ_a⊗Γ_a commutes with L without a Hamiltonian
+        Assert.True(Default.HamiltonianBreaksPattern);   // offset, splitting, Ising, central XX+YY part each break it
+        Assert.True(Default.SharedGradientHolds);
+    }
+
+    [Fact]
     public void Dictionary_SpinOperatorsAreTheStringForms_ReadFromTheSpinMatrices()
     {
         Assert.True(Default.IzMatches);      // I_z = ZI + ½·IZ
@@ -211,7 +223,7 @@ public class SodiumChainWitnessTests
         Assert.DoesNotContain("NOT", Default.Summary);
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
-        Assert.Equal(6, Default.Children.Count());
+        Assert.Equal(7, Default.Children.Count());
     }
 
     [Fact]

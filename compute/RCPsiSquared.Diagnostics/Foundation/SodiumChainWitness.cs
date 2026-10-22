@@ -48,7 +48,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// separately and annihilated by the √3 coupling from both sides, so E_m ⊆ U_m ⊆ K_m at every
 /// parameter with identical rates, one offset and an equal splitting; the controls: rates per
 /// nucleus, a splitting or an offset on one nucleus break both, the exchange-symmetric order ±4
-/// partners leave the kernel, a bare column breaks the rational coupling. Readings, not gates:
+/// partners leave the kernel, a bare column breaks the rational coupling; (6) a shared gradient: the
+/// price identity with the operator K at three (J, c), with and without the equal splitting and offset, a √3 string
+/// breaking it, K's form, the four commuting Γ_a⊗Γ_a, the conserved sign pattern without a Hamiltonian and the terms
+/// that break it (the spectral readings are the verifier's). Readings, not gates:
 /// the exact dimensions of K_m (equal truncation) and of K_m and U_m (full coupling at √3) by
 /// Krylov stabilisation, and whether each is palindromic about −s_m.</para>
 ///
@@ -199,6 +202,34 @@ public sealed class SodiumChainWitness : IInspectable
     /// dark cells, so then in K₀, and outside the kernel of the √3 coupling.</summary>
     public bool IzTotalIsEigenoperator { get; }
     public bool IzTotalInSqrtThreeKernel { get; }
+
+    // gate 6: a shared gradient, two nuclei under one Kossakowski matrix g·[[1, c], [c, 1]] per channel
+    /// <summary>The points (J₀, J₁, J₂, c = num/den) of gate 6.</summary>
+    public static readonly IReadOnlyList<(long J0, long J1, long J2, long CNum, long CDen)> SharedPoints =
+        new[] { (0L, 4L, 6L, 1L, 2L), (2L, 4L, 6L, -1L, 3L), (4L, 2L, 2L, 1L, 1L) };
+    /// <summary>S·L·S⁻¹ = −L + 2·L_J₀ − {K, ·} exactly at every shared point, without a Hamiltonian and with the
+    /// equal splitting and offset (a real H commuting with Q), K = Σ_{a≥1} g_a·(2 + 2c·Γ_a⊗Γ_a), L_J₀ the whole J₀ part
+    /// with its correlated term.</summary>
+    public bool SharedPriceIdentityHolds { get; }
+    /// <summary>The control: with a √3 string of the full dipolar coupling (IXXX, anticommuting with Q) added to H the
+    /// identity fails at every shared point.</summary>
+    public bool SqrtThreeBreaksSharedIdentity { get; }
+    /// <summary>The price is the number 2·Σ_{a≥1} g_a at c = 0 and an operator at c ≠ 0, of the form stated.</summary>
+    public bool SharedPriceIsAnOperator { get; }
+    /// <summary>The four Γ_a⊗Γ_a (a = 1..4) are symmetric, commute pairwise and with Q, and their product is Q;
+    /// that S therefore keeps each sector t follows (S(G·X·G) = G·S(X)·G) and is gated in the verifier.</summary>
+    public bool SignOperatorsCommute { get; }
+    /// <summary>Without a Hamiltonian L commutes with X ↦ Γ_a⊗Γ_a·X·Γ_a⊗Γ_a for a = 1..4 at every shared point (the
+    /// pattern t = s_ket ⊙ s_bra conserved). That {K, ·} is the number 4·Σ_{a≥1} g_a on the sector t = (−,−,−,−) is
+    /// not computed here: it follows from K's form (<see cref="SharedPriceIsAnOperator"/>), every Γ_a⊗Γ_a anticommuting
+    /// with the operators of that sector; it and the spectral readings (that sector palindromic at J₀ = 0, the other
+    /// fifteen and the whole spectrum without a centre, that sector not at J₀ ≠ 0) are the verifier's.</summary>
+    public bool PatternConserved { get; }
+    /// <summary>Offset, splitting, an Ising coupling and the central part of I_x⊗I_x (XXXX + YYYY + XXYY + YYXX) each fail to commute with
+    /// some X ↦ Γ_a⊗Γ_a·X·Γ_a⊗Γ_a.</summary>
+    public bool HamiltonianBreaksPattern { get; }
+    public bool SharedGradientHolds => SharedPriceIdentityHolds && SqrtThreeBreaksSharedIdentity && SharedPriceIsAnOperator && SignOperatorsCommute
+        && PatternConserved && HamiltonianBreaksPattern;
 
     private readonly Mat _rat;     // the dipolar coupling 3I_zI_z − I·I, rational part
     private readonly Mat _root;    // its √3 part, the coefficient of √3
@@ -398,6 +429,119 @@ public sealed class SodiumChainWitness : IInspectable
         var lRates = Generator(zeroH, identical);
         IzTotalIsEigenoperator = Rank(HStack(izVec, Mul(lRates, izVec))) == 1 && hamiltonianPieces.All(p => IsZero(Mul(p, izVec)));
         IzTotalInSqrtThreeKernel = IsZero(Mul(left3, izVec)) && IsZero(Mul(right3, izVec));
+
+        (SharedPriceIdentityHolds, SqrtThreeBreaksSharedIdentity, SharedPriceIsAnOperator, SignOperatorsCommute, PatternConserved,
+         HamiltonianBreaksPattern) = ReadSharedGradient(iz);
+    }
+
+    // ===== a shared gradient =====
+
+    private static readonly string[] Channels = { "ZZ", "ZX", "ZY", "XI", "YI" };
+
+    /// <summary>L, L_{J₀} and the price K for two nuclei under one Kossakowski matrix g·[[1, c], [c, 1]] per channel:
+    /// Σ_ij a_ij (A_i·ρ·A_j − ½{A_j·A_i, ρ}) with A the channel's string on each nucleus, Hermitian.</summary>
+    private static (Mat L, Mat LJ0, Mat K) SharedGenerator(Mat h, (long J0, long J1, long J2) rates, BigRational c)
+    {
+        var l = HamiltonianPart(h);
+        var lj0 = Zero(Dim);
+        var k = Zero(HDim);
+        var (a0, a1, a2) = rates;
+        foreach (var (s, rate) in new[] { ("ZZ", a0), ("ZX", a1), ("ZY", a1), ("XI", a2), ("YI", a2) })
+        {
+            if (rate == 0) continue;
+            var g = new BigRational(3 * rate, 2);
+            var ops = new[] { Str(Place(0, s)), Str(Place(1, s)) };
+            var d = Zero(Dim);
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
+                {
+                    var coef = (GaussianRational)(i == j ? g : g * c);
+                    var ai = ops[i];
+                    var aj = ops[j];
+                    for (int r = 0; r < HDim; r++)
+                        for (int a = 0; a < HDim; a++)
+                        {
+                            if (ai[r, a].IsZero) continue;
+                            for (int b = 0; b < HDim; b++)
+                                for (int col = 0; col < HDim; col++)
+                                    if (!aj[b, col].IsZero) d[HDim * r + col, HDim * a + b] += coef * ai[r, a] * aj[b, col];
+                        }
+                    var ji = Mul(aj, ai);
+                    var half = Scale(Add(LeftMultiplication(ji), RightMultiplication(ji)), new BigRational(1, 2));
+                    d = Sub(d, Scale(half, coef));
+                    if (s != "ZZ") k = Add(k, Scale(ji, coef));
+                }
+            l = Add(l, d);
+            if (s == "ZZ") lj0 = Add(lj0, d);
+        }
+        return (l, lj0, k);
+    }
+
+    /// <summary>G·L·G for the superoperator X ↦ G·X·G of a real symmetric signed permutation G, entry by entry as a
+    /// signed permutation of the cells (the superoperator is its own inverse).</summary>
+    private static Mat ConjugateByCellMap(Mat l, Mat g)
+    {
+        var target = new int[HDim];
+        var phase = new GaussianRational[HDim];
+        for (int i = 0; i < HDim; i++)
+            for (int a = 0; a < HDim; a++)
+                if (!g[a, i].IsZero) { target[i] = a; phase[i] = g[a, i]; }
+        int Map(int cell) => HDim * target[cell / HDim] + target[cell % HDim];
+        GaussianRational Sign(int cell) => phase[cell / HDim] * phase[cell % HDim];
+        var r = Zero(Dim);
+        for (int a = 0; a < Dim; a++)
+            for (int b = 0; b < Dim; b++)
+                if (!l[a, b].IsZero) r[Map(a), Map(b)] = Sign(a) * l[a, b] * Sign(b);
+        return r;
+    }
+
+    private (bool Identity, bool Control, bool Operator, bool Commute, bool Conserved, bool Breaks) ReadSharedGradient(Mat iz)
+    {
+        var signOps = Channels.Skip(1).Select(ch => Str(ch + ch)).ToArray();
+        var q = Str("ZZZZ");
+        var h = Local(iz, 12, 12, 20, 20);
+        bool identity = true, control = true, conserved = true;
+        foreach (var (j0, j1, j2, cn, cd) in SharedPoints)
+        {
+            var c = new BigRational(cn, cd);
+            foreach (var hx in new[] { Zero(HDim), h })
+            {
+                var (l, lj0, k) = SharedGenerator(hx, (j0, j1, j2), c);
+                var right = Sub(Add(Scale(l, -1), Scale(lj0, 2)), Add(LeftMultiplication(k), RightMultiplication(k)));
+                identity &= Equal(ConjugateByS(l), right);
+            }
+            var bare = SharedGenerator(Zero(HDim), (j0, j1, j2), c).L;
+            var (lb, lj0b, kb) = SharedGenerator(Add(h, Scale(Str("IXXX"), (BigRational)2)), (j0, j1, j2), c);
+            control &= !Equal(ConjugateByS(lb), Sub(Add(Scale(lb, -1), Scale(lj0b, 2)), Add(LeftMultiplication(kb), RightMultiplication(kb))));
+            conserved &= signOps.All(gop => Equal(ConjugateByCellMap(bare, gop), bare));
+        }
+
+        const long kj1 = 4, kj2 = 6;
+        var gRates = new[] { new BigRational(3 * kj1, 2), new BigRational(3 * kj1, 2), new BigRational(3 * kj2, 2), new BigRational(3 * kj2, 2) };
+        var number = Scale(Identity(HDim), 2 * gRates.Aggregate(BigRational.Zero, (acc, g) => acc + g));
+        var k0 = SharedGenerator(Zero(HDim), (2, kj1, kj2), BigRational.Zero).K;
+        var half = new BigRational(1, 2);
+        var kh = SharedGenerator(Zero(HDim), (2, kj1, kj2), half).K;
+        var expected = number;
+        for (int a = 0; a < 4; a++) expected = Add(expected, Scale(signOps[a], 2 * half * gRates[a]));
+        bool op = Equal(k0, number) && Equal(kh, expected) && !Equal(kh, number);
+
+        bool commute = signOps.All(x => Equal(Transpose(x), x) && signOps.All(y => Equal(Mul(x, y), Mul(y, x)))
+                                        && Equal(Mul(x, q), Mul(q, x)))
+                       && Equal(Mul(Mul(signOps[0], signOps[1]), Mul(signOps[2], signOps[3])), q);
+
+        var izTot = Add(Kron(iz, Identity(Levels)), Kron(Identity(Levels), iz));
+        var terms = new[]
+        {
+            izTot, Add(Str("ZZII"), Str("IIZZ")), Mul(Kron(iz, Identity(Levels)), Kron(Identity(Levels), iz)),
+            Add(Add(Str("XXXX"), Str("YYYY")), Add(Str("XXYY"), Str("YYXX"))),
+        };
+        bool breaks = terms.All(t =>
+        {
+            var lh = HamiltonianPart(t);
+            return signOps.Any(gop => !Equal(ConjugateByCellMap(lh, gop), lh));
+        });
+        return (identity, control, op, commute, conserved, breaks);
     }
 
     // ===== the explicit sharp spaces =====
@@ -1148,7 +1292,8 @@ public sealed class SodiumChainWitness : IInspectable
         $"(equal truncation), K_m {string.Join(" + ", FullSharp.Select(h => h.Dimension))} and U_m {string.Join(" + ", FullKernelHull.Select(h => h.Dimension))} (full coupling), " +
         $"the invariance L·B = B·M {Verdict(HullsInvariant, "checked on every hull", "FAILING")}; the explicit E₁ ({E1Dimension}) and E₂ ({E2Dimension}) " +
         $"{Verdict(ExplicitHolds, "lie in U₁ and U₂ at every parameter with identical rates, one offset and an equal splitting", "do NOT hold as stated")}" +
-        $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}.";
+        $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}; under a shared gradient " +
+        $"{Verdict(SharedGradientHolds, "the price becomes the operator {K, ·}, the sign pattern t is conserved without a Hamiltonian and broken by each of its terms", "the shared-gradient gate FAILS")}.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1220,6 +1365,17 @@ public sealed class SodiumChainWitness : IInspectable
                          $"for m = 1, 2: {Verdict(ExplicitAreTheSharpSpacesHere, "yes, so E_m = U_m = K_m here", "NO")}. " +
                          $"I_z,tot {Verdict(IzTotalIsEigenoperator, "is", "is not")} an eigenoperator of L (J₁ {(J1 == J2 ? "=" : "≠")} J₂), " +
                          $"{Verdict(IzTotalInSqrtThreeKernel, "inside", "outside")} the kernel of the √3 coupling.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "a shared gradient",
+                summary: $"one Kossakowski matrix g·[[1, c], [c, 1]] per channel on the two nuclei: S·L·S⁻¹ = −L + 2·L_J₀ − {{K, ·}} " +
+                         $"{Verdict(SharedPriceIdentityHolds, "holds exactly", "FAILS")} at (J₀, J₁, J₂, c) = {string.Join(", ", SharedPoints.Select(pt => $"({pt.J0}, {pt.J1}, {pt.J2}, {pt.CNum}/{pt.CDen})"))}, with and without the equal splitting and offset; " +
+                         $"K {Verdict(SharedPriceIsAnOperator, "is the number 2·Σg_a at c = 0 and Σ_(a≥1) g_a(2 + 2c·Γ_a⊗Γ_a) otherwise, not a number", "is NOT as stated")}; " +
+                         $"the four Γ_a⊗Γ_a {Verdict(SignOperatorsCommute, "are symmetric, commute with each other and with Q, their product Q", "do NOT commute as stated")}; " +
+                         $"without a Hamiltonian the pattern t = s_ket ⊙ s_bra {Verdict(PatternConserved, "is conserved at every point", "is NOT conserved")}, " +
+                         $"and offset, splitting, an Ising coupling and the central part of I_x⊗I_x {Verdict(HamiltonianBreaksPattern, "each break it", "do NOT all break it")}; " +
+                         $"the price on t = (−,−,−,−) and the spectral readings over GF(p) are the verifier's.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

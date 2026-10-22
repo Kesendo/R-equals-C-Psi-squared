@@ -24,6 +24,10 @@ the triples per nucleus (G4b, G7b) are arbitrary.
 G10 reads the full coupling at two nuclei: the invariant part of the two-sided kernel of its sqrt3 part, and what
 K_0 holds beyond it; the float spectra of that part are printed as a reading.
 
+G11 puts two nuclei under a shared gradient (one Kossakowski matrix g·[[1, c], [c, 1]] per channel, everything times
+the denominator of c): the price identity with an operator price K, the conserved sign pattern t without a
+Hamiltonian, the one sector (-,-,-,-) where the price is a number, and over GF(p) the breaks elsewhere.
+
 Run: python simulations/sodium_chain_mirrors.py [--n3]   (n = 2 and 3 nuclei; --n3 adds the sharp subspaces at n = 3, slow)
 """
 from __future__ import annotations
@@ -412,6 +416,7 @@ def main():
                    {'dipolar, equal splittings (times 2)': ((24, 128, 24), (True, True, True)),
                     'full dipolar': ((10, 12, 1), (False, True, True))})
     kernel_gate(rational, root, J)
+    shared_gate()
     if '--n3' in sys.argv:
         sharp_gate(3, rational, root, couplings, J,
                    {'dipolar, equal splittings (times 2)': ((64, 140, 84, 16), (True, True, True, True)),
@@ -526,6 +531,313 @@ def sharp_gate(n, rational, root, couplings, J, cases):
         check(f'G8 n={n} J={J} {name}: K_m palindromic about -s_m {pairs_expected} over both primes '
               f'(evidence; K_0 proved by G9)',
               all(tuple(pairs[p]) == pairs_expected for p in PRIMES))
+
+
+# ---------------------------------------------------------------- G11: a shared gradient
+
+CHANNELS = ('ZZ', 'ZX', 'ZY', 'XI', 'YI')
+
+
+def kossakowski(ops, a):
+    """sum_ij a_ij (A_i rho A_j^dag - 1/2 {A_j^dag A_i, rho}) and the price part sum_ij a_ij A_j^dag A_i"""
+    dim = ops[0].shape[0]
+    Id = np.eye(dim)
+    D = np.zeros((dim * dim, dim * dim), complex)
+    Ks = np.zeros((dim, dim), complex)
+    for i, Ai in enumerate(ops):
+        for j, Aj in enumerate(ops):
+            if a[i][j] == 0:
+                continue
+            ji = Aj.conj().T @ Ai
+            D += a[i][j] * (np.kron(Ai, Aj.conj()) - 0.5 * np.kron(ji, Id) - 0.5 * np.kron(Id, ji.T))
+            Ks += a[i][j] * ji
+    return D, Ks
+
+
+def shared_lindbladian(J, cn, cd, H=None, imag=0):
+    """Two nuclei under a shared gradient, everything times cd: per channel the Kossakowski matrix g·[[1, c], [c, 1]]
+    on the two nuclei's copies of the string, c = cn/cd (cn one integer, or one per channel in the order ZZ, ZX, ZY,
+    XI, YI). imag = e adds the time-odd cross-correlation of the J1 channel, the Hermitian entries ±i·e/cd·g between
+    ZX on one nucleus and ZY on the other. Returns cd·L, cd·L_J0 and cd·K, K the price operator of the channels
+    other than ZZ."""
+    assert all(j % 2 == 0 for j in J), J
+    cns = tuple(cn) if isinstance(cn, (tuple, list)) else (cn,) * 5
+    dim = 16
+    Id = np.eye(dim)
+    L = np.zeros((dim * dim, dim * dim), complex)
+    if H is not None:
+        L += -1j * cd * (np.kron(H, Id) - np.kron(Id, H.T))
+    LJ0 = np.zeros_like(L)
+    K = np.zeros((dim, dim), complex)
+    rates = dict(zip(CHANNELS, (3 * J[0] // 2, 3 * J[1] // 2, 3 * J[1] // 2, 3 * J[2] // 2, 3 * J[2] // 2)))
+    for s_, c_ in zip(CHANNELS, cns):
+        g = rates[s_]
+        ops = (string(place(4, 0, s_)), string(place(4, 2, s_)))
+        D, Ks = kossakowski(ops, [[g * cd, g * c_], [g * c_, g * cd]])
+        L += D
+        if s_ == 'ZZ':
+            LJ0 += D
+        else:
+            K += Ks
+    if imag:
+        g = rates['ZX']
+        ops = (string(place(4, 0, 'ZX')), string(place(4, 0, 'ZY')), string(place(4, 2, 'ZX')), string(place(4, 2, 'ZY')))
+        a = [[0, 0, 0, 1j * imag * g], [0, 0, -1j * imag * g, 0], [0, 1j * imag * g, 0, 0], [-1j * imag * g, 0, 0, 0]]
+        D, Ks = kossakowski(ops, a)
+        L += D
+        K += Ks
+    return L, LJ0, K
+
+
+def anticommutator_super(K):
+    return np.kron(K, np.eye(K.shape[0])) + np.kron(np.eye(K.shape[0]), K.T)
+
+
+def shared_gate():
+    """G11: the price becomes an operator, a sign pattern is conserved, and one sector keeps the mirror"""
+    sys.stdout.reconfigure(encoding='utf-8')
+    perm, sign = s_perm(2)
+    G = [string(s_ + s_) for s_ in CHANNELS[1:]]                       # Γ_a ⊗ Γ_a, a = 1..4 (real, symmetric)
+    R = [np.kron(g, g) for g in G]                                       # X -> G X G
+    q_w = 4 * 3 * (string('ZZII') + string('IIZZ')) + 5 * (4 * (string('ZIII') + string('IIZI'))
+                                                          + 2 * (string('IZII') + string('IIIZ')))
+    Iz1, Iz2 = string('ZIII') + 0.5 * string('IZII'), string('IIZI') + 0.5 * string('IIIZ')
+    ising = 4 * Iz1 @ Iz2
+    flipflop = (string('XXXX') + string('YYYY') + string('XXYY') + string('YYXX')
+                + string('YXYX') - string('YXXY') - string('XYYX') + string('XYXY'))
+    points = (((0, 4, 6), 1, 2), ((2, 4, 6), 1, 1), ((2, 4, 6), -1, 3), ((4, 2, 2), 1, 2), ((0, 4, 6), -1, 1))
+    ok = True
+    for J, cn, cd in points:
+        for H in (None, q_w, q_w + 2 * ising + 3 * flipflop,
+                  q_w + string('ZXZX') + string('ZYZY') + string('IXIX') + string('IYIY')):
+            L, LJ0, K = shared_lindbladian(J, cn, cd, H)
+            ok &= np.abs(conj_S(L, perm, sign) - (-L + 2 * LJ0 - anticommutator_super(K))).max() == 0
+    Lb, LJ0b, Kb = shared_lindbladian((2, 4, 6), 1, 2, H=q_w + 2 * string('IXXX'))
+    check('G11 shared gradient: S L S^-1 = -L + 2 L_J0 - {K, .} exactly, K = sum_(a>=1) g_a(2 + 2c Γ_a⊗Γ_a), at five '
+          '(J, c), without a Hamiltonian, with offset and splitting, with an Ising coupling and the central-transition '
+          'flip-flop added, and with the strings of the equal-splitting truncation (real, commuting with Q); a sqrt3 '
+          'string (IXXX, anticommuting with Q) breaks it', ok
+          and np.abs(conj_S(Lb, perm, sign) - (-Lb + 2 * LJ0b - anticommutator_super(Kb))).max() > 0)
+    Lc0, _, K0 = shared_lindbladian((2, 4, 6), 0, 1)
+    Lc1, _, K1 = shared_lindbladian((2, 4, 6), 1, 2)
+    # times cd = 2: sum over the four channels a >= 1 of g_a·(2·cd + 2·cn·Γ_a⊗Γ_a), g = 6 (ZX, ZY) and 9 (XI, YI)
+    closed = 4 * (6 + 6 + 9 + 9) * np.eye(16) + 2 * (6 * (string('ZXZX') + string('ZYZY'))
+                                                      + 9 * (string('XIXI') + string('YIYI')))
+    check('G11 the price is a number exactly without correlation: K = 2·sum g_a at c = 0; at c = 1/2 it is the closed form '
+          'sum_(a>=1) g_a(2 + 2c Γ_a⊗Γ_a), not a multiple of the identity',
+          np.abs(K0 - 2 * (3 * 4 + 3 * 6) * np.eye(16)).max() == 0
+          and np.abs(K1 - closed).max() == 0 and np.abs(K1 - K1[0, 0] * np.eye(16)).max() > 0)
+    check('G11 the four Γ_a⊗Γ_a (a >= 1) commute pairwise, and ZZ⊗ZZ is their product',
+          all(np.abs(x @ y - y @ x).max() == 0 for x in G for y in G)
+          and np.abs(G[0] @ G[1] @ G[2] @ G[3] - string('ZZZZ')).max() == 0)
+    table = {(ch, k): tuple(np.abs(string(place(4, 2 * k, ch)) @ g + g @ string(place(4, 2 * k, ch))).max() == 0 for g in G)
+             for ch in CHANNELS for k in (0, 1)}
+    check('G11 the jumps against the four Γ_a⊗Γ_a: a jump of channel a >= 1 commutes with its own and anticommutes with '
+          'the other three, on either nucleus; the J0 jump ZZ anticommutes with all four; so every jump changes the '
+          'signs of ket and bra alike',
+          all(table[(ch, k)] == tuple(b != a for b in range(4)) for a, ch in enumerate(CHANNELS[1:]) for k in (0, 1))
+          and all(table[('ZZ', k)] == (True,) * 4 for k in (0, 1)))
+    Pk = [np.diag(b.astype(float)) for b in bright(2)]
+    Lm = shared_lindbladian((2, 4, 6), 1, 2)[0]
+    L0m = shared_lindbladian((2, 4, 6), 0, 1)[0]
+    Lc0only = shared_lindbladian((2, 4, 6), (1, 0, 0, 0, 0), 2, H=q_w + 2 * ising)[0]
+    Lc1only = shared_lindbladian((2, 4, 6), (0, 1, 1, 0, 0), 2)[0]
+    Lc2only = shared_lindbladian((2, 4, 6), (0, 0, 0, 1, 1), 2)[0]
+    check('G11 the ladder mixes: with c1 alone, with c2 alone and with all on, the generator commutes with neither '
+          'nucleus\'s bright projector (with both at c = 0, and with c0 alone, here with an Ising coupling)',
+          all(np.abs(Lx @ P - P @ Lx).max() > 0 for Lx in (Lm, Lc1only, Lc2only) for P in Pk)
+          and all(np.abs(L0m @ P - P @ L0m).max() == 0 for P in Pk)
+          and all(np.abs(Lc0only @ P - P @ Lc0only).max() == 0 for P in Pk))
+    W = Pk[0].diagonal() + Pk[1].diagonal()
+    one, rest = np.where(W == 1)[0], np.where(W != 1)[0]
+    check('G11 the correlated sandwiches change both nuclei\'s brightness at once, so the cells with one bright nucleus '
+          'stay an invariant block at every correlation (they leak nowhere, nothing leaks in), while those with none and '
+          'with two mix, with c1 alone, with c2 alone and with all on',
+          all(np.abs(Lx[np.ix_(rest, one)]).max() == 0 and np.abs(Lx[np.ix_(one, rest)]).max() == 0
+              for Lx in (Lm, Lc1only, Lc2only))
+          and all(np.abs(Lx[np.ix_(np.where(W == 0)[0], np.where(W == 2)[0])]).max() > 0 for Lx in (Lm, Lc1only, Lc2only)))
+    Iz2 = string('IIZI') + 0.5 * string('IIIZ')
+    rot = True
+    for (a, b), q in ((('ZX', 'ZY'), 1), (('XI', 'YI'), 2)):
+        A, B = string(place(4, 2, a)), string(place(4, 2, b))
+        rot &= (np.abs((Iz2 @ A - A @ Iz2) - 1j * q * B).max() == 0 and np.abs((Iz2 @ B - B @ Iz2) + 1j * q * A).max() == 0) \
+            or (np.abs((Iz2 @ A - A @ Iz2) + 1j * q * B).max() == 0 and np.abs((Iz2 @ B - B @ Iz2) - 1j * q * A).max() == 0)
+    zz2 = string(place(4, 2, 'ZZ'))
+    ff_full = (string('XXXX') + string('YYYY') + string('XXYY') + string('YYXX')
+               + string('YXYX') - string('YXXY') - string('XYYX') + string('XYXY'))
+    check('G11 a rotation of nucleus 2 about the field turns its jumps of order q into each other by the angle q·phi '
+          '([I_z2, ZX] and [I_z2, ZY] carry one into the other with factor 1, XI and YI with factor 2, ZZ untouched); the '
+          'splitting and the Ising coupling commute with I_z2, the central-transition flip-flop does not',
+          rot and np.abs(Iz2 @ zz2 - zz2 @ Iz2).max() == 0
+          and np.abs(Iz2 @ q_w - q_w @ Iz2).max() == 0 and np.abs(Iz2 @ ising - ising @ Iz2).max() == 0
+          and np.abs(Iz2 @ ff_full - ff_full @ Iz2).max() > 0)
+
+    Lnone = shared_lindbladian((2, 4, 6), 0, 2, H=q_w + 2 * ising)[0]          # the same point at c = 0, times 2
+    diff = Lc0only - Lnone
+    blocks = {}
+    for pattern in ((0, 0), (1, 0), (0, 1), (1, 1)):
+        idx = np.where(np.all([Pk[k].diagonal() == b for k, b in enumerate(pattern)], axis=0))[0]
+        blocks[pattern] = np.abs(diff[np.ix_(idx, idx)]).max()
+    check('G11 with c0 alone the generator differs from the one at c = 0 only on the cells where both nuclei are bright: '
+          'zero on the blocks with no bright nucleus and with one, so there the lemma\'s ladder holds exactly; non-zero on '
+          'the block with two, there with both signs',
+          blocks[(0, 0)] == 0 and blocks[(1, 0)] == 0 and blocks[(0, 1)] == 0 and blocks[(1, 1)] > 0
+          and np.abs(diff - np.diag(np.diag(diff))).max() == 0
+          and np.diag(diff).real.min() < 0 < np.diag(diff).real.max())
+    cons = all(np.abs(shared_lindbladian(J, cn, cd)[0] @ r - r @ shared_lindbladian(J, cn, cd)[0]).max() == 0
+               for J, cn, cd in points for r in R)
+    check('G11 without a Hamiltonian the pattern t = s_ket ⊙ s_bra is conserved: L commutes with X -> Γ_a⊗Γ_a X '
+          'Γ_a⊗Γ_a for a = 1..4, at every point, local and correlated parts alike', cons)
+    Iz1, Iz2 = string('ZIII') + 0.5 * string('IZII'), string('IIZI') + 0.5 * string('IIIZ')
+    terms = {'offset': Iz1 + Iz2, 'splitting': string('ZZII') + string('IIZZ'), 'Ising Iz1·Iz2': Iz1 @ Iz2,
+             'central-transition flip-flop': string('XXXX') + string('YYYY') + string('XXYY') + string('YYXX')
+             + string('YXYX') - string('YXXY') - string('XYYX') + string('XYXY')}
+    broken = {}
+    for name, Hx in terms.items():
+        LH = -1j * (np.kron(Hx, np.eye(16)) - np.kron(np.eye(16), Hx.T))
+        broken[name] = any(np.abs(LH @ r - r @ LH).max() > 0 for r in R)
+    check(f'G11 every Hamiltonian term breaks the conservation: {", ".join(broken)}', all(broken.values()))
+    sat_ff = (string('IXIX') + string('IYIY')) @ (np.eye(16) - string('ZZZZ')) / 2
+    LH = -1j * (np.kron(sat_ff, np.eye(16)) - np.kron(np.eye(16), sat_ff.T))
+    check('G11 the satellite flip-flop of the equal-splitting truncation, (IXIX + IYIY)(1 - Q)/2, lies in the algebra of '
+          'the Γ_a⊗Γ_a (IYIY = -ZXZX·Q) and keeps the conservation',
+          np.abs(string('IYIY') + G[0] @ string('ZZZZ')).max() == 0 and all(np.abs(LH @ r - r @ LH).max() == 0 for r in R))
+
+    # a separate correlation per channel (anisotropic motion) keeps all of it; a time-odd cross-correlation does not
+    cv = (2, 3, 3, -2, -2)
+    Lv, LJ0v, Kv = shared_lindbladian((0, 4, 6), cv, 6)
+    check('G11 one correlation per channel, c = (2, 3, 3, -2, -2)/6: the identity holds with K = sum g_a(2 + 2c_a Γ_a⊗Γ_a) '
+          'and the pattern t is conserved',
+          np.abs(conj_S(Lv, perm, sign) - (-Lv + 2 * LJ0v - anticommutator_super(Kv))).max() == 0
+          and all(np.abs(Lv @ r - r @ Lv).max() == 0 for r in R))
+    Li, _, _ = shared_lindbladian((0, 4, 6), 1, 2, imag=1)
+    check('G11 a time-odd cross-correlation (±i between ZX on one nucleus and ZY on the other) breaks the conservation of t',
+          any(np.abs(Li @ r - r @ Li).max() > 0 for r in R))
+    Hk = 2 * G[0] + 3 * G[2] - G[3] + 5 * string('ZZZZ')
+    Lk, LJ0k, Kk = shared_lindbladian((0, 4, 6), 1, 2, H=Hk)
+    check('G11 a real Hamiltonian built from the Γ_a⊗Γ_a and Q keeps the identity and the conservation of t',
+          np.abs(conj_S(Lk, perm, sign) - (-Lk + 2 * LJ0k - anticommutator_super(Kk))).max() == 0
+          and all(np.abs(Lk @ r - r @ Lk).max() == 0 for r in R))
+
+    Iz_tot = Iz1 + Iz2
+    adIz = np.kron(Iz_tot, np.eye(16)) - np.kron(np.eye(16), Iz_tot.T)
+    comm_off = lambda L_: np.abs(L_ @ adIz - adIz @ L_).max() == 0
+    check('G11 the common offset commutes with the dissipator when the correlation is one per coherence order q '
+          '(c_ZX = c_ZY, c_XI = c_YI; the secular case), at J0 = 2 and J0 = 0, at a common c and at c = (2, 3, 3, -2, '
+          '-2)/6, and not when c_ZX != c_ZY: it turns the modes and moves no rate',
+          all(comm_off(shared_lindbladian(J, cn, cd)[0]) for J in ((2, 4, 6), (0, 4, 6)) for cn, cd in ((1, 2), (cv, 6)))
+          and not comm_off(shared_lindbladian((2, 4, 6), (2, 3, 1, -2, -2), 6)[0]))
+
+    def projector(t):
+        P = np.eye(256)
+        for ta, r in zip(t, R):
+            P = P @ (np.eye(256) + ta * r) / 2
+        return P
+    Pm = projector((-1, -1, -1, -1))
+    check('G11 S keeps each of the sixteen sectors t',
+          all(np.abs(conj_S(projector(t), perm, sign) - projector(t)).max() == 0 for t in product((1, -1), repeat=4)))
+    sand = True
+    for ch in CHANNELS[1:]:
+        A1, A2 = string(place(4, 0, ch)), string(place(4, 2, ch))
+        local = np.kron(A1, A1.conj()) + np.kron(A2, A2.conj())
+        cross = np.kron(A1, A2.conj()) + np.kron(A2, A1.conj())
+        sand &= np.abs(local @ Pm).max() == 0 and np.abs(cross @ Pm).max() == 0
+    check('G11 on the sector (-,-,-,-) every sandwich of the channels a >= 1 vanishes, local (A_k rho A_k) and '
+          'correlated (A_1 rho A_2 + A_2 rho A_1) alike: the jumps carry these modes nowhere', sand)
+    scal = all(np.abs(shared_lindbladian(J, cn, cd)[0] @ Pm + 6 * (J[1] + J[2]) * cd * Pm).max() == 0
+               for J, cn, cd in (((0, 4, 6), 1, 2), ((0, 4, 6), 1, 1), ((0, 4, 6), -1, 2), ((0, 2, 8), 1, 3),
+                                 ((0, 4, 6), cv, 6), ((0, 4, 6), 0, 1)))
+    Lsh = shared_lindbladian((2, 4, 6), 1, 2)[0]
+    check('G11 at J0 = 0 without a Hamiltonian the sector (-,-,-,-) is an eigenspace of L at -6(J1 + J2), at every '
+          'correlation tried (c = 0, 1/2, 1, -1/2, 1/3, one per q) and two rate points; not at J0 = 2, c = 1/2',
+          scal and np.abs(Lsh @ Pm + 6 * 10 * 2 * Pm).max() > 0)
+    LHk = -1j * (np.kron(Hk, np.eye(16)) - np.kron(np.eye(16), Hk.T))
+    Lwith = shared_lindbladian((0, 4, 6), 1, 2, H=Hk)[0]
+    check('G11 with the real Hamiltonian built from the Γ_a⊗Γ_a and Q the sector (-,-,-,-) stays invariant and L there is '
+          '-6(J1 + J2) plus the anti-Hermitian Hamiltonian part: the modes gain frequencies and keep the rate',
+          np.abs(Lwith @ Pm - Pm @ Lwith @ Pm).max() == 0
+          and np.abs(Lwith @ Pm - (-6 * 10 * 2 * Pm + 2 * LHk @ Pm)).max() == 0)
+    okp = np.abs(conj_S(Pm, perm, sign) - Pm).max() == 0
+    for J, cn, cd in points:
+        _, _, K = shared_lindbladian(J, cn, cd)
+        price = 2 * cd * 2 * (3 * J[1] + 3 * J[2])          # K(s) + K(-s) = 4·sum_(a>=1) g_a, times cd
+        okp &= np.abs((anticommutator_super(K) - price * np.eye(256)) @ Pm).max() == 0
+    check('G11 on the sector t = (-,-,-,-), ket and bra opposite in every sign, the price is the number 4·sum_(a>=1) '
+          'g_a at every c, and S keeps the sector; so at J0 = 0 without a Hamiltonian it pairs about -6(J1 + J2), '
+          'the lemma\'s global centre at J0 = 0, where every rung of the ladder sits', okp)
+
+    for p in PRIMES:
+        i16 = pow(16, p - 2, p)
+        res, dims = {}, set()
+        for J, cn, cd, Hx in (((0, 4, 6), 1, 2, None), ((0, 4, 6), 1, 1, None), ((2, 4, 6), 1, 2, None),
+                              ((0, 4, 6), (2, 3, 3, -2, -2), 6, None), ((0, 4, 6), 1, 2, 'Hk'),
+                              ((2, 4, 6), 0, 1, None)):
+            L, _, _ = shared_lindbladian(J, cn, cd, H=Hk if Hx else None)
+            key = (J, cn, cd, Hx)
+            Lp = to_mod(L, p)
+            row = []
+            for t in product((1, -1), repeat=4):
+                P16f = 16 * projector(t)
+                assert np.abs(P16f.imag).max() == 0 and np.abs(P16f.real - np.rint(P16f.real)).max() == 0
+                P16 = np.rint(P16f.real).astype(np.int64)
+                B = null_mod((16 * np.eye(256, dtype=np.int64) - P16) % p, p, 256)
+                dims.add(B.shape[1])
+                M = restricted(Lp, np.arange(256), B, p)
+                c2 = (-2 * int(np.trace(M) % p) * i16) % p                 # symmetric about the sector's mean
+                row.append(palindromic_mod(M, c2, p))
+            res[key] = row
+        all_minus = 15                                                          # index of (-1, -1, -1, -1)
+        check(f'G11 over GF({p}): each of the sixteen sectors t has dimension 16', dims == {16})
+        check(f'G11 over GF({p}) at J0 = 0, c = 1/2 and c = 1: the sector (-,-,-,-) palindromic about its mean '
+              f'(evidence; the algebra above proves it), each of the other fifteen not about its mean (exact)',
+              all(res[k][all_minus] and not any(res[k][:all_minus])
+                  for k in (((0, 4, 6), 1, 2, None), ((0, 4, 6), 1, 1, None))))
+        check(f'G11 over GF({p}) at J0 = 0: the sector (-,-,-,-) palindromic about its mean also with one correlation '
+              f'per channel and with the real Hamiltonian built from the Γ_a⊗Γ_a and Q (evidence)',
+              res[((0, 4, 6), (2, 3, 3, -2, -2), 6, None)][all_minus] and res[((0, 4, 6), 1, 2, 'Hk')][all_minus])
+        check(f'G11 over GF({p}) at J0 = 2, c = 1/2: the sector (-,-,-,-) is not palindromic about its mean (exact): '
+              f'the correlated J0 jump keeps no number on it; at c = 0 it is (the control, evidence)',
+              not res[((2, 4, 6), 1, 2, None)][all_minus] and res[((2, 4, 6), 0, 1, None)][all_minus])
+        Lone = to_mod(shared_lindbladian((2, 4, 6), 1, 2)[0], p)
+        Lone0 = to_mod(shared_lindbladian((0, 4, 6), 1, 2)[0], p)
+        mone = []
+        trunc1 = q_w + string('ZXZX') + string('ZYZY') + string('IXIX') + string('IYIY') + 2 * ising
+        for Lx in (Lone, Lone0, to_mod(shared_lindbladian((2, 4, 6), (0, 1, 1, 0, 0), 2)[0], p),
+                   to_mod(shared_lindbladian((2, 4, 6), (0, 0, 0, 1, 1), 2)[0], p),
+                   to_mod(shared_lindbladian((2, 4, 6), 1, 2, H=trunc1)[0], p)):
+            Mo = Lx[np.ix_(one, one)]
+            co = (-2 * int(np.trace(Mo) % p) * pow(len(one), p - 2, p)) % p
+            mone.append(not palindromic_mod(Mo, co, p))
+        check(f'G11 over GF({p}): the block with one bright nucleus is not palindromic about its mean at c = 1/2 in every '
+              f'channel (J0 = 2 and J0 = 0), with c1 = 1/2 alone and c2 = 1/2 alone (J0 = 2), and with the equal-splitting '
+              f'truncation, an Ising coupling, offset and splitting (exact): it stays separate and loses its centre', all(mone))
+        trunc = q_w + string('ZXZX') + string('ZYZY') + string('IXIX') + string('IYIY') + 2 * ising
+        nocentre = []
+        for cn, Hx in (((0, 1, 1, 0, 0), None), ((0, 0, 0, 1, 1), None), (1, trunc)):
+            Lx = to_mod(shared_lindbladian((0, 4, 6), cn, 2, H=Hx)[0], p)
+            cx = (-2 * int(np.trace(Lx) % p) * pow(256, p - 2, p)) % p
+            nocentre.append(not palindromic_mod(Lx, cx, p))
+        check(f'G11 over GF({p}) at J0 = 0: no centre with c1 = 1/2 alone, with c2 = 1/2 alone, and at c = 1/2 with the '
+              f'equal-splitting truncation, an Ising coupling, offset and splitting (exact)', all(nocentre))
+        Lg, _, _ = shared_lindbladian((0, 4, 6), 1, 2)
+        Lg0, _, _ = shared_lindbladian((0, 4, 6), 0, 1)
+        cg = (-2 * int(np.trace(to_mod(Lg, p)) % p) * pow(256, p - 2, p)) % p
+        cg0 = (-2 * int(np.trace(to_mod(Lg0, p)) % p) * pow(256, p - 2, p)) % p
+        Lc0 = to_mod(shared_lindbladian((2, 4, 6), (1, 0, 0, 0, 0), 2, H=q_w + 2 * ising)[0], p)
+        Pb = bright(2)
+        rungs = []
+        for pattern in ((0, 0), (1, 0), (0, 1), (1, 1)):
+            idx = np.where(np.all([Pb[k] == b for k, b in enumerate(pattern)], axis=0))[0]
+            Mb = Lc0[np.ix_(idx, idx)]
+            c2b = (-2 * int(np.trace(Mb) % p) * pow(len(idx), p - 2, p)) % p
+            rungs.append(palindromic_mod(Mb, c2b, p))
+        check(f'G11 over GF({p}) with c0 alone (c0 = 1/2, J = (2, 4, 6), offset, splitting and an Ising coupling): the '
+              f'blocks with no bright nucleus and with one are palindromic about their means (evidence), the block with two '
+              f'is not (exact): the correlated ZZ term charges only the two-bright cells, with both signs',
+              rungs == [True, True, True, False])
+        check(f'G11 over GF({p}) at J0 = 0: the whole spectrum is not palindromic about its mean at c = 1/2 (exact), '
+              f'and is at c = 0 (the control, proved by the lemma)',
+              not palindromic_mod(to_mod(Lg, p), cg, p) and palindromic_mod(to_mod(Lg0, p), cg0, p))
 
 
 if __name__ == '__main__':
