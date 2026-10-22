@@ -46,7 +46,9 @@ where the degree of freedom, the bath channel (the fluctuating field gradient)
 and the observables are named, the rates kept as symbols and no sodium data
 compared; its section *The handshake with NMR* sets textbook relaxation beside
 that model row by row as exact equations. It does not involve the fraction 1/8,
-and the label Na above is unrelated to it.
+and the label Na above is unrelated to it; so are the labels Li, Be, B, N, O, Al, S
+and Cl, though that page names nuclei of those elements, as spin-3/2 carriers of the
+same generator or as the other quadrupolar spins of its section beyond 3/2.
 
 ---
 

@@ -11138,7 +11138,11 @@ the verifier's parameters and, in its tests, at six further points. Gated by
 172 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
-**Scope:** the mirrors and the global-centre theorem for one spin 3/2, the
+**Scope:** the mirrors and the global-centre theorem for one spin 3/2, any
+nucleus of that spin whose relaxation is quadrupolar (²³Na is the one the pages'
+sources wrote for; ¹¹B, ³⁹K, ⁸⁷Rb and the others are the same generator with their own
+densities, where other mechanisms do not compete and the Redfield condition
+holds), the
 statements beyond 3/2 for one spin I ≥ 1, and the chain for spins 3/2 with
 independent gradients and a static coupling (the local form, d·τ_c ≪ 1, with d
 the coupling and τ_c the gradient's correlation time); all in the Redfield
