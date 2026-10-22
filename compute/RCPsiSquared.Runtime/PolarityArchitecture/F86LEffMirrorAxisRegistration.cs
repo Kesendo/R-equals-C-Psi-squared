@@ -11,7 +11,9 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <para>Edge declared: <see cref="LEffMirrorAxisClaim"/> ← <see cref="AbsorptionTheoremClaim"/>.
 /// The −4γ₀ real part is the Absorption Theorem's −2γ₀·⟨n_XY⟩ rate at ⟨n_XY⟩ = 2 (the
 /// 50/50-hybridised pair on the integer rung at the mirror centre), so the mirror-axis
-/// claim inherits from the absorption-quantum claim.</para>
+/// claim inherits from the absorption-quantum claim. A second edge,
+/// <see cref="LEffMirrorAxisClaim"/> ← <see cref="TwoByTwoExceptionalPointClaim"/>: the toy's 2 × 2 is a setting of the
+/// one closed block, its mirror axis the block's half trace.</para>
 ///
 /// <para>Tier consistency: both are Tier1Derived; the inheritance check (parent at least
 /// as strong as child) passes (Tier1Derived ≥ Tier1Derived).</para></summary>
@@ -21,6 +23,7 @@ public static class F86LEffMirrorAxisRegistration
         builder.Register<LEffMirrorAxisClaim>(b =>
         {
             _ = b.Get<AbsorptionTheoremClaim>();
+            _ = b.Get<TwoByTwoExceptionalPointClaim>();   // the toy's 2 × 2, the setting of the one closed block
             return LEffMirrorAxisClaim.Build();
         });
 }

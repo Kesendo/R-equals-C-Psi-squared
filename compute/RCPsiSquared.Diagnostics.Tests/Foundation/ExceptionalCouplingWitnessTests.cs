@@ -312,7 +312,7 @@ public class ExceptionalCouplingWitnessTests
     // ---------------------------------------------------------------- the claim
 
     [Fact]
-    public void Claim_Is_Registered_With_Three_Typed_Parents()
+    public void Claim_Is_Registered_With_Its_Typed_Parents()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         Assert.True(registry.Contains<ExceptionalCouplingSetClaim>());

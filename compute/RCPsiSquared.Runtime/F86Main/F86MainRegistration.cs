@@ -29,7 +29,9 @@ namespace RCPsiSquared.Runtime.F86Main;
 /// for the shifted-generator premise, plus
 /// <see cref="PolarityArchitecture.AbsorptionTheoremClaimRegistration.RegisterAbsorptionTheoremClaim"/>
 /// (and through it Pi2Family + Pi2DyadicLadder), because the
-/// <see cref="TPeakLaw"/> factory declares the rung-2 parent edge.</para></summary>
+/// <see cref="TPeakLaw"/> factory declares the rung-2 parent edge, and
+/// <see cref="PolarityArchitecture.TwoByTwoExceptionalPointClaimRegistration.RegisterTwoByTwoExceptionalPointClaim"/>,
+/// because the <see cref="QEpLaw"/> factory declares the one closed 2 × 2 as its parent.</para></summary>
 public static class F86MainRegistration
 {
     public static ClaimRegistryBuilder RegisterF86Main(
@@ -53,5 +55,10 @@ public static class F86MainRegistration
                 _ = b.Get<AbsorptionTheoremClaim>();
                 return new TPeakLaw(gammaZero);
             })
-            .Register<QEpLaw>(_ => new QEpLaw(gEff));
+            .Register<QEpLaw>(b =>
+            {
+                // Q_EP = 2/g_eff is the meeting d = 0 of the toy's closed 2 × 2 (THE_DOUBLE_ROOT, One 2 × 2 in many settings)
+                _ = b.Get<TwoByTwoExceptionalPointClaim>();
+                return new QEpLaw(gEff);
+            });
 }

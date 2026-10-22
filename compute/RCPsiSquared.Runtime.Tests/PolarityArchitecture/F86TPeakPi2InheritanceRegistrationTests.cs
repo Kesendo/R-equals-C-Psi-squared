@@ -14,6 +14,7 @@ public class F86TPeakPi2InheritanceRegistrationTests
 
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
+            .RegisterTwoByTwoExceptionalPointClaim()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             // TPeakLaw's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.

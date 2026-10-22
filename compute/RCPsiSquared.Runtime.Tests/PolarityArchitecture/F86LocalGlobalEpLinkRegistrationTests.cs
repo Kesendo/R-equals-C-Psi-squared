@@ -12,6 +12,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     // RegisterF86Main: Pi2Family + Pi2DyadicLadder + AbsorptionTheoremClaim.
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
+            .RegisterTwoByTwoExceptionalPointClaim()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterAbsorptionTheoremClaim()
@@ -73,6 +74,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
         // the parent edge fails at Build() with MissingParent.
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
+                .RegisterTwoByTwoExceptionalPointClaim()
                 .RegisterF86LocalGlobalEpLink()
                 .Build());
     }

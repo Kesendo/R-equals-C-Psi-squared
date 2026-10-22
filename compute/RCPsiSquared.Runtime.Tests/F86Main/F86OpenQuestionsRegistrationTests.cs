@@ -11,6 +11,7 @@ public class F86OpenQuestionsRegistrationTests
 {
     private static ClaimRegistry BuildRegistry() =>
         new ClaimRegistryBuilder()
+            .RegisterTwoByTwoExceptionalPointClaim()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterAbsorptionTheoremClaim()

@@ -26,7 +26,7 @@ public class CoherenceHorizonClaimRegistrationTests
     }
 
     [Fact]
-    public void CoherenceHorizonClaim_HasTwoTypedParents()
+    public void CoherenceHorizonClaim_HasItsTypedParents()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
 

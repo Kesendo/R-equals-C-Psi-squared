@@ -309,7 +309,12 @@ always one Jordan block, so its Jordan block proves nothing about the physics: t
 physical block, which is one Jordan block exactly when it is not scalar at the point; the rows say where that is
 shown. [`two_by_two_ep_family.py`](../simulations/two_by_two_ep_family.py) checks its transcription
 of every row exactly: d against the row's value, the page's eigenvalues as roots, the nilpotent part at the page's point (for
-a companion matrix a reading that cannot fail). A
+a companion matrix a reading that cannot fail). The law is typed as `TwoByTwoExceptionalPointClaim`, the parent of
+`QEpLaw`, `LEffMirrorAxisClaim`, `CoherenceHorizonClaim`, `TransitionBridgeF95SiblingClaim`,
+`Spin32QuadrupolarMirrorsClaim`, `SeedHolonomyClaim` and `ExceptionalCouplingSetClaim`, most of them for one part of
+their content; its live witness (`inspect --root twobytwo`) reads each row exactly at a point with integer entries on its
+exceptional point and one step off, takes the sodium points from the witness that owns them, asks the F86 toy's
+`TwoLevelEpModel` at an integer point, and sets `QEpLaw`'s value as the coupling to land on d = 0. A
 roster, not a census.
 
 **Closed blocks of a generator.**
@@ -332,7 +337,7 @@ roster, not a census.
 | The seed toy ([seed holonomy](../experiments/SEED_HOLONOMY_THIRD_CLOCK.md)) | [[s, 1], [1, −s]] | s = i, a complex parameter (and s = −i by the same arithmetic) | the coalesced vector self-orthogonal; a quarter-turn per loop in the vᵀv gauge |
 | The Route-B control ([self-fold](proofs/PROOF_ROUTE_B_N4_SELF_FOLD.md)) | −4·1 + i[[q − 1, ε], [ε, −(q − 1)]] | q = 1 ± iε, λ = −4 | the discriminant, as a control family for the self-fold identity |
 
-**A Hamiltonian.** F155's PT dimer J(XX + YY)/2 + ig(Z₀ − Z₁)/2 ([F155](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md), corollary 7, which names its exceptional point at g = J) has, computed here, the single-excitation block [[ig, J], [J, −ig]] on |01⟩, |10⟩, with the eigenvalues ±√(J² − g²), a Jordan block at g = J: an exceptional point of a non-Hermitian Hamiltonian, not of a Liouvillian. F155's own generator for it, the no-jump map ρ ↦ −i(Hρ − ρH†), carries there a Jordan block of size 3.
+**A Hamiltonian.** F155's PT dimer J(XX + YY)/2 + ig(Z₀ − Z₁)/2 ([F155](proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md), corollary 7, which names its exceptional point at g = J) has, computed here, the single-excitation block [[ig, J], [J, −ig]] on |01⟩, |10⟩, with the eigenvalues ±√(J² − g²), a Jordan block at g = J: an exceptional point of a non-Hermitian Hamiltonian, not of a Liouvillian. F155's own generator for it, the no-jump map ρ ↦ −i(Hρ − ρH†), carries there a Jordan block of size 3, not a second finding: H is nilpotent at g = J, and the no-jump map is −i times the Kronecker sum H ⊗ 1 − 1 ⊗ H̄, whose part from the 2 × 2 block and its conjugate has Jordan type 3 ⊕ 1.
 
 Two settings meet a collision of this kind inside a larger block rather than as a closed 2 × 2, and are not rows.
 The fragile bridge ([its page](../hypotheses/FRAGILE_BRIDGE.md), and [the PT-symmetry analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)) is a
@@ -348,8 +353,8 @@ toy, the Route-B control and the dimer's block belong too, symmetric with an ima
 vector is self-orthogonal, vᵀv = 0, the signature the seed holonomy and the sodium page read and [the antilinear
 triangle](proofs/PROOF_ANTILINEAR_TRIANGLE.md) gathers; the similarity diag(1, i) carries the first writing into
 the second, and under it the ring's coalesced vector (1, −1), with vᵀv = 2, becomes (1, i), with vᵀv = 0. So
-self-orthogonality belongs to the bilinear form of the writing, which only a complex-orthogonal change of basis
-keeps, not to the block.
+self-orthogonality belongs to the bilinear form of the writing, which a complex-orthogonal change of basis (or a
+scalar multiple of one) keeps and a general similarity does not, not to the block.
 
 ---
 

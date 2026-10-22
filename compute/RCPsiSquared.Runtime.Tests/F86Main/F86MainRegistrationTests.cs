@@ -15,6 +15,7 @@ public class F86MainRegistrationTests
     // Pi2DyadicLadder (1) + AbsorptionTheoremClaim (1).
     private static ClaimRegistryBuilder BuildBaseRegistry(double gammaZero, double gEff) =>
         new ClaimRegistryBuilder()
+            .RegisterTwoByTwoExceptionalPointClaim()
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterAbsorptionTheoremClaim()
@@ -27,8 +28,8 @@ public class F86MainRegistrationTests
         var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
-        // 11 absorption-chain claims + F1 + the five F86 claims.
-        Assert.Equal(17, registry.All().Count());
+        // 11 absorption-chain claims + F1 + the one closed 2 × 2 (QEpLaw's parent) + the five F86 claims.
+        Assert.Equal(18, registry.All().Count());
         Assert.True(registry.Contains<ShiftedGeneratorSectorwisePClaim>());
         Assert.True(registry.Contains<DressedModeWeightClaim>());
         Assert.True(registry.Contains<F71MirrorInvariance>());

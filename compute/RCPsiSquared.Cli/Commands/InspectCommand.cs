@@ -1118,6 +1118,12 @@ public static class InspectCommand
                 c.Parser.HasFlag("d") ? c.Parser.RequireInt("d") : 4,
                 c.Parser.HasFlag("c") ? c.Parser.RequireInt("c") : 1),
             RequiresN: false),
+        new("twobytwo", "the one closed 2 × 2 behind many exceptional points (docs/THE_DOUBLE_ROOT.md, One 2 × 2 in many settings), live: "
+            + "every row at a point with integer entries on its exceptional point and one step off it, exact over ℚ(i) through the claim's law (d = 0 and "
+            + "M₀ ≠ 0, one Jordan block; companion rows marked as readings that cannot fail), self-orthogonality following the writing, "
+            + "diag(1, i) carrying the ring's (1, −1) into (1, i), and F155's dimer with a size-3 block in its no-jump generator "
+            + "(typed: TwoByTwoExceptionalPointClaim)",
+            _ => new TwoByTwoExceptionalPointWitness(), RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

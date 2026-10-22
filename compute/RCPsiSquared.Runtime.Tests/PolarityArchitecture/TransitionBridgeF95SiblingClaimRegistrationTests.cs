@@ -8,6 +8,7 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
+            .RegisterTwoByTwoExceptionalPointClaim()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance();
 
     [Fact]
@@ -41,15 +42,16 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisteredClaim_HasOnlyTheStandaloneF95Ancestor()
+    public void RegisteredClaim_HasTheF95LensAndTheOneClosedTwoByTwoAsAncestors()
     {
         var registry = BuildBaseRegistry()
             .RegisterTransitionBridgeF95SiblingClaim()
             .Build();
 
         var ancestors = registry.AncestorsOf<TransitionBridgeF95SiblingClaim>();
-        Assert.Single(ancestors);
-        Assert.IsType<F95AngleAtQuadraticZeroPi2Inheritance>(ancestors[0]);
+        Assert.Equal(2, ancestors.Count);
+        Assert.Contains(ancestors, a => a is F95AngleAtQuadraticZeroPi2Inheritance);
+        Assert.Contains(ancestors, a => a is TwoByTwoExceptionalPointClaim);
         Assert.False(registry.Contains<Pi2DyadicLadderClaim>());
     }
 }
