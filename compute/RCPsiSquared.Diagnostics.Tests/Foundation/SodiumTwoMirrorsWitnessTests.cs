@@ -189,6 +189,38 @@ public class SodiumTwoMirrorsWitnessTests
     }
 
     [Fact]
+    public void DynamicShift_KeepsBothMirrors_MovesEachPairAsAWhole_AndKeepsTheJordanBlock()
+    {
+        Assert.True(Default.ShiftClosedForm);          // built from the spin matrices: −3K₂·ZI − 3K₁·IZ
+        Assert.True(Default.ShiftKeepsMirror);
+        Assert.True(Default.ShiftMovesPairsWhole);      // satellites by 6i·K₁, double quantum by 6i·K₂, CT by 6i(K₂ − K₁)
+        Assert.True(Default.ShiftKeepsJordan);          // ranks 15, 14, 14 at λ* + 6i·K₁, rank 16 one step off in q
+        Assert.True(Default.DynamicShiftHolds);
+    }
+
+    [Fact]
+    public void DynamicShift_GlobalCentre_FollowsTheShiftedRule_BothRoutesAgainstLiterals()
+    {
+        // J₁ = 0 at ω = 6K₁ pairs, at ω = 0 not; J₂ = 0 at ω = 3K₂ pairs, at ω = 0 not; the same with both K on, and at
+        // an ω a rule mixing the K would accept, not; with a splitting, not; J₀ = 0 pairs; all densities on, not
+        var expected = new[] { true, false, true, false, true, false, true, false, false, true, false };
+        Assert.Equal(expected, Default.ShiftCentreReadings.Select(r => r.CharpolySymmetric).ToArray());
+        Assert.Equal(expected, Default.ShiftCentreReadings.Select(r => r.Rule).ToArray());
+        Assert.Equal(expected, Default.ShiftCentreReadings.Select(r => r.NearKernel == r.FarKernel).ToArray());
+    }
+
+    [Theory]
+    [InlineData(1, 0, 3, 0, 0)]
+    [InlineData(1, 2, 0, 0, 0)]
+    [InlineData(1, 2, 3, 0, 0)]
+    [InlineData(0, 2, 3, 1, 1)]
+    [InlineData(1, 0, 3, 1, 0)]
+    [InlineData(1, 0, 0, 0, 2)]
+    public void DynamicShift_RuleAtZeroShift_IsTheRuleWithoutIt(long j0, long j1, long j2, long q, long omega) =>
+        Assert.Equal(Spin32QuadrupolarMirrorsClaim.HasGlobalCentre(j0, j1, j2, q, omega),
+                     Spin32QuadrupolarMirrorsClaim.HasGlobalCentreWithShift(j0, j1, j2, q, omega, 0, 0));
+
+    [Fact]
     public void ExceptionalPoint_BrightPairs_AreClosedBlocks_WithTheSumRuleAndTheirDiscriminants()
     {
         Assert.True(Default.BrightPairsClosed);              // the control set {satellite, central transition} is not

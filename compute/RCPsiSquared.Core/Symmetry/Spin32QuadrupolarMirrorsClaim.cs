@@ -26,7 +26,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// non-zero, it is one 2 × 2 Jordan block on Re λ = −c₂: a defective exceptional point where the
 /// splitting, which carries each bright string into its own mirror image, makes a mode and its mirror
 /// image one, an exceptional point of the eigenvalues; where the lines of a spectrum separate depends on
-/// the observable (the page's rule).</para>
+/// the observable (the page's rule). The dynamic frequency shift, the Lamb-shift Hamiltonian −3K₂·ZI − 3K₁·IZ
+/// of the shifts K(m·ω₀) = Im Γ, is real and diagonal: both mirrors and the exceptional points survive it, and
+/// the global centre follows <see cref="HasGlobalCentreWithShift"/>.</para>
 ///
 /// <para>Shape and neighbours. At J₀ = 0 the map S is an F1 palindromizer built in F118's shape
 /// (<c>docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md</c>: Π_Y(ρ) = X^⊗N·ρᵀ), with Γ₀ in place of
@@ -69,6 +71,13 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
     public static bool HasGlobalCentre(long j0, long j1, long j2, long q, long omega) =>
         j0 == 0 || (q == 0 && omega == 0 && (j1 == 0 || j2 == 0));
 
+    /// <summary>The global-centre rule with the dynamic frequency shift, the Lamb-shift Hamiltonian
+    /// K₁(T₂,₁†T₂,₁ − T₂,₋₁†T₂,₋₁) + K₂(T₂,₂†T₂,₂ − T₂,₋₂†T₂,₋₂) of the shifts K(m·ω₀) = Im Γ, odd in m: one centre
+    /// exactly when J₀ = 0, or q = 0 and J₁ = 0 with ω = 6K₁ (the satellites on resonance), or q = 0 and J₂ = 0 with
+    /// ω = 3K₂ (the double quanta on resonance). At K₁ = K₂ = 0 it is <see cref="HasGlobalCentre"/>.</summary>
+    public static bool HasGlobalCentreWithShift(long j0, long j1, long j2, long q, long omega, long k1, long k2) =>
+        j0 == 0 || (q == 0 && ((j1 == 0 && omega == checked(6 * k1)) || (j2 == 0 && omega == checked(3 * k2))));
+
     public Spin32QuadrupolarMirrorsClaim(PalindromeTwoEndCountClaim twoEndCount)
         : base(
             "Spin-3/2 quadrupolar relaxation: the five Hermitian quadrupole components are Dirac matrices (only at " +
@@ -108,6 +117,12 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
                          "exceptional point of the eigenvalues (where lines separate depends on the observable); at " +
                          "every q the splitting q·diag(1, −1, −1, 1) carries each bright string X into its own mirror image S(X) = ±Γ₀X, and the coalesced " +
                          "vector is self-orthogonal, vᵀv = 0");
+            yield return new InspectableNode("the dynamic frequency shift",
+                summary: "the shifts K(m·ω₀) = Im Γ, odd in m, add the Lamb-shift Hamiltonian " +
+                         "−3K₂·ZI − 3K₁·IZ = −3K₂·I_z − (3/2)(2K₁ − K₂)·IZ, real and diagonal: S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂) " +
+                         "still holds, each bright pair moves as a whole (6K₁, 6K₂), so the exceptional points stay, the central " +
+                         "transition moves 6(2K₁ − K₂) off the satellites, and one global centre exists exactly when J₀ = 0, or " +
+                         "q = 0 and J₁ = 0 with ω = 6K₁, or q = 0 and J₂ = 0 with ω = 3K₂");
             yield return new InspectableNode("global-centre theorem",
                 summary: "one centre −s, 2s = 3J₀ + 6J₁ + 6J₂, exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0, every real J; the " +
                          "coefficients of χ(−x − 2s) − χ(x) generate the ideal (J₀·ω_Q², J₀·(9J₁² + ω²)·(9J₂² + 4ω²)); for J ≥ 0 " +

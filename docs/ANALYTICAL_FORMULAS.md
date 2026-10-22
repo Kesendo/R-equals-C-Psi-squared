@@ -10993,6 +10993,22 @@ negative densities included. For non-negative densities [F158](#f158) gives it
 again, the normalised jumps being Hermitian strings that square to 1: two exact
 routes, one answer, checked at sixteen points.
 
+**The dynamic frequency shift (spin 3/2).** The shifts of the complex
+transforms, K_m = Im Γ_m beside J_m = 2·Re Γ_m of one transform Γ_m (with J = 2·Re Γ the Redfield
+equation gives the shift the coefficient Im Γ; K/J = ωτ/2 for one exponential correlation; only the sign is a convention),
+odd in m at infinite temperature,
+add the Lamb-shift Hamiltonian Σ_m K_m·T₂ₘ†T₂ₘ = −3K₂·ZI − 3K₁·IZ
+= −3K₂·I_z − (3/2)(2K₁ − K₂)·IZ, real and diagonal: −3K₂·I_z turns the frame, and what no frame removes is the one number
+2K₁ − K₂. Both mirrors survive it exactly (Γ₀
+commutes with it, the transpose reverses it), each bright pair moves as a whole
+(satellites by 6K₁, double quanta by 6K₂ in frequency), so the exceptional points
+and their Jordan blocks are untouched, and the central transition moves 6(2K₁ − K₂)
+off the satellites. The global centre then exists exactly when J₀ = 0, or ω_Q = 0
+and J₁ = 0 with ω = 6K₁, or ω_Q = 0 and J₂ = 0 with ω = 3K₂ (the ideal
+{J₀·ω_Q², J₀·(9J₁² + (ω − 6K₁)²)·(9J₂² + (2ω − 6K₂)²)}, the theorem's at K = 0):
+the frame in which the satellites or the double quanta are on resonance; for
+non-negative densities F158's route gives every branch again.
+
 **Beyond spin 3/2.**
 - At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror: the cells of
   price 0 and of the top price do not occur equally often (proved).
@@ -11070,7 +11086,10 @@ the satellites' mirror image, exact) and the bright pairs' exceptional point
 (both pairs as closed blocks with the sum rule, each a 2 × 2 Jordan block on
 its exceptional point by exact ranks beside a scalar control, the merged mode,
 and the satellite signal around it in the rates a measurement reads; its tests read the point
-once more with `EpCharacter`). The
+once more with `EpCharacter`), and the dynamic frequency shift (the mirror and the pairs'
+moves at one point, the closed form of the shift from the spin
+matrices, the satellites' Jordan block at the shifted eigenvalue, and the shifted global-centre rule
+on both routes, the kernel dimensions and the characteristic polynomial, at eleven points). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11080,7 +11099,7 @@ similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
 the verifier's parameters and, in its tests, at six further points. Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-145 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
+151 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (63 checks, 67 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, the
@@ -11088,9 +11107,10 @@ statements beyond 3/2 for one spin I ≥ 1, and the chain for spins 3/2 with
 independent gradients and a static coupling (the local form, d·τ_c ≪ 1, with d
 the coupling and τ_c the gradient's correlation time); all in the Redfield
 picture, secular in the Larmor frequency with the splitting kept whole, at
-infinite temperature. Dynamic frequency shifts, finite polarization, multiple
-compartments, exchange and terms non-secular in the Larmor frequency are
-outside. No sodium data were compared.
+infinite temperature. Finite polarization, multiple compartments, exchange and
+terms non-secular in the Larmor frequency are outside, and so is the dynamic
+frequency shift, except at spin 3/2 as its Lamb-shift Hamiltonian (not in the
+statements beyond 3/2, nor in the chain). No sodium data were compared.
 **Open:** a global centre on the planes where two population rates coincide,
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the

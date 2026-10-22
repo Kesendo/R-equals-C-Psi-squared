@@ -68,6 +68,10 @@ Checks:
     simple block eigenvalues, semisimple, the pairing crossing the coherence orders, just below the
     single-quantum exceptional point, 3 of 9 paired without the splitting; and the I+ spectrum with two maxima at
     both rays, I+ reading its pair with kappa = -J1/2, c + 3kappa = (3J0 - 3J1 + 2J2)/4 negative there;
+  - the dynamic frequency shift: the Lamb-shift Hamiltonian of the shifts K(m·w0) = Im Gamma, odd in m, is
+    -3K2·ZI - 3K1·IZ; both mirrors survive it, each bright pair moves as a whole (6K1, 6K2), the central
+    transition 6(2K1 - K2) off the satellites, and the global-centre ideal becomes
+    {J0·wQ², J0·(9J1² + (w - 6K1)²)(9J2² + (2w - 6K2)²)};
   - the global centre: the trace fixes 2s = 3J0 + 6J1 + 6J2; the coefficients of P(-x - 2s) - P(x) have the
     lex Groebner basis {J0·wQ², J0·(9J1² + w²)(9J2² + 4w²)}, whose real zeros are the theorem; the three
     reflections at a vanishing density; and sixteen exact points, both outcomes, each by the identity at the
@@ -1232,6 +1236,81 @@ def main():
           and sp.simplify(vI1[0] - vI1[1]) == 0 and vI1[0] != 0
           and sp.expand(cen1 + 3 * kap1 - (3 * K0_ - 3 * K1_ + 2 * K2_) / 4) == 0 and rays_ok == [True, True]
           and bool(0 < dips[0] < R(1, 100)) and bool(dips[1] > R(1, 5)), f"({rays_ok}, dips {[sp.N(v_, 4) for v_ in dips]})")
+
+    print("\nthe dynamic frequency shift: the Lamb-shift Hamiltonian of the shifts K(m·w0) = Im Gamma, odd in m")
+    Kp1, Kp2 = sp.symbols("K1 K2", real=True)
+    HLS = (Kp1 * (T[1].H * T[1] - T[-1].H * T[-1]) + Kp2 * (T[2].H * T[2] - T[-2].H * T[-2])).applyfunc(sp.simplify)
+    ZIm, IZm = sp.kronecker_product(sp.diag(1, -1), sp.eye(2)), sp.kronecker_product(sp.eye(2), sp.diag(1, -1))
+    Izm = sp.diag(*ms)
+    claim("H_LS = K1(T21^dag T21 - T2-1^dag T2-1) + K2(T22^dag T22 - T2-2^dag T2-2) is diagonal and traceless, "
+          "-3K2·ZI - 3K1·IZ in strings, = -3K2·Iz - (3/2)(2K1 - K2)·IZ: a turn of the frame and a part along IZ that "
+          "no frame removes (Iz = ZI + IZ/2)",
+          HLS.is_diagonal() and sp.simplify(HLS.trace()) == 0
+          and (HLS + 3 * Kp2 * ZIm + 3 * Kp1 * IZm).applyfunc(sp.simplify).is_zero_matrix
+          and (HLS + 3 * Kp2 * Izm + R(3, 2) * (2 * Kp1 - Kp2) * IZm).applyfunc(sp.simplify).is_zero_matrix
+          and (Izm - ZIm - IZm / 2).applyfunc(sp.simplify).is_zero_matrix)
+    Lk = (L - sp.I * (sp.kronecker_product(HLS, sp.eye(d)) - sp.kronecker_product(sp.eye(d), HLS.T))).applyfunc(sp.simplify)
+    G0d = sp.diag(1, -1, -1, 1)
+    Sm2 = sp.kronecker_product(G0d, sp.eye(d)) * sp.Matrix(d * d, d * d, lambda r, c: 1 if r == d * (c % d) + c // d else 0)
+    brightc = [d * i + j for i in range(d) for j in range(d) if abs(ms[i]) != abs(ms[j])]
+    Pbr = sp.diag(*[1 if k in brightc else 0 for k in range(d * d)])
+    claim("both mirrors survive it: S·L·S^-1 = -L + 2·L_J0 - 6(J1 + J2) with H_LS added, at every wQ, w, K1, K2 "
+          "(H_LS is real and diagonal, so Gamma0 commutes with it and the transpose reverses it)",
+          (Sm2 * Lk * Sm2.inv() + Lk + 6 * J0 * Pbr + 6 * (J1 + J2) * sp.eye(d * d)).applyfunc(sp.simplify).is_zero_matrix)
+    shifts_ok = True
+    for idx, kk in (([1, 11], Kp1), ([2, 7], Kp2)):
+        shifts_ok &= all(sp.simplify(Lk[r, c]) == 0 for c in idx for r in range(d * d) if r not in idx)
+        shifts_ok &= (Lk.extract(idx, idx) - L.extract(idx, idx) - 6 * sp.I * kk * sp.eye(2)).applyfunc(sp.simplify).is_zero_matrix
+    claim("each bright pair stays a closed block and moves as a whole, both cells by 6i·K1 (satellites) or 6i·K2 (double "
+          "quanta): the discriminants, the exceptional points 6wQ² = 9J2², 9J1² and their Jordan blocks are untouched; the "
+          "central transition moves by 6i(K2 - K1), so the satellites sit 6(2K1 - K2) off it in frequency",
+          shifts_ok and sp.simplify(Lk[d + 2, d + 2] - L[d + 2, d + 2] - 6 * sp.I * (Kp2 - Kp1)) == 0)
+    blocksk = {}
+    for p in range(-3, 4):
+        idx = [a * d + b for a in range(d) for b in range(d) if ms[a] - ms[b] == p]
+        blocksk[p] = sp.expand(Lk.extract(idx, idx).charpoly(x).as_expr())
+    Pk = sp.expand(sp.prod([blocksk[p] for p in range(-3, 4)]))
+    s2k = 3 * J0 + 6 * J1 + 6 * J2
+    coeffsk = [c for c in sp.Poly(sp.expand(Pk.subs(x, -x - s2k) - Pk), x).all_coeffs() if sp.expand(c) != 0]
+    vars7 = (J0, J1, J2, wQ, w, Kp1, Kp2)
+    targetk = [J0 * wQ ** 2, J0 * (9 * J1 ** 2 + (w - 6 * Kp1) ** 2) * (9 * J2 ** 2 + (2 * w - 6 * Kp2) ** 2)]
+    Gt, Gc = sp.groebner(targetk, *vars7, order="grevlex"), sp.groebner(coeffsk, *vars7, order="grevlex")
+    claim("the global centre with the shift: the coefficients of P(-x - 2s) - P(x) and {J0·wQ², J0·(9J1² + (w - 6K1)²)·"
+          "(9J2² + (2w - 6K2)²)} generate the same ideal (each lies in the other's), so for real values one centre exactly "
+          "when J0 = 0, or wQ = 0 and J1 = 0 with w = 6K1 (the satellites on resonance), or wQ = 0 and J2 = 0 with w = 3K2 "
+          "(the double quanta); at K = 0 the rule without the shift",
+          sp.expand(Lk.trace() - L.trace()) == 0
+          and all(Gt.reduce(sp.expand(c_))[1] == 0 for c_ in coeffsk) and all(Gc.reduce(sp.expand(g_))[1] == 0 for g_ in targetk),
+          f"({len(coeffsk)} coefficients)")
+
+    # F158's second route for the shifted branches: the far kernel's strings against the whole diagonal H
+    Xs2, Ys2 = sp.Matrix([[0, 1], [1, 0]]), sp.Matrix([[0, -sp.I], [sp.I, 0]])
+    Zs2, I2s = sp.diag(1, -1), sp.eye(2)
+    Htot = (sp.sqrt(6) * wQ / 2) * sp.kronecker_product(Zs2, Zs2) + w * Izm + HLS
+    comm0 = lambda A_: (Htot * A_ - A_ * Htot).applyfunc(sp.simplify)
+    zx, zy = sp.kronecker_product(Zs2, Xs2), sp.kronecker_product(Zs2, Ys2)
+    xi, yi = sp.kronecker_product(Xs2, I2s), sp.kronecker_product(Ys2, I2s)
+    # True when every entry is identically zero; is_zero_matrix answers None on a symbolic entry, so test the entries
+    on = lambda A_, sub: all(sp.expand(e) == 0 for e in comm0(A_).subs(sub))
+    acomm = lambda A_, B_: (A_ * B_ + B_ * A_).is_zero_matrix is True
+    zz = sp.kronecker_product(Zs2, Zs2)
+    claim("F158's colouring on the shifted branches: ZX, ZY anticommute with the jumps left at J1 = 0 (ZZ, XI, YI) and "
+          "commute with the whole H when wQ = 0 and w = 6K1; XI, YI anticommute with those left at J2 = 0 (ZZ, ZX, ZY) and "
+          "commute with H when wQ = 0 and w = 3K2; each fails off its branch",
+          all(acomm(A_, B_) for A_ in (zx, zy) for B_ in (zz, xi, yi))
+          and all(acomm(A_, B_) for A_ in (xi, yi) for B_ in (zz, zx, zy))
+          and all(on(A_, {wQ: 0, w: 6 * Kp1}) for A_ in (zx, zy)) and all(on(A_, {wQ: 0, w: 3 * Kp2}) for A_ in (xi, yi))
+          and not on(zx, {wQ: 0, w: 3 * Kp2}) and not on(xi, {wQ: 0, w: 6 * Kp1}) and not on(zx, {w: 6 * Kp1}))
+    tq, wq0 = sp.symbols("tau w0", positive=True)
+    Gam = lambda om: tq / (1 - sp.I * om * tq)                          # one exponential correlation
+    Jl, Kl = lambda om: 2 * sp.re(sp.expand_complex(Gam(om))), lambda om: sp.im(sp.expand_complex(Gam(om)))
+    claim("for one exponential correlation, Gamma = tau/(1 - i·w·tau): K/J = w·tau/2, and the central line's offset "
+          "2K1 - K2 = 6w0³tau⁴/((1 + w0²tau²)(1 + 4w0²tau²)), ~ 6w0³tau⁴ near extreme "
+          "narrowing and outgrowing the satellites' coupling 3J2 in slow motion",
+          sp.simplify(Kl(wq0) / Jl(wq0) - wq0 * tq / 2) == 0
+          and sp.simplify(2 * Kl(wq0) - Kl(2 * wq0) - 6 * wq0 ** 3 * tq ** 4 / ((1 + wq0 ** 2 * tq ** 2) * (1 + 4 * wq0 ** 2 * tq ** 2))) == 0
+          and sp.limit(sp.simplify((2 * Kl(wq0) - Kl(2 * wq0)) / (3 * Jl(2 * wq0))), tq, sp.oo) == sp.oo
+          and sp.limit(sp.simplify((2 * Kl(wq0) - Kl(2 * wq0)) / tq ** 4), tq, 0) == 6 * wq0 ** 3)
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")

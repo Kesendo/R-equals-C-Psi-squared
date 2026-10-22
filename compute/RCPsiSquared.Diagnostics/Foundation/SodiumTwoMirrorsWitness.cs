@@ -46,7 +46,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// measurement reads: its initial rate R₂′ = 3(J₀ + J₁) at the five splittings read, below the exceptional point two simple
 /// rates with the weights 4/3 and −1/3 (at <see cref="BelowEpPoint"/>), above it two mode frequencies
 /// pulled in to D_ω² = D² − R₁(4/5)², and the merging where the nominal separation D = 4q equals the
-/// 4/5 longitudinal rate. These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// 4/5 longitudinal rate; and the dynamic frequency shift (gate 7, at the fixed <see cref="ShiftPoint"/>, K₁ and K₂
+/// integers): the Lamb-shift Hamiltonian from the spin matrices against its closed form, the mirror identity with it,
+/// the bright pairs moving as wholes, the Jordan block at the shifted eigenvalue, and the shifted global-centre rule
+/// on both routes, the kernel dimensions and the characteristic polynomial, at eleven points. These are statements on eigenvalues, not on the lines of a spectrum; which come
 /// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
@@ -247,6 +250,49 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     public bool ExceptionalPointHolds => BrightPairsClosed && BrightPairTracesHold && BrightPairDiscriminantsHold
         && SatelliteEp.IsJordanPair && DoubleQuantumEp.IsJordanPair && DiabolicControlSemisimple && EpVectorSelfOrthogonal
         && InitialSlopeSplittingFree && BelowEpTwoRates && AboveEpFrequenciesPulled && EpAtTheLongitudinalRates;
+
+    // gate 7: the dynamic frequency shift
+    /// <summary>The point (J₀, J₁, J₂, q, ω, K₁, K₂) at which the shift is read, the shift added as the Lamb-shift
+    /// Hamiltonian K₁(T₂,₁†T₂,₁ − T₂,₋₁†T₂,₋₁) + K₂(T₂,₂†T₂,₂ − T₂,₋₂†T₂,₋₂), diagonal: −3K₂·ZI − 3K₁·IZ in strings.
+    /// The satellite exceptional point is read with the same K₁, K₂. At (1, 3), 2K₁ ≠ K₂, so the part of the shift that
+    /// no frame removes is present (at 2K₁ = K₂ the shift is only a turn of the frame).</summary>
+    public static readonly (long J0, long J1, long J2, long Q, long Omega, long K1, long K2) ShiftPoint = (1, 2, 3, 1, 1, 1, 3);
+    /// <summary>The mirror identity S·L·S⁻¹ = −L + 2·L_{J₀} − 6(J₁ + J₂) holds with the shift (it is real and
+    /// diagonal, so Γ₀ commutes with it and the transpose reverses it).</summary>
+    public bool ShiftKeepsMirror { get; }
+    /// <summary>Each bright pair stays closed and moves as a whole, both cells by 6i·K₁ (satellites) or 6i·K₂ (double
+    /// quanta), so its discriminant is unchanged; the central transition moves by 6i(K₂ − K₁).</summary>
+    public bool ShiftMovesPairsWhole { get; }
+    /// <summary>At the satellite exceptional point with the shift, the eigenvalue λ* + 6i·K₁ has the ranks of a
+    /// 2 × 2 Jordan block in L (15, 14, 14), and one step off in q it is no eigenvalue.</summary>
+    public bool ShiftKeepsJordan { get; }
+    /// <summary>The Lamb-shift Hamiltonian built from the spin matrices is the diagonal
+    /// (−3(K₁+K₂), 3(K₁−K₂), −3(K₁−K₂), 3(K₁+K₂)) on m = 3/2 … −3/2, that is −3K₂·ZI − 3K₁·IZ, read at
+    /// (K₁, K₂) = (1, 0), (0, 1) and the shift point, which pins the linear map.</summary>
+    public bool ShiftClosedForm { get; }
+    public sealed record ShiftCentreCase(long J0, long J1, long J2, long Q, long Omega, long K1, long K2);
+    /// <summary>One shifted point read on both routes: route A, dim ker L against dim ker(L + 2s) (every case has
+    /// non-negative densities and 2s ≠ 0, inside F158's class), and route B, χ(−x − 2s) = χ(x).</summary>
+    public sealed record ShiftCentreReading(ShiftCentreCase Case, bool Rule, int NearKernel, int FarKernel, bool CharpolySymmetric)
+    {
+        public bool Agrees => Rule == CharpolySymmetric && Rule == (NearKernel == FarKernel);
+    }
+    /// <summary>Points for the global-centre rule with the shift: J₁ = 0 at ω = 6K₁ and J₂ = 0 at ω = 3K₂ (pairing), also
+    /// with the other K non-zero (the satellites resonate at 6K₁ whatever K₂ is); the same at the unshifted resonance
+    /// ω = 0, at an ω that a rule mixing the two K would accept, and with a splitting (breaking); J₀ = 0 with every
+    /// term on (pairing); all densities on (breaking).</summary>
+    public static readonly IReadOnlyList<ShiftCentreCase> ShiftCentreCases = new[]
+    {
+        new ShiftCentreCase(1, 0, 3, 0, 6, 1, 0), new ShiftCentreCase(1, 0, 3, 0, 0, 1, 0),
+        new ShiftCentreCase(1, 2, 0, 0, 3, 0, 1), new ShiftCentreCase(1, 2, 0, 0, 0, 0, 1),
+        new ShiftCentreCase(1, 0, 3, 0, 6, 1, 1), new ShiftCentreCase(1, 0, 3, 0, 12, 1, 1),
+        new ShiftCentreCase(1, 2, 0, 0, 3, 1, 1), new ShiftCentreCase(1, 2, 0, 0, 6, 1, 1),
+        new ShiftCentreCase(1, 0, 3, 1, 6, 1, 1),
+        new ShiftCentreCase(0, 2, 3, 1, 1, 1, 2), new ShiftCentreCase(1, 2, 3, 0, 0, 1, 1),
+    };
+    public IReadOnlyList<ShiftCentreReading> ShiftCentreReadings { get; }
+    public bool DynamicShiftHolds => ShiftClosedForm && ShiftKeepsMirror && ShiftMovesPairsWhole && ShiftKeepsJordan
+        && ShiftCentreReadings.All(r => r.Agrees) && ShiftCentreReadings.Any(r => r.Rule) && ShiftCentreReadings.Any(r => !r.Rule);
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -518,6 +564,44 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                                    && RealRateOf(lSat, iz2) is { } sat15 && sat15 != 4 * sq
                                    && RealRateOf(lDq, iz2) is { } dq15 && dq15 == 4 * dq
                                    && RealRateOf(lDq, zi) is { } dq45 && dq45 != 4 * dq;
+
+        // gate 7: the dynamic frequency shift, the Lamb-shift Hamiltonian of the shifts K(m·ω₀) = Im Γ, odd in m
+        var (hj0, hj1, hj2, hq, hw, hk1, hk2) = ShiftPoint;
+        var (lK, lKj0) = Generator(hj0, hj1, hj2, hq, hw, hk1, hk2);
+        var lNoK = Generator(hj0, hj1, hj2, hq, hw).L;
+        ShiftKeepsMirror = Equal(Mul(Mul(_s, lK), _sInv), MirrorRight(lK, lKj0, hj1, hj2));
+        bool MovesWhole(int[] idx, long by) => Closed(lK, idx)
+            && Equal(Sub(Block(lK, idx), Block(lNoK, idx)), Scale(Identity(2), new GaussianRational(0, by)));
+        int ct = Levels * 1 + 2;
+        ShiftMovesPairsWhole = MovesWhole(SatelliteIdx, 6 * hk1) && MovesWhole(DoubleQuantumIdx, 6 * hk2)
+                               && lK[ct, ct] - lNoK[ct, ct] == new GaussianRational(0, 6 * (hk2 - hk1));
+        // the satellite exceptional point with the same shift: the ranks of the Jordan block at λ* + 6i·K₁
+        var (ej0, ej1, ej2, eq, ew) = SatelliteEpPoint;
+        var shK = Shift(Generator(ej0, ej1, ej2, eq, ew, hk1, hk2).L, SatelliteEp.Lambda + new GaussianRational(0, 6 * hk1));
+        var shK2 = Mul(shK, shK);
+        var lamK = SatelliteEp.Lambda + new GaussianRational(0, 6 * hk1);
+        ShiftKeepsJordan = Rank(shK) == Dim - 1 && Rank(shK2) == Dim - 2 && Rank(Mul(shK2, shK)) == Dim - 2
+                           && Rank(Shift(Generator(ej0, ej1, ej2, eq - 1, ew, hk1, hk2).L, lamK)) == Dim
+                           && Rank(Shift(Generator(ej0, ej1, ej2, eq + 1, ew, hk1, hk2).L, lamK)) == Dim;
+        // the shift read off the spin matrices against its closed form diag(−3(K₁+K₂), 3(K₁−K₂), −3(K₁−K₂), 3(K₁+K₂))
+        // read at (1, 0), (0, 1) and the shift point: the term is linear in (K₁, K₂), so the two unit points pin it
+        bool ClosedAt(long a1, long a2)
+        {
+            var read = LambShift(a1, a2);
+            long[] closed = { -3 * (a1 + a2), 3 * (a1 - a2), -3 * (a1 - a2), 3 * (a1 + a2) };
+            return Enumerable.Range(0, Levels).All(i => Enumerable.Range(0, Levels).All(j =>
+                read[i, j] == (i == j ? new GaussianRational(closed[i], 0) : GaussianRational.Zero)));
+        }
+        ShiftClosedForm = ClosedAt(1, 0) && ClosedAt(0, 1) && ClosedAt(hk1, hk2);
+        // the global centre with the shift: both routes against the rule, where it pairs and where it breaks
+        ShiftCentreReadings = ShiftCentreCases.Select(c =>
+        {
+            var lc = Generator(c.J0, c.J1, c.J2, c.Q, c.Omega, c.K1, c.K2).L;
+            long two = Spin32QuadrupolarMirrorsClaim.TwiceGlobalCentre(c.J0, c.J1, c.J2);
+            return new ShiftCentreReading(c, Spin32QuadrupolarMirrorsClaim.HasGlobalCentreWithShift(c.J0, c.J1, c.J2, c.Q, c.Omega, c.K1, c.K2),
+                Dim - Rank(lc), Dim - Rank(Add(lc, Scale(Identity(Dim), two))),
+                CharpolySymmetric(lc, Enumerable.Range(0, Dim).ToArray(), two));
+        }).ToArray();
     }
 
     // ===== the handshake =====
@@ -636,9 +720,10 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     // ===== the generator =====
 
     /// <summary>L and its J₀ part L_{J₀}, as 16 × 16 superoperators on vec index 4i + j of |i⟩⟨j|.</summary>
-    private (Mat L, Mat LJ0) Generator(long j0, long j1, long j2, long q, long omega)
+    private (Mat L, Mat LJ0) Generator(long j0, long j1, long j2, long q, long omega, long k1 = 0, long k2 = 0)
     {
         var h = Add(Scale(_g0, q), Scale(_iz, omega));
+        if (k1 != 0 || k2 != 0) h = Add(h, LambShift(k1, k2));
         var d2 = Mul(_d, _d);
         Mat Dissipate(Mat c, Mat cDagC, Mat rho) =>
             Sub(Mul(Mul(c, rho), Adjoint(c)), Scale(Add(Mul(cDagC, rho), Mul(rho, cDagC)), new BigRational(1, 2)));
@@ -656,6 +741,14 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
             return acc;
         }
         return (Super(Full), Super(J0Part));
+    }
+
+    /// <summary>The Lamb-shift Hamiltonian K₁(T₂,₁†T₂,₁ − T₂,₋₁†T₂,₋₁) + K₂(T₂,₂†T₂,₂ − T₂,₋₂†T₂,₋₂), built from the
+    /// spin matrices (T = √3·R, so T†T = 3·R†R).</summary>
+    private Mat LambShift(long k1, long k2)
+    {
+        Mat TdT(int m) => Scale(Mul(Adjoint(_r[m]), _r[m]), 3);
+        return Add(Scale(Sub(TdT(1), TdT(-1)), k1), Scale(Sub(TdT(2), TdT(-2)), k2));
     }
 
     /// <summary>−L + 2·L_{J₀} − 6(J₁ + J₂)·1, the right side of the mirror identity.</summary>
@@ -993,7 +1086,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"{(UserPoint.CharpolySymmetric ? "has" : "has no")} global centre −s, 2s = {UserPoint.TwoS}; the handshake with NMR " +
         $"{Verdict(HandshakeHolds, "holds (the textbook parts of I_z and I_+ are eigenoperators at the textbook rates)", "FAILS")}; " +
         $"the bright pairs' exceptional point {Verdict(ExceptionalPointHolds, "holds (the satellites and the double quantum each a 2 × 2 Jordan block on Re λ = −c₂, at 2q = 3J₂ and at 2q = 3J₁ respectively, the density non-zero; the scalar control semisimple)", "FAILS")}, " +
-        $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}.";
+        $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}; " +
+        $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
@@ -1081,6 +1175,16 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"below the exceptional point at {BelowEpPoint} {Verdict(BelowEpTwoRates, $"decays at the two rates c₂ ∓ {BelowEpOmega} with the weights {string.Join(" and ", BelowEpWeights)}", "does NOT decay as stated")}, " +
                          $"above it at {AboveEpPoint} {Verdict(AboveEpFrequenciesPulled, $"has its two modes at ±{AboveEpOmega} about the order frame and at neither ±2q = ±{2 * AboveEpPoint.Q}, with D_ω² + R₁(4/5)² = D² for D = 4q and R₁(4/5) the rate of ZI read off L, the 1/5 rate failing in its place (mode frequencies, not line positions)", "is NOT as stated")}; " +
                          $"the merging {Verdict(EpAtTheLongitudinalRates, "sits where the nominal separation 4q equals the 4/5 longitudinal rate (satellites) or the 1/5 one (double quantum), both read off L", "is NOT at the longitudinal rates")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the dynamic frequency shift",
+                summary: $"the Lamb-shift Hamiltonian of the shifts K(m·ω₀) = Im Γ, odd in m, −3K₂·ZI − 3K₁·IZ, added at {ShiftPoint}: " +
+                         $"the mirror identity {Verdict(ShiftKeepsMirror, "holds", "FAILS")}; the bright pairs " +
+                         $"{Verdict(ShiftMovesPairsWhole, $"move as wholes, the satellites by 6i·K₁ = {6 * ShiftPoint.K1}i and the double quantum by 6i·K₂ = {6 * ShiftPoint.K2}i, the central transition by 6i(K₂ − K₁) = {6 * (ShiftPoint.K2 - ShiftPoint.K1)}i, so the satellites sit 6(2K₁ − K₂) = {6 * (2 * ShiftPoint.K1 - ShiftPoint.K2)} off it", "do NOT move as wholes")}; " +
+                         $"the satellite exceptional point {Verdict(ShiftKeepsJordan, "stays a 2 × 2 Jordan block, at λ* + 6i·K₁ (ranks 15, 14, 14)", "is NOT a Jordan block there")}; " +
+                         $"the global centre with the shift (J₀ = 0, or q = 0 and J₁ = 0 with ω = 6K₁, or q = 0 and J₂ = 0 with ω = 3K₂) " +
+                         $"{Verdict(ShiftCentreReadings.All(r => r.Agrees), $"agrees with dim ker L = dim ker(L + 2s) and with χ(−x − 2s) = χ(x) at all {ShiftCentreReadings.Count} points ({ShiftCentreReadings.Count(r => r.Rule)} pairing, {ShiftCentreReadings.Count(r => !r.Rule)} breaking)", "DISAGREES with a route")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(
