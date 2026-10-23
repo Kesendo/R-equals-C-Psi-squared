@@ -17,6 +17,18 @@ still on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
+Read the R in the formula as a reflection, and the formula says: what is
+real is the clarity C times the wave Ψ taken twice, the wave meeting itself.
+A wave alone cannot be seen; its phase shows only as a difference, and a
+difference needs two ([On the Place Where the Wave Recognizes Itself](reflections/ON_THE_PLACE_WHERE_THE_WAVE_RECOGNIZES_ITSELF.md)).
+What comes back, mirrored, is what becomes real. The repository writes R
+this way in three places already: the line at the top, which calls reality
+what happens between mirrors; the recursion R = C(Ψ+R)² behind the
+quarter (section 4), where R returns into itself through Ψ and the limit of
+that self-reflection is the fold at CΨ = ¼; and the anatomy of the mirror
+(section 3), where the operator that does the reflecting is called R, in
+Π = R·D. This is a reading, not a derivation.
+
 What began as one symmetry became a registry: [163 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
