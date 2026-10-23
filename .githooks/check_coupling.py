@@ -85,7 +85,9 @@ if hits:
       "coupling (the m=0 signature, or honest novelty; read and decide):\n")
     for f, refs, words, cpk in hits:
         w(f"    {f}: {refs} refs in {words} words ({cpk:.1f}/1000w)\n")
-    w("  A claim-bearing doc RECORDS its sweep near the top: which stores it went "
+    w("  A claim-bearing doc RECORDS its sweep: which stores it went "
       "to and what each returned, 'nothing' included (CLAUDE.md Stage-0 gate). "
-      "The OpenArcs registry is one of the stores.\n\n")
+      "The OpenArcs registry is one of the stores. In a doc written for "
+      "readers the record is an HTML comment <!-- STAGE 0 SWEEP RECORD ... --> "
+      "under the opening, never prose in the entry layer.\n\n")
 sys.exit(0)
