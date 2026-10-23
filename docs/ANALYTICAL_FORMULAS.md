@@ -11083,20 +11083,27 @@ any graph; Q = ⊗_k ZZ_k and S(ρ) = Q·ρᵀ.
   candidate centre, breaks exactly at every length (F158). The
   largest L-invariant subspace U_m inside the operators x with H₃x = 0 = xH₃ and
   the m-bright cells is palindromic about −s_m (proved, any number of nuclei,
-  any graph); at two nuclei with identical rates, one offset and an equal
-  splitting, U_m = K_m, both spaces written down, for m = 1, 2 at every
-  parameter off a proper algebraic set (proved; E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄),
-  E₁ the order ±5 block and four order ±4 differences). The set contains d = 0,
-  and on the plane q = d ≠ 0 (q = ω_Q·√6/2 the coefficient of ZZ_k, d that of
+  any graph); at two nuclei U₂ = K₂ at every parameter, rates, splittings and
+  offsets per nucleus included (proved: only H₃ carries the two-bright cells
+  into the one-bright ones, and there H₃x and xH₃ lie on different cells, so
+  [H₃, x] = 0 forces both to vanish); with identical rates, one offset and an
+  equal splitting, U₁ = K₁ at every parameter off a proper algebraic set, both
+  spaces written down (proved; E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5
+  block and four order ±4 differences). The set contains d = 0, and on the
+  plane q = d ≠ 0 (q = ω_Q·√6/2 the coefficient of ZZ_k, d that of
   3I_zI_z − I·I; there the diagonal levels the √3 flip-flop joins are degenerate) U₁ ≠ K₁: the √3
   part commutes with the rest of H there, and it and ½{Z₁ + Z₃, H₃} are
   eigenoperators of L at −s₁ ± 3J₂, outside the kernel, a pair about the rung
-  that S does not carry (proved). The set's other components of
+  that S does not carry (proved). K₁ is palindromic about −s₁ wherever it exceeds
+  U₁ by exactly that pair (proved); over GF(p) the gap is two on every stratum of
+  the plane read except J₁ = J₂ = 0, the slow-motion limit, where the dissipator is
+  the number −s_m on the m-bright cells (identical J₀), every mode of every K_m decays at its rung
+  and conjugation alone pairs them, at every length and for any coupling (proved). The set's other components of
   codimension one, read over GF(p) as evidence, not proved
   ([`sodium_chain_exceptional_set.py`](../simulations/sodium_chain_exceptional_set.py)),
   are J₁ = 0, J₂ = 0, 2q = d, 2q = 3d and 28(q − d)² = 25d², with U_m = K_m read
-  at one random point of each and of their intersections outside q = d; under this coupling K₀ is not palindromic about −s₀ at every
-  length (proved: the identity's partner at −2s₀ could only be Q, and Q is no
+  at one random point of each and of their intersections outside q = d; under this coupling K₀ is palindromic about −s₀ at no
+  length when J₁, J₂ > 0 and d ≠ 0 (proved: the identity's partner at −2s₀ could only be Q, and Q is no
   eigenvector since [H, Q] ≠ 0).
 - *A shared gradient* (two nuclei, one Kossakowski matrix g·[[1, c_q], [c_q, 1]] per
   channel, equal rates, c_q real and one per coherence order q): for a real H commuting with Q,
@@ -11170,7 +11177,8 @@ break at J₀ = 0, and the hulls K_m and U_m at √3 itself through a diagonal
 similarity that makes the generator rational, and the explicit spaces of
 U₁ and U₂, invariant under every parameter piece of L, equal to K₁ and K₂ at
 the verifier's parameters and, in its tests, at six further points, the
-resonance q = d ≠ 0 where K₁ exceeds U₁ by those two modes, and a shared
+resonance q = d ≠ 0 where K₁ exceeds U₁ by those two modes, the steps by which
+K₂ = U₂ everywhere and that at J₁ = J₂ = 0 the dissipator is the rung on every cell, and a shared
 gradient (the price identity with an operator price, the conserved sign pattern
 and the Hamiltonian terms that break it). Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
@@ -11197,7 +11205,7 @@ longitudinal rates against measured sodium relaxation; the bright pairs'
 exceptional point against a measurement (the coupling read off a transverse
 signal in time against half the 4/5 longitudinal rate);
 K_m beyond three nuclei;
-whether U₂ = K₂ at every parameter and U₁ = K₁ off the plane q = d (two nuclei; read on the components and their intersections, not proved), and whether K₁ is palindromic about −s₁ on all of that plane, J₁ = 0 and J₁ = J₂ = 0 included; shared or partly correlated gradients.
+whether U₁ = K₁ off the plane q = d (two nuclei; read on the components and their intersections, not proved), and on that plane where in codimension two K₁ exceeds U₁ by more than the resonant pair besides J₁ = J₂ = 0, and whether K₁ pairs about −s₁ there; whether K₃ = U₃; shared or partly correlated gradients.
 **Replaces:** diagonalising the 16 × 16 generator to find its centres: c₁ and
 c₂ are read off the densities.
 **Source:** [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md);

@@ -15,12 +15,16 @@ What this script reads, over GF(p):
     against the candidate components. A codimension-one component meets a generic line, so a gcd with no factor left
     over says that the list is the whole codimension-one part (for that line and that prime: evidence, not a proof).
 (3) Random points on the intersections of the special hyperplanes, up to three at a time: dim K_m against dim U_m.
+(4) On the plane q = d: at every stratum read, dim K_1 − dim U_1 is 2, except where J1 = J2 = 0 (there 4), and L on K_1
+    is palindromic about −s_1 (its characteristic polynomial against its reflection, at k + 1 points).
+(5) Inside the plane q = d, along a random line in it: the codimension-one part of where K_1 and U_1 grow is J1 = 0 for
+    both (the gap at a point of J1 = 0 is read in (3) and (4)), so off a set of codimension two in the plane the gap is 2.
 
 The plane q = d ≠ 0, where U_1 ≠ K_1, is gated exactly in SodiumChainWitness (gate 7): there the √3 part commutes with the
 rest of H, and it and ½{Z₁ + Z₃, H₃} are eigenoperators of L in the one-bright cells, outside the kernel, a pair about
 −s₁ that S does not keep.
 
-Run: python simulations/sodium_chain_exceptional_set.py   (about seven minutes)
+Run: python simulations/sodium_chain_exceptional_set.py   (about twenty minutes)
 """
 from __future__ import annotations
 
@@ -229,7 +233,7 @@ PLANES = {'J0': [1, 0, 0, 0, 0], 'J1': [0, 1, 0, 0, 0], 'J2': [0, 0, 1, 0, 0], '
           'q=c+d': [0, 0, 0, 1, -c_plus], 'q=c-d': [0, 0, 0, 1, -c_minus],
           'J1=J2': [0, 1, -1, 0, 0], 'J0=J1': [1, -1, 0, 0, 0], 'J0=J2': [1, 0, -1, 0, 0], 'J1=-J2': [0, 1, 1, 0, 0]}
 rnd = random.Random(11)
-read, bad, deficits, on_plane, table = 0, [], {}, [], {}
+read, bad, deficits, on_plane, table, points = 0, [], {}, [], {}, {}
 for depth in (1, 2, 3):
     for combo in combinations(PLANES, depth):
         Bm = scm.null_mod(np.array([PLANES[c] for c in combo], np.int64) % P3, P3, 5)
@@ -241,6 +245,7 @@ for depth in (1, 2, 3):
         Lp = F3.L(*pt)
         dims = {(m, U): F3.hull_dim(Lp, m, U) for m in (1, 2) for U in (False, True)}
         table[combo] = (dims[(1, False)], dims[(1, True)], dims[(2, False)], dims[(2, True)])
+        points[combo] = pt
         read += 1
         if 'q=d' in combo:
             on_plane.append(combo)
@@ -264,6 +269,67 @@ print(f'      {read} strata read; U ≠ K on {len(bad)}; the deficits (m = 1, m 
 check('(3) U_m ≠ K_m only on strata inside q = d', bad and all('q=d' in c for c in bad))
 check('(3) every stratum inside q = d has U_1 ≠ K_1, and U_2 = K_2 on every stratum read',
       set(on_plane) == set(bad) and all(v[0] > 0 and v[1] == 0 for v in deficits.values()))
+
+
+# ---------------------------------------------------------------- (4) the plane q = d: the gap and the palindrome
+
+ONE = np.where(W == 1)[0]
+REST = np.where(W != 1)[0]
+gaps, pal = {}, {}
+for combo in on_plane:
+    pt = points[combo]
+    Lp = F3.L(*pt)
+    gaps[combo] = table[combo][0] - table[combo][1]
+    Bk = scm.sharp_subspace(Lp, ONE, REST, P3)
+    M = scm.restricted(Lp, ONE, Bk, P3)
+    two_s1 = (24 * (pt[1] + pt[2]) + 12 * pt[0]) % P3       # 2s_1 = 6n(J1 + J2) + 6J0 at the page's J = 2·(the pieces' J)
+    pal[combo] = (Bk.shape[1] == table[combo][0], scm.palindromic_mod(M, two_s1, P3),
+                  scm.palindromic_mod(M, (two_s1 + 2) % P3, P3))
+    print(f'      {" & ".join(combo):22s} K_1 {table[combo][0]:3d} U_1 {table[combo][1]:3d} gap {gaps[combo]}  '
+          f'about −s_1: {pal[combo][1]}  about −s_1 − 1: {pal[combo][2]}', flush=True)
+check('(4) on q = d the gap dim K_1 − dim U_1 is 4 where J1 = J2 = 0 and 2 on every other stratum read',
+      all(g == (4 if points[c][1] == 0 and points[c][2] == 0 else 2) for c, g in gaps.items())
+      and any(g == 4 for g in gaps.values()))
+check('(4) on every stratum of q = d read, L on K_1 is palindromic about −s_1 and not about −s_1 − 1 (the control)',
+      all(ok_dim and ok and not ctrl for ok_dim, ok, ctrl in pal.values()))
+
+
+# ---------------------------------------------------------------- (5) inside the plane q = d
+
+def factor_in_plane(g, A, B, p):
+    J0, J1, J2, q, d = [sp.Poly(a + b * t, t, modulus=p) for a, b in zip(A, B)]
+    known = {'d': d, 'J0': J0, 'J1': J1, 'J2': J2, 'J1 - J2': J1 - J2, 'J1 + J2': J1 + J2, 'J0 - J1': J0 - J1,
+             'J0 - J2': J0 - J2}
+    found, rest = {}, g
+    for name, f in known.items():
+        while True:
+            quo, rem = sp.div(rest, f)
+            if not rem.is_zero:
+                break
+            rest = quo
+            found[name] = found.get(name, 0) + 1
+    found.pop('d', None)
+    return found, rest.degree()
+
+
+rnd = random.Random(4)
+A = [rnd.randrange(P2) for _ in range(5)]
+B = [rnd.randrange(P2) for _ in range(5)]
+A[3], B[3] = A[4], B[4]                                  # the line lies in q = d
+in_plane = {}
+for withU in (False, True):
+    for o in range(0, 6):
+        if not np.any((ORDER == o) & (W == 1)):
+            continue
+        g, generic = exceptional_poly(F2, o, 1, withU, A, B, rnd)
+        label = f"{'U' if withU else 'K'}_1 order {o} on q = d"
+        in_plane[(withU, o)] = {} if g is None else factor_in_plane(g, A, B, P2)[0]
+        left_over = 0 if g is None else factor_in_plane(g, A, B, P2)[1]
+        print(f'      {label}: components {in_plane[(withU, o)] or "none"}, unexplained degree {left_over}', flush=True)
+        check(f'(5) {label}: the gcd factors completely', left_over == 0)
+check('(5) inside q = d, K_1 and U_1 grow on J1 = 0 only, with the same multiplicity in every order',
+      all(in_plane[(False, o)] == in_plane[(True, o)] for (U, o) in in_plane if not U)
+      and {c for f in in_plane.values() for c in f} == {'J1'})
 
 print()
 failed = [n_ for n_, ok in RESULTS if not ok]

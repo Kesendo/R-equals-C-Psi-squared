@@ -23,7 +23,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// J₁, J₂ > 0 the global mirror about −σ breaks (F158: the far span is Q alone and Q does not
 /// commute with H, for any non-zero coefficient of the √3 strings); U_m, the largest L-invariant
 /// subspace inside V = {x : H₃x = 0 = xH₃} and the m-bright cells, is palindromic about −s_m for any
-/// real H₃ anticommuting with Q; K₀ is not palindromic about −s₀ (the identity has no partner). Under a gradient
+/// real H₃ anticommuting with Q; K₀ is not palindromic about −s₀ when J₁, J₂ > 0 and the coupling is on (the identity has no partner). Under a gradient
 /// shared with one real correlation c_q per coherence order (two nuclei, equal rates, a real H commuting with Q) the price
 /// becomes the operator {K, ·},
 /// K = g₁(4 + 2c₁(ZXZX + ZYZY)) + g₂(4 + 2c₂(XIXI + YIYI)) with g_q = 3J_q/2; with the
@@ -32,19 +32,22 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Hamiltonian a conserved sign pattern holds one sector of sixteen modes where the two nuclei's jumps of the channels
 /// a ≥ 1 cancel, at J₀ = 0 an eigenspace at −6(J₁ + J₂) whatever the correlation (the verifier's).</para>
 ///
-/// <para>Proved at two nuclei with identical rates, one offset and an equal splitting: K₁ = U₁ and
-/// K₂ = U₂, both spaces written down (E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block and four
+/// <para>Proved at two nuclei: K₂ = U₂ at every parameter, rates, splittings and offsets per nucleus included
+/// (only H₃ carries the two-bright cells into the one-bright ones, and there H₃x and xH₃ lie on different cells, so
+/// [H₃, x] = 0 forces H₃x = 0 = xH₃). With identical rates, one offset and an equal splitting: K₁ = U₁, both
+/// spaces written down (E₂ = (Z₁ + Z₃)·(X₂X₄ + Y₂Y₄), E₁ the order ±5 block and four
 /// exchange-antisymmetric order ±4 operators), at every parameter off a proper algebraic set, since
 /// E_m lies in U_m at every parameter and one exact point has dim K_m = dim E_m; the set contains
 /// d = 0 and the plane q = d ≠ 0 (q the coefficient of ZZ_k, d the coupling's), where U₁ ≠ K₁: there the √3
 /// part commutes with the rest of H, and it and ½{Z₁ + Z₃, H₃} are eigenoperators of L at −s₁ ± 3J₂, outside the kernel,
-/// a pair about the rung that S does not carry. Its other components of codimension one (J₁ = 0, J₂ = 0, 2q = d,
+/// a pair about the rung that S does not carry; K₁ still pairs about −s₁ wherever it exceeds U₁ by exactly that pair, and where J₁ = J₂ = 0 every K_m pairs about −s_m at every length and for any coupling (the dissipator is then the number −s_m on
+/// the m-bright cells, every mode on the rung, and conjugation alone pairs −s_m ± iω); over GF(p) the gap is two on every other stratum of the plane read. Its other components of codimension one (J₁ = 0, J₂ = 0, 2q = d,
 /// 2q = 3d, 28(q − d)² = 25d²) are a reading over GF(p), evidence, not proved. What the page reads modulo two
 /// primes, not proved: the dimensions of K_m (at most 24, 128, 24 at two nuclei for the equal
 /// truncation, 64, 140, 84, 16 at three) and, for the full coupling, of K₀ (10) and U₀ (5); float
 /// spectra of the U_m are a further reading. The live witness reads the two-nucleus dimensions
-/// exactly at its parameters and on the plane q = d, gates E₁, E₂ against every parameter piece of L, and gates the resonant pair
-/// (gate 7).</para>
+/// exactly at its parameters and on the plane q = d, gates E₁, E₂ against every parameter piece of L, gates the resonant pair
+/// (gate 7) and the steps of K₂ = U₂ and of the pairing at J₁ = J₂ = 0 (gate 8).</para>
 ///
 /// <para>Adjacency the page names and leaves open: the lemma's kept part is the dark remainder of
 /// the corner-shift row of <c>docs/THE_ONE_SQUARE.md</c> §9, F137's kept jump, and MirrorWorld's
@@ -121,7 +124,7 @@ public sealed class SodiumChainMirrorLadderClaim : Claim
             yield return new InspectableNode("equal splittings and the full coupling",
                 summary: "equal splittings: the satellite flip-flop keeps Q, moves m by 0 or ±2, and K_m pairs about −s_m; the full " +
                          "secular dipolar coupling: eight √3 strings anticommuting with Q break S, the global mirror about −σ breaks at " +
-                         "J₀ = 0 (F158), U_m inside the √3 coupling's two-sided kernel pairs on every rung, K₀ does not pair about −s₀");
+                         "J₀ = 0 (F158), U_m inside the √3 coupling's two-sided kernel pairs on every rung, K₀ does not pair about −s₀ when J₁, J₂ > 0 and the coupling is on");
         }
     }
 }

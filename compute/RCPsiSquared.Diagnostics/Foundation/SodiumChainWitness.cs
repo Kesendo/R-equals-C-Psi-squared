@@ -54,9 +54,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// that break it (the spectral readings are the verifier's); (7) the resonance q = d of an equal splitting q(ZZ₁ + ZZ₂)
 /// and the coupling d(3I_zI_z − I·I): the √3 part T commutes with the rest of H there (the splitting alone not, the
 /// control), T and ½{Z₁ + Z₃, T} are eigenoperators of L in the one-bright cells, outside V, a pair about −s₁ that S
-/// does not keep, so U₁ ≠ K₁ on that plane (d ≠ 0, which the constructor requires). Readings, not gates:
+/// does not keep, so U₁ ≠ K₁ on that plane (d ≠ 0, which the constructor requires); (8) K₂ = U₂ at every parameter: no piece
+/// of L but the √3 coupling carries a two-bright cell into a one-bright one (the √3 coupling does, the control, and only
+/// there), and on the two-bright cells H₃·x and x·H₃ land on disjoint cells |i⟩⟨j| (on the one-bright cells they meet, the
+/// control); with J₁ = J₂ = 0 the rates are −s_m on every m-bright cell, so every mode of K_m sits on the rung and the
+/// adjoint pairs them (with J₁ on they are not, the control). Readings, not gates:
 /// the exact dimensions of K_m (equal truncation) and of K_m and U_m (full coupling at √3, at zero splitting and at
-/// q = d) by Krylov stabilisation, and whether each is palindromic about −s_m.</para>
+/// q = d, there also at J₁ = 0 and at J₁ = J₂ = 0) by Krylov stabilisation, and whether each is palindromic about −s_m.</para>
 ///
 /// <para>Typed home <see cref="SodiumChainMirrorLadderClaim"/>.</para></summary>
 public sealed class SodiumChainWitness : IInspectable
@@ -231,6 +235,41 @@ public sealed class SodiumChainWitness : IInspectable
     /// <summary>Readings at q = d, ω = <see cref="FullOmega"/>: K_m and U_m of the full coupling at √3, exact.</summary>
     public IReadOnlyList<HullReading> ResonantSharp { get; }
     public IReadOnlyList<HullReading> ResonantKernelHull { get; }
+
+    // gate 8: K₂ = U₂ at every parameter, and K₁ on the resonance plane
+    /// <summary>No piece of L but the √3 coupling carries a two-bright cell into a one-bright one: the rates of each nucleus
+    /// separately, a splitting and an offset on each nucleus separately, the rational coupling.</summary>
+    public bool RestNeverTakesTwoBrightToOne { get; }
+    /// <summary>The control: the √3 coupling does.</summary>
+    public bool SqrtThreeTakesTwoBrightToOne { get; }
+    /// <summary>And it carries the two-bright cells nowhere else (not to the dark ones, not among themselves), so all of
+    /// −i[H₃, x] lies in the one-bright cells.</summary>
+    public bool SqrtThreeTakesTwoBrightOnlyToOne { get; }
+    /// <summary>On the two-bright cells the images of x ↦ H₃·x and x ↦ x·H₃ share no cell |i⟩⟨j|: the central step needs its
+    /// nucleus inner on the side it acts from and leaves it inner, and in a two-bright cell each nucleus is inner on one side only.</summary>
+    public bool SqrtThreeImagesDisjointOnTwoBright { get; }
+    /// <summary>The control: on the one-bright cells the two images share cells (the door T comes through at q = d).</summary>
+    public bool SqrtThreeImagesMeetOnOneBright { get; }
+    /// <summary>The three together: for x in K₂ the one-bright part of L·x is −i(H₃x − xH₃), which must vanish, and on
+    /// disjoint cells that is H₃x = 0 = xH₃. So K₂ ⊆ V and K₂ = U₂ at two nuclei at every parameter, rates, splittings
+    /// and offsets per nucleus included.</summary>
+    public bool TwoBrightHullIsTheKernels => RestNeverTakesTwoBrightToOne && SqrtThreeTakesTwoBrightOnlyToOne
+        && SqrtThreeImagesDisjointOnTwoBright;
+    /// <summary>Both controls of <see cref="TwoBrightHullIsTheKernels"/> fire.</summary>
+    public bool TwoBrightControlsFire => SqrtThreeTakesTwoBrightToOne && SqrtThreeImagesMeetOnOneBright;
+    /// <summary>With J₁ = J₂ = 0 the dissipator is diagonal and equals −s_m = −3m·J₀ on every m-bright cell, so on K_m
+    /// L = L_H − s_m, every mode on the rung, and the adjoint pairs −s_m ± iω: every K_m pairs about −s_m, any coupling.</summary>
+    public bool J0RatesAreTheRungOnEveryCell { get; }
+    /// <summary>The control, the same predicate with the J₁ rates on as well: then the rates are not −s_m on every cell.</summary>
+    public bool J1RatesAreNotScalarOnCells { get; }
+    /// <summary>Readings on q = d at the witness's J₀, J₂ and J₁ = 0, and at J₁ = J₂ = 0: K_m and U_m, exact.</summary>
+    public IReadOnlyList<HullReading> ResonantSharpAtJ1Zero { get; }
+    public IReadOnlyList<HullReading> ResonantKernelHullAtJ1Zero { get; }
+    public IReadOnlyList<HullReading> ResonantSharpAtJ1J2Zero { get; }
+    public IReadOnlyList<HullReading> ResonantKernelHullAtJ1J2Zero { get; }
+    /// <summary>Gate 8 entire: K₂ = U₂ with its controls, and the rates at J₁ = J₂ = 0 with theirs (parameter-free).</summary>
+    public bool TwoBrightAndRungGateHolds => TwoBrightHullIsTheKernels && TwoBrightControlsFire
+        && J0RatesAreTheRungOnEveryCell && J1RatesAreNotScalarOnCells;
 
     // gate 6: a shared gradient, two nuclei under one Kossakowski matrix g·[[1, c], [c, 1]] per channel
     /// <summary>The points (J₀, J₁, J₂, c = num/den) of gate 6.</summary>
@@ -493,6 +532,43 @@ public sealed class SodiumChainWitness : IInspectable
         ResonantKernelHull = Hulls(lRes, identical, new[] { LeftMultiplication(h3), RightMultiplication(h3) }, ref resonantInvariant, out _);
         HullsInvariant &= resonantInvariant;
 
+        // ---- gate 8: K₂ = U₂ at every parameter, and K₁ on the resonance plane
+        var restPieces = perNucleusPieces.Concat(new[] { HamiltonianPart(Str("ZZII")), HamiltonianPart(Str("IIZZ")), oneOffset,
+                                                         HamiltonianPart(Kron(Identity(Levels), iz)), hamiltonianPieces[1] });
+        RestNeverTakesTwoBrightToOne = restPieces.All(p => !Carries(p, 2, 1));
+        SqrtThreeTakesTwoBrightToOne = Carries(hamiltonianPieces[2], 2, 1);
+        SqrtThreeTakesTwoBrightOnlyToOne = !Carries(hamiltonianPieces[2], 2, 0) && !Carries(hamiltonianPieces[2], 2, 2);
+        SqrtThreeImagesDisjointOnTwoBright = !ImagesMeet(left3, right3, 2);
+        SqrtThreeImagesMeetOnOneBright = ImagesMeet(left3, right3, 1);
+        bool RatesAreTheRung((long J0, long J1, long J2) r)
+        {
+            var g = Generator(zeroH, new[] { r, r });
+            return Enumerable.Range(0, Dim).All(row => Enumerable.Range(0, Dim).All(col =>
+                g[row, col] == (row == col
+                    ? (GaussianRational)new BigRational(-SodiumChainMirrorLadderClaim.TwiceRung(Nuclei, BrightCount(row), r.J0, r.J1, r.J2), 2)
+                    : GaussianRational.Zero)));
+        }
+        J0RatesAreTheRungOnEveryCell = RatesAreTheRung((1, 0, 0));
+        J1RatesAreNotScalarOnCells = !RatesAreTheRung((1, 1, 0));
+        var resonantRest = Add(Local(iz, d, d, FullOmega, FullOmega), fullRat);
+        var h3Pair = new[] { LeftMultiplication(h3), RightMultiplication(h3) };
+        bool plainRational = true, plainInvariant = true;
+        (IReadOnlyList<HullReading> K, IReadOnlyList<HullReading> U) ResonantHulls((long J0, long J1, long J2) r)
+        {
+            var rates = new[] { r, r };
+            bool inv = true;
+            var (lr, rat) = Rationalised(resonantRest, fullRoot, rates);
+            plainRational &= rat;
+            var k = Hulls(lr, rates, Array.Empty<Mat>(), ref inv, out _);
+            var u = Hulls(lr, rates, h3Pair, ref inv, out _);
+            plainInvariant &= inv;
+            return (k, u);
+        }
+        (ResonantSharpAtJ1Zero, ResonantKernelHullAtJ1Zero) = ResonantHulls((j0, 0, j2));
+        (ResonantSharpAtJ1J2Zero, ResonantKernelHullAtJ1J2Zero) = ResonantHulls((j0, 0, 0));
+        SimilarityIsRational &= plainRational;
+        HullsInvariant &= plainInvariant;
+
         (SharedPriceIdentityHolds, SqrtThreeBreaksSharedIdentity, SharedPriceIsAnOperator, SignOperatorsCommute, PatternConserved,
          HamiltonianBreaksPattern) = ReadSharedGradient(iz);
     }
@@ -703,6 +779,34 @@ public sealed class SodiumChainWitness : IInspectable
             for (int k = 0; k < e.GetLength(1); k++)
                 if (!e[r, k].IsZero && BrightCount(r) != brightCount) return false;
         return true;
+    }
+
+    /// <summary>M has an entry from a cell with <paramref name="from"/> bright nuclei to one with <paramref name="to"/>.</summary>
+    private static bool Carries(Mat m, int from, int to)
+    {
+        for (int r = 0; r < Dim; r++)
+            if (BrightCount(r) == to)
+                for (int c = 0; c < Dim; c++)
+                    if (BrightCount(c) == from && !m[r, c].IsZero) return true;
+        return false;
+    }
+
+    /// <summary>Some cell |i⟩⟨j| is reached by both <paramref name="a"/> and <paramref name="b"/> from the cells with
+    /// <paramref name="brightCount"/> bright nuclei.</summary>
+    private static bool ImagesMeet(Mat a, Mat b, int brightCount)
+    {
+        for (int r = 0; r < Dim; r++)
+        {
+            bool hitA = false, hitB = false;
+            for (int c = 0; c < Dim; c++)
+            {
+                if (BrightCount(c) != brightCount) continue;
+                hitA |= !a[r, c].IsZero;
+                hitB |= !b[r, c].IsZero;
+            }
+            if (hitA && hitB) return true;
+        }
+        return false;
     }
 
     // ===== the generator =====
@@ -1367,7 +1471,8 @@ public sealed class SodiumChainWitness : IInspectable
         $"the invariance L·B = B·M {Verdict(HullsInvariant, "checked on every hull", "FAILING")}; the explicit E₁ ({E1Dimension}) and E₂ ({E2Dimension}) " +
         $"{Verdict(ExplicitHolds, "lie in U₁ and U₂ at every parameter with identical rates, one offset and an equal splitting", "do NOT hold as stated")}" +
         $"{(ExplicitHolds && ExplicitAreTheSharpSpacesHere ? " and are K₁ and K₂ here" : "")}; at the resonance q = d " +
-        $"{Verdict(ResonanceHolds, "the √3 coupling itself and ½{Z₁ + Z₃, H₃} are a pair of K₁ about −s₁ outside V, so U₁ ≠ K₁ there", "the resonance gate FAILS")}; under a shared gradient " +
+        $"{Verdict(ResonanceHolds, "the √3 coupling itself and ½{Z₁ + Z₃, H₃} are a pair of K₁ about −s₁ outside V, so U₁ ≠ K₁ there", "the resonance gate FAILS")}; K₂ {Verdict(TwoBrightHullIsTheKernels && TwoBrightControlsFire, "is U₂ at every parameter", "is NOT shown to be U₂")} " +
+        $"and with J₁ = J₂ = 0 every K_m {Verdict(J0RatesAreTheRungOnEveryCell && J1RatesAreNotScalarOnCells, "pairs about its rung", "is NOT shown to pair")}; under a shared gradient " +
         $"{Verdict(SharedGradientHolds, "the price becomes the operator {K, ·}, the sign pattern t is conserved without a Hamiltonian and broken by each of its terms", "the shared-gradient gate FAILS")}.";
 
     public IEnumerable<IInspectable> Children
@@ -1453,6 +1558,21 @@ public sealed class SodiumChainWitness : IInspectable
                          $"{Verdict(ResonantModesOutsideKernel, "T·T and T·B are independent, so no combination of the two lies in V, and U₁ ≠ K₁ on the whole plane with d ≠ 0", "they lie INSIDE V")}; " +
                          $"S {Verdict(SDoesNotKeepResonantPair, "does not keep their span: the pairing is not the mirror's", "KEEPS their span")}. " +
                          $"Readings at q = d = {D}: K_m {ShowHulls(ResonantSharp)}; U_m {ShowHulls(ResonantKernelHull)}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "K₂ = U₂ everywhere, and K₁ on the resonance plane",
+                summary: $"no piece of L but the √3 coupling carries a two-bright cell into a one-bright one: " +
+                         $"{Verdict(RestNeverTakesTwoBrightToOne, "yes (rates, splitting and offset of each nucleus, the rational coupling)", "NO")}, " +
+                         $"the √3 coupling {Verdict(SqrtThreeTakesTwoBrightToOne, "does (the control)", "does NOT (the control FAILS)")}; on the two-bright cells " +
+                         $"H₃·x and x·H₃ {Verdict(SqrtThreeImagesDisjointOnTwoBright, "land on disjoint cells", "SHARE cells")}, on the one-bright cells they " +
+                         $"{Verdict(SqrtThreeImagesMeetOnOneBright, "share cells (the control)", "do NOT (the control FAILS)")}; " +
+                         $"{Verdict(TwoBrightHullIsTheKernels, "so K₂ ⊆ V and K₂ = U₂ at every parameter", "the argument does NOT close")}" +
+                         $"{Verdict(TwoBrightControlsFire, "", " (a control does NOT fire)")} (the steps checked on the dipolar coupling's pieces; for any rest of H commuting with Q they follow from the parity count). " +
+                         $"With J₁ = J₂ = 0 the rates {Verdict(J0RatesAreTheRungOnEveryCell, "are −s_m on every m-bright cell, so every K_m pairs about −s_m (the adjoint pairs −s_m ± iω)", "are NOT the rung on every cell")}, " +
+                         $"the J₁ rates {Verdict(J1RatesAreNotScalarOnCells, "are not (the control)", "ARE (the control FAILS)")}. " +
+                         $"Readings at q = d = {D}, J₁ = 0: K_m {ShowHulls(ResonantSharpAtJ1Zero)}; U_m {ShowHulls(ResonantKernelHullAtJ1Zero)}. " +
+                         $"At J₁ = J₂ = 0: K_m {ShowHulls(ResonantSharpAtJ1J2Zero)}; U_m {ShowHulls(ResonantKernelHullAtJ1J2Zero)}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

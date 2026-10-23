@@ -215,6 +215,31 @@ public class SodiumChainWitnessTests
         Assert.True(Default.HullsInvariant);
     }
 
+    [Fact]
+    public void TwoBrightHullIsTheKernels_AndOnQEqualsDK1PairsAtJ1ZeroAndAtJ1J2Zero()
+    {
+        Assert.True(Default.RestNeverTakesTwoBrightToOne);
+        Assert.True(Default.SqrtThreeTakesTwoBrightToOne);           // the control
+        Assert.True(Default.SqrtThreeTakesTwoBrightOnlyToOne);
+        Assert.True(Default.SqrtThreeImagesDisjointOnTwoBright);
+        Assert.True(Default.SqrtThreeImagesMeetOnOneBright);          // the control: the one-bright door T comes through
+        Assert.True(Default.TwoBrightHullIsTheKernels);
+        Assert.True(Default.J0RatesAreTheRungOnEveryCell);
+        Assert.True(Default.J1RatesAreNotScalarOnCells);              // the control
+        Assert.True(Default.TwoBrightControlsFire);
+        Assert.True(Default.TwoBrightAndRungGateHolds);
+        // q = d with J₁ = 0: K₁ = U₁ ⊕ ⟨T, B⟩ (two larger, ⟨T, B⟩ ∩ V = 0 by gate 7), K₂ = U₂, and K₁ pairs about −s₁
+        Assert.Equal(new[] { 46, 5 }, Default.ResonantSharpAtJ1Zero.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new[] { 44, 5 }, Default.ResonantKernelHullAtJ1Zero.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new bool?[] { true, true }, Default.ResonantSharpAtJ1Zero.Skip(1).Select(h => h.Pairs));
+        // q = d with J₁ = J₂ = 0: the gap is four, and every K_m pairs because the rates are the rung on each cell
+        Assert.Equal(new[] { 76, 6 }, Default.ResonantSharpAtJ1J2Zero.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new[] { 72, 6 }, Default.ResonantKernelHullAtJ1J2Zero.Skip(1).Select(h => h.Dimension));
+        Assert.Equal(new bool?[] { true, true, true }, Default.ResonantSharpAtJ1J2Zero.Select(h => h.Pairs));
+        Assert.True(Default.HullsInvariant);
+        Assert.True(Default.SimilarityIsRational);
+    }
+
     [Theory]
     [InlineData(1, 1, 4, 1)]
     [InlineData(7, 5, 1, 10)]
@@ -239,6 +264,8 @@ public class SodiumChainWitnessTests
         Assert.Equal(new[] { 14, 1 }, w.ResonantSharp.Skip(1).Select(h => h.Dimension));        // E₁ ⊕ ⟨T, B⟩, and E₂
         Assert.Equal(new[] { 12, 1 }, w.ResonantKernelHull.Skip(1).Select(h => h.Dimension));
         Assert.Equal(new bool?[] { true, true }, w.ResonantSharp.Skip(1).Select(h => h.Pairs));
+        Assert.Equal(new[] { 2, 0 }, w.ResonantSharpAtJ1Zero.Skip(1).Zip(w.ResonantKernelHullAtJ1Zero.Skip(1), (k, u) => k.Dimension - u.Dimension));
+        Assert.Equal(new bool?[] { true, true }, w.ResonantSharpAtJ1Zero.Skip(1).Select(h => h.Pairs));
         Assert.True(w.HullsInvariant);
     }
 
@@ -250,7 +277,7 @@ public class SodiumChainWitnessTests
         Assert.DoesNotContain("NOT", Default.Summary);
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
-        Assert.Equal(8, Default.Children.Count());
+        Assert.Equal(9, Default.Children.Count());
     }
 
     [Fact]
