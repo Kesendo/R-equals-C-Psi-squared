@@ -3,7 +3,7 @@
 **Date**: 2026-07-14
 **Status**: Computationally verified (three methods to machine precision; born as a play session with the renewal cut)
 **Script**: `simulations/cone_front_pedigree.py` (output in `simulations/results/cone_defect_arrival/front_pedigree.txt`)
-**Question**: the renewal ladder of F126 can be resolved by catch count j, an observable the density-matrix engine hides (a quantum-jump unraveling would sample it as jump counts; the ladder holds it exactly, no sampling). What is the pedigree of the front survivors: how many times was a surviving walker caught on its way, and when was its last rebirth?
+**Question**: the renewal ladder of F126 can be resolved by catch count j, an observable the density-matrix engine hides (a quantum-jump unraveling with the site projectors as jump operators would sample it as jump counts; the ladder holds it exactly, no sampling; with the dephasing letters Z_k as jump operators the count is a different one and nothing is caught, see [Quantum Jump Translated](../docs/quantum/QUANTUM_JUMP_TRANSLATED.md) §4). What is the pedigree of the front survivors: how many times was a surviving walker caught on its way, and when was its last rebirth?
 
 ## The two answers up front
 

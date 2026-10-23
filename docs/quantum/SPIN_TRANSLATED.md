@@ -23,6 +23,7 @@ Tier 1 candidate, with its fences kept; the readings in Section 5 are readings a
 second entry; it owns the Bloch sphere as one object and the letter frame),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry; it
 owns the single-spin trade),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) (the tenth entry),
 [Dephasing Translated](DEPHASING_TRANSLATED.md) (the fourth entry; its held
 letter is the axis this entry's spine turns on),
 [Teleportation Translated](TELEPORTATION_TRANSLATED.md),

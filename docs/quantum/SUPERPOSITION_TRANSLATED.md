@@ -24,6 +24,7 @@ entry),
 trading this entry's frame-relative sharpness),
 [Spin Translated](SPIN_TRANSLATED.md) (the ninth entry; it inherits this
 entry's Bloch sphere),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) (the tenth entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the series' theory
 chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [On How the Angle Appears at Zero](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md),

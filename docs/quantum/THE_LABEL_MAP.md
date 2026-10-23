@@ -6,7 +6,7 @@ renamed readings survived numbers, open label seams, R=CPsi2 label map -->
 
 **Status:** Index. The map itself makes no claim; every entry cites the document
 that owns it, and the tier of each correction is the tier stated there.
-**Date:** July 5, 2026; extended August 9, 2026
+**Date:** July 5, 2026; extended August 9 and October 23, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
@@ -18,6 +18,7 @@ that owns it, and the tier of each correction is the tier stated there.
 [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md),
 [Spin Translated](SPIN_TRANSLATED.md),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md),
 [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md),
 [Caught Errors](../CAUGHT_ERRORS.md) (the chronological log)
 
@@ -25,7 +26,7 @@ that owns it, and the tier of each correction is the tier stated there.
 
 ## What this document is about
 
-The translation series gave the label thesis a theory chapter and eight case
+The translation series gave the label thesis a theory chapter and nine case
 studies, and the theory chapter makes a claim about this repository itself:
 our own review history holds "a weaker form of the same thing at repository
 scale", the half no recomputation catches. This map is that half, itemized. We surveyed the whole repository for every place where
@@ -97,6 +98,7 @@ series had a name.
 | Spooky action at a distance | The excess, not the action: the correlations exceed every local story (their theorem) while the marginal never moves (their theorem, our Tier 2 witness); conditioning, not causation | [Spooky Action Translated](SPOOKY_ACTION_TRANSLATED.md); the house's earlier canvas, kept as history: [The Starting Point](../historical/THE_STARTING_POINT.md) |
 | Uncertainty (you cannot know both; measuring one disturbs the other) | A width, not a doubt: the spreads are in the shape (Kennard's width theorem, not Heisenberg's kick story, two statements fused under an accreted, authorless name); the in-house shape beside it: three price lists over one eigenbasis, only nothing free everywhere | [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) |
 | Spin (the particle spinning like a top; up/down like a needle) | A two-valuedness, not a twirl: Pauli's cautious 1924 name was the finished translation; the picture died of structurelessness, not speed, and the angular momentum stays mechanically real; the in-house spine: a held letter is an axis, and total spin survives it only as the pair of answers along that axis | [Spin Translated](SPIN_TRANSLATED.md) |
+| Quantum jump (the state leaps, all at once and from nowhere; a "quantum leap" is a huge advance) | A click, not a leap: the record clicks and the state passes smoothly, as Bohr's "passing" had it, and once under way even the conditioned jump is continuous (Minev 2019); in the house, where the jump operators are dephasing letters, the no-jump part is a number, so a jump announces nothing, and one ρ carries two jump counts that differ by an independent Poisson count | [Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) |
 
 "Noise" is the founding example of the whole thesis (the channel labeled
 garbage); its series entry, the fourth, was paid on 2026-07-05

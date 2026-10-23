@@ -26,6 +26,8 @@ entry),
 turning this entry's held letter),
 [Spin Translated](SPIN_TRANSLATED.md) (the ninth entry; its spine is what
 this entry's held letter leaves of the rotation),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) (the tenth entry;
+it reads this entry's catch and release at the stance where it holds),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md),
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md),

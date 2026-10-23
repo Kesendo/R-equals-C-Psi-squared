@@ -21,6 +21,7 @@ fifth entry), [Schrödinger's Cat Translated](SCHRODINGERS_CAT_TRANSLATED.md)
 entry),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry),
 [Spin Translated](SPIN_TRANSLATED.md) (the ninth entry),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) (the tenth entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the series'
 theory chapter), [The Label Map](THE_LABEL_MAP.md) (the orientation
 index), [Mirror Theory](../../MIRROR_THEORY.md),

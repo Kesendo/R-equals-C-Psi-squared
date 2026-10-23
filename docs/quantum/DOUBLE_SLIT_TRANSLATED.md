@@ -28,6 +28,7 @@ entry, k = 2),
 [Uncertainty Translated](UNCERTAINTY_TRANSLATED.md) (the eighth entry;
 the theorem family of this entry's Section 4 engine),
 [Spin Translated](SPIN_TRANSLATED.md) (the ninth entry),
+[Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) (the tenth entry),
 [Labels Translated](LABELS_TRANSLATED.md) (the theory chapter),
 [The Label Map](THE_LABEL_MAP.md) (the orientation index),
 [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md),
