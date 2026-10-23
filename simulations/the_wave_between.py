@@ -148,6 +148,7 @@ def mirror_twin_exists():
     print("6. States whose self-encounter equals their mirror image's (H = 0, one qubit)")
     print("   closed form: S_A = S_PiA at every t iff a^2 + b^2 = 1 + c^2 for A = (I + aX + bY + cZ)/2,")
     print("   which among states means exactly the pure states on the equator")
+    print("   (for gamma > 0; at gamma = 0 the generator vanishes and every state qualifies)")
     gamma = 0.3
     L = lindbladian_z_dephasing(np.zeros((2, 2), dtype=complex), [gamma])
     T = np.array([vec(S) for S in PAULI]).T / np.sqrt(2)
