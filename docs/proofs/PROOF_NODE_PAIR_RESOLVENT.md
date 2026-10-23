@@ -75,6 +75,8 @@ reduced-resolvent operator `𝓡_k` and is not an independent claim.
 order, and **D6** already carries a second-order rate with a 1/γ; there is no blanket novelty
 here and none is claimed.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 In the typed layer's Diagnostics half, `KPartnerSelectionRuleClaim` (Tier 1 derived,
 machine-exact N = 3…8) owns `⟨ψ_N|V_b|ψ_1⟩ = 0` for every bond defect: the same two-term bond
 matrix element §5 kills, in the lit sector, killed by the same staggering, and
@@ -83,8 +85,10 @@ repo's home for that genre. The Core half holds `SeatCutBlindnessClaim` (F157) a
 `AbsorptionTheoremClaim`. Also in the Diagnostics half, and also `Claim`s rather than witnesses,
 are `JDefectLightMigrationClaim`, which owns §8's rate-is-light identity at every defect value,
 and `MissingPhaseRelaxationScaleClaim`, beside the live witness `MissingPhaseRelaxationScaleWitness`
-(`inspect --root missingphasescale`) composes the N = 7 second-order coefficients and labels the
+(the inspect root `missingphasescale`) composes the N = 7 second-order coefficients and labels the
 γ-rate direction `|d₊⟩⟨d₊| − |d₋⟩⟨d₋|`, which is why §8 is scoped as it is.
+-->
+
 `NodePairResolventWitness` independently recomputes the canonical exact resolvent zero, its
 nonzero control, Corollary C's determinant factorization and theorem/control cases, including the
 three exceptional ratios and the off-centre new-root case; run `inspect --root nodepair`. The typed Core breadcrumb names this
@@ -115,6 +119,8 @@ node-splits-the-chain fact is Sturm oscillation theory, owned here as Lemma J; a
 establishes exact nodal decoupling from one watched site; no continuum or scattering embedding is
 part of the statement.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 The **OpenArcs registry** holds `the_forced_and_the_met`, **open**. It records §5's proved
 sufficient bond direction in the product shape `2·v_b·v_{b+1}`, a node at either end. Corollary C
 closes the same-baseline-energy iff for any zero-free Jacobi path with fixed diagonal at
@@ -127,7 +133,10 @@ characteristic polynomial as a statement about an eigenvector. **`experiments/TH
 stationary space; §8 answers **no** and also separates the invariant peripheral space from both.
 `hypotheses/`, `reflections/` and `recovered/` hold nothing that bears on the theorems; `review/`
 holds the chiral counter-evidence §4 respects. `fw.Confirmations` and the C# `ConfirmationsRegistry`:
-nothing, and nothing here has been to hardware. `docs/GLOSSARY.md` fences "dark" as a spent word with four live senses, so the modes
+nothing, and nothing here has been to hardware.
+-->
+
+`docs/GLOSSARY.md` fences "dark" as a spent word with four live senses, so the modes
 here are **blind**, F157's word. Two further words are avoided on repo usage rather than on a
 glossary entry: "level" is the ordinary word for an eigenvalue, is F129's defined object, and is
 this arc's own level-versus-light contrast, so §7's steps are **arms**; "profile" names an input

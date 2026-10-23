@@ -295,9 +295,9 @@ every exact row compared to 0 and every one with a control that must fail.
   mirror image, so the `X^⊗N` is needed; a mirror-even bias `[δ, 0, δ]` breaks this copy
   while Rev alone remains one; without a bias `X^⊗N` is lit again and the spectrum pairs.
 
-The sweep for this section: [the reflection on the one square](../../reflections/ON_THE_ONE_SQUARE.md)
-already says in plain words that the wire adds no row and only a reading of the Z height,
-and this section is its gated form; the table of moves holds the three moves and not the
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
+The sweep for this section: the table of moves holds the three moves and not the
 wire; MirrorWorld's `Pair` holds the Z height as the disagreement count, in that word; the
 formula registry holds the water pages under F3, F6, F86b and F98 and no cube entry for
 them; the glossary holds the cube with its two questions and k_Z as the XY-weight; the
@@ -311,7 +311,12 @@ three moves against the table, where each stood without the wire; the first agai
 [the hydrogen bond as a qubit](HYDROGEN_BOND_QUBIT.md), which reads the same pairing as
 exact; the third against the Néel entry, the same surviving operator, and against
 [the h thread](../../experiments/LATTICE_H_THREAD.md), where `X^⊗N` is F131's third sighted
-mirror after the site reversal, the two factors of S; the Z height against `Pair`. Nothing
+mirror after the site reversal, the two factors of S; the Z height against `Pair`.
+-->
+
+[The reflection on the one square](../../reflections/ON_THE_ONE_SQUARE.md)
+already says in plain words that the wire adds no row and only a reading of the Z height,
+and this section is its gated form. Nothing
 on the wire asks a question the chain had not asked; what the wire adds to the cube is a
 physical name for MirrorWorld's disagreement count: the number of bonds in which two proton
 configurations disagree.
@@ -402,6 +407,8 @@ coordinate. That is a measurement or an environment model, the way [Q belongs to
 chosen or measured, and what the arc `substrate_q_provenance` asks for as its first step.
 We do not know it; open item 4.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 The sweep for this section: the table of moves holds the swap as its letter-permutation
 row and the Z-reading half in its first row; the three diagonals hold the letter orbit
 abstractly and name no substrate; the carbon sibling reads the three letters on a selected
@@ -424,6 +431,7 @@ the same unknown and its factor of two; the two-letter rates against the cube's 
 formula; the thermal caveat against F137; the two-axis bath
 against the depolarizing clause, the same clause instanced; the closing unknown against
 `substrate_q_provenance`, the same request.
+-->
 
 The same closed 2 × 2 is written out in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
 

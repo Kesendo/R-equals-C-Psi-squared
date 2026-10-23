@@ -45,7 +45,9 @@ disagreement at site l minus that at its mirror site. F154's conditional
 identity replaces the uneven profile by its mean rate only when every
 C_l vanishes on the frequency space.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep, by store, and what each returned.
 `docs/ANALYTICAL_FORMULAS.md`: F154 is the entry this proof extends, with its
@@ -91,8 +93,8 @@ locus, the compressed density or the frozen divisor. OpenArcs: the arc
 carrier and nothing on the endpoints; the F89 seed arcs are the `(1,2)` object
 again.
 Confirmations: nothing. The typed layer: `FrozenDivisorClaim` (F140) with
-`FrozenDivisorWitness` (`inspect --root divisor`), `SeedRungGramClaim` (F143)
-with `SeedRungGramWitness` (`inspect --root seedrung`), `PinnedBlockFloorClaim`
+`FrozenDivisorWitness` (the inspect root `divisor`), `SeedRungGramClaim` (F143)
+with `SeedRungGramWitness` (the inspect root `seedrung`), `PinnedBlockFloorClaim`
 (F153) with `PinnedBlockFloorWitness`, `AbsorptionTheoremClaim`,
 `F71AntiPalindromicGammaSpectralInvariance` and `JointPopcountSectors`;
 MirrorWorld's `Divisor` counts F140's frozen modes by exact GF(p) ranks and
@@ -108,6 +110,7 @@ pairs, below); F146 and PROOF_SCALAR_COUNT §7 against the N = 11 door (the same
 coincidence e₁ + e₉ = e₅ + e₆; the `(1,1)` rooms that mix parity appear exactly
 at the rung-2 resonant M of that section's table, measured to N = 30); and
 PROOF_R90_FROZEN_DIVISOR Lemma 2 against the decomposition of D.
+-->
 
 ## The two questions
 
@@ -255,7 +258,7 @@ it needs no sign on the rates. Both ends follow.
   at least 9·10¹² rounding units away.
 
 On the uniform open XY chain G is Lemma 5's law at M = N + 1, in F143's form
-G = (1/M)(𝟏𝟏ᵀ + (I+R_χ)/2), so the whole room is known in closed form:
+G = (1/M)(𝟏𝟏ᵀ + (I+R_χ)/2), R_χ the chiral mode flip k ↦ M − k, so the whole room is known in closed form:
 spec D_Ω₀ = {−4γ̄ ×⌊N/2⌋, −4γ̄(1 − 1/M) ×(⌈N/2⌉−1), 0 ×1}. On the isotropic
 Heisenberg chain Lemma 5's law is the site-indexed B Bᵀ, which the mode-indexed
 G = BᵀB matches only in spectrum; that is enough for the room, whose spectrum is

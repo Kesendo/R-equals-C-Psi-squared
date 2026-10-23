@@ -7007,7 +7007,11 @@ Tr((L + c/2)⁵) = 240 under cooling alone at rate 1, a formal setting at zero s
 and heating rates 1, the physical bath there; at those equal rates every H commuting with Z⊗N pairs (exact, gate M11). So without fields or dephasing axial DM pairs
 on every tree, and transverse DM need not. The centre at H ≠ 0 is
 the trace identity above and needs no proof.
-**Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no F137 claim) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y, the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing). None held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
+**Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no F137 claim) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y, the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing).
+-->
+No store held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
 [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose body computed the thermal rate pairing
@@ -9977,6 +9981,8 @@ else: the phrase *"modes leave the band in palindromic pairs"* in F3's
 generic-band note above is about the Liouvillian rate band, and the glossary's *Band* (a pre-registration's frozen constant) is a
 third sense; neither is this one.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **What the sweep found, stores by name, at registration (2026-09-01, three
 survey agents).** `docs/ANALYTICAL_FORMULAS.md`: no owner of the equation;
 F2b is its u = 0 end in words; F122 names the ring's *"pairing k ↔ −k"* and
@@ -10018,8 +10024,15 @@ path sense this entry's road (a one-parameter family between two boundary
 conditions) shares rather than collides with; `the_gate_that_does_not_gate` names the sibling's walk-time corollary as
 untested, which this entry does not touch; `the_forced_and_the_met` queues *"RUN THE COMB TEST: take the cheapest comb
 law and detune the comb, solving rather than sampling"*, and the comb it names
-is exactly this curve's u = 0 end. This entry supplies the SOLVED, detuned comb
-that item asked for and does not close it: the item asks whether a comb LAW
+is exactly this curve's u = 0 end.
+-->
+
+At N = 4 the curve's m = 0 Perron root has the series
+2 − δ/2 + δ²/8 − δ⁴/128 + …, the detuned ρ that PROOF_RING_GAP_DOMINANCE's
+§Scope fence printed as 1.9999500 at δ = 1e-4 (the series gives 1.9999500012500).
+
+This entry supplies the SOLVED, detuned comb
+that the OpenArcs item `the_forced_and_the_met` asked for and does not close it: the item asks whether a comb LAW
 (F129, F89's resonance, F145/F146, F65's root, F144's exception) dissolves off
 the comb, and on 2026-09-01 none of those had been run on this road. Since 2026-09-02
 F129 has, on [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md): every
@@ -10027,7 +10040,11 @@ one of its 2558 exact collision pairs at n ≤ 30 separates along this road, 233
 first order by a theorem (the first-order gap is F65's endpoint coefficients signed, Theorem G
 of the proof) and all 223 others at second order (read at 40 digits there, exact since F161),
 and the other four laws' conclusions are shown not to transport to a level list (F89's
-predicates and F146's hypothesis do). `fw.Confirmations`:
+predicates and F146's hypothesis do).
+
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
+`fw.Confirmations`:
 nothing ring-shaped, nothing defect-shaped. `docs/GLOSSARY.md`: no entry for the object, none for *comb*, and *Band* in
 the pre-registration sense (fenced above); *impurity* is a free word in this
 repository and *Robin* is free as a boundary-condition word (every other hit
@@ -10042,6 +10059,7 @@ round, on the header quantifier of the proof whose §Scope this entry cites
 entry on a caveat that outlived its gate, a theorem-exact value reached
 *through* an eigensolver and landing one ulp low, which is why the adopted
 object meets the identity over the integers.
+-->
 
 **Fences.** The algebra is standard tight-binding scattering, a rank-two
 update of the open chain and a one-cell transfer-matrix trace, fenced so on the
@@ -10719,7 +10737,7 @@ its Breaks-for), at the Absorption Theorem and at F142; its positive half, a
 mirror kept block by block with centres of its own, is not a breaking of F1.
 The number gives the object one place and a name. The caution is [F160](#f160)'s: an indexing gap
 is not a result, and this entry claims nothing its sources do not. The sweep
-is the page's own record (its section *What the repo already held*); beside
+is the page's own record (its Stage-0 sweep record); beside
 it, the glossary holds nothing on correlated dephasing and the OpenArcs
 registry only a passing mention (Quantum Sonar's correlated-bath row, scoped to
 that page's knobs).

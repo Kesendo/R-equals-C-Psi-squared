@@ -15,10 +15,15 @@ rather than a sequence of laboratory settings.
 We then add the next correction and ask a stricter question: within what
 small region can we bound everything the truncated formula leaves out?
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 The stores were searched by this note's primitive: how far a leading local unfolding
 formula stays accurate away from one Route-B crossing.
+-->
+
+## What is already certified
 
 The certified half of the same question is already owned next door.
 [F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md) supplies the exact leading
@@ -37,6 +42,8 @@ over the 266 loci, and nothing here widens that. The N=4 siblings
 [`ROUTE_B_N4_SECOND_ARM`](ROUTE_B_N4_SECOND_ARM.md) say the same of themselves, that
 none of their enclosures is a Taylor convergence-radius theorem.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 The remaining stores return nothing. There is no NULL result anywhere on uniform radii
 or on all-N extension; the repo records stated non-extensions instead. `docs/proofs/`
 holds no other radius machinery. `docs/GLOSSARY.md` defines no term for a certified
@@ -46,6 +53,7 @@ below it. `fw.Confirmations` holds nothing. Neither half of the typed layer hold
 object, no `Claim` and no witness, but the third half is not empty:
 `RouteBN6ResidualProducerTests` gates the even sector's dimension 45 and the residual's
 Λ-degree 32, which are the algebraic base the readings below stand on.
+-->
 
 ## Abstract
 

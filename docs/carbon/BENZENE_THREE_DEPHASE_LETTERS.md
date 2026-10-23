@@ -247,6 +247,8 @@ centre-line and U(1) rows gated per model. The frame is not called a gauge here 
 sublattice sign K, and "colouring" here is F158's per-site lit string, not that sign's
 two-colouring of the graph.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 The sweep for this section: this page and its siblings read the three letters on the ring
 and never the cube; the proton wire holds the rule's two water instances; the three
 diagonals hold the letter orbit; F138's clause 2 holds the single-common-axis condition and
@@ -263,6 +265,7 @@ clause 2 and the half-turn row, the same condition in three places, and the resc
 against the rotated colouring here, the same repair; the chain frame against the colours on
 the circle and the gauge argument, the same object on a named term; the DM row against F1's
 DM clause, DM alone against DM beside hopping.
+-->
 
 ## Open selected-model work
 

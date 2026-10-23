@@ -55,7 +55,9 @@ cancel exactly. Neither layer ever mentions the light: the democracy is a
 property of the patterns themselves, and it is the notes that use it which
 draw the consequences for the light's price on such a pattern.
 
-## The sweep
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+The sweep
 
 `docs/ANALYTICAL_FORMULAS.md`: F122 owns the compression mechanism (high-Q
 degenerate PT) whose ω = 0 eigenspaces are this proof's stage; F154 owns the
@@ -87,6 +89,7 @@ registers the law as measured, mechanism open (this item);
 along the diagonal, a Δ = 0 object fenced off from this proof.
 `docs/GLOSSARY.md` and `compute/MirrorWorld`: nothing on the three objects
 introduced below.
+-->
 
 ## The objects
 

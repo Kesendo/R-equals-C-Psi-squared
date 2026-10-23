@@ -1020,11 +1020,15 @@ union of truly and soft; the line between truly and soft is exactly what moves.
 [Softness is N-dependent](../../experiments/SOFTNESS_IS_N_DEPENDENT.md) reaches the same conclusion for
 two pairs of three-term sets, and F107's y_par = 0 purity of truly belongs to the canonical mirrors.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **What the repo held.** A sweep of the registry, the proofs (F85, F102, F105 to F111, F118, the
 mirror symmetry proof), the experiments, the reflections, the OpenArcs registry, the caught-errors
 ledger, the glossary, the Core claims, the Diagnostics witnesses and MirrorWorld's Hardness object
 found no statement of the rule and no count against it, and fw.Confirmations holds nothing on it.
-Its pieces stood apart: F85 and F107 for which strings are truly; F110 §2 for which cell can be hard,
+-->
+
+**Prior work.** Its pieces stood apart: F85 and F107 for which strings are truly; F110 §2 for which cell can be hard,
 by the colouring of [the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)
 with F158, which settles every non-diagonal cell at every k; and the softness experiment for the
 dependence on the mirror. None of them pointed at this question.

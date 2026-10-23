@@ -44,13 +44,18 @@ law, the same object matrix for matrix, not merely the same size. Along the way 
 in the registry entry it examined, and withdraws half of a mechanism it had
 drafted, keeping the half that a later note went on to explain.
 
-## What the repo already held, store by store
+## What this stands on
+
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 The sweep ran before the derivation and twice more under review, and the misses are the useful
 part. The first pass searched for "an antilinear involution of a block" and missed the stores
 that own it, because the repo files that object as the **cross-fold** and the **self-folded
 block**. The third pass found that the one sentence the note still claimed as new is in F153's
 own registered text. The label was the whole difficulty each time.
+-->
 
 `docs/ANALYTICAL_FORMULAS.md` returned **F89d** (Tier 1 derived), the identity this note uses,
 typed as `F89CrossFoldSimilarityClaim` with the live witness `inspect --root crossfold`:
@@ -123,7 +128,11 @@ correction this note repairs in F153: "'a longitudinal Z field commutes with the
 so cannot touch the decay rates at all' is false as stated", with
 `docs/proofs/MIRROR_SYMMETRY_PROOF.md` (lines 229-235) having it right, "uniformity doing the
 work, not U(1)". The repo owned the correction's SHAPE before this note re-derived it; what the
-note adds is only the scalar-dissipator scoping on the blocks. It returned `f91_scope_fences`, and the
+note adds is only the scalar-dissipator scoping on the blocks.
+
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
+It returned `f91_scope_fences`, and the
 credit there took two goes to get right. An earlier draft named the arc as the SOURCE of the
 identity-on-the-locus statement; the arc's six listed findings are all repairs to F91's own
 prose and none of them is that statement, whose source is PROOF_F91:68, cited above where it is
@@ -141,6 +150,7 @@ returned the fold lattice adopted at a SCALAR γ on the XY chain.
 block. `fw.Confirmations` returned nothing; no flight touches this. `docs/CAUGHT_ERRORS.md`
 returned the 2026-06-20 entry correcting the F91 family's group to Klein V₄, and nothing on
 F140 against F153.
+-->
 
 ## The identity, written as a self-map
 

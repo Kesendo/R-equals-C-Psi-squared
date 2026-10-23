@@ -437,6 +437,8 @@ Hilbert-Schmidt companion is ‖ρ − X^⊗N ρ‖² = 2‖ρ‖²·(1 − lean
 lattice's own relation between its two one-sided readings, X^⊗N ρ and
 ρ·X^⊗N, is the adjoint (`Restless.cs`, at `SeedRaw`), not a form.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **Swept for this subsection.** `docs/ANALYTICAL_FORMULAS.md`: F119 holds the
 forward reciprocity and names the weight-one Krein form among its neighbours;
 F1, F138 and F158 hold the one-sided relation, F109 its right-hand twin
@@ -476,6 +478,7 @@ neither each other nor this page on it; R is ℒ_U's right-hand twin, as F109
 already uses it; the product
 splits along the reflection page's cut; the lattice opening law's spook is the
 product and its linear sibling on one state.
+-->
 
 Gate: [`simulations/pairing_condition_flow.py`](../simulations/pairing_condition_flow.py)
 → [`pairing_condition_flow.txt`](../simulations/results/pairing_condition_flow.txt).

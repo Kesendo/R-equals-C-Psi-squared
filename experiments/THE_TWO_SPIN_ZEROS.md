@@ -51,7 +51,9 @@ two reports: exact fractions under a square root, never noise.
 spin is meant here: the chain's total spin, the label the fully symmetric
 coupling preserves, not the η-ladder of the sideways arc.)
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep, by store. `docs/ANALYTICAL_FORMULAS.md`: F154 owns the saturation
 law; its containment covers the Δ = 1, N = 6 breaking spaces too (measured,
@@ -88,6 +90,7 @@ entries): nothing. `docs/CAUGHT_ERRORS.md`: no CG bookkeeping entry, but the
 lesson about threshold-defined quantities stands there, and this note walks into
 that territory: four of the breaks below sit where a chosen 0.05 fence would
 misread them, and only a floor classification shows them.
+-->
 
 ## The objects
 

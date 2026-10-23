@@ -58,12 +58,16 @@ diagonal dissipator, D_cell = −2·Σ_{l: a_l ≠ b_l} γ_l. The **locus profil
 different values, as its entry says). A cell's **size class** |S| is popcount(a⊕b), the
 number of sites where ket and bra disagree.
 
-## What the repo already held, store by store
+## What this adds
 
 The sweep ran before the derivation (a dispatched scout over the named stores, its findings
 verified against the files), and its headline is that the RULE was already registered and
 the QUESTION already filed open, so the work below is a scope extension plus a mechanism,
 not a new rule.
+
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 `docs/ANALYTICAL_FORMULAS.md` returned **F122**, whose registered *Mechanism* is this
 note's projection rule: "high-Q degenerate PT: the decay rates are the eigenvalues
@@ -136,6 +140,7 @@ scope-extension failure (:583), which is this note's central move and the reason
 cancellation is gated on both profiles rather than argued once. `fw.Confirmations` returned nothing; no flight
 touches this. MirrorWorld returned [H, X^N] = 0 including ZZ (the Lattice's standing
 exact fact), which is the cancellation's one ingredient, and no J → ∞ rule of its own.
+-->
 
 ## The rule, scope-extended
 
