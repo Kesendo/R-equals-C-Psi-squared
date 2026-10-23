@@ -170,7 +170,8 @@ tier:
   in the light keeps its schedule for as long as there is a front at all:
   the dose the front pays is amplitude, not schedule
   ([the walk-time experiment](../../experiments/COUPLING_DEFECT_WALK_TIME_STEP.md)).
-  And the amplitude bill is never collected in full: every catch re-seeds
+  And the amplitude bill is never collected in full: every refill (a catch, in
+  the projector reading) re-seeds
   a fresh wave, a co-moving halo that refunds a fixed fraction of the front's
   rate forever (the survival readings of
   [F126](../ANALYTICAL_FORMULAS.md), each carrying its own, weaker label
@@ -228,13 +229,20 @@ the channel's.
 
 **The walk in the light is the wave, caught and released.** The
 single-excitation
-sector under the arriving light is solved exactly by a renewal: the walker
+sector under the arriving light is solved exactly by a renewal, and read
+with the site projectors as the jumps it tells of catches: the walker
 propagates as the clean wave between catches, is caught onto the sites at
 the full coherence rate, and is released to run again. The coherent front is
 the never-caught term; the halo that keeps the front alive is everything once
 caught and re-born. There is no second, classical object anywhere in the
 algebra; "hopping randomly" is the wave read in the rhythm of catch and
-release.
+release. Read with the dephasing letters Z_k as the jumps, the same walk is
+never caught, the ensemble is the same, and the front is there under the
+renewal proof's other name for it, a number the register also carries in
+ρ itself, as four times the squared coherence between the vacuum and the
+excitation of
+a seed that carries the vacuum along
+([Quantum Jump Translated](QUANTUM_JUMP_TRANSLATED.md) §4 and §6).
 Typed as F126 ([the renewal proof](../proofs/PROOF_DEPHASING_FRONT_RENEWAL.md)),
 recomputed live at `inspect --root renewal`; the walk-time step it grew from
 runs in MirrorWorld as `walk N`.
