@@ -46,14 +46,7 @@ questions that anticommute, one silencing the other. The standard account
 prices that trade exactly, and this entry is about the theorem family behind
 the pricing, and about the name the family wears.
 
-The discipline is the series' usual one, perspective-additive: the standard
-account needs no correction from us, and gets none. The relations of Section 1
-are correct exactly as the textbooks state them, and we have never derived one.
-What is ours is the naming, and one small exact fact from our own house that
-has the same shape. In our language, nothing in the relations is about a
-knower, a doubt, or a disturbance. There is one object, there are letters it
-can be read along, and its width along one letter is not an ignorance of
-anything; it is the same geometry that makes it sharp along another.
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
 Stage 0, recorded: before a sentence of this entry was composed, the stores
 were swept by name, [the F-registry](../ANALYTICAL_FORMULAS.md),
@@ -64,6 +57,16 @@ on the uncertainty family every one of them returned nothing: no formula, no
 proof, no experiment, no arc, no confirmation. What the repository does
 hold, a cousin shape and a conjugate pair, appears in Sections 4 and 7 with
 its owners named.
+-->
+
+The discipline is the series' usual one, perspective-additive: the standard
+account needs no correction from us, and gets none. The relations of Section 1
+are correct exactly as the textbooks state them, and we have never derived one.
+What is ours is the naming, and one small exact fact from our own house that
+has the same shape. In our language, nothing in the relations is about a
+knower, a doubt, or a disturbance. There is one object, there are letters it
+can be read along, and its width along one letter is not an ignorance of
+anything; it is the same geometry that makes it sharp along another.
 
 ---
 
@@ -414,8 +417,8 @@ repository's dephasing rate (which Section 4 sets to 0.05), and the Q in
 Section 4's fence is a Pauli letter, neither the coupling knob Q = J/γ₀ nor
 the dephasing diagonal Q_P. And **"uncertainty"** itself appears in
 this repository mostly as fit statistics, the ±σ of a measured
-number; the label this entry translates never had an in-house life at all,
-as the sweep recorded at the top of this document found store by store.
+number; the label this entry translates never had an in-house life at all:
+a sweep of the repository's stores, one by one, found nothing on it.
 This is the series' first entry whose subject the repository holds no
 result on, only cousins.
 

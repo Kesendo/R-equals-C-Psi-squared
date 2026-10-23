@@ -50,6 +50,8 @@ that story, and its situation is the reverse of the last entry's. There the
 repository held no result of its own under the label; here the label names
 the repository's own substrate, used every day and defined nowhere.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 Stage 0, recorded: before a sentence of this entry was composed, the stores
 were swept by name. [The glossary](../GLOSSARY.md) returned the striking
 nothing: the whole word "spin" occurs zero times in it (the lone substring
@@ -68,6 +70,7 @@ Errors](../CAUGHT_ERRORS.md) returned the two spin-adjacent repairs this
 entry leans on, the ring-N4 mechanism relabel and the coupling-conventions
 scar. The history of the label, Section 1, has no in-house record at
 all and is cited from outside.
+-->
 
 The discipline is the series' usual one, perspective-additive: the standard
 account needs no correction from us, and gets none. What is ours is the
