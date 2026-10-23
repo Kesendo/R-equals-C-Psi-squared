@@ -39,7 +39,9 @@ measured separation.
 - [Degeneracy Palindrome](../../experiments/DEGENERACY_PALINDROME.md) Result 2
   for both counts of the canonical case.
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 The sweep ran through two agents and a hand pass, and three adversarial
 reviewers checked it against the stores at source.
@@ -124,20 +126,6 @@ reviewers checked it against the stores at source.
   [SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) carries both operator
   conditions months old and reads them as invariance, which the pairing-condition
   page already corrects.
-  **And one page in exactly this territory:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
-  §8 states an iff in exactly this territory, *"the Liouvillian palindrome holds under dephasing
-  noise if and only if the noise has at most two Pauli axes"*, and it is the
-  SAME-SITE reading, where F138 clause 1 and the pairing page answer the
-  across-sites one (three axes on three different sites have a common
-  anticommutant and the criterion carries no ceiling). Different objects, and
-  the same-site one is where an iff can bite. That law is also **conditional on
-  H**, as that page's abstract states (its §8 theorem is stated for Heisenberg
-  coupling on any graph): the
-  criterion says the U for two-axis noise is the global product of the MISSING
-  letter, so H may carry a field along that letter and no other. Under Z + X noise
-  on every site with U = ΠY, a Y field commutes with U and an X or a Z field does
-  not, since conjugation by Y flips both. The Y-field row is the one nobody would
-  guess, and it is a scope fence this theorem owes that one.
 - **[`docs/GLOSSARY.md`](../GLOSSARY.md)** carries the far-end count measured
   three times and named only as modes: *"NONE at all under a generic Hermitian
   H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3,
@@ -186,6 +174,22 @@ reviewers checked it against the stores at source.
   built and verified bit-exactly (Q·L·Q⁻¹ = −L−2Σγ·I to ‖·‖ ≤ 10⁻¹¹,
   N=3,4,5)"*, which is the repo constructively exhibiting a palindromizer for a
   family of palindromic cases.
+-->
+
+**And one page in exactly this territory:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
+§8 states an iff in exactly this territory, *"the Liouvillian palindrome holds under dephasing
+noise if and only if the noise has at most two Pauli axes"*, and it is the
+SAME-SITE reading, where F138 clause 1 and the pairing page answer the
+across-sites one (three axes on three different sites have a common
+anticommutant and the criterion carries no ceiling). Different objects, and
+the same-site one is where an iff can bite. That law is also **conditional on
+H**, as that page's abstract states (its §8 theorem is stated for Heisenberg
+coupling on any graph): the
+criterion says the U for two-axis noise is the global product of the MISSING
+letter, so H may carry a field along that letter and no other. Under Z + X noise
+on every site with U = ΠY, a Y field commutes with U and an X or a Z field does
+not, since conjugation by Y flips both. The Y-field row is the one nobody would
+guess, and it is a scope fence this theorem owes that one.
 
 **What is new, and it is narrow.** Not the
 forcing step (F103 §7.5, in a smaller setting). Not the equality-case technique
@@ -463,7 +467,7 @@ with no palindrome anywhere in sight.
 
 The tempting name for `ker(L + 2σ)` is *the fastest-decaying modes*, and it is
 wrong twice. First, when 𝒲 = 0 the set is empty while the spectrum still has a
-leftmost point: the GLOSSARY row quoted above measures a generic Hermitian H
+leftmost point: a [GLOSSARY](../GLOSSARY.md) row measures a generic Hermitian H
 whose maximum rate falls short of 2σ entirely. Second, and less obviously, even
 when the value −2σ IS attained on the line Re = −2σ, `ker(L + 2σ)` need not
 contain those modes: §(b)'s argument applies to any eigenvector with

@@ -41,7 +41,9 @@ The hardware runner stays in the external pipeline and is not part of this recor
 
 ---
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 Swept on 2026-10-13 by store. One store-sweep agent went over the markdown stores, the registries and the flight tooling. Review rounds rechecked them, and the load-bearing lines were re-read at source.
 
@@ -94,6 +96,7 @@ Adjacency, asked as its own question:
 - **F84's net-cooling vector and the law's condition are one object:** L(I) = Σ_l Δγ_l Z_l. §7 names F84 in its sweep line and in its finite-temperature notes on the words "detailed balance", not as the vector its condition reads.
 - **The counting law of limit 4 has the shape of a common mode the repository already names.** One is the absorption theorem's collapse to the count ([PROOF_ABSORPTION_THEOREM.md](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) lines 133 to 137: "a function of the count alone … The collapse is where the uniform hypothesis is spent"). The other is [CMRR_BREAK_NONUNIFORM_GAMMA.md](CMRR_BREAK_NONUNIFORM_GAMMA.md) (line 149). There it is dephasing; here it is T1.
 - **The no-flux sentence and limit 1 are one object.** It closes §7's rigidity list, which reads it for the one-excitation block, not for a transposed circuit.
+-->
 
 ## The design
 

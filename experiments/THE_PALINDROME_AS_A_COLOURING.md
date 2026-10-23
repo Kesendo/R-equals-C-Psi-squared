@@ -12,7 +12,9 @@ which holds an invertible element exactly when the palindrome holds. This page l
 
 The word is used once already. `PalindromeSoftCertifier`'s `LinearSiteColoring` 2-colours the site graph: a per-site string K, Z on one sublattice, with K·H·K = −H, a string that **anticommutes** with H; F103 §7.12 treats that site-graph test as a proxy for a diagonal operator on the basis-state graph. The colouring here chooses a string that **commutes** with H and anticommutes with the jumps. The two are siblings, one for the Hamiltonian's sign flip and one for the dissipator's.
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 Two scouts went through the stores by name before this page was written, and two review rounds checked the record against its sources.
 
@@ -29,7 +31,10 @@ For the frame section, three more scouts searched the same stores for sums of st
 
 For [two letters on a site](#two-letters-on-a-site) the sweep went to F158's proof (§(a), (d), (e), (f5)), the frame theorem and its gate stage F, the complement-connection theorems (one jump per dephased site throughout, and their frame from a flat section, the adjacency that section names), MirrorWorld's EndCount and its test of the counterexample row, the census scripts (stage C of the page's gate enumerates two-axis sites but records only the clause-accepted broken rows; the N = 4 census takes one axis per site), F138 and F158 in the registry, the OpenArcs registry, the typed layer (Claims and witnesses), `experiments/`, `hypotheses/`, `reflections/`, `fw.Confirmations`, `docs/CAUGHT_ERRORS.md` (the two-axis far end Y^⊗N and the flat-section entry) and the glossary: none held a criterion or a census of two-letter rows with undephased sites, and the counterexample row of that section was the one instance; the two-axis passage of [MIRROR_SYMMETRY_PROOF](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) reads such sites through colours and odd words, not frames.
 
-Checked for adjacency. F5's commuting string and F158's string in 𝒲 are the same kind of object at the two edges of the rate window; F5 cites F158's zero-error end and F158 cites F5, but neither names the other's string. The per-site routers are never phrased as a string in 𝒲. F103's 2-colouring and this colouring are siblings that do not cite each other. No store states that F138's clauses are the one-colour solutions of a colouring, or counts how many exceptions a single string explains. That is what this page adds; the sufficiency it uses is F158's.
+Checked for adjacency. F5's commuting string and F158's string in 𝒲 are the same kind of object at the two edges of the rate window; F5 cites F158's zero-error end and F158 cites F5, but neither names the other's string. The per-site routers are never phrased as a string in 𝒲. F103's 2-colouring and this colouring are siblings that do not cite each other.
+-->
+
+Nothing in the repo states that F138's clauses are the one-colour solutions of a colouring, or counts how many exceptions a single string explains. That is what this page adds; the sufficiency it uses is F158's.
 
 ## The colouring
 

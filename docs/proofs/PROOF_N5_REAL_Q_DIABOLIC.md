@@ -37,7 +37,9 @@ statement, not a count of floating-point display midpoints. Of those 266 loci,
 118 have purely imaginary q where the block is Hermitian and 148 are generic
 complex.
 
-## The sweep, stores by name
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+The sweep, stores by name
 
 `experiments/F89_PATH_K_DIABOLIC.md` holds both the bounded R-even scan and the
 complete Route-B inventory. The former does not reach this R-odd locus; the latter
@@ -77,20 +79,12 @@ fold-checkerboard and gauge criteria that decide when a sector discriminant is
 real; neither decides a Jordan type.
 
 The typed layer has a direct owner. `RouteBN5RealQSemisimpleClaim` is F164 and
-`RouteBN5RealQSemisimpleWitness` is live at `inspect --root n5diabolic`.
-`DiabolicReflectionParityWitness` (`inspect --root diabolicparity`) instead grounds
+`RouteBN5RealQSemisimpleWitness` is live at the inspect root `n5diabolic`.
+`DiabolicReflectionParityWitness` (the inspect root `diabolicparity`) instead grounds
 the R-even odd-N mechanism and does not reach this R-odd locus. Diagnostics also
 carries the numerical predecessors `RouteBA2Inventory` and
 `RouteBA2CharacterClassifier`; they remain useful independent readings rather
 than the current exact owner.
-
-**Step 2 below is prior work, and saying so strengthens it.** The Hermitian anchors
-are not asserted here for the first time: `experiments/F89_PATH_K_DIABOLIC.md:145`
-already reads the R-odd negative-w family as "semisimple by Hermiticity exactly as on
-the R-even side (the block is real-symmetric at Re q = 0)", and
-`docs/CAUGHT_ERRORS.md:2676-2677` states the same with the generator written out,
-"M(q)=D/2+iqK/2 there, with D real diagonal and K real symmetric". What is new is not
-the anchors but that a single Galois orbit connects them to the physical point.
 
 Two further stores, swept and returning a different object.
 `experiments/F89_PATH_K_GALOIS.md` is the repo's Galois file, but it certifies that
@@ -108,6 +102,17 @@ above resolve. `fw.Confirmations`
 (24 entries) returns one EP entry, `ibm_ep_onset_may2026`, an IBM Kingston
 population trajectory from 2026-05-31; it is not a reading of this locus. No
 hardware measurement of this point exists.
+-->
+
+## What this adds
+
+**Step 2 below is prior work, and saying so strengthens it.** The Hermitian anchors
+are not asserted here for the first time: `experiments/F89_PATH_K_DIABOLIC.md:145`
+already reads the R-odd negative-w family as "semisimple by Hermiticity exactly as on
+the R-even side (the block is real-symmetric at Re q = 0)", and
+`docs/CAUGHT_ERRORS.md:2676-2677` states the same with the generator written out,
+"M(q)=D/2+iqK/2 there, with D real diagonal and K real symmetric". What is new is not
+the anchors but that a single Galois orbit connects them to the physical point.
 
 What is new is one fact and its consequence: that A₂_O(−t²) is irreducible over ℚ,
 so that the 26 q-lifts of the 13 A₂_O roots form a **single** Galois orbit, and that

@@ -61,7 +61,9 @@ claim's own from-below tests are `CrackedRingExactCurveClaimTests` in
   meets, [F129](../ANALYTICAL_FORMULAS.md) for the comb law that Theorem G is then
   applied to in [The Comb on the Road](../../experiments/THE_COMB_ON_THE_ROAD.md).
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 The sweep was run on 2026-09-02 by three agents over the markdown layer, the typed
 layer and the comb laws, starting from the record the registry entry carried the
@@ -150,6 +152,7 @@ evening before and adding what a record auditor then found missing from it
 - **Nothing found:** `fw.Confirmations` and the C# `ConfirmationsRegistry` (nothing
   ring-shaped, nothing defect-shaped; the F129 flight on the comb belongs to the comb
   page's sweep), `recovered/`.
+-->
 
 **What is new here, stated narrowly.** The algebra is standard tight-binding
 scattering, and the experiment page fences it so. What this file adds to the repo is

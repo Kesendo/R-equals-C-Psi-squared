@@ -40,35 +40,11 @@ particular operator, Π, unitary and in closed form.
 
 ---
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 This is the Stage-0 record, and it is the reason this page is small.
-
-**The field name was already here, and this page is the reconciliation of two
-sentences we had written and not joined.**
-[KMS_DETAILED_BALANCE.md](../docs/KMS_DETAILED_BALANCE.md) lists
-**Q₋, anti-pseudo-Hermiticity**, by name among the symmetries the Sá-Ribeiro-Prosen classification uses; in that
-classification it is the symmetry that asks, on the trace-shifted generator
-L_c = L + σ, for an operator with Q·L_c·Q⁻¹ = −L_c†, while Π's own relation has −L_c where Q₋ has −L_c†. The one-sided
-ℒ_U below has that shape (whether it meets the classification's own conditions
-is not checked here), and the −L† it produces is the step
-that was missing. And
-[SYMMETRY_CENSUS.md](SYMMETRY_CENSUS.md) carries **both** conditions of the
-criterion in the wild, months old: *"UHU† = H … UL_kU† = −L_k … but the
-dissipator is quadratic in L_k, so the overall Liouvillian is invariant."* That
-sentence is correct and it is the reason nothing followed from it: under
-**two-sided** conjugation the sign cancels and U is a symmetry. Under **one-sided**
-multiplication it does not cancel, and the same U reflects. The census wrote
-down Ad_U, the two-sided map Π² equals for an orthogonal U, and read it as
-invariance, which is the same reading a session repeated
-on 2026-08-26 before this page existed.
-
-The **open arc** `f138_converse_failures`
-([OpenArcsRegistry.cs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs))
-asked since 2026-08-03 for a reflector **S** with S L S⁻¹ = −L − 2σ, named the
-row to use, and recorded that the bare site reflection was refuted from below.
-It did not ask for U; the criterion below is a different object. What this page
-owes the arc is the question and the row, not the answer.
 
 **[ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) F138** held the law
 being tested, its converse withdrawn on 2026-08-03, and every count quoted here:
@@ -112,6 +88,35 @@ gitignored under the WIP rule and therefore invisible to every sweep, had
 already built most of a search for S. They left no artifact and their only
 surviving verdict was one sentence in a docstring. A local scout is not the repo
 answering.
+-->
+
+## What this page joins
+
+**The field name was already here, and this page is the reconciliation of two
+sentences we had written and not joined.**
+[KMS_DETAILED_BALANCE.md](../docs/KMS_DETAILED_BALANCE.md) lists
+**Q₋, anti-pseudo-Hermiticity**, by name among the symmetries the Sá-Ribeiro-Prosen classification uses; in that
+classification it is the symmetry that asks, on the trace-shifted generator
+L_c = L + σ, for an operator with Q·L_c·Q⁻¹ = −L_c†, while Π's own relation has −L_c where Q₋ has −L_c†. The one-sided
+ℒ_U below has that shape (whether it meets the classification's own conditions
+is not checked here), and the −L† it produces is the step
+that was missing. And
+[SYMMETRY_CENSUS.md](SYMMETRY_CENSUS.md) carries **both** conditions of the
+criterion in the wild, months old: *"UHU† = H … UL_kU† = −L_k … but the
+dissipator is quadratic in L_k, so the overall Liouvillian is invariant."* That
+sentence is correct and it is the reason nothing followed from it: under
+**two-sided** conjugation the sign cancels and U is a symmetry. Under **one-sided**
+multiplication it does not cancel, and the same U reflects. The census wrote
+down Ad_U, the two-sided map Π² equals for an orthogonal U, and read it as
+invariance, which is the same reading a session repeated
+on 2026-08-26 before this page existed.
+
+The **open arc** `f138_converse_failures`
+([OpenArcsRegistry.cs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs))
+asked since 2026-08-03 for a reflector **S** with S L S⁻¹ = −L − 2σ, named the
+row to use, and recorded that the bare site reflection was refuted from below.
+It did not ask for U; the criterion below is a different object. What this page
+owes the arc is the question and the row, not the answer.
 
 ---
 

@@ -37,7 +37,9 @@ is the ledger.
 
 ---
 
-## What the repo already held, before any of this was run
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, before any of this was run
 
 The sweep, store by store. It moved the result three times and every time
 downward, which is why this section is long.
@@ -176,6 +178,9 @@ F143 recorded as "the narrower XY re-derivation of a lemma the repo already
 held, minted five days afterwards without citing it, which is exactly the prey
 class the hunt was looking for". The lemma re-derived here is the same one and
 the five days are the same five days.
+-->
+
+## The objects, the words, and the γ book
 
 **Which objects, because there are three and the arc insists on the split.** The
 **propagation** of §§1-4 runs on ρ in the **(1,1) joint-popcount block**, the

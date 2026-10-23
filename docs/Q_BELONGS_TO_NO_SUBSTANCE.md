@@ -17,7 +17,9 @@ were never in one room. This document puts them in one room and adds what
 follows for the substrate folders, where the choice of J and γ was never made
 explicitly and two denominators were imported without a source and reused.
 
-## What the sweep returned
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the sweep returned
 
 `docs/ANALYTICAL_FORMULAS.md` returned the bit-exact γ₀-invariance of Q_peak
 and HWHM_left/Q_peak across γ₀ ∈ {0.025, 0.05, 0.10} (`:2870`), the measurement
@@ -89,6 +91,7 @@ one this document rests on.
 
 `recovered/` returned nothing. `hypotheses/archive/` returned nothing beyond a
 single line in the retired `GAMMA_TO_GRAVITY.md`.
+-->
 
 ## γ₀ is the unit
 

@@ -43,7 +43,9 @@ law). A Θ-mirror collision pair stands at first order exactly when n is even, w
 n = 9 pair separates on the road although it is protected against ZZ. Each collision is a coincidence with no forcing yet found; the rate at which the road dissolves
 it is forced, and since F161 so is the order at which that forcing runs out.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep was run 2026-09-02 by three agents over the markdown layer, the typed layer and the five
 comb laws, store by store, and re-run by two record auditors and a reader whose corrections are folded
@@ -57,8 +59,8 @@ omitting F130's, and did not know that the census's first column is a committed 
   both families the level map is injective on clean triples, certified to n = 210; the collision
   COUNTS per firing n are the thirteen closed forms of F129's family inventory
   ([F129_FAMILY_INVENTORY](F129_FAMILY_INVENTORY.md), typed as `CollisionFamilyInventory`, gate
-  `f129_family_inventory.py`), and the census column below reproduces them row for row (run with
-  `--fast` on 2026-09-02: 1, 25, 127, 162, 20, 255, 411, 244, 1313). F160 holds the road, and its
+  `f129_family_inventory.py`), and the census column below reproduces them row for row (run in its
+  fast mode on 2026-09-02: 1, 25, 127, 162, 20, 255, 411, 244, 1313). F160 holds the road, and its
   sweep record carried, until this page, the sentence *"none of those has been run on this road"*; the
   same change that lands this page rewrites it. F65 holds the endpoint rates
   α_k/γ₀ = (4/(N+1))·sin²(kπ/(N+1)) for the dephased endpoint, which enter this page not as a law
@@ -166,6 +168,7 @@ omitting F130's, and did not know that the census's first column is a committed 
   2026-09-01, four are the crack's own rounds (the landing round, the exactness round, the five review
   rounds, the F160 mint); nothing on the comb laws. The round on this page is the FIRST entry of 2026-09-02; the second, from the round that
 landed F161, carries this page's own repairs.
+-->
 
 ## Which of the five laws can be run on a detuned spectrum at all
 

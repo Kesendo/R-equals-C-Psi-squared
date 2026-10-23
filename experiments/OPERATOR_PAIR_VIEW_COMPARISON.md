@@ -13,7 +13,9 @@ Prepare one excitation at a site, read the population at a site, and ask how man
 
 The conventions are the flow page's: H = J Σ_b (XX + YY + ZZ)_b on the open chain, so the hop is 2J, and local Z-dephasing D(ρ) = Σ_l γ_l (Z_l ρ Z_l − ρ), which charges a cell −2γ_l for every site l where its two indices disagree. In every map the row is the preparation site a and the column the readout site b, sites counted from zero. The lower panel starts from |1⟩⟨1| each time; under central light its curve lies exactly on zero.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep went store by store; what each returned:
 
@@ -25,9 +27,12 @@ The sweep went store by store; what each returned:
 - **`docs/CAUGHT_ERRORS.md`.** The two 2026-09-26 entries on parity mixing and on modular counts, whose objects the sections on the flow and on the odd side below touch, and the entry on the repair behind them; the 2026-08-24 entry on the centre kernel.
 - **OpenArcs.** `site_resolved_vacuum_block` (the (1,1) block as I⊗M + conj(M)⊗I off the population rows, in the arc's ordering of the tensor factors, M the (0,1) generator of F152); `compressed_density_laws`, the R₉₀-locus chain's own arc; `the_gate_that_does_not_gate`, a sweep with γ > 0 on at least ten of the eleven seats, where nothing is blind and neither of its candidate functionals separates the seats, and which carries the blind count's modular reading; `corner_beat`, which records a Jordan block of length three for the frozen root in the XY variant at N = 6.
 - **Confirmations.** `ibm_ep_onset_may2026`: the per-site populations of a single-excitation walk on a three-site chain, XY coupling, dephasing on every site. No flight has measured a signal rank.
-- **Typed layer.** `SeatCutBlindnessClaim` with its witness at `inspect --root blind`; `FrozenDivisorClaim` with `inspect --root divisor`; `DephasingFrontRenewalClaim`; `F71MirrorBlockRefinement` and `InhomogeneousGammaF71BreakingWitness` for the reflection under palindromic rates; `MirrorOrderSortingClaim` (F131); `MissingPhaseSlowReadoutClaim` with its witness at `inspect --root missingphasereadout`; `CoherenceHorizonClaim`, the slow mode of this block on the XY chain, where the channel law below does not hold. MirrorWorld's `BlindSeatTests` pins a blind superposition that moves while its seat stays empty.
+- **Typed layer.** `SeatCutBlindnessClaim` with its witness at the inspect root `blind`; `FrozenDivisorClaim` with the inspect root `divisor`; `DephasingFrontRenewalClaim`; `F71MirrorBlockRefinement` and `InhomogeneousGammaF71BreakingWitness` for the reflection under palindromic rates; `MirrorOrderSortingClaim` (F131); `MissingPhaseSlowReadoutClaim` with its witness at the inspect root `missingphasereadout`; `CoherenceHorizonClaim`, the slow mode of this block on the XY chain, where the channel law below does not hold. MirrorWorld's `BlindSeatTests` pins a blind superposition that moves while its seat stays empty.
 
-Checked for adjacency against all of these: every bound below is one of these objects read as a statement about the rank of a population curve, which none of their homes states. The maps that fall below their bounds on the R₉₀ locus sit at the frozen divisor's exceptional couplings of PROOF_R90_FROZEN_DIVISOR §9. The channel law of the section on uniform light is F126's renewal closed on the finite chain by B0's pairing; for one excitation on the Heisenberg chain it makes the Neumann density profile exact, the harmonic the survivor-flip page reaches for the half-filling survivor of the same chain through diffusion, and F123 on the XY chain. The first way a mode hides below, a preparation that cannot excite it or a readout that cannot read it, is the pair of questions the missing-phase readout proof keeps track of for its slow cluster.
+Checked for adjacency against all of these: every bound below is one of these objects read as a statement about the rank of a population curve, which none of their homes states.
+-->
+
+The maps that fall below their bounds on the R₉₀ locus sit at the frozen divisor's exceptional couplings of PROOF_R90_FROZEN_DIVISOR §9. The channel law of the section on uniform light is F126's renewal closed on the finite chain by B0's pairing; for one excitation on the Heisenberg chain it makes the Neumann density profile exact, the harmonic the survivor-flip page reaches for the half-filling survivor of the same chain through diffusion, and F123 on the XY chain. The first way a mode hides below, a preparation that cannot excite it or a readout that cannot read it, is the pair of questions the missing-phase readout proof keeps track of for its slow cluster.
 
 ## What hides a mode
 

@@ -10,16 +10,22 @@
 - F38 (Π² = (−1)^bit_b on Pauli strings) and [the bit_b parity proof](PROOF_BIT_B_PARITY_SYMMETRY.md) (bit_b is the character of conjugation by X^⊗N, the global spin flip)
 - **F118 and [the Π = R·D factorisation](PROOF_PI_FACTORS_AS_R_TIMES_D.md)**, F119, and F114 (typed as `compute/RCPsiSquared.Core/Symmetry/CommutatorDConjugationSign.cs`): the parents of the swap rule below, see §(d)
 
-## What the repo already held, and what this adds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
 The sweep, run 2026-08-19 by agents over `docs/proofs/`, `docs/ANALYTICAL_FORMULAS.md`, `experiments/`, `hypotheses/` including `archive/`, `recovered/`, `reflections/`, `compute/` including the OpenArcs and both Confirmations registries, `docs/CAUGHT_ERRORS.md` and `simulations/framework/`:
+
+- **Nothing found:** `fw.Confirmations` and the C# `ConfirmationsRegistry` (no hardware confirmation touches this quantity), `hypotheses/archive/`, `recovered/`.
+
+The returns that place this theorem among what the repo owns stand visible in the next section.
+-->
+
+## What the repo already held, and what this adds
 
 - **Owned and proven, and this theorem contains it:** "L_σ has zero Π-conjugation ±i content whenever σ is bit_b-even", section (b) of [the F112 non-Hermitian proof](PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md), universal N, from F38.
 - **The swap rule's parents are owned, and two of them are typed.** F118 factors Π_Z = R ∘ D with D the transpose superoperator, which on the Pauli basis is diag((−1)^{n_Y}); an antiautomorphism is precisely what exchanges left multiplication with right multiplication, and [the antilinear-triangle proof](PROOF_ANTILINEAR_TRIANGLE.md) says the same for the F118 edge mirrors R and 𝓕R, where conjugation by 𝒦 swaps ρ·F with F·ρ (a statement about those mirrors, not about Ad_Π on a one-sided multiplication). F114 owns the commutator combination D·L_σ·D = (−1)^{n_Y+1}·L_σ. [The factorisation proof](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §(f) owns the trichotomy "Π_Z·L_σ·Π_Z⁻¹ = −L_σ, or +L_σ, or an anticommutator superoperator, neither ±L_σ". **What §(d) below adds is the per-side form with both signs, which pins the anticommutator sign that trichotomy leaves open**, and what follows from it. This parentage was missed by the session's first sweep, which asked about the consequence (the ±i content) instead of the mechanism (how Π conjugates a one-sided multiplication); a second sweep found it.
 - **Owned and free:** the hypothesis-free half of the bilinear expansion of a squared-norm difference, in [the F113 proof](PROOF_F113_COEFFICIENT_DERIVATION.md). Its collapse to `4·Re⟨·,·⟩` is specific to F113's configuration and is not used here.
 - **Measured only, and derived here:** the anticommutator lift's own balance, recorded 2026-08-19 in [`hypotheses/THE_DRAIN_HAS_NO_CHIRALITY.md`](../../hypotheses/THE_DRAIN_HAS_NO_CHIRALITY.md) and gate G9b of [`f112_gain_loss_carrier_check.py`](../../simulations/f112_gain_loss_carrier_check.py); and the bit_b sorting of A, recorded the same day as a one-directional measurement at N = 2, 3.
 - **A near neighbour that was REFUTED and is a different object:** [`reflections/POLARITY_COORDINATES.md`](../../reflections/POLARITY_COORDINATES.md) conjectured that "any operator of the form A ⊗ B* + B ⊗ A* is automatically balanced" and killed it at 240 of 240 configurations. That is the CONJUGATE pairing; the lifts here are the TRANSPOSE pairing. The conjugate arm is the positive control of gate G9b in the sibling checker, where it is macroscopic.
-- **Nothing found:** `fw.Confirmations` and the C# `ConfirmationsRegistry` (no hardware confirmation touches this quantity), `hypotheses/archive/`, `recovered/`.
 
 ## Abstract
 

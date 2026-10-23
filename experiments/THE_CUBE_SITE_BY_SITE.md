@@ -8,6 +8,8 @@ that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube
 checks, ALL PASS); where a statement below rests on an argument or on a computation rather than on a check, it
 says so.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 **What the repo already held (sweep).** Whether a product of one-site maps reflects the generator is the house's
 per-site routing question: `KBodyPalindromeRouting` and `PalindromeSoftCertifier` (Diagnostics), the golden router
 of [PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) and its `GoldenRouterClaim`, the
@@ -20,12 +22,14 @@ moves finds S_XY in a thermal bath by itself. Swept besides: `docs/proofs/` (the
 windowed converse, F103, F108 Part 2, MIRROR_SYMMETRY_PROOF), the Core claim graph (`AntilinearTriangleClaim`,
 `F84ThermalAmplitudeDampingPi2Inheritance`, `PalindromeTwoEndCountClaim`), MirrorWorld's `AntilinearTriangle`,
 the OpenArcs registry (`f138_converse_failures`, a monomial search never ported), `fw.Confirmations`
-(`palindrome_trichotomy`), the glossary (the Π row's per-site families) and `docs/CAUGHT_ERRORS.md`. No store held
-a site map that carries a weight beside the move beyond Z dephasing. Checked for adjacency: the instrument's
+(`palindrome_trichotomy`), the glossary (the Π row's per-site families) and `docs/CAUGHT_ERRORS.md`. Checked for adjacency: the instrument's
 support-set equations against `KBodyPalindromeRouting` (the same condition, continuous here); its identity row
 against the router proof's identity column (§4); its weight against M_β's thermal weight and the transpose law of
 `AntilinearTriangleClaim`; its turned maps against F137's turns about Z; its answer with fields against F137's
 chained carriers, which compose into it.
+-->
+
+Nothing in the repo held a site map that carries a weight beside the move beyond Z dephasing.
 
 ## The instrument
 

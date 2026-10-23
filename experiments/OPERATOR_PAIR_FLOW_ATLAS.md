@@ -13,7 +13,9 @@ Heisenberg began in 1925 by throwing the orbits away and keeping the pairs. What
 
 **Reading the picture.** Rows are the first index a (the ket), columns the second index b (the bra). Blue edges carry −iH on a, orange edges +iH on b. Each cell shows D and ω of its diagonal entry D + iω. The purple ring marks (0,0), whose return curve is purple on the right; the green ring marks (1,1), whose return curve is green.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep for this page went store by store; what each returned:
 
@@ -23,8 +25,11 @@ The sweep for this page went store by store; what each returned:
 - **OpenArcs.** The arc `site_resolved_vacuum_block` writes the block as I⊗M + conj(M)⊗I off the population rows, in its own ordering of the tensor factors, M the (0,1) generator of F152, and warns that the blocks around it go by several names in the repo, F140's single-excitation corner block being this one. This page calls it the (1,1) block.
 - **`experiments/`, glossary, `docs/CAUGHT_ERRORS.md`.** [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md), parked, builds this block for the uniform XY chain in `simulations/the_flow_endpoints.py`, factors its characteristic polynomial exactly at N = 2, 3, and certifies by exact ranks that the eigenvalue coincidence at the coherence horizon is defective; this page adds the ZZ phases of the cells, site-dependent γ_l and one fixed readout curve. [The Bond and the Seat at fixed γ](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) ends by asking for a fixed-γ₀ observability criterion for its continuous trace, a rank over bond directions rather than over poles, which these pages do not answer; the [signal-processing view](SIGNAL_PROCESSING_VIEW.md) reads modal observability off other signals, and its Prony analysis reads a model order off a float rank of sampled Hankel matrices; the glossary has no entry for a signal rank; the ledger holds the row and column convention trap named under Controls.
 - **Confirmations.** `ibm_ep_onset_may2026` flew single-excitation populations on a three-site chain, the flight of The Flow Between Two Singularities; no flight has measured a signal rank.
+-->
 
-What none of them holds exactly is the object on the right of the figure: the rank of the moment-Hankel matrix of one fixed readout curve, which the Prony analysis estimates from samples and this page takes from exact moments. Checked for adjacency, the pieces were all there: the price is the Absorption Theorem's, the block is the one the arc and F140 name, and the rank's bounds are owned. [The continuation](OPERATOR_PAIR_VIEW_COMPARISON.md) bounds it by objects the repo already owns, F157's seat count for light on one seat and F140's frozen divisor on the R₉₀ locus, whose frozen space at the uniform point is Ω₂ (at N = 3 the line of the W-fidelity operator). The bounds meet most of the maps computed there, and that page names the ones they miss.
+## What this adds
+
+What none of the repo's stores holds exactly is the object on the right of the figure: the rank of the moment-Hankel matrix of one fixed readout curve, which the Prony analysis estimates from samples and this page takes from exact moments. Checked for adjacency, the pieces were all there: the price is the Absorption Theorem's, the block is the one the arc and F140 name, and the rank's bounds are owned. [The continuation](OPERATOR_PAIR_VIEW_COMPARISON.md) bounds it by objects the repo already owns, F157's seat count for light on one seat and F140's frozen divisor on the R₉₀ locus, whose frozen space at the uniform point is Ω₂ (at N = 3 the line of the W-fidelity operator). The bounds meet most of the maps computed there, and that page names the ones they miss.
 
 ## The model and the reading window
 

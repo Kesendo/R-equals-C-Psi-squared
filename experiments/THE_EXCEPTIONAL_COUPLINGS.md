@@ -38,7 +38,9 @@ small-J criterion; those are recorded here as observations.
 argued and its Section 8 listed it first among the open items; it now carries it as
 Proposition 5.3, and what that proposition leaves finite is this note.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 Store by store, because a sweep that is not written down is a sweep that gets skipped, and this
 note is where the convention requiring it was rewritten on 2026-08-08. The OpenArcs registry
@@ -80,6 +82,7 @@ of it is the pre-commit hook `.githooks/check_coupling.py` and this section.
 - **`fw.Confirmations`, `docs/GLOSSARY.md`**: nothing. No hardware confirmation touches this
   object, and the glossary spends "band" a third way that is unrelated, a pre-registration
   constant.
+-->
 
 This note is the companion measuring, not a standalone document: the band, the frozen root,
 the two ladders Φ and S⁺ with their lowest-weight spaces, V₀ = ker(ad_h) and the transform

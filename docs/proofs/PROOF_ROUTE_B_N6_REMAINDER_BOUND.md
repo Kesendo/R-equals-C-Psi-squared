@@ -5,11 +5,28 @@ complex neighborhood on which both EP-location branches are holomorphic and
 their corrected Taylor remainder is bounded. This is a local computation
 for one crossing, not a radius uniform over the 266-locus family.
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 The stores were searched by this proof's primitives: a certified parameter disk, a
 Banach contraction with a fixed preconditioner, and a Taylor remainder bound at one
 Route-B crossing.
+
+Two stores already carry this result's radii by value, the registry and the OpenArcs
+arc `diabolic_over_higher_n`; the parent proof [F163](PROOF_ROUTE_B_N6_UNFOLDING.md) and the
+locus atlas name the disks without their sizes. All four say the family theorem supplies
+no uniform radius, and nothing in the repo claims one.
+
+The remaining stores return nothing. `docs/proofs/` holds no other ball or interval
+arithmetic anywhere. There is no NULL result on uniform radii or all-N extension; what
+exists instead is a chain of stated non-extensions, and this proof's fences agree with
+every one of them. `docs/GLOSSARY.md` defines no term for a certified parameter radius;
+its one "radius" entry, the F135 record radius, is a different object. `docs/CAUGHT_ERRORS.md` holds nothing on radius arithmetic. `fw.Confirmations`
+holds no hardware measurement touching this.
+-->
+
+## Where this sits in the repo
 
 The contraction design is not new here, and its source is in the same arc. The N=4
 certificates already choose a fixed nonsingular matrix Y, bound the row sums of
@@ -24,18 +41,7 @@ on the 90-dimensional Schur-complement pencil with an eta = epsilon^2 triangular
 desingularization for the opposite-end profile.
 
 [F163](../ANALYTICAL_FORMULAS.md) states the gap this proof fills, that "the algebraic
-corollary alone supplies no remainder bound or explicit ε radius". Two stores already
-carry this result's radii by value, the registry and the OpenArcs arc
-`diabolic_over_higher_n`; the parent proof [F163](PROOF_ROUTE_B_N6_UNFOLDING.md) and the
-locus atlas name the disks without their sizes. All four say the family theorem supplies
-no uniform radius, and nothing in the repo claims one.
-
-The remaining stores return nothing. `docs/proofs/` holds no other ball or interval
-arithmetic anywhere. There is no NULL result on uniform radii or all-N extension; what
-exists instead is a chain of stated non-extensions, and this proof's fences agree with
-every one of them. `docs/GLOSSARY.md` defines no term for a certified parameter radius;
-its one "radius" entry, the F135 record radius, is a different object. `docs/CAUGHT_ERRORS.md` holds nothing on radius arithmetic. `fw.Confirmations`
-holds no hardware measurement touching this.
+corollary alone supplies no remainder bound or explicit ε radius".
 
 The typed layer holds this result on its claim side only.
 `RouteBN6RemainderBoundClaim` carries the statement with F163 as its single typed parent,
