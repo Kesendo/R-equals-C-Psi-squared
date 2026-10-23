@@ -317,6 +317,8 @@ Gibbs state or bath temperature.
 
 **Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where the one-site steady-state ratio is the same on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight, and with X or Y dephasing from the steady state's); no site-local element where that ratio differs across a hopping bond; OPEN beyond it**
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **Swept for the element.** [ANALYTICAL_FORMULAS](ANALYTICAL_FORMULAS.md): F137 holds the
 thermal palindrome and the element S_XY of the shape −L† − c, and its one-ratio carrier
 holds the weighted transpose as an equality of spectra; F119 and F84 hold the transpose
@@ -337,8 +339,11 @@ transpose; its `Sextant` searches the one-site closure, which holds no weight, a
 S_XY times the copies and nothing of Π's shape in a thermal bath at ratio ⅓. The OpenArcs
 registry, `fw.Confirmations`, the glossary, [CAUGHT_ERRORS](CAUGHT_ERRORS.md), the Core
 claims and the Diagnostics witnesses: nothing on a weighted mirror. No store held a
-single operator of the shape −L − c at finite temperature. Checked for adjacency: the
-weight against §7's (the same object); the letter map below at equal rates against
+single operator of the shape −L − c at finite temperature.
+-->
+
+Checked for adjacency: the
+weight against PROOF_ANTILINEAR_TRIANGLE §7's (the same object); the letter map below at equal rates against
 F108 Part 2's X-dephasing Π (per site −i·τ is Π_5b(X)⁻¹, the other orientation);
 τ against Π_Z (τ(ρ) = Y⊗N·Π_Z(ρ), the shift by Y⊗N after Π_Z, two reflections of the
 Z-dephasing dissipator, so τ keeps that dissipator, which is why Z dephasing breaks

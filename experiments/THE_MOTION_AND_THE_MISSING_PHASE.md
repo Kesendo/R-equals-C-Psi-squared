@@ -26,7 +26,9 @@ At Δ = 0 and general odd N with one end bond detuned to 1+ε the encoding leaks
 
 Not claimed: no hardware run and no F number minted; the sampled ordering d_out > d_2 is a finite observation, not a theorem; the short-time coefficients are derivation checks at five N, not an all-N proof; N = 3 is excluded because the two copies are no longer orthogonal on the outer sites.
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 The repository search followed the primitives through the stores. [The formula registry](../docs/ANALYTICAL_FORMULAS.md) supplies F157's blind space, F70's local selection rule, F158's commuting/anticommuting operator conditions, and F1's corollary that the global flip X^{⊗N} is Π², the square of the palindrome conjugation, pairing the joint-popcount sectors (p_c, p_r) ↔ (N−p_c, N−p_r): it is why the two copies of A, (1,1) and (N−1,N−1), and the two copies of B, (1,N−1) and (N−1,1), coincide in §8.1, while the A ↔ B relation is the one-sided fold below.
 
@@ -45,8 +47,11 @@ The [hardware registry](../simulations/framework/confirmations.py) returned two 
 Core and Diagnostics contain [the blind-seat claim](../compute/RCPsiSquared.Core/Symmetry/SeatCutBlindnessClaim.cs), [its witness](../compute/RCPsiSquared.Diagnostics/Foundation/SeatCutBlindnessWitness.cs), [the two-end claim](../compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs) and [its witness](../compute/RCPsiSquared.Diagnostics/Foundation/PalindromeTwoEndCountWitness.cs), and [`F89CrossFoldSimilarityClaim`](../compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs) types the antiunitary form of the same one-sided fold; [`XGlobalChargeConjugationPairing`](../compute/RCPsiSquared.Core/SymmetryFamily/XGlobalChargeConjugationPairing.cs) types F1's corollary.
 
 Nearer siblings of the block pair of §8.1: MirrorWorld `Mirror` runs the (1,1)/(1,N−1) fold pair with the price veil at uniform γ past the wall, the A/B pair at price 2Nγ where here the price is 2γ because only the centre is lit; the arc `compressed_density_laws` records the undressed one-sided fold F D F = −D − 2Σ_l γ_l, exact for any Δ and profile; [Palindromic Partner Mode](PALINDROMIC_PARTNER_MODE.md) with F67 and F68 holds, at endpoint dephasing, the bonding mode's palindromic partner and a Bell-pair-like two-branch encoding whose off-diagonal decays at the partner rate, §11's pairing already used as an encoding at another seat; F64 is the single-site rate −Re λ = 2γ_B·|v(B)|², the Absorption Theorem applied to the single-excitation sector, which is what §11 reads; and [Slow-Mode R-Parity](SLOW_MODE_R_PARITY.md) named the R-odd half of the slow-mode landscape as what F86's channel-uniform probe leaves out.
+-->
 
-What none of them assemble is the coherent two-copy superposition with a moving internal state as a prepared state (the cat pair of the opening law is its motionless analogue, internal space of dimension one, under uniform light), its negativity η/2, and the CNOT decoder with U†X_cU = X^{⊗N}; the repository's other decoder, [`DefectDecoder.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs), reads defect locations. No hardware run of this construction exists. The ingredients already have homes; this note puts them together.
+## What this adds
+
+What none of the repository's holdings assemble is the coherent two-copy superposition with a moving internal state as a prepared state (the cat pair of the opening law is its motionless analogue, internal space of dimension one, under uniform light), its negativity η/2, and the CNOT decoder with U†X_cU = X^{⊗N}; the repository's other decoder, [`DefectDecoder.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs), reads defect locations. No hardware run of this construction exists. The ingredients already have homes; this note puts them together.
 
 ## 1. The physical system and its two copies
 

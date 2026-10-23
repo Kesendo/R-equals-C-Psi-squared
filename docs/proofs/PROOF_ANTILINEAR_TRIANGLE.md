@@ -167,6 +167,8 @@ For a number-conserving H that is not real the same steps give **L(H)ᵀ = Γ_β
   - the polarity predicate of the OpenArcs registry;
   - the framework diagnostics, among them `f84_amplitude_damping` and `f81_pi_decomposition`.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 *Swept for this proposition* (2026-10-13), by store:
 - **[Analytical Formulas](../ANALYTICAL_FORMULAS.md):** no weighted transpose. F84, F113, F120 and F137 use "detailed balance" for γ↓ = γ↑ only.
 - **`docs/proofs/`:** nothing beyond this section.
@@ -178,10 +180,13 @@ For a number-conserving H that is not real the same steps give **L(H)ᵀ = Γ_β
   - [THERMAL_BREAKING](../../experiments/THERMAL_BREAKING.md) holds the weight, normalized, as its stationary product state.
   - [PT_SYMMETRY_ANALYSIS](../../experiments/PT_SYMMETRY_ANALYSIS.md) holds the same Roberts-Lingenfelter-Clerk thread.
   - [PRIMORDIAL_QUBIT_ALGEBRA](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Step 7) finds the modular conjugation at I/d to be a complex conjugation, there in the Pauli basis.
-- **`hypotheses/`:** [PRIMORDIAL_QUBIT](../../hypotheses/PRIMORDIAL_QUBIT.md) (lines 366 to 371) finds the strict, untwisted condition maximally violated for every state of its steady manifold. The K-twisted form at β = 0 is §7's corollary; what this proposition adds is β > 0.
-- **[The open questions index](../../review/OPEN_QUESTIONS_INDEX.md):** OQ-168 asks for a finite-temperature hidden-time-reversal construction tied to the thermal palindrome F137. The proposition supplies a finite-temperature time reversal of the generator, K with the thermal weight; whether that is Roberts, Lingenfelter and Clerk's hidden time reversal is not checked (above). For a real H it says nothing spectral, since every matrix is similar to its transpose and the content lies in the form of the weight; for a flux the tie to the palindrome is the paragraph after the proof.
 - **The OpenArcs registry, `fw.Confirmations`, the glossary and [the caught errors](../CAUGHT_ERRORS.md):** nothing on a weighted transpose.
 - **The typed layer:** `F84ThermalAmplitudeDampingPi2Inheritance` uses "detailed balance" for γ↓ = γ↑. MirrorWorld's unital-pair test shows the plain law breaking at unequal rates. No Core claim or Diagnostics witness holds the weighted law; MirrorWorld pins it (below).
+-->
+
+**What this adds.**
+- **`hypotheses/`:** [PRIMORDIAL_QUBIT](../../hypotheses/PRIMORDIAL_QUBIT.md) (lines 366 to 371) finds the strict, untwisted condition maximally violated for every state of its steady manifold. The K-twisted form at β = 0 is §7's corollary; what this proposition adds is β > 0.
+- **[The open questions index](../../review/OPEN_QUESTIONS_INDEX.md):** OQ-168 asks for a finite-temperature hidden-time-reversal construction tied to the thermal palindrome F137. The proposition supplies a finite-temperature time reversal of the generator, K with the thermal weight; whether that is Roberts, Lingenfelter and Clerk's hidden time reversal is not checked. For a real H it says nothing spectral, since every matrix is similar to its transpose and the content lies in the form of the weight; for a flux the tie to the palindrome is the paragraph after the proof.
 
 **Corollary (reciprocity).** For all operators A and B and every t,
 

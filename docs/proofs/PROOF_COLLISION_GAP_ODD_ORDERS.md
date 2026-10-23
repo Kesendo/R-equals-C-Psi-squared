@@ -131,7 +131,9 @@ change's own wording and not prior work; an earlier draft of this paragraph quot
 though it were, having taken a review lens's citation of the staged file for a citation of the
 repository.
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 Swept 2026-09-02 by three agents, one per layer, before any of the algebra below was
 written down, and the finding that mattered most was a negative: the pieces are all
@@ -160,16 +162,6 @@ decay rate and on a different object. **Nothing** in the registry holds a
   the mode basis, and says in one line what that factorization says in the site basis.
   PROOF_K_PARTNERSHIP carries R·ψ_k = (−1)^{k+1}·ψ_k in its closing section and credits it
   to F71; the derivation home is PROOF_C1_MIRROR_SYMMETRY §2.
-  PROOF_MIRROR_ORDER_SORTING (F131) is the repo's general home for *which orders may enter a
-response*: its §1 sorts them by a parity into four cells, of which one is *generic (no
-constraint)*, and its Theorem A is one column of that table. This file's first version did not
-cite the file at all; a review lens supplied it. The eleven Θ-mirror pairs are an instance of
-its EVEN cell, with M = K and the scan parameter u. The other 212 get nothing from it: they fall
-under the cell that imposes no constraint, and they can fall nowhere else, because F131's
-carrier is an involution and grades orders by ℤ/2 at most, while *orders 1 and 3 vanish and 2
-and 5 do not* is no ℤ/2 grading. The carrier here is a Galois group, (ℤ/2n)*, which can leave an
-arbitrary set of orders standing. That is the sharpest available statement of what this file
-adds, and the limit is F131's by construction, not a defect of it.
   PROOF_ZETA2_ANTI_PROTECTION owns an all-orders IDENTITY on the ζ axis,
   θ_τ(ζ) = −θ_ν(−ζ), whose consequence splits by order and is its §4 heading, the title naming the even half only: the ODD
   orders cancel in the mirror pair's difference (the protection) and the EVEN ones double
@@ -234,6 +226,20 @@ Lemma B.
 again while deriving this file and is recorded where it happened, in §(f) and §(k) here: the
 ROT3 converse was read off n = 30, a modulus that cannot break it, and n = 24 does. This date's
 second entry, which this change adds, carries the twenty-six shapes the review rounds found.
+-->
+
+## What this adds
+
+PROOF_MIRROR_ORDER_SORTING (F131) is the repo's general home for *which orders may enter a
+response*: its §1 sorts them by a parity into four cells, of which one is *generic (no
+constraint)*, and its Theorem A is one column of that table. This file's first version did not
+cite the file at all; a review lens supplied it. The eleven Θ-mirror pairs are an instance of
+its EVEN cell, with M = K and the scan parameter u. The other 212 get nothing from it: they fall
+under the cell that imposes no constraint, and they can fall nowhere else, because F131's
+carrier is an involution and grades orders by ℤ/2 at most, while *orders 1 and 3 vanish and 2
+and 5 do not* is no ℤ/2 grading. The carrier here is a Galois group, (ℤ/2n)*, which can leave an
+arbitrary set of orders standing. That is the sharpest available statement of what this file
+adds, and the limit is F131's by construction, not a defect of it.
 
 ## (a) The object
 
@@ -479,7 +485,7 @@ same parity class. That is not a technicality. Fifty-eight collision pairs of th
 parity-uniform and doubled-label ROT3, and have c₁ ≠ 0, thirty of them at
 odd n and twenty-eight at even n, so the shape fails to give c₁ = 0 on both sides of the parity.
 At the smallest modulus that carries one, n = 9, the pair is (1,5,7) ~ (2,4,8): two zero-sum ROT3
-triples of opposite parity class, ΔX₀ = 6, c₁ = 4/3, and it is the pair Confirmation 24 flew, named in the sweep record above for another reason. The smallest |c₁| over the 58 is 2/5, at n = 30, and the reason is that all 58 have |o_τ − o_σ|
+triples of opposite parity class, ΔX₀ = 6, c₁ = 4/3, and it is the pair Confirmation 24 flew. The smallest |c₁| over the 58 is 2/5, at n = 30, and the reason is that all 58 have |o_τ − o_σ|
 = 3, so |c₁| = 12/n and the smallest is simply the largest modulus. The twelve that stand do share a parity class. The shape is what makes c₃
 vanish; the parity match is what makes c₁ vanish.
 

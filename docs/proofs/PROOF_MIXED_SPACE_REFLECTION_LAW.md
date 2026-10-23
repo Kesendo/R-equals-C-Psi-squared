@@ -42,7 +42,9 @@ available, the doors through which mixing could enter. Away from the
 free-hopping setting the argument gives nothing, and at the fully symmetric
 setting the law is measured to break; the document says so.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep, by store. `docs/ANALYTICAL_FORMULAS.md`: [F2b](../ANALYTICAL_FORMULAS.md#f2b)
 owns the OBC dispersion and sine modes this proof stands on; F129/F130 own the
@@ -80,6 +82,7 @@ nothing for the mixed/scalar split. `docs/CAUGHT_ERRORS.md`: the standing shapes
 catch, both applied here (the general-M section states exactly which M each
 argument covers). The OpenArcs registry: `compressed_density_laws` NextStep 1 is
 this question, verbatim. No store derives the law.
+-->
 
 ## §1 Setting and statement
 

@@ -228,6 +228,8 @@ F126's book does not describe §§3-4 even though the engine convention is
 identical. That convention is `bridge_sector.py`'s
 mask = −2·Σ_{differing bits} γ_q, matching γ_k(Z_k ρ Z_k − ρ).
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **The sweep for §5's seat-pencil addition, 2026-08-25, run by three agents.**
 What it found is why the addition is a route and not a theorem.
 **`docs/ANALYTICAL_FORMULAS.md`**: F157 (line 7865) already says the count covers
@@ -260,6 +262,7 @@ identity is not new mathematics either, being the matrix-determinant lemma for a
 diagonal rank-one update; what the repo did not hold is its application here. §5's
 closing paragraph is where the addition's inventory is kept, and it is the only
 place that inventory is stated.
+-->
 
 ---
 
@@ -1024,7 +1027,7 @@ superoperator grading is conserved and the state sits in its trivial half, while
 the Hilbert-space reflection parity is a different object and is not conserved
 in the swept configuration: Tr(P_odd ρ) falls to 0.469 by t = 20. The residual
 is about the state's support, §3. An unmatched control is the shape of the
-`CAUGHT_ERRORS.md:877` entry this page cites in its own sweep, and a law is not
+`CAUGHT_ERRORS.md:877` entry, and a law is not
 generalised from two measured cases.
 
 ## 10. What is borrowed and what is not

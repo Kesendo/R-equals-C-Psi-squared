@@ -121,7 +121,9 @@ on them: the blind mode at node index k is R-even for odd k and R-odd for even k
 at every seat with N_node ≥ 2, b_E counts the odd k landing on a value and b_O the even ones, and
 the even-N count becomes 2·#{k odd : Δ_k = t} off the ring ends, a closed form.
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 Swept twice. The second sweep, 2026-09-03 and for §(h) alone, is recorded inside that
 section rather than here, because what it returned changed that section from a discovery into a
@@ -164,7 +166,7 @@ axis. All four are recorded rather than quietly absorbed.
   page write *"two end-pair objects differing only in that factor"*. That page has since taken
   the last step itself, citing this file.
 - **`docs/ANALYTICAL_FORMULAS.md`**: F157 owns the Δ axis in closed form (Δ_k, the resultant
-  packaging P_j, the live witness `inspect --root blindlocus`). F160's entry owns the u axis curve
+  packaging P_j, the live witness at the inspect root `blindlocus`). F160's entry owns the u axis curve
   and, correcting a draft of this bullet that said otherwise, **does carry the reflection
   sectors**: *"its simplicity clause (G = 2AB, the two reflection sectors, each a nonvanishing
   prefactor times an unreduced Jacobi block's characteristic polynomial, and a Bézout identity
@@ -254,6 +256,7 @@ looked for it.
   state in near-identical words: three on the companion page (its gate-C1 paragraph, its scope
   bullet, its old open item) and one in the arc. §(g)'s last corollary is the first derivation of
   it, and it corrects the conclusion those passages drew from it.
+-->
 
 ## (a) The object, and three conventions the numbers depend on
 
@@ -505,7 +508,8 @@ lemma to H_Δ alone, so the Theorem is untouched. ∎
 
 The same preserve-versus-swap dichotomy, by the same parity of N and between the same kinds of
 operator, is already live in the repo on a different object: see
-`DiabolicReflectionParityWitness` in the sweep above.
+`DiabolicReflectionParityWitness`
+(`compute/RCPsiSquared.Diagnostics/Foundation/DiabolicReflectionParityWitness.cs`).
 
 Gates P1 (odd N ∈ {5, 7, 9, 11, 13}), P2 (even N ∈ {6, …, 16}) and P3, which is P1's fence: at
 even N the sectors are NOT separately closed, at 30 of the seats tested, so P1 is a statement
@@ -859,7 +863,7 @@ read an eigenvector of the UNIFORM chain, and the matrix here has both ends detu
 blind mode of an end-detuned chain is still a SINGLE sine, on the seat's own node modulus, is
 what this section establishes and what puts F157's index on §(g)'s two summands.
 
-**What the sweep returned, and it moved this section from a discovery to a transport.** The sign
+The sign
 law is owned in at least six places, none of them about F157:
 [PROOF_COLLISION_GAP_ODD_ORDERS](PROOF_COLLISION_GAP_ODD_ORDERS.md) §(b) states it as *"which
 sector one is in is decided by the parity of k"*;
@@ -869,7 +873,15 @@ Rψ_k = (−1)^{k+1}ψ_k and credits F71; [HANDSHAKE_GEOMETRY](../../hypotheses/
 carrier-parity generalization (−1)^{k−c}; `Diagnostics/Ptf/DefectReadingEquivarianceClaim.cs`
 types it Tier 1; and `compute/MirrorWorld/Formulas.cs` holds it as a member,
 `F71_ReflectionParity(k)`, which is the bare parity with no modulus in it at all. Every one of
-the other five reads the UNIFORM chain's own Dirichlet comb, whose modulus is N+1. What
+the other five reads the UNIFORM chain's own Dirichlet comb, whose modulus is N+1.
+The gap is an index change and not a labelling oversight: F157's k rides the
+seat-dependent node modulus N_node = |N − 1 − 2j|, which is at most N − 1 and so never the chain's
+own N+1. That is arithmetic and no gate certifies it; what the gates read is everything downstream
+of it.
+
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
+**What the sweep returned, and it moved this section from a discovery to a transport.** What
 returned nothing was the assignment for F157's k, and it said so in writing in three
 places: [ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md) F157, the arc
 `the_forced_and_the_met` in `OpenArcsRegistry.cs`, and [The Blind Seat on the
@@ -880,13 +892,12 @@ answer, so the sentence quoted above no longer exists in the tree. `fw.Confirmat
 entries), `docs/GLOSSARY.md` and
 [PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) returned nothing
 on the sector ASSIGNMENT; the last of those does read the count one sector down, which is what
-§(g) uses. The gap is an index change and not a labelling oversight: F157's k rides the
-seat-dependent node modulus N_node = |N − 1 − 2j|, which is at most N − 1 and so never the chain's
-own N+1. That is arithmetic and no gate certifies it; what the gates read is everything downstream
-of it. `docs/CAUGHT_ERRORS.md` returned no entry on the assignment and two standing traps that sit
+§(g) uses. `docs/CAUGHT_ERRORS.md` returned no entry on the assignment and two standing traps that sit
 on this path, and both are fenced below: the Ad_R grading read as Hilbert-space parity, and the
 vacuous anti-vacuity check that the 2026-09-02 entry logs for block K and that this block shipped
 twice before three rounds took it out.
+-->
+
 
 **One convention question, answered here so no reader has to ask it twice.** §(a) warns that this
 file's book (hop 1, a bare t) differs from F157's (hop 2, 2Δ per end, a Δ(N−5)·I shift) by a
@@ -1091,6 +1102,14 @@ keep the one it is given: it agrees with the Sylvester determinant when deg f �
 order-dependent, and correctly so, gate W0d, which is why the rule is stated by degree and never
 by symmetry.
 
+[PROOF_CRACKED_RING_EXACT_CURVE](PROOF_CRACKED_RING_EXACT_CURVE.md) §(b) owns the Cassini identity
+S_{p+1}² − S_p·S_{p+2} = 1, as its own gate P2, and until this change owned it alone; Lemma 9
+below uses it and cites it rather than repeating it. The Chebyshev ADDITION formula
+S_{a+b} = S_a·S_{b+1} − S_{a−1}·S_b is in no proof of this repository under any spelling, so
+Lemma 9's other half is written out here.
+
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **What the repo held, store by store.** [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md):
 F157 owns P_j as a DEFINITION, together with Δ_k, the pole rule and the multiplicity clause; it
 states no leading coefficient, no sign and no factorisation, and its four worked rows are printed
@@ -1098,12 +1117,7 @@ primitive with a positive leading coefficient, which is the normalisation that d
 the number wanted here. F160 owns the ring's quantisation curve in the same U_n(x/2)
 normalisation. F139 owns a polynomial it also writes S_m, in the same 2cos normalisation but
 indexed one higher (F139's S_m(2cosθ) = sin((m+1)θ)/sinθ), and owns the product-to-sum rule, not
-the addition formula. [`docs/proofs/`](.):
-[PROOF_CRACKED_RING_EXACT_CURVE](PROOF_CRACKED_RING_EXACT_CURVE.md) §(b) owns the Cassini identity
-S_{p+1}² − S_p·S_{p+2} = 1, as its own gate P2, and until this change owned it alone; Lemma 9
-below uses it and cites it rather than repeating it. The Chebyshev ADDITION formula
-S_{a+b} = S_a·S_{b+1} − S_{a−1}·S_b is in no proof of this repository under any spelling, so
-Lemma 9's other half is written out here. Five other files in `docs/proofs/` form a resultant:
+the addition formula. [`docs/proofs/`](.): Five other files in `docs/proofs/` form a resultant:
 `PROOF_CODIM1_BY_ADDITIVITY`, `PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE` and
 `PROOF_F103_F87_Z2_CUBED_REFINEMENT` are F89 fold certificates and divisibility arguments, and
 `PROOF_F127_RESIDUE_COLLAPSE` and `PROOF_F87_WINDOWED_MONOMIAL_CONVERSE` are resultant-and-Sturm
@@ -1123,6 +1137,7 @@ shape this page has already shipped. `compute/`: `Cyclotomy.cs` holds integers a
 algebra, `Crack.cs` holds a Chebyshev routine and no resultant, and `BlindSeat.cs` carries the
 N = 9 seat 1 locus un-normalised as 128·Δ(Δ−1)(Δ+1)(Δ²−3). That 128 is in F157's hop-2 book, not
 this file's; this section does not identify it, §(a)'s Remark does (2^{1·7} at J = 1, gate H).
+-->
 
 **Lemma 9 (the congruence).** For p ≥ 1 and n ≥ 1, S_p·α_{N−1−p} ≡ −S_n (mod α_p).
 

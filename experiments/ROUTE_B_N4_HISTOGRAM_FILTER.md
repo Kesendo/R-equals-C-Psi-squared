@@ -12,7 +12,9 @@ preparation and measurements, that change makes the distinction cheaper.
 Most of the gain is already present in the three spectator spins' bit
 patterns. We were throwing away useful information before analyzing it.
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 The stores were searched by the primitive this note uses: the readout discrimination
 power of a Lindblad trajectory under a parameter perturbation, on the (1,2) coherence
@@ -22,7 +24,7 @@ The Diagnostics half answers. [`ReadoutFisher`](../compute/RCPsiSquared.Diagnost
 is a static calculation helper: `DiscriminationMax` sums
 (p_A − p_B)²/p_clean over the outcomes of a rotated basis and maximises it over
 the time grid. [`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
-is the live `IInspectable` at `inspect --root decoder`. It reports that the
+is the live `IInspectable` at the inspect root `decoder`. It reports that the
 classical Fisher information of a bond defect increases across its seven sampled
 Q values from the lowest endpoint Q=1 to Q=20 in the Z, X and Y readouts, gated
 by `ReadingPowerWitnessTests.FiIsMonotoneOnTheSevenPointSampledQGrid_InEveryBasis`.
@@ -40,7 +42,7 @@ The OpenArcs registry is not silent. The arc `zeros_connecting_structure` record
 "the loud transition IS the EP amplification studied as EP-SENSING
 (COHERENCE_HORIZON_EP_SENSOR_DEBATE, the Petermann factor)", and the arc
 `f124_inverse_problem_resolution_seam` names `ReadingPowerWitness` and
-`inspect --root decoder` directly.
+the inspect root `decoder` directly.
 
 What did come back empty: `docs/ANALYTICAL_FORMULAS.md` holds no F number for shot cost
 or a Fisher readout, its nearest entry being F124's matched-filter resolution limit;
@@ -50,6 +52,7 @@ hardware measurement of any exceptional point; `docs/GLOSSARY.md` defines no hou
 for Petermann factor, SNR, shot or Fisher information, though its q versus Q entry
 applies, this note being in the q book with hop 2J; `docs/CAUGHT_ERRORS.md` holds EP
 character mislabelling and nothing on measurement cost.
+-->
 
 ## What this settles, and what it does not
 

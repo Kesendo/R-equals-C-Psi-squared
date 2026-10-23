@@ -76,7 +76,9 @@ into a ring. That holds at every odd length we tried and at two thirds of the ev
 already had a closed formula for one knob's settings. Where it holds, it is the formula for the
 other's as well.
 
-## What the repo already held, store by store
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held, store by store
 
 Swept 2026-09-02 by three agents, adversarially by a fourth, and corrected by three empty review
 rounds. **Three** entries below were called "nothing" by an earlier sweep of this page and are not
@@ -93,7 +95,7 @@ times.
   P_j(Δ) = Res_x(U_{N_node−1}(x), Δ·U_{j−1}(x) − U_j(x)); a four-row table of worked seats that the
   entry itself fences as *"an ILLUSTRATION and not the content"*; the
   statement that *the multiplicity* of a root of P_j is the blind count at that Δ; and the live
-  witness `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root blindlocus`
+  witness at the Cli's inspect root `blindlocus`
   (`SeatBlindnessDeltaLocusWitness`). Gates C1 and C2 pin against the table and against the
   generating formula. It also states F157's fence-free identity as *"the identity unconditional for
   real symmetric H"*, by Cramer's rule — every locus here is a resultant of those two
@@ -167,6 +169,7 @@ times.
   2026-09-01 fourth entry names the failure this page's first sweep then repeated: *"the sweep
   searched the OBJECT (a cracked ring) and not the METHOD (an integer polynomial identity, a
   Chebyshev polynomial)"*, naming F157's locus polynomial as what was missed.
+-->
 
 ## (a) On the uniform chain the count is an aliasing degree
 
@@ -374,7 +377,8 @@ asking for a node at BOTH ends of the bond, which Lemma J1 forbids outright. The
 end is enough. What IS still unnamed is the second route behind the straddling failures, where the
 two blocks share a knob-dependent factor.
 
-**Why the two axes can meet.** By Lemma B the wrap bond is rank one inside each reflection sector,
+**Why the two axes can meet.** By Lemma B
+([PROOF_COLLISION_GAP_ODD_ORDERS](../docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md) §(b)) the wrap bond is rank one inside each reflection sector,
 with a sector-dependent sign η; the anisotropy is a diagonal on the same two sites and is likewise
 rank one per sector, ⟨ψ_k|D|ψ_l⟩ = a_k a_l(1 + η_k η_l) against the crack's 2η·a aᵀ, where a_k is
 mode k's amplitude on the end pair and η_k = ±1 its reflection parity. Two end-pair objects

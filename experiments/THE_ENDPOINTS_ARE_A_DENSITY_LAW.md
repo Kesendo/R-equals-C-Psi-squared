@@ -72,7 +72,9 @@ obey something stronger than symmetry: their weight
 is perfectly uniform, the same share on every site, blind to the lighting
 altogether.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 The sweep, by store. `docs/ANALYTICAL_FORMULAS.md`: F122's registered Mechanism is
 this compression at UNIFORM γ (high-Q degenerate PT; the literal P_Ω N_XY P_Ω form is
@@ -122,6 +124,7 @@ thread, and the change that lands this note opens one (`compressed_density_laws`
 `fw.Confirmations`: nothing (no hardware content). `docs/GLOSSARY.md`: no entries for
 the disagreement set or size classes, consistent with the predecessors' sweeps.
 Nothing in any store states either law or the parity theorem.
+-->
 
 ## The objects
 
@@ -310,7 +313,7 @@ unprotected.
 
 Owned: the per-site split of D (Absorption Theorem 2), the size operator and the
 aggregate compression (F122, PROOF_STRUCTURAL_CEILING), the |S|-resolved locus
-reflection and its centre (PROOF_R90_FROZEN_DIVISOR, F153, the R₉₀ note's
+reflection and its centre (PROOF_R90_FROZEN_DIVISOR, F153, [the R₉₀ note](WHAT_THE_R90_LOCUS_BUYS.md)'s
 `two_sources_gate.py`), the kernel-compressed double occupancy with the chiral
 involution inside at rung 1 (PROOF_FROZEN_BAND_SO4 §6), the cell-rate window and the
 self-folded fold symmetry (PROOF_CODIM1_BY_ADDITIVITY §6 and §7 (b)), the

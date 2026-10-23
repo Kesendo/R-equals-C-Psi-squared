@@ -9309,6 +9309,8 @@ committed anisotropies (of the values named, only √(2−√2) ≈ 0.765 lies s
 Δ = 0 and Δ = 1; √3 ≈ 1.73 lies outside both, which is the point). What no surface carried is the **general form at
 every (N, j)**.
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **And what the sweep found nothing in, named because the rule asks for the empty stores too.**
 `docs/proofs/` holds no file carrying this locus: the mechanism's own proof, the span and
 node-lemma file, is Δ-general and says so in §(f), but it never evaluates the intersection as
@@ -9318,6 +9320,7 @@ blindness at any Δ (their two "blind" rows are an evolution-blind rung-1 null a
 washing result, neither about a watched seat). And `simulations/seat_cut_blindness.py`, which
 owns the two endpoint congruences exactly to N = 200, has no occurrence of Δ or "anisotropy"
 in its 2218 lines.
+-->
 
 On the uniform open chain the general form is this, and one integer carries it.
 

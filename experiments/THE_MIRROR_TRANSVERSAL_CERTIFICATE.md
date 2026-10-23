@@ -55,9 +55,6 @@ window's edge is the triangle's long side. The certificate is that check,
 room by room and corner by corner; on the corner blocks the long side
 uses the margin exactly, to the last drop, and holds.
 
-## What the repo already holds
-
-The sweep, by store. `docs/proofs/`:
 [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
 §6 owns the rate WINDOW (Bendixson: real parts inside the range of the cell
 rates, exact for every eigenvalue), the window-edge lemma (an eigenvalue AT
@@ -65,7 +62,13 @@ an edge forces a joint eigenvector), and the window combinatorics, all at
 uniform γ; it contains no parameter-extremality argument, and reading its
 window under a profile as the cell-rate range, wider than the centre
 interval certified here, is this note's extrapolation, not §6's own
-statement. [PROOF_F101](../docs/proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md)
+statement.
+
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
+
+The sweep, by store. `docs/proofs/`: [PROOF_F101](../docs/proofs/PROOF_F101_C1_MIRROR_GAMMA_PARITY.md)
 is this note's direct ancestor: it splits the profile γ = γ_sym + γ_anti
 along the site mirror and proves an exact parity in γ_anti; the split below
 is the same decomposition applied to the compression.
@@ -108,6 +111,7 @@ lesson (a fitted number in the vocabulary of a law) and the
 threshold-defined-quantity lesson both apply and are obeyed below: every
 fence here is an enumerated finite minimum stated as such, a gated
 exactness, or a closed form.
+-->
 
 ## The reduction: corners of the locus box
 

@@ -18,7 +18,9 @@ On the quarter boundary this reads simply. The singlet's CΨ starts at ⅓ (in e
 
 Two qubits, Heisenberg bond H = J(XX + YY + ZZ). For every axis a ∈ S (S = {z} or {x, y, z}) each site feels σ_a at rate γ and the two sites' fields have correlation η ∈ [−1, 1]: per axis the Kossakowski matrix is γ[[1, η], [η, 1]], realised by a shared jump √(|η|γ)(σ_a⊗1 ± 1⊗σ_a) and local jumps √((1 − |η|)γ)σ_a. A pure state loses fidelity initially at γ Σ_{a∈S} [Var A_a + Var B_a + 2η Cov_a], A_a = σ_a⊗1, B_a = 1⊗σ_a, so the sign of Σ_a Cov_a decides whether correlation lowers or raises that initial loss. On the Bell states Var = 1 and Cov_a = s_a, their parity under σ_a⊗σ_a, giving 2γ Σ_a(1 + s_aη): 6γ(1 − η) for the singlet under x, y, z and (6 + 2η)γ for each triplet. The shared sum jump annihilates exactly the Bell states with s_a = −1, so only the singlet is dark to all three. The singlet's trajectory is the uncorrelated one at the dose (1 − η)γt; in the concurrence book (concurrence × l₁/3) its CΨ crosses ¼ at t× = K/((1 − η)γ), K = ln(4/3)/8 under z (F14's concurrence constant) and ln(6/(1 + √19))/8 under x, y, z. At η = 1 under x, y, z the generator's kernel is span{1, |s⟩⟨s|}. Exact propagation meets every closed-form trajectory to about 10⁻¹⁵ and every crossing time to 10⁻¹⁴.
 
-## What the repo already holds
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already holds
 
 Swept 2026-10-10 by a survey agent and two reviewers, stores by name.
 
@@ -28,7 +30,11 @@ Swept 2026-10-10 by a survey agent and two reviewers, stores by name.
 - `docs/carbon/`: [Painter Alternation NMR Bridge](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md), the repository's other TROSY page, which fences TROSY as needing a molecular Hamiltonian, bath and readout. `docs/quantum/`: [Schrödinger's Cat Translated](../docs/quantum/SCHRODINGERS_CAT_TRANSLATED.md), superdecoherence under common-mode dephasing, the N-qubit face of the collective law.
 - `hypotheses/`: [The Other Side](../hypotheses/THE_OTHER_SIDE.md) §21 tests a ZZ collective dephasing across a bridge. `docs/CAUGHT_ERRORS.md`: the entry on the retired tool's collective σ_z ratio. `docs/GLOSSARY.md`: the 0.036/γ crossing in the concurrence book, this page's η = 0 z value, the rule that the CΨ book be named at the point of use, and the table of spent senses of *dark*, which lacks this page's sense, already used by Test B. `review/OPEN_QUESTIONS_INDEX.md`: OQ-146, the collective z jump, resolved for Bell+, other states not classified.
 - `fw.Confirmations` / ConfirmationsRegistry: the price-pair entry's common-mode decoding. The Claim graph: `AbsorptionTheoremClaim` names collective dephasing, with no correlation coefficient. [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) points to the literature name, decoherence-free subspaces. The OpenArcs registry, the Diagnostics witnesses, `compute/MirrorWorld/`: nothing on a correlation between sites or on singlet protection.
-- Not in the repository before this page: the covariance law for a pure state's initial fidelity loss, the Bell-state rule across the x and y axes and the three-axis sum (its z axis is in the two hardware pages above in coherence form), the singlet's crossing time as a function of η, and the triplets' earlier crossing.
+-->
+
+## What this adds
+
+- Not in the repository before this page: the covariance law for a pure state's initial fidelity loss, the Bell-state rule across the x and y axes and the three-axis sum (its z axis is in the two hardware pages [PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md) and [ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION](ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md) in coherence form), the singlet's crossing time as a function of η, and the triplets' earlier crossing.
 
 ## The model
 

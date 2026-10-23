@@ -203,7 +203,9 @@ reading; here it is the quantum-optics sense, a state the dephasing cannot touch
 [PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](../docs/proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)'s
 "Δ book", Heisenberg Δ = 1 against XY Δ = 0.
 
-## What the repo already held
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
+What the repo already held
 
 The sweep the look-back gate asks for. Each store, and what it returned.
 
@@ -323,6 +325,7 @@ builds the Liouvillian with a **uniform** γ₀ and cannot place dephasing on a 
 seat. Two `simulations/` helpers, `reading_the_30_percent.py` and `mixed_bridge.py`,
 take the single argmin|λ| eigenvector as the steady state, which is wrong whenever
 the kernel is degenerate.
+-->
 
 ## 1. The steady state says nothing
 
@@ -337,9 +340,12 @@ steady state is the maximally mixed single-excitation state to machine precision
 worst |ρ_∞ − I/N| = 2.901·10⁻¹⁶. One-dimensionality is certified profile by profile
 with the GF(p) rank of §3, exact at 1 because the identity is always in the kernel,
 before the float solver is allowed to pick a single
-direction; without that step this section would be doing what the sweep record
-faults its two `simulations/` helpers for. The three artifacts faulted above are
-faulted for a different thing, a bare tolerance.
+direction; without that step this section would be doing what two `simulations/`
+helpers, `reading_the_30_percent.py` and `mixed_bridge.py`, do: take the single
+argmin|λ| eigenvector as the steady state, which is wrong whenever the kernel is
+degenerate. The repo's three stationary-manifold codes (`StationaryModes.cs`,
+`d_zero.py`, `StationaryManifold.cs`) are faulted for a different thing, a bare
+tolerance.
 
 The mutual information at ρ_∞ is therefore the same number for all of them, spread
 2.220·10⁻¹⁵ bits, and the span is zero at every seat (largest magnitude

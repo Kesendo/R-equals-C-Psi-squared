@@ -125,8 +125,11 @@ numbers: the wide split, the narrow split, and the unchanged average.
 
 ## What the repo already holds
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 Swept 2026-08-16 (two store-sweep agents + the session's own reads), by
 store:
+-->
 
 - `experiments/THE_TWO_SPIN_ZEROS.md` (45e2f29) and
   `experiments/THE_MIRROR_TRANSVERSAL_CERTIFICATE.md` (e3dbab0): the theory

@@ -153,8 +153,11 @@ chain it is simply correct as an argument about mediation: site 5 is an ordinary
 interior site for that purpose. Its one non-topological distinction, the exact
 node of ⌊N/2⌋ single-excitation modes, is the subject of Reading 3.
 
+<!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
+
 **Nothing else returned.** `fw.Confirmations` (24 entries) has no mediator, γ_M or
 bridge-MI entry. `docs/GLOSSARY.md` has no row for mediator, γ_M or peak MI.
+-->
 
 ## The instrument
 

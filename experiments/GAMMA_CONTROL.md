@@ -98,6 +98,8 @@ helps ("the gate needs to be the noisiest node"); that conclusion was the
 [the March data file](../simulations/results/using_gamma.txt) already
 contradicted it (see the results table below).
 
+<!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
+
 **What the repo already held on this, swept 2026-08-23:** the Σγ confound
 was first written down on 2026-05-31 in a local design spec that never
 became a tracked page, so no committed document carried it until now.
@@ -112,6 +114,7 @@ object (the F71-refined block spectra over the pair-sum profile), that the
 dependence is on the ASSIGNMENT and never on the bare multiset; the
 comparison repaired here did not even hold the multiset's sum fixed. `docs/CAUGHT_ERRORS.md` (2026-08-23 entry) records
 the error shape.
+-->
 
 ### Connection to the dephasing channel
 
