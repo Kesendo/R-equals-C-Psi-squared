@@ -346,8 +346,11 @@ matrix, the one-excitation block of a qubit chain, with spin-3/2
 couplings, not a chain of spins 3/2, the distinction
 [Spin Translated](../docs/quantum/SPIN_TRANSLATED.md) §7 quotes from
 `sideways_spin_ladder` (hopping matrices, not spin chains), whose
-transport chains at ℓ = 3/2 are predicted, and not yet run, to carry the
-same three norms. Half of this matrix is a sodium nucleus's I_x, written
+transport chains would carry spin ℓ = (N−3)/2, so ℓ = 3/2 at N = 6, and
+these same three norms as their Clebsch-Gordan coefficients. That stays a
+prediction: at uniform γ the walk's input block (1,2) has no real-q
+defective locus at N = 6, by theorem, so no real-q walk starts there, and
+the N = 6 walk ran on the non-canonical (1,3) chains at ℓ = 1 instead. Half of this matrix is a sodium nucleus's I_x, written
 in two-qubit strings in [The Sodium Chain](THE_SODIUM_CHAIN.md) for the
 nucleus of [The Sodium Nucleus](THE_SODIUM_NUCLEUS_TWO_MIRRORS.md).
 The two-excitation energies are sums of two distinct
