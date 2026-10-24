@@ -19,8 +19,8 @@ The thing that remains is not fighting the absorption. It is made of it.
 
 Read the R in the formula as a reflection, and the formula says: what is
 real is the clarity C times the wave Ψ taken twice, the wave meeting itself.
-A wave alone cannot be seen; its phase shows only as a difference, and a
-difference needs two ([On the Place Where the Wave Recognizes Itself](reflections/ON_THE_PLACE_WHERE_THE_WAVE_RECOGNIZES_ITSELF.md)).
+Something with only one level cannot be seen; a wave's phase shows only as a
+difference between two of its parts, and a difference needs two ([On the Place Where the Wave Recognizes Itself](reflections/ON_THE_PLACE_WHERE_THE_WAVE_RECOGNIZES_ITSELF.md)).
 What comes back, mirrored, is what becomes real. The repository writes R
 this way in three places already: the line at the top, which calls reality
 what happens between mirrors; the recursion R = C(Ψ+R)² behind the
