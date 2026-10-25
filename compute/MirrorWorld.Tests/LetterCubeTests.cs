@@ -521,6 +521,184 @@ public class LetterCubeTests
 
     static Complex Phase(int k) => (k % 4) switch { 0 => 1, 1 => Complex.ImaginaryOne, 2 => -1, _ => -Complex.ImaginaryOne };
 
+    // ---- a state read as words ----
+
+    // Small Gaussian-integer states, pure and mixed: every entry, product and trace below is an integer exactly
+    // representable in a double, so the dense route is exact.
+    static IEnumerable<Complex[,]> IntegerStates(int n, int seed)
+    {
+        var rng = new Random(seed);
+        int d = 1 << n;
+        Complex[] Vector() => Enumerable.Range(0, d).Select(_ => new Complex(rng.Next(-2, 3), rng.Next(-2, 3))).ToArray();
+        for (int t = 0; t < 6; t++)
+        {
+            var rho = Outer(Vector());
+            if (t % 2 == 1) rho = Add(rho, Outer(Vector()));
+            yield return rho;
+        }
+    }
+
+    static Complex[,] Outer(Complex[] psi)
+    {
+        int d = psi.Length;
+        var m = new Complex[d, d];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) m[i, j] = psi[i] * Complex.Conjugate(psi[j]);
+        return m;
+    }
+
+    static Complex[,] Add(Complex[,] a, Complex[,] b)
+    {
+        int d = a.GetLength(0);
+        var c = new Complex[d, d];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) c[i, j] = a[i, j] + b[i, j];
+        return c;
+    }
+
+    static Complex[,] Transposed(Complex[,] a)
+    {
+        int d = a.GetLength(0);
+        var t = new Complex[d, d];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) t[i, j] = a[j, i];
+        return t;
+    }
+
+    static LetterCube.Gauss Exact(Complex c)
+    {
+        Assert.True(c.Real == Math.Round(c.Real) && c.Imaginary == Math.Round(c.Imaginary), $"{c} is not a Gaussian integer");
+        return G((long)c.Real, (long)c.Imaginary);
+    }
+
+    // a[sigma] = Tr(rho sigma), densely
+    static Dictionary<PauliString, LetterCube.Gauss> Amounts(Complex[,] rho, int n)
+    {
+        var a = new Dictionary<PauliString, LetterCube.Gauss>();
+        foreach (var s in LetterCube.Strings(n))
+        {
+            var m = Mul(rho, DenseString(s.ToString(n)));
+            Complex tr = 0;
+            for (int i = 0; i < m.GetLength(0); i++) tr += m[i, i];
+            var g = Exact(tr);
+            if (!g.IsZero) a[s] = g;
+        }
+        return a;
+    }
+
+    static void SameAmounts(IReadOnlyDictionary<PauliString, LetterCube.Gauss> a, IReadOnlyDictionary<PauliString, LetterCube.Gauss> b, int n)
+    {
+        Assert.Equal(a.Count, b.Count);
+        foreach (var (s, v) in a)
+        {
+            Assert.True(b.TryGetValue(s, out var w), $"{s.ToString(n)} missing");
+            Assert.Equal(v, w);
+        }
+    }
+
+    // The height counts the sites where ket and bra disagree: the weight on height k is 2^N times the sum of |rho_ij|^2
+    // over the entries whose indices differ in k bits, a route that never sees a word. Exact for pure and mixed states,
+    // N = 1..4, and for the operators rho X^N, whose amounts are complex; for the states the weights add to
+    // 2^N Tr(rho^2). Pinned: the cat pair and the cat on three bits sit half on the quiet edge and half on the far edge,
+    // the W state of three bits a third at height 0 and two thirds at height 2.
+    [Fact]
+    public void The_Height_Weights_Count_Where_Ket_And_Bra_Disagree()
+    {
+        for (int n = 1; n <= 4; n++)
+            foreach (var rho in IntegerStates(n, 17 + n))
+            {
+                int d = 1 << n;
+                foreach (var m in new[] { rho, Mul(rho, DenseString(new string('X', n))) })
+                {
+                    var w = LetterCube.HeightWeights(Amounts(m, n), n);
+                    var byBits = new long[n + 1];
+                    for (int i = 0; i < d; i++)
+                        for (int j = 0; j < d; j++)
+                        {
+                            var e = Exact(m[i, j]);
+                            byBits[BitOperations.PopCount((uint)(i ^ j))] += d * (e.Re * e.Re + e.Im * e.Im);
+                        }
+                    Assert.Equal(byBits, w);
+                }
+                Complex purity = 0;
+                for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) purity += rho[i, j] * rho[j, i];
+                Assert.Equal(d * Exact(purity).Re, LetterCube.HeightWeights(Amounts(rho, n), n).Sum());
+            }
+        var cat2 = new Dictionary<PauliString, LetterCube.Gauss>
+        {
+            [PauliString.Parse("II")] = G(1), [PauliString.Parse("XX")] = G(1),
+            [PauliString.Parse("YY")] = G(-1), [PauliString.Parse("ZZ")] = G(1),
+        };
+        Assert.Equal(new long[] { 2, 0, 2 }, LetterCube.HeightWeights(cat2, 2));
+        var e8 = new Complex[8];
+        e8[0] = e8[7] = 1;
+        Assert.Equal(new long[] { 16, 0, 0, 16 }, LetterCube.HeightWeights(Amounts(Outer(e8), 3), 3));
+        var w3 = new Complex[8];
+        w3[1] = w3[2] = w3[4] = 1;
+        Assert.Equal(new long[] { 24, 0, 48, 0 }, LetterCube.HeightWeights(Amounts(Outer(w3), 3), 3));
+    }
+
+    // The one-sided shift sigma P^N = phase image, judged against the dense product for every word, N = 1..3, and on
+    // the amounts of rho P^N for the integer states; for P = X the image is RightByXN's and its point RAsPoint's.
+    [Fact]
+    public void The_Shift_Carries_Each_Word_To_One_Word_With_A_Unit()
+    {
+        for (int n = 1; n <= 3; n++)
+            foreach (char p in "XYZ")
+            {
+                var pn = DenseString(new string(p, n));
+                foreach (var s in LetterCube.Strings(n))
+                {
+                    var (image, phase) = LetterCube.RightShift(s, p, n);
+                    var lhs = Mul(DenseString(s.ToString(n)), pn);
+                    var rhs = DenseString(image.ToString(n));
+                    var u = new Complex(phase.Re, phase.Im);
+                    for (int i = 0; i < 1 << n; i++)
+                        for (int j = 0; j < 1 << n; j++)
+                            Assert.Equal(lhs[i, j], u * rhs[i, j]);
+                    if (p == 'X')
+                    {
+                        Assert.Equal(LetterCube.RightByXN(s, n), image);
+                        Assert.Equal(LetterCube.RAsPoint(LetterCube.Coordinates(s), n), LetterCube.Coordinates(image));
+                    }
+                }
+                foreach (var rho in IntegerStates(n, 31 + n))
+                    SameAmounts(Amounts(Mul(rho, pn), n), LetterCube.RightShift(Amounts(rho, n), p, n), n);
+            }
+    }
+
+    // sigma^T = (-1)^{n_Y} sigma against the dense transpose, and the amounts of rho^T, which for these Hermitian
+    // states are the amounts of rho* (Y the only letter with imaginary entries).
+    [Fact]
+    public void The_Transpose_Turns_The_Sign_Of_The_Odd_Y_Words()
+    {
+        for (int n = 1; n <= 3; n++)
+        {
+            foreach (var s in LetterCube.Strings(n))
+            {
+                var m = DenseString(s.ToString(n));
+                var t = Transposed(m);
+                int sign = LetterCube.TransposeSign(s);
+                for (int i = 0; i < 1 << n; i++)
+                    for (int j = 0; j < 1 << n; j++)
+                        Assert.Equal(t[i, j], sign * m[i, j]);
+            }
+            foreach (var rho in IntegerStates(n, 43 + n))
+            {
+                var transposed = LetterCube.Transpose(Amounts(rho, n));
+                SameAmounts(Amounts(Transposed(rho), n), transposed, n);
+                var conj = new Complex[1 << n, 1 << n];
+                for (int i = 0; i < 1 << n; i++) for (int j = 0; j < 1 << n; j++) conj[i, j] = Complex.Conjugate(rho[i, j]);
+                SameAmounts(Amounts(conj, n), transposed, n);
+            }
+        }
+    }
+
+    [Fact]
+    public void The_State_Readings_Refuse_Words_Beyond_The_Sites()
+    {
+        Assert.Throws<ArgumentException>(() => LetterCube.RightShift(PauliString.Parse("IIX"), 'X', 2));
+        Assert.Throws<ArgumentException>(() => LetterCube.RightShift(PauliString.Parse("X"), 'I', 1));
+        Assert.Throws<ArgumentException>(() => LetterCube.HeightWeights(new Dictionary<PauliString, LetterCube.Gauss> { [PauliString.Parse("IZ")] = G(1) }, 1));
+    }
+
     // ---- dense helpers, built letter by letter (the second route) ----
 
     internal static Complex[,] Letter(char c) => c switch

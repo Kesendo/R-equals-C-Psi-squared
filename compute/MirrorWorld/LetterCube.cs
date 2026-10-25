@@ -46,7 +46,14 @@ namespace MirrorWorld;
 // rho -> A rho^T B with A a one-site Clifford and B in A^dagger times a letter, 192 maps modulo a global phase, and
 // the uniform moves named in §9. Asking them of a given setting is the Sextant's (its parent is this cube).
 //
-// Deliberately outside: spectra, eigenvalue counts on a plane, centroid trajectories (paths, the main repo's).
+// A state is read through its amounts on the words (ported 2026-10-25 from letter_cube.py's cube_height_weights,
+// cube_right_shift and cube_transpose_sign, the readings simulations/the_wave_in_letters.py is written in):
+// a[sigma] = Tr(rho sigma), so rho = 2^-N sum a[sigma] sigma, Gaussian integers at any common scale. Its weight on a
+// height is the sum of |a|^2 over the words there; the one-sided shift rho -> rho P^N carries every word to one word
+// with a unit, and the transpose turns the sign of the words with an odd number of Y letters and moves none.
+//
+// Deliberately outside: spectra, eigenvalue counts on a plane, centroid trajectories (paths, the main repo's), and the
+// fading of a height profile in time, the self-encounter itself (this cube owns the profile, not the clock).
 //
 // Parent: the World. The three axes are "anticommutes with the frame's z, x, y"; the frame is what this object
 // inherits.
@@ -543,4 +550,75 @@ public sealed class LetterCube : GameObject
 
     // the parity cube (bit_a, bit_b, y_par) read off a point: k_Z mod 2, k_X mod 2, half a sum mod 2
     public static (int A, int B, int Y) Parities(Point p) => (p.KZ % 2, p.KX % 2, ((p.KZ + p.KX - p.KY) / 2) % 2);
+
+    // ---- a state read as words ----
+
+    static void CheckInside(PauliString s, int n, string param)
+    {
+        if (n < 1 || n > PauliString.MaxSites)
+            throw new ArgumentOutOfRangeException(nameof(n), n, $"1 to {PauliString.MaxSites} sites");
+        if (((s.X | s.Z) & ~((1UL << n) - 1)) != 0)
+            throw new ArgumentException($"a word has letters beyond site {n - 1}", param);
+    }
+
+    static Gauss IPower(int k) => (((k % 4) + 4) % 4) switch { 0 => Gauss.One, 1 => Gauss.I, 2 => -Gauss.One, _ => -Gauss.I };
+
+    static void Accumulate(Dictionary<PauliString, Gauss> m, PauliString s, Gauss v)
+        => m[s] = m.TryGetValue(s, out var old) ? old + v : v;
+
+    static Dictionary<PauliString, Gauss> WithoutZeros(Dictionary<PauliString, Gauss> m)
+        => m.Where(kv => !kv.Value.IsZero).ToDictionary(kv => kv.Key, kv => kv.Value);
+
+    // The weight on each height k_Z = 0..n: the sum of |a[sigma]|^2 over the words at that height. With the amounts
+    // Tr(rho sigma) the weights divided by 2^N are W_k, sum_k W_k = Tr(rho^dagger rho), the word I^N carrying
+    // |Tr rho|^2 / 2^N. The height counts the sites where ket and bra disagree, so W_k is also the sum of |rho_ij|^2 over
+    // the entries whose indices differ in k bits. For a Hermitian rho under Z dephasing alone at rate gamma on every
+    // site each word fades at 2 gamma k_Z, and the self-encounter Tr(rho e^{tL} rho) is sum_k W_k e^{-2 gamma k t}.
+    public static long[] HeightWeights(IReadOnlyDictionary<PauliString, Gauss> amounts, int n)
+    {
+        var w = new long[n + 1];
+        foreach (var (s, a) in amounts)
+        {
+            CheckInside(s, n, nameof(amounts));
+            w[BitOperations.PopCount(s.X)] += a.Re * a.Re + a.Im * a.Im;
+        }
+        return w;
+    }
+
+    // The one-sided shift on one word: sigma P^N = Phase Image, letter by letter (I <-> P, the two other letters
+    // exchanged with a unit). For P = X it is R, the image RightByXN gives, carrying the quiet edge onto the far edge.
+    public static (PauliString Image, Gauss Phase) RightShift(PauliString s, char letter, int n)
+    {
+        CheckInside(s, n, nameof(s));
+        ulong all = (1UL << n) - 1;
+        var p = letter switch
+        {
+            'X' => new PauliString(all, 0),
+            'Y' => new PauliString(all, all),
+            'Z' => new PauliString(0, all),
+            _ => throw new ArgumentException($"the shift is by a letter X, Y or Z; got '{letter}'", nameof(letter)),
+        };
+        var (image, k) = PauliString.Multiply(s, p);
+        return (image, IPower(k));
+    }
+
+    // the amounts of rho P^N: each amount moves to its word's image, times the word's unit
+    public static IReadOnlyDictionary<PauliString, Gauss> RightShift(IReadOnlyDictionary<PauliString, Gauss> amounts, char letter, int n)
+    {
+        var b = new Dictionary<PauliString, Gauss>();
+        foreach (var (s, a) in amounts)
+        {
+            var (image, phase) = RightShift(s, letter, n);
+            Accumulate(b, image, phase * a);
+        }
+        return WithoutZeros(b);
+    }
+
+    // sigma^T = (-1)^{n_Y} sigma: the transpose moves no word, each Y letter gives a sign, so the words with an odd
+    // number of Y letters turn their sign
+    public static int TransposeSign(PauliString s) => (BitOperations.PopCount(s.X & s.Z) & 1) == 0 ? 1 : -1;
+
+    // the amounts of rho^T; for a Hermitian rho this is rho*, Y being the only letter with imaginary entries
+    public static IReadOnlyDictionary<PauliString, Gauss> Transpose(IReadOnlyDictionary<PauliString, Gauss> amounts)
+        => WithoutZeros(amounts.ToDictionary(kv => kv.Key, kv => TransposeSign(kv.Key) * kv.Value));
 }

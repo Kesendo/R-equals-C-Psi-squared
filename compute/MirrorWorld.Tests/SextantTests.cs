@@ -59,6 +59,50 @@ public class SextantTests
         Assert.Equal($"{2 * n}", pi.C);
     }
 
+    // One bit watched along Z with a field along X, Y or Z (§9's corner-shift row; the one bit with a field of
+    // reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md). Read on the cube by hand first: the watching puts I
+    // and Z on the quiet edge and X and Y on the far edge, and a field along P leaves I and P at rest and moves the
+    // other two into each other. The X field moves Y and Z, one on each edge, and R (I <-> X, Y <-> Z) flips the height
+    // and carries each pair onto itself: a reflection. The Y field moves X and Z, and the shift by Y (I <-> Y, X <-> Z)
+    // does the same. The Z field moves X and Y, both on the far edge, and leaves I and Z at rest, both on the quiet
+    // edge: a map that flips the height would carry the moving pair onto the resting one, so nothing reflects, and the
+    // shift by Z is a copy. Pi_Z (the transpose, then R) needs a real field: it reflects under X, not under Y.
+    [Fact]
+    public void One_Watched_Bit_With_A_Field_Reads_As_The_Cube_By_Hand()
+    {
+        var moves1 = LetterCube.TableMoves(1);
+        var piZ = LetterCube.Move.Uniform(moves1.Single(m => m.Name == "the transpose").Sites[0].Then(moves1.Single(m => m.Name.StartsWith("R,")).Sites[0], "Pi_Z"), 1);
+        Sextant.Setting Bit(char? field) => new(1, field is { } f ? new[] { (PauliString.Parse(f.ToString()), 1L) } : Array.Empty<(PauliString, long)>(),
+                                               Every(1, LetterCube.LetterMatrix('Z'), 1));
+        const string shiftY = "the shift by Y^N (rho.Y^N)", shiftZ = "the shift by Z^N (rho.Z^N)";
+
+        var none = Table(Bit(null));
+        Assert.Equal(Sextant.Verdict.Reflection, none["R"].Verdict);
+        Assert.Equal(Sextant.Verdict.Reflection, none[shiftY].Verdict);
+
+        var x = Table(Bit('X'));
+        Assert.Equal((Sextant.OnHamiltonian.Keeps, Sextant.OnDissipator.Reflects, Sextant.Verdict.Reflection), (x["R"].OnH, x["R"].OnD, x["R"].Verdict));
+        Assert.Equal("2", x["R"].C);
+        Assert.Equal((Sextant.OnHamiltonian.Breaks, Sextant.Verdict.Neither), (x[shiftY].OnH, x[shiftY].Verdict));
+        Assert.Equal(Sextant.Verdict.PiReflection, Sextant.Ask(Bit('X'), piZ).Verdict);
+
+        var y = Table(Bit('Y'));
+        Assert.Equal((Sextant.OnHamiltonian.Keeps, Sextant.Verdict.Reflection), (y[shiftY].OnH, y[shiftY].Verdict));
+        Assert.Equal("2", y[shiftY].C);
+        Assert.Equal((Sextant.OnHamiltonian.Breaks, Sextant.Verdict.Neither), (y["R"].OnH, y["R"].Verdict));
+        Assert.Equal(Sextant.Verdict.Neither, Sextant.Ask(Bit('Y'), piZ).Verdict);
+
+        var z = Table(Bit('Z'));
+        Assert.Equal(Sextant.Verdict.Copy, z[shiftZ].Verdict);
+        Assert.Equal(Sextant.Verdict.Neither, z["R"].Verdict);
+        Assert.Equal(Sextant.Verdict.Neither, z[shiftY].Verdict);
+
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(Bit('X')).Kind);
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(Bit('Y')).Kind);
+        Assert.Equal(Sextant.Palindrome.Obstructed, Sextant.Decide(Bit('Z')).Kind);
+        Assert.DoesNotContain(Sextant.Search(Bit('Z')), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+    }
+
     // §9 under amplitude damping (gates M8, M9): a copy keeps the arrow (the turn by Z^N, the quarter-turn about Z),
     // the transpose keeps the damping and flips L_H, the turns by X^N and Y^N and every shift break, and S_XY turns
     // the arrow round: a reflection with c = sum of the rates, at loss alone and with gain beside it.
