@@ -116,6 +116,11 @@ from .letter_cube import (
     cube_moves,
     cube_edges,
     cube_centroid,
+    cube_height_weights,
+    cube_right_shift,
+    cube_right_shift_vector,
+    cube_transpose_sign,
+    cube_transpose_vector,
 )
 from .chain_system import ChainSystem
 from .dephased_system import DephasedSystem

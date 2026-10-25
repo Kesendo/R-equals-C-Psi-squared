@@ -76,9 +76,11 @@ reflection can point at numbers instead of words.
    it too (checked, both signs, both couplings). A field at another angle in
    the equator plane turns the string and the mirror with it: the turned Π
    reflects XXZ (U(1)) and not XX only; under XXZ the turned string's
-   eigenstates keep it and the cat, an X^N eigenstate, does not. A random pure
-   state and its conjugate meet themselves alike under the X field and part
-   under a Y field once bits are coupled (L ≠ Lᵀ there, necessary and not by
+   eigenstates keep it and the cat, an X^N eigenstate, does not at the angle tried
+   (0.7; at angles that are multiples of π/N the turned string returns the cat and
+   it keeps the property). A random pure
+   state and its conjugate meet themselves alike under the X field and under the
+   Z field (both real) and part under a Y field once bits are coupled (L ≠ Lᵀ there, necessary and not by
    itself sufficient: one bit alone under a Y field keeps the pair, its Y
    coefficient only decays; asserted). Every two-site Pauli coupling that Π
    reflects is real (asserted), so the conjugate route covers every coupling
@@ -537,8 +539,10 @@ def coupled_bits_with_a_field():
         rho = np.outer(psi, psi.conj())
         part_y = np.abs(encounter(L_y, coords(rho)) - encounter(L_y, coords(rho.conj()))).max()
         part_x = np.abs(encounter(gen(H_xxz + h * field(X)), coords(rho)) - encounter(gen(H_xxz + h * field(X)), coords(rho.conj()))).max()
-        assert part_x < 1e-12 and part_y > 1e-3, f"the conjugate pair: alike under the X field ({part_x:.1e}), parted under the Y field ({part_y:.1e})"
-        print(f"      a random pure state and its conjugate: |S - S*| under X field {part_x:.1e}, under Y field {part_y:.1e}")
+        L_zf = gen(H_xxz + h * field(Z))
+        part_z = np.abs(encounter(L_zf, coords(rho)) - encounter(L_zf, coords(rho.conj()))).max()
+        assert part_x < 1e-12 and part_z < 1e-12 and part_y > 1e-3, f"the conjugate pair: alike under the X field ({part_x:.1e}) and the Z field ({part_z:.1e}), parted under the Y field ({part_y:.1e})"
+        print(f"      a random pure state and its conjugate: |S - S*| under X field {part_x:.1e}, under Z field {part_z:.1e}, under Y field {part_y:.1e}")
         # (c') one bit alone under the Y field keeps the pair (its Y coefficient only decays), and every two-site Pauli
         #      coupling that Pi reflects is real, so the conjugate sentence applies to every coupling that keeps the mirror
         if N == 2:

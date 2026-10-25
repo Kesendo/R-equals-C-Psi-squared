@@ -187,3 +187,48 @@ def test_inputs_are_checked():
         fw.cube_step('XX', 'XXI')
     with pytest.raises(ValueError):
         fw.cube_centroid(np.zeros(16), 2)
+
+
+@pytest.mark.parametrize("N", [1, 2, 3])
+def test_height_weights_are_the_self_encounter_under_watching_alone(N):
+    # independent route: the dense self-encounter Tr(rho e^{tL} rho) under Z dephasing with H = 0
+    from scipy.linalg import expm
+    rng = np.random.default_rng(1)
+    g = 0.3
+    psi = rng.normal(size=2 ** N) + 1j * rng.normal(size=2 ** N)
+    psi /= np.linalg.norm(psi)
+    rho = np.outer(psi, psi.conj())
+    W = fw.cube_height_weights(fw.pauli_basis_vector(rho, N), N)
+    assert W.shape == (N + 1,)
+    assert abs(W.sum() - np.trace(rho @ rho).real) < 1e-12          # sums to the Hilbert-Schmidt norm squared
+    L = fw.lindbladian_z_dephasing(np.zeros((2 ** N, 2 ** N), dtype=complex), [g] * N)
+    for t in (0.4, 1.3):
+        S = np.vdot(rho.reshape(-1), expm(t * L) @ rho.reshape(-1)).real
+        assert abs(S - sum(W[k] * np.exp(-2 * g * k * t) for k in range(N + 1))) < 1e-12
+    # the word I^N carries (Tr rho)^2 / 2^N, and the completely mixed state sits entirely at height 0
+    mixed = np.eye(2 ** N) / 2 ** N
+    Wm = fw.cube_height_weights(fw.pauli_basis_vector(mixed, N), N)
+    assert Wm[0] == 1 / 2 ** N and np.abs(Wm[1:]).max() == 0.0
+
+
+@pytest.mark.parametrize("N", [1, 2, 3])
+def test_right_shift_and_transpose_agree_with_the_matrices(N):
+    rng = np.random.default_rng(2)
+    rho = rng.normal(size=(2 ** N, 2 ** N)) + 1j * rng.normal(size=(2 ** N, 2 ** N))   # not Hermitian: rho^T != rho*
+    c = fw.pauli_basis_vector(rho, N)
+    for P in 'XYZ':
+        shifted = fw.pauli_basis_vector(rho @ mat(P * N), N)
+        assert np.abs(fw.cube_right_shift_vector(c, N, P) - shifted).max() < 1e-12
+    assert np.abs(fw.cube_transpose_vector(c, N) - fw.pauli_basis_vector(rho.T, N)).max() < 1e-12
+    assert np.abs(fw.cube_transpose_vector(c, N) - fw.pauli_basis_vector(rho.conj(), N)).max() > 1e-2, "on a non-Hermitian input the transpose is not the conjugate"
+    herm = rho + rho.conj().T
+    ch = fw.pauli_basis_vector(herm, N)
+    assert np.abs(fw.cube_transpose_vector(ch, N) - fw.pauli_basis_vector(herm.conj(), N)).max() < 1e-12, "on a Hermitian input it is"
+    # word by word: the shift by X carries (k_Z, k_X, k_Y) to (N - k_Z, k_X, N - k_Y), with a unit phase
+    for s in labels(N):
+        t, ph = fw.cube_right_shift(s, 'X')
+        kz, kx, ky = fw.cube_coords(s)
+        assert fw.cube_coords(t) == (N - kz, kx, N - ky) and abs(abs(ph) - 1) == 0
+        assert np.array_equal(mat(s).T, fw.cube_transpose_sign(s) * mat(s))
+    with pytest.raises(ValueError):
+        fw.cube_right_shift('XI', 'I')

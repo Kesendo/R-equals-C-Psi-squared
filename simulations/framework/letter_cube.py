@@ -27,6 +27,11 @@ Public API:
   cube_moves(terms, N)                -> set of steps (dk_Z, dk_X, dk_Y) the terms make on N sites
   cube_edges(terms, N)                -> set of pairs of lattice points the terms join
   cube_centroid(coeffs, N)            -> centroid of a Pauli-coefficient vector, weights |c|²
+  cube_height_weights(coeffs, N)      -> weight per height k_Z, 2^N·Σ|c|² over the words at that height
+  cube_right_shift(label, letter='X') -> (target, phase): the word's image under ρ ↦ ρ·P^N (R for P = X)
+  cube_right_shift_vector(coeffs, N, letter='X') -> the coefficient vector of ρ·P^N
+  cube_transpose_sign(label)          -> (−1)^{n_Y}, the transpose's sign on the word (σᵀ = sign·σ)
+  cube_transpose_vector(coeffs, N)    -> the coefficient vector of ρᵀ
 
 Labels are strings over 'IXYZ', site 0 leftmost, as fw._pauli_label writes them; coefficient
 vectors are in fw.pauli_basis_vector's order. k_Z is the XY-weight, the total bit_a of
@@ -216,3 +221,62 @@ def cube_centroid(coeffs, N):
     if tot == 0:
         raise ValueError("the zero vector has no centroid")
     return tuple(float(x) for x in (p @ _coords_table(N)) / tot)
+
+
+def cube_height_weights(coeffs, N):
+    """Weight of a Pauli-coefficient vector (fw.pauli_basis_vector order) on each height k_Z = 0..N:
+    W_k = 2^N · Σ_{k_Z(σ) = k} |c_σ|², so that Σ_k W_k = ‖ρ‖² (Hilbert-Schmidt) and the word I^N
+    carries (Tr ρ)²/2^N, 1/2^N for a normalized state. Under Z-dephasing alone at rate γ on every
+    site every word is an eigenvector at rate 2γ·k_Z, so Tr(ρ e^{tL} ρ) = Σ_k W_k e^{−2γkt}: the
+    self-encounter is the height profile read through the fading (THE_ONE_SQUARE §7, §8)."""
+    c = np.asarray(coeffs)
+    if c.shape != (4 ** N,):
+        raise ValueError(f"expected a vector of length 4^N = {4 ** N}; got shape {c.shape}")
+    kz = _coords_table(N)[:, 0]
+    p = (2 ** N) * np.abs(c) ** 2
+    return np.array([p[kz == k].sum() for k in range(N + 1)])
+
+
+def cube_right_shift(label, letter='X'):
+    """The one-sided shift ρ ↦ ρ·P^⊗N on one word (R, THE_ONE_SQUARE §9, for P = X): the word
+    σ·P^N = phase · target, letter by letter (I ↔ P, and the two other letters exchanged with ±i).
+    For P = X the point moves (k_Z, k_X, k_Y) ↦ (N − k_Z, k_X, N − k_Y), the quiet edge onto the far edge."""
+    _check(label)
+    if letter not in 'XYZ':
+        raise ValueError(f"the shift is by a letter X, Y or Z; got {letter!r}")
+    target = ''.join(_mul(a, letter) for a in label)
+    phase = 1
+    for a in label:
+        phase *= _PHASE[(a, letter)]
+    return target, phase
+
+
+def cube_right_shift_vector(coeffs, N, letter='X'):
+    """Apply ρ ↦ ρ·P^⊗N to a Pauli-coefficient vector: the coefficient of σ moves to σ·P^N with
+    the word's phase. The coefficient vector of ρ·P^N in fw.pauli_basis_vector order."""
+    c = np.asarray(coeffs)
+    if c.shape != (4 ** N,):
+        raise ValueError(f"expected a vector of length 4^N = {4 ** N}; got shape {c.shape}")
+    out = np.zeros(4 ** N, dtype=complex)
+    index = {_pauli_label(k, N): k for k in range(4 ** N)}
+    for k in range(4 ** N):
+        target, phase = cube_right_shift(_pauli_label(k, N), letter)
+        out[index[target]] += phase * c[k]
+    return out
+
+
+def cube_transpose_sign(label):
+    """σᵀ = (−1)^{n_Y} σ: the transpose D moves no word and turns the sign of every Y letter
+    (THE_ONE_SQUARE §7, the polarity y_par). Returns +1 or −1."""
+    _check(label)
+    return -1 if label.count('Y') % 2 else 1
+
+
+def cube_transpose_vector(coeffs, N):
+    """The coefficient vector of ρᵀ: every coefficient multiplied by its word's transpose sign.
+    For a Hermitian ρ this is the complex conjugate ρ*, since Y is the only letter with imaginary entries."""
+    c = np.asarray(coeffs)
+    if c.shape != (4 ** N,):
+        raise ValueError(f"expected a vector of length 4^N = {4 ** N}; got shape {c.shape}")
+    signs = np.array([cube_transpose_sign(_pauli_label(k, N)) for k in range(4 ** N)])
+    return signs * c
