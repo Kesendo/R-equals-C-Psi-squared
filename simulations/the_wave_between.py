@@ -16,7 +16,9 @@ reflection can point at numbers instead of words.
    generator equals its own transpose, L = L^T, exactly, so for symmetric A
    and B, Tr(B e^{tL} A) = Tr(A e^{tL} B) in the SAME system: preparation and
    readout trade places. A Dzyaloshinskii-Moriya term or amplitude damping
-   breaks L = L^T, and then the swapped pairing differs. (The bare identity
+   breaks L = L^T, and then the swapped pairing differs; with the DM term the
+   swapped run equals the forward run of the system with the DM term reversed,
+   F119's reversed flux. (The bare identity
    Tr(B e^{tL} A) = Tr(A e^{tL^T} B) for symmetric A, B holds for every L and
    is not tested here, since it cannot fail.)
 5. The mirror: in F1's class (here an XXZ pair under Z dephasing) Π L Π⁻¹ =
@@ -87,8 +89,13 @@ reflection can point at numbers instead of words.
    that keeps the mirror. A field along the watching, equal on both bits
    of a pair: Π broken, spectrum paired about no centre, yet the singlet and
    the triplet |01⟩ ± |10⟩, which the field does not turn, keep it exactly;
-   unequal fields on the two bits break it, and Bell+ fails. N = 2, 3 (the Z
-   field at N = 2); all asserted.
+   unequal fields on the two bits break it, and Bell+ fails. The first move
+   alone is enough for the look: under XXZ + YZ + ZY, which commutes with X^N
+   but is not real and leaves no Π mirror, every X^N eigenstate still keeps
+   it, and a Y^N eigenstate keeps it under XXZ with a field along Y (THE
+   PAIRING CONDITION's trace form at one state); the conjugate pair parts only
+   where even-Y and odd-Y terms mix, kept under DM terms alone and parted
+   under XXZ + DM. N = 2, 3 (the Z field at N = 2); all asserted.
 """
 from __future__ import annotations
 
@@ -137,36 +144,54 @@ def self_encounter_blind_to_phase():
 
     A1, A2 = bloch_state(1.0, 0.0), bloch_state(1.0, 2.0)
     print("   t    S(A1)      S(A2)      X probe on A1  X probe on A2")
+    self_gap, probe_gap = 0.0, 0.0
     for t in (0.0, 0.5, 1.0, 2.0, 4.0):
         U = expm(L * t)
         r1, r2 = unvec(U @ vec(A1), 2), unvec(U @ vec(A2), 2)
-        print(f"   {t:<4} {np.trace(A1 @ r1).real:.6f}   {np.trace(A2 @ r2).real:.6f}"
-              f"   {np.trace(X @ r1).real:+.6f}      {np.trace(X @ r2).real:+.6f}")
+        s1, s2 = np.trace(A1 @ r1).real, np.trace(A2 @ r2).real
+        x1, x2 = np.trace(X @ r1).real, np.trace(X @ r2).real
+        self_gap, probe_gap = max(self_gap, abs(s1 - s2)), max(probe_gap, abs(x1 - x2))
+        print(f"   {t:<4} {s1:.6f}   {s2:.6f}   {x1:+.6f}      {x2:+.6f}")
+    # the same quantity reached twice through expm: what is left is the exponential's own rounding
+    assert self_gap < 1e-12, f"the two self-encounters agree number for number ({self_gap:.1e})"
+    assert probe_gap > 1e-2, f"an outside probe along X tells them apart ({probe_gap:.2f})"
     Lx = lindbladian_z_dephasing(0.5 * omega * X, [gamma])
     print("   control, field along X (no longer a symmetry of the phase):")
+    control = 0.0
     for t in (0.5, 2.0):
         U = expm(Lx * t)
         r1, r2 = unvec(U @ vec(A1), 2), unvec(U @ vec(A2), 2)
-        print(f"   {t:<4} {np.trace(A1 @ r1).real:.6f}   {np.trace(A2 @ r2).real:.6f}")
+        s1, s2 = np.trace(A1 @ r1).real, np.trace(A2 @ r2).real
+        control = max(control, abs(s1 - s2))
+        print(f"   {t:<4} {s1:.6f}   {s2:.6f}")
+    assert control > 1e-2, f"with the field along X the two self-encounters part ({control:.2f})"
 
 
 def bell_pair_is_all_between():
     print("2. The Bell pair: nothing on either site, everything between")
-    b = np.array([1, 0, 0, 1], dtype=complex) / np.sqrt(2)
-    R = np.outer(b, b.conj())
+    R = 0.5 * np.array([[1, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 1]], dtype=complex)   # |00> + |11>, normalized, exact halves
 
     def coeff(i, j):
         return np.trace(R @ np.kron(PAULI[i], PAULI[j])).real
 
-    print("   A alone:", [float(round(coeff(i, 0), 6)) for i in (1, 2, 3)])
-    print("   B alone:", [float(round(coeff(0, j), 6)) for j in (1, 2, 3)])
-    print("   between:", [[float(round(coeff(i, j), 6)) for j in (1, 2, 3)] for i in (1, 2, 3)])
+    alone_a, alone_b = [float(coeff(i, 0)) for i in (1, 2, 3)], [float(coeff(0, j)) for j in (1, 2, 3)]
+    between = [[float(coeff(i, j)) for j in (1, 2, 3)] for i in (1, 2, 3)]
+    assert alone_a == [0.0] * 3 and alone_b == [0.0] * 3, "each site alone points nowhere"
+    assert between == [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, 1.0]], "everything sits in XX, YY, ZZ"
+    R00 = np.diag([1.0, 0.0, 0.0, 0.0]).astype(complex)                     # the control: |00>, a product
+    assert np.trace(R00 @ np.kron(Z, I2)).real == 1.0, "a product state points along Z at the first site alone"
+    print("   A alone:", alone_a)
+    print("   B alone:", alone_b)
+    print("   between:", between)
 
 
 def count_selves_and_between():
     print("3. Pauli strings on one site against strings on two or more")
     for N in range(1, 6):
-        print(f"   N = {N}: one site {3 * N}, between {4 ** N - 1 - 3 * N}")
+        weights = [sum(c != 'I' for c in word) for word in itertools.product('IXYZ', repeat=N)]
+        one, between = weights.count(1), sum(1 for w in weights if w >= 2)
+        assert one == 3 * N and between == 4 ** N - 1 - 3 * N, "counted string by string"
+        print(f"   N = {N}: one site {one}, between {between}")
 
 
 def two_site_generator(gammas):
@@ -188,12 +213,24 @@ def reciprocity():
     cases = (("real H, Z dephasing", two_site_generator([0.2, 0.2])),
              ("with a DM term", lindbladian_z_dephasing(H + dm, [0.2, 0.2])),
              ("with amplitude damping", two_site_generator([0.2, 0.2]) + loss))
-    for name, L in cases:
+    for (name, L), holds in zip(cases, (True, False, False)):
         U = expm(L * 0.7)
         forward = np.trace(Mb @ unvec(U @ vec(Ma), 4)).real
         swapped = np.trace(Ma @ unvec(U @ vec(Mb), 4)).real
-        print(f"   {name}: max|L - L^T| = {np.abs(L - L.T).max()}, "
+        asym = np.abs(L - L.T).max()
+        print(f"   {name}: max|L - L^T| = {asym}, "
               f"Tr(B e^(tL) A) = {forward:.12f}, Tr(A e^(tL) B) = {swapped:.12f}")
+        if holds:
+            # L = L^T entry by entry (the computational basis, F119's), and the swap is then one number twice through expm
+            assert asym == 0.0 and abs(forward - swapped) < 1e-12, f"{name}: the swap holds ({abs(forward - swapped):.1e})"
+        else:
+            assert asym > 1e-2 and abs(forward - swapped) > 1e-2, f"{name}: the swap breaks ({abs(forward - swapped):.2f})"
+    # the twisted coupling's swap lands on the mirrored system: H^T reverses the DM term (the reversed flux of F119's proof)
+    U_rev = expm(lindbladian_z_dephasing(H - dm, [0.2, 0.2]) * 0.7)
+    forward_rev = np.trace(Mb @ unvec(U_rev @ vec(Ma), 4)).real
+    swapped_dm = np.trace(Ma @ unvec(expm(lindbladian_z_dephasing(H + dm, [0.2, 0.2]) * 0.7) @ vec(Mb), 4)).real
+    assert abs(swapped_dm - forward_rev) < 1e-12, f"the swapped run with DM equals the forward run with the DM term reversed ({abs(swapped_dm - forward_rev):.1e})"
+    print(f"   with the DM term: Tr(A e^(tL) B) = {swapped_dm:.12f}, Tr(B e^(tL') A) with the DM term reversed = {forward_rev:.12f}")
 
 
 def mirror_self_encounter():
@@ -207,6 +244,7 @@ def mirror_self_encounter():
     Pi = build_pi_full(2)
     residual = np.abs(Pi @ LP @ Pi.conj().T + LP + 2 * sigma * np.eye(16)).max()
     print(f"   palindrome residual in this basis: {residual}")
+    assert residual < 1e-12, f"Pi L Pi^-1 = -L - 2 sigma in this basis ({residual:.1e})"
     rng = np.random.default_rng(3)
     a = rng.normal(size=16) + 1j * rng.normal(size=16)
     b = Pi @ a
@@ -214,6 +252,9 @@ def mirror_self_encounter():
         s_mirror = b.conj() @ expm(LP * t) @ b
         s_back = np.exp(-2 * sigma * t) * (a.conj() @ expm(-LP * t) @ a)
         print(f"   t = {t}: S_PiA(t) = {s_mirror:.12f}, e^(-2σt) S_A(-t) = {s_back:.12f}")
+        assert abs(s_mirror - s_back) < 1e-12 * abs(s_back), f"the mirror identity at t = {t} ({abs(s_mirror - s_back):.1e})"
+        s_half = np.exp(-sigma * t) * (a.conj() @ expm(-LP * t) @ a)                 # the control: the middle sigma taken for the price
+        assert abs(s_mirror - s_half) > 1e-2 * abs(s_back), f"with the price taken as sigma the identity fails ({abs(s_mirror - s_half):.2f})"
 
 
 def mirror_twin_exists():
@@ -261,6 +302,10 @@ def mirror_twin_exists():
         diffs = [abs((a.conj() @ expm(LP * t) @ a) - (b.conj() @ expm(LP * t) @ b)) for t in (0.5, 1.7)]
         print(f"   {name}: |S_A - S_PiA| at t = 0.5, 1.7: "
               f"{diffs[0]:.3e}, {diffs[1]:.3e}")
+        if "equator" in name:
+            assert max(diffs) < 1e-12, f"{name}: on the equator the two self-encounters agree"
+        else:
+            assert max(diffs) > 1e-2, f"{name}: off the equator they part (the control)"
 
 
 def one_qubit_with_a_field():
@@ -552,7 +597,16 @@ def coupled_bits_with_a_field():
             rho1 = 0.5 * (I2 + b[0] * X + b[1] * Y + b[2] * Z)
             a1, a1c = T1.conj().T @ vec(rho1), T1.conj().T @ vec(rho1.conj())
             one_bit = max(abs(a1.conj() @ expm(L1y * t) @ a1 - a1c.conj() @ expm(L1y * t) @ a1c) for t in ts)
-            assert np.abs(L1y - L1y.T).max() > 1e-2 and one_bit < 1e-12, f"one bit, Y field: L != L^T yet the conjugate pair holds ({one_bit:.1e})"
+            # F119's transpose lives in the computational basis; in the Pauli basis L_H is antisymmetric for every field,
+            # so the asymmetry has to be read there, with the real X and Z fields as the controls that must give 0.0
+            asym = {name: np.abs(Lc - Lc.T).max() for name, Lc in
+                    ((name, lindbladian_z_dephasing(h * F, [gamma])) for name, F in (("X", X), ("Y", Y), ("Z", Z)))}
+            assert asym["X"] == 0.0 and asym["Z"] == 0.0 and asym["Y"] > 1e-2, f"one bit: only the Y field gives L != L^T in the computational basis ({asym})"
+            assert one_bit < 1e-12, f"one bit, Y field: L != L^T yet the conjugate pair holds ({one_bit:.1e})"
+            # a field between X and Y mixes an even-Y and an odd-Y term, and parts the pair even on one bit
+            L1o = T1.conj().T @ lindbladian_z_dephasing(h * (np.cos(phi) * X + np.sin(phi) * Y), [gamma]) @ T1
+            one_bit_oblique = max(abs(a1.conj() @ expm(L1o * t) @ a1 - a1c.conj() @ expm(L1o * t) @ a1c) for t in ts)
+            assert one_bit_oblique > 1e-2, f"one bit, field at angle {phi} between X and Y: the conjugate pair parts ({one_bit_oblique:.2f})"
             reflected, non_real = [], []
             for idx in idxs:
                 P = kron_all([PAULI[i] for i in idx])
@@ -563,7 +617,8 @@ def coupled_bits_with_a_field():
                     if np.abs(P.imag).max() > 1e-12:
                         non_real.append(idx)
             assert reflected and not non_real, f"every two-site Pauli coupling Pi reflects is real ({len(reflected)} reflected, {len(non_real)} non-real)"
-            print(f"      one bit under the Y field: conjugate pair gap {one_bit:.1e} (L != L^T: {np.abs(L1y - L1y.T).max():.2f}); two-site Pauli couplings Pi reflects: {len(reflected)}, all real")
+            print(f"      one bit under a field at angle {phi} between X and Y: conjugate pair gap {one_bit_oblique:.2f}")
+            print(f"      one bit under the Y field: conjugate pair gap {one_bit:.1e} (|L - L^T| in the computational basis: Y field {asym['Y']:.2f}, X and Z fields {asym['X']}, {asym['Z']}); two-site Pauli couplings Pi reflects: {len(reflected)}, all real")
         # (d) a field along the watching, the same on both bits of a pair: no mirror, yet the m = 0 pair keeps it; unequal fields break it
         if N == 2:
             L_z = gen(H_xxz + h * field(Z))
@@ -579,6 +634,34 @@ def coupled_bits_with_a_field():
             g_bell = even_gap(L_z, coords(np.outer(bell, bell)))
             assert g_bell > 1e-2, f"Bell+ under the Z field is turned by it and fails ({g_bell:.1e})"
             print(f"      Z field on both bits, XXZ: Bell+ (turned by the field) gap {g_bell:.1e}")
+        # (e) the first move alone is enough for the look: a coupling that commutes with X^N but is not real (YZ + ZY,
+        #     n_Y + n_Z even with n_Y odd) leaves no Pi mirror, yet every X^N eigenstate keeps the property, and so does a
+        #     Y^N eigenstate under XXZ with a field along Y, whose word Y^N that coupling commutes with; the conjugate pair
+        #     parts only where even-Y and odd-Y terms mix: DM terms alone keep it, XXZ + DM parts it
+        def pair(k, A, B):
+            return kron_all([A if l == k else (B if l == k + 1 else I2) for l in range(N)])
+        H_yz = H_xxz + 0.37 * sum(pair(k, Y, Z) + pair(k, Z, Y) for k in range(N - 1))
+        L_yz = gen(H_yz)
+        assert np.abs(H_yz @ XN - XN @ H_yz).max() == 0.0 and np.abs(H_yz.imag).max() > 0, "YZ + ZY commutes with X^N and is not real"
+        assert reflects(Pi, L_yz) > 1e-2, "no Pi mirror for a coupling that is not real"
+        g_e = max(even_gap(L_yz, coords(eigenstate(XN, val))) for val in (+1, -1))
+        psi = rng.normal(size=d) + 1j * rng.normal(size=d); psi /= np.linalg.norm(psi)
+        g_r = even_gap(L_yz, coords(np.outer(psi, psi.conj())))
+        assert g_e < 1e-12 and g_r > 1e-3, f"XXZ + YZ + ZY: X^N eigenstates keep the property ({g_e:.1e}), a random pure state does not ({g_r:.1e})"
+        g_yn = even_gap(L_y, coords(eigenstate(YN, +1)))
+        assert g_yn < 1e-12, f"XXZ + Y field: a Y^N eigenstate keeps the property ({g_yn:.1e})"
+        H_dm = sum(pair(k, X, Y) - pair(k, Y, X) for k in range(N - 1))
+        draws = []
+        for _ in range(3):
+            v = rng.normal(size=d) + 1j * rng.normal(size=d); v /= np.linalg.norm(v)
+            draws.append(np.outer(v, v.conj()))
+
+        def conj_gap(L):
+            return max(np.abs(encounter(L, coords(r)) - encounter(L, coords(r.conj()))).max() for r in draws)
+        conj_dm, conj_mix, conj_odd = conj_gap(gen(H_dm)), conj_gap(gen(H_xxz + H_dm)), conj_gap(gen(H_dm + h * field(Y)))
+        assert conj_dm < 1e-12 and conj_odd < 1e-12 and conj_mix > 1e-2, f"the conjugate pair: kept under DM terms alone ({conj_dm:.1e}) and DM with a Y field ({conj_odd:.1e}), parted under XXZ + DM ({conj_mix:.1e})"
+        print(f"      XXZ + YZ + ZY (not real, no Pi mirror): X^N eigenstates gap {g_e:.1e}, random pure state {g_r:.1e}; XXZ + Y field: Y^N eigenstate gap {g_yn:.1e}")
+        print(f"      the conjugate pair: DM terms alone {conj_dm:.1e}, DM with a Y field {conj_odd:.1e}, XXZ + DM {conj_mix:.1e}")
 
 
 if __name__ == "__main__":
