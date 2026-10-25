@@ -2523,7 +2523,10 @@ public static class OpenArcsRegistry
                 "single-state reading test; zero-holonomy stays retired (undefined). Prior milestones: M2a/M2b " +
                 "FI(Q)+DefectDecoder, M3 DefectReadingEquivarianceClaim (Tier1Derived), the K-partner selection " +
                 "rule (KPartnerSelectionRuleClaim), R_k resolved NOT-DERIVABLE-ONLY-COMPUTABLE (IsDeadEnd), M2c " +
-                "read-cost gate-held-strict. Spec Review Round 2 (docs/superpowers/specs/2026-06-20-handshake-" +
+                "read-cost gate-held-strict. The R_k's first-principles counterpart for the pure carrier is live: " +
+                "SingleExcitationPainterDictionary.CarrierChannelLetter, the linear letter of the channel (1, k) in the " +
+                "(1,1) block, no fit; the carrier channels leave 8–17 % in norm and the sizes have no closed form, so " +
+                "IsDeadEnd stands (HANDSHAKE_GEOMETRY.md). Spec Review Round 2 (docs/superpowers/specs/2026-06-20-handshake-" +
                 "reading-grammar-M4-paritycheck-design.md); HANDSHAKE_GEOMETRY.md operationalized."),
 
         new OpenArc(

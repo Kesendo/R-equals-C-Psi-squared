@@ -212,6 +212,37 @@ but the **null structure** of the metric they build is derivable, the K-partner 
 what the metric weights, not in its conditioning. Verifier:
 [`handshake_gram_metric.py`](../simulations/handshake_gram_metric.py).
 
+### The letters' first-order form for the pure carrier
+
+A letter is read from the per-site purity P_i(t) of the defected run: the painters fit the time stretch α_i
+that lays the clean run's purity onto it, and f_i = (α_i − 1)/δJ. The letters factorize over the carrier
+couplings, F[b, i] ≈ Σ_k M[b, k]·R_k(i) with M[b, k] = ⟨ψ_k|V_b|ψ₁⟩ (k = 2..N the location dictionary
+above, k = 1 the strength) and R_k a per-channel profile. The `handshake_decoder` arc in the
+[OpenArcs registry](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs) fitted R_k; a parameter-free
+R_k built from the eigenvector footprint of the Hamiltonian's modes
+([`handshake_rk_first_principles.py`](../simulations/handshake_rk_first_principles.py)) did not reproduce the
+dictionary, and the arc named the Liouvillian modes of the (1, 1) block as the place to look.
+
+For the pure carrier |ψ₁⟩⟨ψ₁| that is where the carrier part lands. (The [PTF](PERSPECTIVAL_TIME_FIELD.md)
+state (|vac⟩ + |ψ₁⟩)/√2 populates four blocks and is not covered; its §3.4 stays open.) As δJ → 0 the fit
+that stretches the exact clean purity becomes a projection: with g_i(t) = t·Ṗ_i(t), the clean purity's
+response to a time stretch, f_i = ⟨g_i, ∂P_i⟩/⟨g_i, g_i⟩ over the time grid, where ∂P_i = dP_i/dδJ is exact in
+the single-excitation block. [EQ-014](../simulations/eq014_first_order_from_rk4.py) takes the same δJ → 0
+limit by RK4 extrapolation, for Σ_i f_i of the four-block state at N = 7: the same method on another quantity.
+
+By linearity the linear letter is a sum over mode pairs. The pairs that touch the carrier give
+Σ_k M[b, k]·u_k(i), with u_k the linear letter of the channel |ψ₁⟩⟨ψ_k| + |ψ_k⟩⟨ψ₁| for k ≥ 2 and of |ψ₁⟩⟨ψ₁|
+for k = 1: the first-principles counterpart of R_k, with no free parameter. The carrier part leaves a
+remainder of 8 % to 17 % in norm over the dictionary at N = 4..12, the pairs that do not touch ψ₁. The couplings have a closed
+form, M[b, k] = (2/(N+1))·[cos((k+1)x/2)·cos((k−1)(b+3/2)x) − cos((k−1)x/2)·cos((k+1)(b+3/2)x)] with
+x = π/(N+1), which vanishes at k = N (the K-partner rule); the size of each u_k is computed and has none, so
+the facet stands. A carrier energy shift, the channel (1, 1), commutes with the carrier and acts only on what
+the watching (the Z dephasing) has already moved out of it, which is why it is small. The painters' own fit
+stretches a spline clamped beyond the grid, so its small-δJ letters meet the linear ones to about 1 % (at the protocol's δJ = 0.02 only to 6 % at N = 4 and 17 % at N = 5). Live:
+`SingleExcitationPainterDictionary.LinearF` and `CarrierChannelLetter`, gated in
+`SingleExcitationPainterDictionaryTests` (the linear letter against the exactly stretched fit at shrinking δJ,
+where (f_fit − f_lin)/δJ converges).
+
 ## The reading's spatial-mirror equivariance (M3)
 
 The location metric above has a symmetry the codebook can name exactly. The defect-reading map is

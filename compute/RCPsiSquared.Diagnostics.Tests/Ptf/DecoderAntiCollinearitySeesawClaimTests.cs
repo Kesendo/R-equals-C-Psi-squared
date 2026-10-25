@@ -30,6 +30,8 @@ public class DecoderAntiCollinearitySeesawClaimTests
         Assert.Contains("mirror-odd", summary);
         Assert.DoesNotContain("distance-2", summary);
         Assert.DoesNotContain("odd-N parity", summary);
+        Assert.Contains("carrier channels", summary);
+        Assert.DoesNotContain("seesaw is open", summary);
     }
 
     [Fact]

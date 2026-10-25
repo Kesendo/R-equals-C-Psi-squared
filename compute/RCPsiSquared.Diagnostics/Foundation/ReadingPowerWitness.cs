@@ -238,7 +238,8 @@ public sealed class ReadingPowerWitness : IInspectable
                 $"on the bond pair ({i},{j}) (the sign-location confuser; min SIGNED cos, not |cos|). " +
                 $"Across N it is the rule, not a parity: over the sites the painters accept the worst signed cos is ≤ −0.91 at N = 3, 5..12 " +
                 $"and −0.541 at N = 4 (the single-excitation block dictionary, handshaken with this pipeline at N = 3..5); the all-site " +
-                $"N = 6 reading −0.378 is carried by two sites the painters' rule rejects. On a mirror pair cos = 1 − 2w, w the letter's " +
+                $"N = 6 reading −0.378 is carried by two sites the painters' rule rejects, a far minimum of the α fit at δJ = 0.02 (the linear letter, δJ → 0 " +
+                $"with no fit, is ordinary there and anti-collinear over all sites). On a mirror pair cos = 1 − 2w, w the letter's " +
                 $"mirror-odd (seesaw) weight. A Q=20 PAINTING effect (the bare dictionary is flat for N≥4). Typed: DecoderAntiCollinearitySeesawClaim; " +
                 $"structural cousin: DefectReadingEquivarianceClaim.",
             payload: new InspectablePayload.Real("worst α anti-collinear cos (signed)", dec.DictionaryWorstAntiCos));
