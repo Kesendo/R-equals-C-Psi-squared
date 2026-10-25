@@ -95,7 +95,11 @@ reflection can point at numbers instead of words.
    it, and a Y^N eigenstate keeps it under XXZ with a field along Y (THE
    PAIRING CONDITION's trace form at one state); the conjugate pair parts only
    where even-Y and odd-Y terms mix, kept under DM terms alone and parted
-   under XXZ + DM. N = 2, 3 (the Z field at N = 2); all asserted.
+   under XXZ + DM. The look cannot tell a coupling run forwards from the same
+   coupling run backwards: under XXZ + DM + YZ + ZY with fields along X and Y,
+   watched along Z on every bit and along X on the first, a state meets itself
+   alike under H and −H; a loss parts them for the complex states drawn. N = 2, 3
+   (the Z field at N = 2); all asserted.
 """
 from __future__ import annotations
 
@@ -662,6 +666,25 @@ def coupled_bits_with_a_field():
         assert conj_dm < 1e-12 and conj_odd < 1e-12 and conj_mix > 1e-2, f"the conjugate pair: kept under DM terms alone ({conj_dm:.1e}) and DM with a Y field ({conj_odd:.1e}), parted under XXZ + DM ({conj_mix:.1e})"
         print(f"      XXZ + YZ + ZY (not real, no Pi mirror): X^N eigenstates gap {g_e:.1e}, random pure state {g_r:.1e}; XXZ + Y field: Y^N eigenstate gap {g_yn:.1e}")
         print(f"      the conjugate pair: DM terms alone {conj_dm:.1e}, DM with a Y field {conj_odd:.1e}, XXZ + DM {conj_mix:.1e}")
+        # (f) "cannot tell a coupling run forwards from the same coupling run backwards": under H and under -H a state
+        #     meets itself alike, here for XXZ + DM + YZ + ZY + fields along X and Y under Pauli watching (Z on every bit,
+        #     X on the first), since -H's steps are H's steps back and the watching is symmetric on the words. The control
+        #     is a loss, whose step I -> Z has no step back: it parts them for these complex states and this complex H
+        #     (for a real H and a real state the entry-wise conjugate keeps them alike even under a loss; not used here)
+        def site(P, l):
+            return kron_all([P if k == l else I2 for k in range(N)])
+        lower = np.array([[0, 1], [0, 0]], dtype=complex)
+        H_any = H_xxz + H_dm + 0.37 * sum(pair(k, Y, Z) + pair(k, Z, Y) for k in range(N - 1)) + h * field(X) + 0.4 * field(Y)
+        heights = [np.sqrt(gamma) * site(Z, l) for l in range(N)] + [np.sqrt(0.2) * site(X, 0)]
+        loss = [np.sqrt(gamma) * site(lower, l) for l in range(N)]
+
+        def reverse_gap(c_ops):
+            Lp = T.conj().T @ lindbladian_general(H_any, c_ops) @ T
+            Lm = T.conj().T @ lindbladian_general(-H_any, c_ops) @ T
+            return max(np.abs(encounter(Lp, coords(r)) - encounter(Lm, coords(r))).max() for r in draws)
+        rev, rev_loss = reverse_gap(heights), reverse_gap(loss)
+        assert rev < 1e-12 and rev_loss > 1e-2, f"H against -H: alike under watching by heights ({rev:.1e}), parted under a loss ({rev_loss:.1e})"
+        print(f"      H against -H (XXZ + DM + YZ + ZY + X and Y fields): watched along Z and X {rev:.1e}, under a loss {rev_loss:.1e}")
 
 
 if __name__ == "__main__":

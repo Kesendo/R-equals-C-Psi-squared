@@ -28,7 +28,9 @@ simulations/the_wave_between.py is the second route of the handshake.
 4. One rule for the steps ("What happened between is one number", and the look blind to the second
    move in "How far the look at itself reaches"): a word's own transpose is its Y sign (checked against
    the word's matrix), so a matrix unchanged by the transpose carries no word with an odd Y count; the
-   step back is exactly minus the step there for every Hermitian term; a term with an even Y count joins
+   step back is exactly minus the step there for every Hermitian term, so −H walks the paths of H the
+   other way (the page's "cannot tell a coupling run forwards from the same coupling run backwards";
+   the look's side of it is checked in section 9 of the_wave_between.py); a term with an even Y count joins
    two words of opposite Y parity, so flipping every Y sign reverses each of its steps (D·L_H·D = −L_H;
    in the string basis this is the transpose of L_H's matrix, which the repository writes L_H†, while
    F119's transpose lives in the computational basis, where a real H gives L_H back); a term with an odd
@@ -256,6 +258,9 @@ def one_rule_for_the_steps():
             assert moved > 0
             verdict = "reversed by D on every pair" if y_count % 2 == 0 else "left as it is by D on every pair"
             print(f"   N = {N} {name:8s} Y letters per term {y_count}: {moved} moved pairs, step back = -step there, {verdict}")
+    print("   so turning every term to its negative gives each step the value of its step back: -H walks the paths of H the")
+    print("   other way, whatever the Y counts (that the look then cannot tell them apart under the watching is checked by")
+    print("   the matrix route, the_wave_between.py section 9)")
     print("   so a matrix the transpose leaves alone carries no word with an odd Y count (every word's transpose is its Y sign)")
     assert fw.cube_step('Y', 'X')[0] == 'Z' and fw.cube_step('Y', 'Z')[0] == 'X'
     assert fw.cube_step('Y', 'Y') is None and fw.cube_step('Y', 'I') is None
