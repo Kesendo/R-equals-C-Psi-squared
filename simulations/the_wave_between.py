@@ -45,7 +45,8 @@ reflection can point at numbers instead of words.
 8. Several bits watched at one rate. L = −2γ·k_Z on Pauli strings (k_Z = the
    number of X or Y letters), the mirror reflects k_Z to N − k_Z, so the
    condition is that the weight of the state sits symmetrically about the
-   middle height N/2: a product of equatorial bits has it (binomial profile),
+   middle height N/2 (the only-if direction because distinct rates give
+   linearly independent exponentials): a product of equatorial bits has it (binomial profile),
    the pair and the cat state have it with half on each edge, the W state
    does not. A state the mirror fixes up to sign, ΠA = ±A (the pair, the cat,
    every product of |+⟩ and |−⟩ bits), keeps it under every coupling that Π
@@ -63,6 +64,29 @@ reflection can point at numbers instead of words.
    fixed states, of the one-angle products and of the random draw, and the
    watching-alone gaps of W and the tilted product; the coupled gaps of W, the
    tilted product and the random pure state are printed.
+9. Coupled bits with a field, and the conjugate pair. A field along X, the
+   same on every bit, is real and commutes with X^N, so Π reflects the full
+   generator exactly when it reflected the coupling (XXZ, XX only). A random
+   eigenstate of X^N (either sign) is NOT Π-fixed, but its mirror image is its
+   complex conjugate up to sign (ρ X^N = ±ρ, then the transpose), and the
+   conjugate meets itself alike because L = Lᵀ for real H; so it keeps the
+   property with and without the field. Controls: a Y^N eigenstate under the
+   X field fails, and so does the completely mixed state (unchanged by X^N
+   under conjugation, not an eigenstate). Y^N eigenstates without a field keep
+   it too (checked, both signs, both couplings). A field at another angle in
+   the equator plane turns the string and the mirror with it: the turned Π
+   reflects XXZ (U(1)) and not XX only; under XXZ the turned string's
+   eigenstates keep it and the cat, an X^N eigenstate, does not. A random pure
+   state and its conjugate meet themselves alike under the X field and part
+   under a Y field once bits are coupled (L ≠ Lᵀ there, necessary and not by
+   itself sufficient: one bit alone under a Y field keeps the pair, its Y
+   coefficient only decays; asserted). Every two-site Pauli coupling that Π
+   reflects is real (asserted), so the conjugate route covers every coupling
+   that keeps the mirror. A field along the watching, equal on both bits
+   of a pair: Π broken, spectrum paired about no centre, yet the singlet and
+   the triplet |01⟩ ± |10⟩, which the field does not turn, keep it exactly;
+   unequal fields on the two bits break it, and Bell+ fails. N = 2, 3 (the Z
+   field at N = 2); all asserted.
 """
 from __future__ import annotations
 
@@ -413,6 +437,146 @@ def several_bits_watched():
             print(f"      {name:36s} W = {np.round(W, 3)}  |W - reversed| {sym:.1e}  mirror-fixed {fixed:.1e}  gap: alone {g0:.1e}, XXZ {g1:.1e}, XX only {g2:.1e}")
 
 
+def coupled_bits_with_a_field():
+    print("9. Coupled bits with a field, the conjugate pair, and the string eigenstates: the mirror image of an X^N eigenstate")
+    print("   is its complex conjugate up to sign, which the self-encounter cannot see; under a field along X the mirror stays")
+    gamma, Delta, h, phi = 0.3, 0.5, 0.7, 0.7
+    rng = np.random.default_rng(5)
+    ts = (0.4, 1.3)
+    for N in (2, 3):
+        d = 2 ** N
+        sigma = N * gamma
+        idxs = list(itertools.product(range(4), repeat=N))
+        T = np.array([vec(kron_all([PAULI[i] for i in idx])) for idx in idxs]).T / np.sqrt(d)
+        Pi = build_pi_full(N)
+        Id = np.eye(d * d)
+
+        def bond(k, P):
+            return kron_all([P if l in (k, k + 1) else I2 for l in range(N)])
+
+        def field(P):
+            return sum(kron_all([P if l == k else I2 for l in range(N)]) for k in range(N))
+        H_xxz = sum(bond(k, X) + bond(k, Y) + Delta * bond(k, Z) for k in range(N - 1))
+        H_xx = sum(bond(k, X) for k in range(N - 1))
+        XN, YN = kron_all([X] * N), kron_all([Y] * N)
+        n_phi = np.cos(phi) * X + np.sin(phi) * Y
+        turn = np.diag([1, np.exp(1j * phi)])
+        Ad_phi = T.conj().T @ np.kron(kron_all([turn] * N), kron_all([turn] * N).conj()) @ T   # the global Z-turn by phi on the letters
+        Pi_phi = Ad_phi @ Pi @ np.linalg.inv(Ad_phi)
+
+        def gen(H, gammas=None):
+            return T.conj().T @ lindbladian_z_dephasing(H, gammas or [gamma] * N) @ T
+
+        def reflects(M, L):
+            return np.abs(M @ L @ np.linalg.inv(M) + L + 2 * sigma * Id).max()
+
+        def pairing(L):
+            ev = np.linalg.eigvals(L)
+            return max(min(abs(m - e) for e in ev) for m in -ev - 2 * sigma)
+
+        def coords(rho):
+            return T.conj().T @ vec(rho)
+
+        def even_gap(L, a):
+            return max(abs(a.conj() @ expm(L * t) @ a - np.exp(-2 * sigma * t) * (a.conj() @ expm(-L * t) @ a)) for t in ts)
+
+        def encounter(L, a):
+            return np.array([a.conj() @ expm(L * t) @ a for t in ts])
+
+        def eigenstate(P, val):
+            w, V = np.linalg.eigh(P)
+            cols = V[:, np.abs(w - val) < 1e-9]
+            psi = cols @ (rng.normal(size=cols.shape[1]) + 1j * rng.normal(size=cols.shape[1]))
+            psi /= np.linalg.norm(psi)
+            return np.outer(psi, psi.conj())
+
+        print(f"   N = {N}:")
+        # (a) a field along X, the same on every bit: Pi stays the mirror exactly when the coupling kept it
+        for cname, H in (("XXZ", H_xxz), ("XX only", H_xx)):
+            L_x = gen(H + h * field(X))
+            assert reflects(Pi, L_x) < 1e-12, f"{cname} + X field: Pi still reflects (the field is real and commutes with X^N)"
+            L_0 = gen(H)
+            for val in (+1, -1):
+                rho = eigenstate(XN, val)
+                a, a_conj = coords(rho), coords(rho.conj())
+                image = Pi @ a
+                fixed = min(np.abs(image - a).max(), np.abs(image + a).max())
+                conj_up_to_sign = min(np.abs(image - a_conj).max(), np.abs(image + a_conj).max())
+                assert fixed > 1e-2, f"a random X^N = {val:+d} eigenstate is NOT mirror-fixed ({fixed:.2f})"
+                assert conj_up_to_sign < 1e-12, "its mirror image is its complex conjugate up to sign (rho X^N = +-rho, then the transpose)"
+                assert np.abs(encounter(L_x, a) - encounter(L_x, a_conj)).max() < 1e-12, "the conjugate meets itself alike (L = L^T, real H)"
+                gx, g0 = even_gap(L_x, a), even_gap(L_0, a)
+                assert gx < 1e-12 and g0 < 1e-12, f"X^N = {val:+d} eigenstate keeps the property with and without the X field ({gx:.1e}, {g0:.1e})"
+                print(f"      {cname:8s} X field, X^N = {val:+d} eigenstate: mirror-fixed {fixed:.2f}, image = conjugate up to sign {conj_up_to_sign:.1e}, gap {gx:.1e} (no field {g0:.1e})")
+            rho_y = eigenstate(YN, +1)
+            gy = even_gap(L_x, coords(rho_y))
+            assert gy > 1e-3, f"a Y^N eigenstate under the X field is the control that fails ({gy:.1e})"
+            mixed = np.eye(d) / d
+            gm = even_gap(L_x, coords(mixed))
+            assert gm > 1e-2, f"the completely mixed state is unchanged by X^N under conjugation and fails ({gm:.1e}): eigenstate, not invariance"
+            print(f"      {cname:8s} X field controls: Y^N eigenstate gap {gy:.1e}, completely mixed gap {gm:.1e}")
+            # Y^N eigenstates without a field keep it too (checked, both signs; the reason is not the one above: L is still L^T,
+            # but rho Y^N = +-rho makes the image rho^T X^N a shifted copy, not the conjugate)
+            for val in (+1, -1):
+                gyy = even_gap(L_0, coords(eigenstate(YN, val)))
+                assert gyy < 1e-12, f"Y^N = {val:+d} eigenstate without field under {cname} ({gyy:.1e})"
+        # (b) the field turned to the angle phi in the equator plane: the turned mirror reflects XXZ (U(1)) and not XX only;
+        # under XXZ the eigenstates of the turned string keep it, the cat (an X^N eigenstate, not one of the turned string) does not
+        L_phi_xxz, L_phi_xx = gen(H_xxz + h * field(n_phi)), gen(H_xx + h * field(n_phi))
+        assert reflects(Pi_phi, L_phi_xxz) < 1e-12 and pairing(L_phi_xxz) < 1e-10, "the turned Pi reflects XXZ with the turned field"
+        assert reflects(Pi_phi, L_phi_xx) > 1e-2 and pairing(L_phi_xx) > 1e-2, "with XX only, the turned field leaves no mirror and no pairing"
+        rho_turned = eigenstate(kron_all([n_phi] * N), +1)
+        ghz = np.zeros(d); ghz[0] = ghz[-1] = 1 / np.sqrt(2)
+        g_turned, g_cat = even_gap(L_phi_xxz, coords(rho_turned)), even_gap(L_phi_xxz, coords(np.outer(ghz, ghz)))
+        assert g_turned < 1e-12 and g_cat > 1e-3, f"turned-string eigenstate keeps it ({g_turned:.1e}), the cat does not ({g_cat:.1e})"
+        print(f"      field at angle {phi} in the equator plane, XXZ: turned-string eigenstate gap {g_turned:.1e}, cat gap {g_cat:.1e}; XX only: no mirror ({pairing(L_phi_xx):.2f})")
+        # (c) the conjugate pair parts under a Y field for a random pure state of coupled bits (H not real, L != L^T,
+        #     necessary and not sufficient: one bit alone keeps the pair under a Y field)
+        L_y = gen(H_xxz + h * field(Y))
+        psi = rng.normal(size=d) + 1j * rng.normal(size=d); psi /= np.linalg.norm(psi)
+        rho = np.outer(psi, psi.conj())
+        part_y = np.abs(encounter(L_y, coords(rho)) - encounter(L_y, coords(rho.conj()))).max()
+        part_x = np.abs(encounter(gen(H_xxz + h * field(X)), coords(rho)) - encounter(gen(H_xxz + h * field(X)), coords(rho.conj()))).max()
+        assert part_x < 1e-12 and part_y > 1e-3, f"the conjugate pair: alike under the X field ({part_x:.1e}), parted under the Y field ({part_y:.1e})"
+        print(f"      a random pure state and its conjugate: |S - S*| under X field {part_x:.1e}, under Y field {part_y:.1e}")
+        # (c') one bit alone under the Y field keeps the pair (its Y coefficient only decays), and every two-site Pauli
+        #      coupling that Pi reflects is real, so the conjugate sentence applies to every coupling that keeps the mirror
+        if N == 2:
+            T1 = np.array([vec(P) for P in PAULI]).T / np.sqrt(2)
+            L1y = T1.conj().T @ lindbladian_z_dephasing(h * Y, [gamma]) @ T1
+            b = rng.normal(size=3); b *= 0.8 / np.linalg.norm(b)
+            rho1 = 0.5 * (I2 + b[0] * X + b[1] * Y + b[2] * Z)
+            a1, a1c = T1.conj().T @ vec(rho1), T1.conj().T @ vec(rho1.conj())
+            one_bit = max(abs(a1.conj() @ expm(L1y * t) @ a1 - a1c.conj() @ expm(L1y * t) @ a1c) for t in ts)
+            assert np.abs(L1y - L1y.T).max() > 1e-2 and one_bit < 1e-12, f"one bit, Y field: L != L^T yet the conjugate pair holds ({one_bit:.1e})"
+            reflected, non_real = [], []
+            for idx in idxs:
+                P = kron_all([PAULI[i] for i in idx])
+                if np.abs(P - np.eye(d)).max() < 1e-12:
+                    continue
+                if reflects(Pi, gen(P)) < 1e-12:
+                    reflected.append(idx)
+                    if np.abs(P.imag).max() > 1e-12:
+                        non_real.append(idx)
+            assert reflected and not non_real, f"every two-site Pauli coupling Pi reflects is real ({len(reflected)} reflected, {len(non_real)} non-real)"
+            print(f"      one bit under the Y field: conjugate pair gap {one_bit:.1e} (L != L^T: {np.abs(L1y - L1y.T).max():.2f}); two-site Pauli couplings Pi reflects: {len(reflected)}, all real")
+        # (d) a field along the watching, the same on both bits of a pair: no mirror, yet the m = 0 pair keeps it; unequal fields break it
+        if N == 2:
+            L_z = gen(H_xxz + h * field(Z))
+            assert reflects(Pi, L_z) > 1e-2 and pairing(L_z) > 0.1, f"Z field: Pi broken, spectrum pairs about no centre ({pairing(L_z):.2f})"
+            singlet = np.array([0, 1, -1, 0]) / np.sqrt(2); triplet = np.array([0, 1, 1, 0]) / np.sqrt(2)
+            bell = np.array([1, 0, 0, 1]) / np.sqrt(2)
+            L_z_unequal = gen(H_xxz + h * kron_all([Z, I2]) + 0.2 * kron_all([I2, Z]))
+            for name, psi in (("singlet", singlet), ("triplet", triplet)):
+                a = coords(np.outer(psi, psi.conj()))
+                g, gu = even_gap(L_z, a), even_gap(L_z_unequal, a)
+                assert g < 1e-12 and gu > 1e-2, f"{name}: kept under the equal Z field ({g:.1e}), lost under unequal fields ({gu:.1e})"
+                print(f"      Z field on both bits, XXZ: {name} gap {g:.1e}; unequal fields {gu:.1e}; mirror pairing {pairing(L_z):.2f}")
+            g_bell = even_gap(L_z, coords(np.outer(bell, bell)))
+            assert g_bell > 1e-2, f"Bell+ under the Z field is turned by it and fails ({g_bell:.1e})"
+            print(f"      Z field on both bits, XXZ: Bell+ (turned by the field) gap {g_bell:.1e}")
+
+
 if __name__ == "__main__":
     self_encounter_blind_to_phase()
     bell_pair_is_all_between()
@@ -422,3 +586,4 @@ if __name__ == "__main__":
     mirror_twin_exists()
     one_qubit_with_a_field()
     several_bits_watched()
+    coupled_bits_with_a_field()
