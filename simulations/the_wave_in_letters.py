@@ -74,6 +74,24 @@ simulations/the_wave_between.py is the second route of the handshake.
     and X at rest; R pairs I with X and Y with Z, at rest with at rest and moving with moving. Which
     weights must balance (x² = 1, y² = z²) is the matrix route's (section 7 of the_wave_between.py); the
     letters give the pairs.
+12. The cat under a field turned by φ in the equator plane, the same on every bit, XXZ bonds, for every
+    N: the turn about Z by φ carries the field along X onto the field at φ, and seen from the field the cat
+    is the cat with phase θ = −Nφ (exact); that cat carries 1/2^N on the quiet words with an even Z count,
+    ±cos θ/2^N on the far words with an even Y count and ±sin θ/2^N on those with an odd one, nothing
+    elsewhere (exact, N = 2, 3, 4); no step of the X field or the XXZ bond changes the parity of the count of
+    Y and Z letters, nor does R, which carries the odd-Y far words onto quiet words with an odd Z count, all
+    empty in the cat, so R returns the turned cat only where sin(Nφ) = 0, and there it returns both the cat
+    and the cat with the opposite sign; the steps of the field and the bond as a table on the words are
+    minus their own transpose, so without the watching every odd power of the look vanishes; the far corner
+    |0..0⟩⟨1..1| carries the excitation difference d = p − q = −N (docs/THE_ONE_SQUARE.md §3), the field
+    along X, σ⁺ + σ⁻, changes d by one per step while the bond and the watching keep it (asserted), so the
+    two far corners are 2N field steps apart. The Theodolite's letter layer
+    (framework/diagnostics/cube_letters.py) reads the turned mirror of the Heisenberg chain with the field at
+    cos φ = 3/5 on every open length, uniform, y = (e^{−iφ})². The parity of the count of Y and Z
+    letters is the sign a word takes under conjugation by X^N, a copy of the X-field dynamics with XXZ bonds and Z watching, so the look has no cross terms between the parities; with the
+    two points sin(Nφ) = 0 where R returns the cat, every odd moment is sin²(Nφ) times a quantity free of
+    φ (argued here, not asserted), and the first one needs the 2N field steps and the watching once. Its
+    value is the matrix route's, section 10 of simulations/the_wave_between.py.
 """
 from __future__ import annotations
 
@@ -525,6 +543,110 @@ def field_across_the_watching():
     print("    is the matrix route's, the_wave_between.py section 7; the letters say which words are paired")
 
 
+def the_cat_under_a_turned_field():
+    print("12. The cat under a field turned by φ, the same on every bit, with XXZ bonds, for every N: the turn about Z makes")
+    print("    the field one along X and the cat a cat whose far edge is turned by Nφ; the parity of the count of Y and Z")
+    print("    letters is never changed by a step; R returns the turned cat only where sin(Nφ) = 0; the far edge's two")
+    print("    corners are 2N field steps apart, and bonds and watching take none of them")
+    phi, th = sp.symbols('phi theta', real=True)
+    U1 = sp.diag(1, sp.exp(sp.I * phi))
+    assert sp.simplify(U1 * SYM['X'] * U1.H - (sp.cos(phi) * SYM['X'] + sp.sin(phi) * SYM['Y'])) == sp.zeros(2), \
+        "the turn about Z by φ carries the field along X onto the field at φ"
+    print("    one bit: the turn about Z by φ carries X onto cos φ X + sin φ Y (the watching and the bonds it leaves alone,")
+    print("    section 9), so the field at φ is the field along X seen through a move the dynamics do not notice")
+
+    def parity(w):
+        return (w.count('Y') + w.count('Z')) % 2
+
+    for N in (2, 3, 4):
+        d = 2 ** N
+        ket = sp.zeros(d, 1); ket[0] = 1; ket[-1] = sp.exp(sp.I * th)
+        cat_th = ket * ket.H / 2                                             # the cat with phase θ
+        cat = cat_th.subs(th, 0)
+        U = sp.diag(*[sp.exp(sp.I * phi * bin(b).count('1')) for b in range(d)])
+        assert sp.simplify(U.H * cat * U - cat_th.subs(th, -N * phi)) == sp.zeros(d), "seen from the field, the cat's phase is -Nφ"
+        amount = {w: sp.simplify((sym_word(w) * cat_th).trace() / 2 ** N) for w in labels(N)}
+        for w, a in amount.items():
+            if set(w) <= set('IZ'):
+                want = sp.Rational(1, 2 ** N) if w.count('Z') % 2 == 0 else 0
+            elif set(w) <= set('XY'):
+                ny = w.count('Y')
+                want = ((-1) ** (ny // 2) * sp.cos(th) if ny % 2 == 0 else (-1) ** ((ny - 1) // 2) * sp.sin(th)) / 2 ** N
+            else:
+                want = 0
+            assert sp.simplify(a - want) == 0, f"{w}: amount {a}, expected {want}"
+        print(f"    N = {N}: the cat with phase θ carries 1/2^N on every quiet word with an even Z count, ±cos θ on the far words")
+        print(f"           with an even Y count and ±sin θ on those with an odd one (all /2^N), nothing elsewhere; from the field")
+        print(f"           the cat is the one with θ = -Nφ")
+        terms = placed('X', N) + [t for tmpl in ('XX', 'YY', 'ZZ') for t in placed(tmpl, N)]
+        steps = 0
+        for term in terms:
+            for w in labels(N):
+                r = fw.cube_step(term, w)
+                if r is not None:
+                    assert parity(r[0]) == parity(w), f"{term} on {w}: a step keeps the parity of Y + Z"
+                    steps += 1
+        for w in labels(N):
+            assert parity(fw.cube_right_shift(w, 'X')[0]) == parity(w), "R keeps the parity of Y + Z"
+        odd_far = [w for w in labels(N) if set(w) <= set('XY') and w.count('Y') % 2]
+        partners = {fw.cube_right_shift(w, 'X')[0] for w in odd_far}
+        assert all(set(p) <= set('IZ') and p.count('Z') % 2 for p in partners), "R carries the odd-Y far words onto odd-Z quiet words"
+        assert all(amount[p] == 0 for p in partners), "where the cat carries nothing"
+        print(f"    N = {N}: {steps} steps of the X field and the XXZ bond, none changes the parity of Y + Z; R keeps it too and")
+        print(f"           carries the {len(odd_far)} odd-Y far words onto quiet words with an odd Z count, all empty in the cat:")
+        print(f"           R returns the cat seen from the field only where sin(Nφ) = 0")
+        Rcat = fw.cube_right_shift_vector(coeffs(state(np.r_[1, np.zeros(d - 2), -1]), N), N, 'X')
+        assert np.array_equal(Rcat, -coeffs(state(np.r_[1, np.zeros(d - 2), -1]), N)), \
+            "the second point where sin(Nφ) = 0, the cat with the opposite sign, is returned by R up to the sign"
+        Hw = [w for w in placed('X', N)] + [t for tmpl in ('XX', 'YY', 'ZZ') for t in placed(tmpl, N)]
+        idx = {w: i for i, w in enumerate(labels(N))}
+        M = np.zeros((4 ** N, 4 ** N))
+        for term in Hw:
+            for w in labels(N):
+                r = fw.commutator_coefficient(term, w)
+                if r is not None:
+                    step = -1j * r[1]                                               # -i[term, w] = (-i c)·target
+                    assert step.imag == 0, "a step of a Hermitian term between Hermitian words is real"
+                    M[idx[r[0]], idx[w]] += step.real
+        assert np.array_equal(M.T, -M), "the field and the bond: the steps written as a table are minus their own transpose"
+        print(f"    N = {N}: the cat with the opposite sign is returned too; the steps of the X field and the XXZ bond, as a")
+        print(f"           table on the words, are minus their own transpose (section 4's rule), so without the watching every")
+        print(f"           odd power of the look vanishes for every state")
+        sp_plus = sp.Matrix([[0, 1], [0, 0]])
+        C = sp.Matrix([[1]])
+        for _ in range(N):
+            C = sp.kronecker_product(C, sp_plus)
+        al = sp.Symbol('alpha', real=True)
+        Ua = sp.diag(*[sp.exp(sp.I * al * bin(b).count('1')) for b in range(d)])
+        assert sp.simplify(Ua.H * C * Ua - sp.exp(sp.I * N * al) * C) == sp.zeros(d), "the far corner |0..0><1..1| carries d = p - q = -N: U^dag C U = e^{iNα} C"
+        bond = sym_word('XX' + 'I' * (N - 2)) + sym_word('YY' + 'I' * (N - 2))
+        zz = sym_word('ZZ' + 'I' * (N - 2))
+        assert sp.simplify(Ua * bond * Ua.H - bond) == sp.zeros(d) and sp.simplify(Ua * zz * Ua.H - zz) == sp.zeros(d), \
+            "the bond keeps d: the turn about Z leaves XX + YY and ZZ alone"
+        assert all(sp.simplify(Ua * sym_word('I' * l + 'Z' + 'I' * (N - l - 1)) * Ua.H - sym_word('I' * l + 'Z' + 'I' * (N - l - 1))) == sp.zeros(d)
+                   for l in range(N)), "the watching keeps d"
+    sp_plus, sp_minus = sp.Matrix([[0, 1], [0, 0]]), sp.Matrix([[0, 0], [1, 0]])
+    assert SYM['X'] == sp_plus + sp_minus, "the field along X is σ⁺ + σ⁻: one step of d up or down"
+    al = sp.Symbol('alpha', real=True)
+    u = sp.diag(1, sp.exp(sp.I * al))
+    assert sp.simplify(u.H * sp_plus * u - sp.exp(sp.I * al) * sp_plus) == sp.zeros(2) and \
+        sp.simplify(u.H * sp_minus * u - sp.exp(-sp.I * al) * sp_minus) == sp.zeros(2), \
+        "each half of the field shifts d by one: σ⁺ and σ⁻ take the turn's phase to the first power, opposite signs"
+    from framework import cube_tables as ct
+    from framework.diagnostics import cube_letters as cl, cube_reflector as cr
+    cs, sn = sp.Rational(3, 5), sp.Rational(4, 5)
+    cell = cr.Cell(jumps=[(ct.PAULI['Z'], 1)], fields=[('X', cs), ('Y', sn)], windows=[('XX', (0, 1), 1), ('YY', (0, 1), 1), ('ZZ', (0, 1), 1)])
+    shape, info = cl.every_n(cell, 'refl', transposed=False)
+    assert shape == 'UNIFORM' and info['kinds'] == ('d', 'a') and info['x'] == 1 and \
+        sp.simplify(info['y'] - sp.conjugate((cs + sp.I * sn) ** 2)) == 0, "the Theodolite's letters read the turned mirror on every open chain"
+    print("    the Theodolite's letter layer reads the field at cos φ = 3/5 on the Heisenberg chain for every open length:")
+    print(f"    {shape}, ρ ↦ ρ·B with B = ⊗[[0, y], [1, 0]], y = {info['y']} = (e^(-iφ))², the first move turned by φ")
+    print("    the excitation difference d = p - q (docs/THE_ONE_SQUARE.md §3, p the ket's and q the bra's count of upper levels):")
+    print("    |0..0⟩⟨1..1| at d = -N, |1..1⟩⟨0..0| at d = +N; the field along X is σ⁺ + σ⁻ and changes d by one per step, the XXZ")
+    print("    bond and the watching keep it; so the two corners of the far edge are 2N field steps apart and no step")
+    print("    of the bond or the watching is among them; without the watching every odd power vanishes, so the first odd")
+    print("    power needs the watching once more, 2N + 1 in all, with no room for J or Δ (the value: the_wave_between.py section 10)")
+
 if __name__ == "__main__":
     one_bit_in_letters()
     watching_and_two_fields()
@@ -537,3 +659,4 @@ if __name__ == "__main__":
     turned_products()
     field_along_the_watching()
     field_across_the_watching()
+    the_cat_under_a_turned_field()
