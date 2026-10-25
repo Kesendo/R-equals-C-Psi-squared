@@ -1052,6 +1052,13 @@ public static class InspectCommand
             "(N = 3..5; typed: CorrelatedZDephasingPriceClaim)",
             c => new CorrelatedZDephasingPriceWitness(c.Parser.HasFlag("N") ? c.N : 3),
             RequiresN: false, HonorsOptionalN: true),
+        new("catfield", "F168 live: the cat (|0…0⟩ + |1…1⟩)/√2 under Z dephasing, a field at cos φ = 3/5 in the equator plane and a " +
+            "coupling commuting with X^⊗N and Σ Z_l (unequal rates, strengths, bonds and anisotropies, a three-body term from N = 3, " +
+            "--ring for the ring): its centred odd moments read exactly in the Pauli basis vanish below order 2N + 1, the first is " +
+            "(σ/3)(2N+1)!·∏h_l²·sin²(Nφ), one strength for every bit would give another number, and at the field along Y (even N) " +
+            "every computed odd moment vanishes (N = 1..5; typed: CatTurnedFieldSelfEncounterClaim)",
+            c => new CatTurnedFieldWitness(c.Parser.HasFlag("N") ? c.N : 3, c.Parser.HasFlag("ring")),
+            RequiresN: false, HonorsOptionalN: true),
         new("selfmirror", "the conjugate-composite fixed line AS AN OBJECT: Re λ = −σ is fixed by λ ↦ −2σ − conj(λ); only its Im λ = 0 subset at λ = −σ is fixed by linear F1 λ ↦ −2σ − λ. The System bears x/y/z and the Object inherits that frame",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("seedcount", "the endpoint-nullity surplus theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +

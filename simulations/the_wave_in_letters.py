@@ -578,6 +578,17 @@ def the_cat_under_a_turned_field():
         print(f"    N = {N}: the cat with phase θ carries 1/2^N on every quiet word with an even Z count, ±cos θ on the far words")
         print(f"           with an even Y count and ±sin θ on those with an odd one (all /2^N), nothing elsewhere; from the field")
         print(f"           the cat is the one with θ = -Nφ")
+        from itertools import permutations
+        assert all(sp.simplify(amount[w] - amount[''.join(q)]) == 0 for w in labels(N) for q in set(permutations(w))),             "the cat's amount on a word is the same on every reordering of its letters across the bits"
+        swap = sp.zeros(d)
+        for b in range(d):
+            bits = [(b >> (N - 1 - l)) & 1 for l in range(N)]
+            bits[0], bits[1] = bits[1], bits[0]
+            swap[sum(bit << (N - 1 - l) for l, bit in enumerate(bits)), b] = 1
+        assert all(swap * sym_word(w) * swap == sym_word(w[1] + w[0] + w[2:]) for w in labels(N)),             "conjugation by the swap of bits 0 and 1 exchanges their two letters and moves nothing else"
+        assert sp.simplify(swap * cat_th - cat_th * swap) == sp.zeros(d), "so the swap commutes with the cat"
+        print(f"           its amounts are the same on every reordering of a word's letters; the swap of two bits exchanges")
+        print(f"           their letters, so the isotropic bond, 2·SWAP − 1, leaves the cat at rest, and identical bits keep that")
         terms = placed('X', N) + [t for tmpl in ('XX', 'YY', 'ZZ') for t in placed(tmpl, N)]
         steps = 0
         for term in terms:

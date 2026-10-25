@@ -113,7 +113,10 @@ numbers instead of words; section 10 is the matrix route of F168
    m_{2N+3} is sin²(Nφ) times a factor free of φ (equal at three rational points
    of the circle) whose bond part depends on J and Δ only through J − Δ (none at
    J = Δ), while with unequal field strengths the isotropic bond enters m_7
-   (N = 2); every computed odd moment zero at all 2N angles where sin(Nφ − θ) = 0
+   (N = 2); at identical bits (one rate, one strength) an isotropic coupling of
+   its own strength per bond never enters any moment (ring, N = 3, through k = 11),
+   with unequal rates it does, and m_{2N+3} sees each bond only through Δ_b − J_b
+   (ring, N = 3, bond by bond); every computed odd moment zero at all 2N angles where sin(Nφ − θ) = 0
    and at γ = 0 (for every odd power and every state: section 12 of the letters
    script); a ring of three bits with its own rational J and Δ on every bond and
    its own γ and field strength on every bit; the cat with θ = π/2 at N = 2. The
@@ -787,7 +790,39 @@ def cat_under_a_turned_field(ns=(2, 3)):
     iso = moments(2, [(0, 1, J, J)], [g, g], 7, hs=[h, R(2, 3) * h])[7]                # the isotropic bond, unequal strengths
     assert sp.expand(sp.diff(iso, J)) != 0, "with unequal field strengths the isotropic bond enters m_7"
     print("    N = 2, isotropic bond J = Δ with field strengths h and 2h/3: m_7 depends on J (with one strength it does not),")
-    print("    so the isotropic bond's blindness at this order needs one strength on every bit, where it commutes with the field")
+    print("    so the isotropic bond's blindness at this order needs one strength on every bit")
+
+    def all_moments(N, bonds, gammas, kmax, hs=None):
+        """Every centred moment, even and odd, at a rational point of the circle (exact)."""
+        hs = hs or [1] * N
+        cc, ss = points[0]
+        H = sp.zeros(2 ** N)
+        for a, b, Jb, Db in bonds:
+            H += Jb * (on(N, {a: P['X'], b: P['X']}) + on(N, {a: P['Y'], b: P['Y']})) + Db * on(N, {a: P['Z'], b: P['Z']})
+        for l in range(N):
+            H += hs[l] * on(N, {l: cc * P['X'] + ss * P['Y']})
+        Zs = [on(N, {l: P['Z']}) for l in range(N)]
+        v = sp.zeros(2 ** N, 1); v[0] = v[-1] = 1
+        rho = v * v.T / 2
+        r, out = rho, []
+        for k in range(1, kmax + 1):
+            r = (-sp.I * (H * r - r * H) + sum(gammas) * r
+                 + sum((gl * (Zl * r * Zl - r) for gl, Zl in zip(gammas, Zs)), sp.zeros(2 ** N))).expand()
+            out.append(sp.nsimplify((rho * r).trace()))
+        return out
+    one, many = [R(1, 3)] * 3, [R(1, 5), R(1, 2), R(4, 5)]
+    ring = lambda J: [(0, 1, J, J), (1, 2, 2 * J, 2 * J), (2, 0, J / 2, J / 2)]                  # isotropic, its own J per bond
+    iso_one = [all_moments(3, ring(J), one, 11) for J in (0, R(3, 5))]
+    assert iso_one[0] == iso_one[1], "identical bits: an isotropic coupling never enters the self-encounter"
+    iso_many = [all_moments(3, ring(J), many, 11) for J in (0, R(3, 5))]
+    assert iso_many[0] != iso_many[1], "unequal rates: the isotropic coupling enters"
+    shift = lambda sh: [(0, 1, 1 + sh[0], R(1, 2) + sh[0]), (1, 2, R(2, 3) + sh[1], 3 + sh[1]), (2, 0, R(5, 4) + sh[2], -1 + sh[2])]
+    m9 = [moments(3, shift(sh), one, 9)[9] for sh in ((0, 0, 0), (R(1, 2), -1, R(2, 7)))]
+    assert sp.expand(m9[0] - m9[1]) == 0, "identical bits: m_{2N+3} sees each bond only through Δ_b − J_b"
+    m9_many = [moments(3, shift(sh), many, 9)[9] for sh in ((0, 0, 0), (R(1, 2), -1, R(2, 7)))]
+    print("    N = 3 ring, isotropic bonds of their own strengths: every moment through k = 11 the same at J = 0 and J ≠ 0")
+    print("    with one rate on every bit, different with unequal rates; with one rate m_9 is unchanged when each bond's J_b")
+    print(f"    and Δ_b move together ({'and with unequal rates too' if sp.expand(m9_many[0] - m9_many[1]) == 0 else 'not with unequal rates'})")
     # the one-site factor behind σ/3: at J = Δ = 0 every site runs alone, and the doubly flipped coherence pair
     # (|0⟩⟨1|, |1⟩⟨0|) carries e^{γt}·⟨E01, e^{tL₁} E10⟩ = h² t² e^{−2iφ} (1 − γt/3) + O(t⁴)
     H1 = h * (sp.cos(phi) * P['X'] + sp.sin(phi) * P['Y'])

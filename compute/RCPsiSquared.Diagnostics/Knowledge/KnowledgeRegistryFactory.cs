@@ -859,6 +859,7 @@ public static class KnowledgeRegistryFactory
             // registered above. Live: inspect --root zeroimmune.
             .RegisterZeroSectorImmunityClaim()
             .RegisterCorrelatedZDephasingPriceClaim()   // the palindrome's price under correlated Z dephasing (THE_MIRROR_UNDER_A_SHARED_FIELD)
+            .RegisterCatTurnedFieldSelfEncounterClaim()   // F168: the cat under a turned field, the first odd moment at 2N + 1 (THE_CAT_UNDER_A_TURNED_FIELD)
             .RegisterTwoByTwoExceptionalPointClaim()   // the one closed 2 × 2 behind many exceptional points (THE_DOUBLE_ROOT); parent of QEpLaw, LEffMirrorAxis, CoherenceHorizon, TransitionBridge, Spin32, SeedHolonomy, ExceptionalCouplingSet; live: inspect --root twobytwo
             .RegisterSpin32QuadrupolarMirrorsClaim()    // F167, the spin-3/2 nucleus and its two mirrors (THE_SODIUM_NUCLEUS_TWO_MIRRORS); parent F158, live: inspect --root sodium
             .RegisterSodiumChainMirrorLadderClaim()     // F167, the sodium chain's ladder of mirrors (THE_SODIUM_CHAIN); parents the nucleus + F158, live: inspect --root sodiumchain
