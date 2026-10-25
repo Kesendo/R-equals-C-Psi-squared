@@ -1,8 +1,9 @@
 """What a state can see of itself, and what only a second can see.
 
 The numbers behind reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md.
-Nothing here is new physics; the script lays known facts side by side so the
-reflection can point at numbers instead of words.
+Sections 1 to 9 lay known facts side by side so the reflection can point at
+numbers instead of words; section 10 is the matrix route of F168
+(experiments/THE_CAT_UNDER_A_TURNED_FIELD.md).
 
 1. The self-encounter S_A(t) = Tr(A† e^{tL} A) of a qubit cannot tell two
    states apart that differ only in their phase about Z, while an X probe can.
@@ -100,23 +101,28 @@ reflection can point at numbers instead of words.
    watched along Z on every bit and along X on the first, a state meets itself
    alike under H and −H; a loss parts them for the complex states drawn. N = 2, 3
    (the Z field at N = 2); all asserted.
-10. The cat under a field turned by φ in the equator plane, the same on every
-   bit, with XXZ bonds and Z watching: the centred odd moments
-   m_k = Tr(ρ (L + σ)^k ρ) vanish for k < 2N + 1 and the first is
-   m_{2N+1} = (σ/3)·(2N + 1)!·h^{2N}·sin²(Nφ), σ the sum of the watching rates,
-   exactly (sympy, reduced on the circle c² + s² = 1), so the cat keeps the
-   property only where sin(Nφ) = 0, and the leading odd term of e^{σt}S(t) is
-   (σ/3)·h^{2N}·sin²(Nφ)·t^{2N+1}, free of the bonds. Asserted: the open chain
-   at N = 2, 3 with J and Δ symbolic, where m_{2N+3} is sin²(Nφ) times a factor
-   free of φ (equal at three rational points of the circle), every computed odd
-   moment vanishes at the angles jπ/N, 0 < j < N, and at γ = 0 (for every odd
-   power and every state, section 12 of the letters script); the ring of three bits with its own
-   rational J and Δ on every bond and its own γ on every bit. The σ/3 from one
-   site: with the bonds gone every site runs alone, the doubly flipped
-   coherence pair carries, times e^{γt}, h²t²e^{−2iφ}(1 − γt/3) + O(t⁴), and the cat's
-   e^{±2iNφ} part is that pair taken once per site, so the one γ falls on any
-   site. `python the_wave_between.py 4` adds N = 4 on the chain. The letters'
-   reason for every N is section 12 of simulations/the_wave_in_letters.py.
+10. The cat under a field turned by φ in the equator plane, at one angle on every
+   bit, with XXZ bonds and Z watching (experiments/THE_CAT_UNDER_A_TURNED_FIELD.md,
+   F168): for the cat with phase θ, (|0…0⟩ + e^{iθ}|1…1⟩)/√2, the centred odd
+   moments m_k = Tr(ρ (L + σ)^k ρ) vanish for k < 2N + 1 and the first is
+   m_{2N+1} = (σ/3)·(2N + 1)!·∏h_l²·sin²(Nφ − θ), σ the sum of the watching rates
+   and h_l the field strength on bit l, exactly (sympy, reduced on the circle
+   c² + s² = 1); the leading odd term of e^{σt}S(t) is
+   (σ/3)·∏h_l²·sin²(Nφ − θ)·t^{2N+1}, free of the bonds. Asserted, at θ = 0
+   unless stated: the open chain at N = 2, 3 with J and Δ symbolic, where
+   m_{2N+3} is sin²(Nφ) times a factor free of φ (equal at three rational points
+   of the circle) whose bond part depends on J and Δ only through J − Δ (none at
+   J = Δ), while with unequal field strengths the isotropic bond enters m_7
+   (N = 2); every computed odd moment zero at all 2N angles where sin(Nφ − θ) = 0
+   and at γ = 0 (for every odd power and every state: section 12 of the letters
+   script); a ring of three bits with its own rational J and Δ on every bond and
+   its own γ and field strength on every bit; the cat with θ = π/2 at N = 2. The
+   σ/3 from one site: with the bonds gone every site runs alone, the doubly
+   flipped coherence pair carries, times e^{γt}, h²t²e^{−2iφ}(1 − γt/3) + O(t⁴),
+   and the cat's e^{±2iNφ} part is that pair taken once per site, so the one γ
+   falls on any site. `python the_wave_between.py 4` runs N = 4 on the chain in
+   place of N = 2, 3. The letters' reason for every N is section 12 of
+   simulations/the_wave_in_letters.py.
 """
 from __future__ import annotations
 
@@ -708,7 +714,7 @@ def coupled_bits_with_a_field():
 
 def cat_under_a_turned_field(ns=(2, 3)):
     print("10. The cat under a field turned by φ in the equator plane, the same on every bit, XXZ bonds, Z watching:")
-    print("    the centred odd moments m_k = Tr(ρ (L+σ)^k ρ) vanish for k < 2N+1 and m_{2N+1} = (σ/3)(2N+1)! h^{2N} sin²(Nφ)")
+    print("    the centred odd moments m_k = Tr(ρ (L+σ)^k ρ) vanish for k < 2N+1 and m_{2N+1} = (σ/3)(2N+1)! ∏h_l² sin²(Nφ − θ)")
     c, s, h, g, J, Dz, t, phi = sp.symbols('c s h gamma J Delta t phi', real=True)
     P = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]), 'Z': sp.diag(1, -1)}
     R = sp.Rational
@@ -720,13 +726,14 @@ def cat_under_a_turned_field(ns=(2, 3)):
     def circle(expr):                                   # reduce modulo c² + s² = 1
         return sp.reduced(sp.expand(expr), [c ** 2 + s ** 2 - 1], s, c)[1]
 
-    def moments(N, bonds, gammas, kmax):
-        """The odd centred moments of the cat; bonds (a, b, J, Δ), one rate per site."""
+    def moments(N, bonds, gammas, kmax, hs=None, phase=1):
+        """The odd centred moments of the cat; bonds (a, b, J, Δ), one rate and one field strength per site."""
+        hs = hs or [h] * N
         H = sp.zeros(2 ** N)
         for a, b, Jb, Db in bonds:
             H += Jb * (on(N, {a: P['X'], b: P['X']}) + on(N, {a: P['Y'], b: P['Y']})) + Db * on(N, {a: P['Z'], b: P['Z']})
         for l in range(N):
-            H += h * on(N, {l: c * P['X'] + s * P['Y']})
+            H += hs[l] * on(N, {l: c * P['X'] + s * P['Y']})
         Zs = [on(N, {l: P['Z']}) for l in range(N)]
         sigma = sum(gammas)
 
@@ -735,8 +742,8 @@ def cat_under_a_turned_field(ns=(2, 3)):
             for gl, Zl in zip(gammas, Zs):
                 out += gl * (Zl * r * Zl - r)
             return out.expand()
-        v = sp.zeros(2 ** N, 1); v[0] = v[-1] = 1
-        rho = v * v.T / 2
+        v = sp.zeros(2 ** N, 1); v[0] = 1; v[-1] = phase                      # the cat with phase θ, phase = e^{iθ}
+        rho = v * v.H / 2
         r, out = rho, {}
         for k in range(1, kmax + 1):
             r = Lc(r)
@@ -744,34 +751,44 @@ def cat_under_a_turned_field(ns=(2, 3)):
                 out[k] = circle((rho * r).trace())
         return out
 
-    def check(N, bonds, gammas, kmax, label):
-        m = moments(N, bonds, gammas, kmax)
-        sinN = sp.im(sp.expand((c + sp.I * s) ** N))
+    def check(N, bonds, gammas, kmax, label, hs=None, phase=1):
+        hs = hs or [h] * N
+        m = moments(N, bonds, gammas, kmax, hs, phase)
+        sinN = sp.im(sp.expand((c + sp.I * s) ** N * sp.conjugate(phase)))              # sin(Nφ − θ)
         for k in range(1, 2 * N + 1, 2):
             assert m[k] == 0, f"{label}: m_{k} = {m[k]}, expected 0"
-        law = sum(gammas) / 3 * sp.factorial(2 * N + 1) * h ** (2 * N) * sinN ** 2
+        law = sum(gammas) / 3 * sp.factorial(2 * N + 1) * sp.prod([x ** 2 for x in hs]) * sinN ** 2
         assert circle(m[2 * N + 1] - law) == 0, f"{label}: m_{2 * N + 1} = {sp.factor(m[2 * N + 1])} differs from the law"
         for k in range(2 * N + 3, kmax + 1, 2):
             ratios = {sp.simplify(m[k].subs({c: cc, s: ss}) / sinN.subs({c: cc, s: ss}) ** 2) for cc, ss in points}
             assert len(ratios) == 1, f"{label}: m_{k} / sin²(Nφ) depends on the angle"
-            for cc, ss in ((1, 0), (-1, 0)):
-                assert sp.simplify(m[k].subs({c: cc, s: ss})) == 0, f"{label}: m_{k} not zero where sin(Nφ) = 0"
-        zeros = [(sp.cos(j * sp.pi / N), sp.sin(j * sp.pi / N)) for j in range(1, N)]       # the angles jπ/N, 0 < j < N
+        th = sp.arg(phase)
+        zeros = [(sp.cos((j * sp.pi + th) / N), sp.sin((j * sp.pi + th) / N)) for j in range(2 * N)]  # every φ with sin(Nφ − θ) = 0
         for k, mk in m.items():
             for cc, ss in zeros:
                 assert sp.simplify(mk.subs({c: cc, s: ss})) == 0, f"{label}: m_{k} not zero at the angle {sp.atan2(ss, cc)}"
         print(f"    {label}: the odd m_1 .. m_{2 * N - 1} = 0, m_{2 * N + 1} = {sp.factor(m[2 * N + 1])}, the law exactly"
               + (f"; m_{2 * N + 3} = sin²(Nφ) · (free of φ)" if kmax > 2 * N + 1 else "")
-              + f"; every computed odd moment zero at the angles jπ/{N}")
+              + f"; every computed odd moment zero at all {2 * N} angles where sin(Nφ − θ) = 0")
         return m
 
     for N in ns:
         m = check(N, [(l, l + 1, J, Dz) for l in range(N - 1)], [g] * N, 2 * N + 3, f"N = {N}, open chain, J and Δ symbolic")
         no_watch = {k: sp.simplify(v.subs(g, 0)) for k, v in m.items()}
         assert all(v == 0 for v in no_watch.values()), "without the watching every odd moment vanishes (the look is even in t)"
+        nxt = sp.expand(m[2 * N + 3])
+        assert sp.diff(nxt, J) != 0 and sp.expand(sp.diff(nxt.subs(Dz, J), J)) == 0, "m_{2N+3}: the coupling enters"
+        assert sp.expand(sp.diff(nxt, J, 1) + sp.diff(nxt, Dz, 1)) == 0, "m_{2N+3}: J and Δ only through J − Δ"
+        print(f"      m_{2 * N + 3}: the bonds enter only through J − Δ, so not at the isotropic point J = Δ")
     check(3, [(0, 1, 1, R(1, 2)), (1, 2, R(2, 3), 3), (2, 0, R(5, 4), -1)], [R(1, 5), R(2, 7), R(3, 11)], 7,
-          "N = 3, ring, a J, Δ and γ of its own on every bond and site")
-    # the one-site factor behind N/3: at J = Δ = 0 every site runs alone, and the doubly flipped coherence pair
+          "N = 3, ring, a J, Δ and γ of its own on every bond and site, and a field strength of its own on every site",
+          hs=[h, R(2, 3) * h, R(5, 4) * h])                                     # ∏h_l² = (25/36)·h⁶
+    check(2, [(0, 1, J, Dz)], [g, g], 5, "N = 2, the cat with phase θ = π/2 (|00⟩ + i|11⟩), law with sin²(Nφ − θ)", phase=sp.I)
+    iso = moments(2, [(0, 1, J, J)], [g, g], 7, hs=[h, R(2, 3) * h])[7]                # the isotropic bond, unequal strengths
+    assert sp.expand(sp.diff(iso, J)) != 0, "with unequal field strengths the isotropic bond enters m_7"
+    print("    N = 2, isotropic bond J = Δ with field strengths h and 2h/3: m_7 depends on J (with one strength it does not),")
+    print("    so the isotropic bond's blindness at this order needs one strength on every bit, where it commutes with the field")
+    # the one-site factor behind σ/3: at J = Δ = 0 every site runs alone, and the doubly flipped coherence pair
     # (|0⟩⟨1|, |1⟩⟨0|) carries e^{γt}·⟨E01, e^{tL₁} E10⟩ = h² t² e^{−2iφ} (1 − γt/3) + O(t⁴)
     H1 = h * (sp.cos(phi) * P['X'] + sp.sin(phi) * P['Y'])
     E01 = sp.Matrix([[0, 1], [0, 0]]); E10 = E01.T
@@ -783,7 +800,7 @@ def cat_under_a_turned_field(ns=(2, 3)):
     assert sp.simplify(sp.expand((G - h ** 2 * t ** 2 * sp.exp(-2 * sp.I * phi) * (1 - g * t / 3)).rewrite(sp.exp))) == 0
     print("    one site: e^{γt}·⟨E01, e^{tL₁} E10⟩ = h² t² e^{−2iφ} (1 − γt/3) + O(t⁴); with the bonds gone the cat's")
     print("    e^{±2iNφ} part is the pair (|0..0⟩⟨1..1|, |1..1⟩⟨0..0|), one such factor per site, so the one γ falls on any")
-    print("    site: −(Σγ_l/3) h^{2N} e^{−2iNφ} t^{2N+1} and its conjugate, a quarter each, the law's σ/3 with sin² = (1 − cos 2Nφ)/2")
+    print("    site: −(Σγ_l/3) ∏h_l² e^{−2iNφ} t^{2N+1} and its conjugate, a quarter each, the law's σ/3 with sin² = (1 − cos 2(Nφ − θ))/2")
 
 
 if __name__ == "__main__":

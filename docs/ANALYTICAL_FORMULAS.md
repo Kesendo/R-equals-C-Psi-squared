@@ -6,7 +6,7 @@ Quarter-valued entries are algebraic or named-model objects with the scope
 stated in their individual rows.
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-10-21 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-10-25 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -11232,6 +11232,31 @@ c₂ are read off the densities.
 **Source:** [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md);
 [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md); the second route
 [F158](#f158); the palindromizer's shape F118 ([PROOF_PI_FACTORS_AS_R_TIMES_D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)).
+
+---
+
+<a id="f168"></a>
+### F168. The cat under a field in the equator plane meets itself the same way forwards and, at the price, backwards exactly when sin(Nφ − θ) = 0: its centred odd moments vanish below order 2N + 1, every odd moment is sin²(Nφ − θ) times a factor free of the angle, and the first is m_{2N+1} = (σ/3)·(2N + 1)!·∏h_l²·sin²(Nφ − θ), free of the coupling (Tier 1: derived 2026-10-25 for every N on the letters and gated in [The Cat under a Turned Field](../experiments/THE_CAT_UNDER_A_TURNED_FIELD.md); registered the same day as an INDEX of that page)
+
+**Why a number, and why it says so.** This entry indexes; the statement, its proof and its gates are on the page named in the header, and before it no store held the order, the value or the coupling independence (the page's sweep). The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not. It is the first entry that arose on the letter cube: the cube readings elsewhere in this registry (the cube first enters it on 2026-10-03), [F63](#f63-w_yz-parity-symmetry-l-pi2--0-tier-1-proven-analytically-verified-n2-5)'s three turns among them, were added to entries that already stood, while this result was found there. The proof uses those turns: the turn about Z, the parity of the count of Y and Z letters (F63's turn by X⊗N), the first move's two points and the charge d = p − q give the structure at every N, one bit's round trip on the cube gives the third, and the exact matrix computation is the second route that meets the law.
+
+**The setting.** N bits, Z watching at rates γ_l ≥ 0 (σ = Σγ_l > 0), a field h_l·(cos φ·X + sin φ·Y) at one angle φ with every h_l ≠ 0, and a Hermitian coupling H_c with [H_c, X^⊗N] = 0 and [H_c, Σ Z_l] = 0 on any graph (XXZ at any J and Δ among them). The state is the cat with phase θ, (|0…0⟩ + e^{iθ}|1…1⟩)/√2; m_k = Tr(ρ·(L + σ)^k ρ).
+
+**The statement.**
+
+    m_k = 0                                                 odd k < 2N + 1
+    m_{2N+1} = (σ/3)·(2N + 1)!·∏_l h_l²·sin²(Nφ − θ)
+    m_k = sin²(Nφ − θ)·G_k,   G_k free of φ and θ           every odd k
+
+so S(t) = e^{−2σt}S(−t) exactly when sin(Nφ − θ) = 0, and otherwise the first odd term of e^{σt}S(t) is (σ/3)·∏h_l²·sin²(Nφ − θ)·t^{2N+1}. With one field strength and one rate on every bit the XXZ chain's coupling first enters the odd part at order 2N + 3, through J − Δ alone (N = 2, 3); with unequal strengths the isotropic bond enters there too (N = 2).
+
+**Gated by** [`the_wave_in_letters.py`](../simulations/the_wave_in_letters.py) section 12 (the letters' steps, N = 2, 3, 4) and [`the_wave_between.py`](../simulations/the_wave_between.py) section 10 (exact sympy: N = 2, 3 on the chain with J and Δ symbolic, a three-bit ring with its own J, Δ, γ and h everywhere, θ = π/2 at N = 2; N = 4 on request). The generality in H_c beyond XXZ rests on the proof.
+**Typed/live owner:** none yet; no Claim and no witness carries it.
+**Adjacent.** [F63](#f63-w_yz-parity-symmetry-l-pi2--0-tier-1-proven-analytically-verified-n2-5) (step 3 is its turn by X⊗N); [F99](#f99) with F86b (sin²(Nφ − θ) is 2α of the cat seen from the field, its Π²-odd content, and the two points are α = 0); [F117](#f117-pascal-gram-positivity-every-class-at-the-first-asymmetric-moment-is-a-sum-of-squares-tier-1-derived-closes-the-windowed-converse-with-no-residual) and [F120](#f120-the-moment-tower-pump-channel-the-devices-own-damping-reads-the-girth-ladder-linearly-tier-1-derived-structural-law-confirmed-on-ibm_kingston-2026-06-11) (the spectral moments; F120's first firing rung is one Q and 2k steps of H where this is one rate and 2N steps of the field); ThreeLadderHingeClaim's P_{m,1} (the γ¹ coefficient for the whole spectrum).
+**Scope:** the field in the equator plane at one common angle once the coupling hops; the coupling commuting with X^⊗N and keeping the excitation number (a Dzyaloshinskii-Moriya term is outside); Z watching with σ > 0. No other state is classified.
+**Open:** why the coupling enters only through its anisotropy at one field strength, and whether an isotropic one ever enters there; the odd part beyond its first term at J ≠ 0; a state-resolved form of F120's tower; rings with a twisted coupling; whether the t^{2N+1} term is readable on a device. Under a coupling commuting with every Z_l the angles may differ from bit to bit, Nφ becoming Σφ_l, by the same proof (not gated).
+**Replaces:** expanding the self-encounter of a 2^N-dimensional state to order 2N + 1.
+**Source:** [The Cat under a Turned Field](../experiments/THE_CAT_UNDER_A_TURNED_FIELD.md); read for readers in [On the Wave Recognizing That It Is Not Alone](../reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md).
 
 ---
 
