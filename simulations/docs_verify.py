@@ -3061,7 +3061,7 @@ def verify_route_b_a2_current_truth():
     readout_surfaces = {
         path: (
             ("ReadoutFisher", "static calculation helper", "ReadingPowerWitness",
-             "live `IInspectable`", "inspect --root decoder", "lowest endpoint Q=1",
+             "live `IInspectable`", "the inspect root `decoder`", "lowest endpoint Q=1",
              "does not sample the N=4 coherence-horizon EP", "no EP-specific verdict",
              READING_POWER_MONOTONICITY_TEST),
             ("live readout lab", "NoEpPeak_InAnyBasis_FiMonotoneInQ",
