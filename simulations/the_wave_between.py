@@ -23,7 +23,10 @@ reflection can point at numbers instead of words.
    -L - 2σ with Π unitary, so for any operator A (ΠA is an operator, not a
    state) S_{ΠA}(t) = e^{-2σt} S_A(-t), backwards in the formal sense only.
 6. The set S_A = S_{ΠA} for one qubit under dephasing alone (H = 0): exactly
-   the pure states on the equator, with off-equator states as controls.
+   the pure states on the equator. Derived in sympy: S_A - S_{ΠA} factors as
+   (1 - e^{-2γt})(1 + c² - a² - b²)/2, so the condition is a² + b² = 1 + c², and
+   inside the ball a² + b² + c² <= 1 that forces c = 0 and a² + b² = 1;
+   off-equator states as numeric controls.
 7. One qubit with a field of its own, exact (sympy): the condition that
    e^{γt} S_A(t) is even in t, which is S_A = S_{MA} for the mirror M of the
    system wherever one exists. A field across the watching, along X, keeps Π
@@ -192,6 +195,31 @@ def mirror_twin_exists():
     print("   closed form: S_A = S_PiA at every t iff a^2 + b^2 = 1 + c^2 for A = (I + aX + bY + cZ)/2,")
     print("   which among states means exactly the pure states on the equator")
     print("   (for gamma > 0; at gamma = 0 the generator vanishes and every state qualifies)")
+    import sympy as sp
+    g, t = sp.symbols("gamma t", positive=True)
+    x, y, z = sp.symbols("x y z", real=True)
+    letters = [sp.eye(2), sp.Matrix([[0, 1], [1, 0]]), sp.Matrix([[0, -sp.I], [sp.I, 0]]), sp.diag(1, -1)]
+    rates = []
+    for P in letters:   # the dephasing generator gamma (Z P Z - P) scales every letter by its own rate
+        DP = g * (letters[3] * P * letters[3] - P)
+        r = sp.simplify((DP * P).trace() / 2)
+        assert sp.simplify(DP - r * P) == sp.zeros(2, 2)
+        rates.append(r)
+    Pi_num = build_pi_full(1)
+    Pi_exact = sp.Matrix(4, 4, lambda i, j: sp.nsimplify(Pi_num[i, j].real) + sp.I * sp.nsimplify(Pi_num[i, j].imag))
+
+    def exact_encounter(coeffs):
+        A = sum((c * P for c, P in zip(coeffs, letters)), sp.zeros(2, 2))
+        At = sum((c * sp.exp(r * t) * P for c, r, P in zip(coeffs, rates, letters)), sp.zeros(2, 2))
+        return sp.expand((A.H * At).trace())
+
+    a_exact = sp.Matrix([1, x, y, z]) / 2
+    diff = sp.simplify(exact_encounter(list(a_exact)) - exact_encounter(list(Pi_exact * a_exact)))
+    claimed = (1 - sp.exp(-2 * g * t)) * (1 + z**2 - x**2 - y**2) / 2
+    assert sp.simplify(diff - claimed) == 0, diff
+    print(f"   derived: S_A - S_PiA = {sp.factor(diff)}")
+    print("   zero at every t > 0 iff x^2 + y^2 = 1 + z^2; with x^2 + y^2 + z^2 <= 1 this gives 1 + 2 z^2 <= 1,")
+    print("   so z = 0 and x^2 + y^2 = 1: exactly the pure states on the equator")
     gamma = 0.3
     L = lindbladian_z_dephasing(np.zeros((2, 2), dtype=complex), [gamma])
     T = np.array([vec(S) for S in PAULI]).T / np.sqrt(2)
