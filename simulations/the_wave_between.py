@@ -1,6 +1,6 @@
 """What a state can see of itself, and what only a second can see.
 
-The numbers behind reflections/ON_THE_PLACE_WHERE_THE_WAVE_RECOGNIZES_ITSELF.md.
+The numbers behind reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md.
 Nothing here is new physics; the script lays known facts side by side so the
 reflection can point at numbers instead of words.
 
