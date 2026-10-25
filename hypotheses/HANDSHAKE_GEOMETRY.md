@@ -188,7 +188,7 @@ complementary interior bond" is a statement about two specific letters being nea
 cosine matrix Ĝ[b,b'] = ⟨f̂⁽ᵇ⁾, f̂⁽ᵇ'⁾⟩ and its largest off-diagonal, not a Gram eigenvalue (a global rank
 property need not be a pairwise event: four letters at the vertices of a regular tetrahedron have an exact
 Gram null with no confusable pair). At N = 5 the worst pair reads cos ≈ −0.97 (the sign-location ambiguity,
-+δJ here ≈ −δJ on the mirror-complement); at N = 4 only −0.55, which is why N = 4 decodes cleanly and N = 5
++δJ on bond 3 ≈ −δJ on bond 1, a pair across the centre rather than a mirror pair); at N = 4 only −0.55, which is why N = 4 decodes cleanly and N = 5
 flags ambiguous. (This anti-collinearity is derived, not just measured: see "The reading's spatial-mirror equivariance" below.)
 
 This anti-collinearity is **dynamical, not a readout artifact.** A natural conjecture (the
@@ -240,10 +240,12 @@ distinguishing channel is the K-partner null, and the confusability sign is fixe
 dominance of the location reading.
 
 Honest scope: the equivariance and the cosine formula are **bare and exact**; the bare mirror-pair
-cosine is **−0.33** at N=5. The **−0.97** of the previous section is the *painted* instance, the
-propagated α-profile concentrates location weight on the R-odd seesaw, driving the parity sum toward
-−1 (R-equivariance is preserved by the painting for reflection-symmetric couplings; only the weights
-`w_k` change). The carrier-parity is load-bearing: the `(−1)^{k−1}` sign is for the R-even carrier ψ_1
+cosine is **−0.33** at N=5. On the *painted* letters the same mirror statement reads cos = 1 − 2w, w the
+mirror-odd weight of the letter: the propagated α-profile concentrates location weight on the R-odd
+seesaw, and N = 5's chain-mirror pairs read −0.78 and −0.89 (R-equivariance is preserved by the painting
+for reflection-symmetric couplings; only the weights change). The **−0.97** of the previous section is a
+different pair, (1, 3) across the centre; across N = 3 to 12 the painted letters are anti-collinear at
+nearly every N, the worst pair a mirror pair or a pair across the centre (`DecoderAntiCollinearitySeesawClaim`). The carrier-parity is load-bearing: the `(−1)^{k−1}` sign is for the R-even carrier ψ_1
 (a carrier of parity `(−1)^{c−1}` gives `(−1)^{k−c}`). Typed as `DefectReadingEquivarianceClaim`
 (Tier1Derived, parent `KPartnerSelectionRuleClaim`, `inspect --claim DefectReadingEquivarianceClaim`);
 verifier [`handshake_reading_equivariance.py`](../simulations/handshake_reading_equivariance.py).

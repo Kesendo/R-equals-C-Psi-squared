@@ -6,13 +6,13 @@ using RCPsiSquared.Diagnostics.Ptf;
 namespace RCPsiSquared.Diagnostics.Tests.Ptf;
 
 /// <summary>The empirical Q-instance refinement of the defect-reading equivariance: the decoder's painted
-/// α-dictionary worst anti-collinearity follows odd-N parity (a Q=20 painting effect; the confuser is the
-/// distance-2 bond pair, not the mirror pair). Covers tier (Tier2Empirical, weaker than the Tier1Derived
-/// parent), summary content, the parent edge (DefectReadingEquivarianceClaim), and registration into
-/// BuildDefault. The numeric grounding is the verifier DictionaryParityInvestigationTests.</summary>
-public class DecoderAntiCollinearityParityClaimTests
+/// α-dictionary is anti-collinear at every N read, the seesaw's (cos = 1 − 2w on mirror pairs). Covers tier
+/// (Tier2Empirical, weaker than the Tier1Derived parent), summary content, the parent edge
+/// (DefectReadingEquivarianceClaim), and registration into BuildDefault. The numeric grounding is
+/// SingleExcitationPainterDictionaryTests.</summary>
+public class DecoderAntiCollinearitySeesawClaimTests
 {
-    private static DecoderAntiCollinearityParityClaim Build() =>
+    private static DecoderAntiCollinearitySeesawClaim Build() =>
         new(equivariance: new DefectReadingEquivarianceClaim(
             new KPartnerSelectionRuleClaim(new ChiralMirrorTrajectoryClaim())));
 
@@ -23,12 +23,13 @@ public class DecoderAntiCollinearityParityClaimTests
     }
 
     [Fact]
-    public void Summary_NamesParityAndPainting()
+    public void Summary_NamesTheIdentityAndNotAParityLaw()
     {
         var summary = Build().Summary;
-        Assert.Contains("parity", summary, System.StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("painting", summary, System.StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("distance-2", summary, System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("1 − 2w", summary);
+        Assert.Contains("mirror-odd", summary);
+        Assert.DoesNotContain("distance-2", summary);
+        Assert.DoesNotContain("odd-N parity", summary);
     }
 
     [Fact]
@@ -40,17 +41,17 @@ public class DecoderAntiCollinearityParityClaimTests
     }
 
     [Fact]
-    public void BuildDefault_ContainsDecoderAntiCollinearityParityClaim()
+    public void BuildDefault_ContainsDecoderAntiCollinearitySeesawClaim()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.True(registry.Contains<DecoderAntiCollinearityParityClaim>());
+        Assert.True(registry.Contains<DecoderAntiCollinearitySeesawClaim>());
     }
 
     [Fact]
     public void Claim_Ancestors_ContainDefectReadingEquivarianceClaim()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
-        var ancestors = registry.AncestorsOf<DecoderAntiCollinearityParityClaim>()
+        var ancestors = registry.AncestorsOf<DecoderAntiCollinearitySeesawClaim>()
             .Select(c => c.GetType()).ToHashSet();
         Assert.Contains(typeof(DefectReadingEquivarianceClaim), ancestors);
     }

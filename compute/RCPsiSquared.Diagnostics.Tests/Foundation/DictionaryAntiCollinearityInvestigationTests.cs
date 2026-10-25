@@ -14,31 +14,21 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>GROUNDING SCOUT (play-session investigation, 2026-06-30): how does the decoder's α-dictionary
-/// degeneracy scale with N? Measured directly across N=3..6 via the SAME Symphony/PaintersMovement
-/// pipeline DefectDecoder.Calibrate uses (one source of α semantics), bypassing the decoder's N≤5 cap
-/// (Symphony itself allows N≤6). Two DISTINCT degeneracy channels emerge:
-///
-/// <para>(1) ANTI-COLLINEARITY, the min SIGNED cos of the α-dictionary, the sign+location confusion the
-/// decoder's de-loss addresses ("weakening bond a reads like strengthening bond b", cos → −1). It follows
-/// the PARITY of N: strong at ODD N, weak at EVEN N. Measured: N=3 −0.976, N=4 −0.541, N=5 −0.965,
-/// N=6 −0.378 (HIGH-LOW-HIGH-LOW). This FALSIFIES the interior-bond rule (which, like the deviation
-/// dictionary, predicts N=5 weak); the α-dictionary at N=5 is as anti-collinear as N=3. The realizing
-/// pairs are NOT mirror pairs: N=3 the single (0,1); N=5 the distance-2 (0,2)/(1,3), the (1,3) is exactly
-/// the demo's "bond 3 weakened ≈ bond 1 strengthened".</para>
-///
-/// <para>(2) COLLINEARITY, the max POSITIVE cos: a SECOND, distinct degeneracy where adjacent EDGE bonds
-/// become near-identical (same sign, pure location confusion). Absent at N≤4, +0.846 at N=5 (pairs
-/// (0,1),(2,3)), +0.982 at N=6 (pairs (0,1),(3,4)). This GROWS with N rather than alternating.</para>
-///
-/// <para>Mechanism for the anti-collinearity parity is OPEN; the empirical pattern holds on 4 points
-/// (N=3..6, Symphony's ceiling, N=7's 16384² eig is hours). The decoder-relevant quantity is the SIGNED
-/// minimum cos (anti-collinearity), NOT worst |cos| (which at N=6 catches the COLLINEAR pair +0.982 and
-/// conflates the two channels).</para></summary>
-public class DictionaryParityInvestigationTests
+/// <summary>The decoder's α-dictionary through the full 4^N pipeline at N = 3..6 (Symphony's ceiling), the
+/// same pipeline DefectDecoder.Calibrate uses. Two channels: (1) ANTI-COLLINEARITY, the min SIGNED cos, the
+/// sign+location confusion the de-loss addresses ("weakening bond a reads like strengthening bond b"); over
+/// all sites it reads N=3 −0.976, N=4 −0.541, N=5 −0.965, N=6 −0.378, and over the sites the painters' own
+/// reliability rule accepts N = 6 reads −0.962, so the odd/even alternation of the all-site reading is
+/// carried by N = 6's two rejected sites. The single-excitation block dictionary
+/// (SingleExcitationPainterDictionary, handshaken with this pipeline at N = 3..5) reads the worst signed cos
+/// ≤ −0.91 at every N = 3, 5..12 over reliable sites and −0.541 at N = 4, the seesaw's anti-collinearity
+/// (cos = 1 − 2w on mirror pairs; DecoderAntiCollinearitySeesawClaim). (2) COLLINEARITY, the max POSITIVE
+/// cos: adjacent EDGE bonds becoming near-identical (same sign, pure location confusion), absent at N ≤ 4,
+/// +0.846 at N=5 (pairs (0,1),(2,3)), +0.982 at N=6 (pairs (0,1),(3,4)).</summary>
+public class DictionaryAntiCollinearityInvestigationTests
 {
     private readonly ITestOutputHelper _out;
-    public DictionaryParityInvestigationTests(ITestOutputHelper output) => _out = output;
+    public DictionaryAntiCollinearityInvestigationTests(ITestOutputHelper output) => _out = output;
 
     // The canonical PTF protocol the painters require (same as DefectDecoderTests / DefectDecoder.Calibrate).
     const double J = 1.0, Gamma = 0.05, DeltaJCal = 0.02;
@@ -46,11 +36,12 @@ public class DictionaryParityInvestigationTests
     /// <summary>Build both per-bond dictionaries at N through the SAME pipeline DefectDecoder.Calibrate
     /// uses (Symphony → PaintersMovement.F / .DeviationResponse). Not routed through DefectDecoder.Calibrate
     /// so it can reach N=6 (Symphony.MaxN), past the decoder's N≤5 cap.</summary>
-    static (double[][] Alpha, double[][] Dev) BuildDictionaries(int n)
+    static (double[][] Alpha, double[][] Dev, bool[][] Reliable) BuildDictionaries(int n)
     {
         int bonds = n - 1;
         var alpha = new double[bonds][];
         var dev = new double[bonds][];
+        var reliable = new bool[bonds][];
         for (int b = 0; b < bonds; b++)
         {
             var s = new Symphony(n: n, j: J, gamma: Gamma, hType: HamiltonianType.XY,
@@ -59,8 +50,9 @@ public class DictionaryParityInvestigationTests
             Assert.True(pm.HasLenses, $"N={n} bond {b}: painters declined ({pm.DeclineReason})");
             alpha[b] = pm.F.ToArray();
             dev[b] = pm.DeviationResponse.ToArray();
+            reliable[b] = pm.Reliable.ToArray();
         }
-        return (alpha, dev);
+        return (alpha, dev, reliable);
     }
 
     static double Cos(double[] a, double[] b)
@@ -102,55 +94,50 @@ public class DictionaryParityInvestigationTests
         }
     }
 
-    /// <summary>The discriminator (N=3,4,5, fast, ≤1024² eig). The α-dictionary's anti-collinearity (min
-    /// signed cos) follows N-parity: strong at ODD N (3,5), weak at EVEN N (4). N=5 is the discriminator:
-    /// parity predicts strong anti (≤ −0.9); the interior-bond rule predicts weak (like the deviation
-    /// dictionary, which resolves N=5). Strong anti at N=5 confirms parity, falsifies interior-bond.</summary>
+    /// <summary>N = 3, 4, 5 through the full pipeline (fast, ≤ 1024² eig): strong anti-collinearity at N = 3
+    /// and 5, weak at N = 4, where one of the three bonds is the mirror-even centre.</summary>
     [Fact]
-    public void AlphaAntiCollinearity_FollowsParity_N3to5()
+    public void AlphaAntiCollinearity_StrongAtThreeAndFive_WeakAtFour()
     {
         var anti = new Dictionary<int, double>();
         for (int n = 3; n <= 5; n++)
         {
-            var (alpha, dev) = BuildDictionaries(n);
+            var (alpha, dev, _) = BuildDictionaries(n);
             anti[n] = Worst(alpha).MinSigned;
             Dump(n, alpha, dev);
         }
-
-        Assert.True(anti[3] < -0.9, $"N=3 (odd) α dictionary should be strongly anti-collinear; got {anti[3]:F4}");
-        Assert.True(anti[4] > -0.7, $"N=4 (even) α dictionary should be weakly anti-collinear; got {anti[4]:F4}");
-        Assert.True(anti[5] < -0.9,
-            $"PARITY predicts N=5 (odd) α dictionary strongly anti-collinear (the discriminator vs the " +
-            $"interior-bond rule, which predicts > −0.7 like the deviation dictionary); got {anti[5]:F4}");
+        Assert.True(anti[3] < -0.9, $"N=3 α dictionary should be strongly anti-collinear; got {anti[3]:F4}");
+        Assert.True(anti[4] > -0.7, $"N=4 α dictionary should be weakly anti-collinear; got {anti[4]:F4}");
+        Assert.True(anti[5] < -0.9, $"N=5 α dictionary should be strongly anti-collinear; got {anti[5]:F4}");
     }
 
-    /// <summary>The 4th point at Symphony's ceiling N=6 (5 bonds, 4096² eig,~30 min). Confirms BOTH
-    /// channels: the anti-collinearity stays WEAK (even N, parity holds, min signed cos ≈ −0.38), while the
-    /// SECOND channel, collinear adjacent-edge bonds (max positive cos), has GROWN to ≈ +0.98 (a pure
-    /// location degeneracy that the parity-alternating sign channel does not see). ~30 min (4096² eig ×5
-    /// bonds), tagged SLOW_DICTPARITY so it skips by default; run via
-    /// <c>--filter "Category=SLOW_DICTPARITY"</c>. Observed: α antiCos=−0.378, collinearCos=+0.982.</summary>
+    /// <summary>N = 6 at Symphony's ceiling (5 bonds, 4096² eig, about 30 min; tagged SLOW_DICTANTICOLLINEAR so it
+    /// skips by default; run via <c>--filter "Category=SLOW_DICTANTICOLLINEAR"</c>). Over all sites the α
+    /// anti-collinearity reads weak (−0.378); over the sites the painters' reliability rule accepts for every
+    /// bond (four of six) the same dictionary reads strong (−0.962), so the weak reading is carried by the two
+    /// rejected sites. The collinear edge-bond channel has grown to ≈ +0.98.</summary>
     [Fact]
-    [Trait("Category", "SLOW_DICTPARITY")]
-    public void N6_BothChannels_AntiWeak_CollinearGrown()
+    [Trait("Category", "SLOW_DICTANTICOLLINEAR")]
+    public void N6_AllSitesWeak_ReliableSitesStrong_CollinearGrown()
     {
-        var (alpha, dev) = BuildDictionaries(6);
+        var (alpha, dev, reliable) = BuildDictionaries(6);
         Dump(6, alpha, dev);
         var a = Worst(alpha);
-        Assert.True(a.MinSigned > -0.7,
-            $"N=6 (even) α anti-collinearity should stay weak (parity); got {a.MinSigned:F4}");
-        Assert.True(a.MaxPos > 0.95,
-            $"N=6 collinear edge-bond channel should have grown to near +1; got {a.MaxPos:F4}");
+        Assert.True(a.MinSigned > -0.7, $"N=6 over all sites: {a.MinSigned:F4}");
+        Assert.True(a.MaxPos > 0.95, $"N=6 collinear edge-bond channel: {a.MaxPos:F4}");
+        var keep = Enumerable.Range(0, 6).Where(i => reliable.All(r => r[i])).ToArray();
+        Assert.Equal(4, keep.Length);
+        var masked = alpha.Select(f => keep.Select(i => f[i]).ToArray()).ToArray();
+        Assert.True(Worst(masked).MinSigned < -0.95, $"N=6 over reliable sites: {Worst(masked).MinSigned:F4}");
     }
 
     /// <summary>BARE-vs-PAINTED reconciliation (the key to landing without tripping). The BARE mode-basis
     /// location dictionary M[b,k] = ⟨ψ_k|V_b|ψ_1⟩ (the object <see cref="DefectReadingEquivarianceClaim"/>
     /// types: pure single-excitation algebra, NO propagation, Q-INDEPENDENT) reaches high N cheaply (no
     /// Liouvillian eig, N=7,8,9 give the discriminators the painted path cannot). Question: does the
-    /// PARITY the painted α-dictionary shows (strong anti at odd N) live in the BARE dictionary too, or is
-    /// it a Q=20 PAINTING effect? The claim's note says bare mirror-pair cos = −0.33 at N=5 (weak) vs
-    /// painted −0.97 (strong), which predicts the bare object does NOT show the strong odd-N parity. This
-    /// prints the bare worst-anti and mirror-pair-anti per N to settle it.</summary>
+    /// strong anti-collinearity of the painted α-dictionary live in the BARE dictionary too, or is it a
+    /// Q=20 PAINTING effect? The bare mirror-pair cos = −0.33 at N=5 (weak) against the painted mirror pairs'
+    /// −0.78 and −0.89 says painting. This prints the bare worst-anti and mirror-pair-anti per N.</summary>
     [Fact]
     public void BareModeDictionary_AntiCollinearity_AcrossN_3to9()
     {

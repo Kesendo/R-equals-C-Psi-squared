@@ -815,7 +815,7 @@ public sealed class PaintersMovement : IInspectable
 
     // Guard / reliability thresholds, ported from perspectives_panel.
     private const double AlphaLo = 0.1, AlphaHi = 10.0;
-    private const double FMax = 10.0, ConsistencyTol = 0.5, FFloor = 0.5;
+    internal const double FMax = 10.0, ConsistencyTol = 0.5, FFloor = 0.5;
 
     public Symphony Parent { get; }
     public int Bond { get; }

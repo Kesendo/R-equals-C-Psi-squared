@@ -76,18 +76,17 @@ public sealed class DefectDecoder
 
     /// <summary>The most ANTI-collinear pair of the α-dictionary: the minimum SIGNED cos(F_i, F_j) (→ −1
     /// is the sign-location confusion the de-loss addresses, NOT worst |cos|, which also catches collinear
-    /// same-sign pairs). Computed live at calibration. Measured at the canonical γ=0.05 (Q=20): N=3 −0.976,
-    /// N=4 −0.541, N=5 −0.965 (N=6 −0.378 past the decoder's cap). It is STRONG at ODD N, WEAK at even N —
-    /// a Q=20 PAINTING effect: the bare single-excitation dictionary is flat (≈ −0.6, no parity), and
-    /// propagation concentrates weight on the R-odd seesaw at odd N (structural cousin:
-    /// <see cref="RCPsiSquared.Diagnostics.Ptf.DefectReadingEquivarianceClaim"/>; the worst confuser is the
-    /// distance-2 bond pair (i, i+2), e.g. (1,3) at N=5, NOT the mirror pair). Verifier:
-    /// DictionaryParityInvestigationTests.</summary>
+    /// same-sign pairs). Computed live at calibration, over all sites. At the canonical γ=0.05 (Q=20): N=3
+    /// −0.976, N=4 −0.541, N=5 −0.965. Across N it is the rule, not a property of odd N: over the sites the
+    /// painters accept the worst signed cos is ≤ −0.91 at N = 3, 5..12 (N = 6's all-site −0.378 is carried by
+    /// two rejected sites), the seesaw's, cos = 1 − 2w on mirror pairs
+    /// (<see cref="RCPsiSquared.Diagnostics.Ptf.DecoderAntiCollinearitySeesawClaim"/>,
+    /// <see cref="SingleExcitationPainterDictionary"/>).</summary>
     public double DictionaryWorstAntiCos => _dictionaryWorstAntiCos;
     private readonly double _dictionaryWorstAntiCos;
 
     /// <summary>The (i, j) bond pair realizing <see cref="DictionaryWorstAntiCos"/> (the worst α-letter
-    /// confuser): the distance-2 pair at the odd-N near-degeneracies.</summary>
+    /// confuser): a mirror pair or a crossing pair of nearly mirror-odd letters.</summary>
     public (int I, int J) DictionaryWorstAntiPair => _dictionaryWorstAntiPair;
     private readonly (int I, int J) _dictionaryWorstAntiPair;
 
@@ -171,8 +170,8 @@ public sealed class DefectDecoder
                 worstCos = Math.Max(worstCos, AbsCosine(dictionaryDev[i], dictionaryDev[k]));
 
         // The α-dictionary's worst ANTI-collinear pair (min signed cos): the sign-location confuser the
-        // decoder trips on. Strong at odd N (a Q-painting effect); the realizing pair is the distance-2
-        // bond pair, not the mirror pair (see DictionaryWorstAntiCos / DefectReadingEquivarianceClaim).
+        // decoder trips on. Strong at nearly every N (a Q-painting effect, the seesaw's); the realizing pair is a
+        // mirror pair or a crossing pair of nearly mirror-odd letters (see DictionaryWorstAntiCos).
         double worstAnti = 0.0;
         (int, int) worstAntiPair = (-1, -1);
         for (int i = 0; i < bonds; i++)

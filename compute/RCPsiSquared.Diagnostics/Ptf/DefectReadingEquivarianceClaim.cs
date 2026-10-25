@@ -35,8 +35,10 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 ///
 /// <para>Carrier-parity note: the (−1)^{k−1} sign is specific to the R-even carrier ψ_1; a carrier
 /// of parity (−1)^{c−1} gives (−1)^{k−c}. The canonical carrier is ψ_1. Honest scope: the bare
-/// cosine is −0.33 at N=5, NOT −0.97; the −0.97 is the painted (propagated α-profile) instance
-/// (handshake_gram_metric.py, Q=20), where the readout concentrates weight on the R-odd seesaw.</para>
+/// mirror-pair cosine is −0.33 at N=5. On the painted (propagated α-profile, Q=20) letters the same mirror
+/// statement reads cos = 1 − 2w, w the mirror-odd weight, and N=5's chain-mirror pairs read −0.78 and −0.89,
+/// the readout concentrating weight on the R-odd seesaw (<see cref="DecoderAntiCollinearitySeesawClaim"/>); the
+/// painted worst pair, −0.97 (handshake_gram_metric.py), is (1,3), across the centre, not a mirror pair.</para>
 ///
 /// <para>Anchor: hypotheses/HANDSHAKE_GEOMETRY.md + simulations/handshake_reading_equivariance.py
 /// + compute/RCPsiSquared.Diagnostics/Foundation/DefectDecoder.cs (the decoder whose sign-location

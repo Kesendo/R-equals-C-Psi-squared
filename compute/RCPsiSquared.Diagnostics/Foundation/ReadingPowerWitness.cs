@@ -214,36 +214,33 @@ public sealed class ReadingPowerWitness : IInspectable
             // 6. The decode demonstration (M2b): the reading grammar's first full machine-spoken sentence.
             yield return DecodeDemoNode();
 
-            // 7. The α-letter anti-collinearity: the decoder's actual sign-location confuser and its odd-N
-            // painting parity (grounded 2026-06-30, DictionaryParityInvestigationTests).
+            // 7. The α-letter anti-collinearity: the decoder's actual sign-location confuser, the seesaw's
+            // (DecoderAntiCollinearitySeesawClaim).
             yield return AntiCollinearityNode();
         }
     }
 
-    /// <summary>the α-letter anti-collinearity (the decoder's actual sign-location confuser) and its odd-N
-    /// parity. The decoder projects onto the α-dictionary {F_b}; its worst ANTI-collinear pair (min signed
-    /// cos) is what trips the sign+location read. Measured live at this N (γ=0.05, Q=20), with the pinned
-    /// cross-N pattern: STRONG at odd N (N=3 −0.976, N=5 −0.965), WEAK at even N (N=4 −0.541, N=6 −0.378).
-    /// This is a Q=20 PAINTING effect: the bare single-excitation dictionary is flat for N≥4 (≈ −0.6, no
-    /// parity; N=3 is −1.0, the single-pair degenerate case; verified N=3..9); propagation AMPLIFIES the
-    /// anti-collinearity (the parent attributes the amplification, not the parity, to the R-odd seesaw), but WHY it is parity-selective
-    /// (odd N) is OPEN. The realizing pair is
-    /// the distance-2 bond pair (i, i+2), e.g. (1,3) at N=5, NOT the mirror pair the structural cousin
-    /// <see cref="RCPsiSquared.Diagnostics.Ptf.DefectReadingEquivarianceClaim"/> computes. Verifier:
-    /// DictionaryParityInvestigationTests.</summary>
+    /// <summary>the α-letter anti-collinearity, the decoder's actual sign-location confuser. The decoder projects
+    /// onto the α-dictionary {F_b}; its worst ANTI-collinear pair (min signed cos) is what trips the
+    /// sign+location read. Measured live at this N (γ=0.05, Q=20). Across N it is the rule, not a parity: over
+    /// the sites the painters accept the worst signed cos is ≤ −0.91 at N = 3, 5..12 and −0.541 at N = 4; on a
+    /// mirror pair cos = 1 − 2w, w the letter's mirror-odd (seesaw) weight. Typed:
+    /// <see cref="RCPsiSquared.Diagnostics.Ptf.DecoderAntiCollinearitySeesawClaim"/>; the block dictionary past
+    /// N = 6: <see cref="SingleExcitationPainterDictionary"/>.</summary>
     InspectableNode AntiCollinearityNode()
     {
         var dec = DefectDecoder.Calibrate(N, J, DemoGamma, DemoDeltaJCal);
         var (i, j) = dec.DictionaryWorstAntiPair;
         return new InspectableNode(
-            displayName: "the α-letter anti-collinearity (the decoder's confuser, odd-N painting parity)",
+            displayName: "the α-letter anti-collinearity (the decoder's confuser, the seesaw's)",
             summary:
                 $"live at N={N}, Q=20: worst α-letter anti-collinearity = {dec.DictionaryWorstAntiCos.ToString("F4", Inv)} " +
-                $"on the distance-2 bond pair ({i},{j}) (the sign-location confuser; min SIGNED cos, not |cos|). " +
-                $"Cross-N parity (pinned): N=3 −0.976, N=4 −0.541, N=5 −0.965, N=6 −0.378; STRONG at odd N, WEAK at even N. " +
-                $"A Q=20 PAINTING effect: the bare single-excitation dictionary is flat for N≥4 (≈ −0.6; N=3 is −1.0, single pair; verified N=3..9); " +
-                $"propagation amplifies the anti-collinearity (parent: R-odd seesaw), but why it is parity-selective (odd N) is OPEN. Structural cousin (mirror-pair R-equivariance, NOT this " +
-                $"distance-2 confuser): DefectReadingEquivarianceClaim. Verifier: DictionaryParityInvestigationTests.",
+                $"on the bond pair ({i},{j}) (the sign-location confuser; min SIGNED cos, not |cos|). " +
+                $"Across N it is the rule, not a parity: over the sites the painters accept the worst signed cos is ≤ −0.91 at N = 3, 5..12 " +
+                $"and −0.541 at N = 4 (the single-excitation block dictionary, handshaken with this pipeline at N = 3..5); the all-site " +
+                $"N = 6 reading −0.378 is carried by two sites the painters' rule rejects. On a mirror pair cos = 1 − 2w, w the letter's " +
+                $"mirror-odd (seesaw) weight. A Q=20 PAINTING effect (the bare dictionary is flat for N≥4). Typed: DecoderAntiCollinearitySeesawClaim; " +
+                $"structural cousin: DefectReadingEquivarianceClaim.",
             payload: new InspectablePayload.Real("worst α anti-collinear cos (signed)", dec.DictionaryWorstAntiCos));
     }
 
@@ -306,13 +303,13 @@ public sealed class ReadingPowerWitness : IInspectable
                      $"window). Calibrated at N = {N}, γ = {DemoGamma.ToString(Inv)}, δJ_cal = {DemoDeltaJCal.ToString(Inv)} " +
                      $"({decoder.CalibrationBuildCount} calibration performances); three planted defects decoded below, " +
                      $"plus the de-loss before/after. " +
-                     $"Honest scope: at every ODD N (N=3, 5; even N is comparatively clean) the painted alphabet " +
-                     $"contains a near-anti-collinear letter pair (the worst confuser is the distance-2 bond pair, " +
-                     $"e.g. bond 3 ≈ bond 1 at N=5: weakening one reads like strengthening the other), so sign+location " +
-                     $"are not always separable by a single α-profile; the decoder reports the ambiguity rather than " +
-                     $"guessing, and the signed per-site deviation profile is that second feature axis, " +
-                     $"demonstrated live in the de-loss node below. The odd-N pattern is a Q=20 painting effect, not a " +
-                     $"bare-dictionary law (structural cousin: DefectReadingEquivarianceClaim).",
+                     $"Honest scope: at nearly every N the painted alphabet contains a near-anti-collinear letter pair " +
+                     $"(a chain-mirror pair or a pair across the centre, e.g. bond 3 ≈ bond 1 at N=5: weakening one reads " +
+                     $"like strengthening the other; N = 4 is the weak exception), so sign+location are not always separable " +
+                     $"by a single α-profile; the decoder reports the ambiguity rather than guessing, and the signed per-site " +
+                     $"deviation profile is that second feature axis, demonstrated live in the de-loss node below. The " +
+                     $"anti-collinearity is the seesaw's, a Q=20 painting effect, not a bare-dictionary law " +
+                     $"(DecoderAntiCollinearitySeesawClaim; structural cousin: DefectReadingEquivarianceClaim).",
             children: cases);
     }
 
