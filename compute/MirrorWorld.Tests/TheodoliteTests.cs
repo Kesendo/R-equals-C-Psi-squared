@@ -168,7 +168,7 @@ public class TheodoliteTests
 
     static bool Reflects(Theodolite.Setting s, Theodolite.Relation rel, bool transposed,
         IReadOnlyList<(Theodolite.Kind A, Theodolite.Kind B)> kinds,
-        IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y)
+        IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y, IReadOnlyList<int>? relabelling = null)
     {
         int n = s.N;
         var E = new Gauss[1, 1] { { Gauss.One } };
@@ -185,6 +185,23 @@ public class TheodoliteTests
                 el = t;
             }
             E = Kron(E, el);
+        }
+        if (relabelling is { } pi)
+        {
+            // E·P_pi, P_pi moving site l's cell (one base-4 digit, site 0 the most significant) to site pi[l]
+            int cells = 1 << (2 * n);
+            var moved = new Gauss[cells, cells];
+            for (int c = 0; c < cells; c++)
+            {
+                int image = 0;
+                for (int l = 0; l < n; l++)
+                {
+                    int digit = (c >> (2 * (n - 1 - l))) & 3;
+                    image |= digit << (2 * (n - 1 - pi[l]));
+                }
+                for (int r = 0; r < cells; r++) moved[r, c] = E[r, image];
+            }
+            E = moved;
         }
         var L = GeneratorTimesFour(s);
         int dd = L.GetLength(0);
@@ -220,7 +237,7 @@ public class TheodoliteTests
         Assert.NotNull(sol);
         var x = Enumerable.Range(0, s.N).Select(l => sol![$"x{l}"]).ToList();
         var y = Enumerable.Range(0, s.N).Select(l => sol![$"y{l}"]).ToList();
-        return Reflects(s, rel, r.Transposed, r.Kinds, x, y);
+        return Reflects(s, rel, r.Transposed, r.Kinds, x, y, r.Relabelling);
     }
 
     // ---- settings ----
@@ -539,5 +556,66 @@ public class TheodoliteTests
         Assert.NotNull(t);
         Assert.Equal(Theodolite.Shape.Periodic, t!.Shape);
         Assert.Equal(4, t.Period);
+    }
+
+    // ---- relabelling the sites ----
+
+    // Under loss alone a bond with ZZ and s, a, w all nonzero pairs exactly at rates the chain's reversal keeps, and the
+    // carrier is the reversal times a uniform turn, then S_XY (experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md, "The
+    // reversal"). No site-local sandwich reads it; after the reversal one does, and the element E·P_pi, built densely at
+    // the rational point of the reading, carries the full generator onto -L^dagger - c (the second route). At rates the
+    // reversal moves no relabelling reads, and the reading at the kept rates does not carry the moved setting.
+    [Fact]
+    public void The_Reversal_Carries_The_Cooled_Chain()
+    {
+        var J = new[] { ("XX", -2L), ("XY", -2L), ("YX", 1L), ("YY", -2L), ("ZZ", -2L) };   // s = −2, a = −3/2, |w|² = 1/4
+        Theodolite.Setting Chain(params long[] rates) => Theodolite.Setting.Of(3,
+            J.SelectMany(t => new[] { (t.Item1 + "I", t.Item2), ("I" + t.Item1, t.Item2) }),
+            rates.Select((g, l) => (l, Lowering, g)));
+        var kept = Chain(2, 7, 2);
+        Assert.Null(Theodolite.Read(kept, Theodolite.Relation.Reflection));
+        Assert.Null(Theodolite.Read(kept, Theodolite.Relation.Pi));
+        Assert.Equal(new[] { new[] { 2, 1, 0 } }, Theodolite.Automorphisms(kept));
+        var r = Theodolite.ReadRelabelled(kept, Theodolite.Relation.Reflection);
+        Assert.NotNull(r);
+        Assert.Equal(new[] { 2, 1, 0 }, r!.Relabelling);
+        Assert.True(ReflectsAtRationalPoint(kept, Theodolite.Relation.Reflection, r));
+        var moved = Chain(2, 7, 3);
+        Assert.Null(Theodolite.ReadRelabelled(moved, Theodolite.Relation.Reflection));
+        Assert.Null(Theodolite.ReadRelabelled(moved, Theodolite.Relation.Pi));
+        var sol = Binomials.RationalSolution(r.System)!;
+        var x = Enumerable.Range(0, 3).Select(l => sol[$"x{l}"]).ToList();
+        var y = Enumerable.Range(0, 3).Select(l => sol[$"y{l}"]).ToList();
+        Assert.False(Reflects(moved, Theodolite.Relation.Reflection, r.Transposed, r.Kinds, x, y, r.Relabelling));
+        Assert.False(Reflects(kept, Theodolite.Relation.Reflection, r.Transposed, r.Kinds, x, y));   // without the reversal
+    }
+
+    // The direction of a relabelling, on a 3-cycle (not an involution) and a setting no permutation keeps: the generator
+    // of Relabelled(pi) is P_pi·L·P_pi^-1 with P_pi moving site l's cell to site pi[l], and not P_pi^-1·L·P_pi.
+    [Fact]
+    public void A_Relabelling_Moves_Site_L_To_Pi_Of_L()
+    {
+        var s = Theodolite.Setting.Of(3, new[] { ("XYI", 1L), ("IZX", 2L), ("YIZ", -1L), ("XII", 3L) },
+            new[] { (0, Lowering, 1L), (1, Lowering, 2L), (2, Lowering, 5L) });
+        int[] pi = { 1, 2, 0 };
+        var L = GeneratorTimesFour(s);
+        var moved = GeneratorTimesFour(s.Relabelled(pi));
+        int cells = L.GetLength(0);
+        int Image(int c, int[] p)
+        {
+            int image = 0;
+            for (int l = 0; l < 3; l++) image |= ((c >> (2 * (2 - l))) & 3) << (2 * (2 - p[l]));
+            return image;
+        }
+        int[] inverse = { 2, 0, 1 };
+        bool Conjugates(int[] p)
+        {
+            for (int r = 0; r < cells; r++)
+                for (int c = 0; c < cells; c++)
+                    if (moved[Image(r, p), Image(c, p)] != L[r, c]) return false;
+            return true;
+        }
+        Assert.True(Conjugates(pi));
+        Assert.False(Conjugates(inverse));
     }
 }

@@ -307,10 +307,10 @@ public class SextantTests
     // (S_XY's class); the warm DNA model (transverse X fields, ZZ, loss, gain and Z) is OBSTRUCTED at the third power,
     // so no element of any kind reflects it; DM bonds under loss, which F137 pairs by another route, are WITNESSED by the
     // theodolite, a site-local sandwich outside the closure. The cooled chain XX + 2XY + ZZ at rates (1, 2, 1) is
-    // SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo two primes, and its carrier, the chain's
-    // reversal times a turn about Z, is neither uniform nor site-local; at (1, 2, 3) the seventh trace obstructs, as
-    // experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md has it. Read only to the fifth power, the mirrored setting is OPEN.
-    // With no jumps the identity reflects (WITNESSED).
+    // WITNESSED by the theodolite after the chain's reversal (its carrier, the reversal times a turn about Z); at
+    // (1, 2, 3) the seventh trace obstructs, as experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md has it. Uncoupled sites
+    // with fields off the Z axis stay SYMMETRIC-MOD-P, and read only to the fifth power, OPEN. With no jumps the identity
+    // reflects (WITNESSED).
     [Fact]
     public void The_Sextant_Answers_Yes_No_And_Symmetric_Unseen()
     {
@@ -333,10 +333,12 @@ public class SextantTests
         var offAxis = Sextant.Setting.Chain(n, new[] { ("Y", -2L), ("Z", 1L) },
             new[] { (0, LetterCube.LetterMatrix('X'), 2L), (1, LetterCube.LetterMatrix('X'), 0L), (2, LetterCube.LetterMatrix('X'), 3L) });
         Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(offAxis).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(offAxis, maxPower: 5).Kind);
         Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
             Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(Cooled(1, 2, 1)).Kind);
-        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(Cooled(1, 2, 1), maxPower: 5).Kind);
+        var mirrored = Sextant.Decide(Cooled(1, 2, 1));
+        Assert.Equal(Sextant.Palindrome.Witnessed, mirrored.Kind);
+        Assert.Contains("relabelled l -> [2, 1, 0]", mirrored.Detail);
         Assert.Equal(7, Sextant.OddTraceObstruction(Cooled(1, 2, 3), 9)!.Value.Power);
         var bare = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("X", 1L), ("ZX", 1L) }, Array.Empty<(int, LetterCube.Gauss[,], long)>());
         Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(bare).Kind);

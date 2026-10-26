@@ -26,7 +26,7 @@ the turns that survive damping, F63 and the Z⊗N partnership); review/OPEN_QUES
 balance; no question on bonds); the OpenArcs registry (one measured cooling plus Z reading, no classification arc);
 docs/CAUGHT_ERRORS.md (the scoping of "T1 alone keeps the palindrome", with its counterexamples: transverse fields,
 transverse DM bonds, longitudinal profiles); the typed layer (F137 untyped; DirectSumDecompositionClaim repeats its
-scope); MirrorWorld SextantTests (S_XY under loss; DM under loss read as symmetric modulo p) and TheodoliteTests; the
+scope); MirrorWorld SextantTests (S_XY under loss; DM under loss witnessed through the theodolite) and TheodoliteTests; the
 scripts cube_old_questions_gate.py G7, cube_moves_gate.py M10/M11, pauli_weight_conjugation.py's 18 configurations.
 No store held a census of two-site bonds under cooling, and none claimed necessity outside the class of F137's
 criterion. Adjacency: every carrier used here is one of F137's general forms; F137 states them for XXZ bonds with
@@ -311,9 +311,12 @@ is open.
 ## What the instruments did
 
 The Sextant decides by the same odd power sums, modulo a prime, so the exact nos are its kind of answer (computed
-here in Python, sections D to G of the gate); its search runs over uniform moves only and cannot see the turned yeses.
-The Theodolite reads those as exact elements off the letters (section C), and is silent on the reversal, which no
-product of site maps is. The cube gave the why: the
+here in Python, sections D to G of the gate); its own search runs over uniform moves only, and for the yeses its
+decision asks the Theodolite. That reads the turned yeses as exact elements off the letters (section C), and the
+reversal after relabelling the sites (`Theodolite.ReadRelabelled`, the element E·P checked densely on the full
+generator in MirrorWorld's TheodoliteTests): the reversal keeps every string's letter counts and so every height, and
+turns the letters of a bond around. `sextant decide 3 XX:1,XY:2,ZZ:1 1,2,1 loss` reads the kept rates as witnessed and
+`… 1,2,3 loss` as obstructed at the seventh trace. The cube gave the why: the
 split of a bond into a part that sees the difference of two site angles and a part that sees their sum, and the
 reversal's one rotation, which a computation then confirmed exactly; and the phase counts that make the seventh
 power sum the first that can break for the class and the fifth for a mixed letter, which the exact polynomials then

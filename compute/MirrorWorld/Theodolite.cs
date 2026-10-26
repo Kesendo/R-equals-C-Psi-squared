@@ -33,14 +33,22 @@ using static MirrorWorld.LetterCube;
 // |Num| = |Den|. Periodic: kinds and turns repeating with a period p. Stepped: the turns step, but no turn of the map
 // carries one site onto the next.
 //
+// Relabelled (ReadRelabelled): the sandwich after a permutation P_pi of the sites, E·P_pi, for every pi that carries
+// the setting's supports onto themselves (on a chain the reversal, on a ring its rotations and reflections). P_pi
+// changes no string's letter counts and so no height; it moves each site's table to its image, and a reflection turns
+// the letters of a bond's string around (XY on (l, l+1) becomes YX), so the same binomial reading, asked between the
+// relabelled setting and the setting itself, decides it. It reads, under loss alone, a bond with ZZ and s, a, w all
+// nonzero at rates the reversal keeps: the reversal times a uniform turn, then S_XY
+// (experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md).
+//
 // Parent: the letter cube, whose letters, heights, arrows and one-site moves it reads with; the sextant's sibling,
 // which asks the cube's moves on the whole generator, uniform on every site. Its own are the letters (the binomial
 // equations), the reading and every N.
 //
 // Deliberately outside: the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
-// twin's cube search and machine), relabellings of the sites, weights along X or Y, and a silence's meaning: when the
-// letters are silent, nothing site-local may exist or the element may not be such a sandwich, and the theodolite does
-// not decide which.
+// twin's cube search and machine), factors monomial in another basis than Z's, weights along X or Y, relabellings in
+// EveryN, and a silence's meaning: when the letters are silent, nothing of this form may exist or the element may not
+// be such a sandwich, and the theodolite does not decide which.
 //
 // Words, fenced at the door: a "turn" here is a site factor's entry x, a turn about Z (a real angle) or a thermal weight
 // (an imaginary one), not the letter cube's turn by X^N and not GammaFold's per-site turn gamma -> -gamma; a "kind" is
@@ -97,6 +105,20 @@ public sealed class Theodolite : GameObject
             => new(n, h.Select(t => (PauliString.Parse(t.Letters.PadRight(n, 'I')), t.Coefficient)), jumps);
 
         internal int[] Support(PauliString t) => Enumerable.Range(0, N).Where(l => t.Letter(l) != 'I').ToArray();
+
+        // the same system with site l carried to site pi[l]: P_pi·L·P_pi^-1 is this setting's generator
+        public Setting Relabelled(IReadOnlyList<int> pi)
+        {
+            if (pi.Count != N || pi.Distinct().Count() != N || pi.Any(v => v < 0 || v >= N))
+                throw new ArgumentException("a relabelling is a permutation of the sites", nameof(pi));
+            var h = H.Select(t =>
+            {
+                var letters = new char[N];
+                for (int l = 0; l < N; l++) letters[pi[l]] = t.Term.Letter(l);
+                return (PauliString.Parse(new string(letters)), t.Coefficient);
+            });
+            return new Setting(N, h, Jumps.Select(j => (pi[j.Site], j.Jump, j.Rate)));
+        }
     }
 
     // One site of a chain repeated: its jumps, its fields (letter, coefficient) and its windows (letters, offsets from
@@ -274,14 +296,14 @@ public sealed class Theodolite : GameObject
 
     // The site equation E·L° = T(L°)·E for every piece, as binomials in (x, y); null when an entry is a single
     // monomial (no nonzero solution); throws past two monomials (silent).
-    static List<Binomial>? SiteEquations(IReadOnlyList<Gauss[,]> pieces, Relation rel, Kind ka, Kind kb, bool transposed,
-        string x, string y, string origin)
+    static List<Binomial>? SiteEquations(IReadOnlyList<(Gauss[,] From, Gauss[,] To)> pieces, Relation rel, Kind ka, Kind kb,
+        bool transposed, string x, string y, string origin)
     {
         var e = SiteMap(ka, kb, transposed);
         var outs = new List<Binomial>();
-        foreach (var l8 in pieces)
+        foreach (var (l8, to) in pieces)
         {
-            var tg = Target(l8, rel);
+            var tg = Target(to, rel);
             for (int r = 0; r < 4; r++)
                 for (int c = 0; c < 4; c++)
                 {
@@ -337,16 +359,17 @@ public sealed class Theodolite : GameObject
         return m;
     }
 
-    // The support equation, left (A_S·h^(T)·A_S^-1 = s·h) or right (B_S^-1·h^(T)·B_S = s·h), as binomials in the
-    // support's turns. A monomial factor sends basis state i to pi(i) with the monomial m_i, so every entry of the
+    // The support equation, left (A_S·h'^(T)·A_S^-1 = s·h) or right (B_S^-1·h'^(T)·B_S = s·h), as binomials in the
+    // support's turns, h' the source's terms and h the target's (the same setting unless the sites are relabelled).
+    // A monomial factor sends basis state i to pi(i) with the monomial m_i, so every entry of the
     // conjugated h is one monomial times one entry of h: (A h A^-1)_ij = m_i h_pi(i)pi(j) / m_j and
     // (B^-1 h B)_ij = h_pi(i)pi(j) m_pi(j) / m_pi(i). Null when an entry has no nonzero solution.
-    static List<Binomial>? SupportEquations(Gauss[,] h, Relation rel, bool transposed, IReadOnlyList<Kind> kinds,
+    static List<Binomial>? SupportEquations(Gauss[,] hFrom, Gauss[,] h, Relation rel, bool transposed, IReadOnlyList<Kind> kinds,
         IReadOnlyList<string> turns, bool left, string origin)
     {
         int k = kinds.Count, d = 1 << k;
         int sign = (rel == Relation.Pi && !transposed) || (rel != Relation.Pi && transposed) ? -1 : 1;
-        var ht = transposed ? Transpose(h) : h;
+        var ht = transposed ? Transpose(hFrom) : hFrom;
         int Bit(int i, int p) => (i >> (k - 1 - p)) & 1;
         int Image(int i)
         {
@@ -410,12 +433,14 @@ public sealed class Theodolite : GameObject
 
     // ---------------------------------------------------------------- reading a setting
 
+    // Relabelling: null for the site-local sandwich; otherwise pi, site l carried to site pi[l] before the sandwich.
     public sealed record Reading(bool Transposed, IReadOnlyList<(Kind A, Kind B)> Kinds, Binomials.Reduced System,
-        IReadOnlyList<Binomial> Equations)
+        IReadOnlyList<Binomial> Equations, IReadOnlyList<int>? Relabelling = null)
     {
         public IEnumerable<string> Lines()
         {
-            yield return $"rho -> {(Transposed ? "A·rho^T·B" : "A·rho·B")} with A = ⊗A_l, B = ⊗B_l";
+            yield return $"rho -> {(Transposed ? "A·rho^T·B" : "A·rho·B")} with A = ⊗A_l, B = ⊗B_l" +
+                         (Relabelling is { } p ? $", after the sites are relabelled l -> [{string.Join(", ", p)}]" : "");
             for (int l = 0; l < Kinds.Count; l++)
                 yield return $"site {l}: A_{l} {Name(Kinds[l].A, $"x{l}")}, B_{l} {Name(Kinds[l].B, $"y{l}")}";
             foreach (var line in System.Lines()) yield return $"  {line}";
@@ -429,13 +454,86 @@ public sealed class Theodolite : GameObject
 
     // A monomial sandwich carrying L onto T(L) - c, read from the letters, or null when the letters are silent.
     // branch: null asks the plain branch and then the transposed one, false or true only that one.
-    public static Reading? Read(Setting s, Relation rel, bool? branch = null)
+    public static Reading? Read(Setting s, Relation rel, bool? branch = null) => Between(s, s, null, rel, branch);
+
+    // A sandwich after a relabelling of the sites, E·P_pi carrying L onto T(L) - c, P_pi moving site l to pi[l]: the
+    // sandwich then carries L of the relabelled setting onto T(L) of the setting itself. The relabellings asked are
+    // the automorphisms of the setting's supports other than the identity (on a chain the reversal, on a ring its
+    // rotations and reflections), and the first that reads is returned; null when none does. A site l may go to v only
+    // when site l's table can be carried onto site v's alone (a necessary condition, so nothing is lost), which keeps
+    // the enumeration small where the supports alone do not (fields only, a complete graph).
+    public static Reading? ReadRelabelled(Setting s, Relation rel, bool? branch = null)
+    {
+        int n = s.N;
+        var pieces = Enumerable.Range(0, n).Select(l => SitePieces(s, l, rateFree: false)).ToList();
+        var fits = new bool[n, n];
+        for (int l = 0; l < n; l++)
+            for (int v = 0; v < n; v++)
+                fits[l, v] = SiteFits(pieces[l], pieces[v], rel, branch);
+        foreach (var pi in Automorphisms(s, (l, v) => fits[l, v]))
+            if (Between(s.Relabelled(pi), s, pi, rel, branch) is { } r) return r;
+        return null;
+    }
+
+    // some kinds and branch for which the site equation carrying one site's table onto another's has a solution
+    static bool SiteFits(IReadOnlyList<Gauss[,]> from, IReadOnlyList<Gauss[,]> to, Relation rel, bool? branch)
+    {
+        var pairs = from.Zip(to).ToList();
+        foreach (bool transposed in Branches(branch))
+            foreach (var (ka, kb) in KindPairs)
+            {
+                try
+                {
+                    var eqs = SiteEquations(pairs, rel, ka, kb, transposed, "x", "y", "site");
+                    if (eqs is not null && Binomials.Solve(eqs, new[] { "x", "y" }) is not null) return true;
+                }
+                catch (SilentException) { }
+            }
+        return false;
+    }
+
+    // the permutations pi of the sites, not the identity, that carry the set of supports onto itself, enumerated
+    // lazily; allowed(l, v) may forbid sending site l to v
+    public static IEnumerable<int[]> Automorphisms(Setting s, Func<int, int, bool>? allowed = null)
+    {
+        int n = s.N;
+        var supports = Supports(s);
+        var keys = new HashSet<string>(supports.Select(sup => string.Join(",", sup)));
+        var pi = new int[n];
+        var used = new bool[n];
+        IEnumerable<int[]> Rec(int l)
+        {
+            if (l == n)
+            {
+                if (Enumerable.Range(0, n).Any(q => pi[q] != q)) yield return (int[])pi.Clone();
+                yield break;
+            }
+            for (int v = 0; v < n; v++)
+            {
+                if (used[v] || (allowed is not null && !allowed(l, v))) continue;
+                pi[l] = v;
+                used[v] = true;
+                bool ok = supports.Where(sup => sup.Max() == l)
+                    .All(sup => keys.Contains(string.Join(",", sup.Select(q => pi[q]).OrderBy(q => q))));
+                if (ok)
+                    foreach (var p in Rec(l + 1)) yield return p;
+                used[v] = false;
+            }
+        }
+        return Rec(0);
+    }
+
+    static Reading? Between(Setting from, Setting s, int[]? relabelling, Relation rel, bool? branch)
     {
         var branches = Branches(branch);
         int n = s.N;
-        var pieces = Enumerable.Range(0, n).Select(l => SitePieces(s, l, rateFree: false)).ToList();
-        var supports = Supports(s);
+        var pieces = Enumerable.Range(0, n)
+            .Select(l => (IReadOnlyList<(Gauss[,], Gauss[,])>)SitePieces(from, l, rateFree: false).Zip(SitePieces(s, l, rateFree: false)).ToList())
+            .ToList();
+        var supports = Supports(s).Concat(Supports(from)).GroupBy(sup => string.Join(",", sup)).Select(g => g.First())
+            .OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal).ToList();
         var hams = supports.ToDictionary(sup => string.Join(",", sup), sup => HamiltonianOn(s, sup));
+        var hamsFrom = supports.ToDictionary(sup => string.Join(",", sup), sup => HamiltonianOn(from, sup));
         var doneAt = Enumerable.Range(0, n).Select(l => supports.Where(sup => sup.Max() == l).ToList()).ToList();
         foreach (bool transposed in branches)
         {
@@ -466,9 +564,10 @@ public sealed class Theodolite : GameObject
                     foreach (var sup in doneAt[l])
                     {
                         var h = hams[string.Join(",", sup)];
-                        var a = SupportEquations(h, rel, transposed, sup.Select(q => allowed[q][choice[q]].K.A).ToList(),
+                        var hf = hamsFrom[string.Join(",", sup)];
+                        var a = SupportEquations(hf, h, rel, transposed, sup.Select(q => allowed[q][choice[q]].K.A).ToList(),
                             sup.Select(X).ToList(), left: true, $"support {{{string.Join(", ", sup)}}}, left");
-                        var b = SupportEquations(h, rel, transposed, sup.Select(q => allowed[q][choice[q]].K.B).ToList(),
+                        var b = SupportEquations(hf, h, rel, transposed, sup.Select(q => allowed[q][choice[q]].K.B).ToList(),
                             sup.Select(Y).ToList(), left: false, $"support {{{string.Join(", ", sup)}}}, right");
                         if (a is null || b is null) return null;
                         eqs.AddRange(a);
@@ -482,7 +581,7 @@ public sealed class Theodolite : GameObject
 
             bool Rec(int l)
             {
-                if (l == n) return !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
+                if (l == n) return relabelling is not null || !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
                 for (int ci = 0; ci < allowed[l].Count; ci++)
                 {
                     choice[l] = ci;
@@ -497,7 +596,7 @@ public sealed class Theodolite : GameObject
             {
                 var eqs = Equations(n - 1)!;
                 var reduced = Binomials.Solve(eqs, Unknowns(n - 1))!;
-                return new Reading(transposed, Enumerable.Range(0, n).Select(l => allowed[l][choice[l]].K).ToList(), reduced, eqs);
+                return new Reading(transposed, Enumerable.Range(0, n).Select(l => allowed[l][choice[l]].K).ToList(), reduced, eqs, relabelling);
             }
         }
         return null;
@@ -532,16 +631,16 @@ public sealed class Theodolite : GameObject
         var eqs = new List<Binomial>();
         for (int l = 0; l < length; l++)
         {
-            var b = SiteEquations(pieces, rel, kinds[l].A, kinds[l].B, transposed, X(l), Y(l), $"site {l}");
+            var b = SiteEquations(pieces.Select(q => (q, q)).ToList(), rel, kinds[l].A, kinds[l].B, transposed, X(l), Y(l), $"site {l}");
             if (b is null) return null;
             eqs.AddRange(b);
         }
         foreach (var sup in Supports(s))
         {
             var h = HamiltonianOn(s, sup);
-            var a = SupportEquations(h, rel, transposed, sup.Select(q => kinds[q].A).ToList(), sup.Select(X).ToList(), true,
+            var a = SupportEquations(h, h, rel, transposed, sup.Select(q => kinds[q].A).ToList(), sup.Select(X).ToList(), true,
                 $"support {{{string.Join(", ", sup)}}}, left");
-            var b = SupportEquations(h, rel, transposed, sup.Select(q => kinds[q].B).ToList(), sup.Select(Y).ToList(), false,
+            var b = SupportEquations(h, h, rel, transposed, sup.Select(q => kinds[q].B).ToList(), sup.Select(Y).ToList(), false,
                 $"support {{{string.Join(", ", sup)}}}, right");
             if (a is null || b is null) return null;
             eqs.AddRange(a);
@@ -605,7 +704,7 @@ public sealed class Theodolite : GameObject
             {
                 try
                 {
-                    if (SiteEquations(pieces, rel, kp.Item1, kp.Item2, transposed, "u", "v", "site") is not null)
+                    if (SiteEquations(pieces.Select(q => (q, q)).ToList(), rel, kp.Item1, kp.Item2, transposed, "u", "v", "site") is not null)
                         allowed[transposed].Add(kp);
                 }
                 catch (SilentException) { }
