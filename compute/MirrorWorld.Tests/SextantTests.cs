@@ -305,9 +305,12 @@ public class SextantTests
 
     // The sextant's three exact answers on settings §9 and F137 already hold: the thermal Heisenberg chain is WITNESSED
     // (S_XY's class); the warm DNA model (transverse X fields, ZZ, loss, gain and Z) is OBSTRUCTED at the third power,
-    // so no element of any kind reflects it; DM bonds under loss, which F137 pairs by another route, are
-    // SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo two primes and no element of the closure
-    // reflects. Read only to the fifth power, the DM setting is OPEN. With no jumps the identity reflects (WITNESSED).
+    // so no element of any kind reflects it; DM bonds under loss, which F137 pairs by another route, are WITNESSED by the
+    // theodolite, a site-local sandwich outside the closure. The cooled chain XX + 2XY + ZZ at rates (1, 2, 1) is
+    // SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo two primes, and its carrier, the chain's
+    // reversal times a turn about Z, is neither uniform nor site-local; at (1, 2, 3) the seventh trace obstructs, as
+    // experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md has it. Read only to the fifth power, the mirrored setting is OPEN.
+    // With no jumps the identity reflects (WITNESSED).
     [Fact]
     public void The_Sextant_Answers_Yes_No_And_Symmetric_Unseen()
     {
@@ -320,15 +323,23 @@ public class SextantTests
         Assert.Equal(Sextant.Palindrome.Obstructed, dWarm.Kind);
         Assert.Equal(3, Sextant.OddTraceObstruction(warm, 9)!.Value.Power);
         var dm = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("YX", -1L) }, Every(n, LetterCube.Lowering, 1));
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(dm).Kind);
-        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(dm, maxPower: 5).Kind);
+        var dDm = Sextant.Decide(dm);
+        Assert.Equal(Sextant.Palindrome.Witnessed, dDm.Kind);
+        Assert.StartsWith("the theodolite", dDm.Detail);
+        Assert.DoesNotContain(Sextant.Search(dm), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+        Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
+            Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(Cooled(1, 2, 1)).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(Cooled(1, 2, 1), maxPower: 5).Kind);
+        Assert.Equal(7, Sextant.OddTraceObstruction(Cooled(1, 2, 3), 9)!.Value.Power);
         var bare = Sextant.Setting.Chain(n, new[] { ("XY", 1L), ("X", 1L), ("ZX", 1L) }, Array.Empty<(int, LetterCube.Gauss[,], long)>());
         Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(bare).Kind);
     }
 
     // The DM reading by an exact second route: on two sites the generator is built densely from H and the jumps, scaled
     // to 4 dim M with Gaussian-integer entries, and its odd powers up to the dimension are traced in BigInteger
-    // arithmetic: every one is exactly zero for DM bonds under loss (so the modular SYMMETRIC-MOD-P is exact there),
+    // arithmetic: every one is exactly zero for DM bonds under loss (a second route beside the theodolite's element,
+    // which the decision reports),
     // and the warm DNA model's third trace is the integer whose residue the obstruction reads.
     [Fact]
     public void The_DM_Symmetry_Is_Exact_On_Two_Sites()
@@ -396,7 +407,7 @@ public class SextantTests
             if (m > 1) P = MulG(P, M);
             if (m % 2 == 1) Assert.Equal((System.Numerics.BigInteger.Zero, System.Numerics.BigInteger.Zero), Trace(P));
         }
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(dm).Kind);
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(dm).Kind);
         var warm = Sextant.Setting.Chain(n, new[] { ("X", -1L), ("ZZ", 2L) },
             Every(n, LetterCube.Lowering, 3).Concat(Every(n, LetterCube.Raising, 1)).Concat(Every(n, LetterCube.LetterMatrix('Z'), 1)));
         var W = Scaled(warm);

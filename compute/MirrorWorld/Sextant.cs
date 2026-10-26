@@ -18,12 +18,16 @@ using static MirrorWorld.LetterCube;
 // at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0, or every jump is a Pauli
 // letter at a positive rate (F158's hypothesis) and EndCount's verdict is an exact palindrome; there the element can
 // sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
-// X⊗Z⊗(Y − 2X), whose angle the couplings set. OBSTRUCTED: an exact broken EndCount verdict there (F158's necessity),
+// X⊗Z⊗(Y − 2X), whose angle the couplings set; or the theodolite reads a site-local sandwich A·ρ^(T)·B carrying L to
+// -L^dagger - c or to -L - c (its binomial system has a solution in nonzero complex numbers, decided exactly, so the
+// element exists, with turns that may be roots and may differ from site to site, outside the uniform closure). OBSTRUCTED: an exact broken EndCount verdict there (F158's necessity),
 // or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no element of any kind, inside the search or
 // outside it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up to the dimension vanishes modulo the two fixed
 // primes and no element of the closure reflects; evidence that the spectrum is symmetric, not a proof (the integers
 // could be multiples of both primes), and even a symmetric spectrum is a pairing, not yet an element (Jordan blocks).
-// DM bonds under loss read so, where F137 proves the pairing by its own route. OPEN: the traces were read below the
+// A chain under loss whose bond has ZZ and a mixed X/Y part, at rates the chain's reversal keeps, reads so: the carrier
+// is the reversal times a turn about Z (experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md), a relabelling of the sites,
+// which neither the closure nor the theodolite holds. OPEN: the traces were read below the
 // dimension and none obstructs. A failed search alone is never a no.
 //
 // The traces are the moment route the repo already holds: Hardness.OddPowerSums (F117's trace face, odd power sums
@@ -34,8 +38,9 @@ using static MirrorWorld.LetterCube;
 //
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
 // cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
-// EndCount (a sibling under the frame, not a parent), so the zone left SYMMETRIC-MOD-P holds mainly jumps outside it,
-// such as loss with DM bonds, and Pauli-letter settings whose end count stays a rank reading.
+// EndCount (a sibling under the frame, not a parent), and past it the theodolite (a sibling under the cube), so the zone
+// left SYMMETRIC-MOD-P holds settings whose element is neither uniform nor site-local, such as a relabelling of the
+// sites, and Pauli-letter settings whose end count stays a rank reading.
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations (EndCount.SymmetryElement holds the half-turn composed with one), non-uniform moves beyond what a
@@ -66,6 +71,22 @@ public sealed class Sextant : GameObject
             ? new Decision(Palindrome.Witnessed, $"F158, the end count: {reading} (c = {c}; no element of the closure reflects, the element sits outside it)")
             : new Decision(Palindrome.Obstructed, $"F158, the end count: {reading}");
     }
+
+    // The theodolite's yes: a site-local sandwich whose letters' binomial system is solvable; a silence decides nothing.
+    static Decision? TheodoliteReading(Setting s)
+    {
+        var t = new Theodolite.Setting(s.N, s.H, s.Jumps);
+        foreach (var (rel, form) in new[] { (Theodolite.Relation.Reflection, "-L^dagger - c"), (Theodolite.Relation.Pi, "-L - c") })
+            if (Theodolite.Read(t, rel) is { } r)
+            {
+                string kinds = string.Join(" ", r.Kinds.Select(k => $"{Short(k.A)}{Short(k.B)}"));
+                return new Decision(Palindrome.Witnessed,
+                    $"the theodolite: a site-local {(r.Transposed ? "A·rho^T·B" : "A·rho·B")} carries L to {form}, kinds [{kinds}] (d diagonal, a anti-diagonal; outside the closure)");
+            }
+        return null;
+    }
+
+    static char Short(Theodolite.Kind k) => k == Theodolite.Kind.Diagonal ? 'd' : 'a';
 
     static bool SameMatrix(Gauss[,] a, Gauss[,] b)
     {
@@ -333,6 +354,8 @@ public sealed class Sextant : GameObject
             return new Decision(Palindrome.Witnessed, $"{witness.Reading.Verdict}: {witness.Map.Describe()} (c = {witness.Reading.C})");
         if (EndCountReading(s) is { } ended)
             return ended;
+        if (TheodoliteReading(s) is { } read)
+            return read;
         int dim = 1 << (2 * s.N);
         int upTo = maxPower ?? (dim <= 256 ? dim : 64);
         var obstruction = OddTraceObstruction(s, upTo);

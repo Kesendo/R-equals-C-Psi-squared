@@ -2199,6 +2199,45 @@ if (args.Length > 0 && args[0] == "endcount")
     return;
 }
 
+// the sextant asked of a setting of one's own: sextant decide N BONDS RATES [JUMP], or sextant decide @FILE with one such
+// line per setting (N BONDS RATES [JUMP]); BONDS "XX:1,XY:2,ZZ:1" places each template on every window of the open
+// chain (a one-letter template is a field on every site), RATES one integer per site, JUMP loss (default), gain, X, Y or Z
+if (args.Length > 1 && args[0] == "sextant" && args[1] == "decide")
+{
+    var lines = args.Length > 2 && args[2].StartsWith('@')
+        ? File.ReadAllLines(args[2][1..]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.TrimStart().StartsWith('#'))
+            .Select(l => l.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToList()
+        : new List<string[]> { args.Skip(2).ToArray() };
+    foreach (var p in lines)
+    {
+        string text = string.Join(" ", p);
+        try
+        {
+            if (p.Length < 3 || p.Length > 4) throw new ArgumentException("N BONDS RATES [JUMP]");
+            int dn = int.Parse(p[0]);
+            var bonds = p[1].Split(',').Select(t => t.Split(':')).Select(q => (q[0], long.Parse(q[1]))).ToList();
+            var rates = p[2].Split(',').Select(long.Parse).ToArray();
+            if (rates.Length != dn) throw new ArgumentException($"{rates.Length} rates for {dn} sites");
+            var jump = (p.Length > 3 ? p[3] : "loss") switch
+            {
+                "loss" => LetterCube.Lowering,
+                "gain" => LetterCube.Raising,
+                "X" or "Y" or "Z" => LetterCube.LetterMatrix(p[3][0]),
+                var other => throw new ArgumentException($"jump {other}: loss, gain, X, Y or Z"),
+            };
+            var setting = Sextant.Setting.Chain(dn, bonds, Enumerable.Range(0, dn).Select(l => (l, jump, rates[l])));
+            var dd = Sextant.Decide(setting);
+            Console.WriteLine($"{text}  ->  {dd.Kind}: {dd.Detail}");
+        }
+        catch (Exception e) when (e is ArgumentException or FormatException or IndexOutOfRangeException)
+        {
+            Console.Error.WriteLine($"{text}: {e.Message} (sextant decide N BONDS RATES [JUMP], e.g. sextant decide 3 XX:1,XY:2,ZZ:1 1,2,1 loss)");
+            Environment.ExitCode = 2;
+        }
+    }
+    return;
+}
+
 if (args.Length > 0 && args[0] == "sextant")
 {
     int sn3 = 3;
