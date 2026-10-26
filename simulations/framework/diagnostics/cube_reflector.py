@@ -374,18 +374,52 @@ def machine(setting, relation, timeout=600):
 
 @dataclass
 class Verdict:
+    """kind is about SITE-LOCAL elements only: 'NONE' means no product of site maps carries the relation, not that
+    the spectrum fails to pair. pairing is the spectrum's answer where one is known: 'PAIRS' whenever a site-local
+    element is found, and after a silence F158's exact two-end count for Pauli-letter jumps ('PAIRS' | 'BREAKS',
+    with the carrier in element); None where neither applies (sigma^+-, thermal jumps). element is F158's U, and it
+    carries the line reflection by one-sided multiplication, rho -> rho·U maps L to -L^† - 2 sigma ('refl'); it is
+    attached only to a 'refl' verdict (the same spectrum pairs under 'pi', through no U of this form)."""
     kind: str                    # 'CUBE MOVES' | 'NO CUBE MOVE' | 'NONE' | 'OPEN' | 'OUTSIDE'
     relation: str
     c: object = None
     moves: list = None
     point: dict = None
     note: str = ''
+    pairing: str = None          # 'PAIRS' | 'BREAKS' | None
+    element: dict = None         # F158's U {Pauli string: coefficient}: rho -> rho·U gives -L^† - 2 sigma
+
+
+def _hand_over(verdict, setting):
+    """After a silence: does the spectrum pair at all? F158's exact two-end count, for Pauli-letter jumps."""
+    from .f158_end_count import end_count_of_setting
+    if verdict.kind == 'NONE':
+        verdict.note += '; so no site-local element (NONE is about site maps, not the spectrum)'
+    ec = end_count_of_setting(setting)
+    if ec is None:
+        verdict.note += '; pairing not decided here (a jump is not a Pauli letter, F158 does not apply)'
+        return verdict
+    verdict.pairing = 'PAIRS' if ec.pairs else 'BREAKS'
+    verdict.note += f'; F158 (exact): near {ec.near}, far {ec.far}, the spectrum '
+    if not ec.pairs:
+        verdict.note += 'does not pair'
+        return verdict
+    verdict.note += 'PAIRS'
+    if ec.element is None:
+        verdict.note += ' (no basis vector of the far kernel squares to a scalar; none named)'
+    elif verdict.relation == 'refl':
+        verdict.element = ec.element
+        verdict.note += ', carried by rho -> rho·U (element), -L^† - 2 sigma'
+    else:
+        verdict.note += "; F158's U carries the 'refl' relation, ask that one for it"
+    return verdict
 
 
 def answer(setting, relation, max_calls=2000, timeout=600):
     """The letters answer first (framework.diagnostics.cube_letters: a monomial sandwich, every equation binomial,
     solved in closed form); when they are silent the handshake decides: the pre-check (exact), then the cube search
-    and the machine (Groebner bases)."""
+    and the machine (Groebner bases). Where no site-local element is found, the hand-over asks F158's exact
+    two-end count whether the spectrum pairs anyway (framework.diagnostics.f158_end_count)."""
     from . import cube_letters as cl
     _reflections_only(relation)
     reason = ct.outside_reason(setting)
@@ -395,23 +429,26 @@ def answer(setting, relation, max_calls=2000, timeout=600):
     rd = cl.read(setting, relation)
     if rd is not None and cl.verify(setting, relation, rd.maps):
         return Verdict('CUBE MOVES', relation, c, moves=cl.describe(rd), point=rd.maps,
-                       note='read from the letters: a monomial sandwich, every equation binomial')
+                       note='read from the letters: a monomial sandwich, every equation binomial', pairing='PAIRS')
     pre, why = precheck(setting, relation)
     if pre == 'NONE':
-        return Verdict('NONE', relation, c, note=f'pre-check (exact): {why}')
+        return _hand_over(Verdict('NONE', relation, c, note=f'pre-check (exact): {why}'),
+                          setting)
     status, hit = cube_search(setting, relation, max_calls)
     if status == 'FOUND':
         point = extract(hit)
         return Verdict('CUBE MOVES', relation, c, moves=reading(hit, point), point=point,
                        note='the letters are silent; found by the cube search' + ('' if point else
-                                                                                   ', weights not extracted'))
+                                                                                   ', weights not extracted'),
+                       pairing='PAIRS')
     result = machine(setting, relation, timeout)
     if result == 'FOUND':
         return Verdict('NO CUBE MOVE', relation, c,
-                       note=f'cube search {status} (weights along Z); a general site map exists')
+                       note=f'cube search {status} (weights along Z); a general site map exists', pairing='PAIRS')
     if result == 'NONE':
-        return Verdict('NONE', relation, c, note=f'machine (exact); cube search {status}')
-    return Verdict('OPEN', relation, c, note=f'cube search {status}; machine over {timeout}s')
+        return _hand_over(Verdict('NONE', relation, c,
+                                  note=f'machine (exact); cube search {status}'), setting)
+    return _hand_over(Verdict('OPEN', relation, c, note=f'cube search {status}; machine over {timeout}s'), setting)
 
 
 # ---------------------------------------------------------------- every N

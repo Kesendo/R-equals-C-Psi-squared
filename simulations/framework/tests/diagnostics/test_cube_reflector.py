@@ -185,7 +185,42 @@ def test_xz_plus_zxz_has_none():
     terms = [('XZ', (a, a + 1), 1) for a in range(3)] + [('ZXZ', (a, a + 1, a + 2), 1) for a in range(2)]
     s = ct.Setting(4, terms, [((l,), ct.PAULI['Z'], R(1, 1 + l)) for l in range(4)])
     for rel in cr.RELATIONS:
-        assert cr.answer(s, rel, timeout=None).kind == 'NONE'
+        v = cr.answer(s, rel, timeout=None)
+        assert v.kind == 'NONE' and v.pairing == 'BREAKS'
+
+
+def test_silence_hands_over_to_the_end_count():
+    # THE_PALINDROME_AS_A_COLOURING stage E: P3, XX+YY bonds, jumps X, Z, Y. No site-local element exists (the
+    # pre-check, exact), yet the spectrum pairs, carried by U = YYZ + ZXX through rho -> rho·U, which maps L to
+    # -L^† - 2 sigma, so U comes with the 'refl' verdict; 'NONE' is about site maps only.
+    s = ct.Setting(3, bond(0, 1) + bond(1, 2), [((0,), ct.PAULI['X'], 1), ((1,), ct.PAULI['Z'], 1),
+                                                 ((2,), ct.PAULI['Y'], 1)])
+    for rel in cr.RELATIONS:
+        v = cr.answer(s, rel, timeout=None)
+        assert v.kind == 'NONE' and v.pairing == 'PAIRS'
+    v = cr.answer(s, 'refl', timeout=None)
+    k = v.element['YYZ']
+    assert v.element == {'YYZ': k, 'ZXX': k}
+    assert cr.answer(s, 'pi', timeout=None).element is None
+    # the element checked as the map it is: S^-1·L·S = -L^† - 2 sigma for S(rho) = rho·U, in per-site cells
+    L = full_generator(s)
+    U = sp.kronecker_product(*[ct.PAULI[c] for c in 'YYZ']) + sp.kronecker_product(*[ct.PAULI[c] for c in 'ZXX'])
+    S = sp.kronecker_product(sp.eye(8), U.T)       # row-major vec(rho·U) = (I ⊗ U^T)·vec(rho)
+    P = ct._per_site_perm(3)
+    S = P * S * P.T
+    assert (S.inv() * L * S + L.H + 6 * sp.eye(64)).applyfunc(sp.expand).is_zero_matrix
+    # three axes on the Heisenberg bond: no site-local element and no pairing at all
+    heis = ct.Setting(3, bond(0, 1, Dz=1) + bond(1, 2, Dz=1), s.jumps)
+    v = cr.answer(heis, 'pi', timeout=None)
+    assert v.kind == 'NONE' and v.pairing == 'BREAKS' and v.element is None
+
+
+def test_found_moves_report_pairing_and_non_pauli_jumps_leave_it_open():
+    heis = ct.Setting(2, bond(0, 1, Dz=1), [((l,), ct.PAULI['Z'], 1) for l in range(2)])
+    assert cr.answer(heis, 'pi', timeout=None).pairing == 'PAIRS'
+    cooled = ct.Setting(2, bond(0, 1, Dz=1), [((l,), ct.LOWER, 1) for l in range(2)])
+    v = cr.answer(cooled, 'pi', timeout=None)
+    assert v.kind != 'CUBE MOVES' and v.pairing is None and 'F158 does not apply' in v.note
 
 
 def test_identity_letters_inside_a_term_do_not_change_the_answer():
