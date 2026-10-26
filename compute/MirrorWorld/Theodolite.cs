@@ -454,7 +454,18 @@ public sealed class Theodolite : GameObject
 
     // A monomial sandwich carrying L onto T(L) - c, read from the letters, or null when the letters are silent.
     // branch: null asks the plain branch and then the transposed one, false or true only that one.
-    public static Reading? Read(Setting s, Relation rel, bool? branch = null) => Between(s, s, null, rel, branch);
+    public static Reading? Read(Setting s, Relation rel, bool? branch = null) => Between(s, s, null, rel, branch, same: true);
+
+    // A sandwich between two settings on the same sites, E·L(from)·E^-1 = T(L(to)) - c, c fixed by the traces (for a
+    // copy, c = (Tr L(to) - Tr L(from))/4^N, the spectra the same up to that shift). The per-site constants cancel in
+    // the sum, so the binomial reading of each site table and each support decides it as for one setting; the plain
+    // diagonal copies count here, since between two settings they are not the identity's group. The first use: F137's
+    // exchange of loss and gain, X on every site carrying L(H, loss) onto L(X^N·H·X^N, gain).
+    public static Reading? ReadBetween(Setting from, Setting to, Relation rel, bool? branch = null)
+    {
+        if (from.N != to.N) throw new ArgumentException("the two settings sit on the same number of sites", nameof(to));
+        return Between(from, to, null, rel, branch, same: false);
+    }
 
     // A sandwich after a relabelling of the sites, E·P_pi carrying L onto T(L) - c, P_pi moving site l to pi[l]: the
     // sandwich then carries L of the relabelled setting onto T(L) of the setting itself. The relabellings asked are
@@ -471,7 +482,7 @@ public sealed class Theodolite : GameObject
             for (int v = 0; v < n; v++)
                 fits[l, v] = SiteFits(pieces[l], pieces[v], rel, branch);
         foreach (var pi in Automorphisms(s, (l, v) => fits[l, v]))
-            if (Between(s.Relabelled(pi), s, pi, rel, branch) is { } r) return r;
+            if (Between(s.Relabelled(pi), s, pi, rel, branch, same: false) is { } r) return r;
         return null;
     }
 
@@ -523,7 +534,7 @@ public sealed class Theodolite : GameObject
         return Rec(0);
     }
 
-    static Reading? Between(Setting from, Setting s, int[]? relabelling, Relation rel, bool? branch)
+    static Reading? Between(Setting from, Setting s, int[]? relabelling, Relation rel, bool? branch, bool same)
     {
         var branches = Branches(branch);
         int n = s.N;
@@ -581,7 +592,7 @@ public sealed class Theodolite : GameObject
 
             bool Rec(int l)
             {
-                if (l == n) return relabelling is not null || !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
+                if (l == n) return !same || !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
                 for (int ci = 0; ci < allowed[l].Count; ci++)
                 {
                     choice[l] = ci;

@@ -590,6 +590,63 @@ public class TheodoliteTests
         Assert.False(Reflects(kept, Theodolite.Relation.Reflection, r.Transposed, r.Kinds, x, y));   // without the reversal
     }
 
+    // Between two settings, F137's exchange of loss and gain: X on every site carries L(H, loss) onto L(X^N·H·X^N, gain),
+    // a copy with c = 0 (the traces agree). Read off the letters, and the element checked densely: E·L(from) = L(to)·E.
+    // Gain against the same H does not read when H does not commute with X^N (an X field and a ZZ bond here), and the
+    // element of the true pair does not carry the false one.
+    [Fact]
+    public void Between_Two_Settings_It_Reads_Loss_Against_Gain()
+    {
+        var h = new[] { ("XYI", 2L), ("IYX", -1L), ("ZZI", 3L), ("IZZ", 1L), ("XII", 1L), ("IIY", 2L) };
+        long Sign(string t) => t.Count(c => c is 'Y' or 'Z') % 2 == 0 ? 1 : -1;      // X^N·P·X^N = ±P
+        var loss = Theodolite.Setting.Of(3, h, new[] { (0, Lowering, 2L), (1, Lowering, 1L), (2, Lowering, 3L) });
+        var gain = Theodolite.Setting.Of(3, h.Select(t => (t.Item1, Sign(t.Item1) * t.Item2)),
+            new[] { (0, Raising, 2L), (1, Raising, 1L), (2, Raising, 3L) });
+        var r = Theodolite.ReadBetween(loss, gain, Theodolite.Relation.Copy);
+        Assert.NotNull(r);
+        var sol = Binomials.RationalSolution(r!.System);
+        Assert.NotNull(sol);
+        var x = Enumerable.Range(0, 3).Select(l => sol![$"x{l}"]).ToList();
+        var y = Enumerable.Range(0, 3).Select(l => sol![$"y{l}"]).ToList();
+        Assert.True(CopiesBetween(loss, gain, r.Transposed, r.Kinds, x, y));
+        var sameH = Theodolite.Setting.Of(3, h, new[] { (0, Raising, 2L), (1, Raising, 1L), (2, Raising, 3L) });
+        Assert.False(CopiesBetween(loss, sameH, r.Transposed, r.Kinds, x, y));
+        Assert.Null(Theodolite.ReadBetween(loss, sameH, Theodolite.Relation.Copy));
+    }
+
+    static bool CopiesBetween(Theodolite.Setting from, Theodolite.Setting to, bool transposed,
+        IReadOnlyList<(Theodolite.Kind A, Theodolite.Kind B)> kinds,
+        IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y)
+    {
+        int n = from.N;
+        var E = new Gauss[1, 1] { { Gauss.One } };
+        int[] perm = { 0, 2, 1, 3 };
+        for (int l = 0; l < n; l++)
+        {
+            var a = Factor(kinds[l].A, x[l]);
+            var b = Factor(kinds[l].B, y[l]);
+            var el = Kron(a, new[,] { { b[0, 0], b[1, 0] }, { b[0, 1], b[1, 1] } });
+            if (transposed)
+            {
+                var t = new Gauss[4, 4];
+                for (int r = 0; r < 4; r++) for (int c = 0; c < 4; c++) t[r, c] = el[r, perm[c]];
+                el = t;
+            }
+            E = Kron(E, el);
+        }
+        var lf = GeneratorTimesFour(from);
+        var lt = GeneratorTimesFour(to);
+        int dd = lf.GetLength(0);
+        Gauss Trace(Gauss[,] m) { var t = Gauss.Zero; for (int i = 0; i < dd; i++) t = t + m[i, i]; return t; }
+        if (Trace(lf) != Trace(lt)) return false;
+        var left = Mul(E, lf);
+        var right = Mul(lt, E);
+        for (int i = 0; i < dd; i++)
+            for (int j = 0; j < dd; j++)
+                if (left[i, j] != right[i, j]) return false;
+        return true;
+    }
+
     // The direction of a relabelling, on a 3-cycle (not an involution) and a setting no permutation keeps: the generator
     // of Relabelled(pi) is P_pi·L·P_pi^-1 with P_pi moving site l's cell to site pi[l], and not P_pi^-1·L·P_pi.
     [Fact]
