@@ -2,8 +2,9 @@
 
 experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md. Every site carries cooling sigma^- = |0><1| at its own rate and nothing
 else; H is a chain of one bond repeated, J_ab·sigma_a(x)sigma_b over a, b in {X, Y} plus Δ·ZZ, or a bond with a mixed
-letter (XZ, ZX). Pairing means the spectrum of L is symmetric about −c/2, c = Σ rates. Rows print PASS or FAIL; the
-script exits nonzero on any FAIL. With --map it first prints the float survey the document quotes (a reading, not a
+letter (XZ, YZ, ZX, ZY) among them; sections F and G also take the questions to rings. Pairing means the spectrum of L is symmetric about −c/2, c = Σ rates. Rows print PASS or FAIL; the
+script exits nonzero on any FAIL; --deep adds the exact
+polynomials named below as such. With --map it first prints the float survey the document quotes (a reading, not a
 gate): random integer couplings over every subset of the nine two-letter bonds, N = 2, 3, 4.
 
   A  The turn lemma: for every real 2x2 J there is a rotation R with R·Jᵀ·Rᵀ = F·J·F, F = diag(1, −1) (Jᵀ and FJF share
@@ -25,6 +26,22 @@ gate): random integer couplings over every subset of the nine two-letter bonds, 
      points asserted to fit, the CRT value unchanged by a fifth prime), at random rates at N = 5 and 6 (modulo a
      prime, every entry an integer); controls a = 0 and Δ = 0 give zero; where the seventh is silent off the mirror,
      rates (1, 6, 2, 3) and (1, 0, 2), the ninth is not.
+  F  Bonds with a mixed letter: Tr((L + c/2)^3) = 0 for every bond of the nine letters (exact polynomial, N = 2, 3);
+     Tr((L + c/2)^5) = 10·4^(N−2)·[3·S − 16·Im(μνw̄)·Σ γ_b γ_{b+1}], μ = c_XZ + i·c_YZ, ν = c_ZX + i·c_ZY,
+     S = Σ_{m=2}^{N−1} γ_m·|μγ_{m+1} + νγ_{m−1}|² + |μ|²γ₁γ₂² + |ν|²γ_{N−1}²γ_N, exact as a polynomial in all nine
+     coefficients and the rates at N = 2 (and 3, 4, 5 with --deep; the basis has the mixed letters in degree 2 or 4
+     and 25 surplus points must fit), at random points modulo a prime at N = 3 to 6; where anisotropy cancels it
+     (XZ + ZX − 3XY − 3YX at (8, 8)) the seventh is not zero; a site without cooling can empty S and the spectrum
+     then can pair: XZ at (1, 0) and at (1, 0, 1), exact by the characteristic polynomial (control (1, 1, 0)).
+     Every interpolation carries a guard prime.
+  G  Rings: the seventh sum is zero at every rate on rings of 3 and 4 (and 5 with --deep) for two bonds; the fifth
+     sum of a bond with a mixed letter on the ring of four is the closed form without end terms (one random point
+     modulo a prime), on the triangle for one bond it is not, and XZ − ZX at equal rates has the fifth and seventh exactly zero
+     (zero modulo five primes, with a norm bound below their product) and the ninth not; on the ring of four
+     Tr((L + c/2)^9) = −9·2¹²·Δ·s·a·|w|²·(γ₁ − γ₃)(γ₂ − γ₄)(Q(γ₁, γ₃) − Q(γ₂, γ₄)), Q(x, y) = 5x² + xy + 5y², for
+     two bonds, and at (5, 3, 9, 10), where Q(5, 9) = Q(3, 10), the ninth is exactly zero and the eleventh not; on
+     the triangle the ninth is a nonzero constant times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃), the constants of
+     the two bonds not in the ratio of Δ·s·a·|w|².
 """
 from __future__ import annotations
 
@@ -259,25 +276,26 @@ check("s, a, w all nonzero with ZZ, N = 3: the letters are silent (XX + 2XY + ZZ
       and letters(setting(3, {'XX': 2, 'XY': 3, 'YX': -1, 'YY': 2, 'ZZ': 1}, [1, 2, 3]), 'refl') is None)
 
 print("D  breaks, exact")
-mixed = {'XX': 1, 'XY': 2, 'ZZ': 1}
+class_bond = {'XX': 1, 'XY': 2, 'ZZ': 1}
 for n, bond, rates, name, first in [
-        (3, mixed, [2, 1, 1], 'XX + 2XY + ZZ, rates (2, 1, 1)', 7),
-        (3, mixed, [1, 2, 3], 'XX + 2XY + ZZ, rates (1, 2, 3)', 7),
-        (4, mixed, [1, 2, 3, 4], 'XX + 2XY + ZZ, N = 4, rates (1, 2, 3, 4)', 7),
+        (3, class_bond, [2, 1, 1], 'XX + 2XY + ZZ, rates (2, 1, 1)', 7),
+        (3, class_bond, [1, 2, 3], 'XX + 2XY + ZZ, rates (1, 2, 3)', 7),
+        (4, class_bond, [1, 2, 3, 4], 'XX + 2XY + ZZ, N = 4, rates (1, 2, 3, 4)', 7),
         (3, {'XX': 2, 'XY': 3, 'YX': -1, 'YY': 2, 'ZZ': 1}, [1, 2, 3], '2XX + 3XY − YX + 2YY + ZZ, rates (1, 2, 3)', 7),
         (3, {'XZ': 1}, [1, 1, 1], 'XZ, rates (1, 1, 1)', 5),
         (3, {'ZX': 1, 'XX': 1}, [1, 2, 3], 'ZX + XX, rates (1, 2, 3)', 5)]:
     k = first_odd_trace(n, bond, rates)
     check(f"{name}: the first odd centred power sum that is not zero is the {first}th", k == first, f'k = {k}')
 check("control: XX + 2XY + ZZ at rates (1, 2, 1) has every odd power sum zero up to k = 7",
-      first_odd_trace(3, mixed, [1, 2, 1]) is None)
+      first_odd_trace(3, class_bond, [1, 2, 1]) is None)
 
 print("E  the seventh sum in closed form")
 PRIMES = [p_ for p_ in sp.primerange(900000, 1048576) if p_ % 4 == 1][-5:]   # float BLAS stays exact below 2^20
 
 
-def modp_generator(n, bond, rates, p):
-    """2L + c over GF(p), i the square root of −1 (p = 1 mod 4); row-major vec, rho -> A rho B is A ⊗ Bᵀ."""
+def modp_generator(n, bond, rates, p, ring=False):
+    """2L + c over GF(p), i the square root of −1 (p = 1 mod 4); row-major vec, rho -> A rho B is A ⊗ Bᵀ; on a ring
+    the bond also joins the last site to the first."""
     i = next(r for r in (pow(g, (p - 1) // 4, p) for g in range(2, p)) if r * r % p == p - 1)
     let = {'X': np.array([[0, 1], [1, 0]]), 'Y': np.array([[0, p - i], [i, 0]]), 'Z': np.array([[1, 0], [0, p - 1]])}
     low = np.array([[0, 1], [0, 0]])
@@ -289,13 +307,13 @@ def modp_generator(n, bond, rates, p):
         return out
     d = 2 ** n
     H = np.zeros((d, d), dtype=np.int64)
-    for b in range(n - 1):
+    for b, c in [(b, b + 1) for b in range(n - 1)] + ([(n - 1, 0)] if ring else []):
         for lab, v in bond.items():
-            H = (H + v * emb_({b: let[lab[0]], b + 1: let[lab[1]]})) % p
+            H = (H + (v % p) * emb_({b: let[lab[0]], c: let[lab[1]]})) % p
     Id = np.eye(d, dtype=np.int64)
     M = (-2 * i) * ((np.kron(H, Id) - np.kron(Id, H.T)) % p) % p
     for l, g in enumerate(rates):
-        A = emb_({l: low}); AdA = A.T @ A
+        A = emb_({l: low}); AdA = A.T @ A; g %= p
         M = (M + 2 * g * np.kron(A, A) - g * (np.kron(AdA, Id) + np.kron(Id, AdA.T)) + g * np.eye(d * d, dtype=np.int64)) % p
     return M
 
@@ -376,6 +394,197 @@ check("N = 4, XX + 2XY + ZZ, rates (1, 6, 2, 3) (γ₁γ₂ = γ₃γ₄, not mi
 M = modp_generator(3, bonds_E[0][0], [1, 0, 2], PRIMES[0])
 check("N = 3, XX + 2XY + ZZ, rates (1, 0, 2) (no cooling on the middle site): the seventh sum is zero and the ninth "
       "is not", modp_trace_power(M, 7, PRIMES[0]) == 0 and modp_trace_power(M, 9, PRIMES[0]) != 0)
+
+
+def interpolate(monos, syms, evaluate, nprimes=3, surplus=5, seed=1):
+    """A polynomial in syms with exactly the monomials monos, from its values modulo primes (evaluate(point, p)) by
+    elimination and CRT; the surplus points must fit, which they would not if a monomial outside monos were there.
+    One guard prime more is computed, and the result is returned only if the CRT value does not change with it."""
+    rng = np.random.default_rng(seed)
+    pts = [tuple(int(x) for x in rng.integers(1, 10 ** 6, len(syms))) for _ in range(len(monos) + surplus)]
+    per = []
+    for p in PRIMES[:nprimes + 1]:
+        A = [[int(np.prod([pow(x, e_, p) for x, e_ in zip(pt, e) if e_], dtype=object) % p) for e in monos]
+             for pt in pts]
+        per.append(modp_solve(A, [evaluate(pt, p) for pt in pts], p))
+
+    def crt(m):
+        out = 0
+        for j, e in enumerate(monos):
+            r, mod = sp.ntheory.modular.crt(PRIMES[:m], [c[j] for c in per[:m]])
+            r = int(r) - (int(mod) if int(r) > int(mod) // 2 else 0)
+            out += r * sp.Mul(*[v ** e_ for v, e_ in zip(syms, e)])
+        return sp.expand(out)
+    out = crt(nprimes)
+    assert sp.expand(out - crt(nprimes + 1)) == 0, 'the guard prime changed the CRT value'
+    return out
+
+
+def rate_polynomial(n, bond, k, ring=False):
+    """Tr((2L + c)^k) for one fixed bond as a polynomial in the rates (all degrees up to k)."""
+    gs = sp.symbols(f'g1:{n + 1}', real=True)
+    monos = [e for e in itertools.product(range(k + 1), repeat=n) if sum(e) <= k]
+    return interpolate(monos, gs, lambda pt, p: modp_trace_power(modp_generator(n, bond, pt, p, ring), k, p)), gs
+
+
+def float_generator(n, bond, rates, ring=False):
+    """2L + c in double precision, for the norm bound only."""
+    let = {'X': np.array([[0, 1], [1, 0]], complex), 'Y': np.array([[0, -1j], [1j, 0]]),
+           'Z': np.array([[1, 0], [0, -1]], complex)}
+    low = np.array([[0, 1], [0, 0]], complex)
+
+    def emb_(ops):
+        out = np.array([[1]], complex)
+        for l in range(n):
+            out = np.kron(out, ops.get(l, np.eye(2)))
+        return out
+    d = 2 ** n
+    H = np.zeros((d, d), complex)
+    for b, c in [(b, b + 1) for b in range(n - 1)] + ([(n - 1, 0)] if ring else []):
+        for lab, v in bond.items():
+            H += v * emb_({b: let[lab[0]], c: let[lab[1]]})
+    Id = np.eye(d)
+    M = -2j * (np.kron(H, Id) - np.kron(Id, H.T)) + sum(rates) * np.eye(d * d)
+    for l, g in enumerate(rates):
+        A = emb_({l: low}); AdA = A.T @ A
+        M += g * (2 * np.kron(A, A) - np.kron(AdA, Id) - np.kron(Id, AdA.T))
+    return M
+
+
+def trace_is_exactly_zero(n, bond, rates, k, ring=False):
+    """Tr((2L + c)^k) is an integer (a real Gaussian integer); it is zero if it vanishes modulo every prime and
+    4^N·‖2L + c‖₂^k, which bounds its size, stays below half the primes' product."""
+    if any(modp_trace_power(modp_generator(n, bond, rates, p, ring), k, p) for p in PRIMES):
+        return False
+    bound = 4 ** n * (1.001 * np.linalg.norm(float_generator(n, bond, rates, ring), 2) + 1) ** k
+    return bound < np.prod([float(p) for p in PRIMES]) / 2
+
+
+DEEP = '--deep' in sys.argv
+MIXED, CLASS = ['XZ', 'YZ', 'ZX', 'ZY'], ['XX', 'XY', 'YX', 'YY', 'ZZ']
+
+
+def fifth_closed_form(n, c, g, ring=False):
+    """Tr((2L + c)^5) = 2⁵·10·4^(N−2)·[3·S − 16·Im(μνw̄)·Σ γ_b γ_{b+1}]; on the ring S has no end terms."""
+    mu, nu = c['XZ'] + sp.I * c['YZ'], c['ZX'] + sp.I * c['ZY']
+    w = sp.Rational(1, 2) * (c['XX'] - c['YY']) + sp.I * sp.Rational(1, 2) * (c['XY'] + c['YX'])
+    at = (lambda m: g[m % n]) if ring else (lambda m: g[m])
+    inner = range(n) if ring else range(1, n - 1)
+    S = sum(at(m) * sp.expand((mu * at(m + 1) + nu * at(m - 1)) * sp.conjugate(mu * at(m + 1) + nu * at(m - 1)))
+            for m in inner)
+    if not ring:
+        S += sp.expand(mu * sp.conjugate(mu)) * g[0] * g[1] ** 2 + sp.expand(nu * sp.conjugate(nu)) * g[-2] ** 2 * g[-1]
+    cross = sum(at(m) * at(m + 1) for m in (range(n) if ring else range(n - 1)))
+    return sp.expand(320 * 4 ** (n - 2) * (3 * S - 16 * sp.im(sp.expand(mu * nu * sp.conjugate(w))) * cross))
+
+
+def ints(c):
+    return {k_: sp.Integer(v) for k_, v in c.items()}
+
+
+def exponents(nvars, total):
+    """Every exponent tuple of nvars variables with the given total degree."""
+    if nvars == 1:
+        return [(total,)]
+    return [(k,) + rest for k in range(total + 1) for rest in exponents(nvars - 1, total - k)]
+
+
+def pairs_exactly(n, bond, rates):
+    """The characteristic polynomial of L, shifted by c/2, has only terms of the degree's parity: the spectrum is
+    symmetric about −c/2, exact over the Gaussian rationals."""
+    L = generator(hamiltonian(n, bond), rates)
+    x = sp.Symbol('x')
+    P = DomainMatrix.from_Matrix(L.applyfunc(sp.expand)).convert_to(sp.QQ_I).charpoly()
+    Q = sp.Poly(sp.expand(sum(sp.QQ_I.to_sympy(c_) * (x - sp.Rational(sum(rates), 2)) ** (len(P) - 1 - j)
+                               for j, c_ in enumerate(P))), x)
+    d = len(P) - 1
+    return all(c_ == 0 for (k,), c_ in Q.terms() if (d - k) % 2)
+
+
+print("F  bonds with a mixed letter: the fifth sum in closed form")
+letters9 = sp.symbols(' '.join(MIXED + CLASS), real=True)
+for n in (2, 3):
+    gs = sp.symbols(f'g1:{n + 1}', real=True)
+    monos = exponents(9 + n, 3)
+    P = interpolate(monos, letters9 + gs, lambda pt, p: modp_trace_power(
+        modp_generator(n, dict(zip(MIXED + CLASS, pt[:9])), pt[9:], p), 3, p), nprimes=2)
+    check(f"N = {n}: the third sum is zero for every bond of the nine letters at every rate", P == 0)
+
+
+def fifth_basis(n):
+    """Mixed letters with degree 2 or 4 (a half turn on every site flips them alone), at least one rate."""
+    return [m + c + r for dm in (2, 4) for dr in range(1, 6 - dm) for m in exponents(4, dm)
+            for c in exponents(5, 5 - dm - dr) for r in exponents(n, dr)]
+
+
+for n in ((2, 3, 4, 5) if DEEP else (2,)):
+    gs = sp.symbols(f'g1:{n + 1}', real=True)
+    P = interpolate(fifth_basis(n), letters9 + gs, lambda pt, p: modp_trace_power(
+        modp_generator(n, dict(zip(MIXED + CLASS, pt[:9])), pt[9:], p), 5, p), nprimes=2, surplus=25)
+    check(f"N = {n}: the fifth sum is the closed form as a polynomial in the nine coefficients and the rates",
+          sp.expand(P - fifth_closed_form(n, dict(zip(MIXED + CLASS, letters9)), gs)) == 0)
+rng = np.random.default_rng(11)
+for n in (3, 4, 5, 6):
+    c = {l: int(x) for l, x in zip(MIXED + CLASS, rng.integers(-5, 6, 9))}
+    g = [int(x) for x in rng.integers(1, 50, n)]
+    p = PRIMES[1]
+    check(f"N = {n}, coefficients {tuple(c.values())}, rates {tuple(g)}: the fifth sum equals the closed form "
+          f"modulo {p}",
+          modp_trace_power(modp_generator(n, c, g, p), 5, p) == int(fifth_closed_form(n, ints(c), g)) % p)
+c0 = {**{l: 0 for l in MIXED + CLASS}, 'XZ': 1, 'ZX': 1, 'XY': -3, 'YX': -3}
+M = modp_generator(2, c0, [8, 8], PRIMES[0])
+check("XZ + ZX − 3XY − 3YX, N = 2, rates (8, 8): the anisotropy cancels the fifth sum (the closed form gives zero), "
+      "and the seventh is not zero", fifth_closed_form(2, ints(c0), [8, 8]) == 0
+      and modp_trace_power(M, 5, PRIMES[0]) == 0 and modp_trace_power(M, 7, PRIMES[0]) != 0)
+
+check("XZ alone, N = 2, rates (1, 0): a site without cooling empties S, the fifth sum is exactly zero, and the "
+      "spectrum pairs (characteristic polynomial)",
+      fifth_closed_form(2, ints({**{l: 0 for l in MIXED + CLASS}, 'XZ': 1}), [1, 0]) == 0
+      and trace_is_exactly_zero(2, {'XZ': 1}, [1, 0], 5) and pairs_exactly(2, {'XZ': 1}, [1, 0]))
+check("XZ alone, N = 3, rates (1, 0, 1): the spectrum pairs (characteristic polynomial)",
+      pairs_exactly(3, {'XZ': 1}, [1, 0, 1]))
+check("control: XZ alone, N = 3, rates (1, 1, 0): it does not", not pairs_exactly(3, {'XZ': 1}, [1, 1, 0]))
+
+print("G  rings")
+for n in ((3, 4, 5) if DEEP else (3, 4)):
+    for bond, name in (bonds_E[1:] if n < 5 else bonds_E[1:2]):
+        P, gs = rate_polynomial(n, bond, 7, ring=True)
+        check(f"ring of {n}, {name}: the seventh sum is zero at every rate", P == 0)
+c = {**{l: 0 for l in MIXED + CLASS}, 'XZ': 3, 'YZ': -1, 'ZX': 2, 'ZY': 4, 'XX': 1, 'XY': 2, 'YY': -1, 'ZZ': 1}
+check("ring of 4, XZ, YZ, ZX, ZY with XX, XY, YY, ZZ, rates (3, 7, 2, 5): the fifth sum equals the ring's closed form "
+      "(no end terms) modulo a prime",
+      modp_trace_power(modp_generator(4, c, [3, 7, 2, 5], PRIMES[0], ring=True), 5, PRIMES[0])
+      == int(fifth_closed_form(4, ints(c), [3, 7, 2, 5], ring=True)) % PRIMES[0])
+check("ring of 4, XZ − ZX at equal rates (μ = −ν, every square zero): the fifth and seventh sums are exactly zero, "
+      "the ninth is not", trace_is_exactly_zero(4, {'XZ': 1, 'ZX': -1}, [1, 1, 1, 1], 5, ring=True)
+      and trace_is_exactly_zero(4, {'XZ': 1, 'ZX': -1}, [1, 1, 1, 1], 7, ring=True)
+      and modp_trace_power(modp_generator(4, {'XZ': 1, 'ZX': -1}, [1, 1, 1, 1], PRIMES[0], ring=True), 9, PRIMES[0])
+      != 0)
+c = {**{l: 0 for l in MIXED + CLASS}, 'XZ': 3, 'YZ': -1, 'ZX': 2, 'ZY': 4, 'XX': 1}
+check("triangle, 3XZ − YZ + 2ZX + 4ZY + XX, rates (3, 7, 2): its fifth sum is not the closed form without end terms "
+      "(the windows wrap)", modp_trace_power(modp_generator(3, c, [3, 7, 2], PRIMES[0], ring=True), 5, PRIMES[0])
+      != int(fifth_closed_form(3, ints(c), [3, 7, 2], ring=True)) % PRIMES[0])
+check("ring of 4, XX + 2XY + ZZ, rates (5, 3, 9, 10) on the surface Q(γ₁, γ₃) = Q(γ₂, γ₄) = 575 that no reflection "
+      "keeps: the ninth sum is exactly zero and the eleventh is not",
+      trace_is_exactly_zero(4, bonds_E[0][0], [5, 3, 9, 10], 9, ring=True)
+      and modp_trace_power(modp_generator(4, bonds_E[0][0], [5, 3, 9, 10], PRIMES[0], ring=True), 11, PRIMES[0]) != 0)
+tri = []
+for bond, name in bonds_E[:2]:
+    J = {l: sp.Integer(bond.get(l, 0)) for l in CLASS}
+    inv = J['ZZ'] * (J['XX'] + J['YY']) / 2 * (J['XY'] - J['YX']) / 2 * (
+        ((J['XX'] - J['YY']) / 2) ** 2 + ((J['XY'] + J['YX']) / 2) ** 2)
+    P, (g1, g2, g3, g4) = rate_polynomial(4, bond, 9, ring=True)
+    target = -9 * 2 ** 12 * 2 ** 9 * inv * (g1 - g3) * (g2 - g4) * (
+        5 * g1 ** 2 + g1 * g3 + 5 * g3 ** 2 - 5 * g2 ** 2 - g2 * g4 - 5 * g4 ** 2)
+    check(f"ring of 4, {name}: Tr((L + c/2)^9) = −9·2¹²·Δ·s·a·|w|²·(γ₁ − γ₃)(γ₂ − γ₄)(Q(γ₁, γ₃) − Q(γ₂, γ₄)), "
+          "Q(x, y) = 5x² + xy + 5y²", sp.expand(P - target) == 0)
+    P, (g1, g2, g3) = rate_polynomial(3, bond, 9, ring=True)
+    q = sp.cancel(P / ((g1 - g2) * (g1 - g3) * (g2 - g3) * (g1 + g2 + g3)))
+    check(f"triangle, {name}: the ninth sum is a nonzero constant times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃)",
+          q.is_number and q != 0, f'constant {q / 2 ** 9}')
+    tri.append((q, inv))
+check("triangle: the two constants are not in the ratio of Δ·s·a·|w|² (the triangle is not bipartite)",
+      tri[0][0] * tri[1][1] != tri[1][0] * tri[0][1], f'{tri[0][0] / tri[1][0]} against {tri[0][1] / tri[1][1]}')
 
 print()
 if FAILURES:

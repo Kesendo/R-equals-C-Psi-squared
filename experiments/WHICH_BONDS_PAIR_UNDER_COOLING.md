@@ -1,13 +1,14 @@
 # Which Bonds Pair Under Cooling
 
 <!-- Keywords: amplitude damping, cooling alone, T1, palindrome, spectral pairing, two-site bond, loss and gain
-exchange, turns about Z, chain reversal, odd power sum, Sextant, Theodolite, F137 -->
+exchange, turns about Z, chain reversal, odd power sum, mixed letter, ring, Sextant, Theodolite, F137 -->
 
-**Status:** a classification on the open chain with one bond repeated, 2026-10-26. The carriers are derived below
-and checked exactly, the turned and reversed ones each with a control that fails, in
-[`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (43 checks, ALL PASS); the breaks
-are exact where the seventh power sum below decides them and on the settings named, a double-precision survey for
-the bonds with a mixed letter, and open on the rest; the page says which is which.
+**Status:** a classification on the open chain with one bond repeated, 2026-10-26, and the same questions on
+rings. The carriers are derived below and checked exactly, the turned and reversed ones each with a control that
+fails, in [`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (67 checks, ALL PASS; 71
+with --deep, which adds the exact polynomials at larger N that the closed forms for every N rest on); the breaks are exact where the seventh power sum below
+decides them, for a mixed letter where the fifth does, and on the settings named; the rest is a double-precision
+survey or open, and the page says which is which.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
@@ -43,7 +44,12 @@ shortest turn-invariant word odd under H ↦ H̄ in place of the odd closed walk
 THE_MIRROR_UNDER_A_SHARED_FIELD (low odd sums vanishing while the spectrum does not pair, the K3 pair), the neighbour
 of the ninth-sum remark; F117 (the odd power sums as the trace face of hardness), F137's single values (240 at the fifth for
 YZ − ZY, −656·sin Φ on the damped triangle, a seventh of −263277/400 there with X dephasing). None is a closed form
-under cooling alone, and none reads a rate profile against its reverse.
+under cooling alone, and none reads a rate profile against its reverse. For the mixed letters and the rings
+the same stores again: F137's open sentence on Hamiltonians that do not commute with Z⊗N and its YZ − ZY value 240,
+which the closed form for the mixed letters reproduces (the page says so), F87's positivity of the first odd sum as a sum of squares (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §5,
+the same shape as S here, under Z dephasing), and no store with a power sum on a ring under cooling alone (F137's damped triangle and its 4 ring carry heating
+too). Adjacency checked: F137's XXZ bonds with axial DM terms pair at one ratio on any graph, ratio zero included,
+so w = 0 bonds pair on rings at any flux, consistent with the ring forms here vanishing at w = 0.
 -->
 
 Put cooling σ⁻ = |0⟩⟨1| on every site of an open chain, each site at its own rate, and nothing else: no heating,
@@ -88,7 +94,7 @@ see the difference and the sum of the angles. ZZ is untouched by both.
 | Δ ≠ 0, N = 2 | always | turns about Z |
 | Δ ≠ 0, N ≥ 3, s, a, w all nonzero, rates the chain's reversal keeps | yes | the reversal times one uniform turn, then S_XY |
 | Δ ≠ 0, N ≥ 3, s, a, w all nonzero, other rates | no where γ₁γ₂ ≠ γ_{N−1}γ_N (at N = 3: γ₂ ≠ 0 and γ₁ ≠ γ₃), at every N; for XX + 2XY + ZZ also at (1, 0, 2) and (1, 6, 2, 3) | none |
-| a mixed letter (XZ, ZX, YZ, ZY) anywhere in the bond | no, on every setting computed | none |
+| a mixed letter (XZ, ZX, YZ, ZY) anywhere in the bond | no where the fifth power sum below is not zero, at every N: always without anisotropy (w = 0) at rates positive on every site; at a site without cooling it can pair (XZ at (1, 0) and (1, 0, 1)); elsewhere no on every setting computed | none |
 
 **The turns.** Turns undo the conjugation on a bond when z·e^{i(θ_l − θ_{l+1})} = z̄ and w·e^{i(θ_l + θ_{l+1})} = w̄.
 With z and w both nonzero the difference and the sum of the angles are fixed on every bond, and two neighbouring
@@ -115,12 +121,11 @@ three are XX + 2XY + ZZ, where the rotation is by the phase of −1 + 2i, cos = 
 **The breaks.** The odd centred power sums Tr((L + c/2)^k), k odd, all vanish wherever the spectrum pairs, so one
 that does not vanish rules out every element. With Δ, s, a and w all nonzero, the first that is not zero is the
 seventh wherever γ₁γ₂ ≠ γ_{N−1}γ_N; the next section says why and gives it in closed form (section D of the gate asserts it at XX + 2XY + ZZ at (2, 1, 1), (1, 2, 3) and, N = 4, (1, 2, 3, 4), and at
-2XX + 3XY − YX + 2YY + ZZ at (1, 2, 3)). A bond with a mixed letter breaks at the fifth on the two settings computed (XZ;
-ZX + XX); F137's
-YZ − ZY has 240 there. That the bonds with a mixed letter break everywhere is a survey, not a
-proof: in double precision, with one random integer bond in ±{1, 2, 3} for each of the 511 subsets
+2XX + 3XY − YX + 2YY + ZZ at (1, 2, 3)). A bond with a mixed letter breaks at the fifth wherever its closed form below is not
+zero (section D asserts it at XZ and at ZX + XX). The survey, in double precision, with one random integer bond in ±{1, 2, 3} for each of the 511 subsets
 of the nine letters, read as paired when every eigenvalue's mirror lies within 10⁻⁶, every bond with a mixed letter
-misses its mirror (480 of 480 at each of six rate profiles, N = 2, 3, 4, by at least 0.06), every bond of the class
+misses its mirror (480 of 480 at each of six rate profiles, N = 2, 3, 4, by at least 0.06; the closed form decides
+most of them, and those where anisotropy cancels the fifth are survey only), every bond of the class
 pairs at N = 2 and at rates the reversal keeps ((1, 1, 1), (1, 2, 1), (1, 2, 2, 1)), and at (1, 2, 3) and
 (1, 2, 3, 5) the bonds drawn with s, a, w all nonzero break, 8 of 8 (one of the nine subsets with ZZ drew a
 vanishing part, and both profiles have unequal end products, so the closed form below requires these breaks), while
@@ -171,20 +176,88 @@ when γ₁ = γ₃. A middle site without cooling silences the seventh; for XX +
 profiles with equal end products that the reversal moves the seventh is silent and a higher one has to decide; at
 the one such profile computed, XX + 2XY + ZZ at (1, 6, 2, 3), the ninth is not zero (exact, in the gate).
 
+## The bonds with a mixed letter
+
+Write the mixed part of the bond in complex form, μ·(σ⊗Z) + ν·(Z⊗σ) with μ = c_XZ + i·c_YZ and ν = c_ZX + i·c_ZY
+(c the coefficients). A turn about Z gives μ on the bond (l, l+1) the phase θ_l and ν the phase θ_{l+1}. These
+letters anticommute with Z⊗N, so S_IZ no longer applies and nothing makes the odd power sums odd under H ↦ H̄; the
+turns and complex conjugation remain. The phase count now finds smaller invariants: on one bond μ̄·ν·z and μ·ν·w̄,
+across two bonds ν_b·μ̄_{b+1}. A half turn on every site flips the mixed letters and keeps the others, so they enter
+every power sum with an even degree. For every bond of the nine letters p₃ vanishes (exact at N = 2 and 3, where its
+clusters, at most two bond terms and one rate, all fit), so the first that can break is the fifth, and
+
+  Tr((L + c/2)⁵) = 10·4^(N−2)·[3·S − 16·Im(μνw̄)·Σ_b γ_bγ_{b+1}],
+
+  S = Σ_{m=2}^{N−1} γ_m·|μ·γ_{m+1} + ν·γ_{m−1}|² + |μ|²·γ₁γ₂² + |ν|²·γ_{N−1}²·γ_N
+
+    = Σ_b (|μ|²·γ_bγ_{b+1}² + |ν|²·γ_b²γ_{b+1}) + 2·Re(μν̄)·Σ_m γ_{m−1}γ_mγ_{m+1},
+
+the second line its windows: one per bond and one per three neighbouring sites.
+
+The fifth moment is the fifth cumulant here (p₁ and p₃ vanish), a contributing cluster has five terms with at least
+one rate and so spans at most five sites, and the polynomial in all nine coefficients and the rates is exact at
+N = 2 to 5 (section F of the gate, N ≥ 3 with --deep; at N = 3 to 6 also at random points modulo a prime). Of the
+class's parts only the anisotropy w enters, once, through the invariant μ·ν·w̄; that μ̄·ν·z, Δ, s and a do not
+enter is what the exact polynomials say, not something the phase count forces.
+
+F137's break of YZ − ZY on three sites at rate 1 is an instance: μ = i, ν = −i, w = 0, so the square vanishes,
+the end terms give S = 2, and the fifth sum is 10·4·3·2 = 240.
+
+Without anisotropy S alone remains, a sum of squares weighted by the rates plus two end terms that are positive as
+soon as μ or ν is not zero and the rates are. So at rates positive on every site no bond with a mixed letter and
+w = 0 pairs, at any N (a site without cooling can empty S, and then the spectrum can pair: XZ alone at rates (1, 0) and at (1, 0, 1)
+pairs, exact by the characteristic polynomial, while (1, 1, 0) does not): the X/Y part
+absent, or XXZ with an axial DM term. With anisotropy the cross term can cancel the squares: XZ + ZX − 3XY − 3YX at
+N = 2 and rates (8, 8) has p₅ = 0, and the seventh is not zero there (exact, in the gate). A mixed letter with
+anisotropy is decided by the fifth wherever 3·S ≠ 16·Im(μνw̄)·Σ_b γ_bγ_{b+1}, and elsewhere by a higher one on the
+settings computed.
+
+## Rings
+
+On a ring every site has two neighbours and the chain's ends are gone. For the class, the seventh power sum's three-site
+windows telescope round the ring to nothing from six sites on, where no contributing cluster wraps (on the
+ring of five, five bond terms and two rates can close round it): Tr((L + c/2)⁷) is zero at
+every rate profile. On the rings of 3 and 4, where windows wrap, it is zero too as a polynomial in the rates for the
+two bonds computed (and on the ring of 5 for one, with --deep). F137's criterion, read through the reversal as above, holds with a
+reflection of the ring in place of the chain's reversal (the rotations of the ring only relabel the rates and keep
+the spectrum), and on the rings of three and four, for the bonds computed, the ninth power sum is the first that reads it. On the ring of four,
+
+  Tr((L + c/2)⁹) = −9·2¹²·Δ·s·a·|w|²·(γ₁ − γ₃)(γ₂ − γ₄)·(Q(γ₁, γ₃) − Q(γ₂, γ₄)),  Q(x, y) = 5x² + xy + 5y²,
+
+exact as a polynomial in the rates for two bonds. The first two factors are the reflections through opposite sites;
+the reflections through opposite bonds swap the two pairs and make the last factor vanish, which it also does on a
+surface that no reflection keeps, where the ninth is silent; at (5, 3, 9, 10) on that surface, Q(5, 9) = Q(3, 10)
+= 575, the ninth is exactly zero and the eleventh is not (in the gate). On the triangle the ninth sum is a nonzero constant
+times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃) for the two bonds computed, the constant depending on J otherwise
+than through Δ·s·a·|w|² (the two constants are not in that ratio; the triangle is not bipartite, so the sum need
+not be odd in Δ); for those bonds the
+triangle pairs exactly when two rates agree, which is exactly when a reflection keeps the profile.
+
+The bonds with a mixed letter lose their end terms on a ring too: on the ring of four the fifth sum is the same
+expression with S summed round the ring and without the two end terms (at one point modulo a prime; on the
+triangle, where three bond terms already close round the ring, it differs, in the gate for one bond), so at equal rates and μ = −ν every square vanishes.
+XZ − ZX on the ring of four at equal rates has p₅ = p₇ = 0 exactly, and the ninth is not zero: it does not pair
+either. For the class on the surface where the ninth is silent and for XZ − ZX, where the fifth and seventh are, a
+higher sum breaks on the settings computed; whether a ring with these bonds ever pairs where its first sums vanish
+is open.
+
 ## What the instruments did
 
 The Sextant decides by the same odd power sums, modulo a prime, so the exact nos are its kind of answer (computed
-here in Python, sections D and E of the gate); its search runs over uniform moves only and cannot see the turned yeses.
+here in Python, sections D to G of the gate); its search runs over uniform moves only and cannot see the turned yeses.
 The Theodolite reads those as exact elements off the letters (section C), and is silent on the reversal, which no
 product of site maps is. The cube gave the why: the
 split of a bond into a part that sees the difference of two site angles and a part that sees their sum, and the
-reversal's one rotation, which a computation then confirmed exactly; and the phase count that makes the seventh
-power sum the first that can break, which the exact polynomials then gave in closed form.
+reversal's one rotation, which a computation then confirmed exactly; and the phase counts that make the seventh
+power sum the first that can break for the class and the fifth for a mixed letter, which the exact polynomials then
+gave in closed form.
 
 ## What stays open
 
 Whether every bond with Δ, s, a, w all nonzero breaks on the rate profiles with γ₁γ₂ = γ_{N−1}γ_N that the reversal
 does not keep, a middle site without cooling at N = 3 among them (the ninth power sum decides the two computed, and no
-general form of it is known); whether a bond with a mixed letter can pair at all under cooling on some graph or
-rate profile (F137's open sentence, for this chain); bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
-conditions, a star a centre to the reversal), fields, and a thermal bath at a ratio other than zero.
+general form of it is known); whether a bond with a mixed letter and anisotropy can pair where its fifth power sum
+vanishes, and which bonds with a mixed letter pair at sites without cooling (in the formal setting, the counterpart
+of F137's open sentence, which asks about the thermal bath); rings: whether the class's seventh vanishes on the rings of three to five for every bond and not only those computed (a parity count of the turn invariants suggests it, unchecked), the surface Q(γ₁, γ₃) = Q(γ₂, γ₄) of the ring of four beyond the one point
+computed, the triangle and the mixed letters on rings beyond the bonds computed, and longer rings; bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
+conditions, a star a centre to the reversal; a ring's turns are not examined here), fields, and a thermal bath at a ratio other than zero.
