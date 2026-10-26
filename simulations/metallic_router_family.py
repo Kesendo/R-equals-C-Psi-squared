@@ -12,8 +12,10 @@ FAMILY THEOREM
   (i)  t2 = t3 IS SOFT.  On the X/Y-balanced line (overall scale trivial; write c = t1/t2) the
        Liouvillian spectrum is exactly palindromic about -sigma, sigma = sum_l gamma_l. The plane
        t1 = 0 is soft as well (X^N commutes with every XZY and YZX term and anticommutes with every
-       Z jump, so F158 gives the palindrome), and whether the soft set is exactly the union is not
-       shown. The tilts tested off both are hard; the exact off-line witness (1,2,1) first
+       Z jump, so F158 gives the palindrome). The soft set is exactly the union from N = 5 on and
+       every triple at N = 3, 4 (PROOF_CEILING_GOLDEN_ROUTER §8, the soft set: two chain kernels,
+       det K3 = -t1^2 (t2-t3)^2 (t1^2+(t2+t3)^2)^2). The tilts tested off both are hard at N = 5
+       (Block 5); the exact off-line witness (1,2,1) first
        fires at m* = 11 with the positive monomial p_11 = 1730150400 * gamma^3 (exact CRT), so
        its asymmetry is nonzero for ALL gamma > 0.
   (ii) THE ROUTER TRANSPORTS VERBATIM. On the line, the SAME per-site period-4 construction as

@@ -53,6 +53,7 @@ public class GoldenRouterClaimRegistrationTests
 
         Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
         Assert.Contains(typeof(WindowedConverseThresholdClaim), ancestors);
+        Assert.Contains(typeof(RCPsiSquared.Core.Symmetry.PalindromeTwoEndCountClaim), ancestors);
     }
 
     [Fact]
@@ -158,6 +159,27 @@ public class GoldenRouterClaimRegistrationTests
 
         // On a ring the alternation a ↔ b closes along the parity cycles exactly when 4 | N.
         Assert.Equal(new[] { 0, 4, 0, 0, 0, 4, 0 }, claim.RingRhythmCounts);
+    }
+
+    [Fact]
+    public void GoldenRouterClaim_SoftSet_SmallChainsAlwaysSoft_ThreeSiteChainsOnlyOnLineAndPlane()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<GoldenRouterClaim>();
+
+        // det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)² as an identity on the grid {−4..4}³ (degree ≤ 8 per variable).
+        Assert.True(claim.ChainDeterminantIdentityHolds);
+
+        // The Pythagorean triple (3,4,5), off the line and the plane: an integer product element carries the
+        // palindrome at N = 3, 4; the far kernel is empty at N = 5, 6; the line and the plane keep four.
+        Assert.Equal(
+            new[] { "carries", "carries", "fails", "0", "0", "4", "4" },
+            claim.SoftSetReadings.Select(r => r.Actual));
+
+        // The reduction itself, from below: the far kernel built from H equals the product of the two chain
+        // kernels built from P, on every triple of {−2..2}³ at N = 5 and 6.
+        Assert.Equal(0, claim.ReductionMismatches);
+        Assert.All(claim.SoftSetReadings, r => Assert.Equal(r.Expected, r.Actual));
     }
 
     [Fact]

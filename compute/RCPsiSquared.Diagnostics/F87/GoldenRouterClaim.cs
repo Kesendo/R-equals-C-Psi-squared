@@ -7,6 +7,7 @@ using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
@@ -45,7 +46,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// b = (1, −r), r(c) = (c+√(c²+4))/2 the metallic mean of c = t₁/t₂ (golden c=1 → φ, silver c=2 → 1+√2,
 /// bronze c=3, c=0 the 45° frame), q_l² = −(1+r²)·I, and W_c L_c W_c⁻¹ = −L_c − 2σ for every real c. The
 /// window lemma is a polynomial identity in r (degree ≤ 5, verified exactly zero at 8 rational nodes), so
-/// it holds for all real (indeed complex) c by derivation.</para>
+/// it holds for all real (indeed complex) c by derivation. The soft set of the weighted template on the open chain is
+/// exact: every triple at N = 3, 4, and from N = 5 on exactly t₁ = 0 or t₂ = t₃ (F158's far end as two chain kernels over the
+/// even and the odd sites, det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)²; battery, PROOF §8 "the soft set").</para>
 ///
 /// <para><b>Scope fences (the soft part, NOT Tier1Derived).</b> Rigidity (zero continuous physical moduli,
 /// the router is unique modulo gauge) is PROVEN only at the golden and silver stations (Jacobian nullity =
@@ -80,6 +83,7 @@ public sealed class GoldenRouterClaim : Claim
     /// <summary>The two typed parents, exposed for inspection.</summary>
     public F1PalindromeIdentity F1Palindrome { get; }
     public WindowedConverseThresholdClaim ChiralSpine { get; }
+    public PalindromeTwoEndCountClaim TwoEndCount { get; }
 
     /// <summary>One self-check case tying the Claim to the from-below router machinery
     /// (<see cref="KBodyPalindromeRouting"/>), in the style of <see cref="WindowedConverseThresholdClaim"/>.</summary>
@@ -124,7 +128,8 @@ public sealed class GoldenRouterClaim : Claim
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
     private static List<PauliTerm> Terms(params string[] labels) => labels.Select(T).ToList();
 
-    public GoldenRouterClaim(F1PalindromeIdentity f1Palindrome, WindowedConverseThresholdClaim chiralSpine)
+    public GoldenRouterClaim(F1PalindromeIdentity f1Palindrome, WindowedConverseThresholdClaim chiralSpine,
+        PalindromeTwoEndCountClaim twoEndCount)
         : base(
             "F116 golden/metallic router: an invertible period-4 per-site product W = ⊗_l q_{l mod 4} " +
             "([a,a,b,b], a=φX+Y, b=X−φY on the golden locus α²−αβ−β²=0, q_l²=−(2+φ)I) palindromizes the " +
@@ -140,6 +145,7 @@ public sealed class GoldenRouterClaim : Claim
     {
         F1Palindrome = f1Palindrome ?? throw new ArgumentNullException(nameof(f1Palindrome));
         ChiralSpine = chiralSpine ?? throw new ArgumentNullException(nameof(chiralSpine));
+        TwoEndCount = twoEndCount ?? throw new ArgumentNullException(nameof(twoEndCount));
 
         // Re-run the reused router machinery from below, once.
         var golden = Terms("XZX", "XZY", "YZX");
@@ -180,6 +186,36 @@ public sealed class GoldenRouterClaim : Claim
             ReadSplitRouter("control a^⊗N | a^⊗N, open N=4", 4, ring: false, SplitFactor.Golden, SplitFactor.Golden),
             ReadSplitRouter("control a^⊗N·S | I, open N=4", 4, ring: false, SplitFactor.Both, SplitFactor.Identity),
             ReadSplitRouter("control a^⊗N | S, periodic ring N=5", 5, ring: true, SplitFactor.Golden, SplitFactor.Rhythm),
+        });
+
+        _chainDeterminantIdentityHolds = new Lazy<bool>(() =>
+        {
+            var grid = Enumerable.Range(-4, 9).Select(v => (long)v).ToArray();
+            return grid.All(a => grid.All(b => grid.All(c =>
+                Det(ChainConstraint(a, b, c)) == ChainDeterminantClosedForm(a, b, c))));
+        });
+
+        _reductionMismatches = new Lazy<int>(() =>
+        {
+            var grid = Enumerable.Range(-2, 5).Select(v => (long)v).ToArray();
+            return (from n in new[] { 5, 6 } from a in grid from b in grid from c in grid
+                    where FarKernelModP(n, a, b, c) != ChainKernelModP((n + 1) / 2, a, b, c) * ChainKernelModP(n / 2, a, b, c)
+                    select n).Count();
+        });
+
+        (long, long) xPlusY = (1, 1), xMinus2Y = (1, -2), x = (1, 0);
+        _softSetReadings = new Lazy<IReadOnlyList<SoftSetReading>>(() => new[]
+        {
+            new SoftSetReading("(3,4,5), N=3: (X+Y)⊗X⊗(X−2Y) commutes with H, invertible", "carries",
+                ProductElementCarries(3, 4, 5, new[] { xPlusY, x, xMinus2Y }) ? "carries" : "fails"),
+            new SoftSetReading("(3,4,5), N=4: (X+Y)⊗(X+Y)⊗(X−2Y)⊗(X−2Y) commutes with H, invertible", "carries",
+                ProductElementCarries(3, 4, 5, new[] { xPlusY, xPlusY, xMinus2Y, xMinus2Y }) ? "carries" : "fails"),
+            new SoftSetReading("control (3,4,5), N=3: (X+Y)⊗X⊗(X+Y), a root without its partner", "fails",
+                ProductElementCarries(3, 4, 5, new[] { xPlusY, x, xPlusY }) ? "carries" : "fails"),
+            new SoftSetReading("(3,4,5), N=5: far kernel mod p", "0", FarKernelModP(5, 3, 4, 5).ToString(Inv)),
+            new SoftSetReading("(3,4,5), N=6: far kernel mod p", "0", FarKernelModP(6, 3, 4, 5).ToString(Inv)),
+            new SoftSetReading("control on the line (2,1,1), N=5: far kernel mod p", "4", FarKernelModP(5, 2, 1, 1).ToString(Inv)),
+            new SoftSetReading("control on the plane (0,2,7), N=5: far kernel mod p", "4", FarKernelModP(5, 0, 2, 7).ToString(Inv)),
         });
 
         _battery = new Lazy<IReadOnlyList<BatteryCase>>(BuildBattery);
@@ -282,7 +318,7 @@ public sealed class GoldenRouterClaim : Claim
     /// <summary>The letter-table readings at c ∈ {0, 1, 2, 3} (exact, integer polynomial arithmetic).</summary>
     public IReadOnlyList<LetterTableReading> LetterTableReadings { get; }
 
-    /// <summary>True iff the hard reflected table [[1,1],[−1,0]] (t₃ = −t₂) leaves a nonzero remainder modulo
+    /// <summary>True iff the reflected table [[1,1],[−1,0]] (t₃ = −t₂, hard from N = 5) leaves a nonzero remainder modulo
     /// r² − r − 1: the control on which the letter-table check must fail.</summary>
     public bool ReflectedTableLeavesRemainder { get; }
 
@@ -371,6 +407,241 @@ public sealed class GoldenRouterClaim : Claim
         return new LetterTableReading(c, Equal(eigen, locus), locusTimesK);
     }
 
+    // --- the soft set of the weighted template t₁·XZX + t₂·XZY + t₃·YZX (PROOF §8), exact and integer ---
+
+    /// <summary>The window's two-site rule on the far end (PROOF §8, "the soft set"): a lit string carries X or Y
+    /// on every site, the middle Z of a window term always turns, so the term's row depends only on whether the
+    /// end pair (f_w, f_{w+2}) comes out II or ZZ. Over (XX, XY, YX, YY) that is one 2×4 rule
+    /// P = [[t₁, t₂, t₃, 0], [0, t₃, t₂, −t₁]], whatever the middle and the rest carry, so the far kernel is the
+    /// product of two chain kernels, one over the even sites and one over the odd ones. K₃ is a three-site
+    /// chain's: P on sites (0, 1) and on (1, 2), an 8×8 integer matrix.</summary>
+    private static long[,] ChainConstraint(long t1, long t2, long t3)
+    {
+        var p = new long[,] { { t1, t2, t3, 0 }, { 0, t3, t2, -t1 } };
+        var a = new long[8, 8];
+        for (int r = 0; r < 2; r++)
+            for (int c = 0; c < 4; c++)
+                for (int k = 0; k < 2; k++)
+                {
+                    a[2 * r + k, 2 * c + k] = p[r, c];       // P on (s0, s1), identity on s2: index 4·s0 + 2·s1 + s2
+                    a[4 + 2 * k + r, 4 * k + c] = p[r, c];   // identity on s0, P on (s1, s2)
+                }
+        return a;
+    }
+
+    /// <summary>Exact determinant of an integer matrix (Bareiss, fraction-free).</summary>
+    private static BigInteger Det(long[,] m)
+    {
+        int n = m.GetLength(0);
+        var a = new BigInteger[n, n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                a[i, j] = m[i, j];
+        BigInteger prev = 1, sign = 1;
+        for (int k = 0; k < n - 1; k++)
+        {
+            if (a[k, k].IsZero)
+            {
+                int s = k + 1;
+                while (s < n && a[s, k].IsZero) s++;
+                if (s == n) return 0;
+                for (int j = 0; j < n; j++) (a[k, j], a[s, j]) = (a[s, j], a[k, j]);
+                sign = -sign;
+            }
+            for (int i = k + 1; i < n; i++)
+                for (int j = k + 1; j < n; j++)
+                    a[i, j] = (a[i, j] * a[k, k] - a[i, k] * a[k, j]) / prev;
+            prev = a[k, k];
+        }
+        return sign * a[n - 1, n - 1];
+    }
+
+    /// <summary>The closed form of det K₃: −t₁²(t₂ − t₃)²(t₁² + (t₂ + t₃)²)², whose real zeros are exactly
+    /// t₁ = 0 or t₂ = t₃.</summary>
+    private static BigInteger ChainDeterminantClosedForm(long t1, long t2, long t3)
+    {
+        BigInteger a = t1, d = t2 - t3, s = (BigInteger)t1 * t1 + (BigInteger)(t2 + t3) * (t2 + t3);
+        return -(a * a) * (d * d) * (s * s);
+    }
+
+    /// <summary>True iff det K₃ equals its closed form on the whole grid {−4..4}³. Both sides are polynomials of
+    /// degree at most 8 in each variable, so agreement on nine values per variable is the identity.</summary>
+    public bool ChainDeterminantIdentityHolds => _chainDeterminantIdentityHolds.Value;
+    private readonly Lazy<bool> _chainDeterminantIdentityHolds;
+
+    /// <summary>The reduction to two chain kernels read from below: the number of triples on the grid {−2..2}³, at
+    /// N = 5 and 6, where the far kernel built from the Pauli strings of H differs from dim K_⌈N/2⌉ · dim K_⌊N/2⌋
+    /// built from P alone (both modulo the same prime). Expected 0.</summary>
+    public int ReductionMismatches => _reductionMismatches.Value;
+    private readonly Lazy<int> _reductionMismatches;
+
+    // Pauli letters 0 = I, 1 = X, 2 = Y, 3 = Z; a·b = i^Phase[a,b]·Letter[a,b].
+    private static readonly int[,] LetterOf = { { 0, 1, 2, 3 }, { 1, 0, 3, 2 }, { 2, 3, 0, 1 }, { 3, 2, 1, 0 } };
+    private static readonly int[,] PhaseOf = { { 0, 0, 0, 0 }, { 0, 0, 1, 3 }, { 0, 3, 0, 1 }, { 0, 1, 3, 0 } };
+
+    private static (int Phase, int[] Letters) Product(int[] s, int[] t)
+    {
+        int e = 0;
+        var u = new int[s.Length];
+        for (int l = 0; l < s.Length; l++)
+        {
+            e += PhaseOf[s[l], t[l]];
+            u[l] = LetterOf[s[l], t[l]];
+        }
+        return (e % 4, u);
+    }
+
+    private static List<(int[] Letters, long Coefficient)> Template(int n, long t1, long t2, long t3)
+    {
+        var h = new List<(int[], long)>();
+        foreach (var (a, b, c) in new[] { (1, 1, t1), (1, 2, t2), (2, 1, t3) })
+            for (int w = 0; w + 2 < n && c != 0; w++)
+            {
+                var s = new int[n];
+                s[w] = a; s[w + 1] = 3; s[w + 2] = b;
+                h.Add((s, c));
+            }
+        return h;
+    }
+
+    private const long SoftPrime = 998244353;   // ≡ 1 mod 4, so i = √−1 lives in GF(p)
+
+    private static long PowMod(long b, long e, long m)
+    {
+        long r = 1;
+        b %= m;
+        for (; e > 0; e >>= 1, b = b * b % m)
+            if ((e & 1) == 1) r = r * b % m;
+        return r;
+    }
+
+    private static long SqrtMinusOne(long p)
+    {
+        for (long g = 2; ; g++)
+        {
+            long x = PowMod(g, (p - 1) / 4, p);
+            if (x * x % p == p - 1) return x;
+        }
+    }
+
+    /// <summary>dim of the far kernel modulo p: the lit strings ({X, Y} on every site) whose combinations commute
+    /// with H, read as the nullity of [H, ·] on their span over GF(p) with i = √−1. Reduction can only lower a
+    /// rank, so this is an upper bound on the rational far kernel: a reading of 0 proves it empty.</summary>
+    private static int FarKernelModP(int n, long t1, long t2, long t3)
+    {
+        long p = SoftPrime, iu = SqrtMinusOne(p);
+        long[] ipow = { 1, iu, p - 1, p - iu };
+        var h = Template(n, t1, t2, t3);
+        int cols = 1 << n;
+        var rows = new Dictionary<string, int>();
+        var entries = new Dictionary<(int, int), long>();
+        for (int col = 0; col < cols; col++)
+        {
+            var f = Enumerable.Range(0, n).Select(l => ((col >> l) & 1) == 0 ? 1 : 2).ToArray();
+            foreach (var (term, c) in h)
+            {
+                int differ = Enumerable.Range(0, n).Count(l => term[l] != 0 && term[l] != f[l]);
+                if (differ % 2 == 0) continue;                    // commutes: no contribution
+                var (e, u) = Product(term, f);                    // [T, F] = 2·T·F when they anticommute
+                string key = string.Concat(u);
+                if (!rows.TryGetValue(key, out int r)) rows[key] = r = rows.Count;
+                long v = ((2 * c) % p + p) % p * ipow[e] % p;
+                entries[(r, col)] = ((entries.TryGetValue((r, col), out long old) ? old : 0) + v) % p;
+            }
+        }
+        var m = new long[rows.Count, cols];
+        foreach (var ((r, col), v) in entries) m[r, col] = v;
+        return NullityModP(m);
+    }
+
+    /// <summary>dim K_m modulo p: the vectors on a chain of m sites (letter X or Y per site, bit l of the index)
+    /// that P sends to zero on every neighbouring pair, built from P alone.</summary>
+    private static int ChainKernelModP(int sites, long t1, long t2, long t3)
+    {
+        if (sites < 2) return 1 << sites;
+        long p = SoftPrime;
+        long[,] rule = { { t1, t2, t3, 0 }, { 0, t3, t2, -t1 } };
+        int cols = 1 << sites, restCount = 1 << (sites - 2);
+        var m = new long[(sites - 1) * 2 * restCount, cols];
+        for (int j = 0; j + 1 < sites; j++)
+            for (int col = 0; col < cols; col++)
+            {
+                int pair = 2 * ((col >> j) & 1) + ((col >> (j + 1)) & 1);
+                int rest = (col & ((1 << j) - 1)) | ((col >> (j + 2)) << j);
+                for (int r = 0; r < 2; r++)
+                    m[(j * 2 + r) * restCount + rest, col] = ((rule[r, pair] % p) + p) % p;
+            }
+        return NullityModP(m);
+    }
+
+    private static int NullityModP(long[,] m)
+    {
+        long p = SoftPrime;
+        int rowsN = m.GetLength(0), cols = m.GetLength(1), rank = 0;
+        for (int col = 0; col < cols && rank < rowsN; col++)
+        {
+            int piv = rank;
+            while (piv < rowsN && m[piv, col] == 0) piv++;
+            if (piv == rowsN) continue;
+            for (int j = 0; j < cols; j++) (m[rank, j], m[piv, j]) = (m[piv, j], m[rank, j]);
+            long inv = PowMod(m[rank, col], p - 2, p);
+            for (int i = 0; i < rowsN; i++)
+            {
+                if (i == rank || m[i, col] == 0) continue;
+                long fct = m[i, col] * inv % p;
+                for (int j = 0; j < cols; j++)
+                    m[i, j] = ((m[i, j] - fct * m[rank, j]) % p + p) % p;
+            }
+            rank++;
+        }
+        return cols - rank;
+    }
+
+    /// <summary>True iff G = ⊗ g_l (g_l integer combinations of X and Y) commutes with the template exactly and
+    /// squares to a nonzero multiple of the identity: an invertible element of F158's far kernel (G anticommutes
+    /// with every Z_l, its letters lying in span{X, Y}), so the spectrum pairs at every positive rate.</summary>
+    private static bool ProductElementCarries(long t1, long t2, long t3, (long X, long Y)[] g)
+    {
+        int n = g.Length;
+        var strings = new List<(int[] Letters, long Coefficient)> { (new int[0], 1) };
+        foreach (var (x, y) in g)
+            strings = strings.SelectMany(s => new[] { (s.Letters.Append(1).ToArray(), s.Coefficient * x),
+                                                      (s.Letters.Append(2).ToArray(), s.Coefficient * y) })
+                             .Where(s => s.Item2 != 0).ToList();
+        // [H, G] in Gaussian integers, keyed by the output string
+        var acc = new Dictionary<string, (long Re, long Im)>();
+        void Add(string key, long c, int e)
+        {
+            var (re, im) = acc.TryGetValue(key, out var v) ? v : (0, 0);
+            acc[key] = (e % 4) switch { 0 => (re + c, im), 1 => (re, im + c), 2 => (re - c, im), _ => (re, im - c) };
+        }
+        foreach (var (term, c) in Template(n, t1, t2, t3))
+            foreach (var (s, a) in strings)
+            {
+                var (e1, u) = Product(term, s);
+                var (e2, _) = Product(s, term);
+                string key = string.Concat(u);
+                Add(key, c * a, e1);
+                Add(key, -c * a, e2);
+            }
+        bool commutes = acc.Values.All(v => v.Re == 0 && v.Im == 0);
+        // G² = Π (x² + y²)·I for a product of real XY-plane letters; read it off the factors
+        bool invertible = g.All(f => f.X * f.X + f.Y * f.Y != 0);
+        return commutes && invertible;
+    }
+
+    /// <summary>One reading of the soft set at an integer triple.</summary>
+    public readonly record struct SoftSetReading(string Name, string Expected, string Actual);
+
+    /// <summary>The soft set read at the Pythagorean triple (3, 4, 5), off the line and off the plane: there
+    /// t₃² = t₁² + t₂², the root equation Q(r) = t₁t₃r² + (t₃² − t₁² − t₂²)r − t₁t₃ becomes t₁t₃(r² − 1), its roots
+    /// r = ±1 are rational, and the element is in integers. Soft at N = 3, 4 (each parity chain at most two
+    /// sites, so a root suffices), hard at N = 5, 6 (a chain of three sites, det K₃ ≠ 0, far kernel empty against
+    /// a near end holding the identity). With the line and the plane as controls, where the far kernel reads four
+    /// at N = 5.</summary>
+    public IReadOnlyList<SoftSetReading> SoftSetReadings => _softSetReadings.Value;
+    private readonly Lazy<IReadOnlyList<SoftSetReading>> _softSetReadings;
+
     private IReadOnlyList<BatteryCase> BuildBattery()
     {
         var cases = new List<BatteryCase>();
@@ -418,10 +689,10 @@ public sealed class GoldenRouterClaim : Claim
                 Actual: t.EigenEquationIsLocus && t.ChiralResidualIsLocusTimesK ? "eigen, chiral iff locus" : "FAIL"));
 
         // The control the divisibility test must fire on: the reflected line t₃ = −t₂ (M = [[1,1],[−1,0]],
-        // hard by PROOF §8) leaves a remainder modulo the golden locus.
+        // hard from N = 5 by PROOF §8, the soft set) leaves a remainder modulo the golden locus.
         cases.Add(new BatteryCase(
             Name: "control: the reflected table [[1,1],[−1,0]] leaves a remainder mod r²−r−1",
-            Detail: "R̃MR̃ − (r²+1)²M mod (r²−r−1) for the hard reflected line",
+            Detail: "R̃MR̃ − (r²+1)²M mod (r²−r−1) for the reflected line (hard from N = 5)",
             Expected: "remainder",
             Actual: ReflectedTableLeavesRemainder ? "remainder" : "FAIL"));
 
@@ -455,6 +726,22 @@ public sealed class GoldenRouterClaim : Claim
             Detail: "Z patterns with one Z on every end pair (w, w+2 mod N), N = 3..9",
             Expected: "0, 4, 0, 0, 0, 4, 0",
             Actual: string.Join(", ", RingRhythmCounts)));
+
+        // The soft set of the weighted template, exactly: N = 3, 4 every triple, N ≥ 5 the line and the plane.
+        cases.Add(new BatteryCase(
+            Name: "the soft set: det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)², zero exactly on t₁ = 0 or t₂ = t₃",
+            Detail: "the three-site chain constraint (P on two overlapping pairs), Bareiss over ℤ on the grid " +
+                    "{−4..4}³, nine values per variable against degree ≤ 8",
+            Expected: "identity",
+            Actual: ChainDeterminantIdentityHolds ? "identity" : "FAIL"));
+        cases.Add(new BatteryCase(
+            Name: "the soft set: the far kernel is the product of two chain kernels (N = 5, 6, grid {−2..2}³)",
+            Detail: "far kernel from the Pauli strings of H vs dim K_⌈N/2⌉ · dim K_⌊N/2⌋ from P alone, mismatches",
+            Expected: "0",
+            Actual: ReductionMismatches.ToString(Inv)));
+        foreach (var r in SoftSetReadings)
+            cases.Add(new BatteryCase(Name: "the soft set: " + r.Name, Detail: "PROOF §8, the soft set",
+                                      Expected: r.Expected, Actual: r.Actual));
 
         // The residual ‖{W,S}‖_F vanishes at the golden mean and is nonzero off it (the dip the witness draws).
         double phi = KBodyPalindromeRouting.MetallicMean(1.0);
@@ -524,7 +811,7 @@ public sealed class GoldenRouterClaim : Claim
                          "reflection commutes with M_c, i.e. iff â is an EIGENVECTOR of M_c: α² − cαβ − β² = 0, " +
                          "the metallic locus, whose eigen equation r² = cr + 1 is the metallic mean (golden at " +
                          "c=1). Exact in integer polynomials in r: the residual is (r²−cr−1)·K(r) with K nowhere " +
-                         "zero, live at c=0..3, with the hard reflected table as the failing control. The uniform " +
+                         "zero, live at c=0..3, with the reflected table (hard from N = 5) as the failing control. The uniform " +
                          "chiral alone gives spec(H) = −spec(H) but not the palindrome: conjugation by it fixes the " +
                          "dephaser; on one side, with the Z pattern on the other, it is the router (§2). The " +
                          "exclusion 'no uniform router' concerns the commuting G, not this chiral.");
@@ -555,10 +842,22 @@ public sealed class GoldenRouterClaim : Claim
                          "physical, spectral gap 3.5e9) is a FINITE-DIFFERENCE JACOBIAN COUNT AT N=5 ONLY, NOT a " +
                          "closed-form/analytic result; 4 of 8 moduli are catalogued (the [v,v,v̄,v̄] X-axis-mirror " +
                          "continuum + the period-2 Pauli-axis routers, the only place period-2 exists in the " +
-                         "family). The hard side off the line and the plane t1 = 0 (where X^N palindromizes) rests on the " +
-                         "girth-ladder witness at (1,2,1) and " +
-                         "the immediate-tilt scan, not on a closed-form p_{m*} for general weights. The existence " +
-                         "side carries no float anywhere. This soft sub-result is held below the Tier1Derived line.");
+                         "family). The first firing rung m* off the line and the plane is read at (1,2,1) only, " +
+                         "not in closed form for general weights (the soft set itself is closed, see its node). " +
+                         "The existence side carries no float anywhere. This soft sub-result is held below the " +
+                         "Tier1Derived line.");
+
+            yield return new InspectableNode("the soft set of t₁·XZX + t₂·XZY + t₃·YZX, exactly",
+                summary: "N = 3, 4: the spectrum pairs for every real triple; N ≥ 5: iff t₁ = 0 or t₂ = t₃ (open chain, " +
+                         "any positive site rates). On F158's far end a lit string carries X or Y on every site, the " +
+                         "middle Z of a window always turns, so a window imposes one rule P = [[t₁,t₂,t₃,0],[0,t₃,t₂,−t₁]] " +
+                         "on its end pair over (XX,XY,YX,YY), whatever the middle carries: the far kernel is the product " +
+                         "of two chain kernels, over the even and the odd sites. A chain of at most two sites always holds " +
+                         "a product of circle letters (a root of t₁t₃r² + (t₃²−t₁²−t₂²)r − t₁t₃, discriminant a sum of " +
+                         "squares), an invertible element, so N = 3, 4 pair. A chain of three holds anything only where " +
+                         "det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)² vanishes; elsewhere the far end is empty while the near " +
+                         "end holds the identity, so no N ≥ 5 pairs. Live: the determinant identity on {−4..4}³ and the " +
+                         "Pythagorean witness (3,4,5), soft at N = 3, 4 in integers, far kernel 0 at N = 5, 6 (PROOF §8).");
 
             yield return new InspectableNode("uniqueness, scoped to invertible W",
                 summary: "Uniqueness statements are scoped to INVERTIBLE W: the anticommutation equation alone " +
@@ -588,6 +887,12 @@ public sealed class GoldenRouterClaim : Claim
                 summary: "the global palindrome Π·L·Π⁻¹ = −L − 2Σγ·I; the golden router W realizes that same " +
                          "palindrome form LOCALLY (as a per-site product) for the Z-middle ceiling Hamiltonian " +
                          "class, where the standard Π argument does not directly give a per-site product.");
+
+            yield return new InspectableNode("parent: PalindromeTwoEndCountClaim (F158)",
+                summary: "the palindrome holds iff dim ker L = dim ker(L + 2σ), each end the commutator with H on " +
+                         "a span of Pauli strings; the soft set of the weighted template is decided at its far end " +
+                         "(the lit strings), which splits into two chain kernels, and any invertible element there " +
+                         "carries the palindrome (the circle-letter products at N = 3, 4).");
 
             yield return new InspectableNode("parent: WindowedConverseThresholdClaim",
                 summary: "the F87 two-reflection chiral spine (𝓕=F⊗F, R=I⊗F) and its chiral driving lemma " +

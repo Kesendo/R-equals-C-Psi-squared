@@ -5369,9 +5369,15 @@ sampled) in the 2026-06-10 adversarial audit.
 **The metallic family (2026-06-11):** the golden point is the c = 1 member of a
 one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX the line
 **t₂ = t₃** is soft, and so is the plane t₁ = 0 (X^⊗N commutes with every XZY and YZX
-term and lies in [F158](#f158)'s far-end kernel); whether the soft set is exactly their union
-is not shown. The tilts tested off both are hard (witness (1,2,1) fires at
-m\* = 11 with p₁₁ = 1730150400·γ³ exact). On the line, with c = t₁/t₂, the same
+term and lies in [F158](#f158)'s far-end kernel). **On the open chain the soft set is exactly their
+union from N = 5 on, and every triple at N = 3, 4** (rings carry another set): on the far end each window imposes one rule
+P = [[t₁, t₂, t₃, 0], [0, t₃, t₂, −t₁]] on its two end letters, whatever the middle carries, so the
+far kernel is the product of two chain kernels over the even and the odd sites; a chain of at
+most two sites always holds a product of circle letters αX + βY (a root of
+t₁t₃r² + (t₃² − t₁² − t₂²)r − t₁t₃, discriminant a sum of squares), and a chain of three holds
+anything only where **det K₃ = −t₁²(t₂ − t₃)²(t₁² + (t₂ + t₃)²)²** vanishes ([proof §8, the soft
+set](proofs/PROOF_CEILING_GOLDEN_ROUTER.md#the-soft-set-exactly); integer witness (3, 4, 5), soft at N = 3, 4, hard at N = 5, 6). The first firing rung off
+the union is read at (1,2,1): m\* = 11 with p₁₁ = 1730150400·γ³ exact. On the line, with c = t₁/t₂, the same
 [a, a, b, b] router works with a = (r, 1), b = (1, −r), **r(c) = (c + √(c²+4))/2 the
 metallic mean** (golden c=1, silver c=2, bronze c=3; r(−c) = 1/r(c) so c=−1 is 1/φ;
 c=0 is the 45° diagonal), q_l² = −(1+r²)·I. **Derived for ALL real c** by degree bound

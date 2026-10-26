@@ -1,4 +1,5 @@
 using RCPsiSquared.Core.F1;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Diagnostics.F87;
@@ -7,7 +8,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// router). Two typed parents, both Tier1Derived (the strength-inheritance check is 5 ≥ 5 against each):
 /// <see cref="F1PalindromeIdentity"/> (the global palindrome the router realizes locally for the Z-middle
 /// ceiling class) and <see cref="WindowedConverseThresholdClaim"/> (the F87 two-reflection chiral spine
-/// whose chiral driving F H F = −H the router's two-sided form distributes into P ≠ Q).
+/// whose chiral driving F H F = −H the router's two-sided form distributes into P ≠ Q). A third,
+/// <see cref="PalindromeTwoEndCountClaim"/> (F158, Tier1Derived), decides the weighted template's soft set
+/// through its far end, so the registration sits after F158's.
 ///
 /// <para>Must register after <see cref="F1Family.F1FamilyRegistration.RegisterF1Family"/> (which provides
 /// <see cref="F1PalindromeIdentity"/>) and after
@@ -27,9 +30,11 @@ public static class GoldenRouterClaimRegistration
         {
             _ = b.Get<F1PalindromeIdentity>();                   // typed parent edge (parent before child)
             _ = b.Get<WindowedConverseThresholdClaim>();         // typed parent edge (parent before child)
+            _ = b.Get<PalindromeTwoEndCountClaim>();             // typed parent edge (parent before child)
             return new GoldenRouterClaim(
                 b.Get<F1PalindromeIdentity>(),
-                b.Get<WindowedConverseThresholdClaim>());
+                b.Get<WindowedConverseThresholdClaim>(),
+                b.Get<PalindromeTwoEndCountClaim>());
         });
         return builder;
     }
