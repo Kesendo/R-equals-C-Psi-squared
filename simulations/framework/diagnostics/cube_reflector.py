@@ -377,7 +377,8 @@ class Verdict:
     """kind is about SITE-LOCAL elements only: 'NONE' means no product of site maps carries the relation, not that
     the spectrum fails to pair. pairing is the spectrum's answer where one is known: 'PAIRS' whenever a site-local
     element is found, and after a silence F158's exact two-end count for Pauli-letter jumps ('PAIRS' | 'BREAKS',
-    with the carrier in element); None where neither applies (sigma^+-, thermal jumps). element is F158's U, and it
+    with the carrier in element); for other jumps (sigma^+-, thermal) 'PAIRS' when the letters read an element for
+    the other relation, since either relation pairs the spectrum, and None otherwise. element is F158's U, and it
     carries the line reflection by one-sided multiplication, rho -> rho·U maps L to -L^† - 2 sigma ('refl'); it is
     attached only to a 'refl' verdict (the same spectrum pairs under 'pi', through no U of this form)."""
     kind: str                    # 'CUBE MOVES' | 'NO CUBE MOVE' | 'NONE' | 'OPEN' | 'OUTSIDE'
@@ -397,7 +398,18 @@ def _hand_over(verdict, setting):
         verdict.note += '; so no site-local element (NONE is about site maps, not the spectrum)'
     ec = end_count_of_setting(setting)
     if ec is None:
-        verdict.note += '; pairing not decided here (a jump is not a Pauli letter, F158 does not apply)'
+        # either relation pairs the spectrum about -c/2 (L's spectrum is closed under conjugation), so the other
+        # relation's letters decide it when they read an element
+        from . import cube_letters as cl
+        other = 'refl' if verdict.relation == 'pi' else 'pi'
+        rd = cl.read(setting, other)
+        if rd is not None and cl.verify(setting, other, rd.maps):
+            verdict.pairing = 'PAIRS'
+            verdict.note += (f"; the spectrum PAIRS: the letters read a site-local element for '{other}' "
+                             f"(a jump is not a Pauli letter, F158 does not apply)")
+            return verdict
+        verdict.note += ("; pairing not decided here (a jump is not a Pauli letter, F158 does not apply, and the "
+                         f"letters read no element for '{other}')")
         return verdict
     verdict.pairing = 'PAIRS' if ec.pairs else 'BREAKS'
     verdict.note += f'; F158 (exact): near {ec.near}, far {ec.far}, the spectrum '

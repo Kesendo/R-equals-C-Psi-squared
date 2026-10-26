@@ -218,8 +218,14 @@ def test_silence_hands_over_to_the_end_count():
 def test_found_moves_report_pairing_and_non_pauli_jumps_leave_it_open():
     heis = ct.Setting(2, bond(0, 1, Dz=1), [((l,), ct.PAULI['Z'], 1) for l in range(2)])
     assert cr.answer(heis, 'pi', timeout=None).pairing == 'PAIRS'
+    # cooling alone: no site-local Pi-reflection, but the letters read the line reflection (S_XY), so the
+    # hand-over reports the pairing from the other relation
     cooled = ct.Setting(2, bond(0, 1, Dz=1), [((l,), ct.LOWER, 1) for l in range(2)])
     v = cr.answer(cooled, 'pi', timeout=None)
+    assert v.kind == 'NONE' and v.pairing == 'PAIRS' and "element for 'refl'" in v.note
+    # a longitudinal field breaks the spectrum there; neither relation is read, so the pairing stays open
+    fielded = ct.Setting(2, bond(0, 1, Dz=1) + [('Z', (0,), 1)], [((l,), ct.LOWER, 1) for l in range(2)])
+    v = cr.answer(fielded, 'pi', timeout=None)
     assert v.kind != 'CUBE MOVES' and v.pairing is None and 'F158 does not apply' in v.note
 
 
