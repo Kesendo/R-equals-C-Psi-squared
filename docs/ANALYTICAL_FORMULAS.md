@@ -7013,7 +7013,12 @@ conserve the excitation number, so no rotating frame removes the qubits' frequen
 there has equal rates): the open chain of three sites with YZ − ZY on both bonds has
 Tr((L + c/2)⁵) = 240 under cooling alone at rate 1, a formal setting at zero splitting, and 1280 at equal cooling
 and heating rates 1, the physical bath there; at those equal rates every H commuting with Z⊗N pairs (exact, gate M11). So without fields or dephasing axial DM pairs
-on every tree, and transverse DM need not. The centre at H ≠ 0 is
+on every tree, and transverse DM need not. On the open chain with one bond repeated, under cooling alone (for every bond
+but XXZ with axial DM terms the formal setting at zero splitting), the bonds that commute with Z⊗N pair wherever
+these carriers reach: the conjugation with a sign without ZZ, the turns where the bond's trace or antisymmetric
+or anisotropic part vanishes, the chain's reversal composed with one turn at rates the reversal keeps, and every
+bond on two sites; the rest broke on every setting computed, and so did every bond with a mixed letter, a few exactly and the others in a
+double-precision survey ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
 the trace identity above and needs no proof.
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
