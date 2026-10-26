@@ -328,12 +328,20 @@ public class SextantTests
         Assert.StartsWith("the theodolite", dDm.Detail);
         Assert.DoesNotContain(Sextant.Search(dm), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
         Assert.Null(Sextant.OddTraceObstruction(dm, 64));                // the theodolite's yes meets no exact no
-        // the theodolite reads monomial factors only: uncoupled sites with Y and Z fields under X dephasing pair site by
-        // site, yet the decision stays SYMMETRIC-MOD-P
+        // uncoupled sites with Y and Z fields under X dephasing pair site by site: the theodolite reads them in the frame
+        // that carries X onto Z
         var offAxis = Sextant.Setting.Chain(n, new[] { ("Y", -2L), ("Z", 1L) },
             new[] { (0, LetterCube.LetterMatrix('X'), 2L), (1, LetterCube.LetterMatrix('X'), 0L), (2, LetterCube.LetterMatrix('X'), 3L) });
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(offAxis).Kind);
-        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(offAxis, maxPower: 5).Kind);
+        var dOff = Sextant.Decide(offAxis);
+        Assert.Equal(Sextant.Palindrome.Witnessed, dOff.Kind);
+        Assert.Contains("in the frame turning the axes", dOff.Detail);
+        // an unwatched site takes the setting outside F158's hypothesis: -3XY with fields -2X under Z dephasing at (0, 3)
+        // has every odd trace zero modulo both primes, and no instrument reads an element: SYMMETRIC-MOD-P, evidence
+        // only; read to the third power, OPEN
+        var unwatched = Sextant.Setting.Chain(2, new[] { ("XY", -3L), ("X", -2L) },
+            new[] { (0, LetterCube.LetterMatrix('Z'), 0L), (1, LetterCube.LetterMatrix('Z'), 3L) });
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(unwatched).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(unwatched, maxPower: 3).Kind);
         Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
             Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
         var mirrored = Sextant.Decide(Cooled(1, 2, 1));

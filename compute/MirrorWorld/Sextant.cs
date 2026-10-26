@@ -19,7 +19,8 @@ using static MirrorWorld.LetterCube;
 // letter at a positive rate (F158's hypothesis) and EndCount's verdict is an exact palindrome; there the element can
 // sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
 // X⊗Z⊗(Y − 2X), whose angle the couplings set; or the theodolite reads a sandwich A·ρ^(T)·B of monomial factors,
-// site-local or after a relabelling of the sites that keeps the supports, carrying L to -L^dagger - c or to -L - c
+// site-local, after a relabelling of the sites that keeps the supports, or in a frame carrying one axis per site
+// onto Z, carrying L to -L^dagger - c or to -L - c
 // (its binomial system has a solution in nonzero complex numbers, decided exactly, so the element exists, with turns
 // that may be roots and may differ from site to site, outside the uniform closure). OBSTRUCTED: an exact broken
 // EndCount verdict there (F158's necessity), or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no
@@ -38,10 +39,10 @@ using static MirrorWorld.LetterCube;
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
 // cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
 // EndCount (a sibling under the frame, not a parent), and past it the theodolite (a sibling under the cube), so the zone
-// left SYMMETRIC-MOD-P holds settings whose element is neither in the uniform closure nor a sandwich of factors
-// monomial in the Z basis, site-local or relabelled: an element whose factors are not monomial (uncoupled sites with a
-// field off the Z axis, Y and Z fields under X dephasing, pair site by site and read so), and Pauli-letter settings
-// whose end count stays a rank reading.
+// left SYMMETRIC-MOD-P holds settings whose element is neither in the uniform closure nor a sandwich of monomial
+// factors, site-local, relabelled or in a frame carrying one axis per site onto Z, and Pauli-letter settings whose end
+// count stays a rank reading; settings with an unwatched site, outside F158's hypothesis, can read so (-3XY with fields
+// -2X under Z dephasing at (0, 3)).
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations in the closure search (EndCount.SymmetryElement holds the half-turn composed with one, the theodolite
@@ -80,12 +81,14 @@ public sealed class Sextant : GameObject
         long dim = 1L << (2 * s.N);
         long traceTimesFour = s.DissipatorTimesFour.Where(kv => kv.Key.Row == kv.Key.Col).Sum(kv => kv.Value.Re);
         var relations = new[] { (Theodolite.Relation.Reflection, "-L^dagger - c"), (Theodolite.Relation.Pi, "-L - c") };
-        foreach (bool relabel in new[] { false, true })
+        foreach (int way in new[] { 0, 1, 2 })
             foreach (var (rel, form) in relations)
-                if ((relabel ? Theodolite.ReadRelabelled(t, rel) : Theodolite.Read(t, rel)) is { } r)
+                if ((way switch { 0 => Theodolite.Read(t, rel), 1 => Theodolite.ReadRelabelled(t, rel), _ => Theodolite.ReadRotated(t, rel) }) is { } r)
                 {
                     string kinds = string.Join(" ", r.Kinds.Select(k => $"{Short(k.A)}{Short(k.B)}"));
-                    string where = r.Relabelling is { } p ? $"after the sites are relabelled l -> [{string.Join(", ", p)}], a sandwich" : "a site-local";
+                    string where = r.Relabelling is { } p ? $"after the sites are relabelled l -> [{string.Join(", ", p)}], a sandwich"
+                                 : r.Axes is { } ax ? $"in the frame turning the axes {ax} onto Z, a site-local"
+                                 : "a site-local";
                     return new Decision(Palindrome.Witnessed,
                         $"the theodolite: {where} {(r.Transposed ? "A·rho^T·B" : "A·rho·B")} carries L to {form}, kinds [{kinds}] (d diagonal, a anti-diagonal; outside the closure; c = {Fraction(-2 * traceTimesFour, 4 * dim)})");
                 }

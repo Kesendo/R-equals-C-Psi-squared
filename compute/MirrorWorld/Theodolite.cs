@@ -46,9 +46,10 @@ using static MirrorWorld.LetterCube;
 // equations), the reading and every N.
 //
 // Deliberately outside: the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
-// twin's cube search and machine), factors monomial in another basis than Z's, weights along X or Y, relabellings in
-// EveryN, and a silence's meaning: when the letters are silent, nothing of this form may exist or the element may not
-// be such a sandwich, and the theodolite does not decide which.
+// twin's cube search and machine), frames other than one Clifford axis per site carried onto Z (ReadRotated), weights
+// along X or Y, relabellings and turned frames in EveryN, a relabelling and a turned frame together, and a silence's
+// meaning: when the letters are silent, nothing of this form may exist or the element may not be such a sandwich, and
+// the theodolite does not decide which.
 //
 // Words, fenced at the door: a "turn" here is a site factor's entry x, a turn about Z (a real angle) or a thermal weight
 // (an imaginary one), not the letter cube's turn by X^N and not GammaFold's per-site turn gamma -> -gamma; a "kind" is
@@ -105,6 +106,59 @@ public sealed class Theodolite : GameObject
             => new(n, h.Select(t => (PauliString.Parse(t.Letters.PadRight(n, 'I')), t.Coefficient)), jumps);
 
         internal int[] Support(PauliString t) => Enumerable.Range(0, N).Where(l => t.Letter(l) != 'I').ToArray();
+
+        // The same system seen in a turned frame, times four: site l's axis axes[l] carried onto Z by U_l, so the
+        // generator is 4·Ad_U·L·Ad_U^-1. U_X = (X + Z)/√2 (X <-> Z, Y -> -Y), U_Y = (1 - iX)/√2 (Y -> Z, Z -> -Y),
+        // U_Z = 1. A jump J on a turned site becomes M·J·M^dagger, M = √2·U integral, so its rate stays; every other
+        // rate and every coefficient of H takes the factor four.
+        public Setting Rotated(string axes)
+        {
+            if (axes.Length != N || axes.Any(a => a is not ('X' or 'Y' or 'Z')))
+                throw new ArgumentException("one axis X, Y or Z per site", nameof(axes));
+            var h = H.Select(t =>
+            {
+                var letters = new char[N];
+                long sign = 1;
+                for (int l = 0; l < N; l++)
+                {
+                    var (letter, sg) = Turn(axes[l], t.Term.Letter(l));
+                    letters[l] = letter;
+                    sign *= sg;
+                }
+                return (PauliString.Parse(new string(letters)), 4 * sign * t.Coefficient);
+            });
+            var jumps = Jumps.Select(j => axes[j.Site] == 'Z'
+                ? (j.Site, j.Jump, 4 * j.Rate)
+                : (j.Site, Sandwich(TurnMatrix(axes[j.Site]), j.Jump), j.Rate));
+            return new Setting(N, h, jumps);
+        }
+
+        // the letter P becomes sign·P' under U·P·U^dagger
+        static (char, long) Turn(char axis, char p) => (axis, p) switch
+        {
+            ('X', 'X') => ('Z', 1), ('X', 'Z') => ('X', 1), ('X', 'Y') => ('Y', -1),
+            ('Y', 'Y') => ('Z', 1), ('Y', 'Z') => ('Y', -1), ('Y', 'X') => ('X', 1),
+            _ => (p, 1),
+        };
+
+        static Gauss[,] TurnMatrix(char axis) => axis == 'X'
+            ? new[,] { { Gauss.One, Gauss.One }, { Gauss.One, -Gauss.One } }                    // X + Z
+            : new[,] { { Gauss.One, new Gauss(0, -1) }, { new Gauss(0, -1), Gauss.One } };     // 1 - iX
+
+        static Gauss[,] Sandwich(Gauss[,] m, Gauss[,] j)
+        {
+            var o = new Gauss[2, 2];
+            for (int a = 0; a < 2; a++)
+                for (int b = 0; b < 2; b++)
+                {
+                    var v = Gauss.Zero;
+                    for (int k = 0; k < 2; k++)
+                        for (int q = 0; q < 2; q++)
+                            v = v + m[a, k] * j[k, q] * m[b, q].Conj;                            // M·J·M^dagger
+                    o[a, b] = v;
+                }
+            return o;
+        }
 
         // the same system with site l carried to site pi[l]: P_pi·L·P_pi^-1 is this setting's generator
         public Setting Relabelled(IReadOnlyList<int> pi)
@@ -435,12 +489,13 @@ public sealed class Theodolite : GameObject
 
     // Relabelling: null for the site-local sandwich; otherwise pi, site l carried to site pi[l] before the sandwich.
     public sealed record Reading(bool Transposed, IReadOnlyList<(Kind A, Kind B)> Kinds, Binomials.Reduced System,
-        IReadOnlyList<Binomial> Equations, IReadOnlyList<int>? Relabelling = null)
+        IReadOnlyList<Binomial> Equations, IReadOnlyList<int>? Relabelling = null, string? Axes = null)
     {
         public IEnumerable<string> Lines()
         {
             yield return $"rho -> {(Transposed ? "A·rho^T·B" : "A·rho·B")} with A = ⊗A_l, B = ⊗B_l" +
-                         (Relabelling is { } p ? $", after the sites are relabelled l -> [{string.Join(", ", p)}]" : "");
+                         (Relabelling is { } p ? $", after the sites are relabelled l -> [{string.Join(", ", p)}]" : "") +
+                         (Axes is { } a ? $", in the frame where site l's axis {a} (letter l of the word) is Z" : "");
             for (int l = 0; l < Kinds.Count; l++)
                 yield return $"site {l}: A_{l} {Name(Kinds[l].A, $"x{l}")}, B_{l} {Name(Kinds[l].B, $"y{l}")}";
             foreach (var line in System.Lines()) yield return $"  {line}";
@@ -455,6 +510,41 @@ public sealed class Theodolite : GameObject
     // A monomial sandwich carrying L onto T(L) - c, read from the letters, or null when the letters are silent.
     // branch: null asks the plain branch and then the transposed one, false or true only that one.
     public static Reading? Read(Setting s, Relation rel, bool? branch = null) => Between(s, s, null, rel, branch, same: true);
+
+    // A sandwich in a turned frame: per site one axis (X, Y or Z) is carried onto Z by a one-site Clifford U_l (the
+    // cube's h_zx for X, the quarter turn about X for Y, nothing for Z), and the letters are read there, so the element
+    // is E·Ad_U with Ad_U = ⊗U_l·(.)·U_l^dagger, a similarity. X dephasing read on its own axis becomes Z dephasing and
+    // a field in the YZ plane a field in the XY plane, the theodolite's own ground. Axes is the word of the axes, site
+    // 0 first; the all-Z word is Read itself and is not asked. A site's axis is asked only where that site's table can
+    // be carried onto itself in that frame, and the first word that reads is returned; null when none does. A site
+    // with no field and no jump fits every axis, so a silence costs 3^k readings for k such sites.
+    public static Reading? ReadRotated(Setting s, Relation rel, bool? branch = null)
+    {
+        int n = s.N;
+        var fit = new List<char>[n];
+        for (int l = 0; l < n; l++) fit[l] = new List<char>();
+        foreach (char a in "ZXY")
+        {
+            var turned = s.Rotated(new string(a, n));
+            for (int l = 0; l < n; l++)
+            {
+                var pieces = SitePieces(turned, l, rateFree: false);
+                if (SiteFits(pieces, pieces, rel, branch)) fit[l].Add(a);
+            }
+        }
+        IEnumerable<string> Words(int l)
+        {
+            if (l == n) { yield return ""; yield break; }
+            foreach (char a in fit[l])
+                foreach (var rest in Words(l + 1)) yield return a + rest;
+        }
+        foreach (var word in Words(0))
+        {
+            if (word.All(a => a == 'Z')) continue;
+            if (Read(s.Rotated(word), rel, branch) is { } r) return r with { Axes = word };
+        }
+        return null;
+    }
 
     // A sandwich between two settings on the same sites, E·L(from)·E^-1 = T(L(to)) - c, c fixed by the traces (for a
     // copy, c = (Tr L(to) - Tr L(from))/4^N, the spectra the same up to that shift). The per-site constants cancel in

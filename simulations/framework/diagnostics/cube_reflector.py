@@ -382,7 +382,8 @@ def machine(setting, relation, timeout=600):
                 result = parent.recv()
                 proc.join()
                 return result
-            raise RuntimeError(f"the machine's worker died without an answer (exit code {proc.exitcode}); " + _GUARD)
+            raise RuntimeError(f"the machine's worker died without an answer (exit code {proc.exitcode}; its own "
+                               "traceback, if any, is above). If it died while starting: " + _GUARD)
         if time.monotonic() > deadline:
             proc.terminate()
             proc.join()

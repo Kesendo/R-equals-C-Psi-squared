@@ -647,6 +647,77 @@ public class TheodoliteTests
         return true;
     }
 
+    // In a turned frame: uncoupled sites with fields -2Y + Z under X dephasing (one site unwatched) pair site by site,
+    // and no Z-basis monomial sandwich reads them; with X carried onto Z (the cube's h_zx) on the watched sites they
+    // read. Two checks on the second route: the turned setting's generator is exactly 4·Ad_U·L·Ad_U^-1 (dense, with
+    // M = √2·U integral, so 4·S·L·S' = 4^n·L_turned for S = ⊗(M ⊗ conj M), S' = ⊗(M^dagger ⊗ M^T)), and the element
+    // read there reflects the turned generator at its rational point. A wrong turn (Y onto Z) does not read.
+    [Fact]
+    public void In_A_Turned_Frame_It_Reads_X_Dephasing()
+    {
+        var x = LetterMatrix('X');
+        var s = Theodolite.Setting.Of(3, new[] { ("YII", -2L), ("IYI", -2L), ("IIY", -2L), ("ZII", 1L), ("IZI", 1L), ("IIZ", 1L) },
+            new[] { (0, x, 2L), (1, x, 0L), (2, x, 3L) });
+        Assert.Null(Theodolite.Read(s, Theodolite.Relation.Reflection));
+        Assert.Null(Theodolite.Read(s, Theodolite.Relation.Pi));
+        var r = Theodolite.ReadRotated(s, Theodolite.Relation.Reflection);
+        Assert.NotNull(r);
+        Assert.Equal('X', r!.Axes![0]);
+        Assert.Equal('X', r.Axes[2]);
+        var turned = s.Rotated(r.Axes);
+        Assert.True(ReflectsAtRationalPoint(turned, Theodolite.Relation.Reflection, r));
+        Assert.Null(Theodolite.Read(s.Rotated("YYY"), Theodolite.Relation.Reflection));
+        // the turned generator, densely, on this setting and on one with every letter on turned sites, a three-site
+        // term and jumps of four kinds (the X rows of the letter map and the signs across a support)
+        var rich = Theodolite.Setting.Of(3, new[] { ("XXI", 2L), ("IYX", -1L), ("ZIX", 3L), ("XYZ", 1L), ("YYY", -2L), ("XII", 1L) },
+            new[] { (0, Lowering, 2L), (1, Raising, 1L), (2, LetterMatrix('Y'), 3L), (1, LetterMatrix('X'), 1L) });
+        foreach (var (setting, axes) in new[] { (s, r.Axes), (s, "YXZ"), (rich, "XYZ"), (rich, "YXX"), (rich, "XYY") })
+        {
+            var L = GeneratorTimesFour(setting);
+            var Lt = GeneratorTimesFour(setting.Rotated(axes));
+            var S = new Gauss[1, 1] { { Gauss.One } };
+            var Sinv = new Gauss[1, 1] { { Gauss.One } };
+            foreach (char a in axes)
+            {
+                if (a == 'Z') { S = Kron(S, Scaled(2, Identity(4))); Sinv = Kron(Sinv, Scaled(2, Identity(4))); continue; }
+                var m = a == 'X'
+                    ? new[,] { { Gauss.One, Gauss.One }, { Gauss.One, -Gauss.One } }                    // X + Z
+                    : new[,] { { Gauss.One, new Gauss(0, -1) }, { new Gauss(0, -1), Gauss.One } };     // 1 - iX
+                S = Kron(S, Kron(m, Conjugate(m)));                 // rho -> M rho M^dagger in cells: kron(M, conj M)
+                Sinv = Kron(Sinv, Kron(Dagger(m), Transpose2(m)));  // rho -> M^dagger rho M: kron(M^dagger, M^T)
+            }
+            var lhs = Scaled(4, Mul(Mul(S, L), Sinv));
+            var rhs = Scaled(1L << (2 * 3), Lt);
+            int dd = L.GetLength(0);
+            for (int i = 0; i < dd; i++)
+                for (int j = 0; j < dd; j++)
+                    Assert.Equal(rhs[i, j], lhs[i, j]);
+        }
+    }
+
+    static Gauss[,] Identity(int d)
+    {
+        var m = new Gauss[d, d];
+        for (int i = 0; i < d; i++) m[i, i] = Gauss.One;
+        return m;
+    }
+
+    static Gauss[,] Scaled(long k, Gauss[,] a)
+    {
+        int d = a.GetLength(0);
+        var m = new Gauss[d, d];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) m[i, j] = k * a[i, j];
+        return m;
+    }
+
+    static Gauss[,] Transpose2(Gauss[,] a)
+    {
+        int d = a.GetLength(0);
+        var m = new Gauss[d, d];
+        for (int i = 0; i < d; i++) for (int j = 0; j < d; j++) m[i, j] = a[j, i];
+        return m;
+    }
+
     // The direction of a relabelling, on a 3-cycle (not an involution) and a setting no permutation keeps: the generator
     // of Relabelled(pi) is P_pi·L·P_pi^-1 with P_pi moving site l's cell to site pi[l], and not P_pi^-1·L·P_pi.
     [Fact]
