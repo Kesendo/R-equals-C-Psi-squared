@@ -327,6 +327,12 @@ public class SextantTests
         Assert.Equal(Sextant.Palindrome.Witnessed, dDm.Kind);
         Assert.StartsWith("the theodolite", dDm.Detail);
         Assert.DoesNotContain(Sextant.Search(dm), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+        Assert.Null(Sextant.OddTraceObstruction(dm, 64));                // the theodolite's yes meets no exact no
+        // the theodolite reads monomial factors only: uncoupled sites with Y and Z fields under X dephasing pair site by
+        // site, yet the decision stays SYMMETRIC-MOD-P
+        var offAxis = Sextant.Setting.Chain(n, new[] { ("Y", -2L), ("Z", 1L) },
+            new[] { (0, LetterCube.LetterMatrix('X'), 2L), (1, LetterCube.LetterMatrix('X'), 0L), (2, LetterCube.LetterMatrix('X'), 3L) });
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(offAxis).Kind);
         Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
             Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
         Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(Cooled(1, 2, 1)).Kind);

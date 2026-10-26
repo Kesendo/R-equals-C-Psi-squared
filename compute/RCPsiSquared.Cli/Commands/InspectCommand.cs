@@ -1059,6 +1059,13 @@ public static class InspectCommand
             "every computed odd moment vanishes (N = 1..5; typed: CatTurnedFieldSelfEncounterClaim)",
             c => new CatTurnedFieldWitness(c.Parser.HasFlag("N") ? c.N : 3, c.Parser.HasFlag("ring")),
             RequiresN: false, HonorsOptionalN: true),
+        new("cooledbonds", "the cooled bonds live (WHICH_BONDS_PAIR_UNDER_COOLING): a chain and a ring of one class bond, " +
+            "2XX − XY + 3YX + YY − 2ZZ, under loss alone, the odd power sums Tr((2L + c)^k) read exactly in integer arithmetic " +
+            "(column-major matrix units, no prime): p₁, p₃, p₅ vanish on the chain, p₇ is the closed form " +
+            "−7·2¹⁷·4^(N−3)·Δ·S·A·W·(γ₁γ₂ − γ_{N−1}γ_N) and not zero, a profile with equal end products and a bond with A = 0 " +
+            "are silent, and on the ring p₁ … p₇ vanish while p₉ does not (N = 3..5, default 4; typed: CooledBondPowerSumsClaim)",
+            c => new CooledBondPowerSumsWitness(c.Parser.HasFlag("N") ? c.N : 4),
+            RequiresN: false, HonorsOptionalN: true),
         new("selfmirror", "the conjugate-composite fixed line AS AN OBJECT: Re λ = −σ is fixed by λ ↦ −2σ − conj(λ); only its Im λ = 0 subset at λ = −σ is fixed by linear F1 λ ↦ −2σ − λ. The System bears x/y/z and the Object inherits that frame",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("seedcount", "the endpoint-nullity surplus theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +
