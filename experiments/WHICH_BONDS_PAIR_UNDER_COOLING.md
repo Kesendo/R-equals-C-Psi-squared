@@ -5,9 +5,9 @@ exchange, turns about Z, chain reversal, odd power sum, mixed letter, ring, Sext
 
 **Status:** a classification on the open chain with one bond repeated, 2026-10-26, and the same questions on
 rings. The carriers are derived below and checked exactly, the turned and reversed ones each with a control that
-fails, in [`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (75 checks, ALL PASS; 79
-with --deep, which adds the exact polynomials at larger N that the closed forms for every N rest on); the breaks are exact where the seventh power sum below
-decides them, for a mixed letter where the fifth does, and on the settings named; the rest is a double-precision
+fails, in [`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (93 checks, ALL PASS; 103
+with --deep, which adds the exact polynomials at larger N that the closed forms for every N rest on, and one more point modulo a prime); the breaks are exact where the seventh power sum below
+decides them, on the chain's other profiles where the ninth does, for a mixed letter where the fifth does, and on the settings named; the rest is a double-precision
 survey or open, and the page says which is which.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
@@ -49,7 +49,10 @@ the same stores again: F137's open sentence on Hamiltonians that do not commute 
 which the closed form for the mixed letters reproduces (the page says so), F87's positivity of the first odd sum as a sum of squares (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §5,
 the same shape as S here, under Z dephasing), and no store with a power sum on a ring under cooling alone (F137's damped triangle and its 4 ring carry heating
 too). Adjacency checked: F137's XXZ bonds with axial DM terms pair at one ratio on any graph, ratio zero included,
-so w = 0 bonds pair on rings at any flux, consistent with the ring forms here vanishing at w = 0.
+so w = 0 bonds pair on rings at any flux, consistent with the ring forms here vanishing at w = 0. For the ninth cumulant on the chain: no store holds a
+cumulant of a Liouvillian spectrum or a power sum read as a sum over windows of a rate profile; the nearest,
+PROOF_MOMENT_TOWER_PUMP_CHANNEL's P_{5,3} and its census values of p₉, are uniform rates under Z dephasing, the same
+counting of local words with no profile to read, so adjacent in method and not in object.
 -->
 
 Put cooling σ⁻ = |0⟩⟨1| on every site of an open chain, each site at its own rate, and nothing else: no heating,
@@ -93,7 +96,7 @@ see the difference and the sum of the angles. ZZ is untouched by both.
 | Δ ≠ 0, a = 0 (J symmetric), s = 0 (J traceless, z = 0 included) or w = 0 (XXZ + DM) | always | turns about Z: Ad_V∘S_XY |
 | Δ ≠ 0, N = 2 | always | turns about Z |
 | Δ ≠ 0, N ≥ 3, s, a, w all nonzero, rates the chain's reversal keeps | yes | the reversal times one uniform turn, then S_XY |
-| Δ ≠ 0, N ≥ 3, s, a, w all nonzero, other rates | no where γ₁γ₂ ≠ γ_{N−1}γ_N (at N = 3: γ₂ ≠ 0 and γ₁ ≠ γ₃), at every N; for XX + 2XY + ZZ also at (1, 0, 2) and (1, 6, 2, 3) | none |
+| Δ ≠ 0, N ≥ 3, s, a, w all nonzero, other rates | no where γ₁γ₂ ≠ γ_{N−1}γ_N, at every N, and at N = 3 wherever γ₁ ≠ γ₃; with equal end products wherever the ninth cumulant below is not zero, and on the two settings computed where it is | none |
 | a mixed letter (XZ, ZX, YZ, ZY) anywhere in the bond | no where the fifth power sum below is not zero, at every N: always without anisotropy (w = 0) at rates positive on every site; at a site without cooling it can pair (XZ at (1, 0) and (1, 0, 1)); elsewhere no on every setting computed | none |
 
 **The turns.** Turns undo the conjugation on a bond when z·e^{i(θ_l − θ_{l+1})} = z̄ and w·e^{i(θ_l + θ_{l+1})} = w̄.
@@ -171,10 +174,51 @@ and 4 for three bonds (and at N = 2 for one, where it is zero), compares it exac
 profile for each of two of the bonds, modulo a prime.
 
 At N = 3 the sum is a multiple of γ₂(γ₁ − γ₃): with s, a, w and Δ nonzero and γ₂ ≠ 0 the spectrum pairs exactly
-when γ₁ = γ₃. A middle site without cooling silences the seventh; for XX + 2XY + ZZ at (1, 0, 2) the ninth is not zero
-(exact, in the gate). From N = 4 on it breaks wherever γ₁γ₂ ≠ γ_{N−1}γ_N. On the
-profiles with equal end products that the reversal moves the seventh is silent and a higher one has to decide; at
-the one such profile computed, XX + 2XY + ZZ at (1, 6, 2, 3), the ninth is not zero (exact, in the gate).
+when γ₁ = γ₃. From N = 4 on it breaks wherever γ₁γ₂ ≠ γ_{N−1}γ_N. On the profiles with equal end products that the
+reversal moves, and at N = 3 with no cooling in the middle, the seventh is silent and the ninth has to decide.
+
+**What the ninth sees.** Off the seventh's zeros the ninth moment carries a product of the seventh and second
+cumulants, p₉ = 4^N·κ₉ + 36·p₇·p₂/4^N (no other product survives, the third and fifth cumulants being zero), and
+the ninth cumulant κ₉ is again a sum over windows. The phase count fixes how the couplings enter. A product of
+J factors that H ↦ H̄ reverses has at least four of them, so with p₉ odd in H the couplings enter five or seven
+times and the rates four or two (nine would leave no rate, and a commutator alone pairs). With five, the only product is the seventh's, Δ·Im(z²)·|w|²; with seven, the
+products are that one times Δ², |z|² or |w|², and Δ·Im(z⁴)·|w|², whose reversed part is again a multiple of
+s·a·|w|²·Δ. So the whole of κ₉ is Δ·s·a·|w|² times a polynomial in the rates whose quartic part is the same for
+every bond and whose quadratic part is linear in Δ², s², a² and |w|². A window with four rates spans at most four
+sites and is the same for every bond, so one bond fixes it. A window with two spans at most six: its J part lies in
+the span of Δ², s², a² and |w|² up to five sites, and on six only the four J factors with Δ on each of the three
+other bonds reach, so there it is Δ² alone. Exact polynomials at N = 3 and 4 for six bonds (four with independent
+parts fix the quadratic windows, two more agree), at N = 5 for four and at N = 6 for one therefore fix every window,
+those of five and six sites come out zero, and
+
+  κ₉ = 144·Δ·s·a·|w|²·[Q(γ) + E(γ₁, γ₂, γ₃) − E(γ_N, γ_{N−1}, γ_{N−2}) + 16·(e(γ₁, γ₂, γ₃) − e(γ_N, γ_{N−1}, γ_{N−2}))],
+
+  Q(γ) = Σ_{l=1}^{N−1} 2γ_lγ_{l+1}(γ_l² − γ_{l+1}²) + Σ_{l=1}^{N−2} γ_lγ_{l+2}·[11γ_{l+1}(γ_l − γ_{l+2}) − 7(γ_l² − γ_{l+2}²)],
+
+  E(x, y, u) = xy·(38x² − 3xy + 40y²) − 34x²yu,
+
+  e(x, y, u) = −6(s² + a² + |w|²)·x² + (16s² + 40a² − 40|w|²)·y² − (111Δ² + 226s² + 374a² + 66|w|²)·xy
+               − (23Δ² + 33s² + 181a² − 61|w|²)·yu − (7Δ² + 196s² − 28a² − 28|w|²)·xu,
+
+from N = 3 on (section H of the gate, N = 5 and 6 with --deep; also at one random bond with every part nonzero and a profile
+with unequal end products at N = 4 to 6 modulo a prime, and 7 with --deep). Every part changes
+sign under the reversal, as it must. The quadratic part sits at the ends only, since a quadratic sum over windows
+that the reversal reverses telescopes, the argument of the rings. The quartic part does not: Q is a sum over the
+whole chain, each bond and each pair of next neighbours contributing a term odd under its own reversal, and it does
+not telescope. The seventh reads the profile at the two ends only; the ninth reads it everywhere.
+
+Two things follow. At N = 3 with no cooling in the middle,
+
+  κ₉ = −144·Δ·s·a·|w|²·(γ₁² − γ₃²)·(7γ₁γ₃ + 96·(s² + a² + |w|²)),
+
+and the last factor is positive at rates not negative, so for every bond with Δ, s, a, w nonzero the ninth breaks
+wherever γ₁ ≠ γ₃. With the seventh, at N = 3 the spectrum pairs exactly when γ₁ = γ₃, whatever the middle rate,
+which closes N = 3 (for XX + 2XY + ZZ at (1, 0, 2) the gate also has the ninth not zero, exactly). From N = 4 on the profiles
+with equal end products break wherever κ₉ ≠ 0, which for a given bond leaves a surface of one dimension less, and
+the surface is not empty off the reversal's profiles: the closed form picks −6XX − 2XY + YX + YY − 2ZZ at
+(1, 6, 3, 2) and −6XX − 6XY + 2YX + 2YY + 3ZZ at (1, 8, 1, 8), both with κ₉ = 0, and there the seventh and ninth are
+exactly zero and the eleventh is not (in the gate; XX + 2XY + ZZ at (1, 6, 2, 3), where κ₉ ≠ 0, has the ninth
+not zero, also in the gate).
 
 ## The bonds with a mixed letter
 
@@ -277,9 +321,8 @@ gave in closed form.
 
 ## What stays open
 
-Whether every bond with Δ, s, a, w all nonzero breaks on the rate profiles with γ₁γ₂ = γ_{N−1}γ_N that the reversal
-does not keep, a middle site without cooling at N = 3 among them (the ninth power sum decides the two computed, and no
-general form of it is known); whether a bond with a mixed letter and anisotropy can pair where its fifth power sum
+Whether every bond with Δ, s, a, w all nonzero breaks on the profiles from N = 4 on where both the seventh and the
+ninth cumulant vanish and the reversal does not keep the profile (the eleventh breaks on the two computed); whether a bond with a mixed letter and anisotropy can pair where its fifth power sum
 vanishes, and which bonds with a mixed letter pair at sites without cooling (in the formal setting, the counterpart
 of F137's open sentence, which asks about the thermal bath); rings: the surface Q(γ₁, γ₃) = Q(γ₂, γ₄) of the ring of four beyond the one point
 computed, the triangle's ninth beyond the two bonds computed, the mixed letters on rings beyond the bonds computed, and longer rings; bonds that differ along the chain, other graphs (a ring adds a cycle to the angle

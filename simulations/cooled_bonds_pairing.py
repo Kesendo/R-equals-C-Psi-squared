@@ -46,6 +46,15 @@ gate): random integer couplings over every subset of the nine two-letter bonds, 
      two bonds, and at (5, 3, 9, 10), where Q(5, 9) = Q(3, 10), the ninth is exactly zero and the eleventh not; on
      the triangle the ninth is a nonzero constant times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃), the constants of
      the two bonds not in the ratio of Δ·s·a·|w|².
+  H  The ninth cumulant on the chain: κ₉ = 144·Δ·s·a·|w|²·[Q + E(γ₁, γ₂, γ₃) − E(γ_N, γ_{N−1}, γ_{N−2})
+     + 16(e(γ₁, γ₂, γ₃) − e(γ_N, γ_{N−1}, γ_{N−2}))] with the bulk Q, the quartic end E and the quadratic end e of
+     the document, p₉ = 4^N·κ₉ + 36·p₇·p₂/4^N: exact as a polynomial in the rates (degrees 2 and 4, the only ones
+     the phase count allows) at N = 3 and 4 for six bonds, with --deep also at N = 5 for four and at N = 6 for one,
+     which with the cofactor count fixes every window; at one random bond with Δ, s, a, w nonzero and profile with
+     unequal end products, modulo a prime, at N = 4, 5, 6 (and 7 with --deep); at
+     N = 3 with no cooling in the middle it is a multiple of γ₁² − γ₃² whose other factor is positive, for every bond (symbolic); at
+     two profiles with equal end products where it vanishes, the seventh and ninth are exactly zero and the eleventh
+     is not.
 """
 from __future__ import annotations
 
@@ -624,6 +633,85 @@ for bond, name in bonds_E[:2]:
     tri.append((q, inv))
 check("triangle: the two constants are not in the ratio of Δ·s·a·|w|² (the triangle is not bipartite)",
       tri[0][0] * tri[1][1] != tri[1][0] * tri[0][1], f'{tri[0][0] / tri[1][0]} against {tri[0][1] / tri[1][1]}')
+
+print("H  the ninth cumulant on the chain in closed form")
+
+
+def invariants(bond):
+    """(Δ, s, a, |w|²) of a class bond, J = s·1 + a·ε + T, w = T₁₁ + i·T₁₂."""
+    J = {l: sp.Integer(bond.get(l, 0)) for l in CLASS}
+    return (J['ZZ'], (J['XX'] + J['YY']) / 2, (J['XY'] - J['YX']) / 2,
+            ((J['XX'] - J['YY']) / 2) ** 2 + ((J['XY'] + J['YX']) / 2) ** 2)
+
+
+def ninth_cumulant(g, D, s_, a, w2):
+    """κ₉ of the spectrum of L + c/2 (p₉ = 4^N·κ₉ + 36·p₇·p₂/4^N): 144·Δ·s·a·|w|²·[Q + E_l − E_r + 16(e_l − e_r)]."""
+    N = len(g)
+    Q = sum(2 * g[l] * g[l + 1] * (g[l] ** 2 - g[l + 1] ** 2) for l in range(N - 1))
+    Q += sum(g[l] * g[l + 2] * (11 * g[l + 1] * (g[l] - g[l + 2]) - 7 * (g[l] ** 2 - g[l + 2] ** 2)) for l in range(N - 2))
+
+    def E(x, y, z):
+        return x * y * (38 * x ** 2 - 3 * x * y + 40 * y ** 2) - 34 * x ** 2 * y * z
+
+    def e(x, y, z):
+        return (-6 * (s_ ** 2 + a ** 2 + w2) * x ** 2 + (16 * s_ ** 2 + 40 * a ** 2 - 40 * w2) * y ** 2
+                - (111 * D ** 2 + 226 * s_ ** 2 + 374 * a ** 2 + 66 * w2) * x * y
+                + (-23 * D ** 2 - 33 * s_ ** 2 - 181 * a ** 2 + 61 * w2) * y * z
+                + (-7 * D ** 2 - 196 * s_ ** 2 + 28 * a ** 2 + 28 * w2) * x * z)
+    l_, r_ = (g[0], g[1], g[2]), (g[N - 1], g[N - 2], g[N - 3])
+    return 144 * D * s_ * a * w2 * (Q + E(*l_) - E(*r_) + 16 * (e(*l_) - e(*r_)))
+
+
+def rate_polynomial_in(n, bond, k, degrees):
+    """Tr((2L + c)^k) as a polynomial in the rates with only the given total degrees (the surplus points must fit)."""
+    gs = sp.symbols(f'g1:{n + 1}', real=True)
+    monos = [e for d_ in degrees for e in exponents(n, d_)]
+    return interpolate(monos, gs, lambda pt, p: modp_trace_power(modp_generator(n, bond, pt, p), k, p)), gs
+
+
+# four bonds whose (Δ², s², a², |w|²) are independent fix the quadratic part; two more check it
+H_bonds = bonds_E + [({'XX': 2, 'XY': 1, 'YX': -1, 'YY': 1, 'ZZ': 1}, '2XX + XY − YX + YY + ZZ'),
+                     ({'XX': 1, 'XY': 3, 'YX': 1, 'YY': -2, 'ZZ': 2}, 'XX + 3XY + YX − 2YY + 2ZZ'),
+                     ({'XX': 4, 'XY': 1, 'YY': 1, 'ZZ': -1}, '4XX + XY + YY − ZZ')]
+for n, bonds in ((3, H_bonds), (4, H_bonds), (5, H_bonds[:4] if DEEP else []), (6, H_bonds[:1] if DEEP else [])):
+    for bond, name in bonds:
+        P9, gs = rate_polynomial_in(n, bond, 9, (2, 4))
+        P7, _ = rate_polynomial_in(n, bond, 7, (2,))
+        P2, _ = rate_polynomial_in(n, bond, 2, (0, 1, 2))
+        k9 = ninth_cumulant(list(gs), *invariants(bond))
+        check(f"N = {n}, {name}: Tr((2L + c)^9) − 36·Tr((2L + c)^7)·Tr((2L + c)^2)/4^N = 2^9·4^N·κ₉, κ₉ the closed form, "
+              "as a polynomial in the rates", sp.expand(P9 - sp.Rational(36, 4 ** n) * P7 * P2 - 512 * 4 ** n * k9) == 0)
+rnd = random.Random(9)
+for n in ((4, 5, 6, 7) if DEEP else (4, 5, 6)):
+    while True:   # a draw where every part is there and the seventh is not silent, so the check can fail
+        bond = {l: rnd.randint(-9, 9) for l in CLASS}
+        rates = [rnd.randint(1, 99) for _ in range(n)]
+        if 0 not in invariants(bond) and rates[0] * rates[1] != rates[-1] * rates[-2]:
+            break
+    p = PRIMES[1]
+    M = modp_generator(n, bond, rates, p).astype(np.float64)
+    R_, tr = M, {}
+    for k in range(2, 10):
+        R_ = (R_ @ M) % p
+        if k in (2, 7, 9):
+            tr[k] = int(np.trace(R_)) % p
+    k9 = sp.Rational(ninth_cumulant(rates, *invariants(bond)))
+    pred = (512 * pow(4, n, p) * int(k9.p) * pow(int(k9.q), p - 2, p)
+            + 36 * tr[7] * tr[2] * pow(pow(4, n, p), p - 2, p)) % p
+    check(f"N = {n}, random class bond {bond}, rates {rates}: the ninth sum is the closed form, modulo a prime",
+          pred == tr[9] and tr[9] != 0, f'{tr[9]} against {pred}')
+D_, s_, a_, w_, x_, z_ = sp.symbols('Delta s a w2 x z')
+check("N = 3 with no cooling in the middle, every bond: κ₉ = −144·Δ·s·a·|w|²·(γ₁² − γ₃²)·(7γ₁γ₃ + 96(s² + a² + |w|²)), "
+      "so the ninth breaks wherever γ₁ ≠ γ₃",
+      sp.expand(ninth_cumulant([x_, 0, z_], D_, s_, a_, w_)
+                + 144 * D_ * s_ * a_ * w_ * (x_ ** 2 - z_ ** 2) * (7 * x_ * z_ + 96 * (s_ ** 2 + a_ ** 2 + w_))) == 0)
+for rates, bond, name in [([1, 6, 3, 2], {'XX': -6, 'XY': -2, 'YX': 1, 'YY': 1, 'ZZ': -2}, '−6XX − 2XY + YX + YY − 2ZZ'),
+                          ([1, 8, 1, 8], {'XX': -6, 'XY': -6, 'YX': 2, 'YY': 2, 'ZZ': 3}, '−6XX − 6XY + 2YX + 2YY + 3ZZ')]:
+    check(f"N = 4, {name}, rates {tuple(rates)} (equal end products, not kept by the reversal), where the closed form "
+          "puts κ₉ = 0: the seventh and ninth sums are exactly zero and the eleventh is not",
+          ninth_cumulant(rates, *invariants(bond)) == 0
+          and trace_is_exactly_zero(4, bond, rates, 7) and trace_is_exactly_zero(4, bond, rates, 9)
+          and modp_trace_power(modp_generator(4, bond, rates, PRIMES[0]), 11, PRIMES[0]) != 0)
 
 print()
 if FAILURES:

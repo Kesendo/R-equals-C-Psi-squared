@@ -7018,8 +7018,8 @@ but XXZ with axial DM terms the formal setting at zero splitting), the bonds tha
 these carriers reach: the conjugation with a sign without ZZ, the turns where the bond's trace or antisymmetric
 or anisotropic part vanishes, the chain's reversal composed with one turn at rates the reversal keeps, and every
 bond on two sites; the rest break exactly wherever γ₁γ₂ ≠ γ_{N−1}γ_N (the seventh centred power sum, in closed
-form there; at three sites wherever γ₂ ≠ 0 and γ₁ ≠ γ₃), on the profiles with equal end products that the reversal moves
-the two computed break exactly (the ninth power sum), and every bond with a mixed letter provably breaks wherever
+form there), at three sites wherever γ₁ ≠ γ₃ (with the ninth where γ₂ = 0), on the profiles with equal end products that the reversal moves wherever the
+ninth cumulant, in closed form there and reading the whole chain rather than its ends, is not zero, and every bond with a mixed letter provably breaks wherever
 the fifth centred power sum, in closed form there, is not zero, which is always so without anisotropy at rates
 positive on every site (where a site has no cooling, some of them pair), the YZ − ZY value above being one instance; on every ring with one bond of the class repeated the third, fifth and seventh vanish at every rate profile, and
 higher sums break on the settings computed ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
