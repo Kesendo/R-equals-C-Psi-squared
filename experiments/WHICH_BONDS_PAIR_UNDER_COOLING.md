@@ -5,8 +5,9 @@ exchange, turns about Z, chain reversal, odd power sum, Sextant, Theodolite, F13
 
 **Status:** a classification on the open chain with one bond repeated, 2026-10-26. The carriers are derived below
 and checked exactly, the turned and reversed ones each with a control that fails, in
-[`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (27 checks, ALL PASS); the breaks
-are exact on the settings named and a double-precision survey everywhere else, and the page says which is which.
+[`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (43 checks, ALL PASS); the breaks
+are exact where the seventh power sum below decides them and on the settings named, a double-precision survey for
+the bonds with a mixed letter, and open on the rest; the page says which is which.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
@@ -30,7 +31,19 @@ No store held a census of two-site bonds under cooling, and none claimed necessi
 criterion. Adjacency: every carrier used here is one of F137's general forms; F137 states them for XXZ bonds with
 axial DM terms (w = 0 below) and for H commuting with X⊗N and Y⊗N. New here: the split of J into the parts that see
 the difference and the sum of two site angles, which says exactly where turns exist; the one rotation that joins
-Jᵀ and F·J·F for every real J, which makes the chain's reversal a carrier wherever the rates allow; and the census.
+Jᵀ and F·J·F for every real J, which makes the chain's reversal a carrier wherever the rates allow; the census; and
+the seventh power sum in closed form. For that last part the sweep went to the odd power sums the repo holds in closed
+form: docs/proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md (the odd moments under Z dephasing, odd in γ by a word reversal,
+the class P_{5,3} = 20·4^N·[...] a sum over weight-three Z strings and sites, the same counting of local words with
+another symmetry doing the work); its sibling PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §4 with the girth dichotomy
+m* = 2ℓ + deg (the first odd power sum that fires set by the shortest odd closed word and the γ degree, scripts
+f87_girth_dichotomy.py, typed as GirthLadder in compute/RCPsiSquared.Diagnostics/F87 and the claims
+WindowedConverseAllGammaClaim and MomentTowerPumpChannelClaim), the same shape as the phase count here, with the
+shortest turn-invariant word odd under H ↦ H̄ in place of the odd closed walk;
+THE_MIRROR_UNDER_A_SHARED_FIELD (low odd sums vanishing while the spectrum does not pair, the K3 pair), the neighbour
+of the ninth-sum remark; F117 (the odd power sums as the trace face of hardness), F137's single values (240 at the fifth for
+YZ − ZY, −656·sin Φ on the damped triangle, a seventh of −263277/400 there with X dephasing). None is a closed form
+under cooling alone, and none reads a rate profile against its reverse.
 -->
 
 Put cooling σ⁻ = |0⟩⟨1| on every site of an open chain, each site at its own rate, and nothing else: no heating,
@@ -74,7 +87,7 @@ see the difference and the sum of the angles. ZZ is untouched by both.
 | Δ ≠ 0, a = 0 (J symmetric), s = 0 (J traceless, z = 0 included) or w = 0 (XXZ + DM) | always | turns about Z: Ad_V∘S_XY |
 | Δ ≠ 0, N = 2 | always | turns about Z |
 | Δ ≠ 0, N ≥ 3, s, a, w all nonzero, rates the chain's reversal keeps | yes | the reversal times one uniform turn, then S_XY |
-| Δ ≠ 0, N ≥ 3, s, a, w all nonzero, other rates | no, on every setting computed | none |
+| Δ ≠ 0, N ≥ 3, s, a, w all nonzero, other rates | no where γ₁γ₂ ≠ γ_{N−1}γ_N (at N = 3: γ₂ ≠ 0 and γ₁ ≠ γ₃), at every N; for XX + 2XY + ZZ also at (1, 0, 2) and (1, 6, 2, 3) | none |
 | a mixed letter (XZ, ZX, YZ, ZY) anywhere in the bond | no, on every setting computed | none |
 
 **The turns.** Turns undo the conjugation on a bond when z·e^{i(θ_l − θ_{l+1})} = z̄ and w·e^{i(θ_l + θ_{l+1})} = w̄.
@@ -100,29 +113,78 @@ P keeps the dissipator, so V = (U·P)† carries it. Exact at N = 3 and 4 on the
 three are XX + 2XY + ZZ, where the rotation is by the phase of −1 + 2i, cos = −1/√5, sin = 2/√5.
 
 **The breaks.** The odd centred power sums Tr((L + c/2)^k), k odd, all vanish wherever the spectrum pairs, so one
-that does not vanish rules out every element. With s, a and w all nonzero and rates the reversal moves, the first
-that is not zero is the seventh on every setting computed (XX + 2XY + ZZ at (2, 1, 1), (1, 2, 3) and, N = 4, (1, 2, 3, 4);
-2XX + 3XY − YX + 2YY + ZZ at (1, 2, 3)). A bond with a mixed letter breaks at the fifth (XZ; ZX + XX); F137's
-YZ − ZY has 240 there. That these break everywhere outside the carriers is
-a survey, not a proof: in double precision, with one random integer bond in ±{1, 2, 3} for each of the 511 subsets
+that does not vanish rules out every element. With Δ, s, a and w all nonzero, the first that is not zero is the
+seventh wherever γ₁γ₂ ≠ γ_{N−1}γ_N; the next section says why and gives it in closed form (section D of the gate asserts it at XX + 2XY + ZZ at (2, 1, 1), (1, 2, 3) and, N = 4, (1, 2, 3, 4), and at
+2XX + 3XY − YX + 2YY + ZZ at (1, 2, 3)). A bond with a mixed letter breaks at the fifth on the two settings computed (XZ;
+ZX + XX); F137's
+YZ − ZY has 240 there. That the bonds with a mixed letter break everywhere is a survey, not a
+proof: in double precision, with one random integer bond in ±{1, 2, 3} for each of the 511 subsets
 of the nine letters, read as paired when every eigenvalue's mirror lies within 10⁻⁶, every bond with a mixed letter
 misses its mirror (480 of 480 at each of six rate profiles, N = 2, 3, 4, by at least 0.06), every bond of the class
 pairs at N = 2 and at rates the reversal keeps ((1, 1, 1), (1, 2, 1), (1, 2, 2, 1)), and at (1, 2, 3) and
 (1, 2, 3, 5) the bonds drawn with s, a, w all nonzero break, 8 of 8 (one of the nine subsets with ZZ drew a
-vanishing part), while the other 23 pair.
+vanishing part, and both profiles have unequal end products, so the closed form below requires these breaks), while
+the other 23 pair.
+
+## Where the pairing has to fail
+
+**The reversal decides.** In the class, the spin flip exchanges loss and gain back and turns H into H̄, and U·P
+carries H̄ to H while moving each site's rate to the mirror site; so L(H̄) at the rates γ is, up to that unitary, L(H)
+at the reversed rates Pγ. F137's criterion then reads: for every J and Δ, the spectrum pairs exactly when reversing
+the rate profile leaves the spectrum unchanged. Write p_k(γ) = Tr((L + c/2)^k). The power sums are real (L keeps Hermiticity,
+so its spectrum is closed under conjugation), and S_IZ gives p_k at γ as (−1)^k times p_k of the loss and gain
+exchange (F137: every odd centred trace changes sign under the exchange), which is p_k at Pγ. So p_k(Pγ) = p_k(γ) for even k, and no even power sum can tell a profile from its
+reverse, while p_k(Pγ) = −p_k(γ) for odd k.
+
+**Why the seventh.** Each factor L + c/2 is linear in the couplings and the rates together, so p_k is homogeneous
+of degree k in them. With every bond's couplings taken as their own variables, each odd power sum is odd under
+H ↦ H̄ (the step above, which needs no reversal); since σ⁻ is real, complex conjugation gives the spectrum of L(H)
+as the conjugate of that of L(−H̄), so p_k(H) = p_k(−H̄) and, with the first, p_k is odd in H as a whole; it is even
+in J alone (Z on every other site flips J and keeps Δ), so odd in Δ; and it is unchanged by the turns about Z. A turn gives z
+on the bond (l, l+1) the phase θ_l − θ_{l+1} and w the phase θ_l + θ_{l+1}. On one bond the only products these
+phases leave alone are |z|² and |w|², which H ↦ H̄ keeps; the first product it changes, with the phases cancelling,
+has four factors on two neighbouring bonds, z·w̄ on the first and z·w on the second. For a uniform bond that is
+z²·|w|², and its part that H ↦ H̄ reverses is Im(z²)·|w|² = −2s·a·|w|². With an odd power of Δ beside these four J factors the
+degree in H is at least five and odd; the rates enter at least once (a commutator's spectrum pairs about 0 on its own) and, the total degree
+being odd, an even number of times. So p₁, p₃ and p₅ vanish at every N, the first that can break is the seventh,
+and it needs two bonds: N = 2 always pairs.
+
+**What the seventh sees.** Read p_k/4^N as the k-th moment of the spectrum. Since p₁, p₃ and p₅ vanish, the
+seventh moment equals the seventh cumulant, and the cumulants add over connected clusters of local terms (the
+linked-cluster theorem: terms on disjoint sites commute, the trace of the exponential factorizes, and its logarithm
+keeps no cross term). A cluster that contributes carries the four J factors on two
+neighbouring bonds, Δ on a bond touching them and two rates on its sites: at most four sites. So p₇ is 4^N times a
+sum over windows of three and four neighbouring sites, each window's polynomial in its own rates the same wherever it
+sits; the chain of three fixes the three-site window, the chain of four then fixes the four-site one (it comes out
+zero), and that gives
+
+  Tr((L + c/2)⁷) = −7·2¹⁴·4^(N−3)·Δ·s·a·|w|²·(γ₁γ₂ − γ_{N−1}γ_N).
+
+Each three sites l, l+1, l+2 contribute γ_{l+1}(γ_l − γ_{l+2}), and along the chain these telescope: the seventh
+sum sees only the two ends. Section E of the gate interpolates the polynomial in the rates modulo primes at N = 3
+and 4 for three bonds (and at N = 2 for one, where it is zero), compares it exactly, and checks the closed form at N = 5 and 6 at one random
+profile for each of two of the bonds, modulo a prime.
+
+At N = 3 the sum is a multiple of γ₂(γ₁ − γ₃): with s, a, w and Δ nonzero and γ₂ ≠ 0 the spectrum pairs exactly
+when γ₁ = γ₃. A middle site without cooling silences the seventh; for XX + 2XY + ZZ at (1, 0, 2) the ninth is not zero
+(exact, in the gate). From N = 4 on it breaks wherever γ₁γ₂ ≠ γ_{N−1}γ_N. On the
+profiles with equal end products that the reversal moves the seventh is silent and a higher one has to decide; at
+the one such profile computed, XX + 2XY + ZZ at (1, 6, 2, 3), the ninth is not zero (exact, in the gate).
 
 ## What the instruments did
 
 The Sextant decides by the same odd power sums, modulo a prime, so the exact nos are its kind of answer (computed
-here in Python, section D of the gate); its search runs over uniform moves only and cannot see the turned yeses.
+here in Python, sections D and E of the gate); its search runs over uniform moves only and cannot see the turned yeses.
 The Theodolite reads those as exact elements off the letters (section C), and is silent on the reversal, which no
 product of site maps is. The cube gave the why: the
 split of a bond into a part that sees the difference of two site angles and a part that sees their sum, and the
-reversal's one rotation, which a computation then confirmed exactly.
+reversal's one rotation, which a computation then confirmed exactly; and the phase count that makes the seventh
+power sum the first that can break, which the exact polynomials then gave in closed form.
 
 ## What stays open
 
-Whether every bond with s, a, w all nonzero breaks at every N ≥ 3 and every rate profile the reversal does not
-keep; whether a bond with a mixed letter can pair at all under cooling on some graph or rate profile (F137's open
-sentence, for this chain); bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
+Whether every bond with Δ, s, a, w all nonzero breaks on the rate profiles with γ₁γ₂ = γ_{N−1}γ_N that the reversal
+does not keep, a middle site without cooling at N = 3 among them (the ninth power sum decides the two computed, and no
+general form of it is known); whether a bond with a mixed letter can pair at all under cooling on some graph or
+rate profile (F137's open sentence, for this chain); bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
 conditions, a star a centre to the reversal), fields, and a thermal bath at a ratio other than zero.

@@ -7017,8 +7017,10 @@ on every tree, and transverse DM need not. On the open chain with one bond repea
 but XXZ with axial DM terms the formal setting at zero splitting), the bonds that commute with Z⊗N pair wherever
 these carriers reach: the conjugation with a sign without ZZ, the turns where the bond's trace or antisymmetric
 or anisotropic part vanishes, the chain's reversal composed with one turn at rates the reversal keeps, and every
-bond on two sites; the rest broke on every setting computed, and so did every bond with a mixed letter, a few exactly and the others in a
-double-precision survey ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
+bond on two sites; the rest break exactly wherever γ₁γ₂ ≠ γ_{N−1}γ_N (the seventh centred power sum, in closed
+form there; at three sites wherever γ₂ ≠ 0 and γ₁ ≠ γ₃), on the profiles with equal end products that the reversal moves
+the two computed break exactly (the ninth power sum), and every bond with a mixed letter broke on every setting
+computed, two exactly and the others in a double-precision survey ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
 the trace identity above and needs no proof.
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
