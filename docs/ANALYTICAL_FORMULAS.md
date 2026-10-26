@@ -6851,7 +6851,9 @@ fourth, built from all three, carries it at one ratio.
   and since the characteristic polynomial depends polynomially on the rates, a component may also sit at
   ratio 0 or ∞ beside the others (a whole component; a cooling-only site inside a thermal component
   is a different ratio, not an undamped site). Cooling alone, ratio 0, is the H_eff route above, and
-  heating alone is the same after the spin flip.
+  heating alone is the same after the spin flip. The pairing survives there, the element does not: once a bond touches
+  a site with cooling alone and no field, no product of site maps is a Π-reflection
+  ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md), finding 1).
 - *A unitary V whose conjugation commutes with the dissipator*, with V·(X⊗N·H·X⊗N)·V† = H, for
   these bonds V·H̄·V† = H; Ad_V∘S_XY is the element. Under that condition the jumps may take phases and may trade
   places, σ⁻ of one site with σ⁺ of another included where the cooling rate of each equals the heating rate of the other, which is less than the frame theorem of

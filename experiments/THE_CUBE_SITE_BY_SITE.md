@@ -4,7 +4,7 @@
 KMS detailed balance, temperature gradient, golden router uniform, Heisenberg DM spiral gauge, Groebner exact -->
 
 **Status:** an instrument and three findings, 2026-10-20. The findings are reproduced exactly, each with a control
-that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (36
+that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (44
 checks, ALL PASS); where a statement below rests on an argument or on a computation rather than on a check, it
 says so.
 
@@ -26,7 +26,16 @@ the OpenArcs registry (`f138_converse_failures`, a monomial search never ported)
 support-set equations against `KBodyPalindromeRouting` (the same condition, continuous here); its identity row
 against the router proof's identity column (§4); its weight against M_β's thermal weight and the transpose law of
 `AntilinearTriangleClaim`; its turned maps against F137's turns about Z; its answer with fields against F137's
-chained carriers, which compose into it.
+chained carriers, which compose into it. For the zero-ratio boundary of finding 1: F137's pure-cooling
+paragraph (the pairing through the effective Hamiltonian and S_XY, no Π-shaped element), MIRROR_SYMMETRY_PROOF's T1
+paragraph (no site-local Π of Π's own shape), KMS Question 4's pure-cooling sentence (the weight singular, no claim
+on an element), F82 and F84 (the size of the violation, no element), the OpenArcs registry (nothing on M_β or ratio
+zero), OQ-168 and `docs/CAUGHT_ERRORS.md` (finite ratios only), the pins `test_cube_reflector.py` (no cube move
+for cooling alone, the machine's NONE on cooling-only chains), TheodoliteTests (no copy on the damped chain) and
+`cube_old_questions_gate.py` G7 (the H_eff route), the Core amplitude-damping claims (violation size), Sextant's loss
+tests (S_XY a reflection, four uniform reflections, no Π-reflection asserted); nothing contradicted it. Adjacency:
+MIRROR_SYMMETRY_PROOF's T1 paragraph and KMS's pure-cooling sentence were about the same object and cited neither
+this finding nor each other; both now point here.
 -->
 
 Nothing in the repo held a site map that carries a weight beside the move beyond Z dephasing.
@@ -85,9 +94,26 @@ chain with cooling and X dephasing at q² = 1/3, and a triangle with flux π/2, 
 heating rate on the triangle by 1⁄10 breaks its spectrum, Tr((L − μ)⁵) = 192. On the Heisenberg chain with a
 temperature gradient the instrument's pre-check proves that no site-local Π-reflection exists, the identity row's
 commutator being ‖[H, ⊗(Z_l + κ_l)]‖_F = 8√803/85, while the reflection −L† − c is found (S_XY). At a ratio of
-zero or infinity (cooling or heating alone, without dephasing) the weight is singular: an isolated site with
-cooling alone still has a Π-reflection, and two sites joined by a Heisenberg bond have none, a computation, not a
-proof for every bond. For a temperature gradient this settles the site-local half of OQ-168 and of the open
+zero or infinity (cooling or heating alone, without dephasing) the weight is singular, and the element is gone at
+every bond: **a site with cooling alone and no field on it has a site-local Π-reflection while it is isolated, and
+none as soon as any two-site term touches it, whatever the neighbour; heating alone is the same through X⊗N.** The
+reason is in the heights. A product of site maps keeps the split of the generator by support, so the site equation
+and each bond's equation hold apart. The cooled site's rates are 0 on |0⟩⟨0|, γ/2 on X and Y and γ on Z, so its
+map must exchange the steady population and Z: E(|0⟩⟨0|) = (a/2)·Z, E(Z) = 2b·|0⟩⟨0|, X and Y among themselves.
+The identity row and column are not what forbids it: they ask that |1…1⟩ be an eigenvector of H and that H commute
+with Z⊗N, which a number-conserving bond such as the hopping satisfies; the bond's letters forbid it.
+Write the bond as K_Z ⊗ Z + M ⊗ σ + M† ⊗ σ†, with σ = |0⟩⟨1| on the cooled site and K_Z, M traceless on the
+neighbour (their trace parts would be a field on the cooled site). On A ⊗ |0⟩⟨0| the cooled site's populations see only the letter Z, and |0⟩⟨0| is an eigenletter of
+multiplication by Z while Z is not: one side of the equation has a Z component there and the other an I component,
+so a·[K_Z, E₁(A)] = 0 for every A, and K_Z = 0. On A ⊗ σ the populations give 2b·E₁(M†A) = [N, E₁(A)], with
+N = β₁₁M† + β₂₁M and β the map on {σ, σ†}; for an invertible M the whole image of E₁ is then a commutator, hence
+traceless, and E₁ is not invertible. A traceless M of rank one is |u⟩⟨v| with ⟨v|u⟩ = 0, which a unitary on the
+neighbour, a turn about Z on the cooled site and a scale bring to the hopping |1⟩⟨0| ⊗ σ + h.c., and there an exact
+solve with the neighbour's map left free has no invertible solution. So nothing invertible replaces M_β at ratio zero, whose limit there is singular (w → |0⟩⟨0|): at a
+finite ratio a ZZ bond between two different ratios keeps the element (KMS Question 4's gate), at ratio zero not
+even ZZ does. For the Hamiltonians F137 names the spectrum still pairs, through S_XY onto −L† − c and through its effective
+Hamiltonian (a Z⊗X bond between two cooled sites does not pair); what
+no product of site maps of any shape can do there is the Π-reflection. For a temperature gradient this settles the site-local half of OQ-168 and of the open
 question in KMS Question 4; F137 scopes its sentence on the flux and the dephasing axes to S_XY, since for the
 steady-state element the axes in the XY plane do not matter and the ratios do. Where fields break M_β, F137's
 chained carrier gives an element of the same shape: S_XY, the thermal transpose, the conjugation and the turns W
@@ -126,5 +152,5 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 ## What stays open
 
 Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; elements that are
-not products over sites; the zero-ratio boundary of finding 1 beyond the computed cases; the per-site turn reported
+not products over sites; the per-site turn reported
 relative to the neighbour rather than as one representative's absolute value; the instrument's name.

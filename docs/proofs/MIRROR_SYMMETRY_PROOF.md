@@ -340,7 +340,9 @@ is exact; it does not say everything outside is equally far away.
 because it is a different channel rather than another axis:
 
 - **T1 alone** is outside Π's reach but not outside the palindrome's. No
-  site-local Π of the shape used here reproduces T1, and yet, for the Hamiltonians
+  site-local Π of the shape used here reproduces T1, nor is any product of one-site maps a Π-reflection (onto −L − c) once
+  a bond touches a site with cooling alone and no field ([THE_CUBE_SITE_BY_SITE](../../experiments/THE_CUBE_SITE_BY_SITE.md),
+  finding 1), and yet, for the Hamiltonians
   [F137](../ANALYTICAL_FORMULAS.md#f137) names, the spectrum still pairs, centered on −Σγᵢ/2 instead of −Σγᵢ: the shift is halved, not
   lost. Exact as a multiset on all 18 configurations swept (N=2 through 5,
   chain, ring, star and complete, uniform and site-dependent rates,

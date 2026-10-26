@@ -468,7 +468,9 @@ hopping; the two components joined by a hopping bond instead.
 Where it stops. A temperature gradient along the hopping, a Z field and Z
 dephasing break the element; X or Y dephasing at a ratio other than 1 breaks it
 only through its weight (below). Pure cooling (γ↑ = 0) and pure heating (γ↓ = 0) make the weight
-singular; under cooling alone F137 carries the palindrome by its route through
+singular, and there no product of site maps is a Π-reflection once a bond touches a
+site with cooling alone and no field
+([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md), finding 1); under cooling alone F137 carries the palindrome by its route through
 the effective Hamiltonian ([F137](ANALYTICAL_FORMULAS.md)). A broken element is not
 always a broken spectrum: with real hopping a gradient still pairs, through S_XY
 (F137's paragraph on loss and gain exchanged), while with complex hopping a

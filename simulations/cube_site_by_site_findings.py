@@ -23,8 +23,14 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
   D  Heisenberg + DM on a chain has no period-2 product of any invertible site maps (pure DM has one); the Theodolite reads
      it as TURNED: the canonical Pi turned about Z by arctan(D/J) from site to site reflects it exactly, and twice that
      angle does not.
-  E  The boundary of A, computed and not proven: with cooling alone (ratio 0) an isolated site has a site-local
-     Pi-reflection, two sites joined by a Heisenberg bond have none.
+  E  The boundary of A, ratio 0: a site with cooling alone and no field has a site-local Pi-reflection when isolated
+     and none as soon as any two-site term touches it, whatever its neighbour (proof in the document). Checked here:
+     the site equation forces the cooled site's map, E(|0><0|) = (a/2)·Z, E(Z) = 2b·|0><0|, X and Y among themselves
+     (the solution space is exactly that family, six-dimensional); the identity (W) 2b·E1(M^dag A) = [N, E1 A],
+     N = beta11·M^dag + beta21·M, read off the bond H = M (x) s + M^dag (x) s^dag on inputs A (x) s, holds
+     identically, and so does the Z letter's split on A (x) |0><0|; with the neighbour's map free, the hopping (the
+     rank-one case the proof reduces to), ZZ and two invertible M admit no invertible solution, while a field on the
+     neighbour alone does; heating alone, on the Heisenberg pair, likewise has none.
   F  Where fields break M_beta, F137's chained carrier (S_XY, the thermal transpose, the conjugation, turns W about Z
      with W(−H̄)W† = H) composes into one site-local map rho -> W·π^½·X^N·rho·Y^N·π^½·W† with E·L·E⁻¹ = −L − c:
      on F137's field triangle (fields (3/10, −1/5, 1/2), ratio 1/4, Δ = 0, flux ±pi/2) and on an open chain of four
@@ -33,6 +39,7 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
 """
 from __future__ import annotations
 
+import itertools
 import sys
 from pathlib import Path
 
@@ -287,13 +294,126 @@ check("the golden map has order four up to scale: its fourth power is a multiple
       G4[0, 0] != 0 and (G4 - G4[0, 0] * sp.eye(4)).applyfunc(sp.simplify).is_zero_matrix
       and not (G2 - G2[0, 0] * sp.eye(4)).applyfunc(sp.simplify).is_zero_matrix)
 
-print("E  the boundary of A (computed)")
+print("E  the boundary of A: ratio 0")
 lone = ct.Setting(1, [], [((0,), ct.LOWER, 1)])
 pair = ct.Setting(2, heisenberg(2), [((l,), ct.LOWER, 1) for l in range(2)])
 check("cooling alone, an isolated site: the general solve finds a site-local Pi-reflection",
       cr.machine(lone, 'pi', timeout=None) == 'FOUND')
 check("cooling alone, two sites joined by a Heisenberg bond: the general solve finds none",
       cr.machine(pair, 'pi', timeout=None) == 'NONE')
+check("heating alone, the same pair: none either",
+      cr.machine(ct.Setting(2, heisenberg(2), [((l,), ct.RAISE, 1) for l in range(2)]), 'pi', timeout=None) == 'NONE')
+
+# The proof's steps, on matrices in the Pauli basis (I, X, Y, Z) of one site: an independent route.
+PB = [sp.eye(2), X, Y, Z]
+
+
+def pauli_superop(f, n):
+    """The superoperator f on n sites as a matrix in the Pauli-string basis (coordinates tr(P·M)/2^n)."""
+    strings = [sp.kronecker_product(*w) if n > 1 else w[0] for w in itertools.product(PB, repeat=n)]
+    cols = [sp.Matrix([sp.expand((P.H * f(Q)).trace() / 2 ** n) for P in strings]) for Q in strings]
+    return sp.Matrix.hstack(*cols)
+
+
+def cooled_site_map(a_, b_, B_):
+    """E(I + Z) = a·Z, E(Z) = b·(I + Z), B on span{X, Y}: E(|0><0|) = (a/2)·Z, E(Z) = 2b·|0><0|."""
+    E1 = sp.zeros(4, 4)
+    E1[:, 0] = sp.Matrix([-b_, 0, 0, a_ - b_])
+    E1[:, 3] = sp.Matrix([b_, 0, 0, b_])
+    E1[1:3, 1:3] = B_
+    return E1
+
+
+Lo = ct.LOWER
+D1 = pauli_superop(lambda Q: Lo * Q * Lo.H - R(1, 2) * (Lo.H * Lo * Q + Q * Lo.H * Lo), 1)
+Es = sp.Matrix(4, 4, sp.symbols('e0:16'))
+site_eqs = list(Es * D1 + (D1 + sp.eye(4)) * Es)
+sol = sp.linsolve(site_eqs, list(Es))
+(general,) = sol
+free = sorted(set().union(*[sp.sympify(v).free_symbols for v in general]), key=str)
+ga, gb = sp.symbols('ga gb')
+gB = sp.Matrix(2, 2, sp.symbols('gB0:4'))
+family = cooled_site_map(ga, gb, gB)
+check("the cooled site's equation E·D + (D + γ)·E = 0: the solutions are exactly the forced family (six free entries)",
+      len(free) == 6 and (family * D1 + (D1 + sp.eye(4)) * family).applyfunc(sp.expand).is_zero_matrix)
+
+# (W) on symbols: H = M (x) s + M^dag (x) s^dag, s = |0><1|; E = E1 (x) E2, E1 free, E2 the family.
+s_ = sp.Matrix([[0, 1], [0, 0]])
+Msym = sp.Matrix(2, 2, sp.symbols('m0:4'))
+Mdag = sp.Matrix(2, 2, sp.symbols('n0:4'))          # M^dag as independent symbols: the identity is polynomial
+Hs = sp.kronecker_product(Msym, s_) + sp.kronecker_product(Mdag, s_.T)
+G = sp.Matrix(4, 4, sp.symbols('g0:16'))
+A_ = sp.Matrix(2, 2, sp.symbols('A0:4'))
+P0, P1 = sp.diag(1, 0), sp.diag(0, 1)
+
+
+def e1(Op):
+    return sp.Matrix(2, 2, list(G * sp.Matrix(list(Op))))
+
+
+def e2(Op):
+    out = Op[0, 0] * (ga / 2) * (P0 - P1) + Op[1, 1] * ((ga / 2) * (P0 - P1) - 2 * gb * P0)
+    return out + Op[0, 1] * (gB[0, 0] * s_ + gB[1, 0] * s_.T) + Op[1, 0] * (gB[0, 1] * s_ + gB[1, 1] * s_.T)
+
+
+def site2(Op, i, j):
+    return sp.Matrix(2, 2, lambda r, c: Op[2 * r + i, 2 * c + j])
+
+
+def E_full(Op):
+    out = sp.zeros(4, 4)
+    for i in range(2):
+        for j in range(2):
+            cell = sp.zeros(2, 2)
+            cell[i, j] = 1
+            out += sp.kronecker_product(e1(site2(Op, i, j)), e2(cell))
+    return out
+
+
+Lb = lambda Op: -sp.I * (Hs * Op - Op * Hs)
+inp = sp.kronecker_product(A_, s_)
+Rw = (E_full(Lb(inp)) + Lb(E_full(inp))).applyfunc(sp.expand)
+lhs = site2(Rw, 0, 0) + site2(Rw, 1, 1)
+EA = e1(A_)
+N_ = gB[0, 0] * Mdag + gB[1, 0] * Msym
+rhs = -sp.I * (N_ * EA - EA * N_ - 2 * gb * e1(Mdag * A_))
+check("(W): the cooled site's population trace of the bond equation on A (x) s is −i·([N, E1 A] − 2b·E1(M^dag A)), "
+      "identically", (lhs - rhs).applyfunc(sp.expand).is_zero_matrix)
+
+# The Z letter: H = K (x) Z + M (x) s + M^dag (x) s^dag on A (x) |0><0|; the cooled site's I part is −i·a·[K, E1 A], its
+# Z part −i·a·E1([K, A]): both must vanish, so [K, ·] = 0 and K is a multiple of 1.
+Ksym = sp.Matrix(2, 2, sp.symbols('k0:4'))
+Hk = sp.kronecker_product(Ksym, Z) + Hs
+Lk = lambda Op: -sp.I * (Hk * Op - Op * Hk)
+inp0 = sp.kronecker_product(A_, P0)
+Rk = (E_full(Lk(inp0)) + Lk(E_full(inp0))).applyfunc(sp.expand)
+check("the Z letter: on A (x) |0><0| the cooled site's I part is −i·a·[K_Z, E1 A] and its Z part −i·a·E1([K_Z, A]), "
+      "identically (M present)",
+      (site2(Rk, 0, 0) + site2(Rk, 1, 1) + sp.I * ga * (Ksym * EA - EA * Ksym)).applyfunc(sp.expand).is_zero_matrix
+      and (site2(Rk, 0, 0) - site2(Rk, 1, 1) + sp.I * ga * e1(Ksym * A_ - A_ * Ksym)).applyfunc(sp.expand).is_zero_matrix)
+
+
+def bond_admits(Hb):
+    """Is there an invertible E1 (x) E2, E1 any 4x4, E2 the cooled family, with E·L_b + L_b·E = 0? (Gröbner over Q(i))"""
+    t_ = sp.Symbol('t_')
+    E = sp.kronecker_product(G, cooled_site_map(ga, gb, gB))
+    Lmat = pauli_superop(lambda Q: -sp.I * (Hb * Q - Q * Hb), 2)
+    eqs = [e for e in (E * Lmat + Lmat * E).applyfunc(sp.expand) if e != 0]
+    if not eqs:
+        return True
+    gens = sorted(E.free_symbols | {t_}, key=str)
+    basis = sp.groebner(eqs + [t_ * G.det() * ga * gb * gB.det() - 1], *gens, order='grevlex')
+    return list(basis.exprs) != [1]
+
+
+XX, YY, ZZ = (sp.kronecker_product(P_, P_) for P_ in (X, Y, Z))
+check("the hopping (XX + YY)/2 = |1><0| (x) s + h.c. on a cooled site, neighbour free: no invertible solution",
+      not bond_admits((XX + YY) / 2))
+check("ZZ on a cooled site, neighbour free: no invertible solution", not bond_admits(ZZ))
+check("an invertible M (XX: M = X; ZX: M = Z), neighbour free: no invertible solution",
+      not bond_admits(XX) and not bond_admits(sp.kronecker_product(Z, X)))
+check("control: a field Z on the neighbour, no bond: a solution exists (through the full solve)",
+      bond_admits(sp.kronecker_product(Z, sp.eye(2))))
 
 print("F  where fields break M_beta: F137's chained carrier, composed into one map")
 
