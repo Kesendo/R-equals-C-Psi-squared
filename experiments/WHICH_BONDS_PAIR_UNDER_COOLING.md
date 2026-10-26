@@ -5,7 +5,7 @@ exchange, turns about Z, chain reversal, odd power sum, mixed letter, ring, Sext
 
 **Status:** a classification on the open chain with one bond repeated, 2026-10-26, and the same questions on
 rings. The carriers are derived below and checked exactly, the turned and reversed ones each with a control that
-fails, in [`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (67 checks, ALL PASS; 71
+fails, in [`simulations/cooled_bonds_pairing.py`](../simulations/cooled_bonds_pairing.py) (75 checks, ALL PASS; 79
 with --deep, which adds the exact polynomials at larger N that the closed forms for every N rest on); the breaks are exact where the seventh power sum below
 decides them, for a mixed letter where the fifth does, and on the settings named; the rest is a double-precision
 survey or open, and the page says which is which.
@@ -214,13 +214,36 @@ settings computed.
 
 ## Rings
 
-On a ring every site has two neighbours and the chain's ends are gone. For the class, the seventh power sum's three-site
-windows telescope round the ring to nothing from six sites on, where no contributing cluster wraps (on the
-ring of five, five bond terms and two rates can close round it): Tr((L + c/2)⁷) is zero at
-every rate profile. On the rings of 3 and 4, where windows wrap, it is zero too as a polynomial in the rates for the
-two bonds computed (and on the ring of 5 for one, with --deep). F137's criterion, read through the reversal as above, holds with a
-reflection of the ring in place of the chain's reversal (the rotations of the ring only relabel the rates and keep
-the spectrum), and on the rings of three and four, for the bonds computed, the ninth power sum is the first that reads it. On the ring of four,
+On a ring every site has two neighbours and the chain's ends are gone. The phase count carries over with one
+change. Every factor z, z̄, w or w̄ of a bond gives each of the bond's two sites a phase ±θ, and at each site the
+factors of its two bonds must cancel, so two neighbouring bonds carry numbers of factors of the same parity. On a
+chain the end sites force every number even; round a ring they are all even or all odd, and all odd needs a factor
+on every bond, N of them at least. So on a ring of N ≥ 4 sites, as on the chain, a product that H ↦ H̄ reverses
+has at least four X/Y factors; p_k being odd in H, its degree in the couplings is odd and at least five, and the
+rates enter at most k − 5 times.
+
+The ring brings two symmetries the chain lacks. A rotation only relabels the rates, so p_k keeps every rotation of
+the profile; and F137's criterion, read through the reversal as above, holds with a reflection of the ring in place
+of the chain's reversal (the uniform turn that carries the reflected bond Jᵀ to F·J·F works on any ring), so every odd p_k changes sign
+when the profile is reflected. A polynomial in the rates of degree two or less that keeps every rotation is a
+constant plus a multiple of Σγ_l plus a quadratic form whose matrix depends only on the distance round the ring between
+two sites, and each of these keeps the reflections too; changing sign as well, it is zero. So on every ring of four
+or more sites p₃, p₅ and p₇ vanish at every rate profile, for every bond of the class repeated round the ring, and the ninth is the first
+power sum that can read the reflection.
+
+On the triangle one factor per bond closes round the ring. In p₇ a rate degree d leaves the couplings the odd
+degree 7 − d; the parts with d ≤ 2 vanish as on the longer rings, and with d ≥ 6 too few factors remain, so d = 4
+is the only one left, with exactly one factor on each bond and no Δ. The products that close are z³ and z·|w|² and
+their conjugates (a w closes only against a w̄), so the part H ↦ H̄ reverses is α·Im z³ + β·Im z·|w|², with α and
+β quartics in the rates, the same for every bond. The triangle's symmetries are all six permutations of its sites,
+the reflections being the transpositions; Im z³ and Im z·|w|² being independent functions of J, α and β each
+change sign under every transposition, and so each is a number times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃). The seventh of the two bonds 3XX − XY + 2YX + 5YY − 2ZZ
+and −2XX + XY + 3YX + YY + 3ZZ is zero as a polynomial in the rates on the triangle and on the ring of four (in
+the gate), and their pairs (Im z³, Im z·|w|²) are independent, so both numbers are zero: the seventh vanishes on the
+triangle for every bond of the class as well. At one random class bond on each ring of 3 to 6 sites p₃, p₅ and p₇ are zero
+and p₉ is not (modulo a prime). Without the rotation the count still holds: with a different bond on each edge the
+triangle's fifth is not zero, its three factors closing round it, while on the rings of four and five the fifth
+stays zero and the seventh is not (in the gate). On the ring of four,
 
   Tr((L + c/2)⁹) = −9·2¹²·Δ·s·a·|w|²·(γ₁ − γ₃)(γ₂ − γ₄)·(Q(γ₁, γ₃) − Q(γ₂, γ₄)),  Q(x, y) = 5x² + xy + 5y²,
 
@@ -258,6 +281,6 @@ Whether every bond with Δ, s, a, w all nonzero breaks on the rate profiles with
 does not keep, a middle site without cooling at N = 3 among them (the ninth power sum decides the two computed, and no
 general form of it is known); whether a bond with a mixed letter and anisotropy can pair where its fifth power sum
 vanishes, and which bonds with a mixed letter pair at sites without cooling (in the formal setting, the counterpart
-of F137's open sentence, which asks about the thermal bath); rings: whether the class's seventh vanishes on the rings of three to five for every bond and not only those computed (a parity count of the turn invariants suggests it, unchecked), the surface Q(γ₁, γ₃) = Q(γ₂, γ₄) of the ring of four beyond the one point
-computed, the triangle and the mixed letters on rings beyond the bonds computed, and longer rings; bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
+of F137's open sentence, which asks about the thermal bath); rings: the surface Q(γ₁, γ₃) = Q(γ₂, γ₄) of the ring of four beyond the one point
+computed, the triangle's ninth beyond the two bonds computed, the mixed letters on rings beyond the bonds computed, and longer rings; bonds that differ along the chain, other graphs (a ring adds a cycle to the angle
 conditions, a star a centre to the reversal; a ring's turns are not examined here), fields, and a thermal bath at a ratio other than zero.

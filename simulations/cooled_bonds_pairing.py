@@ -34,7 +34,11 @@ gate): random integer couplings over every subset of the nine two-letter bonds, 
      (XZ + ZX − 3XY − 3YX at (8, 8)) the seventh is not zero; a site without cooling can empty S and the spectrum
      then can pair: XZ at (1, 0) and at (1, 0, 1), exact by the characteristic polynomial (control (1, 1, 0)).
      Every interpolation carries a guard prime.
-  G  Rings: the seventh sum is zero at every rate on rings of 3 and 4 (and 5 with --deep) for two bonds; the fifth
+  G  Rings: the seventh sum is zero at every rate on rings of 3 and 4 (and 5 with --deep) for two bonds, and the
+     two bonds' (Im z³, Im z·|w|²) are independent, which with the page's parity count makes it zero on the triangle
+     for every bond; at one random class bond on rings of 3 to 6 the third, fifth and seventh sums are zero and the
+     ninth is not, modulo a prime; controls with a different bond on each edge: the triangle's fifth is not zero, on
+     rings of 4 and 5 the fifth is and the seventh is not; the fifth
      sum of a bond with a mixed letter on the ring of four is the closed form without end terms (one random point
      modulo a prime), on the triangle for one bond it is not, and XZ − ZX at equal rates has the fifth and seventh exactly zero
      (zero modulo five primes, with a norm bound below their product) and the ninth not; on the ring of four
@@ -46,6 +50,7 @@ gate): random integer couplings over every subset of the nine two-letter bonds, 
 from __future__ import annotations
 
 import itertools
+import random
 import sys
 from pathlib import Path
 
@@ -295,7 +300,7 @@ PRIMES = [p_ for p_ in sp.primerange(900000, 1048576) if p_ % 4 == 1][-5:]   # f
 
 def modp_generator(n, bond, rates, p, ring=False):
     """2L + c over GF(p), i the square root of −1 (p = 1 mod 4); row-major vec, rho -> A rho B is A ⊗ Bᵀ; on a ring
-    the bond also joins the last site to the first."""
+    the bond also joins the last site to the first. A list of bonds gives each edge its own, in order."""
     i = next(r for r in (pow(g, (p - 1) // 4, p) for g in range(2, p)) if r * r % p == p - 1)
     let = {'X': np.array([[0, 1], [1, 0]]), 'Y': np.array([[0, p - i], [i, 0]]), 'Z': np.array([[1, 0], [0, p - 1]])}
     low = np.array([[0, 1], [0, 0]])
@@ -307,8 +312,8 @@ def modp_generator(n, bond, rates, p, ring=False):
         return out
     d = 2 ** n
     H = np.zeros((d, d), dtype=np.int64)
-    for b, c in [(b, b + 1) for b in range(n - 1)] + ([(n - 1, 0)] if ring else []):
-        for lab, v in bond.items():
+    for e, (b, c) in enumerate([(b, b + 1) for b in range(n - 1)] + ([(n - 1, 0)] if ring else [])):
+        for lab, v in (bond[e] if isinstance(bond, list) else bond).items():
             H = (H + (v % p) * emb_({b: let[lab[0]], c: let[lab[1]]})) % p
     Id = np.eye(d, dtype=np.int64)
     M = (-2 * i) * ((np.kron(H, Id) - np.kron(Id, H.T)) % p) % p
@@ -568,6 +573,40 @@ check("ring of 4, XX + 2XY + ZZ, rates (5, 3, 9, 10) on the surface Q(γ₁, γ�
       "keeps: the ninth sum is exactly zero and the eleventh is not",
       trace_is_exactly_zero(4, bonds_E[0][0], [5, 3, 9, 10], 9, ring=True)
       and modp_trace_power(modp_generator(4, bonds_E[0][0], [5, 3, 9, 10], PRIMES[0], ring=True), 11, PRIMES[0]) != 0)
+
+def wrap_invariants(bond):
+    """(Im z³, Im z·|w|²), the two products that close round the triangle and change under H ↦ H̄."""
+    J = {l: sp.Integer(bond.get(l, 0)) for l in CLASS}
+    z = (J['XX'] + J['YY']) / 2 - sp.I * (J['XY'] - J['YX']) / 2
+    w2 = ((J['XX'] - J['YY']) / 2) ** 2 + ((J['XY'] + J['YX']) / 2) ** 2
+    return sp.im(sp.expand(z ** 3)), sp.im(z) * w2
+
+
+(u1, v1), (u2, v2) = wrap_invariants(bonds_E[1][0]), wrap_invariants(bonds_E[2][0])
+check("triangle: the two bonds whose seventh is zero above have independent (Im z³, Im z·|w|²), so both numbers of "
+      "the triangle's seventh, α·Im z³ + β·Im z·|w|², are zero", u1 * v2 - u2 * v1 != 0,
+      f'({u1}, {v1}) and ({u2}, {v2})')
+rnd = random.Random(7)
+for n in (3, 4, 5, 6):
+    bond = {l: rnd.randint(-9, 9) for l in CLASS}
+    rates = [rnd.randint(1, 60) for _ in range(n)]
+    M, p = modp_generator(n, bond, rates, PRIMES[0], ring=True), PRIMES[0]
+    tr = [modp_trace_power(M, k, p) for k in (3, 5, 7, 9)]
+    check(f"ring of {n}, random class bond {bond}, rates {rates}: the third, fifth and seventh sums are zero and the "
+          "ninth is not, modulo a prime", tr[:3] == [0, 0, 0] and tr[3] != 0, f'{tr}')
+for n in (3, 4, 5):
+    bonds = [{l: rnd.randint(-9, 9) for l in CLASS} for _ in range(n)]
+    rates = [rnd.randint(1, 60) for _ in range(n)]
+    M, p = modp_generator(n, bonds, rates, PRIMES[0], ring=True), PRIMES[0]
+    t5, t7 = modp_trace_power(M, 5, p), modp_trace_power(M, 7, p)
+    if n == 3:
+        check("control, triangle with a different bond on each edge: no rotation, and the fifth sum is not zero "
+              "(three factors close round it)", t5 != 0, f'{t5}')
+    else:
+        check(f"control, ring of {n} with a different bond on each edge: no rotation, the seventh sum is not zero, "
+              "and the fifth still is (four factors and an odd power of the couplings leave no rate)",
+              t5 == 0 and t7 != 0, f'{t5}, {t7}')
+
 tri = []
 for bond, name in bonds_E[:2]:
     J = {l: sp.Integer(bond.get(l, 0)) for l in CLASS}

@@ -7021,8 +7021,8 @@ bond on two sites; the rest break exactly wherever γ₁γ₂ ≠ γ_{N−1}γ_N
 form there; at three sites wherever γ₂ ≠ 0 and γ₁ ≠ γ₃), on the profiles with equal end products that the reversal moves
 the two computed break exactly (the ninth power sum), and every bond with a mixed letter provably breaks wherever
 the fifth centred power sum, in closed form there, is not zero, which is always so without anisotropy at rates
-positive on every site (where a site has no cooling, some of them pair), the YZ − ZY value above being one instance; on the rings and bonds computed the class's seventh vanishes and
-higher sums break ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
+positive on every site (where a site has no cooling, some of them pair), the YZ − ZY value above being one instance; on every ring with one bond of the class repeated the third, fifth and seventh vanish at every rate profile, and
+higher sums break on the settings computed ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
 the trace identity above and needs no proof.
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
