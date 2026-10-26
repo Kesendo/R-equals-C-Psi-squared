@@ -170,6 +170,31 @@ def test_t1_alone_needs_the_machine_for_its_none():
         assert cr.answer(s, 'refl', timeout=None).kind == 'CUBE MOVES'
 
 
+def test_machine_in_an_unguarded_script_raises_instead_of_waiting_out_the_timeout(tmp_path):
+    # a script calling the machine at top level, no __main__ guard: the spawned worker imports it again and dies while
+    # it starts; the parent reports the dead worker at once instead of waiting out the timeout as 'OPEN'; the same call
+    # under the guard answers through the worker
+    import subprocess
+    framework_root = Path(__file__).resolve().parents[3]
+    head = ('import sys\n'
+            f'sys.path.insert(0, {str(framework_root)!r})\n'
+            'from framework import cube_tables as ct\n'
+            'from framework.diagnostics import cube_reflector as cr\n'
+            "s = ct.Setting(2, [], [((0,), ct.PAULI['Z'], 1)])\n")
+    call = "print(cr.machine(s, 'pi', timeout=120))\n"
+    unguarded = tmp_path / 'unguarded.py'
+    unguarded.write_text(head + call, encoding='utf-8')
+    run = subprocess.run([sys.executable, str(unguarded)], capture_output=True, text=True, timeout=300)
+    assert run.returncode != 0
+    assert "__name__ == '__main__'" in run.stderr
+    assert 'died without an answer' in run.stderr
+    guarded = tmp_path / 'guarded.py'
+    guarded.write_text(head + "if __name__ == '__main__':\n    " + call, encoding='utf-8')
+    run = subprocess.run([sys.executable, str(guarded)], capture_output=True, text=True, timeout=300)
+    assert run.returncode == 0, run.stderr
+    assert run.stdout.strip() in ('NONE', 'FOUND')
+
+
 @pytest.mark.slow
 def test_every_n_router_is_periodic_four_and_the_small_n_artifact_is_refused():
     router = cr.Cell(jumps=[(ct.PAULI['Z'], 1)],

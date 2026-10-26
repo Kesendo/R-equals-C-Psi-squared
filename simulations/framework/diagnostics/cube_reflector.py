@@ -27,6 +27,7 @@ Public API:
 from __future__ import annotations
 
 import multiprocessing as mp
+import time
 from dataclasses import dataclass, field
 from functools import lru_cache
 from itertools import product
@@ -352,22 +353,40 @@ def _machine_worker(setting, relation, conn):
     conn.close()
 
 
+_GUARD = ("the machine runs in a spawned process, which imports the calling script again; a script that calls "
+          "it at top level needs `if __name__ == '__main__':` around that call (or timeout=None, in this process)")
+
+
 def machine(setting, relation, timeout=600):
     """General invertible site maps, the unsliced joint ideal: 'NONE' (basis [1], exact), 'FOUND', or 'OPEN'
-    when the timeout (seconds, a separate process) runs out. timeout=None runs in this process."""
+    when the timeout (seconds, a separate process) runs out. timeout=None runs in this process.
+
+    The separate process is spawned, so it imports the calling script again: a script that calls this at top level
+    without `if __name__ == '__main__':` makes the worker die while it starts (multiprocessing refuses a second spawn
+    there). The parent watches its worker and raises as soon as it dies without an answer, instead of waiting out the
+    timeout and reporting 'OPEN'."""
     if timeout is None:
         return _machine_core(setting, relation)
     ctx = mp.get_context('spawn')
     parent, child = ctx.Pipe(duplex=False)
     proc = ctx.Process(target=_machine_worker, args=(setting, relation, child))
     proc.start()
-    if parent.poll(timeout):
-        result = parent.recv()
-        proc.join()
-        return result
-    proc.terminate()
-    proc.join()
-    return 'OPEN'
+    deadline = time.monotonic() + timeout
+    while True:
+        if parent.poll(0.2):
+            result = parent.recv()
+            proc.join()
+            return result
+        if not proc.is_alive():
+            if parent.poll(0):
+                result = parent.recv()
+                proc.join()
+                return result
+            raise RuntimeError(f"the machine's worker died without an answer (exit code {proc.exitcode}); " + _GUARD)
+        if time.monotonic() > deadline:
+            proc.terminate()
+            proc.join()
+            return 'OPEN'
 
 
 # ---------------------------------------------------------------- the driver
