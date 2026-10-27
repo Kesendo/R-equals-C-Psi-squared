@@ -47,6 +47,24 @@ T1_H1 = {"0": 3.0, "3": 2.6, "6": 2.22, "9": 2.2, "12": 1.9, "15": 1.75}
 D_NA = {"0": 1.26, "3": 1.15, "6": 1.07, "9": 1.02, "12": 0.90, "15": 0.90}
 PCT = {"3 % (1)": "3", "3 % (2)": "3", "6 %": "6", "9 %": "9", "12 %": "12", "15 %": "15"}
 
+# the larger mobile population (Table S5, m = 1): mono-exponential T2 (ms), beside the common T1 of Table S6
+POPS = {"3 % (1)": (29, 14), "3 % (2)": (33, 12), "6 %": (33, 11), "9 %": (45, 8), "12 %": (32, 12), "15 %": (39, 9)}  # Table S5: p3b, p2 (%)
+T2_MOBILE1 = {"3 % (1)": 5.45, "3 % (2)": 6.9, "6 %": 3.55, "9 %": 2.9, "12 %": 2.55, "15 %": 1.85}
+
+def central_rate_is_mean_longitudinal():
+    """Exact, from the repo's sodium generator (simulations/sodium_two_mirrors.py): the central-transition coherence
+    decays at 3(J1 + J2), the mean of the two longitudinal rates 6 J1 and 6 J2, at every J0, splitting wQ and offset w."""
+    import sympy as sp
+    from sodium_two_mirrors import generator
+    J0, J1, J2, wQ, w, lam = sp.symbols("J0 J1 J2 wQ w lam")
+    _, _, L = generator(sp.Rational(3, 2), J0, J1, J2, wQ, w)
+    blk = [0 * 4 + 1, 1 * 4 + 2, 2 * 4 + 3]                     # coherence order +1: (3/2,1/2), (1/2,-1/2), (-1/2,-3/2)
+    cp = (lam * sp.eye(3) - L.extract(blk, blk)).det()
+    central = -3 * (J1 + J2) - sp.I * w
+    pops = [4 * k + k for k in range(4)]
+    pp = sp.factor((lam * sp.eye(4) - L.extract(pops, pops)).det())
+    return sp.expand(cp.subs(lam, central)) == 0 and sp.expand(pp - lam * (lam + 6 * J1) * (lam + 6 * J2) * (lam + 6 * J1 + 6 * J2)) == 0
+
 def tissue(t1, t2s, t2f):             # ms -> (J0, J1, J2): R2f = J0 + J1, R2s = J1 + J2, R1 = 0.4 J1 + 1.6 J2
     r1, r2s, r2f = 1e3 / t1, 1e3 / t2s, 1e3 / t2f
     j1 = (1.6 * r2s - r1) / 1.2
@@ -133,6 +151,15 @@ def check():
         c = PCT[n]; dw = D_WATER["0"] / D_WATER[c]; h = T1_H1["0"] / T1_H1[c]; o = 6.86 / T1_O17[n]
         dn = D_NA["0"] / D_NA[c]; aa = two_motion(*J)[0] / FREE
         print(f"{n:9s} {dw:4.2f} {h:4.2f} {o:4.2f}  {o / dw:4.2f} {h / dw:4.2f} {o / h:4.2f} | {dn:4.2f} {aa:4.2f} {aa / dn:4.2f}")
+    assert central_rate_is_mean_longitudinal()
+    print("central transition decays at the mean of the two longitudinal rates (exact, every J0, wQ, w)")
+    page_ratio = [7.1, 6.1, 9.9, 10.4, 10.3, 12.3]; page_share = [25.6, 25.2, 24.2, 26.0, 24.8, 24.6]
+    for k, n in enumerate(AGAROSE):
+        r = T1_MOBILE[n] / T2_MOBILE1[n]; p3b, p2 = POPS[n]; share = 0.4 * p3b + p2
+        assert round(r, 1) == page_ratio[k] and round(share, 1) == page_share[k], n
+        print(f"{n:9s} large mobile population: T1/T2 = {r:4.1f}; share decaying near T1 in the fit 0.4*p3b + p2 = {share:4.1f} %")
+    # a single fitted longitudinal rate ~ 0.4 J1 + 1.6 J2 against the central rate J1 + J2: at most 2.5, as J2 -> 0
+    assert max((1.0 + t) / (0.4 + 1.6 * t) for t in np.linspace(0, 10, 10001)) == 2.5
     for n, J in TISSUE.items():
         print(f"{n:18s} J0={J[0]:7.1f} J1={J[1]:6.1f} J2={J[2]:6.1f}  two motions: {two_motion(*J)}")
 
