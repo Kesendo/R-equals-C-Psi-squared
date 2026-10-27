@@ -88,12 +88,15 @@ public sealed class Sextant : GameObject
     // rate, a string of colours on the circle G = ⊗ m_l·σ (experiments/THE_PALINDROME_AS_A_COLOURING.md, "Colours on
     // the circle"), every m_l perpendicular to the axes watched on its site, anticommutes with every jump and squares
     // to a positive multiple of the identity. If it commutes with H it is an invertible element of F158's far kernel,
-    // and rho -> G·rho carries L to -L^dagger - c. The colours are asked among integer vectors read off the site: a
-    // watched axis crossed with the three letters, with the axes H uses there (the site's factors of H, one per string
-    // on the other sites) and with the other watched axes, and those factors' parts perpendicular to it; on an
-    // unwatched site the identity, the letters, those factors and their crosses. [H, G] = 0 is checked exactly in the
-    // string basis, in checked arithmetic (an overflow declines rather than wrapping to a false zero); a silence,
-    // including more than 2^16 candidate products, decides nothing.
+    // and rho -> G·rho carries L to -L^dagger - c. The colours are asked among integer vectors read off the setting,
+    // with the axes H uses (its factors on every site, one per string on the other sites) and the watched axes of
+    // every site, since a bond invariant under a common turn (Heisenberg) asks one colour of a whole component, the
+    // normal of the axes of two sites or a field's axis carried to a site without one: on a watched site its axis
+    // crossed with the three letters, with those factors and with every watched axis, and the factors' parts
+    // perpendicular to it; on an unwatched site the identity, the letters, the factors, their crosses and the crosses
+    // of two watched axes. [H, G] = 0 is checked exactly in the string basis, in checked arithmetic (an overflow
+    // declines rather than wrapping to a false zero); a silence, including more than 2^16 candidate products, decides
+    // nothing.
     public static IReadOnlyList<(long X, long Y, long Z)>? CircleColour(Setting s)
     {
         var watched = Enumerable.Range(0, s.N).Select(_ => new List<(long, long, long)>()).ToArray();
@@ -105,22 +108,24 @@ public sealed class Sextant : GameObject
         }
         if (watched.All(a => a.Count == 0)) return null;
         var letters = new[] { (1L, 0L, 0L), (0L, 1L, 0L), (0L, 0L, 1L) };
+        var allWatched = watched.SelectMany(a => a).Distinct().ToList();
+        var factors = Enumerable.Range(0, s.N).SelectMany(l => SiteFactors(s, l)).Select(Primitive).Distinct().ToList();
         var candidates = new List<(long, long, long)>[s.N];
         long combos = 1;
         for (int l = 0; l < s.N; l++)
         {
-            var factors = SiteFactors(s, l);
             var raw = new List<(long, long, long)>();
             if (watched[l].Count == 0)
             {
                 raw.Add((0, 0, 0));
                 raw.AddRange(letters.Concat(factors));
                 foreach (var a in factors) foreach (var b in factors) raw.Add(Cross(a, b));
+                foreach (var a in allWatched) foreach (var b in allWatched) raw.Add(Cross(a, b));
             }
             else
             {
                 var n = watched[l][0];
-                foreach (var v in letters.Concat(factors).Concat(watched[l])) raw.Add(Cross(n, v));
+                foreach (var v in letters.Concat(factors).Concat(allWatched)) raw.Add(Cross(n, v));
                 foreach (var v in factors) raw.Add(Cross(n, Cross(n, v)));
             }
             int site = l;

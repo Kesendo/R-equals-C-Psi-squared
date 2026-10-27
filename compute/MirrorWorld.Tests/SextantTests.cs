@@ -288,7 +288,8 @@ public class SextantTests
     // search rejects, (X - Z)⊗Y, perpendicular to the watching but not to H's axis on site 0, does not. No theodolite
     // reading sees it (its factors are monomial, X + Y - Z is not). A Z field on site 0 asks of that site's colour to
     // commute with Z as well, a YY bond to be perpendicular to Y too; neither leaves a colour, and the odd traces then
-    // say no, exactly.
+    // say no, exactly. A Heisenberg bond asks one colour of a whole component: the normal of two sites' axes, or a
+    // field's axis carried to a site without a field.
     [Fact]
     public void A_Colour_On_The_Circle_Witnesses_A_Tilted_Axis()
     {
@@ -337,6 +338,19 @@ public class SextantTests
         var r0 = new Complex[2, 2]; Acc(r0, Letter('X'), 1); Acc(r0, Letter('Z'), -1);
         var rejected = Kron(Kron(r0, Letter('Y')), id);
         Assert.False(Same(Mul(rejected, L), Neg(Mul(minus, rejected))));            // the check can fail
+
+        // a Heisenberg chain asks one colour of all its sites: under axes (2, 2, -1), (2, -1, -2), (2, 2, -1) it is
+        // their normal (5, -2, 6), read from the axes of two sites; with one axis (1, 1, 0) everywhere and fields along
+        // (1, -1, -2) on sites 0 and 1 only, it is that field's axis, carried to site 2
+        LetterCube.Gauss[,] Axis(long x, long y, long z) => new[,] { { new LetterCube.Gauss(z, 0), new LetterCube.Gauss(x, -y) }, { new LetterCube.Gauss(x, y), new LetterCube.Gauss(-z, 0) } };
+        var heis = new[] { ("XX", 1L), ("YY", 1L), ("ZZ", 1L) };
+        var twoAxes = Sextant.Setting.Chain(3, heis, new[] { (0, Axis(2, 2, -1), 2L), (1, Axis(2, -1, -2), 2L), (2, Axis(2, 2, -1), 3L) });
+        Assert.Equal(Enumerable.Repeat((5L, -2L, 6L), 3), Sextant.CircleColour(twoAxes));
+        var ring = LetterCube.ChainTerms(new[] { "XX", "YY", "ZZ" }, 3).Select(t => (t, 1L))
+            .Concat(new[] { "XIX", "YIY", "ZIZ" }.Select(t => (PauliString.Parse(t), 1L)))
+            .Concat(new[] { ("XII", 1L), ("YII", -1L), ("ZII", -2L), ("IXI", 2L), ("IYI", -2L), ("IZI", -4L) }.Select(f => (PauliString.Parse(f.Item1), f.Item2)));
+        var carried = new Sextant.Setting(3, ring, Enumerable.Range(0, 3).Select(l => (l, Axis(1, 1, 0), (long)(l + 1))));
+        Assert.Equal(Enumerable.Repeat((1L, -1L, -2L), 3), Sextant.CircleColour(carried));
 
         var field = new Sextant.Setting(n, s.H.Append((PauliString.Parse("ZI"), 1L)), jumps);
         var yy = Sextant.Setting.Chain(n, new[] { ("XX", -3L), ("YX", 3L), ("YY", 1L) }, jumps);
