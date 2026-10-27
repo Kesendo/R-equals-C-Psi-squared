@@ -15,8 +15,9 @@ using static MirrorWorld.LetterCube;
 // where the search finds S_XY times the copies as the only reflections by itself.
 //
 // Its decision has two exact answers and two that are not. WITNESSED: an element of the closure reflects (a yes, exact
-// at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0, or every jump is a Pauli
-// letter at a positive rate (F158's hypothesis) and EndCount's verdict is an exact palindrome; there the element can
+// at this N), or there are no jumps, where -L^dagger = L and the identity reflects with c = 0, or every jump at a
+// nonzero rate is a Pauli letter at a positive rate (F158's hypothesis, a zero rate removing its jump) and EndCount's
+// verdict is an exact palindrome; there the element can
 // sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
 // X⊗Z⊗(Y − 2X), whose angle the couplings set; or the theodolite reads a sandwich A·ρ^(T)·B of monomial factors,
 // site-local, after a relabelling of the sites that keeps the supports, or in a frame carrying one axis per site
@@ -38,11 +39,11 @@ using static MirrorWorld.LetterCube;
 //
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
 // cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
-// EndCount (a sibling under the frame, not a parent), and past it the theodolite (a sibling under the cube), so the zone
-// left SYMMETRIC-MOD-P holds settings whose element is neither in the uniform closure nor a sandwich of monomial
-// factors, site-local, relabelled or in a frame carrying one axis per site onto Z, and Pauli-letter settings whose end
-// count stays a rank reading; settings with an unwatched site, outside F158's hypothesis, can read so (-3XY with fields
-// -2X under Z dephasing at (0, 3)).
+// EndCount (a sibling under the frame, not a parent; an unwatched site's jump is dropped, as F158 section (a) says),
+// and past it the theodolite (a sibling under the cube), so the zone left SYMMETRIC-MOD-P holds settings whose element
+// is neither in the uniform closure nor a sandwich of monomial factors, site-local, relabelled or in a frame carrying
+// one axis per site onto Z, and Pauli-letter settings whose end count stays a rank reading; jumps along an axis between
+// the letters, which no such frame carries onto Z, can read so (-3XX + 3YX under X + Z dephasing at (2, 1)).
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations in the closure search (EndCount.SymmetryElement holds the half-turn composed with one, the theodolite
@@ -54,17 +55,21 @@ using static MirrorWorld.LetterCube;
 // verdict and its Reading.
 public sealed class Sextant : GameObject
 {
-    // F158's hypothesis on the jumps: every one a Pauli letter at a positive rate. There the end count decides the
-    // palindrome about -sigma, and its exact readings are the sextant's exact answers; a rank reading is not taken.
+    // F158's hypothesis on the jumps: every one a Pauli letter at a positive rate. A zero rate removes its jump (F158
+    // section (a), EndCount's header), so an unwatched site is read with fewer jumps, its letter conserved or not.
+    // There the end count decides the palindrome about -sigma, and its exact readings are the sextant's exact answers;
+    // a rank reading is not taken.
     static Decision? EndCountReading(Setting s)
     {
         var letters = new List<string>();
         foreach (var (site, jump, rate) in s.Jumps)
         {
             char? letter = "XYZ".Cast<char?>().FirstOrDefault(c => SameMatrix(jump, LetterMatrix(c!.Value)));
-            if (letter is null || rate <= 0) return null;
+            if (rate == 0) continue;
+            if (letter is null || rate < 0) return null;
             letters.Add(new string(Enumerable.Range(0, s.N).Select(l => l == site ? letter.Value : 'I').ToArray()));
         }
+        if (letters.Count == 0) return null;
         var count = new EndCount(new World(), s.N, s.H.Select(h => (h.Term.ToString(s.N), h.Coefficient)).ToList(), letters);
         var reading = count.Verdict();
         if (!EndCount.IsExact(reading)) return null;

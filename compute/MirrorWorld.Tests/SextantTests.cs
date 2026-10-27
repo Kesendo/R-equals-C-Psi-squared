@@ -328,20 +328,31 @@ public class SextantTests
         Assert.StartsWith("the theodolite", dDm.Detail);
         Assert.DoesNotContain(Sextant.Search(dm), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
         Assert.Null(Sextant.OddTraceObstruction(dm, 64));                // the theodolite's yes meets no exact no
-        // uncoupled sites with Y and Z fields under X dephasing pair site by site: the theodolite reads them in the frame
-        // that carries X onto Z
-        var offAxis = Sextant.Setting.Chain(n, new[] { ("Y", -2L), ("Z", 1L) },
-            new[] { (0, LetterCube.LetterMatrix('X'), 2L), (1, LetterCube.LetterMatrix('X'), 0L), (2, LetterCube.LetterMatrix('X'), 3L) });
+        // -3YY - YZ - 2XX under loss at (1, 0) is outside F158 (loss is no letter): the theodolite reads it in the frame
+        // carrying X onto Z on the unwatched site
+        var offAxis = Sextant.Setting.Chain(2, new[] { ("YY", -3L), ("YZ", -1L), ("XX", -2L) },
+            new[] { (0, LetterCube.Lowering, 1L), (1, LetterCube.Lowering, 0L) });
         var dOff = Sextant.Decide(offAxis);
         Assert.Equal(Sextant.Palindrome.Witnessed, dOff.Kind);
-        Assert.Contains("in the frame turning the axes", dOff.Detail);
-        // an unwatched site takes the setting outside F158's hypothesis: -3XY with fields -2X under Z dephasing at (0, 3)
-        // has every odd trace zero modulo both primes, and no instrument reads an element: SYMMETRIC-MOD-P, evidence
-        // only; read to the third power, OPEN
+        Assert.Contains("in the frame turning the axes ZX", dOff.Detail);
+        // an unwatched site drops its jump and the end count decides (F158 section (a)): -3XY with fields -2X under Z
+        // dephasing at (0, 3), X conserved on site 0 and no element of the closure reflecting, is witnessed there; so
+        // is the same setting with a loss jump at rate zero on site 0, the same generator
         var unwatched = Sextant.Setting.Chain(2, new[] { ("XY", -3L), ("X", -2L) },
             new[] { (0, LetterCube.LetterMatrix('Z'), 0L), (1, LetterCube.LetterMatrix('Z'), 3L) });
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(unwatched).Kind);
-        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(unwatched, maxPower: 3).Kind);
+        var dUnwatched = Sextant.Decide(unwatched);
+        Assert.Equal(Sextant.Palindrome.Witnessed, dUnwatched.Kind);
+        Assert.StartsWith("F158", dUnwatched.Detail);
+        Assert.DoesNotContain(Sextant.Search(unwatched), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+        var idleLoss = Sextant.Setting.Chain(2, new[] { ("XY", -3L), ("X", -2L) },
+            new[] { (0, LetterCube.Lowering, 0L), (1, LetterCube.LetterMatrix('Z'), 3L) });
+        Assert.StartsWith("F158", Sextant.Decide(idleLoss).Detail);
+        // dephasing along X + Z, an axis between the letters: every odd trace zero modulo both primes, and no instrument
+        // reads an element: SYMMETRIC-MOD-P, evidence only; read to the third power, OPEN
+        var tilt = new[,] { { LetterCube.Gauss.One, LetterCube.Gauss.One }, { LetterCube.Gauss.One, -LetterCube.Gauss.One } };
+        var tilted = Sextant.Setting.Chain(2, new[] { ("XX", -3L), ("YX", 3L) }, new[] { (0, tilt, 2L), (1, tilt, 1L) });
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(tilted).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(tilted, maxPower: 3).Kind);
         Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
             Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
         var mirrored = Sextant.Decide(Cooled(1, 2, 1));
