@@ -361,6 +361,60 @@ public class SextantTests
         }
     }
 
+    // F138 off the letters (the open arc f138_clause_two_sweep, its tilted half; TiltedAxes holds the draws and the
+    // rule). On F138's bond classes under dephasing along integer axes off the letters the cube's rule reads the
+    // palindrome: a bond with coupling matrix W carries a colour a to W·a, so one colour per component, perpendicular
+    // to every watched axis and along every field, for XXZ (Δ = 2) and XX + YY along Z or perpendicular to it; for ZZ
+    // one colour per site, all along Z or all perpendicular to it.
+    // Draws with a fixed seed on the three-site chain and ring and the four-site star are read against the sextant's
+    // decision: every one is decided exactly, the rule agrees with every one, both answers occur, and F138's clauses
+    // read with directions disagree with some. Two rows pin the two ways the clauses miss: three coplanar axes on a
+    // Heisenberg chain pair (their normal (4, -3, -2) is the colour), which clause 1 forbids; two axes whose normal
+    // (1, 0, 2) is neither along Z nor perpendicular to it do not pair on an XX + YY ring, which the clauses allow.
+    [Fact]
+    public void Off_The_Letters_The_Cube_Rule_Reads_F138s_Classes()
+    {
+        bool Read(TiltedAxes.Row row, string label)
+        {
+            var kind = Sextant.Decide(row.Setting()).Kind;
+            Assert.True(kind is Sextant.Palindrome.Witnessed or Sextant.Palindrome.Obstructed, $"{label}: {kind}");
+            Assert.True(row.Rule() == (kind == Sextant.Palindrome.Witnessed), $"{label}: rule {row.Rule()}, decision {kind}, {row}");
+            return kind == Sextant.Palindrome.Witnessed;
+        }
+        var rnd = new Random(20261027);
+        var three = TiltedAxes.Graphs(3);
+        var star = TiltedAxes.Graphs(4).Single(g => g.Name == "star").Edges;
+        int yes = 0, no = 0, clausesMiss = 0;
+        for (int trial = 0; trial < 86; trial++)
+        {
+            var row = trial < 80 ? TiltedAxes.Draw(rnd, 3, three[trial % 2].Edges) : TiltedAxes.Draw(rnd, 4, star);   // the star costs more
+            bool pairs = Read(row, $"trial {trial}");
+            if (pairs) yes++; else no++;
+            if (row.Clauses() != pairs) clausesMiss++;
+        }
+        Assert.True(yes > 0 && no > 0, $"yes {yes}, no {no}");
+        Assert.True(clausesMiss > 0);
+
+        var none = new (long X, long Y, long Z)[3];
+        var coplanar = new TiltedAxes.Row(3, three[0].Edges, TiltedAxes.Classes[0], new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2) }, new[] { 2L, 1, 2 }, none);
+        Assert.True(Read(coplanar, "coplanar"));
+        Assert.False(coplanar.Clauses());
+        Assert.Equal(Enumerable.Repeat((4L, -3L, -2L), 3), Sextant.CircleColour(coplanar.Setting()));
+        var tiltedNormal = new TiltedAxes.Row(3, three[1].Edges, TiltedAxes.Classes[2], new (long, long, long)[] { (2, 0, -1), (2, 2, -1), (2, 2, -1) }, new[] { 3L, 2, 3 }, none);
+        Assert.False(Read(tiltedNormal, "tilted normal"));
+        Assert.True(tiltedNormal.Clauses());
+        // ZZ takes one colour per site: axes perpendicular to Z with Z fields pair (every colour Z); a field on the
+        // (1, 0, 1)-watched site 0 pairs along Y (perpendicular to Z and to the axis) and breaks along X + Y
+        var zz = TiltedAxes.Classes[3];
+        Assert.True(Read(new TiltedAxes.Row(3, three[0].Edges, zz, new (long, long, long)[] { (1, 1, 0), (1, -1, 0), (1, 2, 0) },
+            new[] { 1L, 2, 3 }, new (long, long, long)[] { (0, 0, 1), (0, 0, -2), (0, 0, 0) }), "zz along"));
+        var watched = new (long, long, long)[] { (1, 0, 1), (1, 0, 1), (1, 0, 1) };
+        Assert.True(Read(new TiltedAxes.Row(3, three[0].Edges, zz, watched, new[] { 1L, 2, 1 },
+            new (long, long, long)[] { (0, 1, 0), (0, 0, 0), (0, 0, 0) }), "zz across"));
+        Assert.False(Read(new TiltedAxes.Row(3, three[0].Edges, zz, watched, new[] { 1L, 2, 1 },
+            new (long, long, long)[] { (1, 1, 0), (0, 0, 0), (0, 0, 0) }), "zz across, field off"));
+    }
+
     static bool Same(Complex[,] a, Complex[,] b)
     {
         for (int i = 0; i < a.GetLength(0); i++) for (int k = 0; k < a.GetLength(1); k++) if (a[i, k] != b[i, k]) return false;

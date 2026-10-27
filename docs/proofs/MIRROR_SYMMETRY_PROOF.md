@@ -195,6 +195,14 @@ carries dephasing at all*:
    argument below uses (XX + ZZ bonds under Z dephasing with fields along X + Y
    break it).
 
+The clauses also take every dephasing axis to be a letter. Off the letters they
+are not the law. There the palindrome is read by a colour per site in the sense of
+[the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md),
+a direction perpendicular to the site's dephasing axes that every bond carries to its
+neighbour through the bond's coupling matrix: three coplanar axes can pair on
+Heisenberg bonds and two axes can fail on XX + YY bonds (F138's paragraph
+"Off the letters", [F138](../ANALYTICAL_FORMULAS.md#f138)).
+
 **When, and not exactly when: the converse is false.** F138's registry row
 measures it, in its letter-field sweeps, failing at fewer bond letters and at coincident field magnitudes:
 22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
@@ -320,8 +328,8 @@ been attacked rather than confirmed, which is the more useful test. Most
 disagreements ran one way, the rule forbidding something that in fact held:
 those are the converse failures above. The ones that ran the other way, the
 clauses admitting a break, are what fixed the class: a bond with a two-letter
-term, one-letter bonds of different letters under three axes, and a site
-carrying two axes. The qualifiers above are what those disagreements taught,
+term, one-letter bonds of different letters under three axes, a site
+carrying two axes, and dephasing axes off the letters. The qualifiers above are what those disagreements taught,
 and each qualifier carries its counterexample and control in
 [`conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt).
 

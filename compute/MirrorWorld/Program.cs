@@ -2199,6 +2199,42 @@ if (args.Length > 0 && args[0] == "endcount")
     return;
 }
 
+// F138 off the letters: sextant tilted N TRIALS SEED draws settings on F138's bond classes under integer dephasing axes
+// off the letters (TiltedAxes.Draw, the graphs of TiltedAxes.Graphs in turn) and reads the cube's rule and F138's
+// clauses with directions against the sextant's decision
+if (args.Length > 1 && args[0] == "sextant" && args[1] == "tilted")
+{
+    int tn = 3, trials = 200, seed = 1;
+    if ((args.Length > 2 && !int.TryParse(args[2], out tn)) || (args.Length > 3 && !int.TryParse(args[3], out trials))
+        || (args.Length > 4 && !int.TryParse(args[4], out seed)) || tn < 3 || tn > 6 || trials < 1)
+    {
+        Console.Error.WriteLine("sextant tilted N TRIALS SEED: N from 3 to 6 (a ring needs three sites), TRIALS at least 1");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var rnd = new Random(seed);
+    var graphs = TiltedAxes.Graphs(tn);
+    var tally = new SortedDictionary<string, int>();
+    void Count(string key) => tally[key] = tally.GetValueOrDefault(key) + 1;
+    Console.WriteLine($"=== F138 off the letters: {trials} draws at N = {tn} on {string.Join(", ", graphs.Select(g => g.Name))}, seed {seed} ===");
+    for (int t = 0; t < trials; t++)
+    {
+        var (gname, edges) = graphs[t % graphs.Count];
+        var row = TiltedAxes.Draw(rnd, tn, edges);
+        var kind = Sextant.Decide(row.Setting()).Kind;
+        bool rule = row.Rule(), clauses = row.Clauses();
+        bool exact = kind is Sextant.Palindrome.Witnessed or Sextant.Palindrome.Obstructed;
+        Count($"{gname,-6} {(exact ? kind.ToString() : "undecided (" + kind + ")")}");
+        Count($"{gname,-6} rule {(rule ? "yes" : "no")} against the decision: {(!exact ? "undecided" : rule == (kind == Sextant.Palindrome.Witnessed) ? "agrees" : "DISAGREES")}");
+        if (exact && clauses != (kind == Sextant.Palindrome.Witnessed))
+            Count($"{gname,-6} F138's clauses with directions: {(clauses ? "yes, decision no" : "no, decision yes")}");
+        if (!exact || rule != (kind == Sextant.Palindrome.Witnessed))
+            Console.WriteLine($"  {kind}, rule {rule}: {row}");
+    }
+    foreach (var (key, v) in tally) Console.WriteLine($"  {key}: {v}");
+    return;
+}
+
 // the sextant asked of a setting of one's own: sextant decide N BONDS RATES [JUMP], or sextant decide @FILE with one such
 // line per setting (N BONDS RATES [JUMP]); BONDS "XX:1,XY:2,ZZ:1" places each template on every window of the open
 // chain (a one-letter template is a field on every site), RATES one integer per site, JUMP loss (default), gain, X, Y or Z

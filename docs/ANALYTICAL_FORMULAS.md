@@ -7109,8 +7109,38 @@ the sites they reach with it: at N = 3 the clauses, read with those exclusions, 
 sets, every one with a two-axis site in a bonded component of one bond letter
 and three axes.
 
+**Off the letters.** Under dephasing along integer axes n·σ that are not letters (a unit
+direction at rate γ|n|²) F158 still decides ([its §(h)](proofs/PROOF_PALINDROME_TWO_END_COUNT.md#h-scope-and-what-would-falsify-it)),
+and the colouring reads the same way with
+[colours on a circle](../experiments/THE_PALINDROME_AS_A_COLOURING.md#colours-on-the-circle-the-golden-router):
+with every site watched, a site's colours are the m·σ with m perpendicular to its axes, and a field on
+it must lie along its colour. A bond Σₖ wₖ σₖ⊗σₖ with coupling matrix W = diag(w) commutes with
+(a·σ)⊗(b·σ) exactly when (W·a)×b = 0 = (W·b)×a: where W·a ≠ 0 the bond carries the colour a of one end
+to W·a at the other. So a Heisenberg component (W = 1) takes one colour, perpendicular to every axis present and along
+every field: the axes lie in one plane and the field lies along its normal. XXZ at Δ ≠ ±1 and XX + YY ask
+the colour to be an eigendirection of W², along Z or perpendicular to it, carried unchanged (at Δ = −1,
+W² = 1 and the bond flips the colour's Z part instead). ZZ asks both ends along Z or both perpendicular
+to it, otherwise free, one colour per site. Among the letters these are the colouring's solutions above,
+since a plane of two letter axes has a letter for its normal and three letters span no plane. Off them,
+the clauses read with directions miss both ways. On the field-free Heisenberg chain at N = 3 the coplanar
+axes (2, 2, 1), (1, 2, −1), (1, 0, 2) at rates (2, 1, 2) pair, with the colour (4, −3, −2) on every site,
+which clause 1 forbids; on the field-free XX + YY ring at N = 3 the axes (2, 0, −1), (2, 2, −1), (2, 2, −1)
+at rates (3, 2, 3), which both clauses admit, do not, their normal (1, 0, 2) being neither along Z nor
+perpendicular to it (the rates given are the γ of a unit direction at γ|n|²). A colour is an element of F158's far kernel, so the colours are sufficient; that
+they are also necessary is measured, not proven. On 4600 draws (the four classes with XXZ at Δ = 2,
+every site watched at rates 1 to 3, axes and fields built from directions with entries from −2 to 2,
+at least one axis off the letters, a third axis drawn in the plane of two in a third of the draws; 2000
+draws at N = 3 on the chain and ring, 2000 at N = 4 on the chain, ring, star and K₄, 600 at N = 5 on the
+chain and ring) the colours agree with the exact decision of
+[MirrorWorld's sextant](../compute/MirrorWorld/README.md) (an element, or an odd centred trace not zero
+modulo a prime) on every one, while the clauses read with directions miss on 752, 672 admitted that do
+not pair and 80 forbidden that do (run mode `sextant tilted N TRIALS SEED` with those TRIALS at seed 1;
+`SextantTests.Off_The_Letters_The_Cube_Rule_Reads_F138s_Classes` pins a fixed-seed draw and these rows).
+Elements that are no colour, such as the rows of (a) and (b) below, did not occur in these draws, and
+other sums of terms P⊗P (XX + ZZ) were not drawn.
+
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, holds
-wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter
+for letter axes wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter
 anticommuting with every axis present and along the field colours every site, and with three axes for one dephasing axis per site and one
 bond letter per component. In no row of the sweeps below (one bond set per row, of one to three letters, on any
 graph, at any of the magnitude tuples of Stage F) are the conditions met and the spectrum fails to pair. Outside
