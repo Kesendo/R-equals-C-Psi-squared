@@ -142,7 +142,7 @@ At I = 3/2 they anticommute pairwise and square to 3/2, 3, 3, 3 and 3 times the 
 | Γ₃, Γ₄ | double quantum | 3J₀ + 6J₁ + 3J₂ |
 | Γ₀Γ₃, Γ₀Γ₄ | double quantum | 3(J₀ + J₂) |
 
-The dark operators are the eight that commute with Γ₀, the bright ones the eight that anticommute with it.
+The dark operators are the eight that commute with Γ₀, the bright ones the eight that anticommute with it. Drawn as stacked filters, one jump per layer, in the gallery's [The Sodium Nucleus, Layer by Layer](../visualizations/README.md#the-sodium-nucleus-layer-by-layer).
 
 **One map for both mirrors.** With Γ₀ scaled to diag(1, −1, −1, 1), the linear map S(X) = Γ₀·Xᵀ satisfies, exactly and at every ω_Q and ω,
 

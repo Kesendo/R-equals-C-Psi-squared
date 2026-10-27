@@ -412,6 +412,28 @@ dotnet run --project compute/MirrorWorld -- atmosphere gallery simulations/resul
 python simulations/atmosphere_gallery.py
 ```
 
+## The Sodium Nucleus, Layer by Layer
+
+A spin 3/2 is two qubits, and the quadrupolar relaxation of a sodium nucleus is dephasing by five Pauli strings, the five Dirac matrices ZZ, ZX, ZY, XI and YI, at rates set by the spectral densities J₀, J₁ and J₂ ([The Sodium Nucleus and Its Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md), [F167](../docs/ANALYTICAL_FORMULAS.md#f167)). Each string of the nucleus decays at twice the summed rate of the jumps it anticommutes with. Read that rule as filters: every jump is a transparent layer that lights the strings it anticommutes with and charges each of them its rate, and what is lit by every layer at once, and also commutes with the Hamiltonian, is a colour, an element that carries the spectrum's palindrome ([F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md), [F169](../docs/ANALYTICAL_FORMULAS.md#f169) for the same filter reading on spin chains).
+
+![Two rows of 4 × 4 grids of the sixteen two-qubit strings, one layer added per panel: with J₀ = 0 the string ZZ stays outlined to the end and is the colour; with J₀ > 0 the first layer is ZZ itself and nothing is left.](sodium_layers_neon.png)
+
+### What you see
+
+Each grid holds the sixteen strings, first letter by row (I, X, Y, Z from the top), second by column. From left to right one jump is added per panel, and every string it lights gets a translucent sheet in the jump's hue, slightly inset, so a string lit by several layers carries several sheets. The small label under each string is its summed rate so far, divided by 3 (the rate of a jump of density J is 3J/2, and a lit string is charged twice that). An outline marks the strings lit by every layer added so far. The last panel adds the Hamiltonian, the quadrupolar splitting q·ZZ and the offset ω·I_z (I_z = ZI + ½·IZ): of the outlined strings it keeps those that commute with it.
+
+**The top row**, J₀ = 0, has no ZZ layer. After ZX and ZY the outlined strings are the ones those two light; XI and YI narrow them to ZZ alone, which also commutes with H: the colour of the nucleus, Γ₀, the map the source page builds its mirror from. **The bottom row**, J₀ > 0, starts with the layer ZZ itself, which does not light itself; every later layer only narrows what the first one let through, and the end is black, no colour. The zero-frequency density is the one layer that covers the mirror. The final labels of the bottom row are the source page's whole rate table.
+
+The hues are a choice, and the same figure in a palette for colour-blind viewers is [sodium_layers_okabe.png](sodium_layers_okabe.png); what stays the same for every viewer is which strings are outlined and the numbers under them. Read as a whole, the grids look like script (Tom's reading).
+
+### How it was computed
+
+`simulations/sodium_layers.py` decides anticommutation of two-qubit strings letter by letter, sums the rates of the lighting layers and draws both palettes. Before drawing it checks the sixteen final rates against the rate table of the source page, string by string, and that J₀ = 0 leaves exactly ZZ and J₀ > 0 nothing. The rates are the textbook Redfield model with J₀, J₁, J₂ as symbols, not a measurement. The layout, the sheets, the inset and the hues are drawing choices.
+
+```
+python simulations/sodium_layers.py
+```
+
 ---
 
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
