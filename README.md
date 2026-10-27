@@ -55,7 +55,7 @@ the quarter, hardware), each with a reading order
 readings
 
 → **[Analytical Formulas](docs/ANALYTICAL_FORMULAS.md)**: the F-registry,
-F1 through F168, each formula with its proof, scope, and verification
+F1 through F169, each formula with its proof, scope, and verification
 
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening the hardware answered for

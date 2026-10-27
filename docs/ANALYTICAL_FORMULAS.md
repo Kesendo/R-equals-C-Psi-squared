@@ -7145,7 +7145,7 @@ Every draw was decided and agreed with the colours, so no draw paired without a 
 only through a sum of strings, like the turned row, would have stayed undecided: off the letters the
 sextant reads no such sum and leaves the turned row at evidence. Other sums of terms P⊗P (XX + ZZ) were
 not drawn. Why a bond accepts a colour, and where under Heisenberg bonds the colour is also necessary, is
-[PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): conjugating by
+[PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md), indexed as [F169](#f169): conjugating by
 a colour turns the Pauli vector by a half-turn about it, so a product of colours commutes with a bond of
 coupling matrix W exactly when the half-turns at its ends keep W (the cross form above is its diagonal case);
 under Heisenberg bonds with every site watched the far equation splits into bond equations and field
@@ -7179,7 +7179,7 @@ middle gives none, and the ends are exactly the pair the path can exchange,
 while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
-exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3). A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
+exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3); off the letters, under Heisenberg bonds with every site watched along an integer axis, the same necessity holds as [F169](#f169) wherever the reduced core is a single site or a single cycle or the axes are pairwise parallel or perpendicular, beside these classes rather than one of them. A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
 where [the triangle's palindromic locus](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
@@ -9867,6 +9867,7 @@ decades; the 15,415 include F103 §7.12's three
 rows at N = 3, 4, 5, nine in all; beside them the depolarizing break, the rate fence, odd d, and eight constructed rows
 with 0 < dim 𝒲 < dim 𝒩 where the equality says more than nonemptiness.
 **With every site dephased** both ends are counts of components of one graph on the bitstrings: [F165](#f165).
+**Off the letters**, with jumps along integer axes (§(h)) under Heisenberg bonds, the far end holds an invertible element exactly when a colour is admitted, wherever the reduced core is a site or one cycle or the axes are pairwise parallel or perpendicular: [F169](#f169).
 **At a spin 3/2** the quadrupolar jumps are such strings, and the count is the second route of [F167](#f167)'s global-centre theorem.
 **Typed:** `PalindromeTwoEndCountClaim`
 ([compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs](../compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs),
@@ -11321,6 +11322,29 @@ so S(t) = e^{−2σt}S(−t) exactly when sin(Nφ − θ) = 0, and otherwise the
 **Open:** whether the isotropic part of an anisotropic bond enters from order 2N + 5 at identical bits, and at which order it enters with unequal rates; the odd part beyond its first term at J ≠ 0; a state-resolved form of F120's tower; rings with a twisted coupling; whether the t^{2N+1} term is readable on a device. Under a coupling commuting with every Z_l the angles may differ from bit to bit, Nφ becoming Σφ_l, by the same proof (not gated).
 **Replaces:** expanding the self-encounter of a 2^N-dimensional state to order 2N + 1.
 **Source:** [The Cat under a Turned Field](../experiments/THE_CAT_UNDER_A_TURNED_FIELD.md); read for readers in [On the Wave Recognizing That It Is Not Alone](../reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md).
+
+<a id="f169"></a>
+### F169. Under Heisenberg bonds with every site watched along an integer axis, the palindrome needs a colour: it holds exactly when one direction perpendicular to every axis carries every field, proven wherever the reduced core is a single site or a single cycle and wherever the axes are pairwise parallel or perpendicular (Tier 1: derived 2026-10-27 in [PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md); registered the same day as an INDEX of that proof)
+
+**Why a number, and why it says so.** This entry indexes; the statement, its proof and its gates are in the proof named in the header. [F138](#f138) files the classes where its converse holds under itself and [F165](#f165) (the rule [F122](#f122) states, a widened scope is not a new number); this is not such a class. It is a necessity theorem with a proof and a mechanism of its own (the half-turn law, the split of the far equation, the peeling to the reduced core), it does not rest on F165, whose Theorems 1 to 3 are silent off the letters and enter only where one global turn makes the axes letters, and F138 calls itself a sufficient condition, so a necessary direction does not sit inside it. F138's paragraph "Off the letters" points here. The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not.
+
+**The setting.** H = Σ J_ij·σ_i·σ_j + Σ_l h_l·σ_l on a connected graph, every J_ij ≠ 0 and real, every field real and of any direction, and on every site one jump n_l·σ_l along a nonzero integer axis at a positive rate; [F158](#f158) §(h) covers such jumps. A **colour** is a direction m perpendicular to every axis; it is **admitted** when every field lies along it, and then ⊗(m·σ) is an invertible element of F158's far kernel.
+
+**The statement.**
+
+    (a·σ)⊗(b·σ) commutes with Σ W_kl σ^k⊗σ^l   ⟺   R_a·W·R_b = W      (R_v the half-turn about v; any real W)
+    [σ_i·σ_j, (a·σ_i)(b·σ_j)] = 2i·(a×b)·(σ_j − σ_i),   [h·σ, w·σ] = 2i·(h×w)·σ
+    palindrome  ⟺  some colour is admitted          (where the bond equations admit only the colours)
+
+The second line splits the far equation into bond equations, which do not see the fields, and field equations. The bond equations admit only the colours wherever the **reduced core** (leaves removed and bonds whose ends share an axis deleted from cycles, as long as either is possible) is a single site or a single cycle, so on every tree, every ring and every unicyclic graph, and wherever the axes are pairwise parallel or perpendicular. A leaf's bond and a bond on one axis drop out of every equation and leave only a symmetric pair; on a ring a nonzero coefficient needs a right angle between the planes of consecutive axes at every site, and there the slots alternate two letters, which an odd ring cannot carry and an even ring's third slot separates.
+
+**Gated by** `TiltedAxesTests.Heisenberg_Bond_Equations_Admit_Exactly_The_Colours` (270 rows over GF(p)) and `The_Colour_Law_Reaches_The_Right_Hinges_And_Stops_At_Three_Neighbours` (integer rings with a right hinge at every site at L = 5 and 6), `SextantTests.The_Colour_Law_And_The_Odd_Traces_Meet_On_Every_Draw` (the law against the odd centred traces read up to the dimension, both answers) and `The_Colour_Law_Decides_Heisenberg_Rows_Both_Ways`, all in `compute/MirrorWorld.Tests`. The holonomies of the proof's last section, which prove nothing of their own, are read in [`heisenberg_colour_holonomies.py`](../simulations/heisenberg_colour_holonomies.py).
+**Typed/live owner:** `HeisenbergColourLawClaim` (Core/Symmetry; parents PalindromeTwoEndCountClaim and PalindromeComplementConnectionClaim), live as `HeisenbergColourLawWitness` at `inspect --root colourlaw`: the far kernel's dimension from the commutator in the Pauli-string basis, fields included and without the split, against the law's prediction. In MirrorWorld the sextant decides by it: `Sextant.Decide` reads F169 where `TiltedAxes.ColourLawProven` holds, an admitted colour WITNESSED and none OBSTRUCTED.
+**Adjacent.** [F138](#f138)'s paragraph "Off the letters" (the sufficient direction and the cross form, the diagonal case of the half-turn law); [F165](#f165) (the same necessity at letter axes, Theorems 1, 3 and 5; its holonomies read as angles in the proof's last section); [F158](#f158).
+**Scope:** Heisenberg bonds, every site watched by one jump along an integer axis (integrality is used only by the measurements), a connected graph. XX + YY bonds lie outside the split and pair without a colour already on the chain at N = 3 (F138's turned stage E row); unwatched sites lie outside (F138 (b), the SWAP rows).
+**Open:** a site keeping three or more neighbours in the reduced core at axes no single turn makes letters (K₄, the theta graph, a cycle with a chord), measured, not proven: on K₄ at N = 4 (the rows of the 30 that lie outside the proven class), on the theta graph and the five-ring with a chord (generic and coplanar axes), and on the witness's rows.
+**Replaces:** a search for elements of F158's far kernel on Heisenberg rows in the proven class.
+**Source:** [PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md).
 
 ---
 

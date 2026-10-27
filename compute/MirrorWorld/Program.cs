@@ -2221,7 +2221,7 @@ if (args.Length > 1 && args[0] == "sextant" && args[1] == "tilted")
     {
         var (gname, edges) = graphs[t % graphs.Count];
         var row = TiltedAxes.Draw(rnd, tn, edges);
-        var kind = Sextant.Decide(row.Setting()).Kind;
+        var kind = Sextant.Decide(row.Setting(), colourLaw: false).Kind;      // F169 is the rule's own law under Heisenberg bonds
         bool rule = row.Rule(), clauses = row.Clauses();
         bool exact = kind is Sextant.Palindrome.Witnessed or Sextant.Palindrome.Obstructed;
         Count($"{gname,-6} {(exact ? kind.ToString() : "undecided (" + kind + ")")}");

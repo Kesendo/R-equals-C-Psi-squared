@@ -102,6 +102,73 @@ public class TiltedAxesTests
         Assert.Equal(1, TiltedAxes.BondNullity(3, new[] { (0, 1), (1, 2) }, new[] { 1L, 1 }, new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2) }));
     }
 
+    // F169's reach. The rings' step (d) has content only where every hinge is right (the planes of consecutive axes
+    // meet at a right angle) with no two neighbours sharing an axis, which a four-site ring cannot do: integer rings
+    // of that kind at L = 5 and 6, off the letters, pin the theorem where its last step works, nullity 0 against no
+    // colour. Two- and three-neighbour cores beyond the theorem are measured: the theta graph (two sites joined by
+    // three paths) and the five-ring with a chord, generic and coplanar. The reduced core's cycle count reads the
+    // class: a ring 1, a ring with one bond on one axis 0 (a path), K4 generic 3, K4 with two pairs of shared axes 1.
+    [Fact]
+    public void The_Colour_Law_Reaches_The_Right_Hinges_And_Stops_At_Three_Neighbours()
+    {
+        var ring5 = Enumerable.Range(0, 5).Select(i => (i, (i + 1) % 5)).ToArray();
+        var ring6 = Enumerable.Range(0, 6).Select(i => (i, (i + 1) % 6)).ToArray();
+        var hinge5 = new (long, long, long)[] { (0, 0, 1), (0, 1, -1), (2, -1, 1), (1, -2, -1), (1, 0, -1) };
+        var hinge6 = new (long, long, long)[] { (0, 0, 1), (0, 1, -1), (1, -1, 1), (0, 1, 1), (1, 2, 1), (1, 0, 1) };
+        long Dot((long, long, long) a, (long, long, long) b) => a.Item1 * b.Item1 + a.Item2 * b.Item2 + a.Item3 * b.Item3;
+        (long, long, long) X((long, long, long) a, (long, long, long) b) => (a.Item2 * b.Item3 - a.Item3 * b.Item2, a.Item3 * b.Item1 - a.Item1 * b.Item3, a.Item1 * b.Item2 - a.Item2 * b.Item1);
+        foreach (var axes in new[] { hinge5, hinge6 })
+        {
+            int L = axes.Length;
+            for (int i = 0; i < L; i++)
+            {
+                var (a, b, c) = (axes[(i + L - 1) % L], axes[i], axes[(i + 1) % L]);
+                Assert.Equal(0L, Dot(X(a, b), X(b, c)));                                      // a right hinge at i
+                Assert.NotEqual((0L, 0L, 0L), X(b, c));                                        // neighbours on different axes
+            }
+            Assert.Equal(0, TiltedAxes.ColourDimension(L, axes));
+            Assert.True(TiltedAxes.ColourLawProven(L, L == 5 ? ring5 : ring6, axes));
+            Assert.Equal(0, TiltedAxes.BondNullity(L, L == 5 ? ring5 : ring6, Enumerable.Range(0, L).Select(k => (long)(k % 2 == 0 ? 1 : -2)).ToArray(), axes));
+        }
+
+        var theta = new[] { (0, 2), (2, 1), (0, 3), (3, 1), (0, 4), (4, 1) };
+        var chord = ring5.Append((0, 2)).ToArray();
+        var generic = new (long, long, long)[] { (1, 2, 0), (0, 1, 2), (2, 0, 1), (1, -1, 2), (2, 1, -1) };
+        var coplanar = new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2), (2, 2, 1), (1, 0, 2) };
+        foreach (var edges in new[] { theta, chord })
+        {
+            Assert.False(TiltedAxes.ColourLawProven(5, edges, generic));
+            foreach (var axes in new[] { generic, coplanar })
+                Assert.Equal(TiltedAxes.ColourDimension(5, axes), TiltedAxes.BondNullity(5, edges, new[] { 1L, -1, 2, 1, -2, 1, 1 }.Take(edges.Length).ToArray(), axes));
+        }
+
+        var k4 = TiltedAxes.Graphs(4).Single(g => g.Name == "K4").Edges;
+        Assert.Equal(1, TiltedAxes.ReducedCoreCycles(5, ring5, generic));
+        Assert.Equal(0, TiltedAxes.ReducedCoreCycles(5, ring5, new[] { generic[0], generic[0], generic[2], generic[3], generic[4] }));
+        Assert.Equal(3, TiltedAxes.ReducedCoreCycles(4, k4, generic.Take(4).ToArray()));
+        Assert.Equal(1, TiltedAxes.ReducedCoreCycles(4, k4, new[] { generic[0], generic[0], generic[1], generic[1] }));
+        // two triangles joined by a bridge whose ends share an axis: removing the bridge splits the graph, and the
+        // count is the two triangles' cycles, not one (c(G∖S), not c(G))
+        var bridged = new[] { (0, 1), (1, 2), (2, 0), (2, 3), (3, 4), (4, 5), (5, 3) };
+        var bridgedAxes = new (long, long, long)[] { generic[0], generic[1], generic[2], generic[2], generic[3], generic[4] };
+        Assert.Equal(2, TiltedAxes.ReducedCoreCycles(6, bridged, bridgedAxes));
+        Assert.False(TiltedAxes.ColourLawProven(6, bridged, bridgedAxes));
+        Assert.True(TiltedAxes.ColourLawProven(4, k4, new (long, long, long)[] { (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0) }));   // letters
+        Assert.False(TiltedAxes.ColourLawProven(4, new[] { (0, 1), (2, 3) }, generic.Take(4).ToArray()));                         // disconnected
+
+        // the admitted colour: the plane's normal when every field lies along it, none when one leaves it or the axes
+        // span space; under one axis the fields' common direction if it is perpendicular to the axis
+        var none = new (long, long, long)[5];
+        Assert.Equal((4L, -3L, -2L), TiltedAxes.AdmittedColour(coplanar, none));
+        Assert.Equal((4L, -3L, -2L), TiltedAxes.AdmittedColour(coplanar, new (long, long, long)[] { (-8, 6, 4), (0, 0, 0), (4, -3, -2), (0, 0, 0), (0, 0, 0) }));
+        Assert.Null(TiltedAxes.AdmittedColour(coplanar, new (long, long, long)[] { (1, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0) }));
+        Assert.Null(TiltedAxes.AdmittedColour(generic, none));
+        var line = Enumerable.Repeat((1L, 1L, 0L), 3).ToArray();
+        Assert.Equal((1L, -1L, 0L), TiltedAxes.AdmittedColour(line, new (long, long, long)[] { (1, -1, 0), (-2, 2, 0), (0, 0, 0) }));
+        Assert.Null(TiltedAxes.AdmittedColour(line, new (long, long, long)[] { (1, -1, 0), (0, 0, 1), (0, 0, 0) }));
+        Assert.Null(TiltedAxes.AdmittedColour(line, new (long, long, long)[] { (1, 0, 0), (0, 0, 0), (0, 0, 0) }));
+    }
+
     static long[] Apply(long[,] m, long[] v) => Enumerable.Range(0, 3).Select(k => m[k, 0] * v[0] + m[k, 1] * v[1] + m[k, 2] * v[2]).ToArray();
     static long[] Cross(long[] u, long[] v) => new[] { u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0] };
     static long[,] HalfTurn(long[] v) { long s = v.Sum(x => x * x); var r = new long[3, 3]; for (int k = 0; k < 3; k++) for (int l = 0; l < 3; l++) r[k, l] = 2 * v[k] * v[l] - (k == l ? s : 0); return r; }

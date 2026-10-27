@@ -15,6 +15,9 @@ using static MirrorWorld.LetterCube;
 // as written does not read); ZZ takes both ends along Z or both perpendicular to it, one colour per site. The rule is
 // sufficient (a colour is an element of F158's far kernel) and not necessary (a sum of circle-letter strings can pair a row
 // with no colour, as the test's turned XX + YY row does); the draws read the rule against the sextant's exact decision.
+// Under Heisenberg bonds with every site watched it is also necessary wherever F169 is proven (ColourLawProven), and
+// there the sextant decides by it in both directions; the draws read the decision without it (colourLaw: false), so
+// that the rule meets a second route.
 public static class TiltedAxes
 {
     public sealed record BondClass(string Name, string[] Terms, long[] Coefficients);
@@ -192,6 +195,61 @@ public static class TiltedAxes
         return plane ? 1 : 0;
     }
 
+    // The colour law (F169, docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): under Heisenberg bonds of nonzero
+    // weights on a connected graph, every site watched along one integer axis, the bond equations admit only the
+    // colours wherever the reduced core (leaves removed, bonds whose ends share an axis deleted from cycles) is a
+    // single site or a single cycle, and wherever the axes are pairwise parallel or perpendicular (the complement
+    // connection's Theorems 1 to 3); there the palindrome holds exactly when a colour is admitted, at fields of any
+    // direction. Elsewhere it is measured (BondNullity on K4), not proven, and ColourLawProven says false.
+    public static bool ColourLawProven(int n, (int, int)[] edges, (long X, long Y, long Z)[] axes)
+    {
+        if (Components(n, edges) != 1) return false;
+        if (ReducedCoreCycles(n, edges, axes) <= 1) return true;
+        var dirs = axes.Select(Primitive).Distinct().ToList();
+        return dirs.All(a => dirs.All(b => Cross(a, b) == (0, 0, 0) || Dot(a, b) == 0));
+    }
+
+    // The number of independent cycles left in the reduced core. Removing a leaf keeps it, deleting a bond whose ends
+    // share an axis from a cycle lowers it by one, and the most such bonds that can go while the graph stays connected
+    // is |S| − (c(G∖S) − 1) for the set S of them (their rank in the cographic matroid), so whatever the order, the
+    // end carries the cycles of G with all of S removed: |E∖S| − N + c(G∖S).
+    public static int ReducedCoreCycles(int n, (int, int)[] edges, (long X, long Y, long Z)[] axes)
+    {
+        var kept = edges.Where(e => Primitive(axes[e.Item1]) != Primitive(axes[e.Item2])).ToArray();
+        return kept.Length - n + Components(n, kept);
+    }
+
+    // The admitted colour: a direction m perpendicular to every axis with every nonzero field along it, primitive, or
+    // null when there is none (the axes span space, a field leaves the plane's normal, or, all axes along one n, the
+    // fields are not perpendicular to n and parallel to one another). With all axes along n and no field, every m ⊥ n
+    // is admitted and one of them is returned.
+    public static (long X, long Y, long Z)? AdmittedColour((long X, long Y, long Z)[] axes, (long X, long Y, long Z)[] fields)
+    {
+        var dirs = axes.Select(Primitive).Distinct().ToList();
+        var f = fields.Where(v => v != (0, 0, 0)).Select(Primitive).Distinct().ToList();
+        if (dirs.All(d => Cross(d, dirs[0]) == (0, 0, 0)))
+        {
+            if (f.Count > 1 || f.Any(v => Dot(v, dirs[0]) != 0)) return null;
+            return f.Count == 1 ? f[0] : Primitive(PerpBasis(dirs[0])[0]);
+        }
+        var normal = dirs.Select(d => Primitive(Cross(dirs[0], d))).First(v => v != (0, 0, 0));
+        if (dirs.Any(d => Dot(normal, d) != 0)) return null;
+        return f.All(v => v == normal) ? normal : null;
+    }
+
+    static int Components(int n, IEnumerable<(int, int)> edges)
+    {
+        var parent = Enumerable.Range(0, n).ToArray();
+        int Find(int x) { while (parent[x] != x) x = parent[x] = parent[parent[x]]; return x; }
+        int count = n;
+        foreach (var (i, j) in edges)
+        {
+            int a = Find(i), b = Find(j);
+            if (a != b) { parent[a] = b; count--; }
+        }
+        return count;
+    }
+
     // two independent integer vectors perpendicular to n
     static (long, long, long)[] PerpBasis((long X, long Y, long Z) n)
     {
@@ -206,10 +264,11 @@ public static class TiltedAxes
     static Gauss[,] Jump((long X, long Y, long Z) n)
         => new[,] { { new Gauss(n.Z, 0), new Gauss(n.X, -n.Y) }, { new Gauss(n.X, n.Y), new Gauss(-n.Z, 0) } };
 
-    static long Dot((long X, long Y, long Z) a, (long X, long Y, long Z) b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+    // checked, so that an overflow declines (the sextant catches it) instead of wrapping to a false zero
+    static long Dot((long X, long Y, long Z) a, (long X, long Y, long Z) b) => checked(a.X * b.X + a.Y * b.Y + a.Z * b.Z);
 
     static (long, long, long) Cross((long X, long Y, long Z) a, (long X, long Y, long Z) b)
-        => (a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+        => checked((a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X));
 
     static (long, long, long) Primitive((long X, long Y, long Z) v)
     {
@@ -217,6 +276,6 @@ public static class TiltedAxes
         long g = Gcd(Gcd(v.X, v.Y), v.Z);
         if (g == 0) return v;
         long sign = (v.X != 0 ? v.X : v.Y != 0 ? v.Y : v.Z) < 0 ? -1 : 1;
-        return (sign * v.X / g, sign * v.Y / g, sign * v.Z / g);
+        return checked((sign * v.X / g, sign * v.Y / g, sign * v.Z / g));
     }
 }

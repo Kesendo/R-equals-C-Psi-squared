@@ -376,7 +376,7 @@ public class SextantTests
     {
         bool Read(TiltedAxes.Row row, string label)
         {
-            var kind = Sextant.Decide(row.Setting()).Kind;
+            var kind = Sextant.Decide(row.Setting(), colourLaw: false).Kind;   // without F169, the rule's own law, so the routes stay two
             Assert.True(kind is Sextant.Palindrome.Witnessed or Sextant.Palindrome.Obstructed, $"{label}: {kind}");
             Assert.True(row.Rule() == (kind == Sextant.Palindrome.Witnessed), $"{label}: rule {row.Rule()}, decision {kind}, {row}");
             return kind == Sextant.Palindrome.Witnessed;
@@ -442,6 +442,88 @@ public class SextantTests
         Assert.True(Same(Mul(U, U), fifty));
         var single = Kron(Kron(Dir(-2, 1, 0), Dir(-2, 1, 0)), Letter('Z'));
         Assert.False(Same(Mul(single, H3), Mul(H3, single)));                        // one term alone does not commute
+    }
+
+    // F169, the colour law, as the sextant's answer. Heisenberg bonds with every site watched along an integer axis,
+    // where the reduced core holds at most one cycle: three coplanar axes off the letters on the four-site chain with
+    // every field along their normal are WITNESSED, one field off the normal is OBSTRUCTED by the law (a no for every
+    // element); the five-site ring with a right hinge at every site, its axes spanning space, is OBSTRUCTED by the law.
+    // Both noes meet a second route: an odd centred trace that is not zero modulo a prime (the ninth on the ring, which
+    // the sextant reads after the law). K4 with generic axes is outside the proven class, and the law stays silent there.
+    [Fact]
+    public void The_Colour_Law_Decides_Heisenberg_Rows_Both_Ways()
+    {
+        var chain = new[] { (0, 1), (1, 2), (2, 3) };
+        var axes = new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2), (2, 2, 1) };
+        var along = new TiltedAxes.Row(4, chain, TiltedAxes.Classes[0], axes, new[] { 1L, 2, 1, 3 }, new (long, long, long)[] { (4, -3, -2), (0, 0, 0), (-8, 6, 4), (0, 0, 0) });
+        Assert.Equal(Sextant.Palindrome.Witnessed, Sextant.Decide(along.Setting()).Kind);
+        var off = along with { Fields = new (long, long, long)[] { (4, -3, -2), (1, 0, 0), (0, 0, 0), (0, 0, 0) } };
+        var offDecision = Sextant.Decide(off.Setting());
+        Assert.Equal(Sextant.Palindrome.Obstructed, offDecision.Kind);
+        Assert.StartsWith("F169", offDecision.Detail);
+        Assert.NotNull(Sextant.OddTraceObstruction(off.Setting(), 256));
+
+        var ring5 = Enumerable.Range(0, 5).Select(i => (i, (i + 1) % 5)).ToArray();
+        var hinge = new TiltedAxes.Row(5, ring5, TiltedAxes.Classes[0], new (long, long, long)[] { (0, 0, 1), (0, 1, -1), (2, -1, 1), (1, -2, -1), (1, 0, -1) }, new[] { 1L, 1, 2, 1, 1 }, new (long, long, long)[5]);
+        var hingeDecision = Sextant.Decide(hinge.Setting());
+        Assert.Equal(Sextant.Palindrome.Obstructed, hingeDecision.Kind);
+        Assert.StartsWith("F169", hingeDecision.Detail);
+        Assert.Equal(9, Sextant.OddTraceObstruction(hinge.Setting(), 9)!.Value.Power);
+
+        var k4 = TiltedAxes.Graphs(4).Single(g => g.Name == "K4").Edges;
+        var outside = new TiltedAxes.Row(4, k4, TiltedAxes.Classes[0], new (long, long, long)[] { (1, 2, 0), (0, 1, 2), (2, 0, 1), (1, -1, 2) }, new[] { 1L, 1, 1, 1 }, new (long, long, long)[4]);
+        Assert.DoesNotContain("F169", Sextant.Decide(outside.Setting()).Detail);
+        Assert.Null(Sextant.ColourLaw(outside.Setting()));
+
+        // the law's own yes, asked apart (inside Decide the circle colour finds it first): the normal on every site
+        var yes = Sextant.ColourLaw(along.Setting());
+        Assert.Equal(Sextant.Palindrome.Witnessed, yes!.Kind);
+        Assert.Contains("(4X - 3Y - 2Z)^⊗4", yes.Detail);
+        // its causes named: a field along its own axis, axes spanning space, two colours where one is needed
+        Assert.Contains("along its own site's axis", Sextant.ColourLaw(off.Setting())!.Detail);
+        Assert.Contains("span space", hingeDecision.Detail);
+        var line = new TiltedAxes.Row(3, chain.Take(2).ToArray(), TiltedAxes.Classes[0], Enumerable.Repeat((1L, 1L, 0L), 3).ToArray(), new[] { 1L, 1, 1 },
+            new (long, long, long)[] { (1, -1, 0), (0, 0, 1), (0, 0, 0) });
+        Assert.Contains("no single colour", Sextant.ColourLaw(line.Setting())!.Detail);
+
+        // silent outside the hypotheses, every site watched: XXZ and XX + YY bonds, a second jump on a site, a site
+        // watched at rate 0, a disconnected graph
+        Assert.Null(Sextant.ColourLaw((along with { Class = TiltedAxes.Classes[1] }).Setting()));
+        Assert.Null(Sextant.ColourLaw((along with { Class = TiltedAxes.Classes[2] }).Setting()));
+        var s = along.Setting();
+        var twice = new Sextant.Setting(4, s.H, s.Jumps.Append((0, s.Jumps[1].Jump, 1L)));
+        Assert.Null(Sextant.ColourLaw(twice));
+        var resting = new Sextant.Setting(4, s.H, s.Jumps.Select(j => j.Site == 2 ? (j.Site, j.Jump, 0L) : j));
+        Assert.Null(Sextant.ColourLaw(resting));
+        Assert.Null(Sextant.ColourLaw((along with { Edges = new[] { (0, 1), (2, 3) } }).Setting()));
+    }
+
+    // The handshake behind the law's no: since the sextant asks F169 before the traces, a no from the law is not
+    // checked by them inside Decide. Here the two routes run apart on Heisenberg draws in the proven class (the
+    // three-site chain and ring, the four-site chain and star), the law read off the row (an admitted colour or none)
+    // and the odd centred traces read up to the dimension: where the law finds no colour a trace obstructs, and where it
+    // finds one every odd trace vanishes modulo both primes. Both answers occur.
+    [Fact]
+    public void The_Colour_Law_And_The_Odd_Traces_Meet_On_Every_Draw()
+    {
+        var rnd = new Random(20261027);
+        var graphs = TiltedAxes.Graphs(3).Select(g => (3, g.Edges))
+            .Concat(TiltedAxes.Graphs(4).Where(g => g.Name is "chain" or "star").Select(g => (4, g.Edges))).ToArray();
+        int yes = 0, no = 0, fours = 0;
+        for (int trial = 0; trial < 400 && (yes < 12 || no < 12); trial++)
+        {
+            var (n, edges) = graphs[trial % graphs.Length];
+            var row = TiltedAxes.Draw(rnd, n, edges) with { Class = TiltedAxes.Classes[0] };
+            Assert.True(TiltedAxes.ColourLawProven(n, edges, row.Axes));
+            bool law = TiltedAxes.AdmittedColour(row.Axes, row.Fields) is not null;
+            if (n == 4 && (law || fours >= 4)) continue;                       // a yes at N = 4 reads 128 powers of 256 x 256
+            if (n == 4) fours++;
+            var trace = Sextant.OddTraceObstruction(row.Setting(), 1 << (2 * n));
+            Assert.True(law == (trace is null), $"law {(law ? "colour" : "none")}, traces {(trace is { } t ? $"Tr(M^{t.Power}) != 0 mod {t.Prime}" : "all vanish")}: {row}");
+            if (law) yes++; else no++;
+        }
+        Assert.True(yes >= 12 && no >= 12, $"yes {yes}, no {no}");
+        Assert.True(fours > 0);
     }
 
     static bool Same(Complex[,] a, Complex[,] b)

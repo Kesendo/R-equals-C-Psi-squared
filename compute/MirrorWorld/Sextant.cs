@@ -26,8 +26,10 @@ using static MirrorWorld.LetterCube;
 // site-local, after a relabelling of the sites that keeps the supports, in a frame carrying one axis per site onto
 // Z, or conditioned on the bits of unwatched sites whose letter H conserves, carrying L to -L^dagger - c or to -L - c
 // (its binomial system has a solution in nonzero complex numbers, decided exactly, so the element exists, with turns
-// that may be roots and may differ from site to site, outside the uniform closure). OBSTRUCTED: an exact broken
-// EndCount verdict there (F158's necessity), or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no
+// that may be roots and may differ from site to site, outside the uniform closure); or F169's colour law holds an
+// admitted colour. OBSTRUCTED: an exact broken EndCount verdict there (F158's necessity), F169's colour law where it
+// is proven (Heisenberg bonds and fields, one integer axis watched on every site, a reduced core with at most one
+// independent cycle or axes pairwise parallel or perpendicular) finding no admitted colour, or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no
 // element of any kind, inside the search or outside it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up
 // to the dimension vanishes modulo the two fixed primes and no element of the closure reflects; evidence that the
 // spectrum is symmetric, not a proof (the integers could be multiples of both primes), and even a symmetric spectrum is
@@ -236,6 +238,63 @@ public sealed class Sextant : GameObject
         long traceTimesFour = s.DissipatorTimesFour.Where(kv => kv.Key.Row == kv.Key.Col).Sum(kv => kv.Value.Re);
         return new Decision(Palindrome.Witnessed,
             $"F158, a colour on the circle: G = {string.Join("⊗", colour.Select(Describe))} commutes with H and anticommutes with every jump, so rho -> G·rho carries L to -L^dagger - c (c = {Fraction(-2 * traceTimesFour, 4 * dim)}; outside the closure)");
+    }
+
+    // The colour law (F169, docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): H made of Heisenberg bonds
+    // J·(XX + YY + ZZ) with J ≠ 0 and of one-site fields, nothing else, on a connected graph, and on every site exactly
+    // one jump at a positive rate along an integer axis n·σ. Where TiltedAxes.ColourLawProven holds the palindrome
+    // about -c/2 holds exactly when a colour m, perpendicular to every axis, carries every field, and ⊗(m·σ) is then
+    // the element; without an admitted colour the spectrum does not pair about -c/2 (F158), so no element of any
+    // kind reflects. Outside the proven class, or for any other setting, a silence. Public so that its yes, which the
+    // circle colour usually finds first inside Decide, can be asked on its own.
+    public static Decision? ColourLaw(Setting s)
+    {
+        var axes = new (long X, long Y, long Z)?[s.N];
+        foreach (var (site, jump, rate) in s.Jumps)
+        {
+            if (rate == 0) continue;
+            if (rate < 0 || axes[site] is not null || AxisOf(jump) is not { } n) return null;
+            axes[site] = n;
+        }
+        if (axes.Any(a => a is null)) return null;
+        var bonds = new Dictionary<(int, int), long[]>();
+        var fields = new long[s.N][];
+        for (int l = 0; l < s.N; l++) fields[l] = new long[3];
+        try
+        {
+            foreach (var (t, c) in s.H)
+            {
+                var sites = Enumerable.Range(0, s.N).Where(l => t.Letter(l) != 'I').ToArray();
+                if (sites.Length == 1) { fields[sites[0]]["XYZ".IndexOf(t.Letter(sites[0]))] = checked(fields[sites[0]]["XYZ".IndexOf(t.Letter(sites[0]))] + c); continue; }
+                if (sites.Length != 2 || t.Letter(sites[0]) != t.Letter(sites[1])) return null;
+                var key = (sites[0], sites[1]);
+                if (!bonds.TryGetValue(key, out var v)) bonds[key] = v = new long[3];
+                v["XYZ".IndexOf(t.Letter(sites[0]))] = checked(v["XYZ".IndexOf(t.Letter(sites[0]))] + c);
+            }
+            var edges = new List<(int, int)>();
+            foreach (var (key, v) in bonds)
+            {
+                if (v.All(x => x == 0)) continue;
+                if (v[0] != v[1] || v[1] != v[2]) return null;
+                edges.Add(key);
+            }
+            var ax = axes.Select(a => a!.Value).ToArray();
+            if (!TiltedAxes.ColourLawProven(s.N, edges.ToArray(), ax)) return null;
+            var m = TiltedAxes.AdmittedColour(ax, fields.Select(f => (f[0], f[1], f[2])).ToArray());
+            string where = $"reduced core with {TiltedAxes.ReducedCoreCycles(s.N, edges.ToArray(), ax)} independent cycles";
+            if (m is not { } colour)
+            {
+                string cause = TiltedAxes.ColourDimension(s.N, ax) == 0 ? "the axes span space, so there is no colour"
+                    : Enumerable.Range(0, s.N).Any(l => checked(fields[l][0] * ax[l].X + fields[l][1] * ax[l].Y + fields[l][2] * ax[l].Z) != 0) ? "a field has a part along its own site's axis"
+                    : "no single colour carries every field";
+                return new Decision(Palindrome.Obstructed, $"F169, the colour law ({where}): {cause}; the spectrum does not pair about -c/2 (F158), so no element of any kind reflects");
+            }
+            long dim = 1L << (2 * s.N);
+            long traceTimesFour = s.DissipatorTimesFour.Where(kv => kv.Key.Row == kv.Key.Col).Sum(kv => kv.Value.Re);
+            return new Decision(Palindrome.Witnessed,
+                $"F169, the colour law ({where}): G = {Describe(colour)}^⊗{s.N} commutes with H and anticommutes with every jump (c = {Fraction(-2 * traceTimesFour, 4 * dim)})");
+        }
+        catch (OverflowException) { return null; }
     }
 
     // The theodolite's yes: a sandwich (site-local, relabelled, in a turned frame or conditioned on unwatched bits)
@@ -520,7 +579,9 @@ public sealed class Sextant : GameObject
     // it is at most 256 (N <= 4) and up to 64 beyond, which leaves the answer OPEN there unless a trace obstructs.
     public sealed record Decision(Palindrome Kind, string Detail);
 
-    public static Decision Decide(Setting s, int? maxPower = null)
+    // colourLaw: false leaves F169 out, for readings that compare F169's own rule against the decision (TiltedAxes'
+    // draws), where asking it would make the comparison its own.
+    public static Decision Decide(Setting s, int? maxPower = null, bool colourLaw = true)
     {
         if (s.DissipatorTimesFour.Count == 0)
             return new Decision(Palindrome.Witnessed, "no jumps: -L^dagger = L, the identity reflects with c = 0");
@@ -531,6 +592,8 @@ public sealed class Sextant : GameObject
             return ended;
         if (ColourReading(s) is { } coloured)
             return coloured;
+        if (colourLaw && ColourLaw(s) is { } lawful)
+            return lawful;
         if (TheodoliteReading(s) is { } read)
             return read;
         int dim = 1 << (2 * s.N);

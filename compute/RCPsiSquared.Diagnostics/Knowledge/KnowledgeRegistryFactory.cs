@@ -924,6 +924,10 @@ public static class KnowledgeRegistryFactory
             // is the flat sections of d_y/d_x = H_xy/H_x̄ȳ on the hopping graph over bitstrings; Theorems 1, 3 and 5
             // are the three classes where F138's converse holds exactly. Parent: F158.
             .RegisterPalindromeComplementConnectionClaim()
+            // F169, the colour law (Tier 1 derived, 2026-10-27): Heisenberg bonds, every site watched along an
+            // integer axis; the palindrome holds exactly when a colour perpendicular to every axis carries every
+            // field, proven where the reduced core is a site or one cycle. Parents: F158 and F165.
+            .RegisterHeisenbergColourLawClaim()
             // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
             // 2026-08-31 in experiments/THE_CRACKED_BELL.md): one bond of the XY ring detuned to u*J has
             // det(x I - H) = U_N(x/2) - u^2 U_{N-2}(x/2) - 2u, so the whole single-excitation spectrum is the
