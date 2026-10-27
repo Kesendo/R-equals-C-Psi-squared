@@ -20,7 +20,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>The rows: a tree with a leaf on its neighbour's axis (coplanar axes off the letters, fields along their normal
 /// and one field off it); the triangle generic and coplanar; rings of five and six sites with a right hinge at every
 /// site (the only rings where the proof's last step has content); a four-ring under one axis, without fields and with
-/// fields along one perpendicular; and, measured, K4 generic and coplanar and the theta graph.</para></summary>
+/// fields along one perpendicular; a four-chain under one axis with a uniform field along it, where the palindrome
+/// breaks and the far kernel still keeps one element, so the law predicts no dimension there; and, measured, K4 generic and coplanar and the theta graph.</para></summary>
 public sealed class HeisenbergColourLawWitness : IInspectable
 {
     private const long P = 998_244_353;                    // 1 mod 4, so −1 has a square root
@@ -29,9 +30,11 @@ public sealed class HeisenbergColourLawWitness : IInspectable
     public sealed record Row(string Name, int N, (int A, int B)[] Edges, long[] Weights,
         (long X, long Y, long Z)[] Axes, (long X, long Y, long Z)[] Fields);
 
-    public sealed record Reading(Row Row, bool Proven, int Cycles, int Predicted, int Measured)
+    /// <summary>Predicted is null where the law decides only the palindrome (a field along the common axis).</summary>
+    public sealed record Reading(Row Row, bool Proven, int Cycles, int? Predicted, int Measured)
     {
-        public bool Agrees => Predicted == Measured;
+        public bool Compared => Predicted is not null;
+        public bool Agrees => Predicted is null || Predicted == Measured;
     }
 
     public static IReadOnlyList<Row> DefaultRows()
@@ -61,6 +64,8 @@ public sealed class HeisenbergColourLawWitness : IInspectable
             new Row("four-ring under one axis, no field", 4, ring4, W(4), Enumerable.Repeat((1L, 1L, 0L), 4).ToArray(), none4),
             new Row("four-ring under one axis, fields along one perpendicular", 4, ring4, W(4), Enumerable.Repeat((1L, 1L, 0L), 4).ToArray(),
                 new (long, long, long)[] { (1, -1, 0), (0, 0, 0), (-2, 2, 0), (0, 0, 0) }),
+            new Row("four-chain under one axis, a uniform field along it (dimension not predicted)", 4, tree, W(3), Enumerable.Repeat((1L, 1L, 0L), 4).ToArray(),
+                Enumerable.Repeat((1L, 1L, 0L), 4).ToArray()),
             new Row("K4, generic axes (measured)", 4, k4, W(6), generic.Take(4).ToArray(), none4),
             new Row("K4, coplanar axes (measured)", 4, k4, W(6), coplanar, none4),
             new Row("theta graph, generic axes (measured)", 5, theta, W(6), generic, new (long, long, long)[5]),
@@ -193,13 +198,13 @@ public sealed class HeisenbergColourLawWitness : IInspectable
         get
         {
             var r = Read();
-            return $"{r.Count(x => x.Agrees)}/{r.Count} rows agree ({r.Count(x => x.Proven)} proven, {r.Count(x => !x.Proven)} measured)";
+            return $"{r.Count(x => x.Compared && x.Agrees)}/{r.Count(x => x.Compared)} predicted rows agree ({r.Count(x => x.Proven)} proven, {r.Count(x => !x.Proven)} measured; {r.Count(x => !x.Compared)} with a field along the common axis, the palindrome broken and the dimension not predicted)";
         }
     }
 
     public IEnumerable<IInspectable> Children =>
         Read().Select(x => (IInspectable)new InspectableNode(x.Row.Name,
-            summary: $"{(x.Proven ? "proven" : "measured")}, reduced core with {x.Cycles} cycle(s): law {x.Predicted}, " +
+            summary: $"{(x.Proven ? "proven" : "measured")}, reduced core with {x.Cycles} cycle(s): law {(x.Predicted is { } p ? p.ToString() : "palindrome broken, dimension not predicted")}, " +
                      $"commutator {x.Measured}{(x.Agrees ? "" : "  DISAGREE")}"));
 
     public InspectablePayload Payload => InspectablePayload.Empty;

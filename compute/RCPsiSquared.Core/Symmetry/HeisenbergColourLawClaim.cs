@@ -52,15 +52,19 @@ public sealed class HeisenbergColourLawClaim : Claim
 
     /// <summary>The dimension of F158's far kernel the law predicts where it is proven: the admitted colours'
     /// symmetric tensors. N + 1 with all axes along one n and no field (Sym^N of the plane ⊥ n); 1 when one colour is
-    /// admitted otherwise; 0 when none is (the axes span space, a field leaves the plane's normal, or under one axis
-    /// the fields are not perpendicular to it and parallel to one another).</summary>
-    public static int PredictedFarDimension(IReadOnlyList<(long X, long Y, long Z)> axes, IReadOnlyList<(long X, long Y, long Z)> fields)
+    /// admitted otherwise; 0 when none is and the bond equations' solutions already leave no room (the axes span space,
+    /// or they span a plane and a field leaves its normal, or under one axis the fields are perpendicular to it and not
+    /// parallel to one another). Null under one axis when a field has a part along it: there the law says only that
+    /// the palindrome fails (F158 §(f5)), and the far kernel can still hold non-invertible elements (a uniform field
+    /// along Z at even N leaves one).</summary>
+    public static int? PredictedFarDimension(IReadOnlyList<(long X, long Y, long Z)> axes, IReadOnlyList<(long X, long Y, long Z)> fields)
     {
         var dirs = axes.Select(Primitive).Distinct().ToList();
         var f = fields.Where(v => v != (0, 0, 0)).Select(Primitive).Distinct().ToList();
         if (dirs.All(d => Cross(d, dirs[0]) == (0, 0, 0)))
         {
-            if (f.Count > 1 || f.Any(v => Dot(v, dirs[0]) != 0)) return 0;
+            if (f.Any(v => Dot(v, dirs[0]) != 0)) return null;
+            if (f.Count > 1) return 0;
             return f.Count == 0 ? axes.Count + 1 : 1;
         }
         var normal = dirs.Select(d => Primitive(Cross(dirs[0], d))).First(v => v != (0, 0, 0));
