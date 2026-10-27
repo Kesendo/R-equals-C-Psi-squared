@@ -428,7 +428,7 @@ The hues are a choice, and the same figure in a palette for colour-blind viewers
 
 ### How it was computed
 
-`simulations/sodium_layers.py` decides anticommutation of two-qubit strings letter by letter, sums the rates of the lighting layers and draws both palettes. Before drawing it checks the sixteen final rates against the rate table of the source page, string by string, and that J₀ = 0 leaves exactly ZZ and J₀ > 0 nothing. The rates are the textbook Redfield model with J₀, J₁, J₂ as symbols, not a measurement. The layout, the sheets, the inset and the hues are drawing choices.
+`simulations/sodium_layers.py` decides anticommutation of two-qubit strings letter by letter, sums the rates of the lighting layers and draws both palettes. Before drawing it checks the sixteen final rates against the rate table of the source page, string by string, and that J₀ = 0 leaves exactly ZZ and J₀ > 0 nothing. The rates are the textbook Redfield model with J₀, J₁, J₂ as symbols, not a measurement. In that model's usual form, J(ω) ∝ τ_c/(1 + ω²τ_c²), the zero-frequency density J₀ is the largest of the three, so the top row is a limit and a real nucleus sits in the bottom row, where the source page's two mirrors about two centres take over from the single colour. The layout, the sheets, the inset and the hues are drawing choices.
 
 ```
 python simulations/sodium_layers.py
