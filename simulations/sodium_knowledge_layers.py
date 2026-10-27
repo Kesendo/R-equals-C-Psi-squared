@@ -38,6 +38,15 @@ AGAROSE = {"3 % (1)": (183, 13.3, 11.5), "3 % (2)": (153, 11.8, 10.4), "6 %": (2
 T1_MOBILE = {"3 % (1)": 38.6, "3 % (2)": 42.2, "6 %": 35.2, "9 %": 30.2, "12 %": 26.2, "15 %": 22.8}
 T1_O17 = {"3 % (1)": 5.3, "3 % (2)": 5.3, "6 %": 4.6, "9 %": 4.05, "12 %": 3.55, "15 %": 3.1}
 
+# three views of the same gels (Fig. 1A, 1C and 2D, read off by eye; the 0 % reference first, one 3 % point):
+# water diffusion (1e-9 m^2/s), water 1H T1 (s), sodium diffusion (1e-9 m^2/s). Diffusion sees motion with no coupling
+# (and the gel's obstruction), 1H T1 motion times a dipolar coupling fixed inside the molecule, 17O T1 and a motion
+# times a quadrupolar coupling that can change.
+D_WATER = {"0": 2.5, "3": 2.08, "6": 1.96, "9": 1.83, "12": 1.72, "15": 1.62}
+T1_H1 = {"0": 3.0, "3": 2.6, "6": 2.22, "9": 2.2, "12": 1.9, "15": 1.75}
+D_NA = {"0": 1.26, "3": 1.15, "6": 1.07, "9": 1.02, "12": 0.90, "15": 0.90}
+PCT = {"3 % (1)": "3", "3 % (2)": "3", "6 %": "6", "9 %": "9", "12 %": "12", "15 %": "15"}
+
 def tissue(t1, t2s, t2f):             # ms -> (J0, J1, J2): R2f = J0 + J1, R2s = J1 + J2, R1 = 0.4 J1 + 1.6 J2
     r1, r2s, r2f = 1e3 / t1, 1e3 / t2s, 1e3 / t2f
     j1 = (1.6 * r2s - r1) / 1.2
@@ -119,6 +128,11 @@ def check():
         a = two_motion(*J)[0]; jm = 1e3 / (2 * T1_MOBILE[n]); ratios.append(a / jm)
         print(f"{n:9s} a/free={a / FREE:4.2f}  water slowing={6.86 / T1_O17[n]:4.2f}  a/mobile flat={a / jm:5.3f}")
     assert sum(0.815 < r < 0.845 for r in ratios) == 5, ratios
+    print("three views (ratio against 0 %): water D, 1H, 17O, 17O/D, 1H/D, 17O/1H | sodium D, a (vs free ion), a/D")
+    for n, J in AGAROSE.items():
+        c = PCT[n]; dw = D_WATER["0"] / D_WATER[c]; h = T1_H1["0"] / T1_H1[c]; o = 6.86 / T1_O17[n]
+        dn = D_NA["0"] / D_NA[c]; aa = two_motion(*J)[0] / FREE
+        print(f"{n:9s} {dw:4.2f} {h:4.2f} {o:4.2f}  {o / dw:4.2f} {h / dw:4.2f} {o / h:4.2f} | {dn:4.2f} {aa:4.2f} {aa / dn:4.2f}")
     for n, J in TISSUE.items():
         print(f"{n:18s} J0={J[0]:7.1f} J1={J[1]:6.1f} J2={J[2]:6.1f}  two motions: {two_motion(*J)}")
 
