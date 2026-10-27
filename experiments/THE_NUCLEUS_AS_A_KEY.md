@@ -72,5 +72,5 @@ What the page adds is the reading: the rate table seen as a redundant code, one 
 
 ## Open
 
-- Measured sodium rates against the five genuine checks and the single-motion relation, which is the sodium page's open item on the mean-rate identity, widened.
+- Measured sodium rates against the five genuine checks and the single-motion relation, which is the sodium page's open item on the mean-rate identity, widened. The single-motion relation against one published data set: [Sodium in Agarose, Layer by Layer](SODIUM_IN_AGAROSE_LAYER_BY_LAYER.md); the five checks need individual coherence rates and remain open.
 - The read-back with noise as an inverse problem, beside the resolution-limit reading of [F124](../docs/ANALYTICAL_FORMULAS.md); not joined.
