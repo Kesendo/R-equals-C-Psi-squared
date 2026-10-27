@@ -13,8 +13,8 @@ using static MirrorWorld.LetterCube;
 // every field, so the axes lie in one plane and the fields along its normal; XXZ at Δ ≠ ±1 (drawn at Δ = 2) and
 // XX + YY take that colour along Z or perpendicular to it (at Δ = -1 the bond would flip its Z part, which the rule
 // as written does not read); ZZ takes both ends along Z or both perpendicular to it, one colour per site. The rule is
-// sufficient (a colour is an element of F158's far kernel); its necessity is what the draws measure against the
-// sextant's exact decision.
+// sufficient (a colour is an element of F158's far kernel) and not necessary (a sum of circle-letter strings can pair a row
+// with no colour, as the test's turned XX + YY row does); the draws read the rule against the sextant's exact decision.
 public static class TiltedAxes
 {
     public sealed record BondClass(string Name, string[] Terms, long[] Coefficients);

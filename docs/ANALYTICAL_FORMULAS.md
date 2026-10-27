@@ -7126,8 +7126,12 @@ the clauses read with directions miss both ways. On the field-free Heisenberg ch
 axes (2, 2, 1), (1, 2, −1), (1, 0, 2) at rates (2, 1, 2) pair, with the colour (4, −3, −2) on every site,
 which clause 1 forbids; on the field-free XX + YY ring at N = 3 the axes (2, 0, −1), (2, 2, −1), (2, 2, −1)
 at rates (3, 2, 3), which both clauses admit, do not, their normal (1, 0, 2) being neither along Z nor
-perpendicular to it (the rates given are the γ of a unit direction at γ|n|²). A colour is an element of F158's far kernel, so the colours are sufficient; that
-they are also necessary is measured, not proven. On 4600 draws (the four classes with XXZ at Δ = 2,
+perpendicular to it (the rates given are the γ of a unit direction at γ|n|²). A colour is an element of F158's far kernel, so the colours are sufficient; they are not necessary,
+off the letters as on them. The field-free XX + YY chain at N = 3 with equal bonds under axes X, Z, Y has no colour and pairs through
+the sum YYZ + ZXX ([stage E of the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md#beyond-the-colouring-the-same-string-in-another-frame));
+the bond does not see a turn about Z, so turned by it the row keeps the pairing with two axes off the letters,
+at (1, 2, 0), Z, (−2, 1, 0) with the element Y′Y′Z + ZX′X′, X′ = X + 2Y and Y′ = −2X + Y, which commutes
+with H, anticommutes with every jump and squares to 50 (exact, in the test named below). On 4600 draws (the four classes with XXZ at Δ = 2,
 every site watched at rates 1 to 3, axes and fields built from directions with entries from −2 to 2,
 at least one axis off the letters, a third axis drawn in the plane of two in a third of the draws; 2000
 draws at N = 3 on the chain and ring, 2000 at N = 4 on the chain, ring, star and K₄, 600 at N = 5 on the
@@ -7135,9 +7139,12 @@ chain and ring) the colours agree with the exact decision of
 [MirrorWorld's sextant](../compute/MirrorWorld/README.md) (an element, or an odd centred trace not zero
 modulo a prime) on every one, while the clauses read with directions miss on 752, 672 admitted that do
 not pair and 80 forbidden that do (run mode `sextant tilted N TRIALS SEED` with those TRIALS at seed 1;
-`SextantTests.Off_The_Letters_The_Cube_Rule_Reads_F138s_Classes` pins a fixed-seed draw and these rows).
-Elements that are no colour, such as the rows of (a) and (b) below, did not occur in these draws, and
-other sums of terms P⊗P (XX + ZZ) were not drawn.
+`SextantTests.Off_The_Letters_The_Cube_Rule_Reads_F138s_Classes` pins a fixed-seed draw and these rows,
+the turned one among them).
+Every draw was decided and agreed with the colours, so no draw paired without a colour. A draw pairing
+only through a sum of strings, like the turned row, would have stayed undecided: off the letters the
+sextant reads no such sum and leaves the turned row at evidence. Other sums of terms P⊗P (XX + ZZ) were
+not drawn.
 
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, holds
 for letter axes wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter

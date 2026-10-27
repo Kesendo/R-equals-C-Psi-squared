@@ -413,6 +413,35 @@ public class SextantTests
             new (long, long, long)[] { (0, 1, 0), (0, 0, 0), (0, 0, 0) }), "zz across"));
         Assert.False(Read(new TiltedAxes.Row(3, three[0].Edges, zz, watched, new[] { 1L, 2, 1 },
             new (long, long, long)[] { (1, 1, 0), (0, 0, 0), (0, 0, 0) }), "zz across, field off"));
+
+        // the colours are not necessary: the colouring page's stage E row (XX + YY chain, axes X, Z, Y, element
+        // YYZ + ZXX) turned about Z, which the XX + YY bond does not see, puts two axes off the letters and keeps the
+        // pairing. The rule finds no colour, and the sextant, which reads no sum of circle-letter strings, stays at
+        // evidence (this pins that blind spot: when the sextant learns such sums, the expected kind becomes Witnessed);
+        // the element, the turned sum (Y'Y'Z + ZX'X') with X' = X + 2Y and Y' = -2X + Y, commutes with H,
+        // anticommutes with every jump and squares to 50, exactly, so F158 carries the palindrome at every rate
+        var turned = new TiltedAxes.Row(3, three[0].Edges, TiltedAxes.Classes[2], new (long, long, long)[] { (1, 2, 0), (0, 0, 1), (-2, 1, 0) }, new[] { 1L, 2, 3 }, none);
+        Assert.False(turned.Rule());
+        Assert.Null(Sextant.CircleColour(turned.Setting()));
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(turned.Setting()).Kind);
+        Complex[,] Dir(long x, long y, long z) { var m = new Complex[2, 2]; Acc(m, Letter('X'), x); Acc(m, Letter('Y'), y); Acc(m, Letter('Z'), z); return m; }
+        var H3 = new Complex[8, 8];
+        foreach (var (term, c) in turned.Setting().H) Acc(H3, DenseString(term.ToString(3)), c);
+        var U = new Complex[8, 8];
+        Acc(U, Kron(Kron(Dir(-2, 1, 0), Dir(-2, 1, 0)), Letter('Z')), 1);
+        Acc(U, Kron(Kron(Letter('Z'), Dir(1, 2, 0)), Dir(1, 2, 0)), 1);
+        Assert.True(Same(Mul(U, H3), Mul(H3, U)));
+        for (int l = 0; l < 3; l++)
+        {
+            var (x, y, z) = turned.Axes[l];
+            var J = Site(3, l, Dir(x, y, z));
+            Assert.True(Same(Mul(U, J), Neg(Mul(J, U))));
+        }
+        var fifty = new Complex[8, 8];
+        Acc(fifty, Site(3, 0, Letter('I')), 50);
+        Assert.True(Same(Mul(U, U), fifty));
+        var single = Kron(Kron(Dir(-2, 1, 0), Dir(-2, 1, 0)), Letter('Z'));
+        Assert.False(Same(Mul(single, H3), Mul(H3, single)));                        // one term alone does not commute
     }
 
     static bool Same(Complex[,] a, Complex[,] b)
