@@ -426,12 +426,21 @@ Each grid holds the sixteen strings, first letter by row (I, X, Y, Z from the to
 
 The hues are a choice, and the same figure in a palette for colour-blind viewers is [sodium_layers_okabe.png](sodium_layers_okabe.png); what stays the same for every viewer is which strings are outlined and the numbers under them. Read as a whole, the grids look like script (Tom's reading).
 
+### Two nuclei
+
+![Na⁺ and Cl⁻ alone as two 4 × 4 grids and their products as four 16 × 16 plaids: coupled by Iz·Sz the cell ZZ|ZZ stays outlined, under a flip-flop or an rf field it is lit but turned away, with J₀ > 0 on Cl nothing is lit by every jump.](nacl_layers_neon.png)
+
+Two spins 3/2, Na⁺ and Cl⁻, are four qubits. Rows are the Na strings, columns the Cl strings, and each cell is shaded by the sum of the two rates, so a pair of nuclei draws a plaid, the two single patterns crossed. A string is lit by every jump of both nuclei exactly when each half is lit by its own nucleus's jumps, so combining nuclei multiplies the filters, and the only candidate is ZZ|ZZ. The four panels are the verdicts of [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md) and of the sodium page's spin-lock section: an Ising coupling keeps the colour in the sense of [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md) (between ²³Na and ³⁵Cl a secular coupling reduces to it), the full flip-flop of like nuclei and an rf field on Na turn it away (dashed dark cell), and a J₀ > 0 on Cl leaves nothing lit. The densities are illustrative, with J₀ = 0 as the limit the one-nucleus figure's top row also is (a real nucleus has J₀ > 0, which the last panel shows on Cl): Na (J₀, J₁, J₂) = (0, 2, 1) and Cl (0, 3, 1), Cl (3.5, 3, 1) in the last panel; the Okabe-Ito version is [nacl_layers_okabe.png](nacl_layers_okabe.png). [The Nucleus as a Key](../experiments/THE_NUCLEUS_AS_A_KEY.md) reads the pattern as a code that can be checked and read back.
+
 ### How it was computed
 
 `simulations/sodium_layers.py` decides anticommutation of two-qubit strings letter by letter, sums the rates of the lighting layers and draws both palettes. Before drawing it checks the sixteen final rates against the rate table of the source page, string by string, and that J₀ = 0 leaves exactly ZZ and J₀ > 0 nothing. The rates are the textbook Redfield model with J₀, J₁, J₂ as symbols, not a measurement. In that model's usual form, J(ω) ∝ τ_c/(1 + ω²τ_c²), the zero-frequency density J₀ is the largest of the three, so the top row is a limit and a real nucleus sits in the bottom row, where the source page's two mirrors about two centres take over from the single colour. The layout, the sheets, the inset and the hues are drawing choices.
 
+`simulations/nacl_layers.py` reads every panel twice before drawing it: the surviving strings, and the residual of S(ρ) = ZZZZ·ρᵀ against S·L·S⁻¹ = −L − 2σ, entry by entry, exactly 0 where the colour survives.
+
 ```
 python simulations/sodium_layers.py
+python simulations/nacl_layers.py
 ```
 
 ---
