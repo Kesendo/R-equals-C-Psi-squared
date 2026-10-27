@@ -41,12 +41,30 @@ using static MirrorWorld.LetterCube;
 // nonzero at rates the reversal keeps: the reversal times a uniform turn, then S_XY
 // (experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md).
 //
+// Sectors (ReadSectors): an unwatched site where H uses exactly one letter (so H conserves it) is a control: turned onto Z, its bit is a number H never changes, so H = sum over the controls' bits sigma of
+// |sigma><sigma| ⊗ H_sigma, and a bond to a control is a field on its neighbour whose sign the bit sets
+// (docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md Theorem 4). The sandwich may then depend on the bits: A =
+// sum_sigma |pi_A(sigma)><sigma| ⊗ A_sigma and B likewise, every A_sigma, B_tau a product of monomial factors on the
+// other sites with their own turns x_l.sigma, y_l.tau, each site's kind the same in every sector, the controls kept
+// or flipped. No dissipator touches a control,
+// so L is a sum of blocks (sigma, tau), each a generator on the other sites with H_sigma on the ket and H_tau on the
+// bra, and every block is read site by site as above: a site's table with one field on the ket and another on the bra,
+// a support's left equation with the ket's Hamiltonian and its right one with the bra's. The blocks' constants (the
+// terms on the controls alone) must agree with the relation: e_sigma - e_tau the same on the target block for a
+// reflection or a copy, its negative for the Pi-reflection. It reads -3XY with fields -2X under Z dephasing at (0, 3),
+// where no product reads: in sector s site 1 sees the field (-2, -3s), perpendicular to its watching, and its turn
+// follows the sector, the conditioned turn exp(-i·theta·X_0·Z_1), a frame in the sense of
+// experiments/THE_PALINDROME_AS_A_COLOURING.md (it commutes with every jump), read without its angle. The frames of
+// the other sites are asked blind, 3^k of them for k sites that are not controls.
+//
 // Parent: the letter cube, whose letters, heights, arrows and one-site moves it reads with; the sextant's sibling,
 // which asks the cube's moves on the whole generator, uniform on every site. Its own are the letters (the binomial
 // equations), the reading and every N.
 //
 // Deliberately outside: the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
-// twin's cube search and machine), frames other than one Clifford axis per site carried onto Z (ReadRotated), weights
+// twin's cube search and machine), bits a sandwich depends on other than a conserved unwatched letter's and kinds that
+// change with a control's bit (ReadSectors),
+// frames other than one Clifford axis per site carried onto Z (ReadRotated, ReadSectors), weights
 // along X or Y, relabellings and turned frames in EveryN, a relabelling and a turned frame together, and a silence's
 // meaning: when the letters are silent, nothing of this form may exist or the element may not be such a sandwich, and
 // the theodolite does not decide which.
@@ -280,18 +298,24 @@ public sealed class Theodolite : GameObject
         return m;
     }
 
-    // one site's generator times two (integral): the field -i[h, .] and every jump rate·D[J]
-    static Gauss[,] SiteTimesTwo(IEnumerable<(char Letter, long Coefficient)> fields, IEnumerable<(Gauss[,] Jump, long Rate)> jumps)
+    // one site's generator times two (integral): the field -i[h, .] and every jump rate·D[J]; with braFields the bra
+    // carries its own field, -i(h·rho - rho·h')
+    static Gauss[,] SiteTimesTwo(IEnumerable<(char Letter, long Coefficient)> fields, IEnumerable<(Gauss[,] Jump, long Rate)> jumps,
+        IEnumerable<(char Letter, long Coefficient)>? braFields = null)
     {
         var t = new Gauss[4, 4];
-        var h = new Gauss[2, 2];
-        foreach (var (letter, c) in fields)
+        Gauss[,] Field(IEnumerable<(char Letter, long Coefficient)> fs)
         {
-            var p = LetterMatrix(letter);
-            for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) h[i, j] = h[i, j] + c * p[i, j];
+            var h = new Gauss[2, 2];
+            foreach (var (letter, c) in fs)
+            {
+                var p = LetterMatrix(letter);
+                for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) h[i, j] = h[i, j] + c * p[i, j];
+            }
+            return h;
         }
-        var hl = Lr(h, Id2);
-        var hr = Lr(Id2, h);
+        var hl = Lr(Field(fields), Id2);
+        var hr = Lr(Id2, Field(braFields ?? fields));
         var minusTwoI = new Gauss(0, -2);
         for (int r = 0; r < 4; r++) for (int c = 0; c < 4; c++) t[r, c] = t[r, c] + minusTwoI * (hl[r, c] - hr[r, c]);
         foreach (var (jump, rate) in jumps)
@@ -489,15 +513,21 @@ public sealed class Theodolite : GameObject
 
     // Relabelling: null for the site-local sandwich; otherwise pi, site l carried to site pi[l] before the sandwich.
     public sealed record Reading(bool Transposed, IReadOnlyList<(Kind A, Kind B)> Kinds, Binomials.Reduced System,
-        IReadOnlyList<Binomial> Equations, IReadOnlyList<int>? Relabelling = null, string? Axes = null)
+        IReadOnlyList<Binomial> Equations, IReadOnlyList<int>? Relabelling = null, string? Axes = null,
+        IReadOnlyList<int>? Controls = null)
     {
         public IEnumerable<string> Lines()
         {
-            yield return $"rho -> {(Transposed ? "A·rho^T·B" : "A·rho·B")} with A = ⊗A_l, B = ⊗B_l" +
+            yield return $"rho -> {(Transposed ? "A·rho^T·B" : "A·rho·B")} with " +
+                         (Controls is { } cs ? $"A = sum over the bits sigma of the controls [{string.Join(", ", cs)}] of their kept or flipped bits ⊗ A_sigma, B likewise" : "A = ⊗A_l, B = ⊗B_l") +
                          (Relabelling is { } p ? $", after the sites are relabelled l -> [{string.Join(", ", p)}]" : "") +
                          (Axes is { } a ? $", in the frame where site l's axis {a} (letter l of the word) is Z" : "");
             for (int l = 0; l < Kinds.Count; l++)
-                yield return $"site {l}: A_{l} {Name(Kinds[l].A, $"x{l}")}, B_{l} {Name(Kinds[l].B, $"y{l}")}";
+                yield return Controls is { } c && c.Contains(l)
+                    ? $"site {l}: a control, its bit {(Kinds[l].A == Kind.Diagonal ? "kept" : "flipped")} by A, {(Kinds[l].B == Kind.Diagonal ? "kept" : "flipped")} by B"
+                    : Controls is not null
+                        ? $"site {l}: A_{l} {Name(Kinds[l].A, $"x{l}.sigma")}, B_{l} {Name(Kinds[l].B, $"y{l}.tau")}"
+                        : $"site {l}: A_{l} {Name(Kinds[l].A, $"x{l}")}, B_{l} {Name(Kinds[l].B, $"y{l}")}";
             foreach (var line in System.Lines()) yield return $"  {line}";
         }
     }
@@ -543,6 +573,183 @@ public sealed class Theodolite : GameObject
             if (word.All(a => a == 'Z')) continue;
             if (Read(s.Rotated(word), rel, branch) is { } r) return r with { Axes = word };
         }
+        return null;
+    }
+
+    // A sandwich conditioned on the bits of the controls (the head comment's Sectors), asked in the plain frame of the
+    // other sites first and then in every turned one; null when the setting has no control or nothing reads.
+    public static Reading? ReadSectors(Setting s, Relation rel, bool? branch = null)
+    {
+        int n = s.N;
+        var controls = new List<int>();
+        var letter = new char[n];
+        for (int u = 0; u < n; u++)
+        {
+            if (s.Jumps.Any(j => j.Site == u && j.Rate != 0)) continue;
+            var used = s.H.Select(t => t.Term.Letter(u)).Where(c => c != 'I').Distinct().ToList();
+            if (used.Count != 1) continue;
+            controls.Add(u);
+            letter[u] = used[0];
+        }
+        if (controls.Count == 0 || controls.Count == n) return null;
+        var rest = Enumerable.Range(0, n).Where(l => !controls.Contains(l)).ToArray();
+        for (int code = 0; code < (int)Math.Pow(3, rest.Length); code++)
+        {
+            var word = new char[n];
+            foreach (int u in controls) word[u] = letter[u];
+            for (int i = 0, c = code; i < rest.Length; i++, c /= 3) word[rest[i]] = "ZXY"[c % 3];
+            var w = new string(word);
+            bool plain = w.All(a => a == 'Z');
+            if (SectorRead(plain ? s : s.Rotated(w), controls, rest, rel, branch) is { } r) return plain ? r : r with { Axes = w };
+        }
+        return null;
+    }
+
+    static Reading? SectorRead(Setting t, List<int> controls, int[] rest, Relation rel, bool? branch)
+    {
+        int n = t.N, k = controls.Count, m = rest.Length, nb = 1 << k;
+        // the sector settings on the other sites, and their constants
+        var sectors = new Setting[nb];
+        var constant = new long[nb];
+        for (int sg = 0; sg < nb; sg++)
+        {
+            var terms = new Dictionary<string, long>();
+            foreach (var (term, c) in t.H)
+            {
+                long sign = 1;
+                for (int i = 0; i < k; i++)
+                {
+                    char ch = term.Letter(controls[i]);
+                    if (ch is not ('I' or 'Z')) throw new InvalidOperationException($"a control's letter is not on Z: {term.ToString(n)}");
+                    if (ch == 'Z' && ((sg >> i) & 1) == 1) sign = -sign;
+                }
+                var letters = new string(rest.Select(term.Letter).ToArray());
+                if (letters.All(ch => ch == 'I')) { constant[sg] += sign * c; continue; }
+                terms[letters] = (terms.TryGetValue(letters, out long o) ? o : 0) + sign * c;
+            }
+            var jumps = t.Jumps.Where(j => rest.Contains(j.Site)).Select(j => (Array.IndexOf(rest, j.Site), j.Jump, j.Rate));
+            sectors[sg] = new Setting(m, terms.Select(kv => (PauliString.Parse(kv.Key), kv.Value)), jumps);
+        }
+        string Bits(int sg) => new string(Enumerable.Range(0, k).Select(i => (char)('0' + ((sg >> i) & 1))).ToArray());
+        string Xs(int i, int sg) => $"x{rest[i]}.{Bits(sg)}";
+        string Ys(int i, int sg) => $"y{rest[i]}.{Bits(sg)}";
+        List<(char, long)> Fields(Setting st, int i) => st.H.Where(h => st.Support(h.Term).SequenceEqual(new[] { i }))
+            .Select(h => (h.Term.Letter(i), h.Coefficient)).ToList();
+        var supports = sectors.SelectMany(Supports).GroupBy(sup => string.Join(",", sup)).Select(g => g.First())
+            .OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal).ToList();
+        var doneAt = Enumerable.Range(0, m).Select(i => supports.Where(sup => sup.Max() == i).ToList()).ToList();
+        var hams = new Dictionary<(int, string), Gauss[,]>();
+        Gauss[,] Ham(int sg, int[] sup)
+        {
+            var key = (sg, string.Join(",", sup));
+            if (!hams.TryGetValue(key, out var h)) hams[key] = h = HamiltonianOn(sectors[sg], sup);
+            return h;
+        }
+        foreach (bool transposed in Branches(branch))
+            for (int code = 0; code < 1 << (2 * k); code++)
+            {
+                int flipA = 0, flipB = 0;
+                for (int i = 0; i < k; i++)
+                {
+                    if (((code >> (2 * i)) & 1) == 1) flipA |= 1 << i;
+                    if (((code >> (2 * i + 1)) & 1) == 1) flipB |= 1 << i;
+                }
+                // every block (ket sg, bra tg): the sectors A and B sit on, and the target block
+                var blocks = new List<(int Sg, int Tg, int A, int B, int Ts, int Tt)>();
+                bool fits = true;
+                for (int sg = 0; sg < nb && fits; sg++)
+                    for (int tg = 0; tg < nb && fits; tg++)
+                    {
+                        int a = transposed ? tg : sg, b = transposed ? sg : tg;
+                        int ts = a ^ flipA, tt = b ^ flipB;
+                        long src = constant[sg] - constant[tg], tgt = constant[ts] - constant[tt];
+                        fits = rel == Relation.Pi ? src == -tgt : src == tgt;
+                        blocks.Add((sg, tg, a, b, ts, tt));
+                    }
+                if (!fits) continue;
+                var allowed = new List<List<((Kind A, Kind B) K, List<Binomial> Eqs)>>();
+                for (int i = 0; i < m; i++)
+                {
+                    var site = t.Jumps.Where(j => j.Site == rest[i]).Select(j => (j.Jump, j.Rate)).ToList();
+                    var opts = new List<((Kind, Kind), List<Binomial>)>();
+                    foreach (var (ka, kb) in KindPairs)
+                    {
+                        var eqs = new List<Binomial>();
+                        bool ok = true;
+                        foreach (var bl in blocks)
+                        {
+                            var from = TracelessTimesEight(SiteTimesTwo(Fields(sectors[bl.Sg], i), site, Fields(sectors[bl.Tg], i)));
+                            var to = TracelessTimesEight(SiteTimesTwo(Fields(sectors[bl.Ts], i), site, Fields(sectors[bl.Tt], i)));
+                            try
+                            {
+                                var b = SiteEquations(new[] { (from, to) }, rel, ka, kb, transposed, Xs(i, bl.A), Ys(i, bl.B), $"site {rest[i]}");
+                                if (b is null) { ok = false; break; }
+                                eqs.AddRange(b);
+                            }
+                            catch (SilentException) { ok = false; break; }
+                        }
+                        if (ok) opts.Add(((ka, kb), eqs));
+                    }
+                    allowed.Add(opts);
+                }
+                if (allowed.Any(o => o.Count == 0)) continue;
+                var choice = new int[m];
+
+                List<Binomial>? Equations(int upto)
+                {
+                    var eqs = new List<Binomial>();
+                    for (int i = 0; i <= upto; i++)
+                    {
+                        eqs.AddRange(allowed[i][choice[i]].Eqs);
+                        foreach (var sup in doneAt[i])
+                        {
+                            string where = $"support {{{string.Join(", ", sup.Select(q => rest[q]))}}}";
+                            foreach (var (a, ts) in blocks.Select(bl => (bl.A, bl.Ts)).Distinct())
+                            {
+                                var e = SupportEquations(Ham(a, sup), Ham(ts, sup), rel, transposed, sup.Select(q => allowed[q][choice[q]].K.A).ToList(),
+                                    sup.Select(q => Xs(q, a)).ToList(), left: true, $"{where}, left");
+                                if (e is null) return null;
+                                eqs.AddRange(e);
+                            }
+                            foreach (var (b, tt) in blocks.Select(bl => (bl.B, bl.Tt)).Distinct())
+                            {
+                                var e = SupportEquations(Ham(b, sup), Ham(tt, sup), rel, transposed, sup.Select(q => allowed[q][choice[q]].K.B).ToList(),
+                                    sup.Select(q => Ys(q, b)).ToList(), left: false, $"{where}, right");
+                                if (e is null) return null;
+                                eqs.AddRange(e);
+                            }
+                        }
+                    }
+                    return eqs;
+                }
+
+                List<string> Unknowns(int upto) => Enumerable.Range(0, upto + 1)
+                    .SelectMany(i => Enumerable.Range(0, nb).SelectMany(sg => new[] { Xs(i, sg), Ys(i, sg) })).ToList();
+
+                bool Rec(int i)
+                {
+                    if (i == m)                                           // the plain copies holding the identity left out
+                        return !(rel == Relation.Copy && !transposed && flipA == 0 && flipB == 0
+                                 && choice.Select((ci, q) => allowed[q][ci].K).All(kk => kk == (Kind.Diagonal, Kind.Diagonal)));
+                    for (int ci = 0; ci < allowed[i].Count; ci++)
+                    {
+                        choice[i] = ci;
+                        var eqs = Equations(i);
+                        if (eqs is null || Binomials.Solve(eqs, Unknowns(i)) is null) continue;
+                        if (Rec(i + 1)) return true;
+                    }
+                    return false;
+                }
+
+                if (!Rec(0)) continue;
+                var all = Equations(m - 1)!;
+                var reduced = Binomials.Solve(all, Unknowns(m - 1))!;
+                var kinds = new (Kind A, Kind B)[n];
+                for (int i = 0; i < k; i++)
+                    kinds[controls[i]] = (((flipA >> i) & 1) == 1 ? Kind.AntiDiagonal : Kind.Diagonal, ((flipB >> i) & 1) == 1 ? Kind.AntiDiagonal : Kind.Diagonal);
+                for (int i = 0; i < m; i++) kinds[rest[i]] = allowed[i][choice[i]].K;
+                return new Reading(transposed, kinds, reduced, all, Controls: controls);
+            }
         return null;
     }
 

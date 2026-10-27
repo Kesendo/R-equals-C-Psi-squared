@@ -203,6 +203,12 @@ public class TheodoliteTests
             }
             E = moved;
         }
+        return Satisfies(s, rel, E);
+    }
+
+    // E·L = (T(L) - c)·E on the full generator, exactly (a copy: E·L = L·E)
+    static bool Satisfies(Theodolite.Setting s, Theodolite.Relation rel, Gauss[,] E)
+    {
         var L = GeneratorTimesFour(s);
         int dd = L.GetLength(0);
         var tr = Gauss.Zero;
@@ -229,6 +235,54 @@ public class TheodoliteTests
                 if (!v.IsZero) return false;
             }
         return true;
+    }
+
+    // The sector reading's element, densely, at its rational point: for each pair of control bits (sigma, tau) of the
+    // input cell the controls go to their kept or flipped bits, and every other site carries A_l.sigma and B_l.tau
+    // (transposed: A on the bra's bits, B on the ket's), so A = sum_sigma |pi(sigma)><sigma| ⊗ A_sigma as a matrix.
+    static bool ReflectsBySectors(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r, bool unconditioned = false)
+    {
+        var sol = Binomials.RationalSolution(r.System);
+        Assert.NotNull(sol);
+        var controls = r.Controls!.ToList();
+        int n = s.N, k = controls.Count, cells = 1 << (2 * n);
+        int[] perm = { 0, 2, 1, 3 };
+        // unconditioned: every sector takes sector 0's turns, the product the conditioning replaces
+        string Bits(int v) => new string(Enumerable.Range(0, k).Select(i => (char)('0' + (unconditioned ? 0 : (v >> i) & 1))).ToArray());
+        var E = new Gauss[cells, cells];
+        for (int sg = 0; sg < 1 << k; sg++)
+            for (int tg = 0; tg < 1 << k; tg++)
+            {
+                int a = r.Transposed ? tg : sg, b = r.Transposed ? sg : tg;
+                var part = new Gauss[1, 1] { { Gauss.One } };
+                for (int l = 0; l < n; l++)
+                {
+                    var el = new Gauss[4, 4];
+                    int ci = controls.IndexOf(l);
+                    if (ci >= 0)
+                    {
+                        int ks = (sg >> ci) & 1, kt = (tg >> ci) & 1;
+                        int fa = r.Kinds[l].A == Theodolite.Kind.AntiDiagonal ? 1 : 0, fb = r.Kinds[l].B == Theodolite.Kind.AntiDiagonal ? 1 : 0;
+                        int outKet = (r.Transposed ? kt : ks) ^ fa, outBra = (r.Transposed ? ks : kt) ^ fb;
+                        el[2 * outKet + outBra, 2 * ks + kt] = Gauss.One;
+                    }
+                    else
+                    {
+                        var fA = Factor(r.Kinds[l].A, sol![$"x{l}.{Bits(a)}"]);
+                        var fB = Factor(r.Kinds[l].B, sol![$"y{l}.{Bits(b)}"]);
+                        el = Kron(fA, new[,] { { fB[0, 0], fB[1, 0] }, { fB[0, 1], fB[1, 1] } });
+                        if (r.Transposed)
+                        {
+                            var t = new Gauss[4, 4];
+                            for (int row = 0; row < 4; row++) for (int c = 0; c < 4; c++) t[row, c] = el[row, perm[c]];
+                            el = t;
+                        }
+                    }
+                    part = Kron(part, el);
+                }
+                for (int i = 0; i < cells; i++) for (int j = 0; j < cells; j++) E[i, j] = E[i, j] + part[i, j];
+            }
+        return Satisfies(s, rel, E);
     }
 
     static bool ReflectsAtRationalPoint(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r)
@@ -645,6 +699,59 @@ public class TheodoliteTests
             for (int j = 0; j < dd; j++)
                 if (left[i, j] != right[i, j]) return false;
         return true;
+    }
+
+    // Conditioned on an unwatched bit: -3XY with fields -2X under Z dephasing at (0, 3). X is the only letter on the
+    // unwatched site 0, so turned onto Z its bit is a number s and site 1 sees the field (-2, -3s), perpendicular to
+    // its watching; no product reads it (plain, relabelled or turned), the sandwich conditioned on that bit does, at
+    // a rational point, and the element built densely from it reflects the full turned generator, while the same
+    // element with sector 0's turns in both sectors does not. The same for a Y control (-2YY + 2Y + 2YX under Z at
+    // (0, 1)) and a Z one (-3Z + 3ZY under X at (0, 1), turned on site 1), which no product reads either. A Z field on
+    // site 1 breaks the pairing (F158's word, an exact no) and nothing reads; 3ZY - 3ZX under X at (0, 3, 1) pairs
+    // (F158), and its sandwich needs a phase coupling the two watched sites, outside the form.
+    [Fact]
+    public void Conditioned_On_An_Unwatched_Bit_It_Reads_What_No_Product_Reads()
+    {
+        var z = LetterMatrix('Z');
+        var x = LetterMatrix('X');
+        var s = Theodolite.Setting.Of(2, new[] { ("XY", -3L), ("XI", -2L), ("IX", -2L) }, new[] { (0, z, 0L), (1, z, 3L) });
+        foreach (var rel in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+        {
+            Assert.Null(Theodolite.Read(s, rel));
+            Assert.Null(Theodolite.ReadRotated(s, rel));
+            Assert.Null(Theodolite.ReadRelabelled(s, rel));
+            var r = Theodolite.ReadSectors(s, rel);
+            Assert.NotNull(r);
+            Assert.Equal(new[] { 0 }, r!.Controls);
+            Assert.Equal("XZ", r.Axes);
+            Assert.True(ReflectsBySectors(s.Rotated(r.Axes!), rel, r));
+            Assert.False(ReflectsBySectors(s.Rotated(r.Axes!), rel, r, unconditioned: true));
+        }
+        var others = new[]
+        {
+            Theodolite.Setting.Of(2, new[] { ("YY", -2L), ("YI", 2L), ("IY", 2L), ("YX", 2L) }, new[] { (0, z, 0L), (1, z, 1L) }),
+            Theodolite.Setting.Of(2, new[] { ("ZI", -3L), ("IZ", -3L), ("ZY", 3L) }, new[] { (0, x, 0L), (1, x, 1L) }),
+        };
+        foreach (var o in others)
+        {
+            foreach (var q in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+                Assert.True(Theodolite.Read(o, q) is null && Theodolite.ReadRotated(o, q) is null && Theodolite.ReadRelabelled(o, q) is null);
+            var r = Theodolite.ReadSectors(o, Theodolite.Relation.Reflection) ?? Theodolite.ReadSectors(o, Theodolite.Relation.Pi);
+            Assert.NotNull(r);
+            var rel = Theodolite.ReadSectors(o, Theodolite.Relation.Reflection) is null ? Theodolite.Relation.Pi : Theodolite.Relation.Reflection;
+            Assert.True(ReflectsBySectors(r!.Axes is { } ax ? o.Rotated(ax) : o, rel, r));
+        }
+        var broken = Theodolite.Setting.Of(2, new[] { ("XY", -3L), ("XI", -2L), ("IX", -2L), ("IZ", 1L) }, new[] { (0, z, 0L), (1, z, 3L) });
+        Assert.Null(Theodolite.ReadSectors(broken, Theodolite.Relation.Reflection));
+        Assert.Null(Theodolite.ReadSectors(broken, Theodolite.Relation.Pi));
+        Assert.Equal(Sextant.Palindrome.Obstructed, Sextant.Decide(new Sextant.Setting(2, broken.H, broken.Jumps)).Kind);
+        Assert.False(ReflectsBySectors(broken.Rotated("XZ"), Theodolite.Relation.Reflection,
+            Theodolite.ReadSectors(s, Theodolite.Relation.Reflection)!));             // the check can fail
+        var watchedPair = Theodolite.Setting.Of(3, new[] { ("ZYI", 3L), ("IZY", 3L), ("ZXI", -3L), ("IZX", -3L) },
+            new[] { (0, x, 0L), (1, x, 3L), (2, x, 1L) });
+        Assert.Null(Theodolite.ReadSectors(watchedPair, Theodolite.Relation.Reflection));
+        Assert.Null(Theodolite.ReadSectors(watchedPair, Theodolite.Relation.Pi));
+        Assert.StartsWith("F158", Sextant.Decide(new Sextant.Setting(3, watchedPair.H, watchedPair.Jumps)).Detail);
     }
 
     // In a turned frame: uncoupled sites with fields -2Y + Z under X dephasing (one site unwatched) pair site by site,

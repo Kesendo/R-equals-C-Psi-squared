@@ -20,8 +20,8 @@ using static MirrorWorld.LetterCube;
 // verdict is an exact palindrome; there the element can
 // sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
 // X⊗Z⊗(Y − 2X), whose angle the couplings set; or the theodolite reads a sandwich A·ρ^(T)·B of monomial factors,
-// site-local, after a relabelling of the sites that keeps the supports, or in a frame carrying one axis per site
-// onto Z, carrying L to -L^dagger - c or to -L - c
+// site-local, after a relabelling of the sites that keeps the supports, in a frame carrying one axis per site onto
+// Z, or conditioned on the bits of unwatched sites whose letter H conserves, carrying L to -L^dagger - c or to -L - c
 // (its binomial system has a solution in nonzero complex numbers, decided exactly, so the element exists, with turns
 // that may be roots and may differ from site to site, outside the uniform closure). OBSTRUCTED: an exact broken
 // EndCount verdict there (F158's necessity), or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no
@@ -41,9 +41,9 @@ using static MirrorWorld.LetterCube;
 // cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
 // EndCount (a sibling under the frame, not a parent; an unwatched site's jump is dropped, as F158 section (a) says),
 // and past it the theodolite (a sibling under the cube), so the zone left SYMMETRIC-MOD-P holds settings whose element
-// is neither in the uniform closure nor a sandwich of monomial factors, site-local, relabelled or in a frame carrying
-// one axis per site onto Z, and Pauli-letter settings whose end count stays a rank reading; jumps along an axis between
-// the letters, which no such frame carries onto Z, can read so (-3XX + 3YX under X + Z dephasing at (2, 1)).
+// is neither in the uniform closure nor a sandwich of monomial factors, site-local, relabelled, in a frame carrying
+// one axis per site onto Z or conditioned on unwatched bits, and Pauli-letter settings whose end count stays a rank
+// reading; jumps along an axis between the letters, which no such frame carries onto Z, can read so (-3XX + 3YX under X + Z dephasing at (2, 1)).
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations in the closure search (EndCount.SymmetryElement holds the half-turn composed with one, the theodolite
@@ -79,21 +79,23 @@ public sealed class Sextant : GameObject
             : new Decision(Palindrome.Obstructed, $"F158, the end count: {reading}");
     }
 
-    // The theodolite's yes: a site-local sandwich whose letters' binomial system is solvable; a silence decides nothing.
+    // The theodolite's yes: a sandwich (site-local, relabelled, in a turned frame or conditioned on unwatched bits)
+    // whose letters' binomial system is solvable; a silence decides nothing.
     static Decision? TheodoliteReading(Setting s)
     {
         var t = new Theodolite.Setting(s.N, s.H, s.Jumps);
         long dim = 1L << (2 * s.N);
         long traceTimesFour = s.DissipatorTimesFour.Where(kv => kv.Key.Row == kv.Key.Col).Sum(kv => kv.Value.Re);
         var relations = new[] { (Theodolite.Relation.Reflection, "-L^dagger - c"), (Theodolite.Relation.Pi, "-L - c") };
-        foreach (int way in new[] { 0, 1, 2 })
+        foreach (int way in new[] { 0, 1, 2, 3 })
             foreach (var (rel, form) in relations)
-                if ((way switch { 0 => Theodolite.Read(t, rel), 1 => Theodolite.ReadRelabelled(t, rel), _ => Theodolite.ReadRotated(t, rel) }) is { } r)
+                if ((way switch { 0 => Theodolite.Read(t, rel), 1 => Theodolite.ReadRelabelled(t, rel), 2 => Theodolite.ReadRotated(t, rel), _ => Theodolite.ReadSectors(t, rel) }) is { } r)
                 {
                     string kinds = string.Join(" ", r.Kinds.Select(k => $"{Short(k.A)}{Short(k.B)}"));
+                    string frame = r.Axes is { } ax ? $"in the frame turning the axes {ax} onto Z, " : "";
                     string where = r.Relabelling is { } p ? $"after the sites are relabelled l -> [{string.Join(", ", p)}], a sandwich"
-                                 : r.Axes is { } ax ? $"in the frame turning the axes {ax} onto Z, a site-local"
-                                 : "a site-local";
+                                 : r.Controls is { } cs ? $"{frame}a sandwich conditioned on the bits of the unwatched sites [{string.Join(", ", cs)}],"
+                                 : $"{frame}a site-local";
                     return new Decision(Palindrome.Witnessed,
                         $"the theodolite: {where} {(r.Transposed ? "A·rho^T·B" : "A·rho·B")} carries L to {form}, kinds [{kinds}] (d diagonal, a anti-diagonal; outside the closure; c = {Fraction(-2 * traceTimesFour, 4 * dim)})");
                 }
