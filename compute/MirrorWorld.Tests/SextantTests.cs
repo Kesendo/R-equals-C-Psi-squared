@@ -280,6 +280,85 @@ public class SextantTests
         Assert.Equal((Sextant.OnHamiltonian.Flips, Sextant.OnDissipator.Breaks), (turnX.OnH, turnX.OnD));
     }
 
+    // F158 on a tilted axis: -3XX + 3YX under dephasing along X + Z at (2, 1). H uses one axis per site, (-1, 1, 0) on
+    // site 0 and X on site 1, and a letter perpendicular to it and to the watched axis (1, 0, 1) anticommutes with
+    // both, so the colour (X + Y - Z)⊗Y commutes with H and anticommutes with every jump. By a second route, dense
+    // matrices built letter by letter that never see the masks: G·H = H·G and G·J = -J·G exactly, and the left
+    // multiplication by G carries the generator (J² = 2, so σ = 6) to -L^dagger - 12 exactly, while a candidate the
+    // search rejects, (X - Z)⊗Y, perpendicular to the watching but not to H's axis on site 0, does not. No theodolite
+    // reading sees it (its factors are monomial, X + Y - Z is not). A Z field on site 0 asks of that site's colour to
+    // commute with Z as well, a YY bond to be perpendicular to Y too; neither leaves a colour, and the odd traces then
+    // say no, exactly.
+    [Fact]
+    public void A_Colour_On_The_Circle_Witnesses_A_Tilted_Axis()
+    {
+        const int n = 2;
+        var tilt = new[,] { { LetterCube.Gauss.One, LetterCube.Gauss.One }, { LetterCube.Gauss.One, -LetterCube.Gauss.One } };
+        var jumps = new[] { (0, tilt, 2L), (1, tilt, 1L) };
+        var s = Sextant.Setting.Chain(n, new[] { ("XX", -3L), ("YX", 3L) }, jumps);
+        Assert.Equal(new[] { (1L, 1L, -1L), (0L, 1L, 0L) }, Sextant.CircleColour(s));
+        var d = Sextant.Decide(s);
+        Assert.Equal(Sextant.Palindrome.Witnessed, d.Kind);
+        Assert.Contains("G = (X + Y - Z)⊗Y", d.Detail);
+        var t = new Theodolite.Setting(s.N, s.H, s.Jumps);
+        foreach (var rel in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+        {
+            Assert.Null(Theodolite.Read(t, rel));
+            Assert.Null(Theodolite.ReadRelabelled(t, rel));
+            Assert.Null(Theodolite.ReadRotated(t, rel));
+            Assert.Null(Theodolite.ReadSectors(t, rel));
+        }
+        Assert.Contains("c = 12", d.Detail);
+
+        int dd = 1 << n, dim = dd * dd;
+        var H = new Complex[dd, dd];
+        foreach (var (term, c) in s.H) Acc(H, DenseString(term.ToString(n)), c);
+        var g0 = new Complex[2, 2]; Acc(g0, Letter('X'), 1); Acc(g0, Letter('Y'), 1); Acc(g0, Letter('Z'), -1);
+        var G = Kron(g0, Letter('Y'));
+        var j = new Complex[2, 2]; Acc(j, Letter('X'), 1); Acc(j, Letter('Z'), 1);
+        Assert.True(Same(Mul(G, H), Mul(H, G)));
+        foreach (var J in new[] { Site(n, 0, j), Site(n, 1, j) })
+            Assert.True(Same(Mul(G, J), Neg(Mul(J, G))));
+
+        // row-major vec: A·rho·B -> A ⊗ B^T
+        var id = Site(n, 0, Letter('I'));
+        var L = new Complex[dim, dim];
+        Acc(L, Kron(H, id), -Complex.ImaginaryOne);
+        Acc(L, Kron(id, Transpose(H)), Complex.ImaginaryOne);
+        foreach (var (J, rate) in new[] { (Site(n, 0, j), 2), (Site(n, 1, j), 1) })
+        {
+            Acc(L, Kron(J, Conj(J)), rate);
+            Acc(L, Kron(id, id), -2 * rate);                                // J² = 2: -½{J², ·} = -2·id
+        }
+        var S = Kron(G, id);
+        var minus = Dag4(L);
+        Acc(minus, Kron(id, id), 12);
+        Assert.True(Same(Mul(S, L), Neg(Mul(minus, S))));
+        var r0 = new Complex[2, 2]; Acc(r0, Letter('X'), 1); Acc(r0, Letter('Z'), -1);
+        var rejected = Kron(Kron(r0, Letter('Y')), id);
+        Assert.False(Same(Mul(rejected, L), Neg(Mul(minus, rejected))));            // the check can fail
+
+        var field = new Sextant.Setting(n, s.H.Append((PauliString.Parse("ZI"), 1L)), jumps);
+        var yy = Sextant.Setting.Chain(n, new[] { ("XX", -3L), ("YX", 3L), ("YY", 1L) }, jumps);
+        foreach (var broken in new[] { field, yy })
+        {
+            Assert.Null(Sextant.CircleColour(broken));
+            Assert.Equal(Sextant.Palindrome.Obstructed, Sextant.Decide(broken).Kind);
+        }
+    }
+
+    static bool Same(Complex[,] a, Complex[,] b)
+    {
+        for (int i = 0; i < a.GetLength(0); i++) for (int k = 0; k < a.GetLength(1); k++) if (a[i, k] != b[i, k]) return false;
+        return true;
+    }
+
+    static Complex[,] Neg(Complex[,] a) { var r = (Complex[,])a.Clone(); for (int i = 0; i < r.GetLength(0); i++) for (int k = 0; k < r.GetLength(1); k++) r[i, k] = -r[i, k]; return r; }
+
+    static Complex[,] Conj(Complex[,] a) { var r = (Complex[,])a.Clone(); for (int i = 0; i < r.GetLength(0); i++) for (int k = 0; k < r.GetLength(1); k++) r[i, k] = Complex.Conjugate(r[i, k]); return r; }
+
+    static Complex[,] Transpose(Complex[,] a) { int d = a.GetLength(0); var r = new Complex[d, d]; for (int i = 0; i < d; i++) for (int k = 0; k < d; k++) r[i, k] = a[k, i]; return r; }
+
     static void Acc(Complex[,] m, Complex[,] add, Complex k)
     {
         for (int i = 0; i < m.GetLength(0); i++) for (int j = 0; j < m.GetLength(1); j++) m[i, j] += k * add[i, j];
@@ -308,9 +387,9 @@ public class SextantTests
     // so no element of any kind reflects it; DM bonds under loss, which F137 pairs by another route, are WITNESSED by the
     // theodolite, a site-local sandwich outside the closure. The cooled chain XX + 2XY + ZZ at rates (1, 2, 1) is
     // WITNESSED by the theodolite after the chain's reversal (its carrier, the reversal times a turn about Z); at
-    // (1, 2, 3) the seventh trace obstructs, as experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md has it. Uncoupled sites
-    // with fields off the Z axis stay SYMMETRIC-MOD-P, and read only to the fifth power, OPEN. With no jumps the identity
-    // reflects (WITNESSED).
+    // (1, 2, 3) the seventh trace obstructs, as experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md has it. YZ with Z fields
+    // under X dephasing on one site and gain on the other, at (1, 3), stays SYMMETRIC-MOD-P (no instrument reads an
+    // element there), and read only to the third power, OPEN. With no jumps the identity reflects (WITNESSED).
     [Fact]
     public void The_Sextant_Answers_Yes_No_And_Symmetric_Unseen()
     {
@@ -347,12 +426,16 @@ public class SextantTests
         var idleLoss = Sextant.Setting.Chain(2, new[] { ("XY", -3L), ("X", -2L) },
             new[] { (0, LetterCube.Lowering, 0L), (1, LetterCube.LetterMatrix('Z'), 3L) });
         Assert.StartsWith("F158", Sextant.Decide(idleLoss).Detail);
-        // dephasing along X + Z, an axis between the letters: every odd trace zero modulo both primes, and no instrument
-        // reads an element: SYMMETRIC-MOD-P, evidence only; read to the third power, OPEN
+        // dephasing along X + Z, an axis between the letters: no element of the closure; F158 holds on any axis and a
+        // colour on the circle witnesses it (A_Colour_On_The_Circle_Witnesses_A_Tilted_Axis)
         var tilt = new[,] { { LetterCube.Gauss.One, LetterCube.Gauss.One }, { LetterCube.Gauss.One, -LetterCube.Gauss.One } };
         var tilted = Sextant.Setting.Chain(2, new[] { ("XX", -3L), ("YX", 3L) }, new[] { (0, tilt, 2L), (1, tilt, 1L) });
-        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(tilted).Kind);
-        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(tilted, maxPower: 3).Kind);
+        Assert.StartsWith("F158, a colour on the circle", Sextant.Decide(tilted).Detail);
+        Assert.DoesNotContain(Sextant.Search(tilted), f => f.Reading.Verdict is Sextant.Verdict.Reflection or Sextant.Verdict.PiReflection);
+        var unseen = Sextant.Setting.Chain(2, new[] { ("YZ", 1L), ("Z", -3L) },
+            new[] { (0, LetterCube.LetterMatrix('X'), 1L), (1, LetterCube.Raising, 3L) });
+        Assert.Equal(Sextant.Palindrome.SymmetricModP, Sextant.Decide(unseen).Kind);
+        Assert.Equal(Sextant.Palindrome.Open, Sextant.Decide(unseen, maxPower: 3).Kind);
         Sextant.Setting Cooled(params long[] rates) => Sextant.Setting.Chain(n, new[] { ("XX", 1L), ("XY", 2L), ("ZZ", 1L) },
             Enumerable.Range(0, n).Select(l => (l, LetterCube.Lowering, rates[l])));
         var mirrored = Sextant.Decide(Cooled(1, 2, 1));

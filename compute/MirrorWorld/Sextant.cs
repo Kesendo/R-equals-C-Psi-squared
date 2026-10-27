@@ -19,7 +19,10 @@ using static MirrorWorld.LetterCube;
 // nonzero rate is a Pauli letter at a positive rate (F158's hypothesis, a zero rate removing its jump) and EndCount's
 // verdict is an exact palindrome; there the element can
 // sit outside the closure, a site-dependent string (EndCount's colouring) or a product with a turned letter such as
-// X⊗Z⊗(Y − 2X), whose angle the couplings set; or the theodolite reads a sandwich A·ρ^(T)·B of monomial factors,
+// X⊗Z⊗(Y − 2X), whose angle the couplings set; or every jump at a nonzero rate lies along an integer axis n·σ at a
+// positive rate, where F158 holds as well, and a colour on the circle, a product of one-site letters m·σ perpendicular
+// to the watched axes, commutes with H, its letters possibly between the Pauli letters ((X + Y - Z)⊗Y for -3XX + 3YX
+// under X + Z dephasing at (2, 1)); or the theodolite reads a sandwich A·ρ^(T)·B of monomial factors,
 // site-local, after a relabelling of the sites that keeps the supports, in a frame carrying one axis per site onto
 // Z, or conditioned on the bits of unwatched sites whose letter H conserves, carrying L to -L^dagger - c or to -L - c
 // (its binomial system has a solution in nonzero complex numbers, decided exactly, so the element exists, with turns
@@ -40,10 +43,11 @@ using static MirrorWorld.LetterCube;
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
 // cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
 // EndCount (a sibling under the frame, not a parent; an unwatched site's jump is dropped, as F158 section (a) says),
-// and past it the theodolite (a sibling under the cube), so the zone left SYMMETRIC-MOD-P holds settings whose element
-// is neither in the uniform closure nor a sandwich of monomial factors, site-local, relabelled, in a frame carrying
-// one axis per site onto Z or conditioned on unwatched bits, and Pauli-letter settings whose end count stays a rank
-// reading; jumps along an axis between the letters, which no such frame carries onto Z, can read so (-3XX + 3YX under X + Z dephasing at (2, 1)).
+// then the colours on the circle for jumps along any integer axis, and past them the theodolite (a sibling under the
+// cube), so the zone left SYMMETRIC-MOD-P holds settings whose element is neither in the uniform closure, nor a
+// colour of the candidates read off the sites, nor a sandwich of monomial factors, site-local, relabelled, in a frame
+// carrying one axis per site onto Z or conditioned on unwatched bits, and Pauli-letter settings whose end count stays
+// a rank reading.
 //
 // Deliberately outside: spectra (the verdicts are exact identities of the generator, no eigensolver), site
 // permutations in the closure search (EndCount.SymmetryElement holds the half-turn composed with one, the theodolite
@@ -77,6 +81,156 @@ public sealed class Sextant : GameObject
         return EndCount.IsPalindrome(reading)
             ? new Decision(Palindrome.Witnessed, $"F158, the end count: {reading} (c = {c}; no element of the closure reflects, the element sits outside it)")
             : new Decision(Palindrome.Obstructed, $"F158, the end count: {reading}");
+    }
+
+    // F158 on any axis (docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md §(h) proves it for jumps n·σ along any
+    // axis): when every jump at a nonzero rate is Hermitian and traceless, n·σ with n an integer vector, at a positive
+    // rate, a string of colours on the circle G = ⊗ m_l·σ (experiments/THE_PALINDROME_AS_A_COLOURING.md, "Colours on
+    // the circle"), every m_l perpendicular to the axes watched on its site, anticommutes with every jump and squares
+    // to a positive multiple of the identity. If it commutes with H it is an invertible element of F158's far kernel,
+    // and rho -> G·rho carries L to -L^dagger - c. The colours are asked among integer vectors read off the site: a
+    // watched axis crossed with the three letters, with the axes H uses there (the site's factors of H, one per string
+    // on the other sites) and with the other watched axes, and those factors' parts perpendicular to it; on an
+    // unwatched site the identity, the letters, those factors and their crosses. [H, G] = 0 is checked exactly in the
+    // string basis, in checked arithmetic (an overflow declines rather than wrapping to a false zero); a silence,
+    // including more than 2^16 candidate products, decides nothing.
+    public static IReadOnlyList<(long X, long Y, long Z)>? CircleColour(Setting s)
+    {
+        var watched = Enumerable.Range(0, s.N).Select(_ => new List<(long, long, long)>()).ToArray();
+        foreach (var (site, jump, rate) in s.Jumps)
+        {
+            if (rate == 0) continue;
+            if (rate < 0 || AxisOf(jump) is not { } n) return null;
+            watched[site].Add(n);
+        }
+        if (watched.All(a => a.Count == 0)) return null;
+        var letters = new[] { (1L, 0L, 0L), (0L, 1L, 0L), (0L, 0L, 1L) };
+        var candidates = new List<(long, long, long)>[s.N];
+        long combos = 1;
+        for (int l = 0; l < s.N; l++)
+        {
+            var factors = SiteFactors(s, l);
+            var raw = new List<(long, long, long)>();
+            if (watched[l].Count == 0)
+            {
+                raw.Add((0, 0, 0));
+                raw.AddRange(letters.Concat(factors));
+                foreach (var a in factors) foreach (var b in factors) raw.Add(Cross(a, b));
+            }
+            else
+            {
+                var n = watched[l][0];
+                foreach (var v in letters.Concat(factors).Concat(watched[l])) raw.Add(Cross(n, v));
+                foreach (var v in factors) raw.Add(Cross(n, Cross(n, v)));
+            }
+            int site = l;
+            candidates[l] = raw.Select(Primitive).Distinct()
+                .Where(v => watched[site].Count == 0 || (v != (0, 0, 0) && watched[site].All(n => Dot(n, v) == 0))).ToList();
+            if (candidates[l].Count == 0) return null;
+            combos *= candidates[l].Count;
+        }
+        if (combos > 1 << 16) return null;
+        var pick = new int[s.N];
+        for (long c = 0; c < combos; c++)
+        {
+            long rest = c;
+            for (int l = 0; l < s.N; l++) { pick[l] = (int)(rest % candidates[l].Count); rest /= candidates[l].Count; }
+            var colour = Enumerable.Range(0, s.N).Select(l => candidates[l][pick[l]]).ToList();
+            try { if (CommutesWithH(s, colour)) return colour; }
+            catch (OverflowException) { return null; }
+        }
+        return null;
+    }
+
+    static (long, long, long)? AxisOf(Gauss[,] j)
+    {
+        if (j[0, 0].Im != 0 || j[1, 1] != -j[0, 0] || j[0, 1] != j[1, 0].Conj) return null;
+        var n = (j[1, 0].Re, j[1, 0].Im, j[0, 0].Re);
+        return n == (0, 0, 0) ? null : n;
+    }
+
+    // the site's factors of H: for each string on the other sites, the vector of coefficients of X, Y, Z at site l
+    static List<(long, long, long)> SiteFactors(Setting s, int l)
+    {
+        var groups = new Dictionary<PauliString, long[]>();
+        ulong off = ~(1UL << l);
+        foreach (var (t, c) in s.H)
+        {
+            char letter = t.Letter(l);
+            if (letter == 'I') continue;
+            var key = new PauliString(t.X & off, t.Z & off);
+            if (!groups.TryGetValue(key, out var v)) groups[key] = v = new long[3];
+            v["XYZ".IndexOf(letter)] = checked(v["XYZ".IndexOf(letter)] + c);
+        }
+        return groups.Values.Select(v => (v[0], v[1], v[2])).Where(v => v != (0, 0, 0)).ToList();
+    }
+
+    static (long, long, long) Cross((long X, long Y, long Z) a, (long X, long Y, long Z) b)
+        => checked((a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X));
+
+    static long Dot((long X, long Y, long Z) a, (long X, long Y, long Z) b) => checked(a.X * b.X + a.Y * b.Y + a.Z * b.Z);
+
+    // divided by the gcd of its entries, its first nonzero entry positive
+    static (long, long, long) Primitive((long X, long Y, long Z) v)
+    {
+        long g = Gcd(Gcd(Math.Abs(v.X), Math.Abs(v.Y)), Math.Abs(v.Z));
+        if (g == 0) return v;
+        long sign = (v.X != 0 ? v.X : v.Y != 0 ? v.Y : v.Z) < 0 ? -1 : 1;
+        return (sign * v.X / g, sign * v.Y / g, sign * v.Z / g);
+    }
+
+    // G = ⊗ m_l·σ expanded in strings (the zero vector is the identity), and [H, G] = 0 exactly: an anticommuting pair
+    // of strings t, g contributes t·g - g·t = 2·t·g
+    static bool CommutesWithH(Setting s, IReadOnlyList<(long X, long Y, long Z)> colour)
+    {
+        checked
+        {
+            var g = new Dictionary<PauliString, long> { [PauliString.Identity] = 1 };
+            for (int l = 0; l < s.N; l++)
+            {
+                var (mx, my, mz) = colour[l];
+                if ((mx, my, mz) == (0, 0, 0)) continue;
+                var next = new Dictionary<PauliString, long>();
+                foreach (var (str, c) in g)
+                    foreach (var (bx, bz, m) in new[] { (1UL, 0UL, mx), (1UL, 1UL, my), (0UL, 1UL, mz) })
+                        if (m != 0) next[new PauliString(str.X | (bx << l), str.Z | (bz << l))] = c * m;
+                g = next;
+            }
+            var commutator = new Dictionary<PauliString, (long Re, long Im)>();      // long pairs: Gauss's operators are not checked
+            foreach (var (t, ct) in s.H)
+                foreach (var (str, cg) in g)
+                    if (!PauliString.Commute(t, str))
+                    {
+                        var (p, k) = PauliString.Multiply(t, str);
+                        long x = 2 * ct * cg;
+                        var (re, im) = k switch { 0 => (x, 0L), 1 => (0L, x), 2 => (-x, 0L), _ => (0L, -x) };
+                        var old = commutator.GetValueOrDefault(p);
+                        commutator[p] = (old.Re + re, old.Im + im);
+                    }
+            return commutator.Values.All(v => v == (0, 0));
+        }
+    }
+
+    static string Describe((long X, long Y, long Z) m)
+    {
+        if (m == (0, 0, 0)) return "I";
+        var parts = new[] { (m.X, "X"), (m.Y, "Y"), (m.Z, "Z") }.Where(p => p.Item1 != 0).ToList();
+        if (parts.Count == 1 && parts[0].Item1 == 1) return parts[0].Item2;
+        string body = string.Concat(parts.Select((p, i) =>
+            (p.Item1 < 0 ? (i == 0 ? "-" : " - ") : (i == 0 ? "" : " + ")) + (Math.Abs(p.Item1) == 1 ? "" : $"{Math.Abs(p.Item1)}") + p.Item2));
+        return $"({body})";
+    }
+
+    static Decision? ColourReading(Setting s)
+    {
+        IReadOnlyList<(long X, long Y, long Z)>? colour;
+        try { colour = CircleColour(s); }
+        catch (OverflowException) { return null; }                    // an axis or factor too large to cross in a long
+        if (colour is null) return null;
+        long dim = 1L << (2 * s.N);
+        long traceTimesFour = s.DissipatorTimesFour.Where(kv => kv.Key.Row == kv.Key.Col).Sum(kv => kv.Value.Re);
+        return new Decision(Palindrome.Witnessed,
+            $"F158, a colour on the circle: G = {string.Join("⊗", colour.Select(Describe))} commutes with H and anticommutes with every jump, so rho -> G·rho carries L to -L^dagger - c (c = {Fraction(-2 * traceTimesFour, 4 * dim)}; outside the closure)");
     }
 
     // The theodolite's yes: a sandwich (site-local, relabelled, in a turned frame or conditioned on unwatched bits)
@@ -370,6 +524,8 @@ public sealed class Sextant : GameObject
             return new Decision(Palindrome.Witnessed, $"{witness.Reading.Verdict}: {witness.Map.Describe()} (c = {witness.Reading.C})");
         if (EndCountReading(s) is { } ended)
             return ended;
+        if (ColourReading(s) is { } coloured)
+            return coloured;
         if (TheodoliteReading(s) is { } read)
             return read;
         int dim = 1 << (2 * s.N);
