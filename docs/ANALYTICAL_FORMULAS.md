@@ -7144,7 +7144,14 @@ the turned one among them).
 Every draw was decided and agreed with the colours, so no draw paired without a colour. A draw pairing
 only through a sum of strings, like the turned row, would have stayed undecided: off the letters the
 sextant reads no such sum and leaves the turned row at evidence. Other sums of terms P⊗P (XX + ZZ) were
-not drawn.
+not drawn. Why a bond accepts a colour, and where under Heisenberg bonds the colour is also necessary, is
+[PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): conjugating by
+a colour turns the Pauli vector by a half-turn about it, so a product of colours commutes with a bond of
+coupling matrix W exactly when the half-turns at its ends keep W (the cross form above is its diagonal case);
+under Heisenberg bonds with every site watched the far equation splits into bond equations and field
+equations, the fields' part is decided wherever the bonds admit only the colours, and that is proven at N = 2,
+on the chain at N = 3 and, through the complement connection's Theorems 1 to 3, on every connected graph whose
+axes one turn makes letters; there the rule is exact at fields of any direction, all axes parallel included.
 
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, holds
 for letter axes wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter

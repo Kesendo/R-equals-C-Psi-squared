@@ -3981,7 +3981,13 @@ public static class OpenArcsRegistry
                 + "with letter fields and Theorem 3 at mixed axes with fields of any direction (the 78 SWAP rows leave two "
                 + "sites unwatched). A global turn, which Heisenberg does not see, carries those theorems only to axes that "
                 + "are pairwise parallel or perpendicular, so coplanar axes at other angles, such as (2,2,1), (1,2,-1), "
-                + "(1,0,2), are outside both. A false negative with fields "
+                + "(1,0,2), are outside both. docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md holds "
+                + "the half-turn law (a product of colours commutes with a bond exactly when the half-turns at its ends "
+                + "keep the coupling matrix), the far equation split into bond and field equations, the fields decided "
+                + "wherever the bonds admit only the colours, proven at N = 2, on the chain at N = 3 and on every connected graph "
+                + "whose axes one global turn makes letters (all parallel included, at fields of any direction); open the bond "
+                + "equations on a general graph (measured equal to the colours, TiltedAxesTests) and the three-site ring as a "
+                + "theorem. A false negative with fields "
                 + "off the letters, of varying direction under one Z jump, is exact at N = 3 (PROOF_PALINDROME_COMPLEMENT_CONNECTION, "
                 + "Open item 'Fields off the letters and other bonds at N = 3').",
             Status: OpenArcStatus.Open),

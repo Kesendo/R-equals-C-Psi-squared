@@ -138,6 +138,69 @@ public static class TiltedAxes
         }
     }
 
+    // Heisenberg bonds J_ij·σ_i·σ_j under integer axes n_l, every site watched. An element of F158's far kernel lies in
+    // the span of products ⊗(w_l·σ) with every w_l perpendicular to n_l, and [σ_i·σ_j, (a·σ_i)(b·σ_j)] = 2i(a×b)·(σ_j − σ_i)
+    // leaves exactly one identity factor while a field [h·σ, w·σ] = 2i(h×w)·σ leaves none, so [H, W] = 0 splits by
+    // the number of identity factors: the bond equations, for every site i Σ_{j~i} J_ij·(a_i × b_j) at slot j = 0, and
+    // the field equations apart. BondNullity counts the bond equations' solutions in that span, rank over GF(p) and
+    // so an upper bound on the rational count; the colours ⊗m with m perpendicular to every axis solve them, so
+    // ColourDimension (N + 1, 1 or 0 as the axes span a line, a plane or space) is an exact lower bound.
+    public static int BondNullity(int n, (int, int)[] edges, long[] weights, (long X, long Y, long Z)[] axes)
+    {
+        var perp = axes.Select(PerpBasis).ToArray();
+        var nb = Enumerable.Range(0, n).Select(_ => new List<(int J, long W)>()).ToArray();
+        for (int e = 0; e < edges.Length; e++)
+        {
+            var (i, j) = edges[e];
+            nb[i].Add((j, weights[e])); nb[j].Add((i, weights[e]));
+        }
+        int cols = 1 << n, block = (int)Math.Pow(3, n - 1);
+        var rows = new long[n * block][];
+        for (int r = 0; r < rows.Length; r++) rows[r] = new long[cols];
+        for (int col = 0; col < cols; col++)
+        {
+            int Pick(int l) => (col >> (n - 1 - l)) & 1;
+            for (int i = 0; i < n; i++)
+                foreach (var (j, w) in nb[i])
+                {
+                    var c = Cross(perp[i][Pick(i)], perp[j][Pick(j)]);
+                    // the output tensor over the slots other than i: c at slot j, the input vector elsewhere
+                    var others = Enumerable.Range(0, n).Where(l => l != i).ToArray();
+                    for (int k = 0; k < block; k++)
+                    {
+                        long v = w; int rest = k;
+                        for (int s = others.Length - 1; s >= 0; s--)
+                        {
+                            int comp = rest % 3; rest /= 3;
+                            var vec = others[s] == j ? c : perp[others[s]][Pick(others[s])];
+                            v = checked(v * (comp == 0 ? vec.Item1 : comp == 1 ? vec.Item2 : vec.Item3));   // a wrap would corrupt the rank
+                        }
+                        rows[i * block + k][col] = checked(rows[i * block + k][col] + v);
+                    }
+                }
+        }
+        return cols - ModP.Rank(rows);
+    }
+
+    public static int ColourDimension(int n, (long X, long Y, long Z)[] axes)
+    {
+        var dirs = axes.Select(Primitive).Distinct().ToList();
+        bool line = dirs.All(d => Cross(d, dirs[0]) == (0, 0, 0));
+        if (line) return n + 1;
+        bool plane = dirs.SelectMany(a => dirs.Select(b => Cross(a, b))).Where(v => v != (0, 0, 0))
+            .All(m => dirs.All(d => Dot(m, d) == 0));
+        return plane ? 1 : 0;
+    }
+
+    // two independent integer vectors perpendicular to n
+    static (long, long, long)[] PerpBasis((long X, long Y, long Z) n)
+    {
+        var e = Math.Abs(n.X) <= Math.Abs(n.Y) && Math.Abs(n.X) <= Math.Abs(n.Z) ? (1L, 0L, 0L)
+            : Math.Abs(n.Y) <= Math.Abs(n.Z) ? (0L, 1L, 0L) : (0L, 0L, 1L);
+        var u = Cross(n, e);
+        return new[] { u, Cross(n, u) };
+    }
+
     static bool IsLetter((long X, long Y, long Z) v) => (v.X != 0 ? 1 : 0) + (v.Y != 0 ? 1 : 0) + (v.Z != 0 ? 1 : 0) == 1;
 
     static Gauss[,] Jump((long X, long Y, long Z) n)
