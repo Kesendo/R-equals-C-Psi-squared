@@ -64,7 +64,8 @@ public class TiltedAxesTests
     // otherwise), 30 rows on each of the chain at N = 2 to 5, the ring at N = 3 to 5 (at N = 2 it is one bond twice)
     // and the star and K4 at N = 4, at random signed weights, the axes generic, coplanar, parallel or in clusters of
     // two and three. The GF(p) nullity is an upper bound and the colours
-    // a lower bound, so equality is exact. That the colours are the only solutions is measured here, not proven.
+    // a lower bound, so equality is exact. That the colours are the only solutions is proven on the chain, the ring
+    // and the star (docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md, trees and rings) and measured here on K4.
     [Fact]
     public void Heisenberg_Bond_Equations_Admit_Exactly_The_Colours()
     {

@@ -7149,9 +7149,12 @@ not drawn. Why a bond accepts a colour, and where under Heisenberg bonds the col
 a colour turns the Pauli vector by a half-turn about it, so a product of colours commutes with a bond of
 coupling matrix W exactly when the half-turns at its ends keep W (the cross form above is its diagonal case);
 under Heisenberg bonds with every site watched the far equation splits into bond equations and field
-equations, the fields' part is decided wherever the bonds admit only the colours, and that is proven at N = 2,
-on the chain at N = 3 and, through the complement connection's Theorems 1 to 3, on every connected graph whose
-axes one turn makes letters; there the rule is exact at fields of any direction, all axes parallel included.
+equations, the fields' part is decided wherever the bonds admit only the colours, and that is proven on every
+connected graph that removing leaves, and deleting bonds whose ends share an axis from cycles, brings down to a
+single site or a single cycle (trees, rings, unicyclic graphs), and, through the complement connection's Theorems
+1 to 3, on every connected graph whose axes one turn makes letters, all axes parallel included; in both cases the
+rule is exact at fields of any direction. Open where a site keeps three or more neighbours after those removals,
+at axes no single turn makes letters (measured on K₄).
 
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, holds
 for letter axes wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter
