@@ -4,7 +4,7 @@
 **Date:** 2026-09-29
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 5.5)
 
-F138 states the dephasing palindrome's boundary as two clauses: at most two dephasing axes per component, and a field orthogonal to all of them, with a proviso that single-term bonds of one and the same letter, such as ZZ throughout, tolerate all three axes. It measures them sufficient and knows their converse is false. F158 decides the palindrome exactly through its far kernel
+F138 states the dephasing palindrome's boundary as two clauses: at most two dephasing axes per component, and a field orthogonal to all of them, with a proviso that single-term bonds of one and the same letter, such as ZZ throughout, tolerate all three axes. It proves them sufficient, as F158's one-colour corollary through this page, and knows their converse is false. F158 decides the palindrome exactly through its far kernel
 
   𝒲 = {W : [H, W] = 0 and A W A = −W for every jump A},
 
@@ -34,7 +34,7 @@ For [two letters on a site](#two-letters-on-a-site) the sweep went to F158's pro
 Checked for adjacency. F5's commuting string and F158's string in 𝒲 are the same kind of object at the two edges of the rate window; F5 cites F158's zero-error end and F158 cites F5, but neither names the other's string. The per-site routers are never phrased as a string in 𝒲. F103's 2-colouring and this colouring are siblings that do not cite each other.
 -->
 
-Nothing in the repo states that F138's clauses are the one-colour solutions of a colouring, or counts how many exceptions a single string explains. That is what this page adds; the sufficiency it uses is F158's.
+This page is where F138's clauses are derived as the one-colour solutions of a colouring, and where it is counted how many exceptions a single string explains; the sufficiency it uses is F158's.
 
 ## The colouring
 

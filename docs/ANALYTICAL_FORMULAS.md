@@ -7294,8 +7294,8 @@ and the magnitudes are the committed tuple, which is every stage but C and the
 degenerate rows of F, and those two are exactly the counterexamples (a) and (b)
 above rather than further confirmations. What was held fixed while all of that
 swept: the field magnitudes, one tuple outside Stage F; the sign axis, varied
-only in Stages A and F and all-positive in B, C and E; and the bond weights, one
-value per stage, with no anisotropy axis anywhere in the builder at all. The clause-2 sweep carries no float tolerance anywhere,
+only in Stages A and F and all-positive in B, C and E; and the bond weights,
+uniform in every stage but E, with no anisotropy axis anywhere in the builder at all. The clause-2 sweep carries no float tolerance anywhere,
 and that is its point: the palindrome is the polynomial identity p(x) = p(−x−s),
 p the characteristic polynomial of L and s = 2Σγ, and every entry of L is a
 Gaussian rational, so the identity is tested in GF(p) over three fixed primes
@@ -7350,7 +7350,8 @@ the *only when* half they would contradict this very row, which counts that
 half failing at fewer bond letters and at coincident field magnitudes.
 **Typed:** not yet; the home is a Tier1Derived corollary claim beside
 `PalindromeTwoEndCountClaim`, whose witness `inspect --root twoend` already
-reads every row of the clauses' class. Open: typing.
+reads the clauses' rows at N ≤ 4 on the chain, the ring and the complete graph,
+letter dephasing and letter fields. Open: typing.
 
 ### F139. The seam identity: the F134 wall is a Chebyshev divisor (a chain of six lemmas ending in a finite exact-ℤ division; a priori from the F133 letters; minted 2026-07-21)
 
@@ -10689,21 +10690,22 @@ are the popcount shells, all good, so both ends count N + 1.
 **What it decides.** Three classes, each on a connected graph with every
 coupling J_ij nonzero and real, in which [F138](#f138)'s converse holds
 exactly, at every field magnitude (for Theorem 1, at the bond sets of F138
-that contain hopping). A letter field is a one-site field
+that it covers). A letter field is a one-site field
 h_l·P_l along one Pauli letter P_l.
 
 - **Theorem 1:** hopping bonds J_ij(XX + YY) with any diagonal part unchanged
   under x ↦ x̄ (Heisenberg, XXZ and XY bonds among them), Z on every site,
   letter fields: the palindrome holds exactly when no field lies along Z and
-  the fields, taken over all sites, do not use both X and Y. At Heisenberg and
-  XX + YY bonds, the bond sets of F138 that contain hopping, this is F138's
+  the fields, taken over all sites, do not use both X and Y. At Heisenberg,
+  XXZ and XX + YY bonds, the bond sets of F138 that it covers, this is F138's
   converse.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes
   occur and every field lies along the third letter c, carried by the
-  colouring c^⊗N and no other element. Three axes never pair: on the triangle
-  with three different axes the pair flips close a cycle of holonomy −1.
+  colouring c^⊗N and no other element. Three axes never pair (a colouring
+  needs a letter that is no axis); on the triangle with three axes, the case
+  the general step leaves, the pair flips close a cycle of holonomy −1.
 - **Theorem 5:** Heisenberg bonds, exactly one site undephased, every other
   site under one letter jump, letter fields: the palindrome holds exactly when
   some letter p is the axis of no dephased site and every nonzero field, the
@@ -10730,7 +10732,8 @@ image, (H̄)_xy = H_x̄ȳ over the dephased bits:
   bitstrings, each block H_xy an operator on the undephased sites, and each
   component of the union of the block graphs of H and H̄ having a spanning tree
   whose blocks of H and of H̄ are invertible: the connection is then a local
-  system (both ends are read at one base point per component), and the
+  system (where the supports of H and H̄ agree, both ends are read at one base
+  point per component), and the
   palindrome holds exactly when on every component the supports of H and H̄
   agree and the two tuples of generators g, ḡ (the blocks transported to the
   base point along the tree) are simultaneously similar, ḡ = d·g·d⁻¹ for one
@@ -10782,8 +10785,8 @@ dephased seat is necessary at every N; undephased sites that keep no letter
 without an invertible spanning tree
 ([the proof's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
 **Replaces:** the end count's two modular kernel ranks by an exact walk over
-the components of a graph on the 2^N bitstrings, wherever every site is
-dephased.
+the components of a graph on the 2^N bitstrings, wherever every site carries
+exactly one single-site Pauli jump.
 **Source:** [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md);
 parent [F158](#f158); the colouring rule and frame theorem of
 [the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md).
@@ -11322,7 +11325,7 @@ so S(t) = e^{−2σt}S(−t) exactly when sin(Nφ − θ) = 0, and otherwise the
 <a id="f169"></a>
 ### F169. Under Heisenberg bonds with every site watched along an integer axis, the palindrome needs a colour: it holds exactly when one direction perpendicular to every axis carries every field, proven on every connected graph (Tier 1: derived 2026-10-28 in [PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md); registered as an INDEX of that proof)
 
-**Why a number, and why it says so.** This entry indexes; the statement, its proof and its gates are in the proof named in the header. [F138](#f138) files the classes where its converse holds under itself and [F165](#f165) (as [F122](#f122) did for its own widened mechanism, a widened scope is not a new number); this is not such a class. It is a necessity theorem with a proof and a mechanism of its own (the half-turn law, the split of the far equation, the two words a bond leaves), it does not rest on F165, whose Theorems 1 to 3 are silent off the letters and give a second route only where one global turn makes the axes letters, and F138 calls itself a sufficient condition, so a necessary direction does not sit inside it. F138's paragraph "Off the letters" points here. The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not.
+**Why a number, and why it says so.** This entry indexes; the statement, its proof and its gates are in the proof named in the header. [F138](#f138) files the classes where its converse holds under itself and [F165](#f165) (as [F122](#f122) did for its own widened mechanism, a widened scope is not a new number); this is not such a class. It is a necessity theorem with a proof and a mechanism of its own (the half-turn law, the split of the far equation, the two words a bond leaves), it does not rest on F165, whose Theorems 1 and 3 are silent off the letters and give a second route only where one global turn makes the axes letters (its Theorem 2 applies off the letters after a turn on each site and decides each row there, with no closed rule; the proof's last section reads its holonomies as angles), and F138 calls itself a sufficient condition, so a necessary direction does not sit inside it. F138's paragraph "Off the letters" points here. The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not.
 
 **The setting.** H = Σ J_ij·σ_i·σ_j + Σ_l h_l·σ_l on a connected graph, every J_ij ≠ 0 and real, every field real and of any direction, and on every site one jump n_l·σ_l along a nonzero integer axis at a positive rate; [F158](#f158) §(h) covers such jumps. A **colour** is a direction m perpendicular to every axis; it is **admitted** when every field lies along it, and then ⊗(m·σ) is an invertible element of F158's far kernel.
 
@@ -11337,7 +11340,7 @@ The second line splits the far equation into bond equations, which do not see th
 **Gated by** `TiltedAxesTests.Heisenberg_Bond_Equations_Admit_Exactly_The_Colours` (270 rows over GF(p)) and `The_Colour_Law_Holds_Where_Its_Last_Step_Has_Content` (integer rows whose two words reach the site equations: the six-ring right-hinged at every site, the theta graph, the five-ring with a chord and K₃,₃), `SextantTests.The_Colour_Law_And_The_Odd_Traces_Meet_On_Every_Draw` (the law against the odd centred traces read up to the dimension, both answers) and `The_Colour_Law_Decides_Heisenberg_Rows_Both_Ways`, all in `compute/MirrorWorld.Tests`. The holonomies of the proof's last section, which prove nothing of their own, are read in [`heisenberg_colour_holonomies.py`](../simulations/heisenberg_colour_holonomies.py).
 **Typed/live owner:** `HeisenbergColourLawClaim` (Core/Symmetry; parent PalindromeTwoEndCountClaim, with F165 adjacent rather than a parent), live as `HeisenbergColourLawWitness` at `inspect --root colourlaw`: the far kernel's dimension from the commutator in the Pauli-string basis, fields included and without the split, against the law's prediction. In MirrorWorld the sextant decides by it: `Sextant.Decide` reads F169 on every connected graph (`TiltedAxes.ColourLawProven`), an admitted colour WITNESSED and none OBSTRUCTED.
 **Adjacent.** [F138](#f138)'s paragraph "Off the letters" (the sufficient direction and the cross form, the diagonal case of the half-turn law); [F165](#f165) (the same necessity at letter axes, Theorems 1 and 3, and with one site unwatched, Theorem 5; its holonomies read as angles in the proof's last section); [F158](#f158).
-**Scope:** Heisenberg bonds, every site watched by one jump along an integer axis (integrality is used only by the measurements), a connected graph. XX + YY bonds split the same way but lack the per-bond lemma, and pair without a colour already on the chain at N = 3 (F138's turned stage E row); unwatched sites lie outside (with two, F138 (b)'s SWAP rows pair without a colour; with one, at letter axes and fields, F165's Theorem 5 holds the colour rule).
+**Scope:** Heisenberg bonds, every site watched by one jump along an integer axis (integrality is used only by the measurements), a connected graph. XX + YY bonds split the same way but lack the per-bond lemma, and pair without a colour already on the chain at N = 3 (F138's turned stage E row); unwatched sites lie outside (with two, F138 (b)'s SWAP rows pair without a colour; with one, at letter axes and letter fields, F165's Theorem 5 holds the colour rule).
 **Replaces:** a search for elements of F158's far kernel on Heisenberg rows with every site watched.
 **Source:** [PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md).
 
