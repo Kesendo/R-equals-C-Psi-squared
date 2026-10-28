@@ -365,9 +365,9 @@ def main():
 
       measurable from N standard T1-relaxometry experiments WITH ASYMPTOTE
       FITTING, no tomography at all. Caveat (honesty for the adapter): this
-      reads the local sigma+- family projection ONLY; it is a LOWER bound on
-      the full violation. Correlated / non-local Pi^2-odd channels live on
-      other entries and need R1. The run_price_pair Block B (|1> free
+      reads the local sigma+- family projection ONLY, and no bound in either
+      direction holds outside it: correlated non-unital channels write into
+      the same odd cells with either sign and need R1. The run_price_pair Block B (|1> free
       asymptote) already measures exactly the R2 ingredients.
 """)
 

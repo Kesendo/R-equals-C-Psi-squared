@@ -523,7 +523,7 @@ public static class ConfirmationsRegistry
             Observable: "two-legged idle T1 protocol (|111⟩ down-leg + |000⟩ up-leg, 10 delays 0-320 µs, readout-mitigated ⟨Z_l⟩(t)); per-qubit asymptote meeting test, γ↑ from the up leg, the F84 net-cooling attribution; run 2 adds the corrected-recipe V extraction",
             PredictedValue:
                 "pre-registered two-branch discrimination (committed pre-shot incl. the Kingston amendment): bath heating " +
-                "⟹ both legs meet at one z∞ < 1 with γ↑ resolved ≥ 5σ; leg systematic ⟹ SPLIT with a flat up-leg " +
+                "⟹ both legs meet at one z∞ < 1 with γ↑ resolved ≥ 10σ (run 2 restated it as ≥ 5σ); leg systematic ⟹ SPLIT with a flat up-leg " +
                 "(γ↑ < 0.0002 /µs, up-leg within ≈ 3% of +1). Instrument validated the same day on the IBM simulator " +
                 "(meeting test, planted-parameter recovery within 2σ, TLS double-flag, conservative error bars).",
             MeasuredValue:
