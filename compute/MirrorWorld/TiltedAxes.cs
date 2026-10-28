@@ -15,8 +15,8 @@ using static MirrorWorld.LetterCube;
 // as written does not read); ZZ takes both ends along Z or both perpendicular to it, one colour per site. The rule is
 // sufficient (a colour is an element of F158's far kernel) and not necessary (a sum of circle-letter strings can pair a row
 // with no colour, as the test's turned XX + YY row does); the draws read the rule against the sextant's exact decision.
-// Under Heisenberg bonds with every site watched it is also necessary wherever F169 is proven (ColourLawProven), and
-// there the sextant decides by it in both directions; the draws read the decision without it (colourLaw: false), so
+// Under Heisenberg bonds with every site watched on a connected graph it is also necessary (F169, ColourLawProven),
+// and there the sextant decides by it in both directions; the draws read the decision without it (colourLaw: false), so
 // that the rule meets a second route.
 public static class TiltedAxes
 {
@@ -197,27 +197,12 @@ public static class TiltedAxes
 
     // The colour law (F169, docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): under Heisenberg bonds of nonzero
     // weights on a connected graph, every site watched along one integer axis, the bond equations admit only the
-    // colours wherever the reduced core (leaves removed, bonds whose ends share an axis deleted from cycles) is a
-    // single site or a single cycle, and wherever the axes are pairwise parallel or perpendicular (the complement
-    // connection's Theorems 1 to 3); there the palindrome holds exactly when a colour is admitted, at fields of any
-    // direction. Elsewhere it is measured (BondNullity on K4), not proven, and ColourLawProven says false.
+    // colours, on every connected graph (a site where two bonds meet at an angle neither straight nor right admits
+    // nothing, otherwise every bond reads "both ends on its line or neither" and leaves two words, which the site
+    // equations cut down to the colour); so the palindrome holds exactly when a colour is admitted, at fields of any
+    // direction. The axes do not enter: ColourLawProven asks only that the graph be connected.
     public static bool ColourLawProven(int n, (int, int)[] edges, (long X, long Y, long Z)[] axes)
-    {
-        if (Components(n, edges) != 1) return false;
-        if (ReducedCoreCycles(n, edges, axes) <= 1) return true;
-        var dirs = axes.Select(Primitive).Distinct().ToList();
-        return dirs.All(a => dirs.All(b => Cross(a, b) == (0, 0, 0) || Dot(a, b) == 0));
-    }
-
-    // The number of independent cycles left in the reduced core. Removing a leaf keeps it, deleting a bond whose ends
-    // share an axis from a cycle lowers it by one, and the most such bonds that can go while the graph stays connected
-    // is |S| − (c(G∖S) − 1) for the set S of them (their rank in the cographic matroid), so whatever the order, the
-    // end carries the cycles of G with all of S removed: |E∖S| − N + c(G∖S).
-    public static int ReducedCoreCycles(int n, (int, int)[] edges, (long X, long Y, long Z)[] axes)
-    {
-        var kept = edges.Where(e => Primitive(axes[e.Item1]) != Primitive(axes[e.Item2])).ToArray();
-        return kept.Length - n + Components(n, kept);
-    }
+        => Components(n, edges) == 1;
 
     // The admitted colour: a direction m perpendicular to every axis with every nonzero field along it, primitive, or
     // null when there is none (the axes span space, a field leaves the plane's normal, or, all axes along one n, the

@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 public class HeisenbergColourLawWitnessTests
 {
     // Every default row with a prediction: the far kernel from the commutator in the string basis (fields included, no
-    // split) equals the law's prediction, proven rows and measured ones alike; the predictions are not all equal (0, 1
+    // split) equals the law's prediction on every row, each a connected graph; the predictions are not all equal (0, 1
     // and N + 1 occur). The law predicts no dimension under a field along the common axis, only a broken palindrome.
     [Fact]
     public void The_Commutator_Meets_The_Law_On_Every_Row()
@@ -23,8 +23,7 @@ public class HeisenbergColourLawWitnessTests
         // (non-invertible) element, which is why the law predicts no dimension there
         var along = readings.Single(r => !r.Compared);
         Assert.Equal(1, along.Measured);
-        Assert.Contains(readings, r => r.Proven);
-        Assert.Contains(readings, r => !r.Proven);
+        Assert.All(readings, r => Assert.True(r.Proven, r.Row.Name));
     }
 
     // The witness can disagree: off the theorem's hypotheses (two disconnected bonds, generic axes) the far kernel is
@@ -53,12 +52,9 @@ public class HeisenbergColourLawWitnessTests
         var ring = new[] { (0, 1), (1, 2), (2, 3), (3, 0) };
         var k4 = new[] { (0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3) };
         var generic = new (long, long, long)[] { (1, 2, 0), (0, 1, 2), (2, 0, 1), (1, -1, 2) };
-        Assert.Equal(1, HeisenbergColourLawClaim.ReducedCoreCycles(4, ring, generic));
-        Assert.Equal(3, HeisenbergColourLawClaim.ReducedCoreCycles(4, k4, generic));
-        Assert.Equal(1, HeisenbergColourLawClaim.ReducedCoreCycles(4, k4, new[] { generic[0], generic[0], generic[1], generic[1] }));
         Assert.True(HeisenbergColourLawClaim.Proven(4, ring, generic));
-        Assert.False(HeisenbergColourLawClaim.Proven(4, k4, generic));
-        Assert.True(HeisenbergColourLawClaim.Proven(4, k4, new (long, long, long)[] { (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 0, 0) }));
+        Assert.True(HeisenbergColourLawClaim.Proven(4, k4, generic));
+        Assert.False(HeisenbergColourLawClaim.Proven(4, new[] { (0, 1), (2, 3) }, generic));
         Assert.Equal(1, HeisenbergColourLawClaim.PredictedFarDimension(new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2) }, new (long, long, long)[3]));
         Assert.Equal(0, HeisenbergColourLawClaim.PredictedFarDimension(generic, new (long, long, long)[4]));
         Assert.Equal(4, HeisenbergColourLawClaim.PredictedFarDimension(Enumerable.Repeat((0L, 0L, 1L), 3).ToArray(), new (long, long, long)[3]));

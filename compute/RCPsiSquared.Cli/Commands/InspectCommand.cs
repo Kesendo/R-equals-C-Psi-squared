@@ -959,10 +959,10 @@ public static class InspectCommand
         new("colourlaw", "THE COLOUR LAW, F169 (proof PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md, claim " +
             "HeisenbergColourLawClaim): Heisenberg bonds on a connected graph, every site watched along one integer axis, " +
             "fields of any direction; the palindrome holds exactly when a colour perpendicular to every axis carries every " +
-            "field, proven where the reduced core is a site or one cycle and at axes one turn makes letters. The witness " +
+            "field, proven on every connected graph. The witness " +
             "computes the far kernel's dimension from the commutator in the Pauli-string basis, fields included and without " +
             "the proof's split, over GF(p), beside the law's prediction, on a tree, the triangle, rings with a right hinge at " +
-            "every site, a ring under one axis, and, measured, K4 and the theta graph",
+            "every site, a ring under one axis, K4, the theta graph and K3,3",
             c => new HeisenbergColourLawWitness(),
             RequiresN: false),
         new("complement", "THE COMPLEMENT CONNECTION (proof PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, claim " +

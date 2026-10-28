@@ -444,12 +444,12 @@ public class SextantTests
         Assert.False(Same(Mul(single, H3), Mul(H3, single)));                        // one term alone does not commute
     }
 
-    // F169, the colour law, as the sextant's answer. Heisenberg bonds with every site watched along an integer axis,
-    // where the reduced core holds at most one cycle: three coplanar axes off the letters on the four-site chain with
-    // every field along their normal are WITNESSED, one field off the normal is OBSTRUCTED by the law (a no for every
-    // element); the five-site ring with a right hinge at every site, its axes spanning space, is OBSTRUCTED by the law.
-    // Both noes meet a second route: an odd centred trace that is not zero modulo a prime (the ninth on the ring, which
-    // the sextant reads after the law). K4 with generic axes is outside the proven class, and the law stays silent there.
+    // F169, the colour law, as the sextant's answer. Heisenberg bonds on a connected graph with every site watched along
+    // an integer axis: three coplanar axes off the letters on the four-site chain with every field along their normal
+    // are WITNESSED, one field off the normal is OBSTRUCTED by the law (a no for every element); the five-site ring
+    // with a right hinge at every site, its axes spanning space, is OBSTRUCTED by the law, and so is K4 at generic
+    // axes, where every site has three neighbours. The noes meet a second route: an odd centred trace that is not
+    // zero modulo a prime (the ninth on the ring, which the sextant reads after the law).
     [Fact]
     public void The_Colour_Law_Decides_Heisenberg_Rows_Both_Ways()
     {
@@ -472,8 +472,11 @@ public class SextantTests
 
         var k4 = TiltedAxes.Graphs(4).Single(g => g.Name == "K4").Edges;
         var outside = new TiltedAxes.Row(4, k4, TiltedAxes.Classes[0], new (long, long, long)[] { (1, 2, 0), (0, 1, 2), (2, 0, 1), (1, -1, 2) }, new[] { 1L, 1, 1, 1 }, new (long, long, long)[4]);
-        Assert.DoesNotContain("F169", Sextant.Decide(outside.Setting()).Detail);
-        Assert.Null(Sextant.ColourLaw(outside.Setting()));
+        var k4Decision = Sextant.Decide(outside.Setting());
+        Assert.Equal(Sextant.Palindrome.Obstructed, k4Decision.Kind);
+        Assert.StartsWith("F169", k4Decision.Detail);
+        Assert.Contains("span space", k4Decision.Detail);
+        Assert.NotNull(Sextant.OddTraceObstruction(outside.Setting(), 256));
 
         // the law's own yes, asked apart (inside Decide the circle colour finds it first): the normal on every site
         var yes = Sextant.ColourLaw(along.Setting());
@@ -499,8 +502,8 @@ public class SextantTests
     }
 
     // The handshake behind the law's no: since the sextant asks F169 before the traces, a no from the law is not
-    // checked by them inside Decide. Here the two routes run apart on Heisenberg draws in the proven class (the
-    // three-site chain and ring, the four-site chain and star), the law read off the row (an admitted colour or none)
+    // checked by them inside Decide. Here the two routes run apart on Heisenberg draws (the three-site chain and
+    // ring, the four-site chain and star, small enough for the traces), the law read off the row (an admitted colour or none)
     // and the odd centred traces read up to the dimension: where the law finds no colour a trace obstructs, and where it
     // finds one every odd trace vanishes modulo both primes. Both answers occur.
     [Fact]

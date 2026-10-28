@@ -14,14 +14,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// string basis (an anticommuting pair t, g contributes 2·t·g with its phase) and takes the rank of the columns over
 /// GF(p), sending i to a square root of −1 modulo p. The rank modulo p is at most the rank over ℚ(i), so the count is an
 /// upper bound on the far kernel's dimension; where the law predicts colours, those colours are elements, a lower
-/// bound, and where it predicts none a count of 0 is exact. Agreement on a proven row is a check of the theorem; on a
-/// row beyond the proven class (a site keeping three neighbours in the reduced core) it is a measurement.</para>
+/// bound, and where it predicts none a count of 0 is exact. Every row is a connected graph, where the law is proven, so
+/// agreement is a check of the theorem by a second road.</para>
 ///
 /// <para>The rows: a tree with a leaf on its neighbour's axis (coplanar axes off the letters, fields along their normal
 /// and one field off it); the triangle generic and coplanar; rings of five and six sites with a right hinge at every
-/// site (the only rings where the proof's last step has content); a four-ring under one axis, without fields and with
+/// site (the five-ring an odd cycle of right hinges, which no word survives, the six-ring two words that reach the
+/// proof's site equations); a four-ring under one axis, without fields and with
 /// fields along one perpendicular; a four-chain under one axis with a uniform field along it, where the palindrome
-/// breaks and the far kernel still keeps one element, so the law predicts no dimension there; and, measured, K4 generic and coplanar and the theta graph.</para></summary>
+/// breaks and the far kernel still keeps one element, so the law predicts no dimension there; K4 generic and coplanar
+/// and the theta graph; and the theta graph and K3,3 at axes straight or right-hinged at every site with the frames
+/// agreeing around every cycle, where two words reach the proof's site equations.</para></summary>
 public sealed class HeisenbergColourLawWitness : IInspectable
 {
     private const long P = 998_244_353;                    // 1 mod 4, so −1 has a square root
@@ -31,7 +34,7 @@ public sealed class HeisenbergColourLawWitness : IInspectable
         (long X, long Y, long Z)[] Axes, (long X, long Y, long Z)[] Fields);
 
     /// <summary>Predicted is null where the law decides only the palindrome (a field along the common axis).</summary>
-    public sealed record Reading(Row Row, bool Proven, int Cycles, int? Predicted, int Measured)
+    public sealed record Reading(Row Row, bool Proven, int? Predicted, int Measured)
     {
         public bool Compared => Predicted is not null;
         public bool Agrees => Predicted is null || Predicted == Measured;
@@ -47,6 +50,7 @@ public sealed class HeisenbergColourLawWitness : IInspectable
         var ring4 = Enumerable.Range(0, 4).Select(i => (i, (i + 1) % 4)).ToArray();
         var k4 = new[] { (0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3) };
         var theta = new[] { (0, 2), (2, 1), (0, 3), (3, 1), (0, 4), (4, 1) };
+        var k33 = new[] { (0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5) };
         var generic = new (long, long, long)[] { (1, 2, 0), (0, 1, 2), (2, 0, 1), (1, -1, 2), (2, 1, -1) };
         long[] W(int k) => Enumerable.Range(0, k).Select(j => (long)(j % 3 == 0 ? 1 : j % 3 == 1 ? -2 : 3)).ToArray();
         return new[]
@@ -66,9 +70,13 @@ public sealed class HeisenbergColourLawWitness : IInspectable
                 new (long, long, long)[] { (1, -1, 0), (0, 0, 0), (-2, 2, 0), (0, 0, 0) }),
             new Row("four-chain under one axis, a uniform field along it (dimension not predicted)", 4, tree, W(3), Enumerable.Repeat((1L, 1L, 0L), 4).ToArray(),
                 Enumerable.Repeat((1L, 1L, 0L), 4).ToArray()),
-            new Row("K4, generic axes (measured)", 4, k4, W(6), generic.Take(4).ToArray(), none4),
-            new Row("K4, coplanar axes (measured)", 4, k4, W(6), coplanar, none4),
-            new Row("theta graph, generic axes (measured)", 5, theta, W(6), generic, new (long, long, long)[5]),
+            new Row("K4, generic axes", 4, k4, W(6), generic.Take(4).ToArray(), none4),
+            new Row("K4, coplanar axes", 4, k4, W(6), coplanar, none4),
+            new Row("theta graph, generic axes", 5, theta, W(6), generic, new (long, long, long)[5]),
+            new Row("theta graph, two words reach the site equations", 5, theta, new[] { 1L, 1, 1, -1, 2, -1 },
+                new (long, long, long)[] { (1, -1, 1), (-2, 2, -2), (1, -1, -1), (2, -2, 1), (0, -2, 1) }, new (long, long, long)[5]),
+            new Row("K3,3, two words reach the site equations", 6, k33, new[] { 1L, -3, -2, -2, 3, -1, -2, -2, 1 },
+                new (long, long, long)[] { (-1, 1, 1), (-1, -2, 2), (1, -2, -2), (2, 0, 0), (1, 0, 0), (-1, 0, 0) }, new (long, long, long)[6]),
         };
     }
 
@@ -79,7 +87,6 @@ public sealed class HeisenbergColourLawWitness : IInspectable
     public IReadOnlyList<Reading> Read() => _rows.Select(ReadRow).ToList();
 
     public static Reading ReadRow(Row r) => new(r, HeisenbergColourLawClaim.Proven(r.N, r.Edges, r.Axes),
-        HeisenbergColourLawClaim.ReducedCoreCycles(r.N, r.Edges, r.Axes),
         HeisenbergColourLawClaim.PredictedFarDimension(r.Axes, r.Fields), FarDimension(r));
 
     /// <summary>The far kernel's dimension by the commutator in the string basis, an upper bound (rank over GF(p)).</summary>
@@ -198,13 +205,13 @@ public sealed class HeisenbergColourLawWitness : IInspectable
         get
         {
             var r = Read();
-            return $"{r.Count(x => x.Compared && x.Agrees)}/{r.Count(x => x.Compared)} predicted rows agree ({r.Count(x => x.Proven)} proven, {r.Count(x => !x.Proven)} measured; {r.Count(x => !x.Compared)} with a field along the common axis, the palindrome broken and the dimension not predicted)";
+            return $"{r.Count(x => x.Compared && x.Agrees)}/{r.Count(x => x.Compared)} predicted rows agree ({r.Count(x => !x.Compared)} with a field along the common axis, the palindrome broken and the dimension not predicted)";
         }
     }
 
     public IEnumerable<IInspectable> Children =>
         Read().Select(x => (IInspectable)new InspectableNode(x.Row.Name,
-            summary: $"{(x.Proven ? "proven" : "measured")}, reduced core with {x.Cycles} cycle(s): law {(x.Predicted is { } p ? p.ToString() : "palindrome broken, dimension not predicted")}, " +
+            summary: $"{(x.Proven ? "connected" : "not connected, outside the law")}: law {(x.Predicted is { } p ? p.ToString() : "palindrome broken, dimension not predicted")}, " +
                      $"commutator {x.Measured}{(x.Agrees ? "" : "  DISAGREE")}"));
 
     public InspectablePayload Payload => InspectablePayload.Empty;

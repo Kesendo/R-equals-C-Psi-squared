@@ -64,8 +64,8 @@ public class TiltedAxesTests
     // otherwise), 30 rows on each of the chain at N = 2 to 5, the ring at N = 3 to 5 (at N = 2 it is one bond twice)
     // and the star and K4 at N = 4, at random signed weights, the axes generic, coplanar, parallel or in clusters of
     // two and three. The GF(p) nullity is an upper bound and the colours
-    // a lower bound, so equality is exact. That the colours are the only solutions is proven on the chain, the ring
-    // and the star (docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md, trees and rings) and measured here on K4.
+    // a lower bound, so equality is exact on each row; that the colours are the only solutions on every connected
+    // graph is the theorem (docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md), which these rows check.
     [Fact]
     public void Heisenberg_Bond_Equations_Admit_Exactly_The_Colours()
     {
@@ -102,14 +102,17 @@ public class TiltedAxesTests
         Assert.Equal(1, TiltedAxes.BondNullity(3, new[] { (0, 1), (1, 2) }, new[] { 1L, 1 }, new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2) }));
     }
 
-    // F169's reach. The rings' step (d) has content only where every hinge is right (the planes of consecutive axes
-    // meet at a right angle) with no two neighbours sharing an axis, which a four-site ring cannot do: integer rings
-    // of that kind at L = 5 and 6, off the letters, pin the theorem where its last step works, nullity 0 against no
-    // colour. Two- and three-neighbour cores beyond the theorem are measured: the theta graph (two sites joined by
-    // three paths) and the five-ring with a chord, generic and coplanar. The reduced core's cycle count reads the
-    // class: a ring 1, a ring with one bond on one axis 0 (a path), K4 generic 3, K4 with two pairs of shared axes 1.
+    // F169's proof where its last step has content. The local step leaves a site alone only where its bonds meet
+    // straight or at a right hinge (the planes of the axes meeting at a right angle); the vertex step then has two
+    // words to cut, which needs the frames to agree around every cycle. Integer rows of that kind, off the letters,
+    // with the axes spanning space and no bond on one axis, pin the theorem there, nullity 0 against no colour: the
+    // six-ring right-hinged at every site, and graphs with three-neighbour sites, the theta graph, the five-ring with
+    // a chord and K3,3. The five-ring right-hinged at every site is the other side: an odd cycle of right hinges
+    // carries no word, which is also why K4 has no row of the first kind (a triangle on three axes that passes the
+    // local step is straight at every site or right-hinged at every site). The theta graph and the chorded ring at generic and coplanar axes
+    // too; the law holds on every connected graph and is silent on a disconnected one.
     [Fact]
-    public void The_Colour_Law_Reaches_The_Right_Hinges_And_Stops_At_Three_Neighbours()
+    public void The_Colour_Law_Holds_Where_Its_Last_Step_Has_Content()
     {
         var ring5 = Enumerable.Range(0, 5).Select(i => (i, (i + 1) % 5)).ToArray();
         var ring6 = Enumerable.Range(0, 6).Select(i => (i, (i + 1) % 6)).ToArray();
@@ -137,22 +140,54 @@ public class TiltedAxesTests
         var coplanar = new (long, long, long)[] { (2, 2, 1), (1, 2, -1), (1, 0, 2), (2, 2, 1), (1, 0, 2) };
         foreach (var edges in new[] { theta, chord })
         {
-            Assert.False(TiltedAxes.ColourLawProven(5, edges, generic));
+            Assert.True(TiltedAxes.ColourLawProven(5, edges, generic));
             foreach (var axes in new[] { generic, coplanar })
                 Assert.Equal(TiltedAxes.ColourDimension(5, axes), TiltedAxes.BondNullity(5, edges, new[] { 1L, -1, 2, 1, -2, 1, 1 }.Take(edges.Length).ToArray(), axes));
         }
 
+        // two words reach the vertex step at three-neighbour sites; each row: straight or right at every site, the
+        // frames agreeing around every cycle, no bond on one axis, the axes spanning space
+        var k33 = new[] { (0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5) };
+        var twoWords = new (int N, (int, int)[] Edges, (long, long, long)[] Axes, long[] Weights)[]
+        {
+            (5, theta, new (long, long, long)[] { (1, -1, 1), (-2, 2, -2), (1, -1, -1), (2, -2, 1), (0, -2, 1) }, new[] { 1L, 1, 1, -1, 2, -1 }),
+            (5, chord, new (long, long, long)[] { (-2, -2, -2), (-1, 2, 2), (2, 0, 0), (2, -1, 1), (1, 0, 0) }, new[] { 1L, -1, -2, 1, 1, 2 }),
+            (6, k33, new (long, long, long)[] { (-1, 1, 1), (-1, -2, 2), (1, -2, -2), (2, 0, 0), (1, 0, 0), (-1, 0, 0) }, new[] { 1L, -3, -2, -2, 3, -1, -2, -2, 1 }),
+        };
+        foreach (var (n, edges, axes, weights) in twoWords)
+        {
+            foreach (var (i, j) in edges) Assert.NotEqual((0L, 0L, 0L), X(axes[i], axes[j]));          // no bond on one axis
+            for (int l = 0; l < n; l++)
+            {
+                var ms = edges.Where(e => e.Item1 == l || e.Item2 == l).Select(e => X(axes[e.Item1], axes[e.Item2])).ToArray();
+                Assert.All(ms, a => Assert.All(ms, b => Assert.True(X(a, b) == (0, 0, 0) || Dot(a, b) == 0)));   // straight or right
+            }
+            // the two words survive: with frame e_l the first bond's line at l, a bond (i, j) asks x_i ⊕ x_j = t_ij,
+            // t_ij whether its line is e at exactly one end; a walk from site 0 meets no contradiction
+            var frame = new (long, long, long)?[n];
+            foreach (var (i, j) in edges) { frame[i] ??= X(axes[i], axes[j]); frame[j] ??= X(axes[i], axes[j]); }
+            bool OnE(int l, (long, long, long) m) => X(m, frame[l]!.Value) == (0, 0, 0);
+            var x = new int?[n]; x[0] = 0;
+            for (bool grew = true; grew;)
+            {
+                grew = false;
+                foreach (var (i, j) in edges)
+                {
+                    var m = X(axes[i], axes[j]);
+                    int t = OnE(i, m) ^ OnE(j, m) ? 1 : 0;
+                    if (x[i] is { } xi && x[j] is { } xj) Assert.Equal(t, xi ^ xj);
+                    else if (x[i] is { } a) { x[j] = a ^ t; grew = true; }
+                    else if (x[j] is { } b) { x[i] = b ^ t; grew = true; }
+                }
+            }
+            Assert.Contains(Enumerable.Range(0, n), l => edges.Count(e => e.Item1 == l || e.Item2 == l) >= 3);
+            Assert.Equal(0, TiltedAxes.ColourDimension(n, axes));
+            Assert.True(TiltedAxes.ColourLawProven(n, edges, axes));
+            Assert.Equal(0, TiltedAxes.BondNullity(n, edges, weights, axes));
+        }
+
         var k4 = TiltedAxes.Graphs(4).Single(g => g.Name == "K4").Edges;
-        Assert.Equal(1, TiltedAxes.ReducedCoreCycles(5, ring5, generic));
-        Assert.Equal(0, TiltedAxes.ReducedCoreCycles(5, ring5, new[] { generic[0], generic[0], generic[2], generic[3], generic[4] }));
-        Assert.Equal(3, TiltedAxes.ReducedCoreCycles(4, k4, generic.Take(4).ToArray()));
-        Assert.Equal(1, TiltedAxes.ReducedCoreCycles(4, k4, new[] { generic[0], generic[0], generic[1], generic[1] }));
-        // two triangles joined by a bridge whose ends share an axis: removing the bridge splits the graph, and the
-        // count is the two triangles' cycles, not one (c(G∖S), not c(G))
-        var bridged = new[] { (0, 1), (1, 2), (2, 0), (2, 3), (3, 4), (4, 5), (5, 3) };
-        var bridgedAxes = new (long, long, long)[] { generic[0], generic[1], generic[2], generic[2], generic[3], generic[4] };
-        Assert.Equal(2, TiltedAxes.ReducedCoreCycles(6, bridged, bridgedAxes));
-        Assert.False(TiltedAxes.ColourLawProven(6, bridged, bridgedAxes));
+        Assert.True(TiltedAxes.ColourLawProven(4, k4, generic.Take(4).ToArray()));
         Assert.True(TiltedAxes.ColourLawProven(4, k4, new (long, long, long)[] { (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0) }));   // letters
         Assert.False(TiltedAxes.ColourLawProven(4, new[] { (0, 1), (2, 3) }, generic.Take(4).ToArray()));                         // disconnected
 

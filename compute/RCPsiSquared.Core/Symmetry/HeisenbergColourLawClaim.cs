@@ -16,41 +16,25 @@ namespace RCPsiSquared.Core.Symmetry;
 /// commutator none, so the far equation splits into bond equations and field equations, and wherever the bond
 /// equations admit only the colours the palindrome holds exactly when an admitted colour exists.</para>
 ///
-/// <para><b>Where it is proven.</b> A leaf's bond and a bond whose ends share an axis drop out of every equation and
-/// leave a symmetric pair, so leaves peel and such bonds delete from cycles; the bond equations admit only the
-/// colours wherever the reduced core is a single site or a single cycle (trees by induction, rings of every length:
-/// a nonzero p⊗p coefficient needs a right hinge, and with every hinge right the slots alternate two letters, which
-/// an odd ring cannot carry and an even ring's third slot separates), and wherever the axes are pairwise parallel or
-/// perpendicular (the complement connection's Theorems 1 to 3). Where a site keeps three or more neighbours in the
-/// reduced core it is measured, not proven.</para></summary>
+/// <para><b>Every connected graph.</b> The bond equations admit only the colours. A bond whose ends share an axis
+/// drops out and leaves a symmetric pair (deleted from a cycle, or a bridge gluing two smaller graphs). Every other
+/// bond keeps its pair in span{m⊗m, p⊗p}; two such bonds at one site meeting at an angle neither straight nor right
+/// leave nothing; otherwise every bond reads "both ends on its line or neither", which on a connected graph leaves
+/// one word and its complement, and the site equations, whose terms are distinct words from N = 4 on, keep only the
+/// word that carries every bond's line at both ends, the colour.</para></summary>
 public sealed class HeisenbergColourLawClaim : Claim
 {
     /// <summary>F158: the palindrome holds exactly when the far kernel holds an invertible element; a colour is one.</summary>
     public PalindromeTwoEndCountClaim TwoEndCount { get; }
 
-    /// <summary>F165: its Theorems 1 to 3 settle the axes one global turn makes letters.</summary>
+    /// <summary>F165: its Theorems 1 to 3 give the same answer at the axes one global turn makes letters, a second route.</summary>
     public PalindromeComplementConnectionClaim ComplementConnection { get; }
 
-    /// <summary>The independent cycles of the reduced core: those of the graph with every bond whose ends share an
-    /// axis removed (the number of such bonds that can go while the graph stays connected is their rank in the
-    /// cographic matroid, so the order of the steps does not matter).</summary>
-    public static int ReducedCoreCycles(int n, IReadOnlyList<(int A, int B)> edges, IReadOnlyList<(long X, long Y, long Z)> axes)
-    {
-        var kept = edges.Where(e => Primitive(axes[e.A]) != Primitive(axes[e.B])).ToList();
-        return kept.Count - n + Components(n, kept);
-    }
-
-    /// <summary>True where the law is proven for this graph and these axes: connected, and a reduced core with at most
-    /// one independent cycle or axes pairwise parallel or perpendicular.</summary>
+    /// <summary>True where the law is proven for this graph: connected. The axes do not enter.</summary>
     public static bool Proven(int n, IReadOnlyList<(int A, int B)> edges, IReadOnlyList<(long X, long Y, long Z)> axes)
-    {
-        if (Components(n, edges) != 1) return false;
-        if (ReducedCoreCycles(n, edges, axes) <= 1) return true;
-        var dirs = axes.Select(Primitive).Distinct().ToList();
-        return dirs.All(a => dirs.All(b => Cross(a, b) == (0, 0, 0) || Dot(a, b) == 0));
-    }
+        => Components(n, edges) == 1;
 
-    /// <summary>The dimension of F158's far kernel the law predicts where it is proven: the admitted colours'
+    /// <summary>The dimension of F158's far kernel the law predicts on a connected graph: the admitted colours'
     /// symmetric tensors. N + 1 with all axes along one n and no field (Sym^N of the plane ⊥ n); 1 when one colour is
     /// admitted otherwise; 0 when none is and the bond equations' solutions already leave no room (the axes span space,
     /// or they span a plane and a field leaves its normal, or under one axis the fields are perpendicular to it and not
@@ -77,10 +61,10 @@ public sealed class HeisenbergColourLawClaim : Claim
                "integer axis, fields of any direction. A product of colours commutes with a bond of coupling matrix W exactly " +
                "when the half-turns about its ends keep W; the far equation splits into bond and field equations; wherever " +
                "the bond equations admit only the colours the palindrome holds exactly when a colour perpendicular to every " +
-               "axis carries every field. The bond equations admit only the colours wherever the reduced core (leaves " +
-               "removed, bonds whose ends share an axis deleted from cycles) is a single site or a single cycle, and " +
-               "wherever the axes are pairwise parallel or perpendicular (F165, Theorems 1 to 3). Open where a site keeps " +
-               "three or more neighbours in the reduced core, measured on K4, the theta graph and a five-ring with a chord.",
+               "axis carries every field. The bond equations admit only the colours on every connected graph: a site whose " +
+               "bonds meet at an angle neither straight nor right admits nothing, and otherwise each bond asks both ends " +
+               "on its line or neither, which leaves two words, and the site equations keep only the colour. At axes one " +
+               "turn makes letters F165's Theorems 1 to 3 give the same answer.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md + " +
                "docs/ANALYTICAL_FORMULAS.md (F169, and F138's paragraph \"Off the letters\") + " +
@@ -95,25 +79,25 @@ public sealed class HeisenbergColourLawClaim : Claim
         "F169: under Heisenberg bonds off the letters the palindrome needs a colour (the colour law)";
 
     public override string Summary =>
-        "palindrome iff a colour perpendicular to every axis carries every field; proven on reduced cores that are a site " +
-        $"or one cycle and at axes one turn makes letters; measured on K4 ({Tier.Label()})";
+        "palindrome iff a colour perpendicular to every axis carries every field; proven on every connected graph " +
+        $"({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("why a bond drops out",
-                summary: "a bond's term at one end is its cross X_ij placed at the other end; for a leaf that term is the " +
-                         "leaf's whole equation, and for two ends on one axis it points along the axis, where nothing else " +
-                         "reaches, so X_ij vanishes either way, the bond leaves every equation and only the symmetry of its " +
-                         "pair remains");
-            yield return new InspectableNode("why a ring admits only the colours",
-                summary: "each site has two terms, so one vanishing p⊗p coefficient kills them all; a nonzero one needs the " +
-                         "planes of consecutive axes to meet at a right angle at every site, and then the slots carry two " +
-                         "letters alternately, which an odd ring cannot do and which an even ring's third slot separates");
+            yield return new InspectableNode("why a bond on one axis drops out",
+                summary: "a bond's term at one end is its cross X_ij placed at the other end; for two ends on one axis it " +
+                         "points along the axis, where nothing else reaches, so X_ij vanishes, the bond leaves every equation " +
+                         "and only the symmetry of its pair remains");
+            yield return new InspectableNode("why every connected graph admits only the colours",
+                summary: "every other bond keeps its pair in span{m⊗m, p⊗p}; two bonds at one site at an angle neither " +
+                         "straight nor right leave nothing; otherwise each bond asks both ends on its line or neither, " +
+                         "which leaves one word and its complement, and a site's equation is a sum of distinct words from " +
+                         "N = 4 on (smaller N read site by site), so only the word with every bond's line at both ends, the colour, survives");
             yield return new InspectableNode("the live witness",
                 summary: "inspect --root colourlaw: the far kernel's dimension from the commutator in the Pauli-string basis, " +
-                         "fields included, without the split, against the law's prediction, on rows in and beyond the proven class");
+                         "fields included, without the split, against the law's prediction");
         }
     }
 
