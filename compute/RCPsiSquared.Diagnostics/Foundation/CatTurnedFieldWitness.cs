@@ -11,12 +11,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// commuting with X^⊗N and Σ Z_l; its centred odd moments m_k = Tr(ρ·(L + σ)^k ρ) read exactly.
 ///
 /// <para>The page's gate builds density matrices in sympy and multiplies them. This witness takes
-/// the other road: the state as its amounts a_P = Tr(P·ρ) on the 4^N Pauli strings, read from the
-/// masks of <see cref="PauliMask"/> (P|b⟩ = i^{|x∧z|}·(−1)^{|z∧b|}·|b ⊕ x⟩), and the generator applied
-/// word by word: the commutator with a string T is the factor ±2 on the string T·P where the two
-/// anticommute (<see cref="PauliMask.Multiply"/>, its phase power odd), the watching the charge
-/// −2γ_l at every site where P carries X or Y. Every coefficient is rational, so every number is
-/// exact (<see cref="BigRational"/>), and m_k = 2^{−N}·Σ_P a_P·((L + σ)^k a)_P.</para>
+/// the other road: the state as its amounts a_P = Tr(P·ρ) on the 4^N Pauli strings and the generator
+/// applied word by word, exactly (<see cref="CatPauliMoments"/>).</para>
 ///
 /// <para>The setting is wider than the gate's: unequal rates, unequal field strengths, unequal
 /// bond strengths J_b and anisotropies Δ_b, on the chain or the ring, and from N = 3 a three-body
@@ -105,85 +101,9 @@ public sealed class CatTurnedFieldWitness : IInspectable
         return terms;
     }
 
-    private int Index(PauliMask p) => (int)(p.X << N | p.Z);
-
-    /// <summary>a_P = Tr(P·ρ) for the cat (|0…0⟩ + |1…1⟩)/√2, from the masks.</summary>
-    private BigRational[] CatAmounts()
-    {
-        int dim = 1 << (2 * N);
-        ulong all = (1UL << N) - 1;
-        var a = new BigRational[dim];
-        for (int i = 0; i < dim; i++) a[i] = BigRational.Zero;
-        for (ulong x = 0; x <= all; x++)
-            for (ulong z = 0; z <= all; z++)
-            {
-                // ⟨b'|P|b⟩ over b, b' ∈ {0, all}: P|b⟩ = i^{|x∧z|}·(−1)^{|z∧b|}·|b ⊕ x⟩, summed and halved
-                int phase = BitOperations.PopCount(x & z) % 4;      // the power of i
-                int re = 0, im = 0;
-                foreach (ulong b in new[] { 0UL, all })
-                {
-                    ulong target = b ^ x;
-                    if (target != 0 && target != all) continue;
-                    int sign = (BitOperations.PopCount(z & b) & 1) == 0 ? 1 : -1;
-                    int p = phase;
-                    int r = p == 0 ? 1 : p == 2 ? -1 : 0, s = p == 1 ? 1 : p == 3 ? -1 : 0;
-                    re += sign * r;
-                    im += sign * s;
-                }
-                if (im != 0) throw new InvalidOperationException("a Hermitian state has real Pauli amounts");
-                a[Index(new PauliMask(x, z))] = new BigRational(re) / new BigRational(2);
-            }
-        return a;
-    }
-
-    private BigRational[] Apply(BigRational[] v, List<(PauliMask T, BigRational Coefficient)> terms, BigRational sigma)
-    {
-        int dim = v.Length;
-        var w = new BigRational[dim];
-        for (int i = 0; i < dim; i++) w[i] = BigRational.Zero;
-        ulong all = (1UL << N) - 1;
-        for (ulong x = 0; x <= all; x++)
-            for (ulong z = 0; z <= all; z++)
-            {
-                var p = new PauliMask(x, z);
-                var amount = v[Index(p)];
-                if (amount.IsZero) continue;
-                BigRational charge = sigma;
-                for (int l = 0; l < N; l++)
-                    if (((x >> l) & 1) == 1) charge -= 2 * Rates[l];
-                w[Index(p)] += charge * amount;
-                foreach (var (t, coefficient) in terms)
-                {
-                    if (PauliMask.Commute(t, p)) continue;
-                    var (q, k) = PauliMask.Multiply(t, p);                 // t·p = i^k·q, k odd
-                    // −i[t, p] = −2i·i^k·q: +2 at k = 1, −2 at k = 3
-                    BigRational factor = k == 1 ? new BigRational(2) : new BigRational(-2);
-                    w[Index(q)] += factor * coefficient * amount;
-                }
-            }
-        return w;
-    }
-
-    private IReadOnlyDictionary<int, BigRational> Moments((BigRational C, BigRational S) angle, int kMax)
-    {
-        var terms = Terms(angle);
-        BigRational sigma = BigRational.Zero;
-        for (int l = 0; l < N; l++) sigma += Rates[l];
-        var a = CatAmounts();
-        var v = a;
-        var scale = new BigRational(BigInteger.One, BigInteger.One << N);
-        var moments = new SortedDictionary<int, BigRational>();
-        for (int k = 1; k <= kMax; k++)
-        {
-            v = Apply(v, terms, sigma);
-            if (k % 2 == 0) continue;
-            BigRational m = BigRational.Zero;
-            for (int i = 0; i < a.Length; i++)
-                if (!a[i].IsZero && !v[i].IsZero) m += a[i] * v[i];
-            moments[k] = m * scale;
-        }
-        return moments;
-    }
+    private IReadOnlyDictionary<int, BigRational> Moments((BigRational C, BigRational S) angle, int kMax) =>
+        CatPauliMoments.OddMoments(N, CatPauliMoments.CatAmounts(N, BigRational.One, BigRational.Zero),
+                                   Terms(angle), Rates, kMax);
 
     public bool VanishingHolds => OddMoments.Where(kv => kv.Key < 2 * N + 1).All(kv => kv.Value.IsZero);
     public bool LawHolds => OddMoments[2 * N + 1] == LawValue && !LawValue.IsZero;

@@ -1068,6 +1068,14 @@ public static class InspectCommand
             "every computed odd moment vanishes (N = 1..5; typed: CatTurnedFieldSelfEncounterClaim)",
             c => new CatTurnedFieldWitness(c.Parser.HasFlag("N") ? c.N : 3, c.Parser.HasFlag("ring")),
             RequiresN: false, HonorsOptionalN: true),
+        new("cattwist", "F168 under a twisted coupling live: the cat under Z dephasing, a field at an angle of its own on every bit " +
+            "and a hopping with a twist (DM part) on every bond, both at once in the original frame, one bit unwatched (--ring for the " +
+            "ring): m_7 = 96·Σγ_l(div j)_l² with j_e = h_a h_b J_e sin(δ_e − (φ_b − φ_a)) at θ = Σφ and, from N = 4, at another phase; " +
+            "the angles following the twist leave every odd moment through 2N + 3 zero and give F168's law with Σφ; the same weights on " +
+            "each bond's current squared differ; a constant current shows its end sources on the chain and breaks only at m_9 on the " +
+            "ring (N = 3..5; typed: CatTwistedCouplingClaim)",
+            c => new CatTwistedCouplingWitness(c.Parser.HasFlag("N") ? c.N : 4, c.Parser.HasFlag("ring")),
+            RequiresN: false, HonorsOptionalN: true),
         new("cooledbonds", "the cooled bonds live (WHICH_BONDS_PAIR_UNDER_COOLING): a chain and a ring of one class bond, " +
             "2XX − XY + 3YX + YY − 2ZZ, under loss alone, the odd power sums Tr((2L + c)^k) read exactly in integer arithmetic " +
             "(column-major matrix units, no prime): p₁, p₃, p₅ vanish on the chain, p₇ is the closed form " +
