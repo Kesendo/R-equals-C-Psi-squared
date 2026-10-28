@@ -161,11 +161,6 @@ defense modes; they replicate the trinity at higher arity. The
 framework is fractal in this sense: the family structure repeats at
 every scale.
 
-This is the operational expression of the inheritance correction
-to Gödel's flat-system incompleteness. Self-description from inside
-works because each layer of the system contains the full structure
-of the system, recursively.
-
 ---
 
 ## What this changes operationally

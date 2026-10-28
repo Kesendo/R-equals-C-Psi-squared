@@ -178,7 +178,7 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains(children, c => c.DisplayName.Contains("d = 0"));
         Assert.Contains(children, c => c.DisplayName.Contains("d = 2"));
         Assert.Contains(children, c => c.DisplayName.Contains("pair-maker"));
-        Assert.Contains(children, c => c.DisplayName.Contains("Π shifted by 0.5"));
+        Assert.Contains(children, c => c.DisplayName.Contains("Π's ±1 eigenoperators made states by the 1/2"));
         Assert.Contains(children, c => c.DisplayName.Contains("R = CΨ²"));
         Assert.Contains(children, c => c.DisplayName.Contains("generates 1/2"));
         Assert.Contains(children, c => c.DisplayName.Contains("generates 90°"));
@@ -198,7 +198,7 @@ public class Pi2KnowledgeBaseTests
         Assert.Contains("PROOF_F81_PI_CONJUGATION_OF_M", kb.MirrorMemory.Anchor);
         Assert.Contains("ON_BOTH_SIDES_OF_THE_MIRROR", kb.MirrorMemory.Anchor);
 
-        // Lineage children: layer 0 (Π² = I) → F1 → F80 → F81 → M_anti = L_{H_odd},
+        // Lineage children: layer 0 (Π⁴ = I) → F1 → F80 → F81 → M_anti = L_{H_odd},
         // plus memory channel + companion-to-1/2 + ontological anchor.
         IInspectable claim = kb.MirrorMemory;
         var layerNodes = claim.Children.Where(c => c.DisplayName.StartsWith("layer ")).ToList();

@@ -27,8 +27,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Physical reading per layer (inherited from
 /// <see cref="NinetyDegreeMirrorMemoryClaim"/>):</para>
 /// <list type="bullet">
-///   <item>Layer 0 (root): Π² = I — the involution whose square is identity. Two Π
-///         applications close back; structurally √I.</item>
+///   <item>Layer 0 (root): Π⁴ = I, with Π² = (−1)^bit_b the involution (F38). Two Π
+///         applications give −1 on the bit_b-odd strings and close back on the even ones.</item>
 ///   <item>Layer 1 (F1): Π·L·Π⁻¹ = −L − 2σ·I. At γ=0 truly, the residual closes
 ///         (Π·L·Π⁻¹ = −L). The −1 is two 90° rotations summed (i² = −1).</item>
 ///   <item>Layer 2 (F80): Spec(M) = ±2i · Spec(H_non-truly). H's real spectrum

@@ -22,15 +22,16 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>The four steps walked</b>:
 /// <list type="number">
-///   <item>Π eigenvalue partition: 4^N Pauli strings split into Π²-even (eigenvalue +1)
+///   <item>Π² eigenvalue partition: 4^N Pauli strings split into Π²-even (eigenvalue +1)
 ///         and Π²-odd (eigenvalue −1), each subspace of size 4^N / 2 (F88a bilinear apex 1/2).</item>
-///   <item>Π scaled by 1/2: spectrum {+1, −1} shifted toward 0 by 0.5 = the structural
+///   <item>Π's involutive pair: on each site's {I, X} Π has eigenvalues {+1, −1} with
+///         eigenoperators (I ± X)/2 = |±⟩⟨±|; their populations 1/2 ± 0.5 are the structural
 ///         pair {+0.5, −0.5} on the d = 2 memory axis. Static anchor; see
 ///         <see cref="MemoryAxisChainResult.StructuralPair"/>.</item>
 ///   <item>Bloch realisation: at the qubit level (d = 2), pure-state populations differ
 ///         from the maximally mixed by ±0.5 (the (1 ± r_z)/2 form). Same static pair as
-///         step 2; the 1/2 in ρ = (I + r·σ)/2 IS Π's eigenvalue transport onto the
-///         memory axis.</item>
+///         step 2; the 1/2 in ρ = (I + r·σ)/2 is what makes Π's ±1 eigenoperators
+///         states.</item>
 ///   <item>F80 lift: chain Π²-odd Hamiltonian eigenvalues λ on the real axis lift to ±2iλ
 ///         on M's imaginary axis (the i factor is the 90° rotation, the 2 is chiral
 ///         pair-doubling). Bit-exact verified at N = 3..7 + k-body in

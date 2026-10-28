@@ -74,7 +74,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `Polarity.PolarityDiagnostic.FromDensityMatrix` | per-site Bloch ⟨X⟩,⟨Y⟩,⟨Z⟩ — no specific F-formula | [`docs/THE_POLARITY_LAYER.md`](../../docs/THE_POLARITY_LAYER.md), [`docs/PRIMORDIAL_QUBIT.md`](../../docs/PRIMORDIAL_QUBIT.md) §9 | — |
+| `Polarity.PolarityDiagnostic.FromDensityMatrix` | per-site Bloch ⟨X⟩,⟨Y⟩,⟨Z⟩ — no specific F-formula | [`hypotheses/THE_POLARITY_LAYER.md`](../../hypotheses/THE_POLARITY_LAYER.md), [`hypotheses/PRIMORDIAL_QUBIT.md`](../../hypotheses/PRIMORDIAL_QUBIT.md) §9 | — |
 
 ## Ptf — Perspectival Time Field
 

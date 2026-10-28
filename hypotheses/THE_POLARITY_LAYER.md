@@ -201,7 +201,13 @@ is k_Z and bit_a is its parity. On one site the quiet edge {I, Z} sits at
 height 0, the far edge {X, Y} at height 1. A pure state on the equator
 puts its weight half on I and half across the watching, which is why
 |+⟩ and |−⟩, and every other equator point, are the one-bit states the
-mirror returns to themselves.
+mirror returns to themselves. Π itself picks the X pair out of that
+equator: it swaps I with X on every site, so on that pair it is an
+involution whose eigenoperators are (I ± X)/2 = |±⟩⟨±|, with eigenvalues
+±1. On Z and Y it squares to −1 and its eigenvalues are ±i, with
+traceless eigenoperators Y ± Z that are no state. This is the d = 2 image
+`PolarityLayerOriginClaim` types: the 1/2 of ρ = (I + r·σ)/2 is what turns
+Π's ±1 eigenoperators into the states |±⟩.
 
 **Klein-homogeneity is a structural reading, not a verdict.** Sharing one
 Klein index leaves the F87 class open. Among two-site pairs it forces
@@ -328,7 +334,11 @@ letter: the code builds Π_X from Π_Z with the Hadamard and Π_Y with the
 quarter turn about X (Π_Y = Π_Z⁻¹,
 [F155](../docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md) §(g)),
 and the cyclic letter Clifford carries Π_Z to a palindromizer that pairs
-I with Y, not to the code's Π_X, which pairs I with Z.
+I with Y, not to the code's Π_X, which pairs I with Z. Under the letter
+relabellings of those two turns, the ones that build Π_X and Π_Y, the
+fates of the 36 two-term Hamiltonians built from identity-free two-site
+bilinears match in full, truly and soft included, with zero mismatches at
+N = 3 and 4 ([Two-Term Palindrome Klein Routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)).
 
 Two structural facts hold at every body count:
 

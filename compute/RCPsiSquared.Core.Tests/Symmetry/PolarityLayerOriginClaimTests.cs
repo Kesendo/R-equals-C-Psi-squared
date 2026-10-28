@@ -33,7 +33,7 @@ public class PolarityLayerOriginClaimTests
         var labels = c.Children.Select(ch => ch.DisplayName).ToList();
         // tier + anchor metadata (from base) + cascade children
         Assert.Contains("layer −1 (substrate)", labels);
-        Assert.Contains("layer 0 (Π involution)", labels);
+        Assert.Contains("layer 0 (Π on the quiet/far pair)", labels);
         Assert.Contains("layer 1 (X-basis diagonalization)", labels);
         Assert.Contains("layer 2 (the 0.5-shift)", labels);
         Assert.Contains("layer 3 (multi-axis refinement)", labels);

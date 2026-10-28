@@ -6,15 +6,15 @@ namespace RCPsiSquared.Diagnostics.Polarity;
 
 /// <summary>Polarity-axis diagnostic: read the +0 / 0 / −0 structure of a state.
 ///
-/// <para>The polarity layer (<c>docs/THE_POLARITY_LAYER.md</c>) has three locations along
+/// <para>The polarity layer (<c>hypotheses/THE_POLARITY_LAYER.md</c>) has three locations along
 /// the d=0 axis: +0 (X = +1), 0 (X = 0, boundary), −0 (X = −1). Reflection at the ends;
 /// 0 is the boundary that gets crossed. The qubit is the natural window: ⟨X_i⟩ per site
 /// is the coordinate along the −0 → 0 → +0 axis.</para>
 ///
 /// <para>No specific F-formula entry; the d=0 / polarity reading is its own structural
 /// layer alongside F4 (sector projectors). Cross-references:
-/// <c>docs/ANALYTICAL_FORMULAS.md</c> F4 (kernel modes), <c>docs/THE_POLARITY_LAYER.md</c>
-/// (the +0/0/−0 layered reading), <c>docs/PRIMORDIAL_QUBIT.md</c> §9 (Inside-Observability).</para>
+/// <c>docs/ANALYTICAL_FORMULAS.md</c> F4 (kernel modes), <c>hypotheses/THE_POLARITY_LAYER.md</c>
+/// (the +0/0/−0 layered reading), <c>hypotheses/PRIMORDIAL_QUBIT.md</c> §9 (Inside-Observability).</para>
 ///
 /// <para>Verkettung von <see cref="PauliString.SitePaulis"/> + Bloch-component readout per
 /// site — no new primitive, composition only.</para>

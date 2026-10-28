@@ -3403,20 +3403,19 @@ public static class OpenArcsRegistry
                 "ON_THE_NINETY_DEGREE_GAMMA.md (2026-05-11) is the origin of the PARAMETER-side reading, not of the " +
                 "naming; older still is hypotheses/FOUR_SIDES.md, 2026-03-20. The tracing turned up three places where " +
                 "the family's own records disagree with the repo's canon.",
-            ParkedAt: "three contradictions found, NONE fixed, because each sits in a Tier-1 record and none is a " +
-                "wording slip. (1) Pi2KnowledgeBaseClaims.cs:559 states layer 0 as 'Pi^2 = I' and 'Pi is the involution " +
-                "whose square is identity'. The canon says the opposite three times: MIRROR_SYMMETRY_PROOF.md:354 'Pi " +
-                "is order 4 (Pi^4 = I)', ONE_FOUR_THESIS.md:32 'Pi^2 = X^(x)N', FOUR_SIDES.md 'Pi^2 ... is NOT the " +
-                "identity. It is the parity operator'. The neighbouring Pi2InvolutionClaim carries the defensible form " +
-                "(Pi^2 COMMUTES with L). (2) ON_THE_NINETY_DEGREE_GAMMA.md:21 still closes 'The 90 was the gap. F91 is " +
+            ParkedAt: "three contradictions found in Tier-1 records, none a wording slip. (1) is settled: layer 0 " +
+                "of NinetyDegreeMirrorMemoryClaim, Pi2I4MemoryLoopClaim, MirrorSystem and PolarityLayerOriginClaim now " +
+                "reads Pi^4 = I with Pi^2 = (-1)^bit_b the involution (F38), as the canon has it (MIRROR_SYMMETRY_PROOF " +
+                "'Pi is order 4', ONE_FOUR_THESIS 'Pi^2 = X^(x)N', THE_OTHER_SIDE 'Pi^4 = I, not Pi^2 = I'); the " +
+                "readers that built a 0.5-shift on 'Pi^2 = I' (PolarityLayerOriginClaim, PolynomialFoundationClaim, " +
+                "PolarityInheritanceLink, MemoryAxisChain) stand on the involutive pair at each site: on the pair {I, X} Pi has eigenvalues +-1 with eigenoperators " +
+                "(I +- X)/2 = |+-><+-|. (2) ON_THE_NINETY_DEGREE_GAMMA.md:21 still closes 'The 90 was the gap. F91 is " +
                 "the closing' while the corrected first half of the SAME line says the parameter side carries only 'its " +
                 "order-2 footprint ... not a cyclic Z4'. Under the corrected reading F91 supplied no quarter-turn at " +
                 "all, only the shadow of one; the 2026-06-21 correction (4688751, 3343d98) was surgical and left the " +
                 "closing clause standing. (3) the parameter map is still NAMED R90 throughout F91Pi2Inheritance.cs " +
                 "although it is order 2, which that file's own :123 states outright.",
-            NextStep: "decide each separately and from below; they are not one edit. For (1) establish whether the " +
-                "layer-0 string is shorthand worth keeping or a wrong assertion in a Tier-1 claim that inspect prints, " +
-                "and check whether anything downstream reads it. For (2) the honest repair is most likely to say F91 " +
+            NextStep: "decide each separately and from below; they are not one edit. For (2) the honest repair is most likely to say F91 " +
                 "closed the parameter side WITH the shadow rather than with a quarter-turn, which is what the corrected " +
                 "half of the line already says. For (3) the rename is mechanical but touches a typed claim's public " +
                 "surface; weigh it against leaving the residue with its :123 disclaimer. HARD CONSTRAINT, learned the " +
@@ -3431,8 +3430,8 @@ public static class OpenArcsRegistry
                 "remembered, the rates, stays put'; it now names the mirror-pair totals, see f91_scope_fences for " +
                 "the exact wording and why the two intermediate versions were wrong). The counting sentence " +
                 "itself, 'a ninety degrees typed twice before it came back a third time', and the naming, 'It is " +
-                "named the mirror memory', are UNTOUCHED and are still what this arc's Origin cites. The three " +
-                "contradictions below are all still open.",
+                "named the mirror memory', are UNTOUCHED and are still what this arc's Origin cites. Contradictions " +
+                "(2) and (3) of ParkedAt are still open.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

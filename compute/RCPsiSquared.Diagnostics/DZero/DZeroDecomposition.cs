@@ -14,7 +14,7 @@ namespace RCPsiSquared.Diagnostics.DZero;
 /// <para>The d=2 framework reading: d²−2d=0 forces d=0 or d=2; d=2 is the qubit dimension,
 /// d=0 is the substrate axis the qubit sits on. See <b>F4</b> in
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> (sector projectors as kernel modes) and
-/// <c>docs/THE_POLARITY_LAYER.md</c> for the +0/0/−0 substrate reading.</para>
+/// <c>hypotheses/THE_POLARITY_LAYER.md</c> for the +0/0/−0 substrate reading.</para>
 /// </summary>
 public sealed record DZeroDecompositionResult(
     ComplexMatrix RhoD0,

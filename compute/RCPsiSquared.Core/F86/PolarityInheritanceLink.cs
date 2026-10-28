@@ -77,7 +77,8 @@ public sealed class PolarityInheritanceLink : Claim
 {
     /// <summary>The parent claims in <c>Pi2KnowledgeBase</c> from which the F86 bond-class
     /// split inherits: 1/2 = 1/d (root anchor), polarity layer +0/0/−0 (Layer 2:
-    /// ρ = (I + r·σ)/2 maps Π-spectrum {+1, −1} onto Bloch-diagonal 1/2 ± r/2), 1/2 fixed
+    /// ρ = (I + r·σ)/2 makes Π's ±1 eigenoperators (I ± X)/2 on each site's pair {I, X}
+/// the states |±⟩), 1/2 fixed
     /// point (Interior r ≈ 1/2 exactly across N=5..8).</summary>
     public string PolarityRootAnchor =>
         "Pi2KnowledgeBase: QubitDimensionalAnchorClaim + PolarityLayerOriginClaim + HalfAsStructuralFixedPointClaim";

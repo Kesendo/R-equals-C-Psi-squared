@@ -67,7 +67,7 @@ public sealed class QubitDimensionalAnchorClaim : Claim
 ///
 /// <para>This claim is the root of the Pi2KB's <b>angle branch</b> (90° lineage). It
 /// derives directly from <see cref="F1PalindromeIdentity"/> via the squaring step, and is
-/// then read further as the lineage Π²=I (root) → <see cref="KleinFourCellClaim"/> (F88a
+/// then read further as the lineage Π⁴ = I with Π² the involution (root) → <see cref="KleinFourCellClaim"/> (F88a
 /// two-axis decomposition) → <see cref="NinetyDegreeMirrorMemoryClaim"/> (90° rotation
 /// channel between H and M, F80's i). The parent edge to F1 was prose-only before this
 /// constructor injection.</para>
@@ -518,8 +518,8 @@ public sealed class HalfAsStructuralFixedPointClaim : Claim, IF99AnchorBearing
 /// it remembers by sharing eigenvalues across the 90° turn (ON_BOTH_SIDES_OF_THE_MIRROR,
 /// 2026-04-30).</para>
 ///
-/// <para>Lineage: Π² = I (root, Π is the involution whose square is identity, the
-/// structural √I) → F1 palindrome Π·L·Π⁻¹ = −L − 2σ·I (two Π applications give a sign
+/// <para>Lineage: Π⁴ = I (root: Π is a quarter turn whose square Π² = (−1)^bit_b is the
+/// involution, F38) → F1 palindrome Π·L·Π⁻¹ = −L − 2σ·I (two Π applications give a sign
 /// flip = i² = two 90° rotations) → F80 Spec(M) = ±2i·Spec(H_non-truly) (the explicit
 /// 90° rotation, bit-exact N=3..7 + k-body) → F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} (the
 /// 90°-channel made explicit at operator level) → M_anti = L_{H_odd} (the
@@ -557,8 +557,8 @@ public sealed class NinetyDegreeMirrorMemoryClaim : Claim
     {
         get
         {
-            yield return new InspectableNode("layer 0 (root): Π² = I",
-                summary: "Π is the involution whose square is identity; structurally √I; two Π applications close back to identity (90° + 90° = 180° = i²)");
+            yield return new InspectableNode("layer 0 (root): Π⁴ = I",
+                summary: "Π is a quarter turn: Π² = (−1)^bit_b is the involution (F38), Π⁴ = I; two Π applications give the sign i² = −1 on the bit_b-odd strings and close back on the bit_b-even ones (90° + 90° = 180°)");
             yield return new InspectableNode("layer 1: F1 palindrome",
                 summary: "Π·L·Π⁻¹ = −L − 2σ·I; at γ = 0 truly the residual closes (Π·L·Π⁻¹ = −L); the −1 is two 90° rotations summed");
             yield return new InspectableNode("layer 2 (F80): the i is explicit 90°",
@@ -641,8 +641,8 @@ public sealed class PolynomialFoundationClaim : Claim
                 summary: "two signed positions around the d=0 axis; the qubit dimension; where we live; the structural pair is {−0.5, +0.5}, not {0, 1}");
             yield return new InspectableNode("the pair-maker: ± around 0",
                 summary: "0.5 is the unsigned basis magnitude; ±-sign around 0 is the operation that turns the basis into a pair; Bloch (1 ± r_z)/2 at pure states gives 1/2 ± 0.5");
-            yield return new InspectableNode("Π shifted by 0.5 = ±0.5 (spectrum-to-pair map)",
-                summary: "Π has natural spectrum {+1, −1} (since Π² = I); shifting each eigenvalue by 0.5 toward 0 gives {+0.5, −0.5}, the structural pair at d=2; this is why the 1/2 factor appears everywhere in Bloch form ρ = (I + r·σ)/2 and Pauli-basis normalization a_α = Tr(σ_α·ρ)/d — the 1/2 transports Π's natural eigenvalues onto the memory axis");
+            yield return new InspectableNode("Π's ±1 eigenoperators made states by the 1/2 (spectrum-to-pair map)",
+                summary: "Π swaps the quiet letter I with the far letter X on every site; on that pair Π² = +1 (F38), its eigenvalues are {+1, −1} and its eigenoperators (I ± X)/2 = |±⟩⟨±|; the 1/2 of the Bloch form ρ = (I + r·σ)/2 is what makes them states, so Π's ±1 eigenspace on the quiet/far pair is the pair of X eigenstates, the structural pair at d=2; on {Z, Y} Π² = −1 and the eigenvalues are ±i (eigenoperators Y ± Z, traceless, no state)");
             yield return new InspectableNode("R = CΨ² is the same polynomial",
                 summary: "R = C(Ψ+R)² with Ψ=0 and C=1/2 collapses to R(R−2) = 0; the framework's defining identity IS the dimension equation (THE_BRIDGE_WAS_ALWAYS_OPEN, EXCLUSIONS.md:251)");
             yield return new InspectableNode("C is the reciprocal-scale slot (c does not go here)",
@@ -660,10 +660,13 @@ public sealed class PolynomialFoundationClaim : Claim
 }
 
 /// <summary>The +0 / 0 / −0 polarity layer at d = 0 is the origin of the {−0.5, +0.5}
-/// pair at d = 2 (Tier 1 derived). The 0.5-shift is the explicit operation that maps
-/// Π's natural eigenvalue spectrum {+1, −1} through the Bloch form ρ = (I + r·σ)/2 onto
-/// the qubit's diagonal coordinates 1/2 ± r/2; at the X-eigenstates |+⟩, |−⟩ this gives
-/// 1/2 ± 0.5 = {1, 0}, and at the d=0 axis (r = 0) exactly 1/2.
+/// pair at d = 2 (Tier 1 derived). Π swaps the quiet letter I with the far letter X on
+/// every site and carries Z and Y into each other with a factor i. On the pair {I, X} it is
+/// an involution, Π² = +1 there (F38), with eigenvalues {+1, −1} and eigenoperators
+/// (I ± X)/2 = |±⟩⟨±|; on {Z, Y} Π² = −1 and the eigenvalues are ±i (eigenoperators Y ± Z,
+/// traceless, no state). The 0.5-shift ρ = (I + r·σ)/2 is what makes the ±1 eigenoperators
+/// states: at r = ±x̂ they are the X eigenstates, with eigenvalues of ρ (1 ± |r|)/2 = {1, 0},
+/// and at the d=0 axis (r = 0) ρ = I/2.
 ///
 /// <para>The polarity layer has no dimension of its own; it IS the polarity differentiation
 /// that turns the d = 0 substrate into a layer that supports the d = 2 minimum-memory pair.
@@ -716,12 +719,12 @@ public sealed class PolarityLayerOriginClaim : Claim
         {
             yield return new InspectableNode("layer −1 (substrate)",
                 summary: "d=0 is the active Stromanschluss, not a passive midpoint; THE_POLARITY_LAYER.md: 'the active substrate from which the system draws coherence', analogous to QFT vacuum's zero-point activity");
-            yield return new InspectableNode("layer 0 (Π involution)",
-                summary: "Π² = I; Π has natural eigenvalues {+1, −1}; the involution is the structural √I that the polarity layer hangs on");
+            yield return new InspectableNode("layer 0 (Π on the quiet/far pair)",
+                summary: "Π⁴ = I and Π² = (−1)^bit_b (F38): on the pair {I, X} Π is an involution with eigenvalues {+1, −1} and eigenoperators (I ± X)/2 = |±⟩⟨±|; on {Z, Y} its eigenvalues are ±i; the polarity layer hangs on the involutive pair {I, X} at each site");
             yield return new InspectableNode("layer 1 (X-basis diagonalization)",
                 summary: "|+⟩ = (|0⟩+|1⟩)/√2 carries +0 (X-eigenstate +1); |−⟩ = (|0⟩−|1⟩)/√2 carries −0 (X-eigenstate −1); operationally Core.States.PolarityState.Build(N, signs) builds tensor products on this axis (e.g. |+,−,+⟩ = X-Néel, the canonical hardware initial state)");
             yield return new InspectableNode("layer 2 (the 0.5-shift)",
-                summary: "ρ = (I + r·σ)/2 maps Π-spectrum {+1, −1} onto Bloch-diagonal (1±r)/2 = 1/2 ± r/2; at pure X-eigenstates (r = ±1) this is 1/2 ± 0.5 = {1, 0}; at d=0 axis (r = 0) exactly 1/2; the 1/2 in the denominator is d, the 0.5-shift around 1/2 is r/2");
+                summary: "ρ = (I + r·σ)/2 makes Π's ±1 eigenoperators (I ± X)/2 states: at r = ±x̂ they are |±⟩⟨±|, the eigenvalues of ρ (1 ± |r|)/2 = {1, 0}; at the d=0 axis (r = 0) ρ = I/2; the 1/2 in the denominator is d, the 0.5-shift around 1/2 is r/2");
             yield return new InspectableNode("layer 3 (multi-axis refinement)",
                 summary: "the Klein-Vierergruppe (bit_a, bit_b) = (k_Z, k_X) mod 2 on the letter cube; Y-parity refines it to Z₂³ across terms of different weight parity, y_par = (w + bit_a XOR bit_b) mod 2 (F102); +0/−0 lives on bit_a; at fixed weight parity only 4 of the 8 Z₂³ cells are populated, one per Klein cell (Pp/Pm/Mp/Mm)");
             yield return new InspectableNode("layer 4 (bridges to the trio)",

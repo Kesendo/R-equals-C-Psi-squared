@@ -143,7 +143,7 @@ public sealed class MirrorSystem : IInspectable
     /// axis (the time / decay / memory axis), turned a quarter and scaled by 2. The wave remembers by
     /// sharing its spectrum across the 90° turn; H is the distance between the two mirror sectors.</para>
     ///
-    /// <para>The quarter turn is the third step of a short lineage: Π² = I (the mirror exists) → F1
+    /// <para>The quarter turn is the third step of a short lineage: Π⁴ = I with Π² the involution (the mirror exists) → F1
     /// (Π·L·Π⁻¹ = −L − 2σ·I, the palindrome) → F80 (when the palindrome breaks, the break carries H,
     /// rotated 90°). <see cref="MemoryRotationReading.MemoryCarriesEnergy"/> is the live F80 check via
     /// the Frobenius signature ‖M‖²_F = 4·‖H‖²_F·2^N. Computed once, lazily, from this system's input.</para></summary>
