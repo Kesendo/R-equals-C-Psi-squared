@@ -16,7 +16,7 @@ The Marrakesh dataset (3 Hamiltonians × 16 two-qubit Pauli expectations on q₀
 2. **F80 M-spectrum** (structural): {0} / {±5.66i, 0} / {±2.83i}, computed from H eigenvalues alone via `predict_M_spectrum_pi2_odd`
 3. **Observable signature** (operational): 7 categories of how the 16 Paulis populate, with categorical hardware confirmation
 
-A fourth finding emerged during interpretation: the "T1 amplification" hardening hypothesis from the dataset's original README is quantitatively wrong. The hardening is fully accounted for by Trotter n=3 discretization at δt = 0.267, where ‖H·δt‖ ≈ 0.8 violates the small-step regime. T1 actually attenuates the soft signal monotonically.
+A fourth finding: the hardening of Δ(soft − truly) beyond the continuous prediction is the circuit's Trotter n=3 discretization at δt = 0.267, where ‖H·δt‖ ≈ 0.8 violates the small-step regime. T1 attenuates the soft signal monotonically, so it cannot be the cause.
 
 The three-layer reading lets each level inform the next: F87 says *whether* M is non-zero; F80 says *what* M's spectrum is; the observable categories say *which* Paulis the dynamics paints onto via that template.
 
@@ -92,7 +92,7 @@ Each of the 16 two-qubit Pauli expectations on (q₀, q₂) lands in one of 7 ca
 - **soft** (XY + YX) is purely imaginary, so the evolution keeps the real ρ₀ real (each Trotter gate exp(−iδt·XY) is a real matrix). ⟨P₀P₂⟩ = 0 whenever the string carries an odd number of Y letters, the Y-parity that `fw.y_parity_panel` reads: IY, XY, YI, YX, YZ, ZY.
 - **hard** (XX + XY) puts only X on site 0 in every term, so X₀ commutes with H; Z-dephasing respects X₀, and |+⟩ on site 0 is an X₀ eigenstate. ⟨P₀P₂⟩ = 0 whenever P₀ is Y or Z: YI, YX, YY, YZ, ZI, ZX, ZY, ZZ.
 
-These are symmetries of the state and the generator together, not of M: truly, whose M vanishes, has a zero set of its own. The three zero sets are the categories. A (YZ, ZY) is zero for soft and hard, B (YY, ZZ) for hard only, C (ZI, ZX) for truly and hard, D (IY, XY) for truly and soft, E (IZ, XZ) for truly only, F (IX, XI, XX) for none, and G is the identity plus the two strings (YI, YX) zero for all three. In the simulation these zeros are exact (|value| ≤ 2·10⁻¹⁶, continuous and Trotter) and every other entry is at least 0.039 in magnitude; on hardware the predicted zeros read at most 0.022 for truly, 0.098 for soft and 0.062 for hard. The equality truly = soft in B and F comes from one more single-site symmetry. The middle-site Clifford V = (X + Y)/√2 exchanges X and Y and sends Z to −Z, so it maps XX + YY onto XY + YX bond by bond and leaves the Z-dephasing and every site-0/2 observable unchanged; it changes only the middle site's initial state, from |−⟩ to a Y eigenstate, and on the five strings of B and F the soft evolution gives the same value from either middle state, continuous and Trotter alike. The continuous evolution keeps the equality exactly at every γ and t tried. The Trotter circuit keeps it only on IX and XI; on XX (0.0401 against 0.0397), YY (0.323 against 0.453) and ZZ (0.489 against 0.199) it does not, since V turns truly's gate order into a different order of the same soft terms.
+These are symmetries of the state and the generator together, not of M: truly, whose M vanishes, has a zero set of its own. The three zero sets are the categories. A (YZ, ZY) is zero for soft and hard, B (YY, ZZ) for hard only, C (ZI, ZX) for truly and hard, D (IY, XY) for truly and soft, E (IZ, XZ) for truly only, F (IX, XI, XX) for none, and G is the identity plus the two strings (YI, YX) zero for all three. In the simulation these zeros are exact (|value| ≤ 2·10⁻¹⁶, continuous and Trotter) and every other entry is at least 0.039 in magnitude; on hardware the predicted zeros read at most 0.022 for truly, 0.098 for soft and 0.062 for hard. The equality truly = soft in B and F comes from one more single-site symmetry. The middle-site Clifford V = (X + Y)/√2 exchanges X and Y and sends Z to −Z, so it maps XX + YY onto XY + YX bond by bond and leaves the Z-dephasing and every site-0/2 observable unchanged; it changes only the middle site's initial state, from |−⟩ to a Y eigenstate, and on the five strings of B and F the soft evolution gives the same value from either middle state, continuous and Trotter alike. The continuous evolution keeps the equality exactly at every γ and t tried, and so does the Trotter circuit: V turns truly's step XX₀₁ YY₀₁ XX₁₂ YY₁₂ into XY₀₁ YX₀₁ YX₁₂ XY₁₂, which is soft's step up to the swap of two terms on one bond, and those commute (residual ≤ 2·10⁻¹⁶ at γ = 0.03, 0.1, 0.3).
 
 **Category E** is the *trichotomy resolver*: observables where all three classes give meaningfully different values. The hardware's flagship ⟨X₀Z₂⟩ lives here:
 
@@ -100,7 +100,7 @@ These are symmetries of the state and the generator together, not of M: truly, w
   |---|---|---|---|
   | truly | 0.000 | 0.000 | +0.011 |
   | soft  | -0.623 | -0.723 | -0.711 |
-  | hard  | +0.195 | +0.327 | +0.205 |
+  | hard  | +0.195 | +0.213 | +0.205 |
 
   Three classes, three separately-measurable values, all confirmed at >13σ (hard's smaller signal) to >47σ (soft's largest).
 
@@ -122,9 +122,9 @@ The ratio soft/hard = 1.52 in the strongest hardware observable; F80 predicts 2.
 
 ---
 
-## The Trotter correction (and why "T1 amplification" was wrong)
+## The Trotter correction
 
-The dataset's original README explained the hardening Δ_hw(soft − truly) = -0.722 vs Δ_idealized = -0.623 at γ_Z = 0.1 with: "T1 thermal relaxation and ZZ crosstalk compound the soft-break operator-level break." This was a placeholder. Quantification refutes it.
+The hardware reads Δ(soft − truly) = −0.722 against the continuous −0.623 at γ_Z = 0.1. T1 thermal relaxation does not produce that hardening; the circuit does.
 
 [`simulations/marrakesh_t1_amplification_test.py`](../simulations/marrakesh_t1_amplification_test.py) tests three models against the hardware:
 
@@ -152,16 +152,16 @@ Trotter matches hardware to **0.0014**, well below the 0.015 shot-noise statisti
 **Test 3, joint optimization (γ_Z, γ_T1) over all 45 hardware pairs:**
 
 ```
-optimal γ_Z   = 0.143
+optimal γ_Z   = 0.105
 optimal γ_T1  = 0 (at the clip; the rates are bounded below by 0)
-total RMS     = 0.0805
+total RMS     = 0.0390
 ```
 
 The data does not support adding T1 at all.
 
-**Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.76, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t) that points outward in the \|X₀Z₂\| direction by ≈ +0.10. Trotter is the *circuit's actual physics*, not a noise channel.
+**Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.76, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t); on soft's ⟨X₀Z₂⟩ it points outward by ≈ 0.10 (−0.62 → −0.72), on hard's by 0.018 (+0.195 → +0.213). Trotter is the *circuit's actual physics*, not a noise channel, and the prediction has to run the circuit's Trotter order: the runner puts the bond loop outside the term loop, and Qiskit's Lie-Trotter synthesis keeps it (gated in [`test_predict_signature_table.py`](../simulations/framework/tests/workflows/test_predict_signature_table.py)). The two orders differ by one swap, the second term on bond (0,1) against the first on bond (1,2). For soft that pair commutes, so soft's ⟨X₀Z₂⟩ does not see the order, and truly's ⟨X₀Z₂⟩ is 0 in either, so Δ(soft − truly) is order-blind; for truly and hard the pair anticommutes, and their other observables move.
 
-**The signs agree.** Continuous evolution, Trotter and hardware give the same sign on every Y-containing observable (truly ⟨Y₀Z₂⟩ +0.354, +0.381, +0.583; hard ⟨I₀Y₂⟩ +0.563, +0.520, +0.467); what Trotter changes is the magnitudes.
+**The signs agree.** Continuous evolution, Trotter and hardware give the same sign on every Y-containing observable (truly ⟨Y₀Z₂⟩ +0.354, +0.567, +0.583; hard ⟨I₀Y₂⟩ +0.563, +0.399, +0.467); what Trotter changes is the magnitudes.
 
 ---
 
@@ -177,6 +177,8 @@ For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the
 | soft  | XY + YX | 1.2786 | 1.2673 | −0.011 |
 | hard  | XX + XY | 0.8752 | 0.9082 | +0.033 |
 
+The framework column is continuous Lindblad. In the circuit's Trotter model (n = 3, bonds outside, γ_Z = 0.1) ⟨n⟩ reads 1.0000 / 1.2596 / 0.8567, and hard's Δ grows to +0.051; the separation between the classes holds (≥ 0.14), and neither model is closer on every class: Trotter is closer for soft (+0.008 against −0.011), continuous for hard (+0.033 against +0.051), and truly reads the same in both.
+
 Initial state |+,−,+⟩ has marginal ⟨n⟩₀ = 1.0 on (q₀, q₂). All three Hamiltonian classes separate by ≥ 0.10 in ⟨n⟩, well above the maximum per-case deviation of 0.033 (~3% relative). The reading uses no phase information; the off-diagonal Pauli expectations that drive Layer 3 do not enter.
 
 **Operational consequence:** classifying a Hamiltonian's F87 class on hardware does not require 9 Pauli-pair bases. One Z-basis tomography is sufficient with the full discrimination quality of Layer 3. For the same shot budget this is a 9× reduction in QPU time when the question is "which class is this?" rather than "what is the full M-spectrum?". This matters for the 180-min annual QPU budget of the project: a quick classification pass costs the same as one tomographic-Pauli pass.
@@ -185,15 +187,15 @@ The framework primitive is `fw.sector_populations(rho_or_psi, N)` from [`simulat
 
 ---
 
-## What the 0.08 residual carries
+## What the 0.04 residual carries
 
-Even with optimal Trotter + γ_Z = 0.143 + no T1, residual RMS ≈ 0.08 remains across the 45 (observable, Hamiltonian) pairs. The two largest contributors:
+With Trotter in the circuit's order, γ_Z = 0.105 and no T1, residual RMS 0.039 remains across the 45 (observable, Hamiltonian) pairs, about 2.5 shot-noise σ. Two features that read like hardware signatures are not: the first is the circuit's own, the second sits within the model's noise:
 
-1. **⟨Y₀Z₂⟩ ≠ ⟨Z₀Y₂⟩ on hardware** (+0.583 vs +0.187 for truly). Framework F71 chain-mirror predicts equality; hardware breaks F71 by 3×. **Mechanism**: per-qubit T1/T2 differences and bond-asymmetric ZZ-crosstalk on the Marrakesh path [48, 49, 50] break the spatial chain mirror. The framework's Π is diagonal (parity); F71 (spatial reflection q₀ ↔ q₂) is a separate symmetry that real hardware respects only approximately.
+1. **⟨Y₀Z₂⟩ ≠ ⟨Z₀Y₂⟩ on truly** (+0.583 against +0.187). The Hamiltonian and the |+−+⟩ state are F71-symmetric (q₀ ↔ q₂), the Trotter circuit is not: each step runs XX₀₁ YY₀₁ XX₁₂ YY₁₂, and its reflection is a different product because YY₀₁ and XX₁₂ anticommute on the shared site. The prediction at γ_Z = 0.105 gives +0.561 against +0.158; the measured asymmetry (0.396) is the circuit's (0.403) to within 0.01.
 
-2. **⟨Y₀Y₂⟩ and ⟨Z₀Z₂⟩ truly off** (Trotter at the fitted γ_Z = 0.143 gives +0.29, +0.46 against hardware +0.47, +0.16). These correlation observables are sensitive to gate-level CR phase calibration, which drifted slightly during the run.
+2. **⟨Y₀Y₂⟩ and ⟨Z₀Z₂⟩ on truly** sit within 2.6σ of the prediction (+0.45, +0.20 at γ_Z = 0.105 against hardware +0.47, +0.16).
 
-Neither is a framework-level signature; both are hardware-instrument signatures readable via the framework. The cockpit's 5-symmetry diagnostic suite (Π², Z⊗N, Y-parity, K, F71) is exactly the right tool to *isolate* such hardware-specific asymmetries.
+The largest single residuals left are 0.07 to 0.1 (4.5 to 6.3σ): soft ⟨Y₀Z₂⟩ = +0.098 and ⟨Y₀⟩ = −0.079 where the model gives 0, hard ⟨X₀⟩ = +0.754 against +0.845, hard ⟨I₀Y₂⟩ = +0.467 against +0.396. The last one grows with the circuit's order (the terms-outside prediction sat closer), so the order does not improve every observable. What carries them we do not know; the model holds only Z-dephasing.
 
 ---
 
@@ -210,7 +212,7 @@ Layer 3 (Obs):   16 Paulis × 7 categories ──┐
                        ↓                     │
                  hardware values             │  parallel from ZZ alone:
                  (∼0.001 for Δ_soft,         ├─→  ⟨n⟩ ∈ {1.000, 1.279, 0.875}
-                  ∼0.08 RMS overall)         │   (∼0.033 max per-case Δ)
+                  ∼0.04 RMS overall)         │   (∼0.033 max per-case Δ)
                                               │   1/9 the Pauli-basis cost
 ```
 

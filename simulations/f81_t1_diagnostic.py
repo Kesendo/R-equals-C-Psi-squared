@@ -88,20 +88,20 @@ def main():
     # Test 4: Application to Marrakesh
     print("Test 4: Application to Marrakesh fit results")
     print()
-    # The optimal fit from marrakesh_t1_amplification_test.py was γ_z=0.143, γ_T1=0
+    # The optimal fit from marrakesh_t1_amplification_test.py was γ_z=0.105, γ_T1=0
     # (joint optimization across 45 hardware observable-Hamiltonian pairs)
-    print("  At Marrakesh-optimal (γ_z=0.143, γ_T1=0):")
+    print("  At Marrakesh-optimal (γ_z=0.105, γ_T1=0):")
     for label, terms in [("truly XX+YY", [("X", "X"), ("Y", "Y")]),
                          ("soft XY+YX", soft),
                          ("hard XX+XY", [("X", "X"), ("X", "Y")])]:
-        d = fw.pi_decompose_M(chain,terms, gamma_z=0.143, gamma_t1=0.0)
+        d = fw.pi_decompose_M(chain,terms, gamma_z=0.105, gamma_t1=0.0)
         print(f"    {label:<14}: F81 violation = {d['f81_violation']:.4e}  ✓ (Z-only model fits)")
     print()
-    print("  Hypothetical (γ_z=0.143, γ_T1=0.1) for comparison:")
+    print("  Hypothetical (γ_z=0.105, γ_T1=0.1) for comparison:")
     for label, terms in [("truly XX+YY", [("X", "X"), ("Y", "Y")]),
                          ("soft XY+YX", soft),
                          ("hard XX+XY", [("X", "X"), ("X", "Y")])]:
-        d = fw.pi_decompose_M(chain,terms, gamma_z=0.143, gamma_t1=0.1)
+        d = fw.pi_decompose_M(chain,terms, gamma_z=0.105, gamma_t1=0.1)
         print(f"    {label:<14}: F81 violation = {d['f81_violation']:.4e}  (T1 would imply this)")
     print()
     print("  Reading: the actual Marrakesh fit converges to γ_T1 ≈ 0, hence")

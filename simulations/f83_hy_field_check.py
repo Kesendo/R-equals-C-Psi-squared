@@ -7,11 +7,13 @@ Background:
   See project memory project_zn_mirror_diagnostic and Confirmations
   entry 'marrakesh_transverse_y_field_detection'.
 
-  The April 30 F83 4-Hamiltonian run on path [4,5,6] showed two surprises:
-    1. pi2_odd_pure ⟨X₀Z₂⟩ = -0.849, expected -0.723 (Trotter+γ_Z=0.1)
-    2. Y-basis amplification: truly ⟨Y₀Z₂⟩ = +0.670, expected 0.381
-  Y-amplification was also visible on April 26 [48,49,50]: ⟨Y₀Z₂⟩ = 0.583
-  vs same 0.381 prediction. So Y-bias is backend-wide, not path-specific.
+  The April 30 F83 4-Hamiltonian run on path [4,5,6] sits above the
+  Trotter+γ_Z=0.1 prediction (run in the circuit's order, bonds outside):
+    1. pi2_odd_pure ⟨X₀Z₂⟩ = -0.849, predicted -0.723
+    2. truly ⟨Y₀Z₂⟩ = +0.670, predicted +0.567
+  On April 26 [48,49,50] the same prediction meets the hardware
+  (⟨Y₀Z₂⟩ = 0.583); both gaps on [4,5,6] close at that path's lower
+  γ_Z_eff ≈ 0.03 (f83_gamma_z_sweep.py: -0.835 and +0.659).
 
 Hypothesis: the 0.05 h_y field, baked into the Hamiltonian during the
 ~5 μs circuit, is what shifts both the Y-basis observables AND the X,Z
@@ -89,8 +91,8 @@ def trotter_with_drift(N, bonds, terms, h_y, n_trot, t, gamma_z, rho_0):
     U_drift_step = expm(-1j * H_drift * delta_t)
 
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q, c) in terms:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q, c) in terms:
             ops = [ur_pauli('I')] * N
             ops[l] = ur_pauli(P); ops[m] = ur_pauli(Q)
             op_full = ops[0]
@@ -130,6 +132,7 @@ def predict_category(terms, h_y):
 
 
 def total_residual(predictions, hw, observables):
+    """Root of the summed squared residuals (not a mean; divide by √n for RMS)."""
     res2 = 0.0
     for cat, hwexp in hw.items():
         for pp in observables:
@@ -151,7 +154,7 @@ def main():
     print()
     pred_h0 = {cat: predict_category(terms, h_y=0.0) for cat, terms in CATEGORIES}
     res0 = total_residual(pred_h0, HW_ON_456, OBSERVABLES)
-    print(f"  RMS residual vs hardware (28 datapoints): {res0:.4f}")
+    print(f"  root-sum-square residual vs hardware (28 datapoints): {res0:.4f}")
     print()
 
     # With zn_mirror's measured h_y_eff = 0.05
@@ -159,7 +162,7 @@ def main():
     print()
     pred_h05 = {cat: predict_category(terms, h_y=0.05) for cat, terms in CATEGORIES}
     res05 = total_residual(pred_h05, HW_ON_456, OBSERVABLES)
-    print(f"  RMS residual vs hardware: {res05:.4f}")
+    print(f"  root-sum-square residual vs hardware: {res05:.4f}")
     print(f"  Improvement: {(res0 - res05)/res0*100:+.1f}%")
     print()
 
@@ -187,13 +190,13 @@ def main():
         preds = {cat: predict_category(terms, h_y=h) for cat, terms in CATEGORIES}
         residuals.append(total_residual(preds, HW_ON_456, OBSERVABLES))
     best_idx = int(np.argmin(residuals))
-    print(f"  {'h_y':>6} {'RMS residual':>14}")
+    print(f"  {'h_y':>6} {'root-sum-sq':>14}")
     print('  ' + '-' * 22)
     for i, h in enumerate(h_grid):
         marker = ' ←' if i == best_idx else ''
         print(f"  {h:>6.3f} {residuals[i]:>14.4f}{marker}")
     print()
-    print(f"  Best h_y = {h_grid[best_idx]:.3f}, RMS = {residuals[best_idx]:.4f}")
+    print(f"  Best h_y = {h_grid[best_idx]:.3f}, root-sum-square = {residuals[best_idx]:.4f}")
     print(f"  zn_mirror April 29 measured: h_y_eff ≈ 0.05")
     print()
 

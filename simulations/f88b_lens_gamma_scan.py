@@ -1,9 +1,10 @@
 """Parameter scan: how do (γ_Z, γ_T1) affect F88b-Lens Π²-odd/mem for the three
 F87 categories under |+−+⟩ at t=0.8 with h_y=0.05?
 
-Motivation: Trotter-asymmetry hypothesis was falsified — Trotter pushes Π²-odd
-UP, not down. Hard's hardware reading (0.276) sits BELOW continuous-Lindbladian
-ideal (0.381) with the calibration-derived γ_Z=0.1, γ_T1=0.046 baseline.
+Motivation: hard's hardware reading (0.276) sits BELOW the continuous-Lindbladian
+ideal (0.381) with the calibration-derived γ_Z=0.1, γ_T1=0.046 baseline. This scan
+stays continuous; the gap itself is the circuit's Trotter error in the runner's
+order (f88b_lens_trotter_asymmetry_test.py: hard 0.270 at n=3).
 
 Two new candidate explanations from calibration analysis:
 (a) T1/T2 drift: experiment was 2026-04-26, calibration was 2026-04-25; over 10

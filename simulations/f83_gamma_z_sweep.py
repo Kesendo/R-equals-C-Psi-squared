@@ -65,8 +65,8 @@ def trotter(N, bonds, terms, n_trot, t, gamma_z, rho_0):
     delta_t = t / n_trot
     Id = np.eye(2 ** N, dtype=complex)
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q, c) in terms:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q, c) in terms:
             ops = [ur_pauli('I')] * N
             ops[l] = ur_pauli(P); ops[m] = ur_pauli(Q)
             op_full = ops[0]
@@ -214,8 +214,8 @@ def main():
     print(f"  Δγ_Z (path effect) = {g_456 - g_485:+.3f}  ({(g_456/g_485 - 1)*100:+.0f}%)")
     print()
     print(f"  γ_Z_eff is path-dependent. The original X₀Z₂ 'amplification' on [4,5,6]")
-    print(f"  is the same data through a smaller-γ_Z model — effective dephasing on")
-    print(f"  this path is half that of the April 26 path.")
+    print(f"  is the same data through a smaller-γ_Z model: effective dephasing on")
+    print(f"  this path is {g_456 / g_485:.2f} times that of the April 26 path.")
     print()
     print(f"  Remaining unexplained: any observable with |Δ| > 0.15 marked ⚠ above.")
 

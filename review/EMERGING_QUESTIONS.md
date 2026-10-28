@@ -1634,7 +1634,7 @@ For the (A_q0, B_q2) tomographic observables (9 of them per category per backend
 
 - **hard's "P→A" cells**: hardware shows multiple moderate values (0.04-0.47 on the X-row), consistent with the predicted "everything leaks under T1" verdict.
 
-The Δ⟨X₀Z₂⟩(soft − truly) hardware amplification (1.30-1.49× over the idealised −0.62) is therefore not random hardware quirk but the framework-predicted consequence of the Π-protection asymmetry: T1 raises truly's noise floor while soft's leak pattern is structurally robust.
+The Δ⟨X₀Z₂⟩(soft − truly) hardware amplification over the idealised −0.62 is not T1, which attenuates the signal; on the separate soft_break run (Marrakesh 2026-04-26, path [48, 49, 50]) the circuit's first-order Trotter discretization accounts for it, −0.723 predicted against −0.722 measured ([MARRAKESH_THREE_LAYERS](../experiments/MARRAKESH_THREE_LAYERS.md)). The Snapshot D runs here read larger ratios (about 1.32× on Marrakesh [0, 1, 2], up to 1.49× elsewhere), which Trotter at γ_Z = 0.1 does not reach; what carries the rest has not been checked.
 
 ---
 

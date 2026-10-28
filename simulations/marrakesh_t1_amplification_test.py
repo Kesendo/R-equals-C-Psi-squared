@@ -35,7 +35,7 @@ soft-break magnitude), not inward. The 'amplification' Tom observed is a Trotter
 of the circuit, not a noise channel effect.
 
 Signs: continuous Lindblad, Trotter n=3 and hardware agree in sign on every
-Y-containing observable (e.g. truly ⟨Y₀Z₂⟩ = +0.354, +0.381, +0.583); Trotter
+Y-containing observable (e.g. truly ⟨Y₀Z₂⟩ = +0.354, +0.567, +0.583); Trotter
 changes the magnitudes.
 """
 from __future__ import annotations
@@ -115,8 +115,8 @@ def predict_trotter(case_terms, N, bonds, rho0, t, n_trot, gamma_z, gamma_t1):
                                   - 0.5 * np.kron(Id, sml_dag_sml.T))
     M_diss = expm(L_diss * delta_t)
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q, c) in case_terms:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q, c) in case_terms:
             ops = [ur_pauli("I")] * N
             ops[l] = ur_pauli(P); ops[m] = ur_pauli(Q)
             op_full = ops[0]

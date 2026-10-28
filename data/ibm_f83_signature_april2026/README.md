@@ -38,7 +38,7 @@ advance what each class reveals:
 
 | Π²-class | F-toolkit reading | Idealized M | What it shows |
 |----------|--------------------|-------------|----------------|
-| `truly_unbroken` (XX+YY) | F87 truly: M = 0; F84 says environmental σ⁻ amplitude damping breaks the ⟨Z⟩-conservation that the Hamiltonian stipulates | 0 | The environment, cleanly. Any HW deviation IS the F82/F84 amplitude-damping contribution. |
+| `truly_unbroken` (XX+YY) | F87 truly: M = 0; F84 says environmental σ⁻ amplitude damping would break the ⟨Z⟩-conservation the Hamiltonian stipulates | 0 | The environment, cleanly: truly, Z-dephasing and the state respect X^⊗3, so a Z-only model holds ⟨Z₀⟩ = ⟨Z₂⟩ = 0, and an F82/F84 σ⁻ contribution would show there. |
 | `pi2_odd_pure` (XY+YX) | F87 pure-Π²-odd; F81 says M_anti = L_{H_odd} dominates; F83 anti = 1/2 | M_anti dominant | The dynamics-generator side of M. F83 anti-fraction is the structural prediction. |
 | `pi2_even_nontruly` (YZ+ZY) | F87 pure-Π²-even-non-truly; F81 says M_sym dominates; F83 anti = 0 | M_sym dominant | The mirror-echo side of M (memory-only, no drive). |
 | `mixed_anti_one_sixth` (XY+YZ) | F83 anti = 1/6 with r = 1 (equal Frobenius mix) | M_anti and M_sym in fixed ratio | The continuous tunability of F83 at one decimal point. |
@@ -46,6 +46,26 @@ advance what each class reveals:
 This guides what we measure and how to read it. The two pure-class
 categories are the F83 anchors. truly is the lens for environmental
 F82/F84. mixed tests F83 at a non-trivial ratio.
+
+## The prediction is the circuit the hardware ran
+
+The Trotter + γ_Z prediction (`fw.predict_signature_table`) runs the
+same first-order Trotter step as the hardware: the runner
+`run_soft_break.py` builds one `SparsePauliOp` with the bond loop outside
+the term loop, and Qiskit's default Lie-Trotter synthesis applies the
+terms in that list order. The framework's step is gated against the
+synthesised circuit (`gate.definition`) in
+[`test_predict_signature_table.py`](../../simulations/framework/tests/workflows/test_predict_signature_table.py).
+On N = 3 with two terms A + B the two orders differ by one swap: terms
+outside runs A₀₁ A₁₂ B₀₁ B₁₂, bonds outside runs A₀₁ B₀₁ A₁₂ B₁₂, so the
+order is visible exactly when B on bond (0,1) fails to commute with A on
+bond (1,2), at O(δt²) with δt = 0.267. They meet on the shared site 1:
+truly (Y against X) and mixed (Z against X) anticommute there, pi2_odd_pure
+(X against X) and pi2_even_nontruly (Y against Y) commute, and for those
+two the order is invisible. The data choose the same order on their own:
+over the 28 datapoints of this run the bonds-outside prediction fits at
+RMS 0.024, the terms-outside one at best 0.127 (on April 26, over 45
+datapoints, 0.039 against 0.081).
 
 ## F83 anti-fraction discrimination: CONFIRMED
 
@@ -59,111 +79,125 @@ categories at >>10σ (statistical error 0.0156 at 4096 shots):
 - `pi2_even_nontruly`: ⟨X₀X₂⟩ = +0.92 (uniquely large positive)
 - `mixed_anti_one_sixth`: ⟨Z₀X₂⟩ = −0.72, ⟨X₀Z₂⟩ = +0.15 (sign-flip on Z,X axis vs pi2_odd)
 
-Quantitative match to the Trotter+γ_Z model at the path-fit γ_Z = 0.05:
+Quantitative match to the Trotter + γ_Z model at the path-fit γ_Z = 0.03
+(the minimum of the 28-datapoint sweep below):
 
 | Category | RMS over 7 key Paulis | Reading |
 |----------|------------------------|---------|
-| `pi2_odd_pure` | **0.039** | F83 anchor at anti = 1/2: confirmed quantitatively. |
-| `pi2_even_nontruly` | **0.029** | F83 anchor at anti = 0: confirmed quantitatively. |
-| `truly_unbroken` | 0.188 | M = 0 lens: residuals ARE the environmental signature, see next section. |
-| `mixed_anti_one_sixth` | 0.163 | Trotter ordering sensitivity at intermediate r; partial. |
+| `truly_unbroken` | **0.012** | M = 0 lens: on the prediction over these 7 two-body Paulis; the single-site window is read below. |
+| `pi2_odd_pure` | **0.036** | F83 anchor at anti = 1/2: on the prediction. |
+| `pi2_even_nontruly` | **0.014** | F83 anchor at anti = 0: on the prediction. |
+| `mixed_anti_one_sixth` | **0.024** | F83 at anti = 1/6: on the prediction. |
 
-The two pure-class anchors land on the framework's structural prediction
-to within 0.04 RMS over 7 observables. F83 is operational on hardware.
+All four classes land on the framework's prediction to within 0.04 RMS
+over 7 observables, a class RMS between 0.8 and 2.3 shot-noise σ. The
+fit has one parameter, γ_Z, taken from these same 28 points, and single
+observables still reach 4.3σ (pi2_odd_pure ⟨Y₀Z₂⟩ = +0.067 where the
+model gives 0), 3.4σ (pi2_odd_pure ⟨Z₀Y₂⟩ = +0.053 against 0) and 3.1σ
+(mixed ⟨Z₀X₂⟩ = −0.721 against −0.769); what
+carries those we do not know. The Trotter + γ_Z model that carries F83's
+structural classes holds on hardware in every class, not only in the two
+pure anchors; the anti-fraction r itself is not measured (see below).
 
-## F82/F84 amplitude-damping signature in the truly lens
+## The X^⊗3 window: quiet on truly, open on pi2_even
 
-Because truly XX+YY has M = 0 idealized (no Hamiltonian-driven
-soft signal), any HW residual on truly IS the environmental
-contribution. The framework's F82/F84 reading predicts what kind
-of contribution to expect:
+Because truly XX+YY has M = 0 idealized, it is the lens for the
+environmental contribution F82/F84 describes:
 
 - F82 closed form: ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N-1). T1 amplitude damping leaks into M_anti.
 - F84: among the single-qubit amplitude-damping and Pauli channels, only σ⁻ and σ⁺ reach M_anti; in general a traceless jump does exactly when its Pauli parts mix bit_b parity (the F82 proof, "Other dissipators"). D[Z], D[X], D[Y] are Π²-symmetric and contribute zero. The T1 channel decomposes as σ⁻ (cooling) + σ⁺ (heating); their imbalance at T → 0 is what reaches M_anti.
 
-The hardware signature on truly's ⟨Z₀Z₂⟩:
+Which observable carries it is a symmetry question. XX+YY commutes with
+X^⊗3, Z-dephasing respects X^⊗3, and |+, −, +⟩ is an X^⊗3 eigenstate, so
+any Z-only model keeps the single-site ⟨Z⟩ and ⟨Y⟩ at zero exactly (both
+anticommute with X^⊗3). σ⁻ breaks X^⊗3 and pulls ⟨Z⟩ positive. ⟨Z₀Z₂⟩
+commutes with X^⊗3 and is nearly blind to σ⁻ on truly:
 
-| Observable | Pred (γ_Z = 0.05) | HW | Δ | Reading |
-|------------|--------------------|------|------|---------|
-| truly ⟨Z,Z⟩ | +0.528 | +0.215 | **−0.313** | 60% damped: σ⁻ destroys \|1⟩ population, breaks ⟨Z⟩ conservation |
-| pi2_odd_pure ⟨Z,Z⟩ | +0.221 | +0.210 | −0.011 | matches: pi2_odd doesn't conserve ⟨Z⟩ in its Hamiltonian, so T1 adds incrementally to existing dynamics |
+| truly, γ_Z = 0.03 | γ_T1 = 0 | γ_T1 = 0.046 | γ_T1 = 0.2 | HW |
+|---|---|---|---|---|
+| ⟨Z₀⟩ | 0 | +0.037 | +0.152 | +0.043 |
+| ⟨Z₂⟩ | 0 | +0.040 | +0.162 | +0.012 |
+| ⟨Z₀Z₂⟩ | +0.231 | +0.221 | +0.208 | +0.215 |
 
-The asymmetry between truly and pi2_odd is exactly what F84 predicts:
-T1's σ⁻ component is the operational mechanism that breaks ⟨Z⟩
-conservation. truly XX+YY conserves ⟨Z⟩ at the Hamiltonian level, so
-σ⁻ is the *only* mechanism reaching that observable. pi2_odd_pure
-XY+YX doesn't conserve ⟨Z⟩ to begin with, so σ⁻ contributes to a
-channel where Hamiltonian dynamics already dominates.
+(σ⁻ per site at a uniform rate γ_T1 inside each Trotter step,
+`marrakesh_t1_amplification_test.predict_trotter`; 0.046 is the scale the
+F88b baseline derives from the 2026-04-25 Marrakesh calibration, not a fit
+to this path.)
 
-This is the F82/F84 signature operating cleanly through the truly lens
-because the lens is designed for it: M = 0 idealized → environment
-shines through. The 60% damping is consistent with the F82 prediction
-applied to a circuit of effective duration ~5 μs against the path's
-average T1 ~234 μs (rough order: γ_T1 · t_circuit ≈ 0.02; F82's M_anti
-contribution scales as γ · √N · 2^(N-1), giving a Frobenius
-contribution ~0.14 in operator-norm terms that maps onto state
-observables at this magnitude).
+On truly, ⟨Z₀⟩ reads 2.75σ above zero and ⟨Z₂⟩ 0.8σ, so neither crosses
+3σ. The readout asymmetry of the 2026-04-30 calibration (P(0|1) − P(1|0) =
+0.0059 on Q4, 0.0039 on Q6) accounts for +0.006 and +0.004 of that, not
+for the rest. Calibration-scale σ⁻ would fit as well as none: whether
+there is a T1 contribution on truly we do not know.
 
-The F82 closed form is structurally vindicated. A controlled T1-versus-path
-test would tighten the quantitative fit; left for a follow-up.
+YZ+ZY commutes with X^⊗3 too, and there the window is open. Its
+single-site readings, all exactly 0 in a Z-only model:
 
-## Per-qubit T2 inhomogeneity via Y/Z asymmetry on truly
+| pi2_even_nontruly | HW | σ from 0 | σ⁻ at γ_T1 = 0.046 |
+|---|---|---|---|
+| ⟨Z₀⟩ | +0.019 | 1.2 | +0.011 |
+| ⟨Z₂⟩ | +0.063 | 4.0 | +0.007 |
+| ⟨Y₀⟩ | +0.048 | 3.1 | 0 |
+| ⟨Y₂⟩ | +0.045 | 2.9 | 0 |
 
-The truly Hamiltonian XX+YY is symmetric under (q0 ↔ q2) swap, and the
-|+, −, +⟩ initial state respects this swap. The Trotter prediction
-gives ⟨Y₀Z₂⟩ = ⟨Z₀Y₂⟩ = 0.428 at γ_Z = 0.05. Hardware shows:
+Something breaks X^⊗3 on this class at 4σ, and it is not calibration-scale
+σ⁻: σ⁻ leaves ⟨Y⟩ at zero, and gives ⟨Z₂⟩ a tenth of what is measured.
+What does we do not know.
 
-  ⟨Y₀Z₂⟩ = +0.670  (Y on q0 = Q4)
-  ⟨Z₀Y₂⟩ = +0.185  (Y on q2 = Q6)
+⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict
+the same +0.231 in a Z-only model, but σ⁻ moves pi2_odd's (0.193 at
+γ_T1 = 0.046) more than truly's (0.221). The measured +0.215 and +0.210 sit
+about 1σ from either hypothesis.
 
-Path [4, 5, 6] has asymmetric T2: Q4 = 184 μs, Q6 = 151 μs. The
-shorter T2 on Q6 damps Q6's Y-coherence more strongly. The HW
-asymmetry is consistent with per-qubit T2 inequality, again read
-through truly because truly's symmetric Hamiltonian doesn't conceal
-the path asymmetry.
+## The Y/Z asymmetry on truly is the circuit's
 
-## Mixed_anti_one_sixth: Trotter ordering sensitivity
+The truly Hamiltonian XX+YY and the |+, −, +⟩ initial state are both
+symmetric under the reflection q0 ↔ q2; the Trotter circuit is not. Each
+step runs XX₀₁ YY₀₁ XX₁₂ YY₁₂; its mirror image XX₁₂ YY₁₂ XX₀₁ YY₀₁ is a
+different product, because the cross-bond pairs (YY₀₁ with XX₁₂, XX₀₁
+with YY₁₂) anticommute on the shared site.
+(With the terms outside, XX₀₁ XX₁₂ YY₀₁ YY₁₂ reflects into itself, since
+factors of one term commute, and the prediction would be symmetric.) The
+prediction already carries the asymmetry:
 
-The mixed Hamiltonian XY+YZ involves both a Π²-odd term (XY) and a
-Π²-even non-truly term (YZ). Its per-Pauli predictions depend on the
-relative phase of the two contributions, which is sensitive to the
-exact Trotter ordering. We have not separately verified that the
-PauliEvolutionGate ordering on hardware matches the analytic Trotter
-expansion. This is a candidate source for the ⟨Y,Y⟩ pred = +0.230 vs
-HW = −0.066 sign-flip-magnitude discrepancy. The F83 anti = 1/6
-prediction is structural and does not depend on Trotter ordering;
-the *operational signature* however does.
+| | Pred (γ_Z = 0.03) | HW |
+|---|---|---|
+| ⟨Y₀Z₂⟩ | +0.659 | +0.670 |
+| ⟨Z₀Y₂⟩ | +0.192 | +0.185 |
 
-## Residual phenomenology: γ_Z_eff is path-dependent
+The measured asymmetry is the predicted one to within 0.02, about one
+shot-noise σ. A contribution from per-qubit T2 differences on the path
+(T2 = 184 μs on Q4 against 151 μs on Q6) is bounded by that, not needed.
 
-A post-hoc γ_Z sweep over the full 28-datapoint observable set
-(`simulations/f83_gamma_z_sweep.py`) finds:
+## Residual phenomenology: γ_Z_eff differs between the two runs
 
-| Path | Date | Best γ_Z_eff | Anchor pi2_odd_pure ⟨X₀Z₂⟩ pred | HW | Δ |
-|------|------|---------------|-----------------------------------|-----|---|
-| [4, 5, 6] | 2026-04-30 | 0.050 | −0.802 | −0.849 | 0.047 |
-| [48, 49, 50] | 2026-04-26 | 0.120 | −0.694 | −0.711 | 0.017 |
+A post-hoc γ_Z sweep (`simulations/f83_gamma_z_sweep.py`) over the
+28-datapoint set of this run (4 classes × 7 Paulis), and over the 14
+comparable datapoints of the April 26 run (truly and XY+YX):
 
-γ_Z_eff is a phenomenological parameter that absorbs Trotter
-discretization, coherent gate errors, transpilation overhead, idle
-decoherence, and crosstalk. It does not reduce to a single hardware
-time constant (Q5 has the shortest T2 on [4,5,6] but the path fits
-the *lower* γ_Z_eff). Different paths absorb different coherent-error
-mixes into different effective γ_Z values. This is hardware
-inhomogeneity, not a structural finding; documented here because the
-fit is what makes the F-toolkit reading quantitative on each path,
-not because γ_Z_eff carries new physics.
+| Path | Date | Best γ_Z_eff | RMS at best | Anchor XY+YX ⟨X₀Z₂⟩ pred | HW |
+|------|------|---------------|-------------|---------------------------|-----|
+| [4, 5, 6] | 2026-04-30 | 0.03 | 0.024 | −0.835 | −0.849 |
+| [48, 49, 50] | 2026-04-26 | 0.10 | 0.037 | −0.723 | −0.711 |
+
+The two runs fit different effective dephasing rates, by a factor of
+about three, and both fits are good. They differ in path, day and job, so
+the difference is not isolated to the path. γ_Z_eff is a phenomenological
+parameter that absorbs coherent gate errors, transpilation overhead,
+idle decoherence and crosstalk; it does not reduce to a single hardware
+time constant (Q5 has the shortest T2 on [4,5,6] but the path fits the
+*lower* γ_Z_eff). What sets the difference between these two runs we do
+not know.
 
 ## What this run does NOT establish
 
 - That F83's anti-fraction r = ‖H_even_nontruly‖² / ‖H_odd‖² is invertible
   from data. The prediction is structural (closed-form on H), not fitted
   from observables. We measured signatures, not r.
-- That the F82/F84 prediction is quantitatively confirmed. The truly lens
-  shows the right qualitative signature (60% damping consistent with σ⁻
-  amplitude damping breaking ⟨Z⟩ conservation), but a quantitative T1-versus-
-  path test that cleanly inverts F82's closed form to a measured ⟨Z,Z⟩
-  damping has not been done.
+- Anything quantitative about F82/F84. truly's single-site ⟨Z₀⟩, ⟨Z₂⟩
+  stay below 3σ, and the 4σ X^⊗3 break on pi2_even_nontruly is not
+  calibration-scale σ⁻; a circuit-length scan would separate T1 from the
+  rest.
 - That the discrimination scales to N > 3. Open.
 - That arbitrary mixed Hamiltonians (other than 1/2, 0, 1/6) follow the
   same pattern. Three F83-discrete cases tested; the continuous tunability
@@ -181,12 +215,12 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 ## Reading
 
 - [PROOF_F83_PI_DECOMPOSITION_RATIO](../../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md): the closed-form anti-fraction.
-- [PROOF_F82_T1_DISSIPATOR_CORRECTION](../../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md): the T1-into-M_anti closed form; this run shows its qualitative operational signature on truly's ⟨Z,Z⟩.
+- [PROOF_F82_T1_DISSIPATOR_CORRECTION](../../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md): the T1-into-M_anti closed form; on this run truly's single-site ⟨Z⟩ stays below 3σ.
 - [PROOF_F84_AMPLITUDE_DAMPING](../../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): among the single-qubit amplitude-damping and Pauli channels, only σ⁻/σ⁺ reach M_anti.
 - [ON_THE_RESIDUAL](../../reflections/ON_THE_RESIDUAL.md): consolidating reflection on F80–F85.
 - [ibm_soft_break_april2026/](../ibm_soft_break_april2026/): the April 26 anchor run on path [48, 49, 50] that this test extends.
 - [`f83_signature_predictions.py`](../../simulations/f83_signature_predictions.py): closed-form Trotter+γ_Z=0.1 predictions per category.
-- [`f83_aer_preflight.py`](../../simulations/f83_aer_preflight.py): Aer noise simulation with [4, 5, 6] calibration values; matched Trotter to 0.001 on the anchor observable but missed the +0.13 hardware drift.
+- [`f83_aer_preflight.py`](../../simulations/f83_aer_preflight.py): Aer noise simulation with [4, 5, 6] calibration values; matched Trotter to 0.001 on the anchor observable; both sat 0.13 from the hardware there, the gap the path's lower γ_Z_eff closes.
 - [`f83_hy_field_check.py`](../../simulations/f83_hy_field_check.py): tested h_y = 0.05 (zn_mirror April 29 finding) as alternative explanation; rejected (h_y rotates Z↔X, doesn't amplify Y).
 - [`f83_gamma_z_sweep.py`](../../simulations/f83_gamma_z_sweep.py): per-path γ_Z_eff fit and per-observable residual diagnostic.
 - [`2qubit_dissipator_exploration.py`](../../simulations/2qubit_dissipator_exploration.py) (commit ba8e861): partial F86, single-bond closed form for σ-channels; overlap structure open.

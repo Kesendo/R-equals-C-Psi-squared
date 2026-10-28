@@ -18,10 +18,18 @@ def _xneel_state(N):
 
 
 def _trotter_step_unitary(N, bonds, terms, J, delta_t):
-    """First-order Trotter step unitary for ΣJ·terms over bonds."""
+    """First-order Trotter step unitary for ΣJ·terms over bonds.
+
+    Factor order is the hardware runners': bonds outside, terms inside, the
+    first factor applied first (run_soft_break.py builds its SparsePauliOp this
+    way and Qiskit's LieTrotter keeps the list order). Against terms outside,
+    the order differs wherever a later term on an earlier bond fails to
+    commute with an earlier term on a later bond (XX+YY, XY+YZ, XX+XY on N = 3),
+    at O(dt²).
+    """
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q) in terms:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q) in terms:
             ops = [ur_pauli('I')] * N
             ops[l] = ur_pauli(P)
             ops[m] = ur_pauli(Q)
@@ -60,7 +68,7 @@ def predict_signature_table(
 
     This matches the IBM hardware Trotter circuit (PauliEvolutionGate × n_trotter
     + thermal channels) and is the model that fit the April 26 Marrakesh
-    soft_break run to 0.0014 on ⟨X₀Z₂⟩.
+    soft_break run to 0.0014 on Δ⟨X₀Z₂⟩(soft − truly).
 
     Args:
         chain: ChainSystem providing N, J, bonds.

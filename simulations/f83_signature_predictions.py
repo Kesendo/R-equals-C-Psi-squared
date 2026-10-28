@@ -86,8 +86,8 @@ def trotter_lindblad_propagate(N, bonds, terms, n_trot, t, gamma_z, rho_0):
 
     # Per-step Trotter unitary
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q, c) in terms:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q, c) in terms:
             ops = [ur_pauli('I')] * N
             ops[l] = ur_pauli(P); ops[m] = ur_pauli(Q)
             op_full = ops[0]

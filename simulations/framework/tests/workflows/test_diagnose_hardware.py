@@ -98,27 +98,51 @@ def test_diagnose_hardware_F83_anti_fractions_match_closed_form():
     assert abs(result['per_category']['mixed_anti_one_sixth']['F83_anti_fraction'] - 1.0 / 6) < 1e-9
 
 
-def test_diagnose_hardware_truly_has_F82_F84_signature_lens_reading():
-    """The hypothesis test: on F83 Marrakesh data, the workflow detects the
-    F82/F84 amplitude-damping signature on truly_unbroken (because truly's
-    ⟨Z,Z⟩ damps significantly, which the M=0 lens reads as σ⁻ amplitude
-    damping breaking ⟨Z⟩-conservation)."""
+def test_diagnose_hardware_x_parity_window():
+    """truly, Z-dephasing and |+,−,+⟩ respect X^⊗3, so a Z-only model holds
+    ⟨Z₀⟩ = ⟨Z₂⟩ = 0 exactly; σ⁻ breaks X^⊗3 and moves them (+0.037, +0.040
+    at γ_T1 = 0.046 in marrakesh_t1_amplification_test.predict_trotter). The
+    April 30 Marrakesh data read ⟨Z₀⟩ = +0.043 (2.75σ) and ⟨Z₂⟩ = +0.012:
+    below the 3σ line at either γ_Z, so no candidate is flagged on truly."""
     measured = _load_f83_measured()
     chain = fw.ChainSystem(N=3)
-    result = fw.diagnose_hardware(
-        chain, measured, F83_TERMS_PER_CATEGORY,
-        calibration=F83_CALIBRATION, gamma_z=0.1,
-    )
+    for gamma_z in (0.05, 0.1):
+        result = fw.diagnose_hardware(
+            chain, measured, F83_TERMS_PER_CATEGORY,
+            calibration=F83_CALIBRATION, gamma_z=gamma_z,
+        )
+        truly_readings = result['per_category']['truly_unbroken']['lens_readings']
+        f82_readings = [r for r in truly_readings if r.get('lens') == 'F82/F84']
+        assert len(f82_readings) == 1, "truly_unbroken should have exactly one F82/F84 lens reading"
+        f82 = f82_readings[0]
+        assert all(abs(o['predicted']) < 1e-12 for o in f82['observables'])
+        assert 2.5 < f82['sigma_units'] < 3.0
+        assert f82['significant'] is False
+        # YZ+ZY commutes with X^⊗3 as well, and there the window opens:
+        # ⟨Z₂⟩ = +0.063 reads 4.0σ from its structural zero
+        even = [r for r in result['per_category']['pi2_even_nontruly']['lens_readings']
+                if r.get('lens') == 'F82/F84'][0]
+        assert even['significant'] is True
+        assert 3.9 < even['sigma_units'] < 4.2
+        # the classes that do not commute with X^⊗3 get no window
+        for cat in ('pi2_odd_pure', 'mixed_anti_one_sixth'):
+            assert not [r for r in result['per_category'][cat]['lens_readings']
+                        if r.get('lens') == 'F82/F84']
 
-    truly_readings = result['per_category']['truly_unbroken']['lens_readings']
-    f82_readings = [r for r in truly_readings if r.get('lens') == 'F82/F84']
-    assert len(f82_readings) == 1, "truly_unbroken should have exactly one F82/F84 lens reading"
-    f82 = f82_readings[0]
-    # The actual hardware run shows 56% damping at γ_Z=0.1 (framework default;
-    # equivalently 60% at γ_Z=0.05 path-fit). The workflow flags this as significant.
+
+def test_diagnose_hardware_F82_flag_fires_on_a_real_deviation():
+    """Control for the test above: the flag is not dead. Raise truly's
+    measured ⟨Z₂⟩ by 0.1 (to 7.1σ from zero at 4096 shots) and it must fire."""
+    measured = _load_f83_measured()
+    measured['truly_unbroken'][('I', 'Z')] += 0.1
+    chain = fw.ChainSystem(N=3)
+    result = fw.diagnose_hardware(
+        chain, measured, F83_TERMS_PER_CATEGORY, gamma_z=0.05,
+    )
+    f82 = [r for r in result['per_category']['truly_unbroken']['lens_readings']
+           if r.get('lens') == 'F82/F84'][0]
     assert f82['significant'] is True
-    assert abs(f82['damping_fraction']) > 0.20, \
-        f"Damping fraction {f82['damping_fraction']:.3f} should exceed 20% for the σ⁻ signature"
+    assert 'candidate' in f82['reading']
 
 
 def test_diagnose_hardware_pure_class_quantitative_match():
@@ -146,26 +170,66 @@ def test_diagnose_hardware_pure_class_quantitative_match():
         f"pi2_even_nontruly RMS {quant[0]['rms_sigma_units']:.1f}σ should fit F83 quantitatively"
 
 
-def test_diagnose_hardware_Y_Z_asymmetry_attributed_to_T2_inhomogeneity():
-    """The truly Hamiltonian XX+YY is symmetric under (q0 ↔ q2) swap on
-    chain N=3, so prediction has ⟨Y,Z⟩ = ⟨Z,Y⟩. Hardware shows asymmetry
-    because Q4 (T2=184μs) and Q6 (T2=151μs) have different decoherence rates.
-    The workflow detects this and attributes it to T2 inhomogeneity from
-    the calibration."""
+def test_diagnose_hardware_Y_Z_asymmetry_is_the_circuit_order():
+    """The XX+YY Hamiltonian is symmetric under q0 ↔ q2, but the Trotter
+    circuit (bonds outside) is not: the prediction at γ_Z = 0.05 is
+    ⟨Y,Z⟩, ⟨Z,Y⟩ = 0.631, 0.182 against the hardware's 0.670, 0.185.
+    The asymmetry is the circuit's, so the workflow must not name T2."""
     measured = _load_f83_measured()
     chain = fw.ChainSystem(N=3)
     result = fw.diagnose_hardware(
         chain, measured, F83_TERMS_PER_CATEGORY,
-        calibration=F83_CALIBRATION,
+        calibration=F83_CALIBRATION, gamma_z=0.05,
     )
 
     yz = result['cross_category']['Y_Z_asymmetry_on_truly']
     assert yz is not None
+    assert yz['expected_symmetric'] is False
+    assert yz['predicted_YZ'] - yz['predicted_ZY'] > 0.4
+    assert yz['sigma_units'] > 5          # the raw asymmetry is large ...
+    assert abs(yz['excess_asymmetry']) < 0.05   # ... and almost all predicted
+    assert yz['excess_significant'] is False
+    assert yz['attributed_to_calibration'] is False
+    assert 'T2' not in yz['attribution']
+
+
+def _yz_reading(pred_pair, meas_pair, t2):
+    chain = fw.ChainSystem(N=3)
+    terms = {'truly_unbroken': [('X', 'X'), ('Y', 'Y')]}
+    pred = {'truly_unbroken': {('Z', 'Z'): 0.2, **pred_pair}}
+    meas = {'truly_unbroken': {('Y', 'Z'): meas_pair[0], ('Z', 'Y'): meas_pair[1], ('Z', 'Z'): 0.2}}
+    calibration = None if t2 is None else {'T2': t2}
+    result = fw.diagnose_hardware(chain, meas, terms, calibration=calibration, predictions=pred)
+    return result['cross_category']['Y_Z_asymmetry_on_truly']
+
+
+def test_diagnose_hardware_T2_named_only_as_candidate_on_an_excess():
+    """Controls for the Y/Z branch. A significant excess over the predicted
+    pair (symmetric or not) names T2 as a candidate when T2 differs on the
+    path; σ for the excess is √2/√shots (0.0221 at 4096 shots)."""
+    # symmetric prediction, large excess, inhomogeneous T2: candidate named
+    yz = _yz_reading({('Y', 'Z'): 0.4, ('Z', 'Y'): 0.4}, (0.6, 0.2), F83_CALIBRATION['T2'])
     assert yz['expected_symmetric'] is True
-    # Hardware shows ⟨Y,Z⟩ = +0.67, ⟨Z,Y⟩ = +0.19 → asymmetry = 0.48 ~31σ at 4096 shots
-    assert yz['sigma_units'] > 5
+    assert yz['excess_significant'] is True
     assert yz['attributed_to_calibration'] is True
-    assert 'T2 inhomogeneity' in yz['attribution']
+    assert 'candidate' in yz['attribution'] and 'T2 inhomogeneity' in yz['attribution']
+    # asymmetric prediction, excess beyond it: the excess still reaches the branch
+    yz = _yz_reading({('Y', 'Z'): 0.6, ('Z', 'Y'): 0.2}, (0.9, 0.1), F83_CALIBRATION['T2'])
+    assert yz['expected_symmetric'] is False
+    assert yz['attributed_to_calibration'] is True
+    # 0.05 excess is 2.26σ under the √2 bound: not significant
+    yz = _yz_reading({('Y', 'Z'): 0.4, ('Z', 'Y'): 0.4}, (0.45, 0.4), F83_CALIBRATION['T2'])
+    assert yz['excess_significant'] is False
+    assert yz['attributed_to_calibration'] is False
+    # uniform T2: not a T2 difference
+    yz = _yz_reading({('Y', 'Z'): 0.4, ('Z', 'Y'): 0.4}, (0.6, 0.2), [100.0, 100.0, 100.0])
+    assert yz['attributed_to_calibration'] is False
+    assert 'uniform' in yz['attribution']
+    # prediction without the pair: nothing compared, no asymmetry claimed
+    yz = _yz_reading({}, (0.6, 0.2), F83_CALIBRATION['T2'])
+    assert yz['expected_symmetric'] is None
+    assert yz['attributed_to_calibration'] is False
+    assert 'lacks' in yz['attribution']
 
 
 def test_diagnose_hardware_structural_klein_set_no_labels():
@@ -288,12 +352,12 @@ def test_diagnose_hardware_synthetic_round_trip():
         rms = result['per_category'][cat]['rms_residual']
         assert rms < 1e-10, f"Round-trip RMS for {cat} should be ~0, got {rms}"
 
-    # Truly's F82/F84 signature: not significant in round-trip
+    # Truly's F82/F84 candidate: not flagged in round-trip
     truly_readings = result['per_category']['truly_unbroken']['lens_readings']
     f82 = [r for r in truly_readings if r.get('lens') == 'F82/F84']
     if f82:
         assert f82[0]['significant'] is False, \
-            "Synthetic round-trip should not show F82/F84 signature"
+            "Synthetic round-trip should not flag an F82/F84 candidate"
 
 
 def test_diagnose_hardware_F112_lens_reads_balanced_on_z_dephase():

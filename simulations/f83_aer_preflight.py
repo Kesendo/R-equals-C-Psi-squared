@@ -186,8 +186,8 @@ def trotter_prediction(N, terms, t, n_trot, gamma_z=0.1):
     delta_t = t / n_trot
     Id = np.eye(2 ** N, dtype=complex)
     U_step = np.eye(2 ** N, dtype=complex)
-    for (P, Q, c) in bilinear:
-        for (l, m) in bonds:
+    for (l, m) in bonds:
+        for (P, Q, c) in bilinear:
             ops = [ur_pauli('I')] * N
             ops[l] = ur_pauli(P); ops[m] = ur_pauli(Q)
             op_full = ops[0]

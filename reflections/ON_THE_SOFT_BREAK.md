@@ -114,7 +114,7 @@ Hardware result on real Marrakesh, 4096 shots/basis:
 | ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.230 | **+0.205** |
 | **Δ(soft − truly)** | -0.62 | -0.64 | **-0.72** |
 
-The discrimination on real hardware is slightly STRONGER than the idealised framework predicts. Plausible cause: T1 thermal relaxation and ZZ crosstalk compound the soft-break signal in operators that are not purely diagonal in L's eigenbasis. This matches earlier γ-profile work (CMRR_BREAK_NONUNIFORM_GAMMA, GAMMA_AS_SIGNAL): non-uniform hardware noise amplifies symmetry-breaking signatures rather than washing them out.
+The discrimination on real hardware is slightly STRONGER than the idealised framework predicts, and the circuit is why: the hardware runs three first-order Trotter steps, and the Trotter prediction gives Δ(soft − truly) = −0.723 against the measured −0.722 ([`MARRAKESH_THREE_LAYERS`](../experiments/MARRAKESH_THREE_LAYERS.md)). T1 would attenuate the signal, not strengthen it.
 
 All three categories are separately resolved on hardware. SNR ranges from ~13σ (smallest) to ~47σ (largest). Full table in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
 

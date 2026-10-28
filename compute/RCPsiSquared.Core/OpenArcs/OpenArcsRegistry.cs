@@ -5515,7 +5515,7 @@ public static class OpenArcsRegistry
                 "a different object from the pairing distance, so it does not contradict " +
                 "F1GeneralTopologyVerifiedClaim:20; an earlier draft of this arc said it did). " +
                 "ONE GENERATOR CLOSED, ONE INSTANCE OF THE OTHER (2026-08-06 afternoon; an earlier draft of " +
-                "this entry said BOTH, and a review caught it). diagnose_hardware.py:245 now prints the " +
+                "this entry said BOTH, and a review caught it). diagnose_hardware.py's F112 row now prints the " +
                 "measured 'BALANCED (rel asymmetry ...)' instead of the literal 'bit-exact 0'; no test broke, " +
                 "because the test asserted on verdict.split(' ')[0] and never on the literal. But the GENERATOR " +
                 "is the construct 'a rel < 1e-10 branch emitting the word', and it survives at three " +

@@ -120,21 +120,28 @@ def diagnose_hardware(
     brainstorming arc:
       - F87 trichotomy per category (truly / soft / hard).
       - F83 anti-fraction prediction (closed form on H letters).
-      - F82/F84 amplitude-damping signature: truly's ⟨Z,Z⟩ damping IS the
-        operational F82 prediction (M=0 lens; environment shines through).
+      - F82/F84 window: for classes that commute with X^⊗N (truly XX+YY,
+        also YZ+ZY) the single-site ⟨Z⟩, ⟨Y⟩ at the ends, held at zero by
+        X^⊗N in any Z-only model, in shot-noise units; beyond 3σ a candidate
+        for X^⊗N-breaking noise (σ⁻ among others), never an attribution.
       - Pure-class quantitative match: pi2_odd_pure and pi2_even_nontruly
-        should match Trotter prediction at small RMS; deviation indicates
-        non-Z noise or path-dependent γ_Z_eff.
-      - Y/Z asymmetry on truly: per-qubit T2 inhomogeneity reads as
-        ⟨Y₀ Z_{N-1}⟩ ≠ ⟨Z₀ Y_{N-1}⟩ when Hamiltonian symmetry guarantees
-        equality.
+        should match the Trotter prediction at small RMS.
+      - Y/Z asymmetry on truly: compared with the PREDICTED pair, which the
+        Trotter order already makes asymmetric; an excess beyond it over 3σ
+        (σ = √2/√shots for a difference) names per-qubit T2 inhomogeneity as
+        a candidate when the calibration shows it.
+
+    The prediction's Trotter step is the hardware runners' (bonds outside,
+    terms inside; gated against Qiskit's synthesis in
+    tests/workflows/test_predict_signature_table.py).
 
     Args:
         chain: ChainSystem providing N, J, bonds, gamma_0.
         measured: dict {category_name: {(p0, p2): expectation_value, ...}}.
         terms_per_category: dict {category_name: [(P, Q), ...]} — Hamiltonians.
         calibration: optional dict with 'T1', 'T2' lists per qubit (used to
-            attribute Y/Z asymmetry to T2 inhomogeneity when present).
+            name T2 inhomogeneity as a candidate for a Y/Z excess;
+            'attributed_to_calibration' is True when such a candidate is named).
         predictions: optional dict in same format as `measured`. If None,
             compute Trotter+γ_Z predictions internally via
             predict_signature_table.
@@ -208,7 +215,8 @@ def diagnose_hardware(
             readings.append({
                 'lens': 'F83',
                 'reading': "M = 0 idealized: avoidance defense (Mother lens). "
-                           "Any HW residual is environmental signature.",
+                           "A residual against a correctly modelled circuit is "
+                           "where the environment would show.",
                 'M_sq': float(f83['M_sq']),
             })
         else:
@@ -327,29 +335,42 @@ def diagnose_hardware(
             'h_bit_b_homogeneous': bool(bit_b_homog),
         })
 
-        # F82/F84 amplitude-damping signature on truly
-        if f77 == 'truly':
-            zz_pred = pred.get(('Z', 'Z'), 0.0)
-            zz_meas = meas.get(('Z', 'Z'))
-            if zz_meas is not None and abs(zz_pred) > 0.05:
-                damping_frac = (zz_pred - zz_meas) / zz_pred
-                # σ⁻ amplitude damping pulls Z toward +1, breaks ⟨Z⟩-conservation
-                # ⟨Z,Z⟩ correlation drops if Z population redistributes via T1.
-                significant = abs(damping_frac) > 0.20
+        # F82/F84 window: the X^⊗N structural zeros. A Hamiltonian whose every
+        # term carries an even number of Y/Z letters (truly XX+YY, also YZ+ZY)
+        # commutes with X^⊗N; Z-dephasing and the X-Néel state respect it too, so
+        # a Z-only model predicts the single-site ⟨Z_i⟩, ⟨Y_i⟩ (which anticommute
+        # with X^⊗N) to be exactly 0. σ⁻ breaks X^⊗N and pulls ⟨Z_i⟩ positive.
+        # Two-body ⟨Z₀Z₂⟩ commutes with X^⊗N and is nearly blind to σ⁻ on truly
+        # (0.231 → 0.221 at γ_T1 = 0.046), so it is not the window. Error model:
+        # shot noise only (σ = 1/√shots bounds one expectation); beyond 3σ marks a
+        # candidate for anything that breaks X^⊗N (σ⁻, coherent single-site
+        # errors, leakage), never an attribution.
+        if all(sum(letter in 'YZ' for letter in term) % 2 == 0 for term in terms):
+            sites = []
+            for key, label in ((('Z', 'I'), '⟨Z₀⟩'), (('I', 'Z'), f'⟨Z_{N - 1}⟩'),
+                               (('Y', 'I'), '⟨Y₀⟩'), (('I', 'Y'), f'⟨Y_{N - 1}⟩')):
+                if key in meas and key in pred and abs(pred[key]) < 1e-12:
+                    dev = meas[key] - pred[key]
+                    sites.append({'observable': label, 'predicted': float(pred[key]),
+                                  'measured': float(meas[key]),
+                                  'sigma_units': float(abs(dev) / sigma)})
+            if sites:
+                worst = max(sites, key=lambda r: r['sigma_units'])
+                significant = worst['sigma_units'] > 3.0
                 interpretation = (
-                    "F82/F84 amplitude-damping signature: σ⁻ destroys |1⟩ population, "
-                    "breaks ⟨Z⟩-conservation that the truly Hamiltonian alone protects. "
-                    "Truly is the M=0 lens that lets this signature shine through cleanly."
+                    f"{worst['observable']} reads {worst['sigma_units']:.1f}σ from the X^⊗N "
+                    "structural zero: a candidate for noise that breaks X^⊗N (F82/F84 σ⁻, "
+                    "coherent single-site errors, leakage), to be checked against a "
+                    "T1-carrying prediction before it is read as any one of them."
                 ) if significant else (
-                    "No significant T1 contamination; truly's avoidance defense holds."
+                    f"X^⊗N structural zeros within {worst['sigma_units']:.1f}σ; "
+                    "no X^⊗N-breaking signature above 3σ."
                 )
                 readings.append({
                     'lens': 'F82/F84',
                     'reading': interpretation,
-                    'observable': '⟨Z,Z⟩',
-                    'predicted': float(zz_pred),
-                    'measured': float(zz_meas),
-                    'damping_fraction': float(damping_frac),
+                    'observables': sites,
+                    'sigma_units': worst['sigma_units'],
                     'significant': bool(significant),
                 })
 
@@ -361,7 +382,7 @@ def diagnose_hardware(
                 # RMS in σ units
                 rms_sigma = rms / sigma if sigma > 0 else float('inf')
                 quality = (
-                    "EXCELLENT match (within shot noise)" if rms_sigma < 5
+                    "EXCELLENT match (RMS under 5σ)" if rms_sigma < 5
                     else "GOOD match (small structural drift)" if rms_sigma < 15
                     else "DRIFT present (path-specific γ_Z_eff or ordering issue)"
                 )
@@ -397,17 +418,51 @@ def diagnose_hardware(
         zy = m.get(('Z', 'Y'))
         if yz is not None and zy is not None:
             asymmetry = abs(yz - zy)
+            # The predicted pair carries the circuit's own asymmetry: the Trotter
+            # order (bonds outside) breaks the q0 ↔ q_{N-1} reflection at O(dt²).
+            # Only the excess over it is a residual. The excess is a difference of
+            # two independently measured expectations, so its shot-noise bound is
+            # √2/√shots. A significant excess names T2 inhomogeneity as a
+            # candidate, never as an attribution: the prediction holds no T2.
+            p = predictions[truly_cat]
+            pred_yz = p.get(('Y', 'Z'))
+            pred_zy = p.get(('Z', 'Y'))
+            have_pred = pred_yz is not None and pred_zy is not None
+            # A reflection-symmetric circuit gives the pair equal up to the roundoff
+            # of one 2^N propagation, O(100·eps); the circuit order gives O(0.01-0.5).
+            expected_symmetric = (abs(pred_yz - pred_zy) < 1e-12) if have_pred else None
+            excess = ((yz - zy) - (pred_yz - pred_zy)) if have_pred else None
+            sigma_excess = np.sqrt(2.0) * sigma
+            excess_sigma_units = abs(excess) / sigma_excess if have_pred else None
+            excess_significant = have_pred and excess_sigma_units > 3.0
             t2 = (calibration or {}).get('T2')
-            if t2 is not None and len(set(t2)) > 1:
-                t2_min = min(t2)
-                t2_max = max(t2)
+            if not have_pred:
+                attribution = "prediction lacks the ⟨Y,Z⟩/⟨Z,Y⟩ pair; asymmetry not compared"
+                attributed = False
+            elif not excess_significant:
                 attribution = (
-                    f"per-qubit T2 inhomogeneity (T2 range {t2_min:.0f}-{t2_max:.0f} μs); "
-                    "Y measurement on shorter-T2 qubit damps more"
+                    f"measured asymmetry matches the predicted pair "
+                    f"(excess {excess:+.3f}, {excess_sigma_units:.1f}σ)"
+                )
+                attributed = False
+            elif t2 is not None and len(set(t2)) > 1:
+                attribution = (
+                    f"excess {excess:+.3f} ({excess_sigma_units:.1f}σ) beyond the predicted pair; "
+                    f"candidate: per-qubit T2 inhomogeneity (T2 range {min(t2):.0f}-{max(t2):.0f} μs), "
+                    "to be checked against a T2-carrying prediction"
                 )
                 attributed = True
+            elif t2 is not None:
+                attribution = (
+                    f"excess {excess:+.3f} ({excess_sigma_units:.1f}σ) beyond the predicted pair; "
+                    "T2 is uniform on the path, so not a T2 difference"
+                )
+                attributed = False
             else:
-                attribution = "asymmetry detected; T2 calibration not provided to attribute"
+                attribution = (
+                    f"excess {excess:+.3f} ({excess_sigma_units:.1f}σ) beyond the predicted pair; "
+                    "no T2 calibration provided"
+                )
                 attributed = False
             cross_category['Y_Z_asymmetry_on_truly'] = {
                 'category': truly_cat,
@@ -415,7 +470,12 @@ def diagnose_hardware(
                 'ZY': float(zy),
                 'asymmetry_magnitude': float(asymmetry),
                 'sigma_units': float(asymmetry / sigma) if sigma > 0 else float('inf'),
-                'expected_symmetric': True,
+                'predicted_YZ': None if pred_yz is None else float(pred_yz),
+                'predicted_ZY': None if pred_zy is None else float(pred_zy),
+                'excess_asymmetry': None if excess is None else float(excess),
+                'excess_sigma_units': None if excess_sigma_units is None else float(excess_sigma_units),
+                'excess_significant': bool(excess_significant),
+                'expected_symmetric': expected_symmetric if expected_symmetric is None else bool(expected_symmetric),
                 'attribution': attribution,
                 'attributed_to_calibration': attributed,
             }

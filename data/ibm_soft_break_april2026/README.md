@@ -35,29 +35,33 @@ directly to construct Hamiltonians and observables.
 |------------|------------------------------------|----------------------------|------------------------------|-------------------------|
 | ⟨X₀Z₂⟩ truly_unbroken | +0.000 | +0.000 | -0.020 | **+0.011** |
 | ⟨X₀Z₂⟩ soft_broken | -0.623 | -0.723 | -0.660 | **-0.711** |
-| ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.327 | +0.230 | **+0.205** |
+| ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.213 | +0.230 | **+0.205** |
 | **Δ(soft − truly)** | **-0.62** | **-0.72** | **-0.64** | **-0.72** |
 
 The hardware Δ(soft − truly) matches the **Trotter n=3** prediction to
-within 0.0014, not the continuous-Lindblad idealization. The earlier
-hardening explanation (T1 thermal relaxation amplifying the soft-break)
-is **incorrect**: T1 monotonically *attenuates* the soft signal (γ_T1=0.5
-gives Δ = -0.44 at γ_Z=0.1, further from hardware). Quantification in
+within 0.0014, not the continuous-Lindblad idealization. T1 thermal
+relaxation does not produce the hardening: it monotonically *attenuates*
+the soft signal (γ_T1=0.5 gives Δ = -0.44 at γ_Z=0.1, further from
+hardware). Quantification in
 [`simulations/marrakesh_t1_amplification_test.py`](../../simulations/marrakesh_t1_amplification_test.py).
 
 The actual mechanism is **Trotter discretization at δt = 0.267**: with
-‖H‖ ~ J·N ~ 3, the small-step condition ‖H·δt‖ ≪ 1 fails. First-order
-Trotter biases ⟨X₀Z₂⟩ outward by ≈ +0.10 for soft (XY+YX → -0.62 to
--0.72, matching hardware) and by ≈ +0.13 for hard (XX+XY → +0.19 to
-+0.33, overshooting hardware). Hard's mismatch implies the [XX, XY]
-commutator structure of XX+XY damps the Trotter bias by an additional
-gate-level mechanism; continuous Lindblad happens to land closer for
-hard, but Δ(soft − truly), the discriminator the framework actually
-predicts, is matched by Trotter alone.
+‖H‖ ~ J·N ~ 3, the small-step condition ‖H·δt‖ ≪ 1 fails. The Trotter
+column is the circuit the hardware ran: the runner builds one
+`SparsePauliOp` with the bond loop outside the term loop, and Qiskit's
+default Lie-Trotter synthesis keeps that order (the framework's
+`predict_signature_table` is gated against it in
+[`test_predict_signature_table.py`](../../simulations/framework/tests/workflows/test_predict_signature_table.py)).
+The two orders differ by one swap, the second term on bond (0,1)
+against the first on bond (1,2). For soft (XY+YX) those meet on the
+shared site as X and X and commute, so the order is invisible: Trotter moves ⟨X₀Z₂⟩ from −0.62 to −0.72, onto the hardware.
+For hard (XX+XY) they do not, and the order is what the bias depends on:
+bonds outside gives +0.213 against the hardware's +0.205, so Trotter
+alone matches ⟨X₀Z₂⟩ in all three categories.
 
 Joint optimization of (γ_Z, γ_T1) over all 45 hardware
-observable-Hamiltonian pairs converges to γ_T1 ≈ 0 with γ_Z = 0.143;
-the data does not support adding T1.
+observable-Hamiltonian pairs converges to γ_T1 ≈ 0 with γ_Z = 0.105
+(total RMS 0.039); the data does not support adding T1.
 
 On the Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩) continuous Lindblad,
 Trotter and hardware agree in sign; Trotter changes the magnitudes.
@@ -100,10 +104,10 @@ This run does NOT establish:
 - That the soft-break detection works at N > 3 (open).
 - That the prediction holds for arbitrary soft-break combos beyond the
   three tested. Selection here is one representative per category.
-- A complete readout-error budget. After accounting for Trotter
-  discretization (which fully explains Δ_hw vs Δ_continuous), residual
-  per-observable RMS ≈ 0.08 remains, attributable to readout error and
-  CR-gate calibration drift, but not separately quantified here.
+- A complete error budget. With Trotter in the circuit's order (which
+  fully explains Δ_hw vs Δ_continuous) and γ_Z = 0.105, residual
+  per-observable RMS 0.039 remains; what carries it (readout, gate errors,
+  anything beyond Z-dephasing) is not separated here.
 
 ## Reproducing the run
 
@@ -122,6 +126,6 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 - [framework/](../../simulations/framework/): the lean cockpit package; primitives used to build the Hamiltonians and predict observables.
 - [soft_break_eigenvector_test.py](../../simulations/soft_break_eigenvector_test.py): super-operator-level verification (eigenvector pairing).
 - [soft_break_aer_test.py](../../simulations/soft_break_aer_test.py): Aer with Marrakesh-like noise.
-- [marrakesh_t1_amplification_test.py](../../simulations/marrakesh_t1_amplification_test.py): refutation of the original T1 amplification interpretation; Trotter n=3 fully accounts for the hardening.
+- [marrakesh_t1_amplification_test.py](../../simulations/marrakesh_t1_amplification_test.py): T1 attenuates rather than amplifies the soft signal; Trotter n=3 fully accounts for the hardening.
 - [f80_ibm_soft_break_check.py](../../simulations/f80_ibm_soft_break_check.py): F80 structural-template verification on this dataset.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: the hardware-runnable pipeline.

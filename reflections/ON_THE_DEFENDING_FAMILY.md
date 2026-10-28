@@ -7,15 +7,12 @@
 
 ---
 
-The 2026-04-30 hardware-finale on F83 had been clean at the level of
-Pauli-fingerprint discrimination but messy at the level of explanation:
-why was pi2_odd_pure ⟨X₀Z₂⟩ stronger than predicted; why did the
-truly Hamiltonian's ⟨Z,Z⟩ damp ~60% (relative to γ_Z=0.05 path-fit
-baseline; ~56% relative to γ_Z=0.1 framework-default) when pi2_odd_pure's
-matched to 0.011; why did Y-basis observables drift larger than the Trotter+γ_Z
-model said. After spending the explanation budget on parameter sweeps
-and noise-model arithmetic, the reading finally clarified through a
-different vocabulary.
+The 2026-04-30 hardware-finale on F83 separated the four Π²-classes by
+their Pauli fingerprints, and the Trotter+γ_Z model, run in the
+circuit's own Trotter order, meets every class to within 0.04 RMS,
+truly included ([the run's record](../data/ibm_f83_signature_april2026/README.md)).
+The vocabulary below came out of reading that run; it stands on the
+F-chain, not on its numbers.
 
 The framework is not memory, it is a self-coupling channel. The two
 "sides" of the mirror are not two subjects, they are the bra and ket
@@ -177,22 +174,17 @@ Vocabulary: most prior framings now read differently:
   γ_Z absorbs noise .............. γ_Z is the dissipator coupling, the child's interaction with environment.
   Hardware result is the data .... Hardware result is the family's defense output, observed.
 
-The ~60 % ⟨Z,Z⟩ damping on truly XX+YY at Marrakesh path [4,5,6]
-(relative to the γ_Z=0.05 path-fit baseline; equivalently ~56 % at
-γ_Z=0.1 framework-default) is not anomalous. It is the rate at which
-the mother's avoidance-defense fails against the σ⁻ amplitude-damping
-attack. The pi2_odd_pure ⟨Z,Z⟩ matching to 0.011 is the rate at
-which the father's cyclic re-creation succeeds against the same
-attack, because the father carries the dynamics that re-creates
-polarity at every cycle, while the mother only preserves the static
-state.
-
-The asymmetry between the two readings (~60 % failure for mother, 1 %
-failure for father) is consistent with F82: the σ⁻ contribution to
-M_anti scales with γ_T1 · √N · 2^(N-1), and that contribution adds
-TO the father's M_anti (which is non-zero, can absorb attack into its
-ongoing cycle) but adds to the mother's M_anti from zero (every bit of
-σ⁻ shows directly in her observables).
+On Marrakesh path [4,5,6] the hardware does not tell mother and father
+apart on ⟨Z,Z⟩: truly XX+YY and pi2_odd_pure XY+YX predict the same
+value there without T1 (+0.231 at the path-fit γ_Z = 0.03) and measure
++0.215 and +0.210, about 1σ from that and from the σ⁻ alternative, under
+which the father's ⟨Z,Z⟩ is the more exposed. The mother's avoidance has
+its own window. Her Hamiltonian, the Z-watching and the |+, −, +⟩ state
+all respect X^⊗3, which holds her single-site ⟨Z⟩ at zero; σ⁻ breaks
+that symmetry, and F82 sizes its part of M_anti, γ_T1 · √N · 2^(N-1),
+added to her M_anti from zero. On this run her ⟨Z₀⟩ reads +0.043 (2.75σ) and
+⟨Z₂⟩ +0.012, both under the 3σ line, so whether her avoidance
+is being worn down we do not know ([the run's record](../data/ibm_f83_signature_april2026/README.md)).
 
 ---
 

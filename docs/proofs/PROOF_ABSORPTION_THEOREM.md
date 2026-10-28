@@ -293,8 +293,11 @@ dephasing-only identity Re(λ) = -2γ ⟨n_XY⟩ is preserved as the γ_T1 → 0
 limit; for finite γ_T1 the correction is derived in
 [`PROOF_F82_T1_DISSIPATOR_CORRECTION.md`](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)
 and [`PROOF_F84_AMPLITUDE_DAMPING.md`](PROOF_F84_AMPLITUDE_DAMPING.md).
-The "truly ⟨Z, Z⟩ damping" diagnostic in the cockpit panel reads the
-F82 signature on hardware directly.
+On hardware an F82 contribution would show on truly XX+YY, started in an
+X^⊗N eigenstate, through the single-site ⟨Z⟩, which X^⊗N symmetry then
+holds at zero in any Z-only model; `diagnose_hardware` reports its
+deviation in shot-noise units as a candidate, since other X^⊗N-breaking
+errors move it too.
 
 **Where the boundary actually runs.** Steps 1 and 3 are not where the physics
 is. Together they say Re(λ) = v†Herm(L)v/‖v‖² for any right eigenvector, which

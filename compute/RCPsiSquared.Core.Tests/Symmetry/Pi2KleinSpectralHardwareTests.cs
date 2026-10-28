@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// depends on initial state and propagation, but the Klein-mass overlap is a necessary
 /// condition that Schicht 3 must satisfy.
 ///
-/// <para>Setup: N=3, J=1, γ_Z=0.05 (matching the Marrakesh γ_Z_eff). For each canonical
+/// <para>Setup: N=3, J=1, γ_Z=0.05 (the order of the Marrakesh γ_Z_eff, 0.03 to 0.10 across paths). For each canonical
 /// Hamiltonian we sort the L-eigenmodes by |Re(λ)| (slow → fast), take the slowest 16
 /// (a quarter of all 64 modes — the long-lived dynamic content), and aggregate their
 /// Klein-cell mass in the observable's cell.</para>

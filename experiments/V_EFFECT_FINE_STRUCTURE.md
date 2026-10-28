@@ -133,7 +133,7 @@ The 3/19/14 distinction was tested live on `ibm_marrakesh` (Heron r2) via three 
 
 All three categories separately resolved at SNR ~13-47σ. Job `d7mjnjjaq2pc73a1pk4g`. Raw JSON + breakdown in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
 
-The hardware result is slightly STRONGER than the idealized framework predicts. T1 thermal relaxation and ZZ crosstalk compound the soft-break signal in operators not purely diagonal in L's eigenbasis. Same mechanism as the γ-profile amplification observed in CMRR_BREAK and GAMMA_AS_SIGNAL: hardware non-uniformity amplifies symmetry-breaking signatures.
+The hardware result is slightly STRONGER than the idealized framework predicts, and the circuit is why: the hardware runs three first-order Trotter steps, and the Trotter prediction gives Δ(soft − truly) = −0.723 against the measured −0.722 ([MARRAKESH_THREE_LAYERS](MARRAKESH_THREE_LAYERS.md)). T1 would attenuate the signal, not strengthen it.
 
 ## What this does and does not establish
 

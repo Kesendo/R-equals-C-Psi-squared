@@ -1,11 +1,13 @@
 """Trotter-asymmetry test for F88b-Lens hard category.
 
-OPEN_THREAD_GAMMA0_INFORMATION update 2026-05-18 hypothesis: hard H = XX+XY has
-non-commuting bond bilinears (`[X⊗X, X⊗Y] = 2i·X⊗Z`) while soft H = XY+YX has
-commuting bond bilinears (`[X⊗Y, Y⊗X] = 0`). Hardware (Marrakesh 2026-04-26)
-uses 3 Trotter steps for t=0.8. The unexplained −0.106 hard-Δ in the F88b-Lens
-reading (ideal Π²-odd/mem 0.381 vs hardware 0.276) might be Trotter
-discretization error acting asymmetrically across the trichotomy.
+Question: is the −0.106 hard-Δ in the F88b-Lens reading of the Marrakesh
+2026-04-26 framework_snapshots (continuous ideal Π²-odd/mem 0.381 vs hardware
+0.276) the circuit's Trotter error? Hardware uses 3 Trotter steps for t=0.8, the
+terms in the order the runner synthesises (bonds outside, terms inside). Hard
+H = XX+XY has non-commuting terms (`[X⊗X, X⊗Y] = 2i·I⊗Z` on one bond, and the
+second term on bond (0,1) anticommutes with the first on bond (1,2)), so its
+Trotter error is large and order-dependent; soft H = XY+YX commutes on each bond
+and in that swapped pair. Answer from the run: yes, hard at n=3 is 0.270.
 
 Test: simulate the same |+−+⟩ evolution under each of truly / soft / hard with
 different Trotter step counts (3, 5, 10, 30, 100, ∞), with the same hardware-
@@ -13,11 +15,10 @@ calibrated baseline (γ_Z=0.1, h_y=0.05, γ_T1=0.046). Trotter is first-order
 split-operator: per step Δt = t/n_trotter, apply each H-term unitary in sequence
 then apply the continuous dissipator over Δt.
 
-Expected pattern if hypothesis is right:
-- truly: stable across n_trotter (XX,YY commute on the same bond)
-- soft: stable across n_trotter (XY,YX commute on the same bond)
-- hard: Π²-odd/mem decreases as n_trotter decreases, trending from continuous
-  ideal (0.381) toward the hardware value (0.276)
+Pattern the run shows: truly stays near zero at every n (its Π²-odd content
+needs h_y); soft rises at n=3 (0.704 -> 0.758), since XY on (0,1) and XY on
+(1,2) anticommute even though the order does not matter for it; hard falls
+from the continuous ideal (0.381) to 0.270, onto the hardware value (0.276).
 """
 from __future__ import annotations
 
@@ -51,7 +52,8 @@ def trotter_plus_minus_plus_rho_q0q2(
 
     Per Trotter step Δt = t/n_trotter:
     - Apply each H-component unitary exp(-i·H_i·Δt) in sequence (bond bilinears
-      first by H_terms order, then h_y single-site terms).
+      bonds outside, H_terms inside, as the hardware runners order them;
+      then h_y single-site terms).
     - Apply the continuous dissipator superoperator exp(L_dissipator·Δt) where
       L_dissipator covers Z-dephasing (γ) and T1 amplitude damping (γ_t1).
 
@@ -75,10 +77,10 @@ def trotter_plus_minus_plus_rho_q0q2(
 
     # Build per-component H operators (bilinear bond terms + h_y single-site)
     H_components = []
-    for (a_letter, b_letter, coeff) in H_terms:
-        Pa = PAULIS[a_letter]
-        Pb = PAULIS[b_letter]
-        for b in range(N - 1):
+    for b in range(N - 1):
+        for (a_letter, b_letter, coeff) in H_terms:
+            Pa = PAULIS[a_letter]
+            Pb = PAULIS[b_letter]
             H_components.append(coeff * site_op(Pa, b) @ site_op(Pb, b + 1))
     if h_y != 0.0:
         for k in range(N):
@@ -184,9 +186,10 @@ def main() -> None:
     print()
     print("Reading rule:")
     print("  - If hard's n=3 Trotter value sits BELOW continuous AND trends toward hardware")
-    print("    as n decreases, the −0.106 hardware gap is (at least partly) Trotter-asymmetry.")
-    print("  - Truly and soft should stay close to continuous across all n (commuting bilinears).")
-    print("  - n=100 should match continuous to within Trotter error O(1/n²) ~ 0.0001.")
+    print("    as n decreases, the -0.106 hardware gap is the circuit's Trotter error.")
+    print("  - Truly stays near zero (its Π²-odd content needs h_y); soft's Trotter error")
+    print("    is order-blind but not small (its cross-bond XY pair anticommutes).")
+    print("  - n=100 should approach continuous at first-order Trotter error O(1/n).")
 
 
 if __name__ == "__main__":

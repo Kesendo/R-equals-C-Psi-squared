@@ -19,7 +19,7 @@ public static class ConfirmationsRegistry
             Observable: "<X_0 Z_2>",
             PredictedValue:
                 "continuous_lindblad γ_Z=0.1: truly=0.000 soft=-0.623 hard=+0.195 (Δ_soft-truly=-0.623); " +
-                "trotter_n3 γ_Z=0.1: truly=0.000 soft=-0.723 hard=+0.327 (Δ_soft-truly=-0.723)",
+                "trotter_n3 γ_Z=0.1 (the circuit order, bonds outside): truly=0.000 soft=-0.723 hard=+0.213 (Δ_soft-truly=-0.723)",
             MeasuredValue:
                 "truly=+0.011 soft=-0.711 hard=+0.205 (Δ_soft-truly=-0.722)",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json",
@@ -183,16 +183,16 @@ public static class ConfirmationsRegistry
             MeasuredValue:
                 "4-category discrimination CONFIRMED via unique-fingerprint Paulis: " +
                 "pi2_odd_pure ⟨X₀Z₂⟩=-0.849, pi2_even_nontruly ⟨X₀X₂⟩=+0.919, mixed ⟨Z₀X₂⟩=-0.721, truly ⟨Y₀Z₂⟩=+0.670. " +
-                "All separations >>10σ at 4096 shots. Path-fit γ_Z_eff = 0.050. " +
-                "Per-class RMS residual 0.039 / 0.029 / 0.188 / 0.163; the ⟨Y,Z⟩ and ⟨Z,Y⟩ readings are asymmetric, tracking the per-qubit T2 inequality on the path (Q4 184 μs against Q6 151 μs). " +
-                "OPEN, and the reason this row is not closed: truly ⟨Z,Z⟩ comes back 60% damped, a candidate F82/F84 σ⁻ signature breaking ⟨Z⟩-conservation for truly while pi2_odd is unaffected. " +
+                "All separations >>10σ at 4096 shots. Path-fit γ_Z_eff = 0.03. " +
+                "With the prediction run in the hardware circuit's Trotter order (bond loop outside the term loop), per-class RMS residual over 7 Paulis is 0.036 / 0.014 / 0.012 / 0.024 (pi2_odd / pi2_even / truly / mixed); " +
+                "the ⟨Y,Z⟩/⟨Z,Y⟩ asymmetry on truly (+0.670/+0.185) is the circuit order's (predicted +0.659/+0.192), and truly ⟨Z,Z⟩ = +0.215 sits on the prediction (+0.231); the T1-sensitive window, truly single-site ⟨Z₀⟩/⟨Z₂⟩ (zero in any Z-only model by X^⊗3 symmetry), reads +0.043/+0.012, below 3σ; the same window on pi2_even_nontruly reads ⟨Z₂⟩ = +0.063 (4.0σ) with ⟨Y₀⟩, ⟨Y₂⟩ near 3σ, not calibration-scale σ⁻, cause unknown. " +
                 "Calibration score of the chosen path: 0.0162 of 223.",
             HardwareData: "data/ibm_f83_signature_april2026/f83_signature_ibm_marrakesh_20260430_190035.json",
             ExperimentDoc: "data/ibm_f83_signature_april2026/README.md",
             FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form); analysis simulations/f83_gamma_z_sweep.py and simulations/f83_hy_field_check.py",
             Description:
                 "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
-                "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk.",
+                "γ_Z_eff differs between the two runs (0.03 on [4,5,6] on 2026-04-30 vs 0.10 on [48,49,50] on 2026-04-26), a factor of about three not yet explained; effective dephasing absorbs coherent gate errors, idle decoherence, and crosstalk.",
             QubitPath: new[] { 4, 5, 6 }),
 
         new Confirmation(
