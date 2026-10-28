@@ -126,6 +126,24 @@ numbers instead of words; section 10 is the matrix route of F168
    falls on any site. `python the_wave_between.py 4` runs N = 4 on the chain in
    place of N = 2, 3. The letters' reason for every N is section 12 of
    simulations/the_wave_in_letters.py.
+11. The cat under a twisted coupling (the same page, section "Under a twisted
+   coupling"): hopping with a Dzyaloshinskii-Moriya part and a field angle of
+   its own on every bit, exact over Q(i) at rational points of the circle.
+   Asserted: with the angles following the twist (φ_b = φ_a + δ_e mod π) and the cat's
+   phase at Σφ or Σφ + π every odd moment through k = 11 is zero (open chain
+   N = 2, 3; ring N = 3 at flux 0 and π), the angles turned against the twist and
+   a ring at another flux break at m_7; in the frame where every field lies along
+   X, m_7 = 96·Σ_l γ_l·(div j)_l² with j_e = h_a·h_b·(the DM coefficient of bond e)
+   (N = 4 chain and ring, N = 5 chain, one bit unwatched, three cat phases; the
+   same weights on each bond's own current squared differ); with untwisted
+   hopping and fields at their own angles the divergence is the torque
+   Σ_m J_lm h_l h_m sin(φ_m − φ_l) (N = 4 ring, N = 3 at the matched phase); twists
+   and own angles at once, with the current h_a h_b J_e sin(δ_e − (φ_b − φ_a)), on
+   the four-bit ring at two phases off 0 and π and on the three-bit ring at the
+   matched phase and its turn by π; a source-free circulation on the four-bit ring
+   has m_7 = 0 and m_9 ≠ 0; N = 2 in sympy: m_7 in closed form at θ = 0 and π,
+   m_9 = 384 J² h⁴ s² σ³ where m_7 vanishes, and m_5 = 40 σ h₁² h₂² sin²θ with the
+   phase symbolic, free of the twist.
 """
 from __future__ import annotations
 
@@ -838,6 +856,214 @@ def cat_under_a_turned_field(ns=(2, 3)):
     print("    site: −(Σγ_l/3) ∏h_l² e^{−2iNφ} t^{2N+1} and its conjugate, a quarter each, the law's σ/3 with sin² = (1 − cos 2(Nφ − θ))/2")
 
 
+def cat_under_a_twisted_coupling():
+    print("11. The cat under a twisted coupling: hopping with a Dzyaloshinskii-Moriya part, fields at angles of their own,")
+    print("    chain and ring, Z watching; exact over Q(i) (rational points of the circle)")
+    from fractions import Fraction as Fr
+    from sympy import QQ_I
+    from sympy.polys.matrices import DomainMatrix
+    K = QQ_I
+
+    def q(x):
+        return K.from_sympy(sp.Rational(x[0]) + sp.I * sp.Rational(x[1])) if isinstance(x, tuple) else K.from_sympy(sp.Rational(x))
+
+    def dm(rows):
+        return DomainMatrix([[q(v) for v in r] for r in rows], (len(rows), len(rows[0])), K)
+    PX, PY, PZ, PI = dm([[0, 1], [1, 0]]), dm([[0, (0, -1)], [(0, 1), 0]]), dm([[1, 0], [0, -1]]), dm([[1, 0], [0, 1]])
+
+    def kron(a, b):
+        A, B = a.to_list(), b.to_list()
+        ra, ca, rb, cb = len(A), len(A[0]), len(B), len(B[0])
+        out = [[A[i][j] * B[k][l] for j in range(ca) for l in range(cb)] for i in range(ra) for k in range(rb)]
+        return DomainMatrix(out, (ra * rb, ca * cb), K)
+
+    def on(N, sites):
+        return reduce(kron, [sites.get(l, PI) for l in range(N)])
+
+    def conj(z):
+        return K.from_sympy(sp.conjugate(K.to_sympy(z)))
+
+    def moments(N, bonds, fields, gammas, phase, kmax):
+        """Odd centred moments of the cat (|0..0> + e^{iθ}|1..1>)/√2, phase = (cos θ, sin θ).
+        bonds (a, b, hop, dm, Δ): hop·(X_aX_b + Y_aY_b) + dm·(X_aY_b − Y_aX_b) + Δ·Z_aZ_b, which is
+        2J(e^{iδ} s⁺_a s⁻_b + h.c.) + Δ Z_aZ_b with hop = J cos δ, dm = J sin δ and s⁺ = (X + iY)/2;
+        fields (h, (cos φ, sin φ)): h·(cos φ X + sin φ Y) on its bit."""
+        d = 2 ** N
+        H = DomainMatrix.zeros((d, d), K)
+        for a, b, hop, dmc, Dz in bonds:
+            H = (H + (on(N, {a: PX, b: PX}) + on(N, {a: PY, b: PY})) * q(hop)
+                 + (on(N, {a: PX, b: PY}) - on(N, {a: PY, b: PX})) * q(dmc) + on(N, {a: PZ, b: PZ}) * q(Dz))
+        for l, (hl, (cp, spn)) in enumerate(fields):
+            H = H + on(N, {l: PX}) * q(hl * cp) + on(N, {l: PY}) * q(hl * spn)
+        Zs, gs = [on(N, {l: PZ}) for l in range(N)], [q(gl) for gl in gammas]
+        sigma, mi = q(sum(gammas)), q((0, -1))
+        e = q(phase)
+        rows = [[K.zero] * d for _ in range(d)]
+        rows[0][0] = rows[d - 1][d - 1] = q(Fr(1, 2))
+        rows[d - 1][0], rows[0][d - 1] = e * q(Fr(1, 2)), conj(e) * q(Fr(1, 2))
+        rho = DomainMatrix(rows, (d, d), K)
+        v, out = rho, {}
+        for k in range(1, kmax + 1):
+            w = (H * v - v * H) * mi + v * sigma
+            for Zl, gl in zip(Zs, gs):
+                w = w + (Zl * v * Zl - v) * gl
+            v = w
+            if k % 2:
+                tr = rho * v
+                out[k] = sp.nsimplify(K.to_sympy(sum((tr.to_list()[i][i] for i in range(d)), K.zero)))
+        return out
+
+    def rot(a, b):                                          # the angle a + b on the circle
+        return (a[0] * b[0] - a[1] * b[1], a[1] * b[0] + a[0] * b[1])
+
+    def neg(a):
+        return (a[0], -a[1])
+
+    def total(angles):
+        return reduce(rot, angles, (Fr(1), Fr(0)))
+    ZERO, PI_ANG = (Fr(1), Fr(0)), (Fr(-1), Fr(0))
+    A, B, C = (Fr(3, 5), Fr(4, 5)), (Fr(5, 13), Fr(12, 13)), (Fr(8, 17), Fr(15, 17))
+    hs, gs = [Fr(1), Fr(3, 2), Fr(2, 3), Fr(5, 4)], [Fr(3, 10), Fr(1, 5), Fr(2, 5), Fr(1, 2)]
+
+    def twisted(a, b, J, delta, Dz):
+        return (a, b, J * delta[0], J * delta[1], Dz)
+
+    def first_odd(m):
+        return next((k for k, v in m.items() if v != 0), None)
+
+    # (a) the fields follow the twist (φ_b = φ_a + δ_b on every bond) and θ = Σφ: every odd moment vanishes
+    for N, kmax in ((2, 11), (3, 11)):
+        deltas = [B, C][:N - 1]
+        phis = [A]
+        for dl in deltas:
+            phis.append(rot(phis[-1], dl))
+        bonds = [twisted(l, l + 1, Fr(1), deltas[l], Fr(1, 2)) for l in range(N - 1)]
+        fields = [(hs[l], phis[l]) for l in range(N)]
+        for th in (total(phis), rot(total(phis), PI_ANG)):
+            m = moments(N, bonds, fields, gs[:N], th, kmax)
+            assert all(v == 0 for v in m.values()), f"N = {N}, fields following the twist: {m}"
+        against = [A]                                       # control: φ_b = φ_a − δ_b, turned against the twist
+        for dl in deltas:
+            against.append(rot(against[-1], neg(dl)))
+        mw = moments(N, bonds, [(hs[l], against[l]) for l in range(N)], gs[:N], total(against), 7)
+        assert first_odd(mw) == 7, f"control: the fields turned against the twist must break at m_7, got {mw}"
+        print(f"    N = {N}, open chain, twists 12/13 and 15/17: fields following the twist and θ = Σφ (or + π): every odd")
+        print(f"      moment through k = {kmax} is 0; the fields turned against it (control): m_7 = {mw[7]}")
+    ring = lambda ds: [twisted(0, 1, Fr(1), ds[0], Fr(1, 2)), twisted(1, 2, Fr(1), ds[1], Fr(1, 2)), twisted(2, 0, Fr(1), ds[2], Fr(1, 2))]
+    for flux, ds in (("0", [B, C, neg(rot(B, C))]), ("π", [B, C, rot(PI_ANG, neg(rot(B, C)))])):
+        phis = [A, rot(A, ds[0]), rot(rot(A, ds[0]), ds[1])]
+        m = moments(3, ring(ds), [(hs[l], phis[l]) for l in range(3)], gs[:3], total(phis), 11)
+        assert all(v == 0 for v in m.values()), f"ring, flux {flux}: {m}"
+        print(f"    N = 3 ring, flux {flux}, the fields following the twist around the loop: every odd moment through k = 11 is 0")
+    ds = [B, C, ZERO]                                                     # flux generic: the third bond cannot be followed
+    phis = [A, rot(A, ds[0]), rot(rot(A, ds[0]), ds[1])]
+    m = moments(3, ring(ds), [(hs[l], phis[l]) for l in range(3)], gs[:3], total(phis), 7)
+    assert first_odd(m) == 7, f"ring, generic flux: expected a break at m_7, got {m}"
+    print(f"    N = 3 ring, flux arccos(5/13) + arccos(8/17), not a multiple of π, two bonds followed: m_7 = {m[7]} ≠ 0")
+
+    # (b) the order-7 law, twist in the frame where every field lies along X: m_7 = 96 Σ γ_l (div j)_l²,
+    #     j_b = h_a h_b·dm_b, any cat phase, an unwatched bit, the even hopping and Δ arbitrary
+    g4 = [Fr(3, 10), Fr(1, 5), Fr(0), Fr(1, 2), Fr(7, 10)]
+    h4 = [Fr(1), Fr(-3, 2), Fr(2, 3), Fr(5, 4), Fr(-4, 5)]
+    for N, closed in ((4, False), (4, True), (5, False)):
+        pairs = [(l, l + 1) for l in range(N - 1)] + ([(N - 1, 0)] if closed else [])
+        dms = [Fr(12, 13), Fr(-15, 17), Fr(4, 5), Fr(24, 25)][:len(pairs)]
+        bonds = [(a, b, Fr(i + 2, 3), dms[i], Fr(3 - 2 * i, 2)) for i, (a, b) in enumerate(pairs)]
+        div = [Fr(0)] * N
+        for i, (a, b) in enumerate(pairs):
+            div[a] += h4[a] * h4[b] * dms[i]
+            div[b] -= h4[a] * h4[b] * dms[i]
+        law = 96 * sum(gl * dl ** 2 for gl, dl in zip(g4, div))
+        per_bond = 96 * sum((g4[a] + g4[b]) * (h4[a] * h4[b] * dms[i]) ** 2 for i, (a, b) in enumerate(pairs))
+        values = set()
+        for th in (ZERO, A, PI_ANG):
+            m = moments(N, bonds, [(h4[l], ZERO) for l in range(N)], g4[:N], th, 7)
+            assert m[1] == m[3] == m[5] == 0 and m[7] == law, f"N = {N}: m_7 = {m[7]}, law {law}"
+            values.add(m[7])
+        assert per_bond != law, "control: the same weights on each bond's own current squared (no divergence) must differ"
+        print(f"    N = {N}, {'ring' if closed else 'open chain'}, every bond twisted, one bit unwatched: m_1 = m_3 = m_5 = 0 and")
+        print(f"      m_7 = {law} = 96 Σ γ_l (div j)_l² at θ = 0, arccos 3/5 and π (bond by bond squares would give {per_bond})")
+    # (c) the same law in the frame of the bits: untwisted hopping, fields at angles of their own; div is the torque
+    for N, closed, matched_only in ((4, True, False), (3, False, True)):
+        pairs = [(l, l + 1) for l in range(N - 1)] + ([(N - 1, 0)] if closed else [])
+        phis = [A, B, neg(C), (Fr(7, 25), Fr(24, 25))][:N]
+        Js = [Fr(1), Fr(2), Fr(-1, 2), Fr(3, 2)][:len(pairs)]
+        bonds = [(a, b, Js[i], Fr(0), Fr(i + 1, 3)) for i, (a, b) in enumerate(pairs)]
+        torque = [Fr(0)] * N
+        for i, (a, b) in enumerate(pairs):
+            tq = Js[i] * hs[a] * hs[b] * (phis[b][1] * phis[a][0] - phis[b][0] * phis[a][1])   # J h_a h_b sin(φ_b − φ_a)
+            torque[a] += tq
+            torque[b] -= tq
+        g3 = [Fr(3, 10), Fr(1, 5), Fr(0), Fr(1, 2)][:N]
+        for th in ((total(phis),) if matched_only else (total(phis), ZERO)):
+            m = moments(N, bonds, [(hs[l], phis[l]) for l in range(N)], g3, th, 7)
+            assert m[1] == m[3] == m[5] == 0 and m[7] == 96 * sum(gl * tl ** 2 for gl, tl in zip(g3, torque)), f"torque law, N = {N}"
+        print(f"    N = {N}, {'ring' if closed else 'open chain'}, untwisted hopping, fields at angles of their own"
+              f"{', θ = Σφ' if matched_only else ', θ = Σφ and θ = 0'}: m_7 = 96 Σ γ_l τ_l², τ_l = Σ_m J_lm h_l h_m sin(φ_m − φ_l)")
+    # (c') both at once, in the original frame: twisted bonds and fields at angles of their own; the current is
+    #      j_e = h_a h_b J_e sin β_e with the residual twist β_e = δ_e − (φ_b − φ_a); N = 4 ring at two phases off 0 and π,
+    #      and the twisted three-bit ring at θ = Σφ and Σφ + π (N = 3, where the law needs the matched phase)
+    for N, ths in ((4, (A, (Fr(-5, 13), Fr(12, 13)))), (3, ("matched", "matched+pi"))):
+        pairs = [(l, (l + 1) % N) for l in range(N)]
+        phis = [A, B, neg(C), (Fr(7, 25), Fr(24, 25))][:N]
+        deltas = [C, neg(A), (Fr(-7, 25), Fr(24, 25)), B][:N]
+        Js = [Fr(1), Fr(2), Fr(-1, 2), Fr(3, 2)][:N]
+        bonds = [twisted(a, b, Js[i], deltas[i], Fr(i + 1, 3)) for i, (a, b) in enumerate(pairs)]
+        div = [Fr(0)] * N
+        for i, (a, b) in enumerate(pairs):
+            beta = rot(deltas[i], neg(rot(phis[b], neg(phis[a]))))      # δ_e − (φ_b − φ_a) on the circle
+            je = hs[a] * hs[b] * Js[i] * beta[1]
+            div[a] += je
+            div[b] -= je
+        g3 = [Fr(3, 10), Fr(0), Fr(2, 5), Fr(1, 2)][:N]
+        for th in ths:
+            ph = total(phis) if th == "matched" else rot(total(phis), PI_ANG) if th == "matched+pi" else th
+            m = moments(N, bonds, [(hs[l], phis[l]) for l in range(N)], g3, ph, 7)
+            assert m[1] == m[3] == m[5] == 0 and m[7] == 96 * sum(gl * dl ** 2 for gl, dl in zip(g3, div)), f"both at once, N = {N}"
+        print(f"    N = {N} ring, every bond twisted and every field at its own angle, one bit unwatched"
+              f"{', θ = arccos 3/5 and arccos(−5/13)' if N == 4 else ', θ = Σφ and Σφ + π'}: m_7 = 96 Σ γ_l (div j)_l²,"
+              f" j_e = h_a h_b J_e sin β_e")
+    # (d) the ring's circulation: h_a h_b·dm_b the same on every bond leaves no source, m_7 = 0, and m_9 breaks
+    pairs = [(l, (l + 1) % 4) for l in range(4)]
+    circ = [Fr(2, 5) / (h4[a] * h4[b]) for a, b in pairs]
+    m = moments(4, [(a, b, Fr(i + 2, 3), circ[i], Fr(1, 2)) for i, (a, b) in enumerate(pairs)],
+                [(h4[l], ZERO) for l in range(4)], [Fr(3, 10), Fr(1, 5), Fr(2, 5), Fr(1, 2)], ZERO, 9)
+    assert m[1] == m[3] == m[5] == m[7] == 0 and m[9] != 0, f"ring circulation: {m}"
+    print(f"    N = 4 ring, a twist circulating without sources (h_a h_b·dm_b = 2/5 on every bond): m_7 = 0, m_9 = {m[9]}")
+
+    # (e) N = 2, symbolic in the frame of the field: the far corner is two steps away and the law is its own
+    h1, h2, g1, g2, J, Dz, cc, ss = sp.symbols('h1 h2 g1 g2 J Delta c s', real=True)
+    P = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]), 'Z': sp.diag(1, -1)}
+    kp = sp.kronecker_product
+
+    def sym_moments(hb, phase, kmax):
+        H = (J * cc * (kp(P['X'], P['X']) + kp(P['Y'], P['Y'])) + J * ss * (kp(P['X'], P['Y']) - kp(P['Y'], P['X']))
+             + Dz * kp(P['Z'], P['Z']) + h1 * kp(P['X'], P['I']) + hb * kp(P['I'], P['X']))
+        Z1, Z2 = kp(P['Z'], P['I']), kp(P['I'], P['Z'])
+        rho = sp.zeros(4)
+        rho[0, 0] = rho[3, 3] = sp.Rational(1, 2)
+        rho[3, 0], rho[0, 3] = phase / 2, sp.conjugate(phase) / 2
+        r, out = rho, {}
+        for k in range(1, kmax + 1):
+            r = sp.expand(-sp.I * (H * r - r * H) + g1 * (Z1 * r * Z1 - r) + g2 * (Z2 * r * Z2 - r) + (g1 + g2) * r)
+            if k % 2:
+                out[k] = sp.expand((rho * r).trace().subs(cc ** 2, 1 - ss ** 2))
+        return out
+    quad = lambda x, y: 5 * x ** 2 - 16 * x * y + 17 * y ** 2
+    for phase, sign in ((sp.Integer(1), 1), (sp.Integer(-1), -1)):
+        m = sym_moments(h2, phase, 7)
+        law = 16 * J ** 2 * ss ** 2 * (h1 + sign * h2) ** 2 * (g1 * quad(h1, sign * h2) + g2 * quad(sign * h2, h1))
+        assert m[1] == m[3] == m[5] == 0 and sp.expand(m[7] - law) == 0, f"N = 2, θ = {0 if phase == 1 else 'π'}: {sp.factor(m[7])}"
+    m = sym_moments(-h1, sp.Integer(1), 9)
+    assert m[7] == 0 and sp.expand(m[9] - 384 * J ** 2 * h1 ** 4 * ss ** 2 * (g1 + g2) ** 3) == 0, f"N = 2 exception: {m}"
+    ct, st = sp.symbols('ct st', real=True)                    # the phase symbolic on its circle: m_5 = 40 σ h₁²h₂² sin²ϑ
+    m = {k: sp.expand(v.subs(ct ** 2, 1 - st ** 2)) for k, v in sym_moments(h2, ct + sp.I * st, 5).items()}
+    assert m[1] == m[3] == 0 and sp.expand(m[5] - 40 * (g1 + g2) * h1 ** 2 * h2 ** 2 * st ** 2) == 0, f"N = 2: {m}"
+    print("    N = 2, symbolic, θ = 0: m_7 = 16 J² s² (h₁ + h₂)² [γ₁(5h₁² − 16h₁h₂ + 17h₂²) + γ₂(17h₁² − 16h₁h₂ + 5h₂²)], at θ = π")
+    print("      the same with h₂ → −h₂; both forms positive definite; where h₂ = −h₁ (θ = 0), m_7 = 0 and m_9 = 384 J² h₁⁴ s² σ³:")
+    print("      with m_5 = 40 σ h₁² h₂² sin²ϑ at every phase, free of the twist, the twist must follow at N = 2 too")
+
+
 if __name__ == "__main__":
     self_encounter_blind_to_phase()
     bell_pair_is_all_between()
@@ -849,3 +1075,4 @@ if __name__ == "__main__":
     several_bits_watched()
     coupled_bits_with_a_field()
     cat_under_a_turned_field(tuple(int(a) for a in sys.argv[1:]) or (2, 3))
+    cat_under_a_twisted_coupling()
