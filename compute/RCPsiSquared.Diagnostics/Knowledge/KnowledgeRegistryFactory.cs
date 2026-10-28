@@ -924,7 +924,7 @@ public static class KnowledgeRegistryFactory
             // is the flat sections of d_y/d_x = H_xy/H_x̄ȳ on the hopping graph over bitstrings; Theorems 1, 3 and 5
             // are the three classes where F138's converse holds exactly. Parent: F158.
             .RegisterPalindromeComplementConnectionClaim()
-            // F169, the colour law (Tier 1 derived, 2026-10-27): Heisenberg bonds, every site watched along an
+            // F169, the colour law (Tier 1 derived, 2026-10-28): Heisenberg bonds, every site watched along an
             // integer axis; the palindrome holds exactly when a colour perpendicular to every axis carries every
             // field, proven on every connected graph. Parent: F158 (F165 adjacent, a second route).
             .RegisterHeisenbergColourLawClaim()
