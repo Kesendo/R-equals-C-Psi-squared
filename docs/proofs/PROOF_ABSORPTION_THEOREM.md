@@ -522,7 +522,7 @@ with Δ(11) = Δ(10) + Δ(01), the additivity of two spectators' relaxation
 contributions to a rate difference, not a coherence that differs at two sites.
 Both flights returned B-BLOCK-INVALID (the in-situ T1 reference failed bracket
 consistency in the first; in the second the residual condition on the far
-spectator failed, which the audit traces to a mid-batch T1 excursion), so by its
+spectator failed, on the same stable residual shape as in the first), so by its
 frozen truth table that claim is neither confirmed nor falsified, the spectator
 additivity holding both times
 ([Staircase Null-Test](../../experiments/STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md)).
