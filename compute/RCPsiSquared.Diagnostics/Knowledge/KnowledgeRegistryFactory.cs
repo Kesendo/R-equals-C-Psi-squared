@@ -926,7 +926,7 @@ public static class KnowledgeRegistryFactory
             .RegisterPalindromeComplementConnectionClaim()
             // F169, the colour law (Tier 1 derived, 2026-10-27): Heisenberg bonds, every site watched along an
             // integer axis; the palindrome holds exactly when a colour perpendicular to every axis carries every
-            // field, proven on every connected graph. Parents: F158 and F165.
+            // field, proven on every connected graph. Parent: F158 (F165 adjacent, a second route).
             .RegisterHeisenbergColourLawClaim()
             // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
             // 2026-08-31 in experiments/THE_CRACKED_BELL.md): one bond of the XY ring detuned to u*J has

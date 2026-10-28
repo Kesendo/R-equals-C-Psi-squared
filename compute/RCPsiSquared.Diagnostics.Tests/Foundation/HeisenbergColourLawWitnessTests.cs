@@ -40,13 +40,12 @@ public class HeisenbergColourLawWitnessTests
     }
 
     [Fact]
-    public void The_Claim_Stands_On_F158_And_F165_And_Reads_Its_Class()
+    public void The_Claim_Stands_On_F158_Alone_And_Reads_Its_Class()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<HeisenbergColourLawClaim>();
         Assert.Equal(Tier.Tier1Derived, claim.Tier);
         Assert.Same(registry.Get<PalindromeTwoEndCountClaim>(), claim.TwoEndCount);
-        Assert.Same(registry.Get<PalindromeComplementConnectionClaim>(), claim.ComplementConnection);
         Assert.Contains("PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md", claim.Anchor);
 
         var ring = new[] { (0, 1), (1, 2), (2, 3), (3, 0) };

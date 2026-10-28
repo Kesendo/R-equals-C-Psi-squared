@@ -27,9 +27,6 @@ public sealed class HeisenbergColourLawClaim : Claim
     /// <summary>F158: the palindrome holds exactly when the far kernel holds an invertible element; a colour is one.</summary>
     public PalindromeTwoEndCountClaim TwoEndCount { get; }
 
-    /// <summary>F165: its Theorems 1 to 3 give the same answer at the axes one global turn makes letters, a second route.</summary>
-    public PalindromeComplementConnectionClaim ComplementConnection { get; }
-
     /// <summary>True where the law is proven for this graph: connected. The axes do not enter.</summary>
     public static bool Proven(int n, IReadOnlyList<(int A, int B)> edges, IReadOnlyList<(long X, long Y, long Z)> axes)
         => Components(n, edges) == 1;
@@ -56,7 +53,7 @@ public sealed class HeisenbergColourLawClaim : Claim
         return f.All(v => v == normal) ? 1 : 0;
     }
 
-    public HeisenbergColourLawClaim(PalindromeTwoEndCountClaim twoEndCount, PalindromeComplementConnectionClaim complementConnection)
+    public HeisenbergColourLawClaim(PalindromeTwoEndCountClaim twoEndCount)
         : base("F169, the colour law: Heisenberg bonds of nonzero weights on a connected graph, every site watched along one " +
                "integer axis, fields of any direction. A product of colours commutes with a bond of coupling matrix W exactly " +
                "when the half-turns about its ends keep W; the far equation splits into bond and field equations; wherever " +
@@ -72,7 +69,6 @@ public sealed class HeisenbergColourLawClaim : Claim
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (h): jumps along any axis)")
     {
         TwoEndCount = twoEndCount ?? throw new ArgumentNullException(nameof(twoEndCount));
-        ComplementConnection = complementConnection ?? throw new ArgumentNullException(nameof(complementConnection));
     }
 
     public override string DisplayName =>
