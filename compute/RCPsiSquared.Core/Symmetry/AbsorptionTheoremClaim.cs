@@ -153,7 +153,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (uniform γ₀). That needs N ≥ 2, and no registered rate ratio with an error bar reads it. The
 /// price-pair campaign (ibm_marrakesh, 2026-07-04, four runs) pre-registered the additivity as its P1.
 /// Its registered verdict (<c>price_pair_locality_marrakesh_july2026</c>, in both Confirmations
-/// registries) is that the dephasing covariances were local in the clean run-3 session, the premise the
+/// registries) is that the dephasing covariances were within 2σ in run 3 (whose registered P2 headline read
+/// INCONCLUSIVE, no run returning HOLDS), the premise the
 /// additivity follows from under the local-channel model; the direct rate test P1 was masked on the
 /// product-state singles by a coherent nearest-neighbour ZZ
 /// (<c>experiments/PRICE_PAIR_HARDWARE_PREDICTION.md</c>). So the premise has a registered reading and
@@ -389,7 +390,8 @@ public sealed class AbsorptionTheoremClaim : Claim
                          "site the prediction is additivity, a coherence differing at sites a and b decaying at 2(γ_a + γ_b), " +
                          "twice a single-site rate only at uniform γ₀; it needs N ≥ 2 and no registered ratio with an error bar " +
                          "reads it. The price-pair campaign (ibm_marrakesh 2026-07-04) registered its premise, local dephasing " +
-                         "covariances in the clean run-3 session, while its rate test P1 was masked by coherent nearest-neighbour ZZ. " +
+                         "covariances within 2σ in run 3 (its registered P2 headline INCONCLUSIVE, no run returning HOLDS), while its " +
+                         "rate test P1 was masked by coherent nearest-neighbour ZZ. " +
                          "The staircase null test (2026-07-26, two flights, B-BLOCK-INVALID both times) tested the other half, " +
                          "agreeing sites pay nothing, and the additivity of two spectators' relaxation, not a two-site coherence. " +
                          "Draft pre-registration, unfrozen: experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md.");

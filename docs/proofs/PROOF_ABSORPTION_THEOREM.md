@@ -510,7 +510,8 @@ rates are equal (uniform γ). That needs N ≥ 2, and no registered rate ratio w
 an error bar reads it. The price-pair campaign on ibm_marrakesh (2026-07-04, four
 runs) pre-registered the additivity as its P1. Its registered verdict
 (`price_pair_locality_marrakesh_july2026`, in both Confirmations registries) is
-that the dephasing covariances were local in the clean run-3 session, the premise
+that the dephasing covariances were within 2σ in run 3 (whose registered P2
+headline read INCONCLUSIVE, no run returning HOLDS), the premise
 the additivity follows from under the local-channel model; the direct rate test
 P1 was masked on the product-state singles by a coherent nearest-neighbour ZZ
 ([Price Pair](../../experiments/PRICE_PAIR_HARDWARE_PREDICTION.md)). So the

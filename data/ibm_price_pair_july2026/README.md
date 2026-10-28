@@ -16,7 +16,7 @@ can be re-analyzed with `--analyze FILE`; RUN 4 stores fitted outputs only and c
 | `price_pair_zztest_ibm_marrakesh_20260704_083938.json` | RUN 4 (conditional Ramsey), job d94ajjtgc6cc73fes7bg: fitted chain shifts ζ₀₁ = −3.92 ± 0.14 kHz and ζ₁₂ = −3.64 ± 0.10 kHz support coherent ZZ; fitted outer-arm difference Δf₀₂ = +0.01635 ± 0.11981 kHz is zero-consistent |
 | `price_pair_null_20260703_214747.json` | the 200-seed counts-level null calibration at 8192 shots (median 6.2 %, p90 10.6 %, p99 15.4 %) that set the amended verdict bands (HOLDS ≤ 12 %, VIOLATED ≥ 18 %) |
 | `price_pair_aer_20260703_214803.json` | the Aer end-to-end parity record of the actual circuits (noiseless: fringes exactly 30/50/90 kHz, rates ≈ 0) |
-| `price_pair_zztest_sim_20260704_083506.json` | sim validation of the ZZ discriminator (5 kHz model read as −4.2/−4.1/−0.0 incl. the declared T1 attenuation ≈ 0.84) |
+| `price_pair_zztest_sim_20260704_083506.json` | sim validation of the ZZ discriminator: the 0 kHz null model (zz_khz_model 0.0), read as +0.007/−0.018/−0.002 kHz; the 5 kHz validation the pre-registration quotes is not archived |
 
 The RUN 4 JSON stores fitted values only, with no counts. Its exact outer-arm fit is
 `+0.016348127877902074 ± 0.11981306183811406 kHz`. In the ideal circuit without decay,
@@ -30,7 +30,7 @@ are below the screen, though no confidence decision rule was registered. A stric
 physical `|ζ₀₂| < 0.5 kHz` bound is unresolved: even the ideal equivalent has
 the nominal upper endpoint `0.50236 kHz`.
 
-**Campaign verdict, one line:** the dephasing covariances were within 2σ in the clean run-3 session;
+**Campaign verdict, one line:** no run returned the registered P2 HOLDS (run 3 read INCONCLUSIVE and the 4× repeat never flew); the dephasing covariances were within 2σ in run 3;
 the one systematic non-locality is coherent nearest-neighbour ZZ, with fitted chain shifts
 ≈ −3.9/−3.6 kHz and a zero-consistent outer-arm fit, first seen as a Gaussian-masked
 pseudo-anti-correlation, fingerprinted by the W run, then measured by conditioning;
