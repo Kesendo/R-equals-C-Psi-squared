@@ -60,7 +60,7 @@ public sealed class HeisenbergColourLawClaim : Claim
                "the bond equations admit only the colours the palindrome holds exactly when a colour perpendicular to every " +
                "axis carries every field. The bond equations admit only the colours on every connected graph: a site whose " +
                "bonds meet at an angle neither straight nor right admits nothing, and otherwise each bond asks both ends " +
-               "on its line or neither, which leaves two words, and the site equations keep only the colour. At axes one " +
+               "on its line or neither, which leaves at most two words, and the site equations keep only the colour. At axes one " +
                "turn makes letters F165's Theorems 1 to 3 give the same answer.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md + " +
@@ -89,7 +89,7 @@ public sealed class HeisenbergColourLawClaim : Claim
             yield return new InspectableNode("why every connected graph admits only the colours",
                 summary: "every other bond keeps its pair in span{m⊗m, p⊗p}; two bonds at one site at an angle neither " +
                          "straight nor right leave nothing; otherwise each bond asks both ends on its line or neither, " +
-                         "which leaves one word and its complement, and a site's equation is a sum of distinct words from " +
+                         "which leaves at most one word and its complement, and a site's equation is a sum of distinct words from " +
                          "N = 4 on (smaller N read site by site), so only the word with every bond's line at both ends, the colour, survives");
             yield return new InspectableNode("the live witness",
                 summary: "inspect --root colourlaw: the far kernel's dimension from the commutator in the Pauli-string basis, " +

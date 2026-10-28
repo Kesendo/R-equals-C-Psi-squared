@@ -198,7 +198,7 @@ public static class TiltedAxes
     // The colour law (F169, docs/proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md): under Heisenberg bonds of nonzero
     // weights on a connected graph, every site watched along one integer axis, the bond equations admit only the
     // colours, on every connected graph (a site where two bonds meet at an angle neither straight nor right admits
-    // nothing, otherwise every bond reads "both ends on its line or neither" and leaves two words, which the site
+    // nothing, otherwise every bond reads "both ends on its line or neither" and leaves at most two words, which the site
     // equations cut down to the colour); so the palindrome holds exactly when a colour is admitted, at fields of any
     // direction. The axes do not enter: ColourLawProven asks only that the graph be connected.
     public static bool ColourLawProven(int n, (int, int)[] edges, (long X, long Y, long Z)[] axes)
