@@ -2437,7 +2437,7 @@ if (args.Length > 0 && args[0] == "theodolite")
     {
         Console.WriteLine($"  {tdName}:");
         var tdRead = Theodolite.Read(tdSetting, tdRel);
-        if (tdRead is null) { Console.WriteLine("    silent: no monomial sandwich (here nothing site-local exists; the pre-check of the Python twin proves it)"); continue; }
+        if (tdRead is null) { Console.WriteLine("    silent: no monomial sandwich (here nothing site-local exists; the pre-check of simulations/framework/diagnostics/cube_reflector.py proves it)"); continue; }
         foreach (var tdLine in tdRead.Lines()) Console.WriteLine($"    {tdLine}");
     }
     Console.WriteLine("  the XY chain, Z dephasing at 1, a copy (a symmetry, the plain all-diagonal group holding the identity left out):");

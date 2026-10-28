@@ -388,7 +388,9 @@ public class TheodoliteTests
         Assert.Null(Theodolite.Read(s, Theodolite.Relation.Pi));
         var r = Theodolite.Read(s, Theodolite.Relation.Reflection);
         Assert.NotNull(r);
-        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Reflection, r!));
+        Assert.False(r!.Transposed);                                         // S_XY's kinds: plain, anti-diagonal on both sides
+        Assert.All(r.Kinds, k => Assert.Equal((Theodolite.Kind.AntiDiagonal, Theodolite.Kind.AntiDiagonal), k));
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Reflection, r));
     }
 
     static Theodolite.Setting FieldTriangle(long delta, long j2, long d2)

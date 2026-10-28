@@ -63,8 +63,8 @@ reviewers checked it against the stores at source.
   eigenvector of A and B, and λ is semisimple."* That is the same
   numerical-range argument at **every** window edge rather than at the two
   extremes, and it also delivers most of Lemma 1's reverse inclusion. The arc
-  `site_resolved_vacuum_block` carries a standing instruction about exactly this
-  paragraph, *"Cite it rather than re-deriving it a third time"*, so Lemma 2 is
+  `site_resolved_vacuum_block` carries a standing instruction about the
+  rate-window paragraph this lemma sits in, *"Cite it rather than re-deriving it a third time"*, so Lemma 2 is
   written out below for readability and is **not** claimed as new. That arc
   also carries the γ-profile
   bracket §(b)'s corollary sits inside, and a minting caution that applies here
@@ -89,17 +89,17 @@ reviewers checked it against the stores at source.
   holds `Re(λ) = −2 Σ_l γ_l·light_l(v)` and reads one of its extremes in its own
   opening
   (*"eigenmodes of pure {X, Y}^⊗N content die fastest (rate 2Nγ)"*). It also records
-  `(X_k + Z_k)/√2` as breaking its own reading, which is a member of this file's
-  class, so nothing here leans on it.
+  `(X_k + Z_k)/√2`, a member of this file's class, as holding only in the frame
+  turned 45° about y, so nothing here leans on it.
   [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) owns the first link, *"the
   palindrome then forces its partner −2Σγᵢ to be an eigenvalue too"*, from trace
   preservation. Its Scope states F138's clauses with *when*, not *exactly when*,
   and the converse failure and its counts beside them.
   [PROOF_F111_HARD_CELL_PURE_D_TEMPLATE](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
   names the far end **the anti-steady eigenvalue** and pairs a mechanism with a
-  **measured** witness (there is no live C# witness for it), and states as open
-  *"why the pure-D templates are exactly the ones that lose the anti-steady
-  mode"*: §(f4) translates that question rather than closing it.
+  **measured** witness (there is no live C# witness for it); the why is answered
+  there through Theorem 2 of the complement connection, the route of §(f10), and
+  §(f4) translates the same question to the letters.
   [PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
   computes a commutant by hand and reads it off in **Wedderburn** form; the
   words Schur and double commutant do not appear in it.
@@ -120,8 +120,8 @@ reviewers checked it against the stores at source.
   [CAUGHT_ERRORS](../CAUGHT_ERRORS.md)):
   DEGENERACY_PALINDROME writes the far end as −Nγ at γ = 0.1 per site, while
   [XOR_SPACE](../../experiments/XOR_SPACE.md) writes it as −2Σγ in the canonical
-  Lindblad book at γ = 0.05. Those are the same point (γ_there = 2γ_canonical,
-  and both give −0.30 at N = 3), and this file works throughout in the canonical
+  Lindblad book. Those are the same point (γ_there = 2γ_canonical; at N = 3 and
+  γ = 0.05 the GLOSSARY row gives 2Σγ = 0.30), and this file works throughout in the canonical
   book, in which the far end is −2σ.
   [SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) carries both operator
   conditions months old and reads them as invariance, which the pairing-condition
@@ -501,18 +501,19 @@ move, because a zero rate can drop a condition (gate 10b). It is the pairing, an
 only inside the open orthant, that is blind.
 
 **(f4) The anti-steady mode, and F103's three rows.**
-[PROOF_F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md) asks why exactly the
-pure-D templates lose the anti-steady mode; by Lemma 1 they lose it exactly when
-no operator anticommutes with every jump while commuting with H, which
-translates the question from the spectrum to the letters without answering it.
+In [PROOF_F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md) the pure-D templates
+lose the anti-steady mode; by Lemma 1 they lose it exactly when no operator
+anticommutes with every jump while commuting with H, which translates the
+question from the spectrum to the letters, and F111 reads the why on the letters
+through Theorem 2 of the complement connection, §(f10)'s route.
 [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.12's three rows, soft with
 non-bipartite basis-state graphs and therefore beyond any 2-colouring, are
 decided correctly by the count at N = 3, 4 and 5. The operator the criterion
 returns there is worth naming precisely: 𝒲 is **one-dimensional** and spanned by a single Pauli string,
 Y^⊗N for XX+XZ and XX+XZ+ZX and X^⊗N for YY+YZ, and the X^⊗N of that last
-family is F1's own Π². So this is an agreement test against a mechanism the repo
-already owns and classifies bit-exactly, not a supply of something §7.12 was
-missing.
+family is F1's own Π². For the two 2-term rows this is an agreement test against
+a routing the repo classifies bit-exactly; for XX+XZ+ZX, past the 2-term routing
+§7.12 names as what remains, the count supplies the element Y^⊗N itself.
 
 **(f5) Every jump must be traceless, and at odd d none can be.** An invertible
 U with U A_l U⁻¹ = −A_l makes A_l and −A_l similar, so the ±1 eigenvalue
@@ -520,7 +521,7 @@ multiplicities of each A_l must agree: **every jump operator is traceless**. Tha
 is a necessary condition which is H-free, costs one trace, and is strictly
 stronger than a parity count on d, because it bites at even d too:
 A = diag(1, 1, 1, −1) at d = 4 kills the palindrome for every Hamiltonian, and
-nothing in the gated scope exercises it, every jump family there (n̂·σ⃗, Pauli
+nothing in the gated scope exercises it, every jump at even d there (n̂·σ⃗, Pauli
 strings, depolarizing sites) being automatically traceless. Since a traceless
 involution needs an even dimension, odd d admits no such A_l at all, so at odd d
 **with at least one jump** the spectrum never pairs; gate 10c checks the inequality
@@ -645,8 +646,8 @@ in one does not hide in the others.
   residue the three-prime blocks reduce and the one-prime blocks do not.
 - **Float, sharing no construction code with any of it:** gate 9 rebuilds the
   whole object in dense complex numbers, calling this file's `row_spaces` only as
-  the other side of its cross-check, and compares
-  both its verdict and its two nullities row by row against the modular route.
+  the other side of its cross-check, and compares its two nullities row by row
+  against the modular route, its verdict only against its own nullities.
   Its two thresholds are gated on measured separations rather than chosen.
 
 **Sampling has not vanished from the script**, and §(d) does not claim it has.
@@ -703,7 +704,7 @@ On **212** of those rows `0 < dim 𝒲 < dim 𝒩`, which is where the criterion
 equality says more than "the anticommutant is nonempty"; see the third caveat
 below.
 
-Beside the scoring, and on rows where the palindrome is not consulted at all:
+Beside the scoring, on rows outside the 15,415 tally:
 
 | what is checked | scale | result |
 |---|---|---|
@@ -854,8 +855,10 @@ positive rate profile, uniform or not; any topology, which is not an independent
 axis but a special case of "any Hermitian H"; any N; any finite dimension, with
 the odd-d case true because both sides are false (§(f5)).
 
-**Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N ≤ 4
-carries both directions on the letter grids; at N = 5 gate 12 carries ten
+**Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N = 3
+carries both directions on the letter grids, and N = 2 through gate 11's strict
+rows; at N = 4 the 240 path and ring rows have no strict row, so only the
+false-positive side is exercised there; at N = 5 gate 12 carries ten
 rows with agreeing counts, where a break would be a false positive, and one
 strict row 0 < dim 𝒲 < dim 𝒩, where a pairing would be a false negative, each
 read on two routes (§(g)); its twelve other broken rows have dim 𝒲 = 0, where

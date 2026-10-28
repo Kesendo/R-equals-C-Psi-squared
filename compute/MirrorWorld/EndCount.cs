@@ -1581,8 +1581,9 @@ public sealed class EndCount : GameObject
     /// H), "symmetry" (the far element of a site symmetry, SymmetryElement), "clifford" (a Clifford
     /// element of the far space that neither of those is, CliffordSymmetry), the grammar's kind
     /// ("sum", "product" or "conditioned", GrammarElement) for an element outside the Clifford group,
-    /// "unfinished" when the Clifford search ran out of its budget before either answer
-    /// (so nothing past the site symmetry is claimed), or null when the palindrome holds by the counts
+    /// "unfinished" when the Clifford search ran out of its budget before either answer, when N > 10,
+    /// or when the lit span exceeds MaxGrammarStrings so the sum stage is skipped (so nothing past the
+    /// site symmetry is claimed), or null when the palindrome holds by the counts
     /// with none of these behind it. The
     /// kinds nest, each checked after the ones before it: a colouring is a Clifford element fixing
     /// every term, a site symmetry's element a Clifford one a site permutation and a rotation induce.
