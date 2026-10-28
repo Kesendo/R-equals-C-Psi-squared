@@ -507,8 +507,8 @@ public static class ConfirmationsRegistry
                 "registered P2 HOLDS, run 3 read INCONCLUSIVE and the 4× repeat never flew): a four-run pre-registered campaign (runs 1-2 the price " +
                 "protocol on two independent lines, run 3 the W discriminator refuting the intermediate anti-correlated-bath " +
                 "reading via the 3:2:3 boundary-rule fingerprint, run 4 conditional Ramsey fitted chain shifts ≈ " +
-                "−3.9/−3.6 kHz supporting coherent NN ZZ). Working noise model: local Z-dephasing (quasi-static + " +
-                "Markovian) + local T1 + coherent NN ZZ of order 4 kHz; the registered outer-arm fitted-shift screen was met, " +
+                "−3.9/−3.6 kHz supporting coherent NN ZZ). Working noise model: local Z-dephasing (Markovian, its " +
+                "quasi-static part assumed, not decoded) + local T1 + coherent NN ZZ of order 4 kHz; the registered outer-arm fitted-shift screen was met, " +
                 "while a strict physical outer-bond 0.5 kHz bound is unresolved and one non-recurring 5.1σ covariance stays " +
                 "unexplained. The anti-correlated-bath reading was refuted by its pre-registered discriminator (the W run), while " +
                 "run 2's 5.1σ covariance did not recur and stays unexplained; runs 2-4 flew on [93,94,95] (the QubitPath), run 1 on [2,3,4]; the GHZ pattern-not-carrier immunity (XXX commutes with every Z_iZ_j) was derived before " +

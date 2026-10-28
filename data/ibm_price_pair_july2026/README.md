@@ -35,4 +35,4 @@ the one systematic non-locality is coherent nearest-neighbour ZZ, with fitted ch
 ≈ −3.9/−3.6 kHz and a zero-consistent outer-arm fit, first seen as a Gaussian-masked
 pseudo-anti-correlation, fingerprinted by the W run, then measured by conditioning;
 hardware noise model for the F-formulas = local Z-dephasing
-(quasi-static + Markovian) + local T1 + coherent NN ZZ ≈ 4 kHz, no persistent correlated bath (one non-recurring 5.1σ covariance in run 2 stays unexplained; exact archived ratio 5.1436).
+(Markovian, its quasi-static part assumed, not decoded) + local T1 + coherent NN ZZ ≈ 4 kHz, no persistent correlated bath (one non-recurring 5.1σ covariance in run 2 stays unexplained; exact archived ratio 5.1436).
