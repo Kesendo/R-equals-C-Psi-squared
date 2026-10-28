@@ -1,0 +1,77 @@
+frozen file sha256 e37a378f97070f6077b00a520993c3364f33847df77d9955645ff0b0479d3f62; 98 circuits
+(1) compiled vs logical Trotter, max |dp| over 72 circuits: 3.5e-15
+(1b) replay against an independent finite-pulse evaluation, 36 cases up to 1.3 rad/us: max |diff| 4.7e-12
+(2) arm A = April flown circuit, per qubit, + a q1-only tail: 9/9
+(3) A   no readout: S +0.0000, largest odd-Y 0.0022 | snapshot readout: S -0.0053, largest odd-Y 0.0215
+(3) R   no readout: S +0.0001, largest odd-Y 0.0019 | snapshot readout: S -0.0017, largest odd-Y 0.0214
+(3) D0  no readout: S +0.0000, largest odd-Y 0.0002 | snapshot readout: S +0.0002, largest odd-Y 0.0226
+(3) D1  no readout: S -0.0003, largest odd-Y 0.0013 | snapshot readout: S +0.0058, largest odd-Y 0.0215
+(3) D2  no readout: S +0.0001, largest odd-Y 0.0017 | snapshot readout: S -0.0011, largest odd-Y 0.0212
+(3) D3  no readout: S +0.0000, largest odd-Y 0.0022 | snapshot readout: S -0.0053, largest odd-Y 0.0215
+(3) D4  no readout: S -0.0009, largest odd-Y 0.0023 | snapshot readout: S +0.0030, largest odd-Y 0.0340
+(3) D6  no readout: S +0.0004, largest odd-Y 0.0019 | snapshot readout: S +0.0010, largest odd-Y 0.0221
+(3) Kp  no readout: S +0.1432, largest odd-Y 0.1802 | snapshot readout: S +0.1314, largest odd-Y 0.1708
+(3) Km  no readout: S -0.1432, largest odd-Y 0.1815 | snapshot readout: S -0.1417, largest odd-Y 0.1725
+    floor of the zero over the fit arms: 0.0023 = 0.21 sigma
+(4) control C +0.1365, band (0.087, 0.160); parse gate True {'A <X0Z2>': -0.836, 'A <Z0X2>': -0.595}
+drift: mean (h1-h2)^2/var = 1.140 over 288 parities -> inflation 1.140; sigma_eff 0.0118
+P  parse gate: PASS {'A <X0Z2>': -0.848, 'A <Z0X2>': -0.599}
+V0 control: PASS  C = +0.1405, predicted +0.1367, band (0.086, 0.162)
+V1 replication: INCONCLUSIVE  s_A = +0.0285  (half-sum of K: +0.0058)
+   s per arm: {'A': 0.0285, 'R': -0.0003, 'D0': 0.0296, 'D1': 0.0101, 'D2': 0.0076, 'D3': 0.0019, 'D4': 0.0031, 'D6': 0.0103, 'Kp': 0.0096, 'Km': 0.002}
+V2 letters: NO SIGNAL  chi2_null 229.8 vs 340.2; best ('czp', (5, 6), 5) chi2 228.3 vs 339.1, amplitude -0.0021 (plausible size, bound 0.05); not separated: ["('det', 4)", "('det', 5)", "('det', 6)", "('sxa', 4)", "('sxa', 5)", "('sxa', 6)", "('sxp', 4)", "('sxp', 5)", "('sxp', 6)", "('czp', (4, 5), 4)", "('czp', (4, 5), 5)", "('czp', (5, 6), 6)", "('czk', (4, 5))", "('czk', (5, 6))", "('zz', (4, 5))", "('zz', (5, 6))", "('stk', (4, 5), 6)", "('stk', (5, 6), 4)"]; unconverged fits: []
+   ('czp', (5, 6), 5)       a = -0.0021 ± 0.0018  chi2 228.3  (replay)
+   ('zz', (4, 5))           a = -0.0138 ± 0.0140  chi2 228.8  (replay)
+   ('czk', (4, 5))          a = +0.0017 ± 0.0019  chi2 229.0  (replay)
+   ('czp', (4, 5), 5)       a = +0.0006 ± 0.0007  chi2 229.2  (replay)
+   ('sxp', 6)               a = +0.0008 ± 0.0011  chi2 229.3  (replay)
+   ('sxa', 6)               a = +0.0004 ± 0.0005  chi2 229.3  (replay)
+   ('sxa', 4)               a = +0.0002 ± 0.0003  chi2 229.5  (replay)
+   ('czp', (5, 6), 6)       a = +0.0004 ± 0.0007  chi2 229.5  (replay)
+(5) simulated flight through analyze() in 244 s: P PASS, V0 PASS, V1 INCONCLUSIVE, V2 NO SIGNAL (rank 282 of 288)
+    largest |s| over the fit arms: 2.51 sigma_eff (one draw; ABSENT needs < 2, so INCONCLUSIVE is expected in about one draw of twenty)
+(6) letter power (upper bound; one draw per scenario, full replay, readout matrix re-estimated):
+    ('det', 4)               target 0.067: amp -0.4490 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 267 vs 339
+    ('det', 4)               target 0.033: amp -0.2484 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 288 vs 339
+    ('det', 5)               target 0.067: amp +0.5149 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 292 vs 339
+    ('det', 5)               target 0.033: amp +0.2623 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 307 vs 339
+    ('det', 6)               target 0.067: amp +5.7521 reaches +0.067 -> SIGNAL, NO SINGLE LETTER; best ('czp', (5, 6), 6) (plausible); not separated []; chi2 itself 24572 vs 339
+    ('det', 6)               target 0.033: amp -0.7603 reaches +0.015 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 294 vs 339
+    ('sxa', 4)               target 0.067: amp -0.0281 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 307 vs 339
+    ('sxa', 4)               target 0.033: amp -0.0136 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 292 vs 339
+    ('sxa', 5)               target 0.067: amp -0.0501 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 291 vs 339
+    ('sxa', 5)               target 0.033: amp -0.0255 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 300 vs 339
+    ('sxa', 6)               target 0.067: amp -0.0387 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 336 vs 339
+    ('sxa', 6)               target 0.033: amp -0.0196 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 285 vs 339
+    ('sxp', 4)               target 0.067: amp -0.2155 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 267 vs 339
+    ('sxp', 4)               target 0.033: amp -0.2138 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 266 vs 339
+    ('sxp', 5)               target 0.067: amp +0.0664 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 301 vs 339
+    ('sxp', 5)               target 0.033: amp +0.0348 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 258 vs 339
+    ('sxp', 6)               target 0.067: amp -0.4400 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 278 vs 339
+    ('sxp', 6)               target 0.033: amp +0.1223 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 280 vs 339
+    ('czp', (4, 5), 4)       target 0.067: amp -0.4228 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 297 vs 339
+    ('czp', (4, 5), 4)       target 0.033: amp -0.2000 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 308 vs 339
+    ('czp', (4, 5), 5)       target 0.067: amp +0.0335 reaches +0.067 -> LETTER FOUND; itself best (plausible); not separated []; chi2 itself 300 vs 339
+    ('czp', (4, 5), 5)       target 0.033: amp +0.0165 reaches +0.033 -> LETTER FOUND; itself best (plausible); not separated []; chi2 itself 255 vs 339
+    ('czp', (5, 6), 5)       target 0.067: amp -0.0957 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 306 vs 339
+    ('czp', (5, 6), 5)       target 0.033: amp -0.0471 reaches +0.033 -> LETTER FOUND; itself best (plausible); not separated []; chi2 itself 280 vs 339
+    ('czp', (5, 6), 6)       target 0.067: amp +0.1777 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 263 vs 339
+    ('czp', (5, 6), 6)       target 0.033: amp +0.0944 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 272 vs 339
+    ('czk', (4, 5))          target 0.067: amp -0.1266 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 279 vs 339
+    ('czk', (4, 5))          target 0.033: amp -0.0620 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 323 vs 339
+    ('czk', (5, 6))          target 0.067: amp +1.7372 reaches +0.067 -> SIGNAL, NO SINGLE LETTER; itself best (implausible); not separated []; chi2 itself 342 vs 339
+    ('czk', (5, 6))          target 0.033: amp +0.2417 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 327 vs 339
+    ('zz', (4, 5))           target 0.067: amp -1.3748 reaches +0.067 -> SIGNAL, NO SINGLE LETTER; itself best (implausible); not separated []; chi2 itself 344 vs 339
+    ('zz', (4, 5))           target 0.033: amp -0.6215 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 308 vs 339
+    ('zz', (5, 6))           target 0.067: amp -0.9068 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 275 vs 339
+    ('zz', (5, 6))           target 0.033: amp -0.4382 reaches +0.033 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 305 vs 339
+    ('stk', (4, 5), 6)       target 0.067: amp -0.0885 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 222 vs 339
+    ('stk', (4, 5), 6)       target 0.033: amp -0.0379 reaches +0.033 -> LETTER FOUND; itself best (plausible); not separated []; chi2 itself 285 vs 339
+    ('stk', (5, 6), 4)       target 0.067: amp -0.0675 reaches +0.067 -> LETTER FOUND; itself best (implausible); not separated []; chi2 itself 270 vs 339
+    ('stk', (5, 6), 4)       target 0.033: amp -0.0375 reaches +0.033 -> LETTER FOUND; itself best (plausible); not separated []; chi2 itself 298 vs 339
+(7) errors outside the library, at s_A = 0.067 where reachable:
+    sx axis tilt on q5                           weight +0.0000 reaches +0.000 -> NO SIGNAL; best ('sxa', 4) (plausible); not separated ["('det', 4)", "('det', 5)", "('det', 6)", "('sxa', 5)", "('sxa', 6)", "('sxp', 4)", "('sxp', 5)", "('sxp', 6)", "('czp', (4, 5), 4)", "('czp', (4, 5), 5)", "('czp', (5, 6), 5)", "('czp', (5, 6), 6)", "('czk', (4, 5))", "('czk', (5, 6))", "('zz', (4, 5))", "('zz', (5, 6))", "('stk', (4, 5), 6)", "('stk', (5, 6), 4)"]
+    sx axis tilt on q4                           weight +0.0000 reaches +0.000 -> NO SIGNAL; best ('sxa', 4) (plausible); not separated ["('det', 4)", "('det', 5)", "('det', 6)", "('sxa', 5)", "('sxa', 6)", "('sxp', 4)", "('sxp', 5)", "('sxp', 6)", "('czp', (4, 5), 4)", "('czp', (4, 5), 5)", "('czp', (5, 6), 5)", "('czp', (5, 6), 6)", "('czk', (4, 5))", "('czk', (5, 6))", "('zz', (4, 5))", "('zz', (5, 6))", "('stk', (4, 5), 6)", "('stk', (5, 6), 4)"]
+    detuning q5 + static ZZ 4-5, equal parts     weight +1.5637 reaches +0.060 -> SIGNAL, NO SINGLE LETTER; best ('det', 5) (implausible); not separated []
+    CZ phase on q5 from both pairs, equal        weight +0.0507 reaches +0.067 -> SIGNAL, NO SINGLE LETTER; best ('det', 5) (implausible); not separated []
+    sx amplitude on all three, equal             weight -0.0124 reaches +0.067 -> SIGNAL, NO SINGLE LETTER; best ('sxa', 5) (implausible); not separated []

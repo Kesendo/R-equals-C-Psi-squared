@@ -90,6 +90,26 @@ worse than no copy, because it looks authoritative.
   never flown. These are current-truth registry pointers; the runner bytes and
   hashes above remain the 2026-08-18 record.
 
+## The reality-window flight
+
+A second flight lives here, written in this directory from the start rather
+than copied from the pipeline tree, so there is no source hash to drift from.
+Its pre-registration is
+[`experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md`](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md).
+
+| File | What it is |
+|---|---|
+| `reality_window_freeze.py` | builds and freezes the 98 circuits against the ibm_marrakesh target (read-only access; nothing is submitted) |
+| `reality_window_circuits.qpy` | the frozen circuits, explicit schedule included; the runner refuses a file with another sha256 |
+| `reality_window_freeze.json` | the freeze record: hash, gate durations in seconds, the calibration snapshot of the freeze |
+| `reality_window_letters.py` | the time-ordered density-matrix replay, the physical error letters, the readout forward model |
+| `run_reality_window.py` | `--gate` (offline), `--hardware`, `--recover STUB`, `--analyze RESULT` |
+
+Credentials differ from the corner-beat runner: `run_reality_window.py` reads
+`IBM_QUANTUM_TOKEN` from the environment or a `.env` (this directory, or the
+pipeline tree's), and otherwise uses the account Qiskit has saved on the
+machine. No credential is in any file here.
+
 ## A note on the split, since it caused a real problem
 
 The runner reaches back into this repository for the committed gate and for the
