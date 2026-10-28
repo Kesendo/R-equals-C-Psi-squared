@@ -113,7 +113,7 @@ def test_confirmations_lookup_f95_angle_steering():
     assert e['measured_value']['pair_A_mid_omega_0.13']['t_cross_us'] == 1.395
     assert e['measured_value']['pair_A_mid_omega_0.25']['t_cross_us'] == 1.242
     assert e['measured_value']['pair_B_high_omega_0.25']['t_cross_us'] == 2.814
-    assert 'F95AngleAtQuadraticZeroPi2Inheritance' in e['framework_primitive']
+    assert 'F95AngleAtQuadraticZero' in e['framework_primitive']
 
 
 def test_confirmations_lookup_palindrome_trichotomy():

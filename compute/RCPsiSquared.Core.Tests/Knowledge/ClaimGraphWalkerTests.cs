@@ -24,7 +24,7 @@ public class ClaimGraphWalkerTests
     [Fact]
     public void GenuineTransitionBridgeEdge_ReachesF95()
     {
-        var f95 = new F95AngleAtQuadraticZeroPi2Inheritance();
+        var f95 = new F95AngleAtQuadraticZero();
         var bridge = new TransitionBridgeF95SiblingClaim(f95);
 
         var reached = ClaimGraphWalker.WalkReachable(bridge);
@@ -35,7 +35,7 @@ public class ClaimGraphWalkerTests
     [Fact]
     public void GenuineLindbladSixtyDegreeEdge_ReachesF95()
     {
-        var f95 = new F95AngleAtQuadraticZeroPi2Inheritance();
+        var f95 = new F95AngleAtQuadraticZero();
         var reading = new LindbladAbsorptionMatchAtSixtyDegreesClaim(f95);
 
         var reached = ClaimGraphWalker.WalkReachable(reading);
@@ -47,7 +47,7 @@ public class ClaimGraphWalkerTests
     public void F97Walk_ReachesItselfAndItsQuarterParent()
     {
         var quarter = new QuarterAsBilinearMaxvalClaim();
-        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(quarter);
+        var f97 = new F97CardioidHalfFixedPoint(quarter);
 
         var reached = ClaimGraphWalker.WalkReachable(f97);
 
@@ -61,7 +61,7 @@ public class ClaimGraphWalkerTests
         // parent Quarter does, in the Parent role, so the walk carries the anchor
         // information to F97's vantage.
         var quarter = new QuarterAsBilinearMaxvalClaim();
-        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(quarter);
+        var f97 = new F97CardioidHalfFixedPoint(quarter);
 
         var bearing = ClaimGraphWalker.ReachableImplementing<IF99AnchorBearing>(f97);
 
@@ -76,7 +76,7 @@ public class ClaimGraphWalkerTests
     {
         // From F97's vantage the map is foundation-aware but holds no Direct or Covers
         // claim: nothing covered, every anchor a gap, one parent.
-        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(new QuarterAsBilinearMaxvalClaim());
+        var f97 = new F97CardioidHalfFixedPoint(new QuarterAsBilinearMaxvalClaim());
         var claims = ClaimGraphWalker.ReachableImplementing<IF99AnchorBearing>(f97)
             .OfType<Claim>()
             .ToArray();
@@ -91,7 +91,7 @@ public class ClaimGraphWalkerTests
     [Fact]
     public void ParentlessFormula_WalksToItselfOnly()
     {
-        var f95 = new F95AngleAtQuadraticZeroPi2Inheritance();
+        var f95 = new F95AngleAtQuadraticZero();
 
         var reached = ClaimGraphWalker.WalkReachable(f95);
 

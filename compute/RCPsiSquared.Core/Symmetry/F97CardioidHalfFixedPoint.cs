@@ -16,7 +16,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// ancestor. The identity is about the iteration's parameter plane; a plotted hardware CΨ trace is
 /// not an orbit of z² + c.
 /// </summary>
-public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
+public sealed class F97CardioidHalfFixedPoint : Claim
 {
     public const double B = 0.5;
     public const double Threshold = B * B;
@@ -25,7 +25,7 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim
     /// cardioid's c = z*(1 − z*) takes at the cusp φ = 0.</summary>
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
 
-    public F97CardioidHalfFixedPointPi2Inheritance(QuarterAsBilinearMaxvalClaim quarter)
+    public F97CardioidHalfFixedPoint(QuarterAsBilinearMaxvalClaim quarter)
         : base(
             "F97 period-one cardioid: z*(φ) = e^(iφ)/2, c(φ) = e^(iφ)/2 − e^(2iφ)/4 = z*(1 − z*), |2z*| = 1",
             Tier.Tier1Derived,

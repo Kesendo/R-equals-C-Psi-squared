@@ -50,7 +50,7 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
 {
     /// <summary>Parent: the positive-b F95 angle θ = arctan(√(c/b² − 1)) at a quadratic's discriminant
     /// zero. It is a reusable coordinate; it does not identify its applications.</summary>
-    public F95AngleAtQuadraticZeroPi2Inheritance F95 { get; }
+    public F95AngleAtQuadraticZero F95 { get; }
 
     /// <summary>The cusp anchor b = ½ (the bilinear / qubit-dimension fixed point).</summary>
     public const double CuspAnchorB = 0.5;
@@ -58,7 +58,7 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
     /// <summary>The cusp / TransitionBridge double root: CΨ = b² = ¼.</summary>
     public const double Cusp = 0.25;
 
-    public TransitionBridgeF95SiblingClaim(F95AngleAtQuadraticZeroPi2Inheritance f95)
+    public TransitionBridgeF95SiblingClaim(F95AngleAtQuadraticZero f95)
         : base("Two distinct positive-b quadratic applications of F95: the dimensionless recurrence " +
                "z_rec²−z_rec+CΨ at b=½, and the F86 decay polynomial in z_decay=−λ at b=4γ₀; " +
                "the two F86 angle evaluations agree within numerical tolerance, without identifying the objects",
@@ -73,7 +73,7 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
     /// <summary>Public factory: builds the claim with a fresh, parentless F95 claim.</summary>
     public static TransitionBridgeF95SiblingClaim Build()
     {
-        var f95 = new F95AngleAtQuadraticZeroPi2Inheritance();
+        var f95 = new F95AngleAtQuadraticZero();
         return new TransitionBridgeF95SiblingClaim(f95);
     }
 

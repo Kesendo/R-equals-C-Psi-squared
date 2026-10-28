@@ -510,8 +510,8 @@ public static class KnowledgeRegistryFactory
             .RegisterF86F71MirrorPi2Inheritance()
             .RegisterPolynomialDiscriminantAnchor()
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
-            .RegisterF94BornDeviationFourThirdsPi2Inheritance()
-            .RegisterF95AngleAtQuadraticZeroPi2Inheritance()
+            .RegisterF94BornDeviationFourThirds()
+            .RegisterF95AngleAtQuadraticZero()
             // TransitionBridgeF95SiblingClaim compares two distinct positive-b quadratic applications:
             // z_rec at b=½ and the genuine F86 z_decay=-lambda polynomial at b=4γ₀. Within F86,
             // the two angle evaluations agree within the declared floating tolerance; no object
@@ -527,8 +527,8 @@ public static class KnowledgeRegistryFactory
             // F95/F91. Tier1Candidate; parent NinetyDegreeMirrorMemoryClaim via RegisterPi2Family.
             // Wired 2026-06-02.
             .RegisterCrossoverMirrorSqrtNinetyClaim()
-            .RegisterF96BornSubdominantSlopesPi2Inheritance()
-            .RegisterF97CardioidHalfFixedPointPi2Inheritance()
+            .RegisterF96BornSubdominantSlopes()
+            .RegisterF97CardioidHalfFixedPoint()
             .RegisterF1DepolResidualClosedFormPi2Inheritance()
             .RegisterKIntermediateAsymptoteQuarterInheritance()
             .RegisterCanonicalTrigAnchorPi2Inheritance()

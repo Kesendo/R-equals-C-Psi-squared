@@ -11,7 +11,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// different radial object. This coordinate identity does not derive superposition, the Born
 /// rule, or a physical phase change.
 /// </summary>
-public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim
+public sealed class F95AngleAtQuadraticZero : Claim
 {
     public const double B = 0.5;
     public const double Threshold = B * B;
@@ -47,7 +47,7 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim
     public bool BellPlusInitialAngleIs30Degrees() =>
         Math.Abs(ThetaForFramework(1.0 / 3.0) - Math.PI / 6.0) < 1e-12;
 
-    public F95AngleAtQuadraticZeroPi2Inheritance()
+    public F95AngleAtQuadraticZero()
         : base(
             "F95 positive-b quadratic root angle θ(c; b) = arctan(√(c/b² − 1))",
             Tier.Tier1Derived,

@@ -3,9 +3,9 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-public class F95AngleAtQuadraticZeroPi2InheritanceTests
+public class F95AngleAtQuadraticZeroTests
 {
-    private static F95AngleAtQuadraticZeroPi2Inheritance BuildClaim() => new();
+    private static F95AngleAtQuadraticZero BuildClaim() => new();
 
     [Fact]
     public void PositiveBFormulaHasCorrectBranches()
@@ -58,8 +58,8 @@ public class F95AngleAtQuadraticZeroPi2InheritanceTests
     public void FrameworkSpecializationIsOneQuarterPoint()
     {
         var f = BuildClaim();
-        Assert.Equal(0.5, F95AngleAtQuadraticZeroPi2Inheritance.B);
-        Assert.Equal(0.25, F95AngleAtQuadraticZeroPi2Inheritance.Threshold);
+        Assert.Equal(0.5, F95AngleAtQuadraticZero.B);
+        Assert.Equal(0.25, F95AngleAtQuadraticZero.Threshold);
         Assert.Equal(0.0, f.ThetaForFramework(0.25));
         Assert.True(f.FrameworkSpecializationAgrees(0.286));
         Assert.True(f.BellPlusInitialAngleIs30Degrees());
@@ -86,11 +86,11 @@ public class F95AngleAtQuadraticZeroPi2InheritanceTests
     [Fact]
     public void ClaimIsParentlessAndHasNoPolarityAxis()
     {
-        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F95AngleAtQuadraticZeroPi2Inheritance)));
-        var parents = typeof(F95AngleAtQuadraticZeroPi2Inheritance)
+        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F95AngleAtQuadraticZero)));
+        var parents = typeof(F95AngleAtQuadraticZero)
             .GetProperties()
             .Where(property => typeof(Claim).IsAssignableFrom(property.PropertyType));
         Assert.Empty(parents);
-        Assert.NotNull(typeof(F95AngleAtQuadraticZeroPi2Inheritance).GetConstructor(Type.EmptyTypes));
+        Assert.NotNull(typeof(F95AngleAtQuadraticZero).GetConstructor(Type.EmptyTypes));
     }
 }

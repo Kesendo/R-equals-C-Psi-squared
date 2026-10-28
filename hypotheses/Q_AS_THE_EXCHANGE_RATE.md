@@ -98,7 +98,7 @@ The framing is candidate Tier 3 if the H-clock observable can be experimentally 
 ## Anchors
 
 - [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): γ₀ as universal-reference rate-parameter
-- [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs): the root angle θ(c; b), whose coherence-book 2×2 instance (b = γ₀, c = γ₀² + J²) gives θ = arctan(Q)
+- [`F95AngleAtQuadraticZero.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs): the root angle θ(c; b), whose coherence-book 2×2 instance (b = γ₀, c = γ₀² + J²) gives θ = arctan(Q)
 - [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md): the 7-anchor table with J = Q·γ₀ values
 - [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md): γ₀ as tick, Q as rotation-per-tick
 - [`reflections/ON_TWO_TIMES.md`](../reflections/ON_TWO_TIMES.md): γ₀-time vs felt-time

@@ -103,7 +103,7 @@ public class ConfirmationsRegistryTests
         Assert.Contains("bzklqwt7f", entry.JobId);
         Assert.Contains("Pair A_mid", entry.MeasuredValue);
         Assert.Contains("Pair B_high", entry.MeasuredValue);
-        Assert.Contains("F95AngleAtQuadraticZeroPi2Inheritance", entry.FrameworkPrimitive);
+        Assert.Contains("F95AngleAtQuadraticZero", entry.FrameworkPrimitive);
     }
 
     [Fact]

@@ -9,7 +9,7 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
-            .RegisterF95AngleAtQuadraticZeroPi2Inheritance();
+            .RegisterF95AngleAtQuadraticZero();
 
     [Fact]
     public void RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim_AddsClaim()
@@ -42,7 +42,7 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistrationTests
         var ancestors = registry.AncestorsOf<LindbladAbsorptionMatchAtSixtyDegreesClaim>()
             .Select(c => c.GetType()).ToHashSet();
 
-        Assert.Contains(typeof(F95AngleAtQuadraticZeroPi2Inheritance), ancestors);
+        Assert.Contains(typeof(F95AngleAtQuadraticZero), ancestors);
         Assert.DoesNotContain(typeof(AbsorptionTheoremClaim), ancestors);
         Assert.DoesNotContain(typeof(CanonicalTrigAnchorPi2Inheritance), ancestors);
         Assert.Single(ancestors);

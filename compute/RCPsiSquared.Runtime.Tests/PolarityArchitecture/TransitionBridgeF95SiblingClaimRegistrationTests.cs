@@ -9,7 +9,7 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
             .RegisterTwoByTwoExceptionalPointClaim()
-            .RegisterF95AngleAtQuadraticZeroPi2Inheritance();
+            .RegisterF95AngleAtQuadraticZero();
 
     [Fact]
     public void RegisteredClaim_ExposesZeroAtBothDiscriminantBoundaries()
@@ -50,7 +50,7 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
 
         var ancestors = registry.AncestorsOf<TransitionBridgeF95SiblingClaim>();
         Assert.Equal(2, ancestors.Count);
-        Assert.Contains(ancestors, a => a is F95AngleAtQuadraticZeroPi2Inheritance);
+        Assert.Contains(ancestors, a => a is F95AngleAtQuadraticZero);
         Assert.Contains(ancestors, a => a is TwoByTwoExceptionalPointClaim);
         Assert.False(registry.Contains<Pi2DyadicLadderClaim>());
     }

@@ -9,11 +9,11 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// the decay variable z=−λ, with angle zero
 /// at each boundary. The separate FRAGILE_BRIDGE threshold (two qubits per chain) is generically its own EP2 on the real γ axis, at zero
 /// decay, not this quadratic. Two typed parents:
-/// <see cref="F95AngleAtQuadraticZeroPi2Inheritance"/>, the shared lens, and <see cref="TwoByTwoExceptionalPointClaim"/>,
+/// <see cref="F95AngleAtQuadraticZero"/>, the shared lens, and <see cref="TwoByTwoExceptionalPointClaim"/>,
 /// the one closed 2 × 2 the F86 toy is a setting of.
 ///
 /// <para>Requires the standalone, parentless
-/// <see cref="F95AngleAtQuadraticZeroPi2InheritanceRegistration.RegisterF95AngleAtQuadraticZeroPi2Inheritance"/>
+/// <see cref="F95AngleAtQuadraticZeroRegistration.RegisterF95AngleAtQuadraticZero"/>
 /// and <see cref="TwoByTwoExceptionalPointClaimRegistration.RegisterTwoByTwoExceptionalPointClaim"/> registrations.</para></summary>
 public static class TransitionBridgeF95SiblingClaimRegistration
 {
@@ -21,7 +21,7 @@ public static class TransitionBridgeF95SiblingClaimRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<TransitionBridgeF95SiblingClaim>(b =>
         {
-            var f95 = b.Get<F95AngleAtQuadraticZeroPi2Inheritance>();
+            var f95 = b.Get<F95AngleAtQuadraticZero>();
             _ = b.Get<TwoByTwoExceptionalPointClaim>();   // the F86 toy 2 × 2 is a setting of the one closed block
             return new TransitionBridgeF95SiblingClaim(f95);
         });

@@ -71,7 +71,7 @@ public sealed class FractionReferenceGraph
             new(1.0 / 2.0, 1.0 / 4.0, "argmax/maxval pair: p(1−p) peaks at p=1/2 with maxval 1/4",
                 FractionReferenceDirection.Backward, "BilinearApexClaim + QuarterAsBilinearMaxvalClaim"),
             new(1.0 / 2.0, 1.0 / 4.0, "cardioid invariants: |z*|=1/2 and |z*|²=1/4 both invariant around F97 cardioid",
-                FractionReferenceDirection.Backward, "F97CardioidHalfFixedPointPi2Inheritance"),
+                FractionReferenceDirection.Backward, "F97CardioidHalfFixedPoint"),
             new(1.0 / 2.0, 1.0 / 4.0, "dyadic ladder: a_2 = 1/2, a_3 = 1/4 (adjacent rungs)",
                 FractionReferenceDirection.Backward, "Pi2DyadicLadderClaim"),
 

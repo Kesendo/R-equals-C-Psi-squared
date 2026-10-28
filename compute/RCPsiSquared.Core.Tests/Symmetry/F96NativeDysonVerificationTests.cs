@@ -147,7 +147,7 @@ public class F96NativeDysonVerificationTests
         var ZSites = BuildZSites();
         var sym3 = BuildSym3RhoZero(H, ZSites);
         double m3 = PairElement_01(sym3);
-        Assert.Equal((double)F96BornSubdominantSlopesPi2Inheritance.M3_SingleFlipped,
+        Assert.Equal((double)F96BornSubdominantSlopes.M3_SingleFlipped,
             m3, precision: 10);
     }
 
@@ -159,7 +159,7 @@ public class F96NativeDysonVerificationTests
         var H = BuildHeisenbergRing();
         var lh2 = BuildLHPowerRhoZero(H, 2);
         double u2 = PairElement_01(lh2);
-        double u2Expected = (double)F96BornSubdominantSlopesPi2Inheritance.U2_SingleFlipped_TimesFour / 4.0;
+        double u2Expected = (double)F96BornSubdominantSlopes.U2_SingleFlipped_TimesFour / 4.0;
         Assert.Equal(u2Expected, u2, precision: 10);
         Assert.Equal(0.75, u2, precision: 10);
     }
@@ -173,7 +173,7 @@ public class F96NativeDysonVerificationTests
         var ZSites = BuildZSites();
         var sym5 = BuildSym5RhoZero(H, ZSites);
         double m5 = PairElement_11(sym5);
-        Assert.Equal((double)F96BornSubdominantSlopesPi2Inheritance.M5_DoubleFlipped,
+        Assert.Equal((double)F96BornSubdominantSlopes.M5_DoubleFlipped,
             m5, precision: 9);
     }
 
@@ -185,7 +185,7 @@ public class F96NativeDysonVerificationTests
         var H = BuildHeisenbergRing();
         var lh4 = BuildLHPowerRhoZero(H, 4);
         double u4 = PairElement_11(lh4);
-        double u4Expected = (double)F96BornSubdominantSlopesPi2Inheritance.U4_DoubleFlipped_TimesTwo / 2.0;
+        double u4Expected = (double)F96BornSubdominantSlopes.U4_DoubleFlipped_TimesTwo / 2.0;
         Assert.Equal(u4Expected, u4, precision: 10);
         Assert.Equal(1.5, u4, precision: 10);
     }

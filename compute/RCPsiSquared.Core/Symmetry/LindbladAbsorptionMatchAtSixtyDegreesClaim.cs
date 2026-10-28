@@ -26,14 +26,14 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
     public const double CanonicalAngleDegrees = 60.0;
 
     /// <summary>Genuine parent: the positive-b F95 quadratic-angle law.</summary>
-    public F95AngleAtQuadraticZeroPi2Inheritance F95 { get; }
+    public F95AngleAtQuadraticZero F95 { get; }
 
     public LindbladAbsorptionMatchAtSixtyDegreesClaim(
-        F95AngleAtQuadraticZeroPi2Inheritance f95)
+        F95AngleAtQuadraticZero f95)
         : base(
             "Named two-level cross-reading: Q=sqrt(3) gives |lambda|/gamma0=2 and the F95 angle pi/3",
             Tier.Tier1Derived,
-            "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs + " +
+            "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs + " +
             "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md + docs/Q_REGIME_ANCHORS.md")
     {
         F95 = f95 ?? throw new ArgumentNullException(nameof(f95));
@@ -41,7 +41,7 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
 
     /// <summary>Builds the reading with a fresh, parentless F95 claim.</summary>
     public static LindbladAbsorptionMatchAtSixtyDegreesClaim Build() =>
-        new(new F95AngleAtQuadraticZeroPi2Inheritance());
+        new(new F95AngleAtQuadraticZero());
 
     public static LindbladAbsorptionMatchAtSixtyDegreesClaim Shared { get; } = Build();
 

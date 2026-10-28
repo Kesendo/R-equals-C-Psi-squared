@@ -258,7 +258,7 @@ public class MirrorSystemTests
         // so F95's theta(c = |lambda|^2, b = Gap) and atan2(omega, Gap) are one number. The two routes
         // differ only by rounding: u = c/b^2 - 1 carries an absolute error of a few eps*(1 + x^2), with
         // x = omega/Gap, which reaches theta as du/(2x(1 + x^2)), i.e. a few eps/x. The gate is that law.
-        var f95 = new RCPsiSquared.Core.Symmetry.F95AngleAtQuadraticZeroPi2Inheritance();
+        var f95 = new RCPsiSquared.Core.Symmetry.F95AngleAtQuadraticZero();
         foreach (double J in new[] { 0.3, 1.0, 2.5 })
         {
             var sys = new MirrorSystem(3, HeisenbergChain(3, J),

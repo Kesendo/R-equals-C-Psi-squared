@@ -12,7 +12,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// On the open chain the computed table keeps |01⟩ at −16/9 and |11⟩ at −8/3 and moves |10⟩ to
 /// −4/3, so it is not topology-universal.
 /// </summary>
-public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
+public sealed class F96BornSubdominantSlopes : Claim
 {
     public const int N = 4;
     public const int M3_SingleFlipped = -4;
@@ -53,7 +53,7 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
     public static bool AbsoluteThirdOrderDiagonalSumsToZero() =>
         AbsoluteThirdOrderDiagonal().Sum() == 0;
 
-    public F96BornSubdominantSlopesPi2Inheritance()
+    public F96BornSubdominantSlopes()
         : base(
             "F96 named N = 4 ring slopes (−16/9, −16/9, −8/3) from M/U elements",
             Tier.Tier1Derived,

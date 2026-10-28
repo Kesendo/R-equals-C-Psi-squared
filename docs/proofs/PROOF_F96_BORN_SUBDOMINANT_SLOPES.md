@@ -170,4 +170,4 @@ The algebraic connection to F94's 4/3 (Δ_|01⟩ = −(4/3)², Δ_|11⟩ = −2�
 - F94 (dominant outcome): [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`F94 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f94)
 - Born-rule precursors (Februar 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
 - Separate positive-b quadratic: [F95](../ANALYTICAL_FORMULAS.md#f95)
-- F94 typed claim (related ring row, not a parent): [`F94BornDeviationFourThirdsPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirdsPi2Inheritance.cs)
+- F94 typed claim (related ring row, not a parent): [`F94BornDeviationFourThirds.cs`](../../compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirds.cs)

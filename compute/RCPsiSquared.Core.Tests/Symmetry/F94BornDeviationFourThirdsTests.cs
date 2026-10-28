@@ -3,19 +3,19 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-public class F94BornDeviationFourThirdsPi2InheritanceTests
+public class F94BornDeviationFourThirdsTests
 {
-    private static F94BornDeviationFourThirdsPi2Inheritance BuildClaim() => new();
+    private static F94BornDeviationFourThirds BuildClaim() => new();
 
     [Fact]
     public void NamedSetupAndExactCoefficientArePinned()
     {
         var f = BuildClaim();
-        Assert.Equal(4, F94BornDeviationFourThirdsPi2Inheritance.N);
-        Assert.Equal(0, F94BornDeviationFourThirdsPi2Inheritance.RetainedSiteA);
-        Assert.Equal(2, F94BornDeviationFourThirdsPi2Inheritance.RetainedSiteB);
-        Assert.Equal(8, F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger);
-        Assert.Equal(6, F94BornDeviationFourThirdsPi2Inheritance.TaylorThreeFactorial);
+        Assert.Equal(4, F94BornDeviationFourThirds.N);
+        Assert.Equal(0, F94BornDeviationFourThirds.RetainedSiteA);
+        Assert.Equal(2, F94BornDeviationFourThirds.RetainedSiteB);
+        Assert.Equal(8, F94BornDeviationFourThirds.Sym3PartialTraceInteger);
+        Assert.Equal(6, F94BornDeviationFourThirds.TaylorThreeFactorial);
         Assert.Equal(8.0 / 6.0, f.Coefficient);
         Assert.Equal(Tier.Tier1Derived, f.Tier);
     }
@@ -69,12 +69,12 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     [Fact]
     public void ClaimIsParentlessAndHasNoPolarityAxis()
     {
-        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F94BornDeviationFourThirdsPi2Inheritance)));
-        var parents = typeof(F94BornDeviationFourThirdsPi2Inheritance)
+        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F94BornDeviationFourThirds)));
+        var parents = typeof(F94BornDeviationFourThirds)
             .GetProperties()
             .Where(property => typeof(Claim).IsAssignableFrom(property.PropertyType));
         Assert.Empty(parents);
-        Assert.NotNull(typeof(F94BornDeviationFourThirdsPi2Inheritance).GetConstructor(Type.EmptyTypes));
+        Assert.NotNull(typeof(F94BornDeviationFourThirds).GetConstructor(Type.EmptyTypes));
     }
 
     [Theory]

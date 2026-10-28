@@ -116,7 +116,7 @@ This is why the Confirmation matters more than its 6.8°–15.7° residuals sugg
 **Anchors:**
 
 - Universal Carrier typed claim: [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)
-- F95 typed claim: [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs)
+- F95 typed claim: [`F95AngleAtQuadraticZero.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs)
 - F95 proof: [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)
 - F86 t_peak inheritance: [`F86TPeakPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F86TPeakPi2Inheritance.cs)
 - Absorption theorem: [`AbsorptionTheoremClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)

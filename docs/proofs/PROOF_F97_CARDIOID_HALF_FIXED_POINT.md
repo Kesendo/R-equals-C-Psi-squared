@@ -173,4 +173,4 @@ does not test this recurrence theorem.
 - Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 - Reflection that named the cardioid magnitude reading (2026-05-16): [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md)
 - Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../../experiments/MANDELBROT_CONNECTION.md)
-- F97 typed claim: [`F97CardioidHalfFixedPointPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F97CardioidHalfFixedPointPi2Inheritance.cs)
+- F97 typed claim: [`F97CardioidHalfFixedPoint.cs`](../../compute/RCPsiSquared.Core/Symmetry/F97CardioidHalfFixedPoint.cs)

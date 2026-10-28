@@ -1751,12 +1751,12 @@ def verify_round4_artifacts_and_consumers():
         "review/OPEN_QUESTIONS_INDEX.md": (("OQ-168", "pure Z-dephasing assigns no bath temperature",
             "is neither KMS nor quantum detailed balance", "operator at one ratio answered, the gradient answered for site-local elements"),
             ("pure dephasing (infinite-temperature bath)", "pure Z-dephasing is an infinite-temperature bath")),
-        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": ((
+        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs": ((
             "Returns zero at c = 1/4", "if (c < Threshold)", "if (c < thresh)",
             "finite b > 0", "if (!double.IsFinite(b) || b <= 0.0)"),
             ("Returns NaN for c ≤ 1/4", "if (c <= Threshold)", "if (c <= thresh)",
              "with real (b, c)")),
-        "compute/RCPsiSquared.Runtime/PolarityArchitecture/F95AngleAtQuadraticZeroPi2InheritanceRegistration.cs": ((
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/F95AngleAtQuadraticZeroRegistration.cs": ((
             "positive-b closed form", "finite b &gt; 0", "currently registered callers use b &gt; 0"),
             ("universal closed form",)),
         "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md": ((
@@ -1769,7 +1769,7 @@ def verify_round4_artifacts_and_consumers():
         "experiments/BOUNDARY_NAVIGATION.md": ((
             "finite b > 0", "positive decay variable z=−λ", "angle from the negative λ-axis"),
             ("for any monic quadratic", "universal polynomial-foundation identity")),
-        "compute/RCPsiSquared.Core/Symmetry/F97CardioidHalfFixedPointPi2Inheritance.cs": ((
+        "compute/RCPsiSquared.Core/Symmetry/F97CardioidHalfFixedPoint.cs": ((
             "real c > b² and finite b>0",), ()),
         "docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md": ((
             "real-c, finite-b>0", "framework's b=1/2 case"), ()),
@@ -2107,7 +2107,7 @@ def verify_round4_artifacts_and_consumers():
         check(f"MirrorWorld F44 mutation rejects missing {name}", changed != mirrorworld_source and
               bool(set(mirrorworld_f44_ordered_pair_api_errors(changed)) - mirror_f44_baseline))
 
-    f95_path = "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs"
+    f95_path = "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs"
     f95_source = (root / f95_path).read_text(encoding="utf-8")
     f95_baseline = set(f95_positive_b_api_errors(f95_source))
     check("F95 typed API enforces finite positive b", not f95_baseline,
@@ -2140,7 +2140,7 @@ def verify_round4_artifacts_and_consumers():
         "docs/ANALYTICAL_FORMULAS.md": ("F44. Crooks-like", "β_eff = 1/Σγ"),
         "review/OPEN_QUESTIONS_INDEX.md": ("pure dephasing (infinite-temperature bath)",
             "pure Z-dephasing is an infinite-temperature bath"),
-        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": (
+        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs": (
             "Returns NaN for c ≤ 1/4", "if (c <= Threshold)", "if (c <= thresh)"),
         "compute/RCPsiSquared.Core/Symmetry/TransitionBridgeF95SiblingClaim.cs": (
             "NaN at or below the EP", "if (disc >= 0.0)", "if (q == QEp(gEff)) return 0.0"),

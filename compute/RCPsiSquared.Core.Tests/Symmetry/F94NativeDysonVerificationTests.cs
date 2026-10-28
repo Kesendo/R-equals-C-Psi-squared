@@ -106,7 +106,7 @@ public class F94NativeDysonVerificationTests
         var sym3Rho0 = BuildSym3RhoZero(H, ZSites);
         var reduced = PartialTrace.Of(sym3Rho0, N, new[] { 0, 2 });
 
-        Assert.True(reduced[0, 0].Real == F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
+        Assert.True(reduced[0, 0].Real == F94BornDeviationFourThirds.Sym3PartialTraceInteger,
             $"sym3 element must be exactly 8; got {reduced[0, 0].Real:R}");
         Assert.True(reduced[0, 0].Imaginary == 0.0,
             $"sym3 element must be exactly real; got imag = {reduced[0, 0].Imaginary:R}");
@@ -121,9 +121,9 @@ public class F94NativeDysonVerificationTests
         var sym3Rho0 = BuildSym3RhoZero(H, ZSites);
         var reduced = PartialTrace.Of(sym3Rho0, N, new[] { 0, 2 });
         double coefficient = reduced[0, 0].Real
-            / F94BornDeviationFourThirdsPi2Inheritance.TaylorThreeFactorial;
+            / F94BornDeviationFourThirds.TaylorThreeFactorial;
         Assert.True(coefficient == 4.0 / 3.0, $"coefficient {coefficient:R} is not 4/3 bit for bit");
-        Assert.True(coefficient == new F94BornDeviationFourThirdsPi2Inheritance().Coefficient,
+        Assert.True(coefficient == new F94BornDeviationFourThirds().Coefficient,
             "the native Dyson route and the typed coefficient must agree bit for bit");
     }
 
@@ -203,7 +203,7 @@ public class F94NativeDysonVerificationTests
         // F94.SurvivingDysonDiagrams = 32 verified by direct enumeration of all
         // 4·4·4·3·3·3 = 1728 (b1, b2, s, ord, c1, c2) sextuples in sym3.
         var survivors = EnumerateSurvivors();
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams,
+        Assert.Equal(F94BornDeviationFourThirds.SurvivingDysonDiagrams,
             survivors.Count);
     }
 
@@ -217,7 +217,7 @@ public class F94NativeDysonVerificationTests
         foreach (var s in survivors)
             Assert.True(s.Value == 0.25, $"diagram value {s.Value:R} is not exactly 1/4");
         double total = survivors.Sum(s => s.Value);
-        Assert.True(total == F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
+        Assert.True(total == F94BornDeviationFourThirds.Sym3PartialTraceInteger,
             $"32 × 1/4 must be exactly 8; got {total:R}");
     }
 
@@ -232,10 +232,10 @@ public class F94NativeDysonVerificationTests
         int cellA = survivors.Count(s => s.Ordering == 1 && s.C1 == PauliLetter.X && s.C2 == PauliLetter.X);
         int cellB = survivors.Count(s => s.Ordering == 2 && s.C1 == PauliLetter.X && s.C2 == PauliLetter.X);
         int cellC = survivors.Count(s => s.Ordering == 2 && s.C1 == PauliLetter.Y && s.C2 == PauliLetter.Y);
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.CellA_Ord1XX_AdjKeptSide, cellA);
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.CellB_Ord2XX_SelfOrAdjKeptSide, cellB);
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.CellC_Ord2YY_Self, cellC);
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.SurvivingDysonDiagrams,
+        Assert.Equal(F94BornDeviationFourThirds.CellA_Ord1XX_AdjKeptSide, cellA);
+        Assert.Equal(F94BornDeviationFourThirds.CellB_Ord2XX_SelfOrAdjKeptSide, cellB);
+        Assert.Equal(F94BornDeviationFourThirds.CellC_Ord2YY_Self, cellC);
+        Assert.Equal(F94BornDeviationFourThirds.SurvivingDysonDiagrams,
             cellA + cellB + cellC);
     }
 

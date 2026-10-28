@@ -4,9 +4,9 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-public class F97CardioidHalfFixedPointPi2InheritanceTests
+public class F97CardioidHalfFixedPointTests
 {
-    private static F97CardioidHalfFixedPointPi2Inheritance BuildClaim() =>
+    private static F97CardioidHalfFixedPoint BuildClaim() =>
         new(new QuarterAsBilinearMaxvalClaim());
 
     [Theory]
@@ -83,15 +83,15 @@ public class F97CardioidHalfFixedPointPi2InheritanceTests
     {
         var f = BuildClaim();
         Complex other = f.OtherFixedPoint(Math.PI / 2);
-        Assert.Equal(Math.Sqrt(5.0), F97CardioidHalfFixedPointPi2Inheritance.MultiplierMagnitude(other), precision: 14);
-        Assert.NotEqual(1.0, F97CardioidHalfFixedPointPi2Inheritance.MultiplierMagnitude(other));
+        Assert.Equal(Math.Sqrt(5.0), F97CardioidHalfFixedPoint.MultiplierMagnitude(other), precision: 14);
+        Assert.NotEqual(1.0, F97CardioidHalfFixedPoint.MultiplierMagnitude(other));
     }
 
     [Fact]
     public void OriginHasTwoDistinctFixedPointsFromTheQuadraticFormula()
     {
-        Assert.True(F97CardioidHalfFixedPointPi2Inheritance.OriginFixedPointsAreDistinct());
-        var (minus, plus) = F97CardioidHalfFixedPointPi2Inheritance.FixedPoints(new Complex(0.25, 0.0));
+        Assert.True(F97CardioidHalfFixedPoint.OriginFixedPointsAreDistinct());
+        var (minus, plus) = F97CardioidHalfFixedPoint.FixedPoints(new Complex(0.25, 0.0));
         Assert.Equal(minus, plus); // the cusp: the two fixed points meet at one half
     }
 
@@ -108,16 +108,16 @@ public class F97CardioidHalfFixedPointPi2InheritanceTests
     public void QuarterIsTheOneTypedParentAndThereIsNoPolarityAxis()
     {
         var quarter = new QuarterAsBilinearMaxvalClaim();
-        var f = new F97CardioidHalfFixedPointPi2Inheritance(quarter);
+        var f = new F97CardioidHalfFixedPoint(quarter);
         Assert.Same(quarter, f.Quarter);
-        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F97CardioidHalfFixedPointPi2Inheritance)));
-        var parents = typeof(F97CardioidHalfFixedPointPi2Inheritance)
+        Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F97CardioidHalfFixedPoint)));
+        var parents = typeof(F97CardioidHalfFixedPoint)
             .GetProperties()
             .Where(property => typeof(Claim).IsAssignableFrom(property.PropertyType))
             .Select(property => property.PropertyType)
             .ToArray();
         Assert.Equal(new[] { typeof(QuarterAsBilinearMaxvalClaim) }, parents);
-        Assert.Throws<ArgumentNullException>(() => new F97CardioidHalfFixedPointPi2Inheritance(null!));
+        Assert.Throws<ArgumentNullException>(() => new F97CardioidHalfFixedPoint(null!));
     }
 
     [Fact]

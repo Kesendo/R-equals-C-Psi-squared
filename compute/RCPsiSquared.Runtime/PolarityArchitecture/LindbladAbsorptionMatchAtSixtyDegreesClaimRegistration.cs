@@ -14,5 +14,5 @@ public static class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistration
         this ClaimRegistryBuilder builder) =>
         builder.Register<LindbladAbsorptionMatchAtSixtyDegreesClaim>(b =>
             new LindbladAbsorptionMatchAtSixtyDegreesClaim(
-                b.Get<F95AngleAtQuadraticZeroPi2Inheritance>()));
+                b.Get<F95AngleAtQuadraticZero>()));
 }

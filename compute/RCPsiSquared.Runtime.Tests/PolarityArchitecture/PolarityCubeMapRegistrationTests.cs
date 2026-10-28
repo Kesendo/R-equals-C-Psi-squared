@@ -31,10 +31,10 @@ public class PolarityCubeMapRegistrationTests
             .Select(claim => claim.GetType())
             .ToHashSet();
 
-        Assert.DoesNotContain(typeof(F94BornDeviationFourThirdsPi2Inheritance), types);
-        Assert.DoesNotContain(typeof(F95AngleAtQuadraticZeroPi2Inheritance), types);
-        Assert.DoesNotContain(typeof(F96BornSubdominantSlopesPi2Inheritance), types);
-        Assert.DoesNotContain(typeof(F97CardioidHalfFixedPointPi2Inheritance), types);
+        Assert.DoesNotContain(typeof(F94BornDeviationFourThirds), types);
+        Assert.DoesNotContain(typeof(F95AngleAtQuadraticZero), types);
+        Assert.DoesNotContain(typeof(F96BornSubdominantSlopes), types);
+        Assert.DoesNotContain(typeof(F97CardioidHalfFixedPoint), types);
     }
 
     private static readonly Assembly CoreAssembly = typeof(Claim).Assembly;

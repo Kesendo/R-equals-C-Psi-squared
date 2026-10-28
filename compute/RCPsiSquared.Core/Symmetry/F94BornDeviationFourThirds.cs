@@ -18,7 +18,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// and the J³γ words to exactly 0, so the J³γt⁴ term vanishes; no universal monomial follows. The coefficient is owned by this
 /// calculation; same-number dyadic anchors are comparisons, not ancestry.
 /// </summary>
-public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
+public sealed class F94BornDeviationFourThirds : Claim
 {
     public const int N = 4;
     public const int RetainedSiteA = 0;
@@ -66,7 +66,7 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
         (long)SurvivingDysonDiagrams * RawPauliPerDiagram
         == (long)Sym3PartialTraceInteger * 16;
 
-    public F94BornDeviationFourThirdsPi2Inheritance()
+    public F94BornDeviationFourThirds()
         : base(
             "F94 named N = 4 ring leading Born deviation: Δ_|00⟩ = (8/6) Q²K³ = (4/3) Q²K³",
             Tier.Tier1Derived,

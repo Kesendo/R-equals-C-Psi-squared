@@ -234,7 +234,7 @@ public static class ConfirmationsRegistry
             HardwareData: "data/ibm_f95_angle_steering_may2026/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json (+ matching PNGs and partial-run JSONs; see README.md in that directory for details)",
             ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
             FrameworkPrimitive: "complex CΨ_com signed-sum-of-off-diagonals extension (the steered phase arg(CΨ_com)) + " +
-                "F25 Lindblad CΨ trajectory + F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1)), " +
+                "F25 Lindblad CΨ trajectory + F95AngleAtQuadraticZero (θ(c;b) = arctan(√(c/b² − 1)), " +
                 "finite b>0; the square-root form the dwell arc length shares)",
             Description:
                 "First hardware verification that the complex-CΨ angle arg(CΨ_com), which shares the square-root form of F95 in its dwell arc length but is not the θ of F95 itself (experiments/CPSI_COMPLEX_PLANE.md), is actively steerable on IBM Kingston. " +

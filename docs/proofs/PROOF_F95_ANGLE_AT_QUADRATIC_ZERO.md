@@ -124,5 +124,5 @@ fact alone.
 - F-registry entry: [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) §F95
 - Companion reflection: [`reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md)
 - Februar Mandelbrot-specific precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md)
-- Typed claim: [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs), currently parentless despite its historical class name
+- Typed claim: [`F95AngleAtQuadraticZero.cs`](../../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZero.cs), currently parentless despite its historical class name
 - Independent comparison: [F94](../ANALYTICAL_FORMULAS.md#f94), a named-ring Dyson coefficient rather than a magnitude-side sibling
