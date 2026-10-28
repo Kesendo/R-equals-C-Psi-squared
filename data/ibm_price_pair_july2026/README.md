@@ -10,7 +10,7 @@ can be re-analyzed with `--analyze FILE`; RUN 4 stores fitted outputs only and c
 
 | File | What |
 |------|------|
-| `price_pair_ibm_marrakesh_20260704_073922.json` | RUN 1, line [2,3,4], job d949n1tgc6cc73fer8sg: fringe guard fired (detuning drift −7.8/+21.5 kHz), c-tomograph c₁₂ 2.2σ (did not recur), pointwise law +1.90 at 65 µs |
+| `price_pair_ibm_marrakesh_20260704_073922.json` | RUN 1, line [2,3,4], job d949n1tgc6cc73fer8sg: fringe guard fired (residual detuning offsets −7.8/+21.5 kHz), c-tomograph c₁₂ 2.2σ (line [2,3,4] not re-flown), pointwise law +1.90 at 65 µs |
 | `price_pair_ibm_marrakesh_20260704_075304.json` | RUN 2, line [93,94,95], job d949tgevtlqs73fu1v30: pointwise law +1.688 (device-wide), c₀₂ = +0.00253 ± 0.00049 read by both rulers (downgraded after run 3: did not recur) |
 | `price_pair_ibm_marrakesh_20260704_082618.json` | RUN 3 (W discriminator), job d94abhvu62ks7395p4ig: H1 refuted, W pairs +1.505/+0.946/+1.718 = the 3:2:3 boundary-rule fingerprint of coherent ZZ |
 | `price_pair_zztest_ibm_marrakesh_20260704_083938.json` | RUN 4 (conditional Ramsey), job d94ajjtgc6cc73fes7bg: fitted chain shifts ζ₀₁ = −3.92 ± 0.14 kHz and ζ₁₂ = −3.64 ± 0.10 kHz support coherent ZZ; fitted outer-arm difference Δf₀₂ = +0.01635 ± 0.11981 kHz is zero-consistent |
