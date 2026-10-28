@@ -4783,29 +4783,29 @@ at least one of P, Q is a "pure-D template" (a length-4 Pauli string composed
 only of D and I letters, no other non-I Pauli letter).
 
 **Corollary (F110 Aspect B at k = 4):** Pure-D templates have y_par = y_par(D)
-by construction. Therefore every F87-hard pair at k = N = 4 in the diagonal cell
-has y_par(pair) = y_par(D). This is the F106 228:0 split across all 3 dephases.
+by construction. Therefore every y_par-homogeneous F87-hard pair at k = N = 4 in the
+diagonal cell (the F106 enumeration) has y_par(pair) = y_par(D). This is the F106 228:0 split across all 3 dephases.
 
-**Structural decomposition (per diagonal cell at k = N = 4):** 528 total pairs
+**Structural decomposition (per on-y_par sub-cell of the diagonal cell at k = N = 4):** 528 total pairs
 split into 36 Pure-Pure (all HARD) + 192 Pure-Mixed (all HARD) + 300 Mixed-Mixed
 (all SOFT). The 36 + 192 + 0 = 228 hard count matches F106 exactly.
 
 **Subclaim status:**
 - (a) Pure-D single-term H is HARD: condition (ii) of Theorem 2 of the complement connection (rotated
   to Z dephasing, the odd-Z diagonal flips under the complement at every bitstring). 8/8 per cell.
-- (b) Mixed single-term H is SOFT: Theorem 2 (one flip mask, a bipartite hopping graph). 24/24 per cell.
-- (c) Pair (Pure-D, Mixed) H is HARD: condition (ii) of Theorem 2. 192/192 per cell.
+- (b) Mixed single-term H is SOFT: Theorem 2 (one flip mask, a bipartite hopping graph). 24/24 per on-y_par sub-cell.
+- (c) Pair (Pure-D, Mixed) H is HARD: condition (ii) of Theorem 2. 192/192 per on-y_par sub-cell.
 - (d) Pair (Mixed, Mixed) H is SOFT: **CLOSED modulo M via PROOF_F103 §7.4
   (2026-05-30)**. At full support k = N a Mixed+Mixed pair has at most two flip
   generators, which always admit a linear φ and hence the chiral K, so the
-  hopping graph is bipartite and the pair soft. Empirical: 300/300 per cell.
+  hopping graph is bipartite and the pair soft. Empirical: 300/300 per on-y_par sub-cell.
   (The earlier operator-level search, Task 1 Paths 1-3 per-site M^N tensor
   product / F108 Π_5bilinear extended action / Q_V × Π composition, was
   dissolved by the chiral route.)
 
 **Empirical anchor:** F106 N = 4 k = 4 records 228:0 in all 3 diagonal cells
 (684 hard pairs total, zero off-y_par). Independent verification at
-`simulations/f111_pair_off_ypar_verify.py` covers 1584 pair classifications
+`simulations/f111_pair_off_ypar_verify.py` covers 1584 on-y_par pair classifications (3168 with the off-y_par sub-cells)
 across 3 dephases, all matching the rule with zero exceptions.
 
 **Promotion record (2026-06-10):** the hard-direction converse behind subclaims (a)/(c)
@@ -4821,7 +4821,7 @@ full support hard Mixed+Mixed pairs appear, above the window floor exactly F115'
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
-parents: PROOF_F110 Aspect A + PROOF_F107 + F106 anchor (context: PROOF_F108_PART1/2/3,
+typed parent KleinEightCellClaim; document parents: PROOF_F110 Aspect A + PROOF_F107 + F106 anchor (context: PROOF_F108_PART1/2/3,
 the operator route that fails on the diagonal cell, and the F87
 dissipator-resonance census at N = 4, k = 3);
 helpers: `HardCellPureDTemplate.IsPureDTemplate(term, dephase)`,

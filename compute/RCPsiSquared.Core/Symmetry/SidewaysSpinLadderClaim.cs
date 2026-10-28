@@ -26,7 +26,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// staggered ladder connects the two at any N (the exclusion itself is closed by the rate window and the
 /// R4 certificates, not by any ladder property).</para>
 ///
-/// <para><b>The multiplet half: the S⁺ chains are MEASURED and GATED, N=5, 7 and 9; the η chains are
+/// <para><b>The multiplet half: the S⁺ chains are MEASURED and GATED, N=4, 5, 7 and 9 (at N=4 band and fold freight share the sectors); the η chains are
 /// INFERRED.</b> The F125 fold family is exactly the interiors of the two S⁺ chains at p + q̃ = N∓1
 /// (SHAPE gate), each an sl(2) chain of interior length N−2 carrying spin ℓ = (N−3)/2, and the S⁺
 /// transport norms along a chain are the Clebsch-Gordan coefficients √(ℓ(ℓ+1) − m(m+1)) with no free

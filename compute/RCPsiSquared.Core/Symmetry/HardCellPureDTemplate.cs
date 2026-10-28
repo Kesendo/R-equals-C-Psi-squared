@@ -25,9 +25,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Structural decomposition (per diagonal cell, k = N = 4):</b></para>
 /// <list type="bullet">
 ///   <item><b>Pure+Pure: 36 hard pairs.</b> Both terms are pure-D templates.
-///         Number of pure-D templates at k = N = 4 is 8 (positions for "all D",
-///         minus the empty I⊗⁴ which is excluded as identity-only; 8 distinct
-///         non-trivial templates fill the 8 non-empty subsets of {1,…,4}). With
+///         Number of pure-D templates at k = N = 4 is 8 (the diagonal cell needs an
+///         odd number of D letters, so the templates fill the 8 odd-size subsets of
+///         {1,…,4}: 4 with one D, 4 with three). With
 ///         ordering and self-pairs: 8·9/2 = 36 unordered pairs. All F87-hard.</item>
 ///   <item><b>Pure+Mixed: 192 hard pairs.</b> One term pure-D template, the other
 ///         a "mixed" term (uses D + at least one other non-I letter). Counts
@@ -161,7 +161,7 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
     /// <summary>Returns true iff <paramref name="term"/> is a pure-<paramref name="dephase"/>
     /// template at the non-trivial level: contains at least one <paramref name="dephase"/>
     /// letter and no other non-I letter. The 8 non-trivial pure-D templates at length 4
-    /// correspond to the 8 non-empty subsets of positions {1,2,3,4} carrying D (everything
+    /// correspond to the 8 odd-size subsets of positions {1,2,3,4} carrying D (everything
     /// else I). The all-I term is excluded as identity-only (mirrors the F111 decomposition
     /// docstring: "8 non-trivial templates").</summary>
     public static bool IsPureDTemplate(PauliTerm term, PauliLetter dephase)
