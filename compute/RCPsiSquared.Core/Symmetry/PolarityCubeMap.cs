@@ -10,8 +10,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>The cubic structure has three independent Z₂ classifiers at the Pauli-term
 /// level (bit_a, bit_b, Y-parity); only the first two surface as independent Π²
-/// operators (per F34/QUBIT_NECESSITY). Y-parity becomes independent only at
-/// k≥3-body terms; at k=2 the Z₂³ collapses to Klein-Vierergruppe Z₂².</para>
+/// operators (per F34/QUBIT_NECESSITY). Y-parity is independent of the Klein cell only
+/// across terms of different weight parity; within one parity the Z₂³ collapses to the
+/// Klein-Vierergruppe Z₂² (F102).</para>
 ///
 /// <para>The map's primary use is gap-detection: BitB Claims with null BitATwin
 /// pointers indicate bit_a-twin slots without a typed sibling (Stage 2a of the
@@ -121,7 +122,7 @@ public sealed class PolarityCubeMap : Claim
             yield return InspectableNode.RealScalar("BitB count (F1² / Π²_Z axis)", BitBClaims.Count);
             yield return InspectableNode.RealScalar("BitA count (F61 / Π²_X axis)", BitAClaims.Count);
             yield return InspectableNode.RealScalar("Klein2 count (uses both Π² axes)", Klein2Claims.Count);
-            yield return InspectableNode.RealScalar("YParity count (term-level k≥3)", YParityClaims.Count);
+            yield return InspectableNode.RealScalar("YParity count (term-level, across weight parities)", YParityClaims.Count);
             yield return InspectableNode.RealScalar("Cubic3 count (full Z₂³)", Cubic3Claims.Count);
             yield return InspectableNode.RealScalar("Open BitA twin slots", OpenBitATwinSlots);
             yield return InspectableNode.RealScalar("Twin coverage ratio", TwinCoverageRatio);

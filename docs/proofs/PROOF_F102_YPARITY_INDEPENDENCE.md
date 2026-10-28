@@ -1,4 +1,4 @@
-# Proof of F102: Y-Parity Term-Level Z₂ Independence at k_body≥3
+# Proof of F102: Y-Parity Term-Level Z₂ Independence across k_body Parities
 
 **Status:** Tier 1 derived, mechanically verified (9 k_body=2 bilinears + k_body=3 counterexample).
 **Date:** 2026-05-24

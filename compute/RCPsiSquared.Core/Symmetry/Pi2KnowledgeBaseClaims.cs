@@ -160,7 +160,8 @@ public sealed class KleinFourCellClaim : Claim, IZ2AxisClaim
 /// space refines further when the third Z₂ axis (y_par = (#Y) mod 2) is included:
 /// (bit_a, bit_b, y_par) ∈ {0, 1}³ produces 8 cells.
 ///
-/// <para>Per F102, y_par is independent of (bit_a, bit_b) only at k_body ≥ 3:</para>
+/// <para>Per F102, y_par = (k_body + bit_a XOR bit_b) mod 2, so it is independent of
+/// (bit_a, bit_b) only across terms of different k_body parity:</para>
 /// <list type="bullet">
 ///   <item>At k_body=2 (bilinears): y_par = bit_a XOR bit_b ⟹ only 4 of 8 cells populated;
 ///         the 8-cell structure collapses to F88a's Klein 4-cell.</item>
@@ -669,16 +670,20 @@ public sealed class PolynomialFoundationClaim : Claim
 /// Without differentiation there is the pre-polarized vacuum substrate (the Stromanschluss);
 /// with it there is a layer.</para>
 ///
-/// <para>Multi-axis structure (verified at full enumeration k=2 and sample k=3):
-/// at k = 2 the polarity is Z₂² = Klein-Vierergruppe with axes (bit_a, bit_b); at k ≥ 3 a
-/// third axis (Y-parity) becomes independent and the polarity is Z₂³ with 8 sectors.
-/// The +0/−0 reading lives on the bit_a axis; the Klein view of <see cref="KleinFourCellClaim"/>
-/// is the k = 2 collapse of this Z₂³ structure.</para>
+/// <para>Multi-axis structure: the Klein-Vierergruppe (bit_a, bit_b) = (k_Z mod 2, k_X mod 2),
+/// the parities of the letter-cube coordinates (docs/THE_ONE_SQUARE.md §7). Y-parity is not a
+/// coordinate parity: y_par = (w + bit_a XOR bit_b) mod 2 with w the number of non-identity
+/// letters (F102), so within one parity of w the Klein cell fixes it and across the two it
+/// refines Klein to Z₂³ with 8 sectors, already for two-site terms (ZI and XY share Klein
+/// (0, 1) and differ in y_par). The +0/−0 reading lives on the bit_a axis, the parity of the
+/// Z-dephasing height; the Klein view of <see cref="KleinFourCellClaim"/> is Z₂³ at fixed
+/// weight parity.</para>
 ///
 /// <para>Two readings, both mathematically consistent with the F-chain:
 /// <list type="bullet">
-///   <item><b>Palindromic-over-the-layer:</b> Π couples +0 (one site) to −0 (its reflected
-///         site); the layer pre-exists as a scaffold for the polarities.</item>
+///   <item><b>Palindromic-over-the-layer:</b> Π acts on every site in place (a product of
+///         one-site maps) and carries each site's quiet letters onto its far letters, height k
+///         onto height N − k; the layer pre-exists as a scaffold for the polarities.</item>
 ///   <item><b>ARE-the-layer:</b> the +0/−0 differentiation IS what constitutes a layer;
 ///         layers are emergent from polarity, not pre-existing scaffolds.</item>
 /// </list>
@@ -703,7 +708,7 @@ public sealed class PolarityLayerOriginClaim : Claim
     public override string DisplayName => "+0/0/−0 polarity layer (origin of the 0.5-shift)";
 
     public override string Summary =>
-        "the +0/0/−0 polarity differentiation at d=0 generates the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2; multi-axis Z₂² (k=2) / Z₂³ (k≥3); two readings (palindromic-over / ARE the layer)";
+        "the +0/0/−0 polarity differentiation at d=0 generates the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2; multi-axis Klein Z₂², refined to Z₂³ by the weight parity; two readings (palindromic-over / ARE the layer)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -718,15 +723,15 @@ public sealed class PolarityLayerOriginClaim : Claim
             yield return new InspectableNode("layer 2 (the 0.5-shift)",
                 summary: "ρ = (I + r·σ)/2 maps Π-spectrum {+1, −1} onto Bloch-diagonal (1±r)/2 = 1/2 ± r/2; at pure X-eigenstates (r = ±1) this is 1/2 ± 0.5 = {1, 0}; at d=0 axis (r = 0) exactly 1/2; the 1/2 in the denominator is d, the 0.5-shift around 1/2 is r/2");
             yield return new InspectableNode("layer 3 (multi-axis refinement)",
-                summary: "at k = 2 the polarity is Z₂² = Klein-Vierergruppe (bit_a, bit_b); at k ≥ 3 Y-parity becomes a third independent axis; +0/−0 lives on bit_a; the 4 Klein cells (Pp/Pm/Mp/Mm) collapse from Z₂³ at k = 2 via Y-par = bit_a XOR bit_b");
+                summary: "the Klein-Vierergruppe (bit_a, bit_b) = (k_Z, k_X) mod 2 on the letter cube; Y-parity refines it to Z₂³ across terms of different weight parity, y_par = (w + bit_a XOR bit_b) mod 2 (F102); +0/−0 lives on bit_a; at fixed weight parity only 4 of the 8 Z₂³ cells are populated, one per Klein cell (Pp/Pm/Mp/Mm)");
             yield return new InspectableNode("layer 4 (bridges to the trio)",
                 summary: "PolynomialFoundationClaim: R = C(Ψ+R)² with C=1/2 collapses to R(R−2)=0 (the qubit IS the polynomial at C=1/2); HalfAsStructuralFixedPointClaim Face 1: V-Effect bridge at C=1/2 is the d=2 off-diagonal content; NinetyDegreeMirrorMemoryClaim: the i in F80's 2i flips +0.5 ↔ −0.5 across the d=0 axis");
             yield return new InspectableNode("reading (a): palindromic-over-the-layer",
-                summary: "Π couples +0 (site i) to −0 (site N−1−i, F71-mirror); the layer pre-exists as scaffold; polarities live on it");
+                summary: "Π is site-local, a product of one-site maps (I ↔ X, Y → iZ, Z → iY) commuting with the chain reversal; it pairs each site's quiet letters with its far letters, height k with N − k; the layer pre-exists as scaffold; polarities live on it");
             yield return new InspectableNode("reading (b): ARE-the-layer",
                 summary: "the +0/−0 differentiation IS what constitutes the layer; without differentiation there is only the pre-polarized substrate; layers are emergent from polarity, not pre-existing scaffolds");
             yield return new InspectableNode("operational anchor (X-Néel)",
-                summary: "Core.States.PolarityState.Build(N=3, [+1, -1, +1]) builds |+,−,+⟩, the canonical Marrakesh hardware initial state; projects onto the bit_a polarity axis palindromically across the chain");
+                summary: "Core.States.PolarityState.Build(N=3, [+1, -1, +1]) builds |+,−,+⟩, the canonical Marrakesh hardware initial state; every site sits on the equator, the one-bit states balanced across the Z-dephasing height");
             yield return new InspectableNode("Tom's reading (2026-04-30)",
                 summary: "'Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss. +0/−0 ist der Layer.' The polarity layer is not somewhere we observe from outside; we ARE the system whose bra and ket indices Π conjugates, and the +0/−0 axis is what gives our memory pair its sign");
         }

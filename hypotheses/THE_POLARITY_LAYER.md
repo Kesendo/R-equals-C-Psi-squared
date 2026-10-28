@@ -1,21 +1,37 @@
 # The Polarity Layer: Inheritance, +0/−0, and Self-Description from Inside
 
-**Date:** 2026-04-30 (updated 2026-05-01)
-**Authors:** Thomas Wicht, Claude (Opus 4.7)
-**Status:** Tier 4 (interpretive synthesis grounded in Tier 1-2 results F78-F85 + F87). The mathematics is unchanged from the established F-chain; this document re-reads it. **Update 2026-05-01:** the original "+0/−0 polarity layer" claim is sharpened to a multi-axis Klein-Vierergruppe Z₂² (k=2) / Z₂³ (k≥3) polarity structure; operational consequences are now checkable via the `PauliHamiltonian` class and the `diagnose_hardware` workflow; the trace-back primitive `recover_H_odd_from_M_anti` listed as open in the original is closed. **Update 2026-05-01 (later):** dissipator-resonance law verified: the F87-hardness of Klein-homogeneous pairs localizes exactly in the Klein cell that matches the dephasing letter's Klein index, SU(2)-symmetric across the three Pauli letters; `classify_pauli_pair` now accepts `dephase_letter='X'/'Y'/'Z'`. **Naming note (2026-05-03):** the trichotomy formula was registered as F87 in `docs/ANALYTICAL_FORMULAS.md`; the registry F77 slot holds an unrelated MM(0) saturation result. The Python file is still `f77_trichotomy.py` for historical reasons; this document uses the registry F87 label throughout.
+**Date:** 2026-04-30
+**Authors:** Thomas Wicht, Claude
+**Status:** Tier 4 (interpretive synthesis grounded in Tier 1 results F78-F85, F87 and F107-F110). The mathematics is the established F-chain; this document re-reads it. Where a reading here can be checked, it is checked on the letter cube of [The One Square](../docs/THE_ONE_SQUARE.md) and the check is named.
 **Depends on:**
 [F-chain F78-F85 + F87 entry-point](../docs/ANALYTICAL_FORMULAS.md),
+[The One Square](../docs/THE_ONE_SQUARE.md) (§7 the letter cube, §8 the Hamiltonian on it, §9 the moves),
+[Π factors as R times D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) (§7 the polarity cube),
+[F110 hard-cell proof](../docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md),
+[F155 polarity break](../docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md),
 [On the Residual](../reflections/ON_THE_RESIDUAL.md),
 [Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md),
-[Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [The Primordial Qubit](PRIMORDIAL_QUBIT.md),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Gamma Is Light](GAMMA_IS_LIGHT.md),
-`framework.PauliHamiltonian` (added 2026-05-01),
-`framework.classify_pauli_pair(... dephase_letter=)` (extended 2026-05-01),
-`framework.lindbladian_pauli_dephasing` (added 2026-05-01),
-`framework.diagnostics.recover_H_odd_from_M_anti` (added 2026-04-30),
-`framework.workflows.diagnose_hardware` (added 2026-04-30, refactored to PauliHamiltonian 2026-05-01)
+`framework.PauliHamiltonian`,
+`framework.classify_pauli_pair(... dephase_letter=)`,
+`framework.diagnostics.recover_H_odd_from_M_anti`,
+`framework.workflows.diagnose_hardware`
+
+<!-- STAGE 0 SWEEP RECORD (2026-10-28, the review from today's view; three scouts plus a by-hand reading on the letter cube).
+docs/ANALYTICAL_FORMULAS.md: F78/F79 (M decomposition), F80 (Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds, ±2i times the Bohr differences for Π²-even non-truly bonds), F81 (M_anti = L_{H_odd} under Π²-commuting dissipators; no Frobenius orthogonality claimed, the cross term is −i times the F113 asymmetry), F82, F83, F84 (thermal amplitude damping, the Pauli-channel lemma its corollary), F85, F102 (y_par = (n + bit_a XOR bit_b) mod 2 with n the number of non-identity letters), F107/F109/F110 (every body count since the colouring routes), F115 (the soft/hard split of diagonal-cell Mixed pairs as a valuation difference), F34 and F121 (the qudit balance and the partial qudit palindrome), F38/F88a (Π_Y² grades by bit_b, like Π_Z²).
+docs/proofs/: PROOF_PI_FACTORS_AS_R_TIMES_D §7 (bit_a, bit_b, y_par as the characters of Z^N conjugation, X^N conjugation and the transpose); PROOF_F155 §(g) (Π_Y = Π_Z^-1; the X convention is the Z one through the Q_zx frame); PROOF_F109 Step 5 and PROOF_F110 §2 (the Mother cell and the unmatched cells coloured at every body count); INCOMPLETENESS_PROOF §4 (the opposite stance on self-description: an analogy to Gödel in which the framework cannot derive its own starting condition).
+docs/THE_ONE_SQUARE.md: §7 the polarity cube is the letter cube read twice (bit_a = k_Z mod 2, bit_b = k_X mod 2, y_par half a sum); §8 ZZ keeps k_Z and commutes with Z dephasing; §9 σ⁻ as two transverse heights plus the arrow I to Z; §11 lists the diagonal cell of the F87 table among the things the square's diagonals are not.
+reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md: the one-bit mirror twins are exactly the pure states on the equator.
+experiments/: ORTHOGONALITY_SELECTION_FAMILY; F89_BRANCH_LOCUS_PALINDROME and THE_FLOW_BETWEEN_TWO_SINGULARITIES (the polarity path seam).
+fw.Confirmations: marrakesh_transverse_y_field_detection (the 3.5·h_y against 0.085·h_x sensitivities are the model's; the hardware gave max violation 0.182); f83_pi2_class_signature_marrakesh (the F83 run; truly and mixed residuals listed as candidates open for follow-up; its data/ibm_f83_signature_april2026/README.md calls the F82 closed form structurally vindicated and lists the quantitative F82/F84 confirmation as not established).
+OpenArcs: zeros_connecting_structure (open); polarity_break_dephase_siblings (retired into F155).
+Typed layer: PolarityLayerOriginClaim, DissipatorAxisSelectsPolarityClaim, DissipatorResonanceLaw, YParityIndependenceAtK3 (F102).
+docs/CAUGHT_ERRORS.md: the Klein index against Π² grading entry, which names this document as the source of the conflation.
+docs/GLOSSARY.md: the polarity cube, whose third axis only the transpose sees.
+Adjacency: this document and THE_ONE_SQUARE §7 describe one object and did not cite each other; INCOMPLETENESS_PROOF §4 and this document's section on layers answer one question in opposite ways; ZERO_IS_THE_MIRROR's zero is Σγ = 0, the noise axis, orthogonal to the polarity zero.
+Checks run for this review, from below: the Klein-homogeneous pair counts (0 of 6, 5 of 15) at N = 3 and 4; the dissipator table (rerun, 78 s); exact invariance of the hard verdicts under the cyclic letter Clifford; the y_par identity over all strings to N = 5; Π equal to the N-fold Kronecker power of the one-site map and commuting with the chain reversal, both exactly; the one-site transfer matrix of D[σ⁻]; ZZ truly by F85 and keeping k_Z. -->
 
 ---
 
@@ -28,11 +44,17 @@ prior "memory of the mirror" reading. The reframings interlock:
 
 1. **The system is a self-coupling channel, not a memory.** Π·L·Π⁻¹ + L + 2Σγ·I = M describes a regenerative cavity that keeps the signal alive through self-recirculation, not a memory device that stores then retrieves.
 2. **The "two sides" are bra and ket of one ρ, not two subjects.** The framework describes a single self-coupling system whose internal two-indexedness Π conjugates. We are not external observers of a mirror; we are the system.
-3. **The "0" axis has internal polarity structure.** d²−2d=0 splits not into "qubit (d=2)" versus "void (d=0)" but into "qubit (d=2)" versus "+0/−0 polarity layer (d=0 with internal differentiation)". The qubit is a window onto this polarity layer, accessed naturally through the X-basis.
+3. **The "0" axis has internal polarity structure.** d²−2d=0 splits not into "qubit (d=2)" versus "void (d=0)" but into "qubit (d=2)" versus "+0/−0 polarity layer (d=0 with internal differentiation)". The qubit is a window onto this polarity layer.
 
-A meta-claim ties them together: **self-description from inside is
-possible because rules inherit through layers.** The F-chain (F87 entry-point + F78-F85)
-is the operational proof.
+A fourth reading ties them together: **the F-chain describes the system
+one layer at a time**, each result taking the previous one as given.
+
+The second reading has a computable form. On the
+[letter cube](../docs/THE_ONE_SQUARE.md) the coordinate k_Z of a Pauli
+string counts the sites at which ket and bra disagree, so "bra and ket of
+one ρ" is the statement that the cube's two edges, k_Z = 0 (ket and bra
+agree everywhere) and k_Z = N (they disagree everywhere), belong to one
+state.
 
 ---
 
@@ -44,7 +66,7 @@ the mirror remembers." We propose this reading is Shannon-storage
 vocabulary contaminating the cavity-light vocabulary established by
 [Gamma Is Light](GAMMA_IS_LIGHT.md) and [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md).
 
-Cavity vocabulary is more accurate operationally. A cavity does not
+Cavity vocabulary fits the operators better. A cavity does not
 store; it actively maintains. The palindrome equation describes a
 self-coupling resonator whose output reenters its input through Π
 conjugation. M is the operational residue of incomplete recirculation,
@@ -63,124 +85,131 @@ it is the active substrate from which the system draws coherence:
 the "Stromanschluss" in Tom's metaphor, analogous to the QFT vacuum's
 zero-point activity. The d=0 axis itself has internal structure: a
 +0/−0 polarity that constitutes (rather than passively underlies)
-the layer on which the qubit lives. The qubit's natural projection
-onto this layer is the X-basis, where |+⟩ = +0 and |−⟩ = −0 are the
-two polarities.
-
-This explains operationally why X-basis observables dominate the
-F-toolkit's discriminators, why |+,−,+⟩ X-Néel is the canonical
-hardware initial state, and why amplitude damping (σ⁻) on truly
-Hamiltonians produces the cleanest F82/F84 signature: σ⁻ attacks
-the polarity layer directly, breaking the ⟨Z⟩-conservation that the
-truly Hamiltonian alone preserves.
+the layer on which the qubit lives. Its one-bit image is the pair
+|+⟩, |−⟩, and the letter cube says what is special about that pair:
+under dephasing the pure states on the equator are the ones whose
+weight sits symmetrically about the middle height, the ones that meet
+themselves the same way forwards and, paying the price, backwards
+([On the Wave Recognizing That It Is Not Alone](../reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md)).
+The window is the whole equator, not the X axis alone: a turn about Z
+carries |±⟩ into |±i⟩ and changes no height.
 
 ---
 
-## The inheritance correction
+## Layers, and what they do not escape
 
-A common claim is that a formal system cannot describe itself from
-inside (Gödel, Russell). This is true for **flat** formal systems
-without internal layered structure. It is **not** a constraint on
-systems where rules inherit through layers.
+The F-chain is built by inheritance:
 
-The F-chain (F87 entry-point + F78-F85) is constructed by inheritance:
-
-- **F87** trichotomy classifier (truly / soft / hard) on 2-body Pauli
-  pairs.
+- **F87** trichotomy classifier (truly / soft / hard) on Pauli pairs.
 - **F78/F79** structural M-decomposition for 1-body and 2-body.
-- **F80** spectrum identity Spec(M) = 2i · Spec(H_non-truly).
-- **F81** Π-decomposition M_anti = L_{H_odd}.
+- **F80** the Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds, and ±2i times the Bohr differences λ_a − λ_b for Π²-even non-truly bonds.
+- **F81** Π-decomposition M_anti = L_{H_odd}, for dissipators that commute with Π².
 - **F82** T1 closed form ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N-1).
 - **F83** anti-fraction r = ‖H_even_nontruly‖² / ‖H_odd‖².
-- **F84** Pauli-channel cancellation lemma.
-- **F85** k-body generalization: truly criterion = "#Y even AND #Z even" inherits to all body counts; F87 + F78-F84 generalize verbatim.
+- **F84** thermal amplitude damping, ‖D_odd‖ = |Δγ|_RMS·√N·2^(N−1), with the Pauli-channel cancellation lemma as its corollary.
+- **F85** k-body generalization: truly criterion = "#Y even AND #Z even" at every body count.
+- **F107, F109, F110** carry the classifier's purity and cell laws to every body count: truly strings have y_par = 0, the Mother cell is never hard, and hard Klein-homogeneous pairs sit only in the dephasing letter's own cell.
 
 Each layer inherits from the previous and refines it. The 2-body
 n_YZ-counting that worked for F49 turned out to be a coincidence at
 the 2-body layer; F85 lifted it into the body-count-independent
-Π²-class structure. The inheritance is the operative content, not a
-metaphor.
+Π²-class structure, and F107-F110 lifted the cell laws the same way.
 
-A system whose F-chain inherits through layers can describe itself
-from inside one layer at a time. F87 describes Hamiltonian
-classification. F80 describes M's spectrum given F87's classification.
-F82 describes T1's contribution given F81's decomposition. The whole
-chain describes the system at increasing depth. The inheritance
-braids the layers together; no single layer needs to describe everything,
-and no closure paradox arises.
+The inheritance lets the chain describe the system at increasing
+depth: F87 classifies the Hamiltonian, F80 reads M's spectrum given
+that class, F82 reads T1's contribution given F81's decomposition. No
+single layer needs to describe everything.
+
+This is not a way around Gödel. Gödel's theorem does not say a formal
+system cannot describe itself; his proof shows that arithmetic can, by
+encoding its own sentences. What he proved is that every consistent,
+effectively axiomatized system containing arithmetic leaves some true
+sentences unprovable and cannot prove its own consistency, layered or
+not. The F-chain is a set of theorems about a Liouvillian and forms no
+self-referential sentence, so no closure paradox was ever in reach.
+[The Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) §4
+reads the same framework the other way, as an analogy to Gödel: it
+describes all decay under dephasing exactly and cannot derive the
+existence of dephasing from its own axioms. Whether "describing itself
+from inside" is something the framework does or something it cannot do
+depends on what is meant by it, and neither document settles that.
 
 ---
 
 ## The +0/−0 polarity layer
 
 The d²−2d=0 condition has solutions d=0 and d=2. d=2 is the qubit's
-Hilbert dimension. d=0 has been read as "the mirror axis" or "the
-through-line" but its internal structure has not been named.
+Hilbert dimension. We propose: **d=0 is a polarity-birthing axis with
+internal structure.** The polarity layer is constituted by polarity
+differentiation; a layer exists *because* polarity differentiates.
+Without differentiation, there is the pre-polarized vacuum substrate
+("Stromanschluss"). With it, there is a layer.
 
-We propose: **d=0 is a polarity-birthing axis with internal structure.**
-The polarity layer is constituted by polarity differentiation; a layer
-exists *because* polarity differentiates. Without differentiation, there
-is the pre-polarized vacuum substrate ("Stromanschluss"). With it, there
-is a layer.
+The balance behind d²−2d=0 is fixed, not a free parameter: F34 counts d
+immune against d²−d decaying operators per site, and the equality is
+d²−2d=0 itself. For d > 2 the palindrome survives only in part, and F121
+gives the paired fraction in closed form
+([qudit partial palindrome](../docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md),
+live at `inspect --root qudit`).
 
-**Update 2026-05-01: the polarity is multi-axis, not bilateral.**
+**The polarity is multi-axis, and its axes are the letter cube's.** A
+Pauli string sits on the cube at (k_Z, k_X, k_Y) = (n_X + n_Y, n_Y + n_Z,
+n_X + n_Z). The framework's two Klein bits are the parities of two
+coordinates:
 
-The original "+0/−0" framing identified one axis (the X-basis polarity).
-This is the **bit_a axis** of the framework's operator-letter parity
-structure. The full polarity at k=2 is the **Klein-Vierergruppe Z₂×Z₂**
-with two independent axes: bit_a (X-eigenstate polarity, accessed via
-X-basis) and bit_b (Π² parity, accessed via Z-basis). At k≥3 a third
-independent axis (Y-parity) appears: the polarity is **Z₂³** with 8
-sectors. The Klein-Vierergruppe is the k=2 collapse of the Z₂³ structure.
+  bit_a = k_Z mod 2,  bit_b = k_X mod 2,
 
-The +0/−0 reading is therefore correct for the **bit_a axis**:
+and the third parity, k_Y mod 2 = bit_a ⊕ bit_b, follows because the
+three coordinates sum to the even number 2w, w = n_X + n_Y + n_Z the
+number of non-identity letters. bit_a is the sign a string picks up under
+conjugation by Z^⊗N, bit_b the sign under X^⊗N
+([Π factors as R times D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §7).
+The unitary conjugations see only these two; they see a square, the
+Klein-Vierergruppe Z₂×Z₂.
 
-  |+⟩ = (|0⟩ + |1⟩)/√2     ← X-eigenstate +1 = +0 (bit_a-positive polarity)
-  |−⟩ = (|0⟩ − |1⟩)/√2     ← X-eigenstate −1 = −0 (bit_a-negative polarity)
+The third axis, Y-parity, is not a parity of any coordinate:
+n_Y = w − k_Y, so
 
-But there is also a **bit_b axis** with its own polarity structure:
+  y_par = (w + bit_a ⊕ bit_b) mod 2.
 
-  |0⟩                        ← Z-eigenstate +1 (bit_b-trivial Mother slot under bit_a)
-  |1⟩                        ← Z-eigenstate −1 (bit_b-trivial Mother slot under bit_a)
-
-The X-basis is the natural diagonalization of bit_a. The Z-basis is
-the natural diagonalization of bit_b (the framework's canonical
-dephasing axis). Numerically, +0 = −0 = 0 in any of these axes; as
-polarities, they are operative projections; but on the FULL polarity
-layer, there are multiple axes.
-
-Operationally, this is now visible in the `PauliHamiltonian` class:
+Within one parity of w the Klein cell fixes y_par; across the two
+parities it does not. The full polarity Z₂³ is Klein × (w mod 2), and the
+transpose, not a rotation, is what reads it
+([The One Square](../docs/THE_ONE_SQUARE.md) §7). The third axis is there
+already for two-site terms: ZI and XY share Klein (0, 1) and differ in
+y_par.
 
 ```python
 H = fw.PauliHamiltonian.from_letter_tuples(
     [('X', 'Y'), ('Y', 'X')], chain_length=3
 )
-H.klein_set                          # → {(0, 1)};  bit_a=0, bit_b=1
-H.is_klein_homogeneous               # → True
-H.per_term_full_z2_signatures        # → [(0,1,1), (0,1,1)];  bit_a, bit_b, Y-par
-H.is_z2_homogeneous                  # → finer than Klein only across mixed k_body parity
+H.klein_set                # → {(0, 1)}
+H.full_z2_signature_set    # → {(0, 1, 1)}: bit_a, bit_b, y_par
+H.is_z2_homogeneous        # → True
+
+H = fw.PauliHamiltonian.from_letter_tuples(
+    [('Z', 'I'), ('X', 'Y')], chain_length=3
+)
+H.is_klein_homogeneous     # → True
+H.full_z2_signature_set    # → {(0, 1, 0), (0, 1, 1)}: w = 1 and w = 2
+H.is_z2_homogeneous        # → False
 ```
 
-The framework operates on this multi-axis polarity throughout:
+The +0/−0 reading belongs to the Z-dephasing height. Under Z-dephasing a
+string is charged 2γ per letter that anticommutes with Z, so the height
+is k_Z and bit_a is its parity. On one site the quiet edge {I, Z} sits at
+height 0, the far edge {X, Y} at height 1. A pure state on the equator
+puts its weight half on I and half across the watching, which is why
+|+⟩ and |−⟩, and every other equator point, are the one-bit states the
+mirror returns to themselves.
 
-- **Initial state |+, −, +⟩ X-Néel** projects onto the bit_a axis
-  (X-eigenstates) palindromically across the chain. A Z-Néel initial
-  state would project onto the bit_b axis.
-- **Π reflection** under F71 chain-mirror swaps the polarities along
-  the chain.
-- **F-discriminating observables** cluster on X-rotated combinations
-  because the F83 hardware test selects the bit_a-polarity diagonalization;
-  a different choice of test could probe the bit_b axis directly.
-- **Klein-homogeneity** is a structural reading, not a verdict: sharing
-  one Klein index leaves the F87 class open. It does force soft-or-truly
-  among the identity-free two-letter pairs (0 of 6 hard), but 5 of the 15
-  Klein-homogeneous pairs carrying an identity are hard. Exposed via
-  `PauliHamiltonian.is_klein_homogeneous`; the class comes from
-  `classify_pauli_pair`.
-
-The X-basis is not "the" polarity layer; it is the natural
-diagonalization of one of the two (k=2) or three (k≥3) Z₂ axes that
-constitute the polarity layer.
+**Klein-homogeneity is a structural reading, not a verdict.** Sharing one
+Klein index leaves the F87 class open. Among two-site pairs it forces
+soft-or-truly for the six identity-free two-letter pairs (0 of 6 hard),
+but 5 of the 15 Klein-homogeneous pairs carrying an identity are hard,
+all five in Z's own cell (0, 1): IZ+ZI, IZ+XY, IZ+YX, ZI+XY, ZI+YX.
+Exposed via `PauliHamiltonian.is_klein_homogeneous`; the class comes from
+`classify_pauli_pair`.
 
 ---
 
@@ -188,9 +217,12 @@ constitute the polarity layer.
 
 The +0/−0 structure can be read two ways:
 
-**(a) Palindromic over the layer.** Π couples +0 (one site) to −0
-(its reflected site). The layer exists; the polarities live on it
-and palindromically pair across it.
+**(a) Palindromic over the layer.** Π acts on every site in place, a
+product of one-site maps (I ↔ X, Y → iZ, Z → iY), and carries each
+site's quiet letters onto its far letters. On the cube it turns height
+k into height N − k, so it pairs the layer's two edges across the
+middle height. The layer exists; the polarities live on it and are
+paired across it.
 
 **(b) Are the layer.** The +0/−0 differentiation IS what constitutes
 a layer. Below this differentiation, there is the pre-polarized
@@ -208,55 +240,123 @@ but emergent structures from polarity. This connects to:
 - **Hippocampal memory:** "stored" memories are continuously
   reactivated patterns, not static traces.
 
+The d=0 to d=2 step is typed as `PolarityLayerOriginClaim`
+([`Pi2KnowledgeBaseClaims.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)):
+the +0/−0 layer at d=0 passes to the pair {−1/2, +1/2} at d=2 through
+ρ = (I + r·σ)/2. Both sides of the pair fold to 1/4 under squaring, two
+distinct middles 0 and 1/4 of one polarity pair
+([On How Two Sides Meet at the Quarter](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md);
+the algebra is [PROOF_BLOCK_CPSI_QUARTER.md](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md),
+section "1/4 is half of half").
+
 ---
 
-## Operational consequences
+## The vocabulary shift, and what the cube says instead
 
-The math is unchanged. The vocabulary shifts, and with it the way
-results are read. **Update 2026-05-01: each consequence is now directly
-checkable in code via `PauliHamiltonian` properties and the
-`diagnose_hardware` workflow: the reframing is no longer interpretive
-text but operational structure.**
+The math is unchanged. The vocabulary shifts:
 
-| Old (memory/observer) | New (channel / multi-axis polarity) | Operational primitive |
+| Old (memory/observer) | New (channel / multi-axis polarity) | Where it sits in the code |
 |------------------------|--------------------------------------|------------------------|
-| "The mirror remembers" | "The channel maintains" | `pi_decompose_M` returns M_anti = recirculation |
-| "Two sides observe each other" | "Bra and ket of one ρ" | d² = 4^N operator-space arena |
-| "0 is the midpoint" | "0 is the active substrate; multi-axis polarity layer is Z₂² (k=2) or Z₂³ (k≥3)" | `PauliHamiltonian.klein_set`, `.full_z2_signature_set` |
-| "Trace back = remember" | "Trace back = extract the recirculation operator" | `recover_H_odd_from_M_anti` (built in commit 2061fa2) |
+| "The mirror remembers" | "The channel maintains" | `pi_decompose_M` returns M_anti |
+| "Two sides observe each other" | "Bra and ket of one ρ" | d² = 4^N operator space; k_Z on the cube |
+| "0 is the midpoint" | "0 is the active substrate; the polarity is Klein × (w mod 2)" | `PauliHamiltonian.klein_set`, `.full_z2_signature_set` |
+| "Trace back = remember" | "Trace back = extract the recirculation operator" | `recover_H_odd_from_M_anti` |
 | "Memory of the dynamics" | "L_{H_odd} IS the recirculation; the dynamics drives its own maintenance" | `pi_decompose_M`'s `M_anti` field |
-| "Truly = no memory" | "Truly = perfectly closed cavity; Q→∞ idealized" | `classify_pauli_pair → 'truly'`; `PauliHamiltonian.has_truly_term` |
-| "Qubit is \|0⟩, \|1⟩" | "Qubit is a window onto multi-axis polarity; X-basis diagonalizes bit_a, Z-basis diagonalizes bit_b" | `PauliTerm.klein_index`, `.full_z2_signature` |
-| "Dephasing axis is fixed (Z)" | "Each Pauli-letter dephasing has its own resonant Klein cell where the F87-hardness of Klein-homogeneous pairs lives" | `classify_pauli_pair(chain, terms, dephase_letter='X'/'Y'/'Z')` |
+| "Truly = no memory" | "Truly = perfectly closed cavity" | `classify_pauli_pair → 'truly'`; `PauliHamiltonian.has_truly_term` |
+| "Qubit is \|0⟩, \|1⟩" | "Qubit is a window onto the polarity layer; the equator is where it sits on the mirror" | `PauliTerm.klein_index`, `.full_z2_signature` |
+| "Dephasing axis is fixed (Z)" | "Each dephasing letter has its own cell where the hardness of Klein-homogeneous pairs lives" | `classify_pauli_pair(chain, terms, dephase_letter='X'/'Y'/'Z')` |
 
-This makes prior puzzles legible:
+The new column is vocabulary; the primitives restate F-chain content and
+prove nothing new. The reasons for what the operators do sit on the
+letter cube:
 
-- **Why X-basis tomography is more sensitive than Z-basis for truly
-  Hamiltonians.** X projects onto the natural polarity layer where
-  the dynamics live. Z projects onto the computational view (where
-  XX+YY-truly's ⟨Z⟩-conservation hides the dynamics).
-- **Why amplitude damping (σ⁻) breaks truly's ⟨Z⟩-conservation
-  cleanly.** σ⁻ destroys |1⟩ population, which in X-basis is
-  ½(|+⟩ − |−⟩). σ⁻ attacks the −0 component, breaks the polarity
-  balance, and through that breaks the ⟨Z⟩-conservation that the
-  truly Hamiltonian alone protects. The ~60% ⟨Z,Z⟩ damping observed
-  in the 2026-04-30 F83 hardware run on Marrakesh (Job d7pol1e7g7gs73cf7j90;
-  damping fraction 1 − HW/pred is 60.2% relative to γ_Z=0.05 path-fit
-  baseline, 57.1% relative to γ_Z=0.1 framework-default baseline) is
-  the F82/F84 signature seen through the polarity-layer lens.
-- **Why ZZ-crosstalk is not a Π-breaker.** ZZ leaves the polarity
-  layer untouched (Z and X are bit_b-different in the F87 classifier).
-- **Why the F-toolkit's hardware-confirmed predictions cluster on
-  X-rotated observables.** They project onto the natural layer.
-- **Why hardness shifts Klein cell with dephasing axis.** The F87-hardness
-  of Klein-homogeneous pairs is dissipator-aligned: under Z-dephasing it
-  lives in Klein (0,1), under X-dephasing in Klein (1,0), under
-  Y-dephasing in Klein (1,1).
-  The polarity layer's three non-trivial Klein cells are SU(2)-rotation-
-  equivalent; each Pauli-letter dephasing channel selects its own
-  resonant cell. Verified at N=4 k=3 over 294 Z₂³-homogeneous pairs,
-  perfect diagonal pattern (50/76 hard in matched cell, 0 in all
-  off-diagonal cells).
+- **Single-site ⟨Z_l⟩ under XX+YY.** The total ⟨Z⟩ is conserved, the
+  single-site values are not: for H = J·Σ(XX + YY) with J = 1 and
+  dephasing γ(ZρZ − ρ) per site, γ = 0.05, they move strongly from the
+  Z-Néel state |0101⟩ (at t = 0.5, N = 4: −0.01, 0.60, −0.60, 0.01). From
+  the X-Néel state |+−+−⟩ they stay at zero, because X^⊗N commutes with
+  the Hamiltonian and with Z-dephasing, the X-Néel state is an X^⊗N
+  eigenstate, and Z_l is odd under X^⊗N. What hides the single-site Z
+  signal there is the state's parity, not the conservation law.
+- **Amplitude damping.** On one site D[σ⁻], σ⁻ = (X + iY)/2, has the
+  transfer matrix I → Z, X → −½X, Y → −½Y, Z → −Z (rate 1). It is two
+  equal transverse heights and one arrow, I → Z, on the quiet edge
+  ([The One Square](../docs/THE_ONE_SQUARE.md) §9). The arrow and the
+  decay of Z together give the dissipator's part d⟨Z_l⟩/dt = 1 − ⟨Z_l⟩
+  on every site, so the
+  total Z that XX+YY keeps relaxes towards N. Nothing in it singles out
+  |−⟩; |1⟩⟨1| = (I − Z)/2 has no X content.
+- **ZZ crosstalk is not a Π-breaker.** ZZ has #Y = 0 and #Z = 2, so it
+  is truly by F85, Klein (0, 0). On the cube it moves strings only along
+  k_X and k_Y and keeps k_Z, so it commutes with Z-dephasing
+  ([The One Square](../docs/THE_ONE_SQUARE.md) §8).
+- **A transverse field breaks Z⊗N.** The Z⊗N-mirror diagnostic predicts a
+  violation of 3.5·h_y for a Y field against 0.085·h_x for an X field, a
+  ratio near 41 that belongs to the model; Marrakesh gave a maximal
+  violation of 0.182 (RMS 0.087), which fits h_y = 0.05 (`fw.Confirmations`,
+  `marrakesh_transverse_y_field_detection`).
+
+---
+
+## The dissipator letter selects its cell
+
+The F87-hardness of Klein-homogeneous pairs lives exactly in the Klein
+cell that is the dephasing letter's own index: Z → (0, 1), X → (1, 0),
+Y → (1, 1).
+
+| Klein cell      | Z-deph    | X-deph    | Y-deph    |
+|-----------------|-----------|-----------|-----------|
+| (0, 0) Mother   | 0 / 66    | 0 / 66    | 0 / 66    |
+| (0, 1) Z-like   | **50/76** | 0 / 76    | 0 / 76    |
+| (1, 0) X-like   | 0 / 76    | **50/76** | 0 / 76    |
+| (1, 1) Y-like   | 0 / 76    | 0 / 76    | **50/76** |
+
+Sweep: the 294 Klein-homogeneous and Y-parity-homogeneous pairs of
+three-site strings other than III (such as IIZ or XYZ) at N = 4, 63 of
+them a string paired with itself,
+under each dephasing letter, γ₀ = 0.05, J = 1. Reproducible:
+`python simulations/klein_dissipator_resonance.py`. Pytest coverage:
+`simulations/framework/tests/diagnostics/test_f77_dissipator_resonance.py`.
+
+The three columns are one column seen in three frames. A one-site
+Clifford that permutes the letters cyclically, applied on every site,
+carries Z-dephasing to X-dephasing and the Klein cells with it, and the
+hard verdicts are exactly invariant under it (0 mismatches over the 294
+pairs). The truly/soft split between the columns is not invariant in the
+same way, because it depends on which palindromizer is attached to each
+letter: the code builds Π_X from Π_Z with the Hadamard and Π_Y with the
+quarter turn about X (Π_Y = Π_Z⁻¹,
+[F155](../docs/proofs/PROOF_F155_PHYSICAL_GENERATOR_POLARITY_BREAK.md) §(g)),
+and the cyclic letter Clifford carries Π_Z to a palindromizer that pairs
+I with Y, not to the code's Π_X, which pairs I with Z.
+
+Two structural facts hold at every body count:
+
+1. **Klein (0, 0) is never hard.** Its strings commute with every letter
+   string, and a letter string that anticommutes with every jump colours
+   it ([F109](../docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md)
+   Step 5). Its terms are truly (Y-par 0) or non-truly (Y-par 1). The
+   zeros in the other two unmatched cells hold the same way
+   ([F110](../docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md) §2).
+2. **Hardness is dissipator-aligned, not orthogonal** (for pairs within
+   one Klein cell). This is the dual of the Orthogonality-Selection
+   meta-theorem ([Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)):
+   the meta-theorem characterizes blindness via orthogonality;
+   dissipator alignment characterizes hardness.
+
+Which pairs inside the matched cell are hard is a separate question, and
+for the diagonal-cell Mixed pairs under Z-dephasing, placed by the
+sliding-window builder, it has a closed answer: F115 reads each term's
+X/Y positions as a polynomial over GF(2) and calls a pair hard exactly
+when the two (1 + x)-adic valuations differ.
+
+The Klein index of the letter is not the grading Π_letter² uses. Π_Z²
+and Π_Y² both grade by bit_b, Π_X² by bit_a (F38/F88a), while Y's Klein
+index is (1, 1). The typed claim `DissipatorAxisSelectsPolarityClaim` in
+`compute/RCPsiSquared.Diagnostics/F87/` names the structural reading: the
+dephasing letter chooses, by its own Klein index, the cell in which the
+hardness of Klein-homogeneous pairs appears. The table itself is
+`DissipatorResonanceLaw.StandardWitnessTable`.
 
 ---
 
@@ -264,14 +364,10 @@ This makes prior puzzles legible:
 
 This document does not replace any prior hypothesis; it connects them:
 
-- [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) computes the palindrome
-  at Σγ = 0 (no noise) and below. We sharpen the meaning of "0 is the
-  mirror": the 0-axis is not a passive midpoint but the polarity
-  layer's birthing substrate.
 - [The Primordial Qubit](PRIMORDIAL_QUBIT.md) proposes "system and
-  noise are two readings of a single structure split by a Z₂ mirror
-  at zero." We add: the Z₂ at zero is the +0/−0 polarity, and the
-  qubit's X-basis is the natural projection.
+  noise are two readings of a single algebraic structure, the
+  'primordial qubit,' split by a Z₂ mirror at zero." We add: the Z₂ at zero is the +0/−0 polarity, and its one-bit
+  image is the pure states on the equator.
 - [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) establishes the
   cavity reading. We extend: the cavity is self-coupling through Π
   (channel-and-cavity, not channel-or-cavity).
@@ -279,18 +375,20 @@ This document does not replace any prior hypothesis; it connects them:
   extend: light enters at the +0/−0 polarity layer; the qubit is the
   cavity's window onto this layer.
 
+[Zero Is the Mirror](ZERO_IS_THE_MIRROR.md) is about a different zero,
+Σγ = 0 on the noise axis. That zero and the polarity zero are orthogonal
+axes ([The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)).
+
 ---
 
 ## What this document does NOT establish
 
-- **No new mathematics.** F78-F85 + F87 stand unchanged. The hypothesis
-  reframes how those theorems are read, not what they say.
-- **Operational primitives are wrappers, not new theorems.** The
-  primitives listed in Dependencies (`PauliHamiltonian`,
-  `recover_H_odd_from_M_anti`, `diagnose_hardware`, the dephase-letter
-  extension of `classify_pauli_pair`) expose existing F-chain content
-  through the polarity-layer vocabulary; they prove nothing new,
-  they restate.
+- **No new mathematics.** F78-F85, F87 and F107-F110 stand as they are.
+  The hypothesis reframes how those theorems are read, not what they say.
+- **The primitives restate.** `PauliHamiltonian`,
+  `recover_H_odd_from_M_anti`, `diagnose_hardware` and the dephase-letter
+  extension of `classify_pauli_pair` expose existing F-chain content
+  through the polarity-layer vocabulary; they prove nothing new.
 - **No experimental falsification path.** The reframing predicts
   the same hardware signatures the prior reading predicted; only
   the language differs. A genuine test would require finding a
@@ -302,142 +400,35 @@ This document does not replace any prior hypothesis; it connects them:
 
 ---
 
-## Open directions
+## Open
 
-- **~~Operational trace-back primitive.~~** ✓ **CLOSED 2026-04-30
-  (commit 2061fa2).** `recover_H_odd_from_M_anti(chain, M_anti)` lives
-  in `framework.diagnostics.f81_pi_decomposition`. Round-trip verified
-  bit-exact via least-squares projection onto the basis of
-  commutator-action operators L_{P_α} for Π²-odd Pauli strings; pytest
-  test `test_F81_recover_H_odd_from_M_anti_round_trip` covers the
-  truly / pure Π²-odd / pure Π²-even non-truly / mixed cases.
-- **Polarity-layer reading of higher-body F-theorems.** ◐ **PARTIALLY
-  CLOSED 2026-05-01.** At k≥3, Y-parity becomes an independent third
-  Z₂ axis: the polarity is Z₂³ (8 sectors), not Z₂² (4 Klein slots).
-  Verified empirically: XYZ at k=3 has Klein index (0,0) but
-  pi2_class 'pi2_even_nontruly' (NOT truly), distinguishable only via
-  Y-parity. `PauliHamiltonian.is_z2_homogeneous` exposes this third
-  axis. The k=2 Klein-Vierergruppe is the collapse of the full Z₂³
-  structure under Y-parity = bit_a XOR bit_b (which holds at k=2 but
-  not at k≥3). Bond-position structure within a fixed Z₂³ sector
-  remains open.
-- **Dissipator-resonance law.** ✓ **CLOSED 2026-05-01.** The Klein-
-  homogeneity rule degrades under dissipator selection in a sharp
-  diagonal pattern: **the F87-hardness of Klein-homogeneous pairs lives
-  exactly in the Klein cell matching the dephasing letter's Klein index.**
-
-  | Klein cell      | Z-deph    | X-deph    | Y-deph    |
-  |-----------------|-----------|-----------|-----------|
-  | (0, 0) Mother   | 0 / 66    | 0 / 66    | 0 / 66    |
-  | (0, 1) Z-like   | **50/76** | 0 / 76    | 0 / 76    |
-  | (1, 0) X-like   | 0 / 76    | **50/76** | 0 / 76    |
-  | (1, 1) Y-like   | 0 / 76    | 0 / 76    | **50/76** |
-
-  Sweep: 294 Klein-homogeneous + Y-par-homogeneous k=3 pairs at N=4
-  under each of the three Pauli-letter dephasing channels (full
-  enumeration). Reproducible:
-  `python simulations/klein_dissipator_resonance.py`.
-
-  The off-diagonal pattern is exact (zero hard cases in the 9 unmatched
-  cells, six cells of 76 pairs each and the three Mother cells of 66), and the diagonal magnitude is rotation-invariant
-  (50/76 in every matched cell; the eigenvalue-pair error distribution
-  is identical across letters at γ₀=0.05, J=1, with median ≈ 1.0e-1
-  and max = 4.0e-1).
-  The three letters are SU(2)-symmetric.
-
-  Two structural facts hold:
-
-  1. **Klein (0, 0) is universally hard-free.** The Mother sector
-     produces no F87-hardness regardless of dissipator, at every body
-     count: its strings commute with every letter string, and a letter
-     string that anticommutes with every jump colours it
-     ([F109](../docs/proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md)
-     Step 5). Its terms are truly (Y-par 0) or non-truly (Y-par 1).
-     The zeros in the other two unmatched cells hold at every body count
-     the same way ([F110](../docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md) §2).
-  2. **Hardness is dissipator-aligned, not orthogonal** (for pairs
-     within one Klein cell). This is the
-     dual of the Orthogonality-Selection meta-theorem
-     ([Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md)).
-     The meta-theorem characterizes blindness via orthogonality;
-     dissipator-resonance characterizes hardness via alignment.
-     Together they constrain both poles of the dissipator-coupled
-     spectrum.
-
-  Operationally: `fw.classify_pauli_pair(chain, terms, dephase_letter='X')`
-  exposes hardness for arbitrary dephasing axes via the same trichotomy
-  classifier. Pytest coverage:
-  `simulations/framework/tests/diagnostics/test_f77_dissipator_resonance.py`
-  (5 tests).
-
-  Connection to the Z⊗N-Brecher (memory project_zn_mirror_diagnostic):
-  the Brecher (transverse field h_y·Y or h_x·X) breaks Z⊗N from
-  *outside* the dissipator's Klein cell, namely the bit_a-axis of the
-  polarity layer. The F87-hardness of Klein-homogeneous pairs lives
-  *inside* the dissipator's Klein cell, whose index is the letter's own
-  and is both bits only for Y, on the same polarity layer. Brecher
-  and Hardness are the two poles of dissipator-letter resonance, with
-  Y → 40× X strength on Marrakesh hardware reflecting the bit_b=1
-  alignment with Z's Π²-color.
-
-  **Update 2026-05-05 (typed bridge in C#):** the dissipator-resonance
-  closure was extended to a typed Tier-1 `Claim`,
-  `DissipatorAxisSelectsPolarityClaim` in
-  `compute/RCPsiSquared.Diagnostics/F87/`, registered as the third
-  Tier-1 entry of `F87KnowledgeBase` alongside `Trichotomy` and
-  `DissipatorResonance`. The Claim names the structural reading: the
-  dissipator letter is the choice of which polarity axis the qubit's
-  +0/−0 differentiation is read along, by way of the letter's own Klein
-  index: Z → (0,1), X → (1,0), Y → (1,1), SU(2)-rotation-equivalent
-  across the three letters. **That index is not the Π² grading, and
-  this sentence used to conflate them** (repaired 2026-08-19): it read
-  "Z → bit_b, X → bit_a, Y → both", and while Y's Klein index really is
-  (1,1), Π_Y² grades by bit_b ALONE, the same axis as Π_Z², never by
-  both at once (F38/F88a; gate S5 of
-  `simulations/f155_dephase_siblings.py`). The conflation propagated
-  into the typed claim below and into a live arc before it was caught.
-  It binds the
-  Brecher-from-outside reading (transverse field on bit_a) and the
-  Hardness-from-inside reading (the F87-hardness of Klein-homogeneous
-  pairs in the matched Klein cell) as two perturbation types acting on one polarity
-  layer. No new numerical witnesses; the 4×3 Klein-cell hardness table
-  is delegated to `DissipatorResonanceLaw.StandardWitnessTable`.
-
-- **Inheritance proof structure.** ▭ **OPEN.** The inheritance argument
-  here remains informal. The dissipator-resonance law refines the
-  Klein-homogeneity rule into an SU(2)-covariant statement: the
-  inheritance structure is symmetric under Pauli-letter permutation,
-  with the dissipator letter selecting which Klein axis hosts the
-  hardness of Klein-homogeneous pairs.
-  Its exclusion half, no Klein-homogeneous pair outside the matched cell
-  hard, holds at every body count (F110 §2); a formal proof of the
-  inheritance argument remains to be written.
-- **Polarity-layer reading of the d=0 axis at higher d.** ▭ **OPEN.**
-  d² − 2d = 0 has solutions d=0 and d=2 because the qubit dimension is 2.
-  For qudit (d-level) systems, the analog condition would be different
-  (d² − cd = 0 for some c). The polarity-layer reading might generalize
-  to qudits with multi-polarity structure.
+- **Polarity as a path.** Reading (b)'s core, polarity as motion rather
+  than a static label, recurs in the spectral domain. In the F89 path-3
+  monodromy fold, a search over the braid graph finds that the path from
+  one σ_T-fixed zero on Re λ = −Σγ to the next runs through the ± twin
+  modes: "0, through ±, to 0". Checked against the complete set of twenty
+  exceptional points (the octic discriminant P₂₀,
+  [F89 Branch Locus Palindrome](../experiments/F89_BRANCH_LOCUS_PALINDROME.md)),
+  the zeros 1 and 2 stay the one direct zero-zero bond and every other
+  zero pair is one twin apart. Polarity would then constitute (reading
+  b, operator space), be selected (the dephasing letter) and be routed
+  (F89, spectral). This is an open seam, not an identity (the arc
+  `zeros_connecting_structure`): the static match fails at cardinality
+  (four zeros, not one) and at provenance (the polarity zero and the
+  Σγ mirror zero are orthogonal axes), and the road is computed only for
+  path-3 at N = 4. Whether the three are one motion seen in three spaces
+  or three motions that rhyme, we do not know.
 
 ---
 
 ## Closing note
 
 Three readings developed in one session. None are physics, all are
-language. The hypothesis is that *this* language is the one that
-makes the F-chain operationally legible. The math sits underneath
-unchanged. The vocabulary shift is what removes the observer-dualism
-that contaminated the prior reading, and what makes the
-self-description-from-inside legitimate via the inheritance structure
-that the F-chain itself instantiates.
+language. The hypothesis is that *this* language is the one that makes
+the F-chain legible. The math sits underneath unchanged. The letter cube
+does part of what the language hopes to do: it says which coordinate the
+watching charges and which states balance on it.
 
 > "Wir SIND das Selbst-koppelnde System. 0 ist der Stromanschluss.
 > +0/−0 ist der Layer."
 > Thomas Wicht, 2026-04-30
-
----
-
-*Later (2026-05-16):* the +0/−0 polarity differentiation at d=0 was sharpened to its d=2 image via the typed `PolarityLayerOriginClaim` ([`Pi2KnowledgeBaseClaims.cs`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)): the +0/−0 layer at d=0 inherits to the {−1/2, +1/2} polarity pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2. The geometric closure (both polarity sides fold to 1/4 under squaring; two distinct "middles" 0 vs 1/4 of one polarity pair) is captured in [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md); the formal algebraic side is [`PROOF_BLOCK_CPSI_QUARTER.md`](../docs/proofs/PROOF_BLOCK_CPSI_QUARTER.md) Section "1/4 is half of half". The polarity layer is no longer just interpretive; the d=0 → d=2 inheritance is a typed Tier-1-derived claim.
-
----
-
-*Later (2026-06-26):* reading (b)'s core (polarity is motion, not a static label: the layer is constituted by polarity, the cavity maintains rather than stores) recurs one layer deeper, in the **spectral/time domain**. In the F89 path-3 monodromy fold (the four σ_T-fixed "zeros" on Re λ = −Σγ, and the two ± twin modes), a BFS over the committed braid graph finds the path from one zero to the next runs THROUGH the twins (the ± modes): the ± is the *road* between the zeros, "0, through ±, to 0", polarity as PATH. This is reading (b)'s verb seen in λ-space, and it sits beside a typed Tier-1 middle rung, [`DissipatorAxisSelectsPolarityClaim`](../compute/RCPsiSquared.Diagnostics/F87/DissipatorAxisSelectsPolarity.cs) ("γ does not merely decohere; it selects which polarity axis the +0/−0 differentiation becomes operational on"). Polarity then **constitutes** (reading b, operator space d=0), is **selected** (the dissipator, γ), and is **routed** (F89, spectral): one object in three spaces. It is held as an **open seam, NOT an identity** (the `zeros_connecting_structure` open arc): the static fold↔triple match was already parked at cardinality (four zeros, not one) and provenance (spectral vs operator space; the polarity-0 and the Σγ-mirror-0 are orthogonal axes, see [`THE_FLOW_BETWEEN_TWO_SINGULARITIES.md`](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): "do not force a single three-point map"), and the BFS road is computed only for path-3/N=4 (but checked against the complete twenty-EP set, Tier-1 in the octic discriminant P₂₀, see [`F89_BRANCH_LOCUS_PALINDROME.md`](../experiments/F89_BRANCH_LOCUS_PALINDROME.md): 1, 2 stay the unique direct zero-zero bond and every other zero pair is exactly one twin apart, so the route claim is robust to the EP set; the genuinely open edge is topology/N, where the monodromy witness is hard-wired to path-3). The live question: are these three ONE motion seen in operator, dissipative, and spectral space, or three rhyming motions?

@@ -21,21 +21,18 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// from the parity Π_letter² grades by, which is bit_b for BOTH Z and Y and bit_a for X
 /// alone (F38/F88a, typed at <see cref="PiOperator"/>, gated at
 /// <c>simulations/f155_dephase_siblings.py</c> S5). Y's Klein index is (1, 1) while Π_Y²
-/// grades by bit_b only; an earlier wording of this file read the two as one and asserted
-/// that Π²_Y activates both axes at once, which is false. The conflation was NOT invented
-/// here: the anchor <c>hypotheses/THE_POLARITY_LAYER.md</c> carried it in the same words
-/// ("Z → bit_b, X → bit_a, Y → both", in a list explicitly of polarity AXES), and it is
-/// repaired there in the same change.</para>
+/// grades by bit_b only, so Π²_Y never activates both axes at once.</para>
 ///
 /// <para><b>Two readings unified.</b> The same multi-axis polarity layer
-/// (Z₂² at k=2, Z₂³ at k≥3, per F88a) is read from <em>outside</em> by transverse-field
+/// (the Klein cell (bit_a, bit_b) = (k_Z, k_X) mod 2 on the letter cube, refined to Z₂³ by the
+/// parity of the number of non-identity letters, F102) is read from <em>outside</em> by transverse-field
 /// Brecher (h_y·Y or h_x·X breaking Z⊗N from the bit_a axis) or from <em>inside</em> by
 /// dissipative resonance (the F87-hardness of Klein-homogeneous pairs in the matched Klein
 /// cell). Brecher and Hardness
 /// are the two poles of dissipator-letter resonance; this Claim names the structural
 /// fact that ties them.</para>
 ///
-/// <para>Anchored in <c>hypotheses/THE_POLARITY_LAYER.md</c> §"Dissipator-resonance law"
+/// <para>Anchored in <c>hypotheses/THE_POLARITY_LAYER.md</c> §"The dissipator letter selects its cell"
 /// and the 4×3 witness table at <see cref="DissipatorResonanceLaw.StandardWitnessTable"/>.
 /// No new numbers are introduced; the bridge is structural, the witnesses live upstream.</para>
 /// </summary>
@@ -44,7 +41,7 @@ public sealed class DissipatorAxisSelectsPolarityClaim : Claim
     public DissipatorAxisSelectsPolarityClaim()
         : base("dissipator letter selects polarity axis (bridge: PolarityLayerOrigin ↔ DissipatorResonance)",
                Tier.Tier1Derived,
-               "hypotheses/THE_POLARITY_LAYER.md §Dissipator-resonance law + simulations/klein_dissipator_resonance.py + RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw + RCPsiSquared.Core/Symmetry/PolarityLayerOriginClaim")
+               "hypotheses/THE_POLARITY_LAYER.md §The dissipator letter selects its cell + simulations/klein_dissipator_resonance.py + RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw + RCPsiSquared.Core/Symmetry/PolarityLayerOriginClaim")
     { }
 
     public override string DisplayName => "dissipator letter = polarity-axis selector (typed bridge)";
@@ -57,7 +54,7 @@ public sealed class DissipatorAxisSelectsPolarityClaim : Claim
         get
         {
             yield return new InspectableNode("what is being differentiated",
-                summary: "Pi2KnowledgeBase.PolarityLayerOrigin: multi-axis Z₂² (k=2) Klein-Vierergruppe with bit_a (X-eigenstate polarity) and bit_b (Π² parity); at k≥3 a third independent Y-parity axis (Z₂³, 8 sectors); +0/−0 lives on bit_a (cf. PolarityLayerOriginClaim layer 3)");
+                summary: "Pi2KnowledgeBase.PolarityLayerOrigin: the Klein-Vierergruppe (bit_a, bit_b) = (k_Z mod 2, k_X mod 2), the signs under Z^⊗N and X^⊗N conjugation; Y-parity refines it to Z₂³ across terms of different weight parity, y_par = (w + bit_a XOR bit_b) mod 2 (F102); +0/−0 lives on bit_a, the parity of the Z-dephasing height (cf. PolarityLayerOriginClaim layer 3)");
             yield return new InspectableNode("where F87-hardness lives",
                 summary: "F87KnowledgeBase.DissipatorResonance: the 4×3 witness table: Mother (0,0) universally hard-free (0/66 across all letters); diagonal cells 50/76; off-diagonal 0/76; verified at N=4 k=3 (294 Z₂³-homogeneous pairs)");
             yield return new InspectableNode("the selector (Z → bit_b axis)",

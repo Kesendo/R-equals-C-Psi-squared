@@ -5,9 +5,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// Per F34/QUBIT_NECESSITY the operator algebra of a single qubit admits at most
 /// two independent Π² operators (Π²_Z = X⊗N and Π²_X = Z⊗N); the third Z₂
-/// classifier (Y-parity = #Y mod 2) lives at the Pauli-term level and becomes
-/// independent only at k≥3-body terms. So the cubic Z₂³ is term-level, not
-/// operator-level.</summary>
+/// classifier (Y-parity = #Y mod 2) lives at the Pauli-term level and is independent
+/// of the Klein cell only across terms of different weight parity (F102). So the cubic
+/// Z₂³ is term-level, not operator-level.</summary>
 public enum Z2Axis
 {
     /// <summary>Π²_Z = X⊗N axis. bit_b parity (n_Y + n_Z mod 2). The F1² family.</summary>
@@ -19,10 +19,10 @@ public enum Z2Axis
     /// <summary>Uses both Π²_Z and Π²_X axes actively (Klein-Vierergruppe Z₂ × Z₂).</summary>
     Klein2,
 
-    /// <summary>Independent term-level Y-parity refinement (relevant only at k≥3-body).</summary>
+    /// <summary>Independent term-level Y-parity refinement (relevant across terms of different weight parity).</summary>
     YParity,
 
-    /// <summary>Uses all three Z₂ classifiers (full Z₂³ = 8 sectors at k≥3).</summary>
+    /// <summary>Uses all three Z₂ classifiers (full Z₂³ = 8 sectors, populated when both weight parities occur).</summary>
     Cubic3,
 
     /// <summary>Utility / non-Π²-axis Claim (e.g., chiral K, F71 spatial mirror, dyadic ladder anchors).</summary>

@@ -63,7 +63,7 @@ public sealed class DissipatorResonanceLaw : Claim
     public DissipatorResonanceLaw()
         : base("F87 dissipator-resonance law (Tier 1; SU(2)-symmetric Klein-cell alignment)",
                Tier.Tier1Derived,
-               "hypotheses/THE_POLARITY_LAYER.md (Open Directions: Dissipator-resonance law CLOSED 2026-05-01) + simulations/klein_dissipator_resonance.py")
+               "hypotheses/THE_POLARITY_LAYER.md §The dissipator letter selects its cell + simulations/klein_dissipator_resonance.py")
     {
         Witnesses = StandardWitnessTable;
     }

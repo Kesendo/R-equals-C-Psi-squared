@@ -4304,7 +4304,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 ---
 
-### F102. Y-Parity Term-Level Z₂ Independence at k_body≥3 (Tier 1 derived, verified)
+### F102. Y-Parity Term-Level Z₂ Independence across k_body Parities (Tier 1 derived, verified)
 
 For any Pauli string σ = ⊗_l σ_α_l on N qubits:
 
@@ -4340,7 +4340,7 @@ witness `compute/RCPsiSquared.Core.Tests/Pauli/PauliHamiltonianKleinHelpersTests
 ### F103. F87 Trichotomy Z₂³ Refinement at k_body=3 (Tier 1 derived, N=4 anchor)
 
 After F102 established that Y-parity y_par = n_Y mod 2 is independent of the
-Klein (bit_a, bit_b) signature at k_body≥3, F103 captures how Y-parity actually
+Klein (bit_a, bit_b) signature across terms of different k_body parity, F103 captures how Y-parity actually
 refines the existing F87 trichotomy (truly / soft / hard) at k_body=3 with
 empirical anchor at N=4.
 

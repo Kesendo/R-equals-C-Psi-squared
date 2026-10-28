@@ -191,7 +191,7 @@ Live counts (read 2026-09-25, 86 claims in the inventory):
 | BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 64 |
 | BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 7 |
 | Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 5 |
-| YParity | Term-level Y-parity refinement (k≥3) | 8 |
+| YParity | Term-level Y-parity refinement (across weight parities) | 8 |
 | Cubic3 | Full Z₂³ (Klein-eight) | 1 |
 | NotApplicable | Foundation-layer claim without an axis | 1 |
 

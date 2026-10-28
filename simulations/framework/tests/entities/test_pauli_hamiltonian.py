@@ -32,15 +32,16 @@ def test_PauliTerm_klein_index():
 
 
 def test_PauliTerm_y_parity_independent_at_k3():
-    """Y-parity is determined by Klein index at k=2 (Y-par = bit_a XOR bit_b)
-    but becomes an independent third Z₂ axis at k≥3."""
+    """Y-par = (n + bit_a XOR bit_b) mod 2, n the non-identity count (F102):
+    bit_a XOR bit_b at n = 2, its complement at n = 3, so Y-parity is an
+    independent third Z₂ axis only across terms of different n-parity."""
     # k=2: Y-par = bit_a XOR bit_b
     for letters in [('X', 'X'), ('X', 'Y'), ('X', 'Z'), ('Y', 'Z'), ('Y', 'Y')]:
         t = fw.PauliTerm(letters)
         a, b = t.klein_index
         assert t.y_parity == (a ^ b), f"k=2 Y-par should equal bit_a XOR bit_b for {letters}"
 
-    # k=3: Y-par independent of Klein index
+    # k=3: Y-par is the complement of bit_a XOR bit_b
     # XXY: Klein = (1, 1), Y-par = 1; XOR(1,1)=0 ≠ 1
     t_xxy = fw.PauliTerm(('X', 'X', 'Y'))
     assert t_xxy.klein_index == (1, 1)

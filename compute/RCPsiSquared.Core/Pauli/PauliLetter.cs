@@ -9,7 +9,9 @@ namespace RCPsiSquared.Core.Pauli;
 ///   Y = (1, 1) = 3    bit_a = 1 (XY content)            bit_b = 1 (Π²-odd)
 ///
 /// bit_a counts X+Y (the n_XY weight); bit_b counts Y+Z (the Π²-parity / n_YZ).
-/// Y-parity (#Y mod 2) is independent only at k ≥ 3-body terms.
+/// Y-parity (#Y mod 2) is independent of the Klein cell only across terms of different
+/// weight parity (F102: y_par = (w + bit_a XOR bit_b) mod 2, w the number of non-identity
+/// letters).
 /// </summary>
 public enum PauliLetter
 {

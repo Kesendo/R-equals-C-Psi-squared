@@ -37,7 +37,8 @@ public sealed record PauliHamiltonian(int N, IReadOnlyList<PauliTerm> Terms)
         Terms.Where(t => t.KBody > 0).Select(t => t.FullZ2Signature).ToHashSet();
 
     /// <summary>True if all non-identity terms share the same full Z₂³ signature. Strictly
-    /// finer than <see cref="IsKleinHomogeneous"/> at k≥3; equivalent at k=2.</summary>
+    /// finer than <see cref="IsKleinHomogeneous"/> when the terms differ in KBody parity;
+    /// equivalent within one parity.</summary>
     public bool IsZ2Homogeneous => FullZ2SignatureSet.Count <= 1;
 
     /// <summary>Per-term Klein index list (in term order, non-identity terms only).</summary>
