@@ -50,7 +50,7 @@ public class PalindromeSoftCertifierTests
     [Fact]
     public void Certify_PrefersExcitation_FallsBackToLinear_ElseNotCertified()
     {
-        // Pure pairing -> ExcitationPairing (the stronger, topology-independent certificate).
+        // Pure pairing in one Klein cell -> ExcitationPairing (the stronger, topology-independent certificate).
         Assert.Equal(Strategy.ExcitationPairing, PalindromeSoftCertifier.Certify(H("XY", "YX"), 4).Strategy);
         // Pure hopping, chain-bipartite, not a pairing -> LinearSiteColoring.
         Assert.Equal(Strategy.LinearSiteColoring, PalindromeSoftCertifier.Certify(
@@ -71,6 +71,38 @@ public class PalindromeSoftCertifierTests
         var pairingPlusOddFlip = new List<PauliTerm> { T("XY"), T("YX"), T("YZ") };
         Assert.False(PalindromeSoftCertifier.IsPurePairing(pairingPlusOddFlip));
         Assert.False(PalindromeSoftCertifier.Certify(pairingPlusOddFlip, 4).Certified);
+    }
+
+    [Fact]
+    public void ExcitationPairing_NeedsOneKleinCell_AMixedPairingIsHard()
+    {
+        // XX − YY + ZXX − ZYY is a pure pairing (every piece Δn = ±2), but XX, YY have bit_b = 0 and ZXX, ZYY
+        // bit_b = 1: X^⊗N neither commutes nor anticommutes with H, there is no lit chiral beside the ⌊n/2⌋
+        // colouring, and the exact complement connection reads it hard on the open chain.
+        var mixed = new List<PauliTerm> { T("XX"), T("YY", -Complex.One), T("ZXX"), T("ZYY", -Complex.One) };
+        Assert.True(PalindromeSoftCertifier.IsPurePairing(mixed));
+        Assert.False(PalindromeSoftCertifier.CertifyByExcitationPairing(mixed));
+        foreach (int n in new[] { 3, 4, 5 })
+            Assert.Equal(PalindromeSoftCertifier.Decision.Hard, PalindromeSoftCertifier.DecideAtN(mixed, n).Verdict);
+
+        // The pairing is read on the PLACED H: XYI and YX share their masks, but on the open chain YX alone
+        // reaches the last bond, where its hopping piece survives. One cell (all bit_b = 1), still hard.
+        var padded = H("XYI", "YX", "XIY", "YIX");
+        Assert.True(PalindromeMaskClassifier.IsBitBHomogeneous(padded));
+        Assert.False(PalindromeSoftCertifier.IsPurePairing(padded));
+        foreach (int n in new[] { 3, 4, 5 })
+            Assert.Equal(PalindromeSoftCertifier.Decision.Hard, PalindromeSoftCertifier.DecideAtN(padded, n).Verdict);
+
+        // Inside one Klein cell the pairing certifies, and the exact route agrees: bit_b = 1 (XY, YX, ZXX, ZYY;
+        // the element X^⊗N·(−1)^⌊n/2⌋) and bit_b = 0 (XZY + YZX, soft and not truly; the element X^⊗N).
+        var odd = new List<PauliTerm> { T("XY"), T("YX"), T("ZXX"), T("ZYY", -Complex.One) };
+        var even = H("XZY", "YZX");
+        foreach (var cell in new[] { odd, even })
+        {
+            Assert.Equal(Strategy.ExcitationPairing, PalindromeSoftCertifier.Certify(cell, 4).Strategy);
+            foreach (int n in new[] { 3, 4, 5 })
+                Assert.Equal(PalindromeSoftCertifier.Decision.Soft, PalindromeSoftCertifier.DecideAtN(cell, n).Verdict);
+        }
     }
 
     [Fact]

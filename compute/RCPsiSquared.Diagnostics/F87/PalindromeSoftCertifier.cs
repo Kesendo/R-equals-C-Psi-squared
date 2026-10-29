@@ -110,18 +110,22 @@ public static class PalindromeSoftCertifier
     public readonly record struct PalindromeDecision(
         Decision Verdict, SoftStrategy SoftStrategy, HardStrategy HardStrategy, string Reason);
 
-    /// <summary>True iff the summed Hamiltonian is a pure pairing (every basis-edge Δn = ±2), detected
-    /// by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent. Exact: every input
+    /// <summary>True if the Hamiltonian placed on the open chain is a pure pairing (every basis-edge Δn = ±2),
+    /// detected per template length by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent. Exact: every input
     /// coefficient's real and imaginary parts are scaled to integers by one common power of two
     /// (<see cref="ComplementConnectionGraph.DyadicIntegers"/>), and the σ± coefficients, sums of those
     /// times ±1 and ±i, are accumulated as Gaussian integers and compared with zero, so a hopping piece of
-    /// any size, 1e−300 included, is seen.</summary>
+    /// any size, 1e−300 included, is seen. The pieces are keyed per template LENGTH as well: templates of one
+    /// length sit on the same windows of the open chain, so a cancellation among them is one in the placed H
+    /// at every N. Across lengths a cancellation can fail at the chain's end (XYI and YX share their masks, yet
+    /// YX alone reaches the last bond, and XYI + YX + XIY + YIX is hard), so it is not counted, and the test is
+    /// sufficient, not necessary (XY − XYI − IXY + IXYI cancels on the chain and is still declined).</summary>
     public static bool IsPurePairing(IReadOnlyList<PauliTerm> terms)
     {
         var parts = ComplementConnectionGraph.DyadicIntegers(
             terms.SelectMany(t => new[] { t.Coefficient.Real, t.Coefficient.Imaginary }).ToList());
-        // Accumulate σ± coefficients keyed by (X/Y mask, Z mask, sign pattern ε). ε bit set = σ_- there.
-        var coeffs = new Dictionary<(ulong Xy, ulong Z, ulong Eps), GaussianInteger>();
+        // Accumulate σ± coefficients keyed by (template length, X/Y mask, Z mask, sign pattern ε). ε bit set = σ_- there.
+        var coeffs = new Dictionary<(int Length, ulong Xy, ulong Z, ulong Eps), GaussianInteger>();
         for (int ti = 0; ti < terms.Count; ti++)
         {
             var t = terms[ti];
@@ -148,7 +152,7 @@ public static class PalindromeSoftCertifier
                     if (t.Letters[pos] == PauliLetter.Y)
                         coeff = coeff * (minus ? GaussianInteger.I : -GaussianInteger.I);
                 }
-                var key = (xyMask, zMask, eps);
+                var key = (t.Letters.Count, xyMask, zMask, eps);
                 coeffs[key] = (coeffs.TryGetValue(key, out var old) ? old : GaussianInteger.Zero) + coeff;
             }
         }
@@ -169,9 +173,17 @@ public static class PalindromeSoftCertifier
         return anyPure;                                           // pure pairing iff only ± pieces survive
     }
 
-    /// <summary>The excitation-number strategy: certify soft iff the Hamiltonian is a pure pairing
-    /// (then ⌊n/2⌋ mod 2 two-colours the basis-state graph, soft on any topology).</summary>
-    public static bool CertifyByExcitationPairing(IReadOnlyList<PauliTerm> terms) => IsPurePairing(terms);
+    /// <summary>The excitation-number strategy: certify soft if the placed Hamiltonian is a pure pairing AND the
+    /// terms share one Klein cell (bit_b-homogeneous). A pure pairing has ⌊n/2⌋ mod 2 as a 2-colouring of its
+    /// basis-state graph, K = (−1)^⌊N̂/2⌋ with K H K = −H. X^⊗N turns Y and Z and keeps X, so it commutes with a
+    /// bit_b = 0 term and anticommutes with a bit_b = 1 one: in a bit_b = 0 cell X^⊗N itself commutes with H (the
+    /// pairing is not needed there), in a bit_b = 1 cell X^⊗N·K does, and each anticommutes with every Z_l, an
+    /// invertible element of F158's far kernel, so the spectrum pairs at any positive rates. The argument uses no
+    /// geometry: it holds wherever the placed H is a pure pairing in one cell, and the certifier places on the
+    /// open chain. A bit_b-MIXED pairing has neither element and can be hard (XX − YY + ZXX − ZYY on the open
+    /// chain), the same soundness gate as <see cref="CertifyByExcitationParity"/>'s.</summary>
+    public static bool CertifyByExcitationPairing(IReadOnlyList<PauliTerm> terms) =>
+        IsPurePairing(terms) && PalindromeMaskClassifier.IsBitBHomogeneous(terms);
 
     /// <summary>True iff every term flips an ODD number of sites (odd k_xy = #X/Y per term), i.e. the
     /// Hamiltonian sits in the bit_a = 1 Klein-cell row. Then every basis-edge has odd Δn. N-independent.</summary>

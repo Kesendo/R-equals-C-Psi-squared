@@ -166,7 +166,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     /// <summary>The soundness battery, one case per certification strategy, each self-checked against
     /// the spectral authority. All are soft, so all must be certified AND not hard.
     /// <list type="bullet">
-    ///   <item><b>XY+YX</b>: pure pairing, certified by ExcitationPairing (topology-independent).</item>
+    ///   <item><b>XY+YX</b>: pure pairing, bit_b-homogeneous, certified by ExcitationPairing (topology-independent).</item>
     ///   <item><b>XZ+ZX</b>: all-odd-flip, bit_b-homogeneous, certified by ExcitationParity.</item>
     ///   <item><b>XY−YX</b>: pure hopping, chain-bipartite flip-masks, certified by LinearSiteColoring
     ///     (the chain chiral-K reading the §7 diagonal-K criterion scales).</item>
@@ -184,7 +184,7 @@ public sealed class PalindromeSoftCertifierClaim : Claim
     {
         var battery = new (string Name, string Detail, List<PauliTerm> Terms)[]
         {
-            ("XY+YX (ExcitationPairing)", "pure pairing, σ± colouring ⌊n/2⌋ mod 2", H("XY", "YX")),
+            ("XY+YX (ExcitationPairing)", "pure pairing, bit_b-homogeneous, σ± colouring ⌊n/2⌋ mod 2", H("XY", "YX")),
             ("XZ+ZX (ExcitationParity)", "all-odd-flip, bit_b-homogeneous, n mod 2 colouring", H("XZ", "ZX")),
             ("XY-YX (LinearSiteColoring)", "pure hopping, chain-bipartite flip-masks (chiral K)",
                 new List<PauliTerm> { T("XY", Complex.One), T("YX", -Complex.One) }),

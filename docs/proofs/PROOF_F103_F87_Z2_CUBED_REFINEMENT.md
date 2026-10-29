@@ -891,8 +891,9 @@ read on the basis-state graph, where the excitation-number structure of a pairin
 2-colourable regardless of site frustration. (The truly cases, M = 0, sit outside this: XX + YY is truly
 on the triangle despite a non-bipartite basis-state graph.) So the Door 2 mask/site test is the
 chain-scalable PROXY for this true criterion; the basis-state criterion itself is the 2^N graph, not
-Liouvillian-free, though for structured terms it can reduce to a scalable statement (a pure pairing is
-soft at any N, any topology, by the excitation number). Verified:
+Liouvillian-free, though for structured terms it can reduce to a scalable statement (a pure pairing inside
+one Klein cell pairs its spectrum at any N, any topology, soft or truly: in the diagonal cell by the excitation number beside
+X^⊗N, in a bit_b = 0 cell by X^⊗N alone). Verified:
 [`f87_door2a_basis_graph.py`](../../simulations/f87_door2a_basis_graph.py).
 
 **The structured colourings, and their ceiling.** A scalable soft-certifier realises the basis-state
@@ -900,11 +901,19 @@ criterion through STRUCTURED 2-colourings c(s) it can check per-term without the
 clean: the linear c(s) = ⟨φ, s⟩ (the chiral K of §7.1, the chain proxy); the pairing grading
 c(s) = ⌊n/2⌋ mod 2 (every basis-edge Δn = ±2, a pure Δn = ±2 pairing); and the parity grading
 c(s) = n mod 2 (every basis-edge Δn odd, i.e. every term has odd k_xy = #X/Y). The two excitation gradings
-are topology-independent. The parity grading needs a bit_b-homogeneity gate, though: the n mod 2 colouring
-exists for any all-odd-flip set, but a bipartite basis-state graph certifies soft only beside a lit chiral,
-which inside one Klein cell is F (§7.6), so a bit_b-MIXED all-odd set with none can be HARD despite the colouring (XZ + ZXZ is all-odd with
-bit_b = {1, 0} and spectrally hard at N = 3..4) while another is soft (XZ + ZX + YZ + ZY); the gate keeps
-the certificate sound. But even with the gates the structured
+are topology-independent, and both need a bit_b-homogeneity gate: the colouring exists for any pure pairing
+and any all-odd-flip set, but a bipartite basis-state graph certifies soft only beside a lit chiral,
+which one Klein cell supplies (below), so a bit_b-MIXED set with none can be HARD despite the colouring (XZ + ZXZ is all-odd with
+bit_b = {1, 0} and spectrally hard at N = 3..4; XX − YY + ZXX − ZYY is a pure pairing with bit_b = {0, 1}
+and hard on the open chain at N = 3..5) while another is soft (XZ + ZX + YZ + ZY); the gate keeps
+the certificate sound. Inside one cell the element is explicit: X^⊗N keeps X and turns Y and Z, so in a
+bit_b = 0 cell it commutes with every H there, colouring or not, and in a bit_b = 1 cell X^⊗N·K commutes
+with H, K the colouring's diagonal sign: (−1)^⌊N̂/2⌋ for a pure pairing (the diagonal cell, where F = X^⊗N
+reverses H, §7.5), (−1)^N̂ for the parity grading (the third-letter cell, where X^⊗N·(−1)^N̂ ∝ Y^⊗N).
+Read on the placed H: templates of different lengths sit on different windows of the open chain, so pieces
+that cancel across lengths in the template sum need not cancel there (XYI + YX + XIY + YIX passes the
+template sum, all in one cell, and is hard). Each anticommutes with every Z_l, an
+invertible element of the far kernel of [the two-end count](PROOF_PALINDROME_TWO_END_COUNT.md) (F158). But even with the gates the structured
 colourings are SOUND, not complete, and the incompleteness is two-layered. (a) A scalability gap: some
 soft Hamiltonians are bipartite only through a non-structured 2-colouring no scalable strategy reaches
 (XY + YX + XZ + ZX on a triangle is soft, its basis-state graph bipartite at ANF-degree 2, yet neither
