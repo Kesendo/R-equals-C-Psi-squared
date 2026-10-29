@@ -1,0 +1,35 @@
+== no letter, frame turned on q5 (logical 1)
+  phi 1.571: rounding residual of the two added unitaries, max |D| = 7.327e-15 = 33.0 eps
+  phi 3.142: rounding residual of the two added unitaries, max |D| = 1.396e-14 = 62.9 eps
+  phi 4.712: rounding residual of the two added unitaries, max |D| = 8.632e-15 = 38.9 eps
+  T5 stacked over the three turns (full covariance, 8192 shots per circuit): noncentrality 0.0, rank 108, 99 % point 145.1, expected T5 108, power 0.010; with the October drift factor 1.27: noncentrality 0.0, expected 108, power 0.010
+  share: S = <Y0 Z2> at the four turns -0.0117, -0.0117, -0.0117, -0.0117; mean -0.0117; S(0) - mean +0.0000
+== five Z letters, frame turned on q5 (logical 1)
+  phi 1.571: rounding residual of the two added unitaries, max |D| = 7.577e-15 = 34.1 eps
+  phi 3.142: rounding residual of the two added unitaries, max |D| = 1.268e-14 = 57.1 eps
+  phi 4.712: rounding residual of the two added unitaries, max |D| = 8.785e-15 = 39.6 eps
+  T5 stacked over the three turns (full covariance, 8192 shots per circuit): noncentrality 0.0, rank 108, 99 % point 145.1, expected T5 108, power 0.010; with the October drift factor 1.27: noncentrality 0.0, expected 108, power 0.010
+  share: S = <Y0 Z2> at the four turns +0.0098, +0.0098, +0.0098, +0.0098; mean +0.0098; S(0) - mean +0.0000
+== fitted crosstalk (8), frame turned on q5 (logical 1)
+  phi 1.571: largest |D| 0.0717, rms 0.0293
+  phi 3.142: largest |D| 0.1043, rms 0.0459
+  phi 4.712: largest |D| 0.1259, rms 0.0539
+  T5 stacked over the three turns (full covariance, 8192 shots per circuit): noncentrality 1033.9, rank 108, 99 % point 145.1, expected T5 1142, power 1.000; with the October drift factor 1.27: noncentrality 814.1, expected 922, power 1.000
+  share: S = <Y0 Z2> at the four turns -0.0173, -0.0340, -0.0083, +0.0121; mean -0.0119; S(0) - mean -0.0054
+== all three families (17), frame turned on q5 (logical 1)
+  phi 1.571: largest |D| 0.0564, rms 0.0274
+  phi 3.142: largest |D| 0.0596, rms 0.0214
+  phi 4.712: largest |D| 0.0393, rms 0.0217
+  T5 stacked over the three turns (full covariance, 8192 shots per circuit): noncentrality 307.2, rank 108, 99 % point 145.1, expected T5 415, power 1.000; with the October drift factor 1.27: noncentrality 241.9, expected 350, power 1.000
+  share: S = <Y0 Z2> at the four turns +0.0454, -0.0109, -0.0142, +0.0432; mean +0.0159; S(0) - mean +0.0296
+== five Z letters, frame turned on q4 at pi: rounding residual max |D| = 1.443e-14 = 65.0 eps
+== fitted crosstalk (8), frame turned on q4 at pi: largest |D| 0.0679, rms 0.0258; T noncentrality 93.4, rank 36, 99 % point 58.6, power 1.000; with drift noncentrality 73.5, power 0.999
+== all three families (17), frame turned on q4 at pi: largest |D| 0.0232, rms 0.0085; T noncentrality 12.1, rank 36, 99 % point 58.6, power 0.167; with drift noncentrality 9.6, power 0.112
+== five Z letters, frame turned on q6 at pi: rounding residual max |D| = 2.090e-14 = 94.1 eps
+== fitted crosstalk (8), frame turned on q6 at pi: largest |D| 0.0873, rms 0.0384; T noncentrality 244.2, rank 36, 99 % point 58.6, power 1.000; with drift noncentrality 192.3, power 1.000
+== all three families (17), frame turned on q6 at pi: largest |D| 0.0489, rms 0.0237; T noncentrality 75.6, rank 36, 99 % point 58.6, power 0.999; with drift noncentrality 59.5, power 0.990
+== the bound: power of T5 against a uniform eps on (5 -> 4) and (5 -> 6) at the fitted phases, other pairs zero, drift 1.27
+   eps 0.001: noncentrality 9.1 (with drift 7.1), power 0.035
+   eps 0.002: noncentrality 36.2 (with drift 28.5), power 0.307
+   eps 0.003: noncentrality 81.5 (with drift 64.2), power 0.898
+   eps 0.005: noncentrality 226.3 (with drift 178.2), power 1.000

@@ -1,0 +1,50 @@
+patched replay with no letter against the frozen replay: max difference 0.0
+chi2 with no letter 4383.9 over rank 288 (99 % point 346.8)
+measured <Y0 Z2> raw: A +0.0715  D3 -0.0168  R +0.1077  D6 -0.0789
+
+1. single-pair scan: eps = 0.01 at delta = 0 and pi/2 for each ordered pair
+  pair (5, 4) eps 0.01 delta 0: chi2 5153.5; largest odd-Y shift 0.0891 (median 0.0039); model <Y0 Z2> raw A +0.0121 D3 +0.0141 R -0.0341 D6 +0.0142
+  pair (5, 4) eps 0.01 delta pi/2: chi2 4741.1; largest odd-Y shift 0.0320 (median 0.0039); model <Y0 Z2> raw A -0.0414 D3 +0.0014 R +0.0072 D6 -0.0142
+  pair (5, 6) eps 0.01 delta 0: chi2 4439.9; largest odd-Y shift 0.1217 (median 0.0105); model <Y0 Z2> raw A -0.0475 D3 -0.0640 R +0.0239 D6 +0.0366
+  pair (5, 6) eps 0.01 delta pi/2: chi2 4497.9; largest odd-Y shift 0.0754 (median 0.0054); model <Y0 Z2> raw A -0.0053 D3 -0.0189 R -0.0291 D6 -0.0360
+  pair (4, 5) eps 0.01 delta 0: chi2 4781.5; largest odd-Y shift 0.0260 (median 0.0046); model <Y0 Z2> raw A -0.0185 D3 -0.0185 R -0.0099 D6 +0.0004
+  pair (4, 5) eps 0.01 delta pi/2: chi2 4860.1; largest odd-Y shift 0.0332 (median 0.0056); model <Y0 Z2> raw A -0.0185 D3 -0.0184 R -0.0255 D6 +0.0006
+  pair (6, 5) eps 0.01 delta 0: chi2 4669.3; largest odd-Y shift 0.0270 (median 0.0068); model <Y0 Z2> raw A -0.0218 D3 -0.0241 R -0.0063 D6 +0.0150
+  pair (6, 5) eps 0.01 delta pi/2: chi2 4418.2; largest odd-Y shift 0.0290 (median 0.0044); model <Y0 Z2> raw A -0.0372 D3 -0.0267 R -0.0065 D6 -0.0081
+
+2. the eight crosstalk parameters alone
+    start [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] -> chi2 3403.9 (status 2, nfev 7)
+    start [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01] -> chi2 3403.9 (status 2, nfev 7)
+    start [-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01] -> chi2 3403.9 (status 2, nfev 7)
+  best: (5, 4): eps 0.0079 delta -2.24  (5, 6): eps 0.0090 delta +0.83  (4, 5): eps 0.0106 delta -2.56  (6, 5): eps 0.0124 delta +2.69
+    at the fit: chi2 3403.9 (status 2); largest odd-Y shift 0.0651 (median 0.0148); model <Y0 Z2> raw A -0.0172 D3 -0.0559 R +0.0361 D6 -0.0213
+  (99 % point at rank-8 338.0)
+
+3. the eight beside the five letters
+    start [-0.005, 0.006, -0.009, -0.011, -0.006, 0.007, -0.006, 0.005, 0.001, 0.201, 0.18, 0.002, -0.111] -> chi2 1096.9 (status 2, nfev 5)
+    start [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.201, 0.18, 0.002, -0.111] -> chi2 1096.9 (status 2, nfev 5)
+  best: (5, 4): eps 0.0063 delta -2.35  (5, 6): eps 0.0035 delta +2.22  (4, 5): eps 0.0007 delta -0.01  (6, 5): eps 0.0077 delta -2.65  five [-0.006, 0.185, 0.207, -0.004, -0.114]
+    at the fit: chi2 1096.9 (status 2); largest odd-Y shift 0.2005 (median 0.0146); model <Y0 Z2> raw A +0.0350 D3 -0.0431 R +0.0232 D6 -0.0721
+  (99 % point at rank-13 332.5)
+
+4. the spectator's Z letter during the neighbour's pulses (AC Stark), rad/us, four ordered pairs alone
+    start [0.0, 0.0, 0.0, 0.0] -> chi2 1520.7 (status 2, nfev 8)
+    start [0.3, 0.3, 0.3, 0.3] -> chi2 1520.7 (status 2, nfev 5)
+    start [-0.3, -0.3, -0.3, -0.3] -> chi2 1520.7 (status 2, nfev 7)
+  best: (5, 4): +0.0177 rad/us  (5, 6): +0.4668 rad/us  (4, 5): +0.3828 rad/us  (6, 5): +0.5263 rad/us
+    at the fit: chi2 1520.7 (status 2); largest odd-Y shift 0.2052 (median 0.0079); model <Y0 Z2> raw A +0.0015 D3 -0.0484 R +0.0136 D6 -0.0602
+  (99 % point at rank-4 342.4)
+
+5. the spectator's Z letter beside the five letters
+    start [0.018, 0.467, 0.383, 0.526, 0.001, 0.201, 0.18, 0.002, -0.111] -> chi2 1219.2 (status 2, nfev 7)
+    start [0.0, 0.0, 0.0, 0.0, 0.001, 0.201, 0.18, 0.002, -0.111] -> chi2 1219.2 (status 2, nfev 8)
+  best: (5, 4): +1.0402  (5, 6): +0.8926  (4, 5): +0.0568  (6, 5): +0.0972  five [-0.488, 0.163, -0.146, -0.006, -0.084]
+    at the fit: chi2 1219.2 (status 2); largest odd-Y shift 0.1998 (median 0.0126); model <Y0 Z2> raw A +0.0187 D3 -0.0423 R +0.0285 D6 -0.0542
+  (99 % point at rank-9 336.9)
+
+6. all three families: eight crosstalk + four Stark + five letters
+    start [-0.004, -0.002, 0.001, -0.007, -0.004, 0.003, -0.0, -0.004, 1.04, 0.893, 0.057, 0.097, -0.488, 0.163, -0.146, -0.006, -0.084] -> chi2 937.0 (status 2, nfev 6)
+    start [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.201, 0.18, 0.002, -0.111] -> chi2 937.0 (status 2, nfev 8)
+  best: (5, 4): eps 0.0064 delta -2.29  (5, 6): eps 0.0045 delta +1.82  (4, 5): eps 0.0018 delta +2.84  (6, 5): eps 0.0077 delta -2.57  stark [1.0505, 1.1398, 0.3416, 0.4503]  five [-0.488, 0.018, -0.225, 0.011, -0.088]
+    at the fit: chi2 937.0 (status 2); largest odd-Y shift 0.1920 (median 0.0140); model <Y0 Z2> raw A +0.0455 D3 -0.0516 R +0.0343 D6 -0.0678
+  (99 % point at rank-17 328.1)

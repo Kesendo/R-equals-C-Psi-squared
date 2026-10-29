@@ -698,7 +698,14 @@ these fits: an extra dephasing of the driven qubit during its pulses, or
 of every qubit at all times (the even sector fixes it near 0.2 /µs during
 the drive, where it moves no odd-Y reading by more than 0.012); an extra amplitude damping of
 the driven qubit during its pulses (it carries, a drop of 208 at the rate
-the even sector fixes, and leaves 4176, per qubit 3539); each library
+the even sector fixes, and leaves 4176, per qubit 3539); a drive-crosstalk
+letter with a fixed phase per ordered pair of neighbours (it carries, 4384
+to 3404 with ε of 0.8 to 1.2 % on the four pairs, and leaves 3404; beside
+the five letters 1097; the spectator's Stark letter during the neighbour's
+pulses 1521 alone, collinear with the detunings; all three families with
+the five letters 937: [the driver's frame](DRIVE_FRAME_HARDWARE_PREDICTION.md)
+§2, the flight that asks whether the remainder turns with a qubit's drive
+frame); each library
 letter alone, the detunings with static ZZ,
 those with sx amplitude, the nineteen jointly from one start, an exchange
 at the CZ with a fixed phase, alone or beside five letters, a spread of
@@ -715,7 +722,7 @@ leakage at the CZ, an exchange whose phase moves with the time of each cz
 or with a virtual phase inside the calibrated cz, other coherent two-qubit
 errors that are not diagonal, a spread of detunings common to the qubits,
 excited or leaked spectators outside the
-path, crosstalk from the drive of one qubit onto its neighbour, a defect
+path, a defect
 on q4 other than an excitation at the start (its readout was far off its
 calibration), and the baseline's own
 readout leak, computed from modelled even readings that are stronger than
