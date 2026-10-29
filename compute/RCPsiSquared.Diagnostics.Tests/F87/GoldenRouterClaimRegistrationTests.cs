@@ -183,6 +183,29 @@ public class GoldenRouterClaimRegistrationTests
     }
 
     [Fact]
+    public void GoldenRouterClaim_RingSoftSet_FourAlwaysSoft_ElsewhereTheCyclesMustClose()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<GoldenRouterClaim>();
+
+        // N = 4: windows w and w + 2 share the end pair {w, w+2}, so they may cancel jointly; an invertible far
+        // element exists at every real triple: G off t₁(t₂ + t₃) = 0, a constant element on t₃ = −t₂ (both asserted
+        // here), and X^⊗4 on t₁ = 0 (§8's per-term argument; the battery reads X^⊗5 at N = 5).
+        Assert.True(claim.RingFourElementHolds);
+        Assert.True(claim.RingFourLineElementHolds);
+
+        // Elsewhere the step w ↦ w+2 closes into cycles of length N or N/2, each holding a three-site chain:
+        // the far end is empty off the union, and on the line the alternation a ↔ b closes only at 4 | N, where
+        // the rhythm ⊗[a,a,b,b] and, at t₂ = t₃ = 0, XXYY carry it. A dropped wrap is caught by the zero rows,
+        // the N = 4 reading and the N = 6 rhythm control; the four at N = 8 and X^⊗5 off the plane guard
+        // against a kernel that always reads 0 and an element check that always carries.
+        Assert.Equal(
+            new[] { "0, 0, 0, 0", "0, 0, 0, 0", "4", "6", "carries", "carries", "fails", "carries", "fails" },
+            claim.RingSoftSetReadings.Select(r => r.Actual));
+        Assert.All(claim.RingSoftSetReadings, r => Assert.Equal(r.Expected, r.Actual));
+    }
+
+    [Fact]
     public void GoldenRouterClaim_SelfCheck_Passes()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();

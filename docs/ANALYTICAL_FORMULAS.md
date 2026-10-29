@@ -5367,10 +5367,10 @@ site-dependent rates (rel ~2e-16); independently re-implemented five ways (throu
 sampled) in the 2026-06-10 adversarial audit.
 
 **The metallic family (2026-06-11):** the golden point is the c = 1 member of a
-one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX the line
+one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX on the open chain the line
 **t₂ = t₃** is soft, and so is the plane t₁ = 0 (X^⊗N commutes with every XZY and YZX
 term and lies in [F158](#f158)'s far-end kernel). **On the open chain the soft set is exactly their
-union from N = 5 on, and every triple at N = 3, 4** (rings carry another set): on the far end each window imposes one rule
+union from N = 5 on, and every triple at N = 3, 4**; on the periodic ring every triple at N = 4, the union at 4 | N ≥ 8, the plane alone at 4 ∤ N ([proof §8, rings](proofs/PROOF_CEILING_GOLDEN_ROUTER.md#the-soft-set-on-rings): the step w ↦ w + 2 closes into cycles of at least three sites away from N = 4, and on the line the alternation a ↔ b closes only along even ones; at N = 4 two windows share each end pair and cancel jointly). On the chain's far end each window imposes one rule
 P = [[t₁, t₂, t₃, 0], [0, t₃, t₂, −t₁]] on its two end letters, whatever the middle carries, so the
 far kernel is the product of two chain kernels over the even and the odd sites; a chain of at
 most two sites always holds a product of circle letters αX + βY (a root of

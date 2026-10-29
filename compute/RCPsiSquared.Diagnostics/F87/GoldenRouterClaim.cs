@@ -6,6 +6,7 @@ using System.Numerics;
 using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 
@@ -48,7 +49,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// window lemma is a polynomial identity in r (degree ≤ 5, verified exactly zero at 8 rational nodes), so
 /// it holds for all real (indeed complex) c by derivation. The soft set of the weighted template on the open chain is
 /// exact: every triple at N = 3, 4, and from N = 5 on exactly t₁ = 0 or t₂ = t₃ (F158's far end as two chain kernels over the
-/// even and the odd sites, det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)²; battery, PROOF §8 "the soft set").</para>
+/// even and the odd sites, det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)²; battery, PROOF §8 "the soft set"). On the
+/// periodic ring it is exact as well: every triple at N = 4, t₁ = 0 or t₂ = t₃ at 4 | N ≥ 8, t₁ = 0 alone at
+/// 4 ∤ N (the step w ↦ w + 2 closes into cycles; at N = 4 two windows share each end pair and cancel jointly;
+/// battery, PROOF §8 "the soft set on rings").</para>
 ///
 /// <para><b>Scope fences (the soft part, NOT Tier1Derived).</b> Rigidity (zero continuous physical moduli,
 /// the router is unique modulo gauge) is PROVEN only at the golden and silver stations (Jacobian nullity =
@@ -216,6 +220,52 @@ public sealed class GoldenRouterClaim : Claim
             new SoftSetReading("(3,4,5), N=6: far kernel mod p", "0", FarKernelModP(6, 3, 4, 5).ToString(Inv)),
             new SoftSetReading("control on the line (2,1,1), N=5: far kernel mod p", "4", FarKernelModP(5, 2, 1, 1).ToString(Inv)),
             new SoftSetReading("control on the plane (0,2,7), N=5: far kernel mod p", "4", FarKernelModP(5, 0, 2, 7).ToString(Inv)),
+        });
+
+        _ringFourElementHolds = new Lazy<bool>(() =>
+        {
+            var grid = Enumerable.Range(-2, 5).Select(v => (long)v).ToArray();
+            bool commutes = grid.All(a => grid.All(b => grid.All(c =>
+                CommutesWithTemplate(4, a, b, c, ring: true, RingFourElement(a, b + c)))));
+            bool determinant = Enumerable.Range(-16, 33).All(t =>
+            {
+                BigInteger closed = BigInteger.Pow(2, 16) * BigInteger.Pow(t, 8) * BigInteger.Pow((BigInteger)t * t + 1, 6);
+                return GaussianDet(MatrixOf(RingFourElement(t, 1))) == new GaussianInteger(closed, 0);
+            });
+            return commutes && determinant;
+        });
+
+        _ringFourLineElementHolds = new Lazy<bool>(() =>
+        {
+            var grid = Enumerable.Range(-2, 5).Select(v => (long)v).ToArray();
+            var g = RingFourLineElement();
+            return grid.All(a => grid.All(b => CommutesWithTemplate(4, a, b, -b, ring: true, g)))
+                && GaussianDet(MatrixOf(g)) == new GaussianInteger(BigInteger.Pow(2, 24), 0);
+        });
+
+        string Far(long t1, long t2, long t3, params int[] ns) =>
+            string.Join(", ", ns.Select(n => FarKernelModP(n, t1, t2, t3, ring: true).ToString(Inv)));
+        var xs = Enumerable.Repeat(x, 5).ToArray();
+        (long, long) a2 = (2, 1), b2 = (1, -2), y = (0, 1);   // the metallic directions at c = 3/2 (r = 2)
+        _ringSoftSetReadings = new Lazy<IReadOnlyList<SoftSetReading>>(() => new[]
+        {
+            new SoftSetReading("(1,2,3), off the line and the plane, ring N = 3, 5, 6, 7: far kernel mod p", "0, 0, 0, 0",
+                Far(1, 2, 3, 3, 5, 6, 7)),
+            new SoftSetReading("(2,1,1), on the line, ring N = 3, 5, 6, 7 (4 ∤ N): far kernel mod p", "0, 0, 0, 0",
+                Far(2, 1, 1, 3, 5, 6, 7)),
+            new SoftSetReading("control (2,1,1), on the line, ring N = 8 (4 | N): far kernel mod p", "4",
+                Far(2, 1, 1, 8)),
+            new SoftSetReading("(1,2,3), ring N = 4: far kernel mod p", "6", Far(1, 2, 3, 4)),
+            new SoftSetReading("(3,2,2), on the line, ring N = 8: ⊗[a,a,b,b] with a = 2X+Y, b = X−2Y commutes with H, invertible",
+                "carries", ProductElementCarries(3, 2, 2, new[] { a2, a2, b2, b2, a2, a2, b2, b2 }, ring: true) ? "carries" : "fails"),
+            new SoftSetReading("(1,0,0), the line's end t₂ = t₃ = 0, ring N = 8: XXYYXXYY commutes with H, invertible",
+                "carries", ProductElementCarries(1, 0, 0, new[] { x, x, y, y, x, x, y, y }, ring: true) ? "carries" : "fails"),
+            new SoftSetReading("control (3,2,2), ring N = 6 (4 ∤ N): ⊗[a,a,b,b,a,a], the rhythm cannot close",
+                "fails", ProductElementCarries(3, 2, 2, new[] { a2, a2, b2, b2, a2, a2 }, ring: true) ? "carries" : "fails"),
+            new SoftSetReading("(0,2,7), on the plane, ring N = 5: X^⊗5 commutes with H, invertible", "carries",
+                ProductElementCarries(0, 2, 7, xs, ring: true) ? "carries" : "fails"),
+            new SoftSetReading("control (1,2,3), ring N = 5: X^⊗5", "fails",
+                ProductElementCarries(1, 2, 3, xs, ring: true) ? "carries" : "fails"),
         });
 
         _battery = new Lazy<IReadOnlyList<BatteryCase>>(BuildBattery);
@@ -491,14 +541,15 @@ public sealed class GoldenRouterClaim : Claim
         return (e % 4, u);
     }
 
-    private static List<(int[] Letters, long Coefficient)> Template(int n, long t1, long t2, long t3)
+    private static List<(int[] Letters, long Coefficient)> Template(int n, long t1, long t2, long t3, bool ring = false)
     {
         var h = new List<(int[], long)>();
+        int windows = ring ? n : n - 2;
         foreach (var (a, b, c) in new[] { (1, 1, t1), (1, 2, t2), (2, 1, t3) })
-            for (int w = 0; w + 2 < n && c != 0; w++)
+            for (int w = 0; w < windows && c != 0; w++)
             {
                 var s = new int[n];
-                s[w] = a; s[w + 1] = 3; s[w + 2] = b;
+                s[w] = a; s[(w + 1) % n] = 3; s[(w + 2) % n] = b;
                 h.Add((s, c));
             }
         return h;
@@ -527,11 +578,11 @@ public sealed class GoldenRouterClaim : Claim
     /// <summary>dim of the far kernel modulo p: the lit strings ({X, Y} on every site) whose combinations commute
     /// with H, read as the nullity of [H, ·] on their span over GF(p) with i = √−1. Reduction can only lower a
     /// rank, so this is an upper bound on the rational far kernel: a reading of 0 proves it empty.</summary>
-    private static int FarKernelModP(int n, long t1, long t2, long t3)
+    private static int FarKernelModP(int n, long t1, long t2, long t3, bool ring = false)
     {
         long p = SoftPrime, iu = SqrtMinusOne(p);
         long[] ipow = { 1, iu, p - 1, p - iu };
-        var h = Template(n, t1, t2, t3);
+        var h = Template(n, t1, t2, t3, ring);
         int cols = 1 << n;
         var rows = new Dictionary<string, int>();
         var entries = new Dictionary<(int, int), long>();
@@ -600,7 +651,7 @@ public sealed class GoldenRouterClaim : Claim
     /// <summary>True iff G = ⊗ g_l (g_l integer combinations of X and Y) commutes with the template exactly and
     /// squares to a nonzero multiple of the identity: an invertible element of F158's far kernel (G anticommutes
     /// with every Z_l, its letters lying in span{X, Y}), so the spectrum pairs at every positive rate.</summary>
-    private static bool ProductElementCarries(long t1, long t2, long t3, (long X, long Y)[] g)
+    private static bool ProductElementCarries(long t1, long t2, long t3, (long X, long Y)[] g, bool ring = false)
     {
         int n = g.Length;
         var strings = new List<(int[] Letters, long Coefficient)> { (new int[0], 1) };
@@ -608,14 +659,24 @@ public sealed class GoldenRouterClaim : Claim
             strings = strings.SelectMany(s => new[] { (s.Letters.Append(1).ToArray(), s.Coefficient * x),
                                                       (s.Letters.Append(2).ToArray(), s.Coefficient * y) })
                              .Where(s => s.Item2 != 0).ToList();
-        // [H, G] in Gaussian integers, keyed by the output string
+        // G² = Π (x² + y²)·I for a product of real XY-plane letters; read it off the factors
+        bool invertible = g.All(f => f.X * f.X + f.Y * f.Y != 0);
+        return CommutesWithTemplate(n, t1, t2, t3, ring, strings) && invertible;
+    }
+
+    /// <summary>True iff [H, G] = 0 exactly, G = Σ c_s·s a combination of Pauli strings with integer coefficients,
+    /// H the weighted template on the open chain or on the ring; accumulated in Gaussian integers, keyed by the
+    /// output string.</summary>
+    private static bool CommutesWithTemplate(int n, long t1, long t2, long t3, bool ring,
+                                             IReadOnlyList<(int[] Letters, long Coefficient)> strings)
+    {
         var acc = new Dictionary<string, (long Re, long Im)>();
         void Add(string key, long c, int e)
         {
             var (re, im) = acc.TryGetValue(key, out var v) ? v : (0, 0);
             acc[key] = (e % 4) switch { 0 => (re + c, im), 1 => (re, im + c), 2 => (re - c, im), _ => (re, im - c) };
         }
-        foreach (var (term, c) in Template(n, t1, t2, t3))
+        foreach (var (term, c) in Template(n, t1, t2, t3, ring))
             foreach (var (s, a) in strings)
             {
                 var (e1, u) = Product(term, s);
@@ -624,11 +685,96 @@ public sealed class GoldenRouterClaim : Claim
                 Add(key, c * a, e1);
                 Add(key, -c * a, e2);
             }
-        bool commutes = acc.Values.All(v => v.Re == 0 && v.Im == 0);
-        // G² = Π (x² + y²)·I for a product of real XY-plane letters; read it off the factors
-        bool invertible = g.All(f => f.X * f.X + f.Y * f.Y != 0);
-        return commutes && invertible;
+        return acc.Values.All(v => v.Re == 0 && v.Im == 0);
     }
+
+    // --- the soft set on the periodic ring (PROOF §8, "the soft set on rings") ---
+
+    private static List<(int[] Letters, long Coefficient)> Strings(params (string Label, long Coefficient)[] terms) =>
+        terms.Where(t => t.Coefficient != 0)
+             .Select(t => (t.Label.Select(ch => "IXYZ".IndexOf(ch)).ToArray(), t.Coefficient)).ToList();
+
+    /// <summary>The ring N = 4 element off t₁ = 0 and t₂ + t₃ = 0, with s = t₂ + t₃: windows w and
+    /// w + 2 share the end pair {w, w + 2} with opposite middles, and off the line t₂ = t₃ F158's far end depends on
+    /// t₁ and s only (on the line it grows).</summary>
+    private static List<(int[] Letters, long Coefficient)> RingFourElement(long t1, long s) => Strings(
+        ("XXYY", t1 * t1), ("XYYX", t1 * t1), ("XYXY", -s * s), ("YXYX", -s * s),
+        ("YYYX", t1 * s), ("XYYY", t1 * s), ("XXYX", -t1 * s), ("XYXX", -t1 * s));
+
+    /// <summary>The ring N = 4 element on the line t₃ = −t₂, the same for every t₁ and t₂.</summary>
+    private static List<(int[] Letters, long Coefficient)> RingFourLineElement() => Strings(
+        ("XXYY", 2), ("XYYX", 1), ("YXXY", 1), ("XXXX", 1), ("XYXY", 1), ("YXYX", 1), ("YYYY", 1));
+
+    /// <summary>The 2^N × 2^N matrix of Σ c_s·s in Gaussian integers.</summary>
+    private static GaussianInteger[,] MatrixOf(IReadOnlyList<(int[] Letters, long Coefficient)> strings)
+    {
+        int n = strings[0].Letters.Length, d = 1 << n;
+        var m = new GaussianInteger[d, d];
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+                m[i, j] = GaussianInteger.Zero;
+        foreach (var (letters, c) in strings)
+        {
+            var g = GMat.Product(string.Concat(letters.Select(l => "IXYZ"[l])));
+            for (int i = 0; i < d; i++)
+                for (int j = 0; j < d; j++)
+                    m[i, j] += new GaussianInteger(c * g.Re[i, j], c * g.Im[i, j]);
+        }
+        return m;
+    }
+
+    /// <summary>Exact determinant over ℤ[i] (Bareiss, fraction-free; every division is exact and is checked).</summary>
+    private static GaussianInteger GaussianDet(GaussianInteger[,] m)
+    {
+        int n = m.GetLength(0);
+        var a = (GaussianInteger[,])m.Clone();
+        GaussianInteger prev = GaussianInteger.One, sign = GaussianInteger.One;
+        static bool IsZero(GaussianInteger z) => z.Re.IsZero && z.Im.IsZero;
+        static GaussianInteger DivideExact(GaussianInteger x, GaussianInteger y)
+        {
+            BigInteger norm = y.Re * y.Re + y.Im * y.Im;
+            var num = x * new GaussianInteger(y.Re, -y.Im);
+            if (!(num.Re % norm).IsZero || !(num.Im % norm).IsZero)
+                throw new InvalidOperationException("Bareiss division not exact in ℤ[i]");
+            return new GaussianInteger(num.Re / norm, num.Im / norm);
+        }
+        for (int k = 0; k < n - 1; k++)
+        {
+            if (IsZero(a[k, k]))
+            {
+                int s = k + 1;
+                while (s < n && IsZero(a[s, k])) s++;
+                if (s == n) return GaussianInteger.Zero;
+                for (int j = 0; j < n; j++) (a[k, j], a[s, j]) = (a[s, j], a[k, j]);
+                sign = -sign;
+            }
+            for (int i = k + 1; i < n; i++)
+                for (int j = k + 1; j < n; j++)
+                    a[i, j] = DivideExact(a[i, j] * a[k, k] - a[i, k] * a[k, j], prev);
+            prev = a[k, k];
+        }
+        return sign * a[n - 1, n - 1];
+    }
+
+    /// <summary>The ring N = 4 element read exactly. (i) It commutes with H at every triple of {−2..2}³: the entries
+    /// of [H, G] are polynomials of degree at most three in each of t₁, t₂, t₃, so five values per variable make it
+    /// an identity. (ii) det G = 2¹⁶·t₁⁸·s¹²·(t₁² + s²)⁶: G depends on t₁ and s only, each entry homogeneous of
+    /// degree two, so det G is a binary form of degree 32, fixed by its values at s = 1 and the 33 integers
+    /// t₁ = −16..16, Bareiss over ℤ[i]. Its real zeros are t₁ = 0 and s = 0. Its letters lie in span{X, Y}, so it
+    /// anticommutes with every Z_l and is an invertible element of F158's far kernel.</summary>
+    public bool RingFourElementHolds => _ringFourElementHolds.Value;
+    private readonly Lazy<bool> _ringFourElementHolds;
+
+    /// <summary>The ring N = 4 element on the line t₃ = −t₂: it commutes with H at every (t₁, t₂) of {−2..2}²
+    /// (degree one in each), and its determinant is the constant 2²⁴.</summary>
+    public bool RingFourLineElementHolds => _ringFourLineElementHolds.Value;
+    private readonly Lazy<bool> _ringFourLineElementHolds;
+
+    /// <summary>The soft set on the periodic ring read at integer triples: F158's far kernel modulo p (an upper
+    /// bound, so a reading of 0 proves it empty against a near end holding the identity), and invertible product
+    /// elements: the [a, a, b, b] rhythm and XXYY on the line at 4 | N, X^⊗N on the plane.</summary>
+    public IReadOnlyList<SoftSetReading> RingSoftSetReadings => _ringSoftSetReadings.Value;
+    private readonly Lazy<IReadOnlyList<SoftSetReading>> _ringSoftSetReadings;
 
     /// <summary>One reading of the soft set at an integer triple.</summary>
     public readonly record struct SoftSetReading(string Name, string Expected, string Actual);
@@ -741,6 +887,23 @@ public sealed class GoldenRouterClaim : Claim
             Actual: ReductionMismatches.ToString(Inv)));
         foreach (var r in SoftSetReadings)
             cases.Add(new BatteryCase(Name: "the soft set: " + r.Name, Detail: "PROOF §8, the soft set",
+                                      Expected: r.Expected, Actual: r.Actual));
+
+        // The soft set on the periodic ring: N = 4 every triple, 4 | N ≥ 8 the line and the plane, 4 ∤ N the plane.
+        cases.Add(new BatteryCase(
+            Name: "the ring soft set: N = 4 off t₁ = 0 and t₂ + t₃ = 0, an invertible element in the far kernel",
+            Detail: "G = t₁²(XXYY+XYYX) − s²(XYXY+YXYX) + t₁s(YYYX+XYYY−XXYX−XYXX), s = t₂+t₃: [H, G] = 0 on " +
+                    "{−2..2}³ (degree ≤ 3 per variable), det G = 2¹⁶t₁⁸s¹²(t₁²+s²)⁶ (binary form of degree 32, " +
+                    "33 values, Bareiss over ℤ[i])",
+            Expected: "identity",
+            Actual: RingFourElementHolds ? "identity" : "FAIL"));
+        cases.Add(new BatteryCase(
+            Name: "the ring soft set: N = 4 on t₃ = −t₂, an invertible element in the far kernel",
+            Detail: "2·XXYY + XYYX + YXXY + XXXX + XYXY + YXYX + YYYY: [H, G] = 0 on {−2..2}², det G = 2²⁴",
+            Expected: "identity",
+            Actual: RingFourLineElementHolds ? "identity" : "FAIL"));
+        foreach (var r in RingSoftSetReadings)
+            cases.Add(new BatteryCase(Name: "the ring soft set: " + r.Name, Detail: "PROOF §8, the soft set on rings",
                                       Expected: r.Expected, Actual: r.Actual));
 
         // The residual ‖{W,S}‖_F vanishes at the golden mean and is nonzero off it (the dip the witness draws).
@@ -858,6 +1021,19 @@ public sealed class GoldenRouterClaim : Claim
                          "det K₃ = −t₁²(t₂−t₃)²(t₁²+(t₂+t₃)²)² vanishes; elsewhere the far end is empty while the near " +
                          "end holds the identity, so no N ≥ 5 pairs. Live: the determinant identity on {−4..4}³ and the " +
                          "Pythagorean witness (3,4,5), soft at N = 3, 4 in integers, far kernel 0 at N = 5, 6 (PROOF §8).");
+
+            yield return new InspectableNode("the soft set on the periodic ring, exactly",
+                summary: "N = 4: the spectrum pairs for every real triple; 4 | N ≥ 8: iff t₁ = 0 or t₂ = t₃; 4 ∤ N: iff " +
+                         "t₁ = 0 (any positive site rates). Away from N = 4 each window still asks P of its own end pair, " +
+                         "but the step w ↦ w + 2 mod N closes into cycles (one of length N at odd N, two of length N/2 at " +
+                         "even N), each of at least three sites, so off the union det K₃ ≠ 0 empties the far end; on the " +
+                         "line the words in a and b in which no letter follows itself close only along even cycles, so 4 | N. At " +
+                         "N = 4 the windows w and w + 2 share the end pair {w, w + 2} with opposite middles and cancel " +
+                         "jointly: off the line t₂ = t₃ the far end depends on t₁ and s = t₂ + t₃ only, and G = t₁²(XXYY+XYYX) − " +
+                         "s²(XYXY+YXYX) + t₁s(YYYX+XYYY−XXYX−XYXX), det G = 2¹⁶t₁⁸s¹²(t₁²+s²)⁶, with a constant " +
+                         "element on s = 0 (det 2²⁴) and X^⊗4 on t₁ = 0: the three carry the palindrome at every real triple. " +
+                         "Live: both elements exact (commutation as a grid identity, determinants over ℤ[i]), far kernel " +
+                         "mod p on rings N = 3..8 (PROOF §8, the soft set on rings).");
 
             yield return new InspectableNode("uniqueness, scoped to invertible W",
                 summary: "Uniqueness statements are scoped to INVERTIBLE W: the anticommutation equation alone " +

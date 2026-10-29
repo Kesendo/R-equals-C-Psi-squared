@@ -12,7 +12,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// the bipartiteness of the BASIS-STATE hopping graph (a 2^N, letter-dependent object); this class tries
 /// scalable SUFFICIENT conditions and certifies soft if any holds. It never claims hard: NotCertified
 /// means no scalable strategy applies (the chain-scope hard proxy stays in
-/// <see cref="PalindromeMaskClassifier"/>). A certificate is correct for any N and any topology.
+/// <see cref="PalindromeMaskClassifier"/>). A certificate reaches as far as its strategy does: the window-summed
+/// router, for one, is a chain certificate and does not carry to a periodic ring with 4 ∤ N, where XZX+XZY+YZX
+/// does not pair (PROOF_CEILING_GOLDEN_ROUTER.md §6, §8).
 ///
 /// <para>The certifier carries THREE soft mechanisms. (1) The DIAGONAL chiral K: the structured
 /// 2-colourings of the basis-state graph, certifying the diagonal −N-mode soft cases. These are linear

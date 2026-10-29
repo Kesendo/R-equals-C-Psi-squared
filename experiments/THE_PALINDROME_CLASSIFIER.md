@@ -70,7 +70,9 @@ This is the property that makes the classifier a tool rather than a case-by-case
 ground-truth diagonalises L and dies at the 4^N wall. The certifier never builds L at all; each pattern is a
 condition on the terms themselves. The longest term reaches across some number of sites, call it k (a
 three-body term has k=3), and the check is a 4^k object, with k fixed by the Hamiltonian and not growing with
-the chain. The certificate, once found, is correct for any chain length and any topology.
+the chain. The certificate, once found, holds for every chain length its strategy covers, and not every certificate
+carries to other graphs (the Z-middle set below pairs on a periodic ring only where four divides its length,
+[the soft set on rings](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md#the-soft-set-on-rings)).
 
 Here it is, measured. We take three fixed term-sets, a soft one (the single-site-field case IXI+IIY+YII), a
 hard one (the diagonal-cell pair XXZ+XZX), and the once-hardest soft case there is (the Z-middle ceiling set
