@@ -2,8 +2,8 @@
 """Door 2a resolution: the soft criterion is the BASIS-STATE graph bipartiteness, not the site graph
 (scout, 2026-06-05).
 
-The §7.5 -N-mode criterion soft <=> exists diagonal D with {H,D}=0. For an off-diagonal H and diagonal
-D, {H,D}_ij = H_ij (D_i + D_j), so the condition is D_i = -D_j on every edge of the BASIS-STATE hopping
+The §7.5 -N-mode criterion (inside the diagonal cell, §7.6) soft <=> exists diagonal D with {H,D}=0.
+For an off-diagonal H and diagonal D, {H,D}_ij = H_ij (D_i + D_j), so the condition is D_i = -D_j on every edge of the BASIS-STATE hopping
 graph (2^N nodes, edges = nonzero off-diagonals of H). That is a proper signed 2-colouring, i.e. the
 basis-state graph being BIPARTITE. This is the actual (letter-dependent) criterion; the mask/site
 bipartite test (the chiral K on the LATTICE graph) is a chain-specific proxy that coincides with it on
@@ -73,7 +73,7 @@ def basis_graph_bipartite(N, bonds, bilinear):
 
 def main():
     print("=" * 84)
-    print("Door 2a resolution: soft <=> BASIS-STATE graph bipartite (not the site graph)")
+    print("Door 2a resolution: inside the diagonal cell, soft <=> BASIS-STATE graph bipartite (not the site graph)")
     print("=" * 84)
     triangle = (3, [(0, 1), (1, 2), (0, 2)])
     chain3 = (3, [(0, 1), (1, 2)])

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Door 2 deeper: the family of scalable basis-graph 2-colourings (scout, 2026-06-05).
 
-§7.12: among non-truly H, soft <=> the basis-state hopping graph is bipartite. That is the 2^N truth;
-a SCALABLE soft-certifier needs structured 2-colourings c(s) checkable per-term. Two are in the
-certifier: LINEAR c(s)=<phi,s> (the chiral K) and EXCITATION-2 c(s)=floor(n/2) mod 2 (pure Δn=±2
-pairing). This scout maps the whole family on small N: for each soft H it builds the actual basis-graph
+§7.12: a bipartite basis-state hopping graph certifies soft wherever a lit chiral stands beside it, exactly
+so inside the diagonal cell; outside it neither direction holds alone. That graph is the 2^N object;
+a SCALABLE soft-certifier needs structured 2-colourings c(s) checkable per-term. The certifier carries
+three: LINEAR c(s)=<phi,s> (the chiral K), EXCITATION-2 c(s)=floor(n/2) mod 2 (pure Δn=±2 pairing) and
+PARITY c(s)=n mod 2 (every term odd k_xy), the two excitation ones gated to one Klein cell. This scout maps the whole family on small N: for each soft H it builds the actual basis-graph
 and tests which structured colourings 2-colour it --
     LIN     : some linear <phi,s>            (handles bipartite flip-value graphs / the chiral K)
     PAR     : n mod 2                         (handles all-edges-odd-Δn, i.e. every term odd k_xy)
@@ -12,7 +13,9 @@ and tests which structured colourings 2-colour it --
     LIN+PAR : <phi,s> XOR (n mod 2)
     LIN+PAIR: <phi,s> XOR (floor(n/2) mod 2)
 -- and flags any soft case where the basis-graph is bipartite but NO structured colouring works (the
-residual that needs the full 2^N graph). Also confirms no colouring 2-colours a HARD case (safety).
+residual that needs the full 2^N graph). Also checks that no structured colouring 2-colours a HARD case of
+this battery (a check of the battery, not a theorem: XZ + ZXZ and XX - YY + ZXX - ZYY are hard and
+2-coloured, both outside it).
 """
 from __future__ import annotations
 
@@ -118,9 +121,9 @@ def main():
         tag = "  <- RESIDUAL (bipartite, no structured colouring)" if residual else ""
         print(f"  {glabel:<5} {hlabel:<16} {sp:<8} {('yes' if bip else 'NO'):<10} {','.join(cols) if cols else '-'}{tag}")
 
-    print(f"\n  safety (no structured colouring on a hard graph): {safety_ok}")
-    print("  reading: PAR (n mod 2) should cover the all-odd-k_xy cases (XZ+ZX, XZ) even on the frustrated")
-    print("  triangle, where LIN fails -- the third scalable strategy. Any RESIDUAL row is a soft case no")
+    print(f"\n  safety on this battery (no structured colouring on a hard graph): {safety_ok}")
+    print("  reading: PAR (n mod 2) covers the all-odd-k_xy cases (XZ+ZX, XZ) on the chain and on the")
+    print("  frustrated triangle alike -- the third scalable strategy. Any RESIDUAL row is a soft case no")
     print("  structured colouring reaches (would need the 2^N graph); that bounds the certifier's reach.")
 
 

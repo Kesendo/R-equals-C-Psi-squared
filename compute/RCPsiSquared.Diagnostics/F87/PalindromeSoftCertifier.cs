@@ -8,8 +8,9 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
-/// <summary>A Liouvillian-free, one-sided SOFT-certifier (PROOF_F103 §7.12). The true soft criterion is
-/// the bipartiteness of the BASIS-STATE hopping graph (a 2^N, letter-dependent object); this class tries
+/// <summary>A Liouvillian-free, one-sided SOFT-certifier (PROOF_F103 §7.12). Inside the diagonal cell the true
+/// soft criterion is the bipartiteness of the BASIS-STATE hopping graph (a 2^N, letter-dependent object), and
+/// outside it a sufficient one wherever a lit chiral stands beside it; this class tries
 /// scalable SUFFICIENT conditions and certifies soft if any holds. It never claims hard: NotCertified
 /// means no scalable strategy applies (the chain-scope hard proxy stays in
 /// <see cref="PalindromeMaskClassifier"/>). A certificate reaches as far as its strategy does: the window-summed
@@ -483,9 +484,11 @@ public static class PalindromeSoftCertifier
     /// ExcitationParity, and a pure-2-body routed set stays Routing; k ≥ 3 and mixed-span sets fall to
     /// RoutingKBody; weight-1 transverse single-site sums fall to SingleSiteField; the two Z-middle golden
     /// cases fall to RoutingWindowSummed, and its last place keeps every pre-existing certificate on its
-    /// original strategy label).</summary>
+    /// original strategy label). The strategies are established for a Hermitian H (proved, or for the
+    /// empirically verified ones swept), so a term with a nonzero imaginary coefficient is declined (<see cref="IsHermitianScope"/>).</summary>
     public static SoftCertificate Certify(IReadOnlyList<PauliTerm> terms, int n)
     {
+        if (!IsHermitianScope(terms)) return new SoftCertificate(false, SoftStrategy.None);
         if (CertifyByExcitationPairing(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationPairing);
         if (CertifyByExcitationParity(terms)) return new SoftCertificate(true, SoftStrategy.ExcitationParity);
         if (CertifyByLinearSiteColoring(terms, n)) return new SoftCertificate(true, SoftStrategy.LinearSiteColoring);
@@ -497,6 +500,13 @@ public static class PalindromeSoftCertifier
         return new SoftCertificate(false, SoftStrategy.None);
     }
 
+    /// <summary>True iff every coefficient is real. The Pauli strings are Hermitian, so every set it admits is a
+    /// Hermitian H, the scope the certificates are established in (F158's reflection uses H† = H); it is
+    /// conservative where imaginary parts would cancel in the placed H (two copies of one label, or strings of
+    /// different templates landing on the same sites), and such a set is simply declined.</summary>
+    public static bool IsHermitianScope(IReadOnlyList<PauliTerm> terms) =>
+        terms.All(t => t.Coefficient.Imaginary == 0);
+
     /// <summary>Two-sided decider: certify Soft (the existing <see cref="Certify"/> strategies), else
     /// certify Hard (the F115 diagonal-cell valuation, <see cref="CertifyHardByDiagonalCellValuation"/>),
     /// else Undetermined (the caller defers to <see cref="PauliPairTrichotomy"/>). <see cref="Certify"/>
@@ -504,6 +514,9 @@ public static class PalindromeSoftCertifier
     /// decides).</summary>
     public static PalindromeDecision Decide(IReadOnlyList<PauliTerm> terms, int n)
     {
+        if (!IsHermitianScope(terms))
+            return new PalindromeDecision(Decision.Undetermined, SoftStrategy.None, HardStrategy.None,
+                "undetermined: a complex coefficient, outside the Hermitian scope both certificates are established in");
         var soft = Certify(terms, n);
         if (soft.Certified)
             return new PalindromeDecision(Decision.Soft, soft.Strategy, HardStrategy.None, $"soft: {soft.Strategy}");
@@ -562,12 +575,13 @@ public static class PalindromeSoftCertifier
     /// Decide is Undetermined the graph's verdict is returned, Soft when the palindrome holds (soft or truly,
     /// which Theorem 2 does not separate), Hard when it fails; where Decide's N-free verdict agrees with the
     /// graph it is returned with its strategy, and where it disagrees the call throws, since one of two exact
-    /// routes would then be wrong. Rows with a complex coefficient are outside the graph and get Decide's
-    /// verdict alone. Exact
+    /// routes would then be wrong. Rows with a complex coefficient are outside both routes and read
+    /// Undetermined. Exact
     /// at <paramref name="n"/> on the open chain under Z dephasing, and only there: a caller reading
     /// <see cref="PalindromeDecision.Verdict"/> alone cannot tell this N-specific verdict from Decide's N-free
-    /// ones, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> the Undetermined
-    /// verdict stands; a complex coefficient or a template longer than the chain throws.</summary>
+    /// ones, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> Decide's verdict is
+    /// returned unchecked, Undetermined included; inside the guard a template longer than the chain throws,
+    /// and so does n &lt; 1.</summary>
     public static PalindromeDecision DecideAtN(IReadOnlyList<PauliTerm> terms, int n)
     {
         var d = Decide(terms, n);

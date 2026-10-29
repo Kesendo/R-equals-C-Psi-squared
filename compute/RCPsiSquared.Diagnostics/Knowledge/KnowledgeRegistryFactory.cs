@@ -181,12 +181,14 @@ public static class KnowledgeRegistryFactory
             // WindowedConverseThresholdClaim (the spine: #A≥2ℓ + soft re-proof + deg-1 positivity).
             // The F110/F111 promotion gate opened 2026-06-10 (promotions recorded below).
             .RegisterWindowedConverseAllGammaClaim()
-            // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries three
-            // scalable structured 2-colourings (linear chiral K, excitation pairing, excitation parity)
-            // and certifies "soft" iff one applies; it never claims hard. The Claim asserts ONLY the
-            // settled facts: soundness (each soundness-battery case is Certified by PalindromeSoftCertifier
-            // AND not Hard by the spectral authority PauliPairTrichotomy) and the proven structural ceiling
-            // (XX+XZ is soft, non-bipartite, NotCertified, so no colouring can ever reach it). Typed parents:
+            // §7.12 Liouvillian-free soft-certifier as a registered Claim: the certifier tries its scalable
+            // strategies (the structured 2-colourings, the site-swap reflection, the per-site routings and
+            // the single-site fields) and certifies "soft" if one applies; it never claims hard. The Claim
+            // asserts ONLY the settled facts: soundness (each soundness-battery case, XX+XZ among them, soft
+            // with a non-bipartite basis-state graph and certified by the routing, is Certified by
+            // PalindromeSoftCertifier AND not Hard by the spectral authority PauliPairTrichotomy) and the k=3
+            // windowed structural ceiling closed at zero (its last members, the Z-middle pair XZX+XZY+YZX and
+            // YZY+XZY+YZX, certified by the window-summed routing, F116). Typed parents:
             // F87DiagonalCellBipartiteWitnessSet (the §7 diagonal-K criterion the linear strategy scales,
             // Tier1Derived) + F87TrichotomyClassification (the spectral authority, Tier1Derived).
             // Tier1Candidate (5 ≥ 4 and 5 ≥ 4 inheritance). Wired 2026-06-05.

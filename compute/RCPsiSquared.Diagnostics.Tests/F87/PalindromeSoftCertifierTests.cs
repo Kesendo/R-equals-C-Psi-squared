@@ -106,6 +106,19 @@ public class PalindromeSoftCertifierTests
     }
 
     [Fact]
+    public void ComplexCoefficients_AreOutsideTheHermitianScope()
+    {
+        // i·XY + YX is not Hermitian; the certificates are established for Hermitian H, so it is declined, and both
+        // Decide and DecideAtN read it Undetermined instead of passing it to a strategy.
+        var complex = new List<PauliTerm> { T("XY", Complex.ImaginaryOne), T("YX") };
+        Assert.False(PalindromeSoftCertifier.IsHermitianScope(complex));
+        Assert.False(PalindromeSoftCertifier.Certify(complex, 4).Certified);
+        Assert.Equal(PalindromeSoftCertifier.Decision.Undetermined, PalindromeSoftCertifier.Decide(complex, 4).Verdict);
+        Assert.Equal(PalindromeSoftCertifier.Decision.Undetermined, PalindromeSoftCertifier.DecideAtN(complex, 4).Verdict);
+        Assert.True(PalindromeSoftCertifier.IsHermitianScope(H("XY", "YX")));
+    }
+
+    [Fact]
     public void ExcitationParity_CertifiesAllOddFlip_TopologyIndependent()
     {
         // Every term flips an odd number of sites (here one), so every basis-edge has odd Δn and the
