@@ -1,0 +1,67 @@
+patched replay with no letter against the frozen replay: max difference 0.0
+chi2 with no letter 4383.9 over rank 288 (99 % point 346.8); idle 1/T2: q4 0.0057/us  q5 0.0068/us  q6 0.0044/us
+
+baseline even slopes (the contrast the real sector kept against the baseline):
+    A 0.844  R 0.839  D0 1.001  D1 0.979  D2 0.922  D3 0.829  D4 0.790  D6 0.784
+    measured <Y0 Z2> raw in arm A +0.0715, D3 -0.0168, R +0.1077; baseline A -0.0117
+
+1. extra dephasing on the driven qubit during its own pulses, coherence rate G (1/us)
+  global G = 0.05: chi2 4424.2; largest shift of an odd-Y reading against the baseline 0.0035 (median 0.0004)
+    even slope per arm: A 0.875  R 0.869  D0 1.001  D1 0.986  D2 0.938  D3 0.859  D4 0.831  D6 0.834
+    model <Y0 Z2> raw in arm A -0.0110, D3 -0.0112, R +0.0009
+  global G = 0.2: chi2 4549.9; largest shift of an odd-Y reading against the baseline 0.0124 (median 0.0017)
+    even slope per arm: A 0.974  R 0.965  D0 1.001  D1 1.006  D2 0.986  D3 0.952  D4 0.964  D6 1.004
+    model <Y0 Z2> raw in arm A -0.0089, D3 -0.0100, R +0.0014
+  global G = 0.5: chi2 4788.5; largest shift of an odd-Y reading against the baseline 0.0241 (median 0.0037)
+    even slope per arm: A 1.187  R 1.162  D0 1.001  D1 1.046  D2 1.077  D3 1.149  D4 1.296  D6 1.438
+    model <Y0 Z2> raw in arm A -0.0057, D3 -0.0076, R +0.0023
+  global G = 1.0: chi2 5083.5; largest shift of an odd-Y reading against the baseline 0.0349 (median 0.0057)
+    even slope per arm: A 1.461  R 1.419  D0 1.001  D1 1.114  D2 1.217  D3 1.413  D4 2.149  D6 2.452
+    model <Y0 Z2> raw in arm A -0.0019, D3 -0.0044, R +0.0032
+  fit global G: -0.3150/us
+    at the fit: chi2 4225.7 (status 2); largest shift of an odd-Y reading against the baseline 0.0307 (median 0.0032)
+    even slope per arm: A 0.665  R 0.663  D0 1.001  D1 0.938  D2 0.819  D3 0.660  D4 0.577  D6 0.526
+    model <Y0 Z2> raw in arm A -0.0171, D3 -0.0145, R -0.0007
+  fit per qubit G4, G5, G6: [-1.1613, 0.4281, -0.7324]
+    at the fit: chi2 3715.1 (status 2); largest shift of an odd-Y reading against the baseline 0.0604 (median 0.0078)
+    even slope per arm: A 0.696  R 0.688  D0 1.001  D1 0.929  D2 0.828  D3 0.690  D4 0.634  D6 0.540
+    model <Y0 Z2> raw in arm A -0.0129, D3 -0.0065, R -0.0058
+  fit per qubit G + five letters: G [-0.4085, 0.7246, 0.2115]  five [-0.037, 0.342, 0.263, 0.02, -0.107]
+    at the fit: chi2 1261.2 (status 2); largest shift of an odd-Y reading against the baseline 0.2083 (median 0.0105)
+    even slope per arm: A 1.034  R 1.026  D0 1.001  D1 0.992  D2 1.000  D3 1.014  D4 1.107  D6 1.105
+    model <Y0 Z2> raw in arm A +0.0230, D3 -0.0369, R +0.0151
+  (99 % points: rank-1 345.7, rank-3 343.5, rank-8 338.0)
+
+2. control: the same extra dephasing at all times (idle included)
+  global G_all = 0.05: chi2 4435.1; largest shift of an odd-Y reading against the baseline 0.0087 (median 0.0005)
+    even slope per arm: A 0.942  R 0.934  D0 1.001  D1 0.999  D2 0.970  D3 0.923  D4 0.925  D6 0.969
+    model <Y0 Z2> raw in arm A -0.0103, D3 -0.0105, R +0.0010
+  global G_all = 0.2: chi2 4576.8; largest shift of an odd-Y reading against the baseline 0.0284 (median 0.0016)
+    even slope per arm: A 1.255  R 1.229  D0 1.001  D1 1.060  D2 1.113  D3 1.214  D4 1.467  D6 1.744
+    model <Y0 Z2> raw in arm A -0.0068, D3 -0.0075, R +0.0015
+  global G_all = 0.5: chi2 4749.1; largest shift of an odd-Y reading against the baseline 0.0498 (median 0.0027)
+    even slope per arm: A 1.536  R 1.521  D0 1.001  D1 1.187  D2 1.382  D3 1.513  D4 3.362  D6 nan
+    model <Y0 Z2> raw in arm A -0.0025, D3 -0.0034, R +0.0019
+  fit global G_all: -0.1392/us
+    at the fit: chi2 4290.0 (status 2); largest shift of an odd-Y reading against the baseline 0.0317 (median 0.0016)
+    even slope per arm: A 0.605  R 0.604  D0 1.001  D1 0.925  D2 0.789  D3 0.601  D4 0.505  D6 0.422
+    model <Y0 Z2> raw in arm A -0.0166, D3 -0.0152, R -0.0005
+
+3. extra amplitude damping of the driven qubit during its own pulses, rate D (1/us), no extra dephasing
+  global D = 0.05: chi2 4277.5; largest shift of an odd-Y reading against the baseline 0.0091 (median 0.0016)
+    even slope per arm: A 0.876  R 0.871  D0 1.001  D1 0.986  D2 0.937  D3 0.860  D4 0.829  D6 0.832
+    model <Y0 Z2> raw in arm A -0.0134, D3 -0.0131, R -0.0015
+  global D = 0.2: chi2 4176.1; largest shift of an odd-Y reading against the baseline 0.0344 (median 0.0061)
+    even slope per arm: A 0.980  R 0.974  D0 1.001  D1 1.005  D2 0.981  D3 0.957  D4 0.955  D6 0.992
+    model <Y0 Z2> raw in arm A -0.0182, D3 -0.0171, R -0.0076
+  global D = 0.5: chi2 4707.5; largest shift of an odd-Y reading against the baseline 0.0772 (median 0.0137)
+    even slope per arm: A 1.217  R 1.208  D0 1.001  D1 1.044  D2 1.062  D3 1.171  D4 1.266  D6 1.387
+    model <Y0 Z2> raw in arm A -0.0255, D3 -0.0234, R -0.0172
+  fit global D: +0.1761/us
+    at the fit: chi2 4172.7 (status 2); largest shift of an odd-Y reading against the baseline 0.0305 (median 0.0054)
+    even slope per arm: A 0.963  R 0.957  D0 1.001  D1 1.002  D2 0.974  D3 0.941  D4 0.934  D6 0.965
+    model <Y0 Z2> raw in arm A -0.0175, D3 -0.0165, R -0.0067
+  fit per qubit D4, D5, D6: [0.1216, 0.0605, 0.666]
+    at the fit: chi2 3538.5 (status 2); largest shift of an odd-Y reading against the baseline 0.0719 (median 0.0057)
+    even slope per arm: A 1.013  R 1.007  D0 1.001  D1 1.008  D2 0.985  D3 0.991  D4 0.972  D6 1.010
+    model <Y0 Z2> raw in arm A -0.0141, D3 -0.0110, R -0.0192

@@ -12,6 +12,7 @@ docs/CAUGHT_ERRORS.md: the 2026-10-28 Trotter-order entry records the YZ+ZY wind
 Typed layer: the eight YParity-axis claims in compute/RCPsiSquared.Core/Symmetry (F102, F103, F105, F106, F107, F109, F110, F111; HardCellYInversionPattern.cs line 145 lists them) classify Hamiltonian terms by y_par, MotherSoftYParityOnePurity being the typed home of the premise that XY+YX carries odd y_par; none has dynamics or a hardware reading; no Diagnostics witness reads odd-Y observables.
 docs/GLOSSARY.md: Y-parity appears only as a term label.
 Post-flight, 2026-10-29, for the reading of section 7: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md (lines 100, 102, 157) measured residual detuning offsets of 8 to 22 kHz on ibm_marrakesh lines [2, 3, 4] and [93, 94, 95] in July, +21.5 kHz of them on logical q2 of [2, 3, 4], which its runner (initial_layout = path) puts on physical q4, and coherent nearest-neighbour ZZ near 4 kHz. This is the adjacency the pre-flight sweep missed: the detuning bound of section 5 lies below an offset the repo had measured on this chip. fw.Confirmations (f83_pi2_class_signature_marrakesh, named above) and its C# mirror record YZ+ZY's ⟨Y₀⟩, ⟨Y₂⟩ near 3σ with the cause unknown and nothing on XY+YX's odd-Y readings; ANALYTICAL_FORMULAS holds nothing on either; the OpenArcs registry has no arc for them.
+Post-flight, 2026-10-29, for the cube reading of section 7: docs/THE_ONE_SQUARE.md §9 (the damping row and gate M8: the arrow I → Z under the three turns, the quarter-turn about Z, the shift, the swap, D and R; no quarter-turn about X appears there; compute/MirrorWorld/LetterCube.cs TableMoves names the quarter-turn about X as a uniform move and nothing applies it to the arrow); compute/MirrorWorld.Tests/LetterCubeTests.cs lines 420 to 421 (an arrow leaves I along [J, J†], exactly when J is not normal); compute/MirrorWorld/LetterCube.cs TransferTimesFour, HeightsTimesFour, Arrows (the PTM in Gaussian integers; no method carries a jump by a move or flags an arrow into an odd-n_Y letter), Theodolite.Setting.Rotated (two Clifford axes, X + Z and 1 − iX, no sx†, no angle), TiltedAxes (Hermitian integer axes only), Sextant (copy and reflection verdicts, no letters); simulations/framework/cube_tables.py transfer_times_four (the Python twin; simulations/framework/diagnostics/cube_letters.py holds no PTM); framework/symmetry.py y_parity_panel (Z dephasing and T1 in the logical frame only); docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md line 183 (σ⁻ in a turned frame graded by bit_b: the adjacency joined in section 7, neither document had cited the other); docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md line 91 (conj fixes a real rotation, so a Hadamard keeps the window and an sx does not) and PROOF_F84_AMPLITUDE_DAMPING.md (tilted Hermitian axes only); experiments/THE_CUBE_SITE_BY_SITE.md line 154 lists weights in the Hadamard and quarter-turn frames as open, a different question (the Theodolite's weight search) left as it stands; reflections/, hypotheses/, data/*/README.md: nothing on a jump carried by a gate; fw.Confirmations: nothing on frames or rotations; the typed layer: AntilinearTriangleClaim carries the transport law, MirrorOrderSortingClaim F131, no claim or Diagnostics witness reads a frame-carried jump.
 Adjacency checked: the F83 README, MARRAKESH_THREE_LAYERS and the soft_break README describe the same zero and do not cite each other; the h_y rejection and the reality rule are about the same object and do not meet. This document joins them.
 Post-flight, 2026-10-29, for the three carriers tested in section 7 and the ones left untested, the same stores searched again. A residual exchange: experiments/F81_VIOLATION_HARDWARE_BRIDGE.md line 125 bounds the idle exchange to a spectator neighbour by (J/Δ)² ≈ 10⁻⁸, and its line 80 notes that an exchange term breaks the per-site Bloch form; the sweep found no model of an exchange during the CZ. Drive crosstalk: the sweep found no model on hardware. CZ leakage: experiments/CORNER_BEAT_HARDWARE_PREDICTION.md lines 2399 to 2404 bound it at 1e-4 to 1e-3 per gate, unbudgeted, in a flight never flown; the sweep found no measurement of it. Quasi-static dephasing: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md lines 54 and 77 read local quasi-static noise on this chip as a contrast effect, rates adding in quadrature, and experiments/IBM_F129_RAMSEY_FRINGE.md lines 220 and 307 carry it as quasi-static site disorder in a T2* model; docs/CAUGHT_ERRORS.md line 3286 keeps quasi-static K as a planning model; none reads an odd-Y observable. That an odd-Y reading is odd in the real-breaking letters is F131 (docs/ANALYTICAL_FORMULAS.md line 6335, the order-sorting law, typed as MirrorOrderSortingClaim in compute/RCPsiSquared.Core/Symmetry): its ODD-response cell, with conjugation as the antiunitary mirror (χ_M = −1, from F119: docs/ANALYTICAL_FORMULAS.md line 5560, docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md line 91, conj∘Ad_U∘conj = Ad_Ū), a real detuning as the direction it fixes, and an odd-Y readout. The sweep found neither applied to a hardware reading or a noise average before; section 7 applies them, and this pair (F131 and the reality window of section 1) is a second adjacency the pre-flight sweep missed. experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md lines 44 to 46 find a residual population unidentifiable from calibration arms alone, and docs/CAUGHT_ERRORS.md lines 3255 to 3266 record the same: the same object as the residual excitation counted as readout here, and the reason section 7 asks the odd-Y readings rather than the RO arm. The Marrakesh snapshots in data/ibm_calibration_snapshots/ put q4's P(1|0) at 0.10, 0.12 and 0.05 % on 2026-04-25, 04-30 and 05-05 and its T1 at 177, 206 and 102 µs; experiments/F81_VIOLATION_HARDWARE_BRIDGE.md line 58 read physical q4 in July (run 1 on [2, 3, 4]) without reading a defect, and the sweep found no store that reads one. The OpenArcs registry, the glossary and the Diagnostics witnesses returned nothing on these carriers.
 -->
@@ -569,8 +570,130 @@ its output
   properties, target or configuration on 2026-10-29), so an exchange whose
   phase moves that way is not tested.
 
+**Read on the cube** (one site, by hand, after the fits; the second route is
+[`simulations/reality_window_cube_frames.py`](../simulations/reality_window_cube_frames.py),
+exact in sympy, 22 rows with two anti-vacuity rows, which must print "cube
+frame gate: ALL GREEN"; the house instruments carry the same moduli in
+Gaussian integers, the Theodolite's `Setting.Rotated("Y")`, which turns a
+site by 1 − iX, through the LetterCube's `TransferTimesFour`, pinned in
+`TheodoliteTests.In_The_Quarter_Turn_Frame_The_Damping_Arrow_Lands_On_Y`,
+with the arrow's sign reversed there because `Rotated` carries in the
+opposite direction). The zero of §1 is a statement about letters in the
+logical frame, and a physical process acts in the frame the gates before it
+have set, so the circuit carries every physical letter into the logical
+frame by the Bloch rotation of those gates, Ad_U† ∘ P ∘ Ad_U for the gate
+product U: an rz(θ) turns about Z by θ, an sx is the quarter-turn about X,
+a cz keeps every one-site letter. On one site the real letters are I, X
+and Z and Y is the odd one. A one-site process is a height, an arrow or a
+field ([THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §9), and the three fare
+differently when carried into the logical frame.
+
+- A Pauli dephasing is a height along its axis, and a height moves nothing.
+  The carried axis stays a Pauli axis as long as no rz of a generic angle
+  precedes an sx in the frame (Z under rz(θ) stays Z, under sx it becomes
+  Y), so physical Z dephasing keeps the window closed in those frames at
+  any strength. After an rz(θ) followed by an sx the axis lies tilted in
+  the XY plane, sin θ·X + cos θ·Y, and a dephasing along it carries the
+  arrow X ↔ Y with coefficient γ·sin 2θ, γ the rate of D[Z], whose heights
+  on X and Y are 2γ cos²θ and 2γ sin²θ: the arrow is the geometric mean of
+  the two heights (a dephasing along a general axis n carries X ↔ Y at
+  2γn_x·n_y and Z ↔ Y at 2γn_y·n_z, and never moves I). So dephasing does
+  break the window in a generic frame, and it pays for it with the same
+  rate that takes contrast from X and Y: its odd-Y weight is at most the
+  time spent in such frames times |sin 2θ| over 2T_φ, T_φ the pure
+  dephasing time (1/T_φ = 1/T₂ − 1/2T₁).
+- The damping σ⁻ is two lights of γ/2 and one arrow, I → Z, of the full
+  rate γ, the arrow pointing along [J, J†] (`LetterCubeTests`). Carried by
+  sx the arrow is I → Y: the trace, weight one in every state, feeds the
+  odd letter at the rate 1/T₁ for as long as the frame holds Z on the Y
+  axis. Carried by a Hadamard (rz·sx·rz) it is I → X, real. This is §4's
+  floor of 0.0023 read as a why: the source is the trace, the rate is
+  1/T₁, and the floor is bounded by the frame time over T₁ (with the tilted
+  dephasing's share beside it).
+- A field is an arrow between the two letters perpendicular to its carried
+  axis, at twice its coefficient on the Pauli letter (−i[hZ, X] = 2hY), and
+  pays no rate. A Z letter (a detuning, a phase, one leg of a ZZ) is the
+  arrow X ↔ Y in the logical and rz frames, real-breaking; inside an sx
+  frame it has become a Y field, Z ↔ X, real-preserving; after rz(θ) then
+  sx it lies in the XY plane and its X component sin θ is the
+  real-breaking part (Z ↔ Y). An X letter (a drive: an amplitude error, a
+  neighbour's pulse reaching this qubit) in a frame rz(φ) is real-breaking
+  through cos φ (Z ↔ Y) and real-preserving through sin φ.
+
+Read together: every incoherent one-site process, in every frame, pays for
+its odd-Y weight with the rate that takes contrast from the real sector.
+At the snapshot's T₁ and T₂ that budget is the circuit's duration over
+them: 1.50 µs for A, R and D3, 2.82 µs for D6, against 146 to 226 µs, so
+0.01 to 0.02 at most, and the replay's 0.0023 is the value for these
+circuits. The measured +0.083 in A and the ±0.2 residuals of D6 stand
+eight and ten times above those budgets. The rates need not be the
+snapshot's: against the baseline the real sector kept a contrast of 0.78
+to 0.85 in A, R, D3, D4 and D6 (the even-reading slopes under *Among the
+fresh compiles*; 0.92 to 0.98 in D1 and D2, 1.00 in D0, which has one
+pulse and nothing to lose), which is what an incoherent process thirty to
+forty-five times the idle dephasing rate, acting while the qubit is
+driven, would take, and the drive is where the frame is tilted. So the
+cube's two incoherent candidates were asked of the data
+([`simulations/reality_window_pulse_dephasing.py`](../simulations/reality_window_pulse_dephasing.py),
+its output
+[`pulse_dephasing.txt`](../simulations/results/reality_window/pulse_dephasing.txt);
+the frozen replay patched with an extra process on the driven qubit during
+its own pulses, gated to equal the frozen replay exactly with the extra
+rate at zero, which checks the baseline path and not the new terms). An
+extra Z dephasing, coherence rate G, does not carry: at G = 0.2 /µs the
+even slopes of every arm but D0 come to 1.00 ± 0.05, so the contrast loss
+is accounted for, while no odd-Y model value moves by more than 0.012
+against the baseline (the median shift is 0.002) and χ² rises from 4384 to
+4550; at G = 0.05, 0.5 and 1.0 it rises as well (4424, 4789, 5084); the
+global fit runs to −0.32 /µs and the per-qubit fit puts two of three rates
+below zero, lowering χ² to 4226 and 3715 only through rates that are no
+channel, and the same extra dephasing at all times, idle included, does
+the same. An extra amplitude damping of the driven qubit during its
+pulses, rate D, is the stronger of the two, as the cube says (the trace feeds its arrow): at D = 0.2 /µs,
+where the even slopes again come to 1.00 ± 0.05, the largest odd-Y shift is
+0.034 (median 0.006), three times the dephasing's, and χ² falls from 4384
+to 4176, a drop that carries by §5's rule and does not suffice (the 99 %
+point is 346); the global fit sits at 0.18 /µs with χ² 4173, the per-qubit
+fit at 0.12, 0.06 and 0.67 /µs leaves 3539 with the even slopes at
+1.00 ± 0.03, and in arm A the model's ⟨Y₀Z₂⟩ moves away from the measured
++0.072, from −0.011 to −0.018 at D = 0.2. So the damping leaves a part and
+not the bulk, and its sizes are not read. The incoherent bound is loose,
+then, by the geometry of the frames: the odd-Y weight an incoherent process leaves is a
+small fraction of the contrast it takes, because the frames with sin 2θ
+near one are a small part of a qubit's pulse time (0.32 to 0.68 µs of A's
+1.50 µs is pulse) and the arrows of different pulses carry different
+signs; which of the two is not separated here. Within this replay the
+carrier is coherent (a field, a two-site phase, the phase a leaked level
+brings back) or lies outside the qubit's letters (readout, leakage). What
+the cube says a coherent carrier would leave: a letter anchored in the
+drive rather than in Z reads in the logical frame through the accumulated
+virtual phase of its qubit, which differs between two compiles of one
+logical circuit and between the basis circuits of one arm, so one physical
+size shows as different logical sizes from arm to arm, the shape of the
+arm-by-arm sizes of the five-letter fits above; crosstalk from a
+neighbour's drive, untested above, is such a letter, and the exchange fit
+anchored in the circuit's frame beating the one anchored in the hardware's
+(2743 against 4115) is a reading in the same direction, not support for
+either carrier. Adjacency: the T1 proof's second reading
+([PROOF_F82](../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md))
+holds σ⁻ in a turned frame, "relaxation toward a y eigenstate, (Z + iX)/2,
+has one" (an odd part), graded by Π² = (−1)^bit_b, where bit_b is the
+cube's k_X mod 2; the window grades by conjugation, n_Y = (k_Z + k_X −
+k_Y)/2, the half-sum no coordinate parity sees. The two gradings read one
+object two ways: Π² sees the arrow I → Z of the logical frame as odd, the
+window sees it as real and the carried arrow I → Y of the quarter-turn
+frame as odd. THE_ONE_SQUARE §9 applies its gated moves to the arrow, the
+three turns, the quarter-turn about Z, the shift, the swap, D and R, and
+not the quarter-turn about X; that turn is what the compiled circuit
+applies.
+
 What carries it we do not know. Not sufficient, within this replay and
-these fits: each library letter alone, the detunings with static ZZ,
+these fits: an extra dephasing of the driven qubit during its pulses, or
+at all times (the even sector fixes it near 0.2 /µs during the drive, where
+it moves no odd-Y reading by more than 0.012); an extra amplitude damping of
+the driven qubit during its pulses (it carries, a drop of 208 at the rate
+the even sector fixes, and leaves 4176, per qubit 3539); each library
+letter alone, the detunings with static ZZ,
 those with sx amplitude, the nineteen jointly from one start, an exchange
 at the CZ with a fixed phase, alone or beside five letters, a spread of
 detunings independent on each qubit, about zero or about the

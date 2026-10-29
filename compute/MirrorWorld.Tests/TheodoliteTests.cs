@@ -756,6 +756,52 @@ public class TheodoliteTests
         Assert.StartsWith("F158", Sextant.Decide(new Sextant.Setting(3, watchedPair.H, watchedPair.Jumps)).Detail);
     }
 
+    [Fact]
+    public void In_The_Quarter_Turn_Frame_The_Damping_Arrow_Lands_On_Y()
+    {
+        // The reality window (experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md §7, Read on the cube): a compiled
+        // circuit puts its damping between gates, i.e. in a turned frame. Rotated("Y") carries the site by 1 - iX,
+        // which is sqrt(2) times the quarter-turn about X (sx), the jump by M J M^dagger = 2 sx J sx^dagger, so the
+        // transfer matrix is four times that of the sx frame at the same rate. The damping's one arrow follows the
+        // carried Z axis: I -> Z in the logical frame (real), I -> X in the Hadamard frame (real), I -> -Y in the sx
+        // frame, the odd letter, so the trace feeds n_Y-odd weight at the rate of the lights. Z dephasing is a height
+        // in every one of these frames and moves nothing. The same numbers as simulations/reality_window_cube_frames.py
+        // up to the arrow's sign: Rotated carries J to M J M^dagger, i.e. sx J sx^dagger, the inverse of the frame the
+        // flight document writes (Ad_U^dagger P Ad_U), where the carried arrow is I -> +Y.
+        var damping = Theodolite.Setting.Of(1, Array.Empty<(string, long)>(), new[] { (0, Lowering, 1L) });
+        var logical = TransferTimesFour(Lowering, 1);
+        Assert.Equal(new Gauss[] { new(0, 0), new(2, 0), new(2, 0), new(4, 0) }, HeightsTimesFour(logical));
+        Assert.Equal(new[] { ('I', 'Z', new Gauss(4, 0)) }, Arrows(logical));
+        var sxFrame = damping.Rotated("Y").Jumps[0];
+        Assert.Equal(1L, sxFrame.Rate);
+        var turned = TransferTimesFour(sxFrame.Jump, sxFrame.Rate);
+        Assert.Equal(new Gauss[] { new(0, 0), new(8, 0), new(16, 0), new(8, 0) }, HeightsTimesFour(turned));
+        Assert.Equal(new[] { ('I', 'Y', new Gauss(-16, 0)) }, Arrows(turned));
+        var hFrame = damping.Rotated("X").Jumps[0];
+        var hadamard = TransferTimesFour(hFrame.Jump, hFrame.Rate);
+        Assert.Equal(new Gauss[] { new(0, 0), new(16, 0), new(8, 0), new(8, 0) }, HeightsTimesFour(hadamard));
+        Assert.Equal(new[] { ('I', 'X', new Gauss(16, 0)) }, Arrows(hadamard));
+        // the arrow is the only entry into or out of Y in the sx frame, and the rate of the lights is its rate:
+        // the arrow's modulus equals the sum of the heights on X and on Z (the two lights, 8 each)
+        Assert.Equal(16L, Math.Abs(Arrows(turned)[0].CoefficientTimesFour.Re));
+        var dephasing = Theodolite.Setting.Of(1, Array.Empty<(string, long)>(), new[] { (0, Zm, 1L) });
+        foreach (var axes in new[] { "Z", "Y", "X" })
+        {
+            var j = dephasing.Rotated(axes).Jumps[0];
+            var t = TransferTimesFour(j.Jump, j.Rate);
+            Assert.Empty(Arrows(t));
+            var heights = HeightsTimesFour(t);
+            Assert.Equal(new Gauss(0, 0), heights[0]);
+            // a height charges the two letters anticommuting with the carried axis, equally; the carried axis is
+            // Z, then -Y (sx), then X (Hadamard); Rotated puts every site on one scale (a Z site keeps its jump at
+            // four times the rate), so the charge is 4 * 8 in each frame
+            long charged = 32;
+            char axis = axes == "Z" ? 'Z' : axes == "Y" ? 'Y' : 'X';
+            foreach (char letter in "XYZ")
+                Assert.Equal(letter == axis ? new Gauss(0, 0) : new Gauss(charged, 0), heights["IXYZ".IndexOf(letter)]);
+        }
+    }
+
     // In a turned frame: uncoupled sites with fields -2Y + Z under X dephasing (one site unwatched) pair site by site,
     // and no Z-basis monomial sandwich reads them; with X carried onto Z (the cube's h_zx) on the watched sites they
     // read. Two checks on the second route: the turned setting's generator is exactly 4·Ad_U·L·Ad_U^-1 (dense, with
