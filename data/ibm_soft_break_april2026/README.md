@@ -64,7 +64,15 @@ observable-Hamiltonian pairs converges to γ_T1 ≈ 0 with γ_Z = 0.105
 (total RMS 0.039); the data does not support adding T1.
 
 On the Y-containing observables (⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩) continuous Lindblad,
-Trotter and hardware agree in sign; Trotter changes the magnitudes.
+Trotter and hardware agree in sign where the models are nonzero (truly's
+⟨Y₀Z₂⟩, hard's ⟨I₀Y₂⟩ and ⟨X₀Y₂⟩); Trotter changes the magnitudes. The
+other entries are exact zeros of both models, and soft's ⟨Y₀Z₂⟩ = +0.098
+is the largest hardware reading among them: XY+YX keeps a real state real,
+so every odd-Y reading of soft is zero for any real channel, up to a small
+floor from noise inside the compiled frames and the readout's leak. The
+same reading, on path [4, 5, 6] with the gates of the 2026-04-30 run, came
+out nonzero again on 2026-10-29
+([the reality-window flight](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)).
 
 ## Other discriminating Pauli expectations
 

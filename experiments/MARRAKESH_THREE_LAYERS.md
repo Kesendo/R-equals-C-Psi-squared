@@ -195,7 +195,7 @@ With Trotter in the circuit's order, γ_Z = 0.105 and no T1, residual RMS 0.039 
 
 2. **⟨Y₀Y₂⟩ and ⟨Z₀Z₂⟩ on truly** sit within 2.6σ of the prediction (+0.45, +0.20 at γ_Z = 0.105 against hardware +0.47, +0.16).
 
-The largest single residuals left are 0.07 to 0.1 (4.5 to 6.3σ): soft ⟨Y₀Z₂⟩ = +0.098 and ⟨Y₀⟩ = −0.079 where the model gives 0, hard ⟨X₀⟩ = +0.754 against +0.845, hard ⟨I₀Y₂⟩ = +0.467 against +0.396. The last one grows with the circuit's order (the terms-outside prediction sat closer), so the order does not improve every observable. What carries them we do not know; the model holds only Z-dephasing.
+The largest single residuals left are 0.07 to 0.1 (4.5 to 6.3σ): soft ⟨Y₀Z₂⟩ = +0.098 and ⟨Y₀⟩ = −0.079 where the model gives 0, hard ⟨X₀⟩ = +0.754 against +0.845, hard ⟨I₀Y₂⟩ = +0.467 against +0.396. The last one grows with the circuit's order (the terms-outside prediction sat closer), so the order does not improve every observable. What carries them we do not know; the model holds only Z-dephasing. Soft's ⟨Y₀Z₂⟩ is an odd-Y reading of XY+YX, zero for any real channel in the logical frame, up to a small floor from noise inside the compiled frames and the readout's leak; on path [4, 5, 6], with the gates of the 2026-04-30 run, it came out nonzero again on 2026-10-29, inside an odd-Y excess that no single one of nineteen physical letters (gate errors, detuning, static ZZ) accounts for ([the reality-window flight](REALITY_WINDOW_HARDWARE_PREDICTION.md)).
 
 ---
 

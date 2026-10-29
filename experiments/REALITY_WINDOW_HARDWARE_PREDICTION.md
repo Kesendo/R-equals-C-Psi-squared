@@ -1,21 +1,24 @@
-# The reality window: a hardware prediction (pre-registration)
+# The reality window: a hardware prediction, pre-registered and flown
 
 <!-- STAGE 0 SWEEP RECORD
 Stores searched 2026-10-28 for Y-parity, n_Y parity, reality, complex conjugation as a symmetry of the generator, and any prior reading of odd-Y observables on hardware.
 docs/ANALYTICAL_FORMULAS.md: F119 (the antilinear triangle, docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md lines 43 to 45: conj(A) carries (−1)^{n_Y}, θ is the mirror D = diag((−1)^{n_Y})); line 6879 notes that σ⁻ and σ⁺ are real. Neither is read as a noise detector.
 experiments/: MARRAKESH_THREE_LAYERS.md line 92 states the rule for the 2026-04-26 run (XY+YX keeps a real ρ₀ real, every odd-Y string vanishes, the Y-parity fw.y_parity_panel reads); line 95 reports the predicted zeros reading up to 0.098 for soft on hardware; line 198 lists soft ⟨Y₀Z₂⟩ = +0.098 and ⟨Y₀⟩ = −0.079 among residuals "what carries them we do not know".
-data/: ibm_f83_signature_april2026/README.md lists pi2_odd ⟨Y₀Z₂⟩ = +0.067 and ⟨Z₀Y₂⟩ = +0.053 as "what carries those we do not know" and reads pi2_even's ⟨Y₀⟩, ⟨Y₂⟩ only through X^⊗3; ibm_soft_break_april2026/README.md line 78 lists soft ⟨Y₀Z₂⟩ = +0.098 without comment, and its lines 66 to 67 say continuous Lindblad, Trotter and hardware agree in sign on ⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩, which for soft cannot hold (the models give exactly zero there): a sentence to repair, not repaired here. The Kingston 2026-05-05 JSON (job d7sqjpiudops73976960) has no README reading its odd-Y values.
+data/: ibm_f83_signature_april2026/README.md lists pi2_odd ⟨Y₀Z₂⟩ = +0.067 and ⟨Z₀Y₂⟩ = +0.053 as "what carries those we do not know" and reads pi2_even's ⟨Y₀⟩, ⟨Y₂⟩ only through X^⊗3; ibm_soft_break_april2026/README.md line 78 lists soft ⟨Y₀Z₂⟩ = +0.098 without comment, and its lines 66 to 67 say continuous Lindblad, Trotter and hardware agree in sign on ⟨Y₀Z₂⟩, ⟨I₀Y₂⟩, ⟨X₀Y₂⟩, which for soft cannot hold (the models give exactly zero there); repaired with the flight record. The Kingston 2026-05-05 JSON (job d7sqjpiudops73976960) has no README reading its odd-Y values.
 simulations/: f83_hy_field_check.py tested an h_y field, which keeps every imaginary Hamiltonian imaginary and so cannot light an odd-Y reading in three of the four classes; no Z-detuning, ZZ or per-gate model was fitted to these runs before this document; framework/symmetry.py y_parity_panel builds L from Z-dephasing and T1 only and reports Y-parity preserved by construction.
 fw.Confirmations: f83_pi2_class_signature_marrakesh (the 2026-04-30 run and its Kingston reproduction) and regime_uniformity_kingston_uniform_quantum (the same Kingston run through the F88b lens) register these runs; marrakesh_transverse_y_field_detection (h_y_eff ≈ 0.05, Z⊗N mirror test, path [48,49,50]); none reads Y-parity.
 OpenArcs registry: no arc on the F83 X^⊗3 window or on Y-parity on hardware; line 2591 names Y-parity as a remaining calibration instrument.
 docs/CAUGHT_ERRORS.md: the 2026-10-28 Trotter-order entry records the YZ+ZY window through X^⊗3; line 4003 (a detuning does not freeze a phase) is the nearest precedent on detuning readings.
 Typed layer: the eight YParity-axis claims in compute/RCPsiSquared.Core/Symmetry (F102, F103, F105, F106, F107, F109, F110, F111; HardCellYInversionPattern.cs line 145 lists them) classify Hamiltonian terms by y_par, MotherSoftYParityOnePurity being the typed home of the premise that XY+YX carries odd y_par; none has dynamics or a hardware reading; no Diagnostics witness reads odd-Y observables.
 docs/GLOSSARY.md: Y-parity appears only as a term label.
+Post-flight, 2026-10-29, for the reading of section 7: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md (lines 100, 102, 157) measured residual detuning offsets of 8 to 22 kHz on ibm_marrakesh lines [2, 3, 4] and [93, 94, 95] in July, +21.5 kHz of them on logical q2 of [2, 3, 4], which its runner (initial_layout = path) puts on physical q4, and coherent nearest-neighbour ZZ near 4 kHz. This is the adjacency the pre-flight sweep missed: the detuning bound of section 5 lies below an offset the repo had measured on this chip. fw.Confirmations (f83_pi2_class_signature_marrakesh, named above) and its C# mirror record YZ+ZY's ⟨Y₀⟩, ⟨Y₂⟩ near 3σ with the cause unknown and nothing on XY+YX's odd-Y readings; ANALYTICAL_FORMULAS holds nothing on either; the OpenArcs registry has no arc for them.
 Adjacency checked: the F83 README, MARRAKESH_THREE_LAYERS and the soft_break README describe the same zero and do not cite each other; the h_y rejection and the reality rule are about the same object and do not meet. This document joins them.
 -->
 
 This flight asks one question of the IBM hardware, and the letter cube asks
-it: where does the reading come from that the circuit forbids?
+it: where does the reading come from that the circuit forbids? Sections 1
+to 6 were committed before the flight (commit 043fa18f); it flew on
+2026-10-29, and §7 holds the verdicts and a reading beside them.
 
 ## 1. The zero
 
@@ -351,3 +354,150 @@ id if the process dies in between. The counts file also carries the job's
 own timestamps; a recalibration between the snapshot and the run would
 show there, and no rule reads it. After the flight the files are copied
 to `data/ibm_reality_window_october2026/` and committed with the record.
+
+## 7. The flight
+
+Flown 2026-10-29 on ibm_marrakesh, job `dbhcohht9uhs73c9vpj0`: queued
+04:32 UTC, ran 05:12 to 05:16 UTC, billed 215 s. The conditions of §6
+held at submission on the backend's numbers: last update 03:02 (+01:00),
+T1 and T2 measured 2026-10-28 10:14 (+01:00) and the readout 09:37, under
+24 h old at the run. The properties the backend reports for 05:14 UTC are
+the snapshot's: no recalibration the backend reports fell between the
+snapshot and the run.
+The record is in `data/ibm_reality_window_october2026/` (the counts, the
+submission stub, the properties at the run), the runner's printout in
+[`simulations/results/reality_window/flight.txt`](../simulations/results/reality_window/flight.txt).
+
+**The verdicts**, by the rules of §5 (the runner's printout agrees):
+
+- **P: PASS.** Arm A reads ⟨X₀Z₂⟩ = −0.664 and ⟨Z₀X₂⟩ = −0.485, apart by
+  0.179. The day's baseline, with the readout the RO arm measured, predicts
+  −0.747 and −0.516; §4, with the snapshot's readout, −0.836 and −0.595.
+  April read −0.849 and −0.566 on the same path, close to §4's values.
+- **V0: PASS.** C = +0.105 against C_pred = +0.121 on the day's baseline,
+  band (0.073, 0.147); §4's +0.137 assumed the snapshot's readout. The sign
+  chain from the gates to the verdicts holds.
+- **V1: REPLICATED.** s_A = +0.083 at σ = 0.0125 (κ = 1.27), 6.7σ, with
+  April's sign. The raw reading is +0.072; the baseline it is taken
+  against, −0.012, is the day's readout leaking even readings into S,
+  twice §4's 0.006 because the readout was worse (below). For the same reason the readout matrix's own
+  noise, which §5 leaves out of V1 at about 0.0005, is 0.002 on the day;
+  with it s_A stands at 6.6σ. The half-sum of K± gives +0.100. The earlier
+  three raw readings of this observable were +0.098, +0.067 and +0.066.
+  Read beside §2: today's s is more than twice the
+  +0.035 the April letter fit reached, and that only with letters beyond
+  their bounds.
+- **V2: SIGNAL, NO SINGLE LETTER.** χ²₀ = 4167 against its 99 % point
+  346.8 at rank 288. The best letter, detuning on q6 at +0.175 rad/µs
+  (beyond its bound of 0.1), carries (χ²_b = 2015, a drop of 2152) and does
+  not suffice (2015 against the 99 % point 345.7 at rank − 1); the next
+  letter sits 58 above it, so none is unseparated, and no fit is flagged
+  unconverged. A real-breaking signal is present that no single library
+  letter accounts for whole. One guard of this reading was not met on the
+  day: §6 caps P(1|0) at 1 % so that a residual excitation, counted as
+  readout, stays below the carrying line, and the RO arm put q4 at 3.5 %
+  (below). Scaled from §5's estimate of 14 at 0.83 % as the square of the
+  flip rate, such a term would be of order 250 in χ²₀: a stated scaling,
+  not a computation, above the carrying line and far below the drop of
+  2152.
+
+**The readout of the day.** The RO arm measured q4 far off the snapshot:
+P(1|0) = 3.5 % and P(0|1) = 10.1 %, against 0.83 % and 3.1 %; q6 read
+0.7 % and 2.0 % against 0 and 0.83 %, q5 near its snapshot. The flip rates
+of q4 and q6 also differ between the job's two interleaved halves
+(Σz² = 16.5 and 16.8 on 8 dof each; pooled over the three qubits 35.1
+on 24 dof, p ≈ 0.07): within what chance allows, and not read. The baseline
+carries the measured matrix, so the verdicts read against the day's
+readout, but by the RO arm's own number q4's P(1|0) stood above the 1 %
+that §6 caps on the backend's number. That cap rested on §5's estimate
+that a residual excitation at the start, counted as readout, adds about 14
+to χ²₀ at 0.83 %; at four times the flip rate the guard's premise is not
+secured on the day (the backend's own init_error for q4 reads 0.84 %,
+dated 2026-10-27). How much of q4's departure is such an excitation, and
+what it does to the odd-Y readings, is not computed here. The readout does
+not carry the bulk of the signal: A and D3
+share their readout and S baseline (−0.012) and read S raw +0.072 and
+−0.017, and the largest asymmetry the RO arm measured, q4's 0.066 (q6's
+is 0.013), moves a single-bit reading by at most that, where D6 carries
+residuals of ±0.2.
+
+**Read beside the verdicts** (not pre-registered; the script is
+[`simulations/reality_window_post_flight.py`](../simulations/reality_window_post_flight.py),
+its output
+[`simulations/results/reality_window/post_flight.txt`](../simulations/results/reality_window/post_flight.txt);
+its fits carry no bootstrap term, so its total is 4384 rather than the
+verdict's 4167).
+
+The excess is not in ⟨Y₀Z₂⟩ alone. Each arm's 36 odd-Y readings, taken by
+themselves against the baseline (columns in order of χ²; s is ⟨Y₀Z₂⟩
+minus its baseline, per arm):
+
+| arm | D0 | D1 | D2 | D3 | A | D4 | R | D6 |
+|---|---|---|---|---|---|---|---|---|
+| χ² over 36 | 68 | 73 | 163 | 205 | 272 | 677 | 934 | 1992 |
+| s | −0.023 | −0.017 | +0.003 | −0.005 | +0.083 | −0.091 | +0.107 | −0.080 |
+
+Every arm is above its 99 % point of 58.6. In D0 the window cannot tell a
+real-breaking letter from a population error: a D0 circuit carries at most
+one sx per qubit, and the circuit that reads q2's odd ⟨Y₂⟩ is physically
+the one that reads its even ⟨Z₂⟩ (the rz around the pulse act on |0⟩ and
+before a Z measurement). Both read the same offset, −0.03 to −0.05 against
+the baseline: the population after one pulse on q6 is off, or its readout
+differs from the RO arm's, and the same physical error reads as real in
+one circuit's logical frame and as real-breaking in the other's. Fitted
+to D0 alone, sx amplitude errors on the three qubits bring it from 67.8 to
+35.0, below its 99 % point of 54.8, at +2.3 % on q6, beyond its bound of 1 %; fitted over all arms beside the
+detunings and static ZZ, sx amplitude on q6 comes out at +0.1 %.
+
+Among the fresh compiles the excess grows with the Trotter depth, up to
+residuals of ±0.2 at six steps (⟨Y₂⟩ +0.22 and ⟨X₀Y₁⟩ −0.20 in the XY
+basis of D6). That growth does not single out a carrier. The real sector
+loses contrast with depth on the same day (the even readings against the
+baseline: slope 1.00 at D0, 0.98, 0.92, 0.83, 0.79, 0.78 at D6, A and R
+0.85 and 0.84), any error repeated per step grows the same way, and depth
+is not the only order: R, A's own gates with physical 4 and 6 exchanged,
+is above D4, so where the gates run sets the reading too. So does the
+compile: A and D3 are one logical circuit at the same depth (1.50 and 1.46 µs long); their 36 odd-Y residuals correlate
+at 0.29, and s reads +0.083 in one and −0.005 in the other.
+
+No set of library letters fitted here suffices. On the post-flight scale
+the three detunings leave 1506, with static ZZ on both pairs 1381 (against
+341), with sx amplitude added 938; all nineteen, fitted nonlinearly from
+the five-letter optimum, leave 707 against 326. These
+are local fits within this replay, whose even-sector contrast is itself
+above the day's; they do not exclude a better fit elsewhere. Fitted arm by
+arm (D0 left out: §3 reads it as blind to them), the five letters
+leave χ² 70 to 182 against 52, at sizes that change from arm to arm. The
+sizes come from fits that do not suffice and are not read as the device's.
+Apart from those fits, §5's detuning bound of 0.1 rad/µs (16 kHz) is
+itself below an offset the repo has measured on this chip: +21.5 kHz on
+physical q4 in July
+([PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md)), on
+the qubit where today's joint fits put no detuning. The sentence is about
+the bound, not support for the fitted sizes.
+
+The job's two halves, interleaved by the shuffle, carry the same excess:
+their odd-Y z-scores correlate at 0.886, and each half alone gives a
+diagonal χ² of about 3200. The bulk of the carrier is not a drift
+during the job.
+
+What carries it we do not know. Not sufficient, within this replay and
+these fits: each library letter alone, the detunings with static ZZ,
+those with sx amplitude, the nineteen jointly from one start. Ruled out: a
+recalibration the backend reports between snapshot and run, a drift
+during the job as the bulk, a readout of the size the RO arm measured (or one shared
+by A and D3) as the bulk. Not tested: a residual excitation at the start
+(above), a readout that differs between the RO circuits and the others as
+a contributor,
+leakage at the CZ, coherent two-qubit errors that are not diagonal (a
+residual exchange XX+YY at the CZ carries an even number of Y letters and
+so breaks the window), quasi-static frequency noise (whose spread costs
+contrast, which the day shows), excited or leaked spectators outside the
+path, crosstalk from the drive of one qubit onto its neighbour, a defect
+on q4, whose readout was far off its calibration, and the baseline's own
+readout leak, computed from modelled even readings that are stronger than
+the measured ones. Whether the April
+readings and today's share a carrier is not known. April's nineteen
+letters together sufficed only at sizes far beyond their bounds (§2), on
+30 readings; today no fit tried here suffices, on 288. Neither day's
+fitted sizes are a measurement to compare.

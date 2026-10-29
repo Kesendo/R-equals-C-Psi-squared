@@ -1,0 +1,89 @@
+chi2_null 4383.9 over rank 288 (99 % point 346.8); drift inflation 1.271; no bootstrap term
+
+each arm alone: chi2 of its 36 odd-Y readings against the baseline, and its largest readings
+  A   chi2   271.6 over 36
+        A_YZ    mask (q0,q2,q1) (1, 1, 0)  residual +0.0832  z   +6.7
+        A_YY    mask (q0,q2,q1) (1, 1, 1)  residual +0.0779  z   +6.3
+        A_ZY    mask (q0,q2,q1) (1, 1, 0)  residual +0.0658  z   +5.3
+  R   chi2   933.5 over 36
+        R_YY    mask (q0,q2,q1) (1, 1, 1)  residual +0.1994  z  +16.0
+        R_ZY    mask (q0,q2,q1) (1, 1, 0)  residual +0.1209  z   +9.7
+        R_YZ    mask (q0,q2,q1) (1, 1, 0)  residual +0.1070  z   +8.6
+  D0  chi2    67.8 over 36
+        D0_XY   mask (q0,q2,q1) (0, 1, 0)  residual -0.0428  z   -3.4
+        D0_XY   mask (q0,q2,q1) (1, 1, 0)  residual -0.0392  z   -3.1
+        D0_ZY   mask (q0,q2,q1) (0, 1, 0)  residual -0.0345  z   -2.8
+  D1  chi2    73.4 over 36
+        D1_XZ   mask (q0,q2,q1) (1, 1, 1)  residual -0.0386  z   -3.1
+        D1_YY   mask (q0,q2,q1) (0, 1, 0)  residual -0.0369  z   -3.0
+        D1_XY   mask (q0,q2,q1) (0, 1, 0)  residual -0.0284  z   -2.3
+  D2  chi2   163.1 over 36
+        D2_YX   mask (q0,q2,q1) (1, 0, 0)  residual -0.0491  z   -3.9
+        D2_XZ   mask (q0,q2,q1) (1, 1, 1)  residual +0.0477  z   +3.8
+        D2_XY   mask (q0,q2,q1) (0, 1, 0)  residual +0.0433  z   +3.5
+  D3  chi2   205.1 over 36
+        D3_XY   mask (q0,q2,q1) (1, 1, 0)  residual -0.0679  z   -5.5
+        D3_XX   mask (q0,q2,q1) (1, 1, 1)  residual -0.0650  z   -5.2
+        D3_YX   mask (q0,q2,q1) (1, 1, 0)  residual +0.0436  z   +3.5
+  D4  chi2   677.2 over 36
+        D4_YZ   mask (q0,q2,q1) (0, 1, 1)  residual -0.1306  z  -10.5
+        D4_XX   mask (q0,q2,q1) (0, 1, 1)  residual +0.1186  z   +9.5
+        D4_ZX   mask (q0,q2,q1) (0, 1, 1)  residual +0.1041  z   +8.4
+  D6  chi2  1992.2 over 36
+        D6_XY   mask (q0,q2,q1) (0, 1, 0)  residual +0.2244  z  +18.0
+        D6_XY   mask (q0,q2,q1) (1, 0, 1)  residual -0.2024  z  -16.2
+        D6_XY   mask (q0,q2,q1) (1, 1, 0)  residual +0.1962  z  +15.8
+
+linear joint fit of all nineteen letters: chi2 784.8 (99 % point at rank - 19: 325.9); the largest in units of their bounds:
+  ('det', 6)             +0.9923  (+9.9 x bound)
+  ('det', 4)             +0.9213  (+9.2 x bound)
+  ('det', 5)             -0.4761  (-4.8 x bound)
+  ('stk', (5, 6), 4)     -0.0963  (-1.9 x bound)
+  ('stk', (4, 5), 6)     -0.0889  (-1.8 x bound)
+  ('czp', (5, 6), 6)     -0.0815  (-1.6 x bound)
+
+nonlinear joint fits over all fit arms
+  3 letters: chi2 1505.5 (99 % point 343.5)  det4 -0.012  det5 +0.204  det6 +0.176
+  5 letters: chi2 1380.8 (99 % point 341.3)  det4 +0.001  det5 +0.201  det6 +0.180  zz(4, 5) +0.002  zz(5, 6) -0.111
+  19 letters (one start, local): chi2 707.0 (99 % point 325.9)  largest: det(6,) +1.162  det(4,) +0.951  stk((4, 5), 6) -0.108  sxp(4,) -0.041
+
+the five letters fitted arm by arm (rad/us; D0 has no leverage on them)
+  A   chi2  144.2 (99 % point 52)  det4 +0.060  det5 +0.202  det6 +0.101  zz(4, 5) +0.006  zz(5, 6) -0.185
+  R   chi2  162.7 (99 % point 52)  det4 -0.311  det5 +0.376  det6 +0.325  zz(4, 5) +0.002  zz(5, 6) -0.065
+  D0  chi2   62.3 (99 % point 52)  det4 -0.537  det5 +9.212  det6 +1.378  zz(4, 5) +1.782  zz(5, 6) -1.970
+  D1  chi2   69.7 (99 % point 52)  det4 +0.257  det5 +0.351  det6 -0.910  zz(4, 5) +0.041  zz(5, 6) -0.038
+  D2  chi2   88.0 (99 % point 52)  det4 +0.090  det5 -0.009  det6 +0.388  zz(4, 5) -0.100  zz(5, 6) -0.208
+  D3  chi2   94.7 (99 % point 52)  det4 -0.024  det5 +0.254  det6 +0.162  zz(4, 5) +0.108  zz(5, 6) -0.143
+  D4  chi2  158.8 (99 % point 52)  det4 -0.046  det5 +0.323  det6 +0.153  zz(4, 5) +0.282  zz(5, 6) -0.156
+  D6  chi2  181.8 (99 % point 52)  det4 -0.020  det5 +0.138  det6 +0.171  zz(4, 5) -0.296  zz(5, 6) +0.010
+
+sx amplitude on D0 alone: chi2 35.0 (99 % point 54.8)  sxa4 +0.0101  sxa5 -0.0059  sxa6 +0.0230
+the five letters and sx amplitude over all arms: chi2 938.4 (99 % point 338.0)  det4 +0.0463  det5 +0.1918  det6 +0.2133  zz(4, 5) +0.0242  zz(5, 6) -0.0669  sxa4 -0.0074  sxa5 -0.0049  sxa6 +0.0011
+
+readout per qubit, marginal flip rates (RO arm, averaged over the other prepared bits) against the snapshot
+  q4: P(1|0) 0.0349 (snapshot 0.0083), P(0|1) 0.1006 (snapshot 0.0308)
+  q6: P(1|0) 0.0070 (snapshot 0.0000), P(0|1) 0.0197 (snapshot 0.0083)
+  q5: P(1|0) 0.0017 (snapshot 0.0005), P(0|1) 0.0058 (snapshot 0.0073)
+  flip rate, half against half over the eight RO circuits: q4 sum z^2 16.5  q6 sum z^2 16.8  q5 sum z^2 1.8 (8 dof each)
+  S baseline in A -0.0117, its readout-bootstrap sd 0.0022; s_A +0.0832 = 6.6 sigma with it, 6.7 without
+  the parse gate's readings on the day's baseline (measured readout): <X0Z2> -0.747, <Z0X2> -0.516; measured -0.664, -0.485
+
+the two halves: correlation of their odd-Y z-scores 0.886, diagonal chi2 3251 and 3141
+
+the even (real-sector) readings: measured / baseline, least-squares slope through the origin
+  A   0.846
+  R   0.839
+  D0  1.000
+  D1  0.979
+  D2  0.921
+  D3  0.832
+  D4  0.790
+  D6  0.784
+
+D0, single-site residuals after one pulse: odd <Y> beside even <Z> of the same qubit
+  q0 <Y>: -0.011  -0.019  -0.013
+  q0 <Z>: -0.012  -0.001  -0.015
+  q2 <Y>: -0.043  -0.029  -0.035
+  q2 <Z>: -0.033  -0.048  -0.049
+
+A against D3, reading by reading: correlation of the 36 odd-Y residuals 0.29

@@ -1,0 +1,20 @@
+day-of snapshot: {"calibration": "2026-10-29 03:02:03+01:00", "t1_us": {"4": 184.02054530668497, "5": 201.9992883256558, "6": 226.06322009032414}, "t2_us": {"4": 174.67604906004652, "5": 146.46979667900501, "6": 224.77229654519235}, "p01": {"4": 0.00830078125, "5": 0.00048828125, "6": 0}, "p10": {"4": 0.03076171875, "5": 0.00732421875, "6": 0.00830078125}, "readout": {"4": 0.01953125, "5": 0.00390625, "6": 0.004150390625}, "sx": {"4": 0.0003568673632186927, "5": 0.0005742661408456832, "6": 0.00017833181061772748}, "cz": {"4-5": 0.002195453264085989, "5-6": 0.002151898205245084}, "oldest_property_age_h": 19.91267494972222, "remaining_s": 4954}
+submitted dbhcohht9uhs73c9vpj0 -> simulations/flight/results/reality_window_20261029_053203.submitted.json
+counts persisted -> simulations/flight/results/reality_window_ibm_marrakesh_20261029_053203.json
+billed usage: 215
+drift: mean (h1-h2)^2/var = 1.271 over 288 parities -> inflation 1.271; sigma_eff 0.0125
+P  parse gate: PASS {'A <X0Z2>': -0.664, 'A <Z0X2>': -0.485}
+V0 control: PASS  C = +0.1046, predicted +0.1205, band (0.073, 0.147)
+V1 replication: REPLICATED  s_A = +0.0832  (half-sum of K: +0.0995)
+   s per arm: {'A': 0.0832, 'R': 0.107, 'D0': -0.0233, 'D1': -0.0169, 'D2': 0.0025, 'D3': -0.0052, 'D4': -0.0911, 'D6': -0.0804, 'Kp': 0.0836, 'Km': 0.1155}
+V2 letters: SIGNAL, NO SINGLE LETTER  chi2_null 4166.7 vs 346.8; best ('det', 6) chi2 2014.8 vs 345.7, amplitude +0.1750 (implausible size, bound 0.1); not separated: []; unconverged fits: []
+   ('det', 6)               a = +0.1750 ± 0.0039  chi2 2014.8  (replay)
+   ('stk', (4, 5), 6)       a = +0.0375 ± 0.0008  chi2 2073.2  (replay)
+   ('czp', (5, 6), 6)       a = +0.0345 ± 0.0008  chi2 2179.8  (replay)
+   ('sxp', 6)               a = +0.0532 ± 0.0013  chi2 2281.0  (replay)
+   ('det', 5)               a = +0.2110 ± 0.0083  chi2 3516.5  (replay)
+   ('sxp', 5)               a = +0.0302 ± 0.0012  chi2 3546.9  (replay)
+   ('czp', (4, 5), 5)       a = +0.0159 ± 0.0008  chi2 3775.1  (replay)
+   ('czp', (5, 6), 5)       a = +0.0352 ± 0.0021  chi2 3887.8  (replay)
+
+[exited with code 0]

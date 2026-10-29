@@ -94,8 +94,10 @@ worse than no copy, because it looks authoritative.
 
 A second flight lives here, written in this directory from the start rather
 than copied from the pipeline tree, so there is no source hash to drift from.
-Its pre-registration is
-[`experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md`](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md).
+Its pre-registration and flight record, one document, is
+[`experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md`](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md);
+it flew on 2026-10-29 (job `dbhcohht9uhs73c9vpj0`), and its raw record is in
+[`data/ibm_reality_window_october2026/`](../../data/ibm_reality_window_october2026/).
 
 | File | What it is |
 |---|---|

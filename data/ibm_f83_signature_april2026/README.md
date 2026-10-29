@@ -95,7 +95,14 @@ fit has one parameter, γ_Z, taken from these same 28 points, and single
 observables still reach 4.3σ (pi2_odd_pure ⟨Y₀Z₂⟩ = +0.067 where the
 model gives 0), 3.4σ (pi2_odd_pure ⟨Z₀Y₂⟩ = +0.053 against 0) and 3.1σ
 (mixed ⟨Z₀X₂⟩ = −0.721 against −0.769); what
-carries those we do not know. The Trotter + γ_Z model that carries F83's
+carries those we do not know. On 2026-10-29 the pi2_odd_pure circuits
+ran again on the same path, gate for gate (with an explicit schedule and
+q1 read as well), and read ⟨Y₀Z₂⟩ nonzero again; a fresh compile of the
+same logical circuit read it near zero. Every fit arm of that flight
+carries an odd-Y excess, and no single one of nineteen physical letters
+accounts for it
+([the reality-window flight](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)).
+Away from these forbidden readings, the Trotter + γ_Z model that carries F83's
 structural classes holds on hardware in every class, not only in the two
 pure anchors; the anti-fraction r itself is not measured (see below).
 
