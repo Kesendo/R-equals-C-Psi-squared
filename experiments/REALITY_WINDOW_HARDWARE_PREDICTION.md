@@ -602,8 +602,9 @@ differently when carried into the logical frame.
   rate that takes contrast from X and Y: its odd-Y weight is at most the
   time spent in such frames times |sin 2θ| over 2T_φ, T_φ the pure
   dephasing time (1/T_φ = 1/T₂ − 1/2T₁).
-- The damping σ⁻ is two lights of γ/2 and one arrow, I → Z, of the full
-  rate γ, the arrow pointing along [J, J†] (`LetterCubeTests`). Carried by
+- The damping σ⁻ is two lights of γ/2 (a light is a height on a letter the
+  jump does not move, §9's word) and one arrow, I → Z, of the full rate γ,
+  the arrow pointing along [J, J†] (`LetterCubeTests`). Carried by
   sx the arrow is I → Y: the trace, weight one in every state, feeds the
   odd letter at the rate 1/T₁ for as long as the frame holds Z on the Y
   axis. Carried by a Hadamard (rz·sx·rz) it is I → X, real. This is §4's
@@ -625,10 +626,10 @@ its odd-Y weight with the rate that takes contrast from the real sector.
 At the snapshot's T₁ and T₂ that budget is the circuit's duration over
 them: 1.50 µs for A, R and D3, 2.82 µs for D6, against 146 to 226 µs, so
 0.01 to 0.02 at most, and the replay's 0.0023 is the value for these
-circuits. The measured +0.083 in A and the ±0.2 residuals of D6 stand
+circuits. The measured s_A = +0.083 and the ±0.2 residuals of D6 stand
 eight and ten times above those budgets. The rates need not be the
 snapshot's: against the baseline the real sector kept a contrast of 0.78
-to 0.85 in A, R, D3, D4 and D6 (the even-reading slopes under *Among the
+to 0.84 in A, R, D3, D4 and D6 (the even-reading slopes under *Among the
 fresh compiles*; 0.92 to 0.98 in D1 and D2, 1.00 in D0, which has one
 pulse and nothing to lose), which is what an incoherent process thirty to
 forty-five times the idle dephasing rate, acting while the qubit is
@@ -652,22 +653,27 @@ the same. An extra amplitude damping of the driven qubit during its
 pulses, rate D, is the stronger of the two, as the cube says (the trace feeds its arrow): at D = 0.2 /µs,
 where the even slopes again come to 1.00 ± 0.05, the largest odd-Y shift is
 0.034 (median 0.006), three times the dephasing's, and χ² falls from 4384
-to 4176, a drop that carries by §5's rule and does not suffice (the 99 %
-point is 346); the global fit sits at 0.18 /µs with χ² 4173, the per-qubit
+to 4176, a drop that carries by §5's rule and does not suffice (4176
+against the 99 % point 345.7 at rank − 1); the global fit sits at 0.18 /µs with χ² 4173, the per-qubit
 fit at 0.12, 0.06 and 0.67 /µs leaves 3539 with the even slopes at
 1.00 ± 0.03, and in arm A the model's ⟨Y₀Z₂⟩ moves away from the measured
-+0.072, from −0.011 to −0.018 at D = 0.2. So the damping leaves a part and
-not the bulk, and its sizes are not read. The incoherent bound is loose,
-then, by the geometry of the frames: the odd-Y weight an incoherent process leaves is a
-small fraction of the contrast it takes, because the frames with sin 2θ
-near one are a small part of a qubit's pulse time (0.32 to 0.68 µs of A's
-1.50 µs is pulse) and the arrows of different pulses carry different
-signs; which of the two is not separated here. Within this replay the
-carrier is coherent (a field, a two-site phase, the phase a leaked level
-brings back) or lies outside the qubit's letters (readout, leakage). What
-the cube says a coherent carrier would leave: a letter anchored in the
-drive rather than in Z reads in the logical frame through the accumulated
-virtual phase of its qubit, which differs between two compiles of one
+raw +0.072, from −0.012 to −0.018 at D = 0.2. So the damping leaves a
+part and not the bulk, and its sizes are not read. The incoherent bound is
+loose, then, by the geometry of the frames: the odd-Y weight an incoherent
+process leaves is a small fraction of the contrast it takes, because the
+frames that carry an odd arrow are a small part of a qubit's pulse time
+(0.32 to 0.68 µs of A's 1.50 µs is pulse) and the arrows of different
+pulses carry different signs; whether the short time or the cancelling
+signs dominates is not separated here. Within this replay neither an
+extra Z dephasing nor an extra σ⁻ damping of the driven qubit carries the
+bulk; a dephasing along the drive's own axis (amplitude or phase noise of
+the pulse, an XY-plane axis in every rz frame, which needs no sx to tilt
+it), heating, and a damping outside the pulses were not tried. If none of
+them carries it, the carrier is coherent (a field, a two-site phase, the
+phase a leaked level brings back) or lies outside the qubit's letters
+(readout, leakage). What the cube says a coherent carrier would leave: a
+letter whose axis is fixed in the drive's frame rather than on Z reads in
+the logical frame through the accumulated virtual phase of its qubit, which differs between two compiles of one
 logical circuit and between the basis circuits of one arm, so one physical
 size shows as different logical sizes from arm to arm, the shape of the
 arm-by-arm sizes of the five-letter fits above; crosstalk from a
@@ -689,8 +695,8 @@ applies.
 
 What carries it we do not know. Not sufficient, within this replay and
 these fits: an extra dephasing of the driven qubit during its pulses, or
-at all times (the even sector fixes it near 0.2 /µs during the drive, where
-it moves no odd-Y reading by more than 0.012); an extra amplitude damping of
+of every qubit at all times (the even sector fixes it near 0.2 /µs during
+the drive, where it moves no odd-Y reading by more than 0.012); an extra amplitude damping of
 the driven qubit during its pulses (it carries, a drop of 208 at the rate
 the even sector fixes, and leaves 4176, per qubit 3539); each library
 letter alone, the detunings with static ZZ,
@@ -703,7 +709,8 @@ recalibration the backend reports between snapshot and run, a drift
 during the job as the bulk, a readout of the size the RO arm measured (or one shared
 by A and D3) as the bulk.
 Not tested: a readout that differs between the RO circuits and the others as
-a contributor,
+a contributor, a dephasing along the drive's own axis, heating, an extra
+damping outside the pulses or beside the five letters,
 leakage at the CZ, an exchange whose phase moves with the time of each cz
 or with a virtual phase inside the calibrated cz, other coherent two-qubit
 errors that are not diagonal, a spread of detunings common to the qubits,
