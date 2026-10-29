@@ -1,0 +1,28 @@
+patched replay with no letter against the frozen replay: max difference 0.0
+exchange generator against (XX+YY)/2 at phase 1 and against (XY-YX)/2 at phase i: 0.0, 0.0
+chi2 with no letter 4383.9 over rank 288 (99 % point 346.8); drift inflation 1.271; no bootstrap term
+
+1. residual excitation at the start, A_RO = A_true . M(p); each p bounded by the RO arm's P(1|0)
+  RO arm P(1|0): q4 0.0342  q5 0.0015  q6 0.0078
+  p4 = 0.0083: chi2 4384.5; its own term d W d 0.042; largest shift of a reading 0.0008; smallest entry of A_true -0.00005
+  p4 = 0.0200: chi2 4385.3; its own term d W d 0.241; largest shift of a reading 0.0020; smallest entry of A_true -0.00012
+  p4 = 0.0342: chi2 4386.4; its own term d W d 0.702; largest shift of a reading 0.0034; smallest entry of A_true -0.00632
+  fit of p4, p5, p6 within those bounds: [0.0, 0.0015, 0.0078], chi2 4382.4 (status 1)
+
+2. quasi-static detuning, +-sigma on each of q4, q5, q6 (eight sign choices averaged)
+  about zero: chi2 at sigma = 0 4383.9
+    sigma 0.03 rad/us: largest shift of an odd-Y reading 0.0002, chi2 4386.0
+    sigma 0.1 rad/us: largest shift of an odd-Y reading 0.0023, chi2 4407.2
+    sigma 0.2 rad/us: largest shift of an odd-Y reading 0.0091, chi2 4483.2
+    sigma 0.3 rad/us: largest shift of an odd-Y reading 0.0193, chi2 4628.4
+  about the three-detuning optimum: chi2 at sigma = 0 1505.5
+    sigma 0.03 rad/us: largest shift of an odd-Y reading 0.0004, chi2 1505.1
+    sigma 0.1 rad/us: largest shift of an odd-Y reading 0.0042, chi2 1502.3
+    sigma 0.2 rad/us: largest shift of an odd-Y reading 0.0167, chi2 1507.6
+    sigma 0.3 rad/us: largest shift of an odd-Y reading 0.0368, chi2 1562.0
+
+3. residual exchange at every cz, eps and phi0 per pair; the phase (omega_a - omega_b) t is left out
+  [nco frame] 4 letters: chi2 4115.1 (99 % point 342.4; status 2)  pair (4, 5): eps 0.023 phi0 +0.06  pair (5, 6): eps 0.014 phi0 +0.03  
+  [nco frame] 9 letters: chi2 1331.4 (99 % point 336.9; status 2)  pair (4, 5): eps 0.007 phi0 +0.21  pair (5, 6): eps 0.008 phi0 -2.68  det4 -0.006  det5 +0.201  det6 +0.184  zz(4, 5) +0.030  zz(5, 6) -0.110
+  [replay frame] 4 letters: chi2 2743.4 (99 % point 342.4; status 2)  pair (4, 5): eps 0.025 phi0 -0.63  pair (5, 6): eps 0.025 phi0 +1.92  
+  [replay frame] 9 letters: chi2 1102.1 (99 % point 336.9; status 2)  pair (4, 5): eps 0.023 phi0 -1.49  pair (5, 6): eps 0.010 phi0 +2.44  det4 -0.106  det5 +0.208  det6 +0.174  zz(4, 5) -0.051  zz(5, 6) +0.003

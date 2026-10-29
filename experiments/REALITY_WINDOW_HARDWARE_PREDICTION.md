@@ -13,6 +13,7 @@ Typed layer: the eight YParity-axis claims in compute/RCPsiSquared.Core/Symmetry
 docs/GLOSSARY.md: Y-parity appears only as a term label.
 Post-flight, 2026-10-29, for the reading of section 7: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md (lines 100, 102, 157) measured residual detuning offsets of 8 to 22 kHz on ibm_marrakesh lines [2, 3, 4] and [93, 94, 95] in July, +21.5 kHz of them on logical q2 of [2, 3, 4], which its runner (initial_layout = path) puts on physical q4, and coherent nearest-neighbour ZZ near 4 kHz. This is the adjacency the pre-flight sweep missed: the detuning bound of section 5 lies below an offset the repo had measured on this chip. fw.Confirmations (f83_pi2_class_signature_marrakesh, named above) and its C# mirror record YZ+ZY's ⟨Y₀⟩, ⟨Y₂⟩ near 3σ with the cause unknown and nothing on XY+YX's odd-Y readings; ANALYTICAL_FORMULAS holds nothing on either; the OpenArcs registry has no arc for them.
 Adjacency checked: the F83 README, MARRAKESH_THREE_LAYERS and the soft_break README describe the same zero and do not cite each other; the h_y rejection and the reality rule are about the same object and do not meet. This document joins them.
+Post-flight, 2026-10-29, for the three carriers tested in section 7 and the ones left untested, the same stores searched again. A residual exchange: experiments/F81_VIOLATION_HARDWARE_BRIDGE.md line 125 bounds the idle exchange to a spectator neighbour by (J/Δ)² ≈ 10⁻⁸, and its line 80 notes that an exchange term breaks the per-site Bloch form; the sweep found no model of an exchange during the CZ. Drive crosstalk: the sweep found no model on hardware. CZ leakage: experiments/CORNER_BEAT_HARDWARE_PREDICTION.md lines 2399 to 2404 bound it at 1e-4 to 1e-3 per gate, unbudgeted, in a flight never flown; the sweep found no measurement of it. Quasi-static dephasing: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md lines 54 and 77 read local quasi-static noise on this chip as a contrast effect, rates adding in quadrature, and experiments/IBM_F129_RAMSEY_FRINGE.md lines 220 and 307 carry it as quasi-static site disorder in a T2* model; docs/CAUGHT_ERRORS.md line 3286 keeps quasi-static K as a planning model; none reads an odd-Y observable. That an odd-Y reading is odd in the real-breaking letters is F131 (docs/ANALYTICAL_FORMULAS.md line 6335, the order-sorting law, typed as MirrorOrderSortingClaim in compute/RCPsiSquared.Core/Symmetry): its ODD-response cell, with conjugation as the antiunitary mirror (χ_M = −1, from F119: docs/ANALYTICAL_FORMULAS.md line 5560, docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md line 91, conj∘Ad_U∘conj = Ad_Ū), a real detuning as the direction it fixes, and an odd-Y readout. The sweep found neither applied to a hardware reading or a noise average before; section 7 applies them, and this pair (F131 and the reality window of section 1) is a second adjacency the pre-flight sweep missed. experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md lines 44 to 46 find a residual population unidentifiable from calibration arms alone, and docs/CAUGHT_ERRORS.md lines 3255 to 3266 record the same: the same object as the residual excitation counted as readout here, and the reason section 7 asks the odd-Y readings rather than the RO arm. The Marrakesh snapshots in data/ibm_calibration_snapshots/ put q4's P(1|0) at 0.10, 0.12 and 0.05 % on 2026-04-25, 04-30 and 05-05 and its T1 at 177, 206 and 102 µs; experiments/F81_VIOLATION_HARDWARE_BRIDGE.md line 58 read physical q4 in July (run 1 on [2, 3, 4]) without reading a defect, and the sweep found no store that reads one. The OpenArcs registry, the glossary and the Diagnostics witnesses returned nothing on these carriers.
 -->
 
 This flight asks one question of the IBM hardware, and the letter cube asks
@@ -396,10 +397,9 @@ submission stub, the properties at the run), the runner's printout in
   letter accounts for whole. One guard of this reading was not met on the
   day: §6 caps P(1|0) at 1 % so that a residual excitation, counted as
   readout, stays below the carrying line, and the RO arm put q4 at 3.5 %
-  (below). Scaled from §5's estimate of 14 at 0.83 % as the square of the
-  flip rate, such a term would be of order 250 in χ²₀: a stated scaling,
-  not a computation, above the carrying line and far below the drop of
-  2152.
+  (below). §5 estimated such a term at 14 for 0.83 %; computed through the
+  replay it stays at a few units at most (below, under *Three carriers
+  tested*).
 
 **The readout of the day.** The RO arm measured q4 far off the snapshot:
 P(1|0) = 3.5 % and P(0|1) = 10.1 %, against 0.83 % and 3.1 %; q6 read
@@ -411,10 +411,13 @@ carries the measured matrix, so the verdicts read against the day's
 readout, but by the RO arm's own number q4's P(1|0) stood above the 1 %
 that §6 caps on the backend's number. That cap rested on §5's estimate
 that a residual excitation at the start, counted as readout, adds about 14
-to χ²₀ at 0.83 %; at four times the flip rate the guard's premise is not
-secured on the day (the backend's own init_error for q4 reads 0.84 %,
-dated 2026-10-27). How much of q4's departure is such an excitation, and
-what it does to the odd-Y readings, is not computed here. The readout does
+to χ²₀ at 0.83 %; at four times the flip rate the backend's numbers do not
+secure the guard's purpose on the day (its own init_error for q4 reads
+0.84 %, dated 2026-10-27). Computed through the replay, such a term stays
+far below the carrying line, so the purpose holds although §5's estimate
+does not (below, under *Three carriers tested*). How much of q4's
+departure is such an excitation is not known: the odd-Y readings cannot
+tell, and the even readings were not asked. The readout does
 not carry the bulk of the signal: A and D3
 share their readout and S baseline (−0.012) and read S raw +0.072 and
 −0.017, and the largest asymmetry the RO arm measured, q4's 0.066 (q6's
@@ -481,20 +484,110 @@ their odd-Y z-scores correlate at 0.886, and each half alone gives a
 diagonal χ² of about 3200. The bulk of the carrier is not a drift
 during the job.
 
+**Three carriers tested**, through a copy of the replay with the start
+state and an exchange letter patched in, on the post-flight scale
+(χ²₀ = 4384). With no letter the copy equals the frozen replay exactly,
+a gate on the copy's baseline path and not on the new terms; the exchange
+generator's convention is gated apart, and the frame bookkeeping and the
+excitation's start and readout steps were checked by reading and a test
+run, not gated. The script is
+[`simulations/reality_window_carriers.py`](../simulations/reality_window_carriers.py),
+its output
+[`simulations/results/reality_window/carriers.txt`](../simulations/results/reality_window/carriers.txt).
+
+- *A residual excitation at the start.* The RO arm's x gates act on the
+  same start, so the matrix it measures is the true readout after the
+  start's flips, A_RO = A_true·M(p), and the model starts q4 in
+  diag(1 − p, p) and reads out with A_true = A_RO·M(p)⁻¹. The odd-Y
+  expectations are blind to it, and the measured parities move only
+  through the readout: by at most 0.0034 at p = 3.4 % (q4's P(1|0) in the
+  RO arm's all-zero preparation; averaged over the preparations it is the
+  3.5 % above). The reason, read by hand: a start in |1⟩ instead of |0⟩
+  is a real state, so the window stays closed; and a symmetric flip leaves
+  each bit's readout asymmetry P(0|1) − P(1|0) exactly unchanged and only
+  scales its contrast by 1 − 2p (the same division by 1 − 2p₀ that
+  [ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION](ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md)
+  meets), so counting it as readout leaks into the odd readings only a
+  term of order p times that asymmetry times a change of even readings.
+  On readings that held nothing else, the excitation would add
+  its noncentrality d·W·d to χ²₀: 0.04 at p = 0.83 % and 0.70 at 3.4 %. On
+  the measured readings χ² moves by +0.6 and +2.5. §5's estimate of 14 at
+  0.83 %, the premise of the cap in §6, is not what this replay gives, and
+  how it was obtained is not on record. Fitted on all three qubits, each p
+  bounded by the flip rate on its qubit, p goes to zero on q4 and to its
+  bound on q5 and q6, and χ² moves from 4384 to 4382. The bound is
+  approximate: the RO matrix has cells that read zero, so A_true holds
+  small negative entries at every p > 0, down to −0.006 at q4's bound.
+  Whether q4's departure was an excitation the odd-Y readings cannot tell;
+  the even readings, which an excitation shifts at first order, were not
+  asked.
+- *Quasi-static detuning.* In the logical frame an odd-Y reading is odd
+  in the real-breaking letters taken together: complex conjugation keeps
+  the generator −i[H,·] of the imaginary H and every real jump, and turns
+  the evolution under a detuning δ into the one under −δ (F119:
+  conj∘Ad_U∘conj = Ad_Ū), while the odd-Y Pauli string changes sign. This
+  is the ODD-response cell of
+  [F131](../docs/ANALYTICAL_FORMULAS.md#f131), the mirror's order-sorting
+  law: conjugation the antiunitary mirror, a real detuning the direction it
+  fixes, an odd-Y readout of parity −1. A spread of detunings symmetric
+  about zero cancels there. In the compiled circuit F131's premise fails
+  and the spread need not cancel exactly, since conjugation also turns
+  each sx into its inverse and each rz(θ) into rz(−θ). Averaged over ±σ on each of
+  the three qubits through the replay, the largest shift of an odd-Y
+  reading is 0.0002 at σ = 0.03 rad/µs, 0.0023 at 0.1, 0.009 at 0.2 and
+  0.019 at 0.3, and χ² rises at every σ (4386, 4407, 4483, 4628). About a
+  nonzero mean the spread mixes with the mean at second order, so that
+  case was computed on its own: about the three-detuning optimum
+  (χ² 1505.5) the spread moves χ² by less than 4 up to σ = 0.2 and worsens
+  it beyond (1562 at 0.3). Within this replay, a spread independent on
+  each qubit, two-point, up to σ = 0.3 rad/µs, about zero or about those
+  detunings, does not carry the excess; a spread common to the qubits was
+  not tried.
+- *A residual exchange at the CZ*, U = exp(−iεG) at every cz with
+  G = e^{iφ}σ⁺_aσ⁻_b + h.c., a the pair's lower physical qubit: real at
+  φ = 0, (XX+YY)/2, and imaginary at φ = π/2, (XY−YX)/2. In the logical
+  frame the first breaks the window and the second keeps it; inside the
+  compiled circuit the gates around each cz decide which part breaks it.
+  With the phase fixed in the hardware frame (the virtual rz accumulated
+  before each cz subtracted), the exchange alone leaves χ² = 4115, and
+  beside the three detunings and static ZZ on both pairs 1331, against the
+  1381 of those five alone: about fifty for four parameters, something and
+  not enough. With the phase fixed in the circuit's own frame instead the
+  two fits leave 2743 and 1102. Such a phase would follow every virtual
+  rz, as an error tied to the drive's frame would; a static coupling
+  carries neither fixed phase (below), so the better fit is a reading, not
+  support for that frame. Each fit is the best of five starts (the
+  perturbed ones in the ε cos φ₀ components only) and, beside the five
+  letters, a sixth at their optimum; the best converged (least-squares
+  status 2), and they are local fits. The fitted sizes, ε from 0.007 to 0.025,
+  keep ε² below the day's CZ errors of 0.22 %; no fit comes near its 99 %
+  point of 342 or 337. Left out are two phases: the (ω_a − ω_b)t that a
+  static coupling carries in the rotating frame, which moves with the
+  absolute time of each cz, and any virtual phase the calibrated cz carries
+  inside itself, which would move the hardware frame at every cz. The
+  backend no longer publishes its qubit frequencies (none in its
+  properties, target or configuration on 2026-10-29), so an exchange whose
+  phase moves that way is not tested.
+
 What carries it we do not know. Not sufficient, within this replay and
 these fits: each library letter alone, the detunings with static ZZ,
-those with sx amplitude, the nineteen jointly from one start. Ruled out: a
+those with sx amplitude, the nineteen jointly from one start, an exchange
+at the CZ with a fixed phase, alone or beside five letters, a spread of
+detunings independent on each qubit, about zero or about the
+three-detuning optimum; the odd-Y expectations are blind to a residual
+excitation at the start. Ruled out: a
 recalibration the backend reports between snapshot and run, a drift
 during the job as the bulk, a readout of the size the RO arm measured (or one shared
-by A and D3) as the bulk. Not tested: a residual excitation at the start
-(above), a readout that differs between the RO circuits and the others as
+by A and D3) as the bulk.
+Not tested: a readout that differs between the RO circuits and the others as
 a contributor,
-leakage at the CZ, coherent two-qubit errors that are not diagonal (a
-residual exchange XX+YY at the CZ carries an even number of Y letters and
-so breaks the window), quasi-static frequency noise (whose spread costs
-contrast, which the day shows), excited or leaked spectators outside the
+leakage at the CZ, an exchange whose phase moves with the time of each cz
+or with a virtual phase inside the calibrated cz, other coherent two-qubit
+errors that are not diagonal, a spread of detunings common to the qubits,
+excited or leaked spectators outside the
 path, crosstalk from the drive of one qubit onto its neighbour, a defect
-on q4, whose readout was far off its calibration, and the baseline's own
+on q4 other than an excitation at the start (its readout was far off its
+calibration), and the baseline's own
 readout leak, computed from modelled even readings that are stronger than
 the measured ones. Whether the April
 readings and today's share a carrier is not known. April's nineteen
