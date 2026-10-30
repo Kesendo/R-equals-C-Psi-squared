@@ -111,11 +111,11 @@ with the strength column, `BandEdgeResolutionLimitClaim`); here the decode is ru
 The decoder's own confuser (bond 3 at −0.02 against bond 1 at +0.02, N = 5) the front reads cleanly with the
 decoder's single-letter rule: the right bond and sign, squared residual ratios of order 10⁴ and 10⁵ (C# 8093 and
 352842, Python 7706 and 315454; the winner's residual is second order in δ and carries the integration step, so the
-two routes part in the second digit). This is not the front's advantage. Without noise the decoder's de-lossed path,
+two routes part in the second digit). This is not the front's advantage. Without shot noise the decoder's de-lossed path,
 which reads the signed purity deviation instead of the α stretch, reads the same confuser on ψ₁ as well
 (`DefectDecoder.DecodeDeviation`, squared residual ratio near 516, against 1.45 on the α path in the live
 `inspect --root decoder`), with its letters still nearly opposite. What nearly opposite letters cost is precision
-under noise; for the every-bond decode one measure of it is the conditioning.
+under shot noise (the finite count of measurements, not the watching γ); for the every-bond decode one measure of it is the conditioning.
 
 ## 2. Carrier or observable
 
@@ -164,8 +164,9 @@ alone) and maps |0⟩⟨N−1| to its negative, so that coherence's contribution
 
 ## 3. What does not separate them: mirror parity, stationarity, localization
 
-The decoder's letters obey an exact mirror law. For a carrier state ρ that the chain reflection R (site i ↦ N − 1 − i)
-leaves fixed, the letter of bond N − 2 − b is the reflection of the letter of bond b, so the cosine of a mirror pair
+The decoder's letters obey an exact mirror law under the chain reflection R (site i ↦ N − 1 − i; the spatial
+mirror of `DefectReadingEquivarianceClaim`, not the coherence-space mirror of MirrorWorld's `Mirror` or Π). For a
+carrier state ρ that R leaves fixed, the letter of bond N − 2 − b is the reflection of the letter of bond b, so the cosine of a mirror pair
 is 1 − 2w(b), with w the share of the letter's squared norm in its mirror-odd part
 (`DecoderAntiCollinearitySeesawClaim`). On the linear letter it holds here for every such carrier of the table,
 the modes (whose states ρ are R-invariant whatever the parity of the wave) and the end pair, end mixture and centre
@@ -218,7 +219,7 @@ mirror pair's cosine, is the balance of those sizes.
 
 ## What this does not claim
 
-The readings are noiseless and first order in δ, at one watching strength (Q = 20), on open chains up to N = 20
+The readings are free of shot noise and first order in δ, at one watching strength (Q = 20), on open chains up to N = 20
 (arrival) and N = 14 (carriers). The arrival letter is a threshold reading, with the bump and the far end in it,
 not the clean step of the walk-time page's N = 60 runs, and its worst cosine depends on the threshold. No cost
 comparison was made: how many shots an arrival time or a trajectory needs against a purity profile is not
