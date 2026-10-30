@@ -223,7 +223,10 @@ The readings are free of shot noise and first order in δ, at one watching stren
 (arrival) and N = 14 (carriers). The arrival letter is a threshold reading, with the bump and the far end in it,
 not the clean step of the walk-time page's N = 60 runs, and its worst cosine depends on the threshold. No cost
 comparison was made: how many shots an arrival time or a trajectory needs against a purity profile is not
-computed, so the conditioning is compared between dictionaries, not turned into a precision. Nothing here was
+computed, so the conditioning is compared between dictionaries, not turned into a precision. Between carriers
+the comparison is at equal data (every carrier read on the same samples); between the trajectory and the linear
+letter it is not (80 numbers per site against one), so nothing here says the decoder would read better at equal
+cost by switching its carrier or its observable. Nothing here was
 measured on hardware.
 
 ## Reproduce
