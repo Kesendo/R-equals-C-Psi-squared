@@ -225,6 +225,34 @@ public class WalkTimeTests
         }
     }
 
+    // F126's never-caught term is the carrier's clean evolution (times the universal e^{-Gamma t}). For the bonding
+    // mode it is blind to the uniform rescaling of every bond: psi1 is an eigenstate of every rescaled hopping
+    // matrix, so with every bond at J(1 + 0.1) its clean populations stay psi1(i)^2. The cone at gamma = 0 reads the
+    // clean evolution; the residual is rounding (h psi1 = E psi1 to about 1e-16 per entry, carried through 500 RK4
+    // steps of a commutator that vanishes in exact arithmetic: about 500 * 1e-16), gated at 1e-12. This is the linear
+    // algebra of the never-caught term, not the F126 split itself. The control: the site seed's clean populations
+    // do move under the same rescaling.
+    [Fact]
+    public void The_Bonding_Modes_Never_Caught_Term_Is_Blind_To_The_Uniform_Rescaling()
+    {
+        const int n = 7;
+        double[] Run(double[] wave, double scale)
+        {
+            var cone = new Cone(W, n, 1.0, 0.0);
+            for (int b = 0; b < n - 1; b++) cone.SetBond(b, b + 1, scale);
+            cone.SeedPure(wave);
+            for (int k = 0; k < 500; k++) cone.Step(0.01);
+            return Enumerable.Range(0, n).Select(cone.Population).ToArray();
+        }
+        var psi1 = WalkTime.Mode(n, 1);
+        var scaled = Run(psi1, 1.1);
+        for (int i = 0; i < n; i++)
+            Assert.True(Math.Abs(scaled[i] - psi1[i] * psi1[i]) < 1e-12, $"site {i}: {scaled[i]} against {psi1[i] * psi1[i]}");
+        var seed = new double[n]; seed[0] = 1.0;
+        var a = Run(seed, 1.0); var b2 = Run(seed, 1.1);
+        Assert.True(a.Zip(b2, (x, y) => Math.Abs(x - y)).Max() > 0.01, "the site seed must feel the rescaling");
+    }
+
     // The conditioning reading itself, against two cases with a known answer: orthogonal letters read 1, and a
     // letter that is the sum of two others makes the dictionary singular (0 to rounding).
     [Fact]

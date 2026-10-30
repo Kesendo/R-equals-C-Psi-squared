@@ -134,6 +134,7 @@ The experiment `experiments/COUPLING_DEFECT_WALK_TIME_STEP.md` (follow-ups two t
 ## Links
 
 - The measuring experiment and its five follow-ups: `experiments/COUPLING_DEFECT_WALK_TIME_STEP.md`.
+- The ladder with bond defects and other carriers, split by catch count for what a population reading carries about every bond (the bonding mode's never-caught term blind to the uniform rescaling of every bond, the site seed's never-caught front holding about half of its information): `experiments/THE_DECODER_AND_THE_FRONT.md` §6.
 - The rate Γ = 4γ: `PROOF_ABSORPTION_THEOREM.md` (the −2γ·k law read inside the sector).
 - The count of rates in a block, its chromaticity: F74 for (n, n + 1), `PROOF_CHROMATICITY.md` for (n, n + k), `PROOF_UNIFORM_LAW.md` for every block; the border of chromaticity one, where no refill is left: F153; the refill term under other names: `PROOF_FROZEN_BAND_SO4.md` (the discount for agreement 4γD̂, written there on the diagonal blocks), `PROOF_R90_FROZEN_DIVISOR.md` §6 (the even defect); the split on the block (1, 2): F86a, F86e, F89e, F90.
 - The clean propagator and band: F2b in `docs/ANALYTICAL_FORMULAS.md` (band 2J·cos q, front speed 2J).

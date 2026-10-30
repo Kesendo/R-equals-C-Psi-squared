@@ -21,6 +21,8 @@ point). A letter is the derivative of a reading with respect to one bond's delta
   [2b] stationary carriers (mixtures of modes, [H, rho] = 0) against moving ones, both observables.
   [5] at equal cost: the per-shot Fisher information of the full Z-position readout for several carriers and
       schedules, two handshakes with the house's Fisher apparatus, and the efficiency of the decoder's own estimate.
+  [6] F126's renewal ladder split by catch count: how much of the letters the never-caught term carries, and the
+      bonding mode's never-caught term blind to the uniform rescaling of every bond.
   [4] random carriers at N = 7: built on m modes, or smooth site packets; the worst signed cos of [3]
       against the mode participation PR = 1 / sum_k |<psi_k|phi>|^4.
 Output: simulations/results/decoder_carrier/decoder_carrier_dictionary.txt
@@ -400,6 +402,107 @@ def part_five():
     J = 1.0
 
 
+def fisher_frechet(n, rho0, times):
+    """The per-shot Fisher matrix with the slopes by the exact Frechet derivative of the propagator (the block
+    exponential exp([[L, B], [0, L]] t)), for the ill-conditioned cases where an eigenvector route loses digits."""
+    from scipy.linalg import expm
+    eye = np.eye(n)
+    h = np.zeros((n, n))
+    for a in range(n - 1):
+        h[a, a + 1] = h[a + 1, a] = J
+    L = generator(n, np.zeros(n - 1))
+    d = n * n
+    diag = [i * n + i for i in range(n)]
+    v0 = rho0.reshape(-1).astype(complex)
+    P = np.array([np.real((expm(L * t) @ v0)[diag]) for t in times])
+    dP = []
+    for b in range(n - 1):
+        V = np.zeros((n, n))
+        V[b, b + 1] = V[b + 1, b] = J
+        B = -1j * (np.kron(V, eye) - np.kron(eye, V.T))
+        big = np.block([[L, B], [np.zeros((d, d)), L]])
+        x0 = np.concatenate([np.zeros(d, complex), v0])
+        dP.append([np.real((expm(big * t) @ x0)[:d][diag]) for t in times])
+    dP = np.array(dP)
+    w = np.where(P > 0, 1 / np.where(P > 0, P, 1), 0.0)
+    return np.einsum("ats,bts,ts->ab", dP, dP, w) / len(times)
+
+
+# ---- [6] who carries it: the never-caught front and the halo (F126's renewal ladder) ----
+LADDER_M = 64
+
+
+def ladder(n, deltas, rho0, times):
+    """F126's ladder on the finite chain with defects, any carrier: L = L0 + R, L0 = -i[h, .] - Gamma (clean
+    evolution, uniform decay), R = Gamma diag (the refill). The order-j term (j catches) is the coefficient of
+    lambda^j in exp((L0 + lambda R) t), read by an FFT over lambda on the unit circle; returns (P_j, P)."""
+    G = 4 * GAMMA
+    h = np.zeros((n, n))
+    for a in range(n - 1):
+        h[a, a + 1] = h[a + 1, a] = J * (1 + deltas[a])
+    eye = np.eye(n)
+    L0 = -1j * (np.kron(h, eye) - np.kron(eye, h.T)) - G * np.eye(n * n)
+    R = np.diag((G * eye).reshape(-1))
+    diag = [i * n + i for i in range(n)]
+    v0 = rho0.reshape(-1).astype(complex)
+    vals = np.zeros((LADDER_M, len(times), n), complex)
+    for k, lam in enumerate(np.exp(2j * np.pi * np.arange(LADDER_M) / LADDER_M)):
+        w, V = np.linalg.eig(L0 + lam * R)
+        c = np.linalg.solve(V, v0)
+        vals[k] = (np.exp(np.outer(times, w)) * c) @ V[diag].T
+    return np.real(np.fft.fft(vals, axis=0) / LADDER_M), np.real(vals[0])
+
+
+def part_six():
+    global J
+    say("")
+    say("[6] who carries it: F126's renewal ladder split into the never-caught term (j = 0, the clean evolution of the")
+    say("    carrier under the universal decay) and the halo (j >= 1), on the decoder's window; slopes at +-1e-6")
+    for Jq, label in ((1.0, "Q = 20"), (0.075, "Q = 1.5")):
+        J = Jq
+        times = np.linspace(1 / GAMMA / 60, 1 / GAMMA, 60)
+        say("  " + label)
+        for n in (5, 7, 9):
+            m = n - 1
+            u = np.ones(m) / np.sqrt(m)
+            for name, rho0 in (("bonding mode psi1", np.outer(mode(n, 1), mode(n, 1))), ("site 0", np.outer(unit(n, 0), unit(n, 0))),
+                               ("centre site", np.outer(unit(n, n // 2), unit(n, n // 2)))):
+                Pj, P = ladder(n, np.zeros(m), rho0, times)
+                d0, dP = [], []
+                for b in range(m):
+                    e = np.zeros(m)
+                    e[b] = 1e-6
+                    up, upf = ladder(n, e, rho0, times)
+                    dn, dnf = ladder(n, -e, rho0, times)
+                    d0.append((up[0] - dn[0]) / 2e-6)
+                    dP.append((upf - dnf) / 2e-6)
+                d0, dP = np.array(d0), np.array(dP)
+                w = np.where(P > 1e-13, 1 / np.maximum(P, 1e-300), 0.0)
+                share = np.einsum("ats,ats,ts->", d0, dP, w) / np.einsum("ats,ats,ts->", dP, dP, w)
+                F = np.einsum("ats,bts,ts->ab", dP, dP, w) / len(times)
+                F0 = np.einsum("ats,bts,ts->ab", d0, d0, w) / len(times)
+                from scipy.linalg import expm as _expm
+                h0 = np.diag(np.ones(n - 1), 1) * J
+                h0 = h0 + h0.T
+                closed = np.array([np.exp(-4 * GAMMA * t) * np.real(np.diag(_expm(-1j * h0 * t) @ rho0 @ _expm(1j * h0 * t)))
+                                   for t in times])
+                from math import factorial
+                pois = max(abs(Pj[j].sum(1)[k] - np.exp(-4 * GAMMA * t) * (4 * GAMMA * t) ** j / factorial(j))
+                           for j in range(25) for k, t in enumerate(times))
+                cols = "never-caught term against e^(-Gamma t) diag(e^(-iht) rho0 e^(iht)) %.0e, each order's trace against Poisson"                        " %.0e; never-caught share of the Fisher-weighted letters %.3f; along the uniform rescaling"                        " max|dP0| %.1e against max|dP| %.1e" % (np.abs(Pj[0] - closed).max(), pois, share,
+                                                              np.abs(np.einsum("a,ats->ts", u, d0)).max(), np.abs(np.einsum("a,ats->ts", u, dP)).max())
+                if label == "Q = 20":
+                    e0, e1 = np.linalg.eigvalsh(F0)[[0, -1]]
+                    cols += "; lambda_min full %.3e, never-caught alone %.3e (its largest %.2e)" % (np.linalg.eigvalsh(F).min(), e0, e1)
+                say("    N = %d  %-18s %s" % (n, name, cols))
+    J = 0.075
+    F = fisher_frechet(9, np.outer(unit(9, 0), unit(9, 0)), np.linspace(20 / 60, 20, 60))
+    ev = np.linalg.eigvalsh(F)
+    say("  the ill-conditioned case of [5], site 0 at N = 9, Q = 1.5, the decoder's window, by the exact Frechet derivative:"
+        " lambda_min %.3e, lambda_max %.3e (condition %.0e)" % (ev[0], ev[-1], ev[-1] / ev[0]))
+    J = 1.0
+
+
 def main():
     say("The decoder and the front: J = 1, gamma = 0.05 (Q = 20), open XY chain, single-excitation block")
     part_one()
@@ -407,6 +510,7 @@ def main():
     part_two_b()
     part_four()
     part_five()
+    part_six()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_bytes(("\n".join(LINES) + "\n").encode("utf-8"))
 

@@ -12,7 +12,8 @@ pinned in `WalkTimeTests`), and an exact propagation of the same block in
 them to three digits (the residual ratios of §1 excepted, which carry the integration step). The linear-letter
 column, the mirror-law check, the stationary carriers, the runs past
 N = 10, the random carriers of §4, and the rest of §5 (the other handshakes and schedules, the end mixture, the
-uniform-rescaling split, the per-bond bounds and the decoder's efficiency) are on the Python route alone. Why a carrier that holds few modes confuses
+uniform-rescaling split, the per-bond bounds and the decoder's efficiency) and the ladder of §6 are on the Python
+route alone, beside a C# test of §6's exact null. Why a carrier that holds few modes confuses
 is open.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
@@ -22,7 +23,10 @@ defect located by a front, and decoding several defects. docs/ANALYTICAL_FORMULA
 carrier only ("other carriers give a sum below 2"); its resolution-limit reading treats recovering every bond
 from the location dictionary M as an inverse problem, M with the strength column of full rank N minus 1,
 smallest singular value the square root of E, typed as BandEdgeResolutionLimitClaim; it names the decoder's 1.5
-an alpha-rescaling artifact; F2b, F126 and F160 say nothing on carriers or on locating a defect. docs/proofs/:
+an alpha-rescaling artifact; F2b and F160 say nothing on carriers or on locating a defect, and F126 (the renewal
+representation, PROOF_DEPHASING_FRONT_RENEWAL) is the exact solution of every population this page reads: stated
+for a seed site, its derivation carries over to any carrier and any couplings, defects included; joined in
+section 6. docs/proofs/:
 PROOF_HANDSHAKE_TRANSITION_INVARIANT lines 45 and 58 (interior carriers psi_2, psi_3, definite parity),
 PROOF_PTF_CHIRAL_MIRROR_RATE_LAW line 85 (the chiral identity holds with several defects; not a decoding);
 nothing on a carrier without parity. experiments/: COUPLING_DEFECT_WALK_TIME_STEP P3' locates the defect from
@@ -281,7 +285,8 @@ independent probabilities for N − 1 bonds). The schedule matters at both watch
 seed loses a factor 16 to 83 between the windows γt ≤ 1 and γt ≤ 10).
 
 At strong watching the decoder's window starves the site seed. At Q = 1.5 it reads 5.9 · 10⁻⁶ at N = 7 and
-6.5 · 10⁻⁹ at N = 9 there: its excitation has not reached the far bonds by t = 1/γ. Given the best schedule tried
+6.3 · 10⁻⁹ at N = 9 there (by the exact derivative of the propagator; the condition of that Fisher matrix is
+10⁸, and the eigenvector route reads 6.5 · 10⁻⁹): its excitation has not reached the far bonds by t = 1/γ. Given the best schedule tried
 it reads 8.3, 2.2 and 0.75 · 10⁻² at N = 5, 7, 9, against ψ₁'s 6.6, 2.0 and 1.3 · 10⁻³, and the centre site 0.27,
 0.095 and 0.030, while ψ₂ is uneven (8.8 · 10⁻³, 1.8 · 10⁻², 5.7 · 10⁻⁴). On the bond/seat page's baseline
 schedule (uniform profile) the centre site holds 34 times ψ₁'s smallest eigenvalue (6,421,954 against 190,443) and
@@ -295,6 +300,43 @@ same shots over that variance (1 when the estimate uses all the information; it 
 window, mean over bonds, the efficiency on ψ₁ is 0.20, 0.20 and 0.32 at N = 5, 7, 9 at Q = 20, and 0.70, 0.32 and
 0.58 at Q = 1.5. At weak watching the decoder's linearized estimate uses a fifth to a third of the information ψ₁'s
 shots carry.
+
+## 6. Who carries it: the never-caught front and the halo
+
+[F126](../docs/ANALYTICAL_FORMULAS.md) solves exactly the populations this page reads
+([PROOF_DEPHASING_FRONT_RENEWAL](../docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md)). Split at the diagonal refill,
+every population is a sum over the number j of refills (the times the walker was caught, in the unravelling by
+site projectors; [FRONT_PEDIGREE](FRONT_PEDIGREE.md) reads that distribution at the front): the term j = 0 is the
+carrier's clean evolution under the universal decay e^{−Γt}, Γ = 4γ (for a site seed, the coherent front), and
+everything refilled once or more is the **halo**. The derivation never uses that the couplings are equal or that the
+seed is one site, so it carries over to every bond defect and every carrier of this page, the first term becoming
+the clean evolution of the carrier's populations. Read on the finite chain through a counting parameter on the
+refill (the order j is the coefficient of λ^j when the refill is weighted by λ), the term j = 0 meets that clean
+evolution, e^{−Γt}·diag(e^{−iht}ρ₀e^{iht}), to 6 · 10⁻¹⁶, and each order's trace meets the Poisson weight
+e^{−Γt}(Γt)^j/j! to 10⁻¹⁵. Each letter splits the same way into a never-caught part and a halo part.
+
+**The bonding mode's never-caught term is blind along the uniform rescaling, exactly.** ψ₁ is an eigenstate of
+every rescaled hopping matrix, so its clean evolution does not move when every bond is rescaled together: the
+never-caught term's slope along the uniform rescaling is zero (at most 1.2 · 10⁻¹⁰ here, the rounding of a finite
+difference at ±10⁻⁶, against 1.2 to 3.3 · 10⁻² for the full populations at Q = 20). Write F⁽⁰⁾ = mean_t Σ_j
+∂P⁽⁰⁾∂P⁽⁰⁾ᵀ/P_j, with the full populations below: what the readout would carry if the halo had no slope. It has a
+zero eigenvalue (below 10⁻¹⁶, its largest 0.42 to 0.72). Since ψ₁'s worst direction of §5 lies within 0.997 to
+0.998 of the uniform rescaling, nearly all of what ψ₁ reads in its worst direction comes through the halo,
+walkers caught and released, which carry the scale of the bonds only through J/γ: the
+[bond/seat](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) page's "changing every hopping changes J/γ₀", split by catch
+count.
+
+**The site seed's information lies in both.** At Q = 20 its F⁽⁰⁾ has λ_min 0.141, 0.116 and 0.090 at N = 5, 7, 9:
+about half of its full λ_min (0.54, 0.53 and 0.49 of 0.260, 0.217 and 0.185) and 59 to 63 times the bonding mode's
+full λ_min. The coherent front by itself already reads every bond; the halo adds the rest (the two parts' cross
+terms included, F is not the sum of the parts' matrices). The centre site's F⁽⁰⁾ reads 0.109, 0.086 and 0.079.
+
+Over the decoder's window the never-caught term is a quarter of the population (its trace is e^{−Γt}, whose mean
+over γt ∈ (0, 1] is (1 − e⁻⁴)/4 ≈ 0.25, 0.24 on the 60 times), but at Q = 20 it carries 0.53 to 0.77 of the Fisher-weighted letters
+(the projection share Σ ∂P⁽⁰⁾·∂P/P over Σ ∂P·∂P/P, a trace over every bond direction, which with the halo's share
+sums to 1): ψ₁ 0.73 to 0.77, the site seed 0.53 to 0.61, the centre site 0.60 to 0.70. Weight for weight, the
+never-caught term is the more sensitive. At Q = 1.5 the halo carries 0.83 to 0.88
+of the letters for every carrier.
 
 ## What this does not claim
 
@@ -321,6 +363,8 @@ python simulations/decoder_carrier_dictionary.py                # the exact seco
 - [HANDSHAKE_GEOMETRY](../hypotheses/HANDSHAKE_GEOMETRY.md): the decoder, its anti-collinearity, the mirror
   equivariance, the phase-blindness gate (the observable half of §2).
 - [COUPLING_DEFECT_WALK_TIME_STEP](COUPLING_DEFECT_WALK_TIME_STEP.md): the step law this page reads backwards.
+- [PROOF_DEPHASING_FRONT_RENEWAL](../docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md) (F126) and
+  [FRONT_PEDIGREE](FRONT_PEDIGREE.md): the renewal ladder of §6, the exact solution of every population read here.
 - [PERSPECTIVAL_TIME_FIELD](../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the carriers the decoder's painting stage was
   run on, and where its rescaling picture degrades.
 - [F124](../docs/ANALYTICAL_FORMULAS.md) and `BandEdgeResolutionLimitClaim`: the every-bond inverse problem on the
