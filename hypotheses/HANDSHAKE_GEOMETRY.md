@@ -141,9 +141,9 @@ The selection rule kills the k = N column entirely, so M has rank N−2 (machine
 The carrier couples to N−1 other modes under bond defects, but the K-partner channel is forbidden,
 leaving only N−2 independent location channels. This IS the `DefectDecoder`'s sign-location
 ambiguity: an edge bond reads almost like the complementary interior bond (residual ratio ≈ 1.5
-at N=5, the `AmbiguityFactor` flag), and the reason it cannot cleanly separate sign from location
-is exactly that the K-partner pairs are the dictionary's null direction. The forbidden channel is
-the one that would have lifted the degeneracy.
+at N=5, the `AmbiguityFactor` flag). The forbidden channel leaves the dictionary one exact null
+direction, which in bond coordinates is the uniform rescaling of every bond (below); the confusable
+pair itself is a pairwise event that this null does not fix on its own (the location-metric below).
 
 **Update (2026-06-29, the de-loss).** The ≈1.5 *decode ratio* above is reducible: it is the α
 time-rescaling's sign-clip, not the K-partner null itself. The signed per-site purity-deviation profile
@@ -178,10 +178,15 @@ honest k = 2..N the bare dictionary carries the very same null.)
 
 **The small eigenvalues split by mirror parity, not by magnitude.** The painted letters' Gram (the canonical
 Q = 20 protocol) has eigenvectors that are symmetric or antisymmetric under the bond mirror b ↔ N−2−b. The
-antisymmetric sector holds the dominant *seesaw* ("which side of the chain slowed") and the K-partner null;
-the symmetric sector holds the closure/strength direction (the F123 channel, the one overlapping the uniform
-α-level) and a dim symmetric mode. At N = 5 the two smallest eigenvalues (≈0.008 symmetric, ≈0.007
-antisymmetric) sit in **different sectors**: two distinct things, not one homogeneous ambiguity.
+antisymmetric sector holds the dominant *seesaw* ("which side of the chain slowed") and, at N = 5, the staggered
+bond wave (−1)^b (overlap 0.998), the zone-boundary modulation whose grip on the carrier F124 finds set by the
+chain's ends. The symmetric sector holds the uniform rescaling of every bond (overlap 0.95 with (1, …, 1) at N = 5,
+0.96 for N = 4's smallest eigenvector), which is the K-partner deficit's bond side and reaches the carrier only
+through the strength channel (Σ_b ⟨ψ_k|V_b|ψ_1⟩ vanishes for every k ≠ 1), and a brighter symmetric mode (at
+N = 4, where (−1)^b is mirror-even, the staggered wave itself: overlap 0.999). These are the two chains the gate
+script reads. At N = 5 the two
+smallest eigenvalues (≈0.008 symmetric, the uniform rescaling; ≈0.007 antisymmetric, the staggered wave) sit in
+**different sectors**: two distinct things, not one homogeneous ambiguity.
 
 **Pairwise confusability is the cosine matrix, a different object.** "An edge bond reads almost like the
 complementary interior bond" is a statement about two specific letters being near-**anti-collinear**: the
@@ -198,8 +203,15 @@ so a sign-carrying linear ⟨Z_i⟩ read ought to lift the +δJ ≈ −δJ-on-th
 refutes it ([`handshake_phase_blindness.py`](../simulations/handshake_phase_blindness.py)): the linear
 ⟨Z_i⟩ read **and** the full temporal ⟨Z_i⟩(t) signal are just as anti-collinear as the squared purity
 (|cos| ≈ 0.9 across N = 4..7). The two mirror-paired bonds produce genuinely sign-flipped population
-responses; no choice of per-site weighting or time-window changes the angle. The confusability is the
-K-partner near-degeneracy itself, read in the dynamics, not a quadrature the readout happens to discard.
+responses; no choice of per-site weighting or time-window changes the angle. The confusability lives in the
+dynamics, not in a quadrature the readout happens to discard. Seen from the bonds, the K-partner deficit has a
+name: every column of the location dictionary sums over the bonds to
+⟨ψ_k|Σ_b V_b|ψ_1⟩ = 0, since Σ_b V_b is the hopping itself and ψ_1 its eigenvector, so the one bond combination it
+leaves unseen is the uniform
+rescaling of every bond, and along it the bare letters add up to nothing. That, and not the rank count alone, makes
+them point against each other on average ([THE_DECODER_AND_THE_FRONT](../experiments/THE_DECODER_AND_THE_FRONT.md)
+§4); it does not pick the worst pair. N = 5's (1, 3), for one, is the bond combination (0, 1, 0, 1), which sits about
+half on the painted Gram's uniform eigenvector and half on its staggered one (0.45 and 0.50 of its weight).
 With the observable held fixed instead, the carrier moves the angle: on the whole population trajectory a
 localized carrier (one excitation at site 0, or at the ends, or at the centre) reads no nearly opposite pair and a
 dictionary several times better conditioned than ψ₁'s, while carriers holding few modes stay anti-collinear; on
@@ -272,9 +284,8 @@ and this cross-feature reflection are the two symmetry structures of one diction
 
 This is a closed-form parity-weighted mode sum. It is negative (anti-collinear) exactly when the **R-odd**
 channels, above all the seesaw k=2 (the sign representation), carry the net location weight. This is
-the structural origin of the sign-location ambiguity: the mirror-image bonds are R-images, the
-distinguishing channel is the K-partner null, and the confusability sign is fixed by the R-odd
-dominance of the location reading.
+the structural origin of the sign-location ambiguity: the mirror-image bonds are R-images, and the
+confusability sign is fixed by the R-odd dominance of the location reading.
 
 Honest scope: the equivariance and the cosine formula are **bare and exact**; the bare mirror-pair
 cosine is **−0.33** at N=5. On the *painted* letters the same mirror statement reads cos = 1 − 2w, w the

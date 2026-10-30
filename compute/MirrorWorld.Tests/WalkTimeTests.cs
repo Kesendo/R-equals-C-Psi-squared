@@ -253,6 +253,74 @@ public class WalkTimeTests
         Assert.True(a.Zip(b2, (x, y) => Math.Abs(x - y)).Max() > 0.01, "the site seed must feel the rescaling");
     }
 
+    // The letters of every bond add up to the letter of the uniform rescaling of every bond, because h is the sum of
+    // its bonds (experiments/THE_DECODER_AND_THE_FRONT.md §4). At gamma = 0 that rescaling is a rescaling of time, and
+    // a carrier at rest under H does not move under it: the bonding mode's letters add up to nothing. What is left of
+    // the sum is the central difference's own error, which goes as delta^2, so halving delta quarters it; the RK4 step
+    // cannot break the rule, since its propagator keeps psi1 an eigenvector of every rescaled h. A first-order sum that
+    // did not vanish would hold the ratio near 1. The control: the site seed moves, and its letters add up to its own
+    // motion, t dp/dt, far from nothing (0.777 of their summed norms on the exact route).
+    [Fact]
+    public void The_Letters_Of_A_Carrier_At_Rest_Add_Up_To_Nothing()
+    {
+        const int n = 5;
+        double Cancellation(double[] wave, double delta)
+        {
+            var l = WalkTime.TrajectoryLetters(W, n, 1.0, 0.0, new[] { (1.0, wave) }, dt: 0.01, sample: 0.25, tMax: 20.0, delta: delta);
+            double sum2 = 0.0;
+            for (int k = 0; k < l[0].Length; k++)
+            {
+                double s = 0.0;
+                for (int b = 0; b < n - 1; b++) s += l[b][k];
+                sum2 += s * s;
+            }
+            return Math.Sqrt(sum2) / l.Sum(row => Math.Sqrt(row.Sum(x => x * x)));
+        }
+        var psi1 = WalkTime.Mode(n, 1);
+        double coarse = Cancellation(psi1, 0.02), fine = Cancellation(psi1, 0.01);
+        Assert.InRange(coarse / fine, 3.9, 4.1);
+        var seed = new double[n]; seed[0] = 1.0;
+        Assert.True(Cancellation(seed, 0.01) > 0.5, "the site seed's letters add up to its motion");
+    }
+
+    // The bonding mode's weakest direction is the sum of its letters (experiments/THE_DECODER_AND_THE_FRONT.md §4):
+    // along the norm vector (|l_0|, .., |l_N-2|) its normalised letters add up to the uniform rescaling's letter, of
+    // which it has little (only the halo's), so at Q = 20 the norm vector's Rayleigh quotient on the cosine matrix sits
+    // just above the smallest eigenvalue (it cannot lie below it): 1.20526709 times it at N = 5 on the exact route of
+    // simulations/decoder_carrier_dictionary.py, letters by central differences at delta = 1e-4 (2e-8 below the
+    // delta -> 0 value, far inside the gate; decoder_letters_sum_and_shots.py prints it as 1.205, and 1.206 and 1.196
+    // at N = 7, 9). The cone's reading meets that value to
+    // the central difference's law: doubling delta from 0.01 to 0.02 multiplies the deviation by about 4. The control:
+    // the site seed's weakest direction lies elsewhere, its norm vector at 11.3 times the smallest eigenvalue there.
+    [Fact]
+    public void The_Bonding_Modes_Weakest_Direction_Is_The_Sum_Of_Its_Letters()
+    {
+        const int n = 5, m = n - 1;
+        const double exact = 1.20526709;
+        double Ratio(double[] wave, double delta)
+        {
+            var l = WalkTime.TrajectoryLetters(W, n, 1.0, 0.05, new[] { (1.0, wave) }, dt: 0.01, sample: 0.25, tMax: 20.0, delta: delta);
+            var norm = l.Select(r => Math.Sqrt(r.Sum(x => x * x))).ToArray();
+            var c = new double[m, m];
+            for (int a = 0; a < m; a++)
+                for (int b = 0; b < m; b++) c[a, b] = l[a].Zip(l[b], (x, y) => x * y).Sum() / (norm[a] * norm[b]);
+            double num = 0.0, den = 0.0;
+            for (int a = 0; a < m; a++)
+            {
+                den += norm[a] * norm[a];
+                for (int b = 0; b < m; b++) num += norm[a] * c[a, b] * norm[b];
+            }
+            return num / den / WalkTime.MinEigenvalue(c);
+        }
+        var psi1 = WalkTime.Mode(n, 1);
+        double e1 = Math.Abs(Ratio(psi1, 0.02) - exact), e2 = Math.Abs(Ratio(psi1, 0.01) - exact);
+        var seed = new double[n]; seed[0] = 1.0;
+        double site = Ratio(seed, 0.01);
+        Assert.True(e2 < 1e-3, $"dt = 0.01, delta = 0.01 reads {exact + e2} against {exact}");
+        Assert.InRange(e1 / e2, 3.5, 4.5);
+        Assert.True(site > 5.0, $"the site seed's norm vector reads {site} times the smallest eigenvalue");
+    }
+
     // The conditioning reading itself, against two cases with a known answer: orthogonal letters read 1, and a
     // letter that is the sum of two others makes the dictionary singular (0 to rounding).
     [Fact]

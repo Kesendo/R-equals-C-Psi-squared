@@ -1,0 +1,146 @@
+The decoder and the front, the open items: J = 1, open XY chain, single-excitation block
+[1] the sum rule: the letters of all bonds add up to the letter U of the uniform rescaling
+  the bare location dictionary M[b, k] = <psi_k|V_b|psi1>, k = 2..N (rank N - 2, the K-partner column k = N
+  zero): every column sums over the bonds to <psi_k|h|psi1> = 0, so its one left null vector is (1, .., 1)
+    N =  3  rank 1, max |column sum| 1.1e-16, |K-partner column| 1.1e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N =  4  rank 2, max |column sum| 2.5e-16, |K-partner column| 1.9e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N =  5  rank 3, max |column sum| 1.9e-16, |K-partner column| 1.9e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N =  6  rank 4, max |column sum| 7.2e-16, |K-partner column| 3.9e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N =  7  rank 5, max |column sum| 6.5e-16, |K-partner column| 3.7e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N =  8  rank 6, max |column sum| 3.9e-16, |K-partner column| 1.9e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 0.999999999999999
+    N =  9  rank 7, max |column sum| 5.7e-16, |K-partner column| 2.6e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+    N = 10  rank 8, max |column sum| 6.4e-16, |K-partner column| 2.1e-16, overlap of the left null vector with (1, .., 1)/sqrt(N-1) 1.000000000000000
+  gamma = 0.00
+    N = 5  bonding mode psi1 (stationary, mirror-even)    |sum_b l_b - U| / sum_b |l_b| 2.3e-08   kappa 0.000   |U| 7.7e-11, |t dP/dt| 5.7e-14
+    N = 5  mode psi2 (stationary, mirror-even rho)        |sum_b l_b - U| / sum_b |l_b| 1.3e-08   kappa 0.000   |U| 5.1e-11, |t dP/dt| 5.3e-14
+    N = 5  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    |sum_b l_b - U| / sum_b |l_b| 9.3e-09   kappa 0.449   |U - t dP/dt| / |U| 2.5e-07
+    N = 5  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     |sum_b l_b - U| / sum_b |l_b| 2.6e-06   kappa 0.975   |U - t dP/dt| / |U| 3.0e-06
+    N = 5  end mixture (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 1.7e-06   kappa 0.777   |U - t dP/dt| / |U| 2.5e-06
+    N = 5  centre site (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 3.7e-06   kappa 0.977   |U - t dP/dt| / |U| 4.1e-06
+    N = 5  site 0 (mirror-broken)                         |sum_b l_b - U| / sum_b |l_b| 1.8e-06   kappa 0.777   |U - t dP/dt| / |U| 2.6e-06
+    N = 7  bonding mode psi1 (stationary, mirror-even)    |sum_b l_b - U| / sum_b |l_b| 9.9e-09   kappa 0.000   |U| 6.8e-11, |t dP/dt| 1.3e-13
+    N = 7  mode psi2 (stationary, mirror-even rho)        |sum_b l_b - U| / sum_b |l_b| 7.0e-09   kappa 0.000   |U| 6.3e-11, |t dP/dt| 6.7e-14
+    N = 7  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    |sum_b l_b - U| / sum_b |l_b| 2.6e-08   kappa 0.254   |U - t dP/dt| / |U| 8.9e-08
+    N = 7  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     |sum_b l_b - U| / sum_b |l_b| 1.8e-06   kappa 0.673   |U - t dP/dt| / |U| 2.7e-06
+    N = 7  end mixture (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 1.5e-06   kappa 0.689   |U - t dP/dt| / |U| 2.3e-06
+    N = 7  centre site (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 3.2e-06   kappa 0.798   |U - t dP/dt| / |U| 4.2e-06
+    N = 7  site 0 (mirror-broken)                         |sum_b l_b - U| / sum_b |l_b| 1.7e-06   kappa 0.703   |U - t dP/dt| / |U| 2.5e-06
+  gamma = 0.05
+    N = 5  bonding mode psi1 (stationary, mirror-even)    |sum_b l_b - U| / sum_b |l_b| 4.4e-08   kappa 0.061   |U - (t dP/dt - gamma dP/dgamma)| / |U| 7.0e-07
+    N = 5  mode psi2 (stationary, mirror-even rho)        |sum_b l_b - U| / sum_b |l_b| 7.8e-08   kappa 0.060   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.4e-06
+    N = 5  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    |sum_b l_b - U| / sum_b |l_b| 7.1e-08   kappa 0.407   |U - (t dP/dt - gamma dP/dgamma)| / |U| 2.2e-07
+    N = 5  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     |sum_b l_b - U| / sum_b |l_b| 1.1e-06   kappa 0.886   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.4e-06
+    N = 5  end mixture (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 7.8e-07   kappa 0.749   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.2e-06
+    N = 5  centre site (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 1.7e-06   kappa 0.900   |U - (t dP/dt - gamma dP/dgamma)| / |U| 2.0e-06
+    N = 5  site 0 (mirror-broken)                         |sum_b l_b - U| / sum_b |l_b| 8.9e-07   kappa 0.711   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.4e-06
+    N = 7  bonding mode psi1 (stationary, mirror-even)    |sum_b l_b - U| / sum_b |l_b| 1.4e-08   kappa 0.036   |U - (t dP/dt - gamma dP/dgamma)| / |U| 4.3e-07
+    N = 7  mode psi2 (stationary, mirror-even rho)        |sum_b l_b - U| / sum_b |l_b| 3.1e-08   kappa 0.033   |U - (t dP/dt - gamma dP/dgamma)| / |U| 9.9e-07
+    N = 7  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    |sum_b l_b - U| / sum_b |l_b| 3.1e-08   kappa 0.211   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.5e-07
+    N = 7  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     |sum_b l_b - U| / sum_b |l_b| 7.2e-07   kappa 0.560   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.4e-06
+    N = 7  end mixture (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 6.0e-07   kappa 0.654   |U - (t dP/dt - gamma dP/dgamma)| / |U| 9.7e-07
+    N = 7  centre site (mirror-even)                      |sum_b l_b - U| / sum_b |l_b| 1.3e-06   kappa 0.684   |U - (t dP/dt - gamma dP/dgamma)| / |U| 2.0e-06
+    N = 7  site 0 (mirror-broken)                         |sum_b l_b - U| / sum_b |l_b| 6.9e-07   kappa 0.631   |U - (t dP/dt - gamma dP/dgamma)| / |U| 1.2e-06
+  every mode psi_k a carrier at rest: N = 3, the two letters' cos; N = 4, the three cosines against the triangle
+  law cos_ab = (|l_c|^2 - |l_a|^2 - |l_b|^2) / (2 |l_a| |l_b|) of three vectors adding up to zero; exact without
+  dephasing, broken at Q = 20 by the halo
+    gamma = 0.00  N = 3  psi1  cos -1.000000000000
+    gamma = 0.00  N = 3  psi2  cos -1.000000000000
+    gamma = 0.00  N = 3  psi3  cos -1.000000000000
+    gamma = 0.00  N = 4  psi1  cos01 -0.19976536 (law -0.19976539)  cos02 -0.92018760 (law -0.92018758)  cos12 -0.19976536 (law -0.19976539)
+    gamma = 0.00  N = 4  psi2  cos01 -0.19976536 (law -0.19976539)  cos02 -0.92018760 (law -0.92018758)  cos12 -0.19976536 (law -0.19976539)
+    gamma = 0.00  N = 4  psi3  cos01 -0.19976536 (law -0.19976539)  cos02 -0.92018760 (law -0.92018758)  cos12 -0.19976536 (law -0.19976539)
+    gamma = 0.00  N = 4  psi4  cos01 -0.19976536 (law -0.19976539)  cos02 -0.92018760 (law -0.92018758)  cos12 -0.19976536 (law -0.19976539)
+    gamma = 0.05  N = 3  psi1  cos -0.963241425597
+    gamma = 0.05  N = 3  psi2  cos -0.963241425598
+    gamma = 0.05  N = 3  psi3  cos -0.963241425597
+    gamma = 0.05  N = 4  psi1  cos01 -0.26160970 (law -0.21935847)  cos02 -0.82893976 (law -0.90376372)  cos12 -0.26160970 (law -0.21935847)
+    gamma = 0.05  N = 4  psi2  cos01 -0.26160970 (law -0.21935847)  cos02 -0.82893976 (law -0.90376372)  cos12 -0.26160970 (law -0.21935847)
+    gamma = 0.05  N = 4  psi3  cos01 -0.26160970 (law -0.21935847)  cos02 -0.82893976 (law -0.90376372)  cos12 -0.26160970 (law -0.21935847)
+    gamma = 0.05  N = 4  psi4  cos01 -0.26160970 (law -0.21935847)  cos02 -0.82893976 (law -0.90376372)  cos12 -0.26160970 (law -0.21935847)
+  the dictionary's weakest direction (the smallest singular vector of the normalised letters, read over the
+  bonds) against the norm vector (|l_0|, .., |l_N-2|), along which the normalised letters add up to U
+    gamma = 0.00  N = 5  bonding mode psi1  conditioning 0.000, overlap with the norm vector 1.0000, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix nan
+      its worst cos -0.956, its norm-weighted mean cos -0.336, the equal-norm floor -1/(N-2) -0.333
+    gamma = 0.00  N = 5  site 0             conditioning 0.221, overlap with the norm vector 0.0164, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 47.577
+      its worst cos +0.186, its norm-weighted mean cos +0.465, the equal-norm floor -1/(N-2) -0.333
+    gamma = 0.00  N = 7  bonding mode psi1  conditioning 0.000, overlap with the norm vector 1.0000, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix nan
+      its worst cos -0.940, its norm-weighted mean cos -0.212, the equal-norm floor -1/(N-2) -0.200
+    gamma = 0.00  N = 7  site 0             conditioning 0.274, overlap with the norm vector 0.0077, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 38.827
+      its worst cos -0.086, its norm-weighted mean cos +0.391, the equal-norm floor -1/(N-2) -0.200
+    gamma = 0.00  N = 9  bonding mode psi1  conditioning 0.000, overlap with the norm vector 1.0000, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix nan
+      its worst cos -0.976, its norm-weighted mean cos -0.158, the equal-norm floor -1/(N-2) -0.143
+    gamma = 0.00  N = 9  site 0             conditioning 0.357, overlap with the norm vector 0.0117, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 24.531
+      its worst cos -0.061, its norm-weighted mean cos +0.312, the equal-norm floor -1/(N-2) -0.143
+    gamma = 0.05  N = 5  bonding mode psi1  conditioning 0.111, overlap with the norm vector 0.9976, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 1.205
+      its worst cos -0.945, its norm-weighted mean cos -0.331, the equal-norm floor -1/(N-2) -0.333
+    gamma = 0.05  N = 5  site 0             conditioning 0.419, overlap with the norm vector 0.0223, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 11.278
+      its worst cos +0.060, its norm-weighted mean cos +0.336, the equal-norm floor -1/(N-2) -0.333
+    gamma = 0.05  N = 7  bonding mode psi1  conditioning 0.078, overlap with the norm vector 0.9971, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 1.206
+      its worst cos -0.882, its norm-weighted mean cos -0.209, the equal-norm floor -1/(N-2) -0.200
+    gamma = 0.05  N = 7  site 0             conditioning 0.536, overlap with the norm vector 0.0426, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 8.026
+      its worst cos +0.013, its norm-weighted mean cos +0.272, the equal-norm floor -1/(N-2) -0.200
+    gamma = 0.05  N = 9  bonding mode psi1  conditioning 0.068, overlap with the norm vector 0.9993, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 1.196
+      its worst cos -0.929, its norm-weighted mean cos -0.154, the equal-norm floor -1/(N-2) -0.143
+    gamma = 0.05  N = 9  site 0             conditioning 0.654, overlap with the norm vector 0.0519, Rayleigh quotient of the norm vector over the smallest eigenvalue of the cosine matrix 5.775
+      its worst cos -0.025, its norm-weighted mean cos +0.221, the equal-norm floor -1/(N-2) -0.143
+  the linear letter at Q = 20 per carrier: kappa (the letters' sum over their summed norms), worst and largest cos
+    N = 5  bonding mode psi1 (stationary, mirror-even)    kappa 0.046, worst cos -0.983, largest cos +0.820
+    N = 5  mode psi2 (stationary, mirror-even rho)        kappa 0.059, worst cos -0.987, largest cos +0.883
+    N = 5  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    kappa 0.137, worst cos -0.964, largest cos +0.841
+    N = 5  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     kappa 0.999, worst cos +0.997, largest cos +0.999
+    N = 5  end mixture (mirror-even)                      kappa 0.917, worst cos +0.660, largest cos +0.999
+    N = 5  centre site (mirror-even)                      kappa 0.999, worst cos +0.995, largest cos +1.000
+    N = 5  site 0 (mirror-broken)                         kappa 0.911, worst cos +0.617, largest cos +0.998
+    N = 7  bonding mode psi1 (stationary, mirror-even)    kappa 0.043, worst cos -0.928, largest cos +0.923
+    N = 7  mode psi2 (stationary, mirror-even rho)        kappa 0.054, worst cos -0.978, largest cos +0.883
+    N = 7  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    kappa 0.163, worst cos -0.967, largest cos +0.943
+    N = 7  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     kappa 0.846, worst cos -0.079, largest cos +0.997
+    N = 7  end mixture (mirror-even)                      kappa 0.927, worst cos +0.605, largest cos +0.984
+    N = 7  centre site (mirror-even)                      kappa 0.963, worst cos +0.725, largest cos +0.998
+    N = 7  site 0 (mirror-broken)                         kappa 0.946, worst cos +0.725, largest cos +0.993
+  the 132 random carriers at N = 7: correlation of the worst signed cos with kappa, with PR, and with the rank-one
+  share s1^2 / sum s^2 of the normalised dictionary (one dominant direction)
+    gamma = 0.00 trajectory: worst cos with kappa +0.857, with PR +0.680, with the rank-one share +0.313; kappa 0.000..0.799 where worst < -0.5 (67), 0.455..0.937 where not
+      kappa with PR +0.596
+    gamma = 0.05 trajectory: worst cos with kappa +0.896, with PR +0.811, with the rank-one share -0.430; kappa 0.033..0.580 where worst < -0.5 (77), 0.294..0.804 where not
+      kappa with PR +0.743
+    gamma = 0.05 linear letter: worst cos with kappa +0.786, with PR +0.680; largest cos with kappa +0.653, with PR +0.403
+
+[2] an actual decode at finite shots, the decoder's window at Q = 20, shots split equally over the 60 times
+  (A) one defect, maximum likelihood over (bond, delta), delta on a grid of 240 values in [-0.06, 0.06]; 300 draws
+      per cell; P(right bond and sign) at [600, 2400, 6000, 24000, 60000, 240000] shots; where the answers go at 60000
+    N = 5, bond 3 at -0.02, bonding mode psi1  0.187  0.207  0.267  0.400  0.513  0.743   at 60000: {'bond 3 -': 154, 'bond 1 +': 80, 'bond 0 +': 40, 'bond 2 -': 22, 'bond 2 +': 3, 'bond 1 -': 1}
+    N = 5, bond 3 at -0.02, site 0             0.290  0.437  0.597  0.903  0.983  1.000   at 60000: {'bond 3 -': 295, 'bond 0 -': 5}
+    N = 5, bond 3 at -0.02, centre site        0.263  0.337  0.493  0.810  0.937  1.000   at 60000: {'bond 3 -': 281, 'bond 2 -': 11, 'bond 1 -': 8}
+    N = 5, bond 1 at +0.02, bonding mode psi1  0.163  0.210  0.203  0.410  0.500  0.683   at 60000: {'bond 1 +': 150, 'bond 3 -': 86, 'bond 2 -': 34, 'bond 0 +': 22, 'bond 0 -': 4, 'bond 1 -': 2, 'bond 2 +': 2}
+    N = 5, bond 1 at +0.02, site 0             0.217  0.363  0.540  0.807  0.973  1.000   at 60000: {'bond 1 +': 292, 'bond 2 +': 8}
+    N = 5, bond 1 at +0.02, centre site        0.187  0.277  0.493  0.807  0.953  1.000   at 60000: {'bond 1 +': 286, 'bond 2 +': 13, 'bond 0 +': 1}
+    N = 7, bond 5 at -0.02, bonding mode psi1  0.087  0.140  0.163  0.337  0.443  0.790   at 60000: {'bond 5 -': 133, 'bond 2 +': 63, 'bond 1 +': 30, 'bond 4 -': 30, 'bond 0 +': 14, 'bond 3 +': 10, 'bond 3 -': 9, 'bond 0 -': 6, 'bond 2 -': 3, 'bond 1 -': 2}
+    N = 7, bond 5 at -0.02, site 0             0.167  0.257  0.503  0.823  0.973  1.000   at 60000: {'bond 5 -': 292, 'bond 0 -': 8}
+    N = 7, bond 5 at -0.02, centre site        0.163  0.293  0.480  0.820  0.980  1.000   at 60000: {'bond 5 -': 294, 'bond 3 -': 2, 'bond 0 -': 2, 'bond 2 -': 1, 'bond 1 +': 1}
+    N = 7, bond 1 at +0.02, bonding mode psi1  0.120  0.103  0.150  0.337  0.490  0.857   at 60000: {'bond 1 +': 147, 'bond 3 -': 44, 'bond 4 -': 43, 'bond 0 +': 36, 'bond 5 -': 22, 'bond 2 +': 7, 'bond 2 -': 1}
+    N = 7, bond 1 at +0.02, site 0             0.147  0.253  0.480  0.803  0.977  1.000   at 60000: {'bond 1 +': 293, 'bond 4 +': 6, 'bond 5 +': 1}
+    N = 7, bond 1 at +0.02, centre site        0.177  0.310  0.423  0.870  0.993  1.000   at 60000: {'bond 1 +': 298, 'bond 5 -': 1, 'bond 3 +': 1}
+  (B) every bond at once, maximum likelihood by Fisher scoring from zero with step halving until the step is below
+      1e-9 (at most 80 steps); one true configuration per cell, uniform in [-0.01, 0.01] per bond; 300 draws: the
+      covariance of the error against the Cramer-Rao bound F^-1/S at the true deltas, the bootstrap spread of that
+      ratio (500 resamples), the mean squared error over the bound, and the draws not converged
+    N = 5    60000 shots  bonding mode psi1  spread of the error 1.17e-01 (bound 8.81e-02), covariance trace over the bound's 1.77 (bootstrap 1.39..2.16), mean squared error over the bound 1.78, not converged 71 of 300
+    N = 5    60000 shots  site 0             spread of the error 1.07e-02 (bound 1.09e-02), covariance trace over the bound's 0.97 (bootstrap 0.87..1.06), mean squared error over the bound 0.97, not converged 0 of 300
+    N = 5   600000 shots  bonding mode psi1  spread of the error 2.82e-02 (bound 2.76e-02), covariance trace over the bound's 1.04 (bootstrap 0.91..1.18), mean squared error over the bound 1.04, not converged 0 of 300
+    N = 5   600000 shots  site 0             spread of the error 3.37e-03 (bound 3.46e-03), covariance trace over the bound's 0.95 (bootstrap 0.85..1.04), mean squared error over the bound 0.95, not converged 0 of 300
+    N = 7    60000 shots  bonding mode psi1  spread of the error 1.27e-01 (bound 1.09e-01), covariance trace over the bound's 1.35 (bootstrap 1.15..1.54), mean squared error over the bound 1.37, not converged 84 of 300
+    N = 7    60000 shots  site 0             spread of the error 1.47e-02 (bound 1.48e-02), covariance trace over the bound's 0.99 (bootstrap 0.90..1.07), mean squared error over the bound 0.99, not converged 1 of 300
+    N = 7   600000 shots  bonding mode psi1  spread of the error 3.32e-02 (bound 3.42e-02), covariance trace over the bound's 0.94 (bootstrap 0.83..1.05), mean squared error over the bound 0.94, not converged 0 of 300
+    N = 7   600000 shots  site 0             spread of the error 4.72e-03 (bound 4.72e-03), covariance trace over the bound's 1.00 (bootstrap 0.92..1.06), mean squared error over the bound 1.00, not converged 1 of 300
+
+[3] the de-lossed path (DecodeDeviation) with other carriers: the deviation dictionary's worst signed cos and
+    conditioning, and the single-letter decode of planted defects (decoded bond and strength, squared residual
+    ratio runner-up over winner); psi1 at N = 5, bond 3 at -0.02, is the live inspect --root decoder case (near 516)
+    N = 4  bonding mode psi1  worst cos -0.848, conditioning 0.007;  bond 2 at -0.02 -> bond 2 at -0.0201, ratio 1525.36;  bond 1 at -0.02 -> bond 1 at -0.0199, ratio 50918.84;  bond 0 at +0.01 -> bond 0 at +0.0100, ratio 23716.51
+    N = 4  site 0             worst cos -0.897, conditioning 0.039;  bond 2 at -0.02 -> bond 2 at -0.0213, ratio 29.42;  bond 1 at -0.02 -> bond 1 at -0.0166, ratio 15.42;  bond 0 at +0.01 -> bond 0 at +0.0106, ratio 385.58
+    N = 4  end mixture        worst cos -0.717, conditioning 0.008;  bond 2 at -0.02 -> bond 2 at -0.0199, ratio 113.16;  bond 1 at -0.02 -> bond 1 at -0.0201, ratio 22796.13;  bond 0 at +0.01 -> bond 0 at +0.0100, ratio 1547.94
+    N = 5  bonding mode psi1  worst cos -0.954, conditioning 0.008;  bond 3 at -0.02 -> bond 3 at -0.0197, ratio 516.52;  bond 0 at -0.02 -> bond 0 at -0.0197, ratio 516.52;  bond 1 at +0.01 -> bond 1 at +0.0100, ratio 4614.21
+    N = 5  site 0             worst cos -0.580, conditioning 0.126;  bond 3 at -0.02 -> bond 3 at -0.0211, ratio 333.78;  bond 0 at -0.02 -> bond 0 at -0.0201, ratio 194.86;  bond 1 at +0.01 -> bond 1 at +0.0101, ratio 1954.47
+    N = 5  end mixture        worst cos -0.730, conditioning 0.125;  bond 3 at -0.02 -> bond 3 at -0.0199, ratio 278.85;  bond 0 at -0.02 -> bond 0 at -0.0199, ratio 278.85;  bond 1 at +0.01 -> bond 1 at +0.0099, ratio 3145.71
+    N = 5  centre site        worst cos -0.808, conditioning 0.089;  bond 3 at -0.02 -> bond 3 at -0.0198, ratio 768.39;  bond 0 at -0.02 -> bond 0 at -0.0198, ratio 768.39;  bond 1 at +0.01 -> bond 1 at +0.0100, ratio 2443.53

@@ -79,7 +79,12 @@ r_S = N - 1 - gcd(N+1, {j+1 : j ∈ S}) = N - 2 - blind_XY(S).
 ```
 
 The ceiling `N−2` is every bond combination orthogonal to the uniform change
-of all bonds, which leaves the `ψ₁` population stationary. Two sites whose
+of all bonds, which leaves the `ψ₁` population stationary. This is the
+K-partner's zero column seen from the bonds: every column of the location
+submatrix (`k=2,…,N`) sums over the bonds to `⟨ψ_k|A_path|ψ₁⟩ = 0`, since
+`A_path = Σ_b V_b` has `ψ₁` as an eigenvector, so the one bond combination the
+location submatrix cannot see is the uniform one
+([THE_DECODER_AND_THE_FRONT](THE_DECODER_AND_THE_FRONT.md) §4). Two sites whose
 divisors `gcd(j+1,N+1)` are coprime reach it together, even when neither
 reaches it alone: at `N=11` site 2 reads 7, site 7 reads 6, and the pair
 reads 9. Neighbouring sites always reach it together. A site and its mirror carry the

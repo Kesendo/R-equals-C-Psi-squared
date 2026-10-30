@@ -10,8 +10,12 @@ column and substitutes the strength k=1), and "near-null eigenvalue = ambiguity"
    ZERO Q dependence. That null IS the K-partner selection rule <psi_N|V_b|psi_1>=0 (KPartnerSelectionRule
    Claim, Tier1Derived, Pi-mirror-protected). The painted reading INHERITS this null; it does not create it.
 2. THE SECTORS. The painted bond-Gram's eigenvectors split by bond-MIRROR PARITY, not magnitude:
-   antisymmetric {dominant seesaw, the K-partner location null} vs symmetric {the closure/F123 strength
-   direction, a dim symmetric mode}. The painter adds a GRADED (E1-Ek) tail on top of the one exact null.
+   antisymmetric {dominant seesaw, at N = 5 the staggered bond wave (-1)^b} vs symmetric {the uniform
+   rescaling of every bond, a brighter symmetric mode (at N = 4 the staggered wave)}. The uniform rescaling is the K-partner deficit's bond
+   side: every column of M sums over the bonds to <psi_k|h|psi_1> = 0 (h = sum_b V_b), so the left null vector
+   of M is (1, .., 1), and it reaches psi_1 only through the strength channel k = 1. The roles printed below are
+   read off the overlaps with (1, .., 1) and (-1)^b, not assigned by parity. The painter adds a GRADED (E1-Ek)
+   tail on top of the one exact null.
 3. PAIRWISE CONFUSABILITY (the DefectDecoder's actual AmbiguityFactor). This is the COSINE matrix of the
    normalized letters and its largest off-diagonal (edge-vs-interior, near-ANTI-collinear), NOT a Gram
    eigenvalue. cos ~ -1 = "+dJ here reads like -dJ there", the sign-location ambiguity.
@@ -85,15 +89,20 @@ def main():
         w, V = w[order], V[:, order]
         print(f"--- N={N} painted bond-Gram (canonical Q=20) ---", flush=True)
         print(f"  spectrum (norm) = [{', '.join(f'{x/w[0]:.4f}' for x in w)}]", flush=True)
-        print("  GATE 2 -- eigenvectors split by MIRROR PARITY (sym=closure/strength, antisym=seesaw+K-partner):",
+        print("  GATE 2 -- eigenvectors split by MIRROR PARITY; role read off the overlaps with (1,..,1) and (-1)^b:",
               flush=True)
+        m = len(w)
+        uni = np.ones(m) / np.sqrt(m)
+        stag = (-1.0) ** np.arange(m) / np.sqrt(m)
         with np.printoptions(precision=3, suppress=True):
             for i in range(len(w)):
                 p = parity(V[:, i])
                 lab = "ANTISYM" if p < -0.5 else ("SYM" if p > 0.5 else "mixed")
+                ou, os_ = abs(V[:, i] @ uni), abs(V[:, i] @ stag)
                 role = ("seesaw" if i == 0 and p < -0.5 else
-                        "K-partner null" if p < -0.5 else "closure/strength")
-                print(f"    eig {w[i]/w[0]:>7.4f}  parity {p:+.2f} [{lab:>7}]  {role:>16}  vec={V[:, i]}", flush=True)
+                        "uniform rescaling" if ou > 0.9 else "staggered (-1)^b" if os_ > 0.9 else "other")
+                print(f"    eig {w[i]/w[0]:>7.4f}  parity {p:+.2f} [{lab:>7}]  {role:>17}  overlap uniform {ou:.3f}"
+                      f" staggered {os_:.3f}  vec={V[:, i]}", flush=True)
         # GATE 3: cosine matrix of the normalized letters; the worst off-diagonal = the AmbiguityFactor pair
         norm = f / np.linalg.norm(f, axis=1, keepdims=True)
         C = norm @ norm.T

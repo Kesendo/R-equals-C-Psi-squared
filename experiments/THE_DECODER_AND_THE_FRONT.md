@@ -2,7 +2,8 @@
 
 <!-- Keywords: DefectDecoder, walk-time step, arrival-time dictionary, sign-location confusability,
 anti-collinear letters, conditioning, carrier choice, bonding mode, site seed, mode participation,
-multi-defect decoding, Fisher information, Cramér–Rao bound, shots, equal cost, uniform rescaling -->
+multi-defect decoding, Fisher information, Cramér–Rao bound, shots, equal cost, uniform rescaling, sum rule,
+maximum likelihood, de-lossed path -->
 
 **Status:** computed, 2026-10-30. The front's letters, their decoding, the trajectory column of the carrier
 table with its conditioning, and in §5 the bond/seat handshake and the window table at Q = 20 are C# readings in `compute/MirrorWorld/WalkTime.cs` (run mode `walk decode`,
@@ -13,8 +14,13 @@ them to three digits (the residual ratios of §1 excepted, which carry the integ
 column, the mirror-law check, the stationary carriers, the runs past
 N = 10, the random carriers of §4, and the rest of §5 (the other handshakes and schedules, the end mixture, the
 uniform-rescaling split, the per-bond bounds and the decoder's efficiency) and the ladder of §6 are on the Python
-route alone, beside a C# test of §6's exact null. Why a carrier that holds few modes confuses
-is open.
+route alone, beside a C# test of §6's exact null. The sum of the letters in §4, the decode at finite shots and the
+de-lossed path in §5 are read in [`decoder_letters_sum_and_shots.py`](../simulations/decoder_letters_sum_and_shots.py)
+(output [`decoder_letters_sum_and_shots.txt`](../simulations/results/decoder_carrier/decoder_letters_sum_and_shots.txt)),
+the sum's two consequences for the bonding mode also in C# tests. Why a carrier confuses is read in part: the
+letters of every bond add up to the letter of the common speed-up, which without dephasing a carrier at rest does
+not have, so its letters cancel and point against each other on average (§4). Why a carrier on few modes cancels,
+and how far its worst pair falls below the mean, is open.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
@@ -68,6 +74,29 @@ bond/seat Fisher matrix and this page's are one object (reproduced exactly), and
 pages never cited each other; joined here and on the finite-shots page. The bond/seat family's "a uniform change
 of all bonds leaves the psi_1 population stationary" is psi_1's worst Fisher direction here, read from the other
 side.
+For the open items (the sum of the letters, a decode at finite shots, the de-lossed path with other carriers), swept
+again: a search for sum rules over docs/, experiments/, hypotheses/, the typed layer and the MirrorWorld base returns
+the palindromic sum rule alpha_fast + alpha_slow = 2 Sigma gamma and F49's bond-sum rule, of other objects; PTF's
+closure law sums ln alpha over sites, not over bonds; among the hits are also F73's generalisation, the sodium
+two-mirror witness, THE_SEAT_THAT_CUTS and F89's pair sum, all of other objects (the list is what was read, not a
+closed census). The generator's joint homogeneity of degree one in (H, gamma) is stated in INCOMPLETENESS_PROOF,
+Q_BELONGS_TO_NO_SUBSTANCE and CAUGHT_ERRORS; it gives the sum's exact form with dephasing, used in section 4. The
+uniform rescaling as psi_1's null: THE_BOND_AND_THE_SEAT ("the ceiling N minus 2 is every bond combination orthogonal
+to the uniform change of all bonds"); THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA (no coherent readout sees the uniform
+change, and with gamma fixed the sum of psi_1's six bond slopes at one site is the response to the changed
+J/gamma_0). The K-partner column of the location dictionary: KPartnerSelectionRuleClaim and
+HANDSHAKE_GEOMETRY ("The consequence is the decoder's rank deficit", naming the confusability the K-partner
+near-degeneracy), neither naming the bond vector of the deficit. PROOF_HANDSHAKE_TRANSITION_INVARIANT's two-spaces
+caveat: on the full M the floor's bond vector is the staggered (-1)^b, on k = 2..N the K-partner at 0, its vector
+unnamed (it is (1, .., 1)). Adjacency: one rank deficit of one square matrix, its channel side the K-partner column
+and its bond side the uniform rescaling; HANDSHAKE_GEOMETRY holds the first, THE_BOND_AND_THE_SEAT both without
+joining them, and none reads the sum as the source of the opposite signs; joined here and on both. The join exposed
+HANDSHAKE_GEOMETRY's sector sentence, which put the K-partner null in the mirror-odd sector by a labelling rule of
+simulations/handshake_gram_metric.py; the painted Gram's small mirror-odd eigenvector is the staggered wave, the
+mirror-even one the uniform rescaling (repaired there, CAUGHT_ERRORS 2026-10-30). Nothing in the stores reads the sum of the
+bond letters for other carriers. Finite shots: THE_BOND_AND_THE_SEAT_WITH_FINITE_SHOTS classifies on psi_1 at 1e6
+shots, BandEdgeResolutionLimitClaim reads a conditioning; nothing draws shots for another carrier. The de-lossed path:
+DefectDecoder.DecodeDeviation, the bonding mode hard-coded, N up to 5, and HANDSHAKE_GEOMETRY's de-loss update.
 -->
 
 The [defect decoder](../hypotheses/HANDSHAKE_GEOMETRY.md) reads where a weakened or strengthened bond sits on an
@@ -230,10 +259,60 @@ the worst signed cosine is +0.81 on the trajectory and +0.68 on the linear lette
 letters; many, not. The trajectory reads the tendency more cleanly. It is a tendency with counterexamples, a
 five-mode carrier at −0.969 on the trajectory, and twelve draws per group make it a sighting, not a law.
 
-Why a carrier that holds few modes reads nearly opposite letters is not known. The house has the same seam from the
-decoder's side: the letter splits into carrier channels u_k with closed-form couplings and sizes that have no closed
-form (the `handshake_Rk` facet, typed IsDeadEnd: computable, no closed form), and w, which sets the sign of a
-mirror pair's cosine, is the balance of those sizes.
+**What the tendency reads: the letters add up to the common speed-up.** The hopping matrix is the sum of its
+bonds, h = Σ_b V_b, so to first order the letters of all bonds add up to the letter U of the uniform rescaling of
+every bond (the finite differences meet this to 10⁻⁸ to 10⁻⁶ of the letters' summed norms, their own second-order
+error; the C# test gates its δ² law). Without dephasing that rescaling is a rescaling of time, and U = t·dp/dt: the
+carrier's own motion. With dephasing the generator is homogeneous of degree one in the couplings and γ together,
+so U = t·dp/dt − γ·∂p/∂γ (met to 10⁻⁷ to 10⁻⁶ here). Without dephasing a carrier at rest under H therefore has
+U = 0, and its letters add up to nothing. That puts their norm-weighted mean cosine,
+(κ²S² − Σ_b|ℓ_b|²)/(S² − Σ_b|ℓ_b|²) with S = Σ_b|ℓ_b| and the **cancellation** κ = |U|/S, at its lowest, κ = 0.
+At N = 3 nothing else is free: without dephasing every mode's two letters are exactly opposite (cos −1 to twelve
+digits; −0.963 at Q = 20). At N = 4 three letters that close a triangle have cosines fixed by their norms alone,
+cos_ab = (|ℓ_c|² − |ℓ_a|² − |ℓ_b|²)/(2|ℓ_a||ℓ_b|), and without dephasing every mode meets that to seven digits (its
+mirror pair at −0.920; at Q = 20 the halo moves the pair to −0.829 against the law's −0.904). From N = 5 on the sum,
+given the letters' lengths, fixes only their mean cosine, and the bonding mode's norm-weighted mean cosine lies
+within 0.016 of −1/(N − 2), the mean of N − 1 letters of one length that add up to nothing (unequal lengths can
+only lower it), at N = 5, 7, 9, with or without dephasing.
+
+For the bonding mode the same sum is the weakest direction. Along the norm vector (|ℓ_0|, …, |ℓ_{N−2}|) the
+normalised letters add up to U, so without dephasing ψ₁'s dictionary is singular there (conditioning 0, its null
+along the norm vector to four digits at N = 5, 7, 9). At Q = 20 the halo lifts it to the conditioning 0.07 to 0.11
+of §2, its weakest direction still within 0.997 to 0.999 of the norm vector, while the site seed's weakest
+direction lies elsewhere (overlap 0.02 to 0.05, and 0.008 to 0.016 without dephasing). The near-degeneracy of ψ₁'s
+row in §2's table, its worst Fisher direction in §5 and the null of its never-caught term in §6 are this one sum in
+three coordinates: exact in §6, to 0.997 or better in §2 (against the norm vector) and §5 (against (1, …, 1)). In the bare location dictionary
+M[b, k] = ⟨ψ_k|V_b|ψ₁⟩, k = 2..N, it is exact and Q-free: every column sums over the bonds to ⟨ψ_k|h|ψ₁⟩ = 0, so
+the one left null vector of that square matrix of rank N − 2 is (1, …, 1) (to 10⁻¹⁵, N = 3..10). The K-partner rule
+(`KPartnerSelectionRuleClaim`) is the same deficit seen from the channels: it empties the column k = N, and the sum
+names the bond combination left unseen. A rank count alone would allow a dependence among the letters with
+coefficients of both signs; that the coefficients are all equal is what makes the letters point against each other
+on average.
+
+Dephasing breaks the cancellation only through the halo (§6), the scale of the bonds entering there through J/γ
+([THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) sums the bonding mode's six bond
+slopes at one site into the response to that changed J/γ₀): at Q = 20 the stationary carriers' κ is 0.03 to 0.06 at N = 5 and 7, against 0.63 to 0.71 for
+the site seed (κ = 1 when all letters are parallel and of one sign). The slow beat (ψ₁ + ψ₂)/√2 reads 0.41 and 0.21
+at N = 5 and 7, the centre site 0.90 and 0.68. Over the 132 random carriers of the table above, κ tracks the worst
+signed cosine more closely than the mode participation: correlation +0.90 against PR's +0.81 at Q = 20, +0.86
+against +0.68 without dephasing; κ and PR themselves correlate +0.74 (+0.60), and one set of 132 draws makes
+these margins a sighting. On the trajectory at Q = 20 it is a tendency, not a law: worst cosines below −0.5 occur up
+to κ = 0.58, and above −0.5 from κ = 0.29. On the linear letter κ tracks both failures, the worst cosine (+0.79
+against PR's +0.68) and the largest (+0.65 against +0.40). There the localized carriers' letters barely cancel (κ
+0.85 to 1.00 at N = 5 and 7, against 0.04 to 0.16 for the modes and the beat), and letters whose sum nearly reaches
+the sum of their lengths are nearly parallel (largest cosine 0.98 to 1.00); why the localized carriers' linear
+letters do not cancel is not read. A second guess, that one dominant direction concentrates the letters whatever
+their signs and the sum then picks the sign, finds no consistent support: the rank-one share of the normalised
+dictionary, which cannot see sign, correlates −0.43 with the worst cosine at Q = 20, the sign the guess predicts,
+and +0.31 without dephasing.
+
+What the sum does not fix is how far the worst pair falls below the mean: ψ₁'s worst pair lies at −0.88 to −0.97 on
+the trajectory at Q = 20 while its mean lies near −1/(N − 2). The house splits the letter into carrier
+channels u_k, whose couplings are closed-form and whose sizes have no closed form (the `handshake_Rk` facet, typed
+IsDeadEnd: computable, no closed form), and w, which sets the sign of a mirror pair's cosine, is the balance of
+those sizes; whether the worst pair's depth can be read from them is open. Which pair is the worst is not read here,
+nor why a carrier on few modes should cancel: κ correlates with PR (+0.74) without following from it, and the beat
+(ψ₁ + ψ₂)/√2 confuses at κ = 0.21 to 0.41.
 
 ## 5. At equal cost: the Fisher information of the shots
 
@@ -301,6 +380,48 @@ window, mean over bonds, the efficiency on ψ₁ is 0.20, 0.20 and 0.32 at N = 5
 0.58 at Q = 1.5. At weak watching the decoder's linearized estimate uses a fifth to a third of the information ψ₁'s
 shots carry.
 
+**An actual decode.** The bounds can be sampled. With the shots split equally over the decoder's window, draw the
+positions and read the defect by maximum likelihood on the exact populations, γ and J known (300 draws per cell).
+One defect of 0.02, the decoder's own task, located with the right bond and sign (δ on a grid of 240 values in
+[−0.06, 0.06]):
+
+| N, planted defect | carrier | 6,000 shots | 24,000 | 60,000 | 240,000 |
+|---|---|---|---|---|---|
+| 5, bond 3 at −0.02 | ψ₁ | 0.27 | 0.40 | 0.51 | 0.74 |
+| | site 0 | 0.60 | 0.90 | 0.98 | 1.00 |
+| | centre site | 0.49 | 0.81 | 0.94 | 1.00 |
+| 7, bond 5 at −0.02 | ψ₁ | 0.16 | 0.34 | 0.44 | 0.79 |
+| | site 0 | 0.50 | 0.82 | 0.97 | 1.00 |
+| | centre site | 0.48 | 0.82 | 0.98 | 1.00 |
+
+With bond 1 at +0.02 instead the rows read alike (ψ₁ 0.50 and 0.49 at 60,000 shots, the localized carriers 0.95 to
+0.99). At 60,000 shots the localized carriers locate the defect in 94 to 99 of 100 draws and ψ₁ in 44 to 51; at
+240,000 ψ₁ still misses 14 to 32. For the same success ψ₁ needs more than ten times the shots at N = 5 (at 240,000
+it reads 0.74 and 0.68, the site seed at 24,000 0.90 and 0.81) and about ten times at N = 7 (0.79 and 0.86 against
+0.82 and 0.80). Where the answers go, counted at 60,000 shots: at N = 5 ψ₁'s commonest wrong answer is the
+decoder's confuser, a weakened bond 3 read as a strengthened bond 1 in 80 of 300 draws and the reverse in 86; at
+N = 7 a weakened bond 5 goes most often to a strengthened bond 2 (63). The localized carriers' few misses there (at
+most 19 of 300) land on another bond, the sign kept in all but two.
+
+With every bond unknown (one true configuration per cell, δ drawn in [−0.01, 0.01] per bond; maximum likelihood by
+Fisher scoring with step halving, to steps below 10⁻⁹), the site seed meets the Cramér–Rao bound at 60,000 shots
+already (the error covariance's trace 0.97 and 0.99 times the bound's, bootstrap 0.87 to 1.07). ψ₁ does not: 71
+and 84 of its 300 draws have not settled after 80 steps (its worst direction holds a hundredth of the site seed's
+information, §5), and the estimate as run, unsettled draws included, has 1.77 and 1.35 times the bound's variance
+(bootstrap 1.39 to 2.16 and 1.15 to 1.54), its spread, 0.12 and 0.13, ten times the defects drawn. At 600,000 shots
+every ψ₁ draw settles and meets the bound (1.04 and 0.94, bootstrap 0.83 to 1.18). There the bounds' own spreads put
+ψ₁'s error at 8.0 and 7.2 times the site seed's at N = 5 and 7.
+
+**The de-lossed path with other carriers.** `DefectDecoder.DecodeDeviation` reads one number per site, the mean
+over the painters' grid (60 times on [0, 1/γ]) of the purity's deviation, against one letter per bond calibrated at
+δ = +0.02, and decodes by the single-letter rule. Rebuilt for any carrier, it reads ψ₁'s confuser at N = 5 at the
+squared residual ratio 516.52 that the live `inspect --root decoder` reports as 516, and noiselessly it decodes
+every defect planted here (two weakenings at −0.02 and one strengthening at +0.01 per N) with every carrier tried.
+Its dictionary for the site seed is better conditioned at N = 5 (0.126 against ψ₁'s 0.008, worst cosine −0.58
+against −0.95); at N = 4 the site seed's is still better conditioned (0.039 against 0.007) but its worst pair is more
+opposite (−0.90 against −0.85), and its noiseless ratios, 15.42 and 29.42, are the lowest read. One time-averaged
+number per site keeps little of what a localized carrier's trajectory carries, as with the linear letter of §2.
+
 ## 6. Who carries it: the never-caught front and the halo
 
 [F126](../docs/ANALYTICAL_FORMULAS.md) solves exactly the populations this page reads
@@ -340,14 +461,18 @@ of the letters for every carrier.
 
 ## What this does not claim
 
-No shots are drawn: §5 bounds the shot noise and does not sample it. The readings are first order in δ, at Q = 20
-except §5's Q = 1.5 rows, on open chains up to N = 20
+Shots are drawn only in §5's decode, at Q = 20 on the decoder's window at N = 5 and 7, 300 draws per cell; elsewhere
+§5 bounds the shot noise and does not sample it. The readings are first order in δ (the decodes of §1 and §5 and
+the de-lossed path excepted), at Q = 20 unless a section says otherwise (§4 also without dephasing, §5 and §6 also
+at Q = 1.5), on open chains up to N = 20
 (arrival), N = 14 (carriers) and N = 9 (Fisher). The arrival letter is a threshold reading, with the bump and the far end in it,
-not the clean step of the walk-time page's N = 60 runs, and its worst cosine depends on the threshold. The
-equal-cost comparison of §5 is a Cramér–Rao bound on a few schedules, not a decode run at finite shots: whether a
-practical estimate on a localized carrier reaches its bound is not computed, nor how the arrival time, a threshold
-reading, behaves under shot noise; the decoder's efficiency is that of its linearized estimate. There is no detector
-error in the model. Nothing here was
+not the clean step of the walk-time page's N = 60 runs, and its worst cosine depends on the threshold. How the
+arrival time, a threshold reading, behaves under shot noise is not computed; the decoder's efficiency is that of its
+linearized estimate, and its de-lossed path is compared without noise, on three planted defects per N. The decode
+knows γ and J, assumes one defect in its first part, and holds one true configuration per cell in its second. The
+sum of §4 accounts for the mean of the cosines and for the bonding mode's weakest direction, not for which pair is
+the worst. There is no detector error
+in the model. Nothing here was
 measured on hardware.
 
 ## Reproduce
@@ -355,7 +480,8 @@ measured on hardware.
 ```bash
 dotnet run --project compute/MirrorWorld -- walk decode         # the C# readings, about 10 s
 dotnet test compute/MirrorWorld.Tests --filter "FullyQualifiedName~WalkTimeTests"
-python simulations/decoder_carrier_dictionary.py                # the exact second route, about 90 s
+python simulations/decoder_carrier_dictionary.py                # the exact second route, about 150 s
+python simulations/decoder_letters_sum_and_shots.py              # the sum of the letters, the decode at finite shots
 ```
 
 ## Links
