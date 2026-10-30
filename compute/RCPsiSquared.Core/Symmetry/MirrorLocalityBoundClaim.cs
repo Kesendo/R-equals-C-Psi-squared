@@ -25,7 +25,17 @@ namespace RCPsiSquared.Core.Symmetry;
 /// reflection carries the pairing, as S_XY does for XXZ bonds at any rates, by <see cref="PalindromeTwoEndCountClaim"/>
 /// §(f8)'s similarity argument (L real in the Pauli basis, every matrix similar to its transpose); where the
 /// spectrum pairs and no reflection is known, existence stays open. What the bound measures is how far from a product
-/// an element must sit; the least rank attained is not known (at least 4 at N = 2, the trivial ceiling 16).</para>
+/// an element must sit. Where S_XY (F137) reflects, each element defines a similarity Γ = E·S_XY⁻¹·T of L onto its
+/// transpose, Lᵀ = Γ⁻¹LΓ (T the transpose in the computational basis), with Γ(I) ∝ ρ_ss; for M_β it is
+/// the thermal weight Γ_β, up to (−1)^N. At the one rate point γ↓ = (3, 2), γ↑ = (1, 1), J = 1 on two sites, without
+/// ZZ, no weight by ρ_ss is one (from the left or the right, exact; split symmetrically, numerical); for a map that keeps the
+/// coherence order d = n_ket − n_bra the Schmidt rank is the sum of block ranks by the order shift δ of a factor on the
+/// first site, the bound reads 2 + 1 + 1, and rank 4 is excluded exactly (Gröbner over ℚ(i)) for the elements that keep d, without ZZ
+/// and with ZZ at Δ = 1, and for those that reverse d, without ZZ; with ZZ none reverses d (L on the order-1 sector
+/// shares no eigenvalue with its conjugate); rank 5 is reached numerically by one that keeps d, without
+/// ZZ (block ranks 0, 1, 3, 1, 0, held to 80 digits). Why five is not known in words. Checked in
+/// simulations/kms_element_least_rank.py, a witness not yet ported here (the exclusion is a Gröbner computation). The
+/// tier is the bound's; the two-site least rank is an exact exclusion and a numerical point.</para>
 ///
 /// <para>Parents: <see cref="PalindromeTwoEndCountClaim"/> (the existence by similarity the bound presupposes)
 /// and <see cref="F84ThermalAmplitudeDampingPi2Inheritance"/> (the thermal channel σ⁻/σ⁺ at unequal rates as a
@@ -59,7 +69,7 @@ public sealed class MirrorLocalityBoundClaim : Claim
         "Z⊗N sits at −c = −Σ(γ↓ + γ↑) for every H commuting with Z⊗N; an element of the shape −L − c carries it onto " +
         "the steady state's line; so the element is at least as entangled as the bath's state across every cut. One " +
         "temperature: a product, bound 1. A gradient along a hopping bond (XXZ): no product over the sites, no site-local " +
-        $"element; the least rank is open ({Tier.Label()})";
+        $"element ({Tier.Label()}; the two-site least rank is a child node)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -77,10 +87,21 @@ public sealed class MirrorLocalityBoundClaim : Claim
                 "rank 4 of 4; N=3 (3,2,1 | 1,1,1, Δ=1) rank 4 across both cuts, (3,3,2 | 1,1,1) rank 4 across the cut crossing " +
                 "only the equal-ratio bond; N=4 (6,5,4,3 | 2,2,2,2) rank 16 of 16 at the middle; across single cuts witnessed, not derived.");
             yield return new InspectableNode(
+                "the least rank at two sites",
+                "One rate point, γ↓ = (3, 2), γ↑ = (1, 1), J = 1: maps keeping the coherence order d = n_ket − n_bra split " +
+                "their Schmidt rank into block ranks by the order shift δ of the first site (blocks 1, 4, 6, 4, 1); ρ_ss splits " +
+                "1 + 2 + 1. Rank 4 (R_±2 = 0, rank R_±1 = 1, rank R_0 = 2) has no invertible solution: Gröbner over ℚ(i), " +
+                "every chart over the two scalings that are symmetries, for elements keeping d (without ZZ and with ZZ at Δ = 1) and " +
+                "reversing d (without ZZ); with ZZ none reverses d, L on the order-1 sector sharing no eigenvalue with its conjugate. Rank 5 reached numerically, without ZZ, by an element keeping d, block ranks 0, 1, 3, " +
+                "1, 0, its tails following the digits kept (20, 40, 80); there R_0 has the rank 3 of its population block. " +
+                "simulations/kms_element_least_rank.py; not yet ported to C#.");
+            yield return new InspectableNode(
                 "what stays open",
-                "The least Schmidt rank an element attains (at least 4 at N = 2, the trivial ceiling 16); whether an entangled " +
-                "sandwich A·ρᵀ·B exists off the product line; whether an element exists where the spectrum pairs and no " +
-                "reflection is known (where S_XY reflects, existence is free: parent F158 §(f8)).");
+                "At that rate point, the least Schmidt rank of an element that mixes the coherence orders; whether one that " +
+                "reverses them reaches 5 without ZZ; whether one that keeps them reaches 5 with ZZ; " +
+                "the least rank at ZZ strengths other than Δ = 1, at other rates and beyond two sites; an exact rank-5 element; why five in words; " +
+                "whether an entangled sandwich A·ρᵀ·B exists off the product line; whether an element exists where " +
+                "the spectrum pairs and no reflection is known (where S_XY reflects, existence is free: parent F158 §(f8)).");
         }
     }
 }

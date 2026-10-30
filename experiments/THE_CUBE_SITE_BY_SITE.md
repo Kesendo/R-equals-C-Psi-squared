@@ -5,9 +5,11 @@ KMS detailed balance, temperature gradient, golden router uniform, Heisenberg DM
 
 **Status:** an instrument and three findings, 2026-10-20; finding 1's bound through Z⊗N 2026-10-30. The findings are
 reproduced exactly, each with a control that fails, in
-[`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (56 checks, ALL PASS), the
-bound also live in C# (`MirrorLocalityBoundWitness`, `inspect --root locality`); where a statement below rests on an
-argument or on a computation rather than on a check, it says so.
+[`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (56 checks, ALL PASS), and
+the bound also lives in C# (`MirrorLocalityBoundWitness`, `inspect --root locality`). The least rank at two sites is
+computed in [`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py), exact where it says
+so and numerical at the rank-5 point; where a statement below rests on an argument or on a computation rather than on
+a check, it says so.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
@@ -59,7 +61,25 @@ to 6.6e4), `fw.Confirmations`, the glossary and
 `docs/CAUGHT_ERRORS.md` (line 5043, the real-structure repair). No tool solved E·L = (−L − c)·E on the full
 superoperator space, and no store held a Schmidt-rank bound on an element. Adjacency: KMS Question 4's open sentence
 and OQ-168 are about the same object as §(f8) and THE_PAIRING_CONDITION and cited neither; both now point here.
--->
+
+For the least rank (2026-10-30, three scouts by store). Markdown: the open item stood here, in KMS Question 4 and in
+OQ-168, nowhere answered; THE_PAIRING_CONDITION lines 157-182 hold the chain L ~ −L† − 2σ ~ −L − 2σ ("the metric
+relation is the law") under Z dephasing; PROOF_ANTILINEAR_TRIANGLE §7 holds the weight at one ratio and left open
+whether a weight of another kind serves across a gradient (line 158); KMS line 452 writes M_β as Γ_β·T·S_XY;
+PI_OPERATOR_ENTANGLEMENT line 46 and NON_HEISENBERG_PALINDROME lines 240-242 record a search floor once mistaken for a
+least rank, which is why a rank floor seen only by failing searches (one was seen for the Hermiticity-preserving
+elements) is not stated here; nothing on a charge-graded Schmidt rank. By name: `docs/ANALYTICAL_FORMULAS.md` holds
+F137 and F158 §(f8) and no F-number on an element's locality; `fw.Confirmations` holds hardware entries only, none on
+an element; the glossary has no Schmidt-rank entry; `docs/CAUGHT_ERRORS.md` has none on rank searches. Typed layer:
+`MirrorLocalityBoundClaim` named the least rank open and has no child claims; the OpenArcs registry holds nothing on
+it; no Diagnostics witness splits a Schmidt rank by charge; F137 holds S_XY's reflection onto −L† − c at any rates and
+that thermal jumps keep the coherence order which S_XY reverses; MirrorWorld's
+`AntilinearTriangle.ThermalTransposeResiduals` is Γ_β at one ratio, Theodolite reads S_XY under a gradient and is
+silent for Π's shape. Adjacency, checked by a third scout and read at the source: PROOF_ANTILINEAR_TRIANGLE line 158
+asks after the same object, a weight across a gradient; it now says what this rate point shows and keeps the general
+case open, and points here; the coherence order is THE_ONE_SQUARE §10's d (its m is another charge, 2η^z);
+THE_CHANNEL_BOTH_WAYS_ON_A_PATH line 135 names XY − YX as the part that is not its own transpose, there in a generator
+and not in a state, a rhyme rather than the same object. Nothing adjacent on the rank split by charge. -->
 
 Nothing in the repo held a site map that carries a weight beside the move beyond Z dephasing.
 
@@ -177,8 +197,70 @@ rank 1. That some element exists is free wherever a reflection carries the pairi
 any rates, since L is real in the Pauli basis and every matrix is similar to its transpose
 ([PROOF_PALINDROME_TWO_END_COUNT](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(f8),
 [THE_PAIRING_CONDITION](THE_PAIRING_CONDITION.md)); that settles the existence question of KMS Question 4 and
-OQ-168 there, and leaves it open where the spectrum pairs and none of S_XY, M_β or the chain carries it. What is not known is the least rank an element attains, at least 4 at N = 2 against a trivial ceiling of 16,
-and whether an entangled sandwich A·ρᵀ·B exists off the product line.
+OQ-168 there, and leaves it open where the spectrum pairs and none of S_XY, M_β or the chain carries it. Whether an
+entangled sandwich A·ρᵀ·B exists off the product line is not known; how far from a product an element must sit is
+the next paragraph.
+
+**At one two-site rate point no element that keeps the coherence order has rank 4, without ZZ or with it at Δ = 1, nor
+one that reverses it, of which with ZZ there is none; one of rank 5 is found numerically.** Every element factors as E
+= U·S_XY through F137's S_XY, ρ ↦ X⊗N·ρ·Y⊗N, which carries L onto −L† − c for XXZ bonds without fields or Z dephasing,
+at any rates, so that U = E·S_XY⁻¹ solves L·U = U·L†. Since L commutes with ρ ↦ ρ†, L† = T·Lᵀ·T with T the transpose
+in the computational basis, and Γ = U·T solves Lᵀ = Γ⁻¹·L·Γ, the relation of
+[PROOF_ANTILINEAR_TRIANGLE](../docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md)'s proposition. Some such Γ exists for every
+generator, every matrix being similar to its transpose; what S_XY adds is the correspondence E = Γ·T·S_XY, which keeps
+the Schmidt rank. The proposition's argument still gives L·Γ(I) = Γ·Lᵀ(I) = 0, so Γ sends the identity onto ρ_ss. For
+M_β at one ratio Γ is the thermal weight Γ_β, and Γ_β·T·S_XY is M_β up to the sign (−1)^N; the other elements there
+have other Γ. On the two-site chain above, at its one rate point γ↓ = (3, 2), γ↑ = (1, 1), J = 1, and without ZZ, no
+weight by ρ_ss serves: not from the left or from the right (exact), not split symmetrically as ρ_ss^½·X·ρ_ss^½
+(numerical), each with the transpose or without it. How entangled must Γ, and with it E, be there? Take the coherence
+order d = n_ket − n_bra of [THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §10, the excitation number's charge on the
+cells, which the thermal jumps keep and S_XY reverses (F137), as does T, being ρ ↦ ρ† composed with complex
+conjugation; so E keeps d exactly when Γ keeps it, and reverses d exactly when U keeps it. Write σ⁺ = |1⟩⟨0| and σ⁻ =
+|0⟩⟨1| for the cells of order ±1 and n₀ = |0⟩⟨0|, n₁ = |1⟩⟨1| for the populations, and call the realigned matrix of a
+two-site map the one indexed by its factors on the two sites, whose rank is the operator Schmidt rank across the cut.
+For a map that keeps d the realigned matrix is block diagonal once the order shift δ of a factor on the first site, δ
+= −2 … 2, is paired with the shift −δ on the second, with square blocks R_δ of sides 1, 4, 6, 4, 1, so its Schmidt
+rank is the sum of the block ranks. The steady state splits the same way, 1 + 2 + 1: its populations have rank 2 at δ
+= 0, and each half of the current, σ⁺⊗σ⁻ and σ⁻⊗σ⁺, has rank 1 at δ = ±1, with and without ZZ. E(Z⊗Z) ∝ ρ_ss for an E
+that keeps d, and U(I) ∝ ρ_ss for the U of an E that reverses it (U(I) ∝ E(Z⊗Z), the Z corner again), puts that split
+into the blocks, so rank 4 would need exactly R_{±2} = 0, rank R_{±1} = 1 and rank R₀ = 2. At that rate point the
+system has no invertible solution: for the elements that keep d, without ZZ and with ZZ at Δ = 1 (the isotropic bond,
+the one ZZ strength computed), and for those that reverse d, without ZZ (decided on their U). With ZZ no element
+reverses d: at Δ = 1 the characteristic polynomial of L on the order-1 sector has no common factor with its complex
+conjugate, so L·U = U·L† forces the order-±1 blocks of a U that keeps d to vanish (the U that keep d span 10
+dimensions, all on the orders 0 and ±2, both exact), and every U·S_XY is singular; without ZZ that spectrum is closed
+under conjugation. A Gröbner basis over ℚ(i) is {1} in every chart, with one Rabinowitsch variable per order sector
+(z·det = 1, which forces that sector's block to be invertible) and charts over the two scalings that are symmetries,
+the global scale and E ↦ ω^d·E for every nonzero complex ω. A third coordinate may not be normalised: a minor mixes
+entries of different order sectors, so the system is not homogeneous sector by sector, and normalising a third
+coordinate can fake an empty answer. Two controls: at one temperature, γ↓ = (3, 3), γ↑ = (1, 1) and c = 8, the exact
+product element (on each site n₀ ↦ n₁, n₁ ↦ −3·n₀, σ⁺ ↦ σ⁺, σ⁻ ↦ −3·σ⁻) satisfies every equation with every sector
+invertible; and at the gradient the equations of the sectors d ≥ 0 alone have solutions. The full system was not
+decided on a case with solutions, which sympy did not finish. Rank 5 is reached without ZZ by an element that keeps d,
+with block ranks 0, 1, 3, 1, 0. It is held to 80 digits, and its rank tails follow the digits kept, near 10⁻²⁰, 10⁻⁴⁰
+and 10⁻⁸⁰, at a condition number of 10: a numerical point, not an exact one. So at that rate point the least rank
+among the elements that keep d is 5 without ZZ (the 5 numerical) and at least 5 with ZZ; among those that reverse d it
+is at least 5 without ZZ, and with ZZ there are none. For other ZZ strengths, for an element that mixes the orders, at
+other rates and beyond two sites it is not known.
+
+Why five, we cannot say in words. The cube was asked: one site and one bond give the hop's Jordan-Wigner step, which
+pairs the four operators of order 1, σ⁺⊗I with Z⊗σ⁺ and σ⁺⊗Z with I⊗σ⁺, and the same at order −1; it does not say
+where a fifth term sits, and the cube is silent there. What is known, in two classes. At the rank-5 element, which
+keeps d, R₀ has rank 3, the rank of its population block (that block's singular values, scaled to its largest: 1,
+0.31, 4·10⁻⁴, and a fourth that follows the digits kept, 4·10⁻⁸¹ at 80), so its generalized Schur complement vanishes
+and the entries carrying the hop coherence |10⟩⟨01| = σ⁺⊗σ⁻, its mirror and the double coherences σ⁺⊗σ⁺ and σ⁻⊗σ⁻ onto
+themselves are fixed by the population block and its cross entries. And without ZZ, on the maps U that keep d, which
+belong to the elements that reverse d, the rank-4 equations of the sectors d ≥ 0 alone (the order-zero block, the
+sector d = 1 and σ⁺⊗σ⁺) have, modulo the two scalings and with those sectors' blocks invertible, exactly six
+solutions, the roots of three quadratics over ℚ(i), with a lex basis in shape position (every other variable a
+polynomial in one); none of them extends to the full system, which is empty. The equations of the sectors d ≤ 0 have
+the mirror solutions under ρ ↦ ρ†, which commutes with L, flips d and, applied on both sides, keeps a map linear and
+its block ranks up to δ ↦ −δ. The computations of this and the previous paragraph are in
+[`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py): A exact, B exact over ℚ(i), C the
+rank-5 point as a law, D the six solutions exact and the population block at the rank-5 point as a law; the mirror and
+the remark on normalising rest on the one-line arguments given with them. Keeping and reversing d do not exhaust the
+elements: the solution spaces of the two classes share the maps of the order-zero sector onto itself and together span
+28 of the 36 dimensions (20 of 28 with ZZ), the rest mixing the orders.
 
 **2. The golden family routes with one map on every site at c = 0, and the golden bond with a uniform golden map.**
 At the c = 0 station of the metallic line (windows XZY + YZX) the site map ρ ↦ (X + Y)·ρ·diag(1, −i), the same on
@@ -207,8 +289,10 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 
 ## What stays open
 
-Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; the least Schmidt
-rank an element attains across a temperature gradient (bounded below by the steady state's, its existence free where
-S_XY reflects and open where the spectrum pairs with no reflection known), and whether an entangled sandwich A·ρᵀ·B
-exists there off the product line; the per-site turn reported relative to the neighbour rather than as one
-representative's absolute value; the instrument's name.
+Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; across a
+temperature gradient, existence where the spectrum pairs with no reflection known and whether an entangled sandwich
+A·ρᵀ·B exists off the product line; at the two-site rate point of finding 1, the least Schmidt rank of an element that
+mixes the coherence orders, whether one that reverses them reaches 5 without ZZ, whether one that keeps them reaches 5
+with ZZ, an exact element of rank 5 and why five in words; the least rank at ZZ strengths other than Δ = 1, at other
+rates and beyond two sites; the per-site turn reported relative to the neighbour rather than as one representative's
+absolute value; the instrument's name.

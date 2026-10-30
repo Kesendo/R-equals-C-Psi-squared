@@ -501,10 +501,27 @@ bonds it is at least as entangled as the steady state across every cut, which
 across a temperature gradient along a hopping bond is no product over the sites,
 so no invertible product map over the sites is one
 ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md), the Z corner).
+Each element where S_XY reflects defines a similarity of L onto its transpose,
+Γ = E·S_XY⁻¹·T (T the transpose ρ ↦ ρᵀ in the computational basis) with
+Lᵀ = Γ⁻¹LΓ and Γ(I) ∝ ρ_ss; for M_β it is the thermal weight Γ_β, up to the sign
+(−1)^N. On the two-site chain of that finding, at its one rate point
+γ↓ = (3, 2), γ↑ = (1, 1), J = 1, and without ZZ, no weight by the steady state is
+such a similarity (from the left or the right, exact; split symmetrically,
+numerical). There, with
+"with ZZ" meaning Δ = 1, no element that keeps the coherence order
+d = n_ket − n_bra ([THE_ONE_SQUARE](THE_ONE_SQUARE.md) §10), without ZZ or with it,
+nor one that reverses it, has operator Schmidt rank 4 across the cut, the steady
+state's rank there (exact); with ZZ none reverses it at all, L on the order-1 sector
+sharing no eigenvalue with its conjugate (exact). One that keeps it reaches 5,
+without ZZ (numerical).
 Open are whether an element exists where the spectrum pairs and none of S_XY,
-M_β or that chain carries it, the least Schmidt rank an element attains, and
-whether the hidden time reversal of Roberts et al. in the doubled space is M_β
-read through the Choi-Jamiolkowski map.
+M_β or that chain carries it; at that rate point the least Schmidt rank of an
+element that mixes the coherence orders, whether one that reverses them reaches 5
+without ZZ, whether one that keeps them reaches 5 with ZZ, an exact element of
+rank 5 and why five in words; the least rank at ZZ strengths other than Δ = 1, at
+other rates and beyond two sites; and whether the
+hidden time reversal of Roberts et al. in the doubled space is M_β read through the
+Choi-Jamiolkowski map.
 
 ### Assessment
 
