@@ -268,9 +268,11 @@ public sealed class Symphony : IInspectable
             case InitialStateKind.BondingMode:
             {
                 // ψ₁ = Σ_l sin(π(l+1)/(N+1)) |1_l⟩: the delocalized single-excitation sine mode
-                // (the F67 receiver state). The canonical carrier of the PTF painter protocol;
-                // localized or multi-sector states break the rescaling picture and the guard
-                // rightly flags every site unreliable.
+                // (the F67 receiver state). The canonical carrier of the PTF painter protocol. A
+                // localized state breaks the rescaling picture (hypotheses/PERSPECTIVAL_TIME_FIELD.md,
+                // "Where it degrades"); Bell+ on sites 0,1 rescales per site like the bonding mode and
+                // the per-site guard passes it, the closure law Σ ln α being what keeps it out (the
+                // retired arc ptf_bonding_class_guard).
                 double norm = 0.0;
                 for (int l = 0; l < N; l++)
                 {

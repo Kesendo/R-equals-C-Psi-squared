@@ -1751,6 +1751,82 @@ if (args.Length > 0 && args[0] == "spread")
     return;
 }
 
+// ---- run mode "walk decode": the walk-time step read backwards, beside the DefectDecoder's carrier ----
+// Built 2026-10-30 beside experiments/THE_DECODER_AND_THE_FRONT.md: the arrival-time letters of a site-0 seed,
+// one per bond, are nested steps of full rank (several defects read back at once); on the whole population
+// trajectory a carrier holding few modes (the bonding mode, the decoder's) reads anti-collinear, poorly conditioned
+// letters and a localized carrier does not. (Before the plain `walk` mode, which would parse "decode" as N.)
+if (args.Length > 1 && args[0] == "walk" && args[1] == "decode")
+{
+    const double dj = 1.0, dg = 0.05, ddt = 0.005;
+    var dw = new World();
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+    Console.WriteLine($"the walk-time letters: seed site 0, J={dj}, gamma={dg} (Q=20), central difference at delta=+-0.02, dt={ddt}");
+    var keep = new Dictionary<int, double[][]>();
+    for (int n = 3; n <= 10; n++)
+    {
+        double tMax = 0.75 * n / dj + 3.0;
+        var L = WalkTime.Letters(dw, n, dj, dg, seedSite: 0, dt: ddt, tMax: tMax);
+        keep[n] = L;
+        var worst = WalkTime.WorstSignedCos(L);
+        Console.WriteLine(string.Format(inv, "  N={0,2}: worst signed cos {1:+0.000;-0.000} on bonds ({2},{3}), normalised smallest singular value {4:0.000}", n, worst.Cos, worst.A, worst.B, WalkTime.Conditioning(L)));
+        if (n == 5)
+            for (int b = 0; b < n - 1; b++)
+                Console.WriteLine("        bond " + b + ": " + string.Join(" ", L[b].Skip(1).Select(x => (Math.Round(x, 3) == 0.0 ? 0.0 : x).ToString("+0.000;-0.000", inv))));
+    }
+    {
+        int n = 5; double tMax = 0.75 * n / dj + 3.0;
+        var clean = WalkTime.Reference(dw, n, dj, dg, seedSite: 0, dt: ddt, tMax: tMax);
+        foreach (var (bond, delta) in new[] { (3, -0.02), (1, +0.02) })
+        {
+            var deltas = new double[n - 1]; deltas[bond] = delta;
+            var r = WalkTime.DecodeOne(keep[n], WalkTime.Profile(dw, n, dj, dg, deltas, clean, 0, ddt, tMax));
+            Console.WriteLine(string.Format(inv, "  the decoder's confuser at N=5, bond {0} at {1:+0.00;-0.00}: read bond {2} at {3:+0.0000;-0.0000}, runner-up bond {4}, residual ratio {5:0}",
+                bond, delta, r.Bond, r.Strength, r.RunnerUp, r.Ratio));
+        }
+    }
+    var rng = new Random(20261030);
+    foreach (int n in new[] { 5, 8 })
+    {
+        double tMax = 0.75 * n / dj + 3.0;
+        var clean = WalkTime.Reference(dw, n, dj, dg, seedSite: 0, dt: ddt, tMax: tMax);
+        for (int trial = 0; trial < 2; trial++)
+        {
+            var truth = Enumerable.Range(0, n - 1).Select(_ => 0.04 * rng.NextDouble() - 0.02).ToArray();
+            var x = WalkTime.Decode(keep[n], WalkTime.Profile(dw, n, dj, dg, truth, clean, 0, ddt, tMax));
+            double err = truth.Zip(x, (a, b) => Math.Abs(a - b)).Max();
+            var halfTruth = truth.Select(v => v / 2).ToArray();
+            var xh = WalkTime.Decode(keep[n], WalkTime.Profile(dw, n, dj, dg, halfTruth, clean, 0, ddt, tMax));
+            double errHalf = halfTruth.Zip(xh, (a, b) => Math.Abs(a - b)).Max();
+            Console.WriteLine(string.Format(inv, "  every bond at once, N={0}: truth {1}", n, string.Join(" ", truth.Select(v => v.ToString("+0.0000;-0.0000", inv)))));
+            Console.WriteLine(string.Format(inv, "                         read {0}   (largest error {1:0.00000}; every delta halved: {2:0.00000}, ratio {3:0.000}; the step law's second order predicts 1/4)", string.Join(" ", x.Select(v => v.ToString("+0.0000;-0.0000", inv))), err, errHalf, errHalf / err));
+        }
+    }
+    Console.WriteLine("the same observable, the whole population trajectory (t = 0.25 .. 20, every site), per carrier (the centre site at odd N only):");
+    for (int n = 5; n <= 9; n++)
+    {
+        double[] Site(int s) { var v = new double[n]; v[s] = 1.0; return v; }
+        double[] Sum(double[] a, double[] b) { var v = a.Zip(b, (x, y) => (x + y) / Math.Sqrt(2)).ToArray(); return v; }
+        var carriers = new List<(string Name, (double, double[])[] Rho)>
+        {
+            ("bonding mode psi1 (stationary, mirror-even)", new[] { (1.0, WalkTime.Mode(n, 1)) }),
+            ("mode psi2 (stationary, mirror-even rho)", new[] { (1.0, WalkTime.Mode(n, 2)) }),
+            ("(psi1 + psi2)/sqrt2 (moving, mirror-broken)", new[] { (1.0, Sum(WalkTime.Mode(n, 1), WalkTime.Mode(n, 2))) }),
+            ("end pair (|0> + |N-1>)/sqrt2 (mirror-even)", new[] { (1.0, Sum(Site(0), Site(n - 1))) }),
+            ("end mixture (|0><0| + |N-1><N-1|)/2 (mirror-even)", new[] { (0.5, Site(0)), (0.5, Site(n - 1)) }),
+            ("site 0 (mirror-broken)", new[] { (1.0, Site(0)) }),
+        };
+        if (n % 2 == 1) carriers.Insert(5, ("centre site (mirror-even)", new[] { (1.0, Site(n / 2)) }));
+        foreach (var (name, rho) in carriers)
+        {
+            var letters = WalkTime.TrajectoryLetters(dw, n, dj, dg, rho, dt: 0.01, sample: 0.25, tMax: 20.0);
+            var worst = WalkTime.WorstSignedCos(letters);
+            Console.WriteLine(string.Format(inv, "  N={0}  {1,-52} worst signed cos {2:+0.000;-0.000} ({3},{4}), normalised smallest singular value {5:0.000}", n, name, worst.Cos, worst.A, worst.B, WalkTime.Conditioning(letters)));
+        }
+    }
+    return;
+}
+
 // ---- run mode "walk": the walk-time step of a coupling defect (distance is t, locally additive) ----
 // Adopted 2026-07-13 from experiments/COUPLING_DEFECT_WALK_TIME_STEP.md: deform one bond to J' = J(1+delta)
 // and the front's arrival-time profile is a step -- zero upstream, near -delta/(2J) downstream. The one bond's

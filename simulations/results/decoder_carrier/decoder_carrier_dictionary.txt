@@ -1,0 +1,99 @@
+The decoder and the front: J = 1, gamma = 0.05 (Q = 20), open XY chain, single-excitation block
+[1] the arrival letters of a site-0 seed (exact propagation, dt = 0.002)
+  N =  3: worst signed cos +0.825 on (0,1); largest cos +0.825; singular values 0.237 .. 0.779, normalised smallest 0.419
+  N =  4: worst signed cos +0.557 on (0,2); largest cos +0.895; singular values 0.242 .. 1.120, normalised smallest 0.318
+  N =  5: worst signed cos +0.363 on (0,3); largest cos +0.926; singular values 0.238 .. 1.469, normalised smallest 0.259
+      bond 0: -0.347 -0.458 -0.545 -0.528
+      bond 1: +0.013 -0.460 -0.553 -0.547
+      bond 2: +0.000 +0.062 -0.554 -0.547
+      bond 3: +0.000 -0.001 +0.163 -0.528
+  N =  6: worst signed cos +0.214 on (0,4); largest cos +0.943; singular values 0.238 .. 1.825, normalised smallest 0.225
+  N =  7: worst signed cos +0.106 on (0,5); largest cos +0.953; singular values 0.238 .. 2.179, normalised smallest 0.201
+  N =  8: worst signed cos +0.027 on (5,6); largest cos +0.960; singular values 0.238 .. 2.533, normalised smallest 0.183
+  N =  9: worst signed cos -0.079 on (6,7); largest cos +0.965; singular values 0.238 .. 2.885, normalised smallest 0.169
+  N = 10: worst signed cos -0.167 on (7,8); largest cos +0.968; singular values 0.238 .. 3.237, normalised smallest 0.158
+  past N = 10 the worst signed cos drifts down (the bump before each bond grows with its distance from the seed):
+    N = 12: worst signed cos -0.300 on (9,10); normalised smallest singular value 0.141
+    N = 16: worst signed cos -0.458 on (13,14); normalised smallest singular value 0.119
+    N = 20: worst signed cos -0.544 on (17,18); normalised smallest singular value 0.104
+  and it depends on the threshold theta (N = 12): theta 0.1: -0.032, theta 0.2: -0.300, theta 0.5: +0.103
+  the decoder's confuser at N = 5, bond 3 at -0.02: read bond 3 at -0.0203, runner-up bond 2, residual ratio 7706
+  the decoder's confuser at N = 5, bond 1 at +0.02: read bond 1 at +0.0196, runner-up bond 0, residual ratio 315454
+  every bond at once, N = 5: largest error 0.00014; every delta halved 0.00003, ratio 0.245 (the second order's 1/4)
+  every bond at once, N = 8: largest error 0.00066; every delta halved 0.00016, ratio 0.244 (the second order's 1/4)
+
+[2] the whole population trajectory and [3] the decoder's linear letter, per carrier: worst signed cos,
+    and [normalised smallest singular value, largest cos] of each dictionary
+  N = 5  bonding mode psi1 (stationary, mirror-even)    trajectory -0.945 (0,2) [smallest 0.111, largest cos +0.679]   linear letter -0.983 (1,3) [smallest 0.044, largest cos +0.820]   cos = 1 - 2w on mirror pairs to 3e-12
+  N = 5  mode psi2 (stationary, mirror-even rho)        trajectory -0.990 (0,3) [smallest 0.094, largest cos +0.547]   linear letter -0.987 (0,3) [smallest 0.109, largest cos +0.883]   cos = 1 - 2w on mirror pairs to 7e-13
+  N = 5  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    trajectory -0.784 (0,1) [smallest 0.220, largest cos +0.891]   linear letter -0.964 (1,3) [smallest 0.005, largest cos +0.841]
+  N = 5  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     trajectory +0.683 (1,2) [smallest 0.486, largest cos +0.738]   linear letter +0.997 (1,2) [smallest 0.028, largest cos +0.999]   cos = 1 - 2w on mirror pairs to 2e-13
+  N = 5  end mixture (mirror-even)                      trajectory +0.189 (0,2) [smallest 0.361, largest cos +0.828]   linear letter +0.660 (0,1) [smallest 0.027, largest cos +0.999]   cos = 1 - 2w on mirror pairs to 6e-12
+  N = 5  centre site (mirror-even)                      trajectory +0.395 (0,3) [smallest 0.339, largest cos +0.873]   linear letter +0.995 (0,3) [smallest 0.013, largest cos +1.000]   cos = 1 - 2w on mirror pairs to 7e-13
+  N = 5  site 0 (mirror-broken)                         trajectory +0.060 (0,1) [smallest 0.419, largest cos +0.805]   linear letter +0.617 (1,3) [smallest 0.030, largest cos +0.998]
+  N = 6  bonding mode psi1 (stationary, mirror-even)    trajectory -0.974 (1,3) [smallest 0.087, largest cos +0.830]   linear letter -0.973 (1,3) [smallest 0.143, largest cos +0.673]   cos = 1 - 2w on mirror pairs to 3e-11
+  N = 6  mode psi2 (stationary, mirror-even rho)        trajectory -0.918 (0,4) [smallest 0.095, largest cos +0.228]   linear letter -0.959 (0,4) [smallest 0.086, largest cos +0.630]   cos = 1 - 2w on mirror pairs to 2e-11
+  N = 6  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    trajectory -0.748 (0,2) [smallest 0.192, largest cos +0.664]   linear letter -0.993 (0,1) [smallest 0.027, largest cos +0.969]
+  N = 6  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     trajectory +0.032 (0,3) [smallest 0.451, largest cos +0.743]   linear letter +0.643 (1,4) [smallest 0.033, largest cos +0.982]   cos = 1 - 2w on mirror pairs to 7e-13
+  N = 6  end mixture (mirror-even)                      trajectory +0.032 (0,3) [smallest 0.451, largest cos +0.743]   linear letter +0.643 (1,4) [smallest 0.033, largest cos +0.982]   cos = 1 - 2w on mirror pairs to 7e-13
+  N = 6  site 0 (mirror-broken)                         trajectory -0.164 (1,2) [smallest 0.462, largest cos +0.725]   linear letter +0.644 (2,4) [smallest 0.020, largest cos +0.998]
+  N = 7  bonding mode psi1 (stationary, mirror-even)    trajectory -0.882 (1,4) [smallest 0.078, largest cos +0.869]   linear letter -0.928 (2,5) [smallest 0.025, largest cos +0.923]   cos = 1 - 2w on mirror pairs to 4e-11
+  N = 7  mode psi2 (stationary, mirror-even rho)        trajectory -0.990 (2,3) [smallest 0.069, largest cos +0.821]   linear letter -0.978 (2,3) [smallest 0.006, largest cos +0.883]   cos = 1 - 2w on mirror pairs to 3e-11
+  N = 7  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    trajectory -0.785 (0,2) [smallest 0.169, largest cos +0.821]   linear letter -0.967 (1,4) [smallest 0.024, largest cos +0.943]
+  N = 7  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     trajectory -0.447 (4,5) [smallest 0.513, largest cos +0.601]   linear letter -0.079 (4,5) [smallest 0.039, largest cos +0.997]   cos = 1 - 2w on mirror pairs to 6e-12
+  N = 7  end mixture (mirror-even)                      trajectory +0.015 (2,4) [smallest 0.502, largest cos +0.625]   linear letter +0.605 (1,2) [smallest 0.004, largest cos +0.984]   cos = 1 - 2w on mirror pairs to 6e-12
+  N = 7  centre site (mirror-even)                      trajectory -0.255 (0,4) [smallest 0.371, largest cos +0.679]   linear letter +0.725 (0,4) [smallest 0.006, largest cos +0.998]   cos = 1 - 2w on mirror pairs to 2e-12
+  N = 7  site 0 (mirror-broken)                         trajectory +0.013 (1,3) [smallest 0.536, largest cos +0.639]   linear letter +0.725 (3,4) [smallest 0.026, largest cos +0.993]
+  N = 8  bonding mode psi1 (stationary, mirror-even)    trajectory -0.909 (1,4) [smallest 0.071, largest cos +0.881]   linear letter -0.960 (2,5) [smallest 0.000, largest cos +0.964]   cos = 1 - 2w on mirror pairs to 4e-11
+  N = 8  mode psi2 (stationary, mirror-even rho)        trajectory -0.897 (2,4) [smallest 0.062, largest cos +0.648]   linear letter -0.970 (2,4) [smallest 0.000, largest cos +0.814]   cos = 1 - 2w on mirror pairs to 1e-11
+  N = 8  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    trajectory -0.785 (0,2) [smallest 0.156, largest cos +0.760]   linear letter -0.947 (0,2) [smallest 0.025, largest cos +0.823]
+  N = 8  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     trajectory -0.142 (1,4) [smallest 0.631, largest cos +0.536]   linear letter +0.474 (1,4) [smallest 0.035, largest cos +0.977]   cos = 1 - 2w on mirror pairs to 7e-12
+  N = 8  end mixture (mirror-even)                      trajectory -0.142 (1,4) [smallest 0.631, largest cos +0.536]   linear letter +0.474 (1,4) [smallest 0.035, largest cos +0.977]   cos = 1 - 2w on mirror pairs to 4e-12
+  N = 8  site 0 (mirror-broken)                         trajectory -0.082 (3,4) [smallest 0.598, largest cos +0.557]   linear letter +0.473 (3,5) [smallest 0.040, largest cos +0.980]
+  N = 9  bonding mode psi1 (stationary, mirror-even)    trajectory -0.929 (2,5) [smallest 0.068, largest cos +0.881]   linear letter -0.967 (2,5) [smallest 0.020, largest cos +0.969]   cos = 1 - 2w on mirror pairs to 3e-11
+  N = 9  mode psi2 (stationary, mirror-even rho)        trajectory -0.988 (3,4) [smallest 0.058, largest cos +0.868]   linear letter -0.983 (3,4) [smallest 0.009, largest cos +0.903]   cos = 1 - 2w on mirror pairs to 1e-11
+  N = 9  (psi1 + psi2)/sqrt2 (moving, mirror-broken)    trajectory -0.799 (1,3) [smallest 0.139, largest cos +0.832]   linear letter -0.871 (3,6) [smallest 0.030, largest cos +0.954]
+  N = 9  end pair (|0> + |N-1>)/sqrt2 (mirror-even)     trajectory -0.297 (0,2) [smallest 0.562, largest cos +0.523]   linear letter +0.081 (0,2) [smallest 0.006, largest cos +0.987]   cos = 1 - 2w on mirror pairs to 1e-11
+  N = 9  end mixture (mirror-even)                      trajectory -0.076 (2,6) [smallest 0.628, largest cos +0.503]   linear letter +0.569 (4,5) [smallest 0.048, largest cos +0.990]   cos = 1 - 2w on mirror pairs to 5e-12
+  N = 9  centre site (mirror-even)                      trajectory -0.258 (0,5) [smallest 0.472, largest cos +0.494]   linear letter +0.389 (0,5) [smallest 0.008, largest cos +0.997]   cos = 1 - 2w on mirror pairs to 4e-11
+  N = 9  site 0 (mirror-broken)                         trajectory -0.025 (1,5) [smallest 0.654, largest cos +0.491]   linear letter +0.541 (2,4) [smallest 0.028, largest cos +0.965]
+  N = 12  bonding mode psi1 (stationary, mirror-even)    trajectory -0.823 (3,7) [smallest 0.069, largest cos +0.848]   linear letter -0.915 (3,7) [smallest 0.006, largest cos +0.931]   cos = 1 - 2w on mirror pairs to 5e-11
+  N = 12  site 0 (mirror-broken)                         trajectory -0.111 (8,9) [smallest 0.726, largest cos +0.390]   linear letter +0.334 (1,8) [smallest 0.036, largest cos +0.928]
+  N = 14  bonding mode psi1 (stationary, mirror-even)    trajectory -0.760 (4,8) [smallest 0.072, largest cos +0.839]   linear letter -0.816 (4,8) [smallest 0.000, largest cos +0.900]   cos = 1 - 2w on mirror pairs to 1e-10
+  N = 14  site 0 (mirror-broken)                         trajectory -0.189 (10,11) [smallest 0.708, largest cos +0.326]   linear letter +0.217 (1,10) [smallest 0.058, largest cos +0.916]
+  the bonding mode's linear letter, worst signed cos over all sites at N = 3..12: -0.965, -0.536, -0.983, -0.973, -0.928, -0.960, -0.967, -0.931, -0.905, -0.915
+    (DecoderAntiCollinearitySeesawClaim's linear-letter row: -0.965, -0.536, -0.983, -0.973, -0.928, -0.960, -0.968, -0.931, -0.905, -0.915)
+
+[2b] stationary carriers ([H, rho] = 0, a mixture of modes) against moving ones: worst signed cos
+  N = 5  psi1                   |[H, rho]|/|rho| 0.00   trajectory -0.945   linear letter -0.983
+  N = 5  psi3                   |[H, rho]|/|rho| 0.00   trajectory -0.993   linear letter -0.992
+  N = 5  (P1 + P3)/2            |[H, rho]|/|rho| 0.00   trajectory -0.892   linear letter -0.940
+  N = 5  (P1 + P2)/2            |[H, rho]|/|rho| 0.00   trajectory -0.993   linear letter -0.994
+  N = 5  (psi1 + psi3)/sqrt2    |[H, rho]|/|rho| 1.22   trajectory +0.540   linear letter +0.368
+  N = 5  W state                |[H, rho]|/|rho| 0.69   trajectory -0.358   linear letter +0.950
+  N = 7  psi1                   |[H, rho]|/|rho| 0.00   trajectory -0.882   linear letter -0.928
+  N = 7  psi3                   |[H, rho]|/|rho| 0.00   trajectory -0.932   linear letter -0.948
+  N = 7  (P1 + P3)/2            |[H, rho]|/|rho| 0.00   trajectory -0.995   linear letter -0.995
+  N = 7  (P1 + P2)/2            |[H, rho]|/|rho| 0.00   trajectory -0.826   linear letter -0.751
+  N = 7  (psi1 + psi3)/sqrt2    |[H, rho]|/|rho| 0.77   trajectory -0.694   linear letter -0.993
+  N = 7  W state                |[H, rho]|/|rho| 0.64   trajectory -0.617   linear letter -0.267
+  N = 8  psi1                   |[H, rho]|/|rho| 0.00   trajectory -0.909   linear letter -0.960
+  N = 8  psi3                   |[H, rho]|/|rho| 0.00   trajectory -0.996   linear letter -0.996
+  N = 8  (P1 + P3)/2            |[H, rho]|/|rho| 0.00   trajectory -0.934   linear letter -0.883
+  N = 8  (P1 + P2)/2            |[H, rho]|/|rho| 0.00   trajectory -0.907   linear letter -0.913
+  N = 8  (psi1 + psi3)/sqrt2    |[H, rho]|/|rho| 0.62   trajectory -0.598   linear letter -0.913
+  N = 8  W state                |[H, rho]|/|rho| 0.61   trajectory -0.636   linear letter -0.439
+
+[4] random carriers at N = 7, the worst signed cos of both observables against the mode participation PR
+  1 mode             PR mean 1.00   linear letter: mean -0.951, range -0.978 .. -0.928, below -0.5 in 12 of 12   trajectory: mean -0.935, range -0.990 .. -0.882, below -0.5 in 12 of 12
+  2 modes            PR mean 1.31   linear letter: mean -0.560, range -0.999 .. +0.156, below -0.5 in  7 of 12   trajectory: mean -0.710, range -0.996 .. -0.126, below -0.5 in  9 of 12
+  3 modes            PR mean 1.42   linear letter: mean -0.495, range -0.944 .. +0.717, below -0.5 in  8 of 12   trajectory: mean -0.742, range -0.986 .. -0.083, below -0.5 in 10 of 12
+  4 modes            PR mean 2.30   linear letter: mean +0.125, range -0.912 .. +0.913, below -0.5 in  2 of 12   trajectory: mean -0.340, range -0.735 .. +0.277, below -0.5 in  5 of 12
+  5 modes            PR mean 2.53   linear letter: mean +0.417, range -0.985 .. +0.907, below -0.5 in  1 of 12   trajectory: mean -0.304, range -0.969 .. +0.032, below -0.5 in  3 of 12
+  6 modes            PR mean 2.96   linear letter: mean +0.502, range -0.542 .. +0.926, below -0.5 in  1 of 12   trajectory: mean -0.133, range -0.577 .. +0.344, below -0.5 in  2 of 12
+  7 modes            PR mean 3.51   linear letter: mean +0.645, range -0.318 .. +0.859, below -0.5 in  0 of 12   trajectory: mean -0.010, range -0.483 .. +0.240, below -0.5 in  0 of 12
+  packet width 0.5   PR mean 3.18   linear letter: mean +0.450, range -0.138 .. +0.813, below -0.5 in  0 of 12   trajectory: mean -0.252, range -0.428 .. -0.082, below -0.5 in  0 of 12
+  packet width 1.0   PR mean 1.81   linear letter: mean -0.898, range -0.967 .. -0.732, below -0.5 in 12 of 12   trajectory: mean -0.713, range -0.787 .. -0.594, below -0.5 in 12 of 12
+  packet width 2.0   PR mean 1.22   linear letter: mean -0.657, range -0.879 .. -0.450, below -0.5 in  8 of 12   trajectory: mean -0.746, range -0.835 .. -0.605, below -0.5 in 12 of 12
+  packet width 4.0   PR mean 1.17   linear letter: mean -0.416, range -0.445 .. -0.322, below -0.5 in  0 of 12   trajectory: mean -0.643, range -0.649 .. -0.635, below -0.5 in 12 of 12
+  correlation of PR with the worst cos over all 132 carriers: linear letter +0.680, trajectory +0.811

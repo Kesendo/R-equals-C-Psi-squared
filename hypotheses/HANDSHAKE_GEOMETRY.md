@@ -200,6 +200,12 @@ refutes it ([`handshake_phase_blindness.py`](../simulations/handshake_phase_blin
 (|cos| ≈ 0.9 across N = 4..7). The two mirror-paired bonds produce genuinely sign-flipped population
 responses; no choice of per-site weighting or time-window changes the angle. The confusability is the
 K-partner near-degeneracy itself, read in the dynamics, not a quadrature the readout happens to discard.
+With the observable held fixed instead, the carrier moves the angle: on the whole population trajectory a
+localized carrier (one excitation at site 0, or at the ends, or at the centre) reads no nearly opposite pair and a
+dictionary several times better conditioned than ψ₁'s, while carriers holding few modes stay anti-collinear; on
+the one-stretch-per-site letter, a projection the α fit does not support for such carriers, the localized carriers
+trade the opposite pairs for nearly identical letters
+([THE_DECODER_AND_THE_FRONT](../experiments/THE_DECODER_AND_THE_FRONT.md) §2).
 
 **Identifiability is not FI(Q).** The Gram spectrum is a *rank* statement (which bond directions are
 distinguishable in a noiseless dictionary). FI(Q), the next section, is a *precision* statement (the
@@ -277,7 +283,10 @@ seesaw, and N = 5's chain-mirror pairs read −0.78 and −0.89 (R-equivariance 
 for reflection-symmetric couplings; only the weights change). The **−0.97** of the previous section is a
 different pair, (1, 3) across the centre; across N = 3 to 12 the painted letters are anti-collinear at
 nearly every N, the worst pair a mirror pair or a pair across the centre (`DecoderAntiCollinearitySeesawClaim`). The carrier-parity is load-bearing: the `(−1)^{k−1}` sign is for the R-even carrier ψ_1
-(a carrier of parity `(−1)^{c−1}` gives `(−1)^{k−c}`). Typed as `DefectReadingEquivarianceClaim`
+(a carrier of parity `(−1)^{c−1}` gives `(−1)^{k−c}`). That the carrier's state is R-invariant is the premise of
+the mirror law cos = 1 − 2w, not the source of the confusion: R-invariant localized carriers (the end pair, the end
+mixture, the centre site) obey the law and are not anti-collinear on the trajectory, while (ψ₁ + ψ₂)/√2, whose
+state R does not leave fixed, is ([THE_DECODER_AND_THE_FRONT](../experiments/THE_DECODER_AND_THE_FRONT.md) §3). Typed as `DefectReadingEquivarianceClaim`
 (Tier1Derived, parent `KPartnerSelectionRuleClaim`, `inspect --claim DefectReadingEquivarianceClaim`);
 verifier [`handshake_reading_equivariance.py`](../simulations/handshake_reading_equivariance.py).
 

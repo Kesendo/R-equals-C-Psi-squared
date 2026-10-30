@@ -59,7 +59,12 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// decoder's N ≤ 5 since every site is reliable there) + ReadingPowerWitness.cs (the live node at the inspect
 /// root decoder). Verifiers: SingleExcitationPainterDictionaryTests (the handshake with the full pipeline at
 /// N = 3..5, the premise, the identity, the table to N = 12) and DictionaryAntiCollinearityInvestigationTests
-/// (the full pipeline at N = 3..6).</para></summary>
+/// (the full pipeline at N = 3..6). The anti-collinearity is shared by carriers that hold few modes, not fixed by
+/// the reading: on the whole population trajectory a carrier on one or two sites (a site seed, the end mixture)
+/// reads no nearly opposite pair and a better conditioned dictionary, and R-invariant ones obey cos = 1 − 2w
+/// without being anti-collinear; on the linear letter, a projection the α fit does not support for such carriers,
+/// their letters become nearly identical instead
+/// (experiments/THE_DECODER_AND_THE_FRONT.md; MirrorWorld WalkTime.TrajectoryLetters).</para></summary>
 public sealed class DecoderAntiCollinearitySeesawClaim : Claim
 {
     private readonly DefectReadingEquivarianceClaim _equivariance;
