@@ -703,4 +703,22 @@ public class InspectRootCatalogTests
         Assert.True(w2.LemmaHolds);
         Assert.True(w2.LadderHolds);
     }
+
+    [Fact]
+    public void Catalog_LocalityRoot_BuildsTheLiveWitness_AndRejectsNonIntegerCouplings()
+    {
+        var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "locality");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("MirrorLocalityBoundClaim", entry.Description);
+        var context = new InspectRootContext(new ArgParser(new[] { "--N", "3", "--down", "3,2,1", "--up", "1,1,1", "--delta", "1", "--cut", "2" }), N: 3,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = Assert.IsType<MirrorLocalityBoundWitness>(entry.Factory(context));
+        Assert.Equal(3, root.N);
+        Assert.Equal(2, root.Cut);
+        Assert.Equal(1, root.Delta);
+        Assert.Equal(4, root.SchmidtRank);
+        var bad = new InspectRootContext(new ArgParser(new[] { "--J", "0.5" }), N: 2, WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        Assert.Throws<ArgumentException>(() => entry.Factory(bad));
+    }
 }

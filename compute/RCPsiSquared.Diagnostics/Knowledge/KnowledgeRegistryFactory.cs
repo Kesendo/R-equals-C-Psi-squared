@@ -907,6 +907,7 @@ public static class KnowledgeRegistryFactory
             .RegisterMissingPhaseRelaxationScaleClaim()
             .RegisterMissingPhaseSlowReadoutClaim()
             .RegisterPalindromeTwoEndCountClaim()
+            .RegisterMirrorLocalityBoundClaim()   // the mirror's locality bound: Schmidt-rank(E) >= Schmidt-rank(rho_ss) via the Z corner Z^N (THE_CUBE_SITE_BY_SITE finding 1); parents F158 + F84 thermal channel; live: inspect --root locality
             // F116 golden/metallic router as a standalone Tier1Derived Claim (2026-06-22, the "C# witness
             // first" inverse gap: the live witness GoldenRouterWitness + the helper KBodyPalindromeRouting
             // already existed; only the tiered Claim wrapper was missing). An invertible period-4 per-site

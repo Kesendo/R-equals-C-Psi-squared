@@ -311,6 +311,24 @@ public static class InspectCommand
         return new SeatCutBlindnessWitness(n, book, bonds);
     }
 
+    private static IInspectable BuildLocalityRoot(ArgParser p, int n)
+    {
+        static long Integer(ArgParser parser, string key, long fallback)
+        {
+            var text = parser.OptionalString(key);
+            if (text is null) return fallback;
+            if (!long.TryParse(text.Trim(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out long v))
+                throw new ArgumentException($"--{key} takes an integer (the witness works in integer rates and couplings); got '{text}'");
+            return v;
+        }
+        static long[]? Rates(string? text, string key) => text?.Split(',').Select(t =>
+            long.TryParse(t.Trim(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out long v)
+                ? v : throw new ArgumentException($"--{key} takes integer rates, one per site, comma-separated; got '{text}'")).ToArray();
+        var down = Rates(p.OptionalString("down"), "down");
+        var up = Rates(p.OptionalString("up"), "up");
+        return new MirrorLocalityBoundWitness(n, down, up, Integer(p, "J", 1), Integer(p, "delta", 0), (int)Integer(p, "cut", 1));
+    }
+
     /// <summary>The F121 live lab: builds a <see cref="QuditPartialPalindromeWitness"/> that
     /// materialises the qudit full-Cartan dephasing dissipator at inspect time and recomputes
     /// the partial-palindrome ceiling, the product cap, and the non-product remainder from the
@@ -1155,6 +1173,14 @@ public static class InspectCommand
             + "diag(1, i) carrying the ring's (1, −1) into (1, i), and F155's dimer with a size-3 block in its no-jump generator "
             + "(typed: TwoByTwoExceptionalPointClaim)",
             _ => new TwoByTwoExceptionalPointWitness(), RequiresN: false),
+        new("locality", "THE MIRROR'S LOCALITY BOUND (experiments/THE_CUBE_SITE_BY_SITE.md finding 1, the Z corner; claim " +
+            "MirrorLocalityBoundClaim): under thermal baths Z⊗N sits at −c for every H commuting with Z⊗N, an element of " +
+            "the shape −L − c carries it onto the steady state's line, so the element's operator Schmidt rank across any " +
+            "cut is at least the steady state's. Built exactly: integer generator in the Pauli basis, steady state over ℚ " +
+            "(CRT + rational reconstruction, verified L·ρ = 0), rank over ℚ; two controls (one temperature, no hop). " +
+            "Args: --N (2..4, default 2), --down 3,2 --up 1,1 (integer rates per site), --J 1, --delta 0, --cut 1 (integers)",
+            c => BuildLocalityRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 2),
+            RequiresN: false, HonorsOptionalN: true),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };

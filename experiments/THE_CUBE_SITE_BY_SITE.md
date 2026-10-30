@@ -3,10 +3,11 @@
 <!-- Keywords: letter cube instrument, site-local palindromizer, product reflector, steady-state weight, M_beta,
 KMS detailed balance, temperature gradient, golden router uniform, Heisenberg DM spiral gauge, Groebner exact -->
 
-**Status:** an instrument and three findings, 2026-10-20. The findings are reproduced exactly, each with a control
-that fails, in [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (44
-checks, ALL PASS); where a statement below rests on an argument or on a computation rather than on a check, it
-says so.
+**Status:** an instrument and three findings, 2026-10-20; finding 1's bound through Z⊗N 2026-10-30. The findings are
+reproduced exactly, each with a control that fails, in
+[`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (56 checks, ALL PASS), the
+bound also live in C# (`MirrorLocalityBoundWitness`, `inspect --root locality`); where a statement below rests on an
+argument or on a computation rather than on a check, it says so.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
@@ -36,6 +37,28 @@ for cooling alone, the machine's NONE on cooling-only chains), TheodoliteTests (
 tests (S_XY a reflection, four uniform reflections, no Π-reflection asserted); nothing contradicted it. Adjacency:
 MIRROR_SYMMETRY_PROOF's T1 paragraph and KMS's pure-cooling sentence were about the same object and cited neither
 this finding nor each other; both now point here.
+
+For the Z-corner bound (2026-10-30, from KMS Question 4's open sentence): swept by name `docs/proofs/` (PROOF_PALINDROME_TWO_END_COUNT §(f8) holds the similarity L ~ −L − 2σ from the real structure,
+stated for Hermitian involutive jumps and never applied to thermal ones; PROOF_ANTILINEAR_TRIANGLE §7 asks only after
+the form of the weight; PROOF_CEILING_GOLDEN_ROUTER closes the F87 "6 → 4 → 2" count to zero, Hamiltonian
+palindromizers under Z dephasing, no thermal element), `experiments/` (THE_PAIRING_CONDITION lines 157-165, the same
+chain, and line 719 keeping EXISTS apart from EXPLAINS; PI_OPERATOR_ENTANGLEMENT, whose Schmidt rank 9 of an
+eigenvector-pairing Π was the representative's, not the family's, and NON_HEISENBERG_PALINDROME line 241, the
+Z-dephasing twin of the open rank question, where the least rank over the valid-Π space is 1 and the 9 was a search
+floor; THERMAL_BREAKING, the X⊗N swap at line 71 and S_XY at line 341; CEILING_FOUR_NONLOCAL_CASES),
+`docs/ANALYTICAL_FORMULAS.md` (F137's S_XY line stops at −L† − c; F158's entry names §(f8); F119 nothing),
+the OpenArcs registry (`f138_converse_failures` line 4049 "EXISTENCE TURNS OUT TO BE FREE" and line 4098
+"explaining nothing", its item FOUR at line 4286, "widen the S search past site-locality", never run;
+`handshake_decoder`, whose location dictionary is a Gram matrix on bond space in the single-excitation sector and
+not a Liouville-space metric), OQ-168, the Core claims
+(`PalindromeTwoEndCountClaim` "which no gate here observes", `QuditProductMirrorCap`'s non-product partial
+intertwiners of the dissipator alone, F121), the Diagnostics witnesses (none on a thermal element), MirrorWorld
+(`EndCount` leaves §(f8)'s similarity outside by design; `Sextant` searches uniform one-site moves and reads the
+pairing; `hidden_pi_search.py`'s eigenvector-pairing Q are all ill-conditioned, two by pseudo-inverse, residuals up
+to 6.6e4), `fw.Confirmations`, the glossary and
+`docs/CAUGHT_ERRORS.md` (line 5043, the real-structure repair). No tool solved E·L = (−L − c)·E on the full
+superoperator space, and no store held a Schmidt-rank bound on an element. Adjacency: KMS Question 4's open sentence
+and OQ-168 are about the same object as §(f8) and THE_PAIRING_CONDITION and cited neither; both now point here.
 -->
 
 Nothing in the repo held a site map that carries a weight beside the move beyond Z dephasing.
@@ -124,6 +147,39 @@ bond (2, 0), W = Z₁) the instrument returns it as ρ ↦ π_β·Z₀Z₂·X⊗
 by Z⊗N·π_β^½, which commutes with L. Checked exactly there and on an open chain of four sites with hoppings 1,
 3 + 4i and −5 + 12i; the same maps fail at Δ = 7⁄10 and at flux 0.
 
+**The Z corner bounds how far from a product any element must sit.** Call Z⊗N the Z corner: the cube's vertex at
+(0, N, N), every letter Z, the deepest cell under the baths. The site-local NONE across a temperature gradient has a
+second route through it, and the route says more. Z⊗N is an eigenvector of L at −c for every H with [H, Z⊗N] = 0:
+each site charges Z its height −(γ↓ + γ↑), the heights add, and the hopping and ZZ terms commute with Z⊗N (checked
+entry for entry on the integer generator). An element E with E·L·E⁻¹ = −L − c sends an eigenvector at λ to one at
+−λ − c, so E(Z⊗N) lies in the kernel of L, the steady state's line: the steady state is unique because σ⁻ and
+σ⁺ on every bathed site have a trivial commutant. A map of operator Schmidt rank r across a cut turns a product
+across that cut into an operator of rank at most r, and Z⊗N is a product across every cut. So across every cut
+**Schmidt-rank(E) ≥ Schmidt-rank(ρ_ss)**: the element is at least as entangled as the state the bath holds the
+chain in. At one temperature that state is the Gibbs product and the bound is 1, which M_β attains within its scope
+(XXZ bonds with axial DM, no fields, a finite nonzero ratio). For XXZ bonds, two-body hopping, with a gradient along
+a hopping bond the steady state is no product over the sites, and the reason is short. A product steady state is
+diagonal site by site, by U(1) covariance. The dissipator keeps such a product diagonal and the hopping takes it
+off the diagonal, so both parts vanish apart. Each factor is then the site's own thermal state, and the hopping
+commutes with their product only at equal ratios along every bond. An invertible product map keeps the Schmidt
+rank. So no product map over the sites is an element there, sandwich or not; the identity-row commutator above is
+not needed for that conclusion. Across a single cut the bound is what the steady state's rank across that cut
+says; that it is entangled across every cut, including a cut that crosses only an equal-ratio bond, is witnessed on
+the chains below and not derived. What the letters show at N = 2 is a current, XY − YX on the bond. The ranks are
+exact over ℚ (the steady state recovered from its residues modulo primes and verified by L·ρ_ss = 0, the rank by
+elimination; sympy over ℚ(i) in the findings script, block G, and live in C# in `MirrorLocalityBoundWitness`,
+`inspect --root locality`, claim `MirrorLocalityBoundClaim`): on the two-site
+chain with γ↓ = (3, 2), γ↑ = (1, 1) and J = 1, ρ_ss = ¼·II + 5/56·IZ + 27/224·ZI + 67/1568·ZZ + 1/112·(XY − YX),
+rank 4 of 4, the current ⟨i(σ⁺₀σ⁻₁ − σ⁻₀σ⁺₁)⟩ = −1/28; at N = 3 with γ↓ = (3, 2, 1), γ↑ = 1 and Δ = 1, rank 4 across
+both cuts, and with γ↓ = (3, 3, 2), γ↑ = 1, rank 4 across the cut that crosses only the equal-ratio bond; at N = 4
+with γ↓ = (6, 5, 4, 3), γ↑ = 2, rank 16 of 16 at the middle cut; at one temperature rank 1, and without the hop
+rank 1. That some element exists is free wherever a reflection carries the pairing, as S_XY does for XXZ bonds at
+any rates, since L is real in the Pauli basis and every matrix is similar to its transpose
+([PROOF_PALINDROME_TWO_END_COUNT](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(f8),
+[THE_PAIRING_CONDITION](THE_PAIRING_CONDITION.md)); that settles the existence question of KMS Question 4 and
+OQ-168 there, and leaves it open where the spectrum pairs and none of S_XY, M_β or the chain carries it. What is not known is the least rank an element attains, at least 4 at N = 2 against a trivial ceiling of 16,
+and whether an entangled sandwich A·ρᵀ·B exists off the product line.
+
 **2. The golden family routes with one map on every site at c = 0, and the golden bond with a uniform golden map.**
 At the c = 0 station of the metallic line (windows XZY + YZX) the site map ρ ↦ (X + Y)·ρ·diag(1, −i), the same on
 every site, solves the site and window equations; its identity column is the Pauli axis Y. So it routes every open
@@ -151,6 +207,8 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 
 ## What stays open
 
-Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; elements that are
-not products over sites; the per-site turn reported
-relative to the neighbour rather than as one representative's absolute value; the instrument's name.
+Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings; the least Schmidt
+rank an element attains across a temperature gradient (bounded below by the steady state's, its existence free where
+S_XY reflects and open where the spectrum pairs with no reflection known), and whether an entangled sandwich A·ρᵀ·B
+exists there off the product line; the per-site turn reported relative to the neighbour rather than as one
+representative's absolute value; the instrument's name.

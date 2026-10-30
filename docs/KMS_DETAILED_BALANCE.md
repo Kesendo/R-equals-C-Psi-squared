@@ -162,8 +162,11 @@ form catalogued by Kawasaki, Mochizuki, and Obuse (Phys. Rev. B 106, 035408,
 2022): ordinary chiral/sublattice symmetry plus a constant decay-rate shift.
 Their construction is noninteracting at the quadratic/Majorana level and uses
 `S = I₂ ⊗ τ_z`. The object analyzed here is the shifted anti-similarity for the
-stated interacting/k-body model together with a bounded 6 → 4 → 2
-per-site-product-versus-entangled locality result. Prior-art coverage and
+stated interacting/k-body model together with the per-site-product-versus-entangled
+count of [CEILING_FOUR_NONLOCAL_CASES](../experiments/CEILING_FOUR_NONLOCAL_CASES.md),
+closed 6 → 4 → 2 → 0 by [PROOF_CEILING_GOLDEN_ROUTER](proofs/PROOF_CEILING_GOLDEN_ROUTER.md)
+within the k = 3 sliding-window soft family under Z dephasing (no case there needs a
+non-local mirror; a thermal gradient is another matter, Question 4). Prior-art coverage and
 equivalence for that interacting, locality-resolved scope remain OPEN. This is
 an object-and-scope comparison, not an ownership, priority, or novelty claim.
 
@@ -315,7 +318,7 @@ Gibbs state or bath temperature.
 
 ## Question 4: Does a Finite-Temperature Generalization Exist?
 
-**Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where the one-site steady-state ratio is the same on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight, and with X or Y dephasing from the steady state's); no site-local element where that ratio differs across a hopping bond; OPEN beyond it**
+**Classification: CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where the one-site steady-state ratio is the same on every set of sites joined by hopping (an exact site-local element of Π's shape, built from the thermal weight, and with X or Y dephasing from the steady state's); no site-local element where that ratio differs across a hopping bond; there, for XXZ bonds without DM, an element exists through S_XY and is at least as entangled as the steady state; OPEN beyond it**
 
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
@@ -490,10 +493,18 @@ are each an identity between generators, and composed they are one site-local
 linear map, ρ ↦ W·π^½·X⊗N·ρ·Y⊗N·π^½·W†, wherever that chain applies (no
 dephasing, one ratio on every set of sites joined by hopping, and at Δ = 0 turns
 exist exactly when e^{2iΦ} = (−1)^ℓ on every cycle; [F137](ANALYTICAL_FORMULAS.md)).
-Whether an element of the shape −L − c exists wherever the spectrum pairs and
-neither M_β nor that chain carries it, a product over sites or not, is open, and
-so is whether the hidden time reversal of Roberts et al. in the doubled space is
-M_β read through the Choi-Jamiolkowski map.
+Where neither M_β nor that chain applies, some element of the shape −L − c
+still exists wherever S_XY reflects, since L is real in the Pauli basis and every
+matrix is similar to its transpose ([PROOF_PALINDROME_TWO_END_COUNT](proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+§(f8), [THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md)); for XXZ
+bonds it is at least as entangled as the steady state across every cut, which
+across a temperature gradient along a hopping bond is no product over the sites,
+so no invertible product map over the sites is one
+([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md), the Z corner).
+Open are whether an element exists where the spectrum pairs and none of S_XY,
+M_β or that chain carries it, the least Schmidt rank an element attains, and
+whether the hidden time reversal of Roberts et al. in the doubled space is M_β
+read through the Choi-Jamiolkowski map.
 
 ### Assessment
 
@@ -633,7 +644,7 @@ dynamics. No palindromic structures.
 | 1. Is Π a known symmetry type? | For the centered generator `L_c=L+SγI`, Π supplies a sectorwise P generator after resolving Π²; the complete irreducible-sector SRP algebra is not yet computed | **CONFIRMED algebra / OPEN class** |
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
-| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element; a Z field and Z dephasing break M_β, while with fields F137's chained carrier composes into a site-local element of another shape wherever its turns exist; beyond it **OPEN** |
+| 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element, and there, for XXZ bonds without DM, an element exists through S_XY and is at least as entangled as the steady state (the Z corner); a Z field and Z dephasing break M_β, while with fields F137's chained carrier composes into a site-local element of another shape wherever its turns exist; beyond it **OPEN** |
 | 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
 | 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
@@ -722,7 +733,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
 
 10. **Kawasaki, Mochizuki, Obuse (2022)**: "Topological phases protected by shifted sublattice symmetry in dissipative quantum systems."
    Phys. Rev. B 106, 035408. [arXiv:2201.09283](https://arxiv.org/abs/2201.09283)
-   *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. This is a catalogued comparison for the SHAPE of Π's shifted spectrum. The repository separately establishes an interacting k-body Π and a 6 → 4 → 2 per-site-product-vs-entangled locality ceiling; equivalence and prior-art coverage remain open.*
+   *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. This is a catalogued comparison for the SHAPE of Π's shifted spectrum. The repository separately establishes an interacting k-body Π and closes the per-site-product-vs-entangled count 6 → 4 → 2 → 0 within the k = 3 sliding-window soft family under Z dephasing (PROOF_CEILING_GOLDEN_ROUTER); equivalence and prior-art coverage remain open.*
 
 11. **Haga et al. (2023)**: Incoherenton paper.
     *XY-weight grading = incoherenton number. Bands but no palindrome.*

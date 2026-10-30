@@ -36,6 +36,17 @@ site's operators on the cells |i><j|, row-major; sigma^- = |0><1| cools, sigma^+
      on F137's field triangle (fields (3/10, −1/5, 1/2), ratio 1/4, Δ = 0, flux ±pi/2) and on an open chain of four
      sites; the instrument's answer on the triangle, rho -> π·Z₀Z₂·X^N·rho·X^N·Z₁, is the composite after the
      similarity by Z^N·π^½. Controls Δ = 7/10 and flux 0.
+  G  The Z corner bounds the element's locality. Z^N is an eigenvector of L at −c = −Σ(γ↓ + γ↑) for the hopping
+     chain with or without ZZ; the steady state, the one-dimensional kernel of L over Q(i) (DomainMatrix, no eigensolver),
+     has operator Schmidt rank 4 of 4 across the cut of the two-site chain at ratios 1/3 and 1/2 (letters
+     ¼·II + 5/56·IZ + 27/224·ZI + 67/1568·ZZ + 1/112·(XY − YX), current −1/28), 4 across both cuts at N = 3 with ZZ, 4
+     across the cut that crosses only the equal-ratio bond of (3, 3, 2), and 16 of 16 at the middle cut of N = 4 on the
+     gradient (6, 5, 4, 3)/2; rank 1 at one temperature and rank 1 without
+     the hop. Any element E with E·L·E⁻¹ = −L − c carries Z^N onto the steady state (checked on the eigenvector-pairing
+     element, dense), so its Schmidt rank is at least the steady state's; a product map cannot be one across a gradient.
+     Block G builds its generator on its own (column-major vec, the matrix-unit basis) rather than through
+     full_generator above, so that it shares no code with blocks A to F and none with the C# witness, which works in
+     the Pauli-string basis with integer entries: two routes to the same ranks.
 """
 from __future__ import annotations
 
@@ -484,6 +495,99 @@ check("open chain of four sites, hoppings 1, 3 + 4i, −5 + 12i, fields, ratio 1
       "and the composite is a Pi-reflection",
       turns_flip_hopping(open_chain4(0), zs4) and reflects_pi_qi(open_chain4(0), composite(zs4)))
 check("control: at Δ = 7/10 it is not", not reflects_pi_qi(open_chain4(R(7, 10)), composite(zs4)))
+
+# ---------------------------------------------------------------------------------------------------------------------
+print("\nG  the Z corner bounds the element's locality")
+
+
+def thermal_chain_generator(n, down, up, J, delta):
+    """L on vec_c(rho) (column-major) in the matrix-unit basis: hopping (J/2)(XX + YY) + (Δ/2) ZZ on every bond,
+    cooling |0><1| at down[l] and heating |1><0| at up[l] on every site; exact over Q(i)."""
+    d = 2 ** n
+
+    def on(l, A):
+        return sp.kronecker_product(*[A if k == l else sp.eye(2) for k in range(n)])
+
+    H = sp.zeros(d, d)
+    for l in range(n - 1):
+        H += R(J, 2) * (on(l, X) * on(l + 1, X) + on(l, Y) * on(l + 1, Y)) + R(delta, 2) * on(l, Z) * on(l + 1, Z)
+    Id = sp.eye(d)
+    L = -sp.I * (sp.kronecker_product(Id, H) - sp.kronecker_product(H.T, Id))
+    for l in range(n):
+        for A, rate in ((ct.LOWER, down[l]), (ct.RAISE, up[l])):
+            Jm = on(l, sp.Matrix(A))
+            JdJ = Jm.H * Jm
+            L += rate * (sp.kronecker_product(Jm.conjugate(), Jm)
+                         - R(1, 2) * (sp.kronecker_product(Id, JdJ) + sp.kronecker_product(JdJ.T, Id)))
+    return L.applyfunc(sp.expand)
+
+
+def steady_state_exact(L, n):
+    ns = DomainMatrix.from_Matrix(L).convert_to(sp.QQ_I).nullspace().to_Matrix()
+    assert ns.rows == 1
+    d = 2 ** n
+    vec = ns.row(0)
+    rho = sp.Matrix(d, d, lambda i, j: vec[i + d * j])
+    return rho / rho.trace()
+
+
+def operator_schmidt_rank(rho, n, cut):
+    """rho[i, j] with i = (i_left, i_right) bits, reshaped to rows (i_left, j_left), columns (i_right, j_right)."""
+    d = 2 ** n
+    dl, dr = 2 ** cut, 2 ** (n - cut)
+    M = sp.zeros(dl * dl, dr * dr)
+    for i in range(d):
+        for j in range(d):
+            il, ir = divmod(i, dr)
+            jl, jr = divmod(j, dr)
+            M[il * dl + jl, ir * dr + jr] = rho[i, j]
+    return DomainMatrix.from_Matrix(M).convert_to(sp.QQ_I).rank()
+
+
+def letter(rho, name):
+    P = sp.kronecker_product(*[ct.PAULI[c] if c != 'I' else sp.eye(2) for c in name])
+    return sp.nsimplify((P.H * rho).trace() / rho.shape[0])
+
+
+L2 = thermal_chain_generator(2, [3, 2], [1, 1], 1, 0)
+zz = sp.kronecker_product(Z, Z)
+zz_vec = sp.Matrix(16, 1, lambda k, _: zz[k % 4, k // 4])
+check("two sites, ratios 1/3 and 1/2: Z⊗Z is an eigenvector of L at −c = −7",
+      (L2 * zz_vec + 7 * zz_vec).is_zero_matrix)
+rho2 = steady_state_exact(L2, 2)
+check("the steady state's letters are ¼·II + 5/56·IZ + 27/224·ZI + 67/1568·ZZ + 1/112·(XY − YX)",
+      [letter(rho2, s_) for s_ in ('II', 'IZ', 'ZI', 'ZZ', 'XY', 'YX')] == [R(1, 4), R(5, 56), R(27, 224), R(67, 1568), R(1, 112), R(-1, 112)]
+      and all(letter(rho2, a + b) == 0 for a in 'IXYZ' for b in 'IXYZ' if a + b not in ('II', 'IZ', 'ZI', 'ZZ', 'XY', 'YX')))
+current = sp.I * (sp.kronecker_product(sp.Matrix(ct.RAISE), sp.Matrix(ct.LOWER)) - sp.kronecker_product(sp.Matrix(ct.LOWER), sp.Matrix(ct.RAISE)))
+check("it carries the current ⟨i(σ⁺₀σ⁻₁ − σ⁻₀σ⁺₁)⟩ = −1/28", sp.nsimplify((current * rho2).trace()) == R(-1, 28))
+check("its operator Schmidt rank across the cut is 4 of 4", operator_schmidt_rank(rho2, 2, 1) == 4)
+ev2 = L2.eigenvects()
+pairs = {}
+for val, _, vecs in ev2:
+    pairs.setdefault(sp.nsimplify(val), []).extend(vecs)
+check("the spectrum pairs about −7/2 with its multiplicities", all(len(pairs.get(sp.nsimplify(-v - 7), [])) == len(vs) for v, vs in pairs.items()))
+E = sp.zeros(16, 16)
+basis = []
+for v, vs in pairs.items():
+    for k, vec in enumerate(vs):
+        basis.append((vec, pairs[sp.nsimplify(-v - 7)][k]))
+V = sp.Matrix.hstack(*[b[0] for b in basis])
+W = sp.Matrix.hstack(*[b[1] for b in basis])
+E = (W * V.inv()).applyfunc(sp.simplify)
+check("the eigenvector-pairing element E satisfies E·L = (−L − 7)·E", (E * L2 + (L2 + 7 * sp.eye(16)) * E).applyfunc(sp.simplify).is_zero_matrix)
+rho_vec = sp.Matrix(16, 1, lambda k, _: rho2[k % 4, k // 4])
+img = (E * zz_vec).applyfunc(sp.simplify)
+check("and carries Z⊗Z onto the steady state's line", (img - (img[0] / rho_vec[0]) * rho_vec).applyfunc(sp.simplify).is_zero_matrix)
+check("control: one temperature (3, 3 | 1, 1): rank 1", operator_schmidt_rank(steady_state_exact(thermal_chain_generator(2, [3, 3], [1, 1], 1, 0), 2), 2, 1) == 1)
+check("control: no hopping (3, 2 | 1, 1), J = 0: rank 1", operator_schmidt_rank(steady_state_exact(thermal_chain_generator(2, [3, 2], [1, 1], 0, 0), 2), 2, 1) == 1)
+L3 = thermal_chain_generator(3, [3, 2, 1], [1, 1, 1], 1, 1)
+rho3 = steady_state_exact(L3, 3)
+check("N = 3, ratios (3, 2, 1), Δ = 1: rank 4 across both cuts", operator_schmidt_rank(rho3, 3, 1) == 4 and operator_schmidt_rank(rho3, 3, 2) == 4)
+rho33 = steady_state_exact(thermal_chain_generator(3, [3, 3, 2], [1, 1, 1], 1, 0), 3)
+check("N = 3, ratios (3, 3, 2): rank 4 across the cut that crosses only the equal-ratio bond (and across the other)",
+      operator_schmidt_rank(rho33, 3, 1) == 4 and operator_schmidt_rank(rho33, 3, 2) == 4)
+rho4 = steady_state_exact(thermal_chain_generator(4, [6, 5, 4, 3], [2, 2, 2, 2], 1, 0), 4)
+check("N = 4, the gradient (6, 5, 4, 3)/2: rank 16 of 16 at the middle cut", operator_schmidt_rank(rho4, 4, 2) == 16)
 
 print()
 if FAILURES:
