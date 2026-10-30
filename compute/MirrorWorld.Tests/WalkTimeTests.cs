@@ -181,6 +181,50 @@ public class WalkTimeTests
         }
     }
 
+    // At equal cost (one shot = one position at one time, equal shots per time): the per-shot Fisher matrix of
+    // every bond's delta. Handshake with the bond/seat study (experiments/THE_BOND_AND_THE_SEAT_WITH_FINITE_SHOTS.md):
+    // N = 7, J = 0.075, gamma = 0.05 (Q = 1.5), the bonding mode on that page's baseline schedule
+    // [2, 4, 6, 8, 10, 12, 15, 18, 24, 30] with 1e5 shots per time, in additive units (divided by J^2): its smallest
+    // eigenvalue is 190,443 there, 190443.2487 on the exact route of simulations/decoder_carrier_dictionary.py. The
+    // cone's RK4 meets it to its step error, and the gate is that error's law: halving dt cuts the deviation from
+    // the exact value by about 2^4 = 16.
+    [Fact]
+    public void Fisher_Meets_The_Bond_Seat_Study_To_The_Step_Law()
+    {
+        const double exact = 190443.2487, jh = 0.075;
+        double[] sched = { 2, 4, 6, 8, 10, 12, 15, 18, 24, 30 };
+        double Lambda(double dt)
+        {
+            var f = WalkTime.PositionFisher(W, 7, jh, 0.05, new[] { (1.0, WalkTime.Mode(7, 1)) }, sched, dt);
+            var total = new double[6, 6];
+            for (int a = 0; a < 6; a++) for (int b = 0; b < 6; b++) total[a, b] = f[a, b] * sched.Length * 1e5 / (jh * jh);
+            return WalkTime.MinEigenvalue(total);
+        }
+        double e1 = Math.Abs(Lambda(0.5) - exact), e2 = Math.Abs(Lambda(0.25) - exact);
+        Assert.True(e2 < 1.0, $"dt = 0.25 reads {exact + e2} against {exact}");
+        Assert.InRange(e1 / e2, 10.0, 22.0);
+    }
+
+    // At Q = 20 on the decoder's window (60 equal-split times on (0, 1/gamma]), the localized carriers hold far more
+    // information in the worst direction than the bonding mode: site 0 108, 119, 121 times and the centre site 93,
+    // 76, 97 times at N = 5, 7, 9 on the exact route (part of it the uniform rescaling of every bond, the bonding
+    // mode's nearly blind direction, a shrinking share as N grows). The cone's ratios are pinned to the exact route's to 1 % (the RK4 step at dt = 1/30
+    // moves the eigenvalues by far less).
+    [Fact]
+    public void Localized_Carriers_Hold_More_Fisher_Information_At_Q20()
+    {
+        foreach (int n in new[] { 5, 7, 9 })
+        {
+            double[] Site(int s) { var v = new double[n]; v[s] = 1.0; return v; }
+            var times = Enumerable.Range(1, 60).Select(k => 20.0 * k / 60).ToArray();
+            double L(double[] wave) => WalkTime.MinEigenvalue(WalkTime.PositionFisher(W, n, 1.0, 0.05, new[] { (1.0, wave) }, times, dt: 1.0 / 30));
+            double bonding = L(WalkTime.Mode(n, 1));
+            var exact = new Dictionary<int, (double Seed, double Centre)> { [5] = (108.40, 93.08), [7] = (118.51, 75.58), [9] = (121.33, 97.47) }[n];
+            Assert.InRange(L(Site(0)) / bonding / exact.Seed, 0.99, 1.01);
+            Assert.InRange(L(Site(n / 2)) / bonding / exact.Centre, 0.99, 1.01);
+        }
+    }
+
     // The conditioning reading itself, against two cases with a known answer: orthogonal letters read 1, and a
     // letter that is the sum of two others makes the dictionary singular (0 to rounding).
     [Fact]

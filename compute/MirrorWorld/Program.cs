@@ -1824,6 +1824,25 @@ if (args.Length > 1 && args[0] == "walk" && args[1] == "decode")
             Console.WriteLine(string.Format(inv, "  N={0}  {1,-52} worst signed cos {2:+0.000;-0.000} ({3},{4}), normalised smallest singular value {5:0.000}", n, name, worst.Cos, worst.A, worst.B, WalkTime.Conditioning(letters)));
         }
     }
+    Console.WriteLine("at equal cost: the per-shot Fisher matrix of the Z-position readout, every bond's delta (smallest eigenvalue)");
+    {
+        double[] sched = { 2, 4, 6, 8, 10, 12, 15, 18, 24, 30 };
+        foreach (double fdt in new[] { 0.5, 0.25, 0.125 })
+        {
+            var f = WalkTime.PositionFisher(dw, 7, 0.075, 0.05, new[] { (1.0, WalkTime.Mode(7, 1)) }, sched, fdt);
+            var tot = new double[6, 6];
+            for (int a = 0; a < 6; a++) for (int b = 0; b < 6; b++) tot[a, b] = f[a, b] * sched.Length * 1e5 / (0.075 * 0.075);
+            Console.WriteLine(string.Format(inv, "  the bond/seat handshake (N=7, Q=1.5, its schedule, 1e5 shots per time, additive units), dt={0}: {1:0.0000} (exact route 190443.2487)", fdt, WalkTime.MinEigenvalue(tot)));
+        }
+    }
+    for (int n = 5; n <= 9; n += 2)
+    {
+        double[] Site(int s) { var v = new double[n]; v[s] = 1.0; return v; }
+        var times = Enumerable.Range(1, 60).Select(k => 20.0 * k / 60).ToArray();
+        double L(double[] wave) => WalkTime.MinEigenvalue(WalkTime.PositionFisher(dw, n, dj, dg, new[] { (1.0, wave) }, times, dt: 1.0 / 30));
+        double b1 = L(WalkTime.Mode(n, 1)), s0 = L(Site(0)), sc = L(Site(n / 2));
+        Console.WriteLine(string.Format(inv, "  Q=20, N={0}, 60 equal-split times on (0, 1/gamma]: bonding mode {1:0.0000e+00}, site 0 {2:0.0000e+00} ({3:0.0}x), centre site {4:0.0000e+00} ({5:0.0}x)", n, b1, s0, s0 / b1, sc, sc / b1));
+    }
     return;
 }
 

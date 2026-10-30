@@ -149,10 +149,13 @@ public static class WalkTime
     // the smallest singular value of the dictionary with every letter normalised: 0 when some combination of letters
     // vanishes (a direction no reading sees), 1 for orthogonal letters. The square root of the smallest eigenvalue of
     // the cosine matrix, by cyclic Jacobi rotations (the matrix is (N-1) x (N-1)).
-    public static double Conditioning(double[][] letters)
+    public static double Conditioning(double[][] letters) => Math.Sqrt(Math.Max(MinEigenvalue(Cosines(letters)), 0.0));
+
+    // the smallest eigenvalue of a real symmetric matrix, by cyclic Jacobi rotations (the matrix is copied).
+    public static double MinEigenvalue(double[,] a)
     {
-        var g = Cosines(letters);
-        int m = letters.Length;
+        int m = a.GetLength(0);
+        var g = (double[,])a.Clone();
         for (int sweep = 0; sweep < 100; sweep++)
         {
             double off = 0;
@@ -180,7 +183,65 @@ public static class WalkTime
         }
         double min = double.PositiveInfinity;
         for (int k = 0; k < m; k++) min = Math.Min(min, g[k, k]);
-        return Math.Sqrt(Math.Max(min, 0.0));
+        return min;
+    }
+
+    // The same readings at equal cost (experiments/THE_DECODER_AND_THE_FRONT.md §5): one shot is one preparation of
+    // the carrier and one Z measurement of every site at one time, and it returns the excitation's position j with
+    // probability p_j(t). The per-shot Fisher matrix of every bond's relative delta, averaged over the schedule's
+    // times (equal shots per time), is F_ab = mean_t sum_j dp_j/da dp_j/db / p_j, the central difference at
+    // +-delta for the slopes. The carrier and the cone's step are as in TrajectoryLetters; every time must be a
+    // multiple of dt.
+    public static double[,] PositionFisher(World w, int n, double j, double gamma,
+                                           (double Weight, double[] Wave)[] carrier,
+                                           double[] times, double dt, double delta = 1e-5)
+    {
+        var steps = times.Select(t => (int)Math.Round(t / dt)).ToArray();
+        for (int k = 0; k < times.Length; k++)
+            if (Math.Abs(steps[k] * dt - times[k]) > 1e-9 * Math.Max(1.0, times[k]) || (k > 0 && steps[k] <= steps[k - 1]))
+                throw new ArgumentException("times must rise and be multiples of dt", nameof(times));
+        double[][] Run(int bond, double d)
+        {
+            var p = new double[times.Length][];
+            for (int k = 0; k < times.Length; k++) p[k] = new double[n];
+            foreach (var (weight, wave) in carrier)
+            {
+                var cone = new Cone(w, n, j, gamma);
+                if (bond >= 0) cone.SetBond(bond, bond + 1, j * (1 + d));
+                cone.SeedPure(wave);
+                int done = 0;
+                for (int k = 0; k < times.Length; k++)
+                {
+                    for (; done < steps[k]; done++) cone.Step(dt);
+                    for (int i = 0; i < n; i++) p[k][i] += weight * cone.Population(i);
+                }
+            }
+            return p;
+        }
+        var p0 = Run(-1, 0.0);
+        var slope = new double[n - 1][][];
+        for (int b = 0; b < n - 1; b++)
+        {
+            var up = Run(b, +delta);
+            var down = Run(b, -delta);
+            slope[b] = new double[times.Length][];
+            for (int k = 0; k < times.Length; k++)
+            {
+                slope[b][k] = new double[n];
+                for (int i = 0; i < n; i++) slope[b][k][i] = (up[k][i] - down[k][i]) / (2 * delta);
+            }
+        }
+        var f = new double[n - 1, n - 1];
+        for (int a = 0; a < n - 1; a++)
+            for (int b = 0; b < n - 1; b++)
+            {
+                double s = 0;
+                for (int k = 0; k < times.Length; k++)
+                    for (int i = 0; i < n; i++)
+                        if (p0[k][i] > 1e-13) s += slope[a][k][i] * slope[b][k][i] / p0[k][i];
+                f[a, b] = s / times.Length;
+            }
+        return f;
     }
 
     static double[,] Cosines(double[][] letters)

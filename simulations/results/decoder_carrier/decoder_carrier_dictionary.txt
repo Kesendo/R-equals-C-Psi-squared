@@ -97,3 +97,54 @@ The decoder and the front: J = 1, gamma = 0.05 (Q = 20), open XY chain, single-e
   packet width 2.0   PR mean 1.22   linear letter: mean -0.657, range -0.879 .. -0.450, below -0.5 in  8 of 12   trajectory: mean -0.746, range -0.835 .. -0.605, below -0.5 in 12 of 12
   packet width 4.0   PR mean 1.17   linear letter: mean -0.416, range -0.445 .. -0.322, below -0.5 in  0 of 12   trajectory: mean -0.643, range -0.649 .. -0.635, below -0.5 in 12 of 12
   correlation of PR with the worst cos over all 132 carriers: linear letter +0.680, trajectory +0.811
+
+[5] at equal cost: per-shot Fisher information of the full Z-position readout (one shot, one position),
+    every bond's relative delta a parameter; lambda_min = the worst direction, every bond jointly
+  handshake 1: max over K in (0,1] of the bond-0 FI at N = 4, Q = 20, forward difference at 0.02: 1.5934 (ReadingPowerWitness reads 1.5934)
+  handshake 2: N = 7, Q = 1.5, THE_BOND_AND_THE_SEAT_WITH_FINITE_SHOTS's baseline schedule (uniform profile), 1e5 shots per time, summed over its 1e6 shots, additive units: psi1 190443 (that page: 190,443); on the same schedule the centre site 6421954, site 0 29389
+  the same on that page's selected schedule (its exchange search for psi1): psi1 344084 (that page: 344,084), centre site 11584496, site 0 64723
+  Q = 20, the decoder's window (60 equal-split times on (0, 1/gamma]): lambda_min, the overlap of its eigenvector with the uniform rescaling u = (1, .., 1)/sqrt(N-1) of every bond, lambda_min on the directions orthogonal to u, and the worst single-bond variance bound max_b (F^-1)_bb, all per shot
+    N = 5  bonding mode psi1  lambda_min 2.400e-03, overlap with u 0.997, lambda_min orthogonal to u 2.199e-02, max_b (F^-1)_bb 1.353e+02
+    N = 5  site 0             lambda_min 2.602e-01, overlap with u 0.010, lambda_min orthogonal to u 2.604e-01, max_b (F^-1)_bb 2.154e+00
+    N = 5  centre site        lambda_min 2.234e-01, overlap with u 0.323, lambda_min orthogonal to u 2.408e-01, max_b (F^-1)_bb 2.733e+00
+    N = 5  end mixture        lambda_min 6.776e-02, overlap with u 0.000, lambda_min orthogonal to u 6.776e-02, max_b (F^-1)_bb 7.691e+00
+    N = 7  bonding mode psi1  lambda_min 1.835e-03, overlap with u 0.998, lambda_min orthogonal to u 7.779e-03, max_b (F^-1)_bb 1.352e+02
+    N = 7  site 0             lambda_min 2.174e-01, overlap with u 0.008, lambda_min orthogonal to u 2.175e-01, max_b (F^-1)_bb 3.012e+00
+    N = 7  centre site        lambda_min 1.387e-01, overlap with u 0.000, lambda_min orthogonal to u 1.387e-01, max_b (F^-1)_bb 2.912e+00
+    N = 7  end mixture        lambda_min 6.887e-02, overlap with u 0.000, lambda_min orthogonal to u 6.887e-02, max_b (F^-1)_bb 8.674e+00
+    N = 9  bonding mode psi1  lambda_min 1.526e-03, overlap with u 0.998, lambda_min orthogonal to u 4.234e-03, max_b (F^-1)_bb 1.428e+02
+    N = 9  site 0             lambda_min 1.852e-01, overlap with u 0.020, lambda_min orthogonal to u 1.854e-01, max_b (F^-1)_bb 4.294e+00
+    N = 9  centre site        lambda_min 1.488e-01, overlap with u 0.000, lambda_min orthogonal to u 1.488e-01, max_b (F^-1)_bb 3.418e+00
+    N = 9  end mixture        lambda_min 6.520e-02, overlap with u 0.000, lambda_min orthogonal to u 6.520e-02, max_b (F^-1)_bb 1.038e+01
+  Q = 20: lambda_min per shot on equal-split schedules of 60 times over K = gamma t in (0, 1], (0, 3], (0, 10], and at the best single time of the three grids; mean single-bond F_bb at the best of these
+    N = 5  bonding mode psi1  lambda_min K<=1 2.40e-03, K<=3 9.01e-04, K<=10 3.78e-04, best single time 3.54e-03; best 3.54e-03; mean F_bb at the best 3.52e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.20
+    N = 5  mode psi2          lambda_min K<=1 1.47e-03, K<=3 5.09e-04, K<=10 9.54e-05, best single time 2.98e-03; best 2.98e-03; mean F_bb at the best 5.29e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.20
+    N = 5  site 0             lambda_min K<=1 2.60e-01, K<=3 8.68e-02, K<=10 3.12e-03, best single time 8.39e-01; best 8.39e-01; mean F_bb at the best 1.70e+00; decoder's single-bond efficiency (K<=1, mean over bonds) 0.56
+    N = 5  centre site        lambda_min K<=1 2.23e-01, K<=3 8.13e-02, K<=10 5.33e-03, best single time 1.11e+00; best 1.11e+00; mean F_bb at the best 1.75e+00; decoder's single-bond efficiency (K<=1, mean over bonds) 0.67
+    N = 5  end mixture        lambda_min K<=1 6.78e-02, K<=3 2.05e-02, K<=10 7.74e-04, best single time 2.01e-01; best 2.01e-01; mean F_bb at the best 9.76e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.63
+    N = 7  bonding mode psi1  lambda_min K<=1 1.83e-03, K<=3 6.45e-04, K<=10 1.37e-04, best single time 5.72e-04; best 1.83e-03; mean F_bb at the best 2.52e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.20
+    N = 7  mode psi2          lambda_min K<=1 1.31e-03, K<=3 4.54e-04, K<=10 9.49e-05, best single time 6.98e-04; best 1.31e-03; mean F_bb at the best 2.42e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.13
+    N = 7  site 0             lambda_min K<=1 2.17e-01, K<=3 7.38e-02, K<=10 1.34e-02, best single time 3.36e-01; best 3.36e-01; mean F_bb at the best 1.29e+00; decoder's single-bond efficiency (K<=1, mean over bonds) 0.40
+    N = 7  centre site        lambda_min K<=1 1.39e-01, K<=3 3.04e-02, K<=10 4.55e-03, best single time 7.91e-01; best 7.91e-01; mean F_bb at the best 1.82e+00; decoder's single-bond efficiency (K<=1, mean over bonds) 0.40
+    N = 7  end mixture        lambda_min K<=1 6.89e-02, K<=3 2.43e-02, K<=10 3.86e-03, best single time 1.21e-01; best 1.21e-01; mean F_bb at the best 7.55e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.49
+    N = 9  bonding mode psi1  lambda_min K<=1 1.53e-03, K<=3 5.23e-04, K<=10 8.55e-05, best single time 1.64e-04; best 1.53e-03; mean F_bb at the best 2.54e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.32
+    N = 9  mode psi2          lambda_min K<=1 9.70e-04, K<=3 3.38e-04, K<=10 6.93e-05, best single time 6.77e-04; best 9.70e-04; mean F_bb at the best 2.37e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.48
+    N = 9  site 0             lambda_min K<=1 1.85e-01, K<=3 5.92e-02, K<=10 1.11e-02, best single time 2.14e-01; best 2.14e-01; mean F_bb at the best 9.44e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.34
+    N = 9  centre site        lambda_min K<=1 1.49e-01, K<=3 5.02e-02, K<=10 1.19e-02, best single time 6.44e-01; best 6.44e-01; mean F_bb at the best 1.59e+00; decoder's single-bond efficiency (K<=1, mean over bonds) 0.37
+    N = 9  end mixture        lambda_min K<=1 6.52e-02, K<=3 2.11e-02, K<=10 2.36e-03, best single time 6.47e-02; best 6.52e-02; mean F_bb at the best 3.12e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.36
+  Q = 1.5: lambda_min per shot on equal-split schedules of 60 times over K = gamma t in (0, 1], (0, 3], (0, 10], and at the best single time of the three grids; mean single-bond F_bb at the best of these
+    N = 5  bonding mode psi1  lambda_min K<=1 1.77e-03, K<=3 2.46e-03, K<=10 7.39e-04, best single time 6.56e-03; best 6.56e-03; mean F_bb at the best 6.66e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.70
+    N = 5  mode psi2          lambda_min K<=1 6.58e-04, K<=3 2.92e-03, K<=10 9.21e-04, best single time 8.79e-03; best 8.79e-03; mean F_bb at the best 3.85e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.64
+    N = 5  site 0             lambda_min K<=1 1.94e-03, K<=3 4.18e-02, K<=10 1.65e-02, best single time 8.34e-02; best 8.34e-02; mean F_bb at the best 2.56e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.55
+    N = 5  centre site        lambda_min K<=1 1.34e-01, K<=3 9.58e-02, K<=10 2.89e-02, best single time 2.71e-01; best 2.71e-01; mean F_bb at the best 5.63e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.64
+    N = 5  end mixture        lambda_min K<=1 1.16e-02, K<=3 2.33e-02, K<=10 7.00e-03, best single time 6.02e-02; best 6.02e-02; mean F_bb at the best 2.28e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.80
+    N = 7  bonding mode psi1  lambda_min K<=1 3.62e-04, K<=3 1.71e-03, K<=10 5.74e-04, best single time 1.96e-03; best 1.96e-03; mean F_bb at the best 3.88e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.32
+    N = 7  mode psi2          lambda_min K<=1 7.74e-03, K<=3 5.10e-03, K<=10 1.63e-03, best single time 1.80e-02; best 1.80e-02; mean F_bb at the best 4.92e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.30
+    N = 7  site 0             lambda_min K<=1 5.86e-06, K<=3 6.33e-03, K<=10 7.63e-03, best single time 2.19e-02; best 2.19e-02; mean F_bb at the best 1.31e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.18
+    N = 7  centre site        lambda_min K<=1 1.93e-02, K<=3 5.26e-02, K<=10 1.63e-02, best single time 9.52e-02; best 9.52e-02; mean F_bb at the best 3.49e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.70
+    N = 7  end mixture        lambda_min K<=1 4.97e-04, K<=3 1.16e-02, K<=10 3.52e-03, best single time 2.07e-02; best 2.07e-02; mean F_bb at the best 1.18e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.86
+    N = 9  bonding mode psi1  lambda_min K<=1 1.48e-04, K<=3 1.27e-03, K<=10 5.58e-04, best single time 7.57e-04; best 1.27e-03; mean F_bb at the best 2.11e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.58
+    N = 9  mode psi2          lambda_min K<=1 2.59e-04, K<=3 5.66e-04, K<=10 4.00e-04, best single time 1.31e-04; best 5.66e-04; mean F_bb at the best 1.83e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.75
+    N = 9  site 0             lambda_min K<=1 6.52e-09, K<=3 4.19e-04, K<=10 3.70e-03, best single time 7.50e-03; best 7.50e-03; mean F_bb at the best 7.91e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.10
+    N = 9  centre site        lambda_min K<=1 1.77e-03, K<=3 2.78e-02, K<=10 1.00e-02, best single time 2.99e-02; best 2.99e-02; mean F_bb at the best 2.39e-01; decoder's single-bond efficiency (K<=1, mean over bonds) 0.55
+    N = 9  end mixture        lambda_min K<=1 1.60e-05, K<=3 4.26e-03, K<=10 2.01e-03, best single time 7.94e-03; best 7.94e-03; mean F_bb at the best 7.39e-02; decoder's single-bond efficiency (K<=1, mean over bonds) 0.75

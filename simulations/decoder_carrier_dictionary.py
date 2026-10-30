@@ -19,6 +19,8 @@ point). A letter is the derivative of a reading with respect to one bond's delta
       carrier the alpha rescaling picture does not describe the data (hypotheses/PERSPECTIVAL_TIME_FIELD.md,
       "Where it degrades"), so that column reads a projection, not a fit the painters would accept.
   [2b] stationary carriers (mixtures of modes, [H, rho] = 0) against moving ones, both observables.
+  [5] at equal cost: the per-shot Fisher information of the full Z-position readout for several carriers and
+      schedules, two handshakes with the house's Fisher apparatus, and the efficiency of the decoder's own estimate.
   [4] random carriers at N = 7: built on m modes, or smooth site packets; the worst signed cos of [3]
       against the mode participation PR = 1 / sum_k |<psi_k|phi>|^4.
 Output: simulations/results/decoder_carrier/decoder_carrier_dictionary.txt
@@ -292,12 +294,119 @@ def part_four():
         % (len(allv), np.corrcoef(allv[:, 0], allv[:, 1])[0, 1], np.corrcoef(allv[:, 0], allv[:, 2])[0, 1]))
 
 
+# ---- [5] at equal cost: the Fisher information of the shots ----
+def position_fisher(n, rho0, times, eps=1e-5):
+    """Per-time categorical Fisher matrices of one Z shot (the excitation's position), every bond's relative delta
+    a parameter: F_ab(t) = sum_j dp_j/da dp_j/db / p_j. Returns (F per time, p, dp)."""
+    p = populations(n, np.zeros(n - 1), rho0, times)[0]
+    dp = []
+    for b in range(n - 1):
+        e = np.zeros(n - 1)
+        e[b] = eps
+        dp.append((populations(n, e, rho0, times)[0] - populations(n, -e, rho0, times)[0]) / (2 * eps))
+    dp = np.array(dp)
+    w = np.where(p > 1e-13, 1.0 / np.maximum(p, 1e-300), 0.0)
+    return np.einsum("ats,bts,ts->tab", dp, dp, w), p, dp
+
+
+def decoder_efficiency(n, rho0, times, bond):
+    """The decoder's own estimate of one known bond's delta from equal-split shots on the schedule: the projection
+    of the linear letters, linear in the measured populations; its per-shot variance by propagation through the
+    multinomial covariance, set against the single-bond Cramer-Rao bound 1/F_bb of the same shots."""
+    Ft, p, dp = position_fisher(n, rho0, times)
+    F = Ft.mean(0)
+    pdot = populations(n, np.zeros(n - 1), rho0, times)[1]
+    sl = -2 * (1 - 2 * p)
+    g = times[:, None] * sl * pdot
+    den = (g * g).sum(0)
+    letter = np.array([(g * sl * dp[k]).sum(0) / den for k in range(n - 1)])
+    fb = letter[bond]
+    c = fb[None, :] * g * sl / den[None, :] / (fb @ fb)
+    var = sum(c[t] @ ((np.diag(p[t]) - np.outer(p[t], p[t])) * len(times)) @ c[t] for t in range(len(times)))
+    return (1 / F[bond, bond]) / var, float((c * dp[bond]).sum())
+
+
+def part_five():
+    global J
+    say("")
+    say("[5] at equal cost: per-shot Fisher information of the full Z-position readout (one shot, one position),")
+    say("    every bond's relative delta a parameter; lambda_min = the worst direction, every bond jointly")
+    # the two handshakes with the house's Fisher apparatus
+    J = 1.0
+    times = (1 / GAMMA) * np.arange(1, 81) / 80
+    rho = np.outer(mode(4, 1), mode(4, 1))
+    p0 = populations(4, np.zeros(3), rho, times)[0]
+    p1 = populations(4, np.array([0.02, 0, 0]), rho, times)[0]
+    say("  handshake 1: max over K in (0,1] of the bond-0 FI at N = 4, Q = 20, forward difference at 0.02: %.4f"
+        " (ReadingPowerWitness reads 1.5934)" % (((p1 - p0) / 0.02) ** 2 / p0).sum(1).max())
+    J = 0.075
+    sched = np.array([2, 4, 6, 8, 10, 12, 15, 18, 24, 30], float)
+    vals = []
+    for v in (mode(7, 1), unit(7, 3), unit(7, 0)):
+        Ft = position_fisher(7, np.outer(v, v), sched)[0]
+        vals.append(np.linalg.eigvalsh(Ft.sum(0) * 1e5 / J ** 2).min())
+    say("  handshake 2: N = 7, Q = 1.5, THE_BOND_AND_THE_SEAT_WITH_FINITE_SHOTS's baseline schedule (uniform profile), 1e5 shots"
+        " per time, summed over its 1e6 shots, additive units: psi1 %.0f (that page: 190,443); on the same schedule the centre"
+        " site %.0f, site 0 %.0f" % tuple(vals))
+    sel = np.array([8.5, 9, 9.5, 10, 10.5, 24, 25.5, 27, 28.5, 30])
+    vals = []
+    for v in (mode(7, 1), unit(7, 3), unit(7, 0)):
+        Ft = position_fisher(7, np.outer(v, v), sel)[0]
+        vals.append(np.linalg.eigvalsh(Ft.sum(0) * 1e5 / J ** 2).min())
+    say("  the same on that page's selected schedule (its exchange search for psi1): psi1 %.0f (that page: 344,084), centre"
+        " site %.0f, site 0 %.0f" % tuple(vals))
+    J = 1.0
+    say("  Q = 20, the decoder's window (60 equal-split times on (0, 1/gamma]): lambda_min, the overlap of its eigenvector with"
+        " the uniform rescaling u = (1, .., 1)/sqrt(N-1) of every bond, lambda_min on the directions orthogonal to u, and the"
+        " worst single-bond variance bound max_b (F^-1)_bb, all per shot")
+    win = np.linspace(1 / GAMMA / 60, 1 / GAMMA, 60)
+    for n in (5, 7, 9):
+        m = n - 1
+        u = np.ones(m) / np.sqrt(m)
+        Vc = np.linalg.svd(np.eye(m) - np.outer(u, u))[0][:, :m - 1]
+        for name, rho0 in (("bonding mode psi1", np.outer(mode(n, 1), mode(n, 1))), ("site 0", np.outer(unit(n, 0), unit(n, 0))),
+                           ("centre site", np.outer(unit(n, n // 2), unit(n, n // 2))),
+                           ("end mixture", 0.5 * (np.outer(unit(n, 0), unit(n, 0)) + np.outer(unit(n, n - 1), unit(n, n - 1))))):
+            F = position_fisher(n, rho0, win)[0].mean(0)
+            w, V = np.linalg.eigh(F)
+            say("    N = %d  %-18s lambda_min %.3e, overlap with u %.3f, lambda_min orthogonal to u %.3e, max_b (F^-1)_bb %.3e"
+                % (n, name, w[0], abs(V[:, 0] @ u), np.linalg.eigvalsh(Vc.T @ F @ Vc).min(), np.diag(np.linalg.inv(F)).max()))
+    for Jq, label in ((1.0, "Q = 20"), (0.075, "Q = 1.5")):
+        J = Jq
+        say("  %s: lambda_min per shot on equal-split schedules of 60 times over K = gamma t in (0, 1], (0, 3], (0, 10],"
+            " and at the best single time of the three grids; mean single-bond F_bb at the best of these" % label)
+        for n in (5, 7, 9):
+            car = [("bonding mode psi1", np.outer(mode(n, 1), mode(n, 1))), ("mode psi2", np.outer(mode(n, 2), mode(n, 2))),
+                   ("site 0", np.outer(unit(n, 0), unit(n, 0))), ("centre site", np.outer(unit(n, n // 2), unit(n, n // 2))),
+                   ("end mixture", 0.5 * (np.outer(unit(n, 0), unit(n, 0)) + np.outer(unit(n, n - 1), unit(n, n - 1))))]
+            for name, rho0 in car:
+                cols, best, best_f, ls = [], 0.0, None, 0.0
+                for K in (1, 3, 10):
+                    Ft = position_fisher(n, rho0, np.linspace(K / GAMMA / 60, K / GAMMA, 60))[0]
+                    F = Ft.mean(0)
+                    lm = np.linalg.eigvalsh(F).min()
+                    cols.append(lm)
+                    if lm > best:
+                        best, best_f = lm, F
+                    for f in Ft:
+                        lt = np.linalg.eigvalsh(f).min()
+                        ls = max(ls, lt)
+                        if lt > best:
+                            best, best_f = lt, f
+                eff = np.mean([decoder_efficiency(n, rho0, np.linspace(1 / GAMMA / 60, 1 / GAMMA, 60), b)[0] for b in range(n - 1)])
+                say("    N = %d  %-18s lambda_min K<=1 %.2e, K<=3 %.2e, K<=10 %.2e, best single time %.2e; best %.2e;"
+                    " mean F_bb at the best %.2e; decoder's single-bond efficiency (K<=1, mean over bonds) %.2f"
+                    % (n, name, cols[0], cols[1], cols[2], ls, best, np.mean(np.diag(best_f)), eff))
+    J = 1.0
+
+
 def main():
     say("The decoder and the front: J = 1, gamma = 0.05 (Q = 20), open XY chain, single-excitation block")
     part_one()
     part_two_three()
     part_two_b()
     part_four()
+    part_five()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_bytes(("\n".join(LINES) + "\n").encode("utf-8"))
 

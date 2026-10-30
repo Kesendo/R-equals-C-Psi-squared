@@ -45,7 +45,14 @@ magnitude** `0.0075` (`10% J_hop`), can ideal Z-position counts identify its
 bond and unknown sign from the two declared candidate signs?
 
 The prepared state is the nominal highest-energy standing wave `psi1` of the
-unperturbed seven-site open chain, held fixed under every defect. In the
+unperturbed seven-site open chain, held fixed under every defect. It is one prepared
+state among others (the nodeless sine, the bonding mode of
+[THE_DECODER_AND_THE_FRONT](THE_DECODER_AND_THE_FRONT.md); populations do not see the
+sign of H): on the baseline schedule below (uniform profile), one excitation prepared
+on the centre site has a smallest full-position Fisher eigenvalue 34 times that of `psi1`
+(6,421,954 against 190,443), one prepared on site 0 only 0.15 times (29,389), and on the
+selected schedule 34 times again (11,584,496 against 344,084). The classifier here was
+run on `psi1` only. In the
 single-excitation block,
 
 ```text
