@@ -721,4 +721,15 @@ public class InspectRootCatalogTests
         var bad = new InspectRootContext(new ArgParser(new[] { "--J", "0.5" }), N: 2, WithQSweep: false, WithMeasured: false, QGridPoints: null);
         Assert.Throws<ArgumentException>(() => entry.Factory(bad));
     }
+
+    [Fact]
+    public void Catalog_LeastRankRoot_IsRegisteredBeforeTheWorld_AndNamesItsClaim()
+    {
+        // the factory itself runs the exact decision (minutes); its numbers are pinned in ThermalElementLeastRankWitnessTests
+        var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "leastrank");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("MirrorLocalityBoundClaim", entry.Description);
+        var names = InspectCommand.Catalog.Select(e => e.Name).ToList();
+        Assert.True(names.IndexOf("leastrank") < names.IndexOf("world"));
+    }
 }

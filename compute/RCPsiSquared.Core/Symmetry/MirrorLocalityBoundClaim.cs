@@ -33,9 +33,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// first site, the bound reads 2 + 1 + 1, and rank 4 is excluded exactly (Gröbner over ℚ(i)) for the elements that keep d, without ZZ
 /// and with ZZ at Δ = 1, and for those that reverse d, without ZZ; with ZZ none reverses d (L on the order-1 sector
 /// shares no eigenvalue with its conjugate); rank 5 is reached numerically by one that keeps d, without
-/// ZZ (block ranks 0, 1, 3, 1, 0, held to 80 digits). Why five is not known in words. Checked in
-/// simulations/kms_element_least_rank.py, a witness not yet ported here (the exclusion is a Gröbner computation). The
-/// tier is the bound's; the two-site least rank is an exact exclusion and a numerical point.</para>
+/// ZZ (block ranks 0, 1, 3, 1, 0, held to 80 digits). Why five is not known in words. The exclusion and the
+/// no-reversal reason are live in the witness <c>ThermalElementLeastRankWitness</c> (Diagnostics,
+/// <c>inspect --root leastrank</c>: each chart's Gröbner run over GF(p) replayed exactly over ℚ(i) to a nonzero
+/// constant); the rank-5 point and the reading stay in simulations/kms_element_least_rank.py, which is also the
+/// exclusion's second route (sympy's Gröbner over ℚ(i)). The tier is the bound's; the two-site least rank is an exact
+/// exclusion and a numerical point.</para>
 ///
 /// <para>Parents: <see cref="PalindromeTwoEndCountClaim"/> (the existence by similarity the bound presupposes)
 /// and <see cref="F84ThermalAmplitudeDampingPi2Inheritance"/> (the thermal channel σ⁻/σ⁺ at unequal rates as a
@@ -94,7 +97,8 @@ public sealed class MirrorLocalityBoundClaim : Claim
                 "every chart over the two scalings that are symmetries, for elements keeping d (without ZZ and with ZZ at Δ = 1) and " +
                 "reversing d (without ZZ); with ZZ none reverses d, L on the order-1 sector sharing no eigenvalue with its conjugate. Rank 5 reached numerically, without ZZ, by an element keeping d, block ranks 0, 1, 3, " +
                 "1, 0, its tails following the digits kept (20, 40, 80); there R_0 has the rank 3 of its population block. " +
-                "simulations/kms_element_least_rank.py; not yet ported to C#.");
+                "Live: ThermalElementLeastRankWitness (inspect --root leastrank), every chart a modular trace replayed exactly; " +
+                "the rank-5 point and a second route of the exclusion in simulations/kms_element_least_rank.py.");
             yield return new InspectableNode(
                 "what stays open",
                 "At that rate point, the least Schmidt rank of an element that mixes the coherence orders; whether one that " +

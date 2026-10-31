@@ -8,7 +8,8 @@ reproduced exactly, each with a control that fails, in
 [`simulations/cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py) (56 checks, ALL PASS), and
 the bound also lives in C# (`MirrorLocalityBoundWitness`, `inspect --root locality`). The least rank at two sites is
 computed in [`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py), exact where it says
-so and numerical at the rank-5 point; where a statement below rests on an argument or on a computation rather than on
+so and numerical at the rank-5 point; its exact exclusion of rank 4 also lives in C# (`ThermalElementLeastRankWitness`,
+`inspect --root leastrank`). Where a statement below rests on an argument or on a computation rather than on
 a check, it says so.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
@@ -72,7 +73,8 @@ elements) is not stated here; nothing on a charge-graded Schmidt rank. By name: 
 F137 and F158 §(f8) and no F-number on an element's locality; `fw.Confirmations` holds hardware entries only, none on
 an element; the glossary has no Schmidt-rank entry; `docs/CAUGHT_ERRORS.md` has none on rank searches. Typed layer:
 `MirrorLocalityBoundClaim` named the least rank open and has no child claims; the OpenArcs registry holds nothing on
-it; no Diagnostics witness splits a Schmidt rank by charge; F137 holds S_XY's reflection onto −L† − c at any rates and
+it; the one Diagnostics witness that splits a Schmidt rank by charge is this finding's own port,
+`ThermalElementLeastRankWitness`; F137 holds S_XY's reflection onto −L† − c at any rates and
 that thermal jumps keep the coherence order which S_XY reverses; MirrorWorld's
 `AntilinearTriangle.ThermalTransposeResiduals` is Γ_β at one ratio, Theodolite reads S_XY under a gradient and is
 silent for Π's shape. Adjacency, checked by a third scout and read at the source: PROOF_ANTILINEAR_TRIANGLE line 158
@@ -256,8 +258,9 @@ solutions, the roots of three quadratics over ℚ(i), with a lex basis in shape 
 polynomial in one); none of them extends to the full system, which is empty. The equations of the sectors d ≤ 0 have
 the mirror solutions under ρ ↦ ρ†, which commutes with L, flips d and, applied on both sides, keeps a map linear and
 its block ranks up to δ ↦ −δ. The computations of this and the previous paragraph are in
-[`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py): A exact, B exact over ℚ(i), C the
-rank-5 point as a law, D the six solutions exact and the population block at the rank-5 point as a law; the mirror and
+[`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py): A exact, B exact over ℚ(i)
+(its exclusion a second time in C#, each chart's Gröbner run over GF(p) replayed exactly over ℚ(i) to a nonzero
+constant), C the rank-5 point as a law, D the six solutions exact and the population block at the rank-5 point as a law; the mirror and
 the remark on normalising rest on the one-line arguments given with them. Keeping and reversing d do not exhaust the
 elements: the solution spaces of the two classes share the maps of the order-zero sector onto itself and together span
 28 of the 36 dimensions (20 of 28 with ZZ), the rest mixing the orders.

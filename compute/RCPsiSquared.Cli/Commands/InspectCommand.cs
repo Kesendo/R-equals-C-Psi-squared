@@ -1181,6 +1181,13 @@ public static class InspectCommand
             "Args: --N (2..4, default 2), --down 3,2 --up 1,1 (integer rates per site), --J 1, --delta 0, --cut 1 (integers)",
             c => BuildLocalityRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 2),
             RequiresN: false, HonorsOptionalN: true),
+        new("leastrank", "THE LEAST SCHMIDT RANK OF A THERMAL ELEMENT ON TWO SITES (experiments/THE_CUBE_SITE_BY_SITE.md finding 1; " +
+            "claim MirrorLocalityBoundClaim, its node 'the least rank at two sites'): at γ↓ = (3, 2), γ↑ = (1, 1), J = 1, rank 4 " +
+            "excluded exactly for the elements keeping the coherence order (without ZZ and with ZZ at Δ = 1) and for those reversing it " +
+            "(without ZZ; with ZZ none reverses it, a resultant over ℤ[i]). Each chart: Buchberger over GF(p) with a trace, then the " +
+            "trace's route to the constant replayed exactly over ℚ(i), an ideal combination giving a nonzero constant; one control at " +
+            "one temperature. No arguments; the rate point is the documented one. Takes minutes (every chart decided when built)",
+            _ => new ThermalElementLeastRankWitness(), RequiresN: false),
         new("world", "the whole Object Manager: every root, the typed claims, the hardware confirmations, the open-arcs ledger, and the glossary (try --root glossary first if the language is new)",
             BuildWorldRoot, DefaultDepth: 2, RequiresN: false),
     };
