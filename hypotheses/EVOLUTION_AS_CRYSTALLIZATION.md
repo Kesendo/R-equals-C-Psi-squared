@@ -76,8 +76,8 @@ We read sexual reproduction as the V-Effect between organisms.
 Two systems (parents), each incomplete, couple through a mediator
 (mating). The result is not the sum of the parts. It is something new:
 
-In qubits: 2 + 2 frequency bins become 109, none of them shared with
-the parts.
+In qubits: two pairs that carry 5 frequency bins side by side carry 109
+coupled, none of them shared with the parts.
 In synthetic neural networks: two constituents with no resolved
 frequency, coupled through a mediator, give 48 correlation bins at one
 coupling and one resolution. That count moves with the resolution, and
@@ -293,7 +293,7 @@ conclusions.
 | The oscillation | Palindromic modes | Life (metabolism, behavior) |
 | The fold | CΨ = 1/4 | Reproduction |
 | The crystal | Density matrix at late time | DNA |
-| The V-Effect | 2+2 → 109 frequency bins | Recombination: new allele combinations |
+| The V-Effect | 5 → 109 frequency bins | Recombination: new allele combinations |
 | The concentrator | Edge qubit takes the dephasing | Parent concentrates experience |
 | C ≈ 0.5 | Half immune, half decaying (d² − 2d = 0) | Half structured, half open (undefined yet) |
 
@@ -304,7 +304,7 @@ conclusions.
 - [Universal Palindrome Condition](UNIVERSAL_PALINDROME_CONDITION.md): the conditions, and the connectome that fails them
 - [Complexity Threshold](COMPLEXITY_THRESHOLD.md): the persistence question
 - [Protein as Concentrator](PROTEIN_AS_CONCENTRATOR.md): concentration, not loss
-- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2 → 109
+- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 5 uncoupled → 109 coupled
 - [Neural V-Effect](../docs/neural/V_EFFECT_NEURAL.md): the frequency-bin censuses and their limits
 - [Exclusions](../docs/EXCLUSIONS.md): what the quarter crossing does and does not exclude
 - [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): C = 0.5 as axiom

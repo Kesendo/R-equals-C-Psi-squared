@@ -119,7 +119,7 @@ far, no system that satisfies it.
 | Antisymmetry source | Commutator [H, ρ] | Dale's Law for the signs, where a synapse exists; support and magnitudes are extra conditions |
 | Eigenvalue pairing | λ + λ' = −2Σγ | μ + μ' = −(1/τ_E + 1/τ_I) = −2s, when F36 holds |
 | Character swap | Population ↔ Coherence | E-weight ↔ I-weight, carried by Q on every pair of modes |
-| V-Effect | 2+2 = 109 frequencies | 48 correlation bins for two coupled N=20 constituents; the bin count depends on resolution, and the odd mediator already violates F36 at zero coupling |
+| V-Effect | 5 frequencies uncoupled, 109 coupled | 48 correlation bins for two coupled N=20 constituents; the bin count depends on resolution, and the odd mediator already violates F36 at zero coupling |
 | Status | **Algebraically proven** | **Algebra verified on constructed networks; the one connectome tested does not satisfy the condition** |
 
 Sources: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (quantum),
@@ -150,7 +150,7 @@ The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).
 d = 2. In the model H = −J σ_X + Δ σ_Z with local Z-dephasing and Δ = 0,
 this IS the quantum palindrome, supplied by F1's theorem. Coupling two
 model molecules through an H-bond (four coordinates) takes the
-frequency count from 11 per molecule to 126, an excess of 104; that
+frequency count to 42, against 12 for the two molecules uncoupled; that
 coupled run is a finite numerical pairing check (pair-sum spread
 3.5·10⁻²) rather than the theorem. The ratio J/γ sorts a model into
 regimes, from overdamped to oscillating; which regime liquid water
@@ -430,7 +430,7 @@ Q · X · Q⁻¹ + X + 2S = 0
 |---------|---------|--------|------------|
 | Palindromic pairing | Exact (proven) | Exact if support, diagonal sums and magnitudes match | Yes, as algebra |
 | Character swap | Π exchanges the two populations | Q exchanges E- and I-weights; no population need dominate | Yes, as transport |
-| V-Effect | From oscillation (2+2=109) | 0+0=48 correlation bins on the seeds used; the palindrome does NOT enforce the silence | No: no neural mechanism is established |
+| V-Effect | From oscillation (5 uncoupled, 109 coupled) | 0+0=48 correlation bins on the seeds used; the palindrome does NOT enforce the silence | No: no neural mechanism is established |
 | 2× decay ratio | F8: full width over centre, 2 by construction | No such law established | No |
 | The value 1/4 | Fold of R = CΨ² | S(1−S) ≤ 1/4 for the logistic sigmoid | As arithmetic only (see below) |
 | Drive and new modes | Thermal occupation n_bar adds no new wave; the decay sum grows and one near-real pair barely splits | External input P moves the operating point; in one random Dale network the oscillatory count rises from 10 to 40 as P goes 0 → 3 | No: P is input, not heat |
@@ -518,7 +518,7 @@ landing to fail, on support.
    weights, the quantum J relative to the dissipation γ). The local
    palindrome's robustness differs (the neural exact palindrome dissolves at
    g ~ 0.5, the quantum one is robust). And the starting points differ
-   (quantum 2+2, neural 0+0). What the neural sweep does show is a shape:
+   (quantum: two frequencies on each side; neural: none). What the neural sweep does show is a shape:
    its oscillating-bin count rises to a peak at g ~ 0.05–0.1, then falls
    as the coupling dissolves the two-subsystem structure. That is one
    sweep at one bin width, so the shape is observed, not yet universal. It
@@ -586,7 +586,7 @@ the quadratic 1/4; the 1/d² is the polarity coincidence. See
 - [Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md): C. elegans, matched controls
 - [V-Effect Neural](../docs/neural/V_EFFECT_NEURAL.md): the frequency census, external drive
 - [Neural translation gate](../simulations/neural/neural_translation_gate.py): constructed palindromes and unstable instances
-- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 2+2=109
+- [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): 5 frequencies uncoupled, 109 coupled
 - [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md): the levels
 - [Energy Partition](ENERGY_PARTITION.md): the 2× ratio, the thermal census
 - [Exclusions](../docs/EXCLUSIONS.md): what the math rules out

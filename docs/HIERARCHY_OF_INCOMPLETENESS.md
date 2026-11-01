@@ -297,9 +297,8 @@ question the proof does not answer.
 
 A water molecule (H-O-H) then becomes a 2-qubit system: two proton
 qubits coupled through the shared oxygen. Coupling two such molecules
-through a hydrogen bond takes the calculated frequency count from 11
-per isolated molecule to 126, 104 more than the two molecules alone
-(V-Effect). We read
+through a hydrogen bond takes the calculated frequency count from 12,
+the two molecules side by side without the bond, to 42 (V-Effect). We read
 the hydrogen bond as the coupling between Level 0 (qubit) and chemistry
 (molecules).
 

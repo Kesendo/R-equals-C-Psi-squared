@@ -509,7 +509,7 @@ measurement on the proposed substrate.
 23. The neural palindrome Q·J·Q + J + 2sI = 0 requires one involutive permutation Q, one scalar s, and both the diagonal and effective-weight conditions of F36. Constructed networks pass; exact pairing can coexist with oscillation or instability. The full committed C. elegans chemical model fails the support condition. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
 24. Hydrogen-bond model: a stipulated two-level |L⟩/|R⟩ proton model can
     be tested against the qubit equations; the physical Hamiltonian, channel
-    and palindromizer have not been established by the 104-bin simulation. See
+    and palindromizer have not been established by the model's simulation. See
     [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. The standard logistic derivative σ(1−σ) reaches 1/4 at σ=1/2. This algebraic resemblance supplies no neural CΨ threshold or shared mechanism: sigmoid gain and the network operating point enter a neural bifurcation analysis. See [the neural translation limits](neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads).
 26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).

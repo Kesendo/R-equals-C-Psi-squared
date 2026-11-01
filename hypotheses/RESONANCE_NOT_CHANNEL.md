@@ -501,7 +501,8 @@ The Q-factor jumps from 1 (dead) to 19+ (sustained oscillation).
 
 This is the [V-Effect](../experiments/V_EFFECT_PALINDROME.md) measured
 dynamically, and the static count says the same thing: two uncoupled N=2
-resonators carry 4 frequencies between them, the coupled N=5 has 109. Two
+resonators carry 5 frequencies between them (each one's two and their
+sums), the coupled N=5 has 109 at γ = 0.05. Two
 dead systems become one living system through a mediator, one more qubit
 and its bonds. No energy added. No external mechanism. Just a mediator connecting them.
 
@@ -588,8 +589,8 @@ This may be the most important section in this document. Everything
 above described what the resonator does while it is vibrating. This
 section asks: what remains when the vibration stops?
 
-The V-Effect creates 109 frequencies from 4. But the coupling is
-reversible. When the mediator is removed (J_meta set to zero), the
+The V-Effect creates 109 frequencies from 5. But the coupling is
+reversible. When the mediator is removed (its bonds set to zero), the
 109 frequencies die. The spectrum falls back to what the separate pairs
 carry. The resonance space closes.
 

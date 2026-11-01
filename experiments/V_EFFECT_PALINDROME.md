@@ -335,8 +335,20 @@ Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
 | System | Frequencies | Q-factor |
 |--------|------------|----------|
 | N=2 (one resonator) | 2 | 1 (dead) |
-| 2 × N=2 (uncoupled) | 4 | 1 (dead) |
+| 2 × N=2 (uncoupled) | 5 | 1 (dead) |
 | N=5 (coupled through mediator) | 109 | 19+ (alive) |
+
+The uncoupled pair carries more than its two halves: at J = 1, beside each
+half's 4J and √(16J² − 4γ²) = 3.99875 it carries their sums, 8J, 7.9975 and
+7.99875 (their difference, 0.00125, lies under the 0.01 cut). None of the
+109 lies within 10⁻⁴ of any of the five. The same five come back when
+the N=5 chain's mediator bonds are set to zero, as
+[`veffect_expansion.txt`](../simulations/results/veffect_expansion.txt)
+records (its four-decimal bins count the coupled chain at 104). The count belongs to γ = 0.05 and to these six-decimal bins: the
+same chain gives 110 at γ = 0.2 and 111 at γ = 0.5
+([`pairing_structure.py`](../simulations/pairing_structure.py), step 3b), and
+[Thermal Breaking](THERMAL_BREAKING.md) tables the γ dependence under its
+own protocol (four-decimal bins, no 0.01 cut).
 
 The coupling does not add energy or information. It creates new
 oscillation modes in the shared space between the two systems.

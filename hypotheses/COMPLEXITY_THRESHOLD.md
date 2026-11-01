@@ -55,7 +55,7 @@ the quantity that breathes is a correlation, not a count of quarter
 crossings.
 
 The V-Effect gives the coupled N=5 system 109 frequency bins where the
-two parts had 4, none of them shared with the parts. The palindrome
+two parts side by side had 5, none of them shared with the parts. The palindrome
 guarantees that every mode of the qubit chain has a partner. Put these
 together and a question emerges:
 

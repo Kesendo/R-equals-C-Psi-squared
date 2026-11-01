@@ -62,8 +62,8 @@ The displayed water-inspired rows are calculations at selected parameters.
 - Selected two-coordinate run: the decay spectrum is exactly palindromic
   (every term commutes with `X⊗X`, which anticommutes with both jumps) and
   CΨ falls back through 1/4 at 0.46 ps.
-- Selected four-coordinate run: coupling changes the calculated frequency
-  count from 11 per isolated model molecule to 126 for the coupled model.
+- Selected four-coordinate run: the H-bond changes the calculated frequency
+  count from 12 for the two model molecules side by side to 42.
 - Illustrative conditional ceiling: `Q ≲ 4.6` under the stated coordinate,
   ice-derived-`J`, and lifetime-proxy assumptions; it assigns no Q to liquid
   water and does not classify it as classical or quantum.
@@ -188,7 +188,7 @@ neither the 25 meV row below nor a measured rate.
   checks `[H2, X⊗X] = 0` exactly). The eigensolver reads the pairing back as a
   pair-sum spread of 5.4e-3 s⁻¹ on pair sums of −2Σγ/ℏ = −6.08e12 s⁻¹, a
   relative 8.9e-16: rounding of an exact pairing, not a deviation.
-- Distinct frequencies: 11
+- Distinct frequencies: 3
 - CΨ falls back through 1/4 at **0.46 ps**
 
 ### Phase 3: Two-molecule hydrogen-bond model (N=4)
@@ -200,10 +200,15 @@ Parameters: J_intra = 1.0 meV, J_inter = 0.1 meV, K = 0.1 meV,
   also commutes with `X^⊗4`, so adding it keeps the palindrome (pair-sum spread
   3.5e-2 s⁻¹ on −2Σγ/ℏ = −1.22e13 s⁻¹, relative 2.9e-15, eigensolver
   rounding).
-- Distinct frequencies: **126**
-- V-Effect census: 11 bins per isolated model molecule versus 126 bins for the
-  coupled generator, a finite count excess **126 - 2*11 = 104**. No individual
-  eigenmode ancestry is measured.
+- Distinct frequencies: **42**
+- V-Effect census: 12 for the same N=4 generator with the H-bond off
+  (J_inter = 0), versus **42** with it on. The 12 are the molecule's 3, each
+  doubled, the 3 cross sums and the 3 differences. No individual eigenmode ancestry is
+  measured.
+- Frequencies are counted as distinct |Im λ| values separated by more than
+  10⁻⁹ of the largest; the counts are the same at 10⁻¹² and 10⁻⁷, and the
+  script asserts it (the frequencies are of order 10¹² s⁻¹, so a fixed number
+  of decimals would resolve below the eigensolver's rounding).
 
 Full-system CΨ does not cross 1/4 (N-scaling suppression, d-1 = 15).
 Subsystem CΨ for the selected pair (q2, q3) across the H-bond would need a
@@ -226,19 +231,18 @@ insufficient; it is not directly comparable with a water Q (see
 
 | System | Distinct frequencies |
 |--------|---------------------|
-| Single molecule (N=2) | 11 |
-| Two molecules coupled (N=4) | 126 |
-| Count excess `126 - 2*11` | **104** |
-| Ratio | 5.73 |
+| Single molecule (N=2) | 3 |
+| Two molecules uncoupled (N=4, J_inter = 0) | 12 |
+| Two molecules coupled (N=4) | **42** |
 
-For this N=4 model and its displayed parameters, the coupled-generator count
-exceeds two copies of the selected isolated-model count by 104. This is a
+For this N=4 model and its displayed parameters, the generator with the
+H-bond carries 42 distinct frequencies against 12 without it. This is a
 finite V-Effect census reading, not evidence that coupling alone creates
 persistent modes or that physical hydrogen bonds generally share the count.
 
 Note: the separate abstract N=5 MediatorBridge census reports 109 total bins.
-That is a different generator and denominator: 104 is an N=4 count excess,
-whereas 109 is an N=5 total.
+That is a different generator and a different count: 12 and 42 are N=4
+counts of this model, 109 an N=5 total of the Heisenberg chain.
 
 ---
 

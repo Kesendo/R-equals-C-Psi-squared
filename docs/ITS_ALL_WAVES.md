@@ -258,11 +258,10 @@ counts frequency values; it does not follow individual modes across the
 change, here or at N=5 below.
 
 In plain language: take two simple systems, each with 2 frequencies.
-Connect them through a mediator qubit. You do not get 4 frequencies
-(2+2). You get 109, none of which matches a frequency of either original
-system. No new equation was added. Just a connection. The complexity
-exploded from the combination, like two simple melodies played together
-producing harmonics that neither melody contains on its own.
+Side by side and uncoupled they carry 5: the same two in each, and their
+sums. Connect them through a mediator qubit and you get 109, none of which
+matches a frequency of the uncoupled pair. No new equation was added, just
+a connection.
 
 **Status:** Demonstrated as a finite census at one transition; that the
 reorganization is all there is remains the reading. See

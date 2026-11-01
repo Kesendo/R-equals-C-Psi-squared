@@ -103,6 +103,30 @@ sy = np.array([[0, -1j], [1j, 0]], dtype=complex)
 sz = np.array([[1, 0], [0, -1]], dtype=complex)
 
 
+def distinct_frequencies(ev, rel=1e-9):
+    """Distinct |Im lambda| values, clustered by a gap RELATIVE to the largest frequency.
+
+    The frequencies here are in s^-1 (up to ~5e12), so absolute decimal rounding
+    resolves below the eigensolver's rounding and splits degenerate values at
+    random. Within a cluster the rounding spread is up to ~1.5e-14 of the top,
+    and the smallest true spacing in the coupled N=4 spectrum is ~1.8e-6 of it.
+    A relative gap of 1e-9 sits in between; the count is asserted to be the
+    same at 1e-12 and 1e-7, so it does not depend on the tolerance.
+    """
+    def count(r):
+        f = sorted(abs(e.imag) for e in ev)
+        top = f[-1]
+        f = [x for x in f if x > 1e-9 * top]
+        out = []
+        for x in f:
+            if not out or x - out[-1] > r * top:
+                out.append(x)
+        return out
+    vals = count(rel)
+    assert len(count(1e-12)) == len(vals) == len(count(1e-7)), "frequency count depends on the tolerance"
+    return vals
+
+
 def kron_list(mats):
     result = mats[0]
     for m in mats[1:]:
@@ -191,8 +215,7 @@ n_osc = np.sum(np.abs(ev2.imag) > 1e-3)
 pair_sum, pair_std, n_pairs = check_palindrome(L2)
 
 # Count distinct frequencies
-freqs = sorted(set(np.round(np.abs(ev2.imag), 4)))
-freqs = [f for f in freqs if f > 0.01]
+freqs = distinct_frequencies(ev2)
 
 print(f"\n  Parameters: J_intra={J_intra/meV:.1f} meV, K={K_OO/meV:.1f} meV, "
       f"gamma={gamma_val/meV:.1f} meV")
@@ -274,8 +297,7 @@ L4 = build_liouvillian(H4 / hbar, c_ops4)
 
 ev4 = np.linalg.eigvals(L4)
 n_osc4 = np.sum(np.abs(ev4.imag) > 1e-3)
-freqs4 = sorted(set(np.round(np.abs(ev4.imag), 2)))
-freqs4 = [f for f in freqs4 if f > 0.1]
+freqs4 = distinct_frequencies(ev4)
 pair_sum4, pair_std4, n_pairs4 = check_palindrome(L4)
 
 print(f"\n  Parameters: J_intra={J_intra/meV:.1f}, J_inter={J_inter/meV:.1f}, "
@@ -291,16 +313,18 @@ print(f"  Palindromic pair sums: mean={pair_sum4:.4f}, mean + 2Σγ/ℏ = {pair_
       f"std={pair_std4:.2e}, relative {pair_std4 / abs(pair_sum4):.1e}"
       f"{' (eigensolver rounding of an exact pairing)' if commutes4 else ''}")
 
-# Finite frequency-bin census: compare with two isolated model molecules.
+# Finite frequency census. The comparator is the same N=4 generator with the
+# H-bond switched off (J_inter = 0): two copies of one molecule's count miss the
+# sums and differences of their frequencies (3 + 3 doubled + 3 cross sums + 3 differences = 12).
+H4_off = H4 - J_inter * op4_2(sx, 1, sx, 2)
+ev4_off = np.linalg.eigvals(build_liouvillian(H4_off / hbar, c_ops4))
+freqs4_off = distinct_frequencies(ev4_off)
 print(f"\n  V-Effect census (finite generator-bin comparison):")
 print(f"    Single molecule (N=2): {len(freqs)} distinct frequencies")
-print(f"    Two molecules (N=4):   {len(freqs4)} distinct frequencies")
-print(f"    Ratio: {len(freqs4)} / (2 x {len(freqs)}) = "
-      f"{len(freqs4) / (2 * len(freqs)) if len(freqs) > 0 else 'inf':.2f}")
-if len(freqs4) > 2 * len(freqs):
-    print(f"    Count excess: {len(freqs4)} - 2*{len(freqs)} = "
-          f"{len(freqs4) - 2*len(freqs)} bins")
-    print("    No eigenvector transport or coupling-only mechanism was computed.")
+print(f"    Two molecules, H-bond off (N=4, J_inter = 0): {len(freqs4_off)} distinct frequencies")
+print(f"    Two molecules, H-bond on  (N=4):              {len(freqs4)} distinct frequencies")
+print(f"    With the bond: {len(freqs4)} distinct frequencies against {len(freqs4_off)} without it.")
+print("    No eigenvector transport or coupling-only mechanism was computed.")
 
 # CΨ across the hydrogen bond (qubits 2 and 3)
 rho0_4 = np.zeros((d4, d4), dtype=complex)

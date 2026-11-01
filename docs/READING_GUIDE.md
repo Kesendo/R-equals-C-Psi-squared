@@ -387,8 +387,8 @@ familiarity with the palindromic structure.
    happens when two simple resonators are connected. Adding a second bond
    breaks some palindromic combinations but releases frequency diversity:
    4 frequencies become 11 at the binning the page uses. Two dead N=2
-   resonators coupled through a mediator, which keeps the mirror: 2+2 produces not 4 but 109 new
-   frequencies.
+   resonators coupled through a mediator, which keeps the mirror: the pair
+   carries 5 frequencies uncoupled and 109 coupled, none of the 109 an old one.
 
 2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md): The
    quarter crossed in action. Along an N=7 chain the endpoint mutual
@@ -512,7 +512,7 @@ without wading through quantum formalism, start with the
    networks through a mediator changes how many frequencies the dynamics
    carries, non-monotonically in the coupling strength; the counts
    belong to the binning protocol, not to the networks alone. It is not
-   the qubit explosion (2+2=109) transplanted: the palindrome does not
+   the qubit explosion (5 frequencies uncoupled, 109 coupled) transplanted: the palindrome does not
    make a network silent, and the coupled construction was never
    palindromic, its mediator being an unpaired seat at every coupling
    ([Proof: V-Effect Mechanism](neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
@@ -524,7 +524,8 @@ without wading through quantum formalism, start with the
    positions, one particle, the two localized states |L⟩ and |R⟩. In
    that model, selected runs cross CΨ = ¼ within 0.07 to 1.32
    picoseconds, and coupling the model molecules takes the frequency
-   count from 11 per isolated molecule to 126, a V-Effect census. These
+   count from 12 for the two molecules side by side to 42, a V-Effect
+   census. These
    are what the model says; a claim about the material itself still
    needs its physical Hamiltonian and bath, and whether the Zundel
    cation (a proton shared between two water molecules) gives a usable

@@ -1,4 +1,4 @@
-"""Finite N=2/N=5 frequency-bin comparison and F1 multiset matching.
+"""Finite N=2/N=5 frequency-bin comparison, the uncoupled N=2 pair, and F1 multiset matching.
 
 At gamma=0.05, oscillatory entries satisfy |Im(lambda)|>0.01. Absolute
 frequencies are rounded to six decimals and compared at tolerance 1e-4.
@@ -148,6 +148,33 @@ def main():
 
     print(f"OLD frequency bins (within tolerance of N=2): {len(old_freqs)}")
     print(f"NEW frequency bins (outside tolerance of N=2): {len(new_freqs)}")
+
+    # Step 3b: the comparator is the uncoupled pair. Two N=2
+    # chains side by side (N=4, bonds 0-1 and 2-3) carry the sums of their
+    # frequencies too; the difference 4J - sqrt(16J^2 - 4 gamma^2) = 0.00125 at
+    # gamma = 0.05 lies under the 0.01 cut.
+    print("\n" + "=" * 60)
+    print("STEP 3b: THE UNCOUPLED PAIR (two N=2 chains, no mediator)")
+    print("=" * 60)
+    Hpair = np.zeros((16, 16), dtype=complex)
+    for (a, c) in ((0, 1), (2, 3)):
+        for P in [sx, sy, sz]:
+            Hpair += site_op(P, a, 4) @ site_op(P, c, 4)
+    freqs_pair = osc_frequencies(np.linalg.eigvals(build_liouvillian(Hpair, gamma, 4)))
+    print(f"Distinct frequencies of the uncoupled pair (|Im|>0.01): {len(freqs_pair)}")
+    print(f"Frequencies: {freqs_pair}")
+    near_pair = [f for f in freqs5 if any(abs(f - fp) < freq_tol for fp in freqs_pair)]
+    print(f"N=5 frequency bins within tolerance of the uncoupled pair's: {len(near_pair)}")
+    assert len(freqs_pair) == 5 and not near_pair
+    # the 109 belongs to gamma = 0.05; the same chain at other gamma
+    for g_alt in (0.2, 0.5):
+        n_alt = len(osc_frequencies(np.linalg.eigvals(build_liouvillian(H5, g_alt, N5))))
+        print(f"N=5 distinct frequencies at gamma={g_alt}: {n_alt}")
+        assert n_alt == {0.2: 110, 0.5: 111}[g_alt]
+    # above gamma ~ 0.141 the pair's difference frequency clears the 0.01 cut
+    n_pair_02 = len(osc_frequencies(np.linalg.eigvals(build_liouvillian(Hpair, 0.2, 4))))
+    print(f"Uncoupled pair at gamma=0.2: {n_pair_02} (its difference frequency is above the cut)")
+    assert n_pair_02 == 6
 
 
     # Step 4: Population counts, independently of any unordered pairing.

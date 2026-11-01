@@ -569,8 +569,9 @@ is followed from one to the other. We read the new frequencies as
 emerging from the coupling.
 
 In plain language: two simple systems that can each play two notes
-are connected through a shared element. The result is not four notes.
-It is 109 notes, none of which either system plays alone. We read the
+are connected through a shared element. Side by side they sound five
+notes, the two and their sums; connected they sound 109, none of which
+either system plays alone. We read the
 bridge not as transmitting information from one side to the other, but
 as creating a shared space where new complexity is born that could not
 exist in either system separately.

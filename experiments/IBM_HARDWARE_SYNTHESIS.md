@@ -349,7 +349,7 @@ constructed matrices and molecular calculations are separate model results.
 | Edge/interior response decay | Fitted class-mean ratio **≈1.91x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
-| V-Effect census / response | MI enhancement grows with time in the named protocol | Protocol-dependent frequency bins; coupled odd construction fails F36 | Finite generator: 126 bins versus 11 per isolated side, so count excess `126 - 2*11 = 104`; no eigenmode ancestry measured | Distinct response and spectral diagnostics; common mechanism unestablished |
+| V-Effect census / response | MI enhancement grows with time in the named protocol | Protocol-dependent frequency bins; coupled odd construction fails F36 | Finite generator: 42 frequencies against 12 for the two sides uncoupled; no eigenmode ancestry measured | Distinct response and spectral diagnostics; common mechanism unestablished |
 | CΨ oscillation | Qualitative measurement proposal; no committed numeric producer | Not tested | 6 crossings (Zundel) | Proposed measurement (Exp B) |
 | GHZ vs W | No supported universal ratio; J=0 pure-dephasing control gives 1.5x | Not applicable | Not applicable | Proposed measurement (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |

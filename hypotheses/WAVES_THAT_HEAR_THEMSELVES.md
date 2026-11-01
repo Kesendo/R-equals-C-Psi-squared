@@ -28,7 +28,7 @@ The chain:
 1. **Waves exist** (the palindromic pairing is proven; that its modes
    are waves is our reading)
 2. **Coupling breaks symmetry** (V-Effect: two pairs joined through a
-   mediator carry 109 frequencies where they carried 4; a bond term that breaks the palindrome comes with 11 frequencies where the unbroken one has 4, or 8 at three-decimal bins)
+   mediator carry 109 frequencies where, uncoupled, they carried 5; a bond term that breaks the palindrome comes with 11 frequencies where the unbroken one has 4, or 8 at three-decimal bins)
 3. **Breaking crystallizes at the fold** (read at each CΨ = ¼
    crossing; CΨ falls monotonically in the named decays, but the
    quarter is not a one-way door in general)
