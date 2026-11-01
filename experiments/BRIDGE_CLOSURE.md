@@ -47,7 +47,8 @@ access to the joint state ρ_AB, which neither subsystem has alone.
 ## 1. What This Document Settles
 
 NO_SIGNALLING_BOUNDARY.md showed that CΨ drops from 0.500 to 0.250
-when B measures, but A cannot see it. This left one open question:
+(with Ψ the largest eigenvalue of ρ_A; from 1/3 to 0 with the
+normalized l₁ coherence l₁(ρ)/(d−1)) when B measures, but A cannot see it. This left one open question:
 
 > Can pre-encoded CΨ fingerprints carry something that a classical
 > pre-shared key cannot?

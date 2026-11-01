@@ -156,8 +156,10 @@ March 24, 2026: The sacrifice-zone formula crystallizes. The key
 insight: separate the noise spatially.
 ([Resonant Return](../experiments/RESONANT_RETURN.md))
 
-March 28, 2026: 24,073 IBM calibration records confirm the sharp
-threshold. The optimization is real on hardware.
+March 28, 2026: 24,073 IBM calibration records, read through the
+crossing model, separate at a sharp r* threshold; the model both makes
+the prediction and classifies the records, so this is a consistency
+check, not a hardware confirmation.
 ([IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md))
 
 The bidirectional bridge that was searched for in December turned out

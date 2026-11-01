@@ -352,9 +352,10 @@ detection survive without the coupling? That is the No-Signaling test.
 
 **Test #2 status (2026-03-01):** ANSWERED. No-signalling holds exactly.
 rho_A is unchanged (||Δρ_A|| = 0). No local observable on A detects
-whether B was measured. However, CΨ drops from 0.500 to 0.250 (exactly
-the ¼ boundary) because global purity C drops from 1.0 to 0.5 while
-Ψ stays at 0.5. The regime change is real but invisible to A.
+whether B was measured. However, the global purity C drops from 1.0 to
+0.5. With Ψ the largest eigenvalue of ρ_A (0.5 throughout) CΨ drops from
+0.500 to 0.250, onto ¼; with Ψ = l₁(ρ)/(d−1) it drops from 1/3 to 0, the
+classical side. The regime change is real but invisible to A.
 
 **This confirms Outcome #3 from Section 4.3.** The dynamic bridge
 (B sends information by choosing when to measure) does not work.

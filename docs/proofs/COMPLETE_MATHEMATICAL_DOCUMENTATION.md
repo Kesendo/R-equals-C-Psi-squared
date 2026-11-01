@@ -378,9 +378,13 @@ in both open and closed CΨ windows (1.3–1.6× stronger when open).
 CΨ windows are visibility amplifiers on a continuously active channel.
 
 **No-signalling boundary.** Z-basis measurement on qubit B of a Bell+ pair
-drops CΨ from 0.500 to 0.250 (exactly on ¼) while leaving ρ_A completely
-unchanged. C drops (1.0 → 0.5); Ψ stays at 0.5. The regime change is real
-but invisible locally. Bridge protocol permanently closed for J=0.
+leaves ρ_A completely unchanged while the global purity drops (C: 1.0 → 0.5).
+Where CΨ lands depends on the Ψ book: with this page's Ψ = l₁(ρ)/(d−1) it
+falls from 1/3 to 0, the classical side; with Ψ the largest eigenvalue of
+ρ_A, the convention of
+[No-Signalling Boundary](../../experiments/NO_SIGNALLING_BOUNDARY.md), it falls
+from 0.500 to 0.250, onto ¼.
+The regime change is real but invisible locally. Bridge protocol permanently closed for J=0.
 
 See: [Orphaned Results](../../experiments/ORPHANED_RESULTS.md),
 [Bridge Fingerprints](../../experiments/BRIDGE_FINGERPRINTS.md),

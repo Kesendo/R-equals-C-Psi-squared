@@ -85,12 +85,13 @@ conjugation operator Π is:
 Eigenvalues pair around the midpoint -Σγ.
 
 This is the equation we have
-[proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), computed
-(87,376 eigenvalues, N=2..8, zero exceptions), and validated on
-IBM hardware ([CΨ crossing at 1.9%](../experiments/IBM_RUN3_PALINDROME.md),
-[r* threshold](../experiments/IBM_HARDWARE_SYNTHESIS.md), a self-consistency
-classification over 24,073 calibration records whose two classes are separated
-by a gap of 0.000014).
+[proven](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) and computed
+(87,376 eigenvalues, N=2..8, zero exceptions). On IBM hardware the
+[CΨ = ¼ crossing](../experiments/IBM_RUN3_PALINDROME.md) met its
+prediction at 1.9%, a test of the crossing time rather than of the
+pairing; the [r* threshold](../experiments/IBM_HARDWARE_SYNTHESIS.md) is a
+self-consistency classification over 24,073 calibration records, its two
+classes separated by a gap of 0.000014.
 
 We never asked what happens at Σγ = 0.
 

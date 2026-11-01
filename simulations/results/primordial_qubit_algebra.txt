@@ -321,6 +321,18 @@ Rebuilding L_H, L_D for each N (Heisenberg chain, gamma=0.05):
 | 3 |  64 |   2.771281e+00 |         1.8258% |  0.144338 |   5.49e-15 | {2: 96, 4: 96}   | 0/192 |
 | 4 | 256 |   9.600000e+00 |         2.0701% |  0.088388 |   7.59e-15 | {2: 288, 4: 576, 6: 288} | 576/1152 |
 
+--- Step 10b: the square of the motion (uniform gamma) ---
+
+| N | ||L_c^2 - (L_c^2)^dag|| = 2||{L_H, L_Dc}|| | modes with Re and Im both nonzero | ||[L_H, L_Dc]|| |
+|---|------------------------------------------|-----------------------------------|-----------------|
+| 2 |                             0.000000e+00 |     0 of 16                        |    1.131371e+00 |
+| 3 |                             5.542563e+00 |    40 of 64                        |    3.200000e+00 |
+| 4 |                             1.920000e+01 |    72 of 256                       |    7.838367e+00 |
+
+At N=2 the squared generator is Hermitian, so no mode both oscillates and
+decays relative to the centre; from N=3 on the cross term is its anti-Hermitian
+part and mixed modes appear. The flow separates at none of these N.
+
 N=3 detail: centered dissipator diagonal
   w_XY = 0: L_D+Sg = +0.1500, (L_D+Sg)^2 = 0.022500  (8 modes)
   w_XY = 1: L_D+Sg = +0.0500, (L_D+Sg)^2 = 0.002500  (24 modes)  <-- mirror between here

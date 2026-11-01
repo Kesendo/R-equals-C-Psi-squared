@@ -568,7 +568,7 @@ What survives even without the philosophy:
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
-- [Hardware validation](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the 1/4 crossing on IBM quantum processors (24,073 records, r* threshold precision 0.000014)
+- A [consistency check](../experiments/IBM_HARDWARE_SYNTHESIS.md) of the C_min(r) curve on 24,073 IBM calibration records: the same model generates the prediction and classifies each record, so the sharp r* threshold (a gap of 0.000014 between the classes) is the classification's resolution, not an independent hardware validation
 - Connection to [independent research (incoherentons)](LITERATURE_REVIEW.md) via Pauli weight complementarity
 - [Energy-partition audit](../hypotheses/ENERGY_PARTITION.md): zero-root filtering stranded exact partners; the remaining frequency and decay sums are protocol diagnostics, not energies or mode populations
 - [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): when the F1 palindromizer holds and reaches both spectral endpoints, the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law

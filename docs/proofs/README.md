@@ -70,10 +70,12 @@ attractor, a physical interval, or a trajectory law.
    require an external/infinite reservoir.
 
 7. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
-   Time reversal requires separating oscillation from cooling
-   ({L_H, L_D+Σγ} = 0). This holds exactly at N=2 (single bond =
-   entire system) and fails at N > 2 (cross term: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ).
-   Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
+   Oscillation and cooling anticommute ({L_H, L_D+Σγ} = 0, no cross
+   term in L_c²) exactly at N=2 under uniform γ (single bond = entire
+   system), and not at N > 2 (cross term: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ).
+   Reduction to N=2 destroys the palindrome. Whether the flow separates is
+   the commutator [L_H, L_D+Σγ], nonzero at N=2 too; reading the cross
+   term as an arrow of time is Tier 3.
 
 8. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
    The Liouvillian has 2N purely-real eigenvalues at the first
@@ -123,8 +125,8 @@ Mirror Symmetry Proof          Uniqueness Proof
   (L = L_even ⊕            │
    L_odd; odd N:            ▼
    Π exchanges       Time Irreversibility
-   sectors)          (reversal excluded
-        │             at N > 2, algebraic)
+   sectors)          (cross term from
+        │             N > 2; arrow: Tier 3)
         ▼
   Proof Roadmap ──────► Complete Math Doc
   (7 layers,             (master reference,

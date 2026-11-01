@@ -1037,6 +1037,40 @@ for Ntest in [2, 3, 4]:
 
 log()
 
+# --- Step 10b: the square of the motion at N=2 (uniform gamma) ---
+# With the cross term absent (Step 9), L_c^2 = L_H^2 + L_Dc^2 is a sum of two
+# commuting Hermitian parts (L_H anti-Hermitian, L_Dc Hermitian, {L_H, L_Dc} = 0
+# makes L_H^2 commute with L_Dc), so exp(s L_c^2) factors, and L_c^2 is Hermitian:
+# every centred eigenvalue mu has mu^2 real, so each mode only decays or only
+# oscillates. Reversing the oscillation, L_H -> -L_H, is L_c -> L_c^dag; it leaves
+# L_c^2 unchanged exactly when L_c^2 is Hermitian, and from N=3 on the cross term
+# is the anti-Hermitian part of L_c^2. The FLOW exp(t L_c) factors only if the
+# commutator [L_H, L_Dc] vanishes, which it does at none of the N here.
+log("--- Step 10b: the square of the motion (uniform gamma) ---")
+log()
+log("| N | ||L_c^2 - (L_c^2)^dag|| = 2||{L_H, L_Dc}|| | modes with Re and Im both nonzero | ||[L_H, L_Dc]|| |")
+log("|---|------------------------------------------|-----------------------------------|-----------------|")
+for Ntest in [2, 3, 4]:
+    LHt, LDt, Pit, aidxt, numt, Sgt = build_for_N(Ntest, J_coup, gamma)
+    LDct = LDt + Sgt * np.eye(numt)
+    Lct = LHt + LDct
+    Lct2 = Lct @ Lct
+    herm = np.linalg.norm(Lct2 - Lct2.conj().T)
+    mu = np.linalg.eigvals(Lct)
+    scale = np.max(np.abs(mu))
+    mixed = sum(1 for m in mu if abs(m.real) > 1e-9 * scale and abs(m.imag) > 1e-9 * scale)
+    comm = np.linalg.norm(LHt @ LDct - LDct @ LHt)
+    log(f"| {Ntest} | {herm:40.6e} | {mixed:5d} of {numt:<25d} | {comm:15.6e} |")
+    if Ntest == 2:
+        assert herm == 0.0 and mixed == 0 and comm > 0.0
+    else:
+        assert herm > 0.0 and mixed > 0 and comm > 0.0
+log()
+log("At N=2 the squared generator is Hermitian, so no mode both oscillates and")
+log("decays relative to the centre; from N=3 on the cross term is its anti-Hermitian")
+log("part and mixed modes appear. The flow separates at none of these N.")
+log()
+
 # Detail for N=3: boundary modes and sector decomposition
 log("N=3 detail: centered dissipator diagonal")
 Ntest = 3

@@ -1898,7 +1898,7 @@ entries connect Pauli strings with w_XY(a) + w_XY(b) = N.
 
 The decomposition: (time evolution)² = (oscillation)² + (cooling)².
 
-**Valid for:** N=2 Heisenberg chain, Z-dephasing, any γ. Exact. With uniform depolarizing, centred at its total rate, every two-site bond at N=2 (F49e).
+**Valid for:** N=2 Heisenberg chain, uniform Z-dephasing, any γ value. Exact; a site-dependent rate profile brings the cross term back already at N=2. With uniform depolarizing, centred at its total rate, every two-site bond at N=2 (F49e).
 At N≥3 a cross term appears: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ.
 **Replaces:** Nothing (new structural insight, not a shortcut).
 **Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),

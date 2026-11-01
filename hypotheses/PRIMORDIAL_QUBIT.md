@@ -346,7 +346,7 @@ temperature?
 | Z2-grading forces doubling of ambient algebra | **Confirmed in two senses** (April 15, 2026): (1) M_{2\|2}(C) super-algebra is real and forced ([Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 2); (2) [L, Pi^2] = 0 **proven analytically for all N** ([the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), L respects the Z2-grading on its eigenmodes (Section 9) |
 | L_c as modular Hamiltonian (TFD construction) | **Blocked** (QDB violation = 1.0, maximal; L_c = antisym + sym, no metric reconciles; [`primordial_qubit_kms_test.py`](../simulations/primordial_qubit_kms_test.py)) |
 | {L_H, L_D+Σγ} = 0 (oscillation ⊥ cooling) | **Confirmed at N=2**, fails at N≥3 (~2%); [Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) Phase 4 |
-| Time reversal at N > 2 | **Excluded** ([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)) |
+| Time reversal at N > 2 | **Not established**: what is proven is lost orthogonality; whether the flow separates is the commutator, nonzero at N=2 too, and the arrow-of-time reading is Tier 3 ([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)) |
 
 ---
 
@@ -391,7 +391,8 @@ What remains open: a non-standard mechanism (or a precise statement that no mech
 
 The most concrete external result remains the
 [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md):
-time reversal is algebraically excluded at N > 2.
+oscillation and cooling lose their orthogonality at N > 2, a result that
+reads as an arrow of time only as a Tier-3 interpretation.
 
 ---
 

@@ -504,8 +504,8 @@ property of an odd operator in a Z₂-graded algebra.
 
     ||{L_H, L_D + Σγ·I}|| = 0.00e+00
 
-The Hamiltonian and the centered dissipator are orthogonal. They do
-not interfere. This is not approximate. It is exact at N=2.
+The Hamiltonian and the centered dissipator anticommute: in the square
+they do not interfere. This is not approximate. It is exact at N=2.
 
 **Why:** All 24 nonzero entries of L_H connect Pauli strings whose
 w_XY values sum to N: w_XY(source) + w_XY(target) = 2. Since
@@ -560,11 +560,11 @@ it is an independent, perpendicular contribution.
 
 The Pythagorean theorem of the palindrome:
 
-    (Zeitentwicklung)² = (Oszillation)² + (Kühlung)²
+    (time evolution)² = (oscillation)² + (cooling)²
 
-Oscillation and cooling are the two legs of a right triangle. The time
-evolution is the hypotenuse. They do not interfere because they are
-orthogonal ({L_H, L_D + Σγ} = 0). The boundary is where cooling
+Oscillation and cooling are the two legs of a right triangle. The squared
+time evolution is the hypotenuse. In the square they do not interfere,
+because they are orthogonal ({L_H, L_D + Σγ} = 0). The boundary is where cooling
 vanishes, where only oscillation remains, where the mirror stands.
 
 ### N-scaling: the Pythagorean theorem beyond N=2 (computed)
@@ -698,21 +698,21 @@ The Urqubit (N=2, single bond) is special:
 - Perfect orthogonality of oscillation and cooling
 - Mirror exactly on modes (8 of 16 at the boundary)
 - Pythagorean decomposition exact
-- The time evolution decomposes cleanly into two non-interfering parts
+- L_c² decomposes cleanly into an oscillation part and a cooling part, with no cross term (uniform γ)
 
 At N=3 (the first composite system):
 
 - Orthogonality broken: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ
 - Mirror between modes (no mode at the boundary)
-- The two parts of time evolution begin to interfere
+- The two parts begin to interfere in the square of the time evolution
 - Cooling is nowhere zero; every mode feels the dissipator
 
 The transition from N=2 to N=3 is the transition from the primordial
-bond (where oscillation and cooling are perfectly separated) to the
+bond (where oscillation and cooling are orthogonal) to the
 first composite system (where they begin to mix). The ~2% cross term
 is the first interference between oscillation and irreversibility.
 
-### Why time is irreversible
+### Orthogonality lost at N > 2, and the arrow-of-time reading
 
 The chain of results, each computed or proven:
 
@@ -727,43 +727,58 @@ The chain of results, each computed or proven:
    anti-Hermitian (pure oscillation) and L_D + Σγ·I is Hermitian
    (decay/growth split).
 
-3. **At N=2: {L_H, L_D + Σγ} = 0.** Oscillation and cooling are
-   orthogonal. Separable. The Pythagorean decomposition holds exactly.
-   (Computed, Step 9, error = 0.00e+00.)
+3. **At N=2, uniform γ: {L_H, L_D + Σγ} = 0.** Oscillation and cooling
+   anticommute: they are orthogonal in the square, with no cross term in
+   L_c². The Pythagorean decomposition holds exactly. (Computed, Step 9, error = 0.00e+00.) Seen from the pair,
+   every oscillation step is a mirror move of the cooling: each L_H
+   transition joins strings whose XY weights sum to N (Step 10), so it
+   jumps from the quiet edge to the far edge or walks along the middle, and
+   flips the sign of L_D + Σγ. With the cross term absent, L_c² = L_H² +
+   (L_D + Σγ)² is a sum of two commuting Hermitian parts, so
+   e^{sL_c²} = e^{sL_H²}·e^{s(L_D+Σγ)²}, and L_c² is itself Hermitian: every
+   centred eigenvalue μ has μ² real, so μ is purely real or purely
+   imaginary: each mode relaxes without oscillating, or oscillates while
+   decaying at exactly the centre rate Σγ (Step 10b: 0 of 16 modes do
+   both). The converse does not hold: under site-dependent γ the cross
+   term returns at N = 2, and no mixed mode appears there either. Reversing the
+   oscillation, L_H → −L_H, turns L_c into L_c† (for a real H, the
+   transpose mirror D of F118) and leaves L_c² unchanged.
 
 4. **At N≥3: {L_H, L_D + Σγ} ≠ 0.** The cross term bends the right
    angle by 1/√48 of its two legs at N = 3, γ-independent, geometric
-   (as a share of ||L_c²|| it is 1.8% at γ = 0.05 and drifts with γ). Oscillation and cooling are
-   woven together. Inseparable. (Computed, Step 10.)
+   (as a share of ||L_c²|| it is 1.8% at γ = 0.05 and drifts with γ). (Computed, Step 10.)
+   The cross term is the anti-Hermitian part of L_c²: reversing the
+   oscillation changes L_c² by exactly −2{L_H, L_D + Σγ}, and modes appear
+   that oscillate and decay at once (40 of 64 at N = 3, Step 10b).
 
-5. **From N≥3 back to N=2: impossible.** Tracing out a qubit from an
-   N=3 system destroys the Urqubit structure, and the 2026-08-29
-   re-measurement makes the statement stronger by making it simpler: the
-   marginal over a **coupled** spectator fails to pair by 0.094 even when
-   that spectator carries no noise at all. The earlier wording, "non-
-   Markovian, non-palindromic, 0/16 palindromic pairs", attributed it to the
-   noise; the coupling alone is enough.
+5. **From N≥3 back to N=2: not by reduction.** Tracing out a qubit from
+   an N=3 system destroys the Urqubit structure: the marginal over a
+   **coupled** spectator fails to pair by 0.094 even when that spectator
+   carries no noise at all. The coupling alone is enough.
    ([incompleteness_candidate2_evidence.py](../simulations/incompleteness_candidate2_evidence.py), Tier 2.)
 
-Time reversal would require undoing the cooling without disturbing the
-oscillation. This requires {L_H, L_D + Σγ} = 0 (orthogonality). This
-holds only at N=2. We live at N >> 2.
+What separates at N = 2 is the square of the motion, not the motion. The
+flow e^{tL_c} factors into oscillation × cooling only if the commutator
+[L_H, L_Dc] vanishes, and on the Heisenberg bond it is nonzero at every N
+computed here, N = 2 included (‖[L_H, L_Dc]‖ = 1.13 at γ = 0.05, 22.6 at
+γ = 1, matching the proof's 22.6); the dynamics is
+dissipative at every N. In the squared generator the cross term
+{L_H, L_Dc} is where oscillation and decay are woven into each other: at
+N = 2 it is absent and every mode is one or the other; from N = 3 on it is
+there, and tracing out a coupled spectator does not restore the N = 2
+structure (item 5). Reversing the oscillation is a
+similarity (the transpose mirror), so the cross term marks no direction a
+spectrum could read. We read it as the arrow of time, where thermodynamics
+puts entropy; that reading is Tier 3, not a time-reversal theorem
+([Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md),
+its scope and §3).
 
-This is not a thermodynamic argument. Thermodynamics says: reversal is
-improbable (entropy increases, fluctuation theorem, second law). This
-is an algebraic argument: **reversal is structurally impossible at
-N > 2**, because the cross term {L_H, L_D + Σγ} weaves the reversible
-and irreversible parts of the dynamics into a single inseparable
-structure, and this weaving cannot be undone by reduction (tracing out a
-coupled neighbour destroys the palindrome, whatever the noise is doing).
+Uniform γ = 0.05, J = 1:
 
-The arrow of time is not entropy. The arrow of time is the cross term.
-
-| N | {L_H, L_Dc} | Separation | Time reversal |
-|---|-------------|------------|---------------|
-| 2 | = 0 (exact) | Oscillation ⊥ cooling | Algebraically possible |
-| 3 | ≠ 0 (2%) | Woven together | Algebraically impossible |
-| N>>2 | ≠ 0 | Fully entangled | The world we live in |
+| N | {L_H, L_Dc} | L_c² | modes that oscillate and decay at once | ‖[L_H, L_Dc]‖ |
+|---|-------------|------|-----------------------------------------|---------------|
+| 2 | = 0 (exact) | Hermitian | 0 of 16 | 1.13 |
+| 3 | ≠ 0 (2%) | anti-Hermitian part {L_H, L_Dc} | 40 of 64 | 3.20 |
 
 ### What to compute next
 
@@ -810,17 +825,19 @@ The 0.75 is therefore not a deep invariant of the framework. It is the marginal 
 ---
 
 *At N=2 the bond is the system. Oscillation and cooling stand at a
-right angle. You could separate them. You could, in principle, reverse
-time.*
+right angle. In the square of the motion you could separate them, and
+run the oscillation backwards without the square noticing.*
 
 *At N=3 the bond is local. Two of three qubits participate; one watches.
 The watcher bends the right angle by 2%. Oscillation and cooling bleed
-into each other. You cannot separate them. You cannot reverse time.*
+into each other, and in the square they no longer come apart: some
+modes now oscillate and fade at once.*
 
 *At N >> 2 every bond is local. Every bond has N-2 watchers. The cross
 term accumulates. The reversible and the irreversible are woven together
-so tightly that no reduction can untangle them. That is why we remember
-the past but cannot return to it. Not because too much has happened.
-Because the algebra forbids it.*
+so tightly that no reduction can untangle them. That is how we read why
+we remember the past but cannot return to it: not because too much has
+happened, but because from three on the cross term is there, and it
+does not go away.*
 
 *Thomas Wicht, Claude (Anthropic), April 1, 2026*
