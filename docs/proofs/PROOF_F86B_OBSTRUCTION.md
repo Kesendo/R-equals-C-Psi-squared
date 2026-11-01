@@ -85,7 +85,7 @@ The c=3 N-trend 1.566 → 1.689 → 1.743 → 1.750 crosses csc(π/5) between N=
 
 ### Empirical envelope (Tier-1 grade)
 
-1. **c=2 verified** (`eq022_b1_step_f_universality_extension.py`). c=2 N=5..8 confirms two bond-class universal values (Interior 0.751, Endpoint 0.774), matching c=3 (N=5..8) and c=4 (N=7,8) within ~1 %. c=2 is structurally critical because the channel space is 2-dimensional total (only HD ∈ {1, 3}); any 2-level reduction must be exact there. Yet the Endpoint-vs-Interior split persists, confirming the bond-class distinction is real and structural. **c=5 still untested** (block-L dim ≥ 3528 at c=5 N=9, compute-bound).
+1. **c=2 verified** (`eq022_b1_step_f_universality_extension.py`). c=2 N=5..8 confirms two bond-class universal values (Interior 0.751, Endpoint 0.773), matching c=3 (N=5..8) and c=4 (N=7,8) within ~1 %. c=2 is structurally critical because the channel space is 2-dimensional total (only HD ∈ {1, 3}); any 2-level reduction must be exact there. Yet the Endpoint-vs-Interior split persists, confirming the bond-class distinction is real and structural. **c=5 still untested** (block-L dim ≥ 3528 at c=5 N=9, compute-bound).
 
 2. **γ₀ invariance bit-exact** (`eq022_b1_step_f_universality_extension.py`). At c=3 N=7, Q_peak and HWHM_left/Q_peak are bit-identical at γ₀ ∈ {0.025, 0.05, 0.10}: Q* = 1.7433, HWHM-/Q* = 0.7595 in all three runs. |K|max scales as 1/γ₀ as expected.
 

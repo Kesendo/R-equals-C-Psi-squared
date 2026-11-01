@@ -73,8 +73,8 @@ quoted, not verified: `verify_derivations.py` computes t_mix and prints it
 without comparing it to anything, so D6's VERIFIED status rests on the gap
 alone.
 
-Above Q*_gap(N), and within the number-conserving XY/Heisenberg family, the gap is
-2*gamma whichever member of that family and whichever topology. The THRESHOLD is
+Above Q*_gap(N), on a graph where the regime exists (above), and within the
+number-conserving XY/Heisenberg family, the gap is 2*gamma. The THRESHOLD is
 not H-independent (see the XY values above), and off that family the value fails
 outright: a generic real symmetric H has a one-dimensional kernel and no
 2*gamma level at all.

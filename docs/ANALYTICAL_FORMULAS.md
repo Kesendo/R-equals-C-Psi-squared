@@ -2117,7 +2117,7 @@ and D.3 of [the weight-1 degeneracy proof](proofs/PROOF_WEIGHT1_DEGENERACY.md); 
 star and K₄ the regime does not exist), but
 K_final,Z is F25's, whose validity line is Bell+ under Z-dephasing at N=2. So the
 ratio is a Bell+ number; it is the dose scale of THAT initial state measured
-against a universal death dose, not an N-independent constant.
+against the death dose of the 2γ regime, not an N-independent constant.
 
 **Derivation:** 99% absorption of the slowest mortal mode means
 e^{−rate_min · t} = 0.01, so rate_min · t = ln(100). By formula D6:
@@ -2126,8 +2126,7 @@ K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ and topology wher
 
 **Regime condition (inherited from D6):** rate_min = 2γ holds only above the
 N-dependent coupling threshold Q*_gap(N). Below it the slowest mortal mode is
-Zeno-suppressed and the dose is correspondingly larger, so K_death = ln(10)
-is universal in the strong-coupling regime, not at every Q.
+Zeno-suppressed and the dose is correspondingly larger.
 
 N+1 modes have exactly zero absorption rate. They are invisible to the
 light (pure {I,Z} content), but invisibility alone does not select them:
@@ -2135,9 +2134,11 @@ all 2^N such strings are, and what cuts the kernel to N+1 is commuting
 with H as well. Complete absorption is impossible: the Liouvillian always
 has a kernel. What the cavity always retains is lens content, never light.
 
-**Valid for:** any Heisenberg chain, Z-dephasing, all N, in the strong-coupling
-regime Q > Q*_gap(N); below it the slowest mortal mode is Zeno-suppressed and the
-dose is larger.
+**Valid for:** Z-dephasing on the number-conserving XY/Heisenberg family, wherever the
+2γ regime exists (Scope above). The regime
+is proved on the uniform Heisenberg chain through N = 5 and read in float at N = 6
+and at the Hamiltonian end through N = 16; on the uniform XY chain it is proved at
+every N.
 **Replaces:** time evolution to find "when does the system die."
 **Source:** [Trapped Light Localization](../experiments/TRAPPED_LIGHT_LOCALIZATION.md)
 
@@ -3556,9 +3557,9 @@ While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the a
     HWHM_left / Q_peak  ≈  0.756     (Interior class-average; γ₀-invariant, residual c/N trends)
     HWHM_left / Q_peak  ≈  0.770     (Endpoint class-average; γ₀-invariant, residual c/N trends)
 
-Under the F71 bond-class average the HWHM_left/Q_peak ratio separates into two clusters (Endpoint b ∈ {0, N−2}, Interior b ∈ {1, …, N−3}) about 2 % apart, and the class-averaged relative-Q lineshapes collapse (pairwise residual ~20× smaller than under absolute-Q shift), that collapse is the robust result. The ratios themselves are coarse: only γ₀ drops out (bit-exact); c and N leave residual trends (interior climbs ~+0.014 over N=5→8 at c=3, ~0.007 c-offset), and the inter-cluster gap (~0.006–0.007) is comparable to the within-class spread, not larger. Per bond the ratio is not two-valued, it resolves into the six `BondSubClass` F71 orbits, spanning 0.58–0.92 within a single chain.
+Under the F71 bond-class average the HWHM_left/Q_peak ratio separates into two clusters (Endpoint b ∈ {0, N−2}, Interior b ∈ {1, …, N−3}) about 2 % apart, and the class-averaged relative-Q lineshapes collapse (pairwise residual ~20× smaller than under absolute-Q shift), that collapse is the robust result. The ratios themselves are coarse: only γ₀ drops out (bit-exact); c and N leave residual trends (interior climbs ~+0.014 over N=5→8 at c=3, ~0.006 c-offset), and the inter-cluster gap (~0.006–0.007) is comparable to the within-class spread, not larger. Per bond the ratio is not two-valued, it resolves into the six `BondSubClass` F71 orbits, spanning 0.58–0.92 within a single chain.
 
-**γ₀ invariance** is bit-exact: at c=3 N=7, both Q_peak and HWHM_left/Q_peak are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}, confirming Q's dimensionlessness. **c=2** is the structurally critical anchor: with only HD ∈ {1, 3} channels, the 2-level effective model is exact (no orthogonal complement), yet the two-class split persists (Interior 0.751, Endpoint 0.774). The bond-class distinction is therefore not a higher-c orthogonal-complement artefact but lives in the bond-position-dependent probe-overlap profile.
+**γ₀ invariance** is bit-exact: at c=3 N=7, both Q_peak and HWHM_left/Q_peak are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}, confirming Q's dimensionlessness. **c=2** is the structurally critical anchor: with only HD ∈ {1, 3} channels, the 2-level effective model is exact (no orthogonal complement), yet the two-class split persists (Interior 0.751, Endpoint 0.773). The bond-class distinction is therefore not a higher-c orthogonal-complement artefact but lives in the bond-position-dependent probe-overlap profile.
 
 The asymmetry of the curve is also universal in relative-Q:
 - **Pre-peak (left)**: rapid rise as discriminant 4γ₀² − J²·g_eff² → 0; HWHM_left/Q_peak universal within each bond class.

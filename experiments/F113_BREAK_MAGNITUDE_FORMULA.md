@@ -129,7 +129,7 @@ This is the structural origin of F113's restriction to Z-drives.
 - **factor 4^(N-1)**: N−1 spectator-site identity factors. Each spectator site contributes `⟨I_4, I_4⟩ = Tr(I_4) = 4` to the Frobenius inner product on tensor products. This is the operator-space dimension entering through the local Pauli dimension 4 per spectator site.
 - **factor 1/2**: explicit single-site N=1 inner product `⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = −ωγ/2`, derived via sympy from the explicit 4×4 matrices.
 
-The proof has 8 steps (single-site sympy + tensor factorization of Π per site + per-site additivity of the inner product + sum over driven sites) and three lemmas (Lemma A and B from F112; Lemma C new: `L_T1` is real-valued in Pauli basis since `D[c]ρ` preserves Hermiticity for Hermitian ρ). One specific Frobenius equality in Lemma C step 5 is verified bit-exact at N = 1, 2, 3, 4, 5 but not yet algebraically closed from the support pattern; this is documented as a structural exercise and does not block the universal-N status given the bit-exact anchor across N = 1–5.
+The proof has 8 steps (single-site sympy + tensor factorization of Π per site + per-site additivity of the inner product + sum over driven sites) and three lemmas (Lemma A and B from F112; Lemma C new: `L_T1` is real-valued in Pauli basis since `D[c]ρ` preserves Hermiticity for Hermitian ρ).
 
 Verified numerically at N = 5 (524k+ Pauli-string pairs would be needed for full basis enumeration, but the proof reduces it to a single-site inner product × tensor factorization, so N = 5 verification is cheap).
 

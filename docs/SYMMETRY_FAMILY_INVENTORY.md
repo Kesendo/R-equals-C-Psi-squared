@@ -109,7 +109,7 @@ It brings the (5, 5) sector from 31752 rows under F71 alone to four sub-blocks o
 | Sub-block dim at N=10 (5, 5) | 16132 | 15620 | 15620 | 16132 | 63504 ✓ |
 
 Per sub-block element-wise construction (no full sector L materialised): ~19 s per sub-block
-at N=10 (5, 5), mean nnz per row 10.7, **sparse**, 0.07 % density, ~170 k nnz vs 260 M
+at N=10 (5, 5), mean nnz per row 10.86, **sparse**, 0.07 % density, ~175 k nnz vs 260 M
 dense entries. Cross-validated at N=4 (2, 2), N=6 (3, 3), N=8 (4, 4): union of the 4
 sub-block dense Evds matches the direct `PerBlockLiouvillianBuilder` sector Evd as a
 multiset within 1e-9.
@@ -123,8 +123,8 @@ X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
 MathNet's 2 GB managed marshaling limit; the native MklDirect path that solved the N = 9
 chain's largest block passes that limit ([F1 general topology](proofs/PROOF_F1_GENERAL_TOPOLOGY.md)),
 and it has not been run on these sub-blocks. Phase 3c uses instead that the
-sub-blocks are *sparse* (mean 10.86 nnz per row at N=10 (5, 5), 0.017 % density,
-~170 k nnz per sub-block, ~7 MB sparse storage vs 4.2 GB dense). Phase 3c stores
+sub-blocks are *sparse* (mean 10.86 nnz per row at N=10 (5, 5), 0.07 % density,
+~175 k nnz per sub-block, ~7 MB sparse storage vs 4.2 GB dense). Phase 3c stores
 each sub-block as CSR and extracts top-K slow modes via per-sub-block shift-invert
 Arnoldi:
 

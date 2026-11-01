@@ -141,7 +141,7 @@ and sits beside the block spectra as a sanity check, not as the verification.
 Read the two as different experiments, and read the N<8 records in that same
 directory only alongside
 [the proof's notes on them](docs/proofs/MIRROR_SYMMETRY_PROOF.md), which
-explain why one of them reports 4.5e-2 on a spectrum that pairs to 5.2e-8.
+explain why one of them reports 4.5e-2 on a spectrum that pairs within 7.9e-8.
 The palindrome holds for all standard coupling models
 (Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya), all graph
 topologies (for DM, the bipartite ones), non-uniform γ per qubit, Z and

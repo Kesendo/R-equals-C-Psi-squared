@@ -722,15 +722,18 @@ JSONs read worse than the physics is.
 physics. The N=6 ring shows 4.5e-2, which reads like a failure. Rebuilding
 that exact spectrum, in the run's own spin J/4 convention and at its γ=0.5
 (the Pauli J=1 convention gives a different Hamiltonian and answers a
-different question), every eigenvalue finds its mirror partner within 5.2e-8.
-That is far below the recorded 4.5e-2, so the record's value remains
-unexplained rather than diagnosed, but it is also far above machine
+different question), every eigenvalue's nearest mirror value lies within 5.2e-8.
+The recorded 4.5e-2 is the anchor script's pairing, not the spectrum's: it
+orders both sides by the key real·1e6 + imag and subtracts positionally, and
+inside a degenerate cluster the real-part noise of a few 1e-8, scaled by 1e6,
+exceeds the imaginary gaps, so the sort pairs across levels;
+[`f1_pairing_anchor_recheck.py`](../../simulations/f1_pairing_anchor_recheck.py)
+reproduces 0.045157 through that sort and pairs the same spectrum within
+7.9e-8 under a min-sum assignment. The 5.2e-8 is still far above machine
 precision, and that gap is the degeneracy showing: the spectrum carries 4,096
-eigenvalues on only 1,433 distinct values, with multiplicities up to 33, and
-in such a cluster a nearest-neighbour walk can pair the wrong member. (Note
-that comparing the two sides by sorting is no better: sorting complex numbers
-is tie-order dependent, and the raw sorted difference here is 6.4 for a
-spectrum that pairs to 5.2e-8.)
+eigenvalues on only 1,433 distinct values, with multiplicities up to 33. (A plain
+sort of the complex values, without the 1e6 weight, does worse still: it is
+tie-order dependent, and the raw sorted difference here is 6.4.)
 
 `OutlierPairCount` is the other field to read carefully. It counts pairs
 whose distance exceeds 100 times the *median* distance, so it is a

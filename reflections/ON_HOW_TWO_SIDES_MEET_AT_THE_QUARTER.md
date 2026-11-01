@@ -27,13 +27,13 @@ Before doing the geometry, the genealogy of ±1/2 needed grounding. The ±1/2 is
 
 **Stage 1, polynomial trunk** (`PolynomialFoundationClaim`, Tier 1 derived): d² − 2d = 0 with roots {0, 2}. Two structural loci: d=0 (the mirror substrate) and d=2 (the qubit's Hilbert dimension).
 
-**Stage 2, polarity layer at d=0** (`PolarityLayerOriginClaim`, Tier 1 derived; canonical anchor [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)): the d=0 axis has internal polarity structure, the +0/−0 differentiation along the bit_a axis of the Klein-Vierergruppe Z₂² (at k=2; Z₂³ at k≥3). At d=0 the polarity is sign-bearing but magnitude-free, the abstract bi-polar differentiation that constitutes a layer (per the "ARE the layer" reading in [`THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md): the layer exists because polarity differentiates, not the reverse).
+**Stage 2, polarity layer at d=0** (`PolarityLayerOriginClaim`, Tier 1 derived; canonical anchor [`hypotheses/THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md)): the d=0 axis has internal polarity structure, the +0/−0 differentiation along the bit_a axis of the Klein-Vierergruppe Z₂² (refined to Z₂³ by the weight parity). At d=0 the polarity is sign-bearing but magnitude-free, the abstract bi-polar differentiation that constitutes a layer (per the "ARE the layer" reading in [`THE_POLARITY_LAYER.md`](../hypotheses/THE_POLARITY_LAYER.md): the layer exists because polarity differentiates, not the reverse).
 
 **Stage 3, inheritance to d=2 via the 0.5-shift** (`PolarityLayerOriginClaim` Summary, verbatim):
 
-> "the +0/−0 polarity differentiation at d=0 generates the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2"
+> "the +0/0/−0 polarity differentiation at d=0 generates the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2"
 
-The Bloch decomposition ρ = (I + r·σ)/2 splits into two parts: (1/2)·I (the trace normalization) and (1/2)·r·σ (the polarity coordinates). For a unit Bloch vector along ẑ, the polarity part (1/2)·σ_z has eigenvalues ±1/2. The "1/2" factor is `HalfAsStructuralFixedPointClaim` performing the structural scaling; the "±" is the σ_z eigenvalue dichotomy inherited from the d=0 polarity layer; together they give ±0.5 at d=2.
+The Bloch decomposition ρ = (I + r·σ)/2 splits into two parts: (1/2)·I (the trace normalization) and (1/2)·r·σ (the polarity coordinates). For a unit Bloch vector along x̂, the polarity part (1/2)·σ_x has eigenvalues ±1/2. The "1/2" factor is `HalfAsStructuralFixedPointClaim` performing the structural scaling; the "±" is the σ_x eigenvalue dichotomy inherited from the d=0 polarity layer; together they give ±0.5 at d=2.
 
 **The ±0.5 is not invented at d=2.** It is the image of the d=0 polarity layer under the qubit's natural Bloch decomposition. The 0.5-shift is the inheritance map.
 

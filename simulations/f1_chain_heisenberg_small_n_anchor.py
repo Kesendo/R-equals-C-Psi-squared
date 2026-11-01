@@ -65,14 +65,13 @@ def compute_palindromic_pairing_distances(
 
     Both lists are ordered by the scalar key real*1e6 + imag and then subtracted
     positionally. There is no nearest-neighbour search and no removal here, so this
-    is NOT the same algorithm as F1SpectrumStatistics.Compute, which the previous
-    version of this docstring claimed it mirrored (naming a method that does not exist).
+    is NOT the same algorithm as the C# path (greedy nearest-neighbour with removal).
 
     The key is affine-decreasing under the mirror, so it pairs an exactly palindromic
     spectrum correctly. It can misorder when the real-part noise SCALED BY 1e6 exceeds
     the imaginary gap between neighbouring levels, and the reported distance is then a
-    level spacing rather than an error. Whether that accounts for the large ring anchors
-    is open; see PROOF_F1_GENERAL_TOPOLOGY.md item 2. OutlierPairCount below is a
+    level spacing rather than an error: the ring_N6 anchor's 4.5e-2 is that case
+    (f1_pairing_anchor_recheck.py; PROOF_F1_GENERAL_TOPOLOGY.md item 2). OutlierPairCount below is a
     HISTOGRAM flag (distance > 100x the median), not a count of failures.
     """
     n = len(spectrum)

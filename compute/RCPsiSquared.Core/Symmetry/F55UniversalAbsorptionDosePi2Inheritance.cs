@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F55 closed form (Tier 1 proven from D6; ANALYTICAL_FORMULAS line 1064):
+/// <summary>F55 closed form (Tier 1 proven from D6; ANALYTICAL_FORMULAS F55):
 ///
 /// <code>
 ///   K_death = ln(10) ≈ 2.303      dose K = γ·t for 99% absorption of slowest mortal mode
@@ -29,7 +29,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// threshold sharing the symbol.
 /// Below it the slowest mortal mode is Zeno-suppressed, rate_min is far smaller
 /// and the dose is correspondingly larger. K_death = ln(10) is therefore the
-/// strong-coupling value, not a value at every Q.</para>
+/// value where the 2γ regime exists, not a value at every Q.</para>
 ///
 /// <para>The N+1 immortal modes have ⟨n_XY⟩ = 0 (purely {I, Z} Pauli content,
 /// invisible to the Z-dephasing dissipator). Complete absorption is therefore
@@ -49,8 +49,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// rate_min = 2γ inheritance from F50.</para>
 ///
 /// <para>Tier1Derived above Q*_gap(N): F55 follows from D6 (rate_min = 2γ) plus the
-/// 99%-absorption convention; valid for any Heisenberg chain, Z-dephasing,
-/// all N, in the strong-coupling regime. Pi2-Foundation anchoring is composition through F50 + Pi2DyadicLadder.</para>
+/// 99%-absorption convention, wherever the 2γ regime exists (the node "topology
+/// universality" below gives where it does). Pi2-Foundation anchoring is composition through F50 + Pi2DyadicLadder.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F55 +
 /// <c>experiments/TRAPPED_LIGHT_LOCALIZATION.md</c> +
@@ -144,7 +144,7 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim, IZ2AxisCla
     }
 
     public override string DisplayName =>
-        "F55 absorption dose K_death as Pi2-Foundation a_0 + F50 inheritance (strong-coupling regime)";
+        "F55 absorption dose K_death as Pi2-Foundation a_0 + F50 inheritance (where the 2γ regime exists)";
 
     public override string Summary =>
         $"K_death = ln(10) ≈ {KDeath:F4} (99% absorption) where rate_min = 2γ, i.e. above the D6 coupling threshold Q*_gap(N); immortal modes = N+1; cavity always retains light ({Tier.Label()})";

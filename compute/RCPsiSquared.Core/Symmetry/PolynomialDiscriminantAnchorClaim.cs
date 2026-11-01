@@ -4,9 +4,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The discriminant of the foundational polynomial d² − 2d = 0 is exactly
-/// <c>4</c>, which is exactly <c>a_{−1}</c> on the Pi2 dyadic ladder. This is the
-/// structural reason why the prefactor "4" appears in roughly a third of all
-/// F-formula closed forms.
+/// <c>4</c>, which is exactly <c>a_{−1}</c> on the Pi2 dyadic ladder.
 ///
 /// <code>
 ///   d² − 2d = 0    ⇒    discriminant = b² − 4ac = (−2)² − 4·1·0 = 4
@@ -19,16 +17,6 @@ namespace RCPsiSquared.Core.Symmetry;
 /// is the structural anchor: the polynomial knows its own discriminant, the
 /// discriminant knows the qubit dimension, the qubit dimension knows the dyadic
 /// ladder.</para>
-///
-/// <para><b>Visibility status (Tom 2026-05-09: "ist sie sichtbar oder versteckt
-/// sie sich?"):</b> the discriminant 4 IS visible everywhere as the literal
-/// "4γ" / "4γ₀" / "4·J" / "4^N" / "1/(4γ₀)" prefactor in countless F-formulas
-/// (F25, F65, F73, F76, F2, F23, F67, F86 t_peak, F56). What was HIDDEN before
-/// this claim was the structural cause: the "4" is not a free parameter or a
-/// numerical coincidence; it is the discriminant of the framework's foundational
-/// polynomial d² − 2d = 0. This claim makes the visible-but-implicit explicit:
-/// every "4" in an F-formula prefactor is a manifestation of the polynomial's
-/// own discriminant.</para>
 ///
 /// <para><b>Mirror partner via inversion symmetry a_n · a_{2−n} = 1:</b> the
 /// discriminant 4 = a_{−1} has its mirror partner at a_3 = 1/4 =
@@ -45,15 +33,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// claims are Tier1Derived; the discriminant computation is high-school algebra;
 /// the closure check is bit-exact arithmetic. Pure composition.</para>
 ///
-/// <para><b>Three F-formula clusters that visibly carry this anchor</b>
-/// (the "4" is the polynomial discriminant in each):</para>
+/// <para><b>Where the discriminant four is visible:</b> the operator-space counts
+/// F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the genealogy below; the other
+/// visible fours belong to other families. The four that looked most like the
+/// discriminant's is not:</para>
 /// <list type="bullet">
-///   <item><b>Decay rate prefactors:</b> F25 e^{−4γt}, F65 (4γ₀/(N+1)) sin²,
-///         F73 spatial-sum closure, F76 mirror-pair coherence decay.</item>
-///   <item><b>Operator-space dimensions:</b> F23 4^N denominator, F2
-///         bandwidth-prefactor 4J, F86 t_peak = 1/(4γ₀).</item>
-///   <item><b>Critical-slowing corrections:</b> F56 4·ε in the saddle-node log,
-///         16·tol = 4²·tol in α(tol).</item>
 ///   <item><b>Born-rule-mirror coefficient (the FALSIFIED candidate, 2026-06-17):</b> F94
 ///         Δ = (4/3)·Q²·K³ LOOKS like the most explicit appearance (4/3 = a_{−1}/3, per-diagram
 ///         1/16 = 1/a_{−1}²), but the qutrit REFUTES it: the faithful SU(d) Born-mirror coefficient
@@ -64,9 +48,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para><b>Genealogy of the visible fours (the qutrit prism, 2026-06-17;
-/// <c>simulations/formula_four_classification.py</c>, gate-first).</b> The "4"s above classify by what they
-/// BECOME at the qutrit (d = 3) into two super-families, cross-cutting the visible clusters above (which group
-/// by where the 4 appears, not by what it is). SPLIT (operator-counting, d-dependent): <b>family A</b> = the
+/// <c>simulations/formula_four_classification.py</c>, gate-first).</b> The visible fours of the F-formulas
+/// classify by what they BECOME at the qutrit (d = 3) into two super-families. SPLIT (operator-counting, d-dependent): <b>family A</b> = the
 /// squared dimension d² (F23/F49 4^N = (d²)^N → 9^N; F1 4^{N−1}), <b>family B</b>
 /// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, d-independent): <b>family C</b> = the rate
 /// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1) — verified d-independent), <b>family D</b> = the band edge /
@@ -188,7 +171,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
         PolynomialFoundationClaim polynomial,
         QubitDimensionalAnchorClaim qubit,
         Pi2DyadicLadderClaim ladder)
-        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; the structural cause of '4γ' prefactor in F25/F65/F73/F76/F2/F23/F67/F86/F56; genealogy of the fours split by the qutrit prism (formula_four_classification.py) into SPLIT (A=d², B=2d) vs STAY (C=rate, D=graph, E=fold); F94's 4/3 was the family-A candidate but is REFUTED (qudit c=4(d+2)(d−1)/(3d²), not d²/3)",
+        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; genealogy of the fours split by the qutrit prism (formula_four_classification.py) into SPLIT (A=d², B=2d) vs STAY (C=rate, D=graph, E=fold); F94's 4/3 was the family-A candidate but is REFUTED (qudit c=4(d+2)(d−1)/(3d²), not d²/3)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolynomialFoundationClaim + QubitDimensionalAnchorClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
@@ -200,7 +183,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
     }
 
     public override string DisplayName =>
-        "Polynomial discriminant = a_{-1} = 4 = d² (the 'why 4 everywhere' structural anchor)";
+        "Polynomial discriminant = a_{-1} = 4 = d²";
 
     public override string Summary =>
         $"discriminant of d²−2d=0 = {DiscriminantViaCoefficients} = (2−0)² = d² for d=2 = a_{{-1}} on Pi2DyadicLadder ({DiscriminantViaLadder}); mirror partner a_3 = {MirrorPartnerValue} (1/4 = QuarterAsBilinearMaxval); 4·(1/4) = 1 closure ({Tier.Label()})";
@@ -218,10 +201,8 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
             yield return InspectableNode.RealScalar("LadderIndex (a_{-1})", LadderIndex);
             yield return InspectableNode.RealScalar("MirrorPartnerLadderIndex (a_3)", MirrorPartnerLadderIndex);
             yield return InspectableNode.RealScalar("MirrorPartnerValue (a_3 = 1/4)", MirrorPartnerValue);
-            yield return new InspectableNode("visibility status (Tom 2026-05-09)",
-                summary: "the '4' IS visible everywhere (4γ in F25, 4γ₀/(N+1) in F65, 4J in F2, 4^N in F23, 1/(4γ₀) in F86 t_peak, etc.); what was HIDDEN before this claim was the structural cause = polynomial discriminant. Now explicit.");
-            yield return new InspectableNode("F-formula clusters that carry this anchor",
-                summary: "Decay rate prefactors (F25, F65, F73, F76); operator-space dimensions (F23, F2, F86 t_peak); critical-slowing corrections (F56 with both 4 and 4²=16)");
+            yield return new InspectableNode("where the discriminant four is visible",
+                summary: "F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the qutrit genealogy (→ 9^N at d=3); the rate fours 4γ (F25/F73/F86, F65/F67 4γ₀/(N+1)) and the band-edge 4J (F2/F41) stay 4 at d=3 and are other families");
             yield return new InspectableNode("mirror partner reading",
                 summary: "a_{-1} · a_3 = 4 · (1/4) = 1; the discriminant on the operator-space side and the bilinear-apex maxval on the memory side are mirror partners. The Mandelbrot cardioid cusp at CΨ = 1/4 (where 1 − 4·CΨ = 0) IS this same mirror partner.");
             yield return new InspectableNode("ZERO IS THE MIRROR connection",

@@ -7,9 +7,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <summary>Sparse-CSR variant of <see cref="KleinFourGroupSelfPairedRefinement.BuildSubBlockL"/>:
 /// for one Klein character χ on the (N/2, N/2) self-paired sector, builds the L_χ
 /// sub-block as a CSR triplet (RowPtr, ColIdx, Values) without ever materialising the
-/// dense matrix. At N=10 (5, 5) the dense path trips the .NET/MKL int32 marshaling cap
-/// (4.2 GB > 2 GB) — sparse storage drops the memory ~600× to ~7 MB per sub-block
-/// (mean nnz/row ≈ 10.7, ~170 k total nnz at dim 16132), making the sub-block streamable
+/// dense matrix. At N=10 (5, 5) the dense path needs 4.2 GB, past MathNet's 2 GB managed
+/// marshaling limit; sparse storage holds ~175 k nonzeros at dim 16132 (mean nnz/row
+/// ≈ 10.9), making the sub-block streamable
 /// through <see cref="SparseShiftInvertArnoldi.Run"/> for top-K slow-mode extraction.
 ///
 /// <para>The sparsity pattern is structurally the same as in the dense
