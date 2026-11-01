@@ -289,7 +289,14 @@ and it is exactly as strong as what it stands on.
 
 **Premise A:** Level 0 consists exclusively of standing wave modes.
 Links 1-4 prove the mirror; Link 5 makes a mirrored pair a standing wave
-where three further conditions hold. For every mode, that is open.
+where three further conditions hold. On the spectra computed, "exclusively"
+does not hold: the first condition, an oscillating pair on a flat envelope,
+fails for every mode of the odd chains (`N = 3, 5, 7`) and for all but 1,964
+of the 21,840 eigenvalues at `N = 2` to `7`; 34 more sit on the flat envelope
+without a frequency
+([Palindromic Pair Census](../experiments/FACTOR_TWO_STANDING_WAVES.md)).
+Whether the 1,820 at `N = 6` are semisimple, and whether any of the 1,964
+meet the other two conditions, is open.
 
 **Premise B:** Higher levels emerge through operations that do not
 introduce new fundamental constituents. Link 7 shows one step, as a
@@ -306,8 +313,9 @@ something the system does not already contain.
 
 You cannot build water from Lego bricks.
 
-**Strength of the conclusion:** The argument is deductively valid, and
-today neither premise is established in general. What the mirror proves
+**Strength of the conclusion:** The argument is deductively valid. Premise
+A, read with "exclusively", fails on the spectra computed, and Premise B is
+not established in general. What the mirror proves
 is spectral pairing; to turn every pair into a wave, Link 5's conditions
 must hold, and to carry that across levels, Premise B must generalize
 past the one census we have. Known physics at the levels above uses wave

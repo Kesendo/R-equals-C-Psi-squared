@@ -39,5 +39,54 @@ N=4 star      linear: pairs=120 fixed=16
 N=4 ring      linear: pairs=116 fixed=24
              composite:  pairs=50 fixed=156
 
+CONDITION-1 CANDIDATES: the centre line minus the F1 point
+Eigenvalues on Re(lambda) = -Sigma with nonzero frequency are the composite-
+fixed set minus the linear-fixed set. They are candidates for the flat-envelope
+condition of docs/STANDING_WAVE_THEORY.md, not standing waves.
+N=2: candidates=6; on-line spread 8.0e-16, nearest off-line 1.0e-01
+N=3: candidates=0; nothing on the line, nearest 0.016658
+N=4: candidates=138; on-line spread 3.9e-14, nearest off-line 2.5e-02
+N=5: candidates=0; nothing on the line, nearest 0.000460
+N=6: candidates=1820; on-line spread 1.5e-13, nearest off-line 2.1e-04
+N=7: candidates=0; nothing on the line, nearest 0.000010
+N=4 star: candidates=110
+N=4 ring: candidates=132
+
+Semisimplicity on the line (chain): each on-line cluster of multiplicity m
+has m singular values of L - lambda at the eigensolver floor and the next far
+above it, so geometric = algebraic multiplicity (guards Jordan blocks up to
+size 3; a larger one would split wider than the cluster radius 1e-4).
+N=2: 5 clusters, smallest ratio (next / largest null) 9.3e+11, closest two levels 1.3e-03
+N=4: 83 clusters, smallest ratio (next / largest null) 3.4e+09, closest two levels 2.0e-04
+
+The cube's reading at one bond: in the orthonormal Pauli basis Re(lambda) =
+-2*gamma*<k_Z>, so the line is the mid-height plane <k_Z> = N/2. At N=2 the
+eight strings of XY weight 1 form a sector L_H does not leave:
+coupling out of the weight-1 sector: 0.0e+00; its eigenvalues: -0.100-4.000i, -0.100-4.000i, -0.100-0.000i, -0.100-0.000i, -0.100+0.000i, -0.100+0.000i, -0.100+4.000i, -0.100+4.000i
+
+Why odd N is empty: L_H keeps the parity of k_Z, so L splits into an even-k_Z
+and an odd-k_Z sector. Pi sends k_Z to N - k_Z: at odd N it carries one sector
+onto the other, at even N each onto itself. Random bond and rate profiles:
+N=3 trial 0: on the line even/odd sector 0/0, nearest off 1.5e-02; odd sector = F1 image of even, matched with multiplicity, worst 2.2e-14
+N=3 trial 1: on the line even/odd sector 0/0, nearest off 6.8e-03; odd sector = F1 image of even, matched with multiplicity, worst 1.3e-14
+N=3 trial 2: on the line even/odd sector 0/0, nearest off 1.4e-02; odd sector = F1 image of even, matched with multiplicity, worst 2.1e-14
+N=3 trial 3: on the line even/odd sector 0/0, nearest off 1.3e-02; odd sector = F1 image of even, matched with multiplicity, worst 3.2e-14
+N=3 trial 4: on the line even/odd sector 0/0, nearest off 2.1e-02; odd sector = F1 image of even, matched with multiplicity, worst 2.5e-14
+N=4 trial 0: on the line even/odd sector 54/88, nearest off 2.0e-03
+N=4 trial 1: on the line even/odd sector 50/72, nearest off 2.2e-03
+N=4 trial 2: on the line even/odd sector 54/88, nearest off 1.2e-03
+N=4 trial 3: on the line even/odd sector 54/88, nearest off 1.5e-02
+N=4 trial 4: on the line even/odd sector 50/64, nearest off 6.3e-03
+N=5 trial 0: on the line even/odd sector 0/0, nearest off 1.9e-04; odd sector = F1 image of even, matched with multiplicity, worst 1.4e-13
+N=5 trial 1: on the line even/odd sector 0/0, nearest off 3.2e-04; odd sector = F1 image of even, matched with multiplicity, worst 1.4e-13
+N=5 trial 2: on the line even/odd sector 0/0, nearest off 2.3e-03; odd sector = F1 image of even, matched with multiplicity, worst 1.2e-13
+N=5 trial 3: on the line even/odd sector 0/0, nearest off 1.9e-04; odd sector = F1 image of even, matched with multiplicity, worst 1.1e-13
+N=5 trial 4: on the line even/odd sector 0/0, nearest off 1.8e-04; odd sector = F1 image of even, matched with multiplicity, worst 1.9e-13
+
+Where the argument needs its premise: a second mirror inside a sector. A bonded
+pair beside an isolated unwatched site (N=3) carries the pair's own mirror,
+and eigenvalues sit on the line at odd N:
+N=3, bond (0,1), rates (0.05, 0.05, 0): 40 on the line, 24 oscillating
+
 Scope: this is a spectral orbit census. It assigns no mode mechanism
 and no transport, damping, or biological interpretation.

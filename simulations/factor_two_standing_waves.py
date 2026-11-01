@@ -15,6 +15,7 @@ embedded CSV metadata.
 """
 
 from dataclasses import dataclass
+import itertools
 from pathlib import Path
 import os
 import sys
@@ -37,6 +38,7 @@ J = 1.0
 GAMMA = 0.05
 TOL = 1e-8
 TOLERANCES = (1e-6, 1e-8, 1e-10)
+CLUSTER = 1e-4
 
 I2 = np.eye(2, dtype=complex)
 Xm = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -104,16 +106,17 @@ def kron_chain(ops):
     return result
 
 
-def build_liouvillian(n, gammas, bonds):
+def build_liouvillian(n, gammas, bonds, couplings=None):
     dimension = 2**n
     identity = np.eye(dimension, dtype=complex)
     hamiltonian = np.zeros((dimension, dimension), dtype=complex)
-    for a, b in bonds:
+    for index, (a, b) in enumerate(bonds):
+        coupling = J if couplings is None else couplings[index]
         for pauli in (Xm, Ym, Zm):
             ops = [I2] * n
             ops[a] = pauli
             ops[b] = pauli
-            hamiltonian += J * kron_chain(ops)
+            hamiltonian += coupling * kron_chain(ops)
     generator = -1j * (
         np.kron(hamiltonian, identity) - np.kron(identity, hamiltonian.T)
     )
@@ -215,6 +218,162 @@ def render_report():
         composite = orbit_census(values, sigma, "composite")
         log(f"N=4 {name:<9} linear: pairs={linear.pairs} fixed={linear.fixed}")
         log(f"{'':13}{'composite:':<11} pairs={composite.pairs} fixed={composite.fixed}")
+    log()
+    log("CONDITION-1 CANDIDATES: the centre line minus the F1 point")
+    log("Eigenvalues on Re(lambda) = -Sigma with nonzero frequency are the composite-")
+    log("fixed set minus the linear-fixed set. They are candidates for the flat-envelope")
+    log("condition of docs/STANDING_WAVE_THEORY.md, not standing waves.")
+    expected = {2: 6, 3: 0, 4: 138, 5: 0, 6: 1820, 7: 0}
+    for n in range(2, 8):
+        values = load_eigenvalues(n)
+        sigma = n * GAMMA
+        linear = orbit_census(values, sigma, "linear")
+        composite = orbit_census(values, sigma, "composite")
+        candidates = composite.fixed - linear.fixed
+        distance = np.abs(values.real + sigma)
+        on_line = distance <= TOL
+        nearest_off = float(distance[~on_line].min())
+        if on_line.any():
+            farthest_on = float(distance[on_line].max())
+            # An eigensolver count. What decides it is the tolerance stability of
+            # both censuses (gated above at 1e-6, 1e-8, 1e-10); the spread and the
+            # nearest off-line distance are printed as the reading, not gated.
+            log(f"N={n}: candidates={candidates}; on-line spread {farthest_on:.1e}, "
+                f"nearest off-line {nearest_off:.1e}")
+        else:
+            log(f"N={n}: candidates=0; nothing on the line, nearest {nearest_off:.6f}")
+        assert candidates == expected[n], (n, candidates)
+    for name, bond_builder in (("star", star_bonds), ("ring", ring_bonds)):
+        values = np.linalg.eigvals(build_liouvillian(4, [GAMMA] * 4, bond_builder(4)))
+        linear = orbit_census(values, 4 * GAMMA, "linear")
+        composite = orbit_census(values, 4 * GAMMA, "composite")
+        log(f"N=4 {name}: candidates={composite.fixed - linear.fixed}")
+        assert composite.fixed - linear.fixed == {"star": 110, "ring": 132}[name]
+    log()
+    log("Semisimplicity on the line (chain): each on-line cluster of multiplicity m")
+    log("has m singular values of L - lambda at the eigensolver floor and the next far")
+    log("above it, so geometric = algebraic multiplicity (guards Jordan blocks up to")
+    log("size 3; a larger one would split wider than the cluster radius 1e-4).")
+    for n in (2, 4):
+        generator = build_liouvillian(n, [GAMMA] * n, chain_bonds(n))
+        values = np.linalg.eigvals(generator)
+        sigma = n * GAMMA
+        line = values[np.abs(values.real + sigma) <= TOL]
+        used = np.zeros(len(line), dtype=bool)
+        worst = np.inf
+        clusters = 0
+        representatives = []
+        identity = np.eye(len(generator))
+        for i, value in enumerate(line):
+            if used[i]:
+                continue
+            # The cluster radius must exceed the split of a hidden Jordan block of
+            # size m, about (eps*||L||)^(1/m): 3e-5 for m = 3, 5e-4 for m = 4. The
+            # multiplicity is counted over the whole spectrum, so a partner split
+            # off the line is still inside. Distinct levels on the line come as
+            # close as 2.0e-4 at N=4 (printed and asserted above the radius), so
+            # 1e-4 guards Jordan blocks up to size 3 and no further.
+            used |= np.abs(line - value) <= CLUSTER
+            representatives.append(value)
+            m = int(np.count_nonzero(np.abs(values - value) <= CLUSTER))
+            sv = np.linalg.svd(generator - value * identity, compute_uv=False)
+            worst = min(worst, sv[-m - 1] / max(sv[-m], 1e-300))
+            clusters += 1
+        representatives.sort(key=lambda z: (z.imag, z.real))
+        spacing = min(abs(a - c) for k, a in enumerate(representatives) for c in representatives[k + 1:])
+        log(f"N={n}: {clusters} clusters, smallest ratio (next / largest null) {worst:.1e}, "
+            f"closest two levels {spacing:.1e}")
+        assert spacing > CLUSTER, spacing
+        assert worst > 1e6, (n, worst)
+    log()
+    log("The cube's reading at one bond: in the orthonormal Pauli basis Re(lambda) =")
+    log("-2*gamma*<k_Z>, so the line is the mid-height plane <k_Z> = N/2. At N=2 the")
+    log("eight strings of XY weight 1 form a sector L_H does not leave:")
+    labels = [a + b for a in "IXYZ" for b in "IXYZ"]
+    single = {"I": I2, "X": Xm, "Y": Ym, "Z": Zm}
+    basis = np.column_stack([
+        np.kron(single[l[0]], single[l[1]]).reshape(-1) / 2.0 for l in labels
+    ])
+    pauli_generator = basis.conj().T @ build_liouvillian(2, [GAMMA] * 2, chain_bonds(2)) @ basis
+    weight = np.array([sum(c in "XY" for c in l) for l in labels])
+    inside = np.where(weight == 1)[0]
+    outside = np.where(weight != 1)[0]
+    leak = max(np.abs(pauli_generator[np.ix_(inside, outside)]).max(),
+               np.abs(pauli_generator[np.ix_(outside, inside)]).max())
+    sector = np.linalg.eigvals(pauli_generator[np.ix_(inside, inside)])
+    log(f"coupling out of the weight-1 sector: {leak:.1e}; its eigenvalues: "
+        + ", ".join(f"{v.real:+.3f}{v.imag:+.3f}i" for v in sorted(sector, key=lambda z: z.imag)))
+    # Exact, not gated: at one bond every L_H transition joins strings whose XY
+    # weights sum to 2 (experiments/PRIMORDIAL_QUBIT_ALGEBRA.md, Step 10) and D is
+    # diagonal, so weight 1 couples only to itself and the entry is zero by structure.
+    assert leak == 0.0, leak
+    log()
+    log("Why odd N is empty: L_H keeps the parity of k_Z, so L splits into an even-k_Z")
+    log("and an odd-k_Z sector. Pi sends k_Z to N - k_Z: at odd N it carries one sector")
+    log("onto the other, at even N each onto itself. Random bond and rate profiles:")
+    rng = np.random.default_rng(20261101)
+    for n in (3, 4, 5):
+        labels = ["".join(t) for t in itertools.product("IXYZ", repeat=n)]
+        basis = np.column_stack([
+            kron_chain([single[c] for c in l]).reshape(-1) / np.sqrt(2**n) for l in labels
+        ])
+        weight = np.array([sum(c in "XY" for c in l) for l in labels])
+        even = np.where(weight % 2 == 0)[0]
+        odd = np.where(weight % 2 == 1)[0]
+        for trial in range(5):
+            gammas = rng.uniform(0.02, 0.10, n)
+            sigma = float(gammas.sum())
+            couplings = rng.uniform(0.5, 1.5, n - 1)
+            generator = build_liouvillian(n, gammas, chain_bonds(n), couplings)
+            pauli = basis.conj().T @ generator @ basis
+            leak = max(np.abs(pauli[np.ix_(even, odd)]).max(), np.abs(pauli[np.ix_(odd, even)]).max())
+            # Exact: L preserves the parity of i XOR j for |i><j| (the bond terms
+            # flip two bits or none, the dephasing is diagonal), and strings of
+            # different k_Z parity have different X-mask parity, so their supports
+            # in the vectorised basis are disjoint and every product is an exact zero.
+            assert leak == 0.0, leak
+            spec_even = np.linalg.eigvals(pauli[np.ix_(even, even)])
+            spec_odd = np.linalg.eigvals(pauli[np.ix_(odd, odd)])
+            on = [int(np.count_nonzero(np.abs(s.real + sigma) <= TOL)) for s in (spec_even, spec_odd)]
+            nearest = min(float(np.abs(s.real + sigma)[np.abs(s.real + sigma) > TOL].min())
+                          for s in (spec_even, spec_odd))
+            line = f"N={n} trial {trial}: on the line even/odd sector {on[0]}/{on[1]}, nearest off {nearest:.1e}"
+            if n % 2:
+                # Multiplicity-aware, both directions: every odd-sector eigenvalue is
+                # assigned to one F1 image of an even-sector eigenvalue.
+                images = -spec_even - 2 * sigma
+                pairs_found = cKDTree(np.column_stack((images.real, images.imag))).query_ball_point(
+                    np.column_stack((spec_odd.real, spec_odd.imag)), TOL)
+                rows = [i for i, c in enumerate(pairs_found) for _ in c]
+                cols = [j for c in pairs_found for j in c]
+                graph = csr_matrix((np.ones(len(rows), dtype=np.int8), (rows, cols)),
+                                   shape=(len(spec_odd), len(images)))
+                assignment = maximum_bipartite_matching(graph, perm_type="column")
+                assert np.all(assignment >= 0), "odd sector is not the F1 image of the even one"
+                mismatch = float(np.max(np.abs(spec_odd - images[assignment])))
+                line += f"; odd sector = F1 image of even, matched with multiplicity, worst {mismatch:.1e}"
+                assert on == [0, 0], (n, on)
+            else:
+                # The even-N half of the reason: each sector is F1-symmetric by itself
+                # (orbit_census raises if its spectrum does not pair with multiplicity).
+                for spectrum in (spec_even, spec_odd):
+                    orbit_census(spectrum, sigma, "linear")
+                assert min(on) > 0, (n, on)
+            log(line)
+    log()
+    log("Where the argument needs its premise: a second mirror inside a sector. A bonded")
+    log("pair beside an isolated unwatched site (N=3) carries the pair's own mirror,")
+    log("and eigenvalues sit on the line at odd N:")
+    labels = ["".join(t) for t in itertools.product("IXYZ", repeat=3)]
+    gammas = [GAMMA, GAMMA, 0.0]
+    values = np.linalg.eigvals(build_liouvillian(3, gammas, [(0, 1)]))
+    sigma = float(sum(gammas))
+    on = np.abs(values.real + sigma) <= TOL
+    oscillating = int(np.count_nonzero(on & (np.abs(values.imag) > TOL)))
+    log(f"N=3, bond (0,1), rates (0.05, 0.05, 0): {int(on.sum())} on the line, {oscillating} oscillating")
+    # Exact: the spectrum is the pair's N=2 spectrum (10 on its line, 6 oscillating)
+    # repeated over the four zero-rate letters of the isolated site.
+    assert (int(on.sum()), oscillating) == (40, 24)
     log()
     log("Scope: this is a spectral orbit census. It assigns no mode mechanism")
     log("and no transport, damping, or biological interpretation.")

@@ -109,6 +109,21 @@ composite census preserves `Im(lambda)` and is useful for grouping equal
 frequencies, but only the linear census is the orbit structure transported by
 `Pi`.
 
+The difference between the two fixed counts is the set the licensing section
+above asks about: eigenvalues on `Re(lambda)=-Sigma_gamma` with nonzero
+frequency, the candidates for condition 1 of
+[Standing Waves](../docs/STANDING_WAVE_THEORY.md). There are 6, 138 and 1,820
+of them at `N=2, 4, 6` (10 − 4, 152 − 14, 1,836 − 16) and none at `N=3, 5, 7`,
+where `Pi` exchanges the two `k_Z`-parity sectors instead of acting inside
+each (the reason is in Standing Waves);
+at `N=4` the star holds 110 and the ring 132. The count inherits the
+tolerance stability of both censuses, and the gap is wide (at `N=6` a spread
+of `1.5e-13` on the line against `2.1e-4` to the nearest eigenvalue off it);
+on the chain at
+`N=2` and `4` every cluster on the line is semisimple. Whether any of them
+propagates oppositely in space, and which preparation and readout would see
+a pair, has not been asked.
+
 The producer also emits the measured mean decay over each complete spectrum;
 at the printed precision it is `Sigma_gamma`:
 

@@ -430,7 +430,7 @@ section for the same split stated at the parent theorem.
   is one of two commuting superselection charges, and the two-sector
   direct sum here is the coarsest layer of that structure.
 - [Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md): gain-loss coupled system; odd/even N stability asymmetry
-- [Standing Wave Theory](../STANDING_WAVE_THEORY.md): palindromic mode pairing
+- [Standing Wave Theory](../STANDING_WAVE_THEORY.md): palindromic mode pairing; at odd N, when no further mirror acts inside a sector, the sector exchange leaves nothing to hold eigenvalues on the centre line Re λ = −Σγ, while at even N each sector's own mirror can keep them there
 - [PT Symmetry Analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md): Π-sector P relation; full SRP class open
 
 ## External reference
