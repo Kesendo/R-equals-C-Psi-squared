@@ -54,6 +54,28 @@ public class PerF71OrbitKTableTests
             $"orbit 0 HWHM/Q* at N={N}: got {w.HwhmLeftOverQPeak:F4}, expected {expectedHwhmRatio:F4} ± 0.005");
     }
 
+    /// <summary>The c=2 N=6 inner orbits: the flanking pair {1,3} above the self-paired
+    /// central bond {2}. Second route: simulations/f86c_n6_inner_orbit_qpeak.py builds the same
+    /// operator through the F89 eigendecomposition and reads 1.6157420527997473 and
+    /// 1.4355454358621969 on the same [0.2, 4] grid of 153 points, t-grid and parabolic
+    /// refinement; this table reads 1.6157420528004274, 7e-13 away (the refinement divides the
+    /// eigensolvers' rounding of K by its curvature over the grid step). The gate 1e-11 sits a
+    /// decade above that; a change of grid, t-grid or operator moves the read by 1e-5 or more.</summary>
+    [Fact]
+    public void Build_N6_InnerOrbits_QPeak_MatchTheBridgeRoute()
+    {
+        var block = new CoherenceBlock(6, n: 1, gammaZero: 0.05);
+        var table = PerF71OrbitKTable.Build(block);
+        var flank = table.OrbitWitnesses[1];
+        var centre = table.OrbitWitnesses[2];
+        Assert.Equal(1, flank.Orbit.BondA);
+        Assert.Equal(3, flank.Orbit.BondB);
+        Assert.True(centre.Orbit.IsSelfPaired);
+        Assert.Equal(2, centre.Orbit.BondA);
+        Assert.True(Math.Abs(flank.QPeak - 1.6157420527997473) <= 1e-11, $"flanking Q_peak {flank.QPeak:R}");
+        Assert.True(Math.Abs(centre.QPeak - 1.4355454358621969) <= 1e-11, $"central Q_peak {centre.QPeak:R}");
+    }
+
     /// <summary>Pinned anchor for the chain-center (largest-Index) orbit at N=9, N=10
     /// from the 2026-05-07 c2hwhm CLI runs. N=9: orbit 3 = mirror pair {3,4}; N=10:
     /// orbit 4 = self-paired {4}.</summary>

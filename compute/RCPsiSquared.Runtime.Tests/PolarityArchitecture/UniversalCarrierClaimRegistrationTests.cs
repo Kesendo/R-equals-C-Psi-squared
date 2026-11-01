@@ -35,7 +35,7 @@ public class UniversalCarrierClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisterUniversalCarrierClaim_AncestorsContainAllThreeParents()
+    public void RegisterUniversalCarrierClaim_AncestorsContainBothParentsAndNotTheDiscriminant()
     {
         var registry = BuildBaseRegistry()
             .RegisterUniversalCarrierClaim()
@@ -46,18 +46,18 @@ public class UniversalCarrierClaimRegistrationTests
 
         Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
-        Assert.Contains(typeof(PolynomialDiscriminantAnchorClaim), ancestors);
+        // t_peak's four is the Absorption rung-2 rate, not the discriminant's operator-space four.
+        Assert.DoesNotContain(typeof(PolynomialDiscriminantAnchorClaim), ancestors);
     }
 
     [Fact]
-    public void RegisterUniversalCarrierClaim_WithoutPolynomialDiscriminantAnchor_Throws()
+    public void RegisterUniversalCarrierClaim_WithoutAbsorptionTheorem_Throws()
     {
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterPi2Family()
                 .RegisterPi2DyadicLadder()
-                .RegisterAbsorptionTheoremClaim()
-                // Missing: RegisterPolynomialDiscriminantAnchor
+                // Missing: RegisterAbsorptionTheoremClaim
                 .RegisterUniversalCarrierClaim()
                 .Build());
     }

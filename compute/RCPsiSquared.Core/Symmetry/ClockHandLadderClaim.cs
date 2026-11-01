@@ -123,7 +123,6 @@ public sealed class ClockHandLadderClaim : Claim
     {
         // Shared Pi2-Foundation roots (all parameterless), reused across every parent so the graph is consistent.
         var ladder = new Pi2DyadicLadderClaim();
-        var polynomial = new PolynomialFoundationClaim();
         var qubit = new QubitDimensionalAnchorClaim();
 
         // F2b band-edge parent: F2b(ladder, f65); f65(ladder, f66); f66(ladder, qubit).
@@ -134,9 +133,8 @@ public sealed class ClockHandLadderClaim : Claim
         // One shared AbsorptionTheoremClaim feeds both the Absorption parent edge and the UniversalCarrier parent.
         var absorption = new AbsorptionTheoremClaim(ladder);
 
-        // UniversalCarrier(absorption, ladder, discriminant); discriminant(polynomial, qubit, ladder).
-        var discriminant = new PolynomialDiscriminantAnchorClaim(polynomial, qubit, ladder);
-        var carrier = new UniversalCarrierClaim(absorption, ladder, discriminant);
+        // UniversalCarrier(absorption, ladder).
+        var carrier = new UniversalCarrierClaim(absorption, ladder);
 
         return new ClockHandLadderClaim(bandEdge, absorption, carrier);
     }

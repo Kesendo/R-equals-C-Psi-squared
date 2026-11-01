@@ -34,7 +34,7 @@ public static class F71OpenQuestions
         new OpenQuestion(
             "per-F71-orbit substructure: derive Q_peak(orbit, c, N)",
             "F71 pairs bonds but does not predict the value. The per-F71-orbit substructure observed " +
-            "in F86 (e.g. c=2 N=6: central b=2 → 1.440, flanking b=1, b=3 → 1.648) needs an analytical " +
+            "in F86 (e.g. c=2 N=6: central b=2 → 1.436, flanking b=1, b=3 → 1.616) needs an analytical " +
             "model. Likely depends on the multi-particle XY structure of the (n, n+1) block.",
             "OBC sine-mode algebra applied to the per-bond M_H matrix elements; deriving g_eff(b, c, N) " +
             "would close this jointly with F86 Item 1'.",

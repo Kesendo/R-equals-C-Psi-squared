@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.F71;
 ///
 /// <para>Per-F71-orbit substructure: even within the bond-mirror grouping, central
 /// (self-paired) bonds give a different Q_peak from flanking bonds. F71 gives the pairing,
-/// not the value: e.g. c=2 N=6 central b=2 → 1.440 vs flanking b=1, b=3 → 1.648.</para>
+/// not the value: e.g. c=2 N=6 central b=2 → 1.436 vs flanking b=1, b=3 → 1.616.</para>
 ///
 /// <para>This is the link between F71 (kinematic, c₁ vac+SE) and F86 (EP-rotation universality,
 /// K_CC_pr on (n, n+1)); cf. <see cref="C1MirrorIdentity"/> and the F86 typed knowledge base.</para>

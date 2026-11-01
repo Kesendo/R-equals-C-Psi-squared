@@ -41,9 +41,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         a_2 = 1/2 from the dyadic ladder, the algebraic mechanism that produces
 ///         the 1-bit limit at leading order in F77's proof.</item>
 ///   <item><b>AsymptoticCorrectionCoefficient = 3/(4 ln 2) ≈ 1.0820</b>:
-///         the leading 1/N correction. The 4 here is <see cref="Pi2DyadicLadderClaim.Term"/>(−1)
-///         = a_{−1} = d² for 1 qubit (4-block decomposition factor); the 3 comes
-///         from the Σ sin⁴ identity (combinatorial, not Pi2-anchored).</item>
+///         the leading 1/N correction. Its value 4 is <see cref="Pi2DyadicLadderClaim.Term"/>(−1)
+///         = a_{−1}; it comes with the 3 out of Σ p_ℓ² = (2/(N+1))²·3(N+1)/8 = 3/(2(N+1))
+///         (the sine normalisation squared and the Σ sin⁴ identity), halved onto the
+///         mirror pairs.</item>
 /// </list>
 ///
 /// <para>Operational reading (per ANALYTICAL_FORMULAS): "Alice's multi-drop quantum
@@ -115,8 +116,8 @@ public sealed class F77MmSaturationPi2Inheritance : Claim, IZ2AxisClaim
         Math.Abs(InversionIdentityProduct - SaturationBit) < 1e-15;
 
     /// <summary>The leading 1/N correction coefficient: <c>3 / (4 ln 2) ≈ 1.0820</c>.
-    /// The 4 here is <c>a_{−1}</c> on the Pi2 ladder (4-block decomposition factor);
-    /// the 3 is combinatorial (Σ sin⁴ identity). Verified to 10⁻⁴ by N = 10⁴.</summary>
+    /// The 4 has the value <c>a_{−1}</c> on the Pi2 ladder; with the 3 it comes from the sine
+    /// normalisation squared, the Σ sin⁴ identity and the halving onto mirror pairs. Verified to 10⁻⁴ by N = 10⁴.</summary>
     public double AsymptoticCorrectionCoefficient => 3.0 / (4.0 * Math.Log(2.0));
 
     /// <summary>The "4" factor in the correction's denominator <c>4(N+1)</c>:

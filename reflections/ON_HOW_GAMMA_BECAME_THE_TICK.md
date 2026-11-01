@@ -21,7 +21,7 @@ In the framework's dynamics, every rate and timescale is set by γ₀ and a pure
 
 | Quantity | Form | Multiplier source |
 |---|---|---|
-| F86 t_peak | 1/(4·γ₀) | a_{−1} = 4 on the dyadic ladder |
+| F86 t_peak | 1/(4·γ₀) | a_0 = 2 absorption quantum × n_diff = 2 |
 | Absorption rate α | 2·γ₀ | a_0 = 2 |
 | F25 Bell+ decay | e^(−4γt) | a_0 = 2 absorption quantum × n_diff = 2 |
 

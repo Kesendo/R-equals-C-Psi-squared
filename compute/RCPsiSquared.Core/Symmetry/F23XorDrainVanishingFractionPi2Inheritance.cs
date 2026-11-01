@@ -39,9 +39,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
 ///   <item><b>BaseFactor = 4 = a_{−1}</b>: in 4^N denominator. Live from
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same anchor as F25
-///         decay rate (e^{−4γt}), F65/F76 numerators, F73 spatial-sum closure,
-///         F61/F63 4-block per parity.</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1), the one-site operator-space
+///         count d², which is also the count of F61/F63's four Klein blocks.</item>
 ///   <item><b>OperatorSpaceDim = 4^N</b>: the full Pauli operator-space
 ///         dimension d² where d = 2 (qubit). Sibling of
 ///         <see cref="Pi2OperatorSpaceMirrorClaim"/> which typifies the
@@ -49,8 +48,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>F23 is the "operator-space-dimension counting result" sibling of
-/// other 4^N-based claims: F61/F63 use 4-block per parity (4^N total split
-/// into 4-blocks × N parities); F73 uses 4 · γ_T1 decay coefficient; F23
+/// other 4^N-based claims: F61/F63 split 4^N into four blocks of 4^(N−1); F23
 /// uses 4^N as the denominator of fraction-counting.</para>
 ///
 /// <para>Tier1Derived: the (N+1) count is the eigenvectors X^⊗N·P_k, one per popcount
@@ -87,8 +85,8 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
-    /// <summary>The "4" base in 4^N. Live from Pi2DyadicLadder a_{−1}. Same anchor
-    /// as F25/F65/F73/F76 decay rate numerators.</summary>
+    /// <summary>The "4" base in 4^N. Live from Pi2DyadicLadder a_{−1}: the one-site
+    /// operator-space count d².</summary>
     public double BaseFactor => Ladder.Term(-1);
 
     /// <summary>Live computation of the operator-space dimension 4^N. For N=1..6

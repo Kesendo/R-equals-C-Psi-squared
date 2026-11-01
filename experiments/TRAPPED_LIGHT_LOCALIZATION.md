@@ -7,7 +7,7 @@ K_death dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
 
 **Status:** Center-weighted late-time XY diagnostic observed for N=4,5 in the
-declared sacrifice-zone runs. K_death = ln(10) = 2.303 above the coupling threshold
+declared sacrifice-zone runs. K_death = ln(10) = 2.303 above the chain's coupling threshold
 Q*_gap(N) (from D6; below it the slowest mortal mode is slower and the dose
 grows). Gamma plays the algebraic
 role of an inverse-time scale in K = γt. No mass, light, or energy-conversion

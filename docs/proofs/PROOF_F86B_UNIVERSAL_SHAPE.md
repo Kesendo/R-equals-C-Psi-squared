@@ -239,12 +239,12 @@ Interior mean (excluding finite-size N=5 outliers): **0.756**. Range 0.7507–0.
 | c=4 N=7 | 0.7671 | 2.5227 | 0.05 |
 | c=4 N=8 | 0.7781 | 2.6519 | 0.05 |
 
-Endpoint mean: **0.770** (the c = 3, 4 rows; all twelve rows give 0.771). Range 0.7663–0.7781 (1.5 %).
+Endpoint mean: **0.770** (the c = 3, 4 systems; all ten systems give 0.771, the c = 3, N = 7 row standing three times, once per γ₀). Range 0.7663–0.7781 (1.5 %).
 γ₀-invariance at c=3 N=7 Endpoint: bit-exact across γ₀ ∈ {0.025, 0.05, 0.10}.
 
 ### What this tells us
 
-1. **Two class-averaged clusters, marginally separated.** The Interior class-average clusters at 0.756 (the 10 rows without N=5, range ~0.009); Endpoint at 0.770 (range ~0.012). The clusters do separate (no overlap), but the inter-cluster gap (~0.006–0.007) is *comparable to*, not larger than, the within-class range, and much of that range is the systematic N-climb, not random scatter. Per bond (not class-averaged) the ratio fans across the six `BondSubClass` orbits, 0.58–0.92; the two-cluster picture is the F71-class average.
+1. **Two class-averaged clusters, marginally separated.** The Interior class-average clusters at 0.756 (the eight systems without N=5, range ~0.009); Endpoint at 0.770 (range ~0.012). The clusters do separate (no overlap), but the inter-cluster gap (~0.006–0.007) is *comparable to*, not larger than, the within-class range, and much of that range is the systematic N-climb, not random scatter. Per bond (not class-averaged) the ratio fans across the six `BondSubClass` orbits, 0.58–0.92; the two-cluster picture is the F71-class average.
 
 2. **γ₀ invariance is bit-exact.** At c=3 N=7, the Q_peak and HWHM-/Q* values are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}. This is the strongest empirical confirmation that Q is the inside-observable scale and γ₀ alone is not.
 

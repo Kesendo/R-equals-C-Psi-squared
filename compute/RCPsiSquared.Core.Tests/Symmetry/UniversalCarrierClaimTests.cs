@@ -7,17 +7,23 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class UniversalCarrierClaimTests
 {
-    // Mirrors the canonical construction recipe in ApproachFamilyCarrierClaim.Build():
-    // UniversalCarrierClaim(AbsorptionTheoremClaim, Pi2DyadicLadderClaim, PolynomialDiscriminantAnchorClaim),
-    // with the shared Pi2-Foundation roots built via their parameterless / typed ctors.
+    // UniversalCarrierClaim(AbsorptionTheoremClaim, Pi2DyadicLadderClaim), as in
+    // ClockHandLadderClaim.Build().
     private static UniversalCarrierClaim BuildClaim()
     {
         var ladder = new Pi2DyadicLadderClaim();
-        var polynomial = new PolynomialFoundationClaim();
-        var qubit = new QubitDimensionalAnchorClaim();
         var absorption = new AbsorptionTheoremClaim(ladder);
-        var discriminant = new PolynomialDiscriminantAnchorClaim(polynomial, qubit, ladder);
-        return new UniversalCarrierClaim(absorption, ladder, discriminant);
+        return new UniversalCarrierClaim(absorption, ladder);
+    }
+
+    [Fact]
+    public void DefaultTPeak_IsTheInverseRungTwoRate()
+    {
+        // t_peak = 1/(2γ₀·2): the Absorption cost of a basis pair disagreeing on two sites.
+        var claim = BuildClaim();
+        Assert.True(claim.DefaultTPeak == 1.0 / (4.0 * UniversalCarrierClaim.DefaultGammaZero),
+            $"DefaultTPeak {claim.DefaultTPeak:R}");
+        Assert.True(claim.DefaultTPeak == 5.0, $"DefaultTPeak {claim.DefaultTPeak:R}");
     }
 
     [Fact]

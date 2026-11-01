@@ -97,7 +97,7 @@ public sealed class Pi2KnowledgeBase : IInspectable
         DyadicLadder = new Pi2DyadicLadderClaim();
         Discriminant = new PolynomialDiscriminantAnchorClaim(PolynomialFoundation, RootAnchor, DyadicLadder);
         AbsorptionTheorem = new AbsorptionTheoremClaim(DyadicLadder);
-        UniversalCarrier = new UniversalCarrierClaim(AbsorptionTheorem, DyadicLadder, Discriminant);
+        UniversalCarrier = new UniversalCarrierClaim(AbsorptionTheorem, DyadicLadder);
         // F99 closure: 5 canonical trig angles → 5 dyadic anchors via α = sin²(θ)/2.
         // F98 (KIntermediate long-time bridge to 1/4) is F99's third typed parent;
         // constructed locally here since F98 is not itself a Pi2KB top-level property.

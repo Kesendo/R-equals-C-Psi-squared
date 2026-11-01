@@ -37,8 +37,7 @@ public class BlindSeatSectorFactorisationClaimTests
         var f65 = new F65XxChainSpectrumPi2Inheritance(ladder, f66);
         var f2b = new F2bXyChainSpectrumPi2Inheritance(ladder, f65);
         var absorption = new AbsorptionTheoremClaim(ladder);
-        var discriminant = new PolynomialDiscriminantAnchorClaim(new PolynomialFoundationClaim(), qubitAnchor, ladder);
-        var carrier = new UniversalCarrierClaim(absorption, ladder, discriminant);
+        var carrier = new UniversalCarrierClaim(absorption, ladder);
         var clock = new ClockHandLadderClaim(f2b, absorption, carrier);
         return new CrackedRingExactCurveClaim(new TopologyBandEdgeClaim(clock, absorption), f2b);
     }

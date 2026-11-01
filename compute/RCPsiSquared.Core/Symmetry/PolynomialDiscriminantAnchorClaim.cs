@@ -51,12 +51,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/formula_four_classification.py</c>, gate-first).</b> The visible fours of the F-formulas
 /// classify by what they BECOME at the qutrit (d = 3) into two super-families. SPLIT (operator-counting, d-dependent): <b>family A</b> = the
 /// squared dimension d² (F23/F49 4^N = (d²)^N → 9^N; F1 4^{N−1}), <b>family B</b>
-/// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, d-independent): <b>family C</b> = the rate
+/// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, set by the generators): <b>family C</b> = the rate
 /// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1)), <b>family D</b> = the band edge /
 /// graph 4J (F2/F41; F121's Heisenberg gap Δ = 4J holds at d = 3 too), <b>family E</b> = the inversion-fold
 /// ¼ = a₃ = 1/a_{−1} = 1/d² (F56/F95/F97/F98 / <see cref="QuarterAsBilinearMaxvalClaim"/>; the qudit value 1/9
-/// is conjectural — blocked, since concurrence is d = 2 only). Gated: A (4^N → 9^N), C (4γ stays),
-/// D (4J stays). <b>F94 was the candidate family-A "smoking gun" and is REFUTED (2026-06-17,
+/// is conjectural and blocked, since concurrence is d = 2 only). Gated: A (4^N → 9^N), C (4γ stays, for the
+/// equidistant full-Cartan qutrit dephaser the gate stipulates), D (4J stays). <b>F94 was the candidate family-A "smoking gun" and is REFUTED (2026-06-17,
 /// <c>simulations/f94_qutrit_born_mirror.py</c>):</b> its faithful SU(d) Born-mirror coefficient is
 /// c(d) = 4(d+2)(d−1)/(3d²) (peak 3/2 at d=4, → 4/3 as d→∞), NOT d²/3 = 3 — F94's 4 is a setup-specific
 /// diagram count, the a_{−1}/3 reading a d=2 coincidence. The one genuinely OPEN test is family E
@@ -66,11 +66,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// KINEMATIC vs DYNAMIC dichotomy. The SPLIT fours are <i>kinematic</i> — they count the operator (Liouville)
 /// space, whose single-site dimension is d² (family A) and mirror-realizable part 2d (family B), so they scale
 /// with d; family E is the kinematic inverse 1/d². The STAY fours are <i>dynamic/spectral</i> — rates 2γ·Hamming
-/// (C) and band edges J·ρ (D), set by the GENERATORS of evolution and blind to d. The qubit (d=2) is the unique
-/// COINCIDENCE point where d² = 2d = the generator scales (2γ·2, 4J, the spin (1/2)²) all equal 4 — which is why
+/// (C) and band edges J·ρ (D), set by the GENERATORS of evolution, not by the operator-space count. The qubit (d=2) is the unique
+/// COINCIDENCE point where d² = 2d = the generator scales (2γ·2, 4J, the inverse spin normalisation 1/(1/2)²) all equal 4 — which is why
 /// the "4 = d²" intuition felt universal: at the qubit every 4 IS the same number, and the qutrit is the prism
-/// that separates them. <b>Practical corollary:</b> STAY-family formulas (rates, frequencies, t_peak, decay
-/// envelopes, band structure) carry to ANY qudit unchanged; SPLIT-family formulas (operator-space dimensions,
+/// that separates them. <b>Practical corollary:</b> the band structure of family D carries to d = 3; the
+/// rates of family C carry only for a dephaser chosen to keep the rung, since at d = 3 the rung depends
+/// on which channel stands in for Z-dephasing (docs/proofs/PROOF_ABSORPTION_THEOREM.md), and whether
+/// t_peak carries is not known; SPLIT-family formulas (operator-space dimensions,
 /// the (2/d)^N mirror protection of <see cref="QuditMirrorProtectionScalingClaim"/>) rescale as powers of d.
 /// F94 is the instructive hybrid: a dynamic base 4/3 (its d→∞ limit) dressed by kinematic finite-d corrections
 /// (peak at d=4).</para>
@@ -83,7 +85,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// product-mirror cap base (2d)^N (QuditProductMirrorCap, → 6, measured cap(3,2)=36=6² not 81): the two
 /// trunk terms coincide at 4 only at the root d=2 (this polynomial's own identity d² = 2d there, the qubit
 /// magic) and the qutrit fans them to {9, 6}; the ceiling four is a third reading that stays 4 (the dynamical
-/// rung-2 four 4γ a fourth, also Hamming-based and d-independent). Verified gate-first against the full d=3
+/// rung-2 four 4γ a fourth, also Hamming-based). Verified gate-first against the full d=3
 /// Liouvillian and F121 (simulations/qudit_g2_split.py). A see-cref, not a typed edge — distinct genealogies.</para>
 ///
 /// <para>Anchors: <c>compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs</c>
@@ -171,7 +173,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
         PolynomialFoundationClaim polynomial,
         QubitDimensionalAnchorClaim qubit,
         Pi2DyadicLadderClaim ladder)
-        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; genealogy of the fours split by the qutrit prism (formula_four_classification.py) into SPLIT (A=d², B=2d) vs STAY (C=rate, D=graph, E=fold); F94's 4/3 was the family-A candidate but is REFUTED (qudit c=4(d+2)(d−1)/(3d²), not d²/3)",
+        : base("Polynomial discriminant of d²−2d=0 IS a_{-1} = 4 = d² for d=2; genealogy of the fours split by the qutrit prism (formula_four_classification.py) into SPLIT (A=d², B=2d) vs STAY (C=rate, for the stipulated full-Cartan qutrit dephaser; D=graph; E=fold); F94's 4/3 was the family-A candidate but is REFUTED (qudit c=4(d+2)(d−1)/(3d²), not d²/3)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (PolynomialFoundationClaim + QubitDimensionalAnchorClaim) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
@@ -202,7 +204,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
             yield return InspectableNode.RealScalar("MirrorPartnerLadderIndex (a_3)", MirrorPartnerLadderIndex);
             yield return InspectableNode.RealScalar("MirrorPartnerValue (a_3 = 1/4)", MirrorPartnerValue);
             yield return new InspectableNode("where the discriminant four is visible",
-                summary: "F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the qutrit genealogy (→ 9^N at d=3); the rate fours 4γ (F25/F73/F86, F65/F67 4γ₀/(N+1)) and the band-edge 4J (F2/F41) stay 4 at d=3 and are other families");
+                summary: "F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the qutrit genealogy (→ 9^N at d=3); the rate fours 4γ (F25/F73/F86, F65/F67 4γ₀/(N+1)), whose value at d=3 depends on the qudit dephaser, and the band-edge 4J (F2/F41), which stays 4 at d=3, are other families");
             yield return new InspectableNode("mirror partner reading",
                 summary: "a_{-1} · a_3 = 4 · (1/4) = 1; the discriminant on the operator-space side and the bilinear-apex maxval on the memory side are mirror partners. The Mandelbrot cardioid cusp at CΨ = 1/4 (where 1 − 4·CΨ = 0) IS this same mirror partner.");
             yield return new InspectableNode("ZERO IS THE MIRROR connection",

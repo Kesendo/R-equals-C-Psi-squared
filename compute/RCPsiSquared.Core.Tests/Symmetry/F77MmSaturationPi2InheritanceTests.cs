@@ -69,7 +69,7 @@ public class F77MmSaturationPi2InheritanceTests
     [Fact]
     public void FourFactorInCorrectionDenominator_IsExactlyFour()
     {
-        // The "4" in 4(N+1) = a_{-1} on the dyadic ladder = d² for 1 qubit.
+        // The "4" in 4(N+1) has the value a_{-1} on the dyadic ladder.
         Assert.Equal(4.0, BuildClaim().FourFactorInCorrectionDenominator, precision: 14);
     }
 

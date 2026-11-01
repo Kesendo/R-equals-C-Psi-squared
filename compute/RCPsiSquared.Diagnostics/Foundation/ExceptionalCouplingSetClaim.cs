@@ -48,7 +48,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// h ≥ 4/3 for every traceless SU(2)-invariant operator by isotropy, the sector projector paying the difference, and W_p is the
 /// Δ-axis handover's rate matrix R = 4W_p − 4p·I, gap(R) = 2 being the same threshold along Δ), and proved
 /// on the uniform XY chain at every N by F141's ladder, F143's rung and F144's floor (PROOF_WEIGHT1_DEGENERACY § The
-/// count as a plane crossing); the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄. At the Zeno end the populations relax under the ferromagnet, whose
+/// count as a plane crossing); the debts (m₁, m₂, m₃) of the Heisenberg graphs are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄ (the XY star's at N = 4 are zero, float, gate I6 of simulations/f50_inertia_identity.py). At the Zeno end the populations relax under the ferromagnet, whose
 /// gap in every block of a tree is the site Laplacian's λ₁ (Theorem E of the same section), and on a chain the ZZ term picks the filling at the next order, the half filling on the uniform XXZ chain at Δ ≠ 0 (the central pair at odd N); live at <c>inspect --root zeno</c> (<see cref="ZenoEndWitness"/>). The chain's smallest point is 1/Q*_gap(N) at N = 2 to 5 by two routes (the exact root
 /// against the spectrum on both sides of it) and by the theorem: every mode slower than 2γ is a real, semisimple
 /// mode of a diagonal block (the Krein bound, no complex pair sets the gap), so wherever the 2γ regime exists its
@@ -142,7 +142,7 @@ public sealed class ExceptionalCouplingSetClaim : Claim
                 summary: "E non-empty on every graph computed (N = 2: γ/J = 2 defective; N = 3 chain: 1.249621, 1.732051; " +
                          "K₃: √3 with count 12; N = 4: 8 chain, 3 ring, 4 star, 1 complete; N = 5 chain: 13); chain block " +
                          "(p,p) carries C(N,p) − 1 points at p ≥ 2: exactly through N = 5, in float through N = 6, and m_p = 0 at the Hamiltonian end through N = 16 (the second eigenvalue of W_p = Σ n_l ∘ n_l below p − ½); " +
-                         "the debts (m₁, m₂, m₃) are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄, so there the 2γ regime does not exist; min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
+                         "the debts (m₁, m₂, m₃) of the Heisenberg graphs are (1, 3, 1) on the N = 4 ring, (1, 0, 1) on the star and (3, 2, 3) on K₄, so there the 2γ regime does not exist (the XY star at N = 4 has it, float, gate I6 of simulations/f50_inertia_identity.py); min E(chain) = 1/Q*_gap(N) at N = 2..5 by two " +
                          "routes (the Heisenberg chain's handover, typed for XY by HandoverFloorClaim, and at " +
                          "N = 2 the coherence horizon's point of CoherenceHorizonClaim); totals with oscillating modes only " +
                          "measured off E; Pauli J throughout");

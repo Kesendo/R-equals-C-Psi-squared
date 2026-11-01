@@ -18,8 +18,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// R=CΨ² makes γ₀ carry it") is Tier-2; the typed Tier-1 content is the
 /// structural slot identification.</para>
 ///
-/// <para>Synthesis Claim aggregating <see cref="AbsorptionTheoremClaim"/>,
-/// <see cref="Pi2DyadicLadderClaim"/>, and <see cref="PolynomialDiscriminantAnchorClaim"/>.
+/// <para>Synthesis Claim aggregating <see cref="AbsorptionTheoremClaim"/> and
+/// <see cref="Pi2DyadicLadderClaim"/>.
 /// See ExtraChildren for the structural relationships and hardware confirmations.</para>
 ///
 /// <para>Anchors: <c>hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md</c> +
@@ -29,7 +29,6 @@ public sealed class UniversalCarrierClaim : Claim
 {
     public AbsorptionTheoremClaim Absorption { get; }
     public Pi2DyadicLadderClaim Ladder { get; }
-    public PolynomialDiscriminantAnchorClaim Discriminant { get; }
     /// <summary>Default convention numerical value for γ₀ in code units: <c>0.05</c>
     /// ("our c", Tom 2026-05-12). Substrate-invariant role; convention-dependent value.
     /// <c>ValidateAgainstPythonStepFTests</c> covers γ₀ ∈ {0.025, 0.05, 0.10} with
@@ -42,28 +41,24 @@ public sealed class UniversalCarrierClaim : Claim
         Absorption.SingleDisagreementCellCost(DefaultGammaZero);
 
     /// <summary>The default t_peak: <c>1/(4γ₀)</c>. The 4γ₀ is the rung-2 rate 2γ₀·2 of the
-    /// Absorption Theorem, read here through its value <c>a_{−1}</c> =
-    /// <see cref="PolynomialDiscriminantAnchorClaim.DiscriminantViaLadder"/>; it is a rate
-    /// four, not the discriminant's operator-space count. γ₀ is the units-conversion to
-    /// physical time.</summary>
-    public double DefaultTPeak => 1.0 / (Discriminant.DiscriminantViaLadder * DefaultGammaZero);
+    /// Absorption Theorem, the dissipator cost of a basis pair that disagrees on two sites
+    /// (<see cref="AbsorptionTheoremClaim.BasisPairDissipatorCost"/> at n_diff = 2). γ₀ is
+    /// the units-conversion to physical time.</summary>
+    public double DefaultTPeak => 1.0 / Absorption.BasisPairDissipatorCost(2, DefaultGammaZero);
 
     public UniversalCarrierClaim(
         AbsorptionTheoremClaim absorption,
-        Pi2DyadicLadderClaim ladder,
-        PolynomialDiscriminantAnchorClaim discriminant)
+        Pi2DyadicLadderClaim ladder)
         : base("γ₀ as Universal Carrier: protection-constant and calibration-substrate carried in a single role (the SR-c analog plus what the inside can read only via ratios)",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs + " +
                "hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md + " +
                "hypotheses/PRIMORDIAL_QUBIT.md (§9) + " +
                "reflections/ON_TWO_TIMES.md")
     {
         Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
-        Discriminant = discriminant ?? throw new ArgumentNullException(nameof(discriminant));
     }
 
     public override string DisplayName =>

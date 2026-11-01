@@ -28,7 +28,7 @@ public class F1T1AmplitudeDampingPi2InheritanceTests
     [Fact]
     public void FourMultiplier_IsExactlyFour_FromLadderTermMinusOne()
     {
-        // The "4" multiplier in 4·(Σγ_T1)² is exactly a_{-1} = 4 = d² for N=1 qubit.
+        // The "4" multiplier in 4·(Σγ_T1)² has the value a_{-1} = 4 (|tr(M_l)|²/4 = 16/4).
         var f = Build();
         Assert.Equal(4.0, f.FourMultiplier, precision: 14);
     }

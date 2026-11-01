@@ -51,8 +51,16 @@ counts of eigenvalues of the Hermitian tau T the same window (Weyl):
       m_p = 0 and #E_p = C(N,p) - 1 in every block; the ring at N = 4 reads m_1 = 1 (the K = pi mode) and m_2 = 3
       (one mode at limiting height 0.845 and two at limiting height exactly 1, approached from below), K4 reads
       m_1 = 3 and m_2 = 2, the star m_1 = 1 and m_2 = 0.
+  I6  the coupling: the same debts with the ZZ term removed (the XY family). The ring and K4 keep their numbers,
+      (1, 3) and (3, 2) (m_3 = m_1 by the X^N mirror); the star's vanish, m_1 = m_2 = 0, the N = 4 outlier of
+      docs/THE_STAR_FROZEN_SEAM.md. In the block p = 1 the ZZ term is a constant on the ring and K4 and a field on the
+      star's hub (one excitation on the hub antialigns three bonds, on an arm one), and that field carries the
+      Heisenberg star's limit-1 branch. Beside it the full Liouvillian (4^4, complex): the XY star's slowest rate is
+      2 gamma at x = 5, 50 and 200 within 1e3 eps ||L(x)||, the Heisenberg star's falls short of it by a deficit
+      ~ 1/x^2 (ratio 16 between x = 50 and 200, gated in [15, 17]) with coefficient 1/8: 8 x^2 deficit - 1 is the
+      next order, ~ 0.06/x^2, gated below 0.1/x^2 at both x.
 
-Run: python simulations/f50_inertia_identity.py   (about one minute; prints "ALL GATES PASS" or a FAIL line)
+Run: python simulations/f50_inertia_identity.py   (about a minute and a half; prints "ALL GATES PASS" or a FAIL line)
 """
 import sys
 from math import comb
@@ -88,8 +96,8 @@ def bonds_complete(N):
     return [(i, j) for i in range(N) for j in range(i + 1, N)]
 
 
-def ham_matrix(N, bonds, dm=0.0):
-    """H = sum_bonds XX + YY + ZZ + dm (XY - YX); real symmetric when dm = 0."""
+def ham_matrix(N, bonds, dm=0.0, zz=1.0):
+    """H = sum_bonds XX + YY + zz ZZ + dm (XY - YX); real symmetric when dm = 0."""
     d = 2 ** N
     H = np.zeros((d, d), dtype=complex if dm else float)
     bit = lambda x, l: (x >> (N - 1 - l)) & 1
@@ -100,9 +108,9 @@ def ham_matrix(N, bonds, dm=0.0):
                 H[y, x] += 2
                 if dm:
                     H[y, x] += 2j * dm * (1 if bit(x, a) else -1)
-                H[x, x] -= 1
+                H[x, x] -= zz
             else:
-                H[x, x] += 1
+                H[x, x] += zz
     return H
 
 
@@ -152,9 +160,9 @@ def components(N, p, bonds):
 
 
 class Block:
-    def __init__(self, N, bonds, p, dm=0.0):
+    def __init__(self, N, bonds, p, dm=0.0, zz=1.0):
         self.N, self.p = N, p
-        H = ham_matrix(N, bonds, dm=dm)
+        H = ham_matrix(N, bonds, dm=dm, zz=zz)
         self.A, self.ham, self.idx = block(N, H, p)
         self.n = len(self.idx)
         self.P = np.where(self.ham == 0)[0]
@@ -330,5 +338,42 @@ for label, bonds, N, p in BLOCKS:
           f"n non-increasing in x: {n_mono}; m_p = {m_p} (constant over x: {len(set(ms)) == 1}; expected {expect_m}), "
           f"sum {crossings + m_p} = C - c_p = {blk.C - blk.c_p}; {len(small400)} limit-1 branches, Re at x=400 {np.array2string(small400, precision=2)}"
           + (f", ratio 200/400 {np.array2string(small200 / small400, precision=3)}" if len(small400) else ""))
+
+# ----------------------------------------------------------------------------------------------------------
+print("I6  the coupling: the N = 4 debts with the ZZ term removed; the star's slowest rate on the full Liouvillian")
+EXPECT_XY = {"ring": (1, 3), "star": (0, 0), "K4": (3, 2)}
+for name, bonds in (("ring", bonds_ring(4)), ("star", bonds_star(4)), ("K4", bonds_complete(4))):
+    got = []
+    for p in (1, 2):
+        blk = Block(4, bonds, p, zz=0.0)
+        ms = []
+        for x in (100.0, 200.0, 400.0):
+            lam = np.linalg.eigvals(blk.T(x))
+            ms.append(int(np.sum(lam.real > 1e-9)) - blk.c_p)
+        got.append(ms[-1] if len(set(ms)) == 1 else None)
+    check(f"XY {name} N=4 debts (m_1, m_2)", tuple(got) == EXPECT_XY[name], f"read {tuple(got)}, expected {EXPECT_XY[name]}")
+
+
+def slowest_rate(N, bonds, zz, x):
+    """Smallest nonzero decay rate of the full Liouvillian, gamma = 1, H = x * sum (XX + YY + zz ZZ)."""
+    Hm = x * ham_matrix(N, bonds, zz=zz)
+    d = 2 ** N
+    Id = np.eye(d)
+    L = -1j * (np.kron(Hm, Id) - np.kron(Id, Hm.T))
+    zdiag = np.array([[1.0 if not (s >> (N - 1 - l)) & 1 else -1.0 for l in range(N)] for s in range(d)])
+    L += np.diag(np.array([np.sum(zdiag[a] * zdiag[b]) - N for a in range(d) for b in range(d)], dtype=complex))
+    r = -np.linalg.eigvals(L).real
+    return float(np.sort(r[r > 1e-8])[0]), float(np.linalg.norm(L, 2))
+
+
+xy = [slowest_rate(4, bonds_star(4), 0.0, x) for x in (5.0, 50.0, 200.0)]
+he = [slowest_rate(4, bonds_star(4), 1.0, x)[0] for x in (50.0, 200.0)]
+ratio = (2 - he[0]) / (2 - he[1])
+check("XY star N=4: slowest rate 2 gamma at x = 5, 50, 200", all(abs(v - 2) < 1e3 * EPS * nL for v, nL in xy),
+      "deviation / (eps ||L(x)||): " + ", ".join(f"{abs(v - 2) / (EPS * nL):.1f}" for v, nL in xy))
+coef = [(8 * x * x * (2 - r) - 1) * x * x for x, r in ((50.0, he[0]), (200.0, he[1]))]
+check("Heisenberg star N=4: deficit 2 - rate = 1/(8 x^2) + O(1/x^4)",
+      he[0] < 2 and he[1] < 2 and 15 <= ratio <= 17 and all(abs(c) < 0.1 for c in coef),
+      f"deficits {2 - he[0]:.3e}, {2 - he[1]:.3e}, ratio {ratio:.3f}; (8 x^2 deficit - 1) x^2 = {coef[0]:.4f}, {coef[1]:.4f}")
 
 print("\nALL GATES PASS" if not FAILS else "\nFAILED: " + ", ".join(FAILS))

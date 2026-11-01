@@ -36,8 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         structural fixed point.</item>
 ///   <item><b>HilbertSpaceDimension(N) = 2^N = a_{1−N}</b>: live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1 − N</c>). At N=2
-///         this is a_{−1} = 4 (= d² for 1 qubit, the "small" qubit count
-///         on the operator-space mirror).</item>
+///         this is a_{−1} = 4, the Hilbert-space dimension of two qubits.</item>
 ///   <item><b>FoldPosition = 1/4 = a_3</b>: the bilinear-apex maxval; F60's
 ///         "below the fold" assertion compares CΨ(0) against a_3 = 1/4.
 ///         Same anchor as F57 + Dicke (<see cref="QuarterAsBilinearMaxvalClaim"/>).</item>
@@ -120,8 +119,7 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
 
     /// <summary>The Hilbert-space dimension <c>2^N</c> for an N-qubit GHZ state.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(<c>1 − N</c>) =
-    /// <c>a_{1−N}</c>. At N=2 this is a_{−1} = 4 (= d² for 1 qubit, qubit-shift
-    /// analog of operator-space).</summary>
+    /// <c>a_{1−N}</c>. At N=2 this is a_{−1} = 4.</summary>
     public double HilbertSpaceDimension(int N)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F60 requires N ≥ 2.");

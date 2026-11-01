@@ -18,7 +18,7 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para>Substructure refinement: even within the F71-orbit-grouped Interior bonds at
 /// c=2 N=6, the central bond b=2 (=b_{N-2-2}=b_2, self-paired) gives a different Q_peak
-/// (1.440) than the flanking bonds b=1, b=3 (1.648). The "Endpoint vs Interior" dichotomy
+/// (1.436) than the flanking bonds b=1, b=3 (1.616). The "Endpoint vs Interior" dichotomy
 /// is a first approximation; the full structure is per-F71-orbit, with mid-chain orbits
 /// showing further variation.</para>
 /// </summary>

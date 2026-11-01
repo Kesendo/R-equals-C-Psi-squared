@@ -24,8 +24,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>DecayRateCoefficient = 4</b>: in <c>f = e^{−4γt}</c>. Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
-///         Same anchor as F76 t-decay (e^{−4γ₀t}), F61/F63 4-block per parity,
-///         F66 (multiplicity N+1 with a_{−1}), F77 correction denominator.</item>
+///         The four is the Absorption Theorem's rung-2 rate 2γ·2 (|00⟩⟨11| disagrees on
+///         two sites), as for F76 t-decay (e^{−4γ₀t}).</item>
 ///   <item><b>Coefficient2 = 2 = a_0</b>: in <c>dCΨ/dt = −2γ f(1+3f²)/3</c>.
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(0) = polynomial root d.
 ///         Same anchor as F1, F66, F86 Q_EP, F70 pair-bound, F81/F82.</item>
@@ -83,8 +83,7 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The "4" decay-rate coefficient in <c>f = e^{−4γt}</c>. Live
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
-    /// Same anchor as F76 (e^{−4γ₀t} mirror-pair coherence decay), F61/F63
-    /// 4-block per parity, F66 multiplicity, F77 correction.</summary>
+    /// The rung-2 rate 2γ·2, as for F76 (e^{−4γ₀t} mirror-pair coherence decay).</summary>
     public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" coefficient in <c>dCΨ/dt = −2γ f(1+3f²)/3</c>.

@@ -8,8 +8,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>
-///         (BaseFactor; same anchor as F25/F65/F73/F76 decay rate
-///         numerators).</item>
+///         (BaseFactor, the one-site operator-space count d²).</item>
 ///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: provides the typed
 ///         4^N ↔ 1/4^N operator-space mirror (pinned table N=1..6); F23's
 ///         denominator IS Pi2OperatorSpaceMirror's OperatorSpace.</item>

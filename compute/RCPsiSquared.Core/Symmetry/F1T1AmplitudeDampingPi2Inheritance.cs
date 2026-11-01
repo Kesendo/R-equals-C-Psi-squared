@@ -27,10 +27,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="Pi2OperatorSpaceMirrorClaim"/>. At N=2: 4; at N=3: 16; at
 ///         N=4: 64. This matches F49's own factor offset by one qubit (F49 uses
 ///         <c>4^(N−2)</c>; this T1 piece uses <c>4^(N−1)</c>).</item>
-///   <item><b>"4" multiplier</b> in <c>4·(Σγ_T1)²</c>: exactly <c>a_{−1}</c> on the
-///         Pi2 dyadic ladder = d² for 1 qubit. Same anchor used by F86 t_peak and
-///         F49 (via Pi2OperatorSpaceMirror). The proof identifies this 4 as
-///         <c>|tr(M_l)|² / 4 = 16 / 4 = 4</c>.</item>
+///   <item><b>"4" multiplier</b> in <c>4·(Σγ_T1)²</c>: valued <c>a_{−1}</c> on the
+///         Pi2 dyadic ladder. The proof identifies it as <c>|tr(M_l)|² / 4 = 16 / 4 = 4</c>,
+///         the squared trace of one site's T1 kernel at the shift σ = Σγ_Z over tr I₄;
+///         at T1's spectral mean that cooperative part vanishes.</item>
 ///   <item><b>"3" multiplier</b> in <c>3·Σγ_T1²</c>: small integer from the T1
 ///         dissipator algebra (<c>‖M_l‖²_F − |tr(M_l)|² / 4 = 7 − 4 = 3</c>); not
 ///         a direct Pi2 anchor but derived in PROOF_F1_T1_RESIDUAL_CLOSED_FORM.
@@ -81,7 +81,7 @@ public sealed class F1T1AmplitudeDampingPi2Inheritance : Claim, IZ2AxisClaim
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
 
     /// <summary>The "4" multiplier in <c>4·(Σγ_T1)²</c>. Exactly equal to
-    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = 4 = d² for N=1.</summary>
+    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = 4 (|tr(M_l)|²/4 = 16/4).</summary>
     public double FourMultiplier => Ladder.Term(-1);
 
     /// <summary>The small integer multiplier "3" in <c>3·Σγ_T1²</c>. From the T1

@@ -48,8 +48,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Per-F71-orbit substructure caveat: the F86 mirror identity gives
 /// the bond PAIRING, not the per-orbit Q_peak VALUE. Even within F71-orbit
 /// groups, central self-paired bonds give different Q_peak from flanking
-/// bonds (e.g. c=2 N=6 central b=2 → 1.440 vs flanking b=1, b=3 → 1.648;
-/// c=2 N=6 central is BELOW flanking, c=3 N=6 central is ABOVE flanking).
+/// bonds (e.g. c=2 N=6 central b=2 → 1.436 vs flanking b=1, b=3 → 1.616 on the [0.2, 4]
+/// grid of 153 points; c=2 N=6 central is BELOW flanking, c=3 N=6 central is ABOVE flanking
+/// on the coarse [0.2, 6] grid of PerF71OrbitObservation).
 /// Per-orbit closed form remains open; F71 supplies the symmetry only.</para>
 ///
 /// <para>Tier1Derived: F86c is Tier 1 derived in PROOF_F86C_F71_MIRROR
@@ -135,7 +136,7 @@ public sealed class F86F71MirrorPi2Inheritance : Claim, IF99AnchorBearing, IZ2Ax
             yield return new InspectableNode("verified envelope",
                 summary: "c=2 N=5..7 + c=3 N=5..6 + all bond pairs, max deviation < 10⁻¹⁰");
             yield return new InspectableNode("per-F71-orbit substructure caveat",
-                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6: central 1.440 < flanking 1.648; c=3 N=6: central 1.71 > flanking 1.66, opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
+                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6 on the [0.2, 4] grid of 153 points: central 1.436 < flanking 1.616; c=3 N=6 on the coarse [0.2, 6] grid of PerF71OrbitObservation: central 1.71 > flanking 1.66, opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
             yield return new InspectableNode("F86 multi-mechanism context",
                 summary: "this is the third of three F86 Tier-1 sub-claim Pi2-Inheritances. Companions: F86TPeakPi2Inheritance (a_{-1} anchor on t_peak), F86QEpPi2Inheritance (a_0 anchor on Q_EP). Tier-2 / open / empirical parts stay in F86KnowledgeBase typed family.");
             yield return new InspectableNode("verified examples",
