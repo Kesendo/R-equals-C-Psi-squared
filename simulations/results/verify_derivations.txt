@@ -140,29 +140,25 @@ D4: Crossing condition f(1+f^2) = (d-1)/2
   D4 STATUS: VERIFIED
 
 ============================================================
-D5: Oscillating modes = 4^N - (N+1) - Stat(N)
-    Valid at gamma -> 0.  Using gamma = 1e-6.
+D5: Oscillating modes = 4^N - Stat(N)  (gamma = 0)
+    the N+1 XOR modes lie inside Stat(N)
 ============================================================
 
-  N=2 (total 16 = 4^2):
-    Stationary: 10 (formula: 10)
-    XOR drain:  3 (formula: 3)
-    Oscillating: 3 (formula: 3)
+  N=2: Stat(N) = 10; nullity of L_H over the primes (1000003, 998244353): [10, 10]; oscillating at gamma = 0: 6
+    gamma = 0.05: oscillating 6; real modes at -2N*gamma (the XOR modes): 3; floor 9.1e-13, max |Im| below it 0.0e+00, min |Im| above it 4.0e+00
+    gamma = 0.1: oscillating 6; real modes at -2N*gamma (the XOR modes): 3; floor 9.3e-13, max |Im| below it 1.1e-16, min |Im| above it 4.0e+00
 
-  N=3 (total 64 = 4^3):
-    Stationary: 24 (formula: 24)
-    XOR drain:  4 (formula: 4)
-    Oscillating: 36 (formula: 36)
+  N=3: Stat(N) = 24; nullity of L_H over the primes (1000003, 998244353): [24, 24]; oscillating at gamma = 0: 40
+    gamma = 0.05: oscillating 40; real modes at -2N*gamma (the XOR modes): 4; floor 1.3e-12, max |Im| below it 4.4e-16, min |Im| above it 2.0e+00
+    gamma = 0.1: oscillating 40; real modes at -2N*gamma (the XOR modes): 4; floor 1.4e-12, max |Im| below it 3.6e-16, min |Im| above it 2.0e+00
 
-  N=4 (total 256 = 4^4):
-    Stationary: 54 (formula: 54)
-    XOR drain:  5 (formula: 5)
-    Oscillating: 197 (formula: 197)
+  N=4: Stat(N) = 54; nullity of L_H over the primes (1000003, 998244353): [54, 54]; oscillating at gamma = 0: 202
+    gamma = 0.05: oscillating 210; real modes at -2N*gamma (the XOR modes): 5; floor 2.1e-12, max |Im| below it 5.9e-16, min |Im| above it 3.6e-04
+    gamma = 0.1: oscillating 210; real modes at -2N*gamma (the XOR modes): 5; floor 2.1e-12, max |Im| below it 3.3e-16, min |Im| above it 1.4e-03
 
-  N=5 (total 1024 = 4^5):
-    Stationary: 120 (formula: 120)
-    XOR drain:  6 (formula: 6)
-    Oscillating: 898 (formula: 898)
+  N=5: Stat(N) = 120; nullity of L_H over the primes (1000003, 998244353): [120, 120]; oscillating at gamma = 0: 904
+    gamma = 0.05: oscillating 928; real modes at -2N*gamma (the XOR modes): 6; floor 2.6e-12, max |Im| below it 4.3e-16, min |Im| above it 1.9e-06
+    gamma = 0.1: oscillating 928; real modes at -2N*gamma (the XOR modes): 6; floor 2.6e-12, max |Im| below it 2.4e-16, min |Im| above it 3.3e-05
 
   D5 STATUS: VERIFIED
 

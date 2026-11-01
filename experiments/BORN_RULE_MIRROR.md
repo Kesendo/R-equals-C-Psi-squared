@@ -28,8 +28,8 @@ R=CPsi2 Born rule mirror -->
 > pair (0,2) of |0+0+⟩ on the N=4 ring never crosses ¼ (see the
 > reproduction note in [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)).
 > The Born-deviation content at t = 0.286 does not depend on either
-> reading and was later closed in F94/F96 (the registry), on exactly this
-> lens.
+> reading and has its leading orders in F94/F96 (the registry), on exactly
+> this lens.
 >
 > **Reproduction note:** the numbers of this document reproduce exactly:
 > every probability table,
@@ -104,12 +104,14 @@ The unitary evolution alone (pure Hamiltonian, no decoherence)
 determines ~97% of each probability. The remaining ~3% is a systematic
 correction from the decoherence basis.
 
-*Later (2026-05-16):* this 97/3 split was closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md): the dominant-outcome RATIO deviation Δ_|00⟩ = P_lind/P_unit − 1 = (4/3)·Q²·K³ in the deep perturbative regime, with Q = J/γ₀ and K = γt. Mind the book when plugging in: F94's J is the SPIN convention H = (J/4)·Σ, while this document's J = 1.0 is the PAULI coupling, so this document's point is Q = 80, K = 0.0143. There the leading order gives 0.0250 against the measured ratio 0.0290 (the 2.9% of the table above): within ~14%, the rest being higher orders, since Q²K³ ≈ 0.019 sits well above F94's verified deep-perturbative window. A naive Q = 20 would give 0.0016 and miss by ~18×. See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the exact derivation of Dyson-sym3 = 8 and the companion reflection [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md) for the day-of-arrival path.
+*Later (2026-05-16):* the leading order of the |00⟩ row was closed analytically as [F94](../docs/ANALYTICAL_FORMULAS.md), and the other rows' leading slopes are F96 (−(16/9)·K = −2.54% for |01⟩ and |10⟩, −(8/3)·K = −3.81% for |11⟩, against the measured −1.9% and −3.5%). F94 is the dominant-outcome RATIO deviation Δ_|00⟩ = P_lind/P_unit − 1 = (4/3)·Q²·K³ in the deep perturbative regime, with Q = J/γ₀ and K = γt. Mind the book when plugging in: F94's J is the SPIN convention H = (J/4)·Σ, while this document's J = 1.0 is the PAULI coupling, so this document's point is Q = 80, K = 0.0143. There the leading order gives 0.0250 against the measured ratio 0.0290 (the 2.9% of the table above): within ~14%, the rest being higher orders, since Q²K³ ≈ 0.019 sits well above F94's verified deep-perturbative window. A naive Q = 20 would give 0.0016 and miss by ~18×. See [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](../docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the exact derivation of Dyson-sym3 = 8 and the companion reflection [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md) for the day-of-arrival path.
 
 ### 2.2 The Correction Pattern
 
-The 3% correction is not random. It follows a rule: decoherence
-shifts probability toward the eigenstates of the dephasing operator.
+The 3% correction is not random. For this initial state σ_z dephasing
+moves +0.0098 of probability onto {|00⟩, |11⟩} (|00⟩ +0.0120, |11⟩
+−0.0022), while σ_x and σ_y dephasing move probability away from their
+own eigenbases (Section 7.3).
 
 For σ_z dephasing, z-eigenstates are favored (in aggregate, see below):
 
@@ -157,9 +159,9 @@ R = CΨ² applied per measurement outcome gives:
 
     R_i = C_i · Ψ_i²
 
-where Ψ_i = |⟨i|ψ⟩| is the overlap between outcome and state (the
-quantum potential for that outcome), and C_i is the effective coupling
-strength for that outcome.
+where, for a pure state, Ψ_i = |⟨i|ψ⟩| is the overlap between outcome
+and state (the quantum potential for that outcome), and C_i is the
+effective coupling strength for that outcome.
 
 For ideal measurement, C is the same for all outcomes. It cancels in
 the normalization, and we recover:
@@ -175,14 +177,9 @@ outcomes. C_i is no longer equal for all i. The probabilities become:
 
     P(i) = C_i · Ψ_i² / Σ C_j · Ψ_j²
 
-Outcomes whose basis states are eigenstates of the dephasing operator
-have higher effective C (the environment "sees" them more clearly).
-Outcomes that are superpositions in the dephasing basis have lower
-effective C (the environment sees them less clearly).
-
 The deviation from the standard Born rule is small (~3% in our
 simulations) because the unitary dynamics dominate. But the deviation
-is systematic and predictable from the dephasing basis.
+is systematic, and its leading orders are F94 and F96.
 
 ### 3.4 Measured C_eff Values at Crossing
 

@@ -9,14 +9,14 @@ STEP 0: the centre the test reflects across is forced, not measured
 ---------------------------------------------------------------------------
 
   Condition (b) of PROOF_PALINDROME_NEURAL asks for an involution Q with
-  Q W Q = -W. At uniform tau the proof's Step 3 imposes nothing (S is
-  (1/tau)*I for EVERY permutation), so (b) is the whole hypothesis, and
+  Q W Q = -W. At uniform tau the proof's condition (a) holds for EVERY
+  involution (s = 1/tau), so (b) is the whole hypothesis, and
   under Dale it is a COUNT: a neuron's outgoing row carries one sign, so Q
   must send each non-empty excitatory row to a non-empty inhibitory one.
     non-empty rows              : 271
     of them excitatory          : 253
     of them inhibitory          : 18
-  [PASS] G0b condition (b) FAILS on this connectome, and on a count rather than an untested hypothesis: an involution with Q W Q = -W would have to send each of the 253 non-empty excitatory rows to a non-empty row of the opposite sign, and there are 18 of those. An empty image will not do either: it would force the source row empty too. So no such Q exists and the palindrome theorem does not apply here, for a reason that is decided rather than left open. What (b) needs is a BIJECTION between the two sets, so any inequality kills it and the predicate is '!=', not '>'. The theorem's PREMISE fails too, on a different count (274 excitatory against 26 over ALL neurons, not just non-empty rows); the two conditions are independent and this gate is about (b). Falsifier: an EQUAL count would make this gate fail and leave (b) open to be tested directly. It is unreachable here only because 271 is odd
+  [PASS] G0b condition (b) FAILS on this connectome, and on a count rather than an untested hypothesis: an involution with Q W Q = -W would have to send each of the 253 non-empty excitatory rows to a non-empty row of the opposite sign, and there are 18 of those. An empty image will not do either: it would force the source row empty too. So no such Q exists and the palindrome theorem does not apply here, for a reason that is decided rather than left open. What (b) needs is a BIJECTION between the two sets, so any inequality kills it and the predicate is '!=', not '>'. Falsifier: an EQUAL count would make this gate fail and leave (b) open to be tested directly. It is unreachable here only because 271 is odd
 
 ---------------------------------------------------------------------------
 STEP 0c: the March 8x, reproduced from the connectome file and taken apart

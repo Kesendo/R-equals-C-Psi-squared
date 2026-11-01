@@ -112,7 +112,7 @@ This means CΨ is a filter for a specific kind of quantum connection: direct, pa
 
 ### 5. Context destroys connections faster
 
-The same Bell pair in isolation holds its CΨ signal for t ≈ 0.72. Embedded in a four-qubit ring, the same pair loses its signal by t ≈ 0.08, nine times faster. The Hamiltonian coupling to additional qubits accelerates decoherence of the pairwise connection.
+The same Bell pair in isolation holds its CΨ signal for t ≈ 0.72. Embedded in a four-qubit ring, the same pair loses its signal by t ≈ 0.08, nine times faster. The ring's Hamiltonian carries the pair's entanglement onto the other qubits: with the dephasing switched off the embedded pair still crosses, at t ≈ 0.085, while an isolated Bell pair at γ = 0 never does.
 
 In plain language: a conversation between two people is harder to maintain in a crowded room. The additional connections do not add noise directly; they create new pathways for the quantum information to leak away from the pair you are watching.
 

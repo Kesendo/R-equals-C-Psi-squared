@@ -329,7 +329,7 @@ and the willingness to follow an argument that builds step by step.
 6. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): The
    pattern across levels, read philosophically: half-filled systems
    (C=0.5) enable the next level. Complete systems (C=1) are dead ends.
-   Carbon has 4 of 8 electrons. Qubits have 2 of 4 operators. Noble
+   Carbon fills 4 of its 8 valence slots. Qubits have 2 of 4 operators. Noble
    gases are the dead-end cousins; qutrits are not quite, since they
    keep the partial mirror of step 3. The page reads the V-Effect as
    the way one level hands over to the next, a reading no calculation

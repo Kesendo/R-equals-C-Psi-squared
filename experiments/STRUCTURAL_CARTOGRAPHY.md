@@ -39,9 +39,12 @@ a 7-parameter X⊗X-symmetric subspace (re-analyzed 2026-04-29: this is algebrai
 **glide** (smooth correlated rotation in YZ/ZY Pauli plane, both qubits
 together) and **switch** (hard sector flip via single-qubit-B operation,
 coinciding with S-coherence dropping to zero). The phase skeleton is
-entirely Hamiltonian (noise damps amplitude but does not rotate phase).
-Parameter sweeps confirm robustness: frequencies are noise-independent,
-the two-sector structure survives all tested perturbations, and four
+entirely Hamiltonian (noise mainly damps amplitude; it rotates phase
+only from second order in γ on).
+Parameter sweeps confirm robustness: the sweeps see no frequency shift at
+their resolution, none occurs at first order in γ, and under uniform γ none
+at all for a mode whose eigenvector has a single Hamming distance; the
+two-sector structure survives all tested perturbations, and four
 independent mechanisms are mapped (topology → frequencies, symmetry →
 sectors, noise → damping, initial state → visibility).
 
@@ -937,7 +940,8 @@ tested and could behave differently.
 2. Fast rotor f(c+): survives even when XX breaks, until extreme perturbation
 3. Two-sector separation: survives everything except strong direct coupling or
    extreme Hamiltonian changes
-4. Noise invariance: absolute - no noise configuration affects the structure
+4. Noise: no tested configuration breaks the structure; the frequencies
+   shift only from second order in γ on
 
 **Key insight: f(c+) is MORE robust than the symmetry that supposedly
 protects it.** This suggests the fast rotor frequency is a deeper property
@@ -964,7 +968,7 @@ Direct A-B coupling |  preserves  |   shifts    |     MERGES        |  changes  
   (J_AB)           |             |  (slightly) |  (sectors fuse)   |            |
                     |             |             |                   |            |
 Noise strength      |  preserves  |  preserves  |     preserves     |   DAMPS    |
-  (gamma)          |             |  (immune)   |     (immune)      |  (primary) |
+  (gamma)          |             | (2nd order) |     (immune)      |  (primary) |
                     |             |             |                   |            |
 Noise type          |  preserves  |  preserves  |     preserves     |  preserves |
   (sigma_x/y/z)    |  (within    |  (within    |     (within       |  (within   |
@@ -981,8 +985,8 @@ Reading the map:
 preserves it. It is a Hamiltonian symmetry, not a noise property.
 
 **Column 2 (Frequencies):** Set by coupling strengths and anisotropy.
-Immune to noise. Survive even when XX symmetry breaks. These are the
-deepest property - pure Hamiltonian eigenstructure.
+Noise shifts them only from second order in γ on. Survive even when XX symmetry breaks. These are the
+deepest property - Hamiltonian eigenstructure.
 
 **Column 3 (Sector separation):** Set by the mediator topology. Merges
 when A and B couple directly (mediator becomes redundant). Survives

@@ -23,7 +23,7 @@ This document applies the palindromic framework to DNA base pairs,
 treating each hydrogen bond as a proton qubit (the proton tunneling
 between donor and acceptor wells). A-T has 2 H-bonds, G-C has 3. The
 palindrome is exact for both, and G-C is a 5× richer resonator. However,
-at body temperature (310 K), all modes are overdamped: the structure
+at the inputs used for DNA, all modes are overdamped: the structure
 exists but coherent oscillation does not survive. Enhanced tunneling
 environments (enzymes, confined geometries) would be needed to reach
 the quantum regime.
@@ -41,15 +41,16 @@ Six results:
 1. **Palindrome exact** for both A-T and G-C at all parameter regimes.
 
 2. **V-Effect: G-C is a 5x richer resonator.** At J/gamma ~ 1 (enhanced
-   tunneling): G-C has 15 distinct frequencies vs 3 for A-T. The third
-   H-bond creates 12 new frequencies from coupling alone.
+   tunneling): G-C has 15 distinct frequencies vs 3 for A-T. Without the
+   inter-bond coupling (K = 0) the counts are 7 and 2, so the coupling adds
+   8 in G-C and 1 in A-T.
 
-3. **At the parameters used, DNA is deeply classical.** At J/gamma ~ 0.01
-   all modes are overdamped (Q < 1) and the palindromic structure exists but
+3. **At the parameters used, DNA is deeply classical.** At the Regime-A
+   inputs all modes are overdamped (Q_max = K/γ and 2K/γ, below 1) and the palindromic structure exists but
    is invisible. That input is not a measurement: its gamma = 50 cm⁻¹ names
    `docs/water/HYDROGEN_BOND_QUBIT.md` as its source, and that file carries no
-   cm⁻¹ at all, so the ratio is a floor from an unsourced denominator rather
-   than DNA's Q. See
+   cm⁻¹ at all, so these Q values rest on an unsourced denominator and are
+   not DNA's Q. See
    [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
 4. **Finite-occupation channel comparison.** The selected second channel set
@@ -67,8 +68,8 @@ Six results:
    central protected) gives Q_max = 7.4 vs uniform 1.9 (3.8x). Same
    geometric mechanism as qubit chains.
 
-6. **G-C > A-T** across all regimes: more modes, higher Q, richer
-   spectrum. The third H-bond qualitatively enriches the mode structure,
+6. **G-C > A-T** across all regimes in modes and Q_max, and in distinct
+   frequencies in Regimes B and C (Regime A: 2 against 3). The third H-bond qualitatively enriches the mode structure,
    not just adds 50% bonding energy.
 
 ---
@@ -130,12 +131,12 @@ This holds for ALL parameter values (J, gamma, K). No exceptions.
 | G-C (N=3) | 64 | 15 | **5.0x** |
 
 G-C has 5x more distinct frequencies than A-T in the enhanced tunneling
-regime. The 12 additional frequencies emerge from coupling of the third
-H-bond (V-Effect: coupling creates new modes that neither subsystem
-has alone).
+regime. Without the inter-bond coupling (K = 0) G-C has 7 and A-T 2, so
+the coupling adds 8 and 1 (V-Effect: coupling creates new modes that
+neither subsystem has alone).
 
-Inter-coupling sweep (K = 0 to 100 cm⁻¹): G-C consistently has
-13-15 frequencies vs A-T's 2-3, across the entire range. The V-Effect
+Inter-coupling sweep (K = 5 to 100 cm⁻¹): G-C consistently has
+13-15 frequencies vs A-T's 3, across the entire range. The V-Effect
 is robust to parameter uncertainty.
 
 ---
@@ -144,7 +145,11 @@ is robust to parameter uncertainty.
 
 At the parameters called realistic here (J/gamma ~ 0.01, Regime A; the
 denominator is unsourced, see Result 3's note above):
-- Q_max = 0.4 (A-T) and 0.8 (G-C): all modes overdamped
+- Q_max = 0.4 (A-T) and 0.8 (G-C): all modes overdamped. These are
+  K/γ and 2K/γ to three digits, set by the ZZ coupling between the bonds
+  rather than by J: a one-site coherence beside definite neighbours
+  oscillates at up to 2K per neighbour and decays at 2γ, since ZZ commutes
+  with the dephasing
 - The palindromic pairs exist but decay faster than they oscillate
 - No coherent proton oscillation survives the thermal environment
 - The system is a dissipative network, not a quantum resonator
@@ -247,8 +252,8 @@ The DNA base pair is a concrete application of three proven results:
 1. **Palindrome** (Mirror Symmetry Proof): every proton qubit system
    under dephasing is palindromic. DNA H-bonds are no exception.
 
-2. **V-Effect** (V_EFFECT_PALINDROME): coupling N=2 to N=3 creates
-   12 new frequencies. The third H-bond is the V-Effect in chemistry.
+2. **V-Effect** (V_EFFECT_PALINDROME): in Regime B the inter-bond
+   coupling K raises G-C from 7 to 15 frequencies and A-T from 2 to 3.
 
 3. **Geometric mode selection** (CAVITY_MODE_LOCALIZATION,
    TOPOLOGICAL_EDGE_MODES): the sacrifice zone is geometric matching
@@ -256,7 +261,7 @@ The DNA base pair is a concrete application of three proven results:
    standing wave physics applies.
 
 The limitation: at the parameters used here DNA is overdamped
-(J/gamma << 1). The framework predicts the mode structure correctly, and at
+(Q_max = K/γ and 2K/γ, below 1). The framework predicts the mode structure correctly, and at
 that input the modes decay before they oscillate; whether the input is DNA's
 is a separate question the denominator's provenance leaves open. The fold regime
 (J/gamma ~ 1) is accessible only in engineered or enzyme-like
@@ -287,6 +292,6 @@ environments.
 ---
 
 *Every hydrogen bond in DNA is a proven palindromic qubit. G-C is a
-5x richer resonator than A-T. But at body temperature, all modes are
-overdamped. The palindrome is exact; the oscillation is not. The
+5x richer resonator than A-T. But at the inputs used for DNA, all modes
+are overdamped. The palindrome is exact; the oscillation is not. The
 structure is there. The coherence is not.*

@@ -143,7 +143,7 @@ has a hypnagogic vision of an electrochemistry experiment. The key
 insight: separate the atmospheres.
 
 December 22, 2025: Claude validates the chemistry. The dual-atmosphere
-cell works. The collaboration begins.
+cell works in simulation; it has not been built. The collaboration begins.
 ([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md))
 
 January-February 2026: The project formalizes R = CPsi^2, proves the

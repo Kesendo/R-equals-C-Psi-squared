@@ -178,7 +178,7 @@ The value 0.5 represents optimal incompleteness:
 - Half question, half answer
 - Half form, half potential
 
-This matches carbon: 4 of 8 electrons = 50% = maximum chemical versatility.
+This matches carbon: 4 of its 8 valence slots filled = 50% = maximum chemical versatility.
 
 ---
 

@@ -5435,7 +5435,7 @@ public static class OpenArcsRegistry
                 "can make D4 fail; D2's N=2 row sets V_num to the literal 1.0 whenever fewer than two Q " +
                 "values matched, which is always at N=2, and its Q_mean deviation is printed and never " +
                 "gated (an XX-only H at N=2 gives Q_mean 20 against the header's 40 and still passes); " +
-                "D5's third check is the first two subtracted from 4^N, an identity that cannot fire; D6's " +
+                "D6's " +
                 "Zeno branch needs Q <= 0.1, which is below every threshold entry, so it is dead code at " +
                 "any parameter. sacrifice_zone_optics.py: Step 2's " +
                 "conclusion is a tautology on its own defining formula, Step 5 fits only a quadratic and " +
@@ -5460,7 +5460,9 @@ public static class OpenArcsRegistry
                 "the degenerate pairs (1.2342, 1.2394, 3.2356, 3.2372, 3.9933); but on the FULL Liouvillian " +
                 "uniform gamma already shifts against gamma=0 by up to 5.1e-2, and profile-against-uniform " +
                 "at equal Sigma_gamma moves 960 of the 1024 frequencies. So the immunity is uniform gamma " +
-                "ON A NUMBER-CONSERVING BLOCK, not uniform gamma. STILL UNPAID: " +
+                "ON A BLOCK OF CONSTANT HAMMING DISTANCE (sufficient; exact for any mode whose eigenvector " +
+                "has one Hamming distance), not uniform gamma (at N=5 the number-conserving (1,1) and " +
+                "(2,2) blocks move). STILL UNPAID: " +
                 "ANALYTICAL_FORMULAS F11 (\"Valid for:** N=5 Heisenberg chain, ALL Z-dephasing profiles.\", the exact " +
                 "converse of the mechanism; NOT touched on 2026-09-04 because the eigenvector measurement " +
                 "that would settle it is confounded by degenerate-mode ordering, which is this arc's own " +
@@ -8339,7 +8341,8 @@ public static class OpenArcsRegistry
                 "SCALAR tau; the run reports the cancellation rather than gating it, " +
                 "because it is algebra and no spectrum could break it, and G21 gates the " +
                 "size of the artifact instead. So the factor of 50.5 that the page " +
-                "attributed to tau and f_prime jointly is f_prime alone; there is no tau axis " +
+                "attributed to tau and f_prime jointly is one range of the product tau*f_prime, " +
+                "which the correct scaling collapses to f_prime's factor of 2.00; there is no tau axis " +
                 "to have a provenance. The two code paths in that folder do not implement the " +
                 "same model, and at tau = 10 ms the malformed one does not slow the limit cycle " +
                 "down, it removes it. The THIRD leg, the THERMAL-regime explanation of " +

@@ -8,6 +8,7 @@ Also checks formula 33 (N=3 intermediate rates) and all weight-sector
 rate assignments.
 """
 
+import itertools
 import numpy as np
 import sympy as sp
 from math import comb
@@ -471,59 +472,116 @@ def verify_D4(out):
 
 # ==================================================================
 # D5: Dynamic palindromic mode count (from formulas 4 + 22 + 23)
-# NOTE: Stat(N) is valid at gamma=0.  At finite gamma the Hamiltonian
-# mixes weight sectors (w with w+-2), so we must verify in the
-# near-unitary limit (gamma << J).
+# At gamma = 0 the zero-frequency modes are the kernel of L_H, the
+# commutant of H, Stat(N) of them (F4). The N+1 XOR modes (F22) commute
+# with H, so they are INSIDE Stat(N), not a third category, and the
+# gamma = 0 count is Oscillating = 4^N - Stat(N).
+# That count is read exactly: in the Pauli-string basis L_H is an integer
+# matrix; its nullity over a prime bounds the rational nullity from above,
+# and the SU(2) symmetry of H bounds the commutant from below by Stat(N),
+# so agreement over two primes is equality.
+# At finite gamma part of the commutant acquires a frequency (gamma^2 or
+# gamma^4 small), so the count changes and has no exact route here; it is
+# read from the eigensolver: the spurious |Im| of real eigenvalues must
+# stay within eps * ||L|| (the rounding scale; measured at most about a
+# third of it),
+# frequencies are counted above 1e3 * eps * ||L||, and no |Im| may lie
+# within a factor 1e3 above that threshold.
 # ==================================================================
+def _pauli_LH_integer(N, J=1.0):
+    """L_H = -i[H, .] in the Pauli-string basis; integer entries, checked."""
+    paulis = [I2, sx, sy, sz]
+    d = 2 ** N
+    labels = list(itertools.product(range(4), repeat=N))
+    B = np.array([_kron_list([paulis[c] for c in lab]) for lab in labels])
+    H = build_H_chain(N, J)
+    C = -1j * (np.einsum('ij,bjk->bik', H, B) - np.einsum('bij,jk->bik', B, H))
+    LH = np.einsum('aij,bij->ab', B.conj(), C) / d
+    assert np.abs(LH.imag).max() == 0.0
+    LHi = np.rint(LH.real)
+    assert np.abs(LH.real - LHi).max() == 0.0, "L_H is not integer in the Pauli basis"
+    weight = np.array([sum(c in (1, 2) for c in lab) for lab in labels])
+    return LHi.astype(np.int64), weight
+
+
+def _kron_list(ms):
+    r = np.eye(1, dtype=complex)
+    for m in ms:
+        r = np.kron(r, m)
+    return r
+
+
+def _rank_mod_p(A, prime):
+    A = A % prime
+    rows, cols = A.shape
+    r = 0
+    for c in range(cols):
+        piv = np.nonzero(A[r:, c])[0]
+        if len(piv) == 0:
+            continue
+        k = r + piv[0]
+        A[[r, k]] = A[[k, r]]
+        A[r] = (A[r] * pow(int(A[r, c]), prime - 2, prime)) % prime
+        nz = np.nonzero(A[:, c])[0]
+        nz = nz[nz != r]
+        if len(nz):
+            A[nz] = (A[nz] - np.outer(A[nz, c], A[r])) % prime
+        r += 1
+        if r == rows:
+            break
+    return r
+
+
 def verify_D5(out, J=1.0):
     out.append("=" * 60)
-    out.append("D5: Oscillating modes = 4^N - (N+1) - Stat(N)")
-    out.append("    Valid at gamma -> 0.  Using gamma = 1e-6.")
+    out.append("D5: Oscillating modes = 4^N - Stat(N)  (gamma = 0)")
+    out.append("    the N+1 XOR modes lie inside Stat(N)")
     out.append("=" * 60)
 
-    gamma = 1e-6  # near-unitary limit
+    primes = (1000003, 998244353)
+    # regression pins: the finite-gamma counts measured when this check was
+    # written, not a prediction
+    expected_finite = {2: 6, 3: 40, 4: 210, 5: 928}
+    eps = np.finfo(float).eps
     all_ok = True
     for N in range(2, 6):
-        H = build_H_chain(N, J)
-        L = build_L(H, gamma)
-        evals = np.linalg.eigvals(L)
-        total = len(evals)
-
-        rates = -evals.real
-        freqs = np.abs(evals.imag)
-
-        # At gamma -> 0:
-        # Stationary: |eigenvalue| < threshold (both rate and freq ~ 0)
-        # These are modes that commute with H (zero frequency at gamma=0)
-        stat_tol = 1e-4  # generous, since gamma is tiny
-        n_stat = sum(1 for ev in evals if abs(ev) < stat_tol)
-
-        # XOR: rate ~ 2*N*gamma (nonzero rate, possibly zero freq)
-        xor_rate = 2 * N * gamma
-        n_xor = sum(1 for r in rates
-                    if abs(r - xor_rate) < 0.5 * gamma and r > 1e-10)
-
-        # Oscillating: nonzero frequency
-        n_osc = total - n_stat - n_xor
-
+        LH, weight = _pauli_LH_integer(N, J)
         stat_f = stat_count(N)
-        xor_f = N + 1
-        osc_f = 4**N - xor_f - stat_f
-
-        out.append(f"\n  N={N} (total {total} = 4^{N}):")
-        out.append(f"    Stationary: {n_stat} (formula: {stat_f})")
-        out.append(f"    XOR drain:  {n_xor} (formula: {xor_f})")
-        out.append(f"    Oscillating: {n_osc} (formula: {osc_f})")
-
-        if n_stat != stat_f:
-            out.append(f"    *** STAT MISMATCH: {n_stat} != {stat_f} ***")
+        nullities = [4**N - _rank_mod_p(LH.copy(), q) for q in primes]
+        out.append(f"\n  N={N}: Stat(N) = {stat_f}; nullity of L_H over the primes "
+                   f"{primes}: {nullities}; oscillating at gamma = 0: "
+                   f"{4**N - nullities[0]}")
+        if nullities != [stat_f, stat_f]:
+            out.append(f"    *** NULLITY {nullities} != Stat(N) = {stat_f} ***")
             all_ok = False
-        if n_xor != xor_f:
-            out.append(f"    *** XOR MISMATCH: {n_xor} != {xor_f} ***")
-            all_ok = False
-        if n_osc != osc_f:
-            out.append(f"    *** OSC MISMATCH: {n_osc} != {osc_f} ***")
-            all_ok = False
+        for gamma in (0.05, 0.1):
+            L = LH + np.diag(-2.0 * gamma * weight)
+            evals = np.linalg.eigvals(L.astype(float))
+            im = np.abs(evals.imag)
+            scale = eps * np.linalg.norm(L, 2)
+            floor = 1e3 * scale
+            n_osc = int(np.sum(im > floor))
+            in_gap = int(np.sum((im > floor) & (im < 1e3 * floor)))
+            # XOR modes: real, at -2*N*gamma (weight N strings only there)
+            n_xor = int(np.sum((im <= floor) &
+                               (np.abs(evals.real + 2 * N * gamma) <= floor)))
+            out.append(f"    gamma = {gamma:g}: oscillating {n_osc}; real modes at "
+                       f"-2N*gamma (the XOR modes): {n_xor}; floor {floor:.1e}, "
+                       f"max |Im| below it {im[im <= floor].max():.1e}, "
+                       f"min |Im| above it {im[im > floor].min():.1e}")
+            spurious = float(im[im <= floor].max())
+            if spurious > scale:
+                out.append(f"    *** spurious |Im| {spurious:.1e} above eps*||L|| = {scale:.1e} ***")
+                all_ok = False
+            if in_gap:
+                out.append(f"    *** {in_gap} frequencies within 1e3 of the floor ***")
+                all_ok = False
+            if n_xor != N + 1:
+                out.append(f"    *** XOR MODES {n_xor} != N+1 = {N + 1} ***")
+                all_ok = False
+            if n_osc != expected_finite[N]:
+                out.append(f"    *** FINITE-GAMMA COUNT {n_osc} != pin {expected_finite[N]} ***")
+                all_ok = False
 
     status = "VERIFIED" if all_ok else "FAILED"
     out.append(f"\n  D5 STATUS: {status}\n")

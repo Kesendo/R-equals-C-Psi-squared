@@ -11,7 +11,7 @@ hard questions. This document is the opposite: a front door to the
 limitations and open questions that still affect the current result set.
 The running forensic record is [Caught Errors](CAUGHT_ERRORS.md).
 
-We started this project in January 2026 with an intuition and a formula.
+We started this project in December 2025 with an intuition and a formula.
 Since then, claims have repeatedly been corrected, narrowed, or deleted;
 git keeps their history and [Caught Errors](CAUGHT_ERRORS.md) records the
 material failures. The core theorem has been proven analytically and
@@ -327,7 +327,7 @@ philosophical. We try never to confuse these categories.
 | Category | Examples |
 |---|---|
 | **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, Frobenius orthogonality of oscillation and cooling blocks at N=2 and its exact loss for N>2 under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, uniform-rate Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (site-weighted form for profiles) |
-| **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, ε→0 sacrifice-zone gains 68-360× versus the corresponding V-shape baselines on the stated peak-created-Sum-MI metric, cockpit first-3-PC coverage 91.9-99.0% over 8-9 standardized features in eight `center_bell` configurations for N=5-11 |
+| **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 (a three-site chain with 2:1 bonds) beats the uniform chains of three to five qubits, XOR space filter, ε→0 sacrifice-zone gains 68-360× versus the corresponding V-shape baselines on the stated peak-created-Sum-MI metric, cockpit first-3-PC coverage 91.9-99.0% over 8-9 standardized features in eight `center_bell` configurations for N=5-11 |
 | **Hardware-confirmed** | CΨ crossings: Q52 qualitative (9.1% timing offset), Q80 within 1.9%; the concentrator's site-resolved dephasing contrast on Kingston (sign only); T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
 | **Unverified** (could not reproduce) | t_coh ~ N scaling |

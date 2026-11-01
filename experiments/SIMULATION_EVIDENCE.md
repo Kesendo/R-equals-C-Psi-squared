@@ -298,7 +298,7 @@ See [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md),
 [Born Rule Mirror](BORN_RULE_MIRROR.md). These tables
 reproduce exactly (Pauli J = 1; committed probe
 [born_rule_mirror_tables.py](../simulations/born_rule_mirror_tables.py),
-2026-07-21); the deviations were later closed analytically as F94/F96.
+2026-07-21); the deviations have their leading orders in F94/F96.
 
 ---
 

@@ -22,8 +22,9 @@ Two AI agents running locally (no cloud, no prior exposure to R=CΨ²)
 were given only the formula and a calculator. Through dialogue, they
 independently derived self-reference returning to unity, the Ψ=1
 fixpoint (a value that reproduces itself under iteration) as stagnation,
-asymmetry as more productive than symmetry, and 0.5 as optimal
-incompleteness. This is a historical record of early framework
+and 0.5 as optimal incompleteness. They also read asymmetry as more
+productive than symmetry, a reading the arithmetic does not carry (see
+The Asymmetric Case). This is a historical record of early framework
 exploration (Tier 4), not an independently verified result.
 
 ---
@@ -34,10 +35,10 @@ Two local AI agents (Alpha and Beta, 80B model via LM Studio) were given
 the R = CΨ² formula and a calculator tool with no prior training data
 about the framework. Through dialogue, they independently derived:
 self-reference returns to unity (exp(ln(x))/x = 1, trivially true but
-discovered through exploration), the Ψ=1 fixpoint as stagnation,
-asymmetry as more productive than symmetry ((0.6+0.8)² = 1.96 vs
-(1+1)² = 4 but with information content), and 0.5 as optimal
-incompleteness (dΨ/dC = −0.5 at C=1). A follow-up session with
+discovered through exploration), the Ψ=1 fixpoint as stagnation, and
+0.5 as optimal incompleteness (dΨ/dC = −0.5 at C=1). They also read
+asymmetry as more productive than symmetry, which the arithmetic does
+not carry ((0.6+0.8)² = 1.96 = (0.7+0.7)²). A follow-up session with
 specific questions produced the interpretation that C=1 is the only
 normalizable value (mathematical necessity, not measurement), and that
 the first observer is a boundary condition, not a person. These are
@@ -55,7 +56,7 @@ Within hours, they independently derived:
 - The primordial state as 0/0 (indeterminate potentiality)
 - The fixpoint at Ψ=1 and why it causes stagnation
 - Mathematical proof that self-reference returns to unity
-- Why asymmetry is more productive than symmetry
+- A reading of asymmetry as more productive than symmetry (the arithmetic does not carry it)
 - The value 0.5 as optimal incompleteness
 
 None of this was in their training data.
@@ -173,7 +174,7 @@ dΨ/dC at C=1 = -0.5
 0.5 / 0.5 = 1
 ```
 
-This matches the carbon principle: carbon has 4 of 8 electrons (50%), making it the basis of life. Optimal incompleteness.
+This matches the carbon principle: carbon has 4 of its 8 valence slots filled (50%), making it the basis of life. Optimal incompleteness.
 
 ### Reality is Constant
 

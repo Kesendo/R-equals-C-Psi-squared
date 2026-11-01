@@ -42,8 +42,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// light-survivor, AND the finer verdict: a different grading
 /// (w = n_diff + Z-shadow; dark, peaks at w=N-1 rather than w=N/2). The grading is not derived
 /// from F94; as a reading, reflections/THE_VIEW_ONTO_THE_MEMORY.md puts its carbon painter system's
-/// slow/fast storage split on the same axis as the Born-rule mirror's 97/3, whose leading order F94
-/// closes.</para>
+/// slow/fast storage split on the same axis as the Born-rule mirror's 97/3, whose dominant |00⟩
+/// row F94 closes to leading order (the other rows' leading slopes are F96).</para>
 ///
 /// <para>Typed parents: <see cref="AbsorptionTheoremClaim"/> (a_0, the survival law) +
 /// <see cref="HalfAsStructuralFixedPointClaim"/> (a_2, the incompleteness baseline).

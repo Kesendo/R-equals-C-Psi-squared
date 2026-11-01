@@ -223,8 +223,9 @@ available.
 1-D proton-coordinate chain N=1-5, formula validation, frequency explosion
 0→222) and
 [DNA Base Pairing](../../experiments/DNA_BASE_PAIRING.md) (A-T N=2, G-C N=3, sacrifice
-zone in base pairs). At biological temperature (310 K) those selected DNA
-model runs put the displayed H-bonds at J/γ ~ 0.01 with all modes overdamped.
+zone in base pairs). Those selected DNA model runs put the displayed
+H-bonds at J/γ ~ 0.01 with all modes overdamped (Q_max = K/γ and 2K/γ,
+set by the inter-bond coupling).
 That 0.01 is a floor from a γ whose stated source and conversion are
 insufficient; it is not directly comparable with a water Q (see
 [Q Belongs to No Substance](../Q_BELONGS_TO_NO_SUBSTANCE.md)).

@@ -1608,11 +1608,13 @@ Exact to machine precision.
 
 ### D5. Dynamic palindromic mode count (from F4 + F22 + F23) [VERIFIED]
 
-    Oscillating modes = 4^N - (N+1) - Stat(N)
+    Oscillating modes = 4^N - Stat(N)      (γ = 0)
 
-N=3: 36.  N=5: 898.  Fraction --> 1 exponentially.
-**Caveat:** exact at gamma -> 0 only. At finite gamma, the
-Hamiltonian mixes weight-parity sectors (w with w +/- 2).
+N=3: 40.  N=5: 904.  The N+1 XOR modes (F22) commute with H and are
+counted inside Stat(N). Fraction → 1 exponentially.
+**Caveat:** exact at γ = 0 only. At γ > 0 part of the commutant
+acquires a frequency (Heisenberg chain at γ = 0.05: 210 at
+N=4 against 202, 928 at N=5 against 904).
 
 ### D6. Spectral gap and mixing time [gap VERIFIED above Q*_gap(N), its Q → 0 asymptote proved; mixing-time bound quoted, not verified]
 

@@ -460,14 +460,16 @@ boundary.
 
 The strongest hint, not in the original task design:
 
-L_c is block-off-diagonal in the Π-eigenbasis. In the M_{2|2}(C)
-super-algebra, L_c is an **odd operator**: it maps within the even
-sector (V_{+1} ↔ V_{-1}) and within the odd sector (V_{+i} ↔ V_{-i}),
-but always off-diagonally. It never maps a subspace to itself.
+L_c is block-off-diagonal in the Π-eigenbasis. Under conjugation by Π
+it is **odd** (Π L_c Π⁻¹ = −L_c, Step 3): it maps V_{+1} ↔ V_{-1} and
+V_{+i} ↔ V_{-i}, never a subspace to itself. In the Z₂ grading of the
+M_{2|2}(C) super-algebra, which comes from Π², it is even: Π² commutes
+with it.
 
-In supersymmetric quantum mechanics, the supercharge Q has exactly this
-property: Q maps bosonic states to fermionic states and vice versa.
-Q² ∝ H (the Hamiltonian). The question is whether L_c² has a similar
+In supersymmetric quantum mechanics, the supercharge Q maps bosonic
+states to fermionic states and vice versa, odd in a Z₂ grading. L_c is
+odd under conjugation by Π, which has order four, so the likeness is one
+of shape, not an identity. Q² ∝ H (the Hamiltonian). The question is whether L_c² has a similar
 structural role.
 
 L_c does not live on either side of the mirror. L_c IS the crossing.
@@ -475,7 +477,7 @@ Every time step connects both halves. You cannot have dynamics without
 traversing the mirror. The generator of time evolution is the bridge.
 
 **The right question may not have been "Is Π = J?" but: "Is L_c a
-supercharge of the M_{2|2}(C) super-algebra?"**
+supercharge?"**
 
 ### 7. L_c² = L_H² + (L_D + Σγ)²: the Pythagorean theorem (computed)
 
@@ -497,8 +499,8 @@ to machine precision (N=2, γ=0.05).
 | V_{-i} | 0.00 | 0.00 | 0.00 | **22.62** |
 
 [Π, L_c²] = 0 exactly. L_c maps each eigenspace OUT (off-diagonal);
-L_c² maps each eigenspace BACK (diagonal). This is the defining
-property of an odd operator in a Z₂-graded algebra.
+L_c² maps each eigenspace BACK (diagonal). This is a consequence of
+being odd under conjugation by Π.
 
 **Result 2:** The anti-commutator {L_H, L_D + Σγ·I} = 0 exactly.
 

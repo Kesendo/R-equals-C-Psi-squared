@@ -149,8 +149,9 @@ guitar string.
 
 At N=4: 47 frequencies. At N=5: 112. The spectrum fills rapidly.
 
-The bandwidth grows as 2(N-2)γ. At N=3, bands are fixed (no room to move).
-At N=5, 4 of 6 weight sectors show nonzero bandwidth (average 0.76γ).
+The generic band [2γ, 2(N−1)γ] of F3 is 2(N−2)γ wide. Inside it each
+weight sector spreads by less: at N=3, 2 of 4 sectors have nonzero
+width (0.033342 each, 0.67γ); at N=5, 4 of 6 (average over all six 0.76γ).
 The sampled finite-N rate sets become denser; no continuum limit follows.
 
 The finite-N counts suggest a denser frequency set as N grows. Establishing a

@@ -23,8 +23,8 @@ resonator network. The Liouvillian has a small set of decay rates for N=3. Four 
 coupling, and the internal spectrum is topology-dependent already at
 N=3 (see [F33](../docs/ANALYTICAL_FORMULAS.md)). What is genuinely
 topology- and J-independent are the rung positions 2γ·n. Frequencies scale with coupling (imaginary part of
-poles), decay rates do not change (real part). This creates **two
-independent information channels**: a frequency channel (carries topology
+poles); the rung positions do not (real part). This creates **two
+information channels**: a frequency channel (carries topology
 information, changes with J) and a decay channel (carries noise information,
 changes with γ). Prony/Matrix Pencil analysis confirms: the 180° anti-phase
 between c+ and c- is a sign convention, the hidden 1.1 Hz mode is classical
@@ -257,7 +257,7 @@ families are k=0 with k=2 and k=1 with k=3, never k=1 with k=2 (F33).
 The clean {2, 8/3, 10/3, 4} structure emerges ONLY when all three qubits
 are equally dephased. Individual qubit noise gives messier rates.
 
-**THE KEY DISCOVERY: at 4 qubits the interior levels become topology-dependent**
+**THE KEY DISCOVERY: the interior levels depend on the couplings**
 (the rung positions 2kγ stay topology-free at every N; see the correction above)
 
 | System | Decay rates (multiples of γ) |
@@ -270,18 +270,19 @@ are equally dephased. Individual qubit noise gives messier rates.
 The boundary values (2γ and 2nγ) are always present. But the INTERNAL
 decay rates shift with coupling in 4+ qubit systems.
 
-**Two independent information channels (3-qubit system):**
+**Two information channels (3-qubit system):**
 
 FREQUENCY CHANNEL:
   -> Carries information about TOPOLOGY (who is connected)
-  -> Changes with J values, does NOT change with noise
+  -> Changes with J values; noise moves it only from second order in γ on
   -> Sensitive to hidden observers
   -> This is the "what is the network?" channel
 
 DECAY CHANNEL:
   -> Carries information about NOISE (what is the environment)
-  -> Changes with gamma, does NOT change with topology
-  -> Exact rational multiples of gamma
+  -> Changes with gamma; topology and J move it too: the number of
+     modes at each multiple of 2γ changes with the graph, the rates
+     between the multiples move with J (F33)
   -> This is the "what is the environment?" channel
 
 **Four consequences:**
@@ -293,15 +294,14 @@ DECAY CHANNEL:
    (measure frequencies, they encode J values directly)
 
 3. Hidden observer detection uses ONLY the frequency channel
-   (decay rates are blind to topology changes)
 
 4. The slow mode (2γ) is a PROTECTED CHANNEL
    (decays slowest, information in c- survives longest)
 
-**Critical limit:** This perfect frequency-decay orthogonality holds
-ONLY for the 3-qubit isotropic Heisenberg system with symmetric dephasing.
-At 4+ qubits, topology leaks into decay rates. The 3-qubit system is a
-special case with unusually clean separation.
+**Critical limit:** The frequency-decay separation is not clean.
+Topology and J move the decay rates already at N=3: the chain carries 14
+modes at 2γ and the triangle 16, and the rates between the multiples of
+2γ move with J.
 
 Script: [`simulations/decay_derivation.py`](../simulations/decay_derivation.py)
 

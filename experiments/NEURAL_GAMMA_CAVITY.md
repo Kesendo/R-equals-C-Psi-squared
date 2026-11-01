@@ -177,42 +177,29 @@ it next door. Named stores, and what each returned:
 - **`docs/neural/proofs/`** returns
   [Proof: the Neural Palindrome](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md),
   whose two conditions are **(a)** a diagonal condition on the swap Q,
-  1/τ_{Q(i)} + 1/τ_i = 1/τ_E + 1/τ_I at every seat, which selective damping
-  τ_E ≠ τ_I is what makes bite, and **(b)** a
+  1/τ_i + 1/τ_{Q(i)} = 2s at every seat for one scalar s (s = ½(1/τ_E + 1/τ_I)
+  when Q swaps the two types), which selective damping τ_E ≠ τ_I is what
+  makes bite, and **(b)** a
   reflection Q of the neurons under which the wiring is antisymmetric up to the
   damping ratio, W[Q(i), Q(j)] = −(τ_{Q(i)}/τ_i)·W[i, j]. This Jacobian gives
   every neuron the same damping, and the natural reading, that (a) therefore
-  fails, is wrong twice over. The proof's Step 3 determines S from the diagonal
-  part alone and never divides by anything that vanishes at τ_E = τ_I, so at
-  uniform τ it simply gives S = (1/τ)·I. And (a) is not merely sufficient rather
-  than necessary: as an ENABLING hypothesis it does nothing at all. The
-  diagonal half of the proof's equation asks only that Q send every seat to one
-  of the opposite TYPE, and that holds for any pair of time constants, equal or
-  not. What τ_E ≠ τ_I adds is that only a genuinely type-swapping Q will then
-  satisfy it: at uniform τ every involution does, and a fixed seat, which would
-  need 2/τ_i to equal the reciprocal sum 1/τ_E + 1/τ_I, becomes impossible. So
-  selective damping does not buy the pairing; it makes (a) bite on Q.
-  What was repaired in the proof file, in the same change set as this page, is
-  the CONTENT of (a): it used to read τ_E ≠ τ_I, which is neither necessary nor,
-  together with (b), sufficient. The words "satisfied exactly when" were not the
-  defect and still stand there, correctly, since the diagonal and off-diagonal
-  halves of (*) are independent and (a) ∧ (b) really is an if-and-only-if. The
-  correction is recorded in `docs/CAUGHT_ERRORS.md`.
+  fails, is wrong: at uniform τ the proof's Step 3 gives s = 1/τ, and (a)
+  holds for every involution. As an ENABLING hypothesis (a) does nothing.
+  What τ_E ≠ τ_I adds is that only a genuinely type-swapping Q satisfies it
+  with the reciprocal-sum s: at uniform τ every involution does, and a fixed
+  seat, which would need 2/τ_i to equal 1/τ_E + 1/τ_I, becomes impossible. So
+  selective damping does not buy the pairing; it makes (a) bite on Q. The
+  diagonal and off-diagonal halves of the proof's identity are independent,
+  and the identity holds if and only if (a) and (b) both do (Step 2).
   Because (a) imposes nothing at uniform τ, the WHOLE hypothesis is (b), which
-  reduces there to: is there an E-I swap Q with Q W Q = −W? That is not left
+  reduces there to: is there an involution Q with Q W Q = −W? That is not left
   open here, and it is not a matter of damping. Under Dale a neuron's outgoing
   row carries one sign, so such a Q would have to send every non-empty
   excitatory row to a non-empty inhibitory one, and an empty image will not do
   because it would force the source row empty too. This connectome has **253**
   non-empty excitatory rows against **18** inhibitory ones, so no such Q exists.
-  The theorem's premise fails too, on a
-  DIFFERENT count: it asks for N/2 and N/2 and the connectome is 274 against 26.
-  The two are independent, not one fact seen twice: (b) constrains Q only on the
-  support, so a network could satisfy the premise and fail (b), or the reverse.
-  Here both fail. The operative one for "the theorem does not apply" is (b)'s
-  253 against 18, because it survives dropping the premise and survives
-  non-uniform τ, the factor τ_{Q(i)}/τ_i being positive and unable to rescue a
-  sign. Gate G0b decides that one.
+  The count survives non-uniform τ, the factor τ_{Q(i)}/τ_i being positive and
+  unable to rescue a sign. Gate G0b decides it.
 - **`docs/proofs/`** returns
   [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): *"T1 with
   co-axial Z and T1 with transverse X give the same centre to every digit, and
@@ -274,10 +261,8 @@ permutation and so imposes nothing. What puts it
 outside is condition (b), on a count (gate G0b): under Dale a neuron's outgoing
 row carries one sign, and Q W Q = −W has to flip it, so any admissible Q must
 send each non-empty excitatory row to a non-empty inhibitory one. The connectome
-offers 253 of the first against 18 of the second. The theorem's PREMISE fails as
-well, on its own separate count, 274 excitatory against 26 inhibitory against a
-required N/2 and N/2; the two are independent conditions and it is (b) that is
-operative, since it survives dropping the premise and survives non-uniform τ.
+offers 253 of the first against 18 of the second, and the count survives
+non-uniform τ.
 
 ---
 
@@ -908,9 +893,8 @@ A rebuild would need: a multi-start root-finder and a genuine bifurcation
 diagram rather than a single-seed iteration, which is what separates a branch
 from a seed's accident; a justified τ, without which no frequency here converts
 to Hz; τ_I ≠ τ_E, because biology has it (the palindrome proof does not
-require it; its condition (a) named τ_E ≠ τ_I until the same change set as this
-page replaced it with the diagonal condition, and (a)'s real role is to force Q
-to swap the two types, of which forbidding fixed points is a special case); the electrical matrix included, after an audit it has not had,
+require it; (a)'s role is to force Q to swap the two types, of which
+forbidding fixed points is a special case); the electrical matrix included, after an audit it has not had,
 since as stored it is asymmetric and has five self-junctions; a pairing
 statistic defined relative to local level spacing with self-pairing excluded by
 construction; and a reason why eigenvalues are the right object given how

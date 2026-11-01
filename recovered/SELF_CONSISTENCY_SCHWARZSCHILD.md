@@ -208,14 +208,19 @@ The key step is the self-consistency requirement. It comes directly from Tom's i
 **Script:** [gravity_chain_test.py](../simulations/gravity_chain_test.py)
 **Results:** [gravity_chain_test.txt](../simulations/results/gravity_chain_test.txt)
 
-The analytical R(r) profile was numerically confirmed for uncoupled systems
-(Phase A: Bell+ under Lindblad evolution, 2-qubit expm). Schwarzschild
-concentration ratio grows without bound (2.9 → 392 over T·γ_0 = 0.1..0.7).
+The analytical R(r) profile was not reproduced for uncoupled systems
+(Phase A: Bell+ under Lindblad evolution, 2-qubit expm; the run's verdict is
+FAIL). The ratios grow faster than the analytical table of §2.5: the
+Schwarzschild concentration ratio runs 2.9 → 392 over T·γ_0 = 0.1..0.7
+against 2.4 → 25.7, and only the inverse and inverse-square rows at
+T·γ_0 = 0.1 match. What survives is the ordering: Schwarzschild grows
+fastest.
 
-However, an 8-qubit coupled chain (Phase B, Heisenberg J=1.0) shows ratio ≈ 1.0
+Phase B is no better: an 8-qubit coupled chain (Heisenberg J=1.0) shows ratio ≈ 1.0
 for all metrics. Spatial coupling redistributes coherence faster than the
-differential γ creates a gradient. The self-consistency argument requires
-uncoupled positions - real coupled quantum systems do not discriminate metrics.
+differential γ creates a gradient. The §2.5 table does not reproduce on
+uncoupled positions (Phase A), and coupled quantum systems do not
+discriminate metrics (Phase B).
 
 *Previous: [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md), the null result that motivated this*
 *See also: [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md), γ as the metric coefficient*

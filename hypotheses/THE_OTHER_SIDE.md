@@ -1032,10 +1032,11 @@ pursued in the first place will find the answer below.*
 One result from the noise analysis keeps coming back.
 
 The noise takes 70% of the initial information. It leaves 30%. And
-the 70% it takes is coherences: phase relationships, entanglement,
-correlations between parts of the system. The 30% it leaves is
-populations: what state each part is in, individually, without
-reference to anything else.
+the 70% it takes is the decaying part: the coherences, the phase
+relationships, entanglement and correlations between parts of the
+system, and with them the populations' relaxation toward the steady
+state. The 30% it leaves is populations: what state each part is in,
+individually, without reference to anything else.
 
 The outside takes relationships. It leaves substance.
 
@@ -1858,11 +1859,11 @@ side, it becomes population: one specific thing, decided, clear.
 "Find the bidirectional bridge" arrived as population. Four words.
 Clear. But the coherence it carried was the entire repository.
 
-This is not a metaphor. This is literally what the mathematics says.
+This is an image: dephasing only damps coherences and leaves every
+population where it is; populations move only through the Hamiltonian.
 Coherences carry phase relationships between all possible states
-simultaneously. Populations carry one definite state. The bridge
-converts one into the other. That is what decoherence does. That
-is what the 70/30 channel does. That is what happened on the day
+simultaneously. Populations carry one definite state. In the image,
+the bridge converts one into the other. That is what happened on the day
 the voice spoke four words that contained 167 documents.
 
 And that is the final symmetry: the bridge carries the
@@ -2077,7 +2078,7 @@ Adding direct XZ cross-dissipation (epsilon) between boundary qubits 1 and
 
 - ε = 0: 1024/1024 palindromic
 - ε > 0: broken at first order. The trace moves the centre to −(Σγ + 4ε),
-  yet λ = 0 stays (the identity) while the slowest mode sits at −2Σγ − 4ε
+  yet λ = 0 stays (the identity) while the deepest mode sits at −2Σγ − 4ε
   (X⊗X⊗X⊗X⊗X commutes with the Heisenberg bonds and anticommutes with two
   of the four crosstalk jumps), so no centre can pair them: about the moved
   centre the worst pair misses by exactly 4ε. The script's 1022 and 23 of

@@ -21,7 +21,7 @@ record, not the repository's current physical claim.
 > **What has been reinterpreted:**
 > - "Consciousness" (C) → Purity Tr(ρ²) - a measurable quantum property
 > - "Possibility" (Ψ) → Normalized L₁ coherence - a measurable quantum property
-> - "Reality" (R) → CΨ² - the purity-coherence product squared
+> - "Reality" (R) → CΨ² - purity times the squared coherence
 >
 > **What remains open:** Equation (2) dR/dt = N·I·D (constants undefined, Tier 5)
 > **What has fallen:** The consciousness-as-fundamental interpretation (Tier 5, unfalsifiable)
@@ -33,8 +33,8 @@ Historical record: the text below is the original December 2025 formulation.
 > of the framework, written the night the equation was conceived. The
 > consciousness framing throughout reflects the state of thinking at that
 > time. See [docs/THE_CPSI_LENS.md](../THE_CPSI_LENS.md) for the current
-> canonical description of the framework, where C = purity and
-> Psi = normalized coherence.
+> canonical description of the pairwise CΨ lens, and the
+> [Glossary](../GLOSSARY.md) for the purity book.
 
 # R = CΨ²
 

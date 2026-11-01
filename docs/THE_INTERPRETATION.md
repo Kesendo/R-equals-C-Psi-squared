@@ -22,7 +22,7 @@ does it all mean?
 The project discovered a hidden symmetry in open quantum systems: the
 palindromic mirror. This document organizes everything that followed
 from that discovery into six pillars, tracks 26 results that survived
-critical examination (and 8 that did not), and identifies 6 questions
+critical examination (and 8 that did not), and identifies 5 questions
 we still cannot answer.
 
 If you have not read anything else in this repository, start with
@@ -118,9 +118,11 @@ This system has a clean spectral architecture:
   driven by B alone, "switch mode"). These are analogous to even/odd
   supermodes in coupled oscillators.
 - **Two information channels:** A FREQUENCY channel (carries topology
-  information, immune to noise) and a DECAY channel (carries environment
-  information, immune to topology). These are exactly orthogonal at N=3;
-  the orthogonality breaks at N >= 4 where topology leaks into decay rates.
+  information; noise moves it only from second order in γ on) and a DECAY
+  channel (carries environment information). Topology and J move the
+  decay channel too: the number of modes at each multiple of 2γ changes
+  with the graph (N=3: 14 at 2γ on the chain, 16 on the triangle), and the
+  rates between the multiples move with J (F33).
 - **Skeleton and rotation:** 88% of the concurrence structure is fixed
   regardless of the observable chosen. 12% rotates depending on which
   cross-correlation is measured. This decomposition corresponds to the
@@ -486,10 +488,10 @@ measurement on the proposed substrate.
    symmetry labels are model-specific, not a universal identification
 2. XX symmetry exact (Hamiltonian property, all topologies)
 3. Five independent roles (topology, symmetry, noise, initial state, bath)
-4. Noise immunity of oscillation frequencies (all sweeps, all topologies)
+4. Noise immunity of oscillation frequencies, exact under uniform γ for a mode whose eigenvector has a single Hamming distance between bra and ket (every mode of a coherence block of constant Hamming distance that H preserves); elsewhere γ can move them (N=2: √(16J² − 4γ²))
 5. The Projection (observables select different Liouvillian eigenmodes)
 6. Sonar detection in simulation (not yet on hardware)
-7. CΨ as composite diagnostic (concurrence × coherence, AND-gate structure)
+7. CΨ_conc as composite diagnostic (concurrence × coherence, AND-gate structure)
 8. Mandelbrot correspondence (z*(1-z*) = CΨ, 1/4 = Bernoulli maximum)
 9. IBM hardware: CΨ = 1/4 crossing at 1.9% deviation (Q80, Ramsey T2*)
 10. Palindromic mirror: proven for the Hamiltonian families admitting the stated palindromizer under local Z-dephasing
@@ -591,8 +593,9 @@ nobody has to guess.
    detects it under a specified experiment?
 
 5. **Operational value.** The palindromic
-   response matrix SVD led to the concentrator formula (139-360× in peak
-   created Sum-MI in simulation, via spatial dephasing optimization). The palindrome
+   response matrix SVD led to the concentrator formula (139-360× the peak
+   created Sum-MI of a V-shaped profile in simulation, via spatial
+   dephasing optimization). The palindrome
    does not improve transfer fidelity directly, but its spectral structure
    reveals which spatial noise profiles are optimal. Remaining: error correction
    protocols, decoherence-free subspace engineering, steady-state properties.

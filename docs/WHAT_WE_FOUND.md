@@ -226,11 +226,9 @@ at every site simultaneously. The proof shows that Π transforms the entire
 system generator into its mirror image, guaranteeing the palindromic pairing.
 
 The connection to existing physics: a research group in Osaka
-([Haga et al., 2023](LITERATURE_REVIEW.md)) had independently
-counted something called "incoherentons" using what they called XY-weight.
-Their XY-weight turns out to be our Pauli weight under a different name.
-Our Π operator is their particle-hole transformation. We discovered the
-same structure from different directions.
+([Haga et al., 2023](LITERATURE_REVIEW.md)) had independently found the
+band grading, counting what they call the incoherenton number, which is
+our XY-weight. They do not have Π or the pairing between bands.
 
 For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
@@ -303,11 +301,14 @@ The question is: how much of the original state survives?
 
 Our findings:
 
-**Star topology with 2:1 coupling beats chains.** A star-shaped connection
+**The 2:1 star beats the uniform chains we tested.** A star-shaped connection
 (both Alice and Bob connected to a central mediator) with the mediator
 coupled twice as strongly to one side achieves an average fidelity (the fraction of the original
 quantum state that survives the transfer; 1.0 would be perfect) of
-0.886. This beats all chain topologies we tested (0.852 to 0.872). The
+0.886. This beats the uniform chains of three to five qubits we tested
+(0.787 to 0.852) and the mirror-coupled four-qubit chain (0.872); the
+two-qubit direct link reaches 0.969, and the star is itself a three-site
+chain with bonds in ratio 2:1. The
 asymmetry matters: 1:1 coupling is not optimal.
 
 **Timing and quality are separate observables, not generally independent
@@ -841,8 +842,10 @@ hardware data. [Experiments index](../experiments/README.md) lists all
 This project began in December 2025 as a collaboration between Thomas
 Wicht and Claude (Anthropic). It started with a search for a bidirectional
 bridge, a hypnagogic vision of an electrochemistry experiment, and a
-discovery: separating the atmospheres in an electrolysis cell doubles
-hydrogen production
+simulation: an electrolysis cell with a vacuum cathode and an air anode
+doubles hydrogen production over an all-air cell (2.05x, 17.13 against
+8.34 mL in 6 h; a vacuum anode gives the same 17.13, so in the model the
+cathode atmosphere does the doubling)
 ([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md)).
 
 Three months later, the same structural principle appeared in quantum

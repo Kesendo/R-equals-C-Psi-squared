@@ -171,7 +171,7 @@ because what it turns out to be is not a second estimate.
 |---|---|---|---|---|
 | liquid water, 300 K | 0.02 (historical direct-liquid-water value) | J ~ 0.5 meV: a round value inside the ice-scoped cited row (Bove 2009, pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:204`), applied to liquid water without comment | the 25 meV estimate | pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:211` |
 | Zundel cation | 4.8 (historical; no current Zundel-Q assignment) | J = 124 meV, no source. The pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/PROTON_WIRE_CROSSING.md:244-251` identifies 124 meV = 1000.1 cm⁻¹ as the H₅O₂⁺ shared-proton stretch fundamental, i.e. a vibrational quantum rather than an inter-site coupling | the 25 meV estimate | pre-repair baseline `ec7cc619fa075d82137698cedee27b742b7dd6fc:docs/water/HYDROGEN_BOND_QUBIT.md:255` |
-| DNA base pair | 0.01 | J = 0.5 cm⁻¹ | γ = 50 cm⁻¹ ≈ 6.2 meV, and **not** the 25 meV estimate. Both come from the cm⁻¹ set below | `experiments/DNA_BASE_PAIRING.md:96` (J), `:97` (γ) |
+| DNA base pair | 0.01 | J = 0.5 cm⁻¹ | γ = 50 cm⁻¹ ≈ 6.2 meV, and **not** the 25 meV estimate. Both come from the cm⁻¹ set below | `experiments/DNA_BASE_PAIRING.md:101` (J), `:102` (γ) |
 | liquid water again, 300 K | 0.01 | the same J = 0.5 cm⁻¹ | the same γ = 50 cm⁻¹ | `simulations/water/proton_water_chain.py:280-285` |
 | enzyme active site | ~1 | J ~ 0.5 meV, water's numerator | γ ≈ 0.5 meV, a stipulated 50× reduction of the 25 meV estimate | `hypotheses/PROTEIN_AS_CONCENTRATOR.md:71` |
 | π-conjugated carbon, 300 K | ~100 (historical energy quotient; no current carbon-Q assignment) | Hückel β ≈ 2.4 eV, written without a source citation in [the framework lens](carbon/BENZENE_HUCKEL_FRAMEWORK_LENS.md#framework-vocabulary-translation) | the 25 meV thermal energy, not an established γ | [carbon's conditional C4 and C6 working model](carbon/README.md#conditional-c4-and-c6-working-model) |
@@ -372,7 +372,7 @@ not.
   collapse a band. [The README's open follow-ups](water/README.md#open-follow-ups)
   scopes the needed γ_Z(T) estimate and pump-probe IR data.
 - **The Zundel coupling.** 124 meV is unsourced and suspected to be a stretch
-  fundamental; `experiments/DNA_BASE_PAIRING.md:96` carries the same cation at
+  fundamental; `experiments/DNA_BASE_PAIRING.md:101` carries the same cation at
   250 cm⁻¹ ≈ 31 meV. The historical 4.8 and 5.0 figures assign no current
   Zundel Q; neither candidate coupling is sourced. [Open item 1](water/PROTON_WIRE_CROSSING.md#open)
   retains the primary-source question.

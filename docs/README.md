@@ -140,8 +140,9 @@ absorbed into the proof documents and synthesis above.
 
 ### Not restored (remain in `recovered/`)
 
-INFORMATION_WAVE_THEORY, LIGHT_FIRST_FREE_MIRRORING (speculative, no proof),
-BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disproven claims).
+INFORMATION_WAVE_THEORY, LIGHT_FIRST_FREE_MIRRORING, BLACK_WHITE_HOLES_BIGBANG,
+SELF_CONSISTENCY_SCHWARZSCHILD, EMERGENCE_THROUGH_REFLECTION; their classes
+are in [recovered/README](../recovered/README.md).
 
 ---
 

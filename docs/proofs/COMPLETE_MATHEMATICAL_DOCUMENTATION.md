@@ -325,10 +325,11 @@ pair (0,2) (the time the original run labeled the crossing; that crossing
 label does not survive the canonical pair-CΨ book, previous paragraph),
 measurement probabilities are ~97% determined by unitary Hamiltonian
 evolution alone. Decoherence provides a ~3% systematic correction: σ_z
-dephasing shifts probability toward z-eigenstates. Per outcome:
+dephasing shifts probability toward {|00⟩, |11⟩} in aggregate, for this
+initial state. Per outcome:
 R_i = C_i·Ψ_i² recovers Born's rule P(i) = |⟨i|ψ⟩|² when C_i is uniform
-(perfect mirror limit). The per-outcome deviations later became Tier-1
-closed forms on exactly this lens:
+(perfect mirror limit). The per-outcome deviations have their leading
+orders as Tier-1 closed forms on exactly this lens:
 [F94](../ANALYTICAL_FORMULAS.md) (dominant outcome) and
 [F96](../ANALYTICAL_FORMULAS.md) (subdominant slopes).
 

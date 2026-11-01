@@ -281,7 +281,7 @@ chains and base pairs show the same frequency explosion:
 - **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
   (N=2). The third H-bond qualitatively enriches the mode structure.
   At the parameters used there, all modes are overdamped (decaying faster
-than they can oscillate; J/γ ~ 0.01, a floor from an unsourced denominator).
+than they can oscillate; Q_max = K/γ for A-T and 2K/γ for G-C there, K the inter-bond ZZ coupling, an estimated K over an unsourced γ).
   → [DNA Base Pairing](DNA_BASE_PAIRING.md)
 
 ## Where this went (successors)

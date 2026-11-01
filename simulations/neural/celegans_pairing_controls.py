@@ -324,8 +324,8 @@ log("STEP 0: the centre the test reflects across is forced, not measured")
 log("-" * 75)
 log()
 log(f"  Condition (b) of PROOF_PALINDROME_NEURAL asks for an involution Q with")
-log(f"  Q W Q = -W. At uniform tau the proof's Step 3 imposes nothing (S is")
-log(f"  (1/tau)*I for EVERY permutation), so (b) is the whole hypothesis, and")
+log(f"  Q W Q = -W. At uniform tau the proof's condition (a) holds for EVERY")
+log(f"  involution (s = 1/tau), so (b) is the whole hypothesis, and")
 log(f"  under Dale it is a COUNT: a neuron's outgoing row carries one sign, so Q")
 log(f"  must send each non-empty excitatory row to a non-empty inhibitory one.")
 log(f"    non-empty rows              : {len(_ne_rows)}")
@@ -341,9 +341,7 @@ gate("G0b condition (b) FAILS on this connectome, and on a count rather than "
      f"Q exists and the palindrome theorem does not apply here, for a reason "
      f"that is decided rather than left open. What (b) needs is a BIJECTION "
      f"between the two sets, so any inequality kills it and the predicate is "
-     f"'!=', not '>'. The theorem's PREMISE fails too, on a different count "
-     f"(274 excitatory against 26 over ALL neurons, not just non-empty rows); "
-     f"the two conditions are independent and this gate is about (b). "
+     f"'!=', not '>'. "
      f"Falsifier: an EQUAL count would make this gate fail and leave (b) open "
      f"to be tested directly. It is unreachable here only because "
      f"{len(_ne_rows)} is odd")
