@@ -45,7 +45,7 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// extensions.</para>
 ///
 /// <para>Anchor: generalises <see cref="JwBlockBasis"/> (c=2 only) per the N=10 push of
-/// <c>docs/SYMMETRY_FAMILY_INVENTORY.md</c> "requires a new symmetry not yet found".</para>
+/// <c>docs/SYMMETRY_FAMILY_INVENTORY.md</c>.</para>
 /// </summary>
 public sealed class JwSlaterPairBasis : Claim
 {

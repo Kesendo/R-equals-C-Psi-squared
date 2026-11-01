@@ -2111,7 +2111,10 @@ closed form for CPsi(t): f*(1 + f*^2) = 3/2 gives CPsi = 1/4 exactly, at
 K_final,Z = 0.03735. So K_death / K_final,Z = 2.302585 / 0.03735 = 61.65. This crossing
 is EARLY and the death dose is nearly two orders later, which is the point:
 CPsi crosses 1/4 long before the slowest mortal mode is spent.
-**Scope of the ratio:** K_death is N-, gamma- and topology-independent, but
+**Scope of the ratio:** K_death is N-, gamma- and topology-independent wherever the
+2γ regime exists, which on a given graph is decided by the Krein debt (Corollaries D.1
+and D.3 of [the weight-1 degeneracy proof](proofs/PROOF_WEIGHT1_DEGENERACY.md); on the N = 4 ring,
+star and K₄ the regime does not exist), but
 K_final,Z is F25's, whose validity line is Bell+ under Z-dephasing at N=2. So the
 ratio is a Bell+ number; it is the dose scale of THAT initial state measured
 against a universal death dose, not an N-independent constant.
@@ -2119,7 +2122,7 @@ against a universal death dose, not an N-independent constant.
 **Derivation:** 99% absorption of the slowest mortal mode means
 e^{−rate_min · t} = 0.01, so rate_min · t = ln(100). By formula D6:
 rate_min = 2γ (spectral gap). Therefore t = ln(100)/(2γ), and
-K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ, topology.
+K = γ · t = ln(100)/2 = ln(10) = 2.303. Independent of N, γ and topology wherever the rate is 2γ.
 
 **Regime condition (inherited from D6):** rate_min = 2γ holds only above the
 N-dependent coupling threshold Q*_gap(N). Below it the slowest mortal mode is

@@ -64,7 +64,7 @@ For chain XY + uniform Z-dephasing, the simultaneous use of:
 - F71 split: factor ~2
 - X⊗N pairing: halves number of distinct eig-calls (paired sectors share spectrum)
 
-gives at N=10 a max-block of `C(10,5)² / 2 / 2 ≈ 16k`, still beyond commodity hardware. F92/F93 do NOT add block-reduction (they describe spectral-invariance under parameter rotation, not sector splitting). Therefore N=10 push requires a **new** symmetry not yet found, or a different attack (matrix-free per-block eig, etc.); the latter now realised, see the next section.
+gives at N=10 a max-block of 31 752 rows, the self-paired (5, 5) under F71. With the Klein split of that sector (below) the max-block is 26 460 rows: the sector (4, 5), 210 · 252 = 52 920, halved by F71 (no fixed pair there, a ten-bit palindrome having even popcount). F92/F93 do NOT add block-reduction (they describe spectral-invariance under parameter rotation, not sector splitting). The N=10 push took a different attack (matrix-free per-block eig), see the next section.
 
 ## N=10 push: the realised "different attack" (2026-05-16 / 2026-05-17)
 
@@ -81,10 +81,10 @@ Phase 2 of the N=10 push landed six primitives under `compute/RCPsiSquared.Core/
 
 Shared low-level complex-vector kernels (`NormSquared`, `ConjugateDot`, `AxpyInPlace`, `RandomNormalized`) live in `KrylovOps.cs` to keep the Arnoldi sites lean.
 
-The combinatorial table above is unchanged; joint-popcount + F71 + X⊗N still do not shrink the max block enough for dense LAPACK at N=10, but the matrix-free Krylov path renders that limit moot for top-k / near-σ work.
+The matrix-free Krylov path reaches top-k / near-σ work without a dense eigensolver.
 
 **What this path does NOT yet give:**
-- **Full N=10 spectrum** (all ~63 k eigenvalues per max-block, ~1 M total). For F1 palindrome verification at N=10 as a structural theorem-check the cleaner route is Prosen third quantization (Phase 3 of the N=10 plan): under uniform γ, the chain XY + Z-dephasing Liouvillian reduces to a 2N × 2N Nambu spectral problem (Medvedyeva, Essler, Prosen 2016). Phase 3 has not yet been implemented.
+- **Full N=10 spectrum** (all ~63 k eigenvalues of the (5, 5) sector, ~1 M total). For F1 palindrome verification at N=10 as a structural theorem-check the cleaner route is Prosen third quantization (Phase 3 of the N=10 plan): under uniform γ, the chain XY + Z-dephasing Liouvillian reduces to a 2N × 2N Nambu spectral problem (Medvedyeva, Essler, Prosen 2016). Phase 3 has not yet been implemented.
 - **Strict F1 pair-matching for deeper Ritz values.** `JwSlaterPairF1PalindromeProbe` recovers F1-paired sets reliably for the closest-to-σ eigenvalues (steady state, first two slow modes) but at finite Krylov dimension the deeper Ritz values returned by each side's shift-invert Arnoldi can land on different "approximately K-closest" subsets, breaking pair-matching at the K-th probe slot even though F1 holds at the theorem level. This is an Arnoldi-depth limit, not an F1 break.
 - **Inhomogeneous γ spectrum** at N=10 is supported by the sparse path but not yet exercised in a science-facing pipeline; Prosen's reduction does not extend there.
 
@@ -100,9 +100,8 @@ basis, and combined with the F71 chain spatial mirror (also Z₂, commutes with 
 generates the Klein four-group K = {1, F71, X⊗N, F71·X⊗N} acting *internally* on the
 (N/2, N/2) basis. K splits the sector into 4 character sub-blocks (++, +-, -+, --).
 
-This closes the gap between the inventory's advertised "≈ 16k max-block at N=10" (which
-was implicitly assuming the Klein splitting) and the previously delivered 31752 dim from
-F71 alone. The Klein refinement primitive
+It brings the (5, 5) sector from 31752 rows under F71 alone to four sub-blocks of at most
+16132. The Klein refinement primitive
 `compute/RCPsiSquared.Core/BlockSpectrum/KleinFourGroupSelfPairedRefinement.cs` builds:
 
 | Klein character | (++) | (+-) | (-+) | (--) | sum |
@@ -120,8 +119,10 @@ the imaginary-U Bethe ansatz, analytic, doesn't need K splitting. For our
 computational path, K on self-paired sectors is repo-specific (F71 spatial Z₂ ×
 X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
 
-**Phase 3c (delivered).** The dense Evd on Klein sub-blocks at dim 16132 is blocked by
-the .NET/MKL int32 array-size cap (4.2 GB > 2 GB managed marshaling limit), but the
+**Phase 3c (delivered).** A dense Evd on a Klein sub-block at dim 16132 needs 4.2 GB, past
+MathNet's 2 GB managed marshaling limit; the native MklDirect path that solved the N = 9
+chain's largest block passes that limit ([F1 general topology](proofs/PROOF_F1_GENERAL_TOPOLOGY.md)),
+and it has not been run on these sub-blocks. Phase 3c uses instead that the
 sub-blocks are *sparse* (mean 10.86 nnz per row at N=10 (5, 5), 0.017 % density,
 ~170 k nnz per sub-block, ~7 MB sparse storage vs 4.2 GB dense). Phase 3c stores
 each sub-block as CSR and extracts top-K slow modes via per-sub-block shift-invert

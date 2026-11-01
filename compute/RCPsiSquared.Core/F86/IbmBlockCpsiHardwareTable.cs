@@ -36,7 +36,8 @@ public enum BlockCpsiScenario
 /// live in the inspect tree (the "hardware resolution" child computes from the witness
 /// list). The state in question (|+−+⟩ at N=3 reduced to (q0, q2)) is structurally far
 /// from the canonical Dicke maximiser <c>(|D_n⟩+|D_{n+1}⟩)/√2</c>, so the lens cannot
-/// approach the 1/4 ceiling on this data; a future Dicke-prepared run is needed for that.</para>
+/// approach the 1/4 ceiling on this data; the Dicke-prepared run that does is
+/// experiments/IBM_BLOCK_CPSI_SATURATION.md (ibm_kingston q13–q14, 2026-05-08, 88.2% of the ceiling).</para>
 ///
 /// <para><b>Π²-odd asymmetry signature (ideal continuous evolution):</b></para>
 /// <list type="bullet">

@@ -16,8 +16,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 ///
 /// <para>F71 and X⊗N commute (both are involutions acting independently on the two Hilbert
 /// sides via real on-site operations), so K = Z₂ × Z₂. K splits the sector into four
-/// character sub-blocks indexed by (χ_F71, χ_X⊗N) ∈ {+, −}². At N=10 (5, 5) this delivers
-/// the inventory's advertised max-block of ~16 k from the raw 63 504 (= C(10, 5)²) sector:
+/// character sub-blocks indexed by (χ_F71, χ_X⊗N) ∈ {+, −}². At N=10 (5, 5) this splits
+/// the raw 63 504 (= C(10, 5)²) sector into
 /// ~16 132 per (++, −−) and ~15 620 per (+−, −+), a factor-4 reduction. Without this
 /// internal split, F71 alone gives only factor 2 (max-block 31 752) — still beyond a
 /// commodity dense Evd's memory at 16 GB for the single block.</para>
@@ -26,8 +26,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// uniform Z-dephasing spectrum at N=10 is Medvedyeva-Essler-Prosen's (2016) imaginary-U
 /// Bethe ansatz (<c>arXiv:1606.09122</c>) — analytic, no diagonalisation needed. That
 /// route does not exploit the K splitting because it doesn't need to. For our computational
-/// path, K on the self-paired sector is a repo-specific gain that closes the inventory's
-/// 16 k aspiration to a delivered capability.</para>
+/// path, K on the self-paired sector is a repo-specific gain.</para>
 ///
 /// <para><b>Klein orbits on (N/2, N/2).</b> Each Liouville-space basis index (i, j) with
 /// <c>popcount(i) = popcount(j) = N/2</c> sits in a K-orbit of size 1, 2, or 4 depending on

@@ -46,8 +46,8 @@ PolynomialFoundationClaim                  Pi2KnowledgeBaseClaims.cs
 │       │      └── UniversalCarrierClaim        [typed]
 │       │
 │       └── the F-leaves                        [typed: most take the ladder; see below]
-│              60 F-numbered *Pi2Inheritance.cs files, 56 distinct F tokens
-│              from F1 to F97 (counting F2b/F49b/F49c as their own tokens;
+│              56 F-numbered *Pi2Inheritance.cs files, 52 distinct F tokens
+│              from F1 to F93 (counting F2b/F49b/F49c as their own tokens;
 │              the file listing IS the exact inventory, the numbering has gaps),
 │              plus 4 non-F leaves (CanonicalTrigAnchor, DickeSuperpositionQuarter,
 │              QubitNecessity, XGlobalEigenstateMirror). The bit_a-axis leaves

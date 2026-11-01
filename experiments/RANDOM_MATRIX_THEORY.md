@@ -216,6 +216,14 @@ multiset bijection.
 | 6 | 1,130 | 1,130 | 1,836 | 3.10e-14 |
 | 7 | 8,192 | 8,192 | 0 | 6.20e-14 |
 
+The Positive column (equally Negative) equals the two-member orbit count of the
+conjugate-composite census in [Factor Two Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
+each such orbit having one member on each side, and Central is that census's
+fixed multiplicity. The Central zeros at odd N are a generic absence, not a
+theorem: there Π exchanges the two k_Z-parity sectors instead of acting inside
+each, so nothing holds an eigenvalue on the line Re λ = −Σγ
+([Standing Waves](../docs/STANDING_WAVE_THEORY.md)).
+
 The projected decay-rate reflection is satisfied to machine precision at every
 tested N and is consistent with the independently proved full palindrome
 ([Mirror Symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). This projected

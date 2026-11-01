@@ -273,7 +273,10 @@ ingredients, different scopes.
 3. **Klein-4-group character of HOMO at palindrome centre as aromaticity criterion?**
    Apply `KleinFourGroupSelfPairedRefinement` to the benzene + cyclobutadiene
    Liouvillians; check the Klein character of the HOMO at α; predict + verify the
-   4n+2 vs 4n distinction.
+   4n+2 vs 4n distinction. As built, the refinement acts on the self-paired
+   Liouville sector (N/2, N/2) of the open XY chain ([the symmetry inventory](../SYMMETRY_FAMILY_INVENTORY.md)),
+   so the ring needs a ring-capable builder, and what it reads is a sector
+   character rather than an orbital's.
 
 4. **Does the V-Effect 14/19/3 trichotomy show up in benzene's electronic spectrum?**
    The framework's V-Effect splits N=3 Pauli-pair bilinears 14 hard + 19 soft + 3

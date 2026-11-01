@@ -80,7 +80,7 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim, IZ2AxisCla
 
     /// <summary>K_death = ln(10) ≈ 2.303; absorption dose for 99% absorption of
     /// the slowest mortal mode. Independent of N, γ and topology, but only where
-    /// rate_min = 2γ, i.e. above the coupling threshold Q*_gap(N) of D6.</summary>
+    /// rate_min = 2γ, which on the chain is above the coupling threshold Q*_gap(N) of D6.</summary>
     public static readonly double KDeath = Math.Log(10.0);
 
     /// <summary>Absorption fraction at K_death: 0.99 (99% by construction).</summary>
@@ -163,8 +163,8 @@ public sealed class F55UniversalAbsorptionDosePi2Inheritance : Claim, IZ2AxisCla
                 summary: "N+1 modes have rate = 0 (purely {I, Z} Pauli content, invisible to Z-dephasing); complete absorption impossible while F1 palindrome holds; the cavity always retains light");
             yield return new InspectableNode("verified at γ=0.05",
                 summary: $"AbsorptionTime(0.05) = {AbsorptionTime(0.05):G6}; rate_min·t = {RateMinCoefficient * 0.05 * AbsorptionTime(0.05):G6} (= ln(100) = {Math.Log(100):G6})");
-            yield return new InspectableNode("topology universality (above Q*_gap)",
-                summary: "above Q*_gap(N): K_death is N-, γ- and topology-independent (chain, star, ring, complete, tree all give the same dose). Below Q*_gap(N) the slowest mortal mode is Zeno-suppressed and the dose is larger; the threshold, not the dose, is what carries N and the Hamiltonian");
+            yield return new InspectableNode("topology universality (where the 2γ regime exists)",
+                summary: "wherever the 2γ regime exists (on the chain, above Q*_gap(N)): K_death is N-, γ- and topology-independent. Whether it exists on a graph is decided by the Krein debt (Corollaries D.1 and D.3 of docs/proofs/PROOF_WEIGHT1_DEGENERACY.md): it does on the chain through N = 5, and on the N = 4 ring, star and K4 it does not, a mode slower than 2γ persisting to the Hamiltonian end; inspect --root exceptional reads the debt exactly on the chain, ring, star and complete graph at N ≤ 4. Below Q*_gap(N) the slowest mortal mode is Zeno-suppressed and the dose is larger; the threshold, not the dose, is what carries N and the Hamiltonian");
         }
     }
 }

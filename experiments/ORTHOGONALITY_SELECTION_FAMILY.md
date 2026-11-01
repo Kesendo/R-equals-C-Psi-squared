@@ -335,7 +335,8 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 The earlier parity scan grouped eigenvalues with the composite
 `λ→−conj(λ)−2Σγ` while describing the groups as linear Π/F1 pairs. Those are
-different involutions. The corrected `N=2,...,7` census is:
+different involutions. The corrected `N=2,...,7` census, from
+[Factor Two Standing Waves](FACTOR_TWO_STANDING_WAVES.md), is:
 
 - linear F1: 10,903 unordered two-member orbits and 34 fixed eigenvalues at
   the exact point `λ=−Σγ`;

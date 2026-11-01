@@ -54,7 +54,7 @@ public class KleinFourGroupSelfPairedRefinementTests
                        $"+-={k.SubBlockDims[KleinCharacter.PlusMinus]}, " +
                        $"-+={k.SubBlockDims[KleinCharacter.MinusPlus]}, " +
                        $"--={k.SubBlockDims[KleinCharacter.MinusMinus]}]");
-        _out.WriteLine($"Max sub-block: {k.SubBlockDims.Values.Max()} (matches inventory's advertised ~16k)");
+        _out.WriteLine($"Max sub-block: {k.SubBlockDims.Values.Max()} (the inventory's Klein table)");
     }
 
     [Theory]

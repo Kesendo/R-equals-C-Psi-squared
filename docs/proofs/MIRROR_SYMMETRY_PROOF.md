@@ -753,8 +753,8 @@ most wrong with it.
 
 The score matched each rate to its nearest partner inside a 0.005 tolerance
 WITHOUT removal, so it was not multiplicity-aware, and it scored only the
-below-centre half of the spectrum. Replacing it with the canonical
-`F1SpectrumStatistics.MaxF1PairingDistance`, a nearest-neighbour match with
+below-centre half of the spectrum. Replacing it with Core's
+`F1SpectrumStatistics.MaxF1RatePairingDistance`, a nearest-neighbour match with
 removal, was the obvious repair and it was not the one that mattered. Two
 filters upstream in `Liouvillian.ExtractRates` decided what the metric
 could see: a `Math.Round(rate, 6)` quantized every rate onto a 1e-6 grid,
