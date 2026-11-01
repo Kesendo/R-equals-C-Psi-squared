@@ -47,15 +47,15 @@ linked below. Twenty-three are not yet indexed.
 
 Four results that a new reader should see first:
 
-### 1. One-line formula beats 18 years of optimization (March 24, 2026)
+### 1. One-line formula for a spatial noise profile (March 24, 2026)
 Concentrate all dephasing on one edge qubit, protect the rest.
-gamma_edge = N*gamma_base - (N-1)*epsilon. This trivially simple rule
-outperforms every published dephasing optimization by two orders of
-magnitude. C#-validated from N=5 (360×) through N=15 (68×) vs V-shape
-(peak created Sum-MI, a transport metric, ε→0 sim ideal; ~2-3× on
-hardware). ENAQT literature achieves 2-3×. In the finite N=2–15 scan, SumMI
+gamma_edge = N*gamma_base - (N-1)*epsilon. C#-validated from N=5 (360×)
+through N=15 (68×) vs V-shape (peak created Sum-MI, a transport metric,
+ε→0 sim ideal; selective over uniform DD on hardware: 1.4-3.2×, a
+different comparison). The ENAQT literature reports 2-3× in transport
+efficiency for uniform dephasing, a different quantity. In the finite N=2–15 scan, SumMI
 increases while the earlier quadratic fit increasingly overpredicts N=11–15.
-First hardware test: selective DD 2-3× on ibm_torino.
+On ibm_torino, selective DD created 1.4-3.2× more Sum-MI than uniform DD (one run, Tier 2; the formula itself not flown).
 
 -> **[Resonant Return: from SVD to formula](RESONANT_RETURN.md)**
 -> [Finite-N SumMI Scan](SIGNAL_ANALYSIS_SCALING.md)
@@ -241,7 +241,7 @@ interference require additional gates.
 |-----------|------------|
 | **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **24,073 calibration records, 133 qubits, 181 days, evaluated through the free-`|+>` normalized-purity proxy threshold `R*`; finite band histories and confounded associations, not a fold or phase transition** |
 | [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | Finite single-qubit fit readout on ibm_torino Q80: `t*=15.29 μs` versus model `15.01 μs` (1.9% deviation). It neither validates a `CΨ=1/4` fold nor measures the N-qubit palindrome |
-| [IBM Concentrator](IBM_CONCENTRATOR.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
+| [IBM Concentrator](IBM_CONCENTRATOR.md) | Selective DD creates 1.4-3.2× more Sum-MI than uniform DD at all 5 time points on ibm_torino, a DD approximation of spatial noise engineering (Tier 2, single run, mechanism open) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Two 5-site profiles carrying real IBM gammas (no DD), from an early mapping search whose finder used a synthetic graph: neither is a path on Torino. Protection 2.86x vs 1.06x confirmed spectrally for those profiles. The concentrator score is a within-chain metric; between chains, total noise dominates |
 | [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | The Q52 late-time residual and the pre-registered March question: not a boundary effect. Q52's own record answers the proposal (the coherence kept turning through the crossing, and the late direction is not the fixed point's but a static offset with the pattern of a measurement (SPAM) offset, mechanism open); the March test measured its qubits' detuning and could not see a residual of that size |

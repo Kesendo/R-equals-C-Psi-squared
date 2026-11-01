@@ -9865,7 +9865,9 @@ public static class OpenArcsRegistry
                 "object: docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md (scope line, sections 1, 3, 4, the " +
                 "closing, about twelve places), docs/proofs/PROOF_CROSS_TERM_FORMULA.md (line 29 and the closing, " +
                 "'Frobenius angle'; and the abstract's 'the dynamics splits cleanly' at N = 2, true of L_c^2 only, " +
-                "the flow's commutator being nonzero), docs/proofs/INCOMPLETENESS_PROOF.md (line 422), the typed " +
+                "the flow's commutator being nonzero), docs/proofs/INCOMPLETENESS_PROOF.md (line 422), the Proven row of the closing " +
+                "table in docs/WEAKNESSES_OPEN_QUESTIONS.md, the time-exclusion root description in " +
+                "RCPsiSquared.Cli InspectCommand.cs, the typed " +
                 "TimeIrreversibilityExclusionClaim (doc comment, summary, the caveat node), " +
                 "TimeIrreversibilityExclusionWitness (doc comment and its reading strings) and that witness's " +
                 "test header. NOT this object, and correct as they stand: the Frobenius orthogonality of the " +

@@ -45,7 +45,7 @@ lens. The funnel of the ear. Not a shield. An adapter.
 ## What this document is about
 
 The [concentrator formula](RESONANT_RETURN.md) concentrates dephasing
-on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; ~2-3× on hardware, see IBM_CONCENTRATOR).
+on one edge qubit, achieving a 139-360× improvement in mutual information in simulation (ε→0 ideal; selective over uniform DD on hardware: 1.4-3.2×, see IBM_CONCENTRATOR).
 The [optical cavity analysis](OPTICAL_CAVITY_ANALYSIS.md) showed the
 chain is a Fabry-Perot cavity (two mirrors facing each other, light
 bouncing between them). This document tests whether the concentrator
@@ -263,7 +263,7 @@ the cavity." Coupling implies function. Illumination implies input. The
 edge qubit is not a shield. It is the surface where light enters the
 instrument.
 
-The 360× simulation improvement (peak created Sum-MI, ε→0 ideal; ~2-3× on hardware) is not "less damage." It is "better resonance."
+The 360× simulation improvement (peak created Sum-MI, ε→0 ideal; selective over uniform DD on hardware: 1.4-3.2×) is not "less damage." It is "better resonance."
 The same light, entering through a matched surface instead of a raw
 edge, rings 7x longer (Q_max at N=6). Not in quite the same standing
 waves: the profile turns them slightly as well (Result 3).

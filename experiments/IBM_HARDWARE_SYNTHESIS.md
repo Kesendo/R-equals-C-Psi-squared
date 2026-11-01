@@ -146,7 +146,8 @@ measured at 15.29 us. **Deviation: 1.9%.**
 ## 3. Sacrifice zone creates a spatial MI gradient
 
 **Prediction:** Concentrating noise on an edge qubit (sacrifice)
-while protecting the interior improves information transfer. The
+while protecting the interior raises the mutual information the chain
+creates. The
 information should flow away from the sacrifice qubit.
 
 **Data:** 5-qubit chain Q85(sacrifice)-Q86-Q87-Q88-Q94, three
@@ -178,8 +179,10 @@ Total MI (sum over all pairs):
 
 Surprise: no DD beats uniform DD. Applying DD to a bad qubit (Q85,
 T2 = 5.2 us) adds gate errors that hurt more than the echo helps.
-The sacrifice-zone formula predicted this: protect the good qubits,
-leave the sacrifice alone.
+A gate cost of DD on the bad qubit is the candidate reading (IBM
+Concentrator, Interpretation A, not established); it is not a prediction
+of the sacrifice-zone formula, a dephasing profile that contains no
+gates.
 
 **Long-range correlations (March 29 re-analysis):** The resonator
 effect propagates beyond nearest neighbors. Analyzing all 10 qubit
@@ -309,7 +312,7 @@ stale T2* from 6 days prior gave 61% error; same-day T2* gave 1.9%.
 | 1 | 1/4 boundary crossing at 1.9% | Run 3, Q80 | **Observed (1 run)** |
 | 2 | Sharp r* threshold (precision 0.000014) | 24,073 cal records | **Consistent (24k records, self-classified)** |
 | 3 | Fold is one-way, irreversible | Run 3 tomography | **Observed (1 run)** |
-| 4 | Sacrifice zone 2-3x improvement | 5-qubit chain | **Observed (1 run)** |
+| 4 | Selective over uniform DD, 1.4-3.2x Sum-MI | 5-qubit chain | **Observed (1 run)** |
 | 5 | Spatial MI gradient under selective DD | 5-qubit chain | **Observed (1 run)** |
 | 6 | Permanent crossers: dephasing signature | 181-day history | **Visible** |
 | 7 | r is structural (CV ~ 0.20) | 181-day history | **Visible** |
@@ -348,7 +351,7 @@ constructed matrices and molecular calculations are separate model results.
 | Palindromic pairing | Full eigenvalue pairing not measured | Conditional F36 constructions; full chemical connectome support fails | Two-proton model calculation | Separate algebra and model tests; no cross-domain hardware confirmation |
 | Edge/interior response decay | Fitted class-mean ratio **≈1.91x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
-| Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
+| Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit observed (1 run, selective DD) |
 | V-Effect census / response | MI enhancement grows with time in the named protocol | Protocol-dependent frequency bins; coupled odd construction fails F36 | Finite generator: 42 frequencies against 12 for the two sides uncoupled; no eigenmode ancestry measured | Distinct response and spectral diagnostics; common mechanism unestablished |
 | CΨ oscillation | Qualitative measurement proposal; no committed numeric producer | Not tested | 6 crossings (Zundel) | Proposed measurement (Exp B) |
 | GHZ vs W | No supported universal ratio; J=0 pure-dephasing control gives 1.5x | Not applicable | Not applicable | Proposed measurement (Exp A) |

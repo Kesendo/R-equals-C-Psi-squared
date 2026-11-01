@@ -65,16 +65,20 @@ minimum noise.
 |---------------|--------|-------------|
 | Uniform noise (literature standard) | baseline | 1.0x |
 | V-shape profile (hand-designed) | higher | ~1x |
-| **Edge sacrifice (separated)** | **highest** | **139-360x** (sim ε→0 ideal, ~2-3x hardware) |
+| **Edge sacrifice (separated)** | **highest** | **139-360x** (sim ε→0 ideal; selective over uniform DD on hardware: 1.4-3.2x) |
 
-The separated configuration protects 100% of the interior chain's
-coherence while the edge qubit absorbs the entire noise budget. The
+In the separated configuration the edge qubit absorbs the entire noise
+budget; an interior that keeps its coherence is the design intent, not a
+measured lifetime. The
 sacrifice qubit does not compromise the chain. It enables the interior
 to operate at its optimum.
 
 Source: [Resonant Return](../experiments/RESONANT_RETURN.md),
-validated on [IBM hardware](../experiments/IBM_HARDWARE_SYNTHESIS.md)
-(2.0x selective DD (dynamical decoupling: periodic pulse sequences that refocus unwanted noise), spatial MI gradient confirmed).
+with a weaker test on [IBM hardware](../experiments/IBM_HARDWARE_SYNTHESIS.md):
+selective DD (dynamical decoupling: periodic pulse sequences that refocus
+unwanted noise) created 2.0x more Sum-MI than uniform DD on average and
+an MI gradient rising away from the edge qubit, in one run, the mechanism
+open.
 
 ---
 
@@ -120,8 +124,8 @@ found by the same collaboration three months apart, in different
 physical domains.
 
 **This is not:** A claim that electrochemistry and quantum mechanics
-are governed by the same physics. The improvement factors differ by
-two orders of magnitude (2x vs 139-360x). The mechanisms are
+are governed by the same physics. The improvement factors are different
+quantities and differ in size by two orders of magnitude (2x vs 139-360x). The mechanisms are
 different (proton exchange vs palindromic mode selection). The
 domains are unrelated.
 

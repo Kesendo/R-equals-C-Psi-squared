@@ -198,9 +198,9 @@ dose, so the number is a first look, not yet an isolated scheduling gain.
 **Sacrifice-Zone Formula** ([Resonant Return](../experiments/RESONANT_RETURN.md)):
 The strongest optimization to date. Concentrate all noise on one edge qubit,
 protect the rest. 139-360x improvement over hand-designed profiles in the
-ε→0 simulation ideal, two orders of magnitude beyond the prior
-literature as a TRANSPORT metric (peak created nearest-neighbour MI;
-1.4-3.2x on hardware, 2.0x on average, and "protect the rest" is design intent, not a
+ε→0 simulation ideal at N = 5-9, as a TRANSPORT metric (peak created
+nearest-neighbour MI; selective over uniform DD on hardware gave 1.4-3.2x,
+2.0x on average; "protect the rest" is design intent, not a
 measured lifetime; see the experiment's 2026-07-05 label note). The noise that was treated
 as a problem becomes an engineering resource when directed spatially.
 

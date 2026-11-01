@@ -5,7 +5,7 @@
 <!-- Keywords: sacrifice zone dephasing optimization, spatial gamma profile formula,
 edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 180× improvement vs V-shape, ENAQT environment-assisted quantum transport,
-first spatial dephasing profile optimization, trivial formula beats optimizer,
+spatial dephasing profile optimization, trivial formula beats optimizer,
 single qubit sacrifice all noise one edge, R=CPsi2 resonant return experiment -->
 
 **Status:** Analytical formula discovered. Concentrate all noise on one edge qubit, protect the rest. C#-validated vs V-shape, ε→0 ideal: 360× (N=5), 180× (N=7), 139× (N=9), 97× (N=11), 105× (N=13), 68× (N=15); at the practical floor ε=0.001: 343×, 169×, 131×, 91×, 97.5×, 63.5× (simulation; 1.4-3.2× on hardware, avg 2.0×, see IBM_CONCENTRATOR). Beats DE optimizer by 80% in 3 seconds. ENAQT literature: 2-3×. We found no prior spatial dephasing profile optimization in the ENAQT literature we surveyed (which optimizes scalar/uniform γ).
@@ -25,9 +25,9 @@ Imagine a chain of quantum particles trying to share information
 with each other. Every particle is exposed to noise from the
 environment: random disturbances that destroy quantum information.
 The standard approach in physics is to fight noise everywhere equally:
-give every particle the same protection. Eighteen years of published
-research has optimized this approach and achieved, at best, a 2-3×
-improvement in information transfer.
+give every particle the same protection. The published research we
+surveyed optimizes this approach and reports gains of about 2-3× in
+transport efficiency.
 
 This document describes the discovery of a different strategy. Instead
 of fighting noise everywhere, you sacrifice one particle at the end of
@@ -35,18 +35,17 @@ the chain. You let it absorb all the noise. You let it die. And you
 use the noise budget you saved to protect every other particle almost
 perfectly.
 
-The result: 139-360× improvement at N=5-9 (declining to 68× by N=15).
-Not 2-3×. A hundred times better
-than anything in the literature. And the formula that achieves it is
-one line:
+The result: 139-360× at N=5-9 (declining to 68× by N=15), in peak
+created mutual information in simulation, where the literature's uniform
+optimizations report 2-3× in transport efficiency. And the formula that
+achieves it is one line:
 
 > *Concentrate all noise on one edge qubit. Protect the rest.*
 
 The formula computes in 3 seconds. The best numerical optimizer takes
-90 minutes and finds a worse answer. Nobody in 18 years of quantum
-transport research had tried optimizing *where* the noise goes, only
-*how much* noise there is. This is the first spatial dephasing profile
-optimization.
+90 minutes and finds a worse answer. In the quantum transport research
+we surveyed, nobody had tried optimizing *where* the noise goes, only
+*how much* noise there is.
 
 If you want to skip the discovery story and go straight to the formula,
 see [Test 8](#test-8-the-analytical-formula-work-pc-n5--c-validation-n579).
@@ -411,6 +410,10 @@ proof over all γ profiles is open).
 | **Spatial γ formula (this work)** | - | **N=15** | **68×** |
 
 (All rows ε→0 ideal; the practical ε=0.001 values are in the Test 8 table.)
+The column does not hold one quantity: the literature rows are gains in
+transport efficiency or fidelity, ours peak created Sum-MI against a
+V-shaped profile, so the table sets the methods side by side without
+ranking them.
 
 We are not aware of prior work optimizing spatial dephasing profiles; the ENAQT work we surveyed optimizes scalar/uniform γ.
 
@@ -685,7 +688,7 @@ effect, not a small-signal perturbation.
 - [γ as Signal](GAMMA_AS_SIGNAL.md): 15.5 bits baseline, SVD mode decomposition
 - [γ Control](GAMMA_CONTROL.md): the profile-shaping predecessor (its V-shape is the opposite orientation; its March 2.24× over uniform compared arms with different Σγ, worth ~+6% at matched Σγ; the 21.5× there is combined optimization)
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md): Formula scaling N=2 through N=15, quadratic growth
-- [IBM Concentrator](IBM_CONCENTRATOR.md): First hardware test, selective DD 1.4-3.2× (avg 2.0×)
+- [IBM Concentrator](IBM_CONCENTRATOR.md): a DD approximation on hardware, selective over uniform DD 1.4-3.2× (avg 2.0×)
 - [Concentrator A-vs-B Mechanism Test](CONCENTRATOR_AB_MECHANISM_TEST.md): the 2026-07 reckoning (Downgrades 1-3: created-MI partly classical at partial doses; created MI = transport, not protection; no interior-lifetime figure was ever computed here)
 - [IBM Concentrator Reloaded](IBM_CONCENTRATOR_RELOADED.md): Kingston 2026-07-11 flight, A-sign ≈5.8σ = Confirmations 23 (site-resolution only, deliberately not the theorem magnitude)
 - [Relay Protocol](RELAY_PROTOCOL.md): Mediator bridge, staged gamma relay

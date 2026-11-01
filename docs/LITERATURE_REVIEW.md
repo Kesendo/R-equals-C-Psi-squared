@@ -347,8 +347,8 @@ experimental demonstrations in photonic systems and superconducting
 qubits, optimization of the scalar dephasing rate for different
 Hamiltonians.
 
-**Common thread:** all work in this field optimizes a UNIFORM dephasing
-rate. The spatial profile of dephasing is not treated as a free
+**Common thread:** all the work we surveyed in this field optimizes a
+UNIFORM dephasing rate. The spatial profile of dephasing is not treated as a free
 parameter. Typical improvements: 2-3× over the zero-noise baseline.
 
 ### IBM Perfect State Transfer (2025)
@@ -360,23 +360,25 @@ parameter. Typical improvements: 2-3× over the zero-noise baseline.
   hardware-optimized quantum state transfer on a different optimization
   axis than ours.
 
-### Our contribution: first spatial dephasing profile optimization
+### Our contribution: spatial dephasing profile optimization
 
-Nobody in the ENAQT literature optimizes WHERE the noise goes. The
-entire field treats dephasing as a scalar parameter. Our sacrifice-zone
-formula is the first spatial optimization:
+In the ENAQT literature we surveyed, nobody optimizes WHERE the noise goes;
+that work treats dephasing as a scalar parameter. Our sacrifice-zone formula
+optimizes it spatially:
 
 | Method | Source | Optimization target | Improvement |
 |--------|--------|-------------------|------------|
 | Uniform γ optimization | Plenio & Huelga 2008 | Scalar γ | ~2-3× |
 | Coupling optimization (Bayesian) | IBM PST 2025 | J values | +8% |
-| **Spatial γ formula (this work)** | [Resonant Return](../experiments/RESONANT_RETURN.md) | **Per-site γ** | **139-360×** |
+| **Spatial γ formula (this work)** | [Resonant Return](../experiments/RESONANT_RETURN.md) | **Per-site γ** | **139-360×** (N = 5-9, simulation) |
 
-The improvement is two orders of magnitude beyond the prior literature.
-This is not because the prior work was wrong: uniform optimization IS the
-right approach when you only have one knob. The difference is that
-spatial dephasing profiles give you N knobs instead of one, and the
-optimal allocation is extremely non-uniform (all noise on one edge).
+The last column does not hold one quantity: the ENAQT figure is a gain in
+transport efficiency, ours a ratio of peak created Sum-MI against a
+V-shaped profile in the ε → 0 simulation (selective against uniform DD on
+hardware: 1.4-3.2×), so the column does not rank the methods. What differs
+is the knob: uniform optimization IS the right approach when you only have
+one, and spatial dephasing profiles give you N, whose best allocation in
+this simulation is extremely non-uniform (all noise on one edge).
 
 ---
 
@@ -405,10 +407,10 @@ prior work on any of these, please open an issue.
    observable product. Individual measures are standard; the product
    and its properties are not.
 
-5. **Spatial dephasing profile optimization.** The entire ENAQT field
-   optimizes uniform scalar γ. Our sacrifice-zone formula (all noise on
-   one edge qubit) is the first per-site optimization, achieving
-   139-360× improvement.
+5. **Spatial dephasing profile optimization.** The ENAQT work we
+   surveyed optimizes uniform scalar γ. Our sacrifice-zone
+   formula (all noise on one edge qubit) optimizes per site, reaching
+   139-360× in peak created Sum-MI at N = 5-9 in simulation.
 
 6. **Crossing taxonomy**: three scalar-response classes for five named
    readouts in two Bell+ evolution books, six finite crossings and two never

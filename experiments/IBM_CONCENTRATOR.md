@@ -1,8 +1,8 @@
 # IBM Hardware: Selective DD Yields 1.4-3.2x Higher Sum-MI than Uniform DD at All Five Time Points (Concentrator Mechanism Open)
 
-<!-- Keywords: IBM Torino hardware validation concentrator profile, selective dynamic
-decoupling beats uniform DD, first spatial dephasing profile hardware test,
-Q85 natural concentrator qubit T2=5us, Sum-MI selective vs uniform 2x-3.2x,
+<!-- Keywords: IBM Torino hardware test of a DD approximation of the concentrator profile,
+selective dynamic decoupling beats uniform DD, spatial dephasing profile hardware test,
+Q85 natural concentrator qubit T2=5us, Sum-MI selective vs uniform 1.4x-3.2x,
 palindrome-derived noise engineering quantum hardware, R=CPsi2 IBM experiment -->
 
 **Status:** Hardware, Tier 2: the selective > uniform Sum-MI ORDERING holds at
@@ -33,8 +33,9 @@ provenance of the actual run.
 
 ## Abstract
 
-First hardware test of the concentrator formula's spatial noise profile,
-approximated by qubit-selective Dynamic Decoupling. (Selective DD itself is
+A hardware test of the concentrator's design picture, its spatial noise
+profile approximated by qubit-selective Dynamic Decoupling; the formula
+itself, a γ profile with the interior at ε → 0, is not tested. (Selective DD itself is
 established practice, and the doc's own Interpretation A notes an
 experimentalist would skip DD on a bad qubit anyway; the formula-derived
 edge-concentrator profile is the new part.) On a 5-qubit Heisenberg chain (ibm_torino,
@@ -304,10 +305,11 @@ neighboring Q86 benefits from not having crosstalk from Q85's DD gates.
 
 ## Analysis
 
-### Why 2-3x Instead of 360x?
+### Why 1.4-3.2x and Not 360x?
 
 The simulation (N=5, formula with epsilon->0) predicted 360x improvement
-over V-shape. Hardware delivers 2-3.2x over uniform DD. The gap comes from:
+over V-shape. Hardware delivers 1.4-3.2x over uniform DD, a different
+comparison. The gap comes from:
 
 1. **DD is not perfect protection.** Simulation assumes epsilon->0 (zero
    noise on protected qubits). Real DD reduces noise but doesn't eliminate it.
@@ -357,7 +359,7 @@ doc's flat /2.5 disclosure describes its own Kingston estimates, not these.)
 | ENAQT (Plenio & Huelga 2008) | N=3 theory | ~2x | scalar uniform gamma |
 | IBM Bayesian PST (2025) | N=4 hardware | +8% | J-couplings |
 | **This work (simulation)** | **N=5 theory** | **360x** | **spatial gamma profile** |
-| **This work (hardware)** | **N=5 ibm_torino** | **2-3.2x** | **selective DD** |
+| **This work (hardware)** | **N=5 ibm_torino** | **1.4-3.2x** | **selective DD** |
 
 The rows are different quantities against different baselines (selective-vs-
 uniform DD here; optimal-γ-vs-no-γ in ENAQT; coupling tuning at IBM), so the
@@ -375,7 +377,7 @@ sensitivity structure and predicts 360x improvement at N=5 in simulation.
 The hardware experiment does NOT test the formula directly, and (2026-07-05
 review) does not confirm its mechanism either. It sets up the qualitative
 picture "concentrate noise on one edge, protect the rest", but the measured
-2-3.2x selective-vs-uniform ordering does NOT discriminate the concentrator
+1.4-3.2x selective-vs-uniform ordering does NOT discriminate the concentrator
 mechanism (Reading B) from gate-cost avoidance (Reading A) even in principle
 (see the Results retro-note), and the natural sink Q85 was dominated by
 amplitude damping (the T1 channel is the larger one at both slices, Chain
@@ -467,7 +469,7 @@ unrun.)
 
 ---
 
-## Formula Validation (March 28, 2026)
+## Formula Comparison (March 28, 2026)
 
 **Rate convention: REPAIRED 2026-08-05, and the table below is the new run.**
 The retro-note that follows stood here from 2026-07-05 and diagnosed the defect
@@ -530,18 +532,22 @@ selected by fitting to the same hardware ratios the table reports agreement
 against (the fit objective is the t = 1 and t = 5 hardware ratios, so both
 those rows are circular; t = 1 is the only row that both entered the fit and
 agrees), and the "t (μs)" axis rests
-on an unstated 1 J-time = 1 µs identification. So read the 6-13% figures as
+on an unstated 1 J-time = 1 µs identification. So read the agreement figures of that doubled-rate run as
 the residual of a one-parameter fit of a doubled-rate dephasing-only model,
 not as an independent match of the formula. This is the same rate-convention
 twin the A-vs-B reckoning documents (its factor-2 finding), in an earlier
 costume.
 
-The concentrator formula (Lindblad simulation with per-qubit gamma)
-was compared quantitatively against the hardware measurements.
+A Lindblad simulation with per-qubit γ, the two DD configurations read as
+dephasing profiles, was compared quantitatively against the hardware
+measurements.
 
 Echo-aware gamma profiles used (γ = 1/(2·T₂) throughout, see the note above):
 - Selective DD: Q85 at 1/(2·T2*) = 0.134 MHz, others at 1/(2·T2echo) ~ 0.002-0.004 MHz
 - Uniform DD: all at 1/(2·T2echo) (Q85 at 0.0958 MHz, others same as selective)
+
+At J = 0.05 MHz (in the J → 0 limit the simulated ratios are 1.51, 1.46, 1.41,
+1.37 and 1.34):
 
 | t (μs) | Simulation ratio | Hardware ratio | Agreement |
 |--------|-----------------|----------------|-----------|
@@ -551,25 +557,22 @@ Echo-aware gamma profiles used (γ = 1/(2·T₂) throughout, see the note above)
 | 4.0 | 1.34x | 3.19x | Diverges |
 | 5.0 | 1.31x | 2.87x | Diverges |
 
-The two agreeing rows improved (13% → 6% and 6% → 1%) and the three diverging
-rows still diverge. Do **not** read that improvement as the corrected physics
-matching better: t = 1 and t = 5 are the two rows the J scan fits, so t = 1
-remains circular, and J landed on the grid boundary. The shape of the result is
-unchanged, which is the honest summary: a one-parameter fit reproduces the
-early ratios and misses the late ones by a factor of two or more.
+Two rows agree (6% and 1%), three diverge. The t = 1 and t = 5 rows entered
+the J scan's objective, but the ratio barely moves with J (1.51 and 1.46 at the J → 0 limit against 1.50 and
+1.44 here), so what meets the early points is a dephasing-only model with
+rates from T₂ and the estimated T₂*, and it misses the late ones by a factor
+of 1.8 to 2.4. It does not test the concentrator formula: no profile with the
+interior at ε → 0 was flown.
 
 (The t = 4.0 row was missing from the March table; added 2026-07-11 from the
-same script, so the table shows all five measured points: 2 of 5 within the
-fit residual, 3 of 5 diverging.)
+same script, so the table shows all five measured points: 2 of 5 within 6%,
+3 of 5 diverging.)
 
-At t=1-2 μs the formula's ratio sits within 6-13% of hardware, but per the
-retro-note above this is the residual of a circular one-parameter (J) fit to
-these same ratios, not an independent match. At later times the
-hardware advantage grows beyond the formula prediction because DD
-gates on Q85 (T1 = 2.84 μs, gate time ~ 0.5 μs) introduce T1
-losses that accumulate with each DD cycle. The formula models DD
-as perfect gamma reduction; real DD on a T1-limited qubit adds
-errors that worsen the uniform configuration.
+At later times the hardware advantage grows beyond the simulation. One
+candidate channel: DD gates on Q85 (T1 = 2.84 μs, gate time ~ 0.5 μs)
+introduce T1 losses that accumulate with each DD cycle; the simulation
+models DD as a perfect rate reduction, and real DD on a T1-limited qubit
+adds errors that worsen the uniform configuration.
 
 The hardware imperfections amplify the measured advantage of selective DD:
 they make the concentrator qubit WORSE under uniform DD. Note honestly that

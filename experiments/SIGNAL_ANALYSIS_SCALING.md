@@ -74,5 +74,5 @@ The N = 15 run uses the matrix-free propagator.
 Related material:
 
 - [Resonant Return](RESONANT_RETURN.md)
-- [IBM Hardware Validation](IBM_CONCENTRATOR.md)
+- [IBM Concentrator (selective DD on hardware)](IBM_CONCENTRATOR.md)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)

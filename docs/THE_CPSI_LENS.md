@@ -145,9 +145,10 @@ But in the star topology (asymmetric coupling), noise distribution matters enorm
 This observation, applied to longer chains, led eventually to the
 sacrifice-zone formula ([Resonant Return](../experiments/RESONANT_RETURN.md)):
 if noise distribution matters, then optimizing *where* the noise goes
-(not just how much) should improve information transfer. It did, by a
-factor of 139-360× (peak created Sum-MI in the ε→0 simulation ideal;
-~2-3× on hardware).
+(not just how much) should raise the information a chain creates. It did,
+by a factor of 139-360× at N = 5-9 (peak created Sum-MI against a V-shaped
+profile in the ε→0 simulation ideal; selective over uniform DD on hardware:
+1.4-3.2×, a different comparison).
 
 ### 10. CΨ witnesses momentary expression, not potential
 

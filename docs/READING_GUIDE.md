@@ -175,8 +175,9 @@ decoded, and optimized.
 
 The climax of this path is twofold. First the concentrator formula: a
 single, counterintuitive insight (concentrate all the noise on one edge
-and protect the rest) that improves quantum information transfer by
-139-360 times in simulation over the best hand-designed profile. Then
+and protect the rest) that raises the peak mutual information a chain
+creates by 139-360 times in simulation (5 to 9 qubits) over the best
+hand-designed profile. Then
 its successor, receiver engineering: choose the *initial state* rather
 than the noise profile, and the bonding modes' end-to-end lead grows
 with system size; the chosen state won live on IBM hardware too.

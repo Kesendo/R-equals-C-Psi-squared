@@ -58,7 +58,7 @@ This document's numbers show the loss is illusory. Under γ₀ = const, Alice ta
 
 1. **Choose a J-sensitive receiver** (SU(2)-breaking; not H-eigenstate). Examples at N=5: \|+−+−+⟩, \|01010⟩, \|+0+0+⟩.
 2. **Engineer J moderately** (fine-grid data shows J-modulation adds 1.3 to 1.5× on top across N=5 to N=9, not 360×).
-3. **Use DD on sensitive qubits** (IBM_CONCENTRATOR's 2-3× on ibm_torino is fully compatible with γ₀ = const, since DD is pulse-control, not γ-setting).
+3. **Use DD on sensitive qubits** (IBM_CONCENTRATOR's 1.4-3.2× on ibm_torino is fully compatible with γ₀ = const, since DD is pulse-control, not γ-setting).
 
 All three levers are available under γ₀ = const. The γ-profile lever is unavailable but unnecessary.
 

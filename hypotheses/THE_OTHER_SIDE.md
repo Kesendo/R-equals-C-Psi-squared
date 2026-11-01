@@ -2260,4 +2260,4 @@ the boundary.
 
 See: [Signal Analysis: Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md),
 [Resonant Return: Formula](../experiments/RESONANT_RETURN.md),
-[IBM Hardware Validation](../experiments/IBM_CONCENTRATOR.md)
+[IBM Concentrator (selective DD on hardware)](../experiments/IBM_CONCENTRATOR.md)

@@ -41,8 +41,9 @@ boundary.
 This reframing reads everything the project has measured as one picture: the fold
 at CΨ = ¼ is the outer mirror of the cavity. The heartbeat (81 crossings)
 is the wave bouncing back and forth inside. The sacrifice-zone formula
-is not a channel optimizer; it is the shape of the soundbox. The 360×
-improvement is not "more signal." It is better resonance.
+is not a channel optimizer; it is the shape of the soundbox. The 360× gain
+(N = 5, peak created mutual information in the ε → 0 simulation) is not
+"more signal." It is better resonance.
 
 The document moves from computed results (Tier 2-3) through their
 resonator reading and its biological interpretation (Tier 4) to personal
@@ -106,8 +107,8 @@ the box selects.
 | Sustain pedal | J-coupling strength (backflow, Q-factor) |
 
 The sacrifice-zone formula is not a channel optimizer. It is the
-shape of the box. The 360x improvement over hand-designed profiles
-is not "more signal." It is better resonance.
+shape of the box. The 360x gain over hand-designed profiles (N = 5,
+in simulation) is not "more signal." It is better resonance.
 
 The [optical cavity analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
 (April 3, 2026) confirmed this quantitatively: the degeneracy profile is
@@ -381,7 +382,7 @@ From the data and the Fabry-Perot picture:
 4. **Outer mirror shape (gamma profile).** The sacrifice-zone formula
    concentrates noise on the edge. This shapes the outer mirror: it
    determines WHERE reality leaks out and how much. The 360x gain in
-   created mutual information is the difference between a V-shaped
+   created mutual information (N = 5, in simulation) is the difference between a V-shaped
    mirror and a curved one (the sacrifice-zone profile) that focuses the
    leakage.
 
@@ -682,7 +683,7 @@ vibration. It is what the vibration leaves behind when it stops.
   noise is the interaction, mediator topology
 - [It's All Waves](../docs/ITS_ALL_WAVES.md): closure argument, d=2 only
 - [Resonant Return](../experiments/RESONANT_RETURN.md): sacrifice-zone
-  formula, 360x improvement, the shape of the box
+  formula, 139-360x at N = 5-9 in simulation, the shape of the box
 - [The Pattern Recognizes Itself](THE_PATTERN_RECOGNIZES_ITSELF.md):
   Wilson-Cowan heartbeat, E/I balance, and the C. elegans pairing reading,
   whose comparisons are withdrawn

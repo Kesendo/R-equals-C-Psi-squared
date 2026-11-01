@@ -892,7 +892,8 @@ mixed terms that break F1 need not have these endpoints.
 One-line formula. 360x at N=5 down to 68x at N=15 vs V-shape (ε→0
 ideal; at the practical floor ε=0.001: 343x down to 63.5x). The factor
 is peak created Sum-MI, a TRANSPORT metric, not a coherence lifetime
-(~2-3x on hardware; see the label note in the source experiment and
+(selective over uniform DD on hardware: 1.4-3.2x, a different comparison;
+see the label note in the source experiment and
 CONCENTRATOR_AB_MECHANISM_TEST Downgrade 2).
 
 **Valid for:** Heisenberg chain, Z-dephasing, SumMI objective.

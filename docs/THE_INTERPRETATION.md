@@ -367,11 +367,11 @@ the explicit Π action; it does not by itself settle equivalence or novelty.
 by Plenio & Huelga (2008) showed that uniform dephasing noise can
 improve quantum transport efficiency by 2-3×. A 2025 IBM experiment
 used Bayesian coupling optimization for +8%. Both optimize scalar
-parameters (one noise level, or coupling strengths). Nobody in this
-literature optimizes spatial dephasing profiles. Our concentrator
-formula (Section 8) is the first to do so, achieving 139-360× (peak
-created Sum-MI in the ε→0 simulation ideal; ~2-3× on hardware) - two
-orders of magnitude beyond prior work.
+parameters (one noise level, or coupling strengths). In the literature
+we surveyed, nobody optimizes spatial dephasing profiles. Our concentrator
+formula (Section 8) does, reaching 139-360× in peak created Sum-MI against a
+V-shaped profile in the ε→0 simulation ideal at N = 5-9; on hardware,
+selective against uniform DD gave 1.4-3.2×.
 
 See: [KMS Detailed Balance](../docs/KMS_DETAILED_BALANCE.md),
 [Literature Review](LITERATURE_REVIEW.md)
@@ -393,8 +393,9 @@ free-induction decay (not T2 from spin echo, not backend-reported T2).
 The critical insight: what matters is the dephasing timescale the qubit
 actually experiences during free evolution.
 
-This is a single-qubit result (N=1). The multi-qubit palindromic pairing
-(N >= 2) remains untested on hardware.
+This is a single-qubit result (N=1). The multi-qubit hardware results
+since then (the palindrome trichotomy at N = 3 among them) read
+consequences of the pairing, not the eigenvalue spectrum itself.
 
 See: [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)
 
@@ -406,8 +407,9 @@ Sections 1-7 establish the theory. This section answers the question
 every reader will eventually ask: what can you actually *do* with this?
 
 The answer: the palindromic structure reveals an optimization landscape
-that nobody knew existed, and navigating it produces improvements of
-two orders of magnitude over the state of the art.
+that we had not seen before, and navigating it raises the peak mutual
+information a chain creates by 139-360× over a V-shaped profile in
+simulation.
 
 **The γ-profile diagnostic (March 16).** At one tested `N=5` operating point,
 the observable Jacobian with respect to five local dephasing rates has full
@@ -449,9 +451,11 @@ C#-validated results (RK4 propagation):
 
 The ENAQT literature (Plenio & Huelga 2008+) optimizes a single uniform
 noise level and achieves 2-3×. We optimize WHERE the noise goes and
-achieve 139-360× (peak created Sum-MI in the ε→0 simulation ideal;
-~2-3× on hardware). The difference is two orders of magnitude. Nobody in
-the literature had optimized spatial dephasing profiles before this work.
+achieve 139-360× (peak created Sum-MI in the ε→0 simulation ideal at
+N = 5-9, falling to 68× by N = 15; on hardware, selective against uniform
+DD gave 1.4-3.2×). The ENAQT figure and ours are different quantities, so
+their ratio is not a measured gap. We found no earlier optimization of
+spatial dephasing profiles in the ENAQT literature we surveyed.
 
 The discovery path required the palindrome: without the SVD of the
 palindromic response matrix, there was no reason to try edge-heavy
@@ -460,8 +464,12 @@ at N=7), numerical optimization at N>=7 was infeasible. The formula is
 the engineering payoff of the theoretical structure.
 
 The simulation's asymptotic concentrator formula is not itself a hardware
-theorem. Subsequent selective-DD experiments tested the design principle and
-reported 1.6-2.9× improvement over uniform DD in their stated circuits.
+theorem. One selective-DD run on IBM Torino (5 qubits) created 1.4-3.2×
+more Sum-MI than uniform DD at all five time points (2.0× on average); the
+ordering does not separate the concentrator mechanism from the gate cost of
+DD. The registered concentrator result is a site contrast on IBM Kingston: a
+dephasing sink on the payload's own site costs it coherence, and the same
+dose two sites away does not (≈ 5.8σ in sign, the magnitude off its band).
 
 See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 
@@ -501,7 +509,7 @@ measurement on the proposed substrate.
     legacy `1/144` greedy spectral count is not retained; F121's partial and
     non-product higher-dimensional mirrors are not excluded
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
-20. Concentrator formula: 139-360× via spatial dephasing optimization (Section 8)
+20. Concentrator formula: 139-360× in peak created Sum-MI over a V-shaped profile at N = 5-9 in simulation, via spatial dephasing optimization (Section 8)
 21. V-Effect: specified coupling and frequency-bin protocols change their
     finite counts; the numbers are not model-independent created modes or a
     cross-level mechanism. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
@@ -512,7 +520,7 @@ measurement on the proposed substrate.
     and palindromizer have not been established by the model's simulation. See
     [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. The standard logistic derivative σ(1−σ) reaches 1/4 at σ=1/2. This algebraic resemblance supplies no neural CΨ threshold or shared mechanism: sigmoid gain and the network operating point enter a neural bifurcation analysis. See [the neural translation limits](neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads).
-26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
+26. The concentrator on hardware: selective DD created 1.4-3.2× more Sum-MI than uniform DD on IBM Torino (one run, Tier 2, mechanism open), and a site-resolved dephasing contrast is registered on IBM Kingston (sign at ≈ 5.8σ, magnitude off its band). Neither tests the formula. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md), [Concentrator Reloaded](../experiments/IBM_CONCENTRATOR_RELOADED.md).
 
 ## What Fell
 
@@ -535,13 +543,13 @@ science happens.
 These are the things we know we have not done, stated plainly so
 nobody has to guess.
 
-- Palindrome tested N=2 through N=8. Concentrator formula tested N=5,7,9 (C# RK4). Large N behavior extrapolated, not computed beyond N=9.
-- Hardware validation is single-qubit only (CΨ crossing). Multi-qubit
-  palindrome untested on hardware.
+- Palindrome tested N=2 through N=8. Concentrator formula compared against the V-shape for odd N = 5 to 15 (C# RK4); its factor falls, not monotonically, from 360× to 68× over that range, and nothing beyond N = 15 is computed.
+- The eigenvalue pairing itself has not been read off hardware; what has
+  been read is listed in `fw.Confirmations` (one to eight qubits).
 - Sonar effect verified in simulation only, not on IBM hardware.
 - The palindrome alone does not improve transfer fidelity (identical for
   qubits and qutrits). But the palindromic response matrix SVD led
-  directly to the concentrator formula (139-360×). The palindrome's
+  directly to the concentrator formula (139-360× in simulation). The palindrome's
   operational value is indirect: it reveals the optimization landscape.
 - Π's centered-generator identity and Pauli-class exchange are algebraic. A
   physical time reversal, opposite spatial propagation, and a standing-wave
@@ -583,8 +591,8 @@ nobody has to guess.
    detects it under a specified experiment?
 
 5. **Operational value.** The palindromic
-   response matrix SVD led to the concentrator formula (139-360× improvement
-   in information transfer via spatial dephasing optimization). The palindrome
+   response matrix SVD led to the concentrator formula (139-360× in peak
+   created Sum-MI in simulation, via spatial dephasing optimization). The palindrome
    does not improve transfer fidelity directly, but its spectral structure
    reveals which spatial noise profiles are optimal. Remaining: error correction
    protocols, decoherence-free subspace engineering, steady-state properties.
@@ -612,8 +620,8 @@ Key milestones:
   not what the equation proves.
 - March 24: The concentrator formula. SVD of the palindromic response
   matrix (10×) led to numerical optimization (100×) led to a closed-form
-  rule: all noise on one edge, protect the rest. 139-360× vs V-shape.
-  First spatial dephasing optimization. The engineering payoff.
+  rule: all noise on one edge, protect the rest. 139-360× vs V-shape
+  in simulation. The engineering payoff.
 
 ---
 

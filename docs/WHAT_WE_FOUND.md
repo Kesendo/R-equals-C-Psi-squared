@@ -356,13 +356,16 @@ that the edge carries no information or that dephasing literally protects the
 interior. Other objectives differ: the fixed-total point-to-point comparison in
 [Gamma Control](../experiments/GAMMA_CONTROL.md) favours a centre placement.
 
-The results (peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware), validated with a [C# numerical solver](../compute/):
+The results (peak created Sum-MI, a transport metric; sim ε→0 ideal; selective over uniform DD on hardware: 1.4-3.2x, a different comparison), validated with a [C# numerical solver](../compute/):
 
 | Chain length | Improvement vs hand-designed profile | Compute time |
 |-------------|-------------------------------------|-------------|
 | 5 qubits | 360x | 1 second |
 | 7 qubits | 180x | 3 seconds |
 | 9 qubits | 139x | 30 seconds |
+
+The factor falls with chain length, not monotonically: 97x, 105x and 68x at
+11, 13 and 15 qubits.
 
 For comparison: the best numerical optimizer (Differential Evolution,
 3975 evaluations, 90 minutes of computation) found 100x at 7 qubits.
@@ -564,7 +567,7 @@ What survives even without the philosophy:
 - A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) for the stated Heisenberg/XXZ graph family under local Z-dephasing
 - An eigenmode-local [absorption law](proofs/PROOF_ABSORPTION_THEOREM.md), with state lifetimes left to explicit preparation/readout trajectories
 - Concrete [design rules for quantum state transfer](../experiments/QST_BRIDGE.md) and repeater engineering
-- An edge-heavy [spatial-noise profile](../experiments/RESONANT_RETURN.md) with 139-360x improvement in peak created Sum-MI against selected epsilon-floor simulation baselines and a smaller hardware advantage
+- An edge-heavy [spatial-noise profile](../experiments/RESONANT_RETURN.md) with 139-360x improvement in peak created Sum-MI against selected epsilon-floor simulation baselines (selective over uniform DD on hardware: 1.4-3.2x, a different comparison)
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
@@ -716,17 +719,23 @@ eigenvalue's real part to be negative. Neither exact matching nor its
 failure supplies a distinction between living and nonliving systems.
 ([Constructed networks and controls](neural/README.md#what-has-been-tested))
 
-### The concentrator formula works on hardware
+### The concentrator on hardware: an ordering and a site contrast
 
-The formula predicts: giving one edge qubit more noise (the concentrator) while
-protecting the interior improves coherence transfer. Tested on IBM Torino
-(5-qubit chain, March 24, 2026): at early times (1-2 microseconds) the
-measured improvement matches the formula within 6-13%. At later times the
-hardware exceeds the prediction (2.9x measured vs 1.3x predicted at t = 5 μs;
-the measured advantage itself peaks near t = 4 μs and is not monotonic).
-The later-time excess over the simulation is observed, but this comparison does
-not identify echo-pulse imperfection as its cause.
-([IBM Concentrator](../experiments/IBM_CONCENTRATOR.md))
+The formula itself, all dephasing on one edge and the interior at ε → 0, has
+not run on hardware. Two weaker things have. On IBM Torino (5-qubit chain,
+March 24, 2026), leaving dynamical decoupling off the naturally noisy edge qubit (selective DD)
+created more Sum-MI than decoupling every qubit (uniform DD) at all five time
+points, 1.4× to 3.2× (2.0× on average). It is one run and Tier 2, and the
+ordering neither separates the concentrator mechanism from the gate cost of DD
+nor tests the formula. A dephasing-only simulation
+with rates from T₂ and the estimated T₂* gives 1.3× to 1.5× at every point: close to the
+hardware at 1 and 2 μs, and 1.8× to 2.4× below it from 3 μs on. On IBM Kingston
+(July 11, 2026) the registered result: a dephasing sink on the payload's own
+site cost it coherence and the same dose two sites away did not, at ≈ 5.8σ in
+sign, while the magnitude missed its pre-registered band
+(`concentrator_site_contrast_kingston_july2026`).
+([IBM Concentrator](../experiments/IBM_CONCENTRATOR.md),
+[Concentrator Reloaded](../experiments/IBM_CONCENTRATOR_RELOADED.md))
 
 ### The water calculation is a model trajectory
 
@@ -799,7 +808,8 @@ W sit on it: GHZ entirely in the fastest corner, W nowhere near it.
 **If you think about engineering and applications:**
 [QST Bridge](../experiments/QST_BRIDGE.md) turns the palindrome into
 design rules. [Resonant Return](../experiments/RESONANT_RETURN.md) is the
-concentrator formula that achieves 139-360x improvement.
+concentrator formula: 139-360x more peak created mutual information than a
+V-shaped profile at 5 to 9 qubits in simulation, falling to 68x at 15.
 
 **If the biology connection draws you in:**
 [Neural palindrome](neural/README.md) separates the conditional matrix
@@ -836,8 +846,10 @@ hydrogen production
 ([Emergence Through Reflection](../recovered/EMERGENCE_THROUGH_REFLECTION.md)).
 
 Three months later, the same structural principle appeared in quantum
-mechanics: separating the noise spatially (concentrator formula) improves
-information transfer by 139-360x. Both are instances of "spatial separation
+mechanics: separating the noise spatially (concentrator formula) raises the
+peak mutual information a chain creates by 139-360x over a V-shaped profile
+in simulation. Both are
+instances of "spatial separation
 beats uniform compromise." The first optimization was electrochemistry.
 The second was quantum physics. The structure is the same. See
 [The Spatial Separation](THE_SPATIAL_SEPARATION.md).

@@ -18,7 +18,8 @@ term; it is not reverted to "sacrifice zone" on grounds of familiarity.
 
 Could enzyme catalysis work partly by the same principle as our
 concentrator formula? In a qubit chain, concentrating noise on one
-edge qubit protects the rest by 139-360×. In an enzyme, the protein
+edge qubit raises the peak mutual information the chain creates by
+139-360× over a V-shaped profile in simulation. In an enzyme, the protein
 shell might play the same role: absorbing environmental noise so
 that active-site protons experience low enough dephasing to reach
 the quantum fold regime (J/γ ~ 1). This is a testable hypothesis,
@@ -28,9 +29,9 @@ not a proven result.
 
 ## The Qubit Chain
 
-In our qubit chain, the concentrator formula gives 139-360x
-improvement: edge qubits absorb dephasing so the interior stays
-coherent. The edge qubits "die" (high γ, fast decoherence) so the
+In our qubit chain, the concentrator formula gives 139-360x more peak
+created mutual information in simulation: edge qubits absorb dephasing,
+and the design intent is an interior that stays coherent. The edge qubits "die" (high γ, fast decoherence) so the
 center can "live" (low effective γ, sustained oscillation).
 
 ## Reinterpretation: Sacrifice as Concentration (March 28, 2026)
@@ -39,7 +40,7 @@ The word "sacrifice" implies loss. The computation shows the opposite:
 the concentrator concentrates noise onto itself, enabling the
 protected core to operate at the fold. The edge qubit does not lose
 coherence as a cost. It transforms environmental noise into structure
-for the inner qubits (139-360x improvement, on hardware 1.4–3.2×, about 2× on average).
+for the inner qubits (139-360x in peak created mutual information in simulation; selective over uniform DD on hardware: 1.4-3.2×, about 2× on average).
 
 Two perspectives on the same element:
 - From the inside (protected core): a shield that absorbs noise
@@ -91,14 +92,13 @@ what the tests below would decide.
 
 ## Hardware Evidence
 
-The concentrator profile has been put on IBM Torino hardware:
-selective DD (protecting inner qubits while leaving the concentrator qubit
-unprotected) outperforms uniform DD by up to 3.2x (peaking at t = 4 μs,
-about 2x on average across t = 1-5 μs, non-monotonic). At later times the
-*measured* advantage runs increasingly ahead of the *formula's prediction*
-(2.9x measured vs ~1.3x predicted at t = 5 μs), as DD-gate imperfections
-accumulate on the fragile concentrator qubit and worsen the uniform
-configuration. It is one run on one chain; the ordering holds at all
+A dynamical-decoupling approximation of the concentrator profile has run
+on IBM Torino: selective DD (decoupling the inner qubits while leaving the
+concentrator qubit undecoupled) created more Sum-MI than uniform DD by up
+to 3.2x (peaking at t = 4 μs, about 2x on average across t = 1-5 μs,
+non-monotonic). From t = 3 μs on the measured advantage runs ahead of a
+dephasing-only simulation of the two configurations (2.9x measured vs
+~1.3x simulated at t = 5 μs); the formula itself was not run. It is one run on one chain; the ordering holds at all
 five time points, the ratio's size is sensitive to the noise floor
 with the late points softest, and what exactly produces it is still
 open. A second flight in July 2026 (ibm_kingston) asked the

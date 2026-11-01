@@ -250,7 +250,7 @@ of T1 decay, so in this model nothing moves.
 1. **With DD:** Does selective DD change the picture? DD reduces
    effective gamma on interior qubits, which should help Chain A more
    than Chain B (more room to improve). The March 24 hardware result
-   (2-3.2x with selective DD on the sacrifice chain) suggests DD is
+   (1.4-3.2x with selective DD on the sacrifice chain) suggests DD is
    necessary for the advantage to emerge.
 
 2. **Combined metric:** Should chain selection use protection_factor /

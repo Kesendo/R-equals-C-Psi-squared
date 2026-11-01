@@ -180,8 +180,10 @@ to the corresponding V-shape baseline profile for N=5,7,9,11,13,15:
 - The trend is broadly downward with N, with a non-monotone N=13 point
 - No formal proof of optimality
 - One Torino run on one 5-qubit chain gives five time-point contrasts from
-  1.4× to 3.2× (average 2.0×); the ratio sizes are floor-sensitive, while
-  the registered result is the selective-over-uniform ordering
+  1.4× to 3.2× (average 2.0×); the ratio sizes are floor-sensitive, and
+  what holds is the selective-over-uniform ordering (Tier 2, not in
+  `fw.Confirmations`); the registered concentrator result is a site contrast
+  on IBM Kingston, its sign confirmed and its magnitude off its pre-registered band
 - θ improves by 1.68× against CΨ's 1.28× under edge sacrifice (April 2026
   cockpit finding), and the formula was not optimized for θ. Whether that
   makes θ the better objective is open on its own terms: θ is a function
@@ -326,7 +328,7 @@ philosophical. We try never to confuse these categories.
 |---|---|
 | **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, Frobenius orthogonality of oscillation and cooling blocks at N=2 and its exact loss for N>2 under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, uniform-rate Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (site-weighted form for profiles) |
 | **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, ε→0 sacrifice-zone gains 68-360× versus the corresponding V-shape baselines on the stated peak-created-Sum-MI metric, cockpit first-3-PC coverage 91.9-99.0% over 8-9 standardized features in eight `center_bell` configurations for N=5-11 |
-| **Hardware-confirmed** | CΨ crossings: Q52 qualitative (9.1% timing offset), Q80 within 1.9%; selective-DD and sacrifice-zone contrasts on IBM devices; T2* drift 58% in 6 days |
+| **Hardware-confirmed** | CΨ crossings: Q52 qualitative (9.1% timing offset), Q80 within 1.9%; the concentrator's site-resolved dephasing contrast on Kingston (sign only); T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
 | **Unverified** (could not reproduce) | t_coh ~ N scaling |
 | **Refuted** | 33:1 coherence ratio |
