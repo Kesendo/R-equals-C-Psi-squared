@@ -116,7 +116,7 @@ public sealed class QAnchorMap
                 Band: QBand.EndpointOrbit,
                 Role: "Endpoint orbit Q; schema = Q_EP_central + r_polarity = 2 + 1/2 (Endpoint pole)",
                 Tier: Tier.Tier1Derived,
-                DocumentingSource: "PolarityPairQPeakDecompositionClaim (Tier1Derived schema 2 ± 1/2 inheriting QEpLaw + HalfAsStructuralFixedPoint); PerF71OrbitObservation empirical witness (stable 2.39-2.61, ~2% N-variation across c=2..4 N=5..8); bit-exact value deviations Tier2Verified (PolarityInheritanceLink), closed-form blocked by PROOF_F86B_OBSTRUCTION"),
+                DocumentingSource: "PolarityPairQPeakDecompositionClaim (Tier1Derived schema 2 ± 1/2 inheriting QEpLaw + HalfAsStructuralFixedPoint); PerF71OrbitObservation empirical witness (2.39-2.61 across c=2..4 N=5..8); bit-exact value deviations Tier2Verified (PolarityInheritanceLink), closed-form blocked by PROOF_F86B_OBSTRUCTION"),
         };
 
     public IReadOnlyList<QBasisAnker> Anchors { get; }

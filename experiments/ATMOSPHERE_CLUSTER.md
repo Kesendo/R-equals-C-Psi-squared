@@ -5,7 +5,7 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:** [The Atmosphere and the Cancelled Formulas](../docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md), [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), F1 palindrome (master identity), F71 mirror-symmetry under non-uniform J, [the F80 Bloch sign-walk proof](../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md)
 
-**Verification:** the seventeen scripts in [`simulations/atmosphere_*.py`](../simulations/), plus the investigation notes [`simulations/_atmosphere_cluster_notes.md`](../simulations/_atmosphere_cluster_notes.md). Headline scripts: `atmosphere_cluster_fine.py` (dip location), `atmosphere_cluster_modes.py` (Pauli sector ID), `atmosphere_cluster_ep.py` (EP refutation), `atmosphere_cluster_continuity.py` (intrinsic-at-uniform tracking), `atmosphere_cluster_modes_at_uniform.py` (Pauli sector at ε=0), `atmosphere_cluster_quantum_numbers_v2.py` (Set-A joint diagonalization), `atmosphere_cluster_300block.py` (sector-restricted block analysis), `atmosphere_cluster_freefermion_check.py` (null result on free-fermion hypothesis).
+**Verification:** the seventeen scripts in [`simulations/atmosphere_*.py`](../simulations/), plus the investigation notes [`simulations/atmosphere_cluster_notes.md`](../simulations/atmosphere_cluster_notes.md). Headline scripts: `atmosphere_cluster_fine.py` (dip location), `atmosphere_cluster_modes.py` (Pauli sector ID), `atmosphere_cluster_ep.py` (EP refutation), `atmosphere_cluster_continuity.py` (intrinsic-at-uniform tracking), `atmosphere_cluster_modes_at_uniform.py` (Pauli sector at ε=0), `atmosphere_cluster_quantum_numbers_v2.py` (Set-A joint diagonalization), `atmosphere_cluster_300block.py` (sector-restricted block analysis), `atmosphere_cluster_freefermion_check.py` (null result on free-fermion hypothesis).
 
 ---
 
@@ -113,7 +113,7 @@ The unifying reading: the F1 master identity Π·L·Π⁻¹ + L + 2σ·I = 0 glo
 
 ## Cross-references
 
-- Cluster headline doc (investigation notes): [`simulations/_atmosphere_cluster_notes.md`](../simulations/_atmosphere_cluster_notes.md)
+- Cluster headline doc (investigation notes): [`simulations/atmosphere_cluster_notes.md`](../simulations/atmosphere_cluster_notes.md)
 - Scripts (17 files, all `atmosphere_*` prefix): see Verification block above
 - Lebensader through-line: [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md), [`framework/lebensader.py`](../simulations/framework/lebensader.py), F78/F79/F80 in [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md)
 - Master identity F1 / palindrome: [`compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs`](../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs)

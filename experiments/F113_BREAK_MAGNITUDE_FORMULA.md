@@ -125,7 +125,7 @@ This is the structural origin of F113's restriction to Z-drives.
 
     (1/2) · 4^N  =  4  ·  4^(N-1)  ·  (1/2)
 
-- **factor 4**: cross-term reduction `asymmetry = 4 · Re⟨L_H,+i, L_T1,+i⟩` (from `‖L,+i‖² − ‖L,−i‖²` expansion + F112 typed + F112 non-Hermitian extension cancellations + cross-term equal-magnitude-opposite-sign relation).
+- **factor 4**: cross-term reduction `asymmetry = 4 · Re⟨L_H,+i, L_T1,+i⟩` (from `‖L,+i‖² − ‖L,−i‖²` expansion + F112 typed + the vanishing T1 self-term ‖L_T1,+i‖² = ‖L_T1,−i‖², closed for every N by the per-site argument of [the coefficient derivation](../docs/proofs/PROOF_F113_COEFFICIENT_DERIVATION.md) + cross-term equal-magnitude-opposite-sign relation).
 - **factor 4^(N-1)**: N−1 spectator-site identity factors. Each spectator site contributes `⟨I_4, I_4⟩ = Tr(I_4) = 4` to the Frobenius inner product on tensor products. This is the operator-space dimension entering through the local Pauli dimension 4 per spectator site.
 - **factor 1/2**: explicit single-site N=1 inner product `⟨(L_H,1)_{+i}, (L_T1,1)_{+i}⟩ = −ωγ/2`, derived via sympy from the explicit 4×4 matrices.
 

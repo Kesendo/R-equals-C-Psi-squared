@@ -113,7 +113,7 @@ Despite the symmetric Lindbladian, **directionality emerges from initial conditi
 
 **A→M→B transfer** requires:
 1. Subsystem A starts with higher coherence (the "sender" has something to send)
-2. Coupling J_AM ≥ J_MB or J_AM/J_MB ≥ 1.46295 (from the star-topology threshold at Q = J/γ = 20)
+2. Coupling J_AM/J_MB ≥ 1.46295 (from the star-topology threshold at Q = J/γ = 20)
 3. Receiver B must be quiet: γ_B < 0.27 at a partner rate of 0.05. Noise on the
    receiver costs more than noise on the sender, by a factor near 1.7 rather
    than the factor of three once reported, and the two roles swap past a partner
@@ -121,7 +121,7 @@ Despite the symmetric Lindbladian, **directionality emerges from initial conditi
 
 **B→M→A transfer** (reversed direction) requires the mirror conditions, by the same A↔B symmetry:
 1. Subsystem B starts with higher coherence
-2. Coupling J_BM ≥ J_MA with the same threshold ratio
+2. Coupling J_BM/J_MA ≥ 1.46295, the same threshold
 3. Receiver A must be quiet, at the same boundary as B above
 
 **The key insight**: direction is controlled by **who has coherence to give** and **coupling asymmetry**, not by any structural asymmetry of the channel. This is like a bidirectional valve where the pressure differential determines flow direction.

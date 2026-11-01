@@ -730,6 +730,7 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    are HermitianAxis=118, EpCharacterStable=148, ExactRankExecuted=0;
    each parity contributes 59 HermitianAxis and 74 EpCharacterStable readings.
    All 266 are Diabolic with alg=geo=2; 0 are Defective.
+   The [N=6 Route-B A₂ locus atlas](ROUTE_B_N6_A2_LOCUS_ATLAS.md) tabulates this inventory by parity and draws the loci.
 
    Character is read on each full HS-orthonormal 45-dimensional parity block,
    including AT. The coherences |i⟩⟨j,k| carry ket hopping −2iq, bra hopping

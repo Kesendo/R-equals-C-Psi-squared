@@ -93,7 +93,7 @@ But does NOT predict empirical g_eff bond-dependence:
 - Signed-sum gives Center near-MAXIMUM, also wrong direction
 - The destructive interference pattern doesn't match the empirical g_eff ordering
 
-**Implication**: empirical g_eff bond-dependence requires more than simple JW projection of Dicke probe. The c=2 block-L decomposition with c_HD=1 and c_HD=3 channel-uniform vectors (as in JwBondQPeakPrediction) captures more, but at N=11 still misses Center by 7× (predicts Q_peak≈3.14, empirical 21.94).
+**Implication**: empirical g_eff bond-dependence requires more than simple JW projection of Dicke probe. The c=2 block-L decomposition with c_HD=1 and c_HD=3 channel-uniform vectors (as in JwBondQPeakPrediction) captures more, but at N=11 still misses Center by 7× (predicts Q_peak≈3.14, empirical 21.94). The [F86b obstruction](../docs/proofs/PROOF_F86B_OBSTRUCTION.md) blocks its own closed-form routes, of which this top-pair prediction is not one: the Dicke probe is orthogonal to the EP-partner modes, so Q_peak cannot be read off Q_EP (L3, measured at c = 2, N = 5..8), and none of the finite reductions tried carries g_eff (L4); the N = 11 factor itself is not derived there.
 
 ## What this DOES confirm
 

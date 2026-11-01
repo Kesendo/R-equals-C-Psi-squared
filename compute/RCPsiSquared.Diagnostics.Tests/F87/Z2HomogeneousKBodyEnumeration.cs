@@ -9,8 +9,8 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 ///
 /// <para>Single source of truth replacing previously duplicated copies in
 /// <c>F104KBodyTrichotomyVerificationTests</c>, <c>F105KBodyTrichotomyVerificationTestsN5K3</c>,
-/// and <c>F87Z2CubedEnumerationN5K3Tool</c>. F106 (k=4) and future F107+ regimes
-/// call this same helper with different k values.</para>
+/// and <c>F87Z2CubedEnumerationN5K3Tool</c>. F106 (k=4) and future regimes (N=6 k=3, N=5 k=4)
+/// call this same helper with their k.</para>
 ///
 /// <para>At k=3: 294 pairs. At k=4: 4248 pairs (per F105+ exploration map).
 /// Generic k uses base-4 indexing over 4^k letter sequences; outer loop is

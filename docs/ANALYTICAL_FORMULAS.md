@@ -3468,7 +3468,7 @@ For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-der
 | F86b₄ | Dicke-K 3/8 anchor via X⊗N-eigenbasis | Tier 1 derived | [`docs/water/README.md`](water/README.md) |
 | F86b₅ | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema) | Tier 1 schema | `PolarityPairQPeakDecompositionClaim.cs` |
 | F86c | F71 spatial mirror Q_peak(b) = Q_peak(N−2−b) | Tier 1 derived | §F86c |
-| F86d | Endpoint orbit Q ≈ 2.5 (9 (c, N) combos, ~2% N-variation) | Tier 2 empirical (promotion candidate) | §F86d; `PerF71OrbitObservation.cs` |
+| F86d | Endpoint orbit Q ≈ 2.5 (9 (c, N) combos, range 2.39–2.61) | Tier 2 empirical (promotion candidate) | §F86d; `PerF71OrbitObservation.cs` |
 | F86e | σ_0(c=2) = ‖[Π_HD1, M_H]‖ commutator / Schur-multiplier norm | Tier 1 derived | §F86e; `SigmaZeroCommutatorNormClaim.cs` |
 | F86_block | g_eff(c, N, b) closed-form blocked, six routes proven | Negative Tier 1 | [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md) |
 
@@ -3609,7 +3609,7 @@ The F86c symmetry pairs bonds bit-exactly but does NOT supply the per-orbit Q_pe
 
 #### F86d. Endpoint orbit Q ≈ 2.5 \[Tier 2 empirical; promotion candidate\]
 
-Within the F71 spatial-mirror orbits (F86c), the Endpoint orbit (bonds b ∈ {0, N−2}) carries a stable per-orbit Q_peak ≈ 2.5: across 9 tested (c, N) combinations (c=2..4, N=5..8) the value sits in [2.39, 2.61], a ~2% N-variation. Stability across c and N makes it an anchor candidate, but a structural derivation (candidate route: SU(2) / Schur-Weyl on the F71 first orbit) is open, so it is not promoted. Source: [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs).
+Within the F71 spatial-mirror orbits (F86c), the Endpoint orbit (bonds b ∈ {0, N−2}) carries a stable per-orbit Q_peak ≈ 2.5: across 9 tested (c, N) combinations (c=2..4, N=5..8) the value sits in [2.39, 2.61]. Stability across c and N makes it an anchor candidate, but a structural derivation (candidate route: SU(2) / Schur-Weyl on the F71 first orbit) is open, so it is not promoted. Source: [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs).
 
 #### F86e. σ_0 as a commutator / Schur-multiplier norm \[Tier 1 derived\]
 

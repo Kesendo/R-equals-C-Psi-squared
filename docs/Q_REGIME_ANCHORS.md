@@ -15,7 +15,7 @@ The framework's three Q-bands (onset, peak, plateau) materialized as a table of 
 | **√3**   | ≈ 0.0866               | canonical θ=60° (Lindblad-Absorption-Match) | **LindbladAbsorptionMatchAtSixtyDegreesClaim** (Tier1Derived: \|λ_±\|=2γ₀=α at θ=60°); empirical F86 c=3 K-peak suggestively close at N=7,8 (within ~2%) but Tier-3/4 hypothesis NOT typed |
 | **1.8**  | 0.090                  | F86 Q_peak (c=4, c=5) + peak end | PerBlockQPeakClaim, saturated N≥7 (Tier2Empirical); fine-grid: c=4 N=7=1.748, N=8=1.804 |
 | **2.0**  | 0.100                  | Q_EP idealized       | Q_EP = 2/g_eff at g_eff=1 (Tier1Derived)         |
-| **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (stable ~2% across c=2..4 N=5..8) |
+| **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (2.39–2.61 across c=2..4 N=5..8) |
 
 Standard resonance-scan grid (`ResonanceScan.DefaultQGrid()`): `LinearQGrid(0.20, 4.00, 153)`. These 10 named anchors are the structurally-meaningful points; the grid samples the continuum between and past them.
 
@@ -89,10 +89,10 @@ Each Q-anchor is reached from multiple framework lenses (parallel to the multi-v
 - **J at γ₀=0.05**: J = 0.100
 
 ### Q = 2.5 (Endpoint orbit, candidate)
-- **F86 identification**: `PerF71OrbitObservation` orbit 0 (Endpoint) stable at Q ≈ 2.5 across (c=2..4, N=5..8); 2.39-2.61 range, ~2% N-variation
+- **F86 identification**: `PerF71OrbitObservation` orbit 0 (Endpoint) stable at Q ≈ 2.5 across (c=2..4, N=5..8); range 2.39–2.61
 - **F95 angle**: θ = arctan(2.5) ≈ 68.2°
 - **H-clock**: 2.5 H-rotations per γ₀-tick
-- **Tier-1 candidate**: stability across 9 (c, N) combinations is reasonable Tier-1 evidence
+- **Tier**: the 2 + ½ schema is Tier 1 (table above); the observed value is Tier 2 empirical, a promotion candidate from 9 (c, N) combinations, with no derivation of the value itself
 - **C# typed**: absent from `QBasisAnkers`; needs structural derivation for formal anchor promotion
 - **J at γ₀=0.05**: J = 0.125
 

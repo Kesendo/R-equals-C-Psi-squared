@@ -88,8 +88,9 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
   intrinsic to the wrap-bond two-fermion structure, not a uniform-γ symmetry artifact.
 - **Chain (2,2): oscillating.** At uniform γ it is filling-degenerate with (1,1), i.e. the
   single-excitation √-EP coalescence (rigidity → 0 at Q*(N), the coherence horizon); it does **not**
-  inherit the ring's frozen character. The EP-vs-crossing distinction is read by Petermann phase
-  rigidity (`PhaseRigidity`, `CoherenceHorizonWitness`), not by |Im| alone (the SE-EP is
+  inherit the ring's frozen character. The EP-vs-crossing distinction is read by the defectiveness
+  test (`EpCharacterWitness`, `inspect --root epcharacter`: geometric multiplicity 1 below algebraic
+  2), with the rigidity's square-root law (`CoherenceHorizonWitness`) beside it, not by |Im| alone (the SE-EP is
   overdamped-real below Q*, so a single-Q |Im| is blind).
 - **Star (1,1): frozen, the commutant route.** Its boundary survivor never un-freezes (|Im| ≈ 0 at all Q,
   N ≥ 5), because it is the darkest [H,A]=0 commutant coherence (commutes with H ⟹ no oscillation) and it

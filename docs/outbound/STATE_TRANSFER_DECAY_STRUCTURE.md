@@ -229,6 +229,12 @@ such a device, our structure makes three independent, cheap predictions:
 >    {2.6040γ ×4, 2.6980γ ×8}, whose weighted mean is 8γ/3 exactly. Fit the
 >    band rather than a line, and expect the centre to sit below 8γ/3 on the
 >    open geometries and on 8γ/3 on the closed one.
+>    The reason is a trace: the triangle's band holds only triples of
+>    coupling-dependent modes whose rates sum to 8γ, while on the chain and the
+>    star eight of the fourteen band modes are the
+>    2.4607γ level of the reflection-odd parts, which no such triple contains
+>    ([The Reflection Keeps Past and Future Apart](../../experiments/THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART.md),
+>    §2, §3 and §5).
 > 2. **The timing invariance:** the optimal readout time does not move as
 >    dephasing grows; only the arriving fidelity falls, linearly, with slope
 >    ≈ 1 per unit γ up to γ ≈ 0.05 in units of the sender coupling.

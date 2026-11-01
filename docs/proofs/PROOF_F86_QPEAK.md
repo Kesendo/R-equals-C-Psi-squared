@@ -46,7 +46,7 @@ The three-theorem table above is the coarse grouping. F86b is itself a Sammelbec
 | **F86b₄**      | Dicke-K 3/8 anchor via X⊗N-eigenbasis (2026-05-17)                     | Tier 1 derived                    | `DickeAnchor.cs` (canonical typed home) + [F86b universal resonance shape](PROOF_F86B_UNIVERSAL_SHAPE.md) + `f86b_dicke_pi2odd_closed_form.py` + [`docs/water/README.md`](../water/README.md) |
 | **F86b₅**      | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema)                    | Tier 1 schema                     | `PolarityPairQPeakDecompositionClaim.cs`                                 |
 | **F86c**       | F71 spatial mirror Q_peak(b) = Q_peak(N−2−b)                            | Tier 1 derived                    | [F86c spatial-mirror invariance](PROOF_F86C_F71_MIRROR.md)                        |
-| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combos, range 2.39–2.61, ~2.7% std/mean, ~9% peak-to-peak) | Tier 2 promotion candidate | `PerF71OrbitObservation.cs` |
+| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combos, range 2.39–2.61, peak-to-peak 8.6%) | Tier 2 promotion candidate | `PerF71OrbitObservation.cs` |
 | **F86e**       | σ_0(c=2) = ‖[Π_HD1, M_H]‖ commutator norm = ‖Π̃_HD1 ⊙ ΔDiff‖ Schur-multiplier norm; asymptote σ_0(∞) ≈ 2.8629 characterised non-elementary | Tier 1 derived (commutator identity) | `SigmaZeroCommutatorNormClaim.cs` |
 | **F86_block**  | g_eff(c, N, b) closed-form blocked, six routes L1–L6 proven             | Negative Tier 1 (structural)      | [F86b obstruction](PROOF_F86B_OBSTRUCTION.md)                      |
 

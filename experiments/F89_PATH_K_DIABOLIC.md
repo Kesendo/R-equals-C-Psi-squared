@@ -369,7 +369,7 @@ degrees, with 0 unresolved and involutive conjugation/parity partner maps.
 ExactAlgebraic=266 is the algebraic source count; character sources are
 HermitianAxis=118, EpCharacterStable=148, ExactRankExecuted=0. Each parity
 contributes 59 HermitianAxis and 74 EpCharacterStable readings. All 266 are
-Diabolic with alg=geo=2; 0 are Defective.
+Diabolic with alg=geo=2; 0 are Defective. The [N=6 Route-B A₂ locus atlas](ROUTE_B_N6_A2_LOCUS_ATLAS.md) tabulates this inventory by parity and draws the loci.
 
 The classifier reads the full HS-orthonormal 45-dimensional blocks including
 AT: |i⟩⟨j,k| has ket hopping −2iq, bra hopping +2iq, and diagonal dephasing

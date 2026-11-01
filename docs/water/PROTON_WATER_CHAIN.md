@@ -222,8 +222,10 @@ block-resolved response, not spectroscopy and not a water measurement.
 
 | Bond class | Q_peak (control, selected run) | HWHM−/Q* (selected run) | F86b Tier-1-candidate reference |
 |------------|--------------------------------|--------------------------|---------------------------------|
-| Interior (b = 1, 2) | 1.566 | 0.7458 | 0.756 ± 0.005 |
+| Interior (b = 1, 2) | 1.566 | 0.7458 | 0.756 ± 0.005 (mean of the N = 6..8 rows) |
 | Endpoint (b = 0, 3) | 2.400 | 0.7663 | 0.770 |
+
+Both rows are the c = 3, N = 5 rows of [the universal-shape proof](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)'s tables. Its Interior mean leaves N = 5 out as finite-size, which is why this run sits 0.010 below it.
 
 The same script later performs a separate **full state-level Heisenberg +
 local-Z-dephasing** diagnostic. There it uses
