@@ -654,7 +654,7 @@ public static class KnowledgeRegistryFactory
             // formalising the Klein2 → Cubic3 → YParity inheritance chain.
             .RegisterKleinEightCellClaim()
             // The mirror group D₄ (2026-06-10): Π_Z = R·D (transpose first, ket reflection
-            // by X^⊗N second); ⟨R, D⟩ ≅ D₄ of order 8 closes the mirror inventory, with the
+            // by X^⊗N second); ⟨R, D⟩ ≅ D₄ of order 8, with the
             // windowed-converse spine V₄ {I, 𝓕, R, 𝓕R} as Klein subgroup; the palindrome
             // splits along the generators (D flips L_H, R carries −2Σγ); the polarity cube
             // axes are characters (bit_a/bit_b = Ad_{Z^⊗N}/Ad_{X^⊗N}, y_par = the transpose

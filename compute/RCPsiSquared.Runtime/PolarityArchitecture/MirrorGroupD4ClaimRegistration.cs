@@ -5,9 +5,9 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="MirrorGroupD4Claim"/> (2026-06-10): the mirror
 /// group D₄. Π_Z = R·D (transpose first, ket reflection by X^⊗N second); ⟨R, D⟩ ≅ D₄ of
-/// order 8 closes the mirror inventory (the April palindromizers Π_Z/Π_Y, the
+/// order 8 holds the April palindromizers Π_Z/Π_Y, the
 /// windowed-converse spine V₄ {I, 𝓕, R, 𝓕R} as Klein subgroup, F114's D, and the fourth
-/// diagonal mirror 𝓕D = diag((−1)^{n_Z})); the palindrome splits along the generators
+/// diagonal mirror 𝓕D = diag((−1)^{n_Z}); the palindrome splits along the generators
 /// (D flips L_H, R carries −2Σγ); the polarity cube axes are the characters of
 /// Ad_{Z^⊗N}, Ad_{X^⊗N}, and the transpose θ.
 ///

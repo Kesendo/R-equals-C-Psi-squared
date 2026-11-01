@@ -9,8 +9,7 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The mirror group D₄ (Tier1Derived, 2026-06-10): the canonical palindromizer
-/// factors as Π_Z = R·D, and the repository's mirror inventory closes into one dihedral
-/// group of order 8.
+/// factors as Π_Z = R·D, and the two factors generate a dihedral group of order 8.
 ///
 /// <para><b>The two generators</b>, on the coherence space of an N-qubit chain in the
 /// row-stacking (C-order) vec convention (|i⟩⟨j| ↦ e_i ⊗ e_j, kron(A, B): ρ ↦ A·ρ·Bᵀ),
@@ -37,7 +36,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// matrices (pure signs), the edge mirrors {R, 𝓕R} are the one-sided F multiplications
 /// that move strings. The windowed-converse spine V₄ {I, 𝓕, R, 𝓕R} is the Klein subgroup
 /// of one-sided and two-sided F multiplications; the diagonal Klein subgroup {I, 𝓕, D, 𝓕D}
-/// is the sign-grading square; the rotation subgroup is the palindromizer family. All three
+/// is the sign-grading square; the rotation subgroup holds the palindromizers Π_Z and Π_Y. All three
 /// intersect in the center {I, 𝓕}. Welle 12's D·Π_Z·D = Π_Y is the dihedral inversion
 /// relation s·r·s = r⁻¹ in disguise.</para>
 ///
@@ -60,7 +59,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// move seen twice. Corollary: the F85/F87 truly criterion (n_Y even AND n_Z even) is the
 /// joint-fixed cell of the diagonal Klein subgroup.</para>
 ///
-/// <para><b>Deliberately outside</b> (PROOF_PI_FACTORS_AS_R_TIMES_D §5): the sublattice
+/// <para><b>Deliberately outside</b> (PROOF_PI_FACTORS_AS_R_TIMES_D §5): the other uniform
+/// per-site palindromizers (P4 among them; §5 describes them, verifier block I); the sublattice
 /// chirality K₁ (<see cref="ChiralKClaim"/>, grades by site, not letters), the F116 golden
 /// router W (two-sided P ≠ Q, non-involutive; it covers the n_Z-odd ceiling scope that D₄
 /// provably cannot), the crossover mirror M (continuous R_z(π/4) object), F71's spatial
@@ -164,7 +164,7 @@ public sealed class MirrorGroupD4Claim : Claim
 
     public override string Summary =>
         "the canonical palindromizer factors as Π_Z = R·D (transpose, then ket reflection by X^⊗N) and " +
-        "⟨R, D⟩ closes into one dihedral D₄ holding every named mirror of the palindrome story: the April " +
+        "⟨R, D⟩ closes into one dihedral D₄ holding the April " +
         "Π_Z/Π_Y rotations, the spine V₄ {I, 𝓕, R, 𝓕R} as Klein subgroup, F114's D and the fourth mirror " +
         "𝓕D = diag((−1)^{n_Z}). D flips L_H, R carries the −2Σγ shift; the polarity cube axes are the " +
         "characters bit_a/bit_b/y_par of Ad_{Z^⊗N}/Ad_{X^⊗N}/θ, with y_par the antiautomorphism axis no " +
@@ -188,7 +188,8 @@ public sealed class MirrorGroupD4Claim : Claim
                          "AND n_Z even) is exactly the joint-fixed cell (verified 63/63 at N = 3 in the " +
                          "committed verifier).");
             yield return new InspectableNode("Deliberately outside",
-                summary: "K₁ sublattice chirality (grades by site), the F116 golden router W (two-sided, " +
+                summary: "the other uniform per-site palindromizers (P4 among them; the proof's §5 describes them); " +
+                         "K₁ sublattice chirality (grades by site), the F116 golden router W (two-sided, " +
                          "non-involutive; covers the n_Z-odd ceiling scope D₄ provably cannot enter), the " +
                          "crossover mirror M (continuous R_z(π/4)), F71's spatial bond mirror, and the " +
                          "Q_zx/Q_yx dephase swaps (the expected S₃ ⋉ D₄ completion; the proof §5 disproved "

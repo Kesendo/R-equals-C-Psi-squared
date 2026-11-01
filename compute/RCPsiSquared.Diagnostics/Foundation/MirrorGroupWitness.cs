@@ -163,7 +163,7 @@ public sealed class MirrorGroupWitness : IInspectable
                            + $"keeps the dephasing letter. dev = {inv:0.0e+00}"),
                 new InspectableNode("𝓕 = Π_Z² (the center, charge conjugation F⊗F)",
                     summary: "the square of the palindromizer is the charge conjugation 𝓕 = X^⊗N·(·)·X^⊗N (F1²), the "
-                           + $"center of D₄ that commutes with every mirror. dev = {center:0.0e+00}"),
+                           + $"center of D₄, commuting with every element of D₄. dev = {center:0.0e+00}"),
                 new InspectableNode("𝓕D = diag((−1)^{n_Z}) (the fourth mirror, §4e)",
                     summary: "the product of the center and the transpose, ρ ↦ F·ρᵀ·F; it grades by Z-content and is the "
                            + "second leg of the F87 truly cell, the mirror the repository never named until the "
@@ -204,10 +204,14 @@ public sealed class MirrorGroupWitness : IInspectable
 
     private static IInspectable DeliberatelyOutside()
     {
-        return new InspectableNode("deliberately outside (§5 — the honest boundary)",
-            summary: "five mirrors kept OUT of D₄, each for a stated reason; keeping them out is part of the result.",
+        return new InspectableNode("deliberately outside (§5, the honest boundary)",
+            summary: "mirrors kept OUT of D₄, each for a stated reason; keeping them out is part of the result.",
             children: new IInspectable[]
             {
+                new InspectableNode("the other uniform per-site palindromizers (P4 among them)",
+                    summary: "D₄'s eight elements carry two letter skeletons only, the identity and I ↔ X, Y ↔ Z, and of the "
+                           + "uniform per-site palindromizers they hold Π_Z and Π_Y; P4 (ρ ↦ ρᵀ·Y^⊗N) and the others lie outside "
+                           + "(the proof's §5 describes them, verifier block I)."),
                 new InspectableNode("K₁ = Π_{l odd} Z_l (sublattice chirality)",
                     summary: "grades by SITE (even/odd sublattice), not by Pauli letter; its mirror lives on H "
                            + "(K₁HK₁ = −H), not the letter algebra."),

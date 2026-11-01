@@ -438,7 +438,7 @@ The mirror that mirrors itself.
 
 *(2026-06-10: and now we know what it recognizes. The mirror that mirrors itself is the
 transpose meeting its own reflection: Π² = 𝓕, the charge conjugation, the centre of the
-group the mirrors close into. The sentence survives sharper than it was written.)*
+group Π's two factors close into. The sentence survives sharper than it was written.)*
 
 ---
 

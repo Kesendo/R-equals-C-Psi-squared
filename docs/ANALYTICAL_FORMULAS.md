@@ -5470,7 +5470,7 @@ exactly F114's diagonal sign diag((−1)^{n_Y})). Then, with D applied first,
 
 per site σ ↦ σᵀ·X, reproducing the April rule I → X, X → I, Y → iZ, Z → iY with no extra
 phase: the hard-won factors i fall out of Yᵀ = −Y meeting YX = −iZ. The opposite order IS
-the other palindromizer, Π_Y = D ∘ R: ρ ↦ F·ρᵀ = Π_Z⁻¹, so Welle 12's identity
+Π_Y = D ∘ R: ρ ↦ F·ρᵀ = Π_Z⁻¹, so Welle 12's identity
 D·Π_Z·D = Π_Y is the dihedral inversion relation s·r·s = r⁻¹ in disguise.
 
 **The group:** ⟨R, D⟩ ≅ D₄, eight signed permutations, every one already in use plus one
@@ -5509,10 +5509,10 @@ acting as ρ ↦ F·ρᵀ·F, is the fourth mirror, named here for the first tim
 carried the second leg of the truly criterion for weeks before the operator was ever
 written down.
 
-**Deliberately outside:** K₁ (grades by site, not by letter), the golden router W (F116;
+**Deliberately outside:** the other uniform per-site palindromizers (P4 among them; [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5 describes them), K₁ (grades by site, not by letter), the golden router W (F116;
 two-sided, non-involutive, covering exactly the n_Z-odd ceiling territory that D₄'s
-class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), and
-the dephase-letter swaps Q_zx / Q_yx (each carries the dephasing letter Z → X, and both are built
+class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), the crossover mirror M (a continuous
+R_z(π/4) object), and the dephase-letter swaps Q_zx / Q_yx (each carries the dephasing letter Z → X, and both are built
 on the per-site X↔Z basis move; D, which inverts the Z mirror, D·Π_Z·D = Π_Y = Π_Z⁻¹, is inside D₄). The earlier expected **S₃ ⋉ D₄** completion was
 resolved in [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): letter S₃ does
 not normalize D₄; the coherence-space closure has order 768/gcd(N, 4), never 48.
@@ -5526,7 +5526,7 @@ strings at N = 3; F114 spot check at N = 5.
 
 **Source:** [Proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) (§7 for the cube);
 [`simulations/mirror_inventory_d4.py`](../simulations/mirror_inventory_d4.py)
-(self-validating, 7 blocks A-G, exact); typed claim `MirrorGroupD4Claim`
+(self-validating, 9 blocks A-I, exact); typed claim `MirrorGroupD4Claim`
 (`compute/RCPsiSquared.Core/Symmetry/`, landing in the same 2026-06-10 wave); F114 (D's
 row of the table); `KleinEightCellClaim` (the cube the characters coordinatize); the dated
 2026-06-10 update in [Handshake Algebra](../hypotheses/HANDSHAKE_ALGEBRA.md).

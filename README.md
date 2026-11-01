@@ -176,8 +176,7 @@ one and the other.
 For three months Π was the smallest thing in the repository: one per-site rule
 that carried everything. In June 2026 it opened. The palindromizer
 factors as **Π = R·D**, a ket reflection times the transpose, and the
-repository's whole mirror inventory closes into one dihedral group of
-eight, ⟨R, D⟩ ≅ D₄, whose four sign characters fill one face of the
+two factors generate a dihedral group of eight, ⟨R, D⟩ ≅ D₄, whose four sign characters fill one face of the
 polarity cube the F-family had been living on; conjugation by Z^⊗N, which D₄ does not contain, lifts that square to the full cube. The transpose D turned out to be
 one vertex of an antilinear triangle (θ, conj, †: one Klein four-group,
 five separate proofs sharing a single transport law), and at local

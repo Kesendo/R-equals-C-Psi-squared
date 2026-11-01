@@ -23,8 +23,8 @@ namespace MirrorWorld;
 // And the polarity cube's three axes are characters: bit_a of Ad_{Z^N}, bit_b of Ad_{X^N} = F,
 // y_par of the transpose D -- the truly cell is the joint-fixed cell of the two diagonal mirrors.
 //
-// Deliberately outside: the letter group S3, K1, the golden router W (F116), and F71's bond
-// mirror. The former S3 semidirect-product proposal was resolved: S3 does not normalize D4;
+// Deliberately outside: the other uniform palindromizers (P4 = rho -> rho^T Y^N among them; the proof's
+// sect.5 describes them), the letter group S3, K1, the golden router W (F116), and F71's bond mirror. The former S3 semidirect-product proposal was resolved: S3 does not normalize D4;
 // the coherence-space closure has order 768/gcd(N,4), never 48 (PROOF_PI_FACTORS_AS_R_TIMES_D §5, 'Resolution of the S3 side').
 // The letter moves themselves live in LetterCube, as candidate moves: its one-site closure (192 maps modulo a
 // global phase) holds the letter swaps beside R and D, and the Sextant asks each of a setting; this group stays D4.

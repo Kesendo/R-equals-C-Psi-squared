@@ -2,8 +2,8 @@
 """Pi_Z = R*D and the dihedral mirror group D4: committed, self-validating verification.
 
 This script is the computational anchor of docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md:
-the canonical palindromizer factors as Pi_Z = R o D, and the mirror inventory closes
-into one dihedral group D4 = <R, D> of order 8. Every block asserts its identities
+the canonical palindromizer factors as Pi_Z = R o D, and the two factors generate
+one dihedral group D4 = <R, D> of order 8. Every block asserts its identities
 (any failure raises AssertionError and the process exits nonzero); the final line
 ALL BLOCKS PASS prints only if every identity holds. The group-level identities are
 equalities of signed permutation matrices and compare at dev 0.00e+00.
@@ -49,6 +49,15 @@ Block ledger:
      site; with the letter move h the element Ad_{R_z(pi/4)} h d is a rotation
      with 2 cos(angle) = -1 - 1/sqrt 2, not an algebraic integer, so of infinite
      order, and only then do the discrete moves reach the dial's circle.
+  I. The uniform per-site palindromizers of the Heisenberg bond under Z-dephasing
+     (sect.5, first entry), N = 2, site-dependent gamma: 16 letter maps (phases in
+     {1, i, -1, -i}, the phase on I fixed) in four skeletons of four (P1, P4, the two four-cycles), the
+     quarter-turn points of the circles A o Ad_{R_z(phi)} through Pi_Z, Pi_Y, P4,
+     P4^-1, each skeleton at its quarter turns, the circle itself exact in sympy
+     at a symbolic phi; exactly Pi_Z and Pi_Y in D4, the phi = pi point of Pi_Y's
+     circle = Pi_5bilinear, the X-dephasing Pi outside D4; the
+     four-cycle maps flip, of the nine single bond terms, only ZZ; P4 = rho^T Y is
+     an element of the order-768 letter closure <r, d, h_zx, t_yz> at N = 1.
 
 Conventions: row-stacking (C-order) vec, |i><j| -> e_i (x) e_j, kron(A,B) = A rho B^T,
 matching framework.lindblad and PROOF_F87_WINDOWED_MONOMIAL_CONVERSE sect.1.
@@ -433,5 +442,221 @@ assert np.max(np.abs(g_inf[0, 1:])) < TOL and np.max(np.abs(g_inf[1:, 0])) < TOL
 assert np.max(np.abs(blk.imag)) < TOL and abs(np.linalg.det(blk).real - 1) < TOL
 assert np.max(np.abs(blk.real @ blk.real.T - np.eye(3))) < TOL
 assert abs(two_cos - (-1 - np.sqrt(0.5))) < TOL
+
+# ----------------------------------------------------------------- I
+# The uniform per-site palindromizers of the Heisenberg bond under Z-dephasing,
+# and which of them D4 holds (sect.5, first entry). Self-contained single-site
+# Pauli basis (I, X, Y, Z) here, normalized so that site maps are 4x4 matrices.
+print('I. Uniform per-site Z-palindromizers of the Heisenberg bond (N = 2) and D4')
+import itertools  # noqa: E402
+import sympy as sp  # noqa: E402
+_I2 = np.eye(2, dtype=complex)
+_X2 = np.array([[0, 1], [1, 0]], dtype=complex)
+_Y2 = np.array([[0, -1j], [1j, 0]], dtype=complex)
+_Z2 = np.diag([1.0, -1.0]).astype(complex)
+_P = [_I2, _X2, _Y2, _Z2]
+_NM = 'IXYZ'
+
+
+def site_map(f):
+    """Single-site superoperator rho -> f(rho) in the normalized basis (I, X, Y, Z)/sqrt 2."""
+    return np.array([[np.trace(_P[a].conj().T @ f(_P[c])) / 2 for c in range(4)]
+                     for a in range(4)])
+
+
+def rz(t):
+    return np.diag([np.exp(-0.5j * t), np.exp(0.5j * t)])
+
+
+def ad_rz(t):
+    return site_map(lambda r: rz(t) @ r @ rz(t).conj().T)
+
+
+pi_z = site_map(lambda r: r.T @ _X2)        # P1 = Pi_Z, I->X, X->I, Y->iZ, Z->iY
+pi_y = site_map(lambda r: _X2 @ r.T)        # Pi_Y = Pi_Z^-1
+p4 = site_map(lambda r: r.T @ _Y2)          # P4 = rho^T Y: I->Y, X->iZ, Y->-I, Z->-iX
+r_site = site_map(lambda r: r @ _X2)        # R per site
+d_site = site_map(lambda r: r.T)            # D per site
+assert np.max(np.abs(np.linalg.inv(pi_z) - pi_y)) < TOL
+_expect_p4 = np.zeros((4, 4), dtype=complex)
+for _src, _dst, _ph in ((0, 2, 1), (1, 3, 1j), (2, 0, -1), (3, 1, -1j)):
+    _expect_p4[_dst, _src] = _ph
+assert np.max(np.abs(p4 - _expect_p4)) < TOL   # the NON_HEISENBERG_PALINDROME example
+
+_basis2 = [np.kron(a, c) for a in _P for c in _P]
+_B2 = np.array([m.flatten() for m in _basis2]).T / 2      # normalized Pauli basis, N = 2
+_B2inv = _B2.conj().T
+_gam = (0.3, 0.7)
+_sig = sum(_gam)
+
+
+def lind_pauli(H):
+    d = 4
+    E = np.eye(d)
+    cols = []
+    for a in range(d):
+        for c in range(d):
+            rho = np.outer(E[a], E[c]).astype(complex)
+            out = -1j * (H @ rho - rho @ H)
+            for l, g in enumerate(_gam):
+                Zl = np.kron(_Z2, _I2) if l == 0 else np.kron(_I2, _Z2)
+                out = out + g * (Zl @ rho @ Zl - rho)
+            cols.append(out.flatten())
+    return _B2inv @ np.array(cols).T @ _B2
+
+
+_terms = {a + c: np.kron(_P[_NM.index(a)], _P[_NM.index(c)]) for a in 'XYZ' for c in 'XYZ'}
+L_heis = lind_pauli(_terms['XX'] + _terms['YY'] + _terms['ZZ'])
+L_term = {k: lind_pauli(H) for k, H in _terms.items()}
+
+
+def pal_resid(m, L):
+    M = np.kron(m, m)
+    return np.max(np.abs(M @ L @ np.linalg.inv(M) + L + 2 * _sig * np.eye(16)))
+
+
+def skeleton(m):
+    return ''.join(_NM[int(np.argmax(np.abs(m[:, c])))] for c in range(4))
+
+
+hits, worst_hit, best_miss = [], 0.0, np.inf
+for perm in itertools.permutations(range(4)):
+    for ph in itertools.product((1, 1j, -1, -1j), repeat=3):
+        m = np.zeros((4, 4), dtype=complex)
+        for c, (dst, phase) in enumerate(zip(perm, (1,) + ph)):   # phase on I's image fixed to 1
+            m[dst, c] = phase
+        res = pal_resid(m, L_heis)
+        if res < 1e-9:
+            hits.append(m)
+            worst_hit = max(worst_hit, res)
+        else:
+            best_miss = min(best_miss, res)
+skel_count = {}
+for m in hits:
+    skel_count[skeleton(m)] = skel_count.get(skeleton(m), 0) + 1
+print(f'   letter maps (phase on I fixed) palindromizing the bond: {len(hits)} '
+      f'(worst hit residual {worst_hit:.1e}, smallest miss {best_miss:.2f}); skeletons {skel_count}')
+assert len(hits) == 16 and worst_hit == 0.0 and best_miss >= 1.0   # every other letter map misses at O(1)
+assert sorted(skel_count.values()) == [4, 4, 4, 4]
+assert set(skel_count) == {'XIZY', 'YZIX', 'XZIY', 'YIZX'}   # P1, P4, and the two four-cycles
+
+
+def norm_phase(m):
+    return m / m[int(np.argmax(np.abs(m[:, 0]))), 0]
+
+
+def same_up_to_phase(a, c):
+    return any(np.max(np.abs(w * a - c)) < 1e-9 for w in (1, 1j, -1, -1j))
+
+
+# the sixteen are the quarter-turn points of four circles A o Ad_{R_z(phi)}
+seeds = {'Pi_Z': pi_z, 'Pi_Y': pi_y, 'P4': p4, 'P4^-1': np.linalg.inv(p4)}
+orbit = [norm_phase(A @ ad_rz(k * np.pi / 2)) for A in seeds.values() for k in range(4)]
+assert all(any(np.max(np.abs(o - norm_phase(h))) < 1e-9 for h in hits) for o in orbit)
+assert all(any(np.max(np.abs(o - norm_phase(h))) < 1e-9 for o in orbit) for h in hits)
+# each skeleton at its quarter turns: Pi circles give P1 at phi = 0, pi and I->X->Z->Y->I at pi/2, 3pi/2;
+# P4 circles give P4's skeleton at 0, pi and I->Y->Z->X->I at pi/2, 3pi/2
+want = {('Pi', 0): 'XIZY', ('Pi', 1): 'XZIY', ('P4', 0): 'YZIX', ('P4', 1): 'YIZX'}
+for nmA, A in seeds.items():
+    fam = 'Pi' if nmA.startswith('Pi') else 'P4'
+    for k in range(4):
+        assert skeleton(A @ ad_rz(k * np.pi / 2)) == want[(fam, k % 2)], (nmA, k)
+# the circle exactly: A o Ad_{R_z(phi)} at a symbolic phi, gamma = 3/10, 7/10, every entry of
+# M L M^-1 + L + 2 sigma simplifies to 0 (the route is exact, so no tolerance)
+_phi = sp.symbols('phi', real=True)
+_sI, _sX = sp.eye(2), sp.Matrix([[0, 1], [1, 0]])
+_sY, _sZ = sp.Matrix([[0, -sp.I], [sp.I, 0]]), sp.Matrix([[1, 0], [0, -1]])
+_sP = [_sI, _sX, _sY, _sZ]
+
+
+def sp_site_map(f):
+    return sp.Matrix(4, 4, lambda a, c: sp.simplify((_sP[a].H * f(_sP[c])).trace() / 2))
+
+
+_rz = sp.diag(sp.exp(-sp.I * _phi / 2), sp.exp(sp.I * _phi / 2))
+_adrz = sp_site_map(lambda r: _rz * r * _rz.H)
+_sgam = (sp.Rational(3, 10), sp.Rational(7, 10))
+_sH = sum((sp.kronecker_product(Q, Q) for Q in (_sX, _sY, _sZ)), sp.zeros(4, 4))
+_cols = []
+for a in range(4):
+    for c in range(4):
+        rho = sp.zeros(4, 4)
+        rho[a, c] = 1
+        out = -sp.I * (_sH * rho - rho * _sH)
+        for l, g in enumerate(_sgam):
+            Zl = sp.kronecker_product(_sZ, _sI) if l == 0 else sp.kronecker_product(_sI, _sZ)
+            out = out + g * (Zl * rho * Zl - rho)
+        _cols.append(out.reshape(16, 1))
+_sB = sp.Matrix.hstack(*[sp.kronecker_product(P_, Q_).reshape(16, 1) for P_ in _sP for Q_ in _sP]) / 2
+_sL = _sB.H * sp.Matrix.hstack(*_cols) * _sB
+_ssig = sum(_sgam)
+for nmA, f in (('Pi_Z', lambda r: r.T * _sX), ('P4', lambda r: r.T * _sY)):
+    m = sp_site_map(f) * _adrz
+    M = sp.kronecker_product(m, m)
+    resid = (M * _sL * M.inv() + _sL + 2 * _ssig * sp.eye(16)).applyfunc(sp.simplify)
+    assert resid == sp.zeros(16, 16), nmA
+print('   the 16 = quarter-turn points of the circles through Pi_Z, Pi_Y, P4, P4^-1, each skeleton at its '
+      'quarter turns; the circle A o Ad_{R_z(phi)} exact in sympy at symbolic phi (Pi_Z, P4)')
+
+# D4 holds exactly two of them, Pi_Z and Pi_Y
+d4 = [np.eye(4, dtype=complex)]
+frontier = list(d4)
+while frontier:
+    nxt = []
+    for e in frontier:
+        for g in (r_site, d_site):
+            cand = g @ e
+            if not any(np.max(np.abs(cand - x)) < TOL for x in d4):
+                d4.append(cand)
+                nxt.append(cand)
+    frontier = nxt
+inside = [h for h in hits if any(same_up_to_phase(np.kron(h, h), np.kron(x, x)) for x in d4)]
+print(f'   |<R, D>| per site = {len(d4)}; of the 16, in D4 up to a global phase: {len(inside)}')
+assert len(d4) == 8 and len(inside) == 2
+assert all(same_up_to_phase(np.kron(h, h), np.kron(pi_z, pi_z))
+           or same_up_to_phase(np.kron(h, h), np.kron(pi_y, pi_y)) for h in inside)
+# the phi = pi point of Pi_Y's circle is F108's Pi_5bilinear = Pi_Z o Ad_Y = Pi_Y o Ad_Z
+# (per site I -> X, X -> -I, Y -> iZ, Z -> -iY), outside D4 by its phases
+pi5 = np.zeros((4, 4), dtype=complex)
+for _src, _dst, _ph in ((0, 1, 1), (1, 0, -1), (2, 3, 1j), (3, 2, -1j)):
+    pi5[_dst, _src] = _ph
+ad_y = site_map(lambda r: _Y2 @ r @ _Y2)
+ad_z = site_map(lambda r: _Z2 @ r @ _Z2)
+assert np.max(np.abs(pi_z @ ad_y - pi5)) < TOL and np.max(np.abs(pi_y @ ad_z - pi5)) < TOL
+assert same_up_to_phase(pi_y @ ad_rz(np.pi), pi5)
+assert any(same_up_to_phase(h, pi5) for h in hits)
+assert not any(same_up_to_phase(np.kron(pi5, pi5), np.kron(x, x)) for x in d4)
+# the X-dephasing Pi of PiOperator (flip bit_b; skeleton I <-> Z, X <-> Y) is outside D4
+pix = np.zeros((4, 4), dtype=complex)
+for _src, _dst, _ph in ((0, 3, 1), (1, 2, -1j), (2, 1, -1j), (3, 0, 1)):
+    pix[_dst, _src] = _ph
+assert skeleton(pix) == 'ZYXI'
+assert not any(same_up_to_phase(np.kron(pix, pix), np.kron(x, x)) for x in d4)
+print('   phi = pi on Pi_Y\'s circle = Pi_5bilinear (outside D4 by its phases); X-dephasing Pi outside D4')
+
+# the four-cycle maps flip the Heisenberg sum but, of the nine single terms, only ZZ
+cyc = [h for h in hits if skeleton(h) in ('XZIY', 'YIZX')]
+supports = {tuple(k for k, L in L_term.items() if pal_resid(h, L) < 1e-9) for h in cyc}
+print(f'   four-cycle maps: {len(cyc)}, single-term supports {supports}')
+assert len(cyc) == 8 and supports == {('ZZ',)}
+
+# P4 lies in the letter closure <r, d, h_zx, t_yz> (order 768 at N = 1, sect.5 Resolution)
+had = (_X2 + _Z2) / np.sqrt(2)
+tyz = (_Y2 + _Z2) / np.sqrt(2)
+gens_c = [r_site, d_site, site_map(lambda r: had @ r @ had), site_map(lambda r: tyz @ r @ tyz)]
+clos = [np.eye(4, dtype=complex)]
+frontier = list(clos)
+while frontier:
+    nxt = []
+    for e in frontier:
+        for g in gens_c:
+            cand = g @ e
+            if not any(np.max(np.abs(cand - x)) < 1e-9 for x in clos):
+                clos.append(cand)
+                nxt.append(cand)
+    frontier = nxt
+p4_in = any(np.max(np.abs(p4 - x)) < 1e-9 for x in clos)
+print(f'   |<r, d, h_zx, t_yz>| at N = 1 = {len(clos)}; P4 an element: {p4_in}')
+assert len(clos) == 768 and p4_in
 
 print('\nALL BLOCKS PASS')

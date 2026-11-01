@@ -164,7 +164,8 @@ an eigen-story but exact rearrangements, phases in {±1, ±i}, compared with no 
 F119 (the antilinear triangle θ / conj / †, with the transport law as its engine) docks on as the
 antilinear double D₄ × Z₂. The R row of the palindrome split carries the same constant the fold
 legs pay as the price: the two objects are one mirror read at two altitudes, block lattice below,
-operator algebra above. Still outside: the letter group S₃. F118 named it open as the completion
+operator algebra above. Still outside: the other uniform palindromizers (P4 among them, which lies in LetterCube's
+one-site closure; the proof's §5 describes them), and the letter group S₃. F118 named it open as the completion
 S₃ ⋉ D₄; that shape was disproved in the proof's §5, because the letter moves do not normalize D₄
 (the coherence-space closure has order 768/gcd(N,4), never 48), so what stays outside is the letter S₃
 itself, not a product waiting to be built. The letter moves themselves are LetterCube's candidate

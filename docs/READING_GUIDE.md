@@ -146,7 +146,7 @@ happens when you deliberately break the symmetry.
 
 8. [Π Factors as R·D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md):
    The palindromizer factors, Π = R·D (a ket reflection times the
-   transpose); the mirror inventory closes into one group, the dihedral
+   transpose); the two factors generate one group, the dihedral
    D₄; and the polarity cube's third axis is the transpose (F118).
    If this last step hooks you, Story 7 is its full arc.
    The dissipator-diagonal companion (the one diagonal as one of three,
@@ -693,10 +693,11 @@ and "conjugation" appear), but each document introduces its own machinery.
 
 1. [Π Factors as R·D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): The
    palindromizer is not elementary. It factors as Π = R·D, a ket
-   reflection times the transpose, and the repository's entire mirror
-   inventory closes into one dihedral group of eight, ⟨R, D⟩ ≅ D₄,
-   whose three Z₂ characters are exactly the polarity cube the F-family
-   had been living on (F118).
+   reflection times the transpose, and the two factors generate a
+   dihedral group of eight, ⟨R, D⟩ ≅ D₄,
+   whose sign characters fill one face of the polarity cube the F-family
+   had been living on; conjugation by Z^⊗N, which D₄ does not contain,
+   lifts that face to the cube (F118).
 
 2. [The Antilinear Triangle](proofs/PROOF_ANTILINEAR_TRIANGLE.md): The
    transpose D turns out to be one vertex of a triangle of conjugations

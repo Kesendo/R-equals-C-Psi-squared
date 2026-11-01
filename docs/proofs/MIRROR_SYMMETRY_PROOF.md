@@ -497,8 +497,9 @@ construction generalizes per dephasing axis: X- and Y-dephasing have
 analogous Π's that swap their own immune sectors with their own damped
 sectors, all three typed in
 [`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs).
-A second uniform Π for Z-dephasing exists too (the P4 partner of the P1
-shown above). Alternating and continuous per-site Π families cover the bond
+Further uniform Π's for Z-dephasing exist too, the P4 partner of the P1 shown
+above among them ([the factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §5
+describes them). Alternating and continuous per-site Π families cover the bond
 types that need them, catalogued by bond type in
 [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md).
 The proof below uses the P1 / Z-dephasing Π throughout.
@@ -522,8 +523,9 @@ the transpose D (ρ ↦ ρᵀ, a pure diagonal sign on the Pauli basis) followed
 the ket reflection R (ρ ↦ ρ·X⊗N), and the palindrome's two halves below are
 carried separately by the two factors: D flips the Hamiltonian part (Step 2)
 while R flips the noise part and carries the entire −2Σγᵢ shift (Step 1).
-The two factors close into a dihedral group of order 8 that contains every
-mirror of the palindrome story; see
+The two factors generate a dihedral group of order 8 that holds Π, its inverse
+Π_Y (the Y-dephasing Π above) and both factors; P4 and the X-dephasing Π, for example, lie
+outside it; see
 [the mirror group factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) and F118 in
 [Analytical Formulas](../ANALYTICAL_FORMULAS.md).
 

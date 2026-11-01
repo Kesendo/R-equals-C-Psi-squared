@@ -1,4 +1,4 @@
-# PROOF: the canonical palindromizer factors, Π_Z = R·D, and the mirror inventory closes into one dihedral group D₄
+# PROOF: the canonical palindromizer factors, Π_Z = R·D, and the two factors generate the dihedral group D₄
 
 **Status:** Tier 1 derived (signed-permutation identities, exact; group closure, factorization, and palindrome split verified bit-exact, dev 0.00e+00, at N = 1..3 with an N = 5 spot check; the palindrome factorization rows at machine precision ≤ 5.6·10⁻¹⁷ on XXZ with site-dependent γ).
 **Date:** 2026-06-10
@@ -26,7 +26,7 @@ This note states what they are to each other. Define, on the coherence space of 
 
 per site σ ↦ σᵀ·X, which reproduces the April rule I → X, X → I, Y → iZ, Z → iY with no extra phase.
 
-**Theorem (the group).** ⟨R, D⟩ is dihedral of order 8, D₄: the rotations are {I, Π_Z, 𝓕 = Π_Z², Π_Y = Π_Z³} and the reflections are {D, 𝓕D, R, 𝓕R}. Every named mirror of the palindrome story sits in this one group: the April Π_Z and Π_Y, the spine's 𝓕 and R (its Klein four-group {I, 𝓕, R, 𝓕R} is a Klein subgroup of D₄), F114's D, and one diagonal mirror the repository had never named, 𝓕D = diag((−1)^{n_Z}). The palindrome identity itself factors along the generators: D flips the Hamiltonian commutator and fixes the dissipator; R fixes the Hamiltonian commutator and reflects the dissipator, carrying the entire −2Σγ shift.
+**Theorem (the group).** ⟨R, D⟩ is dihedral of order 8, D₄: the rotations are {I, Π_Z, 𝓕 = Π_Z², Π_Y = Π_Z³} and the reflections are {D, 𝓕D, R, 𝓕R}. The group holds the April Π_Z and Π_Y, the spine's 𝓕 and R (its Klein four-group {I, 𝓕, R, 𝓕R} is a Klein subgroup of D₄), F114's D, and one diagonal mirror the repository had never named, 𝓕D = diag((−1)^{n_Z}). It does not hold every mirror of the palindrome story; §5 names mirrors outside it. The palindrome identity itself factors along the generators: D flips the Hamiltonian commutator and fixes the dissipator; R fixes the Hamiltonian commutator and reflects the dissipator, carrying the entire −2Σγ shift.
 
 All identities are equalities of signed permutation matrices, verified at dev 0.00e+00 by [`simulations/mirror_inventory_d4.py`](../../simulations/mirror_inventory_d4.py).
 
@@ -74,11 +74,11 @@ The geometry is worth pausing on. D₄ is the symmetry group of a square: one 90
 
 D₄ has three subgroups of order 4, and all three are already characters in the story:
 
-- the rotation subgroup {I, Π_Z, 𝓕, Π_Y}: the palindromizer family;
+- the rotation subgroup {I, Π_Z, 𝓕, Π_Y}: the palindromizers Π_Z and Π_Y = Π_Z⁻¹ with their square 𝓕;
 - the spine's Klein four-group **{I, 𝓕, R, 𝓕R}**: the two-sided and one-sided F multiplications, exactly the involution set [the F87 windowed converse §2](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) runs its sign table on;
 - the diagonal Klein four-group {I, 𝓕, D, 𝓕D}: the sign gradings, whose joint eigenbasis is the Pauli strings themselves (§4d).
 
-All three intersect in {I, 𝓕}: the charge conjugation 𝓕 = Π_Z² = F1² is the center of D₄. Every mirror in the inventory passes through it.
+All three intersect in {I, 𝓕}: the charge conjugation 𝓕 = Π_Z² = F1² is the center of D₄.
 
 ## §3 The palindrome, factored along the generators
 
@@ -120,6 +120,7 @@ because D contributes the sign (−1)^{n_Y+1} and R either fixes L_σ (n_Y + n_Z
 
 The temptation, once eight mirrors close into one group, is to type every mirror in the repository into it. The following are outside, each for a stated reason, and keeping them outside is part of the result:
 
+- **The other uniform per-site palindromizers.** The eight elements of D₄ carry only two letter skeletons, the identity (I, 𝓕, D, 𝓕D) and I ↔ X, Y ↔ Z (Π_Z, Π_Y, R, 𝓕R). The uniform per-site palindromizers of the Heisenberg bond under Z-dephasing, site-dependent γ included, come in circles: A∘Ad_{R_z(φ)}^⊗N is one for every φ whenever A is, because R_z(φ)^⊗N commutes with the Heisenberg H and with every Z_l. Among the letter maps (each site map a permutation of I, X, Y, Z with phases in {±1, ±i}, its phase on I fixed) there are sixteen at N = 2, the quarter-turn points φ ∈ {0, π/2, π, 3π/2} of the four circles through Π_Z, Π_Y, P4 and P4⁻¹, where P4 is the family of [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md) (for example I → Y, X → iZ, Y → −I, Z → −iX). Their skeletons are four, four maps each: I ↔ X, Y ↔ Z (φ = 0, π on the Π circles), I ↔ Y, X ↔ Z (φ = 0, π on the P4 circles), and the two four-cycles I → X → Z → Y → I and I → Y → Z → X → I (φ = ±π/2, the 90° mirror N90 of the addendum below composed on). Two of the sixteen are in ⟨R, D⟩, Π_Z and Π_Y; the φ = π points of their circles are outside by their phases (the one on Π_Y's circle is Π_5bilinear = Π_Z∘Ad_{Y^⊗N} = Π_Y∘Ad_{Z^⊗N} of F108), and the other skeletons are not D₄'s. Since N90 swaps XX ↔ YY and fixes ZZ, the four-cycle maps flip the Heisenberg sum; of the nine single bond terms they flip only ZZ (block I). The X-dephasing Π of [`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs), skeleton I ↔ Z, X ↔ Y, is outside for the same reason. The P4 example is ρ ↦ ρᵀ·Y^⊗N, the transpose followed by the one-sided multiplication by Y^⊗N (per site Iᵀ·Y = Y, Xᵀ·Y = iZ, Yᵀ·Y = −I, Zᵀ·Y = −iX), an element of the closure ⟨R, D, h_zx, t_yz⟩ resolved below: at N = 1 it is one of the 768, and since every generator is a tensor power, its tensor power is in the closure at every N. Block I of the verifier checks the census at N = 2.
 - **K₁ = Π_{l odd} Z_l** (the sublattice chirality, [ChiralKClaim](../../compute/RCPsiSquared.Core/Symmetry/ChiralKClaim.cs), [the chiral mirror rate law](PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md)): a different grading altogether. K₁ grades by site (the even/odd sublattice of the chain), while D₄ grades and moves Pauli letters uniformly at every site. K₁'s mirror action lives on the Hamiltonian (K₁HK₁ = −H for bipartite hopping), not on the letter algebra.
 - **The golden router W** (F116, [the golden router proof](PROOF_CEILING_GOLDEN_ROUTER.md)): two-sided, W(ρ) ∝ P·ρ·Q with P ≠ Q golden-frame product unitaries, and non-involutive per site (q² = −(2+φ)·I). Every D₄ element is built from the transpose and one-sided or two-sided F multiplications; W is structurally a different animal, and it has to be, because it covers the n_Z-odd ceiling scope that §4f proves D₄ cannot.
 - **The crossover mirror M** ([the crossover mirror proof](PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md)): the square root of the 90° mirror, a continuous R_z(π/4) conjugation object (the T-gate to D₄'s Clifford-flavored S-gate). It lives on the rotation continuum that D₄ samples only at right angles.
@@ -136,7 +137,7 @@ where t_xy is the pure X↔Y letter transposition and both decorations are cube 
 
 ## §6 Verification
 
-[`simulations/mirror_inventory_d4.py`](../../simulations/mirror_inventory_d4.py), self-validating (every block asserts; the run ends with ALL BLOCKS PASS only if every identity holds). Eight blocks:
+[`simulations/mirror_inventory_d4.py`](../../simulations/mirror_inventory_d4.py), self-validating (every block asserts; the run ends with ALL BLOCKS PASS only if every identity holds). Nine blocks:
 
 - **A.** The action Π_Z(ρ) = ρᵀ·F on random ρ at N = 1, 2, 3 (dev ≤ 2.3·10⁻¹⁶, pure roundoff on random matrices), with the wrong-sided form F·ρᵀ rejected at O(1).
 - **B.** The group: Π_Z = R·D, Π_Z² = 𝓕, D·Π_Z·D = Π_Z⁻¹ = Π_Y, closure |⟨R, D⟩| = 8, identification of all eight elements, and the diagonal forms D = diag((−1)^{n_Y}), 𝓕D = diag((−1)^{n_Z}); all dev 0.00e+00 at N = 3 (signed permutation matrices compare exactly).
@@ -146,6 +147,7 @@ where t_xy is the pure X↔Y letter transposition and both decorations are cube 
 - **F.** The U(1) absorber cross-check e^{iπN̂} = Z^⊗N (documented elsewhere; tabled here because it is the one global string the inventory keeps meeting).
 - **G.** The cube of characters (§7): (bit_a, bit_b, y_par) are the characters of (Ad_{Z^⊗N}, Ad_{X^⊗N}, θ), with θ∘Ad_{Z^⊗N} = (−1)^{n_X} and θ∘Ad_{X^⊗N} = (−1)^{n_Z}; all 64 strings at N = 3, exact.
 - **H.** The crossover dial (§5 addendum): N90 = diag((−1)^{n_X})·t_xy = t_xy·diag((−1)^{n_Y}) per site (dev 2.2·10⁻¹⁶), the reversed orders equal N90⁻¹ (gap to N90 = 2.0), the Klein q_yx rejected at O(1) (skeleton gap 1.0); N90 outside the order-128 discrete completion ⟨r, d, h⟩ under any global phase; D·Ad_{R_z(θ)}·D = Ad_{R_z(−θ)} at five θ per site (worst dev 8.5·10⁻¹⁷) and at N = 2 on coherence space (dev 1.4·10⁻¹⁷); Ad_{R_z(π/4)}² = N90 (dev 2.2·10⁻¹⁶, the π/4 point non-monomial at entry 1/√2); ⟨r, d, Ad_{R_z(π/4)}⟩ closes at 512 per site, and Ad_{R_z(π/4)}·h·d has 2 cos(angle) = −1 − 1/√2 (infinite order).
+- **I.** The first entry of §5: at N = 2 on the Heisenberg bond with γ = (0.3, 0.7), the sixteen letter maps (phases in {±1, ±i}, the phase on I fixed) with residual exactly 0.0 while every other letter map misses at order one, four per skeleton; the same sixteen as the quarter-turn points of the four circles through Π_Z, Π_Y, P4, P4⁻¹, each skeleton at its quarter turns, and the circles through Π_Z and P4 exact in sympy at a symbolic φ; exactly Π_Z and Π_Y in ⟨R, D⟩, the φ = π point of Π_Y's circle equal to Π_5bilinear, the X-dephasing Π outside; the four-cycle maps flipping only ZZ among the nine single bond terms; P4 an element of the order-768 closure at N = 1.
 
 No C# typed claims are added in this wave; wiring `⟨R, D⟩ ≅ D₄` into the Core claim graph (parents: F1, the spine claim, F114) is deliberate follow-up work. (Done later the same day, 2026-06-10: `MirrorGroupD4Claim` in `compute/RCPsiSquared.Core/Symmetry/`, with an N = 2 self-check battery; the typed parents became KleinEightCellClaim + CommutatorDConjugationSign + Pi2KleinV4DephaseSwapGroup, since the spine claim lives in Diagnostics, which Core cannot reference, and F1 is already an ancestor through the Pi2 chain; the spine edge is carried by the §2 anchor in prose.)
 
