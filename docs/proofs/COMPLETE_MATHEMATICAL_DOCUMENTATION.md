@@ -26,8 +26,8 @@ applications, and open questions.
 
 Everything after this core lives in two sibling layers: the machine-precise
 closed forms with tiers and regime scopes are the F-formula registry,
-[Analytical Formulas](../ANALYTICAL_FORMULAS.md) (the F-numbers, F1 through
-the 130s as of July 2026); and what C and Ψ *mean*, including the three
+[Analytical Formulas](../ANALYTICAL_FORMULAS.md) (the F-numbers, F1
+onward); and what C and Ψ *mean*, including the three
 C-books that resolve apparent cross-document contradictions, is
 [The CΨ Lens](../THE_CPSI_LENS.md). If you want to know what is proven vs.
 conjectured in the founding core, this is where to look; for anything
@@ -99,8 +99,10 @@ the Liouvillian spectrum is palindromic: for every eigenvalue λ, the value
 2. Π transforms L_D: Π L_D Π⁻¹ = -L_D - 2Σγ I
 3. Combined: Π L Π⁻¹ = -L - 2Σγ I. QED.
 
-**Verification.** 87,376 eigenvalues, N=2 through N=8, zero exceptions.
-All topologies (chain, star, ring, complete, binary tree). Non-uniform γ.
+**Verification.** 87,376 eigenvalues (one spectrum per size, N=2 through
+N=8), zero exceptions, and the N=9 chain (262,144 eigenvalues). Chain,
+star, ring, complete and tree at N=4,5; chain, star, ring, and K₄ beside
+a disjoint 4-chain at N=8; non-uniform γ at N=3,4.
 
 **Exact meaning.** Π is a linear similarity that maps
 `lambda -> -lambda - 2 Sigma_gamma`, or `mu -> -mu` after centering. Calling
@@ -109,10 +111,11 @@ structure; calling the paired modes forward/backward waves would additionally
 require conjugate-frequency, excitation, semisimplicity, spatial-propagation,
 and interference gates. None follows from this proof alone.
 
-**Scope boundary.** The FULL mirror only at d=2 (qubits). The per-site split
+**Scope boundary.** The full local class-swap mirror only at d=2
+(qubits). The per-site split
 d immune vs (d²-d) decaying is balanced only when d²-2d=0, giving d=2
-uniquely. Qutrits (d=3, split 3:6) verified broken: 0 of 236 qutrit
-dissipators produce palindromic spectra, and every tested two-qutrit
+uniquely. Qutrits (d=3, split 3:6) verified broken: 0 of 236 sampled qutrit
+dissipators permit full palindromic rate pairing, and every tested two-qutrit
 Hamiltonian combination breaks ([Qubit Necessity](../QUBIT_NECESSITY.md)).
 A PARTIAL palindrome survives at d>2 with a closed-form ceiling
 ([F121 in the registry](../ANALYTICAL_FORMULAS.md), the symmetric overlap
@@ -207,13 +210,12 @@ See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 
 ---
 
-## 4. The Incompleteness Proof (Tier 1 derived)
+## 4. The Incompleteness Proof (Tier 1 trace identity; Tier 2 on origin)
 
-Five candidates for the origin of dephasing noise, NONE of which eliminates an internal source: (1) is a structural constraint, (2) and (3) lost their evidence on 2026-08-29, and (4) and (5) say what cannot exist rather than clearing an existing qubit. The internal bootstrap is reduced to
-the first reduced to a structural constraint:
+Five candidates for the origin of dephasing noise, NONE of which eliminates an internal source: (1) is a structural constraint, (2) and (3) lost their evidence on 2026-08-29, and (4) and (5) say what cannot exist rather than clearing an existing qubit:
 
 1. Internal (reduced to a structural constraint: [Π², L] = 0 constrains
-   the noise's form, elimination carried by candidates 2-3)
+   the noise's form)
 2. Qubit decay (**OPEN since 2026-08-29**: the test scored a marginal over a
    coupled spectator, which fails equally without any noise)
 3. Qubit bath (regress, each member faces bootstrap prohibition)

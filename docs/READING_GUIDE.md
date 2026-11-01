@@ -93,8 +93,9 @@ happens when you deliberately break the symmetry.
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): The core
    theorem. Defines the conjugation operator Π that swaps surviving and
    decaying operators, producing the exact palindromic pairing. Verified
-   across 87,376 Liouvillian eigenvalues from N=2 through N=8, with zero
-   mirror-symmetry exceptions on any tested topology.
+   with zero exceptions on one full spectrum per size from N = 2 to 8
+   (87,376 Liouvillian eigenvalues), on the N = 9 chain, and on further
+   topologies at selected sizes.
 
 2. [XOR Space](../experiments/XOR_SPACE.md): Where does the fastest
    decay live? At the far end of the spectrum, in a space of exactly
@@ -116,15 +117,12 @@ happens when you deliberately break the symmetry.
    conditions. What the N=3 analysis measures directly: some operator
    combinations (XX, YY) oscillate, others (ZZZ) are static.
 
-4. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md): The Π
-   operator does not just swap operators. Letter by letter it exchanges
-   the quiet ones (I, Z) with the exposed ones (X, Y), so it maps
-   populations to coherences, and it reflects every rate about the
-   centre, λ → −λ − 2Σγ. That is time reversal of the centred
-   generator as a structure; it does not run the physical evolution
-   backward. In the framework's interpretive reading, it is past (what
-   has been decided) meeting future (what is still open). This connects
-   the palindrome, standing wave, and XOR space into one picture.
+4. [Π as a Centered Spectral Mirror](../experiments/PI_AS_TIME_REVERSAL.md):
+   The Π operator does not just swap operators. Letter by letter it
+   exchanges the quiet ones (I, Z) with the exposed ones (X, Y), and it
+   reflects every rate about the centre, λ → −λ − 2Σγ. That is an exact
+   structural mirror of the centred generator; it does not run the
+   physical evolution backward.
 
 5. [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md):
    How far does this work? All 36 possible two-qubit Hamiltonians are
@@ -132,9 +130,9 @@ happens when you deliberately break the symmetry.
    structured ways. The breaking reveals which symmetries are essential.
 
 6. [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md):
-   The active ingredient is the 2:2 operator split (half survive noise,
-   half decay). Destroy that balance and the mirror shatters, regardless
-   of the system's dimension.
+   Under dephasing the active ingredient is the 2:2 operator split
+   (half survive noise, half decay). Depolarizing noise splits the four
+   letters 1:3, and the mirror breaks.
 
 7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md):
    Can the mirror shield quantum information? The question was whether
@@ -155,7 +153,7 @@ happens when you deliberately break the symmetry.
 
 **After this you know:** The palindrome is real, universal for the
 Heisenberg family of qubit couplings on any graph under single-axis
-dephasing, breaks precisely when the 2:2 split is destroyed, and is
+dephasing, breaks under depolarizing noise, and is
 proven by an operator that is itself a product of two plainer mirrors,
 closing into one group. You also know what a palindromic pair still
 needs before it is a standing wave, and that the mirror does not hand
@@ -673,13 +671,13 @@ it stops, the pages say so.
 
 ---
 
-## Story 7: The Anatomy of the Mirror (June 2026)
+## Story 7: The Anatomy of the Mirror (June to October 2026)
 
 *"For months Π was one per-site rule. Then it opened: a group of eight,
 a triangle of conjugations, a golden frame, and a boundary equation
 seen twice."*
 
-This is the newest path, and the most algebraic. From March to June
+This is the most algebraic path. From March to June
 2026 the operator Π was the smallest object in the repository: one
 per-site rule that carried the entire palindrome. In June 2026 it opened. This story
 follows what was found inside: what the mirror is made of, which family
@@ -716,10 +714,11 @@ and "conjugation" appear), but each document introduces its own machinery.
    island and the two coasts where protection ends.
 
 4. [The Windowed Converse](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md):
-   The classifier's hardest open end, closed: hard at one γ is hard at
-   all γ, because every first moment is a sum of squares (Pascal-Gram
-   positivity, F117). The hardness rung m\* = 2ℓ + deg comes from a
-   girth ladder, and that rung will matter again in Story 9.
+   The classifier's hardest open end, closed: for a non-bipartite windowed
+   diagonal-cell pair, hard at one γ is hard at all γ, because every
+   γ-coefficient of the first nonvanishing odd power-sum is a sum of
+   squares (Pascal-Gram positivity, F117). The hardness rung
+   m\* = 2ℓ + deg comes from a girth ladder, and that rung will matter again in Story 9.
 
 5. [The Golden Router](proofs/PROOF_CEILING_GOLDEN_ROUTER.md): The
    mirror built where it was believed impossible. The last "non-local"
@@ -729,7 +728,7 @@ and "conjugation" appear), but each document introduces its own machinery.
    (silver, bronze, all real c) (F116, §8).
 
 6. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
-   Where it all ends. At local dimension d > 2 the mirror group grows
+   Where the full mirror ends. At local dimension d > 2 the mirror group grows
    into a wreath family Z_d ≀ Z₂ with D₄ as its d = 2 column, the
    pairing has a closed-form ceiling and a closed-form operator cap,
    and both close completely only at d² − 2d = 0: the same boundary
@@ -740,7 +739,21 @@ and "conjugation" appear), but each document introduces its own machinery.
    at every case computed, and only whether it does at every size is
    still open.
 
-7. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
+7. [The Two-End Count](proofs/PROOF_PALINDROME_TWO_END_COUNT.md): Step
+   3's question (does the spectrum keep the mirror?) becomes a count.
+   When every jump is Hermitian, squares to 1 and acts at a positive
+   rate, the spectrum pairs about −Σγ exactly when the two ends of the
+   spectrum hold equally many modes, dim ker L = dim ker(L + 2Σγ)
+   (F158). For Heisenberg
+   bonds with every site watched along an integer axis,
+   [the colour law](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md)
+   says it in words: the palindrome holds exactly when one direction
+   perpendicular to every watching axis carries every field, on every
+   connected graph (F169). The Pauli letters these proofs count sit on
+   one cube in [The One Square](THE_ONE_SQUARE.md) §7 (in plain words:
+   [On the One Square](../reflections/ON_THE_ONE_SQUARE.md)).
+
+8. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
    synthesis, written the day the three big subjects of the repository
    (the rates, the mirror, the verdict) turned out to be one diagonal
    matrix read three ways. Plain language, no formalism. If you read
@@ -750,8 +763,10 @@ and "conjugation" appear), but each document introduces its own machinery.
 generates a dihedral group of eight, extends to an antilinear double,
 can be built with golden-ratio frames where it looked impossible, and
 as a full mirror ends exactly at d² − 2d = 0, with a partial one
-living on beyond. And the absorption rates, the palindrome,
-and the classifier verdict are not three theorems. They are one
+living on beyond. Under jumps that are Hermitian, square to 1 and act
+at a positive rate, whether a system keeps the mirror is a count of the modes at the two
+ends of its spectrum. And the absorption rates,
+the palindrome, and the classifier verdict are not three theorems. They are one
 diagonal, read as a price list, a mirror, and a judge.
 
 ---
@@ -955,7 +970,8 @@ it relates to the others, here is the map:
 - Story 6 (the optical cavity) unifies Stories 1 and 4 through a single
   theorem, the Absorption Theorem.
 - Story 7 (the anatomy) opens the mirror itself: its factorization, its
-  group, its golden constructions, and its boundary.
+  group, its golden constructions, its boundary, and the count that
+  decides whether a system keeps it.
 - Story 8 (the quarter) follows the single number CΨ = ¼ from
   discriminant to Mandelbrot cusp to hardware.
 - Story 9 (the hardware) is where the quantum ones meet the chip, and
@@ -978,8 +994,8 @@ If you are unsure where to start: Story 3 (the ontology) and Story 5
 (across levels) are the most accessible for readers without a physics
 background, and the `reflections/` folder is gentler still. Story 1 is
 the most rigorous. Story 2 is the most practical. Story 4 is the
-deepest. Story 6 is the most unified. Story 7 is the newest
-mathematics. Story 8 is the most self-contained. Story 9 is where the
+deepest. Story 6 is the most unified. Story 7 is the most
+algebraic. Story 8 is the most self-contained. Story 9 is where the
 rubber meets the road.
 
 ---
@@ -1001,8 +1017,9 @@ investigations, not to the nine stories above:
 - **Gravity interpretation**: tried and abandoned, archived in
   `hypotheses/archive/`
 - **The tooling**: the Python `framework/` cockpit, the typed C# claim
-  graph, and the live `inspect` navigator are documented in the
-  repository's `CLAUDE.md` and in the code itself
+  graph, the live `inspect` navigator (start with
+  `inspect --root world`), and [MirrorWorld](../compute/MirrorWorld/README.md),
+  the core Tier-1 structure rebuilt from the atom up
 
 These are documented in the main [README](../README.md) and the
 [experiments index](../experiments/README.md).

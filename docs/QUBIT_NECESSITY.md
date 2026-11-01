@@ -98,7 +98,7 @@ The following table makes the pattern visible:
 | d = 2 (qubit) | 4 | 2 | 2 | 2:2 | Yes |
 | d = 3 (qutrit) | 9 | 3 | 6 | 3:6 | No |
 | d = 4 (ququart) | 16 | 4 | 12 | 4:12 | No |
-| d = N | N² | N | N²−N | N:(N²−N) | No (N > 2) |
+| general d | d² | d | d²−d | d:(d²−d) | No (d > 2) |
 
 The imbalance grows as d increases. Qutrits have twice as many decaying
 as immune operators. For large d the ratio approaches d:1. The qubit is
@@ -154,22 +154,24 @@ what Pauli matrices are to qubits: a standard operator basis). The 3:6 split
 makes a complete local class swap
 impossible at the algebraic level while leaving F121's partial pairing.
 
-### 3b. Multi-bond scaling (N = 3 to N = 8)
+### 3b. Multi-bond scaling (N = 3 to N = 9)
 
-The palindromic symmetry scales to larger qubit systems. At N = 8 (the
-largest verified), 100% palindromic symmetry holds for the Heisenberg
-chain under Z-dephasing. The mirror is not a two-body artifact: it
+The palindromic symmetry scales to larger qubit systems. At N = 9
+(the largest full spectrum verified), 100% palindromic symmetry holds
+for the Heisenberg chain under Z-dephasing. The mirror is not a two-body artifact: it
 propagates through extended qubit networks.
 
 In the N≥3 two-term census, 3 combinations pass the operator equation, 19
-retain only spectral pairing, and 14 fail both tests. These are finite
-classifier counts; they do not establish a Choi-entanglement mechanism.
+retain only spectral pairing, and 14 fail both tests. The 22 (3 + 19)
+and the 14 stay apart at every N ≥ 3 ([F87](ANALYTICAL_FORMULAS.md#f87);
+[F158](ANALYTICAL_FORMULAS.md#f158) gives a period-two product mirror for
+the 22 and odd words at the chain's end for the 14). The counts do not
+establish a Choi-entanglement mechanism.
 
 ### 3c. The depolarizing theorem
 
-Even within d = 2, the palindrome breaks instantly when the 2:2 split is
-destroyed. Depolarizing noise gives a 1:3 split, and the error is at least
-(2/3)S_gamma, exactly that on every chain measured (F5 gives the condition). The interpolation from Z-dephasing
+Even within d = 2, depolarizing noise (a 1:3 split) breaks the
+palindrome: the error is at least (2/3)S_gamma, exactly that on every chain measured (F5 gives the condition). The interpolation from Z-dephasing
 to depolarizing is linear with no threshold, error α·(2/3)S_gamma, wherever ad_H has an
 eigenvector among the strings of X and Y letters (F5's Pauli-channel row), as on the
 Heisenberg chain.
@@ -183,9 +185,9 @@ it does not classify all mirrors in every dimension.
 [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md) shows
 that the XZ+YZ and ZX+ZY mirrors are local continuous per-site rotations, not
 Bell-state-entangled operators. Of the 36 two-term combinations, 14 lose both
-the operator equation and spectral pairing at N≥3. The classifier locates the
-failure but does not by itself prove a collision mechanism. This finite
-V-Effect census belongs to qubit composition and says nothing against F121's
+the operator equation and spectral pairing at every N ≥ 3 (F158
+places each failure in an odd word at the chain's end; a shared-site
+collision mechanism is not proven). This V-Effect census belongs to qubit composition and says nothing against F121's
 partial higher-dimensional palindrome.
 
 ---
@@ -291,8 +293,9 @@ spectra:
    Interference between per-bond mirrors creates structure.
 
 2. **Multi-qubit breaking:** the mirrors found in this 36-case qubit family
-   are local, while 14 couplings lose the palindrome at N≥3. The census
-   establishes the break, not the proposed shared-site collision mechanism.
+   are local, while 14 couplings lose the palindrome at every N≥3
+   (F158). The census does not prove the proposed shared-site collision
+   mechanism.
 
 3. **Orbit organization:** Palindromic eigenvalue pairs organize
    Liouville space. A physical standing-wave or state-protection claim needs
@@ -303,9 +306,8 @@ class swap. Compatible multi-site Hamiltonians retain it; other tested terms
 break it. Higher-dimensional partial mirrors remain alongside this picture.
 
 A qubit has the balanced local split. The tested two-qubit Pauli census finds
-a shared mirror in all 36 entries.
-At N ≥ 3, 14 of the 36 tested two-term configurations fail the full
-palindrome. That is a finite classifier result, not a universal mechanism of
+a shared mirror in all 36 entries. Of the 36 tested two-term
+configurations, 14 fail the full palindrome at every N ≥ 3 (F158). This break is not a universal mechanism of
 complexity and not an exclusion of structure at higher dimension.
 
 ---
@@ -381,8 +383,6 @@ The following are the raw results of five computational tests designed
 to stress-test the d=2 claim. Each test asks a specific question and
 gets a specific answer. Together they support the unique complete local
 class-exchange result while leaving partial and alternative mirrors intact.
-
-All five tests from TASK_QUBIT_NECESSITY.md completed.
 
 1. **QST comparison.** ANSWERED. Qubit and qutrit chains achieve identical
    peak transfer fidelity (F = 0.6923) in the stated sweep. The legacy greedy

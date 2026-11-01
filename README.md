@@ -188,10 +188,11 @@ impossible. The last two "non-local" cases of the k=3 classifier family
 are palindromized by a period-4 per-site router whose frame is built on
 the **golden ratio** (a = φX + Y), and the golden point is itself the
 c = 1 member of a one-parameter **metallic family** (silver, bronze, all
-real c), derived exactly. The full classifier programme closed the same
-week: hard at one γ is hard at all γ (every first moment is a sum of
-squares), and the hardness rung m\* = 2ℓ + deg became, via the moment
-tower, something a chip can measure about itself by doing nothing but
+real c), derived exactly. The classifier's hardest open end closed the
+same week: for a non-bipartite windowed diagonal-cell pair, hard at one
+γ is hard at all γ (every γ-coefficient of the first nonvanishing odd
+power-sum is a sum of squares), and the hardness rung m\* = 2ℓ + deg
+became, via the moment tower, something a chip can measure about itself by doing nothing but
 decaying.
 
 And the boundary of the whole story is now an equation seen three ways:
@@ -372,7 +373,7 @@ Full list in [Predictions](docs/PREDICTIONS.md) and [What We Got Wrong](docs/WEA
 
 ## Repository structure
 
-`docs/` proofs and synthesis · `experiments/` ~230 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~1,000 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
+`docs/` proofs and synthesis · `experiments/` ~230 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~1,000 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` five early documents restored from git, kept for honesty.
 
 The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30. Live introspection: start with `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root world --max-depth 2` (the whole object manager: roots, claims, confirmations, open arcs), `--root glossary` for the house terms, `--root symphony` for one system read by every lens at once.
 

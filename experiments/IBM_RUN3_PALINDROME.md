@@ -256,7 +256,8 @@ each a registered confirmation:
   at N = 3 on Heron r2 ([Marrakesh Three Layers](MARRAKESH_THREE_LAYERS.md),
   entry `palindrome_trichotomy`);
 - the price pair, the pair-sum of coherence decay rates Γ(D) + Γ(D̄) on a
-  3-qubit line, the F1 centre's hardware face, Marrakesh, July 2026
+  3-qubit line (T1 included, so not an exact F1-centre measurement),
+  Marrakesh, July 2026
   ([The Price Pair](PRICE_PAIR_HARDWARE_PREDICTION.md), entry
   `price_pair_locality_marrakesh_july2026`);
 - the site-resolved rate, the F1 centre read per site, Kingston, July 2026,

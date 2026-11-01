@@ -142,8 +142,8 @@ to it or follows from it.
 
 The Liouvillian eigenvalue spectrum is exactly symmetric around -Σγ.
 Every eigenvalue lambda has a mirror partner at -lambda - 2Σγ. This holds
-without exception from N=2 through N=8 (the largest system tested,
-4^8 = 65,536 dimensional Liouvillian).
+without exception from N=2 through N=9 (the largest full spectrum tested
+is the N=9 chain, 262,144 eigenvalues).
 
 **The proof (March 14, Tier 1):** The conjugation operator Π acts per site
 on Pauli indices: I→X(+1), X→I(+1), Y→iZ, Z→iY. It satisfies
@@ -545,7 +545,7 @@ science happens.
 These are the things we know we have not done, stated plainly so
 nobody has to guess.
 
-- Palindrome tested N=2 through N=8. Concentrator formula compared against the V-shape for odd N = 5 to 15 (C# RK4); its factor falls, not monotonically, from 360× to 68× over that range, and nothing beyond N = 15 is computed.
+- Palindrome tested N=2 through N=9 (N=9 on the chain only). Concentrator formula compared against the V-shape for odd N = 5 to 15 (C# RK4); its factor falls, not monotonically, from 360× to 68× over that range, and nothing beyond N = 15 is computed.
 - The eigenvalue pairing itself has not been read off hardware; what has
   been read is listed in `fw.Confirmations` (one to eight qubits).
 - Sonar effect verified in simulation only, not on IBM hardware.

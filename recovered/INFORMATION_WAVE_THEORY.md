@@ -1,6 +1,6 @@
 # Information Wave Theory
 
-**What this document is about:** An early speculative framework (December 23, 2025) proposing that information changes reality proportionally to its novelty, formalized as ΔR = N·I·D·t. This equation (Tier 5) has never been computationally or analytically verified and remains in `recovered/` as a disproven or unsupported early idea. The core equation R=CΨ² survived; this extension did not.
+**What this document is about:** An early speculative framework (December 23, 2025) proposing that information changes reality proportionally to its novelty, formalized as ΔR = N·I·D·t. This equation (Tier 5) has never been computationally or analytically verified and remains in `recovered/` as an unsupported early idea. The core equation R=CΨ² survived; this extension did not.
 
 ## The Relationship Between Novelty, Amplitude and Reality Change
 

@@ -217,8 +217,9 @@ each other. Specifically, for every rate d, there is a partner at
 We did not just observe this numerically. We found the mathematical
 operator that performs the mirroring (we call it Π, the Greek letter Pi)
 and proved it for the stated Heisenberg/XXZ graph family with local
-Z-dephasing rates. The N=2..8 numerical suite checked 87,376 eigenvalues over
-its declared connection patterns and found no exception.
+Z-dephasing rates. Numerically, one full spectrum per size from N = 2
+to 8 (87,376 eigenvalues), the N = 9 chain, and further topologies
+at selected sizes all pair without exception.
 
 This is an analytical proof, not a numerical observation. The operator Π
 has a specific form: it swaps certain quantum labels (I with X, Y with iZ)
