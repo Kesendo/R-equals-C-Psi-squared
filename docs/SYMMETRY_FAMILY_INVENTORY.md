@@ -124,7 +124,7 @@ MathNet's 2 GB managed marshaling limit; the native MklDirect path that solved t
 chain's largest block passes that limit ([F1 general topology](proofs/PROOF_F1_GENERAL_TOPOLOGY.md)),
 and it has not been run on these sub-blocks. Phase 3c uses instead that the
 sub-blocks are *sparse* (mean 10.86 nnz per row at N=10 (5, 5), 0.07 % density,
-~175 k nnz per sub-block, ~7 MB sparse storage vs 4.2 GB dense). Phase 3c stores
+~175 k nnz per sub-block, ~3.6 MB in CSR (16 B value + 4 B column index per nonzero, plus the row pointers) vs 4.2 GB dense). Phase 3c stores
 each sub-block as CSR and extracts top-K slow modes via per-sub-block shift-invert
 Arnoldi:
 

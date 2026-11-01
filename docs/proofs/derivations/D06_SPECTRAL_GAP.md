@@ -1,6 +1,6 @@
 # D6: Spectral Gap and Mixing Time
 
-**What this derivation is about:** The spectral gap (the decay rate of the slowest non-stationary mode, which sets the timescale for the system to forget its initial state) is exactly 2γ in the strong-coupling regime, and the mixing time then scales as N·ln(4)/(2γ), growing linearly with system size. The gap is NOT independent of the coupling: below an N-dependent threshold in Q = J/γ it is Zeno-suppressed and far smaller.
+**What this derivation is about:** The spectral gap (the decay rate of the slowest non-stationary mode, which sets the timescale for the system to forget its initial state) is exactly 2γ in the strong-coupling regime on a graph where that regime exists (decided by the exceptional count, Theorem D, below), and the mixing time then scales as N·ln(4)/(2γ), growing linearly with system size. The gap is NOT independent of the coupling: below an N-dependent threshold in Q = J/γ it is Zeno-suppressed and far smaller.
 
 **Source formulas:** 3 (decay rate bounds); F1 plays no part in the derivation below
 **Tier:** 1 above Q*_gap(N), and 1 for the Q → 0 asymptote below it, the leading term of the gap at every N ([Theorem E](../PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)). Note: Q*_gap(N) is bisected; at N = 2..5 it is identified with an

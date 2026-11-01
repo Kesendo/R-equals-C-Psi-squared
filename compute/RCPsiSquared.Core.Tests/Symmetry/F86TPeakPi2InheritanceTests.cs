@@ -25,7 +25,7 @@ public class F86TPeakPi2InheritanceTests
     public void FourFactor_IsExactlyFour_FromLadderTermMinusOne()
     {
         // F86 t_peak's "4" denominator is exactly a_{-1} = 4 on the Pi2 dyadic ladder
-        // (= d² for N=1, the operator-space side: cardinality of single-qubit Pauli basis).
+        // (the rung-2 rate 2·2 of the Absorption Theorem).
         var f = Build();
         Assert.Equal(4.0, f.FourFactor, precision: 14);
     }
@@ -34,7 +34,7 @@ public class F86TPeakPi2InheritanceTests
     public void OneOverFourFactor_IsExactlyQuarter_FromLadderTermThree()
     {
         // Mirror reading: the inversion a_n · a_{2-n} = 1 means a_{-1} (= 4) and a_3
-        // (= 1/4) are mirror partners. Both readings of the same fact.
+        // (= 1/4) are mirror partners on the ladder by value.
         var f = Build();
         Assert.Equal(0.25, f.OneOverFourFactor, precision: 14);
         Assert.Equal(1.0, f.FourFactor * f.OneOverFourFactor, precision: 14);

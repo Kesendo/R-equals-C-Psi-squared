@@ -53,7 +53,7 @@ public class F86TPeakPi2InheritanceRegistrationTests
     public void RegisterF86TPeakPi2Inheritance_LiveTPeakAgreesWithParent()
     {
         // Cross-registry composition check: 1/(FourFactor · GammaZero) = TPeakLaw.Value
-        // bit-exact. The "4" denominator is a_{-1} = d² for N=1.
+        // bit-exact. The "4" denominator is a_{-1}, the rung-2 rate four.
         var registry = BuildBaseRegistry()
             .RegisterF86TPeakPi2Inheritance()
             .Build();

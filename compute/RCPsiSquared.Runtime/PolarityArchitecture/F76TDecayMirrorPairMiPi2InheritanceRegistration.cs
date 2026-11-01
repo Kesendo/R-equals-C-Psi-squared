@@ -10,8 +10,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>
-///         (decay rate coefficient in <c>e^{−4γ₀t}</c>; same anchor as F61,
-///         F63, F66, F77 correction, F86 t_peak).</item>
+///         (decay rate coefficient in <c>e^{−4γ₀t}</c>, the rung-2 rate four
+///         as in F86 t_peak).</item>
 ///   <item><see cref="F75MirrorPairMiPi2Inheritance"/>: mother claim. F76
 ///         recovers F75 exactly at t=0 (λ = 1). Together with F77 (Taylor
 ///         at p → 0), F76 forms the second leaf of the F75 family:

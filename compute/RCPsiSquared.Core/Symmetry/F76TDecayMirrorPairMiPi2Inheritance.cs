@@ -38,11 +38,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <list type="bullet">
 ///   <item><b>DecayRateCoefficient = 4</b>: in <c>e^{−4γ₀t}</c>. Live from
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = d²
-///         for 1 qubit. Same anchor as F61, F63, F66 multiplicity, F77
-///         correction denominator, F86 t_peak. The "4" arises from the F49
-///         master-lemma 2^(N+2)·n_YZ = 4·2^N for n_YZ = 1 (Π²-odd
-///         coherence pair).</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>. The 4γ₀ is
+///         2γ₀ per disagreeing site times the two sites on which |10⟩ and ⟨01|
+///         disagree (the Absorption Theorem's rung 2).</item>
 ///   <item><b>F75MirrorPairMiPi2Inheritance</b> is the t=0 limit of F76.
 ///         Direct mother claim. F76 recovers F75 exactly when λ = 1.</item>
 ///   <item><b>BilinearApex domain</b>: F76 inherits F75's p ∈ [0, 1/2] domain.
@@ -85,13 +83,12 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public F75MirrorPairMiPi2Inheritance F75 { get; }
     /// <summary>The decay-rate coefficient "4" in <c>e^{−4γ₀·t}</c>. Live from
-    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c> = d² for
-    /// 1 qubit. Same anchor as F61, F63, F66 multiplicity, F77 correction
-    /// denominator, F86 t_peak.</summary>
+    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>, the rung-2
+    /// rate 2·2.</summary>
     public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The Pi2 ladder index where the decay coefficient lands:
-    /// <c>−1</c>. Same as F61, F63, F66, F77 (correction), F86 t_peak.</summary>
+    /// <c>−1</c>, as for F86 t_peak, the same rung-2 four.</summary>
     public int LadderIndexForDecayRate => -1;
 
     /// <summary>Live decay parameter <c>λ(t) = e^{−4γ₀·t}</c>. Throws for
@@ -174,7 +171,7 @@ public sealed class F76TDecayMirrorPairMiPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F76 closed form",
                 summary: "ρ_pair(|10⟩⟨01|)(t) = c_ℓ c_{N-1-ℓ}^* · e^{-4γ₀t}; eigenvalues {1−2p, p(1+λ), p(1−λ), 0}; Tier 1 proven algebraic; verified < 0.5% sim/analytic N=5..13");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "DecayRateCoefficient = a_{-1} = 4 (4-block / d² for 1 qubit; same anchor F61/F63/F66/F77/F86 t_peak); F75 mother at t=0 recovery; BilinearApex domain transitive via F75");
+                summary: "DecayRateCoefficient = a_{-1} = 4 (the rung-2 rate 2·2: two disagreeing sites); F75 mother at t=0 recovery; BilinearApex domain transitive via F75");
             yield return InspectableNode.RealScalar("DecayRateCoefficient (= a_{-1} = 4)", DecayRateCoefficient);
             yield return new InspectableNode("F71→F75→{F76, F77} 3-leaf inheritance",
                 summary: "F71 mirror symmetry justifies F75; F75 is t=0 value; F76 (this) is t-decay; F77 is large-N asymptotic via Taylor at p→0");

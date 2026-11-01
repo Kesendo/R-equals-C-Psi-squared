@@ -41,9 +41,11 @@ public sealed class UniversalCarrierClaim : Claim
     public double DefaultSingleDisagreementCellCost =>
         Absorption.SingleDisagreementCellCost(DefaultGammaZero);
 
-    /// <summary>The default t_peak: <c>1/(4γ₀)</c>. The "4" is the polynomial discriminant
-    /// <c>a_{−1}</c> via <see cref="PolynomialDiscriminantAnchorClaim.DiscriminantViaLadder"/>;
-    /// γ₀ is the units-conversion to physical time.</summary>
+    /// <summary>The default t_peak: <c>1/(4γ₀)</c>. The 4γ₀ is the rung-2 rate 2γ₀·2 of the
+    /// Absorption Theorem, read here through its value <c>a_{−1}</c> =
+    /// <see cref="PolynomialDiscriminantAnchorClaim.DiscriminantViaLadder"/>; it is a rate
+    /// four, not the discriminant's operator-space count. γ₀ is the units-conversion to
+    /// physical time.</summary>
     public double DefaultTPeak => 1.0 / (Discriminant.DiscriminantViaLadder * DefaultGammaZero);
 
     public UniversalCarrierClaim(
@@ -97,7 +99,7 @@ public sealed class UniversalCarrierClaim : Claim
             yield return InspectableNode.RealScalar("DefaultSingleDisagreementCellCost (= 2·γ₀)", DefaultSingleDisagreementCellCost);
             yield return InspectableNode.RealScalar("DefaultTPeak (= 1/(4γ₀))", DefaultTPeak);
             yield return new InspectableNode("Pi2 foundation anchors",
-                summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (polynomial discriminant; '4γ' in t_peak etc.); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");
+                summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (the value of the rung-2 rate four '4γ' in t_peak); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");
             yield return new InspectableNode("substrate invariance",
                 summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware readings",

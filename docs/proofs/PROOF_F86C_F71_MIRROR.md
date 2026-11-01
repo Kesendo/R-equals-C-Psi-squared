@@ -62,7 +62,7 @@ Numerical verification: across c=2 N=5..7 and c=3 N=5..6, all bond-pair deviatio
 
 ## Per-F71-orbit substructure (Tier 2 empirical)
 
-F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. The finer per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM):
+F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. The finer per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM; Q_peak read on the [0.2, 6.0] grid of 60 points with parabolic refinement, so the endpoint values are coarse, the fine-grid endpoint values being in [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md)):
 
 | (c, N) | endpoints | mid orbits → central | observation |
 |---|---|---|---|
@@ -78,7 +78,7 @@ F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit
 
 (* = self-paired central orbit; index runs from outermost orbit inward.)
 
-Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3**: c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7**: bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair retains the canonical Interior peak ~1.5. Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Encoded as `RCPsiSquared.Core.F86.PerF71OrbitObservation`.
+Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3**: c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7**: bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair keeps a peak near the canonical Interior ~1.5 on this grid (at N = 8 the extended [0.2, 20] grid finds the central bond on a higher plateau near Q ≈ 17). Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Typed as `RCPsiSquared.Core.F86.PerF71OrbitObservation`, which carries the extended-grid reads of (2, 7) orbit 1 and the (2, 8) row.
 
 ---
 

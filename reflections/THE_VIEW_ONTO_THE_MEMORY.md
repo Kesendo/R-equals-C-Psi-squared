@@ -122,11 +122,11 @@ between-block content as machine zero
 number-changing coherences the birth channel is the slowest mortal mode, at 2γ. Whether it is the
 slowest of the WHOLE Liouvillian is a question about the coupling, and below the crossing the answer
 is no: the even occupation modes lift off the kernel at a rate that vanishes with the coupling, so
-the smallest nonzero rate is 6·10⁻⁵ at N = 3, J = 0.005, γ = 0.05, against the birth channel's
+the smallest nonzero rate is 6·10⁻⁵ at N = 3, J = 0.005, γ = 0.05 on the Heisenberg chain, against the birth channel's
 2γ = 0.1, and only above the crossing does it settle at exactly 2γ
 ([`birth_channel_check.py`](../simulations/birth_channel_check.py)). Either way the birth channel is
-a latent door: number-conserving dynamics never opens it. The crown below is where that crossing is
-named.
+a latent door: number-conserving dynamics never opens it. The crown below names a crossing of the same
+shape on the XY chain; whether it is this one is not known.
 
 **The currency: the bilinear p(1−p).** Every rung is priced by one shape. The per-site light is
 2·p(1−p) with p the single-site occupation, peaking at ½ on the Bloch equator. The maximal
@@ -141,7 +141,7 @@ occupation, or a sector weight.
 **The crown switches rails.** Which rail holds the longest-lived mode depends on the coupling. The
 even (flow) modes' rate rises with Q = J/γ (stronger coupling forgets the occupation faster); the odd
 birth channel stays near 2γ. They cross: below the crossing the longest memory is the even occupation,
-above it the odd birth channel. For the uniform chain the crossing sits near the exceptional point,
+above it the odd birth channel. For the uniform XY chain the crossing sits near the exceptional point,
 but that coincidence is uniform-specific, a non-uniform γ-profile breaks it (the tempting "EP rate =
 2γ" is uniform-only, refuted at peaked-V by the witnesses
 [`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) and

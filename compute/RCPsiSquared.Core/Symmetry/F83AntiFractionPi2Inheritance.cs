@@ -34,9 +34,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         = polynomial root d. Constant term in the anti-fraction denominator
 ///         <c>2 + 4·r</c>.</item>
 ///   <item><b>"4" denominator coefficient = a_{−1}</b>:
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = d² for 1 qubit. Linear
-///         coefficient on r in <c>2 + 4·r</c>; same anchor as F61, F63, F66, F77,
-///         F86 t_peak.</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Linear
+///         coefficient on r in <c>2 + 4·r</c>.</item>
 ///   <item><b>‖M‖² coefficients 4 and 8 = a_{−1}, a_{−2}</b>: arise from F49's
 ///         <c>2^(N+2) · n_YZ</c> mechanism. n_YZ = 1 (Π²-odd) gives 4·2^N;
 ///         n_YZ = 2 (Π²-even non-truly) gives 8·2^N. The asymmetry encodes
@@ -106,7 +105,7 @@ public sealed class F83AntiFractionPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The linear coefficient "4" in the anti-fraction denominator
     /// <c>2 + 4·r</c>. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) =
-    /// <c>a_{−1}</c> = d² for 1 qubit; same anchor as F61, F63, F66, F77, F86 t_peak.</summary>
+    /// <c>a_{−1}</c>.</summary>
     public double DenominatorLinearCoefficient => Ladder.Term(-1);
 
     /// <summary>The "4" coefficient on ‖H_odd‖² in F83's ‖M‖² closed form
@@ -116,7 +115,7 @@ public sealed class F83AntiFractionPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The "8" coefficient on ‖H_even_nontruly‖² in F83's ‖M‖² closed form
     /// (8·‖H_even_nontruly‖² · 2^N). Equal to <see cref="Pi2DyadicLadderClaim.Term"/>(−2)
-    /// = a_{−2} = 8 = 2·d² for 1 qubit; encodes n_YZ = 2 for Π²-even non-truly
+    /// = a_{−2} = 8; encodes n_YZ = 2 for Π²-even non-truly
     /// via F49's mechanism.</summary>
     public double MNormCoefficientForEvenNontruly => Ladder.Term(-2);
 

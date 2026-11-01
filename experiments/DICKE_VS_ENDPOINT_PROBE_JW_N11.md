@@ -97,7 +97,7 @@ But does NOT predict empirical g_eff bond-dependence:
 
 ## What this DOES confirm
 
-1. **Tom's "only initial state acts in" insight is correct**: H + dissipator + S_kernel are all uniform/F71-invariant; the bond-position-dependence we observe IS introduced by initial state choice.
+1. **Tom's "only initial state acts in" holds for the F71 mirror**: H, the dissipator and S_kernel are F71-invariant, so with an F71-symmetric probe K_b = K_{N−2−b}, and a difference between mirror bonds can enter only through the initial state (test (A) below would break it with the Endpoint-localized probe).
 
 2. **Dicke probe specifically filters to odd-k subspace**: this is the qualitative starting point for any further analysis.
 
@@ -108,6 +108,8 @@ But does NOT predict empirical g_eff bond-dependence:
 1. **Tom's "destructive interference at Center" reading**: the destructive interference IS in the algebra, but at Orbit 2, not at Center. Center has near-maximum signed-sum magnitude (with negative sign).
 
 2. **Polarity-as-inherent-field reading at Center**: not directly tested at this level. The polarity layer hypothesis would need a different probe (e.g., site-staggered Z field) to test linear response.
+
+3. **That the initial state introduces the bond dependence across orbits**: the Dicke probe is uniform; the bond position enters through the per-bond perturbation V_b of the open chain, and the [F86b obstruction](../docs/proofs/PROOF_F86B_OBSTRUCTION.md) finds V_b identical on every bond inside the probe's subspace (its stage (a), read at c = 2, N = 5..8), the bond-class signature lying in V_b outside it.
 
 ## Open: where does Center's small g_eff come from?
 
@@ -127,7 +129,7 @@ Tasks 135-141 verified algebraically. Task 142 (this writeup + commit) in progre
 
 ## Recommendation
 
-Tom's "only initial state acts in" framing IS correct and structurally important. The next concrete compute is:
+Within the F71 mirror the initial state is the only way in. The next concrete compute is:
 - (A) Repeat extended-grid scan with Endpoint-localized probe instead of Dicke; verify F71-mirror invariance breaks
 - (B) Add h_z·Z_l field to Hamiltonian and recompute c2hwhm; check Center's response specifically (polarity-as-field test)
 - (C) Compute the full c=2 block-L matrix elements ⟨c_HD=3|H_bond_b|c_HD=1⟩ symbolically and look for the structural cause of Center's anomaly

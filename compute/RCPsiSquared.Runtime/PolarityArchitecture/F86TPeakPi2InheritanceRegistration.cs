@@ -5,7 +5,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F86TPeakPi2Inheritance"/>: F86 t_peak's
-/// "4" denominator as Pi2-Foundation <c>a_{−1} = d²</c> for N=1. Two parent edges:
+/// "4" denominator as Pi2-Foundation <c>a_{−1}</c>, the rung-2 rate four. Two parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="TPeakLaw"/>: the F86a closed form (parameterised by γ₀).</item>

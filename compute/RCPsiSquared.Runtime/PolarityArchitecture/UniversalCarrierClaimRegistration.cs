@@ -10,8 +10,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <list type="bullet">
 ///   <item><see cref="AbsorptionTheoremClaim"/>: the one-disagreement basis-cell cost 2γ₀.</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: the dyadic-ladder anchors a₀, a_{−1}, a₃.</item>
-///   <item><see cref="PolynomialDiscriminantAnchorClaim"/>: the discriminant a_{−1} = 4
-///         feeding t_peak = 1/(4γ₀).</item>
+///   <item><see cref="PolynomialDiscriminantAnchorClaim"/>: the value a_{−1} = 4 of
+///         the four in t_peak = 1/(4γ₀), a four that is the rung-2 rate 2γ₀·2.</item>
 /// </list>
 ///
 /// <para>Tier consistency: all four Tier1Derived.</para>

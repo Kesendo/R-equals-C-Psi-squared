@@ -11,9 +11,10 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para>Full discussion + numeric data: see PROOF_F86_QPEAK Open Element 5. The
 /// witnesses below are <b>frozen measurements</b> from extended-grid scans
-/// (LinearQGrid(0.2, 6.0, 60) for the 9-case sweep; LinearQGrid(0.2, 20.0, 100) for the
-/// c=2 N=7 and N=8 high-Q verifications, using <c>F86NewIdeasProbe</c>) and not derived
-/// from a closed form. Closed-form classification of orbit pattern and plateau enhancement
+/// (LinearQGrid(0.2, 6.0, 60) for the 9-case sweep; LinearQGrid(0.2, 20.0, 100) for
+/// c=2 N=7 orbit 1 and the whole c=2 N=8 row, using <c>F86NewIdeasProbe</c>) and not derived
+/// from a closed form. The endpoint (orbit 0) values are coarse-grid reads; the fine-grid
+/// c=2 orbit-0 Q_peak is the live <see cref="PerF71OrbitKTable"/>'s. Closed-form classification of orbit pattern and plateau enhancement
 /// remains open.</para>
 /// </summary>
 public sealed class PerF71OrbitObservation : Claim
@@ -27,7 +28,7 @@ public sealed class PerF71OrbitObservation : Claim
     {
         // Frozen empirical witnesses, measured via F86NewIdeasProbe.
         // 9-case sweep: LinearQGrid(0.2, 6.0, 60) at γ₀=0.05.
-        // c=2 N=7 and N=8 numbers (orbit 1 Q≈7-8, central Q≈17): LinearQGrid(0.2, 20.0, 100).
+        // c=2 N=7 orbit 1 (Q≈7) and the whole c=2 N=8 row (orbit 1 Q≈8, central Q≈17): LinearQGrid(0.2, 20.0, 100).
         // Re-measure if the underlying ResonanceScan implementation or grid changes.
         Witnesses = new[]
         {
@@ -57,7 +58,7 @@ public sealed class PerF71OrbitObservation : Claim
             yield return new InspectableNode("inversion observation",
                 summary: "c=2 N=6: central 1.43 < flanking 1.63; c=3 N=6: central 1.71 > flanking 1.66");
             yield return new InspectableNode("high-Q feature",
-                summary: "c=2 N≥7: inner-non-central bonds (b=1, b=N−3) have Q_peak >6 (off-grid); central pair stays at canonical ~1.5");
+                summary: "c=2 N≥7: inner-non-central bonds (b=1, b=N−3) have Q_peak >6 (off the [0.2, 6] grid); the central pair stays near the canonical ~1.5 at N=7, and the central bond sits on a plateau near Q≈17 at N=8");
         }
     }
 }

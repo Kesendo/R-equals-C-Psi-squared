@@ -662,7 +662,7 @@ stops:
 It places no lower bound on that minimum, so it does not by itself yield 2γ.
 What the minimum is depends on H, and it has two regimes.
 
-Above a threshold in Q = J/γ the slowest non-kernel modes sit on pure weight-1
+On the chain, above a threshold in Q = J/γ the slowest non-kernel modes sit on pure weight-1
 strings, ⟨n_XY⟩ is exactly 1, and the gap is exactly 2γ: the cost of a single X
 or Y factor. The threshold is not universal and grows with N. Located by
 bisection on the **Heisenberg** chain, Q*_gap = 0.5000 at N=2, 0.8002 at N=3,
@@ -724,7 +724,7 @@ cleanly.
 
 This is Zeno suppression, read from the light side. Strong dephasing freezes the
 transport that would give a mode its light, and a mode with almost no light
-almost cannot decay. The D6 value 2γ is the strong-coupling face of the gap, not
+almost cannot decay. The D6 value 2γ is the strong-coupling face of the gap on the chain, not
 its universal value.
 
 **Which modes fall, and which never do.** The erosion is confined to one sector,

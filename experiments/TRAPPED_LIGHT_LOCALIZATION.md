@@ -3,7 +3,7 @@
 <!-- F14-CURRENT -->
 
 <!-- Keywords: mass trapped light center-localized, surviving mode energy,
-K_death universal dose, immortal palindromic modes, gamma role of c,
+K_death dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
 
 **Status:** Center-weighted late-time XY diagnostic observed for N=4,5 in the
@@ -91,7 +91,7 @@ See also: [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, Ma
 
 ---
 
-## Result 2: K_death = 2.303 (absorption dose, strong-coupling regime)
+## Result 2: K_death = 2.303 (absorption dose, strong-coupling regime of the chain)
 
 | N | Immortal modes | Slowest mortal rate | K_death | K_death / K_fold |
 |---|---------------|--------------------|---------|-----------------|
@@ -114,8 +114,8 @@ fold measured against this row's death dose".
 
 **And the run's coupling matters.** The script's coupling is J = 1.0 (Q = 20 at γ = 0.05), and D6's
 rate_min = 2γ holds only above an N-dependent threshold Q*_gap(N) in Q = J/γ (0.5 to
-1.9 for N = 2..5). The slowest mortal rate at J = 1.0, 0.100 = 2γ, shows this run sat above
-it, but the dose is a strong-coupling result; below the threshold rate_min is
+1.8 for N = 2..5). The slowest mortal rate at J = 1.0, 0.100 = 2γ, shows this run sat above
+it, but the dose is a strong-coupling result on the chain; below the threshold rate_min is
 Zeno-suppressed and the dose is larger.
 
 N+1 modes with zero absorption rate (Re = 0) are immortal at every N.

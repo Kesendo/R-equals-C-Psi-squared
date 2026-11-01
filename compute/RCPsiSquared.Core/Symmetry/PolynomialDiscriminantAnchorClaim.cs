@@ -52,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// classify by what they BECOME at the qutrit (d = 3) into two super-families. SPLIT (operator-counting, d-dependent): <b>family A</b> = the
 /// squared dimension d² (F23/F49 4^N = (d²)^N → 9^N; F1 4^{N−1}), <b>family B</b>
 /// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, d-independent): <b>family C</b> = the rate
-/// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1) — verified d-independent), <b>family D</b> = the band edge /
+/// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1)), <b>family D</b> = the band edge /
 /// graph 4J (F2/F41; F121's Heisenberg gap Δ = 4J holds at d = 3 too), <b>family E</b> = the inversion-fold
 /// ¼ = a₃ = 1/a_{−1} = 1/d² (F56/F95/F97/F98 / <see cref="QuarterAsBilinearMaxvalClaim"/>; the qudit value 1/9
 /// is conjectural — blocked, since concurrence is d = 2 only). Gated: A (4^N → 9^N), C (4γ stays),
