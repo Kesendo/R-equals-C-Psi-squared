@@ -9847,6 +9847,37 @@ public static class OpenArcsRegistry
                 "the split's x^2 law. D6 has no claim; ExceptionalCouplingSetClaim (F50) carries the live node. The " +
                 "gate keeps its float rows, its exact rows on rate profiles, Gaussian rationals and the ladder's M4 " +
                 "identities (Z2b, Z9, Z10), the trees to N = 9, and its readings."),
+        new OpenArc(
+            Name: "frobenius_label_on_the_cross_term",
+            Opened: "2026-11-01",
+            Origin: "The MIRROR_THEORY link review (family D, CAUGHT_ERRORS 2026-11-01, 'three second copies'): " +
+                "TIME_IRREVERSIBILITY_EXCLUSION and its satellites call the vanishing anticommutator {L_H, L_Dc} at " +
+                "N = 2 (uniform Z-dephasing, L_Dc = L_D + sigma) 'Frobenius orthogonality', a 'Frobenius-Pythagorean " +
+                "split' or a 'Frobenius angle'. The Frobenius inner product Tr(L_H^dag L_Dc) is zero at EVERY N and " +
+                "every rate profile, because L_Dc is diagonal on the Pauli basis and L_H has no diagonal, so " +
+                "||L_c||^2 = ||L_H||^2 + ||L_Dc||^2 always (checked 0.0 at N = 2 and at N = 3 with gamma = " +
+                "0.05/0.08/0.11). What vanishes only at N = 2 is the cross term of L_c^2: the operator identity " +
+                "L_c^2 = L_H^2 + L_Dc^2, equivalently L_c^2 Hermitian (PRIMORDIAL_QUBIT_ALGEBRA Step 10b, " +
+                "simulations/primordial_qubit_algebra.py). The mathematics of the proof stands; the label names a " +
+                "different object.",
+            ParkedAt: "Repaired in the copies family D touched (PRIMORDIAL_QUBIT_ALGEBRA, docs/proofs/README entry 7, " +
+                "which now say 'anticommute' or 'orthogonal in the square'). Still carrying the label for this " +
+                "object: docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md (scope line, sections 1, 3, 4, the " +
+                "closing, about twelve places), docs/proofs/PROOF_CROSS_TERM_FORMULA.md (line 29 and the closing, " +
+                "'Frobenius angle'; and the abstract's 'the dynamics splits cleanly' at N = 2, true of L_c^2 only, " +
+                "the flow's commutator being nonzero), docs/proofs/INCOMPLETENESS_PROOF.md (line 422), the typed " +
+                "TimeIrreversibilityExclusionClaim (doc comment, summary, the caveat node), " +
+                "TimeIrreversibilityExclusionWitness (doc comment and its reading strings) and that witness's " +
+                "test header. NOT this object, and correct as they stand: the Frobenius orthogonality of the " +
+                "Pi-conjugate parts in F81, F83 and F85 (PROOF_F81_PI_CONJUGATION_OF_M, PROOF_F83_PI_DECOMPOSITION_RATIO, " +
+                "PROOF_F85_KBODY_GENERALIZATION), which is a genuine inner product.",
+            NextStep: "Replace the label by the object it means, in one act across every copy listed: 'oscillation " +
+                "and cooling anticommute (no cross term in L_c^2)', and where the geometry is wanted, 'orthogonal in " +
+                "the square'. Decide what the 'bend 1/sqrt(48) of the two legs' and R(N) = sqrt((N-2)/(N 4^(N-1))) " +
+                "measure once the angle is not a Frobenius angle (the proof defines R(N) as ||{L_H, L_Dc}|| / " +
+                "(||L_H|| ||L_Dc||), a normalized cross term), and say that. Keep the C# strings in step with the proof; " +
+                "check that no test asserts the old words (TimeIrreversibilityExclusionWitnessTests).",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

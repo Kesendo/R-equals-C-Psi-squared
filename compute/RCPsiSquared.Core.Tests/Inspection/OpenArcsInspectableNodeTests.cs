@@ -7,13 +7,16 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasSixtyTwoEntries()
+    public void Registry_HasSixtyThreeEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(62, OpenArcsRegistry.All.Count);   // +zeno_end_live_witness
+        Assert.Equal(63, OpenArcsRegistry.All.Count);   // +frobenius_label_on_the_cross_term
+                                                        //   (2026-11-01: the anticommutator called a
+                                                        //   Frobenius orthogonality)
+                                                        // +zeno_end_live_witness
                                                         //   (2026-10-09, retired the same day: Theorem
                                                         //   E's evidence lives in ZenoEndWitness)
                                                         // +fragile_bridge_live_witness
