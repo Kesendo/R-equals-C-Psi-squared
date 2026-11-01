@@ -272,7 +272,7 @@ rate model lacks, is a reading by analogy, the chain being no restriction of the
 the linear intertwining equations decouple by d, so they can be imposed on a set of sectors alone, the rank-4 shape
 asked only of its equations that live on those sectors, every sector used invertible. On d = 0 alone, the quiet edge
 with the hop coherences, the shape is admitted; on d ≥ 0 alone, d = 0 with the sector d = +1 and σ⁺⊗σ⁺ (the
-witness's stage A), and on d ≤ 0 alone, its mirror under ρ ↦ ρ†, it is admitted; on d ∈ {0, +1, −1}, d = 0 with both
+witness's stage A), and on d ≤ 0 alone, its image under ρ ↦ ρ†, it is admitted; on d ∈ {0, +1, −1}, d = 0 with both
 one-lit sectors, it is refused, in both classes without ZZ and for the elements that keep d with ZZ at Δ = 1 as well;
 the double coherences are not needed for the refusal, and {+1, −1} without d = 0 was not asked. In the witness a refusal is a proof,
 every chart a modular trace replayed to a unit over ℚ(i), and an admission is evidence, the modular runs closing
