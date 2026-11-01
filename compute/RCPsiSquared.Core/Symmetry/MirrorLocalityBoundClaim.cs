@@ -33,11 +33,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// first site, the bound reads 2 + 1 + 1, and rank 4 is excluded exactly (Gröbner over ℚ(i)) for the elements that keep d, without ZZ
 /// and with ZZ at Δ = 1, and for those that reverse d, without ZZ; with ZZ none reverses d (L on the order-1 sector
 /// shares no eigenvalue with its conjugate); rank 5 is reached numerically by one that keeps d, without
-/// ZZ (block ranks 0, 1, 3, 1, 0, held to 80 digits). Why five is not known in words. The exclusion and the
-/// no-reversal reason are live in the witness <c>ThermalElementLeastRankWitness</c> (Diagnostics,
-/// <c>inspect --root leastrank</c>: each chart's Gröbner run over GF(p) replayed exactly over ℚ(i) to a nonzero
-/// constant); the rank-5 point and the reading stay in simulations/kms_element_least_rank.py, which is also the
-/// exclusion's second route (sympy's Gröbner over ℚ(i)). The tier is the bound's; the two-site least rank is an exact
+/// ZZ (block ranks 0, 1, 3, 1, 0, held to 80 digits). Why five is not known in words; where rank 4 is refused is:
+/// the equations decouple by d, and the rank-4 shape is admitted by the sector d = 0 alone, by d ≥ 0 alone and by
+/// d ≤ 0 alone, refused by d ∈ {0, +1, −1}, the one-lit sectors together with d = 0, in both classes without ZZ and for
+/// the elements keeping d with ZZ at Δ = 1 (the plane k_Z = 1, one site lit, read as σ⁺ or σ⁻; d is dual to the lit
+/// site's choice between X and Y); the refusals are proofs (replayed units), the admissions of d = 0 and d ≥ 0 exact
+/// through the stage-A route over ℚ(i), that of d ≤ 0 the witness's evidence at two primes; the classical two-bit chain with the same baths and the hop as a symmetric rate has a transposer of Schmidt
+/// rank 2, its steady state's rank, so classically the cycle forces nothing beyond the state. The exclusion,
+/// the localisation and the no-reversal reason are live in the witness <c>ThermalElementLeastRankWitness</c>
+/// (Diagnostics, <c>inspect --root leastrank</c>: for the exclusion and the localisation's refusals each chart's
+/// Gröbner run over GF(p) replayed exactly over ℚ(i) to a nonzero constant); the rank-5 point and the reading stay in simulations/kms_element_least_rank.py, which is also
+/// the exclusion's second route (sympy's Gröbner over ℚ(i)), and the localisation's second route with the classical
+/// shadow is simulations/kms_element_why_five_localised.py. The tier is the bound's; the two-site least rank is an exact
 /// exclusion and a numerical point.</para>
 ///
 /// <para>Parents: <see cref="PalindromeTwoEndCountClaim"/> (the existence by similarity the bound presupposes)
@@ -97,13 +104,19 @@ public sealed class MirrorLocalityBoundClaim : Claim
                 "every chart over the two scalings that are symmetries, for elements keeping d (without ZZ and with ZZ at Δ = 1) and " +
                 "reversing d (without ZZ); with ZZ none reverses d, L on the order-1 sector sharing no eigenvalue with its conjugate. Rank 5 reached numerically, without ZZ, by an element keeping d, block ranks 0, 1, 3, " +
                 "1, 0, its tails following the digits kept (20, 40, 80); there R_0 has the rank 3 of its population block. " +
-                "Live: ThermalElementLeastRankWitness (inspect --root leastrank), every chart a modular trace replayed exactly; " +
-                "the rank-5 point and a second route of the exclusion in simulations/kms_element_least_rank.py.");
+                "Where rank 4 is refused: the equations decouple by d; the rank-4 shape is admitted on d = 0 alone, on d ≥ 0 alone and on d ≤ 0 alone " +
+                "(a point's evidence; d = 0 and d ≥ 0 exact through the stage-A route over ℚ(i)), refused on d ∈ {0, +1, −1}, the one-lit sectors together with d = 0 (replayed units), " +
+                "in both classes without ZZ and for elements keeping d with ZZ at Δ = 1; the classical two-bit chain with " +
+                "the same baths and the hop as a symmetric rate has a transposer of Schmidt rank 2, its steady state's rank, so classically the cycle forces nothing beyond the state. " +
+                "Live: ThermalElementLeastRankWitness (inspect --root leastrank), every chart of the exclusion and of the localisation's refusals a modular trace replayed exactly; " +
+                "the rank-5 point and a second route of the exclusion in simulations/kms_element_least_rank.py, the localisation's second route " +
+                "and the classical shadow in simulations/kms_element_why_five_localised.py.");
             yield return new InspectableNode(
                 "what stays open",
                 "At that rate point, the least Schmidt rank of an element that mixes the coherence orders; whether one that " +
                 "reverses them reaches 5 without ZZ; whether one that keeps them reaches 5 with ZZ; " +
-                "the least rank at ZZ strengths other than Δ = 1, at other rates and beyond two sites; an exact rank-5 element; why five in words; " +
+                "the least rank at ZZ strengths other than Δ = 1, at other rates and beyond two sites; an exact rank-5 element; why five in words " +
+                "(where it is forced is known: the one-lit sectors d = ±1 together with d = 0); " +
                 "whether an entangled sandwich A·ρᵀ·B exists off the product line; whether an element exists where " +
                 "the spectrum pairs and no reflection is known (where S_XY reflects, existence is free: parent F158 §(f8)).");
         }

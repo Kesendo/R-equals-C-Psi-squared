@@ -518,7 +518,11 @@ Open are whether an element exists where the spectrum pairs and none of S_XY,
 M_β or that chain carries it; at that rate point the least Schmidt rank of an
 element that mixes the coherence orders, whether one that reverses them reaches 5
 without ZZ, whether one that keeps them reaches 5 with ZZ, an exact element of
-rank 5 and why five in words; the least rank at ZZ strengths other than Δ = 1, at
+rank 5 and why five in words (where rank 4 is refused is localised: by the sectors
+d = +1 and d = −1, one site lit, together with d = 0, by neither alone and not by
+d = 0 alone, [THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)
+finding 1); the
+least rank at ZZ strengths other than Δ = 1, at
 other rates and beyond two sites; and whether the
 hidden time reversal of Roberts et al. in the doubled space is M_β read through the
 Choi-Jamiolkowski map.

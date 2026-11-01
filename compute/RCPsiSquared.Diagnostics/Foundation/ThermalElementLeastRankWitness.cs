@@ -70,10 +70,50 @@ public sealed class ThermalElementLeastRankWitness : IInspectable
     /// over ℚ(i)). Where a premise fails the case is not decided at all.</summary>
     public sealed record Case(
         string Name, bool PremisesHold, int Dimension, int EquationCount, int ChartCount, int ChartsSkipped, int ChartsProvenEmpty,
-        IReadOnlyList<string> StageASurvivors, IReadOnlyList<long> PrimesSetAside, int ReplayedPolynomials, long MaxCoefficientBits)
+        IReadOnlyList<string> StageASurvivors, IReadOnlyList<long> PrimesSetAside, int ReplayedPolynomials, long MaxCoefficientBits,
+        IReadOnlyList<Localisation> Localisations)
     {
         /// <summary>The premises hold and every chart is proven empty: no element of Schmidt rank 4 in this frame.</summary>
         public bool RankFourExcluded => PremisesHold && ChartCount > 0 && ChartsProvenEmpty == ChartCount;
+
+        /// <summary>Computed, not asserted: the rank-4 shape is admitted on d = 0 alone, on d ≥ 0 alone and on d ≤ 0
+        /// alone (a point's evidence in each), refused on d ∈ {0, +1, −1} and on every sector (every chart a replayed
+        /// unit). Then the fifth term is forced where the one-lit sectors d = +1 and d = −1 stand together with
+        /// d = 0, by neither alone.</summary>
+        public bool FifthTermLocalised =>
+            PremisesHold && StageAReproduced && Localisations.Count == 5
+            && Localisations[0].PointEvidence && Localisations[1].PointEvidence && Localisations[2].PointEvidence
+            && Localisations[3].ProvenEmpty && Localisations[4].ProvenEmpty;
+
+        /// <summary>A guard, not a second route: <c>Localise</c> on the sectors d ≥ 0 reproduces stage A of the full
+        /// decision (coordinates, equation count, charts, skipped, proven, closed). Both run on the same engine with
+        /// the same inputs, so this catches a wrong chart family or skip rule in <c>Localise</c>, nothing else; the
+        /// independent route for stage A is the second route's survivor chart (the tests pin it).</summary>
+        public bool StageAReproduced { get; init; }
+    }
+
+    /// <summary>Where the rank-4 shape is refused: the system relaxed to a set S of sectors. The linear intertwining
+    /// equations decouple by the coherence order d (each basis vector of the element space lies in one sector), so
+    /// the coordinates of S are the solution space of S's own equations; of the rank-4 equations (R_±2 = 0,
+    /// rank R_±1 ≤ 1, rank R_0 ≤ 2, minors that may mix sectors) only those whose variables all lie in S are kept,
+    /// with every sector of S invertible (Rabinowitsch), over the charts of the scalings that act on S (the global
+    /// scale on the order-0 coordinates; ω^d on the order-1, or order −1, coordinates where S has them). A refusal
+    /// of the relaxation (every chart a replayed unit over ℚ(i)) refuses the full system; an admission (a chart
+    /// closed without a unit at two primes) is evidence of a point of the relaxation, no proof. The second route,
+    /// simulations/kms_element_why_five_localised.py part C, keeps only the minors whose entries all lie in S, a
+    /// smaller set, modulo one prime; over one field the verdicts agree in the directions that carry (its EMPTY
+    /// implies this one's, this one's point implies its).</summary>
+    public sealed record Localisation(string Sectors, int Coordinates, int EquationCount, int ChartCount, int ChartsSkipped,
+        int ChartsProvenEmpty, int ChartsClosedWithoutUnit, IReadOnlyList<long> PrimesSetAside)
+    {
+        /// <summary>Every chart proven empty: no rank-4 shape on these sectors alone.</summary>
+        public bool ProvenEmpty => ChartCount > 0 && ChartsProvenEmpty == ChartCount;
+
+        /// <summary>Some chart closed without a unit at two primes: evidence of a point.</summary>
+        public bool PointEvidence => ChartsClosedWithoutUnit > 0;
+
+        /// <summary>Every chart skipped: a sector determinant vanishes identically under every chart, empty without a computation.</summary>
+        public bool EmptyWithoutComputation => ChartCount == 0 && ChartsSkipped > 0;
     }
 
     public IReadOnlyList<long> Down { get; }
@@ -614,9 +654,18 @@ public sealed class ThermalElementLeastRankWitness : IInspectable
     private static string ChartLabel(Dictionary<int, int> sub) =>
         string.Join(", ", sub.OrderBy(kv => kv.Key).Select(kv => $"t{kv.Key} = {kv.Value}"));
 
+    private static QPoly Rabinowitsch(int n, int m, QPoly det)
+    {
+        var r = Mul(new QPoly { [PackedMonomial.Variable(n + m + 2)] = GaussianRational.One }, det);
+        AddTo(r, new QPoly { [PackedMonomial.One] = GaussianRational.One }, -GaussianRational.One);
+        return r;
+    }
+
+    private static string SectorLabel(IEnumerable<int> sectors) => string.Join(", ", sectors.Select(m => m < 0 ? $"−{-m}" : m.ToString()));
+
     private static Case Decide(string name, List<GaussianRational[]> basis, bool premises)
     {
-        if (!premises) return new Case(name, false, basis.Count, 0, 0, 0, 0, Array.Empty<string>(), Array.Empty<long>(), 0, 0);
+        if (!premises) return new Case(name, false, basis.Count, 0, 0, 0, 0, Array.Empty<string>(), Array.Empty<long>(), 0, 0, Array.Empty<Localisation>());
         var sys = BuildSystem(basis);
         int n = sys.N;
         int nvars = n + 5;                                       // t_0..t_{n−1}, then z_m for m = −2..2
@@ -639,12 +688,6 @@ public sealed class ThermalElementLeastRankWitness : IInspectable
                 var ds = Enumerable.Range(-2, 5).ToDictionary(m => m, m => Substitute(sys.SectorDeterminants[m], sub));
                 if (ds.Values.Any(d => d.Count == 0)) { skipped++; continue; }
                 charts++;
-                QPoly Rabinowitsch(int m)
-                {
-                    var r = Mul(new QPoly { [PackedMonomial.Variable(n + m + 2)] = GaussianRational.One }, ds[m]);
-                    AddTo(r, new QPoly { [PackedMonomial.One] = GaussianRational.One }, -GaussianRational.One);
-                    return r;
-                }
                 var stageA = new List<QPoly>();
                 var stageB = new List<QPoly>();
                 for (int q = 0; q < sys.Equations.Count; q++)
@@ -653,15 +696,56 @@ public sealed class ThermalElementLeastRankWitness : IInspectable
                     if (e.Count == 0) continue;
                     (eqVars[q].IsSubsetOf(inA) ? stageA : stageB).Add(e);
                 }
-                for (int m = 0; m <= 2; m++) stageA.Add(Rabinowitsch(m));
-                for (int m = -2; m < 0; m++) stageB.Add(Rabinowitsch(m));
+                for (int m = 0; m <= 2; m++) stageA.Add(Rabinowitsch(n, m, ds[m]));
+                for (int m = -2; m < 0; m++) stageB.Add(Rabinowitsch(n, m, ds[m]));
                 var exactA = stageA.Select(Exact).ToList();
                 bool emptyA = DecideIdeal(exactA, nvars, setAside, ref replayed, ref maxBits);
                 if (!emptyA) survivors.Add(ChartLabel(sub));
                 bool empty = emptyA || DecideIdeal(exactA.Concat(stageB.Select(Exact)).ToList(), nvars, setAside, ref replayed, ref maxBits);
                 if (empty) proven++;
             }
-        return new Case(name, true, n, sys.Equations.Count, charts, skipped, proven, survivors, setAside, replayed, maxBits);
+        // where the shape is refused: the sectors S alone
+        Localisation Localise(int[] sectors)
+        {
+            var inS = new HashSet<int>(sectors.SelectMany(m => sys.SectorVariables[m]));
+            var inSystem = Enumerable.Range(0, sys.Equations.Count).Where(q => eqVars[q].IsSubsetOf(inS)).ToArray();
+            var second = sectors.Contains(1) ? sys.SectorVariables[1] : sectors.Contains(-1) ? sys.SectorVariables[-1] : new List<int>();
+            var secondCharts = second.Count > 0 ? Charts(second).ToList() : new List<Dictionary<int, int>> { new() };
+            int ch = 0, sk = 0, pr = 0, cl = 0, rep = 0;
+            long bits = 0;
+            var aside = new List<long>();
+            foreach (var c0 in Charts(sys.SectorVariables[0]))
+                foreach (var c1 in secondCharts)
+                {
+                    var sub = c0.Concat(c1).ToDictionary(kv => kv.Key, kv => kv.Value);
+                    var ds = sectors.ToDictionary(m => m, m => Substitute(sys.SectorDeterminants[m], sub));
+                    if (ds.Values.Any(d => d.Count == 0)) { sk++; continue; }
+                    ch++;
+                    var system = new List<QPoly>();
+                    foreach (int q in inSystem)
+                    {
+                        var e = Substitute(sys.Equations[q], sub);
+                        if (e.Count > 0) system.Add(e);
+                    }
+                    foreach (int m in sectors) system.Add(Rabinowitsch(n, m, ds[m]));
+                    if (DecideIdeal(system.Select(Exact).ToList(), nvars, aside, ref rep, ref bits)) pr++; else cl++;
+                }
+            return new Localisation(SectorLabel(sectors), inS.Count, inSystem.Length, ch, sk, pr, cl, aside);
+        }
+        var upper = Localise(new[] { 0, 1, 2 });
+        var fromStageA = new Localisation("0, 1, 2", inA.Count, eqVars.Count(v => v.IsSubsetOf(inA)), charts, skipped, charts - survivors.Count, survivors.Count, Array.Empty<long>());
+        bool handshake = upper.Coordinates == fromStageA.Coordinates && upper.EquationCount == fromStageA.EquationCount
+            && upper.ChartCount == fromStageA.ChartCount && upper.ChartsSkipped == fromStageA.ChartsSkipped
+            && upper.ChartsProvenEmpty == fromStageA.ChartsProvenEmpty && upper.ChartsClosedWithoutUnit == fromStageA.ChartsClosedWithoutUnit;
+        var localisations = new List<Localisation>
+        {
+            Localise(new[] { 0 }),
+            upper,
+            Localise(new[] { 0, -1, -2 }),
+            Localise(new[] { 0, 1, -1 }),
+            new Localisation(SectorLabel(new[] { -2, -1, 0, 1, 2 }), n, sys.Equations.Count, charts, skipped, proven, charts - proven, setAside),
+        };
+        return new Case(name, true, n, sys.Equations.Count, charts, skipped, proven, survivors, setAside, replayed, maxBits, localisations) { StageAReproduced = handshake };
     }
 
     // ----- the control: one temperature, a product element -----
@@ -756,7 +840,18 @@ public sealed class ThermalElementLeastRankWitness : IInspectable
                           (cs.PrimesSetAside.Count > 0 ? $"; primes set aside after a mismatched replay: {string.Join(", ", cs.PrimesSetAside)}" : "") + "). " +
                           (cs.RankFourExcluded ? "No element of Schmidt rank 4 here. " : "NOT every chart is proven empty. ") +
                           $"Anti-vacuity, the sectors d ≥ 0 alone: the modular runs close without a constant at two primes in {cs.StageASurvivors.Count} chart(s)" +
-                          (cs.StageASurvivors.Count > 0 ? $" ({string.Join("; ", cs.StageASurvivors)}), evidence of a point, not a proof" : "") + ".",
+                          (cs.StageASurvivors.Count > 0 ? $" ({string.Join("; ", cs.StageASurvivors)}), evidence of a point, not a proof" : "") + ". " +
+                          "Where the shape is refused, the equations whose variables lie in a set of sectors alone: " +
+                          string.Join("; ", cs.Localisations.Select(lo =>
+                              $"d ∈ {{{lo.Sectors}}} ({lo.Coordinates} coordinates, {lo.EquationCount} equations, {lo.ChartCount} charts) " +
+                              (lo.ProvenEmpty ? "EMPTY, every chart a replayed unit"
+                                  : lo.PointEvidence ? $"admitted, {lo.ChartsClosedWithoutUnit} chart(s) closed without a unit at two primes, a point's evidence"
+                                  : lo.EmptyWithoutComputation ? "every chart skipped, a sector determinant identically zero" : "undecided") +
+                              (lo.PrimesSetAside.Count > 0 ? $", primes set aside {string.Join(", ", lo.PrimesSetAside)}" : ""))) +
+                          $". The d ≥ 0 entry reproduces stage A of the decision above (same engine, a guard): {(cs.StageAReproduced ? "yes" : "NO")}. " +
+                          (cs.FifthTermLocalised
+                              ? "So, the admissions being a point's evidence and the refusals proofs, the fifth term is forced where the one-lit sectors d = +1 and d = −1 stand together with d = 0, by neither alone."
+                              : "The fifth term is NOT localised here: the five decisions do not form that pattern."),
                     provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 $"{idx}. control: one temperature",

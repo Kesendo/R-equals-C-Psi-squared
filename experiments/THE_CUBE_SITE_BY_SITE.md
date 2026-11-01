@@ -9,7 +9,9 @@ reproduced exactly, each with a control that fails, in
 the bound also lives in C# (`MirrorLocalityBoundWitness`, `inspect --root locality`). The least rank at two sites is
 computed in [`simulations/kms_element_least_rank.py`](../simulations/kms_element_least_rank.py), exact where it says
 so and numerical at the rank-5 point; its exact exclusion of rank 4 also lives in C# (`ThermalElementLeastRankWitness`,
-`inspect --root leastrank`). Where a statement below rests on an argument or on a computation rather than on
+`inspect --root leastrank`), and so does where it is forced (the refusals exact, the admissions partly a point's
+evidence), with [`simulations/kms_element_why_five_localised.py`](../simulations/kms_element_why_five_localised.py)
+as the second route of the frames without ZZ, modulo one prime. Where a statement below rests on an argument or on a computation rather than on
 a check, it says so.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
@@ -81,7 +83,21 @@ silent for Π's shape. Adjacency, checked by a third scout and read at the sourc
 asks after the same object, a weight across a gradient; it now says what this rate point shows and keeps the general
 case open, and points here; the coherence order is THE_ONE_SQUARE §10's d (its m is another charge, 2η^z);
 THE_CHANNEL_BOTH_WAYS_ON_A_PATH line 135 names XY − YX as the part that is not its own transpose, there in a generator
-and not in a state, a rhyme rather than the same object. Nothing adjacent on the rank split by charge. -->
+and not in a state, a rhyme rather than the same object. Nothing adjacent on the rank split by charge.
+
+For where the five is forced (2026-11-01). Diagnostics: the witness's own anti-vacuity line already held half of
+it, the stage-A survivor t1 = t3 = 1 in every case, which is the sectors d ≥ 0 admitting the shape, and nothing read
+it as a localisation. Core: `MirrorLocalityBoundClaim` listed why five as open and held nothing on where. Markdown:
+THE_ONE_SQUARE §10 holds d as the dual of the lit site's choice between X and Y, which is what the sector pair
+d = ±1 is on the cube; PROOF_ANTILINEAR_TRIANGLE §7's bullet on site-dependent ratios holds the quantum statement
+the classical shadow mirrors, Γ(I) ∝ the stationary state and so a Schmidt rank at least the state's;
+`docs/ANALYTICAL_FORMULAS.md` holds F137 and F158 and no formula on a transposer or a sector-restricted rank; the
+OpenArcs registry, `fw.Confirmations`, the glossary, `docs/CAUGHT_ERRORS.md`, `docs/proofs/`, `experiments/`,
+`hypotheses/` and `reflections/` hold nothing on a classical transposer, a Kolmogorov cycle or a sector-restricted
+rank (grep: none; `cube_moves_gate.py`'s `transposer()` is the transpose superoperator, another object; the nearest
+neighbour is PROOF_DIFFUSION_RAYLEIGH_CLOSURE's Haken-Strobl reduction of a coherent hop to a classical rate under
+dephasing, not the same object, there being no dephasing here and the rate being chosen, not derived), so the
+classical shadow is new here and cites nothing. Nothing adjacent beyond. -->
 
 Nothing in the repo held a site map that carries a weight beside the move beyond Z dephasing.
 
@@ -245,9 +261,37 @@ among the elements that keep d is 5 without ZZ (the 5 numerical) and at least 5 
 is at least 5 without ZZ, and with ZZ there are none. For other ZZ strengths, for an element that mixes the orders, at
 other rates and beyond two sites it is not known.
 
-Why five, we cannot say in words. The cube was asked: one site and one bond give the hop's Jordan-Wigner step, which
-pairs the four operators of order 1, σ⁺⊗I with Z⊗σ⁺ and σ⁺⊗Z with I⊗σ⁺, and the same at order −1; it does not say
-where a fifth term sits, and the cube is silent there. What is known, in two classes. At the rank-5 element, which
+Why five is not said in words; where rank 4 is refused is. Two shadows, and the cube's reading after them. The
+classical shadow: the same two baths on two bits with the hop as a symmetric rate between 10 and 01 make an
+irreversible chain, the cycle 00 → 10 → 01 → 00 running at γ↑₀·γ↓₁ against γ↑₁·γ↓₀, 2 against 3; its transposer, an
+invertible G with L·G = G·Lᵀ, has least Schmidt rank 2 across the bits, the rank of its steady state (exact over ℚ, at
+this rate point with the hop at 1 and at 1/7; 1 at one temperature with the hop, 1 at the gradient without it). So
+in the classical chain the identity route, G·1 ∝ π, the image of Γ(I) ∝ ρ_ss, is the whole bound, and the cycle
+forces nothing beyond the state; that the surplus from 4 to 5 is thereby quantum, carried by the coherent current the
+rate model lacks, is a reading by analogy, the chain being no restriction of the quantum problem. The sector chain:
+the linear intertwining equations decouple by d, so they can be imposed on a set of sectors alone, the rank-4 shape
+asked only of its equations that live on those sectors, every sector used invertible. On d = 0 alone, the quiet edge
+with the hop coherences, the shape is admitted; on d ≥ 0 alone, d = 0 with the sector d = +1 and σ⁺⊗σ⁺ (the
+witness's stage A), and on d ≤ 0 alone, its mirror under ρ ↦ ρ†, it is admitted; on d ∈ {0, +1, −1}, d = 0 with both
+one-lit sectors, it is refused, in both classes without ZZ and for the elements that keep d with ZZ at Δ = 1 as well;
+the double coherences are not needed for the refusal, and {+1, −1} without d = 0 was not asked. In the witness a refusal is a proof,
+every chart a modular trace replayed to a unit over ℚ(i), and an admission is evidence, the modular runs closing
+without a unit at two primes; for d ≥ 0 the admission is exact through the previous paragraph's route, stage A over
+ℚ(i) in `kms_element_least_rank.py`, whose basis is not {1} in at least one chart in all three cases, and d = 0 alone
+follows from it by restriction, its equations being a subset; the admission of d ≤ 0 alone is the witness's evidence. So the fifth term is forced where the one-lit sectors d = +1
+and d = −1 stand together with d = 0, by neither alone; at the rank-5 point it is paid in R₀'s population block (numerical). On
+the cube d = ±1 is the plane k_Z = 1, the strings with one X or Y letter: one site and one bond give the hop's
+Jordan-Wigner step there, pairing σ⁺⊗I with Z⊗σ⁺ and σ⁺⊗Z with I⊗σ⁺, and the plane read with σ⁻ is the sector
+d = −1; d is dual to the lit site's choice between X and Y ([THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §10). At one
+temperature the weight is letter-blind, √(p₀·p₁) on σ⁺ and on σ⁻ alike; that at the gradient the two pairs of site
+maps the state's populations already take cannot also carry both σ⁺ and σ⁻ is the reading, not a computation, and
+why they cannot, the cube does not say. The sector chain is decided in C# (`ThermalElementLeastRankWitness.
+Localisation`, `inspect --root leastrank`, the d ≥ 0 entry reproducing stage A on the same engine, a guard and not a
+second route); its second route for the frames without ZZ, modulo one prime and on the smaller set of minors whose
+entries lie in the sectors, so that its refusals carry over to the witness's set and its admissions are implied by
+the witness's, and the classical shadow, exact, are in
+[`simulations/kms_element_why_five_localised.py`](../simulations/kms_element_why_five_localised.py). What is known
+further, in two classes. At the rank-5 element, which
 keeps d, R₀ has rank 3, the rank of its population block (that block's singular values, scaled to its largest: 1,
 0.31, 4·10⁻⁴, and a fourth that follows the digits kept, 4·10⁻⁸¹ at 80), so its generalized Schur complement vanishes
 and the entries carrying the hop coherence |10⟩⟨01| = σ⁺⊗σ⁻, its mirror and the double coherences σ⁺⊗σ⁺ and σ⁻⊗σ⁻ onto
@@ -296,6 +340,7 @@ Weights along X or Y (the same search in the Hadamard and quarter-turn frames); 
 temperature gradient, existence where the spectrum pairs with no reflection known and whether an entangled sandwich
 A·ρᵀ·B exists off the product line; at the two-site rate point of finding 1, the least Schmidt rank of an element that
 mixes the coherence orders, whether one that reverses them reaches 5 without ZZ, whether one that keeps them reaches 5
-with ZZ, an exact element of rank 5 and why five in words; the least rank at ZZ strengths other than Δ = 1, at other
+with ZZ, an exact element of rank 5 and, the fifth term being forced by the one-lit sectors d = ±1 together with
+d = 0, why in words; the least rank at ZZ strengths other than Δ = 1, at other
 rates and beyond two sites; the per-site turn reported relative to the neighbour rather than as one representative's
 absolute value; the instrument's name.
