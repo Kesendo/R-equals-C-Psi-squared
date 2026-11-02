@@ -10,7 +10,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>
 ///         (numerator coefficient in α_1 = (4γ₀/(N+1))·sin²(π/(N+1));
-///         F25/F65/F73/F76 sibling).</item>
+///         the same four as F65's).</item>
 ///   <item><see cref="F65XxChainSpectrumPi2Inheritance"/>: F65 source-claim
 ///         edge — F67 delegates the α_1 closed form (single-excitation rate
 ///         at k=1) and the bonding-mode amplitude |ψ_1(j)|² to F65, rather

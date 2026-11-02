@@ -65,9 +65,9 @@ public class F73SpatialSumPurityClosurePi2InheritanceTests
     }
 
     [Fact]
-    public void DecayRateMatchesF25AndF76_HoldsExactly()
+    public void DecayRateIsFour_HoldsExactly()
     {
-        Assert.True(BuildClaim().DecayRateMatchesF25AndF76());
+        Assert.True(BuildClaim().DecayRateIsFour());
     }
 
     [Fact]

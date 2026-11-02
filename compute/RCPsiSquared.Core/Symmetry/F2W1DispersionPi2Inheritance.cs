@@ -34,9 +34,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
 ///   <item><b>BandwidthPrefactor = 4 = a_{−1}</b>: in ω_k = 4·J·(1−cos(...)).
-///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same anchor
-///         as F25 decay rate (e^{−4γt}), F65/F76 numerators, F73 spatial-sum
-///         closure, F23 4^N denominator base.</item>
+///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1). It is the
+///         hopping 2 times the 2 of the path Laplacian's 2 − 2cos(πk/N):
+///         ω_k = 2J·(2 − 2cos(πk/N)) (D10 Steps 3 and 4).</item>
 ///   <item><b>HoppingFactor = 2 = a_0</b>: in tight-binding hopping 2·J.
 ///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor
 ///         as F1 TwoFactor, F50 DecayRateFactor, F44 SumCoefficient.</item>
@@ -75,7 +75,7 @@ public sealed class F2W1DispersionPi2Inheritance : Claim, IZ2AxisClaim
     public W1Dispersion W1 { get; }
 
     /// <summary>The "4" prefactor in ω_k = 4J·(1−cos(πk/N)). Live from
-    /// Pi2DyadicLadder a_{−1}. Same anchor as F25/F65/F73/F76.</summary>
+    /// Pi2DyadicLadder a_{−1}: the hopping 2 times the path Laplacian's 2.</summary>
     public double BandwidthPrefactor => Ladder.Term(-1);
 
     /// <summary>The "2" in tight-binding hopping 2J. Live from Pi2DyadicLadder

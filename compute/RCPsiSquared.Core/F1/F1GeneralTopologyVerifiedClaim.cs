@@ -189,8 +189,10 @@ public sealed class F1GeneralTopologyVerifiedClaim : Claim
     /// four N=8 anchors, at max pairing distance 2.56e-07
     /// with 1746 of 65536 pairs flagged as histogram outliers (distance above 100x the median, NOT
     /// failures: all 65536 pass the 1e-6 gate), against ~3e-13 and zero flags for the connected N=8
-    /// topologies. The median stays at 2.2e-14, so the loss is localized to a few pairs; the cause is
-    /// not established, see PROOF_F1_GENERAL_TOPOLOGY.md item 2. Larger anchors exist elsewhere in
+    /// topologies. The median stays at 2.2e-14, so the loss is localized to a few pairs. K_4's Jordan-2
+    /// blocks (resolved to ~sqrt(eps)·‖L‖) mostly land off the N=8 centre in the disconnected sum, where their
+    /// split no longer cancels in the pairing; whether they set this record is not established, see
+    /// PROOF_F1_GENERAL_TOPOLOGY.md item 2. Larger anchors exist elsewhere in
     /// that directory (ring_N6_python records 4.5e-2, a misordering of its anchor script's sort; a
     /// min-sum assignment pairs that spectrum within 7.9e-8).</summary>
     public bool DisconnectedComponentsVerified { get; } = true;

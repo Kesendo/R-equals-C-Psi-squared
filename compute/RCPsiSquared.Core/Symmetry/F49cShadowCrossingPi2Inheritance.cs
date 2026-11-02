@@ -21,10 +21,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// variance <c>= 0</c> (both sites covary). So the spectator factor (N − 2) of
 /// F49 becomes (N − 1) here.</para>
 ///
-/// <para>The Pi2-Foundation anchor is direct: the <c>4^(N−1)</c> denominator
+/// <para>The Pi2-Foundation reading: the <c>4^(N−1)</c> denominator
 /// factor sits exactly at <c>a_{3−2N}</c> on the dyadic halving ladder
 /// (= d² for (N − 1) qubits via <see cref="Pi2OperatorSpaceMirrorClaim"/>).
-/// Same (N−1)-qubit shift that appears in F38, F39, F1-T1. The (N − 1)/N
+/// The proof's route reaches it as 4^N over a 4, R² = 4(N − 1)/(N·4^N), the 4
+/// being the square of the anticommutator's 2 ({L_H, L_Dc} = 2γ·L_H·(N − w_a − w_b)
+/// entry-wise, PROOF_CROSS_TERM_FORMULA Step 5); it cancels one site's d² = 4, the two fours equal only at qubits,
+/// and which of them names the object is not known. The (N − 1)/N
 /// numerator/denominator combinatorial factor is NOT Pi2-anchored: it is
 /// purely the bond-site / total-site spectator-variance ratio, an intrinsic
 /// property of shadow-crossing geometry.</para>
@@ -91,12 +94,11 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     /// <summary>The Pi2 ladder index where the F49c power factor lands:
-    /// <c>3 − 2N</c>. At N=2 → −1 (a_{−1} = 4); at N=3 → −3 (a_{−3} = 16); etc.
-    /// Same ladder index as F38, F39, F1-T1.</summary>
+    /// <c>3 − 2N</c>. At N=2 → −1 (a_{−1} = 4); at N=3 → −3 (a_{−3} = 16); etc.</summary>
     public int LadderIndexFor(int N) => 3 - 2 * N;
 
     /// <summary>The qubit count whose operator-space d² equals the F49c power
-    /// factor: <c>N − 1</c>. Same shift as F38, F39, F1-T1.</summary>
+    /// factor: <c>N − 1</c>, after the anticommutator's 2² cancels one site's d².</summary>
     public int OperatorSpaceQubitCountFor(int N) => N - 1;
 
     /// <summary>Cross-pinned <c>4^(N−1)</c> from
@@ -178,7 +180,7 @@ public sealed class F49cShadowCrossingPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F49c closed form",
                 summary: "R(N) = √((N−1)/(N·4^(N−1))); Tier 1 proven (PROOF_CROSS_TERM_CROSSING.md) + verified N=3..6, 5 coupling types, 2 topologies (per CROSS_TERM_CROSSING.md experiment log)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "4^(N−1) = a_{3−2N} on the dyadic halving ladder = d² for (N−1) qubits via OperatorSpaceMirror; same (N−1)-qubit shift as F38, F39, F1-T1");
+                summary: "4^(N−1) = a_{3−2N} on the dyadic halving ladder read as d² for (N−1) qubits via OperatorSpaceMirror once the anticommutator's 2² cancels one site's d² (equal fours only at qubits; which four names the object is not known)");
             yield return new InspectableNode("combinatorial part",
                 summary: "(N−1)/N spectator-variance ratio: shadow-crossing has 1 bond site with variance 1, N−1 spectators; shadow-balanced (F49) has 0 variance bonds, N−2 spectators; the two differ by exactly 1 spectator");
             yield return new InspectableNode("F49 sibling reading",

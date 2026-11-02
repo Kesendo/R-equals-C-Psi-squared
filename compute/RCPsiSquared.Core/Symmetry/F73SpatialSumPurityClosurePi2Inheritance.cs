@@ -31,15 +31,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         F72's <c>Tr(ρ_i²) = 1/2 + ...</c> baseline; both come from the
 ///         maximally-mixed-state Bloch reading.</item>
 ///   <item><b>DecayRateCoefficient = 4 = a_{−1}</b>: in <c>exp(−4γ₀t)</c>.
-///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same
-///         anchor as F25 (CΨ Bell+ decay), F76 (mirror-pair coherence
-///         decay), F61/F63 4-block per parity, F66 multiplicity, F77
-///         correction.</item>
+///         Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1). The rung-1
+///         coherence rate 2γ₀ (x(t) = e^{−2γ₀t}·U·x(0)) doubled by the squared
+///         modulus, as in F89's all-isolated closed form; not the rung-2 rate
+///         of F25 and F76.</item>
 ///   <item><b>PerSitePrefactor = 2 = a_0</b>: the <c>2 · |·|²</c> per-site
 ///         coefficient. Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0)
-///         = polynomial root d. Combined with the per-site Absorption
-///         Theorem rate <c>2γ₀ · n_XY = 2γ₀</c> (n_XY = 1 for SE coherences):
-///         total spatial-sum decay = 2 · 2γ₀ = 4γ₀.</item>
+///         = polynomial root d. It enters the baseline 1/2, not the rate:
+///         the rate is the per-coherence Absorption Theorem rate
+///         <c>2γ₀ · n_XY = 2γ₀</c> (n_XY = 1 for SE coherences), doubled by |·|².</item>
 /// </list>
 ///
 /// <para>Cited foundation (per F73 docstring "Scaffolding from neighbouring
@@ -102,13 +102,14 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
 
     /// <summary>The "4" decay-rate coefficient in <c>exp(−4γ₀t)</c>. Live
     /// from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
-    /// Same anchor as F25, F76, F61/F63, F66, F77 correction.</summary>
+    /// The rung-1 rate 2γ₀ doubled by the squared modulus (F89's all-isolated
+    /// four), not the rung-2 rate of F25 and F76.</summary>
     public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" per-site coefficient in <c>2 · |(ρ_coh,i)_{0,1}|²</c>.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>
-    /// = polynomial root d. Combined with the one-disagreement basis-cell cost 2γ₀:
-    /// total spatial-sum decay 2·2γ₀ = 4γ₀.</summary>
+    /// = polynomial root d. It enters the baseline 1/2, not the rate; the rate
+    /// 4γ₀ is the one-disagreement cost 2γ₀, doubled by |·|².</summary>
     public double PerSitePrefactor => Ladder.Term(0);
 
     /// <summary>Live closed form: <c>Σ_i 2·|(ρ_coh,i)_{0,1}(t)|² = (1/2)·exp(−4γ₀t)</c>.
@@ -124,10 +125,9 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
     public bool ClosureAtTZeroIsHalf() =>
         Math.Abs(SpatialSumClosure(0.05, 0.0) - 0.5) < 1e-14;
 
-    /// <summary>Live drift check: closure decay rate matches F25's and F76's
-    /// decay rate (all three F-formulas inherit a_{−1} = 4 from the same
-    /// dyadic ladder anchor).</summary>
-    public bool DecayRateMatchesF25AndF76() =>
+    /// <summary>Live drift check: the closure's decay coefficient is 4, the
+    /// rung-1 rate's 2 doubled by |·|².</summary>
+    public bool DecayRateIsFour() =>
         Math.Abs(DecayRateCoefficient - 4.0) < 1e-15;
 
     /// <summary>F73 verified value at uniform XY baseline N = 5, γ₀ = 0.05,
@@ -169,7 +169,7 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
         "F73 spatial-sum coherence purity closure as Pi2-Foundation a_2 + a_{-1} + a_0 inheritance";
 
     public override string Summary =>
-        $"Σ_i 2·|coh_i|²(t) = (1/2)·exp(−4γ₀t): baseline 1/2 = a_2 (F72 sister); decay 4 = a_{{-1}} (F25/F76 sibling); " +
+        $"Σ_i 2·|coh_i|²(t) = (1/2)·exp(−4γ₀t): baseline 1/2 = a_2 (F72 sister); decay 4 = a_{{-1}} (rung-1 2γ₀ doubled by |·|², F89 sibling); " +
         $"per-site 2 = a_0 (root d); F70/F72 scaffolding cited; U(1)-class invariant ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -179,14 +179,12 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
             yield return new InspectableNode("F73 closed form",
                 summary: "Σ_i 2·|(ρ_coh,i)_{0,1}|²(t) = (1/2)·exp(−4γ₀t); Tier 1 proven; U(1)-class invariant; verified ~10⁻¹⁶ deviation across 81 time points × 6 setups (XXZ Δ ∈ {0,0.5,1,2}, Haar SE probes, inhomogeneous XY)");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "ClosureBaseline = a_2 = 1/2 (F72 sibling); DecayRateCoefficient = a_{-1} = 4 (F25/F76 sibling); PerSitePrefactor = a_0 = 2 (root d)");
+                summary: "ClosureBaseline = a_2 = 1/2 (F72 sibling); DecayRateCoefficient = a_{-1} = 4 (rung-1 2γ₀ doubled by |·|², F89 sibling); PerSitePrefactor = a_0 = 2 (root d)");
             yield return InspectableNode.RealScalar("ClosureBaseline (= a_2 = 1/2)", ClosureBaseline);
             yield return InspectableNode.RealScalar("DecayRateCoefficient (= a_{-1} = 4)", DecayRateCoefficient);
             yield return InspectableNode.RealScalar("PerSitePrefactor (= a_0 = 2)", PerSitePrefactor);
             yield return new InspectableNode("F70 ↔ F72 ↔ F73 family",
                 summary: "F70 puts (vac, SE) block in focus; F72 isolates CC contribution; F73 combines via U(1) closure + spatial sum + AT decay rate. All three Tier 1 kinematic-or-corollary, all on F70 lineage.");
-            yield return new InspectableNode("Convergence: a_{-1} = 4 across F25/F73/F76",
-                summary: "F25 Bell+ decay e^{-4γt}; F76 mirror-pair coherence e^{-4γ₀t}; F73 spatial-sum closure (1/2)·e^{-4γ₀t}. Three different physical objects (state, MI, purity) all decay at same a_{-1} = 4 rate from same Absorption-Theorem mechanism.");
             yield return new InspectableNode("Verified value (per ANALYTICAL_FORMULAS)",
                 summary: $"At N=5, γ₀=0.05, t=20: closure = {VerifiedValueAtN5Gamma0p05T20():G6} (expected 9.157819·10⁻³, deviation 5.67·10⁻¹⁶)");
             yield return new InspectableNode("Operational consequence",

@@ -36,8 +36,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>FactorPi2Odd = 4 = a_{−1}</b>: <see cref="Pi2DyadicLadderClaim.Term"/>(−1).
 ///         The 4·2^N coefficient on Π²-odd term contributions. Same anchor
-///         as F83's MNormCoefficientForOdd, F76 decay rate, F61/F63 4-block,
-///         F77 correction denominator, F25/F73 decay rate.</item>
+///         as F83's MNormCoefficientForOdd: the 2 of the commutator-Frobenius
+///         identity ‖L_H‖² = 2·2^N·‖H‖² times the 2 of ‖M‖² = 2‖L_H‖² in the
+///         Frobenius-orthogonal Π²-odd case (PROOF_F85 Step 4).</item>
 ///   <item><b>FactorPi2EvenNonTruly = 8 = a_{−2}</b>: <see cref="Pi2DyadicLadderClaim.Term"/>(−2).
 ///         The 8·2^N coefficient on Π²-even non-truly contributions.
 ///         Same anchor as F83's MNormCoefficientForEvenNontruly.</item>

@@ -445,17 +445,21 @@ the same Klein V₄ that permutes the palindrome family
 which types the Π-family swap; the light-count rotation is stated here, not
 there).
 
-**Remark (the recurring four).** Two different objects in this repository both
+**Remark (the recurring four).** Three different objects in this repository
 read "4" at d=2, and they must not be interchanged. The **rung-2 four** is
 2γ·2, the second rung of the §6 ladder and the centre of the HD=(1,3) palindrome
 pair, (2γ+6γ)/2 = 4γ. It is Hamming-indexed, and it splits per site: |00⟩⟨11| is an exact N=2 eigenmode of the
 XY-chain Liouvillian at rate −2(γ₁+γ₂), residual 0.0
 ([`simulations/at_rung2_per_site_split.py`](../../simulations/at_rung2_per_site_split.py)).
-Every *dynamical* 4γ₀ in the repository is this one object, t_peak = 1/(4γ₀)
-([`TPeakLaw`](../../compute/RCPsiSquared.Core/F86/TPeakLaw.cs)) among them. The
+t_peak = 1/(4γ₀)
+([`TPeakLaw`](../../compute/RCPsiSquared.Core/F86/TPeakLaw.cs)) is this object. The
+**doubled rung-1 rate** reads 4γ₀ as well: where a squared modulus decays and its
+amplitude decays at the rung-1 rate 2γ₀ (F73's spatial sum, F89's all-isolated closed
+form), the four is 2γ₀ doubled by |·|². The
 **discriminant four** is dimensionless, d² on the Pi2 dyadic ladder, and rides d
-to 9 at the qutrit. Cite the rung-2 four for rates and carriers, the discriminant
-four for squared half-gaps, never interchangeably. The full qudit sorting of the
+to 9 at the qutrit. Cite the rung-2 four for the rung-2 rates and carriers, the doubled rung-1
+rate for decaying squared moduli, the discriminant four for squared half-gaps,
+never interchangeably. The full qudit sorting of the
 fours, with the F121 cap and the F122 ceiling, belongs to those claims rather
 than to this ladder; see
 [`simulations/qudit_g2_split.py`](../../simulations/qudit_g2_split.py).

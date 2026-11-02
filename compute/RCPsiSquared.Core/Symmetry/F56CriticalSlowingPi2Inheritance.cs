@@ -35,8 +35,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <see cref="HalfAsStructuralFixedPointClaim"/>; the cardioid argmax
 ///         is at p = 1/2.</item>
 ///   <item><b>FourFactor = 4 = a_{−1}</b>: in 4·ε. Live from
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same anchor as F25
-///         decay rate, F73 spatial-sum closure, F65 numerator.</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1).</item>
 ///   <item><b>SixteenFactor = 16 = a_{−3} = 4²</b>: in 16·tol. Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(−3). Square of FourFactor
 ///         (= 4² in the Modified Equation correction).</item>

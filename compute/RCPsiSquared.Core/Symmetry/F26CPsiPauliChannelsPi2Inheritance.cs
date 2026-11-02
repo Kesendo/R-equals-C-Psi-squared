@@ -29,12 +29,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>DecayRateCoefficient = 4 = a_{−1}</b>: in <c>α = 4(γ_y + γ_z)</c>,
 ///         <c>β = 4(γ_x + γ_z)</c>, <c>δ = 4(γ_x + γ_y)</c>. Live from
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same anchor as
-///         F25, F65/F73/F76 decay rates, F61/F63 4-block, F66 multiplicity,
-///         F77 correction.</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). The same four as
+///         F25 and F76: a Bell+ correlator anticommutes with an off-axis jump
+///         on both sites, 2γ per site.</item>
 ///   <item><b>NormalizationDenominator = 12</b>: combinatorial
-///         <c>12 = 3 axes · 4 = a_{−1} · 3</c>. NOT a single Pi2 anchor.
-///         F25's denominator 6 = 12/2 reflects single-axis specialization.</item>
+///         <c>12 = 4 · 3</c>: the two-qubit purity's 1/4,
+///         Tr ρ² = (1 + u² + v² + w²)/4, times d − 1 = 3 of the L₁ term
+///         (CΨ = Tr ρ² · L₁/(d − 1), d = 4 the two-qubit dimension, L₁ = max(u, v)).
+///         NOT a single Pi2 anchor. At one axis the bracket is 2 + 2u², whose 2
+///         halves the 12 into F25's 6.</item>
 ///   <item><b>F25 corollary edge</b>: F26 reduces to F25 when γ_x = γ_y = 0;
 ///         typed mother-corollary inheritance pattern (parallel to F75 →
 ///         F77).</item>
@@ -76,12 +79,12 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The "4" decay rate coefficient in α, β, δ = 4·(γ_a + γ_b).
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>.
-    /// Same anchor as F25, F65, F73, F76 decay rates.</summary>
+    /// The same four as F25 and F76.</summary>
     public double DecayRateCoefficient => Ladder.Term(-1);
 
     /// <summary>The normalization denominator <c>12</c> in F26's formula.
-    /// Combinatorial: 12 = 3 axes · 4 = a_{−1} · 3 (permutations of which
-    /// axis is "missing"). NOT a single Pi2 anchor.</summary>
+    /// 12 = 4 · 3: the two-qubit purity's 1/4
+    /// times d − 1 = 3 of the L₁ term (d = 4 the two-qubit dimension). NOT a single Pi2 anchor.</summary>
     public double NormalizationDenominator => 12.0;
 
     /// <summary>Three rate coefficients α, β, δ for given (γ_x, γ_y, γ_z).</summary>
@@ -154,7 +157,7 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim, IZ2AxisClaim
         "F26 CΨ general Pauli channels as Pi2-Foundation a_{-1} + F25 mother claim";
 
     public override string Summary =>
-        $"CΨ = u(1+u²+v²+w²)/12; α,β,δ = 4(γ_a+γ_b); 4 = a_{{-1}} (F25/F65/F73/F76 sibling); 12 = 3·4 combinatorial; " +
+        $"CΨ = u(1+u²+v²+w²)/12; α,β,δ = 4(γ_a+γ_b); 4 = a_{{-1}} (F25/F76 sibling); 12 = 4·3 (purity 1/4, d − 1 = 3); " +
         $"F25 recovered at γ_x=γ_y=0; depolarizing channel direct evaluation ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -164,9 +167,9 @@ public sealed class F26CPsiPauliChannelsPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F26 closed form",
                 summary: "CΨ = u(1+u²+v²+w²)/12; u,v,w = exp(-α·t/β·t/δ·t); α,β,δ = 4(sum of two γ's excluding one axis); Tier 1 proven monotonic; O(1) evaluation");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "DecayRateCoefficient = a_{-1} = 4 (F25/F65/F73/F76 sibling); 12 = 3·4 combinatorial expansion of F25's 6; F25 corollary at γ_x=γ_y=0 limit");
+                summary: "DecayRateCoefficient = a_{-1} = 4 (F25/F76 sibling); 12 = 4·3, the purity's 1/4 times d − 1 = 3; F25 corollary at γ_x=γ_y=0 limit");
             yield return InspectableNode.RealScalar("DecayRateCoefficient (= a_{-1} = 4)", DecayRateCoefficient);
-            yield return InspectableNode.RealScalar("NormalizationDenominator (= 3·4 combinatorial)", NormalizationDenominator);
+            yield return InspectableNode.RealScalar("NormalizationDenominator (= 4·3, purity ¼ times d − 1)", NormalizationDenominator);
             yield return new InspectableNode("F26 → F25 mother-corollary chain",
                 summary: "At γ_x=γ_y=0: u = e^{-4γ_z t}, v = u, w = 1; CΨ = u(1+u²+u²+1)/12 = u(2+2u²)/12 = u(1+u²)/6 = F25. F25 IS F26's single-channel limit.");
             yield return new InspectableNode("Three-axis structure",

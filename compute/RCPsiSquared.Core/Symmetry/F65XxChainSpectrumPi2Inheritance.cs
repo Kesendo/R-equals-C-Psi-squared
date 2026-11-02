@@ -36,10 +36,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <list type="bullet">
 ///   <item><b>NumeratorCoefficient = 4 = a_{−1}</b>: in <c>4/(N+1)·sin²</c>.
-///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). Same anchor as F25
-///         decay rate (e^{−4γt}), F76 mirror-pair coherence decay, F73
-///         spatial-sum closure, F61/F63 4-block per parity, F66 multiplicity,
-///         F77 correction denominator.</item>
+///         <see cref="Pi2DyadicLadderClaim.Term"/>(−1). It is the Absorption
+///         Theorem's rung-1 rate 2γ₀ times the 2 of the sine normalisation
+///         2/(N+1), α_k = 2γ₀·|ψ_k(N−1)|², shared with F67.</item>
 ///   <item><b>UpperBoundCoefficient = 2 = a_0</b>: in a_k ∈ [0, 2]; same
 ///         anchor as F66's UpperPoleCoefficient. F65 + F66 share the
 ///         polynomial-root upper-pole reading.</item>
@@ -96,9 +95,8 @@ public sealed class F65XxChainSpectrumPi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public F66PoleModesPi2Inheritance F66 { get; }
     /// <summary>The "4" numerator in <c>a_k = 4/(N+1)·sin²</c>. Live from
-    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>. Same
-    /// anchor as F25/F73/F76 decay rates, F61/F63 4-block, F66 multiplicity,
-    /// F77 correction.</summary>
+    /// <see cref="Pi2DyadicLadderClaim.Term"/>(−1) = <c>a_{−1}</c>. The
+    /// rung-1 rate's 2 times the sine normalisation's 2 (α_k = 2γ₀·|ψ_k(N−1)|²).</summary>
     public double NumeratorCoefficient => Ladder.Term(-1);
 
     /// <summary>The "2" upper bound for the first-order coefficient a_k. Same as
@@ -212,7 +210,7 @@ public sealed class F65XxChainSpectrumPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F65 first-order coefficient comb",
                 summary: "a_k = (4/(N+1))·sin²(kπ/(N+1)) for k=1..N; α_k^full = γ₀·a_k + O(γ₀³/J²), equivalently α_k^full/γ₀ = a_k + O((γ₀/J)²); ψ_k(i) = √(2/(N+1))·sin(πk(i+1)/(N+1)); Tier 1 proven; verified N=3..30 to 1.2·10⁻¹⁵");
             yield return new InspectableNode("Pi2-Foundation anchoring",
-                summary: "NumeratorCoefficient = a_{-1} = 4 (F25/F73/F76 sibling); UpperBoundCoefficient = a_0 = 2 (F66 sibling); LowerBound = 0 (F66 sibling); first-order mirror a_k = a_{N+1-k}");
+                summary: "NumeratorCoefficient = a_{-1} = 4 (rung-1 rate 2 × sine normalisation 2); UpperBoundCoefficient = a_0 = 2 (F66 sibling); LowerBound = 0 (F66 sibling); first-order mirror a_k = a_{N+1-k}");
             yield return InspectableNode.RealScalar("NumeratorCoefficient (= a_{-1} = 4)", NumeratorCoefficient);
             yield return InspectableNode.RealScalar("UpperBoundCoefficient (= a_0 = 2, F66 sibling)", UpperBoundCoefficient);
             yield return InspectableNode.RealScalar("LowerBoundCoefficient (= 0, F66 sibling)", LowerBoundCoefficient);

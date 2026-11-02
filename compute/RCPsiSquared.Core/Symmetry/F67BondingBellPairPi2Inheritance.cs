@@ -26,8 +26,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>NumeratorCoefficient = 4 = a_{−1}</b>: in α_1 = (4γ₀/(N+1))·sin².
 ///         Live transitively from <see cref="Pi2DyadicLadderClaim.Term"/>(−1) via F65.
-///         Same anchor as F25 (e^{−4γt}), F65 (single-excitation rate numerator),
-///         F73 (spatial-sum closure), F76 (mirror-pair coherence decay).</item>
+///         The same four as F65's single-excitation rate numerator: the rung-1
+///         rate 2γ₀ times the 2 of the sine normalisation 2/(N+1).</item>
 /// </list>
 ///
 /// <para>Counterintuitive equivalence A ≡ C: inner-localized (j=0) and outer-

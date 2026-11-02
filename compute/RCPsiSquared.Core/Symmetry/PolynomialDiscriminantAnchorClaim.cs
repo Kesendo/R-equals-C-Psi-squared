@@ -52,7 +52,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// classify by what they BECOME at the qutrit (d = 3) into two super-families. SPLIT (operator-counting, d-dependent): <b>family A</b> = the
 /// squared dimension d² (F23/F49 4^N = (d²)^N → 9^N; F1 4^{N−1}), <b>family B</b>
 /// = the cap base 2d (F121 (2d)^N → 6). STAY (rate/spectral, set by the generators): <b>family C</b> = the rate
-/// 2γ·Hamming (F25/F73/F86 4γ, F65/F67 4γ₀/(N+1)), <b>family D</b> = the band edge /
+/// fours built on 2γ per disagreement (F25/F86 4γ = 2γ·2; F73 4γ₀, 2γ₀ doubled by |·|²; F65/F67 4γ₀/(N+1), 2γ₀ times the sine normalisation's 2), <b>family D</b> = the band edge /
 /// graph 4J (F2/F41; F121's Heisenberg gap Δ = 4J holds at d = 3 too), <b>family E</b> = the inversion-fold
 /// ¼ = a₃ = 1/a_{−1} = 1/d² (F56/F95/F97/F98 / <see cref="QuarterAsBilinearMaxvalClaim"/>; the qudit value 1/9
 /// is conjectural and blocked, since concurrence is d = 2 only). Gated: A (4^N → 9^N), C (4γ stays, for the
@@ -65,7 +65,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>What the classification derives (the reading, 2026-06-17).</b> The two super-families are a
 /// KINEMATIC vs DYNAMIC dichotomy. The SPLIT fours are <i>kinematic</i> — they count the operator (Liouville)
 /// space, whose single-site dimension is d² (family A) and mirror-realizable part 2d (family B), so they scale
-/// with d; family E is the kinematic inverse 1/d². The STAY fours are <i>dynamic/spectral</i> — rates 2γ·Hamming
+/// with d; family E is the kinematic inverse 1/d². The STAY fours are <i>dynamic/spectral</i>: rates built on 2γ·Hamming
 /// (C) and band edges J·ρ (D), set by the GENERATORS of evolution, not by the operator-space count. The qubit (d=2) is the unique
 /// COINCIDENCE point where d² = 2d = the generator scales (2γ·2, 4J, the inverse spin normalisation 1/(1/2)²) all equal 4 — which is why
 /// the "4 = d²" intuition felt universal: at the qubit every 4 IS the same number, and the qutrit is the prism
@@ -204,7 +204,7 @@ public sealed class PolynomialDiscriminantAnchorClaim : Claim
             yield return InspectableNode.RealScalar("MirrorPartnerLadderIndex (a_3)", MirrorPartnerLadderIndex);
             yield return InspectableNode.RealScalar("MirrorPartnerValue (a_3 = 1/4)", MirrorPartnerValue);
             yield return new InspectableNode("where the discriminant four is visible",
-                summary: "F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the qutrit genealogy (→ 9^N at d=3); the rate fours 4γ (F25/F73/F86, F65/F67 4γ₀/(N+1)), whose value at d=3 depends on the qudit dephaser, and the band-edge 4J (F2/F41), which stays 4 at d=3, are other families");
+                summary: "F23/F49 4^N = (d²)^N and F1 4^{N−1}, family A of the qutrit genealogy (→ 9^N at d=3); the rate fours built on 2γ per disagreement (F25/F86 4γ, F73 4γ₀ by |·|², F65/F67 4γ₀/(N+1)), whose value at d=3 depends on the qudit dephaser, and the band-edge 4J (F2/F41), which stays 4 at d=3, are other families");
             yield return new InspectableNode("mirror partner reading",
                 summary: "a_{-1} · a_3 = 4 · (1/4) = 1; the discriminant on the operator-space side and the bilinear-apex maxval on the memory side are mirror partners. The Mandelbrot cardioid cusp at CΨ = 1/4 (where 1 − 4·CΨ = 0) IS this same mirror partner.");
             yield return new InspectableNode("ZERO IS THE MIRROR connection",

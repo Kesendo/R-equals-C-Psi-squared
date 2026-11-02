@@ -8,7 +8,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = 4</c>
-///         (numerator coefficient, F25/F73/F76 sibling).</item>
+///         (numerator coefficient: the rung-1 rate's 2 times the sine normalisation's 2).</item>
 ///   <item><see cref="F66PoleModesPi2Inheritance"/>: F65 + F66 sibling pair
 ///         at the [0, 2γ₀] interval. F66 says the pole positions; F65 says
 ///         the single-excitation rates fill the interval but never reach

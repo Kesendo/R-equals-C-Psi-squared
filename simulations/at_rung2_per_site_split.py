@@ -2,9 +2,11 @@
 """The rung-2 four splits per-site: |00⟩⟨11| is an exact N=2 eigenmode at −2(γ₁+γ₂).
 
 The Absorption Theorem's rung 2 (rate 4γ, two absorption quanta of 2γ each) is the
-single object behind every dynamical 4γ₀ in the repository: t_peak = 1/(4γ₀)
+object behind t_peak = 1/(4γ₀)
 (TPeakLaw), the clock's Takt pin 4γ₀, the L_eff mirror axis −4γ₀, the
-approach-family carrier e^{−4γt}, and the F25 Bell+ rate. This script certifies the
+approach-family carrier e^{−4γt}, and the F25 Bell+ rate; not behind every 4γ₀, since
+F73's spatial sum and F89's all-isolated closed form decay at the rung-1 rate 2γ₀
+doubled by |·|². This script certifies the
 per-site split that makes "two quanta" literal: for the N=2 XY chain
 H = J(XX + YY) under site-dependent Z-dephasing (γ₁, γ₂), the coherence |00⟩⟨11|
 is an EXACT Liouvillian eigenmode,
@@ -16,8 +18,8 @@ for any J) and each site contributes its own absorption quantum 2γ_l (Theorem 2
 the vector form: the bra and ket labels differ at both sites, Δ₁ = Δ₂ = 1). The
 uniform case γ₁ = γ₂ = γ recovers the rung-2 rate 4γ.
 
-Counterfactual arithmetic (the "two different fours" disambiguation, see
-PROOF_ABSORPTION_THEOREM.md, Remark (two different fours)): the rung-2 four is
+Counterfactual arithmetic (the disambiguation of the fours, see
+PROOF_ABSORPTION_THEOREM.md, Remark (the recurring four)): the rung-2 four is
 CENTRE-based, the midpoint of the HD=(1,3) channel pair, (2γ+6γ)/2 = 4γ. The
 discriminant four (a₋₁ = d² on the Pi2 dyadic ladder, the EP discriminant 4γ₀²)
 is HALF-GAP-SQUARED-based, ((6γ−2γ)/2)² = (2γ)² = 4γ², a quantum squared. They
@@ -101,7 +103,7 @@ def main() -> None:
     assert (centre_15, halfgap_sq_15) == (6.0, 16.0)
 
     print("-" * 78)
-    print("  PASS: the dynamical 4γ₀ is rung 2 (two per-site quanta 2γ_l), exact;")
+    print("  PASS: the rung-2 4γ₀ is two per-site quanta 2γ_l, exact;")
     print("        the discriminant 4 (a₋₁ = d², half-gap squared) is a different four,")
     print("        glued to it only at HD=(1,3) by d² − 2d = 0.")
 

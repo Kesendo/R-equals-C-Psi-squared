@@ -803,8 +803,13 @@ log; it regenerates only with the ~10.6 h N=8 run.) The block-spectrum
 runs report max pairing distances of 4.2e-13 (chain), 2.6e-13 (ring),
 3.2e-13 (star) and 2.6e-7 (the disconnected graph) against a 1e-6 tolerance.
 That last one passes with a margin of 3.9 while the others pass with a margin
-of several million; the disconnected graph is the hardest case here and worth
-watching if this is ever pushed further.
+of several million. The disconnected graph is the hardest case. Its K₄
+component carries Jordan-2 blocks at the K₄ centre, whose eigenvalues an
+eigensolver resolves only to about √eps·‖L‖; the sum of the two spectra moves
+most of them off the N=8 centre, where that split no longer cancels in the pairing.
+Whether they set the 2.6e-7 record is not established
+([PROOF_F1_GENERAL_TOPOLOGY](PROOF_F1_GENERAL_TOPOLOGY.md), item 2 of the
+N = 8 discoveries).
 
 The oscillatory subsets (|Im(λ)| > 0.05) at γ=0.05 are 3,228 / 13,264 /
 54,118 on the star. The chain is verified at the same sizes, with
