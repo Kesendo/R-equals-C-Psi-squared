@@ -23,7 +23,10 @@ using static MirrorWorld.LetterCube;
 //                 only its sites differ.
 // The plain all-diagonal copies are left out: they form a group holding the identity, which the solver would return,
 // so a copy's silence means no copy of the other kinds, not no symmetry (the turns about Z and the moves by Z^N, the
-// turn rho -> Z^N·rho·Z^N and the shift rho -> rho·Z^N, are in the group left out). The first copy read so is U =
+// turn rho -> Z^N·rho·Z^N, MirrorGroup.AdZ, and the shift rho -> rho·Z^N, are in the group left out). The
+// dephasing's own flow at imaginary time, the cell map |a><b| -> w^popcount(a xor b)·|a><b| with |w| = 1, is a sandwich
+// only at w = ±1, since per site the multiplier [[1, w], [w, 1]] is a product alpha_a·beta_b only when w² = 1: the
+// identity and the turn by Z^N, which is that flow at gamma·t = i·pi/2 (docs/THE_ONE_SQUARE.md §7). The first copy read so is U =
 // Sigma·rho^T·Sigma on the XY chain, Sigma the sign on every second site, the involution
 // docs/proofs/PROOF_DEPHASING_FRONT_RENEWAL.md splits the block (1, 1) by.
 // A reading is the reduced binomial system with the kinds of the factors; it never holds a number. On a chain built

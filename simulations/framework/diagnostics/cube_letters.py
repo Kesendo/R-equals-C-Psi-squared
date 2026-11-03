@@ -14,7 +14,10 @@ reflection's, since -L_H^† = L_H for a Hermitian H; only the sites differ. The
 out: they form a group holding the identity (with the turns about Z where H conserves the excitation number), and
 the solver, which sets every free turn to 1, would return the identity from them. So a copy's None means no copy of
 the other kinds, not no symmetry: the turns about Z and the moves by Z^N (the turn ρ ↦ Z^N·ρ·Z^N, MirrorWorld's
-MirrorGroup.AdZ, and the shift ρ ↦ ρ·Z^N) are in the group left out.
+MirrorGroup.AdZ, and the shift ρ ↦ ρ·Z^N) are in the group left out. The dephasing's own flow at imaginary time,
+|a⟩⟨b| ↦ w^popcount(a⊕b)·|a⟩⟨b| with |w| = 1, is a sandwich only at w = ±1 (per site the multiplier [[1, w], [w, 1]]
+is a product α_a·β_b only when w² = 1): the identity and the turn by Z^N, the flow at γt = iπ/2
+(docs/THE_ONE_SQUARE.md §7).
 A binomial system is solved by integer elimination on the exponents (Euclid on the columns) and radicals of the
 constants: exact, in closed form, without a Groebner basis. Every N follows from the same equations with a step per
 site, x_l = x_0·r^l and y_l = y_0·s^l: two positions of a window fix the step, so an answer holds on every open chain.

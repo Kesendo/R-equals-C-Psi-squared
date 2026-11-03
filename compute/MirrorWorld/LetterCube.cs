@@ -548,7 +548,8 @@ public sealed class LetterCube : GameObject
         return new(n - p.KZ, p.KX, n - p.KY);
     }
 
-    // the parity cube (bit_a, bit_b, y_par) read off a point: k_Z mod 2, k_X mod 2, half a sum mod 2
+    // the parity cube (bit_a, bit_b, y_par) read off a point: k_Z mod 2, k_X mod 2, half a sum mod 2;
+    // bit_a is the character of MirrorGroup.AdZ, bit_b of the conjugation by X^N
     public static (int A, int B, int Y) Parities(Point p) => (p.KZ % 2, p.KX % 2, ((p.KZ + p.KX - p.KY) / 2) % 2);
 
     // ---- a state read as words ----

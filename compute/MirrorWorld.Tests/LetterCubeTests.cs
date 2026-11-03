@@ -223,6 +223,35 @@ public class LetterCubeTests
             Assert.Equal(Hardness.Cube(s.ToString(3).ToCharArray()), LetterCube.Parities(LetterCube.Coordinates(s)));
     }
 
+    // §7 "The height as a sign": the conjugation by P^N puts (-1)^{k_P} on a string, the P-dephasing flow at an
+    // imaginary time. Second route: the sign counted letter by letter (a letter other than I and P anticommutes with
+    // P). The three signs multiply to +1 on every string, k_Z + k_X + k_Y = 2w being even: the conjugations see only
+    // a square. Control: each single sign is -1 on some string, so the product is not +1 by vacuity.
+    [Fact]
+    public void The_Three_Height_Signs_Multiply_To_One()
+    {
+        for (int n = 1; n <= 4; n++)
+        {
+            var seenMinus = new HashSet<char>();
+            foreach (var s in LetterCube.Strings(n))
+            {
+                var p = LetterCube.Coordinates(s);
+                string letters = s.ToString(n);
+                int product = 1;
+                foreach (var (axis, k) in new[] { ('Z', p.KZ), ('X', p.KX), ('Y', p.KY) })
+                {
+                    int anticommuting = letters.Count(c => c != 'I' && c != axis);
+                    int sign = anticommuting % 2 == 0 ? 1 : -1;
+                    Assert.Equal(k % 2 == 0 ? 1 : -1, sign);
+                    if (sign == -1) seenMinus.Add(axis);
+                    product *= sign;
+                }
+                Assert.Equal(1, product);
+            }
+            Assert.Equal(new HashSet<char> { 'Z', 'X', 'Y' }, seenMinus);
+        }
+    }
+
     // ---- the steps (§8, gate S9) ----
 
     static readonly LetterCube.Point O = new(0, 0, 0);
