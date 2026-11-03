@@ -214,7 +214,7 @@ y = K/|K|max of the class-averaged envelope max_t |K|, evaluated at relative shi
 
 ### HWHM_left/Q_peak across all read cases (two bond classes)
 
-The envelope reading: Q_peak is the argmax over Q of max_t |K(Q, t)| of the class-averaged curve, at γ₀ = 0.05 on the default Q grid (153 points on [0.2, 4], parabolic vertex, linear half-maximum), read by `ResonanceScan` and on a second route by [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py), the two agreeing to 10⁻¹⁰; the c = 4, N = 8 rows are read by `ResonanceScan` alone so far. Against a continuous search in Q, made per bond at c = 2, N = 5..8 (not on the class-mean curves), the grid reading is off by up to 2.2·10⁻⁴ in Q_peak and 3.5·10⁻⁵ in the ratio.
+The envelope reading: Q_peak is the argmax over Q of max_t |K(Q, t)| of the class-averaged curve, at γ₀ = 0.05 on the default Q grid (153 points on [0.2, 4], parabolic vertex, linear half-maximum), read by `ResonanceScan` and on a second route by [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py), the two agreeing to 10⁻¹⁰ (at c = 4, N = 8 to 3·10⁻¹¹ in the ratio and 2·10⁻¹⁰ in Q_peak). Against a continuous search in Q, made per bond at c = 2, N = 5..8 (not on the class-mean curves), the grid reading is off by up to 2.2·10⁻⁴ in Q_peak and 3.5·10⁻⁵ in the ratio.
 
 **Interior bonds:**
 

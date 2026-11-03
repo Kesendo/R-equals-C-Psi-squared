@@ -48,8 +48,8 @@ import f89_to_f86_kbond_via_eigendecomp as f89  # noqa: E402
 G0 = 0.05
 Q_GRID = np.linspace(0.2, 4.0, 153)
 FIXTURE_BLOCKS = [(2, 5), (2, 6), (2, 7), (2, 8), (3, 5), (3, 6), (3, 7), (3, 8), (4, 7)]
-# (4, 8) belongs to the F86 standard locations too but is not in the fixture: its block (dim 3920)
-# takes hours here; merge it explicitly with `--fixture 8 4`.
+# (4, 8) is in the fixture too, but a default run does not recompute it: its block (dim 3920) takes hours
+# here; re-read it explicitly with `--fixture 8 4`, which merges it.
 FIXTURE = (Path(__file__).resolve().parent.parent / "compute" / "RCPsiSquared.Core.Tests"
            / "Fixtures" / "python_envelope_route_summary.json")
 

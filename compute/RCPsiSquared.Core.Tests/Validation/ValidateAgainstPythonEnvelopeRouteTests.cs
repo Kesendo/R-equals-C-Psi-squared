@@ -53,7 +53,7 @@ public class ValidateAgainstPythonEnvelopeRouteTests
     public void Fixture_HoldsTheExpectedBlocks()
     {
         var labels = Entries().Select(e => e.ToString()).ToHashSet();
-        foreach (var l in new[] { "c2_N5", "c2_N6", "c2_N7", "c2_N8", "c3_N5", "c3_N6", "c3_N7" })
+        foreach (var l in new[] { "c2_N5", "c2_N6", "c2_N7", "c2_N8", "c3_N5", "c3_N6", "c3_N7", "c3_N8", "c4_N7", "c4_N8" })
             Assert.Contains(l, labels);
         Assert.All(Entries(), e => Assert.Equal(e.C - 1, e.LowerPopcount));
     }

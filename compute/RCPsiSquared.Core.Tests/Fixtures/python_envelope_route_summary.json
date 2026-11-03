@@ -115,5 +115,18 @@
     "Q_peak_endpoint": 2.5752121936663896,
     "K_max_endpoint": 0.4156911137319015,
     "hwhm_left_over_q_peak_endpoint": 0.7767623454323155
+  },
+  {
+    "label": "c4_N8",
+    "c": 4,
+    "N": 8,
+    "n": 3,
+    "gamma_0": 0.05,
+    "Q_peak_interior": 1.791424903105309,
+    "K_max_interior": 0.2681172985939636,
+    "hwhm_left_over_q_peak_interior": 0.7636747635956419,
+    "Q_peak_endpoint": 2.590833975183455,
+    "K_max_endpoint": 0.39747323539353496,
+    "hwhm_left_over_q_peak_endpoint": 0.7777065093557429
   }
 ]
