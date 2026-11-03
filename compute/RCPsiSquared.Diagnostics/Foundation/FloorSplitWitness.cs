@@ -33,8 +33,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Readings, at the canonical peak of each bond: the shares of the three terms in K (signed, K
 /// itself signed there), so the endpoint bond's floor share and the interference can be followed
-/// across N; and the bonds into the middle site at odd N, where s vanishes on that site and the floor
-/// term is silent (read here, the reason not derived). Docs: <c>docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md</c>
+/// across N; and the bonds into the middle site at odd N, where the floor term is silent at every J and t:
+/// s_l = N−1−2l is odd under the chain reflection, the floor dynamics keep it odd so x_m(t) = 0, a bond
+/// into m feeds only x_(m∓1) onto the even vector e_m so ∂x stays even, and Σ_l s_l²·x̄_l·∂x_l is a sum
+/// of an odd function. The interference term is not silent there. Docs: <c>docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md</c>
 /// (the floor), <c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c> (the family), <c>docs/F86_VALUES_INVENTORY.md</c>.</para></summary>
 public sealed class FloorSplitWitness : IInspectable
 {
