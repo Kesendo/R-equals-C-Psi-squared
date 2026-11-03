@@ -13,8 +13,8 @@ The relations: 'pi' (-L - c), 'refl' (-L^† - c) and 'copy' (L itself, a symmet
 reflection's, since -L_H^† = L_H for a Hermitian H; only the sites differ. The plain all-diagonal copies are left
 out: they form a group holding the identity (with the turns about Z where H conserves the excitation number), and
 the solver, which sets every free turn to 1, would return the identity from them. So a copy's None means no copy of
-the other kinds, not no symmetry: the turns about Z and the moves by Z^N (the turn ρ ↦ Z^N·ρ·Z^N and the shift
-ρ ↦ ρ·Z^N) are in the group left out.
+the other kinds, not no symmetry: the turns about Z and the moves by Z^N (the turn ρ ↦ Z^N·ρ·Z^N, MirrorWorld's
+MirrorGroup.AdZ, and the shift ρ ↦ ρ·Z^N) are in the group left out.
 A binomial system is solved by integer elimination on the exponents (Euclid on the columns) and radicals of the
 constants: exact, in closed form, without a Groebner basis. Every N follows from the same equations with a step per
 site, x_l = x_0·r^l and y_l = y_0·s^l: two positions of a window fix the step, so an answer holds on every open chain.

@@ -73,6 +73,8 @@ which acts as +1 on the vacuum and −1 on the single-excitation sector, commute
 
 The PTF fits α_i (and the rates f_i, the closure sums Σ ln α_i, and every other functional of the per-site purity curves) inherit the equality site-wise; summing over i gives the EQ-014 Σ-mirror law as a corollary.
 
+On operators, ρ ↦ e^{iπN̂}·ρ·e^{−iπN̂} is the conjugation by Z^⊗N, which multiplies a Pauli string by (−1)^{n_X+n_Y}: that sign is the bit_a character of the polarity cube in [the Π factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §7, and on [the letter cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) the parity of the Z height k_Z = n_X + n_Y.
+
 ## §5 Scope
 
 The argument needs exactly four ingredients and nothing else:

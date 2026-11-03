@@ -270,7 +270,13 @@ n_XY=1 is odd, SE density matrices are even, overlap is zero.
 - **The parity operator identified:** the F61 parity is conjugation by
   the global Z-string, Z^⊗N · σ · Z^⊗N = (−1)^{n_XY} · σ (Π²_X, the
   bit_a twin of Π²_Z = X^⊗N; F61 corollary in the
-  [formula registry](../ANALYTICAL_FORMULAS.md)).
+  [formula registry](../ANALYTICAL_FORMULAS.md)). The sign it reads is
+  the bit_a axis of the polarity cube, the character of Ad_{Z^⊗N} in
+  [the Π factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) §7, and on
+  [the letter cube](../THE_ONE_SQUARE.md#7-the-cube-three-squares-at-once) the parity of the height k_Z = n_XY.
+  Ad_{Z^⊗N}, which the eight mirrors of ⟨R, D⟩ do not contain, is, with
+  one rate γ at every site, the flow of the Z-dephasing dissipator alone
+  (without H) at t = iπ/(2γ).
 - **The ceiling made quantitative (F122):** the accessibility boundary's
   α₁ has closed forms per topology. On the **XY** network they are
   g2(K_N) = 4/N (N ≥ 5), g2(star_N) = 4/(N−1) (N ≥ 6), chain never ceilings.
