@@ -190,13 +190,17 @@ bit, so it MEETS the popcount block (p, p+1) for every p, not only p = 0,
 and contains one whole only at the two ends p = 0 and p = N−1. Of the (1,2)
 block's 50 dimensions at N=5 it holds 20.
 
-Those higher blocks carry frequencies of their own, which are not given by
-ω_k. The sector as a whole carries none to compare against: it is not
+Under this Heisenberg H, those higher blocks carry frequencies of their own,
+which are not given by ω_k. The sector as a whole carries none to compare against: it is not
 L-invariant, by Step 2, so diagonalizing L compressed onto it returns the
 spectrum of the compression and not of L. The compression's frequencies at
 N=5, twenty nonzero ones, are an artifact of that truncation; its uniform
 Re = −2γ is manufactured by the same step, since the dissipator is diagonal
 on this span while L does not preserve it.
+
+The open XY chain at uniform γ is different here: without the ZZ term every
+(p, p+1) block holds the single-particle comb on its floor, the Jordan-Wigner
+family of [PROOF_CHAIN_GAP_DOMINANCE](../PROOF_CHAIN_GAP_DOMINANCE.md).
 
 This derivation is the (0,1) statement; it does not describe the
 XY-weight-1 sector as a whole.

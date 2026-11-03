@@ -11,12 +11,12 @@ using RCPsiSquared.Core.Probes;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The free-fermion floor of the number-changing blocks, read block by block. Under the
-/// uniform XY chain with uniform Z-dephasing γ₀, <c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c>
-/// §2-§3 shows that the modes at exactly Re λ = −2γ₀ are the Jordan-Wigner family
-/// c_k^(†)·f(N_tot). This witness reads that family inside each (n, n+1) popcount coherence
+/// uniform open XY chain with uniform Z-dephasing γ₀, <c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c>
+/// §2-§3 builds the Jordan-Wigner family c_k^(†)·f(N_tot) of modes at exactly Re λ = −2γ₀. This witness reads that family inside each (n, n+1) popcount coherence
 /// block, the block family F86 works in, built with F86's own <see cref="CoherenceBlock"/> and
-/// <see cref="BlockLDecomposition"/>: f = P_n gives P_n·c_k·P_{n+1}, N modes per block, at every
-/// chromaticity c.
+/// <see cref="BlockLDecomposition"/>: f = P_{n+1} gives c_k·P_{n+1} = P_n·c_k·P_{n+1}, N modes per
+/// block, at every chromaticity c. That holds on the open chain: on the ring the Δn = 1 floor is the
+/// four outer blocks' alone at N = 4..8 (<c>PROOF_RING_GAP_DOMINANCE</c>).
 ///
 /// <para>The count stands on two exact routes and is read by a third. (1) A lower bound in
 /// integers: the N vectors u_j = P_n·c_j·P_{n+1} (entries ±1, the Jordan-Wigner sign) have
@@ -35,15 +35,19 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>The Dicke probe (<see cref="DickeBlockProbe"/>, uniform over the block) reads a floor
 /// mode through its biorthogonal overlap, which is the plain sum of the mode's entries. The exact
 /// route: s_j = Σ entries of u_j is an integer, and s obeys s_{N−1−j} = ε·s_j under the chain
-/// reflection, while the single-particle vector φ_k has parity (−1)^(k+1). A mode whose parity
-/// differs from ε is dark, exactly. In the (1,2) block (c = 2) the visible half is F89's F_a set
-/// (<c>F89PathKAtLockMechanismClaim.SeAntiBlochOrbit</c>); the other half sits on the floor all
-/// the same, dark to the probe only by mirror parity.</para>
+/// reflection (ε = (−1)^n, the sign the Jordan-Wigner string picks up), while the single-particle
+/// vector φ_k has parity (−1)^(k+1). The mode's parity under the chain reflection of the coherence,
+/// site j ↔ N−1−j on both of its sides, is the product of the two; an odd mode (φ_k parity differing
+/// from ε) is silent to the probe, exactly, and the even ones read nonzero in every block the tests
+/// check. In the (1,2) block the visible modes are the even k, the k-labels of F89's F_a set
+/// (<c>F89PathKAtLockMechanismClaim.SeAntiBlochOrbit</c>, named there by φ_k's own parity); the
+/// others sit on the floor all the same, silent to the probe by that parity alone.</para>
 ///
 /// <para>What the floor is for the other readings: the global slowest rate of the number-changing
 /// channel (<c>PostEpFlowField.IsInSterileZone</c>) reads this layer, which is Q-flat at uniform γ
-/// in every block; F86's exceptional point and Q_peak live above it, where HD = 1 and HD = 3
-/// cells mix (<see cref="FermionFloorBlockReading.NextRateAboveFloor"/> is the first rate there).</para></summary>
+/// in every block. The family's span is invariant under L and L† alike, so it splits off orthogonally
+/// and no exceptional point of a block involves a mode of the family
+/// (<see cref="FermionFloorBlockReading.NextRateAboveFloor"/> is the first rate off the floor).</para></summary>
 public sealed class FreeFermionFloorWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -351,7 +355,7 @@ public sealed class FreeFermionFloorWitness : IInspectable
                 yield return new InspectableNode(
                     $"({b.LowerPopcount}, {b.LowerPopcount + 1}) block, c = {b.Chromaticity}",
                     summary: $"dim {b.BlockDimension}; floor {b.EigensolverFloorCount} modes (exact bound {b.FloorUpperBoundModP}); " +
-                             $"{next}; Dicke sees k ∈ {{{string.Join(",", b.DickeVisibleK)}}}, dark k ∈ {{{string.Join(",", b.DickeDarkK)}}} " +
+                             $"{next}; Dicke sees k ∈ {{{string.Join(",", b.DickeVisibleK)}}}, silent k ∈ {{{string.Join(",", b.DickeDarkK)}}} " +
                              $"(mirror sign ε = {b.ReflectionSign})");
             }
         }

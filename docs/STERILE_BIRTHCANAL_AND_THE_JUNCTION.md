@@ -2,7 +2,9 @@
 
 **Status:** Tier 1 candidate (gate-verified, N = 5, 6 numerical; the (0,1) reduction it rests on is
 Tier 1 derived). The sterile↔birth-canal boundary and the coherence-horizon junction are two readings of
-one quantity, `rate_slow(Q)` decomposed by the change-number Δn.
+one quantity, `rate_slow(Q)` decomposed by the change-number Δn. The open chain's per-block floor
+(the section on the Δn = 1 blocks) rests on PROOF_CHAIN_GAP_DOMINANCE and is exact block by block at
+N = 2 … 6 (`FreeFermionFloorWitness`).
 **Date:** 2026-06-17
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Verifier:** [`birth_canal_junction_nature.py`](../simulations/birth_canal_junction_nature.py)
@@ -11,6 +13,30 @@ one quantity, `rate_slow(Q)` decomposed by the change-number Δn.
 (the (0,1) reduction), `HandoverFloorClaim` (the junction = the handover Q_h, = Q*(N) at N=2,3 only),
 [`PROOF_STRUCTURAL_CEILING.md`](proofs/PROOF_STRUCTURAL_CEILING.md) §7 (the star ceiling); the Absorption
 floor is `AbsorptionTheoremClaim`.
+
+<!-- STAGE 0 SWEEP RECORD (2026-11-03, for the section on the free-fermion floor of the whole
+Δn = 1 family). Question: what does the repo hold on the floor of the (n, n+1) blocks for n ≥ 1, and
+on its relation to F86. docs/proofs/: PROOF_CHAIN_GAP_DOMINANCE §2 and §3 own the floor (every mode
+at Re λ = −2γ is c_k^(†)·f(N_tot) from N = 4, with Δn = 0 extras at N = 2, 3; completeness a
+dimension match at N = 4, 5, 6, 2N² modes in all);
+PROOF_WEIGHT1_DEGENERACY is the Heisenberg real-mode analogue; PROOF_F86A_EP_MECHANISM and
+PROOF_F86B_OBSTRUCTION use the HD = 1 channel rate −2γ₀ but never the floor family.
+docs/ANALYTICAL_FORMULAS.md: the F2b corollary cites the floor modes, nothing per block; F153 pins
+whole blocks only (min(p, q) = 0 or max(p, q) = N); F50 is Heisenberg. Typed layer:
+VacuumBlockReductionClaim covers the (0,1) block only; PinnedBlockFloorClaim (F153);
+F89PathKAtLockMechanismClaim counts floor(N/2) F_a modes at rate 2γ in the (1,2) block;
+CoherenceHorizonWitness says in prose that the band edge repeats once in each of the 2N Δn = ±1
+sectors; ClockHandLadderClaim types the proof. experiments/: VEFFECT_CAVITY_MODES (Heisenberg),
+THE_FLOW_BETWEEN_TWO_SINGULARITIES (the flow EP, kept apart from F86 on purpose), Q_SCALE_THREE_BANDS
+nothing. docs/GLOSSARY.md: the 2γ rung exists at every coupling at uniform γ. OpenArcs:
+birth_canal_horizon_junction, birth_canal_surface and site_resolved_vacuum_block, none on the interior
+blocks. docs/CAUGHT_ERRORS.md: CHAIN_GAP_DOMINANCE audited clean. fw.Confirmations: nothing.
+Adjacency: four results about this one object that did not cite each other, the proof's floor family,
+F89's F_a set (the floor modes even under the chain reflection of the coherence, checked by
+FreeFermionFloorWitness), CoherenceHorizonWitness's 2N
+repetition, and this document's sterile reading; and no birth-canal document named F86, no F86
+document named the birth canal; docs/NAVIGATING_THE_DIMENSIONS.md names F86a's proof and the flow's
+birth canal a few paragraphs apart and keeps them apart. New here is only the per-block reading and the bridge. -->
 
 ## What this is about
 
@@ -53,6 +79,48 @@ change-number **Δn = |p_col − p_row|** (the n_diff parity of `JointPopcountSe
   different γ, so the slowest Δn=1 mode's rate **drifts with Q**.
 - **Δn = 0, the number-conserving interior** (the diagonal (p,p), the {0,2}-coherence). Its rate is
   −2γ⟨n_XY⟩(Q), **Q-dependent** (it brightens toward the −2γ floor as Q rises).
+
+## On the open chain the floor is every Δn = 1 block's, and F86 works in those blocks
+
+The (0,1) block is the smallest member of the Δn = 1 family, not the only one: every (n, n+1) block
+is number-changing, and the interior ones, chromaticity c ≥ 2, are the blocks F86 works in. On the
+open XY chain at uniform γ every one of them holds the same kind of floor. Inside these blocks the
+modes at Re λ = −2γ are the Jordan-Wigner family c_k^(†)·f(N_tot) of
+[PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md) §2 and §3: in the (n, n+1) block that
+is P_n·c_k·P_(n+1) = c_k·P_(n+1), k = 1 … N, with its adjoint in the transposed block, oscillating at
+the single-particle comb ±2J·cos(πk/(N+1)) whatever the chromaticity (with H = (J/2)·Σ(XX+YY),
+so one excitation hops with amplitude J). Each such mode carries exactly
+one X or Y letter, so the dephasing charges it the single price 2γ. A single letter in general does
+not stay single under the hopping, which can turn a background Z beside an I into an X/Y pair, three
+letters in all (the proof's §1); the Jordan-Wigner string is what cancels that leak, so on this family
+the hopping only moves the letter along, and Q turns the phase and never the rate. The family gives N
+floor modes in every block at every N; that there are no others is exact, an integer lower bound
+meeting a mod-p upper bound, at N = 2 … 6 (`FreeFermionFloorWitness`, `inspect --root fermionfloor`).
+
+The fence. A bond profile leaves the family in place, the comb then being the spectrum of the
+weighted hopping matrix (the proof's scope). So does a γ profile, in its form: P_n·c_j·P_(n+1)
+disagrees at site j alone, so the dephasing charges it 2γ_j, and every block carries the vacuum
+block's own operator, so every block holds the (0,1) block's eigenvalues. What a profile takes away is the single rate: the family's rates then move with Q,
+which is this document's odd-drift entrance to the birth canal, taken in every block at once. A ZZ
+term breaks the interior blocks' N-member family: at the Heisenberg point each interior block keeps a
+single floor mode (read at N = 3 … 7), at frequency 0, the real modes of
+[PROOF_WEIGHT1_DEGENERACY](proofs/PROOF_WEIGHT1_DEGENERACY.md). So does the ring in
+its interior: there the Δn = 1 floor is the 4N modes of the four outer blocks alone at N = 4 … 8
+([PROOF_RING_GAP_DOMINANCE](proofs/PROOF_RING_GAP_DOMINANCE.md); at N = 3 the (1,2) block holds more),
+and the ring's interior blocks, read at N = 5 and 6 and Q = 1, 2 and 5, decay faster than 2γ at a rate
+that moves with Q (at N = 5 their slowest rate goes 2.16, 2.61, 3.40 γ).
+
+So on the uniform open chain, wherever the floor is the slowest layer, the sterile reading reads a
+layer that is Q-flat in every block by construction. It does not follow that Q leaves the channel alone. The family's span is invariant under
+L and under its adjoint alike, so L splits into the family's part, which is normal, and an orthogonal
+rest: no exceptional point of a block involves a mode of the family, at any N and any Q. Where the count is exact (N = 2 … 6), every other mode of a block decays strictly
+faster than 2γ at every Q > 0. The uniform Dicke probe is silent, exactly, on the floor modes that are odd under the chain
+reflection of the coherence, site j ↔ N−1−j applied to both of its sides, and reads the even ones as
+nonzero in every block checked. That parity is φ_k's, (−1)^(k+1), times the sign (−1)^n the
+Jordan-Wigner string picks up, so the visible k alternate from block to block; in the (1,2) block
+they are the even k, the k-labels of F89's F_a set, which F89 names by φ_k's own parity, the
+S₂-antisymmetric orbit. A slowest-rate reading cannot tell any of this apart: wherever the floor is
+the slowest layer, the reading stays flat at uniform γ, whatever Q does above it.
 
 ## The two facets
 
@@ -109,9 +177,14 @@ When the Δn=0 interior is the survivor, its nature is topology-set, not γ-prof
   [`docs/THE_TRICHOTOMY_SEEN.md`](THE_TRICHOTOMY_SEEN.md): this Δn-seam alongside the chain/ring/star
   un-freeze, as one figure + the live `inspect --root trichotomy` tree.
 - Claims: `HandoverFloorClaim`, `CoherenceHorizonClaim`, `VacuumBlockReductionClaim`,
-  `SecondClockRegimeClaim`; the floor is `AbsorptionTheoremClaim`.
+  `SecondClockRegimeClaim`; the floor is `AbsorptionTheoremClaim`, its free-fermion family
+  `ClockHandLadderClaim` ([PROOF_CHAIN_GAP_DOMINANCE](proofs/PROOF_CHAIN_GAP_DOMINANCE.md)), its
+  Dicke-visible modes in the (1,2) block `F89PathKAtLockMechanismClaim`.
 - Code: `PostEpFlowField`, `BirthCanalSurfaceWitness` (`--root surface`), `SectorReductionWitness`
-  (`--root reduction`), `IncompletenessSurvivorWitness` (`--root survivor`).
+  (`--root reduction`), `IncompletenessSurvivorWitness` (`--root survivor`), `FreeFermionFloorWitness`
+  (`--root fermionfloor`, the floor of every (n, n+1) block).
+- F86, the same Δn = 1 blocks read by their response rather than their slowest rate:
+  [PROOF_F86_QPEAK](proofs/PROOF_F86_QPEAK.md), [F86_VALUES_INVENTORY](F86_VALUES_INVENTORY.md).
 - Prior ground truth: `simulations/carbon/handover_q.py` (the chain handover Q_h, = Q*(N) at N=2,3 only / ring = N√3/(2π), slope DERIVED in `docs/proofs/PROOF_RING_HANDOVER_SLOPE.md`),
   `simulations/birth_canal_n6_mode_crossing.py` (the N=6 deep-edge crossing).
 - `docs/ANALYTICAL_FORMULAS.md` F2b corollary (the handover entry); `docs/HIERARCHY_OF_INCOMPLETENESS.md`

@@ -11,8 +11,8 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// <summary>The free-fermion floor of the number-changing (n, n+1) blocks
 /// (docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md §2-§3, read block by block): every block of the
 /// uniform XY chain holds exactly N modes at Re λ = −2γ₀, the Jordan-Wigner family
-/// P_n·c_k·P_{n+1}, and the uniform Dicke probe sees only the mirror-even half of them,
-/// which in the (1,2) block is F89's F_a set.</summary>
+/// P_n·c_k·P_{n+1}, and the uniform Dicke probe is silent exactly on the ones odd under the chain
+/// reflection of the coherence; the ones it reads in the (1,2) block carry the k-labels of F89's F_a set.</summary>
 public class FreeFermionFloorWitnessTests
 {
     [Theory]
@@ -73,7 +73,7 @@ public class FreeFermionFloorWitnessTests
     [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
-    public void DickeProbe_SeesExactlyTheMirrorEvenHalf(int n)
+    public void DickeProbe_IsSilentExactlyOnTheReflectionOddFloorModes(int n)
     {
         var w = new FreeFermionFloorWitness(n);
         foreach (var b in w.Blocks)
@@ -93,13 +93,13 @@ public class FreeFermionFloorWitnessTests
     [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
-    public void TheC2Block_VisibleHalf_IsF89sFaSet(int n)
+    public void TheC2Block_VisibleLabels_AreF89sFaSet(int n)
     {
         var b = new FreeFermionFloorWitness(n).Blocks[1];
         Assert.Equal(1, b.LowerPopcount);
         Assert.Equal(F89PathKAtLockMechanismClaim.FaCount(n), b.DickeVisibleK.Count);
         Assert.Equal(F89PathKAtLockMechanismClaim.SeAntiBlochOrbit(n), b.DickeVisibleK.OrderBy(k => k).ToList());
-        // the other half exists on the floor all the same, dark only by mirror parity
+        // the other floor modes exist all the same, silent to the probe by reflection parity alone
         Assert.Equal(n - F89PathKAtLockMechanismClaim.FaCount(n), b.DickeDarkK.Count);
     }
 
@@ -127,9 +127,11 @@ public class FreeFermionFloorWitnessTests
     [Fact]
     public void Inspect_ShowsOneNodePerBlock()
     {
-        IInspectable w = new FreeFermionFloorWitness(4);
+        var witness = new FreeFermionFloorWitness(4);
+        IInspectable w = witness;
         var kids = w.Children.ToList();
         Assert.Equal(1 + 4, kids.Count); // the gate node, then one node per (n, n+1) block
-        Assert.Contains("certified", kids[0].Summary);
+        Assert.True(witness.AllCertified);
+        Assert.StartsWith("certified:", kids[0].Summary); // the failure text starts "NOT certified:"
     }
 }

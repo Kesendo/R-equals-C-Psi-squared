@@ -27,9 +27,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>The floor holds more modes than F_a counts: the (1,2) block carries all N_block
-/// Jordan-Wigner floor modes at rate 2γ (<c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c>), and F_a
-/// is their mirror-even half, the half the uniform Dicke probe can see; the other ⌈N_block/2⌉ sit
-/// on the floor too, dark to the probe by mirror parity alone. Live: <c>inspect --root fermionfloor</c>
+/// Jordan-Wigner floor modes at rate 2γ (<c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c>), and F_a's
+/// k-labels coincide with the floor modes the uniform Dicke probe can see: those even under the chain
+/// reflection of the coherence, which are the S_2-anti φ_k because the Jordan-Wigner string adds a
+/// sign −1 in this block. The other ⌈N_block/2⌉ sit on the floor too, silent to the probe by that
+/// parity alone. Live: <c>inspect --root fermionfloor</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/FreeFermionFloorWitness.cs</c>).</para>
 ///
 /// <para>Anchors: <c>simulations/f89_path3_at_lock_mechanism.py</c> +

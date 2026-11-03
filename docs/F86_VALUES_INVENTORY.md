@@ -180,6 +180,19 @@ Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbi
   only (from N = 4 the coalescing pair sits below that floor), so they are not anchors. The flow's
   hardware scan straddles that EP between its two lowest samples; its rate-book-corrected population
   handover lies above it and is not a continuation of an F86 eigenmode. None of this revises the Q_peak / Q_EP / HWHM anchors above.
+- **Birth-channel cross-reference (no anchor change):** F86's (n, n+1) blocks are the
+  number-changing (Δn = 1) channel that
+  [`STERILE_BIRTHCANAL_AND_THE_JUNCTION`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md) reads by its slowest
+  rate. On the open chain at uniform γ₀ every one of these blocks holds N free-fermion modes
+  P_n·c_k·P_(n+1) at Re λ = −2γ₀ (the rate floor, not this inventory's envelope floor 0.7264892771),
+  on HD = 1 cells only and closed under the hopping, so they never reach the HD = 3 cells
+  ([`PROOF_CHAIN_GAP_DOMINANCE`](proofs/PROOF_CHAIN_GAP_DOMINANCE.md); `inspect --root fermionfloor`).
+  The Dicke probe is silent exactly on the ones odd under the chain reflection of the coherence and
+  reads the even ones in every block checked; in the (1,2) block
+  these carry the k-labels of F89's F_a set. The family's span is invariant under L and its adjoint
+  alike, so no exceptional point of a block involves a mode of this family. The sterile verdict
+  (the slowest rate is Q-flat) reads this layer wherever it is the slowest. The two are readings of one channel, not of two
+  channels.
 - High-level Q-anchor map: [`Q_REGIME_ANCHORS.md`](Q_REGIME_ANCHORS.md)
 - C# F86 KnowledgeBase root: [`compute/RCPsiSquared.Core/F86/`](../compute/RCPsiSquared.Core/F86/)
 - Sub-ID partition (this document, top section): F86a / F86b₁..b₅ / F86c / F86d / F86e / F86_block

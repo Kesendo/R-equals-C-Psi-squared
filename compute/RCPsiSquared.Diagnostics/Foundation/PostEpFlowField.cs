@@ -301,8 +301,11 @@ public sealed class PostEpFlowField : IInspectable
     /// C_block ≤ ¼ (<see cref="MaxSaturationCeiling"/>, <see cref="BlockCoherenceContent"/>). It is
     /// NOT the even-rung single-excitation flow the rest of this class propagates: that flow is
     /// number-conserving and never enters this channel (<see cref="FlowEntersBirthChannel"/> is
-    /// false). Zero in the sterile zone (the birth channel's lifetime is Q-independent, the closed
-    /// form holds, nothing new couples); positive in the birth canal (its lifetime is Q-modulated,
+    /// false). Zero in the sterile zone (the birth channel's slowest lifetime is Q-independent and the
+    /// closed form holds; on the open chain at uniform γ that slowest layer is the free-fermion floor,
+    /// N modes at −2γ in every (n, n+1) block, Q-flat by construction, see <see cref="FreeFermionFloorWitness"/>, while Q
+    /// still reshapes the channel above that floor, F86's object); positive in
+    /// the birth canal (its lifetime is Q-modulated,
     /// the loop where the coupling drives the birth-capable coherence and new structure can form).
     /// The exploration ruler: how deep in the N=5 birth canal. Throws outside N=5 rather than
     /// projecting those semantics onto a different winning sector.</summary>
@@ -330,7 +333,9 @@ public sealed class PostEpFlowField : IInspectable
 
     /// <summary>The complement of <see cref="IsInBirthCanal"/>: the Q-independent corridor (the
     /// sterile zone) where the slowest rate is a closed form, the slow mode isolated, decay and
-    /// rotation decoupled. Frozen, determined, no creation.</summary>
+    /// rotation decoupled. Frozen, determined, no creation, on the slowest layer this reading sees;
+    /// the channel above it is not frozen (<see cref="FreeFermionFloorWitness"/>,
+    /// <see cref="FermionFloorBlockReading.NextRateAboveFloor"/>).</summary>
     public bool IsInSterileZone
     {
         get

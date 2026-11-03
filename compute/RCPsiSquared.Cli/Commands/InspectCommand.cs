@@ -776,12 +776,15 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("fermionfloor", "the free-fermion floor of the number-changing (n, n+1) blocks " +
             "(docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md read block by block, on F86's own block builder): " +
-            "every block of the uniform XY chain holds exactly N modes at Re λ = −2γ₀, P_n·c_k·P_(n+1), " +
+            "every block of the uniform open XY chain holds exactly N modes at Re λ = −2γ₀, P_n·c_k·P_(n+1), " +
             "certified by an integer lower bound (the Jordan-Wigner family closed under hopping as ± the " +
             "chain adjacency) meeting a mod-p upper bound, and counted again by the block spectrum. The " +
-            "uniform Dicke probe sees only the mirror-even half; in the (1,2) block that half is F89's F_a " +
-            "set. This floor is what the slowest-rate sterile reading sees, Q-flat at every chromaticity; " +
-            "F86's EP lives above it. --N (2..7, default 5), --Q (default 2), --gamma (default 0.05)",
+            "uniform Dicke probe sees only the floor modes even under the chain reflection of the coherence; " +
+            "in the (1,2) block they carry the k-labels of F89's F_a set. Open chain only: on the ring the " +
+            "interior Δn = 1 blocks hold no floor at N = 4..8 (PROOF_RING_GAP_DOMINANCE). This floor is " +
+            "what the slowest-rate sterile reading sees wherever it is the slowest layer, Q-flat at every chromaticity; it splits off " +
+            "orthogonally, so no exceptional point of a block involves it. The certificate is " +
+            "computed at whatever N is asked; the tests pin N = 2..6. --N (2..7, default 5), --Q (default 2), --gamma (default 0.05)",
             c => new FreeFermionFloorWitness(
                     c.Parser.HasFlag("N") ? c.N : FreeFermionFloorWitness.DefaultN,
                     c.Parser.OptionalDouble("Q") ?? FreeFermionFloorWitness.DefaultQ,
