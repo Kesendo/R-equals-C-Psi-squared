@@ -26,6 +26,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   Bloch modes that contribute non-trivial amplitudes).</item>
 /// </list>
 ///
+/// <para>The floor holds more modes than F_a counts: the (1,2) block carries all N_block
+/// Jordan-Wigner floor modes at rate 2γ (<c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c>), and F_a
+/// is their mirror-even half, the half the uniform Dicke probe can see; the other ⌈N_block/2⌉ sit
+/// on the floor too, dark to the probe by mirror parity alone. Live: <c>inspect --root fermionfloor</c>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/FreeFermionFloorWitness.cs</c>).</para>
+///
 /// <para>Anchors: <c>simulations/f89_path3_at_lock_mechanism.py</c> +
 /// <c>f89_path4_path5_at_lock_scan.py</c> + <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c>
 /// § "AT-lock mechanism".</para></summary>

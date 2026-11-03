@@ -774,6 +774,19 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("J") ?? 1.0,
                     c.Parser.OptionalDouble("delta") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
+        new("fermionfloor", "the free-fermion floor of the number-changing (n, n+1) blocks " +
+            "(docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md read block by block, on F86's own block builder): " +
+            "every block of the uniform XY chain holds exactly N modes at Re λ = −2γ₀, P_n·c_k·P_(n+1), " +
+            "certified by an integer lower bound (the Jordan-Wigner family closed under hopping as ± the " +
+            "chain adjacency) meeting a mod-p upper bound, and counted again by the block spectrum. The " +
+            "uniform Dicke probe sees only the mirror-even half; in the (1,2) block that half is F89's F_a " +
+            "set. This floor is what the slowest-rate sterile reading sees, Q-flat at every chromaticity; " +
+            "F86's EP lives above it. --N (2..7, default 5), --Q (default 2), --gamma (default 0.05)",
+            c => new FreeFermionFloorWitness(
+                    c.Parser.HasFlag("N") ? c.N : FreeFermionFloorWitness.DefaultN,
+                    c.Parser.OptionalDouble("Q") ?? FreeFermionFloorWitness.DefaultQ,
+                    c.Parser.OptionalDouble("gamma") ?? FreeFermionFloorWitness.DefaultGammaZero),
+            RequiresN: false, HonorsOptionalN: true),
         new("compresseddensity", "F154 compressed density, live physical N=11 (1,1) reading: a " +
             "mirror-balanced profile has nonzero C_0 and breaks the conditional F154 identity; " +
             "the separate interval decomposition remains valid and the zero-frequency I/Q " +

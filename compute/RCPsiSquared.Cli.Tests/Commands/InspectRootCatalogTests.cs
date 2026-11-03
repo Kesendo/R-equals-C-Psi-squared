@@ -32,6 +32,20 @@ public class InspectRootCatalogTests
         Assert.DoesNotContain("N=9", root.Summary);
     }
 
+    [Fact]
+    public void Catalog_FermionFloorRoot_BuildsTheWitnessAtTheRequestedN()
+    {
+        var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "fermionfloor");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("PROOF_CHAIN_GAP_DOMINANCE", entry.Description);
+        var context = new InspectRootContext(new ArgParser(new[] { "--N", "4" }), N: 4,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = Assert.IsType<FreeFermionFloorWitness>(entry.Factory(context));
+        Assert.Equal(4, root.N);
+        Assert.True(root.AllCertified);
+    }
+
     // The roots that were hardcoded in the InspectCommand switch before the catalog refactor.
     private static readonly string[] PreviouslyHardcodedRoots =
     {

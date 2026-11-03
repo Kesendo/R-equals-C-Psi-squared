@@ -46,7 +46,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (a dimension count for every N, here split by the wrap-bond periodic/anti-periodic parity).</para>
 ///
 /// <para>Live witness: <c>inspect --root clock</c>
-/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c>).</para>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/ClockHandLadderWitness.cs</c>). The floor family
+/// itself, block by block (N modes P_n·c_k·P_(n+1) in every (n, n+1) block, an integer lower bound
+/// meeting a mod-p upper bound): <c>inspect --root fermionfloor</c>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/FreeFermionFloorWitness.cs</c>).</para>
 ///
 /// <para>Typed parents: <see cref="F2bXyChainSpectrumPi2Inheritance"/> (the band edge the hand is protected
 /// to), <see cref="AbsorptionTheoremClaim"/> (the −2γ that does the protecting),
