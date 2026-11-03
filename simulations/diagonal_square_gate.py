@@ -62,7 +62,11 @@
 #      and the N-site half-turn pairs every rate to 2 N sigma (isotropic control fails);
 #      the centre holds N!/((N/4)!)^4 strings when 4 | N and none otherwise (N = 1..8);
 #      the copy cube's disagreement patterns are the same four points; the polarity cube
-#      is k mod 2 plus the transpose's n_Y = (k_Z + k_X - k_Y)/2
+#      is k mod 2 plus the transpose's n_Y = (k_Z + k_X - k_Y)/2; bit_a's sign is the
+#      Z-dephasing flow at t = i pi/(2 gamma) (the one-site expansion with symbolic t, the
+#      N-site matrix exponential, N = 1..3, exact in sympy) and also e^(i pi Nhat)'s (the matrix
+#      equals Z^N); on cells the two count popcount(a xor b) and p - q, which differ as integers
+#      (control) and agree mod 2
 #   S9 the Hamiltonian on the cube: every two-site Pauli term sends a letter pair to 0 or to
 #      2*phase*(Pa)(x)(Qb) and changes the weight w = (k_Z + k_X + k_Y)/2 by exactly one; a
 #      bond P(x)P steps +-2 along one axis, never its own; on XX+YY the delta k_Z = 0 moves are
@@ -620,6 +624,63 @@ for s in product("IXYZ", repeat=N):
     ok &= (bit_a, bit_b) == (k[0] % 2, k[1] % 2) and y_par == ((k[0] + k[1] - k[2]) // 2) % 2
 check("N=3: bit_a = k_Z mod 2, bit_b = k_X mod 2 (the characters of Ad Z^N, Ad X^N), and the "
       "transpose's y_par = n_Y = (k_Z + k_X - k_Y)/2 mod 2, on every string", ok)
+
+# (i) bit_a is the Z-dephasing run to imaginary time, and e^(i pi Nhat) reaches it too. Exact
+#     operator identities in sympy, on vec(rho) with vec(A rho B) = (A kron B^T) vec(rho):
+#     one site, symbolic s = gamma t: exp(s (A - 1)) = (1 + e^(-2s))/2 id + (1 - e^(-2s))/2 A for
+#     A = Ad Z; N = 1..3: the matrix exponential of the dissipator sum_l (Ad Z_l - 1) at
+#     gamma t = i pi/2 is Ad Z^N, which puts (-1)^k_Z on every Pauli string; the matrix
+#     exp(i pi Nhat), Nhat = sum_l (1 - Z_l)/2, equals Z^N; on a cell |a><b| the dissipator is
+#     -2 popcount(a xor b) and Ad Z^N the sign (-1)^(p - q); the two integers differ (control)
+import sympy as sp
+
+
+def sp_kron(*ms):
+    out = sp.Matrix([[1]])
+    for m in ms:
+        out = sp.kronecker_product(out, m)
+    return out
+
+
+sZ, sI = sp.Matrix([[1, 0], [0, -1]]), sp.eye(2)
+s = sp.symbols("s")
+A1 = sp_kron(sZ, sZ.T)
+lhs = (s * (A1 - sp.eye(4))).exp()
+rhs = (1 + sp.exp(-2 * s)) / 2 * sp.eye(4) + (1 - sp.exp(-2 * s)) / 2 * A1
+check("one site, symbolic s = gamma t: exp(s (Ad Z - 1)) = (1 + e^(-2s))/2 id + (1 - e^(-2s))/2 Ad Z, "
+      "exactly", sp.simplify(lhs - rhs) == sp.zeros(4, 4))
+
+ok_flow, ok_str, ok_u1, ok_cell, differ = True, True, True, True, False
+for N in range(1, 4):
+    d = 1 << N
+    Zl = [sp_kron(*[sZ if j == l else sI for j in range(N)]) for l in range(N)]
+    Zn = sp_kron(*[sZ] * N)
+    Dis = sum((sp_kron(Z, Z.T) - sp.eye(d * d) for Z in Zl), sp.zeros(d * d, d * d))
+    AdZn = sp_kron(Zn, Zn.T)
+    ok_flow &= (sp.I * sp.pi / 2 * Dis).exp() == AdZn
+    for st in product("IXYZ", repeat=N):
+        S = sp.Matrix(string_matrix(st).tolist()).applyfunc(sp.nsimplify)
+        kz = st.count("X") + st.count("Y")
+        vS = S.reshape(d * d, 1)                 # vec(S), row-major, as for the cells below
+        ok_str &= AdZn * vS == sp.Integer(-1) ** kz * vS and Zn * S * Zn == sp.Integer(-1) ** kz * S
+    Nhat = sum(((sp.eye(d) - Z) / 2 for Z in Zl), sp.zeros(d, d))
+    U = (sp.I * sp.pi * Nhat).exp()
+    ok_u1 &= U == Zn
+    for a in range(d):
+        for b in range(d):
+            v = sp.zeros(d * d, 1)
+            v[a * d + b] = 1                     # vec(|a><b|), row-major
+            k = pc(a ^ b)
+            ok_cell &= Dis * v == -2 * k * v and AdZn * v == sp.Integer(-1) ** (pc(a) - pc(b)) * v
+            differ |= abs(pc(a) - pc(b)) != k
+check("N=1..3: exp(i pi/2 * sum_l (Ad Z_l - 1)), the Z-dephasing flow at gamma t = i pi/2, is Ad Z^N "
+      "as a matrix, exactly", ok_flow)
+check("N=1..3: Ad Z^N, the flow's matrix above, puts (-1)^k_Z on every Pauli string (the height read as a sign, bit_a)", ok_str)
+check("N=1..3: exp(i pi Nhat) = Z^N as a matrix, exactly", ok_u1)
+check("N=1..3: on every cell |a><b| the dissipator is -2 popcount(a xor b) and Ad Z^N the sign "
+      "(-1)^(p - q)", ok_cell)
+check("(control) |p - q| and popcount(a xor b) differ on some cell: the two roads count different "
+      "integers and meet only mod 2", differ)
 
 print()
 print("S9 the Hamiltonian on the cube: how ad_H moves a string between lattice points")
