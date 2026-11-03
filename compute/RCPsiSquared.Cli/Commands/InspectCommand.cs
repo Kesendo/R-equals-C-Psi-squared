@@ -792,8 +792,8 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("floorsplit", "F86's K split by the free-fermion floor: in the c = 2 block the Jordan-Wigner " +
             "family's span is closed under every single bond (checked in integers) and under L and L†, so " +
-            "K_b = 2·Re⟨ρ|S|∂ρ/∂J_b⟩ splits into floor², rest² and the interference between them, read at " +
-            "each bond's canonical Q_peak and envelope time. The sum meets ResonanceScan at the same Q; the " +
+            "K_b = 2·Re⟨ρ|S|∂ρ/∂J_b⟩ splits into floor², rest² and the interference between them (its two " +
+            "halves read apart), read at each bond's canonical Q_peak and envelope time. The sum meets ResonanceScan at the same Q; the " +
             "floor term meets its single-particle closed form (t·e^(−4γ₀t) times a function of J·t). " +
             "--N (4..8, default 6), --gamma (default 0.05)",
             c => new FloorSplitWitness(

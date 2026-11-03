@@ -164,7 +164,7 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "semisimple block); a complete multi-prime proof (Mignotte-bounded, 256+242 split primes).");
             yield return new InspectableNode("the window-edge lemma: the strict floor is structural, N-uniform (§6)",
                 summary: "the corner exclusion's one measured input, Re λ_A > −6, is itself a theorem. The (1,2) block " +
-                         "has n_diff ∈ {1,3} for all N ≥ 3 (a 1-site bra, a 2-site ket: Hamming 3−2|a∩b|), so " +
+                         "has n_diff ∈ {1,3} for all N ≥ 3 (a 1-site ket, a 2-site bra: Hamming 3−2|a∩b|), so " +
                          "A = −2·diag(n_diff) has window [−6,−2] and Bendixson gives the floor Re λ_A ≥ −6 for free. " +
                          "WINDOW-EDGE LEMMA: an eigenvalue on a window edge (Re λ = λ_min(A) or λ_max(A)) has its " +
                          "eigenvector attain the extreme Rayleigh value of A, forcing Av = λ_min·v, then Bv = Im(λ)·v " +

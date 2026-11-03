@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>F86's K split by the free-fermion floor. In F86's c = 2 block, the (1,2) block of the
 /// uniform open XY chain under uniform Z-dephasing γ₀, the Jordan-Wigner family u_j = P_1·c_j·P_2
-/// (<see cref="FreeFermionFloorWitness"/>) spans a subspace W that every single bond maps onto itself
+/// (<see cref="FreeFermionFloorWitness"/>) spans a subspace, written W in this file (the span, not the spectator map), that every single bond maps onto itself
 /// (checked here in integers, bond by bond) and on which the dephasing is the scalar −2γ₀. So W is
 /// invariant under L, under L† and under every ∂L/∂J_b, independent of J, and its orthogonal
 /// projector P commutes with the whole run: ρ(t) = Pρ(t) + (1−P)ρ(t), and the same for ∂ρ/∂J_b.
@@ -36,8 +36,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// across N; and the bonds into the middle site at odd N, where the floor term is silent at every J and t:
 /// s_l = N−1−2l is odd under the chain reflection, the floor dynamics keep it odd so x_m(t) = 0, a bond
 /// into m feeds only x_(m∓1) onto the even vector e_m so ∂x stays even, and Σ_l s_l²·x̄_l·∂x_l is a sum
-/// of an odd function. The interference term is not silent there. Docs: <c>docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md</c>
-/// (the floor), <c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c> (the family), <c>docs/F86_VALUES_INVENTORY.md</c>.</para></summary>
+/// of an odd function. The interference term is not silent there, but one of its two halves is: the chain
+/// reflection R carries u_l to −u_(N−1−l), so an odd x is a mirror-even Pρ and an even ∂x a mirror-odd P∂ρ,
+/// while S_kernel and P commute with R and ρ is mirror-even, so the rest's
+/// state against the floor's response vanishes with the floor term and only the floor's state against the
+/// rest's response survives; the reading carries both halves. The floor subspace is the image of the (0,1)
+/// block under the spectator map Σ_l c_l†ρc_l (<c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> Theorem B,
+/// profile-general), which is why the invariance holds. Docs: <c>docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md</c>
+/// (the floor), <c>docs/proofs/PROOF_CHAIN_GAP_DOMINANCE.md</c> (the family), <c>docs/F86_VALUES_INVENTORY.md</c>,
+/// <c>reflections/ON_WHAT_CLOSES_ALONE.md</c> (the plain-words reading).</para></summary>
 public sealed class FloorSplitWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -121,9 +128,12 @@ public sealed class FloorSplitWitness : IInspectable
             double k = TwoRe(rho, sKernel * drho);
             double kWW = TwoRe(rhoW, sKernel * drhoW);
             double kRR = TwoRe(rhoR, sKernel * drhoR);
-            double kX = TwoRe(rhoW, sKernel * drhoR) + TwoRe(rhoR, sKernel * drhoW);
+            double kXFloorStateRestResponse = TwoRe(rhoW, sKernel * drhoR);
+            double kXRestStateFloorResponse = TwoRe(rhoR, sKernel * drhoW);
+            double kX = kXFloorStateRestResponse + kXRestStateFloorResponse;
             double kClosed = FloorClosedForm(N, b, q * GammaZero, GammaZero, tStar, s, probe[0].Real, cells, bondSign[0]);
-            readings.Add(new FloorSplitReading(b, q, tStar, k, kWW, kRR, kX, kClosed, scanK, closed[b]));
+            readings.Add(new FloorSplitReading(b, q, tStar, k, kWW, kRR, kX, kXFloorStateRestResponse,
+                kXRestStateFloorResponse, kClosed, scanK, closed[b]));
         }
         return readings;
     }
@@ -277,16 +287,19 @@ public sealed class FloorSplitWitness : IInspectable
                     $"bond {b.Bond} (Q_peak {b.QPeak.ToString("0.0000", Inv)}, t* {b.TStar.ToString("0.000", Inv)})",
                     summary: $"K {b.K.ToString("0.000000", Inv)} = floor² {b.KFloor.ToString("0.000000", Inv)} ({b.FloorShare.ToString("0.000", Inv)})" +
                              $" + rest² {b.KRest.ToString("0.000000", Inv)} ({b.RestShare.ToString("0.000", Inv)})" +
-                             $" + interference {b.KCross.ToString("0.000000", Inv)} ({b.CrossShare.ToString("0.000", Inv)})");
+                             $" + interference {b.KCross.ToString("0.000000", Inv)} ({b.CrossShare.ToString("0.000", Inv)})" +
+                             $" [floor state against rest response {b.KCrossFloorStateRestResponse.ToString("0.000000", Inv)}," +
+                             $" rest state against floor response {b.KCrossRestStateFloorResponse.ToString("0.000000", Inv)}]");
         }
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 }
 
-/// <summary>One bond's split at its canonical Q_peak and envelope time t*: K (signed) and its three
-/// terms; <paramref name="KFloorClosedForm"/> the floor term from the single-particle route;
-/// <paramref name="ScanEnvelope"/> ResonanceScan's |K| envelope at the same Q.</summary>
+/// <summary>One bond's split at its canonical Q_peak and envelope time t*: K (signed) and its three terms, the interference's two halves
+/// (<paramref name="KCrossFloorStateRestResponse"/> = 2Re⟨Pρ|S|(1−P)∂ρ⟩, <paramref name="KCrossRestStateFloorResponse"/> =
+/// 2Re⟨(1−P)ρ|S|P∂ρ⟩, summing to <paramref name="KCross"/>), <paramref name="KFloorClosedForm"/> the floor term from the
+/// single-particle route, <paramref name="ScanEnvelope"/> ResonanceScan's |K| envelope at the same Q.</summary>
 public sealed record FloorSplitReading(
     int Bond,
     double QPeak,
@@ -295,6 +308,8 @@ public sealed record FloorSplitReading(
     double KFloor,
     double KRest,
     double KCross,
+    double KCrossFloorStateRestResponse,
+    double KCrossRestStateFloorResponse,
     double KFloorClosedForm,
     double ScanEnvelope,
     bool FamilyClosedUnderThisBond)

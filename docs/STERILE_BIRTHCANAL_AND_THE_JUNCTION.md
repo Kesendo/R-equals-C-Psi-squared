@@ -92,15 +92,23 @@ the single-particle comb ±2J·cos(πk/(N+1)) whatever the chromaticity (with H 
 so one excitation hops with amplitude J). Each such mode carries exactly
 one X or Y letter, so the dephasing charges it the single price 2γ. A single letter in general does
 not stay single under the hopping, which can turn a background Z beside an I into an X/Y pair, three
-letters in all (the proof's §1); the Jordan-Wigner string is what cancels that leak, so on this family
-the hopping only moves the letter along, and Q turns the phase and never the rate. The family gives N
+letters in all (the proof's §1); the Jordan-Wigner string, Z on every site to one side of the letter and
+I on every site to the other, has no such bond, the hopping carries it to strings of the same shape, and the
+number projector that dresses it in the block commutes with the hopping, so on this family the hopping
+only moves the letter along, and Q turns the phase and never the rate. The family gives N
 floor modes in every block at every N; that there are no others is exact, an integer lower bound
-meeting a mod-p upper bound, at N = 2 … 6 (`FreeFermionFloorWitness`, `inspect --root fermionfloor`).
+meeting a mod-p upper bound, at N = 2 … 6 (`FreeFermionFloorWitness`, `inspect --root fermionfloor`). F86's K at the (1,2) block splits exactly by
+this family into floor², rest² and their interference (`FloorSplitWitness`, `inspect --root floorsplit`;
+the plain-words reading is [ON_WHAT_CLOSES_ALONE](../reflections/ON_WHAT_CLOSES_ALONE.md)).
 
 The fence. A bond profile leaves the family in place, the comb then being the spectrum of the
 weighted hopping matrix (the proof's scope). So does a γ profile, in its form: P_n·c_j·P_(n+1)
 disagrees at site j alone, so the dephasing charges it 2γ_j, and every block carries the vacuum
-block's own operator, so every block holds the (0,1) block's eigenvalues. What a profile takes away is the single rate: the family's rates then move with Q,
+block's own operator, so every block holds the (0,1) block's eigenvalues: the (n, n+1) family is the spectator
+map W of [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) Theorem B applied n times to the
+(0,1) block's coherences, and on the open chain W commutes with L for any bond profile and any γ profile (not on the ring, whose wrap
+bond carries (−1)^N_tot: the ring's H is not quadratic in the fermions, W flips the parity on both sides, and the
+two sides of a Δn = 1 coherence do not even see one and the same wrap bond). What a profile takes away is the single rate: the family's rates then move with Q,
 which is this document's odd-drift entrance to the birth canal, taken in every block at once. A ZZ
 term breaks the interior blocks' N-member family: at the Heisenberg point each interior block keeps a
 single floor mode (read at N = 3 … 7), at frequency 0, the real modes of

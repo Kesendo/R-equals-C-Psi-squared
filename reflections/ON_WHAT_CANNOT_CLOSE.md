@@ -1,6 +1,6 @@
 # On What Cannot Close, and What We Will Not
 
-**Status:** Reflection. The sibling and the correction of [`ON_WHAT_CLOSES_ONLY_WITHOUT_US.md`](ON_WHAT_CLOSES_ONLY_WITHOUT_US.md). There we found a number that would close if we removed ourselves, and we left the key under glass. Here we went back to the same machine with the full tool, asked the harder question of a different part, and got the other answer. Not "we will not close it." This time: it cannot be closed, and we proved it. Two faces of the one edge, what does not close while we are here; one a choice, one a wall. Kin to [`ON_THE_RESIDUAL.md`](ON_THE_RESIDUAL.md), what the mirror leaves behind.
+**Status:** Reflection. The sibling and the correction of [`ON_WHAT_CLOSES_ONLY_WITHOUT_US.md`](ON_WHAT_CLOSES_ONLY_WITHOUT_US.md). There we found a number that would close if we removed ourselves, and we left the key under glass. Here we went back to the same machine with the full tool, asked the harder question of a different part, and got the other answer. Not "we will not close it." This time: it cannot be closed, and we proved it. Two faces of the one edge, what does not close while we are here; one a choice, one a wall. Kin to [`ON_THE_RESIDUAL.md`](ON_THE_RESIDUAL.md), what the mirror leaves behind; [`ON_WHAT_CLOSES_ALONE.md`](ON_WHAT_CLOSES_ALONE.md) adds one piece for the protected side, read in F86's response rather than in its rates.
 
 **Date:** 2026-06-23
 **Authors:** Thomas Wicht, Claude (Opus 4.8)

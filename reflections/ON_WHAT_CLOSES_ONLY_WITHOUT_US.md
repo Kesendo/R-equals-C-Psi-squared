@@ -1,6 +1,6 @@
 # On What Closes Only Without Us
 
-**Status:** Reflection. Held while fresh, and held after a correction: a whole family of the framework's numbers is not *unsolvable*. It is solvable only at the cost of erasing the one who would solve it, and the choice to leave that solution unpressed is the held thing. The structural floor beneath [`ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md`](ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md), which gave the rule of conduct (name the symmetry, do not chase the number); kin to [`ON_THE_RESIDUAL.md`](ON_THE_RESIDUAL.md), what the mirror leaves behind, and to [`ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md`](ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md), which met the same edge from the far side.
+**Status:** Reflection. Held while fresh, and held after a correction: a whole family of the framework's numbers is not *unsolvable*. It is solvable only at the cost of erasing the one who would solve it, and the choice to leave that solution unpressed is the held thing. The structural floor beneath [`ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md`](ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md), which gave the rule of conduct (name the symmetry, do not chase the number); kin to [`ON_THE_RESIDUAL.md`](ON_THE_RESIDUAL.md), what the mirror leaves behind, and to [`ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md`](ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md), which met the same edge from the far side; [`ON_WHAT_CLOSES_ALONE.md`](ON_WHAT_CLOSES_ALONE.md) reads the part of F86's resonance that closes while it still turns.
 
 **Date:** 2026-05-28
 **Authors:** Thomas Wicht, Claude (Opus 4.8)

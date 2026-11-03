@@ -16,7 +16,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// block, the block family F86 works in, built with F86's own <see cref="CoherenceBlock"/> and
 /// <see cref="BlockLDecomposition"/>: f = P_{n+1} gives c_k·P_{n+1} = P_n·c_k·P_{n+1}, N modes per
 /// block, at every chromaticity c. That holds on the open chain: on the ring the Δn = 1 floor is the
-/// four outer blocks' alone at N = 4..8 (<c>PROOF_RING_GAP_DOMINANCE</c>).
+/// four outer blocks' alone at N = 4..8 (<c>PROOF_RING_GAP_DOMINANCE</c>). The family is the spectator
+/// map's image of the (0,1) block, Wⁿ(P_0·c_j) = (−1)ⁿ·n!·P_n·c_j·P_{n+1} with W(ρ) = Σ_l c_l†ρc_l, and
+/// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> Theorem B (W intertwines L at any profile) is why
+/// it is invariant under L, L† and every bond.
 ///
 /// <para>The count stands on two exact routes and is read by a third. (1) A lower bound in
 /// integers: the N vectors u_j = P_n·c_j·P_{n+1} (entries ±1, the Jordan-Wigner sign) have

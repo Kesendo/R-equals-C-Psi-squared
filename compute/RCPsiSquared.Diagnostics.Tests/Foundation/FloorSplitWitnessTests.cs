@@ -87,6 +87,31 @@ public class FloorSplitWitnessTests
         }
     }
 
+    [Theory]
+    [InlineData(5)]
+    [InlineData(7)]
+    public void AtOddN_TheBondsIntoTheMiddleSite_KeepOnlyTheFloorStateAgainstTheRestResponse(int n)
+    {
+        var w = new FloorSplitWitness(n);
+        int mid = (n - 1) / 2;
+        double scale = w.Bonds.Max(b => Math.Abs(b.K));
+        foreach (var b in w.Bonds)
+        {
+            bool touchesMiddle = b.Bond == mid - 1 || b.Bond == mid;
+            if (touchesMiddle)
+                // a symmetry zero on the block route, with no exact route (ρ and ∂ρ come through the eigen-Duhamel
+                // route of a non-normal L); the budget 1e-10·scale is borrowed from AllRoutesMeet's gate of the block
+                // floor² against its closed form, not derived from an error model; observed 1e-17 to 1e-14 of scale
+                Assert.True(Math.Abs(b.KCrossRestStateFloorResponse) <= 1e-10 * scale,
+                    $"N={n} bond {b.Bond}: rest state against floor response {b.KCrossRestStateFloorResponse} at a bond into the middle site");
+            else
+                Assert.True(Math.Abs(b.KCrossRestStateFloorResponse) > 1e-4 * scale,
+                    $"N={n} bond {b.Bond}: rest state against floor response {b.KCrossRestStateFloorResponse} unexpectedly silent");
+            Assert.True(Math.Abs(b.KCrossFloorStateRestResponse) > 1e-4 * scale,
+                $"N={n} bond {b.Bond}: floor state against rest response {b.KCrossFloorStateRestResponse} unexpectedly silent");
+        }
+    }
+
     [Fact]
     public void Constructor_RejectsOutOfRange()
     {

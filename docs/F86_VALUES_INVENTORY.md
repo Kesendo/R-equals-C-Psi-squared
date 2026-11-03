@@ -192,7 +192,8 @@ Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbi
   these carry the k-labels of F89's F_a set. The family's span is invariant under L and its adjoint
   alike, so no exceptional point of a block involves a mode of this family. The sterile verdict
   (the slowest rate is Q-flat) reads this layer wherever it is the slowest. The two are readings of one channel, not of two
-  channels.
+  channels. F86's K at the (1,2) block splits exactly by this family into floor², rest² and their
+  interference (`inspect --root floorsplit`; [`ON_WHAT_CLOSES_ALONE`](../reflections/ON_WHAT_CLOSES_ALONE.md)).
 - High-level Q-anchor map: [`Q_REGIME_ANCHORS.md`](Q_REGIME_ANCHORS.md)
 - C# F86 KnowledgeBase root: [`compute/RCPsiSquared.Core/F86/`](../compute/RCPsiSquared.Core/F86/)
 - Sub-ID partition (this document, top section): F86a / F86b₁..b₅ / F86c / F86d / F86e / F86_block

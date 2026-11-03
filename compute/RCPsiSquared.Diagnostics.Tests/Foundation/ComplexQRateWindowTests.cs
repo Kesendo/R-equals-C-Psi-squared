@@ -17,7 +17,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// corner pencil L(q) = A + qC (A = −2·diag(n_diff) real, C anti-Hermitian) the Hermitian part is
 /// H(q) = A + Im(q)·K, K = iC Hermitian, so the rate window [−2(N−3), 0] does not vanish at complex q, it
 /// MOVES (each edge by ≤ |Im q|·‖K‖₂, Weyl). The value the core (p_c,p_c) carries and W maps to the corner is
-/// the HOLOMORPHIC fold μ = −λ_A − 2N (the §7 cross-fold ket-flip (p_c,p_c−1)→(p_c,p_c) at q̄ composed with
+/// the HOLOMORPHIC fold μ = −λ_A − 2N (the §7 cross-fold bra-flip (p_c,p_c−1)→(p_c,p_c) at q̄ composed with
 /// the F1 form λ_A(q̄) = conj(λ_A(q)); NOT the antiunitary −conj(λ_A)−2N, which coincides only at real q).
 /// So kernel death survives at complex q wherever
 /// <code>Re λ_A(q*) + 6  &gt;  |Im q*|·‖K‖₂    (N-uniform, 2N − 2(N−3) = 6),</code>
