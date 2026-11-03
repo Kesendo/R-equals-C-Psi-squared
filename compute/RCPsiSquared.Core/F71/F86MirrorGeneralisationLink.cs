@@ -8,7 +8,7 @@ namespace RCPsiSquared.Core.F71;
 /// extends to the F86 K_CC_pr per-bond observable on the (n, n+1) popcount coherence block.
 ///
 /// <code>
-///     Q_peak(b)  =  Q_peak(N−2−b)              (bit-exactly, all c, N)
+///     Q_peak(b)  =  Q_peak(N−2−b)              (exactly, all c, N)
 /// </code>
 ///
 /// <para>Mechanism: the F86 observable <c>K_b(Q, t) = 2·Re ⟨ρ(t)| S_kernel | ∂ρ/∂J_b ⟩</c>
@@ -32,10 +32,10 @@ public sealed class F86MirrorGeneralisationLink : Claim
                "docs/ANALYTICAL_FORMULAS.md F71 generalisation paragraph + docs/proofs/PROOF_F86C_F71_MIRROR.md Statement 3")
     { }
 
-    public override string DisplayName => "F71 → F86: Q_peak(b) = Q_peak(N−2−b) bit-exactly";
+    public override string DisplayName => "F71 → F86: Q_peak(b) = Q_peak(N−2−b) exactly";
 
     public override string Summary =>
-        "F71 spatial mirror lifts from c₁ (vac+SE) to F86 K_CC_pr per-bond Q_peak on (n, n+1) coherence block; bit-exact across c=2 N=5..7 and c=3 N=5..6";
+        "F71 spatial mirror lifts from c₁ (vac+SE) to F86 K_CC_pr per-bond Q_peak on (n, n+1) coherence block; the two bonds' numerical readings agree to ~1e-10 (the scan's reproducibility) across c=2 N=5..8 and c=3 N=5..8";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

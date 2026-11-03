@@ -10,10 +10,13 @@ public static class F86OpenQuestions
     {
         new OpenQuestion(
             "Item 1' (c=2): analytical (α_subclass, β_subclass) for HWHM_left/Q_peak",
-            "F86HwhmClosedFormClaim (Tier1Candidate, c=2) reproduces 22 N=5..8 anchors within " +
-            "0.005 via `0.671535 + α_subclass · g_eff + β_subclass`. Bare floor 0.671535 IS " +
-            "derived (C2BareDoubledPtfClosedForm); the 12 (α, β) values per sub-class are " +
-            "fitted via polyfit. Tier 1 derivation requires analytical (α, β) from the " +
+            "F86HwhmClosedFormClaim (Tier2Empirical, c=2) reads HWHM_left/Q_peak as " +
+            "`floor + α_subclass · g_eff + β_subclass` over 22 N=5..8 envelope anchors. The floor " +
+            "0.72648928 IS derived (C2BareDoubledPtfClosedForm, the bare envelope ratio); the " +
+            "(α, β) are a line through the anchors, and the anchors do not support a linear law: " +
+            "Endpoint and Flanking (four chain lengths each, canonical peaks) miss a line by up to " +
+            "1.3e-3 and 4.2e-4, Mid and CentralSelfPaired have two points. Tier 1 derivation requires " +
+            "the lift analytically from the " +
             "rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + " +
             "intra-channel dispersion lift; the inter-coupling octic-residual lift suspicion " +
             "is refuted, two-dial scout 2026-06-11) per PROOF_F90_F86C2_BRIDGE.md.",

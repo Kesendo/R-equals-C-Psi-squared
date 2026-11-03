@@ -18,7 +18,8 @@ namespace RCPsiSquared.Diagnostics.Ptf;
 /// flips −(H+V) back) gives P_i(t; H+V, K₁ψ) = P_i(t; H+V, ψ) exactly for every site i and
 /// time t, for any real initial state ψ. The single-excitation sine modes satisfy
 /// K₁ψ_k = ψ_{N+1−k} exactly, and any sublattice sign is absorbed by the U(1) phase
-/// e^{iπN̂} = Π_l Z_l, so the PTF pair states obey P_i(t; φ_k) = P_i(t; φ_{N+1−k}). The
+/// e^{iπN̂} = Π_l Z_l (on operators the conjugation by Z⊗N, the operator ZGlobalMirror builds,
+/// whose sign is the polarity cube's bit_a), so the PTF pair states obey P_i(t; φ_k) = P_i(t; φ_{N+1−k}). The
 /// EQ-014 Σ-mirror law Σ_i f_i(ψ_k) = Σ_i f_i(ψ_{N+1−k}) (machine-exact at N = 5, 7, 8) is
 /// the corollary obtained by summing the site-wise f_i equality over sites.
 ///

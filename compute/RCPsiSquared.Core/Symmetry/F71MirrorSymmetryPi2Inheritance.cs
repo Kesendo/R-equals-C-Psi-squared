@@ -16,7 +16,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   Self-paired iff: 2b = N − 2 ⇒ b = (N − 2) / 2  (only integer for even N)
 ///
 ///   F86 generalization (Tier 1 derived 2026-05-03):
-///     Q_peak(b) = Q_peak(N − 2 − b)  bit-exactly, all c, N
+///     Q_peak(b) = Q_peak(N − 2 − b)  exactly, all c, N
 /// </code>
 ///
 /// <para>F71 is the first F-formula whose primary anchor sits on
@@ -43,7 +43,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         pivot on Pi2 ladder); for N=4,5 it is 2 = a_0; ladder-anchored
 ///         only at small N, combinatorial in general.</item>
 ///   <item><b>F71 ↔ F86 inheritance</b>: the F71 spatial mirror generalises
-///         to F86's per-bond Q_peak: Q_peak(b) = Q_peak(N−2−b) bit-exactly.
+///         to F86's per-bond Q_peak: Q_peak(b) = Q_peak(N−2−b) exactly.
 ///         Implemented in F86KnowledgeBase as PerF71OrbitObservation.</item>
 /// </list>
 ///
@@ -197,7 +197,7 @@ public sealed class F71MirrorSymmetryPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("HalfIntegerMirror connection",
                 summary: "F71's bond pairing IS the HalfIntegerMirrorClaim N-parity classification: odd N → no center bond (half-integer w_XY); even N → self-paired center (integer w_XY)");
             yield return new InspectableNode("F86 generalization (Tier 1 derived 2026-05-03)",
-                summary: "Q_peak(b) = Q_peak(N−2−b) bit-exact; verified N=5..7 c=2 + N=5..6 c=3 < 10⁻¹⁰; implemented as PerF71OrbitObservation in F86KnowledgeBase");
+                summary: "Q_peak(b) = Q_peak(N−2−b) exactly; the readings agree to ~10⁻¹⁰ at c=2 N=5..8 + c=3 N=5..8; implemented as PerF71OrbitObservation in F86KnowledgeBase");
             yield return new InspectableNode("Pi2 ladder partial overlap",
                 summary: "IndependentComponentCount(N) = ⌊N/2⌋ lands on Pi2 ladder anchor for N=2,3 (1 = a_1), N=4,5 (2 = a_0), N=8,9 (4 = a_{-1}); combinatorial elsewhere");
             // Sample bond-pair structure

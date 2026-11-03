@@ -139,6 +139,68 @@ public class C2BareDoubledPtfClosedFormTests
         Assert.Throws<ArgumentOutOfRangeException>(() => C2BareDoubledPtfClosedForm.EvaluateKb(-1.0));
     }
 
+    [Theory]
+    [InlineData(0.3, 0.4)]
+    [InlineData(0.469, 1.9)]   // near the envelope's x_half and its τ*
+    [InlineData(0.999, 3.0)]   // series branch, pre-EP
+    [InlineData(1.001, 0.7)]   // series branch, post-EP
+    [InlineData(1.714, 1.3)]   // near the envelope peak
+    [InlineData(2.5, 2.4)]
+    [InlineData(5.0, 0.2)]
+    public void EvaluateKb_AnyTau_MatchesBruteDuhamel(double x, double tau)
+    {
+        // Two routes: the closed form / series against the eigendecomposition Duhamel at t = τ/4.
+        // Their difference is the eigensolver's rounding, gated at the same 1e-12 as τ = 1.
+        double closed = C2BareDoubledPtfClosedForm.EvaluateKb(x, tau);
+        double brute = BruteKb(x, tPeak: tau / 4.0);
+        _out.WriteLine($"x = {x}, τ = {tau}: closed = {closed:G17}, brute = {brute:G17}");
+        Assert.True(Math.Abs(closed - brute) < BitExactTolerance, $"x = {x}, τ = {tau}: residual {Math.Abs(closed - brute):E2}");
+    }
+
+    [Theory]
+    [InlineData(0.5)]
+    [InlineData(1.0)]
+    [InlineData(2.0)]
+    public void EvaluateKb_AtTheEp_IsTheLeadingSeriesTerm(double tau)
+    {
+        // At the EP (s = 0) only c_2 survives: K_b(1, τ) = −e^(−2τ)·(τ³/3 + τ⁴/12).
+        double expected = -Math.Exp(-2.0 * tau) * (tau * tau * tau / 3.0 + tau * tau * tau * tau / 12.0);
+        Assert.Equal(expected, C2BareDoubledPtfClosedForm.EvaluateKb(1.0, tau), 15);
+    }
+
+    [Theory]
+    [InlineData(0.5)]
+    [InlineData(1.0)]
+    [InlineData(2.196910)]
+    public void EvaluateKb_AtTauOne_IsTheFixedTimeForm(double x)
+    {
+        Assert.Equal(C2BareDoubledPtfClosedForm.EvaluateKb(x), C2BareDoubledPtfClosedForm.EvaluateKb(x, 1.0), 15);
+    }
+
+    [Fact]
+    public void EnvelopePeak_MatchesThePythonSecondRoute()
+    {
+        // simulations/f86_envelope_second_route.py --bare (expm Duhamel, τ scan + Brent, x scan +
+        // Brent, x_half by brentq to 1e-15): x_peak 1.7141131714205489, x_half 0.4688283327303858,
+        // ratio 0.7264892770517302. x_peak sits on a maximum flat to second order and is resolved to about √ε relative on either side, so it and the
+        // ratio are gated at 1e-7; x_half sits on a flank and is gated at 1e-12.
+        var (xPeak, kMax, xHalf, ratio) = C2BareDoubledPtfClosedForm.EnvelopePeak();
+        _out.WriteLine($"x_peak = {xPeak:G17}, K_max = {kMax:G17}, x_half = {xHalf:G17}, ratio = {ratio:G17}");
+        Assert.Equal(1.7141131714205489, xPeak, 1e-7);
+        Assert.Equal(0.4688283327303858, xHalf, 1e-12);
+        Assert.Equal(0.7264892770517302, ratio, 1e-7);
+        Assert.Equal(0.09030018438431675, kMax, 1e-14);
+        Assert.Equal(C2BareDoubledPtfClosedForm.EnvelopeXPeak, xPeak, 1e-7);
+        Assert.Equal(C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak, ratio, 1e-7);
+    }
+
+    [Fact]
+    public void EnvelopeKb_IsNeverBelowTheFixedTimeSlice()
+    {
+        foreach (double x in new[] { 0.3, 0.72, 1.0, 1.714, 2.197, 4.0 })
+            Assert.True(C2BareDoubledPtfClosedForm.EnvelopeKb(x).KMax >= Math.Abs(C2BareDoubledPtfClosedForm.EvaluateKb(x)));
+    }
+
     [Fact]
     public void Tier_IsTier1Derived()
     {

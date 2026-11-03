@@ -9,11 +9,11 @@ namespace RCPsiSquared.Core.Tests.F86;
 
 /// <summary>Reconnaissance probe for direction (γ') of
 /// <c>PolarityInheritanceLink.PendingDerivationNote</c>: the asymptotic structural
-/// constant <c>1/g_eff_E + 1/g_eff_I ≈ 0.937</c> (witnessed but not derived).
+/// constant <c>1/g_eff_E + 1/g_eff_I ≈ 0.945</c> (witnessed but not derived).
 ///
-/// <para>The witnessed 0.937 was computed from per-bond-CLASS g_eff means (Endpoint ≈ 1.74,
-/// Interior ≈ 2.81). PolarityInheritanceLink itself flags (its N≥9 finding) that the
-/// "Interior class" orbit-mixes: it is not a single F71 orbit. So 0.937 may be a real
+/// <para>The witnessed value was computed from per-bond-CLASS g_eff (Endpoint 1.703..1.746,
+/// Interior 2.727..2.963 at N = 5..8). PolarityInheritanceLink itself flags (its N≥9 finding) that the
+/// "Interior class" orbit-mixes: it is not a single F71 orbit. So the value may be a real
 /// sum-rule or a coarse-average artefact, and the per-class data cannot tell them apart.
 /// This probe fetches the CLEAN per-F71-orbit g_eff from the <b>K_CC_pr observable</b> via
 /// the existing typed <see cref="PerF71OrbitKTable"/> claim (which groups the per-bond
@@ -33,8 +33,8 @@ namespace RCPsiSquared.Core.Tests.F86;
 /// flagged and excluded from the closure sum. The (γ') verdict is read off the table.</para>
 ///
 /// <para><b>Verdict (2026-05-14): (γ') refuted.</b> On the clean per-F71-orbit data the
-/// per-orbit pairwise 1/g_eff sums drift (no constant ~0.937) and Σ(1/g_eff) scales
-/// additively with orbit count, so the per-class 0.937 is an orbit-mixing artefact, not a
+/// per-orbit pairwise 1/g_eff sums drift (no constant) and Σ(1/g_eff) scales
+/// additively with orbit count, so the per-class value is an orbit-mixing artefact, not a
 /// closure. Recorded in <c>PolarityInheritanceLink</c> direction (γ'); structural reason in
 /// <c>docs/proofs/PROOF_F86B_OBSTRUCTION.md</c> § "The diagnosis": g_eff is not a spectral
 /// primitive, so a closure among 1/g_eff values cannot hold.</para>
@@ -60,8 +60,8 @@ public class F86GammaEffClosureProbeTests
         _out.WriteLine("per-F71-orbit g_eff recon — K_CC_pr observable (PerF71OrbitKTable), c=2,");
         _out.WriteLine($"default Q-grid [{defaultGrid[0]:F2}, {defaultGrid[^1]:F2}] / {defaultGrid.Length} pts.");
         _out.WriteLine($"g_eff = 2·BareDoubledPtfXPeak / Q_peak = {2.0 * C2HwhmRatio.BareDoubledPtfXPeak:F5} / Q_peak");
-        _out.WriteLine("per-class anchor (PolarityInheritanceLink): g_eff_E ≈ 1.74, g_eff_I ≈ 2.81,");
-        _out.WriteLine("  1/g_eff_E + 1/g_eff_I ≈ 0.937 (EmpiricalSumQPeakAsymptote = 4.12)");
+        _out.WriteLine("per-class anchor (PolarityInheritanceLink): g_eff_E 1.703..1.746, g_eff_I 2.727..2.963,");
+        _out.WriteLine("  1/g_eff_E + 1/g_eff_I = 0.944..0.946 at N = 6..8 (EmpiricalSumQPeakAsymptote = 4.15)");
         _out.WriteLine("");
 
         foreach (int n in ns)
@@ -91,6 +91,6 @@ public class F86GammaEffClosureProbeTests
         }
 
         _out.WriteLine("VERDICT read off the table above: is there a constant closure across N");
-        _out.WriteLine("on the per-orbit data, or was 0.937 a per-class orbit-mixing artefact?");
+        _out.WriteLine("on the per-orbit data, or was the per-class value an orbit-mixing artefact?");
     }
 }

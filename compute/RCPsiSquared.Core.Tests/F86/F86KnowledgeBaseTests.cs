@@ -133,11 +133,11 @@ public class F86KnowledgeBaseTests
     }
 
     [Fact]
-    public void F86KnowledgeBase_CompareToFullScan_FlagsN5InteriorOutsideTolerance()
+    public void F86KnowledgeBase_CompareToFullScan_N5InteriorIsTheBandsLowEdge()
     {
-        // Documented finding 2026-05-02: c=2 N=5 Interior HWHM/Q ≈ 0.7455 is the smallest-N
-        // witness, just below the universal 0.756 ± 0.005 tolerance (finite-size effect).
-        // Endpoint at N=5 hits 0.770 exactly. Both behaviors are visible via the typed API.
+        // c=2 N=5 Interior is the smallest Interior witness, so it sits on the band's low edge
+        // (UniversalShapeBand.InteriorLow, within the scan's 1e-10 resolution); Endpoint N=5
+        // lies inside the Endpoint band.
         var block = new CoherenceBlock(N: 5, n: 1, gammaZero: 0.05);
         var kb = new F86KnowledgeBase(block);
         var measuredCurve = new ResonanceScan(block).ComputeKCurve();
@@ -149,11 +149,9 @@ public class F86KnowledgeBaseTests
         Assert.Equal(BondClass.Interior, interior.Prediction.BondClass);
         Assert.Equal(BondClass.Endpoint, endpoint.Prediction.BondClass);
 
-        Assert.False(interior.Within,
-            $"c=2 N=5 Interior HWHM/Q ({interior.Actual:F4}) should fall OUTSIDE the ±0.005 tolerance " +
-            $"around 0.756 — finite-size effect at smallest N.");
-        Assert.True(endpoint.Within,
-            $"c=2 N=5 Endpoint HWHM/Q ({endpoint.Actual:F4}) should fall WITHIN ±0.005 of 0.770.");
+        Assert.True(interior.Within, $"c=2 N=5 Interior HWHM/Q = {interior.Actual:R}");
+        Assert.Equal(UniversalShapeBand.InteriorLow, interior.Actual!.Value, UniversalShapeBand.Resolution);
+        Assert.True(endpoint.Within, $"c=2 N=5 Endpoint HWHM/Q = {endpoint.Actual:R}");
     }
 
     [Fact]

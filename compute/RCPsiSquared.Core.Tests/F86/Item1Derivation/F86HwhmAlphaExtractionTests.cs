@@ -1,69 +1,73 @@
+using RCPsiSquared.Core.F86;
 using RCPsiSquared.Core.F86.Item1Derivation;
 using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 
-/// <summary>The honest, live f86b2 alpha-extraction (the f86b2_robust_extraction arc landed
-/// 2026-06-29, "honest and phased" stance). The per-sub-class slope alpha is recomputed live
-/// from the 22 F90-bridge anchors with its grid-noise uncertainty, and the Phase-1 verdict
-/// (which alpha is a real slope vs extraction noise) is pinned here.</summary>
+/// <summary>The live f86b2 alpha extraction on the envelope anchors: per BondSubClass the line
+/// lift = alpha · g_eff + beta, and what the anchors can say about it.</summary>
 public class F86HwhmAlphaExtractionTests
 {
     [Fact]
-    public void Extract_RecomputesEndpointSlope_ReproducesTheHistoricFit()
+    public void OrbitAnchors_AreThePerF71OrbitObservationValues()
     {
-        // The live polyfit reproduces the historically-frozen Endpoint slope (-0.129110),
-        // proving the recompute is the same extraction, not a new convention.
-        var e = F86HwhmAlphaExtraction.Extract()[BondSubClass.Endpoint];
-        Assert.Equal(-0.129110, e.FittedAlpha, precision: 4);
+        // One source of numbers: every anchor's Q_peak is the frozen orbit table's literal.
+        var obs = new PerF71OrbitObservation();
+        foreach (var (n, b, q, _) in F86HwhmAlphaExtraction.OrbitAnchors)
+        {
+            var w = obs.Witnesses.Single(x => x.Chromaticity == 2 && x.N == n);
+            Assert.Equal(w.QPeakPerOrbit[b], q);
+        }
     }
 
     [Fact]
-    public void Verdicts_MatchThePhase1HonestJudgement()
+    public void Anchors_CoverEveryBondOfN5To8()
+    {
+        Assert.Equal(4 + 5 + 6 + 7, F86HwhmAlphaExtraction.Anchors.Count);
+    }
+
+    [Fact]
+    public void Verdicts_FollowTheCountOfDistinctGEff()
     {
         var e = F86HwhmAlphaExtraction.Extract();
-        Assert.Equal(AlphaVerdict.ResolvedSlope, e[BondSubClass.Endpoint].Verdict);
-        Assert.Equal(AlphaVerdict.ResolvedSlope, e[BondSubClass.Flanking].Verdict);
-        Assert.Equal(AlphaVerdict.ConstantNoise, e[BondSubClass.Mid].Verdict);
-        Assert.Equal(AlphaVerdict.SinglePoint, e[BondSubClass.CentralSelfPaired].Verdict);
-        Assert.Equal(AlphaVerdict.EscapeArtefact, e[BondSubClass.Orbit2Escape].Verdict);
-        Assert.Equal(AlphaVerdict.SinglePoint, e[BondSubClass.CentralEscapeOrbit3].Verdict);
+        Assert.Equal(AlphaVerdict.Overdetermined, e[BondSubClass.Endpoint].Verdict);
+        Assert.Equal(4, e[BondSubClass.Endpoint].DistinctG);
+        Assert.Equal(AlphaVerdict.Overdetermined, e[BondSubClass.Flanking].Verdict);
+        Assert.Equal(4, e[BondSubClass.Flanking].DistinctG);
+        Assert.Equal(AlphaVerdict.TwoPoint, e[BondSubClass.Mid].Verdict);
+        Assert.Equal(AlphaVerdict.TwoPoint, e[BondSubClass.CentralSelfPaired].Verdict);
+        // On the canonical reading no peak lies past Q = 4: the far-maximum classes are empty.
+        Assert.False(e.ContainsKey(BondSubClass.Orbit2Escape));
+        Assert.False(e.ContainsKey(BondSubClass.CentralEscapeOrbit3));
+        Assert.Throws<InvalidOperationException>(() => F86HwhmAlphaExtraction.FitParams(BondSubClass.Orbit2Escape));
     }
 
     [Fact]
-    public void ReshapedParams_ZeroSlope_ForNoiseAndSinglePoint()
+    public void EndpointAndFlanking_MissALine_FarAboveTheAnchorResolution()
     {
-        // The indefensible classes collapse to a per-class constant lift (alpha = 0).
-        Assert.Equal(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Mid).Alpha);
-        Assert.Equal(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.CentralSelfPaired).Alpha);
-        Assert.Equal(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.CentralEscapeOrbit3).Alpha);
-    }
-
-    [Fact]
-    public void ReshapedParams_KeepSlope_ForResolvedAndFlaggedEscape()
-    {
-        // Endpoint/Flanking keep their resolved slope; Orbit2Escape keeps its (flagged)
-        // slope only because its two grid-edge lift levels differ by more than the 0.005 floor.
-        Assert.NotEqual(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Endpoint).Alpha);
-        Assert.NotEqual(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Flanking).Alpha);
-        Assert.NotEqual(0.0, F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Orbit2Escape).Alpha);
-    }
-
-    [Fact]
-    public void GridNoiseSigma_FlagsMidAsTheLeastDetermined()
-    {
-        // Mid's microscopic g_eff lever (~0.011) gives by far the largest slope uncertainty.
+        // The four anchors of each class (N=5..8) are resolved to ~1e-10; a least-squares line
+        // misses them by 1.28e-3 (Endpoint) and 4.15e-4 (Flanking), so the linear form is not
+        // exact in either. The expected values are Python's polyfit on the second route's anchors,
+        // which differ from these literals by up to 1e-10 (the scan resolution); the pins' 1e-9
+        // covers that, five orders below the residuals themselves.
         var e = F86HwhmAlphaExtraction.Extract();
-        Assert.True(e[BondSubClass.Mid].SigmaAlpha > e[BondSubClass.Endpoint].SigmaAlpha);
-        Assert.True(e[BondSubClass.Mid].SigmaAlpha > e[BondSubClass.Flanking].SigmaAlpha);
+        Assert.Equal(0.0012811015073008747, e[BondSubClass.Endpoint].MaxResidual, 1e-9);
+        Assert.Equal(0.00041510993185450706, e[BondSubClass.Flanking].MaxResidual, 1e-9);
     }
 
     [Fact]
-    public void ReshapedConstantLift_PredictsItsAnchorsWithinGridFloor()
+    public void TwoPointClasses_ReproduceTheirAnchors()
     {
-        // A constant lift (alpha=0) for Mid still reproduces its anchors within 0.005.
-        var (alpha, beta) = F86HwhmAlphaExtraction.ReshapedParams(BondSubClass.Mid);
-        double predicted = F86HwhmAlphaExtraction.BareFloor + alpha * F86HwhmAlphaExtraction.GEff(1.54) + beta;
-        Assert.True(System.Math.Abs(predicted - 0.7469) <= 0.005);
+        // A line through two points reproduces them up to the round-off of the fit: alpha·g and
+        // beta are of size 0.2..0.3, so a few ulp of those (~5e-17 each).
+        var e = F86HwhmAlphaExtraction.Extract();
+        foreach (var sub in new[] { BondSubClass.Mid, BondSubClass.CentralSelfPaired })
+            Assert.True(e[sub].MaxResidual < 1e-15, $"{sub}: {e[sub].MaxResidual}");
+    }
+
+    [Fact]
+    public void BareFloor_IsTheEnvelopeFloor()
+    {
+        Assert.Equal(C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak, F86HwhmAlphaExtraction.BareFloor);
     }
 }

@@ -6,7 +6,7 @@ namespace RCPsiSquared.Runtime.F86Main;
 
 /// <summary>Registers an additional batch of F86 claims that exercise the architecture's
 /// multi-Tier validation: <see cref="PerBlockQPeakClaim"/> (Tier1Candidate when given a
-/// caveat), <see cref="UniversalShapePrediction"/> (Tier1Candidate),
+/// caveat), <see cref="UniversalShapePrediction"/> (Tier2Empirical),
 /// <see cref="SigmaZeroChromaticityScaling"/> (Tier2Empirical), and a representative
 /// <see cref="RetractedClaim"/>. Together with <c>RegisterF86Main</c> these cover Tier1Derived,
 /// Tier1Candidate, Tier2Empirical, and Retracted in one registry pass.
@@ -27,11 +27,7 @@ public static class F86ExtendedRegistration
         builder
             .Register<PerBlockQPeakClaim>(_ => PerBlockQPeakClaim.Standard[0])
             .Register<UniversalShapePrediction>(_ =>
-                new UniversalShapePrediction(
-                    bondClass: BondClass.Interior,
-                    expectedRatio: 0.756,
-                    tolerance: 0.005,
-                    witnesses: Array.Empty<UniversalShapeWitness>()))
+                UniversalShapeBand.Interior(Array.Empty<UniversalShapeWitness>()))
             .Register<SigmaZeroChromaticityScaling>(_ =>
                 new SigmaZeroChromaticityScaling(gammaZero))
             .Register<RetractedClaim>(_ => RetractedClaim.Standard[0]);

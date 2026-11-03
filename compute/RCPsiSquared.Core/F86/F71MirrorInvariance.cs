@@ -7,8 +7,9 @@ namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 Tier-1 derived: F71 spatial-mirror invariance of per-bond Q_peak. The
 /// chain-mirror symmetry F71 (R |b₀…b_{N-1}⟩ = |b_{N-1}…b₀⟩) pairs bond b with bond N−2−b.
-/// Numerical observation: <c>Q_peak(b) = Q_peak(N−2−b)</c> bit-exactly for every bond pair
-/// across c=2..3 N=5..7.
+/// The identity <c>Q_peak(b) = Q_peak(N−2−b)</c> is exact; numerically the two bonds' readings
+/// agree to ~10⁻¹⁰ for every bond pair across c=2..3 N=5..8, the reproducibility of the scan
+/// (the eigensolver's round-off differs between the two bonds).
 ///
 /// <para>Algebraic origin: the per-bond K-observable <c>K_b(t) = 2·Re⟨ρ(t)|S_kernel|∂ρ/∂J_b⟩</c>
 /// is invariant under F71 spatial mirror because (a) the Z-dephasing dissipator is F71-symmetric,
@@ -33,7 +34,7 @@ public sealed class F71MirrorInvariance : Claim
     public override string DisplayName => "F71 mirror: Q_peak(b) = Q_peak(N−2−b)";
 
     public override string Summary =>
-        $"per-bond F71 spatial-mirror pairing of Q_peak — bit-exact verified across c=2..3, N=5..7 ({Tier.Label()})";
+        $"per-bond F71 spatial-mirror pairing of Q_peak; readings agree to ~1e-10 across c=2..3, N=5..8 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

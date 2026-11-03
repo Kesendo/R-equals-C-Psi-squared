@@ -5,8 +5,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="C2BareDoubledPtfClosedForm"/>: the F86 c=2
 /// bare-doubled-PTF closed form for the K_b observable (post-EP cos, pre-EP cosh, EP limit
-/// −5·e⁻²/12), the analytical source of the universal constants x_peak = 2.196910 and
-/// HWHM_left/x_peak = 0.671535.
+/// −5·e⁻²/12), the analytical source of the fixed-τ = 1 constants x_peak = 2.196910 and
+/// HWHM_left/x_peak = 0.671535 and of the envelope constants 1.7141131714 and 0.7264892771.
 ///
 /// <para>A standalone Tier1Derived closed-form claim: parameterless, block-independent, no
 /// Claim parents (a registry root).</para></summary>

@@ -12,22 +12,23 @@ namespace RCPsiSquared.Core.F86;
 ///
 /// <para><b>The decomposition (stumpf reading of the polarity-layer pair):</b> ρ = (I + r·σ)/2
 /// has two parts: the unsigned 1/2 baseline (= 1/d at d=2) and the signed ±r/2 polarity
-/// content. The empirical c=2 N=5..8 numbers from the <c>C2HwhmRatio</c> witnesses match this
-/// decomposition cleanly:</para>
+/// content. The c=2 N=5..8 envelope numbers from the <c>C2HwhmRatio</c> witnesses read in this
+/// decomposition as follows:</para>
 ///
 /// <list type="bullet">
-///   <item><b>Q_peak ≈ 2 + r:</b> Endpoint r ≈ +0.52, Interior r ≈ −0.44 (close to the
-///         canonical {−0.5, +0.5} polarity-layer pair); the mean of the two bond classes
-///         sits at Q ≈ 2 across N=5..8 (range 1.99–2.06).</item>
-///   <item><b>HWHM/Q* ≈ 1/2 + r·(1/2):</b> Endpoint r ≈ 0.55, Interior r ≈ 0.50; Interior
-///         is close to the exact 1/2 fixed point of
-///         <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/> across all four N.</item>
+///   <item><b>Q_peak ≈ 2 + r:</b> Endpoint r = +0.517, +0.581, +0.560, +0.543 and Interior
+///         r = −0.517, −0.435, −0.403, −0.389 (N = 5..8). At N = 5 the pair is symmetric about
+///         2 (mean 2.0001); from N = 6 the Interior pole drifts toward 2 and the mean sits at
+///         2.073 to 2.079.</item>
+///   <item><b>HWHM/Q* ≈ 1/2 + r·(1/2):</b> Endpoint r = 0.553 to 0.563, Interior r = 0.505,
+///         0.514, 0.518, 0.520, rising with N (0.524 at N = 12). The Interior value sits
+///         above the 1/2 fixed point of <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/>
+///         and moves away from it as N grows; it is not locked to it.</item>
 /// </list>
 ///
-/// <para><b>Tier outcome: Tier2Verified.</b> The decomposition is structurally clear
-/// (Q_peak pair around 2, HWHM/Q* pair lifted above the 1/2 baseline by an r ≈ 1/2 amount,
-/// Interior HWHM r locked near the structural 1/2 fixed point) and validated empirically
-/// across the full c=2 N=5..8 anchor set. The 2026-05-07 Direction (α) attempt extracted
+/// <para><b>Tier outcome: Tier2Verified.</b> What the numbers carry: a Q_peak pair on either
+/// side of 2 with poles of size about 1/2 (exactly symmetric at N = 5, drifting after), and an
+/// HWHM/Q* pair lifted above the 1/2 baseline by r between 0.50 and 0.57. The 2026-05-07 Direction (α) attempt extracted
 /// an algebraic composition-reading of r_Q via two existing Tier 1 facts. The 2026-05-08
 /// code review reclassified Direction (α)'s "no sign split in the polarity-Bloch projection"
 /// finding as <b>structurally tautological under the uniform-J 4-mode reduction</b> rather
@@ -49,8 +50,8 @@ namespace RCPsiSquared.Core.F86;
 /// signature must live entirely in g_eff(N, b). The polarity-pair signature {−0.5, +0.5} of
 /// r_Q is then the polarity-layer fingerprint operationalised via the universal-shape
 /// constant. See <see cref="ClosedFormCompositionNote"/>. What remains open is the closed-form
-/// g_eff(N, b) per bond class. Direction (α)-test g_eff_E ≈ σ_0(N)·√(3/8) matches Δ ≤ 0.01
-/// for N ≥ 6 but does NOT pin at tolerance 0.005. This inherits A3's
+/// g_eff(N, b) per bond class. Direction (α)-test g_eff_E ≈ σ_0(N)·√(3/8) misses by
+/// 0.011 to 0.016 for N ≥ 6 and by 0.052 at N = 5; it does not pin. This inherits A3's
 /// <see cref="Item1Derivation.C2InterChannelAnalytical"/> Tier 2 obstruction at the
 /// |u_0⟩, |v_0⟩ closed-form level. The <see cref="PendingDerivationNote"/> carries the
 /// refined next directions (α'), (β'); (γ') was tested and refuted 2026-05-14.</para>
@@ -79,7 +80,7 @@ public sealed class PolarityInheritanceLink : Claim
     /// split inherits: 1/2 = 1/d (root anchor), polarity layer +0/0/−0 (Layer 2:
     /// ρ = (I + r·σ)/2 makes Π's ±1 eigenoperators (I ± X)/2 on each site's pair {I, X}
 /// the states |±⟩), 1/2 fixed
-    /// point (Interior r ≈ 1/2 exactly across N=5..8).</summary>
+    /// point (the HWHM baseline the Interior r = 0.505..0.520 sits above).</summary>
     public string PolarityRootAnchor =>
         "Pi2KnowledgeBase: QubitDimensionalAnchorClaim + PolarityLayerOriginClaim + HalfAsStructuralFixedPointClaim";
 
@@ -93,14 +94,14 @@ public sealed class PolarityInheritanceLink : Claim
         "compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs (Locus 5, classification comparison)";
 
     /// <summary>γ₀ used by the underlying <c>C2HwhmRatio</c> witness pipeline. The pinned
-    /// witnesses below are the 4-decimal-precision values from the live pipeline at
-    /// γ₀ = 0.05, c=2 block (1, 2), N=5..8.</summary>
+    /// witnesses below are the class envelope values of the live pipeline at γ₀ = 0.05,
+    /// c=2 block (1, 2), N=5..8.</summary>
     public const double WitnessGammaZero = 0.05;
 
     /// <summary>Empirical witnesses pinning the polarity-layer decomposition at c=2 N=5..8
-    /// (γ₀ = <see cref="WitnessGammaZero"/>; values pinned at 4-decimal precision from
-    /// <c>C2HwhmRatio.HwhmLeftOverQPeakMean</c> and the per-block Q_peak readouts of the
-    /// 2026-05-06 c=2 sweep). One witness per N. Hard-coded as a static pinned table:
+    /// (γ₀ = <see cref="WitnessGammaZero"/>; the class envelope values Q_peak and
+    /// HWHM_left/Q_peak of <c>ResonanceScan</c>, the numbers <c>C2HwhmRatioTests</c> and
+    /// <c>ResonanceScanTests</c> pin against an independent route). One witness per N. Hard-coded as a static pinned table:
     /// this is a frozen empirical anchor, not a live-recomputed Claim.</summary>
     public IReadOnlyList<PolarityWitness> Witnesses => _polarityWitnesses;
 
@@ -124,11 +125,13 @@ public sealed class PolarityInheritanceLink : Claim
     /// g_eff(N, b) is defined as 4.39382 / Q_peak(N, b); that just inverts Q_peak. The
     /// genuine structural content is that <see cref="Item1Derivation.C2HwhmRatio.BareDoubledPtfXPeak"/>
     /// is universal (g_eff-invariant in dimensionless x = Q/Q_EP), so the bond-class signature
-    /// must live entirely in g_eff(N, b). Empirically per-class g_eff is N-stable:
-    /// g_eff_Endpoint ≈ 1.74 (range 1.725..1.757 across N=5..8) and g_eff_Interior ≈ 2.81
-    /// (range 2.738..2.964). For N ≥ 6 the Endpoint g_eff approximately matches σ_0(N)·√(3/8)
-    /// (Δ ≤ 0.01), but tolerance is not bit-exact; for Interior, σ_0(N) alone is closer for
-    /// N ≥ 6 (Δ ≤ 0.05) but Δ exceeds 0.10 at N=5 and N=8. Closed-form g_eff(N, b) thus inherits
+    /// must live entirely in g_eff(N, b). BareDoubledPtfXPeak is the fixed-τ = 1 slice's peak
+    /// (the bare envelope peaks at <see cref="Item1Derivation.C2BareDoubledPtfClosedForm.EnvelopeXPeak"/>
+    /// = 1.7141), and g_eff here is defined on it, read against the envelope Q_peak. So defined,
+    /// g_eff_Endpoint = 1.746, 1.703, 1.716, 1.728 and g_eff_Interior = 2.963, 2.807, 2.750,
+    /// 2.727 (N = 5..8). σ_0(N)·√(3/8) misses the Endpoint values by 0.011 to 0.016 for N ≥ 6
+    /// and by 0.052 at N = 5; σ_0(N) alone misses the Interior values by 0.005 and 0.078 at
+    /// N = 6, 7, by 0.112 at N = 8 and by 0.197 at N = 5. Closed-form g_eff(N, b) thus inherits
     /// A3's <see cref="Item1Derivation.C2InterChannelAnalytical"/> Tier 2 obstruction at the
     /// |u_0⟩, |v_0⟩ closed-form level,the per-class g_eff witness numbers are pinned but not
     /// derived from σ_0(N) at tolerance 0.005.</para></summary>
@@ -136,21 +139,21 @@ public sealed class PolarityInheritanceLink : Claim
         "r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2 " +
         "(composition of C2HwhmRatio.BareDoubledPtfXPeak and F86 Statement 1's Q_EP = 2/g_eff). " +
         "The polarity-pair signature {−0.5, +0.5} of r_Q is the polarity-layer fingerprint " +
-        "operationalised via BareDoubledPtfXPeak. Empirically per-class g_eff is N-stable: " +
-        "g_eff_E ≈ 1.74, g_eff_I ≈ 2.81 across N=5..8. Direction-(α) test g_eff_E ≈ σ_0(N)·√(3/8) " +
-        "matches at Δ ≤ 0.01 for N ≥ 6 but does not pin at tolerance 0.005. Closed-form " +
+        "operationalised via BareDoubledPtfXPeak (the fixed-τ = 1 slice's peak; g_eff is defined on it). " +
+        "Per class, g_eff_E = 1.703..1.746 and g_eff_I = 2.727..2.963 across N=5..8. Direction-(α) test " +
+        "g_eff_E ≈ σ_0(N)·√(3/8) misses by 0.011..0.016 for N ≥ 6 and by 0.052 at N = 5. Closed-form " +
         "g_eff(N, b) inherits C2InterChannelAnalytical's Tier 2 obstruction.";
 
-    /// <summary>Tier 2 empirical witness (sub-pattern): the asymptotic value of
-    /// Q_peak_Endpoint + Q_peak_Interior across c=2 N=5..8 (pinned ≈ 4.12 from N=6..8 with a
-    /// ~0.13 deviation at N=5). Equivalently: <c>1/g_eff_E + 1/g_eff_I</c> approaches ≈ 0.937
-    /// for N ≥ 6. This is an empirical sub-pattern observed in the 2026-05-07 Direction (α)
+    /// <summary>Tier 2 empirical witness (sub-pattern): the value of
+    /// Q_peak_Endpoint + Q_peak_Interior across c=2 N=6..8 (4.146, 4.158, 4.154; 4.000 at
+    /// N=5). Equivalently, with g_eff defined on BareDoubledPtfXPeak: <c>1/g_eff_E + 1/g_eff_I</c>
+    /// = 0.944 to 0.946 for N = 6..8. This is an empirical sub-pattern observed in the 2026-05-07 Direction (α)
     /// attempt; no closed form pinned (tested 2/π, (N+1)/(N+3), 1−1/√(N+1), 1−1/N, none match).
     /// Direction (γ') tested whether this is a structural constant and refuted it (2026-05-14):
     /// on clean per-F71-orbit g_eff the per-orbit 1/g_eff sums drift and scale with orbit count,
-    /// so the per-class 4.12 / 0.937 is an orbit-mixing artefact, not a closure. Kept as the
-    /// frozen per-class witness it is.</summary>
-    public const double EmpiricalSumQPeakAsymptote = 4.12;
+    /// so the per-class sum is an orbit-mixing artefact, not a closure. Kept as the per-class
+    /// witness it is.</summary>
+    public const double EmpiricalSumQPeakAsymptote = 4.15;
 
     /// <summary>The unresolved analytical piece: the per-bond r(N, b) closed form. The
     /// composition r_Q = BareDoubledPtfXPeak · Q_EP − 2 is mathematically tautological
@@ -159,8 +162,8 @@ public sealed class PolarityInheritanceLink : Claim
     public string PendingDerivationNote =>
         "Tier 2 verified: F86 bond-class split inherits structurally from the polarity-layer " +
         "pair {−0.5, +0.5} at d=2. The decomposition Q_peak ≈ 2 + r and HWHM/Q* ≈ 1/2 + r·(1/2) " +
-        "holds across c=2 N=5..8 with mean Q_peak = 2.04 ± 0.06 and Interior r_HWHM ≈ 0.502 " +
-        "(close to HalfAsStructuralFixedPoint).\n\n" +
+        "reads across c=2 N=5..8 with mean Q_peak 2.000 at N = 5 and 2.073..2.079 at N = 6..8, " +
+        "Interior r_HWHM 0.505..0.520 rising with N (above HalfAsStructuralFixedPoint, not locked to it).\n\n" +
         "## Composition-reading (2026-05-07 Direction (α) attempt)\n\n" +
         "r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382 / g_eff(N, b) − 2.\n" +
         "Composition of two Tier 1 facts: BareDoubledPtfXPeak (= 2.196910 universal in " +
@@ -187,8 +190,8 @@ public sealed class PolarityInheritanceLink : Claim
         "L_eff is the same operator for every bond at uniform J. The bond-class signature " +
         "lives in the K-resonance via per-bond V_b, not in the L_eff spectrum.\n\n" +
         "Direction (α)-test for g_eff_E: hypothesis g_eff_E ≈ σ_0(N)·√(3/8). Δ across N=5..8: " +
-        "0.063, 0.008, 0.004, 0.008. Matches at Δ ≤ 0.01 for N ≥ 6 but does NOT pin at " +
-        "tolerance 0.005 for all N. σ_0(N) alone for Interior g_eff misses Δ > 0.10 at N=5.\n\n" +
+        "+0.052, −0.013, −0.016, −0.011. It does not pin. σ_0(N) alone for Interior g_eff " +
+        "misses by 0.197 at N=5 and 0.112 at N=8.\n\n" +
         "## Refined next directions\n\n" +
         "Reframed 2026-05-14: the F86b obstruction proof (PROOF_F86B_OBSTRUCTION.md, " +
         "§ 'The diagnosis') establishes g_eff is the irreducible residue, not a spectral " +
@@ -200,29 +203,30 @@ public sealed class PolarityInheritanceLink : Claim
         "obstruction proof rules out.\n" +
         "(β') Locus 5 EP-rotation × Locus 6 polarity inheritance: tan θ = Q/Q_EP combined with " +
         "the polarity-pair shift to give r as a function of g_eff(N, b). Same residual.\n" +
-        "(γ') Asymptotic structural constant 1/g_eff_E + 1/g_eff_I ≈ 0.937 (the " +
+        "(γ') Asymptotic structural constant 1/g_eff_E + 1/g_eff_I ≈ 0.945 (the " +
         "EmpiricalSumQPeakAsymptote witness): tested and refuted 2026-05-14. " +
         "F86GammaEffClosureProbeTests fetched the clean per-F71-orbit g_eff (K_CC_pr " +
         "observable via PerF71OrbitKTable, c=2 N=5..8) instead of the orbit-mixed per-class " +
-        "means: the per-orbit pairwise 1/g_eff sums drift (no constant ~0.937), and " +
+        "means: the per-orbit pairwise 1/g_eff sums drift (no constant), and " +
         "Σ(1/g_eff) scales additively with orbit count (~0.91 for two orbits, ~1.27 for " +
-        "three). The 0.937 was a per-class orbit-mixing artefact, the N≥9 multi-orbit caveat " +
+        "three). The per-class value was an orbit-mixing artefact, the N≥9 multi-orbit caveat " +
         "below already acting at N=5..8. Structurally inevitable: g_eff is not a spectral " +
         "primitive, so a closure among 1/g_eff values cannot hold; the absolute closures " +
         "live on the primitives γ₀ and y (Absorption Theorem), not g_eff.\n\n" +
-        "The 0.0006 deviation of Interior r_HWHM from exact 1/2 is likely numerical " +
-        "discretisation (testable with finer Q-grid; see PROOF_F86_QPEAK Open elements 5 for " +
-        "per-F71-orbit substructure that may explain the small remaining shift).\n\n" +
+        "Interior r_HWHM is not 1/2: on the envelope it reads 0.505, 0.514, 0.518, 0.520 at N = 5..8 " +
+        "and keeps rising (0.524 at N = 12); see PROOF_F86_QPEAK Open elements 5 for the " +
+        "per-F71-orbit substructure inside the class mean.\n\n" +
         "## N≥9 multi-orbit Interior structure (2026-05-07)\n\n" +
         "Extension to N=9 and N=10 via the c2hwhm CLI root + extended Q-grid (--q-hi 6.0) " +
         "reveals that the 'Interior class' is NOT a single F71 orbit at high N: the flanking-" +
-        "Interior bonds (b=1, b=N−2 at N=9; additionally b=2, b=N−3 at N=10) escape the " +
-        "Q_peak ≈ 1.55 mid-chain orbit and have no finite Q_peak in [0.20, 6.00] — they grow " +
-        "monotonically with Q. The Endpoint orbit (b=0, b=N−1) and the deep mid-chain Interior " +
-        "orbit (b ≈ N/2) remain stable across N=5..10 (Q_peak_E ≈ 2.50, Q_peak_I_mid ≈ 1.55). " +
+        "Interior bonds (b=1, b=N−3 at N=9; additionally b=2, b=N−4 at N=10) carry a far " +
+        "maximum past Q = 4 that outgrows their first one, so the global reading on [0.20, 6.00] " +
+        "finds no peak for them; their canonical first maximum stays inside [0.20, 4.00] (orbit 1 " +
+        "at 1.749 for N=9). The Endpoint orbit (b=0, b=N−2) and the deep mid-chain Interior " +
+        "orbit (b ≈ N/2) remain stable across N=5..10 (Q_peak_E 2.52..2.58, Q_peak_I_mid 1.43..1.61). " +
         "Consequence: the pinned Interior class-mean Q_peak from the [0.20, 4.00] grid " +
         "implicitly orbit-mixes for N=5..8, and the N=5..8 numerical anchor is therefore not " +
-        "naively extendable to N=9, N=10 — multiple Interior orbits coexist with separate " +
+        "naively extendable to N=9, N=10: multiple Interior orbits coexist with separate " +
         "Q_peak structure that requires per-orbit witness decomposition. The N=5..8 pinned " +
         "table stands as a frozen empirical anchor at fixed grid; extension to higher N must " +
         "decompose by F71 orbit rather than by Endpoint/Interior bond-class label alone. " +
@@ -259,8 +263,8 @@ public sealed class PolarityInheritanceLink : Claim
     public override string Summary =>
         "Tier2Verified: r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 (composition-reading from " +
         "C2HwhmRatio.BareDoubledPtfXPeak + F86 Statement 1's Q_EP = 2/g_eff); g_eff(N, b) closed " +
-        "form open (Direction (α)-test g_eff_E ≈ σ_0·√(3/8) matches Δ ≤ 0.01 for N ≥ 6 but not " +
-        "tol 0.005; inherits A3 Tier 2 obstruction)";
+        "form open (Direction (α)-test g_eff_E ≈ σ_0·√(3/8) misses by 0.011..0.016 for N ≥ 6 and " +
+        "by 0.052 at N = 5; inherits A3 Tier 2 obstruction)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -271,9 +275,9 @@ public sealed class PolarityInheritanceLink : Claim
             yield return new InspectableNode("parallel Locus 5 (EP-side closure)",
                 summary: ParallelLocusReference);
             yield return new InspectableNode("decomposition (Q_peak)",
-                summary: "Q_peak ≈ 2 + r; Endpoint r ≈ +0.52 (positive pole), Interior r ≈ −0.44 (negative pole); pair around d=2");
+                summary: "Q_peak ≈ 2 + r; Endpoint r = +0.517..+0.581 (positive pole), Interior r = −0.517..−0.389 (negative pole, drifting toward 2 with N); pair around d=2");
             yield return new InspectableNode("decomposition (HWHM/Q*)",
-                summary: "HWHM/Q* ≈ 1/2 + r·(1/2); Endpoint r ≈ 0.55, Interior r ≈ 0.50 (≈ HalfAsStructuralFixedPoint)");
+                summary: "HWHM/Q* ≈ 1/2 + r·(1/2); Endpoint r = 0.553..0.563, Interior r = 0.505..0.520 rising with N (above HalfAsStructuralFixedPoint)");
             yield return new InspectableNode("Tier 1 sub-result: r_Q closed-form composition",
                 summary: ClosedFormCompositionNote);
             yield return InspectableNode.RealScalar(
@@ -288,18 +292,15 @@ public sealed class PolarityInheritanceLink : Claim
         }
     }
 
-    /// <summary>Pinned empirical table from the c=2 N=5..8 <c>C2HwhmRatio</c> witness
-    /// pipeline (γ₀ = <see cref="WitnessGammaZero"/>; values pinned at 4-decimal precision
-    /// from the live pipeline; refresh by re-running <c>C2HwhmRatio</c> + the per-block
-    /// Q_peak readouts at these settings). Order: N=5, 6, 7, 8.</summary>
-    // Refresh: re-run C2HwhmRatio.HwhmLeftOverQPeakMean(BondClass.{Interior,Endpoint}) and the
-    // per-block Q_peak readouts at γ₀=0.05 for each N=5..8 to update the pinned table below.
+    /// <summary>Pinned table of the c=2 N=5..8 class envelope values (γ₀ = <see cref="WitnessGammaZero"/>),
+    /// the values <c>ResonanceScan</c> computes and an independent Python route reproduces to
+    /// 1e-10. Order: N=5, 6, 7, 8.</summary>
     private static readonly PolarityWitness[] _polarityWitnesses = new[]
     {
-        new PolarityWitness(N: 5, QPeakInterior: 1.4821, QPeakEndpoint: 2.5008, HwhmRatioInterior: 0.7455, HwhmRatioEndpoint: 0.7700),
-        new PolarityWitness(N: 6, QPeakInterior: 1.5801, QPeakEndpoint: 2.5470, HwhmRatioInterior: 0.7529, HwhmRatioEndpoint: 0.7738),
-        new PolarityWitness(N: 7, QPeakInterior: 1.5831, QPeakEndpoint: 2.5299, HwhmRatioInterior: 0.7507, HwhmRatioEndpoint: 0.7738),
-        new PolarityWitness(N: 8, QPeakInterior: 1.6049, QPeakEndpoint: 2.5145, HwhmRatioInterior: 0.7531, HwhmRatioEndpoint: 0.7734),
+        new PolarityWitness(N: 5, QPeakInterior: 1.4831232668733452, QPeakEndpoint: 2.517071370613079, HwhmRatioInterior: 0.7523433331321849, HwhmRatioEndpoint: 0.7765595000526813),
+        new PolarityWitness(N: 6, QPeakInterior: 1.5651926694131237, QPeakEndpoint: 2.5806049985772885, HwhmRatioInterior: 0.7569384805030636, HwhmRatioEndpoint: 0.7815203313098792),
+        new PolarityWitness(N: 7, QPeakInterior: 1.5974870369975855, QPeakEndpoint: 2.560073427805394, HwhmRatioInterior: 0.7591357778625846, HwhmRatioEndpoint: 0.7813218454965299),
+        new PolarityWitness(N: 8, QPeakInterior: 1.6110198851283057, QPeakEndpoint: 2.543127121122942, HwhmRatioInterior: 0.7601773594897803, HwhmRatioEndpoint: 0.7807879816311578),
     };
 }
 
@@ -314,8 +315,8 @@ public sealed class PolarityInheritanceLink : Claim
 ///         form the {−0.5, +0.5} pair around d = 2.</item>
 ///   <item><b>HWHM/Q* ≈ 1/2 + r·(1/2):</b> the unsigned 1/2 baseline is the
 ///         <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/> structural fixed point;
-///         the signed r·(1/2) is the polarity-layer lift. Interior r is empirically close
-///         to exactly 1/2 across N=5..8.</item>
+///         the signed r·(1/2) is the polarity-layer lift. Interior r is 0.505..0.520 across
+///         N=5..8, rising with N.</item>
 /// </list>
 ///
 /// <para>The R-fields are exposed as computed properties from the raw Q_peak and HWHM/Q*
@@ -347,12 +348,12 @@ public sealed record PolarityWitness(
     /// <summary>Polarity-content r for Endpoint HWHM ratio: r = 2·(HwhmRatioEndpoint − 1/2).</summary>
     public double RHwhmEndpoint => 2.0 * (HwhmRatioEndpoint - 0.5);
 
-    /// <summary>Mean Q_peak across the two bond classes, empirically ≈ 2 (the d=2
-    /// dimensional anchor) across N=5..8.</summary>
+    /// <summary>Mean Q_peak across the two bond classes: 2.0001 at N=5, 2.073..2.079 at
+    /// N=6..8, against the d=2 dimensional anchor.</summary>
     public double QPeakMean => (QPeakInterior + QPeakEndpoint) / 2.0;
 
-    /// <summary>Mean HWHM/Q* across the two bond classes, empirically ≈ 1/2 + r̄·(1/2)
-    /// with r̄ ≈ 0.52 across N=5..8.</summary>
+    /// <summary>Mean HWHM/Q* across the two bond classes, 1/2 + r̄·(1/2) with r̄ = 0.529..0.541
+    /// across N=5..8.</summary>
     public double HwhmRatioMean => (HwhmRatioInterior + HwhmRatioEndpoint) / 2.0;
 
     public string DisplayName => $"polarity witness at c=2 N={N}";

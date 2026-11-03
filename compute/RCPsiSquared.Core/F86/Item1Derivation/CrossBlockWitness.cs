@@ -12,8 +12,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// V_b[α, j] = ⟨c_α | M_H_per_bond[b] | x_j⟩ depend on |u_0⟩, |v_0⟩, which are A3
 /// Tier 2 (numerical SVD, library-tiebreaker-dependent at even N). The Frobenius norm
 /// over the 2×2 cross-block is a magnitude indicator that splits Endpoint vs Interior
-/// at c=2 (empirical anchor: HWHM_left/Q_peak Endpoint=0.7728 > Interior=0.7506,
-/// EQ-022 (b1) 2026-05-02). Future Tier 1 promotion (per A3 PendingDerivationNote: lift
+/// at c=2 (empirical anchor: HWHM_left/Q_peak Endpoint > Interior at every N = 5..12,
+/// 0.7766..0.7815 against 0.7523..0.7621 on the envelope). Future Tier 1 promotion (per A3 PendingDerivationNote: lift
 /// to projector-overlap onto the 2D top eigenspace) would replace these per-(N, b)
 /// witnesses with a closed-form ratio.</para>
 /// </summary>

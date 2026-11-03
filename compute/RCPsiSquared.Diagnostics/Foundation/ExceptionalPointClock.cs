@@ -41,7 +41,8 @@ public static class ExceptionalPointClock
     /// scattered seeds, elsewhere and in windows far narrower (see the class summary).</summary>
     public static double QEp(double gEff) => EpAlgebra.QEp(gEff);
 
-    /// <summary>The resonance peak Q_peak = x_peak·Q_EP (where K_b peaks, in the post-EP regime).</summary>
+    /// <summary>The toy's resonance point x_peak·Q_EP with x_peak = 2.196910, where the bare K_b
+    /// peaks at the fixed time τ = 1 (post-EP); its envelope max over τ peaks at 1.7141·Q_EP.</summary>
     public static double QPeak(double gEff) => XPeak * QEp(gEff);
 
     /// <summary>x = Q/Q_EP = Q·g_eff/2, the dimensionless distance past the EP (x=1 is the EP).</summary>

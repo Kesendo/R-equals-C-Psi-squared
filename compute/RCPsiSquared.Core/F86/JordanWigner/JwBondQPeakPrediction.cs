@@ -12,13 +12,22 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// <summary>Per-bond Q_peak prediction via the JW-track closed-form architecture: bond's
 /// top cluster-pair affinity (T13) selects a 2×2 sub-block; T12's cluster eigenstructure
 /// + D's inter-cluster X̃ in W-eigenbasis yield Q_EP per the 2×2 closed form
-/// <c>Q_EP^{(λ)} = 2·|X̃[λ, λ]|/(γ·|Δδ|)</c>; Q_peak ≈ 2.197·Q_EP per BareDoubledPtfXPeak.
+/// <c>Q_EP^{(λ)} = 2·|X̃[λ, λ]|/(γ·|Δδ|)</c>; Q_peak ≈ 2.197·Q_EP per BareDoubledPtfXPeak, the bare model's fixed-τ = 1 peak (its envelope
+/// peaks at 1.7141·Q_EP; the predictor is defined on the fixed-τ value, and that this value lands
+/// nearer the envelope Q_peak of the full block is an observation, not explained).
 ///
 /// <para>Architecture: bond-distinction lives in the SELECTION (which cluster-pair does
 /// the bond couple to most strongly via MhPerBond[b]), not in the Q_EP formula itself
 /// (which uses D-only X̃[λ,λ] and is bond-independent given the pair). Endpoint-bonds
 /// select small-|Δδ| pairs → large Q_EP → large Q_peak; Innermost-bonds select
 /// large-|Δδ| pairs → small Q_peak.</para>
+///
+/// <para>The pick is not reproducible: the cluster pair comes from a ranking sorted on
+/// Frobenius weight and a best entry chosen by exact floating-point comparison, and the
+/// candidates F71 mirror symmetry makes equal differ only by rounding. Which one wins changes
+/// with the run (c = 2, N = 5 endpoint: 2.4871 in one run, 2.5237 in another), and at N = 7
+/// one run gave the two endpoint bonds different predictions (2.2270, 2.1643) although the
+/// physics is mirror-symmetric. A residual quoted for this prediction is a reading of one run.</para>
 ///
 /// <para>Tier2Verified runtime prediction; expected residual against empirical
 /// <see cref="C2HwhmRatio"/> Q_peak is order 15-50% (varies per bond — multi-cluster
@@ -31,7 +40,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///
 /// <para>F90 status (2026-05-11): the F86 c=2 ↔ F89 path-(N−1) bridge identity
 /// achieves numerical Tier-1 for Direction (b'') via per-bond Hellmann-Feynman
-/// (bit-exact 20/22 bonds at N=5..8). The JW-track primitives in this file remain
+/// (all 22 bonds at N=5..8 agree to 10⁻¹⁰). The JW-track primitives in this file remain
 /// active as the alternative analytical route toward the closed-form HWHM_left/Q_peak
 /// constants; the per-bond numerical answer itself is no longer the open piece.
 /// See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c> +
@@ -39,6 +48,9 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// </summary>
 public sealed class JwBondQPeakPrediction : Claim
 {
+    /// <summary>The bare doubled-PTF peak of the fixed-τ = 1 slice (<see cref="Item1Derivation.C2BareDoubledPtfClosedForm.XPeakPrecise"/>);
+    /// the predictor Q_peak = x_peak·Q_EP is defined on it. The bare envelope peaks at
+    /// <see cref="Item1Derivation.C2BareDoubledPtfClosedForm.EnvelopeXPeak"/> = 1.7141.</summary>
     public const double BareDoubledPtfXPeak = 2.196910;
 
     public CoherenceBlock Block { get; }

@@ -2,29 +2,51 @@ namespace RCPsiSquared.Core.Numerics;
 
 /// <summary>Peak-Q + sub-grid HWHM extraction for sampled curves.
 ///
-/// <para>Locates the grid maximum, then refines the peak Q via a 3-point parabolic fit
+/// <para>Two readings of "the peak": <see cref="Find"/> takes the grid's global maximum,
+/// <see cref="FindFirstLocalMaximum"/> the first local maximum from below (the canonical peak).
+/// Either way the chosen grid point is refined by a 3-point parabolic fit
 /// y = a·x² + b·x + c (Q* = −b/(2a)). Half-maximum points on either side are linearly
 /// interpolated between the bracketing grid points where K crosses K_max/2.</para>
 ///
 /// <para>If the parabolic fit is concave-up (a ≥ 0) or extrapolates beyond the grid window,
-/// the routine falls back to the grid maximum without sub-grid refinement.</para>
+/// the routine keeps the chosen grid point without sub-grid refinement.</para>
 /// </summary>
 public static class ParabolicPeakFinder
 {
     public readonly record struct PeakInfo(double QPeak, double KMax, double? HwhmLeft, double? HwhmRight);
 
+    /// <summary>The peak at the grid's global maximum: the argmax over the whole window, so its
+    /// value depends on how far the window reaches when the curve rises again at large Q.</summary>
     public static PeakInfo Find(IReadOnlyList<double> qGrid, IReadOnlyList<double> kCurve)
+    {
+        Validate(qGrid, kCurve);
+        int iMax = 0;
+        for (int i = 1; i < kCurve.Count; i++)
+            if (kCurve[i] > kCurve[iMax]) iMax = i;
+        return RefineAt(qGrid, kCurve, iMax);
+    }
+
+    /// <summary>The canonical peak: the first local maximum from below, the first interior grid
+    /// point i with K[i−1] &lt; K[i] ≥ K[i+1]. It does not move when the window is extended to
+    /// larger Q. Falls back to <see cref="Find"/> when the curve has no interior local maximum.</summary>
+    public static PeakInfo FindFirstLocalMaximum(IReadOnlyList<double> qGrid, IReadOnlyList<double> kCurve)
+    {
+        Validate(qGrid, kCurve);
+        for (int i = 1; i < kCurve.Count - 1; i++)
+            if (kCurve[i] > kCurve[i - 1] && kCurve[i] >= kCurve[i + 1])
+                return RefineAt(qGrid, kCurve, i);
+        return Find(qGrid, kCurve);
+    }
+
+    private static void Validate(IReadOnlyList<double> qGrid, IReadOnlyList<double> kCurve)
     {
         if (qGrid.Count != kCurve.Count) throw new ArgumentException("qGrid and kCurve must have the same length.");
         if (qGrid.Count < 3) throw new ArgumentException("need at least 3 grid points.");
+    }
 
-        int iMax = 0;
-        double kMax = kCurve[0];
-        for (int i = 1; i < kCurve.Count; i++)
-        {
-            if (kCurve[i] > kMax) { kMax = kCurve[i]; iMax = i; }
-        }
-
+    private static PeakInfo RefineAt(IReadOnlyList<double> qGrid, IReadOnlyList<double> kCurve, int iMax)
+    {
+        double kMax = kCurve[iMax];
         double qPeak = qGrid[iMax];
 
         // Parabolic refinement around the grid maximum, if interior.

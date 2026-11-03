@@ -141,8 +141,8 @@ public class C2BondCouplingTests
         // N=5..8 the chain-Interior cross-block Frobenius norm is larger than Endpoint
         // (e.g. N=5: endpoint=0.1237, interior=0.1934; N=8: endpoint=0.0443, interior=0.0492).
         //
-        // The downstream HWHM_left/Q_peak ratio (Endpoint=0.7728 > Interior=0.7506,
-        // EQ-022 (b1) 2026-05-02) is NOT a direct copy of this Frobenius ratio: it emerges
+        // The downstream HWHM_left/Q_peak ratio (Endpoint > Interior, 0.7808 vs 0.7602 at N=8
+        // on the envelope) is NOT a direct copy of this Frobenius ratio: it emerges
         // from the full 4×4 structure (V_b cross-block, D_eff, SVD-block) through Stage C/D.
         // Here we only assert the witness-level signature: Endpoint and Interior have
         // distinct cross-block Frobenius means.

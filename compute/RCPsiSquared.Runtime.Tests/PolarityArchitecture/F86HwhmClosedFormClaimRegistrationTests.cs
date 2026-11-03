@@ -18,12 +18,12 @@ public class F86HwhmClosedFormClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86HwhmClosedFormClaim_TierIsTier1Candidate()
+    public void RegisterF86HwhmClosedFormClaim_TierIsTier2Empirical()
     {
         var registry = new ClaimRegistryBuilder()
             .RegisterF86HwhmClosedFormClaim()
             .Build();
 
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<F86HwhmClosedFormClaim>().Tier);
+        Assert.Equal(Tier.Tier2Empirical, registry.Get<F86HwhmClosedFormClaim>().Tier);
     }
 }

@@ -50,14 +50,60 @@ public sealed class InterChannelSvd
 
         var svd = vInter.Svd();
         var singular = svd.S.Select(z => z.Real).ToArray();
-        // Top singular vectors
-        var uTop = svd.U.Column(0);  // length n_hd1, in HD1 reduced basis
-        var vTop = svd.VT.ConjugateTranspose().Column(0);  // length n_hd2, in HD2 reduced basis
-
-        // Lift to full block basis
-        var u0Full = pHd1 * uTop;
-        var v0Full = pHd2 * vTop;
-
+        var (u0Full, v0Full) = TopPair(block, pHd1, pHd2, vInter, svd);
         return new InterChannelSvd(block, hd1, hd2, singular, u0Full, v0Full);
+    }
+
+    /// <summary>Relative gap below which a singular value counts as degenerate with σ_0 (the
+    /// tolerance of <see cref="F86.Item1Derivation.C2InterChannelProjector.DegeneracyTolerance"/>).</summary>
+    public const double DegeneracyTolerance = 1e-8;
+
+    /// <summary>The top inter-channel pair (u_0, v_0). Where σ_0 is simple (odd N at c = 2) this is
+    /// the SVD's own top pair. Where it is degenerate (even N at c = 2, twofold; see
+    /// <see cref="F86.Item1Derivation.C2InterChannelProjector"/>) a single SVD column is whatever
+    /// mixture the library returns, and the four-mode K curve depends on that mixture. The chain
+    /// mirror R splits the degenerate space into an R-even and an R-odd direction; the Dicke probe,
+    /// the spatial-sum kernel and M_H_total are all R-symmetric, so ρ(t) stays R-even and the R-even
+    /// direction is the one the full dynamics uses. u_0 is that direction, v_0 = V†u_0/σ_0 its partner.</summary>
+    private static (ComplexVector U0, ComplexVector V0) TopPair(CoherenceBlock block,
+        ComplexMatrix pHd1, ComplexMatrix pHd2, ComplexMatrix vInter,
+        MathNet.Numerics.LinearAlgebra.Factorization.Svd<Complex> svd)
+    {
+        double s0 = svd.S[0].Real;
+        int deg = 1;
+        while (deg < svd.S.Count && Math.Abs(svd.S[deg].Real - s0) / s0 < DegeneracyTolerance) deg++;
+
+        var uRed = svd.U.Column(0);
+        if (deg > 1)
+        {
+            // R-even part of the degenerate space: (u_k + R u_k) for each top column, then its
+            // dominant direction. R maps the basis pair (p, q) to (rev p, rev q).
+            var basis = block.Basis;
+            int n = basis.MTotal;
+            var mirror = new int[n];
+            foreach (long p in basis.StatesP)
+                foreach (long q in basis.StatesQ)
+                    mirror[basis.FlatIndex(p, q)] = basis.FlatIndex(Reverse(p, block.N), Reverse(q, block.N));
+            var even = ComplexMatrix.Build.Dense(n, deg);
+            for (int k = 0; k < deg; k++)
+            {
+                var u = pHd1 * svd.U.Column(k);
+                for (int i = 0; i < n; i++) even[i, k] = u[i] + u[mirror[i]];
+            }
+            var dominant = even.Svd().U.Column(0);
+            uRed = pHd1.ConjugateTranspose() * dominant;
+            uRed = uRed / uRed.L2Norm();
+        }
+        if (deg == 1)
+            return (pHd1 * uRed, pHd2 * svd.VT.ConjugateTranspose().Column(0));
+        var vRed = vInter.ConjugateTranspose() * uRed;
+        return (pHd1 * uRed, pHd2 * (vRed / vRed.L2Norm()));
+    }
+
+    private static long Reverse(long state, int n)
+    {
+        long r = 0;
+        for (int i = 0; i < n; i++) if (((state >> i) & 1L) != 0) r |= 1L << (n - 1 - i);
+        return r;
     }
 }

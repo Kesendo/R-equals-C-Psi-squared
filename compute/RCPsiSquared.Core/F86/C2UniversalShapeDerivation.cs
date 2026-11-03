@@ -15,8 +15,8 @@ namespace RCPsiSquared.Core.F86;
 /// HWHM_left/Q_peak ratio per bond class.</para>
 ///
 /// <para><b>Tier outcome (this session): Tier1Candidate.</b> The empirical pipeline
-/// reproduces all 8 anchor cases (c=2 N=5..8 × {Endpoint, Interior}) at ≤ 0.005 of the
-/// canonical Python pipeline values, and the directional Endpoint &gt; Interior split is
+/// reproduces all 8 anchor cases (c=2 N=5..8 × {Endpoint, Interior}) on the envelope
+/// max_t |K_b|, matching an independent Python route to 1e-10, and the directional Endpoint &gt; Interior split is
 /// derived empirically across all tested N. The closed-form constant for HWHM_left/Q_peak
 /// per bond class is NOT yet derived this session.</para>
 ///
@@ -24,7 +24,7 @@ namespace RCPsiSquared.Core.F86;
 /// form via one of the three documented next directions:</para>
 /// <list type="number">
 ///   <item>First-order perturbation in the cross-block: expand
-///   <c>K_b(Q, t_peak) = K_probe-block(Q) + ε · K_cross(Q, b)</c> with
+///   <c>K_b(Q, t) = K_probe-block(Q, t) + ε · K_cross(Q, t, b)</c>, the envelope taken after, with
 ///   <c>ε ~ ‖V_b cross‖_F / σ_0</c> ~ O(0.1). The cross-block Frobenius is bond-class-
 ///   dependent (Stage B2 finding: Endpoint &gt; Interior), so this direction should
 ///   produce a closed-form bond-class-dependent shift δ(Endpoint − Interior) ≈ 0.022.</item>
@@ -68,16 +68,15 @@ public sealed class C2UniversalShapeDerivation : Claim
 
     /// <summary>Class-mean HWHM_left/Q_peak for Interior bonds (canonical-pipeline:
     /// average bond-class K(Q) curves first, then peak/HWHM). Empirical anchor across
-    /// N=5..8: 0.7506 ± 0.001 (from PROOF_F86B_UNIVERSAL_SHAPE Statement 2 anchor table).</summary>
+    /// N=5..8 on the envelope: 0.7523, 0.7569, 0.7591, 0.7602.</summary>
     public double InteriorMean { get; }
 
     /// <summary>Class-mean HWHM_left/Q_peak for Endpoint bonds (canonical-pipeline).
-    /// Empirical anchor across N=5..8: 0.7728 ± 0.001 (from PROOF_F86B_UNIVERSAL_SHAPE Statement 2
-    /// anchor table).</summary>
+    /// Empirical anchor across N=5..8 on the envelope: 0.7766, 0.7815, 0.7813, 0.7808.</summary>
     public double EndpointMean { get; }
 
     /// <summary>Endpoint − Interior gap: the directional structure derived empirically.
-    /// Across N=5..8 the gap is consistently ≈ 0.022 (range 0.0198..0.0245). This is the
+    /// Across N=5..8 the gap is 0.0242, 0.0246, 0.0222, 0.0206, narrowing to 0.0186 at N=12. This is the
     /// c=2 bond-class signature the closed form must reproduce.</summary>
     public double DirectionalGap { get; }
 

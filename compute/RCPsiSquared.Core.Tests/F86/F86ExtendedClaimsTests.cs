@@ -128,11 +128,16 @@ public class F86ExtendedClaimsTests
         Assert.InRange(interior.PostPeakPlateau, 0.75, 0.92);
         Assert.InRange(endpoint.PostPeakPlateau, 0.83, 0.97);
 
-        // Endpoint plateau at x=+1 is higher than Interior plateau (structural).
-        var interiorAtX1 = interior.Points.First(p => p.X == 1.0);
-        var endpointAtX1 = endpoint.Points.First(p => p.X == 1.0);
-        Assert.True(endpointAtX1.YMin > interiorAtX1.YMax,
-            $"Endpoint plateau ({endpointAtX1.YMin:F3}) should exceed Interior plateau ({interiorAtX1.YMax:F3})");
+        // At x=+1 Endpoint lies above Interior at N=5 and 6, below it at N=7, where the
+        // Interior class mean carries the inner bonds rising toward their plateau.
+        foreach (var (loc, endpointAbove) in new[] { ((2, 5), true), ((2, 6), true), ((2, 7), false) })
+        {
+            var at = new[] { loc };
+            double yI = new ShapeFunctionWitnesses(BondClass.Interior, 0.05, at, xPoints: new[] { 1.0 }, cache).Points[0].YMin;
+            double yE = new ShapeFunctionWitnesses(BondClass.Endpoint, 0.05, at, xPoints: new[] { 1.0 }, cache).Points[0].YMin;
+            Assert.True((yE > yI) == endpointAbove,
+                $"c={loc.Item1} N={loc.Item2}: Endpoint y(1) = {yE:F3}, Interior y(1) = {yI:F3}");
+        }
     }
 
     [Fact]

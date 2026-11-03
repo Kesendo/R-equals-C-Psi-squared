@@ -8,9 +8,9 @@ using Xunit;
 namespace RCPsiSquared.Core.Tests.F86;
 
 /// <summary>F86 ↔ polarity-layer-pair meta-claim tests (Locus 6, symmetry-side closure).
-/// Pins the empirical witness table (c=2 N=5..8 from the <c>C2HwhmRatio</c> live pipeline,
-/// 2026-05-07), the polarity-layer decomposition (Q_peak ≈ 2 + r, HWHM/Q* ≈ 1/2 + r·(1/2)),
-/// the Interior r ≈ 1/2 fixed-point lock (HalfAsStructuralFixedPoint), and KB integration.
+/// Pins the witness table (c=2 N=5..8 class envelope values, checked against a live
+/// <c>ResonanceScan</c>), the polarity-layer reading (Q_peak ≈ 2 + r, HWHM/Q* ≈ 1/2 + r·(1/2)),
+/// the Interior r_HWHM drift above 1/2, and KB integration.
 /// Companion to <see cref="LocalGlobalEpLinkTests"/> (Locus 5, EP-side closure).</summary>
 public class PolarityInheritanceLinkTests
 {
@@ -31,20 +31,35 @@ public class PolarityInheritanceLinkTests
     }
 
     [Fact]
-    public void PolarityInheritanceLink_QPeakSplit_CenteredAroundTwo()
+    public void PolarityInheritanceLink_QPeakSplit_PolesOnEitherSideOfTwo()
     {
+        // Endpoint above 2, Interior below; symmetric about 2 at N = 5 (mean 2.0001), the
+        // Interior pole drifting toward 2 from N = 6 (mean 2.073..2.079).
         var link = PolarityInheritanceLink.Build();
         foreach (var w in link.Witnesses)
         {
-            // Q_peak mean ≈ 2 across N=5..8: empirical {1.99, 2.06, 2.06, 2.06},
-            // asymmetric around 2 (+0.06 above, −0.01 below). Range 1.99..2.10 covers
-            // safely with headroom for finer-grid refinements.
-            var mean = (w.QPeakInterior + w.QPeakEndpoint) / 2;
-            Assert.InRange(mean, 1.99, 2.10);
-            // r split has Endpoint > 0 (positive pole), Interior < 0 (negative pole)
             Assert.True(w.RQpeakEndpoint > 0, $"RQpeakEndpoint at N={w.N} should be positive");
             Assert.True(w.RQpeakInterior < 0, $"RQpeakInterior at N={w.N} should be negative");
         }
+        for (int k = 1; k < link.Witnesses.Count; k++)
+            Assert.True(link.Witnesses[k].RQpeakInterior > link.Witnesses[k - 1].RQpeakInterior,
+                $"Interior pole should move toward 2 with N (N={link.Witnesses[k].N})");
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void PolarityInheritanceLink_Table_IsTheLiveEnvelope(int n)
+    {
+        // The table holds what ResonanceScan computes (gate 1e-10, the per-bond pin law).
+        var w = PolarityInheritanceLink.Build().Witnesses.Single(x => x.N == n);
+        var curve = new RCPsiSquared.Core.Resonance.ResonanceScan(new CoherenceBlock(N: n, n: 1, gammaZero: 0.05)).ComputeKCurve();
+        var pi = curve.Peak(RCPsiSquared.Core.Resonance.BondClass.Interior);
+        var pe = curve.Peak(RCPsiSquared.Core.Resonance.BondClass.Endpoint);
+        Assert.Equal(w.QPeakInterior, pi.QPeak, 1e-10);
+        Assert.Equal(w.QPeakEndpoint, pe.QPeak, 1e-10);
+        Assert.Equal(w.HwhmRatioInterior, pi.HwhmLeftOverQPeak!.Value, 1e-10);
+        Assert.Equal(w.HwhmRatioEndpoint, pe.HwhmLeftOverQPeak!.Value, 1e-10);
     }
 
     [Fact]
@@ -62,16 +77,15 @@ public class PolarityInheritanceLinkTests
     }
 
     [Fact]
-    public void PolarityInheritanceLink_Interior_RHwhm_NearOneHalf_HalfFixedPoint()
+    public void PolarityInheritanceLink_Interior_RHwhm_RisesAwayFromOneHalf()
     {
-        // Interior HWHM r ≈ 1/2 across N=5..8 (close to HalfAsStructuralFixedPoint anchor).
-        // The empirical mean is 0.5011 with ~0.0006 max deviation from exact 1/2; this is
-        // likely numerical discretisation (per-F71-orbit substructure visible at finer
-        // Q-grid resolution per PROOF_F86_QPEAK Open elements 5), not a structural shift.
+        // Interior r_HWHM sits above the 1/2 fixed point and moves away from it with N
+        // (0.505, 0.514, 0.518, 0.520 at N = 5..8): not locked to HalfAsStructuralFixedPoint.
         var link = PolarityInheritanceLink.Build();
-        foreach (var w in link.Witnesses)
+        for (int k = 0; k < link.Witnesses.Count; k++)
         {
-            Assert.InRange(w.RHwhmInterior, 0.49, 0.51);
+            Assert.True(link.Witnesses[k].RHwhmInterior > 0.5);
+            if (k > 0) Assert.True(link.Witnesses[k].RHwhmInterior > link.Witnesses[k - 1].RHwhmInterior);
         }
     }
 
@@ -105,56 +119,5 @@ public class PolarityInheritanceLinkTests
         // this test fails to compile, surfacing the cross-Locus reference rot.
         var link = PolarityInheritanceLink.Build();
         Assert.Contains(nameof(LocalGlobalEpLink), link.ParallelLocusReference);
-    }
-
-    [Fact]
-    public void Interior_HwhmRatio_MirrorsQuarterAcrossInsideOutsideViews()
-    {
-        // Interior HWHM_left/Q_peak ≈ 1 − a_3 = 3/4 across N=5..8 within tol 0.005.
-        // Pinned via Pi2DyadicLadder.Term(3) for rename-safety.
-        var link = PolarityInheritanceLink.Build();
-        var ladder = new Pi2DyadicLadderClaim();
-        double quarter = ladder.Term(3);          // a_3 = 1/4
-        double mirrorPartner = 1.0 - quarter;     // 3/4
-        const double tol = 0.005;
-
-        foreach (var w in link.Witnesses)
-        {
-            // Inside view: Interior ≈ 3/4
-            Assert.True(Math.Abs(w.HwhmRatioInterior - mirrorPartner) <= tol,
-                $"Inside view at N={w.N}: HwhmRatioInterior {w.HwhmRatioInterior:F4} should sit within {tol} of 1 − a_3 = {mirrorPartner}");
-
-            // Outside view: 1 − Interior ≈ 1/4
-            double outsideView = 1.0 - w.HwhmRatioInterior;
-            Assert.True(Math.Abs(outsideView - quarter) <= tol,
-                $"Outside view at N={w.N}: 1 − HwhmRatioInterior {outsideView:F4} should sit within {tol} of a_3 = {quarter}");
-
-            // Distance flip identity: same magnitude, opposite sign
-            double distInside = w.HwhmRatioInterior - mirrorPartner;
-            double distOutside = outsideView - quarter;
-            Assert.Equal(distInside, -distOutside, precision: 14);
-        }
-    }
-
-    [Fact]
-    public void Endpoint_HwhmRatio_NotAtQuarterMirrorPartner()
-    {
-        // Bond-class contrast: Endpoint plateau sits at ~0.7727, NOT at 1 − a_3 = 3/4.
-        // Companion to Interior_HwhmRatio_MirrorsQuarterAcrossInsideOutsideViews.
-        var link = PolarityInheritanceLink.Build();
-        var ladder = new Pi2DyadicLadderClaim();
-        double quarter = ladder.Term(3);          // a_3 = 1/4
-        double mirrorPartner = 1.0 - quarter;     // 3/4
-        const double minGapFromMirrorPartner = 0.018; // empirical min gap is 0.020 at N=5
-
-        foreach (var w in link.Witnesses)
-        {
-            Assert.True(w.HwhmRatioEndpoint - mirrorPartner >= minGapFromMirrorPartner,
-                $"Endpoint at N={w.N}: HwhmRatioEndpoint {w.HwhmRatioEndpoint:F4} should sit ≥ {minGapFromMirrorPartner} above 1 − a_3 = {mirrorPartner} (bond-class contrast with Interior)");
-
-            double outsideView = 1.0 - w.HwhmRatioEndpoint;
-            Assert.True(quarter - outsideView >= minGapFromMirrorPartner,
-                $"Outside view at N={w.N}: 1 − HwhmRatioEndpoint {outsideView:F4} should sit ≥ {minGapFromMirrorPartner} below a_3 = {quarter} (bond-class contrast with Interior)");
-        }
     }
 }

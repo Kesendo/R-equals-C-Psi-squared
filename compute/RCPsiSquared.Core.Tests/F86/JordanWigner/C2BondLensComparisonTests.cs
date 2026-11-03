@@ -46,8 +46,8 @@ public class C2BondLensComparisonTests
     //   Endpoint: EP-Q_peak = 1.84, K-Q_peak = 2.53 (K > EP)
     //   Innermost: EP-Q_peak = 1.84, K-Q_peak = 1.49 (K < EP)
     //   Flanking b=1: EP-Q_peak = 1.84, K-Q_peak = 4.00 (escaping the Q-grid upper bound!)
-    // The flanking-Interior orbit-escape that becomes loud at N≥9 (per memory
-    // project_q_peak_ep_structure.md) is already detectable in the K-Lens at N=7. EP-Lens
+    // The flanking-Interior far maximum (the global reading; its canonical first maximum
+    // stays near 1.7, see PerF71OrbitObservation) is already detectable in the K-Lens at N=7. EP-Lens
     // does NOT see this escape because it tracks Q_EP_b which stays bounded.
     [Theory]
     [InlineData(5)]

@@ -9,16 +9,18 @@ namespace RCPsiSquared.Core.Tests.Resonance;
 /// The numerical fingerprint tests record the empirical answer to F86's open question
 /// (PROOF_F86_QPEAK "What's missing for full Tier 1" item 1):</para>
 /// <list type="bullet">
-///   <item>4-mode <b>Interior HWHM_left/Q_peak ≈ 0.74</b> across c=2 N=5..8 — within ~2%
-///         of the universal 0.756 from the full block-L. The shape symmetry survives.</item>
-///   <item>4-mode <b>Interior Q_peak ≈ 1.9–3.0</b> vs full block-L ≈ 1.48–1.60 — Q_peak
-///         position is NOT reproduced; the 4-mode model misses ~50% of the eigenstructure
-///         that determines absolute peak position.</item>
-///   <item>4-mode <b>Endpoint Q_peak</b> exceeds the default Q ≤ 4 grid — Endpoint shape
-///         not captured at all by the minimal effective.</item>
+///   <item>4-mode <b>Interior</b> at odd N: Q_peak 1.90 (N = 5) and 3.08 (N = 7) against the full
+///         block's 1.48 and 1.60, HWHM_left/Q_peak 0.740 and 0.762. At even N (6, 8) the interior
+///         curve is still rising at Q = 4, the grid edge.</item>
+///   <item>4-mode <b>Endpoint</b>: still rising at Q = 4 for N = 5, 7, 8; at N = 6 it peaks inside
+///         the grid at Q = 3.78, against the full block's 2.58.</item>
 ///   <item>4-mode <b>K_max</b> is 3–10× smaller than full block-L — the 4-mode subspace
 ///         carries only a fraction of the observable signal.</item>
 /// </list>
+/// <para>The values are pinned against an independent route: the same four-mode construction in
+/// Python (the R-even top pair at even N, see <see cref="RCPsiSquared.Core.Decomposition.FourModeBasis"/>),
+/// maximised over t by a dense scan on [0.3, 40] plus bounded Brent:
+/// simulations/f86_envelope_second_route.py --fourmode N.</para>
 /// <para>Conclusion: the 4-mode minimal effective is a structural witness (probe lives in
 /// channel-uniform 2D, EP partners in SVD-top 2D, with cross-coupling carrying bond-position
 /// information) but NOT sufficient to reproduce the universal shape numerically. More modes
@@ -39,45 +41,37 @@ public class FourModeResonanceScanTests
     }
 
     [Theory]
-    [InlineData(5, 1, 1.85, 1.99, 0.72, 0.76)]
-    [InlineData(6, 1, 2.85, 3.05, 0.73, 0.76)]
-    [InlineData(7, 1, 2.95, 3.15, 0.73, 0.76)]
-    [InlineData(8, 1, 2.95, 3.10, 0.73, 0.76)]
-    public void Interior_FourMode_HasShiftedQPeakButCloseHwhmRatio(
-        int N, int n, double qLo, double qHi, double hwhmLo, double hwhmHi)
+    [InlineData(5, 1.9005775355788428, 0.739558136499575)]
+    [InlineData(7, 3.078068625836869, 0.7615384762563832)]
+    public void Interior_FourMode_OddN_QPeakAndHwhmRatio(int N, double qPeak, double hwhmRatio)
     {
-        // Documented finding: the 4-mode Interior HWHM/Q ratio is within ~2% of the
-        // universal 0.756 (full block-L), but Q_peak itself is shifted significantly
-        // higher. Together this is the algebraic witness that:
-        //   (a) the bond-class shape symmetry partially lives in the 4-mode subspace, but
-        //   (b) the absolute peak position does NOT — more modes are needed.
-        var block = new CoherenceBlock(N, n, gammaZero: 0.05);
-        var curve = new FourModeResonanceScan(block).ComputeKCurve();
-
-        var interior = curve.Peak(BondClass.Interior);
-        Assert.InRange(interior.QPeak, qLo, qHi);
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var interior = new FourModeResonanceScan(block).ComputeKCurve().Peak(BondClass.Interior);
+        Assert.True(Math.Abs(interior.QPeak - qPeak) <= 1e-10, $"N={N} Q_peak {interior.QPeak:R}");
         Assert.NotNull(interior.HwhmLeftOverQPeak);
-        Assert.InRange(interior.HwhmLeftOverQPeak!.Value, hwhmLo, hwhmHi);
+        Assert.True(Math.Abs(interior.HwhmLeftOverQPeak!.Value - hwhmRatio) <= 1e-10,
+            $"N={N} HWHM_left/Q_peak {interior.HwhmLeftOverQPeak.Value:R}");
     }
 
     [Theory]
-    [InlineData(5, 1)]
-    [InlineData(6, 1)]
-    [InlineData(7, 1)]
-    [InlineData(8, 1)]
-    public void Endpoint_FourMode_QPeakBeyondDefaultGrid(int N, int n)
+    [InlineData(6, BondClass.Interior)]
+    [InlineData(8, BondClass.Interior)]
+    [InlineData(5, BondClass.Endpoint)]
+    [InlineData(7, BondClass.Endpoint)]
+    [InlineData(8, BondClass.Endpoint)]
+    public void FourMode_QPeakBeyondDefaultGrid(int N, BondClass cls)
     {
-        // Documented finding: the 4-mode Endpoint K-curve is still rising at Q = 4
-        // (default grid edge). The peak is off-grid and the universal Endpoint
-        // HWHM/Q ≈ 0.770 is NOT recovered by the 4-mode reduction. This is part of
-        // the structural answer to PROOF_F86_QPEAK item 1.
-        var block = new CoherenceBlock(N, n, gammaZero: 0.05);
-        var curve = new FourModeResonanceScan(block).ComputeKCurve();
+        var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
+        var peak = new FourModeResonanceScan(block).ComputeKCurve().Peak(cls);
+        Assert.True(peak.QPeak >= 3.99, $"c=2 N={N} {cls} 4-mode peaks at Q={peak.QPeak:R} inside the grid");
+    }
 
-        var endpoint = curve.Peak(BondClass.Endpoint);
-        Assert.True(endpoint.QPeak >= 3.99,
-            $"c=2 N={N} Endpoint 4-mode unexpectedly peaks at Q={endpoint.QPeak:F3} inside default grid; if true, " +
-            "the 4-mode reduction may capture more Endpoint structure than measured 2026-05-02 — investigate.");
+    [Fact]
+    public void Endpoint_FourMode_N6_PeaksInsideTheGrid()
+    {
+        var block = new CoherenceBlock(6, n: 1, gammaZero: 0.05);
+        var endpoint = new FourModeResonanceScan(block).ComputeKCurve().Peak(BondClass.Endpoint);
+        Assert.True(Math.Abs(endpoint.QPeak - 3.7812635958294947) <= 1e-10, $"Q_peak {endpoint.QPeak:R}");
     }
 
     [Theory]

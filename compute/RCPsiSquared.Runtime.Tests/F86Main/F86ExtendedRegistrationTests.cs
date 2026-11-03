@@ -29,7 +29,7 @@ public class F86ExtendedRegistrationTests
             .Build();
 
         Assert.Equal(Tier.Tier1Candidate, registry.Get<PerBlockQPeakClaim>().Tier);
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<UniversalShapePrediction>().Tier);
+        Assert.Equal(Tier.Tier2Empirical, registry.Get<UniversalShapePrediction>().Tier);
         Assert.Equal(Tier.Tier2Empirical, registry.Get<SigmaZeroChromaticityScaling>().Tier);
         Assert.Equal(Tier.Retracted, registry.Get<RetractedClaim>().Tier);
     }
@@ -41,8 +41,8 @@ public class F86ExtendedRegistrationTests
             .RegisterF86Extended(gammaZero: 0.05)
             .Build();
 
-        Assert.Equal(2, registry.AllOfTier(Tier.Tier1Candidate).Count);
-        Assert.Single(registry.AllOfTier(Tier.Tier2Empirical));
+        Assert.Single(registry.AllOfTier(Tier.Tier1Candidate));
+        Assert.Equal(2, registry.AllOfTier(Tier.Tier2Empirical).Count);
         Assert.Single(registry.AllOfTier(Tier.Retracted));
         Assert.Empty(registry.AllOfTier(Tier.Tier1Derived));
     }

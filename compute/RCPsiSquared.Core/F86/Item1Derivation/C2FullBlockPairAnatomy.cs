@@ -32,9 +32,9 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// the decisive read for whether HWHM is governed by a small N-stable set of mode pairs.
 /// </para>
 ///
-/// <para>Default <c>(Q, t) = (Q_peak, t_peak)</c>. <c>Q_peak ≈ 2.197 · Q_EP</c> per the
-/// universal post-EP location <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/>; this is where
-/// HWHM is actually read, not at Q_EP itself. <c>t_peak = 1/(4γ₀)</c> per Statement 1.</para>
+/// <para>Default <c>(Q, t) = (2.197 · Q_EP, t_peak)</c>, with 2.197 =
+/// <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/>, the fixed-τ = 1 peak of the bare model (its envelope peaks at 1.7141·Q_EP; see the arc f86_fixed_tau_peak_lands_nearer); a point near the full
+/// block's resonance, not at Q_EP itself. <c>t_peak = 1/(4γ₀)</c> per Statement 1.</para>
 ///
 /// <para><b>Tier outcome: Tier2Verified.</b> Pair-level numerical anatomy at one (Q, t).
 /// The witnesses ARE the data. Tier1 promotion would require an analytical identification

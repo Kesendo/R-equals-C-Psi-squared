@@ -9,31 +9,45 @@ namespace RCPsiSquared.Core.Tests.F86;
 
 public class OrbitKTrendTests
 {
+    /// <summary>The endpoint orbit's envelope Q_peak along N = 5..8, the values and gate of
+    /// <see cref="PerF71OrbitKTableTests.Build_OrbitZero_QPeakAndHwhmRatio_MatchPinnedAnchor"/>.
+    /// The trend is not monotone: 2.517 at N = 5, its maximum 2.581 at N = 6, then falling.</summary>
     [Fact]
-    public void BuildTrend_Endpoint_QPeakInRange_AcrossN5To8()
+    public void BuildTrend_Endpoint_QPeak_AcrossN5To8()
     {
         var blocks = Enumerable.Range(5, 4)
             .Select(N => new CoherenceBlock(N, n: 1, gammaZero: 0.05))
             .ToList();
         var trend = OrbitKTrend.BuildTrend(orbitIndex: 0, blocks);
+        double[] expected = { 2.517071370613098, 2.580604998577294, 2.560073427805408, 2.543127121122935 };
 
         Assert.Equal(4, trend.Trend.Count);
-        Assert.All(trend.Trend, e =>
-            Assert.True(e.Witness.QPeak > 2.49 && e.Witness.QPeak < 2.55,
-                $"N={e.N}: Q_peak={e.Witness.QPeak:F4} outside expected Endpoint range [2.49, 2.55]"));
+        for (int i = 0; i < expected.Length; i++)
+            Assert.True(Math.Abs(trend.Trend[i].Witness.QPeak - expected[i]) <= 1e-10,
+                $"N={trend.Trend[i].N}: Q_peak={trend.Trend[i].Witness.QPeak:R}, expected {expected[i]:R}");
     }
 
     [Fact]
-    public void BuildTrend_FlankingOrbit_IsEscaping_AtN9_WithDefaultGrid()
+    public void BuildTrend_FlankingOrbit_CanonicalPeakRises_ButDoesNotEscape_N5To9()
     {
+        // The table reads the canonical (first) maximum: orbit 1 rises 1.483 → 1.637 → 1.699 →
+        // 1.727 → 1.749 over N=5..9 and stays inside the default grid. Its far maximum, which
+        // does leave the grid from N=7 on, is the global reading of PerF71OrbitObservation.
         var blocks = new[] { 5, 6, 7, 8, 9 }
             .Select(N => new CoherenceBlock(N, n: 1, gammaZero: 0.05))
             .ToList();
         var trend = OrbitKTrend.BuildTrend(orbitIndex: 1, blocks);
 
-        var defaultGrid = ResonanceScan.DefaultQGrid();
-        Assert.True(trend.IsEscaping(defaultGrid),
-            $"orbit 1 trend should be escaping at N≥9; last Q_peak = {trend.Trend[^1].Witness.QPeak:F4}");
+        for (int i = 1; i < trend.Trend.Count; i++)
+            Assert.True(trend.Trend[i].Witness.QPeak > trend.Trend[i - 1].Witness.QPeak,
+                $"N={trend.Trend[i].N}: {trend.Trend[i].Witness.QPeak:R} not above {trend.Trend[i - 1].Witness.QPeak:R}");
+        Assert.False(trend.IsEscaping(ResonanceScan.DefaultQGrid()),
+            $"last Q_peak = {trend.Trend[^1].Witness.QPeak:F4}");
+
+        // N=5..8 against the frozen orbit table (the scan's resolution, 1e-10).
+        var frozen = new PerF71OrbitObservation().Witnesses.Where(w => w.Chromaticity == 2).ToDictionary(w => w.N);
+        foreach (var entry in trend.Trend.Where(e => e.N <= 8))
+            Assert.Equal(frozen[entry.N].QPeakPerOrbit[1], entry.Witness.QPeak, 1e-10);
     }
 
     [Fact]

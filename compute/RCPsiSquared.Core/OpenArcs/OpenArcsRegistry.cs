@@ -2730,22 +2730,20 @@ public static class OpenArcsRegistry
             ParkedAt: "(N,b)-family traces alpha=-0.133 vs fitted -0.129, extraction-noise-limited; g_eff convention gotcha pinned (4.394/(Qp+2))",
             NextStep: "robust extraction, then close the shape-invariance claim",
             Status: OpenArcStatus.Retired,
-            RetiredReason: "RETIRED 2026-06-29 (honest & phased robust extraction). The per-sub-class slope " +
-                "alpha is now recomputed LIVE from the 22 F90-bridge anchors in F86HwhmAlphaExtraction.cs " +
-                "(F86HwhmClosedFormClaim reads it, no hand-transcription -> no drift), with its grid-noise sigma " +
-                "and an honest per-class verdict. The data verdict: only Endpoint and Flanking carry a resolved " +
-                "slope (jackknife-tight, though still marginal at the documented 0.005 grid floor -- promotion to " +
-                "Tier1Derived awaits a grid-convergence study). The other four are not defensible slopes: Mid is a " +
-                "flat lift over a microscopic g_eff lever (g_span ~0.011, sigma_alpha ~0.47, ~8x the slope), " +
-                "CentralSelfPaired and CentralEscapeOrbit3 have a single anchor each, and Orbit2Escape sits " +
-                "entirely on grid-edge anchors (Q_peak > 4) that C2HwhmRatio flags non-physical (the +0.698 " +
-                "outlier). These four collapse to a per-class constant lift (alpha = 0) or a flagged fit; all still " +
-                "reproduce their anchors within 0.005, so PredictHwhmRatio stays <= 0.005 on every test anchor. The " +
-                "original puzzle (alpha=-0.133 vs -0.129 between extraction paths) is a 0.004 difference well inside " +
-                "the slope's own uncertainty -- the extraction was never the problem; the model was " +
-                "over-parameterized (6 slopes where only 2 rest on a real lever). The separate ANALYTICAL derivation " +
-                "of (alpha, beta) from F89/F90 structure stays open (F86b2 remains Tier1Candidate); this arc closed " +
-                "only the empirical-fit-robustness front it named."),
+            RetiredReason: "RETIRED. The per-sub-class slope alpha is recomputed LIVE in " +
+                "F86HwhmAlphaExtraction.cs (F86HwhmClosedFormClaim reads it, no hand-transcription). The " +
+                "anchors are envelope readings (max_t |K_b(Q, t)|, the F86 Q_peak definition) at the canonical " +
+                "peak (the first local maximum in Q), on the default Q grid, within 3.5e-5 of the continuous " +
+                "(simulations/f86_envelope_second_route.py --continuous N) " +
+                "envelope's ratio, so no grid floor of 0.005 stands to weigh a slope against. What " +
+                "the anchors decide: Endpoint and Flanking have four chain lengths each (N=5..8) and miss a " +
+                "least-squares line by 1.28e-3 and 4.2e-4, 12 to 36 times that offset, so lift linear in g_eff " +
+                "is not an exact law there (four points, two parameters: a refutation, not a fit-quality " +
+                "statement); Mid and CentralSelfPaired have two each, a line through two " +
+                "points that tests nothing; the two far-maximum sub-classes have no canonical anchors. The " +
+                "ANALYTICAL derivation of the lift from " +
+                "F89/F90 structure stays open (F86b2 is Tier2Empirical); this arc closed only the " +
+                "empirical-fit-robustness front it named."),
 
         new OpenArc(
             Name: "felt_time_dimensions",
@@ -5910,7 +5908,7 @@ public static class OpenArcsRegistry
                 "(FillingThresholdCsr, PathKMonodromyScout, five simulations scripts), so the fix " +
                 "was a return to an idiom the repo had, not a new convention; the sharpest exhibit " +
                 "is two least-squares slopes with the same degenerate case answering it oppositely, " +
-                "F86HwhmAlphaExtraction.cs:146 (0.0) against PathKMonodromyScout.cs:461 (NaN). " +
+                "F86HwhmAlphaExtraction.cs:149 (0.0) against PathKMonodromyScout.cs:461 (NaN). " +
                 "FIXED IN THE SWEEP: f113_break_formula_derivation.py printed R^2 = 1.000000 for " +
                 "the gamma_Z scan, where ss_tot is EXACTLY 0.0 (measured, floor confirmed firing) " +
                 "because the asymmetry is bit-identically constant. That manufactured 1.000000 had " +
@@ -9882,6 +9880,62 @@ public static class OpenArcsRegistry
                 "measure once the angle is not a Frobenius angle (the proof defines R(N) as ||{L_H, L_Dc}|| / " +
                 "(||L_H|| ||L_Dc||), a normalized cross term), and say that. Keep the C# strings in step with the proof; " +
                 "check that no test asserts the old words (TimeIrreversibilityExclusionWitnessTests).",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "jw_qpeak_prediction_tie_break",
+            Opened: "2026-11-02",
+            Origin: "The F86 Q_peak t-grid arc (envelope re-read): JwBondQPeakPrediction gives different " +
+                "predicted Q_peak between runs of the same input (c=2 N=5 Endpoint 2.4871 against 2.5237), and at " +
+                "N=7 one run gave the two endpoint bonds different predictions (2.2270, 2.1643), so the " +
+                "prediction breaks the F71 mirror Q_peak(b) = Q_peak(N-2-b) that the empirical envelope keeps.",
+            ParkedAt: "Located, not repaired: the candidate selection breaks exact floating-point ties among " +
+                "mirror-tied candidates, and the Frobenius-norm sort that orders them is not stable under the " +
+                "run-to-run round-off of the eigensolver. The tests pin only the empirical side; the docstrings of " +
+                "JwBondQPeakPrediction and JwBondQPeakUnified state the non-determinism.",
+            NextStep: "Make the selection mirror-equivariant by construction (choose per F71 orbit, then copy to " +
+                "the partner bond) and the tie-break exact (a key that does not depend on eigensolver round-off); " +
+                "then re-read the JW residuals against the empirical envelope.",
+            Status: OpenArcStatus.Open),
+
+        new OpenArc(
+            Name: "f86_fixed_tau_peak_lands_nearer",
+            Opened: "2026-11-02",
+            Origin: "The F86 Q_peak t-grid arc: the bare doubled-PTF 2x2 model has two peaks, x_peak = 2.196910 " +
+                "at the fixed time tau = t/t_peak = 1 and x_peak = 1.7141131714 on the envelope max_t (C2BareDoubled" +
+                "PtfClosedForm, both pinned against simulations/f86_envelope_second_route.py --bare). F86 Q_peak is the envelope, yet the " +
+                "predictor-defined formulas use the fixed-tau value (the JW predictor; g_eff = 4.39382/Q_peak in " +
+                "PolarityInheritanceLink; 4.39382/(Q_peak + 2) in F86HwhmAlphaExtraction), and that value lands " +
+                "nearer the full block's envelope Q_peak than the bare envelope value does.",
+            ParkedAt: "Observed, not explained. One measured difference that may carry it: the full block's " +
+                "envelope maximum sits at t* 1.036 to 1.107 t_peak at c=2 N=5..8 (f86_envelope_second_route.py " +
+                "--continuous), the bare model's at 1.305 t_peak (--bare), so " +
+                "the full block's own t* is closer to the fixed slice tau = 1.",
+            NextStep: "Read t*(Q) of the full block against the bare model's across N and c, and ask whether the " +
+                "fixed-tau slice is the better predictor because the block's t* converges to t_peak (does t* lock " +
+                "to t_peak as N grows?), or for another reason.",
+            Status: OpenArcStatus.Open),
+        new(
+            Name: "f86b_obstruction_core_overreach",
+            Opened: "2026-11-03",
+            Origin: "Review of the F86 envelope re-read (three fresh rounds): the core of " +
+                "docs/proofs/PROOF_F86B_OBSTRUCTION.md argues more than it shows. The diagnosis 'g_eff is not " +
+                "a spectral primitive, hence no closed form' does not follow (t_peak is no eigenvalue and " +
+                "closes; the bare model's envelope x_peak 1.7141131714 is a dimensionless relative quantity " +
+                "held Tier 1 derived). L1 rules out a rational (quadratic)(quadratic) split of the 4-mode " +
+                "characteristic polynomial, not a closed form (a quartic has radical roots), and on a model L4 " +
+                "says misses the position. 'The 2-level model is exact at c=2' (PROOF_F86B_UNIVERSAL_SHAPE, " +
+                "PROOF_F86B_OBSTRUCTION, ANALYTICAL_FORMULAS) contradicts L3/L4: only the channel-uniform space " +
+                "is two-dimensional. The lineshape collapse (Tier 1 candidate) and the HWHM band (Tier 2 " +
+                "empirical) are the same kind of measured span. The title 'admits no closed form' and the hub's " +
+                "'structureless residue' reach past six routes that failed.",
+            ParkedAt: "Separated from the t-grid repair by Tom (2026-11-03): that repair brought L2 to a " +
+                "convention boundary, L4 to a shown insufficiency for the position and L5 to g_eff, and left " +
+                "the rest. Older edit-history narration in the obstruction proof and the hub also stays for " +
+                "this pass.",
+            NextStep: "Stage 0 on the obstruction's claims, then bring the proof to what it shows (six routes " +
+                "failed; whether a closed form exists is open), align the tiers of collapse and band, and " +
+                "review with fresh rounds.",
             Status: OpenArcStatus.Open),
     };
 

@@ -8,8 +8,8 @@ namespace RCPsiSquared.Core.F71;
 /// self-paired (its mirror partner is itself).
 ///
 /// <para>Per F71-mirror invariance, any F71-symmetric chain observable evaluated per-bond
-/// is identical for paired bonds. F86 generalisation: per-bond Q_peak is bit-exact mirror-
-/// invariant (Statement 3 of <c>PROOF_F86C_F71_MIRROR</c>).</para>
+/// is identical for paired bonds. F86 generalisation: per-bond Q_peak is exactly mirror-
+/// invariant, its numerical readings to ~10⁻¹⁰ (Statement 3 of <c>PROOF_F86C_F71_MIRROR</c>).</para>
 /// </summary>
 public sealed class F71BondOrbitDecomposition : Claim
 {

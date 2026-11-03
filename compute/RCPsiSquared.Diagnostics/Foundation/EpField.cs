@@ -69,7 +69,7 @@ public sealed class EpField : IInspectable
             yield return new InspectableNode(
                 displayName: "the marks (the anchors)",
                 summary: $"Q=0 (rest), Q_EP={QEp.ToString("0.###", Inv)} (the toy 2×2's defective coalescence, the rotation born), " +
-                         $"Q_peak={QPeak.ToString("0.###", Inv)} (the K_b resonance peak, past the toy EP). At the toy EP the slow mode " +
+                         $"Q_peak={QPeak.ToString("0.###", Inv)} (the toy K_b peak at the fixed time t_peak, past the toy EP). At the toy EP the slow mode " +
                          $"pins at 4γ₀ so the Takt period is t_peak=1/(4γ₀). Inert, the contract.");
 
             // 2. The Takt: the toy 2×2's eigenvalue coalescence, the decay pinning at 4γ₀.

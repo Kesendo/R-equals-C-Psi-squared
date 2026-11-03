@@ -94,28 +94,19 @@ public class PolarityPairQPeakDecompositionClaimTests
     [Fact]
     public void EmpiricalDeviation_StaysWithinTenPercent_PolarityInheritanceLinkWitnesses()
     {
-        // Per PolarityInheritanceLink (Tier2Verified) the witness table for c=2 N=5..8:
-        // Endpoint Q_peak ∈ {2.5008, 2.5470, 2.5299, 2.5145} — all within 10% of 2.5.
-        // Interior Q_peak ∈ {1.4821, 1.5801, 1.5831, 1.6049} — all within 10% of 1.5.
-        // The schema (Tier1Derived) is bit-exact; the empirical bit-exact values deviate.
-        // 11% finite-size deviation budget per PROOF_F86B_OBSTRUCTION (max observed:
-        // Interior N=8 = 1.6049, deviation 0.1049 from schema 1.5).
-        const double tolerance = 0.11;
-
-        double[] endpointWitnesses = { 2.5008, 2.5470, 2.5299, 2.5145 };  // N=5..8
-        double[] interiorWitnesses = { 1.4821, 1.5801, 1.5831, 1.6049 };  // N=5..8
-
-        foreach (var w in endpointWitnesses)
+        // PolarityInheritanceLink's envelope table, c=2 N=5..8: Endpoint Q_peak 2.517..2.581
+        // (at most 3.2% from the schema 2.5), Interior 1.483..1.611 (at most 7.4% from 1.5,
+        // at N=8). The schema (Tier1Derived) is exact; the empirical values deviate. The 10%
+        // is the claim's own stated finite-size bracket, checked here, not a law.
+        const double relativeBudget = 0.10;
+        foreach (var w in PolarityInheritanceLink.Build().Witnesses)
         {
-            Assert.True(
-                Math.Abs(w - PolarityPairQPeakDecompositionClaim.EndpointQPeakSchema) <= tolerance,
-                $"Endpoint witness {w} deviates from schema 2.5 by more than 10%");
-        }
-        foreach (var w in interiorWitnesses)
-        {
-            Assert.True(
-                Math.Abs(w - PolarityPairQPeakDecompositionClaim.InteriorQPeakSchema) <= tolerance,
-                $"Interior witness {w} deviates from schema 1.5 by more than 10%");
+            double endpointDev = Math.Abs(w.QPeakEndpoint / PolarityPairQPeakDecompositionClaim.EndpointQPeakSchema - 1.0);
+            double interiorDev = Math.Abs(w.QPeakInterior / PolarityPairQPeakDecompositionClaim.InteriorQPeakSchema - 1.0);
+            Assert.True(endpointDev <= relativeBudget,
+                $"N={w.N} Endpoint {w.QPeakEndpoint} deviates from schema 2.5 by {endpointDev:P1}");
+            Assert.True(interiorDev <= relativeBudget,
+                $"N={w.N} Interior {w.QPeakInterior} deviates from schema 1.5 by {interiorDev:P1}");
         }
     }
 

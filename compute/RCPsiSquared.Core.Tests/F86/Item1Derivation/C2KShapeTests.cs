@@ -95,29 +95,25 @@ public class C2KShapeTests
     [InlineData(7)]
     public void PeakOverT_FindsTheMaximumAbsoluteK(int N)
     {
-        // PeakOverT must return (max |K|, t at max) — pin the contract by sweeping the t
-        // grid manually and comparing.
+        // PeakOverT returns the envelope (max |K|, t*). An independent dense scan of the whole
+        // window (2001 points, not the seed grid) must not beat it. Error model: golden section
+        // stops at |Δt| ≈ √ε·t, where K lies below its maximum by ½|K''|Δt² ≈ ε·|K''|t²/2, a
+        // relative shortfall of order 1e-15 here, and K itself carries round-off of the same order;
+        // the gate's 1e-12 is that model with three decades to spare.
         var block = new CoherenceBlock(N, n: 1, gammaZero: 0.05);
         var kshape = C2KShape.Build(block);
-        var tGrid = ResonanceScan.DefaultTGrid(block.GammaZero, points: 21);
+        var tGrid = ResonanceScan.DefaultTGrid(block.GammaZero);
 
         const int bond = 0;
         const double Q = 1.5;
         var (peak, tAtPeak) = kshape.PeakOverT(Q, bond, tGrid);
 
-        double manualPeak = 0.0;
-        double manualT = double.NaN;
-        foreach (double t in tGrid)
+        for (int i = 0; i <= 2000; i++)
         {
-            double kAbs = Math.Abs(kshape.KAt(Q, bond, t));
-            if (kAbs > manualPeak)
-            {
-                manualPeak = kAbs;
-                manualT = t;
-            }
+            double t = tGrid[0] + (tGrid[^1] - tGrid[0]) * i / 2000.0;
+            double k = Math.Abs(kshape.KAt(Q, bond, t));
+            Assert.True(k <= peak * (1 + 1e-12), $"t={t}: {k:R} above the envelope {peak:R}");
         }
-
-        Assert.Equal(manualPeak, peak, 12);
-        Assert.Equal(manualT, tAtPeak, 12);
+        Assert.Equal(Math.Abs(kshape.KAt(Q, bond, tAtPeak)), peak, 14);
     }
 }

@@ -11,7 +11,8 @@ namespace RCPsiSquared.Core.Tests.F86.Item1Derivation;
 /// from `simulations/f86_lift_via_superposition_probe.py`.
 ///
 /// <para>The Python superposition probe found that 2-pair sums at specific
-/// (Q_EP_1, Q_EP_2) tuples reproduce Interior 0.7506 / Endpoint 0.7728:
+/// (Q_EP_1, Q_EP_2) tuples reproduce Interior 0.7506 / Endpoint 0.7728 (the class values
+/// of a 21-point t-grid reading; the envelope values are 0.7523..0.7602 / 0.7766..0.7815):
 /// Interior target: Q1≈1.01, Q2≈2.86 (ratio 2.84). Endpoint target: Q1≈0.58,
 /// Q2≈1.86 (ratio 3.21). If the actual JW cluster-pair distribution per bond
 /// does NOT have similar Q_EP spreads, the superposition hypothesis is
@@ -29,7 +30,7 @@ public class F86ClusterPairQEpDistributionProbe
         var empirical = C2HwhmRatio.Build(block);
 
         _out.WriteLine($"N=5 c=2 cluster-pair Q_EP distribution per bond.");
-        _out.WriteLine($"Empirical anchors: Interior 0.7506, Endpoint 0.7728 (HWHM_left/Q_peak).");
+        _out.WriteLine($"Probe targets: Interior 0.7506, Endpoint 0.7728 (HWHM_left/Q_peak, 21-point t-grid reading).");
         _out.WriteLine($"Phase 4 superposition search: Interior needs Q1≈1.01, Q2≈2.86;");
         _out.WriteLine($"                              Endpoint needs Q1≈0.58, Q2≈1.86.");
         _out.WriteLine("");

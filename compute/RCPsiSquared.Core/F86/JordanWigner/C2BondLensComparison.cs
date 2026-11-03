@@ -19,7 +19,8 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///   <item><b>K-lens</b>: detects the time-averaged K-resonance K_b(Q, t_peak)
 ///   ≈ 2·Re⟨ρ(t_peak) | S·∂_J ρ(t_peak)⟩, smoothed by the Frechet-derivative integral over
 ///   the eigenmode lifetimes. Broad peak (HWHM ≈ 0.75·Q_peak), bond-relatively-uniform
-///   Q_peak (≈ BareDoubledPtfXPeak ≈ 2.197) but bond-distinct K_max and HWHM.</item>
+///   Q_peak (near the bare fixed-τ peak BareDoubledPtfXPeak ≈ 2.197, in units of Q_EP) but
+///   bond-distinct K_max and HWHM.</item>
 /// </list>
 ///
 /// <para>Empirical observation: the two Q_peaks differ. EP-Q_peak = Q_EP_b ≈ 1/g_eff_b

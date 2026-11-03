@@ -10,8 +10,14 @@ namespace RCPsiSquared.Core.F86;
 /// {−0.6, −0.4, −0.2, 0, +0.2, +0.4, +1.0} we evaluate y(x) = K(Q*(1+x))/|K|max across the
 /// configured (c, N) sample, returning the min/max range.
 ///
-/// <para>The shape collapse manifests as small spreads near the peak (under ~2 % at |x| ≤ 0.4)
-/// and class-specific plateaus at x = +1.0 (Interior ≈ 0.85, Endpoint ≈ 0.94).</para>
+/// <para>The shape collapse manifests as small spreads near the peak (under ~2 % at |x| ≤ 0.4).
+/// At x = +1.0 the envelope gives, on a [0.2, 6] grid of step 0.025, c=2 N=5..7 Interior
+/// 0.837 / 0.843 / 0.884 and Endpoint
+/// 0.864 / 0.874 / 0.876: Endpoint lies above Interior at N=5 and 6 and below it at N=7, where
+/// the Interior class mean carries the inner non-central bonds rising toward their plateau
+/// (see <see cref="PerF71OrbitObservation"/>), so the x = +1.0 value does not separate the
+/// classes at every N. A target Q*(1+x) beyond the curve's Q grid reads as 0: on the default
+/// grid [0.2, 4] the Endpoint point x = +1.0 (Q ≈ 5) lies outside it.</para>
 /// </summary>
 public sealed class ShapeFunctionPoint
 {

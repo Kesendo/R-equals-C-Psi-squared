@@ -25,18 +25,18 @@ public class F90F86C2BridgeIdentityTests
     }
 
     [Theory]
-    [InlineData(2.5470, 1.2735)]   // F86 Endpoint Q_peak (N=6) → F89 Q
-    [InlineData(1.6157, 0.80785)]  // F86 Interior flanking Q_peak (N=6 b=1)
-    [InlineData(16.7895, 8.39475)] // F86 N=8 b=3 central escape
+    [InlineData(2.5806, 1.2903)]   // F86 Endpoint Q_peak (N=6) → F89 Q
+    [InlineData(1.6366, 0.8183)]   // F86 Interior flanking Q_peak (N=6 b=1)
+    [InlineData(20.0917, 10.04585)] // F86 N=8 b=3 central far maximum
     public void F86JToF89J_HalvesValue(double f86J, double expectedF89J)
     {
         Assert.Equal(expectedF89J, F90F86C2BridgeIdentity.F86JToF89J(f86J), precision: 12);
     }
 
     [Theory]
-    [InlineData(1.2735, 2.5470)]
-    [InlineData(0.80785, 1.6157)]
-    [InlineData(8.39475, 16.7895)]
+    [InlineData(1.2903, 2.5806)]
+    [InlineData(0.8183, 1.6366)]
+    [InlineData(10.04585, 20.0917)]
     public void F89JToF86J_DoublesValue(double f89J, double expectedF86J)
     {
         Assert.Equal(expectedF86J, F90F86C2BridgeIdentity.F89JToF86J(f89J), precision: 12);
@@ -59,16 +59,15 @@ public class F90F86C2BridgeIdentityTests
     [Fact]
     public void RoundTrip_F86ToF89ToF86_IsIdentity()
     {
-        double[] testValues = { 0.0, 0.5, 1.0, 2.5470, 16.7895 };
+        double[] testValues = { 0.0, 0.5, 1.0, 2.5806, 20.0917 };
         foreach (var v in testValues)
             Assert.Equal(v, F90F86C2BridgeIdentity.F89JToF86J(F90F86C2BridgeIdentity.F86JToF89J(v)), precision: 14);
     }
 
     [Fact]
-    public void BitExactBondCount_IsTwentyOfTwentyTwo()
+    public void AgreeingBondCount_IsAllTwentyTwo()
     {
-        Assert.Equal(20, F90F86C2BridgeIdentity.BitExactBondCountVerified);
+        Assert.Equal(22, F90F86C2BridgeIdentity.AgreeingBondCountVerified);
         Assert.Equal(22, F90F86C2BridgeIdentity.TotalBondComparisonsVerified);
-        Assert.True(F90F86C2BridgeIdentity.TotalBondComparisonsVerified >= F90F86C2BridgeIdentity.BitExactBondCountVerified);
     }
 }

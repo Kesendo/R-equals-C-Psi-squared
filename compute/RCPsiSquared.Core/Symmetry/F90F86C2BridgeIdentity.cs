@@ -28,20 +28,21 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>The identification is operator-exact: <c>‖L_F86(J) − L_F89(J/2)‖_F = 0</c>
 /// (bit-identical integer-coefficient matrices) on the shared (SE,DE) basis at N=5..8.
-/// The per-bond HWHM_left/Q_peak ratio is then a grid-dependent readout of that one
-/// operator: verified bit-exact via <c>simulations/f89_to_f86_kbond_via_eigendecomp.py</c>
-/// at N=5..8 across every per-F71-orbit class including orbit-escape bonds (broad
-/// high-Q plateau): 20/22 bonds bit-exact, 2/22 within Q-grid resolution noise (0.0008,
-/// pure grid sampling, at matched grids all 22 agree to machine precision).
-/// Escape examples reproduced: N=7 b=1/b=4 at Q_peak≈7.27 (F86-J), N=8 b=3 (central
-/// self-paired) at Q_peak≈16.79 (F86-J).</para>
+/// The per-bond Q_peak and HWHM_left/Q_peak are then two readouts of that one operator:
+/// the envelope second route <c>simulations/f86_envelope_second_route.py</c>, which reads c=2
+/// through the F89 eigendecomposition of <c>simulations/f89_to_f86_kbond_via_eigendecomp.py</c>,
+/// agrees with ResonanceScan on all 22 bonds of N=5..8 to 10⁻¹⁰ on the default Q grid, in both
+/// readings: the canonical peak (first local maximum; N=7 b=1/b=4 at 1.6989, N=8 b=1/b=5 at
+/// 1.7272) and the global one, where those four bonds sit on the grid edge Q = 4 in both routes
+/// and agree again on wider grids (N=7 b=1/b=4 at 7.2554 on [0.2, 20], N=8 b=1/b=5 at
+/// 8.2247).</para>
 ///
 /// <para>Implications for F86 open work (per <c>docs/proofs/PROOF_F86_QPEAK.md</c>):</para>
 ///
 /// <list type="bullet">
 ///   <item>Item 1' (HWHM_left/Q_peak per bond class, Tier 1 candidate; the (α,β) are
-///         fitted, not yet derived): the lift above the 4-mode floor (0.6715) to 0.7506
-///         Interior / 0.7728 Endpoint is the intra-channel dispersion of the rank-1-bridge
+///         fitted, not yet derived): the lift above the bare floor (0.7265 on the envelope) to
+///         the class values (Interior 0.7523..0.7602, Endpoint 0.7766..0.7815 at N = 5..8) is the intra-channel dispersion of the rank-1-bridge
 ///         + intra-dispersion model (two-dial scout, 2026-06-11); the earlier "H_B-mixed
 ///         octic residual of the inter coupling" lift suspicion is refuted (the inter-channel
 ///         tail only renormalizes Q_peak / g_eff). The cyclotomic Φ_{N_block+1} pattern of
@@ -50,7 +51,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Item 4' (c≥3 extension): F89 path-k Formalismus generalises; chromaticity
 ///         c bedeutet HD ∈ {1, 3, ..., 2c−1} channels statt nur {1, 3} bei c=2.</item>
 ///   <item>Direction (b'') (full block-L derivation, not 4-mode): numerical Tier-1
-///         already achieved via F89 (bit-exact 20/22 bonds at N=5..8). Closed-form
+///         already achieved via F89 (all 22 bonds at N=5..8 agree to 10⁻¹⁰). Closed-form
 ///         analytical lift via F89 AT-locked structure is the next step.</item>
 /// </list>
 ///
@@ -87,22 +88,18 @@ public sealed class F90F86C2BridgeIdentity : Claim
         return f89J * JConventionFactor;
     }
 
-    /// <summary>Number of per-bond comparisons across N=5..8 that match bit-exact between
-    /// F89→F86 (per-bond Hellmann-Feynman of F89 (SE,DE) eigendecomposition) and F86's
-    /// own ResonanceScan: 20 of 22 (the 2 within Q-grid resolution noise ≤ 0.0008 are at
-    /// N=8 b=2/b=4 mid-flanking Interior bonds).</summary>
-    public const int BitExactBondCountVerified = 20;
+    /// <summary>Number of per-bond comparisons across N=5..8 in which the F89 route
+    /// (per-bond Hellmann-Feynman on the F89 (SE,DE) eigendecomposition, through the envelope
+    /// second route) and F86's own ResonanceScan agree on Q_peak and HWHM_left/Q_peak to
+    /// 10⁻¹⁰ on the same Q grid: all 22. Not bit-exact: the parabolic vertex turns the ~10⁻¹³
+    /// in the peak value into a few 10⁻¹¹ in Q_peak.</summary>
+    public const int AgreeingBondCountVerified = 22;
 
-    /// <summary>Total per-bond comparisons across N=5..8: 4 + 5 + 6 + 7 = 22 unique bonds.
-    /// Of these, 20 are bit-exact match (modulo the J convention J_F89 = J_F86/2) and 2 (N=8
-    /// b=2 and b=4 mid-flanking Interior) are within Q-grid resolution noise ≤ 0.0008
-    /// because F86's default 600-pt grid over [0.10, 20.0] and the bridge probe's 300-pt
-    /// grid over [0.05, 10.0] (in F89-J) sample slightly different points around
-    /// Q_peak ≈ 1.51 (F86-J). At identical grids those values would also be bit-exact.</summary>
+    /// <summary>Total per-bond comparisons across N=5..8: 4 + 5 + 6 + 7 = 22 bonds.</summary>
     public const int TotalBondComparisonsVerified = 22;
 
     public F90F86C2BridgeIdentity(F89TopologyOrbitClosure f89, F89PathKAtLockMechanismClaim atLock)
-        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); verified bit-exact across N=5..8 (20/22 bonds bit-exact, 2/22 within Q-grid noise, the ratio is a grid-readout of the one operator) including orbit-escape bonds at Q_peak ≈ 16.79 (F86-J)",
+        : base("F90 F86 c=2 ↔ F89 bridge identity: F86 c=2 N qubit K_b(Q, t) IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2. Operator-exact (‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8); the per-bond envelope readouts agree with the F89 route on all 22 bonds of N=5..8 to 1e-10, plateau orbits included (N=7 b=1/b=4 at Q_peak 7.2554, N=8 b=1/b=5 at 8.2247, F86-J)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F90_F86C2_BRIDGE.md + " +
                "simulations/f89_to_f86_kbond_via_eigendecomp.py + " +
@@ -118,19 +115,19 @@ public sealed class F90F86C2BridgeIdentity : Claim
         "F90 F86 c=2 ↔ F89 bridge identity: K_b^{F86c2} = ∂_J F89 path-(N−1) (SE,DE), Q_F89 = Q_F86/2";
 
     public override string Summary =>
-        $"F86 c=2 K_b(Q,t) IS F89 path-(N−1) (SE,DE) + per-bond Hellmann-Feynman; Q_F89 = Q_F86 / {JConventionFactor}; verified bit-exact at {BitExactBondCountVerified}/{TotalBondComparisonsVerified} bonds across N=5..8 ({Tier.Label()})";
+        $"F86 c=2 K_b(Q,t) IS F89 path-(N−1) (SE,DE) + per-bond Hellmann-Feynman; Q_F89 = Q_F86 / {JConventionFactor}; readouts agree to 1e-10 at {AgreeingBondCountVerified}/{TotalBondComparisonsVerified} bonds across N=5..8 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return InspectableNode.RealScalar("J convention factor (F86 J / F89 J)", JConventionFactor);
-            yield return new InspectableNode("Bit-exact bonds verified",
-                summary: $"{BitExactBondCountVerified} of {TotalBondComparisonsVerified} (N=5..8 inkl. orbit escapes)");
+            yield return new InspectableNode("Bonds agreeing to 1e-10",
+                summary: $"{AgreeingBondCountVerified} of {TotalBondComparisonsVerified} (N=5..8, plateau orbits on wider grids included)");
             yield return new InspectableNode("Sample F86→F89 Q translation",
-                summary: $"F86 Q_peak=2.5470 → F89 Q={F86JToF89J(2.5470):F4} (Endpoint at N=6)");
+                summary: $"F86 Q_peak=2.5806 → F89 Q={F86JToF89J(2.5806):F4} (Endpoint at N=6)");
             yield return new InspectableNode("Sample F86→F89 Q translation (escape)",
-                summary: $"F86 Q_peak=16.79 → F89 Q={F86JToF89J(16.79):F4} (N=8 central b=3 escape)");
+                summary: $"F86 Q_peak=20.0917 → F89 Q={F86JToF89J(20.0917):F4} (N=8 central b=3 plateau)");
         }
     }
 }

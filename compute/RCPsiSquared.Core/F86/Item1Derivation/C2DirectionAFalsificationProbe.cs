@@ -6,7 +6,8 @@ using RCPsiSquared.Core.Resonance;
 namespace RCPsiSquared.Core.F86.Item1Derivation;
 
 /// <summary>F86 Item 1 (c=2 stratum), <b>Direction (a'') falsification probe</b>: tests
-/// whether the empirical HWHM/Q* lift above the bare-doubled-PTF floor 0.671535 maps
+/// whether the empirical HWHM/Q* lift above the bare-doubled-PTF floor (on the envelope,
+/// <see cref="C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak"/> = 0.7265) maps
 /// monotonically to the Riesz-lifted SVD-block per-bond magnitude
 /// <c>|V_b|²_proj/σ_0²</c> (<see cref="C2SvdBlockProjectedMagnitude"/>).
 ///
@@ -35,9 +36,10 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// </summary>
 public sealed class C2DirectionAFalsificationProbe : Claim
 {
-    /// <summary>The bare-doubled-PTF floor against which the HWHM lift is measured.
-    /// <c>Δ_b := HwhmLeftOverQPeak(b) − BareDoubledPtfHwhmRatio</c>.</summary>
-    public const double BareFloor = C2HwhmRatio.BareDoubledPtfHwhmRatio;
+    /// <summary>The bare-doubled-PTF floor against which the HWHM lift is measured, read on
+    /// the envelope like the HWHM ratios it is subtracted from:
+    /// <c>Δ_b := HwhmLeftOverQPeak(b) − EnvelopeHwhmLeftOverXPeak</c>.</summary>
+    public const double BareFloor = C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak;
 
     public IReadOnlyList<int> NValues { get; }
     public double GammaZero { get; }
@@ -134,7 +136,7 @@ public sealed class C2DirectionAFalsificationProbe : Claim
     {
         get
         {
-            yield return InspectableNode.RealScalar("BareFloor (BareDoubledPtfHwhmRatio)", BareFloor, "F6");
+            yield return InspectableNode.RealScalar("BareFloor (bare envelope HWHM_left/x_peak)", BareFloor, "F6");
             yield return new InspectableNode("Verdict", summary: Verdict.ToString());
             yield return InspectableNode.Group("Per-N witnesses (signs of Endpoint − Interior)",
                 Witnesses.Cast<IInspectable>().ToArray());

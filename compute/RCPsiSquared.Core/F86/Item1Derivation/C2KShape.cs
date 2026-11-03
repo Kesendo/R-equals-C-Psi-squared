@@ -40,8 +40,9 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// through Tier 2 inputs.</para>
 ///
 /// <para><b>Output verification.</b> <see cref="PeakOverT"/> reproduces the existing
-/// <see cref="FourModeResonanceScan.ComputeKCurve"/> output bit-exact (1e-10 across N=5, 7
-/// over the default 21-point t-grid and the default 153-point Q-grid). The two paths share
+/// <see cref="FourModeResonanceScan.ComputeKCurve"/> output to 1e-10 when both are seeded on the
+/// same t grid (N=5, 7, the default 153-point Q-grid; the four-mode scan's own default window is
+/// wider, see <see cref="PeakOverDefaultT"/>). The two paths share
 /// the same Duhamel structure; this class repackages the per-(Q, t) inner loop as a callable
 /// per-Q primitive, so D2 can call <see cref="PeakOverT"/> at any Q without spinning up the
 /// full Q-scan.</para>
@@ -137,10 +138,10 @@ public sealed class C2KShape : Claim
         return EvaluateK(t, R, evals, c0, Xb);
     }
 
-    /// <summary>Peak of |K_b(Q, t)| over a t-grid for a given Q. Returns the (peak |K|, t at
-    /// peak) tuple. Same convention as <see cref="FourModeResonanceScan"/>: the peak is over
-    /// the absolute value, but K_b itself can have either sign and the t at peak is the t in
-    /// the grid where |K| is maximised.</summary>
+    /// <summary>The envelope max_t |K_b(Q, t)| for a given Q: the t-grid seeds the maximum and
+    /// <see cref="EnvelopeRefinement"/> refines it in continuous t, the same convention as
+    /// <see cref="FourModeResonanceScan"/>. Returns (peak |K|, maximiser t*); K_b itself can have
+    /// either sign.</summary>
     public (double KPeak, double TAtPeak) PeakOverT(double Q, int bond, IReadOnlyList<double> tGrid)
     {
         ValidateBond(bond);
@@ -157,27 +158,26 @@ public sealed class C2KShape : Claim
         var Vb = BondCoupling.AsMatrix(bond);
         var Xb = Rinv * Vb * R;
 
-        double kPeak = 0.0;
-        double tAtPeak = double.NaN;
-        foreach (double t in tGrid)
+        double kSeed = 0.0;
+        int iSeed = 0;
+        for (int i = 0; i < tGrid.Count; i++)
         {
-            double k = EvaluateK(t, R, evals, c0, Xb);
-            double kAbs = Math.Abs(k);
-            if (kAbs > kPeak)
-            {
-                kPeak = kAbs;
-                tAtPeak = t;
-            }
+            double kAbs = Math.Abs(EvaluateK(tGrid[i], R, evals, c0, Xb));
+            if (kAbs > kSeed) { kSeed = kAbs; iSeed = i; }
         }
+        var (kPeak, tAtPeak, _) = EnvelopeRefinement.Refine(tGrid, iSeed, kSeed,
+            t => Math.Abs(EvaluateK(t, R, evals, c0, Xb)));
         return (kPeak, tAtPeak);
     }
 
-    /// <summary>Convenience: peak |K_b| over the default 21-point t-grid spanning
-    /// [0.6, 1.6]·t_peak with t_peak = 1/(4γ₀) — same grid that
-    /// <see cref="FourModeResonanceScan"/> uses by default.</summary>
+    /// <summary>Convenience: the envelope peak |K_b| seeded on the full block's default t-grid
+    /// (<see cref="ResonanceScan.DefaultTGrid(double, int)"/>, [0.2, 2.4]·t_peak). The four-mode
+    /// scan seeds its own wider window (<see cref="FourModeResonanceScan"/>, [0.2, 6]·t_peak),
+    /// because the four-mode t* reaches past 12 at low Q; at such Q this convenience reads the
+    /// window edge, so compare against FourModeResonanceScan with its own grid.</summary>
     public double PeakOverDefaultT(double Q, int bond)
     {
-        var tGrid = ResonanceScan.DefaultTGrid(Block.GammaZero, points: 21);
+        var tGrid = ResonanceScan.DefaultTGrid(Block.GammaZero);
         var (kPeak, _) = PeakOverT(Q, bond, tGrid);
         return kPeak;
     }

@@ -18,15 +18,15 @@ namespace RCPsiSquared.Core.F86;
 /// <para><b>SCHEMA vs VALUE separation</b>: this claim is Tier1Derived at the SCHEMA
 /// level — the decomposition <em>structure</em> Q_peak ∈ {2 − 1/2, 2 + 1/2} inherits from
 /// two Tier1Derived parents (idealised <see cref="QEpLaw"/> + polarity-pair
-/// <see cref="HalfAsStructuralFixedPointClaim"/>). The BIT-EXACT empirical VALUES at
-/// any specific (c, N) deviate by ~10% finite-size correction: Endpoint c=3 saturates
-/// near 2.53, Interior c=2 N=5 = 1.49, etc. (see
+/// <see cref="HalfAsStructuralFixedPointClaim"/>). The empirical VALUES at
+/// any specific (c, N) deviate by a finite-size correction of up to ~10%: Endpoint c=3 sits
+/// near 2.58 at N=7, 8, Interior c=2 N=5 = 1.48, etc. (see
 /// <see cref="PolarityInheritanceLink"/> Tier2Verified for the witness table). The
-/// closed-form derivation of the deviations is structurally blocked at the bit-exact
+/// closed-form derivation of the deviations is structurally blocked at the exact
 /// level by <c>PROOF_F86B_OBSTRUCTION.md</c> (6 routes tested, all blocked or
 /// decoupled, 2026-05-14).</para>
 ///
-/// <para><b>The schema is the Tier-1 statement; the bit-exact deviation is the Tier-2
+/// <para><b>The schema is the Tier-1 statement; the measured deviation is the Tier-2
 /// witness.</b> Both readings coexist and are surfaced through their respective claims:
 /// this claim holds the schema; PolarityInheritanceLink holds the witness table; the
 /// QAnchorMap entries Q=1.5 and Q=2.5 reference both via DocumentingSource.</para>
@@ -39,9 +39,9 @@ namespace RCPsiSquared.Core.F86;
 /// </list></para>
 ///
 /// <para><b>What this claim does NOT assert</b>: that any specific empirical
-/// (c, N, orbit) reproduces Q_peak = 2.5 or 1.5 bit-exactly. The empirical witnesses
+/// (c, N, orbit) reproduces Q_peak = 2.5 or 1.5 exactly. The empirical witnesses
 /// in PolarityInheritanceLink show ~10% finite-size deviation across c=2 N=5..8 and
-/// growing-with-N at c=4. The schema is robust; the bit-exact closure is open.</para>
+/// growing-with-N at c=4. The schema is robust; the exact closure is open.</para>
 ///
 /// <para><b>Illustrative γ₀ value; no hardware Q-axis calibration (2026-05-29)</b>: a basic
 /// exchange-bond J-scan on ibm_kingston (historical Confirmation locator
@@ -98,8 +98,8 @@ public sealed class PolarityPairQPeakDecompositionClaim : Claim
                "(HalfAsStructuralFixedPointClaim + PolarityLayerOriginClaim + " +
                "QubitDimensionalAnchorClaim) + " +
                "compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs (Tier2Verified witness " +
-               "for the bit-exact deviations) + " +
-               "docs/proofs/PROOF_F86B_OBSTRUCTION.md (blocker for bit-exact value closure)")
+               "for the measured deviations) + " +
+               "docs/proofs/PROOF_F86B_OBSTRUCTION.md (blocker for exact value closure)")
     {
         Half = half ?? throw new ArgumentNullException(nameof(half));
         PolarityOrigin = polarityOrigin ?? throw new ArgumentNullException(nameof(polarityOrigin));
@@ -145,7 +145,7 @@ public sealed class PolarityPairQPeakDecompositionClaim : Claim
             yield return new InspectableNode("inheritance trace",
                 summary: "Q_EP_central from QEpLaw idealised; r_polarity from HalfAsStructuralFixedPointClaim; ± signs from PolarityLayerOriginClaim; d=2 central anchor from QubitDimensionalAnchorClaim — all Tier1Derived parents.");
             yield return new InspectableNode("schema vs value separation",
-                summary: "Schema (Tier1Derived): Q_peak decomposes as 2 ± 1/2. Empirical value (Tier2Verified, PolarityInheritanceLink): bit-exact deviations of ~10% across c=2 N=5..8 (Endpoint 2.50-2.57, Interior 1.49-1.61). Bit-exact value closure: blocked by PROOF_F86B_OBSTRUCTION (g_eff(c, N, b) admits no closed form by 6 tested routes; L1/L2/L4 rigorously proven blocked, L6 demonstrated failure mode, L3/L5 proven decouplings).");
+                summary: "Schema (Tier1Derived): Q_peak decomposes as 2 ± 1/2. Empirical value (Tier2Verified, PolarityInheritanceLink): deviations up to ~10% across c=2 N=5..8 (Endpoint 2.52-2.58, Interior 1.48-1.61). Bit-exact value closure: blocked by PROOF_F86B_OBSTRUCTION (g_eff(c, N, b) admits no closed form by 6 tested routes; L1/L2/L4 rigorously proven blocked, L6 demonstrated failure mode, L3/L5 proven decouplings).");
             yield return new InspectableNode("QAnchorMap surface",
                 summary: $"Surfaces as Q={EndpointQPeakSchema} (Endpoint candidate) and Q={InteriorQPeakSchema} (F86 Q_peak c=2) entries in QAnchorMap.CanonicalAnchors; the QBasisAnker.DocumentingSource fields reference this schema claim.");
             yield return Half;

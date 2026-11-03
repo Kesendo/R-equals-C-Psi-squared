@@ -49,8 +49,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// participate at each (c, N)).</para>
 ///
 /// <para>Default Q = Q_EP per <see cref="QEpLaw"/>; constructor accepts an arbitrary Q for
-/// scanning around the EP (e.g. Q_peak ≈ 2.197 · Q_EP per
-/// <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/>). At Q_EP the slowest pair coalesces to
+/// scanning around the EP (e.g. 2.197 · Q_EP, <see cref="C2HwhmRatio.BareDoubledPtfXPeak"/>,
+/// the fixed-τ = 1 peak of the bare model (its envelope peaks at 1.7141·Q_EP; see the arc f86_fixed_tau_peak_lands_nearer)). At Q_EP the slowest pair coalesces to
 /// Re(λ) = −4γ₀ and the EP-driving modes show up as the top-weight cluster.</para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 (EP mechanism) +

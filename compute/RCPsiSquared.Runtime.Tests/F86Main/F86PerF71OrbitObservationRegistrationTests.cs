@@ -48,7 +48,7 @@ public class F86PerF71OrbitObservationRegistrationTests
     public void RegisterF86PerF71OrbitObservation_WitnessesPinTheC2N6Inversion()
     {
         // The exact witness that motivates the JW track's truly-vs-flanking-innermost
-        // question: at c=2 N=6, central Q_peak ≈ 1.43 < flanking Q_peak ≈ 1.63. Wiring
+        // question: at c=2 N=6, central Q_peak 1.428 < flanking Q_peak 1.637. Wiring
         // PerF71OrbitObservation makes this fact a queryable Schicht-1 claim instead of
         // a memory note.
         var registry = new ClaimRegistryBuilder()
@@ -58,9 +58,11 @@ public class F86PerF71OrbitObservationRegistrationTests
 
         var obs = registry.Get<PerF71OrbitObservation>();
         var c2n6 = obs.Witnesses.Single(w => w.Chromaticity == 2 && w.N == 6);
-        Assert.Equal(2.57, c2n6.QPeakPerOrbit[0], precision: 2);   // Endpoint
-        Assert.Equal(1.63, c2n6.QPeakPerOrbit[1], precision: 2);   // flanking
-        Assert.Equal(1.43, c2n6.QPeakPerOrbit[2], precision: 2);   // truly-innermost (centralIndex=2)
+        // The frozen envelope values, identical to the table's literals.
+        Assert.Equal(2.580604998574177, c2n6.QPeakPerOrbit[0]);    // Endpoint
+        Assert.Equal(1.6366804166405813, c2n6.QPeakPerOrbit[1]);   // flanking
+        Assert.Equal(1.4283108372718716, c2n6.QPeakPerOrbit[2]);   // truly-innermost (centralIndex=2)
+        Assert.True(c2n6.QPeakPerOrbit[2] < c2n6.QPeakPerOrbit[1]);
     }
 
     [Fact]

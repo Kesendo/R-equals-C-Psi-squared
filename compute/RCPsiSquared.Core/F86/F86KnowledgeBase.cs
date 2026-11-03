@@ -20,11 +20,11 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="LEffMirrorAxisClaim"/>, <see cref="PolarityPairQPeakDecompositionClaim"/>;
 ///         c=2-only <see cref="F90F86C2BridgeIdentity"/> and the F86e identity
 ///         <see cref="SigmaZeroCommutatorNormClaim"/> (σ_0 = ‖[Π_HD1, M_H]‖).</item>
-///   <item><b>Tier 1 (candidate)</b>: <see cref="UniversalShapePrediction"/> for Interior
-///         and Endpoint with <see cref="UniversalShapeWitness"/> data across c=2..4 N=5..8,
-///         <see cref="ShapeFunctionWitnesses"/>,
-///         <see cref="F86HwhmClosedFormClaim"/>; c=2-only <see cref="C2UniversalShapeDerivation"/>.</item>
-///   <item><b>Tier 2</b> (verified and empirical): <see cref="SigmaZeroChromaticityScaling"/>,
+///   <item><b>Tier 1 (candidate)</b>: <see cref="ShapeFunctionWitnesses"/>;
+///         c=2-only <see cref="C2UniversalShapeDerivation"/>.</item>
+///   <item><b>Tier 2</b> (verified and empirical): the band <see cref="UniversalShapePrediction"/> for
+///         Interior and Endpoint with <see cref="UniversalShapeWitness"/> data across c=2..4 N=5..8,
+///         <see cref="F86HwhmClosedFormClaim"/>, <see cref="SigmaZeroChromaticityScaling"/>,
 ///         <see cref="DressedModeWeightClaim"/>,
 ///         the per-block and per-bond Q_peak tables, <see cref="PerF71OrbitObservation"/>,
 ///         <see cref="PolarityInheritanceLink"/>, <see cref="IbmBlockCpsiHardwareTable"/>;
@@ -75,8 +75,8 @@ public sealed class F86KnowledgeBase : IInspectable
     public F71MirrorInvariance F71Mirror { get; }
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
     /// <summary>F86 c=2 HWHM_left/Q_peak prediction per BondSubClass (Tier 1 candidate):
-    /// bare floor 0.671535 IS derived (`C2BareDoubledPtfClosedForm`); per-sub-class
-    /// (alpha, beta) are fitted via polyfit on N=5..8 F90-bridge anchors. Block-independent
+    /// the envelope floor 0.72648928 IS derived (`C2BareDoubledPtfClosedForm`); per-sub-class
+    /// (alpha, beta) are a line through the N=5..8 envelope anchors. Block-independent
     /// meta-claim.</summary>
     public F86HwhmClosedFormClaim F86HwhmClosedForm { get; }
     /// <summary>The c=2-specific top-level Claim wrapping the Stage D2
@@ -119,8 +119,8 @@ public sealed class F86KnowledgeBase : IInspectable
     /// {1.5, 2.5} via composition of two Tier1Derived parents: idealised <see cref="QEpLaw"/>
     /// at g_eff = 1 (Q_EP_central = 2) and <see cref="Symmetry.HalfAsStructuralFixedPointClaim"/>
     /// (polarity magnitude r = 1/2). Companion to <see cref="PolarityInheritanceLink"/>
-    /// (Tier2Verified, holds the bit-exact witness table with ~10% finite-size deviation):
-    /// the schema is Tier1Derived, the bit-exact value is Tier2Verified, the closed form
+    /// (Tier2Verified, holds the measured witness table with up to ~10% finite-size deviation):
+    /// the schema is Tier1Derived, the measured value is Tier2Verified, the closed form
     /// for the deviations is blocked by PROOF_F86B_OBSTRUCTION (six tested routes).
     /// Block-independent; resolves to a process-wide
     /// <see cref="PolarityPairQPeakDecompositionClaim.Shared"/> singleton.</summary>
@@ -167,7 +167,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <summary>F90 c=2 ↔ F89 bridge identity (Tier1Derived): F86 c=2 K_b(Q,t)
     /// IS F89 path-(N−1) (SE,DE) per-bond Hellmann-Feynman, modulo the J convention J_F89 = J_F86/2
     /// (operator-exact: ‖L_F86(J) − L_F89(J/2)‖ = 0 at N=5..8).
-    /// Bit-exact verified at 20/22 bonds across N=5..8 including orbit escapes. Resolves
+    /// Verified at all 22 bonds across N=5..8 to 10⁻¹⁰, plateau orbits included. Resolves
     /// Direction (b'') (full block-L derivation, NOT 4-mode) numerically Tier-1; closed-form
     /// HWHM_left/Q_peak per bond class via F89's AT-locked F_a/F_b structure remains the
     /// analytical target. Block-independent meta-claim — the bridge identity holds for any
@@ -226,20 +226,11 @@ public sealed class F86KnowledgeBase : IInspectable
             HigherKLevels = Array.Empty<TwoLevelEpModel>();
         }
 
-        // Witnesses are self-computing via the shared cache; the prediction's expected
-        // ratio is the empirical anchor (mean across the historical step_f/g sweeps),
-        // not derived live from the witnesses themselves to avoid triggering ~18 scans
+        // Witnesses are self-computing via the shared cache; the prediction's band is frozen
+        // from them (UniversalShapeBand), not derived live, to avoid triggering ~18 scans
         // every time someone reads the prediction's Summary.
-        InteriorShape = new UniversalShapePrediction(
-            BondClass.Interior,
-            expectedRatio: 0.756,
-            tolerance: 0.005,
-            witnesses: BuildInteriorWitnesses(block.GammaZero, WitnessCache));
-        EndpointShape = new UniversalShapePrediction(
-            BondClass.Endpoint,
-            expectedRatio: 0.770,
-            tolerance: 0.005,
-            witnesses: BuildEndpointWitnesses(block.GammaZero, WitnessCache));
+        InteriorShape = UniversalShapeBand.Interior(BuildInteriorWitnesses(block.GammaZero, WitnessCache));
+        EndpointShape = UniversalShapeBand.Endpoint(BuildEndpointWitnesses(block.GammaZero, WitnessCache));
 
         InteriorShapeFunction = ShapeFunctionWitnesses.BuildInterior(block.GammaZero, WitnessCache);
         EndpointShapeFunction = ShapeFunctionWitnesses.BuildEndpoint(block.GammaZero, WitnessCache);
@@ -413,11 +404,8 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private IEnumerable<IInspectable> CollectTier1Candidate()
     {
-        yield return InteriorShape;
-        yield return EndpointShape;
         yield return InteriorShapeFunction;
         yield return EndpointShapeFunction;
-        yield return F86HwhmClosedForm;
         // c=2 top-level synthesis from Stages A–D: only present for c=2 blocks.
         if (C2UniversalShape is not null)
             yield return C2UniversalShape;
@@ -425,6 +413,11 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private IEnumerable<IInspectable> CollectTier2()
     {
+        // The band (a record of the read witnesses, not a prediction that could fail) and the
+        // per-sub-class lift (a line through the anchors, not an exact law): Tier2Empirical.
+        yield return InteriorShape;
+        yield return EndpointShape;
+        yield return F86HwhmClosedForm;
         if (OrbitKTable is not null) yield return OrbitKTable;
         if (FullBlockSigmaAnatomy is not null) yield return FullBlockSigmaAnatomy;
 

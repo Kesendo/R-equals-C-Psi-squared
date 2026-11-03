@@ -3,8 +3,10 @@ namespace RCPsiSquared.Core.Resonance;
 /// <summary>Bond classification used by the F86 universal-shape statement.
 ///
 /// <para>For a chain of N qubits with N−1 bonds (b = 0..N−2), Endpoint = {0, N−2} and
-/// Interior = {1, …, N−3}. The two classes have separate universal HWHM_left/Q_peak
-/// values (Interior ≈ 0.756, Endpoint ≈ 0.770) — see PROOF_F86B_UNIVERSAL_SHAPE Statement 2.</para>
+/// Interior = {1, …, N−3}. The two classes have separate HWHM_left/Q_peak bands on the
+/// envelope (Interior 0.7523..0.7637, Endpoint 0.7710..0.7815 over the F86 standard locations;
+/// <see cref="F86.UniversalShapeBand"/>), see
+/// PROOF_F86B_UNIVERSAL_SHAPE Statement 2.</para>
 /// </summary>
 public enum BondClass
 {

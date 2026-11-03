@@ -9,11 +9,13 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// <para>Tom Wicht 2026-05-10: "Lass uns auch eine Exception einbauen, wenn der Peak
 /// exakt DefaultQGrid Grenze ist, das ist ja Fehlerquelle pur." The default grid
 /// <see cref="Resonance.ResonanceScan.DefaultQGrid"/> is <c>LinearQGrid(0.20, 4.00, 153)</c>;
-/// at N≥9 some flanking interior bonds peak above 4.0 and hit the edge silently. This
-/// exception forces a conscious decision: extend the grid (pass a wider <c>qGrid</c> to
+/// a peak reading that sits on its upper edge is the edge, not a resonance. The per-bond
+/// witnesses read the canonical (first) maximum, which lies inside the default grid for every
+/// bond at c=2 N=5..9; the far maxima some inner bonds reach past Q = 4 are the global reading
+/// (<see cref="PerF71OrbitObservation"/>). This exception forces a conscious decision when a
+/// grid ends before a bond's first maximum: extend the grid (pass a wider <c>qGrid</c> to
 /// <see cref="C2HwhmRatio.Build"/>) or opt out of the validation (pass
-/// <c>throwOnGridEdgeSnap: false</c>) when escape is the intended subject of study (see
-/// <c>PerF71OrbitKTableTests.IsEscaped_FlagsFlankingOrbit_AtN9_WithDefaultGrid</c>).</para>
+/// <c>throwOnGridEdgeSnap: false</c>).</para>
 ///
 /// <para>Anchor: <c>memory/project_no_classicalization.md</c> — the off-grid escape is
 /// methodological, NOT ontological: the orbit still has a Q_peak structure, we just

@@ -39,8 +39,8 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// path itself is retired, but the lifted magnitude remains a useful diagnostic).</b>
 /// The per-bond magnitude |V_b|²_proj is the SVD-block contribution to the K-resonance
 /// K_b(Q, t) restricted to the EP-partner subspace. Direction (a'') asked whether
-/// HWHM_left/Q_peak − 0.671535 (the "lift" above the bare-doubled-PTF Floor in
-/// <see cref="C2HwhmRatio"/>) maps to |V_b|²_proj/σ_0² (the dimensionless SVD-block ratio)
+/// HWHM_left/Q_peak − 0.7265 (the "lift" above the bare-doubled-PTF floor on the envelope,
+/// <see cref="C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak"/>) maps to |V_b|²_proj/σ_0² (the dimensionless SVD-block ratio)
 /// via a single bond-class-blind function. The closed-form-mapping hypothesis was retired
 /// 2026-05-11 (the surviving derivation path is F90 bridge → F89 AT-locked F_a/F_b per
 /// <see cref="F86HwhmClosedFormClaim"/> and PROOF_F90_F86C2_BRIDGE.md). The previous A3

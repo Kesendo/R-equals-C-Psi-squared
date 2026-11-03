@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F86c sub-claim (F71 spatial-mirror invariance of per-bond
 /// Q_peak), the third Tier-1-derived sub-claim of F86's multi-mechanism
-/// collection: <c>Q_peak(b) = Q_peak(N−2−b)</c> bit-exactly across all
+/// collection: <c>Q_peak(b) = Q_peak(N−2−b)</c> exactly (an identity of the observable; the two bonds' numerical readings agree to ~10⁻¹⁰) across all
 /// tested (c, N).
 ///
 /// <para>F86 packages three structurally-distinct Tier-1 sub-claims, each
@@ -34,7 +34,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// component is R-symmetric: the Z-dephasing dissipator, the Dicke probe,
 /// the spatial-sum kernel S, and the bond-flip ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}.
 /// Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and the
-/// argmax-Q values coincide bit-exactly.</para>
+/// argmax-Q values coincide exactly; numerically they agree to the scan's reproducibility,
+/// ~10⁻¹⁰.</para>
 ///
 /// <para>Pi2-Foundation anchor (kinematic, not numerical):</para>
 /// <list type="bullet">
@@ -48,15 +49,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>Per-F71-orbit substructure caveat: the F86 mirror identity gives
 /// the bond PAIRING, not the per-orbit Q_peak VALUE. Even within F71-orbit
 /// groups, central self-paired bonds give different Q_peak from flanking
-/// bonds (e.g. c=2 N=6 central b=2 → 1.436 vs flanking b=1, b=3 → 1.616 on the [0.2, 4]
-/// grid of 153 points; c=2 N=6 central is BELOW flanking, c=3 N=6 central is ABOVE flanking
-/// on the coarse [0.2, 6] grid of PerF71OrbitObservation).
+/// bonds (e.g. c=2 N=6 central b=2 → 1.428 vs flanking b=1, b=3 → 1.637, envelope max_t |K|
+/// on the [0.2, 4] grid of 153 points; c=2 N=6 central is BELOW flanking, c=3 N=6 central
+/// 1.712 is ABOVE flanking 1.662, the canonical peaks of PerF71OrbitObservation).
 /// Per-orbit closed form remains open; F71 supplies the symmetry only.</para>
 ///
 /// <para>Tier1Derived: F86c is Tier 1 derived in PROOF_F86C_F71_MIRROR
 /// (Statement 3), the sibling the 2026-05-14 split carved out of the monolith
 /// whose name PROOF_F86_QPEAK now carries as the hub,
-/// bit-exactly verified at c=2 N=5..7 and c=3 N=5..6 across all bond pairs.
+/// verified to ~10⁻¹⁰ at c=2 N=5..8 and c=3 N=5..8 across all bond pairs.
 /// Cross-namespace typed claim: F86MirrorGeneralisationLink in
 /// <c>compute/RCPsiSquared.Core/F71/</c> + F71MirrorInvariance in
 /// <c>compute/RCPsiSquared.Core/F86/</c> already document the F71→F86 lift;
@@ -123,20 +124,20 @@ public sealed class F86F71MirrorPi2Inheritance : Claim, IF99AnchorBearing, IZ2Ax
         "F86 F71-mirror invariance as Pi2-Foundation F71 symmetry inheritance";
 
     public override string Summary =>
-        $"Q_peak(b) = Q_peak(N−2−b) bit-exactly via F71 spatial mirror; verified c=2 N=5..7, c=3 N=5..6; per-F71-orbit substructure refines bond-class dichotomy ({Tier.Label()})";
+        $"Q_peak(b) = Q_peak(N−2−b) exactly via F71 spatial mirror; readings agree to ~1e-10 at c=2 N=5..8, c=3 N=5..8; per-F71-orbit substructure refines bond-class dichotomy ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F86c",
-                summary: "Q_peak(b) = Q_peak(N−2−b) bit-exactly under F71 spatial mirror; mechanism: K_b is invariant because L_D, S_kernel, Dicke probe are R-symmetric and ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}");
+                summary: "Q_peak(b) = Q_peak(N−2−b) exactly under F71 spatial mirror (readings to ~1e-10); mechanism: K_b is invariant because L_D, S_kernel, Dicke probe are R-symmetric and ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}");
             yield return new InspectableNode("F71 → F86 lift",
                 summary: "F71's c₁(N, b, ρ₀) = c₁(N, N−2−b, ρ₀) generalises to F86's K_CC_pr per-bond Q_peak; same kinematic argument, different observable");
             yield return new InspectableNode("verified envelope",
                 summary: "c=2 N=5..7 + c=3 N=5..6 + all bond pairs, max deviation < 10⁻¹⁰");
             yield return new InspectableNode("per-F71-orbit substructure caveat",
-                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6 on the [0.2, 4] grid of 153 points: central 1.436 < flanking 1.616; c=3 N=6 on the coarse [0.2, 6] grid of PerF71OrbitObservation: central 1.71 > flanking 1.66, opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
+                summary: "F71 supplies symmetry, not value; central self-paired bonds give different Q_peak than flanking (c=2 N=6, envelope max_t |K| on the [0.2, 4] Q grid of 153 points: central 1.428 < flanking 1.637; c=3 N=6, the canonical peaks of PerF71OrbitObservation: central 1.712 > flanking 1.662, opposite direction). Full per-orbit closed form remains open in F86KnowledgeBase as PerF71OrbitObservation.");
             yield return new InspectableNode("F86 multi-mechanism context",
                 summary: "this is the third of three F86 Tier-1 sub-claim Pi2-Inheritances. Companions: F86TPeakPi2Inheritance (a_{-1} anchor on t_peak), F86QEpPi2Inheritance (a_0 anchor on Q_EP). Tier-2 / open / empirical parts stay in F86KnowledgeBase typed family.");
             yield return new InspectableNode("verified examples",

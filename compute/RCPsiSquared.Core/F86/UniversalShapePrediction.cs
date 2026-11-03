@@ -5,9 +5,10 @@ using RCPsiSquared.Core.Resonance;
 using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.F86;
 
-/// <summary>F86 Statement 2 (Tier 1 candidate, 2026-05-02): per bond class, the K-curve
-/// HWHM_left/Q_peak ratio is universal — Interior ≈ 0.756, Endpoint ≈ 0.770 across the
-/// tested (c, N, γ₀) grid.
+/// <summary>F86 Statement 2's band (Tier 2 empirical): per bond class, the K-curve HWHM_left/Q_peak
+/// ratio lies in a narrow band across the tested (c, N): on the envelope max_t |K_b| Interior
+/// 0.7523..0.7637 and Endpoint 0.7710..0.7815 (<see cref="UniversalShapeBand"/>). Within the
+/// band the values are not scatter: the Interior ratio rises monotonically with N at each c.
 ///
 /// <para>Each prediction carries:</para>
 /// <list type="bullet">
@@ -33,7 +34,7 @@ public sealed class UniversalShapePrediction : Claim
     public UniversalShapePrediction(BondClass bondClass, double expectedRatio, double tolerance,
         IReadOnlyList<UniversalShapeWitness> witnesses)
         : base($"universal HWHM/Q for {bondClass}",
-               Tier.Tier1Candidate,
+               Tier.Tier2Empirical,
                "docs/ANALYTICAL_FORMULAS.md F86 + docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md Statement 2")
     {
         BondClass = bondClass;

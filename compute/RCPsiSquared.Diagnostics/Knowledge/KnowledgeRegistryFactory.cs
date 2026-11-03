@@ -25,8 +25,8 @@ namespace RCPsiSquared.Diagnostics.Knowledge;
 /// references RCPsiSquared.Diagnostics.</para></summary>
 public static class KnowledgeRegistryFactory
 {
-    /// <summary>Builds the default registry on an N=5 XY chain at γ₀=0.05, with g_eff pinned
-    /// to the PolarityInheritanceLink endpoint value 1.74. Registration order does not matter
+    /// <summary>Builds the default registry on an N=5 XY chain at γ₀=0.05, with g_eff set
+    /// to 1.74, an Endpoint-scale sample (PolarityInheritanceLink reads 1.703..1.746 at N=5..8). Registration order does not matter
     /// (the builder resolves dependencies topologically); the grouping below reflects the
     /// inheritance structure.</summary>
     public static ClaimRegistry BuildDefault()
@@ -34,7 +34,7 @@ public static class KnowledgeRegistryFactory
         var defaultChain = new ChainSystem(
             N: 5, J: 1.0, GammaZero: 0.05,
             HType: HamiltonianType.XY, Topology: TopologyKind.Chain);
-        var gEff = 1.74;   // pinned Endpoint g_eff from PolarityInheritanceLink
+        var gEff = 1.74;   // Endpoint-scale sample g_eff (PolarityInheritanceLink: 1.703..1.746)
 
         return new ClaimRegistryBuilder()
             // Foundations

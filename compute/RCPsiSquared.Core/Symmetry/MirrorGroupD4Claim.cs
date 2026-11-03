@@ -49,7 +49,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>The cube filled (§7):</b> the polarity cube's three axes
 /// (<see cref="KleinEightCellClaim"/>) are characters of three specific mirrors of the
-/// Pauli algebra: bit_a = char(Ad_{Z^⊗N}), bit_b = char(Ad_{X^⊗N}), y_par = char(θ) with
+/// Pauli algebra: bit_a = char(Ad_{Z^⊗N}) (conjugation by <see cref="ZGlobalMirror"/>, outside
+/// the eight), bit_b = char(Ad_{X^⊗N}), y_par = char(θ) with
 /// θ the transpose. Unitary conjugations can never read a single-letter parity (conjugating
 /// by a Pauli string flips exactly the two letters that anticommute with it), so the
 /// conjugation mirrors span only the even Klein square; <b>y_par is the antiautomorphism

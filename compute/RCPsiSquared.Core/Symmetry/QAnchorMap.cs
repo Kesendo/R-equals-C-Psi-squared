@@ -85,10 +85,9 @@ public sealed class QAnchorMap
                 Tier: Tier.Tier2Empirical,
                 DocumentingSource: "PerBlockQPeakClaim.Standard[1]; saturated N=5..9 (N-invariant)"),
 
-            // The empirical F86 c=3 K-peak connection to √3 is open: fine-grid data
-            // shows c=3 Interior Q_peak at N=7,8 = {1.743, 1.750} (within ~2% of √3),
-            // but with non-monotone N-drift (+0.011 → +0.018), so the asymptote question
-            // needs fine-grid scans at N=9,10,11+. This entry types only the bare-2×2
+            // The empirical F86 c=3 K-peak connection to √3 is open: the envelope reading
+            // gives c=3 Interior Q_peak at N=7,8 = {1.712, 1.723} (1.2 % and 0.5 % below √3,
+            // rising toward it), so the asymptote question needs scans at N=9,10,11+. This entry types only the bare-2×2
             // named two-level magnitude/angle cross-reading (Tier1Derived algebra).
             new(Q: 1.7320508075688772,
                 JAtGamma0Point05: 0.05 * 1.7320508075688772,
@@ -102,7 +101,7 @@ public sealed class QAnchorMap
                 Band: QBand.Peak,
                 Role: "F86 Q_peak (c=4, c=5) + peak band end",
                 Tier: Tier.Tier2Empirical,
-                DocumentingSource: "PerBlockQPeakClaim.Standard[2,3]; saturated N≥7; Q-band upper edge; the '1.8' is the coarse-grid Q_SCALE summary, fine-grid (PROOF_F86B_OBSTRUCTION) shows c=4 N=7=1.748, N=8=1.804 — structural asymptote stays open"),
+                DocumentingSource: "PerBlockQPeakClaim.Standard[2,3]; saturated N≥7; Q-band upper edge; the '1.8' is the Q_SCALE per-block summary (its own observable); the F86 envelope Interior class (PROOF_F86B_OBSTRUCTION) gives c=4 N=7 = 1.760, N=8 = 1.791; structural asymptote stays open"),
 
             new(Q: 2.0,
                 JAtGamma0Point05: 0.100,
@@ -116,7 +115,7 @@ public sealed class QAnchorMap
                 Band: QBand.EndpointOrbit,
                 Role: "Endpoint orbit Q; schema = Q_EP_central + r_polarity = 2 + 1/2 (Endpoint pole)",
                 Tier: Tier.Tier1Derived,
-                DocumentingSource: "PolarityPairQPeakDecompositionClaim (Tier1Derived schema 2 ± 1/2 inheriting QEpLaw + HalfAsStructuralFixedPoint); PerF71OrbitObservation empirical witness (2.39-2.61 across c=2..4 N=5..8); bit-exact value deviations Tier2Verified (PolarityInheritanceLink), closed-form blocked by PROOF_F86B_OBSTRUCTION"),
+                DocumentingSource: "PolarityPairQPeakDecompositionClaim (Tier1Derived schema 2 ± 1/2 inheriting QEpLaw + HalfAsStructuralFixedPoint); PerF71OrbitObservation empirical witness (2.393-2.591 across c=2..4 N=5..8); value deviations Tier2Verified (PolarityInheritanceLink), closed-form blocked by PROOF_F86B_OBSTRUCTION"),
         };
 
     public IReadOnlyList<QBasisAnker> Anchors { get; }

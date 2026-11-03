@@ -48,7 +48,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// Σ Im(M[i,j]) per channel pair) are bond-invariant.</para>
 ///
 /// <para>The bond-distinction observed in C2HwhmRatio's empirical Q_peak / HWHM (Endpoint
-/// mean 0.7728 vs Interior 0.7506) therefore CANNOT live in any aggregate-norm property of
+/// 0.7766..0.7815 vs Interior 0.7523..0.7602 at N = 5..8) therefore CANNOT live in any aggregate-norm property of
 /// MhPerBond[b] alone. It lives in the L(Q)-EIGENBASIS PROJECTION
 /// xB(Q) = R(Q)⁻¹ · MhPerBond[b] · R(Q), where R(Q) is constructed from
 /// MhTotal = Σ_b MhPerBond[b]. Each individual bond's matrix elements in this global
@@ -65,7 +65,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///
 /// <para>F90 status (2026-05-11): the F86 c=2 ↔ F89 path-(N−1) bridge identity
 /// achieves numerical Tier-1 for Direction (b'') via per-bond Hellmann-Feynman
-/// (bit-exact 20/22 bonds at N=5..8). The JW-track primitives in this file remain
+/// (all 22 bonds at N=5..8 agree to 10⁻¹⁰). The JW-track primitives in this file remain
 /// active as the alternative analytical route toward the closed-form HWHM_left/Q_peak
 /// constants; the per-bond numerical answer itself is no longer the open piece.
 /// See <c>docs/proofs/PROOF_F90_F86C2_BRIDGE.md</c> +

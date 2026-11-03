@@ -17,7 +17,9 @@ public enum BondSubClass
 public static class BondSubClassExtensions
 {
     /// <summary>Classify bond by F71 orbit + Q_peak escape threshold per
-    /// PROOF_F90_F86C2_BRIDGE.md numerical verification table (N=5..8).</summary>
+    /// PROOF_F90_F86C2_BRIDGE.md numerical verification table (N=5..8). The two escape classes
+    /// are reached only by a far maximum (the global reading on a wide window, see
+    /// <see cref="PerF71OrbitObservation"/>); every canonical peak at N=5..8 lies below Q = 4.</summary>
     public static BondSubClass Classify(int n, int bondIndex, double qPeak)
     {
         int nBonds = n - 1;

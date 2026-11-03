@@ -15,16 +15,23 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// <list type="bullet">
 ///   <item><b>Endpoint / OLD-OLD regime:</b> single-cluster-pair-dominant. T14's 2×2 EP
 ///   closed form Q_EP = 2|x|/(γ·|Δδ|) (a=b case) or √(4|x|² − (a−b)²)/(γ·|Δδ|) (general),
-///   then Q_peak = 2.197 · Q_EP. Matches empirical 0.5-12% across N=4..7.</item>
+///   then Q_peak = 2.197 · Q_EP.</item>
 ///   <item><b>Innermost / NEW-NEW regime:</b> multi-cluster-emergent superposition.
 ///   K_b(Q, t_peak) approximated as Σ_{top K pairs} w_pair · Lorentzian(Q; Q_EP_pair, Γ).
-///   Q_peak = 2.197 · argmax of the sum. Matches empirical 7-11% at N=5,6.</item>
+///   Q_peak = 2.197 · argmax of the sum.</item>
 /// </list>
 ///
 /// <para>Regime classifier: <see cref="BondClass"/> from the bond's position. Endpoint
 /// (b ∈ {0, N−2}) → OLD-OLD single-pair-dominant. Interior → NEW-NEW multi-pair-emergent.
 /// The simpler frob² ratio classifier breaks under F71-mirror-symmetry-induced ties between
 /// rank-1 and rank-2 pairs; bond-position is the structural distinguisher.</para>
+///
+/// <para>The pick is not reproducible: the cluster pair comes from a ranking sorted on
+/// Frobenius weight and a best entry chosen by exact floating-point comparison, and the
+/// candidates F71 mirror symmetry makes equal differ only by rounding. Which one wins changes
+/// with the run (c = 2, N = 5 endpoint: 2.4871 in one run, 2.5237 in another), and at N = 7
+/// one run gave the two endpoint bonds different predictions (2.2270, 2.1643) although the
+/// physics is mirror-symmetric. A residual quoted for this prediction is a reading of one run.</para>
 ///
 /// <para>Connection to RESONANT_RETURN.md SVD-mode-2 concentrator formula: Endpoint regime
 /// is the Q-axis analog of γ-axis "edge-hot, center-cold" SVD mode 2. Innermost regime is
@@ -36,15 +43,17 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 ///
 /// <para>2026-05-11 update: F90 bridge identity (`F90F86C2BridgeIdentity`) provides
 /// the full-precision alternative — F86 c=2 K_b(Q,t) = F89 path-(N−1) (SE,DE) per-bond
-/// Hellmann-Feynman gives bit-exact reproduction (20/22 bonds N=5..8) without the
-/// cluster-pair Lorentzian approximation that limits this primitive's worst-case
-/// residual to 22.4%. See `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.</para>
+/// Hellmann-Feynman reproduces all 22 bonds of N=5..8 to 10⁻¹⁰ without the
+/// cluster-pair Lorentzian approximation. See `docs/proofs/PROOF_F90_F86C2_BRIDGE.md`.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86_QPEAK.md</c> Item 1' Direction (b'') (JW track) +
 /// <c>hypotheses/RESONANCE_NOT_CHANNEL.md</c> + <c>hypotheses/RESONANT_RETURN.md</c>.</para>
 /// </summary>
 public sealed class JwBondQPeakUnified : Claim
 {
+    /// <summary>The bare doubled-PTF peak of the fixed-τ = 1 slice (<see cref="Item1Derivation.C2BareDoubledPtfClosedForm.XPeakPrecise"/>);
+    /// the predictor Q_peak = x_peak·Q_EP is defined on it. The bare envelope peaks at
+    /// <see cref="Item1Derivation.C2BareDoubledPtfClosedForm.EnvelopeXPeak"/> = 1.7141.</summary>
     public const double BareDoubledPtfXPeak = 2.196910;
 
     /// <summary>Regime classifier threshold: top1/top2 frob² ratio above this → Endpoint
@@ -56,10 +65,7 @@ public sealed class JwBondQPeakUnified : Claim
     /// the (0,1) coherence block has uniform decay rate 2γ at uniform γ (Tier1Derived in D10
     /// via reduction to nearest-neighbour tight-binding; the larger Pauli w=1 sector is not
     /// L-invariant and is not what carries the reduction, see D10 Step 6). In Q-units (Q = J/γ) this becomes
-    /// Γ = 2. Empirical comparison vs the previous heuristic Γ=0.5: worst-case relative
-    /// residual drops from 49.8% (N=4 b=1) to 22.4% (N=6 truly-innermost b=2); flanking-
-    /// innermost bonds (N=5,6 b=1,3) drop to 3.8-4.8%; all Endpoint bonds stay ≤ 14.5%.
-    /// Open Tier1 question: truly-innermost (N=6 b=2: 22.4%) needs a separate Γ_truly
+    /// Γ = 2. Open Tier1 question: the truly-innermost bond (N = 6 b = 2) needs a separate Γ_truly
     /// derivation; the saturation of Γ ∈ [1, 4] on a single argmax shows the multi-cluster
     /// Lorentzian model is structurally limited at the truly-innermost where multi-pair
     /// emergence is strongest.</summary>

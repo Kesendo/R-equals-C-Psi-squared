@@ -35,18 +35,26 @@ public sealed class MultiKResonanceScan
         int numBonds = Effective.MhPerBondEff.Count;
         var kByBond = new double[numBonds, qArr.Length];
         var tAtPeak = new double[numBonds, qArr.Length];
+        var atWindowEdge = new bool[numBonds, qArr.Length];
 
         // 3c−2 modes is small at c=2..4 (4..10); serial Q loop is fine.
         for (int iQ = 0; iQ < qArr.Length; iQ++)
-            ScanAtQ(iQ, qArr[iQ], tArr, kByBond, tAtPeak);
+            ScanAtQ(iQ, qArr[iQ], tArr, kByBond, tAtPeak, atWindowEdge);
 
-        return new KCurve(Effective.Block, qArr, tArr, kByBond, tAtPeak);
+        return new KCurve(Effective.Block, qArr, tArr, kByBond, tAtPeak, atWindowEdge);
     }
 
-    private double[] DefaultTGrid(int points = 21) =>
-        ResonanceScan.DefaultTGrid(Effective.Block.GammaZero, points);
+    /// <summary>The seed t window of the effective-basis scans, [0.2, 6]·t_peak with
+    /// <see cref="FourModeResonanceScan.DefaultTPoints"/> points: like the four-mode model the
+    /// multi-k basis keeps only slow modes, so its t* runs past the full block's window end
+    /// 2.4·t_peak at low Q (the four-mode values are in <see cref="FourModeResonanceScan"/>).</summary>
+    private double[] DefaultTGrid(int points = FourModeResonanceScan.DefaultTPoints)
+    {
+        double tPeak = EpAlgebra.TPeak(Effective.Block.GammaZero);
+        return ResonanceScan.LinearQGrid(0.2 * tPeak, 6.0 * tPeak, points);
+    }
 
-    private void ScanAtQ(int iQ, double q, double[] tGrid, double[,] kByBond, double[,] tAtPeak)
+    private void ScanAtQ(int iQ, double q, double[] tGrid, double[,] kByBond, double[,] tAtPeak, bool[,] atWindowEdge)
     {
         var L = Effective.LEffAtQ(q);
         var evd = L.Evd();
@@ -65,9 +73,11 @@ public sealed class MultiKResonanceScan
         var iMat = new Complex[dim, dim];
         var fbC0 = new Complex[dim];
 
-        for (int iT = 0; iT < tGrid.Length; iT++)
+        MathNet.Numerics.LinearAlgebra.Vector<Complex> rhoT = null!;
+
+        // Fills expLam, iMat and rhoT for one t; KAbsAtBond then reads |K_b(Q, t)| off them.
+        void Prepare(double t)
         {
-            double t = tGrid[iT];
             for (int i = 0; i < dim; i++) expLam[i] = Complex.Exp(evals[i] * t);
 
             for (int r = 0; r < dim; r++)
@@ -82,28 +92,46 @@ public sealed class MultiKResonanceScan
             // ρ(t) = R · (expLam ⊙ c0)
             var weighted = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(dim);
             for (int i = 0; i < dim; i++) weighted[i] = expLam[i] * c0[i];
-            var rhoT = R * weighted;
+            rhoT = R * weighted;
+        }
 
+        double KAbsAtBond(int b)
+        {
+            // fbC0[r] = sum_c X_b[r, c] · iMat[r, c] · c0[c]
+            for (int r = 0; r < dim; r++)
+            {
+                Complex s = Complex.Zero;
+                for (int c = 0; c < dim; c++) s += xB[b][r, c] * iMat[r, c] * c0[c];
+                fbC0[r] = s;
+            }
+            var fbVec = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(fbC0);
+            var drho = R * fbVec;
+            var sDrho = Effective.SKernelEff * drho;
+            Complex inner = Complex.Zero;
+            for (int i = 0; i < dim; i++) inner += Complex.Conjugate(rhoT[i]) * sDrho[i];
+            return Math.Abs(2.0 * inner.Real);
+        }
+
+        // Seed: the grid maximum per bond; then the envelope, refined in continuous t.
+        var winIdx = new int[numBonds];
+        var winK = new double[numBonds];
+        for (int iT = 0; iT < tGrid.Length; iT++)
+        {
+            Prepare(tGrid[iT]);
             for (int b = 0; b < numBonds; b++)
             {
-                for (int r = 0; r < dim; r++)
-                {
-                    Complex s = Complex.Zero;
-                    for (int c = 0; c < dim; c++) s += xB[b][r, c] * iMat[r, c] * c0[c];
-                    fbC0[r] = s;
-                }
-                var fbVec = MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(fbC0);
-                var drho = R * fbVec;
-                var sDrho = Effective.SKernelEff * drho;
-                Complex inner = Complex.Zero;
-                for (int i = 0; i < dim; i++) inner += Complex.Conjugate(rhoT[i]) * sDrho[i];
-                double kAbs = Math.Abs(2.0 * inner.Real);
-                if (kAbs > kByBond[b, iQ])
-                {
-                    kByBond[b, iQ] = kAbs;
-                    tAtPeak[b, iQ] = t;
-                }
+                double kAbs = KAbsAtBond(b);
+                if (kAbs > winK[b]) { winK[b] = kAbs; winIdx[b] = iT; }
             }
+        }
+        for (int b = 0; b < numBonds; b++)
+        {
+            int bond = b;
+            var (kMax, tStar, atEdge) = EnvelopeRefinement.Refine(tGrid, winIdx[b], winK[b],
+                t => { Prepare(t); return KAbsAtBond(bond); });
+            kByBond[b, iQ] = kMax;
+            tAtPeak[b, iQ] = tStar;
+            atWindowEdge[b, iQ] = atEdge;
         }
     }
 }

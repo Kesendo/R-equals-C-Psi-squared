@@ -16,8 +16,9 @@ namespace RCPsiSquared.Core.F86;
 /// CΨ_block(Q) should show a feature (peak/dip/inflection) at Q = Q_EP.</para>
 ///
 /// <para><b>Tier:</b> Tier2Verified — empirical witness sweep, no analytic prediction.
-/// Q_EP per orbit values (N=5): Endpoint Q_EP_E ≈ 1.138, mid-chain Q_EP_I ≈ 0.674,
-/// computed as Q_peak / BareDoubledPtfXPeak with x_peak = 2.196910.</para>
+/// Q_EP per orbit values (N=5): Endpoint Q_EP_E ≈ 1.146, mid-chain Q_EP_I ≈ 0.675,
+/// computed as Q_peak / BareDoubledPtfXPeak with x_peak = 2.196910, the bare model's fixed-τ = 1
+/// peak (a predictor-defined conversion; the bare envelope peak is 1.7141).</para>
 /// </summary>
 public sealed class C2BlockCpsiQScan : Claim
 {

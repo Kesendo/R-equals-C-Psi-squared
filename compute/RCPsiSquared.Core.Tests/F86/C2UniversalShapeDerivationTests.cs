@@ -51,10 +51,11 @@ public class C2UniversalShapeDerivationTests
     [Fact]
     public void C2UniversalShapeDerivation_DirectionalGap_IsEmpiricallyConsistent()
     {
-        // Empirical anchor: the Endpoint − Interior gap is ≈ 0.022 ± 0.003 across N=5..8.
+        // The Endpoint − Interior gap at N=7 on the envelope: 0.7813218454965299 − 0.7591357778625846
+        // (the two class values pinned at 1e-10 against an independent route in C2HwhmRatioTests).
         var block = new CoherenceBlock(N: 7, n: 1, gammaZero: 0.05);
         var derivation = C2UniversalShapeDerivation.Build(block);
-        Assert.InRange(derivation.DirectionalGap, 0.015, 0.030);
+        Assert.Equal(0.7813218454965299 - 0.7591357778625846, derivation.DirectionalGap, 2e-10);
     }
 
     [Fact]
@@ -72,7 +73,7 @@ public class C2UniversalShapeDerivationTests
         Assert.NotNull(item1Prime);
         // The updated description should mention c=2 closure status.
         Assert.Contains("c=2", item1Prime!.Description);
-        Assert.Contains("Tier1Candidate", item1Prime.Description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Tier2Empirical", item1Prime.Description, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

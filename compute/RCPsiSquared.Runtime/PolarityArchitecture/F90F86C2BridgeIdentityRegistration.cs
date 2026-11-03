@@ -11,13 +11,14 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   <item><see cref="F89TopologyOrbitClosure"/>: F89 framework parent (the bridge
 ///         resolves F86 c=2 into F89 territory).</item>
 ///   <item><see cref="F89PathKAtLockMechanismClaim"/>: AT-lock mechanism is the
-///         structural reason F86's per-bond-class HWHM_left/Q_peak constants exist (4-mode
-///         floor 0.6715 = AT-locked F_a/F_b contribution per F89's overlap-only support;
-///         the per-bond ratio fans across the F71 sub-classes, not a single universal value).</item>
+///         structural reason F86's per-bond-class HWHM_left/Q_peak values exist (the bare
+///         doubled-PTF floor, 0.7265 on the envelope, is the 2×2 model of the AT-locked F_a/F_b
+///         pair per F89's overlap-only support; the per-bond ratio differs across the F71
+///         sub-classes, two bands rather than one universal value).</item>
 /// </list>
 ///
 /// <para>Tier consistency: Tier 1 derived (algebraic identity by construction +
-/// numerical bit-exact verification at 20/22 bonds across N=5..8). Both parents
+/// numerical verification at all 22 bonds across N=5..8 to 10⁻¹⁰). Both parents
 /// Tier 1 derived.</para>
 ///
 /// <para>F86-side anchor (C2HwhmRatio etc.) lives in the F86 family registry; this

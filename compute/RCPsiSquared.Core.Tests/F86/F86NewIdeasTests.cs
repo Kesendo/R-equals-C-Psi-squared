@@ -138,11 +138,11 @@ public class F86NewIdeasTests
     }
 
     [Fact]
-    public void PerF71OrbitObservation_HasNineWitnessCases_AndFlagsCInversion()
+    public void PerF71OrbitObservation_HasTenWitnessCases_AndFlagsCInversion()
     {
         var obs = new PerF71OrbitObservation();
         Assert.Equal(Tier.Tier2Empirical, obs.Tier);
-        Assert.Equal(9, obs.Witnesses.Count);
+        Assert.Equal(10, obs.Witnesses.Count);
 
         // c=2 N=6 has central < flanking
         var c2N6 = obs.Witnesses.First(w => w.Chromaticity == 2 && w.N == 6);

@@ -10,7 +10,7 @@ namespace RCPsiSquared.Runtime.F86Main;
 ///
 /// <para>This is the typed-knowledge surface for the empirical observation that
 /// motivated the JW track's truly-vs-flanking-innermost question: the c=2 N=6 witness
-/// records central Q_peak ≈ 1.43 vs flanking Q_peak ≈ 1.63 — i.e., Interior is NOT a
+/// records central Q_peak 1.428 vs flanking Q_peak 1.637, i.e., Interior is NOT a
 /// single F71 orbit at N ≥ 6. Wiring it as a Schicht-1 claim makes the inversion +
 /// high-Q-plateau facts queryable as Edge data instead of leaving them as floating
 /// memory notes.</para>

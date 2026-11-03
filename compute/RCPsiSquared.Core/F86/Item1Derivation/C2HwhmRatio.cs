@@ -8,12 +8,15 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 
 /// <summary>F86 Item 1' (c=2) HWHM_left/Q_peak per-bond-class empirical pipeline.
 ///
-/// <para>Tier1Candidate: empirical anchor reproduced (Interior 0.7506, Endpoint 0.7728
-/// across N=5..8, typical residual ≤ 0.001); two universal constants from the bare
+/// <para>Tier1Candidate: the class values on the envelope max_t |K_b| (Interior 0.7523, 0.7569,
+/// 0.7591, 0.7602 and Endpoint 0.7766, 0.7815, 0.7813, 0.7808 at N = 5..8) match an independent
+/// Python route to 1e-10 (<c>C2HwhmRatioTests</c>); two universal constants from the bare
 /// doubled-PTF model derived (Tier 1 sub-results, exposed as
-/// <see cref="BareDoubledPtfXPeak"/> and <see cref="BareDoubledPtfHwhmRatio"/>);
-/// empirical sits above floor by ~0.08-0.10 (probe-block sub-resonance contribution
-/// NOT in bare doubled-PTF model).</para>
+/// <see cref="BareDoubledPtfXPeak"/> and <see cref="BareDoubledPtfHwhmRatio"/>, both readings
+/// of the fixed-τ = 1 slice); on the envelope the bare floor is
+/// <see cref="C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak"/> = 0.7265, and the class
+/// values sit above it by +0.026 to +0.036 (Interior) and +0.050 to +0.055 (Endpoint) over
+/// N = 5..12, a contribution the bare model does not carry.</para>
 ///
 /// <para>Class-level Tier stays Tier1Candidate; closed-form constants per bond class
 /// are open. Auto-promotes to Tier1Derived when <see cref="IsAnalyticallyDerived"/>
@@ -37,7 +40,9 @@ public sealed class C2HwhmRatio : Claim
     /// the post-EP location of the K-resonance peak in dimensionless x = Q/Q_EP coordinates.
     /// Universal across g_eff and probe-mixing-angle. The empirical absolute Q_peak per bond
     /// class (Interior ≈ 1.5–1.8, Endpoint ≈ 2.5) is x_peak·Q_EP with bond-class-dependent
-    /// Q_EP, where Q_EP = 2/g_eff per F86 Statement 1.
+    /// Q_EP, where Q_EP = 2/g_eff per F86 Statement 1. It is the peak of the fixed-τ = 1 slice
+    /// (τ = t/t_peak); the bare envelope peaks at <see cref="C2BareDoubledPtfClosedForm.EnvelopeXPeak"/>
+    /// = 1.7141. Formulas that predict Q_peak as x_peak·Q_EP are defined on this fixed-τ value.
     ///
     /// <para>This is a Tier1Derived sub-result inside the class-level Tier1Candidate verdict,
     /// same pattern as <c>C2BondCoupling</c>'s D_eff (structurally Tier1Derived inside a
@@ -46,10 +51,11 @@ public sealed class C2HwhmRatio : Claim
 
     /// <summary>Tier 1 derived universal constant from the 2026-05-06 doubled-PTF Ansatz at c=2:
     /// the HWHM_left/Q_peak ratio of the K-resonance in dimensionless x = Q/Q_EP coordinates.
-    /// Universal across g_eff. This is the FLOOR contribution from the SVD-block 2-level EP
-    /// rotation alone. Empirical Interior (0.7506) and Endpoint (0.7728) both sit above this
-    /// floor; the gap (~0.08-0.10) is structurally explained but its closed-form constants
-    /// per bond class are open. The 2026-05-06 (a''-e'') letter directions were superseded
+    /// Universal across g_eff. This is the floor of the SVD-block 2-level EP rotation alone,
+    /// read on the fixed-τ = 1 slice; the full-block class values are envelope values and are
+    /// compared with the envelope floor <see cref="C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak"/>
+    /// = 0.7265, above which they sit by +0.026 to +0.055; closed-form constants per bond class
+    /// are open. The 2026-05-06 (a''-e'') letter directions were superseded
     /// 2026-05-11 by the F90 bridge path; the surviving derivation route lives in
     /// <see cref="F86HwhmClosedFormClaim"/> and the active
     /// <see cref="PendingDerivationNote"/> built by <see cref="BuildPendingDerivationNote"/>.
@@ -102,9 +108,11 @@ public sealed class C2HwhmRatio : Claim
     /// full-block <see cref="ResonanceScan"/> fine-grid Q-scan, then resolves the Tier. The
     /// composed <see cref="C2KShape"/> primitive is lazily built on first <see cref="KShape"/>
     /// access and is not exercised by this factory. <paramref name="qGrid"/> defaults to
-    /// <see cref="ResonanceScan.DefaultQGrid"/> ([0.20, 4.00], 153 points), the canonical
-    /// anchor for N=5..8; pass an extended upper bound for N≥9 where flanking-Interior bonds
-    /// peak above 4.0 and the default grid clips them at the edge.
+    /// <see cref="ResonanceScan.DefaultQGrid"/> ([0.20, 4.00], 153 points), the anchor for
+    /// N=5..8. Per bond the witness is the canonical peak (the first local maximum,
+    /// <see cref="ParabolicPeakFinder.FindFirstLocalMaximum"/>), which does not move when the
+    /// grid is extended; the far maxima some inner bonds reach past Q = 4 are the global reading
+    /// recorded in <see cref="PerF71OrbitObservation"/>.
     ///
     /// <para><paramref name="throwOnGridEdgeSnap"/>: opt-in strict mode that raises
     /// <see cref="GridEdgeEscapeException"/> when any bond's Q_peak sits within one dQ
@@ -201,8 +209,8 @@ public sealed class C2HwhmRatio : Claim
         // === Tier1Candidate ===
         // The directional Endpoint > Interior split derives empirically (the cleanest
         // observable formulation of the c=2 bond-class signature), and the empirical
-        // envelope is significantly tightened: 8 anchor cases match the canonical Python
-        // pipeline values within 0.005 (typically 0.001), and the per-bond F71-orbit
+        // envelope is significantly tightened: 8 anchor cases match an independent Python
+        // envelope route to 1e-10, and the per-bond F71-orbit
         // substructure is exposed via the witness collection. This is Tier1Candidate
         // per the task definition: "directional structure derived; closed-form constant
         // not yet pinned".
@@ -229,8 +237,8 @@ public sealed class C2HwhmRatio : Claim
 
     /// <summary>Empirical-pinned directional structure: at the class-mean level (the
     /// canonical Python pipeline contract), Endpoint &gt; Interior is the c=2 bond-class
-    /// signature in HWHM_left/Q_peak (Endpoint ≈ 0.7728, Interior ≈ 0.7506). Across
-    /// N=5..8 the gap is consistently ~0.022, with the cross-block Frobenius split
+    /// signature in HWHM_left/Q_peak (Endpoint 0.7766 to 0.7815, Interior 0.7523 to 0.7602).
+    /// Across N=5..8 the gap is 0.021 to 0.025, with the cross-block Frobenius split
     /// (B2: ‖V_endpoint cross‖_F &lt; ‖V_interior cross‖_F at c=2; e.g. N=5 endpoint=0.1237,
     /// interior=0.1934) entering as the directional seed via first-order perturbation. The
     /// algebra connecting the cross-block Frobenius to the HWHM ratio is what's missing —
@@ -244,19 +252,18 @@ public sealed class C2HwhmRatio : Claim
         return endpointRatio > interiorRatio;
     }
 
-    /// <summary>For a single bond: find Q_peak (Q at which |K_b(Q, t)| has its max over a
-    /// fine Q-grid at the corresponding t_peak), |K|max, and HWHM_left (half-width-at-half
-    /// max on the LEFT side of Q_peak).
+    /// <summary>For a single bond: find Q_peak (the Q at which the envelope max_t |K_b(Q, t)|
+    /// peaks on a fine Q-grid), |K|max, and HWHM_left (half-width-at-half max on the LEFT side
+    /// of Q_peak).
     ///
-    /// <para>Implementation: matches the canonical Python pipeline
-    /// <c>eq022_b1_step_e_resonance_shape.py</c>:
-    /// 1) Run a full-block <see cref="ResonanceScan"/> on the canonical fine Q-grid (dQ = 0.025
-    ///    over [0.20, 4.00], 153 points) — identical to Python's grid.
-    /// 2) Read out the per-bond K_b(Q) = max_t |K(Q, t, b)| from the resulting K-curve.
-    /// 3) Find argmax of K_b(Q) on the grid.
-    /// 4) Apply parabolic interpolation around the argmax (3-point fit) to refine Q_peak.
+    /// <para>Implementation:
+    /// 1) Run a full-block <see cref="ResonanceScan"/> on the fine Q-grid (dQ = 0.025 over
+    ///    [0.20, 4.00], 153 points).
+    /// 2) Read out the per-bond envelope K_b(Q) = max_t |K(Q, t, b)| from the resulting K-curve.
+    /// 3) Find the first local maximum of K_b(Q) on the grid (the canonical peak).
+    /// 4) Apply parabolic interpolation around it (3-point fit) to refine Q_peak.
     /// 5) Half-max threshold: |K|max / 2.
-    /// 6) HWHM_left: scan from argmax backwards until K(Q_i) &lt; half; linearly
+    /// 6) HWHM_left: scan from that grid point backwards until K(Q_i) &lt; half; linearly
     ///    interpolate the crossing point Q_half_left between Q_i and Q_{i+1}.
     /// 7) Return (Q_peak, |K|max, Q_peak − Q_half_left).</para>
     ///
@@ -301,8 +308,8 @@ public sealed class C2HwhmRatio : Claim
     /// full-block <see cref="ResonanceScan"/> fine-grid Q-scan pipeline. The scan runs once
     /// and returns a (numBonds × numQ) K-curve matrix, from which:
     /// <list type="bullet">
-    ///   <item>per-bond witnesses are extracted by running the peak finder on each bond's
-    ///   K(Q) row — these preserve the F71-orbit substructure for the next-session work,</item>
+    ///   <item>per-bond witnesses are the canonical peak (first local maximum) of each bond's
+    ///   K(Q) row; these preserve the F71-orbit substructure,</item>
     ///   <item>class-averaged ratios are extracted by averaging K(Q) curves over bonds in the
     ///   class first, then running the peak finder once on the averaged curve — these match
     ///   the canonical Python pipeline output (PROOF_F86B_UNIVERSAL_SHAPE Statement 2 anchor table).</item>
@@ -326,7 +333,7 @@ public sealed class C2HwhmRatio : Claim
             for (int i = 0; i < qGrid.Length; i++)
                 kRow[i] = kCurve.KByBond[b, i];
 
-            var (qPeak, kMax, hwhmLeft) = FindPeakAndHwhmLeft(qGrid, kRow);
+            var (qPeak, kMax, hwhmLeft) = FindPeakAndHwhmLeft(qGrid, kRow, canonical: true);
             var bondClass = BondClassExtensions.OfBond(b, numBonds);
             witnesses[b] = new HwhmRatioWitness(
                 Bond: b,
@@ -354,16 +361,18 @@ public sealed class C2HwhmRatio : Claim
         return (witnesses, classRatios);
     }
 
-    /// <summary>Find peak Q* and |K|max with parabolic interpolation around the argmax,
-    /// then HWHM_left via linear interpolation of the half-max crossing on the left side.
-    /// Delegates to <see cref="ParabolicPeakFinder.Find"/> — same algorithm as the Python
-    /// <c>find_peak_with_interp</c>; returning the HWHM_left or a fallback when the grid
+    /// <summary>Find peak Q* and |K|max with parabolic interpolation around the chosen grid
+    /// point (the argmax, or with <paramref name="canonical"/> the first local maximum), then
+    /// HWHM_left via linear interpolation of the half-max crossing on the left side. Delegates
+    /// to <see cref="ParabolicPeakFinder"/>; returns the HWHM_left or a fallback when the grid
     /// does not extend low enough to reach half-max (which does not happen at c=2 N=5..8 over
     /// [0.20, 4.00]).</summary>
     private static (double QPeak, double KMax, double HwhmLeft) FindPeakAndHwhmLeft(
-        double[] qGrid, double[] kCurve)
+        double[] qGrid, double[] kCurve, bool canonical = false)
     {
-        var info = ParabolicPeakFinder.Find(qGrid, kCurve);
+        var info = canonical
+            ? ParabolicPeakFinder.FindFirstLocalMaximum(qGrid, kCurve)
+            : ParabolicPeakFinder.Find(qGrid, kCurve);
         // Fallback: if HwhmLeft is null (grid does not bracket the half-max), use the lowest
         // grid point. In practice (c=2 N=5..8 on [0.20, 4.00]) this never triggers — the
         // half-max crossing is always inside the scan range.
@@ -481,7 +490,7 @@ public sealed class C2HwhmRatio : Claim
         double directionalGap = endpointMean - interiorMean;
 
         return $"Per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` " +
-               $"(Tier 1 candidate: bare floor 0.671535 derived via `C2BareDoubledPtfClosedForm`, " +
+               $"(Tier 1 candidate: bare floor derived via `C2BareDoubledPtfClosedForm`, 0.7265 on the envelope, 0.671535 on the fixed-τ slice; " +
                $"per-sub-class (alpha, beta) fitted via polyfit on N=5..8 anchors). " +
                $"Open analytical step: derive (alpha, beta) from the rank-1-bridge + intra-dispersion " +
                $"structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion lift; the inter-coupling " +
@@ -490,7 +499,7 @@ public sealed class C2HwhmRatio : Claim
                $"\n" +
                $"N={N}, NumBonds={block.NumBonds}; {ResonanceScan.DefaultQGrid().Length}-point Q-grid at γ₀=0.05. " +
                $"Endpoint={endpointMean:F4}, Interior={interiorMean:F4}, gap={directionalGap:F4} " +
-               $"(anchor 0.022 ± 0.003). 2-level EP-decay sanity={twoLevelSanity:F4}.";
+               $"(0.021 to 0.025 at N = 5..8). 2-level EP-decay sanity={twoLevelSanity:F4}.";
     }
 
     public override string DisplayName =>

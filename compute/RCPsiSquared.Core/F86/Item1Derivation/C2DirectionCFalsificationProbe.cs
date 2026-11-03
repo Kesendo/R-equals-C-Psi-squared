@@ -7,14 +7,15 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 
 /// <summary>F86 Item 1 (c=2 stratum), <b>Direction (c'') falsification probe</b>: tests
 /// whether the 4-mode K-resonance reproduces the empirical HWHM_left/Q_peak per bond
-/// class, or sits at the bare-doubled-PTF floor 0.671535.
+/// class, or sits at the bare-doubled-PTF floor (0.7265 on the envelope).
 ///
 /// <para>Direction (c'') proposed a three-block superposition K_total = K_pb + K_sv +
 /// 2·Re(K_cross) within the 4-mode L_eff basis. The structural concern is that ANY
 /// decomposition within the 4-mode subspace cannot exceed the 4-mode K-resonance itself.
-/// If the full 4-mode K_b sits at the bare-doubled-PTF floor (≈ 0.671) for both bond
-/// classes, then no additive (pb + sv + cross) splitter can produce the empirical
-/// 0.7506 / 0.7728 — the +0.08 / +0.10 lift simply does not live in the 4-mode subspace.
+/// If the full 4-mode K_b sits at the bare-doubled-PTF floor for both bond classes, then no
+/// additive (pb + sv + cross) splitter can produce the full-block class values; the lift
+/// would not live in the 4-mode subspace. Both sides are envelope readings, so the floor
+/// is the bare envelope's, <see cref="C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak"/>.
 /// Direction (c'') would be structurally falsified by the same argument that already
 /// disqualified the 4-mode reduction itself.</para>
 ///
@@ -41,7 +42,7 @@ namespace RCPsiSquared.Core.F86.Item1Derivation;
 /// </summary>
 public sealed class C2DirectionCFalsificationProbe : Claim
 {
-    public const double BareFloor = C2HwhmRatio.BareDoubledPtfHwhmRatio;
+    public const double BareFloor = C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak;
 
     /// <summary>Tolerance for "FourModeMatchesEmpirical": gap |4-mode − empirical| below
     /// this threshold for BOTH bond classes counts as a match.</summary>

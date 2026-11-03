@@ -7,7 +7,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F86QEpPi2InheritanceTests
 {
-    private const double PinnedGEff = 1.74;   // Endpoint g_eff from PolarityInheritanceLink
+    private const double PinnedGEff = 1.74;   // Endpoint-scale sample g_eff (PolarityInheritanceLink: 1.703..1.746)
 
     private static F86QEpPi2Inheritance Build() =>
         new F86QEpPi2Inheritance(new Pi2DyadicLadderClaim(), new QEpLaw(PinnedGEff));

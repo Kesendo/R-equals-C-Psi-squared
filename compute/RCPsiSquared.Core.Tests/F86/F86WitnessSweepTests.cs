@@ -5,24 +5,13 @@ using Xunit.Abstractions;
 
 namespace RCPsiSquared.Core.Tests.F86;
 
-/// <summary>End-to-end sweep: for every (c, N) pair we have witness data for, run a
-/// real <see cref="ResonanceScan"/> and check that the F86 universal-shape prediction
-/// holds within a relaxed tolerance.
-///
-/// <para>This is the OOP knowledge graph validating itself against the data it claims to
-/// summarize. The grid is sub-sampled (30 points instead of the default 153) so the test
-/// stays interactive — c=3 N=7 alone is already a 735×735 block.</para>
-///
-/// <para>Tolerance is widened to 0.015 (vs 0.005 in the F86KnowledgeBase predictions)
-/// because: (a) 30-point grid coarsens the parabolic peak finder; (b) the witness data
-/// itself was collected at 0.025 dQ — the points here are mostly within 1-2 dQ of the
-/// canonical witness number.</para>
-/// </summary>
+/// <summary>End-to-end sweep: for (c, N) witnesses of the F86 Statement 2 band, run a real
+/// <see cref="ResonanceScan"/> on the default Q grid (the grid the band was read on) and check that
+/// each class ratio lies in the band, widened only by the scan's reproducibility
+/// (<see cref="UniversalShapeBand.Resolution"/>). The band is the span of exactly these readings, so
+/// a failure here means the scan no longer reproduces them.</summary>
 public class F86WitnessSweepTests(ITestOutputHelper output)
 {
-    private const double GridTolerance = 0.015;
-    private static readonly int[] QGridPoints = { 30 };
-
     [Theory]
     [InlineData(2, 5, 1)]
     [InlineData(2, 6, 1)]
@@ -30,13 +19,12 @@ public class F86WitnessSweepTests(ITestOutputHelper output)
     [InlineData(2, 8, 1)]
     [InlineData(3, 5, 2)]
     [InlineData(3, 6, 2)]
-    public void Sweep_F86_PredictionsHoldWithinGridTolerance(int chromaticity, int N, int n)
+    public void Sweep_F86_EveryWitnessLiesInTheBand_OnTheDefaultGrid(int chromaticity, int N, int n)
     {
         var block = new CoherenceBlock(N, n, gammaZero: 0.05);
         Assert.Equal(chromaticity, block.C);
 
-        var qGrid = ResonanceScan.LinearQGrid(0.20, 4.00, QGridPoints[0]);
-        var curve = new ResonanceScan(block).ComputeKCurve(qGrid);
+        var curve = new ResonanceScan(block).ComputeKCurve();
         var kb = new F86KnowledgeBase(block);
         var matches = kb.CompareTo(curve);
 
@@ -45,17 +33,11 @@ public class F86WitnessSweepTests(ITestOutputHelper output)
 
         output.WriteLine(
             $"c={chromaticity} N={N} n={n} | " +
-            $"Interior actual={interior.Actual:F4} (witness {ExpectedInteriorWitness(chromaticity, N):F4}) | " +
-            $"Endpoint actual={endpoint.Actual:F4} (witness {ExpectedEndpointWitness(chromaticity, N):F4})");
+            $"Interior {interior.Actual:R} (band {UniversalShapeBand.InteriorLow:F4}..{UniversalShapeBand.InteriorHigh:F4}) | " +
+            $"Endpoint {endpoint.Actual:R} (band {UniversalShapeBand.EndpointLow:F4}..{UniversalShapeBand.EndpointHigh:F4})");
 
-        Assert.NotNull(interior.Actual);
-        Assert.NotNull(endpoint.Actual);
-        Assert.InRange(interior.Actual!.Value,
-            interior.Prediction.ExpectedHwhmOverQPeak - GridTolerance,
-            interior.Prediction.ExpectedHwhmOverQPeak + GridTolerance);
-        Assert.InRange(endpoint.Actual!.Value,
-            endpoint.Prediction.ExpectedHwhmOverQPeak - GridTolerance,
-            endpoint.Prediction.ExpectedHwhmOverQPeak + GridTolerance);
+        Assert.True(interior.Within, interior.Description);
+        Assert.True(endpoint.Within, endpoint.Description);
     }
 
     [Fact]
@@ -93,9 +75,4 @@ public class F86WitnessSweepTests(ITestOutputHelper output)
             $"N=8 Q_EP={qEpValues[3].Value:F6} should be below 1/√2 = {oneOverSqrt2:F6}");
     }
 
-    // Witnesses are now self-computing — there's no static expected value to look up.
-    // The compute pipeline IS the source of truth; the prediction tolerance is the only
-    // hardcoded number that the witnesses are checked against.
-    private static double ExpectedInteriorWitness(int c, int N) => 0.756;
-    private static double ExpectedEndpointWitness(int c, int N) => 0.770;
 }

@@ -75,7 +75,7 @@ public static class EpistemicFacetMap
 
             // the held exit, and a pure dead-end for contrast
             ["red_button"] = EpistemicFacet.IsDeadEnd | EpistemicFacet.IsRule,  // the self-erasing solution, held not pressed
-            ["x_peak"] = EpistemicFacet.IsDeadEnd,   // 2.196910: a number that does not close, nothing core rides on its value
+            ["x_peak"] = EpistemicFacet.IsDeadEnd,   // 2.196910 (fixed-τ; envelope 1.7141): a number that does not close; the predictor-defined g_eff and JW formulas use it as a scale
             ["handshake_Rk"] = EpistemicFacet.IsDeadEnd,  // bonding-mode per-bond defect response f(b): the PTF mixing calc instanced, rate-protected (U(1)+Π), no closed form (EQ-021 + the handshake gate)
         };
 

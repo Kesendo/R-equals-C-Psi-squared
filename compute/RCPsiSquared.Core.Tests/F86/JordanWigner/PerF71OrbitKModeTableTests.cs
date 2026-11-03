@@ -116,8 +116,8 @@ public class PerF71OrbitKModeTableTests
         Assert.Contains("PROOF_C1_MIRROR_SYMMETRY", table.Anchor);
     }
 
-    // The orbit-level K_90 reorganisation N=5..8 is the precursor of the F71-orbit
-    // Q_peak escape that becomes loud at N≥9 in the slow K-resonance lens. Emit per-N
+    // The orbit-level K_90 reorganisation N=5..8 is the precursor of the F71-orbit far
+    // maxima that the global reading of the slow K-resonance lens picks up from N=7. Emit per-N
     // orbit K_90 / K_99 / TopThreeK so the structural reorganisation is visible across
     // the transition.
     [Fact]

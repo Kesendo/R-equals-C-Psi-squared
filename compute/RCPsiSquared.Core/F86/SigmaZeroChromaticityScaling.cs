@@ -20,9 +20,9 @@ namespace RCPsiSquared.Core.F86;
 ///   <item>c=4 N=9 reaches 1.84, slowest convergence; sweet spot N_c* far above N=9</item>
 /// </list>
 ///
-/// <para>Bridge to F86 c=2 g_eff_Endpoint: σ_0(c=2, N) · √(3/8) approximates the empirical
-/// g_eff_E (= 4.39382/Q_peak_Endpoint via the C2HwhmRatio composition) with Δ ≤ 0.01 for
-/// N ≥ 6 and Δ = 0.005 at N=7 (sweet-spot crossing again); Δ = 0.064 at N=5. Higher-c
+/// <para>Bridge to F86 c=2 g_eff_Endpoint: σ_0(c=2, N) · √(3/8) sits near the empirical
+/// g_eff_E (= 4.39382/Q_peak_Endpoint via the C2HwhmRatio composition, on the envelope
+/// Q_peak) without pinning it: Δ = −0.013, −0.016, −0.011 at N = 6, 7, 8 and +0.052 at N=5. Higher-c
 /// bridge √(3/8) untestable without an empirical g_eff table at c=3, c=4. Open: the true
 /// σ_0(c, N → ∞) closed form (anchored in <see cref="F86OpenQuestions.Standard"/> Item 5).</para>
 /// </summary>

@@ -31,8 +31,8 @@ public sealed class UniversalCarrierClaim : Claim
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>Default convention numerical value for γ₀ in code units: <c>0.05</c>
     /// ("our c", Tom 2026-05-12). Substrate-invariant role; convention-dependent value.
-    /// <c>ValidateAgainstPythonStepFTests</c> covers γ₀ ∈ {0.025, 0.05, 0.10} with
-    /// identical Q-values across the three.</summary>
+    /// <c>ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant</c> checks γ₀ ∈ {0.025, 0.05, 0.10}:
+    /// the class Q_peak and HWHM ratio agree to the scan's reproducibility (1e-10).</summary>
     public const double DefaultGammaZero = 0.05;
 
     /// <summary>The one-disagreement basis-pair dissipator cost at the default γ₀:
@@ -96,7 +96,7 @@ public sealed class UniversalCarrierClaim : Claim
             yield return new InspectableNode("Pi2 foundation anchors",
                 summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (the value of the rung-2 rate four '4γ' in t_peak); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");
             yield return new InspectableNode("substrate invariance",
-                summary: "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role.");
+                summary: "ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant: γ₀ ∈ {0.025, 0.05, 0.10} give the same class Q-values (to 1e-10); structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware readings",
                 summary: "IBM Q52 absorption ratio 1.03, the consistency of two fits to one decay (at N = 1 γ* is read off the same envelope; AbsorptionTheoremClaim); IBM Run 3 ¼-boundary 1.9% deviation; Marrakesh F87 trichotomy Δ(soft, truly) = −0.722. γ₀ measured only via Q-ratios.");
             yield return new InspectableNode("live certification (the two-tempo Taktgeber)",
