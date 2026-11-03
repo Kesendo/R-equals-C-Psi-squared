@@ -4,8 +4,9 @@
 THE QUESTION: the ChiralMirrorTrajectoryClaim (PROOF_PTF_CHIRAL_MIRROR_RATE_LAW,
 2026-06-10) gives P_i(t; phi_k) = P_i(t; phi_{N+1-k}) exactly for the pair states
 phi_k = (|vac> + |psi_k>)/sqrt(2). Does the F86 susceptibility
-K_b = 2*Re<rho(t)| S_kernel |d rho/dJ_b> (ResonanceScan convention, peak |.| over the
-t-grid [0.6, 1.6]*t_peak with t_peak = 1/(4*gamma_0)) inherit the same k <-> N+1-k
+K_b = 2*Re<rho(t)| S_kernel |d rho/dJ_b> (peak |.| over the 21-point
+t-grid [0.6, 1.6]*t_peak with t_peak = 1/(4*gamma_0), the earlier ResonanceScan reading; the mirror holds
+pointwise in (Q, t), so it holds on the envelope too) inherit the same k <-> N+1-k
 mirror when computed from mode-resolved initial data?
 
 DERIVATION (on a coherence block; the repo computes K_b on the (n, n+1) block):
@@ -78,7 +79,7 @@ from framework.lindblad import lindbladian_z_dephasing  # noqa: E402
 
 GAMMA = 0.05
 T_PEAK = 1.0 / (4.0 * GAMMA)                       # F86a carrier law, = 5.0
-T_GRID = np.linspace(0.6 * T_PEAK, 1.6 * T_PEAK, 21)   # ResonanceScan convention
+T_GRID = np.linspace(0.6 * T_PEAK, 1.6 * T_PEAK, 21)   # the earlier 21-point t grid (ResonanceScan now takes the envelope max_t)
 
 
 def psi_sine(N, k):

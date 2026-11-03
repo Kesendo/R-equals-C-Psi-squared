@@ -41,19 +41,19 @@ After Q_SCALE established the c-specific N-invariant Q_peak constants (c=3 → 1
 
 Both matched at N=7 within sub-percent. The csc(π/5) value at c=3 N=7 was striking enough to warrant a memory entry, a framework primitive, and a section in F86. The pentagonal anchor felt structurally meaningful: at N=4 the OBC dispersion is exactly ±φ, ±1/φ, and the n_XY=2 sector Liouvillian Im(λ) values decompose into integer combinations of {φ, 1/φ, 1, √5} (verified bit-exact in [`eq018_golden_ratio_check.py`](../simulations/eq018_golden_ratio_check.py)).
 
-Then the N=8 data arrived. The c=3 trajectory was 1.566 → 1.689 → 1.743 → **1.750**; it crossed csc(π/5) = 1.7013 between N=6 and N=7 and continued past it. The Endpoint formula was even simpler: at N=5 the observed value 2.40 differs by 20 % from csc(π/6) = 2.0, at N=6 by 9 %, at N=7 by −3 %, at N=8 by −13 %. The "1.4 % match at N=7" reported earlier was itself a dQ=0.05 grid-snap artefact; with parabolic interpolation the N=7 Endpoint value is 2.53, not 2.65, and csc(π/8) = 2.6131 is *off* in the other direction.
+Then the N=8 data arrived. The c=3 trajectory was 1.600 → 1.679 → 1.712 → **1.723**; it crossed csc(π/5) = 1.7013 between N=6 and N=7 and continued past it. The Endpoint formula was even simpler: at N=5 the observed value 2.39 differs by 20 % from csc(π/6) = 2.0, at N=6 by 11 %, at N=7 by −1 %, at N=8 by −12 %. The "1.4 % match at N=7" was itself a dQ=0.05 grid-snap artefact; with parabolic interpolation on the envelope the N=7 Endpoint value is 2.584, not 2.65, and csc(π/8) = 2.6131 lies on the other side of it.
 
 Both closed forms retracted. The framework primitives `q_peak_endpoint(N)` and `Q_PEAK_INTERIOR_C3_ANCHOR` that had been promoted earlier in the same session were removed.
 
 What survived was the universal shape under relative-Q normalisation:
 
-    K(Q) / |K|_max  =  f(Q/Q_EP)
+    K(Q) / |K|_max  =  f((Q − Q_peak)/Q_peak)
 
-The pairwise residual under `x = (Q − Q_peak)/Q_peak, y = K(Q)/|K|_max` is 21× tighter than under absolute-Q shift. Across all six tested cases (c=3 N=5..8, c=4 N=7,8) the y values at common x cluster within 1-3 %. The half-width on the left side has
+Read on the envelope, the maximum over t of `K(Q, t)` that defines Q_peak, the curves in `x = (Q − Q_peak)/Q_peak, y = K(Q)/|K|_max` lie on top of each other: across nine cases (c = 2, 3 at N = 5..8 and c = 4 at N = 7) the y values at common x agree within 2.2 % on the left flank and 0.5 % near the peak, while their peaks in absolute Q lie up to 0.3 apart. The half-width on the left side does not settle to one number. It lies in a band,
 
-    HWHM_left / Q_peak  ≈  0.756 ± 0.005
+    HWHM_left / Q_peak  ∈  [0.7523, 0.7637]     (Interior)
 
-universal across the tested range. The position is chain-specific; the shape is not.
+and inside the band it rises with N. The position is chain-specific; the shape nearly is not, and even its summary number is a band rather than a constant.
 
 ---
 
@@ -70,7 +70,7 @@ The convergent threads, organised vertically by abstraction level:
 
 The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling). The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The toy two-level EP, the shifted full-generator P symmetry, and the fragile bridge's exceptional point on the real γ axis (two qubits per chain) are distinct objects here; whether the EPs share a stronger algebraic classification is OPEN.
 
-**Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable a function of Q/Q_EP alone. Hence K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. Q_peak ≈ Q_EP for the slowest channel pair; g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. HWHM_left/Q_peak ≈ 0.756 is the numerical witness.
+**Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable of the two-level model a function of Q/Q_EP alone. Hence there K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. The peak then sits at a fixed multiple of Q_EP, not at Q_EP itself (Q_peak = x_peak·Q_EP in the two-level model); g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. The envelope curves agreeing in x across nine (c, N) cases are the numerical witness; HWHM_left/Q_peak, their summary, lies in a band, not at one value.
 
 **Interpretive: the inside view.** Inside-Observability (`hypotheses/PRIMORDIAL_QUBIT.md` §9) says Q is the only inside-measurable quantity; γ₀ alone is invisible. The shape universality reads cleanly through this: Q_peak chain-specific = the chain knowing itself through its own peak position; universal shape = the framework-level fact about the chain that the chain-as-its-own-instrument cannot identify in absolute units. t_peak = 1/(4γ₀) is the felt-time horizon (`reflections/ON_TWO_TIMES.md`); γ₀-time flows invisibly, but the EP-time-scale that lives inside the standing-wave envelope is set by it.
 
@@ -96,11 +96,11 @@ The F86 analog of PTF's chiral mirror law. PTF's surviving Tier-1 law:
 
 F86's surviving Tier-1 *candidate*:
 
-    K(Q) / |K|_max  =  f(Q/Q_EP)         (2-level EP rotation symmetry)
+    K(Q) / |K|_max  =  f((Q − Q_peak)/Q_peak)         (2-level EP rotation symmetry)
 
-Both are symmetry-enforced. PTF's symmetry is chiral on sites (K_1 = diag((−1)^i)); F86's is the 2-level EP rotation `tan θ = Q/Q_EP` on rate channels. PTF's law is exact at machine precision; F86's law is a Tier-1 candidate witnessed by 21× residual tightening across six (c, N) cases and HWHM_left/Q_peak ≈ 0.756 stability to 1.8 %.
+Both are symmetry-enforced. PTF's symmetry is chiral on sites (K_1 = diag((−1)^i)); F86's is the 2-level EP rotation `tan θ = Q/Q_EP` on rate channels. PTF's law is exact at machine precision; F86's law is a Tier-1 candidate witnessed by the envelope curves of nine (c, N) cases agreeing in x to 2.2 % on the left flank, with HWHM_left/Q_peak inside a band 1.5 % wide that drifts with N.
 
-The closed-form value of HWHM_left/Q_peak (0.756 looks numerically close to 3/4 = 0.75 and 2/√7 = 0.7559) follows from the 2-level eigenstructure but has not been derived analytically. Per the lesson below: do not promote the numerical match to a closed form before deriving f(x).
+A closed-form value of HWHM_left/Q_peak has not been derived. Numbers near the band invite themselves (3/4 = 0.75 just below it, 2/√7 = 0.7559 inside it), but a band that rises with N has no constant under it yet. Per the lesson below: do not promote a numerical match to a closed form before deriving f(x).
 
 ---
 

@@ -7,6 +7,14 @@ The connection: F86 c=2 N qubits L_super on (n=1, n+1=2) coherence block IS F89 
 sub-block for path-(N-1). Same algebraic object.
 
 c=2 N=5 → F89 path-4 (50-dim full, 26-dim S_2-sym, 4 AT-locked F_a/F_b at λ = -2γ ± 2iJ).
+
+Reading note: main() takes the maximum of K_b over the 21-point t grid [0.6, 1.6]·t_peak, a fixed-t
+slice at the winning grid point, not the envelope max_t that defines F86's Q_peak, and its anchors
+0.7506 / 0.7728 and floor 0.6715 belong to that reading and to the bare model's fixed-τ = 1 slice.
+On the envelope the c=2 class values are Interior 0.7523..0.7602 and Endpoint 0.7766..0.7815
+(N = 5..8) over the floor 0.7264892771. The block builders here (build_se_de_full,
+build_per_bond_M) are the F89 route of simulations/f86_envelope_second_route.py, which reads the
+envelope.
 """
 
 from __future__ import annotations
@@ -196,7 +204,7 @@ def main() -> None:
 
     print(f"# F89→F86 K_b probe via (SE,DE) full eigendecomposition")
     print(f"# c=2 N={n_block} (= F89 path-{n_block-1}); γ={gamma}, t_peak={t_peak}")
-    print(f"# Q-grid: 153 points [0.20, 4.00]; t-grid: 21 points [0.6, 1.6]·t_peak")
+    print(f"# Q-grid (F89-J): {len(q_grid)} points [{q_grid[0]:.2f}, {q_grid[-1]:.2f}]; t-grid: 21 points [0.6, 1.6]·t_peak")
     print(f"# Empirical anchor: HWHM_left/Q_peak = 0.7506 (Interior), 0.7728 (Endpoint)\n")
 
     bonds = list(range(n_block - 1))  # bonds 0-1, 1-2, 2-3, 3-4 for N=5

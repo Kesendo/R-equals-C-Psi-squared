@@ -166,7 +166,7 @@ Pauli-pair palindrome , but the clock is the shared instrument, and each front r
 
 - **Rotation hand → F86b₃.** The 2-level EP rotation depends on x = Q/Q_EP alone, so the clock
   angle θ(x) is identical for different g_eff (different Q_EP) , it collapses (θ = 0 below the EP,
-  29° at x = 1.5, 44° at the bare-shape peak x = 2.197). That collapse is *why* the resonance shape
+  29° at x = 1.5, 44° at x = 2.197, the bare model's fixed-τ = 1 peak; its envelope peaks at x = 1.714). That collapse is *why* the resonance shape
   is universal in Q/Q_EP.
 - **Takt hand → F87.** At γ = 0 the Takt is stopped, L = −i[H,·] is symmetric about −σ = 0, every
   pair is soft. The hard pair's pairing residual grows first order in the γ-tick (residual/γ →

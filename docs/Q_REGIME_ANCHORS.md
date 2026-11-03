@@ -13,15 +13,15 @@ The framework's three Q-bands (onset, peak, plateau) materialized as a table of 
 | **1.5**  | 0.075                  | F86 Q_peak (c=2)     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 − 1/2); PerBlockQPeakClaim wobble 1.4-1.6 empirical witness |
 | **1.6**  | 0.080                  | F86 Q_peak (c=3)     | PerBlockQPeakClaim, saturated N=5..9 (Tier2Empirical) |
 | **√3**   | ≈ 0.0866               | canonical θ=60° (Lindblad-Absorption-Match) | **LindbladAbsorptionMatchAtSixtyDegreesClaim** (Tier1Derived: \|λ_±\|=2γ₀=α at θ=60°); empirical F86 c=3 K-peak suggestively close at N=7,8 (within ~2%) but Tier-3/4 hypothesis NOT typed |
-| **1.8**  | 0.090                  | F86 Q_peak (c=4, c=5) + peak end | PerBlockQPeakClaim, saturated N≥7 (Tier2Empirical); fine-grid: c=4 N=7=1.748, N=8=1.804 |
+| **1.8**  | 0.090                  | F86 Q_peak (c=4, c=5) + peak end | PerBlockQPeakClaim, saturated N≥7 (Tier2Empirical); envelope Interior class: c=4 N=7 = 1.760, N=8 = 1.791 |
 | **2.0**  | 0.100                  | Q_EP idealized       | Q_EP = 2/g_eff at g_eff=1 (Tier1Derived)         |
-| **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (2.39–2.61 across c=2..4 N=5..8) |
+| **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (2.393–2.591 across c=2..4 N=5..8) |
 
 Standard resonance-scan grid (`ResonanceScan.DefaultQGrid()`): `LinearQGrid(0.20, 4.00, 153)`. These 10 named anchors are the structurally-meaningful points; the grid samples the continuum between and past them.
 
 **The peak-band 1.2-1.8 is c-mediated**: Q_peak saturates with chromaticity (1.5 c=2, 1.6 c=3, 1.8 c=4,5). The earlier linear-extrapolation hypothesis Q_peak(c=5)=2.0 was refuted by the 40h N=9 Phase-2 run (2026-04-24). The peak-band width reflects c-variation, NOT finite-size scatter.
 
-Per-orbit Q_EP values, HWHM ratios, fitted (α, β) sub-class parameters, and off-grid escape Q values (Q≈7-17 at high-N orbit plateaus) are empirical observations rather than anchors. See [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) for the full inventory with caveats; they should not be promoted to anchor status without further structural derivation.
+Per-orbit Q_EP values, HWHM ratios, fitted (α, β) sub-class parameters, and the far maxima of some c=2 orbits at N ≥ 7 (Q 7.26 to 38.2, each read on a named window) are empirical observations rather than anchors. See [`F86_VALUES_INVENTORY.md`](F86_VALUES_INVENTORY.md) for the full inventory with caveats; they should not be promoted to anchor status without further structural derivation.
 
 ## Per-anchor viewpoints
 
@@ -89,7 +89,7 @@ Each Q-anchor is reached from multiple framework lenses (parallel to the multi-v
 - **J at γ₀=0.05**: J = 0.100
 
 ### Q = 2.5 (Endpoint orbit, candidate)
-- **F86 identification**: `PerF71OrbitObservation` orbit 0 (Endpoint) stable at Q ≈ 2.5 across (c=2..4, N=5..8); range 2.39–2.61
+- **F86 identification**: `PerF71OrbitObservation` orbit 0 (Endpoint) stable at Q ≈ 2.5 across (c=2..4, N=5..8); range 2.393–2.591
 - **F95 angle**: θ = arctan(2.5) ≈ 68.2°
 - **H-clock**: 2.5 H-rotations per γ₀-tick
 - **Tier**: the 2 + ½ schema is Tier 1 (table above); the observed value is Tier 2 empirical, a promotion candidate from 9 (c, N) combinations, with no derivation of the value itself
@@ -134,7 +134,7 @@ The "20" shows up explicitly in three canonical C# sites:
    ```
    Inspect mode auto-scales tMax = 1/γ₀ (= 20 at γ₀=0.05).
 
-The γ₀=0.05 convention is documented as substrate-invariant in [`UniversalCarrierClaim.cs:88`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): "ValidateAgainstPythonStepFTests covers γ₀ ∈ {0.025, 0.05, 0.10} with identical Q-values; structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role." 0.05 was chosen as a convenient round number, not a physical constant.
+The γ₀=0.05 convention is documented as substrate-invariant in [`UniversalCarrierClaim.cs:99`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): "ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant: γ₀ ∈ {0.025, 0.05, 0.10} give the same class Q-values (to 1e-10); structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role." 0.05 was chosen as a convenient round number, not a physical constant.
 
 ## Q-anchor hits on F99 ankers (from `wave_breaking_q_anchor_scan.py`)
 

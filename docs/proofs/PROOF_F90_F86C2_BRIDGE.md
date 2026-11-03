@@ -1,9 +1,9 @@
 # PROOF F90: F86 c=2 ↔ F89 Bridge Identity
 
-**Status:** Tier 1 derived (algebraic identity by construction + numerical bit-exact verification at N=5..8)
+**Status:** Tier 1 derived (algebraic identity by construction, operator-exact at N=5..8; the per-bond readouts agree with F86's own scan to 10⁻¹⁰ at all 22 bonds of N=5..8)
 **Date:** 2026-05-11
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Probe:** [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py)
+**Probe:** [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py) (the F89 block builders); envelope readout [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py)
 **Typed claim:** [`compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs`](../../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs)
 
 ---
@@ -14,7 +14,7 @@ F86 lives on the resonance side of the project: Q_peak, EP location, per-bond re
 
 The bridge is an exact identity. The F86 c = 2 per-bond response observable K_b(Q, t) on the (1, 2) coherence block of an N-qubit chain equals the per-bond Hellmann-Feynman derivative of the F89 path-(N − 1) sub-block dynamics at bond b, with everything else (probe state, kernel, dephasing rates) algebraically matching, and a single Hamiltonian-convention factor of 2 relating the Q-axis scales. The two computations land on the same operator. They are different ways of writing down the same dynamics.
 
-The identity is Tier 1 derived by construction: both sides reduce algebraically to the same SE-DE sub-block Liouvillian, and the Hellmann-Feynman derivative on the F89 side matches the per-bond observable construction on the F86 side. Numerical verification is bit-exact across N = 5, 6, 7, 8 (which was the empirical entry point before the algebraic identity was written down).
+The identity is Tier 1 derived by construction: both sides reduce algebraically to the same SE-DE sub-block Liouvillian, and the Hellmann-Feynman derivative on the F89 side matches the per-bond observable construction on the F86 side. The operators agree exactly at N = 5, 6, 7, 8 (integer-coefficient matrices), and the per-bond readouts agree with F86's own scan to 10⁻¹⁰ at all 22 bonds; the numerical agreement was the empirical entry point before the algebraic identity was written down.
 
 The diagnostic upshot is that closed-form work on either side transfers to the other. F89 closed D_k in closed form via the path-polynomial pipeline; that gives the F86 c = 2 K_b observable a closed-form route through the F90 bridge. The closed-form attempt for g_eff on the F86b obstruction side could then be checked against the bridge identity (L6 of the obstruction proof); F89 closure was confirmed in 2026-05-15, but the predicted transfer to g_eff was tested and refuted, surfacing that g_eff is genuinely a fit-residue rather than an F89-derivable quantity. F90 is the explicit identity that makes those cross-family experiments well-defined.
 
@@ -65,61 +65,31 @@ This is not merely an argument: the two constructions are **bit-identical as ope
 
 ---
 
-## Numerical verification (bit-exact across N=5..8)
+## Numerical check (all 22 bonds of N=5..8 agree to 10⁻¹⁰)
 
-`simulations/f89_to_f86_kbond_via_eigendecomp.py` computes F89's full (SE, DE) eigendecomposition and reproduces F86's K_b(Q, t) per-bond via the per-bond Hellmann-Feynman + Duhamel integral. Comparing per-bond ratios (HWHM_left / Q_peak) to F86's `C2HwhmRatio.Witnesses` extracted via `inspect --root c2hwhm`:
+[`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py) reads c = 2 through F89's full (SE, DE) eigendecomposition (the block builders of [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py), F89 J = F86 J / 2), reproduces F86's K_b(Q, t) per bond via the per-bond Hellmann-Feynman + Duhamel integral, and reads the envelope max_t |K_b(Q, t)| the way F86's `ResonanceScan` defines Q_peak. On the same Q grid (153 points on [0.2, 4], parabolic vertex, linear half-maximum) the two routes agree on Q_peak and on HWHM_left/Q_peak to 10⁻¹⁰ at every bond of N = 5, 6, 7, 8 (to 10⁻¹¹ in Q_peak; the script's `N 2` mode reproduces the per-bond comparison), in both readings of the peak: the canonical one (the first local maximum from below) and the global one on a named window. The committed gates carry part of this: the class values at N = 5..8 (`ValidateAgainstPythonEnvelopeRouteTests` against the fixture the second route writes) and the per-orbit values of `PerF71OrbitKTableTests` (the Endpoint orbit at N = 5..10, all orbits at N = 6). None agrees bit for bit: at the canonical peaks the peak value K agrees between the routes to ~10⁻¹³ (to ~10⁻¹² at the far maxima below), and the parabolic vertex through three grid points turns that into a few 10⁻¹¹ in Q_peak.
 
-### N=5 (4 bonds, 4 bit-exact)
+The canonical readings, one value per mirror pair (F86c pairs bond b with N−2−b exactly), Q_peak in F86-J:
 
-| Bond | F89→F86 (mine) | F86 ResonanceScan | Status |
-|---|---|---|---|
-| b=0 (Endpoint) | 0.7700 | 0.7700 | bit-exact |
-| b=1 (Interior) | 0.7454 | 0.7454 | bit-exact |
-| b=2 (Interior) | 0.7454 | 0.7454 | bit-exact |
-| b=3 (Endpoint) | 0.7700 | 0.7700 | bit-exact |
+| N | b = 0 (Endpoint) | b = 1 | b = 2 | b = 3 (central) |
+|---|---|---|---|---|
+| 5 | 2.5171 / 0.7766 | 1.4831 / 0.7523 | | |
+| 6 | 2.5806 / 0.7815 | 1.6367 / 0.7596 | 1.4283 / 0.7505 (central) | |
+| 7 | 2.5601 / 0.7813 | 1.6989 / 0.7632 | 1.5011 / 0.7546 | |
+| 8 | 2.5431 / 0.7808 | 1.7272 / 0.7644 | 1.5207 / 0.7563 | 1.5698 / 0.7585 |
 
-### N=6 (5 bonds, 5 bit-exact)
+(Each cell: Q_peak / HWHM_left/Q_peak.) Every bond has its canonical peak inside [0.2, 4]. Past a minimum after it the envelope rises again, and at N ≥ 7 some bonds reach a higher maximum on a wider window; the global reading names its window:
 
-| Bond | F89→F86 ratio | F86 ResonanceScan ratio | Status |
-|---|---|---|---|
-| b=0 (Endpoint) | 0.7737 | 0.7738 | bit-exact (last-decimal) |
-| b=1 (Interior, flanking) | 0.7503 | 0.7502 | bit-exact (last-decimal) |
-| b=2 (Interior, central self-paired) | 0.7449 | 0.7449 | bit-exact |
-| b=3 (Interior, flanking) | 0.7503 | 0.7502 | bit-exact (last-decimal) |
-| b=4 (Endpoint) | 0.7737 | 0.7738 | bit-exact (last-decimal) |
+| N | bonds | Q_peak | HWHM_left/Q_peak | window |
+|---|---|---|---|---|
+| 7 | 1, 4 | 7.2554 | 0.9166 | [0.2, 20] |
+| 8 | 1, 5 | 8.2247 | 0.8920 | [0.2, 20] |
+| 8 | 2, 4 | 38.208 | 0.9888 | [0.2, 60] |
+| 8 | 3 | 20.092 | 0.6428 | [0.2, 60] |
 
-### N=7 (6 bonds, 6 bit-exact with extended Q-grid)
+The first two rows agree between the routes to 10⁻¹⁰ (for N = 8 the second route's value comes from its [0.2, 60] run, whose maximum for these bonds is the same point); the two values beyond Q = 20 are read by the second route alone. The global reading is a property of the window, since the curves keep further local maxima.
 
-With F86's default Q-grid [0.20, 4.00] the orbit-2 bonds (b=1, b=4) cap at Q=4.0 (escape to broad high-Q plateau). Extending to [0.10, 10.0] / 400 points reveals true Q_peak ≈ 7.27 with ratio 0.9162.
-
-| Bond | F89→F86 ratio | F86 ResonanceScan ratio (extended) | Status |
-|---|---|---|---|
-| b=0 (Endpoint) | 0.7738 | 0.7738 | bit-exact |
-| b=1 (Interior, escape Q≈7.27) | 0.9162 | 0.9162 | bit-exact |
-| b=2 (Interior mid) | 0.7469 | 0.7470 | bit-exact (last-decimal) |
-| b=3 (Interior mid) | 0.7469 | 0.7470 | bit-exact (last-decimal) |
-| b=4 (Interior, escape) | 0.9162 | 0.9162 | bit-exact |
-| b=5 (Endpoint) | 0.7738 | 0.7738 | bit-exact |
-
-### N=8 (7 bonds, 5 bit-exact + 2 within Q-grid noise; extended Q-grid)
-
-With extended Q-grid ([0.10, 20.0] for F86; [0.05, 10.0] for F89-J probe), all orbit escapes are captured including the central b=3 self-paired bond at Q_peak ≈ 16.79 (F86-J).
-
-| Bond | F89→F86 ratio | F86 ResonanceScan ratio | Status |
-|---|---|---|---|
-| b=0 (Endpoint) | 0.7734 | 0.7734 | bit-exact |
-| b=1 (Interior, orbit-2 escape Q≈8.07) | 0.8899 | 0.8899 | bit-exact |
-| b=2 (Interior mid) | 0.7475 | 0.7483 | within Q-grid noise (Δ = 0.0008) |
-| b=3 (Interior, **central escape Q≈16.79**) | 0.5778 | 0.5778 | bit-exact |
-| b=4 (Interior mid) | 0.7475 | 0.7483 | within Q-grid noise |
-| b=5 (Interior, orbit-2 escape) | 0.8899 | 0.8899 | bit-exact |
-| b=6 (Endpoint) | 0.7734 | 0.7734 | bit-exact |
-
-The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the F86 default grid (600 pts over [0.10, 20.0], dQ ≈ 0.033) and the F89 probe grid (300 pts over [0.05, 10.0], dQ_F89 ≈ 0.033 = dQ_F86 / 2 in F89-J = 0.067 in F86-J) sample slightly different points around Q_peak ≈ 1.51 (F86-J). At identical grids the two agree to machine precision, verified: on a shared 300-point grid the N=8 b=2/b=4 residual is 4.3·10⁻¹⁵, as they must, since both pipelines read the one shared operator.
-
-**Total: 20 of 22 bonds bit-exact, 2 of 22 within Q-grid resolution noise (≤ 0.0008). (Per-N: N=5: 4/4 bit-exact; N=6: 5/5 bit-exact; N=7: 6/6 bit-exact with extended Q-grid; N=8: 5/7 bit-exact + 2/7 within Q-grid noise at b=2, b=4 mid-flanking Interior.)**
-
-**The HWHM_left/Q_peak ratio is a grid-dependent readout of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), the 20/22-vs-2/22 split is entirely a matter of Q-grid sampling, not two physical answers, at matched grids all 22 agree to machine precision. The table values are per-N focused-grid snapshots: the N=5/6 cells use F86's focused [0.20, 4.0] / 153-point grid (e.g. interior 0.7454 = the converged value), while the committed probe script `f89_to_f86_kbond_via_eigendecomp.py` now runs a single *wide* grid (`q_grid = np.linspace(0.05, 10.0, 300)` in F89-J = [0.10, 20.0] in F86-J) set to capture the N≥7 high-Q escapes; that wide grid mislocates the N=5/6 interior Q_peak by up to one cell (≈0.002 drift) and is not the grid that regenerates the focused-grid table cells. To re-derive a specific table cell, use the per-N focused grid; the underlying identity (and hence any cell, at sufficient grid resolution) is exact.
+**The readings are readouts of the one shared operator.** Since L_F86(J) = L_F89(J/2) bit-identically (above), any disagreement between the routes can only be in how the curve is sampled and read, not in the physics. The grid reading is itself not the continuous envelope peak: against a continuous search in Q (`--continuous N` in the same script) it sits high by 7·10⁻⁵ to 2.2·10⁻⁴ in Q_peak and off by up to 3.5·10⁻⁵ in the ratio at c = 2, N = 5..8.
 
 ---
 
@@ -129,37 +99,39 @@ The 2 within-noise bonds at N=8 b=2/b=4 differ in the third decimal because the 
 
 1. **Item 1' (HWHM_left/Q_peak per bond class closed form):**
 
-   **Partial closure 2026-05-13 (Tier-reviewed 2026-05-16)**: form derived per
-   `F86HwhmClosedFormClaim`
-   ([compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs)),
-   **Tier 1 candidate** (was incorrectly Tier 1 derived 2026-05-13, downgraded 2026-05-16):
-   HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass, with sub-classes per
-   `BondSubClass` enum. The bare floor 0.671535 IS analytically derived (per
-   [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)),
-   and the 22-anchor fit (N=5..8) verifies the form within 0.005 residual; however, the 12
-   (α, β) per sub-class are fitted via `np.polyfit(...deg=1)` in
-   [`simulations/f86_hwhm_closed_form_verification.py`](../../simulations/f86_hwhm_closed_form_verification.py)
-   line 78, NOT derived from F89 cyclotomic Φ_{N+1} / F90 bridge identity structure.
-   Tier 1 derivation requires analytical (α, β); the fit IS NOT that step.
+   Open. `F86HwhmClosedFormClaim`
+   ([compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs))
+   describes the per-bond ratio as the bare floor plus a lift, HWHM_ratio = 0.7264892771 + α_subclass · g_eff + β_subclass (g_eff the fit's own coordinate 4.39382/(Q_peak + 2)),
+   with sub-classes per the `BondSubClass` enum. The floor IS analytically derived: it is the
+   envelope HWHM_left/x_peak of the bare doubled-PTF 2×2 model
+   ([`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs),
+   whose fixed-τ = 1 slice gives the separate value 0.671535). The (α, β) are a least-squares
+   line through the canonical anchors of N = 5..8, read live by
+   [`F86HwhmAlphaExtraction`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmAlphaExtraction.cs),
+   and the anchors do not support a line: Endpoint and Flanking, the two sub-classes with four
+   chain lengths, miss it by up to 1.28·10⁻³ and 4.2·10⁻⁴, 12 to 36 times the anchors' offset
+   from the continuous envelope peak; Mid and CentralSelfPaired have two points each, so their
+   line is exact and tests nothing. The lift above the floor is observed (+0.026 to +0.034
+   Interior, +0.050 to +0.055 Endpoint at N = 5..8), and no exact law for it is held.
    Plan: [`docs/superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md`](../superpowers/plans/2026-05-13-f86-hwhm-closed-form-attack.md).
 
-   Open analytical step (PROOF_F90 perspective): F89's AT-locked F_a/F_b modes have closed-form eigenvectors (overlap-only / no-overlap-only support, per [`F89PathKAtLockMechanismClaim`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)). The 4-mode bare doubled-PTF floor `BareDoubledPtfHwhmRatio = 0.671535` corresponds to the F_a/F_b 4-mode contribution. The HWHM lift to the empirical 0.7506 (Interior) / 0.7728 (Endpoint) per sub-class is the **intra-channel dispersion** of the rank-1-bridge + intra-dispersion model (see Direction (b'') below, the two-dial scout of 2026-06-11), NOT a residual of the inter-channel coupling: the earlier "H_B-mixed octic residual of the inter coupling" suspicion is **refuted** (the inter-channel tail only renormalizes Q_peak / g_eff, leaving the dimensionless ratio fixed). The cyclotomic Φ_{N_block+1} pattern of F89's `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` table still supplies the N-scaling structure of the AT-locked / intra contribution. Deriving (α, β) from this rank-1-bridge + intra-dispersion structure (treated exactly, the F89 Chebyshev terrain) is what would promote `F86HwhmClosedFormClaim` from Tier 1 candidate to Tier 1 derived.
+   Open analytical step (PROOF_F90 perspective): F89's AT-locked F_a/F_b modes have closed-form eigenvectors (overlap-only / no-overlap-only support, per [`F89PathKAtLockMechanismClaim`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)). The bare doubled-PTF floor (envelope 0.7264892771) is the 2×2 model of the F_a/F_b pair. The lift to the class values (Interior 0.7523..0.7602, Endpoint 0.7766..0.7815 at N = 5..8) is located in the **intra-channel dispersion** of the rank-1-bridge + intra-dispersion model (see Direction (b'') below), NOT in a residual of the inter-channel coupling (per the two-dial scout below, read on the 21-point t grid). The cyclotomic Φ_{N_block+1} pattern of F89's `F89UnifiedFaClosedFormClaim.PathPolynomial(k)` table still supplies the N-scaling structure of the AT-locked / intra contribution. Deriving the lift from this rank-1-bridge + intra-dispersion structure (treated exactly, the F89 Chebyshev terrain) is the open step.
 
    Phase D probe (2026-05-16) refuted the multi-mode-per-cluster-pair internal mixing hypothesis:
    the 10×10 JW cluster-pair sub-block ‖xB(Q)‖_F observable shows only a 30% bump on flat
    baseline ~2.0, no Lorentzian shape and no left half-max crossing. The lift mechanism is
    therefore NOT internal to a single cluster pair. (Phase D then guessed cross-cluster-pair
    inter-channel structure, e.g. H_B-mixed octic residual interference between pairs; the
-   two-dial scout in Direction (b'') below superseded that too, the lift is the intra-channel
-   dispersion, the inter-channel coupling only renormalizes Q_peak / g_eff.)
+   two-dial scout in Direction (b'') below, on the 21-point t grid, puts the lift in the
+   intra-channel dispersion, the inter-channel coupling only renormalizing Q_peak / g_eff.)
 
 2. **Item 4' (c≥3 extension):** F89 path-k machinery generalises to chromaticity c ≥ 3 with HD ∈ {1, 3, ..., 2c−1} channels. The (SE, DE) 2-channel structure of c=2 generalises to (n, n+1) (c+1)-channel structure. F89 path-k for path-k ≥ 6 covers extended-N data already (N_block up to 7 verified).
 
 3. **Item 5 (σ_0(c, N→∞) closed-form):** σ_0 is a specific F89 path-k singular value, extractable from F89's typed primitives. The 2√(2(c−1)) trajectory crossing (retracted 2026-05-08) was a finite-N artifact; the true asymptote follows from F89's cyclotomic Φ_{N_block+1} structure.
 
-4. **Direction (b'') (full block-L derivation, NOT 4-mode):** **achieved numerically** via F89's full eigendecomposition (bit-exact 20/22 bonds at N=5..8). This was the explicit "active path" per `C2HwhmRatio.PendingDerivationNote`. Closed-form analytical lift via F89 AT-locked structure is the next step.
+4. **Direction (b'') (full block-L derivation, NOT 4-mode):** **achieved numerically** via F89's full eigendecomposition (all 22 bonds of N=5..8 agree with F86's scan to 10⁻¹⁰). This was the explicit "active path" per `C2HwhmRatio.PendingDerivationNote`. Closed-form analytical lift via F89 AT-locked structure is the next step.
 
-   **Localized (2026-06-11, the two-dial scout):** [`simulations/f86b2_shape_invariance_dial.py`](../../simulations/f86b2_shape_invariance_dial.py) (self-validating; its gate reproduces this proof's N=5 anchor row to ≤ 2·10⁻⁴) splits the full block generator into the top inter-channel SVD pair (σ₀·u₀v₀†), the inter-channel tail, and the intra-channel dispersion, and dials each. Finding 1: **the ratio is a shape invariant of the tail**. Scaling the inter-channel tail to zero moves HWHM_left/Q_peak by ≤ 0.003 while Q_peak moves by 0.26-0.34 (b0: 2.84 → 2.50; b1: 1.74 → 1.48): the tail renormalizes g_eff (through Q_peak) and leaves the dimensionless lineshape alone. Finding 2: **the lift IS the intra-channel dispersion, non-perturbatively**: without it the response vanishes identically (peak-K ~ 10⁻¹⁶; the Dicke probe is orthogonal to the EP pair, and the intra modes are the only transport from probe to resonance), and at half strength the ratio overshoots (b0 ≈ 0.80). Consequence: the earlier suspicion "lift = H_B-mixed octic residual *of the inter coupling*" is refuted; the (α, β) derivation target is the **rank-1-bridge + intra-dispersion model** (two HD channels with their internal path-like sine-mode dynamics, one rank-1 coupling), treated exactly in the intra sector, which is precisely the F89 Chebyshev terrain. The response anatomy probe → intra modes → rank-1 bridge → response also explains structurally why the affine-in-g_eff form works: g_eff enters only through the bridge resonance position, the sub-class structure through the per-bond observable's overlap with the intra mode lattice.
+   **Localized (2026-06-11, the two-dial scout):** [`simulations/f86b2_shape_invariance_dial.py`](../../simulations/f86b2_shape_invariance_dial.py) (read on a 21-point t grid, [0.6, 1.6]·t_peak, not on the envelope; its findings are differences between dial settings on that one reading, and they have not been re-read on the envelope) splits the full block generator into the top inter-channel SVD pair (σ₀·u₀v₀†), the inter-channel tail, and the intra-channel dispersion, and dials each. Finding 1: **the ratio is a shape invariant of the tail**. Scaling the inter-channel tail to zero moves HWHM_left/Q_peak by ≤ 0.003 while Q_peak moves by 0.26-0.34 (b0: 2.84 → 2.50; b1: 1.74 → 1.48): the tail renormalizes g_eff (through Q_peak) and leaves the dimensionless lineshape alone. Finding 2: **the lift IS the intra-channel dispersion, non-perturbatively**: without it the response vanishes identically (peak-K ~ 10⁻¹⁶; the Dicke probe is orthogonal to the EP pair, and the intra modes are the only transport from probe to resonance), and at half strength the ratio overshoots (b0 ≈ 0.80). Consequence: the earlier suspicion "lift = H_B-mixed octic residual *of the inter coupling*" is refuted; the (α, β) derivation target is the **rank-1-bridge + intra-dispersion model** (two HD channels with their internal path-like sine-mode dynamics, one rank-1 coupling), treated exactly in the intra sector, which is precisely the F89 Chebyshev terrain. The response anatomy probe → intra modes → rank-1 bridge → response says where g_eff enters (only through the bridge resonance position) and where the sub-class structure enters (through the per-bond observable's overlap with the intra mode lattice); it does not make the lift linear in g_eff, and on the envelope it is not.
 
 ### For the typed-knowledge layer
 
@@ -169,18 +141,18 @@ F90 lives in `RCPsiSquared.Core/Symmetry/` with two F89 parents (`F89TopologyOrb
 
 ## What this is NOT
 
-- **Not** a stand-alone closed-form derivation of HWHM_left/Q_peak per bond class. Item 1' is partially closed (2026-05-13) via `F86HwhmClosedFormClaim` (Tier 1 candidate per 2026-05-16 Tier-review; (α, β) per sub-class are fitted, not derived); this bridge proof is the F89-side analytical handle on which a full Tier 1 derivation would rest.
+- **Not** a stand-alone closed-form derivation of HWHM_left/Q_peak per bond class. Item 1' is open: `F86HwhmClosedFormClaim` describes the lift by a line in g_eff per sub-class, fitted rather than derived and not an exact law; this bridge proof is the F89-side analytical handle on which a full Tier 1 derivation would rest.
 - **Not** a claim that F86 entirely reduces to F89. F86's c≥3 strata, F86's hardware-confirmed witnesses, F86's PTF-family connections all stand on their own.
 - **Not** a deprecation of F86's `C2HwhmRatio` or any F86 typed primitive. F86's empirical pipeline (full-block ResonanceScan) remains the canonical numerical witness pipeline.
 - **Not** a reformulation of F89. F89 path-k stands as derived; F90 just identifies F86 c=2's K_b as a per-bond Hellmann-Feynman application of F89.
 
-The bridge is structural: it explains WHY F86 c=2's per-bond-class HWHM constants exist (the γ₀-invariant cyclotomic structure of F89's eigendecomposition; the per-bond ratio fans across the F71 sub-classes from ≈0.58 to ≈0.92, it is not a single universal value, cf. PROOF_F86B_UNIVERSAL_SHAPE) and gives a Tier-1 numerical predictor of K_b for any N via F89's eigendecomposition.
+The bridge is structural: it explains WHY F86 c=2's per-bond-class HWHM constants exist (the γ₀-invariant cyclotomic structure of F89's eigendecomposition; on the canonical reading the per-bond ratio spreads from 0.7505 to 0.7815 at N = 5..8, two bands rather than one value, cf. PROOF_F86B_UNIVERSAL_SHAPE) and gives a Tier-1 numerical predictor of K_b for any N via F89's eigendecomposition.
 
 ---
 
 ## Anchors
 
-- Probe: [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py)
+- Probe: [`simulations/f89_to_f86_kbond_via_eigendecomp.py`](../../simulations/f89_to_f86_kbond_via_eigendecomp.py) (F89 block builders) + [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py) (envelope readout)
 - Typed claim: [`F90F86C2BridgeIdentity.cs`](../../compute/RCPsiSquared.Core/Symmetry/F90F86C2BridgeIdentity.cs)
 - F89 parents: [`F89TopologyOrbitClosure.cs`](../../compute/RCPsiSquared.Core/Symmetry/F89TopologyOrbitClosure.cs), [`F89PathKAtLockMechanismClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs)
 - F86 anchor (bridged target): [`C2HwhmRatio.cs`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs), [`ResonanceScan.cs`](../../compute/RCPsiSquared.Core/Resonance/ResonanceScan.cs), [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md)

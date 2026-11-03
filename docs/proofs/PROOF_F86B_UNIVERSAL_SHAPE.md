@@ -1,6 +1,6 @@
 # PROOF F86b: Universal Resonance Shape (relative-Q lineshape collapse)
 
-**Status:** Tier 1 candidate across all tested c. F86b₂ c=2 per-bond HWHM_left/Q_peak prediction lives in `F86HwhmClosedFormClaim` (Tier 1 candidate: form `0.671535 + α_subclass · g_eff + β_subclass` reproduces 22 N=5..8 anchors to 0.005, bare floor derived, per-sub-class (α, β) fitted). The position Q_peak and the coupling g_eff(c, N, b) it rides on are NOT closed-form: that negative result is the sibling proof [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Full block-L derivation achieved numerically Tier-1 via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md)).
+**Status:** Tier 1 candidate across all tested c. F86b₂, the c=2 per-bond HWHM_left/Q_peak, lives in `F86HwhmClosedFormClaim` (Tier 2 empirical: the bare floor 0.7264892771 derived, the lift above it described by a line `α_subclass · g_eff + β_subclass` per sub-class, which Endpoint and Flanking miss by 1.28·10⁻³ and 4.2·10⁻⁴, so not an exact law). The position Q_peak and the coupling g_eff(c, N, b) it rides on are NOT closed-form: that negative result is the sibling proof [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Full block-L derivation achieved numerically Tier-1 via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md)).
 **Date:** 2026-05-02 (Statement 2 + retractions).
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86b, the universal resonance shape**: the SHAPE of abs(K_CC_pr)(Q) around Q_peak is universal under relative-Q normalisation, splitting into two bond classes. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The closed-form gap, the exploration record (4-mode model, Items 1-3, directions a''-f''), and the obstruction proof on g_eff are in the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md).
@@ -14,41 +14,41 @@
 
 F86a fixed the EP location Q_EP = 2/g_eff and the EP-time t_peak = 1/(4γ₀). What this proof asks next is: what does the resonance look like around that peak? Specifically, if you measure the per-bond response observable K_CC_pr as a function of Q across the chain, does the shape of the peak change with chromaticity, chain length, or bond position?
 
-The robust answer is a lineshape collapse: measured in the relative coordinate x = (Q − Q_peak)/Q_peak, the resonance profile is the same across c, N, and γ₀ to about 1 %. The HWHM_left/Q_peak ratio is a coarser story. Under the F71 bond-class average it separates into two clusters about 2 % apart, Interior ≈ 0.756 and Endpoint ≈ 0.770, but only γ₀ genuinely drops out (bit-exact, confirming Q = J/γ₀ is the right coordinate). Chromaticity c and chain length N do not: the interior class-average climbs about +0.014 over N = 5→8 at c = 3 (still rising at N = 8, asymptote ≈ 0.79) and carries a ~0.006 c=2-vs-c≥3 offset. And the per-bond ratio is not two-valued at all; it resolves into six F71-orbit sub-classes whose values span 0.58 to 0.92 within a single chain, so 0.756 / 0.770 are averages over heterogeneous bonds, not per-bond invariants.
+The answer has two layers. The first is a lineshape collapse: measured in the relative coordinate x = (Q − Q_peak)/Q_peak, the class-averaged envelope profile is the same across the nine cases read (c = 2, 3 at N = 5..8 and c = 4 at N = 7) to within 2.2 % at x = −0.6, 0.9 % at x = −0.4 and 0.5 % for −0.2 ≤ x ≤ +0.4, and across γ₀ exactly. On the right flank it holds at x = +1 as well, except for the c = 2 Interior class at N = 7 and 8 (0.884, 0.935 against 0.84 to 0.85), where the inner bonds rise toward their far maxima. The second layer is the HWHM_left/Q_peak ratio of the class-averaged curve, read on the envelope: it lies in two narrow bands that do not overlap, Interior 0.7523..0.7637 and Endpoint 0.7710..0.7815, over c = 2..4 and N = 5..8. Only γ₀ drops out, and exactly (the generator is γ₀·(D̂ + Q·M̂), so a change of γ₀ at fixed Q only rescales time and the overall size of K, and the t window over which the maximum is taken scales with it), which confirms Q = J/γ₀ as the right coordinate. Chromaticity c and chain length N do not drop out: inside the Interior band the c = 2 ratio rises monotonically with N (0.7523 → 0.7602 over N = 5..8, 0.7621 at N = 12), and the c = 3 and c = 4 ones likewise (0.7572 → 0.7622; 0.7623 → 0.7637 over N = 7, 8). Whether the bands narrow toward two constants is not known. Per bond, on the canonical reading (the first local maximum of each bond's envelope), the ratio spreads from 0.7505 to 0.7815 at c = 2, N = 5..8, so the class values are close to the per-bond ones; past that first maximum some inner bonds reach further maxima at high Q ([the F71-mirror proof](PROOF_F86C_F71_MIRROR.md)), and those carry quite different ratios.
 
-The bond-class structure is genuine but finer than two-valued. The c = 2 case, where the two-level effective model is exact (only two HD channels exist), already shows the per-bond ratio fanning across the six F71-orbit sub-classes; the class average collapses these to ≈ 0.751 / 0.773 (N = 5..8). γ₀-invariance is bit-exact, confirming that Q = J/γ₀ is the right dimensionless coordinate (changing γ₀ at fixed Q gives identical curves). The c = 2 per-bond predictor is the closed form HWHM_left/Q_peak = 0.671535 + α_subclass · g_eff + β_subclass, where the bare floor 0.671535 is the doubled-PTF SVD-block contribution (derived analytically, a transcendental constant) and the per-sub-class (α, β) are fitted across N = 5..8 anchors. The explicit g_eff-dependence here is exactly why the ratio is not N-invariant: g_eff(N, b) carries the residual N-trend the class average otherwise hides.
+The bond-class structure is genuine but finer than two-valued. The c = 2 case, where the two-level effective model is exact (only two HD channels exist), already shows the per-bond ratio differing across the F71-orbit sub-classes (Endpoint 0.7766..0.7815, the inner bonds 0.7505..0.7644 at N = 5..8). The c = 2 per-bond values sit above the bare doubled-PTF floor, the envelope HWHM_left/x_peak = 0.7264892771 of the two-level model (derived analytically, a transcendental constant), by +0.024 to +0.055. The lift is described per sub-class by a line in g_eff, which the four-point sub-classes miss: no exact law for the lift is held, and its N-dependence is part of what it has to explain.
 
 The diagnostic upshot is that the F86 picture splits cleanly into universal versus specific. Q_EP and t_peak are mechanism (F86a). The resonance shape is universal (F86b, this proof). The specific Q_peak values per chromaticity per N per bond are NOT closed-form (the sibling obstruction proof). And the F71 spatial-mirror symmetry connects bond pairs (F86c). Together the four siblings give the full story of why Q_peak behaves the way it does empirically, even though the specific numbers stay residue-shaped.
 
 ---
 
-## Statement 2 (Universal relative-Q lineshape collapse; the HWHM ratio is a class-averaged coarse constant). [Tier 1 candidate; F86b₂ c=2 per-bond Tier 1 candidate]
+## Statement 2 (Universal relative-Q lineshape collapse; the HWHM ratio lies in two class-averaged bands). [Tier 1 candidate for the lineshape collapse; the HWHM band (F86b₃) and F86b₂ c=2 per-bond Tier 2 empirical]
 
 > Statement 1 (the EP mechanism) went to [`PROOF_F86A_EP_MECHANISM.md`](PROOF_F86A_EP_MECHANISM.md) and Statement 3 (the F71 mirror) to [`PROOF_F86C_F71_MIRROR.md`](PROOF_F86C_F71_MIRROR.md) in the 2026-05-14 split of the former monolithic hub [`PROOF_F86_QPEAK.md`](PROOF_F86_QPEAK.md); this split-out document carries only Statement 2.
 
-The position Q_peak is chain-specific, but the SHAPE of abs(K_CC_pr)(Q) around the peak collapses under the relative coordinate `x = (Q − Q_peak)/Q_peak`: the relative-Q lineshape is the same across c, N, and γ₀ to ~1 % (this collapse is the Tier-1-candidate finding). The summary scalar HWHM_left/Q_peak, taken on the **F71 bond-class-averaged** curve, separates into two clusters about 2 % apart:
+The position Q_peak is chain-specific, but the SHAPE of abs(K_CC_pr)(Q) around the peak collapses under the relative coordinate `x = (Q − Q_peak)/Q_peak`: the relative-Q lineshape of the envelope is the same across c, N, and γ₀ to within 2.2 % on the left flank and 0.5 % near the peak (this collapse is the Tier-1-candidate finding; table below). The summary scalar HWHM_left/Q_peak, taken on the **F71 bond-class-averaged** curve, separates into two bands that do not overlap:
 
-    HWHM_left / Q_peak  ≈  0.756     (Interior class-average; γ₀-invariant, residual c/N trends)
-    HWHM_left / Q_peak  ≈  0.770     (Endpoint class-average; γ₀-invariant, residual c/N trends)
+    HWHM_left / Q_peak  ∈  [0.7523, 0.7637]     (Interior class-average; γ₀-invariant, rising with N)
+    HWHM_left / Q_peak  ∈  [0.7710, 0.7815]     (Endpoint class-average; γ₀-invariant)
 
-Tested envelope: c ∈ {2, 3, 4}, N ∈ {5, 6, 7, 8} (modulo c-N compatibility), γ₀ ∈ {0.025, 0.05, 0.10}. **Only γ₀ drops out, and that part is bit-exact**: at c=3 N=7 the Q_peak and HWHM_left/Q_peak values match across γ₀ ∈ {0.025, 0.10} to numerical precision, confirming Q's dimensionlessness as `Q = J/γ₀`. c and N do **not** drop out, the interior class-average climbs ~+0.014 over N=5→8 at c=3 (not converged) with a ~0.006 c=2-vs-c≥3 offset, both the same order as the inter-class gap. **The two-cluster picture is a coarse class-average, not a per-bond invariant:** per bond the ratio resolves into the six F71-orbit sub-classes of `BondSubClass` (Endpoint, Flanking, Mid, CentralSelfPaired, Orbit2Escape, CentralEscapeOrbit3), whose per-chain interior values span 0.58–0.92 (the high values are the Q_peak orbit-escape bonds). The c=2 data (2-level model exact: only HD ∈ {1, 3} channels exist, no orthogonal complement) already shows this fan, so the sub-class structure is real, not a finite-c artefact.
+Q_peak here is the argmax over Q of the envelope max_t |K(Q, t)| of the class-averaged curve, read on the default Q grid (153 points on [0.2, 4]) at γ₀ = 0.05; the bands are the span of the read witnesses (`UniversalShapeBand`), a record and not a prediction that could fail, hence Tier 2 empirical (F86b₃). Read: c ∈ {2, 3}, N ∈ {5, 6, 7, 8}, and c = 4 at N = 7, 8. **Only γ₀ drops out, and exactly**: the generator is γ₀·(D̂ + Q·M̂), so at fixed Q a change of γ₀ rescales time and the size of K and nothing else (the t window over which the maximum is taken, [0.2, 2.4]·t_peak with t_peak = 1/(4γ₀), scales with it); `ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant` checks it at c = 2, N = 5 for γ₀ ∈ {0.025, 0.05, 0.10} to 10⁻¹⁰. c and N do **not** drop out: the Interior class value rises with N at c = 2 (0.7523, 0.7569, 0.7591, 0.7602) at c = 3 (0.7572, 0.7596, 0.7611, 0.7622) and at c = 4 (0.7623, 0.7637 at N = 7, 8), a drift of the same order as the gap between the bands. **The two-band picture is a class average, and per bond it is finer:** the sub-classes of `BondSubClass` (Endpoint, Flanking, Mid, CentralSelfPaired) carry their own values, at c = 2 between 0.7505 and 0.7815 on the canonical reading. The two further sub-classes, Orbit2Escape and CentralEscapeOrbit3, classify far maxima past the canonical peak and are empty on the canonical reading. The c=2 data (2-level model exact: only HD ∈ {1, 3} channels exist, no orthogonal complement) already shows the sub-class structure, so it is real, not a finite-c artefact.
 
-Pairwise residual within each class-averaged curve under relative-Q normalisation is ~20× smaller than under absolute-Q shift, confirming the lineshape collapse. The structural origin is the 2-level eigenvector rotation `tan θ = Q/Q_EP`: every probe-overlap observable depends only on Q/Q_EP, hence only on `(Q − Q_peak)/Q_peak` to leading order. The bond-position dependence of the HWHM ratio (the ~2 % class-averaged gap, and the wider per-bond 0.58–0.92 fan) reflects bond-position-dependent probe-overlap profiles in K_CC_pr, not a breakdown of the EP-rotation collapse itself. Promotion to full Tier 1 requires deriving the per-sub-class f(x) functions explicitly from 2-level eigenstructure plus probe-overlap algebra (see the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md)).
+The evidence for the lineshape collapse is the envelope table below: in x the class-averaged curves of nine (c, N) cases agree to the spreads given there, while in absolute Q their peaks range from 1.48 to 1.76 (Interior) and from 2.39 to 2.58 (Endpoint). The structural origin is the 2-level eigenvector rotation `tan θ = Q/Q_EP`: in the two-level model every probe-overlap observable depends only on Q/Q_EP, hence only on `(Q − Q_peak)/Q_peak`; the full block's peaks do not sit at one multiple of its σ_0-based Q_EP (the paragraph on the EP rotation below), so the collapse in x is measured, not inherited. The bond-position dependence of the HWHM ratio (the gap between the bands, 0.0073 or about 1 %, and the per-bond spread inside them) reflects bond-position-dependent probe-overlap profiles in K_CC_pr, not a breakdown of the EP-rotation collapse itself. Promotion to full Tier 1 requires deriving the per-sub-class f(x) functions explicitly from 2-level eigenstructure plus probe-overlap algebra (see the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md)).
 
-**Derived sub-constants:** two universal constants from the bare doubled-PTF model are Tier 1 derived from PTF c=1 eigenvector mixing + 2-level EP rotation:
+**Derived sub-constants:** the bare doubled-PTF model is Tier 1 derived from PTF c=1 eigenvector mixing + 2-level EP rotation, and its K_b(x, τ) is held in closed form at every τ = γ₀·t. Read on its envelope max_τ, the way the full block's Q_peak is read, it gives:
 
-- `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location)
-- `HWHM_left/Q_peak = 0.671535` (SVD-block floor)
+- `x_peak = Q_peak/Q_EP = 1.7141131714` (post-EP location)
+- `HWHM_left/x_peak = 0.7264892771` (the bare floor)
 
-Exposed as `BareDoubledPtfXPeak` / `BareDoubledPtfHwhmRatio` on [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs) + full K_b(x) closed form on [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs). Empirical c=2 Interior (0.7506) and Endpoint (0.7728), the N=5..8 class-means of the c=2 rows in the HWHM table below, sit ABOVE this floor by ~0.08-0.10. (These are the c=2-specific means; the summary averages quoted elsewhere are 0.756 for the Interior, every c without the finite-size N=5 rows, and 0.770 for the Endpoint, the c=3, 4 rows.)
+Its fixed-τ = 1 slice (t = t_peak) peaks elsewhere, at x_peak = 2.196910 with ratio 0.671535; that slice is its own observable, and the repo's g_eff conversions are defined on it. Both are exposed on [`C2BareDoubledPtfClosedForm`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs) (`EnvelopeXPeak`, `EnvelopeHwhmLeftOverXPeak`; the fixed-τ pair also as `BareDoubledPtfXPeak` / `BareDoubledPtfHwhmRatio` on [`C2HwhmRatio`](../../compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs)). The c = 2 class values (Interior 0.7523..0.7602, Endpoint 0.7766..0.7815 at N = 5..8, the c = 2 rows of the tables below) sit ABOVE the envelope floor, by +0.026..+0.034 (Interior) and +0.050..+0.055 (Endpoint).
 
-**Closed-form lift via `F86HwhmClosedFormClaim`** (Tier 1 candidate): `HWHM_ratio = 0.671535 + α_subclass · g_eff + β_subclass`, residual ≤ 0.005 across N=5..8 on all 22 bonds incl. orbit escapes. The 12 (α, β) values per `BondSubClass` are fitted via polyfit on the anchors; analytical derivation from the rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion lift; the inter-coupling "octic residual" lift suspicion is refuted, two-dial scout 2026-06-11) is the Tier 1 promotion path.
+**The lift in `F86HwhmClosedFormClaim`** (Tier 2 empirical): `HWHM_ratio = 0.7264892771 + α_subclass · g_eff + β_subclass`, with g_eff here the fit's own coordinate 4.39382/(Q_peak + 2) (not the 4.39382/Q_peak of the composition reading below), the (α, β) a least-squares line per `BondSubClass` through the canonical anchors of N = 5..8, read live by `F86HwhmAlphaExtraction`. Endpoint and Flanking, with four chain lengths each, miss the line by up to 1.28·10⁻³ and 4.2·10⁻⁴, 12 to 36 times the anchors' offset from the continuous envelope peak, so the lift is not linear in g_eff; Mid and CentralSelfPaired have two points each. An analytical derivation of the lift from the rank-1-bridge + intra-dispersion structure (F89 AT-locked F_a/F_b floor + intra-channel dispersion; the inter-coupling "octic residual" suspicion refuted by the two-dial scout of 2026-06-11, read on the 21-point t grid) is the open step.
 
-**F86 ↔ PTF Locus 5 inheritance** (synthesis): the c=2 SVD-block 2-level EP rotation IS what Π's chirality reduces to in rate-channel basis; the doubled-PTF floor 0.6715 derives from PTF eigenvector mixing rather than pattern-matching. Shared clock `t_peak = 1/(4γ₀)` universal across c, N, n, bond. See `project_algebra_is_inheritance.md` Locus 5.
+**F86 ↔ PTF Locus 5 inheritance** (synthesis): the c=2 SVD-block 2-level EP rotation IS what Π's chirality reduces to in rate-channel basis; the bare doubled-PTF floor derives from PTF eigenvector mixing rather than pattern-matching. Shared clock `t_peak = 1/(4γ₀)` universal across c, N, n, bond. See `project_algebra_is_inheritance.md` Locus 5.
 
-**Locus 6 polarity-layer inheritance:** the F86 bond-class split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 via the 0.5-shift; encoded as [`PolarityInheritanceLink`](../../compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs) (Tier 2 verified). Composition reading: `r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382/g_eff(N, b) − 2`, entire bond-class split encoded in `g_eff(N, b)`.
+**Locus 6 polarity-layer inheritance:** the F86 bond-class split inherits from the polarity-layer pair {−0.5, +0.5} at d=2 via the 0.5-shift; encoded as [`PolarityInheritanceLink`](../../compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs) (Tier 2 verified). Composition reading: `r_Q(N, b) = BareDoubledPtfXPeak · Q_EP(N, b) − 2 = 4.39382/g_eff(N, b) − 2`, entire bond-class split encoded in `g_eff(N, b)`; since g_eff is defined here as 4.39382/Q_peak on the fixed-τ = 1 peak, r_Q is Q_peak − 2 written in g_eff's units rather than derived.
 
-**g_eff is the obstruction:** every closed-form direction for c=2 runs through `g_eff(N, b)`. The full obstruction analysis (L1–L6, six routes proven blocked) is in [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Numerical Tier-1 closure of full block-L derivation is achieved via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md), bit-exact 20/22 bonds at N=5..8).
+**g_eff is the obstruction:** every closed-form direction for c=2 runs through `g_eff(N, b)`. The full obstruction analysis (L1–L6, six routes proven blocked) is in [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md). Numerical Tier-1 closure of full block-L derivation is achieved via the F90 bridge identity ([`PROOF_F90_F86C2_BRIDGE.md`](PROOF_F90_F86C2_BRIDGE.md), all 22 bonds of N=5..8 agree with F86's scan to 10⁻¹⁰).
 
 ---
 
@@ -71,9 +71,9 @@ In the 2-level basis, the eigenvector rotation parameter τ = tanh(θ/2) (hyperb
 
     τ²  =  (J·g_eff − 2γ₀) / (J·g_eff + 2γ₀)  =  (Q − Q_EP) / (Q + Q_EP)
 
-below the EP, switching to a phase parameterisation above. The probe overlap with eigenvectors thus depends only on the dimensionless ratio Q/Q_EP. Any observable function of probe weight on dressed modes is a function of Q/Q_EP alone, equivalently of `(Q − Q_peak)/Q_peak` to leading order, since Q_peak ≈ Q_EP for the slowest channel pair.
+below the EP, switching to a phase parameterisation above. The probe overlap with eigenvectors thus depends only on the dimensionless ratio Q/Q_EP. Any observable function of probe weight on dressed modes is a function of Q/Q_EP alone. Its peak then sits at a fixed multiple of Q_EP, Q_peak = x_peak·Q_EP (x_peak = 1.7141 for the bare two-level model read on its envelope), so `(Q − Q_peak)/Q_peak` is itself a function of Q/Q_EP: the argument needs Q_peak proportional to Q_EP, not equal to it.
 
-This gives the analytical structural reason for universality: the 2-level EP physics depends only on the dimensionless ratio of detuning (J·g_eff) to gap (Δ/2 = 2γ₀). Specific values of g_eff (chain-N, bond-position, c) shift Q_peak; they don't reshape the resonance.
+This gives the analytical structural reason for universality: the 2-level EP physics depends only on the dimensionless ratio of detuning (J·g_eff) to gap (Δ/2 = 2γ₀). Specific values of g_eff (chain-N, bond-position, c) shift Q_peak; they don't reshape the resonance. In the full block the proportionality is not observed with F86a's g_eff = σ_0, which is one number per block: Q_peak/Q_EP reads 2.05 to 2.29 for the Interior class (rising with N) and 3.48 to 3.62 for the Endpoint class at c = 2, N = 5..8, against the bare model's 1.714, because the probe does not see the EP partners directly ([the obstruction proof](PROOF_F86B_OBSTRUCTION.md), L3). So this argument explains the form of the collapse within the two-level model; the collapse itself is measured (the table below), and the per-bond positions it does not explain.
 
 The same 2 × 2 shape is written out in other settings of the repository, gathered in [The Double Root](../THE_DOUBLE_ROOT.md#one-2--2-in-many-settings).
 
@@ -178,79 +178,89 @@ Post-EP region (Q > Q_EP): discriminant negative, eigenvalues complex conjugate 
 - Higher-channel dressed-mode contributions (chain-N, c specific)
 - Time-averaging behaviour of complex-eigenvalue oscillations in K_CC_pr
 
-These chain-specific details enter the post-EP tail. Hence: universal pre-EP rise within each bond class (HWHM_left/Q_peak ≈ 0.756 Interior, ≈ 0.770 Endpoint), partially universal post-EP tail (constant within each bond class: Interior plateau ≈ 0.85, Endpoint plateau ≈ 0.94 at x = +1.0; tail asymptote is class-specific).
+These chain-specific details enter the post-EP tail. Hence: a pre-EP rise that is nearly universal within each bond class (HWHM_left/Q_peak in the bands 0.7523..0.7637 Interior and 0.7710..0.7815 Endpoint, with a residual N-drift inside the Interior band), and a post-EP tail that is not: at x = +1.0 the envelope reads, at c = 2, N = 5, 6, 7, Interior 0.837 / 0.843 / 0.884 and Endpoint 0.864 / 0.874 / 0.876, so Endpoint lies above Interior at N = 5 and 6 and below it at N = 7, where the Interior class mean carries inner bonds rising toward their far maxima (`ShapeFunctionWitnesses`).
 
 The closed-form derivation of the HWHM_left/Q_peak constants, the exploration record behind it, and the obstruction proof on g_eff are carried in the sibling [`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md).
 
 ---
 
-## Empirical universal-shape data (fine-grid scan dQ = 0.025)
+## Empirical universal-shape data
 
-Interior y = K/|K|max evaluated at relative shift x = (Q−Q_peak)/Q_peak across the original six cases (step_e):
+y = K/|K|max of the class-averaged envelope max_t |K|, evaluated at relative shift x = (Q−Q_peak)/Q_peak, with Q* and |K|max the class peak on [0.2, 4] (the reading of the HWHM band) and the curve read on [0.2, 6] in steps of 0.025 so that x = +1 stays on the grid; linear between grid points, as in the C# `ShapeFunctionWitnesses`. Read by [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py) `--lineshape N c`; its Q* equals the class Q_peak of the tables below, and at c = 2, N = 5..7 its x = +1 values equal the live C# ones. c = 4, N = 8 is not read.
 
-| x = (Q−Q*)/Q* | c3N5 | c3N6 | c3N7 | c3N8 | c4N7 | c4N8 | range |
-|----------------|------|------|------|------|------|------|-------|
-| −0.60 | 0.718 | 0.735 | 0.743 | 0.744 | 0.733 | 0.742 | 0.026 (3.5 %) |
-| −0.40 | 0.896 | 0.907 | 0.913 | 0.912 | 0.905 | 0.911 | 0.017 (1.9 %) |
-| −0.20 | 0.977 | 0.982 | 0.984 | 0.984 | 0.980 | 0.983 | 0.7 % |
-| 0.00 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0 % (peak) |
-| +0.20 | 0.990 | 0.986 | 0.985 | 0.986 | 0.989 | 0.987 | 0.5 % |
-| +0.40 | 0.964 | 0.957 | 0.955 | 0.956 | 0.962 | 0.959 | 0.9 % |
-| +1.00 | 0.850 | 0.843 | 0.840 | 0.842 | 0.852 | 0.847 | 1.4 % |
+**Interior:**
 
-### HWHM_left/Q_peak across all tested cases (two bond classes)
+| x = (Q−Q*)/Q* | c2N5 | c2N6 | c2N7 | c2N8 | c3N5 | c3N6 | c3N7 | c3N8 | c4N7 | range |
+|---|---|---|---|---|---|---|---|---|---|---|
+| −0.60 | 0.722 | 0.729 | 0.733 | 0.734 | 0.730 | 0.733 | 0.736 | 0.737 | 0.738 | 2.1 % |
+| −0.40 | 0.900 | 0.903 | 0.905 | 0.906 | 0.904 | 0.905 | 0.906 | 0.907 | 0.907 | 0.8 % |
+| −0.20 | 0.980 | 0.981 | 0.981 | 0.981 | 0.981 | 0.981 | 0.981 | 0.982 | 0.982 | 0.2 % |
+| 0.00 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0 % (peak) |
+| +0.20 | 0.987 | 0.987 | 0.988 | 0.988 | 0.987 | 0.988 | 0.988 | 0.988 | 0.988 | 0.1 % |
+| +0.40 | 0.956 | 0.958 | 0.959 | 0.960 | 0.959 | 0.959 | 0.960 | 0.960 | 0.960 | 0.4 % |
+| +1.00 | 0.837 | 0.843 | 0.884 | 0.935 | 0.844 | 0.846 | 0.847 | 0.849 | 0.849 | 11.1 % |
 
-Combined data from `eq022_b1_step_e_resonance_shape.py` (c=3, c=4 at γ₀=0.05) and `eq022_b1_step_f_universality_extension.py` (c=2, plus γ₀ ∈ {0.025, 0.10} at c=3 N=7).
+**Endpoint:**
+
+| x = (Q−Q*)/Q* | c2N5 | c2N6 | c2N7 | c2N8 | c3N5 | c3N6 | c3N7 | c3N8 | c4N7 | range |
+|---|---|---|---|---|---|---|---|---|---|---|
+| −0.60 | 0.759 | 0.767 | 0.767 | 0.766 | 0.750 | 0.759 | 0.762 | 0.764 | 0.760 | 2.2 % |
+| −0.40 | 0.917 | 0.921 | 0.921 | 0.920 | 0.913 | 0.917 | 0.918 | 0.919 | 0.917 | 0.9 % |
+| −0.20 | 0.984 | 0.985 | 0.985 | 0.985 | 0.983 | 0.984 | 0.984 | 0.984 | 0.984 | 0.2 % |
+| 0.00 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0 % (peak) |
+| +0.20 | 0.989 | 0.990 | 0.990 | 0.990 | 0.989 | 0.989 | 0.990 | 0.990 | 0.989 | 0.1 % |
+| +0.40 | 0.965 | 0.967 | 0.967 | 0.967 | 0.963 | 0.965 | 0.966 | 0.966 | 0.965 | 0.5 % |
+| +1.00 | 0.864 | 0.874 | 0.876 | 0.874 | 0.856 | 0.864 | 0.868 | 0.870 | 0.865 | 2.2 % |
+
+### HWHM_left/Q_peak across all read cases (two bond classes)
+
+The envelope reading: Q_peak is the argmax over Q of max_t |K(Q, t)| of the class-averaged curve, at γ₀ = 0.05 on the default Q grid (153 points on [0.2, 4], parabolic vertex, linear half-maximum), read by `ResonanceScan` and on a second route by [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py), the two agreeing to 10⁻¹⁰; the c = 4, N = 8 rows are read by `ResonanceScan` alone so far. Against a continuous search in Q, made per bond at c = 2, N = 5..8 (not on the class-mean curves), the grid reading is off by up to 2.2·10⁻⁴ in Q_peak and 3.5·10⁻⁵ in the ratio.
 
 **Interior bonds:**
 
-| case | HWHM_left/Q_peak | Q_peak | γ₀ |
-|------|------------------|--------|-----|
-| c=2 N=5 | 0.7455 | 1.4821 | 0.05 |
-| c=2 N=6 | 0.7529 | 1.5801 | 0.05 |
-| c=2 N=7 | 0.7507 | 1.5831 | 0.05 |
-| c=2 N=8 | 0.7531 | 1.6049 | 0.05 |
-| c=3 N=5 | 0.7458 | 1.5664 | 0.05 |
-| c=3 N=6 | 0.7548 | 1.6888 | 0.05 |
-| c=3 N=7 | 0.7595 | 1.7433 | 0.025 |
-| c=3 N=7 | 0.7595 | 1.7433 | 0.05 |
-| c=3 N=7 | 0.7595 | 1.7433 | 0.10 |
-| c=3 N=8 | 0.7600 | 1.7498 | 0.05 |
-| c=4 N=7 | 0.7546 | 1.7475 | 0.05 |
-| c=4 N=8 | 0.7595 | 1.8037 | 0.05 |
+| case | HWHM_left/Q_peak | Q_peak |
+|------|------------------|--------|
+| c=2 N=5 | 0.7523 | 1.4831 |
+| c=2 N=6 | 0.7569 | 1.5652 |
+| c=2 N=7 | 0.7591 | 1.5975 |
+| c=2 N=8 | 0.7602 | 1.6110 |
+| c=3 N=5 | 0.7572 | 1.5997 |
+| c=3 N=6 | 0.7596 | 1.6789 |
+| c=3 N=7 | 0.7611 | 1.7119 |
+| c=3 N=8 | 0.7622 | 1.7232 |
+| c=4 N=7 | 0.7623 | 1.7605 |
+| c=4 N=8 | 0.7637 | 1.7914 |
 
-Interior mean (excluding finite-size N=5 outliers): **0.756**. Range 0.7507–0.7600 (1.2 %).
-γ₀-invariance at c=3 N=7: bit-exact across γ₀ ∈ {0.025, 0.05, 0.10} (Q_peak = 1.7433, HWHM-/Q* = 0.7595).
+Interior band: 0.7523..0.7637 (1.5 %). The values rise monotonically with N at each c; the c = 2 value continues to 0.7621 at N = 12.
 
 **Endpoint bonds:**
 
-| case | HWHM_left/Q_peak | Q_peak | γ₀ |
-|------|------------------|--------|-----|
-| c=2 N=5 | 0.7700 | 2.5008 | 0.05 |
-| c=2 N=6 | 0.7738 | 2.5470 | 0.05 |
-| c=2 N=7 | 0.7738 | 2.5299 | 0.05 |
-| c=2 N=8 | 0.7734 | 2.5145 | 0.05 |
-| c=3 N=5 | 0.7663 | 2.3995 | 0.05 |
-| c=3 N=6 | 0.7685 | 2.5162 | 0.05 |
-| c=3 N=7 | 0.7691 | 2.5334 | 0.025 |
-| c=3 N=7 | 0.7691 | 2.5334 | 0.05 |
-| c=3 N=7 | 0.7691 | 2.5334 | 0.10 |
-| c=3 N=8 | 0.7696 | 2.5293 | 0.05 |
-| c=4 N=7 | 0.7671 | 2.5227 | 0.05 |
-| c=4 N=8 | 0.7781 | 2.6519 | 0.05 |
+| case | HWHM_left/Q_peak | Q_peak |
+|------|------------------|--------|
+| c=2 N=5 | 0.7766 | 2.5171 |
+| c=2 N=6 | 0.7815 | 2.5806 |
+| c=2 N=7 | 0.7813 | 2.5601 |
+| c=2 N=8 | 0.7808 | 2.5431 |
+| c=3 N=5 | 0.7710 | 2.3926 |
+| c=3 N=6 | 0.7764 | 2.5482 |
+| c=3 N=7 | 0.7785 | 2.5837 |
+| c=3 N=8 | 0.7792 | 2.5833 |
+| c=4 N=7 | 0.7768 | 2.5752 |
+| c=4 N=8 | 0.7777 | 2.5908 |
 
-Endpoint mean: **0.770** (the c = 3, 4 systems; all ten systems give 0.771, the c = 3, N = 7 row standing three times, once per γ₀). Range 0.7663–0.7781 (1.5 %).
-γ₀-invariance at c=3 N=7 Endpoint: bit-exact across γ₀ ∈ {0.025, 0.05, 0.10}.
+Endpoint band: 0.7710..0.7815 (1.4 %).
+
+γ₀-invariance: exact by the scaling of the generator, γ₀·(D̂ + Q·M̂), with the t window scaling alongside; `ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant` checks both classes at c = 2, N = 5 for γ₀ ∈ {0.025, 0.05, 0.10} to 10⁻¹⁰.
 
 ### What this tells us
 
-1. **Two class-averaged clusters, marginally separated.** The Interior class-average clusters at 0.756 (the eight systems without N=5, range ~0.009); Endpoint at 0.770 (range ~0.012). The clusters do separate (no overlap), but the inter-cluster gap (~0.006–0.007) is *comparable to*, not larger than, the within-class range, and much of that range is the systematic N-climb, not random scatter. Per bond (not class-averaged) the ratio fans across the six `BondSubClass` orbits, 0.58–0.92; the two-cluster picture is the F71-class average.
+1. **Two class-averaged bands, separated.** The Interior values lie in 0.7523..0.7637, the Endpoint values in 0.7710..0.7815; the bands do not overlap, the gap between them (0.0073) is smaller than the width of either (0.0113, 0.0105), and much of the Interior width is the systematic rise with N, not random scatter. Per bond the sub-classes carry their own values (at c = 2 on the canonical reading, 0.7505..0.7815); the two bands are the F71-class average.
 
-2. **γ₀ invariance is bit-exact.** At c=3 N=7, the Q_peak and HWHM-/Q* values are identical to numerical precision across γ₀ ∈ {0.025, 0.05, 0.10}. This is the strongest empirical confirmation that Q is the inside-observable scale and γ₀ alone is not.
+2. **γ₀ invariance is exact.** It follows from Q = J/γ₀ and a t window that scales with t_peak = 1/(4γ₀): at fixed Q a change of γ₀ rescales time and the size of K. This confirms Q as the inside-observable scale.
 
-3. **c=2 confirms the structure is real, and exposes a c-trend.** At c=2 the 2-level model is exact (only HD ∈ {1, 3} channels exist, no orthogonal complement), and the per-bond sub-class fan plus the class-averaged split are already present (Interior class-average 0.751, Endpoint 0.773, N = 5..8). So the bond-class distinction lives in the bond-position-dependent probe-overlap profile, not in higher-c orthogonal-complement physics. But c=2 also sits ~0.006 below the c≥3 interior average (0.752 vs 0.758, both without N = 5), so c does not drop out either; it is a residual trend of the same size as the inter-class gap.
+3. **c=2 confirms the structure is real, and N does not drop out.** At c=2 the 2-level model is exact (only HD ∈ {1, 3} channels exist, no orthogonal complement), and the per-bond sub-class structure plus the class-averaged split are already present (Interior 0.7523..0.7602, Endpoint 0.7766..0.7815, N = 5..8). So the bond-class distinction lives in the bond-position-dependent probe-overlap profile, not in higher-c orthogonal-complement physics. At c = 2 and c = 3 the Interior value rises with N, by about 0.008 and 0.005 over N = 5..8; whether it settles is not known.
 
-4. **Post-peak asymmetry persists.** Interior plateau y ≈ 0.85 at x = +1.0; Endpoint plateau y ≈ 0.94. This is the long-tail bond-class signature already noted in step_e and unchanged by the c=2 / γ₀ extension.
+4. **The post-peak tail does not separate the classes.** At x = +1.0 the c = 2 envelope reads Interior 0.837 / 0.843 / 0.884 and Endpoint 0.864 / 0.874 / 0.876 at N = 5, 6, 7: Endpoint above Interior at N = 5 and 6, below it at N = 7, where the Interior class mean carries the inner bonds rising toward their far maxima.
 
 ---
 
@@ -262,5 +272,5 @@ Endpoint mean: **0.770** (the c = 3, 4 systems; all ten systems give 0.771, the 
 **State-level inheritance:** F88b ([the formula registry](../ANALYTICAL_FORMULAS.md#f88b)) inheriting from F88a, `PopcountCoherencePi2Odd`, `MemoryAxisRho`.
 **HWHM closed form (F86b₂):** `F86HwhmClosedFormClaim`, `BondSubClass` in `compute/RCPsiSquared.Core/F86/Item1Derivation/`.
 **Chiral classification anchor:** [the PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md).
-**Scripts:** [`eq022_b1_step_e_resonance_shape.py`](../../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../../simulations/eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`eq022_b1_step_f_universality_extension.py`](../../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement).
-**C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `UniversalShapePrediction` + `UniversalShapeWitness`, `ShapeFunctionWitnesses`, `C2UniversalShapeDerivation`. CLI: `rcpsi inspect --root f86 --with-measured`.
+**Scripts:** [`simulations/f86_envelope_second_route.py`](../../simulations/f86_envelope_second_route.py) (the envelope Q_peak and HWHM per bond and class, second route of `ResonanceScan`); on the earlier 21-point t-grid reading, [`eq022_b1_step_e_resonance_shape.py`](../../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../../simulations/eq022_b1_step_e_inspect.py) (the lineshape table for c=3, c=4 at γ₀=0.05) and [`eq022_b1_step_f_universality_extension.py`](../../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} check that established the two-bond-class refinement).
+**C# OOP layer:** `compute/RCPsiSquared.Core/F86/` carries `UniversalShapeBand`, `UniversalShapePrediction` + `UniversalShapeWitness`, `ShapeFunctionWitnesses`, `C2UniversalShapeDerivation`. CLI: `rcpsi inspect --root f86 --with-measured`.

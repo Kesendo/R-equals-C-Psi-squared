@@ -26,7 +26,7 @@ the OFF-DIAGONAL (n != n') matrix elements <v_n | M_h_b | v_{n'}> are bond-
 position-dependent matrix elements between DIFFERENT F_a Bloch modes (and
 between F_a and the H_B-mixed octic modes). It is precisely those cross terms
 that distinguish bonds in F86 (the F90 bridge confirms they exist and reproduce
-F86 numerically bit-exact at 20/22 bonds N=5..8).
+F86 numerically, all 22 bonds of N=5..8 to 1e-10).
 
 The F89 closed-form pipeline does NOT compute these cross matrix elements.
 It computes only:

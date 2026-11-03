@@ -220,12 +220,12 @@ local Z dephasing at `γ₀ = 0.05`, and a selected control scan
 `(J/2)(XX + YY)`; it has no `ZZ` term. This is a model witness for the
 block-resolved response, not spectroscopy and not a water measurement.
 
-| Bond class | Q_peak (control, selected run) | HWHM−/Q* (selected run) | F86b Tier-1-candidate reference |
-|------------|--------------------------------|--------------------------|---------------------------------|
-| Interior (b = 1, 2) | 1.566 | 0.7458 | 0.756 ± 0.005 (mean of the N = 6..8 rows) |
-| Endpoint (b = 0, 3) | 2.400 | 0.7663 | 0.770 |
+| Bond class | Q_peak (control, selected run) | HWHM−/Q* (selected run) | F86 envelope reading, c = 3, N = 5 | F86b band |
+|------------|--------------------------------|--------------------------|------------------------------------|-----------|
+| Interior (b = 1, 2) | 1.566 | 0.7458 | 1.600 / 0.7572 | 0.7523..0.7637 |
+| Endpoint (b = 0, 3) | 2.400 | 0.7663 | 2.393 / 0.7710 | 0.7710..0.7815 |
 
-Both rows are the c = 3, N = 5 rows of [the universal-shape proof](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)'s tables. Its Interior mean leaves N = 5 out as finite-size, which is why this run sits 0.010 below it.
+The selected run takes the maximum of K over a 21-point t grid, [0.6, 1.6]·t_peak, which is a fixed-t slice at the winning grid point; F86's Q_peak is the argmax of the envelope max_t |K|, and on it the c = 3, N = 5 rows of [the universal-shape proof](../proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)'s tables read as in the fourth column, inside the bands of the fifth. The run's own values are its grid reading, not the envelope's.
 
 The same script later performs a separate **full state-level Heisenberg +
 local-Z-dephasing** diagnostic. There it uses

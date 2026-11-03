@@ -1,6 +1,6 @@
 # PROOF F86c: F71 Spatial-Mirror Invariance of per-bond Q_peak
 
-**Status:** Tier 1 derived. Q_peak(b) = Q_peak(N−2−b) bit-exact under the F71 spatial-mirror pairing. Per-F71-orbit substructure (finer than the Endpoint/Interior dichotomy) is Tier 2 empirical.
+**Status:** Tier 1 derived. Q_peak(b) = Q_peak(N−2−b) exactly under the F71 spatial-mirror pairing (K_b and K_{N−2−b} are the same function of (Q, t); numerical readings agree to the scan's resolution, ~10⁻¹⁰). Per-F71-orbit substructure (finer than the Endpoint/Interior dichotomy) is Tier 2 empirical.
 **Date:** 2026-05-03.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Context:** F86 ("Q_peak chromaticity-specific N-invariant constants") is a Sammelbecken of three structurally distinct theorems. This proof carries **F86c, the F71 spatial-mirror invariance** of the per-bond Q_peak observable. Split out of the former monolithic `PROOF_F86_QPEAK.md` on 2026-05-14. The F71-mirror lineage has since spawned its own F-numbers: F91/F92/F93 (F71-anti-palindromic spectral invariance under γ / J / h distributions), the parameter-side Pi2-Z₄ generalisations of this theorem.
@@ -14,7 +14,7 @@
 
 F86a fixed the EP mechanism behind Q_peak. F86b found the universal resonance shape around it. F86b's obstruction proof closed the door on a closed-form for the specific Q_peak values. The remaining structural question at the F86 level was about symmetry: does the chain mirror, which maps site i to site N−1−i and bond b to bond N−2−b, also preserve Q_peak?
 
-The answer is yes, bit-exactly. For every bond pair (b, N−2−b) under the F71 chain-mirror pairing, Q_peak at one bond equals Q_peak at the mirrored bond, to machine precision across every tested chromaticity and chain length. The proof is the cleanest possible component-by-component check: Z-dephasing is F71-symmetric, the spatial-sum kernel is F71-symmetric, the Dicke probe is F71-symmetric, and the bond-flip ∂L/∂J_b at bond b maps to ∂L/∂J_{N−2−b} at the mirrored bond. So the entire per-bond response observable K_b(Q, t) is identical at mirrored bonds, and the Q_peak it generates inherits the same identity.
+The answer is yes, exactly. For every bond pair (b, N−2−b) under the F71 chain-mirror pairing, Q_peak at one bond equals Q_peak at the mirrored bond; the numerical readings agree to the scan's resolution across every tested chromaticity and chain length: ~10⁻¹⁰, and up to 7·10⁻¹⁰ at c = 4, N = 8, the largest block read (dimension 3920). The proof is the cleanest possible component-by-component check: Z-dephasing is F71-symmetric, the spatial-sum kernel is F71-symmetric, the Dicke probe is F71-symmetric, and the bond-flip ∂L/∂J_b at bond b maps to ∂L/∂J_{N−2−b} at the mirrored bond. So the entire per-bond response observable K_b(Q, t) is identical at mirrored bonds, and the Q_peak it generates inherits the same identity.
 
 The structural reading is that Q_peak inherits the chain's mirror symmetry directly. The specific numbers may not be closed-form (F86b obstruction), but the pairing structure across the chain mirror is exact and survives at all (N, c) anchors. The bond-pair Q_peak identity is a clean Tier 1 derived statement and a structural invariant of the F86 picture.
 
@@ -28,9 +28,9 @@ For every bond pair (b, N−2−b) under the F71 chain-mirror pairing,
 
     Q_peak(b)  =  Q_peak(N−2−b)
 
-bit-exactly. Verified at c=2 N=5..7 and c=3 N=5..6, with maximum deviation < 10⁻¹⁰ across all bond pairs. The identity follows from the F71-symmetry of every component of the per-bond observable: L_D (Z-dephasing is F71-symmetric), the spatial-sum kernel S, the Dicke probe, and the bond-flip transform ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and Q_peak(b) = Q_peak(N−2−b) follows directly.
+exactly, where Q_peak(b) is the argmax over Q of the envelope max_t |K_b(Q, t)| (the `ResonanceScan` reading). Checked numerically at c=2 N=5..7 and c=3 N=5..6, with maximum deviation < 10⁻¹⁰ across all bond pairs; the deviation that remains is the scan's resolution, not the identity's (the peak value K is fixed to ~10⁻¹³, and the parabolic vertex through three Q grid points turns that into up to ~10⁻¹⁰ in Q_peak). The identity follows from the F71-symmetry of every component of the per-bond observable: L_D (Z-dephasing is F71-symmetric), the spatial-sum kernel S, the Dicke probe, and the bond-flip transform ∂L/∂J_b ↔ ∂L/∂J_{N−2−b}. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), and Q_peak(b) = Q_peak(N−2−b) follows directly.
 
-**Per-F71-orbit substructure** (refines F86b's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.436 while flanking bonds b=1, b=3 give Q_peak ≈ 1.616 (on the default [0.2, 4] grid of 153 points with parabolic refinement, the grid of `PerF71OrbitKTable`), both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (F86b, see [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md)) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
+**Per-F71-orbit substructure** (refines F86b's Endpoint/Interior dichotomy): Interior bonds are *not* uniform within the F71-orbit grouping. At c=2 N=6, the central self-paired bond b=2 gives Q_peak ≈ 1.428 while flanking bonds b=1, b=3 give Q_peak ≈ 1.637 (on the default [0.2, 4] grid of 153 points with parabolic refinement, the grid of `PerF71OrbitKTable`), both Interior under the simple dichotomy. The full per-F71-orbit structure is finer-grained: the "Endpoint vs Interior" split is the leading approximation, but mid-chain orbits show further variation. The HWHM_left/Q_peak ratio (F86b, see [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md)) is the more class-stable observable; Q_peak position picks up additional per-orbit detail.
 
 ---
 
@@ -52,33 +52,34 @@ Combining these: under R, the per-bond observable transforms as
 
     K_b(Q, t)  =  2·Re ⟨ρ(t)| S | ∂ρ_b/∂J_b ⟩  →  K_{N−2−b}(Q, t)
 
-where ρ(t) (which evolves under L = L_H + L_D, both F71-symmetric) is itself F71-symmetric. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), so their argmax-Q values coincide:
+where ρ(t) (which evolves under L = L_H + L_D, both F71-symmetric) is itself F71-symmetric. Hence K_b(Q, t) = K_{N−2−b}(Q, t) as functions of (Q, t), so their envelopes max_t |K| are the same function of Q and every reading of its argmax (the first local maximum or the maximum on a window) coincides:
 
     Q_peak(b)  =  Q_peak(N−2−b)
 
-Numerical verification: across c=2 N=5..7 and c=3 N=5..6, all bond-pair deviations |Q_peak(b) − Q_peak(N−2−b)| are < 10⁻¹⁰ (machine precision), see `RCPsiSquared.Core.Tests/F86/F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`. ∎
+Numerical check: across c=2 N=5..7 and c=3 N=5..6, all bond-pair deviations |Q_peak(b) − Q_peak(N−2−b)| are < 10⁻¹⁰ (the scan's resolution), see `RCPsiSquared.Core.Tests/F86/F86NewIdeasTests.F71MirrorInvariance_PerBondQPeak_BitExactSymmetricUnderBondMirror`. ∎
 
 ---
 
 ## Per-F71-orbit substructure (Tier 2 empirical)
 
-F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b bit-exactly. The finer per-F71-orbit substructure (Tier 2 empirical, 9-case envelope c=2..4 N=5..8 minus c=4 N=8 OOM; Q_peak read on the [0.2, 6.0] grid of 60 points with parabolic refinement, so the endpoint values are coarse, the fine-grid endpoint values being in [the universal-shape proof](PROOF_F86B_UNIVERSAL_SHAPE.md)):
+F71 spatial-mirror invariance (Statement 3) pairs bond b with bond N−2−b exactly. The finer per-F71-orbit substructure (Tier 2 empirical, ten (c, N) cases, c=2..4 N=5..8 with c=4 at N=7, 8) is read here as the canonical Q_peak, the first local maximum from below of the envelope max_t |K_b(Q, t)| at γ₀ = 0.05, on the default Q grid (153 points on [0.2, 4], parabolic vertex). Every orbit has that maximum inside the grid, between Q 1.428 and 2.591:
 
 | (c, N) | endpoints | mid orbits → central | observation |
 |---|---|---|---|
-| (2, 5) | 2.50 | 1.49 | endpoint ≫ inner |
-| (2, 6) | 2.57 | 1.63 → **1.43*** | central < flanking |
-| (2, 7) | 2.56 | 6.00 (off-grid) → 1.50 | inner orbit Q_peak shifted high-Q |
-| (2, 8) | 2.53 | 6.00 → 1.52 → **1.58*** | inner orbit off-grid; central > middle inner |
-| (3, 5) | 2.39 | 1.61 | endpoint > inner |
-| (3, 6) | 2.54 | 1.66 → **1.71*** | **central > flanking** (opposite of c=2 N=6) |
-| (3, 7) | 2.59 | 1.74 → 1.71 | inner > central |
-| (3, 8) | 2.60 | 1.76 → 1.70 → **1.71*** | non-monotonic |
-| (4, 7) | 2.61 | 1.75 → 1.78 | central > inner |
+| (2, 5) | 2.517 | 1.483 | endpoint ≫ inner |
+| (2, 6) | 2.581 | 1.637 → **1.428*** | central < flanking |
+| (2, 7) | 2.560 | 1.699 → 1.501 | outer inner orbit above the next |
+| (2, 8) | 2.543 | 1.727 → 1.521 → **1.570*** | central > middle inner |
+| (3, 5) | 2.393 | 1.600 | endpoint > inner |
+| (3, 6) | 2.548 | 1.662 → **1.712*** | **central > flanking** (opposite of c=2 N=6) |
+| (3, 7) | 2.584 | 1.728 → 1.697 | inner > central |
+| (3, 8) | 2.583 | 1.763 → 1.693 → **1.706*** | non-monotonic |
+| (4, 7) | 2.575 | 1.742 → 1.779 | central > inner |
+| (4, 8) | 2.591 | 1.781 → 1.807 → **1.782*** | central between the inner orbits |
 
 (* = self-paired central orbit; index runs from outermost orbit inward.)
 
-Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3**: c=2 N=6 has central 1.43 BELOW flanking 1.63, while c=3 N=6 has central 1.71 ABOVE flanking 1.66; (c) **high-Q secondary peak for c=2 inner-non-central bonds at N≥7**: bonds b=1 and b=N−3 show Q_peak shifted off the [0.2, 6.0] grid while the central pair keeps a peak near the canonical Interior ~1.5 on this grid (at N = 8 the extended [0.2, 20] grid finds the central bond on a higher plateau near Q ≈ 17). Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Typed as `RCPsiSquared.Core.F86.PerF71OrbitObservation`, which carries the extended-grid reads of (2, 7) orbit 1 and the (2, 8) row.
+Three sub-effects visible: (a) F71-pairing identity (Tier 1, Statement 3); (b) **central-vs-flanking inversion at N=6 between c=2 and c=3**: c=2 N=6 has central 1.428 BELOW flanking 1.637, while c=3 N=6 has central 1.712 ABOVE flanking 1.662; (c) **far maxima for c=2 inner bonds at N≥7**: past a minimum after the canonical peak the envelope rises again, and some orbits reach a further maximum that lies higher than the canonical one. At N = 7, orbit 1 (bonds 1 and 4) peaks again at Q 7.255 on [0.2, 20] (envelope 0.149 against 0.109 at its canonical 1.699). At N = 8, orbit 1 peaks at Q 8.225 on [0.2, 20] (0.154 against 0.090), and on [0.2, 60] orbit 2 at Q 38.21 and the central bond at Q 20.09. These far maxima are a property of the window: the curves keep further local maxima, and the reading names its window. What sets them is not known. Full per-orbit closed form for Q_peak as a function of (c, N, orbit) remains open; F71 gives the symmetry, not the value. Typed as `RCPsiSquared.Core.F86.PerF71OrbitObservation`, which carries both readings, the canonical one per orbit and the far maxima with their windows.
 
 ---
 

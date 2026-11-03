@@ -4,7 +4,7 @@
 law, [PROOF_MIRROR_ORDER_SORTING](PROOF_MIRROR_ORDER_SORTING.md); F92's invariance is
 the same mirror's even cell. One mirror, two orders.)*
 
-**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, c₁ oddness residuals ≤ 5e−9, Q_peak oddness residuals ≤ 1e−11)
+**Status:** Tier 1 derived (algebraic R-equivariance argument on the PROOF_C1 apparatus + numerical empirical witnesses for c₁ and Q_peak, c₁ oddness residuals ≤ 5e−9, Q_peak oddness residuals ≤ 1e−11 on the fixed-t = t_peak reading)
 **Date:** 2026-05-20; 2026-05-21 (κ-obstruction section, Q_peak witness, κ perturbation-route test)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Typed claim:** [`C1QPeakMirrorJParity.cs`](../../compute/RCPsiSquared.Core/F71/C1QPeakMirrorJParity.cs)
@@ -31,7 +31,7 @@ is an **exactly odd function** of the F71-anti-palindromic component of J. It is
 
 For palindromic J the deviation vanishes identically: D(b) = 0 for every bond b, however non-uniform the palindromic part of J is. F71 never required uniform J; it requires palindromic J. The non-uniform breakdown is therefore graceful (leading-order linear in the asymmetry), not a hard violation.
 
-The identical conclusion holds for the F86c per-bond Q_peak observable K_b(Q, t): ΔQ_peak(b) is odd in J_anti and zero for palindromic J.
+The identical conclusion holds for the F86c per-bond Q_peak observable K_b(Q, t): ΔQ_peak(b) is odd in J_anti and zero for palindromic J, for every reading of Q_peak off K_b that treats all bonds alike, the fixed-t slice and F86's envelope max_t |K_b| alike.
 
 ## The J_sym / J_anti structure
 
@@ -104,7 +104,7 @@ Canonical record: [`simulations/results/f71_nonuniform_j_verification/summary_N3
 
 ### Q_peak (per-bond resonance)
 
-Witness script: [`simulations/f100_qpeak_nonuniform_j_verification.py`](../../simulations/f100_qpeak_nonuniform_j_verification.py). The F86c per-bond observable K_b(Q, t) = 2 Re⟨ρ(t)|S|∂ρ/∂J_b⟩ is read at the F86a EP time t_peak = 1/(4γ₀), where the secular t·exp(−4γ₀t) response peaks and K_b(Q, t_peak) is a cleanly single-peaked function of Q; Q_peak(b) = argmax_Q |K_b(Q, t_peak)| is parabola-refined on a Q-grid. (F100's parity holds for K_b at any fixed t, R-equivariance being per-t, so the EP-time reading is a clean and valid choice; a max-over-t reading additionally samples the off-resonance oscillatory tail.) The non-uniform profile enters as a global multiplier on a fixed shape Ĵ: L(Q) = D + Σ_b (Q·γ₀·Ĵ_b)·M_H_b, with Ĵ(s) = Ĵ_sym + s·Ĵ_anti swept exactly as for c₁. A gate first reproduces the uniform-J F86c mirror Q_peak(b) = Q_peak(N−2−b) to ≤ 1.6e−12, validating the block engine against the canonical C# `C2BondLQPeakScan`. The deviation D(b) = Q_peak(b) − Q_peak(N−2−b), taken on the F71 bond pairs, is then swept across c=2 (N=4, 5, 6) and a block-agnostic c=3 spot check (N=5):
+Witness script: [`simulations/f100_qpeak_nonuniform_j_verification.py`](../../simulations/f100_qpeak_nonuniform_j_verification.py). The F86c per-bond observable K_b(Q, t) = 2 Re⟨ρ(t)|S|∂ρ/∂J_b⟩ is read here as its fixed-t slice at the F86a EP time t_peak = 1/(4γ₀), where the secular t·exp(−4γ₀t) response peaks and K_b(Q, t_peak) is a cleanly single-peaked function of Q; this witness's Q_peak(b) = argmax_Q |K_b(Q, t_peak)| is parabola-refined on a Q-grid. It is its own observable: F86's Q_peak is the argmax over Q of the envelope max_t |K_b(Q, t)| (`ResonanceScan`), and the two differ in value. F100's parity covers both. The R-relabelling K_b(Q, t; J) = K_{N−2−b}(Q, t; F71(J)) holds at every t, so it holds for max_t as well, and D(b; J_sym, −J_anti) = −D(b; J_sym, J_anti) follows for the envelope reading by the same two lines; the Taylor statement needs a smooth reading, which the fixed-t slice is. The non-uniform profile enters as a global multiplier on a fixed shape Ĵ: L(Q) = D + Σ_b (Q·γ₀·Ĵ_b)·M_H_b, with Ĵ(s) = Ĵ_sym + s·Ĵ_anti swept exactly as for c₁. A gate first checks the uniform-J F86c mirror Q_peak(b) = Q_peak(N−2−b) on this reading to ≤ 1.6e−12, a check of the mirror property of the block engine, not a comparison of values with a C# scan. The deviation D(b) = Q_peak(b) − Q_peak(N−2−b), taken on the F71 bond pairs, is then swept across c=2 (N=4, 5, 6) and a block-agnostic c=3 spot check (N=5):
 
 | case | palindromic survival max\|D(s=0)\| | oddness max\|D(+s)+D(−s)\| | typ \|ΔQ_peak\| at max s |
 |---|---|---|---|

@@ -3,6 +3,14 @@
 Uses Phase-3 fitted (alpha, beta) per sub-class to predict HWHM_ratio
 from g_eff per bond. Compares against empirical anchors from F90 bridge.
 Target: residual <= 0.005 for non-escape bonds (within Q-grid noise).
+
+Reading note: the anchors below are the earlier readings on the 21-point t grid
+(fixed-t slices at the winning grid point), and BARE_FLOOR is the bare model's
+fixed-tau = 1 slice. F86's Q_peak is the envelope max_t; on it the floor is
+0.7264892771 and the line is read live by
+compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmAlphaExtraction.cs, where
+Endpoint and Flanking miss a line by 1.28e-3 and 4.2e-4. This script reproduces
+the earlier reading only.
 """
 import numpy as np
 from collections import defaultdict

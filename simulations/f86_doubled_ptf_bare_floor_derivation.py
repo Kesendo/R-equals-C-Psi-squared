@@ -1,5 +1,8 @@
-"""F86 bare-doubled-PTF closed-form derivation of the universal HWHM_left/x_peak
-floor (= BareDoubledPtfHwhmRatio = 0.671535 in C2HwhmRatio.cs).
+"""F86 bare-doubled-PTF closed-form derivation of the HWHM_left/x_peak of the bare model's
+fixed-tau = 1 slice (t = t_peak; = BareDoubledPtfHwhmRatio = 0.671535 in C2HwhmRatio.cs).
+Reading note: F86's Q_peak is the envelope max_t, and on its envelope the bare model peaks at
+x = 1.7141131714 with HWHM_left/x_peak = 0.7264892771 (C2BareDoubledPtfClosedForm.EnvelopeXPeak,
+EnvelopeHwhmLeftOverXPeak); that envelope value is the floor under the full block's class values.
 
 Setting: γ₀ = 1, t = t_peak = 1/4.
 
@@ -25,7 +28,7 @@ Result:
 - HWHM_left/x_peak = 0.671535355... (matches C2HwhmRatio.BareDoubledPtfHwhmRatio
   to all 6 surfaced decimal places).
 
-So the bare floor is now derived analytically as an implicit-equation pair plus
+So the fixed-tau = 1 value is derived analytically as an implicit-equation pair plus
 a (transcendental) numerical evaluation. The CONSTANT 0.671535 itself is
 transcendental and has no obvious closed form among standard π/e/√n candidates
 tested.

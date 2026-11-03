@@ -8,6 +8,12 @@ g_eff = BareDoubledPtfXPeak / (Q_peak + 2) per PROOF_F86_QPEAK.md:90.
 
 Output: per-bond stratified table + per-sub-class summary (count, mean, min,
 max of HWHM_ratio + g_eff). Phase 1 of F86 HWHM closed-form attack.
+
+Reading note: the anchors are the earlier readings on the 21-point t grid. On the
+envelope max_t that defines F86's Q_peak every bond has its first local maximum
+inside [0.2, 4], the two escape sub-classes carry no canonical anchor, and the
+live anchors are F86HwhmAlphaExtraction.Anchors (compute/RCPsiSquared.Core/F86/
+Item1Derivation/).
 """
 import numpy as np
 from collections import defaultdict

@@ -1,4 +1,6 @@
-"""Second route for the c = 2, N = 6 per-F71-orbit Q_peak of F86c (PerF71OrbitKTable in compute/RCPsiSquared.Core/F86).
+"""The c = 2, N = 6 per-F71-orbit Q_peak of F86c on the earlier 21-point t-grid reading (a fixed-t slice at the winning
+grid point). PerF71OrbitKTable now reads the envelope max_t, and its second route is
+`python simulations/f86_envelope_second_route.py 6 2 4.0`; this script reproduces the earlier reading.
 
 K_b(Q, t) from the F89 eigendecomposition route of `f89_to_f86_kbond_via_eigendecomp.py` (its compute_kbond builds the
 same operator as the C# table; it sets J = Q * gamma in its own coupling book, so the F86 Q enters as Q/2), maximised

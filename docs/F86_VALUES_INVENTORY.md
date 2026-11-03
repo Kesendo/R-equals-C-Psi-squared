@@ -13,28 +13,28 @@ F86 was conceptually a Sammelbecken of three theorems (F86a / F86b / F86c). The 
 | Sub-ID         | Content                                                                | Tier                              | Home                                                                                                                            |
 |----------------|------------------------------------------------------------------------|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | **F86a**       | EP mechanism: t_peak, Q_EP, dressed pair, Π-centered P-type mirror axis | Tier1Derived                      | [`TPeakLaw.cs`](../compute/RCPsiSquared.Core/F86/TPeakLaw.cs) + [`QEpLaw.cs`](../compute/RCPsiSquared.Core/F86/QEpLaw.cs) + [`LEffMirrorAxisClaim.cs`](../compute/RCPsiSquared.Core/F86/LEffMirrorAxisClaim.cs) + [`PROOF_F86A_EP_MECHANISM.md`](proofs/PROOF_F86A_EP_MECHANISM.md) |
-| **F86b₁**      | Bare 2×2 K_b closed forms (post-EP, pre-EP, EP-limit); x_peak = 2.196910, ratio = 0.671535 | Tier1Derived                      | [`C2BareDoubledPtfClosedForm.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)                |
-| **F86b₂**      | Sub-class lift: HWHM_ratio = 0.671535 + α_subclass·g_eff + β_subclass  | Tier1Candidate (analytical blocked) | [`F86HwhmClosedFormClaim.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) |
-| **F86b₃**      | Universal shape: Interior HWHM/Q = 0.756 ± 0.005, Endpoint = 0.770 ± 0.005 | Tier1Candidate                    | [`UniversalShapePrediction.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapePrediction.cs) + [`UniversalShapeWitness.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapeWitness.cs) |
+| **F86b₁**      | Bare 2×2 K_b closed forms (post-EP, pre-EP, EP-limit); envelope peak x_peak = 1.7141131714, HWHM_left/x_peak = 0.7264892771; the fixed-τ = 1 slice peaks at x_peak = 2.196910, ratio 0.671535 | Tier1Derived                      | [`C2BareDoubledPtfClosedForm.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs)                |
+| **F86b₂**      | Sub-class lift above the envelope floor 0.7264892771, described as α_subclass·g_eff + β_subclass; not an exact law (Endpoint and Flanking miss a line by 1.28·10⁻³ and 4.2·10⁻⁴) | Tier2Empirical (analytical lift open) | [`F86HwhmClosedFormClaim.cs`](../compute/RCPsiSquared.Core/F86/Item1Derivation/F86HwhmClosedFormClaim.cs) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) |
+| **F86b₃**      | Shape band: Interior HWHM_left/Q_peak 0.7523..0.7637, Endpoint 0.7710..0.7815 (the span of the read witnesses, c = 2, 3 at N = 5..8 and c = 4 at N = 7, 8) | Tier2Empirical (a record of the read span) | [`UniversalShapeBand.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapeBand.cs) + [`UniversalShapePrediction.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapePrediction.cs) + [`UniversalShapeWitness.cs`](../compute/RCPsiSquared.Core/F86/UniversalShapeWitness.cs) |
 | **F86b₄**      | Dicke-K 3/8 anchor via X⊗N-eigenbasis decomposition                    | Tier1Derived (2026-05-17)         | [`DickeAnchor.cs`](../compute/RCPsiSquared.Core/Symmetry/DickeAnchor.cs) (canonical typed home, `KIntermediate => 3.0/8.0`) + [`PROOF_F86B_UNIVERSAL_SHAPE.md`](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) (derivation) + [`f86b_dicke_pi2odd_closed_form.py`](../simulations/f86b_dicke_pi2odd_closed_form.py) (verification) + [`docs/water/README.md`](water/README.md) (downstream reading) |
 | **F86b₅**      | Polarity-pair Q_peak ∈ {1.5, 2.5} = 2 ± 1/2 (schema-derived)           | Tier1Schema (value Tier2Verified) | [`PolarityPairQPeakDecompositionClaim.cs`](../compute/RCPsiSquared.Core/F86/PolarityPairQPeakDecompositionClaim.cs)              |
-| **F86c**       | F71 spatial mirror: Q_peak(b) = Q_peak(N−2−b) bit-exact                | Tier1Derived                      | [`F71MirrorInvariance.cs`](../compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs) + [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md) |
-| **F86d**       | Endpoint orbit Q ≈ 2.5 (9 (c, N) combinations, range 2.39–2.61, population std/mean 2.5% around 2.546, peak-to-peak 8.6%) | Tier2Empirical (promotion candidate) | [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs) |
+| **F86c**       | F71 spatial mirror: Q_peak(b) = Q_peak(N−2−b) exactly (readings agree to ~10⁻¹⁰, up to 7·10⁻¹⁰ at c = 4, N = 8) | Tier1Derived                      | [`F71MirrorInvariance.cs`](../compute/RCPsiSquared.Core/F86/F71MirrorInvariance.cs) + [`PROOF_F86C_F71_MIRROR.md`](proofs/PROOF_F86C_F71_MIRROR.md) |
+| **F86d**       | Endpoint orbit Q ≈ 2.5 (10 (c, N) combinations, range 2.393–2.591, population std/mean 2.2% around 2.547, peak-to-peak 7.8%) | Tier2Empirical (promotion candidate) | [`PerF71OrbitObservation.cs`](../compute/RCPsiSquared.Core/F86/PerF71OrbitObservation.cs) |
 | **F86e**       | σ_0(c=2) = ‖[Π_HD1, M_H]‖ (commutator norm) = ‖Π̃_HD1 ⊙ ΔDiff‖ (Schur-multiplier norm); asymptote σ_0(∞) ≈ 2.8629 characterised non-elementary (Toeplitz + Hankel symbol routes ruled out) | Tier1Derived (commutator identity) | [`SigmaZeroCommutatorNormClaim.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroCommutatorNormClaim.cs) + [`SigmaZeroChromaticityScaling.cs`](../compute/RCPsiSquared.Core/F86/SigmaZeroChromaticityScaling.cs) + [`F86OpenQuestions.cs`](../compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs) (asymptote-value home) |
 | **F86_block**  | Obstruction proof: g_eff(c, N, b) has no closed form (6 routes L1–L6 blocked) | Negative Tier1 (structural result) | [`PROOF_F86B_OBSTRUCTION.md`](proofs/PROOF_F86B_OBSTRUCTION.md)                                                                  |
 
 ### Sub-ID status counts
 
 - **6× settled at Tier 1:** F86a, F86b₁, F86b₄, F86c, F86e (commutator identity) are Tier1Derived positive results; F86_block is a Tier 1 negative/structural-obstruction result (the closed form does not exist)
-- **2× Tier1Candidate (close, not closed):** F86b₂, F86b₃
 - **1× Tier1Schema:** F86b₅
+- **2× Tier2Empirical:** F86b₂ (the lift is observed; no exact law holds it), F86b₃ (the band records the read span; it cannot fail)
 - **1× Tier2 promotion candidate:** F86d
 
 ### Two separable open fronts
 
 The remaining work lives in two structurally distinct directions; neither overlaps with the F86_block obstruction:
 
-1. **F86b₂ Direction (b'')**: F89 cyclotomic Φ_{N+1} analytical lift → closes (α, β) → closes F86b₂. F90 bridge already gives Tier-1 numerical; analytical Tier-1 pending.
+1. **F86b₂ Direction (b'')**: derive the lift above the envelope floor from the F89 cyclotomic Φ_{N+1} structure. The anchors do not support a line in g_eff, so the target is the lift itself, not a pair (α, β). The F90 bridge is the numerical identity under it (all 22 bonds of N = 5..8 agree with the F89 route to 10⁻¹⁰); the analytical step is open.
 2. **F86d Tier-1 promotion**: structural derivation for Endpoint orbit Q ≈ 2.5. Candidate: SU(2)/Schur-Weyl on F71 first orbit.
 
 **F86e resolved (2026-05-20):** the former third front. σ_0(c=2) is now characterised as a commutator norm ‖[Π_HD1, M_H]‖ = Schur-multiplier norm ‖Π̃_HD1 ⊙ ΔDiff‖ (typed: `SigmaZeroCommutatorNormClaim`, Tier1Derived, bit-exact N=5..8). The asymptote σ_0(∞) ≈ 2.8629 is non-elementary but characterised, not mysterious: the Toeplitz (Fourier-symbol) and Hankel (Nehari) closed-form routes are both ruled out, so σ_0(∞) is a genuine Schur-multiplier-norm constant. Closed-form candidates 2√2, √(41/5), √(8+π/16) ruled out earlier still hold.
@@ -42,7 +42,7 @@ The remaining work lives in two structurally distinct directions; neither overla
 ### Spawned out (already promoted to own F-numbers)
 
 - **F89** (Path polynomial pipeline, Chebyshev + BigRational, D_k bit-exact): Tier1Derived since 2026-05-15
-- **F90** (F86 c=2 K_b ↔ F89 path-(N−1) Hellmann-Feynman bridge): Tier1 numerical, analytical pending
+- **F90** (F86 c=2 K_b ↔ F89 path-(N−1) Hellmann-Feynman bridge): Tier 1 derived (operator-exact identity at N=5..8); the closed-form lift it points to is pending
 - **F91 / F92 / F93** (F71-anti-palindromic spectral invariance on γ / J / h)
 
 ---
@@ -53,7 +53,7 @@ Three things landed after this inventory's last update (2026-06-01) that bear on
 
 1. **The SE-walk population handover was measured on hardware.** The Kingston q13-q14-q15 run (2026-05-31, historical registry id `ibm_ep_onset_may2026`) measured populations only. Its random-Z runner used coherence-rate labels Q_label=J/Γ, while the repository Lindblad convention has γ=Γ/2, hence **Q_Lindblad = 2 Q_label**. The revival stays near 1/N through Q_label=1.5 and is larger at Q_label=2.5 (canonical Q_Lindblad 3→5). This population scan is not an F86-block EP anchor. The walk's own spectral transition is the (1,1)-block EP at the coherence horizon Q*(3) = √2 (`CoherenceHorizonClaim`, Tier 1 derived), which is Q_label ≈ 0.71, below the bracket; the handover itself is a probe-time crossover of the revival amplitude, not a spectral event. Writeup: [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md).
 2. **g_eff's irreducible content halved.** The K_b mode mirror (2026-06-10): the antiunitary T = Σ₁∘conj gives K_b(b; mode k) = K_b(b; mode N+1−k) pointwise in Q and t, so **g_eff(c, N, b)'s irreducible content lives in the half-band of {k, N+1−k} orbits** ([the F86b obstruction proof](proofs/PROOF_F86B_OBSTRUCTION.md) "one more surviving symmetry", [the chiral mirror rate law proof](proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md) §8). A structural bonus from the same run: on c = 1 blocks K_b ≡ 0 identically (the block generator is e^{−2γt} × unitary), the structural reason the F86 resonance needs c ≥ 2. This does not revise any anchor value, but it halves the target of the F86_block obstruction and of Direction (b'') below: whatever closed form g_eff has or refuses to have, it is a function on mode *pairs*.
-3. **The clock and the seam, pinned.** The EP clock's peak angle is γ₀-invariant and provably not the diagonal: θ_peak = 44.3646° (45° would need x = √5; x_peak = 2.196910 of F86b₁ gives the 0.6354° shortfall; `ExceptionalPointClockTests`). And the Absorption Theorem extensions (2026-06-10) recentre the dissipative seam as L_D = γ(Q − N·I) with the per-eigenmode Rayleigh split and the orthogonal-projector form ([the Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) Extensions), the structural floor under every Re-rate in this inventory. The slow-light surface gained its basis-free primitive (`SlowLightDistribution`, [compute/RCPsiSquared.Diagnostics/Ptf/](../compute/RCPsiSquared.Diagnostics/Ptf/SlowLightDistribution.cs)): light_l = Tr(Π_V·Δ_l)/dim V, the s\*-surface read without hand-picked endpoint pairs.
+3. **The clock and the seam, pinned.** The EP clock's peak angle is γ₀-invariant and provably not the diagonal: θ_peak = 44.3646° (45° would need x = √5; the fixed-τ = 1 peak x_peak = 2.196910 of F86b₁ gives the 0.6354° shortfall; `ExceptionalPointClockTests`). And the Absorption Theorem extensions (2026-06-10) recentre the dissipative seam as L_D = γ(Q − N·I) with the per-eigenmode Rayleigh split and the orthogonal-projector form ([the Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) Extensions), the structural floor under every Re-rate in this inventory. The slow-light surface gained its basis-free primitive (`SlowLightDistribution`, [compute/RCPsiSquared.Diagnostics/Ptf/](../compute/RCPsiSquared.Diagnostics/Ptf/SlowLightDistribution.cs)): light_l = Tr(Π_V·Δ_l)/dim V, the s\*-surface read without hand-picked endpoint pairs.
 
 ---
 
@@ -86,9 +86,9 @@ c=2's "1.5" carries the wobble caveat: it's *not* clean Tier 1 like the c≥3 va
 
 | Orbit                  | Q stable value         | (c, N) range tested       | Variation       |
 |------------------------|------------------------|---------------------------|-----------------|
-| **Endpoint (orbit 0)** | **≈ 2.5**             | (c=2..4, N=5..8); 9 of 12 box cells filled (c=4 only at N=7) | 2.39-2.61 (population std/mean 2.5% around 2.546, peak-to-peak 8.6%) |
+| **Endpoint (orbit 0)** | **≈ 2.5**             | (c=2..4, N=5..8); 10 of 12 box cells filled (c=4 at N=7, 8) | 2.393–2.591 (population std/mean 2.2% around 2.547, peak-to-peak 7.8%) |
 
-From `PerF71OrbitObservation.cs:23-44`: across 9 different (c, N) combinations, Endpoint orbit Q sits in [2.39, 2.61]. Stability across c and N makes this a candidate anchor not currently in QBasisAnkers.
+From `PerF71OrbitObservation.cs:50-67` (the envelope Q_peak at γ₀ = 0.05): across 10 different (c, N) combinations, Endpoint orbit Q sits in [2.393, 2.591]. Stability across c and N makes this a candidate anchor not currently in QBasisAnkers.
 
 **Status**: Tier 2 Empirical candidate for promotion. Pending structural derivation.
 
@@ -100,54 +100,53 @@ The following values are measurements from the typed C# claims. They are useful 
 
 ### B1. Per-orbit Q_EP values (computed from x_peak)
 
-`C2BlockCpsiQScan.cs:19-20`: Q_EP per orbit = Q_peak / x_peak with x_peak = 2.196910.
+`C2BlockCpsiQScan.cs:19-21`: Q_EP per orbit = Q_peak / x_peak with x_peak = 2.196910.
 
 | Orbit (N=5 c=2)      | Q_EP value         |
 |----------------------|--------------------|
-| Endpoint (Orbit 0)   | 1.138              |
-| Interior (Orbit 1)   | 0.674              |
+| Endpoint (Orbit 0)   | 1.146              |
+| Interior (Orbit 1)   | 0.675              |
 
-**Caveat**: x_peak = 2.196910 is the **bare-doubled-PTF SVD-block-only floor**; full block-L empirical values lift 8-10% above. These per-orbit Q_EP values therefore may shift if the full-block correction is properly included. Treat as derivative observations, not as primary anchors.
+**Caveat**: x_peak = 2.196910 is the bare doubled-PTF model's fixed-τ = 1 peak, while Q_peak is the full block's envelope peak, so the quotient is a conversion the predictor defines, not a measured EP position. The bare model's own envelope peaks at x = 1.7141. Treat as derivative observations, not as primary anchors.
 
-### B2. Off-grid escape regime (orbit 1 plateau, central plateau)
+### B2. Far maxima (c = 2, N ≥ 7)
 
-From `PerF71OrbitObservation.cs:23-44`:
+From `PerF71OrbitObservation.cs:53-59`. Every orbit has its canonical Q_peak, the first local maximum of the envelope, inside [0.2, 4] (A3 and B3). Past a minimum after it, the envelope rises again, and for these orbits the maximum over a wider window lies higher than the canonical one:
 
-| (c, N) | Orbit type           | Q-value reached |
-|--------|----------------------|-----------------|
-| (2, 7) | Orbit 1 plateau      | ≈ 7.24          |
-| (2, 8) | Orbit 1 plateau      | ≈ 8.07          |
-| (2, 8) | Central orbit plateau | ≈ 16.79         |
+| (c, N) | Orbit                    | Q of the maximum | window      | envelope there vs canonical |
+|--------|--------------------------|------------------|-------------|-----------------------------|
+| (2, 7) | Orbit 1 (bonds 1, 4)     | 7.255            | [0.2, 20]   | 0.149 vs 0.109              |
+| (2, 8) | Orbit 1 (bonds 1, 5)     | 8.225            | [0.2, 20]   | 0.154 vs 0.090              |
+| (2, 8) | Orbit 2 (bonds 2, 4)     | 38.21            | [0.2, 60]   | 0.093 vs 0.082              |
+| (2, 8) | Central orbit (bond 3)   | 20.09            | [0.2, 60]   | 0.101 vs 0.084              |
 
-**Caveat**: these are NOT EP peaks but broad high-Q plateaus where K stays elevated past Q_EP. Per `project_q_peak_ep_structure` (line 63), "the plateau is multi-mode coherent enhancement, NOT a Petermann-type EP collapse" (Petermann factor probe disconnects the plateau from EP physics). The Q values here mark where K = max within a [0.20, 6.00] (or higher) grid, but they sit on a broad plateau, not a sharp peak.
+**Caveat**: the curves keep further local maxima (c = 2 N = 8 orbit 1 has three on [0.2, 60]), so this reading is a property of the window and is always quoted with it. The two values beyond Q = 20 are read by the second route alone (`simulations/f86_envelope_second_route.py`). What sets the far maxima is not known; they are not Q-anchors.
 
-These are observation-of-multi-mode-plateau values, NOT structural Q-anchors. The methodological reading: these orbits "escape" the F86 EP-mediated anchor structure and live in a multi-mode-coherent regime that has its own physics not yet typed.
+### B3. Per-bond-class HWHM ratios (c = 2 class values)
 
-### B3. Per-bond-class HWHM ratios (Tier1Candidate empirical means)
+The envelope HWHM_left/Q_peak of the class-mean curve at c = 2, against the bare model's envelope floor (`C2BareDoubledPtfClosedForm.EnvelopeHwhmLeftOverXPeak`):
 
-`C2HwhmRatio.cs:11,59` (Endpoint/Interior empirical anchors at line 11, BareDoubledPtfHwhmRatio floor at line 59):
+| Bond class | N = 5  | N = 6  | N = 7  | N = 8  | floor        | lift above floor  |
+|------------|--------|--------|--------|--------|--------------|-------------------|
+| Endpoint   | 0.7766 | 0.7815 | 0.7813 | 0.7808 | 0.7264892771 | +0.050 to +0.055  |
+| Interior   | 0.7523 | 0.7569 | 0.7591 | 0.7602 | 0.7264892771 | +0.026 to +0.034  |
 
-| Bond class | Empirical mean | SVD floor | Lift above floor |
-|------------|----------------|-----------|------------------|
-| Endpoint   | 0.7728         | 0.671535  | +0.101           |
-| Interior   | 0.7506         | 0.671535  | +0.079           |
+**Caveat**: the floor is derived (Tier1Derived, the bare doubled-PTF closed form read on its envelope). The lifts are observed; the analytical derivation is **open** (PROOF_F90_F86C2_BRIDGE.md Item 1'-followup, F89 AT-locked F_a/F_b structure). The Interior value rises with N (0.7621 at N = 12). The values are the reading on the default Q grid; per bond at c = 2, N = 5..8 that reading is within 3.5·10⁻⁵ of the continuous envelope peak (the class-mean curves were not checked against a continuous search).
 
-**Caveat**: Tier1Candidate. The floor 0.671535 IS derived (Tier1Derived, bare-doubled-PTF closed form). The lifts +0.08 to +0.10 are empirical observations; the analytical derivation is **open** (PROOF_F90_F86C2_BRIDGE.md Item 1'-followup, F89 AT-locked F_a/F_b structure). The specific empirical mean values (0.7728, 0.7506) may shift under refined Q-grid resolution or under closed-form derivation.
+### B4. Per-sub-class (α, β): a line through the anchors
 
-### B4. Per-sub-class (α, β): honest reshape (f86b2_robust_extraction, 2026-06-29)
+`F86HwhmAlphaExtraction.cs` (the live recompute; `F86HwhmClosedFormClaim` reads it, no hand-transcription). Form: HWHM_ratio = 0.7264892771 + α·g_eff + β, with g_eff the fit's own coordinate 4.39382/(Q_peak + 2), on the canonical peaks of c = 2, N = 5..8. Whether a line holds is decided per sub-class by how many chain lengths carry an anchor:
 
-`F86HwhmAlphaExtraction.cs` (the live recompute; `F86HwhmClosedFormClaim` reads it, no hand-transcription). Form: HWHM_ratio = 0.671535 + α·g_eff + β. The robust-extraction arc found only **two** of the six slopes defensible; the rest collapse to a per-class constant lift (α = 0) or a flagged grid-edge fit:
+| BondSubClass         | anchors        | verdict |
+|----------------------|----------------|---------|
+| Endpoint             | four N         | overdetermined; misses a line by up to 1.28·10⁻³, so the linear form is not an exact law |
+| Flanking             | four N         | overdetermined; misses a line by up to 4.2·10⁻⁴, likewise |
+| Mid                  | two N          | two-point line, exact by construction, tests nothing |
+| CentralSelfPaired    | two N          | two-point line, likewise |
+| Orbit2Escape         | none           | classifies a far maximum (B2); no canonical anchor, the fit throws |
+| CentralEscapeOrbit3  | none           | likewise |
 
-| BondSubClass         | α (used)   | β (used)   | status |
-|----------------------|------------|------------|--------|
-| Endpoint             | −0.129110  | +0.227413  | resolved slope (jackknife-tight; marginal at the 0.005 grid floor) |
-| Flanking             | −0.094978  | +0.193098  | resolved slope |
-| Mid                  |  0         | +0.075665  | constant lift (slope was noise: g_span ≈ 0.011, σ_α ≈ 0.47) |
-| CentralSelfPaired    |  0         | +0.073365  | constant lift (single anchor) |
-| Orbit2Escape         | +0.698446  | −0.086386  | grid-edge artefact, flagged non-physical (kept only for fidelity) |
-| CentralEscapeOrbit3  |  0         | −0.093735  | constant lift (single anchor + escape) |
-
-**Caveat**: the two resolved slopes are jackknife-tight but still marginal at the documented 0.005 Q-grid floor; promoting them to structural constants awaits a grid-convergence study. The α extraction is recomputed live (no hand-transcription); the separate analytical derivation of (α, β) from F89/F90 structure remains open. The values still reproduce all 22 anchors within 0.005. (The pre-reshape table listed all 6 as free polyfit slopes; Mid +0.056559, CentralSelfPaired +0.057439, CentralEscapeOrbit3 −0.400854 were the noise/single-point artefacts now zeroed.)
+**Caveat**: the misses are 12 to 36 times the anchors' offset from the continuous envelope peak, so they are not resolution. The (α, β) values are recomputed live and frozen nowhere; the analytical derivation of the lift from F89/F90 structure remains open.
 
 ---
 
@@ -166,9 +165,9 @@ The anchors merging Q-band edges, per-c Q_peak, Endpoint orbit, and the universa
 | F86 Q_peak c=4, c=5 | 1.8     | PerBlockQPeak (saturated)               | Tier2Empirical  |
 | Q_EP at g_eff=1     | 2.0     | QEpLaw idealized                        | Tier1Derived    |
 | SE-walk handover (hardware) | Q_label 1.5→2.5; Q_Lindblad 3→5 | `ibm_ep_onset_may2026`: population return near 1/N through the lower sample and larger at the upper (2026-05-31, Kingston); a probe-time crossover above the walk's (1,1)-block EP Q*(3) = √2 | Tier2Verified hardware observation, not a Q_EP anchor |
-| Endpoint orbit Q    | 2.5     | PerF71OrbitObservation (range 2.39–2.61) | Tier2Empirical candidate |
+| Endpoint orbit Q    | 2.5     | PerF71OrbitObservation (range 2.393–2.591) | Tier2Empirical candidate |
 
-Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbit Q_EP, off-grid escapes, HWHM lifts, and fitted (α, β) values are empirical diagnostics that may revise; they live in this inventory and the typed C# claims, not in the anchor map.
+Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbit Q_EP, far maxima, HWHM lifts, and fitted (α, β) values are empirical diagnostics that may revise; they live in this inventory and the typed C# claims, not in the anchor map.
 
 ## Anchors and cross-refs
 

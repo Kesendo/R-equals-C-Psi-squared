@@ -29,6 +29,9 @@ Empirical reference (from extended-grid c2hwhm scan at N=11, Q ∈ [0.2, 32]):
   Orbit 2 (b=2↔7):           Q_peak=13.6117, g_eff=0.32
   Orbit 3 (mid-flank, b=3↔6): Q_peak=1.5901, g_eff=2.76
   Orbit 4 (Center, b=4↔5):    Q_peak=21.9389, g_eff=0.20
+(global maxima on [0.2, 32], read on the 21-point t grid; 8.79, 13.61 and 21.94 are far maxima
+past each bond's first local maximum, which on the envelope lies inside [0.2, 4] at N = 5..9 and
+was not read at N = 11.)
 
 g_eff via F86a EP formula: Q_peak ≈ 4.39/g_eff (BareDoubledPtfXPeak·2 = 4.39).
 """

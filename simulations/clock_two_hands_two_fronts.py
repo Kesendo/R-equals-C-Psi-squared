@@ -8,9 +8,10 @@ front rides one hand:
   Rotation hand -> F86b3 (the universal resonance shape). The 2-level EP rotation depends on
     x = Q/Q_EP alone (the proof's eigenvector mixing τ² = (Q−Q_EP)/(Q+Q_EP) = (x−1)/(x+1)), so the
     clock angle θ(x) is IDENTICAL for different g_eff (different Q_EP) , it collapses. That is why
-    the resonance shape is universal in Q/Q_EP. (The bare-shape constants x_peak = 2.1969 and the
-    HWHM_left/Q_peak floor 0.6715 are derived on C2BareDoubledPtfClosedForm; the +0.08/0.10 lift to
-    the empirical 0.756/0.770 rides g_eff, the blocked residue, not the clock.)
+    the resonance shape is universal in Q/Q_EP. (The bare-shape constants are derived on
+    C2BareDoubledPtfClosedForm: on its envelope x_peak = 1.7141 and HWHM_left/x_peak = 0.7265, on its
+    fixed-tau = 1 slice x_peak = 2.1969 and 0.6715; the +0.026..+0.055 lift above the envelope floor
+    to the class values rides g_eff, the blocked residue, not the clock.)
 
   Takt hand -> F87 (the soft/hard break). At γ=0 the Takt is stopped, L = −i[H,·] is symmetric
     about −σ=0, everything is soft. The break of a hard pair (odd hopping cycle) grows FIRST-ORDER
@@ -62,11 +63,11 @@ def rotation_hand_f86b3():
         t1 = slow_mode_theta(x * 2.0 / g1, g1)           # Q = x · Q_EP, Q_EP = 2/g_eff
         t2 = slow_mode_theta(x * 2.0 / g2, g2)
         tau2 = (x - 1.0) / (x + 1.0)
-        mark = "  <- x_peak (bare-shape peak)" if abs(x - 2.197) < 1e-2 else ("  <- EP" if abs(x - 1.0) < 1e-9 else "")
+        mark = "  <- x_peak (bare fixed-tau = 1 peak)" if abs(x - 2.197) < 1e-2 else ("  <- EP" if abs(x - 1.0) < 1e-9 else "")
         print(f"  {x:9.3f}  {t1:13.3f}°  {t2:13.3f}°  {tau2:15.4f}{mark}")
     print("  => θ(x) identical for both g_eff: the EP rotation, hence the shape, is universal in")
-    print("     x = Q/Q_EP. Derived bare-shape constants: x_peak = 2.1969, HWHM_left/Q_peak floor")
-    print("     = 0.6715 (C2BareDoubledPtfClosedForm); the lift to 0.756/0.770 rides g_eff (blocked).")
+    print("     x = Q/Q_EP. Derived bare-shape constants (C2BareDoubledPtfClosedForm): envelope x_peak = 1.7141,")
+    print("     floor 0.7265; fixed-tau = 1 slice x_peak = 2.1969, 0.6715. The lift to the class values rides g_eff.")
 
 
 # ---- Takt hand -> F87: the soft/hard break rides the γ-tick ----------------------------------

@@ -24,10 +24,11 @@ the bond-b coupling,
 
 It is read at the fixed F86a EP time t_peak = 1/(4 gamma_0): there the secular
 t*exp(-4 gamma_0 t) Liouvillian response peaks, and K_b(Q, t_peak) is a cleanly
-single-peaked function of Q. (A max-over-t reading additionally samples the
-off-resonance oscillatory tail and is not single-peaked. F100's parity holds
-for K_b at any FIXED t -- R-equivariance is per-t -- so the EP-time reading is
-both the clean and a valid choice.)
+single-peaked function of Q. This fixed-t slice is the witness's own
+observable: F86's Q_peak (ResonanceScan) is the argmax over Q of the envelope
+max_t |K_b(Q, t)|, which differs in value and is not single-peaked (past its
+first maximum the envelope rises again). F100's parity holds for both, since
+the R-relabelling of K_b holds at every t and hence for max_t as well.
 
     Q_peak(b) = argmax_Q |K_b(Q, t_peak)|,  parabola-refined on the Q-grid.
 
@@ -231,10 +232,10 @@ def qpeak_per_bond(N, n, gamma_0, j_shape, Q_grid):
 # ---------------------------------------------------------------------------
 def gate_uniform_mirror(c2_N_values, gamma_0):
     """Gate: at uniform J the per-bond Q_peak is F71-mirror-symmetric,
-    D(b) = Q_peak(b) - Q_peak(N-2-b) ~ 0 -- the F86c uniform-J mirror that the
-    canonical C# C2BondLQPeakScan / PerF71OrbitLQPeakTable verify bit-exact.
-    Reproducing it here, in an independent Python engine, validates this
-    witness's machinery before the non-uniform sweep. It is also F100's own
+    D(b) = Q_peak(b) - Q_peak(N-2-b) ~ 0 -- the F86c uniform-J mirror, which
+    holds exactly as an identity of K_b. Checking it here, on this witness's
+    own fixed-t reading, checks the mirror property of the machinery before
+    the non-uniform sweep (not values against a C# scan). It is also F100's own
     J_anti = 0 corner."""
     print("Gate -- uniform-J F71 Q_peak mirror (F86c, F100's J_anti=0 corner):",
           flush=True)

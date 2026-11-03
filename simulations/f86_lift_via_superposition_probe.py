@@ -11,6 +11,11 @@ from 0.6715 to 0.7506/0.7728.
 
 Model: K_b_total(Q) = Σ_p w_p · K_b_bare(Q/Q_EP_p) using today's bare closed form
 where each pair has its own Q_EP_p and weight w_p (Frobenius² of the cross-block).
+
+Reading note: k_b_bare is the bare model's fixed-τ = 1 slice (floor 0.671535), while the targets
+0.7506 / 0.7728 are readings of the full block on the 21-point t grid, so the probe compares two
+observables. On the envelope the bare floor is 0.7264892771 (C2BareDoubledPtfClosedForm.EnvelopeKb)
+and the c=2 class values are Interior 0.7523..0.7602, Endpoint 0.7766..0.7815 (N = 5..8).
 """
 
 from __future__ import annotations

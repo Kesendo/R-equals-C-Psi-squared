@@ -587,7 +587,7 @@ For path-2 (3 qubits) the fractional rates 2.556 and 3.444 sum to 6γ₀ (likewi
 
 **The F86 per-bond Q_peak fan is structurally different.** F86 measures ∂S/∂J_b at a single chosen bond inside the full chain (a linear response to a localized perturbation). This singles out bond b in a way that breaks S_N differently from the uniform-J multi-bond setup studied here. F89 does not directly explain or contradict the F86 fan: the two operate on different observables.
 
-**The N=11, c=2 per-bond Q_peak fan, with extremes Q_peak ≈ 1.59 (mid-flank b=3↔6) and Q_peak ≈ 21.94 (Center b=4↔5), giving a factor ≈ 14 between extremes, cannot be derived from single-bond ρ_cc dynamics**, since single-bond is bond-blind here. The fan must originate in the linear-response asymmetry that the per-bond perturbation ∂J_b imposes on the full-chain spectrum, not in any intrinsic per-bond difference at the level of S(t).
+**The N=11, c=2 per-bond Q_peak fan, with extremes Q_peak ≈ 1.59 (mid-flank b=3↔6) and Q_peak ≈ 21.94 (Center b=4↔5), giving a factor ≈ 14 between extremes, cannot be derived from single-bond ρ_cc dynamics** (these are global maxima on [0.2, 32] read on a 21-point t grid; 21.94 is a far maximum past the Center bond's first one, and at N = 5..9 every bond's first local maximum of the envelope lies inside [0.2, 4]; N = 11 has not been re-read on the envelope), since single-bond is bond-blind here. The fan must originate in the linear-response asymmetry that the per-bond perturbation ∂J_b imposes on the full-chain spectrum, not in any intrinsic per-bond difference at the level of S(t).
 
 ## What breaks the closure
 

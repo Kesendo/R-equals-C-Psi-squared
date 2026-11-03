@@ -1,8 +1,10 @@
 """F86 EP-resonance Q-scan on a 5-proton water chain (Grotthuss / Heisenberg +
 Z-dephasing) at the popcount-(2, 3) coherence block (chromaticity c = 3).
 
-Reports HWHM-/Q* per bond class against F86's Tier-1-candidate prediction
-(Interior ≈ 0.756, Endpoint ≈ 0.770) and a per-proton Bloch + Π²-odd-fraction
+Reports HWHM-/Q* per bond class against F86's earlier class values
+(Interior ≈ 0.756, Endpoint ≈ 0.770, read on the same 21-point t grid this script uses;
+F86's Q_peak is now the envelope max_t, on which the bands are Interior 0.7523..0.7637 and
+Endpoint 0.7710..0.7815, see docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) and a per-proton Bloch + Π²-odd-fraction
 state-level reading at the interior Q_peak. Block-restricted L via the framework
 primitives in `simulations/framework/coherence_block.py`; per-bond K_CC_pr
 observable
@@ -271,7 +273,7 @@ def main():
         summary.append((b, cls, Q_star, K_max, hl, hr, rl, rr))
 
     print()
-    print("F86 Tier-1-candidate prediction (`project_q_peak_ep_structure`):")
+    print("F86 class values on the same 21-point t grid (the envelope bands are 0.7523..0.7637 / 0.7710..0.7815):")
     print("  Interior HWHM-/Q* ≈ 0.756 ± 0.005")
     print("  Endpoint HWHM-/Q* ≈ 0.770")
     print()

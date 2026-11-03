@@ -93,7 +93,7 @@ But does NOT predict empirical g_eff bond-dependence:
 - Signed-sum gives Center near-MAXIMUM, also wrong direction
 - The destructive interference pattern doesn't match the empirical g_eff ordering
 
-**Implication**: empirical g_eff bond-dependence requires more than simple JW projection of Dicke probe. The c=2 block-L decomposition with c_HD=1 and c_HD=3 channel-uniform vectors (as in JwBondQPeakPrediction) captures more, but at N=11 still misses Center by 7× (predicts Q_peak≈3.14, empirical 21.94). The [F86b obstruction](../docs/proofs/PROOF_F86B_OBSTRUCTION.md) blocks its own closed-form routes, of which this top-pair prediction is not one: the Dicke probe is orthogonal to the EP-partner modes, so Q_peak cannot be read off Q_EP (L3, measured at c = 2, N = 5..8), and none of the finite reductions tried carries g_eff (L4); the N = 11 factor itself is not derived there.
+**Implication**: empirical g_eff bond-dependence requires more than simple JW projection of Dicke probe. The c=2 block-L decomposition with c_HD=1 and c_HD=3 channel-uniform vectors (as in JwBondQPeakPrediction) captures more, but at N=11 still misses Center by 7× (predicts Q_peak≈3.14, empirical 21.94, the global maximum on [0.2, 32] on a 21-point t grid, a far maximum past the bond's first one; the first local maximum of the envelope was not read at N = 11). The [F86b obstruction](../docs/proofs/PROOF_F86B_OBSTRUCTION.md) blocks its own closed-form routes, of which this top-pair prediction is not one: the Dicke probe is orthogonal to the EP-partner modes, so Q_peak cannot be read off Q_EP (L3, measured at c = 2, N = 5..8), and none of the finite reductions tried carries g_eff (L4); the N = 11 factor itself is not derived there.
 
 ## What this DOES confirm
 
@@ -116,7 +116,7 @@ But does NOT predict empirical g_eff bond-dependence:
 The empirical g_eff_Center = 0.20 (vs Endpoint 1.76, mid-flank 2.76) is not explained by:
 - Simple Dicke-weighted |C_b|² (predicts Center maximum)
 - Simple signed-sum (predicts Center near-max with negative sign)
-- JW top-pair cluster prediction (predicts Q_peak≈3.14 vs empirical 21.94)
+- JW top-pair cluster prediction (predicts Q_peak≈3.14 vs empirical 21.94, a far maximum on the t-grid reading)
 
 Possible structural origins (not yet tested):
 - **Multi-cluster Petermann combination** beyond JW top-pair (PendingDerivationNote in C2HwhmRatio)

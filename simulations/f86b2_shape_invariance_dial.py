@@ -4,11 +4,18 @@
 THE QUESTION. The HWHM_left/Q_peak ratio lifts from the bare doubled-PTF floor
 0.671535 (Tier1Derived, C2BareDoubledPtfClosedForm) to the empirical 0.7506
 (Interior) / 0.7728 (Endpoint), captured so far only by fitted (alpha, beta)
-per bond sub-class (F86HwhmClosedFormClaim, Tier1Candidate). Where does the
+per bond sub-class (F86HwhmClosedFormClaim, Tier2Empirical). Where does the
 lift LIVE: in the inter-channel coupling beyond the top SVD pair (the "octic
 residual" suspicion), or elsewhere?
 
-THE TWO DIALS (on the c=2 coherence block, ResonanceScan conventions,
+READING NOTE. Everything here is read on the 21-point t grid [0.6, 1.6]*t_peak
+(the earlier ResonanceScan convention; ResonanceScan now takes the envelope
+max_t), and 0.671535 is the bare model's fixed-tau = 1 slice. On the envelope
+the floor is 0.7264892771 and the class values are Interior 0.7523..0.7602,
+Endpoint 0.7766..0.7815 (N = 5..8). The dial findings are differences between
+settings on this one reading and have not been re-read on the envelope.
+
+THE TWO DIALS (on the c=2 coherence block, 21-point t-grid reading,
 machinery of f86_kb_chiral_mirror.py which matches the C# at 1e-14):
 
   lambda dial: V_inter = sigma0*u0 v0^dag + lambda*V_rest (intra untouched).
