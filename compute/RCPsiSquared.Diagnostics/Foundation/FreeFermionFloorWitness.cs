@@ -47,7 +47,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// channel (<c>PostEpFlowField.IsInSterileZone</c>) reads this layer, which is Q-flat at uniform γ
 /// in every block. The family's span is invariant under L and L† alike, so it splits off orthogonally
 /// and no exceptional point of a block involves a mode of the family
-/// (<see cref="FermionFloorBlockReading.NextRateAboveFloor"/> is the first rate off the floor).</para></summary>
+/// (<see cref="FermionFloorBlockReading.NextRateAboveFloor"/> is the first rate off the floor). How much of
+/// F86's K the floor carries, and how much the interference between floor and rest, is read by
+/// <see cref="FloorSplitWitness"/> (<c>inspect --root floorsplit</c>).</para></summary>
 public sealed class FreeFermionFloorWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -101,18 +103,7 @@ public sealed class FreeFermionFloorWitness : IInspectable
         var kNeighbours = IntegerHopping(block, m);
 
         // ---- route 1: the Jordan-Wigner family in integers ----
-        var family = new Dictionary<int, int>[N];   // u_j: cell → ±1
-        for (int j = 0; j < N; j++) family[j] = new Dictionary<int, int>();
-        long fullMask = (1L << N) - 1;
-        foreach (long q in basis.StatesQ)
-            for (int j = 0; j < N; j++)
-            {
-                long bit = 1L << (N - 1 - j);              // big-endian: site 0 = MSB
-                if ((q & bit) == 0) continue;
-                long before = fullMask & ~((1L << (N - j)) - 1); // sites 0..j−1
-                int sign = (BitOperations.PopCount((ulong)(q & before)) & 1) == 0 ? 1 : -1;
-                family[j][basis.FlatIndex(q ^ bit, q)] = sign;
-            }
+        var family = JordanWignerFamily(basis);
         bool onHd1 = family.All(u => u.Keys.All(c => hd[c] == 1));
 
         var t = new long[N, N];
@@ -250,6 +241,27 @@ public sealed class FreeFermionFloorWitness : IInspectable
             ReflectionSign: eps,
             MaxDarkOverlapSquared: maxDark,
             MinVisibleOverlapSquared: minVisible);
+    }
+
+    /// <summary>The Jordan-Wigner family of the (n, n+1) block, u_j = P_n·c_j·P_(n+1) for j = 0..N−1:
+    /// cell (p, q) with p = q minus site j carries the sign (−1)^(occupied sites before j), all other
+    /// cells 0. Shared by every witness that reads this floor, so the construction has one copy.</summary>
+    internal static Dictionary<int, int>[] JordanWignerFamily(BlockBasis basis)
+    {
+        int n = basis.N;
+        var family = new Dictionary<int, int>[n];   // u_j: cell → ±1
+        for (int j = 0; j < n; j++) family[j] = new Dictionary<int, int>();
+        long fullMask = (1L << n) - 1;
+        foreach (long q in basis.StatesQ)
+            for (int j = 0; j < n; j++)
+            {
+                long bit = 1L << (n - 1 - j);              // big-endian: site 0 = MSB
+                if ((q & bit) == 0) continue;
+                long before = fullMask & ~((1L << (n - j)) - 1); // sites 0..j−1
+                int sign = (BitOperations.PopCount((ulong)(q & before)) & 1) == 0 ? 1 : -1;
+                family[j][basis.FlatIndex(q ^ bit, q)] = sign;
+            }
+        return family;
     }
 
     /// <summary>The integer hopping matrix K of the block, L = D + iJ·K, read off the block

@@ -46,6 +46,20 @@ public class InspectRootCatalogTests
         Assert.True(root.AllCertified);
     }
 
+    [Fact]
+    public void Catalog_FloorSplitRoot_BuildsTheWitnessAtTheRequestedN()
+    {
+        var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "floorsplit");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("interference", entry.Description);
+        var context = new InspectRootContext(new ArgParser(new[] { "--N", "5" }), N: 5,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = Assert.IsType<FloorSplitWitness>(entry.Factory(context));
+        Assert.Equal(5, root.N);
+        Assert.True(root.AllRoutesMeet);
+    }
+
     // The roots that were hardcoded in the InspectCommand switch before the catalog refactor.
     private static readonly string[] PreviouslyHardcodedRoots =
     {

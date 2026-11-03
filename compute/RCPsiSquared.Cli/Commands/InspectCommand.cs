@@ -790,6 +790,16 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("Q") ?? FreeFermionFloorWitness.DefaultQ,
                     c.Parser.OptionalDouble("gamma") ?? FreeFermionFloorWitness.DefaultGammaZero),
             RequiresN: false, HonorsOptionalN: true),
+        new("floorsplit", "F86's K split by the free-fermion floor: in the c = 2 block the Jordan-Wigner " +
+            "family's span is closed under every single bond (checked in integers) and under L and L†, so " +
+            "K_b = 2·Re⟨ρ|S|∂ρ/∂J_b⟩ splits into floor², rest² and the interference between them, read at " +
+            "each bond's canonical Q_peak and envelope time. The sum meets ResonanceScan at the same Q; the " +
+            "floor term meets its single-particle closed form (t·e^(−4γ₀t) times a function of J·t). " +
+            "--N (4..8, default 6), --gamma (default 0.05)",
+            c => new FloorSplitWitness(
+                    c.Parser.HasFlag("N") ? c.N : FloorSplitWitness.DefaultN,
+                    c.Parser.OptionalDouble("gamma") ?? FloorSplitWitness.DefaultGammaZero),
+            RequiresN: false, HonorsOptionalN: true),
         new("compresseddensity", "F154 compressed density, live physical N=11 (1,1) reading: a " +
             "mirror-balanced profile has nonzero C_0 and breaks the conditional F154 identity; " +
             "the separate interval decomposition remains valid and the zero-frequency I/Q " +
