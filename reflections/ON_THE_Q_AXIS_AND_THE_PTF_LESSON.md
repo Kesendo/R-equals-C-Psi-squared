@@ -49,7 +49,7 @@ What survived was the universal shape under relative-Q normalisation:
 
     K(Q) / |K|_max  =  f((Q − Q_peak)/Q_peak)
 
-Read on the envelope, the maximum over t of `K(Q, t)` that defines Q_peak, the curves in `x = (Q − Q_peak)/Q_peak, y = K(Q)/|K|_max` lie on top of each other: across nine cases (c = 2, 3 at N = 5..8 and c = 4 at N = 7) the y values at common x agree within 2.2 % on the left flank and 0.5 % near the peak, while their peaks in absolute Q lie up to 0.3 apart. The half-width on the left side does not settle to one number. It lies in a band,
+Read on the envelope, the maximum over t of `K(Q, t)` that defines Q_peak, the curves in `x = (Q − Q_peak)/Q_peak, y = K(Q)/|K|_max` lie on top of each other: across ten cases (c = 2, 3 at N = 5..8 and c = 4 at N = 7, 8) the y values at common x agree within 2.4 % on the left flank and 0.5 % near the peak, while their peaks in absolute Q lie up to 0.3 apart. The half-width on the left side does not settle to one number. It lies in a band,
 
     HWHM_left / Q_peak  ∈  [0.7523, 0.7637]     (Interior)
 
@@ -70,7 +70,7 @@ The convergent threads, organised vertically by abstraction level:
 
 The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling). The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The toy two-level EP, the shifted full-generator P symmetry, and the fragile bridge's exceptional point on the real γ axis (two qubits per chain) are distinct objects here; whether the EPs share a stronger algebraic classification is OPEN.
 
-**Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable of the two-level model a function of Q/Q_EP alone. Hence there K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. The peak then sits at a fixed multiple of Q_EP, not at Q_EP itself (Q_peak = x_peak·Q_EP in the two-level model); g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. The envelope curves agreeing in x across nine (c, N) cases are the numerical witness; HWHM_left/Q_peak, their summary, lies in a band, not at one value.
+**Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable of the two-level model a function of Q/Q_EP alone. Hence there K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. The peak then sits at a fixed multiple of Q_EP, not at Q_EP itself (Q_peak = x_peak·Q_EP in the two-level model); g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. The envelope curves agreeing in x across ten (c, N) cases are the numerical witness; HWHM_left/Q_peak, their summary, lies in a band, not at one value.
 
 **Interpretive: the inside view.** Inside-Observability (`hypotheses/PRIMORDIAL_QUBIT.md` §9) says Q is the only inside-measurable quantity; γ₀ alone is invisible. The shape universality reads cleanly through this: Q_peak chain-specific = the chain knowing itself through its own peak position; universal shape = the framework-level fact about the chain that the chain-as-its-own-instrument cannot identify in absolute units. t_peak = 1/(4γ₀) is the felt-time horizon (`reflections/ON_TWO_TIMES.md`); γ₀-time flows invisibly, but the EP-time-scale that lives inside the standing-wave envelope is set by it.
 
@@ -98,7 +98,7 @@ F86's surviving Tier-1 *candidate*:
 
     K(Q) / |K|_max  =  f((Q − Q_peak)/Q_peak)         (2-level EP rotation symmetry)
 
-Both are symmetry-enforced. PTF's symmetry is chiral on sites (K_1 = diag((−1)^i)); F86's is the 2-level EP rotation `tan θ = Q/Q_EP` on rate channels. PTF's law is exact at machine precision; F86's law is a Tier-1 candidate witnessed by the envelope curves of nine (c, N) cases agreeing in x to 2.2 % on the left flank, with HWHM_left/Q_peak inside a band 1.5 % wide that drifts with N.
+Both are symmetry-enforced. PTF's symmetry is chiral on sites (K_1 = diag((−1)^i)); F86's is the 2-level EP rotation `tan θ = Q/Q_EP` on rate channels. PTF's law is exact at machine precision; F86's law is a Tier-1 candidate witnessed by the envelope curves of ten (c, N) cases agreeing in x to 2.4 % on the left flank, with HWHM_left/Q_peak inside a band 1.5 % wide that drifts with N.
 
 A closed-form value of HWHM_left/Q_peak has not been derived. Numbers near the band invite themselves (3/4 = 0.75 just below it, 2/√7 = 0.7559 inside it), but a band that rises with N has no constant under it yet. Per the lesson below: do not promote a numerical match to a closed form before deriving f(x).
 

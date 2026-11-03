@@ -3540,19 +3540,19 @@ The g_eff is the H matrix element between adjacent rate channels at a specific b
 
 **Universal resonance shape under relative-Q normalisation, EP-derived.**
 
-While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak is universal in relative-Q coordinates. Defining `x = (Q − Q_peak)/Q_peak` and `y = K(Q)/|K|max`, the class-averaged envelope curves collapse onto a single shape across the read (c, N) (c = 2, 3 at N = 5..8 and c = 4 at N = 7; `f86_envelope_second_route.py --lineshape`; per-case values in [the universal-shape proof](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)):
+While Q_peak itself is chain-specific (no clean closed form), the SHAPE of the abs(K_CC_pr)(Q) curve around Q_peak is universal in relative-Q coordinates. Defining `x = (Q − Q_peak)/Q_peak` and `y = K(Q)/|K|max`, the class-averaged envelope curves collapse onto a single shape across the read (c, N) (c = 2, 3 at N = 5..8 and c = 4 at N = 7, 8; `f86_envelope_second_route.py --lineshape`; per-case values in [the universal-shape proof](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md)):
 
 | x = (Q−Q*)/Q* | Interior, c = 2..4 (spread) | Endpoint, c = 2..4 (spread) |
 |---|---|---|
-| −0.60 | 0.722 to 0.738 (2.1 %) | 0.750 to 0.767 (2.2 %) |
-| −0.40 | 0.900 to 0.907 (0.8 %) | 0.913 to 0.921 (0.9 %) |
+| −0.60 | 0.722 to 0.740 (2.4 %) | 0.750 to 0.767 (2.2 %) |
+| −0.40 | 0.900 to 0.908 (1.0 %) | 0.913 to 0.921 (0.9 %) |
 | −0.20 | 0.980 to 0.982 (0.2 %) | 0.983 to 0.985 (0.2 %) |
 | 0.00 | 1.000 (peak) | 1.000 (peak) |
 | +0.20 | 0.987 to 0.988 (0.1 %) | 0.989 to 0.990 (0.1 %) |
-| +0.40 | 0.956 to 0.960 (0.4 %) | 0.963 to 0.967 (0.5 %) |
-| +1.00 | 0.837 to 0.935 (11.1 %) | 0.856 to 0.876 (2.2 %) |
+| +0.40 | 0.956 to 0.961 (0.4 %) | 0.963 to 0.967 (0.5 %) |
+| +1.00 | 0.837 to 0.935 (10.5 %) | 0.856 to 0.876 (2.2 %) |
 
-The spread at x = +1 in the Interior column is the c = 2 class at N = 7 and 8 (0.884, 0.935), where inner bonds rise toward their far maxima; without those two the Interior range there is 0.837 to 0.849.
+The spread at x = +1 in the Interior column is the c = 2 class at N = 7 and 8 (0.884, 0.935), where inner bonds rise toward their far maxima; without those two the Interior range there is 0.837 to 0.851.
 
 **Universal HWHM ratios (two bond classes):**
 
@@ -3585,7 +3585,7 @@ The same-sign-imaginary off-diagonal structure is what admits an EP at finite J�
 
     K_class(Q) / |K|_max  =  f_class((Q − Q_peak)/Q_peak)        (class ∈ {Endpoint, Interior})
 
-has a relative-Q lineshape that collapses across the nine (c, N) cases read (c = 2, 3 at N = 5..8, c = 4 at N = 7), and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range (the γ₀ part exact; across c and N within 2.2 % on the left flank, on the envelope). The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The class-averaged HWHM ratios (Interior 0.7523..0.7637, Endpoint 0.7710..0.7815) are two bands that still carry a residual N-drift and average over the per-bond `BondSubClass` orbits (0.7505..0.7815 at c = 2 on the canonical reading); the bond-position dependence reflects probe-overlap profiles in K_CC_pr, real (not finite-c) per the c=2 data where the 2-level model is exact. No closed form for f_class(x), and so none for the two HWHM_left/Q_peak bands, has been derived; in the two-level model the rotation gives a function of Q/Q_EP alone, but the full block's peaks do not sit at one multiple of its Q_EP, so the collapse in x is measured, not inherited. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
+has a relative-Q lineshape that collapses across the ten (c, N) cases read (c = 2, 3 at N = 5..8, c = 4 at N = 7, 8), and γ₀ ∈ {0.025, 0.05, 0.10} for the tested range (the γ₀ part exact; across c and N within 2.4 % on the left flank, on the envelope). The symmetry is the 2-level EP rotation `tan θ = Q/Q_EP`, which makes every probe-overlap observable a function of Q/Q_EP alone. The class-averaged HWHM ratios (Interior 0.7523..0.7637, Endpoint 0.7710..0.7815) are two bands that still carry a residual N-drift and average over the per-bond `BondSubClass` orbits (0.7505..0.7815 at c = 2 on the canonical reading); the bond-position dependence reflects probe-overlap profiles in K_CC_pr, real (not finite-c) per the c=2 data where the 2-level model is exact. No closed form for f_class(x), and so none for the two HWHM_left/Q_peak bands, has been derived; in the two-level model the rotation gives a function of Q/Q_EP alone, but the full block's peaks do not sit at one multiple of its Q_EP, so the collapse in x is measured, not inherited. This is the F86 analog of PTF's chiral mirror law (`Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k})`): both Tier-1-candidate symmetries that survived a closed-form retraction (csc(π/(N+1)) and csc(π/5) for F86; Σ ln α_i = 0 for PTF). See [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md).
 
 #### F86b₂. HWHM_ratio per-bond description \[Tier 2 empirical\]
 
