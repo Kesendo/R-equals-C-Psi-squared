@@ -81,7 +81,7 @@ the diagonal shift that turns the adjacency matrix into that Laplacian, and it
 is absent in the XY case". F152 (line 7065) gives the (0,1) block generator used
 in §5. F11 and F65 give mode profiles and rates but not a per-seat count.
 
-**`docs/proofs/`.** `PROOF_UNIFORM_LAW.md` B0 (lines 182-186) owns the starting
+**`docs/proofs/`.** `PROOF_UNIFORM_LAW.md` B0 owns the starting
 point, in this page's own 0-based indexing, and supplies both facts §5 needs:
 "The sector-1 restriction of the chain H is (N−1)·J·Id − 2J·L with L the
 path-graph Laplacian (the gate compares the matrices entry-exactly). Its
@@ -1045,7 +1045,7 @@ generalised from two measured cases.
 | "blind to dephasing" as the name, and interior-B nodes | `PRIMORDIAL_GAMMA_CONSTANT.md:133, 144` |
 | "blind subspace" as a typed term with a Meta-Theorem | `ORTHOGONALITY_SELECTION_FAMILY.md:37, 279` |
 | the two-condition DFS logic, and that (i) alone fails | `J_BLIND_RECEIVER_CLASSES.md:32-40` |
-| h_SE = (N−1)J·Id − 2J·𝓛, Neumann modes, nondegeneracy | `PROOF_UNIFORM_LAW.md:182-186`, gated entry-exactly |
+| h_SE = (N−1)J·Id − 2J·𝓛, Neumann modes, nondegeneracy | `PROOF_UNIFORM_LAW.md` B0, gated entry-exactly |
 | λ_k = 4cos(kπ/N) + N − 5 | `PROOF_R90_FROZEN_DIVISOR.md:176-178` |
 | the ZZ term as the mechanism, Neumann against Dirichlet | F2 line 111, D10 line 180 |
 | the (0,1) block generator M = −2i·𝓛_J − 2·diag(γ) | F152 line 7065 |

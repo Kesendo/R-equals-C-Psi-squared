@@ -38,11 +38,13 @@ What it checks:
   R8  the exceptional profiles: an offset on the single pair (l, N-1-l) gives the corner
       floor(N/2) + (gcd(2l+1, N) - 1)/2, both rings, two couplings, N = 9, 15, 21, every l
       (nullities modulo primes, upper bounds; above the floor they are reads); and, exact in
-      integers, the missed momentum pairs {m, N-m}, m(2l+1) = 0 (mod N), biject onto F157's blind
-      Heisenberg modes of the seat l, (2l+1)m = N (mod 2N), one in each pair, odd N to 199; the same
-      check run with the XY book's nodes, (l+1)m = 0 (mod N+1), must fail; and from the operators,
-      to N = 31 inside a moat: the zeros of the offset's transform at 2k = 2 pi m / N and the nodes of
-      the Heisenberg chain's single-excitation eigenvectors at the seat l are those two index sets.
+      integers, F157's node law at the seat l, (2l+1)m = N (mod 2N), picks exactly one member of
+      each missed momentum pair {m, N-m}, m(2l+1) = 0 (mod N), odd N to 199; the same check run with
+      the XY book's nodes, (l+1)m = 0 (mod N+1), must fail. Which member is the node is read in
+      floats, to N = 31 inside a moat: the zeros of the offset's transform at 2k = 2 pi m / N are the
+      missed set, the nodes of the Heisenberg chain's single-excitation eigenvectors at the seat l are
+      the node law's set (both read through the same functions the integer check uses), on a
+      range holding 14 seats with gcd(2l+1, N) > 1, the seats with pairs for the read to tell apart.
 """
 import sys, random
 from itertools import combinations
@@ -387,18 +389,27 @@ def bijects(pairs, nodes, want):
             and all(any(m in p for p in pairs) for m in nodes))
 
 
+def missed(n, l):
+    """The indices m of the doubled momenta 2k = 2 pi m / N at which the offset's transform vanishes."""
+    return {m for m in range(1, n) if m * (2 * l + 1) % n == 0}
+
+
+def heis_nodes(n, l):
+    """F157's node law at the seat l, (2l+1)m = N (mod 2N); the float read below tests it."""
+    return {m for m in range(1, n) if (m * (2 * l + 1) - n) % (2 * n) == 0}
+
+
 ok, xy_ok = True, True
 for n in range(3, 200, 2):
     for l in range(n // 2):
         g = gcd(2 * l + 1, n)
-        pairs = {frozenset((m, n - m)) for m in range(1, n) if m * (2 * l + 1) % n == 0}
-        nodes = {m for m in range(1, n) if (m * (2 * l + 1) - n) % (2 * n) == 0}
+        pairs = {frozenset((m, n - m)) for m in missed(n, l)}
         xy_nodes = {m for m in range(1, n + 1) if m * (l + 1) % (n + 1) == 0}
-        ok &= bijects(pairs, nodes, (g - 1) // 2)
+        ok &= bijects(pairs, heis_nodes(n, l), (g - 1) // 2)
         xy_ok &= bijects(pairs, xy_nodes, (g - 1) // 2)
-check("missed pairs biject onto F157's blind Heisenberg modes of the seat l, one per pair, odd N to 199", ok)
+check("F157's node law picks exactly one member of each missed pair, odd N to 199", ok)
 check("control: the same bijection with the XY book's nodes fails", not xy_ok)
-ok = True
+ok, cases = True, 0
 for n in range(3, 32, 2):
     x = np.arange(n)
     lap = np.diag([1.0] + [2.0] * (n - 2) + [1.0]) - np.eye(n, k=1) - np.eye(n, k=-1)
@@ -412,9 +423,11 @@ for n in range(3, 32, 2):
             continue
         zeros = {m for m in range(1, n) if dhat[m] <= 1e-10}
         blind = {m for m in range(1, n) if amp[m] <= 1e-10}
-        ok &= zeros == {m for m in range(1, n) if m * (2 * l + 1) % n == 0}
-        ok &= blind == {m for m in range(1, n) if (m * (2 * l + 1) - n) % (2 * n) == 0}
-check("from the operators, N to 31: zeros of the offset's transform and chain nodes at the seat, in a moat", ok)
+        ok &= zeros == missed(n, l)
+        ok &= blind == heis_nodes(n, l)
+        cases += gcd(2 * l + 1, n) > 1                # seats where a pair's two members are told apart
+check(f"floats, N to 31, in a moat: the transform's zeros are the missed set, the chain's nodes at the seat "
+      f"are F157's node law, {cases} seats with gcd(2l+1, N) > 1", ok and cases > 0)
 
 print()
 print("ring frozen band gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")

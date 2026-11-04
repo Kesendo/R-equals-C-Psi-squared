@@ -44,7 +44,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <c>StructuralCeilingClaim</c> carries, are derived in the proof's §5.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F170 + <c>docs/proofs/PROOF_RING_FROZEN_BAND.md</c> +
-/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 25 checks).</para></summary>
+/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 28 checks).</para></summary>
 public sealed class RingFrozenBandClaim : Claim
 {
     /// <summary>The corner floor, F140: typed on the open chains, and valid on both fixed-flux rings by its
@@ -144,8 +144,8 @@ public sealed class RingFrozenBandClaim : Claim
                          $"on the rungs 1, 2, 3; above 1 from ℓ = 2 on: {CellFloorExceedsOne(7)}");
             yield return new InspectableNode("what stays outside",
                 summary: "even N (N = 4 reads [2, 4, 2]; the periodic ring's uniform point at N = 6 carries lowest weight on rung 2), " +
-                         "the single-pair profiles ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2 at composite N (the form of " +
-                         "F157, met one to one at the count in the proof's §7), the defective corner pair at N = 5, and the large-J corner " +
+                         "the single-pair profiles ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2 at composite N (the number of missed pairs " +
+                         "is F157's blind Heisenberg count, the proof's §7, and the excess read matches it), the defective corner pair at N = 5, and the large-J corner " +
                          "span{P_k − P_{−k}}: reads and float checks in the gate, not typed here");
             yield return FrozenDivisor;
             yield return Spectator;

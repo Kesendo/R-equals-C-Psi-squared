@@ -306,7 +306,8 @@ public sealed class RingFrozenBandWitness : IInspectable
 
     /// <summary>F157's blind count of the seat <paramref name="j"/> on the uniform open Heisenberg chain, by
     /// enumerating the node condition (2j + 1)m ≡ N (mod 2N) over m = 1..N − 1, not by its gcd closed form,
-    /// so that the match with the single-pair excess is a second route.</summary>
+    /// so that its match with the gcd form is not the closed form compared with itself. It counts; which member
+    /// of a missed pair is the node is read from the chain's eigenvectors in the Python gate's R8.</summary>
     public static int BlindHeisenbergModes(int n, int j)
     {
         int count = 0;
@@ -749,10 +750,11 @@ public sealed class RingFrozenBandWitness : IInspectable
                 $"the exceptional set at N = {ExceptionalN}: single-pair corners {Row(SinglePairCorners)}",
                 summary: "an offset on the single pair (l, N − 1 − l) misses the second-order lift on the momenta " +
                          "whose order divides gcd(2l + 1, N), giving ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2; a read, " +
-                         "certified where it meets the floor and an upper bound at l = 1. The excess equals F157's " +
-                         $"blind Heisenberg count of the seat l, {Row(Enumerable.Range(0, ExceptionalN / 2).Select(l => BlindHeisenbergModes(ExceptionalN, l)))} " +
-                         "by node enumeration: each missed momentum pair holds one blind mode, the same harmonic " +
-                         "read at l + ½ (PROOF_RING_FROZEN_BAND §7)",
+                         "certified where it meets the floor and an upper bound at l = 1. The number of missed pairs, " +
+                         "(gcd(2l + 1, N) − 1)/2, is F157's blind Heisenberg count of the seat l, " +
+                         $"{Row(Enumerable.Range(0, ExceptionalN / 2).Select(l => BlindHeisenbergModes(ExceptionalN, l)))} " +
+                         "by enumerating its node law, and the excess read here matches it; that each missed pair " +
+                         "holds one node is PROOF_RING_FROZEN_BAND §7 and the gate's R8, not read here",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("what stays outside",
                 summary: "the identity N·D̂ = ℓ² − Dmom and its floor ℓ(N − ℓ)/N (irrational plane waves; gate " +
