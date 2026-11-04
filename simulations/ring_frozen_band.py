@@ -1,5 +1,5 @@
 """Gate for docs/proofs/PROOF_RING_FROZEN_BAND.md: the XY ring's frozen band at odd N, and at even N
-above the corner and in the periodic ring's corner.
+above the corner and in the corners of both fixed-flux rings.
 
 Self-contained: builds every object from scratch and imports nothing from the framework or
 from the other frozen-band gates, so agreement with them is evidence and not a shared bug.
@@ -70,9 +70,22 @@ What it checks:
       resonant offsets cover the classes and the nonresonant ones match them in number on the periodic
       ring and fall one short on the pi-flux ring; the one null direction there is sum_k P_k / sin k,
       v(a,b) = sgn(b - a) for a + b odd; the reflection l -> N-1-l maps K0 to itself, K1 to -K1 and that
-      direction to minus itself, so the third order vanishes on it; read only, the fourth is real, positive
+      direction to minus itself, so <w, W3 w> = 0; read only, the fourth is real, positive
       at gbar > 0 and proportional to 1/(J^2 gbar) at N = 6..12, meeting the smallest eigenvalue at offset
       1e-2; and, read off the locus on zero-mean profiles, the same second-order nullities.
+  R11 even N, the pi-flux ring's populations' sector at fourth order (Proposition 8): the rotation
+      identity {D, j^-1} = [h, [Lap^-1 D, Lam]], Lam = sum_k cot k P_k, at N = 4..24 on random zero-mean
+      offsets, to the size of a rounding, with the inverse Laplacian dropped as the control that must miss;
+      in the corner, K1 w = K0 y with y = -(2i/J)[phi, Lam] free of populations and of the uniform kernel;
+      on the locus the second-order form couples y to no t-direction, and off the locus it does (the
+      control); c4 by its definition equals the population cost (4 gbar / |w|^2) min_z |diag(R0^dag K1 (y + z))|^2
+      over Z+ and over Z' at N = 4..20 on random locus profiles and couplings; read, it equals the closed form
+      through tau, and y pays nothing in the nonresonant sectors; the populations of y and of z in Z+ at the
+      resonant q meet their formulas, and mu_C is real on the locus; on the single-pair profile e_0 - e_(N-1)
+      c4 by its definition and by the closed form meet the formula by hand at N = 4..24 with the sign of gbar,
+      and the smallest eigenvalue of the U = +1 block is c4 e^4 (1 + a e^2) at N = 4..12, a route with no
+      pseudo-inverse; and, read, c4 drops to rounding where tau changes sign on the locus, away from its poles,
+      at N = 6, 8, 10.
 """
 import sys, random
 from itertools import combinations
@@ -833,7 +846,7 @@ for n in (6, 8, 10, 12):
         vals[(J, gbar)] = l4.real
     ok_sc &= all(abs(vals[(J, g)] * J * J * g / vals[(1.0, 1.0)] - 1) < 1e-8 for (J, g) in vals)
 check("pi-flux ring, N = 6..12, one locus profile each: the reflection maps K1 to -K1, K0 and U to themselves and "
-      "that direction to minus itself, and the third order vanishes on it", ok_3)
+      "that direction to minus itself, and <w, W3 w> = 0", ok_3)
 check("read: the fourth-order coefficient there is real and positive and meets the smallest eigenvalue of the "
       "corner's U = +1 block at offset 1e-2 over its fourth power within 1 per cent", ok_l4)
 check("read: it scales as 1/(J^2 gbar), at J/gbar = 1/4, 1/2, 1, 2, 3", ok_sc)
@@ -851,6 +864,309 @@ for n in range(4, 17, 2):
         ok_off &= k == (0 if wrap == 1 else 1)
 check("read, off the locus, N = 4..16, random zero-mean profiles: the same second-order nullities, 0 periodic and "
       "1 pi flux, inside a moat (the proof does not use the locus)", ok_off)
+
+
+
+# ---------------- R11: the pi-flux ring's populations' sector at fourth order ----------------
+
+print()
+print("R11 even N, pi-flux ring: the inverse current is only turned at first order, and the trace keeps it from the root")
+
+
+def pflux(n):
+    """plane waves of the pi-flux ring, the inverse current j^-1, Lam = (1/2) h j^-1 = sum cot k P_k,
+    and the periodic lattice Laplacian on the sites."""
+    ks = np.array(momenta(n, -1))
+    Ph = np.exp(1j * np.outer(np.arange(n), ks)) / np.sqrt(n)
+    jinv = Ph @ np.diag(1 / np.sin(ks)) @ Ph.conj().T
+    Lam = Ph @ np.diag(1 / np.tan(ks)) @ Ph.conj().T
+    Lap = -2 * np.eye(n) + np.roll(np.eye(n), 1, 0) + np.roll(np.eye(n), -1, 0)
+    return ks, Ph, jinv, Lam, Lap
+
+
+def turn(D, Lam, Lap, J):
+    """the first-order dressing y = -(2i/J) [phi, Lam], phi = Lap^-1 D (zero mean): i[phi, Lam] is the first-order
+    change of Lam under the site phases e^(i phi), a turn about Z."""
+    phi = np.linalg.lstsq(Lap, D, rcond=None)[0]
+    return -2j / J * (np.diag(phi) @ Lam - Lam @ np.diag(phi))
+
+
+def locus_profile(n, rnd):
+    D = np.zeros(n); d = rnd.standard_normal(n // 2)
+    for l in range(n // 2):
+        D[l], D[n - 1 - l] = d[l], -d[l]
+    return D
+
+
+def fourth(n, J, gbar, D):
+    """c4 by its definition (Proposition 8), and the population cost minimized over Z' (the kernel without w)
+    and over Z+ (the traceless combinations of class sums)."""
+    ks, Ph, jinv, Lam, Lap = pflux(n)
+    B = sym_basis(n)
+    K0 = B.T @ corner_f(n, -1, J, gbar, np.zeros(n)) @ B
+    K1 = B.T @ corner_f(n, -1, J, gbar, D) @ B - K0
+    R = np.linalg.pinv(K0, rcond=1e-12)
+    Z = null(K0)
+    P = Z @ Z.conj().T
+    w = B.T @ jinv.reshape(-1)
+    nw = np.linalg.norm(w); t = w / nw
+    W2 = -P @ K1 @ R @ K1 @ P
+    W3 = P @ K1 @ R @ K1 @ R @ K1 @ P
+    W4 = -P @ K1 @ R @ K1 @ R @ K1 @ R @ K1 @ P
+    c4 = t.conj() @ W4 @ t - t.conj() @ W3 @ np.linalg.pinv(W2, rcond=1e-10) @ W3 @ t
+    y = B.T @ turn(D, Lam, Lap, J).reshape(-1)
+    G = (R.conj().T @ K1)[:n, :]            # the first n coordinates of sym_basis are the populations
+    def cost(Zs):
+        a0 = G @ y
+        if Zs.shape[1]:
+            Am = G @ Zs
+            a0 = a0 + Am @ np.linalg.lstsq(Am, -a0, rcond=None)[0]
+        return 4 * gbar * np.linalg.norm(a0) ** 2 / nw ** 2
+    Zp = Z @ null((t.conj() @ Z)[None, :])  # the uniform kernel without w, whose response is exactly zero
+    cls = classes(n)
+    S = np.array([B.T @ (Ph[:, c] @ Ph[:, c].conj().T).reshape(-1) for c in cls]).T
+    Zplus = S @ null(np.array([[len(c) for c in cls]], float)) if len(cls) > 1 else np.zeros((len(y), 0))
+    return dict(c4=c4, cost=cost(Zp), cost_plus=cost(Zplus), K0=K0, K1=K1, R=R, Z=Z, w=w, y=y, B=B, G=G,
+                ks=ks, Ph=Ph, Zplus=Zplus, cls=cls, S=S)
+
+
+def classes(n):
+    """the classes {k, -k, pi + k, pi - k} of the pi-flux momenta k = pi (2m + 1) / n, as index lists."""
+    out, seen = [], set()
+    for m in range(n):
+        if m in seen:
+            continue
+        kap = 2 * m + 1
+        C = sorted({((c % (2 * n)) - 1) // 2 for c in (kap, -kap, n + kap, n - kap)})
+        seen |= set(C)
+        out.append(C)
+    return out
+
+
+def theta(dh, n, k):
+    """Theta(2k) = sum_p g(k - p) g(k + p), g(u) = dhat(u) / sin(u/2), p over the pi-flux momenta."""
+    G = 0.0
+    for p in momenta(n, -1):
+        u, v = k - p, k + p
+        mu, mv = int(round(u * n / (2 * np.pi))) % n, int(round(v * n / (2 * np.pi))) % n
+        if mu and mv:
+            G += dh[mu] * dh[mv] / (np.sin(u / 2) * np.sin(v / 2))
+    return G
+
+
+def mu(dh, n, j, J):
+    """mu_C = -i Theta(q) / (J sin(q/2) dhat(q)) at the resonant q = 2 pi j / n."""
+    q = 2 * np.pi * j / n
+    return -1j * theta(dh, n, q / 2) / (J * np.sin(q / 2) * dh[j])
+
+
+def c4_closed(D, J, gbar):
+    """c4 = (2 / (N J^2 gbar)) |tau|^2 / sum_C |O_C|^2 / omega_C, tau = sum_C |O_C| Theta / (sin(q_C/2) dhat(q_C)),
+    one class per resonant pair {j, N - j}, |O_C| = 2, and the class at q = pi, |O_C| = 1."""
+    n = len(D); dh = np.fft.fft(D) / n
+    seen, tau, s2 = set(), 0.0, 0.0
+    for j in range(1, n, 2):
+        if j in seen:
+            continue
+        pair = {j, n - j}; seen |= pair
+        osz = 1.0 if len(pair) == 1 else 2.0
+        q = 2 * np.pi * j / n
+        tau += osz * theta(dh, n, q / 2) / (np.sin(q / 2) * dh[j])
+        s2 += osz ** 2 / sum(abs(dh[i]) ** 2 for i in pair)
+    return 2 * abs(tau) ** 2 / s2 / (n * J * J * gbar), tau
+
+
+def c4_pair(n, J, gbar):
+    """the single-pair profile e_0 - e_(N-1), by hand: tau = -(2i(N-2)/N) sum_C |O_C| / sin^2(q_C/2),
+    omega_C = (4/N^2) (number of resonant q in C) sin^2(q_C/2)."""
+    s1 = s2 = 0.0; seen = set()
+    for j in range(1, n, 2):
+        if j in seen:
+            continue
+        pair = {j, n - j}; seen |= pair
+        osz = 1.0 if len(pair) == 1 else 2.0
+        sn2 = np.sin(np.pi * j / n) ** 2
+        s1 += osz / sn2
+        s2 += osz ** 2 / (len(pair) * 4 / n ** 2 * sn2)
+    return 2 * (2 * (n - 2) / n) ** 2 * s1 ** 2 / s2 / (n * J * J * gbar)
+
+
+rnd11 = np.random.default_rng(11)
+eps = np.finfo(float).eps
+
+# the rotation identity, in single-particle space
+worst, ctrl = 0.0, np.inf
+for n in range(4, 25, 2):
+    ks, Ph, jinv, Lam, Lap = pflux(n)
+    h = h_ring(n, -1).astype(float)
+    for _ in range(3):
+        D = rnd11.standard_normal(n); D -= D.mean()
+        phi = np.linalg.lstsq(Lap, D, rcond=None)[0]
+        lhs = np.diag(D) @ jinv + jinv @ np.diag(D)
+        X = np.diag(phi) @ Lam - Lam @ np.diag(phi)
+        scale = eps * n * n * np.abs(D).max() * np.abs(jinv).max() * np.abs(Lam).max()
+        worst = max(worst, np.abs(lhs - (h @ X - X @ h)).max() / scale)
+        Xc = np.diag(D) @ Lam - Lam @ np.diag(D)              # control: without the inverse Laplacian
+        ctrl = min(ctrl, np.abs(lhs - (h @ Xc - Xc @ h)).max() / np.abs(lhs).max())
+check("pi-flux ring, N = 4..24, random zero-mean offsets: {D, j^-1} = [h, [Lap^-1 D, Lam]], Lam = sum_k cot k P_k, "
+      "to the size of a rounding (worst / eps-scale < 1e2); without the inverse Laplacian it misses by > 0.1",
+      worst < 1e2 and ctrl > 0.1, f"worst {worst:.2g}, control {ctrl:.2g}")
+
+# in the corner: K1 w = K0 y, y population-free and outside the uniform kernel
+worst2, pop2 = 0.0, 0.0
+for n in range(4, 17, 2):
+    for J, gbar in ((1.0, 1.0), (1.7, 0.6)):
+        D = locus_profile(n, rnd11)
+        f = fourth(n, J, gbar, D)
+        K0, K1, w, y, Z = f["K0"], f["K1"], f["w"], f["y"], f["Z"]
+        sc = eps * n * n * np.abs(K0).max() * np.linalg.norm(y)
+        worst2 = max(worst2, np.abs(K1 @ w - K0 @ y).max() / sc,
+                     np.abs(Z.conj().T @ y).max() / (eps * n * n * np.linalg.norm(y)))
+        pop2 = max(pop2, np.abs(y[:n]).max())
+check("the corner's U = +1, N = 4..16, locus profiles, two couplings: K1 w = K0 y with w = j^-1 and "
+      "y = -(2i/J)[phi, Lam], to the size of a rounding (worst / eps-scale < 1e2), y with no part in the uniform "
+      "kernel to that size and with populations exactly 0", worst2 < 1e2 and pop2 == 0.0,
+      f"worst {worst2:.2g}, populations {pop2}")
+
+# the reflection decouples y from the t-directions on the locus; off the locus it does not
+ok3, ctl3 = True, np.inf
+for n in range(6, 17, 2):
+    for lab in ("locus", "off"):
+        if lab == "locus":
+            D = locus_profile(n, rnd11)
+        else:
+            D = rnd11.standard_normal(n); D -= D.mean()
+        f = fourth(n, 1.3, 0.7, D)
+        Xf = -f["K1"] @ f["R"] @ f["K1"]
+        tds = [f["B"].T @ (f["Ph"] @ np.diag(np.sin(m * f["ks"])) @ f["Ph"].conj().T).reshape(-1)
+               for m in range(1, n, 2)]
+        y = f["y"]
+        cr = max(abs(y.conj() @ Xf @ td) / (np.linalg.norm(y) * np.linalg.norm(td) * np.abs(Xf).max()) for td in tds)
+        if lab == "locus":
+            ok3 &= cr < 1e3 * eps * n * n
+        else:
+            ctl3 = min(ctl3, cr)
+check("N = 6..16: on the locus the second-order form couples y to no t-direction (sum_k f(k) P_k, f odd), "
+      "below 1e3 eps N^2 of its scale; off the locus the coupling is of order one (> 1e-3), the control",
+      ok3 and ctl3 > 1e-3, f"off-locus min {ctl3:.2g}")
+
+# c4 is the population cost, over Z+ as displayed and over Z'; the closed form and the nonresonant silence (read)
+dev4 = dev5 = nonres = 0.0
+for n in range(4, 21, 2):
+    for _ in range(3):
+        J, gbar = rnd11.uniform(0.5, 2.0), rnd11.uniform(0.3, 2.0)
+        D = locus_profile(n, rnd11)
+        f = fourth(n, J, gbar, D)
+        c4 = f["c4"]
+        dev4 = max(dev4, abs(c4 / f["cost_plus"] - 1), abs(c4 / f["cost"] - 1))
+        dev5 = max(dev5, abs(c4 / c4_closed(D, J, gbar)[0] - 1))
+        py = np.fft.fft(f["G"] @ f["y"]) / np.sqrt(n)
+        nonres = max(nonres, np.abs(py[0::2]).max() / np.abs(py).max())
+check("N = 4..20, random locus profiles and couplings: c4 by its definition equals the population cost "
+      "(4 gbar / |w|^2) min_z |diag(R0^dag K1 (y + z))|^2 over Z+ and over Z' within 1e-8 (all three through "
+      "one pseudo-inverse of K0)", dev4 < 1e-8, f"worst relative {dev4:.2g}")
+check("read: c4 equals the closed form (2 / (N J^2 gbar)) |tau|^2 / sum_C |O_C|^2 / omega_C within 1e-8, and "
+      "y's population response vanishes in the nonresonant sectors (below 1e-12 of the resonant)",
+      dev5 < 1e-8 and nonres < 1e-12, f"worst relative {dev5:.2g}, nonresonant {nonres:.2g}")
+
+# the populations at the resonant q: y, and z in Z+ through its class sums; mu_C real on the locus
+dev6, imu = 0.0, 0.0
+for n in range(6, 17, 2):
+    J, gbar = 1.3, 0.7
+    D = locus_profile(n, rnd11)
+    dh = np.fft.fft(D) / n
+    f = fourth(n, J, gbar, D)
+    z = f["Zplus"] @ rnd11.standard_normal(f["Zplus"].shape[1])
+    Bz = (f["B"] @ z).reshape(n, n)
+    s = np.real(np.einsum("lk,lm,mk->k", f["Ph"].conj(), Bz, f["Ph"]))      # z = sum_k s_k P_k
+    py = np.fft.fft(f["G"] @ f["y"]) / np.sqrt(n)
+    pz = np.fft.fft(f["G"] @ z) / np.sqrt(n)
+    for j in range(1, n, 2):
+        q = 2 * np.pi * j / n
+        cl = next(c for c in f["cls"] if (j - 1) // 2 in c or ((2 * n - j) % (2 * n) - 1) // 2 in c)
+        Y = s[cl].sum() / (len(cl) // 2)
+        m = mu(dh, n, j, J)
+        want_y = np.sqrt(n) / (2 * gbar) * dh[j] * m
+        want_z = -np.sqrt(n) / (2 * gbar) * dh[j] * Y
+        dev6 = max(dev6, abs(py[j] - want_y) / abs(py).max(), abs(pz[j] - want_z) / abs(pz).max())
+        imu = max(imu, abs(m.imag) / abs(m))
+check("N = 6..16, locus profiles: at every resonant q the population that R0^dag K1 y holds is (N^(1/2) / (2 gbar)) "
+      "dhat(q) mu_C and that of R0^dag K1 z, z random in Z+, is -(N^(1/2) / (2 gbar)) dhat(q) Y_C, within 1e-10 of the largest, and mu_C is real "
+      "(below 1e-10)", dev6 < 1e-10 and imu < 1e-10, f"worst {dev6:.2g}, Im mu {imu:.2g}")
+
+# the single-pair profile e_0 - e_(N-1): by hand against both routes, both signs of gbar
+dev7, sgn7 = 0.0, True
+for n in range(4, 25, 2):
+    D = np.zeros(n); D[0], D[n - 1] = 1.0, -1.0
+    for J, gbar in ((1.3, 0.7), (-0.9, -0.7)):
+        f = fourth(n, J, gbar, D)
+        hand = c4_pair(n, J, gbar)
+        sgn7 &= np.sign(f["c4"].real) == np.sign(gbar)
+        dev7 = max(dev7, abs(f["c4"] / hand - 1), abs(c4_closed(D, J, gbar)[0] / hand - 1))
+check("the single-pair profile e_0 - e_(N-1), N = 4..24, (J, gbar) = (1.3, 0.7) and (-0.9, -0.7): c4 by its definition and by the "
+      "closed form equals the formula by hand within 1e-8, with the sign of gbar", dev7 < 1e-8 and sgn7,
+      f"worst relative {dev7:.2g}")
+
+# the single-pair profile through the spectrum itself: no pseudo-inverse. The scalar on w is even in the
+# offset e, so lambda / (e^4 c4) = 1 + a e^2 + b e^4 + ...: gated as that law, (lambda / (e^4 c4) - 1) / e^2
+# agreeing across e = 4e-2, 3e-2, 2e-2. The error model: the spread is b e^2, measured below 0.3 per cent
+# of a at N = 4..12, and the eigensolver's rounding, eps |M| / (c4 e^6) at e = 2e-2, below 4e-4 of a; the
+# threshold, 1 per cent, sits above both and fails on an e or e^3 next order
+dev9 = 0.0
+for n in range(4, 13, 2):
+    D = np.zeros(n); D[0], D[n - 1] = 1.0, -1.0
+    J, gbar = 1.3, 0.7
+    B = sym_basis(n)
+    a2 = []
+    for e in (4e-2, 3e-2, 2e-2):
+        ev = np.linalg.eigvals(B.T @ corner_f(n, -1, J, gbar, e * D) @ B)
+        lam = ev[np.argmin(abs(ev))]
+        a2.append((lam / e ** 4 / c4_pair(n, J, gbar) - 1).real / e ** 2)
+    dev9 = max(dev9, (max(a2) - min(a2)) / max(abs(np.mean(a2)), 1e-2))
+check("the single-pair profile, N = 4..12: the smallest eigenvalue of the corner's U = +1 block is c4 e^4 "
+      "(1 + a e^2 + ...): (lambda / (e^4 c4) - 1) / e^2 agrees across e = 4e-2, 3e-2, 2e-2 within 1 per cent",
+      dev9 < 1e-2, f"worst spread {dev9:.2g}")
+
+# c4 vanishes on the hypersurface tau = 0 of the locus
+
+
+def min_dhat(D):
+    n = len(D); dh = np.fft.fft(D) / n
+    return min(abs(dh[j]) for j in range(1, n, 2)) / np.abs(dh).max()
+
+
+ok8, rat8 = True, []
+for n in (6, 8, 10):
+    found = False
+    for tries in range(400):
+        Da, Db = locus_profile(n, rnd11), locus_profile(n, rnd11)
+
+        def T(s):
+            with np.errstate(divide="ignore", invalid="ignore"):
+                return (c4_closed((1 - s) * Da + s * Db, 1.0, 1.0)[1] / 1j).real
+        if not T(0.0) * T(1.0) < 0:
+            continue
+        lo, hi = 0.0, 1.0
+        for _ in range(60):
+            mid = (lo + hi) / 2
+            tm = T(mid)
+            if not np.isfinite(tm):
+                break
+            if T(lo) * tm <= 0:
+                hi = mid
+            else:
+                lo = mid
+        Dz = (1 - lo) * Da + lo * Db
+        if min_dhat(Dz) < 1e-2:           # a pole of tau, where some dhat(q_C) vanishes, not a zero
+            continue
+        ref = max(fourth(n, 1.0, 1.0, Da)["c4"].real, fourth(n, 1.0, 1.0, Db)["c4"].real)
+        rat8.append(abs(fourth(n, 1.0, 1.0, Dz)["c4"].real) / ref)
+        found = True
+        break
+    ok8 &= found
+check("read: N = 6, 8, 10, on a segment of locus profiles where tau / i changes sign with every resonant dhat "
+      "bounded away from zero, c4 by its definition drops below 1e-6 of its value at the ends",
+      ok8 and max(rat8, default=1.0) < 1e-6, f"ratios {[f'{r:.1g}' for r in rat8]}")
 
 print()
 print("ring frozen band gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")

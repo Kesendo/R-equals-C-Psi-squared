@@ -39,12 +39,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>What is not typed here.</b> The proof also rests on PROOF_FROZEN_BAND_SO4's sum formula
 /// (Corollary 4.2) and pencil count (Propositions 5.1 and 5.3), which carry no typed claim. The identity and
 /// its floor need the commutant of H in the plane waves and stay in the proof and in the gate's R3/R4; the
-/// even-N reads, the single-pair profiles at composite N and the defective corner pair at N = 5 stay reads
+/// even-N reads below N = 8, the single-pair profiles at composite N and the defective corner pair at N = 5 stay reads
 /// (PROOF_RING_FROZEN_BAND §8). The ring corner's commutant rates 2(N − 1)/N and 2(N − 2)/N, which
 /// <c>StructuralCeilingClaim</c> carries, are derived in the proof's §5.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F170 + <c>docs/proofs/PROOF_RING_FROZEN_BAND.md</c> +
-/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 51 checks).</para></summary>
+/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 60 checks).</para></summary>
 public sealed class RingFrozenBandClaim : Claim
 {
     /// <summary>The corner floor, F140: typed on the open chains, and valid on both fixed-flux rings by its
@@ -108,7 +108,7 @@ public sealed class RingFrozenBandClaim : Claim
             "to π, so N·D̂ = ℓ² − Dmom on LW_ℓ ∩ V₀ and 𝒦 ≥ ℓ(N − ℓ)/N > 1 above the seed: nothing new " +
             "is seeded above the bottom rung, and every rung carries what the corner carries, whose frozen modes " +
             "tend at large J to one per pair of opposite momenta. SCOPE: odd N; at γ̄ = 0 (F140's zero-mean " +
-            "stratum) false; even N outside this claim (the proof's §7 derives that no rung above the corner carries frozen modes of its own at N ≥ 8, generically, so each carries its ring's corner, and the periodic ring's corner N/2 on the locus at every even N, generically, untyped; the π-flux ring's corner read to N = 20; N = 4 overfull on its middle rung); the exceptional set holds " +
+            "stratum) false; even N outside this claim (the proof's §7 derives that no rung above the corner carries frozen modes of its own at N ≥ 8, generically, so each carries its ring's corner, and the corners of both fixed-flux rings N/2 on the locus at every even N, generically, untyped; N = 4 overfull on its middle rung); the exceptional set holds " +
             "single-pair profiles at composite N, couplings at which the corner's root turns defective, and at " +
             "the uniform point couplings at which a higher rung gains lowest-weight frozen modes (at N = 5 the " +
             "rung 2 at J = (2/√3)·γ̄).",
@@ -143,7 +143,7 @@ public sealed class RingFrozenBandClaim : Claim
                 summary: $"ℓ(N − ℓ)/N = {string.Join(", ", Enumerable.Range(1, 3).Select(l => $"{CellFloor(7, l).Numerator}/7"))} " +
                          $"on the rungs 1, 2, 3; above 1 from ℓ = 2 on: {CellFloorExceedsOne(7)}");
             yield return new InspectableNode("what stays outside",
-                summary: "even N (the proof's §7: from N = 8 on no rung above the corner carries its own, the corner exact at the uniform point, N/2 on the locus at every even N on the periodic ring, generically, and read N/2 to N = 20 on the π-flux ring; " +
+                summary: "even N (the proof's §7: from N = 8 on no rung above the corner carries its own, the corner exact at the uniform point, N/2 on the locus at every even N on both fixed-flux rings, generically; " +
                          "N = 4 reads [2, 4, 2]; the periodic ring's uniform point at N = 6 carries lowest weight on rung 2), " +
                          "the single-pair profiles ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2 at composite N (the number of missed pairs " +
                          "is F157's blind Heisenberg count, the proof's §8, and the excess read matches it), the defective corner pair at N = 5, and the large-J corner " +
