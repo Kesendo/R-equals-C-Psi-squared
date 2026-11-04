@@ -469,7 +469,14 @@ congruence has exactly g solutions in [0, 2N). Of those, m = 0 is never one (it
 would need N ≡ 0 mod 2N), m = N always is ((2j+1)N − N = 2jN ≡ 0 mod 2N), and
 m ↦ 2N − m maps solutions to solutions while fixing only 0 and N. So the g
 solutions are m = N together with (g−1)/2 mirror pairs, exactly one member of
-each lying in [1, N−1]. Counting those gives (g−1)/2.
+each lying in [1, N−1]. Counting those gives (g−1)/2. Relax the node condition
+from ≡ N (mod 2N) to m(2j+1) ≡ 0 (mod N) and it has g − 1 solutions in
+[1, N−1], paired by m ↦ N − m with exactly one member of each pair a node. At odd
+N those pairs index the doubled momenta 2k = 2πm/N of an N-site XY ring on which
+an R₉₀ rate offset carried by the site pair (j, N−1−j) leaves the frozen
+corner's second-order lift at zero, so the count reappears there, matched index
+for index and not mode for mode
+([PROOF_RING_FROZEN_BAND](../docs/proofs/PROOF_RING_FROZEN_BAND.md) §7, F170).
 
 **The same count holds in F64's own block, and that is where a reader of F64
 would look for it.** The exact identity is EQ-015's, −Re(λ_k) = 2γ_B·|v_k(B)|²,

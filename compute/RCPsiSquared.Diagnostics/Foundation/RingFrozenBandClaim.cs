@@ -145,7 +145,7 @@ public sealed class RingFrozenBandClaim : Claim
             yield return new InspectableNode("what stays outside",
                 summary: "even N (N = 4 reads [2, 4, 2]; the periodic ring's uniform point at N = 6 carries lowest weight on rung 2), " +
                          "the single-pair profiles ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2 at composite N (the form of " +
-                         "F157, not joined), the defective corner pair at N = 5, and the large-J corner " +
+                         "F157, met one to one at the count in the proof's §7), the defective corner pair at N = 5, and the large-J corner " +
                          "span{P_k − P_{−k}}: reads and float checks in the gate, not typed here");
             yield return FrozenDivisor;
             yield return Spectator;

@@ -125,6 +125,20 @@ public sealed class RingFrozenBandClaimTests
     }
 
     [Fact]
+    public void Single_Pair_Excess_Is_F157s_Blind_Heisenberg_Count_At_Every_Odd_N()
+    {
+        for (int n = 3; n < 200; n += 2)
+            for (int l = 0; l < n / 2; l++)
+                Assert.Equal(RingFrozenBandWitness.SinglePairPrediction(n, l) - n / 2,
+                    RingFrozenBandWitness.BlindHeisenbergModes(n, l));
+        // Control: the XY book's law gcd(l + 1, N + 1) - 1 is a different count; at N = 9, seat 3 it
+        // reads 1 against the Heisenberg 0, so the match above is with the Heisenberg book alone.
+        Assert.Equal(0, RingFrozenBandWitness.BlindHeisenbergModes(9, 3));
+        Assert.NotEqual((int)System.Numerics.BigInteger.GreatestCommonDivisor(3 + 1, 9 + 1) - 1,
+            RingFrozenBandWitness.BlindHeisenbergModes(9, 3));
+    }
+
+    [Fact]
     public void Resonance_Count_Is_Zero_Exactly_At_Odd_N()
     {
         for (int n = 3; n <= 41; n++)

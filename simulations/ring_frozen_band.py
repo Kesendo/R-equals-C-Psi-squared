@@ -37,7 +37,12 @@ What it checks:
       second route (not a bound from below).
   R8  the exceptional profiles: an offset on the single pair (l, N-1-l) gives the corner
       floor(N/2) + (gcd(2l+1, N) - 1)/2, both rings, two couplings, N = 9, 15, 21, every l
-      (nullities modulo primes, upper bounds; above the floor they are reads).
+      (nullities modulo primes, upper bounds; above the floor they are reads); and, exact in
+      integers, the missed momentum pairs {m, N-m}, m(2l+1) = 0 (mod N), biject onto F157's blind
+      Heisenberg modes of the seat l, (2l+1)m = N (mod 2N), one in each pair, odd N to 199; the same
+      check run with the XY book's nodes, (l+1)m = 0 (mod N+1), must fail; and from the operators,
+      to N = 31 inside a moat: the zeros of the offset's transform at 2k = 2 pi m / N and the nodes of
+      the Heisenberg chain's single-excitation eigenvectors at the seat l are those two index sets.
 """
 import sys, random
 from itertools import combinations
@@ -375,6 +380,41 @@ for n in (9, 15, 21):
                 re, im = scaled(n, 1, wrap, True, jnum, g)
                 ok &= nullity(re, im) == want
 check("corner on a single-pair profile: floor(N/2) + (gcd(2l+1, N) - 1)/2, N = 9, 15, 21, every l", ok)
+
+
+def bijects(pairs, nodes, want):
+    return (len(pairs) == len(nodes) == want and all(len(p & nodes) == 1 for p in pairs)
+            and all(any(m in p for p in pairs) for m in nodes))
+
+
+ok, xy_ok = True, True
+for n in range(3, 200, 2):
+    for l in range(n // 2):
+        g = gcd(2 * l + 1, n)
+        pairs = {frozenset((m, n - m)) for m in range(1, n) if m * (2 * l + 1) % n == 0}
+        nodes = {m for m in range(1, n) if (m * (2 * l + 1) - n) % (2 * n) == 0}
+        xy_nodes = {m for m in range(1, n + 1) if m * (l + 1) % (n + 1) == 0}
+        ok &= bijects(pairs, nodes, (g - 1) // 2)
+        xy_ok &= bijects(pairs, xy_nodes, (g - 1) // 2)
+check("missed pairs biject onto F157's blind Heisenberg modes of the seat l, one per pair, odd N to 199", ok)
+check("control: the same bijection with the XY book's nodes fails", not xy_ok)
+ok = True
+for n in range(3, 32, 2):
+    x = np.arange(n)
+    lap = np.diag([1.0] + [2.0] * (n - 2) + [1.0]) - np.eye(n, k=1) - np.eye(n, k=-1)
+    _, vecs = np.linalg.eigh(lap)                     # ascending: the mode m = 0..N-1 in order
+    for l in range(n // 2):
+        d = np.zeros(n); d[l], d[n - 1 - l] = 1.0, -1.0
+        dhat = np.array([abs((d * np.exp(-2j * np.pi * m * x / n)).sum()) / n for m in range(n)])
+        amp = np.abs(vecs[l, :])
+        if np.any((dhat > 1e-10) & (dhat < 1e-4)) or np.any((amp > 1e-10) & (amp < 1e-4)):
+            ok = False                                # a value inside the moat: no read
+            continue
+        zeros = {m for m in range(1, n) if dhat[m] <= 1e-10}
+        blind = {m for m in range(1, n) if amp[m] <= 1e-10}
+        ok &= zeros == {m for m in range(1, n) if m * (2 * l + 1) % n == 0}
+        ok &= blind == {m for m in range(1, n) if (m * (2 * l + 1) - n) % (2 * n) == 0}
+check("from the operators, N to 31: zeros of the offset's transform and chain nodes at the seat, in a moat", ok)
 
 print()
 print("ring frozen band gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")

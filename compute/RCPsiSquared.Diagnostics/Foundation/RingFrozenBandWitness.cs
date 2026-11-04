@@ -282,7 +282,8 @@ public sealed class RingFrozenBandWitness : IInspectable
         Resonances.EvenPeriodic > 0 && Resonances.EvenPiFlux > 0 &&
         EvenControl.Total.SequenceEqual(new[] { 2, 4, 2 }) &&
         EvenControl.LowestWeight.SequenceEqual(new[] { 2, 2, 0 }) &&
-        SinglePairCorners.Select((k, l) => k == SinglePairPrediction(ExceptionalN, l)).All(x => x);
+        SinglePairCorners.Select((k, l) => k == SinglePairPrediction(ExceptionalN, l) &&
+                                           k - ExceptionalN / 2 == BlindHeisenbergModes(ExceptionalN, l)).All(x => x);
 
     // ================= the statements, as static reads =================
 
@@ -300,6 +301,17 @@ public sealed class RingFrozenBandWitness : IInspectable
         for (int a = 0; a < n; a++)
             for (int b = 0; b < n; b++)
                 if (((2 * a + off) + (2 * b + off) - n) % (2 * n) == 0) count++;
+        return count;
+    }
+
+    /// <summary>F157's blind count of the seat <paramref name="j"/> on the uniform open Heisenberg chain, by
+    /// enumerating the node condition (2j + 1)m ≡ N (mod 2N) over m = 1..N − 1, not by its gcd closed form,
+    /// so that the match with the single-pair excess is a second route.</summary>
+    public static int BlindHeisenbergModes(int n, int j)
+    {
+        int count = 0;
+        for (int m = 1; m < n; m++)
+            if (((long)m * (2 * j + 1) - n) % (2L * n) == 0) count++;
         return count;
     }
 
@@ -737,8 +749,10 @@ public sealed class RingFrozenBandWitness : IInspectable
                 $"the exceptional set at N = {ExceptionalN}: single-pair corners {Row(SinglePairCorners)}",
                 summary: "an offset on the single pair (l, N − 1 − l) misses the second-order lift on the momenta " +
                          "whose order divides gcd(2l + 1, N), giving ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2; a read, " +
-                         "certified where it meets the floor and an upper bound at l = 1, the same form as " +
-                         "F157's blind-seat count and not joined to it",
+                         "certified where it meets the floor and an upper bound at l = 1. The excess equals F157's " +
+                         $"blind Heisenberg count of the seat l, {Row(Enumerable.Range(0, ExceptionalN / 2).Select(l => BlindHeisenbergModes(ExceptionalN, l)))} " +
+                         "by node enumeration: each missed momentum pair holds one blind mode, the same harmonic " +
+                         "read at l + ½ (PROOF_RING_FROZEN_BAND §7)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("what stays outside",
                 summary: "the identity N·D̂ = ℓ² − Dmom and its floor ℓ(N − ℓ)/N (irrational plane waves; gate " +
