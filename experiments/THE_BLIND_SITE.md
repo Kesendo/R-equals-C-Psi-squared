@@ -476,7 +476,7 @@ N those pairs index the doubled momenta 2k = 2πm/N of an N-site XY ring on whic
 an R₉₀ rate offset carried by the site pair (j, N−1−j) leaves the frozen
 corner's second-order lift at zero, so the count reappears there, matched index
 for index and not mode for mode
-([PROOF_RING_FROZEN_BAND](../docs/proofs/PROOF_RING_FROZEN_BAND.md) §7, F170).
+([PROOF_RING_FROZEN_BAND](../docs/proofs/PROOF_RING_FROZEN_BAND.md) §8, F170).
 
 **The same count holds in F64's own block, and that is where a reader of F64
 would look for it.** The exact identity is EQ-015's, −Re(λ_k) = 2γ_B·|v_k(B)|²,

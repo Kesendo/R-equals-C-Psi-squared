@@ -78,7 +78,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// precision; likewise the corner's large-J kernel span{P_k − P_{−k}} (R5). The defective corner pair at
 /// N = 5 sits at a pair of couplings ±J* (read, not gated); A² shows the root non-defective at the first
 /// coupling read here and is not asked at the second. The proof's sum formula and pencil count (PROOF_FROZEN_BAND_SO4 Corollary 4.2,
-/// Propositions 5.1 and 5.3) are untyped. Even N stays a read.</para></summary>
+/// Propositions 5.1 and 5.3) are untyped. Even N is the proof's §7 and is not typed here; the even control stays a read.</para></summary>
 public sealed class RingFrozenBandWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -741,8 +741,9 @@ public sealed class RingFrozenBandWitness : IInspectable
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 $"the even control N = 4: rungs {Row(EvenControl.Total)}, lowest weight {Row(EvenControl.LowestWeight)}",
-                summary: "upper bounds modulo primes. At even N two momenta can add up to π, the resonance " +
-                         "lemma's argument is unavailable, and here the middle rung reads 4 against ⌊N/2⌋ = 2, " +
+                summary: "upper bounds modulo primes. At even N two momenta can add up to π, and the resonance " +
+                         "lowers the identity's floor to ℓ(N − 1 − ℓ)/N, which settles nothing below N = 8 (the proof's §7); " +
+                         "here the middle rung reads 4 against ⌊N/2⌋ = 2, " +
                          "the extra two lowest weight on rung 2. The lemma's failure permits this and does not " +
                          "force it: N = 6 reads ⌊N/2⌋ on every rung of the locus, and why N = 4 overfills is open",
                 provenance: NodeProvenance.Live);
@@ -754,13 +755,13 @@ public sealed class RingFrozenBandWitness : IInspectable
                          "(gcd(2l + 1, N) − 1)/2, is F157's blind Heisenberg count of the seat l, " +
                          $"{Row(Enumerable.Range(0, ExceptionalN / 2).Select(l => BlindHeisenbergModes(ExceptionalN, l)))} " +
                          "by enumerating its node law, and the excess read here matches it; that each missed pair " +
-                         "holds one node is PROOF_RING_FROZEN_BAND §7 and the gate's R8, not read here",
+                         "holds one node is PROOF_RING_FROZEN_BAND §8 and the gate's R8, not read here",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("what stays outside",
                 summary: "the identity N·D̂ = ℓ² − Dmom and its floor ℓ(N − ℓ)/N (irrational plane waves; gate " +
                          "R3/R4), the large-J corner span{P_k − P_{−k}} (R5), the defective corner pair at N = 5 " +
                          "(two couplings, not met here), the sum formula and pencil count of PROOF_FROZEN_BAND_SO4 " +
-                         "(untyped), even N beyond the control");
+                         "(untyped), even N beyond the control (the proof's §7, untyped)");
         }
     }
 

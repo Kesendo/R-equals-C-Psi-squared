@@ -1,10 +1,11 @@
-"""Gate for docs/proofs/PROOF_RING_FROZEN_BAND.md: the XY ring's frozen band at odd N.
+"""Gate for docs/proofs/PROOF_RING_FROZEN_BAND.md: the XY ring's frozen band at odd N, and at even N
+above the corner.
 
 Self-contained: builds every object from scratch and imports nothing from the framework or
 from the other frozen-band gates, so agreement with them is evidence and not a shared bug.
 
 Run:
-    python simulations/ring_frozen_band.py           # about a minute
+    python simulations/ring_frozen_band.py
     python simulations/ring_frozen_band.py --deep    # + the exact rungs at N = 7, several minutes
 
 What it checks:
@@ -45,6 +46,18 @@ What it checks:
       missed set, the nodes of the Heisenberg chain's single-excitation eigenvectors at the seat l are
       the node law's set (both read through the same functions the integer check uses), on a
       range holding 14 seats with gcd(2l+1, N) > 1, the seats with pairs for the read to tell apart.
+  R9  even N: k -> pi - k maps the allowed momenta onto themselves; the identity
+      N*Dhat = l(l+1) - |S v|^2 - (1/2) sum_a |g_a + g_abar|^2 - sum_{a != abar} |Y_{a abar}|^2 on
+      LW cap V0 (S the staggered spin ladder, g_a = Y_aa, Y_ab : v -> c_a v c_b^dagger), N = 4, 6, 8,
+      both rings, with the unstaggered ladder as the control on every rung l >= 2; its floor l(N-1-l)/N attained; the
+      corner at the uniform point exactly 3N/2 - 2 (periodic) and 3N/2 - 1 (pi flux), N = 4..20,
+      and the same number as the nullity of the commutant with no diagonal; the spin ring's
+      uniform rungs 1 and 2 at N = 8, carrying 10 and 11; and, read in floats inside a moat, the large-J kernel's
+      excess at even N = 4..14 as one mode per orbit of k -> -k, k -> k + pi; and the corner's split
+      under U v(a,b) = (-1)^(a+b) v(b,a) (PROOF_R90_FROZEN_DIVISOR 9.1), exact at even N = 4..14 on
+      integer locus profiles, with U = +1, the populations, empty and U = -1 carrying N/2; U = +1
+      reaching the root at the uniform point, N = 4..12; and, exact in sympy, the determinant of the
+      populations' sector on one N = 6 periodic locus profile, c*J^10*(13J^2 - 35816)^2.
 """
 import sys, random
 from itertools import combinations
@@ -428,6 +441,175 @@ for n in range(3, 32, 2):
         cases += gcd(2 * l + 1, n) > 1                # seats where a pair's two members are told apart
 check(f"floats, N to 31, in a moat: the transform's zeros are the missed set, the chain's nodes at the seat "
       f"are F157's node law, {cases} seats with gcd(2l+1, N) > 1", ok and cases > 0)
+
+print("R9  even N: the resonance as the staggered spin ladder, and what it leaves to the corner")
+
+
+def bar(n, wrap, m):
+    """the index of pi - k_m among the allowed momenta, at even N."""
+    return (n // 2 - m) % n if wrap == 1 else (n // 2 - 1 - m) % n
+
+
+def mode_ann(n, p, v):
+    """sum_l conj(v_l) c_l from the p- to the (p-1)-particle sector, Slater signs as in psi."""
+    hi, lo = list(combinations(range(n), p)), list(combinations(range(n), p - 1))
+    ilo = {s: i for i, s in enumerate(lo)}
+    C = np.zeros((len(lo), len(hi)), complex)
+    for j, A in enumerate(hi):
+        for l in A:
+            A2 = tuple(x for x in A if x != l)
+            C[ilo[A2], j] += np.conj(v[l]) * jw(A2, l)
+    return C
+
+
+ok_bar = all(abs(np.exp(1j * momenta(n, w)[bar(n, w, m)]) - np.exp(1j * (np.pi - momenta(n, w)[m]))) < 1e-12
+             for n in range(4, 42, 2) for w in (1, -1) for m in range(n))
+check("even N = 4..40, both rings: k -> pi - k maps the allowed momenta onto themselves", ok_bar)
+
+worst, ctrl, ok_min, cases = 0.0, np.inf, True, []
+for n, ls in ((4, (1, 2)), (6, (1, 2, 3)), (8, (1, 2, 3) if DEEP else (1, 2))):
+    for wrap in (1, -1):
+        V = [np.exp(1j * k * np.arange(n)) / np.sqrt(n) for k in momenta(n, wrap)]
+        for l in ls:
+            st, Q = lw_v0(n, l, wrap)
+            d = Q.shape[1]
+            C = [mode_ann(n, l, v) for v in V]                 # l -> l-1
+            Cup = [mode_ann(n, l + 1, v) for v in V] if l < n else None
+            Dh = np.array([[len(set(x) & set(y)) for y in st] for x in st], float).reshape(-1)
+            lhs = n * Q.conj().T @ (Dh[:, None] * Q)
+            for stag in (True, False):
+                b_ = (lambda m: bar(n, wrap, m)) if stag else (lambda m: m)
+                Y = lambda a, b: np.kron(C[a], C[b].conj())
+                rhs = l * (l + 1) * np.eye(d, dtype=complex)
+                S = sum(np.kron(C[b_(b)], Cup[b].T) for b in range(n)) @ Q
+                rhs -= S.conj().T @ S
+                for a in range(n):
+                    G = (Y(a, a) + Y(b_(a), b_(a))) @ Q
+                    rhs -= 0.5 * G.conj().T @ G
+                    if b_(a) != a:
+                        T = Y(a, b_(a)) @ Q
+                        rhs -= T.conj().T @ T
+                res = float(np.max(np.abs(lhs - rhs)))
+                if stag:
+                    worst = max(worst, res / (np.finfo(float).eps * Q.shape[0]))
+                elif l >= 2:
+                    ctrl = min(ctrl, res)
+            K = np.array([[len(set(x) - set(y)) for y in st] for x in st], float).reshape(-1)
+            ev = np.linalg.eigvalsh(Q.conj().T @ (K[:, None] * Q))
+            ok_min &= abs(ev[0] - l * (n - 1 - l) / n) < 1e-10
+            if l >= 2:
+                cases.append((n, ev[0]))
+check("N = 4, 6 every rung, N = 8 rungs 1, 2 (3 under --deep), both rings: N*Dhat = l(l+1) - |S v|^2 "
+      "- (1/2)sum|g_a + g_abar|^2 - sum|Y_a,abar|^2 on LW cap V0, residual / (eps * dim) below 1e3", worst < 1e3, f"worst {worst:.1f}")
+check("control: with the ladder unstaggered (abar -> a) it misses by more than 0.1 on every rung l >= 2 "
+      "(at l = 1 it holds by accident on the periodic ring at N = 4)", ctrl > 0.1,
+      f"smallest miss {ctrl:.2f}")
+check("min K = l(N-1-l)/N on LW cap V0, attained, every rung read; above the seed that is 1 at N = 6 "
+      "and above 1 at N = 8", ok_min and any(n == 8 for n, _ in cases),
+      ", ".join(f"N={n}: {e:.4f}" for n, e in cases))
+
+ok_u, ok_foot = True, True
+for n in range(4, 22, 2):
+    for wrap in (1, -1):
+        re, im = scaled(n, 1, wrap, True, 577, [500] * n)
+        want = 3 * n // 2 - 2 if wrap == 1 else 3 * n // 2 - 1
+        ok_u &= nullity(re, im) == want
+        hw = h_ring(n, wrap)
+        comm = (np.kron(hw, np.eye(n, dtype=np.int64)) - np.kron(np.eye(n, dtype=np.int64), hw.T))
+        diag = np.zeros((n, n * n), dtype=np.int64)
+        for a in range(n):
+            diag[a, a * n + a] = 1
+        ok_foot &= nullity(comm, np.zeros_like(comm), diag) == want
+check("uniform point, corner, N = 4..20: 3N/2 - 2 on the periodic ring, 3N/2 - 1 on the pi-flux ring",
+      ok_u)
+check("the same numbers as the commutant elements with no diagonal, frozen at every J", ok_foot)
+cnt = []
+for p in (1, 2):
+    re, im = scaled(8, p, 1, False, 577, [500] * 8)
+    cnt.append(nullity(re, im))
+check("spin ring, N = 8, uniform point: rung 1 carries 10, rung 2 carries 11 (the two corners alternate)",
+      cnt == [10, 11], f"{cnt}")
+
+ok_orb = True
+for n in range(4, 16, 2):
+    for wrap in (1, -1):
+        ks = momenta(n, wrap)
+        neg = lambda m: min(range(n), key=lambda j: abs(np.exp(1j * ks[j]) - np.exp(-1j * ks[m])))
+        shift = lambda m: min(range(n), key=lambda j: abs(np.exp(1j * ks[j]) + np.exp(1j * ks[m])))
+        free = {m for m in range(n) if neg(m) != m}
+        orbits, seen = 0, set()
+        for m in free:
+            if m not in seen:
+                orbits += 1
+                seen |= {m, neg(m), shift(m), neg(shift(m))}
+        h = h_ring(n, wrap).astype(float)
+        V0 = null(np.kron(h, np.eye(n)) - np.kron(np.eye(n), h.T))
+        d = rng.uniform(-0.3, 0.3, n // 2)
+        g = np.ones(n)
+        for i in range(n // 2):
+            g[i], g[n - 1 - i] = 1 + d[i], 1 - d[i]
+        R = np.array([[(2 * (g[a] + g[b]) if a != b else 0) - 4 for b in range(n)]
+                      for a in range(n)]).reshape(-1)
+        k = moat_nullity(V0.conj().T @ (R[:, None] * V0), lo=1e-11, hi=1e-6)
+        ok_orb &= k == n // 2 + orbits
+check("read: at even N = 4..14 the large-J kernel exceeds N/2 by one per orbit of k -> -k, k -> k + pi",
+      ok_orb)
+
+ok_c, ok_split = True, True
+rnd9 = random.Random(3)
+for n in range(4, 16, 2):
+    U = np.zeros((n * n, n * n), dtype=np.int64)
+    for a in range(n):
+        for b in range(n):
+            U[b * n + a, a * n + b] = (-1) ** (a + b)
+    g = locus(n, rnd9)
+    for wrap in (1, -1):
+        re, im = scaled(n, 1, wrap, True, 311, g)
+        ok_c &= not np.any(U @ re - re @ U) and not np.any(U @ im - im @ U)
+        I = np.eye(n * n, dtype=np.int64)
+        ok_split &= nullity(re, im, U - I) == 0 and nullity(re, im, U + I) == n // 2
+check("even N = 4..14, both rings, integer locus profiles: U v(a,b) = (-1)^(a+b) v(b,a) commutes exactly "
+      "with the corner", ok_c)
+check("there U = +1 (the populations) carries no frozen mode and U = -1 carries N/2", ok_split)
+
+ok_ur = True
+for n in range(4, 14, 2):
+    U = np.zeros((n * n, n * n), dtype=np.int64)
+    for a in range(n):
+        for b in range(n):
+            U[b * n + a, a * n + b] = (-1) ** (a + b)
+    for wrap in (1, -1):
+        re, im = scaled(n, 1, wrap, True, 311, [500] * n)
+        ok_ur &= nullity(re, im, U - np.eye(n * n, dtype=np.int64)) > 0
+check("uniform point, even N = 4..12, both rings: U = +1 reaches the root, so it is no anchor for the populations", ok_ur)
+
+import sympy as sp
+from sympy.polys.matrices import DomainMatrix
+Js = sp.symbols("J")
+g6, n = [60, 31, 64, 16, 49, 20], 6
+gb = sp.Rational(sum(g6), n)
+h6 = h_ring(n, 1)
+M6 = sp.zeros(n * n, n * n)
+for a in range(n):
+    for b in range(n):
+        r = a * n + b
+        M6[r, r] += 4 * gb if a == b else 4 * gb - 2 * (g6[a] + g6[b])
+        for c in range(n):
+            if h6[a, c]:
+                M6[r, c * n + b] += -sp.I * Js * int(h6[a, c])
+            if h6[c, b]:
+                M6[r, a * n + c] += sp.I * Js * int(h6[c, b])
+cols = []
+for a in range(n):
+    v = sp.zeros(n * n, 1); v[a * n + a] = 1; cols.append(v)
+for a in range(n):
+    for b in range(a + 1, n):
+        v = sp.zeros(n * n, 1); v[a * n + b] = 1; v[b * n + a] = (-1) ** (a + b); cols.append(v)
+Bp = sp.Matrix.hstack(*cols)
+d6 = sp.factor(DomainMatrix.from_Matrix(Bp.T * M6 * Bp).det().as_expr())
+ratio = sp.simplify(d6 / (Js ** 10 * (13 * Js ** 2 - 35816) ** 2))
+check("N = 6, periodic, rates (60, 31, 64, 16, 49, 20): det of the populations' sector is c*J^10*(13J^2 - 35816)^2, "
+      "a root at J^2 = 35816/13", ratio.is_number and ratio != 0, f"{d6}")
 
 print()
 print("ring frozen band gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
