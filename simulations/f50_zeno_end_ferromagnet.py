@@ -1508,7 +1508,7 @@ print(f"    Heisenberg chain N=5 under GAMMA_AS_BINDING's profile, rates {np.rou
       f"{second_blocks}; at uniform rates 0.05, 0.5, 2 the slowest diagonal block(s) "
       f"{uniform[0.05]}, {uniform[0.5]}, {uniform[2.0]}")
 
-print("Z14 the odd ring: a pi flux through it changes no block's spectrum (exact), and its fillings at finite Q (reading)")
+print("Z14 the odd ring: a pi flux through it changes no diagonal block's spectrum (exact), and its fillings at finite Q (reading)")
 
 
 def ring_flux(N):

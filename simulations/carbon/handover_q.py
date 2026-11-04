@@ -28,7 +28,7 @@ depends only on Q=J/g, NOT on J and g separately).
 
 3. THE RING SOLUTION = a distinct (2,2) free-fermion level crossing, GROWING ~linearly (NOT
    saturating). At even N the wrap bond parts the fillings by parity (its Jordan-Wigner sign is set by the particle number's parity;
-   at odd N every filling ties, read, a pi flux through the ring changing no block's spectrum; the even
+   at odd N every filling ties, read, a pi flux through the ring changing no diagonal block's spectrum; the even
    fillings share one level where read, the half filling among them when 4 divides N); the
    darkest interior is the (2,2) two-fermion seam (in pure XY a free-fermion dephasing mode, NOT a
    Hamiltonian bound pair). Its handover is a LEVEL CROSSING (|Im| ~ 1e-15, the frozen (2,2) mode

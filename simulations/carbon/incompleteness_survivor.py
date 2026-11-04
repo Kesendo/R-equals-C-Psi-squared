@@ -22,7 +22,7 @@ FINDINGS (run it; asserts pin the anchors):
     incompleteness region, NOT the w=0/N extremes) and the XY chain and the odd ring tie every filling; above
     a handover Q it switches to the (0,1) odd band edge. In XY the even ring's survivor sits in its even fillings,
     (2,2)/(N-2,N-2) at N = 6, off the dead centre there (the wrapped string's split; the half filling joins them when
-    4 divides N), the odd ring ties every filling (read; a pi flux through it changes no block's spectrum,
+    4 divides N), the odd ring ties every filling (read; a pi flux through it changes no diagonal block's spectrum,
     PROOF_WEIGHT1_DEGENERACY), and the open chain ties every filling (measured
     below; at the Zeno end proved by the ladder of PROOF_CODIM1_BY_ADDITIVITY with Theorem E (c)), so the
     printed chain sector is the solver's pick from a tie; the

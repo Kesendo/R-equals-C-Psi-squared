@@ -199,7 +199,8 @@ public sealed class CoherenceHorizonWitness : IInspectable
     /// <para>The coalescer eigenvalue repeats N−1 times in the full L, once in each (k,k) sector with
     /// 1 ≤ k ≤ N−1: the XY chain is a free-fermion chain, the quadratic operators c_i†c_j span an L-invariant
     /// space in every such sector, and L acts there as on the SE block (Z_l c_i†c_j Z_l = −c_i†c_j exactly for
-    /// l ∈ {i, j}, i ≠ j). Every copy carries the SE block's rigidity exactly: the right and the left vector
+    /// l ∈ {i, j}, i ≠ j); the copy is F125's spectator W run k−1 times, W^(k−1)(|i⟩⟨j|) = (k−1)!·P_k c_i†c_j P_k
+    /// (<c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> Theorem B). Every copy carries the SE block's rigidity exactly: the right and the left vector
     /// are traceless on the block (a λ ≠ 0 mode, and the dual of one, of a block whose stationary vector is its
     /// identity), so the embedding scales both by one binomial factor. The eigensolver returns some basis of
     /// the repeated eigenspace, and a mixture of copies with equal rigidity reads lower, never higher (the

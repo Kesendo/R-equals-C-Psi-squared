@@ -27,7 +27,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// filling - the labels are
 /// physical: the open XY CHAIN = conjugated polyene chains / spin chains / the Grotthuss proton wire (filling-
 /// degenerate, no unique sector; the half filling, the central pair at odd N, is the Heisenberg/ZZ result, PROOF_WEIGHT1_DEGENERACY Theorem E (d)); RING = aromatic rings / light-harvesting macrocycles (at even N the
-/// even fillings, (2,2)/(N-2,N-2) at N = 6, the half filling among them when 4 divides N; at odd N every filling tied, read, a pi flux through the ring changing no block's spectrum). The HUB-LOCALIZED central-spin STAR (NV centre / quantum dot / the mediator) is the
+/// even fillings, (2,2)/(N-2,N-2) at N = 6, the half filling among them when 4 divides N; at odd N every filling tied, read, a pi flux through the ring changing no diagonal block's spectrum). The HUB-LOCALIZED central-spin STAR (NV centre / quantum dot / the mediator) is the
 /// COUNTEREXAMPLE: its survivor is the boundary hub coherence (1,1)/(N-1,N-1); with a ZZ term a hop between
 /// the hub and an arm is detuned by the other arms' imbalance (the detuning form of PROOF_WEIGHT1_DEGENERACY's
 /// Zeno end, the hops' own share read on the stars N = 4..7, not proved there), in XY the boundary wins only at
@@ -177,10 +177,10 @@ public sealed class SurvivalIncompletenessMirrorClaim : Claim
             $"N=6 Q=1.5 -> sector ({ring.PCol},{ring.PRow}), filling split {ringSplit}", "off-centre interior",
             ringSplit ? Classify(6, ring.PCol, ring.PRow) : "degenerate"));
         // the odd ring ties every filling, read here at finite Q; K = prod_{l odd} Z_l flips every bond of an odd ring but
-        // the wrapped one, so, with the transpose, a pi flux through it changes no block's spectrum at any Q, and at the
+        // the wrapped one, so, with the transpose, a pi flux through it changes no diagonal block's spectrum at any Q, and at the
         // Zeno end the ladder carries the tie (PROOF_WEIGHT1_DEGENERACY, gate row Z14)
         bool oddRingDegen = IncompletenessSurvivorWitness.IsFillingDegenerate(5, 1.5, TopologyKind.Ring);
-        cases.Add(new BatteryCase("odd ring = filling-degenerate (read; a pi flux through it changes no block's spectrum)",
+        cases.Add(new BatteryCase("odd ring = filling-degenerate (read; a pi flux through it changes no diagonal block's spectrum)",
             "N=5 Q=1.5: every (p,p) sector shares the slowest rate", "filling-degenerate",
             oddRingDegen ? "filling-degenerate" : "split"));
         cases.Add(new BatteryCase("star survivor = boundary (central-spin counterexample)",

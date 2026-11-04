@@ -108,7 +108,7 @@ block's own operator, so every block holds the (0,1) block's eigenvalues: the (n
 map W of [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) Theorem B applied n times to the
 (0,1) block's coherences, and on the open chain W commutes with L for any bond profile and any γ profile (not on the ring, whose wrap
 bond carries (−1)^N_tot: the ring's H is not quadratic in the fermions, W flips the parity on both sides, and the
-two sides of a Δn = 1 coherence do not even see one and the same wrap bond). What a profile takes away is the single rate: the family's rates then move with Q,
+two sides of a Δn = 1 coherence do not even see one and the same wrap bond). Sides whose particle numbers share a parity do see one, and on those blocks of the ring W, run twice, still carries each block two up ([PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §5; for the fillings, [PROOF_WEIGHT1_DEGENERACY](proofs/PROOF_WEIGHT1_DEGENERACY.md#the-zeno-end)). So the wrap bond's sign, being set by a parity, keeps W² on the ring's blocks of even height and takes this family's construction away from its interior Δn = 1 blocks, where the floor is indeed empty (below). What a profile takes away is the single rate: the family's rates then move with Q,
 which is this document's odd-drift entrance to the birth canal, taken in every block at once. A ZZ
 term breaks the interior blocks' N-member family: at the Heisenberg point each interior block keeps a
 single floor mode (read at N = 3 … 7), at frequency 0, the real modes of

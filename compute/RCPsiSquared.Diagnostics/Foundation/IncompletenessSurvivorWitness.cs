@@ -23,7 +23,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>Finding (verified):</b> on the even RING the survivor is the INTERIOR (incompleteness)
 /// coherence of the even fillings, every one of which carries the (2,2) block's level ((2,2)/(N-2,N-2) at N = 6, the
 /// half filling among them when 4 divides N), the wrapped string's split; the odd ring ties every filling, read at every Q
-/// tried (PROOF_WEIGHT1_DEGENERACY: a pi flux through it changes no block's spectrum, and at the Zeno end the ladder
+/// tried (PROOF_WEIGHT1_DEGENERACY: a pi flux through it changes no diagonal block's spectrum, and at the Zeno end the ladder
 /// carries the tie wherever each block's slowest level is the lifted pair, read at N = 5 to 9); the open XY chain is
 /// filling-degenerate (every filling ties, measured to rounding here and proved at the Zeno end by
 /// PROOF_CODIM1_BY_ADDITIVITY's ladder with Theorem E (c)), the ZZ term picking the half
@@ -88,7 +88,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// of Heisenberg lifts it to the half filling, the central pair at odd N (the CHAIN_GAP result, proved at the Zeno end by
     /// PROOF_WEIGHT1_DEGENERACY Theorem E (d): a hop that changes the ZZ energy is a slower hop). On the even ring they split by
     /// parity, the even fillings slower at Q = 1 and 2 (N = 4, 6) and the odd ones at Q = 6 (N = 6); the odd ring ties
-    /// every filling (read; a pi flux through it changes no block's spectrum).</summary>
+    /// every filling (read; a pi flux through it changes no diagonal block's spectrum).</summary>
     public static double[] SectorRates(int n, double q, TopologyKind topology)
     {
         double gamma = 1.0 / q;
@@ -103,7 +103,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     /// the open XY chain's free-fermion degeneracy, where NO single filling is the survivor (the
     /// half filling, or the central pair at odd N, is the Heisenberg/ZZ result). The even ring splits by parity, at the
     /// order gamma (J/gamma)^N at small Q, and reads as degenerate only where that split is below tol; the odd ring ties
-    /// (read; a pi flux through it changes no block's spectrum).</summary>
+    /// (read; a pi flux through it changes no diagonal block's spectrum).</summary>
     public static bool IsFillingDegenerate(int n, double q, TopologyKind topology, double tol = 1e-9)
     {
         var r = SectorRates(n, q, topology);
@@ -196,7 +196,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         return new InspectableNode($"where the survivor lives (N={N}, Q={Q.ToString("0.##", Inv)})",
             summary: "the dispersive RING at even N puts the survivor in its even fillings, every one of which carries the (2,2) " +
                      "block's level ((2,2)/(N-2,N-2) at N = 6, the half filling among them when 4 divides N; incompleteness), the " +
-                     "wrapped string's split, and at odd N ties every filling (read; a pi flux through it changes no block's spectrum); " +
+                     "wrapped string's split, and at odd N ties every filling (read; a pi flux through it changes no diagonal block's spectrum); " +
                      "the open XY CHAIN is filling-degenerate (no unique sector, measured to rounding, at the Zeno end " +
                      "at every order by the ladder of PROOF_CODIM1_BY_ADDITIVITY; a ZZ term picks the half filling, the central pair at odd N, " +
                      "PROOF_WEIGHT1_DEGENERACY Theorem E (d)); the hub-spoke STAR sits at the boundary (with ZZ by the " +

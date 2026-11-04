@@ -79,7 +79,7 @@ public sealed class HandoverFloorClaim : Claim
         : base("The handover Q (where the incompleteness survivor stops winning and the band edge takes over) has a CLOSED, " +
                "F50-grounded condition: the diagonal (p,p) survivor decays at -2g<n_XY> (Absorption Theorem, <n_XY><1, the " +
                "incomplete out-survives) and brightens with Q until <n_XY> reaches the F50 off-diagonal floor =1 (the (0,1) band " +
-               "edge, Re=-2g exactly). CHAIN: filling-degenerate, so the handover is where the coherence horizon's {0,2} pair meets the floor: " +
+               "edge, Re=-2g exactly). CHAIN: filling-degenerate (F125's spectator W, injective there, carries the (1,1) block's spectrum into every (p,p), 1 <= p <= N-1; that no block holds a slower mode is read), so the handover is where the coherence horizon's {0,2} pair meets the floor: " +
                "= the EP Q*(N) exactly at the clean-2x2 N=2,3 (the EP sits on the floor, w2 = 1/2), below it from N>=4 by " +
                "((2w2-1)/c)^2, the trace dressing (1.97e-4 / 1.50e-3 / 4.97e-3 at N=4/5/6). RING at even N: a DISTINCT " +
                "2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling at N=6; every even filling carries its level, the half filling " +
@@ -130,7 +130,7 @@ public sealed class HandoverFloorClaim : Claim
                          "below it from N>=4 by ((2w2-1)/c)^2, the trace dressing.");
             yield return new InspectableNode("even ring = a distinct (2,2) level crossing, growing",
                 summary: "at even N the wrap bond parts the fillings by parity (at odd N every filling ties, read; " +
-                         "a pi flux through the ring changes no block's spectrum); the 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
+                         "a pi flux through the ring changes no diagonal block's spectrum); the 2-excitation (2,2)/(N-2,N-2) doublet (NOT " +
                          "half-filling at N=6, the half filling joining its level when 4 divides N; a " +
                          "free-fermion dephasing mode) hands over by a frozen level crossing, asymptotic slope sqrt3/(2pi)~0.276 " +
                          "DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the <n_XY> = 1 sibling of Q*, ratio sqrt3/2); " +
