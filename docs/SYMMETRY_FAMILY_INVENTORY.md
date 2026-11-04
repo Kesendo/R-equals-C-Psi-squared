@@ -84,9 +84,9 @@ Shared low-level complex-vector kernels (`NormSquared`, `ConjugateDot`, `AxpyInP
 The matrix-free Krylov path reaches top-k / near-σ work without a dense eigensolver.
 
 **What this path does NOT yet give:**
-- **Full N=10 spectrum** (all ~63 k eigenvalues of the (5, 5) sector, ~1 M total). For F1 palindrome verification at N=10 as a structural theorem-check the cleaner route is Prosen third quantization (Phase 3 of the N=10 plan): under uniform γ, the chain XY + Z-dephasing Liouvillian reduces to a 2N × 2N Nambu spectral problem (Medvedyeva, Essler, Prosen 2016). Phase 3 has not yet been implemented.
+- **Full N=10 spectrum** (all ~63 k eigenvalues of the (5, 5) sector, ~1 M total). The route the literature offers for an analytic F1 check at N=10 is the map of Medvedyeva, Essler and Prosen (2016): the dephased tight-binding model of spinless fermions on any bipartite lattice, and through the Jordan-Wigner transform the XY (XX + YY) + Z-dephasing chain, open chain included, becomes a Hubbard model with imaginary interaction, which in one dimension is Bethe-ansatz integrable. In the Jordan-Wigner fermions Z_l = 1 − 2n_l is quadratic, so the dephasing term Z_l ρ Z_l is quartic (in the paper's words, "the dissipative term leads to quartic terms"). No reduction quadratic in those fermions holds at every N: at odd N the spectrum is not that of a generator quadratic in those fermions, since the even-parity sector of such a generator is point-symmetric about its mean, every even subset of the 2N rapidities having an even complement, and here it is not (N = 3 and 5, [`simulations/even_sector_point_symmetry.py`](../simulations/even_sector_point_symmetry.py)). At even N, N = 10 included, this test is silent. The paper writes the Bethe equations for the periodic chain; the open chain used here becomes the imaginary-interaction Hubbard chain with open ends, whose Bethe equations have not been taken up here. The paper states that solving the Bethe equations gives the full Liouvillian spectrum; completeness at imaginary interaction has not been established here, and none of it has been implemented here.
 - **Strict F1 pair-matching for deeper Ritz values.** `JwSlaterPairF1PalindromeProbe` recovers F1-paired sets reliably for the closest-to-σ eigenvalues (steady state, first two slow modes) but at finite Krylov dimension the deeper Ritz values returned by each side's shift-invert Arnoldi can land on different "approximately K-closest" subsets, breaking pair-matching at the K-th probe slot even though F1 holds at the theorem level. This is an Arnoldi-depth limit, not an F1 break.
-- **Inhomogeneous γ spectrum** at N=10 is supported by the sparse path but not yet exercised in a science-facing pipeline; Prosen's reduction does not extend there.
+- **Inhomogeneous γ spectrum** at N=10 is supported by the sparse path but not yet exercised in a science-facing pipeline; the Bethe-ansatz solution assumes uniform γ and J.
 
 **Phase 2 timing at N=10 (5,5)** (Jacobi-preconditioned BiCGStab, commodity hardware): sparse build ~3 s, two-shift probe with K=4 per end at numIter=20, inner tol 1e-8 ~8 s. Inner BiCGStab mean iter dropped from ~866 (pre-Jacobi) to ~22 (post-Jacobi commit `45e6a40`), a ~40× wall-clock improvement.
 
@@ -114,8 +114,8 @@ dense entries. Cross-validated at N=4 (2, 2), N=6 (3, 3), N=8 (4, 4): union of t
 sub-block dense Evds matches the direct `PerBlockLiouvillianBuilder` sector Evd as a
 multiset within 1e-9.
 
-**Where the literature does not go.** Medvedyeva-Essler-Prosen (2016) reach N=10 via
-the imaginary-U Bethe ansatz, analytic, doesn't need K splitting. For our
+**Where the literature does not go.** Medvedyeva-Essler-Prosen (2016) solve the periodic chain
+analytically by the imaginary-U Bethe ansatz and need no K splitting. For our
 computational path, K on self-paired sectors is repo-specific (F71 spatial Z₂ ×
 X⊗N charge Z₂ both typed primitives, combination unique to this codebase).
 
@@ -182,8 +182,8 @@ removes the unitary contribution from the bra side, so `L_(0,m) = −iH_m − 2�
 where `β_k = −2γ − i·ε_k` are the **N Prosen rapidities** of the model and
 `ε_k = 2J·cos(πk/(N+1))` is the OBC sine-mode dispersion. This is the simplest leaf of
 Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme; the (m, m̃) sectors with
-m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo), except
-the half of (1,1) that holds no populations, which is Λ² of a single-particle matrix at every
+m, m̃ ≥ 1 are where, at uniform γ and J, the imaginary-U Bethe ansatz would enter (not implemented in the repo; see the N=10 list above), and
+pieces of them close without it, among them the images of the one-sided sectors under the two ladders Φ and S⁺ of [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md) §2 and the half of (1,1) that holds no populations, which is Λ² of a single-particle matrix at every
 rate profile ([PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) §9.2).
 
 `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs` returns the

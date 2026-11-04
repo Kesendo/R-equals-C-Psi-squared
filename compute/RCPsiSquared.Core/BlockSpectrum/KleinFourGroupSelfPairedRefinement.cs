@@ -22,10 +22,10 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// internal split, F71 alone gives only factor 2 (max-block 31 752) — still beyond a
 /// commodity dense Evd's memory at 16 GB for the single block.</para>
 ///
-/// <para><b>Where the literature does not go.</b> The standard route to the chain XY +
-/// uniform Z-dephasing spectrum at N=10 is Medvedyeva-Essler-Prosen's (2016) imaginary-U
-/// Bethe ansatz (<c>arXiv:1606.09122</c>) — analytic, no diagonalisation needed. That
-/// route does not exploit the K splitting because it doesn't need to. For our computational
+/// <para><b>Where the literature does not go.</b> The analytic route the literature offers to
+/// the XY + uniform Z-dephasing spectrum is Medvedyeva-Essler-Prosen's (2016) imaginary-U
+/// Bethe ansatz (<c>arXiv:1606.09122</c>), solved there on the periodic chain; it does not
+/// use the K splitting. For our computational
 /// path, K on the self-paired sector is a repo-specific gain.</para>
 ///
 /// <para><b>Klein orbits on (N/2, N/2).</b> Each Liouville-space basis index (i, j) with

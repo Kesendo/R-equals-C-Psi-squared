@@ -150,8 +150,9 @@ Liouvillian under dephasing, arising from a swap between population-like
 and coherence-like degrees of freedom.
 
 **What they did not find:** the generalization beyond free fermions. Their
-result requires the Bethe ansatz, which is restricted to non-interacting
-particles on 1D bipartite lattices. Our Π operator works for interacting
+result starts from a free-fermion Hamiltonian, tight-binding hopping; the
+dephasing adds the imaginary Hubbard interaction, and the Bethe ansatz
+solves that interacting model in 1D. Our Π operator works for interacting
 spins (Heisenberg/XXZ) on arbitrary graphs (chains, stars, rings, trees,
 complete graphs). Their η-pairing is the 1D free-fermion special case
 of our Π.

@@ -41,8 +41,7 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 ///
 /// <para>The Z-dephasing dissipator D is NOT diagonal in JW basis (it is quartic in η
 /// operators); its sparsity structure in JW basis (couples Slater pairs differing by single
-/// 2-fermion swaps) is the basis for the open sparse-eig / Prosen-third-quantization
-/// extensions.</para>
+/// 2-fermion swaps) is the basis for the open sparse-eig extensions.</para>
 ///
 /// <para>Anchor: generalises <see cref="JwBlockBasis"/> (c=2 only) per the N=10 push of
 /// <c>docs/SYMMETRY_FAMILY_INVENTORY.md</c>.</para>

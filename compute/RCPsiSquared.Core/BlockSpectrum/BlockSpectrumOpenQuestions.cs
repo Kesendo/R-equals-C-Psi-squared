@@ -18,7 +18,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para>The recurring shape of these items: a result already proven, sitting as a typed
 /// claim or a proof, that is not yet wired into a compute path and so abbreviates nothing
 /// yet. After the 2026-05-22 review (below) the frontier is the one genuinely unbuilt
-/// engine, the full Prosen two-sided reduction; it is defined by what this repository has
+/// engine, a Bethe-ansatz route to the two-sided sectors, which the literature offers and the
+/// repository has neither built nor checked for completeness; it is defined by what this repository has
 /// and has not built, not by the published literature.</para>
 ///
 /// <para>The first item, "F1 palindrome as a spectrum-halving builder step", was closed
@@ -43,23 +44,29 @@ public static class BlockSpectrumOpenQuestions
     public static IReadOnlyList<OpenQuestion> Standard { get; } = new[]
     {
         new OpenQuestion(
-            "Full Prosen third-quantization: the two-sided (m, m̃) sectors",
+            "The two-sided (m, m̃) sectors: the imaginary-U Bethe ansatz",
             "Prosen/OneSidedSectorClosedForm gives a genuine closed form for the one-sided " +
             "joint-popcount sectors (p_c = 0 or p_r = 0): the sector spectrum is the subset-sums " +
-            "of N Prosen rapidities, with no diagonalisation. This is the simplest leaf of the " +
-            "third-quantization programme; the two-sided sectors (m, m̃ ≥ 1), which hold the " +
-            "bulk of the 4^N spectrum, are not implemented. docs/SYMMETRY_FAMILY_INVENTORY.md " +
-            "names the full reduction to a 2N × 2N Nambu spectral problem as 'Phase 3' of the " +
-            "N=10 push. This is the one structurally transformative shortcut the repo knows it " +
-            "lacks: it would replace dense per-block diagonalisation with a polynomial-cost route.",
-            "Extend the one-sided closed form to the two-sided sectors via the third-quantization " +
-            "/ Nambu reduction the Prosen leaf and SYMMETRY_FAMILY_INVENTORY point to. Apply the " +
-            "obstruction-result discipline: characterise the reduction before assuming it closes, " +
-            "the way F86's g_eff was shown not to.",
+            "of N Prosen rapidities, with no diagonalisation. The two-sided sectors (m, m̃ ≥ 1), " +
+            "which hold the bulk of the 4^N spectrum, have no closed form here apart from pieces, " +
+            "among them the images of the one-sided sectors under the ladders Φ and S⁺ of " +
+            "PROOF_FROZEN_BAND_SO4 (see the Phase 3a section of SYMMETRY_FAMILY_INVENTORY). The Z-dephasing " +
+            "term is quartic in the Jordan-Wigner fermions, and no Nambu reduction holds at every N: " +
+            "at odd N the spectrum is not that of a generator quadratic in them (its even-parity " +
+            "sector lacks the point symmetry such a generator forces). Medvedyeva, Essler and Prosen (2016) map the dephased " +
+            "tight-binding model on any bipartite lattice, and through Jordan-Wigner the XX + YY " +
+            "chain, onto a Hubbard model with imaginary interaction and, at uniform γ and J, solve the periodic fermion chain by the Bethe ansatz; the open " +
+            "chain becomes the imaginary-interaction Hubbard chain with open ends. With a ZZ term " +
+            "the map no longer yields the Hubbard model.",
+            "Take the Bethe equations of the open imaginary-U Hubbard chain to the " +
+            "two-sided sectors and cross-check them against the dense per-block spectra at " +
+            "N = 3..6. Apply the obstruction-result discipline: establish whether their solutions " +
+            "cover a whole sector, defective eigenvalues included, before assuming they close, the " +
+            "way F86's g_eff was shown not to.",
             "compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs; " +
-            "docs/SYMMETRY_FAMILY_INVENTORY.md (Phase 3); " +
-            "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairF1PalindromeProbe.cs " +
-            "(cites the 2N × 2N Nambu problem)"),
+            "docs/SYMMETRY_FAMILY_INVENTORY.md (Phase 3a); " +
+            "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs " +
+            "(the quartic dissipator)"),
 
         new OpenQuestion(
             "Builder-side F100 anti-palindromic-J spectral-invariance regression test",

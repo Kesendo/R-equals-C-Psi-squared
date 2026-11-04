@@ -41,9 +41,15 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// path recovers the top-k slow modes AND their F1 mirror partners (subject to the Arnoldi
 /// depth caveat above) — both ends inaccessible to the dense
 /// <see cref="LiouvillianSectorSweep"/> which drops above-cap sectors entirely. For a
-/// strict full-spectrum F1 verification at N=10 the structurally cleaner route is Prosen
-/// third quantization (a 2N×2N Nambu spectral problem — Medvedyeva, Essler, Prosen 2016 —
-/// not yet implemented in the repo; "Phase 3" of the N=10 plan).</para>
+/// strict full-spectrum F1 verification at N=10 the analytic route the literature offers is
+/// the imaginary-U Hubbard map of Medvedyeva, Essler and Prosen (2016), Bethe-ansatz solved
+/// there on the periodic chain; the open chain becomes the imaginary-interaction Hubbard chain
+/// with open ends, completeness at imaginary interaction is not established here, and none of it is
+/// implemented in the repo. The
+/// Z-dephasing term is quartic in the Jordan-Wigner fermions (see <see cref="JwSlaterPairBasis"/>),
+/// and no Nambu reduction holds at every N: at odd N the spectrum is not that of a generator
+/// quadratic in them, its even-parity sector lacking the point symmetry such a generator forces
+/// (docs/SYMMETRY_FAMILY_INVENTORY.md).</para>
 ///
 /// <para><b>L-conjugation in the residual.</b> The Liouvillian for Hermitian H + Hermitian-
 /// preserving dissipator (Z-dephasing qualifies) has <c>λ ∈ spec ⟺ λ* ∈ spec</c>. When a
