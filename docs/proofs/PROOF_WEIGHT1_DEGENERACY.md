@@ -539,7 +539,9 @@ The frozen-band pencil of [PROOF_FROZEN_BAND_SO4](PROOF_FROZEN_BAND_SO4.md) Prop
 
 ---
 
-## What breaks the result
+## What breaks the result, and what the anisotropic chain keeps
+
+<!-- STAGE 0 SWEEP RECORD for this section. Asked: the weight-1 commutant of the open XXZ chain at Δ ≠ 1. ANALYTICAL_FORMULAS: F50 lists anisotropic XXZ under Breaks for and gives no count. docs/proofs: this document's own open question below asked it; the theorem of the section on exceptional couplings says the count off E is that model's weight-1 commutant and leaves the number open; the centre rung at N = 4 answers a different block, (2, 2), at rung 2. experiments: XXZ_AXIS_BANDEDGE_TO_LEBENSADER reads the anisotropy axis through a rate matrix, not this commutant; nothing else. OpenArcs registry: no arc on it. Typed layer: F50WeightOneDegeneracyPi2Inheritance (Breaks for, Δ ≠ 1) and ExceptionalCouplingSetClaim (XXZ verbatim with its own commutant off E), no count. Confirmations, glossary, CAUGHT_ERRORS: nothing. review/OPEN_QUESTIONS_INDEX.md carries this document's open question as OQ-085. compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs builds the XXZ block (1, 2) with Δ, for F89's diabolics at Re λ = −4γ, not for this rung. No document in the repository names the quantum group U_q(sl2) or Pasquier and Saleur. Adjacency checked against: the free-fermion floor of every Δn = 1 block (docs/STERILE_BIRTHCANAL_AND_THE_JUNCTION.md), whose zero mode at odd N is the Δ = 0 case below, and the spectator W of PROOF_CODIM1_BY_ADDITIVITY, which dies at Δ ≠ 0 while this mode survives. -->
 
 The proof relies critically on isotropy (Δ = 1 in XXZ notation). For the
 anisotropic Heisenberg model H = Σ (X_i X_j + Y_i Y_j + Δ Z_i Z_j) with
@@ -549,7 +551,87 @@ X_i X_j + Y_i Y_j + Δ Z_i Z_j = 2 · SWAP_{ij} + (Δ − 1) Z_i Z_j − I
 
 The residual Z_i Z_j term does not preserve the Pauli type (X ↔ Y mixing via
 [Z_i, X_i] = 2iY_i), so T_c^{(X)} and T_c^{(Y)} are no longer individually
-conserved. The d(−γ) = 2N formula may not hold for Δ ≠ 1.
+conserved, and in general the count 2N does not survive. It does at Δ = −1 on
+any bipartite graph, where the sublattice rotation Π_{odd l} Z_l carries H(Δ) to
+−H(−Δ) and, being diagonal, keeps every weight-1 cell, and on the odd chain at
+Δ = 0 (below). What survives on the open chain at every Δ is one closed-form mode
+in every block a law names, and, as read, nothing else.
+
+**The count.** Write z_p = N − 1 − 2p, the Z sum of the N − 1 sites other than the one a cell of the block (p, p+1) changes. The block (p, p+1), and with it its
+transpose, carries a weight-1 commutant mode, the one below, whenever
+
+  (1 − Δ²)·U_{|z_p|−1}(Δ) = 0  or  z_p = 0,
+
+U the Chebyshev polynomial of the second kind. For |Δ| ≤ 1 write Δ = cos θ; then
+(1 − Δ²)·U_{|z_p|−1}(Δ) = sin θ·sin(|z_p|θ), and the condition reads: the block is the
+middle one at odd N, or Δ = ±1, or z_p·θ is a multiple of π. For |Δ| > 1 write
+|Δ| = cosh φ; the factor is ±sinh φ·sinh(|z_p|φ), and only the middle block qualifies.
+That this mode is the only one, at most one per qualifying block and none in the
+others, is read and not derived: the counts are exact at N = 3 to 8 and
+Δ ∈ {0, ±½, 3/10, 4/5, ±1, 2, 7/3}. Read so, for θ not a rational multiple of π,
+which by Niven's theorem is every rational Δ in (−1, 1) other than 0 and ±½, and
+for every |Δ| > 1, only the middle block qualifies: off the finite set at which,
+for this Δ, a diagonal block reaches −2γ (the set E of the section on exceptional
+couplings, read for this H), d_real(Re = −2γ) = 2 at odd N and 0 at even N. At
+Δ = 0 the condition reads z_p even, so every block qualifies at odd N, 2N modes,
+and none at even N, which is the free-fermion zero mode of the sine band at
+energy 0 entering every Δn = 1 block. At Δ = ±½ the blocks with 3 | z_p qualify:
+beside the middle one at odd N, alone at even N (p = 0 and 3 at N = 4).
+
+**The mode.** On the cell |a⟩⟨b| whose bra b adds the site l to the ket a, put
+T_{|m_l|}(Δ), the Chebyshev polynomial of the first kind, with m_l = Σ_{k<l}(2n̂_k − 1)
+the number of occupied minus the number of empty sites to the left of l, and let
+σ_l be the operator that empties site l, Σ_a |a⟩⟨a ∪ {l}|:
+
+  v_p = Σ_l T_{|m_l|}(Δ)·σ_l, restricted to the block (p, p+1),
+
+which for Δ = cos θ is Σ_l cos(θ·m_l)·σ_l.
+
+This is a Jordan-Wigner string whose sign has been turned into a phase,
+the real part of Σ_l q^(m_l)·σ_l with q = e^{iθ}. At Δ = 1, q = 1,
+every coefficient is 1 and v_p is the block's piece of the lowering operator
+Σ_l σ_l, a combination of the T_c above; at Δ = 0, q = i, it is the Jordan-Wigner
+zero mode.
+
+**Why there.** Read one bond first. The ZZ term keeps the weight-1 strings
+among themselves: on the bond touching the string's X or Y letter it turns that
+letter into the other one and the neighbour's I into Z or back, and on every
+other bond it commutes. The hop moves the letter, and on a bond where a Z meets
+an I it also makes strings of weight three, which v_p's combination cancels. A term of v_p whose letter
+sits left of the bond does not see it, and one whose letter sits right of it
+sees only Z_j + Z_{j+1} in its string, which the bond conserves; so each bond
+meets only the two terms whose letter it touches. With the phase q per site,
+what one bond leaves of those two is a commutator with the difference of two
+one-site fields, (q − q⁻¹)/2·(Z_j − Z_{j+1}), and along the chain these
+telescope to the two ends: up to a constant on each block, the q-part of v_p is
+the quantum-group lowering operator of the chain that carries the fields
+±(q − q⁻¹)/2 on its ends and commutes with that chain (recognized afterwards:
+Pasquier and Saleur, 1990, from memory and not checked against the paper), and
+the q⁻¹-part belongs to the chain with the fields reversed. The free chain
+carries neither field, and only the two ends are left over. The first
+site's term is the same in the q-part and the q⁻¹-part, its string being empty,
+and the two opposite fields cancel on it. The last site's string carries the whole rest of
+the chain, q^(±z_p) on the block (p, p+1), and so [H, v_p] is a single term on
+the cells that add the last site, each entry ±2·(1 − Δ²)·U_{|z_p|−1}(Δ). It
+vanishes when the other N − 1 sites are balanced, z_p = 0, which only an odd
+chain allows, or, for |Δ| ≤ 1, when the phase q^(z_p) is real. That is why the
+mode is there; why nothing else is there is the part that is read.
+
+Gate: [`XxzWeightOneCommutantGateTests`](../../compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzWeightOneCommutantGateTests.cs), by two exact routes that meet. The closed form's
+residual is computed in integers (Δ = a/c, H scaled by c, v_p by c^(N−1)) and
+compared exactly against ±2 times the law's factor, on the last site only and nonzero
+where the law fails, so the kernel is at least one where the law holds; the
+kernel itself is counted by a rank modulo a prime, which can only overcount, and
+reads exactly one where the law holds and zero elsewhere, N = 3 to 8 at the nine
+values of Δ above.
+
+On the ring the boundary is gone and so is this mode, but not every mode. The
+outer blocks (0, 1) and (N − 1, N) hold only weight-1 cells, so each carries one
+mode for every k with cos(2πk/N) = Δ, a one-magnon level on the vacuum's: none
+for generic Δ, two each at N = 6 and Δ = ±½, from k and N − k. At Δ = −1 the even
+ring carries one per block by the sublattice rotation above, and the odd ring,
+not bipartite, none. That the interior blocks carry none at every other Δ, from
+N = 4 on, is read at the gate's values and not gated.
 
 ---
 
@@ -568,9 +650,12 @@ the palindrome provides the right side for free.
 
 ## Open questions
 
-The only original open question that remains is the **anisotropic case**: for
-XXZ with Δ ≠ 1, how does d(−γ) depend on Δ? The SWAP argument breaks, but a
-modified argument might work for specific Δ values.
+The **anisotropic case** is answered on the open chain in [What breaks the result,
+and what the anisotropic chain keeps](#what-breaks-the-result-and-what-the-anisotropic-chain-keeps):
+one mode in each block (p, p+1) and its transpose where (1 − Δ²)·U_{|N−1−2p|−1}(Δ)
+vanishes or the block is the middle one; that it is the only one, at most one
+per qualifying block and none elsewhere, is read through N = 8 and not derived,
+and is what stays open there, with every graph other than the open chain.
 
 The topology-dependence questions for higher grid positions k ≥ 2 are resolved:
 d_real(k) depends on the graph's bond structure for k ≥ 2 (only k = 0 (N+1)

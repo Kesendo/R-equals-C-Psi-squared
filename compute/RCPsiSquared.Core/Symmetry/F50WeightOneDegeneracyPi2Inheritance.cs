@@ -204,7 +204,11 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("topology universality",
                 summary: "The ≥2N lower bound holds for any connected graph with isotropic Heisenberg + uniform Z-dephasing. The =2N equality holds, off the finite exceptional set E(N, G) of γ/J, for the chain at all N and for ring/star/complete/tree at N ≥ 4 (upper bound Tier2-verified), with the documented K_3 exception at N = 3, where the triangle (= ring = complete on 3 vertices) gives d_real = 8 = 2N+2. Unique to k=0 and k=1 sectors. For k ≥ 2 the count becomes topology-dependent (chain smallest, complete largest; WEIGHT2_KERNEL) above the universal lower bound (k+1)(N−k+1) (DEGENERACY_PALINDROME).");
             yield return new InspectableNode("breaks for anisotropic XXZ",
-                summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails");
+                summary: "Δ ≠ 1: the ZZ term mixes X/Y types, breaking the SWAP-invariance argument; F50 closure fails. " +
+                         "The open chain keeps a weight-1 commutant mode per block (p, p+1) and transpose where " +
+                         "(1 − Δ²)·U_{|N−1−2p|−1}(Δ) = 0 or p = (N−1)/2 (derived; that there are no others is read to N = 8): " +
+                         "the middle block alone for Δ = cos θ with θ irrational in π and for |Δ| > 1 " +
+                         "(PROOF_WEIGHT1_DEGENERACY, gate XxzWeightOneCommutantGateTests)");
             yield return new InspectableNode("exceeded at exceptional couplings",
                 summary: "at a finite set E(N, G) of γ/J (Pauli J, the spin book's J being four times it) a diagonal joint-popcount block (p, p) has an eigenvalue exactly −2γ (a real mode mixing XY-weight 0 with weight ≥ 2) and the count exceeds 2N; real λ = −2γ implies a weight-1 commutant only off E; on the chain min E = 1/Q*_gap(N) at N = 2..5, a consequence of the theorem wherever the 2γ regime exists, every mode slower than 2γ being a real mode of a diagonal block (PROOF_WEIGHT1_DEGENERACY § The count at exceptional couplings and § The count as a plane crossing; typed as ExceptionalCouplingSetClaim, live witness ExceptionalCouplingWitness at inspect --root exceptional)");
             yield return new InspectableNode("N=3 verified",

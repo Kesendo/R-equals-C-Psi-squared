@@ -796,8 +796,14 @@ different cause; the two readings agree on every number and have never been reco
 
 **Valid for:** chain at any N + most connected graphs at N >= 4, off E (below).
 **Empirically violated for:** N=3 K_3 (= ring = triangle on 3 vertices) only, among graphs.
-**Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types.
-And at a finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-popcount block (p,p)
+**Breaks for:** anisotropic XXZ (Delta != 1), where ZZ term mixes X/Y types
+(Δ = −1 on a bipartite graph excepted, by the sublattice rotation). There the open chain keeps a weight-1 commutant mode in each block (p, p+1)
+and its transpose where (1 − Δ²)·U_{|N−1−2p|−1}(Δ) = 0 or p = (N−1)/2, the real
+part of a Jordan-Wigner string turned into the phase q = e^{iθ}, Δ = cos θ
+(derived); that nothing else commutes is read through N = 8. For θ irrational
+in π, and for |Δ| > 1, that is the middle block alone, 2 modes at odd N and none
+at even N ([PROOF_WEIGHT1_DEGENERACY](proofs/PROOF_WEIGHT1_DEGENERACY.md#what-breaks-the-result-and-what-the-anisotropic-chain-keeps)).
+Second, for every H, at a finite exceptional set E(N, G) of ratios γ/J: there a diagonal joint-popcount block (p,p)
 has an eigenvalue exactly −2γ, a real mode mixing XY-weight 0 with weight ≥ 2, and the count exceeds
 2N; the converse "real λ = −2γ ⟹ weight-1 commutant" holds off E only. On the chain the smallest
 point of E is 1/Q*_gap(N) wherever the 2γ regime exists, a consequence of the theorem with Theorems A and D of the

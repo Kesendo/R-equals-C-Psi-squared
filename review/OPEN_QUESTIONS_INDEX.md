@@ -392,7 +392,8 @@ neural justifications without classifying unrelated entries.
 **Section:** Open questions
 **Date:** April 3, 2026
 **Tag:** untagged
-**Status:** unclassified
+**Status:** partially answered
+**Disposition:** On the open chain a closed-form weight-1 commutant mode sits in every block (p, p+1) where (1 − Δ²)·U_{|N−1−2p|−1}(Δ) = 0 or p = (N−1)/2, so off the finite exceptional set d_real(Re = −2γ) = 2 at odd N and 0 at even N for generic Δ; that there are no others is read through N = 8 and not derived (`docs/proofs/PROOF_WEIGHT1_DEGENERACY.md`, What breaks the result, and what the anisotropic chain keeps). Other graphs stay open.
 
 ### OQ-089
 
