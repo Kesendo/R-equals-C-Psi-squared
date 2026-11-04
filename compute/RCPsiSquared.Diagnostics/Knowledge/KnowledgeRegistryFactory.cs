@@ -475,6 +475,17 @@ public static class KnowledgeRegistryFactory
             // for both chains, five days before F143 was minted). Neither alone gives the statement.
             // Live: inspect --root seedrung (SeedRungGramWitness).
             .RegisterSeedRungGramClaim()
+            // F170, the XY ring's frozen band at odd N (Tier 1 derived, 2026-11-04): every diagonal rung
+            // carries the frozen root -4*gbar floor(N/2) times generically on the R90 locus and N - 1 times
+            // at the uniform point for all but finitely many J, because each rung of the spin ring is a
+            // fixed-flux ring (wrap sign
+            // (-1)^(p-1)), the eta ladder commutes there, and at odd N no two plane-wave momenta add up
+            // to pi, so nothing new is seeded above the bottom rung. Parents: FrozenDivisorClaim (the
+            // corner floor only, its proof valid on both fixed-flux rings; the exact count is the proof's
+            // Proposition 6) + SpectatorIntertwinerClaim (the ladder W and its reverse, the lowest-weight
+            // map; the ring parity itself is PROOF_CODIM1_BY_ADDITIVITY section 5, untyped). Live: inspect --root ringband (RingFrozenBandWitness,
+            // exact GF(p) ranks on blocks cut by PerBlockLiouvillianBuilder from a Pauli spin ring).
+            .RegisterRingFrozenBandClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

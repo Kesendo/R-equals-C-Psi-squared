@@ -349,7 +349,7 @@ public sealed class StructuralCeilingWitness : IInspectable
                 summary: $"{protect}; (1,1) commutant = {(c11?.ToString("0.#########", Inv) ?? "—")} " +
                          $"({c11Form} = {c11Closed.ToString("0.#########", Inv)}, {c11Match}){hf}"));
         }
-        return new InspectableNode("the ring C_N, band-edge-protected on the XY network (g2 = 1, NO ceiling); the (1,1) commutant closed form found by sweep",
+        return new InspectableNode("the ring C_N, band-edge-protected on the XY network (g2 = 1, NO ceiling); the (1,1) commutant closed form, derived in PROOF_RING_FROZEN_BAND §5 (F170)",
             summary: "fed live across N=4..7 over ALL (p,q) sectors (the never-fed Compute axis). UNLIKE complete " +
                      "(4/N) and star (4/(N−1)), the ring carries NO structural ceiling: g2 = 1 at N=4..7 here, and " +
                      "to N=11 for the (1,1) leg in ring_ceiling_commutant_sweep.py (band edge protects, like the " +

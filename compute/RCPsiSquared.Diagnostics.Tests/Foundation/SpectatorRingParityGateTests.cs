@@ -29,6 +29,11 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// symmetry can hide a convention error; rows with a negative wrap coupling start from the π-flux ring; the open chain is the control (Theorem B of
 /// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c>, W exact on every block).</para>
 ///
+/// <para>The adjoint step on the diagonal, Ψ = W† from the rung p of one spin ring to the rung p − 1 of the
+/// other, the descent whose kernel is F170's lowest-weight space, is checked live in
+/// <see cref="RingFrozenBandWitness"/>
+/// (<c>inspect --root ringband</c>).</para>
+///
 /// <para>Conventions as <see cref="SpectatorIntertwinerGateTests"/>: site l = bit N−1−l, block flat index
 /// pIdx·Mq + qIdx over <see cref="BlockBasis.PopcountStates"/>, Liouville flat = ket·2^N + bra,
 /// H = Σ_b J_b (σ⁺_iσ⁻_j + h.c.) built here in the spin basis (no strings), so one excitation hops with J_b.</para></summary>

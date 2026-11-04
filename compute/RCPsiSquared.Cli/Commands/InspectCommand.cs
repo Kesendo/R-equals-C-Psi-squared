@@ -817,6 +817,23 @@ public static class InspectCommand
             "at all)",
             c => new SeedRungGramWitness(c.Parser.HasFlag("N") ? c.N : 9),
             RequiresN: false, HonorsOptionalN: true),
+        new("ringband", "F170, the XY ring's frozen band at odd N (proof PROOF_RING_FROZEN_BAND.md, typed " +
+            "RingFrozenBandClaim), recomputed: for generic (J, δ) every diagonal rung (p, p) of the spin ring has " +
+            "kernel dimension exactly ⌊N/2⌋ at the frozen root −4γ̄ on the R₉₀ locus, and N − 1 at the uniform " +
+            "point for all but finitely many J, all of it lowest weight on the bottom rung, because each rung is " +
+            "a fixed-flux ring (wrap sign (−1)^(p−1), checked matrix against matrix) and at odd N no two " +
+            "plane-wave momenta add up to π. Every count is an exact GF(p) rank on a block cut from a Pauli spin " +
+            "ring, certified where it meets the floor, and where the block is small the nullity of the square " +
+            "shows the root non-defective; the ladder Ψ = W† steps exactly from one spin ring to the one with " +
+            "its wrap bond reversed. Controls: off the locus and one grid step off the root give 0, N = 4 reads " +
+            "[2, 4, 2], the single-pair profiles at N = 9 read the gcd excess. Reads are taken at one (J, γ̄), so " +
+            "an input on the exceptional set can miss the generic count. Odd N = 3, 5, 7 (7 runs over a " +
+            "minute); --gamma sets γ̄, --J the coupling",
+            c => new RingFrozenBandWitness(
+                    c.Parser.HasFlag("N") ? c.N : 5,
+                    c.Parser.OptionalDouble("gamma") ?? 0.25,
+                    c.Parser.OptionalDouble("J") ?? 0.75),
+            RequiresN: false, HonorsOptionalN: true),
         new("blockspectrum", "the joint-popcount block spectrum, live: the (N+1)² sector decomposition " +
             "(halved by X⊗N, quartered by the F1 Π orbit -- the 100->50->25 story at N=9), the F1 palindrome " +
             "{λ}={−2σ−λ} reconstructed sector-by-sector (full at N≤7), the (0,1) band-edge Absorption floor " +

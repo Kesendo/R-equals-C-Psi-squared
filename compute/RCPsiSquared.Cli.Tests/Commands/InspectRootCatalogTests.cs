@@ -469,6 +469,19 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasRingBandRoot_NFree_HonorsOptionalN_AndNamesItsProofAndClaim()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "ringband");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F170", entry.Description);
+        Assert.Contains("PROOF_RING_FROZEN_BAND", entry.Description);
+        Assert.Contains("RingFrozenBandClaim", entry.Description);
+        Assert.Contains("generic", entry.Description);
+        Assert.Contains("all but finitely many J", entry.Description);
+    }
+
+    [Fact]
     public void Catalog_HasBlindSeatRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");

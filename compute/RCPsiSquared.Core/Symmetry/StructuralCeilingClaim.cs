@@ -128,7 +128,8 @@ public sealed class StructuralCeilingClaim : Claim
             yield return new InspectableNode("not universal: 4/(m+1) breaks on the ring",
                 summary: "the degeneracy m gives the intuition (more edges → darker), but the value depends on the " +
                          "manifold's embedding: the ring holds m=2 at every N while its (1,1) commutant MOVES, " +
-                         "2(N−2)/N (even) / 2(N−1)/N (odd), always ≥ 1 and = 1 only at N=4. So on the XY network the " +
+                         "2(N−2)/N (even) / 2(N−1)/N (odd), derived in PROOF_RING_FROZEN_BAND §5 (F170), always ≥ 1 and = 1 only " +
+                         "at N=4. So on the XY network the " +
                          "ring carries no ceiling at all (band-edge-protected like the chain), in the Q→∞ limit: " +
                          "at finite Q the N=4 mode sits below the floor by 1/(2Q²), the same object as the " +
                          "star-5 marginal case at 1/Q². The XY hypothesis " +
