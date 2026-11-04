@@ -1,5 +1,5 @@
 """Gate for docs/proofs/PROOF_RING_FROZEN_BAND.md: the XY ring's frozen band at odd N, and at even N
-above the corner.
+above the corner and in the periodic ring's corner.
 
 Self-contained: builds every object from scratch and imports nothing from the framework or
 from the other frozen-band gates, so agreement with them is evidence and not a shared bug.
@@ -58,6 +58,21 @@ What it checks:
       integer locus profiles, with U = +1, the populations, empty and U = -1 carrying N/2; U = +1
       reaching the root at the uniform point, N = 4..12; and, exact in sympy, the determinant of the
       populations' sector on one N = 6 periodic locus profile, c*J^10*(13J^2 - 35816)^2.
+  R10 even N, the populations' sector U = +1 at second order from the uniform point (Proposition 7):
+      its uniform kernel is the orbits {k, pi - k} minus one, modulo two primes at N = 4..20, an upper
+      bound that the orbit sums with zero diagonal meet;
+      the second-order matrix W2 by the closed form (Cauchy rows from the nonresonant offsets, one
+      class sum per resonant one, X_r in its displayed form, no matrix inverse) equals W2 through the pseudo-inverse of the
+      uniform corner at N = 4..22, both rings, random couplings and profiles, the deviation gated
+      against the size of a rounding through that route, eps |K1|^2 |K0^+|; it is real, symmetric and
+      (gbar > 0) negative semidefinite through the pseudo-inverse, of nullity 0 on the periodic ring and 1 on the
+      pi-flux ring, read against eps |K1|^2 |K0^+| inside a moat; a control with the self-paired orbit mis-weighted must miss; in integers to N = 200 the
+      resonant offsets cover the classes and the nonresonant ones match them in number on the periodic
+      ring and fall one short on the pi-flux ring; the one null direction there is sum_k P_k / sin k,
+      v(a,b) = sgn(b - a) for a + b odd; the reflection l -> N-1-l maps K0 to itself, K1 to -K1 and that
+      direction to minus itself, so the third order vanishes on it; read only, the fourth is real, positive
+      at gbar > 0 and proportional to 1/(J^2 gbar) at N = 6..12, meeting the smallest eigenvalue at offset
+      1e-2; and, read off the locus on zero-mean profiles, the same second-order nullities.
 """
 import sys, random
 from itertools import combinations
@@ -581,7 +596,8 @@ for n in range(4, 14, 2):
     for wrap in (1, -1):
         re, im = scaled(n, 1, wrap, True, 311, [500] * n)
         ok_ur &= nullity(re, im, U - np.eye(n * n, dtype=np.int64)) > 0
-check("uniform point, even N = 4..12, both rings: U = +1 reaches the root, so it is no anchor for the populations", ok_ur)
+check("uniform point, even N = 4..12, both rings, one coupling each: U = +1 reaches the root, so the uniform "
+      "point anchors it only at second order (R10)", ok_ur)
 
 import sympy as sp
 from sympy.polys.matrices import DomainMatrix
@@ -610,6 +626,231 @@ d6 = sp.factor(DomainMatrix.from_Matrix(Bp.T * M6 * Bp).det().as_expr())
 ratio = sp.simplify(d6 / (Js ** 10 * (13 * Js ** 2 - 35816) ** 2))
 check("N = 6, periodic, rates (60, 31, 64, 16, 49, 20): det of the populations' sector is c*J^10*(13J^2 - 35816)^2, "
       "a root at J^2 = 35816/13", ratio.is_number and ratio != 0, f"{d6}")
+
+print("R10 even N: the populations' sector at second order from the uniform point")
+
+
+def corner_f(n, wrap, J, gbar, D):
+    """the corner (1,1) of L + 4*gbar in floats, cell (a, b) at a*n + b, rates gbar + D."""
+    h = h_ring(n, wrap).astype(float)
+    I = np.eye(n)
+    g = gbar + np.asarray(D, float)
+    rate = np.array([[4 * gbar if a == b else 4 * gbar - 2 * (g[a] + g[b]) for b in range(n)]
+                     for a in range(n)]).reshape(-1)
+    return np.diag(rate).astype(complex) - 1j * J * (np.kron(h, I) - np.kron(I, h))
+
+
+def sym_basis(n):
+    """orthonormal basis of U = +1: v(a,b) = (-1)^(a+b) v(b,a)."""
+    cols = []
+    for a in range(n):
+        v = np.zeros(n * n); v[a * n + a] = 1; cols.append(v)
+    for a in range(n):
+        for b in range(a + 1, n):
+            v = np.zeros(n * n); v[a * n + b] = 1; v[b * n + a] = (-1) ** (a + b)
+            cols.append(v / np.sqrt(2))
+    return np.array(cols).T
+
+
+def orbits_pi(n, wrap):
+    """A-orbits O = {k, pi - k} of total momentum pi, momenta k = pi*kap/n, kap mod 2n."""
+    kap = [2 * m + (0 if wrap == 1 else 1) for m in range(n)]
+    out = []
+    for c in kap:
+        O = tuple(sorted({c % (2 * n), (n - c) % (2 * n)}))
+        if O not in out:
+            out.append(O)
+    return out
+
+
+def w2_routes(n, wrap, J, gbar, amp, fixed_weight=1):
+    """W2 on the uniform kernel of U = +1, two routes: the site route through a pseudo-inverse,
+    and the closed form of Proposition 7 (no inverse). Coordinates: z = sum_O s_O T_O,
+    T_O = sum_{k in O} phi_k phi_{pi-k}^T, kernel sum_O |O| s_O = 0."""
+    B = sym_basis(n)
+    Sig = np.diag([(-1.0) ** a for a in range(n)])
+    phi = lambda c: np.exp(1j * np.pi * c / n * np.arange(n)) / np.sqrt(n)
+    orbs = orbits_pi(n, wrap)
+    T = []
+    for O in orbs:
+        S = sum(np.outer(phi(c), phi((n - c) % (2 * n))) for c in O)
+        T.append(B.T @ (S @ Sig).reshape(-1))
+    T = np.array(T).T
+    wts = np.array([len(O) for O in orbs], float)
+    Ck = np.linalg.svd(wts[None, :])[2][1:].T
+    Zs = T @ Ck
+    a = np.arange(n) + 0.5
+    D = sum(amp[j - 1] * np.sin(2 * np.pi * j / n * a) for j in range(1, n // 2 + 1))
+    K0 = B.T @ corner_f(n, wrap, J, gbar, np.zeros(n)) @ B
+    K1 = B.T @ (corner_f(n, wrap, J, gbar, D) - corner_f(n, wrap, J, gbar, np.zeros(n))) @ B
+    W_site = -Zs.conj().T @ K1 @ np.linalg.pinv(K0, rcond=1e-12) @ K1 @ Zs
+    c4 = 4 * gbar
+    eps = lambda c: 2 * np.cos(np.pi * c / n)
+    kap = [2 * m + (0 if wrap == 1 else 1) for m in range(n)]
+    W = np.zeros((len(orbs), len(orbs)), complex)
+    for j in range(1, n // 2 + 1):
+        rr = 2 * j                                         # r = pi*rr/n
+        dh2 = (amp[j - 1] / 2) ** 2 if j < n // 2 else amp[j - 1] ** 2   # |dhat(r)|^2
+        mult = 2 if j < n // 2 else 1                       # r and -r, or r = pi once
+        sr = np.sin(np.pi * j / n)
+        res = any(abs(np.sin(np.pi * c / n) ** 2 - sr ** 2) < 1e-12 for c in kap)
+        if not res:
+            if j == n // 2:
+                continue
+            X = np.array([len(O) * np.cos(np.pi * j / n) * np.sin(np.pi * O[0] / n)
+                          / (2j * J * np.sqrt(n) * sr * (np.sin(np.pi * O[0] / n) ** 2 - sr ** 2)) for O in orbs])
+            Xsum = np.array([len(O) / np.sqrt(n) * (1 / (-1j * J * (eps(O[0]) - eps(O[0] - rr)))
+                                                    + 1 / (-1j * J * (eps(O[0] + rr) - eps(O[0]))))
+                             for O in orbs])
+            X_OK.append(np.abs(X - Xsum).max() <= 1e-12 * np.abs(Xsum).max())
+            W += mult * 4 * c4 * dh2 * np.outer(X, X)
+        else:
+            half = j
+            Cl = {half % (2 * n), (n - half) % (2 * n), (-half) % (2 * n), (n + half) % (2 * n)}
+            y = np.array([np.sqrt(2) * (fixed_weight if len(O) == 1 else 1) if set(O) & Cl else 0.0
+                          for O in orbs])
+            W += -mult * 4 * dh2 / (c4 * 2 / n) * np.outer(y, y)
+    W_th = Ck.T @ W @ Ck
+    LOW_OK.append(np.abs(K0 @ Zs).max() < 1e-12 and np.linalg.matrix_rank(Zs) == len(orbs) - 1)
+    return W_site, W_th, Zs, K0, K1, B
+
+
+X_OK, LOW_OK = [], []
+rnd10 = np.random.default_rng(10)
+worst, ok_neg, ok_null, ok_ctl, gap = 0.0, True, True, True, 1.0
+nulls = {}
+for n in range(4, 23, 2):
+    for wrap in (1, -1):
+        J, gbar = rnd10.uniform(0.5, 2), rnd10.uniform(0.5, 2)
+        amp = rnd10.uniform(0.5, 1.5, n // 2) * rnd10.choice((-1, 1), n // 2)
+        Ws, Wt, Zs, K0, K1, B = w2_routes(n, wrap, J, gbar, amp)
+        size = np.linalg.norm(K1, 2) ** 2 * np.linalg.norm(np.linalg.pinv(K0, rcond=1e-12), 2)
+        worst = max(worst, np.abs(Ws - Wt).max() / (np.finfo(float).eps * size))
+        tol = 1e3 * np.finfo(float).eps * size
+        ev = np.linalg.eigvalsh((Ws + Ws.conj().T) / 2) if Ws.size else np.zeros(0)
+        ok_neg &= np.abs(Ws.imag).max() < tol and np.abs(Ws - Ws.T).max() < tol and (ev.size == 0 or ev.max() < tol)
+        k0 = int(np.sum(np.abs(ev) < tol)); mid = np.any((np.abs(ev) >= tol) & (np.abs(ev) < 1e-6 * size))
+        gap = min(gap, np.abs(ev)[np.abs(ev) >= tol].min() / size) if np.any(np.abs(ev) >= tol) else gap
+        nulls[(n, wrap)] = k0
+        ok_null &= (not mid) and k0 == (0 if wrap == 1 else 1)
+        if n % 4 == 0 and wrap == 1:
+            _, Wbad, *_ = w2_routes(n, wrap, J, gbar, amp, fixed_weight=2)
+            ok_ctl &= np.abs(Ws - Wbad).max() / (np.finfo(float).eps * size) > 1e8
+check("even N = 4..22, both rings, random J, gbar and locus offsets with every Fourier component: W2 by the "
+      "closed form equals W2 through the pseudo-inverse, the deviation below 1e2 eps times |K1|^2 |K0^+|, "
+      "the size of a rounding through that route; the displayed form of X_r equals its sum 1/a_k + 1/a_(k+r)",
+      worst < 1e2 and all(X_OK), f"worst {worst:.2f}")
+check("W2 through the pseudo-inverse is real, symmetric and, at gbar > 0, negative semidefinite, to 1e3 eps "
+      "|K1|^2 |K0^+|", ok_neg)
+check("its nullity, read against that scale inside a moat (nothing between 1e3 eps and 1e-6 of it): 0 on the "
+      "periodic ring, 1 on the pi-flux ring", ok_null, f"smallest nonzero |eigenvalue| / scale {gap:.1e}; {nulls}")
+check("control: weighting the self-paired orbit {pi/2} like a pair breaks the agreement at 4 | N, periodic", ok_ctl)
+
+ok_k = True
+for n in range(4, 21, 2):
+    U = np.zeros((n * n, n * n), dtype=np.int64)
+    for a in range(n):
+        for b in range(n):
+            U[b * n + a, a * n + b] = (-1) ** (a + b)
+    for wrap in (1, -1):
+        want = len(orbits_pi(n, wrap)) - 1
+        for jn in (311, 7):
+            re, im = scaled(n, 1, wrap, True, jn, [500] * n)
+            ok_k &= nullity(re, im, U - np.eye(n * n, dtype=np.int64)) == want
+check("uniform point, N = 4..20, both rings, two couplings: U = +1 carries exactly the orbits {k, pi - k} "
+      "minus one (nullity modulo two primes, an upper bound, met by the orbit sums with zero diagonal, "
+      "which K0 annihilates in floats, N = 4..22)", ok_k and all(LOW_OK))
+
+ok_cnt = True
+for n in range(4, 202, 2):
+    for wrap in (1, -1):
+        kap = [2 * m + (0 if wrap == 1 else 1) for m in range(n)]
+        cls = {min(c % n, (-c) % n) for c in kap if c % n}          # classes with sin k != 0, by |k| mod pi
+        nonres = [j for j in range(1, n // 2) if j % 2 == (1 if wrap == 1 else 0)]
+        res = [j for j in range(1, n // 2 + 1) if j % 2 == (0 if wrap == 1 else 1)]
+        ok_cnt &= len(nonres) == len(cls) - (0 if wrap == 1 else 1)
+        ok_cnt &= sorted(j % n for j in res) == sorted(cls)
+check("integers, even N = 4..200: the classes with sin k != 0 are exactly the resonant r/2, and the "
+      "nonresonant r with cos(r/2) != 0 match them in number on the periodic ring and fall one short on the "
+      "pi-flux ring", ok_cnt)
+
+ok_t = True
+for n in range(4, 23, 2):
+    J, gbar = rnd10.uniform(0.5, 2), rnd10.uniform(0.5, 2)
+    amp = rnd10.uniform(0.5, 1.5, n // 2)
+    Ws, Wt, Zs, K0, K1, B = w2_routes(n, -1, J, gbar, amp)
+    v = np.zeros((n, n))
+    for a in range(n):
+        for b in range(n):
+            if (a + b) % 2:
+                v[a, b] = np.sign(b - a)
+    ks = momenta(n, -1)
+    vk = sum(np.outer(np.exp(1j * k * np.arange(n)), np.exp(-1j * k * np.arange(n))) / n / np.sin(k) for k in ks)
+    z = B.T @ v.reshape(-1); z = z / np.linalg.norm(z)
+    ok_t &= np.abs(vk / vk[0, 1] - v).max() < 1e-12
+    ok_t &= np.abs(K0 @ z).max() < 1e-12
+    W2z = -K1 @ np.linalg.pinv(K0, rcond=1e-12) @ K1 @ z
+    ok_t &= np.abs(Zs.conj().T @ W2z).max() < 1e-12 * max(np.abs(Ws).max(), 1.0)
+check("pi-flux ring, N = 4..22: the one null direction is v(a,b) = sgn(b - a) for a + b odd, which is "
+      "sum_k P_k / sin k, the inverse of the particle current", ok_t)
+
+ok_l4, ok_sc, ok_3 = True, True, True
+for n in (6, 8, 10, 12):
+    D = np.zeros(n); d = rnd10.standard_normal(n // 2)
+    for l in range(n // 2):
+        D[l], D[n - 1 - l] = d[l], -d[l]
+    vals = {}
+    for (J, gbar) in ((1.0, 1.0), (2.0, 1.0), (1.0, 2.0), (3.0, 1.0), (1.0, 4.0)):
+        B = sym_basis(n)
+        K0 = B.T @ corner_f(n, -1, J, gbar, np.zeros(n)) @ B
+        K1 = B.T @ (corner_f(n, -1, J, gbar, D) - corner_f(n, -1, J, gbar, np.zeros(n))) @ B
+        R = np.linalg.pinv(K0, rcond=1e-12)
+        Z = null(K0)
+        P = Z @ Z.conj().T
+        v = np.zeros((n, n))
+        for a in range(n):
+            for b in range(n):
+                if (a + b) % 2:
+                    v[a, b] = np.sign(b - a)
+        t = B.T @ v.reshape(-1); t = t / np.linalg.norm(t)
+        W2 = -P @ K1 @ R @ K1 @ P
+        W3 = P @ K1 @ R @ K1 @ R @ K1 @ P
+        W4 = -P @ K1 @ R @ K1 @ R @ K1 @ R @ K1 @ P
+        l3 = t.conj() @ W3 @ t
+        l4 = t.conj() @ W4 @ t - t.conj() @ W3 @ np.linalg.pinv(W2, rcond=1e-10) @ W3 @ t
+        ev = np.linalg.eigvals(K0 + 1e-2 * K1)
+        e0 = ev[np.argmin(abs(ev))] / 1e-8
+        Rf = np.zeros((n * n, n * n))
+        for x in range(n):
+            for y in range(n):
+                Rf[(n - 1 - x) * n + (n - 1 - y), x * n + y] = 1
+        Rb = B.T @ Rf @ B
+        ok_3 &= np.abs(Rf @ B - B @ Rb).max() < 1e-13            # the reflection keeps U = +1
+        ok_3 &= np.abs(Rb @ K0 - K0 @ Rb).max() < 1e-13 and np.abs(Rb @ K1 + K1 @ Rb).max() < 1e-12 \
+            and np.abs(Rb @ t + t).max() < 1e-13
+        ok_3 &= abs(l3) < 1e-10 * np.abs(W3).max()
+        ok_l4 &= abs(l4.imag) < 1e-10 * abs(l4) and l4.real > 0 and abs(e0 / l4 - 1) < 1e-2
+        vals[(J, gbar)] = l4.real
+    ok_sc &= all(abs(vals[(J, g)] * J * J * g / vals[(1.0, 1.0)] - 1) < 1e-8 for (J, g) in vals)
+check("pi-flux ring, N = 6..12, one locus profile each: the reflection maps K1 to -K1, K0 and U to themselves and "
+      "that direction to minus itself, and the third order vanishes on it", ok_3)
+check("read: the fourth-order coefficient there is real and positive and meets the smallest eigenvalue of the "
+      "corner's U = +1 block at offset 1e-2 over its fourth power within 1 per cent", ok_l4)
+check("read: it scales as 1/(J^2 gbar), at J/gbar = 1/4, 1/2, 1, 2, 3", ok_sc)
+
+ok_off = True
+for n in range(4, 17, 2):
+    for wrap in (1, -1):
+        B = sym_basis(n)
+        D = rnd10.standard_normal(n); D -= D.mean()
+        K0 = B.T @ corner_f(n, wrap, 1.1, 1.0, np.zeros(n)) @ B
+        K1 = B.T @ corner_f(n, wrap, 1.1, 1.0, D) @ B - K0
+        Z = null(K0)
+        W2 = -Z.conj().T @ K1 @ np.linalg.pinv(K0, rcond=1e-12) @ K1 @ Z
+        k = moat_nullity(W2, lo=1e-11, hi=1e-6)
+        ok_off &= k == (0 if wrap == 1 else 1)
+check("read, off the locus, N = 4..16, random zero-mean profiles: the same second-order nullities, 0 periodic and "
+      "1 pi flux, inside a moat (the proof does not use the locus)", ok_off)
 
 print()
 print("ring frozen band gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
