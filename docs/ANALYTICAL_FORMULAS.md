@@ -5941,6 +5941,7 @@ The non-trivial content is **`λ_min = E`**: a staggered (zone-boundary, `q=π`)
 
 ---
 
+<a id="f125"></a>
 ### F125. The spectator intertwiner: the site-summed W carries the Jordan block up the diamond (Theorem B + containment corollary Tier 1 derived; Theorem A two-regime, AT-half derived, residual half conditional; gate machine-zero N=5; 2026-07-02)
 
 For the N-site XY chain (Δ=0, open ends, arbitrary bond profile `J_b`) under local Z-dephasing (arbitrary rates `γ_j`; the SETTING, not a blanket scope for the entry: the intertwiner identities below are profile-general, the edge-normality lemma is UNIFORM-γ only and false without it, fenced where it is stated), define with the Jordan-Wigner **site** fermions `c_l` (strings included) the site-summed spectator
@@ -7698,7 +7699,7 @@ statement itself carries no F number, being measured with an argument for its
 edge. On the ring with uniform bonds the diagonal band carries floor(N/2) on
 every rung generically at every odd N, each rung being a rung of a fixed-flux
 free ring on which no two plane-wave momenta sum to pi
-([PROOF_RING_FROZEN_BAND](proofs/PROOF_RING_FROZEN_BAND.md)); even N is read
+([F170](#f170)); even N is read
 (N = 4 overfull on its middle rung).
 **Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
 (Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
@@ -11384,6 +11385,32 @@ The second line splits the far equation into bond equations, which do not see th
 **Scope:** Heisenberg bonds, every site watched by one jump along an integer axis (integrality is used only by the measurements), a connected graph. XX + YY bonds split the same way but lack the per-bond lemma, and pair without a colour already on the chain at N = 3 (F138's turned stage E row); unwatched sites lie outside (with two, F138 (b)'s SWAP rows pair without a colour; with one, at letter axes and letter fields, F165's Theorem 5 holds the colour rule).
 **Replaces:** a search for elements of F158's far kernel on Heisenberg rows with every site watched.
 **Source:** [PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS](proofs/PROOF_HEISENBERG_COLOURS_OFF_THE_LETTERS.md).
+
+---
+
+<a id="f170"></a>
+### F170. On the XY ring at odd N the frozen band's every diagonal rung carries what the corner carries: no two plane-wave momenta add up to π, so N·D̂ = ℓ² − Dmom on the lowest-weight space that commutes with H, nothing new freezes above the bottom rung, and the corner holds ⌊N/2⌋ generically on the R₉₀ locus, one mode per pair of opposite momenta at large J, and N − 1 at the uniform point for all but finitely many J (Tier 1: derived 2026-11-04 in [PROOF_RING_FROZEN_BAND](proofs/PROOF_RING_FROZEN_BAND.md); registered as an INDEX of that proof)
+
+**Why a number, and why it says so.** This entry indexes; the statement, its proof and its gate are in the proof named in the header. It is not [F144](#f144) on a wider scope: the chain's identity rests on the sine modes' reflection a ↦ N + 1 − a and a grade lemma that the ring has no use for, while the ring's identity rests on momentum conservation and a resonance lemma the chain has no use for, and its deficit is one square where F144's is three. The corner's count on the ring is not [F140](#f140)'s either, which gives only the floor there; its tightness at F140's uniform endpoint fails on the ring, where the corner carries N − 1 at odd N and more at even N. The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not.
+
+**The setting.** The XY ring of N sites with uniform hopping J, the wrap bond priced by occupation (the spin ring) or by order (the free periodic ring), under Z dephasing at rates γ_l on the R₉₀ locus γ_l + γ_{N−1−l} = 2γ̄ with γ̄ ≠ 0, γ_l = γ̄ + δ_l. A fixed-flux ring is the free-fermion ring with wrap entry s = ±1, its modes the plane waves e^{ikl}/√N, k ∈ (2π/N)·ℤ for s = +1 and (π/N)·(2ℤ + 1) for s = −1. 𝒦 = |A \ B| and D̂ = |A ∩ B| on the cell |A⟩⟨B|, LW_ℓ the lowest-weight space of the η ladder on the rung (ℓ, ℓ), V₀ the kernel of the two-copy commutator with H.
+
+**The statement.**
+
+    the spin ring's p-particle sector = the fixed-flux ring's with s = (−1)^(p−1)
+    no two allowed momenta add up to π (mod 2π)                    (odd N, both s)
+    N·⟨v, D̂ v⟩ = ℓ²·‖v‖² − ⟨v, Dmom v⟩ on LW_ℓ ∩ V₀,  Dmom(ρ) = Σ_k n_k ρ n_k
+    ⟨v, 𝒦 v⟩ ≥ (ℓ(N − ℓ)/N)·‖v‖² on LW_ℓ ∩ V₀,  > 1 for 2 ≤ ℓ ≤ ⌊N/2⌋ once N ≥ 5
+    dim ker(L_(p,p) + 4γ̄) = ⌊N/2⌋ for (J, δ) generic,  N − 1 at δ = 0 for all but finitely many J     (1 ≤ p ≤ N − 1)
+
+The last line holds for both pricings at every odd N, geometrically and algebraically; at large J on a generic profile the corner's frozen modes tend to span{P_k − P_{−k}}, P_k the projector on the plane wave k. The same compression gives the ring corner's slowest decaying commutant rate at the uniform point in ⟨n_XY⟩, 2(N − 1)/N at odd N and 2(N − 2)/N at even N, the values [PROOF_STRUCTURAL_CEILING](proofs/PROOF_STRUCTURAL_CEILING.md) §5 reads.
+
+**Gated by** [`simulations/ring_frozen_band.py`](../simulations/ring_frozen_band.py), 25 checks: the sector identity entry for entry (R1), the resonance lemma to N = 41 (R2), the identity as an operator statement at N = 5 and 7 and its failure at N = 4 and 6 (R3), the floor attained (R4), the corner's large-J kernel (R5), exact counts modulo primes against their floors (F140's on the locus, the traceless projectors at the uniform point), the corner to N = 21 and every rung at N = 3 and 5 (N = 7 under `--deep`) (R6), the even-N reads (R7), the exceptional single-pair profiles (R8).
+**Typed/live owner:** none yet; the gate is Python, a witness waiting to be ported.
+**Adjacent.** [F144](#f144) (the chain's floor, transform length N + 1 where the ring's is N); [F140](#f140) (the corner floor, which covers both fixed-flux rings); [F143](#f143) (the chain's seed rung, whose chiral pairs the ring's opposite momenta replace); [F125](#f125) (the spectator, whose ring parity the sector identity is); [F157](#f157) (the gcd form that single-pair profiles at composite N read, not joined); [F160](#f160) (the ring comb at the crack's end).
+**Scope:** odd N, uniform bonds, γ̄ ≠ 0 (at γ̄ = 0, F140's zero-mean stratum, the statement is false), generic (J, δ). Even N is read: on the locus the middle rung carries 4 at N = 4, every rung ⌊N/2⌋ at N = 6 and the middle rung ⌊N/2⌋ at N = 8, and on the periodic ring the uniform point at N = 6 carries lowest-weight frozen modes at the rung 2. The exceptional set holds profiles at composite N, an offset on one pair (l, N − 1 − l) giving the corner ⌊N/2⌋ + (gcd(2l + 1, N) − 1)/2, read at N = 9, 15 and 21; couplings at which the corner's root turns defective, read at N = 5; and at the uniform point couplings at which a higher rung gains lowest-weight frozen modes, at N = 5 the rung 2 at J = (2/√3)·γ̄.
+**Replaces:** the per-N rank reads of the ring's diagonal band at odd N.
+**Source:** [PROOF_RING_FROZEN_BAND](proofs/PROOF_RING_FROZEN_BAND.md).
 
 ---
 

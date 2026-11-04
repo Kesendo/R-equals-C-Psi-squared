@@ -33,7 +33,7 @@ that self-reflection is the fold at CΨ = ¼; and the anatomy of the mirror
 (section 3), where the operator that does the reflecting is called R, in
 Π = R·D. This is a reading, not a derivation.
 
-What began as one symmetry became a registry: [163 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [166 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where
@@ -59,7 +59,7 @@ the quarter, hardware), each with a reading order
 readings
 
 → **[Analytical Formulas](docs/ANALYTICAL_FORMULAS.md)**: the F-registry,
-F1 through F169, each formula with its proof, scope, and verification
+F1 through F170, each formula with its proof, scope, and verification
 
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
 the proof. No formulas. Written the evening the hardware answered for
