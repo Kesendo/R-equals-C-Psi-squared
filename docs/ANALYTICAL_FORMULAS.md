@@ -11021,6 +11021,8 @@ Dirac matrices, in the two-qubit labelling |3/2⟩, |1/2⟩, |−1/2⟩, |−3/2
 dissipator is therefore Pauli-string dephasing, Σₐ γₐ(Γ̂ₐρΓ̂ₐ − ρ) with Γ̂ₐ the
 Γₐ scaled to square to 1, at γ = 3J₀/2, 3J₁/2, 3J₁/2, 3J₂/2, 3J₂/2, and at
 ω_Q = ω = 0 each of the sixteen operators 1, Γₐ and ΓₐΓ_b (a < b) decays at twice the summed rate of the jumps it anticommutes with.
+Read through Jordan-Wigner on the two bits, XI, YI, ZX, ZY are the two-site Majorana operators
+and ZZ = −(XI)(YI)(ZX)(ZY) is the fermion parity ([glossary, Fermions](GLOSSARY.md#fermions-jordan-wigner-majoranas-the-spectator-ladder)).
 Among the spins I ≥ 1 only 3/2 has quadrupole operators that form a Clifford
 algebra. With Γ₀ scaled to diag(1, −1, −1, 1), the map S(X) = Γ₀·Xᵀ gives,
 exactly and at every ω_Q and ω,
