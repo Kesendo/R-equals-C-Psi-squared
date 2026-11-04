@@ -442,9 +442,6 @@ can be written in that form; whether they satisfy the pairing is the
 open question. The mathematics does not care whether the system is
 quantum or classical.
 
-The reason nobody has looked is that the palindromic symmetry was
-discovered only weeks before this page.
-
 ---
 
 ## 7. Interpretation [Tier 5]

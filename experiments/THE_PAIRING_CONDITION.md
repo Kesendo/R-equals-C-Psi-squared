@@ -100,7 +100,9 @@ classification it is the symmetry that asks, on the trace-shifted generator
 L_c = L + σ, for an operator with Q·L_c·Q⁻¹ = −L_c†, while Π's own relation has −L_c where Q₋ has −L_c†. The one-sided
 ℒ_U below has that shape (whether it meets the classification's own conditions
 is not checked here), and the −L† it produces is the step
-that was missing. And
+that was missing. For a unitary involution U it is also Prosen's PT condition
+of 2012, L′P = −P L′† with P = ℒ_U, whose examples take this U = X^⊗N on XYZ couplings and local Z
+dephasing ([literature review](../docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)). And
 [SYMMETRY_CENSUS.md](SYMMETRY_CENSUS.md) carries **both** conditions of the
 criterion in the wild, months old: *"UHU† = H … UL_kU† = −L_k … but the
 dissipator is quadratic in L_k, so the overall Liouvillian is invariant."* That
@@ -174,7 +176,8 @@ upgrades the metric relation to an **explicit similarity**:
 
     Π = ℒ_U ∘ T,   Π(ρ) = U ρᵀ,   Π L Π⁻¹ = −L − 2σ
 
-and Π²(ρ) = U ρ Uᵀ, a commuting operator, which is Ad_U when U is orthogonal
+(for U = X^⊗N this Π is Π_Y = Π_Z⁻¹, the chiral operator Sá, Ribeiro and
+Prosen write in their Eq. 76, there with a sector phase), and Π²(ρ) = U ρ Uᵀ, a commuting operator, which is Ad_U when U is orthogonal
 (X^⊗N and the named row's U are). **A Y field breaks the precondition**, since
 Yᵀ = −Y, and 37 of the 64 field patterns on the scored grid carry one. There Π
 is not a reflector: gate 4 exhibits a row where U exists, the metric relation

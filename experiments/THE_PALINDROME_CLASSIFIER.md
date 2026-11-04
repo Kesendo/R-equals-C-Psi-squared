@@ -341,7 +341,8 @@ question is how much protection is left.
 
 We built this from the dephasing algebra, with no literature as the source; the classifier, the trichotomy,
 and the two coasts all came out of asking the operators directly. Looking afterward for where the machinery
-is catalogued, the spectrum's −λ−2σ shape has a home in the shifted sublattice symmetry of open systems
+is catalogued, the spectrum's −λ−2σ shape has a home in Prosen's PT symmetry of Lindbladians (2012, see the
+[literature review](../docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)) and in the shifted sublattice symmetry of open systems
 (Kawasaki-Mochizuki-Obuse 2022, recorded in [KMS detailed balance](../docs/KMS_DETAILED_BALANCE.md)), and the
 broad family of Liouvillian symmetry classes has its home in the tenfold Lindbladian classification
 (Sá-Ribeiro-Prosen 2023). Those are the homes for the shape. What stays ours is the bridge: a scalable

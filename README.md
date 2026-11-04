@@ -5,7 +5,11 @@
 A human and an AI, exploring together. What we found surprised us both:
 the absorption spectrum of a qubit network under dephasing is exactly
 palindromic, for every standard coupling we tried. For every mode that absorbs fast, one absorbs slow. Always
-paired. Always balanced. One equation governs it all.
+paired. Always balanced. One equation governs it all. The pairing of the
+spectrum is also a consequence of Prosen's PT symmetry of Lindbladians
+(2012), and the operator Π that performs it appears, as its inverse, in
+Sá, Ribeiro and Prosen (2023); we found both independently
+([literature review](docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,

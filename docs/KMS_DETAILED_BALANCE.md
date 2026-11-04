@@ -49,8 +49,11 @@ separate Hamiltonian derivation, so only the dissipative part is self-adjoint
 and that condition does not force the full generator to have a real spectrum.
 At β=0, strict full-generator KMS symmetry reduces to Hilbert-Schmidt
 self-adjointness and fails whenever H≠0, while the weaker Alicki decomposition
-can still hold. The closest existing framework is Roberts-Lingenfelter-Clerk
-hidden time-reversal symmetry (PRX Quantum 2021), which also produces
+can still hold. Prosen's PT symmetry of Lindbladians (2012) already gives the
+palindromic spectrum through an adjoint relation
+([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
+The closest existing framework for the detailed-balance side is
+Roberts-Lingenfelter-Clerk hidden time-reversal symmetry (PRX Quantum 2021), which also produces
 time-reversal-like structure in systems violating standard DB. The SRP
 classification is formulated for a trace-shifted generator, so the constant
 2Sγ is absorbed by `L_c = L + SγI` rather than creating a classification gap.
@@ -95,7 +98,7 @@ state's (Question 4).
 
 ## Question 1: Is Π a Known Symmetry Type?
 
-**Classification: CONFIRMED algebra / OPEN class and prior-art equivalence**
+**Classification: CONFIRMED algebra / OPEN class label**
 
 ### The Buca-Prosen framework (2012)
 
@@ -111,7 +114,9 @@ Our Π satisfies neither. It does not commute with L. Instead:
 This is an **anti-similarity** with a constant shift. If we define L_c = L + Sγ·I
 (the centered Liouvillian), then Π·L_c·Π⁻¹ = -L_c, which is a pure anti-commutation.
 In the Buca-Prosen language, Π is a "weak anti-symmetry" of L_c, but this category
-does not exist in their 2012 classification. They only considered [U, L] = 0.
+does not exist in their 2012 classification. They only considered [U, L] = 0. Prosen's
+PT paper of the same year has the adjoint anti-relation L′P = −P L′†
+([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 
 ### The Albert-Jiang framework (2014)
 
@@ -154,7 +159,11 @@ Its global order four is resolved sectorwise through Π² = U_X. No global AIII,
 BDI, or CI label is assigned here; the irreducible-sector classification remains
 open.
 
-**Literature and scope comparison.** We built this from the dephasing algebra with
+**Literature and scope comparison.** For these models the pairing itself is
+Prosen's PT symmetry of Lindbladians (2012), and Π's inverse is Sá, Ribeiro and
+Prosen's chiral operator (2023, Eq. 76)
+([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
+We built this from the dephasing algebra with
 no literature input: the −2Sγ shift fell out of the 2:2 per-site Pauli split, and the
 shifted-sublattice form below was recognized afterward, on 2026-06-08. The pairing about a nonzero center,
 λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), has the shifted-sublattice-symmetry
@@ -626,11 +635,11 @@ to this model without that calculation.
 
 **"Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise"**
 
-Their η-pairing symmetry in the Hubbard mapping is a related 1D free-fermion
-construction. The compared scopes are:
+Their η-pairing symmetry in the Hubbard mapping is a related construction.
+The compared scopes are:
 
-- Their result is restricted to tight-binding (free fermion) chains in 1D
-- The present algebra covers interacting spins (XXZ with arbitrary δ) on any graph
+- Their map holds for the tight-binding model (free fermions) on any bipartite lattice; the Bethe ansatz solves it in 1D
+- The present algebra covers interacting spins (XXZ with arbitrary δ) on any graph; so does Prosen's 2012 PT symmetry, to which they attribute the point symmetry of their spectrum ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012))
 - Their η-pairing comes from the Hubbard model's SU(2) symmetry
 - Here Π is defined by the Pauli algebra's {I,Z} ↔ {X,Y} structure
 
@@ -666,9 +675,9 @@ dynamics. No palindromic structures.
 | 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
 | 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
 | 4. Finite-T element of **Π's shape**? | Π itself does not carry over (the 2:2 split is pure Z dephasing's). The thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y); as a multiplication on both sides that pairing commutes with [H, ·] for real XXZ bonds, through the transpose it anticommutes, and weighted by the thermal state it is the site-local linear element M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½ with M_β·L·M_β⁻¹ = −L − c, c = Σ(γ↓ + γ↑), at one cooling-to-heating ratio across the hopping, for XXZ bonds with axial DM terms on any graph without fields or dephasing | **CONFIRMED** at one ratio (exact, `cube_moves_gate.py` M11), and with X or Y dephasing where the one-site steady-state ratio is the same along the hopping, weighted by that steady state ([THE_CUBE_SITE_BY_SITE](../experiments/THE_CUBE_SITE_BY_SITE.md)); a ratio that differs across a hopping bond leaves no site-local element, and there, for XXZ bonds without DM, an element exists through S_XY and is at least as entangled as the steady state (the Z corner); a Z field and Z dephasing break M_β, while with fields F137's chained carrier composes into a site-local element of another shape wherever its turns exist; beyond it **OPEN** |
-| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9) |
+| 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 by the tensor sum of the one-site eigenvalues {0, −r/2, −r/2, −r}, as F137's T1 tensor sum with r in place of γ, and the bottom line below; Heisenberg H exact at the rational rate profiles of thermal_palindrome_centre.py at N=2, 3 and measured to N=5, derived at every N for an H that commutes with X⊗N and Y⊗N by ρ ↦ X⊗N·ρ·Y⊗N, which gives −L† − c, [THE_ONE_SQUARE](THE_ONE_SQUARE.md) §9; Prosen's PRA of 2012, Example 2, has the element with its factors exchanged for XYZ couplings under absorption and injection, and Sá, Ribeiro and Prosen's Eq. 85 the element itself, up to sign, as Q₋) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
-| 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
+| 6. Who else has similar structures? | Prosen 2012 (PT symmetry, the palindromic spectrum through an adjoint relation), Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples, with the explicit chiral operator of their Eq. 76, which is Π⁻¹ with a sector phase), and MEP (η-pairing) provide related structures; no novelty claim is made, and the class label for the field-free XXZ chains waits for the remaining sector calculation | **CONFIRMED relatives / OPEN class label** |
 
 ---
 
@@ -736,7 +745,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
 
 6. **Medvedyeva, Essler, Prosen (2016)**: "Exact Bethe ansatz spectrum of a tight-binding chain with dephasing noise."
    Phys. Rev. Lett. 117, 137202. [arXiv:1606.09122](https://arxiv.org/abs/1606.09122)
-   *η-pairing symmetry; 1D free-fermion ancestor of Π.*
+   *Imaginary-interaction Hubbard map, Bethe ansatz in 1D; η-pairing for the steady state and the leading decay modes.*
 
 7. **Alhambra, Woods (2017)**: "Dynamical maps, quantum detailed balance, and the Petz recovery map."
    [arXiv:1609.07496](https://arxiv.org/abs/1609.07496)
@@ -802,7 +811,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
 
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
    recognize the significance of a shifted anti-similarity. Roberts for
-   the hidden TRS connection, Prosen for the η-pairing generalization.
+   the hidden TRS connection, Prosen for the relation to his 2012 PT symmetry.
    The classification side of this step has its vehicle: the outbound
    adapter
    [Shifted Order-4 Chiral Symmetry](outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md)

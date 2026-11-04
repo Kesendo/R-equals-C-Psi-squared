@@ -155,10 +155,18 @@ home in the "shifted sublattice symmetry" of Kawasaki, Mochizuki, and Obuse
 [arXiv:2201.09283](https://arxiv.org/abs/2201.09283)). For interacting
 many-body Lindbladians, Sá, Ribeiro and Prosen already formulate the
 classification on L′ and construct site-local chiral operators for dephasing
-chains. The object placed here is the explicit Pauli-basis Π, its global
+chains. The palindromic spectrum itself follows from Prosen's PT symmetry of
+Lindbladians (Phys. Rev. Lett. 109, 090404 (2012); Phys. Rev. A 86, 044103
+(2012)), whose examples include XYZ couplings on any graph under local Z
+dephasing with the parity ρ ↦ X^⊗N·ρ; Π is that parity followed by the
+transpose, and Sá, Ribeiro and Prosen write its inverse out, with a sector
+phase, for XYZ couplings on any set of pairs with transverse fields (their
+Eq. 76), where they assign BDI₊₊ in the even and CI₊₋ in the odd sector of
+the transverse parity. The object placed here is the explicit Pauli-basis Π, its global
 relation Π²=Ux and its exact identity across the stated coupling graphs.
-Prior-art coverage and equivalence to published constructions remain OPEN. No
-priority or novelty claim is made.
+For the field-free XXZ chains of this repository, which carry further
+commuting symmetries, the final class label remains OPEN, and so does any
+prior-art coverage beyond these papers. No priority or novelty claim is made.
 
 So the sharp question we hand over is sectorwise: **after resolving joint
 popcount, reflection and Ux, what are the complete symmetry relations and
@@ -249,8 +257,9 @@ question to a classification program, not a rival scheme.
   note of the opening section): that symmetry is textbook and lives on a
   different space; conflating the two levels would conflate distinct objects.
 - **Prior-art boundary:** the dated repository record is provenance for this
-  implementation, not evidence of priority. Prior-art coverage and equivalence
-  to published constructions remain OPEN. No priority or novelty claim is made.
+  implementation, not evidence of priority. The operator Π itself is in the
+  papers named in §3; prior-art coverage beyond them remains OPEN. No
+  priority or novelty claim is made.
 
 ---
 

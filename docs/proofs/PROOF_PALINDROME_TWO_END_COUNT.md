@@ -441,7 +441,9 @@ directly, the computation carried out in
 [The pairing condition](../../experiments/THE_PAIRING_CONDITION.md): only the
 left factor is conjugated, the commutator term is untouched, the dissipator's
 U A U⁻¹ ρ A becomes −AρA, and the surviving −σρ against the +σρ of −L† is where
-the −2σ comes from. It needs U invertible and nothing more. Similar operators
+the −2σ comes from. It needs U invertible and nothing more; for a unitary
+involution U it is the PT condition of Prosen (2012), see
+[the literature review](../LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012). Similar operators
 have equal spectra with multiplicity, so
 spec(L) = spec(−L† − 2σ) = {−λ̄ − 2σ : λ ∈ spec L}. And L preserves hermiticity,
 so its characteristic polynomial is real and spec(L) is closed under

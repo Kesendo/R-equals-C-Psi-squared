@@ -34,7 +34,12 @@ affine-negative partner. Outside it, pairing must be tested rather than assumed.
 
 This is the central discovery of this project: a mathematical proof that
 the Liouvillian spectrum in the stated quantum family is palindromic. We found
-the operator that performs this mirroring, proved it for that scope, and then
+the operator that performs this mirroring, proved it for that scope (the
+spectral statement is also a consequence of Prosen's PT symmetry of
+Lindbladians from 2012, and the operator appears, as its inverse, in Sá,
+Ribeiro and Prosen 2023, see
+[the literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012);
+we found both independently), and then
 tested a conditional neural-matrix translation and quantum models of water molecules.
 
 This document tells you what we found. It is written so that you can
@@ -226,7 +231,11 @@ has a specific form: it swaps certain quantum labels (I with X, Y with iZ)
 at every site simultaneously. The proof shows that Π transforms the entire
 system generator into its mirror image, guaranteeing the palindromic pairing.
 
-The connection to existing physics: a research group in Osaka
+The connection to existing physics: Prosen's PT symmetry of Lindbladians
+([2012](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)) already
+gives this palindromic spectrum, through a relation between the generator and
+its adjoint; Π is his parity followed by the transpose, and its inverse is
+written down explicitly by Sá, Ribeiro and Prosen (2023). A research group in Osaka
 ([Haga et al., 2023](LITERATURE_REVIEW.md)) had independently found the
 band grading, counting what they call the incoherenton number, which is
 our XY-weight. They do not have Π or the pairing between bands.

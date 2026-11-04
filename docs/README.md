@@ -19,7 +19,10 @@ palindromic. Every decay rate d is paired with a partner at 2Σγ − d. This
 symmetry, verified for 87,376 eigenvalues with zero exceptions and proven
 analytically on any graph, has consequences for decoherence thresholds,
 quantum state transfer, the origin of irreversibility, and information
-channels.
+channels. The spectral statement is also a consequence of Prosen's PT
+symmetry of Lindbladians (2012), and the explicit operator Π that performs
+the mirroring, found here independently, appears as its inverse in Sá,
+Ribeiro and Prosen (2023) ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 
 ---
 
@@ -93,7 +96,7 @@ These connect the mathematical results into a coherent picture.
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [Glossary](GLOSSARY.md) | Term definitions. |
-| [Literature Review](LITERATURE_REVIEW.md) | Foundations (textbooks, original papers), related work (Haga incoherentons, η-pairing, Buca/Prosen symmetries), ENAQT, what is new. |
+| [Literature Review](LITERATURE_REVIEW.md) | Foundations (textbooks, original papers), related work (Prosen's 2012 PT symmetry, Haga incoherentons, η-pairing, Buca/Prosen symmetries), ENAQT, what is new. |
 
 ---
 

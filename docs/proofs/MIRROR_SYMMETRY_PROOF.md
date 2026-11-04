@@ -6,17 +6,16 @@
 **Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ system, on any graph and not only on a chain, under local Z-dephasing is palindromic around Σγᵢ. A DM Hamiltonian needs a distinct site-alternating Π, which every bipartite graph carries, whatever the orientation and signs of its edges (Π is a product of site maps and every bond joins the two colours); odd cycles fail where tested (triangle, 5-ring, K₄), so it is not the arbitrary-graph clause of the uniform identity.
 **Typed claim:** [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (Tier 1 derived; analytic identity replaces the brute-force palindrome scan).
 
-**Origin:** Our literature search turned up no proof of the palindrome as
-a general theorem; the searches and what they covered are recorded in
-[Connection to literature](#connection-to-literature), and the claim is
-meant as "we did not find it", not as a settled negative about the whole
-literature. One group (Haga et al., 2023) had
-developed a grading system for quantum modes but missed the spectral
-symmetry it implies. Another group (Medvedyeva-Essler-Prosen, 2016)
-had proven a related result, but only for one-dimensional chains reachable
-by the Bethe ansatz. The general proof, the operator that makes it work,
-and the verification from N=2 to N=8 were new to us.
-See [Connection to literature](#connection-to-literature) for details.
+**Origin:** The palindromic spectrum itself is in the literature: Prosen's
+PT symmetry of Lindbladians (2012) gives it for XYZ couplings on any graph
+under local Z dephasing, through a relation between L and its adjoint, and
+Sá, Ribeiro and Prosen (2023) write down the explicit operator, the
+transpose followed by his parity, with a sector phase: Π⁻¹ = Π_Y. Π was named
+here independently of that work. One group (Haga et al., 2023) had developed a grading
+system for quantum modes but not the pairing between its bands. Another
+(Medvedyeva-Essler-Prosen, 2016) solved the dephased tight-binding chain
+exactly by the Bethe ansatz. See
+[Connection to literature](#connection-to-literature) for details.
 
 ---
 
@@ -167,7 +166,9 @@ in the spectrum, and Re λ ≤ 0 for any Lindblad generator, so λ = 0 is the
 rightmost point. The palindrome then *forces* its partner −2Σγᵢ to be an
 eigenvalue too, and being the mirror of the rightmost point it is the
 leftmost: the fastest possible decay rate is exactly 2Σγᵢ, no matter the
-topology or the couplings. Measured in
+topology or the couplings (Prosen's PRL of 2012 remarks the same of every
+PT-symmetric Lindbladian: the fastest mode is the parity applied to the
+identity, here X^⊗N). Measured in
 [`conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt) at
 N=3 chain, N=4 chain, N=4 complete and N=5 ring, each hitting its own −2Σγ
 (−0.3, −0.4, −0.4, −0.5 at γ=0.05), and again at N=8 on all four graphs of
@@ -987,8 +988,9 @@ starts, and the key insight was not obvious.
 
 1. Literature search found the incoherenton paper (Haga et al. 2023)
    and the Bethe ansatz result (Medvedyeva-Essler-Prosen 2016). Neither
-   states the palindrome as a general theorem, and we found no paper that
-   does, nor one carrying the operator that proves it.
+   states the palindrome as a general theorem; Prosen's 2012 PT symmetry,
+   which does for the spectrum, was not found then (see
+   [Connection to literature](#connection-to-literature)).
 
 2. First hypothesis: total Pauli weight w has inversion symmetry.
    WRONG. w ↔ N−w is broken for total weight.
@@ -1030,38 +1032,58 @@ starts, and the key insight was not obvious.
 
 ## Connection to literature
 
-Three research groups had found pieces of the puzzle before us. None
-had the complete picture. Here is how our work relates to theirs:
+The palindromic spectrum was found before us, by Prosen, and the explicit
+operator by Sá, Ribeiro and Prosen; other groups found pieces. Here is how our work relates to theirs:
+
+- **Prosen (2012; Phys. Rev. Lett. 109, 090404 and Phys. Rev. A 86,
+  044103):** a Lindbladian with L′P = −P L′† (L′ centred, P a parity
+  built from unitaries) has a spectrum symmetric under λ ↦ −λ̄ − 2σ, and
+  with hermiticity preservation under λ ↦ −λ − 2σ. His second paper finds
+  this for arbitrary XYZ couplings on any set of pairs, fields along x
+  and arbitrary local Z rates, with P: ρ ↦ X^⊗N·ρ. That covers the
+  spectral statement of this document for its uniform clause; the DM
+  clause follows from his Lemma with the alternating parity, X on one
+  colour and Y on the other, which his examples do not write. His P is the element 𝓕R of the
+  dihedral group of [F118](PROOF_PI_FACTORS_AS_R_TIMES_D.md), and Π is
+  built from it: Π_Z = D∘P = R∘D, the parity followed by the transpose D,
+  and Π_Y = P∘D = Π_Z⁻¹; the transpose turns his adjoint back into L itself when H is
+  real (every string with an even number of Y letters). His relation
+  needs only [H, X^⊗N] = 0, the Π²-even class, where
+  [F108](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) supplies a
+  site-local palindromizer for the strings of even weight. The explicit
+  operator is in Sá, Ribeiro and Prosen (2023), below. Comparison in [the literature review](../LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012).
 
 - **Incoherentons (Haga et al. 2023; Phys. Rev. Research 5, 043225):**
   They grade eigenmodes by "incoherenton number"
   = our XY-weight. They see bands; we see the palindrome within and
   between bands, which their paper does not report. Natural collaborators.
 
-- **Medvedyeva-Essler-Prosen (2016):** Their η-pairing symmetry
-  in the Hubbard mapping is the 1D version of our Π, proven using
-  the Bethe ansatz (an exact solution technique for one-dimensional
-  quantum chains). Their route is specific rather than weak: dephasing
-  maps the Liouvillian of a tight-binding chain onto a Hubbard model
-  with imaginary interaction, which is Bethe-ansatz-solvable but not
-  free. The restriction that matters is the 1D integrable structure the
-  ansatz needs. Our Π needs no integrability and no solvability: it is
-  an algebraic identity, so it reaches interacting spins on arbitrary
-  graphs.
+- **Medvedyeva-Essler-Prosen (2016):** dephasing maps the Liouvillian
+  of a tight-binding model on any bipartite lattice onto a Hubbard model
+  with imaginary interaction, which in one dimension is solvable by the
+  Bethe ansatz (an exact solution technique for one-dimensional quantum
+  chains) but not free. The point symmetry of their spectrum they
+  attribute to Prosen's PT symmetry; their η-pairing organises the steady
+  state and the leading decay modes. The symmetry needs neither the
+  solution nor the integrability: Prosen's relation and Π are algebraic
+  identities.
 
 - **Albert-Jiang (2014):** Their weak/strong symmetry framework
   is the right language. Π is a weak anti-symmetry of L (meaning
   Π transforms L into its negative up to a constant shift, rather
   than leaving L unchanged, which would be a strong symmetry).
 
-Two placement notes, added 2026-07-05:
+Two placement notes:
 
 - **Sá-Ribeiro-Prosen (2023):** the 38-fold symmetry classification
   of many-body Lindbladians ("Tenfold Way and Beyond", Phys. Rev. X
   13, 031019, [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)).
   Their negative symmetries act on the trace-shifted generator, so
   `L_c = L + ΣγI` is the relevant object and Π supplies a P-type
-  anticommutation. Its order-four structure is not a new global class:
+  anticommutation. Their Eq. (76) writes that P out for the XYZ
+  Hamiltonian with fields along x: P = √p_x (Σx ⊗ 1) S, which acts as
+  ρ ↦ √p_x X^⊗N ρᵀ, the Π_Y = Π⁻¹ of this document with the sector phase
+  used below. Its order-four structure is not a new global class:
   Π² = U_X commutes with L_c, and in a U_X-parity sector p_x the
   phase-normalized restriction `P_{p_x} = sqrt(p_x) Π|_{p_x}` squares
   to identity. The final BDI/CI/other label remains OPEN until every
@@ -1075,8 +1097,7 @@ Two placement notes, added 2026-07-05:
 - **Long-range XXZ under dephasing (Wei, Xu, Song, Yan, Pan,
   "Symmetry-Induced Relaxation Comb and Strong Quantum Mpemba Effect in
   Long-Range XXZ Spin Chains", [arXiv:2605.20930](https://arxiv.org/abs/2605.20930),
-  May 2026):** the nearest published
-  neighbour to date, tracked since 2026-07-05. The paper studies the
+  May 2026):** a recent neighbour. The paper studies the
   same model family (XXZ with dephasing, long-range couplings), finds
   the −2γq absorption ladder, and uses U(1) + SU(2) symmetry for the
   quantum Mpemba effect; it does not state the palindrome or the

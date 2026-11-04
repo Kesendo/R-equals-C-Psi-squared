@@ -201,7 +201,9 @@ design rule. The θ compass tells you in real time whether the quantum
 information is still alive.
 
 None of this is "beyond standard quantum mechanics." It is standard quantum
-mechanics with an unusually clean spectral symmetry that nobody else has proven.
+mechanics with an unusually clean spectral symmetry, which Prosen's PT symmetry of
+Lindbladians (2012) already gives and which Sá, Ribeiro and Prosen (2023) and this
+repository make explicit with Π.
 That is the contribution: not new physics, but new understanding of existing physics.
 
 ---

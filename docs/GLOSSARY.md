@@ -95,7 +95,10 @@ of the letters is retired. See [The CΨ Lens](THE_CPSI_LENS.md).
 
 ## Palindromic symmetry (proven March 14, 2026)
 
-The palindromic symmetry is the central discovery of this project.
+The palindromic symmetry is the central discovery of this project, found
+here independently; the spectral statement is also a consequence of Prosen's
+PT symmetry of Lindbladians (2012), and the explicit operator Π appears, as its
+inverse, in Sá, Ribeiro and Prosen (2023) ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 For what it means in plain language, see [What We Found](WHAT_WE_FOUND.md).
 

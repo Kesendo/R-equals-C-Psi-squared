@@ -3047,9 +3047,10 @@ public static class OpenArcsRegistry
                 "+ the Absorption Theorem + the ibm_torino 2-3.2x hardware contrast; its own honest open item = " +
                 "the A-vs-B mechanism test, gate-error-avoidance vs true noise-contrast, disambiguated by selective " +
                 "DD on a uniform-good-T2 line; RUN 2026-07-05 and reckoned, A-vs-B still OPEN, see NextStep). Socket scorecard from the 2026-07-05 scout (PULL n/5): " +
-                "S2 DD 4/5 DONE; S1 palindrome -> Lindbladian symmetry classification 4/5 (pure theory; Pi sits in " +
-                "a GAP in the Sa-Ribeiro-Prosen 38-fold per docs/KMS_DETAILED_BALANCE.md, so the adapter leads " +
-                "with the placement statement or with the clean Pi^2 component; the MIRROR_SYMMETRY_PROOF lit " +
+                "S2 DD 4/5 DONE; S1 palindrome -> Lindbladian symmetry classification 4/5 (pure theory; Pi's " +
+                "inverse with a sector phase is the chiral operator of Sa-Ribeiro-Prosen 2023 Eq. 76, see " +
+                "docs/LITERATURE_REVIEW.md, so the adapter leads with the placement statement or with the clean " +
+                "Pi^2 component; the MIRROR_SYMMETRY_PROOF lit " +
                 "section got the placement + nearest-neighbour arXiv:2605.20930 entries 2026-07-05); S3 relay -> " +
                 "QST-under-dephasing 3/5 (experiments/QST_BRIDGE.md is a near-complete proto-adapter in the old " +
                 "experiment genre; the contact-the-experimentalists step was never executed); S4 the watching -> " +
@@ -3062,7 +3063,7 @@ public static class OpenArcsRegistry
                 "gamma-invariant timing + the 2:1 optimum, aimed at the tunable-coupling quantum-dot platform; " +
                 "all transfer numbers honestly tiered simulation-only, the negative one-shot I_coh carried " +
                 "along). S1 DONE 2026-07-05: docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md leads with the " +
-                "Pi-gap placement + the shifted-generator, sectorwise involutive P relation + the finite-size spectral-statistics " +
+                "Pi placement + the shifted-generator, sectorwise involutive P relation + the finite-size spectral-statistics " +
                 "data point (the complete irreducible SRP class remains open; Poisson-like and filling-associated movement toward the GinUE comparison " +
                 "are separate measured axes in their executed windows); the grounding survey settled the lead: K/BDI is Hamiltonian-" +
                 "level textbook and appears only as the altitude note (PROOF_K_PARTNERSHIP: independent " +

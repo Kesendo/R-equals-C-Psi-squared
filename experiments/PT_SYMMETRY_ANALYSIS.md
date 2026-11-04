@@ -28,7 +28,13 @@ after parity-time symmetry). Lasers, optical waveguides, and certain
 metamaterials all live here. A natural question arose: does our
 palindromic mirror operator Π belong to this family?
 
-The answer is no. Π is linear, whereas classical PT is anti-linear. Its exact
+The answer is no for the PT of Bender and Boettcher: Π is linear, whereas that
+PT is anti-linear. The PT symmetry Prosen defined for Lindbladians in 2012 is
+closer: a linear parity, here ρ ↦ X^⊗N·ρ, combined with the adjoint, which
+gives the same palindromic spectrum, and Π is that parity followed by the
+transpose; its inverse, with a sector phase, is the chiral operator Sá,
+Ribeiro and Prosen (2023) write down
+([literature review](../docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)). Its exact
 content is a P-type anticommutation of the centered Liouvillian. Because Π² is
 a commuting unitary symmetry, Π must first be restricted and phase-normalized
 in each Π²-parity sector; the final SRP class remains OPEN until the complete
@@ -125,7 +131,7 @@ Pi is defined as a matrix acting on coefficient vectors in the Pauli
 basis: Pi(alpha * v) = alpha * Pi(v). No complex conjugation. Pi is
 LINEAR.
 
-**This rules out PT-symmetry.** Standard PT requires the combined
+**This rules out PT symmetry in Bender's sense.** Standard PT requires the combined
 operator to be anti-linear (P linear, T anti-linear, PT anti-linear).
 Our Pi is fully linear. The anti-commutation {Pi, L_c} = 0 with linear
 Pi is a negative P-type relation, not a time-reversal symmetry. Because Pi has
@@ -433,13 +439,24 @@ EP (certified at J_bridge = 1.0 and 1.9, two qubits per chain): a 2×2 Jordan
 block on the real γ axis, with square-root onset and a Petermann factor that
 diverges as 1/δ.
 
+### Prosen (PRL 2012, PRA 2012)
+
+The PT symmetry of Lindbladians: L′P = −P L′† for a unitary involution P on
+operators, which gives a D2 symmetry of the spectrum, the palindrome among
+it; for XYZ couplings with fields along x under local Z dephasing his P is
+ρ ↦ X^⊗N·ρ. Π is that parity followed by the transpose
+([literature review](../docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
+
 ### Sa, Ribeiro, Prosen (PRX 2023)
 
 Their 38-class framework applies negative symmetries to the shifted generator
 and requires irreducible symmetry sectors. Here Pi² = U_X is resolved first;
-in sector p_x, `sqrt(p_x) Pi` squares to identity and supplies P. Their
-local-dephasing examples yield BDI or CI in their respective parity sectors,
-but our final sector label requires the rest of our symmetry algebra.
+in sector p_x, `sqrt(p_x) Pi` squares to identity and supplies P. For the XYZ
+Hamiltonian with fields along x under local Z dephasing they write that
+operator for Pi's inverse, P = √p_x·(Σx ⊗ 1)·S (their Eq. 76), and assign
+BDI₊₊ and CI₊₋ by transverse parity; for the field-free chains here, with
+further commuting symmetries, our final sector label requires the rest of
+our symmetry algebra.
 
 ### Roberts, Lingenfelter, Clerk (PRX Quantum 2021)
 
@@ -522,6 +539,10 @@ an open question.
   Nature Physics 14, 11.
 - Minganti, F. et al. (2019). "Quantum exceptional points of
   non-Hermitian Hamiltonians and Liouvillians." PRA 100, 062131.
+- Prosen, T. (2012). "PT-symmetric quantum Liouvillean dynamics." PRL
+  109, 090404.
+- Prosen, T. (2012). "Generic examples of PT-symmetric qubit (spin 1/2)
+  Liouvillians." PRA 86, 044103.
 - Roberts, D., Lingenfelter, A., Clerk, A. (2021). "Hidden time-reversal
   symmetry." PRX Quantum 2, 020336.
 - Sa, L., Ribeiro, P., Prosen, T. (2023). "Symmetry classification of

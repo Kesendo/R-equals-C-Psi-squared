@@ -34,6 +34,10 @@ Every decay rate d pairs with 2Σγ - d.
 DM on any bipartite graph, whatever the orientation and signs of its edges
 (odd cycles fail where tested); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
+**Prior work:** for the uniform family the palindromic spectrum follows
+from Prosen's PT symmetry of Lindbladians (2012), and Π⁻¹ = ρ ↦ X^⊗N·ρᵀ, with
+a sector phase, is the chiral symmetry of Sá, Ribeiro and Prosen (2023,
+Eq. 76); the DM clause follows from his Lemma with the alternating parity (X on one colour, Y on the other), which his examples do not write. Π was found here independently ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one letter orbit.
 **Breaks for:** depolarizing noise (error at least (2/3)Σγ, exactly that when ad_H has an
 eigenvector traceless on every site, for example a global Pauli string with no
@@ -3704,7 +3708,7 @@ F80's "universality across 4 Π²-odd cases" is therefore a universality across 
 **Valid for:** any N. The cells depend only on Pauli string parities (Σ bit_a, Σ bit_b), not on N or topology.
 **Verified:** N=3 chain, J=1, γ_Z=0.05 across 6 representative Hamiltonians spanning the 5 F87 class-types (Truly Heisenberg, Truly XY-only, Pi2EvenNonTruly, Pi2OddPure subgroup A, Pi2OddPure subgroup B, Mixed) + 4 Marrakesh f83 fingerprint observables. Bit-exact at machine precision (`Pi2KleinViewTests`, `Pi2KleinHardwareViewTests`, `Pi2KleinIsFinerThanPi2ClassTests`).
 **Replaces:** the implicit assumption that F87's 4-way Pi2Class captures the full Π²-decomposition. The Klein view is genuinely finer; Pi2Class.Mixed has two Klein sub-types we had not previously distinguished.
-**Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal. Π itself is the project's discovery (F1 palindrome operator, `MIRROR_SYMMETRY_PROOF`); the (Π²_Z, Π²_X) two-axis decomposition that this section names is also a project finding. The "Klein" tag throughout this section is borrowed nomenclature for the resulting Z₂ × Z₂ four-cell algebra (the canonical name for that group is the Klein four-group / Vierergruppe, after Felix Klein); the underlying structure is ours, the label is textbook shorthand.
+**Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal. Π itself is the F1 palindrome operator (`MIRROR_SYMMETRY_PROOF`; found here independently, its explicit form is in Sá, Ribeiro and Prosen 2023); the (Π²_Z, Π²_X) two-axis decomposition that this section names is also a project finding. The "Klein" tag throughout this section is borrowed nomenclature for the resulting Z₂ × Z₂ four-cell algebra (the canonical name for that group is the Klein four-group / Vierergruppe, after Felix Klein); the underlying structure is ours, the label is textbook shorthand.
 **See F88b** below for the state-level corollary: popcount-coherence Π²-odd / memory closed form via Krawtchouk reflection-orthogonality, which lifts F88a's operator-level Π²_Z eigenvalue into ρ-space.
 
 <a id="f88b"></a>
@@ -6732,7 +6736,10 @@ G7 gates the three steps exactly; the triangularity is also pinned in
 sufficient. The X⊗N step needs less: X⊗N H X⊗N = H̄ gives X⊗N H_eff X⊗N = H_eff* − (i/2)Σγᵢ, and
 H_eff* has the spectrum of H_eff†, which covers DM bonds XY − YX (G7, exactly). Excitation
 conservation is not needed when H commutes with X⊗N and with Y⊗N: then S_XY: ρ ↦ X⊗N·ρ·Y⊗N reflects L,
-S_XY·L·S_XY⁻¹ = −L† − Σγᵢ, XX bonds alone included (the thermal paragraph below). A longitudinal field
+S_XY·L·S_XY⁻¹ = −L† − Σγᵢ, XX bonds alone included (the thermal paragraph below). Prosen's PRA 86,
+044103 (2012), Example 2, has the element with its two factors exchanged, ρ ↦ Y⊗N·ρ·X⊗N (up to the sign (−1)^N it is S_XY
+followed by the weak symmetry ρ ↦ Z⊗N·ρ·Z⊗N), for XYZ couplings under absorption and injection at arbitrary rates per site, his Lemma needing
+only [H, X⊗N] = [H, Y⊗N] = 0; Sá, Ribeiro and Prosen (2023, Eq. 85) write S_XY itself up to the sign (−1)^N, as Q₋, for injection or removal ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)). A longitudinal field
 breaks the X⊗N step, a transverse X field the triangularity. The 18
 swept configurations agree exactly as multisets (N=2–5; chain, ring, star, complete; uniform and
 site-dependent rates; anisotropies Δ = −0.5 to 2). Pairing fractions here and

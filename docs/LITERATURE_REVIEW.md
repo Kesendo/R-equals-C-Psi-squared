@@ -2,7 +2,8 @@
 
 <!-- CROSSING-CURRENT -->
 
-<!-- Keywords: Haga incoherenton grading XY-weight, eta-pairing Medvedyeva
+<!-- Keywords: Prosen PT-symmetric Liouvillian D2 spectral symmetry,
+Haga incoherenton grading XY-weight, eta-pairing Medvedyeva
 Essler Prosen Bethe ansatz, Buca Prosen Lindblad symmetry classification,
 Albert Jiang weak strong symmetry, Lindblad master equation foundations,
 Breuer Petruccione open quantum systems, ENAQT dephasing-assisted transport,
@@ -104,10 +105,112 @@ equations. This framework was developed by:
 
 ## Related work: closest ancestors
 
-Three research groups found pieces of the puzzle before us. None had
-the palindromic theorem, the conjugation operator Π, or the spectral
-consequences. Here is how our work relates to theirs, with full
-citations.
+The closest ancestors are three papers with Prosen among the authors: his
+PT symmetry of Lindbladians (two papers of 2012), which gives the
+palindromic spectrum for our core model class, and the symmetry classification of Sá, Ribeiro
+and Prosen (2023), which writes down, as its inverse with a sector phase,
+the explicit operator this repository calls Π. The other groups found pieces. Here is how our work relates to theirs,
+with full citations.
+
+### PT-symmetric Liouvillians (Prosen 2012)
+
+<!-- STAGE 0 SWEEP RECORD (2026-11-04). Stores searched: docs/ANALYTICAL_FORMULAS.md
+(F1, F118 Π_Z = R·D and its D4, F119, F158), docs/proofs/ (MIRROR_SYMMETRY_PROOF,
+PROOF_PI_FACTORS_AS_R_TIMES_D, PROOF_PALINDROME_TWO_END_COUNT), experiments/
+(THE_PAIRING_CONDITION derives the adjoint relation ℒ_U L ℒ_U⁻¹ = −L† − 2σ and calls
+the explicit Π its special case; THE_PALINDROME_CLASSIFIER), docs/KMS_DETAILED_BALANCE.md
+(Q₋ placed in Sá, Ribeiro, Prosen 2023; the shift in Kawasaki, Mochizuki, Obuse 2022),
+docs/CAUGHT_ERRORS.md (entry of 2026-11-04), the typed layer (MirrorGroupD4Claim,
+PalindromeTwoEndCountClaim; MirrorWorld MirrorGroup and Sextant, whose "−L† − c" verdict
+is this relation), fw.Confirmations, the OpenArcs registry and the glossary (nothing on
+Prosen 2012). No page outside the ledger cited either 2012 paper. Adjacency checked: Prosen's
+parity is the element 𝓕R of F118's dihedral group, the adjoint relation is
+THE_PAIRING_CONDITION's "law", and the PRL's weak-coupling cross (one rate for all
+coherences) sits beside the Absorption Theorem, not yet compared. Sá, Ribeiro and
+Prosen (2023), cited in MIRROR_SYMMETRY_PROOF for the classification, write the explicit
+operator in their Eq. (76), which the repository had not read as Π. -->
+
+- **Prosen (2012a).** "PT-symmetric quantum Liouvillean dynamics."
+  Phys. Rev. Lett. 109, 090404.
+  [arXiv:1207.4395](https://arxiv.org/abs/1207.4395).
+- **Prosen (2012b).** "Generic examples of PT-symmetric qubit (spin 1/2)
+  Liouvillians." Phys. Rev. A 86, 044103.
+  [arXiv:1209.6588](https://arxiv.org/abs/1209.6588).
+
+The first paper calls a Lindbladian PT-symmetric when L′P = −P L′†, with
+P a unitary involution on operators and L′ the traceless part of the
+generator, and shows that the spectrum then has a D2 symmetry: a reflection in
+the vertical line Re λ = −σ beside the reflection in the real axis that
+hermiticity preservation gives. Together they pair λ with −λ − 2σ. The
+second paper finds this symmetry for arbitrary two-spin XYZ couplings on
+any set of pairs, fields along x and arbitrary local Z dephasing rates,
+with P the one-sided multiplication ρ ↦ X^⊗N·ρ. Its second example,
+ρ ↦ Y^⊗N·ρ·X^⊗N for XYZ couplings under absorption and injection at
+arbitrary rates, is the element of [F137](ANALYTICAL_FORMULAS.md#f137) with its
+two factors exchanged (up to the sign (−1)^N it is that element followed
+by the weak symmetry ρ ↦ Z^⊗N·ρ·Z^⊗N).
+
+**What they found that we also found:** the palindromic spectrum for
+Heisenberg/XXZ (indeed XYZ) couplings on arbitrary graphs under local Z
+dephasing, at any rate profile. Prosen's parity is the element 𝓕R of the
+dihedral group of [F118](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), and his
+relation is the one [The Pairing Condition](../experiments/THE_PAIRING_CONDITION.md)
+derives, where the explicit Π is that relation composed with the transpose.
+
+**What differs:** Π is not his P, and it is built from it. In that
+dihedral group P is the reflection 𝓕R, and the palindromizer is P followed
+by the transpose D: Π_Z = D∘P = R∘D, ρ ↦ ρᵀ·X^⊗N, with Π_Y = P∘D = Π_Z⁻¹,
+both of order four. The transpose turns his adjoint back into L itself when H is
+real in the computational basis (an even number of Y letters in every
+string), so there Π_Z L Π_Z⁻¹ = −L − 2σ holds as one explicit, site-local
+map, which sends right eigenvectors to right eigenvectors and the block
+(p, q) to (q, N − p), ket popcount first. His relation needs only
+[H, X^⊗N] = 0, the class this repository calls Π²-even, and implies a
+similarity of L to −L − 2σ as well (L is real in the Pauli basis), though
+not by itself a site-local one. The explicit map is in the next paper.
+
+### The explicit chiral operator (Sá, Ribeiro, Prosen 2023)
+
+- **Sá, Ribeiro, Prosen (2023).** "Symmetry classification of many-body
+  Lindbladians: Tenfold way and beyond." Phys. Rev. X 13, 031019.
+  [arXiv:2212.00474](https://arxiv.org/abs/2212.00474).
+
+Their classification works on the shifted generator L′ and asks, among
+other symmetries, for a unitary involution P with P L′ P⁻¹ = −L′ (a chiral
+symmetry). For the XYZ Hamiltonian with fields along x under local Z
+dephasing they write P = √p_x·(Σx ⊗ 1)·S (their Eq. 76), with S the swap of
+the two copies, "because the Hamiltonian is real and the jump operators are
+real and symmetric". On ρ it acts as ρ ↦ √p_x·X^⊗N·ρᵀ: the Π_Y above,
+with the phase that makes it square to one in each sector of the
+transverse parity p_x. For fields along x with YZ couplings they give the
+two-sided P: ρ ↦ Z^⊗N·ρ·Y^⊗N up to sign (their Eq. 70), and for XYZ under spin
+injection or removal the pseudo-Hermiticity Q₋ = Σx ⊗ Σy (their Eq. 85),
+which is F137's element ρ ↦ X^⊗N·ρ·Y^⊗N up to sign. Their §II E builds these from two
+steps: a one-sided factor whose letters anticommute with the jumps carries
+the dissipator to −L_D plus the shift, and the swap S, the transpose,
+reverses the Hamiltonian part when H is real.
+
+**What they found that we also found:** the explicit site-local
+palindromizer, under the same condition (H real and commuting with
+X^⊗N), and its factoring into a one-sided leg that carries the shift and a
+transpose that flips the Hamiltonian part, which is how
+[F118](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) factors Π; their sector
+normalisation, on Π⁻¹, is the one the [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
+uses on Π to place it in their classes. Π was found here independently.
+
+**What we did not find in their papers:** the dihedral group of
+[F118](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) named and used as one
+object. Their P without
+the sector phase, Π_Y, and their pseudo-Hermiticity Q₊ = S, the transpose,
+already generate it, and their Eq. (79), Q₊P = U_x P Q₊, is its inversion
+relation. Nor did we find the
+[two-end count](proofs/PROOF_PALINDROME_TWO_END_COUNT.md) (F158), which
+decides, for Hermitian jumps that square to one, at positive rates and with
+at least one jump present, whether the eigenvalue multiset is palindromic;
+its sufficiency step is Prosen's relation with U only invertible. On the
+Π²-even class [F108](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)
+gives a site-local Π_5bilinear for the strings of even weight; whether a
+site-local palindromizer exists for every Π²-even H is not settled here.
 
 ### Incoherentons (Haga et al. 2023)
 
@@ -129,7 +232,7 @@ structure, the spectral gap as the cost of one incoherenton.
 **What they did not find:** the palindromic pairing *between* bands
 (band k pairs with band N−k). They classify modes by incoherenton
 number but do not observe the mirror symmetry across bands. They also
-do not have the conjugation operator Π, which is what *proves* the
+do not have the conjugation operator Π, which *proves* the
 pairing. Our [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md)
 (Re(λ) = −2γ⟨n_XY⟩) is the quantitative version of their band picture.
 
@@ -140,28 +243,27 @@ pairing. Our [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md)
   137202.
   [arXiv:1606.09122](https://arxiv.org/abs/1606.09122).
 
-They map a tight-binding chain (free fermions) with dephasing onto a
-Hubbard model with imaginary interaction and solve it exactly via the
-Bethe ansatz. Their η-pairing symmetry of the Hubbard model produces a
-spectral symmetry in 1D.
+They map a tight-binding model (free fermions) with dephasing, on any
+bipartite lattice, onto a Hubbard model with imaginary interaction and
+solve it exactly via the Bethe ansatz in one dimension. The point symmetry
+of their spectrum they attribute to Prosen's PT symmetry (above); the
+η-pairing symmetry of the Hubbard model organises the steady state and the
+leading decay modes.
 
-**What they found that we also found:** a spectral symmetry of the
-Liouvillian under dephasing, arising from a swap between population-like
-and coherence-like degrees of freedom.
+**What they found that we also found:** the spectral symmetry of the
+dephased chain, as an instance of Prosen's.
 
-**What they did not find:** the generalization beyond free fermions. Their
-result starts from a free-fermion Hamiltonian, tight-binding hopping; the
-dephasing adds the imaginary Hubbard interaction, and the Bethe ansatz
-solves that interacting model in 1D. Our Π operator works for interacting
-spins (Heisenberg/XXZ) on arbitrary graphs (chains, stars, rings, trees,
-complete graphs). Their η-pairing is the 1D free-fermion special case
-of our Π.
+**What differs:** their exact solution starts from a free-fermion
+Hamiltonian, tight-binding hopping; the dephasing adds the imaginary
+Hubbard interaction, and the Bethe ansatz solves that interacting model in
+1D. The symmetry itself does not need the solution: Prosen's relation and
+our Π hold for interacting spins (Heisenberg/XXZ) on arbitrary graphs.
 
 ### Symmetry classification (Buca & Prosen 2012, Albert & Jiang 2014)
 
 See [Foundations](#symmetries-of-open-quantum-systems-the-language) above.
 These papers provide the language but do not identify the specific
-anti-symmetry Π or its spectral consequences.
+anti-symmetry Π.
 
 ---
 
@@ -390,11 +492,17 @@ This is our honest assessment of what appears to be new in this project.
 results and published them in a form we did not find. If you know of
 prior work on any of these, please open an issue.
 
-1. **The palindromic Liouvillian theorem for interacting spins on
-   arbitrary graphs.** Medvedyeva-Essler-Prosen had the 1D free-fermion
-   case. Haga et al. had the band grading but not the inter-band pairing.
-   The general theorem, the Π operator, and the proof are ours.
-   See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
+1. **The dihedral group and the exact criterion.** The palindromic
+   spectrum for XYZ couplings on arbitrary graphs under local Z dephasing
+   is in Prosen 2012, and the explicit site-local operator Π in Sá,
+   Ribeiro and Prosen 2023 (both above); Π was found here independently
+   ([Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)). What we did
+   not find there or elsewhere: the dihedral group named and used as one
+   object ([F118](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md); Sá, Ribeiro and
+   Prosen's P without its sector phase and Q₊ generate it), and the two-end count (F158), which
+   decides the palindrome of the eigenvalue multiset exactly for Hermitian
+   jumps that square to one, at positive rates, at least one present. Haga et al. had the band
+   grading but not the inter-band pairing.
 
 2. **The Absorption Theorem** (Re(λ) = −2γ⟨n_XY⟩). Quantitative
    version of the incoherenton band picture. Not in Haga et al.
@@ -420,8 +528,9 @@ prior work on any of these, please open an issue.
    readouts (3 cockpit observables capture 88-96% on the stated corpus).
 
 **Assessment:** Either genuinely novel or an artifact of small systems
-(N ≤ 8). The palindromic theorem is proven for all N; the other results
-are verified computationally for N ≤ 9.
+(N ≤ 8). The palindromic spectrum and Π are prior work (item 1); the
+dihedral group and the two-end count are proven for all N; the other
+results are verified computationally for N ≤ 9.
 
 ---
 
