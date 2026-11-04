@@ -51,7 +51,7 @@ What it checks, block by block:
       space comes from an SVD, so the residual is machine zero, not zero):
       M*Dhat = l(l+1) - |S- v|^2 - (1/4)sum|Y+_aa|^2 - (1/8)sum|Y+_a-abar|^2,
       with Y+_ab := Y_ab + Y_{M-b,M-a}, plus the floor it yields read
-      against the measured minimum.  The whole deficit is the SPIN ladder.
+      against the measured minimum.  The leading deficit is the SPIN ladder.
   V12 the floor is ATTAINED, and the saturating space is exactly the one
       the identity predicts: both ladders annihilate it and the two
       chiral defect terms vanish on all of it.  Also records that the

@@ -6818,8 +6818,8 @@ public static class OpenArcsRegistry
                 "space, hence every off-diagonal count is at most the diagonal one at the same p+q, at every " +
                 "coupling. That is a statement about ABSOLUTE counts. Sharpening it to 'a side line can carry " +
                 "no exceptional coupling the diagonal block misses' is a statement about EXCESSES and needs " +
-                "the two generic depths to agree, which holds at N >= 6 and imports the band statement for a " +
-                "general side line. Gate checks E6(d) to E6(h) of simulations/exceptional_couplings.py carry " +
+                "the two generic depths to agree, which holds at N >= 6 with no band statement, the side line " +
+                "inheriting its floor from the seed through the eta ladder (XY_FROZEN_BAND). Gate checks E6(d) to E6(h) of simulations/exceptional_couplings.py carry " +
                 "the inequality and not the generic depths.",
             Status: OpenArcStatus.Open),
 
@@ -7286,7 +7286,7 @@ public static class OpenArcsRegistry
                 "(2026-08-08): ANALYTICAL_FORMULAS F140-F146 and docs/proofs and experiments returned the " +
                 "discount form's ALGEBRA three times under other labels (PROOF_ABSORPTION_THEOREM's " +
                 "recentring L_D = g(Q - N*Id), PROOF_F111_HARD_CELL_PURE_D_TEMPLATE:91's palindrome " +
-                "complement, XY_FROZEN_BAND:112's " +
+                "complement, XY_FROZEN_BAND:114's " +
                 "W = U*(D - (p-1))) and the reading NOWHERE; PROOF_FROZEN_BAND_SO4:33 already used " +
                 "'agreement' as the noun, unreconciled with :23; GLOSSARY has no agreement entry at all; " +
                 "CAUGHT_ERRORS and Confirmations returned nothing; OpenArcs returned one sibling arc " +

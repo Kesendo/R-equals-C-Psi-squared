@@ -82,7 +82,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (1,4)-fold spec(1,4)(q) = −spec(1,1)(q) − 2N (F89d × pencil reality × bipartite q-evenness, the (1,4)
 /// sibling of the §7 diamond fold); gate <c>RemainderR4InteriorExclusionTests</c> (Category R4INTERIOR, incl.
 /// the propagation fact). The N=4 confinement rests on the exact N=4 census + the derived self-fold. Beyond
-/// N=5 the broad exclusion stays census-evidence (one targeted probe N=6) and lives with
+/// N=5 the broad exclusion stays census-evidence (the σ_min shell census at every certified N=9 seed and every classified N=11 locus) and lives with
 /// <see cref="SpectatorIntertwinerClaim"/>'s remaining blockers (the N ≥ 7 certificate compute). (The GAP
 /// byte-identity across sectors, formerly open, is likewise DERIVED: the full-spectrum
 /// holomorphic fold spec(3,3) = −spec(2,3) − 2N is an isometry on eigenvalue separations, so the (3,3) core gap

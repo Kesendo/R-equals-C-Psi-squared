@@ -1216,9 +1216,8 @@ for n in (5, 6):
 print()
 print("V9  the CEILING: what one exact rank buys, and where it is free")
 
-# The floor is an argument and holds at every coupling; the ceiling was a census. The gap is
-# shorter than it looks. With the dyadic scaling cleared the block is a Gaussian-integer matrix,
-# and reduction mod p is a ring homomorphism into a field, so rank can only DROP:
+# The floor is an argument and holds at every coupling; the ceiling needs a bound from above.
+# With the dyadic scaling cleared the block is a Gaussian-integer matrix, and reduction mod p is a ring homomorphism into a field, so rank can only DROP:
 #
 #     nullity over GF(p)  >=  nullity over Q(i).
 #
@@ -1374,8 +1373,9 @@ for half, lbl, want_free in (((5, -5, 7), "(5, -5, 7): distinct, but two of them
 # (e) the uniform point delta = 0 lies ON the locus, and the count survives there. Since a
 # special point of a polynomial family can only carry MORE kernel, an all-N argument at the
 # uniform point alone would cap every rung generically. That move is the proof document's own at
-# the corner (Section 7, where it is sharper: a closed form, every J != 0); what is open is the
-# rungs above it. Note what does NOT survive the trip: at delta = 0 EVERY pair balances, so the
+# the corner (Section 7, where it is sharper: a closed form, every J != 0); for the rungs above it
+# the argument is PROOF_FROZEN_BAND_SO4 Section 7 (F144) with its Proposition 5.3, generic in J,
+# N >= 6 (N = 5 is this check's exact read). Note what does NOT survive the trip: at delta = 0 EVERY pair balances, so the
 # balanced-pair count that indexes the modes on a generic profile is not what counts here.
 for n in (5, 6, 7):
     gu, m = [92] * n, n // 2
@@ -1386,7 +1386,7 @@ for n in (5, 6, 7):
     diag_h = {p: certify(n, h_chain(n, dg), gu, 768, p, p, r0) for p in range(1, n)
               if comb(n, p) ** 2 <= 1300}
     check(f"N={n} the uniform profile carries floor(N/2) = {m} on every diagonal rung, so the "
-          f"all-N question may be asked there", all(v == m for v in plain.values()),
+          f"all-N question is answered there (F144 from N = 6)", all(v == m for v in plain.values()),
           f"{sorted(plain.items())}")
     check(f"N={n} and it is not h's chiral pairs doing the counting: an R-invariant diagonal "
           f"leaves none and the count stands", all(v == m for v in diag_h.values()),

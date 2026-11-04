@@ -548,15 +548,16 @@ F50 spends the word a third time, one rung down and of the same shape: a finite 
    > value. What closes it is that the two generic values are equal, and the inequality supplies
    > one half of that itself. Generically the diagonal block carries exactly ⌊N/2⌋, which is
    > Corollary 7.3 with Proposition 5.3 and holds at every N ≥ 6 and all but finitely many
-   > couplings; the inequality then caps the side line at ⌊N/2⌋ as well; and Proposition 3.2's
+   > couplings; the inequality then caps the side line at ⌊N/2⌋ as well; and the side line's own
    > floor puts it back at ⌊N/2⌋ from below. So a side line above ⌊N/2⌋ forces the diagonal
    > block above ⌊N/2⌋ too, and **a coupling visible only on a side line does not exist**, at
    > every N ≥ 6 and not one N at a time.
    >
-   > The price is one named import and it is the arc's usual one: that floor from below is
-   > Proposition 3.2's, which is derived for the corner side lines (2,0) and (0,2) by Lemma 2.5
-   > and for a general side line only by importing the band statement |p − q| ∈ {0, 2}, which
-   > [XY_FROZEN_BAND](XY_FROZEN_BAND.md) establishes by census. Gate check E7 reads the same
+   > That floor needs no band statement. Lemma 2.5 derives it for the seed blocks
+   > (2,0) and (0,2), and a general side line inherits it: each side line is a module of the η
+   > ladder whose ends are those seed blocks and their double-fold images, its extreme weights,
+   > and a weight multiplicity is never smaller than the one at the module's end, the argument
+   > [XY_FROZEN_BAND](XY_FROZEN_BAND.md) runs along its off-diagonal ladders. Gate check E7 reads the same
    > generic value directly, on every band block including the side lines, but per N and only as
    > far as N = 6 by default and N = 7 under `--deep`, so it anchors the chain where it reaches
    > and is not what carries it to N = 8.
@@ -598,8 +599,8 @@ F50 spends the word a third time, one rung down and of the same shape: a finite 
      it ACROSS the lines rather than along them.
    - **The equal generic value**, above. Without it the inequality is about absolute dimensions
      and the conclusion is about excesses, and the two do not meet. This one is NOT a check of
-     this gate: it is Corollary 7.3 with Proposition 5.3 from above and Proposition 3.2 from
-     below, both in
+     this gate: it is Corollary 7.3 with Proposition 5.3 from above and, from below, Lemma 2.5's
+     floor at the seed carried along the side line by the η ladder, all three in
      [PROOF_FROZEN_BAND_SO4](../docs/proofs/PROOF_FROZEN_BAND_SO4.md), and E7 anchors it here
      only as far as it runs.
    - **The step to the MIDDLE block is the other ladder.** S⁺ preserves p + q, so it reaches

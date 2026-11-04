@@ -7686,9 +7686,10 @@ which commutes with the whole Liouvillian at any gamma profile and carries the
 corner's frozen modes rung by rung (the eta-pairing of Medvedyeva-Essler-Prosen,
 in the vectorized picture). Stated, with the reason its edge sits at 2 and with
 two dead candidate mechanisms, in
-[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md); no F number yet, because the
-depth is a proved FLOOR and a measured ceiling, and because the ring carries the
-band without that ladder.
+[XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md). The ladder's algebra, the
+seed rung and the ceiling are F141 to F144 (PROOF_FROZEN_BAND_SO4); the band
+statement itself carries no F number, being measured with an argument for its
+edge.
 **Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
 (Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
 block the corner lives in), with the live witness
@@ -7800,15 +7801,16 @@ real: exceptional couplings exist, and at one of them a single extra mode
 joins the diagonal rungs as a spin singlet, leaving the band statement and
 the side lines untouched (THE_EXCEPTIONAL_COUPLINGS). The verb matters, and
 the proof document scopes it at every place it is used. "Leaving the side
-lines untouched" is MEASURED, at N = 5, 6, 7 only. What is derived at every
+lines untouched" is established over every coupling at N = 5 and read at N = 6, 7. What is derived at every
 N, from the spin ladder rather than from a scan, is the weaker statement:
 within one p + q the block IS the su(2) weight, so mult(0) ≥ mult(m) makes
 every off-diagonal count at most the diagonal one at every coupling. The
 extra mode may therefore still step sideways for all that says; it cannot
 step sideways ALONE. Sharpening that to "a coupling visible only on a side
 line cannot exist" is a statement about EXCESSES and needs the two generic
-depths to agree, which holds at N ≥ 6 and imports the band statement for a
-general side line (open item 4 of THE_EXCEPTIONAL_COUPLINGS; gate checks
+depths to agree, which holds at N ≥ 6 with no band statement, the side line
+inheriting its floor from the seed through the eta ladder (open item 4 of
+THE_EXCEPTIONAL_COUPLINGS; gate checks
 E6(d) to E6(h) carry the inequality, not the generic depths).
 
 **What it decides, and what it does NOT.** Σ-oddness is SUFFICIENT for the
@@ -7817,7 +7819,10 @@ corner's frozen space into the neighbouring block, and INJECTIVELY, because
 the seeds are Sigma-ODD and for a symmetric Sigma-odd X the commutator is
 2*Sigma*X, never zero. So the floor there is inherited from the proved corner
 at every N, rather than measured at the N a census reaches. The matching
-EQUALITY on those blocks is the ceiling and stays measured. It is NOT NECESSARY for that block to be occupied, so it
+EQUALITY on those blocks is the ceiling: derived at the seed on the XY chain
+(PROOF_R90_FROZEN_DIVISOR §9.2), and along the side lines generically at every
+N ≥ 6, from the weight inequality above and the diagonal ceiling (F144 with
+Proposition 5.3). Σ-oddness is NOT NECESSARY for that block to be occupied, so it
 does not replace, correct or sharpen the measured band-existence gate of
 XY_FROZEN_BAND. The witness both ways is the STAR, one site joined to every
 other: bipartite, so its spectrum is symmetric about zero, but its two colours
