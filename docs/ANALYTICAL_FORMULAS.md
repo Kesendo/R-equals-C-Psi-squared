@@ -7695,7 +7695,11 @@ two dead candidate mechanisms, in
 [XY_FROZEN_BAND](../experiments/XY_FROZEN_BAND.md). The ladder's algebra, the
 seed rung and the ceiling are F141 to F144 (PROOF_FROZEN_BAND_SO4); the band
 statement itself carries no F number, being measured with an argument for its
-edge.
+edge. On the ring with uniform bonds the diagonal band carries floor(N/2) on
+every rung generically at every odd N, each rung being a rung of a fixed-flux
+free ring on which no two plane-wave momenta sum to pi
+([PROOF_RING_FROZEN_BAND](proofs/PROOF_RING_FROZEN_BAND.md)); even N is read
+(N = 4 overfull on its middle rung).
 **Typed:** [`FrozenDivisorClaim`](../compute/RCPsiSquared.Core/BlockSpectrum/FrozenDivisorClaim.cs)
 (Tier1Derived; typed parents F91 for the locus and JointPopcountSectors for the
 block the corner lives in), with the live witness
