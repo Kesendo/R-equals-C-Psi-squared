@@ -245,8 +245,9 @@ choice of bond strengths.
 This is where the cavity modes connect back to everything else in the
 project. The modes at zero noise are the skeleton of the resonator.
 Noise adds decay to them, and it does not create new ones. It can move
-them: a uniform gamma is a multiple of the identity on a number-conserving
-coherence block and provably cannot, but a gamma profile is an unequal
+them: a uniform gamma is a multiple of the identity on a block whose
+cells share one Hamming distance and there provably cannot, but a gamma
+profile is an unequal
 real diagonal there and splits degenerate levels, and on the full
 Liouvillian even a uniform gamma shifts the frequencies against gamma = 0
 (measured at N=5, [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)).
