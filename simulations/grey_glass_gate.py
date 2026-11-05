@@ -78,6 +78,18 @@ What it checks:
      nullspaces, at non-uniform mirror-symmetric couplings; with zero bonds in the half chain (the central bond
      nonzero) the counts are 2 prod (|c| + 1) over the components c without the site M and prod (|c| + 1) over
      all, F4's count over components, met exactly.
+  G10 the even ring, two bonds across the axis: the flip sends the letters X, Y, I, Z of its site to X, -Y, 0, 0;
+     on rho Sigma the ring with the wrap bond J_w is ad_{H_L} + (-1)^M J_c flip_M - J_w flip_1 entry for entry
+     (N = 4, 6, 8, mirror-symmetric, negative and equal-weight cases); X^M and X^M Z^M times Sigma are its
+     eigenstates on the one-per-pair configurations, at +-((-1)^M J_c - J_w), and the only ones there except at
+     N = 4 with J_w = -J_c, where X^2 (P_0 - P_2) Sigma is a third at 0; the popcount projectors are the only ones
+     on the empty-or-full configurations; on the uniform ring the frequency is 0 at even M and 2J at odd M. The room at
+     k = N/2 in (M, 2): at N = 6 the ladder images of (M, 0) are not kept and the room is the mirror products
+     alone, 2 at the non-uniform mirror-symmetric coupling tried and 6 on the uniform ring (its three bond axes), upper bound modulo two
+     primes meeting the exact eigen-products; at N = 4, 8 (non-uniform mirror-symmetric) the ladder images are kept,
+     exactly, and with the products fill it, C(N, M) + 2. The uniform ring at N = 4 holds 11 against a span of 9
+     from the ladder images and the products of every bond axis, both exact; at N = 8 at most 80 against
+     at least 78, whether more not shown.
 """
 import numpy as np
 
@@ -1068,6 +1080,146 @@ check("at non-uniform mirror-symmetric couplings without zeros (N = 4, 6, 8) the
       "one-per-pair configurations is 2 and on the empty-or-full ones M + 1, exact rational nullspaces; with zero "
       "bonds in the half chain and the central bond nonzero, 2 prod(|c| + 1) over the components without the site M and prod(|c| + 1) over all, "
       "met exactly at four chains", ok9d and ctl9d, f"{law9}")
+
+
+print("G10 the even ring: two bonds across the axis")
+# the flip on one site's letters: X -> X, Y -> -Y, I and Z -> 0 (it transposes the site and forgets its quiet letters)
+_Y = np.array([[0, -1j], [1j, 0]])
+_fl = lambda P_: _sp @ P_ @ _sp + _sm @ P_ @ _sm
+ok10a = (np.array_equal(_fl(_X), _X) and np.array_equal(_fl(_Y), -_Y) and not np.any(_fl(_I2)) and not np.any(_fl(_Z)))
+
+
+def _ring(n, J, Jw):
+    w = _site(n, n, _sp) @ _site(n, 1, _sm)
+    return _hop(n, J) + Jw * (w + w.T)
+
+
+en10 = {}
+for n, J, Jw in ((4, [1, 2, 1], 3), (6, [1, 3, 2, 3, 1], 5), (8, [2, 1, 3, 5, 3, 1, 2], 4), (8, [2, 1, 3, 5, 3, 1, 2], 5),
+                 (6, [1, 3, 2, 3, 1], -2), (4, [1, 1, 1], 1), (6, [1] * 5, 1), (8, [1] * 7, 1),
+                 (6, [1, 3, 2, 3, 1], 2), (8, [2, 1, 3, 5, 3, 1, 2], -5)):           # the last two: equal weights, M >= 3
+    m = n // 2; HN = _ring(n, J, Jw); HL = _hop(m, J[:m - 1]); Jc = J[m - 1]
+    Sig = _kr([_Z if l % 2 else _I2 for l in range(1, m + 1)])
+    Fk = lambda r, k: _site(m, k, _sp) @ r @ _site(m, k, _sp) + _site(m, k, _sm) @ r @ _site(m, k, _sm)
+    for e in np.eye(2 ** n, dtype=np.int64):
+        rt = _to_op(e, n) @ Sig
+        ok10a &= np.array_equal(_to_op(HN @ e, n) @ Sig, HL @ rt - rt @ HL + (-1) ** m * Jc * Fk(rt, m) - Jw * Fk(rt, 1))
+    tone = (-1) ** m * Jc - Jw
+    XM = _kr([_X] * m); ZM = _kr([_Z] * m)
+    for C, f in ((XM, 1), (XM @ ZM, -1)):
+        v = _to_vec(C @ Sig, n)
+        ok10a &= np.array_equal(HN @ v, f * tone * v)
+    one, emf = _edges(n)
+    ok10a &= _kept(HN, one) == 2 and _kept(HN, emf) == m + 1
+    en10[(n, Jw, tuple(J))] = tone
+# the exception: N = 4, J_w = -J_c, both half-chain sites carry a flip of equal weight
+HN = _ring(4, [1, 2, 1], -2); one, emf = _edges(4)
+v3 = _to_vec(_kr([_X, _X]) @ np.diag([1, 0, 0, -1]) @ _kr([_Z, _I2]), 4)
+exc10 = _kept(HN, one) == 3 and _kept(HN, emf) == 3 and not np.any(HN @ v3) and np.any(v3)
+check("the even ring, N = 4, 6, 8, mirror-symmetric integer couplings with the wrap bond J_w (negative and equal-"
+      "weight cases included): the flip sends the letters X, Y, I, Z of its site to X, -Y, 0, 0; on rho Sigma the ring is "
+      "ad_{H_L} + (-1)^M J_c flip_M - J_w flip_1, entry for entry; X^M and X^M Z^M times Sigma are its eigenstates at "
+      "+-((-1)^M J_c - J_w), the only ones on the one-per-pair configurations but at N = 4 with J_w = -J_c, where "
+      "X^2 (P_0 - P_2) Sigma is a third at 0, and the popcount projectors the only ones on the empty-or-full ones "
+      "(exact); on the uniform ring the frequency is 0 at even M and 2J at odd M",
+      ok10a and exc10 and en10[(4, 1, (1, 1, 1))] == 0 and en10[(8, 1, (1,) * 7)] == 0 and abs(en10[(6, 1, (1,) * 5)]) == 2,
+      f"frequencies {en10}")
+
+
+def _ring_sector(n, p, J, Jw):
+    """gate convention (bit l = site l): the open bonds J and the wrap bond between the sites n - 1 and 0"""
+    bs = subsets(n, p); ix = {b: i for i, b in enumerate(bs)}
+    H = np.zeros((len(bs), len(bs)), dtype=np.int64)
+    for A in bs:
+        for l in range(n - 1):
+            if ((A >> l) & 1) != ((A >> (l + 1)) & 1):
+                H[ix[A ^ (3 << l)], ix[A]] += J[l]
+        if (A & 1) != ((A >> (n - 1)) & 1):
+            H[ix[A ^ (1 | 1 << (n - 1))], ix[A]] += Jw
+    return H, bs
+
+
+def _ring_room(n, p, q, k, J, Jw, P):
+    """the largest room at -2 gamma k in (p, q) of the ring, from above (modulo P)"""
+    Hp, bp = _ring_sector(n, p, J, Jw); Hq, bq = _ring_sector(n, q, J, Jw)
+    K = (np.kron(Hp, np.eye(len(bq), dtype=np.int64)) - np.kron(np.eye(len(bp), dtype=np.int64), Hq)) % P
+    ham = np.array([bin(A ^ B).count("1") for A in bp for B in bq]); dim = len(ham)
+    piv, basis = [], np.zeros((0, dim), dtype=np.int64)
+    front = [np.eye(dim, dtype=np.int64)[i] for i in np.nonzero(ham != k)[0]]
+    while front:
+        new = []
+        for v in front:
+            v = v % P
+            if piv:
+                v = (v - (v[piv] @ basis) % P) % P
+            nz = np.nonzero(v)[0]
+            if not len(nz):
+                continue
+            c = nz[0]; v = (v * pow(int(v[c]), P - 2, P)) % P
+            if piv:
+                basis = (basis - np.outer(basis[:, c], v)) % P
+            basis = np.vstack([basis, v]); piv.append(c); new.append(v)
+        front = [(K @ v) % P for v in new]
+    return dim - len(piv)
+
+
+def _ring_known(n, J, Jw, axes):
+    """the ladder images of (M, 0) in (M, 2) and the mirror products of the bond axes r: their rank (modulo P1),
+    whether they sit at height N/2 alone, whether the ladder images and the whole span are kept by the turning"""
+    m = n // 2
+    Hm, bm = _ring_sector(n, m, J, Jw); H2, b2 = _ring_sector(n, 2, J, Jw)
+    K = np.kron(Hm, np.eye(len(b2), dtype=np.int64)) - np.kron(np.eye(len(bm), dtype=np.int64), H2)
+    ham = np.array([bin(A ^ B).count("1") for A in bm for B in b2])
+    lad = move(n, np.eye(comb(n, m), dtype=np.int64), m, 0, m, 2)
+    _ex = lambda A_: DomainMatrix([[ZZ(int(x)) for x in row] for row in A_], A_.shape, ZZ).convert_to(sp.QQ).rank()
+    lad_kept = _ex(np.vstack([lad.T, (K @ lad).T])) == _ex(lad.T)          # exact rational ranks
+    tone = (-1) ** m * J[m - 1] - Jw
+    prods = []
+    for r in axes:
+        mir = lambda l: (n - 1 - ((l - r) % n) + r) % n
+        pairs = {tuple(sorted((l, mir(l)))) for l in range(n)}
+        one = lambda s: all(((s >> a) & 1) != ((s >> b) & 1) for a, b in pairs)
+        sym = lambda s: all(((s >> a) & 1) == ((s >> b) & 1) for a, b in pairs)
+        def eig_on(H, bs, inset, e):
+            S = [i for i, s in enumerate(bs) if inset(s)]
+            Mx = sp.Matrix(H[:, S]) - e * sp.Matrix(np.eye(len(bs), dtype=np.int64)[:, S]); out = []
+            for v in Mx.nullspace():
+                w = v * sp.ilcm(*[x.q for x in v]); x = np.zeros(len(bs), dtype=np.int64); x[S] = [int(t) for t in w]
+                out.append(x)
+            return out
+        psis = eig_on(Hm, bm, one, tone) + (eig_on(Hm, bm, one, -tone) if tone else [])
+        for v in psis:
+            for lv in eig_on(H2, b2, sym, 0):
+                prods.append(np.outer(v, lv).ravel())
+    Pr = np.array(prods)
+    pr_ok = not np.any(Pr[:, ham != m])                     # at distance N/2 alone (kept: exact eigen-products)
+    V = np.vstack([lad.T, Pr])
+    return lad_kept, rank_mod(Pr, P1), (_ex(V) if n == 4 else rank_mod(V, P1)), pr_ok
+
+
+r10 = {}
+for n, J, Jw, axes in ((6, [1, 3, 2, 3, 1], 5, [0]), (6, [1] * 5, 1, range(6)), (4, [1, 2, 1], 3, [0]),
+                       (8, [2, 1, 3, 5, 3, 1, 2], 4, [0]), (4, [1, 1, 1], 1, range(4)), (8, [1] * 7, 1, range(8))):
+    m = n // 2
+    room = min(_ring_room(n, m, 2, m, J, Jw, P) for P in (P1, P2))
+    r10[(n, tuple(J), Jw)] = (room,) + _ring_known(n, J, Jw, axes)
+odd_ok = all(r10[k][0] == r10[k][2] and not r10[k][1] and r10[k][4] for k in [(6, (1, 3, 2, 3, 1), 5), (6, (1,) * 5, 1)])
+odd_ok &= r10[(6, (1, 3, 2, 3, 1), 5)][0] == 2 and r10[(6, (1,) * 5, 1)][0] == 6
+even_ok = all(r10[k][1] and r10[k][4] and r10[k][0] == r10[k][3] == comb(k[0], k[0] // 2) + 2
+              for k in [(4, (1, 2, 1), 3), (8, (2, 1, 3, 5, 3, 1, 2), 4)])
+check("the room at k = N/2 in the block (M, 2) of the ring (from above modulo two primes, from below by exact "
+      "eigen-products ranked modulo a prime; kept or not by exact ranks): at N = 6 the ladder images of (M, 0) are not kept and the room is "
+      "the mirror products alone, 2 at mirror-symmetric couplings and 6 on the uniform ring, the products of its three "
+      "bond axes; at N = 4 and 8 (non-uniform mirror-symmetric) the ladder images are kept and with the products "
+      "fill the room, C(N, M) + 2", odd_ok and even_ok, f"{r10}")
+H4, b4 = _ring_sector(4, 2, [1, 1, 1], 1)
+K4 = np.kron(H4, np.eye(len(b4), dtype=np.int64)) - np.kron(np.eye(len(b4), dtype=np.int64), H4)
+exact4 = _kept(K4, [i for i, (A, B) in enumerate((A, B) for A in b4 for B in b4) if bin(A ^ B).count("1") == 2])
+gap_ok = (exact4, r10[(4, (1, 1, 1), 1)][0], r10[(4, (1, 1, 1), 1)][3]) == (11, 11, 9) and     (r10[(8, (1,) * 7, 1)][0], r10[(8, (1,) * 7, 1)][3]) == (80, 78) and r10[(4, (1, 1, 1), 1)][1] and r10[(8, (1,) * 7, 1)][1]
+check("the uniform ring at even M: at N = 4 the room is 11 against a span of rank 9 from the ladder images and the "
+      "products of all its bond axes, both exact over the rationals; at N = 8 at most 80 (modulo two primes) against "
+      "a span of rank at least 78 (modulo a prime): whether more, not shown",
+      gap_ok)
 
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
