@@ -8,8 +8,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>K-sublattice (chiral) operator: K_full = ⊗_{odd i} Z_i.
 ///
 /// K anti-commutes with H_xy = (X_a X_{a+1} + Y_a Y_{a+1}) / 2: K H K = −H. Z-dephasing
-/// commutes with K trivially. When K anti-commutes with H, K is a super-operator symmetry
-/// of L. K_full has K² = I (involutory).
+/// commutes with K trivially. When K anti-commutes with H, conjugation by K reverses the
+/// Hamiltonian part of L and keeps the dissipator, so it is not a symmetry of L by itself;
+/// composed with the transpose, U ρ = K ρᵀ K, it is one for real H
+/// (docs/proofs/PROOF_K_PARTNERSHIP.md Lemma 4 in the single-excitation sector, there with the complex
+/// conjugation, line for line the same on the full space). K_full has K² = I
+/// (involutory).
 ///
 /// In the Altland-Zirnbauer scheme this is the chiral / sublattice symmetry of class BDI
 /// — see project_chiral_partnership memory and PT_SYMMETRY_ANALYSIS for the broader

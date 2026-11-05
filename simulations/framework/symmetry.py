@@ -299,7 +299,11 @@ def receiver_engineering_signature(psi):
 # ----------------------------------------------------------------------
 # K_full = ⊗_{odd i} Z_i. K anti-commutes with H_xy = (X_a X_{a+1} +
 # Y_a Y_{a+1})/2: K H K = -H. Z-dephasing commutes with K trivially.
-# When K anti-commutes with H, K is a super-operator symmetry of L.
+# When K anti-commutes with H, conjugation by K reverses the Hamiltonian part
+# of L and keeps the dissipator, so it is not a symmetry of L by itself;
+# composed with the transpose, U rho = K rho^T K, it is one for real H
+# (docs/proofs/PROOF_K_PARTNERSHIP.md Lemma 4 in the single-excitation sector,
+# there with the complex conjugation, line for line the same on the full space).
 
 def chiral_K_full(N):
     """K_full = ⊗_{odd i} Z_i — chain chiral / sublattice operator."""
@@ -350,14 +354,21 @@ def chiral_panel(H, rho_0, N, K_full=None):
     w_minus, rho_plus, rho_minus), rho_is_K_eigenstate, pauli_classification
     (n_K_even, n_K_odd), static_zero_at_t0, chiral_protected_dynamic.
 
-    Dynamical K-protection requires: K is a symmetry of L AND ρ_0 is a
-    K-eigenstate. Both are reported.
+    Dynamical K-protection requires: conjugation by K is a symmetry of L AND
+    ρ_0 is a K-eigenstate. Under Z dephasing the conjugation keeps the
+    dissipator and sends −i[H, ·] to −i[KHK, ·], so it is a symmetry exactly
+    when H is K-even; for K-odd H it reverses the Hamiltonian part, and the
+    symmetry there, for real H, is the conjugation composed with the
+    transpose (docs/proofs/PROOF_K_PARTNERSHIP.md Lemma 4), which this panel
+    does not use. Then ρ(t) keeps the K-parity of ρ_0, and the Paulis of the
+    other parity keep expectation zero; a state is never K-odd (the identity
+    is K-even), so for a K-even ρ_0 these are the K-odd Paulis.
     """
     if K_full is None:
         K_full = chiral_K_full(N)
 
     K_status = k_classify_hamiltonian(H, N, K_full=K_full)
-    K_symmetric_L = K_status in ('K-even', 'K-odd')
+    K_symmetric_L = K_status == 'K-even'
 
     rho_KKt = K_full @ rho_0 @ K_full
     rho_plus = (rho_0 + rho_KKt) / 2
@@ -388,8 +399,8 @@ def chiral_panel(H, rho_0, N, K_full=None):
     chiral_protected_dynamic = []
     if K_symmetric_L and rho_is_K_eigenstate:
         for alpha in range(1, 4 ** N):
-            if (k_class[alpha] == +1 and w_minus < 1e-12) or \
-               (k_class[alpha] == -1 and w_plus < 1e-12):
+            if (k_class[alpha] == -1 and w_minus < 1e-12) or \
+               (k_class[alpha] == +1 and w_plus < 1e-12):
                 chiral_protected_dynamic.append(alpha)
 
     static_zero_labels = [

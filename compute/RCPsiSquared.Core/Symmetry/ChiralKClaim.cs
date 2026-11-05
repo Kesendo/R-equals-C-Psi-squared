@@ -11,11 +11,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="bullet">
 ///   <item><b>Spectrum inversion:</b> if H ψ_k = E_k ψ_k with non-degenerate spectrum,
 ///         then K ψ_k ∝ ψ_{N+1−k} and <c>E_{N+1−k} = −E_k</c>.</item>
-///   <item><b>Z-dephasing trivially commutes with K</b>, so K is a super-operator
-///         symmetry of the full Liouvillian L = −i[H, ·] + L_D[Z-dephasing] whenever
-///         H is K-anti-symmetric (XY / Heisenberg / DM <b>hopping</b>: the hopping part is what
-///         anticommutes, and the Heisenberg single-excitation matrix WITH its ZZ diagonal does
-///         not, see the F143 paragraph below).</item>
+///   <item><b>Z-dephasing trivially commutes with K</b>, while conjugation by K sends
+///         −i[H, ·] to +i[H, ·] whenever H is K-anti-symmetric (XY / Heisenberg / DM <b>hopping</b>:
+///         the hopping part is what anticommutes, and the Heisenberg single-excitation matrix WITH
+///         its ZZ diagonal does not, see the F143 paragraph below). So on the full Liouvillian
+///         L = −i[H, ·] + L_D[Z-dephasing] conjugation by K alone is not a symmetry; composed with
+///         the transpose, U ρ = K ρᵀ K, it is one when H is moreover real
+///         (docs/proofs/PROOF_K_PARTNERSHIP.md Lemma 4 in the single-excitation sector, there with the
+///         complex conjugation, line for line the same on the full space;
+///         docs/proofs/PROOF_R90_FROZEN_DIVISOR.md §9.1 on the block (1, 1)).</item>
 ///   <item><b>Altland-Zirnbauer classification:</b> K is the chiral / sublattice symmetry
 ///         placing the system in class BDI. <b>NOT time reversal</b> (K is linear, not
 ///         antiunitary) — careful with the terminology (see [[feedback_physics_terminology]]).</item>
@@ -89,7 +93,7 @@ public sealed class ChiralKClaim : Claim
             yield return new InspectableNode("spectrum inversion",
                 summary: "non-degenerate H ⇒ K ψ_k ∝ ψ_{N+1−k} and E_{N+1−k} = −E_k; for uniform J the F65 sine modes ψ_k(ℓ) = √(2/(N+1)) sin(πk(ℓ+1)/(N+1)) satisfy K ψ_k = ψ_{N+1−k} exactly");
             yield return new InspectableNode("Z-dephasing compatibility",
-                summary: "[K, Z_ℓ] = 0 trivially since K is a Z-string; L_D[Z-dephasing] commutes with K ⇒ K is a super-operator symmetry of the full L = −i[H,·] + L_D");
+                summary: "[K, Z_ℓ] = 0 trivially since K is a Z-string, so L_D[Z-dephasing] commutes with conjugation by K; that conjugation sends −i[H,·] to +i[H,·] for K-anti-symmetric H, so it alone is not a symmetry of the full L = −i[H,·] + L_D; composed with the transpose, U ρ = K ρᵀ K, it is one for real H (PROOF_K_PARTNERSHIP Lemma 4, with the complex conjugation; PROOF_R90_FROZEN_DIVISOR §9.1 on the block (1, 1))");
             yield return new InspectableNode("AZ classification",
                 summary: "chiral / sublattice symmetry of class BDI; K is LINEAR (not antiunitary) ⇒ NOT time reversal; project_chiral_partnership memory");
             yield return new InspectableNode("relation to F1 (Liouvillian palindrome)",

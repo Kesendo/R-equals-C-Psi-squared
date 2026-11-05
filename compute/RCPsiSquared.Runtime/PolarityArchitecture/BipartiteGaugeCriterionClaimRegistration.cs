@@ -20,9 +20,9 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// </list>
 ///
 /// <para>Sharpening its first parent while descending from it: <see cref="ChiralKClaim"/> records that
-/// "Z-dephasing trivially commutes with K, so K is a super-operator symmetry of the full Liouvillian". At the
-/// block level the conjugation sends L(q) to L(−q), so it is an ANTI-symmetry of the pencil and a symmetry only
-/// at q = 0; that is exactly the distinction this claim's criterion is built on.</para>
+/// Z-dephasing commutes with K while conjugation by K reverses the Hamiltonian part. At the block level the
+/// conjugation sends L(q) to L(−q), so it is an ANTI-symmetry of the pencil and a symmetry only at q = 0; that
+/// is exactly the distinction this claim's criterion is built on.</para>
 ///
 /// <para>Tier consistency: Tier 1 derived. The gauge identity is an exact entry-wise sign rearrangement (residual
 /// 0.0 bit for bit) and the criterion follows in one line from σ(rev(c)) = w·(N−1) − σ(c). The parent is Tier 1
