@@ -64,6 +64,20 @@ What it checks:
      orbitals live wholly on the one-per-pair kets, and only (Lambda^dagger)^m|0> on the empty-or-full ones; the
      products of all m, their transposes and their ladder images, beside the boundary ladder images, span the
      room at k = N/2 wherever it exceeds the ladders at N = 4, 6, and give at least 74 in (4, 4) at N = 8.
+  G9 the right half is the bra: at even N = 2M, reading site l <= M as the ket and the mirror site N + 1 - l as
+     the bra of site l of the half chain, the open XY chain's H acts on every basis state as
+     rho -> H_L rho + rho H_L + J_c flip(rho), flip(rho) = s+_M rho s+_M + s-_M rho s-_M, and on rho Sigma
+     (Sigma the product of Z on the odd half-chain sites) as ad_{H_L} + (-1)^M J_c flip, entry for entry at
+     N = 4, 6, 8 with mirror-symmetric integer couplings; the even ring adds the same flip at the site 1 times
+     the wrap bond (control: couplings the reflection does not keep break the identity). X^M and X^M Z^M, times Sigma, are eigenstates at +-J_c on the
+     one-per-pair configurations, the popcount projectors P_j times Sigma are (Lambda^dagger)^j|0> / j!, and on
+     the twisted cells Lambda^dagger acts as the eta ladder with the Jordan-Wigner strings counted from the
+     centre end, exactly and with one sign, which is PROOF_FROZEN_BAND_SO4's Phi times (-1)^(p + q) on the half
+     chain's block (p, q) (control: without the strings it does not). The largest subspace H keeps inside the
+     one-per-pair configurations has dimension 2 and inside the empty-or-full ones M + 1, exact rational
+     nullspaces, at non-uniform mirror-symmetric couplings; with zero bonds in the half chain (the central bond
+     nonzero) the counts are 2 prod (|c| + 1) over the components c without the site M and prod (|c| + 1) over
+     all, F4's count over components, met exactly.
 """
 import numpy as np
 
@@ -889,6 +903,171 @@ check("on the uniform chain the ladder images of the boundary block (N/2, 0), wi
       "exceeds the ladders: every such block at N = 4, 6 (the room from above by the closure ranks of G8); at N = 8 at "
       "least C(8, 4) + 2 = 72 in (3, 3) and C(8, 4) + 4 = 74 in (4, 4)",
       span_ok, f"{spans}")
+
+
+print("G9 the right half is the bra")
+# spin language throughout, site 1 the most significant bit; the half chain has M = N/2 sites
+_sp = np.array([[0, 0], [1, 0]], dtype=np.int64); _sm = _sp.T.copy()
+_I2 = np.eye(2, dtype=np.int64); _Z = np.diag([1, -1]).astype(np.int64); _X = np.array([[0, 1], [1, 0]], dtype=np.int64)
+
+
+def _kr(ms):
+    out = np.ones((1, 1), dtype=np.int64)
+    for m_ in ms:
+        out = np.kron(out, m_)
+    return out
+
+
+def _site(n, l, op):
+    return _kr([op if k == l else _I2 for k in range(1, n + 1)])
+
+
+def _hop(n, J):
+    H = np.zeros((2 ** n, 2 ** n), dtype=np.int64)
+    for l in range(1, n):
+        a = _site(n, l, _sp) @ _site(n, l + 1, _sm)
+        H += J[l - 1] * (a + a.T)
+    return H
+
+
+def _cell(idx, n):
+    """the basis state idx of N sites as the cell (a, b) of the half chain: ket = sites 1..M, bra = sites N..M+1"""
+    m = n // 2
+    bits = [(idx >> (n - k)) & 1 for k in range(1, n + 1)]
+    return (int("".join(str(bits[l - 1]) for l in range(1, m + 1)), 2),
+            int("".join(str(bits[n - l]) for l in range(1, m + 1)), 2))
+
+
+def _to_op(v, n):
+    m = n // 2; rho = np.zeros((2 ** m, 2 ** m), dtype=np.int64)
+    for idx in range(2 ** n):
+        a, b = _cell(idx, n); rho[a, b] = v[idx]
+    return rho
+
+
+def _to_vec(rho, n):
+    return np.array([rho[_cell(idx, n)] for idx in range(2 ** n)], dtype=np.int64)
+
+
+def _kept(H, S):
+    """largest H-invariant subspace inside the coordinate span of S, exact rational arithmetic"""
+    n = H.shape[0]; Hs = sp.Matrix(H)
+    W = sp.zeros(n, len(S))
+    for c, i in enumerate(S):
+        W[i, c] = 1
+    while W.shape[1]:
+        A = (sp.eye(n) - W * (W.T * W).inv() * W.T) * Hs * W
+        ns = A.nullspace()
+        if len(ns) == W.shape[1]:
+            break
+        W = sp.Matrix.hstack(*[W * v for v in ns]) if ns else sp.zeros(n, 0)
+    return W.shape[1]
+
+
+def _edges(n):
+    m = n // 2
+    one = [i for i in range(2 ** n) if _cell(i, n)[0] ^ _cell(i, n)[1] == 2 ** m - 1]   # one excitation per mirror pair
+    emf = [i for i in range(2 ** n) if _cell(i, n)[0] == _cell(i, n)[1]]               # every pair empty or full
+    return one, emf
+
+
+from math import factorial
+ok9a = ok9b = ok9c = ok9d = True
+ctl9a = ctl9d = True
+for n, J in ((4, [1, 2, 1]), (6, [1, 3, 2, 3, 1]), (6, [1] * 5), (8, [2, 1, 3, 5, 3, 1, 2])):
+    m = n // 2; HN = _hop(n, J); HL = _hop(m, J[:m - 1]); Jc = J[m - 1]
+    Sig = _kr([_Z if l % 2 else _I2 for l in range(1, m + 1)])
+    spM, smM = _site(m, m, _sp), _site(m, m, _sm)
+    F = lambda r: spM @ r @ spM + smM @ r @ smM
+    sgn = (-1) ** m
+    for idx in range(2 ** n):
+        e = np.zeros(2 ** n, dtype=np.int64); e[idx] = 1
+        r = _to_op(e, n); img = _to_op(HN @ e, n)
+        ok9a &= np.array_equal(img, HL @ r + r @ HL + Jc * F(r))
+        rt = r @ Sig
+        ok9a &= np.array_equal(img @ Sig, HL @ rt - rt @ HL + sgn * Jc * F(rt))
+    XM = _kr([_X] * m); ZM = _kr([_Z] * m)
+    for C, f in ((XM, 1), (XM @ ZM, -1)):
+        ok9b &= not np.any(HL @ C - C @ HL)
+        v = _to_vec(C @ Sig, n)
+        ok9b &= np.array_equal(HN @ v, sgn * f * Jc * v)
+        ok9b &= all((a ^ b) == 2 ** m - 1 for a, b in np.argwhere(C))
+    Lam = np.zeros((2 ** n, 2 ** n), dtype=np.int64)
+    for l in range(1, m + 1):
+        r_ = n + 1 - l; s_ = np.eye(2 ** n, dtype=np.int64)
+        for k in range(l + 1, r_):
+            s_ = s_ @ _site(n, k, _Z)
+        Lam += (-1) ** l * _site(n, l, _sp) @ s_ @ _site(n, r_, _sp)
+    ok9c &= not np.any(HN @ Lam - Lam @ HN)
+    T = [_kr([_Z if k > l else _I2 for k in range(1, m + 1)]) for l in range(1, m + 1)]   # strings from the centre end
+    S = [_kr([_Z if k < l else _I2 for k in range(1, m + 1)]) for l in range(1, m + 1)]  # SO4's strings, k < l
+    sgns, plain, so4 = set(), set(), True
+    for idx in range(2 ** n):
+        e = np.zeros(2 ** n, dtype=np.int64); e[idx] = 1
+        rt = _to_op(e, n) @ Sig; img = _to_op(Lam @ e, n) @ Sig
+        eta = sum(T[l - 1] @ _site(m, l, _sp) @ rt @ _site(m, l, _sm) @ T[l - 1] for l in range(1, m + 1))
+        bare = sum(_site(m, l, _sp) @ rt @ _site(m, l, _sm) for l in range(1, m + 1))
+        phi_so4 = sum(S[l - 1] @ _site(m, l, _sp) @ rt @ _site(m, l, _sm) @ S[l - 1] for l in range(1, m + 1))
+        a_, b_ = _cell(idx, n)
+        so4 &= np.array_equal(img, (-1) ** (bin(a_).count("1") + bin(b_).count("1")) * phi_so4)
+        if np.any(img) or np.any(eta):
+            sgns.add(1 if np.array_equal(img, eta) else -1 if np.array_equal(img, -eta) else 0)
+        if np.any(img) or np.any(bare):
+            plain.add(1 if np.array_equal(img, bare) else -1 if np.array_equal(img, -bare) else 0)
+    ok9c &= len(sgns) == 1 and 0 not in sgns and so4         # and against SO4's Phi: (-1)^(p+q) on the block (p, q)
+    ctl9a &= not (len(plain) == 1 and 0 not in plain)          # the bare ladder, without strings, is not it
+    vac = np.zeros(2 ** n, dtype=np.int64); vac[0] = 1; w = vac.copy()
+    for j in range(m + 1):
+        Pj = np.diag([1 if bin(a).count("1") == j else 0 for a in range(2 ** m)]).astype(np.int64)
+        pv = _to_vec(Pj @ Sig, n)
+        ok9c &= np.array_equal(w, factorial(j) * pv)                 # (Lambda^dagger)^j|0> = j! P_j Sigma
+        w = Lam @ w
+    if J != [1] * 5:
+        one, emf = _edges(n)
+        ok9d &= _kept(HN, one) == 2 and _kept(HN, emf) == m + 1
+# the even ring: the wrap bond joins the ket and the bra of the site 1, a second end flip
+for n, J, Jw in ((4, [1, 2, 1], 3), (6, [1, 3, 2, 3, 1], 5), (8, [2, 1, 3, 5, 3, 1, 2], 4)):
+    m = n // 2; wrap = _site(n, n, _sp) @ _site(n, 1, _sm); HR = _hop(n, J) + Jw * (wrap + wrap.T)
+    HL = _hop(m, J[:m - 1]); Jc = J[m - 1]
+    Fk = lambda r, k: _site(m, k, _sp) @ r @ _site(m, k, _sp) + _site(m, k, _sm) @ r @ _site(m, k, _sm)
+    for e in np.eye(2 ** n, dtype=np.int64):
+        r = _to_op(e, n)
+        ok9a &= np.array_equal(_to_op(HR @ e, n), HL @ r + r @ HL + Jc * Fk(r, m) + Jw * Fk(r, 1))
+# the control: couplings the reflection does not keep break the identity
+HN = _hop(4, [1, 2, 3]); HL = _hop(2, [1]); spM, smM = _site(2, 2, _sp), _site(2, 2, _sm)
+ctl9b = False
+for i in range(16):
+    r = _to_op(np.eye(16, dtype=np.int64)[i], 4)
+    ctl9b |= not np.array_equal(_to_op(HN[:, i], 4), HL @ r + r @ HL + 2 * (spM @ r @ spM + smM @ r @ smM))
+# zero bonds in the half chain: F4's count over the components
+from math import prod
+law9 = {}
+for n, J in ((6, [1, 0, 2, 0, 1]), (8, [1, 0, 1, 2, 1, 0, 1]), (8, [0, 1, 1, 3, 1, 1, 0]), (8, [1, 1, 0, 2, 0, 1, 1])):
+    m = n // 2; comps, cur = [], [1]
+    for l in range(1, m):
+        if J[l - 1] == 0:
+            comps.append(cur); cur = [l + 1]
+        else:
+            cur.append(l + 1)
+    comps.append(cur)
+    one, emf = _edges(n)
+    HN = _hop(n, J)
+    got = (_kept(HN, one), _kept(HN, emf))
+    pred = (2 * prod(len(c) + 1 for c in comps if m not in c), prod(len(c) + 1 for c in comps))
+    law9[(n, tuple(J))] = got
+    ctl9d &= got == pred
+check("the right half is the bra, N = 4, 6, 8, mirror-symmetric integer couplings: on every basis state H_N acts as "
+      "rho -> H_L rho + rho H_L + J_c flip(rho) on the half chain's cells, and on rho Sigma as ad_{H_L} + "
+      "(-1)^M J_c flip, entry for entry; the even ring adds J_w times the same flip at the site 1; control: the couplings (1, 2, 3) at N = 4 break it", ok9a and ctl9b)
+check("X^M and X^M Z^M commute with H_L, live on the far edge, and times Sigma are eigenstates of H_N at (-1)^M J_c and "
+      "-(-1)^M J_c; the "
+      "popcount projectors times Sigma are (Lambda^dagger)^j|0> / j!, j = 0..M; Lambda^dagger commutes with H_N "
+      "and acts on the twisted cells as the eta ladder with Jordan-Wigner strings from the centre end, one sign "
+      "throughout, which is PROOF_FROZEN_BAND_SO4's Phi times (-1)^(p + q) on the half chain's block (p, q); control: the ladder without strings does not", ok9b and ok9c and ctl9a)
+check("at non-uniform mirror-symmetric couplings without zeros (N = 4, 6, 8) the largest subspace H_N keeps on the "
+      "one-per-pair configurations is 2 and on the empty-or-full ones M + 1, exact rational nullspaces; with zero "
+      "bonds in the half chain and the central bond nonzero, 2 prod(|c| + 1) over the components without the site M and prod(|c| + 1) over all, "
+      "met exactly at four chains", ok9d and ctl9d, f"{law9}")
 
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
