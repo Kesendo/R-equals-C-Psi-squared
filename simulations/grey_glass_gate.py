@@ -88,8 +88,17 @@ What it checks:
      alone, 2 at the non-uniform mirror-symmetric coupling tried and 6 on the uniform ring (its three bond axes), upper bound modulo two
      primes meeting the exact eigen-products; at N = 4, 8 (non-uniform mirror-symmetric) the ladder images are kept,
      exactly, and with the products fill it, C(N, M) + 2. The uniform ring at N = 4 holds 11 against a span of 9
-     from the ladder images and the products of every bond axis, both exact; at N = 8 at most 80 against
-     at least 78, whether more not shown.
+     from the ladder images and the products of every bond axis, both exact; at N = 8 at most 80 against 78 (exact);
+     G11 builds the rest and meets both.
+  G11 the antipodal map, l -> l + N/2: at every N >= 4 every bond joins two different antipodal
+     pairs (l, l + M), so an eigenstate on the one-per-pair or on the one-full-pair configurations sits at 0; on the
+     first exactly two, v(b) = (-1)^inv(b) g(|b|) with b_d the upper bit of the antipodal pair d and g(k + 2) =
+     -(-1)^M g(k), at M >= 3 (N = 6, 8, 10, 12; three at N = 4); on the second the staggered sum of full pairs
+     sum_d (-1)^d |d, d + M>, and it alone, at even M, none at odd M (exact nullspaces; control: a coupling that
+     breaks the antipodal map (J_0 -> J_0 + 1) leaves neither kind of state at M >= 3; a bond axis's pairs form a path and keep their staggered sum). Their products, at distance N/2 by one difference per antipodal pair, fill the
+     room at k = N/2 in (M, 2) with the ladder images and the bond-axis products: 11 at N = 4 (transposes included),
+     80 on the uniform ring at N = 8, 76 with two perpendicular bond axes, 72 with the antipodal map alone, the upper
+     bound modulo two primes met by an exact rational rank, the span without them two short (with J_l = J_{l+M}).
 """
 import numpy as np
 
@@ -1194,7 +1203,7 @@ def _ring_known(n, J, Jw, axes):
     Pr = np.array(prods)
     pr_ok = not np.any(Pr[:, ham != m])                     # at distance N/2 alone (kept: exact eigen-products)
     V = np.vstack([lad.T, Pr])
-    return lad_kept, rank_mod(Pr, P1), (_ex(V) if n == 4 else rank_mod(V, P1)), pr_ok
+    return lad_kept, rank_mod(Pr, P1), (_ex(V) if n in (4, 8) else rank_mod(V, P1)), pr_ok
 
 
 r10 = {}
@@ -1208,18 +1217,147 @@ odd_ok &= r10[(6, (1, 3, 2, 3, 1), 5)][0] == 2 and r10[(6, (1,) * 5, 1)][0] == 6
 even_ok = all(r10[k][1] and r10[k][4] and r10[k][0] == r10[k][3] == comb(k[0], k[0] // 2) + 2
               for k in [(4, (1, 2, 1), 3), (8, (2, 1, 3, 5, 3, 1, 2), 4)])
 check("the room at k = N/2 in the block (M, 2) of the ring (from above modulo two primes, from below by exact "
-      "eigen-products ranked modulo a prime; kept or not by exact ranks): at N = 6 the ladder images of (M, 0) are not kept and the room is "
+      "eigen-products ranked modulo a prime, exactly at N = 4 and 8; kept or not by exact ranks): at N = 6 the ladder images of (M, 0) are not kept and the room is "
       "the mirror products alone, 2 at mirror-symmetric couplings and 6 on the uniform ring, the products of its three "
       "bond axes; at N = 4 and 8 (non-uniform mirror-symmetric) the ladder images are kept and with the products "
       "fill the room, C(N, M) + 2", odd_ok and even_ok, f"{r10}")
 H4, b4 = _ring_sector(4, 2, [1, 1, 1], 1)
 K4 = np.kron(H4, np.eye(len(b4), dtype=np.int64)) - np.kron(np.eye(len(b4), dtype=np.int64), H4)
 exact4 = _kept(K4, [i for i, (A, B) in enumerate((A, B) for A in b4 for B in b4) if bin(A ^ B).count("1") == 2])
-gap_ok = (exact4, r10[(4, (1, 1, 1), 1)][0], r10[(4, (1, 1, 1), 1)][3]) == (11, 11, 9) and     (r10[(8, (1,) * 7, 1)][0], r10[(8, (1,) * 7, 1)][3]) == (80, 78) and r10[(4, (1, 1, 1), 1)][1] and r10[(8, (1,) * 7, 1)][1]
+gap_ok = (exact4, r10[(4, (1, 1, 1), 1)][0], r10[(4, (1, 1, 1), 1)][3]) == (11, 11, 9) and (r10[(8, (1,) * 7, 1)][0], r10[(8, (1,) * 7, 1)][3]) == (80, 78) and r10[(4, (1, 1, 1), 1)][1] and r10[(8, (1,) * 7, 1)][1]
 check("the uniform ring at even M: at N = 4 the room is 11 against a span of rank 9 from the ladder images and the "
       "products of all its bond axes, both exact over the rationals; at N = 8 at most 80 (modulo two primes) against "
-      "a span of rank at least 78 (modulo a prime): whether more, not shown",
+      "a span of rank 78 (exact over the rationals)",
       gap_ok)
+
+
+print("G11 the antipodal map: opposite sites, no flip")
+
+
+def _ht_far(n, J, Jw):
+    """the one-per-pair configurations (antipodal pairs (d, d + M)) and the two predicted vectors"""
+    m = n // 2
+    H, bs = _ring_sector(n, m, J, Jw); ix = {b: i for i, b in enumerate(bs)}
+    S = [ix[sum(1 << (d + m * ((b >> d) & 1)) for d in range(m))] for b in range(1 << m)]
+    vs = []
+    for par in (0, 1):
+        v = np.zeros(len(bs), dtype=np.int64)
+        for b in range(1 << m):
+            k = pc(b)
+            if k % 2 != par:
+                continue
+            inv = sum(1 for d in range(m) for e in range(d + 1, m) if (b >> d) & 1 and not (b >> e) & 1)
+            v[ix[sum(1 << (d + m * ((b >> d) & 1)) for d in range(m))]] = (-1) ** inv * (-(-1) ** m) ** ((k - par) // 2)
+        vs.append(v)
+    return H, bs, S, vs
+
+
+def _ht_quiet(n, J, Jw):
+    m = n // 2
+    H2, b2 = _ring_sector(n, 2, J, Jw); i2 = {b: i for i, b in enumerate(b2)}
+    S2 = [i2[(1 << d) | (1 << (d + m))] for d in range(m)]
+    D = np.zeros(len(b2), dtype=np.int64)
+    for d in range(m):
+        D[S2[d]] = (-1) ** d
+    return H2, b2, S2, D
+
+
+_null = lambda A_: len(DomainMatrix([[ZZ(int(x)) for x in row] for row in A_], A_.shape, ZZ).convert_to(sp.QQ).nullspace().to_Matrix().tolist()) if A_.shape[1] else 0
+ok11a, dims11 = True, {}
+for n, half in ((6, [6, 3, 7]), (8, [2, 6, 1, 9]), (10, [7, 2, 4, 2, 9]), (12, [7, 1, 4, 1, 9, 3]), (4, [2, 5])):
+    m = n // 2; Jall = half + half; J, Jw = Jall[:n - 1], Jall[n - 1]
+    H, bs, S, vs = _ht_far(n, J, Jw); H2, b2, S2, D = _ht_quiet(n, J, Jw)
+    far = _null(H[:, S]); quiet = _null(H2[:, S2])          # every hop leaves both sets: kept = kernel of H on them
+    ok11a &= not np.any(H[np.ix_(S, S)]) and not np.any(H2[np.ix_(S2, S2)])   # no hop stays inside either set
+    dims11[n] = (far, quiet)
+    ok11a &= far == (3 if m == 2 else 2) and quiet == (1 if m % 2 == 0 else 0)
+    if m >= 3:
+        ok11a &= all(not np.any(H @ v) for v in vs)
+    ok11a &= (not np.any(H2 @ D)) == (m % 2 == 0)
+    Jb = list(J); Jb[0] += 1                                  # control: break J_0 = J_M
+    Hb, _, _, vb = _ht_far(n, Jb, Jw)
+    ok11a &= m < 3 or all(np.any(Hb @ v) for v in vb)           # the formula is claimed at M >= 3 only
+    Hb2, _, S2b, _ = _ht_quiet(n, Jb, Jw)
+    ok11a &= m < 3 or (_null(Hb[:, S]) == 0 and _null(Hb2[:, S2b]) == 0)   # and both kinds of state are gone
+    if m >= 3:                                                # a bond axis: its pairs form a path, the staggered sum is kept
+        Jm = J[:m - 1] + [J[m - 1]] + J[:m - 1][::-1]; i2 = {b_: i for i, b_ in enumerate(b2)}
+        Hx, _ = _ring_sector(n, 2, Jm, Jw)
+        for sg in (1, 0):
+            Dx = np.zeros(len(b2), dtype=np.int64)
+            for d in range(m):
+                Dx[i2[(1 << d) | (1 << (n - 1 - d))]] = (-1) ** d if sg else 1
+            ok11a &= (not np.any(Hx @ Dx)) == bool(sg)
+check("the antipodal map l -> l + N/2 at J_l = J_{l+M} (N = 4, 6, 8, 10, 12, integer couplings): on the one-per-pair "
+      "configurations H keeps exactly two states, (-1)^inv(b) g(|b|) with g(k + 2) = -(-1)^M g(k), at 0 (three at "
+      "N = 4); on the one-full-pair ones the staggered sum of full pairs alone at even M, nothing at odd M (exact; "
+      "control: J_0 -> J_0 + 1 leaves neither kind of state at M >= 3; a bond axis's pairs, a path, keep their staggered "
+      "sum and not the plain one)", ok11a, f"(far, quiet) dimensions {dims11}")
+
+
+def _ht_products(n, J, Jw, both):
+    m = n // 2
+    H, bs, S, _ = _ht_far(n, J, Jw); H2, b2, S2, _ = _ht_quiet(n, J, Jw)
+    def kern(Hx, idx, size):
+        out = []
+        for v in DomainMatrix([[ZZ(int(x)) for x in row] for row in Hx[:, idx]], Hx[:, idx].shape, ZZ).convert_to(sp.QQ).nullspace().to_Matrix().tolist():
+            l_ = sp.ilcm(*[sp.Rational(x).q for x in v]); w = np.zeros(size, dtype=np.int64); w[idx] = [int(sp.Rational(x) * l_) for x in v]
+            out.append(w)
+        return out
+    fv, qv = kern(H, S, len(bs)), kern(H2, S2, len(b2))
+    pr = [np.outer(a, b).ravel() for a in fv for b in qv]
+    if both:
+        pr += [np.outer(b, a).ravel() for a in fv for b in qv]
+    return pr
+
+
+_exr = lambda A_: DomainMatrix([[ZZ(int(x)) for x in row] for row in A_], A_.shape, ZZ).convert_to(sp.QQ).rank()
+
+
+def _known_rows(n, J, Jw, axes):
+    m = n // 2
+    Hm, bm = _ring_sector(n, m, J, Jw); H2, b2 = _ring_sector(n, 2, J, Jw)
+    rows = list(move(n, np.eye(comb(n, m), dtype=np.int64), m, 0, m, 2).T)
+    for r in axes:
+        mir = lambda l: (n - 1 - ((l - r) % n) + r) % n
+        pairs = {tuple(sorted((l, mir(l)))) for l in range(n)}
+        one = [i for i, s in enumerate(bm) if all(((s >> a) & 1) != ((s >> b) & 1) for a, b in pairs)]
+        sym = [i for i, s in enumerate(b2) if all(((s >> a) & 1) == ((s >> b) & 1) for a, b in pairs)]
+        psis, top = [], 2 * max(abs(x) for x in J + [Jw])
+        for e in range(-top, top + 1):                               # integer couplings: the axis frequencies are integers
+            for v in (sp.Matrix(Hm[:, one]) - e * sp.Matrix(np.eye(len(bm), dtype=np.int64)[:, one])).nullspace():
+                l_ = sp.ilcm(*[t.q for t in v]); w = np.zeros(len(bm), dtype=np.int64); w[one] = [int(t * l_) for t in v]
+                psis.append(w)
+        lams = []
+        for v in sp.Matrix(H2[:, sym]).nullspace():
+            l_ = sp.ilcm(*[x.q for x in v]); w = np.zeros(len(b2), dtype=np.int64); w[sym] = [int(x * l_) for x in v]
+            lams.append(w)
+        rows += [np.outer(a, b).ravel() for a in psis for b in lams]
+        if n == 4:
+            rows += [np.outer(b, a).ravel() for a in psis for b in lams]
+    return rows
+
+
+ok11b, r11 = True, {}
+for n, J, Jw, axes, want in ((4, [1, 1, 1], 1, range(4), 11), (8, [1] * 7, 1, range(8), 80),
+                             (8, [1, 2, 1, 3, 1, 2, 1], 3, [0, 2], 76), (8, [1, 2, 3, 4, 1, 2, 3], 4, [], 72)):
+    m = n // 2
+    ham = np.array([bin(A ^ B).count("1") for A in _ring_sector(n, m, J, Jw)[1] for B in _ring_sector(n, 2, J, Jw)[1]])
+    up = [_ring_room(n, m, 2, m, J, Jw, P) for P in (P1, P2)]
+    kn = _known_rows(n, J, Jw, axes); ht = _ht_products(n, J, Jw, n == 4)
+    at_k = not np.any(np.array(kn + ht)[:, ham != m])
+    Hm_, bm_ = _ring_sector(n, m, J, Jw); H2_, b2_ = _ring_sector(n, 2, J, Jw)
+    K_ = np.kron(Hm_, np.eye(len(b2_), dtype=np.int64)) - np.kron(np.eye(len(bm_), dtype=np.int64), H2_)
+    lad_ = move(n, np.eye(comb(n, m), dtype=np.int64), m, 0, m, 2)
+    at_k &= _exr(np.vstack([lad_.T, (K_ @ lad_).T])) == _exr(lad_.T)       # the ladder images are kept, exactly
+    V_ = np.array(kn + ht)
+    lo_known, lo = _exr(np.array(kn)), _exr(np.array(kn + ht))
+    at_k &= _exr(np.vstack([V_, (K_ @ V_.T).T])) == lo                      # and so is every ranked row
+    r11[(n, tuple(J), Jw)] = (up, lo_known, lo)
+    ok11b &= at_k and up == [want, want] and lo == want and lo_known == want - 2
+check("the room at k = N/2 in (M, 2) is filled by the ladder images, the bond-axis products and the antipodal map's "
+      "products (both orientations at N = 4): 11 on the uniform ring at N = 4, 80 at N = 8, 76 with two perpendicular "
+      "bond axes, 72 with the antipodal map alone (upper bound modulo two primes met by an exact rational rank; every "
+      "row at distance N/2 alone and kept, exactly; the span without the antipodal products two short)", ok11b, f"{r11}")
 
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
