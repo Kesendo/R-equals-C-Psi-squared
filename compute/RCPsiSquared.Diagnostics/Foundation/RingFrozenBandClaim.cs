@@ -44,7 +44,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <c>StructuralCeilingClaim</c> carries, are derived in the proof's §5.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F170 + <c>docs/proofs/PROOF_RING_FROZEN_BAND.md</c> +
-/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 60 checks).</para></summary>
+/// <c>simulations/ring_frozen_band.py</c> (the Python gate, 61 checks).</para></summary>
 public sealed class RingFrozenBandClaim : Claim
 {
     /// <summary>The corner floor, F140: typed on the open chains, and valid on both fixed-flux rings by its

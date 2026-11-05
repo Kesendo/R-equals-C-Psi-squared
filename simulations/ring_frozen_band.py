@@ -76,7 +76,12 @@ What it checks:
   R11 even N, the pi-flux ring's populations' sector at fourth order (Proposition 8): the rotation
       identity {D, j^-1} = [h, [Lap^-1 D, Lam]], Lam = sum_k cot k P_k, at N = 4..24 on random zero-mean
       offsets, to the size of a rounding, with the inverse Laplacian dropped as the control that must miss;
-      in the corner, K1 w = K0 y with y = -(2i/J)[phi, Lam] free of populations and of the uniform kernel;
+      the same turn on the letter cube: i[phi, h] exactly the bond currents weighted by 2 psi,
+      psi = grad phi, the bond currents summing to j, the identity as {D, j^-1} = i[i[phi, h], Lam], its
+      energy-shell entries <k|.|+-k> zero where the backward ones of {D, h} are not, and, in Pauli strings
+      at N = 4 and 6, w, Lam and y wholly at k_Z = 2 with their whole norm, w and Lam of odd n_Y (the
+      current's letters, odd under the transpose) and y of even n_Y (the bond's letters); in the corner, K1 w = K0 y with
+      y = -(2i/J)[phi, Lam] free of populations and of the uniform kernel;
       on the locus the second-order form couples y to no t-direction, and off the locus it does (the
       control); c4 by its definition equals the population cost (4 gbar / |w|^2) min_z |diag(R0^dag K1 (y + z))|^2
       over Z+ and over Z' at N = 4..20 on random locus profiles and couplings; read, it equals the closed form
@@ -1011,6 +1016,75 @@ for n in range(4, 25, 2):
 check("pi-flux ring, N = 4..24, random zero-mean offsets: {D, j^-1} = [h, [Lap^-1 D, Lam]], Lam = sum_k cot k P_k, "
       "to the size of a rounding (worst / eps-scale < 1e2); without the inverse Laplacian it misses by > 0.1",
       worst < 1e2 and ctrl > 0.1, f"worst {worst:.2g}, control {ctrl:.2g}")
+
+# the turn on the letter cube: w and Lam odd under the transpose (the current's letters), y even (the bond's)
+def corner_strings(A, n):
+    """Pauli coefficients of the one-excitation operator sum_lm A_lm |e_l><e_m|, as (n_X, n_Y, n_Z, c)."""
+    I2 = np.eye(2); X = np.array([[0, 1], [1, 0]]); Y = np.array([[0, -1j], [1j, 0]]); Zm = np.diag([1, -1])
+    M = np.zeros((2 ** n, 2 ** n), complex)
+    for l in range(n):
+        for m in range(n):
+            M[1 << (n - 1 - l), 1 << (n - 1 - m)] = A[l, m]
+    out = []
+    for word in np.ndindex(*([4] * n)):
+        S = np.array([[1.0]])
+        for c in word:
+            S = np.kron(S, (I2, X, Y, Zm)[c])
+        out.append((word.count(1), word.count(2), word.count(3), np.trace(S @ M) / 2 ** n))
+    return out
+
+
+okc, kz_off, wpar, ypar, lpar, jsum, jac, shell, ctl_shell, pars = True, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, np.inf, 0.0
+for n in range(4, 25, 2):
+    ks, Ph, jinv, Lam, Lap = pflux(n)
+    h = h_ring(n, -1).astype(float)
+    D = rnd11.standard_normal(n); D -= D.mean()
+    phi = np.linalg.lstsq(Lap, D, rcond=None)[0]
+    C = 1j * (np.diag(phi) @ h - h @ np.diag(phi))
+    Cb = np.zeros((n, n), complex)                      # 2 sum_b psi_b j_b, j_b := (i/2) h_b (|l+1><l| - |l><l+1|)
+    for l in range(n):
+        m = (l + 1) % n
+        psi = phi[m] - phi[l]
+        Cb[m, l] += 1j * psi * h[l, m]; Cb[l, m] -= 1j * psi * h[l, m]
+    okc &= np.array_equal(C, Cb)
+    E1 = np.eye(n)
+    jb = sum(0.5j * h[l, (l + 1) % n] * (np.outer(E1[(l + 1) % n], E1[l]) - np.outer(E1[l], E1[(l + 1) % n]))
+             for l in range(n))
+    jsum = max(jsum, np.abs(jb - Ph @ np.diag(np.sin(ks)) @ Ph.conj().T).max() / (eps * n * n))
+    lhs = np.diag(D) @ jinv + jinv @ np.diag(D)
+    scale = eps * n * n * np.abs(D).max() * np.abs(jinv).max() * np.abs(Lam).max()
+    jac = max(jac, np.abs(lhs - 1j * (C @ Lam - Lam @ C)).max() / scale)
+    M = Ph.conj().T @ lhs @ Ph; Mh = Ph.conj().T @ (np.diag(D) @ h + h @ np.diag(D)) @ Ph
+    opp = [(a, (n - 1 - a)) for a in range(n)]          # k_a and -k_a: (2a+1) + (2(n-1-a)+1) = 2n
+    shell = max(shell, max(max(abs(M[a, b]), abs(M[a, a])) for a, b in opp) / scale)   # both halves: k' = -k, k' = k
+    ctl_shell = min(ctl_shell, max(abs(Mh[a, b]) for a, b in opp) / np.abs(Mh).max())
+    if n <= 6:
+        W = np.array([[np.sign(b - a) if (a + b) % 2 else 0 for b in range(n)] for a in range(n)]) * 1j
+        y = turn(D, Lam, Lap, 1.0)
+        ysc = eps * n * n * np.abs(D).max() * np.abs(Lam).max() * np.abs(np.linalg.pinv(Lap)).max()
+        cw = corner_strings(W, n)
+        for nx, ny, nz, c in cw:
+            kz_off = max(kz_off, abs(c) if nx + ny != 2 else 0.0)
+            wpar = max(wpar, abs(c) if ny % 2 == 0 else 0.0)
+        cy = corner_strings(y, n)
+        cl = corner_strings(Lam, n)
+        for A, cs in ((W, cw), (y, cy), (Lam, cl)):            # the strings carry the whole norm (anti-vacuity)
+            pars = max(pars, abs(2 ** n * sum(abs(t[3]) ** 2 for t in cs) / np.linalg.norm(A) ** 2 - 1) / (eps * n * n))
+        lsc = eps * n * n * np.abs(Lam).max()
+        for nx, ny, nz, c in cl:
+            lpar = max(lpar, abs(c) / lsc if ny % 2 == 0 or nx + ny != 2 else 0.0)   # Lam built in the plane waves
+        for nx, ny, nz, c in cy:
+            kz_off = max(kz_off, abs(c) if nx + ny != 2 else 0.0)
+            ypar = max(ypar, abs(c) / ysc if ny % 2 == 1 else 0.0)
+check("the turn on the letter cube, pi-flux ring, N = 4..24: i[phi, h] is exactly 2 sum_b psi_b j_b, j_b := (i/2) h_b "
+      "(|l+1><l| - |l><l+1|) the current on bond b, psi = grad phi, with sum_b j_b = j to the size of a rounding (< 1e2), so {D, j^-1} = i[i[phi, h], Lam] to the size of a rounding (< 1e2), "
+      "and <k|{D, j^-1}|+-k> vanishes on both halves of the energy shell to that size while <k|{D, h}|-k> does not (> 0.1); at "
+      "N = 4, 6 in Pauli strings w ~ j^-1 and y sit wholly at k_Z = 2 (exactly 0 elsewhere), w with odd n_Y "
+      "(exactly 0 on even) and y with even n_Y, and Lam, built in the plane waves, at k_Z = 2 with odd n_Y (the rest "
+      "below 1e2 of the rounding scale), the strings carrying each operator's whole norm (Parseval, to that size)",
+      okc and jac < 1e2 and shell < 1e2 and ctl_shell > 0.1 and jsum < 1e2 and lpar < 1e2 and pars < 1e2 and kz_off == 0.0 and wpar == 0.0 and ypar < 1e2,
+      f"Jacobi {jac:.2g}, shell {shell:.2g}, control {ctl_shell:.2g}, off k_Z = 2 {kz_off}, w even {wpar}, "
+      f"y odd {ypar:.2g}, Lam elsewhere {lpar:.2g}, sum j_b {jsum:.2g}, Parseval {pars:.2g}")
 
 # in the corner: K1 w = K0 y, y population-free and outside the uniform kernel
 worst2, pop2 = 0.0, 0.0
