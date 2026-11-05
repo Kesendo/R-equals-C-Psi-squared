@@ -56,7 +56,14 @@ What it checks:
      that lower bound everywhere except at k = N/2 in the blocks (2, 2) at N = 4 and (3, 2), (4, 3) at
      N = 6, where exact integer Krylov ranks give 8, 22 and 22, two more than the ladders; those two
      need the chain's mirror (couplings the reflection keeps hold them, others fall to the ladder count),
-     and at N = 4 they are exhibited from Hamiltonian eigenstates on the mirror-pair configurations.
+     and at N = 4 they are exhibited from Hamiltonian eigenstates on the mirror-pair configurations. The mirror
+     pairs build them at N = 4, 6, 8: the filled mirror orbitals (one excitation on every mirror pair, energies
+     +-J_c) against Lambda^dagger|0>, a staggered sum of full mirror pairs at energy 0, of which S+ of the mirror
+     R is a multiple; their two products sit at Hamming distance N/2 alone and, with the ladder images, span the
+     room of the block (N/2, 2), rank C(N, N/2) + 2, met from above on the uniform chain at N = 8. Only those
+     orbitals live wholly on the one-per-pair kets, and only (Lambda^dagger)^m|0> on the empty-or-full ones; the
+     products of all m, their transposes and their ladder images, beside the boundary ladder images, span the
+     room at k = N/2 wherever it exceeds the ladders at N = 4, 6, and give at least 74 in (4, 4) at N = 8.
 """
 import numpy as np
 
@@ -563,7 +570,7 @@ def closure_room(n, p, q, k, P):
 
 
 P1, P2 = 32749, 32719
-EXCESS = {(4, 2, 2, 2): 8, (6, 3, 2, 3): 22, (6, 4, 3, 3): 22}             # measured, unexplained: the room above the ladders
+EXCESS = {(4, 2, 2, 2): 8, (6, 3, 2, 3): 22, (6, 4, 3, 3): 22}             # the room above the ladders at k = N/2
 ok8i, ok8b, ok8u, seen = True, True, True, {}
 for n in (3, 4, 5, 6):
     for p in range(n + 1):
@@ -714,5 +721,174 @@ check("the excess at k = N/2 needs the chain's mirror: couplings the reflection 
       "and (1, 3, 1), the six ladder images and two operators |v><phi| with H v = +-J_c v (J_c the central bond) on "
       "one excitation per mirror pair and phi = |0110> - |1001>, every cell at Hamming distance 2, span 8",
       ok8m and ok8x, f"{mirror} {mirror6}")
+
+# the excess built from the mirror pairs: the filled mirror orbitals Psi_e, Psi_o (one excitation on every mirror pair,
+# energies +-J_c) against Lambda^dagger|0> = sum_l (-1)^l |{l, N-1-l}> (a whole mirror pair, staggered, energy 0)
+def mirror_seeds(n, J):
+    M = n // 2; Jc = J[M - 1]
+    Hm, bm = h_sector_bonds(n, M, J); H2, b2 = h_sector_bonds(n, 2, J)
+    lam = np.zeros(len(b2), dtype=np.int64)
+    for l in range(M):
+        lam[b2.index((1 << l) | (1 << (n - 1 - l)))] = (-1) ** l
+    ok = np.array_equal(H2 @ lam, 0 * lam)
+    O = [i for i, A in enumerate(bm) if all(((A >> l) & 1) != ((A >> (n - 1 - l)) & 1) for l in range(M))]
+    seeds = []
+    for e in (Jc, -Jc):
+        Mx = sp.Matrix(Hm[:, O]) - e * sp.Matrix(np.eye(len(bm), dtype=np.int64)[:, O])
+        nsp = Mx.nullspace()
+        ok &= len(nsp) == 1                               # one eigenstate at +-J_c living on one-per-pair kets
+        w = nsp[0] * sp.ilcm(*[x.q for x in nsp[0]])
+        v = np.zeros(len(bm), dtype=np.int64); v[O] = [int(x) for x in w]
+        ok &= np.array_equal(Hm @ v, e * v)
+        seeds.append(np.outer(v, lam).ravel())
+    ham = np.array([bin(A ^ B).count("1") for A in bm for B in b2])
+    ok &= all(not np.any(X[ham != M]) for X in seeds)     # every mirror pair disagrees once: height N/2
+    V = phi(n, M - 1, 1) @ (splus(n, M - 1, 1).T @ np.eye(comb(n, M), dtype=np.int64))   # ladder images in (M, 2)
+    H1, _ = h_sector_bonds(n, 1, J); H0, _ = h_sector_bonds(n, 0, J)
+    Kt = np.kron(Hm, np.eye(len(b2), dtype=np.int64)) - np.kron(np.eye(len(bm), dtype=np.int64), H2.T)
+    Ks = np.kron(Hm, np.eye(1, dtype=np.int64)) - np.kron(np.eye(len(bm), dtype=np.int64), H0.T)
+    ok &= np.array_equal(Kt @ V, V @ Ks)                  # the ladder images are kept at these couplings
+    b1 = subsets(n, 1); Rm = np.zeros((n, n), dtype=np.int64)  # the mirror as an operator of (1, 1)
+    for i, a in enumerate(b1):
+        Rm[b1.index(1 << (n - 1 - (a.bit_length() - 1))), i] = 1
+    ok &= np.array_equal(H1 @ Rm, Rm @ H1) and not np.any(np.diag(Rm))           # frozen in (1, 1), no diagonal
+    ok &= np.array_equal(splus(n, 1, 1) @ Rm.ravel(), 2 * lam)                    # S+ carries it onto Lambda|0><0|
+    rank = rank_mod(np.vstack([V.T] + [x[None, :] for x in seeds]), P1)
+    return ok, rank
+
+
+mirror_rk = {(n, tuple(J)): mirror_seeds(n, J) for n, J in [(4, [1, 1, 1]), (4, [1, 3, 1]), (6, [1] * 5), (6, [2, 1, 3, 1, 2]),
+                                                     (8, [1] * 7), (8, [1, 2, 1, 3, 1, 2, 1])]}
+ok8f = all(o and r == comb(n, n // 2) + 2 for (n, _), (o, r) in mirror_rk.items())
+up8 = min(closure_room(8, 4, 2, 4, P) for P in (P1, P2))     # the room of (4, 2) at N = 8 from above
+check("the excess built from the mirror pairs, N = 4, 6, 8 (uniform and mirror-symmetric couplings): Lambda^dagger|0>, a "
+      "staggered sum of full mirror pairs, has energy 0, and the spin ladder carries the mirror R, frozen in (1, 1) with "
+      "no diagonal, onto 2 Lambda^dagger|0><0|; one eigenstate at +J_c and one at -J_c lives wholly on the kets "
+      "with one excitation per mirror pair; the two products sit at Hamming distance N/2 alone and are independent "
+      "of the C(N, N/2) ladder images in the block (N/2, 2), rank C(N, N/2) + 2; on the uniform chain at N = 8 the upper bound meets it, 72",
+      ok8f and up8 == comb(8, 4) + 2, f"ranks {[r for _, r in mirror_rk.values()]}, upper bound N = 8: {up8}")
+
+def kept_inside(n, p, inset, P):
+    """largest subspace the p-excitation hopping keeps inside span{configs in the set}: dimension minus the rank of
+    the H-closure of the unit functionals off the set (mod P, an upper bound on the dimension)"""
+    H, b = h_sector_bonds(n, p, [1] * (n - 1)); H = H % P
+    piv, basis = [], np.zeros((0, len(b)), dtype=np.int64)
+    front = [np.eye(len(b), dtype=np.int64)[i] for i, s in enumerate(b) if not inset(s)]
+    while front:
+        new = []
+        for v in front:
+            v = v % P
+            if piv:
+                v = (v - v[piv] @ basis) % P
+            nz = np.nonzero(v)[0]
+            if not len(nz):
+                continue
+            c = nz[0]; v = (v * pow(int(v[c]), P - 2, P)) % P
+            if piv:
+                basis = (basis - np.outer(basis[:, c], v)) % P
+            basis = np.vstack([basis, v]); piv.append(c); new.append(v)
+        front = [(H @ v) % P for v in new]
+    return len(b) - len(piv)
+
+
+def move(n, X, a, b, A, B):
+    """carry the operators (columns of X) of the block (a, b) to (A, B) by powers of S+-, Phi and its adjoint"""
+    ds, de = (A - B) - (a - b), (A + B) - (a + b)
+    if ds % 2 or de % 2:
+        return None
+    for _ in range(abs(ds) // 2):
+        if ds > 0:
+            if b < 1:
+                return None
+            X = splus(n, a, b) @ X; a, b = a + 1, b - 1
+        else:
+            if a < 1:
+                return None
+            X = splus(n, a - 1, b + 1).T @ X; a, b = a - 1, b + 1
+    for _ in range(abs(de) // 2):
+        if de > 0:
+            if a + 1 > n or b + 1 > n:
+                return None
+            X = phi(n, a, b) @ X; a, b = a + 1, b + 1
+        else:
+            if a < 1 or b < 1:
+                return None
+            X = phi(n, a - 1, b - 1).T @ X; a, b = a - 1, b - 1
+    return X
+
+
+def pair_products(n):
+    """|Psi_eo><Lambda^m 0| and the transposes, m = 1..N/2 - 1, uniform chain, as (operator, block)"""
+    M = n // 2
+    one = lambda s: all(((s >> l) & 1) != ((s >> (n - 1 - l)) & 1) for l in range(M))
+    sym = lambda s: all(((s >> l) & 1) == ((s >> (n - 1 - l)) & 1) for l in range(M))
+    def eig_on(p, inset, e):
+        H, b = h_sector_bonds(n, p, [1] * (n - 1)); S = [i for i, s in enumerate(b) if inset(s)]
+        m = sp.Matrix(H[:, S]) - e * sp.Matrix(np.eye(len(b), dtype=np.int64)[:, S]); out = []
+        for v in m.nullspace():
+            w = v * sp.ilcm(*[x.q for x in v]); x = np.zeros(len(b), dtype=np.int64); x[S] = [int(t) for t in w]; out.append(x)
+        return out
+    psis = eig_on(M, one, 1) + eig_on(M, one, -1)
+    out = []
+    for m in range(1, M):
+        lam = eig_on(2 * m, sym, 0)
+        if len(lam) != 1:
+            return None, psis
+        for v in psis:
+            out += [(np.outer(v, lam[0]).ravel(), (M, 2 * m)), (np.outer(lam[0], v).ravel(), (2 * m, M))]
+    return out, psis
+
+
+ok8u2, ok8b2 = True, True
+for n in (4, 6, 8):
+    _, ps = pair_products(n)
+    for v in ps:                                          # Psi_e, Psi_o as integer amplitude tensors on 2^N
+        _, bm = h_sector_bonds(n, n // 2, [1] * (n - 1))
+        T = np.zeros(2 ** n, dtype=np.int64)
+        for amp, s in zip(v, bm):
+            T[s] = amp
+        T = T.reshape([2] * n)                             # axis k is bit n - 1 - k
+        for l in range(n // 2):
+            ax = [n - 1 - l, l]
+            A = np.moveaxis(T, ax, [0, 1]).reshape(4, -1)
+            ok8b2 &= bool(np.any(A)) and all(not np.any(np.outer(A[i], A[j]) - np.outer(A[j], A[i]))
+                                             for i in range(4) for j in range(i + 1, 4))   # rank 1 exactly: every 2x2 minor 0
+            nz = np.abs(A[A != 0]); ok8b2 &= bool(np.all(nz == nz[0]))     # and equal moduli: Bell pairs
+    M = n // 2
+    ok8u2 &= kept_inside(n, M, lambda s: all(((s >> l) & 1) != ((s >> (n - 1 - l)) & 1) for l in range(M)), P1) == 2
+    ok8u2 &= all(kept_inside(n, 2 * m, lambda s: all(((s >> l) & 1) == ((s >> (n - 1 - l)) & 1) for l in range(M)), P1) == 1
+                 for m in range(M + 1))
+check("only the two filled mirror orbitals live wholly on the kets with one excitation per mirror pair, and only "
+      "(Lambda^dagger)^m|0> on those with every pair empty or full (uniform chain, N = 4, 6, 8: the largest subspace the "
+      "hopping keeps there has dimension at most 2 and 1, modulo a prime; Psi_e, Psi_o and the staggered pairs, built "
+      "in the checks around it, reach it), and Psi_e, Psi_o are products of one Bell state on every mirror pair "
+      "(integer amplitudes, rank 1 exactly between each pair and the rest, equal moduli)", ok8u2 and ok8b2)
+
+span_ok, spans = True, {}
+for n, blocks in ((4, [(2, 2)]), (6, [(3, 2), (2, 3), (4, 3), (3, 4)]), (8, [(3, 3), (4, 4)])):
+    prods, _ = pair_products(n)
+    span_ok &= prods is not None
+    for (p, q) in blocks:
+        vecs = list(move(n, np.eye(comb(n, n // 2), dtype=np.int64), n // 2, 0, p, q).T)
+        for X, (a, b) in prods:
+            Y = move(n, X[:, None], a, b, p, q)
+            if Y is not None and np.any(Y):
+                vecs.append(Y[:, 0])
+        V = np.array(vecs)
+        _, bp = h_sector(n, p); _, bq = h_sector(n, q)
+        ham = np.array([bin(A ^ B).count("1") for A in bp for B in bq])
+        span_ok &= not np.any(V[:, ham != n // 2])                       # every vector at distance N/2 alone
+        r = rank_mod(V, P1)
+        span_ok &= rank_mod(np.vstack([V, (turn(n, p, q) @ V.T).T]), P1) == r   # and the span kept by the turning
+        spans[(n, p, q)] = r
+        target = EXCESS.get((n, max(p, q), min(p, q), n // 2)) if n < 8 else comb(8, 4) + (4 if p == q == 4 else 2)
+        span_ok &= r == target
+check("on the uniform chain the ladder images of the boundary block (N/2, 0), with the mirror-pair products and their "
+      "ladder images, lie at distance N/2 alone, span a subspace consistent with being kept by the turning (modulo a prime; "
+      "kept exactly by Lemmas 2.2, 2.3 and the exact eigenvectors), and fill the room at k = N/2 where it "
+      "exceeds the ladders: every such block at N = 4, 6 (the room from above by the closure ranks of G8); at N = 8 at "
+      "least C(8, 4) + 2 = 72 in (3, 3) and C(8, 4) + 4 = 74 in (4, 4)",
+      span_ok, f"{spans}")
+
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
