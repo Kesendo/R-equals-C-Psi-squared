@@ -34,7 +34,10 @@ using static MirrorWorld.LetterCube;
 // at once: two positions of a window fix the step, so a traverse holds on every open chain. Uniform: one map on every
 // site. Turned: the map turned about Z by an angle from site to site, z with |z| = 1, pinned by z^k = Num/Den with
 // |Num| = |Den|. Periodic: kinds and turns repeating with a period p. Stepped: the turns step, but no turn of the map
-// carries one site onto the next.
+// carries one site onto the next. Closed (EveryN with closed): the cell's rings instead of its chains, the closed
+// traverse, where the turns must come back to themselves after one round; the answer for every N is a set of moduli,
+// the routes it reads closing the ring of N sites at least when one of them divides N, a missing N left undecided
+// (ClosedTraverse).
 //
 // Relabelled (ReadRelabelled): the sandwich after a permutation P_pi of the sites, E·P_pi, for every pi that carries
 // the setting's supports onto themselves (on a chain the reversal, on a ring its rotations and reflections). P_pi
@@ -92,7 +95,7 @@ public sealed class Theodolite : GameObject
     static bool Gauge(Relation rel, bool transposed, IEnumerable<(Kind A, Kind B)> kinds)
         => rel == Relation.Copy && !transposed && kinds.All(k => k == (Kind.Diagonal, Kind.Diagonal));
     public enum Kind { Diagonal, AntiDiagonal }
-    public enum Shape { Uniform, Turned, Periodic, Stepped }
+    public enum Shape { Uniform, Turned, Periodic, Stepped, Closed }
 
     static readonly (Kind, Kind)[] KindPairs =
     {
@@ -241,6 +244,24 @@ public sealed class Theodolite : GameObject
                     h.Add((OnSites(length, off.Select(o => start + o).ToArray(), letters.ToCharArray()), c));
             var jumps = Enumerable.Range(0, length).SelectMany(l => Jumps.Select(j => (l, j.Jump, j.Rate)));
             return new Setting(length, h, jumps);
+        }
+
+        // the smallest ring the cell closes into: every window on sites of its own, and at least three sites
+        public int SmallestRing => Math.Max(3, Span);
+
+        // the cell on every site of a ring of n sites, every window at every start, its sites taken modulo n
+        public Setting Ring(int n)
+        {
+            if (n < SmallestRing) throw new ArgumentOutOfRangeException(nameof(n), n, $"a ring of this cell has at least {SmallestRing} sites");
+            var h = new List<(PauliString, long)>();
+            for (int l = 0; l < n; l++)
+                foreach (var (letter, c) in Fields)
+                    h.Add((OnSites(n, new[] { l }, new[] { letter }), c));
+            foreach (var (letters, off, c) in Windows)
+                for (int start = 0; start < n; start++)
+                    h.Add((OnSites(n, off.Select(o => (start + o) % n).ToArray(), letters.ToCharArray()), c));
+            var jumps = Enumerable.Range(0, n).SelectMany(l => Jumps.Select(j => (l, j.Jump, j.Rate)));
+            return new Setting(n, h, jumps);
         }
 
         static PauliString OnSites(int n, int[] sites, char[] letters)
@@ -915,11 +936,31 @@ public sealed class Theodolite : GameObject
 
     // ---------------------------------------------------------------- every N
 
+    // Closed: the routes that close (the fewest moduli, every other a multiple of none of them) and the smallest ring;
+    // Shape, Period, Transposed, Kinds and System are then the first route's.
     public sealed record Traverse(Shape Shape, int Period, bool Transposed, IReadOnlyList<(Kind A, Kind B)> Kinds,
-        Binomials.Reduced System, (int K, GaussBig Num, GaussBig Den)? Turn)
+        Binomials.Reduced System, (int K, GaussBig Num, GaussBig Den)? Turn,
+        IReadOnlyList<Closure>? Closures = null, int SmallestRing = 0)
     {
+        // a closed traverse: true when a route it read closes a ring of n sites; false means not read here, not that
+        // no ring element exists (another shape, a longer period, a ring shorter than SmallestRing)
+        public bool Closes(int n)
+        {
+            if (Closures is null) throw new InvalidOperationException("only a closed traverse reads rings");
+            return n >= SmallestRing && Closures.Any(c => n % c.Modulus == 0);
+        }
+
         public IEnumerable<string> Lines()
         {
+            if (Closures is { } routes)
+            {
+                yield return routes.Any(c => c.Modulus == 1)
+                    ? $"closed: every ring of N >= {SmallestRing} sites closes"
+                    : $"closed: a ring of N >= {SmallestRing} sites closes at least when {string.Join(" or ", routes.Select(c => $"{c.Modulus} | N"))}";
+                foreach (var c in routes)
+                    foreach (var line in c.Lines()) yield return $"  {line}";
+                yield break;
+            }
             string form = Transposed ? "A·rho^T·B" : "A·rho·B";
             yield return Shape switch
             {
@@ -931,6 +972,25 @@ public sealed class Theodolite : GameObject
             };
             for (int c = 0; c < Kinds.Count; c++)
                 yield return $"  class {c}: A {Name(Kinds[c].A, "x")}, B {Name(Kinds[c].B, "y")}";
+            foreach (var line in System.Lines()) yield return $"  {line}";
+        }
+    }
+
+    // One route round a ring: kinds repeating with the period p, the turns of class c on site l = b·p + c stepping from
+    // one period to the next, x_l = P_c·r^b and y_l = Q_c·s^b; System is the chain's reduced system in the classes and
+    // the steps, and the route closes a ring of N sites at least when Modulus | N (p | N, and r^(N/p) = s^(N/p) = 1 is
+    // consistent with System).
+    public sealed record Closure(int Modulus, int Period, bool Transposed, IReadOnlyList<(Kind A, Kind B)> Kinds,
+        Binomials.Reduced System)
+    {
+        public IEnumerable<string> Lines()
+        {
+            string form = Transposed ? "A·rho^T·B" : "A·rho·B";
+            string rounds = Period == 1 ? "N" : $"(N/{Period})";
+            yield return $"{Modulus} | N: rho -> {form}, period {Period}, the turns stepping by r and s from one period to the next, " +
+                         $"r^{rounds} = s^{rounds} = 1";
+            for (int c = 0; c < Kinds.Count; c++)
+                yield return $"  class {c}: A {Name(Kinds[c].A, $"P{c}·r^b")}, B {Name(Kinds[c].B, $"Q{c}·s^b")}";
             foreach (var line in System.Lines()) yield return $"  {line}";
         }
     }
@@ -1000,8 +1060,11 @@ public sealed class Theodolite : GameObject
     }
 
     // A chain built from one repeated cell, read from the letters for every length (open chains), or null when the
-    // letters are silent. rateFree: the element must hold at every rate of every channel. branch: as in Read.
-    public static Traverse? EveryN(Cell cell, Relation rel, bool rateFree = false, int maxPeriod = 4, bool? branch = null)
+    // letters are silent. rateFree: the element must hold at every rate of every channel. branch: as in Read. closed:
+    // the rings of the cell instead, read for every N as the closed traverse (ClosedTraverse), periods up to maxPeriod
+    // and at most (13 - Span)/2.
+    public static Traverse? EveryN(Cell cell, Relation rel, bool rateFree = false, int maxPeriod = 4, bool? branch = null,
+        bool closed = false)
     {
         var branches = Branches(branch);
         cell = cell.Normalized();
@@ -1021,6 +1084,7 @@ public sealed class Theodolite : GameObject
                 catch (SilentException) { }
             }
         }
+        if (closed) return ClosedTraverse(cell, rel, branches, allowed, pieces, Math.Min(maxPeriod, (13 - span) / 2));
         int length = span + 1;
         var geo = new List<(bool Tr, (Kind A, Kind B) K, List<Binomial> Eqs)>();
         IReadOnlyDictionary<string, int> Geometric(string u)
@@ -1088,6 +1152,89 @@ public sealed class Theodolite : GameObject
                 }
         }
         return stepped;
+    }
+
+    // ---------------------------------------------------------------- the closed traverse
+    //
+    // A ring of N sites built from the cell. Round a ring the turns must come back to themselves, so on every route
+    // (kinds repeating with a period p, the turns stepping by r and s from one period to the next) the ring closes
+    // when p | N and r^(N/p) = s^(N/p) = 1 is consistent with the chain's system: the reading for every N is the
+    // traverse's misclosure. Only this direction is argued; that a ring's wrap equations force the closure back is
+    // not. The chain of 2p + Span - 1 sites holds every window at every start c < p and again at
+    // c + p, one period further, so on a ring the window at any start reads the same equation as at its start modulo p,
+    // shifted by a power of the steps the chain already sets to one, and every site the same site table; a support
+    // several windows share (a short ring) carries their sum, and an equation linear in the support's Hamiltonian that
+    // each window meets the sum meets too.
+    //
+    // Which N, exactly and for every N: the rows of the reduced system whose pivot is a step hold the steps alone (the
+    // elimination runs over the classes first), and they span the lattice Lambda of the steps' exponents left by every
+    // relation free of the classes, their constants a character chi on it. The closure r^k = s^k = 1 is consistent
+    // exactly when chi is 1 on Lambda ∩ kZ², which holds for some k only if chi takes roots of unity, and the only roots
+    // of unity among Gaussian rationals are ±1 and ±i. In a Smith basis b_i of Lambda, b_i = d_i·e_i in a basis e_i of
+    // Z², the condition reads ord(chi(b_i)) | k / gcd(d_i, k), with ord dividing 4: so the k that close are the
+    // multiples of one power of two, at most 4 times the power of two in the product of the d_i (the index the step rows
+    // give, or the gcd of the one step row), and it is found by trying k = 1, 2, 4, ... up to that bound. A route closes
+    // on the N with p·k | N; the traverse keeps the fewest moduli.
+    //
+    // A missing N is not decided here: a ring may carry a product of another shape (turns neither stepping nor
+    // repeating) or of a period past the ones read (the chain of 2p + Span - 1 sites must fit the twelve a setting
+    // holds, so p stops at (13 - Span)/2), and Read on the ring itself decides it.
+    static Traverse? ClosedTraverse(Cell cell, Relation rel, bool[] branches, Dictionary<bool, List<(Kind, Kind)>> allowed,
+        IReadOnlyList<Gauss[,]> pieces, int maxPeriod)
+    {
+        int span = cell.Span;
+        var found = new List<Closure>();
+        for (int p = 1; p <= maxPeriod; p++)
+        {
+            int len = 2 * p + span - 1;
+            var unknowns = Enumerable.Range(0, p).SelectMany(c => new[] { $"P{c}", $"Q{c}" }).Concat(new[] { "r", "s" }).ToList();
+            IReadOnlyDictionary<string, int> Round(string u)
+            {
+                int l = int.Parse(u[1..]);
+                var (cls, step) = u[0] == 'x' ? ($"P{l % p}", "r") : ($"Q{l % p}", "s");
+                return l / p == 0 ? new Dictionary<string, int> { [cls] = 1 } : new Dictionary<string, int> { [cls] = 1, [step] = l / p };
+            }
+            foreach (bool transposed in branches)
+                foreach (var pattern in Patterns(allowed[transposed], p))
+                {
+                    if (Gauge(rel, transposed, pattern)) continue;
+                    List<Binomial> g;
+                    try
+                    {
+                        var eqs = ChainEquations(cell, rel, transposed, Enumerable.Range(0, len).Select(l => pattern[l % p]).ToList(), len, pieces);
+                        if (eqs is null) continue;
+                        g = Substitute(eqs, Round);
+                    }
+                    catch (SilentException) { continue; }
+                    var red = Binomials.Solve(g, unknowns);
+                    if (red is null) continue;
+                    if (Rounds(red, g, unknowns) is { } k) found.Add(new Closure(p * k, p, transposed, pattern, red));
+                }
+        }
+        var kept = new List<Closure>();
+        foreach (var c in found.OrderBy(c => c.Modulus).ThenBy(c => c.Period))
+            if (!kept.Any(k => c.Modulus % k.Modulus == 0)) kept.Add(c);
+        if (kept.Count == 0) return null;
+        var first = kept[0];
+        return new Traverse(Shape.Closed, first.Period, first.Transposed, first.Kinds, first.System, null, kept, cell.SmallestRing);
+    }
+
+    // the fewest periods k round the ring with r^k = s^k = 1 consistent (a power of two), or null when no k is
+    static int? Rounds(Binomials.Reduced red, List<Binomial> g, List<string> unknowns)
+    {
+        int ir = unknowns.Count - 2, js = unknowns.Count - 1;
+        var steps = Enumerable.Range(0, red.Exponents.Count).Where(i => red.Pivots[i] >= ir).Select(i => red.Exponents[i]).ToList();
+        long index = steps.Count switch
+        {
+            0 => 1,
+            1 => (long)global::System.Numerics.BigInteger.GreatestCommonDivisor(steps[0][ir], steps[0][js]),
+            _ => (long)steps[0][ir] * steps[1][js],
+        };
+        int bound = 2;
+        for (long v = Math.Abs(index); v % 2 == 0; v /= 2) bound++;
+        for (int a = 0, k = 1; a <= bound; a++, k *= 2)
+            if (Binomials.Solve(g.Append(Pin("r", k, "closure")).Append(Pin("s", k, "closure")), unknowns) is not null) return k;
+        return null;
     }
 
     static IEnumerable<IReadOnlyList<(Kind, Kind)>> Patterns(IReadOnlyList<(Kind, Kind)> options, int p)

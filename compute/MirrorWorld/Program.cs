@@ -2570,6 +2570,26 @@ if (args.Length > 0 && args[0] == "theodolite")
         foreach (var tdLine in tdTraverse.Lines()) Console.WriteLine($"    {tdLine}");
     }
     Console.WriteLine();
+    Console.WriteLine("  every ring, the closed traverse: the turns must come back to themselves after one round, so the reading for");
+    Console.WriteLine("  every N is the misclosure, a set of moduli (a missing N is not decided; Read on that ring decides it):");
+    var tdRatio = new[] { (LetterCube.Lowering, 4L), (LetterCube.Raising, 1L) };
+    var tdRings = new (string, Theodolite.Cell)[]
+    {
+        ("the XY ring, Z dephasing", new Theodolite.Cell(new[] { (tdZ, 1L) }, null, new[] { ("XX", tdBond, 1L), ("YY", tdBond, 1L) })),
+        ("pure DM, Z dephasing", tdCells[4].Item2),
+        ("pure DM, one ratio 1/4 and a field Z (F137: e^(2i·Phi) = (-1)^N on every ring)",
+            new Theodolite.Cell(tdRatio, new[] { ('Z', 1L) }, new[] { ("XY", tdBond, 1L), ("YX", tdBond, -1L) })),
+        ("Heisenberg + DM, D/J = 1/2 (the turn (3 + 4i)/5 is no root of unity)", tdCells[3].Item2),
+        ("the golden window (F116's router on the ring)", tdCells[5].Item2),
+    };
+    foreach (var (tdName, tdCell) in tdRings)
+    {
+        Console.WriteLine($"  {tdName}:");
+        var tdClosed = Theodolite.EveryN(tdCell, Theodolite.Relation.Pi, branch: false, closed: true);
+        if (tdClosed is null) { Console.WriteLine("    no route closes a ring"); continue; }
+        foreach (var tdLine in tdClosed.Lines()) Console.WriteLine($"    {tdLine}");
+    }
+    Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The letters, heights, steps, arrows and moves are the cube's; the equations a");
     Console.WriteLine("  mirror must meet, the reading and every N are the theodolite's own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", tdTheodolite.Own)}");

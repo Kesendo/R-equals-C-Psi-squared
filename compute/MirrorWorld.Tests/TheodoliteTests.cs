@@ -614,6 +614,156 @@ public class TheodoliteTests
         Assert.Equal(4, t.Period);
     }
 
+    // ---- the closed traverse: every ring ----
+
+    // (name, cell, relation, plain moduli, transposed moduli); an empty list: no route closes any ring
+    static IEnumerable<(string, Theodolite.Cell, Theodolite.Relation, int[], int[])> Rings()
+    {
+        var z = new[] { (Zm, 1L) };
+        var ratio = new[] { (Lowering, 4L), (Raising, 1L) };
+        var field = new[] { ('Z', 1L) };
+        int[] bond = { 0, 1 }, window = { 0, 1, 2 };
+        Theodolite.Cell On(IEnumerable<(Gauss[,], long)> j, (char, long)[]? f, int[] offsets, params (string, long)[] terms)
+            => new(j, f, terms.Select(t => (t.Item1, offsets, t.Item2)));
+        int[] none = Array.Empty<int>();
+        yield return ("XY, Z dephasing", On(z, null, bond, ("XX", 1), ("YY", 1)), Theodolite.Relation.Pi, new[] { 2 }, new[] { 1 });
+        yield return ("Heisenberg, Z dephasing", On(z, null, bond, ("XX", 1), ("YY", 1), ("ZZ", 1)), Theodolite.Relation.Pi, none, new[] { 1 });
+        yield return ("pure DM, Z dephasing", On(z, null, bond, ("XY", 1), ("YX", -1)), Theodolite.Relation.Pi, new[] { 2 }, new[] { 2 });
+        yield return ("twisted 3 + 4i, Z dephasing", On(z, null, bond, ("XX", 3), ("YY", 3), ("XY", 4), ("YX", -4)), Theodolite.Relation.Pi, none, none);
+        yield return ("XY, one ratio and a field", On(ratio, field, bond, ("XX", 1), ("YY", 1)), Theodolite.Relation.Pi, new[] { 2 }, none);
+        yield return ("pure DM, one ratio and a field", On(ratio, field, bond, ("XY", 1), ("YX", -1)), Theodolite.Relation.Pi, new[] { 1 }, none);
+        yield return ("XY, Z dephasing, a copy", On(z, null, bond, ("XX", 1), ("YY", 1)), Theodolite.Relation.Copy, new[] { 1 }, new[] { 2 });
+        yield return ("the golden bond", On(z, null, bond, ("XX", 1), ("XY", 1), ("YX", 1)), Theodolite.Relation.Pi, new[] { 2 }, new[] { 1 });
+        yield return ("the hard row XX + XY", On(z, null, bond, ("XX", 1), ("XY", 1)), Theodolite.Relation.Pi, none, none);
+        yield return ("the c = 0 window", On(z, null, window, ("XZY", 1), ("YZX", 1)), Theodolite.Relation.Pi, new[] { 1 }, new[] { 1 });
+        yield return ("the golden window", On(z, null, window, ("XZX", 1), ("XZY", 1), ("YZX", 1)), Theodolite.Relation.Pi, new[] { 4 }, new[] { 4 });
+        yield return ("Heisenberg + DM, D/J = 1/2", On(z, null, bond, ("XX", 2), ("YY", 2), ("ZZ", 2), ("XY", 1), ("YX", -1)), Theodolite.Relation.Pi, none, none);
+        // a twist of an eighth turn per bond, (1 + i)^2/2 = i: four rounds before the turns come back
+        yield return ("XX + YY + XY - YX, Z dephasing", On(z, null, bond, ("XX", 1), ("YY", 1), ("XY", 1), ("YX", -1)), Theodolite.Relation.Pi, new[] { 4 }, new[] { 4 });
+    }
+
+    // The closed traverse against the rings themselves: Read on a real ring of N sites (every site's kind chosen
+    // afresh, no step or period assumed) closes exactly where the traverse says, N up to 8. Pure DM under one ratio and
+    // a field closes every ring while under Z dephasing only the even ones: F137's e^(2i·Phi) = (-1)^N, met by the
+    // frustration the ring's length brings.
+    [Fact]
+    public void The_Closed_Traverse_Reads_Every_Ring_The_Ring_Itself_Confirms()
+    {
+        foreach (var (name, cell, rel, plain, transposed) in Rings())
+            foreach (var (branch, moduli) in new[] { (false, plain), (true, transposed) })
+            {
+                var t = Theodolite.EveryN(cell, rel, branch: branch, closed: true);
+                if (moduli.Length == 0) Assert.Null(t);
+                else
+                {
+                    Assert.NotNull(t);
+                    Assert.Equal(Theodolite.Shape.Closed, t!.Shape);
+                    Assert.Equal(moduli, t.Closures!.Select(c => c.Modulus).ToArray());
+                }
+                for (int n = cell.Normalized().SmallestRing; n <= 8; n++)
+                {
+                    bool ring = Theodolite.Read(cell.Normalized().Ring(n), rel, branch) is not null;
+                    Assert.True(ring == (t is not null && t.Closes(n)), $"{name}, {(branch ? "transposed" : "plain")}, N = {n}: the ring reads {ring}");
+                }
+            }
+    }
+
+    // The bound from the step lattice against the closure tried at every k: a route closes after k periods exactly
+    // when its modulus over its period divides k, k up to 40.
+    [Fact]
+    public void A_Route_Closes_On_The_Multiples_Of_Its_Modulus_And_Nowhere_Else()
+    {
+        foreach (var (name, cell, rel, _, _) in Rings())
+        {
+            var t = Theodolite.EveryN(cell, rel, closed: true);
+            if (t is null) continue;
+            foreach (var c in t.Closures!)
+            {
+                int periods = c.Modulus / c.Period;
+                for (int k = 1; k <= 40; k++)
+                {
+                    bool closes = Binomials.Solve(Pinned(c.System).Append(B($"r^{k}", 1)).Append(B($"s^{k}", 1)), c.System.Unknowns) is not null;
+                    Assert.True(closes == (k % periods == 0), $"{name}, period {c.Period}, k = {k}");
+                }
+            }
+        }
+    }
+
+    // The golden window's ring: a period of two sites whose turns change sign from one period to the next, r = -1,
+    // so the turns repeat after four sites (F116's router [a, a, b, b] on the ring, docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md
+    // §8); r = 1 does not close.
+    [Fact]
+    public void The_Golden_Window_Closes_Every_Fourth_Ring_By_A_Sign_Each_Period()
+    {
+        var golden = Cell(new[] { (Zm, 1L) }, ("XZX", new[] { 0, 1, 2 }, 1), ("XZY", new[] { 0, 1, 2 }, 1), ("YZX", new[] { 0, 1, 2 }, 1));
+        var t = Theodolite.EveryN(golden, Theodolite.Relation.Pi, closed: true);
+        Assert.NotNull(t);
+        var c = Assert.Single(t!.Closures!);
+        Assert.Equal(4, c.Modulus);
+        Assert.Equal(2, c.Period);
+        Assert.NotNull(Binomials.Solve(Pinned(c.System).Append(B("r", -1)), c.System.Unknowns));
+        Assert.Null(Binomials.Solve(Pinned(c.System).Append(B("r", 1)), c.System.Unknowns));
+        Assert.True(t.Closes(4) && t.Closes(8) && t.Closes(400) && !t.Closes(6) && !t.Closes(10));
+    }
+
+    // The ring the census reads is the physical ring: on the XY ring of four sites the reading, built densely at its
+    // rational point, carries the full generator, the wrap bond included, onto -L - c.
+    [Fact]
+    public void The_Ring_Is_The_Ring()
+    {
+        var xy = Cell(new[] { (Zm, 1L) }, ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1));
+        var ring = xy.Ring(4);
+        Assert.Equal(8, ring.H.Count);
+        var r = Theodolite.Read(ring, Theodolite.Relation.Pi, false);
+        Assert.NotNull(r);
+        Assert.True(ReflectsAtRationalPoint(ring, Theodolite.Relation.Pi, r!));
+        Assert.Null(Theodolite.Read(xy.Ring(3), Theodolite.Relation.Pi, false));
+        Assert.Throws<ArgumentOutOfRangeException>(() => xy.Ring(2));
+        // a period whose chain would pass twelve sites is not read: the periods stop at (13 - Span)/2
+        Assert.Equal(new[] { 2 }, Theodolite.EveryN(xy, Theodolite.Relation.Pi, maxPeriod: 9, branch: false, closed: true)!.Closures!.Select(c => c.Modulus));
+    }
+
+    // A route's own element, built densely on the ring from its turns, x_l = P_(l mod p)·r^(l div p), at a rational
+    // point of its system closed after n/p periods, carries the full generator of the four-site ring onto -L - c: the
+    // XY ring (a sign per site), pure DM (a sign on one side) and the eighth twist (a quarter turn per site, r = ±i).
+    // With the step dropped (r = s = 1) the same element fails.
+    [Fact]
+    public void A_Route_Built_On_The_Ring_Carries_The_Generator()
+    {
+        var z = new[] { (Zm, 1L) };
+        foreach (var cell in new[]
+                 {
+                     Cell(z, ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1)),
+                     Cell(z, ("XY", new[] { 0, 1 }, 1), ("YX", new[] { 0, 1 }, -1)),
+                     Cell(z, ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1), ("XY", new[] { 0, 1 }, 1), ("YX", new[] { 0, 1 }, -1)),
+                 })
+        {
+            var c = Theodolite.EveryN(cell, Theodolite.Relation.Pi, branch: false, closed: true)!.Closures![0];
+            Assert.True(RouteReflects(cell, Theodolite.Relation.Pi, c, 4, stepped: true));
+            Assert.False(RouteReflects(cell, Theodolite.Relation.Pi, c, 4, stepped: false));
+        }
+    }
+
+    static bool RouteReflects(Theodolite.Cell cell, Theodolite.Relation rel, Theodolite.Closure c, int n, bool stepped)
+    {
+        int k = n / c.Period;
+        var red = Binomials.Solve(Pinned(c.System).Append(B($"r^{k}", 1)).Append(B($"s^{k}", 1)), c.System.Unknowns);
+        Assert.NotNull(red);
+        var sol = Binomials.RationalSolution(red!);
+        Assert.NotNull(sol);
+        (GaussBig, GaussBig) Turn(string cls, string step, int l)
+        {
+            var (num, den) = sol![$"{cls}{l % c.Period}"];
+            var (sn, sd) = sol[step];
+            for (int b = 0; stepped && b < l / c.Period; b++) { num *= sn; den *= sd; }
+            return (num, den);
+        }
+        var x = Enumerable.Range(0, n).Select(l => Turn("P", "r", l)).ToList();
+        var y = Enumerable.Range(0, n).Select(l => Turn("Q", "s", l)).ToList();
+        var kinds = Enumerable.Range(0, n).Select(l => c.Kinds[l % c.Period]).ToList();
+        return Reflects(cell.Ring(n), rel, c.Transposed, kinds, x, y);
+    }
+
     // ---- relabelling the sites ----
 
     // Under loss alone a bond with ZZ and s, a, w all nonzero pairs exactly at rates the chain's reversal keeps, and the
