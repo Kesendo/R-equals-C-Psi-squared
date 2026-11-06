@@ -125,7 +125,7 @@ def search(seed=4, starts=120):
         nu = cu / (np.linalg.norm(la[i]) * np.linalg.norm(rb[:, j]))
         return ea[i], eb[j], cd * cu, nd, nu
 
-    hits = {"c_up": 0, "c_down": 0}
+    hits = {"c_up": [], "c_down": []}
     for _ in range(starts):
         xs = x0 + rng.normal(0, 0.3, 7) * np.array([1, 1, 1, 1, 1, 1, 0.3])
         xs[3:6] = np.abs(xs[3:6]) + 0.05
@@ -144,10 +144,13 @@ def search(seed=4, starts=120):
         if np.max(np.abs(sol.fun)) < 1e-12:
             _, _, _, nd, nu = pair(sol.x, target)
             if abs(nu) < 1e-8 < abs(nd):
-                hits["c_up"] += 1
+                hits["c_up"].append(sol.x[0] - sol.x[2])
             elif abs(nd) < 1e-8 < abs(nu):
-                hits["c_down"] += 1
-    print(f"search (seed {seed}, {starts} starts): converged with c_up = 0 at {hits['c_up']} points, with c_down = 0 at {hits['c_down']}")
+                hits["c_down"].append(sol.x[0] - sol.x[2])
+    print(f"search (seed {seed}, {starts} starts): converged with c_up = 0 at {len(hits['c_up'])} points, "
+          f"with c_down = 0 at {len(hits['c_down'])}")
+    for k, v in hits.items():
+        print(f"  {k} = 0: h0 - h2 at the hits:", " ".join(f"{d:+.3f}" for d in sorted(v)))
 
 
 if "--search" in sys.argv:
@@ -332,6 +335,26 @@ xx = refine(start, guess, [0, 2, 4, 6], kill_up=True)
 rows, info, xx = splitting_law(xx, guess, "c_up forced to 0")
 check(abs(info["a"] - info["b"]) < TINY and abs(info["cu"]) < TINY and abs(info["cd"]) > 0.01,
       "Newton converges at 90 digits: resonance gap and c_up below 1e-60, c_down of order 0.1")
+def conditions(z, lam_guess):
+    a, b, _, _, prod, _, _ = resonance(z, lam_guess)
+    return [mp.re(a - b), mp.im(a - b), mp.re(prod), mp.im(prod)]
+
+
+step = mp.mpf(10) ** -40
+jac = mp.matrix(4, 4)
+for col, k in enumerate([0, 2, 4, 6]):
+    zp, zm = list(xx), list(xx)
+    zp[k] += step
+    zm[k] -= step
+    fp, fm = conditions(zp, guess), conditions(zm, guess)
+    for row in range(4):
+        jac[row, col] = (fp[row] - fm[row]) / (2 * step)
+sv = sorted(mp.svd_r(jac, compute_uv=False))
+print(f"    singular values of the 4x4 Jacobian of the conditions: {[mp.nstr(v, 4) for v in sv]}")
+check(sv[0] > mp.mpf(10) ** -6 * sv[-1],
+      "the Jacobian of the four conditions in the four solved parameters is nonsingular: near this point they "
+      "leave a smooth set of dimension three in the seven parameters (implicit function theorem)")
+
 lam = info["a"]
 others = [e for blk in [(3, 2)] for e in mp.eig(assemble(xx, IDX[blk], IDX[blk]), left=False, right=False)]
 simple = (nearest(info["ea"], lam, 2)[1] > 0.1 and nearest(info["eb"], lam, 2)[1] > 0.1

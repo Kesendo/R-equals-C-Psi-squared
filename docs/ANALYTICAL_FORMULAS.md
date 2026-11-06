@@ -9889,7 +9889,7 @@ qubit the row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X.
 
 **Two fences, both load bearing, and one consequence.** A_l² = 1: with T1 jumps [F137](#f137) keeps a palindrome, for the Hamiltonians it names, about a different centre, stated there exactly
 as trace(L)/dim, so a criterion phrased about −2σ answers a different question.
-There the multiset can pair without a similarity, so the lift of §(f8) below is its own class's: with
+There the multiset can pair without a similarity, so the lift of §(f8) below holds for A_l² = 1 only: with
 fields under cooling alone the spectrum can pair while L is not similar to −L − c (read by an error law
 at a numerically located point, [THE_PALINDROME_WITHOUT_A_CARRIER](../experiments/THE_PALINDROME_WITHOUT_A_CARRIER.md)).
 γ_l > 0: a zero rate drops that site's condition from both spaces and can move
