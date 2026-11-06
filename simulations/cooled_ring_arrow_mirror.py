@@ -5,11 +5,14 @@ heating, no dephasing) the Liouvillian L0 of an XY ring with longitudinal fields
 popcount (p, q) of ket and bra: the feeding sigma^- rho sigma^+ steps (p, q) -> (p - 1, q - 1).
 
   Part A (exact, integers): a site-local sandwich P carries L0 onto -Lt - c, where Lt is L0 with the feeding
-          reversed (sigma^+ rho sigma^-, same anticommutator, same diagonal blocks) and c = sum of the rates.
+          reversed (sigma^+ rho sigma^-, same anticommutator, same diagonal blocks), Lt = L(-H)^dagger, and
+          c = sum of the rates; and the antilinear map rho -> R conj(P(rho)) R, R exchanging sites 0 and 2,
+          carries L0 onto -L'^dagger - c, L' the mirror twin, so the palindrome is always carried onto the twin.
   Part B (exact, sympy over Q(i)): at a generic rational point no two blocks on one line p - q = const share an
           eigenvalue, so L0 and Lt are both similar to their block diagonal (Sylvester) and L0 ~ -L0 - c.
   Part C (error law, mpmath at 90 digits): at a resonance of the levels (2, 1) and (1, 0) where the uphill
-          coupling vanishes and the downhill one does not (solved through the scale-free product c_down*c_up),
+          coupling vanishes and the downhill one does not (solved through the scale-free product c_down*c_up;
+          at the mirror twin the two couplings exchange),
           L0 + eps*E splits its eigenvalue at lambda like eps^(1/2) (a Jordan block) and at the mirror point
           mu = -c - lambda like eps (two eigenvectors): the spectrum pairs, the Jordan structure does not, and
           no linear or antilinear map carries L0 onto -L0 - c there. Control: a resonance with both couplings
@@ -17,8 +20,9 @@ popcount (p, q) of ket and bra: the feeding sigma^- rho sigma^+ steps (p, q) -> 
   Part D (free fermions, numerical): the levels are sums of single-particle energies of K_p = h(Phi + (p-1)pi)
           + diag(-2 h_l - i gamma_l / 2), and at Phi = pi/2 the two parity sectors have the same single-particle
           spectrum.
-  Part E (exact modulo two primes): at two exceptional points, where L has Jordan blocks inside its levels,
-          the Jordan structure is mirrored; at flux 0 the same rates give no palindrome.
+  Part E (exact): two exceptional points of the single-particle block, exact over Q(sqrt3, i) and Q(sqrt7, i);
+          there L has Jordan blocks inside its levels and, modulo two primes, the Jordan structure is mirrored;
+          at flux 0 the same rates give no palindrome.
 
 Run: python simulations/cooled_ring_arrow_mirror.py            (the gates; numpy, scipy, sympy, mpmath)
      python simulations/cooled_ring_arrow_mirror.py --search   (a seeded search: which coupling vanishes)
@@ -70,11 +74,12 @@ def feed(J):
     return np.kron(J, J.conj())
 
 
-def hamiltonian(fields, J, flux_pi_half=True):
-    """XY triangle: J(XX + YY) on (0,1), (1,2); the seam (2,0) carries J(XY - YX), flux pi/2 (or J(XX + YY), flux 0)."""
+def hamiltonian(fields, J, flux_pi_half=True, reverse=False):
+    """XY triangle: J(XX + YY) on (0,1), (1,2); the seam (2,0) carries J(XY - YX), flux pi/2 (with reverse,
+    -J(XY - YX), flux -pi/2), or J(XX + YY), flux 0."""
     H = J * (op({0: X, 1: X}) + op({0: Y, 1: Y}) + op({1: X, 2: X}) + op({1: Y, 2: Y}))
     if flux_pi_half:
-        H = H + J * (op({2: X, 0: Y}) - op({2: Y, 0: X}))
+        H = H + (-1 if reverse else 1) * J * (op({2: X, 0: Y}) - op({2: Y, 0: X}))
     else:
         H = H + J * (op({2: X, 0: X}) + op({2: Y, 0: Y}))
     for l, h in enumerate(fields):
@@ -82,9 +87,9 @@ def hamiltonian(fields, J, flux_pi_half=True):
     return H
 
 
-def generators(fields, rates, J, flux_pi_half=True):
+def generators(fields, rates, J, flux_pi_half=True, reverse=False):
     """(Lambda, Fdown): L0 = Lambda + Fdown, Lt = Lambda + Fdown^T (sigma^+ rho sigma^-; sigma^- is real)."""
-    lam = ad_h(hamiltonian(fields, J, flux_pi_half))
+    lam = ad_h(hamiltonian(fields, J, flux_pi_half, reverse))
     fd = np.zeros((D * D, D * D), complex)
     for l, g in enumerate(rates):
         sm = op({l: LO})
@@ -103,6 +108,11 @@ def popcount_blocks():
 
 
 IDX = popcount_blocks()
+
+
+def twin(x):
+    """The mirror twin: sites 0 and 2 exchanged in the fields and the rates (the seam stays on (2, 0))."""
+    return np.array([x[2], x[1], x[0], x[5], x[4], x[3], x[6]])
 
 
 def search(seed=4, starts=120):
@@ -142,15 +152,17 @@ def search(seed=4, starts=120):
         except Exception:
             continue
         if np.max(np.abs(sol.fun)) < 1e-12:
-            _, _, _, nd, nu = pair(sol.x, target)
-            if abs(nu) < 1e-8 < abs(nd):
-                hits["c_up"].append(sol.x[0] - sol.x[2])
-            elif abs(nd) < 1e-8 < abs(nu):
-                hits["c_down"].append(sol.x[0] - sol.x[2])
+            a, _, _, nd, nu = pair(sol.x, target)
+            _, _, _, md, mu_ = pair(twin(sol.x), a)
+            kind = "c_up" if abs(nu) < 1e-8 < abs(nd) else "c_down" if abs(nd) < 1e-8 < abs(nu) else None
+            if kind:
+                # the exchange law: at the mirror twin the other coupling vanishes, with the same size for the first
+                swapped = (abs(md) < 1e-8 and abs(abs(mu_) - abs(nd)) < 1e-8) if kind == "c_up" else \
+                          (abs(mu_) < 1e-8 and abs(abs(md) - abs(nu)) < 1e-8)
+                hits[kind].append(swapped)
     print(f"search (seed {seed}, {starts} starts): converged with c_up = 0 at {len(hits['c_up'])} points, "
-          f"with c_down = 0 at {len(hits['c_down'])}")
-    for k, v in hits.items():
-        print(f"  {k} = 0: h0 - h2 at the hits:", " ".join(f"{d:+.3f}" for d in sorted(v)))
+          f"with c_down = 0 at {len(hits['c_down'])}; at every hit the mirror twin has the other coupling "
+          f"vanishing: {all(hits['c_up']) and all(hits['c_down'])}")
 
 
 if "--search" in sys.argv:
@@ -202,6 +214,40 @@ for kl in itertools.product(range(4), repeat=N):
             none_at_flux0 = False
 check(none_at_flux0, "at flux 0 on the odd triangle no such sandwich exists (F137's e^(2i Phi) = (-1)^N)")
 check(not np.array_equal(L0, Lt), "L0 and Lt differ (the arrow is real): the identity is not a Pi-reflection of L0 itself")
+lam_m, fd_m = generators(fields_q, rates_q, J_q)
+lam_neg = lam_m - 2 * ad_h(hamiltonian(fields_q, J_q))          # the same generator with H -> -H
+check(np.array_equal(lam_m + fd_m.T, (lam_neg + fd_m).conj().T), "the turned generator is L(-H)^dagger, exactly")
+Rsw = np.zeros((D, D))
+for a in range(D):
+    bits = [(a >> (N - 1 - l)) & 1 for l in range(N)]
+    Rsw[int("".join(str(b) for b in bits[::-1]), 2), a] = 1        # sites 0 and 2 exchanged
+At, Bt = Rsw @ op({1: Z}) @ Xn, -Yn @ op({1: Z}) @ Rsw
+Mt = np.kron(At, Bt.T)
+lam_t, fd_t = generators([fields_q[2], fields_q[1], fields_q[0]], [rates_q[2], rates_q[1], rates_q[0]], J_q)
+Mr, Mi = as_int(Mt)
+Cr, Ci = as_int(np.conj(2 * L0))
+Tr2, Ti2 = as_int(-2 * (lam_t + fd_t).conj().T - 2 * c * np.eye(D * D))
+# M conj(2L) M^dagger == -2 L'^dagger - 2c, M unitary with entries 0, +-1, +-i
+MCr, MCi = Mr @ Cr - Mi @ Ci, Mr @ Ci + Mi @ Cr
+re_ = MCr @ Mr.T + MCi @ Mi.T - Tr2                               # (MC)(M^dagger): M^dagger = Mr^T - i Mi^T
+im_ = MCi @ Mr.T - MCr @ Mi.T - Ti2
+check(not re_.any() and not im_.any(),
+      "the antilinear map rho -> R conj(Z1 X^N rho Y^N Z1) R carries L onto -L'^dagger - c exactly, L' the mirror "
+      "twin (sites 0 and 2 exchanged in the fields and the rates)")
+lam_r, fd_r = generators(fields_q, rates_q, J_q, reverse=True)
+L_rev = lam_r + fd_r
+Rs = np.kron(Rsw, Rsw)                                             # relabelling sites 0 and 2 on rho
+check(np.array_equal(Rs @ (lam_t + fd_t) @ Rs, L_rev),
+      "the twin, relabelled, is the triangle itself at the reversed flux -pi/2 (same fields, same rates), exactly")
+check(np.array_equal(Lt, L_rev.T),
+      "the turned generator at flux pi/2 is the transpose of the generator at flux -pi/2, exactly")
+M2 = np.kron(op({1: Z}) @ Xn, (-Yn @ op({1: Z})).T)
+Mr2, Mi2 = as_int(M2)
+Tr3, Ti3 = as_int(-2 * L_rev.conj().T - 2 * c * np.eye(D * D))
+MCr2, MCi2 = Mr2 @ Cr - Mi2 @ Ci, Mr2 @ Ci + Mi2 @ Cr
+check(not (MCr2 @ Mr2.T + MCi2 @ Mi2.T - Tr3).any() and not (MCi2 @ Mr2.T - MCr2 @ Mi2.T - Ti3).any(),
+      "so the site-local antilinear map rho -> conj(Z1 X^N rho Y^N Z1) carries L(pi/2) onto -L(-pi/2)^dagger - c, "
+      "exactly: the palindrome is always carried, onto the flux-reversed triangle")
 
 # ---------------------------------------------------------------- Part B
 print("Part B: the levels the arrow links share no eigenvalue at a generic rational point (exact, sympy over Q(i))")
@@ -373,6 +419,11 @@ check(constant([s2 / e for e, _, s2 in rows]) < 1e-3,
       "split at the mirror mu / eps constant: two eigenvectors, so L0 is not similar to -L0 - c at this point")
 print("    parameters (fields, rates, J):", [mp.nstr(v, 20) for v in xx])
 
+xt = [xx[2], xx[1], xx[0], xx[5], xx[4], xx[3], xx[6]]
+_, _, cd_t, cu_t, _, _, _ = resonance(xt, info["a"])
+check(abs(cd_t) < TINY and abs(abs(cu_t) - abs(info["cd"])) < TINY,
+      "the exchange law: at the mirror twin eta_down vanishes and eta_up takes the size eta_down had")
+
 # control: a resonance with both couplings nonzero
 ctrl = [-0.0122262, -0.97007525, -0.01769855, 4.22262647, 0.73046531, 2.24690822, 0.14247116]
 xc = refine(ctrl, mp.mpc(-2, 0), [0, 2], kill_up=False)
@@ -472,15 +523,46 @@ def primes_with(rad, count=2, start=10 ** 6):
     return out
 
 
+s3, s7 = sp.sqrt(3), sp.sqrt(7)
+
+
+def single_particle_exact(fields, rates):
+    M = sp.diag(*[-2 * sp.nsimplify(h) - sp.I * g / 2 for h, g in zip(fields, rates)])
+    M[0, 1] = M[1, 0] = M[1, 2] = M[2, 1] = 2
+    M[2, 0], M[0, 2] = 2 * sp.I, -2 * sp.I
+    return M
+
+
+def exceptional(Km, ext):
+    """(degree of gcd(chi, chi'), number of eigenvectors at its root): a root of multiplicity m has gcd degree
+    m - 1; one eigenvector means one Jordan block."""
+    P = sp.Poly(Km.charpoly(x).as_expr(), x, extension=ext)
+    g = sp.gcd(P, P.diff(x))
+    sqf = sp.Poly(sp.sqf_part(g.as_expr()), x, extension=ext)
+    if sqf.degree() != 1:
+        return g.degree(), None                                     # more than one repeated root
+    a = list(sp.roots(sqf, x))[0]
+    return g.degree(), 3 - (Km - a * sp.eye(3)).rank(simplify=True)
+
+
+K3 = single_particle_exact([1, 1, 1], [8, 8 + 4 * s3, 8 - 4 * s3])
+check(exceptional(K3, [s3, sp.I]) == (2, 1),
+      "at rates (8, 8 + 4 sqrt3, 8 - 4 sqrt3) the single-particle block has one triple eigenvalue and one eigenvector")
+K7 = single_particle_exact([0, sp.Rational(1, 2), sp.Rational(1, 2)], [6, 6 + 2 * s7, 6 - 2 * s7])
+check(exceptional(K7, [s7, sp.I]) == (1, 1),
+      "at fields (0, 1/2, 1/2), rates (6, 6 + 2 sqrt7, 6 - 2 sqrt7) it has a double eigenvalue with one eigenvector")
+
 for name, fields, rates_ab, rad, flux in [
     ("triple exceptional point, uniform field 1, rates (8, 8 + 4 sqrt3, 8 - 4 sqrt3)", [1, 1, 1], [(8, 0), (8, 4), (8, -4)], 3, True),
     ("exceptional point, fields (0, 1/2, 1/2), rates (6, 6 + 2 sqrt7, 6 - 2 sqrt7)", [0, 0.5, 0.5], [(6, 0), (6, 2), (6, -2)], 7, True),
 ]:
     res = [modular_similarity(fields, rates_ab, rad, flux, q) for q in primes_with(rad)]
-    check(all(r[0] and r[1] > 0 and r[2] for r in res),
-          f"{name}: palindromic, {res[0][1]} defective repeated factors, every Jordan structure mirrored (two primes)")
+    check(all(r[0] and r[1] == 12 and r[2] for r in res),
+          f"{name}: palindromic, defective repeated factors {[r[1] for r in res]} at the two primes, every "
+          f"Jordan structure mirrored modulo both")
 res = [modular_similarity([0, 0.5, 0.5], [(6, 0), (6, 2), (6, -2)], 7, False, q) for q in primes_with(7)]
-check(all(not r[0] for r in res), "control: the same rates at flux 0 give a characteristic polynomial that is not palindromic")
+res += [modular_similarity([1, 1, 1], [(8, 0), (8, 4), (8, -4)], 3, False, q) for q in primes_with(3)]
+check(all(not r[0] for r in res), "control: at flux 0 the rates of both points give characteristic polynomials that are not palindromic")
 
 print()
 print("FAILED:" if FAILS else "all gates pass", *FAILS, sep="\n  " if FAILS else "")

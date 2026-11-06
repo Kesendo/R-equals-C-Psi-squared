@@ -6929,7 +6929,8 @@ fourth, built from all three, carries it at one ratio.
   alone the weight π_β^½ is singular and the element is gone (the first bullet); the palindrome holds there
   through the characteristic polynomial, and with fields not always with its Jordan structure: at a resonance
   of two levels the damping links, L is not similar to −L − c, read on the triangle at flux π/2 by an error
-  law at a point located to ninety digits
+  law at a point located to ninety digits, while a site-local antilinear map always carries it onto the same
+  triangle at the reversed flux
   ([THE_PALINDROME_WITHOUT_A_CARRIER](../experiments/THE_PALINDROME_WITHOUT_A_CARRIER.md)).
 
 Where none of these applies the pairing can fail (exactly for the complex spectrum, by an odd power
