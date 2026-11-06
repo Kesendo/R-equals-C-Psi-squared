@@ -28,7 +28,9 @@ namespace RCPsiSquared.Core.BlockSpectrum.Prosen;
 /// programme: subset sums of N rapidities. The (m, m̃) sectors with m, m̃ ≥ 1 are where, at
 /// uniform γ and J, the imaginary-U Bethe ansatz would enter (not implemented in the repo); pieces of them close without
 /// it, among them the images of the one-sided sectors under the ladders Φ and S⁺ of
-/// docs/proofs/PROOF_FROZEN_BAND_SO4.md §2, and the population-free half of (1,1) on the XY chain, the U = −1 sector of U v_(a,b) =
+/// docs/proofs/PROOF_FROZEN_BAND_SO4.md §2 (S⁻ from (k, 0) being S⁺'s transpose; under equal light the grey rooms of F171,
+/// docs/proofs/PROOF_GREY_GLASS_LADDER_IMAGES.md, typed as GreyRoomLadderImagesClaim: C(N, k) modes at −2γk in
+/// every block whose window holds k), and the population-free half of (1,1) on the XY chain, the U = −1 sector of U v_(a,b) =
 /// (−1)^(a+b) v_(b,a), which is the block (2,0) recentered and so Λ² of one single-particle
 /// matrix at every rate profile
 /// (docs/proofs/PROOF_R90_FROZEN_DIVISOR.md §9.2); the

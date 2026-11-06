@@ -145,7 +145,9 @@ public enum SeatCutBook
 /// <c>experiments/THE_SEAT_THAT_CUTS.md</c> + <c>experiments/THE_BLIND_SITE.md</c> +
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> (F157). Typed sibling in the sober base:
 /// <c>compute/MirrorWorld/BlindSeat.cs</c>, which owns the COUNT and deliberately not the gcd
-/// phrasing.</para></summary>
+/// phrasing. Adjacent: the same Krylov question asked under equal light on every site instead of one lit seat,
+/// F171's grey rooms at every Hamming distance (<c>GreyRoomLadderImagesClaim</c> in Diagnostics, inspect --root
+/// greyroom).</para></summary>
 public sealed class SeatCutBlindnessClaim : Claim
 {
     /// <summary>Parent-edge marker: the kernel-dimension claim this one is the one-seat,

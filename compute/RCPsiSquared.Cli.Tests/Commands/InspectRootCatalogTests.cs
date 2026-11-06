@@ -482,6 +482,35 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasGreyRoomRoot_NFree_HonorsOptionalN_TakesTheRingFlag_AndNamesItsProofAndClaim()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "greyroom");
+        Assert.False(entry.RequiresN);
+        Assert.True(entry.HonorsOptionalN);
+        Assert.Contains("F171", entry.Description);
+        Assert.Contains("PROOF_GREY_GLASS_LADDER_IMAGES", entry.Description);
+        Assert.Contains("GreyRoomLadderImagesClaim", entry.Description);
+        Assert.Contains("UPPER bound", entry.Description);
+        Assert.Contains("--bonds", entry.Description);
+        var chain = new InspectRootContext(new ArgParser(new[] { "--N", "4" }), N: 4,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = Assert.IsType<GreyRoomLadderImagesWitness>(entry.Factory(chain));
+        Assert.Equal(4, root.N);
+        Assert.False(root.Ring);
+        Assert.True(root.Holds, root.Summary);
+        var ring = new InspectRootContext(new ArgParser(new[] { "--N", "4", "--ring" }), N: 4,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var ringRoot = Assert.IsType<GreyRoomLadderImagesWitness>(entry.Factory(ring));
+        Assert.True(ringRoot.Ring);
+        Assert.True(ringRoot.Holds, ringRoot.Summary);
+        var profiled = new InspectRootContext(new ArgParser(new[] { "--N", "4", "--bonds", "0.75,0.25,1.25" }), N: 4,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var profiledRoot = Assert.IsType<GreyRoomLadderImagesWitness>(entry.Factory(profiled));
+        Assert.False(profiledRoot.Uniform);
+        Assert.Equal(new[] { 0.75, 0.25, 1.25 }, profiledRoot.Bonds);
+    }
+
+    [Fact]
     public void Catalog_HasBlindSeatRoot_NFree_HonorsOptionalN()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "blind");

@@ -6045,8 +6045,11 @@ public static class OpenArcsRegistry
                 "eigenvalues = min(dims) on every rung, so the smaller block's spectrum embeds whole in the " +
                 "larger. Controls: Phi's own commutator, which both arcs prove is zero, and the block-local " +
                 "rebuild reproducing a dense N=5 run, which was a one-off scout and is NOT committed, so " +
-                "that control cannot be re-run from the repo. Likewise measured once and not " +
-                "committed: S- = (S+)^dag intertwines, residual 0.0. " +
+                "that control cannot be re-run from the repo. Likewise measured once: S- = (S+)^dag " +
+                "intertwines, residual 0.0. The committed read is narrower, F171's GreyRoomLadderImagesWitness: S- as " +
+                "the transpose of BuildSPlus, inside chains S-^s Phi^r from every boundary block (k, 0), under equal " +
+                "light, the identity with the Hamiltonian part read exactly (on the rings against the source wrap " +
+                "sign the flux law gives, the odd ring's non-corner routes read as lost), PROOF_GREY_GLASS_LADDER_IMAGES. " +
                 "BREAK-INPUTS, because an exactness claim with none is a claim about the inputs tried. Phi is " +
                 "0.0 on every hopping matrix tried, which is F125's 'any quadratic particle-conserving H' seen " +
                 "from below; S+ breaks at O(10) exactly where Sigma h Sigma = -h fails. A next-nearest bond " +

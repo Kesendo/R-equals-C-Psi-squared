@@ -486,6 +486,24 @@ public static class KnowledgeRegistryFactory
             // map; the ring parity itself is PROOF_CODIM1_BY_ADDITIVITY section 5, untyped). Live: inspect --root ringband (RingFrozenBandWitness,
             // exact GF(p) ranks on blocks cut by PerBlockLiouvillianBuilder from a Pauli spin ring).
             .RegisterRingFrozenBandClaim()
+            // F171, the grey rooms inside the coloured blocks (Tier 1 derived, 2026-11-06): under Z dephasing at
+            // one rate on every site the η ladder Φ and the spin ladder S⁻ carry every boundary block (k, 0) of the
+            // XY chain one-to-one into every block (p, q) whose Hamming window holds k, a grey room of dimension
+            // C(N, k) at −2γk on which the motion comes through whole; the block (1, 1) of the uniform open chain
+            // holds exactly C(N, 2) + 1; on the rings the flux the particle number sets decides which images are
+            // proved kept (even ring: even k, and at odd k exactly when the bra's hop across the wrap bond keeps
+            // it, which at N = 4, 6, 8 it does only in a corner; odd ring: from a corner by the ladder of k's
+            // parity, the rest measured lost at N = 3, 5, 7, not proved). Parents: SpectatorIntertwinerClaim (Φ,
+            // F125's W, the η ladder with its exact intertwining) + PinnedBlockFloorClaim (the boundary blocks
+            // grey as wholes, F153, and the window) + ChiralKClaim (the spectrum inversion behind the (1, 1)
+            // count) + FrozenDivisorClaim (the involution U of R90 section 9.1 whose odd half is the distance-2
+            // image in (1, 1)) + RingFrozenBandClaim (Lemma 1, the flux the particle number sets on the spin
+            // ring). The spin ladder's Lemma 2.3 of PROOF_FROZEN_BAND_SO4 carries no typed Tier-1-derived claim:
+            // SidewaysSpinLadderClaim holds it beside a measured multiplet half and is tiered Candidate for that
+            // half, adjacent and not a parent. Live: inspect --root greyroom (GreyRoomLadderImagesWitness: the
+            // committed ladders BuildW and BuildSPlus on blocks cut by PerBlockLiouvillianBuilder, exact
+            // intertwining identities, exact losses by rank, GF(p) upper bounds for the room).
+            .RegisterGreyRoomLadderImagesClaim()
             .RegisterF89OcticMonodromyClaim()
             // Multi-sector monodromy verdict (the sectorbraid arc, 2026-07-01): is the S_8 braid the (1,2) octic
             // carries LOCALIZED to (1,2) or SHARED across the joint-popcount sectors? N-dependent -- CONFINED to

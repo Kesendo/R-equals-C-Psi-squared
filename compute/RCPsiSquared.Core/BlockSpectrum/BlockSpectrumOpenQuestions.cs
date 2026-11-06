@@ -50,7 +50,9 @@ public static class BlockSpectrumOpenQuestions
             "of N Prosen rapidities, with no diagonalisation. The two-sided sectors (m, m̃ ≥ 1), " +
             "which hold the bulk of the 4^N spectrum, have no closed form here apart from pieces, " +
             "among them the images of the one-sided sectors under the ladders Φ and S⁺ of " +
-            "PROOF_FROZEN_BAND_SO4 (see the Phase 3a section of SYMMETRY_FAMILY_INVENTORY). The Z-dephasing " +
+            "PROOF_FROZEN_BAND_SO4 (see the Phase 3a section of SYMMETRY_FAMILY_INVENTORY; under equal light they " +
+            "are F171's grey rooms, PROOF_GREY_GLASS_LADDER_IMAGES, typed as GreyRoomLadderImagesClaim, C(N, k) modes " +
+            "at −2γk in every block whose window holds k). The Z-dephasing " +
             "term is quartic in the Jordan-Wigner fermions, and no Nambu reduction holds at every N: " +
             "at odd N the spectrum is not that of a generator quadratic in them (its even-parity " +
             "sector lacks the point symmetry such a generator forces). Medvedyeva, Essler and Prosen (2016) map the dephased " +

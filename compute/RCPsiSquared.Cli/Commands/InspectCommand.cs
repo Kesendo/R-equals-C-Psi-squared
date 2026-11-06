@@ -834,6 +834,36 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("gamma") ?? 0.25,
                     c.Parser.OptionalDouble("J") ?? 0.75),
             RequiresN: false, HonorsOptionalN: true),
+        new("greyroom", "F171, the grey rooms inside the coloured blocks (proof PROOF_GREY_GLASS_LADDER_IMAGES.md, " +
+            "the page THE_GREY_GLASS.md, typed GreyRoomLadderImagesClaim), recomputed: under Z dephasing at one rate " +
+            "on every site the dissipator is one number −2γk on each Hamming plane of a joint-popcount block (read off " +
+            "the committed builder, exactly), and the η ladder Φ (F125's W, SpectatorIntertwiner.BuildW) and the spin " +
+            "ladder S⁻ (the transpose of BuildSPlus) carry the boundary block (k, 0) into every block (p, q) whose " +
+            "window holds k: on every block of every window the image is built, read on its plane, one-to-one (rank " +
+            "mod p = C(N, k), exact), and kept (the intertwining identity A·M = M·A entry for entry in integers; on " +
+            "the ring the source's wrap bond is tried at both signs, the one that closes is recorded and read against " +
+            "the law (−1)^(ladder steps), each step turning the flux, with one more turn on the odd ring's mixed routes, " +
+            "which pass through a corner) or lost (rank of the image beside its motion " +
+            "above C(N, k) mod p, exact); the room around it is dim(block) − the Krylov rank of the off-plane cells, " +
+            "FreeFermionFloorWitness's routine at every height, modulo two primes, an UPPER bound, certified where it " +
+            "meets the image. Must hold: the two ladders commute, the lemma's premise off the builder. Must fail, read " +
+            "as losses by rank (reads, kept apart from the theorems): the stagger dropped on every route with a spin step that " +
+            "does not fill the corner (0, k), the Heisenberg chain's ZZ term against both ladders from N = 3 on where no bond is " +
+            "zero (its (1, 1) at least F140's ⌊N/2⌋ on a palindromic chain, a theorem, exactly ⌊N/2⌋ on the uniform chain, the " +
+            "page's read). On the ring the sector reduction to fixed-flux rings " +
+            "is docked through F170's witness on its own uniform ring, not on these blocks. The chain's middle-height " +
+            "rooms (8 against 6, 22 against 20 at couplings the reflection keeps) and the rings' extra rooms stay " +
+            "upper bounds; a loss is exact at the N and profile read. --N (chain 2..6, ring 3..6, default 5), --ring, " +
+            "--J (uniform coupling, default 0.75, within ±2), --bonds a,b,... (a profile instead, N − 1 on the chain, " +
+            "N on the ring with the wrap bond last), --gamma (default 0.25, in (0, 1]); every coupling and γ snap to " +
+            "the grid 1/1024, and every read is scale-free in the couplings",
+            c => new GreyRoomLadderImagesWitness(
+                    c.Parser.HasFlag("N") ? c.N : 5,
+                    ring: c.Parser.HasFlag("ring"),
+                    c.Parser.OptionalDouble("J") ?? 0.75,
+                    c.Parser.OptionalDouble("gamma") ?? 0.25,
+                    c.Parser.OptionalString("bonds")?.Split(',').Select(x => double.Parse(x.Trim(), System.Globalization.CultureInfo.InvariantCulture)).ToArray()),
+            RequiresN: false, HonorsOptionalN: true),
         new("blockspectrum", "the joint-popcount block spectrum, live: the (N+1)² sector decomposition " +
             "(halved by X⊗N, quartered by the F1 Π orbit -- the 100->50->25 story at N=9), the F1 palindrome " +
             "{λ}={−2σ−λ} reconstructed sector-by-sector (full at N≤7), the (0,1) band-edge Absorption floor " +

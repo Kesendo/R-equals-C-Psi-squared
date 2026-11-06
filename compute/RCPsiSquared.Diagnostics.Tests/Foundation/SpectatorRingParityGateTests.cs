@@ -12,7 +12,9 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>The spectator W(ρ) = Σ_l c_l†ρc_l (JW strings included, <see cref="SpectatorIntertwiner.BuildW"/>)
+/// <summary>The η ladder's half of F171's ring rule (the spin ladder's half and both ladders' images on the rings are read by
+/// <see cref="RCPsiSquared.Diagnostics.Foundation.GreyRoomLadderImagesWitness"/>, inspect --root greyroom).
+/// The spectator W(ρ) = Σ_l c_l†ρc_l (JW strings included, <see cref="SpectatorIntertwiner.BuildW"/>)
 /// on the XY RING, where H is not one quadratic form in the fermions. With hopping matrices h_ket, h_bra held
 /// fixed on the two sides, pushing W through the two-sided commutator leaves Σ_{l,m} (h_ket − h_bra)_{ml}·c_m†ρc_l.
 /// On the ring the wrap bond's Jordan-Wigner sign follows the parity of the particle number it acts on, so the

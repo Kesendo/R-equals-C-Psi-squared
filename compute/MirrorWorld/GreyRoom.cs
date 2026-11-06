@@ -29,7 +29,7 @@ namespace MirrorWorld;
 // and the image is kept only where the fluxes the two sides see serve the ladders: on the EVEN ring at every
 // even k, and at odd k, with the wrap bond nonzero, only where the image fills a corner, a block with an empty or a
 // full side (proved at every N for the keeping, the losses exact at N = 4, 6 and 8 and for (5, 2) at N = 10); on the ODD
-// ring, with the wrap bond nonzero, exactly when the image reaches
+// ring, with the wrap bond nonzero, when the image reaches
 // its block from a corner by the ladder its parity of k allows, s in {0, k} at even k and r in {0, N - k} at
 // odd k (proved for the keeping, the losses measured at N = 3, 5 and 7). In the block (1, 1) of the UNIFORM
 // open XY chain the two ladder images are all there is: C(N, 2) at height 2 and the identity at height 0,
@@ -54,9 +54,16 @@ namespace MirrorWorld;
 // world and not docked: on the Heisenberg book the (1, 1) room is the frozen modes of the uniform point, the
 // count Divisor reads in its corner block on the R90 locus (PROOF_R90_FROZEN_DIVISOR, the same source).
 // The elimination below is this file's own and not ModP.Rank's: the closure must know when the Krylov space
-// stops growing, which an incremental insert says and a batch rank cannot; the same routine stands in
-// RCPsiSquared.Diagnostics' FreeFermionFloorWitness (KrylovRowRankModP), which reads the row k = 1 of the open
-// chain's blocks (n, n + 1), the k = 1 case of this count, certified there against its own lower bound.
+// stops growing, which an incremental insert says and a batch rank cannot; the same elimination, written
+// apart, stands in RCPsiSquared.Diagnostics' FreeFermionFloorWitness (KrylovRowRankModP, the height a parameter), which reads
+// the row k = 1 of the open chain's blocks (n, n + 1), the k = 1 case of this count, certified there against
+// its own lower bound, and F171's own battery, GreyRoomLadderImagesClaim with GreyRoomLadderImagesWitness
+// (inspect --root greyroom), runs it at every height on blocks cut from the Pauli chain or ring and BUILDS
+// the ladder images this object only counts, reading each on its plane, one-to-one, and kept or lost by
+// exact identities: the witness holds the ladders, this object the count alone. The Hamiltonian and the
+// blocks are built apart there, the room's elimination is the same one written apart, at a pair of primes one
+// of which differs, so where the two agree on a room of the page they check the construction of H and of the
+// blocks, not the rank.
 // The Heisenberg book is carried as a reading for the block (1, 1) alone (its ZZ term loses the spin ladder,
 // and its room there is the floor(N/2) frozen modes on the open chain, measured at N = 3 to 8): the ladder
 // bound is an XY theorem and reports 0 on that book.
