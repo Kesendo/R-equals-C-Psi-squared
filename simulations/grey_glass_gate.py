@@ -1,4 +1,4 @@
-"""Gate for docs/THE_GREY_GLASS.md: rooms of operator space where the watching is one number.
+"""Gate for docs/THE_GREY_GLASS.md: rooms of operator space where the light is one number.
 
 Exact throughout: integer couplings and rates, generators built as full superoperators on the 4^N
 cells from Kronecker products of integer matrices (complex entries with small integer or half-integer

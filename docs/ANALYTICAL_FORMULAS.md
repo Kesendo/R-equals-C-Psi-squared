@@ -2843,6 +2843,7 @@ on any graph, at every Δ_b and every longitudinal field. In the (XX + YY)/2 hop
 **Source:** F61, F70, F72, [The Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.4, [CMRR Break under Non-Uniform γ₀](../experiments/CMRR_BREAK_NONUNIFORM_GAMMA.md), [F73 U(1) generalization](../experiments/F73_U1_GENERALIZATION.md).
 **See also:** [J-Blind Receiver Classes](../experiments/J_BLIND_RECEIVER_CLASSES.md) generalises the L_D-invariant-subspace mechanism behind this closure to a three-class decomposition of J-blind initial states (DFS of L_D, H-degenerate L_D-closed block, M_α-polynomial subspace under SU(2)-Heisenberg).
 
+<a id="f74"></a>
 ### F74. Chromaticity of single-step coherence blocks (Tier 1, combinatorial)
 
 For an N-qubit system under uniform Z-dephasing, the (n, n+1) popcount

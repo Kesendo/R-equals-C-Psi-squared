@@ -553,7 +553,7 @@ mechanism accounts for them.
 
 ---
 
-## Story 6: The Optical Cavity (April 2026)
+## Story 6: The Optical Cavity (April to November 2026)
 
 *"The Liouvillian is a cavity. Gamma is light. The palindrome can hold
 a standing wave. And every eigenvalue is an absorption line."*
@@ -658,6 +658,21 @@ explains what previously required separate derivations.
     times light-mass. Linear, not quadratic. The Absorption Theorem
     implies the palindromic sum rule. 1,342 modes, ratio 1.000000 and CV 0.0000 at the printed digits of an eigensolver run.
 
+12. [The Grey Glass](THE_GREY_GLASS.md): Where the light takes the same
+    share of everything the motion reaches, the motion comes through
+    whole: on a room the Hamiltonian keeps and the dissipator charges one
+    number μ, e^{tL} = e^{μt}·e^{tL_H}, with the converse state by state.
+    The boundary blocks, the frozen modes, the blind seat, the shared
+    field and the sodium nucleus are gathered as instances; inside the
+    coloured blocks of the XY chain two ladders carry every boundary
+    block (k, 0) in (a room of dimension at least C(N, k) at −2γk in
+    every block whose window holds k), the chain's reflection builds
+    more at the distance N/2, and on the ring the parity of k decides
+    which images survive at even N, an odd k only where its image fills
+    a corner, while at odd N each ladder works on its own parity of k
+    and the other joins it only from a corner (the survivals proved,
+    the losses proved at small even N and measured at small odd N).
+
 **After this you know:** The palindrome reads as an optical cavity. The
 Absorption Theorem is its governing equation: for every Hamiltonian under
 uniform Z-dephasing, Re(λ) = −2γ⟨n_XY⟩ says what a real part *is*, the
@@ -667,7 +682,10 @@ the spectral boundaries, the factor 2 and the sum rule follow as
 corollaries. The spectral gap it relocates rather than derives, and that
 gap is 2γ only above a coupling threshold. The cavity language is a reading,
 but not a loose one: where it matches, it matches in numbers, and where
-it stops, the pages say so.
+it stops, the pages say so. And where the light is one number on a room
+the Hamiltonian keeps, the motion comes through whole: that is the grey
+glass, and on the XY chain the blocks coloured as a whole still hold
+grey rooms inside them.
 
 ---
 
