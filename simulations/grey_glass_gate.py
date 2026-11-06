@@ -99,6 +99,16 @@ What it checks:
      room at k = N/2 in (M, 2) with the ladder images and the bond-axis products: 11 at N = 4 (transposes included),
      80 on the uniform ring at N = 8, 76 with two perpendicular bond axes, 72 with the antipodal map alone, the upper
      bound modulo two primes met by an exact rational rank, the span without them two short (with J_l = J_{l+M}).
+  G12 which ladder images the even ring keeps: on the even XY ring (N = 4, 6, 8, uniform and with couplings of both
+     signs), for every boundary block (k, 0) and every block (p, q) of its window, transposes included, the image
+     S-^s Phi^r sits at distance k alone with rank C(N, k); for k even K_(p,q) S-^s Phi^r = S-^s Phi^r K', K' the
+     spin ring on (k, 0) with the wrap bond turned when p is odd (the fermion flux of the target), exactly, so the
+     image is kept; control: with the staggering of S- dropped the identity breaks on every block reached by a step
+     of S- (bar the one-cell block (0, N)); for k odd the image is the whole block at (0, k), (N, N - k), (N - k, N)
+     and at every other block K is exactly K_f - 2 J_w R, K_f the two-copy hopping of the ket's flux (which
+     intertwines) and R(X) = X W, W the wrap hop alone on the bra, a map without couplings, and the rank of
+     [image, R image] modulo a prime is above C(N, k) (a lower bound on the rational rank): the image is not kept
+     at any coupling with J_w != 0; on a ring with the wrap bond zero (N = 6) every odd-k image is kept, exactly.
 """
 import numpy as np
 
@@ -1359,5 +1369,99 @@ check("the room at k = N/2 in (M, 2) is filled by the ladder images, the bond-ax
       "bond axes, 72 with the antipodal map alone (upper bound modulo two primes met by an exact rational rank; every "
       "row at distance N/2 alone and kept, exactly; the span without the antipodal products two short)", ok11b, f"{r11}")
 
+
+
+print("G12 which ladder images the even ring keeps")
+
+
+def _apply_K(n, p, q, J, Jw, X):
+    """K on (p, q), rho -> H_p rho - rho H_q, on the columns of X (row-major vectorized operators of the block)"""
+    Hp, _ = _ring_sector(n, p, J, Jw); Hq, _ = _ring_sector(n, q, J, Jw)
+    c = X.shape[1]; T = X.T.reshape(c, len(Hp), len(Hq))
+    return (Hp @ T - T @ Hq).reshape(c, -1).T
+
+
+def _sminus_flat(n, p, q):
+    """the mutation: S- with the staggering (-1)^l dropped, (p, q) -> (p - 1, q + 1)"""
+    return (splus(n, p - 1, q + 1) * _stag_undo(n, p - 1, q + 1)).T
+
+
+def _stag_undo(n, p, q):
+    """(-1)^l on the entry of S+ (p, q) -> (p + 1, q - 1) that moves the site l, 1 elsewhere"""
+    bp, bq, bP, bQ = subsets(n, p), subsets(n, q), subsets(n, p + 1), subsets(n, q - 1)
+    iP = {b: i for i, b in enumerate(bP)}; iQ = {b: i for i, b in enumerate(bQ)}
+    U = np.ones((len(bP) * len(bQ), len(bp) * len(bq)), dtype=np.int64)
+    for i, A in enumerate(bp):
+        for j, B in enumerate(bq):
+            for l in range(n):
+                if not (A >> l) & 1 and (B >> l) & 1:
+                    U[iP[A | 1 << l] * len(bQ) + iQ[B ^ 1 << l], i * len(bq) + j] = (-1) ** l
+    return U
+
+
+def _ladder_flat(n, k, p, q):
+    s = (k - p + q) // 2; X = np.eye(comb(n, k), dtype=np.int64); a, b = k, 0
+    for _ in range(s):
+        X = _sminus_flat(n, a, b) @ X; a, b = a - 1, b + 1
+    return move(n, X, a, b, p, q)
+
+
+ok12, r12, _free_rank = True, {}, {}
+for n, J, Jw in ((4, [1, 1, 1], 1), (4, [3, 2, -1], 1), (4, [1, -2, 1], -1),
+                 (6, [1] * 5, 1), (6, [-2, 1, -2, 2, 1], 1), (6, [-1, -1, 1, 2, 1], -3), (6, [1, 2, -1, 3, 1], 0),
+                 (8, [1] * 7, 1), (8, [1, -2, 1, 2, -2, 1, -2], -3), (8, [1, 2, 1, -2, 2, 3, -1], 2)):
+    cnt = {"even kept": 0, "odd whole block": 0, "odd kept": 0, "odd not kept": 0, "flat ladder breaks": 0, "flat holds": 0}
+    whole_at = set()
+    for k in range(n + 1):
+        E = np.eye(comb(n, k), dtype=np.int64)
+        for p_ in range(n + 1):
+            for q_ in range(n + 1):
+                if (p_, q_) == (k, 0) or not (abs(p_ - q_) <= k <= min(p_ + q_, 2 * n - p_ - q_) and (p_ + q_ - k) % 2 == 0):
+                    continue
+                M_ = move(n, E, k, 0, p_, q_)
+                KM = _apply_K(n, p_, q_, J, Jw, M_)
+                ham = np.array([bin(A ^ B).count("1") for A in subsets(n, p_) for B in subsets(n, q_)])
+                ok12 &= not np.any(M_[ham != k]) and rank_mod(M_, P1) == comb(n, k)    # one distance, one-to-one
+                if k % 2 == 0:
+                    # the start seen through the target's flux: the wrap bond turned when p and k differ in parity
+                    good = np.array_equal(KM, M_ @ _ring_sector(n, k, J, (-1) ** (p_ + k) * Jw)[0])
+                    ok12 &= good; cnt["even kept"] += good
+                    if (k - p_ + q_) // 2 >= 1 and M_.shape[0] > 1:  # control: the same chain with S- unstaggered
+                        F_ = _ladder_flat(n, k, p_, q_)
+                        brk = not np.array_equal(_apply_K(n, p_, q_, J, Jw, F_), F_ @ _ring_sector(n, k, J, (-1) ** (p_ + k) * Jw)[0])
+                        cnt["flat ladder breaks" if brk else "flat holds"] += 1
+                elif M_.shape[0] == comb(n, k):                    # the image is the whole block
+                    cnt["odd whole block"] += 1; whole_at.add((p_, q_, k))
+                elif Jw == 0:                                      # the open chain: kept, by the exact identity
+                    kept = np.array_equal(KM, M_ @ _ring_sector(n, k, J, 0)[0])
+                    ok12 &= kept; cnt["odd kept"] += kept
+                else:
+                    # K = K_f - 2 J_w R: K_f, the two-copy hopping of the ket's flux (the bra's wrap bond turned),
+                    # intertwines exactly; R(X) = X W, W the wrap hop alone on the bra, holds no coupling
+                    Hp, _ = _ring_sector(n, p_, J, Jw); Hq_f, _ = _ring_sector(n, q_, J, -Jw)
+                    c_ = M_.shape[1]; T_ = M_.T.reshape(c_, len(Hp), len(Hq_f))
+                    KfM = (Hp @ T_ - T_ @ Hq_f).reshape(c_, -1).T
+                    W_, _ = _ring_sector(n, q_, [0] * (n - 1), 1)
+                    RM = (T_ @ W_).reshape(c_, -1).T
+                    ok12 &= np.array_equal(KfM, M_ @ _ring_sector(n, k, J, (-1) ** (p_ + k) * Jw)[0])
+                    ok12 &= np.array_equal(KM, KfM - 2 * Jw * RM)
+                    if (n, k, p_, q_) not in _free_rank:           # rank modulo P1 bounds the rational rank from below
+                        _free_rank[(n, k, p_, q_)] = rank_mod(np.hstack([M_, RM]), P1) > comb(n, k)
+                    out = _free_rank[(n, k, p_, q_)]
+                    cnt["odd not kept" if out else "odd kept"] += 1
+    ok12 &= all((p_, q_) in ((0, k), (n, n - k), (n - k, n)) for p_, q_, k in whole_at)
+    r12[(n, tuple(J), Jw)] = tuple(cnt.values())
+want12 = {4: (16, 6, 0, 8, 9, 0), 6: (40, 9, 0, 28, 27, 0), 8: (80, 12, 0, 64, 59, 0)}
+ok12 &= all(v == ((40, 9, 28, 0, 27, 0) if key[2] == 0 else want12[key[0]]) for key, v in r12.items())
+check("the even ring, N = 4, 6, 8, uniform and with couplings of both signs: the ladder image S-^s Phi^r of the "
+      "boundary block (k, 0) in every block (p, q) of its window, transposes included, sits at distance k alone with "
+      "full rank; for k even K_(p,q) S-^s Phi^r = S-^s Phi^r K', K' the spin ring on (k, 0) with the wrap bond turned "
+      "when p is odd, exactly, so the image is kept, and with S- unstaggered the identity breaks on every block it "
+      "reaches by a step of S- (the control; the one-cell (0, N) excepted); for k odd the image is the whole block at "
+      "(0, k), (N, N - k) and (N - k, N), and elsewhere the Hamiltonian part is exactly the two-copy hopping of the "
+      "ket's flux, which intertwines, minus 2 J_w times R, X -> X W with W the wrap hop alone on the bra, and the image "
+      "beside its image under R, a map without couplings, has rank modulo a prime above C(N, k): not kept at any "
+      "coupling with J_w != 0; with the wrap bond zero, N = 6, every odd-k image is kept, by the exact identity", ok12,
+      f"(even kept, odd whole block, odd kept, odd not kept, unstaggered breaks, unstaggered holds) {r12}")
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
