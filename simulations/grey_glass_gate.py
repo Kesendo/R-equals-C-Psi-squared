@@ -109,6 +109,16 @@ What it checks:
      intertwines) and R(X) = X W, W the wrap hop alone on the bra, a map without couplings, and the rank of
      [image, R image] modulo a prime is above C(N, k) (a lower bound on the rational rank): the image is not kept
      at any coupling with J_w != 0; on a ring with the wrap bond zero (N = 6) every odd-k image is kept, exactly.
+  G13 which ladder images the odd ring keeps: on the odd XY ring (N = 3, 5, 7, uniform and with couplings of both
+     signs), every image S-^s Phi^r of a boundary block (k, 0) sits at distance k alone with rank C(N, k), and the two
+     ladders commute exactly; the image is kept exactly when k is even and
+     s is 0 or k, or k is odd and r is 0 or N - k. For those, the first ladder carries (k, 0) onto a corner, (k, 0),
+     (0, k) or (N, N - k), exactly and onto, and the second intertwines the target's Hamiltonian part with the corner's
+     seen at the target's two fermion fluxes (wrap bond (-1)^(p + a) J_w on the ket, (-1)^(q + b) J_w on the bra),
+     exactly; controls: the second stage's spin steps with the staggering dropped break it at every odd k where it
+     takes one, and the corner read at its own spin fluxes instead of the target's breaks it 0, 4 and 12 times at
+     N = 3, 5, 7 (at N = 3 every corner the second stage starts from is one cell); every other image is not kept
+     (rank of [image, K image] modulo a prime above C(N, k)); the images that fill their block obey the rule.
 """
 import numpy as np
 
@@ -1463,5 +1473,85 @@ check("the even ring, N = 4, 6, 8, uniform and with couplings of both signs: the
       "beside its image under R, a map without couplings, has rank modulo a prime above C(N, k): not kept at any "
       "coupling with J_w != 0; with the wrap bond zero, N = 6, every odd-k image is kept, by the exact identity", ok12,
       f"(even kept, odd whole block, odd kept, odd not kept, unstaggered breaks, unstaggered holds) {r12}")
+
+
+print("G13 which ladder images the odd ring keeps")
+
+
+def _apply_K2(n, a, b, J, Jw_ket, Jw_bra, X):
+    """X -> H_a X - X H_b with the wrap bond Jw_ket on the ket's ring and Jw_bra on the bra's"""
+    Ha, _ = _ring_sector(n, a, J, Jw_ket); Hb, _ = _ring_sector(n, b, J, Jw_bra)
+    c = X.shape[1]; T = X.T.reshape(c, len(Ha), len(Hb))
+    return (Ha @ T - T @ Hb).reshape(c, -1).T
+
+
+def _sp_steps(n, X, a, b, s_, flat=False):
+    """s_ steps down the spin ladder from (a, b); flat drops the staggering (the control)"""
+    for _ in range(s_):
+        X = (_sminus_flat(n, a, b) if flat else splus(n, a - 1, b + 1).T) @ X; a, b = a - 1, b + 1
+    return X
+
+
+def _phi_steps(n, X, a, b, r_):
+    for _ in range(r_):
+        X = phi(n, a, b) @ X; a, b = a + 1, b + 1
+    return X
+
+
+ok13, r13 = True, {}
+for n, J, Jw in ((3, [1, 1], 1), (3, [2, -2], 2), (3, [3, -2], -3),
+                 (5, [1] * 4, 1), (5, [-2, 1, -2, 1], -3), (5, [3, -2, 2, 2], -3),
+                 (7, [1] * 6, 1), (7, [-2, -2, -1, -1, 2, 2], 2), (7, [-2, -1, 1, 1, 2, -2], 1)):
+    cnt = {"rule kept": 0, "whole block": 0, "not kept": 0, "flat breaks": 0, "unturned breaks": 0}
+    for k in range(n + 1):
+        E = np.eye(comb(n, k), dtype=np.int64)
+        for p_ in range(n + 1):
+            for q_ in range(n + 1):
+                if (p_, q_) == (k, 0) or not (abs(p_ - q_) <= k <= min(p_ + q_, 2 * n - p_ - q_) and (p_ + q_ - k) % 2 == 0):
+                    continue
+                s_ = (k - p_ + q_) // 2; r_ = q_ - s_
+                rule = (k % 2 == 0 and s_ in (0, k)) or (k % 2 == 1 and r_ in (0, n - k))
+                M_ = move(n, E, k, 0, p_, q_)
+                ham = np.array([bin(A ^ B).count("1") for A in subsets(n, p_) for B in subsets(n, q_)])
+                ok13 &= not np.any(M_[ham != k]) and rank_mod(M_, P1) == comb(n, k)    # one distance, one-to-one
+                ok13 &= np.array_equal(M_, _sp_steps(n, _phi_steps(n, E, k, 0, r_), k + r_, r_, s_))   # the ladders commute
+                if M_.shape[0] == comb(n, k):                      # a filled block obeys the rule: one side empty or full
+                    ok13 &= rule; cnt["whole block"] += 1; continue
+                KM = _apply_K(n, p_, q_, J, Jw, M_)
+                if not rule:                                       # rank modulo P1 bounds the rational rank from below
+                    out = rank_mod(np.hstack([M_, KM]), P1) > comb(n, k)
+                    ok13 &= out; cnt["not kept"] += out
+                    continue
+                # the corner the first ladder fills (the start itself when the other ladder takes every step), and
+                # the second stage from it; the stage intertwines the target's own fluxes, seen on the corner
+                if k % 2 == 0:
+                    a, b = (0, k) if s_ == k else (k, 0)
+                    X2 = _phi_steps(n, np.eye(comb(n, a) * comb(n, b), dtype=np.int64), a, b, r_)
+                    first = _sp_steps(n, E, k, 0, k) if s_ == k else E
+                else:
+                    a, b = (n, n - k) if r_ == n - k else (k, 0)
+                    X2 = _sp_steps(n, np.eye(comb(n, a) * comb(n, b), dtype=np.int64), a, b, s_)
+                    first = _phi_steps(n, E, k, 0, n - k) if r_ == n - k else E
+                ok13 &= np.array_equal(M_, X2 @ first)
+                ok13 &= rank_mod(first, P1) == comb(n, a) * comb(n, b)                  # the first stage fills its corner
+                Kc = lambda Y: _apply_K2(n, a, b, J, (-1) ** (p_ + a) * Jw, (-1) ** (q_ + b) * Jw, Y)
+                good = np.array_equal(_apply_K(n, p_, q_, J, Jw, X2), X2 @ Kc(np.eye(X2.shape[1], dtype=np.int64)))
+                ok13 &= good; cnt["rule kept"] += good
+                # the control on the fluxes: the corner read at its own spin fluxes, not the target's
+                cnt["unturned breaks"] += not np.array_equal(_apply_K(n, p_, q_, J, Jw, X2), X2 @ _apply_K(n, a, b, J, Jw, np.eye(X2.shape[1], dtype=np.int64)))
+                if k % 2 == 1 and s_ >= 1:                         # the control: the spin steps unstaggered
+                    F2 = _sp_steps(n, np.eye(comb(n, a) * comb(n, b), dtype=np.int64), a, b, s_, flat=True)
+                    brk = not np.array_equal(_apply_K(n, p_, q_, J, Jw, F2), F2 @ Kc(np.eye(F2.shape[1], dtype=np.int64)))
+                    ok13 &= brk; cnt["flat breaks"] += brk
+    r13[(n, tuple(J), Jw)] = tuple(cnt.values())
+want13 = {3: (4, 8, 4, 2, 0), 5: (16, 14, 20, 8, 4), 7: (36, 20, 56, 18, 12)}
+ok13 &= all(v == want13[key[0]] for key, v in r13.items())
+check("the odd ring, N = 3, 5, 7, uniform and with couplings of both signs: every ladder image of a boundary block (k, 0) "
+      "in its window sits at distance k alone with full rank, and S-^s Phi^r = Phi^r S-^s exactly; it is kept exactly when k is even and s is 0 or k, or k is odd and r is 0 or N - k: the first "
+      "ladder fills a corner, (k, 0) itself, (0, k) or (N, N - k), and the second stage intertwines the target's Hamiltonian "
+      "part with the corner's at the target's own two fluxes, exactly (Phi with one flux on both sides, S- with opposite "
+      "ones); the controls: the spin steps of the second stage unstaggered break that identity at every odd k where it takes one, and the corner read at its own spin fluxes breaks it 0, 4, 12 times; every other image is not kept "
+      "(rank of [image, K image] modulo a prime above C(N, k))", ok13,
+      f"(rule kept, whole block, not kept, unstaggered breaks, unturned breaks) {r13}")
 
 print("grey glass gate:", "ALL GREEN" if not FAILS else f"{len(FAILS)} FAILED: {FAILS}")
