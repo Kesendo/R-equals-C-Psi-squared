@@ -939,6 +939,37 @@ if (args.Length > 0 && args[0] == "blind")
     return;
 }
 
+// ---- run mode "greyroom": the grey room -- where the light is one number on a room the Hamiltonian keeps ----
+if (args.Length > 0 && args[0] == "greyroom")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 5;
+    bool gring = args.Length > 2 && args[2] == "ring";
+    var gworld = new World();
+    var gr = new GreyRoom(gworld, gn, Enumerable.Repeat(1L, gring ? gn : gn - 1).ToArray(), ring: gring);
+
+    Console.WriteLine("the grey room: under equal light the dissipator is one number on each Hamming plane of a block,");
+    Console.WriteLine("  and a room the Hamiltonian keeps inside one plane lets the motion through whole, e^{tL} = e^{mu t} e^{tL_H}");
+    Console.WriteLine("  (adopted 2026-11-06 from docs/THE_GREY_GLASS.md, docs/proofs/PROOF_GREY_GLASS_LADDER_IMAGES.md, F171)");
+    Console.WriteLine("  room = dim(block) - rank of the Krylov rows the cells off the plane generate under ad_H, exact at two GF(p) primes:");
+    Console.WriteLine("  an UPPER bound on the rational room; the LOWER bound is the ladders' theorem, C(N, k) where the");
+    Console.WriteLine("  image of the boundary block (k, 0) is kept (always on the chain; on the ring by the parity rules);");
+    Console.WriteLine("  where the two meet the room is certified. No eigensolver, and gamma never enters.");
+    Console.WriteLine($"  uniform XY {(gring ? "ring" : "open chain")}, N = {gn}; blocks (p, q) with p >= q, every height of the window:");
+    Console.WriteLine("  (p,q)  k   room  ladder  kept  products  certified");
+    for (int p = 0; p <= gn; p++)
+        for (int q = 0; q <= p; q++)
+            foreach (int k in gr.Window(p, q))
+            {
+                int room = gr.Room(p, q, k), ladder = gr.LadderBound(p, q, k);
+                Console.WriteLine($"  ({p},{q})  {k}   {room,4}  {ladder,6}  {(gr.Kept(p, q, k) ? "yes" : "no "),4}  {gr.Products(p, q, k),8}  {(room == ladder ? "yes" : "no")}");
+            }
+    Console.WriteLine();
+    Console.WriteLine("  the block (1, 1) on the other book (Heisenberg, ZZ on): the frozen modes of the uniform point");
+    var gh = new GreyRoom(gworld, gn, Enumerable.Repeat(1L, gring ? gn : gn - 1).ToArray(), ring: gring, heisenberg: true);
+    Console.WriteLine($"  room at height 2: {gh.Room(1, 1, 2)}   (open chain: floor(N/2); ring: the XY ring's)");
+    return;
+}
+
 // ---- run mode "doubleslit": the phenomenon composed from the atoms (the access layer) ----
 // DoubleSlit IS Field at N=1: two places |L>,|R>, the humps = the immortal diagonal, the fringe = the
 // between |L><R| (the k=1 coherence) paying -2gamma. Nothing new is computed; the atoms are assembled
