@@ -6863,7 +6863,8 @@ The triangle below with real hopping, fields Σ h_l·Z_l with h = (−½, 0, ½)
 added the fifth power sum is −2560 − 15360κ, zero only at κ = −1/6, where the seventh is 1708448/9
 (exact, gate M11). Its decay rates, which no such choice moves, miss their mirror
 (read: by 0.109, in double precision and at 30 digits alike); at flux ±π/2 the same triangle pairs, by the
-fourth carrier below. Three things carry the evenness; with fields the second and the third carry the pairing as well, and a
+fourth carrier below at every positive ratio and by its characteristic polynomial at cooling alone, where
+the carrier itself is gone. Three things carry the evenness; with fields the second and the third carry the pairing as well, and a
 fourth, built from all three, carries it at one ratio.
 
 - *One ratio γ↑ᵢ/γ↓ᵢ on every damped site* (an undamped site fits any; per component of the hopping bonds, below), one temperature of the local
@@ -6924,7 +6925,12 @@ fourth, built from all three, carries it at one ratio.
   with fields (3⁄10, −⅕, ½) at one ratio ¼ pairs at flux ±π/2; Δ = 7⁄10, flux arccos(3/5) and three
   ratios break it (exact characteristic polynomials, gate M11). With fields one ratio is no longer one
   temperature: qubits of different frequencies at one temperature have ratios that differ by e^{−β·δω}
-  across a detuning δω, so for them the carrier holds exactly at cooling alone and at equal rates.
+  across a detuning δω, so for them one ratio holds exactly at cooling alone and at equal rates. At cooling
+  alone the weight π_β^½ is singular and the element is gone (the first bullet); the palindrome holds there
+  through the characteristic polynomial, and with fields not always with its Jordan structure: at a resonance
+  of two levels the damping links, L is not similar to −L − c, read on the triangle at flux π/2 by an error
+  law at a point located to ninety digits
+  ([THE_PALINDROME_WITHOUT_A_CARRIER](../experiments/THE_PALINDROME_WITHOUT_A_CARRIER.md)).
 
 Where none of these applies the pairing can fail (exactly for the complex spectrum, by an odd power
 sum; for the decay rates, as a reading). For these bonds without fields or dephasing, with all the
@@ -9883,6 +9889,9 @@ qubit the row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X.
 
 **Two fences, both load bearing, and one consequence.** A_l² = 1: with T1 jumps [F137](#f137) keeps a palindrome, for the Hamiltonians it names, about a different centre, stated there exactly
 as trace(L)/dim, so a criterion phrased about −2σ answers a different question.
+There the multiset can pair without a similarity, so the lift of §(f8) below is its own class's: with
+fields under cooling alone the spectrum can pair while L is not similar to −L − c (read by an error law
+at a numerically located point, [THE_PALINDROME_WITHOUT_A_CARRIER](../experiments/THE_PALINDROME_WITHOUT_A_CARRIER.md)).
 γ_l > 0: a zero rate drops that site's condition from both spaces and can move
 the verdict (a ZZ bond with an X field on site 0 and X-dephasing on both sites is
 broken with both rates on and palindromic the moment site 0 stops being
