@@ -672,6 +672,7 @@ explains what previously required separate derivations.
     a corner, while at odd N each ladder works on its own parity of k
     and the other joins it only from a corner (the survivals proved,
     the losses proved at small even N and measured at small odd N).
+    The proofs: [Grey Rooms Inside Coloured Blocks](proofs/PROOF_GREY_GLASS_LADDER_IMAGES.md) ([F171](ANALYTICAL_FORMULAS.md#f171)).
 
 **After this you know:** The palindrome reads as an optical cavity. The
 Absorption Theorem is its governing equation: for every Hamiltonian under

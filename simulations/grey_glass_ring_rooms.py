@@ -1,4 +1,4 @@
-"""The grey glass on the even XY ring past N = 8: the room at Hamming distance N/2 in the block (N/2, 2).
+"""The grey glass on the even XY ring past N = 8 (docs/THE_GREY_GLASS.md, docs/proofs/PROOF_GREY_GLASS_LADDER_IMAGES.md §6, §8 and §9): the room at Hamming distance N/2 in the block (N/2, 2).
 
 Companion gate to docs/THE_GREY_GLASS.md (the paragraphs "Every division into pairs, and the rings to
 N = 12"), kept apart from simulations/grey_glass_gate.py because at N = 12 it ranks matrices of thousands of

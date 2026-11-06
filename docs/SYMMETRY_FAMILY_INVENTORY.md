@@ -183,7 +183,7 @@ where `β_k = −2γ − i·ε_k` are the **N Prosen rapidities** of the model a
 `ε_k = 2J·cos(πk/(N+1))` is the OBC sine-mode dispersion. This is the simplest leaf of
 Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme; the (m, m̃) sectors with
 m, m̃ ≥ 1 are where, at uniform γ and J, the imaginary-U Bethe ansatz would enter (not implemented in the repo; see the N=10 list above), and
-pieces of them close without it, among them the images of the one-sided sectors under the two ladders Φ and S⁺ of [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md) §2 and the half of (1,1) that holds no populations, which is Λ² of a single-particle matrix at every
+pieces of them close without it, among them the images of the one-sided sectors under the two ladders Φ and S⁺ of [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md) §2 (counted as grey rooms, C(N, k) per block and Hamming distance, in [F171](ANALYTICAL_FORMULAS.md#f171)) and the half of (1,1) that holds no populations, which is Λ² of a single-particle matrix at every
 rate profile ([PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) §9.2).
 
 `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs` returns the
