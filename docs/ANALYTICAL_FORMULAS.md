@@ -10829,7 +10829,8 @@ section *The triangle with planar fields*), a connected row pairs exactly when
 f_u ∥ f_v, when s = t and |f_u| = |f_v|, when e₂ = 0 and |f_u| = |f_v| at any
 angle, or on R1 = R2 = R3 = 0 with R1 = r(s − t)² − st(s + t),
 R2 = f_u·f_v + 2e₂ and R3 = (s + r)|f_u|² + (t + r)|f_v|² + 2(s + t + r)(f_u·f_v)
-(exact and computer-assisted, gate `n3_planar_field_locus_gate.py`). It is a
+(exact and computer-assisted, gate `n3_planar_field_locus_gate.py`; live at
+`inspect --root trianglelocus` with `--fu`, `--fv`). It is a
 component without an invertible spanning tree, read through a twin turn, a real
 structure and traces of alternating words.
 

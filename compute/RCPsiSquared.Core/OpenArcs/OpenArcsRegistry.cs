@@ -4188,7 +4188,8 @@ public static class OpenArcsRegistry
                 + "three-string anticommuting sum, and so does a second locus outside the letter classes, which with no "
                 + "field on the dephased seat and fields perpendicular to z is exactly three polynomial relations, proven in "
                 + "both directions together with the reciprocal class at every angle (PROOF_PALINDROME_COMPLEMENT_CONNECTION, "
-                + "section 'The triangle with planar fields', gate simulations/n3_planar_field_locus_gate.py); neither sits "
+                + "section 'The triangle with planar fields', gate simulations/n3_planar_field_locus_gate.py, live at "
+                + "inspect --root trianglelocus with --fu, --fv); neither sits "
                 + "on a blind seat (Open item 'Fields off the letters and other bonds at N = 3', gate "
                 + "simulations/n3_offletter_locus_gate.py).",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "

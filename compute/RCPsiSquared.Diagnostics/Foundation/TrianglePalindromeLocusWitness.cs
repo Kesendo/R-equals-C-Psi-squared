@@ -7,47 +7,77 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="PalindromeComplementConnectionClaim"/>,
-/// section "The triangle's palindromic locus at N = 3" of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>).
-/// Heisenberg triangle on (d, u, v) = (0, 1, 2) with couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d
-/// alone, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in
+/// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields" of
+/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
+/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, two rules.
 ///
+/// <para><b>Letter fields</b>, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in</para>
 /// <code>
 ///     A  a colouring: every nonzero field along one letter p in {X, Y};
 ///     B  J_du = J_dv and a pi rotation about an axis n ⊥ z with R_n f_d = f_d, R_n f_u = f_v;
 ///     C  e₂ = J_duJ_dv + J_duJ_uv + J_dvJ_uv = 0, f_d = 0, f_u and f_v ⊥ z, |f_u| = |f_v|.
 /// </code>
 ///
-/// <para><b>A road of its own.</b> The proof's necessity is a Python elimination with a stored certificate
-/// (<c>simulations/n3_palindrome_covering.py</c>) and a Python gate. This witness shares neither: it builds the
-/// two ends of F158 itself, as the real kernels of W ↦ [H, W] on the Pauli strings whose d-letter is in {I, Z}
-/// (near) or {X, Y} (far), with <see cref="BigRational"/> entries and an exact nullspace, and evaluates the three
-/// classes on the point. It recomputes the rule at the row asked for and on a fixed grid of special loci over all
-/// 27 words (equal, opposite and reciprocal couplings, one coupling zero; equal, opposite and zero fields), with
-/// targeted points of C. It is evidence that the rule holds where it reads, not the exhaustion, which stays the
-/// certificate's.</para>
+/// <para><b>Planar fields</b>, no field on d and fields f_u, f_v of any direction perpendicular to z. A row pairs
+/// exactly when it lies in</para>
+/// <code>
+///     A  f_u ∥ f_v (one of them zero included);
+///     B  J_du = J_dv and |f_u| = |f_v|;
+///     C  e₂ = 0 and |f_u| = |f_v|, at any angle;
+///     E  R1 = J_uv(J_du − J_dv)² − J_duJ_dv(J_du + J_dv) = 0, R2 = f_u·f_v + 2e₂ = 0,
+///        R3 = (J_du + J_uv)|f_u|² + (J_dv + J_uv)|f_v|² + 2(J_du + J_dv + J_uv)(f_u·f_v) = 0.
+/// </code>
+///
+/// <para><b>A road of its own.</b> The proofs are a Python elimination with a stored certificate
+/// (<c>simulations/n3_palindrome_covering.py</c>, letter fields) and a symbolic sympy derivation
+/// (<c>simulations/n3_planar_field_locus_gate.py</c>, planar fields). This witness shares neither: it builds the two
+/// ends of F158 itself, as the real kernels of W ↦ [H, W] on the Pauli strings whose d-letter is in {I, Z} (near)
+/// or {X, Y} (far), with <see cref="BigRational"/> entries and an exact nullspace, and evaluates the classes on the
+/// point. A field with two components is two Pauli terms on its site, so the same kernels read both settings. It
+/// recomputes the rule at the row asked for and on two fixed grids: special loci over all 27 letter words, and
+/// planar rows on the swap, reciprocal and R1 couplings with parallel, equal-length, generic and E fields and their
+/// perturbations, and a row with R2 = R3 = 0 but R1 ≠ 0 that must break. Rational rows of E with J_uv ≠ 0 are scarce;
+/// the grid knows one, w = 1, ξ = 8 in the proof's chart, J = (1, 2, 6), and carries E through that row's images under the mirror η₂ → −η₂, a rational turn about z, the swap u ↔ v and a common scale, and
+/// through the rows of its corner J_uv = 0, f_u·f_v = 2J_du², which are rational at every rational κ. It is
+/// evidence that the rules hold where they read, not the exhaustion, which stays the certificate's and the
+/// derivation's.</para>
 ///
 /// <para>Args: <c>--word</c> (three letters X/Y/Z, one per site d, u, v; default ZXY), <c>--J</c> (J_du,J_dv,J_uv,
-/// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1).</para></summary>
+/// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1); or, for planar fields, <c>--fu</c> and
+/// <c>--fv</c> (x,y each, integers or p/q) with <c>--J</c>, and no <c>--word</c> or <c>--h</c>.</para></summary>
 public sealed class TrianglePalindromeLocusWitness : IInspectable
 {
     private readonly string _word;
     private readonly BigRational[] _j, _h;
+    private readonly BigRational[]? _fu, _fv;
 
-    public TrianglePalindromeLocusWitness(string? word = null, string? couplings = null, string? fields = null)
+    public TrianglePalindromeLocusWitness(string? word = null, string? couplings = null, string? fields = null,
+        string? fieldU = null, string? fieldV = null)
     {
+        _j = ParseTuple(couplings ?? "3,6,-2", "J", 3);
+        if (_j.Count(x => x.IsZero) > 1)
+            throw new ArgumentException("--J leaves the triangle disconnected (two couplings zero); the locus is stated for connected rows.");
+        if (fieldU is not null || fieldV is not null)
+        {
+            if (word is not null || fields is not null)
+                throw new ArgumentException("--fu/--fv read the planar setting (no field on d, fields perpendicular to z); " +
+                                            "--word/--h the letter one. Give one of the two.");
+            _fu = ParseTuple(fieldU ?? "0,0", "fu", 2);
+            _fv = ParseTuple(fieldV ?? "0,0", "fv", 2);
+            _word = "";
+            _h = new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero };
+            return;
+        }
         _word = (word ?? "ZXY").Trim().ToUpperInvariant();
         if (_word.Length != 3 || _word.Any(c => c is not ('X' or 'Y' or 'Z')))
             throw new ArgumentException($"--word takes three letters from X, Y, Z (sites d, u, v); got \"{word}\".");
-        _j = ParseTriple(couplings ?? "3,6,-2", "J");
-        _h = ParseTriple(fields ?? "0,1,1", "h");
-        if (_j.Count(x => x.IsZero) > 1)
-            throw new ArgumentException("--J leaves the triangle disconnected (two couplings zero); the locus is stated for connected rows.");
+        _h = ParseTuple(fields ?? "0,1,1", "h", 3);
     }
 
-    private static BigRational[] ParseTriple(string spec, string arg)
+    private static BigRational[] ParseTuple(string spec, string arg, int count)
     {
         var parts = spec.Split(',', StringSplitOptions.TrimEntries);
-        if (parts.Length != 3) throw new ArgumentException($"--{arg} takes three comma-separated values; got \"{spec}\".");
+        if (parts.Length != count) throw new ArgumentException($"--{arg} takes {count} comma-separated values; got \"{spec}\".");
         return parts.Select(p =>
         {
             var q = p.Split('/');
@@ -75,8 +105,9 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return (n & 1) == 1;
     }
 
-    /// <summary>The terms of H: (coefficient, Pauli string over 0 = I, 1 = X, 2 = Y, 3 = Z).</summary>
-    private static List<(BigRational C, int[] S)> Terms(string word, BigRational[] j, BigRational[] h)
+    /// <summary>The terms of H: (coefficient, Pauli string over 0 = I, 1 = X, 2 = Y, 3 = Z); the field of site l is
+    /// the vector f[l] = (x, y, z), one term per component.</summary>
+    private static List<(BigRational C, int[] S)> Terms(BigRational[] j, BigRational[][] f)
     {
         var terms = new List<(BigRational, int[])>();
         var bonds = new[] { (0, 1), (0, 2), (1, 2) };
@@ -87,16 +118,17 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                 terms.Add((j[b], s));
             }
         for (int l = 0; l < 3; l++)
-        {
-            var s = new int[3]; s[l] = "XYZ".IndexOf(word[l]) + 1;
-            terms.Add((h[l], s));
-        }
+            for (int c = 1; c <= 3; c++)
+            {
+                var s = new int[3]; s[l] = c;
+                terms.Add((f[l][c - 1], s));
+            }
         return terms;
     }
 
     /// <summary>dim of {W real on the strings with d-letter in {I, Z} (near) or {X, Y} (far) : [H, W] = 0}.
     /// [t, s] = 2·i^k·u for anticommuting strings with k odd; divided by 2i every entry is ± a coefficient.</summary>
-    public static int End(string word, BigRational[] j, BigRational[] h, bool far)
+    public static int End(BigRational[] j, BigRational[][] f, bool far)
     {
         var cols = new List<int[]>();
         for (int a = 0; a < 4; a++)
@@ -104,7 +136,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                 for (int c = 0; c < 4; c++)
                     if ((a is 1 or 2) == far) cols.Add(new[] { a, b, c });
         var rows = new Dictionary<int, BigRational[]>();
-        foreach (var (coef, t) in Terms(word, j, h))
+        foreach (var (coef, t) in Terms(j, f))
         {
             if (coef.IsZero) continue;
             for (int col = 0; col < cols.Count; col++)
@@ -128,9 +160,21 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return BigRationalLinearAlgebra.Nullspace(m).Count;
     }
 
-    // ---- the three classes ------------------------------------------------------------------------------
+    /// <summary>The letter setting's end: site l carries h_l along the letter word[l].</summary>
+    public static int End(string word, BigRational[] j, BigRational[] h, bool far) =>
+        End(j, Enumerable.Range(0, 3).Select(l => Vec(word[l], h[l])).ToArray(), far);
 
-    /// <summary>The class a row lies in (A, B or C, the first that holds), or null. <paramref name="without"/>
+    /// <summary>The planar setting's fields as site vectors: none on d, (x, y, 0) on u and v.</summary>
+    public static BigRational[][] PlanarFields(BigRational[] fu, BigRational[] fv) => new[]
+    {
+        new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero },
+        new[] { fu[0], fu[1], BigRational.Zero },
+        new[] { fv[0], fv[1], BigRational.Zero },
+    };
+
+    // ---- the classes ------------------------------------------------------------------------------------
+
+    /// <summary>The letter class a row lies in (A, B or C, the first that holds), or null. <paramref name="without"/>
     /// leaves one class out, for the planted mutation in the tests.</summary>
     public static char? Class(string word, BigRational[] j, BigRational[] h, char? without = null)
     {
@@ -146,6 +190,25 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         var e2 = j[0] * j[1] + j[0] * j[2] + j[1] * j[2];
         if (without != 'C' && e2.IsZero && f[0].All(x => x.IsZero) && f[1][2].IsZero && f[2][2].IsZero
             && Norm(f[1]) == Norm(f[2])) return 'C';
+        return null;
+    }
+
+    /// <summary>The planar class a row lies in (A, B, C or E, the first that holds), or null; <paramref name="without"/>
+    /// as in <see cref="Class"/>.</summary>
+    public static char? PlanarClass(BigRational[] j, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        BigRational s = j[0], t = j[1], r = j[2];
+        var nu = fu[0] * fu[0] + fu[1] * fu[1];
+        var nv = fv[0] * fv[0] + fv[1] * fv[1];
+        var dot = fu[0] * fv[0] + fu[1] * fv[1];
+        var e2 = s * t + s * r + t * r;
+        if (without != 'A' && (fu[0] * fv[1] - fu[1] * fv[0]).IsZero) return 'A';
+        if (without != 'B' && s == t && nu == nv) return 'B';
+        if (without != 'C' && e2.IsZero && nu == nv) return 'C';
+        var r1 = r * (s - t) * (s - t) - s * t * (s + t);
+        var r2 = dot + 2 * e2;
+        var r3 = (s + r) * nu + (t + r) * nv + 2 * (s + t + r) * dot;
+        if (without != 'E' && r1.IsZero && r2.IsZero && r3.IsZero) return 'E';
         return null;
     }
 
@@ -171,26 +234,36 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return new Reading(near, far, pal, cls, pal == (cls is not null));
     }
 
+    public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        var f = PlanarFields(fu, fv);
+        int near = End(j, f, false), far = End(j, f, true);
+        bool pal = far >= 1 && near == far;
+        var cls = PlanarClass(j, fu, fv, without);
+        return new Reading(near, far, pal, cls, pal == (cls is not null));
+    }
+
     private Reading? _reading;
-    public Reading Read() => _reading ??= ReadRow(_word, _j, _h);
+    public Reading Read() => _reading ??= _fu is null ? ReadRow(_word, _j, _h) : ReadPlanarRow(_j, _fu, _fv!);
 
-    // ---- the grid of special loci -----------------------------------------------------------------------
+    // ---- the grids --------------------------------------------------------------------------------------
 
-    /// <summary>Every connected row of the grid: the 27 words, couplings equal, opposite, reciprocal (e₂ = 0,
+    private static BigRational Q(long p, long q = 1) => new(p, q);
+
+    /// <summary>Every connected row of the letter grid: the 27 words, couplings equal, opposite, reciprocal (e₂ = 0,
     /// alone and on the swap branch), one zero and generic, fields equal, opposite, zero and generic.</summary>
     public static IEnumerable<(string Word, BigRational[] J, BigRational[] H)> Grid()
     {
-        BigRational R(long p, long q = 1) => new(p, q);
         var couplings = new[]
         {
-            new[] { R(1), R(2), R(3) }, new[] { R(2), R(2), R(3) }, new[] { R(2), R(-2), R(3) },
-            new[] { R(3), R(6), R(-2) }, new[] { R(1), R(-2), R(-2) }, new[] { R(2), R(2), R(-1) },
-            new[] { R(0), R(2), R(3) }, new[] { R(2), R(5), R(-10, 7) },
+            new[] { Q(1), Q(2), Q(3) }, new[] { Q(2), Q(2), Q(3) }, new[] { Q(2), Q(-2), Q(3) },
+            new[] { Q(3), Q(6), Q(-2) }, new[] { Q(1), Q(-2), Q(-2) }, new[] { Q(2), Q(2), Q(-1) },
+            new[] { Q(0), Q(2), Q(3) }, new[] { Q(2), Q(5), Q(-10, 7) },
         };
         var fields = new[]
         {
-            new[] { R(0), R(1), R(1) }, new[] { R(0), R(1), R(-1) }, new[] { R(1), R(1), R(1) },
-            new[] { R(0), R(2), R(3) }, new[] { R(2), R(0), R(0) }, new[] { R(1), R(2), R(2) },
+            new[] { Q(0), Q(1), Q(1) }, new[] { Q(0), Q(1), Q(-1) }, new[] { Q(1), Q(1), Q(1) },
+            new[] { Q(0), Q(2), Q(3) }, new[] { Q(2), Q(0), Q(0) }, new[] { Q(1), Q(2), Q(2) },
         };
         foreach (var w in from a in "XYZ" from b in "XYZ" from c in "XYZ" select $"{a}{b}{c}")
             foreach (var j in couplings)
@@ -198,26 +271,64 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                     yield return (w, j, h);
     }
 
-    public sealed record GridReading(int Rows, int Palindromic, int A, int B, int C, int Disagreements);
-
-    public static GridReading ReadGrid(char? without = null)
+    /// <summary>The planar grid's couplings: generic, swap, two reciprocal ones, four on R1 (w = 1, its swap, w = ½,
+    /// the w = 1 row scaled by two), the corner J_uv = 0 at two scales, d at an end, one row just off R1, and one off R1
+    /// where R2 and R3 hold for the last field pair (R1 = 11), so E's first relation is tested on its own.</summary>
+    public static readonly BigRational[][] PlanarCouplings =
     {
-        int rows = 0, pal = 0, a = 0, b = 0, c = 0, bad = 0;
-        foreach (var (w, j, h) in Grid())
+        new[] { Q(1), Q(2), Q(3) }, new[] { Q(2), Q(2), Q(3) }, new[] { Q(3), Q(6), Q(-2) }, new[] { Q(2), Q(5), Q(-10, 7) },
+        new[] { Q(1), Q(2), Q(6) }, new[] { Q(2), Q(1), Q(6) }, new[] { Q(1), Q(3), Q(3) }, new[] { Q(2), Q(4), Q(12) },
+        new[] { Q(2), Q(-2), Q(0) }, new[] { Q(4), Q(-4), Q(0) }, new[] { Q(0), Q(2), Q(3) }, new[] { Q(1), Q(2), Q(7) },
+        new[] { Q(-4), Q(-1), Q(-1) },
+    };
+
+    /// <summary>The planar grid's field pairs (f_u, f_v): parallel, one zero, equal lengths at two angles, generic;
+    /// the E row of J = (1, 2, 6) with its mirror, its turn by (3/5, 4/5) about z, its swap (for J = (2, 1, 6)), its
+    /// double (for J = (2, 4, 12)) and a perturbation; the corner at κ = 2 in the symmetric gauge and turned, at κ = 4
+    /// scaled to J = (4, −4, 0), and a perturbation; and the pair with R2 = R3 = 0 on J = (−4, −1, −1).</summary>
+    public static readonly (BigRational[] Fu, BigRational[] Fv)[] PlanarFieldPairs =
+    {
+        (new[] { Q(1), Q(2) }, new[] { Q(2), Q(4) }), (new[] { Q(0), Q(0) }, new[] { Q(3), Q(1) }),
+        (new[] { Q(3), Q(4) }, new[] { Q(5), Q(0) }), (new[] { Q(3), Q(4) }, new[] { Q(4), Q(3) }),
+        (new[] { Q(1), Q(2) }, new[] { Q(3), Q(1) }),
+        (new[] { Q(8), Q(0) }, new[] { Q(-5), Q(3) }), (new[] { Q(8), Q(0) }, new[] { Q(-5), Q(-3) }),
+        (new[] { Q(24, 5), Q(32, 5) }, new[] { Q(-27, 5), Q(-11, 5) }), (new[] { Q(-5), Q(3) }, new[] { Q(8), Q(0) }),
+        (new[] { Q(16), Q(0) }, new[] { Q(-10), Q(6) }), (new[] { Q(8), Q(0) }, new[] { Q(-5), Q(4) }),
+        (new[] { Q(3), Q(1) }, new[] { Q(3), Q(-1) }), (new[] { Q(1), Q(4) }, new[] { Q(4), Q(1) }),
+        (new[] { Q(9), Q(7) }, new[] { Q(9), Q(-7) }), (new[] { Q(3), Q(1) }, new[] { Q(3), Q(-2) }),
+        (new[] { Q(6), Q(0) }, new[] { Q(-3), Q(3) }),
+    };
+
+    public static IEnumerable<(BigRational[] J, BigRational[] Fu, BigRational[] Fv)> PlanarGrid() =>
+        from j in PlanarCouplings from p in PlanarFieldPairs select (j, p.Fu, p.Fv);
+
+    public sealed record GridReading(int Rows, int Palindromic, int A, int B, int C, int E, int Disagreements);
+
+    public static GridReading ReadGrid(char? without = null) =>
+        Tally(Grid().Select(g => ReadRow(g.Word, g.J, g.H, without)));
+
+    public static GridReading ReadPlanarGrid(char? without = null) =>
+        Tally(PlanarGrid().Select(g => ReadPlanarRow(g.J, g.Fu, g.Fv, without)));
+
+    private static GridReading Tally(IEnumerable<Reading> readings)
+    {
+        int rows = 0, pal = 0, a = 0, b = 0, c = 0, e = 0, bad = 0;
+        foreach (var r in readings)
         {
-            var r = ReadRow(w, j, h, without);
             rows++;
             if (r.Palindrome) pal++;
-            if (r.InClass == 'A') a++; else if (r.InClass == 'B') b++; else if (r.InClass == 'C') c++;
+            switch (r.InClass) { case 'A': a++; break; case 'B': b++; break; case 'C': c++; break; case 'E': e++; break; }
             if (!r.Agrees) bad++;
         }
-        return new GridReading(rows, pal, a, b, c, bad);
+        return new GridReading(rows, pal, a, b, c, e, bad);
     }
 
     // ---- IInspectable -----------------------------------------------------------------------------------
 
-    public string DisplayName =>
-        $"the triangle's palindromic locus at N = 3 (word {_word}, J = {string.Join(", ", _j)}, h = {string.Join(", ", _h)})";
+    public string DisplayName => _fu is null
+        ? $"the triangle's palindromic locus at N = 3 (word {_word}, J = {string.Join(", ", _j)}, h = {string.Join(", ", _h)})"
+        : $"the triangle's palindromic locus at N = 3 with planar fields (J = {string.Join(", ", _j)}, " +
+          $"f_u = ({string.Join(", ", _fu)}), f_v = ({string.Join(", ", _fv!)}), no field on d)";
 
     public string Summary
     {
@@ -226,7 +337,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
             var r = Read();
             return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}",
                 r.Near, r.Far, r.Palindrome ? "palindrome" : "broken",
-                r.InClass is { } k ? $"in class {k}" : "in none of A, B, C",
+                r.InClass is { } k ? $"in class {k}" : _fu is null ? "in none of A, B, C" : "in none of A, B, C, E",
                 r.Agrees ? "holds" : "FAILS");
         }
     }
@@ -238,15 +349,24 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         get
         {
             var g = ReadGrid();
-            yield return new InspectableNode("the grid of special loci, recomputed",
+            yield return new InspectableNode("the letter grid of special loci, recomputed",
                 summary: string.Format(CultureInfo.InvariantCulture,
                     "{0} rows over the 27 words: {1} palindromic ({2} in A, {3} in B, {4} in C, first class that " +
                     "holds), {5} rows where the rule and the two ends disagree", g.Rows, g.Palindromic, g.A, g.B, g.C,
                     g.Disagreements), provenance: NodeProvenance.Live);
+            var pg = ReadPlanarGrid();
+            yield return new InspectableNode("the planar grid, recomputed",
+                summary: string.Format(CultureInfo.InvariantCulture,
+                    "{0} rows with no field on d and fields perpendicular to z: {1} palindromic ({2} in A, {3} in B, " +
+                    "{4} in C, {5} in E, first class that holds), {6} rows where the rule and the two ends disagree",
+                    pg.Rows, pg.Palindromic, pg.A, pg.B, pg.C, pg.E, pg.Disagreements), provenance: NodeProvenance.Live);
             yield return new InspectableNode("where the exhaustion lives",
-                summary: "This witness reads the rule at points; that every palindromic connected row lies in A, B or " +
-                         "C is the elimination's, certificate simulations/results/n3_palindrome_covering.json (1,305 " +
-                         "far leaves, 0 open) and its independent gate simulations/n3_palindrome_covering_gate.py.");
+                summary: "This witness reads the rules at points. That every palindromic connected row with letter " +
+                         "fields lies in A, B or C is the elimination's, certificate " +
+                         "simulations/results/n3_palindrome_covering.json (1,305 far leaves, 0 open) and its independent " +
+                         "gate simulations/n3_palindrome_covering_gate.py; that with planar fields and none on d it pairs " +
+                         "exactly in A, B, C or E is the derivation of the section 'The triangle with planar fields', " +
+                         "gate simulations/n3_planar_field_locus_gate.py.");
         }
     }
 }

@@ -1076,15 +1076,20 @@ public static class InspectCommand
                 c.Parser.OptionalString("bonds")),
             RequiresN: false, HonorsOptionalN: true),
         new("trianglelocus", "THE TRIANGLE'S PALINDROMIC LOCUS AT N = 3 (proof PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, " +
-            "claim PalindromeComplementConnectionClaim): Heisenberg triangle, jump Z on d alone, letter fields; a " +
+            "claim PalindromeComplementConnectionClaim): Heisenberg triangle, jump Z on d alone. With letter fields a " +
             "connected row pairs exactly when it is coloured (A), carries the u<->v swap with a pi rotation about an " +
             "axis perpendicular to z (B), or lies on e2 = 0 with no field on d and fields of equal magnitude " +
-            "perpendicular to z on u and v (C). Recomputes both ends of F158 exactly over Q at the row and on a grid of " +
-            "special loci over all 27 words, the classes beside. Args: --word ZXY, --J 3,6,-2, --h 0,1,1",
+            "perpendicular to z on u and v (C); with no field on d and planar fields f_u, f_v exactly when they are " +
+            "parallel (A), J_du = J_dv with |f_u| = |f_v| (B), e2 = 0 with |f_u| = |f_v| (C), or on R1 = R2 = R3 = 0 (E). " +
+            "Recomputes both ends of F158 exactly over Q at the row and on two grids (special letter loci over all 27 " +
+            "words; planar rows with E's images and corner), the classes beside. Args: --word ZXY, --J 3,6,-2, " +
+            "--h 0,1,1; or --J 1,2,6 --fu 8,0 --fv -5,3 for planar fields",
             c => new TrianglePalindromeLocusWitness(
                 c.Parser.OptionalString("word"),
                 c.Parser.OptionalString("J"),
-                c.Parser.OptionalString("h")),
+                c.Parser.OptionalString("h"),
+                c.Parser.OptionalString("fu"),
+                c.Parser.OptionalString("fv")),
             RequiresN: false),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +

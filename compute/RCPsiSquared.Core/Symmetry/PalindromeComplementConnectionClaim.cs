@@ -64,6 +64,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate); live at <c>inspect --root trianglelocus</c>
 /// (<c>TrianglePalindromeLocusWitness</c>), which recomputes both ends exactly over Q at points.</para>
 ///
+/// <para><b>The triangle with planar fields.</b> Same triangle and jump, no field on 0, fields f₁, f₂ (the section's f_u,
+/// f_v) of any direction perpendicular to z, at most one coupling zero: a row pairs exactly when f₁ ∥ f₂, when J01 = J02 and |f₁| = |f₂|,
+/// when e₂ = 0 and |f₁| = |f₂| at any angle, or on R1 = J12(J01 − J02)² − J01J02(J01 + J02) = 0, R2 = f₁·f₂ + 2e₂ = 0,
+/// R3 = (J01 + J12)|f₁|² + (J02 + J12)|f₂|² + 2(J01 + J02 + J12)(f₁·f₂) = 0; with site 0 at an end only the first.
+/// Both directions exact and computer-assisted: <c>simulations/n3_planar_field_locus_gate.py</c>; live at
+/// <c>inspect --root trianglelocus</c> with <c>--fu</c>, <c>--fv</c>, which recomputes both ends exactly over Q at
+/// points and on a planar grid.</para>
+///
 /// <para><b>Blind dephased seats, and palindromes beyond colourings and site symmetries.</b> On the triangle the Krylov determinant of the
 /// dephased seat under the signed one-magnon Laplacian is −(s − t)·e₂: s = t a site symmetry fixing it, e₂ = 0 a rank
 /// drop that blinds every seat (F157). At N = 4, H = e·σ1·σ2 + a·(σ0 − σ3)·(σ1 − σ2) with fields 0, −h·X1, h·X2, g·Y3
@@ -201,6 +209,15 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "and the common carrier; necessity by exact elimination over the ten word orbits in two charts, " +
                          "certificate and independent gate: simulations/n3_palindrome_covering.py and " +
                          "simulations/n3_palindrome_covering_gate.py; live: inspect --root trianglelocus.");
+
+            yield return new InspectableNode("the triangle with planar fields",
+                summary: "Same triangle and jump, no field on 0, fields f1, f2 of any direction perpendicular to z, at " +
+                         "most one coupling zero: a row pairs exactly when f1 || f2 (A), J01 = J02 and |f1| = |f2| (B), " +
+                         "e2 = 0 and |f1| = |f2| at any angle (C), or on R1 = J12(J01-J02)^2 - J01J02(J01+J02) = 0, " +
+                         "R2 = f1.f2 + 2e2 = 0, R3 = (J01+J12)|f1|^2 + (J02+J12)|f2|^2 + 2(J01+J02+J12)(f1.f2) = 0 (E); " +
+                         "with site 0 at an end only A. Both directions exact and computer-assisted: " +
+                         "simulations/n3_planar_field_locus_gate.py; live: inspect --root trianglelocus --J 1,2,6 " +
+                         "--fu 8,0 --fv -5,3.");
 
             yield return new InspectableNode("blind dephased seats, and palindromes beyond colourings and site symmetries",
                 summary: "On the triangle the Krylov determinant of the dephased seat under the signed one-magnon " +

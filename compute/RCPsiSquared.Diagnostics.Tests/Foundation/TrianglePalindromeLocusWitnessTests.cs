@@ -3,9 +3,10 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (section "The triangle's palindromic
-/// locus at N = 3" of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): the rows the proof and
-/// <c>EndCountTests</c> pin, read on the witness's own exact route, and the grid with a planted mutation.</summary>
+/// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (sections "The triangle's palindromic
+/// locus at N = 3" and "The triangle with planar fields" of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>):
+/// the rows the proof, its gates and <c>EndCountTests</c> pin, read on the witness's own exact route, both grids with
+/// a planted mutation per class, and the two settings read alike where they meet.</summary>
 public class TrianglePalindromeLocusWitnessTests
 {
     static BigRational[] T(string s) => s.Split(',').Select(p =>
@@ -27,6 +28,36 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(r.Agrees);
     }
 
+    /// <summary>The near and far counts are n3_planar_field_locus_gate.py G7's, there from the block equations over
+    /// Q(i): the E row and the corner pair with near = far = 1, each perturbation leaves near 1 and far 0.</summary>
+    [Theory]
+    [InlineData("1,2,6", "8,0", "-5,3", 1, 1, true, 'E')]       // the E row (w = 1, xi = 8)
+    [InlineData("1,2,6", "8,0", "-5,4", 1, 0, false, null)]     // its field perturbed
+    [InlineData("1,2,7", "8,0", "-5,3", 1, 0, false, null)]     // its coupling perturbed
+    [InlineData("2,-2,0", "1,4", "4,1", 1, 1, true, 'E')]       // the corner J_uv = 0, f_u.f_v = 2 J_du^2
+    [InlineData("2,-2,0", "1,4", "4,-1", 1, 0, false, null)]    // the corner perturbed (f_u.f_v = 0)
+    [InlineData("2,-2,0", "1,4", "-1,4", 1, 0, false, null)]    // the corner perturbed (f_u.f_v = 15)
+    [InlineData("-4,-1,-1", "6,0", "-3,3", 1, 0, false, null)]  // R2 = R3 = 0 with R1 = 11: E needs its first relation
+    public void Pinned_Planar_Rows(string j, string fu, string fv, int near, int far, bool pal, char? cls)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadPlanarRow(T(j), T(fu), T(fv));
+        Assert.Equal((near, far, pal, cls), (r.Near, r.Far, r.Palindrome, r.InClass));
+        Assert.True(r.Agrees);
+    }
+
+    [Theory]
+    [InlineData("3,6,-2", "3,4", "5,0", true, 'C')]       // C at an angle neither parallel nor perpendicular
+    [InlineData("3,6,-2", "3,4", "4,4", false, null)]     // unequal lengths on e2 = 0
+    [InlineData("2,2,3", "3,4", "0,5", true, 'B')]        // the swap class at a general angle
+    [InlineData("0,2,3", "3,4", "5,0", false, null)]      // d at an end: equal lengths do not suffice
+    [InlineData("0,2,3", "1,2", "-2,-4", true, 'A')]      // d at an end: parallel fields pair
+    public void Planar_Classes_At_General_Angles(string j, string fu, string fv, bool pal, char? cls)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadPlanarRow(T(j), T(fu), T(fv));
+        Assert.Equal((pal, cls), (r.Palindrome, r.InClass));
+        Assert.True(r.Agrees);
+    }
+
     [Fact]
     public void The_Grid_Agrees_And_Every_Class_Occurs()
     {
@@ -36,7 +67,18 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(g.A > 0 && g.B > 0 && g.C > 0, $"A {g.A}, B {g.B}, C {g.C}");
     }
 
+    [Fact]
+    public void The_Planar_Grid_Agrees_And_Every_Class_Occurs()
+    {
+        var g = TrianglePalindromeLocusWitness.ReadPlanarGrid();
+        Assert.Equal(TrianglePalindromeLocusWitness.PlanarCouplings.Length * TrianglePalindromeLocusWitness.PlanarFieldPairs.Length, g.Rows);
+        Assert.Equal(0, g.Disagreements);
+        Assert.True(g.A > 0 && g.B > 0 && g.C > 0 && g.E > 0, $"A {g.A}, B {g.B}, C {g.C}, E {g.E}");
+        Assert.True(g.Palindromic < g.Rows, "the grid holds broken rows too");
+    }
+
     [Theory]
+    [InlineData('A')]
     [InlineData('B')]
     [InlineData('C')]
     public void Leaving_A_Class_Out_Breaks_The_Grid(char without)
@@ -44,9 +86,48 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(TrianglePalindromeLocusWitness.ReadGrid(without).Disagreements > 0);
     }
 
+    [Theory]
+    [InlineData('A')]
+    [InlineData('B')]
+    [InlineData('C')]
+    [InlineData('E')]
+    public void Leaving_A_Class_Out_Breaks_The_Planar_Grid(char without)
+    {
+        Assert.True(TrianglePalindromeLocusWitness.ReadPlanarGrid(without).Disagreements > 0);
+    }
+
+    /// <summary>Where the settings meet (no field on d, letters X or Y on u and v) the two rules give the same verdict.
+    /// The two ends are one kernel routine read twice, so their equality checks only the planar wiring (f_u on site 1,
+    /// f_v on site 2, nothing on d); the content is that the letter rule and the planar rule agree with it.</summary>
+    [Fact]
+    public void The_Two_Rules_Agree_Where_The_Settings_Meet()
+    {
+        int shared = 0;
+        foreach (var (w, j, h) in TrianglePalindromeLocusWitness.Grid())
+        {
+            if (!h[0].IsZero || w[1] == 'Z' || w[2] == 'Z') continue;
+            BigRational[] V(char letter, BigRational x) => letter == 'X' ? new[] { x, BigRational.Zero } : new[] { BigRational.Zero, x };
+            var lr = TrianglePalindromeLocusWitness.ReadRow(w, j, h);
+            var pr = TrianglePalindromeLocusWitness.ReadPlanarRow(j, V(w[1], h[1]), V(w[2], h[2]));
+            Assert.Equal((lr.Near, lr.Far, lr.Palindrome), (pr.Near, pr.Far, pr.Palindrome));
+            Assert.True(lr.Agrees && pr.Agrees);
+            shared++;
+        }
+        Assert.True(shared > 0);
+    }
+
     [Fact]
     public void A_Disconnected_Row_Is_Refused()
     {
         Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness("ZXY", "0,0,3", "0,1,1"));
+        Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness(null, "0,0,3", null, "8,0", "-5,3"));
+    }
+
+    [Fact]
+    public void The_Two_Settings_Are_Not_Mixed()
+    {
+        Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness("ZXY", "1,2,6", null, "8,0", "-5,3"));
+        var w = new TrianglePalindromeLocusWitness(null, "1,2,6", null, "8,0", "-5,3");
+        Assert.True(w.Read().Palindrome && w.Read().InClass == 'E');
     }
 }
