@@ -54,8 +54,16 @@ nonzero modulo a prime is nonzero, a no for every element and every centre.
       centre needs 0's partner at -2 N (mean rate); r_max < 2 mean at odd d for the clock pair
       (and its half, the lone jump), r_max = 2 mean at even d, and r < 2 r (d - 1)/d for uniform
       full-Cartan dephasing at d >= 3
+  G14 the far end is U times the diagonals: for W = U Delta, Delta a diagonal of roots of unity,
+      and H = sum_k W^k H0 W^-k (commuting with W, not with U), left multiplication by W reflects
+      L onto -L^dag - 4N gamma exactly; [H, U] != 0 is checked beside it
+  G15 the two-end count needs the self-adjoint dissipator: the lone jump Z with [H, U] = 0 has
+      dim ker L = dim ker(L + 2N gamma) = 1 exactly (the identity and U below, the rank mod p
+      above), and an odd centred power sum nonzero mod p: equal counts, no palindrome
+  G16 the count's no and the moment's no agree for the pair: H generic, dim ker(L + 4N gamma) = 0
+      exactly (nullity 0 mod p; the identity keeps dim ker L >= 1), and an odd centred power sum nonzero mod p
 
-Runtime: one to three minutes.
+Runtime: about six minutes.
 """
 import sys
 from math import gcd
@@ -559,6 +567,121 @@ for d in range(2, 10):
     if d >= 3:
         check(f"d={d}: uniform full-Cartan, the rate r is below 2 r (d - 1)/d: no palindrome for any H",
               Fraction(1) < Fraction(2 * (d - 1), d))
+
+print("G14 the far end: left multiplication by W = U Delta")
+def nullity_mod_p(M, p):
+    A = (M % p).astype(np.int64).copy()
+    n_rows, n_cols = A.shape
+    r = 0
+    for c in range(n_cols):
+        piv = None
+        nz = np.nonzero(A[r:, c])[0]
+        if len(nz) == 0:
+            continue
+        piv = r + nz[0]
+        A[[r, piv]] = A[[piv, r]]
+        inv = pow(int(A[r, c]), p - 2, p)
+        A[r] = (A[r] * inv) % p
+        col = A[:, c].copy()
+        col[r] = 0
+        rows = np.nonzero(col)[0]
+        if len(rows):
+            A[rows] = (A[rows] - np.outer(col[rows], A[r])) % p
+        r += 1
+        if r == n_rows:
+            break
+    return n_cols - r
+
+
+def far_element_case(d, N, R, rng_seed):
+    """W = U Delta with Delta = diag(w^e_j); H = sum over the cyclic group of W of W^k H0 W^-k."""
+    p = R.p
+    X, _, _ = clock_ops(R)
+    D = d ** N
+    rng = np.random.default_rng(rng_seed)
+    U = kron_list([np.linalg.matrix_power(X, d // 2)] * N, p)
+    e = rng.integers(0, d, size=D)
+    Delta = np.diag([pow(R.w, int(x), p) for x in e]).astype(np.int64)
+    W = (U @ Delta) % p
+    H0 = rng.integers(-1, 2, size=(D, D))
+    H0 = ((H0 + H0.T) % p).astype(np.int64)
+    I = np.eye(D, dtype=np.int64)
+    H = np.zeros((D, D), dtype=np.int64)
+    Habs = np.zeros((D, D))                  # majorant: |W^k| is the permutation of U^k
+    Pabs = (U != 0).astype(float)
+    Pk = np.eye(D)
+    # the group of W: W^2 is diagonal of order dividing d, so W^(2d) = 1
+    powers = [I.copy()]
+    for k in range(1, 2 * d):
+        powers.append((powers[-1] @ W) % p)
+    order = next(k for k in range(1, 2 * d + 1) if np.array_equal((powers[k - 1] @ W) % p, I))
+    for k in range(order):
+        Wk, Wk_inv = powers[k], powers[(order - k) % order]
+        H = (H + (Wk @ H0 % p) @ Wk_inv) % p
+        Habs += Pk @ np.abs(np.where(H0 > p // 2, H0 - p, H0)) @ Pk.T
+        Pk = Pk @ Pabs
+    return H % p, W, powers[order - 1], U, Habs
+
+
+for d in (4, 6):
+    ok, ok_u, ok_b = True, True, True
+    pr = primes_1_mod(lcm(d, 4))
+    for p in pr:
+        R = Ring(d, p)
+        N = 2
+        H, W, Winv, U, Habs = far_element_case(d, N, R, 11)
+        D = d ** N
+        ok_u &= bool(((H @ U - U @ H) % p).any())
+        L = liouvillian(H, N, R, gamma)
+        Ldag = liouvillian((-H) % p, N, R, gamma)
+        S, Si = np.kron(np.eye(D, dtype=np.int64), W), np.kron(np.eye(D, dtype=np.int64), Winv)
+        ok &= not ((S @ L % p @ Si + Ldag + 4 * N * gamma * np.eye(D * D, dtype=np.int64)) % p).any()
+        I = np.eye(D)
+        Lmax = (np.kron(I, Habs) + np.kron(Habs.T, I) + 2 * (2 * N) * gamma * np.eye(D * D)).max()
+        ok_b &= zero_is_zero(Lmax, 4 * N * gamma, d, pr)
+    check(f"d={d} N=2: H commutes with W = U Delta and not with U, and W rho reflects L onto "
+          "-L^dag - 4N gamma, exact (norm bound)", ok and ok_u and ok_b)
+
+print("G15 the lone jump: equal counts, no palindrome")
+for d in (4, 6):
+    ok = True
+    for p in primes_1_mod(lcm(d, 4)):
+        R = Ring(d, p)
+        N, D = 2, d ** 2
+        X, _, _ = clock_ops(R)
+        U = kron_list([np.linalg.matrix_power(X, d // 2)] * N, p)
+        rng = np.random.default_rng(5)
+        H0 = rng.integers(-1, 2, size=(D, D))
+        H0 = ((H0 + H0.T) % p).astype(np.int64)
+        H = (H0 + U @ H0 % p @ U) % p                        # commutes with the involution U
+        L = liouvillian_single(H, N, R, gamma)
+        c = 2 * N * gamma
+        vecI = np.eye(D, dtype=np.int64).reshape(-1, order="F")
+        vecU = U.reshape(-1, order="F")
+        lower = not ((L @ vecI) % p).any() and not (((L + c * np.eye(D * D, dtype=np.int64)) @ vecU) % p).any()
+        n0 = nullity_mod_p(L, p)
+        nc = nullity_mod_p(L + c * np.eye(D * D, dtype=np.int64), p)
+        sums = single_odd_power_sums(L, N, R, gamma, ks=(3, 5, 7))
+        ok &= lower and n0 == 1 and nc == 1 and any(v != 0 for v in sums.values())
+    check(f"d={d} N=2 lone jump, [H, U] = 0: dim ker L = dim ker(L + 2N gamma) = 1 exactly, and an "
+          "odd centred power sum is nonzero: equal counts without a palindrome", ok)
+
+print("G16 the pair, generic H: the count's no and the moment's no")
+for d in (4, 6):
+    ok = True
+    for p in primes_1_mod(lcm(d, 4)):
+        R = Ring(d, p)
+        N, D = 2, d ** 2
+        rng = np.random.default_rng(9)
+        H0 = rng.integers(-1, 2, size=(D, D))
+        H = ((H0 + H0.T) % p).astype(np.int64)
+        L = liouvillian(H, N, R, gamma)
+        c = 4 * N * gamma
+        nc = nullity_mod_p(L + c * np.eye(D * D, dtype=np.int64), p)
+        sums = odd_power_sums(L, N, R, gamma, ks=(3, 5))
+        ok &= nc == 0 and any(v != 0 for v in sums.values())
+    check(f"d={d} N=2 pair, generic H: dim ker(L + 4N gamma) = 0 exactly, and an odd centred power "
+          "sum is nonzero", ok)
 
 print("G11 the conventions: the builders on matrix units at H = 0")
 for d, N, p in [(d, N, p) for d, N in ((3, 1), (4, 1), (4, 2), (6, 2), (5, 1))

@@ -659,7 +659,7 @@ arc `f138_clause_two_sweep`'s question about clause 2's word *orthogonal* is
 answered there: orthogonality of directions is not what the criterion asks for.
 
 **And one axis where the criterion is not merely untested but mis-centred.**
-Jump operators with A² ≠ 1 break Σ c†c = σ·1, and the palindrome does not simply
+Jump operators that are not unitary break Σ c†c = σ·1 (jumps normalised to norm one; a unitary jump with A² ≠ 1, the clock of [F172](../docs/ANALYTICAL_FORMULAS.md#f172), keeps it), and the palindrome does not simply
 die there: **F137** records that T1 alone keeps it for the Hamiltonians it names, about **−σ/2** rather than −σ.
 So a criterion phrased "pairs about −σ" is answering the wrong question in that
 regime, and the premise is doing more work than a footnote. With the string Z⊗N in place of U
