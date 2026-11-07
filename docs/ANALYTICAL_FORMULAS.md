@@ -6,7 +6,7 @@ Quarter-valued entries are algebraic or named-model objects with the scope
 stated in their individual rows.
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-11-06 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-11-07 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -11463,6 +11463,32 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Scope:** XY couplings (the open Heisenberg chain's ZZ term loses U and the spin ladder, and its (1, 1) room is the ⌊N/2⌋ frozen modes at N = 3 to 8, measured, and at N = 3 to 6 certified by `GreyRoomLadderImagesWitness`, whose mod-p room meets [F140](#f140)'s floor there), equal light (with positive rates not all equal only the four single cells stay grey among the blocks), real couplings. Completeness beyond the ladder images and the mirror products is measured, not proved: the uniform chain at N = 3 to 6 and (4, 2) at N = 8, the block (N/2, 2) at k = N/2 on the even rings to N = 12.
 **Replaces:** per-block rank reads of the ladder-image floor, and of the whole room in (1, 1) of the uniform open chain.
 **Source:** [PROOF_GREY_GLASS_LADDER_IMAGES](proofs/PROOF_GREY_GLASS_LADDER_IMAGES.md); the reading and the measured rooms in [The grey glass](THE_GREY_GLASS.md).
+
+---
+
+<a id="f172"></a>
+### F172. The clock mirror: under the clock jumps {Z, Z†} a chain of d-level systems is palindromic at every even d for every Hamiltonian commuting with (X^{d/2})^⊗N, X^{d/2} being the X of a qubit every even qudit carries; at odd d, and under one-rate full-Cartan dephasing at every d ≥ 3, it is palindromic for no Hamiltonian (Tier 1: derived 2026-11-07 in [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md); registered as an INDEX of that proof)
+
+**Why a number, and why it says so.** This entry indexes; the statement, its proofs and its gate are in the proof named in the header. The caution is [F160](#f160)'s: an indexing gap is not a result, and this entry claims nothing its source does not. It is not F121 (the full-Cartan ceiling of the dissipator's partial pairing; this entry is the full spectrum with a Hamiltonian), and not [F158](#f158): the clock pair is inside F158's class at d = 2, at d = 3 (full-Cartan dephasing there, a sum of the level reflections 1 − 2|k⟩⟨k|) and at d = 4 (two-qubit Pauli strings), with its jumps as given outside it at d ≥ 5, and where F158 §(f5) rules out a pairing about its own −σ, the bound here rules out every centre. It does not own its mechanism: the element is Prosen's PT relation, computed in [The Pairing Condition](../experiments/THE_PAIRING_CONDITION.md) and F158 §(e). What the entry owns is the qudit instance, the qubit inside, the two routes of the lone jump, and the no-go by the numerical range, which reaches what [QUBIT_NECESSITY](QUBIT_NECESSITY.md) leaves open for one-rate full-Cartan dephasing: no palindrome for any Hamiltonian at d ≥ 3, on mixed chains with qubits too.
+
+**The setting.** N sites of d levels, the clock Z|j⟩ = ω^j|j⟩, ω = e^{2πi/d} (the Weyl clock operator, not MirrorWorld's `Clock`), the shift X|j⟩ = |j + 1⟩, the jumps Z_l and Z_l† at one rate γ (σ = 2Nγ), or Z_l alone (σ = Nγ); H Hermitian, H̄ its complex conjugate in the level basis; U = (X^{d/2})^⊗N and Q = P^⊗N, P|j⟩ = |−j⟩; full-Cartan dephasing at one rate r: every coherence of a site at r. Palindromic as a multiset.
+
+**The statement.**
+
+    r(a) = 2γ(1 − cos(2πa/d)) on the letters X^a Z^b    (the clock pair, one site; the column a alone)
+    even d, [H, U] = 0:  ℒ_U L ℒ_U⁻¹ = −L† − 4Nγ;  H also real symmetric:  Π L Π⁻¹ = −L − 4Nγ, Π(ρ) = ρᵀU
+    j = (d/2)b + j':  Z = Z_b ⊗ diag(ω^{j'}),  X^{d/2} = X_b ⊗ 1    (the qubit b: which half of the levels)
+    lone jump, even d, [H, U] = 0 and ([Q, H] = 0 or Q H̄ Q = H):  spec L = −spec L − 2Nγ
+    d = 4:  D[Z] + D[Z†] = D[Z_b ⊗ 1] + D[Z_b ⊗ Z_{j'}], D[A](ρ) = γ(AρA† − ρ)    (two qubits, inside F158; the spin 3/2 of F167)
+    Re λ ≥ λ_min(D_sa), D_sa the self-adjoint part of the dissipator; a palindrome needs 0's partner −c, c = −2 Tr L/d^{2N}
+    odd d (the pair or the lone jump); one-rate full-Cartan at d ≥ 3; any chain holding such a site among Z-dephased qubits:  no palindrome, for every H
+
+**Gated by** [`simulations/qudit_clock_mirror_gate.py`](../simulations/qudit_clock_mirror_gate.py), G1 to G13, 138 checks, the identities exact modulo two primes with a norm bound and the obstructions exact as nonzero residues (the proof's §6); must print ALL GREEN.
+**Typed/live owner:** none yet; under the witness-first rule a C# witness beside `QuditPartialPalindromeWitness` when it becomes load-bearing.
+**Adjacent.** F121 (the full-Cartan ceiling); [F158](#f158) (§(b) the numerical-range strip this no-go narrows, §(e) the one-sided step, §(f5) the similarity argument at odd dimension, its d = 6 row of a qutrit beside a qubit); F119 (θ on the Weyl operators, the transpose of the proof's §2); F117 (the moment route, the second route to the odd-d no at the computed cases); Sá, Ribeiro and Prosen's two-step construction (the transpose routes, carried to a conjugation-closed jump set); [F167](#f167) (the spin 3/2 as two qubits: the d = 4 pair is its J₀ channel with a dephasing of the sign of m); [F1](#f1) and [F118](#f118) (Π_Z = R·D, ρᵀ·X^⊗N, the shape of Π here).
+**Scope:** clock jumps at one rate on every site. The even-d direction is sufficient, not a criterion (F158's two-end count is not claimed for these jumps; at d = 4 it applies through the two-qubit form, at even d ≥ 6 it is open). The no-go holds for every Hermitian H; for full-Cartan dephasing at unequal rates it decides only where the largest total rate stays below twice the mean.
+**Replaces:** a spectral computation per qudit chain and Hamiltonian to decide the palindrome, by two conditions on H at even d and one inequality on the rates otherwise; and the reading of "the palindrome is qubit-only" as a fact about the dimension: it is a fact about the dephasing, true for full-Cartan dephasing at one rate for every Hamiltonian, and false for the clock at every even d ≥ 4.
+**Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
 
 ---
 
