@@ -1245,6 +1245,18 @@ public static class InspectCommand
                 c.Parser.HasFlag("d") ? c.Parser.RequireInt("d") : 4,
                 c.Parser.HasFlag("c") ? c.Parser.RequireInt("c") : 1),
             RequiresN: false),
+        new("clockmirror", "F172, the clock mirror, live: N sites of d levels under the clock jumps {Z, Z†} or the lone jump Z, every mirror " +
+            "identity read exactly in ℤ[ζ_m] on every matrix unit (no primes, no norm bound): the hidden qubit (X^{d/2} Z X^{−d/2} = −Z; at " +
+            "d = 3, 5, 7 no shift does it), the pair's one-sided element ρ ↦ Uρ onto −L† − 4Nγ at a Hermitian H that is not real (a clock " +
+            "field breaks it), its transpose mirror ρ ↦ ρᵀU onto −L − 4Nγ, the far end widened to UΔ, the lone jump's four routes with the " +
+            "routes that do not reach each Hamiltonian as controls, and the reduction ℒ_U L(H, Z) ℒ_U⁻¹ = −L(−H, Z) − 2Nγ. Optional " +
+            "integers --d (even, 4 to 8, default 4), --N (default 2, d^N ≤ 64), --gamma (default 1) " +
+            "(typed: QuditClockMirrorClaim; docs/proofs/PROOF_QUDIT_CLOCK_MIRROR.md)",
+            c => new QuditClockMirrorWitness(
+                c.Parser.HasFlag("d") ? c.Parser.RequireInt("d") : 4,
+                c.Parser.HasFlag("N") ? c.N : 2,
+                c.Parser.HasFlag("gamma") ? c.Parser.RequireInt("gamma") : 1),
+            RequiresN: false, HonorsOptionalN: true),
         new("twobytwo", "the one closed 2 × 2 behind many exceptional points (docs/THE_DOUBLE_ROOT.md, One 2 × 2 in many settings), live: "
             + "every row at a point with integer entries on its exceptional point and one step off it, exact over ℚ(i) through the claim's law (d = 0 and "
             + "M₀ ≠ 0, one Jordan block; companion rows marked as readings that cannot fail), self-orthogonality following the writing, "
