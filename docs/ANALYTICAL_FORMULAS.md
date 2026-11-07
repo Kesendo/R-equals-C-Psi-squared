@@ -10835,8 +10835,10 @@ component without an invertible spanning tree, read through a twin turn, a real
 structure and traces of alternating words.
 
 **Adjacent.** F103 §7.12's chiral sign rule (D_x = −D_y on an edge) is the
-same kind of object as the complement connection (d_y/d_x = H_xy/H_x̄ȳ on an
-edge): a diagonal function on the basis-state graph obeying an edge rule.
+complement connection (d_y/d_x = H_xy/H_x̄ȳ on an edge) in F103's diagonal
+cell: there X^⊗N·H·X^⊗N = −H (F103's Fact A), so every ratio H_xy/H_x̄ȳ is −1
+and the edge rule reads D_y = −D_x, the far-end equation [X^⊗N·D, H] = 0 that
+F103 §7.5 writes as {H, D} = 0.
 
 **Typed/live owner:** `PalindromeComplementConnectionClaim` (Tier 1 derived,
 parent F158's `PalindromeTwoEndCountClaim`); live witnesses
