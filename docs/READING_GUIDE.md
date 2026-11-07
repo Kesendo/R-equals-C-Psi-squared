@@ -769,10 +769,29 @@ and "conjugation" appear), but each document introduces its own machinery.
    says it in words: the palindrome holds exactly when one direction
    perpendicular to every watching axis carries every field, on every
    connected graph (F169). The Pauli letters these proofs count sit on
-   one cube in [The One Square](THE_ONE_SQUARE.md) §7 (in plain words:
-   [On the One Square](../reflections/ON_THE_ONE_SQUARE.md)).
+   the cube of the next item.
 
-8. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
+8. [The One Square](THE_ONE_SQUARE.md): The word "diagonal" on one
+   sheet. Five squares the repository had drawn, mostly without saying
+   so, each with a swap and an opposite and so two lines; on the square
+   of a state the mirror group's eight moves split into the four that
+   keep the lines and the four that trade them and pay the palindrome's
+   price, while in the corner where the frozen divisor's modes live, on
+   the mirror-balanced locus of the rates and for a real hopping the
+   chain's reversal keeps, the paying moves keep the lines and fail on
+   the populations (the frozen divisor's tax). Three squares at once,
+   one per dephasing letter, are the letter cube: every Pauli string a
+   point whose three heights set the three dephasings' prices, a bond
+   growing or shrinking a string by one letter and a field trading one,
+   and every move asked two questions, a copy or a reflection, which
+   for a string are the two ends of F158; amplitude damping read there
+   as a height plus an arrow derives the thermal palindrome (F137),
+   through an element Prosen and his coauthors already hold, under
+   loss and gain alone, for a Hamiltonian commuting with X^N and Y^N.
+   Plain words:
+   [On the One Square](../reflections/ON_THE_ONE_SQUARE.md).
+
+9. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
    synthesis, written the day the three big subjects of the repository
    (the rates, the mirror, the verdict) turned out to be one diagonal
    matrix read three ways. Plain language, no formalism. If you read
@@ -786,7 +805,11 @@ living on beyond. Under jumps that are Hermitian, square to 1 and act
 at a positive rate, whether a system keeps the mirror is a count of the modes at the two
 ends of its spectrum. And the absorption rates,
 the palindrome, and the classifier verdict are not three theorems. They are one
-diagonal, read as a price list, a mirror, and a judge.
+diagonal, read as a price list, a mirror, and a judge. The word
+also names something else: the two lines of one square, drawn five
+times, across which, on the square of a state, that diagonal is the
+height; and the letters the proofs count sit on one cube, on which
+every move is asked two questions, a copy or a reflection.
 
 ---
 

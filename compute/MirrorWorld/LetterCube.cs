@@ -33,7 +33,7 @@ namespace MirrorWorld;
 // k_P = const. The Pauli dissipator never moves a string, so every move a string makes on the cube is the
 // Hamiltonian's.
 //
-// A jump that is not a Pauli string moves strings too (§9, the amplitude-damping paragraph, gates M8, M9). Any
+// A jump that is not a Pauli string moves strings too (§9, the subsections on amplitude damping and on the element S_XY, gates M8, M9). Any
 // one-site jump J at rate r acts on the four letters through its Pauli-transfer matrix T[a, b] = Tr(P_a D(P_b))/2,
 // D(rho) = r (J rho J^dagger - {J^dagger J, rho}/2): its diagonal is a height (minus each letter's rate), its
 // off-diagonal entries are arrows, a move from letter b to letter a with a coefficient. sigma^- = |0><1| at rate r is
