@@ -334,7 +334,16 @@ qubits (its slow jump T₂₀ is then a Z on one of them), and it pairs fully
 about two centres at every rate, which coincide where the zero-frequency
 spectral density J₀ of the field gradient vanishes; at every other spin
 I ≥ 1 the J₀ channel alone breaks the pairing
-([F167](ANALYTICAL_FORMULAS.md#f167)).
+([F167](ANALYTICAL_FORMULAS.md#f167)). A dephasing outside the class keeps
+the palindrome at even d: the clock jump Z = diag(1, ω, …, ω^{d−1}) with Z†,
+whose split is d : d² − d but whose rates are graded, for every H that commutes
+with (X^{d/2})^⊗N, the X of a qubit inside the qudit; at d = 3 that pair is the
+full-Cartan dephasing of this document at another rate. Beyond the local
+exclusions above, the same page's numerical-range bound rules out a full
+palindrome of this document's full-Cartan dephasing at one rate for every
+Hamiltonian at every d ≥ 3, on any chain holding such a site among qubits, the
+qubit-qutrit-qubit chain of §5 included, and of the clock at odd d
+([the clock mirror](proofs/PROOF_QUDIT_CLOCK_MIRROR.md) §4).
 
 ### 8b. Relaxed mirror conditions
 

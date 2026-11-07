@@ -1107,7 +1107,14 @@ So the open question is not a measurement but a modeling choice: *which qudit
 channel is the right analogue of single-qubit Z-dephasing*. Until that is fixed,
 the shared anchor should be read as recording that four coefficients equal 2,
 not as a claim that one causes the others. Moving it would touch F1, F50 and
-F66, so it stays as it is and this paragraph states the reservation.
+F66, so it stays as it is and this paragraph states the reservation. The
+palindrome sorts them without fixing the spacing, though only at even d ≥ 4:
+there the clock keeps it, the single generator and the pair {Z, Z†} alike,
+for Hamiltonians that respect the qubit inside the qudit (the single generator
+asks H to suit a reflection of the levels as well), while the powers Z^k and
+the full-Cartan construction keep it for no Hamiltonian at any d ≥ 3; at odd d,
+the qutrit included, none of the three keeps it
+([the clock mirror](PROOF_QUDIT_CLOCK_MIRROR.md)).
 
 ---
 
