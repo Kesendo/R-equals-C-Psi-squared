@@ -15,7 +15,7 @@ Under the dephasing the repository uses for qudits, which kills every coherence 
 
 ## 1. Setting
 
-N sites of d levels, |j⟩ with j ∈ ℤ_d, the shift X|j⟩ = |j + 1⟩ and the clock Z|j⟩ = ω^j|j⟩, ω = e^{2πi/d}, so that ZX = ωXZ. H is Hermitian, and H̄ is its complex conjugate in the level basis. The generator is
+N sites of d levels, |j⟩ with j ∈ ℤ_d, the shift X|j⟩ = |j + 1⟩ and the clock Z|j⟩ = ω^j|j⟩, ω = e^{2πi/d}, so that ZX = ωXZ. The clock here is the Weyl clock operator, the clock of the clock-and-shift pair, as in [PROOF_ANTILINEAR_TRIANGLE](PROOF_ANTILINEAR_TRIANGLE.md) §6; it is not MirrorWorld's `Clock`, F95's two hands. H is Hermitian, and H̄ is its complex conjugate in the level basis. The generator is
 
   L(ρ) = −i[H, ρ] + γ Σ_l (Z_l ρ Z_l† + Z_l† ρ Z_l − 2ρ),
 
@@ -70,7 +70,7 @@ At d = 2 the clock is the Pauli Z, the full-Cartan construction is Z dephasing, 
 - **full-Cartan, and all powers Z^k at one rate:** a binary split, d immune against d² − d decaying, palindromic for no H at any d ≥ 3 (§4; the dissipator's own count is [QUBIT_NECESSITY](../QUBIT_NECESSITY.md)'s). At d = 3 the clock pair is this class too: Z² = Z†, both nonzero columns decay at 3γ, and the pair is full-Cartan dephasing at another rate. The clock and the full-Cartan class part from d = 4.
 - **the single clock generator Z,** the Absorption proof's first dephaser, whose rates have real part γ(1 − cos(2πa/d)): palindromic at every even d for H commuting with U and suited to the level reflection in either way of §3, and for no H at odd d.
 - **the clock pair {Z, Z†},** whose dissipator is the self-adjoint part of the single generator's, at twice the rate: palindromic at every even d for H commuting with U, and for no H at odd d.
-- **continuous phase noise,** the jump n, not among the Absorption proof's three: a cell |i⟩⟨j| decays at γ(i − j)²/2, whose multiset is symmetric about a centre only at d = 2 (G6, d = 2..8), so it parts from the others already at d = 3; the dissipator alone, not the Hamiltonian's question, is decided here.
+- **continuous phase noise,** the jump n, a fluctuating field along the level number rather than a discrete kick, not among the Absorption proof's three: a cell |i⟩⟨j| decays at γ(i − j)²/2, whose multiset is symmetric about a centre only at d = 2 (G6, d = 2..8), so it parts from the others already at d = 3; the dissipator alone, not the Hamiltonian's question, is decided here.
 
 The Absorption proof leaves "which qudit channel is the right analogue of single-qubit Z-dephasing" a modeling choice for the rung spacing it asks about. The palindrome does not fix that spacing; it says that among its three only the clock keeps the mirror above d = 2, alone or with its adjoint, at even d, under the conditions on H of §3, and that at odd d none of them does.
 
