@@ -7,9 +7,11 @@ positive rate profile, any topology, any N, and any finite dimension. What the
 CRITERION decides is the eigenvalue multiset; sufficiency in fact delivers more,
 a full similarity `L ~ −L − 2σ`, so where the criterion holds the entire Jordan
 structure is reflection-symmetric (§(f8)). Two fences are load bearing rather
-than decorative: Hermitian jumps with `A² = 1`, which for such a jump is unitarity together with a self-adjoint dissipator (unitarity carries the three lemmas and necessity, the self-adjointness sufficiency) (F137 recentres the palindrome under T1, which is not
-unitary, where it survives; unitary jumps whose dissipator is self-adjoint keep the theorem with the same proof, F172)
-and `γ_l > 0` with at least one jump present (a zero rate drops a condition and
+than decorative. The first is Hermitian jumps with `A² = 1`: the hermiticity makes the
+dissipator self-adjoint, which sufficiency spends, and `A² = 1` then makes each jump unitary,
+which the three lemmas and necessity spend (F137 recentres the palindrome under T1, which is not
+unitary, where it survives; unitary jumps whose dissipator is self-adjoint keep the theorem with the same proof, F172).
+The second is `γ_l > 0` with at least one jump present (a zero rate drops a condition and
 can move the verdict; with no jump at all the equivalence holds trivially, and
 §(f5)'s odd-d corollary, Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9) fail). Even TOTAL dimension d is not a fence but a
 consequence: with a jump present no palindrome exists at odd d (§(f5)), and the
@@ -248,7 +250,7 @@ because every generator is Hermitian. Write
 Since A_l² = 1, `A_l X A_l = ±X` is the same statement as `A_l X = ±X A_l`.
 
 **Two fences, both load bearing, and one consequence.** The rate fence is gated (10b);
-`A² = 1` is the boundary of the stated class, and for a Hermitian jump it is two hypotheses at once, unitarity, which the three lemmas and necessity spend, and a self-adjoint dissipator, which sufficiency spends; even total d follows (below).
+Hermitian jumps with `A² = 1` are the boundary of the stated class, and the theorem rests on two hypotheses: the hermiticity makes the dissipator self-adjoint, which sufficiency spends, and `A² = 1` then makes each jump unitary, which the three lemmas and necessity spend; even total d follows (below).
 
 **γ_l > 0.** Not a formality. A rate set to zero removes that site's condition
 from both 𝒩 and 𝒲, and the verdict can move: on a ZZ bond with an X field on site
@@ -271,8 +273,9 @@ are not unitary, the palindrome survives, for the Hamiltonians it names, about a
 states exactly as trace(L)/dim, so a criterion phrased about −2σ is answering a
 different question there. The theorem reaches past that boundary on the unitary side: for unitary
 jumps whose dissipator is self-adjoint, Σγ_l A_lρA_l† = Σγ_l A_l†ρA_l, it holds by this proof with
-A_lρA_l† in place of A_lρA_l, and without the self-adjointness only its necessity is guaranteed
-([the clock mirror](PROOF_QUDIT_CLOCK_MIRROR.md) §5, F172). What the hypothesis buys, positively, is broader than
+A_lρA_l† in place of A_lρA_l, and without the self-adjointness only its necessity is guaranteed,
+and where the counts agree what remains is one spectral equality, L against L with every jump replaced by its adjoint
+([the clock mirror](PROOF_QUDIT_CLOCK_MIRROR.md) §5, F172). What Hermitian jumps with `A² = 1` buy, positively, is broader than
 the letters: any `n̂·σ⃗` at a unit direction qualifies, as does any Pauli STRING,
 as does a full depolarizing site (X, Y and Z each satisfy it). All three
 families are gated in §(g), and the last of them is F1's canonical break, which the criterion
@@ -871,7 +874,7 @@ read on two routes (§(g)); its twelve other broken rows have dim 𝒲 = 0, wher
 neither side can fail. Everything outside that range rests on the proof
 alone.
 
-**Outside:** jump operators that are not unitary, where the question changes (F137 recentres the palindrome under T1 where it survives); unitary jumps whose dissipator is not self-adjoint, where only necessity is guaranteed (F172's lone clock jump); and rates that are zero or negative. Where the two counts differ
+**Outside:** jump operators that are not unitary, where the question changes (F137 recentres the palindrome under T1 where it survives); unitary jumps whose dissipator is not self-adjoint, where only necessity is guaranteed and, where the counts agree, the palindrome holds exactly when replacing every jump by its adjoint keeps the spectrum (F172's lone clock jump); and rates that are zero or negative. Where the two counts differ
 the multiset is broken, and the criterion says nothing about the Jordan
 structure there; where they agree, §(f8) gives it in full. Z dephasing with
 correlated site fields is outside as well, not unitary: its jumps c_μ are built linearly

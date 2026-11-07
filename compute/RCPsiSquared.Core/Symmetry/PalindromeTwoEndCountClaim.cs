@@ -35,8 +35,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// palindrome =&gt; the two algebraic multiplicities agree =&gt; by (2) the two nullities agree.</para>
 ///
 /// <para><b>What the two fences are for, both load bearing, and the consequence beside them.</b>
-/// <c>A_l^2 = 1</c>, which for a Hermitian jump is unitarity (spent by the lemmas and necessity) together with a
-/// self-adjoint dissipator (spent by sufficiency): F137 records that non-unitary (T1) jumps keep a palindrome about a DIFFERENT
+/// Hermitian jumps with <c>A_l^2 = 1</c>: the hermiticity makes the dissipator self-adjoint (spent by sufficiency),
+/// and <c>A_l^2 = 1</c> then makes each jump unitary (spent by the lemmas and necessity). F137 records that non-unitary (T1) jumps keep a palindrome about a DIFFERENT
 /// centre, which F137 states exactly as trace(L)/dim, so a criterion phrased about -2 sigma is
 /// answering a different question there; unitary jumps whose dissipator is self-adjoint keep the theorem by the same
 /// proof with A_l rho A_l^dagger (F172, docs/proofs/PROOF_QUDIT_CLOCK_MIRROR.md section 5). <c>gamma_l &gt; 0</c>: a zero rate drops that site's
@@ -100,8 +100,8 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                "space with the jump sign flipped, both by a Cauchy-Schwarz equality case; both eigenvalues are " +
                "semisimple, so the char-poly identity forces the two nullities to agree, and equal nullities force " +
                "an invertible U with [U,H] = 0 and U A_l U^-1 = -A_l, which reflects the spectrum. No operator to " +
-               "exhibit and no subspace to sample: two ranks compared. Fences, both load bearing: A_l^2 = 1, for a Hermitian " +
-               "jump unitarity plus a self-adjoint dissipator (F137 recentres for T1 jumps; unitary jumps with a self-adjoint dissipator keep the theorem, F172) and gamma_l > 0 (a zero rate drops a condition and can move the " +
+               "exhibit and no subspace to sample: two ranks compared. Fences, both load bearing: (1) Hermitian jumps with A_l^2 = 1, " +
+               "the hermiticity giving a self-adjoint dissipator and A_l^2 = 1 then unitarity (F137 recentres for T1 jumps; unitary jumps with a self-adjoint dissipator keep the theorem, F172); (2) gamma_l > 0 (a zero rate drops a condition and can move the " +
                "verdict); even total d is a consequence, not a fence: with at least one jump no invertible U exists " +
                "at odd total d, so there the theorem holds with both sides false (the local dimension is free)",
                Tier.Tier1Derived,
@@ -210,7 +210,8 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "depolarizing sites alike), any strictly positive profile, any topology, any N, any " +
                          "finite dimension. Gated at d = 2^N with N <= 5 (N = 5 on gate 12: ten rows with agreeing counts and one strict row 0 < dim W < dim N, the two kinds on which a row can fail, two routes), plus d = 3 and 5, where the inequality " +
                          "dim W < dim N behind the odd-d corollary is checked. OUTSIDE: jumps that are not unitary (F137 recentres under T1; for correlated Z dephasing see " +
-                         "CorrelatedZDephasingPriceClaim), unitary jumps whose dissipator is not self-adjoint, where only necessity is guaranteed (F172) and rates that are zero or " +
+                         "CorrelatedZDephasingPriceClaim), unitary jumps whose dissipator is not self-adjoint, where only necessity is guaranteed and, where the counts agree, " +
+                         "the palindrome holds iff spec L(H, {A}) = spec L(H, {A^dagger}) (F172), and rates that are zero or " +
                          "negative. What the counts decide is the MULTISET; where they agree the proof's (f8) " +
                          "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
                          "F1PalindromeIdentity is the operator identity for the particular Pi, which is why a " +

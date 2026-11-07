@@ -142,7 +142,15 @@ P a unitary involution on operators and L′ the traceless part of the
 generator, and shows that the spectrum then has a D2 symmetry: a reflection in
 the vertical line Re λ = −σ beside the reflection in the real axis that
 hermiticity preservation gives. Together they pair λ with −λ − 2σ. The
-second paper finds this symmetry for arbitrary two-spin XYZ couplings on
+second paper states sufficient conditions for the relation as a Lemma, written for
+operators on a general Hilbert space: P(ρ) = UρW with U and W unitary involutions
+commuting with H; a real orthogonal involution S on the jump indices (his Z) with
+U L_m = −Σ_{m'} S_{mm'} L_{m'}† U and W L_m = Σ_{m'} S_{mm'} L_{m'}† W; and
+{L_m, L_m†} = c_m·1 for every jump. The third
+condition is the step [The Pairing Condition](../experiments/THE_PAIRING_CONDITION.md)
+takes past A² = 1, jumps with A†A + AA† ∝ 1, and the clock pair's one-sided element and the first route
+of the lone clock jump of [F172](ANALYTICAL_FORMULAS.md#f172) meet all three as stated. The
+paper's examples are spin 1/2: the first finds this symmetry for arbitrary two-spin XYZ couplings on
 any set of pairs, fields along x and arbitrary local Z dephasing rates,
 with P the one-sided multiplication ρ ↦ X^⊗N·ρ. Its second example,
 ρ ↦ Y^⊗N·ρ·X^⊗N for XYZ couplings under absorption and injection at
@@ -205,7 +213,8 @@ the sector phase, Π_Y, and their pseudo-Hermiticity Q₊ = S, the transpose,
 already generate it, and their Eq. (79), Q₊P = U_x P Q₊, is its inversion
 relation. Nor did we find the
 [two-end count](proofs/PROOF_PALINDROME_TWO_END_COUNT.md) (F158), which
-decides, for Hermitian jumps that square to one, at positive rates and with
+decides, for Hermitian jumps that square to one, and by [F172](ANALYTICAL_FORMULAS.md#f172)
+for unitary jumps whose dissipator is self-adjoint, at positive rates and with
 at least one jump present, whether the eigenvalue multiset is palindromic;
 its sufficiency step is Prosen's relation with U only invertible. On the
 Π²-even class [F108](proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)

@@ -6,13 +6,15 @@ site, both at rate gamma. Mirror: Pi(rho) = rho^T . (X^{d/2})^{(x)N}, X the cycl
 What is exact, and why. The identities live in the ring Z[zeta_m], m = lcm(d, 4), and are
 reduced modulo primes p = 1 mod m, where zeta_m is an integer of order m (a ring homomorphism
 Z[zeta_m] -> GF(p); complex conjugation is the Galois map zeta -> zeta^-1 and is written into the
-construction, conj(w^j) = w^-j, never applied to residues). Every mirror used here is a bare
-permutation of the matrix units, so a residual entry is a reindexed entry of L plus an entry of
+construction, conj(w^j) = w^-j, never applied to residues). Every mirror used here is a
+permutation of the matrix units, up to the roots of unity of G14's Delta and signs of G18's Y,
+so a residual entry is a reindexed entry of L plus an entry of
 L or L^dagger plus the centre: an element alpha of Z[zeta_m] whose every Galois conjugate is at
 most B = 2 max|L| + c in modulus, max|L| taken entry-wise on a majorant built with every root of
 unity replaced by its modulus 1. If alpha is zero modulo degree-one primes above p1 and p2, then
 p1 p2 divides its norm, which is at most B^phi(m); so where B^phi(m) < p1 p2 (checked beside every
-identity, G2, G9, G10, G12) zero modulo the two primes is zero. The odd centred power sums (G5 and the
+identity, G2, G9, G10, G12, G14, G17 at G15's H, G18) zero modulo the two
+primes is zero. The odd centred power sums (G5 and the
 moment lines of G9, G10) have heights far above p1 p2: their vanishing modulo two primes is
 consistency, not exactness (and G2, G9, G10 imply it). The obstruction at odd d (G4) runs the
 other way and is exact as it stands: if the spectrum paired about any centre c, the trace would
@@ -62,8 +64,17 @@ nonzero modulo a prime is nonzero, a no for every element and every centre.
       above), and an odd centred power sum nonzero mod p: equal counts, no palindrome
   G16 the count's no and the moment's no agree for the pair: H generic, dim ker(L + 4N gamma) = 0
       exactly (nullity 0 mod p; the identity keeps dim ker L >= 1), and an odd centred power sum nonzero mod p
+  G17 the lone jump reduced to kicks forward against kicks back: with [H, U] = 0, left multiplication
+      by U carries L(H, Z) onto -L(-H, Z) - 2N gamma exactly (norm bound), so spec L(H, Z) is the
+      reflection of spec L(H, Z^dag); at G15's H the odd centred power sums of the two generators
+      are negatives of each other (consistency) and nonzero (exact), so the two spectra differ,
+      while on the rows of the two routes (G10, G12) they agree and vanish (consistency)
+  G18 the lone jump's two further routes, the other two kinds of symmetry: with [H, U] = 0 and
+      Y H Y^-1 = -H for Y = (Z^{d/2})^{(x)N}, M = L_U . Ad_Y gives M L M^-1 = -L - 2N gamma; with
+      H-bar = -H, M(rho) = U rho^T gives M L M^-1 = -L^dag - 2N gamma; both exact (norm bound), at
+      Hamiltonians where the parity route (G10) and the transpose route (G12) both fail
 
-Runtime: about six minutes.
+Runtime: about eight minutes.
 """
 import sys
 from math import gcd
@@ -682,6 +693,115 @@ for d in (4, 6):
         ok &= nc == 0 and any(v != 0 for v in sums.values())
     check(f"d={d} N=2 pair, generic H: dim ker(L + 4N gamma) = 0 exactly, and an odd centred power "
           "sum is nonzero", ok)
+
+print("G17 the lone jump: kicks forward against kicks back")
+def reversal_case(H, N, R):
+    """L_U L(H, Z) L_U^-1 + L(-H, Z) + 2N gamma, and the odd sums of L(H, Z) and L(H, Z^dag)."""
+    p, d = R.p, R.d
+    X, _, _ = clock_ops(R)
+    D = d ** N
+    U = kron_list([np.linalg.matrix_power(X, d // 2)] * N, p)
+    S = np.kron(np.eye(D, dtype=np.int64), U)           # vec(U rho) = (1 (x) U) vec(rho); U^2 = 1
+    L = liouvillian_single(H, N, R, gamma)
+    Lneg = liouvillian_single((-H) % p, N, R, gamma)
+    Lrev = liouvillian_single_dagger((-H) % p, N, R, gamma)   # -(-H) in the commutator, the jump Z^dag
+    zero = not ((S @ L % p @ S + Lneg + 2 * N * gamma * np.eye(D * D, dtype=np.int64)) % p).any()
+    ks = (3, 5, 7)
+    return zero, single_odd_power_sums(L, N, R, gamma, ks), single_odd_power_sums(Lrev, N, R, gamma, ks)
+
+
+for d in (4, 6):
+    ok_id, ok_rel, ok_diff, ok_b = True, True, True, True
+    pr = primes_1_mod(lcm(d, 4))
+    for p in pr:
+        R = Ring(d, p)
+        N, D = 2, d ** 2
+        X, _, _ = clock_ops(R)
+        U = kron_list([np.linalg.matrix_power(X, d // 2)] * N, p)
+        rng = np.random.default_rng(5)                       # G15's H
+        H0 = rng.integers(-1, 2, size=(D, D))
+        H0 = ((H0 + H0.T) % p).astype(np.int64)
+        H = (H0 + U @ H0 % p @ U) % p
+        zero, s, s_rev = reversal_case(H, N, R)
+        ok_id &= zero
+        ok_rel &= all(s[k] == (-s_rev[k]) % p for k in s)
+        ok_diff &= any(s[k] != s_rev[k] for k in s)
+        Habs = np.abs(np.where(H > p // 2, H - p, H)).astype(float)
+        I = np.eye(D)
+        Lmax = (np.kron(I, Habs) + np.kron(Habs.T, I) + 2 * N * gamma * np.eye(D * D)).max()
+        ok_b &= zero_is_zero(Lmax, 2 * N * gamma, d, pr)
+    check(f"d={d} N=2 lone jump, G15's H: U rho carries L(H, Z) onto -L(-H, Z) - 2N gamma, exact "
+          "(norm bound)", ok_id and ok_b)
+    check(f"d={d} N=2 lone jump, G15's H: the odd centred power sums of L(H, Z) and L(H, Z^dag) are "
+          "negatives of each other (consistency) and differ (exact): kicks forward and back give two spectra",
+          ok_rel and ok_diff)
+for label_, build in (("swap (the parity route, G10)", lambda R: hamiltonian("swap", 2, R)),
+                      ("swap + i(X - X^dag) (the transpose route, G12)",
+                       lambda R: with_imag_shift_field(hamiltonian("swap", 2, R), 2, R))):
+    ok = True
+    for p in primes_1_mod(4):
+        R = Ring(4, p)
+        zero, s, s_rev = reversal_case(build(R), 2, R)
+        ok &= zero and all(s[k] == s_rev[k] == 0 for k in s)
+    check(f"d=4 N=2 lone jump, {label_}: the identity holds mod p and the odd sums of L(H, Z) and "
+          "L(H, Z^dag) agree and vanish (consistency)", ok)
+
+print("G18 the lone jump: a unitary reversing H, an antiunitary reversing H")
+def superop(f, D, p):
+    """The matrix of rho -> f(rho) on column-stacked vec, built from the matrix units."""
+    M = np.zeros((D * D, D * D), dtype=np.int64)
+    for k in range(D):
+        for j in range(D):
+            E = np.zeros((D, D), dtype=np.int64)
+            E[j, k] = 1
+            M[:, k * D + j] = (f(E) % p).reshape(-1, order="F")
+    return M
+
+
+for d in (4, 6):
+    ok2, ok4, ok_ctrl, ok_b = True, True, True, True
+    pr = primes_1_mod(lcm(d, 4))
+    for p in pr:
+        R = Ring(d, p)
+        N, D = 2, d ** 2
+        X, Z, _ = clock_ops(R)
+        U = kron_list([np.linalg.matrix_power(X, d // 2)] * N, p)
+        V = kron_list([np.diag([(-1) ** j for j in range(d)]).astype(np.int64) % p] * N, p)  # (Z^{d/2})^{(x)N}
+        rng = np.random.default_rng(13)
+        H0 = rng.integers(-1, 2, size=(D, D))
+        H0 = ((H0 + H0.T) % p).astype(np.int64)
+        H1 = (H0 + U @ H0 % p @ U) % p
+        H2 = (H1 - V @ H1 % p @ V) % p                       # real symmetric, V H2 V = -H2, [H2, U] = 0
+        A0 = rng.integers(-1, 2, size=(D, D))
+        A0 = A0 - A0.T
+        A1 = (A0 + U @ A0 @ U) % p                           # real antisymmetric, commuting with U
+        H4 = (R.i * A1) % p                                   # H4 = i A1: Hermitian, H4-bar = -H4
+        I2 = np.eye(D * D, dtype=np.int64)
+        # kind two: M = L_U . Ad_V, with U^2 = V^2 = 1, inverse rho -> V U rho V
+        M = superop(lambda r: U @ V @ r @ V, D, p)
+        Mi = superop(lambda r: V @ U @ r @ V, D, p)
+        L2 = liouvillian_single(H2, N, R, gamma)
+        ok2 &= not ((M @ L2 % p @ Mi + L2 + 2 * N * gamma * I2) % p).any()
+        # kind four: M(rho) = U rho^T, inverse sigma -> sigma^T U
+        M = superop(lambda r: U @ r.T, D, p)
+        Mi = superop(lambda r: r.T @ U, D, p)
+        L4 = liouvillian_single(H4, N, R, gamma)
+        L4dag = liouvillian_single_dagger(H4, N, R, gamma)  # L^dagger from its formula
+        ok4 &= not ((M @ L4 % p @ Mi + L4dag + 2 * N * gamma * I2) % p).any()
+        # controls: neither the parity route (G10) nor the transpose route (G12) reaches these Hamiltonians
+        for H in (H2, H4):
+            ok_ctrl &= not single_identity_zero(H, N, R, gamma)[0] and not transpose_route_zero(H, N, R, gamma)
+        I = np.eye(D)
+        for H in (H2, A1):
+            Habs = np.abs(np.where(H > p // 2, H - p, H)).astype(float)
+            Lmax = (np.kron(I, Habs) + np.kron(Habs.T, I) + 2 * N * gamma * np.eye(D * D)).max()
+            ok_b &= zero_is_zero(Lmax, 2 * N * gamma, d, pr)
+    check(f"d={d} N=2 lone jump, [H, U] = 0 and Y H Y = -H, Y = (Z^(d/2))^(x)N: L_U . Ad_Y reflects L onto "
+          "-L - 2N gamma, exact (norm bound)", ok2 and ok_b)
+    check(f"d={d} N=2 lone jump, [H, U] = 0 and H-bar = -H: U rho^T reflects L onto -L^dag - 2N gamma, "
+          "exact (norm bound)", ok4 and ok_b)
+    check(f"control d={d} N=2: at both Hamiltonians the parity route (G10) and the transpose route (G12) fail",
+          ok_ctrl)
 
 print("G11 the conventions: the builders on matrix units at H = 0")
 for d, N, p in [(d, N, p) for d, N in ((3, 1), (4, 1), (4, 2), (6, 2), (5, 1))

@@ -665,7 +665,7 @@ So a criterion phrased "pairs about −σ" is answering the wrong question in th
 regime, and the premise is doing more work than a footnote. With the string Z⊗N in place of U
 (H commuting with it) the one-sided step above carries over to jumps that anticommute with that
 string and satisfy A†A + AA† ∝ 1, σ⁻ and σ⁺ among them, and lands on the reflection of the
-Liouvillian with every A replaced by A† ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged). F82 to F84 own the
+Liouvillian with every A replaced by A† ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s paragraph on loss and gain exchanged). The condition A†A + AA† ∝ 1 is the third condition of the Lemma of Prosen's Brief Report of 2012, whose second example takes these jumps with a two-sided parity ([literature review](../docs/LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)); for unitary jumps, where F158's count supplies the element, the same identity reduces the palindrome to one spectral equality, L against L with every jump replaced by its adjoint ([F172](../docs/ANALYTICAL_FORMULAS.md#f172)). F82 to F84 own the
 separate matter of Π failing in that regime. Z dephasing with correlated site fields sits
 on the same axis, with Hermitian jumps whose Σ c†c is not a number: the same one-sided
 computation with U = X^⊗N, which anticommutes with every jump built linearly from the Z_k
