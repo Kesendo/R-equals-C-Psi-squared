@@ -1,0 +1,45 @@
+PASS G1 the twin map carries H00 onto H11: U H00 U^dag = |n|^4 H11, identically in s, t, r and planar f_u, f_v
+PASS G1 Theta fixes H00 and carries K = V U to its adjoint, identically
+PASS G1 Theta squares to +1 and U^dag U = |n|^4 1, identically
+PASS G1 control: a z part c3 on f_u breaks the twin identity, with the twin map rebuilt for that row
+PASS G2 secular form of the dimer's characteristic polynomial (singlet at mu = -4r, triplet in the field g, coupled by k)
+PASS G2 control: the same form with the singlet at mu = -2r fails
+PASS G3 word (0,1,1,2) = 128 (t-1) A B2 |n|^8 e2 R1, exactly
+PASS G3 word (1,3,0,1) = const A B2 |n|^8 R1 Q, Q = s t (|f_v|^2 - |f_u|^2) + (t - s) e2 (s + t + r) at s = 1  [const -128]
+PASS G3 on R1, word (2,1,0,2) = R2 times factors from {t, t-1, t^2+1, A, B2, |n|^2}  [cofactor factors ['A', 'A**2*B2**2 + A**2*t**2 - 2*A*B1*t + B1**2 + B2**2', 'B2', 't', 't - 1', 't**2 + 1']]
+PASS G3 on R1 and R2, word (0,3,1,2) = R3 times factors from {t, t-1, t^2+1, A, B2, |n|^2 on the branch}  [cofactor factors 5]
+PASS G3 control: without the ZZ part of the bond u-v, R1 does not divide word (0,1,1,2)
+PASS G3 the charts: R1 at (w, w+1, w(w+1)(2w+1)) vanishes, and R1 solved for J_uv at (1, (w+1)/w) is (w+1)(2w+1), the chart's ratio; e2 = 0 solved for J_uv at (1+t, t(1+t)) is -t
+PASS G3 on E: e2 = 2 J_du J_dv (J_du^2 + J_dv^2)/(J_du - J_dv)^2, and J_uv = 0 exactly when J_du J_dv (J_du + J_dv) = 0
+PASS G4 the chart satisfies R2 (f_u.f_v = -2 e2) and R3 with B2^2 = beta, identically
+PASS G4 the parity-reduced system on R1, R2, R3 has rank 7 at a random point (a one-dimensional kernel)  [(55, 8)]
+PASS G4 the cofactor vector v(w, A) solves every row identically (M v = 0 over Z[w, A]), degrees at most 25 in w and 6 in A  [degrees [(25, 6), (22, 6), (19, 4), (16, 4), (21, 5), (18, 5), (15, 3), (12, 3)]]
+PASS G4 F F^dag = sigma 1 identically on the locus (F F^dag reduced modulo the characteristic polynomial is a constant)
+PASS G4 the factors of sigma: A, w+1, 2w+1, 2w^2+w+1, 2w^2+2w+1 and the two factors Q1, Q2 (in a = A^2), nothing else  [7 factors]
+PASS G4 Q1 meets no real point: on Q1, A^2 = 4(w+1)^2 (4w^3+4w^2+4w+1) and B2^2 (4w^3+4w^2+4w+1) = -16 w^2 (2w+1)^2 (w^2+w+1)^2
+PASS G4 the discriminant of Q2 in a is (2w^2+2w+1)^3 times a sextic with no real zero, so Q2's roots in a are real and simple wherever Q2 is quadratic (leading coefficient w(2w^2+3w+2), zero only at w = 0); its resultant with B2^2's numerator has real zeros only at w in {0, -1, -1/2}
+PASS G4 Q2 meets no real point: on every interval between the breakpoints (discriminant, leading coefficient, a = 0, the resultants with B2^2's numerator and denominator) no positive root a has B2^2 > 0 (signs exact), and at a breakpoint every root is simple, so a limit of roots of the neighbouring intervals  [4 breakpoints, 6 positive roots read]
+PASS G4 control: the same interval read with the curve A^2 = 64 in place of Q2 (it meets the locus, B2^2 = 9 at w = 1) reports real points  [2]
+PASS G4 control: with R3 shifted by one the system has full rank 8 at the same point (no carrier)
+PASS G5 at J_uv = 0 the separate pi turns about f_u and f_v are a twin map: U' H00 U'^dag = |f_u|^2 |f_v|^2 H11
+PASS G5 Npm = Im tr(P+ K P+ K^dag P- K P- K^dag) is even in alpha (P+ and P- trade places under alpha -> -alpha)
+PASS G5 Npm on the stratum factors into t, t-1, t+1, mq -+ lm^2 (B2 = 0, A = 0), (mq+lm^2)^2 + 4lm^2 = 4lm^2(A^2+1), (mq+lm^2)^2 + 4lm^2(1-t^2) = 4lm^2|f_v|^2, and Q5  [8 factors]
+PASS G5 on the stratum the levels are +-2 alpha and 0 twice: det(lm - H00) = lm^2 (lm^2 - 4 alpha^2), alpha^2 = |f_u|^2 + s^2
+PASS G5 Q5 read back on the stratum: 4 (A - B2)^2 (f_u.f_v + |f_v|^2 + s t - s^2) at s = 1
+PASS G5 on t = -s the six commutant elements commute with H00 and are independent (rank 6 at a point)
+PASS G5 branch t = -s: five maximal minors share exactly p, q, p^2+q^2, p^2+q^2+1, p^2-q^2-2
+PASS G5 branch t = -s: every real root in p of the pairwise resultants of the rest of two minors is p = 0, so they have no common real zero with p q != 0 and a palindrome needs f_u.f_v = 2 s^2 (exact)  [[]]
+PASS G5 control: with q - p - 1 planted on one minor and p^2 + q^2 - 5 on the other (they meet at p = 1 and p = -2) the same test reports their resultant's real roots  [[('p - q + 1', 'p + q', [-0.5]), ('p - q + 1', 'p**2 + q**2 - 5', [-2.0, 1.0]), ('p**2 - 3*q**2', 'p**2 + q**2 - 5', [-1.9364916731037085, -1.9364916731037085, 1.9364916731037085, 1.9364916731037085])]]
+PASS G5 the corner p^2 - q^2 = 2 (p, q = (kappa +- 2/kappa)/2): kernel one-dimensional over Q(kappa), det F vanishing only at kappa^2 = 2 (q = 0, collinear) and at no real kappa otherwise, the kernel vector with no pole at a real kappa != 0  [[]]
+PASS G5 control: on t = -s with f_u.f_v = 3 s^2 the system has full rank 12 (no carrier)
+PASS G5 the chart (t, mu) lies on the stratum and on Q5
+PASS G5 branch Q5: the two minors share only excluded factors (t, t +- 1, mu, mu +- t), positive ones, and P6 (quadratic in mu^2, both roots negative where real)  [['mq**4*tq**2 + 2*mq**4*tq + mq**4 - 2*mq**2*tq**4 - 4*mq**2*tq**3 + 14*mq**2*tq**2 + tq**6 + 2*tq**5 + tq**4']]
+PASS G5 factor P6 in x = mu^2: discriminant -64 t^4 (t+3)(t-1), so real roots only on -3 <= t <= 1, where the roots' sum 2 t^2 (t^2+2t-7)/(t+1)^2 is negative (t^2+2t-7 = (t+1)^2 - 8 <= -4 there) and their product t^4 positive: no real mu
+PASS G5 branch Q5: every real root in t of the pairwise resultants of the rest of the two minors is t = 0 or t = +-1 (excluded), so they have no common real zero on a connected row and Q5 never pairs (exact)  [[]]
+PASS G5 control: with mu - t - 3 planted on one minor and mu^2 + t^2 - 25 on the other (they meet at real t = (-3 +- sqrt 41)/2) the same test reports their resultant's real roots  [5]
+PASS G6 the chart J = (1+t, t(1+t), -t) has e2 = 0 identically
+PASS G6 C at every angle: kernel one-dimensional over Q(t, p, q), F F^dag = sigma 1, sigma a product of p^2(t-1)^2 + q^2(t+1)^2, p^2(t+1)^2 + q^2(t-1)^2, 4p^2q^2 + p^2(t^2-1)^2 + q^2(t+1)^4 (positive off pq = 0) and constants  [extra set()]
+PASS G6 control: on e2 = 0 with |f_v| = 6/5 |f_u| the system has full rank 8 at a random point (no carrier)
+PASS G7 the block route (no K, no U): the E row and the corner pair with near = far = 1, their perturbations break  [[(1, 1), (1, 0), (1, 0), (1, 1), (1, 0), (1, 0)]]
+PASS G7 at w = 1, A = 8 the locus gives B2^2 = 9, and the carrier built from v is a real multiple of minus the eighteen-string element of n3_offletter_locus_gate.py G5 (sites d, u, v), the multiple positive, the element squaring to 4500 I; W^2 = lam0 I with lam0 = 4500 times the multiple squared (exact, no square root of lam0 taken)  [18 strings]
+ALL PASS  (1287 s)

@@ -312,7 +312,7 @@ not a defect of the field. The gauge argument stops where clause 2 does: one
 global rotation can align one common direction, not several, so the argument does
 not reach a field whose direction varies *within* a component, and the rows
 measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles; for letter fields at Heisenberg bonds under Z on every site the break is proven, at any magnitudes, in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)),
-while separate components may point different ways and stay exact. With one site dephased, fields of varying direction can pair: letter fields in [the triangle's classes B and C](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3) and fields off the letters in an exact N = 3 family of [its Open list](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open). Unitaries
+while separate components may point different ways and stay exact. With one site dephased, fields of varying direction can pair: letter fields in [the triangle's classes B and C](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3) and fields off the letters in an exact N = 3 family of [its Open list](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open) and, with fields perpendicular to z, in [the classes of the triangle with planar fields](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangle-with-planar-fields). Unitaries
 that commute with every jump, not only products of one-site rotations, reach
 every palindrome with commuting jumps: for some such V, VHV† commutes with a
 Pauli string that anticommutes with every jump, although V is built from the

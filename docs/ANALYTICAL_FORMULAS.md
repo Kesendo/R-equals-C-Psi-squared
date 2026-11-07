@@ -7214,7 +7214,7 @@ exceptions live without being sufficient to produce them. Three classes are esta
 where [the triangle's palindromic locus](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
-magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and a second locus with one exact row and conjectured relations, sufficient at the points checked (the triangle proof's [Open item on fields off the letters](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and, with no field on the dephased site and fields perpendicular to z, a second locus of three polynomial relations, proven in both directions together with the e₂ = 0 branch at every angle between equal-length fields ([the triangle with planar fields](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangle-with-planar-fields)); beyond that setting, a field with a z part or any field on d, the locus is open (the triangle proof's [Open item on fields off the letters](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
 In the uniform-bond letter-field sweeps the exceptions track the graph's automorphisms
 and the bond's letter count. Weighted bonds also admit exceptions without a
 weighted-graph symmetry: with jump Z on d and field h(X_u + Y_v), a Heisenberg
@@ -10824,6 +10824,14 @@ factors are the two ways for that seat to be blind in [F157](#f157)'s sense.
 Beyond the triangle, with one dephased seat, Heisenberg bonds and letter
 fields, an N = 4 family and an N = 7 construction pair with neither a
 colouring nor a site symmetry, their dephased seat blind all the same.
+With no field on d and fields of any direction perpendicular to z (the
+section *The triangle with planar fields*), a connected row pairs exactly when
+f_u ∥ f_v, when s = t and |f_u| = |f_v|, when e₂ = 0 and |f_u| = |f_v| at any
+angle, or on R1 = R2 = R3 = 0 with R1 = r(s − t)² − st(s + t),
+R2 = f_u·f_v + 2e₂ and R3 = (s + r)|f_u|² + (t + r)|f_v|² + 2(s + t + r)(f_u·f_v)
+(exact and computer-assisted, gate `n3_planar_field_locus_gate.py`). It is a
+component without an invertible spanning tree, read through a twin turn, a real
+structure and traces of alternating words.
 
 **Adjacent.** F103 §7.12's chiral sign rule (D_x = −D_y on an edge) is the
 same kind of object as the complement connection (d_y/d_x = H_xy/H_x̄ȳ on an
@@ -10842,7 +10850,8 @@ own verdict (`EndCount.ComplementConnection`, `SectorConnection`,
 Theorems 6 and 7, proven alike, gated as an agreement of two modular upper
 bounds.
 **Open,** among the proof's items: two undephased sites under Heisenberg
-bonds; fields off the letters and other bonds at N = 3; whether a blind
+bonds; fields off the letters at N = 3 beyond the planar fields with no field on
+d, and other bonds; whether a blind
 dephased seat is necessary at every N; undephased sites that keep no letter
 without an invertible spanning tree
 ([the proof's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).

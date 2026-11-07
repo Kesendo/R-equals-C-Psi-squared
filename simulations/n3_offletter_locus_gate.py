@@ -20,7 +20,8 @@ G3  (measured) On a seeded sweep of distinct Heisenberg rows with integer vector
     left out of the rule palindromic rows are reported outside.
 G4  (measured) XX + YY bonds: three rows of C outside A break, and on the path u - d - v with f_d = 0, fields of equal
     magnitude perpendicular to z pair at six angles and three couplings.
-G5  (exact, one row) Locus E, rows J = (J_du, J_dv, J_uv) with all couplings nonzero and f_d = 0: the row J = (1, 2, 6),
+G5  (exact, one row) A row of locus E (the three relations of the proof's section on the triangle with planar fields),
+    all couplings nonzero and f_d = 0: the row J = (1, 2, 6),
     f_u = 8X, f_v = -5X + 3Y pairs through an eighteen-string W with W^2 = 4500 I; two perturbations break it; the row
     satisfies the three E relations, and its dephased seat is not blind.
 G6  (measured) Points on the three E relations, r and f_v solved from J_du, J_dv and f_u (f_v's Y part a square
