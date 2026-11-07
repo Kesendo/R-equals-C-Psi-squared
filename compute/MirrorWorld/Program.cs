@@ -2453,9 +2453,55 @@ if (args.Length > 0 && args[0] == "sextant")
         var dec = Sextant.Decide(dsetting);
         Console.WriteLine($"    {dname,-44} {dec.Kind}: {dec.Detail}");
     }
+    if (mn >= 2)
+    {
+        Console.WriteLine();
+        Console.WriteLine("  THE INTERTWINING (Intertwines), the relation for a map with a kernel: a sandwich sum M, a sum of sandwiches (SandwichSum), the ladders maps with a kernel, set beside two settings,");
+        Console.WriteLine("  M L_from = Lambda M exactly in the string basis, c read off the identity and not the trace; the two ladders of the doubled");
+        Console.WriteLine($"  picture (F125's eta ladder Phi, F142's spin ladder S+, Jordan-Wigner strings on the letters) on the XY chain at N = {mn} under Z light at 1,");
+        Console.WriteLine("  and, from N = 3, on the XY ring by height parity (the even heights are the blocks whose two sides share a flux; each ladder");
+        Console.WriteLine("  serves on its own parity of the height, Phi on the even one, S+ on the ring's own, and both land on the ring with its wrap bond reversed).");
+        var xyChain = Sextant.Setting.Chain(mn, new[] { ("XX", 1L), ("YY", 1L) }, Sextant.Setting.OnEverySite(mn, LetterCube.LetterMatrix('Z'), 1));
+        var shiftR = LetterCube.TableMoves(mn).Single(m => m.Name.StartsWith("R,"));
+        foreach (var (lname, ladder) in new[] { ("Phi", SandwichSum.EtaLadder(mn)), ("S+", SandwichSum.SpinLadder(mn)), ("Phi without its strings", SandwichSum.EtaLadder(mn, strings: false)),
+                                              ("S+ without its stagger", SandwichSum.SpinLadder(mn, staggered: false)), ("Phi then R", SandwichSum.EtaLadder(mn).Then(shiftR, "Phi then R")) })
+        {
+            var it = Sextant.Intertwines(xyChain, xyChain, ladder);
+            Console.WriteLine($"    chain, {lname,-24} L_H {it.OnH,-6}  D {it.OnD,-8}{(it.C != "" ? $" (c = {it.C})" : ""),-10} -> {it.Verdict}, rank {it.Rank}");
+        }
+        if (mn >= 3)
+        {
+            Sextant.Setting XyRing(long wrap)
+            {
+                var terms = LetterCube.ChainTerms(new[] { "XX", "YY" }, mn).Select(t => (t, 1L)).ToList();
+                var letters = Enumerable.Repeat('I', mn).ToArray();
+                letters[0] = 'X'; letters[mn - 1] = 'X';
+                terms.Add((PauliString.Parse(new string(letters)), wrap));
+                letters[0] = 'Y'; letters[mn - 1] = 'Y';
+                terms.Add((PauliString.Parse(new string(letters)), wrap));
+                return new Sextant.Setting(mn, terms, Sextant.Setting.OnEverySite(mn, LetterCube.LetterMatrix('Z'), 1));
+            }
+            var xyRing = XyRing(1);
+            var reversedRing = XyRing(-1);
+            foreach (var (lname, ladder, target, tname, parity) in new (string, SandwichSum, Sextant.Setting, string, int?)[]
+            {
+                ("Phi", SandwichSum.EtaLadder(mn), reversedRing, "the ring with its wrap bond reversed", 0),
+                ("Phi", SandwichSum.EtaLadder(mn), xyRing, "the ring itself", 0),
+                ("Phi squared", SandwichSum.EtaLadder(mn).Then(SandwichSum.EtaLadder(mn), "Phi squared"), xyRing, "the ring itself", 0),
+                ("Phi", SandwichSum.EtaLadder(mn), reversedRing, "the ring with its wrap bond reversed", 1),
+                ("S+", SandwichSum.SpinLadder(mn), reversedRing, "the ring with its wrap bond reversed", 0),
+                ("S+", SandwichSum.SpinLadder(mn), xyRing, "the ring itself", 0),
+                ("S+", SandwichSum.SpinLadder(mn), reversedRing, "the ring with its wrap bond reversed", 1),
+            })
+            {
+                var it = Sextant.Intertwines(xyRing, target, ladder, parity);
+                Console.WriteLine($"    ring -> {tname,-38} {lname,-12} {(parity == 0 ? "even" : "odd"),-5} heights: L_H {it.OnH,-6}  D {it.OnD,-6} -> {it.Verdict}");
+            }
+        }
+    }
     Console.WriteLine();
     Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The sextant reads with the cube: coordinates, heights, steps, arrows and moves are");
-    Console.WriteLine("  inherited; the verdict, the search and the decision are its own.");
+    Console.WriteLine("  inherited; the verdict, the search, the decision and the intertwining are its own.");
     Console.WriteLine($"    own       (left) : {string.Join(", ", sextant.Own)}");
     Console.WriteLine($"    inherited (right): {string.Join(", ", sextant.Inherited)}");
     return;

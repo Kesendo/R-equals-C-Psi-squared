@@ -1,5 +1,6 @@
 namespace MirrorWorld;
 
+using System.Numerics;
 using static MirrorWorld.LetterCube;
 
 // The sextant (built 2026-10-14 beside docs/THE_ONE_SQUARE.md §9; the name is Tom's). Why the name: a sextant brings two
@@ -43,7 +44,8 @@ using static MirrorWorld.LetterCube;
 // that L is real in the Pauli basis (it preserves Hermiticity), so its spectrum is closed under conjugation.
 //
 // Parent: the letter cube. Everything the sextant reads with (coordinates, heights, steps, arrows, the moves) is the
-// cube's and inherited; its own are the verdict, the search and the decision. Under F158's hypothesis the decision asks
+// cube's and inherited; its own are the verdict, the search, the decision and the intertwining (a sandwich sum set
+// beside two settings, the relation for a map with a kernel, below). Under F158's hypothesis the decision asks
 // EndCount (a sibling under the frame, not a parent; an unwatched site's jump is dropped, as F158 section (a) says),
 // then the colours on the circle for jumps along any integer axis, and past them the theodolite (a sibling under the
 // cube), so the zone left SYMMETRIC-MOD-P holds settings whose element is neither in the uniform closure, nor a
@@ -332,7 +334,7 @@ public sealed class Sextant : GameObject
     public Sextant(LetterCube cube) : base(cube) { }
 
     // left: what the sextant itself produces.
-    public override IReadOnlyList<string> Own => new[] { "verdict", "search", "decision" };
+    public override IReadOnlyList<string> Own => new[] { "verdict", "search", "decision", "intertwining" };
 
 
     // A setting: n sites, H as Pauli strings with integer coefficients, and one-site jumps (site, matrix, integer
@@ -603,5 +605,205 @@ public sealed class Sextant : GameObject
         return upTo >= dim
             ? new Decision(Palindrome.SymmetricModP, $"every odd trace up to m = {dim} vanishes modulo two primes (evidence, not proof); no element of the closure reflects")
             : new Decision(Palindrome.Open, $"no odd trace up to m = {upTo} obstructs, below the dimension {dim}; no element of the closure reflects");
+    }
+
+    // ---- the intertwining: a sandwich sum set beside two settings ----
+    //
+    // The sextant's second image for a map that need not be a similarity. A sandwich sum M (SandwichSum: a sum of
+    // sandwiches, the two ladders Phi and S+ of F125 and F142 among them, maps with a kernel and no inverse) is set
+    // beside L the way a move is:
+    // M·L_from = Λ·M with Λ the generator of a second setting on the same sites (the setting itself, or another, such
+    // as the ring with its wrap bond reversed), −Λ† − c or −Λ − c, exactly in Gaussian integers in the string basis,
+    // M held times 2^N and the generators times four (the identity is homogeneous in both, so neither scale enters).
+    // This is F125's verb, an INTERTWINING, the relation EndCount's IntertwinerRank reads between two representations,
+    // where Ask's is a conjugation; the verdicts are the same four with the same precedence, and the parts annotate
+    // them as in Ask (the Hamiltonian part kept, M·L_H = L_H'·M, or flipped, M·L_H = −L_H'·M; the dissipator kept or
+    // reflected, M·D + D'†·M = −c·M). What differs is c: a similarity fixes c by the trace, a map with a kernel does
+    // not, so c is read off the identity itself, on a nonzero entry of M and then checked on every entry, the
+    // sextant's own gesture, the angle at which the two images meet; c is real, the shift of a rate, and C is filled as
+    // Ask's Reading fills it, for a reflection or for the dissipator's reflection where the whole does not reflect,
+    // empty otherwise. A height parity
+    // restricts the sources: on the ring the wrap bond's Jordan-Wigner sign follows the particle number, and a string
+    // joins a ket and a bra whose particle numbers differ by its height k_Z mod 2 (its X and Y letters are where the
+    // two disagree), so the blocks whose two sides see one flux are the strings of even height, F125's "blocks
+    // whose two sides share a parity", which PROOF_CODIM1_BY_ADDITIVITY §5 reads on the cube already (the coherence
+    // commutes with Z^⊗N: F61's n_XY parity), and the identity is asked on that class alone, both sides
+    // computed on those sources (the ladders and a bond keep the height's parity, a field along X or Y does not, and
+    // then a source's image reaches the other class, where the comparison still runs; ClassKept says whether L_from
+    // and M keep the sources inside the class and L_to keeps M's images there, and where they do not the verdict is the identity on the
+    // sources alone, no intertwining of the restricted generators, and transports nothing). The rank is M's on the
+    // sources, modulo the two primes of ModP, the larger of the two, a lower bound on the rational rank (a minor
+    // nonzero modulo p is nonzero), and the identity is empty where it is zero. A map with a kernel transports a
+    // spectrum partially at most (F125's Jordan transport needs M·x₁ ≠ 0), so this reading never enters Decide: it
+    // reads which generator a ladder carries a generator onto, not whether a spectrum pairs. Not called "carries"
+    // as the relation's name: that word is the palindrome
+    // carrier's (EndCount, experiments/THE_PALINDROME_WITHOUT_A_CARRIER.md) and the moves' on the cube.
+
+    public sealed record Intertwining(string Move, OnHamiltonian OnH, OnDissipator OnD, Verdict Verdict, string C, int? HeightParity, bool ClassKept, int Rank)
+    {
+        public bool Holds => Verdict != Verdict.Neither;
+    }
+
+    static Dictionary<PauliString, List<(PauliString, Gauss)>> ByColumn(IReadOnlyDictionary<(PauliString Row, PauliString Col), Gauss> x, bool byRow)
+    {
+        var lists = new Dictionary<PauliString, List<(PauliString, Gauss)>>();
+        foreach (var ((r, c), v) in x)
+        {
+            var key = byRow ? r : c;
+            if (!lists.TryGetValue(key, out var list)) lists[key] = list = new List<(PauliString, Gauss)>();
+            list.Add((byRow ? c : r, v));
+        }
+        return lists;
+    }
+
+    static void AddTo(Dictionary<PauliString, Gauss> v, PauliString key, Gauss x)
+    {
+        if (x.IsZero) return;
+        var sum = v.TryGetValue(key, out var old) ? old + x : x;
+        if (sum.IsZero) v.Remove(key); else v[key] = sum;
+    }
+
+    static bool SameVector(Dictionary<PauliString, Gauss> a, Dictionary<PauliString, Gauss> b)
+        => a.Count == b.Count && a.All(kv => b.TryGetValue(kv.Key, out var v) && v == kv.Value);
+
+    // R = k·M over every source, k one Gaussian rational fixed by the first nonzero entry of M: holds while every
+    // entry agrees (m0·R[i] = k_num·M[i]); the ratio is k = Num/M0
+    sealed class Proportional
+    {
+        public bool Holds = true;
+        public Gauss? Num, M0;
+        public void Add(Dictionary<PauliString, Gauss> r, IReadOnlyDictionary<PauliString, Gauss> m)
+        {
+            if (!Holds) return;
+            foreach (var key in r.Keys.Union(m.Keys))
+            {
+                var ri = r.GetValueOrDefault(key);
+                var mi = m.GetValueOrDefault(key);
+                if (M0 is null)
+                {
+                    if (mi.IsZero) { if (!ri.IsZero) { Holds = false; return; } continue; }
+                    M0 = mi; Num = ri;
+                }
+                if (M0!.Value * ri != Num!.Value * mi) { Holds = false; return; }
+            }
+        }
+        // the real c with k = −4c: c = −k/4 = −Num·conj(M0)/(4·|M0|²); null when k is not real or M is zero
+        public string? C
+        {
+            get
+            {
+                if (!Holds || M0 is null) return null;
+                var numerator = -(Num!.Value * M0.Value.Conj);
+                long den = 4 * (M0.Value.Re * M0.Value.Re + M0.Value.Im * M0.Value.Im);
+                return numerator.Im == 0 ? Fraction(numerator.Re, den) : null;
+            }
+        }
+    }
+
+    public static Intertwining Intertwines(Setting from, Setting to, SandwichSum m, int? heightParity = null)
+    {
+        if (to.N != from.N) throw new ArgumentException("the two settings share their sites", nameof(to));
+        if (m.N != from.N) throw new ArgumentException("the sandwich sum acts on the setting's sites", nameof(m));
+        if (heightParity is not (null or 0 or 1))
+            throw new ArgumentOutOfRangeException(nameof(heightParity), heightParity, "0 (the even heights), 1 (the odd heights) or null (every string)");
+        var fromH = ByColumn(from.HamiltonianTimesFour, byRow: false);
+        var fromD = ByColumn(from.DissipatorTimesFour, byRow: false);
+        var toH = ByColumn(to.HamiltonianTimesFour, byRow: false);
+        var toD = ByColumn(to.DissipatorTimesFour, byRow: false);
+        var toDRows = ByColumn(to.DissipatorTimesFour, byRow: true);
+        var images = new Dictionary<PauliString, IReadOnlyDictionary<PauliString, Gauss>>();
+        IReadOnlyDictionary<PauliString, Gauss> Image(PauliString s)
+        {
+            if (!images.TryGetValue(s, out var img)) images[s] = img = m.Apply(s);
+            return img;
+        }
+        Dictionary<PauliString, Gauss> MTimes(Dictionary<PauliString, List<(PauliString, Gauss)>> l, PauliString s)
+        {
+            var v = new Dictionary<PauliString, Gauss>();                   // M·L[:, s] = Σ_r L[r, s]·M[:, r]
+            if (l.TryGetValue(s, out var col))
+                foreach (var (r, x) in col)
+                    foreach (var (t, w) in Image(r)) AddTo(v, t, x * w);
+            return v;
+        }
+        Dictionary<PauliString, Gauss> TimesM(Dictionary<PauliString, List<(PauliString, Gauss)>> l, PauliString s, bool adjoint)
+        {
+            var v = new Dictionary<PauliString, Gauss>();                   // L·M[:, s] = Σ_r M[r, s]·L[:, r]; adjoint: conj of row r
+            foreach (var (r, w) in Image(s))
+                if (l.TryGetValue(r, out var col))
+                    foreach (var (t, x) in col) AddTo(v, t, w * (adjoint ? x.Conj : x));
+            return v;
+        }
+        static Dictionary<PauliString, Gauss> Sum(Dictionary<PauliString, Gauss> a, Dictionary<PauliString, Gauss> b, long sign)
+        {
+            var v = new Dictionary<PauliString, Gauss>(a);
+            foreach (var (k, x) in b) AddTo(v, k, sign * x);
+            return v;
+        }
+        bool InClass(PauliString t) => heightParity is null || (BitOperations.PopCount(t.X) & 1) == heightParity;
+        var sources = LetterCube.Strings(from.N).Where(InClass).ToList();
+        bool classKept = true;
+        bool hKeeps = true, hFlips = true, dKeeps = true, copy = true;
+        var dReflects = new Proportional();
+        var reflection = new Proportional();
+        var piReflection = new Proportional();
+        bool empty = true;
+        foreach (var s in sources)
+        {
+            var ms = Image(s);
+            if (ms.Count > 0) empty = false;
+            if (classKept)
+            {
+                if (fromH.TryGetValue(s, out var ch) && ch.Any(e => !InClass(e.Item1))) classKept = false;
+                if (fromD.TryGetValue(s, out var cd) && cd.Any(e => !InClass(e.Item1))) classKept = false;
+                foreach (var (r, _) in ms)
+                {
+                    if (!InClass(r)) { classKept = false; break; }
+                    if (toH.TryGetValue(r, out var th) && th.Any(e => !InClass(e.Item1))) { classKept = false; break; }
+                    if (toD.TryGetValue(r, out var td) && td.Any(e => !InClass(e.Item1))) { classKept = false; break; }
+                }
+            }
+            var aH = MTimes(fromH, s);
+            var aD = MTimes(fromD, s);
+            var bH = TimesM(toH, s, adjoint: false);
+            var bD = TimesM(toD, s, adjoint: false);
+            var bDd = TimesM(toDRows, s, adjoint: true);
+            if (hKeeps && !SameVector(aH, bH)) hKeeps = false;
+            if (hFlips && !SameVector(aH, Sum(new Dictionary<PauliString, Gauss>(), bH, -1))) hFlips = false;
+            if (dKeeps && !SameVector(aD, bD)) dKeeps = false;
+            dReflects.Add(Sum(aD, bDd, 1), ms);
+            var a = Sum(aH, aD, 1);
+            if (copy && !SameVector(a, Sum(bH, bD, 1))) copy = false;
+            reflection.Add(Sum(Sum(a, bH, -1), bDd, 1), ms);
+            piReflection.Add(Sum(Sum(a, bH, 1), bD, 1), ms);
+        }
+        var onH = hKeeps ? OnHamiltonian.Keeps : hFlips ? OnHamiltonian.Flips : OnHamiltonian.Breaks;
+        var onD = dKeeps ? OnDissipator.Keeps : dReflects.C is not null ? OnDissipator.Reflects : OnDissipator.Breaks;
+        var verdict = empty ? Verdict.Neither
+                    : copy ? Verdict.Copy
+                    : reflection.C is not null ? Verdict.Reflection
+                    : piReflection.C is not null ? Verdict.PiReflection
+                    : Verdict.Neither;
+        string c = verdict switch { Verdict.Reflection => reflection.C!, Verdict.PiReflection => piReflection.C!, _ => onD == OnDissipator.Reflects ? dReflects.C! : "" };
+        // the rank of M on the sources, modulo each prime with i a square root of −1 there, the larger of the two
+        var index = new Dictionary<PauliString, int>();
+        foreach (var s in LetterCube.Strings(from.N)) index[s] = index.Count;
+        int rank = 0;
+        foreach (long p in ModP.Primes)
+        {
+            long root = ModP.SqrtMinusOne(p);
+            var rows = new List<IReadOnlyDictionary<int, long>>();
+            foreach (var s in sources)
+            {
+                var row = new Dictionary<int, long>();
+                foreach (var (t, w) in Image(s))
+                {
+                    long x = ModP.AddMod(ModP.Mod(w.Re, p), ModP.MulMod(ModP.Mod(w.Im, p), root, p), p);
+                    if (x != 0) row[index[t]] = x;
+                }
+                if (row.Count > 0) rows.Add(row);
+            }
+            rank = Math.Max(rank, ModP.SparseRank(rows, p));
+        }
+        return new Intertwining(m.Name, onH, onD, verdict, c, heightParity, classKept, rank);
     }
 }

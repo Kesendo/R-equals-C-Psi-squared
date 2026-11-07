@@ -17,7 +17,7 @@ public class SextantTests
     public void The_Sextant_Owns_The_Verdict_And_The_Search_And_Inherits_The_Cube()
     {
         var sextant = new Sextant(new LetterCube(W));
-        Assert.Equal(new[] { "verdict", "search", "decision" }, sextant.Own);
+        Assert.Equal(new[] { "verdict", "search", "decision", "intertwining" }, sextant.Own);
         Assert.Equal(new[] { "coordinates", "height", "step", "arrow", "moves", "x", "y", "z" }, sextant.Inherited);
     }
 
