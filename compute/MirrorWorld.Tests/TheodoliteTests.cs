@@ -853,6 +853,165 @@ public class TheodoliteTests
         return true;
     }
 
+    // The odd-N paragraph of F170's proof, PROOF_RING_FROZEN_BAND §2 after Lemma 1 (U·h₊·U = −h₋; F171 §7 writes it
+    // Σh_fΣ = −h_{−f}, its sites counted from 1, here from 0), read on the theodolite's own road. Σ = Z on the odd sites
+    // turns the sign of every bond but the wrap bond, which at odd N joins two even sites, so the plain Π that closes the
+    // even XY ring under Z dephasing onto itself, X^N on one side and Σ on both, carries the odd ring onto the spin ring
+    // with its wrap bond reversed, J_w → −J_w (RingFrozenBandWitness.ReversedSpinRing): E·L(J_w) = (−L(−J_w) − c)·E, read
+    // between the two settings at N = 3 and 5, checked densely against both full generators and failing on the ring
+    // alone. The raw equations are the stagger itself, x_l·x_{l+1}^{-1} = −1 on both sides for the N − 1 bonds of the
+    // chain and +1 for the wrap pair, the sign the reversed ring supplies, so the reduced system is the chain's (2(N − 1)
+    // rows, two free turns, the rational point x_l = y_l = (−1)^l). Transposed, Σ·ρᵀ·Σ is a COPY between the odd ring and
+    // its reversed ring, the chain's U of PROOF_DEPHASING_FRONT_RENEWAL between two settings, the same raw rows, checked
+    // densely: the two rings are isospectral, not only mirror images; the transposed reflection reaches the reversed ring
+    // too. Behind all six pairs of relation and branch one parity law: an XY bond's row is x_l/x_{l+1} = ε·J_to/J_from
+    // (its two rows agree, J_to = ±J_from here) with ε = −1 for the plain Π, the transposed copy and the transposed
+    // reflection (the Π's target and the transposition each turn the sign of the whole Hamiltonian part) and +1 for the
+    // other three, and round a ring the ratios multiply to one, so the ring itself is reached when ε^N = 1 and the
+    // reversed ring when ε^N = −1: at odd N by exactly those three pairs, at even N by none, every pair then closing the
+    // ring onto itself (the plain copy with X^N on both sides). All twelve readings at each of N = 3, 4 and 5 are asserted.
+    [Fact]
+    public void At_Odd_N_The_Stagger_Carries_The_XY_Ring_Onto_The_Ring_With_Its_Wrap_Bond_Reversed()
+    {
+        var xy = Cell(new[] { (Zm, 1L) }, ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1));
+        var pairs = new[]
+        {
+            (Theodolite.Relation.Pi, false), (Theodolite.Relation.Pi, true), (Theodolite.Relation.Copy, false),
+            (Theodolite.Relation.Copy, true), (Theodolite.Relation.Reflection, false), (Theodolite.Relation.Reflection, true),
+        };
+        foreach (int n in new[] { 3, 4, 5 })
+        {
+            var ring = xy.Ring(n);
+            var reversed = WrapReversed(ring);
+            foreach (var (rel, transposed) in pairs)
+            {
+                bool minus = (rel == Theodolite.Relation.Pi) != transposed;          // epsilon = -1
+                Assert.Equal(!minus || n % 2 == 0, Theodolite.Read(ring, rel, transposed) is not null);
+                Assert.Equal(minus && n % 2 == 1, Theodolite.ReadBetween(ring, reversed, rel, transposed) is not null);
+            }
+            var plainCopy = Theodolite.Read(ring, Theodolite.Relation.Copy, false);
+            Assert.All(plainCopy!.Kinds, k => Assert.Equal((Theodolite.Kind.AntiDiagonal, Theodolite.Kind.AntiDiagonal), k));
+            if (n % 2 == 0) continue;
+
+            // the plain Pi onto the reversed ring: the stagger on both sides, X^N on one
+            var r = Theodolite.ReadBetween(ring, reversed, Theodolite.Relation.Pi, false)!;
+            bool antiOnB = r.Kinds[0].B == Theodolite.Kind.AntiDiagonal;
+            Assert.All(r.Kinds, k => Assert.True((k.A == Theodolite.Kind.AntiDiagonal) != (k.B == Theodolite.Kind.AntiDiagonal)
+                                                 && (k.B == Theodolite.Kind.AntiDiagonal) == antiOnB));
+            StaggerRows(r.Equations, n);
+            Assert.Equal(2 * (n - 1), r.System.Pivots.Count);
+            Assert.Equal(2, r.System.Free.Count);
+            var sol = Binomials.RationalSolution(r.System);
+            Assert.NotNull(sol);
+            var x = Enumerable.Range(0, n).Select(l => sol![$"x{l}"]).ToList();
+            var y = Enumerable.Range(0, n).Select(l => sol![$"y{l}"]).ToList();
+            for (int l = 0; l < n; l++)
+            {
+                Assert.Equal((GaussBig.Of(l % 2 == 0 ? 1 : -1), GaussBig.Of(1)), x[l]);
+                Assert.Equal((GaussBig.Of(l % 2 == 0 ? 1 : -1), GaussBig.Of(1)), y[l]);
+            }
+            Assert.True(ReflectsBetween(ring, reversed, Theodolite.Relation.Pi, r.Transposed, r.Kinds, x, y));
+            Assert.False(ReflectsBetween(ring, ring, Theodolite.Relation.Pi, r.Transposed, r.Kinds, x, y));
+
+            // the transposed copy between the two rings: Sigma on both sides, the same rows
+            var copy = Theodolite.ReadBetween(ring, reversed, Theodolite.Relation.Copy, true)!;
+            Assert.All(copy.Kinds, k => Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), k));
+            StaggerRows(copy.Equations, n);
+            var csol = Binomials.RationalSolution(copy.System);
+            Assert.NotNull(csol);
+            var cx = Enumerable.Range(0, n).Select(l => csol![$"x{l}"]).ToList();
+            var cy = Enumerable.Range(0, n).Select(l => csol![$"y{l}"]).ToList();
+            for (int l = 0; l < n; l++)
+            {
+                Assert.Equal((GaussBig.Of(l % 2 == 0 ? 1 : -1), GaussBig.Of(1)), cx[l]);
+                Assert.Equal((GaussBig.Of(l % 2 == 0 ? 1 : -1), GaussBig.Of(1)), cy[l]);
+            }
+            Assert.True(CopiesBetween(ring, reversed, copy.Transposed, copy.Kinds, cx, cy));
+            Assert.False(CopiesBetween(ring, ring, copy.Transposed, copy.Kinds, cx, cy));
+
+            // the transposed reflection between the two rings, checked densely as well
+            var refl = Theodolite.ReadBetween(ring, reversed, Theodolite.Relation.Reflection, true)!;
+            Assert.All(refl.Kinds, k => Assert.True((k.A == Theodolite.Kind.AntiDiagonal) != (k.B == Theodolite.Kind.AntiDiagonal)));
+            StaggerRows(refl.Equations, n);
+            var fsol = Binomials.RationalSolution(refl.System);
+            Assert.NotNull(fsol);
+            var fx = Enumerable.Range(0, n).Select(l => fsol![$"x{l}"]).ToList();
+            var fy = Enumerable.Range(0, n).Select(l => fsol![$"y{l}"]).ToList();
+            Assert.True(ReflectsBetween(ring, reversed, Theodolite.Relation.Reflection, refl.Transposed, refl.Kinds, fx, fy));
+            Assert.False(ReflectsBetween(ring, ring, Theodolite.Relation.Reflection, refl.Transposed, refl.Kinds, fx, fy));
+        }
+    }
+
+    // the stagger's raw rows on a ring of n sites: -1 on both sides along the n - 1 bonds of the chain, +1 on the wrap pair
+    static void StaggerRows(IReadOnlyList<Binomial> equations, int n)
+    {
+        for (int l = 0; l < n - 1; l++)
+        {
+            Assert.True(HasRow(equations, $"x{l}", $"x{l + 1}", -1), $"x{l}/x{l + 1} = -1 at N = {n}");
+            Assert.True(HasRow(equations, $"y{l}", $"y{l + 1}", -1), $"y{l}/y{l + 1} = -1 at N = {n}");
+        }
+        Assert.True(HasRow(equations, $"x{n - 1}", "x0", 1), $"the wrap pair x{n - 1}/x0 = +1 at N = {n}");
+        Assert.True(HasRow(equations, $"y{n - 1}", "y0", 1), $"the wrap pair y{n - 1}/y0 = +1 at N = {n}");
+    }
+
+    // a raw equation on exactly the two unknowns a and b, exponents +1 and -1 either way, equal to ratio (+1 or -1)
+    static bool HasRow(IReadOnlyList<Binomial> equations, string a, string b, int ratio)
+        => equations.Any(e =>
+        {
+            var on = e.Exponents.Where(kv => kv.Value != 0).ToDictionary(kv => kv.Key, kv => kv.Value);
+            return on.Count == 2 && on.ContainsKey(a) && on.ContainsKey(b) && Math.Abs(on[a]) == 1 && on[a] == -on[b]
+                   && (ratio == 1 ? e.Num == e.Den : e.Num == -e.Den);
+        });
+
+    // the ring with its wrap bond reversed, J_w -> -J_w: the only terms touching both site 0 and site n - 1
+    static Theodolite.Setting WrapReversed(Theodolite.Setting ring)
+    {
+        int n = ring.N;
+        return new Theodolite.Setting(n,
+            ring.H.Select(t => (t.Term, t.Term.Letter(0) != 'I' && t.Term.Letter(n - 1) != 'I' ? -t.Coefficient : t.Coefficient)),
+            ring.Jumps);
+    }
+
+    // E·L(from) = (T(L(to)) - c)·E on the two full generators, exactly, E built from the kinds and turns as in Reflects;
+    // the two traces must agree (the same c on both sides), a copy goes to CopiesBetween
+    static bool ReflectsBetween(Theodolite.Setting from, Theodolite.Setting to, Theodolite.Relation rel, bool transposed,
+        IReadOnlyList<(Theodolite.Kind A, Theodolite.Kind B)> kinds,
+        IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y)
+    {
+        if (rel == Theodolite.Relation.Copy) throw new ArgumentException("a copy is checked by CopiesBetween", nameof(rel));
+        int n = from.N;
+        var E = new Gauss[1, 1] { { Gauss.One } };
+        int[] perm = { 0, 2, 1, 3 };
+        for (int l = 0; l < n; l++)
+        {
+            var a = Factor(kinds[l].A, x[l]);
+            var b = Factor(kinds[l].B, y[l]);
+            var el = Kron(a, new[,] { { b[0, 0], b[1, 0] }, { b[0, 1], b[1, 1] } });
+            if (transposed)
+            {
+                var t = new Gauss[4, 4];
+                for (int r = 0; r < 4; r++) for (int c = 0; c < 4; c++) t[r, c] = el[r, perm[c]];
+                el = t;
+            }
+            E = Kron(E, el);
+        }
+        var lf = GeneratorTimesFour(from);
+        var lt = GeneratorTimesFour(to);
+        int dd = lf.GetLength(0);
+        Gauss tr = Gauss.Zero, trFrom = Gauss.Zero;
+        for (int i = 0; i < dd; i++) { tr = tr + lt[i, i]; trFrom = trFrom + lf[i, i]; }
+        Assert.True(tr == trFrom, $"the two generators must share their trace, {trFrom} against {tr}");
+        long den = 2L * (dd / 4);
+        Assert.True(tr.Im == 0 && tr.Re % den == 0, $"4c must be an integer, tr(4L) = {tr}");
+        long fourC = -tr.Re / den;                                          // c = -tr(L) / (2·4^(n-1))
+        var left = Mul(E, lf);
+        var right = Mul(rel == Theodolite.Relation.Pi ? lt : Dagger(lt), E);
+        for (int i = 0; i < dd; i++)
+            for (int j = 0; j < dd; j++)
+                if (!(left[i, j] + right[i, j] + fourC * E[i, j]).IsZero) return false;
+        return true;
+    }
+
     // Conditioned on an unwatched bit: -3XY with fields -2X under Z dephasing at (0, 3). X is the only letter on the
     // unwatched site 0, so turned onto Z its bit is a number s and site 1 sees the field (-2, -3s), perpendicular to
     // its watching; no product reads it (plain, relabelled or turned), the sandwich conditioned on that bit does, at
