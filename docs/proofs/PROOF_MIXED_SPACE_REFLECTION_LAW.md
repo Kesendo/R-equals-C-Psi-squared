@@ -119,7 +119,7 @@ it stops.
 ## §2 The Slater pair eigenbasis
 
 At Δ = 0 the chain is free-fermionic (Jordan-Wigner; the route the repo already
-owns: `docs/SYMMETRY_FAMILY_INVENTORY.md`, `JwSlaterPairBasis` in
+owns: `experiments/N10_BLOCK_SPECTRUM_PUSH.md`, `JwSlaterPairBasis` in
 Core/BlockSpectrum/JordanWigner, PROOF_SCALAR_COUNT's Symbols block). The p-particle sector
 is diagonalized by the Slater states |A⟩ = b†_{k₁}···b†_{k_p}|0⟩ over p-subsets
 A ⊂ {1..M−1}, E_A = Σ_{k∈A} ε_k, and the block operator

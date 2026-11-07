@@ -44,7 +44,7 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// 2-fermion swaps) is the basis for the open sparse-eig extensions.</para>
 ///
 /// <para>Anchor: generalises <see cref="JwBlockBasis"/> (c=2 only) per the N=10 push of
-/// <c>docs/SYMMETRY_FAMILY_INVENTORY.md</c>.</para>
+/// <c>experiments/N10_BLOCK_SPECTRUM_PUSH.md</c>.</para>
 /// </summary>
 public sealed class JwSlaterPairBasis : Claim
 {

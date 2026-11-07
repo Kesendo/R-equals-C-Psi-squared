@@ -250,3 +250,4 @@ Source: `compute/RCPsiSquared.Core/Symmetry/Z2Axis.cs`, `IZ2AxisClaim.cs`,
 - Bridge framing: `docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md`
 - F-formula registry: `docs/ANALYTICAL_FORMULAS.md`
 - Symmetry-axis inventory (parallel structure on the dynamics-symmetry side): `docs/SYMMETRY_FAMILY_INVENTORY.md`
+- The F87 refinement family and the bit_a twins, Claim by Claim: `docs/POLARITY_CUBE_FAMILY.md`

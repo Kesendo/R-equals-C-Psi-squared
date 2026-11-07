@@ -94,7 +94,7 @@ public sealed class PolarityCubeMap : Claim
                // which Claims may participate.
                Tier.Tier2Empirical,
                "docs/PI2KB_INHERITANCE_MAP.md + " +
-               "docs/SYMMETRY_FAMILY_INVENTORY.md")
+               "docs/POLARITY_CUBE_FAMILY.md")
     {
         if (allClaims is null) throw new ArgumentNullException(nameof(allClaims));
 

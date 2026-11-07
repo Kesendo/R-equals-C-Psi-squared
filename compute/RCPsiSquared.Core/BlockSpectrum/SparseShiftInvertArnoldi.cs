@@ -7,8 +7,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <summary>Generic shift-invert Arnoldi on a CSR-stored complex matrix. Lifted from
 /// <see cref="JordanWigner.JwSlaterPairShiftInvertArnoldi"/> to a source-agnostic algorithm:
 /// inputs are the four raw CSR arrays + Krylov / inner-solve parameters, output is the
-/// eigenvalues nearest σ. Reused by the JW Slater-pair path AND by the Klein-4-group
-/// self-paired sub-block path (Phase 3c); a single point of algorithmic truth.
+/// eigenvalues nearest σ. Built to serve both the JW Slater-pair path and the Klein-4-group
+/// self-paired sub-block path; the Klein path calls it, while the JW path still runs its own
+/// <see cref="JordanWigner.JwSlaterPairShiftInvertArnoldi"/>, the two sharing <see cref="JordanWigner.KrylovOps"/>.
 ///
 /// <para>Algorithm: shift-invert spectral transformation with Jacobi-preconditioned BiCGStab
 /// inner solve and Modified Gram-Schmidt Arnoldi outer loop. See

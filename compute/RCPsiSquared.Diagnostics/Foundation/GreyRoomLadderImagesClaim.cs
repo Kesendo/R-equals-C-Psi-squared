@@ -97,7 +97,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// node-pair room m² + 1 (PROOF_NODE_PAIR_RESOLVENT §8; <c>NodePairResolventClaim</c> types that proof's bond
 /// theorems) are rooms at μ = 0 under one lit seat; this claim reads rooms at every height under equal light.
 /// The ladder images of the one-sided sectors were named before their count by <c>OneSidedSectorClosedForm</c>,
-/// <c>BlockSpectrumOpenQuestions</c> and docs/SYMMETRY_FAMILY_INVENTORY.md Phase 3a, which point here. The
+/// <c>BlockSpectrumOpenQuestions</c> and experiments/N10_BLOCK_SPECTRUM_PUSH.md, which point here. The
 /// Heisenberg chain is outside: on a connected chain its ZZ term loses both ladders' images from N = 3 on (the
 /// one-particle ZZ diagonal differs at the ends; a read, and with zero bonds making equal dimers the diagonal is
 /// constant and the spin image survives), and its (1, 1) room is the ⌊N/2⌋ frozen modes at N = 3 to 8, measured,

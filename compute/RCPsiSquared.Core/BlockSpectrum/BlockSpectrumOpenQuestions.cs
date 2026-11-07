@@ -50,7 +50,7 @@ public static class BlockSpectrumOpenQuestions
             "of N Prosen rapidities, with no diagonalisation. The two-sided sectors (m, m̃ ≥ 1), " +
             "which hold the bulk of the 4^N spectrum, have no closed form here apart from pieces, " +
             "among them the images of the one-sided sectors under the ladders Φ and S⁺ of " +
-            "PROOF_FROZEN_BAND_SO4 (see the Phase 3a section of SYMMETRY_FAMILY_INVENTORY; under equal light they " +
+            "PROOF_FROZEN_BAND_SO4 (see the one-sided closed form of experiments/N10_BLOCK_SPECTRUM_PUSH.md; under equal light they " +
             "are F171's grey rooms, PROOF_GREY_GLASS_LADDER_IMAGES, typed as GreyRoomLadderImagesClaim, C(N, k) modes " +
             "at −2γk in every block whose window holds k). The Z-dephasing " +
             "term is quartic in the Jordan-Wigner fermions, and no Nambu reduction holds at every N: " +
@@ -66,7 +66,7 @@ public static class BlockSpectrumOpenQuestions
             "cover a whole sector, defective eigenvalues included, before assuming they close, the " +
             "way F86's g_eff was shown not to.",
             "compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs; " +
-            "docs/SYMMETRY_FAMILY_INVENTORY.md (Phase 3a); " +
+            "experiments/N10_BLOCK_SPECTRUM_PUSH.md (the one-sided closed form); " +
             "compute/RCPsiSquared.Core/BlockSpectrum/JordanWigner/JwSlaterPairBasis.cs " +
             "(the quartic dissipator)"),
 

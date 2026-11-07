@@ -3477,7 +3477,12 @@ public static class OpenArcsRegistry
                 "F71-refined diagonal blocks of the Liouvillian, cell for cell'. Note what that phrasing avoids: " +
                 "it never says R90 ACTS to preserve anything, it names the invariant (the indexed pair-sums) and " +
                 "the object (the F71-refined diagonal blocks), and it keeps the ninety in the sentence so the " +
-                "three-faces link survives. The basis-relative fence still has to be added beside it.",
+                "three-faces link survives. The basis-relative fence still has to be added beside it. " +
+                "UPDATE 2026-11-07: docs/SYMMETRY_FAMILY_INVENTORY.md now carries the corrected form (the indexed " +
+                "pair sums as the invariant, the F71-refined diagonal blocks as the object, the basis-relative " +
+                "fence beside it) and no shadow-of-Z4 wording; the copies still carrying the old wording are " +
+                "PROOF_F91, both reflections, the registry headings of F91, F92 and F93, and the claim strings of " +
+                "F92BondAntiPalindromicJSpectralInvariance and F93DetuningAntiPalindromicSpectralInvariance.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

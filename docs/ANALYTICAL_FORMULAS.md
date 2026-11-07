@@ -87,7 +87,7 @@ and there are fields violating clause 2 whose spectrum pairs regardless; at N = 
 - The bit_a counterpart: the other Pauli Z₂ parity, Π²_X = Z⊗N (the global
   Z-string), is registered as a corollary of F61.
 - Anchor: PiOperator.cs (SquaredEigenvalue), XGlobalChargeConjugationPairing.cs,
-  SYMMETRY_FAMILY_INVENTORY.md #7, MIRROR_SYMMETRY_PROOF.md.
+  SYMMETRY_FAMILY_INVENTORY.md (the X⊗N row), MIRROR_SYMMETRY_PROOF.md.
 
 **H-block residual is γ-independent (uniform AND non-uniform γ; closed 2026-05-18):**
 - The dissipator-block residual M_D = Π·L_D·Π⁻¹ + L_D + 2Σγ·I vanishes per Pauli string for arbitrary per-site γ_l, because the per-site Z-dephasing kernel is proportional to I_4 and the F1 σ-shift `2Σγ·I` cancels the sum exactly.
@@ -2360,7 +2360,7 @@ configs extract no distinct second mode. Data:
   and the F88a two-axis section (Π²_X = (−1)^{Σ bit_a}). The same function
   under three names; identified as the operator Z⊗N on 2026-05-21.
 - Anchor: ZGlobalMirror.cs, F61BitAParityPi2Inheritance.cs,
-  SYMMETRY_FAMILY_INVENTORY.md #6.
+  SYMMETRY_FAMILY_INVENTORY.md (the Z⊗N row).
 
 ### F62. CΨ(0) for W_N (Tier 1, analytical, verified N=2-10)
 

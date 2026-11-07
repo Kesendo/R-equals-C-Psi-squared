@@ -63,7 +63,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <para><b>Tier outcome: Tier 1 derived.</b> Composition of two typed Z₂ symmetries
 /// (<see cref="F71MirrorBlockRefinement"/> spatial-mirror Z₂ + <see cref="XGlobalChargeConjugationPairing"/>
 /// charge-conjugation Z₂) that mutually commute, plus the standard character-orthogonality
-/// projector formula for finite abelian groups. Verified at N=4 (2, 2) and N=6 (3, 3) in
+/// projector formula for finite abelian groups. Verified at N=4 (2, 2), N=6 (3, 3) and N=8 (4, 4) in
 /// the test suite: off-block Frobenius below 1e-10, sub-block spectrum union matches the
 /// direct sector dense Evd as a multiset within 1e-10.</para>
 ///

@@ -49,7 +49,7 @@ namespace RCPsiSquared.Core.BlockSpectrum.JordanWigner;
 /// Z-dephasing term is quartic in the Jordan-Wigner fermions (see <see cref="JwSlaterPairBasis"/>),
 /// and no Nambu reduction holds at every N: at odd N the spectrum is not that of a generator
 /// quadratic in them, its even-parity sector lacking the point symmetry such a generator forces
-/// (docs/SYMMETRY_FAMILY_INVENTORY.md).</para>
+/// (experiments/N10_BLOCK_SPECTRUM_PUSH.md).</para>
 ///
 /// <para><b>L-conjugation in the residual.</b> The Liouvillian for Hermitian H + Hermitian-
 /// preserving dissipator (Z-dephasing qualifies) has <c>λ ∈ spec ⟺ λ* ∈ spec</c>. When a
