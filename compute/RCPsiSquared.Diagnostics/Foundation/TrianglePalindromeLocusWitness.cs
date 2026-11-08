@@ -203,6 +203,18 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         public bool Product => DUv == 1 && UDv == 1 && VDu == 1;
     }
 
+    /// <summary>The kind patterns of the far element where the row pairs through one far element (else null): per
+    /// string the bits (d, u, v), 0 for a letter in {I, Z} and 1 for one in {X, Y}, the per-site share of the cube's
+    /// k_Z; a product's patterns form a product set. Sorted, distinct.</summary>
+    public static IReadOnlyList<string>? ReadFarPatterns(BigRational[] j, BigRational[][] f)
+    {
+        var far = EndBasis(j, f, true);
+        if (far.Count != 1 || End(j, f, false) != 1) return null;
+        static char Kind(int letter) => letter is 1 or 2 ? '1' : '0';
+        return Enumerable.Range(0, 64).Where(s => !far[0][s].IsZero)
+            .Select(s => $"{Kind(s / 16)}{Kind(s / 4 % 4)}{Kind(s % 4)}").Distinct().OrderBy(p => p, StringComparer.Ordinal).ToList();
+    }
+
     public static FarLocality? ReadFarLocality(BigRational[] j, BigRational[][] f)
     {
         var far = EndBasis(j, f, true);

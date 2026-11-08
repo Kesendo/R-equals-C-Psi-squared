@@ -154,6 +154,23 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.Equal(dUv == 1 && uDv == 1 && vDu == 1, loc.Product);
     }
 
+    /// <summary>The far element's kind patterns (d, u, v; 1 for X or Y), against simulations/framework/diagnostics/
+    /// far_element_shape.py, a separate route over Q(i): A's product, B's letters times SWAP and C at three rows of
+    /// e₂ = 0 keep the pair (u, v) on one parity, D keeps v lit, E uses every pattern with d lit.</summary>
+    [Theory]
+    [InlineData("1,2,3", "1,0", "2,0", "3,0", "111")]                // A
+    [InlineData("2,2,3", "1,1", "3,4", "4,3", "100,111")]            // B
+    [InlineData("3,6,-2", "0,0", "3,4", "5,0", "100,111")]           // C
+    [InlineData("4,12,-3", "0,0", "7,1", "5,5", "100,111")]          // C at t = 3, another angle
+    [InlineData("-2,6,3", "0,0", "2,1", "1,2", "100,111")]           // C at t = -3
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", "101,111")]          // D
+    [InlineData("1,2,6", "0,0", "8,0", "-5,3", "100,101,110,111")]   // E
+    public void The_Kind_Patterns_Of_The_Far_Element(string j, string fd, string fu, string fv, string patterns)
+    {
+        var p = TrianglePalindromeLocusWitness.ReadFarPatterns(T(j), TrianglePalindromeLocusWitness.PlanarFields(T(fd), T(fu), T(fv)));
+        Assert.Equal(patterns.Split(','), p);
+    }
+
     [Fact]
     public void The_Locality_Reading_Is_Made_Only_Where_The_Row_Pairs_Through_One_Far_Element()
     {
