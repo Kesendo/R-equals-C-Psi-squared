@@ -9835,6 +9835,8 @@ necessary is open
 ([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));
 off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind
 ([the Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+How the blind seat bears on the palindrome's far element ([F158](#f158)) at N = 3 and N = 4: the paragraph
+*The sheet and blindness* in [the section on blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries).
 
 ---
 
@@ -10824,6 +10826,9 @@ factors are the two ways for that seat to be blind in [F157](#f157)'s sense.
 Beyond the triangle, with one dephased seat, Heisenberg bonds and letter
 fields, an N = 4 family and an N = 7 construction pair with neither a
 colouring nor a site symmetry, their dephased seat blind all the same.
+The paragraphs on the carriers' locality and sheets and on the sheet and
+blindness, in the proof's section on blind dephased seats, take up the far
+element's shape.
 With no field on d and fields of any direction perpendicular to z (the
 section *The triangle with planar fields*), a connected row pairs exactly when
 f_u ∥ f_v, when s = t and |f_u| = |f_v|, when e₂ = 0 and |f_u| = |f_v| at any

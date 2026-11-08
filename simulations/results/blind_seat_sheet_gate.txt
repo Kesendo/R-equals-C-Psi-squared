@@ -1,0 +1,189 @@
+1. N = 3: the hand system against the full commutator, planar fields of one length, no field on d
+   C, t = 2                         blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, t = 2: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, t = 2: hand = pattern = all = 1
+   PASS  C, t = 2: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 3074833/2705040·1
+   PASS  C, t = 2: the four displayed equations in U, V hold at the solution
+   PASS  C, t = 2: readout of (A') at the solution, m/p = -64*I/195
+   C, t = -3                        blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, t = -3: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, t = -3: hand = pattern = all = 1
+   PASS  C, t = -3: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 11105636/49725·1
+   PASS  C, t = -3: the four displayed equations in U, V hold at the solution
+   PASS  C, t = -3: readout of (A') at the solution, m/p = 165*I/221
+   C, t = 1/2                       blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, t = 1/2: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, t = 1/2: hand = pattern = all = 1
+   PASS  C, t = 1/2: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 45905977/15982480·1
+   PASS  C, t = 1/2: the four displayed equations in U, V hold at the solution
+   PASS  C, t = 1/2: readout of (A') at the solution, m/p = 192*I/145
+   C, t = -5/3                      blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, t = -5/3: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, t = -5/3: hand = pattern = all = 1
+   PASS  C, t = -5/3: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 80854148/14042873·1
+   PASS  C, t = -5/3: the four displayed equations in U, V hold at the solution
+   PASS  C, t = -5/3: readout of (A') at the solution, m/p = -285*I/377
+   C, census row                    blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, census row: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, census row: hand = pattern = all = 1
+   PASS  C, census row: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 6253/720·1
+   PASS  C, census row: the four displayed equations in U, V hold at the solution
+   PASS  C, census row: readout of (A') at the solution, m/p = 16*I/15
+   PASS  C, census row: the element has 12 Pauli strings
+   C, letter configuration          blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  C, letter configuration: the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  C, letter configuration: hand = pattern = all = 1
+   PASS  C, letter configuration: the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 125/36·1
+   PASS  C, letter configuration: the four displayed equations in U, V hold at the solution
+   PASS  C, letter configuration: readout of (A') at the solution, m/p = -4*I/3
+   B, (2, 2, 3)                     blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  B, (2, 2, 3): the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  B, (2, 2, 3): hand = pattern = all = 1
+   PASS  B, (2, 2, 3): the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 250/81·1
+   PASS  B, (2, 2, 3): the four displayed equations in U, V hold at the solution
+   PASS  B, (2, 2, 3): swap branch, p = 0
+   PASS  B, (2, 2, 3): m lies on e^(i Sigma/2), d's axis on the bisector of the fields
+   B, (1, 1, -5)                    blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  B, (1, 1, -5): the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  B, (1, 1, -5): hand = pattern = all = 1
+   PASS  B, (1, 1, -5): the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 130/9·1
+   PASS  B, (1, 1, -5): the four displayed equations in U, V hold at the solution
+   PASS  B, (1, 1, -5): swap branch, p = 0
+   PASS  B, (1, 1, -5): m lies on e^(i Sigma/2), d's axis on the bisector of the fields
+   B, (3, 3, 1)                     blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  B, (3, 3, 1): the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  B, (3, 3, 1): hand = pattern = all = 1
+   PASS  B, (3, 3, 1): the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 130/121·1
+   PASS  B, (3, 3, 1): the four displayed equations in U, V hold at the solution
+   PASS  B, (3, 3, 1): swap branch, p = 0
+   PASS  B, (3, 3, 1): m lies on e^(i Sigma/2), d's axis on the bisector of the fields
+   B and C at once, (2, 2, -1)      blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  B and C at once, (2, 2, -1): the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  B and C at once, (2, 2, -1): hand = pattern = all = 1
+   PASS  B and C at once, (2, 2, -1): the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 5·1
+   PASS  B and C at once, (2, 2, -1): the four displayed equations in U, V hold at the solution
+   PASS  B and C at once, (2, 2, -1): swap branch, p = 0
+   PASS  B and C at once, (2, 2, -1): m lies on e^(i Sigma/2), d's axis on the bisector of the fields
+   not blind, (1, 2, 3)             blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  not blind, (1, 2, 3): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  not blind, (1, 2, 3): hand = pattern = all = 0
+   not blind, (2, 5, 1)             blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  not blind, (2, 5, 1): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  not blind, (2, 5, 1): hand = pattern = all = 0
+   not blind, (1, -3, 4)            blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  not blind, (1, -3, 4): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  not blind, (1, -3, 4): hand = pattern = all = 0
+   J_du + J_dv = 0, (2, -2, 1)      blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  J_du + J_dv = 0, (2, -2, 1): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  J_du + J_dv = 0, (2, -2, 1): hand = pattern = all = 0
+   B at J_uv = 0, (3, 3, 0)         blind=True   hand system 1  far elements: pattern 1, all 1
+   PASS  B at J_uv = 0, (3, 3, 0): the Krylov rank of seat d reads blind = True, as the factor does
+   PASS  B at J_uv = 0, (3, 3, 0): hand = pattern = all = 1
+   PASS  B at J_uv = 0, (3, 3, 0): the rebuilt W commutes with H, anticommutes with Z_d, W^2 = 65/49·1
+   PASS  B at J_uv = 0, (3, 3, 0): the four displayed equations in U, V hold at the solution
+   PASS  B at J_uv = 0, (3, 3, 0): swap branch, p = 0
+   PASS  B at J_uv = 0, (3, 3, 0): m lies on e^(i Sigma/2), d's axis on the bisector of the fields
+   d at an end, (0, 2, 3)           blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  d at an end, (0, 2, 3): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  d at an end, (0, 2, 3): hand = pattern = all = 0
+   J_du + J_dv = 0, (1, -1, 3)      blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  J_du + J_dv = 0, (1, -1, 3): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  J_du + J_dv = 0, (1, -1, 3): hand = pattern = all = 0
+   control: C detuned, (3, 6, -3)   blind=False  hand system 0  far elements: pattern 0, all 0
+   PASS  control: C detuned, (3, 6, -3): the Krylov rank of seat d reads blind = False, as the factor does
+   PASS  control: C detuned, (3, 6, -3): hand = pattern = all = 0
+   the two middle equations are the Laplacian of the pair with d struck, applied to (U - V, U + V)
+   PASS  [[J_du + J_uv, -J_uv], [-J_uv, J_dv + J_uv]]·(U - V, U + V) is the pair (J_du·U - (J_du + 2J_uv)·V, J_dv·U + (J_dv + 2J_uv)·V), of determinant e2
+   PASS  (0, J_dv, -J_du) spans the vectors vanishing at d that d's row of L sends to zero (J_du, J_dv not both zero), and it is an eigenvector of L exactly where (J_du - J_dv)·e2 = 0
+   the field step in the turned frame, an exact relabelling of the letters: f·X_u + g·X_v with lengths f, g > 0
+   PASS  eigenvalues +-f +-g, simple off f = g, so there the commutant is span{1, X_u, X_v, X_uX_v}; its parity-keeping part, computed over Q(f, g), is span{1, X_uX_v}
+   PASS  at f = g the parity-keeping commutant is three-dimensional and holds Y_uY_v + Z_uZ_v
+   the reduction, symbolic in the couplings and the half-angles e^(i theta_u/2) = wu, e^(i theta_v/2) = wv
+   PASS  every entry of [H_b, W] on M = c·1 + beta·X'X' + 2m·P'_s is a multiple of c plus 0 or +-2 times (A'), (C1), (C2) or a conjugate
+   PASS  the hop equation H_01·d0 = d1·H_10 applied to |00> is 2c·(J_dv|01> + J_du|10>): c = 0 unless J_du = J_dv = 0
+   PASS  applied to |11> it is (C1) on <01| and (C2) on <10|
+   PASS  every other entry of the two hop equations is, at c = 0, +-2 times (C1), (C2) or a conjugate, or zero
+   PASS  the far equation H_11·d0 = d0·H_00 is (A') on the pair's one-excitation sector and a multiple of c on |00>, |11>
+   PASS  times e^{i Sigma/2}, (C1) and (C2) are J_dv·(xi_s + xi_p) = J_du·conj(xi_s) + J_dv·e^{-i Delta}·conj(xi_p) and J_du·(xi_s + xi_p) = J_dv·conj(xi_s) + J_du·e^{i Delta}·conj(xi_p); (A') is -e^{i Sigma/2} times the first equation
+   PASS  Im of the first is the last equation, Im of the second the last minus 2cos(Delta/2)·(second + third); Re of the first plus, and Re of the second minus, Re of the first equation are 2sin(Delta/2) times the third and the second
+   PASS  the null vector read back: e^{i Sigma/2}·xi_prod is (J_du + J_uv)·e^{i theta_u} + J_uv·e^{i theta_v} times the real sin(Delta/2)·cos(Delta/2)
+   PASS  on e2 = 0, symbolically in J_du, J_dv and the half-angles: the closed form solves all four displayed equations
+   PASS  W^2 = (|zeta_swap|^2 + |zeta_prod|^2)·1 + 2(n_swap·n_prod)·SWAP'_uv: invertible wherever n_swap is perpendicular to n_prod
+   PASS  controls: without the corrections Im of the second is not the last equation and Re of the first not 2sin(Delta/2) times the third; (C1) with J_du and J_dv exchanged is not the hop equation's entry on <01|, |11>
+   the displayed equations against the full commutator at rows: field directions zu^2, zv^2 with rational half-angles
+   C, (3, 6, -2)          f_u = (-1183, 4056), f_v = (-2975, 3000): displayed 1, hand system 1, far elements of odd height 1, all 1
+   PASS  C, (3, 6, -2): displayed system, hand system and full commutator agree, the far end of dimension 1
+   C, (-2, 6, 3)          f_u = (-1183, 4056), f_v = (-2975, 3000): displayed 1, hand system 1, far elements of odd height 1, all 1
+   PASS  C, (-2, 6, 3): displayed system, hand system and full commutator agree, the far end of dimension 1
+   B, (2, 2, 3)           f_u = (-1183, 4056), f_v = (-2975, 3000): displayed 1, hand system 1, far elements of odd height 1, all 1
+   PASS  B, (2, 2, 3): displayed system, hand system and full commutator agree, the far end of dimension 1
+   not blind, (1, 2, 3)   f_u = (-1183, 4056), f_v = (-2975, 3000): displayed 0, hand system 0, far elements of odd height 0, all 0
+   PASS  not blind, (1, 2, 3): displayed system, hand system and full commutator agree, the far end of dimension 0
+   C, (3, 6, -2)          second angle pair: displayed 1, far elements of odd height 1, all 1
+   PASS  C, (3, 6, -2), second angle pair: displayed system and full commutator agree, the far end of dimension 1
+   B, (1, 1, -5)          second angle pair: displayed 1, far elements of odd height 1, all 1
+   PASS  B, (1, 1, -5), second angle pair: displayed system and full commutator agree, the far end of dimension 1
+   not blind, (2, 5, 1)   second angle pair: displayed 0, far elements of odd height 0, all 0
+   PASS  not blind, (2, 5, 1), second angle pair: displayed system and full commutator agree, the far end of dimension 0
+   PASS  control: J_du written for J_dv in the last displayed equation changes the count at C, (3, 6, -2)
+   the closed form at those rows, and the rank across d | uv
+   PASS  C, (3, 6, -2): the closed form (zeta_prod from (psi1, psi2) = (J_du + 2J_uv, J_du), zeta_swap from the first equation) is a far element
+   PASS  C, (3, 6, -2): rank two across d | uv
+   PASS  C, (3, 6, -2): the far end there is one-dimensional
+   PASS  C, (-2, 6, 3): the closed form (zeta_prod from (psi1, psi2) = (J_du + 2J_uv, J_du), zeta_swap from the first equation) is a far element
+   PASS  C, (-2, 6, 3): rank two across d | uv
+   PASS  C, (-2, 6, 3): the far end there is one-dimensional
+   PASS  B, (2, 2, 3): rank one across d | uv (the swap times a product)
+   controls on the hypotheses
+   PASS  disconnected (0, 1, 0) with f_d = (1, 0): a far element of odd height, so part 2 needs at most one coupling zero
+   PASS  disconnected (0, 1, 0), no field on d, unequal lengths |f_u| = 5, |f_v| = 2: a far element of odd height, so part 1 needs it too
+   PASS  parallel fields of one length, (2, 2, 3), f_u = f_v = (3, 1), f_d = (1, 2): (f_d·sigma_d) (x) P_s is a far element of odd height
+   control: unequal lengths at e2 = 0, (3, 6, -2), f_u = (39, 52), f_v = (50, 120)
+   PASS  unequal lengths: no far element
+   PASS  unequal lengths at B, (2, 2, 3): no far element
+   control: the sign of (A') flipped
+   PASS  with (A') sign-flipped the hand system loses every C solution (it would disagree with the full commutator)
+2. N = 3 with a planar field on d: one axis at d, along f_d
+   B, f_d on the bisector               pattern 1, all 1, of them with the axis at d along f_d: 1
+   PASS  B, f_d on the bisector: predicted 1, the far end of that dimension
+   B, f_d on the bisector, (1, 1, -5)   pattern 1, all 1, of them with the axis at d along f_d: 1
+   PASS  B, f_d on the bisector, (1, 1, -5): predicted 1, the far end of that dimension
+   B, f_d across the bisector           pattern 0, all 0, of them with the axis at d along f_d: 0
+   PASS  B, f_d across the bisector: predicted 0, the far end of that dimension
+   B, f_d generic                       pattern 0, all 0, of them with the axis at d along f_d: 0
+   PASS  B, f_d generic: predicted 0, the far end of that dimension
+   C, e2 = 0, f_d generic               pattern 0, all 0, of them with the axis at d along f_d: 0
+   PASS  C, e2 = 0, f_d generic: predicted 0, the far end of that dimension
+   C, e2 = 0, f_d on the bisector       pattern 0, all 0, of them with the axis at d along f_d: 0
+   PASS  C, e2 = 0, f_d on the bisector: predicted 0, the far end of that dimension
+3. N = 4: the singlet block and the blind vector (0, 1, 1, 0)
+   PASS  K·K = 3(b0^2 + b3^2) + h^2 + 2b0·b3·sigma0·sigma3 - 2h(b0·X0 + b3·X3)
+   PASS  [S, K·K] has the strings IZ, ZX, YZ, ZY with -4i·b0·b3·c2, -4i·b0·b3·c3, -4i·b3·(b0·c1 - h·c4), 4i·b0·(b3·c1 + h·c4) and XZ, ZI that follow: at every nonzero b0, b3, h it vanishes exactly when c2 = c3 = 0, h·c4 = b0·c1, (b0 + b3)·c1 = 0
+   PASS  general b0, b3: [S, K·K] = 0 has no solution in span{X0, X0Y3, Y0, Y0Y3}
+   PASS  b3 = -b0: exactly the line h·X0 + b0·Y0Y3
+   PASS  control, h = 0 (the Y^(x)4-coloured row): Y0Y3 solves for every b0, b3, so the step needs h != 0
+   PASS  the pair's block with 0 and 3 struck has determinant -(b0 + b3)^2; (0, 1, 1, 0) is in ker L exactly at b3 = -b0, and (0, b3, b3, b0 + b3), which seat 3 sees unless b3 = -b0, keeps seat 0 blind at every b0, b3
+   PASS  a vector (0, y1, y2, 0) vanishing at 0 and 3 is an eigenvector only with y1 = y2 (row 0 is -b0·(y1 - y2)), so only as (0, 1, 1, 0), and L·(0, 1, 1, 0) = (b0 + b3)·(0, 1, -1, 0) makes it one exactly at b3 = -b0
+   PASS  on the family the singlet entry of [H, diag(S, 0)] is g·[Y3, S]: e drops out
+   PASS  widened family: H is -3e + g·Y3 on the singlet, e + g·Y3 on each triplet state and 2K_alpha from the singlet to |alpha>, so for W = diag(S, T) the singlet entry of [H, W] is g·[Y3, S] and the triplet entries are g·[Y3, T_alpha beta]
+   the family a = 1, e = 2, h = 1, g = 3    blind(0)=True   far elements: all 1, swap-even 1
+   PASS  the family a = 1, e = 2, h = 1, g = 3: blind True, all 1, swap-even 1
+   the family a = 2, e = -1, h = 3, g = 1   blind(0)=True   far elements: all 1, swap-even 1
+   PASS  the family a = 2, e = -1, h = 3, g = 1: blind True, all 1, swap-even 1
+   difference only, b3 = -2·b0              blind(0)=True   far elements: all 0, swap-even 0
+   PASS  difference only, b3 = -2·b0: blind True, all 0, swap-even 0
+   difference only, b3 = b0                 blind(0)=True   far elements: all 0, swap-even 0
+   PASS  difference only, b3 = b0: blind True, all 0, swap-even 0
+   difference only, (b0, b3) = (2, -3)      blind(0)=True   far elements: all 0, swap-even 0
+   PASS  difference only, (b0, b3) = (2, -3): blind True, all 0, swap-even 0
+   site 0 sees the pair's sum, c0 = 1       blind(0)=False  far elements: all 0, swap-even 0
+   PASS  site 0 sees the pair's sum, c0 = 1: blind False, all 0, swap-even 0
+   PASS  control, g = 0, b3 = -2·b0: 9 dimensions of swap-even far elements, so the step needs g != 0
+   PASS  control, g = 0, b3 = b0: 9 dimensions of swap-even far elements, so the step needs g != 0
+   PASS  control, the pair's opposite fields along y at b3 = -2·b0: a swap-even far element (Y^(x)4), so the step needs them along x
+4. the join: the common carrier W(s, t) at the letter configuration
+   PASS  Z^(x)3 keeps the bonds and reverses the fields: its pencil H_b + lambda·F is the field line
+   PASS  (s, t, r) = (3, 6, -2): the hand element is a multiple of W(s, t), odd under Z^(x)3, a far element at h = 5
+   PASS  (s, t, r) = (2, 2, 3): the hand element is a multiple of W(s, t), odd under Z^(x)3, a far element at h = 5
+   PASS  (s, t, r) = (1, -2, -2): the hand element is a multiple of W(s, t), odd under Z^(x)3, a far element at h = 5
+ALL CHECKS PASS
