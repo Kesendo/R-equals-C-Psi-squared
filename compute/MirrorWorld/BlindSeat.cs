@@ -2,7 +2,8 @@ namespace MirrorWorld;
 
 // The blind seat (adopted 2026-08-24, the seat-cut blindness arc: experiments/THE_SEAT_THAT_CUTS.md +
 // experiments/THE_BLIND_SITE.md; F157 since 2026-08-24, adopted on the genre gate the way
-// GammaFold's per-site turns and Cyclotomy were). Put the watching on ONE seat of a chain and count what it cannot touch: the
+// GammaFold's per-site turns and Cyclotomy were). Put the watching on ONE seat of a chain, or of any graph given by its
+// bonds, and count what it cannot touch: the
 // blind dimension is N minus the number of single-excitation eigenspaces the seat's unit vector MEETS,
 // the dimension of the largest H-invariant subspace carrying no amplitude at the seat, held here in the
 // world's genre as a COUNT with no eigensolver anywhere,
@@ -27,8 +28,8 @@ namespace MirrorWorld;
 // blind-projector corner and every path object outside (genre, not topic).
 //
 // One seat parts the COUNT from the gloss above it, and the fence is F157's Breaks-for. Where the seat's
-// OWN ray is H-invariant (an isolated seat, or its incident bonds detuned to zero, both of which this
-// constructor accepts) that ray is dark as well, and the dark states are then a UNION of two subspaces
+// OWN ray is H-invariant (an isolated seat, or its incident bonds detuned to zero, both of which the
+// constructors accept) that ray is dark as well, and the dark states are then a UNION of two subspaces
 // rather than one: measured at N = 3, XY, bonds [0,1], seat 0, where |seat> stays pure under the watching,
 // a state of the Krylov complement stays pure, and their superposition falls to purity 1/2. The count
 // reports the larger of the two, and no single number reports a union. So the exact reading is the
@@ -76,6 +77,18 @@ namespace MirrorWorld;
 // supplies a simple H|_W, which is why it holds there; [1,1,0,1,1] breaks it at seats 1 and 4 while the
 // zero-bond [1,0,1] holds at every seat, so the zero bond was never the discriminator.
 //
+// On a graph (the second constructor, bonds (a, b, J) between sites 0..N-1) the count is the same N minus a
+// Krylov rank for whatever real symmetric H the bonds build, which is F157's count as its Valid-for states it
+// (any real symmetric single-excitation H, any graph), and the span is Theorem A's dim ker = 1 + dim
+// commutant(H|_W), which PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA proves for every Hermitian H on every graph. What
+// stays the chain's is what was derived on it: span = 1 + blind (F157 lists graphs where it fails, both stars,
+// K4 and K5 among them), the two uniform laws and the parity forcing, the last two refused on a graph rather
+// than answered. The graph it was built for is the triangle with one dephased seat d, couplings (J_du, J_dv,
+// J_uv), whose Krylov determinant under the signed Laplacian is -(J_du - J_dv)*e2 with
+// e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_PALINDROME_COMPLEMENT_CONNECTION, section on blind dephased
+// seats; live in the main repo as TrianglePalindromeLocusWitness.BlindDimension): on the Heisenberg book d is
+// blind exactly where that vanishes, the swap J_du = J_dv or e2 = 0.
+//
 // Words, fenced at the door: a SEAT here is the site the single watching sits on, not Seed's unmirrorable
 // reflection seat; BLIND keeps the world's own idiom (the watching is blind to these states); the seat
 // leaves two principal submatrices behind and this file never calls that a cut, because the world's cuts
@@ -91,8 +104,13 @@ public sealed class BlindSeat : GameObject
     // ZZ book at |J| = 4378862956477877167 reported blind 0 at seats 1 and 4 where the count is 1.
     public const long MaxCoupling = 1L << 40;
 
+    // On a graph the ZZ diagonal sums one coupling per BOND rather than N-1 of them, and a repeated pair adds
+    // its hops; bounding the bond count keeps every entry of H() below 2^62 at MaxCoupling.
+    public const int MaxBonds = 1 << 20;
+
     public int N { get; }
-    readonly long[] bonds;   // integer couplings on the chain's N-1 bonds; zero allowed (and fenced where it matters)
+    readonly (int A, int B, long J)[] bonds;   // integer couplings, zero allowed (and fenced where it matters)
+    readonly bool chain;     // built from a chain profile: the uniform laws and the parity forcing apply
     readonly bool zz;        // the book: true = Heisenberg (ZZ diagonal on), false = XY (zero diagonal)
 
     // parent = the frame. The single-excitation sector is the Cone's memory cut REBUILT here in integer
@@ -112,25 +130,51 @@ public sealed class BlindSeat : GameObject
                 throw new ArgumentOutOfRangeException(nameof(bondCouplings),
                     $"|J| = {Math.Abs(b)} exceeds {MaxCoupling}: the ZZ diagonal sums up to N-1 couplings and the hop " +
                     "doubles one, so a larger magnitude wraps int64 silently and the count loses its one-sidedness.");
-        bonds = (long[])bondCouplings.Clone();
+        bonds = Enumerable.Range(0, N - 1).Select(i => (i, i + 1, bondCouplings[i])).ToArray();
+        chain = true;
+        zz = heisenberg;
+    }
+
+    // The seat on a graph: bonds (a, b, J) between sites 0..N-1, any shape (the triangle, a star, a ring, the
+    // complete graph). The count and the span read the same way; UniformLaw and ParityForced are the chain's and
+    // a graph refuses them.
+    public BlindSeat(World world, int n, (int A, int B, long J)[] graphBonds, bool heisenberg = true) : base(world)
+    {
+        N = n;
+        if (N < 2)
+            throw new ArgumentException($"a graph here needs at least two sites; got {N}.");
+        if (graphBonds.Length > MaxBonds)
+            throw new ArgumentOutOfRangeException(nameof(graphBonds), $"{graphBonds.Length} bonds exceed {MaxBonds}.");
+        foreach (var (a, b, j) in graphBonds)
+        {
+            if (a < 0 || a >= N || b < 0 || b >= N || a == b)
+                throw new ArgumentException($"the bond ({a}, {b}) is not between two distinct sites of {N}.");
+            if (Math.Abs(j) > MaxCoupling)
+                throw new ArgumentOutOfRangeException(nameof(graphBonds),
+                    $"|J| = {Math.Abs(j)} exceeds {MaxCoupling}: a larger magnitude wraps int64 in H() and the count " +
+                    "loses its one-sidedness.");
+        }
+        bonds = ((int, int, long)[])graphBonds.Clone();
+        chain = false;
         zz = heisenberg;
     }
 
     // The site-indexed integer single-excitation H, in the main repo's integer convention
     // (simulations/seat_cut_blindness.py se_hamiltonian_int): hop 2J on a bond, and on the ZZ book a
-    // diagonal that pays -J at a bond's own two ends and +J elsewhere, bond by bond.
+    // diagonal that pays -J at a bond's own two ends and +J elsewhere, bond by bond. On a chain the bonds
+    // are (i, i+1); on a graph they are whatever was given.
     long[,] H()
     {
         var h = new long[N, N];
-        for (int b = 0; b < N - 1; b++)
+        foreach (var (a, b, j) in bonds)
         {
-            h[b, b + 1] += 2 * bonds[b];
-            h[b + 1, b] += 2 * bonds[b];
+            h[a, b] += 2 * j;
+            h[b, a] += 2 * j;
         }
         if (zz)
             for (int s = 0; s < N; s++)
-                for (int b = 0; b < N - 1; b++)
-                    h[s, s] += (s == b || s == b + 1) ? -bonds[b] : bonds[b];
+                foreach (var (a, b, j) in bonds)
+                    h[s, s] += (s == a || s == b) ? -j : j;
         return h;
     }
 
@@ -223,7 +267,7 @@ public sealed class BlindSeat : GameObject
 
     // Reference closed form for a connected, nonzero UNIFORM chain, one per book. This deliberately
     // remains callable on other profiles as a comparison; Blind(seat) reads the actual instance.
-    public int UniformLaw(int seat) => Seat(seat) && zz
+    public int UniformLaw(int seat) => Seat(seat) && ChainOnly(nameof(UniformLaw)) && zz
         ? (Cyclotomy.Gcd(2 * seat + 1, N) - 1) / 2
         : Cyclotomy.Gcd(seat + 1, N + 1) - 1;
 
@@ -231,13 +275,19 @@ public sealed class BlindSeat : GameObject
     // odd chain, a zero-diagonal Jacobi block of odd size is singular (det T_m = -b^2 det T_{m-2} with b
     // the block's own last bond and det T_1 = 0), so the two blocks share the root 0 at every zero-free
     // profile and the seat is blind, however irregular the couplings.
-    public bool ParityForced(int seat) => Seat(seat) && !zz && N % 2 == 1 && seat % 2 == 1;
+    public bool ParityForced(int seat) => Seat(seat) && ChainOnly(nameof(ParityForced)) && !zz && N % 2 == 1 && seat % 2 == 1;
 
     // Every public reading takes a seat, and a seat off the chain is a caller error rather than a
     // number: UniformLaw would otherwise return -1 through a gcd that takes no absolute value.
     bool Seat(int seat) => seat >= 0 && seat < N
         ? true
-        : throw new ArgumentOutOfRangeException(nameof(seat), $"seat {seat} is off a chain of {N} sites.");
+        : throw new ArgumentOutOfRangeException(nameof(seat),
+            $"seat {seat} is off a {(chain ? "chain" : "graph")} of {N} sites.");
 
-    public override IReadOnlyList<string> Own => new[] { "blind", "law", "span" };
+    // The uniform laws and the parity forcing were derived on the chain's site order; a graph has none.
+    bool ChainOnly(string what) => chain
+        ? true
+        : throw new InvalidOperationException($"{what} is a law of the chain; this seat sits on a graph given by its bonds.");
+
+    public override IReadOnlyList<string> Own => chain ? new[] { "blind", "law", "span" } : new[] { "blind", "span" };
 }

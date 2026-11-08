@@ -936,6 +936,18 @@ if (args.Length > 0 && args[0] == "blind")
         }
         Console.WriteLine($"  N = {n,3}: mismatches over both books, every seat: {bad}");
     }
+    Console.WriteLine();
+    Console.WriteLine("  on a graph given by its bonds: the triangle with one dephased seat d = 0, couplings (J_du, J_dv, J_uv),");
+    Console.WriteLine("  blind(d) in both books, the Heisenberg one against the Krylov determinant's factor (J_du - J_dv)*e2,");
+    Console.WriteLine("  e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_PALINDROME_COMPLEMENT_CONNECTION):");
+    foreach (var (du, dv, uv) in new (long, long, long)[] { (3, 6, -2), (2, 2, 3), (2, 2, -1), (1, 2, 3), (1, 2, 0) })
+    {
+        var tri = new (int, int, long)[] { (0, 1, du), (0, 2, dv), (1, 2, uv) };
+        long e2 = du * dv + du * uv + dv * uv;
+        int zzBlind = new BlindSeat(bworld, 3, tri, heisenberg: true).Blind(0);
+        int xyBlind = new BlindSeat(bworld, 3, tri, heisenberg: false).Blind(0);
+        Console.WriteLine($"  ({du,2}, {dv,2}, {uv,2}): ZZ on blind {zzBlind} (factor {(du - dv) * e2}), ZZ off blind {xyBlind}");
+    }
     return;
 }
 

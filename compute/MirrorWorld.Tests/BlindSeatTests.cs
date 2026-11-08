@@ -403,4 +403,124 @@ public class BlindSeatTests
         var justOff = new BlindSeat(W, 3, new[] { ModP.Primes[0] + 1, ModP.Primes[1] + 1 }, heisenberg: false);
         Assert.Equal(0, justOff.Blind(0));
     }
+
+    // ---- the seat on a graph (2026-11-08) ----------------------------------------------------------------------
+
+    static BlindSeat Graph(int n, (int, int, long)[] bonds, bool zz) => new(W, n, bonds, heisenberg: zz);
+
+    static (int, int, long)[] Triangle(long du, long dv, long uv) => new[] { (0, 1, du), (0, 2, dv), (1, 2, uv) };
+
+    // A chain handed over as a graph is the same H, so every count and every span agrees with the chain's, on the
+    // uniform profile, an irregular signed one and one with a zero bond, whose readings are not mirror-symmetric (so a
+    // reversed site mapping in either constructor would show), in both books.
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void A_Chain_Read_As_A_Graph_Counts_The_Same(bool zz)
+    {
+        foreach (var profile in new[] { new long[] { 1, 1, 1, 1, 1, 1 }, new long[] { 2, -5, 7, 3, -1, 4 }, new long[] { 1, 1, 0 } })
+        {
+            int n = profile.Length + 1;
+            var asChain = Chain(profile, zz);
+            var asGraph = Graph(n, Topology.Chain(n).Select((e, i) => (e.a, e.b, profile[i])).ToArray(), zz);
+            for (int s = 0; s < n; s++)
+                Assert.Equal((asChain.Blind(s), asChain.Span(s)), (asGraph.Blind(s), asGraph.Span(s)));
+        }
+    }
+
+    // The triangle with one dephased seat d = 0, read against the eigenvector route, which shares nothing with the
+    // Krylov rank. For a real symmetric H the seat is blind exactly when an eigenvector vanishes at it. A vector
+    // (0, y, z) vanishing at d that d's row sends to zero is a multiple of v = (0, J_dv, −J_du), the couplings at d not
+    // both zero. Heisenberg book, H = (sum of J)·1 − 2·L for the signed Laplacian L: L·v = e2·(0, 1, −1) with
+    // e2 = J_du·J_dv + J_du·J_uv + J_dv·J_uv, parallel to v exactly where (J_du − J_dv)·e2 = 0 (the factor of the Krylov
+    // determinant in PROOF_PALINDROME_COMPLEMENT_CONNECTION's section on blind dephased seats). XY book, H = 2·A for
+    // the weighted adjacency: A·v = J_uv·(0, −J_du, J_dv), parallel to v exactly where J_uv·(J_du² − J_dv²) = 0, the
+    // test's own oracle. The Krylov space of e_d holds e_d and H·e_d, so the count is at most one here. Every connected
+    // triangle with couplings in −3..3, at most one of them zero.
+    [Fact]
+    public void The_Triangle_Is_Blind_Where_Its_Two_Closed_Forms_Vanish()
+    {
+        int rows = 0, blindZz = 0, blindXy = 0;
+        for (long du = -3; du <= 3; du++)
+            for (long dv = -3; dv <= 3; dv++)
+                for (long uv = -3; uv <= 3; uv++)
+                {
+                    if ((du == 0 ? 1 : 0) + (dv == 0 ? 1 : 0) + (uv == 0 ? 1 : 0) > 1) continue;
+                    long e2 = du * dv + du * uv + dv * uv;
+                    bool zzBlind = (du - dv) * e2 == 0, xyBlind = uv * (du * du - dv * dv) == 0;
+                    Assert.Equal(zzBlind ? 1 : 0, Graph(3, Triangle(du, dv, uv), zz: true).Blind(0));
+                    Assert.Equal(xyBlind ? 1 : 0, Graph(3, Triangle(du, dv, uv), zz: false).Blind(0));
+                    rows++;
+                    if (zzBlind) blindZz++;
+                    if (xyBlind) blindXy++;
+                }
+        Assert.True(blindZz > 0 && blindZz < rows && blindXy > 0 && blindXy < rows, $"{rows} {blindZz} {blindXy}");
+    }
+
+    // The triangle's named rows, with their spans (Theorem A: 1 + dim commutant of H on the blind space, here of
+    // dimension one, so 2 where d is blind and 1 where it is not): (3, 6, −2) with e2 = 0 and (2, 2, 3) with the swap
+    // J_du = J_dv blind in the Heisenberg book, (2, 2, −1) with both (L's eigenvalues 0, 0, 6, Krylov rank 2), and
+    // (1, 2, 3) sighted in both books.
+    [Theory]
+    [InlineData(3, 6, -2, 1, 0)]
+    [InlineData(2, 2, 3, 1, 1)]
+    [InlineData(2, 2, -1, 1, 1)]
+    [InlineData(1, 2, 3, 0, 0)]
+    [InlineData(1, 2, 0, 0, 1)]      // J_uv = 0: the path u − d − v with d in the middle, an odd chain's odd seat in XY
+    public void The_Triangle_Rows(long du, long dv, long uv, int blindZz, int blindXy)
+    {
+        var zz = Graph(3, Triangle(du, dv, uv), zz: true);
+        var xy = Graph(3, Triangle(du, dv, uv), zz: false);
+        Assert.Equal((blindZz, 1 + blindZz), (zz.Blind(0), zz.Span(0)));
+        Assert.Equal((blindXy, 1 + blindXy), (xy.Blind(0), xy.Span(0)));
+    }
+
+    // Uniform shapes, both books, with counts from the eigenvectors: on the star the leaf vectors that sum to zero
+    // vanish at the hub (blind N − 2) and, at a leaf, those on the other leaves (N − 3); on the complete graph every
+    // vector orthogonal to the ones is an eigenvector, N − 2 of them vanishing at a seat; on the ring each degenerate
+    // pair of momenta ±k holds one combination vanishing at a seat, floor((N − 1)/2). The spans are Theorem A's
+    // 1 + dim commutant of H on the blind space: H is a scalar there on the star and the complete graph, so 1 + b²
+    // (where span = 1 + blind fails, as F157 says it does off the chain), and simple on the ring, so 1 + b.
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    public void Stars_Complete_Graphs_And_Rings(int n)
+    {
+        foreach (bool zz in new[] { true, false })
+        {
+            (int, int, long)[] Uniform((int a, int b)[] edges) => edges.Select(e => (e.a, e.b, 1L)).ToArray();
+            var star = Graph(n, Uniform(Topology.Star(n)), zz);
+            Assert.Equal((n - 2, 1 + (n - 2) * (n - 2)), (star.Blind(0), star.Span(0)));
+            Assert.Equal((n - 3, 1 + (n - 3) * (n - 3)), (star.Blind(1), star.Span(1)));
+            var complete = Graph(n, Uniform(Topology.Complete(n)), zz);
+            Assert.Equal((n - 2, 1 + (n - 2) * (n - 2)), (complete.Blind(0), complete.Span(0)));
+            var ring = Graph(n, Uniform(Topology.Ring(n)), zz);
+            Assert.Equal(((n - 1) / 2, 1 + (n - 1) / 2), (ring.Blind(0), ring.Span(0)));
+        }
+    }
+
+    [Fact]
+    public void A_Graph_Refuses_The_Chain_Laws_And_Malformed_Bonds()
+    {
+        var tri = Graph(3, Triangle(3, 6, -2), zz: true);
+        Assert.Throws<InvalidOperationException>(() => tri.UniformLaw(0));
+        Assert.Throws<InvalidOperationException>(() => tri.ParityForced(0));
+        var triXy = Graph(3, Triangle(3, 6, -2), zz: false);
+        Assert.Throws<InvalidOperationException>(() => triXy.UniformLaw(0));
+        Assert.Throws<InvalidOperationException>(() => triXy.ParityForced(0));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Graph(2, Enumerable.Repeat((0, 1, 1L), BlindSeat.MaxBonds + 1).ToArray(), zz: true));
+        var heavy = Graph(2, Enumerable.Repeat((0, 1, BlindSeat.MaxCoupling), BlindSeat.MaxBonds).ToArray(), zz: true);
+        Assert.Equal((0, 1), (heavy.Blind(0), heavy.Span(0)));   // the bound itself still computes, without a wrap
+        Assert.Equal(new[] { "blind", "span" }, tri.Own);
+        Assert.Throws<ArgumentOutOfRangeException>(() => tri.Blind(3));
+        Assert.Throws<ArgumentException>(() => Graph(3, new[] { (0, 3, 1L) }, zz: true));
+        Assert.Throws<ArgumentException>(() => Graph(3, new[] { (1, 1, 1L) }, zz: true));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Graph(3, new[] { (0, 1, BlindSeat.MaxCoupling + 1) }, zz: true));
+        var bonds = Triangle(3, 6, -2);
+        var seat = Graph(3, bonds, zz: true);
+        bonds[2] = (1, 2, 5);                               // the caller's array changes, the seat does not
+        Assert.Equal(1, seat.Blind(0));
+    }
 }
