@@ -7,9 +7,10 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="PalindromeComplementConnectionClaim"/>,
-/// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields" of
+/// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields", and the paragraph "The
+/// sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
 /// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
-/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, two rules.
+/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, two pairing rules, and on the planar one the sheet rule.
 ///
 /// <para><b>Letter fields</b>, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in</para>
 /// <code>
@@ -34,7 +35,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// ends of F158 itself, as the real kernels of W ↦ [H, W] on the Pauli strings whose d-letter is in {I, Z} (near)
 /// or {X, Y} (far), with <see cref="BigRational"/> entries and an exact nullspace, and evaluates the classes on the
 /// point. A field with two components is two Pauli terms on its site, so the same kernels read both settings. It
-/// recomputes the rule at the row asked for and on two fixed grids: special loci over all 27 letter words, and
+/// recomputes the rule at the row asked for and on fixed grids: special loci over all 27 letter words, and
 /// planar rows on the swap, reciprocal and R1 couplings with parallel, equal-length, generic and E fields and their
 /// perturbations, and a row with R2 = R3 = 0 but R1 ≠ 0 that must break. Rational rows of E with J_uv ≠ 0 are scarce;
 /// the grid knows one, w = 1, ξ = 8 in the proof's chart, J = (1, 2, 6), and carries E through that row's images under the mirror η₂ → −η₂, a rational turn about z, the swap u ↔ v and a common scale, and
@@ -43,7 +44,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// derivation's.</para>
 ///
 /// <para><b>A field on d.</b> The planar setting also takes a field f_d perpendicular to z on d. The kernels read it as
-/// they read every field, two Pauli terms on its site; no rule is stated there (the classes above are proven for
+/// they read every field, two Pauli terms on its site; no pairing rule is stated there (the classes above are proven for
 /// f_d = 0), so such a row reports its two ends and its far element and no class.</para>
 ///
 /// <para><b>The far element's locality.</b> Where the row pairs through a one-dimensional far end the witness keeps
@@ -56,6 +57,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <c>experiments/THE_CUBE_SITE_BY_SITE.md</c>. A mirror conditioned on the bits of a site is not covered (it sends
 /// the identity to a sum over sectors), and a one-sided multiplication by a site permutation, such as B's
 /// SWAP_uv·(m·σ)^⊗3, is not a relabelling.</para>
+///
+/// <para><b>The sheet and blindness.</b> The paragraph of that name in the proof's section on blind dephased seats, on
+/// this witness's own route: the blind dimension of d as 3 minus the Krylov rank of the signed Laplacian (not the factor
+/// (J_du − J_dv)·e₂ the proof reads it by), the far end restricted to the strings of odd and of even height (k_Z, the
+/// number of letters X or Y), and the rule in the setting of the paragraph's first two bullets (fields on u and v
+/// nonzero, neither parallel nor antiparallel): with no field on d a far element of odd height exists exactly when d
+/// is blind and |f_u| = |f_v|, with a planar field on d exactly on B with f_d on the line of f_u + f_v. The closed form
+/// is built at equal lengths, where it exists and is rational, and read against the far end (in it, spanning it where it is
+/// one-dimensional, W² a positive multiple of 1, rank two across d | uv on C off B and one on B). The rule is read at
+/// the row asked for and on the sheet grid, with a planted mutation per condition in the tests; the symbolic derivation and the
+/// N = 4 widening stay with <c>simulations/blind_seat_sheet_gate.py</c>.</para>
 ///
 /// <para>Args: <c>--word</c> (three letters X/Y/Z, one per site d, u, v; default ZXY), <c>--J</c> (J_du,J_dv,J_uv,
 /// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1); or, for planar fields, <c>--fu</c> and
@@ -146,16 +158,27 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     /// <summary>dim of {W real on the strings with d-letter in {I, Z} (near) or {X, Y} (far) : [H, W] = 0}.</summary>
     public static int End(BigRational[] j, BigRational[][] f, bool far) => EndBasis(j, f, far).Count;
 
+    /// <summary>The height a basis is restricted to: every string, or only those with an odd or an even number of
+    /// letters X or Y (the cube's k_Z; on the far end, odd height is the pair (u, v) keeping its parity).</summary>
+    public enum Height { Any, Odd, Even }
+
     /// <summary>A basis of that end, each W as its 64 real coefficients on the Pauli strings (index 16·a + 4·b + c
     /// for the letters a, b, c of d, u, v; 0 = I, 1 = X, 2 = Y, 3 = Z). [t, s] = 2·i^k·u for anticommuting strings
-    /// with k odd; divided by 2i every entry is ± a coefficient.</summary>
-    public static List<BigRational[]> EndBasis(BigRational[] j, BigRational[][] f, bool far)
+    /// with k odd; divided by 2i every entry is ± a coefficient. With <paramref name="height"/> the unknowns are only
+    /// the strings of that height, so the kernel is the end's elements of that height.</summary>
+    public static List<BigRational[]> EndBasis(BigRational[] j, BigRational[][] f, bool far, Height height = Height.Any)
     {
+        static bool Lit(int letter) => letter is 1 or 2;
         var cols = new List<int[]>();
         for (int a = 0; a < 4; a++)
             for (int b = 0; b < 4; b++)
                 for (int c = 0; c < 4; c++)
-                    if ((a is 1 or 2) == far) cols.Add(new[] { a, b, c });
+                {
+                    if (Lit(a) != far) continue;
+                    int lit = (Lit(a) ? 1 : 0) + (Lit(b) ? 1 : 0) + (Lit(c) ? 1 : 0);    // the string's height k_Z
+                    if (height == Height.Odd && lit % 2 == 0 || height == Height.Even && lit % 2 == 1) continue;
+                    cols.Add(new[] { a, b, c });
+                }
         var rows = new Dictionary<int, BigRational[]>();
         foreach (var (coef, t) in Terms(j, f))
         {
@@ -222,6 +245,158 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         var w = far[0];
         return new FarLocality(OperatorSchmidtRank.Across(w, 3, new[] { 0 }), OperatorSchmidtRank.Across(w, 3, new[] { 1 }),
             OperatorSchmidtRank.Across(w, 3, new[] { 2 }));
+    }
+
+    // ---- the sheet and blindness ------------------------------------------------------------------------
+
+    /// <summary>The blind dimension of the dephased seat d: 3 − rank [e_d, 𝓛e_d, 𝓛²e_d] for the signed Laplacian 𝓛
+    /// of the couplings (F157's count), exact over ℚ and read without the factor (J_du − J_dv)·e₂.</summary>
+    public static int BlindDimension(BigRational[] j)
+    {
+        var w = new[,] { { BigRational.Zero, j[0], j[1] }, { j[0], BigRational.Zero, j[2] }, { j[1], j[2], BigRational.Zero } };
+        var lap = new BigRational[3, 3];
+        for (int a = 0; a < 3; a++)
+            for (int b = 0; b < 3; b++)
+                lap[a, b] = a == b ? w[a, 0] + w[a, 1] + w[a, 2] : -w[a, b];
+        var krylov = new BigRational[3, 3];
+        var v = new[] { BigRational.One, BigRational.Zero, BigRational.Zero };
+        for (int k = 0; k < 3; k++)
+        {
+            for (int a = 0; a < 3; a++) krylov[a, k] = v[a];
+            v = Enumerable.Range(0, 3).Select(a => lap[a, 0] * v[0] + lap[a, 1] * v[1] + lap[a, 2] * v[2]).ToArray();
+        }
+        return 3 - OperatorSchmidtRank.RankOverQ(krylov);
+    }
+
+    private static BigRational Cross(BigRational[] a, BigRational[] b) => a[0] * b[1] - a[1] * b[0];
+    private static BigRational Norm2(BigRational[] a) => a[0] * a[0] + a[1] * a[1];
+
+    /// <summary>One row read for the paragraph "The sheet and blindness, at N = 3 and N = 4": the blind dimension of d,
+    /// the far end by height (its elements of odd height, of even height, and all of them, so a far end not spanned by
+    /// elements of definite height shows as All above Odd + Even), whether the row lies in the setting (Heisenberg bonds of which
+    /// at most one is zero, nonzero planar fields on u and v neither parallel nor antiparallel, a planar field on d or
+    /// none), the rule's prediction there and whether the odd-height count agrees with it.</summary>
+    public sealed record SheetReading(int Blind, int FarOdd, int FarEven, int FarAll, bool InSetting, bool Predicted, bool Agrees);
+
+    /// <summary>The rule. With no field on d: a far element of odd height exists exactly when d is blind and
+    /// |f_u| = |f_v|. With a planar field on d: exactly on B (J_du = J_dv, |f_u| = |f_v|) with f_d on the line of
+    /// f_u + f_v. <paramref name="without"/> drops one condition for the planted mutations: 'b' blindness (or B's
+    /// couplings), 'l' the equal lengths, 'a' the axis of f_d.</summary>
+    public static SheetReading ReadSheet(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        var f = PlanarFields(fd, fu, fv);
+        int blind = BlindDimension(j);
+        int odd = EndBasis(j, f, true, Height.Odd).Count, even = EndBasis(j, f, true, Height.Even).Count;
+        int all = EndBasis(j, f, true).Count;
+        bool inSetting = j.Count(x => x.IsZero) <= 1 && !Norm2(fu).IsZero && !Norm2(fv).IsZero && !Cross(fu, fv).IsZero;
+        bool lengths = without == 'l' || Norm2(fu) == Norm2(fv);
+        bool predicted;
+        if (fd.All(x => x.IsZero))
+            predicted = (without == 'b' || blind > 0) && lengths;
+        else
+        {
+            var bisector = new[] { fu[0] + fv[0], fu[1] + fv[1] };
+            predicted = (without == 'b' || j[0] == j[1]) && lengths && (without == 'a' || Cross(fd, bisector).IsZero);
+        }
+        return new SheetReading(blind, odd, even, all, inSetting, predicted, !inSetting || (odd >= 1) == predicted);
+    }
+
+    /// <summary>The first bullet's closed form at a row of B or C with |f_u| = |f_v| and the fields neither parallel
+    /// nor antiparallel (else null), as 64 real coefficients: W = (n_swap·σ_d) ⊗ SWAP′_uv·X′_uX′_v + (n_prod·σ_d) ⊗
+    /// X′_uX′_v with SWAP′·X′X′ = (1 + X′X′ − Y′Y′ − ZZ)/2. At equal lengths everything is rational:
+    /// X′_uX′_v = (f_u·σ)(f_v·σ)/|f|², Y′ the letter of ẑ × f̂, n_prod ∝ (J_du + J_uv)·f_u + J_uv·f_v and
+    /// ζ_swap = 2i·J_uv·sin θ₋·ζ_prod/(J_du − J_dv) with sin θ₋ = (f_u,y f_v,x − f_u,x f_v,y)/|f|² on C; on B
+    /// n_prod = 0 and n_swap ∝ f_u + f_v, the bisector.</summary>
+    public static BigRational[]? ClosedForm(BigRational[] j, BigRational[] fu, BigRational[] fv)
+    {
+        var l2 = Norm2(fu);
+        if (j.Count(x => x.IsZero) > 1 || l2.IsZero || Norm2(fv) != l2 || Cross(fu, fv).IsZero) return null;
+        BigRational[] nSwap, nProd;
+        var e2 = j[0] * j[1] + j[0] * j[2] + j[1] * j[2];
+        if (j[0] == j[1])
+        {
+            nProd = new[] { BigRational.Zero, BigRational.Zero };
+            nSwap = new[] { fu[0] + fv[0], fu[1] + fv[1] };
+        }
+        else if (e2.IsZero)
+        {
+            nProd = new[] { (j[0] + j[2]) * fu[0] + j[2] * fv[0], (j[0] + j[2]) * fu[1] + j[2] * fv[1] };
+            var sinMinus = (fu[1] * fv[0] - fu[0] * fv[1]) / l2;
+            var k = 2 * j[2] * sinMinus / (j[0] - j[1]);
+            nSwap = new[] { -k * nProd[1], k * nProd[0] };      // i·ζ_prod as a vector: (a, b) -> (−b, a)
+        }
+        else return null;
+        // operators on (u, v), 16 real coefficients at 4·b + c
+        var xx = new BigRational[16]; var yy = new BigRational[16];
+        for (int s = 0; s < 16; s++) { xx[s] = BigRational.Zero; yy[s] = BigRational.Zero; }
+        var yu = new[] { -fu[1], fu[0] }; var yv = new[] { -fv[1], fv[0] };
+        for (int a = 0; a < 2; a++)
+            for (int b = 0; b < 2; b++)
+            {
+                xx[4 * (a + 1) + (b + 1)] = fu[a] * fv[b] / l2;
+                yy[4 * (a + 1) + (b + 1)] = yu[a] * yv[b] / l2;
+            }
+        var swapXX = new BigRational[16];
+        for (int s = 0; s < 16; s++) swapXX[s] = (xx[s] - yy[s]) / 2;
+        swapXX[0] = swapXX[0] + new BigRational(1, 2);
+        swapXX[15] = swapXX[15] - new BigRational(1, 2);
+        var w = new BigRational[64];
+        for (int s = 0; s < 64; s++) w[s] = BigRational.Zero;
+        for (int a = 0; a < 2; a++)
+            for (int s = 0; s < 16; s++)
+                w[16 * (a + 1) + s] = nSwap[a] * swapXX[s] + nProd[a] * xx[s];
+        return w;
+    }
+
+    /// <summary>The closed form read against the far end: whether it lies there, whether it spans it (the far end
+    /// one-dimensional), whether W² is a positive multiple of 1, and its operator Schmidt rank across d | uv.</summary>
+    public sealed record ClosedFormReading(bool InFarEnd, bool SpansFarEnd, bool SquareIsScalar, int RankDUv);
+
+    /// <summary>The closed form at a row (null where <see cref="ClosedForm"/> gives none), read against the row's
+    /// far end with no field on d.</summary>
+    public static ClosedFormReading? ReadClosedForm(BigRational[] j, BigRational[] fu, BigRational[] fv)
+    {
+        var w = ClosedForm(j, fu, fv);
+        if (w is null) return null;
+        var far = EndBasis(j, PlanarFields(fu, fv), true);
+        var stacked = new BigRational[far.Count + 1, 64];
+        for (int r = 0; r < far.Count; r++) for (int s = 0; s < 64; s++) stacked[r, s] = far[r][s];
+        for (int s = 0; s < 64; s++) stacked[far.Count, s] = w[s];
+        bool inFar = OperatorSchmidtRank.RankOverQ(stacked) == far.Count;
+        var (re, im) = Square(w);
+        bool scalar = re[0].Sign > 0 && Enumerable.Range(1, 63).All(s => re[s].IsZero) && im.All(x => x.IsZero);
+        return new ClosedFormReading(inFar, inFar && far.Count == 1, scalar, OperatorSchmidtRank.Across(w, 3, new[] { 0 }));
+    }
+
+    /// <summary>W·W on the 64 strings, real and imaginary parts, by the one-site products of <see cref="Mul1"/>.</summary>
+    private static (BigRational[] Re, BigRational[] Im) Square(BigRational[] w)
+    {
+        var re = Enumerable.Repeat(BigRational.Zero, 64).ToArray();
+        var im = Enumerable.Repeat(BigRational.Zero, 64).ToArray();
+        for (int s = 0; s < 64; s++)
+        {
+            if (w[s].IsZero) continue;
+            for (int t = 0; t < 64; t++)
+            {
+                if (w[t].IsZero) continue;
+                int phase = 0, key = 0;
+                foreach (int site in new[] { 0, 1, 2 })
+                {
+                    int ls = s / (site == 0 ? 16 : site == 1 ? 4 : 1) % 4, lt = t / (site == 0 ? 16 : site == 1 ? 4 : 1) % 4;
+                    var (p, letter) = Mul1(ls, lt);
+                    phase += p; key = key * 4 + letter;
+                }
+                var c = w[s] * w[t];
+                switch (phase & 3)
+                {
+                    case 0: re[key] = re[key] + c; break;
+                    case 1: im[key] = im[key] + c; break;
+                    case 2: re[key] = re[key] - c; break;
+                    default: im[key] = im[key] - c; break;
+                }
+            }
+        }
+        return (re, im);
     }
 
     /// <summary>The letter setting's end: site l carries h_l along the letter word[l].</summary>
@@ -293,8 +468,8 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     // ---- one reading ------------------------------------------------------------------------------------
 
     /// <summary>One row read: its two ends, the class it lies in, whether the rule and the ends agree. With a field
-    /// on d no rule is stated: <c>RuleStated</c> is false, <c>InClass</c> null, and <c>Agrees</c> carries nothing (a
-    /// grid refuses such rows).</summary>
+    /// on d no pairing rule is stated: <c>RuleStated</c> is false, <c>InClass</c> null, and <c>Agrees</c> carries nothing (a
+    /// pairing grid refuses such rows).</summary>
     public sealed record Reading(int Near, int Far, bool Palindrome, char? InClass, bool Agrees, bool RuleStated = true);
 
     public static Reading ReadRow(string word, BigRational[] j, BigRational[] h, char? without = null)
@@ -305,7 +480,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return new Reading(near, far, pal, cls, pal == (cls is not null));
     }
 
-    /// <summary>A planar row with a field on d: its two ends and no rule (see <see cref="Reading"/>); with f_d = 0
+    /// <summary>A planar row with a field on d: its two ends and no pairing rule (see <see cref="Reading"/>); with f_d = 0
     /// the planar rule as in the overload without it.</summary>
     public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv)
     {
@@ -403,12 +578,60 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     public static GridReading ReadPlanarGrid(char? without = null) =>
         Tally(PlanarGrid().Select(g => ReadPlanarRow(g.J, g.Fu, g.Fv, without)));
 
+    /// <summary>The sheet grid: every row of the planar grid whose fields on u and v are nonzero and neither parallel
+    /// nor antiparallel, once with no field on d and with three fields on d: on the line of f_u + f_v, across it, and
+    /// (1, 2).</summary>
+    public static IEnumerable<(BigRational[] J, BigRational[] Fd, BigRational[] Fu, BigRational[] Fv)> SheetGrid()
+    {
+        foreach (var (j, fu, fv) in PlanarGrid())
+        {
+            if (Norm2(fu).IsZero || Norm2(fv).IsZero || Cross(fu, fv).IsZero) continue;
+            var bisector = new[] { fu[0] + fv[0], fu[1] + fv[1] };
+            yield return (j, new[] { Q(0), Q(0) }, fu, fv);
+            yield return (j, bisector, fu, fv);
+            yield return (j, new[] { -bisector[1], bisector[0] }, fu, fv);
+            yield return (j, new[] { Q(1), Q(2) }, fu, fv);
+        }
+    }
+
+    /// <summary>The sheet grid read: rows, rows with a field on d, rows holding a far element of odd height, rows where
+    /// the rule and the count disagree, rows whose far end is larger than its odd-height part (so it holds an element
+    /// of even or of no definite height; rows holding one of even height are counted apart), and the closed form read at every predicted row with no field on d (how many, and how
+    /// many fail: not in the far end, W² not a positive scalar, the wrong rank across d | uv, or not spanning a
+    /// one-dimensional far end).</summary>
+    public sealed record SheetGridReading(int Rows, int WithFieldOnD, int OddElements, int Disagreements,
+        int OtherHeights, int ClosedForms, int ClosedFormFailures, int EvenElements);
+
+    public static SheetGridReading ReadSheetGrid(char? without = null)
+    {
+        int rows = 0, withFd = 0, odd = 0, bad = 0, other = 0, forms = 0, formBad = 0, even = 0;
+        foreach (var (j, fd, fu, fv) in SheetGrid())
+        {
+            var r = ReadSheet(j, fd, fu, fv, without);
+            rows++;
+            bool noFd = fd.All(x => x.IsZero);
+            if (!noFd) withFd++;
+            if (r.FarOdd >= 1) odd++;
+            if (!r.Agrees) bad++;
+            if (r.FarAll > r.FarOdd) other++;
+            if (r.FarEven >= 1) even++;
+            if (noFd && r.Predicted && without is null)
+            {
+                forms++;
+                var c = ReadClosedForm(j, fu, fv);
+                int rank = j[0] == j[1] ? 1 : 2;
+                if (c is null || !c.InFarEnd || !c.SquareIsScalar || c.RankDUv != rank || (r.FarAll == 1 && !c.SpansFarEnd)) formBad++;
+            }
+        }
+        return new SheetGridReading(rows, withFd, odd, bad, other, forms, formBad, even);
+    }
+
     private static GridReading Tally(IEnumerable<Reading> readings)
     {
         int rows = 0, pal = 0, a = 0, b = 0, c = 0, e = 0, bad = 0;
         foreach (var r in readings)
         {
-            if (!r.RuleStated) throw new ArgumentException("a grid reads a rule; a row with a field on d states none.");
+            if (!r.RuleStated) throw new ArgumentException("a pairing grid reads the pairing rule; a row with a field on d states none.");
             rows++;
             if (r.Palindrome) pal++;
             switch (r.InClass) { case 'A': a++; break; case 'B': b++; break; case 'C': c++; break; case 'E': e++; break; }
@@ -435,7 +658,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                 "; far element of Schmidt ranks {0}, {1}, {2} across d|uv, u|dv, v|du{3}", loc.DUv, loc.UDv, loc.VDu,
                 loc.Product ? ", a product" : ", no product, so no site-local mirror (conditioned ones aside)");
             if (!r.RuleStated)
-                return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; no rule is stated with a field on d{3}",
+                return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; no pairing rule is stated with a field on d{3}",
                     r.Near, r.Far, r.Palindrome ? "palindrome" : "broken", locality);
             return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}{5}",
                 r.Near, r.Far, r.Palindrome ? "palindrome" : "broken",
@@ -465,6 +688,31 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                         loc.Product ? "It is a product, so a site-local mirror is not ruled out."
                                     : "It is no product, so no site-local mirror carries this row, in any per-site frame."),
                 provenance: NodeProvenance.Live);
+            if (_fu is not null)
+            {
+                var sh = ReadSheet(_j, _fd!, _fu, _fv!);
+                var cf = _fd!.All(x => x.IsZero) ? ReadClosedForm(_j, _fu, _fv!) : null;
+                var sg = ReadSheetGrid();
+                yield return new InspectableNode("the sheet and blindness",
+                    summary: string.Format(CultureInfo.InvariantCulture,
+                        "Seat d blind of dimension {0} (3 minus the Krylov rank of the signed Laplacian); far elements of odd height {1}, " +
+                        "of even height {2}, all {3}. {4}{5} Sheet grid: {6} rows ({7} with a field on d), {8} with a far " +
+                        "element of odd height, {9} where the rule and the count disagree, {10} whose far end holds an " +
+                        "element of another or of no definite height ({13} of even height); the closed form read at {11} " +
+                        "predicted rows with no field on d, {12} failing.",
+                        sh.Blind, sh.FarOdd, sh.FarEven, sh.FarAll,
+                        !sh.InSetting ? "The row is outside the setting (a field on u or v zero, the two parallel or antiparallel, or two couplings zero), so the rule is not read."
+                            : _fd!.All(x => x.IsZero)
+                                ? $"The rule (odd height exactly when d is blind and |f_u| = |f_v|) predicts {(sh.Predicted ? "at least one" : "none")} and {(sh.Agrees ? "holds" : "FAILS")}."
+                                : $"The rule with a field on d (odd height exactly on B with f_d on the line of f_u + f_v) predicts {(sh.Predicted ? "at least one" : "none")} and {(sh.Agrees ? "holds" : "FAILS")}.",
+                        cf is null ? "" : string.Format(CultureInfo.InvariantCulture,
+                            " The closed form {0} the far end{1}, W² {2}, rank {3} across d|uv.",
+                            cf.InFarEnd ? "lies in" : "is NOT in", cf.SpansFarEnd ? " and spans it" : "",
+                            cf.SquareIsScalar ? "a positive multiple of 1" : "NOT scalar", cf.RankDUv),
+                        sg.Rows, sg.WithFieldOnD, sg.OddElements, sg.Disagreements, sg.OtherHeights, sg.ClosedForms, sg.ClosedFormFailures,
+                        sg.EvenElements),
+                    provenance: NodeProvenance.Live);
+            }
             var g = ReadGrid();
             yield return new InspectableNode("the letter grid of special loci, recomputed",
                 summary: string.Format(CultureInfo.InvariantCulture,
@@ -483,7 +731,12 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                          "simulations/results/n3_palindrome_covering.json (1,305 far leaves, 0 open) and its independent " +
                          "gate simulations/n3_palindrome_covering_gate.py; that with planar fields and none on d it pairs " +
                          "exactly in A, B, C or E is the derivation of the section 'The triangle with planar fields', " +
-                         "gate simulations/n3_planar_field_locus_gate.py.");
+                         "gate simulations/n3_planar_field_locus_gate.py; that, with nonzero planar fields on u and v neither parallel " +
+                         "nor antiparallel and at most one coupling zero, a far element of odd height exists, with no field on d, " +
+                         "exactly at a blind seat with fields of one length, " +
+                         "and with a field on d exactly when J_du = J_dv, |f_u| = |f_v| and f_d lies on the line of f_u + f_v, " +
+                         "is the hand derivation of the paragraph 'The sheet and blindness, at N = 3 and N = 4', gate " +
+                         "simulations/blind_seat_sheet_gate.py.");
         }
     }
 }

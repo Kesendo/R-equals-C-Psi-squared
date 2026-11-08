@@ -4,9 +4,10 @@ using RCPsiSquared.Diagnostics.Foundation;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (sections "The triangle's palindromic
-/// locus at N = 3" and "The triangle with planar fields" of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>):
-/// the rows the proof, its gates and <c>EndCountTests</c> pin, read on the witness's own exact route, both grids with
-/// a planted mutation per class, and the two settings read alike where they meet.</summary>
+/// locus at N = 3" and "The triangle with planar fields", and the paragraph "The sheet and blindness, at N = 3 and N = 4",
+/// of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): the rows the proof, its gates and
+/// <c>EndCountTests</c> pin, read on the witness's own exact route, the grids with a planted mutation per class or
+/// condition, and the two settings read alike where they meet.</summary>
 public class TrianglePalindromeLocusWitnessTests
 {
     static BigRational[] T(string s) => s.Split(',').Select(p =>
@@ -116,7 +117,7 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(shared > 0);
     }
 
-    /// <summary>A field on d: the two ends exactly, no rule. The counts are a second route's (sympy over Q(i), the
+    /// <summary>A field on d: the two ends exactly, no pairing rule. The counts are a second route's (sympy over Q(i), the
     /// commutant on the 64 strings): all fields parallel, B with f_d on the swap axis and D (d at an end, f_d ⊥ f_v,
     /// f_d + f_u + f_v = 0) pair, each perturbation breaks, and the u, v singlet (J_du = J_dv, f_u = f_v) holds a far
     /// element but a second near one.</summary>
@@ -128,7 +129,7 @@ public class TrianglePalindromeLocusWitnessTests
     [InlineData("1,0,3", "1,0", "-1,-2", "0,3", 1, 0)]    // D perturbed
     [InlineData("2,2,3", "1,2", "3,1", "3,1", 2, 1)]      // the singlet: a far element, two near ones
     [InlineData("1,2,6", "1,0", "8,0", "-5,3", 1, 0)]     // the E row with a field on d
-    public void A_Field_On_D_Is_Read_Without_A_Rule(string j, string fd, string fu, string fv, int near, int far)
+    public void A_Field_On_D_Is_Read_Without_A_Pairing_Rule(string j, string fd, string fu, string fv, int near, int far)
     {
         var r = TrianglePalindromeLocusWitness.ReadPlanarRow(T(j), T(fd), T(fu), T(fv));
         Assert.Equal((near, far, false), (r.Near, r.Far, r.RuleStated));
@@ -193,7 +194,7 @@ public class TrianglePalindromeLocusWitnessTests
     }
 
     [Fact]
-    public void A_Grid_Refuses_A_Row_Without_A_Rule()
+    public void A_Pairing_Grid_Refuses_A_Row_Without_A_Pairing_Rule()
     {
         var unruled = TrianglePalindromeLocusWitness.ReadPlanarRow(T("1,0,3"), T("1,0"), T("-1,-2"), T("0,2"));
         var tally = typeof(TrianglePalindromeLocusWitness).GetMethod("Tally",
@@ -207,6 +208,150 @@ public class TrianglePalindromeLocusWitnessTests
     {
         Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness("ZXY", "0,0,3", "0,1,1"));
         Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness(null, "0,0,3", null, "8,0", "-5,3"));
+    }
+
+    /// <summary>The sheet and blindness (the paragraph of that name in the proof's section on blind dephased seats),
+    /// on the witness's own route. The far counts by height are the second route of simulations/blind_seat_sheet_gate.py
+    /// (its table of far elements by height, sympy over Q(i) on the Hermitian W = |1⟩⟨0|_d ⊗ M + h.c. with the pair's
+    /// parity kept or flipped): C and B hold a far element of odd height, B also at a second coupling with f_d on its
+    /// line; unequal lengths, a seat that is not blind, d at an end, a field on d off B's axis and one at C's couplings hold none; E and D
+    /// hold an element of no definite height (all 1, odd and even 0) at a seat that is not blind. Outside the setting
+    /// the rule is not read: parallel and antiparallel fields (A's colouring, at a seat that is not blind), the singlet
+    /// at J_du = J_dv with parallel fields of one length and f_d not along them (off B's line), and a disconnected row (u isolated, unequal lengths)
+    /// each hold a far element of odd height that the rule would not predict, which is why the fences are there.</summary>
+    [Theory]
+    [InlineData("3,6,-2", "0,0", "3,4", "5,0", 1, 1, 0, 1, true)]     // C
+    [InlineData("3,6,-2", "0,0", "3,4", "4,4", 1, 0, 0, 0, false)]    // C, unequal lengths
+    [InlineData("2,2,3", "0,0", "3,4", "0,5", 1, 1, 0, 1, true)]      // B
+    [InlineData("1,2,3", "0,0", "3,4", "5,0", 0, 0, 0, 0, false)]     // not blind
+    [InlineData("1,2,6", "0,0", "8,0", "-5,3", 0, 0, 0, 1, false)]    // E: an element of no definite height
+    [InlineData("0,2,3", "0,0", "3,4", "5,0", 0, 0, 0, 0, false)]     // d at an end
+    [InlineData("3,3,0", "0,0", "3,4", "5,0", 1, 1, 0, 1, true)]      // B at J_uv = 0
+    [InlineData("2,2,3", "1,1", "3,4", "4,3", 1, 1, 0, 1, true)]      // B, f_d on the line of f_u + f_v
+    [InlineData("2,2,3", "1,0", "3,4", "4,3", 1, 0, 0, 0, false)]     // B, f_d off it
+    [InlineData("3,6,-2", "8,4", "3,4", "5,0", 1, 0, 0, 0, false)]    // C, f_d on the bisector: none
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", 0, 0, 0, 1, false)]   // D: no definite height
+    [InlineData("1,1,-5", "1,1", "3,4", "4,3", 1, 1, 0, 1, true)]     // B at a second coupling, f_d on the line
+    [InlineData("2,2,-1", "0,0", "3,4", "5,0", 1, 1, 0, 1, true)]     // B and C at once: the swap branch alone
+    public void The_Sheet_And_Blindness_At_Pinned_Rows(string j, string fd, string fu, string fv,
+        int blind, int odd, int even, int all, bool predicted)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadSheet(T(j), T(fd), T(fu), T(fv));
+        Assert.Equal((blind, odd, even, all, true, predicted), (r.Blind, r.FarOdd, r.FarEven, r.FarAll, r.InSetting, r.Predicted));
+        Assert.True(r.Agrees);
+    }
+
+    [Theory]
+    [InlineData("1,2,3", "0,0", "1,2", "2,4", 1, 0, 1)]      // parallel fields: A's colouring, at a seat that is not blind
+    [InlineData("1,2,3", "0,0", "1,0", "-1,0", 1, 0, 1)]     // antiparallel fields: A again
+    [InlineData("2,2,3", "1,2", "3,1", "3,1", 1, 0, 1)]      // the singlet at J_du = J_dv, f_d not along the fields
+    [InlineData("0,1,0", "0,0", "3,4", "2,0", 1, 1, 2)]      // disconnected: u isolated, unequal lengths
+    public void Outside_The_Setting_The_Rule_Is_Not_Read(string j, string fd, string fu, string fv, int odd, int even, int all)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadSheet(T(j), T(fd), T(fu), T(fv));
+        Assert.Equal((odd, even, all, false, false), (r.FarOdd, r.FarEven, r.FarAll, r.InSetting, r.Predicted));
+    }
+
+    /// <summary>The Krylov count of seat d and the factor (J_du − J_dv)·e₂ of the proof name the same rows, on every
+    /// coupling of the planar grid (all connected): F157 at N = 3.</summary>
+    [Fact]
+    public void Blindness_By_Krylov_Rank_Is_The_Factor()
+    {
+        foreach (var j in TrianglePalindromeLocusWitness.PlanarCouplings)
+        {
+            var e2 = j[0] * j[1] + j[0] * j[2] + j[1] * j[2];
+            Assert.Equal(((j[0] - j[1]) * e2).IsZero, TrianglePalindromeLocusWitness.BlindDimension(j) > 0);
+        }
+    }
+
+    /// <summary>The sheet grid's tallies, counted by hand from its composition: the planar grid's 13 couplings and the
+    /// 14 of its 16 field pairs that are neither parallel, antiparallel nor zero, each with no field on d and three on
+    /// it, 13·14·4 = 728 rows, 546 with a field on d. A far element of odd height at 20: the three blind couplings
+    /// ((2, 2, 3), (3, 6, −2), (2, 5, −10/7)) on the five pairs of equal lengths with no field on d, 15, where the closed
+    /// form is read, and B's coupling on those pairs with f_d on the line of f_u + f_v, 5. Read, not counted: elements
+    /// of other heights on as many rows as the planar grid has E rows, none of even height.</summary>
+    [Fact]
+    public void The_Sheet_Grid_Agrees_And_The_Closed_Form_Holds()
+    {
+        var g = TrianglePalindromeLocusWitness.ReadSheetGrid();
+        Assert.Equal((728, 546, 20, 0), (g.Rows, g.WithFieldOnD, g.OddElements, g.Disagreements));
+        Assert.Equal(8, g.OtherHeights);   // the planar grid's E rows: (1, 2, 6) with three pairs, its swap, double and corners
+        Assert.Equal(TrianglePalindromeLocusWitness.ReadPlanarGrid().E, g.OtherHeights);
+        Assert.Equal(0, g.EvenElements);
+        Assert.Equal((15, 0), (g.ClosedForms, g.ClosedFormFailures));
+    }
+
+    /// <summary>The live node the proof and the claim point to, at the census row and at B with a field on d.</summary>
+    [Fact]
+    public void The_Live_Node_Reads_The_Sheet_And_Blindness()
+    {
+        string Node(TrianglePalindromeLocusWitness w) =>
+            w.Children.Single(c => c.DisplayName == "the sheet and blindness").Summary;
+        var c = Node(new TrianglePalindromeLocusWitness(null, "3,6,-2", null, "3,4", "5,0"));
+        Assert.Contains("blind of dimension 1", c);
+        Assert.Contains("odd height 1, of even height 0, all 1", c);
+        Assert.Contains("The rule (odd height exactly when d is blind", c);
+        Assert.DoesNotContain("The rule with a field on d", c);
+        Assert.Contains("predicts at least one and holds", c);
+        Assert.Contains("lies in the far end and spans it", c);
+        Assert.Contains("728 rows", c);
+        var b = Node(new TrianglePalindromeLocusWitness(null, "2,2,3", null, "3,4", "4,3", "1,1"));
+        Assert.Contains("The rule with a field on d", b);
+        Assert.Contains("predicts at least one and holds", b);
+        Assert.DoesNotContain("closed form lies", b);
+    }
+
+    /// <summary>Each condition of the rule carries weight, in both branches, and the disagreements are counted by hand
+    /// from the grid's composition (13 couplings, 14 field pairs of which 5 have equal lengths, 3 blind couplings of
+    /// which 1 is B's, and f_d on the line of f_u + f_v at one of its three values). Dropping blindness, or B's couplings
+    /// with a field on d: 13·5 − 15 = 50 rows with no field on d and 13·5 − 5 = 60 with one, 110. Dropping the equal
+    /// lengths: 3·14 − 15 = 27 and 14 − 5 = 9, 36. Dropping the axis of f_d: 5·3 − 5 = 10.</summary>
+    [Theory]
+    [InlineData('b', 110)]
+    [InlineData('l', 36)]
+    [InlineData('a', 10)]
+    public void Dropping_A_Condition_Breaks_The_Sheet_Grid(char without, int disagreements)
+    {
+        Assert.Equal(disagreements, TrianglePalindromeLocusWitness.ReadSheetGrid(without).Disagreements);
+    }
+
+    /// <summary>The closed form: on C a far element of rank two across d|uv spanning the one-dimensional far end, at the
+    /// census row and at another angle; on B rank one.</summary>
+    [Theory]
+    [InlineData("3,6,-2", "3,4", "5,0", 2)]      // the census row, ζ_swap/ζ_prod = 16i/15
+    [InlineData("-2,6,3", "1,2", "2,1", 2)]      // C at another chart point and angle
+    [InlineData("2,2,3", "3,4", "0,5", 1)]       // B
+    [InlineData("2,2,-1", "3,4", "5,0", 1)]      // B and C at once: B's branch, never a division by J_du - J_dv
+    public void The_Closed_Form_Is_The_Far_Element(string j, string fu, string fv, int rank)
+    {
+        var c = TrianglePalindromeLocusWitness.ReadClosedForm(T(j), T(fu), T(fv));
+        Assert.NotNull(c);
+        Assert.True(c!.InFarEnd && c.SpansFarEnd && c.SquareIsScalar, $"{c}");
+        Assert.Equal(rank, c.RankDUv);
+    }
+
+    /// <summary>No closed form at unequal lengths, at antiparallel fields, or at a seat that is not blind.</summary>
+    [Fact]
+    public void The_Closed_Form_Needs_Equal_Lengths_An_Angle_And_A_Blind_Seat()
+    {
+        Assert.Null(TrianglePalindromeLocusWitness.ClosedForm(T("3,6,-2"), T("3,4"), T("4,4")));
+        Assert.Null(TrianglePalindromeLocusWitness.ClosedForm(T("3,6,-2"), T("3,4"), T("-3,-4")));
+        Assert.Null(TrianglePalindromeLocusWitness.ClosedForm(T("1,2,3"), T("3,4"), T("5,0")));
+    }
+
+    /// <summary>The census row's numbers in the closed form: n_prod = (J_du + J_uv)·f_u + J_uv·f_v = (−7, 4) and,
+    /// ζ_swap/ζ_prod being 16i/15, n_swap = (16/15)·(−4, −7). Only the swap part reaches the strings X_d ⊗ 1 and
+    /// Y_d ⊗ 1 (SWAP′X′X′ holds 1/2 of the identity), so they carry n_swap / 2. That the element is the far element is
+    /// the test above; this one pins the arithmetic of the construction at the row the proof quotes.</summary>
+    [Fact]
+    public void The_Census_Row_Has_Its_Ratio()
+    {
+        var w = TrianglePalindromeLocusWitness.ClosedForm(T("3,6,-2"), T("3,4"), T("5,0"))!;
+        // n_prod = (J_du + J_uv)·f_u + J_uv·f_v = (3, 4) − 2·(5, 0) = (−7, 4); n_swap = (16/15)·(−4, −7)
+        // X_d ⊗ 1 carries n_swap,x / 2 and Y_d ⊗ 1 carries n_swap,y / 2 (SWAP′X′X′ holds 1/2 of the identity)
+        Assert.Equal(new BigRational(-32, 15), w[16 * 1 + 0]);
+        Assert.Equal(new BigRational(-56, 15), w[16 * 2 + 0]);
+        Assert.Equal(12, w.Count(x => !x.IsZero));   // twelve strings, as the gate reads at this row
     }
 
     [Fact]

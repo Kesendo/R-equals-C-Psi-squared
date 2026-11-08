@@ -156,6 +156,25 @@
    PASS  C, e2 = 0, f_d generic: predicted 0, the far end of that dimension
    C, e2 = 0, f_d on the bisector       pattern 0, all 0, of them with the axis at d along f_d: 0
    PASS  C, e2 = 0, f_d on the bisector: predicted 0, the far end of that dimension
+   far elements by height (odd, even, all) at the rows TrianglePalindromeLocusWitnessTests pins
+   PASS  C: odd 1, even 0, all 1
+   PASS  C, unequal lengths: odd 0, even 0, all 0
+   PASS  B: odd 1, even 0, all 1
+   PASS  not blind: odd 0, even 0, all 0
+   PASS  E: odd 0, even 0, all 1
+   PASS  d at an end: odd 0, even 0, all 0
+   PASS  B at J_uv = 0: odd 1, even 0, all 1
+   PASS  B, f_d on the line: odd 1, even 0, all 1
+   PASS  B, f_d off it: odd 0, even 0, all 0
+   PASS  C, f_d on the bisector: odd 0, even 0, all 0
+   PASS  D: odd 0, even 0, all 1
+   PASS  B (1, 1, -5), f_d on the line: odd 1, even 0, all 1
+   PASS  B and C at once, (2, 2, -1): odd 1, even 0, all 1
+   PASS  C (-2, 6, 3) at another angle: odd 1, even 0, all 1
+   PASS  outside: parallel fields: odd 1, even 0, all 1
+   PASS  outside: antiparallel fields: odd 1, even 0, all 1
+   PASS  outside: the singlet: odd 1, even 0, all 1
+   PASS  outside: disconnected: odd 1, even 1, all 2
 3. N = 4: the singlet block and the blind vector (0, 1, 1, 0)
    PASS  K·K = 3(b0^2 + b3^2) + h^2 + 2b0·b3·sigma0·sigma3 - 2h(b0·X0 + b3·X3)
    PASS  [S, K·K] has the strings IZ, ZX, YZ, ZY with -4i·b0·b3·c2, -4i·b0·b3·c3, -4i·b3·(b0·c1 - h·c4), 4i·b0·(b3·c1 + h·c4) and XZ, ZI that follow: at every nonzero b0, b3, h it vanishes exactly when c2 = c3 = 0, h·c4 = b0·c1, (b0 + b3)·c1 = 0

@@ -39,6 +39,9 @@ Exact throughout (sympy: Gaussian rationals, with square roots where a half-angl
    not parallel.
 2. A planar field f_d on d: one axis at d, along f_d. Predicted: the swap class has a far element of odd height exactly
    with f_d on the bisector f_u + f_v, its axis at d along f_d; e2 = 0 couplings outside B with f_d != 0 have none.
+   A table of far elements by height (odd, even, all) at the rows TrianglePalindromeLocusWitnessTests pins, rows
+   outside the setting among them (parallel and antiparallel fields, the singlet, a disconnected row), is the second
+   route for those pins.
 3. N = 4: the singlet block. With the pair (1, 2) seen by sites 0 and 3 through its difference only,
    K = b0·s0 + b3·s3 - h·x, K·K = 3(b0^2 + b3^2) + h^2 + 2b0·b3·s0·s3 - 2h(b0·X0 + b3·X3), and the condition
    [S, K·K] = 0 on S in span{X0, X0Y3, Y0, Y0Y3} (read string by string, so at every nonzero b0, b3, h) has no solution for general
@@ -538,6 +541,26 @@ for name, J, fd, fu, fv, pred in rows2:
     one_letter = far_count(H, 3, even_pair, extra=lambda E: sp.conjugate(om) * E - om * E.H) if patt else 0
     say(f"   {name:36s} pattern {patt}, all {allc}, of them with the axis at d along f_d: {one_letter}")
     check(patt == pred == allc and one_letter == patt, f"{name}: predicted {pred}, the far end of that dimension")
+
+say("   far elements by height (odd, even, all) at the rows TrianglePalindromeLocusWitnessTests pins")
+rows_h = [
+    ("C", (3, 6, -2), (0, 0), (3, 4), (5, 0), (1, 0, 1)), ("C, unequal lengths", (3, 6, -2), (0, 0), (3, 4), (4, 4), (0, 0, 0)),
+    ("B", (2, 2, 3), (0, 0), (3, 4), (0, 5), (1, 0, 1)), ("not blind", (1, 2, 3), (0, 0), (3, 4), (5, 0), (0, 0, 0)),
+    ("E", (1, 2, 6), (0, 0), (8, 0), (-5, 3), (0, 0, 1)), ("d at an end", (0, 2, 3), (0, 0), (3, 4), (5, 0), (0, 0, 0)),
+    ("B at J_uv = 0", (3, 3, 0), (0, 0), (3, 4), (5, 0), (1, 0, 1)), ("B, f_d on the line", (2, 2, 3), (1, 1), (3, 4), (4, 3), (1, 0, 1)),
+    ("B, f_d off it", (2, 2, 3), (1, 0), (3, 4), (4, 3), (0, 0, 0)), ("C, f_d on the bisector", (3, 6, -2), (8, 4), (3, 4), (5, 0), (0, 0, 0)),
+    ("D", (1, 0, 3), (1, 0), (-1, -2), (0, 2), (0, 0, 1)), ("B (1, 1, -5), f_d on the line", (1, 1, -5), (1, 1), (3, 4), (4, 3), (1, 0, 1)),
+    ("B and C at once, (2, 2, -1)", (2, 2, -1), (0, 0), (3, 4), (5, 0), (1, 0, 1)),
+    ("C (-2, 6, 3) at another angle", (-2, 6, 3), (0, 0), (1, 2), (2, 1), (1, 0, 1)),
+    ("outside: parallel fields", (1, 2, 3), (0, 0), (1, 2), (2, 4), (1, 0, 1)),
+    ("outside: antiparallel fields", (1, 2, 3), (0, 0), (1, 0), (-1, 0), (1, 0, 1)),
+    ("outside: the singlet", (2, 2, 3), (1, 2), (3, 1), (3, 1), (1, 0, 1)),
+    ("outside: disconnected", (0, 1, 0), (0, 0), (3, 4), (2, 0), (1, 1, 2)),
+]
+for name, J, fd, fu, fv, want in rows_h:
+    H = heis(3, tri(J), {0: (fd[0], fd[1], 0), 1: (fu[0], fu[1], 0), 2: (fv[0], fv[1], 0)})
+    got = (far_count(H, 3, even_pair), far_count(H, 3, lambda i, j: not even_pair(i, j)), far_count(H, 3))
+    check(got == want, f"{name}: odd {got[0]}, even {got[1]}, all {got[2]}")
 
 # ---- 3. N = 4: the singlet block ------------------------------------------------------------------------------------
 say("3. N = 4: the singlet block and the blind vector (0, 1, 1, 0)")

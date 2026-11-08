@@ -78,7 +78,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// pairs for every a, g ≠ 0 and every e, h, for h ≠ 0 with neither a colouring nor a site symmetry, its carrier
 /// in closed form and depending on h: <c>simulations/n4_pair_channel_family.py</c> (exact elimination and dense gate);
 /// at N = 7 two weighted triangles equivalent as spin representations pair with no rank drop and no site symmetry
-/// (<c>simulations/blind_seat_carriers_gate.py</c>).</para>
+/// (<c>simulations/blind_seat_carriers_gate.py</c>). The sheet and blindness: on the triangle with Heisenberg bonds of
+/// which at most one is zero, the jump Z on site 0 alone and nonzero planar fields f₁, f₂ on sites 1 and 2 neither
+/// parallel nor antiparallel, a far element of odd height (every string with an odd number of letters X or Y) exists
+/// with no field on site 0 exactly when site 0 is blind and |f₁| = |f₂|, and with a planar field f₀ on site 0 exactly
+/// when J01 = J02, |f₁| = |f₂| and f₀ lies on the line of f₁ + f₂ (<c>simulations/blind_seat_sheet_gate.py</c>; live in
+/// <c>TrianglePalindromeLocusWitness</c>, node "the sheet and blindness").</para>
 ///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
@@ -229,7 +234,14 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "drop and no site symmetry, the centre still blind. Gates: simulations/n4_pair_channel_family.py, " +
                          "simulations/blind_seat_carriers_gate.py. That, with letter fields, a blind dephased seat is necessary is a conjecture; " +
                          "off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind " +
-                         "(simulations/n3_offletter_locus_gate.py, the proof's Open list).");
+                         "(simulations/n3_offletter_locus_gate.py, the proof's Open list; those rows, E and D, pair through far " +
+                         "elements that are not of odd height, of no definite height at the rows read). On the triangle with Heisenberg bonds of which at most one is zero, the jump Z " +
+                         "on site 0 alone and nonzero planar fields f1, f2 on sites 1 and 2 neither parallel nor antiparallel, a " +
+                         "far element of odd height (every string with an odd number of letters X or Y) exists, with no field on " +
+                         "site 0, exactly when site 0 is blind and |f1| = |f2|, and with a planar field f0 on site 0 exactly when " +
+                         "J01 = J02, |f1| = |f2| and f0 lies on the line of f1 + f2 (the paragraph on the sheet and blindness; gate " +
+                         "simulations/blind_seat_sheet_gate.py; live: inspect --root trianglelocus --J 3,6,-2 --fu 3,4 --fv 5,0, with --fd x,y " +
+                         "for a field on site 0, node 'the sheet and blindness').");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
