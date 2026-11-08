@@ -42,28 +42,45 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// evidence that the rules hold where they read, not the exhaustion, which stays the certificate's and the
 /// derivation's.</para>
 ///
+/// <para><b>A field on d.</b> The planar setting also takes a field f_d perpendicular to z on d. The kernels read it as
+/// they read every field, two Pauli terms on its site; no rule is stated there (the classes above are proven for
+/// f_d = 0), so such a row reports its two ends and its far element and no class.</para>
+///
+/// <para><b>The far element's locality.</b> Where the row pairs through a one-dimensional far end the witness keeps
+/// its element W and reads its operator Schmidt ranks across d | uv, u | dv and v | du (<see cref="OperatorSchmidtRank"/>).
+/// A mirror, M·L·M⁻¹ = −L − 2σ or the reflection onto −L† − 2σ (the jump is Hermitian, so ker(L† + 2σ) = ker(L + 2σ)),
+/// sends ker L onto that far end, so it sends the identity to a multiple of W, and across every cut its own Schmidt
+/// rank is at least W's. A mirror that factorises over the sites, linear or antilinear, after a frame change per site,
+/// a transposition or a relabelling of the sites by conjugation, sends the identity to a product. So where W is not a
+/// product no such mirror carries the row: the lemma of F116 §4 and, in rank form, of finding 1 of
+/// <c>experiments/THE_CUBE_SITE_BY_SITE.md</c>. A mirror conditioned on the bits of a site is not covered (it sends
+/// the identity to a sum over sectors), and a one-sided multiplication by a site permutation, such as B's
+/// SWAP_uv·(m·σ)^⊗3, is not a relabelling.</para>
+///
 /// <para>Args: <c>--word</c> (three letters X/Y/Z, one per site d, u, v; default ZXY), <c>--J</c> (J_du,J_dv,J_uv,
 /// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1); or, for planar fields, <c>--fu</c> and
-/// <c>--fv</c> (x,y each, integers or p/q) with <c>--J</c>, and no <c>--word</c> or <c>--h</c>.</para></summary>
+/// <c>--fv</c> (x,y each, integers or p/q) with <c>--J</c>, optionally <c>--fd</c> (x,y) for a field on d, and no
+/// <c>--word</c> or <c>--h</c>.</para></summary>
 public sealed class TrianglePalindromeLocusWitness : IInspectable
 {
     private readonly string _word;
     private readonly BigRational[] _j, _h;
-    private readonly BigRational[]? _fu, _fv;
+    private readonly BigRational[]? _fu, _fv, _fd;
 
     public TrianglePalindromeLocusWitness(string? word = null, string? couplings = null, string? fields = null,
-        string? fieldU = null, string? fieldV = null)
+        string? fieldU = null, string? fieldV = null, string? fieldD = null)
     {
         _j = ParseTuple(couplings ?? "3,6,-2", "J", 3);
         if (_j.Count(x => x.IsZero) > 1)
             throw new ArgumentException("--J leaves the triangle disconnected (two couplings zero); the locus is stated for connected rows.");
-        if (fieldU is not null || fieldV is not null)
+        if (fieldU is not null || fieldV is not null || fieldD is not null)
         {
             if (word is not null || fields is not null)
-                throw new ArgumentException("--fu/--fv read the planar setting (no field on d, fields perpendicular to z); " +
+                throw new ArgumentException("--fu/--fv/--fd read the planar setting (fields perpendicular to z); " +
                                             "--word/--h the letter one. Give one of the two.");
             _fu = ParseTuple(fieldU ?? "0,0", "fu", 2);
             _fv = ParseTuple(fieldV ?? "0,0", "fv", 2);
+            _fd = ParseTuple(fieldD ?? "0,0", "fd", 2);
             _word = "";
             _h = new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero };
             return;
@@ -126,9 +143,13 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return terms;
     }
 
-    /// <summary>dim of {W real on the strings with d-letter in {I, Z} (near) or {X, Y} (far) : [H, W] = 0}.
-    /// [t, s] = 2·i^k·u for anticommuting strings with k odd; divided by 2i every entry is ± a coefficient.</summary>
-    public static int End(BigRational[] j, BigRational[][] f, bool far)
+    /// <summary>dim of {W real on the strings with d-letter in {I, Z} (near) or {X, Y} (far) : [H, W] = 0}.</summary>
+    public static int End(BigRational[] j, BigRational[][] f, bool far) => EndBasis(j, f, far).Count;
+
+    /// <summary>A basis of that end, each W as its 64 real coefficients on the Pauli strings (index 16·a + 4·b + c
+    /// for the letters a, b, c of d, u, v; 0 = I, 1 = X, 2 = Y, 3 = Z). [t, s] = 2·i^k·u for anticommuting strings
+    /// with k odd; divided by 2i every entry is ± a coefficient.</summary>
+    public static List<BigRational[]> EndBasis(BigRational[] j, BigRational[][] f, bool far)
     {
         var cols = new List<int[]>();
         for (int a = 0; a < 4; a++)
@@ -153,11 +174,42 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                 row[col] = row[col] + ((phase & 3) == 1 ? coef : -coef);
             }
         }
-        if (rows.Count == 0) return cols.Count;
-        var m = new BigRational[rows.Count, cols.Count];
-        int r = 0;
-        foreach (var row in rows.Values) { for (int c = 0; c < cols.Count; c++) m[r, c] = row[c]; r++; }
-        return BigRationalLinearAlgebra.Nullspace(m).Count;
+        List<BigRational[]> kernel;
+        if (rows.Count == 0)
+            kernel = Enumerable.Range(0, cols.Count).Select(c =>
+            {
+                var e = Enumerable.Repeat(BigRational.Zero, cols.Count).ToArray(); e[c] = BigRational.One; return e;
+            }).ToList();
+        else
+        {
+            var m = new BigRational[rows.Count, cols.Count];
+            int r = 0;
+            foreach (var row in rows.Values) { for (int c = 0; c < cols.Count; c++) m[r, c] = row[c]; r++; }
+            kernel = BigRationalLinearAlgebra.Nullspace(m);
+        }
+        return kernel.Select(k =>
+        {
+            var w = Enumerable.Repeat(BigRational.Zero, 64).ToArray();
+            for (int c = 0; c < cols.Count; c++) w[16 * cols[c][0] + 4 * cols[c][1] + cols[c][2]] = k[c];
+            return w;
+        }).ToList();
+    }
+
+    /// <summary>The far element's operator Schmidt ranks across d | uv, u | dv and v | du, where the row pairs
+    /// through a one-dimensional far end (else null: a row that does not pair has no mirror at all, and a larger far
+    /// end leaves the identity's image open).</summary>
+    public sealed record FarLocality(int DUv, int UDv, int VDu)
+    {
+        public bool Product => DUv == 1 && UDv == 1 && VDu == 1;
+    }
+
+    public static FarLocality? ReadFarLocality(BigRational[] j, BigRational[][] f)
+    {
+        var far = EndBasis(j, f, true);
+        if (far.Count != 1 || End(j, f, false) != 1) return null; // near = far = 1: the row pairs, one far element
+        var w = far[0];
+        return new FarLocality(OperatorSchmidtRank.Across(w, 3, new[] { 0 }), OperatorSchmidtRank.Across(w, 3, new[] { 1 }),
+            OperatorSchmidtRank.Across(w, 3, new[] { 2 }));
     }
 
     /// <summary>The letter setting's end: site l carries h_l along the letter word[l].</summary>
@@ -165,9 +217,13 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         End(j, Enumerable.Range(0, 3).Select(l => Vec(word[l], h[l])).ToArray(), far);
 
     /// <summary>The planar setting's fields as site vectors: none on d, (x, y, 0) on u and v.</summary>
-    public static BigRational[][] PlanarFields(BigRational[] fu, BigRational[] fv) => new[]
+    public static BigRational[][] PlanarFields(BigRational[] fu, BigRational[] fv) =>
+        PlanarFields(new[] { BigRational.Zero, BigRational.Zero }, fu, fv);
+
+    /// <summary>The planar setting with a field on d as well: (x, y, 0) on every site.</summary>
+    public static BigRational[][] PlanarFields(BigRational[] fd, BigRational[] fu, BigRational[] fv) => new[]
     {
-        new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero },
+        new[] { fd[0], fd[1], BigRational.Zero },
         new[] { fu[0], fu[1], BigRational.Zero },
         new[] { fv[0], fv[1], BigRational.Zero },
     };
@@ -224,7 +280,10 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
 
     // ---- one reading ------------------------------------------------------------------------------------
 
-    public sealed record Reading(int Near, int Far, bool Palindrome, char? InClass, bool Agrees);
+    /// <summary>One row read: its two ends, the class it lies in, whether the rule and the ends agree. With a field
+    /// on d no rule is stated: <c>RuleStated</c> is false, <c>InClass</c> null, and <c>Agrees</c> carries nothing (a
+    /// grid refuses such rows).</summary>
+    public sealed record Reading(int Near, int Far, bool Palindrome, char? InClass, bool Agrees, bool RuleStated = true);
 
     public static Reading ReadRow(string word, BigRational[] j, BigRational[] h, char? without = null)
     {
@@ -232,6 +291,16 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         bool pal = far >= 1 && near == far;
         var cls = Class(word, j, h, without);
         return new Reading(near, far, pal, cls, pal == (cls is not null));
+    }
+
+    /// <summary>A planar row with a field on d: its two ends and no rule (see <see cref="Reading"/>); with f_d = 0
+    /// the planar rule as in the overload without it.</summary>
+    public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv)
+    {
+        if (fd.All(x => x.IsZero)) return ReadPlanarRow(j, fu, fv);
+        var f = PlanarFields(fd, fu, fv);
+        int near = End(j, f, false), far = End(j, f, true);
+        return new Reading(near, far, far >= 1 && near == far, null, true, RuleStated: false);
     }
 
     public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fu, BigRational[] fv, char? without = null)
@@ -244,7 +313,19 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     }
 
     private Reading? _reading;
-    public Reading Read() => _reading ??= _fu is null ? ReadRow(_word, _j, _h) : ReadPlanarRow(_j, _fu, _fv!);
+    public Reading Read() => _reading ??= _fu is null ? ReadRow(_word, _j, _h) : ReadPlanarRow(_j, _fd!, _fu, _fv!);
+
+    private BigRational[][] Fields() => _fu is null
+        ? Enumerable.Range(0, 3).Select(l => Vec(_word[l], _h[l])).ToArray()
+        : PlanarFields(_fd!, _fu, _fv!);
+
+    private FarLocality? _locality;
+    private bool _localityRead;
+    public FarLocality? ReadFarLocality()
+    {
+        if (!_localityRead) { _locality = ReadFarLocality(_j, Fields()); _localityRead = true; }
+        return _locality;
+    }
 
     // ---- the grids --------------------------------------------------------------------------------------
 
@@ -315,6 +396,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         int rows = 0, pal = 0, a = 0, b = 0, c = 0, e = 0, bad = 0;
         foreach (var r in readings)
         {
+            if (!r.RuleStated) throw new ArgumentException("a grid reads a rule; a row with a field on d states none.");
             rows++;
             if (r.Palindrome) pal++;
             switch (r.InClass) { case 'A': a++; break; case 'B': b++; break; case 'C': c++; break; case 'E': e++; break; }
@@ -328,17 +410,25 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     public string DisplayName => _fu is null
         ? $"the triangle's palindromic locus at N = 3 (word {_word}, J = {string.Join(", ", _j)}, h = {string.Join(", ", _h)})"
         : $"the triangle's palindromic locus at N = 3 with planar fields (J = {string.Join(", ", _j)}, " +
-          $"f_u = ({string.Join(", ", _fu)}), f_v = ({string.Join(", ", _fv!)}), no field on d)";
+          $"f_u = ({string.Join(", ", _fu)}), f_v = ({string.Join(", ", _fv!)}), " +
+          (_fd!.All(x => x.IsZero) ? "no field on d)" : $"f_d = ({string.Join(", ", _fd!)}))");
 
     public string Summary
     {
         get
         {
             var r = Read();
-            return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}",
+            var loc = ReadFarLocality();
+            string locality = loc is null ? "" : string.Format(CultureInfo.InvariantCulture,
+                "; far element of Schmidt ranks {0}, {1}, {2} across d|uv, u|dv, v|du{3}", loc.DUv, loc.UDv, loc.VDu,
+                loc.Product ? ", a product" : ", no product, so no site-local mirror (conditioned ones aside)");
+            if (!r.RuleStated)
+                return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; no rule is stated with a field on d{3}",
+                    r.Near, r.Far, r.Palindrome ? "palindrome" : "broken", locality);
+            return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}{5}",
                 r.Near, r.Far, r.Palindrome ? "palindrome" : "broken",
                 r.InClass is { } k ? $"in class {k}" : _fu is null ? "in none of A, B, C" : "in none of A, B, C, E",
-                r.Agrees ? "holds" : "FAILS");
+                r.Agrees ? "holds" : "FAILS", locality);
         }
     }
 
@@ -348,6 +438,21 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     {
         get
         {
+            var loc = ReadFarLocality();
+            yield return new InspectableNode("the far element's locality",
+                summary: loc is null
+                    ? "The row does not pair, so no mirror carries it, or its far end is not one-dimensional, so the " +
+                      "identity's image is not fixed; the locality reading is not made."
+                    : string.Format(CultureInfo.InvariantCulture,
+                        "Operator Schmidt ranks of the far element: {0} across d|uv, {1} across u|dv, {2} across v|du. {3} " +
+                        "A mirror, onto −L − 2σ or onto −L† − 2σ, sends the identity onto the far end, so across every " +
+                        "cut its own Schmidt rank is at least the element's; a site-factorised one sends it onto a product " +
+                        "(F116 §4; in rank form finding 1 of experiments/THE_CUBE_SITE_BY_SITE.md). Mirrors conditioned on " +
+                        "the bits of a site are not covered.",
+                        loc.DUv, loc.UDv, loc.VDu,
+                        loc.Product ? "It is a product, so a site-local mirror is not ruled out."
+                                    : "It is no product, so no site-local mirror carries this row, in any per-site frame."),
+                provenance: NodeProvenance.Live);
             var g = ReadGrid();
             yield return new InspectableNode("the letter grid of special loci, recomputed",
                 summary: string.Format(CultureInfo.InvariantCulture,

@@ -169,7 +169,7 @@ public sealed class MirrorLocalityBoundWitness : IInspectable
         SteadyState = exact;
         if (SteadyState is not null)
         {
-            SchmidtRank = RankOverQ(ReshapeQ(SteadyState, n, cut));
+            SchmidtRank = OperatorSchmidtRank.AcrossCut(SteadyState, n, cut);
             RankIsExact = true;
         }
         else
@@ -330,38 +330,6 @@ public sealed class MirrorLocalityBoundWitness : IInspectable
         var S = new long[rows, cols];
         for (long i = 0; i < rows; i++) for (long k = 0; k < cols; k++) S[i, k] = v[i * cols + k];
         return S;
-    }
-
-    private static BigRational[,] ReshapeQ(BigRational[] v, int n, int cut)
-    {
-        long rows = IntPow(4, cut), cols = IntPow(4, n - cut);
-        var S = new BigRational[rows, cols];
-        for (long i = 0; i < rows; i++) for (long k = 0; k < cols; k++) S[i, k] = v[i * cols + k];
-        return S;
-    }
-
-    /// <summary>Exact rank over ℚ by Gaussian elimination in BigRational.</summary>
-    public static int RankOverQ(BigRational[,] A)
-    {
-        int n = A.GetLength(0), m = A.GetLength(1);
-        var rows = new BigRational[n][];
-        for (int i = 0; i < n; i++) { rows[i] = new BigRational[m]; for (int k = 0; k < m; k++) rows[i][k] = A[i, k]; }
-        int r = 0;
-        for (int c = 0; c < m && r < n; c++)
-        {
-            int pr = -1;
-            for (int i = r; i < n; i++) if (!rows[i][c].IsZero) { pr = i; break; }
-            if (pr < 0) continue;
-            (rows[r], rows[pr]) = (rows[pr], rows[r]);
-            for (int i = r + 1; i < n; i++)
-            {
-                if (rows[i][c].IsZero) continue;
-                var f = rows[i][c] / rows[r][c];
-                for (int k = c; k < m; k++) rows[i][k] = rows[i][k] - f * rows[r][k];
-            }
-            r++;
-        }
-        return r;
     }
 
     // ----- the exact steady state: CRT over the primes used, rational reconstruction, exact verification -----

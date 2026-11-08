@@ -116,6 +116,75 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(shared > 0);
     }
 
+    /// <summary>A field on d: the two ends exactly, no rule. The counts are a second route's (sympy over Q(i), the
+    /// commutant on the 64 strings): all fields parallel, B with f_d on the swap axis and D (d at an end, f_d ⊥ f_v,
+    /// f_d + f_u + f_v = 0) pair, each perturbation breaks, and the u, v singlet (J_du = J_dv, f_u = f_v) holds a far
+    /// element but a second near one.</summary>
+    [Theory]
+    [InlineData("1,2,3", "1,0", "2,0", "3,0", 1, 1)]      // A, all three parallel
+    [InlineData("2,2,3", "1,1", "3,4", "4,3", 1, 1)]      // B, f_d on the swap axis
+    [InlineData("2,2,3", "1,0", "3,4", "4,3", 1, 0)]      // B, f_d off the axis
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", 1, 1)]    // D: d-u-v, f_d = X, f_v = 2Y, the sum zero
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,3", 1, 0)]    // D perturbed
+    [InlineData("2,2,3", "1,2", "3,1", "3,1", 2, 1)]      // the singlet: a far element, two near ones
+    [InlineData("1,2,6", "1,0", "8,0", "-5,3", 1, 0)]     // the E row with a field on d
+    public void A_Field_On_D_Is_Read_Without_A_Rule(string j, string fd, string fu, string fv, int near, int far)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadPlanarRow(T(j), T(fd), T(fu), T(fv));
+        Assert.Equal((near, far, false), (r.Near, r.Far, r.RuleStated));
+        Assert.Null(r.InClass);
+    }
+
+    /// <summary>The far element's operator Schmidt ranks across d|uv, u|dv, v|du, exact over Q; the expected ranks
+    /// are a second route's (sympy, the kernel vector over Q(i) reshaped). Only A's is a product; B's is one across
+    /// d|uv alone (letters times SWAP_uv), C's, D's and E's across no cut.</summary>
+    [Theory]
+    [InlineData("1,2,3", "1,0", "2,0", "3,0", 1, 1, 1)]   // A: X X X
+    [InlineData("2,2,3", "1,1", "3,4", "4,3", 1, 4, 4)]   // B: (m·σ)_d ⊗ SWAP·(m·σ ⊗ m·σ)
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", 2, 3, 2)] // D: XXX + c·XIY + c'·YYY
+    [InlineData("3,6,-2", "0,0", "3,4", "5,0", 2, 4, 4)]  // C
+    [InlineData("2,-2,0", "0,0", "1,4", "4,1", 2, 4, 4)]  // E's corner
+    [InlineData("1,2,6", "0,0", "8,0", "-5,3", 2, 4, 4)]  // E
+    public void The_Far_Element_Is_A_Product_Only_In_A(string j, string fd, string fu, string fv, int dUv, int uDv, int vDu)
+    {
+        var loc = TrianglePalindromeLocusWitness.ReadFarLocality(T(j),
+            TrianglePalindromeLocusWitness.PlanarFields(T(fd), T(fu), T(fv)));
+        Assert.NotNull(loc);
+        Assert.Equal((dUv, uDv, vDu), (loc!.DUv, loc.UDv, loc.VDu));
+        Assert.Equal(dUv == 1 && uDv == 1 && vDu == 1, loc.Product);
+    }
+
+    [Fact]
+    public void The_Locality_Reading_Is_Made_Only_Where_The_Row_Pairs_Through_One_Far_Element()
+    {
+        // the singlet row: one far element but two near ones, so the row does not pair and no mirror exists at all
+        Assert.Null(TrianglePalindromeLocusWitness.ReadFarLocality(T("2,2,3"),
+            TrianglePalindromeLocusWitness.PlanarFields(T("1,2"), T("3,1"), T("3,1"))));
+        // a broken row: no far element
+        Assert.Null(TrianglePalindromeLocusWitness.ReadFarLocality(T("1,2,6"),
+            TrianglePalindromeLocusWitness.PlanarFields(T("1,0"), T("8,0"), T("-5,3"))));
+    }
+
+    [Fact]
+    public void The_Witness_Reads_A_Field_On_D()
+    {
+        var w = new TrianglePalindromeLocusWitness(null, "1,0,3", null, "-1,-2", "0,2", "1,0");
+        var r = w.Read();
+        Assert.True(r.Palindrome && !r.RuleStated);
+        Assert.Equal(new TrianglePalindromeLocusWitness.FarLocality(2, 3, 2), w.ReadFarLocality());
+        Assert.Contains("no site-local mirror", w.Summary);
+    }
+
+    [Fact]
+    public void A_Grid_Refuses_A_Row_Without_A_Rule()
+    {
+        var unruled = TrianglePalindromeLocusWitness.ReadPlanarRow(T("1,0,3"), T("1,0"), T("-1,-2"), T("0,2"));
+        var tally = typeof(TrianglePalindromeLocusWitness).GetMethod("Tally",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        var ex = Assert.Throws<System.Reflection.TargetInvocationException>(() => tally.Invoke(null, new object[] { new[] { unruled } }));
+        Assert.IsType<ArgumentException>(ex.InnerException);
+    }
+
     [Fact]
     public void A_Disconnected_Row_Is_Refused()
     {

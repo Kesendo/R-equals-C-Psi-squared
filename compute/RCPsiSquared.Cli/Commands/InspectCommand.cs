@@ -1083,13 +1083,16 @@ public static class InspectCommand
             "parallel (A), J_du = J_dv with |f_u| = |f_v| (B), e2 = 0 with |f_u| = |f_v| (C), or on R1 = R2 = R3 = 0 (E). " +
             "Recomputes both ends of F158 exactly over Q at the row and on two grids (special letter loci over all 27 " +
             "words; planar rows with E's images and corner), the classes beside. Args: --word ZXY, --J 3,6,-2, " +
-            "--h 0,1,1; or --J 1,2,6 --fu 8,0 --fv -5,3 for planar fields",
+            "--h 0,1,1; or --J 1,2,6 --fu 8,0 --fv -5,3 for planar fields, with --fd x,y for a field on d (ends only, " +
+            "no rule); where the row pairs through one far element its operator Schmidt ranks across the three cuts, a " +
+            "non-product ruling out every site-local mirror (mirrors conditioned on a site's bits aside)",
             c => new TrianglePalindromeLocusWitness(
                 c.Parser.OptionalString("word"),
                 c.Parser.OptionalString("J"),
                 c.Parser.OptionalString("h"),
                 c.Parser.OptionalString("fu"),
-                c.Parser.OptionalString("fv")),
+                c.Parser.OptionalString("fv"),
+                c.Parser.OptionalString("fd")),
             RequiresN: false),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
