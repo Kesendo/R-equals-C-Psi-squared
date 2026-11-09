@@ -60,7 +60,8 @@ SPENT = {
     "survivor": ("compute/MirrorWorld/Survivor.cs", "the slowest mode and the coherence horizon"),
     "hardness": ("compute/MirrorWorld/Hardness.cs, F87", "a GF(2)[x] valuation difference"),
     "carrier": ("UniversalCarrierClaim and CarrierVector (gamma_0), ApproachFamilyCarrierClaim, the carriers "
-                "of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md and docs/proofs/PROOF_ONE_DEPHASED_SEAT.md, "
+                "of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md and docs/proofs/PROOF_ONE_DEPHASED_SEAT.md "
+                "(typed in OneDephasedSeatClaim), "
                 "compute/MirrorWorld/Carrier.cs",
                 "owned many times over, typed and untyped: gamma_0 as the universal carrier and its rate "
                 "vector, the carrier clock (Q), the proofs' carriers (every invertible far element) and "

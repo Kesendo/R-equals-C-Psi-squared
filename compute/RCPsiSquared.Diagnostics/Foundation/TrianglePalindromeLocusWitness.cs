@@ -6,7 +6,7 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="PalindromeComplementConnectionClaim"/>,
+/// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="OneDephasedSeatClaim"/>,
 /// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields", and the paragraph "The
 /// sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
 /// <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with

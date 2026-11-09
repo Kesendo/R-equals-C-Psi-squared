@@ -34,7 +34,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// diagonal in their bits, H = ⊕_σ H_σ, and near = Σ_{σ,τ} hom(H_τ, H_σ), far = Σ_{σ,τ} hom(H_τ, H̄_σ),
 /// each hom(A, B) = dim{g : B_xy·g_y = g_x·A_xy} a count of good components.</para>
 ///
-/// <para><b>Theorem 5.</b> Heisenberg bonds on a connected graph, letter fields, exactly one undephased site:
+/// <para><b>Theorem 5.</b> Heisenberg bonds, every J ≠ 0, on a connected graph, letter fields, exactly one undephased site:
 /// the palindrome holds exactly when a colouring exists, F138's converse a third time; with two undephased
 /// sites it fails (F138 (b), the SWAP rows).</para>
 ///
@@ -48,44 +48,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Theorem 7.</b> H conserving a nonconstant diagonal charge Q = Σ w_l Z_l of the frame, dephased and
 /// undephased bits mixed or not (the total magnetization of XXZ bonds with Z jumps and Z fields): both ends are sums over pairs
 /// of charge sectors, near = Σ dim Hom(ρ_q', ρ_q), far = Σ dim Hom(ρ_q', ρ̄_q), a count of good components where
-/// every sector space is at most one-dimensional; Theorem 4 is a charge on the undephased sites alone.</para>
+/// every sector space is at most one-dimensional; Theorem 4 is a charge on the undephased sites alone whose weights separate their bitstrings.</para>
 ///
-/// <para>The next four paragraphs are <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>'s.</para>
-///
-/// <para><b>Common triangle carrier.</b> With jump Z on site 0, Heisenberg couplings s=J01, t=J02, r=J12,
-/// all real and nonzero, and field h(X1+Y2), the common Z0-odd commutant of the bond Hamiltonian and X1+Y2
-/// is a line iff (s-t)(st+sr+tr)=0, zero otherwise. Its generator squares to (s²+t²)³ I. This classifies
-/// one invertible carrier independent of h, not every fixed-h palindrome. Exact symbolic gate:
-/// <c>simulations/triangle_common_carrier_gate.py</c>.</para>
-///
-/// <para><b>The triangle's palindromic locus at N = 3.</b> Heisenberg triangle, jump Z on site 0 only, a letter field
-/// of free magnitude on every site, at most one coupling zero: a row pairs exactly when it is coloured, carries the
-/// 1↔2 swap with a π rotation about an axis perpendicular to z (J01 = J02), or lies on e₂ = J01J02 + J01J12 + J02J12 = 0
-/// with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2.
-/// Necessity by an exact computer-assisted elimination: <c>simulations/n3_palindrome_covering.py</c> (certificate) and
-/// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate); live at <c>inspect --root trianglelocus</c>
-/// (<c>TrianglePalindromeLocusWitness</c>), which recomputes both ends exactly over Q at points.</para>
-///
-/// <para><b>The triangle with planar fields.</b> Same triangle and jump, no field on 0, fields f₁, f₂ (the section's f_u,
-/// f_v) of any direction perpendicular to z, at most one coupling zero: a row pairs exactly when f₁ ∥ f₂, when J01 = J02 and |f₁| = |f₂|,
-/// when e₂ = 0 and |f₁| = |f₂| at any angle, or on R1 = J12(J01 − J02)² − J01J02(J01 + J02) = 0, R2 = f₁·f₂ + 2e₂ = 0,
-/// R3 = (J01 + J12)|f₁|² + (J02 + J12)|f₂|² + 2(J01 + J02 + J12)(f₁·f₂) = 0; with site 0 at an end only the first.
-/// Both directions exact and computer-assisted: <c>simulations/n3_planar_field_locus_gate.py</c>; live at
-/// <c>inspect --root trianglelocus</c> with <c>--fu</c>, <c>--fv</c>, which recomputes both ends exactly over Q at
-/// points and on a planar grid.</para>
-///
-/// <para><b>Blind dephased seats, and palindromes beyond colourings and site symmetries.</b> On the triangle the Krylov determinant of the
-/// dephased seat under the signed one-magnon Laplacian is −(s − t)·e₂: s = t a site symmetry fixing it, e₂ = 0 a rank
-/// drop that blinds every seat (F157). At N = 4, H = e·σ1·σ2 + a·(σ0 − σ3)·(σ1 − σ2) with fields 0, −h·X1, h·X2, g·Y3
-/// pairs for every a, g ≠ 0 and every e, h, for h ≠ 0 with neither a colouring nor a site symmetry, its carrier
-/// in closed form and depending on h: <c>simulations/n4_pair_channel_family.py</c> (exact elimination and dense gate);
-/// at N = 7 two weighted triangles equivalent as spin representations pair with no rank drop and no site symmetry
-/// (<c>simulations/blind_seat_carriers_gate.py</c>). The sheet and blindness: on the triangle with Heisenberg bonds of
-/// which at most one is zero, the jump Z on site 0 alone and nonzero planar fields f₁, f₂ on sites 1 and 2 neither
-/// parallel nor antiparallel, a far element of odd height (every string with an odd number of letters X or Y) exists
-/// with no field on site 0 exactly when site 0 is blind and |f₁| = |f₂|, and with a planar field f₀ on site 0 exactly
-/// when J01 = J02, |f₁| = |f₂| and f₀ lies on the line of f₁ + f₂ (<c>simulations/blind_seat_sheet_gate.py</c>; live in
-/// <c>TrianglePalindromeLocusWitness</c>, node "the sheet and blindness").</para>
+/// <para>The jump on one seat alone, the triangle's carriers and loci and the blind dephased seats, is
+/// <see cref="OneDephasedSeatClaim"/>'s (<c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>), a child of this claim.</para>
 ///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
@@ -140,15 +106,19 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "(Theorem 1); Heisenberg bonds, every J nonzero, under mixed axes with fields of any direction, near end " +
                "one-dimensional, palindrome iff two axes occur and every field lies along the third letter " +
                "(Theorem 3). Both need a connected graph. With the dephased sites (at least one) each under one single-site " +
-               "jump and every undephased site keeping a letter H conserves: H splits into " +
+               "Pauli jump and every undephased site keeping a letter H conserves: H splits into " +
                "sectors of their bits, near = sum over sector pairs of hom(H_tau, H_sigma), far = the same against the complement " +
-               "image, each hom a count of good components (Theorem 4). Heisenberg bonds on a connected graph with exactly one " +
+               "image, each hom a count of good components (Theorem 4). Heisenberg bonds, every J nonzero, on a connected graph " +
+               "with exactly one " +
                "undephased site and letter fields: palindrome iff a colouring exists (Theorem 5); with two it fails (F138 (b)). " +
-               "On the Heisenberg triangle with Z0, field h(X1+Y2), and real nonzero couplings s=J01, t=J02, r=J12, " +
-               "a common invertible carrier independent of h exists iff (s-t)(st+sr+tr)=0; its space is a line.",
+               "Undephased sites of any kind, wherever each component has a spanning tree of invertible blocks of H " +
+               "and of its complement image over the dephased bits: the palindrome holds exactly when on every component the " +
+               "supports agree and the tuples of transported generators of size 2^|F| of H and of its complement image are " +
+               "simultaneously similar, decided by traces of words (Theorem 6). H conserving a " +
+               "nonconstant diagonal charge of the frame: both ends are sums over pairs of charge sectors, a count of good " +
+               "components where every sector space is at most one-dimensional (Theorem 7).",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7) + " +
-               "docs/proofs/PROOF_ONE_DEPHASED_SEAT.md (the common triangle carrier, the triangle's loci, the blind dephased seats) + " +
                "docs/ANALYTICAL_FORMULAS.md (F165, the index entry) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
@@ -162,7 +132,8 @@ public sealed class PalindromeComplementConnectionClaim : Claim
 
     public override string Summary =>
         "near = components of the hopping graph, far = its good components joined with the complement image; " +
-        "F138's converse exact under one axis (Theorem 1), under mixed axes (Theorem 3) and with one undephased site " +
+        "F138's converse exact under one axis with hopping bonds (Theorem 1), under mixed axes with Heisenberg bonds (Theorem 3) " +
+        "and with one undephased site " +
         $"under Heisenberg bonds (Theorem 5); undephased sites that keep a letter split into sectors (Theorem 4) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -201,50 +172,6 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "spanning tree carries invertible blocks. Gate: " +
                          "EndCount.SectorConnection in MirrorWorld; live: inspect --root complement --bonds ZZ with " +
                          "undephased sites, which prints the cross-sector part apart.");
-
-            yield return new InspectableNode("a common carrier for the triangle's whole field line",
-                summary: "Heisenberg triangle, jump Z0 only, field h(X1+Y2), real nonzero s=J01, t=J02, r=J12: " +
-                         "the common odd commutant of the bond Hamiltonian and X1+Y2 is a line exactly when " +
-                         "(s-t)(st+sr+tr)=0, including the branch intersection, and zero otherwise. Its generator " +
-                         "squares to (s^2+t^2)^3 I. This classifies one invertible carrier independent of h, not " +
-                         "every fixed-h palindrome. Exact symbolic gate: simulations/triangle_common_carrier_gate.py.");
-
-            yield return new InspectableNode("the triangle's palindromic locus at N = 3",
-                summary: "Same triangle and jump, a letter field of free real magnitude on every site, at most one " +
-                         "coupling zero: a row pairs exactly when it is coloured (A), carries the 1<->2 swap with a pi " +
-                         "rotation about an axis perpendicular to z (B, J01 = J02), or lies on e2 = J01J02 + J01J12 + J02J12 = 0 " +
-                         "with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2 (C). Sufficiency from F138, the symmetry element " +
-                         "and the common carrier; necessity by exact elimination over the ten word orbits in two charts, " +
-                         "certificate and independent gate: simulations/n3_palindrome_covering.py and " +
-                         "simulations/n3_palindrome_covering_gate.py; live: inspect --root trianglelocus.");
-
-            yield return new InspectableNode("the triangle with planar fields",
-                summary: "Same triangle and jump, no field on 0, fields f1, f2 of any direction perpendicular to z, at " +
-                         "most one coupling zero: a row pairs exactly when f1 || f2 (A), J01 = J02 and |f1| = |f2| (B), " +
-                         "e2 = 0 and |f1| = |f2| at any angle (C), or on R1 = J12(J01-J02)^2 - J01J02(J01+J02) = 0, " +
-                         "R2 = f1.f2 + 2e2 = 0, R3 = (J01+J12)|f1|^2 + (J02+J12)|f2|^2 + 2(J01+J02+J12)(f1.f2) = 0 (E); " +
-                         "with site 0 at an end only A. Both directions exact and computer-assisted: " +
-                         "simulations/n3_planar_field_locus_gate.py; live: inspect --root trianglelocus --J 1,2,6 " +
-                         "--fu 8,0 --fv -5,3.");
-
-            yield return new InspectableNode("blind dephased seats, and palindromes beyond colourings and site symmetries",
-                summary: "On the triangle the Krylov determinant of the dephased seat under the signed one-magnon " +
-                         "Laplacian is -(s-t)e2, the common-carrier factor: s = t is a site symmetry fixing d (B), e2 = 0 a " +
-                         "rank drop of the Laplacian that blinds every seat (C) (F157). At N = 4, H = e s1.s2 + " +
-                         "a (s0 - s3).(s1 - s2) with fields 0, -hX1, hX2, gY3 pairs for every a, g != 0 and every e, h, " +
-                         "near = far = 1, for h != 0 with neither a colouring nor a site symmetry; its carrier, in closed form, " +
-                         "depends on h. At N = 7 two weighted triangles equivalent as spin representations pair with no rank " +
-                         "drop and no site symmetry, the centre still blind. Gates: simulations/n4_pair_channel_family.py, " +
-                         "simulations/blind_seat_carriers_gate.py. That, with letter fields, a blind dephased seat is necessary is a conjecture; " +
-                         "off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind " +
-                         "(simulations/n3_offletter_locus_gate.py, PROOF_ONE_DEPHASED_SEAT's Open list; those rows, E and D, pair through far " +
-                         "elements that are not of odd height, of no definite height at the rows read). On the triangle with Heisenberg bonds of which at most one is zero, the jump Z " +
-                         "on site 0 alone and nonzero planar fields f1, f2 on sites 1 and 2 neither parallel nor antiparallel, a " +
-                         "far element of odd height (every string with an odd number of letters X or Y) exists, with no field on " +
-                         "site 0, exactly when site 0 is blind and |f1| = |f2|, and with a planar field f0 on site 0 exactly when " +
-                         "J01 = J02, |f1| = |f2| and f0 lies on the line of f1 + f2 (the paragraph on the sheet and blindness; gate " +
-                         "simulations/blind_seat_sheet_gate.py; live: inspect --root trianglelocus --J 3,6,-2 --fu 3,4 --fv 5,0, with --fd x,y " +
-                         "for a field on site 0, node 'the sheet and blindness').");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +

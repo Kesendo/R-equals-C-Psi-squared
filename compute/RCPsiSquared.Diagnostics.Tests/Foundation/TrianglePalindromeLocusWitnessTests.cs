@@ -1,5 +1,8 @@
+using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Numerics;
+using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Foundation;
+using RCPsiSquared.Diagnostics.Knowledge;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
@@ -360,5 +363,40 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness("ZXY", "1,2,6", null, "8,0", "-5,3"));
         var w = new TrianglePalindromeLocusWitness(null, "1,2,6", null, "8,0", "-5,3");
         Assert.True(w.Read().Palindrome && w.Read().InClass == 'E');
+    }
+
+    /// <summary>The witness's claim: the one dephased seat, on its three typed parents, and the complement
+    /// connection not carrying them: two proofs, two claims.</summary>
+    [Fact]
+    public void The_Claim_Stands_On_Its_Three_Parents_And_Holds_The_Sections()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<OneDephasedSeatClaim>();
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Same(registry.Get<PalindromeTwoEndCountClaim>(), claim.TwoEndCount);
+        Assert.Same(registry.Get<PalindromeComplementConnectionClaim>(), claim.ComplementConnection);
+        Assert.Same(registry.Get<SeatCutBlindnessClaim>(), claim.BlindSeat);
+        var ancestors = registry.AncestorsOf<OneDephasedSeatClaim>().Select(c => c.GetType()).ToHashSet();
+        Assert.Contains(typeof(PalindromeComplementConnectionClaim), ancestors);
+        Assert.Contains(typeof(SeatCutBlindnessClaim), ancestors);
+        Assert.StartsWith("docs/proofs/PROOF_ONE_DEPHASED_SEAT.md", claim.Anchor);
+        Assert.Contains("is a conjecture", claim.Name);
+
+        string[] sections =
+        {
+            "a common carrier for the triangle's whole field line", "the triangle's palindromic locus at N = 3",
+            "the triangle with planar fields", "blind dephased seats, and palindromes beyond colourings and site symmetries",
+        };
+        var mine = claim.Children.Select(c => c.DisplayName).ToHashSet();
+        var connection = registry.Get<PalindromeComplementConnectionClaim>();
+        var theirs = connection.Children.Select(c => c.DisplayName).ToHashSet();
+        foreach (var name in sections)
+        {
+            Assert.Contains(name, mine);
+            Assert.DoesNotContain(name, theirs);
+        }
+        Assert.DoesNotContain("PROOF_ONE_DEPHASED_SEAT", connection.Anchor);
+        Assert.DoesNotContain("(s-t)(st+sr+tr)", connection.Name);
+        Assert.DoesNotContain("triangle", connection.Name);
     }
 }

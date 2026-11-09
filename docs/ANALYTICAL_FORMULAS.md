@@ -9827,16 +9827,17 @@ floor is a read ([PROOF_RING_FROZEN_BAND](proofs/PROOF_RING_FROZEN_BAND.md) §8)
 the Krylov determinant of d is −(s − t)·e₂ (s = J_du, t = J_dv, e₂ the spanning-tree sum), exactly
 the factor that decides the common carrier of F138's converse failures there. Its two factors are two
 ways to blindness: s = t, a site symmetry fixing d, and e₂ = 0, a rank drop of the signed Laplacian
-that makes every seat blind. At N = 4 a family on the second way pairs, for nonzero transverse fields,
-with neither a colouring nor a site symmetry, its carrier in closed form; at N = 7 two weighted
-triangles equivalent as spin representations pair with no rank drop and no site symmetry, refuting
-those two ways as the only ones, while the centre stays blind; whether, with letter fields, a blind dephased seat is
-necessary is open
+that makes every seat blind. At N = 4 a family on the second way pairs, at nonzero a, g and field h on the pair,
+with neither a colouring nor a site symmetry fixing d, its carrier in closed form; at N = 7 a dephased centre joined
+to two weighted triangles equivalent as spin representations pairs with no rank drop and no site symmetry, refuting
+those two ways as the only ones, while the centre stays blind; whether, under Heisenberg bonds with letter fields, a
+palindrome without a colouring needs its dephased seat blind at every N is open
 ([blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));
-off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind
+off the letters at N = 3 blindness is not necessary, a Heisenberg row pairing with the seat not blind
 ([the Open list](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 How the blind seat bears on the palindrome's far element ([F158](#f158)) at N = 3 and N = 4: the paragraph
 *The sheet and blindness* in [the section on blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries).
+Typed in `OneDephasedSeatClaim`, a child of `SeatCutBlindnessClaim`, live at `inspect --root trianglelocus`.
 
 ---
 
@@ -10825,7 +10826,7 @@ with s, t, r nonzero, one carrier serves every h exactly when (s − t)·e₂ = 
 and −(s − t)·e₂ is the Krylov determinant of the dephased seat: its two
 factors are the two ways for that seat to be blind in [F157](#f157)'s sense.
 Beyond the triangle, with one dephased seat, Heisenberg bonds and letter
-fields, an N = 4 family (at a nonzero field h) and an N = 7 construction pair
+fields, an N = 4 family (at nonzero a, g and h) and an N = 7 construction pair
 with neither a colouring nor a site symmetry, their dephased seat blind all the same.
 The paragraphs on the carriers' locality and sheets and on the sheet and
 blindness, in that proof's section on blind dephased seats, take up the far
@@ -10846,24 +10847,26 @@ cell: there X^⊗N·H·X^⊗N = −H (F103's Fact A), so every ratio H_xy/H_x̄�
 and the edge rule reads D_y = −D_x, the far-end equation [X^⊗N·D, H] = 0 that
 F103 §7.5 writes as {H, D} = 0.
 
-**Typed/live owner:** `PalindromeComplementConnectionClaim` (Tier 1 derived,
-parent F158's `PalindromeTwoEndCountClaim`); live witnesses
-`ComplementConnectionWitness` at `inspect --root complement` (Theorems 1 to 4,
-with Theorem 5's rule printed beside the string route) and
-`TrianglePalindromeLocusWitness` at `inspect --root trianglelocus`; under Z on
+**Typed/live owners:** `PalindromeComplementConnectionClaim` (Tier 1 derived,
+parent F158's `PalindromeTwoEndCountClaim`) for Theorems 1 to 7, with the live
+witness `ComplementConnectionWitness` at `inspect --root complement` (Theorems
+1 to 4, with Theorem 5's rule printed beside the string route); under Z on
 every site the certifier `PalindromeSoftCertifier.DecideAtN` decides Theorem 2
 exactly for real template sets on the open chain, up to its constant
 `MaxComplementConnectionN = 20`. Gated in MirrorWorld against the end count's
 own verdict (`EndCount.ComplementConnection`, `SectorConnection`,
 `LocalSystem`, `ChargeSectors`, `EndCountTests`): Theorems 1 to 5 exactly,
 Theorems 6 and 7, proven alike, gated as an agreement of two modular upper
-bounds.
+bounds. `OneDephasedSeatClaim` (Tier 1 derived, parents F158, the complement
+connection and F157's `SeatCutBlindnessClaim`) holds the one dephased seat,
+with the live witness `TrianglePalindromeLocusWitness` at `inspect --root
+trianglelocus`.
 **Open,** among the two proofs' items: two undephased sites under Heisenberg
 bonds and undephased sites that keep no letter without an invertible spanning
 tree ([the complement connection's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)); fields off the
 letters at N = 3 beyond the planar fields with no field on d, and other bonds,
-and whether, under Heisenberg bonds with letter fields, a blind dephased seat
-is necessary at every N
+and whether, under Heisenberg bonds with letter fields, a palindrome without a
+colouring needs its dephased seat blind at every N
 ([PROOF_ONE_DEPHASED_SEAT's Open list](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 **Replaces:** the end count's two modular kernel ranks by an exact walk over
 the components of a graph on the 2^N bitstrings, wherever every site carries

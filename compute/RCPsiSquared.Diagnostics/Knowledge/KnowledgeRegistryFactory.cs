@@ -958,6 +958,11 @@ public static class KnowledgeRegistryFactory
             // is the flat sections of d_y/d_x = H_xy/H_x̄ȳ on the hopping graph over bitstrings; Theorems 1, 3 and 5
             // are the three classes where F138's converse holds exactly. Parent: F158.
             .RegisterPalindromeComplementConnectionClaim()
+            // The one dephased seat (Tier 1 derived, 2026-10-01 to 2026-11-08): the jump on one seat alone, the
+            // Heisenberg triangle's carriers and loci at N = 3, palindromes with neither a colouring nor a site
+            // symmetry at N = 4 and N = 7, the dephased seat's blindness. Parents: F158, the complement connection
+            // (the far equations written before Theorem 6's tree hypothesis) and F157's SeatCutBlindnessClaim (registered above).
+            .RegisterOneDephasedSeatClaim()
             // F169, the colour law (Tier 1 derived, 2026-10-28): Heisenberg bonds, every site watched along an
             // integer axis; the palindrome holds exactly when a colour perpendicular to every axis carries every
             // field, proven on every connected graph. Parent: F158 (F165 adjacent, a second route).
