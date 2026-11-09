@@ -71,7 +71,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// bridge through the typed parent's <c>PredictAsymmetry</c>, the curvature fingerprint
 /// with the Y₀ visible parasite and the Z₀ exact invisibility, and the rung-2 witness
 /// H = X₀ + X₀Z₁ (t₁ ≡ 0, t₂ fires). Mirrors the blocks of
-/// <c>simulations/moment_tower_pump_channel.py</c>.</para></summary>
+/// <c>simulations/moment_tower_pump_channel.py</c>. Adjacent: <see cref="ThermalThirdMomentClaim"/>, whose arrow term
+/// under cooling and heating alone is −(3/2)·4^N·slope₂, this law's second rung in the generator's third centred
+/// moment, and <see cref="ConditionedFieldPairingClaim"/>, where that rung, t₂(1) = 8h² for h·(X₀ + X₀Z₁), cancels
+/// the field.</para></summary>
 public sealed class MomentTowerPumpChannelClaim : Claim
 {
     private const double Tol = 1e-12;

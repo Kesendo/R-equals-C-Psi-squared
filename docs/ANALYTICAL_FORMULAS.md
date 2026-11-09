@@ -7038,11 +7038,11 @@ exact at the script's rational rate profiles at N=2, 3 and measured to N=5, and 
 with X⊗N and Y⊗N by the element S_XY above; outside that class, for H commuting with Z⊗N under cooling,
 heating and dephasing in the XY plane, the criterion
 (the spectrum unchanged when loss and gain are exchanged) is derived at every N, and the pairing wherever
-one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** not yet (Tier1Candidate). Open: typing; whether, for XXZ
+one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); three of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim and ConditionedFieldPairingClaim. Open: typing the rest; whether, for XXZ
 bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
 other than 0 and π,
 with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above; and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
-with damped sites, beyond the conditioned field of the third-moment paragraph below. Neither is known.
+with damped sites, beyond the conditioned field below. Neither is known.
 Transverse DM bonds are such a Hamiltonian and can break it, at zero splitting (YZ − ZY does not
 conserve the excitation number, so no rotating frame removes the qubits' frequency, and a thermal bath
 there has equal rates): the open chain of three sites with YZ − ZY on both bonds has
@@ -7103,17 +7103,21 @@ the field. So the whole spectrum pairs exactly when s₀ = γ↓₁, at every fi
 on site 1: every odd coefficient of the characteristic polynomial of L + c/2 vanishes there, and the coefficient of x¹³
 is −8h²·(γ↓₀ + γ↑₀ − 2γ↓₁). The same holds mirrored, X₀ − X₀Z₁ with site 1 heated alone (conjugation by X₁), and with
 Y in place of X (a quarter turn of site 0 about Z, which the bath keeps). No map of the cube's one-site closure,
-applied alike on every site, reflects it (`sextant decide 2 XI:1,XZ:1 1/1,1/0 loss+gain`), and none of the carriers above
+applied alike on every site, reflects it at h = 1, site 0 at 1/1 and site 1 cooled at 1 (`sextant decide 2 XI:1,XZ:1 1/1,1/0 loss+gain`), and none of the carriers above
 applies, H not commuting with Z⊗N. The setting is narrow: at the rates where the gate tries them, with the third moment still cancelled,
 heating on site 1, the field left on in the other sector, a ZZ term, or a second neighbour conditioned on site 1
 break at the fifth sum. Site 1 is damped here, where
 [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s Theorem 4 conditions on
 undephased sites. Gate: [`thermal_third_moment.py`](../simulations/thermal_third_moment.py) (the law against the
 generator in exact rationals on named and drawn settings, the conditioned field's odd power sums, its characteristic
-polynomial and its four blocks with h, w and the rates as symbols, its triangularity, controls at nonzero values).
+polynomial and its four blocks with h, w and the rates as symbols, its triangularity, controls at nonzero values);
+typed: ThermalThirdMomentClaim and its child ConditionedFieldPairingClaim, live as ThermalThirdMomentWitness
+(`inspect --root thirdmoment`) and ConditionedFieldPairingWitness (`inspect --root conditionedfield`), the generator in
+exact Gaussian integers on another road and the block identities proven on a grid of parameter points one wider than
+their degree.
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
-**Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no F137 claim) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no diagonal block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y, the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing).
+**Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no claim of this paragraph) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no diagonal block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y, the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing). No store held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
 
 **Swept for the third moment and the conditioned field:** the registry (F87 and F117's cell-free face and F120's
 tower, this entry's recorded values 288, −768, ±384/5 and the transverse DM sums, F158's fence for jumps that are not
@@ -7127,11 +7131,15 @@ KMS_DETAILED_BALANCE, THE_ONE_SQUARE §9, CAUGHT_ERRORS (the swap counterexample
 either), the typed layer (CooledBondPowerSumsClaim and its witness, p₃ = 0 for the class bonds;
 MomentTowerPumpChannelClaim, whose battery takes X₀ + X₀Z₁ as its rung-2 case under cooling, heating and dephasing and
 gates its slope, the pairing not asked;
-CorrelatedZDephasingPriceClaim, Z dephasing; nothing on transverse fields under cooling), MirrorWorld
+CorrelatedZDephasingPriceClaim, Z dephasing; ThreeLadderHingeClaim, whose 3·Tr(Q·A²) under Z dephasing holds the
+cell-free face as the first moment squared, the t₀·t₂ term dying with Tr(Z_l) = 0, where under the bath the arrow
+I → Z revives it as the rung t₂(l); beside the two claims that type these paragraphs,
+nothing on transverse fields under cooling), MirrorWorld
 (Hardness.OddPowerSums and Sextant.OddTraceObstruction, the traces without a closed form; Theodolite.ReadSectors,
 which leaves a watched control out), the OpenArcs registry (nothing), fw.Confirmations (f120_moment_tower_kingston_june2026, the flight that read slope₂ on
 hardware, the rung the arrow term carries) and OQ-168 in review/OPEN_QUESTIONS_INDEX.md. No store
-held the law or the conditioned pairing. Checked for adjacency: the field term against the cell-free face (the same
+held the law or the conditioned pairing before this entry; the two claims typing them and MIRROR_SYMMETRY_PROOF's
+T1 bullets carry it now. Checked for adjacency: the field term against the cell-free face (the same
 count, turned to the bath) and, at equal rates, against F158's odd word (the same break, read as a word), the law
 against F166's third moment (its twin under correlated Z dephasing, Tr(H²Z_kZ_l) where this one has Tr(Z_l H²)), the
 arrow term against the pump-slope law (the same rung), WHICH_BONDS_PAIR_UNDER_COOLING's vanishing p₃ (the law's
@@ -7141,7 +7149,6 @@ spectrum pairs and none of the carriers does (this row is such a place), the tri
 entry's own in the joint popcount and against Theorem 4's sectors (the same blocks, here over a watched bit), and the
 block centres against F167's two centres (the same coincidence of centres, with pairs across blocks).
 -->
-No store held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
 [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md), whose body computed the thermal rate pairing

@@ -37,8 +37,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/cooled_bonds_pairing.py</c>. F137 itself is not typed, so this claim has no typed parent;
 /// its parent in the registry's prose is F137's criterion, the spectrum pairing exactly when exchanging
 /// loss and gain leaves it unchanged. Adjacent, not parents: <see cref="PalindromeTwoEndCountClaim"/> (F158, the
-/// palindrome criterion by the two ends' kernels, which notes F137's recentring under loss) and
-/// <see cref="CorrelatedZDephasingPriceClaim"/> (moments of the spectrum about F137's centre).</para>
+/// palindrome criterion by the two ends' kernels, which notes F137's recentring under loss),
+/// <see cref="CorrelatedZDephasingPriceClaim"/> (moments of the spectrum about F137's centre) and
+/// <see cref="ThermalThirdMomentClaim"/> (the third moment for every H under cooling and heating, whose field part and
+/// arrow part both vanish for every bond of the class, so p₃ = 0 at every N on that road too).</para>
 ///
 /// <para>The setting is F137's formal one: a bond that does not conserve the excitation number (J_XX ≠ J_YY or
 /// J_XY ≠ −J_YX) admits no frame rotating with the qubits, and the generator is read as written, at zero

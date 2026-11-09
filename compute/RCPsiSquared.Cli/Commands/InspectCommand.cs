@@ -1184,6 +1184,18 @@ public static class InspectCommand
             "are silent, and on the ring p₁ … p₇ vanish while p₉ does not (N = 3..5, default 4; typed: CooledBondPowerSumsClaim)",
             c => new CooledBondPowerSumsWitness(c.Parser.HasFlag("N") ? c.N : 4),
             RequiresN: false, HonorsOptionalN: true),
+        new("thirdmoment", "the thermal third moment live (F137): Tr((2L + c)³) of the generator under cooling and heating, built " +
+            "in exact Gaussian integers, against the closed form 12·4^N·(F − 2R), F the squared transverse fields weighted by the summed rates, " +
+            "R the term pairs with product ±Z_l weighted by the net rates; the recorded 288, 96, −768 and −384/5 (the last two as written), rows with " +
+            "both parts, a constant, " +
+            "the nine letters (typed: ThermalThirdMomentClaim)",
+            c => new ThermalThirdMomentWitness(),
+            RequiresN: false),
+        new("conditionedfield", "the conditioned field live (F137): h(X₀ + X₀Z₁) + w·Z₁, site 0 cooled and heated, site 1 cooled " +
+            "alone; triangularity on the five integer pieces, the block identities and the converse proven on a 5⁵ grid, the odd coefficients and odd " +
+            "sums vanishing on s₀ = γ↓₁, the y¹³ coefficient the law off it, four controls breaking at the fifth (typed: ConditionedFieldPairingClaim)",
+            c => new ConditionedFieldPairingWitness(),
+            RequiresN: false),
         new("selfmirror", "the conjugate-composite fixed line AS AN OBJECT: Re λ = −σ is fixed by λ ↦ −2σ − conj(λ); only its Im λ = 0 subset at λ = −σ is fixed by linear F1 λ ↦ −2σ − λ. The System bears x/y/z and the Object inherits that frame",
             c => BuildSelfMirrorRoot(c.Parser, c.Parser.HasFlag("N") ? c.N : 4), RequiresN: false, HonorsOptionalN: true),
         new("seedcount", "the endpoint-nullity surplus theorem live: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) " +

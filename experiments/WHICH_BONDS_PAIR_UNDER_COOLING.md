@@ -25,7 +25,7 @@ under Z dephasing and the frame theorem, none under cooling), THE_CUBE_SITE_BY_S
 the turns that survive damping, F63 and the Z⊗N partnership); review/OPEN_QUESTIONS_INDEX.md (OQ-168, detailed
 balance; no question on bonds); the OpenArcs registry (one measured cooling plus Z reading, no classification arc);
 docs/CAUGHT_ERRORS.md (the scoping of "T1 alone keeps the palindrome", with its counterexamples: transverse fields,
-transverse DM bonds, longitudinal profiles); the typed layer (F137 untyped; DirectSumDecompositionClaim repeats its
+transverse DM bonds, longitudinal profiles); the typed layer (F137 typed only in part; DirectSumDecompositionClaim repeats its
 scope); MirrorWorld SextantTests (S_XY under loss; DM under loss witnessed through the theodolite) and TheodoliteTests; the
 scripts cube_old_questions_gate.py G7, cube_moves_gate.py M10/M11, pauli_weight_conjugation.py's 18 configurations.
 No store held a census of two-site bonds under cooling, and none claimed necessity outside the class of F137's
@@ -228,7 +228,8 @@ letters anticommute with Z⊗N, so S_IZ no longer applies and nothing makes the 
 turns and complex conjugation remain. The phase count now finds smaller invariants: on one bond μ̄·ν·z and μ·ν·w̄,
 across two bonds ν_b·μ̄_{b+1}. A half turn on every site flips the mixed letters and keeps the others, so they enter
 every power sum with an even degree. For every bond of the nine letters p₃ vanishes (exact at N = 2 and 3, where its
-clusters, at most two bond terms and one rate, all fit), so the first that can break is the fifth, and
+clusters, at most two bond terms and one rate, all fit; [F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s third moment under cooling and heating is a second route to it at
+every N, no bond term being a field and no two having a product ±Z_l), so the first that can break is the fifth, and
 
   Tr((L + c/2)⁵) = 10·4^(N−2)·[3·S − 16·Im(μνw̄)·Σ_b γ_bγ_{b+1}],
 

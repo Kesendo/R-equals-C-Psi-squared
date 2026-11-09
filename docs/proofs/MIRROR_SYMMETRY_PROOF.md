@@ -458,7 +458,11 @@ because it is a different channel rather than another axis:
   longitudinal profile that a site permutation keeping the bonds and the rates turns into its negative
   keeps the pairing;
   on a bipartite graph of XX + YY bonds at Δ = 0 any longitudinal field does
-  ([F137](../ANALYTICAL_FORMULAS.md#f137)).
+  ([F137](../ANALYTICAL_FORMULAS.md#f137)). The third centred moment of L as written has a closed form for every traceless H
+  under cooling and heating alone ([F137](../ANALYTICAL_FORMULAS.md#f137)'s third moment): a transverse field on a damped site l enters it as
+  12·4^(N−1)·s_l·(h_{X,l}² + h_{Y,l}²), s_l the mean of the site's two rates, and a longitudinal field through the arrow term
+  −3·2^(N−1)·Σ_l (γ↓_l − γ↑_l)·Tr(Z_l H²), where at XXZ bonds Tr(Z_l H²) collects the products of the field
+  on each neighbour k with the ZZ term of the bond (k, l), and vanishes at Δ = 0.
 
 - **Both T1 restrictions are per component**, exactly like the two clauses
   above, and this is easy to miss because the bullets read globally. T1 on

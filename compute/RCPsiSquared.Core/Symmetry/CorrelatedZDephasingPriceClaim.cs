@@ -164,7 +164,8 @@ public sealed class CorrelatedZDephasingPriceClaim : Claim
     /// real symmetric a: Tr((L + σ)³) = −[4^N·W − 3·2^N·Σ_{k≠l} a_kl·T2_kl − 6·Σ_kl a_kl·T1_k·T1_l], W the
     /// <see cref="ThirdMomentNoiseTerm"/>, T2_kl = Tr(H²Z_kZ_l) and T1_k = Tr(H Z_k) for a TRACELESS Hermitian H (the
     /// page's Θ_kl = T2_kl/2^N and ξ_k = T1_k/2^N; a multiple of the identity in H changes nothing in L but would change
-    /// T2). A palindrome about −σ makes it zero, so for a ⪰ 0 with a covariance and a traceless H commuting with X^⊗N
+    /// T2). Its twin under cooling and heating is <see cref="ThermalThirdMomentClaim"/>, with Tr(Z_l·H²) in the place of T2_kl.
+    /// A palindrome about −σ makes it zero, so for a ⪰ 0 with a covariance and a traceless H commuting with X^⊗N
     /// (T1 = 0) a nonzero value, which every Σ_{k≠l} a_kl·T2_kl ≤ 0 forces, rules out the pairing of the complex
     /// eigenvalues; whether the rates alone pair it does not say.</summary>
     public static BigInteger ThirdMoment(long[,] a, long[,] twoSiteZZ, long[] siteZ)

@@ -876,6 +876,8 @@ public static class KnowledgeRegistryFactory
             .RegisterZeroSectorImmunityClaim()
             .RegisterCorrelatedZDephasingPriceClaim()   // the palindrome's price under correlated Z dephasing (THE_MIRROR_UNDER_A_SHARED_FIELD)
             .RegisterCooledBondPowerSumsClaim()   // cooled bonds: the seventh power sum reads the chain's ends, rings silent through the seventh (WHICH_BONDS_PAIR_UNDER_COOLING); live: inspect --root cooledbonds
+            .RegisterThermalThirdMomentClaim()   // the third moment under cooling and heating, a field term and an arrow term, for every traceless H (F137); live: inspect --root thirdmoment
+            .RegisterConditionedFieldPairingClaim()   // the conditioned field X₀(1 + Z₁) pairs exactly when s₀ = γ↓₁ at h ≠ 0, none of F137's carriers applying (F137); live: inspect --root conditionedfield
             .RegisterCatTurnedFieldSelfEncounterClaim()   // F168: the cat under a turned field, the first odd moment at 2N + 1 (THE_CAT_UNDER_A_TURNED_FIELD)
             .RegisterCatTwistedCouplingClaim()            // F168 under a twisted coupling: m_7 = 96·Σγ(div j)² (THE_CAT_UNDER_A_TURNED_FIELD)
             .RegisterTwoByTwoExceptionalPointClaim()   // the one closed 2 × 2 behind many exceptional points (THE_DOUBLE_ROOT); parent of QEpLaw, LEffMirrorAxis, CoherenceHorizon, TransitionBridge, Spin32, SeedHolonomy, ExceptionalCouplingSet; live: inspect --root twobytwo
