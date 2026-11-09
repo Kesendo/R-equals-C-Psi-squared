@@ -7042,7 +7042,7 @@ one of its carriers applies, in the paragraph on loss and gain exchanged, above.
 bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
 other than 0 and π,
 with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above; and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
-with damped sites. Neither is known.
+with damped sites, beyond the conditioned field of the third-moment paragraph below. Neither is known.
 Transverse DM bonds are such a Hamiltonian and can break it, at zero splitting (YZ − ZY does not
 conserve the excitation number, so no rotating frame removes the qubits' frequency, and a thermal bath
 there has equal rates): the open chain of three sites with YZ − ZY on both bonds has
@@ -7059,9 +7059,87 @@ the fifth centred power sum, in closed form there, is not zero, which is always 
 positive on every site (where a site has no cooling, some of them pair), the YZ − ZY value above being one instance; on every ring with one bond of the class repeated the third, fifth and seventh vanish at every rate profile, and
 higher sums break on the settings computed ([WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md)). The centre at H ≠ 0 is
 the trace identity above and needs no proof.
+
+**The third moment, for every H, under cooling and heating.** With cooling and heating alone, at any rates per
+site, and H any sum of Pauli strings other than the identity with real coefficients (a constant does not enter L),
+
+  **Tr((L + c/2)³) = 12·4^(N−1)·Σ_l s_l·(h_{X,l}² + h_{Y,l}²) − 3·2^(N−1)·Σ_l (γ↓_l − γ↑_l)·Tr(Z_l H²),**
+
+s_l = (γ↓_l + γ↑_l)/2 and h_{X,l}, h_{Y,l} the coefficients of X_l and Y_l in H. Write L + c/2 as the Hamiltonian
+part A plus the centred dissipator B. Tr A³ = 0, ad_H having a spectrum symmetric about 0; Tr B³ = 0, the H = 0 face
+pairing; and Tr(AB²) = 0, B² changing a string only by letters I → Z, which A could undo only through a Z-string, and
+a Z-string commutes with every string whose letters there are I or Z. So the third moment is 3·Tr(A²B), and that
+splits into B's diagonal, where distinct terms of H give no cross terms, and B's arrows. The diagonal is read on the
+letter cube one site at a time: the bath gives a site's letters the rates 0, s_l, s_l, 2s_l for I, X, Y, Z, so taken
+from their mean s_l they sit at −s_l, 0, 0, +s_l; a transverse field turns Y into Z or X into Z, a pair whose mean
+lies s_l/2 off the centre, while a term on more than one site averages its letter on each site over the centre and
+leaves no offset. This is the cell-free face p₃ = 6·4^N·Σ_l c_l²·γ of
+[the F87 windowed converse](proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) carried from Z dephasing, where a Z field
+turns X into Y at the offset γ, to the bath: both read 6·4^N times the field squared times the offset of the pair it
+turns. The arrows are the non-unital part, D[σ∓_l](I) = ±Z_l, and A² undoes an arrow on site l only through two terms
+of H whose product is a multiple of Z_l; an anticommuting pair, product ±iZ_l, cancels against its reversed product,
+so the commuting pairs, product ±Z_l, are what Tr(Z_l H²) collects. That trace is the second rung t₂(l) of the moment tower, and the second
+term is −(3/2)·4^N times slope₂ of the [pump-slope law](proofs/PROOF_MOMENT_TOWER_PUMP_CHANNEL.md). The values recorded
+above are instances: 288 for the transverse field, −768 and −384/5 for the longitudinal profiles as written (a Z field
+carried by the arrow through a ZZ bond), and 96 in the swap counterexample of [CAUGHT_ERRORS](CAUGHT_ERRORS.md); and every bond of the nine letters of
+[WHICH_BONDS_PAIR_UNDER_COOLING](../experiments/WHICH_BONDS_PAIR_UNDER_COOLING.md) has a vanishing third moment at
+every N, no bond term being a field and no two having a product ±Z_l. At equal rates on every site the bath is Pauli
+dephasing along X and Y at s_l/2 each, γ·(D[σ⁻] + D[σ⁺]) = (γ/2)·(D[X] + D[Y]); the arrow is gone, the
+third moment is the cell-free face summed over the two axes, and a transverse field on a damped site breaks the
+pairing whatever else H holds, which for those jumps is F158's shortest odd word, Tr(H·X_l) = 2^N·h_{X,l}
+([PROOF_PALINDROME_TWO_END_COUNT](proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(f5)), met here as a moment.
+
+At unequal rates the arrow can cancel a field, and with the field conditioned on a second site the pairing then
+holds. On two sites take H = h·(X₀ + X₀Z₁) = 2h·X₀·|0⟩⟨0|₁, a field on site 0 that is on only while site 1 is in |0⟩,
+site 0 cooled and heated, site 1 cooled alone at γ↓₁. H keeps Z₁ and site 1 moves only from |1⟩ to |0⟩, so L is block
+triangular in site 1's ket-bra sectors and its spectrum is that of four blocks on site 0: the field 2h·X₀ on both
+sides, on the ket alone, on the bra alone, or absent. The centre is −(s₀ + γ↓₁/2). The field-free block, site 0's
+bath shifted by site 1's decay, holds −γ↓₁, −s₀ − γ↓₁ twice and −2s₀ − γ↓₁; the block with the field on both sides
+holds 0, −s₀ and the two eigenvalues the field makes of Y and Z, whose mean is −(3/2)·s₀. Its 0 and −s₀ pair with
+−2s₀ − γ↓₁ and −s₀ − γ↓₁ at every rate; the remaining −γ↓₁ and −s₀ − γ↓₁ pair with each other, and the field's two
+sit about the centre, both exactly when s₀ = γ↓₁; the one-sided blocks pair with each other at every rate. H is
+the core of the pump channel's rung-2 witness, and its second rung, t₂(1) = 8h² on site 1, is the arrow that cancels
+the field. So the whole spectrum pairs exactly when s₀ = γ↓₁, at every field h ≠ 0 and with any frequency w·Z₁
+on site 1: every odd coefficient of the characteristic polynomial of L + c/2 vanishes there, and the coefficient of x¹³
+is −8h²·(γ↓₀ + γ↑₀ − 2γ↓₁). The same holds mirrored, X₀ − X₀Z₁ with site 1 heated alone (conjugation by X₁), and with
+Y in place of X (a quarter turn of site 0 about Z, which the bath keeps). No map of the cube's one-site closure,
+applied alike on every site, reflects it (`sextant decide 2 XI:1,XZ:1 1/1,1/0 loss+gain`), and none of the carriers above
+applies, H not commuting with Z⊗N. The setting is narrow: at the rates where the gate tries them, with the third moment still cancelled,
+heating on site 1, the field left on in the other sector, a ZZ term, or a second neighbour conditioned on site 1
+break at the fifth sum. Site 1 is damped here, where
+[PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s Theorem 4 conditions on
+undephased sites. Gate: [`thermal_third_moment.py`](../simulations/thermal_third_moment.py) (the law against the
+generator in exact rationals on named and drawn settings, the conditioned field's odd power sums, its characteristic
+polynomial and its four blocks with h, w and the rates as symbols, its triangularity, controls at nonzero values).
 <!-- STAGE 0 SWEEP RECORD for this section (for us, not for the reader)
 
 **Swept for the paragraph on loss and gain exchanged:** the registry (F1's DM clause on bipartite graphs, F138's DM chain, F119), [MIRROR_SYMMETRY_PROOF](proofs/MIRROR_SYMMETRY_PROOF.md)'s rotation argument, [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)'s holonomy, [PROOF_ANTILINEAR_TRIANGLE](proofs/PROOF_ANTILINEAR_TRIANGLE.md) §7 (the weight, and its reading of a flux as the swapped experiment on the reversed flux), [the colouring page](../experiments/THE_PALINDROME_AS_A_COLOURING.md)'s frame theorem, [the selected ring](carbon/BENZENE_THREE_DEPHASE_LETTERS.md)'s chain frame and flux reading, [THE_MIRROR_UNDER_A_SHARED_FIELD](../experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md)'s DM rotation, [THE_CRACKED_BELL](../experiments/THE_CRACKED_BELL.md)'s reflection forcing a ring's flux to 0 or π, [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s quarter-flux control row, [THERMAL_BREAKING](../experiments/THERMAL_BREAKING.md), the CAUGHT_ERRORS entries on DM under Z dephasing, on fluxes at multiples of π and on the thermal arrows (X⊗N swaps σ⁻ and σ⁺ and no eigenvalue changes, the same exchange read at one ratio), the typed layer's Core half (the flux note in `LiouvillianBlockSpectrum`, no F137 claim) and its Diagnostics half (`HandoverFloorClaim` and `SurvivalIncompletenessMirrorClaim`: a π flux through an odd ring under Z dephasing changes no diagonal block's spectrum), MirrorWorld's `Sextant` (DM under loss, symmetric modulo p), the OpenArcs registry (a tree's hop phases carry no flux, in `site_resolved_vacuum_block`), the glossary (its DM line: covered on bipartite interaction graphs under a different alternating map), [KMS_DETAILED_BALANCE](KMS_DETAILED_BALANCE.md) (a map pairing I with Z and X with Y, the letter action that S_IZ and S_XY carry with phases) and `fw.Confirmations` (nothing).
+
+**Swept for the third moment and the conditioned field:** the registry (F87 and F117's cell-free face and F120's
+tower, this entry's recorded values 288, −768, ±384/5 and the transverse DM sums, F158's fence for jumps that are not
+Pauli letters, F166's third moment under correlated Z dephasing, F167's two centres), docs/proofs (PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §4, PROOF_MOMENT_TOWER_PUMP_CHANNEL,
+MIRROR_SYMMETRY_PROOF's Scope paragraphs, PROOF_PALINDROME_COMPLEMENT_CONNECTION's Theorem 4,
+PROOF_PALINDROME_TWO_END_COUNT's §(f5) odd word and its strict row at d = 32, a controlled field under one Z jump; the complement
+connection's gate row X₀ + X₀Z₁ under Z jumps, which breaks there), experiments (WHICH_BONDS_PAIR_UNDER_COOLING,
+whose p₃ vanishes for its nine-letter bonds; THE_PALINDROME_WITHOUT_A_CARRIER, triangular in the joint popcount;
+THE_CUBE_SITE_BY_SITE; THE_PALINDROME_AS_A_COLOURING's conditioned colour; THERMAL_BREAKING; THE_PAIRING_CONDITION),
+KMS_DETAILED_BALANCE, THE_ONE_SQUARE §9, CAUGHT_ERRORS (the swap counterexample's 96), the glossary (nothing on
+either), the typed layer (CooledBondPowerSumsClaim and its witness, p₃ = 0 for the class bonds;
+MomentTowerPumpChannelClaim, whose battery takes X₀ + X₀Z₁ as its rung-2 case under cooling, heating and dephasing and
+gates its slope, the pairing not asked;
+CorrelatedZDephasingPriceClaim, Z dephasing; nothing on transverse fields under cooling), MirrorWorld
+(Hardness.OddPowerSums and Sextant.OddTraceObstruction, the traces without a closed form; Theodolite.ReadSectors,
+which leaves a watched control out), the OpenArcs registry (nothing), fw.Confirmations (f120_moment_tower_kingston_june2026, the flight that read slope₂ on
+hardware, the rung the arrow term carries) and OQ-168 in review/OPEN_QUESTIONS_INDEX.md. No store
+held the law or the conditioned pairing. Checked for adjacency: the field term against the cell-free face (the same
+count, turned to the bath) and, at equal rates, against F158's odd word (the same break, read as a word), the law
+against F166's third moment (its twin under correlated Z dephasing, Tr(H²Z_kZ_l) where this one has Tr(Z_l H²)), the
+arrow term against the pump-slope law (the same rung), WHICH_BONDS_PAIR_UNDER_COOLING's vanishing p₃ (the law's
+case without fields or Z_l products, at every N), THE_CUBE_SITE_BY_SITE's finding 1 (a site cooled alone loses its
+site-local Π-reflection once a two-site term touches it, as site 1 here at w = 0), OQ-168's question of an element where the
+spectrum pairs and none of the carriers does (this row is such a place), the triangularity against this
+entry's own in the joint popcount and against Theorem 4's sectors (the same blocks, here over a watched bit), and the
+block centres against F167's two centres (the same coincidence of centres, with pairs across blocks).
 -->
 No store held the thermal case; the Z-dephasing twin was held on the chain and read on the ring, and the weight's tie to the palindrome was open (OQ-168). Checked for adjacency: the turns against the selected ring's chain frame and the colouring page's frame theorem (the same object, thermal here); the one-ratio carrier against §7's weight and its flux reading (the same reversal); complex conjugation with the sublattice sign against the edge block's bipartite conjugation at Δ = 0, S·conj(M)·S⁻¹ = M with real hops and = Mᵀ at a flux ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md), composed there from [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §7's pencil reality and bipartite gauge), its one-excitation form, and against the selected ring's even rings, bipartite at Δ = 0, which under loss and gain therefore pair at every DM flux where that page's Z reading breaks; the exchange against THE_ONE_SQUARE §9's shift by Z⊗N, whose wrong sign it is (S_IZ here); S_IZ against [the pairing condition](../experiments/THE_PAIRING_CONDITION.md)'s one-sided ℒ_U for jumps squaring to 1, which it carries to jumps with A†A + AA† ∝ 1, the axis that page calls mis-centred, and against `PalindromeTwoEndCountClaim`'s fence at A² ≠ 1.
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),

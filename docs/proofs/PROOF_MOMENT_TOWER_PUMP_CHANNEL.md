@@ -30,7 +30,7 @@ Work with L = −i[H,·] + Σ_l γ^φ_l D[Z_l] + Σ_l γ↓_l D[σ⁻_l] + Σ_l 
 
 *Proof.* The slope is Tr(A·L(I))/d. The commutator kills I. Dephasing is unital: D[Z_l](I) = Z_l I Z_l − I = 0. Amplitude damping is the non-unital piece: D[σ⁻](I) = σ⁻σ⁺ − ½{σ⁺σ⁻, I} = |0⟩⟨0| − |1⟩⟨1| = +Z per damped site, and D[σ⁺](I) = −Z likewise. So L(I) = Σ_l Δγ_l Z_l. ∎
 
-With A = H^j: **slope_j = (1/d)·Σ_l Δγ_l·t_j(l)**, the deg-1 tower of the girth ladder, weighted by the per-site net damping. The pump is the same object twice over: F82's Π²-antisymmetric entry (the only place the standard dissipator breaks the palindrome's antisymmetric lens) and the generator of this channel. The palindrome-breaking direction and the tower-reading direction are one operator.
+With A = H^j: **slope_j = (1/d)·Σ_l Δγ_l·t_j(l)**, the deg-1 tower of the girth ladder, weighted by the per-site net damping. The pump is the same object twice over: F82's Π²-antisymmetric entry (the only place the standard dissipator breaks the palindrome's antisymmetric lens) and the generator of this channel. The palindrome-breaking direction and the tower-reading direction are one operator. Under cooling and heating alone the second rung also enters the generator's third centred moment, as −3·2^(N−1)·Σ_l Δγ_l·t₂(l) ([F137](../ANALYTICAL_FORMULAS.md#f137)'s third moment).
 
 ## §2 The three blindnesses
 
