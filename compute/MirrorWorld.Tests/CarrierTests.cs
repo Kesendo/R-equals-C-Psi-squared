@@ -3,7 +3,7 @@ using MirrorWorld;
 namespace MirrorWorldTests;
 
 // From-below guard for the carrier (built 2026-11-08). The expected sheets and turns are the census's,
-// simulations/results/far_element_sheets_census.txt (part 1, the carriers of PROOF_PALINDROME_COMPLEMENT_CONNECTION),
+// simulations/results/far_element_sheets_census.txt (part 1, the carriers of PROOF_ONE_DEPHASED_SEAT),
 // the sheets read there on framework's far_element_shape over Q(i) and the turns by the census's own turns() on that
 // element, a route sharing no code with this object: sheets A 4, B 2, C 1, D 3, E 0, E's corner 0, the N = 4 family 2;
 // turns A X+ Y- Z-, B Z-, C Z-, D, E and E's corner none, the family X+. C's twelve strings are

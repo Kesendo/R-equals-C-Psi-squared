@@ -9,7 +9,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="PalindromeComplementConnectionClaim"/>,
 /// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields", and the paragraph "The
 /// sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
-/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
+/// <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
 /// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, two pairing rules, and on the planar one the sheet rule.
 ///
 /// <para><b>Letter fields</b>, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in</para>

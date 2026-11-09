@@ -1,5 +1,5 @@
 """Exact checks for the carriers of the section "Blind dephased seats, and palindromes beyond colourings and
-site symmetries" in docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md. Run from the repository root:
+site symmetries" in docs/proofs/PROOF_ONE_DEPHASED_SEAT.md. Run from the repository root:
     python simulations/blind_seat_carriers_gate.py
 N = 4: the far element of the pair-channel family in closed form, reconstructed as Pauli strings separately from
 its singlet/triplet derivation; [H, W] = 0, {Z0, W} = 0 and W^2 = (a^2 + h^2) I symbolically. N = 5: the 19 x 19

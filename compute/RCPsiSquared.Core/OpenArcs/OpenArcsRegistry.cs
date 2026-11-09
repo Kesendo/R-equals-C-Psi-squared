@@ -3991,7 +3991,7 @@ public static class OpenArcsRegistry
                 + "(a site where two bonds meet at an angle neither straight nor right admits nothing, otherwise each bond asks "
                 + "both ends onto its line or neither and the site equations keep only the colour; the coplanar row above among "
                 + "them), so with every site watched under Heisenberg bonds the colour is necessary, at fields of any direction. A false negative with fields "
-                + "off the letters, of varying direction under one Z jump, is exact at N = 3 (PROOF_PALINDROME_COMPLEMENT_CONNECTION, "
+                + "off the letters, of varying direction under one Z jump, is exact at N = 3 (PROOF_ONE_DEPHASED_SEAT, "
                 + "Open item 'Fields off the letters and other bonds at N = 3').",
             Status: OpenArcStatus.Open),
 
@@ -4160,7 +4160,7 @@ public static class OpenArcsRegistry
                 + "site 0, sites 1 and 2 free, fields X on 1 and Y on 2 of equal magnitude, and couplings with "
                 + "1/J01 + 1/J02 + 1/J12 = 0 (e.g. 3, 6, -2, where no automorphism fixes the dephased site), pairs with a "
                 + "one-dimensional far end carried by a non-Clifford element, a one-parameter family in closed form "
-                + "(PROOF_PALINDROME_COMPLEMENT_CONNECTION; pinned in EndCountTests). For real nonzero s=J01, t=J02, r=J12, "
+                + "(PROOF_ONE_DEPHASED_SEAT; pinned in EndCountTests). For real nonzero s=J01, t=J02, r=J12, "
                 + "the common Z0-odd commutant of the bond Hamiltonian and X1+Y2 is exactly one-dimensional iff "
                 + "(s-t)(st+sr+tr)=0, zero otherwise; its generator squares to (s^2+t^2)^3 I. This exhausts carriers "
                 + "independent of the common field magnitude h, not carriers at an individual h (exact symbolic gate: "
@@ -4187,7 +4187,7 @@ public static class OpenArcsRegistry
                 + "does not extend: an exact family with the dephased seat at an end of the path pairs, carried by a "
                 + "three-string anticommuting sum, and so does a second locus outside the letter classes, which with no "
                 + "field on the dephased seat and fields perpendicular to z is exactly three polynomial relations, proven in "
-                + "both directions together with the reciprocal class at every angle (PROOF_PALINDROME_COMPLEMENT_CONNECTION, "
+                + "both directions together with the reciprocal class at every angle (PROOF_ONE_DEPHASED_SEAT, "
                 + "section 'The triangle with planar fields', gate simulations/n3_planar_field_locus_gate.py, live at "
                 + "inspect --root trianglelocus with --fu, --fv); neither sits "
                 + "on a blind seat (Open item 'Fields off the letters and other bonds at N = 3', gate "

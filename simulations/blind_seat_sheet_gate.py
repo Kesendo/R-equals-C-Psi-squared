@@ -1,4 +1,4 @@
-"""Gate: the blind seat's sheet at N = 3 and N = 4 (PROOF_PALINDROME_COMPLEMENT_CONNECTION, section on blind dephased
+"""Gate: the blind seat's sheet at N = 3 and N = 4 (PROOF_ONE_DEPHASED_SEAT, section on blind dephased
 seats, paragraph "The sheet and blindness, at N = 3 and N = 4").
 
 Exact throughout (sympy: Gaussian rationals, with square roots where a half-angle needs one), no threshold. Four parts.

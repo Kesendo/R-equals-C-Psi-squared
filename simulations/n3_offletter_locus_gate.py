@@ -1,6 +1,6 @@
 """Gate for the N = 3 triangle with the jump Z on one site d alone: fields off the letters, and XX + YY bonds.
 
-PROOF_PALINDROME_COMPLEMENT_CONNECTION decides the triangle's palindromic locus for Heisenberg bonds and letter fields
+PROOF_ONE_DEPHASED_SEAT decides the triangle's palindromic locus for Heisenberg bonds and letter fields
 (classes A, B, C). This gate reads its neighbours. A row pairs exactly when near = far >= 1 (F158: near and far are the
 kernels of [H, .] on the strings whose d-letter is in {I, Z} and in {X, Y}); the sweeps rank them modulo two primes that
 must agree, the families are checked as exact elements. Classes for fields as vectors: A every nonzero field along one

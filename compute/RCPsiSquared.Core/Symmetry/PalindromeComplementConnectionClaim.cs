@@ -50,6 +50,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// of charge sectors, near = Σ dim Hom(ρ_q', ρ_q), far = Σ dim Hom(ρ_q', ρ̄_q), a count of good components where
 /// every sector space is at most one-dimensional; Theorem 4 is a charge on the undephased sites alone.</para>
 ///
+/// <para>The next four paragraphs are <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>'s.</para>
+///
 /// <para><b>Common triangle carrier.</b> With jump Z on site 0, Heisenberg couplings s=J01, t=J02, r=J12,
 /// all real and nonzero, and field h(X1+Y2), the common Z0-odd commutant of the bond Hamiltonian and X1+Y2
 /// is a line iff (s-t)(st+sr+tr)=0, zero otherwise. Its generator squares to (s²+t²)³ I. This classifies
@@ -145,7 +147,8 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "On the Heisenberg triangle with Z0, field h(X1+Y2), and real nonzero couplings s=J01, t=J02, r=J12, " +
                "a common invertible carrier independent of h exists iff (s-t)(st+sr+tr)=0; its space is a line.",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7 and common triangle carrier) + " +
+               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7) + " +
+               "docs/proofs/PROOF_ONE_DEPHASED_SEAT.md (the common triangle carrier, the triangle's loci, the blind dephased seats) + " +
                "docs/ANALYTICAL_FORMULAS.md (F165, the index entry) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
@@ -234,7 +237,7 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "drop and no site symmetry, the centre still blind. Gates: simulations/n4_pair_channel_family.py, " +
                          "simulations/blind_seat_carriers_gate.py. That, with letter fields, a blind dephased seat is necessary is a conjecture; " +
                          "off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind " +
-                         "(simulations/n3_offletter_locus_gate.py, the proof's Open list; those rows, E and D, pair through far " +
+                         "(simulations/n3_offletter_locus_gate.py, PROOF_ONE_DEPHASED_SEAT's Open list; those rows, E and D, pair through far " +
                          "elements that are not of odd height, of no definite height at the rows read). On the triangle with Heisenberg bonds of which at most one is zero, the jump Z " +
                          "on site 0 alone and nonzero planar fields f1, f2 on sites 1 and 2 neither parallel nor antiparallel, a " +
                          "far element of odd height (every string with an odd number of letters X or Y) exists, with no field on " +

@@ -433,7 +433,7 @@ public class BlindSeatTests
     // (0, y, z) vanishing at d that d's row sends to zero is a multiple of v = (0, J_dv, −J_du), the couplings at d not
     // both zero. Heisenberg book, H = (sum of J)·1 − 2·L for the signed Laplacian L: L·v = e2·(0, 1, −1) with
     // e2 = J_du·J_dv + J_du·J_uv + J_dv·J_uv, parallel to v exactly where (J_du − J_dv)·e2 = 0 (the factor of the Krylov
-    // determinant in PROOF_PALINDROME_COMPLEMENT_CONNECTION's section on blind dephased seats). XY book, H = 2·A for
+    // determinant in PROOF_ONE_DEPHASED_SEAT's section on blind dephased seats). XY book, H = 2·A for
     // the weighted adjacency: A·v = J_uv·(0, −J_du, J_dv), parallel to v exactly where J_uv·(J_du² − J_dv²) = 0, the
     // test's own oracle. The Krylov space of e_d holds e_d and H·e_d, so the count is at most one here. Every connected
     // triangle with couplings in −3..3, at most one of them zero.

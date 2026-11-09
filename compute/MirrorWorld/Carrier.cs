@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace MirrorWorld;
 
-// The carrier (built 2026-11-08 beside docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, the paragraphs "The
+// The carrier (built 2026-11-08 beside docs/proofs/PROOF_ONE_DEPHASED_SEAT.md, the paragraphs "The
 // carriers' locality, and their sheets" and "The sheet and blindness, at N = 3 and N = 4", and its census
 // simulations/far_element_sheets_census.py; the name is the proof's word, narrowed as the fence below says). Where a
 // row pairs through ONE far element, near = far = 1 in F158's count, that element W carries the palindrome: every

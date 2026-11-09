@@ -1,4 +1,4 @@
-"""The far element's locality and sheets on the carriers of PROOF_PALINDROME_COMPLEMENT_CONNECTION, and blindness beside.
+"""The far element's locality and sheets on the carriers of PROOF_ONE_DEPHASED_SEAT, and blindness beside.
 
 Reads, with framework's far_element_shape (simulations/framework/diagnostics/far_element_shape.py), every carrier the
 section "Blind dephased seats, and palindromes beyond colourings and site symmetries" and its Open items hold, and the

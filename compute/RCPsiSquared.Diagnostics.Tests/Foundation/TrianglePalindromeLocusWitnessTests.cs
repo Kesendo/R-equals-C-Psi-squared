@@ -5,7 +5,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (sections "The triangle's palindromic
 /// locus at N = 3" and "The triangle with planar fields", and the paragraph "The sheet and blindness, at N = 3 and N = 4",
-/// of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): the rows the proof, its gates and
+/// of <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): the rows the proof, its gates and
 /// <c>EndCountTests</c> pin, read on the witness's own exact route, the grids with a planted mutation per class or
 /// condition, and the two settings read alike where they meet.</summary>
 public class TrianglePalindromeLocusWitnessTests

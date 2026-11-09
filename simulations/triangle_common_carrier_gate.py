@@ -1,4 +1,4 @@
-"""Exact gate for the common-carrier proposition in the complement proof.
+"""Exact gate for the common-carrier proposition of PROOF_ONE_DEPHASED_SEAT.
 
 Run: python simulations/triangle_common_carrier_gate.py
 Requires SymPy. No result files are written.

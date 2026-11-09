@@ -55,7 +55,7 @@ the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
 direction F138 measures to FAIL elsewhere, and establishes only on a connected graph with at most one site undephased, where the break is proven at any magnitudes: every site dephased along one axis with fields along letters, every site dephased under Heisenberg bonds along mixed axes with fields of any direction, and under Heisenberg bonds with one site undephased and fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1, 3 and 5). Drop a bond
 letter, or let two sites the graph can exchange carry the same field magnitude,
-and there are fields violating clause 2 whose spectrum pairs regardless; at N = 3 with one site dephased so do some fields off the letters on the full three-letter bond, at magnitudes that need not coincide ([PROOF_PALINDROME_COMPLEMENT_CONNECTION, Open](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+and there are fields violating clause 2 whose spectrum pairs regardless; at N = 3 with one site dephased so do some fields off the letters on the full three-letter bond, at magnitudes that need not coincide ([PROOF_ONE_DEPHASED_SEAT, Open](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 **Replaces:** palindrome verification (87,376 eigenvalues, N=2..8).
 **Source:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md)
 
@@ -7211,10 +7211,10 @@ while K₃, which can exchange any pair, gives 78 per equal pair and 234 when al
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
 exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3); off the letters, under Heisenberg bonds with every site watched along an integer axis, the same necessity holds as [F169](#f169) on every connected graph, beside these classes rather than one of them. A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
-where [the triangle's palindromic locus](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)
+where [the triangle's palindromic locus](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
-magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and, with no field on the dephased site and fields perpendicular to z, a second locus of three polynomial relations, proven in both directions together with the e₂ = 0 branch at every angle between equal-length fields ([the triangle with planar fields](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangle-with-planar-fields)); beyond that setting, a field with a z part or any field on d, the locus is open (the triangle proof's [Open item on fields off the letters](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and, with no field on the dephased site and fields perpendicular to z, a second locus of three polynomial relations, proven in both directions together with the e₂ = 0 branch at every angle between equal-length fields ([the triangle with planar fields](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangle-with-planar-fields)); beyond that setting, a field with a z part or any field on d, the locus is open (the triangle proof's [Open item on fields off the letters](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 In the uniform-bond letter-field sweeps the exceptions track the graph's automorphisms
 and the bond's letter count. Weighted bonds also admit exceptions without a
 weighted-graph symmetry: with jump Z on d and field h(X_u + Y_v), a Heisenberg
@@ -7225,16 +7225,16 @@ intersection. The s = t branch is SWAP; the e₂ = st + sr + tr = 0 branch
 contains non-Clifford carriers without a weighted-graph symmetry fixing d,
 and at N = 4 a family pairs at fixed field with neither a colouring nor a
 site symmetry
-([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries)).
+([blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries)).
 This is a classification of one carrier for every h, not of all palindromes
-at a fixed h ([proof and exact gate](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#a-common-carrier-for-the-triangles-whole-field-line)).
+at a fixed h ([proof and exact gate](proofs/PROOF_ONE_DEPHASED_SEAT.md#a-common-carrier-for-the-triangles-whole-field-line)).
 At a fixed field the triangle is settled too: with one site dephased along Z
 and a letter field of free magnitude on every site, a connected row (at most
 one coupling zero) pairs
 exactly when it is coloured, carries the u ↔ v swap with a π rotation about
 an axis perpendicular to z (J_du = J_dv), or lies on e₂ = 0 with no field on
 d and fields of equal magnitude perpendicular to z on u and v
-([exact computer-assisted proof](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)).
+([exact computer-assisted proof](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangles-palindromic-locus-at-n--3)).
 **Operators explaining the uniform-bond exceptions are
 exhibited.** All 78 P₃ rows of (b) carry one operator,
 U = SWAP₀₂·(n·σ)⊗(n·σ)⊗(n·σ), the end-site swap composed with the π rotation about
@@ -9832,11 +9832,11 @@ with neither a colouring nor a site symmetry, its carrier in closed form; at N =
 triangles equivalent as spin representations pair with no rank drop and no site symmetry, refuting
 those two ways as the only ones, while the centre stays blind; whether, with letter fields, a blind dephased seat is
 necessary is open
-([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));
+([blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));
 off the letters at N = 3 it is not necessary, a Heisenberg row pairing with the seat not blind
-([the Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+([the Open list](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 How the blind seat bears on the palindrome's far element ([F158](#f158)) at N = 3 and N = 4: the paragraph
-*The sheet and blindness* in [the section on blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries).
+*The sheet and blindness* in [the section on blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries).
 
 ---
 
@@ -10698,20 +10698,21 @@ the two reflection sectors transports the verdict to the 133 odd loci, covering 
 ---
 
 <a id="f165"></a>
-### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-06 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7; registered 2026-10-21 as an INDEX of that proof)
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
 
 **Why a number, and why it says so.** This entry indexes; it does not
-discover. Everything below is stated, proven and gated in the proof named in
-the header, or held by its typed owners, and eight entries of this registry
-already cite the proof by section: F1 (its Breaks-for and the F1² bullet), F4
-(the cross-sector weight), F88a (the kernel's split), F111 (condition (ii)),
-F115 (the Mixed strings), F137, F138 (the three classes of its converse), and
-F157 (the blind dephased seats). What none of them had is a name for the
+discover. Everything below is stated, proven and gated in the two proofs named
+under Source, or held by their typed owners, and ten entries of this registry
+already cite them by section: F1 (its Breaks-for and the F1² bullet), F4
+(the cross-sector weight), F88a (the kernel's split), F110 (Theorem 2 at
+k = 5), F111 (condition (ii)), F115 (the Mixed strings), F137, F138 (the
+three classes of its converse), F157 (the blind dephased seats) and F168
+(Theorem 2). What none of them had is a name for the
 object they all point at, so each citation carried its own paraphrase of the
 theorem. The number buys that name. The caution is [F160](#f160)'s: an
 indexing gap is not a result, and this entry claims nothing its sources do
-not. The sweep is the proof's own record (its section *What the repo already
-held*); beside it, the OpenArcs arc `f138_converse_failures` records the
+not. The sweep is the two proofs' own records, the complement connection's
+hidden record and the records of the sections of PROOF_ONE_DEPHASED_SEAT; beside it, the OpenArcs arc `f138_converse_failures` records the
 converse as settled in the classes below and holds the open item on fields off
 the letters at N = 3.
 
@@ -10810,7 +10811,7 @@ image, (H̄)_xy = H_x̄ȳ over the dephased bits:
   of good components where every sector space is at most one-dimensional.
   F4's cross-sector weight is the near end's part between different sectors.
 
-**Beyond the seven,** in the same proof, on the Heisenberg triangle with
+**Beyond the seven,** in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md), on the Heisenberg triangle with
 couplings s = J_du, t = J_dv, r = J_uv, only site d dephased (along Z), and
 e₂ = st + sr + tr. With a field of free real magnitude, zero allowed, along
 one letter on every site and the graph connected
@@ -10824,10 +10825,10 @@ with s, t, r nonzero, one carrier serves every h exactly when (s − t)·e₂ = 
 and −(s − t)·e₂ is the Krylov determinant of the dephased seat: its two
 factors are the two ways for that seat to be blind in [F157](#f157)'s sense.
 Beyond the triangle, with one dephased seat, Heisenberg bonds and letter
-fields, an N = 4 family and an N = 7 construction pair with neither a
-colouring nor a site symmetry, their dephased seat blind all the same.
+fields, an N = 4 family (at a nonzero field h) and an N = 7 construction pair
+with neither a colouring nor a site symmetry, their dephased seat blind all the same.
 The paragraphs on the carriers' locality and sheets and on the sheet and
-blindness, in the proof's section on blind dephased seats, take up the far
+blindness, in that proof's section on blind dephased seats, take up the far
 element's shape.
 With no field on d and fields of any direction perpendicular to z (the
 section *The triangle with planar fields*), a connected row pairs exactly when
@@ -10857,16 +10858,18 @@ own verdict (`EndCount.ComplementConnection`, `SectorConnection`,
 `LocalSystem`, `ChargeSectors`, `EndCountTests`): Theorems 1 to 5 exactly,
 Theorems 6 and 7, proven alike, gated as an agreement of two modular upper
 bounds.
-**Open,** among the proof's items: two undephased sites under Heisenberg
-bonds; fields off the letters at N = 3 beyond the planar fields with no field on
-d, and other bonds; whether a blind
-dephased seat is necessary at every N; undephased sites that keep no letter
-without an invertible spanning tree
-([the proof's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)).
+**Open,** among the two proofs' items: two undephased sites under Heisenberg
+bonds and undephased sites that keep no letter without an invertible spanning
+tree ([the complement connection's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)); fields off the
+letters at N = 3 beyond the planar fields with no field on d, and other bonds,
+and whether, under Heisenberg bonds with letter fields, a blind dephased seat
+is necessary at every N
+([PROOF_ONE_DEPHASED_SEAT's Open list](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 **Replaces:** the end count's two modular kernel ranks by an exact walk over
 the components of a graph on the 2^N bitstrings, wherever every site carries
 exactly one single-site Pauli jump.
-**Source:** [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md);
+**Source:** [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) and
+[PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md);
 parent [F158](#f158); the colouring rule and frame theorem of
 [the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md).
 

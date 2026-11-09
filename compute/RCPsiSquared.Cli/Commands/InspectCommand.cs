@@ -1075,7 +1075,7 @@ public static class InspectCommand
                 c.Parser.OptionalString("topology"),
                 c.Parser.OptionalString("bonds")),
             RequiresN: false, HonorsOptionalN: true),
-        new("trianglelocus", "THE TRIANGLE'S PALINDROMIC LOCUS AT N = 3 (proof PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, " +
+        new("trianglelocus", "THE TRIANGLE'S PALINDROMIC LOCUS AT N = 3 (proof PROOF_ONE_DEPHASED_SEAT.md, " +
             "claim PalindromeComplementConnectionClaim): Heisenberg triangle, jump Z on d alone. With letter fields a " +
             "connected row pairs exactly when it is coloured (A), carries the u<->v swap with a pi rotation about an " +
             "axis perpendicular to z (B), or lies on e2 = 0 with no field on d and fields of equal magnitude " +

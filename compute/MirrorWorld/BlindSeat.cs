@@ -85,7 +85,7 @@ namespace MirrorWorld;
 // K4 and K5 among them), the two uniform laws and the parity forcing, the last two refused on a graph rather
 // than answered. The graph it was built for is the triangle with one dephased seat d, couplings (J_du, J_dv,
 // J_uv), whose Krylov determinant under the signed Laplacian is -(J_du - J_dv)*e2 with
-// e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_PALINDROME_COMPLEMENT_CONNECTION, section on blind dephased
+// e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_ONE_DEPHASED_SEAT, section on blind dephased
 // seats; live in the main repo as TrianglePalindromeLocusWitness.BlindDimension): on the Heisenberg book d is
 // blind exactly where that vanishes, the swap J_du = J_dv or e2 = 0.
 //

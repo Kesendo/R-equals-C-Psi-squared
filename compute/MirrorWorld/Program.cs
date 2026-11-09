@@ -939,7 +939,7 @@ if (args.Length > 0 && args[0] == "blind")
     Console.WriteLine();
     Console.WriteLine("  on a graph given by its bonds: the triangle with one dephased seat d = 0, couplings (J_du, J_dv, J_uv),");
     Console.WriteLine("  blind(d) in both books, the Heisenberg one against the Krylov determinant's factor (J_du - J_dv)*e2,");
-    Console.WriteLine("  e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_PALINDROME_COMPLEMENT_CONNECTION):");
+    Console.WriteLine("  e2 = J_du*J_dv + J_du*J_uv + J_dv*J_uv (PROOF_ONE_DEPHASED_SEAT):");
     foreach (var (du, dv, uv) in new (long, long, long)[] { (3, 6, -2), (2, 2, 3), (2, 2, -1), (1, 2, 3), (1, 2, 0) })
     {
         var tri = new (int, int, long)[] { (0, 1, du), (0, 2, dv), (1, 2, uv) };

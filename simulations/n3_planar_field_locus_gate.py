@@ -1,7 +1,7 @@
 """Gate for the triangle's palindromic locus with planar fields: Heisenberg bonds on the triangle (d, u, v), the jump Z
 on d alone, no field on d, and fields f_u, f_v of any direction perpendicular to z.
 
-PROOF_PALINDROME_COMPLEMENT_CONNECTION, section "The triangle with planar fields", proves: such a connected row pairs
+PROOF_ONE_DEPHASED_SEAT, section "The triangle with planar fields", proves: such a connected row pairs
 exactly when it lies in A (f_u parallel to f_v, one of them zero included), B (J_du = J_dv, |f_u| = |f_v|), C (e2 = 0,
 |f_u| = |f_v|) or on the three relations R1: J_uv (J_du - J_dv)^2 = J_du J_dv (J_du + J_dv), R2: f_u.f_v = -2 e2,
 R3: (J_du + J_uv)|f_u|^2 + (J_dv + J_uv)|f_v|^2 + 2(J_du + J_dv + J_uv) f_u.f_v = 0. The computational steps are checked here
