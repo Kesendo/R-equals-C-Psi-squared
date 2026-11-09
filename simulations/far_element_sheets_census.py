@@ -4,16 +4,21 @@ Reads, with framework's far_element_shape (simulations/framework/diagnostics/far
 section "Blind dephased seats, and palindromes beyond colourings and site symmetries" and its Open items hold, and the
 two grids of TrianglePalindromeLocusWitness (its Grid and PlanarGrid, copied here as data): where a row pairs through
 one far element W, W's operator Schmidt ranks, and its sheets (the Pauli strings g with g·W·g = ±W beyond the jumps
-and the g that do not split H). Blindness is F157's as the section states it: the Krylov space of the dephased seat
-under the J-weighted Laplacian of the Heisenberg bonds is smaller than N. Exact throughout: the ends over Q(i), the
+and the g that do not split H), and, on the carriers of part 1, under which of the three turns P^⊗N of F63
+(conjugation by P on every site, the sign (−1)^{k_P} on a string) it is homogeneous, +1 where the turn keeps W and −1
+where it reverses W. Blindness is
+F157's as the section states it: the Krylov space of the dephased seat under the J-weighted Laplacian of the
+Heisenberg bonds is smaller than N. Exact throughout: the ends over Q(i), the
 Krylov ranks over Q, and the N = 7 carrier W = V·W0·V^-1 built from its closed form over Q(i), no threshold.
 
 Asserted, each a sentence of the section: the carriers' ranks across every cut (at N = 4 and N = 7 the multi-site
 cuts too, N = 7's element checked in the far end exactly); which of them a site permutation fixing the watched seat
-turns into a product (B's alone; at N = 7 all 720 read exactly, none); the pencil of C's sheet (C pairs at lam = 2 and 1/3, E breaks); and on the two
-grids, counted as distinct Hamiltonians since the grids repeat rows, that every blind row that pairs through one
-element has a sheet, which of those carriers are a permutation times a product (B's swap), and that the rows
-without one are E's eight. A reading, not a proof: the grids are finite, the
+turns into a product (B's alone; at N = 7 all 720 read exactly, none); the pencil of C's sheet (C pairs at lam = 2 and
+1/3, E breaks); and on the two grids, counted as distinct Hamiltonians since the grids repeat rows, that every blind
+row that pairs through one element has a sheet, which of those carriers are a permutation times a product (B's swap),
+and that the rows without one are E's eight. Asserted beside them, the turns: A homogeneous under all three, B and C
+reversed by Z^⊗3 (the section's parity), D, E and its corner not homogeneous under Z^⊗3, the N = 4 family kept by
+X^⊗4 (the section's XXXX) and homogeneous under no other. A reading, not a proof: the grids are finite, the
 triangle is N = 3, and every class is read at the row named.
 Run: python simulations/far_element_sheets_census.py   (about two minutes; writes results/far_element_sheets_census.txt)
 """
@@ -31,6 +36,16 @@ from framework.diagnostics.far_element_shape import far_element_shape, operator_
 from framework.pauli import pauli_product  # noqa: E402
 
 OUT = []
+
+
+def turns(element):
+    """For P in X, Y, Z: the sign (−1)^{k_P} every string of W shares (k_P the number of its letters other than I and P),
+    or None where W is not homogeneous under P^⊗N."""
+    out = {}
+    for P in 'XYZ':
+        signs = {(-1) ** sum(1 for a in st if a not in ('I', P)) for st, c in element.items() if c != 0}
+        out[P] = signs.pop() if len(signs) == 1 else None
+    return out
 
 
 def say(*a):
@@ -110,8 +125,10 @@ for name, n, bonds, fields in carriers:
     cuts = {tuple(c): operator_schmidt_rank(sh.element, n, c) for c in all_cuts(n)}
     perm_products = [pm for pm in ((0,) + r for r in itertools.permutations(range(1, n)))
                      if all(operator_schmidt_rank(mul(perm_op(n, pm), sh.element), n, [l]) == 1 for l in range(n))]
-    rows_1[name] = (sh.single_site_ranks, sh.sheets.extra, b, min(cuts.values()), perm_products)
-    say(f"   {name:30s} ranks {sh.single_site_ranks}  every cut {cuts}  sheets {sh.sheets.extra}  blind {b}  "
+    tw = turns(sh.element)
+    rows_1[name] = (sh.single_site_ranks, sh.sheets.extra, b, min(cuts.values()), perm_products, tw)
+    tws = " ".join(f"{P}{'+' if v == 1 else '-'}" for P, v in tw.items() if v is not None) or "none"
+    say(f"   {name:30s} ranks {sh.single_site_ranks}  every cut {cuts}  sheets {sh.sheets.extra}  turns {tws}  blind {b}  "
         f"site permutations making it a product: {perm_products or 'none'}")
 assert rows_1["A, colouring"][0] == (1, 1, 1)
 assert rows_1["B, SWAP times letters"][0] == (1, 4, 4) and rows_1["B, SWAP times letters"][4] == [(0, 2, 1)]
@@ -121,6 +138,13 @@ assert rows_1["D, d at an end, sum zero"][:3] == ((2, 3, 2), 3, False)
 assert rows_1["E"][1:3] == (0, False) and rows_1["E's corner"][1:3] == (0, False)
 assert rows_1["N = 4 family a=1 e=2 h=1 g=3"][1:3] == (2, True)
 assert rows_1["C, e2 = 0"][1:3] == (1, True)
+# the turns: A's single string XXX is kept by X^⊗3 and reversed by Y^⊗3 and Z^⊗3 (k_X = 0, k_Y = k_Z = 3); B and C,
+# of odd height, are reversed by Z^⊗3; an element of mixed height parity is homogeneous under no turn by Z^⊗N; every
+# string of the N = 4 family has even k_X and its heights take both parities
+assert rows_1["A, colouring"][5] == {'X': 1, 'Y': -1, 'Z': -1}
+assert rows_1["B, SWAP times letters"][5]['Z'] == -1 and rows_1["C, e2 = 0"][5]['Z'] == -1
+assert all(rows_1[k][5]['Z'] is None for k in ("D, d at an end, sum zero", "E", "E's corner"))
+assert rows_1["N = 4 family a=1 e=2 h=1 g=3"][5] == {'X': 1, 'Y': None, 'Z': None}
 say("   the pencil of C's sheet Z_uZ_v (H_- the hop and the fields on u and v), read at lam = 2, 1/3 and 0:")
 for name in ("C, e2 = 0", "E"):
     n, bonds, fields = [(c[1], c[2], c[3]) for c in carriers if c[0] == name][0]

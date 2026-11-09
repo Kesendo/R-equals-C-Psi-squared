@@ -1,11 +1,11 @@
 1. carriers: single-site Schmidt ranks, sheets beyond the jumps, blindness of the dephased seat
-   A, colouring                   ranks (1, 1, 1)  every cut {(0,): 1, (1,): 1, (2,): 1}  sheets 4  blind False  site permutations making it a product: [(0, 1, 2)]
-   B, SWAP times letters          ranks (1, 4, 4)  every cut {(0,): 1, (1,): 4, (2,): 4}  sheets 2  blind True  site permutations making it a product: [(0, 2, 1)]
-   C, e2 = 0                      ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 1  blind True  site permutations making it a product: none
-   D, d at an end, sum zero       ranks (2, 3, 2)  every cut {(0,): 2, (1,): 3, (2,): 2}  sheets 3  blind False  site permutations making it a product: none
-   E                              ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 0  blind False  site permutations making it a product: none
-   E's corner                     ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 0  blind False  site permutations making it a product: none
-   N = 4 family a=1 e=2 h=1 g=3   ranks (2, 4, 4, 2)  every cut {(0,): 2, (1,): 4, (2,): 4, (3,): 2, (0, 1): 8, (0, 2): 8, (0, 3): 4}  sheets 2  blind True  site permutations making it a product: none
+   A, colouring                   ranks (1, 1, 1)  every cut {(0,): 1, (1,): 1, (2,): 1}  sheets 4  turns X+ Y- Z-  blind False  site permutations making it a product: [(0, 1, 2)]
+   B, SWAP times letters          ranks (1, 4, 4)  every cut {(0,): 1, (1,): 4, (2,): 4}  sheets 2  turns Z-  blind True  site permutations making it a product: [(0, 2, 1)]
+   C, e2 = 0                      ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 1  turns Z-  blind True  site permutations making it a product: none
+   D, d at an end, sum zero       ranks (2, 3, 2)  every cut {(0,): 2, (1,): 3, (2,): 2}  sheets 3  turns none  blind False  site permutations making it a product: none
+   E                              ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 0  turns none  blind False  site permutations making it a product: none
+   E's corner                     ranks (2, 4, 4)  every cut {(0,): 2, (1,): 4, (2,): 4}  sheets 0  turns none  blind False  site permutations making it a product: none
+   N = 4 family a=1 e=2 h=1 g=3   ranks (2, 4, 4, 2)  every cut {(0,): 2, (1,): 4, (2,): 4, (3,): 2, (0, 1): 8, (0, 2): 8, (0, 3): 4}  sheets 2  turns X+  blind True  site permutations making it a product: none
    the pencil of C's sheet Z_uZ_v (H_- the hop and the fields on u and v), read at lam = 2, 1/3 and 0:
       C, e2 = 0: {'2': (1, 1), '1/3': (1, 1), '0': (12, 12)}
       E: {'2': (1, 0), '1/3': (1, 0), '0': (8, 8)}

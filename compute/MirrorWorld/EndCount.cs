@@ -106,6 +106,9 @@ public sealed class EndCount : GameObject
 
     /// <summary>H's terms as the object holds them (merged, zeros dropped), in the order CliffordMap indexes.</summary>
     public IReadOnlyList<(string Letters, long Coefficient)> Terms => terms.Select(t => (t.S.ToString(N), t.C)).ToList();
+
+    /// <summary>The jumps as the object holds them, one Pauli string each.</summary>
+    public IReadOnlyList<string> Jumps => jumpStrings.Select(j => j.ToString(N)).ToList();
     readonly (PauliString S, long C)[] terms;
     readonly PauliString[] jumpStrings;
     readonly World world;

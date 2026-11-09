@@ -2519,6 +2519,57 @@ if (args.Length > 0 && args[0] == "sextant")
     return;
 }
 
+// ---- run mode "carrier": the census's carriers (simulations/far_element_sheets_census.py, part 1), read as objects ----
+if (args.Length > 0 && args[0] == "carrier")
+{
+    var cworld = new World();
+    string One(int n, int s, char c) { var a = new string('I', n).ToCharArray(); a[s] = c; return new string(a); }
+    string Two(int n, int i, int j, char c) { var a = new string('I', n).ToCharArray(); a[i] = c; a[j] = c; return new string(a); }
+    EndCount Row(int n, (int, int, long)[] bonds, (int, long, long)[] fields)
+    {
+        var h = new List<(string, long)>();
+        foreach (var (i, j, w) in bonds)
+            if (w != 0) foreach (char c in "XYZ") h.Add((Two(n, i, j, c), w));
+        foreach (var (s, x, y) in fields)
+        {
+            if (x != 0) h.Add((One(n, s, 'X'), x));
+            if (y != 0) h.Add((One(n, s, 'Y'), y));
+        }
+        return new EndCount(cworld, n, h, new[] { One(n, 0, 'Z') });
+    }
+    (int, int, long)[] Tri(long du, long dv, long uv) => new[] { (0, 1, du), (0, 2, dv), (1, 2, uv) };
+    var rows = new (string Name, EndCount Count)[]
+    {
+        ("A, colouring", Row(3, Tri(1, 2, 3), new[] { (0, 1L, 0L), (1, 2L, 0L), (2, 3L, 0L) })),
+        ("B, SWAP times letters", Row(3, Tri(2, 2, 3), new[] { (0, 1L, 1L), (1, 3L, 4L), (2, 4L, 3L) })),
+        ("C, e2 = 0", Row(3, Tri(3, 6, -2), new[] { (1, 3L, 4L), (2, 5L, 0L) })),
+        ("D, d at an end, sum zero", Row(3, Tri(1, 0, 3), new[] { (0, 1L, 0L), (1, -1L, -2L), (2, 0L, 2L) })),
+        ("E", Row(3, Tri(1, 2, 6), new[] { (1, 8L, 0L), (2, -5L, 3L) })),
+        ("E's corner", Row(3, Tri(2, -2, 0), new[] { (1, 1L, 4L), (2, 4L, 1L) })),
+        ("N = 4 family", Row(4, new[] { (1, 2, 2L), (0, 1, 1L), (0, 2, -1L), (1, 3, -1L), (2, 3, 1L) },
+            new[] { (1, -1L, 0L), (2, 1L, 0L), (3, 0L, 3L) })),
+    };
+    Console.WriteLine("Carrier: the far element W of a row that pairs through one, read on the letter cube and beside it");
+    Console.WriteLine("  (heights k_Z; the turns by P^N under which W is homogeneous, + where the turn keeps W and - where it");
+    Console.WriteLine("  reverses it; its sheets beyond the subgroup of the jumps and the strings keeping or reversing all of H)");
+    Console.WriteLine();
+    foreach (var (name, count) in rows)
+    {
+        var car = Carrier.Of(count);
+        if (car is null) { Console.WriteLine($"  {name,-26} no carrier"); continue; }
+        var homogeneous = "XYZ".Where(p => car.Turns[p] is not null).Select(p => $"{p}{(car.Turns[p] == 1 ? '+' : '-')}").ToList();
+        Console.WriteLine($"  {name,-26} {car.Element.Count,3} strings, heights [{string.Join(" ", car.Heights)}], " +
+                          $"turns {(homogeneous.Count == 0 ? "none" : string.Join(" ", homogeneous))}, sheets {car.Sheets}");
+    }
+    var shown = Carrier.Of(rows[2].Count)!;
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. The carrier hangs on the end count, whose readings arrive as inheritance with the");
+    Console.WriteLine("  frame's; the points, the turns and the sheets are its own.");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", shown.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", shown.Inherited)}");
+    return;
+}
+
 if (args.Length > 0 && args[0] == "lettercube")
 {
     int ln = 4;
