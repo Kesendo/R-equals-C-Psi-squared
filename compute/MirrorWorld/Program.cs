@@ -2373,39 +2373,146 @@ if (args.Length > 1 && args[0] == "sextant" && args[1] == "tilted")
     return;
 }
 
-// the sextant asked of a setting of one's own: sextant decide N BONDS RATES [JUMP], or sextant decide @FILE with one such
-// line per setting (N BONDS RATES [JUMP]); BONDS "XX:1,XY:2,ZZ:1" places each template on every window of the open
-// chain (a one-letter template is a field on every site), RATES one integer per site, JUMP loss (default), gain, X, Y or Z
+// A setting of one's own, one line, shared by sextant decide, theodolite read and carrier: N BONDS RATES [JUMP], or @FILE
+// with one such line per setting ('#' starts a comment line). BONDS "XX:1,XY:2,ZZ:1" places each template on every
+// window of the open chain (a one-letter template is a field on every site, a template of length N is that one string,
+// so "XXI:1,IXX:1,XIX:1" is a triangle and "ZII:1" a field on site 0 alone); RATES one integer per site, 0 for a site
+// without a jump; JUMP loss, gain, X, Y or Z, the same on every site with a nonzero rate.
+List<string[]> SettingLines(string[] a, int from) => a.Length > from && a[from].StartsWith('@')
+    ? File.ReadAllLines(a[from][1..]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.TrimStart().StartsWith('#'))
+        .Select(l => l.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToList()
+    : new List<string[]> { a.Skip(from).ToArray() };
+(int N, List<(PauliString Term, long Coefficient)> H, long[] Rates, string Jump) ParseSettingLine(string[] p, string defaultJump)
+{
+    if (p.Length < 3 || p.Length > 4) throw new ArgumentException("N BONDS RATES [JUMP]");
+    int n = int.Parse(p[0]);
+    var h = new List<(PauliString, long)>();
+    foreach (var q in p[1].Split(',').Select(t => t.Split(':')))
+    {
+        if (q.Length != 2) throw new ArgumentException($"bond {string.Join(":", q)}: TEMPLATE:COEFFICIENT");
+        if (q[0].Length == 0 || q[0].Length > n) throw new ArgumentException($"template {q[0]}: 1 to {n} letters");
+        long c = long.Parse(q[1]);
+        foreach (var placed in LetterCube.ChainTerms(new[] { q[0] }, n)) h.Add((placed, c));
+    }
+    var rates = p[2].Split(',').Select(long.Parse).ToArray();
+    if (rates.Length != n) throw new ArgumentException($"{rates.Length} rates for {n} sites");
+    return (n, h, rates, p.Length > 3 ? p[3] : defaultJump);
+}
+LetterCube.Gauss[,] JumpMatrix(string jump) => jump switch
+{
+    "loss" => LetterCube.Lowering,
+    "gain" => LetterCube.Raising,
+    "X" or "Y" or "Z" => LetterCube.LetterMatrix(jump[0]),
+    var other => throw new ArgumentException($"jump {other}: loss, gain, X, Y or Z"),
+};
+
+// the sextant asked of a setting of one's own: sextant decide N BONDS RATES [JUMP] (JUMP loss by default) or @FILE
 if (args.Length > 1 && args[0] == "sextant" && args[1] == "decide")
 {
-    var lines = args.Length > 2 && args[2].StartsWith('@')
-        ? File.ReadAllLines(args[2][1..]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.TrimStart().StartsWith('#'))
-            .Select(l => l.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToList()
-        : new List<string[]> { args.Skip(2).ToArray() };
-    foreach (var p in lines)
+    foreach (var p in SettingLines(args, 2))
     {
         string text = string.Join(" ", p);
         try
         {
-            if (p.Length < 3 || p.Length > 4) throw new ArgumentException("N BONDS RATES [JUMP]");
-            int dn = int.Parse(p[0]);
-            var bonds = p[1].Split(',').Select(t => t.Split(':')).Select(q => (q[0], long.Parse(q[1]))).ToList();
-            var rates = p[2].Split(',').Select(long.Parse).ToArray();
-            if (rates.Length != dn) throw new ArgumentException($"{rates.Length} rates for {dn} sites");
-            var jump = (p.Length > 3 ? p[3] : "loss") switch
-            {
-                "loss" => LetterCube.Lowering,
-                "gain" => LetterCube.Raising,
-                "X" or "Y" or "Z" => LetterCube.LetterMatrix(p[3][0]),
-                var other => throw new ArgumentException($"jump {other}: loss, gain, X, Y or Z"),
-            };
-            var setting = Sextant.Setting.Chain(dn, bonds, Enumerable.Range(0, dn).Select(l => (l, jump, rates[l])));
+            var (dn, dh, rates, jumpName) = ParseSettingLine(p, "loss");
+            var jump = JumpMatrix(jumpName);
+            var setting = new Sextant.Setting(dn, dh, Enumerable.Range(0, dn).Select(l => (l, jump, rates[l])));
             var dd = Sextant.Decide(setting);
             Console.WriteLine($"{text}  ->  {dd.Kind}: {dd.Detail}");
         }
         catch (Exception e) when (e is ArgumentException or FormatException or IndexOutOfRangeException)
         {
             Console.Error.WriteLine($"{text}: {e.Message} (sextant decide N BONDS RATES [JUMP], e.g. sextant decide 3 XX:1,XY:2,ZZ:1 1,2,1 loss)");
+            Environment.ExitCode = 2;
+        }
+    }
+    return;
+}
+
+// the theodolite asked of a setting of one's own: theodolite read N BONDS RATES [JUMP] (JUMP Z by default) or @FILE;
+// every way it reads (site-local, after a relabelling of the sites, in a turned frame, conditioned on the bits of the
+// unwatched sites) for each relation (the Pi-reflection -L - c, the reflection -L^dagger - c, the copy), every reading
+// printed and the silences named; a silence decides nothing (sextant decide asks the rest)
+if (args.Length > 1 && args[0] == "theodolite" && args[1] == "read")
+{
+    var ways = new (string Name, Func<Theodolite.Setting, Theodolite.Relation, Theodolite.Reading?> Read)[]
+    {
+        ("site-local", (st, r) => Theodolite.Read(st, r)),
+        ("relabelled", (st, r) => Theodolite.ReadRelabelled(st, r)),
+        ("turned frame", (st, r) => Theodolite.ReadRotated(st, r)),
+        ("sectors", (st, r) => Theodolite.ReadSectors(st, r)),
+    };
+    var relations = new[] { (Theodolite.Relation.Pi, "the Pi-reflection -L - c"),
+                            (Theodolite.Relation.Reflection, "the reflection -L^dagger - c"),
+                            (Theodolite.Relation.Copy, "the copy L") };
+    foreach (var p in SettingLines(args, 2))
+    {
+        string text = string.Join(" ", p);
+        try
+        {
+            var (tn, th, rates, jumpName) = ParseSettingLine(p, "Z");
+            var jump = JumpMatrix(jumpName);
+            var ts = new Theodolite.Setting(tn, th, Enumerable.Range(0, tn).Where(l => rates[l] != 0).Select(l => (l, jump, rates[l])));
+            Console.WriteLine(text);
+            foreach (var (rel, form) in relations)
+            {
+                var silent = new List<string>();
+                foreach (var (wayName, read) in ways)
+                {
+                    if (read(ts, rel) is not { } r) { silent.Add(wayName); continue; }
+                    Console.WriteLine($"  {form}, {wayName}:");
+                    foreach (var line in r.Lines()) Console.WriteLine($"    {line}");
+                }
+                if (silent.Count == ways.Length) Console.WriteLine($"  {form}: silent in every way");
+                else if (silent.Count > 0) Console.WriteLine($"  {form}: silent {string.Join(", ", silent)}");
+            }
+        }
+        catch (Exception e) when (e is ArgumentException or FormatException or IndexOutOfRangeException)
+        {
+            Console.Error.WriteLine($"{text}: {e.Message} (theodolite read N BONDS RATES [JUMP], e.g. theodolite read 3 XX:1,YY:1,ZZ:1 1,1,1 Z)");
+            Environment.ExitCode = 2;
+        }
+    }
+    return;
+}
+
+// the carrier of a setting of one's own: carrier N BONDS RATES [JUMP] (JUMP X, Y or Z, Z by default; that Pauli jump
+// on every site with a nonzero rate, the rate's size not entering F158's count) or @FILE
+if (args.Length > 1 && args[0] == "carrier")
+{
+    var ccWorld = new World();
+    foreach (var p in SettingLines(args, 1))
+    {
+        string text = string.Join(" ", p);
+        try
+        {
+            var (cn, ch, rates, jumpName) = ParseSettingLine(p, "Z");
+            if (jumpName is not ("X" or "Y" or "Z")) throw new ArgumentException($"jump {jumpName}: the end count reads Pauli jumps, X, Y or Z");
+            if (rates.Any(r => r < 0)) throw new ArgumentException("rates are nonnegative");
+            var jumps = Enumerable.Range(0, cn).Where(l => rates[l] != 0)
+                .Select(l => new string('I', l) + jumpName + new string('I', cn - 1 - l)).ToList();
+            var count = new EndCount(ccWorld, cn, ch.Select(t => (t.Term.ToString(cn), t.Coefficient)).ToList(), jumps);
+            var (near, far) = count.UpperCounts();
+            Console.WriteLine(text);
+            Console.WriteLine($"  the end count's upper bounds: near {near}, far {far}");
+            var car = Carrier.Of(count);
+            if (car is null)
+            {
+                Console.WriteLine((near, far) == (1, 1)
+                    ? "  no carrier read: the far element neither certifies as an exact element nor is the row's one colouring"
+                    : "  no carrier: a carrier needs near = far = 1 (a row that does not pair has none, a larger far end leaves the identity's image open)");
+                continue;
+            }
+            var homogeneous = "XYZ".Where(q => car.Turns[q] is not null).Select(q => $"{q}{(car.Turns[q] == 1 ? '+' : '-')}").ToList();
+            Console.WriteLine($"  carrier: {car.Element.Count} strings, heights [{string.Join(" ", car.Heights)}], " +
+                              $"turns {(homogeneous.Count == 0 ? "none" : string.Join(" ", homogeneous))}, sheets {car.Sheets}");
+            var points = car.Points;
+            for (int i = 0; i < car.Element.Count; i++)
+                Console.WriteLine($"    {car.Element[i].Coefficient,6} {car.Element[i].Letters}   (k_Z, k_X, k_Y) = ({points[i].KZ}, {points[i].KX}, {points[i].KY})");
+        }
+        catch (Exception e) when (e is ArgumentException or FormatException or IndexOutOfRangeException)
+        {
+            Console.Error.WriteLine($"{text}: {e.Message} (carrier N BONDS RATES [JUMP], e.g. carrier 3 XXI:3,YYI:3,ZZI:3,XIX:6,YIY:6,ZIZ:6,IXX:-2,IYY:-2,IZZ:-2,IXI:1,IIY:1 1,0,0 Z)");
             Environment.ExitCode = 2;
         }
     }

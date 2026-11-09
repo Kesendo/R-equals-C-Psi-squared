@@ -272,6 +272,11 @@ dotnet run --project compute/MirrorWorld -- carrier      # Carrier: the census's
 dotnet run --project compute/MirrorWorld -- lettercube 4 # LetterCube: the letter cube -- the strings on the tetrahedron's lattice points, the centre, R's edges, the heights, which half-turns pair the rates, the chain's steps, the arrows of loss, gain and a thermal bath, the closure of the moves
 dotnet run --project compute/MirrorWorld -- sextant 3    # Sextant: the cube's moves asked of three settings (Z dephasing, loss, a thermal bath) -- the named table and the search over the closure; the intertwining, the two ladders on the XY chain and, from N = 3, the ring by height parity
 dotnet run --project compute/MirrorWorld -- theodolite 3  # Theodolite: site-local mirrors read off the letters -- five Heisenberg settings read as binomial systems, the XY chain's two copies, and every N on seven cells (uniform, turned, periodic, silent)
+# a setting of one's own, one line N BONDS RATES [JUMP] or @FILE with one per line: each template on every window of the open chain,
+# so a template of length N is that one string ("XXI:1,IXX:1,XIX:1" a triangle, "ZII:1" a field on site 0); RATES one per site, 0 = no jump
+dotnet run --project compute/MirrorWorld -- sextant decide 3 XX:1,XY:2,ZZ:1 1,2,1 loss   # the decision: closure, F158, the circle colour, F169, the theodolite, the odd traces
+dotnet run --project compute/MirrorWorld -- theodolite read 3 XX:1,YY:1,ZZ:1 1,1,1 Z     # every way the theodolite reads (site-local, relabelled, turned frame, sectors) for the Pi-reflection, the reflection and the copy
+dotnet run --project compute/MirrorWorld -- carrier 3 XXI:3,YYI:3,ZZI:3,XIX:6,YIY:6,ZIZ:6,IXX:-2,IYY:-2,IZZ:-2,IXI:1,IIY:1 1,0,0 Z   # the end count's bounds and, where near = far = 1, the carrier string by string with its points, turns and sheets
 dotnet test compute/MirrorWorld.Tests                     # the 1172-test from-below guard
 ```
 
