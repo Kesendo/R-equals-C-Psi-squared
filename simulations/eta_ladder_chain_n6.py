@@ -23,7 +23,10 @@ confirmation weight lives in the structure, not in the norm. Each rate
 value's exact 3-dim kappa=0 AT eigenspace sits inside one chain's 15-dim
 l=2 family (rides sqrt6, sqrt6 over the walked rungs, no terminal death) and
 inside the other chain's l=1 family (rides sqrt2, dies); which chain hosts
-which rate value is gated in all four cases.
+which rate value is gated in all four cases; the -4 side is the frozen
+band's (XY_FROZEN_BAND, PROOF_FROZEN_BAND_SO4 Prop. 3.2), the bra flip P_f
+carries it onto the -8 side, and the heights say which chain kills which side
+(at_eigenspace_heights.py).
 
 WHAT THE SEEDS OWN (the per-locus gated content): the pair at the census
 lambda with truncation-sized split (two-sided gate, error model below); the
@@ -297,7 +300,7 @@ def at_control(blocks, ein_bases):
     Each rate value's 3-dim exact eigenspace sits in the l=2 family of ONE
     chain (rides sqrt6, survives) and in the l=1 family of the OTHER (rides
     sqrt2, dies): the death sorts by multiplet family membership, not by
-    defectiveness and not by rate value. Every member of each eigenspace is
+    defectiveness and not by the rate value alone. Every member of each eigenspace is
     walked; the entering-rung projection ~1 marks the AT strands as NOT
     lowest-weight where they carry l=2.
     """

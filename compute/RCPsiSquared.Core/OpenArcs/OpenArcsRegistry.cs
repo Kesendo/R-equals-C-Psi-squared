@@ -6757,19 +6757,17 @@ public static class OpenArcsRegistry
                 "repo yet'.) Layer-read and real-root-count sections in F89_PATH_K_DIABOLIC.md. " +
                 "THE (1,3) WALK RAN 2026-08-11, next morning, and RE-RAN AT FIFTEEN 2026-08-12 " +
                 "(simulations/eta_ladder_chain_n6.py, 662 " +
-                "gates, ~1 min; three first-draft claims died in its review rounds, all three kept in " +
-                "the doc section, and the fix-diff round then caught the repair misquoting its own " +
-                "minted s/split range): at ALL fifteen loci both freight values (lambda* and the twin, " +
+                "gates, ~1 min): at ALL fifteen loci both freight values (lambda* and the twin, " +
                 "uniformly s(lambda*) = -12 - lambda*, which is conj on the line and the distinct " +
                 "s-partner on the axis; the N=4 conj shortcut is species-limited) transport through " +
                 "BOTH chains, S+ along p+q = 4 ((1,3)->(2,2)->(3,1), boundary (4,0)) and Phi along " +
-                "p-q = -2 ((1,3)->(2,4)->(3,5), boundary (4,6)). THE SPLIT THAT MATTERS, measured by " +
-                "the walk's own review (the N=4 sigma_min caveat's stronger sibling, calibration fact " +
+                "p-q = -2 ((1,3)->(2,4)->(3,5), boundary (4,6)). THE SPLIT THAT MATTERS, measured " +
+                "(the N=4 sigma_min caveat's stronger sibling, calibration fact " +
                 "(b) above): each ladder on (1,3) has EXACTLY TWO singular values, sqrt2 x105 and " +
                 "sqrt6 x15 (gated as exact multiplicities), the block decomposing under each chain's " +
                 "su(2) as 105 x (l=1) + 15 x (l=2) at m = -1 (the weights (p-q)/2 and (p+q-N)/2 fix " +
-                "m, never l; a first draft's l = (interior-1)/2 rule is FALSE, refuted by the l=2 " +
-                "family on the same interior-3 chain), so CG-sqrt2 transport, terminal death and " +
+                "m, never l; the interior length does not fix l, the l=1 and l=2 families sharing the " +
+                "interior-3 chain), so CG-sqrt2 transport, terminal death and " +
                 "survivors = 15 are FAMILY facts: 105/120 eigenvectors pass the full walk at an " +
                 "off-locus non-uniform control, gated. Per-locus content, all gated per seed: census " +
                 "pin <= 5e-6; split gated TWO-SIDED against the truncation model (2*sqrt(|a||dq|), " +
@@ -6777,9 +6775,8 @@ public static class OpenArcsRegistry
                 "orders above the AT degeneracies it excludes); line/axis pins at eps*||L|| " +
                 "(relative); BOTH freights simultaneously near-defective pairs (the doubling) and " +
                 "both DEFECTIVE-GRADE NON-NORMAL, s of the restricted 2x2 = 1.4e3..2.5e4 x split, gated " +
-                "> 100x (a semisimple degeneracy has s ~ 0: the gate a mere near-crossing fails; a " +
-                "first draft gated the mix residual against the split as an 'in-plane bound', which " +
-                "is no bound for a non-normal pair, s being the true worst); both freights " +
+                "> 100x (a semisimple degeneracy has s ~ 0: the gate a mere near-crossing fails; the mix " +
+                "residual is no bound for a non-normal pair, s being the true worst); both freights " +
                 "LOWEST-WEIGHT (entering-rung projection at the floor, both chains, vs 1.000 for the " +
                 "AT strands where they carry l=2), which is what selects l=1; presence in every seat " +
                 "spectrum; member Rayleigh residuals 2.1e-14..1.4e-13 (which pins theta to a pair " +
@@ -6787,18 +6784,28 @@ public static class OpenArcsRegistry
                 "at all 15 couplings. The eta-side ladder carries freight for the FIRST time and " +
                 "lands on the CG value as a family fact of the d = -2 chain; the two CANONICAL eta " +
                 "chains (d = +-1) stay unmeasured, so the 'transport norms untested' flag above " +
-                "stands as scoped. AT negative control, ALL FOUR cases gated (a first draft ran two " +
-                "and read 'death is the seed's': FALSE): each rate value's exact 3-dim AT eigenspace " +
+                "stands as scoped. AT negative control, ALL FOUR cases gated: each rate value's exact " +
+                "3-dim AT eigenspace " +
                 "sits in one chain's l=2 family (rides sqrt6, survives) and the other's l=1 family " +
                 "(rides sqrt2, dies at the floor), -8 <-> S+ and -4 <-> Phi for the l=2 seat; death " +
-                "sorts by multiplet family membership, not defectiveness, not rate; the -8/-4 chain " +
-                "assignment is gated fact, unexplained. Neither chain is canonical (p+q = N-/+1, " +
+                "sorts by multiplet family membership, not defectiveness, not the rate value alone; the -8/-4 chain " +
+                "assignment is the frozen band's: (1,3) holds the frozen root -4 on the side line |p-q| = 2 " +
+                "and its gamma-fold partner -8 on the image p+q = N-2 (XY_FROZEN_BAND), PROOF_FROZEN_BAND_SO4 " +
+                "Prop. 3.2 places the -4 side, given the band statement, in (j_eta, j_spin) = (2, 1), l=2 " +
+                "under Phi, and that the frozen space holds nothing else is the band's ceiling (generic at " +
+                "N >= 6, F142); the bra flip P_f = rho X^N (the census's P_f, not the site reflection R) " +
+                "keeps (1,3), swaps the heights 2 and 4 and carries Phi to S+ (P_f Phi P_f = S+); " +
+                "on the open XY chain at uniform gamma, which chain kills which side reads off the heights " +
+                "at every real coupling (both ladders keep " +
+                "each cell's height, Phi's l=2 family lies at height 2 and S+'s at height 4; gate " +
+                "at_eigenspace_heights.py). Neither chain is canonical (p+q = N-/+1, " +
                 "d = +-1 both miss), the 4(N-2) seat identity does not apply, and the bra-complement " +
                 "fold f: (p,q) -> (p,N-q) maps the S+ seats onto the Phi seats exactly through the " +
                 "self-folded seed. Seed search is census-TARGETED (the pinned lambda as target): a " +
                 "global closest-pair lands on the exact AT degeneracies (split 1e-15), the census's " +
                 "filter lesson recurring one instrument over. Walk section in F89_PATH_K_DIABOLIC.md. " +
-                "The C# gate port (the RunN4 pattern) is the natural next brick, NOT done. " +
+                "The C# gate port (the RunN4 pattern) is the natural next brick, NOT done, and so is the port " +
+                "of at_eigenspace_heights.py. " +
                 "The N=9, l=3 prediction, chain norms sqrt6, sqrt10, sqrt12, sqrt12, sqrt10, sqrt6, seven " +
                 "sectors per chain, 28 = 4*9-8, was CONFIRMED 2026-08-09 on both chains to six decimals, at " +
                 "the first +1 census seed (0.591760, -5.1206): the 10584^2 and 15876^2 middle blocks were " +
