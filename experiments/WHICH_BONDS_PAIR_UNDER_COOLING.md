@@ -304,7 +304,10 @@ surface that no reflection keeps, where the ninth is silent; at (5, 3, 9, 10) on
 times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃) for the two bonds computed, the constant depending on J otherwise
 than through Δ·s·a·|w|² (the two constants are not in that ratio; the triangle is not bipartite, so the sum need
 not be odd in Δ); for those bonds the
-triangle pairs exactly when two rates agree, which is exactly when a reflection keeps the profile.
+triangle pairs exactly when two rates agree, which is exactly when a reflection keeps the profile. In another class,
+under cooling and heating with bonds that conserve the excitation number, the triangle with equal hopping moduli
+and one Δ pairs at a flux other than 0 and π exactly at one ratio (cooling or heating alone included) or two equal
+rate points: F137's carriers pair those, and the fifth, seventh and ninth traces rule out everything else ([the seventh trace at fourth order](../docs/proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md)).
 
 The bonds with a mixed letter lose their end terms on a ring too: on the ring of four the fifth sum is the same
 expression with S summed round the ring and without the two end terms (at one point modulo a prime; on the

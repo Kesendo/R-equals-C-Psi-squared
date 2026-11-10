@@ -7030,7 +7030,7 @@ pentagram of its five rate points minus their pentagon, the sites counted the wa
 four with flux enters only with ZZ, times a linear form in the Δ on its edges. On a triangle alone with
 three equal |t| and one Δ the three weights are equal, and the part of degree two is again flux times the
 area of the rate triangle, zero on every line of rate points; the 430080 of the temperature gradient above
-is all of degree four, which is not derived. The two breaks of M11 at N = 4 with a fifth trace of zero
+is all of degree four, derived in the paragraph below. The two breaks of M11 at N = 4 with a fifth trace of zero
 break at the seventh, the gate finding no part of degree four there: the triangle with a fourth site has
 Tr((L + c/2)⁷) = −44800, all of it from that site's bond to the triangle, and the ring of four has
 −20380416⁄25, through its ZZ alone. Gate:
@@ -7043,6 +7043,27 @@ breaks and a second ring of four, each ring's seventh trace zero without its ZZ,
 field and an XX term). Typed: TransportSeventhMomentClaim, live at `inspect --root seventhmoment`, the part
 of degree two read off the generator in exact Gaussian integers at N = 3 and 4 as the words with two rate
 letters, against the closed form.
+
+The part of degree four in the rates is closed too
+([the seventh trace at fourth order](proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md)). On
+the triangle it uses the three hops round the loop and nothing else of H, so it is the same polynomial for every
+triangle, 13440·Im·Σ_cyc ω_{l,l+1}·(s_l² + s_{l+1}² + 2·s_{l+2}²) with s_l = (γ↓_l + γ↑_l)/2 and
+ω_ab = γ↓_a·γ↑_b − γ↓_b·γ↑_a and Im = Im(t₀₁t₁₂t₂₀), an exact identity and a sum over closed walks on the Pauli letters (the arrow
+I → Z once, three hops, the heights summed as a complete homogeneous polynomial). With the same arrow on every
+site it is 26880·Im·δ·V(s), V(x) = (x₀ − x₁)(x₁ − x₂)(x₂ − x₀), which at the temperature gradient above is
+13440·γ⁴·V(n̄) = 430080. On any graph the part of degree four is the sum over the triangles, each with its own loop's Im, of
+4^N·Im·Σ_cyc ω_{l,l+1}·(630·|s|² − 420·(s_l² + s_{l+1}²) − 210·s_{l+2}²), |s|² over every site, the other sites
+entering only through the product of the fifth and second traces; with the part of degree two above (Theorem B
+of the transport formula's proof) the seventh trace is closed on every graph of these bonds. Read beside Theorem B,
+the connected part of degree four carries the squared height s_m² of a triangle's site with the weight Theorem B
+gives the squared amplitude of a bond at that site, |2t|² or (2Δ)², with the sign turned (a pair's own edge, ZZ
+on the triangle's edges, the borrowed triangles and the rings excepted), a reading and not a derivation. On the triangle, on a line of rate points γ↑ = e + m·γ↓, the whole
+seventh trace is −e·[3360·Im·(1 + m)²·V(γ↓) + 10752·⟨γ↓, b⟩], b_l = Σ_k β_lk the flow of that proof's β; on the triangle with equal
+|t| and one Δ, where b = 0, it leaves one ratio, two equal rate points and equal total rates, and the ninth
+trace on equal total rates, 36864·Im·(|t|² + 7Δ²)·S·V(δ) with S the common s_l, removes the last. So on that
+triangle the spectrum pairs at a flux other than 0 and π exactly at one ratio γ↑/γ↓ on every damped site
+(cooling or heating alone included) or two sites with the same rate point, both carriers above. Gate:
+[`simulations/seventh_moment_degree_four.py`](../simulations/seventh_moment_degree_four.py). Typed: not yet.
 
 Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
 Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
@@ -7133,8 +7154,8 @@ heating and dephasing in the XY plane, the criterion
 one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); five of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim, ConditionedFieldPairingClaim, FluxAreaFifthMomentClaim and TransportSeventhMomentClaim. Open: typing the rest; whether, for XXZ
 bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
 other than 0 and π,
-with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above; and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
-with damped sites, beyond the conditioned field below. Neither is known.
+with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above (on the triangle with equal |t| and one Δ, no: the paragraph that closes the part of degree four, above); and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
+with damped sites, beyond the conditioned field below. Neither is known in general.
 Transverse DM bonds are such a Hamiltonian and can break it, at zero splitting (YZ − ZY does not
 conserve the excitation number, so no rotating frame removes the qubits' frequency, and a thermal bath
 there has equal rates): the open chain of three sites with YZ − ZY on both bonds has
@@ -7272,7 +7293,7 @@ and this paragraph do not cite each other), the sorting by the three maps agains
 under Z dephasing), the triangle sum against Theorem E's triangle term (both odd in the flux, both on triangles
 alone; not joined), the vanishing on a line of rate points against the open question on flux reversal (the fifth
 trace is silent there; the seventh's part of degree two is read in the proof named below, its part of degree
-four is not), the vanishing under cooling alone against
+four in the second proof named below), the vanishing under cooling alone against
 WHICH_BONDS_PAIR_UNDER_COOLING's zero p₅ for one class bond repeated (the two zeros overlap on bonds that conserve
 the excitation number), and the triangle sum against the gated
 break of a triangle with a pendant site at another ratio (the fifth is zero there, so that break sits higher).
@@ -7281,6 +7302,10 @@ proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md under its opening; no store held
 gain in closed form (WHICH_BONDS_PAIR_UNDER_COOLING's seventh on the open chain is under cooling alone and lives on
 the anisotropy); TransportSeventhMomentClaim and its witness type the paragraph. Checked for adjacency there: cooling alone, where the part of degree two is zero on any graph, the
 part of degree four against WHICH_BONDS' triangle, and the open question on flux reversal.
+**Swept for the seventh trace at fourth order in the rates:** recorded in
+proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md under its opening; no store held the part of degree four, the
+walk sum with complete homogeneous heights, the ninth trace on equal heights or an answer to the open question on
+any family.
 -->
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
