@@ -7006,7 +7006,11 @@ comparison exact: the three maps as identities of generators, the two parities o
 second-order traces behind the lowest order, the closed form on random graphs at N = 3, 4, 5, the two
 recorded values with the exchange of loss and gain, the zeros on a line of rate points, on the triangle
 with a pendant site and on a ring of four, the seventh trace of the temperature gradient, and as
-controls a longitudinal field and an XX term, each of which breaks the closed form). Not typed.
+controls a longitudinal field and an XX term, each of which breaks the closed form). Typed:
+FluxAreaFifthMomentClaim, live at `inspect --root fifthmoment`, the generator in exact Gaussian integers
+from the matrix units against the closed form; MirrorWorld's sextant reads the form off the terms and
+the rates without a generator (`Sextant.FluxAreaFifth`, checked against its own traces modulo two
+primes) and asks it first in its decision.
 
 Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
 Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
@@ -7094,7 +7098,7 @@ exact at the script's rational rate profiles at N=2, 3 and measured to N=5, and 
 with X⊗N and Y⊗N by the element S_XY above; outside that class, for H commuting with Z⊗N under cooling,
 heating and dephasing in the XY plane, the criterion
 (the spectrum unchanged when loss and gain are exchanged) is derived at every N, and the pairing wherever
-one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); three of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim and ConditionedFieldPairingClaim. Open: typing the rest; whether, for XXZ
+one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); four of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim, ConditionedFieldPairingClaim and FluxAreaFifthMomentClaim. Open: typing the rest; whether, for XXZ
 bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
 other than 0 and π,
 with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above; and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
@@ -7209,7 +7213,7 @@ block centres against F167's two centres (the same coincidence of centres, with 
 the bullet "the three chained, with fields" at F = 0, the sentence "every odd centred trace changes sign under the
 exchange", the recorded values −656·sin Φ, +656, −2560 with fields, 240 and 1280 for transverse DM, and its pointer to
 the fifth centred power sum in closed form for bonds with a mixed letter under cooling alone; F120's P_{5,3} under
-Z dephasing; no closed form for a fifth trace with heating, nor for these bonds), docs/proofs (MIRROR_SYMMETRY_PROOF's criterion; PROOF_F87_WINDOWED_MONOMIAL_CONVERSE
+Z dephasing; no other closed form for a fifth trace with heating), docs/proofs (MIRROR_SYMMETRY_PROOF's criterion; PROOF_F87_WINDOWED_MONOMIAL_CONVERSE
 §2 and §3, the sign table and the closed double walk of bra and ket under Z dephasing; PROOF_MOMENT_TOWER_PUMP_CHANNEL
 §1, the arrow L(I) at first order, §2's bosonic bath with one net rate at every temperature, and §4's sentence
 that an odd moment is odd in γ, by the transpose and the swap of the two tensor legs; PROOF_ANTILINEAR_TRIANGLE's transpose at any rates; PROOF_WEIGHT1_DEGENERACY's Theorem E, a
@@ -7222,13 +7226,13 @@ misses the origin; THE_CUBE_SITE_BY_SITE, a fifth trace of 192 on a flux triangl
 plane, outside this class; KMS_DETAILED_BALANCE, "with complex hopping a gradient can break the pairing itself"), the typed
 layer (CooledBondPowerSumsClaim, the same parity count under cooling; ThermalThirdMomentClaim, the third only;
 ConditionedFieldPairingClaim, outside the class, whose witness computes a fifth trace as a control reading, and CooledBondPowerSumsWitness, which computes p₅ = 0 for
-its class bonds under cooling alone; no witness holds a fifth trace for these bonds with heating), MirrorWorld
+its class bonds under cooling alone; FluxAreaFifthMomentClaim and its witness type this paragraph), MirrorWorld
 (GammaFold's gain turn, for Z dephasing; AntilinearTriangle's one-ratio transpose; Sextant.OddTraceObstruction, the
-traces without a closed form), the gates cube_moves_gate.py (M11: the identity, −656 at twelve fluxes, the control
+traces without a closed form, beside which Sextant.FluxAreaFifth reads this one), the gates cube_moves_gate.py (M11: the identity, −656 at twelve fluxes, the control
 −3936) and cube_old_questions_gate.py (G7, cooling alone), the OpenArcs registry (nothing; zeno_end_live_witness has
 a triangle's flux under Z dephasing), CAUGHT_ERRORS (nothing on fifth traces; the shape "one measured instance
-written as a rule" under this entry's name), the glossary (nothing), fw.Confirmations (nothing). No store held the
-closed form or the Duhamel formula for the coefficient of s_l·δ_k. Checked for adjacency: the evenness in the rates
+written as a rule" under this entry's name), the glossary (nothing), fw.Confirmations (nothing). Beyond this
+paragraph and what types it, no store holds the closed form or the Duhamel formula for the coefficient of s_l·δ_k. Checked for adjacency: the evenness in the rates
 against the S_XY identity (the same statement, read on traces; this entry held it), the two arcs of ket and bra
 against PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §3's double walk (the same picture under another light; that section
 and this paragraph do not cite each other), the sorting by the three maps against PROOF_MOMENT_TOWER_PUMP_CHANNEL's odd-in-γ sentence (the same tools

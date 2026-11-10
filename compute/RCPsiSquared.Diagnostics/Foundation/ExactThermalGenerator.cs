@@ -5,17 +5,18 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The centred generator 2L + c under cooling and heating, in exact Gaussian integers, for the witnesses of
-/// <see cref="ThermalThirdMomentClaim"/> and <see cref="ConditionedFieldPairingClaim"/>.
+/// <see cref="ThermalThirdMomentClaim"/>, <see cref="ConditionedFieldPairingClaim"/> and <see cref="FluxAreaFifthMomentClaim"/>.
 ///
 /// <para>L = −i[H, ·] + Σ_l (γ↓_l·D[σ⁻_l] + γ↑_l·D[σ⁺_l]), σ⁻ = |0⟩⟨1| with Z|0⟩ = |0⟩, c = Σ_l (γ↓_l + γ↑_l). The image of
 /// every matrix unit |i⟩⟨j| is written down directly (the commutator with H row by row and column by column; cooling
 /// at site l clears bit l of both indices, heating sets it), vectorized column-major, |i⟩⟨j| at i + d·j, site 0 the
-/// most significant bit. This is not the road of the registry's gate <c>simulations/thermal_third_moment.py</c>, which
-/// builds L row-major by Kronecker products in exact rationals. Every entry of 2L + c is a Gaussian integer, and the
+/// most significant bit. This is not the road of the registry's gates <c>simulations/thermal_third_moment.py</c>, which
+/// builds L row-major by Kronecker products in exact rationals, and <c>simulations/fifth_moment_flux_area.py</c>, the
+/// same in floats on integer inputs. Every entry of 2L + c is a Gaussian integer, and the
 /// trace of 2L + c is checked to be zero.</para></summary>
 public static class ExactThermalGenerator
 {
-    public const int MaxN = 3;
+    public const int MaxN = 4;
 
     /// <summary>2L + c, dense, 4^N × 4^N.</summary>
     public static GaussianInteger[,] Build(IReadOnlyList<ThermalThirdMomentClaim.Term> terms, IReadOnlyList<long> cool, IReadOnlyList<long> heat)

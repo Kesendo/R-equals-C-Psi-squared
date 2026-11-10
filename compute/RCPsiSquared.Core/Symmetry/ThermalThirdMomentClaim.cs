@@ -41,7 +41,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// face as the first moment squared, the t₀·t₂ term dying with Tr(Z_l) = 0; under the bath the arrow I → Z revives
 /// it, and 3·Tr(A²·B) holds the transverse field term and the rung t₂(l)), <see cref="PalindromeTwoEndCountClaim"/> (at equal rates
 /// the bath is Pauli dephasing along X and Y, and a transverse field's break is F158's shortest odd word
-/// Tr(H·X_l)). The field term is F87's cell-free face 6·4^N·Σ c²·γ read on the two transverse axes with the
+/// Tr(H·X_l)), <see cref="FluxAreaFifthMomentClaim"/> (the fifth moment in closed form for hopping bonds with ZZ,
+/// where this third one is zero). The field term is F87's cell-free face 6·4^N·Σ c²·γ read on the two transverse axes with the
 /// offset s/2.</para></summary>
 public sealed class ThermalThirdMomentClaim : Claim
 {

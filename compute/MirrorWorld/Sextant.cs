@@ -30,8 +30,10 @@ using static MirrorWorld.LetterCube;
 // that may be roots and may differ from site to site, outside the uniform closure); or F169's colour law holds an
 // admitted colour. OBSTRUCTED: an exact broken EndCount verdict there (F158's necessity), F169's colour law where it
 // holds (Heisenberg bonds and fields on a connected graph, one integer axis watched on every site) finding no
-// admitted colour, or an odd centred trace Tr((L + c/2)^m) not zero modulo a prime, so no
-// element of any kind, inside the search or outside it, reflects (a no, exact). SYMMETRIC-MOD-P: every odd trace up
+// admitted colour, or an odd centred trace Tr((L + c/2)^m) not zero, so no
+// element of any kind, inside the search or outside it, reflects (a no, exact): the fifth one read off the triangles
+// as an integer where F137's closed form applies (FluxAreaFifth, asked before anything is searched), otherwise the
+// traces modulo a prime. SYMMETRIC-MOD-P: every odd trace up
 // to the dimension vanishes modulo the two fixed primes and no element of the closure reflects; evidence that the
 // spectrum is symmetric, not a proof (the integers could be multiples of both primes), and even a symmetric spectrum is
 // a pairing, not yet an element (Jordan blocks).
@@ -524,6 +526,16 @@ public sealed class Sextant : GameObject
     // Tr((4 dim M)^m) modulo p for every odd m up to maxPower, the first that is not zero
     public static (int Power, long Prime)? OddTraceObstruction(Setting s, int maxPower)
     {
+        foreach (long p in ModP.Primes)
+            foreach (var (m, tr) in CentredTracesModP(s, maxPower, p))
+                if (m % 2 == 1 && tr != 0) return (m, p);
+        return null;
+    }
+
+    // Tr((4 dim M)^m) modulo p for m = 1, 2, ... up to maxPower, one after the other (the powers are built as they are
+    // asked for), M = L + c/2 = L - (Tr L / dim) 1
+    public static IEnumerable<(int Power, long Trace)> CentredTracesModP(Setting s, int maxPower, long p)
+    {
         var strings = LetterCube.Strings(s.N).ToList();
         int dim = strings.Count;
         var index = new Dictionary<PauliString, int>();
@@ -533,43 +545,121 @@ public sealed class Sextant : GameObject
         foreach (var kv in s.HamiltonianTimesFour) Add(full, kv.Key, kv.Value);
         foreach (var kv in s.DissipatorTimesFour) Add(full, kv.Key, kv.Value);
         foreach (var ((r, c), v) in full) if (r == c) trace4 += v.Re;
-        foreach (long p in ModP.Primes)
+        long root = ModP.SqrtMinusOne(p);
+        long G(Gauss g) => ModP.Mod(ModP.Mod(g.Re, p) + ModP.MulMod(ModP.Mod(g.Im, p), root, p), p);
+        // the columns of 4 dim M = dim (4L) - (4 Tr L) 1, sparse
+        var cols = new List<(int Row, long Value)>[dim];
+        for (int j = 0; j < dim; j++) cols[j] = new List<(int, long)>();
+        var diag = new long[dim];
+        foreach (var ((r, c), v) in full)
         {
-            long root = ModP.SqrtMinusOne(p);
-            long G(Gauss g) => ModP.Mod(ModP.Mod(g.Re, p) + ModP.MulMod(ModP.Mod(g.Im, p), root, p), p);
-            // the columns of 4 dim M = dim (4L) - (4 Tr L) 1, sparse
-            var cols = new List<(int Row, long Value)>[dim];
-            for (int j = 0; j < dim; j++) cols[j] = new List<(int, long)>();
-            var diag = new long[dim];
-            foreach (var ((r, c), v) in full)
-            {
-                long x = ModP.MulMod(ModP.Mod(dim, p), G(v), p);
-                if (r == c) diag[index[r]] = ModP.AddMod(diag[index[r]], x, p);
-                else cols[index[c]].Add((index[r], x));
-            }
-            long shift = ModP.Mod(-trace4, p);
-            for (int i = 0; i < dim; i++) cols[i].Add((i, ModP.AddMod(diag[i], shift, p)));
-            // P = M^m, dense, advanced by P <- P M column by column
-            var P = new long[dim, dim];
-            for (int j = 0; j < dim; j++) foreach (var (r, v) in cols[j]) P[r, j] = ModP.AddMod(P[r, j], v, p);
-            for (int m = 1; m <= maxPower; m++)
-            {
-                if (m > 1)
-                {
-                    var next = new long[dim, dim];
-                    for (int j = 0; j < dim; j++)
-                        foreach (var (k, v) in cols[j])
-                            for (int i = 0; i < dim; i++)
-                                if (P[i, k] != 0) next[i, j] = ModP.AddMod(next[i, j], ModP.MulMod(P[i, k], v, p), p);
-                    P = next;
-                }
-                if (m % 2 == 0) continue;
-                long tr = 0;
-                for (int i = 0; i < dim; i++) tr = ModP.AddMod(tr, P[i, i], p);
-                if (tr != 0) return (m, p);
-            }
+            long x = ModP.MulMod(ModP.Mod(dim, p), G(v), p);
+            if (r == c) diag[index[r]] = ModP.AddMod(diag[index[r]], x, p);
+            else cols[index[c]].Add((index[r], x));
         }
-        return null;
+        long shift = ModP.Mod(-trace4, p);
+        for (int i = 0; i < dim; i++) cols[i].Add((i, ModP.AddMod(diag[i], shift, p)));
+        // P = M^m, dense, advanced by P <- P M column by column
+        var P = new long[dim, dim];
+        for (int j = 0; j < dim; j++) foreach (var (r, v) in cols[j]) P[r, j] = ModP.AddMod(P[r, j], v, p);
+        for (int m = 1; m <= maxPower; m++)
+        {
+            if (m > 1)
+            {
+                var next = new long[dim, dim];
+                for (int j = 0; j < dim; j++)
+                    foreach (var (k, v) in cols[j])
+                        for (int i = 0; i < dim; i++)
+                            if (P[i, k] != 0) next[i, j] = ModP.AddMod(next[i, j], ModP.MulMod(P[i, k], v, p), p);
+                P = next;
+            }
+            long tr = 0;
+            for (int i = 0; i < dim; i++) tr = ModP.AddMod(tr, P[i, i], p);
+            yield return (m, tr);
+        }
+    }
+
+    // ---- the fifth trace read off the triangles (F137) ----
+    //
+    // Adopted from docs/ANALYTICAL_FORMULAS.md, F137 (typed in the main repo as FluxAreaFifthMomentClaim): under
+    // cooling and heating alone, for bonds J(XX + YY) + D(X_aY_b - Y_aX_b) + Delta ZZ on any graph without fields,
+    //   Tr((2L + c)^5) = 1920 4^N sum over triangles Im(t_uv t_vw t_wu) det[(1, 1, 1), cool, heat],
+    // t_ab = J + iD the amplitude of the hop a -> b, each triangle walked in one direction for both factors: flux
+    // times the area of the triangle the three rate points span. It is read off the terms and the rates, with no
+    // generator and so at any number of sites a string holds; it answers null wherever the setting leaves that class
+    // (a field, a bond that is not of this form, a jump that is not the lowering or the raising matrix; a multiple or
+    // a phase of one of them is not recognised either), throws for a term reaching past the last site, and a value
+    // that is not zero is an exact no for every element, the odd-trace obstruction without a power of a matrix. A
+    // zero decides nothing.
+    public static BigInteger? FluxAreaFifth(int n, IEnumerable<(PauliString Term, long Coefficient)> h, IEnumerable<(int Site, Gauss[,] Jump, long Rate)> jumps)
+    {
+        if (n < 1 || n > PauliString.MaxSites) throw new ArgumentOutOfRangeException(nameof(n), n, $"1 to {PauliString.MaxSites} sites");
+        var cool = new BigInteger[n];
+        var heat = new BigInteger[n];
+        static bool Same(Gauss[,] a, Gauss[,] b)
+            => a.GetLength(0) == 2 && a.GetLength(1) == 2 && a[0, 0] == b[0, 0] && a[0, 1] == b[0, 1] && a[1, 0] == b[1, 0] && a[1, 1] == b[1, 1];
+        foreach (var (site, jump, rate) in jumps)
+        {
+            if (site < 0 || site >= n) throw new ArgumentOutOfRangeException(nameof(jumps), site, $"sites run from 0 to {n - 1}");
+            if (rate == 0) continue;
+            if (Same(jump, LetterCube.Lowering)) cool[site] += rate;
+            else if (Same(jump, LetterCube.Raising)) heat[site] += rate;
+            else return null;
+        }
+        ulong inside = n == 64 ? ulong.MaxValue : (1UL << n) - 1;
+        var sums = new Dictionary<PauliString, BigInteger>();
+        foreach (var (term, c) in h)
+        {
+            if (((term.X | term.Z) & ~inside) != 0) throw new ArgumentException($"a term of H reaches past site {n - 1}", nameof(h));
+            sums[term] = (sums.TryGetValue(term, out var old) ? old : BigInteger.Zero) + c;
+        }
+        // per pair a < b the coefficients of XX, YY, XY, YX, ZZ
+        var pairs = new Dictionary<(int A, int B), BigInteger[]>();
+        foreach (var (term, c) in sums)
+        {
+            if (c.IsZero || term.IsIdentity) continue;
+            int a = -1, bSite = -1, support = 0;
+            for (int l = 0; l < n; l++)
+                if (term.Letter(l) != 'I')
+                {
+                    if (support == 0) a = l; else bSite = l;
+                    support++;
+                }
+            if (support != 2) return null;
+            int slot = (term.Letter(a), term.Letter(bSite)) switch
+            {
+                ('X', 'X') => 0, ('Y', 'Y') => 1, ('X', 'Y') => 2, ('Y', 'X') => 3, ('Z', 'Z') => 4, _ => -1,
+            };
+            if (slot < 0) return null;
+            if (!pairs.TryGetValue((a, bSite), out var five)) pairs[(a, bSite)] = five = new BigInteger[5];
+            five[slot] += c;
+        }
+        var re = new BigInteger[n, n];
+        var im = new BigInteger[n, n];
+        foreach (var ((a, bSite), five) in pairs)
+        {
+            if (five[0] != five[1] || five[2] != -five[3]) return null;
+            re[a, bSite] = re[bSite, a] = five[0];
+            im[a, bSite] = five[2];
+            im[bSite, a] = -five[2];
+        }
+        var sum = BigInteger.Zero;
+        for (int u = 0; u < n; u++)
+            for (int v = u + 1; v < n; v++)
+            {
+                if (re[u, v].IsZero && im[u, v].IsZero) continue;
+                for (int w = v + 1; w < n; w++)
+                {
+                    // Im(t_uv t_vw t_wu)
+                    var pr = re[u, v] * re[v, w] - im[u, v] * im[v, w];
+                    var pi = re[u, v] * im[v, w] + im[u, v] * re[v, w];
+                    var loop = pr * im[w, u] + pi * re[w, u];
+                    if (loop.IsZero) continue;
+                    var det = (cool[v] * heat[w] - cool[w] * heat[v]) - (cool[u] * heat[w] - cool[w] * heat[u]) + (cool[u] * heat[v] - cool[v] * heat[u]);
+                    sum += loop * det;
+                }
+            }
+        return 1920 * BigInteger.Pow(4, n) * sum;
     }
 
     public enum Palindrome { Witnessed, Obstructed, SymmetricModP, Open }
@@ -586,6 +676,9 @@ public sealed class Sextant : GameObject
     {
         if (s.DissipatorTimesFour.Count == 0)
             return new Decision(Palindrome.Witnessed, "no jumps: -L^dagger = L, the identity reflects with c = 0");
+        // an exact odd trace that is not zero rules out every element, so nothing below could witness: asked first
+        if (FluxAreaFifth(s.N, s.H, s.Jumps) is { } fifth && !fifth.IsZero)
+            return new Decision(Palindrome.Obstructed, $"Tr((2L + c)^5) = {fifth}, flux times the area of the rate triangle (F137), exact");
         var witness = Search(s).FirstOrDefault(f => f.Reading.Verdict is Verdict.Reflection or Verdict.PiReflection);
         if (witness.Map is not null)
             return new Decision(Palindrome.Witnessed, $"{witness.Reading.Verdict}: {witness.Map.Describe()} (c = {witness.Reading.C})");

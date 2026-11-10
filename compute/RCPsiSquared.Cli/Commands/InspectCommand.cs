@@ -1191,6 +1191,12 @@ public static class InspectCommand
             "the nine letters (typed: ThermalThirdMomentClaim)",
             c => new ThermalThirdMomentWitness(),
             RequiresN: false),
+        new("fifthmoment", "the thermal fifth moment live (F137): Tr((2L + c)⁵) of the generator under cooling and heating, built " +
+            "in exact Gaussian integers, against the closed form 1920·4^N·Σ_triangles Im(loop)·det[(1, 1, 1), γ↓, γ↑], flux times the area of " +
+            "the rate triangle; the recorded −656, +656 and −3936, graphs with several triangles, the silent settings (one line of rate points, " +
+            "a ring of four), and controls outside the class (typed: FluxAreaFifthMomentClaim)",
+            c => new FluxAreaFifthMomentWitness(),
+            RequiresN: false),
         new("conditionedfield", "the conditioned field live (F137): h(X₀ + X₀Z₁) + w·Z₁, site 0 cooled and heated, site 1 cooled " +
             "alone; triangularity on the five integer pieces, the block identities and the converse proven on a 5⁵ grid, the odd coefficients and odd " +
             "sums vanishing on s₀ = γ↓₁, the y¹³ coefficient the law off it, four controls breaking at the fifth (typed: ConditionedFieldPairingClaim)",
