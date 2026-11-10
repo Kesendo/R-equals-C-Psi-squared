@@ -12,9 +12,9 @@ public class SieveTests
 {
     static readonly Gauss[,] Zm = LetterMatrix('Z');
 
-    // the first census, N up to 6 (about ten seconds), shared by the tests that read it
+    // the first census, N up to 6, the theodolite alone (about ten seconds), shared by the tests that read it
     static readonly Lazy<List<Sieve.Entry>> Census = new(() =>
-        Sieve.BondFamily(3, "Z").Select(c => Sieve.Run(c.Name, c.Cell, 6)).ToList());
+        Sieve.BondFamily(3, "Z").Select(c => Sieve.Run(c.Name, c.Cell, 6, stitch: false)).ToList());
 
     static readonly string[] RingResidue =
     {
@@ -43,7 +43,7 @@ public class SieveTests
             Assert.True(EndCount.IsExact(Sieve.Count(family[name].Normalized().Chain(4)).Verdict()), name);
         }
         var lossy = new Theodolite.Cell(new[] { (Lowering, 1L) }, null, new[] { ("XX", new[] { 0, 1 }, 1L) });
-        Assert.Throws<ArgumentException>(() => Sieve.Run("loss", lossy, 4));
+        Assert.Throws<ArgumentException>(() => Sieve.Run("loss", lossy, 4, stitch: false));
     }
 
     [Fact]
@@ -76,6 +76,20 @@ public class SieveTests
         // the residue breaks on every chain read, exactly
         Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Residue), e => Assert.Equal((Sieve.Verdict.Broken, "BBBB"), (e.Chain.Verdict, e.Chain.Letters)));
         // the mixed ones pair on the triangle alone
+        Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PBBB", e.Ring.Letters));
+    }
+
+    // The second pass: with the stitch asked where the theodolite is silent, the ring residue is read (S) at every N
+    // read and the residue is empty; what stays mixed pairs on the triangle alone; the chain does not move.
+    [Fact]
+    public void With_The_Stitch_The_Ring_Residue_Is_Read_And_The_Residue_Is_Empty()
+    {
+        var c = Sieve.BondFamily(3, "Z").Select(x => Sieve.Run(x.Name, x.Cell, 6)).ToList();
+        Assert.Equal((149, 268, 0, 0), (c.Count(e => e.Chain.Verdict == Sieve.Verdict.Read), c.Count(e => e.Chain.Verdict == Sieve.Verdict.Broken),
+            c.Count(e => e.Chain.Verdict == Sieve.Verdict.Residue), c.Count(e => e.Chain.Verdict == Sieve.Verdict.Mixed)));
+        Assert.Equal((177, 224, 0, 16), (c.Count(e => e.Ring.Verdict == Sieve.Verdict.Read), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Broken),
+            c.Count(e => e.Ring.Verdict == Sieve.Verdict.Residue), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Mixed)));
+        Assert.All(c.Where(e => RingResidue.Contains(e.Name)), e => Assert.Equal("SSSS", e.Ring.Letters));
         Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PBBB", e.Ring.Letters));
     }
 
@@ -115,12 +129,12 @@ public class SieveTests
     {
         var crossing = new Theodolite.Cell(new[] { (Zm, 1L) }, null,
             new[] { ("XXXX", new[] { 0, 1, 2, 3 }, 1L), ("XYYY", new[] { 0, 1, 2, 3 }, 1L), ("YYYX", new[] { 0, 1, 2, 3 }, 1L) });
-        var e = Sieve.Run("crossing", crossing, 6);
+        var e = Sieve.Run("crossing", crossing, 6, stitch: false);
         Assert.Null(e.Chain.Traverse);
         Assert.Equal((Sieve.Verdict.Mixed, 4, "PPB"), (e.Chain.Verdict, e.Chain.From, e.Chain.Letters));
         var control = new Theodolite.Cell(new[] { (Zm, 1L) }, null,
             new[] { ("XXX", new[] { 0, 1, 2 }, 1L), ("XXY", new[] { 0, 1, 2 }, 1L), ("YXX", new[] { 0, 1, 2 }, 1L) });
-        var c = Sieve.Run("control", control, 6);
+        var c = Sieve.Run("control", control, 6, stitch: false);
         Assert.Equal((Sieve.Verdict.Mixed, "PBBB"), (c.Chain.Verdict, c.Chain.Letters));
     }
 

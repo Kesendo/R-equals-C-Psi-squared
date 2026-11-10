@@ -8,7 +8,7 @@ using static MirrorWorld.LetterCube;
 // count (F158, EndCount), at fixed N, exactly, where the cost grows with 2^N. Per cell and geometry (chain, ring) the
 // N read are split into the covered ones (a route of the reading holds there) and the uncovered ones, where the reading
 // is silent and the end count is asked; the verdict:
-//   Read      the reading covers some N read, and every uncovered N read is broken (on the chain the open traverse
+//   Read      a reading (the theodolite's, or the stitch's on what it leaves silent) covers some N read, and every uncovered N read is broken (on the chain the open traverse
 //             covers every N, so nothing is asked);
 //   Broken    no N read is covered, and every N read is broken;
 //   Residue   every uncovered N read is palindromic: an element the every-N reading does not see (no product of its
@@ -38,13 +38,15 @@ public sealed class Sieve : GameObject
 
     // One cell through the sieve on one geometry: the every-N reading (null when silent), and per N read a letter:
     // E covered by the reading (no end count asked), P/B palindromic/broken by the end count exactly, p/b by its ranks.
+    // S: covered by the stitch, the second pass, where the theodolite was silent.
     public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict);
 
     public sealed record Entry(string Name, Theodolite.Cell Cell, Pass Chain, Pass Ring);
 
     static readonly Theodolite.Relation[] Pairing = { Theodolite.Relation.Pi, Theodolite.Relation.Reflection };
 
-    public static Entry Run(string name, Theodolite.Cell cell, int maxN)
+    // stitch: on what the theodolite leaves silent, ask the stitch second (Z dephasing on every site only)
+    public static Entry Run(string name, Theodolite.Cell cell, int maxN, bool stitch = true)
     {
         var norm = cell.Normalized();
         JumpLetters(norm.Jumps.Select(j => j.Jump));                                   // Pauli letters only, before any work
@@ -54,22 +56,27 @@ public sealed class Sieve : GameObject
             open ??= Theodolite.EveryN(norm, rel);
             closed ??= Theodolite.EveryN(norm, rel, closed: true);
         }
-        var chain = Through(open, Math.Max(3, norm.Span), maxN, n => open is not null, norm.Chain);
-        var ring = Through(closed, norm.SmallestRing, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
+        Stitch.Reach? sChain = null, sRing = null;
+        if (stitch && open is null) sChain = Stitch.EveryN(norm, ring: false);
+        if (stitch) sRing = Stitch.EveryN(norm, ring: true);
+        var chain = Through(open, sChain, Math.Max(3, norm.Span), maxN, n => open is not null, norm.Chain);
+        var ring = Through(closed, sRing, norm.SmallestRing, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
         return new Entry(name, cell, chain, ring);
     }
 
-    static Pass Through(Theodolite.Traverse? t, int from, int maxN, Func<int, bool> covered, Func<int, Theodolite.Setting> build)
+    static Pass Through(Theodolite.Traverse? t, Stitch.Reach? st, int from, int maxN, Func<int, bool> covered,
+        Func<int, Theodolite.Setting> build)
     {
         var letters = new System.Text.StringBuilder();
         for (int n = from; n <= maxN; n++)
         {
             if (covered(n)) { letters.Append('E'); continue; }
+            if (st is not null && st.Reads(n)) { letters.Append('S'); continue; }
             var v = Count(build(n)).Verdict();
             letters.Append(EndCount.IsPalindrome(v) ? (EndCount.IsExact(v) ? 'P' : 'p') : (EndCount.IsExact(v) ? 'B' : 'b'));
         }
         string s = letters.ToString();
-        bool anyCovered = s.Contains('E');
+        bool anyCovered = s.Contains('E') || s.Contains('S');
         bool anyPal = s.Any(c => c is 'P' or 'p'), anyBroken = s.Any(c => c is 'B' or 'b');
         Verdict verdict = anyPal && anyBroken ? Verdict.Mixed
             : anyPal ? Verdict.Residue
