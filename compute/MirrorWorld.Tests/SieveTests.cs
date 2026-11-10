@@ -100,6 +100,37 @@ public class SieveTests
         Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PCCC", e.Ring.Letters));
     }
 
+    // A proven second route: Theorem 2's corollary Theorem 1 (hopping bonds with a complement-invariant diagonal part,
+    // letter fields, Z on every site, docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) and F138's clause 2 (a field
+    // along X + Y, orthogonal to the dephasing, which Theorem 1 leaves outside). In a uniform cell every site carries the
+    // same field, so they read: the spectrum pairs exactly when the field has no Z component. The sieve decides all 64
+    // cells (ZZ weight 0, ±1, 2; fields from {X, Y, Z} at magnitude 1 or 2) for every N, chain and ring, and agrees.
+    [Fact]
+    public void On_Hopping_Bonds_With_Fields_The_Sieve_Decides_Every_N_As_Theorem_1_Does()
+    {
+        int agree = 0;
+        foreach (long zz in new[] { 0L, 1L, -1L, 2L })
+            for (int mask = 0; mask < 8; mask++)
+                foreach (long fc in new[] { 1L, 2L })
+                {
+                    var fields = new List<(char, long)>();
+                    if ((mask & 1) != 0) fields.Add(('X', fc));
+                    if ((mask & 2) != 0) fields.Add(('Y', fc));
+                    if ((mask & 4) != 0) fields.Add(('Z', fc));
+                    var windows = new List<(string, int[], long)> { ("XX", new[] { 0, 1 }, 1), ("YY", new[] { 0, 1 }, 1) };
+                    if (zz != 0) windows.Add(("ZZ", new[] { 0, 1 }, zz));
+                    var e = Sieve.Run($"ZZ {zz}, fields {mask} at {fc}", new Theodolite.Cell(new[] { (Zm, 1L) }, fields, windows), 6);
+                    bool pairs = (mask & 4) == 0;
+                    foreach (var p in new[] { e.Chain, e.Ring })
+                    {
+                        if (pairs) Assert.True(p.Verdict == Sieve.Verdict.Read && p.Letters.All(c => c is 'E' or 'S'), $"{e.Name}: {p.Letters}");
+                        else Assert.True(p.Verdict == Sieve.Verdict.Broken && p.BrokenEveryN, $"{e.Name}: {p.Letters}");
+                        agree++;
+                    }
+                }
+        Assert.Equal(128, agree);
+    }
+
     // What the sieve skipped, asked anyway at N = 3 and 4: every cell the reading certifies is palindromic there by the
     // end count, exactly, on the chain, and on the ring at those of the two N a route closes.
     [Fact]

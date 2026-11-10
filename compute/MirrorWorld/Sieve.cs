@@ -96,8 +96,10 @@ public sealed class Sieve : GameObject
             : anyPal ? Verdict.Residue
             : anyCovered ? Verdict.Read
             : Verdict.Broken;
-        return new Pass(t, from, s, verdict, st is not null && st.BreaksFrom is int b && b <= maxN + 1 && verdict == Verdict.Broken
-            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => s[n - from] is 'B' or 'C'));
+        // broken for every N: from the stitch's threshold on by its no, below it at each N by a letter read here (B or C)
+        // or, past maxN, by the stitch's own fixed-N no
+        return new Pass(t, from, s, verdict, st is not null && st.BreaksFrom is int b && verdict == Verdict.Broken
+            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => n <= maxN ? s[n - from] is 'B' or 'C' : st.Breaks(n)));
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)
