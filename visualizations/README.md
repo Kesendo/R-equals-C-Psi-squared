@@ -478,6 +478,41 @@ python simulations/one_square_cells_and_cube.py
 python simulations/one_square_tetrahedron.py
 ```
 
+## Loss and Gain: Flux Times Area, and the Seventh Trace
+
+Four figures for [the transport formula under loss and gain](../docs/proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md) ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)). Qubits joined by hopping bonds, each losing its excitation at a rate γ↓ and gaining one at γ↑, so that each site has a rate point (γ↓, γ↑). The spectrum of the generator L is paired about −c/2, c the sum of all rates, only if every odd centred trace Tr((L + c/2)^m) is zero.
+
+### The fifth trace: flux times the area of the rate triangle
+
+![Three sites on a triangle of hopping bonds with a flux; above, the rate plane with the three rate points spanning a triangle of positive area, of zero area and of negative area; below, the fifth centred trace as one rate point runs round a circle and as the flux is turned.](flux_area_fifth_trace_neon.png)
+
+On one triangle with hoppings of modulus 1 the fifth centred trace is 60·4^N·sin Φ times twice the signed area of the triangle the three rate points span. Three rate points on one line give zero, and so does a flux of 0 or π. The faint lines through the origin are the lines of one ratio γ↑/γ↓, one temperature. In the two plots the line is the closed form and the dots are the fifth power of the generator.
+
+![The rate plane with the third rate point running once round its circle, and the fifth centred trace drawn beside it.](flux_area_fifth_trace_neon.gif)
+
+### The seventh trace at second order in the rates
+
+![A triangle l, k, j with every hopping bond of a graph labelled by its weight, the same with 30 taken off every bond, and the borrowed triangle.](seventh_trace_weights_neon.png)
+
+At the seventh trace a triangle counts with a weight read off every hopping bond of the graph: 30 for every bond, 10 less for each touch of l or k, 5 less for a touch of j, and the edge l–k two less. The 30 on every bond is the fifth trace times the second; what is left is zero for a bond that does not touch the triangle. A site joined to one corner of a triangle borrows it.
+
+![A ring of five hopping bonds with flux π/2, and the five rate points joined as a pentagon and as a pentagram.](seventh_trace_ring_of_five_neon.png)
+
+A ring of five enters as 2520·4^N times the imaginary part of its loop times the pentagram of the five rate points minus their pentagon, each twice a signed area.
+
+![The time circle twice, with the two marks, the two hops of a two-step path and the arcs on which the three sites are excited.](seventh_trace_time_circle_neon.png)
+
+The proof's device: the operators of a trace placed on a circle of time with two marks, a site excited from its raising forward to its lowering.
+
+### How it was computed
+
+The fifth trace and the ring of five are computed from the generator with the routines of the two gates and compared exactly with the closed forms at integer inputs before their figures are drawn; the weights are read off the gate's constants; the time circle is a drawing of the rule and calculates nothing. The graphs, the rate points, the placements and the colours are drawing choices.
+
+```
+python simulations/flux_area_picture.py
+python simulations/seventh_trace_pictures.py
+```
+
 ---
 
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
