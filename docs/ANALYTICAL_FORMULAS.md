@@ -6952,6 +6952,62 @@ every site the trace is +656·sin Φ (the sign change above; gated at π/2), and
 at flux π/2. On a 4-ring at Δ = 7⁄10 without fields, at four ratios and flux π/2, the characteristic
 polynomial is not palindromic either.
 
+The value −656·sin Φ is one point of a closed form. For these bonds on any graph, at any rates per site,
+without fields or dephasing (in this entry's frame, so without the uniform field as well),
+
+    Tr((L + c/2)⁵) = 60·4^N · Σ_triangles Im(t_uv·t_vw·t_wu) · det[(1, 1, 1), (γ↓_u, γ↓_v, γ↓_w), (γ↑_u, γ↑_v, γ↑_w)],
+
+with t_uv = J + iD_z for the hop u → v on the bond oriented as D_z(X_uY_v − Y_uX_v) (H carries
+2·t_uv·σ⁺_vσ⁻_u), t_vu its conjugate, and the sum running over the triangles (u, v, w) of the hopping
+graph, each walked in one direction for both factors. The first factor is the product of the three
+|J + iD_z| times the sine of the flux through the triangle; the second is twice the signed area of the
+triangle that the three points (γ↓, γ↑) span in the plane of the rates. Δ does not enter. Beyond the
+factor 4^N the fifth trace is a sum over triangles and sees nothing else of the graph, a bond hanging
+off a triangle included. On one triangle of hopping bonds it vanishes exactly at flux 0 or π or where
+the three rate points lie on one line; one ratio is a line through the origin and cooling alone the axis
+γ↑ = 0, and the determinant does not change when all rate points are moved by one vector. Three
+different points on a line that misses the origin have three different ratios, and there the fifth
+trace says nothing about the open question below. A temperature gradient at one coupling is such a
+line, γ↓_l = γ·(n̄_l + 1) and γ↑_l = γ·n̄_l having the same difference on every site: on the triangle
+above at flux π/2, with γ = 2 and n̄ = (1, 2, 3), the third and fifth traces are zero and
+Tr((L + c/2)⁷) = 430080, so that gradient breaks the pairing at the seventh. On the triangle above the determinant is −41⁄240,
+which gives −656·sin Φ; the control of gate M11 (hoppings 1, 2 and 3i, so a loop of 6i, at the same
+rates and Δ = 7⁄10) is 60·64·6·(−41⁄240) = −3936; and the two breaks of M11 at N = 4 without fields or dephasing, the triangle at
+one ratio with a fourth site at another joined by a hopping bond, and the ring of four, have a fifth
+trace of zero, so they break at a higher one.
+Derived in three steps. (1) With s_l = (γ↓_l + γ↑_l)/2 as below and δ_l = (γ↓_l − γ↑_l)/2,
+L + c/2 = −i·ad_H + Σ_l (s_l·𝓗_l + δ_l·𝓐_l), where 𝓗(ρ) = σ⁺ρσ⁻ + σ⁻ρσ⁺ and
+𝓐(ρ) = σ⁻ρσ⁺ − σ⁺ρσ⁻ + ½{Z, ρ}; on one site's letters 𝓗 keeps I, negates Z and removes X and Y, and 𝓐
+sends I to 2Z and removes the rest. (2) For these bonds three maps sort the traces of its powers. Conjugating the
+generator by ρ ↦ Z⊗N·ρ (S_IZ from the other side) and transposing it, as a matrix on the entries of ρ, gives the generator at (H̄; −s, δ);
+conjugating by the spin flip gives it at (H̄; s, −δ); conjugating by ρ ↦ ρᵀ gives it at (−H̄; s, δ). So
+every trace of a power is even in the rates taken together, and its degree in H plus its degree in δ
+is even. That leaves, at the fifth power, the third order in H with one s_l and one δ_k, and the first
+order in H with four rates. The second is zero: its trace is a sum of products over the sites, one for
+each bond term taken from the left or from the right. On a site a word in 𝓗 and 𝓐 removes X and Y and
+maps into I and Z, so X or Y from either side, which leads out of I and Z, has no trace against it, nor
+against the empty word, Tr X and Tr Y being zero; and Z has the same trace against it from the left as
+from the right, the two differing only on X and Y. (3) For
+any H that conserves the excitation number, the coefficient of s_l·δ_k in Tr e^{τ(L + c/2)} is the
+second Duhamel order
+
+    τ·∫₀^τ (|f⁺_lk(x)|² − |f⁻_lk(x)|²) dx,   f^±_lk(x) = Tr(σ^±_l·e^{−iHx}·σ^∓_k·e^{−iH(τ−x)}),
+
+the trace of ρ ↦ PρQ being Tr P·Tr Q, with the bra's factor the conjugate of the ket's: an excitation
+carried between the two sites against a hole carried between them. It is zero at l = k, where
+f⁺_kk(x) = f⁻_kk(τ − x). For l ≠ k the two lowest orders of f are the direct hop and the detour over a
+third site j, the ket on one arc of the triangle and the bra on the other, and what survives in the
+difference is their interference, −4^N·τ³·Σ_j Im(t_lk·t_kj·t_jl), the same at every x, the ZZ terms
+entering only through Im |t_lk|² = 0. The integral and the 5! give −120·4^N·Σ_j Im(t_lk·t_kj·t_jl)
+for each ordered pair, and the pairs of one triangle add up to −120·4^N times the imaginary part of its
+loop times det[(1, 1, 1), s, δ], which is −½ times the determinant above. Gate:
+[`simulations/fifth_moment_flux_area.py`](../simulations/fifth_moment_flux_area.py) (integers, every
+comparison exact: the three maps as identities of generators, the two parities of the traces, the two
+second-order traces behind the lowest order, the closed form on random graphs at N = 3, 4, 5, the two
+recorded values with the exchange of loss and gain, the zeros on a line of rate points, on the triangle
+with a pendant site and on a ring of four, the seventh trace of the temperature gradient, and as
+controls a longitudinal field and an XX term, each of which breaks the closed form). Not typed.
+
 Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
 Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
 a·X + b·Y to a·X − b·Y, the conjugation mirrors it back, and Z on a site negates the axis, which its
@@ -7148,6 +7204,40 @@ site-local Π-reflection once a two-site term touches it, as site 1 here at w = 
 spectrum pairs and none of the carriers does (this row is such a place), the triangularity against this
 entry's own in the joint popcount and against Theorem 4's sectors (the same blocks, here over a watched bit), and the
 block centres against F167's two centres (the same coincidence of centres, with pairs across blocks).
+
+**Swept for the fifth trace as flux times area:** the registry (this entry: the S_XY identity with X⊗N·H·X⊗N = H̄,
+the bullet "the three chained, with fields" at F = 0, the sentence "every odd centred trace changes sign under the
+exchange", the recorded values −656·sin Φ, +656, −2560 with fields, 240 and 1280 for transverse DM, and its pointer to
+the fifth centred power sum in closed form for bonds with a mixed letter under cooling alone; F120's P_{5,3} under
+Z dephasing; no closed form for a fifth trace with heating, nor for these bonds), docs/proofs (MIRROR_SYMMETRY_PROOF's criterion; PROOF_F87_WINDOWED_MONOMIAL_CONVERSE
+§2 and §3, the sign table and the closed double walk of bra and ket under Z dephasing; PROOF_MOMENT_TOWER_PUMP_CHANNEL
+§1, the arrow L(I) at first order, §2's bosonic bath with one net rate at every temperature, and §4's sentence
+that an odd moment is odd in γ, by the transpose and the swap of the two tensor legs; PROOF_ANTILINEAR_TRIANGLE's transpose at any rates; PROOF_WEIGHT1_DEGENERACY's Theorem E, a
+term of the Zeno end that lives on triangles threaded by a flux other than 0 and π, under Z dephasing), experiments
+(WHICH_BONDS_PAIR_UNDER_COOLING: the parity count of the rates for odd sums under cooling alone, its closed fifth
+sum for the open chain, and a nonzero fifth on the triangle with a different bond of its five letters on each edge,
+which do not conserve the excitation number; THERMAL_BREAKING, which states the break on the triangle for rate
+points off one line and whose bath γ_amp·(n̄ + 1), γ_amp·n̄ puts a gradient of n̄ at one γ_amp on a line that
+misses the origin; THE_CUBE_SITE_BY_SITE, a fifth trace of 192 on a flux triangle with dephasing axes in the XY
+plane, outside this class; KMS_DETAILED_BALANCE, "with complex hopping a gradient can break the pairing itself"), the typed
+layer (CooledBondPowerSumsClaim, the same parity count under cooling; ThermalThirdMomentClaim, the third only;
+ConditionedFieldPairingClaim, outside the class, whose witness computes a fifth trace as a control reading, and CooledBondPowerSumsWitness, which computes p₅ = 0 for
+its class bonds under cooling alone; no witness holds a fifth trace for these bonds with heating), MirrorWorld
+(GammaFold's gain turn, for Z dephasing; AntilinearTriangle's one-ratio transpose; Sextant.OddTraceObstruction, the
+traces without a closed form), the gates cube_moves_gate.py (M11: the identity, −656 at twelve fluxes, the control
+−3936) and cube_old_questions_gate.py (G7, cooling alone), the OpenArcs registry (nothing; zeno_end_live_witness has
+a triangle's flux under Z dephasing), CAUGHT_ERRORS (nothing on fifth traces; the shape "one measured instance
+written as a rule" under this entry's name), the glossary (nothing), fw.Confirmations (nothing). No store held the
+closed form or the Duhamel formula for the coefficient of s_l·δ_k. Checked for adjacency: the evenness in the rates
+against the S_XY identity (the same statement, read on traces; this entry held it), the two arcs of ket and bra
+against PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §3's double walk (the same picture under another light; that section
+and this paragraph do not cite each other), the sorting by the three maps against PROOF_MOMENT_TOWER_PUMP_CHANNEL's odd-in-γ sentence (the same tools
+under Z dephasing), the triangle sum against Theorem E's triangle term (both odd in the flux, both on triangles
+alone; not joined), the vanishing on a line of rate points against the open question on flux reversal (the fifth
+trace is silent there; a higher trace is not read), the vanishing under cooling alone against
+WHICH_BONDS_PAIR_UNDER_COOLING's zero p₅ for one class bond repeated (the two zeros overlap on bonds that conserve
+the excitation number), and the triangle sum against the gated
+break of a triangle with a pendant site at another ratio (the fifth is zero there, so that break sits higher).
 -->
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
