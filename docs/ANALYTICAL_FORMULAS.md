@@ -6974,7 +6974,7 @@ Tr((L + c/2)⁷) = 430080, so that gradient breaks the pairing at the seventh. O
 which gives −656·sin Φ; the control of gate M11 (hoppings 1, 2 and 3i, so a loop of 6i, at the same
 rates and Δ = 7⁄10) is 60·64·6·(−41⁄240) = −3936; and the two breaks of M11 at N = 4 without fields or dephasing, the triangle at
 one ratio with a fourth site at another joined by a hopping bond, and the ring of four, have a fifth
-trace of zero, so they break at a higher one.
+trace of zero, so they break at a higher one (at the seventh, by its closed form below).
 Derived in three steps. (1) With s_l = (γ↓_l + γ↑_l)/2 as below and δ_l = (γ↓_l − γ↑_l)/2,
 L + c/2 = −i·ad_H + Σ_l (s_l·𝓗_l + δ_l·𝓐_l), where 𝓗(ρ) = σ⁺ρσ⁻ + σ⁻ρσ⁺ and
 𝓐(ρ) = σ⁻ρσ⁺ − σ⁺ρσ⁻ + ½{Z, ρ}; on one site's letters 𝓗 keeps I, negates Z and removes X and Y, and 𝓐
@@ -7011,6 +7011,32 @@ FluxAreaFifthMomentClaim, live at `inspect --root fifthmoment`, the generator in
 from the matrix units against the closed form; MirrorWorld's sextant reads the form off the terms and
 the rates without a generator (`Sextant.FluxAreaFifth`, checked against its own traces modulo two
 primes) and asks it first in its decision.
+
+Step (3) and the order after it have a proof of their own,
+[the transport formula under loss and gain](proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md). For the bonds
+of the closed form above, on any graph, the seventh centred trace has parts of degree two and four in the
+rates and no others, and the part of degree two is
+
+    −168·4^N · Σ_{l<k} β_lk · (γ↓_l·γ↑_k − γ↓_k·γ↑_l),
+
+with β_lk in closed form there. Each triangle through l and k carries its loop Im(t_lk·t_kj·t_jl) times a
+weight that counts every bond of the graph by how it touches the triangle: a hopping bond with 30·|t|² off
+the triangle, 25 hanging at the corner j, 20 hanging at l or k, 15 on the two edges through j and 8 on the
+edge l–k, a ZZ bond through a quadratic form in Δ. A site l joined to a corner i of a triangle reads that
+triangle's loop in i's place, with the weight −15·|t_li|². A ring of five gives 2520·4^N·Im(loop) times the
+pentagram of its five rate points minus their pentagon, the sites counted the way the loop runs. A ring of
+four with flux enters only with ZZ, times a linear form in the Δ on its edges. On a triangle alone with
+three equal |t| and one Δ the three weights are equal, and the part of degree two is again flux times the
+area of the rate triangle, zero on every line of rate points; the 430080 of the temperature gradient above
+is all of degree four, which is not derived. The two breaks of M11 at N = 4 with a fifth trace of zero
+break at the seventh, all of it of degree two: the triangle with a fourth site has Tr((L + c/2)⁷) = −44800
+and the ring of four has −20380416⁄25, through its ZZ alone. Gate:
+[`simulations/seventh_moment_transport.py`](../simulations/seventh_moment_transport.py) (integers, every
+comparison exact: the transport formula at the fifth and seventh order against the generator for every
+ordered pair of sites, no part of degree zero or six, the closed form on graphs at N = 3, 4, 5, each of the
+integer coefficients it is held in moved by one, the temperature gradient, a ring of five, those two
+breaks and a second ring of four whose seventh trace is zero without its ZZ, and as controls a longitudinal
+field and an XX term).
 
 Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
 Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
@@ -7232,16 +7258,23 @@ traces without a closed form, beside which Sextant.FluxAreaFifth reads this one)
 −3936) and cube_old_questions_gate.py (G7, cooling alone), the OpenArcs registry (nothing; zeno_end_live_witness has
 a triangle's flux under Z dephasing), CAUGHT_ERRORS (nothing on fifth traces; the shape "one measured instance
 written as a rule" under this entry's name), the glossary (nothing), fw.Confirmations (nothing). Beyond this
-paragraph and what types it, no store holds the closed form or the Duhamel formula for the coefficient of s_l·δ_k. Checked for adjacency: the evenness in the rates
+paragraph and what types it, no store holds the closed form; the Duhamel formula for the coefficient of s_l·δ_k
+has its proof in proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md. Checked for adjacency: the evenness in the rates
 against the S_XY identity (the same statement, read on traces; this entry held it), the two arcs of ket and bra
 against PROOF_F87_WINDOWED_MONOMIAL_CONVERSE §3's double walk (the same picture under another light; that section
 and this paragraph do not cite each other), the sorting by the three maps against PROOF_MOMENT_TOWER_PUMP_CHANNEL's odd-in-γ sentence (the same tools
 under Z dephasing), the triangle sum against Theorem E's triangle term (both odd in the flux, both on triangles
 alone; not joined), the vanishing on a line of rate points against the open question on flux reversal (the fifth
-trace is silent there; a higher trace is not read), the vanishing under cooling alone against
+trace is silent there; the seventh's part of degree two is read in the proof named below, its part of degree
+four is not), the vanishing under cooling alone against
 WHICH_BONDS_PAIR_UNDER_COOLING's zero p₅ for one class bond repeated (the two zeros overlap on bonds that conserve
 the excitation number), and the triangle sum against the gated
 break of a triangle with a pendant site at another ratio (the fifth is zero there, so that break sits higher).
+**Swept for the seventh trace at second order in the rates:** recorded in
+proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md under its opening; no store held a seventh trace under loss and
+gain in closed form (WHICH_BONDS_PAIR_UNDER_COOLING's seventh on the open chain is under cooling alone and lives on
+the anisotropy). Checked for adjacency there: cooling alone, where the part of degree two is zero on any graph, the
+part of degree four against WHICH_BONDS' triangle, and the open question on flux reversal.
 -->
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and
