@@ -2754,8 +2754,8 @@ if (args.Length > 0 && args[0] == "lettercube")
 }
 
 // the sieve: sieve [maxTerms] [maxN] [jumps], every bond cell of one to maxTerms of the nine two-letter terms (signs
-// ±) through the theodolite's every-N reading first, the stitch second and the end count only on the rest, on the
-// chain and on the ring
+// ±) through the stitch's no first, the theodolite's every-N reading, the stitch's yes and the end count only on the
+// rest, on the chain and on the ring
 if (args.Length > 0 && args[0] == "sieve")
 {
     int svTerms = args.Length > 1 ? int.Parse(args[1]) : 3;
@@ -2769,14 +2769,17 @@ if (args.Length > 0 && args[0] == "sieve")
     }
     var sieve = new Sieve(new Theodolite(new LetterCube(new World())));
     Console.WriteLine($"=== the sieve: bond cells of 1 to {svTerms} two-letter terms, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
-    Console.WriteLine("  first the theodolite's every-N reading (a yes holds at every N), then the stitch where it is silent (Z jumps only),");
-    Console.WriteLine("  then the end count (F158) only on the rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the");
-    Console.WriteLine("  stitch, P/B palindromic/broken by the end count (p/b by its ranks).");
+    Console.WriteLine("  the fast no first: the stitch's local no (Theorem 2's conditions, no solve; Z jumps only), then the theodolite's");
+    Console.WriteLine("  every-N reading (a yes holds at every N), the stitch's yes where it is silent, and the end count (F158) only on the");
+    Console.WriteLine("  rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the");
+    Console.WriteLine("  stitch, C broken by the stitch's no (a condition of Theorem 2 fails), P/B palindromic/broken by the end count");
+    Console.WriteLine("  (p/b by its ranks).");
     var sw = System.Diagnostics.Stopwatch.StartNew();
     var entries = Sieve.BondFamily(svTerms, svJumps).Select(c => Sieve.Run(c.Name, c.Cell, svMaxN)).ToList();
     foreach (var (geo, pick) in new (string, Func<Sieve.Entry, Sieve.Pass>)[] { ("chain", e => e.Chain), ("ring", e => e.Ring) })
     {
         Console.WriteLine($"  {geo}: " + string.Join(", ", Enum.GetValues<Sieve.Verdict>().Select(v => $"{v} {entries.Count(e => pick(e).Verdict == v)}")));
+        Console.WriteLine($"    of the broken, for every N (the stitch's no): {entries.Count(e => pick(e).BrokenEveryN)}");
         foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed))
             Console.WriteLine($"    {pick(e).Verdict,-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}");
     }

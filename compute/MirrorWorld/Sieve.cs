@@ -10,12 +10,16 @@ using static MirrorWorld.LetterCube;
 // is silent and the end count is asked; the verdict:
 //   Read      a reading (the theodolite's, or the stitch's on what it leaves silent) covers some N read, and every uncovered N read is broken (on the chain the open traverse
 //             covers every N, so nothing is asked);
-//   Broken    no N read is covered, and every N read is broken;
+//   Broken    no N read is covered, and every N read is broken (BrokenEveryN: every N from the pass's first is
+//             exactly broken, by the end count below the stitch's threshold and by its no, a failing condition (i), (ii)
+//             or (iii) of Theorem 2, from there on);
 //   Residue   every uncovered N read is palindromic: an element the every-N reading does not see (no product of its
 //             site factors, or a relabelling, a turned frame or a longer period, which it leaves out);
 //   Mixed     the uncovered N read are palindromic at some N and broken at others.
-// The yes side is exact for every N; the other three are exact at the N read and say nothing past them. A silence is
-// not a no: the residue is where it isn't, and an element understood there is a reader the sieve can gain.
+// The yes side is exact for every N, and so is a Broken with BrokenEveryN; the rest is exact at the N read and says
+// nothing past them. A silence is not a no: the residue is where it isn't, and an element understood there is a reader
+// the sieve can gain. The order is the fast no first: the stitch's no (a local check, no solve) is asked before the
+// theodolite's and the stitch's yes, which are not asked where the no already decides every N.
 //
 // The first census (ClaudeTasks/2026-11-10-everyn-census, private): every cell of one to three of the nine two-letter
 // bond terms, signs ±, under Z dephasing, N up to 6. On the chain the reading and the end count split it with nothing
@@ -38,8 +42,10 @@ public sealed class Sieve : GameObject
 
     // One cell through the sieve on one geometry: the every-N reading (null when silent), and per N read a letter:
     // E covered by the reading (no end count asked), P/B palindromic/broken by the end count exactly, p/b by its ranks.
-    // S: covered by the stitch, the second pass, where the theodolite was silent.
-    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict);
+    // S: covered by the stitch's yes, where the theodolite was silent; C: broken by the stitch's no (a condition of
+    // Theorem 2 fails), exact, no end count asked. BrokenEveryN: every N from From is exactly broken (B below the
+    // stitch's threshold, C from it).
+    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, bool BrokenEveryN = false);
 
     public sealed record Entry(string Name, Theodolite.Cell Cell, Pass Chain, Pass Ring);
 
@@ -50,17 +56,24 @@ public sealed class Sieve : GameObject
     {
         var norm = cell.Normalized();
         JumpLetters(norm.Jumps.Select(j => j.Jump));                                   // Pauli letters only, before any work
+        // the fast no first: the stitch's local no (no solve); where it decides every N of a geometry no yes is asked
+        // there. Then the theodolite (milliseconds), and the stitch's yes (a solve at its window) only where the
+        // theodolite leaves N uncovered.
+        int chainFrom = Math.Max(3, norm.Span), ringFrom = norm.SmallestRing;
+        var (holChain, holRing) = stitch ? Stitch.LocalHolonomy(norm) : (null, null);
+        bool chainDecided = holChain is int hc && hc <= chainFrom;
+        bool ringDecided = holRing is int hr && hr <= ringFrom;
         Theodolite.Traverse? open = null, closed = null;
         foreach (var rel in Pairing)
         {
-            open ??= Theodolite.EveryN(norm, rel);
-            closed ??= Theodolite.EveryN(norm, rel, closed: true);
+            if (!chainDecided) open ??= Theodolite.EveryN(norm, rel);
+            if (!ringDecided) closed ??= Theodolite.EveryN(norm, rel, closed: true);
         }
-        Stitch.Reach? sChain = null, sRing = null;
-        if (stitch && open is null) sChain = Stitch.EveryN(norm, ring: false);
-        if (stitch) sRing = Stitch.EveryN(norm, ring: true);
-        var chain = Through(open, sChain, Math.Max(3, norm.Span), maxN, n => open is not null, norm.Chain);
-        var ring = Through(closed, sRing, norm.SmallestRing, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
+        bool ringCovered = closed?.Closures?.Any(c => c.Modulus == 1) == true;
+        Stitch.Reach? sChain = stitch && open is null ? Stitch.EveryN(norm, ring: false) : null;
+        Stitch.Reach? sRing = stitch && !ringCovered ? Stitch.EveryN(norm, ring: true) : null;
+        var chain = Through(open, sChain, chainFrom, maxN, n => open is not null, norm.Chain);
+        var ring = Through(closed, sRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
         return new Entry(name, cell, chain, ring);
     }
 
@@ -72,17 +85,19 @@ public sealed class Sieve : GameObject
         {
             if (covered(n)) { letters.Append('E'); continue; }
             if (st is not null && st.Reads(n)) { letters.Append('S'); continue; }
+            if (st is not null && st.Breaks(n)) { letters.Append('C'); continue; }
             var v = Count(build(n)).Verdict();
             letters.Append(EndCount.IsPalindrome(v) ? (EndCount.IsExact(v) ? 'P' : 'p') : (EndCount.IsExact(v) ? 'B' : 'b'));
         }
         string s = letters.ToString();
         bool anyCovered = s.Contains('E') || s.Contains('S');
-        bool anyPal = s.Any(c => c is 'P' or 'p'), anyBroken = s.Any(c => c is 'B' or 'b');
+        bool anyPal = s.Any(c => c is 'P' or 'p'), anyBroken = s.Any(c => c is 'B' or 'b' or 'C');
         Verdict verdict = anyPal && anyBroken ? Verdict.Mixed
             : anyPal ? Verdict.Residue
             : anyCovered ? Verdict.Read
             : Verdict.Broken;
-        return new Pass(t, from, s, verdict);
+        return new Pass(t, from, s, verdict, st is not null && st.BreaksFrom is int b && b <= maxN + 1 && verdict == Verdict.Broken
+            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => s[n - from] is 'B' or 'C'));
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)

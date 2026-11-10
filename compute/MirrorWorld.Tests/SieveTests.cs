@@ -80,7 +80,8 @@ public class SieveTests
     }
 
     // The second pass: with the stitch asked where the theodolite is silent, the ring residue is read (S) at every N
-    // read and the residue is empty; what stays mixed pairs on the triangle alone; the chain does not move.
+    // read and the residue is empty; what stays mixed pairs on the triangle alone; the chain's verdicts do not move, but
+    // its broken cells are now broken for every N.
     [Fact]
     public void With_The_Stitch_The_Ring_Residue_Is_Read_And_The_Residue_Is_Empty()
     {
@@ -90,7 +91,13 @@ public class SieveTests
         Assert.Equal((177, 224, 0, 16), (c.Count(e => e.Ring.Verdict == Sieve.Verdict.Read), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Broken),
             c.Count(e => e.Ring.Verdict == Sieve.Verdict.Residue), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Mixed)));
         Assert.All(c.Where(e => RingResidue.Contains(e.Name)), e => Assert.Equal("SSSS", e.Ring.Letters));
-        Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PBBB", e.Ring.Letters));
+        // the stitch's no: every broken cell, chain and ring, is broken for every N, by a bad local cycle from its
+        // threshold on and by the end count, exactly, at every N read below it
+        Assert.Equal(268, c.Count(e => e.Chain.BrokenEveryN));
+        Assert.Equal(224, c.Count(e => e.Ring.BrokenEveryN));
+        Assert.All(c.Where(e => RingResidue.Contains(e.Name)), e => Assert.Equal("CCCC", e.Chain.Letters));
+        // the mixed ones pair on the triangle alone: the end count reads N = 3, the stitch's no every N from 4 on
+        Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PCCC", e.Ring.Letters));
     }
 
     // What the sieve skipped, asked anyway at N = 3 and 4: every cell the reading certifies is palindromic there by the

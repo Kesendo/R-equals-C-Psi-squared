@@ -97,6 +97,42 @@ public class StitchTests
         Assert.Equal(881, yes);                                          // measured: ring and chain, N = 3..5
     }
 
+    // Every no of the stitch on the first census, ring and chain, N = 3..5, is an exact no of the end count.
+    [Fact]
+    public void Every_No_Of_The_Stitch_Is_A_No_Of_The_End_Count()
+    {
+        int no = 0;
+        foreach (var (name, cell) in Sieve.BondFamily(3, "Z"))
+            foreach (bool ring in new[] { true, false })
+            {
+                var reach = Stitch.EveryN(cell, ring)!;
+                for (int n = 3; n <= 5; n++)
+                {
+                    if (!reach.Breaks(n)) continue;
+                    var v = Sieve.Count(ring ? cell.Normalized().Ring(n) : cell.Normalized().Chain(n)).Verdict();
+                    Assert.True(!EndCount.IsPalindrome(v) && EndCount.IsExact(v), $"{name}, {(ring ? "ring" : "chain")} N = {n}: {v}");
+                    no++;
+                }
+            }
+        Assert.Equal(1252, no);                                          // measured
+    }
+
+    // The local holonomy: the residue's chain breaks at its end, the square of the first two single flips carrying −1, from
+    // three sites on, and its ring has no bad local cycle (it pairs); Heisenberg has none on either; XX + XY breaks by a
+    // local square of two overlapping bond flips, on the chain and in the ring's bulk from the smallest ring holding the
+    // square's region, five sites, and the end count breaks it at N = 3, 4 below that.
+    [Fact]
+    public void The_Local_Holonomy_Finds_The_Chain_End_And_The_Bulk_Square()
+    {
+        Assert.Equal(((int?)3, (int?)null), Stitch.LocalHolonomy(Bond(("XZ", 1), ("ZY", 1))));
+        Assert.Equal(((int?)null, (int?)null), Stitch.LocalHolonomy(Bond(("XX", 1), ("YY", 1), ("ZZ", 1))));
+        var hard = Stitch.LocalHolonomy(Bond(("XX", 1), ("XY", 1)));
+        Assert.Equal(4, hard.Chain);
+        Assert.Equal(5, hard.Ring);
+        for (int n = 3; n <= 4; n++)
+            Assert.False(EndCount.IsPalindrome(Sieve.Count(Bond(("XX", 1), ("XY", 1)).Normalized().Ring(n)).Verdict()));
+    }
+
     // Past the window the every-N reading and the fixed-N solve agree, on cells it reads and cells it does not; the window
     // itself and one site past it are what EveryN solved and checked, so window + 2 is the new evidence.
     [Fact]
