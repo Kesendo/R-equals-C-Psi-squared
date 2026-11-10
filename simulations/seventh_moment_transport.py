@@ -74,6 +74,7 @@ def sqrt_minus_one(p):
 
 def trace_power(M, m):
     """Tr(M^m) for a matrix of Gaussian integers, m = 5 or 7, exact while |Tr| < MODULUS / 2."""
+    assert m in (5, 7), "trace_power computes the fifth or the seventh power only"
     assert np.array_equal(M.real, np.round(M.real)) and np.array_equal(M.imag, np.round(M.imag))
     residues = []
     for p in PRIMES:
