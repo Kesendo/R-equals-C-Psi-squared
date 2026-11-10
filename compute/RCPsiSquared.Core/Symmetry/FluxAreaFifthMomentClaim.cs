@@ -32,6 +32,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// registry's gate <c>simulations/fifth_moment_flux_area.py</c> (floats on integer inputs, by Kronecker products).
 /// F137 itself is not typed, so this claim has no typed parent. Adjacent, not parents:
 /// <see cref="ThermalThirdMomentClaim"/> (the third moment in the same setting, zero for these bonds),
+/// <see cref="TransportSeventhMomentClaim"/> (the order above, the seventh trace at second order in the rates),
 /// <see cref="CooledBondPowerSumsClaim"/> (the parity count of the rates under cooling alone, where this trace is
 /// zero), <see cref="MomentTowerPumpChannelClaim"/> (the arrow I → Z at first order; here it enters once, beside one
 /// height).</para></summary>
@@ -160,7 +161,8 @@ public sealed class FluxAreaFifthMomentClaim : Claim
                          "with hoppings 1, 2, 3i: −3936; M11's triangle at one ratio with a pendant site at another: zero, its break sitting at a " +
                          "higher trace; no ring of four has a triangle");
             yield return new InspectableNode("what this does not say",
-                summary: "a vanishing fifth trace decides nothing (the temperature gradient at one coupling breaks at the seventh); with a field, a " +
+                summary: "a vanishing fifth trace decides nothing (the temperature gradient at one coupling breaks at the seventh, in its part " +
+                         "of degree four in the rates; M11's pendant setting and its ring of four in the part of degree two, TransportSeventhMomentClaim); with a field, a " +
                          "uniform one included, or with a bond that does not conserve the excitation number the closed form fails (the witness's " +
                          "controls). No dephasing, no other jump");
         }

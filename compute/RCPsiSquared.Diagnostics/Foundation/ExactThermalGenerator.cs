@@ -5,7 +5,8 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The centred generator 2L + c under cooling and heating, in exact Gaussian integers, for the witnesses of
-/// <see cref="ThermalThirdMomentClaim"/>, <see cref="ConditionedFieldPairingClaim"/> and <see cref="FluxAreaFifthMomentClaim"/>.
+/// <see cref="ThermalThirdMomentClaim"/>, <see cref="ConditionedFieldPairingClaim"/>, <see cref="FluxAreaFifthMomentClaim"/>
+/// and <see cref="TransportSeventhMomentClaim"/>.
 ///
 /// <para>L = −i[H, ·] + Σ_l (γ↓_l·D[σ⁻_l] + γ↑_l·D[σ⁺_l]), σ⁻ = |0⟩⟨1| with Z|0⟩ = |0⟩, c = Σ_l (γ↓_l + γ↑_l). The image of
 /// every matrix unit |i⟩⟨j| is written down directly (the commutator with H row by row and column by column; cooling

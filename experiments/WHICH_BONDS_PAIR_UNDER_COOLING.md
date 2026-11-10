@@ -285,7 +285,12 @@ the reflections being the transpositions; Im z³ and Im z·|w|² being independe
 change sign under every transposition, and so each is a number times (γ₁ − γ₂)(γ₁ − γ₃)(γ₂ − γ₃)(γ₁ + γ₂ + γ₃). The seventh of the two bonds 3XX − XY + 2YX + 5YY − 2ZZ
 and −2XX + XY + 3YX + YY + 3ZZ is zero as a polynomial in the rates on the triangle and on the ring of four (in
 the gate), and their pairs (Im z³, Im z·|w|²) are independent, so both numbers are zero: the seventh vanishes on the
-triangle for every bond of the class as well. At one random class bond on each ring of 3 to 6 sites p₃, p₅ and p₇ are zero
+triangle for every bond of the class as well. With heating at γ↑_l beside the cooling at γ↓_l the part with d = 2 need no longer be
+zero: for bonds that conserve the excitation number (w = 0) it is in closed form on any graph, a sum over the pairs
+of sites of γ↓_l·γ↑_k − γ↓_k·γ↑_l times a coefficient read off the triangles through l or k, every bond of the
+graph by how it touches them, and the rings through the pair
+([Theorem B of the transport formula's proof](../docs/proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md)), and
+every such term is zero at γ↑ = 0. Under cooling alone again, at one random class bond on each ring of 3 to 6 sites p₃, p₅ and p₇ are zero
 and p₉ is not (modulo a prime). Without the rotation the count still holds: with a different bond on each edge the
 triangle's fifth is not zero, its three factors closing round it, while on the rings of four and five the fifth
 stays zero and the seventh is not (in the gate). On the ring of four,

@@ -345,17 +345,17 @@ def main():
     hop4, zz4 = {(0, 1): 1 + 0j, (1, 2): 1 + 0j, (2, 0): 1j, (3, 0): 1 + 0j}, {(0, 3): 1}
     parts = rate_degrees(4, g.hamiltonian(4, hop4, zz4), s4, a4)
     check("(R) a triangle at one ratio with a fourth site at another, joined by a hopping bond: the seventh trace is "
-          "not zero, all of degree two, and the closed form gives it",
-          parts[2] == closed_form(4, hop4, zz4, s4, a4) != 0 and parts[0] == parts[4] == parts[6] == 0,
+          "-44800, all of degree two, and the closed form gives it",
+          parts[2] == closed_form(4, hop4, zz4, s4, a4) == -44800 * 128 * 72 ** 2 and parts[0] == parts[4] == parts[6] == 0,
           f"Tr((L + c/2)^7) = {Fraction(parts[2], 128 * 72 ** 2)}")
     ring4 = {(0, 1): 1 + 0j, (1, 2): 2 + 0j, (2, 3): 3 + 0j, (3, 0): 17j}
     zz4 = {(0, 1): 7, (1, 2): 7, (2, 3): 7, (0, 3): 7}
     d4, u4 = [36, 72, 108, 72], [9, 24, 20, 8]          # four ratios
     s4, a4 = [x + y for x, y in zip(d4, u4)], [x - y for x, y in zip(d4, u4)]
     parts = rate_degrees(4, g.hamiltonian(4, ring4, zz4), s4, a4)
-    check("(R) a ring of four with flux pi/2, ZZ on every bond and four ratios: the seventh trace is not zero, all "
+    check("(R) a ring of four with flux pi/2, ZZ on every bond and four ratios: the seventh trace is -68239360, all "
           "of degree two, and the closed form gives it; without the ZZ it is zero",
-          parts[2] == closed_form(4, ring4, zz4, s4, a4) != 0 and parts[0] == parts[4] == parts[6] == 0
+          parts[2] == closed_form(4, ring4, zz4, s4, a4) == -68239360 * 128 * 72 ** 2 and parts[0] == parts[4] == parts[6] == 0
           and trace_power(g.generator(4, g.hamiltonian(4, ring4, {}), s4, a4), 7) == 0,
           f"Tr((L + c/2)^7) = {Fraction(parts[2], 128 * 72 ** 2)}")
 
@@ -378,9 +378,12 @@ def main():
     neg_s, neg_a = [-x for x in s], [-x for x in a]
     check("(C) control, a longitudinal field on one site: Tr M^7 is no longer even in the rates",
           trace_power(g.generator(n, Hf, s, a), 7) != trace_power(g.generator(n, Hf, neg_s, neg_a), 7))
-    Hx = g.hamiltonian(n, hop, zz) + 2 * g.site(g.X, 0, n) @ g.site(g.X, 1, n)
+    # 3 X_0 X_1 and not 2: the part of 2 X_0 X_1 that conserves the number moves t_01 to 2 + 2i, the loop becomes
+    # real and every odd trace is zero by a pairing, which would be a miss for another reason
+    Hx = g.hamiltonian(n, hop, zz) + 3 * g.site(g.X, 0, n) @ g.site(g.X, 1, n)
+    xx = rate_degrees(n, Hx, s, a)[2]
     check("(C) control, an XX term on one bond (the excitation number not conserved): the part of degree two "
-          "leaves the closed form", rate_degrees(n, Hx, s, a)[2] != closed_form(n, hop, zz, s, a))
+          "is not zero and leaves the closed form", xx != 0 and xx != closed_form(n, hop, zz, s, a), f"{xx}")
 
     print("ALL PASS" if not FAILED else f"FAILED: {FAILED}")
     return 1 if FAILED else 0

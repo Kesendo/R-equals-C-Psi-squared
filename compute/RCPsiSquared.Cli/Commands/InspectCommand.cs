@@ -1197,6 +1197,13 @@ public static class InspectCommand
             "a ring of four), and controls outside the class (typed: FluxAreaFifthMomentClaim)",
             c => new FluxAreaFifthMomentWitness(),
             RequiresN: false),
+        new("seventhmoment", "the thermal seventh moment at second order in the rates live (F137, PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN " +
+            "Theorem B): the part of degree two of Tr((2L + c)⁷) as the words with two rate letters, 7·Σ_{p ≤ 2} Tr(B·A^p·B·A^(5−p)), in exact Gaussian " +
+            "integers, against the closed form on triangles, a hanging site, rings of four with ZZ and the complete graph on four sites; the " +
+            "recorded −44800, −20380416⁄25 and −68239360 (all of degree two), the 430080 and 322560 of degree four, and controls outside the " +
+            "class (typed: TransportSeventhMomentClaim)",
+            c => new TransportSeventhMomentWitness(),
+            RequiresN: false),
         new("conditionedfield", "the conditioned field live (F137): h(X₀ + X₀Z₁) + w·Z₁, site 0 cooled and heated, site 1 cooled " +
             "alone; triangularity on the five integer pieces, the block identities and the converse proven on a 5⁵ grid, the odd coefficients and odd " +
             "sums vanishing on s₀ = γ↓₁, the y¹³ coefficient the law off it, four controls breaking at the fifth (typed: ConditionedFieldPairingClaim)",

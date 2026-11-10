@@ -486,7 +486,11 @@ site with cooling alone and no field
 the effective Hamiltonian ([F137](ANALYTICAL_FORMULAS.md)). A broken element is not
 always a broken spectrum: with real hopping a gradient still pairs, through S_XY
 (F137's paragraph on loss and gain exchanged), while with complex hopping a
-gradient can break the pairing itself, and there no element of any kind exists.
+gradient can break the pairing itself, and there no element of any kind exists
+(on a triangle of three equal hoppings threaded by a flux π/2, with γ↓ = 2(n̄ + 1), γ↑ = 2n̄ and n̄ = (1, 2, 3),
+Tr((L + c/2)⁵) = 0 and Tr((L + c/2)⁷) = 430080, c the sum of the rates, and an odd trace about the centre that
+is not zero rules the pairing out:
+[F137](ANALYTICAL_FORMULAS.md#f137), [the transport formula's proof](proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md)).
 With the weight of the one-site steady state in place of the bath's,
 w = diag(1, q) with q² = (γ↑ + γ⊥)/(γ↓ + γ⊥) for dephasing at γ⊥ along any axis
 in the XY plane, the same map reflects L onto −L − c, c = Σ(γ↓ + γ↑ + 2γ⊥) with
