@@ -4727,12 +4727,10 @@ public static class OpenArcsRegistry
                 "ORTHOGONALITY_SELECTION_FAMILY.md:125, where the word 'uniformly' belongs to d_H and the " +
                 "gamma hypothesis sits separately at :117, the file's own TL;DR at :21 priming the " +
                 "misreading; and GLOSSARY :330 and :438, fenced early because a glossary is a named " +
-                "Stage-0 store and is where a future sweep lands first). CLASS A IS THEREFORE DOWN TO ONE " +
-                "SITE, and it is the sharpest anywhere: " +
-                "reflections/ON_THE_TWO_COLUMNS.md:149, which exempts the two band ends from the " +
-                "hedge INSIDE the profile regime and with an explicit 'no hedge at all'. That one is Tom's " +
-                "call, not a fence: it is our own voice, it is class-B shaped, and whether 'the band's " +
-                "price' means a pinned value or a floor decides whether it is wrong at all. " +
+                "Stage-0 store and is where a future sweep lands first). CLASS A HAS NO MARKDOWN SITE " +
+                "LEFT: the fifth, the closing section of reflections/ON_THE_TWO_COLUMNS.md, states " +
+                "the two band ends as a floor, F140's own statement (the band's price at least as deep " +
+                "as without the grip, at every coupling), on the mirror-balanced lamps the band asks for. " +
                 "WHAT CLASS B SHOULD POINT AT, found by the interpreter lens of the class-A closing " +
                 "round and NOT a new law: the uniform-side statement is already DERIVED, with a QED, at " +
                 "PROOF_ABSORPTION_THEOREM section 4.3, because hamming >= |dpopcount| = k forces " +
