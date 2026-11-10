@@ -30,20 +30,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// couplings: 15·Δ² of a ZZ bond off the triangle, 5·Δ² of one with one end at l or k and the other off it, 10·Δ² of
 /// one with one end at j and the other off it, 5·(Δ_lj² + Δ_jk²) + (10⁄3)·Δ_lk² + 2·Δ_lj·Δ_jk − (8⁄3)·Δ_lk·(Δ_lj + Δ_jk).
 /// By lines: the triangle (l, k, j) by the imaginary part of its loop times a weight; a site joined to a corner of a
-/// triangle reading that triangle's loop in the corner's place; the rings of five through l and k; the rings of
+/// triangle through the pair's other site reading that triangle's loop in the corner's place; the rings of five through l and k; the rings of
 /// four, which enter only through ZZ. β_lk = −β_kl. In the integer form the witness reads, with s = γ↓ + γ↑ and
 /// a = γ↓ − γ↑: the part of degree two of Tr((2L + c)⁷) is 3584·4^N·Σ_{l≠k} s_l·a_k·(3·β_lk).</para>
 ///
 /// <para>Derived in the proof: the coefficient of s_l·δ_k in Tr e^{τ(L + c/2)} is τ·∫₀^τ (|f⁺_lk|² − |f⁻_lk|²) dx for
 /// every H that conserves the excitation number (its Theorem A, step (3) of F137), an excitation carried from l to k
 /// against a hole; at the seventh power the amplitudes are read on a circle of time, each site of a path excited
-/// from one hop point to the next, the ZZ couplings as phases averaged over the spins that look on.</para>
+/// from one hop point to the next, the ZZ couplings as phases averaged over the sites that carry no σ^±.</para>
 ///
 /// <para>Live witness: <c>compute/RCPsiSquared.Diagnostics/Foundation/TransportSeventhMomentWitness.cs</c>,
 /// <c>inspect --root seventhmoment</c>, the part of degree two as 7·Σ_{p ≤ 2} Tr(B·A^p·B·A^(5−p)) with 2L + c = A + B, A the
 /// generator at zero rates and B the part linear in the rates, in exact Gaussian integers at N = 3 and 4, beside the proof's
 /// gate <c>simulations/seventh_moment_transport.py</c> (traces modulo ten primes, the degrees split by scaling the
-/// rates, N up to 5, where the rings of five and a ZZ bond off a triangle are read). F137 itself is not typed, so this claim has no typed parent.
+/// rates, N up to 5, where the rings of five and a bond off a triangle, hopping or ZZ, are read). F137 itself is not typed, so this claim has no typed parent.
 /// Adjacent, not parents: <see cref="FluxAreaFifthMomentClaim"/> (the order below, the direct hop against the detour
 /// over one site, Δ not entering), <see cref="CooledBondPowerSumsClaim"/> (the seventh under cooling alone, where
 /// every rate point lies on one axis and this part is zero on any graph; its seventh lives on bonds that do not
@@ -131,8 +131,8 @@ public sealed class TransportSeventhMomentClaim : Claim
             foreach (int j in rest)
             {
                 if (i == j) continue;
-                b -= 45 * Sq(t[l, i]) * (t[i, k] * t[k, j] * t[j, i]).Im;                      // the copy at l
-                b -= 45 * Sq(t[k, j]) * (t[l, j] * t[j, i] * t[i, l]).Im;                      // the copy at k
+                b -= 45 * Sq(t[l, i]) * (t[i, k] * t[k, j] * t[j, i]).Im;                      // the borrowed triangle at l
+                b -= 45 * Sq(t[k, j]) * (t[l, j] * t[j, i] * t[i, l]).Im;                      // the borrowed triangle at k
                 var near = (t[l, k] * t[k, j] * t[j, i] * t[i, l]).Im;                         // the ring of four through the edge l–k
                 b += 15 * near * (d[l, k] - d[l, i] - d[i, j] - d[j, k]);
                 var far = (t[l, i] * t[i, k] * t[k, j] * t[j, l]).Im;                          // the ring of four with l and k opposite
@@ -152,7 +152,7 @@ public sealed class TransportSeventhMomentClaim : Claim
     public TransportSeventhMomentClaim()
         : base("Under cooling and heating alone, for bonds J(XX + YY) + D(XY − YX) + Δ·ZZ on any graph without fields, the part of " +
                "Tr((L + c/2)⁷) of degree two in the rates is −168·4^N·Σ_{l<k} β_lk·(γ↓_l·γ↑_k − γ↓_k·γ↑_l), β_lk in closed form on the " +
-               "triangles through l and k, the triangles one bond away from l or k, the rings of five and, through ZZ alone, the rings of four",
+               "triangles through l and k, the triangles through k one bond away from l or through l one bond away from k, the rings of five and, through ZZ alone, the rings of four",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_TRANSPORT_FORMULA_LOSS_AND_GAIN.md (Theorem B); docs/ANALYTICAL_FORMULAS.md (F137)")
     {
@@ -164,7 +164,7 @@ public sealed class TransportSeventhMomentClaim : Claim
     public override string Summary =>
         "cooling γ↓_l and heating γ↑_l on every site, H hopping J + iD with ZZ on any graph, no fields: the part of Tr((L + c/2)⁷) of " +
         "degree two in the rates is −168·4^N·Σ_{l<k} β_lk·(γ↓_l·γ↑_k − γ↓_k·γ↑_l); each triangle through l and k by the imaginary part of " +
-        "its loop times a weight (30, 25, 20, 15, 8 on the |t|², a quadratic form in Δ), a site joined to a corner of a triangle reading that triangle in the corner's place, rings of five, rings of four through ZZ alone " +
+        "its loop times a weight (30, 25, 20, 15, 8 on the |t|², a quadratic form in Δ), a site joined to a corner of a triangle through the pair's other site reading that triangle in the corner's place, rings of five, rings of four through ZZ alone " +
         "(Tier 1 derived; live witness: inspect --root seventhmoment).";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -174,23 +174,23 @@ public sealed class TransportSeventhMomentClaim : Claim
             yield return new InspectableNode("the derivation",
                 summary: "the coefficient of s_l·δ_k in Tr e^{τ(L + c/2)} is τ·∫₀^τ (|f⁺_lk|² − |f⁻_lk|²) dx for every H that conserves the excitation " +
                          "number (Theorem A of the proof, step (3) of F137); at order five in H the amplitudes are read on a circle of time with two marks, " +
-                         "each site of a simple path excited from one hop point to the next, ZZ a phase averaged over the spins that look on; the fifth trace is the order " +
+                         "each site of a simple path excited from one hop point to the next, ZZ a phase averaged over the sites that carry no σ^±; the fifth trace is the order " +
                          "below, the direct hop against the detour over one site");
             yield return new InspectableNode("by lines",
                 summary: "a triangle (l, k, j): Im(t_lk·t_kj·t_jl) times 30·|t|² of a bond off its corners, 25 of one at j alone, 20 of one at l or k alone, " +
                          "15 on the sides through j, 8 on the edge l–k, plus the quadratic form in Δ; a site l joined to a corner i of a triangle (i, k, j): that " +
-                         "triangle's loop in i's place, −15·|t_li|²; a ring of five: ±15 its loop, on a ring alone 2520·4^N·Im(loop)·(pentagram − pentagon) " +
+                         "triangle's loop in i's place, −15·|t_li|², and k likewise; a ring of five: ±15 its loop, summed over the pairs of one ring 2520·4^N·Im(loop)·(pentagram − pentagon) " +
                          "of the five rate points; a ring of four: 5·Im(loop) times a linear form in the Δ on its edges, zero without ZZ");
             yield return new InspectableNode("the instances",
-                summary: "gate M11's two breaks at N = 4 with a fifth trace of zero break here, all of degree two: the unit triangle at ratio ¼ with a " +
-                         "fourth site at ratio 1⁄9, Tr((L + c/2)⁷) = −44800; the ring of four at Δ = 7⁄10, flux π/2 and four ratios, −20380416⁄25, through " +
+                summary: "gate M11's two breaks at N = 4 with a fifth trace of zero break here, the gate finding no part of degree four: the unit " +
+                         "triangle at ratio ¼ with a fourth site at ratio 1⁄9, Tr((L + c/2)⁷) = −44800, all borrowed triangle; the ring of four at Δ = 7⁄10, flux π/2 and four ratios, −20380416⁄25, through " +
                          "its ZZ alone. On a triangle alone with three equal |t| and one Δ the three weights are equal and the part is flux times the " +
                          "area of the rate triangle again");
             yield return new InspectableNode("what this does not say",
                 summary: "the part of degree four is not derived: the 430080 of the temperature gradient on the unit triangle is all of degree four, and a " +
                          "triangle with unequal weights (hoppings 1, 1 + i, 2i; γ↓ = (3, 5, 2), γ↑ = γ↓ − 2) has a part of degree two of zero and " +
                          "322560 of degree four, so a part of degree two of zero decides nothing. With a field or a bond that does not conserve the " +
-                         "excitation number the closed form does not hold. No dephasing, no other jump; the rings of five and a ZZ bond off a triangle are read by the gate at " +
+                         "excitation number the closed form does not hold. No dephasing, no other jump; the rings of five and a bond off a triangle, hopping or ZZ, are read by the gate at " +
                          "N = 5, not by the live witness");
         }
     }

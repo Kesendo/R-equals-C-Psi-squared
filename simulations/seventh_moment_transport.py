@@ -31,7 +31,7 @@ M = 2L + c, s = gamma_down + gamma_up, a = gamma_down - gamma_up.
       with a fourth site at another, a ring of four with flux, ZZ and four ratios): their seventh trace is
       not zero, all of it of degree two, and (L) gives it; a triangle with three unequal weights and three
       rate points on a line off the origin where the part of degree two is zero all the same; gate M11's own
-      ring of four (cube_moves_gate.py), Tr((L + c/2)^7) = -20380416/25, all of degree two
+      ring of four (cube_moves_gate.py), Tr((L + c/2)^7) = -20380416/25, all of degree two, zero without its ZZ
   (V) the closed form is held as 21 integer coefficients (the ZZ ones at three times their value, each term
       of the two linear forms of the rings of four on its own); each of them moved by one is noticed by a row
   (C) controls: with a longitudinal field on one site Tr(M^7) is no longer even in the rates; an XX term on
@@ -165,7 +165,7 @@ def transport(n, H, l, k, m):
 
 # ---- (L) the closed form ---------------------------------------------------------------------------------
 
-CONSTANTS = dict(bond=30, touch=10, third=5, own=2, copy_l=15, copy_k=15, pent_near=15, pent_far=15,
+CONSTANTS = dict(bond=30, touch=10, third=5, own=2, borrowed_l=15, borrowed_k=15, pent_near=15, pent_far=15,
                  zz_off=45, zz_lk_out=15, zz_j_out=30, zz_side=15, zz_own=10, zz_sides=6, zz_own_side=8,
                  sq_own=15, sq_li=15, sq_ij=15, sq_jk=15, sq_far_lj=15, sq_far_jk=15)
 
@@ -208,8 +208,8 @@ def closed_form(n, hop, zz, s, a, C=CONSTANTS):
             Q += C["zz_sides"] * D[l][j] * D[j][k] - C["zz_own_side"] * D[l][k] * (D[l][j] + D[j][k])
             B += loop * (3 * W + Q)
         for i, j in itertools.permutations(rest, 2):
-            B -= 3 * C["copy_l"] * sq(t[l][i]) * im(t[i][k] * t[k][j] * t[j][i])
-            B -= 3 * C["copy_k"] * sq(t[k][j]) * im(t[l][j] * t[j][i] * t[i][l])
+            B -= 3 * C["borrowed_l"] * sq(t[l][i]) * im(t[i][k] * t[k][j] * t[j][i])
+            B -= 3 * C["borrowed_k"] * sq(t[k][j]) * im(t[l][j] * t[j][i] * t[i][l])
             near = im(t[l][k] * t[k][j] * t[j][i] * t[i][l])
             B += near * (C["sq_own"] * D[l][k] - C["sq_li"] * D[l][i] - C["sq_ij"] * D[i][j] - C["sq_jk"] * D[j][k])
             far = im(t[l][i] * t[i][k] * t[k][j] * t[j][l])
@@ -368,9 +368,10 @@ def main():
     parts = rate_degrees(4, g.hamiltonian(4, ring11, zz11), s11, a11)
     seventh = Fraction(parts[2], 128 * 10 ** 5 * 840 ** 2)
     check("(R) gate M11's ring of four at Delta = 7/10, flux pi/2 and four ratios: Tr((L + c/2)^7) = -20380416/25, "
-          "all of degree two, by the closed form and in the generator",
+          "all of degree two, by the closed form and in the generator; without the ZZ it is zero",
           seventh == Fraction(-20380416, 25) and parts[2] == closed_form(4, ring11, zz11, s11, a11)
-          and parts[0] == parts[4] == parts[6] == 0, f"{seventh}")
+          and parts[0] == parts[4] == parts[6] == 0
+          and trace_power(g.generator(4, g.hamiltonian(4, ring11, {}), s11, a11), 7) == 0, f"{seventh}")
 
     # (C) control
     name, n, hop, zz, s, a = ROWS[0]

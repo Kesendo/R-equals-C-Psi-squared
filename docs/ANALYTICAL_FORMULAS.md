@@ -7022,20 +7022,24 @@ rates and no others, and the part of degree two is
 with β_lk in closed form there. Each triangle through l and k carries its loop Im(t_lk·t_kj·t_jl) times a
 weight that counts every bond of the graph by how it touches the triangle: a hopping bond with 30·|t|² off
 the triangle, 25 hanging at the corner j, 20 hanging at l or k, 15 on the two edges through j and 8 on the
-edge l–k, a ZZ bond through a quadratic form in Δ. A site l joined to a corner i of a triangle reads that
-triangle's loop in i's place, with the weight −15·|t_li|². A ring of five gives 2520·4^N·Im(loop) times the
+edge l–k, a ZZ bond through a quadratic form in Δ; the 30·|t|² and the 15·Δ² that every bond carries off
+the triangle are the fifth trace times the second, and the cumulant left is local. A site l joined to a
+corner i of a triangle through k reads that
+triangle's loop in i's place, with the weight −15·|t_li|², and k likewise. A ring of five gives 2520·4^N·Im(loop) times the
 pentagram of its five rate points minus their pentagon, the sites counted the way the loop runs. A ring of
 four with flux enters only with ZZ, times a linear form in the Δ on its edges. On a triangle alone with
 three equal |t| and one Δ the three weights are equal, and the part of degree two is again flux times the
 area of the rate triangle, zero on every line of rate points; the 430080 of the temperature gradient above
 is all of degree four, which is not derived. The two breaks of M11 at N = 4 with a fifth trace of zero
-break at the seventh, all of it of degree two: the triangle with a fourth site has Tr((L + c/2)⁷) = −44800
-and the ring of four has −20380416⁄25, through its ZZ alone. Gate:
+break at the seventh, the gate finding no part of degree four there: the triangle with a fourth site has
+Tr((L + c/2)⁷) = −44800, all of it from that site's bond to the triangle, and the ring of four has
+−20380416⁄25, through its ZZ alone. Gate:
 [`simulations/seventh_moment_transport.py`](../simulations/seventh_moment_transport.py) (integers, every
 comparison exact: the transport formula at the fifth and seventh order against the generator for every
 ordered pair of sites, no part of degree zero or six, the closed form on graphs at N = 3, 4, 5, each of the
-integer coefficients it is held in moved by one, the temperature gradient, a ring of five, those two
-breaks and a second ring of four whose seventh trace is zero without its ZZ, and as controls a longitudinal
+integer coefficients it is held in moved by one, the temperature gradient, a ring of five, a triangle with three
+unequal weights on a line of rate points where the part of degree two is zero all the same, those two
+breaks and a second ring of four, each ring's seventh trace zero without its ZZ, and as controls a longitudinal
 field and an XX term). Typed: TransportSeventhMomentClaim, live at `inspect --root seventhmoment`, the part
 of degree two read off the generator in exact Gaussian integers at N = 3 and 4 as the words with two rate
 letters, against the closed form.

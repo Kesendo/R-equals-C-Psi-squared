@@ -22,13 +22,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// proof §6; degrees zero and six checked by the gate).</para>
 ///
 /// <para>The rows, at N = 3 and 4: a triangle with unequal hoppings and ZZ and one with equal hoppings and one Δ, a site hanging on a triangle by a hopping
-/// bond (the copy), ZZ bonds from a triangle to a fourth site, a ring of four with ZZ on its edges and diagonals, the
+/// bond (the borrowed triangle), ZZ bonds from a triangle to a fourth site, a ring of four with ZZ on its edges and diagonals, the
 /// complete graph on four sites; the recorded values (gate M11's two breaks, −44800 and −20380416⁄25, the second
 /// with H times 10 and the rates times 840; the ring of four of the fifth trace's gate, −68239360, and zero without
 /// its ZZ; the temperature gradient, 430080 all of degree four; the triangle with unequal weights, 322560 all of
 /// degree four); three settings where the part is zero (rate points on a line at equal weights, cooling alone, flux 0);
-/// and three controls that leave the class and must miss the closed form. A ring of five and a ZZ bond off a
-/// triangle need five sites: no row reads them against a generator here, the gate does.</para></summary>
+/// and three controls that leave the class and must miss the closed form. A ring of five and a bond off a
+/// triangle, hopping or ZZ, need five sites: no row reads them against a generator here, the gate does.</para></summary>
 public sealed class TransportSeventhMomentWitness : IInspectable
 {
     public sealed record Row(string Label, int N, IReadOnlyList<B> Bonds, IReadOnlyList<long> Cool, IReadOnlyList<long> Heat,
@@ -82,7 +82,7 @@ public sealed class TransportSeventhMomentWitness : IInspectable
         return new[]
         {
             new Row("a triangle with |t|² = 5, 10, 5 and ZZ 5, −2, 1", 3, zzTriangle, c3, h3),
-            new Row("a triangle with a site hanging on one corner by a hopping bond: the copy", 4, hanging, c4, h4),
+            new Row("a triangle with a site hanging on one corner by a hopping bond: the borrowed triangle", 4, hanging, c4, h4),
             new Row("a triangle with ZZ bonds to a fourth site and no hopping there", 4, zzOut, c4, h4),
             new Row("a ring of four with flux, ZZ on its edges and both diagonals", 4, ringDiagonals, new long[] { 2, 1, 3, 1 }, new long[] { 1, 3, 1, 2 }),
             new Row("the complete graph on four sites, complex hoppings, six different ZZ", 4, k4, new long[] { 2, 1, 3, 1 }, new long[] { 1, 3, 1, 2 }),
