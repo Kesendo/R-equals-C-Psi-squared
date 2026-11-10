@@ -187,7 +187,7 @@ public sealed class TransportSeventhMomentClaim : Claim
                          "its ZZ alone. On a triangle alone with three equal |t| and one Δ the three weights are equal and the part is flux times the " +
                          "area of the rate triangle again");
             yield return new InspectableNode("what this does not say",
-                summary: "the part of degree four is not derived here (it is, as a sum over the triangles, in docs/proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md): the 430080 of the temperature gradient on the unit triangle is all of degree four, and a " +
+                summary: "the part of degree four is not derived here (it is, as a sum over the triangles, in docs/proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md, typed as SeventhMomentDegreeFourClaim, inspect --root seventhfour): the 430080 of the temperature gradient on the unit triangle is all of degree four, and a " +
                          "triangle with unequal weights (hoppings 1, 1 + i, 2i; γ↓ = (3, 5, 2), γ↑ = γ↓ − 2) has a part of degree two of zero and " +
                          "322560 of degree four, so a part of degree two of zero decides nothing. With a field or a bond that does not conserve the " +
                          "excitation number the closed form does not hold. No dephasing, no other jump; the rings of five and a bond off a triangle, hopping or ZZ, are read by the gate at " +

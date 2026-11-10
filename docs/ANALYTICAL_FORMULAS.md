@@ -7063,7 +7063,10 @@ seventh trace is −e·[3360·Im·(1 + m)²·V(γ↓) + 10752·⟨γ↓, b⟩], 
 trace on equal total rates, 36864·Im·(|t|² + 7Δ²)·S·V(δ) with S the common s_l, removes the last. So on that
 triangle the spectrum pairs at a flux other than 0 and π exactly at one ratio γ↑/γ↓ on every damped site
 (cooling or heating alone included) or two sites with the same rate point, both carriers above. Gate:
-[`simulations/seventh_moment_degree_four.py`](../simulations/seventh_moment_degree_four.py). Typed: not yet.
+[`simulations/seventh_moment_degree_four.py`](../simulations/seventh_moment_degree_four.py). Typed: SeventhMomentDegreeFourClaim, live at
+`inspect --root seventhfour` (the part of degree four as the words with four rate letters at N = 3 and 4, the whole
+trace against the closed forms together), and EqualTrianglePairingClaim, live at `inspect --root equaltriangle` (the
+verdict from the rates against the odd traces and the characteristic polynomial).
 
 Dephasing in the XY plane beside the damping keeps the exchange criterion, and on a bipartite graph at
 Δ = 0 it keeps complex conjugation with the sublattice sign at any axes: the spin flip mirrors each axis
@@ -7151,7 +7154,7 @@ exact at the script's rational rate profiles at N=2, 3 and measured to N=5, and 
 with X⊗N and Y⊗N by the element S_XY above; outside that class, for H commuting with Z⊗N under cooling,
 heating and dephasing in the XY plane, the criterion
 (the spectrum unchanged when loss and gain are exchanged) is derived at every N, and the pairing wherever
-one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); five of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim, ConditionedFieldPairingClaim, FluxAreaFifthMomentClaim and TransportSeventhMomentClaim. Open: typing the rest; whether, for XXZ
+one of its carriers applies, in the paragraph on loss and gain exchanged, above. **Typed:** the entry as a whole not yet (Tier1Candidate); seven of its results are: CooledBondPowerSumsClaim, ThermalThirdMomentClaim, ConditionedFieldPairingClaim, FluxAreaFifthMomentClaim, TransportSeventhMomentClaim, SeventhMomentDegreeFourClaim and EqualTrianglePairingClaim. Open: typing the rest; whether, for XXZ
 bonds with axial DM terms on a connected graph, the spectrum can be even under flux reversal at a flux
 other than 0 and π,
 with ratios that differ between damped sites of one component of the hopping bonds, without any of the carriers above (on the triangle with equal |t| and one Δ, no: the paragraph that closes the part of degree four, above); and which Hamiltonians that do not commute with Z⊗N keep the thermal pairing on a connected graph
@@ -7305,7 +7308,7 @@ part of degree four against WHICH_BONDS' triangle, and the open question on flux
 **Swept for the seventh trace at fourth order in the rates:** recorded in
 proofs/PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE.md under its opening; no store held the part of degree four, the
 walk sum with complete homogeneous heights, the ninth trace on equal heights or an answer to the open question on
-any family.
+any family; SeventhMomentDegreeFourClaim and EqualTrianglePairingClaim with their witnesses type the paragraph.
 -->
 **Reached back to:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md),
 which had carried this as an open question since 2026-03-30, and

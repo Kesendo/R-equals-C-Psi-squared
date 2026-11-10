@@ -1204,6 +1204,17 @@ public static class InspectCommand
             "class (typed: TransportSeventhMomentClaim)",
             c => new TransportSeventhMomentWitness(),
             RequiresN: false),
+        new("seventhfour", "the thermal seventh moment at fourth order in the rates live (F137, PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE " +
+            "Theorems 1 and 2): the part of degree four of Tr((2L + c)⁷) as the words with four rate letters, seven times five necklaces, in exact " +
+            "Gaussian integers, against the sum over the triangles; graphs with one, two and four triangles, the recorded 430080 and 322560, the " +
+            "whole seventh trace against the closed forms of degree two and four together, and controls outside the class (typed: SeventhMomentDegreeFourClaim)",
+            c => new SeventhMomentDegreeFourWitness(),
+            RequiresN: false),
+        new("equaltriangle", "flux reversal on the equal triangle live (F137, PROOF_SEVENTH_TRACE_DEGREE_FOUR_TRIANGLE Theorem 3): the verdict " +
+            "read from the rates alone (one ratio, two equal rate points, or broken at the fifth, seventh or ninth trace) against the generator's " +
+            "odd traces and its characteristic polynomial, on two triangles with one |t| and one Δ (typed: EqualTrianglePairingClaim)",
+            c => new EqualTrianglePairingWitness(),
+            RequiresN: false),
         new("conditionedfield", "the conditioned field live (F137): h(X₀ + X₀Z₁) + w·Z₁, site 0 cooled and heated, site 1 cooled " +
             "alone; triangularity on the five integer pieces, the block identities and the converse proven on a 5⁵ grid, the odd coefficients and odd " +
             "sums vanishing on s₀ = γ↓₁, the y¹³ coefficient the law off it, four controls breaking at the fifth (typed: ConditionedFieldPairingClaim)",
