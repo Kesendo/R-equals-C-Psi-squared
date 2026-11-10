@@ -2761,21 +2761,35 @@ if (args.Length > 0 && args[0] == "sieve")
     int svTerms = args.Length > 1 ? int.Parse(args[1]) : 3;
     int svMaxN = args.Length > 2 ? int.Parse(args[2]) : 6;
     string svJumps = args.Length > 3 ? args[3] : "Z";
-    if (svTerms < 1 || svTerms > 9 || svMaxN < 3 || svMaxN > 10 || svJumps.Length == 0 || svJumps.Any(c => c is not ('X' or 'Y' or 'Z')))
+    string svFamily = args.Length > 4 ? args[4] : "bonds";
+    if (svTerms < 1 || svTerms > 9 || svMaxN < 3 || svMaxN > 10 || svJumps.Length == 0 || svJumps.Any(c => c is not ('X' or 'Y' or 'Z'))
+        || svFamily is not ("bonds" or "fields" or "windows"))
     {
-        Console.Error.WriteLine("sieve [maxTerms 1..9] [maxN 3..10] [jumps, letters of X Y Z], e.g. sieve 3 6 Z");
+        Console.Error.WriteLine("sieve [maxTerms 1..9] [maxN 3..10] [jumps, letters of X Y Z] [bonds | fields | windows], e.g. sieve 3 6 Z");
         Environment.ExitCode = 2;
         return;
     }
     var sieve = new Sieve(new Theodolite(new LetterCube(new World())));
-    Console.WriteLine($"=== the sieve: bond cells of 1 to {svTerms} two-letter terms, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
+    string svWhat = svFamily switch
+    {
+        "fields" => $"bond cells of 1 to {svTerms} two-letter terms with every uniform field from X, Y, Z (0, ±1)",
+        "windows" => $"cells of 1 to {svTerms} three-site templates (letters at both ends)",
+        _ => $"bond cells of 1 to {svTerms} two-letter terms",
+    };
+    Console.WriteLine($"=== the sieve: {svWhat}, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
     Console.WriteLine("  the fast no first: the stitch's local no (Theorem 2's conditions, no solve; Z jumps only), then the theodolite's");
     Console.WriteLine("  every-N reading (a yes holds at every N), the stitch's yes where it is silent, and the end count (F158) only on the");
     Console.WriteLine("  rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the");
     Console.WriteLine("  stitch, C broken by the stitch's no (a condition of Theorem 2 fails), P/B palindromic/broken by the end count");
     Console.WriteLine("  (p/b by its ranks).");
     var sw = System.Diagnostics.Stopwatch.StartNew();
-    var entries = Sieve.BondFamily(svTerms, svJumps).Select(c => Sieve.Run(c.Name, c.Cell, svMaxN)).ToList();
+    var family = svFamily switch
+    {
+        "fields" => Sieve.FieldFamily(svTerms, svJumps),
+        "windows" => Sieve.WindowFamily(svTerms, svJumps),
+        _ => Sieve.BondFamily(svTerms, svJumps),
+    };
+    var entries = family.Select(c => Sieve.Run(c.Name, c.Cell, svMaxN)).ToList();
     foreach (var (geo, pick) in new (string, Func<Sieve.Entry, Sieve.Pass>)[] { ("chain", e => e.Chain), ("ring", e => e.Ring) })
     {
         Console.WriteLine($"  {geo}: " + string.Join(", ", Enum.GetValues<Sieve.Verdict>().Select(v => $"{v} {entries.Count(e => pick(e).Verdict == v)}")));

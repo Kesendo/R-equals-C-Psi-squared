@@ -42,7 +42,8 @@ public sealed class Sieve : GameObject
 
     // One cell through the sieve on one geometry: the every-N reading (null when silent), and per N read a letter:
     // E covered by the reading (no end count asked), P/B palindromic/broken by the end count exactly, p/b by its ranks.
-    // S: covered by the stitch's yes, where the theodolite was silent; C: broken by the stitch's no (a condition of
+    // S: covered by the stitch's every-N yes, where the theodolite was silent; s: the stitch's yes at that one N only
+    // (no every-N reading; it counts like the end count's P); C: broken by the stitch's no (a condition of
     // Theorem 2 fails), exact, no end count asked. BrokenEveryN: every N from From is exactly broken (B below the
     // stitch's threshold, C from it).
     public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, bool BrokenEveryN = false);
@@ -84,22 +85,24 @@ public sealed class Sieve : GameObject
         for (int n = from; n <= maxN; n++)
         {
             if (covered(n)) { letters.Append('E'); continue; }
-            if (st is not null && st.Reads(n)) { letters.Append('S'); continue; }
+            if (st is not null && st.Reads(n)) { letters.Append(st.Bulk is not null ? 'S' : 's'); continue; }
             if (st is not null && st.Breaks(n)) { letters.Append('C'); continue; }
             var v = Count(build(n)).Verdict();
             letters.Append(EndCount.IsPalindrome(v) ? (EndCount.IsExact(v) ? 'P' : 'p') : (EndCount.IsExact(v) ? 'B' : 'b'));
         }
         string s = letters.ToString();
         bool anyCovered = s.Contains('E') || s.Contains('S');
-        bool anyPal = s.Any(c => c is 'P' or 'p'), anyBroken = s.Any(c => c is 'B' or 'b' or 'C');
+        bool anyPal = s.Any(c => c is 'P' or 'p' or 's'), anyBroken = s.Any(c => c is 'B' or 'b' or 'C');
         Verdict verdict = anyPal && anyBroken ? Verdict.Mixed
             : anyPal ? Verdict.Residue
             : anyCovered ? Verdict.Read
             : Verdict.Broken;
         // broken for every N: from the stitch's threshold on by its no, below it at each N by a letter read here (B or C)
-        // or, past maxN, by the stitch's own fixed-N no
+        // or, past maxN, by the stitch's own fixed-N no or Theorem 2 read whole at that N (EndCount.ComplementConnection,
+        // exact both ways, up to ten sites)
+        bool Gap(int n) => st!.Breaks(n) || n <= 10 && Count(build(n)).ComplementConnection() is { AllGood: false };
         return new Pass(t, from, s, verdict, st is not null && st.BreaksFrom is int b && verdict == Verdict.Broken
-            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => n <= maxN ? s[n - from] is 'B' or 'C' : st.Breaks(n)));
+            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => n <= maxN ? s[n - from] is 'B' or 'C' : Gap(n)));
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)
@@ -146,6 +149,43 @@ public sealed class Sieve : GameObject
                     var terms = combo.Select((t, i) => (BondLetters[t], i == 0 || ((signs >> (i - 1)) & 1) == 0 ? 1L : -1L)).ToList();
                     yield return (string.Concat(terms.Select(t => (t.Item2 > 0 ? "+" : "-") + t.Item1)),
                         new Theodolite.Cell(jumps, null, terms.Select(t => (t.Item1, new[] { 0, 1 }, t.Item2))));
+                }
+    }
+
+    // The bond cells of one to maxTerms terms with every uniform field from {X, Y, Z}, each letter's coefficient 0, +1 or
+    // −1 (27 field patterns, the empty one included), named like "+XZ-ZY|+X-Z".
+    public static IEnumerable<(string Name, Theodolite.Cell Cell)> FieldFamily(int maxTerms, string jumpLetters)
+    {
+        var jumps = jumpLetters.Select(j => (LetterMatrix(j), 1L)).ToList();
+        foreach (var (name, cell) in BondFamily(maxTerms, jumpLetters))
+            for (int code = 0; code < 27; code++)
+            {
+                var fields = new List<(char, long)>();
+                int c = code;
+                foreach (char letter in "XYZ")
+                {
+                    int digit = c % 3;
+                    c /= 3;
+                    if (digit != 0) fields.Add((letter, digit == 1 ? 1L : -1L));
+                }
+                string f = string.Concat(fields.Select(x => (x.Item2 > 0 ? "+" : "-") + x.Item1));
+                yield return (fields.Count == 0 ? name : $"{name}|{f}", new Theodolite.Cell(jumps, fields, cell.Windows));
+            }
+    }
+
+    // Every cell of one to maxTerms templates on three sites with letters at both ends (X, Y or Z) and any middle (I, X,
+    // Y or Z): 36 templates, the first coefficient +1 and the others ±1, named like "+XZX-YIZ".
+    public static IEnumerable<(string Name, Theodolite.Cell Cell)> WindowFamily(int maxTerms, string jumpLetters)
+    {
+        var jumps = jumpLetters.Select(j => (LetterMatrix(j), 1L)).ToList();
+        var templates = (from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}").ToArray();
+        for (int size = 1; size <= maxTerms; size++)
+            foreach (var combo in Combos(templates.Length, size))
+                for (int signs = 0; signs < 1 << (size - 1); signs++)
+                {
+                    var terms = combo.Select((t, i) => (templates[t], i == 0 || ((signs >> (i - 1)) & 1) == 0 ? 1L : -1L)).ToList();
+                    yield return (string.Concat(terms.Select(t => (t.Item2 > 0 ? "+" : "-") + t.Item1)),
+                        new Theodolite.Cell(jumps, null, terms.Select(t => (t.Item1, new[] { 0, 1, 2 }, t.Item2))));
                 }
     }
 

@@ -55,6 +55,31 @@ public class SieveTests
     }
 
     [Fact]
+    public void The_Field_And_Window_Families_Hold_Every_Cell_Once()
+    {
+        var fields = Sieve.FieldFamily(2, "Z").Select(c => c.Name).ToList();
+        Assert.Equal(81 * 27, fields.Count);
+        Assert.Equal(fields.Count, fields.Distinct().Count());
+        var windows = Sieve.WindowFamily(2, "Z").Select(c => c.Name).ToList();
+        Assert.Equal(36 + 630 * 2, windows.Count);
+        Assert.Equal(windows.Count, windows.Distinct().Count());
+    }
+
+    // The window family's residue on the chain: X·(X ± Y)·X and its relatives, the outer letters equal and the middle a
+    // letter of X plus or minus Y, palindromic on every chain read (the stitch at three sites, the end count at four to
+    // six) and read by no every-N route.
+    [Fact]
+    public void The_Window_Residue_On_The_Chain_Is_The_Middle_Turned_By_An_Eighth()
+    {
+        var family = Sieve.WindowFamily(2, "Z").ToDictionary(c => c.Name, c => c.Cell);
+        foreach (var name in new[] { "+XXX+XYX", "+XXX-XYX", "+XXY+XYY", "+XXY-XYY", "+YXX+YYX", "+YXX-YYX", "+YXY+YYY", "+YXY-YYY" })
+        {
+            var e = Sieve.Run(name, family[name], 6);
+            Assert.Equal((Sieve.Verdict.Residue, "sPPP"), (e.Chain.Verdict, e.Chain.Letters));
+        }
+    }
+
+    [Fact]
     public void On_The_Chain_Nothing_Lies_Between_The_Reading_And_The_End_Count()
     {
         var c = Census.Value;
@@ -80,15 +105,15 @@ public class SieveTests
     }
 
     // The second pass: with the stitch asked where the theodolite is silent, the ring residue is read (S) at every N
-    // read and the residue is empty; what stays mixed pairs on the triangle alone; the chain's verdicts do not move, but
-    // its broken cells are now broken for every N.
+    // read and the residue is empty; what stays mixed pairs on the triangle alone (a yes at one N, of the end count or of
+    // the stitch, is no every-N reading); the chain's verdicts do not move, but its broken cells are now broken for every N.
     [Fact]
     public void With_The_Stitch_The_Ring_Residue_Is_Read_And_The_Residue_Is_Empty()
     {
         var c = Sieve.BondFamily(3, "Z").Select(x => Sieve.Run(x.Name, x.Cell, 6)).ToList();
         Assert.Equal((149, 268, 0, 0), (c.Count(e => e.Chain.Verdict == Sieve.Verdict.Read), c.Count(e => e.Chain.Verdict == Sieve.Verdict.Broken),
             c.Count(e => e.Chain.Verdict == Sieve.Verdict.Residue), c.Count(e => e.Chain.Verdict == Sieve.Verdict.Mixed)));
-        Assert.Equal((177, 224, 0, 16), (c.Count(e => e.Ring.Verdict == Sieve.Verdict.Read), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Broken),
+        Assert.Equal((161, 224, 0, 32), (c.Count(e => e.Ring.Verdict == Sieve.Verdict.Read), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Broken),
             c.Count(e => e.Ring.Verdict == Sieve.Verdict.Residue), c.Count(e => e.Ring.Verdict == Sieve.Verdict.Mixed)));
         Assert.All(c.Where(e => RingResidue.Contains(e.Name)), e => Assert.Equal("SSSS", e.Ring.Letters));
         // the stitch's no: every broken cell, chain and ring, is broken for every N, by a bad local cycle from its
@@ -96,8 +121,10 @@ public class SieveTests
         Assert.Equal(268, c.Count(e => e.Chain.BrokenEveryN));
         Assert.Equal(224, c.Count(e => e.Ring.BrokenEveryN));
         Assert.All(c.Where(e => RingResidue.Contains(e.Name)), e => Assert.Equal("CCCC", e.Chain.Letters));
-        // the mixed ones pair on the triangle alone: the end count reads N = 3, the stitch's no every N from 4 on
-        Assert.All(c.Where(e => e.Ring.Verdict == Sieve.Verdict.Mixed), e => Assert.Equal("PCCC", e.Ring.Letters));
+        // the mixed ones pair on the triangle alone, at N = 3 read by the end count (P) or by the stitch at that one N (s),
+        // and break for every N from 4 on by the stitch's no
+        Assert.Equal(16, c.Count(e => e.Ring.Letters == "PCCC"));
+        Assert.Equal(16, c.Count(e => e.Ring.Letters == "sCCC"));
     }
 
     // A proven second route: Theorem 2's corollary Theorem 1 (hopping bonds with a complement-invariant diagonal part,

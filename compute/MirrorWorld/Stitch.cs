@@ -31,8 +31,9 @@ using System.Numerics;
 // reads only the terms with flip set F, whose Z letters lie within span − 1 of F: it depends on the bits of at most
 // 3·span − 2 sites around F and on nothing else. On a ring of N ≥ 3·span sites that region never meets itself, every
 // configuration of it occurs, and no other: the set of distinct equations is the same at every such N, so one solve at
-// N = 3·span reads every larger ring. On the chain the regions within reach of an end carry the end, and from
-// N = 6·span on the two ends' regions and a bulk region are apart: one solve reads every longer chain. Both are
+// N = 3·span reads every larger ring. On the chain a region within reach of an end carries the end, and from
+// N = 2·(3·span − 2) on every end type (each offset from each end) and the bulk occur and no region meets both ends: one
+// solve reads every longer chain. Both are
 // checked where they are used: the equation set at the window and one site further must agree, or the reading throws.
 // The diagonal check reads a whole string's diagonal, not a window, and is N-independent all the same: H_xx = H_x̄x̄ for
 // every x says that the odd-weight diagonal part of H vanishes (the characters (−1)^(z·x) being independent), and past
@@ -83,21 +84,27 @@ public sealed class Stitch : GameObject
     /// sets): the region is at most 5·span − 2 sites, so up to span 4.</summary>
     public const int MaxRegionBits = 20;
 
-    public static int WindowOf(Theodolite.Cell cell, bool ring) => (ring ? 3 : 6) * cell.Normalized().Span;
+    // ring: 3·span (a region of 3·span − 2 sites never meets itself); chain: 2·(3·span − 2) (every end type and the bulk)
+    public static int WindowOf(Theodolite.Cell cell, bool ring)
+    {
+        int span = cell.Normalized().Span;
+        return ring ? 3 * span : Math.Max(4, 2 * (3 * span - 2));
+    }
 
-    // The cell on every N at once; null when the cell's jumps are not Z on every site, or when its window and one site
-    // more pass MaxSites (not read, which decides nothing).
+    // The cell on every N at once; null when the cell's jumps are not Z on every site. When the window and one site more
+    // pass MaxSites only the local no is read (no yes, no fixed-N answers).
     public static Reach? EveryN(Theodolite.Cell cell, bool ring)
     {
         var norm = cell.Normalized();
         if (!ZOnly(norm)) return null;
         int window = WindowOf(norm, ring);
-        if (window + 1 > MaxSites) return null;
         int from = ring ? norm.SmallestRing : Math.Max(2, norm.Span);
         // the fast no first: a bad local cycle that holds from the window on decides every N from there, so the window's
         // solves are not needed and only the N below the no's threshold are read one by one
         var holonomy = LocalHolonomy(norm);
         int? local = ring ? holonomy.Ring : holonomy.Chain;
+        if (window + 1 > MaxSites)
+            return new Reach(ring, window, null, Array.Empty<int>(), local, Array.Empty<int>());
         if (local is int early && early <= window)
         {
             var below = Enumerable.Range(from, Math.Max(0, early - from)).Select(n => (n, Decide(norm, n, ring))).ToList();

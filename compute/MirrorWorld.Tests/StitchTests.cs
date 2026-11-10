@@ -168,9 +168,13 @@ public class StitchTests
     [Fact]
     public void Jumps_Other_Than_Z_On_Every_Site_And_Windows_Past_The_Cap_Are_Not_Read()
     {
-        var wide = new Theodolite.Cell(new[] { (Zm, 1L) }, null, new[] { ("XZX", new[] { 0, 1, 2 }, 1L) });
-        Assert.Null(Stitch.EveryN(wide, ring: false));                  // chain window 18 > 16
-        Assert.NotNull(Stitch.EveryN(wide, ring: true));                // ring window 9
+        var three = new Theodolite.Cell(new[] { (Zm, 1L) }, null, new[] { ("XZX", new[] { 0, 1, 2 }, 1L) });
+        Assert.Equal(14, Stitch.EveryN(three, ring: false)!.Window);    // chain window 2·(3·3 − 2), under the cap
+        var wide = new Theodolite.Cell(new[] { (Zm, 1L) }, null, new[] { ("XZZX", new[] { 0, 1, 2, 3 }, 1L) });
+        var past = Stitch.EveryN(wide, ring: false)!;                   // chain window 20 > 16: the local no alone
+        Assert.Null(past.Bulk);
+        Assert.Empty(past.Small);
+        Assert.Equal(12, Stitch.EveryN(wide, ring: true)!.Window);     // ring window 3·4, under the cap: read in full
         var lossy = new Theodolite.Cell(new[] { (Lowering, 1L) }, null, new[] { ("XX", new[] { 0, 1 }, 1L) });
         Assert.Null(Stitch.EveryN(lossy, ring: true));
         var xJump = new Theodolite.Cell(new[] { (LetterMatrix('X'), 1L) }, null, new[] { ("XZ", new[] { 0, 1 }, 1L), ("ZY", new[] { 0, 1 }, 1L) });
