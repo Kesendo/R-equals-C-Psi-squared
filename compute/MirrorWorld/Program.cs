@@ -2753,6 +2753,37 @@ if (args.Length > 0 && args[0] == "lettercube")
     return;
 }
 
+// the sieve: sieve [maxTerms] [maxN] [jumps], every bond cell of one to maxTerms of the nine two-letter terms (signs
+// ±) through the theodolite's every-N reading first and the end count only on the rest, on the chain and on the ring
+if (args.Length > 0 && args[0] == "sieve")
+{
+    int svTerms = args.Length > 1 ? int.Parse(args[1]) : 3;
+    int svMaxN = args.Length > 2 ? int.Parse(args[2]) : 6;
+    string svJumps = args.Length > 3 ? args[3] : "Z";
+    if (svTerms < 1 || svTerms > 9 || svMaxN < 3 || svMaxN > 10 || svJumps.Length == 0 || svJumps.Any(c => c is not ('X' or 'Y' or 'Z')))
+    {
+        Console.Error.WriteLine("sieve [maxTerms 1..9] [maxN 3..10] [jumps, letters of X Y Z], e.g. sieve 3 6 Z");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var sieve = new Sieve(new Theodolite(new LetterCube(new World())));
+    Console.WriteLine($"=== the sieve: bond cells of 1 to {svTerms} two-letter terms, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
+    Console.WriteLine("  first the theodolite's every-N reading (a yes holds at every N), then the end count (F158) only on the rest, at");
+    Console.WriteLine("  fixed N, exactly. Letters per N: E read for every N, P/B palindromic/broken by the end count (p/b by its ranks).");
+    var sw = System.Diagnostics.Stopwatch.StartNew();
+    var entries = Sieve.BondFamily(svTerms, svJumps).Select(c => Sieve.Run(c.Name, c.Cell, svMaxN)).ToList();
+    foreach (var (geo, pick) in new (string, Func<Sieve.Entry, Sieve.Pass>)[] { ("chain", e => e.Chain), ("ring", e => e.Ring) })
+    {
+        Console.WriteLine($"  {geo}: " + string.Join(", ", Enum.GetValues<Sieve.Verdict>().Select(v => $"{v} {entries.Count(e => pick(e).Verdict == v)}")));
+        foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed))
+            Console.WriteLine($"    {pick(e).Verdict,-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}");
+    }
+    Console.WriteLine($"  {entries.Count} cells in {sw.ElapsedMilliseconds} ms");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", sieve.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", sieve.Inherited)}");
+    return;
+}
+
 if (args.Length > 0 && args[0] == "theodolite")
 {
     int tdN = 3;
