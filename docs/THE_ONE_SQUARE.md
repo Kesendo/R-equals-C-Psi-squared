@@ -80,6 +80,10 @@ The swap is the transpose D(ρ) = ρᵀ, the one-sided flip is R(ρ) = ρ·F wit
 
 A cell decays under the dephasing at −2 times the sum of γ over its disagreeing sites, so the first half keeps the dephasing and the second half turns it into −L_D − 2Σγ (the Π factorization §3; F89c is the same column-flip relation stated as the spectral pair-sum). The paying class is the one the Π factorization §4(f) describes as exchanging the dark letters {I, Z} with the lit letters {X, Y}. The Hamiltonian follows a different split: for the XXZ-type chains here (every term with an even number of Y letters and invariant under F) D turns it over and R keeps it.
 
+![The 8 × 8 cells of three sites, each with its number of disagreeing sites, the diagonal framed in cyan and the anti-diagonal in pink; beside it the eight moves, four keeping the two lines and four exchanging them](../visualizations/one_square_cell_square_neon.png)
+
+The table drawn at N = 3. Each tile shows where a move carries the cells, every cell taking its disagreement count with it; the frames show where the diagonal and the anti-diagonal land, and the dot follows the one cell |001⟩⟨011|. The images of the cells are calculated and the table's rows are checked exactly before anything is drawn ([`simulations/one_square_cells_and_cube.py`](../simulations/one_square_cells_and_cube.py)); the colours are the drawing's.
+
 The complement law was flown. The price-pair campaign on ibm_marrakesh measured the decay of every coherence pattern on a three-qubit line and tested Γ(D) + Γ(D̄) = Σ_j Γ_j, a pattern's rate plus its complement's equal to the sum of the single-coherence rates (in Lindblad coefficients, 2Σγ). Its readings include local T1 terms. Run 1's headline was withheld for residual detuning offsets, and run 2 showed an unexplained covariance. In run 3 every covariance read within 2σ, while its registered P2 headline was INCONCLUSIVE (no run returned HOLDS) (fw.Confirmations, `price_pair_locality_marrakesh_july2026`).
 
 ## 3. The block grid: two charges
@@ -128,6 +132,10 @@ Tom's second question: if the square is x², is there an x³? Each dephasing let
 | Z | (0, 1, 1) |
 
 The four letters are four corners of the unit cube, and not any four: every coordinate sum is even, so they fill the even tetrahedron and leave the odd one, (1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 1), empty. The reason is the one [the Π factorization](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §7 gives for its even Klein square: a non-identity letter anticommutes with exactly two of the three, so k_Y = k_Z ⊕ k_X. The three pairs of opposite faces are the three squares: the face k_P = 0 holds the two letters on P's diagonal, the face k_P = 1 the two on its anti-diagonal (gate S8).
+
+![The unit cube at one site with I, X, Y, Z on its four even corners and the four odd corners empty; beside it the three half-turns, each pairing I with one letter, with their pair sums](../visualizations/one_square_letter_cube_neon.png)
+
+The cube at one site, k_Z upward. The four letters sit on the even corners and the hollow corners are the odd tetrahedron. On the right are the three ways to pair four letters, each the half-turn about one axis, with the two pair sums of the rates that [the half-turn's paragraph](#the-dissipators-palindrome-as-a-half-turn) below derives. The corners, the pairings and the pair sums are checked exactly by the same script; the camera and the colours are the drawing's.
 
 ### The three dephasing diagonals read the three heights
 
@@ -202,6 +210,16 @@ with ‖·‖ the Hilbert-Schmidt norm and ⟨k_Z⟩ the centroid's height. Ever
 ### The two ends as two edges
 
 The populations {I, Z}^N are exactly the strings with k_Z = 0, and they lie on the edge from I^N to Z^N (k_X = k_Y); the strings of X and Y letters, the sector of [XOR_SPACE](../experiments/XOR_SPACE.md)'s modes, are exactly those with k_Z = N, on the opposite edge from X^N to Y^N (k_X + k_Y = N). R's letter flip, I ↔ X and Y ↔ Z, sends (k_Z, k_X, k_Y) to (N − k_Z, k_X, N − k_Y) and carries one edge onto the other (gate S9, N = 1..5). The kernel (§5, with a positive rate on every site), which lies in the span of {I, Z}^N, and the far end of the palindrome sit on two opposite edges of the tetrahedron, and the half-turn about the line parallel to the k_X axis through the centre exchanges them. That half-turn is R, the one-sided multiplication by X^⊗N. Any Pauli string F with a letter per site that the site's jumps light, and with [H, F] = 0, does the same job for the palindrome; choosing its letters is a colouring of the graph, whose one-colour solutions are F138's clauses ([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
+
+### The picture
+
+![The tetrahedron of the Pauli strings at N = 4 with its two edges, the axis of R's half-turn and the walk of Z₁; beside it the walk in the plane k_X = k_Y and the budget](../visualizations/one_square_tetrahedron_neon.png)
+
+The Pauli strings of N = 4 sites at their lattice points, k_Z upward, the coordinate the rate 2γ·k_Z reads; a dot's size grows with the number of strings at its point. The quiet edge k_Z = 0 lies at the bottom and the far edge k_Z = N at the top, and the dashed line is the axis of R's half-turn. The line is the centroid of Z₁ under the Heisenberg chain (J = 1, γ = 0.05, t from 0 to 40): it leaves the quiet edge, rises into the interior and returns, and it never leaves the shaded plane k_X = k_Y: its motion has two coordinates. The green line is the centroid of X₁Y₂ up to t = 8, which starts on the plane and leaves it sideways. On the right the same walk is drawn in its own plane k_X = k_Y, and below it the logarithm of the squared norm lies on −4γ∫⟨k_Z⟩dt. The points, the walk and the two curves are calculated ([`simulations/one_square_tetrahedron.py`](../simulations/one_square_tetrahedron.py), which checks the two edges and R's flip exactly before it draws); the camera, the colours, the dot sizes and the choice of N, γ and time span are the drawing's.
+
+![The same tetrahedron turning once over t from 0 to 20: a disc at each lattice point whose area is the share of Z₁ there, and a ring with a trail for the centroid](../visualizations/one_square_tetrahedron_neon.gif)
+
+In the animation the area of a disc is the share of the operator at its lattice point, the sum of the squared coefficients of the strings there divided by the whole, and the ring with its trail is the centroid. The operator itself spreads to both sides of the plane k_X = k_Y, in mirrored pairs of equal share; that is why its centroid stays on the plane.
 
 ## 9. The moves, and the two questions
 

@@ -443,6 +443,41 @@ python simulations/sodium_layers.py
 python simulations/nacl_layers.py
 ```
 
+## The One Square: the Cells, the Letter Cube, the Tetrahedron
+
+Three figures for [The One Square](../docs/THE_ONE_SQUARE.md), which reads the diagonals of the repository as the two lines of a square and, on Pauli strings, as a cube. All three are for Z-dephasing at one rate γ on every site.
+
+### The cell square and its eight moves
+
+![The 8 × 8 cells of three sites, each with its number of disagreeing sites, the diagonal framed in cyan and the anti-diagonal in pink; beside it the eight moves, four keeping the two lines and four exchanging them.](one_square_cell_square_neon.png)
+
+A cell |a⟩⟨b| of the density matrix decays at 2γ times the number of sites at which a and b disagree, the number written in the cell. The diagonal a = b holds the populations and the anti-diagonal b = ā the cells that disagree everywhere. The transpose D, the one-sided flip R (ρ ↦ ρ·X^⊗N) and the two-sided flip 𝓕 generate eight permutations of the cells. Each tile carries every cell, with its number, to where the move sends it: four moves keep the two lines and the dephasing, and four exchange the lines and turn the dephasing into −L_D − 2Σγ (§2 of the page). The dot follows one cell through all eight.
+
+### The letter cube at one site
+
+![The unit cube at one site with I, X, Y, Z on its four even corners and the four odd corners empty; beside it the three half-turns, each pairing I with one letter, with their pair sums.](one_square_letter_cube_neon.png)
+
+A letter's coordinate k_P is 1 where it anticommutes with P, so the four letters sit at I (0, 0, 0), X (1, 0, 1), Y (1, 1, 0), Z (0, 1, 1) in (k_Z, k_X, k_Y), the even corners of the cube. Under dephasing along all three letters a letter decays at 2(γ_Z·k_Z + γ_X·k_X + γ_Y·k_Y). Four letters pair in three ways, and each is the half-turn about one axis; its two pair sums are 2(γ_X + γ_Y + γ_Z − γ_P) and 2(γ_X + γ_Y + γ_Z + γ_P), equal exactly when γ_P = 0 (§7).
+
+### The tetrahedron and the walk of Z₁
+
+![The tetrahedron of the Pauli strings at N = 4 with its two edges, the axis of R's half-turn and the walk of Z₁; beside it the walk in the plane k_X = k_Y and the budget.](one_square_tetrahedron_neon.png)
+
+On N sites a string sits at (k_Z, k_X, k_Y) = (n_X + n_Y, n_Y + n_Z, n_X + n_Z), a lattice point of the tetrahedron with vertices I^N, X^N, Y^N, Z^N; here N = 4, 35 points for 256 strings, k_Z upward. The populations lie on the bottom edge and the strings of X and Y on the top edge, and R's half-turn about the dashed axis carries one onto the other. The yellow line is the centroid of the operator Z₁ under the Heisenberg chain (J = 1, γ = 0.05), weighted by the squared string coefficients; it stays in the plane k_X = k_Y, and the logarithm of the squared Hilbert-Schmidt norm follows −4γ∫⟨k_Z⟩dt (§8). The green line is the centroid of X₁Y₂ up to t = 8, which leaves the plane.
+
+![The same tetrahedron turning once over t from 0 to 20: a disc at each lattice point whose area is the share of Z₁ there, and a ring with a trail for the centroid.](one_square_tetrahedron_neon.gif)
+
+In the animation a disc's area is the share of Z₁ at its lattice point and the ring is the centroid.
+
+### How it was computed
+
+The cell images, the letter corners and the pair sums are integer arithmetic, and the scripts check §2's table and §7's pairings exactly before drawing. The walk is a dense propagation of the 256 × 256 generator in steps of 0.01; the script checks the two edges and R's flip exactly and prints the centroid's distance from the plane and the budget's deviation. The camera, the colours, the dot sizes, the choice of N, J, γ and the time spans are drawing choices.
+
+```
+python simulations/one_square_cells_and_cube.py
+python simulations/one_square_tetrahedron.py
+```
+
 ---
 
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
