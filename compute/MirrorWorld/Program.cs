@@ -2753,6 +2753,61 @@ if (args.Length > 0 && args[0] == "lettercube")
     return;
 }
 
+// the sieve on cells of one's own: sieve cells MAXN TEMPLATES [JUMPS] [NAME], or sieve cells MAXN @FILE with one such
+// line per cell ('#' starts a comment line). TEMPLATES "XY:1,YX:1" places each template on every window of the chain
+// and of the ring (a one-letter template is a field on every site, I a site the template skips, so "XIZ:1" reaches
+// three sites); JUMPS the dephasing letters on every site (Z by default); the cell's letters, verdict and readers
+// are printed on chain and ring. A cell drops identity letters at a template's ends, so on the chain "IXZX" is read as
+// "XZX" on every window of three sites, not on every window of four (the classifier's convention); a line with such a
+// template says so.
+if (args.Length > 1 && args[0] == "sieve" && args[1] == "cells")
+{
+    if (args.Length < 4 || !int.TryParse(args[2], out int scMaxN) || scMaxN < 3 || scMaxN > 10)
+    {
+        Console.Error.WriteLine("sieve cells MAXN TEMPLATES [JUMPS] [NAME] or sieve cells MAXN @FILE, MAXN 3..10, e.g. sieve cells 6 XXX:1,XYX:1 Z");
+        Environment.ExitCode = 2;
+        return;
+    }
+    var scLines = args[3].StartsWith('@')
+        ? File.ReadAllLines(args[3][1..]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.TrimStart().StartsWith('#'))
+            .Select(l => l.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToList()
+        : new List<string[]> { args.Skip(3).ToArray() };
+    Console.WriteLine($"=== the sieve on cells of one's own, N up to {scMaxN} ===");
+    Console.WriteLine("  letters per N from the smallest: E theodolite, S/s stitch (every N / this N), F free chain, C the stitch's no,");
+    Console.WriteLine("  P/B the end count exactly (p/b by its ranks)");
+    foreach (var p in scLines)
+    {
+        string text = string.Join(" ", p);
+        try
+        {
+            var templates = p[0].Split(',').Select(t => t.Split(':')).ToList();
+            if (templates.Any(q => q.Length != 2 || q[0].Length == 0 || q[0].Any(c => c is not ('I' or 'X' or 'Y' or 'Z'))))
+                throw new ArgumentException("TEMPLATE:COEFFICIENT, letters I X Y Z");
+            string jumps = p.Length > 1 ? p[1] : "Z";
+            if (jumps.Length == 0 || jumps.Any(c => c is not ('X' or 'Y' or 'Z'))) throw new ArgumentException($"jumps {jumps}: letters X Y Z");
+            var cell = new Theodolite.Cell(jumps.Select(j => (LetterCube.LetterMatrix(j), 1L)), null,
+                templates.Select(q => (q[0], Enumerable.Range(0, q[0].Length).ToArray(), long.Parse(q[1]))));
+            string name = p.Length > 2 ? string.Join(" ", p.Skip(2)) : p[0];
+            var e = Sieve.Run(name, cell, scMaxN);
+            string Describe(Sieve.Pass pass) => $"{pass.Verdict,-8} N from {pass.From}: {pass.Letters}"
+                + (pass.BrokenFrom is int bf ? $", broken for every N from {bf}" : "")
+                + (pass.Traverse is not null ? ", theodolite" : "")
+                + (pass.Free is { } fr ? $", free from {fr.From}" + (fr.Moduli.Count > 0 ? $" off {string.Join(",", fr.Moduli)} | N" : "") : "");
+            Console.WriteLine($"  {name} ({jumps})");
+            if (templates.Any(q => q[0].Length > 1 && (q[0][0] == 'I' || q[0][^1] == 'I')))
+                Console.WriteLine("    (a template padded with I at an end is read without the padding: on the chain its end placements differ from the padded template's; the ring is the same)");
+            Console.WriteLine($"    chain {Describe(e.Chain)}");
+            Console.WriteLine($"    ring  {Describe(e.Ring)}");
+        }
+        catch (Exception ex) when (ex is ArgumentException or FormatException or IndexOutOfRangeException)
+        {
+            Console.Error.WriteLine($"{text}: {ex.Message}");
+            Environment.ExitCode = 2;
+        }
+    }
+    return;
+}
+
 // the sieve: sieve [maxTerms] [maxN] [jumps], every bond cell of one to maxTerms of the nine two-letter terms (signs
 // ±) through the stitch's no first, the theodolite's every-N reading, the stitch's yes and the end count only on the
 // rest, on the chain and on the ring
