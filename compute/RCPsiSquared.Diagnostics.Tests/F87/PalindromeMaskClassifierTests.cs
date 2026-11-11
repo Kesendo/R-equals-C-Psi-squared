@@ -30,6 +30,7 @@ public class PalindromeMaskClassifierTests
             H("XYI", "YIX"),        // hard
             H("XIY", "IXY"),        // hard
             H("XYI", "YIX", "IXY"), // hard, three bit_b-homogeneous terms
+            H("XXI", "XIX"),        // bit_b = 0 with an odd mask relation: X^N colours it, not hard
         };
         foreach (var terms in inScope)
         {

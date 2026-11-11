@@ -5900,3 +5900,11 @@ The thermal third moment and the conditioned field were typed the same evening a
 - **Adjacency stated as identity.** ThreeLadderHingeClaim, found by a reviewer and not by the sweep, holds the cell-free face under Z dephasing as 3·Tr(Q·A²); the first wording called the thermal law "the same join". It is not: there the t₀·t₂ term dies with Tr(Z_l) = 0, and under the bath the arrow I → Z revives it as the rung t₂. PalindromeComplementConnectionClaim (Theorem 4) was the second adjacency the reviewers named.
 - **Found on the way:** an orphan line of the loss-and-gain sweep record sat outside its comment and rendered on the page; it was moved inside.
 - **Anchor:** compute/RCPsiSquared.Core/Symmetry/ThermalThirdMomentClaim.cs, ConditionedFieldPairingClaim.cs, compute/RCPsiSquared.Diagnostics/Foundation/ThermalThirdMomentWitness.cs, ConditionedFieldPairingWitness.cs, ExactThermalGenerator.cs.
+
+## 2026-11-11, the mask classifier called a coloured pair hard
+
+`PalindromeMaskClassifier.Classify` admitted every bit_b-homogeneous hopping set and returned Hard on any odd 𝔽₂-relation among its flip masks. The bipartite test it runs is Theorem 2 of the complement connection for the cell with odd #(Y+Z), where X^⊗N·H·X^⊗N = −H; for even #(Y+Z), bit_b = 0, X^⊗N commutes with every term, a colouring, and the spectrum pairs whatever the masks. XXI + XIX has the odd relation {0,1} ⊕ {1,2} ⊕ {0,2} = 0 and pairs at N = 4, 5 (the end count reads a reflection), and the classifier said Hard. Its test set held no bit_b = 0 pair with an odd relation, so the scope the docstring called "verified sharp at N = 4" had never been asked there.
+
+- **How it was found:** an adjacency scout reading the classifier against a new reading of Theorem 2 (one Pauli string per flip set: the edge ratio is the constant sign (−1)^(#Y+#Z), and pairing is the balance of the signed Cayley graph of the masks; the classifier holds the all-negative case, the all-positive case is always balanced). Checked from below with `sextant decide` before the fix.
+- **The fix:** a bit_b = 0 set is Soft without the mask test; the trichotomy test gained XXI + XIX, and fails on the old code.
+- **Anchor:** compute/RCPsiSquared.Diagnostics/F87/PalindromeMaskClassifier.cs, compute/RCPsiSquared.Diagnostics.Tests/F87/PalindromeMaskClassifierTests.cs.

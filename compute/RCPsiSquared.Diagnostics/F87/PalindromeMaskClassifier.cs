@@ -16,6 +16,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// outside, returning <see cref="Verdict.OutOfScope"/>: their soft/hard is not fixed by the flip-mask set
 /// alone (XX+YY is truly but XX+YY+XY is hard, and they share the same flip-mask set).</para>
 ///
+/// <para><b>The cell's parity decides which test applies.</b> The mask test is the bipartite test of
+/// Theorem 2 of the complement connection when every term has odd #(Y+Z) (bit_b = 1): then
+/// X^⊗N·H·X^⊗N = −H, H_x̄ȳ = −H_xy on every entry, and the far end asks for a 2-colouring. When every
+/// term has even #(Y+Z) (bit_b = 0) X^⊗N commutes with every term, a colouring, and the spectrum pairs
+/// whatever the masks: XXI+XIX has the odd relation {0,1} ⊕ {1,2} ⊕ {0,2} = 0 and is soft (the end count
+/// reads a reflection at N = 4, 5), so a bit_b = 0 set is Soft without the mask test.</para>
+///
 /// <para><b>The two directions port differently (Door 2a, 2026-06-05).</b> The SOFT direction
 /// (mask-bipartite ⟹ soft) is topology-agnostic: the chiral K is a 2-colouring of the flip-graph and
 /// exists on any lattice, so a mask-bipartite verdict certifies soft for any placement, at any N. The
@@ -96,6 +103,7 @@ public static class PalindromeMaskClassifier
     {
         var masks = FlipMasks(terms, n);
         if (masks.Count == 0 || !IsBitBHomogeneous(terms)) return Verdict.OutOfScope;
+        if (terms[0].Pi2Parity == 0) return Verdict.Soft;              // X^⊗N commutes with every term: a colouring
         return MaskSetIsBipartite(masks) ? Verdict.Soft : Verdict.Hard;
     }
 }
