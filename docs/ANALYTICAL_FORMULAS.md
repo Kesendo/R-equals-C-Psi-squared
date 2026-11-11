@@ -11800,6 +11800,7 @@ m(x) over GF(2), bit j ↦ x^j.
     any number of different shapes on the ring of N ≥ 2·max w − 1 sites, T = 2^(v₂(N)), v₀ = min vᵢ:  broken  ⟺  (T ≤ v₀, some s odd)  or  (T > v₀, two of valuation v₀ of different sign, or one of greater valuation with s odd)
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
+    two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
 (`ComplementConnectionGraph`), templates placed with their identity letters: the two-template law on the window
@@ -11809,9 +11810,11 @@ N* − 1 and N*, the ring law on 290 rings and on XY + ZZ, Theorem D on 1694 two
 and on 1046 pairs and 416 triples against the balance to N = 32, the balance at one N on 20 three-template cells,
 Theorem E on 428 cells of two strings on one flip mask (3936 readings inside its setting) and Corollary E2 on 2176
 rings against Theorem 2 and on 10560 against Theorem E's elimination to N = 40, and both on the sixteen products
-(aX + bY)⊗(cX + dY); ten controls (the widths or the quotients swapped, 2^(v₂(N)) dropped or read off the parity of
-N, i₀ at the greatest valuation, Theorem E's three conditions each dropped, E2's read-set test or its ordering term
-dropped) disagree.
+(aX + bY)⊗(cX + dY); Corollary E3 on 128 two-shape chain cells with a read set and (1) at every offset (768 readings),
+on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
+products (224 readings); twelve controls (the widths or the quotients swapped,
+2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
+E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witness `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`).
 **Adjacent.** [F115](#f115) and F103 §7.4 to §7.7 (the all-negative case and its gcd calculus, here with any
@@ -11819,7 +11822,9 @@ signs); F108 Part 1 (the all-positive case) and F110 Aspect A (its Klein-homogen
 (1,1) cell, all negative with odd masks); THE_PALINDROME_AS_A_COLOURING (its diagonal gauge, under the assumption
 a ±1 character, the lit string X^⊗N·Z^φ); the MirrorWorld sieve's ring cells that pair by a law in N (16 of its 24
 carry one string per flip set and pair exactly at even N, at every N by Theorem D; the other 8, X·(X ± Y)·X and its
-relatives, carry two strings on one flip set and break exactly at 3 | N by Corollary E2); Theorem 2 of
+relatives, carry two strings on one flip set and break exactly at 3 | N by Corollary E2), and its field family on the chain, which
+holds two-shape cells with a character ratio (XX + XY beside the field X + Y, broken there for every N by a square,
+condition (1)); Theorem 2 of
 PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); the MirrorWorld stitch (`Stitch.FreeEveryN`, Theorem E's condition
 (1) for one flip shape on the chain, and its local quadratic far elements, which Theorem E reads round the ring);
 SOFTNESS_IS_N_DEPENDENT and F116's golden router (several strings on one flip set with ratios that are no character,

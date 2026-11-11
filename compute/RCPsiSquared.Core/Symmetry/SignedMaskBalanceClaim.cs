@@ -21,7 +21,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// sites: the sign count of a relation is read at x = 1, which sees x^N + 1 only through its factor (1 + x)^T,
 /// T = 2^(v₂(N)); with v₀ the least valuation the ring breaks exactly when T ≤ v₀ and some sign is odd, or T &gt; v₀
 /// and two templates of valuation v₀ differ in sign or one of greater valuation has an odd sign, so it reads N only
-/// through whether T exceeds v₀ (Theorem D).</para>
+/// through whether T exceeds v₀ (Theorem D). Where a flip set carries several strings whose ratio is a constant times a
+/// character, ω_m·(−1)^⟨R_m, x⟩, the palindrome holds exactly when ⟨R_a, b⟩ = ⟨R_b, a⟩ for every two flip sets, every
+/// relation has a vanishing read sum and hol = 1 on a basis of the relations (Theorem E); one flip shape on the ring is
+/// read through gcd(f, x^N + 1) (Corollary E2), and two on the chain through the read sum D = q₂R₁ + q₁R₂ and the
+/// holonomy of the relation r = 1 (Corollary E3).</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -47,7 +51,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "strings and its ratio is ω·(−1)^⟨R, x⟩, the palindrome holds exactly when ⟨R_a, b⟩ = ⟨R_b, a⟩ for every two flip sets " +
             "and every relation u has ⊕ R_m = 0 and hol(u) = 1 (Theorem E), and one flip shape f on the ring of N ≥ 2w − 1 sites, " +
             "that condition holding, pairs exactly when h = gcd(f, x^N + 1) is 1, or divides R with 1 + x not dividing h or " +
-            "hol((x^N + 1)/h) = 1",
+            "hol((x^N + 1)/h) = 1, and two flip shapes on the chain, that condition holding, pair exactly below N* or where " +
+            "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -341,7 +346,9 @@ public sealed class SignedMaskBalanceClaim : Claim
 
     /// <summary>Corollary E2: templates whose masks are translates of one shape f, on the ring of n ≥ 2w − 1 sites
     /// (n ≤ 63). The flip set at p = 0 gives ω and the read set R; with h = gcd(f, x^n + 1) and g = (x^n + 1)/h the
-    /// ring pairs exactly when (1) holds and h = 1, or h divides R and either 1 + x does not divide h or hol(g) = 1.</summary>
+    /// ring pairs exactly when (1) holds and h = 1, or h divides R and either 1 + x does not divide h or hol(g) = 1. A flip set
+    /// whose ratio is no character, or whose entry vanishes somewhere, gives the branch Outside with Breaks false: undecided,
+    /// so the branch is read before Breaks.</summary>
     public static (bool Breaks, RingShapeBranch Branch) RingOneShape(IReadOnlyList<(string T, long C)> templates, int n,
         bool readSetTest = true, bool orderingTerm = true)
     {
@@ -377,6 +384,88 @@ public sealed class SignedMaskBalanceClaim : Claim
         return quarter % 4 == 0 ? (false, RingShapeBranch.HolonomyPlus) : (true, RingShapeBranch.HolonomyMinus);
     }
 
+    /// <summary>Which branch of Corollary E3 decided a chain.</summary>
+    public enum ChainShapeBranch { ModuliDiffer, SquaresFail, NoRelation, ReadSumNonzero, HolonomyPlus, HolonomyMinus, Outside }
+
+    /// <summary>The two numbers Corollary E3 reads off two templates, each a combination of strings of one width on one
+    /// nonzero mask, the masks of different shapes: N* = max(w₁ + deg q₂, w₂ + deg q₁) as in Theorem B, and the read sum
+    /// D = q₂·R₁ + q₁·R₂ of the relation r = 1, R_i the read set of template i's flip set at p = 0. A template whose ratio
+    /// is no character has no read set, and is refused.</summary>
+    public static (int NStar, ulong ReadSum) ChainTwoShapeData(IReadOnlyList<(string T, long C)> first, IReadOnlyList<(string T, long C)> second)
+    {
+        var (w1, m1, r1) = OneShapeTemplate(first);
+        var (w2, m2, r2) = OneShapeTemplate(second);
+        if (Shape(m1) == Shape(m2)) throw new ArgumentException("the two templates must have masks of different shapes");
+        if (r1.Kind != RatioKind.Character || r2.Kind != RatioKind.Character) throw new ArgumentException("a template whose ratio is no character has no read set");
+        int nStar = TwoShapeFloor(w1, m1, w2, m2);
+        if (nStar > 64) throw new ArgumentException("the relation r = 1 needs more than 64 sites");
+        ulong g = Gcd(m1, m2);
+        return (nStar, Mul(Div(m2, g), r1.Read) ^ Mul(Div(m1, g), r2.Read));
+    }
+
+    /// <summary>Corollary E3: two templates on the open chain of n sites (n ≤ 64), each a combination of strings of one
+    /// width on one nonzero mask, the masks of different shapes, every flip set's ratio a constant times a character. Where
+    /// (1) holds at n the chain pairs below N*, and from N* on exactly when D = 0 and hol(u₀) = 1, u₀ the relation that uses
+    /// template 1 at the placements q₂ and template 2 at q₁. A flip set whose ratio is no character, or whose entry vanishes
+    /// somewhere, gives the branch Outside with Breaks false: undecided, so the branch is read before Breaks.</summary>
+    public static (bool Breaks, ChainShapeBranch Branch) ChainTwoShapes(IReadOnlyList<(string T, long C)> first, IReadOnlyList<(string T, long C)> second,
+        int n, bool readSumTest = true, bool orderingTerm = true)
+    {
+        var (w1, m1, _) = OneShapeTemplate(first);
+        var (w2, m2, _) = OneShapeTemplate(second);
+        if (Shape(m1) == Shape(m2)) throw new ArgumentException("the two templates must have masks of different shapes");
+        if (n < Math.Max(w1, w2) || n > 64) throw new ArgumentOutOfRangeException(nameof(n), n, "the chain must hold both templates, at most 64 sites");
+        var placed = PlaceStrings(first.Concat(second), n, ring: false);
+        var flips = placed.GroupBy(s => s.X).ToDictionary(gr => gr.Key, gr => ReadRatio(gr.Key, gr.ToList()));
+        if (flips.Values.Any(r => r.Kind == RatioKind.ModuliDiffer)) return (true, ChainShapeBranch.ModuliDiffer);
+        if (flips.Values.Any(r => r.Kind != RatioKind.Character)) return (false, ChainShapeBranch.Outside);
+        static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+        foreach (var p in flips.Values)
+            foreach (var q in flips.Values)
+                if (Parity(p.Read & q.Mask) != Parity(q.Read & p.Mask)) return (true, ChainShapeBranch.SquaresFail);
+        if (n < TwoShapeFloor(w1, m1, w2, m2)) return (false, ChainShapeBranch.NoRelation);
+        var (_, readSum) = ChainTwoShapeData(first, second);
+        if (readSumTest && readSum != 0) return (true, ChainShapeBranch.ReadSumNonzero);
+        ulong g = Gcd(m1, m2), at = 0;
+        int quarter = 0;
+        foreach (var (m, u) in new[] { (m1, Div(m2, g)), (m2, Div(m1, g)) })
+            for (int p = 0; p < 64; p++)
+            {
+                if (((u >> p) & 1) == 0) continue;
+                var r = flips[m << p];
+                quarter += r.Quarter + (orderingTerm ? 2 * Parity(r.Read & at) : 0);
+                at ^= m << p;
+            }
+        if (at != 0) throw new InvalidOperationException("the relation r = 1 does not close");
+        if (readSumTest && quarter % 2 != 0) throw new InvalidOperationException("hol(u₀) = ±i where the read sums vanish, against the proof");
+        return quarter % 4 == 0 ? (false, ChainShapeBranch.HolonomyPlus) : (true, ChainShapeBranch.HolonomyMinus);
+    }
+
+    // a template of E3: strings of one width on one nonzero mask, with its flip set's ratio read at its own window
+    static (int Width, ulong Mask, FlipRatio Ratio) OneShapeTemplate(IReadOnlyList<(string T, long C)> strings)
+    {
+        if (strings.Count == 0) throw new ArgumentException("a template needs a string");
+        int w = strings[0].T.Length;
+        ulong m = Mask(strings[0].T);
+        if (m == 0) throw new ArgumentException("every template must flip something");
+        if (strings.Any(s => s.T.Length != w || Mask(s.T) != m)) throw new ArgumentException("a template's strings share one width and one mask");
+        return (w, m, ReadRatio(m, PlaceStrings(strings, w, ring: false)));
+    }
+
+    // Theorem B's N* = max(w₁ + deg q₂, w₂ + deg q₁)
+    static int TwoShapeFloor(int w1, ulong m1, int w2, ulong m2)
+    {
+        ulong g = Gcd(m1, m2);
+        return Math.Max(w1 + Deg(Div(m2, g)), w2 + Deg(Div(m1, g)));
+    }
+
+    static ulong Mul(ulong a, ulong b)
+    {
+        ulong r = 0;
+        for (; b != 0; b >>= 1, a <<= 1) if ((b & 1) == 1) r ^= a;
+        return r;
+    }
+
     public override string DisplayName =>
         "F173: the signed balance of the flip masks";
 
@@ -385,7 +474,7 @@ public sealed class SignedMaskBalanceClaim : Claim
         "signed Cayley graph; two templates break exactly from N* when s₁·q₂(1) + s₂·q₁(1) is odd (F115 its all-negative case), " +
         $"one template on the ring exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through " +
         $"whether 2^(v₂(N)) exceeds the least valuation; several strings per flip set with a character ratio by a symmetric reading " +
-        $"and the relations read against the read sets and a holonomy ({Tier.Label()}; live witness: inspect --root signedbalance)";
+        $"and the relations read against the read sets and a holonomy, one flip shape on the ring and two on the chain in closed form ({Tier.Label()}; live witness: inspect --root signedbalance)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -416,6 +505,11 @@ public sealed class SignedMaskBalanceClaim : Claim
             yield return new InspectableNode("Corollary E2, one flip shape on the ring",
                 summary: "on the ring of N ≥ 2w − 1 sites with the symmetric reading holding: relations r·(x^N + 1)/h, h = gcd(f, x^N + 1); the read sum vanishes exactly when h | R; hol is rotation-invariant, " +
                          "so it lives on GF(2)[x]/(h, 1 + x): X·(X ± Y)·X breaks exactly at 3 | N, XXX + YYY pairs on every ring");
+            yield return new InspectableNode("Corollary E3, two flip shapes on the chain",
+                summary: "relations r·(q₂, q₁) as in Theorem B, read sum r·D with D = q₂R₁ + q₁R₂, u₀ the relation r = 1 and hol(r·u₀) = hol(u₀)^(r(1)); with the symmetric " +
+                         "reading holding the chain pairs below N* and from N* exactly when D = 0 and hol(u₀) = 1; where that reading holds at " +
+                         "every offset D = 0, so D ≠ 0 only brings the break forward to N*: XXX + YYY beside the field X + Y pairs on every " +
+                         "chain, XXX − YYY beside it breaks from N = 3");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");

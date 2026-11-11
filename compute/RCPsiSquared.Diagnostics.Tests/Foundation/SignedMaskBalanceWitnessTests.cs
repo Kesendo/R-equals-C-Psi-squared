@@ -8,8 +8,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
 /// walked on the bitstrings (Theorem D also against the balance, to N = 32), on every family the witness reads, and the
-/// five controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
-/// with i₀ at the greatest valuation) disagree, so the battery can fail.</summary>
+/// twelve controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
+/// with i₀ at the greatest valuation, Theorem E's conditions each dropped, the tests of Corollaries E2 and E3 each
+/// dropped) disagree, so the battery can fail.</summary>
 public class SignedMaskBalanceWitnessTests
 {
     [Fact]
@@ -19,10 +20,17 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (428, 3936), (16, 128), (352, 2176), (352, 10560), (19, 19) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (428, 3936), (16, 128), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (21, 21) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
+        Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
+            {
+                [SignedMaskBalanceClaim.ChainShapeBranch.SquaresFail] = 928, [SignedMaskBalanceClaim.ChainShapeBranch.NoRelation] = 192,
+                [SignedMaskBalanceClaim.ChainShapeBranch.ReadSumNonzero] = 928, [SignedMaskBalanceClaim.ChainShapeBranch.HolonomyPlus] = 400,
+                [SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus] = 400,
+            }, w.E3Branches);
+        Assert.Equal((464, 576), (w.DroppedReadSumMismatches, w.DroppedE3OrderingMismatches));
     }
 
     // The readings themselves, by hand: the page's worked examples.
@@ -80,5 +88,35 @@ public class SignedMaskBalanceWitnessTests
             SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(new[] { ("XZ", 1L), ("ZY", 1L) }, 6, ring: false)));   // the chain's end
         Assert.Equal(SignedMaskBalanceClaim.CharacterVerdict.Outside,
             SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(new[] { ("XX", 1L), ("YY", 1L) }, 4, ring: false)));
+    }
+
+    // Corollary E3 by hand: two flip shapes on the chain, the read sum D and hol(u₀).
+    [Fact]
+    public void TheTwoShapeChainReadsThePagesExamples()
+    {
+        var field = new[] { ("X", 1L), ("Y", 1L) };
+        var plus = new[] { ("XXX", 1L), ("YYY", 1L) };
+        var minus = new[] { ("XXX", 1L), ("YYY", -1L) };
+        Assert.Equal((3, 0UL), SignedMaskBalanceClaim.ChainTwoShapeData(field, plus));                  // q₂R₁ + q₁R₂ = f·1 + 1·f
+        Assert.Equal((false, SignedMaskBalanceClaim.ChainShapeBranch.HolonomyPlus), SignedMaskBalanceClaim.ChainTwoShapes(field, plus, 5));
+        Assert.Equal((true, SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus), SignedMaskBalanceClaim.ChainTwoShapes(field, minus, 5));
+        Assert.True(SignedMaskBalanceClaim.ChainTwoShapes(field, plus, 5, orderingTerm: false).Breaks);   // the ordering term is −1 here
+        var middle = new[] { ("XXX", 1L), ("XYX", 1L) };
+        var wide = new[] { ("XIIX", 1L) };
+        Assert.Equal((4, 0b110UL), SignedMaskBalanceClaim.ChainTwoShapeData(middle, wide));              // D = (1 + x)·x
+        Assert.Equal(SignedMaskBalanceClaim.ChainShapeBranch.ReadSumNonzero, SignedMaskBalanceClaim.ChainTwoShapes(middle, wide, 4).Branch);
+        Assert.Equal(SignedMaskBalanceClaim.ChainShapeBranch.SquaresFail, SignedMaskBalanceClaim.ChainTwoShapes(middle, wide, 5).Branch);
+        Assert.Equal((false, SignedMaskBalanceClaim.ChainShapeBranch.NoRelation), SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XIY", 1L) }, new[] { ("XXX", 1L) }, 4));
+        Assert.Equal((true, SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus), SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XIY", 1L) }, new[] { ("XXX", 1L) }, 5));   // Theorem B's c = 1 from N* = 5
+        var fieldBesideProduct = SignedMaskBalanceClaim.ChainTwoShapes(field, new[] { ("XX", 1L), ("XY", 1L), ("YX", -1L), ("YY", -1L) }, 4);
+        Assert.Equal((true, SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus), fieldBesideProduct);  // ω_f²·ω_p = −1, the ordering term +1
+        Assert.Equal(fieldBesideProduct, SignedMaskBalanceClaim.ChainTwoShapes(field, new[] { ("XX", 1L), ("XY", 1L), ("YX", -1L), ("YY", -1L) }, 4, orderingTerm: false));
+        Assert.Equal((true, SignedMaskBalanceClaim.ChainShapeBranch.ModuliDiffer),
+            SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("IX", 1L), ("ZX", 1L) }, new[] { ("XXX", 1L) }, 3));   // 1 + (−1)^x₀ vanishes on one side only
+        Assert.Equal((false, SignedMaskBalanceClaim.ChainShapeBranch.Outside),
+            SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XX", 1L), ("YY", 1L) }, new[] { ("X", 1L) }, 3));     // an absent edge: undecided
+        Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapeData(new[] { ("XX", 1L), ("YY", 1L) }, new[] { ("X", 1L) }));
+        Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XX", 1L) }, new[] { ("XY", 1L) }, 4));
+        Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XX", 1L), ("XIY", 1L) }, wide, 5));
     }
 }
