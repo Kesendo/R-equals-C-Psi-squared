@@ -1300,9 +1300,10 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("signedbalance", "F173, the signed balance of the flip masks, live: under Z dephasing on every site, where every flip set carries " +
             "one Pauli string, the claim's GF(2) readings on masks and signs (the balance at one N, two templates on the chain with " +
-            "N* = max(w₁ + deg q₂, w₂ + deg q₁), one template on the ring with v_(1+x)(m) ≥ 2^(v₂(N)), any number on the ring by Theorem D) " +
+            "N* = max(w₁ + deg q₂, w₂ + deg q₁), one template on the ring with v_(1+x)(m) ≥ 2^(v₂(N)), any number on the ring by Theorem D, several strings per flip set with a character ratio by Theorem E and one " +
+            "flip shape on the ring by its Corollary E2) " +
             "held against Theorem 2 of the complement connection walked on the bitstrings, family by family, Theorem D also against the " +
-            "balance to N = 32, beside five controls that must disagree. Optional " +
+            "balance to N = 32, beside ten controls that must disagree. Optional " +
             "integer --ring (the largest ring read, 5 to 12, default 10) " +
             "(typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new SignedMaskBalanceWitness(c.Parser.HasFlag("ring") ? c.Parser.RequireInt("ring") : 10),

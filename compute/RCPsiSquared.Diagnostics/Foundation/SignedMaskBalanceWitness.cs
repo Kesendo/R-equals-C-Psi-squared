@@ -41,9 +41,20 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int DroppedRingPowerMismatches { get; }
     public int ParityOnlyMismatches { get; }
     public int MostValuedMismatches { get; }
+    /// <summary>Theorem E's readings that fall outside its setting (an absent edge or a ratio that is no character).</summary>
+    public int CharacterOutside { get; }
+    /// <summary>Theorem E with condition (1), (2) or (3) dropped: readings against Theorem 2.</summary>
+    public IReadOnlyList<int> DroppedConditionMismatches { get; }
+    /// <summary>Corollary E2 without its read-set test: readings against Theorem 2.</summary>
+    public int DroppedReadSetMismatches { get; }
+    /// <summary>Corollary E2 with hol(g) walked without its ordering term: readings against Theorem 2.</summary>
+    public int DroppedOrderingMismatches { get; }
+    /// <summary>How often each branch of Corollary E2 decided a ring read against Theorem 2.</summary>
+    public IReadOnlyDictionary<SignedMaskBalanceClaim.RingShapeBranch, int> E2Branches { get; private set; } = new Dictionary<SignedMaskBalanceClaim.RingShapeBranch, int>();
     public bool AllAgree => Families.All(f => f.Agrees);
     public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0
-                                 && ParityOnlyMismatches > 0 && MostValuedMismatches > 0;
+                                 && ParityOnlyMismatches > 0 && MostValuedMismatches > 0
+                                 && DroppedConditionMismatches.All(d => d > 0) && DroppedReadSetMismatches > 0 && DroppedOrderingMismatches > 0;
 
     static readonly string[] Windows = (from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}").ToArray();
 
@@ -84,7 +95,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         if (ringCap < 5 || ringCap > MaxRing) throw new ArgumentOutOfRangeException(nameof(ringCap), ringCap, $"the ring cap runs from 5 to {MaxRing}");
         RingCap = ringCap;
         var families = new List<FamilyReading>();
-        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0, parityOnly = 0, mostValued = 0;
+        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0, parityOnly = 0, mostValued = 0, characterOutside = 0, droppedReadSet = 0, droppedOrdering = 0;
+        var droppedCondition = new int[3];
 
         // two templates of width three, masks of different shapes, both signs
         {
@@ -106,13 +118,15 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                             bool expected = !breaks || n < from;
                             bool pairs = PairsOnChain(n, (a, 1), (b, sign));
                             bool balanced = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnChain(new[] { a, b }, n));
+                            bool character = SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(new[] { (a, 1L), (b, sign) }, n, ring: false))
+                                             == SignedMaskBalanceClaim.CharacterVerdict.Pairs;
                             readings++;
-                            if (pairs != expected || balanced != expected) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} at N = {n}"; }
+                            if (pairs != expected || balanced != expected || character != expected) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} at N = {n}"; }
                             if (pairs != (SwappedQuotientC(a, b) == 0 || n < NStar(a, b))) swappedQuotients++;
                         }
                     }
                 }
-            families.Add(new FamilyReading("two templates of width three, masks of different shapes, both signs", cells, readings, mismatches, first));
+            families.Add(new FamilyReading("two templates of width three, masks of different shapes, both signs (the balance and Theorem E agreeing)", cells, readings, mismatches, first));
         }
 
         // unequal widths
@@ -296,6 +310,85 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("three templates of different shapes at one N, by the balance (on the ring also by Theorem D)", cells, readings, mismatches, first));
         }
 
+        // Theorem E: two strings on one flip mask in a window of two or three sites, against Theorem 2
+        {
+            var pairsE = new List<(string A, string B)>();
+            foreach (int w in new[] { 2, 3 })
+                for (ulong f = 1; f < 1UL << w; f++)
+                {
+                    var strs = new List<string> { "" };
+                    for (int j = 0; j < w; j++)
+                    {
+                        var letters = ((f >> j) & 1) == 1 ? "XY" : "IZ";
+                        strs = strs.SelectMany(s => letters.Select(c => s + c)).ToList();
+                    }
+                    for (int i = 0; i < strs.Count; i++)
+                        for (int j = i + 1; j < strs.Count; j++) pairsE.Add((strs[i], strs[j]));
+                }
+            int cells = 0, readings = 0, mismatches = 0, e2Readings = 0, e2Mismatches = 0, e2Cells = 0, e2Far = 0, e2FarMismatches = 0;
+            string? first = null, e2First = null, e2FarFirst = null;
+            var branches = new Dictionary<SignedMaskBalanceClaim.RingShapeBranch, int>();
+            foreach (var (a, b) in pairsE)
+                foreach (long sign in new[] { 1L, -1L })
+                {
+                    cells++;
+                    var terms = new[] { (a, 1L), (b, sign) };
+                    int w = a.Length;
+                    foreach (bool ring in new[] { false, true })
+                        for (int n = ring ? Math.Max(3, 2 * w - 1) : Math.Max(3, w); n <= (ring ? RingCap : 7); n++)
+                        {
+                            var placed = SignedMaskBalanceClaim.PlaceStrings(terms, n, ring);
+                            var v = SignedMaskBalanceClaim.DecideCharacter(placed);
+                            if (v == SignedMaskBalanceClaim.CharacterVerdict.Outside) { characterOutside++; continue; }
+                            bool pairs = ring ? PairsOnRing(n, (a, 1), (b, sign)) : PairsOnChain(n, (a, 1), (b, sign));
+                            readings++;
+                            if (pairs != (v == SignedMaskBalanceClaim.CharacterVerdict.Pairs)) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} on the {(ring ? "ring" : "chain")} of {n}"; }
+                            foreach (var (flag, k) in new[] { ((false, true, true), 0), ((true, false, true), 1), ((true, true, false), 2) })
+                                if (pairs != (SignedMaskBalanceClaim.DecideCharacter(placed, flag.Item1, flag.Item2, flag.Item3) == SignedMaskBalanceClaim.CharacterVerdict.Pairs))
+                                    droppedCondition[k]++;
+                            if (!ring) continue;
+                            var (breaks, branch) = SignedMaskBalanceClaim.RingOneShape(terms, n);
+                            if (branch == SignedMaskBalanceClaim.RingShapeBranch.Outside) continue;
+                            if (n == Math.Max(3, 2 * w - 1)) e2Cells++;
+                            e2Readings++;
+                            branches[branch] = branches.GetValueOrDefault(branch) + 1;
+                            if (pairs == breaks) { e2Mismatches++; e2First ??= $"{a} {sign:+0;-0}{b} on the ring of {n}"; }
+                            if (pairs == SignedMaskBalanceClaim.RingOneShape(terms, n, readSetTest: false).Breaks) droppedReadSet++;
+                        }
+                    for (int n = RingCap + 1; n <= 40; n++)
+                    {
+                        var (breaks, branch) = SignedMaskBalanceClaim.RingOneShape(terms, n);
+                        if (branch == SignedMaskBalanceClaim.RingShapeBranch.Outside) continue;
+                        var v = SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(terms, n, ring: true));
+                        e2Far++;
+                        if (breaks != (v == SignedMaskBalanceClaim.CharacterVerdict.Breaks)) { e2FarMismatches++; e2FarFirst ??= $"{a} {sign:+0;-0}{b} on the ring of {n}"; }
+                    }
+                }
+            // four strings on one flip set: the products (aX + bY)⊗(cX + dY), a, b, c, d = ±1, where hol(g) is the ordering term alone
+            int pcells = 0, preadings = 0, pmismatches = 0;
+            string? pfirst = null;
+            foreach (int a1 in new[] { 1, -1 }) foreach (int b1 in new[] { 1, -1 }) foreach (int c1 in new[] { 1, -1 }) foreach (int d1 in new[] { 1, -1 })
+            {
+                pcells++;
+                var terms = new[] { ("XX", (long)(a1 * c1)), ("XY", (long)(a1 * d1)), ("YX", (long)(b1 * c1)), ("YY", (long)(b1 * d1)) };
+                for (int n = 3; n <= RingCap; n++)
+                {
+                    bool pairs = PairsOnRing(n, terms.Select(t => (t.Item1, t.Item2)).ToArray());
+                    var (breaks, branch) = SignedMaskBalanceClaim.RingOneShape(terms, n);
+                    var v = SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(terms, n, ring: true));
+                    preadings++;
+                    if (branch == SignedMaskBalanceClaim.RingShapeBranch.Outside || pairs == breaks || pairs != (v == SignedMaskBalanceClaim.CharacterVerdict.Pairs))
+                    { pmismatches++; pfirst ??= $"({a1:+0;-0}X {b1:+0;-0}Y)⊗({c1:+0;-0}X {d1:+0;-0}Y) on the ring of {n}"; }
+                    if (pairs == SignedMaskBalanceClaim.RingOneShape(terms, n, orderingTerm: false).Breaks) droppedOrdering++;
+                }
+            }
+            families.Add(new FamilyReading("Theorem E: two strings on one flip mask, windows of two and three sites, chain to 7 and ring to the cap", cells, readings, mismatches, first));
+            families.Add(new FamilyReading("Corollary E2 and Theorem E on (aX + bY)⊗(cX + dY), four strings on one flip set, ring to the cap", pcells, preadings, pmismatches, pfirst));
+            families.Add(new FamilyReading("Corollary E2: one flip shape on the ring, against Theorem 2 to the cap", e2Cells, e2Readings, e2Mismatches, e2First));
+            families.Add(new FamilyReading("Corollary E2 against Theorem E's elimination, rings past the cap to N = 40", e2Cells, e2Far, e2FarMismatches, e2FarFirst, "Theorem E"));
+            E2Branches = branches;
+        }
+
         // the worked examples
         {
             var checks = new List<(string Name, bool Holds)>
@@ -316,6 +409,18 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                     new[] { ("XXZ", "XZY"), ("XXZ", "YZX"), ("XZY", "YYZ"), ("XZY", "ZXX"), ("XZY", "ZYY"), ("YYZ", "YZX"), ("YZX", "ZXX"), ("YZX", "ZYY") }
                         .All(p => Enumerable.Range(5, 60).All(n => SignedMaskBalanceClaim.RingBreaks(new[] { p.Item1, p.Item2 }, n) == (n % 2 == 1)))),
                 ("XX + XIY breaks on every ring (Theorem D, N = 5 to 64)", Enumerable.Range(5, 60).All(n => SignedMaskBalanceClaim.RingBreaks(new[] { "XX", "XIY" }, n))),
+                ("XXX + XYX breaks on the ring exactly at 3 | N (Corollary E2, N = 5 to 63; Theorem 2 to 9)",
+                    Enumerable.Range(5, 59).All(n => SignedMaskBalanceClaim.RingOneShape(new[] { ("XXX", 1L), ("XYX", 1L) }, n).Breaks == (n % 3 == 0))
+                    && Enumerable.Range(5, 5).All(n => PairsOnRing(n, ("XXX", 1), ("XYX", 1)) == (n % 3 != 0))),
+                ("XXX + XYX pairs on the chain, N = 3 to 7", Enumerable.Range(3, 5).All(n => PairsOnChain(n, ("XXX", 1), ("XYX", 1)))),
+                ("XZ + ZY pairs on the ring and breaks on the chain, N = 3 to 8",
+                    Enumerable.Range(3, 6).All(n => PairsOnRing(n, ("XZ", 1), ("ZY", 1)) && !PairsOnChain(n, ("XZ", 1), ("ZY", 1)))
+                    && Enumerable.Range(3, 6).All(n => SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(new[] { ("XZ", 1L), ("ZY", 1L) }, n, true)) == SignedMaskBalanceClaim.CharacterVerdict.Pairs)),
+                ("XXX + YYY pairs on every ring, relations at 3 | N (Corollary E2, N = 5 to 63)",
+                    Enumerable.Range(5, 59).All(n => !SignedMaskBalanceClaim.RingOneShape(new[] { ("XXX", 1L), ("YYY", 1L) }, n).Breaks)),
+                ("XIY + XZX pairs on the ring exactly at 4 | N (Corollary E2, N = 5 to 63; Theorem 2 to 9)",
+                    Enumerable.Range(5, 59).All(n => SignedMaskBalanceClaim.RingOneShape(new[] { ("XIY", 1L), ("XZX", 1L) }, n).Breaks == (n % 4 != 0))
+                    && Enumerable.Range(5, 5).All(n => PairsOnRing(n, ("XIY", 1), ("XZX", 1)) == (n % 4 == 0))),
             };
             int bad = checks.Count(c => !c.Holds);
             families.Add(new FamilyReading("the worked examples of the page", checks.Count, checks.Count, bad, checks.FirstOrDefault(c => !c.Holds).Name, "the page"));
@@ -327,6 +432,10 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         DroppedRingPowerMismatches = droppedPower;
         ParityOnlyMismatches = parityOnly;
         MostValuedMismatches = mostValued;
+        CharacterOutside = characterOutside;
+        DroppedConditionMismatches = droppedCondition;
+        DroppedReadSetMismatches = droppedReadSet;
+        DroppedOrderingMismatches = droppedOrdering;
     }
 
     // the controls of Theorem D, read the proof's way from one template i₀: 2^(v₂(N)) read off the parity of N alone,
@@ -395,7 +504,9 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"on the bitstrings, {Families.Where(f => f.Against == "the balance").Sum(f => f.Readings)} of Theorem D against the balance, " +
         $"{Families.Where(f => f.Against == "the page").Sum(f => f.Readings)} worked checks, {Families.Sum(f => f.Mismatches)} disagreeing; the controls (widths swapped, quotients swapped, 2^(v₂(N)) dropped, " +
         $"the parity of N for 2^(v₂(N)), i₀ at the greatest valuation) disagree {SwappedWidthsMismatches}, {SwappedQuotientsMismatches}, " +
-        $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times";
+        $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times; Theorem E with (1), (2), (3) dropped and E2 " +
+        $"without its read-set test or its ordering term disagree {string.Join(", ", DroppedConditionMismatches)}, {DroppedReadSetMismatches}, " +
+        $"{DroppedOrderingMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -417,7 +528,15 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                 summary: $"N* with each width beside its own quotient: {SwappedWidthsMismatches} readings against Theorem 2; c with the " +
                          $"quotients swapped: {SwappedQuotientsMismatches}; the ring law without 2^(v₂(N)): {DroppedRingPowerMismatches}; " +
                          $"Theorem D with the parity of N in place of 2^(v₂(N)): {ParityOnlyMismatches}; Theorem D with i₀ at the greatest " +
-                         $"valuation: {MostValuedMismatches} (the last two against the balance)",
+                         $"valuation: {MostValuedMismatches} (the last two against the balance); Theorem E without the symmetric reading: " +
+                         $"{DroppedConditionMismatches[0]}, without the read sets summed over the relations: {DroppedConditionMismatches[1]}, " +
+                         $"without hol: {DroppedConditionMismatches[2]}; Corollary E2 without its read-set test: {DroppedReadSetMismatches}, " +
+                         $"with hol(g) walked without its ordering term: {DroppedOrderingMismatches}",
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode(
+                displayName: "Theorem E's reach",
+                summary: $"{CharacterOutside} readings outside its setting (an absent edge or a ratio that is no character); Corollary E2's " +
+                         $"branches against Theorem 2: {string.Join(", ", E2Branches.OrderBy(kv => kv.Key).Select(kv => $"{kv.Key} {kv.Value}"))}",
                 provenance: NodeProvenance.Live);
         }
     }
