@@ -1308,6 +1308,15 @@ public static class InspectCommand
             "(typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new SignedMaskBalanceWitness(c.Parser.HasFlag("ring") ? c.Parser.RequireInt("ring") : 10),
             RequiresN: false),
+        new("planarhopping", "Theorem 8 of the complement connection, live: hopping bonds J(XX + YY) + D(XY − YX) on any graph, a " +
+            "diagonal part unchanged under flipping every bit, one-site fields a·X + b·Y + c·Z, Z dephasing on every site; the rule (no Z " +
+            "part on any site, and every cycle of H's block on the states with at most one excitation a real product of entries, that is, " +
+            "one rotation about Z per site making the hopping and field terms real) held against Theorem 2 walked on the bitstrings on " +
+            "random rows, rows built from a gauge, rows with repeated and cancelling terms, the uniform twisted rings and pure DM on " +
+            "named graphs, beside three controls that must disagree " +
+            "(typed: PalindromeComplementConnectionClaim; docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)",
+            c => new PlanarHoppingWitness(),
+            RequiresN: false),
         new("twobytwo", "the one closed 2 × 2 behind many exceptional points (docs/THE_DOUBLE_ROOT.md, One 2 × 2 in many settings), live: "
             + "every row at a point with integer entries on its exceptional point and one step off it, exact over ℚ(i) through the claim's law (d = 0 and "
             + "M₀ ≠ 0, one Jordan block; companion rows marked as readings that cannot fail), self-orthogonality following the writing, "

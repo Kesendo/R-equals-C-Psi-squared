@@ -211,9 +211,11 @@ something the census measures.
 87,376 eigenvalues tested (N=2 through N=8). Zero exceptions.
 Pairing error at machine precision (the identity itself being
 algebraically exact). Holds across all topologies (chain, star,
-ring, complete, binary tree, the last verified to N=5) and all standard coupling models
-(Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya, the last under the
-site-alternating Π variant).
+ring, complete, binary tree, the last verified to N=5) for the standard coupling models
+Heisenberg, XY, Ising and XXZ, and for Dzyaloshinskii-Moriya on every bipartite
+graph under the site-alternating Π variant; on a graph with an odd cycle of DM
+bonds the DM spectrum under Z dephasing breaks, Theorem 8 of
+[the complement connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md).
 See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md)
 for the coupling models; the topology sweep is in the
 [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).

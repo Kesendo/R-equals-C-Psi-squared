@@ -1,4 +1,6 @@
+using System.Numerics;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
@@ -22,6 +24,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Theorem 1.</b> Hopping bonds J(XX + YY), every J ≠ 0, with any complement-invariant diagonal
 /// part (Heisenberg, XXZ, XY), on a connected graph, Z on every site, letter fields of any magnitudes:
 /// the palindrome holds exactly when no field lies along Z and the fields do not use both X and Y.</para>
+///
+/// <para><b>Theorem 8.</b> Hopping bonds J(XX + YY) + D(XY − YX) on any graph, a complement-invariant diagonal part,
+/// one-site fields of any direction, Z on every site: the palindrome holds exactly when no field has a Z part and every
+/// cycle of H's block on the states with at most one excitation has a real product of entries, the latter saying that one
+/// rotation about Z per site makes the hopping and field terms real (<see cref="PlanarHoppingPalindrome"/>); without fields,
+/// pure DM pairs exactly on bipartite graphs.
+/// Live battery: <c>inspect --root planarhopping</c>.</para>
 ///
 /// <para><b>Theorem 3.</b> Heisenberg bonds, every J ≠ 0, on a connected graph, every site dephased along
 /// one letter with at least two letters among the axes, fields of any direction: the near end is
@@ -95,6 +104,66 @@ public sealed class PalindromeComplementConnectionClaim : Claim
         return "XYZ".Any(p => !a.Contains(p) && f.All(l => l == p));
     }
 
+    /// <summary>The readings <see cref="PlanarHoppingPalindrome"/> can be asked for: the rule itself, and three that must
+    /// fail, for the battery's controls.</summary>
+    public enum PlanarHoppingReading { Rule, FieldsIgnored, TwistsIgnored, FieldsConjugated }
+
+    /// <summary>Theorem 8's rule: hopping bonds J(X_iX_j + Y_iY_j) + D(X_iY_j − Y_iX_j) on any graph (bonds with
+    /// J = D = 0 carry nothing, repeated bonds add, (j, i) is the same bond read backwards), a diagonal part unchanged under
+    /// flipping every bit (left out here: it does not enter), one-site fields a·X + b·Y + c·Z (repeated sites add), every
+    /// site dephased along Z at a strictly positive rate. The palindrome holds exactly when every site's Z part sums to zero
+    /// and every cycle of the block K of H on the states with at most one excitation has a real product of entries:
+    /// K_(e_i, e_j) = 2(J − iD) on a bond (i, j), K_(∅, e_l) = a − ib on a field. Read on a spanning forest of K's graph,
+    /// every chord's cycle checked exactly in Gaussian integers (a chord's cycles generate every cycle, and a product of
+    /// real cycle products is real). The other <see cref="PlanarHoppingReading"/>s are controls that must fail: the fields
+    /// left out of K, the D parts left out, or the fields' entries a + ib in place of a − ib.</summary>
+    public static bool PlanarHoppingPalindrome(int n, IReadOnlyList<(int I, int J, long Hop, long Dm)> bonds,
+        IReadOnlyList<(int Site, long X, long Y, long Z)> fields, PlanarHoppingReading reading = PlanarHoppingReading.Rule)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "at least one site");
+        foreach (var (i, j, _, _) in bonds)
+            if (i == j || i < 0 || j < 0 || i >= n || j >= n) throw new ArgumentException($"bond ({i}, {j}) on {n} sites");
+        foreach (var f in fields)
+            if (f.Site < 0 || f.Site >= n) throw new ArgumentException($"field on site {f.Site} of {n}");
+        if (fields.GroupBy(f => f.Site).Any(g => g.Aggregate(BigInteger.Zero, (s, f) => s + f.Z) != 0)) return false;
+        int vacuum = n;
+        var entry = new Dictionary<(int, int), GaussianInteger>();
+        void Add(int u, int v, GaussianInteger k)
+        {
+            entry[(u, v)] = entry.GetValueOrDefault((u, v)) + k;
+            entry[(v, u)] = entry.GetValueOrDefault((v, u)) + new GaussianInteger(k.Re, -k.Im);
+        }
+        foreach (var (i, j, hop, dm) in bonds)
+            Add(i, j, new GaussianInteger(2 * (BigInteger)hop, reading == PlanarHoppingReading.TwistsIgnored ? BigInteger.Zero : -2 * (BigInteger)dm));
+        if (reading != PlanarHoppingReading.FieldsIgnored)
+            foreach (var (site, x, y, _) in fields)
+                Add(vacuum, site, new GaussianInteger(x, reading == PlanarHoppingReading.FieldsConjugated ? (BigInteger)y : -(BigInteger)y));
+        var adjacent = new Dictionary<int, List<int>>();
+        foreach (var ((u, v), k) in entry)
+            if (k != GaussianInteger.Zero) { if (!adjacent.TryGetValue(u, out var list)) adjacent[u] = list = new List<int>(); list.Add(v); }
+        // potentials: the product of K's entries along the forest from each root
+        var potential = new Dictionary<int, GaussianInteger>();
+        foreach (int root in adjacent.Keys.OrderBy(v => v))
+        {
+            if (potential.ContainsKey(root)) continue;
+            potential[root] = GaussianInteger.One;
+            var stack = new Stack<int>(new[] { root });
+            while (stack.Count > 0)
+            {
+                int u = stack.Pop();
+                foreach (int v in adjacent[u])
+                    if (!potential.ContainsKey(v)) { potential[v] = potential[u] * entry[(u, v)]; stack.Push(v); }
+            }
+        }
+        foreach (var ((u, v), k) in entry)
+        {
+            if (k == GaussianInteger.Zero || u > v) continue;
+            var pv = potential[v];
+            if ((potential[u] * k * new GaussianInteger(pv.Re, -pv.Im)).Im != 0) return false;   // a tree edge gives |p_v|², real
+        }
+        return true;
+    }
+
     public PalindromeComplementConnectionClaim(PalindromeTwoEndCountClaim twoEndCount)
         : base("With every site dephased the palindrome is a flat connection: with one single-site Pauli jump on " +
                "every site, turned to Z, the far end of F158 is X^N times the flat sections of d_y/d_x = " +
@@ -105,7 +174,10 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "fields, palindrome iff no Z field and not both X and Y " +
                "(Theorem 1); Heisenberg bonds, every J nonzero, under mixed axes with fields of any direction, near end " +
                "one-dimensional, palindrome iff two axes occur and every field lies along the third letter " +
-               "(Theorem 3). Both need a connected graph. With the dephased sites (at least one) each under one single-site " +
+               "(Theorem 3). Both need a connected graph. Hopping bonds with Dzyaloshinskii-Moriya parts D(XY − YX) on any graph, " +
+               "connected or not, a complement-invariant diagonal part, fields of any direction, Z on every site: palindrome iff no " +
+               "site's Z part is nonzero and every cycle of H's block on at most one excitation has a real product of entries, the " +
+               "latter saying that one turn about Z per site makes the hopping and field terms real (Theorem 8). With the dephased sites (at least one) each under one single-site " +
                "Pauli jump and every undephased site keeping a letter H conserves: H splits into " +
                "sectors of their bits, near = sum over sector pairs of hom(H_tau, H_sigma), far = the same against the complement " +
                "image, each hom a count of good components (Theorem 4). Heisenberg bonds, every J nonzero, on a connected graph " +
@@ -118,7 +190,7 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "nonconstant diagonal charge of the frame: both ends are sums over pairs of charge sectors, a count of good " +
                "components where every sector space is at most one-dimensional (Theorem 7).",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7) + " +
+               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-8) + " +
                "docs/ANALYTICAL_FORMULAS.md (F165, the index entry) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
@@ -146,6 +218,15 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "strings, which span the diagonal matrices, and the second are X^N times them. So both " +
                          "ends are equations on functions over the 2^N bitstrings: constancy along the edges of " +
                          "the hopping graph at the near end, the complement connection at the far end.");
+
+            yield return new InspectableNode("Theorem 8, hopping with phases and planar fields",
+                summary: "Every edge of the hopping graph is a hop or a field flip, present at x exactly when at its complement, and its " +
+                         "ratio is k/k̄ for an entry k of H's block K on the empty string and the N one-excitation strings: K = 2(J − iD) " +
+                         "on a bond, a − ib on a field. A gauge of phases making K real gives the flat section d_x = product of u_l² over " +
+                         "the set bits, a carrier that is a product of one-site letters in the XY plane; a cycle of the graph walked by one " +
+                         "excitation, and a field set, carried along a path and unset, are closed walks of holonomy P/P̄. Without fields, " +
+                         "pure DM pairs on bipartite graphs only and the uniform twisted ring where N·arctan(D/J) is a multiple of π; " +
+                         "live: inspect --root planarhopping.");
 
             yield return new InspectableNode("Lemma A, and why mixed axes leave one near element",
                 summary: "Under mixed axes the turn to Z makes a bond between sites of different axes flip both " +

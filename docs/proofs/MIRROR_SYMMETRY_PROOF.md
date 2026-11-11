@@ -3,7 +3,7 @@
 **Status:** Tier 1 derived (analytical proof in three steps + numerical verification, N=2..8, 87,376 Liouvillian eigenvalues, zero mirror-symmetry exceptions on every tested topology. Two strengths of check: the operator identity itself is measured to N=5, where Π can still be built explicitly; from N=6 on what is measured is the consequence, that the spectrum pairs. Chain, star, ring, complete and tree are covered at N=4,5; at N=8 the tested set is chain, star, ring, and K₄ plus a disjoint 4-chain)
 **Date:** Discovered 2026-03-14 (Π named + three-line proof); numerically verified 2026-03-19; this document restructured 2026-04-05; literature section extended 2026-07-05 (38-fold placement + nearest neighbour).
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
-**Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ system, on any graph and not only on a chain, under local Z-dephasing is palindromic around Σγᵢ. A DM Hamiltonian needs a distinct site-alternating Π, which every bipartite graph carries, whatever the orientation and signs of its edges (Π is a product of site maps and every bond joins the two colours); odd cycles fail where tested (triangle, 5-ring, K₄), so it is not the arbitrary-graph clause of the uniform identity.
+**Statement:** `Π · L · Π⁻¹ = −L − 2Σγ · I`: the Liouvillian spectrum of any Heisenberg / XY / Ising / XXZ system, on any graph and not only on a chain, under local Z-dephasing is palindromic around Σγᵢ. A DM Hamiltonian needs a distinct site-alternating Π, which every bipartite graph carries, whatever the orientation and signs of its edges (Π is a product of site maps and every bond joins the two colours); on a graph with an odd cycle of DM bonds no element carries it, the spectrum itself breaking (Theorem 8 of [the complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)), so it is not the arbitrary-graph clause of the uniform identity.
 **Typed claim:** [`F1PalindromeIdentity.cs`](../../compute/RCPsiSquared.Core/F1/F1PalindromeIdentity.cs) (Tier 1 derived; analytic identity replaces the brute-force palindrome scan).
 
 **Origin:** The palindromic spectrum itself is in the literature: Prosen's
@@ -120,8 +120,9 @@ need to look them up elsewhere:
   Π: M₁ on one colour of a bipartite graph, M₂ on the other. Each map swaps
   {I,Z} with {X,Y}, so the dissipator condition holds site by site; each bond
   joins the two colours, and reversing its orientation only flips the sign of
-  a term the condition is linear in. So every bipartite graph carries it; odd
-  cycles fail where tested (triangle, 5-ring, K₄). It and the other non-Heisenberg bonds are
+  a term the condition is linear in. So every bipartite graph carries it; on a graph with an
+  odd cycle no element carries it, the spectrum itself breaking (Theorem 8 of
+  [the complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)). It and the other non-Heisenberg bonds are
   catalogued in [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md),
   which also finds that not every two-qubit bond combination preserves the
   palindrome (14 of 36 break). For the uniform Heisenberg/XY/Ising/XXZ map, the

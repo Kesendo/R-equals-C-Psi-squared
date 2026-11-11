@@ -32,7 +32,8 @@ Every decay rate d pairs with 2Σγ - d.
 
 **Valid for:** Heisenberg, XY, Ising, and XXZ with local Z-dephasing on any graph;
 DM on any bipartite graph, whatever the orientation and signs of its edges
-(odd cycles fail where tested); any N; non-uniform γ per qubit.
+(pure DM, every bond XY − YX, exactly on the bipartite graphs: under Z on every
+site an odd cycle of pure DM bonds breaks the spectrum, Theorem 8 of [the complement connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 **Prior work:** for the uniform family the palindromic spectrum follows
 from Prosen's PT symmetry of Lindbladians (2012), and Π⁻¹ = ρ ↦ X^⊗N·ρᵀ, with
@@ -7466,7 +7467,7 @@ middle gives none, and the ends are exactly the pair the path can exchange,
 while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
-exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165)); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3); off the letters, under Heisenberg bonds with every site watched along an integer axis, the same necessity holds as [F169](#f169) on every connected graph, beside these classes rather than one of them. A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
+exceptions live without being sufficient to produce them. Three classes are established in which the converse DOES hold, exactly and at every field magnitude, the first two on a connected graph with every site dephased: Z on every site (any one common axis for Heisenberg bonds, by a global rotation), Heisenberg or XX + YY bonds of any nonzero weights, fields along letters (Theorem 1 of [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), indexed as [F165](#f165); its Theorem 8 widens this class to fields of any direction in the XY plane, the palindrome holding exactly when they lie on one axis); and mixed axes, Heisenberg bonds of any nonzero weights, fields of any direction, where the palindrome holds exactly when two axes occur and every field lies along the third letter (its Theorem 3); off the letters, under Heisenberg bonds with every site watched along an integer axis, the same necessity holds as [F169](#f169) on every connected graph, beside these classes rather than one of them. A third, with one site left undephased: Heisenberg bonds on a connected graph, each other site under one letter jump (the axes equal or mixed), letter fields, where the palindrome holds exactly when a colouring exists (its Theorem 5). The 78 coincident-magnitude rows leave two sites undephased, which is where Theorem 5 stops and
 where [the triangle's palindromic locus](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
@@ -10955,7 +10956,7 @@ the two reflection sectors transports the verdict to the 133 odd loci, covering 
 ---
 
 <a id="f165"></a>
-### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated in the two proofs named
@@ -11021,6 +11022,20 @@ h_l·P_l along one Pauli letter P_l.
   the fields, taken over all sites, do not use both X and Y. At Heisenberg,
   XXZ and XX + YY bonds, the bond sets of F138 that it covers, this is F138's
   converse.
+- **Theorem 8,** beside the three classes and not on a connected graph alone,
+  widens Theorem 1 to hopping bonds
+  J_ij(XX + YY) + D_ij(XY − YX) with Dzyaloshinskii-Moriya parts on any graph, connected or not, the same
+  diagonal part, one-site fields a·X + b·Y + c·Z, Z on every site: the
+  palindrome holds exactly when every c is zero and every cycle of H's block K
+  on the empty string and the N one-excitation strings (K = 2(J − iD) on a
+  bond, a − ib on a field) has a real product of entries, the second condition
+  saying that one rotation about Z per site makes the hopping and field terms
+  real; the carrier is then a product of one-site letters in the XY plane.
+  Without fields, pure DM pairs exactly on the bipartite graphs, and a ring
+  twisted uniformly by θ = arctan(D/J) exactly where N·θ is a multiple of π.
+  Its D = 0 part widens Theorem 1's class, where F138's converse holds, from
+  letter fields to fields of any direction in the XY plane. Live at
+  `inspect --root planarhopping`.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes
@@ -11068,7 +11083,7 @@ image, (H̄)_xy = H_x̄ȳ over the dephased bits:
   of good components where every sector space is at most one-dimensional.
   F4's cross-sector weight is the near end's part between different sectors.
 
-**Beyond the seven,** in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md), on the Heisenberg triangle with
+**Beyond the eight,** in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md), on the Heisenberg triangle with
 couplings s = J_du, t = J_dv, r = J_uv, only site d dephased (along Z), and
 e₂ = st + sr + tr. With a field of free real magnitude, zero allowed, along
 one letter on every site and the graph connected
@@ -11104,9 +11119,11 @@ and the edge rule reads D_y = −D_x, the far-end equation [X^⊗N·D, H] = 0 th
 F103 §7.5 writes as {H, D} = 0.
 
 **Typed/live owners:** `PalindromeComplementConnectionClaim` (Tier 1 derived,
-parent F158's `PalindromeTwoEndCountClaim`) for Theorems 1 to 7, with the live
+parent F158's `PalindromeTwoEndCountClaim`) for Theorems 1 to 8, with the live
 witness `ComplementConnectionWitness` at `inspect --root complement` (Theorems
-1 to 4, with Theorem 5's rule printed beside the string route); under Z on
+1 to 4, with Theorem 5's rule printed beside the string route) and
+`PlanarHoppingWitness` at `inspect --root planarhopping` (Theorem 8, against
+Theorem 2 on the bitstrings, gated in the typed layer); under Z on
 every site the certifier `PalindromeSoftCertifier.DecideAtN` decides Theorem 2
 exactly for real template sets on the open chain, up to its constant
 `MaxComplementConnectionN = 20`. Gated in MirrorWorld against the end count's
@@ -11657,7 +11674,7 @@ c₂ are read off the densities.
 
 so S(t) = e^{−2σt}S(−t) exactly when sin(Nφ − θ) = 0, and otherwise the first odd term of e^{σt}S(t) is (σ/3)·∏h_l²·sin²(Nφ − θ)·t^{2N+1}. With one strength, one rate and one angle on every bit an isotropic coupling never enters the self-encounter, on any graph, and at order 2N + 3 the coupling enters only through Δ_b − J_b, bond by bond (the page's step 7); with unequal rates or strengths the isotropic coupling enters.
 
-**Under a twisted coupling** (the page's section of that name). A hopping with a twist δ_e on each bond e = (a, b) (a Dzyaloshinskii-Moriya part) and a field angle φ_l of its own on every bit: turning each bit by its angle leaves the residual twist β_e = δ_e − (φ_b − φ_a) on each bond and the twisted current j_e = h_a·h_b·J_e·sin β_e. Where every β_e is a multiple of π the statement above holds with Nφ replaced by Σφ_l; on a ring that needs the flux Σδ_e to be a multiple of π, the spectral condition under Z watching of the colouring page's frame theorem and of the complement connection's holonomy, read at one state. Otherwise
+**Under a twisted coupling** (the page's section of that name). A hopping with a twist δ_e on each bond e = (a, b) (a Dzyaloshinskii-Moriya part) and a field angle φ_l of its own on every bit: turning each bit by its angle leaves the residual twist β_e = δ_e − (φ_b − φ_a) on each bond and the twisted current j_e = h_a·h_b·J_e·sin β_e. Where every β_e is a multiple of π the statement above holds with Nφ replaced by Σφ_l; on a ring that needs the flux Σδ_e to be a multiple of π, the spectral condition under Z watching of the colouring page's frame theorem and of the complement connection's holonomy, read at one state, which is the field-free part. With a field on every bit, every bit watched and XXZ couplings, the complement connection's Theorem 8 asks exactly that every β_e be a multiple of π. Otherwise
 
     m_7 = 96·Σ_l γ_l·(div j)_l²            N ≥ 3 where sin(Σφ_l − θ) = 0; every phase from N = 6 on; N = 4, 5 at the phases gated
 
