@@ -65,17 +65,17 @@ public class SieveTests
         Assert.Equal(windows.Count, windows.Distinct().Count());
     }
 
-    // The window family's residue on the chain: X·(X ± Y)·X and its relatives, the outer letters equal and the middle a
-    // letter of X plus or minus Y, palindromic on every chain read (the stitch at three sites, the end count at four to
-    // six) and read by no every-N route.
+    // The window family's chain residue, X·(X ± Y)·X and its relatives (the outer letters X or Y, the middle a letter of
+    // X plus or minus Y), read by the free chain from six sites on, the stitch at three and the end count at four and
+    // five below it: Read, and with it the window family's chain holds no residue.
     [Fact]
-    public void The_Window_Residue_On_The_Chain_Is_The_Middle_Turned_By_An_Eighth()
+    public void The_Window_Residue_On_The_Chain_Is_Read_By_The_Free_Chain()
     {
         var family = Sieve.WindowFamily(2, "Z").ToDictionary(c => c.Name, c => c.Cell);
         foreach (var name in new[] { "+XXX+XYX", "+XXX-XYX", "+XXY+XYY", "+XXY-XYY", "+YXX+YYX", "+YXX-YYX", "+YXY+YYY", "+YXY-YYY" })
         {
             var e = Sieve.Run(name, family[name], 6);
-            Assert.Equal((Sieve.Verdict.Residue, "sPPP"), (e.Chain.Verdict, e.Chain.Letters));
+            Assert.Equal((Sieve.Verdict.Read, "sPPF"), (e.Chain.Verdict, e.Chain.Letters));
         }
     }
 

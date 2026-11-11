@@ -291,45 +291,11 @@ public sealed class Stitch : GameObject
         if (!ZOnly(norm)) return (null, null);
         int span = norm.Span, cap = MaxHolonomySites, len = 2 * cap + 4 * span;
         if (len > 63) return (null, null);
-        // each entry sums at most one placement of each template and field, so |Re|, |Im| ≤ s and its norm ≤ 2s² < p
-        long sum = norm.Windows.Sum(w => Math.Abs(w.Coefficient)) + norm.Fields.Sum(f => Math.Abs(f.Item2));
-        if (sum > 20000) return (null, null);
-        // every term on the long chain with its window, grouped by flip set
-        var placed = new List<(ulong X, ulong Z, long C, ulong Window)>();
-        void Add(int first, string letters, int[] offsets, long c)
-        {
-            ulong x = 0, z = 0, w = 0;
-            for (int o = offsets.Min(); o <= offsets.Max(); o++) w |= 1UL << (first + o);
-            for (int i = 0; i < offsets.Length; i++)
-            {
-                ulong bit = 1UL << (first + offsets[i]);
-                if (letters[i] is 'X' or 'Y') x |= bit;
-                if (letters[i] is 'Z' or 'Y') z |= bit;
-            }
-            placed.Add((x, z, c, w));
-        }
-        for (int l = 0; l < len; l++)
-            foreach (var (letter, c) in norm.Fields) Add(l, letter.ToString(), new[] { 0 }, c);
-        foreach (var (letters, off, c) in norm.Windows)
-            for (int s = 0; s + off.Max() < len; s++) Add(s, letters, off, c);
-        var byFlip = placed.Where(t => t.X != 0).GroupBy(t => t.X).ToDictionary(g => g.Key, g => g.ToList());
+        if (!SmallEntries(norm)) return (null, null);
+        var byFlip = Placed(norm, len).Where(t => t.X != 0).GroupBy(t => t.X).ToDictionary(g => g.Key, g => g.ToList());
         ulong all = (1UL << len) - 1;
         long p = ModP.Primes[0], iota = ModP.SqrtMinusOne(p);
 
-        // <row|H|row ⊕ F> summed over the terms with flip set F, a Gaussian integer of longs
-        (long Re, long Im) Entry(List<(ulong X, ulong Z, long C, ulong Window)> terms, ulong col)
-        {
-            long re = 0, im = 0;
-            foreach (var t in terms)
-                switch ((BitOperations.PopCount(t.X & t.Z) + 2 * BitOperations.PopCount(col & t.Z)) % 4)
-                {
-                    case 0: re += t.C; break;
-                    case 1: im += t.C; break;
-                    case 2: re -= t.C; break;
-                    default: im -= t.C; break;
-                }
-            return (re, im);
-        }
         long Reduce((long Re, long Im) g) => ModP.AddMod(ModP.Mod(g.Re, p), ModP.MulMod(ModP.Mod(g.Im, p), iota, p), p);
 
         // (broken, the largest extent of a flip set read) for the region of r sites from lo
@@ -381,5 +347,164 @@ public sealed class Stitch : GameObject
             ring = Math.Max(norm.SmallestRing, Math.Max(r, span + bulk.Extent - 1));
         }
         return (chain, ring);
+    }
+
+    // each entry sums at most one placement of each template and field, so |Re|, |Im| ≤ s and its norm ≤ 2s² < p
+    static bool SmallEntries(Theodolite.Cell norm)
+        => norm.Windows.Sum(w => Math.Abs(w.Coefficient)) + norm.Fields.Sum(f => Math.Abs(f.Coefficient)) <= 20000;
+
+    // every term of the cell on a chain of len sites, with its window (the run from its first to its last offset)
+    static List<(ulong X, ulong Z, long C, ulong Window)> Placed(Theodolite.Cell norm, int len)
+    {
+        var placed = new List<(ulong X, ulong Z, long C, ulong Window)>();
+        void Add(int first, string letters, int[] offsets, long c)
+        {
+            ulong x = 0, z = 0, w = 0;
+            for (int o = offsets.Min(); o <= offsets.Max(); o++) w |= 1UL << (first + o);
+            for (int i = 0; i < offsets.Length; i++)
+            {
+                ulong bit = 1UL << (first + offsets[i]);
+                if (letters[i] is 'X' or 'Y') x |= bit;
+                if (letters[i] is 'Z' or 'Y') z |= bit;
+            }
+            placed.Add((x, z, c, w));
+        }
+        for (int l = 0; l < len; l++)
+            foreach (var (letter, c) in norm.Fields) Add(l, letter.ToString(), new[] { 0 }, c);
+        foreach (var (letters, off, c) in norm.Windows)
+            for (int s = 0; s + off.Max() < len; s++) Add(s, letters, off, c);
+        return placed;
+    }
+
+    // <row|H|row ⊕ F> summed over the terms with flip set F (row ⊕ F = col), a Gaussian integer of longs
+    static (long Re, long Im) Entry(List<(ulong X, ulong Z, long C, ulong Window)> terms, ulong col)
+    {
+        long re = 0, im = 0;
+        foreach (var t in terms)
+            switch ((BitOperations.PopCount(t.X & t.Z) + 2 * BitOperations.PopCount(col & t.Z)) % 4)
+            {
+                case 0: re += t.C; break;
+                case 1: im += t.C; break;
+                case 2: re -= t.C; break;
+                default: im -= t.C; break;
+            }
+        return (re, im);
+    }
+
+    // The free chain (built 2026-11-11, the window family's chain residue X·(X ± Y)·X read on the letter cube and turned
+    // into a reader). Where the local check is complete its silence is a yes. Four conditions, each read on a long chain:
+    //   one flip shape: every term that flips anything flips a translate of one set f (XXX and XYX share {0, 1, 2});
+    //   no edge vanishes: on every flip set, at every configuration of the bits its terms read, both entries of (★) are
+    //     nonzero, with equal moduli (condition (i));
+    //   condition (ii): no diagonal string of odd weight keeps a coefficient;
+    //   every square closes: for two flip sets F, G whose terms read a bit the other flips (as a Z or Y letter), at every
+    //     configuration of the bits their terms cover, r(v, F)·r(v ⊕ F, G) = r(v, G)·r(v ⊕ G, F), exactly, in Gaussian
+    //     integers (no prime: a closure modulo p is not a closure).
+    // Then on the chain the translates of f are independent (each begins at its own site), so every component of Γ is
+    // a whole cube of them, every edge present, and its cycles are generated by squares (a step there and back closes,
+    // H being Hermitian and the moduli equal). A square of two flip sets that do not interact closes by itself; an
+    // interacting pair's terms lie in a run of at most 3·span − 2 − e sites (e = max f − min f), and a pair an end cuts
+    // within the first or last 3·span − 3 − e. From N ≥ max(2·span, 3·span − 3) no flip set is cut at both ends and no
+    // interacting pair at opposite ends, so every square of the chain of N sites is one read on the long chain, with the
+    // same entries: every component flat, the spectrum pairs on every chain of N ≥ From. On the ring the translates span
+    // the ideal (f) of GF(2)[x]/(x^N + 1), of dimension N − deg gcd(f, x^N + 1): they are independent exactly when no
+    // order of a root of f divides N (the Moduli, the minimal such N). There, from N ≥ 3·span − 1 (no interacting pair
+    // wraps onto itself, no window covers a flip set the long way round), every square is one of the long chain's bulk,
+    // and the same reading holds; where a modulus divides N a relation runs round the whole ring and its holonomy is not
+    // read (silent). The section it proves is no product and no local quadratic form: in the coordinates of the cube
+    // (v = v₀ ⊕ Σ c_l·F_l) it is quadratic in c, and c is not local in v (for X·(X ± Y)·X, 1/(1 + x + x²) =
+    // (1 + x)/(1 + x³) over GF(2), sums of every third bit from the end).
+    public sealed record Free(bool Ring, int From, IReadOnlyList<int> Moduli)
+    {
+        public bool Reads(int n) => n >= From && !Moduli.Any(d => n % d == 0);
+    }
+
+    /// <summary>The most bits a square of the free chain enumerates (2^MaxSquareBits configurations per pair).</summary>
+    public const int MaxSquareBits = 16;
+
+    public static Free? FreeEveryN(Theodolite.Cell cell, bool ring)
+    {
+        var norm = cell.Normalized();
+        if (!ZOnly(norm)) return null;
+        int span = norm.Span, len = 8 * span;
+        if (len > 63) return null;
+        var placed = Placed(norm, len);
+        var byFlip = placed.Where(t => t.X != 0).GroupBy(t => t.X).ToDictionary(g => g.Key, g => g.ToList());
+        if (byFlip.Count == 0) return null;
+        static ulong Shape(ulong m) => m >> BitOperations.TrailingZeroCount(m);
+        ulong f = Shape(byFlip.Keys.First());
+        if (byFlip.Keys.Any(m => Shape(m) != f)) return null;
+        // condition (ii): H_xx = H_x̄x̄ for every x, the odd-weight diagonal strings cancelling
+        if (placed.Where(t => t.X == 0).GroupBy(t => t.Z).Any(g => g.Sum(t => t.C) != 0 && BitOperations.PopCount(g.Key) % 2 == 1))
+            return null;
+        ulong all = (1UL << len) - 1;
+        int Lo(ulong m) => BitOperations.TrailingZeroCount(m);
+        int Hi(ulong m) => 63 - BitOperations.LeadingZeroCount(m);
+        // a placement in the bulk: every window that could carry its flip sets fits on the long chain
+        bool Bulk(ulong m) => Lo(m) >= span - 1 && Hi(m) <= len - span;
+        GaussBig Big((long Re, long Im) g) => new(g.Re, g.Im);
+        var reach = byFlip.ToDictionary(kv => kv.Key, kv => kv.Value.Aggregate(0UL, (acc, t) => acc | t.Window));
+        var reads = byFlip.ToDictionary(kv => kv.Key, kv => kv.Value.Aggregate(0UL, (acc, t) => acc | t.Z));
+        bool chainOk = true, ringOk = true;
+        void Fail(ulong m) { chainOk = false; if (Bulk(m)) ringOk = false; }
+        IEnumerable<ulong> Configurations(ulong bits)
+        {
+            var sites = Enumerable.Range(0, len).Where(l => ((bits >> l) & 1) == 1).ToArray();
+            for (long cfg = 0; cfg < 1L << sites.Length; cfg++)
+            {
+                ulong v = 0;
+                for (int i = 0; i < sites.Length; i++) if (((cfg >> i) & 1) == 1) v |= 1UL << sites[i];
+                yield return v;
+            }
+        }
+        foreach (var (mask, terms) in byFlip)
+            foreach (var col in Configurations(reach[mask]))
+            {
+                var a = Entry(terms, col);
+                var b = Entry(terms, all ^ col);
+                if (a == (0, 0) || b == (0, 0) || a.Re * a.Re + a.Im * a.Im != b.Re * b.Re + b.Im * b.Im) { Fail(mask); break; }
+            }
+        if (!chainOk && !ringOk) return null;
+        // r(v, F) = <v|H|v⊕F> / <v̄|H|v̄⊕F>, as the pair (numerator, denominator)
+        (GaussBig A, GaussBig B) R(ulong v, ulong m) => (Big(Entry(byFlip[m], v ^ m)), Big(Entry(byFlip[m], all ^ v ^ m)));
+        var masks = byFlip.Keys.OrderBy(m => m).ToList();
+        foreach (var fm in masks)
+            foreach (var gm in masks)
+            {
+                if (gm <= fm || ((gm & reads[fm]) == 0 && (fm & reads[gm]) == 0)) continue;
+                ulong both = fm | gm;
+                if (!(chainOk || ringOk && Bulk(both))) continue;
+                ulong bits = reach[fm] | reach[gm];
+                if (BitOperations.PopCount(bits) > MaxSquareBits) return null;
+                foreach (var v in Configurations(bits))
+                {
+                    var (a1, b1) = R(v, fm);
+                    var (a2, b2) = R(v ^ fm, gm);
+                    var (a3, b3) = R(v, gm);
+                    var (a4, b4) = R(v ^ gm, fm);
+                    if (a1 * a2 * b3 * b4 != a3 * a4 * b1 * b2) { Fail(both); break; }
+                }
+            }
+        if (!ring) return chainOk ? new Free(false, Math.Max(2 * span, 3 * span - 3), Array.Empty<int>()) : null;
+        if (!ringOk) return null;
+        // the minimal N with gcd(f, x^N + 1) ≠ 1: every root of f lies in GF(2^m), m ≤ deg f, of order dividing 2^m − 1
+        int deg = Hi(f);
+        var moduli = new List<int>();
+        for (int d = 1; d < 1 << Math.Max(deg, 1); d++)
+            if (!moduli.Any(m => d % m == 0) && Gcd2(f, (1UL << d) | 1) != 1) moduli.Add(d);
+        if (moduli.Contains(1)) return null;                             // f(1) = 0: the translates sum to 0 on every ring
+        return new Free(true, Math.Max(norm.SmallestRing, 3 * span - 1), moduli);
+    }
+
+    // the gcd of two polynomials over GF(2), bit i the coefficient of x^i
+    static ulong Gcd2(ulong a, ulong b)
+    {
+        while (b != 0)
+        {
+            int db = 63 - BitOperations.LeadingZeroCount(b);
+            while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db) a ^= b << (63 - BitOperations.LeadingZeroCount(a) - db);
+            (a, b) = (b, a);
+        }
+        return a;
     }
 }

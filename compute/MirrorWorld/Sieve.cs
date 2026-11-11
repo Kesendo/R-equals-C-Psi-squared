@@ -46,8 +46,11 @@ public sealed class Sieve : GameObject
     // (no every-N reading; it counts like the end count's P); C: broken by the stitch's no (a condition of
     // Theorem 2 fails), exact, no end count asked. BrokenFrom: the smallest N from which every N is exactly broken (B or
     // C below the stitch's threshold, C from it), null where the stitch gives no every-N no; BrokenEveryN: a Broken
-    // whose BrokenFrom is its first N. A Mixed with a BrokenFrom pairs only below it.
-    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, int? BrokenFrom = null)
+    // whose BrokenFrom is its first N. A Mixed with a BrokenFrom pairs only below it. F: covered by the free chain
+    // (Stitch.FreeEveryN), every N from its From on and, on the ring, every N no modulus of it divides; a cell the free
+    // chain covers from its From on, every N below an exact yes, is Read.
+    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, int? BrokenFrom = null,
+        Stitch.Free? Free = null)
     {
         public bool BrokenEveryN => Verdict == Verdict.Broken && BrokenFrom == From;
     }
@@ -77,29 +80,38 @@ public sealed class Sieve : GameObject
         bool ringCovered = closed?.Closures?.Any(c => c.Modulus == 1) == true;
         Stitch.Reach? sChain = stitch && open is null ? Stitch.EveryN(norm, ring: false) : null;
         Stitch.Reach? sRing = stitch && !ringCovered ? Stitch.EveryN(norm, ring: true) : null;
-        var chain = Through(open, sChain, chainFrom, maxN, n => open is not null, norm.Chain);
-        var ring = Through(closed, sRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
+        // the free chain, where the theodolite and the stitch's every-N yes leave N uncovered
+        Stitch.Free? fChain = stitch && open is null && sChain?.Bulk is null ? Stitch.FreeEveryN(norm, ring: false) : null;
+        Stitch.Free? fRing = stitch && !ringCovered && sRing?.Bulk is null ? Stitch.FreeEveryN(norm, ring: true) : null;
+        var chain = Through(open, sChain, fChain, chainFrom, maxN, n => open is not null, norm.Chain);
+        var ring = Through(closed, sRing, fRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
         return new Entry(name, cell, chain, ring);
     }
 
-    static Pass Through(Theodolite.Traverse? t, Stitch.Reach? st, int from, int maxN, Func<int, bool> covered,
+    static Pass Through(Theodolite.Traverse? t, Stitch.Reach? st, Stitch.Free? free, int from, int maxN, Func<int, bool> covered,
         Func<int, Theodolite.Setting> build)
     {
         var letters = new System.Text.StringBuilder();
         for (int n = from; n <= maxN; n++)
         {
             // a yes and the stitch's no at one N would be a contradiction in the construction, not a finding about the cell
-            if (covered(n) && st is not null && st.Breaks(n)) throw new InvalidOperationException($"N = {n}: a reading covers an N the stitch's no breaks");
+            if ((covered(n) || free?.Reads(n) == true) && st is not null && st.Breaks(n))
+                throw new InvalidOperationException($"N = {n}: a reading covers an N the stitch's no breaks");
             if (covered(n)) { letters.Append('E'); continue; }
             if (st is not null && st.Reads(n)) { letters.Append(st.Bulk is not null ? 'S' : 's'); continue; }
+            if (free is not null && free.Reads(n)) { letters.Append('F'); continue; }
             if (st is not null && st.Breaks(n)) { letters.Append('C'); continue; }
             var v = Count(build(n)).Verdict();
             letters.Append(EndCount.IsPalindrome(v) ? (EndCount.IsExact(v) ? 'P' : 'p') : (EndCount.IsExact(v) ? 'B' : 'b'));
         }
         string s = letters.ToString();
-        bool anyCovered = s.Contains('E') || s.Contains('S');
+        bool anyCovered = s.Contains('E') || s.Contains('S') || s.Contains('F');
         bool anyPal = s.Any(c => c is 'P' or 'p' or 's'), anyBroken = s.Any(c => c is 'B' or 'b' or 'C');
-        Verdict verdict = anyPal && anyBroken ? Verdict.Mixed
+        // the free chain covers every N from its From on: the N below it, each an exact yes, make the cell read
+        bool freeTail = free is { Moduli.Count: 0 } && free.From <= maxN + 1
+            && Enumerable.Range(from, Math.Max(0, free.From - from)).All(n => n > maxN || s[n - from] is 'P' or 's');
+        Verdict verdict = freeTail && !anyBroken ? Verdict.Read
+            : anyPal && anyBroken ? Verdict.Mixed
             : anyPal ? Verdict.Residue
             : anyCovered ? Verdict.Read
             : Verdict.Broken;
@@ -115,7 +127,7 @@ public sealed class Sieve : GameObject
             while (n0 > from && Broken(n0 - 1)) n0--;
             brokenFrom = n0;
         }
-        return new Pass(t, from, s, verdict, brokenFrom);
+        return new Pass(t, from, s, verdict, brokenFrom, free);
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)

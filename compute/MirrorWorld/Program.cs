@@ -2779,8 +2779,8 @@ if (args.Length > 0 && args[0] == "sieve")
     Console.WriteLine($"=== the sieve: {svWhat}, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
     Console.WriteLine("  the fast no first: the stitch's local no (Theorem 2's conditions, no solve; Z jumps only), then the theodolite's");
     Console.WriteLine("  every-N reading (a yes holds at every N), the stitch's yes where it is silent, and the end count (F158) only on the");
-    Console.WriteLine("  rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the");
-    Console.WriteLine("  stitch, C broken by the stitch's no (a condition of Theorem 2 fails), P/B palindromic/broken by the end count");
+    Console.WriteLine("  rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the stitch, F by the free chain,");
+    Console.WriteLine("  C broken by the stitch's no (a condition of Theorem 2 fails), P/B palindromic/broken by the end count");
     Console.WriteLine("  (p/b by its ranks).");
     var sw = System.Diagnostics.Stopwatch.StartNew();
     var family = svFamily switch
