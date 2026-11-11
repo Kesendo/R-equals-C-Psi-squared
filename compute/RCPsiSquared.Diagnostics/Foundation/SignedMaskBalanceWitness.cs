@@ -7,25 +7,28 @@ using RCPsiSquared.Diagnostics.F87;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The live battery for F173 (<c>docs/proofs/PROOF_SIGNED_MASK_BALANCE.md</c>, typed
-/// <see cref="SignedMaskBalanceClaim"/>): the claim's three readings, pure GF(2) on masks and signs, held against
+/// <see cref="SignedMaskBalanceClaim"/>): the claim's readings, pure GF(2) on masks and signs, held against
 /// Theorem 2 of the complement connection walked on the bitstrings (<see cref="ComplementConnectionGraph"/>, every entry
 /// a Gaussian integer, every edge cross-multiplied), Z dephasing on every site, templates placed with their identity
-/// letters at every start of the open chain or at every start of the ring, wrapped.
+/// letters at every start of the open chain or at every start of the ring, wrapped; Theorem D also against the balance
+/// (<see cref="SignedMaskBalanceClaim.Balanced"/>, Theorem A's elimination) on rings to N = 32, past the bitstrings' reach.
 ///
 /// <para>Families, each a count of cells and readings and the readings where the two routes disagree (none expected):
 /// two templates of width three with masks of different shapes, both signs of the second coefficient, at N* − 1, N*,
 /// N* + 1 where c = 1 and at N = 3 to 6 where c = 0; two templates of unequal widths, where N* pairs each width with the
 /// other template's quotient; the diagonal-cell masks at k = 3 and 4 against F115's own valuation
 /// (<see cref="WindowedObstructionScan.IsHardPair"/>) and against Theorem 2 at N* − 1 and N*; one template on the ring
-/// from N = 2w − 1 to the ring cap; XY + ZZ on the ring; sixteen two-template ring cells by the balance at each N; the
-/// worked examples of the page. Three controls show the battery can fail: the widths swapped in N*, the quotients
-/// swapped in c, and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere.</para></summary>
+/// from N = 2w − 1 to the ring cap; XY + ZZ on the ring; Theorem D on two templates against Theorem 2 to the ring cap,
+/// and on two templates up to five sites wide and three templates against the balance to N = 32; three templates at one
+/// N against Theorem 2; the worked examples of the page. Five controls show the battery can fail: the widths swapped in N*, the
+/// quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere, and
+/// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
     public const int MaxRing = 12;
 
-    public sealed record FamilyReading(string Name, int Cells, int Readings, int Mismatches, string? FirstMismatch)
+    public sealed record FamilyReading(string Name, int Cells, int Readings, int Mismatches, string? FirstMismatch, string Against = "Theorem 2")
     {
         public bool Agrees => Mismatches == 0;
     }
@@ -36,8 +39,11 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int SwappedWidthsMismatches { get; }
     public int SwappedQuotientsMismatches { get; }
     public int DroppedRingPowerMismatches { get; }
+    public int ParityOnlyMismatches { get; }
+    public int MostValuedMismatches { get; }
     public bool AllAgree => Families.All(f => f.Agrees);
-    public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0;
+    public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0
+                                 && ParityOnlyMismatches > 0 && MostValuedMismatches > 0;
 
     static readonly string[] Windows = (from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}").ToArray();
 
@@ -78,7 +84,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         if (ringCap < 5 || ringCap > MaxRing) throw new ArgumentOutOfRangeException(nameof(ringCap), ringCap, $"the ring cap runs from 5 to {MaxRing}");
         RingCap = ringCap;
         var families = new List<FamilyReading>();
-        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0;
+        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0, parityOnly = 0, mostValued = 0;
 
         // two templates of width three, masks of different shapes, both signs
         {
@@ -202,24 +208,63 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("XY + ZZ on the ring, paired exactly at even N", 1, r2, m2, f2));
         }
 
-        // two templates on the ring, by the balance at each N
+        // Theorem D: two templates on the ring, against Theorem 2 to the ring cap and against the balance to N = 32
         {
-            var pairs = new[] { ("XXZ", "XZY"), ("XXZ", "YZX"), ("XZY", "YYZ"), ("XZY", "ZXX"), ("XZY", "ZYY"), ("YYZ", "YZX"),
-                                ("YZX", "ZXX"), ("YZX", "ZYY") };
-            int cells = 0, readings = 0, mismatches = 0;
-            string? first = null;
-            foreach (var (a, b) in pairs)
-                foreach (long sign in new[] { 1L, -1L })
+            var twoSite = (from x in "XYZ" from y in "XYZ" select $"{x}{y}").Where(x => SignedMaskBalanceClaim.Mask(x) != 0);
+            var pool = twoSite.Concat(Windows.Where(x => SignedMaskBalanceClaim.Mask(x) != 0)).ToList();
+            var wide = pool.Concat(new[] { "XYYY", "XIIY", "XXIY", "YIIY", "XYIZ", "YZZX", "XIIIY", "YIIIY", "XYIYX" }).ToList();
+            int cells = 0, readings = 0, mismatches = 0, rcells = 0, rreadings = 0, rmismatches = 0;
+            string? first = null, rfirst = null;
+            for (int i = 0; i < wide.Count; i++)
+                for (int j = i + 1; j < wide.Count; j++)
                 {
-                    cells++;
-                    for (int n = 5; n <= Math.Min(RingCap, 9); n++)
+                    string a = wide[i], b = wide[j];
+                    if (SameShape(SignedMaskBalanceClaim.Mask(a), SignedMaskBalanceClaim.Mask(b))) continue;
+                    var ab = new[] { a, b };
+                    int lo = Math.Max(3, 2 * Math.Max(a.Length, b.Length) - 1);
+                    rcells++;
+                    for (int n = lo; n <= 32; n++)
                     {
-                        bool balanced = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnRing(new[] { a, b }, n));
-                        readings++;
-                        if (balanced != (n % 2 == 0) || PairsOnRing(n, (a, 1), (b, sign)) != balanced) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} on the ring of {n}"; }
+                        bool breaks = SignedMaskBalanceClaim.RingBreaks(ab, n);
+                        rreadings++;
+                        if (SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnRing(ab, n)) == breaks) { rmismatches++; rfirst ??= $"{a} + {b} on the ring of {n}"; }
+                        if (RingParityOnly(ab, n) != breaks) parityOnly++;
+                        if (RingAtTheMostValued(ab, n) != breaks) mostValued++;
+                    }
+                    foreach (long sign in j < pool.Count ? new[] { 1L, -1L } : new[] { 1L })
+                    {
+                        cells++;
+                        for (int n = lo; n <= RingCap; n++)
+                        {
+                            readings++;
+                            if (PairsOnRing(n, (a, 1), (b, sign)) == SignedMaskBalanceClaim.RingBreaks(ab, n)) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} on the ring of {n}"; }
+                        }
                     }
                 }
-            families.Add(new FamilyReading("two templates on the ring by the balance, paired exactly at even N", cells, readings, mismatches, first));
+            families.Add(new FamilyReading("Theorem D: two templates on the ring, against Theorem 2 to the cap (both signs below four sites wide)", cells, readings, mismatches, first));
+            families.Add(new FamilyReading("Theorem D: two templates up to five sites wide on the ring, against the balance to N = 32", rcells, rreadings, rmismatches, rfirst, "the balance"));
+
+            // three templates, valuations 0 to 4, so that T > v₀ and T ≤ v₀ both meet ties and greater valuations
+            var sixteen = new[] { "XY", "XX", "XZ", "XXX", "XIY", "XYZ", "YIX", "XZY", "ZXY", "XXIY", "XIIY", "XYYY", "YIIY", "XIIIY", "YIIIY", "XYIYX" };
+            int tcells = 0, treadings = 0, tmismatches = 0;
+            string? tfirst = null;
+            for (int i = 0; i < sixteen.Length; i++)
+                for (int j = i + 1; j < sixteen.Length; j++)
+                    for (int l = j + 1; l < sixteen.Length; l++)
+                    {
+                        var abc = new[] { sixteen[i], sixteen[j], sixteen[l] };
+                        if (abc.Select(x => SignedMaskBalanceClaim.Mask(x)).Select(m => m >> BitOperations.TrailingZeroCount(m)).Distinct().Count() < 3) continue;
+                        tcells++;
+                        for (int n = Math.Max(3, 2 * abc.Max(x => x.Length) - 1); n <= 32; n++)
+                        {
+                            bool breaks = SignedMaskBalanceClaim.RingBreaks(abc, n);
+                            treadings++;
+                            if (SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnRing(abc, n)) == breaks) { tmismatches++; tfirst ??= $"{string.Join(" + ", abc)} on the ring of {n}"; }
+                            if (RingParityOnly(abc, n) != breaks) parityOnly++;
+                            if (RingAtTheMostValued(abc, n) != breaks) mostValued++;
+                        }
+                    }
+            families.Add(new FamilyReading("Theorem D: three templates of different shapes on the ring, against the balance to N = 32", tcells, treadings, tmismatches, tfirst, "the balance"));
         }
 
         // three templates of different shapes at one N, by the balance
@@ -242,11 +287,13 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                             { mismatches++; first ??= $"{a} + {b} + {c} on the chain of {n}"; }
                             if (n < 5) continue;
                             readings++;
-                            if (SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnRing(new[] { a, b, c }, n)) != PairsOnRing(n, (a, 1), (b, 1), (c, 1)))
+                            bool ringPairs = PairsOnRing(n, (a, 1), (b, 1), (c, 1));
+                            if (SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnRing(new[] { a, b, c }, n)) != ringPairs
+                                || SignedMaskBalanceClaim.RingBreaks(new[] { a, b, c }, n) == ringPairs)
                             { mismatches++; first ??= $"{a} + {b} + {c} on the ring of {n}"; }
                         }
                     }
-            families.Add(new FamilyReading("three templates of different shapes at one N, by the balance", cells, readings, mismatches, first));
+            families.Add(new FamilyReading("three templates of different shapes at one N, by the balance (on the ring also by Theorem D)", cells, readings, mismatches, first));
         }
 
         // the worked examples
@@ -265,15 +312,36 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                 ("XXI + XIX pairs at N = 4 to 6", Enumerable.Range(4, 3).All(n => PairsOnChain(n, ("XXI", 1), ("XIX", 1)))),
                 ("XXI + XIY pairs at 3 and breaks at 4", PairsOnChain(3, ("XXI", 1), ("XIY", 1)) && !PairsOnChain(4, ("XXI", 1), ("XIY", 1))),
                 ("XXI + XIX pairs on the ring of five", PairsOnRing(5, ("XXI", 1), ("XIX", 1))),
+                ("+XXZ ± XZY and its seven relatives pair exactly at even N (Theorem D, N = 5 to 64)",
+                    new[] { ("XXZ", "XZY"), ("XXZ", "YZX"), ("XZY", "YYZ"), ("XZY", "ZXX"), ("XZY", "ZYY"), ("YYZ", "YZX"), ("YZX", "ZXX"), ("YZX", "ZYY") }
+                        .All(p => Enumerable.Range(5, 60).All(n => SignedMaskBalanceClaim.RingBreaks(new[] { p.Item1, p.Item2 }, n) == (n % 2 == 1)))),
+                ("XX + XIY breaks on every ring (Theorem D, N = 5 to 64)", Enumerable.Range(5, 60).All(n => SignedMaskBalanceClaim.RingBreaks(new[] { "XX", "XIY" }, n))),
             };
             int bad = checks.Count(c => !c.Holds);
-            families.Add(new FamilyReading("the worked examples of the page", checks.Count, checks.Count, bad, checks.FirstOrDefault(c => !c.Holds).Name));
+            families.Add(new FamilyReading("the worked examples of the page", checks.Count, checks.Count, bad, checks.FirstOrDefault(c => !c.Holds).Name, "the page"));
         }
 
         Families = families;
         SwappedWidthsMismatches = swappedWidths;
         SwappedQuotientsMismatches = swappedQuotients;
         DroppedRingPowerMismatches = droppedPower;
+        ParityOnlyMismatches = parityOnly;
+        MostValuedMismatches = mostValued;
+    }
+
+    // the controls of Theorem D, read the proof's way from one template i₀: 2^(v₂(N)) read off the parity of N alone,
+    // and i₀ taken at the greatest valuation
+    static bool RingParityOnly(string[] ts, int n) => RingRead(ts, n % 2 == 1 ? 1 : 64, least: true);
+    static bool RingAtTheMostValued(string[] ts, int n) => RingRead(ts, 1 << BitOperations.TrailingZeroCount((uint)n), least: false);
+
+    static bool RingRead(string[] ts, int big, bool least)
+    {
+        var read = ts.Select(t => (V: SignedMaskBalanceClaim.Valuation(SignedMaskBalanceClaim.Mask(t)), S: SignedMaskBalanceClaim.Sign(t))).ToList();
+        var idx = Enumerable.Range(0, read.Count);
+        int i0 = least ? idx.MinBy(i => read[i].V) : idx.MaxBy(i => read[i].V);
+        var (v0, s0) = read[i0];
+        if (v0 >= big) return read.Any(r => r.S == 1);
+        return idx.Any(j => j != i0 && (read[j].S + s0 * (read[j].V == v0 ? 1 : 0)) % 2 == 1);
     }
 
     // the controls: Theorem B with its pieces swapped, and Theorem C without 2^(v₂(N))
@@ -323,9 +391,11 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public string DisplayName => $"SignedMaskBalanceWitness (ring cap N = {RingCap})";
 
     public string Summary =>
-        $"F173 against Theorem 2 on the bitstrings: {Families.Sum(f => f.Readings)} readings over {Families.Count} families, " +
-        $"{Families.Sum(f => f.Mismatches)} disagreeing; the controls (widths swapped, quotients swapped, 2^(v₂(N)) dropped) " +
-        $"disagree {SwappedWidthsMismatches}, {SwappedQuotientsMismatches}, {DroppedRingPowerMismatches} times";
+        $"F173 on {Families.Count} families: {Families.Where(f => f.Against == "Theorem 2").Sum(f => f.Readings)} readings against Theorem 2 " +
+        $"on the bitstrings, {Families.Where(f => f.Against == "the balance").Sum(f => f.Readings)} of Theorem D against the balance, " +
+        $"{Families.Where(f => f.Against == "the page").Sum(f => f.Readings)} worked checks, {Families.Sum(f => f.Mismatches)} disagreeing; the controls (widths swapped, quotients swapped, 2^(v₂(N)) dropped, " +
+        $"the parity of N for 2^(v₂(N)), i₀ at the greatest valuation) disagree {SwappedWidthsMismatches}, {SwappedQuotientsMismatches}, " +
+        $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -335,7 +405,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                 yield return new InspectableNode(
                     displayName: f.Name,
                     summary: $"{f.Cells} {(f.Cells == 1 ? "cell" : "cells")}, {f.Readings} readings, " +
-                             (f.Agrees ? "every one agreeing with Theorem 2" : $"{f.Mismatches} DISAGREEING, first {f.FirstMismatch}"),
+                             (f.Agrees ? $"every one agreeing with {f.Against}" : $"{f.Mismatches} DISAGREEING, first {f.FirstMismatch}"),
                     provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "the floors of F115's pairs at k = 4",
@@ -345,7 +415,9 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             yield return new InspectableNode(
                 displayName: "the controls, which must disagree",
                 summary: $"N* with each width beside its own quotient: {SwappedWidthsMismatches} readings against Theorem 2; c with the " +
-                         $"quotients swapped: {SwappedQuotientsMismatches}; the ring law without 2^(v₂(N)): {DroppedRingPowerMismatches}",
+                         $"quotients swapped: {SwappedQuotientsMismatches}; the ring law without 2^(v₂(N)): {DroppedRingPowerMismatches}; " +
+                         $"Theorem D with the parity of N in place of 2^(v₂(N)): {ParityOnlyMismatches}; Theorem D with i₀ at the greatest " +
+                         $"valuation: {MostValuedMismatches} (the last two against the balance)",
                 provenance: NodeProvenance.Live);
         }
     }
