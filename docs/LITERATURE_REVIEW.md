@@ -494,6 +494,16 @@ this simulation is extremely non-uniform (all noise on one edge).
 
 ---
 
+## Related work: Pauli Hamiltonians as polynomials over GF(2)
+
+Seen in abstracts and contents during an outside reading pass of [F173](proofs/PROOF_SIGNED_MASK_BALANCE.md) (2026-11-11), not read in full.
+
+- **Haah, "Commuting Pauli Hamiltonians as maps between free modules"** (Commun. Math. Phys. 324, 2013, arXiv:1204.1063). A translation-invariant commuting Pauli Hamiltonian as a map of modules over the Laurent polynomials over GF(2), Pauli strings as columns of polynomials, its ground states on a torus read through that module structure. F173's Theorems B to D work in this formalism in one dimension and ask a different question of it: whether the relations among the placed masks carry an odd number of strings of odd #Y + #Z.
+- **Repeated-root cyclic codes**: Castagnoli, Massey, Schoeller and von Seemann, "On repeated-root cyclic codes", and van Lint, "Repeated-root cyclic codes" (two papers, IEEE Trans. Inf. Theory 37(2), 1991). The factor (1 + x)^(2^a) of x^N + 1 and the codes it carries; the relations of one template on the ring of even N are a cyclic code of this kind (F173's Theorem C), those of several templates a quasi-cyclic one, and F173's Theorem D reads their sign count at x = 1.
+- **Dehaene and De Moor, "Clifford group, stabilizer states, and linear and quadratic operations over GF(2)"** (Phys. Rev. A 68, 042318, 2003). The diagonal Clifford gates are phases of quadratic forms; the carrier of F173's Theorem E is the phase of a quadratic form, with values in {±1, ±i}.
+
+---
+
 ## What the literature does NOT contain
 
 This is our honest assessment of what appears to be new in this project.

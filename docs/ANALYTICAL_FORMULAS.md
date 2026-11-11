@@ -11815,6 +11815,7 @@ m(x) over GF(2), bit j ↦ x^j.
     s₁ = s₂ = 1:  c = 1  ⟺  v_(1+x)(m₁) ≠ v_(1+x)(m₂)    (F115 statement 1; N* its window floor)
     one template on the ring of N ≥ 2w − 1 sites:  broken  ⟺  s = 1 and v_(1+x)(m) ≥ 2^(v₂(N))    (XY: odd N; XIY: 4 ∤ N)
     any number of different shapes on the ring of N ≥ 2·max w − 1 sites, T = 2^(v₂(N)), v₀ = min vᵢ:  broken  ⟺  (T ≤ v₀, some s odd)  or  (T > v₀, two of valuation v₀ of different sign, or one of greater valuation with s odd)
+    in one line:  pairs  ⟺  some σ ∈ GF(2) has sᵢ = σ·[vᵢ = v₀ < T] for every i
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)

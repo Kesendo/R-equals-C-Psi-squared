@@ -144,7 +144,7 @@ and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
 
 ---
 
-## Former Exclusion 3: universal CΨ irreversibility — withdrawn
+## Former Exclusion 3: universal CΨ irreversibility, withdrawn
 
 The named Bell+ Z/Pauli/amplitude-damping formulas decrease exactly, but they do not turn CΨ into a
 Lyapunov function. With d=4 and first-site Z dephasing, a local H gives CΨ'(0)=+1/6. A local Hadamard sends
