@@ -11793,7 +11793,7 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
 
 <a id="f173"></a>
-### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them (Tier 1 derived)
+### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations (Tier 1 derived)
 
 **Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
 joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
@@ -11804,7 +11804,10 @@ the sets that mix them.
 no two with the same nonzero X/Y mask (Theorem E lets a flip set carry several strings whose ratio is a constant times
 a character), the odd-weight diagonal part zero. A string's sign s = (#Y + #Z) mod 2. A
 template of w letters is placed at every window (the chain's starts 0 … N − w, the ring's every start); its mask
-m(x) over GF(2), bit j ↦ x^j.
+m(x) over GF(2), bit j ↦ x^j. On the L × M torus a template is placed at every translate, its mask m(x, y), the site
+(p, q) ↦ x^p·y^q; folded onto ℤ_T₁ × ℤ_T₂ it lies in A = GF(2)[x, y]/(x^T₁ + 1, y^T₂ + 1), I is the ideal of the folded
+masks and 𝔪 = (1 + x, 1 + y); a colouring of period (T₁, T₂) is a set φ of sites, unchanged by the translations by T₁ along x and by T₂
+along y, with X^⊗N·Z^φ commuting with H (Theorem F).
 
 **The statement.**
 
@@ -11819,6 +11822,7 @@ m(x) over GF(2), bit j ↦ x^j.
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
+    L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
 (`ComplementConnectionGraph`), templates placed with their identity letters: the two-template law on the window
@@ -11832,9 +11836,12 @@ rings against Theorem 2 and on 10560 against Theorem E's elimination to N = 40, 
 on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
 products (224 readings); twelve controls (the widths or the quotients swapped,
 2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
-E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree.
+E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
+on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L; three controls (one number per
+mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts) disagree.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
-readings; live witness `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`).
+readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
+`TorusMaskBalanceWitness` (`inspect --root torusbalance`).
 **Adjacent.** [F115](#f115) and F103 §7.4 to §7.7 (the all-negative case and its gcd calculus, here with any
 signs); F108 Part 1 (the all-positive case) and F110 Aspect A (its Klein-homogeneous cells, all positive or, in the
 (1,1) cell, all negative with odd masks); THE_PALINDROME_AS_A_COLOURING (its diagonal gauge, under the assumption
@@ -11846,14 +11853,15 @@ condition (1)); Theorem 2 of
 PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); the MirrorWorld stitch (`Stitch.FreeEveryN`, Theorem E's condition
 (1) for one flip shape on the chain, and its local quadratic far elements, which Theorem E reads round the ring);
 SOFTNESS_IS_N_DEPENDENT and F116's golden router (several strings on one flip set with ratios that are no character,
-outside this entry).
-**Scope:** the open chain and the ring (N ≥ 2·max w − 1) with uniform templates; one string per flip set (the balance
-also with several strings of one sign whose entries never cancel; Theorems B to D need one string), or several with a
+outside this entry); for Theorem F, MIRROR_SYMMETRY_PROOF's site-alternating map (the checkerboard on the square torus)
+and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of ground states of commuting Hamiltonians.
+**Scope:** the open chain, the ring (N ≥ 2·max w − 1) and the torus (no two placements coinciding) with uniform templates; one string per flip set (the balance
+also with several strings of one sign whose entries never cancel; Theorems B to D and F need one string), or several with a
 character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside); Z dephasing on
 every site. Three or more templates on the chain are decided at each N by the balance, with no closed form here.
 **Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over
 GF(2); and an end count per ring size for cells of one string per flip set, such as XY + ZZ, by valuations and the 2-adic
-valuation of N.
+valuation of N; and on the torus a balance over L·M placements per template by one over T₁·T₂ folded cells.
 **Source:** [PROOF_SIGNED_MASK_BALANCE](proofs/PROOF_SIGNED_MASK_BALANCE.md).
 
 ---

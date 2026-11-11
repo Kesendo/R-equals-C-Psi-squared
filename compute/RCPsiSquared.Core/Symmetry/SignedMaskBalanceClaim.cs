@@ -25,7 +25,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// character, ω_m·(−1)^⟨R_m, x⟩, the palindrome holds exactly when ⟨R_a, b⟩ = ⟨R_b, a⟩ for every two flip sets, every
 /// relation has a vanishing read sum and hol = 1 on a basis of the relations (Theorem E); one flip shape on the ring is
 /// read through gcd(f, x^N + 1) (Corollary E2), and two on the chain through the read sum D = q₂R₁ + q₁R₂ and the
-/// holonomy of the relation r = 1 (Corollary E3).</para>
+/// holonomy of the relation r = 1 (Corollary E3). With one string per flip set on the L × M torus the verdict is read on the 2-part ℤ_T₁ × ℤ_T₂ of the
+/// translations, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), every mask folded there: the torus pairs exactly when a colouring of
+/// period (T₁, T₂) exists, the signs a linear function of the folded masks modulo the differences of their translates
+/// (Theorem F); the ring's one number per mask is the case of a cyclic 2-part.</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -34,7 +37,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SignedMaskBalanceWitness.cs</c>), which holds the claim's readings
 /// (<see cref="Balanced"/>, <see cref="Chain"/>, <see cref="RingBreaks(IReadOnlyCollection{string}, int)"/>), pure GF(2) on
 /// masks and signs, against <see cref="ComplementConnectionGraph"/>, Theorem 2 walked on the bitstrings with every entry a
-/// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach.</para></summary>
+/// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
+/// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>).</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
 {
     public PalindromeComplementConnectionClaim ComplementConnection { get; }
@@ -52,7 +57,9 @@ public sealed class SignedMaskBalanceClaim : Claim
             "and every relation u has ⊕ R_m = 0 and hol(u) = 1 (Theorem E), and one flip shape f on the ring of N ≥ 2w − 1 sites, " +
             "that condition holding, pairs exactly when h = gcd(f, x^N + 1) is 1, or divides R with 1 + x not dividing h or " +
             "hol((x^N + 1)/h) = 1, and two flip shapes on the chain, that condition holding, pair exactly below N* or where " +
-            "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1",
+            "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1; with one string per flip set on the L × M torus the verdict " +
+            "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
+            "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F)",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -68,7 +75,7 @@ public sealed class SignedMaskBalanceClaim : Claim
     }
 
     /// <summary>The sign of a string, (#Y + #Z) mod 2: X^⊗N·P·X^⊗N = (−1)^s·P.</summary>
-    public static int Sign(string template) => template.Count(c => c is 'Y' or 'Z') % 2;
+    public static int Sign(string template) => template.Count(c => c is 'Y' or 'Z') % 2;   // a torus template's '/' counts nothing
 
     /// <summary>Theorem A at one N: no relation among the placed masks with an odd number of negative strings.
     /// Elimination on (mask | sign); a row that reduces to the zero mask with sign 1 is such a relation. It decides the
@@ -193,6 +200,104 @@ public sealed class SignedMaskBalanceClaim : Claim
         if (a != 0) throw new InvalidOperationException("not divisible");
         return q;
     }
+
+    // ---------------------------------------------------------------- Theorem F, the torus
+
+    /// <summary>The letters of a template on the torus, written row by row with '/' between the rows: "XX/XY" carries X
+    /// at (0, 0) and (1, 0), X at (0, 1) and Y at (1, 1); identity letters are dropped, a shorter row is read padded with I.</summary>
+    public static IReadOnlyList<(int I, int J, char Letter)> TorusLetters(string template)
+    {
+        var rows = template.Split('/');
+        var letters = new List<(int, int, char)>();
+        for (int j = 0; j < rows.Length; j++)
+            for (int i = 0; i < rows[j].Length; i++)
+            {
+                char c = rows[j][i];
+                if (c is not ('I' or 'X' or 'Y' or 'Z')) throw new ArgumentException($"the letter {c} in {template}");
+                if (c != 'I') letters.Add((i, j, c));
+            }
+        return letters;
+    }
+
+    /// <summary>The placed masks of templates on the L × M torus, site (i, j) at bit i + L·j (L·M ≤ 64), every template
+    /// at every translate, wrapped, with its sign. Refuses a template that flips nothing, a template two of whose letters
+    /// land on one site, and placements that coincide (two templates whose masks are translates, or a torus too small for
+    /// a template), where a flip set would carry two strings.</summary>
+    public static IReadOnlyList<(ulong Mask, int Sign)> OnTorus(IReadOnlyCollection<string> templates, int l, int m)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (l < 1 || m < 1 || (long)l * m > 64) throw new ArgumentOutOfRangeException(nameof(l), $"{l} × {m}: one to 64 sites");
+        var placed = new List<(ulong, int)>();
+        var seen = new HashSet<ulong>();
+        foreach (var t in templates)
+        {
+            var letters = TorusLetters(t);
+            if (!letters.Any(x => x.Letter is 'X' or 'Y')) throw new ArgumentException($"{t} flips nothing");
+            if (letters.Select(x => (x.I % l, x.J % m)).Distinct().Count() < letters.Count)
+                throw new ArgumentException($"{t} does not fit on the {l} × {m} torus");
+            int sign = letters.Count(x => x.Letter is 'Y' or 'Z') % 2;
+            for (int b = 0; b < m; b++)
+                for (int a = 0; a < l; a++)
+                {
+                    ulong mask = 0;
+                    foreach (var (i, j, c) in letters)
+                        if (c is 'X' or 'Y') mask |= 1UL << ((i + a) % l + l * ((j + b) % m));
+                    if (!seen.Add(mask)) throw new ArgumentException($"two placements on the {l} × {m} torus share a flip set: it would carry two strings");
+                    placed.Add((mask, sign));
+                }
+        }
+        return placed;
+    }
+
+    /// <summary>A template's mask folded onto the T₁ × T₂ torus and moved by (a, b): each flipped letter at (i, j) toggles
+    /// the cell ((i + a) mod T₁, (j + b) mod T₂), so a cell hit an even number of times drops out.</summary>
+    public static ulong FoldedMask(string template, int t1, int t2, int a = 0, int b = 0)
+    {
+        if (t1 < 1 || t2 < 1 || (long)t1 * t2 > 64) throw new ArgumentOutOfRangeException(nameof(t1), $"{t1} × {t2}: one to 64 cells");
+        ulong mask = 0;
+        foreach (var (i, j, c) in TorusLetters(template))
+            if (c is 'X' or 'Y') mask ^= 1UL << ((i + a) % t1 + t1 * ((j + b) % t2));
+        return mask;
+    }
+
+    /// <summary>Theorem F: templates on the L × M torus, placed as <see cref="OnTorus"/> places them, read on the 2-part of
+    /// the translations, T₁ × T₂ with T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)): every mask folded there (<see cref="FoldedMask"/>) at
+    /// every translate of the small torus, with its template's sign. The torus breaks exactly when a GF(2) relation among
+    /// those folded masks uses an odd number of negative strings, that is when no colouring of period (T₁, T₂) exists.</summary>
+    public static bool TorusBreaks(IReadOnlyCollection<string> templates, int l, int m)
+    {
+        OnTorus(templates, l, m);   // the setting: every placement its own flip set
+        int t1 = TwoPart(l), t2 = TwoPart(m);
+        var rows = new List<(ulong, int)>();
+        foreach (var t in templates)
+        {
+            int sign = Sign(t);
+            for (int b = 0; b < t2; b++)
+                for (int a = 0; a < t1; a++) rows.Add((FoldedMask(t, t1, t2, a, b), sign));
+        }
+        return !Balanced(rows);
+    }
+
+    /// <summary>Theorem F's second form: the torus breaks exactly when some choice of templates with an odd number of
+    /// negative ones has its folded masks, one copy each, summing to a sum of differences g·m̄ⱼ + m̄ⱼ of folded translates
+    /// (the ideal 𝔪·I of GF(2)[ℤ_T₁ × ℤ_T₂]); the pairing torus carries signs that are a linear function of the folded
+    /// masks modulo those differences.</summary>
+    public static bool TorusBreaksByDifferences(IReadOnlyCollection<string> templates, int l, int m)
+    {
+        OnTorus(templates, l, m);
+        int t1 = TwoPart(l), t2 = TwoPart(m);
+        var rows = new List<(ulong, int)>();
+        foreach (var t in templates)
+        {
+            ulong at0 = FoldedMask(t, t1, t2);
+            rows.Add((at0, Sign(t)));
+            for (int b = 0; b < t2; b++)
+                for (int a = 0; a < t1; a++) rows.Add((FoldedMask(t, t1, t2, a, b) ^ at0, 0));
+        }
+        return !Balanced(rows);
+    }
+
+    static int TwoPart(int n) => 1 << BitOperations.TrailingZeroCount((uint)n);
 
     // ---------------------------------------------------------------- Theorem E, the character connection
 
