@@ -1314,7 +1314,8 @@ public static class InspectCommand
             "signs are no linear function of the folded masks modulo the differences of their translates; held against Theorem 2 walked on the bitstrings to " +
             "4 × 4, against the balance on the whole torus to 64 sites, against Theorem D on the L × 1 torus and on the tori of odd L; the staircase of the pairing 2-parts and its corners, one " +
             "template's corners against the exponents of its mask coarsened to bit lengths, two templates by divisibility in GF(2)[ℤ_T₁ × ℤ_T₂], the size bound " +
-            "L ≥ 2w_x − 1, M ≥ 2w_y − 1 (w_x, w_y the templates' largest extents); beside four controls that must disagree (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
+            "L ≥ 2w_x − 1, M ≥ 2w_y − 1 (w_x, w_y the templates' largest extents), the corner bound through the colength of the masks' ideal, " +
+            "the honeycomb and the kagome lattice; beside six controls that must disagree (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new TorusMaskBalanceWitness(),
             RequiresN: false),
         new("planarhopping", "Theorem 8 of the complement connection, live: hopping bonds J(XX + YY) + D(XY − YX) on any graph, a " +

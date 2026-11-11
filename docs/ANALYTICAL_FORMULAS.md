@@ -11823,7 +11823,7 @@ along y, with X^⊗N·Z^φ commuting with H (Theorem F).
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
-    the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
+    the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
 (`ComplementConnectionGraph`), templates placed with their identity letters: the two-template law on the window
@@ -11839,8 +11839,9 @@ products (224 readings); twelve controls (the widths or the quotients swapped,
 2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
 E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the
-balance (a rearrangement), one template's against the exponents of its mask coarsened to bit lengths, two templates by divisibility, the size bound; four controls (one number
-per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner) disagree.
+balance (a rearrangement), one template's against the exponents of its mask coarsened to bit lengths, two templates by divisibility, the corner bound, the honeycomb and the kagome lattice, the size bound; six controls (one
+number per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner, the bound one doubling
+tighter, the sites of a cell merged) disagree.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).

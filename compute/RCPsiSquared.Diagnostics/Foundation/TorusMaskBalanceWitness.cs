@@ -17,10 +17,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// examples of the page. The staircase beside it: the corners read on the small tori (<see cref="SignedMaskBalanceClaim.Corners"/>)
 /// rearranged against the balance, one template's corners against the exponents of its mask coarsened to bit lengths (<see cref="SignedMaskBalanceClaim.SingleTemplateCorners"/>),
 /// two templates by divisibility in A (<see cref="SignedMaskBalanceClaim.TwoTemplatesBreakByDivisibility"/>) against Theorem F,
-/// and the size bound (<see cref="SignedMaskBalanceClaim.SufficientTorus"/>). Four controls must disagree with the balance:
+/// the corner bound (<see cref="SignedMaskBalanceClaim.CornerBound"/>), the honeycomb and the kagome lattice
+/// (<see cref="SignedMaskBalanceClaim.LatticeBreaks"/>) and the size bound (<see cref="SignedMaskBalanceClaim.SufficientTorus"/>). Six controls must disagree:
 /// Theorem D's one-liner carried over with one number per mask (its least order in the powers of 1 + x and 1 + y) and
 /// T = min(T₁, T₂), read on the tori with T₁, T₂ ≥ 2, where A is no chain, the fold with T₁ and T₂ swapped, the fold onto the
-/// parities of L and M in place of their 2-parts, and the staircase read with one corner, each direction on its own.</summary>
+/// parities of L and M in place of their 2-parts, the staircase read with one corner, each direction on its own, the corner
+/// bound one doubling tighter, and the lattice fold with the sites of a cell merged.</summary>
 public sealed class TorusMaskBalanceWitness : IInspectable
 {
     public sealed record FamilyReading(string Name, int Cells, int Readings, int Pairing, int Mismatches, string? FirstMismatch, string Against)
@@ -45,7 +47,83 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     /// <summary>The one-corner control's disagreements on 3 × 3, the one torus of the sixteen with both sides odd.</summary>
     public int OneCornerMismatchesOnThreeByThree { get; }
     public bool AllAgree => Families.All(f => f.Agrees);
-    public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0;
+    /// <summary>The corner bound one doubling tighter, 2^eⱼ &lt; n_u and 2^fⱼ &lt; n_v, against the read corners of the bound
+    /// lines: the corners that break it.</summary>
+    public int TighterBoundMismatches { get; }
+    /// <summary>The lattice fold with the Q sites of a cell merged into one, against the balance on the whole lattice.</summary>
+    public int MergedSitesMismatches { get; }
+    public int LatticeReadings { get; }
+    /// <summary>The lattice readings whose merged set the setting accepts, where the merged control is read.</summary>
+    public int MergedSitesReadings { get; }
+    public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0
+        && TighterBoundMismatches > 0 && MergedSitesMismatches > 0;
+
+    // the corner bound against a staircase read on the small tori (2^(e + f) ≤ 64): every read corner inside
+    // 2^(eⱼ − 1) < n_u, 2^(fⱼ − 1) < n_v, and the verdict unchanged by a doubling of T₂ from T₂ ≥ n_v (of T₁ from T₁ ≥ n_u)
+    // wherever both points are read; returns the checks made, the failures, and the corners outside the bound one doubling tighter
+    static (int Checks, int Failures, int Tighter) CheckBound(IReadOnlyDictionary<(int, int), bool> grid, IReadOnlyList<(int E, int F)> corners, int nu, int nv)
+    {
+        int checks = 0, failures = 0, tighter = 0;
+        foreach (var (e, f) in corners)
+        {
+            checks++;
+            if ((e >= 1 && (1 << (e - 1)) >= nu) || (f >= 1 && (1 << (f - 1)) >= nv)) failures++;
+            if ((1 << e) >= nu && e >= 1 || (1 << f) >= nv && f >= 1) tighter++;
+        }
+        foreach (var ((e, f), pairs) in grid)
+        {
+            if ((1 << f) >= nv && grid.TryGetValue((e, f + 1), out var up)) { checks++; if (up != pairs) failures++; }
+            if ((1 << e) >= nu && grid.TryGetValue((e + 1, f), out var right)) { checks++; if (right != pairs) failures++; }
+        }
+        return (checks, failures, tighter);
+    }
+
+    /// <summary>The honeycomb (Q = 2) and kagome (Q = 3) templates of the lattice line: two-site bonds between the sites of a
+    /// cell and of its neighbours, with the letters XX, XY, YX, YY, XZ or ZY.</summary>
+    public static IReadOnlyList<(int Q, SignedMaskBalanceClaim.LatticeLetter[] Template, string Name)> LatticeTemplates { get; } = BuildLatticeTemplates();
+
+    static IReadOnlyList<(int, SignedMaskBalanceClaim.LatticeLetter[], string)> BuildLatticeTemplates()
+    {
+        var list = new List<(int, SignedMaskBalanceClaim.LatticeLetter[], string)>();
+        // honeycomb: A = 0, B = 1; nearest bonds A(0,0)-B(0,0), A(1,0)-B(0,0), A(0,1)-B(0,0), second neighbours A-A along x and B-B along y
+        var honeycomb = new (int I1, int J1, int R1, int I2, int J2, int R2)[]
+            { (0, 0, 0, 0, 0, 1), (1, 0, 0, 0, 0, 1), (0, 1, 0, 0, 0, 1), (0, 0, 0, 1, 0, 0), (0, 0, 1, 0, 1, 1) };
+        // kagome: A = 0, B = 1, C = 2 (A at the cell's corner, B halfway along x, C halfway along y); the up triangle A-B, A-C, B-C
+        // in a cell, and the down triangles from the bonds B(0,0)-A(1,0), C(0,0)-A(0,1), B(0,1)-C(1,0), which close
+        // {A(1,0), B(0,0), C(1,-1)}: every site in two triangles
+        var kagome = new (int I1, int J1, int R1, int I2, int J2, int R2)[]
+            { (0, 0, 0, 0, 0, 1), (0, 0, 0, 0, 0, 2), (0, 0, 1, 0, 0, 2), (1, 0, 0, 0, 0, 1), (0, 1, 0, 0, 0, 2), (0, 1, 1, 1, 0, 2) };
+        foreach (var (q, bonds) in new[] { (2, honeycomb), (3, kagome) })
+            foreach (var bd in bonds)
+                foreach (var pair in new[] { "XX", "XY", "YX", "YY", "XZ", "ZY" })
+                    list.Add((q, new[] { new SignedMaskBalanceClaim.LatticeLetter(bd.I1, bd.J1, bd.R1, pair[0]), new SignedMaskBalanceClaim.LatticeLetter(bd.I2, bd.J2, bd.R2, pair[1]) },
+                        $"{pair[0]}({bd.I1},{bd.J1},{bd.R1}){pair[1]}({bd.I2},{bd.J2},{bd.R2})"));
+        return list;
+    }
+
+    /// <summary>Theorem 2 on the L × M lattice with Q sites in a cell (site (i, j, r) at position r + Q·(i + L·j)), each
+    /// template at every translate of the cells, coefficient 1.</summary>
+    public static bool PairsOnLattice(int l, int m, int q, IReadOnlyList<SignedMaskBalanceClaim.LatticeLetter[]> templates)
+    {
+        int n = l * m * q;
+        var placed = new List<(PauliMask, BigInteger)>();
+        foreach (var t in templates)
+            for (int b = 0; b < m; b++)
+                for (int a = 0; a < l; a++)
+                {
+                    var s = Enumerable.Repeat('I', n).ToArray();
+                    foreach (var x in t) s[x.R + q * (((x.I + a) % l + l) % l + l * (((x.J + b) % m + m) % m))] = x.Letter;
+                    placed.Add((PauliMask.Parse(new string(s)), BigInteger.One));
+                }
+        var (near, far, _) = ComplementConnectionGraph.EverySiteDephased(n, ComplementConnectionGraph.Columns(n, placed));
+        return near == far;
+    }
+
+    static bool LatticePlaceable(IReadOnlyList<SignedMaskBalanceClaim.LatticeLetter[]> ts, int l, int m, int q)
+    {
+        try { SignedMaskBalanceClaim.OnLattice(ts, l, m, q); return true; }
+        catch (ArgumentException) { return false; }
+    }
 
     /// <summary>One template per mask of the 3 × 3 window touching its first column and first row (400 masks), every
     /// flipped letter X, and with <paramref name="odd"/> the first flipped letter (row by row) a Y; the same mask order
@@ -173,6 +251,9 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         var families = new List<FamilyReading>();
         var pool = WindowTemplates;
         int oneNumber = 0, oneNumberReadings = 0, foldReadings = 0, swapped = 0, parity = 0, oneCorner = 0, staircaseReadings = 0, severalCorners = 0, oneCornerThree = 0;
+        int tighter = 0, merged = 0, mergedReadings = 0, latticeReadings = 0;
+        int boundSets = 0, boundCommon = 0, boundChecks = 0, boundBad = 0;
+        string? boundFirst = null;
 
         // two window templates flipping the same cells place the same flip sets (anchored masks of different cells are not
         // translates of each other, and on the tori read here, L, M ≥ 3, their placements never coincide; OnTorus refuses any that would)
@@ -319,6 +400,15 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                 var corners = SignedMaskBalanceClaim.Corners(ts);
                 if (corners.Count > 1) several++;
                 cells++;
+                // masks of the 2 × 2 window have degree at most 2 in u, v, so a colength without a common factor is at most 4 < 8
+                if (SignedMaskBalanceClaim.CornerBound(ts, 8) is var (_, nu, nv))
+                {
+                    boundSets++;
+                    var (checks, failures, tight) = CheckBound(grid, corners, nu, nv);
+                    boundChecks += checks; tighter += tight;
+                    if (failures > 0) { boundBad += failures; boundFirst ??= string.Join(" + ", ts); }
+                }
+                else boundCommon++;
                 foreach (var (l, m) in Tori)
                 {
                     if (!Placeable(ts, l, m)) continue;
@@ -339,6 +429,88 @@ public sealed class TorusMaskBalanceWitness : IInspectable
             if (notClosed > 0) { bad += notClosed; first ??= $"{notClosed} pairing points with a breaking point above them"; }
             severalCorners = several;
             families.Add(new FamilyReading("the staircase: on every template set of the balance line, the pairing points of the small tori closed upwards and the corners read there giving back the balance (a rearrangement, not a second route)", cells, readings, pairing, bad, first, "the balance"));
+            families.Add(new FamilyReading($"the corner bound on the template sets of the balance line whose read colength at n = 8 stays below 8 ({boundCommon} reaching it left out): the read corners inside 2^(e − 1) < n_u, 2^(f − 1) < n_v, the verdict unchanged by a doubling past n_u, n_v", boundSets, boundChecks, 0, boundBad, boundFirst, "the colength"));
+        }
+
+        // the corner bound on random sets of two to four masks of the 3 × 3 window, random signs, read at n = 16
+        {
+            var pool3 = ThreeByThreeTemplates(odd: true).Zip(ThreeByThreeTemplates(odd: false)).ToArray();
+            int cells = 0, checks = 0, bad = 0, common = 0;
+            string? first = null;
+            for (int k = 0; k < 600; k++)
+            {
+                int size = 2 + rng.Next(3);
+                var ts = Enumerable.Range(0, pool3.Length).OrderBy(_ => rng.Next()).Take(size)
+                    .Select(i => rng.Next(2) == 0 ? pool3[i].First : pool3[i].Second).ToArray();
+                if (SignedMaskBalanceClaim.CornerBound(ts, 16) is not var (_, nu, nv)) { common++; continue; }
+                var grid = new Dictionary<(int, int), bool>();
+                for (int e = 0; e <= 6; e++)
+                    for (int f = 0; e + f <= 6; f++) grid[(e, f)] = !SignedMaskBalanceClaim.BreaksAtTwoParts(ts, 1 << e, 1 << f);
+                var (c, failures, tight) = CheckBound(grid, SignedMaskBalanceClaim.Corners(ts), nu, nv);
+                cells++; checks += c; tighter += tight;
+                if (failures > 0) { bad += failures; first ??= string.Join(" + ", ts); }
+            }
+            families.Add(new FamilyReading($"the corner bound on 600 random sets of two to four masks of the 3 × 3 window, read at n = 16 ({common} whose read colength reaches 16 left out)", cells, checks, 0, bad, first, "the colength"));
+        }
+
+        // beyond the square lattice: the honeycomb (Q = 2) and the kagome lattice (Q = 3), random sets of one to three bonds of
+        // one lattice, the fold onto T₁ × T₂ cells of Q sites against the balance on the whole lattice, and against Theorem 2 on
+        // twelve sites; the control merges the Q sites of a cell into one
+        {
+            int cells = 0, readings = 0, pairing = 0, bad = 0;
+            string? first = null;
+            var lattices = new (int L, int M)[] { (3, 3), (3, 4), (4, 3), (4, 4), (5, 4), (6, 3), (3, 6), (6, 5), (4, 8), (8, 4), (5, 5), (10, 3) };
+            foreach (int q in new[] { 2, 3 })
+            {
+                var bonds = LatticeTemplates.Where(x => x.Q == q).ToArray();
+                for (int k = 0; k < 300; k++)
+                {
+                    var drawn = bonds.OrderBy(_ => rng.Next()).Take(1 + rng.Next(3)).ToArray();
+                    var ts = drawn.Select(x => x.Template).ToArray();
+                    string name = string.Join(" + ", drawn.Select(x => x.Name));
+                    bool any = false;
+                    foreach (var (l, m) in lattices)
+                    {
+                        if (l * m * q > 64 || !LatticePlaceable(ts, l, m, q)) continue;
+                        any = true;
+                        bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnLattice(ts, l, m, q));
+                        bool law = !SignedMaskBalanceClaim.LatticeBreaks(ts, l, m, q);
+                        readings++; latticeReadings++;
+                        if (balance) pairing++;
+                        if (balance != law) { bad++; first ??= $"{name} on {l} × {m} × {q}"; }
+                        // the control: every site of a cell read as the one site of a square-lattice torus
+                        var mergedTs = ts.Select(t => t.Select(x => x with { R = 0 }).ToArray()).ToArray();
+                        // (a merged set the setting refuses, two letters on one site or a flip set placed twice, is not read)
+                        if (LatticePlaceable(mergedTs, l, m, 1))
+                        {
+                            mergedReadings++;
+                            if (SignedMaskBalanceClaim.LatticeBreaks(mergedTs, l, m, 1) == balance) merged++;
+                        }
+                    }
+                    if (any) cells++;
+                    if (k < 40)
+                        foreach (var (l, m) in q == 2 ? new[] { (3, 2), (2, 3) } : new[] { (2, 2) })
+                        {
+                            if (!LatticePlaceable(ts, l, m, q)) continue;
+                            bool graph = PairsOnLattice(l, m, q, ts);
+                            bool law = !SignedMaskBalanceClaim.LatticeBreaks(ts, l, m, q);
+                            readings++;
+                            if (graph) pairing++;
+                            if (graph != law) { bad++; first ??= $"{name} on {l} × {m} × {q}, Theorem 2"; }
+                        }
+                }
+            }
+            // the honeycomb is bipartite and the kagome lattice is made of triangles: XY on every nearest bond
+            var hc = LatticeTemplates.Where(x => x.Q == 2 && x.Name.StartsWith("X(") && x.Name.Contains(")Y(")).Take(3).Select(x => x.Template).ToArray();
+            var kg = LatticeTemplates.Where(x => x.Q == 3 && x.Name.StartsWith("X(") && x.Name.Contains(")Y(")).Select(x => x.Template).ToArray();
+            foreach (var (l, m) in lattices)
+            {
+                if (l * m * 2 <= 64 && LatticePlaceable(hc, l, m, 2))
+                { readings++; if (SignedMaskBalanceClaim.LatticeBreaks(hc, l, m, 2) || !SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnLattice(hc, l, m, 2))) { bad++; first ??= $"the honeycomb with XY on its three bonds on {l} × {m}"; } else pairing++; }
+                if (l * m * 3 <= 64 && LatticePlaceable(kg, l, m, 3))
+                { readings++; if (!SignedMaskBalanceClaim.LatticeBreaks(kg, l, m, 3) || SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnLattice(kg, l, m, 3))) { bad++; first ??= $"the kagome lattice with XY on its six bonds on {l} × {m}"; } }
+            }
+            families.Add(new FamilyReading("the honeycomb and the kagome lattice, 300 random sets of one to three bonds each: the fold onto T₁ × T₂ cells of Q sites against the balance on the whole lattice, on the listed lattices to 64 sites (twelve for the honeycomb, seven for the kagome lattice), and Theorem 2 on 3 × 2 and 2 × 3 honeycomb cells and 2 × 2 kagome cells (twelve sites, the first 40 sets of each); XY on every nearest bond pairs on every honeycomb and breaks on every kagome lattice", cells, readings, pairing, bad, first, "the balance and Theorem 2"));
         }
 
         // one template of the 3 × 3 window, odd sign: the corners read on the small tori against the exponents of the mask, coarsened
@@ -462,6 +634,10 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         StaircaseReadings = staircaseReadings;
         CornerSetsWithSeveral = severalCorners;
         OneCornerMismatchesOnThreeByThree = oneCornerThree;
+        TighterBoundMismatches = tighter;
+        MergedSitesMismatches = merged;
+        LatticeReadings = latticeReadings;
+        MergedSitesReadings = mergedReadings;
         OneNumberMismatches = oneNumber;
         OneNumberReadings = oneNumberReadings;
         FoldControlReadings = foldReadings;
@@ -475,7 +651,8 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         $"Theorem F on {Families.Count} families, {Families.Sum(f => f.Readings)} readings, {Families.Sum(f => f.Mismatches)} disagreeing; " +
         $"the controls disagree with the balance: one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
         $"T₁ and T₂ swapped {SwappedFoldMismatches} and the fold onto the parities {ParityFoldMismatches} of {FoldControlReadings}, each direction " +
-        $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}";
+        $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}, the corner bound one doubling tighter {TighterBoundMismatches} corners, the " +
+        $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}";
 
     public IEnumerable<IInspectable> Children
     {
@@ -492,7 +669,8 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                 summary: $"Theorem D's one-liner with one number per mask and T = min(T₁, T₂), on the tori with T₁, T₂ ≥ 2: {OneNumberMismatches} of " +
                          $"{OneNumberReadings} readings; the fold with T₁ and T₂ swapped: {SwappedFoldMismatches} of {FoldControlReadings}; the fold onto " +
                          $"the parities of L and M: {ParityFoldMismatches} of {FoldControlReadings}; each direction on its own, one corner at the least " +
-                         $"e and the least f of the corners: {OneCornerMismatches} of {StaircaseReadings} ({OneCornerMismatchesOnThreeByThree} of them on 3 × 3; {CornerSetsWithSeveral} template sets with more than one corner)",
+                         $"e and the least f of the corners: {OneCornerMismatches} of {StaircaseReadings} ({OneCornerMismatchesOnThreeByThree} of them on 3 × 3; {CornerSetsWithSeveral} template sets with more than one corner); the corner bound one doubling tighter, 2^e < n_u " +
+                         $"and 2^f < n_v: {TighterBoundMismatches} read corners outside it; the lattice fold with the Q sites of a cell merged: {MergedSitesMismatches} of {MergedSitesReadings} (where the merged set can be placed)",
                 provenance: NodeProvenance.Live);
         }
     }

@@ -41,7 +41,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// masks and signs, against <see cref="ComplementConnectionGraph"/>, Theorem 2 walked on the bitstrings with every entry a
 /// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
-/// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="SufficientTorus"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="CornerBound"/>, <see cref="SufficientTorus"/>,
+/// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) have their own battery, <c>inspect --root torusbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>).</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
 {
@@ -63,7 +64,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1; with one string per flip set on the L × M torus the verdict " +
             "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
             "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F), and the pairing " +
-            "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners",
+            "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, bounded by the colength of the masks' ideal at x = y = 1 " +
+            "where the masks share no factor there",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -312,16 +314,7 @@ public sealed class SignedMaskBalanceClaim : Claim
     public static IReadOnlyList<(int E, int F)> SingleTemplateCorners(string template)
     {
         if (Sign(template) == 0) return new[] { (0, 0) };
-        var monomials = new HashSet<(int, int)>();
-        foreach (var (i, j, c) in TorusLetters(template))
-        {
-            if (c is not ('X' or 'Y')) continue;
-            for (int a = 0; a <= i; a++)
-                if ((a & i) == a)
-                    for (int b = 0; b <= j; b++)
-                        if ((b & j) == b && !monomials.Add((a, b))) monomials.Remove((a, b));
-        }
-        return MinimalPoints(monomials.Select(p => (BitLength(p.Item1), BitLength(p.Item2))).Distinct().ToList());
+        return MinimalPoints(UvMonomials(template).Select(p => (BitLength(p.A), BitLength(p.B))).Distinct().ToList());
     }
 
     /// <summary>Two templates on the small torus t₁ × t₂, read by divisibility in the local ring A = GF(2)[ℤ_t₁ × ℤ_t₂]:
@@ -367,6 +360,146 @@ public sealed class SignedMaskBalanceClaim : Claim
         }
         return (2 * wx - 1, 2 * wy - 1);
     }
+
+    /// <summary>The corner bound: in R = GF(2)[[u, v]] (u = 1 + x, v = 1 + y) the masks generate an ideal I; where they
+    /// share no factor through x = y = 1 its colength ℓ = dim R/I is finite, 𝔪^ℓ ⊂ I, and n_u, n_v, the least n with u^n
+    /// resp. v^n in 𝔪·I, are at most ℓ + 1. The verdict at (T₁, T₂) is the question whether a sum of masks with an odd
+    /// number of negative ones lies in 𝔪·I + (u^T₁, v^T₂); once T₂ ≥ n_v the v-part lies in 𝔪·I and doubling T₂ changes
+    /// nothing, likewise T₁ past n_u, so every corner has 2^(eⱼ − 1) &lt; n_u (where eⱼ ≥ 1) and 2^(fⱼ − 1) &lt; n_v (where
+    /// fⱼ ≥ 1). Read in GF(2)[u, v]/(u^n, v^n), n = 8, 16 or 32: a read colength c below n is ℓ (Nakayama on
+    /// 𝔪^c ⊂ I + 𝔪^(c + 1)), and then (u^n, v^n) ⊂ 𝔪^n ⊂ 𝔪·I and the read is exact; null where the read colength reaches
+    /// n, which a common factor through (1, 1) always does.</summary>
+    public static (int Colength, int Nu, int Nv)? CornerBound(IReadOnlyCollection<string> templates, int n = 16)
+    {
+        if (n is not (8 or 16 or 32)) throw new ArgumentOutOfRangeException(nameof(n), n, "read at n = 8, 16 or 32");
+        int words = n * n / 64;
+        var ideal = new Gf2Span(words);
+        var maximalTimesIdeal = new Gf2Span(words);
+        foreach (var t in templates)
+        {
+            var monomials = UvMonomials(t);
+            for (int b = 0; b < n; b++)
+                for (int a = 0; a < n; a++)
+                {
+                    var row = new ulong[words];
+                    foreach (var (a0, b0) in monomials)
+                        if (a0 + a < n && b0 + b < n) { int k = a0 + a + n * (b0 + b); row[k >> 6] ^= 1UL << (k & 63); }
+                    ideal.Add((ulong[])row.Clone());
+                    if (a != 0 || b != 0) maximalTimesIdeal.Add(row);
+                }
+        }
+        int colength = n * n - ideal.Rank;
+        if (colength >= n) return null;
+        int Least(Func<int, int> cell)
+        {
+            for (int k = 1; k < n; k++)
+            {
+                var row = new ulong[words];
+                int c = cell(k);
+                row[c >> 6] = 1UL << (c & 63);
+                if (maximalTimesIdeal.Contains(row)) return k;
+            }
+            return n;   // ℓ < n, so u^n and v^n lie in 𝔪^n ⊂ 𝔪^(ℓ + 1) ⊂ 𝔪·I
+        }
+        return (colength, Least(k => k), Least(k => n * k));
+    }
+
+    // the monomials u^a·v^b of a template's mask (Lucas: x^i holds u^a exactly when the bits of a lie among those of i)
+    static HashSet<(int A, int B)> UvMonomials(string template)
+    {
+        var monomials = new HashSet<(int, int)>();
+        foreach (var (i, j, c) in TorusLetters(template))
+        {
+            if (c is not ('X' or 'Y')) continue;
+            for (int a = 0; a <= i; a++)
+                if ((a & i) == a)
+                    for (int b = 0; b <= j; b++)
+                        if ((b & j) == b && !monomials.Add((a, b))) monomials.Remove((a, b));
+        }
+        return monomials;
+    }
+
+    // a GF(2) span of rows of several 64-bit words, pivots at the highest set bit
+    sealed class Gf2Span(int words)
+    {
+        readonly Dictionary<int, ulong[]> pivots = new();
+        public int Rank => pivots.Count;
+
+        int Reduce(ulong[] row)
+        {
+            for (int w = words - 1; w >= 0; w--)
+                while (row[w] != 0)
+                {
+                    int top = 64 * w + 63 - BitOperations.LeadingZeroCount(row[w]);
+                    if (!pivots.TryGetValue(top, out var p)) return top;
+                    for (int x = 0; x <= w; x++) row[x] ^= p[x];
+                }
+            return -1;
+        }
+
+        public void Add(ulong[] row) { int top = Reduce(row); if (top >= 0) pivots[top] = row; }
+        public bool Contains(ulong[] row) => Reduce((ulong[])row.Clone()) < 0;
+    }
+
+    // ---------------------------------------------------------------- Theorem F beyond the square lattice
+
+    /// <summary>A letter of a template on a lattice with Q sites in a unit cell: cell (I, J), site R of the cell.</summary>
+    public readonly record struct LatticeLetter(int I, int J, int R, char Letter);
+
+    /// <summary>The placed masks of templates on the L × M lattice of unit cells with Q sites each, site (i, j, r) at bit
+    /// r + Q·(i + L·j) (L·M·Q ≤ 64), every template at every translate of the cells, wrapped, with its sign; refuses what
+    /// <see cref="OnTorus"/> refuses.</summary>
+    public static IReadOnlyList<(ulong Mask, int Sign)> OnLattice(IReadOnlyList<LatticeLetter[]> templates, int l, int m, int q)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (l < 1 || m < 1 || q < 1 || (long)l * m * q > 64) throw new ArgumentOutOfRangeException(nameof(l), $"{l} × {m} × {q}: one to 64 sites");
+        var placed = new List<(ulong, int)>();
+        var seen = new HashSet<ulong>();
+        foreach (var t in templates)
+        {
+            if (!t.Any(x => x.Letter is 'X' or 'Y')) throw new ArgumentException("a template flips nothing");
+            if (t.Any(x => x.R < 0 || x.R >= q || x.Letter is not ('X' or 'Y' or 'Z'))) throw new ArgumentException("a letter off the lattice");
+            if (t.Select(x => (Mod(x.I, l), Mod(x.J, m), x.R)).Distinct().Count() < t.Length)
+                throw new ArgumentException($"a template does not fit on the {l} × {m} lattice");
+            int sign = t.Count(x => x.Letter is 'Y' or 'Z') % 2;
+            for (int b = 0; b < m; b++)
+                for (int a = 0; a < l; a++)
+                {
+                    ulong mask = 0;
+                    foreach (var x in t)
+                        if (x.Letter is 'X' or 'Y') mask |= 1UL << (x.R + q * (Mod(x.I + a, l) + l * Mod(x.J + b, m)));
+                    if (!seen.Add(mask)) throw new ArgumentException($"two placements on the {l} × {m} lattice share a flip set: it would carry two strings");
+                    placed.Add((mask, sign));
+                }
+        }
+        return placed;
+    }
+
+    /// <summary>Theorem F on a lattice with Q sites in a unit cell: the masks folded onto the T₁ × T₂ cells of the 2-part,
+    /// Q sites each, at every translate there; the lattice breaks exactly when a relation among them uses an odd number of
+    /// negative strings, no colouring of the folded lattice existing.</summary>
+    public static bool LatticeBreaks(IReadOnlyList<LatticeLetter[]> templates, int l, int m, int q)
+    {
+        OnLattice(templates, l, m, q);   // the setting
+        int t1 = TwoPart(l), t2 = TwoPart(m);
+        if ((long)t1 * t2 * q > 64) throw new ArgumentOutOfRangeException(nameof(l), "the folded lattice holds more than 64 sites");
+        var rows = new List<(ulong, int)>();
+        foreach (var t in templates)
+        {
+            int sign = t.Count(x => x.Letter is 'Y' or 'Z') % 2;
+            for (int b = 0; b < t2; b++)
+                for (int a = 0; a < t1; a++)
+                {
+                    ulong mask = 0;
+                    foreach (var x in t)
+                        if (x.Letter is 'X' or 'Y') mask ^= 1UL << (x.R + q * (Mod(x.I + a, t1) + t1 * Mod(x.J + b, t2)));
+                    rows.Add((mask, sign));
+                }
+        }
+        return !Balanced(rows);
+    }
+
+    static int Mod(int a, int n) => ((a % n) + n) % n;
 
     static int BitLength(int a) => a == 0 ? 0 : 32 - BitOperations.LeadingZeroCount((uint)a);
 
