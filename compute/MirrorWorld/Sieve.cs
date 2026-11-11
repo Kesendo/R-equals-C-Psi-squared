@@ -44,9 +44,13 @@ public sealed class Sieve : GameObject
     // E covered by the reading (no end count asked), P/B palindromic/broken by the end count exactly, p/b by its ranks.
     // S: covered by the stitch's every-N yes, where the theodolite was silent; s: the stitch's yes at that one N only
     // (no every-N reading; it counts like the end count's P); C: broken by the stitch's no (a condition of
-    // Theorem 2 fails), exact, no end count asked. BrokenEveryN: every N from From is exactly broken (B below the
-    // stitch's threshold, C from it).
-    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, bool BrokenEveryN = false);
+    // Theorem 2 fails), exact, no end count asked. BrokenFrom: the smallest N from which every N is exactly broken (B or
+    // C below the stitch's threshold, C from it), null where the stitch gives no every-N no; BrokenEveryN: a Broken
+    // whose BrokenFrom is its first N. A Mixed with a BrokenFrom pairs only below it.
+    public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, int? BrokenFrom = null)
+    {
+        public bool BrokenEveryN => Verdict == Verdict.Broken && BrokenFrom == From;
+    }
 
     public sealed record Entry(string Name, Theodolite.Cell Cell, Pass Chain, Pass Ring);
 
@@ -84,6 +88,8 @@ public sealed class Sieve : GameObject
         var letters = new System.Text.StringBuilder();
         for (int n = from; n <= maxN; n++)
         {
+            // a yes and the stitch's no at one N would be a contradiction in the construction, not a finding about the cell
+            if (covered(n) && st is not null && st.Breaks(n)) throw new InvalidOperationException($"N = {n}: a reading covers an N the stitch's no breaks");
             if (covered(n)) { letters.Append('E'); continue; }
             if (st is not null && st.Reads(n)) { letters.Append(st.Bulk is not null ? 'S' : 's'); continue; }
             if (st is not null && st.Breaks(n)) { letters.Append('C'); continue; }
@@ -101,8 +107,15 @@ public sealed class Sieve : GameObject
         // or, past maxN, by the stitch's own fixed-N no or Theorem 2 read whole at that N (EndCount.ComplementConnection,
         // exact both ways, up to ten sites)
         bool Gap(int n) => st!.Breaks(n) || n <= 10 && Count(build(n)).ComplementConnection() is { AllGood: false };
-        return new Pass(t, from, s, verdict, st is not null && st.BreaksFrom is int b && verdict == Verdict.Broken
-            && Enumerable.Range(from, Math.Max(0, b - from)).All(n => n <= maxN ? s[n - from] is 'B' or 'C' : Gap(n)));
+        bool Broken(int n) => n <= maxN ? s[n - from] is 'B' or 'C' : Gap(n);
+        int? brokenFrom = null;
+        if (st?.BreaksFrom is int b)
+        {
+            int n0 = Math.Max(b, from);
+            while (n0 > from && Broken(n0 - 1)) n0--;
+            brokenFrom = n0;
+        }
+        return new Pass(t, from, s, verdict, brokenFrom);
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)

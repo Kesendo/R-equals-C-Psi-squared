@@ -21,9 +21,9 @@ using System.Numerics;
 // Theorem 2's condition (i), a diagonal entry with H_xx ≠ H_x̄x̄ its condition (ii); the component holding it is then not
 // good, the far end is smaller than the near end, and the spectrum does not pair. That is a no about the spectrum, not
 // about the ansatz, exact, and it carries to every N past the window by the same locality as the yes (Breaks). Its
-// condition (iii), the holonomy, is read on short cycles (LocalHolonomy): a square of two flip sets or a triangle whose
-// ratios do not multiply to 1 breaks the component too, and a cycle in a local region recurs at every larger N, so that
-// no holds for every N from the smallest chain or ring that holds it. A cycle round the whole ring is not local and is
+// condition (iii), the holonomy, is read on every cycle inside a local region (LocalHolonomy): a cycle whose ratios do
+// not multiply to 1 breaks the component too, and a cycle in a local region recurs at every larger N, so that no holds
+// for every N from the smallest chain or ring that holds it. A cycle round the whole ring is not local and is
 // not read here. Where no condition fails on what is read and the binomial system has no solution, the stitch is
 // silent: the section may exist and not be of this form.
 //
@@ -80,9 +80,8 @@ public sealed class Stitch : GameObject
     /// the chain reaches it at span 2, the ring at span 5.</summary>
     public const int MaxSites = 16;
 
-    /// <summary>The most bits of a local region the holonomy enumerates (2^MaxRegionBits configurations per pair of flip
-    /// sets): the region is at most 5·span − 2 sites, so up to span 4.</summary>
-    public const int MaxRegionBits = 20;
+    /// <summary>The most sites of a local region the holonomy walks (2^MaxHolonomySites configurations per region).</summary>
+    public const int MaxHolonomySites = 12;
 
     // ring: 3·span (a region of 3·span − 2 sites never meets itself); chain: 2·(3·span − 2) (every end type and the bulk)
     public static int WindowOf(Theodolite.Cell cell, bool ring)
@@ -266,81 +265,121 @@ public sealed class Stitch : GameObject
         return new GaussBig(re, im);
     }
 
-    // The local holonomy (Theorem 2's condition (iii) on short cycles). On a chain of 10·span sites, every square
-    // u -> u⊕F -> u⊕F⊕G -> u⊕G -> u of two flip sets F, G of the cell's terms within reach of each other, and every
-    // triangle where F ⊕ G is a flip set too, is walked with the ratios r(v, F) = H_(v, v⊕F) / H_(v̄, v̄⊕F); the bits
-    // outside the region R (F ∪ G widened by span − 1 on each side) are set to 0, since no ratio on the cycle reads them.
-    // A cycle whose ratios do not multiply to 1, or an edge on it whose two entries differ in modulus, makes its component
-    // not good: the spectrum does not pair. The placement recurs on every longer chain (an end placement at the same end,
-    // a bulk one anywhere), so the no holds at every N from the smallest chain that holds it; on a ring only the bulk
-    // placements count, from the smallest ring that holds R (no window wraps onto it). Returns those
-    // two thresholds; null where no bad local cycle is found, which decides nothing (a cycle round the whole ring is not
-    // local, and the cycles walked are squares and triangles only).
+    // The local holonomy (Theorem 2's conditions (i) and (iii) on a local region). A region R is a run of r sites of a
+    // long chain; its vertices are the configurations of R with every other bit 0, its edges the flip sets F inside R
+    // all of whose terms (each window carrying a term with flip set F) lie inside R, with the ratio
+    // r(v, F) = H_(v, v⊕F) / H_(v̄, v̄⊕F). Such an edge reads only bits of R, the bits outside it entering the far
+    // configuration v̄ as 1 and nothing else. Walking R breadth first sets a potential along a spanning tree of each
+    // component, d(v ⊕ F) = d(v)·r(v, F); an edge whose two entries differ in modulus, or a non-tree edge where the
+    // potential does not close, is a broken condition (i) or a cycle of Γ with holonomy ≠ 1: the component holding it
+    // is not good, and the spectrum does not pair. Every cycle of the region's graph is read, whatever its length (a
+    // cycle through a flip set whose terms stick out of R is not, nor a cycle round the whole ring). The potential is
+    // carried modulo a prime p ≡ 1 (mod 4), i a square root of −1 there: every entry on an edge is a nonzero Gaussian
+    // integer of norm below p (the coefficients' absolute sum s bounds each entry, and 2s² < p is required, else the
+    // reading is silent), so reduction is a ring map on the ratios, and a potential that does not close modulo p does
+    // not close exactly (the converse may fail; a cycle missed that way is a silence, not a yes).
+    // Where it recurs. A region at the left end of the chain is the chain of r sites, with the same terms on every edge
+    // read; at the right end the same; a region in the bulk recurs on every chain of at least r sites, and on every
+    // ring of N ≥ max(r, span + e − 1) sites, e the largest extent of a flip set read (a window covering F the long way
+    // round the ring needs at least N − e + 2 sites). A region is a subgraph of every larger one of its kind, so the
+    // first r at which a region breaks is that kind's threshold: the no holds on every chain of N ≥ r and on every ring
+    // past the bulk's. Returns the two thresholds; null where no region up to MaxHolonomySites sites breaks, and for a
+    // span past 9 or coefficients too large for the prime, which decides nothing.
     public static (int? Chain, int? Ring) LocalHolonomy(Theodolite.Cell cell)
     {
         var norm = cell.Normalized();
         if (!ZOnly(norm)) return (null, null);
-        int span = norm.Span, len = 10 * span;
-        if (len > 63 || 5 * span - 2 > MaxRegionBits) return (null, null);
-        var byMask = ByMask(norm, len, ring: false);
-        ulong all = (1UL << len) - 1;
-        var masks = byMask.Keys.Where(m => m != 0).ToList();
-        // the edge v -- v⊕f of Γ: absent when both entries vanish; Equal false when their moduli differ
-        (bool Present, bool Equal, GaussBig Num, GaussBig Den) Edge(ulong v, ulong f)
+        int span = norm.Span, cap = MaxHolonomySites, len = 2 * cap + 4 * span;
+        if (len > 63) return (null, null);
+        // each entry sums at most one placement of each template and field, so |Re|, |Im| ≤ s and its norm ≤ 2s² < p
+        long sum = norm.Windows.Sum(w => Math.Abs(w.Coefficient)) + norm.Fields.Sum(f => Math.Abs(f.Item2));
+        if (sum > 20000) return (null, null);
+        // every term on the long chain with its window, grouped by flip set
+        var placed = new List<(ulong X, ulong Z, long C, ulong Window)>();
+        void Add(int first, string letters, int[] offsets, long c)
         {
-            var a = ElementOf(byMask, v ^ f, f);                   // <v|H|v⊕f>
-            var b = ElementOf(byMask, all ^ (v ^ f), f);           // <v̄|H|v̄⊕f>
-            if (a.IsZero && b.IsZero) return (false, true, a, b);
-            return (true, a.Norm == b.Norm, a, b);
-        }
-        int Lo(ulong m) => BitOperations.TrailingZeroCount(m);
-        int Hi(ulong m) => 63 - BitOperations.LeadingZeroCount(m);
-        int? chainFrom = null, ringFrom = null;
-        // a bulk placement is a translate of another, so the left end, one bulk stretch past it and the right end hold
-        // every kind of cycle: f is taken within 4·span of either end
-        foreach (var f in masks.Where(m => Lo(m) <= 4 * span || Hi(m) >= len - 1 - 4 * span))
-            foreach (var g in masks)
+            ulong x = 0, z = 0, w = 0;
+            for (int o = offsets.Min(); o <= offsets.Max(); o++) w |= 1UL << (first + o);
+            for (int i = 0; i < offsets.Length; i++)
             {
-                if (f == g) continue;
-                ulong both = f | g;
-                if (Math.Max(Lo(f), Lo(g)) - Math.Min(Hi(f), Hi(g)) > span) continue;     // out of each other's reach
-                int lo = Math.Max(0, Lo(both) - (span - 1)), hi = Math.Min(len - 1, Hi(both) + (span - 1));
-                var region = Enumerable.Range(lo, hi - lo + 1).ToArray();
-                ulong k = f ^ g;
-                bool triangle = k != 0 && byMask.ContainsKey(k);
-                bool bad = false;
-                for (long cfg = 0; cfg < 1L << region.Length && !bad; cfg++)
+                ulong bit = 1UL << (first + offsets[i]);
+                if (letters[i] is 'X' or 'Y') x |= bit;
+                if (letters[i] is 'Z' or 'Y') z |= bit;
+            }
+            placed.Add((x, z, c, w));
+        }
+        for (int l = 0; l < len; l++)
+            foreach (var (letter, c) in norm.Fields) Add(l, letter.ToString(), new[] { 0 }, c);
+        foreach (var (letters, off, c) in norm.Windows)
+            for (int s = 0; s + off.Max() < len; s++) Add(s, letters, off, c);
+        var byFlip = placed.Where(t => t.X != 0).GroupBy(t => t.X).ToDictionary(g => g.Key, g => g.ToList());
+        ulong all = (1UL << len) - 1;
+        long p = ModP.Primes[0], iota = ModP.SqrtMinusOne(p);
+
+        // <row|H|row ⊕ F> summed over the terms with flip set F, a Gaussian integer of longs
+        (long Re, long Im) Entry(List<(ulong X, ulong Z, long C, ulong Window)> terms, ulong col)
+        {
+            long re = 0, im = 0;
+            foreach (var t in terms)
+                switch ((BitOperations.PopCount(t.X & t.Z) + 2 * BitOperations.PopCount(col & t.Z)) % 4)
                 {
-                    ulong u = 0;
-                    for (int i = 0; i < region.Length; i++) if (((cfg >> i) & 1) == 1) u |= 1UL << region[i];
-                    var e1 = Edge(u, f); var e2 = Edge(u ^ f, g); var e3 = Edge(u, g); var e4 = Edge(u ^ g, f);
-                    if (e1.Present && e2.Present && e3.Present && e4.Present)
+                    case 0: re += t.C; break;
+                    case 1: im += t.C; break;
+                    case 2: re -= t.C; break;
+                    default: im -= t.C; break;
+                }
+            return (re, im);
+        }
+        long Reduce((long Re, long Im) g) => ModP.AddMod(ModP.Mod(g.Re, p), ModP.MulMod(ModP.Mod(g.Im, p), iota, p), p);
+
+        // (broken, the largest extent of a flip set read) for the region of r sites from lo
+        (bool Bad, int Extent) Region(int lo, int r)
+        {
+            ulong rm = ((1UL << r) - 1) << lo;
+            var edges = byFlip.Where(kv => (kv.Key & ~rm) == 0 && kv.Value.All(t => (t.Window & ~rm) == 0)).ToList();
+            int extent = edges.Count == 0 ? 0
+                : edges.Max(kv => 64 - BitOperations.LeadingZeroCount(kv.Key) - BitOperations.TrailingZeroCount(kv.Key));
+            int size = 1 << r;
+            var num = new long[size];
+            var den = new long[size];
+            var seen = new bool[size];
+            var queue = new Queue<int>();
+            for (int root = 0; root < size; root++)
+            {
+                if (seen[root]) continue;
+                seen[root] = true; num[root] = 1; den[root] = 1;
+                queue.Enqueue(root);
+                while (queue.Count > 0)
+                {
+                    int cu = queue.Dequeue();
+                    ulong v = (ulong)cu << lo;
+                    foreach (var (f, terms) in edges)
                     {
-                        if (!(e1.Equal && e2.Equal && e3.Equal && e4.Equal)) bad = true;
-                        else if (e1.Num * e2.Num * e3.Den * e4.Den != e3.Num * e4.Num * e1.Den * e2.Den) bad = true;
-                    }
-                    if (!bad && triangle)
-                    {
-                        var e5 = Edge(u, k);
-                        if (e1.Present && e2.Present && e5.Present)
-                        {
-                            if (!(e1.Equal && e2.Equal && e5.Equal)) bad = true;
-                            else if (e1.Num * e2.Num * e5.Den != e5.Num * e1.Den * e2.Den) bad = true;
-                        }
+                        var a = Entry(terms, v ^ f);                     // <v|H|v⊕F>
+                        var b = Entry(terms, all ^ v ^ f);               // <v̄|H|v̄⊕F>
+                        if (a == (0, 0) && b == (0, 0)) continue;
+                        long na = a.Re * a.Re + a.Im * a.Im, nb = b.Re * b.Re + b.Im * b.Im;
+                        if (na != nb) return (true, extent);             // condition (i), zero against nonzero included
+                        long ra = Reduce(a), rb = Reduce(b);
+                        int cw = (int)((v ^ f) >> lo);
+                        long nw = ModP.MulMod(num[cu], ra, p), dw = ModP.MulMod(den[cu], rb, p);
+                        if (!seen[cw]) { seen[cw] = true; num[cw] = nw; den[cw] = dw; queue.Enqueue(cw); }
+                        else if (ModP.MulMod(num[cw], dw, p) != ModP.MulMod(nw, den[cw], p)) return (true, extent);
                     }
                 }
-                if (!bad) continue;
-                // the smallest chain holding this placement. Every window whose flip set is F, G or F ⊕ G lies inside R, so
-                // a chain holding R whole holds the cycle: an end placement keeps its distance to its end, a bulk one needs
-                // |R| sites. On a ring of N ≥ |R| no window wraps onto R's flip sets (an arc covering a flip set the other
-                // way round would need at least N − extent(F) + 2 ≥ span + 1 sites), so the same cycle stands there.
-                bool leftEnd = Lo(both) - (span - 1) < 0, rightEnd = Hi(both) + (span - 1) > len - 1;
-                int extent = Hi(both) - Lo(both) + 1;
-                int bulkN = extent + 2 * (span - 1);
-                int chainN = leftEnd ? Hi(both) + span : rightEnd ? len - Lo(both) + span - 1 : bulkN;
-                chainFrom = Math.Min(chainFrom ?? int.MaxValue, chainN);
-                if (!leftEnd && !rightEnd) ringFrom = Math.Min(ringFrom ?? int.MaxValue, Math.Max(norm.SmallestRing, bulkN));
             }
-        return (chainFrom, ringFrom);
+            return (false, extent);
+        }
+
+        int? chain = null, ring = null;
+        for (int r = 1; r <= cap && ring is null; r++)
+        {
+            if (chain is null && (Region(0, r).Bad || Region(len - r, r).Bad)) chain = r;
+            var bulk = Region((len - r) / 2, r);
+            if (!bulk.Bad) continue;
+            chain ??= r;
+            ring = Math.Max(norm.SmallestRing, Math.Max(r, span + bulk.Extent - 1));
+        }
+        return (chain, ring);
     }
 }

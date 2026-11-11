@@ -79,6 +79,21 @@ public class SieveTests
         }
     }
 
+    // A Mixed with a tail: X·I·(X + Y) pairs on the chains of three and four sites (the stitch's yes at those N alone)
+    // and breaks on every chain from five sites on, by the local no; XX·(X + Y) pairs at three and breaks from four. The
+    // residue X·(X ± Y)·X has no tail on the chain.
+    [Fact]
+    public void A_Mixed_Cell_Is_Broken_For_Every_N_Past_Its_Last_Pairing()
+    {
+        var family = Sieve.WindowFamily(2, "Z").ToDictionary(c => c.Name, c => c.Cell);
+        var e = Sieve.Run("+XIX+XIY", family["+XIX+XIY"], 6);
+        Assert.Equal((Sieve.Verdict.Mixed, "ssCC", (int?)5), (e.Chain.Verdict, e.Chain.Letters, e.Chain.BrokenFrom));
+        e = Sieve.Run("+XXX+XXY", family["+XXX+XXY"], 6);
+        Assert.Equal((Sieve.Verdict.Mixed, "sCCC", (int?)4), (e.Chain.Verdict, e.Chain.Letters, e.Chain.BrokenFrom));
+        Assert.False(e.Chain.BrokenEveryN);
+        Assert.Null(Sieve.Run("+XXX+XYX", family["+XXX+XYX"], 6).Chain.BrokenFrom);
+    }
+
     [Fact]
     public void On_The_Chain_Nothing_Lies_Between_The_Reading_And_The_End_Count()
     {

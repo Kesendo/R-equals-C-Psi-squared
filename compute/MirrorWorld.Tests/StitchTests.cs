@@ -114,23 +114,41 @@ public class StitchTests
                     no++;
                 }
             }
-        Assert.Equal(1252, no);                                          // measured
+        Assert.Equal(1508, no);                                          // measured
     }
 
     // The local holonomy: the residue's chain breaks at its end, the square of the first two single flips carrying −1, from
-    // three sites on, and its ring has no bad local cycle (it pairs); Heisenberg has none on either; XX + XY breaks by a
-    // local square of two overlapping bond flips, on the chain and in the ring's bulk from the smallest ring holding the
-    // square's region, five sites, and the end count breaks it at N = 3, 4 below that.
+    // three sites on, and its ring has no bad cycle in any region up to the cap (it pairs); Heisenberg has none on
+    // either; XX + XY breaks on a region of three sites, two overlapping bond flips, on the chain and in the ring's bulk,
+    // so from the smallest ring on, and the end count agrees at N = 3, 4.
     [Fact]
     public void The_Local_Holonomy_Finds_The_Chain_End_And_The_Bulk_Square()
     {
         Assert.Equal(((int?)3, (int?)null), Stitch.LocalHolonomy(Bond(("XZ", 1), ("ZY", 1))));
         Assert.Equal(((int?)null, (int?)null), Stitch.LocalHolonomy(Bond(("XX", 1), ("YY", 1), ("ZZ", 1))));
         var hard = Stitch.LocalHolonomy(Bond(("XX", 1), ("XY", 1)));
-        Assert.Equal(4, hard.Chain);
-        Assert.Equal(5, hard.Ring);
+        Assert.Equal(3, hard.Chain);
+        Assert.Equal(3, hard.Ring);
         for (int n = 3; n <= 4; n++)
             Assert.False(EndCount.IsPalindrome(Sieve.Count(Bond(("XX", 1), ("XY", 1)).Normalized().Ring(n)).Verdict()));
+    }
+
+    // A cycle no square or triangle carries: on +XIY+XXX (three-site windows) no square of two flip sets and no triangle
+    // has holonomy ≠ 1 on any region (measured), and the 208 ring cells of the window family it stands for are broken at
+    // every N read without one; a region of five sites in the bulk holds a longer cycle that does not close, so every
+    // chain and every ring of N ≥ 5 breaks, and the end count agrees at N = 5, 6 on both.
+    [Fact]
+    public void A_Region_Of_Five_Sites_Breaks_A_Cell_No_Square_Or_Triangle_Breaks()
+    {
+        var cell = Sieve.WindowFamily(2, "Z").Single(c => c.Name == "+XIY+XXX").Cell;
+        Assert.Equal(((int?)5, (int?)5), Stitch.LocalHolonomy(cell));
+        var norm = cell.Normalized();
+        for (int n = 5; n <= 6; n++)
+            foreach (var setting in new[] { norm.Chain(n), norm.Ring(n) })
+            {
+                var v = Sieve.Count(setting).Verdict();
+                Assert.True(!EndCount.IsPalindrome(v) && EndCount.IsExact(v), $"N = {n}: {v}");
+            }
     }
 
     // Past the window the every-N reading and the fixed-N solve agree, on cells it reads and cells it does not; the window
