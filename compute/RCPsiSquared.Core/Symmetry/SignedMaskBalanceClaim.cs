@@ -28,7 +28,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// holonomy of the relation r = 1 (Corollary E3). With one string per flip set on the L × M torus the verdict is read on the 2-part ℤ_T₁ × ℤ_T₂ of the
 /// translations, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), every mask folded there: the torus pairs exactly when a colouring of
 /// period (T₁, T₂) exists, the signs a linear function of the folded masks modulo the differences of their translates
-/// (Theorem F); the ring's one number per mask is the case of a cyclic 2-part.</para>
+/// (Theorem F); the pairing tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, one template's read off the
+/// exponents of its mask expanded at x = y = 1, coarsened to bit lengths, and two templates' by divisibility in A = GF(2)[ℤ_T₁ × ℤ_T₂]; the ring's
+/// one number per mask is the case of a cyclic 2-part.</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -38,7 +40,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<see cref="Balanced"/>, <see cref="Chain"/>, <see cref="RingBreaks(IReadOnlyCollection{string}, int)"/>), pure GF(2) on
 /// masks and signs, against <see cref="ComplementConnectionGraph"/>, Theorem 2 walked on the bitstrings with every entry a
 /// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
-/// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
+/// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="SufficientTorus"/>) have their own battery, <c>inspect --root torusbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>).</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
 {
@@ -59,7 +62,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "hol((x^N + 1)/h) = 1, and two flip shapes on the chain, that condition holding, pair exactly below N* or where " +
             "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1; with one string per flip set on the L × M torus the verdict " +
             "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
-            "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F)",
+            "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F), and the pairing " +
+            "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -267,7 +271,15 @@ public sealed class SignedMaskBalanceClaim : Claim
     public static bool TorusBreaks(IReadOnlyCollection<string> templates, int l, int m)
     {
         OnTorus(templates, l, m);   // the setting: every placement its own flip set
-        int t1 = TwoPart(l), t2 = TwoPart(m);
+        return BreaksAtTwoParts(templates, TwoPart(l), TwoPart(m));
+    }
+
+    /// <summary>Theorem F on the small torus alone: the verdict that every L × M torus with 2-parts t₁ × t₂ (powers of 2,
+    /// t₁·t₂ ≤ 64) shares, wherever its placements do not coincide.</summary>
+    public static bool BreaksAtTwoParts(IReadOnlyCollection<string> templates, int t1, int t2)
+    {
+        if (t1 < 1 || t2 < 1 || (t1 & (t1 - 1)) != 0 || (t2 & (t2 - 1)) != 0)
+            throw new ArgumentOutOfRangeException(nameof(t1), $"{t1} × {t2}: the 2-parts are powers of 2");
         var rows = new List<(ulong, int)>();
         foreach (var t in templates)
         {
@@ -277,6 +289,89 @@ public sealed class SignedMaskBalanceClaim : Claim
         }
         return !Balanced(rows);
     }
+
+    /// <summary>The staircase of Theorem F: a colouring of period (T₁, T₂) is one of period (2T₁, T₂) and (T₁, 2T₂), so
+    /// the exponents (e, f) at which the torus pairs (T₁ = 2^e, T₂ = 2^f) are closed upwards, and the torus pairs exactly
+    /// when 2^eⱼ divides L and 2^fⱼ divides M for one of finitely many corners (eⱼ, fⱼ). Returned are the corners with
+    /// 2^(e + f) ≤ 64, read on the small tori; every point below such a corner is read, so each is a corner of the whole
+    /// staircase, and a corner past 64 cells is not seen.</summary>
+    public static IReadOnlyList<(int E, int F)> Corners(IReadOnlyCollection<string> templates)
+    {
+        var pairing = new List<(int E, int F)>();
+        for (int e = 0; e <= 6; e++)
+            for (int f = 0; e + f <= 6; f++)
+                if (!BreaksAtTwoParts(templates, 1 << e, 1 << f)) pairing.Add((e, f));
+        return MinimalPoints(pairing);
+    }
+
+    /// <summary>The corners of one template read off its mask alone: written in u = 1 + x and v = 1 + y (Lucas: x^i holds
+    /// u^a exactly when the bits of a lie among those of i), the folded mask is nonzero exactly when one of its monomials
+    /// u^a·v^b has a &lt; T₁ and b &lt; T₂, and one nonzero folded mask carries either sign. So an odd sign pairs exactly
+    /// above the minimal points (bit length of a, bit length of b), the least exponents of the mask coarsened to bit
+    /// lengths; an even sign pairs on every torus, the corner (0, 0).</summary>
+    public static IReadOnlyList<(int E, int F)> SingleTemplateCorners(string template)
+    {
+        if (Sign(template) == 0) return new[] { (0, 0) };
+        var monomials = new HashSet<(int, int)>();
+        foreach (var (i, j, c) in TorusLetters(template))
+        {
+            if (c is not ('X' or 'Y')) continue;
+            for (int a = 0; a <= i; a++)
+                if ((a & i) == a)
+                    for (int b = 0; b <= j; b++)
+                        if ((b & j) == b && !monomials.Add((a, b))) monomials.Remove((a, b));
+        }
+        return MinimalPoints(monomials.Select(p => (BitLength(p.Item1), BitLength(p.Item2))).Distinct().ToList());
+    }
+
+    /// <summary>Two templates on the small torus t₁ × t₂, read by divisibility in the local ring A = GF(2)[ℤ_t₁ × ℤ_t₂]:
+    /// an odd mask beside an even one breaks exactly when the even folded mask divides the odd one, two odd masks break
+    /// exactly when one divides the other by an element of 𝔪, and two even masks never break. A multiple of m̄ is a sum of
+    /// its translates, a multiple by an element of 𝔪 a sum of differences g·m̄ + m̄.</summary>
+    public static bool TwoTemplatesBreakByDivisibility(string first, string second, int t1, int t2)
+    {
+        if (t1 < 1 || t2 < 1 || (t1 & (t1 - 1)) != 0 || (t2 & (t2 - 1)) != 0)
+            throw new ArgumentOutOfRangeException(nameof(t1), $"{t1} × {t2}: A is local only on a 2-group");
+        ulong f1 = FoldedMask(first, t1, t2), f2 = FoldedMask(second, t1, t2);
+        int s1 = Sign(first), s2 = Sign(second);
+        bool Divides(string d, ulong of, bool byM)
+        {
+            var rows = new List<(ulong, int)>();
+            ulong at0 = FoldedMask(d, t1, t2);
+            for (int b = 0; b < t2; b++)
+                for (int a = 0; a < t1; a++) rows.Add((FoldedMask(d, t1, t2, a, b) ^ (byM ? at0 : 0), 0));
+            rows.Add((of, 1));
+            return !Balanced(rows);   // the last row reduces to the zero mask with sign 1 exactly when it lies in the span
+        }
+        return (s1, s2) switch
+        {
+            (1, 0) => Divides(second, f1, false),
+            (0, 1) => Divides(first, f2, false),
+            (1, 1) => Divides(second, f1, true) || Divides(first, f2, true),
+            _ => false,
+        };
+    }
+
+    /// <summary>A torus on which no two placements coincide: L ≥ 2w_x − 1 and M ≥ 2w_y − 1, w_x and w_y the largest
+    /// extents of the templates' letters along x and y (sufficient, not necessary; the masks of two templates must not be
+    /// translates of each other in the plane).</summary>
+    public static (int L, int M) SufficientTorus(IReadOnlyCollection<string> templates)
+    {
+        int wx = 1, wy = 1;
+        foreach (var t in templates)
+        {
+            var letters = TorusLetters(t);
+            if (letters.Count == 0) continue;
+            wx = Math.Max(wx, letters.Max(x => x.I) - letters.Min(x => x.I) + 1);
+            wy = Math.Max(wy, letters.Max(x => x.J) - letters.Min(x => x.J) + 1);
+        }
+        return (2 * wx - 1, 2 * wy - 1);
+    }
+
+    static int BitLength(int a) => a == 0 ? 0 : 32 - BitOperations.LeadingZeroCount((uint)a);
+
+    static IReadOnlyList<(int E, int F)> MinimalPoints(IReadOnlyCollection<(int E, int F)> points) =>
+        points.Where(p => !points.Any(o => o != p && o.E <= p.E && o.F <= p.F)).OrderBy(p => p.E).ThenBy(p => p.F).ToArray();
 
     /// <summary>Theorem F's second form: the torus breaks exactly when some choice of templates with an odd number of
     /// negative ones has its folded masks, one copy each, summing to a sum of differences g·m̄ⱼ + m̄ⱼ of folded translates
