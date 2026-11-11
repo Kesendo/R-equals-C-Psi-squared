@@ -312,4 +312,43 @@ public class StitchTests
                 if (d((ulong)x) * h[x, y] != h[all ^ x, all ^ y] * d((ulong)y)) return false;
         return true;
     }
+
+    static Theodolite.Cell Templates(params (string Letters, long C)[] terms)
+        => new(new[] { (Zm, 1L) }, null, terms.Select(t => (t.Letters, Enumerable.Range(0, t.Letters.Length).ToArray(), t.C)));
+
+    // The ring laws adopted from F173 (docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, Theorem D and Corollary E2), each held
+    // against its closed pattern from the guard to N = 63 and against the end count, exactly, on the rings of 5 to 8 sites;
+    // a cell whose flip set vanishes somewhere (XX + YY) has none.
+    [Fact]
+    public void The_Ring_Laws_Of_F173_Read_Every_N_And_Agree_With_The_End_Count()
+    {
+        var cases = new (Theodolite.Cell Cell, string Kind, Func<int, bool> Pattern)[]
+        {
+            (Templates(("XXX", 1), ("XYX", 1)), "Corollary E2", n => n % 3 != 0),             // the middle site read, h = 1 + x + x² at 3 | N
+            (Templates(("XXZ", 1), ("XZY", 1)), "Theorem D", n => n % 2 == 0),                // v = 1, 2; XXZ odd: pairs where 2^v₂(N) > 1
+            (Templates(("XX", 1), ("XIY", 1)), "Theorem D", n => false),                       // the greater valuation's sign odd
+            (Templates(("XX", 1), ("XY", 1), ("YX", -1), ("YY", -1)), "Corollary E2", n => n % 2 == 0),   // (X − Y)⊗(X + Y), the ordering term
+            (Templates(("XIY", 1), ("XZX", 1)), "Corollary E2", n => n % 4 == 0),             // two strings of one sign, (1 + x)²
+            (Templates(("XXX", 1), ("YYY", 1)), "Corollary E2", n => true),                    // relations at 3 | N, 1 + x not dividing h
+        };
+        foreach (var (cell, kind, pattern) in cases)
+        {
+            var law = Stitch.RingLaw(cell);
+            Assert.NotNull(law);
+            Assert.Contains(kind, law!.Text);
+            for (int n = law.Guard; n <= 63; n++) Assert.Equal(pattern(n), law.Pairs(n));
+            for (int n = law.Guard; n <= 8; n++)
+            {
+                var v = Sieve.Count(cell.Normalized().Ring(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"N = {n}: the end count read by ranks alone");
+                Assert.Equal(law.Pairs(n), EndCount.IsPalindrome(v));
+            }
+        }
+        Assert.Null(Stitch.RingLaw(Templates(("XX", 1), ("YY", 1))));
+        // a zero coefficient is no term: XX + 0·XIY is XX, which pairs on every ring
+        Assert.True(Enumerable.Range(5, 20).All(n => Stitch.RingLaw(Templates(("XX", 1), ("XIY", 0)))!.Pairs(n)));
+        // E2 with the reading asymmetric: X·X·(X + Y) reads its end site, a square does not close, no ring pairs
+        var endRead = Stitch.RingLaw(Templates(("XXX", 1), ("XXY", 1)))!;
+        Assert.True(Enumerable.Range(endRead.Guard, 20).All(n => !endRead.Pairs(n)));
+    }
 }

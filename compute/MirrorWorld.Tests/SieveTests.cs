@@ -79,6 +79,25 @@ public class SieveTests
         }
     }
 
+    // The window family's 24 ring cells that pair by a law in N, decided for every N by F173's ring laws: the eight relatives
+    // of X·(X ± Y)·X by Corollary E2 (breaking exactly at 3 | N), the sixteen of one string per flip set by Theorem D
+    // (pairing exactly at even N); every exact letter from the guard on agrees with the law, or the sieve throws.
+    [Fact]
+    public void The_Ring_Laws_Decide_The_Window_Familys_Law_Cells()
+    {
+        var family = Sieve.WindowFamily(2, "Z").ToDictionary(c => c.Name, c => c.Cell);
+        var e = Sieve.Run("+XXX+XYX", family["+XXX+XYX"], 9);
+        Assert.Equal((Sieve.Verdict.Law, "PssBPFB"), (e.Ring.Verdict, e.Ring.Letters));
+        Assert.Contains("Corollary E2", e.Ring.Law!.Text);
+        e = Sieve.Run("+XXZ+XZY", family["+XXZ+XZY"], 9);
+        Assert.Equal((Sieve.Verdict.Law, "BEBPBEB"), (e.Ring.Verdict, e.Ring.Letters));
+        Assert.Contains("Theorem D", e.Ring.Law!.Text);
+        // a tail the stitch's no already decides keeps its verdict
+        e = Sieve.Run("+XIX+XIY", family["+XIX+XIY"], 7);
+        Assert.Equal(Sieve.Verdict.Mixed, e.Ring.Verdict);
+        Assert.NotNull(e.Ring.BrokenFrom);
+    }
+
     // A Mixed with a tail: X·I·(X + Y) pairs on the chains of three and four sites (the stitch's yes at those N alone)
     // and breaks on every chain from five sites on, by the local no; XX·(X + Y) pairs at three and breaks from four. The
     // residue X·(X ± Y)·X has no tail on the chain.

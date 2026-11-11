@@ -15,7 +15,11 @@ using static MirrorWorld.LetterCube;
 //             or (iii) of Theorem 2, from there on);
 //   Residue   every uncovered N read is palindromic: an element the every-N reading does not see (no product of its
 //             site factors, or a relabelling, a turned frame or a longer period, which it leaves out);
-//   Mixed     the uncovered N read are palindromic at some N and broken at others.
+//   Mixed     the uncovered N read are palindromic at some N and broken at others;
+//   Law       on the ring, a cell that would be Mixed (with no tail the stitch's no decides) or a Residue whose every N from the guard on is decided by a ring law of
+//             F173 (Stitch.RingLaw: Theorem D, one string per flip set; Corollary E2, one flip shape with a character
+//             ratio), every N below the guard read exactly: decided for every N by the law.
+//             Wherever a law exists, every exact letter from its guard on is checked against it, and a disagreement throws.
 // The yes side is exact for every N, and so is a Broken with BrokenEveryN; the rest is exact at the N read and says
 // nothing past them. A silence is not a no: the residue is where it isn't, and an element understood there is a reader
 // the sieve can gain. The order is the fast no first: the stitch's no (a local check, no solve) is asked before the
@@ -38,7 +42,7 @@ public sealed class Sieve : GameObject
     // left: what the sieve itself produces.
     public override IReadOnlyList<string> Own => new[] { "sieve", "residue" };
 
-    public enum Verdict { Read, Broken, Residue, Mixed }
+    public enum Verdict { Read, Broken, Residue, Mixed, Law }
 
     // One cell through the sieve on one geometry: the every-N reading (null when silent), and per N read a letter:
     // E covered by the reading (no end count asked), P/B palindromic/broken by the end count exactly, p/b by its ranks.
@@ -50,7 +54,7 @@ public sealed class Sieve : GameObject
     // (Stitch.FreeEveryN), every N from its From on and, on the ring, every N no modulus of it divides; a cell the free
     // chain covers from its From on, every N below an exact yes, is Read.
     public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, int? BrokenFrom = null,
-        Stitch.Free? Free = null)
+        Stitch.Free? Free = null, Stitch.RingLawReading? Law = null)
     {
         public bool BrokenEveryN => Verdict == Verdict.Broken && BrokenFrom == From;
     }
@@ -83,13 +87,14 @@ public sealed class Sieve : GameObject
         // the free chain, where the theodolite and the stitch's every-N yes leave N uncovered
         Stitch.Free? fChain = stitch && open is null && sChain?.Bulk is null ? Stitch.FreeEveryN(norm, ring: false) : null;
         Stitch.Free? fRing = stitch && !ringCovered && sRing?.Bulk is null ? Stitch.FreeEveryN(norm, ring: true) : null;
-        var chain = Through(open, sChain, fChain, chainFrom, maxN, n => open is not null, norm.Chain);
-        var ring = Through(closed, sRing, fRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring);
+        var law = stitch ? Stitch.RingLaw(norm) : null;
+        var chain = Through(open, sChain, fChain, chainFrom, maxN, n => open is not null, norm.Chain, null);
+        var ring = Through(closed, sRing, fRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring, law);
         return new Entry(name, cell, chain, ring);
     }
 
     static Pass Through(Theodolite.Traverse? t, Stitch.Reach? st, Stitch.Free? free, int from, int maxN, Func<int, bool> covered,
-        Func<int, Theodolite.Setting> build)
+        Func<int, Theodolite.Setting> build, Stitch.RingLawReading? law)
     {
         var letters = new System.Text.StringBuilder();
         for (int n = from; n <= maxN; n++)
@@ -127,7 +132,23 @@ public sealed class Sieve : GameObject
             while (n0 > from && Broken(n0 - 1)) n0--;
             brokenFrom = n0;
         }
-        return new Pass(t, from, s, verdict, brokenFrom, free);
+        // a ring law of F173 checked against every exact letter from its guard on; where it decides a cell left Mixed or a
+        // Residue that the stitch's no has not decided already (every N below the guard read exactly, none past maxN
+        // unread), the cell is decided for every N
+        if (law is not null)
+        {
+            for (int n = Math.Max(from, law.Guard); n <= maxN; n++)
+            {
+                char ch = s[n - from];
+                bool? exact = ch is 'P' or 'E' or 'S' or 's' or 'F' ? true : ch is 'B' or 'C' ? false : null;
+                if (exact is bool e && e != law.Pairs(n))
+                    throw new InvalidOperationException($"N = {n}: the ring law ({law.Text}) and the letter {ch} disagree");
+            }
+            if (verdict is Verdict.Mixed or Verdict.Residue && brokenFrom is null && law.Guard <= maxN + 1
+                && Enumerable.Range(from, Math.Max(0, law.Guard - from)).All(n => s[n - from] is not ('p' or 'b')))
+                verdict = Verdict.Law;
+        }
+        return new Pass(t, from, s, verdict, brokenFrom, free, law);
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)

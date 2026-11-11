@@ -507,4 +507,179 @@ public sealed class Stitch : GameObject
         }
         return a;
     }
+
+    // ---------------------------------------------------------------- the ring laws (F173, adopted)
+    //
+    // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: two laws in N for a cell on the ring under
+    // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring), where the placements are
+    // distinct flip sets. Theorem D: every flip-carrying template of its own shape (one string per flip set), read through
+    // the (1 + x)-valuations v_i of the masks and the signs s_i = (#Y + #Z) mod 2 alone; with v₀ the least and T = 2^(v₂(N))
+    // the ring breaks exactly when T ≤ v₀ and some sign is odd, or T > v₀ and two templates of valuation v₀ differ in sign
+    // or one of greater valuation has an odd sign. Corollary E2: every flip-carrying template of one shape f, each flip set
+    // a constant times a character of x, ω·(−1)^⟨R, x⟩; the ring pairs exactly when the read sets are read symmetrically
+    // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
+    // to 1. Both are laws for every N; the code evaluates them at N up to 63. A cell with an odd-weight diagonal, a flip
+    // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
+    // which carries several strings has no law here (the stitch's no reads the first two).
+    public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
+
+    public static RingLawReading? RingLaw(Theodolite.Cell cell)
+    {
+        var norm = cell.Normalized();
+        if (!ZOnly(norm)) return null;
+        var templates = new List<(ulong X, ulong Z, long C)>();
+        foreach (var (letters, off, c) in norm.Windows)
+        {
+            ulong x = 0, z = 0;
+            for (int i = 0; i < letters.Length; i++)
+            {
+                if (letters[i] is 'X' or 'Y') x |= 1UL << off[i];
+                if (letters[i] is 'Y' or 'Z') z |= 1UL << off[i];
+            }
+            templates.Add((x, z, c));
+        }
+        foreach (var (letter, c) in norm.Fields)
+            templates.Add((letter is 'X' or 'Y' ? 1UL : 0, letter is 'Y' or 'Z' ? 1UL : 0, c));
+        // equal strings collected and zero coefficients dropped, so that the laws read the Hamiltonian, not its spelling
+        templates = templates.GroupBy(t => (t.X, t.Z)).Select(g => (g.Key.X, g.Key.Z, C: g.Sum(t => t.C))).Where(t => t.C != 0).ToList();
+        if (templates.Any(t => t.X == 0 && (BitOperations.PopCount(t.Z) & 1) == 1)) return null;
+        var flipping = templates.Where(t => t.X != 0).ToList();
+        if (flipping.Count == 0) return null;
+        int guard = Math.Max(norm.SmallestRing, 2 * norm.Span - 1);
+        static ulong ShapeOf(ulong m) => m >> BitOperations.TrailingZeroCount(m);
+        int shapes = flipping.Select(t => ShapeOf(t.X)).Distinct().Count();
+        if (shapes == flipping.Count)
+        {
+            // Theorem D
+            var read = flipping.Select(t => (V: Valuation(t.X), S: BitOperations.PopCount(t.Z) & 1)).ToList();
+            int v0 = read.Min(r => r.V);
+            bool low = read.Any(r => r.S == 1);
+            bool high = read.Where(r => r.V == v0).Select(r => r.S).Distinct().Count() > 1 || read.Any(r => r.V > v0 && r.S == 1);
+            string text = low == high
+                ? $"F173 Theorem D: {(high ? "breaks" : "pairs")} on every ring of N ≥ {guard}"
+                : $"F173 Theorem D: {(high ? "breaks" : "pairs")} exactly where 2^v₂(N) > {v0}, from N = {guard}";
+            return new RingLawReading(guard, text, n =>
+            {
+                if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+                return (n & -n) > v0 ? !high : !low;
+            });
+        }
+        if (shapes != 1) return null;
+        // Corollary E2: the ratio's kind and read set are the same on every ring past the guard; read them once
+        ulong f = ShapeOf(flipping[0].X);
+        int probe = Math.Max(guard, 3 * norm.Span);
+        var first = FlipRatios(norm, probe);
+        if (first is null) return null;
+        return new RingLawReading(guard, $"F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = {Poly(f)}, from N = {guard}", n =>
+        {
+            if (n < guard || n > 63) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law is evaluated from N = {guard} to 63");
+            var ratios = FlipRatios(norm, n) ?? throw new InvalidOperationException($"N = {n}: a ratio left the character form past the guard");
+            static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+            foreach (var (pm, (_, pr)) in ratios)
+                foreach (var (qm, (_, qr)) in ratios)
+                    if (Parity(pr & qm) != Parity(qr & pm)) return false;
+            ulong ringPoly = (1UL << n) | 1UL, h = Gcd2(f, ringPoly);
+            if (h == 1) return true;
+            var (omega0, read0) = ratios[f];
+            if (Mod2(read0, h) != 0) return false;
+            if ((BitOperations.PopCount(h) & 1) == 1) return true;
+            ulong g = Div2(ringPoly, h), at = 0;
+            int quarter = 0;
+            for (int p = 0; p < n; p++)
+            {
+                if (((g >> p) & 1) == 0) continue;
+                ulong m = Rot(f, p, n);
+                var (om, rd) = ratios[m];
+                quarter += om + 2 * Parity(rd & at);
+                at ^= m;
+            }
+            return quarter % 4 == 0;
+        });
+    }
+
+    // every flip set's ratio on the ring of n sites as (quarter, read set): r(x) = H_(x̄⊕m, x̄)/H_(x⊕m, x) = i^quarter·(−1)^⟨R, x⟩,
+    // the proof's ratio conjugated (ElementOf reads H_(x⊕m, x)), the same read set, and every verdict the same,
+    // read on the bits its strings' Z letters touch; null when some flip set is not of that form (entries of different
+    // modulus, a vanishing entry, no character)
+    static Dictionary<ulong, (int Quarter, ulong Read)>? FlipRatios(Theodolite.Cell norm, int n)
+    {
+        var byMask = ByMask(norm, n, ring: true);
+        var result = new Dictionary<ulong, (int, ulong)>();
+        foreach (var (mask, list) in byMask)
+        {
+            if (mask == 0) continue;
+            ulong u = 0;
+            foreach (var t in list) u |= t.Z;
+            var bits = Enumerable.Range(0, n).Where(j => ((u >> j) & 1) == 1).ToArray();
+            if (bits.Length > 20) return null;
+            ulong Spread(int y) { ulong x = 0; for (int k = 0; k < bits.Length; k++) if (((y >> k) & 1) == 1) x |= 1UL << bits[k]; return x; }
+            static GaussBig Turn(GaussBig a, int q) { for (int k = 0; k < q; k++) a = a * new GaussBig(0, 1); return a; }
+            int count = 1 << bits.Length;
+            var a = new GaussBig[count];
+            var b = new GaussBig[count];
+            for (int y = 0; y < count; y++)
+            {
+                a[y] = ElementOf(byMask, Spread(y), mask);
+                b[y] = ElementOf(byMask, u ^ Spread(y), mask);
+                if (a[y].IsZero || b[y].IsZero || a[y].Norm != b[y].Norm) return null;
+            }
+            int quarter = Enumerable.Range(0, 4).FirstOrDefault(q => b[0] == Turn(a[0], q), -1);
+            if (quarter < 0) return null;
+            ulong read = 0;
+            for (int k = 0; k < bits.Length; k++)
+            {
+                var want = Turn(a[1 << k], quarter);
+                if (b[1 << k] == want) continue;
+                if (b[1 << k] == -want) { read |= 1UL << bits[k]; continue; }
+                return null;
+            }
+            for (int y = 0; y < count; y++)
+            {
+                var want = Turn(a[y], quarter);
+                if ((BitOperations.PopCount(Spread(y) & read) & 1) == 1) want = -want;
+                if (b[y] != want) return null;
+            }
+            result[mask] = (quarter, read);
+        }
+        return result;
+    }
+
+    // v_(1+x)(m): how often 1 + x divides the mask read as a polynomial over GF(2)
+    static int Valuation(ulong m)
+    {
+        int v = 0;
+        while (m != 0 && (BitOperations.PopCount(m) & 1) == 0) { m = Div2(m, 0b11); v++; }
+        return v;
+    }
+
+    static ulong Mod2(ulong a, ulong b)
+    {
+        int db = 63 - BitOperations.LeadingZeroCount(b);
+        while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db) a ^= b << (63 - BitOperations.LeadingZeroCount(a) - db);
+        return a;
+    }
+
+    static ulong Div2(ulong a, ulong b)
+    {
+        ulong q = 0;
+        int db = 63 - BitOperations.LeadingZeroCount(b);
+        while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db)
+        {
+            int s = 63 - BitOperations.LeadingZeroCount(a) - db;
+            q |= 1UL << s;
+            a ^= b << s;
+        }
+        if (a != 0) throw new InvalidOperationException("not divisible");
+        return q;
+    }
+
+    static ulong Rot(ulong m, int p, int n)
+    {
+        ulong r = 0;
+        for (int j = 0; j < n; j++) if (((m >> j) & 1) == 1) r |= 1UL << ((j + p) % n);
+        return r;
+    }
+
+    static string Poly(ulong f) => string.Join(" + ", Enumerable.Range(0, 64).Where(j => ((f >> j) & 1) == 1)
+        .Select(j => j == 0 ? "1" : j == 1 ? "x" : $"x^{j}"));
 }

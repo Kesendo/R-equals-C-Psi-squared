@@ -2850,9 +2850,10 @@ if (args.Length > 0 && args[0] == "sieve")
         Console.WriteLine($"  {geo}: " + string.Join(", ", Enum.GetValues<Sieve.Verdict>().Select(v => $"{v} {entries.Count(e => pick(e).Verdict == v)}")));
         Console.WriteLine($"    of the broken, for every N (the stitch's no): {entries.Count(e => pick(e).BrokenEveryN)}");
         Console.WriteLine($"    of the mixed, broken for every N past their last pairing: {entries.Count(e => pick(e).Verdict == Sieve.Verdict.Mixed && pick(e).BrokenFrom is not null)}");
-        foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed))
+        foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed or Sieve.Verdict.Law))
             Console.WriteLine($"    {pick(e).Verdict,-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}"
-                + (pick(e).BrokenFrom is int bf ? $"  broken from N = {bf} on" : ""));
+                + (pick(e).BrokenFrom is int bf ? $"  broken from N = {bf} on" : "")
+                + (pick(e).Verdict == Sieve.Verdict.Law ? $"  ({pick(e).Law!.Text})" : ""));
     }
     Console.WriteLine($"  {entries.Count} cells in {sw.ElapsedMilliseconds} ms");
     Console.WriteLine($"    own       (left) : {string.Join(", ", sieve.Own)}");
