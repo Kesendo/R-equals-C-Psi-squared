@@ -1298,6 +1298,14 @@ public static class InspectCommand
                 c.Parser.HasFlag("N") ? c.N : 2,
                 c.Parser.HasFlag("gamma") ? c.Parser.RequireInt("gamma") : 1),
             RequiresN: false, HonorsOptionalN: true),
+        new("signedbalance", "F173, the signed balance of the flip masks, live: under Z dephasing on every site, where every flip set carries " +
+            "one Pauli string, the claim's GF(2) readings on masks and signs (the balance at one N, two templates on the chain with " +
+            "N* = max(w₁ + deg q₂, w₂ + deg q₁), one template on the ring with v_(1+x)(m) ≥ 2^(v₂(N))) held against Theorem 2 of the " +
+            "complement connection walked on the bitstrings, family by family, beside three controls that must disagree. Optional " +
+            "integer --ring (the largest ring read, 5 to 12, default 10) " +
+            "(typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
+            c => new SignedMaskBalanceWitness(c.Parser.HasFlag("ring") ? c.Parser.RequireInt("ring") : 10),
+            RequiresN: false),
         new("twobytwo", "the one closed 2 × 2 behind many exceptional points (docs/THE_DOUBLE_ROOT.md, One 2 × 2 in many settings), live: "
             + "every row at a point with integer entries on its exceptional point and one step off it, exact over ℚ(i) through the claim's law (d = 0 and "
             + "M₀ ≠ 0, one Jordan block; companion rows marked as readings that cannot fail), self-orthogonality following the writing, "

@@ -5244,6 +5244,7 @@ parents: Welle 12 D · Π_Z · D = Π_Y identity
 
 ---
 
+<a id="f115"></a>
 ### F115. Windowed F87 hardness is a closed-form combinatorial theory (Tier 1 derived, GF(2)[x] valuation)
 
 F103 §7 derives the F87 diagonal-cell soft/hard split as a bipartite-chirality mechanism; F115
@@ -5253,7 +5254,9 @@ places it at windows w = 0 … N−k as the shifts {x^w p}, with W = N − k + 1
 all bit-exact.
 
 1. *Hardness is a valuation difference (the one-number criterion).* A Z-dephasing diagonal-cell Mixed
-   pair is hard ⟺ v_{1+x}(p₁) ≠ v_{1+x}(p₂), the (1 + x)-adic valuations of the two masks; equal
+   pair is hard ⟺ v_{1+x}(p₁) ≠ v_{1+x}(p₂), the (1 + x)-adic valuations of the two masks, at every N from
+   its window floor on and soft below it (the floor N* of the paragraph on signs below, exact by [F173](#f173);
+   N ≥ 2k − 2 bounds it); equal
    valuations ⟹ soft. The two terms' y-parities need not agree (statement 3). This is the §7.5 non-bipartite criterion in one subtraction, and it matches the
    actual spectral trichotomy on every k = 3, N = 4 pair (derived for any k via §7.7 + §7.5/§7.6).
    Scope of the Tier-1-derived label: the criterion plus the genericity result (hard for all but
@@ -5319,6 +5322,13 @@ into the toolkit as C# `BitADyadicGrade` (`compute/RCPsiSquared.Core/Symmetry/`,
 size law across a (k, N) grid through k = 6; the class sizes, count, d = 3 form, and
 free-distance-4-vs-odd-weight-2k−3 through k = 10, with the dressed totals matched against the C# scan
 at k = 4, 5, 6; the quasi-cyclic dictionary bit-exact k = 4, 5, 6.
+
+**Signs and the window floor.** The bipartite reading is the all-negative case of [F173](#f173): where every flip
+set carries one string, each edge's ratio is the sign (−1)^(#Y + #Z) of its string and the palindrome is the
+balance of the signed Cayley graph of the masks. For two templates of widths k₁, k₂ with masks p₁, p₂ and signs
+s₁, s₂ the criterion is c = s₁·q₂(1) + s₂·q₁(1) mod 2 with qᵢ = pᵢ/gcd(p₁, p₂), which with both signs negative is
+the valuation difference of statement 1, and the hard verdict sets in exactly at N* = max(k₁ + deg q₂, k₂ + deg q₁),
+the window floor (IXZX + XIZX: N* = 6), which N ≥ 2k − 2 bounds for every pair of width k.
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.7–§7.9; C# `WindowedObstructionScan`
 (`compute/RCPsiSquared.Diagnostics/F87/`, with the GF(2)[x] `PolyGcd` / `ValuationAtOnePlusX` /
@@ -11764,6 +11774,50 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Scope:** clock jumps at one rate on every site. For the pair at even d the widened condition, some invertible UΔ commuting with H, is a criterion, by F158's count carried to unitary jumps with a self-adjoint dissipator, and [H, U] = 0 is the case Δ = 1; for the lone jump the four routes are sufficient and the count only necessary, the palindrome there being the count together with one spectral equality. From d = 5 on no rewriting of the pair's dissipator has Hermitian involutive jumps, so the count there is this entry's and not F158's. The no-go holds for every Hermitian H; for full-Cartan dephasing at unequal rates it decides only where the largest total rate stays below twice the mean.
 **Replaces:** a spectral computation per qudit chain and Hamiltonian to decide the palindrome, by a count of two kernels at even d (an invertible UΔ commuting with H) and one inequality on the rates otherwise; and the reading of "the palindrome is qubit-only" as a fact about the dimension: it is a fact about the dephasing, true for full-Cartan dephasing at one rate for every Hamiltonian, and false for the clock at every even d ≥ 4.
 **Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
+
+<a id="f173"></a>
+### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)) (Tier 1 derived)
+
+**Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
+joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
+negative) and the colouring of F108 Part 1 (every sign positive, every string commuting with X^⊗N), and it reaches
+the sets that mix them.
+
+**The setting.** N sites, Z dephasing on every site at any positive rates; H a real combination of Pauli strings,
+no two with the same nonzero X/Y mask, the odd-weight diagonal part zero. A string's sign s = (#Y + #Z) mod 2. A
+template of w letters is placed at every window (the chain's starts 0 … N − w, the ring's every start); its mask
+m(x) over GF(2), bit j ↦ x^j.
+
+**The statement.**
+
+    every edge x – x ⊕ m:  H_x̄,x̄⊕m / H_x,x⊕m = (−1)^s,  at every x    (one string per flip set)
+    palindrome  ⟺  ⊕_S masks = 0  ⟹  Σ_S s even,  for every subset S of the placed strings    (balance; broken ⟹ far end 0)
+    two templates, g = gcd(m₁, m₂), qᵢ = mᵢ/g:  relations = r·(q₂, q₁),  negative count ≡ r(1)·(s₁q₂(1) + s₂q₁(1))
+    chain:  c = 0 ⟹ pairs at every N;  c = 1 ⟹ pairs exactly for N < N* = max(w₁ + deg q₂, w₂ + deg q₁)
+    s₁ = s₂ = 1:  c = 1  ⟺  v_(1+x)(m₁) ≠ v_(1+x)(m₂)    (F115 statement 1; N* its window floor)
+    one template on the ring of N ≥ 2w − 1 sites:  broken  ⟺  s = 1 and v_(1+x)(m) ≥ 2^(v₂(N))    (XY: odd N; XIY: 4 ∤ N)
+
+**Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
+(`ComplementConnectionGraph`), templates placed with their identity letters: the two-template law on the window
+family's 864 cells with masks of different shapes (432 breaking, 432 pairing), on 368 pairs of unequal widths and on
+IXZX + XIZX (soft at 5, hard at 6 and 7), the F115 face against F115's own valuation and against Theorem 2 at
+N* − 1 and N*, the ring law on 290 rings and on XY + ZZ, and the balance at one N on 16 two-template rings and 20
+three-template cells; three controls (the widths or the quotients swapped, 2^(v₂(N)) dropped) disagree.
+**Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the three
+readings; live witness `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`).
+**Adjacent.** [F115](#f115) and F103 §7.4 to §7.7 (the all-negative case and its gcd calculus, here with any
+signs); F108 Part 1 (the all-positive case) and F110 Aspect A (its Klein-homogeneous cells, all positive or, in the
+(1,1) cell, all negative with odd masks); THE_PALINDROME_AS_A_COLOURING (its diagonal gauge, under the assumption
+a ±1 character, the lit string X^⊗N·Z^φ); the MirrorWorld sieve's ring cells that pair by a law in N (16 of its 24
+carry one string per flip set and pair exactly at even N, by the balance); Theorem 2 of
+PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); SOFTNESS_IS_N_DEPENDENT (strings of different signs on one flip
+set, where the ratio reads bits and squares can fail, outside this entry).
+**Scope:** the open chain and the ring (N ≥ 2·max w − 1) with uniform templates; one string per flip set (the balance
+also with several strings of one sign whose entries never cancel; the closed forms need one string); Z dephasing on
+every site. Two or more templates on the ring are decided at each N by the balance, with no closed form here.
+**Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over
+GF(2); and an end count per ring size for single-template cells, such as XY + ZZ, by one valuation.
+**Source:** [PROOF_SIGNED_MASK_BALANCE](proofs/PROOF_SIGNED_MASK_BALANCE.md).
 
 ---
 

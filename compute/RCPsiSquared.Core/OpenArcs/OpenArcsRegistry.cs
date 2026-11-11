@@ -3493,7 +3493,7 @@ public static class OpenArcsRegistry
                 "registry statement and the shipped certifier. Both are about how WIDE the (1+x)-valuation " +
                 "criterion really is, neither is the experiment's business, and the experiment no longer " +
                 "over-claims: it now states the gate as the code has it and carries the window floor.",
-            ParkedAt: "TWO GAPS; (1) SETTLED, (2) open. (1) THE Y-PARITY GATE. " +
+            ParkedAt: "BOTH GAPS SETTLED. (1) THE Y-PARITY GATE. " +
                 "PalindromeSoftCertifier.CertifyHardByDiagonalCellValuation requires terms.Count == 2, " +
                 "IsBitBHomogeneous, AND yPar0 == yPar1; ANALYTICAL_FORMULAS F115 statement 1 states the criterion " +
                 "with no y-parity condition. Over the IXYZ alphabet with the CellTerms gate there are 32 / 896 / " +
@@ -3509,20 +3509,23 @@ public static class OpenArcsRegistry
                 "without the condition, the registry states its count as the homogeneous half, and the " +
                 "certifier's y-parity gate is conservative: a mismatched pair it does not certify hard is hard " +
                 "exactly when the valuations differ, at every N >= 2k-2. " +
-                "(2) THE WINDOW FLOOR. Statement 1 is unconditional in N, " +
-                "but WindowedObstructionScan's own comment records 'IXZX+XIZX is open yet soft below N = 6', i.e. " +
-                "a k-body pair needs enough windows for the odd relation to close (W = N-k+1 >= k-1, so N >= 2k-2); " +
-                "below that a valuation-DIFFERENT pair is genuinely soft and the soft cascade " +
-                "(CertifyByLinearSiteColoring) is what catches it, so the code is sound and the prose is the loose " +
-                "part. Also not re-verified spectrally here.",
-            NextStep: "For (2), check whether " +
-                "PROOF_F87_WINDOWED_MONOMIAL_CONVERSE already carries the window premise, and if it does, carry it " +
-                "up into the registry statement rather than deriving it again. Hazard from the rounds that opened " +
-                "this: every count here was enumerated over the alphabet INCLUDING the identity letter; an " +
-                "enumeration over XYZ alone gives 6 / 20 / 60 strings and 8 / 128 / 1180 hard pairs, none of which " +
-                "match anything, and that mismatch is silent. The census is simulations/f115_diagonal_cell_census.py, " +
-                "which gates all three columns at k = 3, 4, 5.",
-            Status: OpenArcStatus.Open),
+                "(2) THE WINDOW FLOOR. Settled by F173 (docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, Theorem B): every " +
+                "relation among the placements of two templates is a multiple r*(q2, q1), q_i = m_i / gcd(m1, m2), so " +
+                "a valuation-different pair is soft exactly below N* = max(w1 + deg q2, w2 + deg q1) and hard from " +
+                "N* on, w_i the template widths; IXZX+XIZX: g = 1+x, q1 = x+x^2, q2 = 1+x+x^2, N* = 6, as " +
+                "WindowedObstructionScan's comment records; N >= 2k-2 is a sufficient bound, N* the exact floor. " +
+                "Gated by the live battery SignedMaskBalanceWitness (inspect --root signedbalance) against Theorem 2 on the bitstrings.",
+            NextStep: "None: both gaps are settled. The hazard the rounds recorded stays true for any recount: every " +
+                "count here is over the alphabet INCLUDING the identity letter; an enumeration over XYZ alone gives " +
+                "6 / 20 / 60 strings and 8 / 128 / 1180 hard pairs, none of which match anything, and that mismatch " +
+                "is silent (the census is simulations/f115_diagonal_cell_census.py, k = 3, 4, 5).",
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "RESOLVED 2026-11-11. Gap (1) by Theorem 2 of the complement connection (the Cayley graph " +
+                "of the window masks, bipartite exactly when no odd subset XORs to zero); gap (2) by F173, " +
+                "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md Theorem B, the window floor N* = max(w1 + deg q2, w2 + deg q1) " +
+                "of a two-template pair, exact both ways; typed as SignedMaskBalanceClaim, gated against Theorem 2 on the " +
+                "bitstrings by its live witness SignedMaskBalanceWitness (inspect --root signedbalance; IXZX+XIZX at N = 5, 6, 7; " +
+                "the diagonal-cell pairs at k = 3, 4 at N* - 1 and N*)."),
 
         new OpenArc(
             Name: "concentrator_amplitude_signs",
