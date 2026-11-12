@@ -1303,7 +1303,8 @@ public static class InspectCommand
             "N* = max(w₁ + deg q₂, w₂ + deg q₁), any number on the chain by Theorem B′ off a basis of the relations reduced for the widths, one template on the ring with v_(1+x)(m) ≥ 2^(v₂(N)), any number on the ring by Theorem D, several strings per flip set with a character ratio by Theorem E and one " +
             "flip shape on the ring by its Corollary E2, two on the chain by Corollary E3 and any number by E3′) " +
             "held against Theorem 2 of the complement connection walked on the bitstrings, family by family, Theorems D and B′ also against the " +
-            "balance, beside sixteen controls that must disagree. Optional " +
+            "balance, and Theorem H at random rates (the far edge's second-order generator against the weighted code distance, both " +
+            "generators' kernels against Theorem 2's counts), beside seventeen controls that must disagree. Optional " +
             "integer --ring (the largest ring read, 5 to 12, default 10) " +
             "(typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new SignedMaskBalanceWitness(c.Parser.HasFlag("ring") ? c.Parser.RequireInt("ring") : 10),

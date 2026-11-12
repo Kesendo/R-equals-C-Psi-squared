@@ -36,7 +36,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// exponents of its mask expanded at x = y = 1, coarsened to bit lengths, and two templates' by divisibility in A = GF(2)[ℤ_T₁ × ℤ_T₂]; the ring's
 /// one number per mask is the case of a cyclic 2-part. Two templates on the open L × M patch, their masks read in GF(2)[x, y]:
 /// every relation is r·(q₂, q₁) and the degrees in x and in y add separately, so with c = s₁·q₂(1, 1) + s₂·q₁(1, 1) odd the
-/// patch breaks exactly on the quadrant L ≥ L*, M ≥ M*, and never with c even (Theorem G, <see cref="Patch"/>).</para>
+/// patch breaks exactly on the quadrant L ≥ L*, M ≥ M*, and never with c even (Theorem G, <see cref="Patch"/>). At strong
+/// dephasing, H scaled to J·H, the two edges of the spectrum are −J²·spec(𝓛) and −2σ + J²·spec(𝓜) to O(J³), two Laplacians
+/// whose kernels are Theorem 2's two counts, the far one magnetic, carrying Theorem 2's ratios as phases, with a potential where the
+/// moduli differ (<see cref="StrongDephasingEdges"/>);
+/// with one string per flip set the far edge misses −2σ by J² times twice the distance of the signs from the code of
+/// balanced signings, each string weighted by c²/γ(m) (Theorem H, <see cref="StrongDephasingBreak"/>).</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -50,7 +55,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
 /// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="CornerBound"/>, <see cref="SufficientTorus"/>,
 /// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) and Theorem G's (<see cref="OnPatch"/>, <see cref="Patch"/>, <see cref="PatchBreaks"/>) have their own battery, <c>inspect --root torusbalance</c>
-/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>).</para></summary>
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>); Theorem H's reader and the lemma's two
+/// generators are read in the first battery, at random rates.</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
 {
     public PalindromeComplementConnectionClaim ComplementConnection { get; }
@@ -76,7 +82,10 @@ public sealed class SignedMaskBalanceClaim : Claim
             "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, bounded by the colength of the masks' ideal at x = y = 1 " +
             "where the masks share no factor there; two templates on the open L × M patch break exactly on the quadrant " +
             "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁) when s₁·q₂(1, 1) + s₂·q₁(1, 1) is odd, " +
-            "the gcd taken in GF(2)[x, y], and never otherwise (Theorem G)",
+            "the gcd taken in GF(2)[x, y], and never otherwise (Theorem G); at strong dephasing, H scaled to J·H, the far edge's eigenvalue " +
+            "nearest −2σ lies at 2J²·min over φ of Σ c_P²/γ(m_P) over the strings with ⟨φ, m_P⟩ ≠ s(P), plus O(J³), from it, twice the " +
+            "rate-weighted distance of the signs from the code of balanced signings, the case of one string per flip set of a lemma: " +
+            "the two edges are −J²·spec(𝓛) and −2σ + J²·spec(𝓜), two Laplacians whose kernels are Theorem 2's two counts (Theorem H)",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -1227,6 +1236,45 @@ public sealed class SignedMaskBalanceClaim : Claim
         return r;
     }
 
+    // ---------------------------------------------------------------- Theorem H, the size of the break at strong dephasing
+
+    /// <summary>Theorem H under Theorem A's assumption: with H = J·Σ c_P·P the far edge's eigenvalue nearest −2σ lies at
+    /// J²·λ + O(J³) from it, λ = 2·min over φ ∈ GF(2)^N of Σ c_P²/γ(m_P) over the strings with ⟨φ, m_P⟩ ≠ s(P), twice the
+    /// distance of the sign vector from the code of balanced signings, each string weighted by c_P² over the rates on its
+    /// flip set. Equal strings are collected first; two different strings on one nonzero flip set, or a diagonal part of
+    /// odd weight left after collecting, are refused. Up to 24 sites (φ is enumerated).</summary>
+    public static double StrongDephasingBreak(IReadOnlyList<PlacedString> placed, IReadOnlyList<double> gamma)
+    {
+        int n = gamma.Count;
+        if (n < 1 || n > 24) throw new ArgumentOutOfRangeException(nameof(gamma), n, "one to 24 sites");
+        if (gamma.Any(g => !(g > 0))) throw new ArgumentException("every rate strictly positive", nameof(gamma));
+        var collected = new Dictionary<(ulong X, ulong Z), long>();
+        foreach (var p in placed)
+        {
+            if ((p.X | p.Z) >> n != 0) throw new ArgumentException($"a string has a letter beyond site {n - 1}", nameof(placed));
+            collected[(p.X, p.Z)] = (collected.TryGetValue((p.X, p.Z), out var c) ? c : 0) + p.C;
+        }
+        var strings = collected.Where(kv => kv.Value != 0).ToList();
+        foreach (var kv in strings.Where(kv => kv.Key.X == 0))
+            if (BitOperations.PopCount(kv.Key.Z) % 2 == 1) throw new ArgumentException("a diagonal string of odd weight remains", nameof(placed));
+        var hops = strings.Where(kv => kv.Key.X != 0).ToList();
+        if (hops.GroupBy(kv => kv.Key.X).Any(g => g.Count() > 1)) throw new ArgumentException("two strings on one flip set", nameof(placed));
+        var terms = hops.Select(kv =>
+        {
+            double rate = 0;
+            for (int l = 0; l < n; l++) if (((kv.Key.X >> l) & 1) == 1) rate += gamma[l];
+            return (Mask: kv.Key.X, Sign: BitOperations.PopCount(kv.Key.Z) & 1, Weight: (double)kv.Value * kv.Value / rate);
+        }).ToList();
+        double best = double.PositiveInfinity;
+        for (ulong phi = 0; phi < 1UL << n; phi++)
+        {
+            double cost = 0;
+            foreach (var t in terms) if ((BitOperations.PopCount(phi & t.Mask) & 1) != t.Sign) cost += t.Weight;
+            best = Math.Min(best, cost);
+        }
+        return 2 * best;
+    }
+
     public override string DisplayName =>
         "F173: the signed balance of the flip masks";
 
@@ -1236,7 +1284,8 @@ public sealed class SignedMaskBalanceClaim : Claim
         $"one template on the ring exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through " +
         $"whether 2^(v₂(N)) exceeds the least valuation; several strings per flip set with a character ratio by a symmetric reading " +
         $"and the relations read against the read sets and a holonomy, one flip shape on the ring and any number on the chain in closed form; on the torus " +
-        $"a colouring of period (2^(v₂(L)), 2^(v₂(M))), and two templates on the open patch break on one quadrant or on none ({Tier.Label()}; live witnesses: " +
+        $"a colouring of period (2^(v₂(L)), 2^(v₂(M))), and two templates on the open patch break on one quadrant or on none; with one string per flip set, at strong dephasing the far edge misses −2σ by " +
+        $"J² times twice the rate-weighted distance of the signs from the code of balanced signings ({Tier.Label()}; live witnesses: " +
         $"inspect --root signedbalance, inspect --root torusbalance)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -1286,6 +1335,13 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁); XY across beside XX/X " +
                          "breaks exactly from 3 × 2; Theorem B is the row M = 1 (templates ending in a letter); for three or more the breaking patches, the union of the " +
                          "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read patch by patch");
+            yield return new InspectableNode("Theorem H, the size of the break at strong dephasing",
+                summary: "H scaled to J·H with condition (ii) everywhere: the first order vanishes on both edges, and the second is " +
+                         "−J²·𝓛 on the populations and −2σ + J²·𝓜 on the far cells, 𝓛 the Zeno Laplacian with weights |H_ba|²/γ(a ⊕ b) and " +
+                         "𝓜 the same with each hop carrying H_ba·H_āb̄, both positive semidefinite, their kernels Theorem 2's two counts; " +
+                         "one string per flip set: 𝓜 = Σ (c²/γ(m))(1 − (−1)^s·T_m), diagonal in the characters, λ_min twice the weighted " +
+                         "distance of the signs from the code of balanced signings; the XY ring at one rate J²c²/γ on every odd ring, " +
+                         "XZ + ZY on the chain two π-flux end squares, 2(3 − √5)·J²c²/γ");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");

@@ -238,4 +238,157 @@ public class SignedMaskBalanceLiouvillianTests
         Assert.True(broken.Min() / paired.Max() > 1e8, $"gap {broken.Min():E2} / {paired.Max():E2}");
         Assert.True(broken.Min() > 0.31, $"{broken.Min():E3}");                                                // measured, quoted on the page
     }
+
+    /// <summary>Theorem H's lemma against the Liouvillian, on the eight broken rows: H scaled to J·H with J = j/max|c|,
+    /// j = 0.08, 0.04, 0.02, rates drawn in [0.5, 1.5]. The 2^N eigenvalues of L within 0.5 of 0 (in the blocks |x⟩⟨y|
+    /// with x, y in one coset of the flip sets' span) and within 0.5 of −2σ (in the blocks holding the far cells |x⟩⟨x̄|),
+    /// each sorted by its real part, against −J²·spec(𝓛) and −2σ + J²·spec(𝓜), 𝓛 and 𝓜 built from H's entries
+    /// (<see cref="StrongDephasingEdges"/>); the clusters must hold exactly 2^N eigenvalues each. The deviation over J²
+    /// is O(J) by the expansion and is gated to fall at least linearly from one J to the next; measured, it falls as J on
+    /// XIY + XZX on the ring of six, where third-order terms move its levels, and as J² on the other seven. The second-order spectra
+    /// differ on every row (the break at that order), and their kernels are Theorem 2's two counts. Where no component of
+    /// Γ is good, the far edge's nearest eigenvalue d(J) = min |λ + 2σ| is J²·λ_min(𝓜) to a remainder r(J) = d/J² − λ_min
+    /// whose fall is measured, not proven: the ratio r(J)/r(J/2) gated near 4, J² (a remainder linear in J would read 2);
+    /// and λ_min against the page's closed forms, the weighted code distance on the rows with one string per flip set and,
+    /// on XZ + ZY on the chain of four with |c| equal, the two end squares q(1/γ₀, 2/γ₁) + q(1/γ₃, 2/γ₂),
+    /// q(u, v) = u + v − √(u² + v²). Where some component is good (X·(X + Y)·X on the ring of six) λ_min(𝓜) = 0 and the far
+    /// edge keeps eigenvalues at −2σ, while the clusters still differ. The eigensolver's part, n·eps·‖L‖/J² (n = 4^N),
+    /// lies two orders below every deviation it is read against.</summary>
+    [Fact]
+    public void AtStrongDephasingTheTwoEdgesAreTheSecondOrderGenerators()
+    {
+        var rng = new Random(20261113);
+        double eps = Math.Pow(2, -52);
+        int dRows = 0, partialRows = 0, codeRows = 0, endRows = 0;
+        var devRatios = new List<(string Row, double Ratio)>();
+        var rRatios = new List<double>();
+        var linear = new List<string>();
+        foreach (var row in Rows.Where(r => r.Page == false))
+        {
+            int n = row.N, dim = 1 << n, full = dim - 1;
+            var placed = Place(row).Select(s => (new PauliMask(s.X, s.Z), (BigInteger)(s.C * (row.RandomMagnitudes ? rng.Next(1, 10) : 1)))).ToList();
+            var columns = ComplementConnectionGraph.Columns(n, placed);
+            var gamma = Enumerable.Range(0, n).Select(_ => 0.5 + rng.NextDouble()).ToArray();
+            double sigma = gamma.Sum(), maxC = placed.Max(p => (double)BigInteger.Abs(p.Item2));
+            var (nearOp, farOp) = StrongDephasingEdges.Build(n, columns, gamma);
+            double[] Spec(ComplexMatrix m) => m.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian).EigenValues.Select(z => z.Real).OrderBy(v => v).ToArray();
+            var nu = Spec(nearOp);
+            var mu = Spec(farOp);
+            double bound = dim * eps * Math.Max(nu[^1], mu[^1]);
+            var (nearCount, farCount, _) = ComplementConnectionGraph.EverySiteDephased(n, columns);
+            Assert.True(nu[0] > -bound && mu[0] > -bound, $"{row.Name}: an eigenvalue of 𝓛 or 𝓜 below zero ({nu[0]:E2}, {mu[0]:E2})");
+            Assert.True(nu.Count(v => v < 1e-9 * nu[^1]) == nearCount && mu.Count(v => v < 1e-9 * mu[^1]) == farCount,
+                        $"{row.Name}: the kernels against Theorem 2's {nearCount}/{farCount}");
+            double secondOrderBreak = nu.Zip(mu, (x, y) => Math.Abs(x - y)).Max();
+            Assert.True(secondOrderBreak > 0.05, $"{row.Name}: the second-order spectra differ by {secondOrderBreak:E2} only");
+
+            double lam = mu[0];
+            if (farCount == 0)
+            {
+                dRows++;
+                Assert.True(lam > 0.05, $"{row.Name}: λ_min(𝓜) = {lam:E3} with no good component");
+                if (row.By is Reader.TheoremB or Reader.TheoremCD or Reader.TheoremG)
+                {
+                    double code = SignedMaskBalanceClaim.StrongDephasingBreak(
+                        placed.Select(p => new SignedMaskBalanceClaim.PlacedString(p.Item1.X, p.Item1.Z, (long)p.Item2)).ToList(), gamma);
+                    Assert.True(Math.Abs(lam - code) <= bound, $"{row.Name}: λ_min(𝓜) = {lam:R}, code distance {code:R}");
+                    codeRows++;
+                }
+                if (row.Name.StartsWith("XZ + ZY chain"))
+                {
+                    static double Q(double u, double v) => u + v - Math.Sqrt(u * u + v * v);
+                    double ends = Q(1 / gamma[0], 2 / gamma[1]) + Q(1 / gamma[3], 2 / gamma[2]);
+                    Assert.True(Math.Abs(lam - ends) <= bound, $"{row.Name}: λ_min(𝓜) = {lam:R}, the two end squares {ends:R}");
+                    endRows++;
+                }
+            }
+            else
+            {
+                partialRows++;
+                Assert.True(Math.Abs(lam) <= bound, $"{row.Name}: λ_min(𝓜) = {lam:E2} with {farCount} good components");
+            }
+
+            // H itself, the cosets of the flip sets' span, and the blocks holding the two edges
+            var H = ComplexMatrix.Build.Dense(dim, dim);
+            var flips = new List<int>();
+            for (int c = 0; c < dim; c++)
+                foreach (var (r, e) in columns[c])
+                {
+                    H[r, c] = new Complex((double)e.Re, (double)e.Im);
+                    if (r != c) flips.Add(r ^ c);
+                }
+            var basis = new List<int>();
+            foreach (int f in flips)
+            {
+                int v = f;
+                foreach (int b in basis) v = Math.Min(v, v ^ b);
+                if (v != 0) { basis.Add(v); basis.Sort((p, q) => q.CompareTo(p)); }
+            }
+            int Reduce(int v) { foreach (int b in basis) v = Math.Min(v, v ^ b); return v; }
+            var cosets = Enumerable.Range(0, dim).GroupBy(Reduce).ToDictionary(g => g.Key, g => g.ToArray());
+            // the block builder reads site l as bit N − 1 − l, the columns above site l as bit l: here the rates matter
+            var bySite = gamma.Reverse().ToArray();
+
+            var devs = new List<double>();
+            var rs = new List<double>();
+            foreach (double j in new[] { 0.08, 0.04, 0.02 })
+            {
+                double J = j / maxC, scale = 0;
+                var nearCluster = new List<Complex>();
+                var farCluster = new List<Complex>();
+                foreach (var a in cosets.Values)
+                {
+                    var partner = cosets[Reduce(a[0] ^ full)];
+                    // the block (a, a) holds the populations of a, the block (a, ā's coset) the far cells x ∈ a; where the two
+                    // cosets coincide it is one block, read once
+                    var bras = partner == a ? new[] { a } : new[] { a, partner };
+                    foreach (var bra in bras)
+                    {
+                        var flat = (from x in a from y in bra select x * dim + y).ToArray();
+                        foreach (var l in PerBlockLiouvillianBuilder.BuildBlockZ(J * H, bySite, flat).Evd().EigenValues)
+                        {
+                            scale = Math.Max(scale, l.Magnitude);
+                            if (bra == a && l.Magnitude < 0.5) nearCluster.Add(l);
+                            if (bra == partner && (l + 2 * sigma).Magnitude < 0.5) farCluster.Add(l);
+                        }
+                    }
+                }
+                Assert.True(nearCluster.Count == dim && farCluster.Count == dim, $"{row.Name} at j = {j}: clusters of {nearCluster.Count} and {farCluster.Count}, not {dim}");
+                var nearSorted = nearCluster.OrderByDescending(z => z.Real).ToArray();
+                var farSorted = farCluster.OrderBy(z => z.Real).ToArray();
+                double dev = 0;
+                for (int k = 0; k < dim; k++)
+                {
+                    dev = Math.Max(dev, (nearSorted[k] + J * J * nu[k]).Magnitude / (J * J));
+                    dev = Math.Max(dev, (farSorted[k] + 2 * sigma - J * J * mu[k]).Magnitude / (J * J));
+                }
+                double solver = dim * dim * eps * scale / (J * J);
+                Assert.True(solver < 1e-2 * dev, $"{row.Name} at j = {j}: the solver's part {solver:E2} against the deviation {dev:E2}");
+                devs.Add(dev);
+                if (farCount == 0)
+                {
+                    double r = farCluster.Min(l => (l + 2 * sigma).Magnitude) / (J * J) - lam;
+                    Assert.True(solver < 1e-2 * Math.Abs(r), $"{row.Name} at j = {j}: the solver's part {solver:E2} against r = {r:E2}");
+                    rs.Add(r);
+                }
+            }
+            if (devs[0] / devs[1] < 3 && devs[1] / devs[2] < 3) linear.Add(row.Name);
+            for (int k = 0; k < 2; k++)
+            {
+                double dr = devs[k] / devs[k + 1];
+                devRatios.Add((row.Name, dr));
+                Assert.True(dr > 1.8, $"{row.Name}: the clusters' deviation falls by {dr:F3} only (devs {string.Join(", ", devs.Select(x => x.ToString("E3")))})");
+                if (farCount != 0) continue;
+                double rr = rs[k] / rs[k + 1];
+                rRatios.Add(rr);
+                Assert.True(rr > 3.5 && rr < 4.5, $"{row.Name}: r(J)/r(J/2) = {rr:F4} (r = {string.Join(", ", rs.Select(x => x.ToString("E3")))})");
+            }
+        }
+        Assert.Equal((7, 1, 4, 1), (dRows, partialRows, codeRows, endRows));
+        Assert.Equal((16, 14), (devRatios.Count, rRatios.Count));
+        // measured: the clusters' deviation over J² falls as J² on seven rows and as J on one, where third-order terms move
+        // its levels; the far edge's nearest eigenvalue falls as J² beyond J²·λ_min on all seven rows that have one
+        Assert.Equal(new[] { "XIY + XZX ring (Corollary E2, 4 | N)" }, linear);
+        Assert.All(devRatios.Where(d => !linear.Contains(d.Row)), d => Assert.True(d.Ratio > 3.5 && d.Ratio < 4.5, $"{d.Row}: {d.Ratio:F3}"));
+    }
 }

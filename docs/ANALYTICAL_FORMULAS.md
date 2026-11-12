@@ -11793,7 +11793,7 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
 
 <a id="f173"></a>
-### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, any number from the least shifted degree of an unbalanced vector in a basis of the relations reduced for the widths (never if there is none), one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)), and two templates on the open patch break on one quadrant or on none, read off the gcd in GF(2)[x, y] (Tier 1 derived)
+### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, any number from the least shifted degree of an unbalanced vector in a basis of the relations reduced for the widths (never if there is none), one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)), and two templates on the open patch break on one quadrant or on none, read off the gcd in GF(2)[x, y]; at strong dephasing, with one string per flip set, the far edge misses −2σ by J² times twice the rate-weighted distance of the signs from the code of balanced signings (Tier 1 derived)
 
 **Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
 joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
@@ -11831,6 +11831,8 @@ window (Theorem G).
     ω = ±i, A the real strings of a flip set:  |g(x)|² = A(x)² + A(x̄)²,  g nowhere zero  ⟺  A(x) and A(x̄) never both zero
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
     two templates on the open L × M patch, g = gcd(m₁, m₂) in GF(2)[x, y], qᵢ = mᵢ/g, c = s₁·q₂(1, 1) + s₂·q₁(1, 1):  breaks  ⟺  c = 1, L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁) and M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁)    (Theorem G; XY across + XX/X: from 3 × 2)
+    strong dephasing, H → J·H, (ii) everywhere:  edges = −J²·spec 𝓛 and −2σ + J²·spec 𝓜 + O(J³),  𝓛_ba = −|H_ba|²/γ(a ⊕ b),  𝓜_ba = −H_ba·H_āb̄/γ(a ⊕ b),  dim ker = Theorem 2's two counts    (Theorem H's lemma)
+    one string per flip set:  min |λ + 2σ| = 2J²·min_φ Σ_(⟨φ, m_P⟩ ≠ s(P)) c_P²/γ(m_P) + O(J³)    (Theorem H; XY at one rate: J²c²/γ on every odd ring)
     the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
@@ -11860,7 +11862,11 @@ balance (a rearrangement), one template's against the exponents of its mask coar
 number per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner, the bound one doubling
 tighter, the sites of a cell merged) disagree. Theorem G in the same battery: against Theorem 2 on patches of 4 to 12 sites
 (2400 readings) and against the balance on every patch to 8 × 8 (833 280 readings), its row M = 1 against Theorem B; its two
-controls (no gcd, the threshold along x alone) disagree.
+controls (no gcd, the threshold along x alone) disagree. Theorem H in `SignedMaskBalanceWitness` at random rates: λ_min of the
+far edge's generator against the weighted code distance on 6912 readings (2768 broken at second order), the kernels of both
+generators against Theorem 2's counts on 10 408, the two end squares of XZ ± ZY on the chain of four to seven on 80, and
+two controls, the code distance with the rates read away and in reverse site order, missing on all 2768 and on 1028; beside it the eight broken Liouvillian rows follow J² times the two spectra as J falls, and on the seven with no good
+component the nearest far eigenvalue's distance from −2σ reaches J²·λ_min with a remainder falling as J⁴.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).
