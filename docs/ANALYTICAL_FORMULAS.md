@@ -11833,6 +11833,8 @@ window (Theorem G).
     two templates on the open L × M patch, g = gcd(m₁, m₂) in GF(2)[x, y], qᵢ = mᵢ/g, c = s₁·q₂(1, 1) + s₂·q₁(1, 1):  breaks  ⟺  c = 1, L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁) and M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁)    (Theorem G; XY across + XX/X: from 3 × 2)
     strong dephasing, H → J·H, (ii) everywhere:  edges = −J²·spec 𝓛 and −2σ + J²·spec 𝓜 + O(J³),  𝓛_ba = −|H_ba|²/γ(a ⊕ b),  𝓜_ba = −H_ba·H_āb̄/γ(a ⊕ b),  dim ker = Theorem 2's two counts    (Theorem H's lemma)
     one string per flip set:  min |λ + 2σ| = 2J²·min_φ Σ_(⟨φ, m_P⟩ ≠ s(P)) c_P²/γ(m_P) + O(J³)    (Theorem H; XY at one rate: J²c²/γ on every odd ring)
+    beside co-axial damping σ⁻_l at κ_l, the Z dephasing kept:  Theorem 2's far kernel an eigenspace at −2σ − Σκ_l/2 exactly;
+        far edge −2σ − Σκ_l/2 + J²·(spec 𝓜 + O(‖𝓜‖κ/γ)) + O(J³)    (Theorem H beside amplitude damping)
     the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
@@ -11866,7 +11868,10 @@ controls (no gcd, the threshold along x alone) disagree. Theorem H in `SignedMas
 far edge's generator against the weighted code distance on 6912 readings (2768 broken at second order), the kernels of both
 generators against Theorem 2's counts on 10 408, the two end squares of XZ ± ZY on the chain of four to seven on 80, and
 two controls, the code distance with the rates read away and in reverse site order, missing on all 2768 and on 1028; beside it the eight broken Liouvillian rows follow J² times the two spectra as J falls, and on the seven with no good
-component the nearest far eigenvalue's distance from −2σ reaches J²·λ_min with a remainder falling as J⁴.
+component the nearest far eigenvalue's distance from −2σ reaches J²·λ_min with a remainder falling as J⁴; beside co-axial
+damping the damping acts on the far cells as −Σκ_l/2 entry by entry, twelve rows hold Theorem 2's far count at −2σ − Σκ_l/2
+and none at −2σ, and on five the remainder keeps its J⁴ fall at κ = J²·u read against the shifted line and loses it read
+against −2σ.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).

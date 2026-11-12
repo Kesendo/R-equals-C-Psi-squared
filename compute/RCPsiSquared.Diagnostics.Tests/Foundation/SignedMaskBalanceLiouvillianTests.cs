@@ -391,4 +391,203 @@ public class SignedMaskBalanceLiouvillianTests
         Assert.Equal(new[] { "XIY + XZX ring (Corollary E2, 4 | N)" }, linear);
         Assert.All(devRatios.Where(d => !linear.Contains(d.Row)), d => Assert.True(d.Ratio > 3.5 && d.Ratio < 4.5, $"{d.Row}: {d.Ratio:F3}"));
     }
+
+    /// <summary>Theorem H beside amplitude damping on the same axis: jumps σ⁻_l = |x ⊕ e_l⟩⟨x| where bit l of x is set, at
+    /// rates κ_l, beside the Z dephasing. The cells |x⟩⟨y| with x ⊕ y in the coset of the all-ones string modulo
+    /// W (the flip sets' span) are invariant under H, the dephasing and the jumps (a jump lowers bit l of x and of y
+    /// together), and they hold the far cells; that block is built here directly (`FarBlock`) and, at N = 4, checked
+    /// against the dense <see cref="RCPsiSquared.Core.Lindblad.LindbladianBuilder"/>: each of its eigenvalues lies in the
+    /// whole spectrum, and its count at the shifted line equals the block's. On every row whose block has at most 1024 cells, one
+    /// exact reading and then two more. The exact one: the damping alone (J = 0, no dephasing) at dyadic rates has on every far column
+    /// the single entry −Σκ_l/2 on the diagonal and no entry into a far row from elsewhere, compared with ==. Exact, at J = 1/max|c| and κ_l
+    /// drawn in [0.2, 0.8]: the far kernel of the undamped L (Theorem 2's good components) lies in the far span with
+    /// L_H v = 0, and the damping acts on the far span as −Σκ_l/2 and maps nothing into it, so exactly as many eigenvalues
+    /// as Theorem 2's far count sit at −2σ − Σκ_l/2 (within 10⁻⁸ of the block's largest eigenvalue modulus, every other
+    /// eigenvalue more than 10⁻³·σ away),
+    /// and none at the undamped line −2σ (the control); and the undamped kernel itself, read off an SVD, has Theorem 2's
+    /// dimension (its singular values below 10⁻¹³·‖block‖, the next above 10⁻⁶·‖block‖) and each of its vectors is a
+    /// right and a left eigenvector of the damped block at −2σ − Σκ_l/2 within cells·eps·‖block‖. At strong dephasing, on the rows where no component is good, with
+    /// κ_l = J²·u_l, u_l drawn in [0.5, 1.5]: the far edge's nearest eigenvalue d(J) = min |λ + 2σ + Σκ_l/2| is
+    /// J²·λ_min(𝓜) to a remainder r(J) = d/J² − λ_min, the damping moving d by J²·O(κ/γ) = O(J⁴) and r by O(J²); its ratio
+    /// r(J)/r(J/2) gated near 4 as without damping, and the same remainder read against −2σ, which carries Σu_l/2 at
+    /// every J, must miss that window (the control); the solver's part cells·eps·‖block‖/J² below 10⁻² of r; and the
+    /// whole far cluster, sorted by its real part, against the shifted line plus J²·spec(𝓜), its deviation over J² gated
+    /// to fall by more than 1.9 per halving of J.</summary>
+    [Fact]
+    public void BesideAmplitudeDampingTheFarEdgeKeepsItsReading()
+    {
+        var rng = new Random(20261114);
+        int exactRows = 0, lawRows = 0, crossChecked = 0, skipped = 0;
+        var rRatios = new List<double>();
+        var controlRatios = new List<double>();
+        var devRatios = new List<double>();
+        double minGap = double.PositiveInfinity, residual = 0;
+        foreach (var row in Rows)
+        {
+            int n = row.N, dim = 1 << n, full = dim - 1;
+            var placed = Place(row).Select(s => (new PauliMask(s.X, s.Z), (BigInteger)(s.C * (row.RandomMagnitudes ? rng.Next(1, 10) : 1)))).ToList();
+            var columns = ComplementConnectionGraph.Columns(n, placed);
+            var (_, farCount, _) = ComplementConnectionGraph.EverySiteDephased(n, columns);
+            var basis = new List<int>();
+            for (int c = 0; c < dim; c++)
+                foreach (var (r, _) in columns[c])
+                {
+                    int v = r ^ c;
+                    foreach (int b in basis) v = Math.Min(v, v ^ b);
+                    if (v != 0) { basis.Add(v); basis.Sort((p, q) => q.CompareTo(p)); }
+                }
+            var span = new List<int> { 0 };
+            foreach (int b in basis) span = span.Concat(span.Select(v => v ^ b)).ToList();
+            int cells = dim * span.Count;
+            if (cells > 1024) { skipped++; continue; }
+            var gamma = Enumerable.Range(0, n).Select(_ => 0.5 + rng.NextDouble()).ToArray();
+            double sigma = gamma.Sum(), maxC = placed.Max(p => (double)BigInteger.Abs(p.Item2));
+
+            var index = new Dictionary<(int, int), int>();
+            for (int x = 0; x < dim; x++)
+                foreach (int w in span) index[(x, x ^ full ^ w)] = index.Count;
+            ComplexMatrix FarBlock(double J, double[] kappa, double[]? rates = null)
+            {
+                var m = ComplexMatrix.Build.Dense(cells, cells);
+                foreach (var ((x, y), k) in index)
+                {
+                    // −iJ(Hρ − ρH) on ρ = |x⟩⟨y|: H|x⟩ = Σ_r H_rx |r⟩, ⟨y|H = Σ_s conj(H_sy) ⟨s|
+                    foreach (var (r, e) in columns[x]) m[index[(r, y)], k] += -Complex.ImaginaryOne * J * new Complex((double)e.Re, (double)e.Im);
+                    foreach (var (s, e) in columns[y]) m[index[(x, s)], k] += Complex.ImaginaryOne * J * new Complex((double)e.Re, -(double)e.Im);
+                    double diag = 0;
+                    for (int l = 0; l < n; l++)
+                    {
+                        int bx = (x >> l) & 1, by = (y >> l) & 1;
+                        if (bx != by) diag -= 2 * (rates ?? gamma)[l];
+                        diag -= 0.5 * kappa[l] * (bx + by);
+                        if (bx == 1 && by == 1) m[index[(x ^ (1 << l), y ^ (1 << l))], k] += kappa[l];
+                    }
+                    m[k, k] += diag;
+                }
+                return m;
+            }
+
+            // exact, entry by entry: the damping alone (no H, no dephasing), at dyadic rates so that the sum is exact, acts on
+            // each far cell as −Σκ/2 and has no entry from or into a far cell elsewhere
+            var dyadic = Enumerable.Range(0, n).Select(_ => rng.Next(2, 9) / 8.0).ToArray();
+            var damping = FarBlock(0, dyadic, new double[n]);
+            double half = -dyadic.Sum() / 2;
+            foreach (var ((x, y), k) in index)
+            {
+                if (y != (x ^ full)) continue;
+                for (int i = 0; i < cells; i++)
+                {
+                    Assert.True(damping[i, k] == (i == k ? half : 0.0), $"{row.Name}: the damping's entry ({i}, {k}) on a far column is {damping[i, k]}");
+                    Assert.True(i == k || damping[k, i] == 0.0, $"{row.Name}: the damping's entry ({k}, {i}) into a far cell is {damping[k, i]}");
+                }
+            }
+
+            // the far kernel survives the damping, moved to −2σ − Σκ/2
+            var kappaA = Enumerable.Range(0, n).Select(_ => 0.2 + 0.6 * rng.NextDouble()).ToArray();
+            double refA = -2 * sigma - kappaA.Sum() / 2;
+            var blockA = FarBlock(1 / maxC, kappaA);
+            var eA = blockA.Evd().EigenValues.ToArray();
+            double tolA = 1e-8 * eA.Max(l => l.Magnitude);
+            int atRef = eA.Count(l => (l - refA).Magnitude < tolA), atUndamped = eA.Count(l => (l + 2 * sigma).Magnitude < tolA);
+            double gap = eA.Where(l => (l - refA).Magnitude >= tolA).Min(l => (l - refA).Magnitude);
+            minGap = Math.Min(minGap, gap / sigma);
+            Assert.True(atRef == farCount, $"{row.Name} at N = {n}: {atRef} eigenvalues at −2σ − Σκ/2, Theorem 2's far count {farCount}");
+            Assert.True(atUndamped == 0, $"{row.Name} at N = {n}: {atUndamped} eigenvalues at the undamped line");
+            Assert.True(gap > 1e-3 * sigma, $"{row.Name} at N = {n}: an eigenvalue {gap:E2} from −2σ − Σκ/2");
+            // the undamped far kernel itself, from an SVD of the undamped block plus 2σ: each of its vectors a right and a
+            // left eigenvector of the damped block at −2σ − Σκ/2 (the cells are orthonormal, so L† is the conjugate transpose)
+            var shiftedUndamped = FarBlock(1 / maxC, new double[n]) + 2 * sigma * ComplexMatrix.Build.DenseIdentity(cells);
+            var svd = shiftedUndamped.Svd(true);
+            double normA = blockA.L2Norm();
+            var kernel = Enumerable.Range(0, cells).Where(i => svd.S[i].Magnitude < 1e-9 * normA)
+                                   .Select(i => svd.VT.Row(i).Conjugate()).ToList();
+            Assert.True(kernel.Count == farCount, $"{row.Name} at N = {n}: an undamped far kernel of {kernel.Count}, Theorem 2's {farCount}");
+            // the threshold separated on both sides: the kernel's singular values far below it, the next far above
+            var singular = svd.S.Select(z => z.Magnitude / normA).OrderBy(z => z).ToArray();
+            if (farCount > 0) Assert.True(singular[farCount - 1] < 1e-13, $"{row.Name}: a kernel singular value {singular[farCount - 1]:E2}");
+            Assert.True(singular[farCount] > 1e-6, $"{row.Name}: the next singular value {singular[farCount]:E2}");
+            var shiftedA = blockA - refA * ComplexMatrix.Build.DenseIdentity(cells);
+            foreach (var v in kernel)
+            {
+                double right = (shiftedA * v).L2Norm(), left = (shiftedA.ConjugateTranspose() * v).L2Norm();
+                residual = Math.Max(residual, Math.Max(right, left) / (cells * Math.Pow(2, -52) * normA));
+            }
+            exactRows++;
+
+            if (n == 4)
+            {
+                // the block against the dense generator, the same H, rates and jumps
+                var Hd = ComplexMatrix.Build.Dense(dim, dim);
+                for (int c = 0; c < dim; c++)
+                    foreach (var (r, e) in columns[c]) Hd[r, c] = new Complex((double)e.Re, (double)e.Im) / maxC;
+                var ops = new List<ComplexMatrix>();
+                for (int l = 0; l < n; l++)
+                {
+                    var z = ComplexMatrix.Build.Dense(dim, dim);
+                    var down = ComplexMatrix.Build.Dense(dim, dim);
+                    for (int x = 0; x < dim; x++)
+                    {
+                        z[x, x] = Math.Sqrt(gamma[l]) * (((x >> l) & 1) == 0 ? 1 : -1);
+                        if (((x >> l) & 1) == 1) down[x ^ (1 << l), x] = Math.Sqrt(kappaA[l]);
+                    }
+                    ops.Add(z);
+                    ops.Add(down);
+                }
+                var dense = RCPsiSquared.Core.Lindblad.LindbladianBuilder.Build(Hd, ops).Evd().EigenValues.ToArray();
+                Assert.All(eA, l => Assert.True(dense.Min(d => (d - l).Magnitude) < tolA, $"{row.Name}: block eigenvalue {l} not in the dense spectrum"));
+                Assert.True(dense.Count(d => (d - refA).Magnitude < tolA) == atRef, $"{row.Name}: the dense spectrum's count at −2σ − Σκ/2 against the block's {atRef}");
+                crossChecked++;
+            }
+
+            if (farCount != 0) continue;
+            // strong dephasing, κ = J²·u: the remainder beyond J²·λ_min(𝓜) against the shifted line, and against −2σ
+            var mu = StrongDephasingEdges.Build(n, columns, gamma).Far.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian)
+                                         .EigenValues.Select(z => z.Real).OrderBy(v => v).ToArray();
+            double lam = mu[0];
+            var u = Enumerable.Range(0, n).Select(_ => 0.5 + rng.NextDouble()).ToArray();
+            var rs = new List<double>();
+            var controls = new List<double>();
+            var devs = new List<double>();
+            foreach (double j in new[] { 0.08, 0.04, 0.02 })
+            {
+                double J = j / maxC;
+                var kappa = u.Select(x => J * J * x).ToArray();
+                double shifted = -2 * sigma - kappa.Sum() / 2;
+                var all = FarBlock(J, kappa).Evd().EigenValues.ToArray();
+                var cluster = all.Where(l => (l - shifted).Magnitude < 0.5).ToArray();
+                Assert.True(cluster.Length == dim, $"{row.Name} at j = {j}: a far cluster of {cluster.Length}, not {dim}");
+                // the whole cluster, sorted by its real part, against the shifted line plus J²·spec(𝓜)
+                var sorted = cluster.OrderBy(z => z.Real).ToArray();
+                devs.Add(Enumerable.Range(0, dim).Max(k => (sorted[k] - shifted - J * J * mu[k]).Magnitude) / (J * J));
+                double solver = cells * Math.Pow(2, -52) * all.Max(l => l.Magnitude) / (J * J);
+                rs.Add(cluster.Min(l => (l - shifted).Magnitude) / (J * J) - lam);
+                Assert.True(solver < 1e-2 * Math.Abs(rs[^1]), $"{row.Name} at j = {j}: the solver's part {solver:E2} against r = {rs[^1]:E2}");
+                controls.Add(cluster.Min(l => (l + 2 * sigma).Magnitude) / (J * J) - lam);
+            }
+            for (int k = 0; k < 2; k++)
+            {
+                double rr = rs[k] / rs[k + 1], cr = controls[k] / controls[k + 1];
+                rRatios.Add(rr);
+                controlRatios.Add(cr);
+                Assert.True(rr > 3.5 && rr < 4.5, $"{row.Name}: r(J)/r(J/2) = {rr:F4} beside the damping (r = {string.Join(", ", rs.Select(x => x.ToString("E3")))})");
+                Assert.True(cr < 3.5 || cr > 4.5, $"{row.Name}: read against −2σ the remainder still falls as J² ({cr:F4})");
+                double dr = devs[k] / devs[k + 1];
+                devRatios.Add(dr);
+                Assert.True(dr > 1.9, $"{row.Name}: the cluster's deviation falls by {dr:F3} only");
+            }
+            lawRows++;
+        }
+        // measured, quoted on the page: twelve rows read (six blocks above 1024 cells left out), five of them broken with no
+        // good component, four at N = 4 against the dense generator; the nearest other eigenvalue 2.87·10⁻³·σ from the
+        // shifted line at the least, r(J)/r(J/2) between 3.94 and 4.02, the control between 1.00 and 1.07, the cluster's
+        // deviation falling by 2.0 to 4.2 per halving; the kernel vectors' residuals as right and left eigenvectors, over
+        // cells·eps·‖block‖, 0.05 at the worst
+        Assert.True(residual < 1, $"a far-kernel vector misses −2σ − Σκ/2 by {residual:F3} of cells·eps·‖block‖");
+        Assert.Equal((12, 5, 4, 6), (exactRows, lawRows, crossChecked, skipped));
+        Assert.Equal((10, 10), (rRatios.Count, controlRatios.Count));
+        Assert.All(controlRatios, c => Assert.True(c < 1.5, $"control {c:F4}"));
+        Assert.True(minGap > 2.5e-3, $"the nearest other eigenvalue {minGap:E3}·σ from the shifted line");
+        Assert.All(rRatios, r => Assert.True(r > 3.9 && r < 4.1, $"r ratio {r:F4}"));
+        Assert.Equal(10, devRatios.Count);
+    }
 }
