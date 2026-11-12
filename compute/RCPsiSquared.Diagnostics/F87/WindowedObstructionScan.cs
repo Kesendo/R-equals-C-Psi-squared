@@ -199,7 +199,9 @@ public static class WindowedObstructionScan
     /// for p1 = 0 (term 1 diagonal) the formula reduces to B = q1, the single-site-Z lift channel
     /// (production ⟺ q1 monomial), and symmetrically to q2 for p2 = 0; the fully diagonal pair
     /// p1 = p2 = 0 has no syzygy and throws (the Python anchor's syzygy_B returns None there), its
-    /// deg-1 question being the q-monomial lift reading directly.</summary>
+    /// deg-1 question being the q-monomial lift reading directly. B(1), q(1) being the sign (#Y + #Z) mod 2, is
+    /// the c of F173's Theorem B (<see cref="RCPsiSquared.Core.Symmetry.SignedMaskBalanceClaim.Chain(string, string)"/>),
+    /// pinned on every pair of two-site and window templates in SignedMaskBalanceWitnessTests.</summary>
     public static ulong SyzygyB(ulong p1, ulong q1, ulong p2, ulong q2)
     {
         if (p1 == 0 && p2 == 0)

@@ -739,7 +739,9 @@ by (a, b) = (p₂/g, p₁/g). The catch is that the physically-relevant invarian
 The code's free distance (minimum weight at any parity) is a constant 4 for the whole extremal family;
 what the palindrome reads is the parity-restricted floor, the minimum ODD weight, which grows as 2k − 3.
 That distinction is the point: standard coding optimizes free distance, the mirror optimizes the
-odd-weight floor.
+odd-weight floor. With signs of both kinds and any number t of templates on the open chain, the relations form such a
+code of rate (t − 1)/t, and [PROOF_SIGNED_MASK_BALANCE](PROOF_SIGNED_MASK_BALANCE.md) reads the palindrome off its
+minimal encoder for degrees shifted by the template widths (Theorem B′).
 
 **The honest ledger.** This is mostly a faithful relabeling that supplies the correct vocabulary, plus
 one genuine import. The vocabulary is right (two-generator quasi-cyclic / convolutional, and MacWilliams

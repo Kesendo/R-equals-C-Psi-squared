@@ -5917,3 +5917,14 @@ PROOF_SIGNED_MASK_BALANCE said "(aX + bY)⊗(cX + dY), four strings on one flip 
 - **The proof line:** Corollary E2's proof used hol(u)² = 1 with hol(u) = ±1 shown only in Corollary E3's proof, after it (h | R makes the read sums zero, so the argument applies); the outside reading pass found it. The line now stands in E2, and E3 points back to it.
 - **In the repair, a sweep sentence said nothing where something stood:** the new sweep line said the typed layer's spectral authority read "no F173 cell" and that no test had read one on the Liouvillian. PalindromeDecideAtNTests reads every pair of two-body templates at N = 4, F173 cells among them (XX + XZ), and the diagonal-cell three-body pairs, F173's all-negative face; what was new was narrower (the ring, non-uniform rates, the rows of Theorems C, D and E2). A third fresh review found it by opening the file the sentence named.
 - **Anchor:** docs/proofs/PROOF_SIGNED_MASK_BALANCE.md (Theorem E, Corollaries E2 and E3, Open, the Stage 0 sweep record), compute/RCPsiSquared.Diagnostics.Tests/Foundation/SignedMaskBalanceWitnessTests.cs.
+
+## 2026-11-12, Theorem B′ typed: three review rounds, the errors in the writing
+
+Theorem B′ (any number of templates on the open chain) held from the first draft, by the scout and by every reviewer's own derivation; what the rounds caught was in the sentences and gates around it.
+
+- **A sweep that listed what it read and called it what the repo holds, the second time the same day.** The first sweep sentence named the girth ladder's syzygy and F146's Gram syzygies; a round found F103 §7.7 and §7.8, which read the two-template relations as a convolutional code (the theory the proof's minimal bases come from), and F115_OBSTRUCTION_DISTRIBUTION; the next round found three committed scripts and the same code in the F87 entry, and a gloss ("its generator of minimal degree") that no source carries.
+- **An elided verb inverted a fact.** "Each of its three pairs pairs at N = 3: … XZ + XXX from N* = 4" reads as pairing from 4, where it breaks from 4.
+- **A gate that could not fail.** The witness re-checked distinct pivots by the definition the reduction stops on; it now reads the rank of the leading coefficient matrix, which the unreduced basis misses on 473 of 600 cells.
+- **A reading range that left a hole.** The family read from the widest template up, where a wrong N* below it could not show (XX + XZ + XXX + XIIY, N* = 3, widest 4); from N = 1 the unreduced control caught one more cell.
+- **A letter reused.** The back-reference added to F103 §7.8 wrote the rate as (k − 1)/k where k is that section's window width.
+- **Anchor:** docs/proofs/PROOF_SIGNED_MASK_BALANCE.md (Theorem B′, the Stage 0 sweep record), docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md, docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md, compute/RCPsiSquared.Diagnostics/Foundation/SignedMaskBalanceWitness.cs.

@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
+using RCPsiSquared.Diagnostics.F87;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
-/// walked on the bitstrings (Theorem D also against the balance, to N = 32), on every family the witness reads, and the
-/// twelve controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
+/// walked on the bitstrings (Theorems D and B′ also against the balance), on every family the witness reads, and the
+/// thirteen controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
 /// with i₀ at the greatest valuation, Theorem E's conditions each dropped, the tests of Corollaries E2 and E3 each
-/// dropped) disagree, so the battery can fail.</summary>
+/// dropped, Theorem B′ read off the unreduced basis) disagree, so the battery can fail.</summary>
 public class SignedMaskBalanceWitnessTests
 {
     [Fact]
@@ -21,8 +23,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (428, 3936), (16, 128), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (21, 21) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (648, 648), (428, 3936), (16, 128), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (23, 23) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -32,6 +34,7 @@ public class SignedMaskBalanceWitnessTests
                 [SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus] = 400,
             }, w.E3Branches);
         Assert.Equal((464, 576), (w.DroppedReadSumMismatches, w.DroppedE3OrderingMismatches));
+        Assert.Equal((301, 468, 473), (w.UnreducedBasisMismatches, w.BPrimeBreaking, w.UnreducedBasisDeficient));                       // measured
     }
 
     // The readings themselves, by hand: the page's worked examples.
@@ -42,6 +45,10 @@ public class SignedMaskBalanceWitnessTests
         Assert.Equal((true, (int?)5), SignedMaskBalanceClaim.Chain("XIY", "XXX"));
         Assert.Equal((true, (int?)4), SignedMaskBalanceClaim.Chain("XIY", "XXZ"));
         Assert.Equal((false, (int?)null), SignedMaskBalanceClaim.Chain("XIX", "XXX"));
+        Assert.Equal((true, (int?)3), SignedMaskBalanceClaim.Chain(new[] { "XX", "XZ", "XXX" }));                  // the triangle {1,2} ⊕ {0} = {0,1,2}
+        Assert.Equal((true, (int?)5), SignedMaskBalanceClaim.Chain(new[] { "XIY", "XXX" }));                       // Theorem B′ at two templates is Theorem B
+        Assert.Equal((false, (int?)null), SignedMaskBalanceClaim.Chain(new[] { "XY" }));                           // one template: no relation
+        Assert.Equal(new ulong[] { 0b10, 0b11, 1 }, SignedMaskBalanceClaim.ChainRelationBasis(new[] { "XX", "XZ", "XIY" }).Single(b => b[2] != 0));   // (x, 1 + x, 1)
         Assert.True(SignedMaskBalanceClaim.RingBreaks("XY", 5));
         Assert.False(SignedMaskBalanceClaim.RingBreaks("XY", 6));
         Assert.True(SignedMaskBalanceClaim.RingBreaks("XIY", 6));
@@ -62,6 +69,35 @@ public class SignedMaskBalanceWitnessTests
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.OnChain(new[] { "XX", "XY" }, 3).ToList());
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.RingBreaks(System.Array.Empty<string>(), 8));
         Assert.Throws<System.ArgumentOutOfRangeException>(() => SignedMaskBalanceClaim.OnRing(new[] { "XY" }, 65).ToList());
+    }
+
+    // Theorem B's c is the girth ladder's syzygy polynomial B = q₂·Q₁ + q₁·Q₂ (Q the Y/Z mask) read at x = 1, since
+    // Q(1) is the sign: on every pair of different shapes among the two-site and window templates.
+    [Fact]
+    public void TheoremBsCIsTheGirthLaddersSyzygyAtOne()
+    {
+        var templates = (from a in "XYZ" from b in "XYZ" select $"{a}{b}")
+            .Concat(from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}")
+            .Where(t => SignedMaskBalanceClaim.Mask(t) != 0).ToList();
+        static (ulong P, ulong Q) Masks(string t)
+        {
+            var (p, q, _) = WindowedObstructionScan.TemplateMasks(t.Select(PauliLetterExtensions.FromSymbol).ToArray());
+            return (p, q);
+        }
+        int pairs = 0, odd = 0;
+        for (int i = 0; i < templates.Count; i++)
+            for (int j = i + 1; j < templates.Count; j++)
+            {
+                ulong ma = SignedMaskBalanceClaim.Mask(templates[i]), mb = SignedMaskBalanceClaim.Mask(templates[j]);
+                if (ma >> BitOperations.TrailingZeroCount(ma) == mb >> BitOperations.TrailingZeroCount(mb)) continue;
+                var (p1, q1) = Masks(templates[i]);
+                var (p2, q2) = Masks(templates[j]);
+                bool atOne = (BitOperations.PopCount(WindowedObstructionScan.SyzygyB(p1, q1, p2, q2)) & 1) == 1;
+                Assert.True(SignedMaskBalanceClaim.Chain(templates[i], templates[j]).Breaks == atOne, $"{templates[i]} + {templates[j]}");
+                pairs++;
+                if (atOne) odd++;
+            }
+        Assert.Equal((648, 324), (pairs, odd));                                                              // measured
     }
 
     // Theorem E by hand: the read sets of two-string flip sets and the branches of Corollary E2.

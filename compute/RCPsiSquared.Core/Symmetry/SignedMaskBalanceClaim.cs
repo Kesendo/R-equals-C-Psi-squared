@@ -16,7 +16,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// masks m₁, m₂ of different shapes, g = gcd(m₁, m₂), qᵢ = mᵢ/g: every relation is r·(q₂, q₁), its negative count
 /// r(1)·c with c = s₁·q₂(1) + s₂·q₁(1) mod 2, so c = 0 pairs at every N and c = 1 pairs exactly below
 /// N* = max(w₁ + deg q₂, w₂ + deg q₁) (Theorem B; both signs negative is F115's valuation criterion, N* its window
-/// floor). One template on the ring of N ≥ 2w − 1 sites breaks exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), the
+/// floor). Any number of templates on the chain: the relations are free of rank k − 1, and over a basis reduced for the
+/// widths (weak Popov form) the chain breaks exactly from the least shifted degree of an unbalanced basis vector
+/// (Theorem B′; c is the girth ladder's syzygy polynomial read at 1). One template on the ring of N ≥ 2w − 1 sites breaks exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), the
 /// valuation of x^N + 1 (Theorem C). Any number of templates of different shapes on the ring of N ≥ 2·max w − 1
 /// sites: the sign count of a relation is read at x = 1, which sees x^N + 1 only through its factor (1 + x)^T,
 /// T = 2^(v₂(N)); with v₀ the least valuation the ring breaks exactly when T ≤ v₀ and some sign is odd, or T &gt; v₀
@@ -37,7 +39,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Live witness: <c>inspect --root signedbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SignedMaskBalanceWitness.cs</c>), which holds the claim's readings
-/// (<see cref="Balanced"/>, <see cref="Chain"/>, <see cref="RingBreaks(IReadOnlyCollection{string}, int)"/>), pure GF(2) on
+/// (<see cref="Balanced"/>, <see cref="Chain(string, string)"/>, <see cref="Chain(IReadOnlyList{string}, bool)"/>,
+/// <see cref="RingBreaks(IReadOnlyCollection{string}, int)"/>), pure GF(2) on
 /// masks and signs, against <see cref="ComplementConnectionGraph"/>, Theorem 2 walked on the bitstrings with every entry a
 /// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
@@ -53,7 +56,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "Under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd " +
             "weight remains, the palindrome is the balance of the signed Cayley graph of the masks (each string signed by " +
             "(−1)^(#Y + #Z)); two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when " +
-            "s₁·q₂(1) + s₂·q₁(1) is odd, and never otherwise; on the ring the verdict reads N only through T = 2^(v₂(N)) and " +
+            "s₁·q₂(1) + s₂·q₁(1) is odd, and never otherwise, and any number of templates on the chain break exactly from the least " +
+            "shifted degree of an unbalanced vector in a basis of the relations reduced for the widths, and never if there is none; on the ring the verdict reads N only through T = 2^(v₂(N)) and " +
             "each mask only through its (1 + x)-valuation: one template breaks exactly when its sign is odd and v(m) ≥ T, " +
             "and with v₀ the least valuation the ring breaks exactly when T ≤ v₀ and some sign is odd, or T > v₀ and two " +
             "templates of valuation v₀ differ in sign or one of greater valuation has an odd sign; where a flip set carries several " +
@@ -117,6 +121,7 @@ public sealed class SignedMaskBalanceClaim : Claim
     static void DistinctShapes(IReadOnlyCollection<string> templates)
     {
         if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (templates.Any(t => t.Length > 64)) throw new ArgumentException("a template holds at most 64 letters");
         var shapes = templates.Select(Mask).ToList();
         if (shapes.Any(m => m == 0)) throw new ArgumentException("every template must flip something");
         if (shapes.Select(Shape).Distinct().Count() < shapes.Count)
@@ -146,6 +151,96 @@ public sealed class SignedMaskBalanceClaim : Claim
         int c = (Sign(t1) * AtOne(q2) + Sign(t2) * AtOne(q1)) % 2;
         if (c == 0) return (false, null);
         return (true, Math.Max(t1.Length + Deg(q2), t2.Length + Deg(q1)));
+    }
+
+    /// <summary>Theorem B′: any number of templates of different shapes on the open chain. A relation is a vector u of
+    /// polynomials with Σ uᵢ·mᵢ = 0, fitting at N exactly when its shifted degree max(deg uᵢ + wᵢ) is at most N, its
+    /// negative count λ(u) = Σ sᵢ·uᵢ(1). Over a width-shifted reduced basis b₁ … b_(k−1) of the relations (weak Popov
+    /// form) the shifted degree of Σ rⱼ·bⱼ is max(deg rⱼ + sdeg bⱼ), so the chain breaks exactly from
+    /// N* = min{sdeg bⱼ : λ(bⱼ) = 1} and never if every λ(bⱼ) = 0. With <paramref name="reduced"/> false the same reading
+    /// is taken off the unreduced basis, the control that must fail (it can read N* too large). Two templates give
+    /// Theorem B's N*.</summary>
+    public static (bool Breaks, int? From) Chain(IReadOnlyList<string> templates, bool reduced = true)
+    {
+        var widths = templates.Select(t => t.Length).ToArray();
+        var signs = templates.Select(Sign).ToArray();
+        int? from = null;
+        foreach (var b in ChainRelationBasis(templates, reduced))
+        {
+            int lambda = 0;
+            for (int i = 0; i < b.Length; i++) lambda ^= signs[i] & AtOne(b[i]);
+            if (lambda == 1) from = Math.Min(from ?? int.MaxValue, ShiftedDegree(b, widths).Degree);
+        }
+        return (from is not null, from);
+    }
+
+    /// <summary>A basis of the relations among the masks of the templates over GF(2)[x], k − 1 vectors (the masks are
+    /// nonzero, so the relations are free of rank k − 1): the columns of the unimodular matrix that the Euclidean
+    /// reduction of (m₁ … m_k) to its gcd leaves beside the gcd's column; with <paramref name="reduced"/> brought to weak
+    /// Popov form for the shift by the widths (no two vectors with the same pivot, the last position attaining the
+    /// shifted degree), which makes the basis reduced and the shifted degree predictable.</summary>
+    public static IReadOnlyList<ulong[]> ChainRelationBasis(IReadOnlyList<string> templates, bool reduced = true)
+    {
+        DistinctShapes(templates);
+        int k = templates.Count;
+        var widths = templates.Select(t => t.Length).ToArray();
+        var v = templates.Select(Mask).ToArray();
+        var columns = Enumerable.Range(0, k).Select(i => Enumerable.Range(0, k).Select(j => i == j ? 1UL : 0UL).ToArray()).ToArray();
+        while (v.Count(x => x != 0) > 1)
+        {
+            int j = Enumerable.Range(0, k).Where(i => v[i] != 0).OrderBy(i => Deg(v[i])).First();
+            for (int i = 0; i < k; i++)
+            {
+                if (i == j || v[i] == 0) continue;
+                var (q, r) = DivMod(v[i], v[j]);
+                v[i] = r;
+                for (int row = 0; row < k; row++) columns[i][row] ^= MulChecked(q, columns[j][row]);
+            }
+        }
+        int gcdAt = Array.FindIndex(v, x => x != 0);
+        var basis = Enumerable.Range(0, k).Where(i => i != gcdAt).Select(i => columns[i]).ToList();
+        if (!reduced) return basis;
+        while (true)
+        {
+            var read = basis.Select(b => ShiftedDegree(b, widths)).ToList();
+            (int A, int C) clash = (from a in Enumerable.Range(0, basis.Count) from c in Enumerable.Range(0, basis.Count)
+                                    where a < c && read[a].Pivot == read[c].Pivot select (a, c)).FirstOrDefault((-1, -1));
+            if (clash.A < 0) return basis;
+            var (hi, lo) = read[clash.A].Degree >= read[clash.C].Degree ? (clash.A, clash.C) : (clash.C, clash.A);
+            int shift = read[hi].Degree - read[lo].Degree;
+            basis[hi] = basis[hi].Zip(basis[lo], (x, y) => x ^ ShiftLeft(y, shift)).ToArray();
+        }
+    }
+
+    /// <summary>max(deg uᵢ + wᵢ) over the nonzero entries, and the last position attaining it.</summary>
+    static (int Degree, int Pivot) ShiftedDegree(ulong[] u, int[] widths)
+    {
+        int best = int.MinValue, pivot = -1;
+        for (int i = 0; i < u.Length; i++)
+            if (u[i] != 0 && Deg(u[i]) + widths[i] >= best) { best = Deg(u[i]) + widths[i]; pivot = i; }
+        return (best, pivot);
+    }
+
+    static ulong MulChecked(ulong a, ulong b)
+    {
+        if (a == 0 || b == 0) return 0;
+        if (Deg(a) + Deg(b) > 63) throw new OverflowException("a relation's entry passes degree 63");
+        ulong r = 0;
+        for (int j = 0; j <= Deg(b); j++) if (((b >> j) & 1) == 1) r ^= a << j;
+        return r;
+    }
+
+    static ulong ShiftLeft(ulong a, int s)
+    {
+        if (a != 0 && Deg(a) + s > 63) throw new OverflowException("a relation's entry passes degree 63");
+        return a << s;
+    }
+
+    static (ulong Q, ulong R) DivMod(ulong a, ulong b)
+    {
+        ulong q = 0;
+        while (a != 0 && Deg(a) >= Deg(b)) { int s = Deg(a) - Deg(b); q |= 1UL << s; a ^= b << s; }
+        return (q, a);
     }
 
     /// <summary>Theorem C: one template on the ring of n ≥ 2w − 1 sites breaks exactly when its sign is odd and the
@@ -820,6 +915,10 @@ public sealed class SignedMaskBalanceClaim : Claim
             yield return new InspectableNode("Theorem B, two templates on the chain",
                 summary: "relations r·(q₂, q₁), negative count r(1)·c; c = 0 pairs at every N, c = 1 pairs exactly below " +
                          "N* = max(w₁ + deg q₂, w₂ + deg q₁); both signs negative: c = 1 iff the (1 + x)-valuations differ (F115)");
+            yield return new InspectableNode("Theorem B′, any number of templates on the chain",
+                summary: "relations u with Σ uᵢmᵢ = 0, free of rank k − 1, fitting at N when max(deg uᵢ + wᵢ) ≤ N; over a basis in weak " +
+                         "Popov form for the widths the chain breaks exactly from the least shifted degree of an unbalanced basis vector, " +
+                         "never if none is unbalanced; k = 2 is Theorem B, its c the girth ladder's syzygy polynomial read at 1");
             yield return new InspectableNode("Theorem C, one template on the ring",
                 summary: "relations u·m ≡ 0 mod x^N + 1; unbalanced exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)): XY breaks at odd N, " +
                          "XIY unless 4 | N, XIIIY unless 8 | N");

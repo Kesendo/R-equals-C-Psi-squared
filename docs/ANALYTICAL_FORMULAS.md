@@ -11793,7 +11793,7 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
 
 <a id="f173"></a>
-### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)) (Tier 1 derived)
+### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, any number from the least shifted degree of an unbalanced vector in a basis of the relations reduced for the widths (never if there is none), one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)) (Tier 1 derived)
 
 **Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
 joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
@@ -11815,6 +11815,7 @@ along y, with X^⊗N·Z^φ commuting with H (Theorem F).
     palindrome  ⟺  ⊕_S masks = 0  ⟹  Σ_S s even,  for every subset S of the placed strings    (balance; broken ⟹ far end 0)
     two templates, g = gcd(m₁, m₂), qᵢ = mᵢ/g:  relations = r·(q₂, q₁),  negative count ≡ r(1)·(s₁q₂(1) + s₂q₁(1))
     chain:  c = 0 ⟹ pairs at every N;  c = 1 ⟹ pairs exactly for N < N* = max(w₁ + deg q₂, w₂ + deg q₁)
+    k templates on the chain, relations S = {u : Σ uᵢmᵢ = 0} free of rank k − 1, sdeg u = max(deg uᵢ + wᵢ), λ(u) = Σ sᵢuᵢ(1), b₁ … b_(k−1) a basis of S in weak Popov form for the shift by the widths:  pairs exactly for N < N* = min{sdeg bⱼ : λ(bⱼ) = 1}, at every N if no λ(bⱼ) = 1    (Theorem B′; c = B(1), B = q₂Q₁ + q₁Q₂ the girth ladder's syzygy polynomial, Q the Y/Z masks)
     s₁ = s₂ = 1:  c = 1  ⟺  v_(1+x)(m₁) ≠ v_(1+x)(m₂)    (F115 statement 1; N* its window floor)
     one template on the ring of N ≥ 2w − 1 sites:  broken  ⟺  s = 1 and v_(1+x)(m) ≥ 2^(v₂(N))    (XY: odd N; XIY: 4 ∤ N)
     any number of different shapes on the ring of N ≥ 2·max w − 1 sites, T = 2^(v₂(N)), v₀ = min vᵢ:  broken  ⟺  (T ≤ v₀, some s odd)  or  (T > v₀, two of valuation v₀ of different sign, or one of greater valuation with s odd)
@@ -11837,7 +11838,8 @@ rings against Theorem 2 and on 10560 against Theorem E's elimination to N = 40, 
 offset (768 readings), on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
 products (224 readings); twelve controls (the widths or the quotients swapped,
 2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
-E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree; beside the
+E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree, and Theorem B′ on 600 cells of three and four templates against the balance (9901 readings) and Theorem 2 to N = 8
+(4800), with its unreduced basis as a thirteenth control; beside the
 battery, fifteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
 two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the
@@ -11863,7 +11865,7 @@ and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of gr
 **Scope:** the open chain, the ring (N ≥ 2·max w − 1) and the torus (no two placements coinciding) with uniform templates; one string per flip set (the balance
 also with several strings of one sign whose entries never cancel; Theorems B to D and F need one string), or several with a
 character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside); Z dephasing on
-every site. Three or more templates on the chain are decided at each N by the balance, with no closed form here.
+every site. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.
 **Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over
 GF(2); and an end count per ring size for cells of one string per flip set, such as XY + ZZ, by valuations and the 2-adic
 valuation of N; and on the torus a balance over L·M placements per template by one over T₁·T₂ folded cells.
