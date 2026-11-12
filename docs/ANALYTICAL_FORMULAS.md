@@ -11824,6 +11824,9 @@ along y, with X^⊗N·Z^φ commuting with H (Theorem F).
     the ℤ/4 form, ω_m = i^(q_m), β(a, b) = ⟨R(a), b⟩ on W = span of the flip sets:  palindrome  ⟺  R linear on W and a refinement Q₀(a ⊕ b) = Q₀(a) + Q₀(b) + 2β(a, b) with Q₀(m) = q_m exists;  carrier X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
+    k flip shapes on the chain, (1) holding at N, ρ(u) = Σ uᵢRᵢ, bⱼ a reduced basis of the relations:  pairs  ⟺  N < min{sdeg bⱼ : ρ(bⱼ) ≠ 0, or ρ(bⱼ) = 0 and hol(bⱼ) = −1}    (Corollary E3′)
+    the long chain is the large ring:  B′ breaks for some N  ⟺  Theorem D breaks at T > v₀,  for any number of templates
+    ω = ±i, A the real strings of a flip set:  |g(x)|² = A(x)² + A(x̄)²,  g nowhere zero  ⟺  A(x) and A(x̄) never both zero
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
     the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
 
@@ -11843,7 +11846,10 @@ E2's read-set test or its ordering term dropped, E3's read-sum test or its order
 with the balance on 600 cells of three and four templates (9901 readings) and with Theorem 2 to N = 8 (4800), and its
 unreduced basis, a thirteenth control, disagrees on 301; Theorem E's ℤ/4 refinement exists exactly where Theorem 2 pairs on
 the 428 cells (3936 readings), its carrier satisfying (★) entry by entry, and without its coset term, a fourteenth control,
-the carrier fails on 192 of the 1784 paired readings; beside the
+the carrier fails on 192 of the 1784 paired readings; Corollary E3′ agrees with Corollary E3 branch for branch at two templates
+(2848 readings) and with Theorem 2 on 700 three-shape cells (4200), its two controls disagreeing on 4 and 6; whether B′
+breaks agrees with Theorem D on the ring of 64 on its 600 cells; and at odd q, |g|² = A(x)² + A(x̄)² holds exactly on
+546 solutions of the pairing equation, the real part's complementary zeros deciding where g vanishes (346 nowhere); beside the
 battery, fifteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
 two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the

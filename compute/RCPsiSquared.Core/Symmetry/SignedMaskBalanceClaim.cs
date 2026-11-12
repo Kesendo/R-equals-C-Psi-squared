@@ -27,7 +27,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// character, ω_m·(−1)^⟨R_m, x⟩, the palindrome holds exactly when ⟨R_a, b⟩ = ⟨R_b, a⟩ for every two flip sets, every
 /// relation has a vanishing read sum and hol = 1 on a basis of the relations (Theorem E); one flip shape on the ring is
 /// read through gcd(f, x^N + 1) (Corollary E2), and two on the chain through the read sum D = q₂R₁ + q₁R₂ and the
-/// holonomy of the relation r = 1 (Corollary E3). With one string per flip set on the L × M torus the verdict is read on the 2-part ℤ_T₁ × ℤ_T₂ of the
+/// holonomy of the relation r = 1 (Corollary E3), any number on the chain below the least shifted degree of a bad vector of
+/// a reduced basis of the relations, its read sum nonzero or its holonomy −1 (Corollary E3′, <see cref="ChainShapes"/>); whether the long chain breaks is Theorem D's
+/// verdict where T exceeds the least valuation, for any number of templates. With one string per flip set on the L × M torus the verdict is read on the 2-part ℤ_T₁ × ℤ_T₂ of the
 /// translations, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), every mask folded there: the torus pairs exactly when a colouring of
 /// period (T₁, T₂) exists, the signs a linear function of the folded masks modulo the differences of their translates
 /// (Theorem F); the pairing tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, one template's read off the
@@ -65,7 +67,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "and every relation u has ⊕ R_m = 0 and hol(u) = 1 (Theorem E), and one flip shape f on the ring of N ≥ 2w − 1 sites, " +
             "that condition holding, pairs exactly when h = gcd(f, x^N + 1) is 1, or divides R with 1 + x not dividing h or " +
             "hol((x^N + 1)/h) = 1, and two flip shapes on the chain, that condition holding, pair exactly below N* or where " +
-            "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1; with one string per flip set on the L × M torus the verdict " +
+            "D = q₂R₁ + q₁R₂ vanishes and the relation (q₂, q₁) has hol = 1, any number of flip shapes on the chain below the least shifted degree " +
+            "of a basis vector of the relations with a nonzero read sum or with hol = −1; with one string per flip set on the L × M torus the verdict " +
             "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
             "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F), and the pairing " +
             "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, bounded by the colength of the masks' ideal at x = y = 1 " +
@@ -182,9 +185,18 @@ public sealed class SignedMaskBalanceClaim : Claim
     public static IReadOnlyList<ulong[]> ChainRelationBasis(IReadOnlyList<string> templates, bool reduced = true)
     {
         DistinctShapes(templates);
-        int k = templates.Count;
         var widths = templates.Select(t => t.Length).ToArray();
-        var v = templates.Select(Mask).ToArray();
+        var basis = KernelBasis(templates.Select(Mask).ToArray());
+        return reduced ? ShiftedReduce(basis, widths) : basis;
+    }
+
+    // a basis of {u : Σ uᵢ·vᵢ = 0} over GF(2)[x] for a vector v with a nonzero entry: the Euclidean reduction of v to its
+    // gcd with the column operations recorded; the columns beside the gcd's span the kernel (the matrix is unimodular)
+    static List<ulong[]> KernelBasis(ulong[] v0)
+    {
+        int k = v0.Length;
+        var v = (ulong[])v0.Clone();
+        if (v.All(x => x == 0)) throw new ArgumentException("the vector needs a nonzero entry");
         var columns = Enumerable.Range(0, k).Select(i => Enumerable.Range(0, k).Select(j => i == j ? 1UL : 0UL).ToArray()).ToArray();
         while (v.Count(x => x != 0) > 1)
         {
@@ -198,8 +210,14 @@ public sealed class SignedMaskBalanceClaim : Claim
             }
         }
         int gcdAt = Array.FindIndex(v, x => x != 0);
-        var basis = Enumerable.Range(0, k).Where(i => i != gcdAt).Select(i => columns[i]).ToList();
-        if (!reduced) return basis;
+        return Enumerable.Range(0, k).Where(i => i != gcdAt).Select(i => columns[i]).ToList();
+    }
+
+    // weak Popov form for the shift by the widths: where two vectors share the last position attaining the shifted degree,
+    // subtract from the one of larger shifted degree x^d times the other (unimodular, the shifted degree or the pivot drops)
+    static List<ulong[]> ShiftedReduce(List<ulong[]> basis, int[] widths)
+    {
+        basis = basis.Select(b => (ulong[])b.Clone()).ToList();
         while (true)
         {
             var read = basis.Select(b => ShiftedDegree(b, widths)).ToList();
@@ -927,6 +945,64 @@ public sealed class SignedMaskBalanceClaim : Claim
         if (at != 0) throw new InvalidOperationException("the relation r = 1 does not close");
         if (readSumTest && quarter % 2 != 0) throw new InvalidOperationException("hol(u₀) = ±i where the read sums vanish, against the proof");
         return quarter % 4 == 0 ? (false, ChainShapeBranch.HolonomyPlus) : (true, ChainShapeBranch.HolonomyMinus);
+    }
+
+    /// <summary>Corollary E3′: any number of templates on the open chain of n sites (n ≤ 64), each a combination of
+    /// strings of one width on one nonzero mask, no two masks translates, every flip set's ratio a constant times a
+    /// character. Over one basis bⱼ of the relations S reduced for the widths, call bⱼ bad when its read sum
+    /// ρ(bⱼ) = Σ bⱼᵢ·Rᵢ does not vanish (N₁* the least shifted degree of such) or when it vanishes and hol(bⱼ) = −1 (N₂*).
+    /// Where (1) holds at n the chain pairs exactly below the least shifted degree of a bad basis vector. Two templates are
+    /// Corollary E3, branch for branch. <paramref name="readSumTest"/> false (N₁* ignored, hol read on every basis vector)
+    /// and <paramref name="orderingTerm"/> false (hol walked without it) are the controls.</summary>
+    public static (bool Breaks, ChainShapeBranch Branch) ChainShapes(IReadOnlyList<IReadOnlyList<(string T, long C)>> templates,
+        int n, bool readSumTest = true, bool orderingTerm = true)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        var read = templates.Select(OneShapeTemplate).ToArray();
+        if (read.Select(r => Shape(r.Mask)).Distinct().Count() < read.Length)
+            throw new ArgumentException("two masks are translates: a flip set would carry the strings of two templates");
+        if (n < read.Max(r => r.Width) || n > 64) throw new ArgumentOutOfRangeException(nameof(n), n, "the chain must hold every template, at most 64 sites");
+        var placed = PlaceStrings(templates.SelectMany(t => t), n, ring: false);
+        var flips = placed.GroupBy(s => s.X).ToDictionary(gr => gr.Key, gr => ReadRatio(gr.Key, gr.ToList()));
+        if (flips.Values.Any(r => r.Kind == RatioKind.ModuliDiffer)) return (true, ChainShapeBranch.ModuliDiffer);
+        if (flips.Values.Any(r => r.Kind != RatioKind.Character) || read.Any(r => r.Ratio.Kind != RatioKind.Character))
+            return (false, ChainShapeBranch.Outside);
+        static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+        foreach (var p in flips.Values)
+            foreach (var q in flips.Values)
+                if (Parity(p.Read & q.Mask) != Parity(q.Read & p.Mask)) return (true, ChainShapeBranch.SquaresFail);
+        if (read.Length == 1) return (false, ChainShapeBranch.NoRelation);
+        var widths = read.Select(r => r.Width).ToArray();
+        var s = ShiftedReduce(KernelBasis(read.Select(r => r.Mask).ToArray()), widths);
+        ulong Rho(ulong[] u)
+        {
+            ulong acc = 0;
+            for (int i = 0; i < u.Length; i++) acc ^= MulChecked(u[i], read[i].Ratio.Read);
+            return acc;
+        }
+        int Sdeg(ulong[] u) => ShiftedDegree(u, widths).Degree;
+        int? n1 = readSumTest ? s.Where(b => Rho(b) != 0).Select(Sdeg).Cast<int?>().Min() : null;
+        int Hol(ulong[] u)
+        {
+            ulong at = 0;
+            int quarter = 0;
+            for (int i = 0; i < u.Length; i++)
+                for (int p = 0; p < 64; p++)
+                {
+                    if (((u[i] >> p) & 1) == 0) continue;
+                    quarter += read[i].Ratio.Quarter + (orderingTerm ? 2 * Parity(ShiftLeft(read[i].Ratio.Read, p) & at) : 0);
+                    at ^= ShiftLeft(read[i].Mask, p);
+                }
+            if (at != 0) throw new InvalidOperationException("a basis vector of the relations does not close");
+            if (readSumTest && orderingTerm && quarter % 2 != 0) throw new InvalidOperationException("hol = ±i on a relation whose read sum vanishes, against the proof");
+            return ((quarter % 4) + 4) % 4;
+        }
+        // below N₁* every relation lies in the span of the basis vectors whose read sums vanish (predictable degree), where hol
+        // is a homomorphism: the first −1 there sits on one of them
+        int? n2 = s.Where(b => (!readSumTest || Rho(b) == 0) && Hol(b) != 0).Select(Sdeg).Cast<int?>().Min();
+        if (n1 is int a && n >= a && (n2 is not int b0 || a <= b0)) return (true, ChainShapeBranch.ReadSumNonzero);
+        if (n2 is int b && n >= b) return (true, ChainShapeBranch.HolonomyMinus);
+        return n < s.Min(Sdeg) ? (false, ChainShapeBranch.NoRelation) : (false, ChainShapeBranch.HolonomyPlus);
     }
 
     // a template of E3: strings of one width on one nonzero mask, with its flip set's ratio read at its own window
