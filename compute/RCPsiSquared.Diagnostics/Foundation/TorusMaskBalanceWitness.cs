@@ -20,8 +20,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the corner bound (<see cref="SignedMaskBalanceClaim.CornerBound"/>), the honeycomb and the kagome lattice
 /// (<see cref="SignedMaskBalanceClaim.LatticeBreaks"/>) and the size bound (<see cref="SignedMaskBalanceClaim.SufficientTorus"/>). Theorem G on the open
 /// patch (<see cref="SignedMaskBalanceClaim.PatchBreaks"/>) against Theorem 2 on patches of 4 to 12 sites and against the balance on every patch to
-/// 8 × 8, its row M = 1 against Theorem B, three templates' breaking patches closed upwards, and its worked example; its two
-/// controls, the masks as their own quotients and the threshold along x alone, must disagree. Six controls of Theorem F must disagree:
+/// 8 × 8, its row M = 1 against Theorem B, three templates' breaking patches closed upwards, the threshold at each height
+/// (<see cref="SignedMaskBalanceClaim.PatchThreshold"/>) against the balance on three templates and against Theorem G on two,
+/// at height 1 against Theorem B′, and its worked example; its two controls, the masks as their own quotients and
+/// Theorem B's chain threshold read along x alone, and the threshold's own, read with the templates over the near edge onto
+/// φ = 0, must disagree. Six controls of Theorem F must disagree:
 /// Theorem D's one-liner carried over with one number per mask (its least order in the powers of 1 + x and 1 + y) and
 /// T = min(T₁, T₂), read on the tori with T₁, T₂ ≥ 2, where A is no chain, the fold with T₁ and T₂ swapped, the fold onto the
 /// parities of L and M in place of their 2-parts, the staircase read with one corner, each direction on its own, the corner
@@ -69,8 +72,14 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     public int PatchPairsWhereTheGcdMatters { get; }
     /// <summary>The three-template sets whose breaking patches up to 8 × 8 have more than one corner: no single quadrant.</summary>
     public int PatchTriplesWithSeveralCorners { get; }
+    /// <summary>The threshold read with the templates hanging over the near edge onto φ = 0 (the wrong boundary): readings
+    /// of the three-template family where it disagrees with the balance (the control).</summary>
+    public int PatchThresholdOverhangMismatches { get; }
+    /// <summary>Heights of the three-template threshold family at which the patch pairs at every length.</summary>
+    public int PatchThresholdNever { get; }
     public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0
-        && TighterBoundMismatches > 0 && MergedSitesMismatches > 0 && PatchNoGcdMismatches > 0 && PatchOneDirectionMismatches > 0;
+        && TighterBoundMismatches > 0 && MergedSitesMismatches > 0 && PatchNoGcdMismatches > 0 && PatchOneDirectionMismatches > 0
+        && PatchThresholdOverhangMismatches > 0;
 
     // the corner bound against a staircase read on the small tori (2^(e + f) ≤ 64): every read corner inside
     // 2^(eⱼ − 1) < n_u, 2^(fⱼ − 1) < n_v, and the verdict unchanged by a doubling of T₂ from T₂ ≥ n_v (of T₁ from T₁ ≥ n_u)
@@ -287,7 +296,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         var pool = WindowTemplates;
         int oneNumber = 0, oneNumberReadings = 0, foldReadings = 0, swapped = 0, parity = 0, oneCorner = 0, staircaseReadings = 0, severalCorners = 0, oneCornerThree = 0;
         int tighter = 0, merged = 0, mergedReadings = 0, latticeReadings = 0;
-        int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0;
+        int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0, patchThresholdOverhang = 0, patchThresholdNever = 0;
         int boundSets = 0, boundCommon = 0, boundChecks = 0, boundBad = 0;
         string? boundFirst = null;
 
@@ -860,6 +869,76 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                 families.Add(new FamilyReading("three templates of the 3 × 3 window: the breaking patches up to 8 × 8 (closed upwards, a check of the placement)", cells, readings, pairing, notClosed, first, "the balance"));
             }
 
+            // the threshold at each height (PatchThreshold), every length at once: on 300 three-template sets of the 3 × 3 window
+            // (their own draws) against the balance at every patch of the box, L·M ≤ 64, along x and along y, heights to 5; and on
+            // 200 pairs against Theorem G's quadrant; the control, the templates hanging over the near edge onto φ = 0, disagrees
+            {
+                var thrRng = new Random(seed + 6);
+                int cells = 0, readings = 0, pairing = 0, bad = 0, gCells = 0, gReadings = 0, gPairing = 0, gBad = 0;
+                string? first = null, gFirst = null;
+                while (cells < 300)
+                {
+                    var ts = new[] { pool3[thrRng.Next(pool3.Length)], pool3[thrRng.Next(pool3.Length)], pool3[thrRng.Next(pool3.Length)] };
+                    if (Translates(ts[0], ts[1]) || Translates(ts[0], ts[2]) || Translates(ts[1], ts[2])) continue;
+                    cells++;
+                    foreach (bool alongY in new[] { false, true })
+                        for (int h = 1; h <= 5; h++)
+                        {
+                            int? t = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY);
+                            int? control = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY, leftOverhang: true);
+                            if (t is null) patchThresholdNever++;
+                            for (int len = 1; len * h <= 64; len++)
+                            {
+                                var (l, m) = alongY ? (h, len) : (len, h);
+                                bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                                readings++;
+                                if (balance) pairing++;
+                                if (balance != !(t is int k && len >= k)) { bad++; first ??= $"{string.Join(" + ", ts)} at {l} × {m}"; }
+                                if (balance != !(control is int kc && len >= kc)) patchThresholdOverhang++;   // the control, through the same gate
+                            }
+                        }
+                }
+                families.Add(new FamilyReading("the threshold at each height, every length at once: three templates of the 3 × 3 window, heights 1 to 5 along x and along y, against the balance on every patch of 64 sites or fewer", cells, readings, pairing, bad, first, "the balance"));
+
+                var gPairs = patchPairs.OrderBy(_ => thrRng.Next()).Take(100).Concat(deepPairs.OrderBy(_ => thrRng.Next()).Take(100)).ToList();
+                foreach (var ts in gPairs)
+                {
+                    gCells++;
+                    var (_, corner) = SignedMaskBalanceClaim.Patch(ts[0], ts[1]);
+                    foreach (bool alongY in new[] { false, true })
+                        for (int h = 1; h <= 5; h++)
+                        {
+                            int? t = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY);
+                            int? expected = corner is { } c && h >= (alongY ? c.L : c.M) ? (alongY ? c.M : c.L) : null;
+                            gReadings++;
+                            if (t is null) gPairing++;
+                            if (t != expected) { gBad++; gFirst ??= $"{ts[0]} + {ts[1]} at height {h}{(alongY ? " along y" : "")}"; }
+                        }
+                }
+                families.Add(new FamilyReading("the threshold at each height against Theorem G's quadrant: 100 pairs of the 2 × 2 window and 100 of the 3 × 3 window, heights 1 to 5 along x and along y", gCells, gReadings, gPairing, gBad, gFirst, "Theorem G"));
+
+                // height 1 is Theorem B′: 300 sets of three or four one-row templates two or three sites wide with a letter at
+                // each end (Z letters among them, widening the window past the flip set), the threshold against N*
+                var row = new[] { "XX", "XY", "YY", "XZ", "ZY", "YZ", "ZX" }
+                    .Concat(from a in "XYZ" from mid in "IXYZ" from c2 in "XYZ" select $"{a}{mid}{c2}")
+                    .Where(t => SignedMaskBalanceClaim.Mask(t) != 0).Distinct().ToArray();
+                int bCells = 0, bReadings = 0, bPairing = 0, bBad = 0;
+                string? bFirst = null;
+                while (bCells < 300)
+                {
+                    int k = 3 + thrRng.Next(2);
+                    var ts = Enumerable.Range(0, k).Select(_ => row[thrRng.Next(row.Length)]).ToArray();
+                    if (Enumerable.Range(0, k).Any(i => Enumerable.Range(i + 1, k - i - 1).Any(j => Translates(ts[i], ts[j])))) continue;
+                    bCells++;
+                    var (breaks, from) = SignedMaskBalanceClaim.Chain(ts);
+                    int? t = SignedMaskBalanceClaim.PatchThreshold(ts, 1);
+                    bReadings++;
+                    if (t is null) bPairing++;
+                    if (t != (breaks ? from : null)) { bBad++; bFirst ??= string.Join(" + ", ts); }
+                }
+                families.Add(new FamilyReading("the threshold at height 1 against Theorem B′'s N*: 300 sets of three or four one-row templates two or three sites wide with a letter at each end", bCells, bReadings, bPairing, bBad, bFirst, "Theorem B′"));
+            }
+
             // the worked example and its counterpart: Theorem 2 on the patches to 16 sites, the law and the balance to 8 × 8
             {
                 var examples = new (string Name, string[] Ts, Func<int, int, bool> Pairs)[]
@@ -891,6 +970,8 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         PatchBreakingPairs = patchBreaking;
         PatchPairsWhereTheGcdMatters = patchGcdMatters;
         PatchTriplesWithSeveralCorners = tripleSeveralCorners;
+        PatchThresholdOverhangMismatches = patchThresholdOverhang;
+        PatchThresholdNever = patchThresholdNever;
         OneCornerMismatches = oneCorner;
         StaircaseReadings = staircaseReadings;
         CornerSetsWithSeveral = severalCorners;
@@ -914,7 +995,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         $"T₁ and T₂ swapped {SwappedFoldMismatches} and the fold onto the parities {ParityFoldMismatches} of {FoldControlReadings}, each direction " +
         $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}, the corner bound one doubling tighter {TighterBoundMismatches} corners, the " +
         $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}; Theorem G on the open patch without the gcd " +
-        $"{PatchNoGcdMismatches} and along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}";
+        $"{PatchNoGcdMismatches} and with Theorem B's chain threshold along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}, the threshold over the near edge {PatchThresholdOverhangMismatches} readings";
 
     public IEnumerable<IInspectable> Children
     {
@@ -933,9 +1014,10 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                          $"the parities of L and M: {ParityFoldMismatches} of {FoldControlReadings}; each direction on its own, one corner at the least " +
                          $"e and the least f of the corners: {OneCornerMismatches} of {StaircaseReadings} ({OneCornerMismatchesOnThreeByThree} of them on 3 × 3; {CornerSetsWithSeveral} template sets with more than one corner); the corner bound one doubling tighter, 2^e < n_u " +
                          $"and 2^f < n_v: {TighterBoundMismatches} read corners outside it; the lattice fold with the Q sites of a cell merged: {MergedSitesMismatches} of {MergedSitesReadings} (where the merged set can be placed); " +
-                         $"Theorem G with the masks as their own quotients (no gcd): {PatchNoGcdMismatches} of {PatchControlReadings}, and with the threshold along x alone: " +
+                         $"Theorem G with the masks as their own quotients (no gcd): {PatchNoGcdMismatches} of {PatchControlReadings}, and with Theorem B's chain threshold along x alone: " +
                          $"{PatchOneDirectionMismatches} of {PatchControlReadings} ({PatchBreakingPairs} pairs with c = 1, {PatchPairsWhereTheGcdMatters} whose corner or c the gcd changes); " +
-                         $"three templates with more than one corner on the patches to 8 × 8: {PatchTriplesWithSeveralCorners}",
+                         $"three templates with more than one corner on the patches to 8 × 8: {PatchTriplesWithSeveralCorners}; the threshold at each height read with " +
+                         $"the templates over the near edge onto φ = 0: {PatchThresholdOverhangMismatches} readings against the balance (the patch pairing at every length at {PatchThresholdNever} heights, gated to 64 sites)",
                 provenance: NodeProvenance.Live);
         }
     }

@@ -727,6 +727,80 @@ public sealed class SignedMaskBalanceClaim : Claim
     /// polynomial in x, bit i the coefficient of x^i).</summary>
     public static IReadOnlyList<ulong> PatchGcd(string t1, string t2) => PlaneGcd(PlaneMask(t1), PlaneMask(t2));
 
+    /// <summary>Any number of templates on the open patch of height <paramref name="m"/>, every length at once: the least L
+    /// for which the L × m patch breaks, or null where it pairs at every L. The signing φ is read column by column; the
+    /// state is φ on the last W − 1 columns (W the widest template along x, written as for <see cref="TorusLetters"/>), and
+    /// a column is admitted when φ reads every placement whose window ends in it with its sign. Columns before the edge are
+    /// read by no placement, so a run starts from every state; nothing is placed past the far edge, so no condition closes
+    /// it. Dropping a run's first column leaves an admitted run with the same last columns, so the sets of states reached
+    /// fall from the start (the free start is what makes this hold); from column W − 1 on each step applies the same
+    /// checks, so they either empty, at the threshold, or stand still, and then the patch pairs at every length. Height 1
+    /// is Theorem B′'s N* for templates ending in a letter.
+    /// <paramref name="alongY"/> reads the same along y (the patch's width fixed at <paramref name="m"/>). With
+    /// <paramref name="leftOverhang"/> the templates also hang over the near edge and read φ = 0 there, the walk starting
+    /// from the zero state alone, a run on the wrong boundary, the control that must fail. At most 22 bits of W·m.</summary>
+    public static int? PatchThreshold(IReadOnlyCollection<string> templates, int m, bool alongY = false, bool leftOverhang = false)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (m < 1) throw new ArgumentOutOfRangeException(nameof(m), m, "a height of at least one");
+        var terms = new List<(int Wx, (int I, int J)[] Cells, int Sign)>();
+        var shapes = new HashSet<string>();
+        foreach (var t in templates)
+        {
+            var mask = PlaneMask(t);
+            if (mask.Length == 0) throw new ArgumentException($"{t} flips nothing");
+            if (!shapes.Add(string.Join(",", PlaneShape(mask)))) throw new ArgumentException("two masks are translates: a flip set would carry two strings");
+            var letters = TorusLetters(t).Select(x => alongY ? (I: x.J, J: x.I, x.Letter) : (I: x.I, J: x.J, x.Letter)).ToList();
+            int wx = letters.Max(x => x.I) + 1, wy = letters.Max(x => x.J) + 1;
+            if (wy > m) continue;   // placed nowhere on this height
+            var cells = letters.Where(x => x.Letter is 'X' or 'Y').Select(x => (x.I, x.J)).ToArray();
+            // one placement per row offset b; the sign is the template's
+            for (int b = 0; b + wy <= m; b++)
+                terms.Add((wx, cells.Select(c => (c.I, c.J + b)).ToArray(), Sign(t)));
+        }
+        if (terms.Count == 0) return null;
+        int width = terms.Max(t => t.Wx);
+        if (width * m > 22) throw new ArgumentException($"W·m = {width * m} bits, more than 22");
+        int stateBits = (width - 1) * m, states = 1 << stateBits;
+        uint keep = (uint)states - 1, column = (1u << m) - 1;
+        var reached = new bool[states];
+        if (leftOverhang) reached[0] = true; else Array.Fill(reached, true);
+        for (int c = 0; ; c++)
+        {
+            var next = new bool[states];
+            bool any = false;
+            for (uint s = 0; s < states; s++)
+            {
+                if (!reached[s]) continue;
+                for (uint col = 0; col <= column; col++)
+                {
+                    uint full = (s << m) | col;   // column c − r at bits r·m … r·m + m − 1
+                    bool ok = true;
+                    foreach (var t in terms)
+                    {
+                        if (!leftOverhang && c - t.Wx + 1 < 0) continue;
+                        int parity = 0;
+                        foreach (var (i, j) in t.Cells)
+                        {
+                            int r = t.Wx - 1 - i;
+                            if (r > c && leftOverhang) continue;      // before the near edge: φ = 0
+                            parity ^= (int)((full >> (r * m + j)) & 1);
+                        }
+                        if (parity != t.Sign) { ok = false; break; }
+                    }
+                    if (!ok) continue;
+                    uint key = full & keep;
+                    if (!next[key]) { next[key] = true; any = true; }
+                }
+            }
+            if (!any) return c + 1;
+            if (c >= width - 1 && next.AsSpan().SequenceEqual(reached)) return null;
+            // the falling sets stop within states + W steps; the control's runs need not fall, and may cycle
+            if (c > states + width) return leftOverhang ? null : throw new InvalidOperationException("the reached sets did not settle");
+            reached = next;
+        }
+    }
+
     /// <summary>Theorem G at one patch: whether two templates break on the open L × M patch.</summary>
     public static bool PatchBreaks(string t1, string t2, int l, int m)
     {
@@ -1440,7 +1514,9 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "in x and in y add separately, so r = 1 is least in both at once and the breaking patches are one quadrant, " +
                          "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁); XY across beside XX/X " +
                          "breaks exactly from 3 × 2; Theorem B is the row M = 1 (templates ending in a letter); for three or more the breaking patches, the union of the " +
-                         "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read patch by patch");
+                         "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read at each height for every length at " +
+                         "once: the sets of column states that admitted runs reach fall from the start, and from column W − 1 on " +
+                         "either empty at the threshold L*(M) or stand still, the patch then pairing at every length");
             yield return new InspectableNode("Theorem H, the size of the break at strong dephasing",
                 summary: "H scaled to J·H with condition (ii) everywhere: the first order vanishes on both edges, and the second is " +
                          "−J²·𝓛 on the populations and −2σ + J²·𝓜 on the far cells, 𝓛 the Zeno Laplacian with weights |H_ba|²/γ(a ⊕ b) and " +

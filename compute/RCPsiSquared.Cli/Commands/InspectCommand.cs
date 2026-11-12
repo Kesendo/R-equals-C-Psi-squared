@@ -1318,7 +1318,8 @@ public static class InspectCommand
             "L ≥ 2w_x − 1, M ≥ 2w_y − 1 (w_x, w_y the templates' largest extents), the corner bound through the colength of the masks' ideal, " +
             "the honeycomb and the kagome lattice, beside six controls that must disagree; and Theorem G, two templates on the open L × M patch, " +
             "breaking exactly on the quadrant read off the gcd of their masks in GF(2)[x, y], against Theorem 2 to 12 sites and the balance to 8 × 8, " +
-            "beside two controls that must disagree (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
+            "and any number on the patch at each height for every length at once by the falling sets of admitted column states, " +
+            "beside three controls that must disagree, two for the quadrant and one for the threshold (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new TorusMaskBalanceWitness(),
             RequiresN: false),
         new("planarhopping", "Theorem 8 of the complement connection, live: hopping bonds J(XX + YY) + D(XY − YX) on any graph, a " +

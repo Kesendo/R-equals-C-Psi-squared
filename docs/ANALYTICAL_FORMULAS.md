@@ -11831,6 +11831,7 @@ window (Theorem G).
     ω = ±i, A the real strings of a flip set:  |g(x)|² = A(x)² + A(x̄)²,  g nowhere zero  ⟺  A(x) and A(x̄) never both zero
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
     two templates on the open L × M patch, g = gcd(m₁, m₂) in GF(2)[x, y], qᵢ = mᵢ/g, c = s₁·q₂(1, 1) + s₂·q₁(1, 1):  breaks  ⟺  c = 1, L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁) and M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁)    (Theorem G; XY across + XX/X: from 3 × 2)
+    any number on the patch, height M fixed:  breaks  ⟺  L ≥ L*(M), L* ∈ ℕ ∪ {∞}: the first L at which the falling sets of admitted column states empty (∞ if they stand still)    (Theorem G's threshold at each height; M = 1 is Theorem B′ for templates ending in a letter)
     strong dephasing, H → J·H, (ii) everywhere:  edges = −J²·spec 𝓛 and −2σ + J²·spec 𝓜 + O(J³),  𝓛_ba = −|H_ba|²/γ(a ⊕ b),  𝓜_ba = −H_ba·H_āb̄/γ(a ⊕ b),  dim ker = Theorem 2's two counts    (Theorem H's lemma)
     one string per flip set:  min |λ + 2σ| = 2J²·min_φ Σ_(⟨φ, m_P⟩ ≠ s(P)) c_P²/γ(m_P) + O(J³)    (Theorem H; XY at one rate: J²c²/γ on every odd ring)
     that distance d_ν, ν_P = c_P²/γ(m_P):  ≥ Σ_i min_(P∈u⁽ⁱ⁾) ν_P over unbalanced relations u⁽ⁱ⁾ sharing no string (two templates on
@@ -11867,7 +11868,9 @@ balance (a rearrangement), one template's against the exponents of its mask coar
 number per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner, the bound one doubling
 tighter, the sites of a cell merged) disagree. Theorem G in the same battery: against Theorem 2 on patches of 4 to 12 sites
 (2400 readings) and against the balance on every patch to 8 × 8 (833 280 readings), its row M = 1 against Theorem B; its two
-controls (no gcd, the threshold along x alone) disagree. Theorem H in `SignedMaskBalanceWitness` at random rates: λ_min of the
+controls (no gcd, Theorem B's chain threshold along x alone) disagree; the threshold at each height against the balance on 87 000
+readings of three templates, against Theorem G on 2000 and against Theorem B′ on 300 sets at height 1, its control (the templates
+over the near edge onto φ = 0) disagreeing with the balance on 10 185 of the 87 000. Theorem H in `SignedMaskBalanceWitness` at random rates: λ_min of the
 far edge's generator against the weighted code distance on 6912 readings (2768 broken at second order), the kernels of both
 generators against Theorem 2's counts on 10 408, the two end squares of XZ ± ZY on the chain of four to seven on 80, and
 two controls, the code distance with the rates read away and in reverse site order, missing on all 2768 and on 1028; beside it the eight broken Liouvillian rows follow J² times the two spectra as J falls, and on the seven with no good
