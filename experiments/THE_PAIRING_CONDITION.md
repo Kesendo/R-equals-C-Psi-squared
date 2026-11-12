@@ -13,7 +13,10 @@ operator exists:
 the mirror partner of the steady state at 0, sitting at the far end of the very
 axis the palindrome folds about. Read that way the criterion says the spectrum
 pairs about −σ exactly when the turning has a conserved quantity that every
-dephasing site charges in full.
+dephasing site charges in full. Under Z dephasing on every site, where every flip
+set of H carries one Pauli string and no diagonal string of odd weight remains,
+U can be taken to be a lit string X^⊗N·Z^φ, a colouring, and
+[F173](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md) reads when one exists.
 
 Scored against the exact GF(p) verdict in both directions, false negatives as
 loud as false positives: **0 and 0** on the five full N=3 grids, on the whole

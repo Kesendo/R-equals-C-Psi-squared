@@ -11815,6 +11815,7 @@ window (Theorem G).
 
     every edge x – x ⊕ m:  H_x̄,x̄⊕m / H_x,x⊕m = (−1)^s,  at every x    (one string per flip set)
     palindrome  ⟺  ⊕_S masks = 0  ⟹  Σ_S s even,  for every subset S of the placed strings    (balance; broken ⟹ far end 0)
+    as a symmetry:  palindrome  ⟺  [H, X^⊗N·Z^φ] = 0 for some φ  ⟺  some φ has ⟨φ, m_P⟩ = s(P) for every string    (a colouring; rate-free, the far edge's mode, decaying at exactly 2σ)
     two templates, g = gcd(m₁, m₂), qᵢ = mᵢ/g:  relations = r·(q₂, q₁),  negative count ≡ r(1)·(s₁q₂(1) + s₂q₁(1))
     chain:  c = 0 ⟹ pairs at every N;  c = 1 ⟹ pairs exactly for N < N* = max(w₁ + deg q₂, w₂ + deg q₁)
     k templates on the chain, relations S = {u : Σ uᵢmᵢ = 0} free of rank k − 1, sdeg u = max(deg uᵢ + wᵢ), λ(u) = Σ sᵢuᵢ(1), b₁ … b_(k−1) a basis of S in weak Popov form for the shift by the widths:  pairs exactly for N < N* = min{sdeg bⱼ : λ(bⱼ) = 1}, at every N if no λ(bⱼ) = 1    (Theorem B′; c = B(1), B = q₂Q₁ + q₁Q₂ the girth ladder's syzygy polynomial, Q the Y/Z masks)
@@ -11823,7 +11824,7 @@ window (Theorem G).
     any number of different shapes on the ring of N ≥ 2·max w − 1 sites, T = 2^(v₂(N)), v₀ = min vᵢ:  broken  ⟺  (T ≤ v₀, some s odd)  or  (T > v₀, two of valuation v₀ of different sign, or one of greater valuation with s odd)
     in one line:  pairs  ⟺  some σ ∈ GF(2) has sᵢ = σ·[vᵢ = v₀ < T] for every i
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
-    the ℤ/4 form, ω_m = i^(q_m), β(a, b) = ⟨R(a), b⟩ on W = span of the flip sets:  palindrome  ⟺  R linear on W and a refinement Q₀(a ⊕ b) = Q₀(a) + Q₀(b) + 2β(a, b) with Q₀(m) = q_m exists;  carrier X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩)
+    the ℤ/4 form, ω_m = i^(q_m), β(a, b) = ⟨R(a), b⟩ on W = span of the flip sets:  palindrome  ⟺  R linear on W and a refinement Q₀(a ⊕ b) = Q₀(a) + Q₀(b) + 2β(a, b) with Q₀(m) = q_m exists;  carrier X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩), a Clifford (the exponent a ℤ/4 quadratic form on all bitstrings, x₀ linear in x)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
     k flip shapes on the chain, (1) holding at N, ρ(u) = Σ uᵢRᵢ, bⱼ a reduced basis of the relations:  pairs  ⟺  N < min{sdeg bⱼ : ρ(bⱼ) ≠ 0, or ρ(bⱼ) = 0 and hol(bⱼ) = −1}    (Corollary E3′)
@@ -11863,8 +11864,11 @@ products (224 readings); twelve controls (the widths or the quotients swapped,
 E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree. Theorem B′ agrees
 with the balance on 600 cells of three and four templates (9901 readings) and with Theorem 2 to N = 8 (4800), and its
 unreduced basis, a thirteenth control, disagrees on 301; Theorem E's ℤ/4 refinement exists exactly where Theorem 2 pairs on
-the 428 cells (3936 readings), its carrier satisfying (★) entry by entry, and without its coset term, a fourteenth control,
-the carrier fails on 192 of the 1784 paired readings; Corollary E3′ agrees with Corollary E3 branch for branch at two templates
+the 428 cells (3936 readings), its carrier satisfying (★) entry by entry with its quarters a ℤ/4 quadratic form on all
+bitstrings (a Clifford), and without its coset term, a fourteenth control, the carrier fails on 192 of the 1784 paired readings,
+and moved by one quarter on one component off the span of the flip sets, a fifteenth, keeping (★), it is no Clifford on 865
+of the 1858 paired readings of these and of the ℤ/4 form's four-string family (the sixteen products (aX + bY)⊗(cX + dY)
+on the ring and X ⊗ 2·CZ, 74 paired), exactly where that span has codimension two or more; Corollary E3′ agrees with Corollary E3 branch for branch at two templates
 (2848 readings) and with Theorem 2 on 700 three-shape cells (4200), its two controls disagreeing on 4 and 6; whether B′
 breaks agrees with Theorem D on the ring of 64 on its 600 cells; and at odd q, |g|² = A(x)² + A(x̄)² holds exactly on
 546 solutions of the pairing equation, the real part's complementary zeros deciding where g vanishes (346 nowhere); beside the

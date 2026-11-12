@@ -26,7 +26,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Theorem E's elimination past the bitstrings' reach) and on the products (aX + bY)⊗(cX + dY), a, b, c, d = ±1,
 /// Corollary E3 on two flip shapes on the chain; Theorem B′ on three and four templates on the chain against the balance
 /// and Theorem 2, and at two templates against Theorem B; Theorem E's ℤ/4 form, the refinement and its carrier against
-/// Theorem 2's (★); Corollary E3′ against E3 at two templates and against Theorem 2 at three; the long chain against
+/// Theorem 2's (★) and as a diagonal Clifford; Corollary E3′ against E3 at two templates and against Theorem 2 at three; the long chain against
 /// Theorem D on the ring of 64; Theorem H at random rates, λ_min of the far edge's second-order generator
 /// (<see cref="StrongDephasingEdges"/>, built from H's entries) against the weighted code distance
 /// (<see cref="SignedMaskBalanceClaim.StrongDephasingBreak"/>), and the kernels of both second-order generators against
@@ -35,13 +35,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// where the chain pairs; Corollary H2's cycle bound on Theorem E's cells and as the packing of XZ ± ZY's end squares;
 /// Corollary H3's hop reading (<see cref="StrongDephasingEdges.ReadHops"/>) on Theorem E's cells, the whole far spectrum
 /// coset by coset where the hops commute and the floor where every two anticommute; the worked examples of the page.
-/// Twenty-two controls show the
+/// Twenty-three controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
 /// Theorem E with any one of its three conditions dropped, Corollary E2 without its read-set test or its ordering term and
 /// Corollary E3 without its read-sum test or its ordering term disagree with Theorem 2, and Theorem B′ read off the
-/// unreduced basis of the relations disagrees with the balance, the ℤ/4 carrier without its coset term fails (★), and
+/// unreduced basis of the relations disagrees with the balance, the ℤ/4 carrier without its coset term fails (★) and moved
+/// by a quarter on one component stops being a Clifford exactly where the flip sets' span has codimension two or more, and
 /// Corollary E3′ with N₁* read away or with hol walked without its ordering term disagrees with Theorem 2, and Theorem H
 /// with every rate read as one or with the rates in reverse site order misses λ_min of the far edge's generator, and
 /// Corollary H1's packing bound with every offset of the relation counted (overlapping translates) exceeds the trellis,
@@ -92,6 +93,10 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int Z4Paired { get; private set; }
     /// <summary>How many readings of the four-string ℤ/4 family pair, each carrier checked against (★).</summary>
     public int Z4FourStringPaired { get; private set; }
+    /// <summary>The ℤ/4 carriers of both families moved by one quarter on one component off the span W of the flip sets
+    /// (a phase per component, so (★) still holds): paired readings where the moved quarters are no longer a ℤ/4 quadratic
+    /// form on the bitstrings, which must be exactly those where W has codimension two or more.</summary>
+    public int MovedCarrierNotQuadratic { get; private set; }
     /// <summary>How often each branch of Corollary E3 decided a chain read against Theorem 2.</summary>
     public IReadOnlyDictionary<SignedMaskBalanceClaim.ChainShapeBranch, int> E3Branches { get; private set; } = new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>();
     /// <summary>How often each branch of Corollary E2 decided a ring read against Theorem 2.</summary>
@@ -167,7 +172,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && DroppedE3PrimeReadSumMismatches > 0 && DroppedE3PrimeOrderingMismatches > 0
                                  && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0
                                  && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0
-                                 && HopControlMisses > 0;
+                                 && HopControlMisses > 0 && MovedCarrierNotQuadratic > 0;
 
     // the GF(2) rank of a set of masks
     static int Rank(int[] vectors)
@@ -545,7 +550,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                         for (int j = i + 1; j < strs.Count; j++) pairsE.Add((strs[i], strs[j]));
                 }
             int cells = 0, readings = 0, mismatches = 0, e2Readings = 0, e2Mismatches = 0, e2Cells = 0, e2Far = 0, e2FarMismatches = 0;
-            int z4Readings = 0, z4Paired = 0, z4Mismatches = 0;
+            int z4Readings = 0, z4Paired = 0, z4Mismatches = 0, movedNotQuadratic = 0;
             string? first = null, e2First = null, e2FarFirst = null, z4First = null;
             var branches = new Dictionary<SignedMaskBalanceClaim.RingShapeBranch, int>();
             foreach (var (a, b) in pairsE)
@@ -564,7 +569,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                             readings++;
                             if (pairs != (v == SignedMaskBalanceClaim.CharacterVerdict.Pairs)) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} on the {(ring ? "ring" : "chain")} of {n}"; }
                             // the ℤ/4 form: the refinement exists exactly where Theorem 2 pairs, is one (on W up to 128 elements), and
-                            // its carrier i^(−Q₀ − 2⟨R(w), x₀⟩) satisfies Theorem 2's (★) entry by entry; without the coset term it must fail
+                            // its carrier i^(−Q₀ − 2⟨R(w), x₀⟩) satisfies Theorem 2's (★) entry by entry and is a diagonal Clifford (its
+                            // quarters a ℤ/4 quadratic form on all bitstrings); without the coset term it must fail (★)
                             {
                                 var form = SignedMaskBalanceClaim.QuadraticRefinement(placed);
                                 z4Readings++;
@@ -574,7 +580,9 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                 {
                                     z4Paired++;
                                     if (form.Count <= 128 && !IsRefinement(form)) bad = true;
-                                    if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n))) bad = true;
+                                    var carrier = SignedMaskBalanceClaim.CarrierQuarters(form, n);
+                                    if (!StarHolds(placed, n, carrier) || !QuartersQuadratic(carrier, n)) bad = true;
+                                    if (MovedCarrierBreaches(placed, n, carrier, form, ref movedNotQuadratic)) bad = true;
                                     if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n, cosetTerm: false))) droppedCosetTerm++;
                                 }
                                 if (bad) { z4Mismatches++; z4First ??= at; }
@@ -620,7 +628,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             }
             families.Add(new FamilyReading("Theorem E: two strings on one flip mask, windows of two and three sites, chain to 7 and ring to the cap", cells, readings, mismatches, first));
             families.Add(new FamilyReading("Corollary E2 and Theorem E on (aX + bY)⊗(cX + dY), four strings on one flip set, ring to the cap", pcells, preadings, pmismatches, pfirst));
-            families.Add(new FamilyReading("Theorem E's ℤ/4 form: the refinement where Theorem 2 pairs, its carrier against (★)", cells, z4Readings, z4Mismatches, z4First));
+            families.Add(new FamilyReading("Theorem E's ℤ/4 form: the refinement where Theorem 2 pairs, its carrier against (★) and as a diagonal Clifford", cells, z4Readings, z4Mismatches, z4First));
             Z4Paired = z4Paired;
 
             // the ℤ/4 form on four strings per flip set, where ω is real beside a nonempty read set: the sixteen products
@@ -647,13 +655,16 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                         {
                             fpaired++;
                             if (form.Count <= 128 && !IsRefinement(form)) bad = true;
-                            if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n))) bad = true;
+                            var carrier = SignedMaskBalanceClaim.CarrierQuarters(form, n);
+                            if (!StarHolds(placed, n, carrier) || !QuartersQuadratic(carrier, n)) bad = true;
+                            if (MovedCarrierBreaches(placed, n, carrier, form, ref movedNotQuadratic)) bad = true;
                         }
                         if (bad) { fmismatches++; ffirst ??= $"{name} on the {(ring ? "ring" : "chain")} of {n}"; }
                     }
             }
             families.Add(new FamilyReading("Theorem E's ℤ/4 form on four strings per flip set, a real ω beside a nonempty read set", fcells, freadings, fmismatches, ffirst));
             Z4FourStringPaired = fpaired;
+            MovedCarrierNotQuadratic = movedNotQuadratic;
             families.Add(new FamilyReading("Corollary E2: one flip shape on the ring, against Theorem 2 to the cap", e2Cells, e2Readings, e2Mismatches, e2First));
             families.Add(new FamilyReading("Corollary E2 against Theorem E's elimination, rings past the cap to N = 40", e2Cells, e2Far, e2FarMismatches, e2FarFirst, "Theorem E"));
             E2Branches = branches;
@@ -1225,6 +1236,45 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         return true;
     }
 
+    // the carrier X^⊗N·diag(i^(d_x)) with d₀ = 0 is a Clifford (up to a global phase, which d₀ = 0 fixes) exactly when
+    // Q = −d is a ℤ/4 quadratic refinement on all bitstrings: Q(0) = 0 and Q(x ⊕ e_l) − Q(x) − Q(e_l) = 2·B(x, e_l) at
+    // every x and site l, B read off the basis vectors (symmetric by construction) and bilinear (Q is then fixed by its
+    // values on the e_l and by B, as the refinement with those values is)
+    static bool QuartersQuadratic(int[] d, int n)
+    {
+        int Q(int x) => ((-d[x]) % 4 + 4) % 4;
+        int Step(int x, int l) => ((Q(x ^ (1 << l)) - Q(x) - Q(1 << l)) % 4 + 8) % 4;
+        if (Q(0) != 0) return false;
+        var col = new int[n];
+        for (int l = 0; l < n; l++)
+            for (int k = 0; k < n; k++)
+            {
+                int s = Step(1 << k, l);
+                if ((s & 1) == 1) return false;
+                if (s == 2) col[l] |= 1 << k;
+            }
+        for (int l = 0; l < n; l++)
+            for (int x = 0; x < 1 << n; x++)
+                if (Step(x, l) != 2 * (BitOperations.PopCount((uint)(x & col[l])) & 1)) return false;
+        return true;
+    }
+
+    // the control: the carrier moved by one quarter on the component through the largest bitstring off W (a phase per
+    // component, so (★) must still hold) stays quadratic exactly where W has codimension one (its parity then moves by a
+    // linear form; at codimension two or more by the indicator of a smaller coset, of higher degree); true on a breach
+    static bool MovedCarrierBreaches(IReadOnlyList<SignedMaskBalanceClaim.PlacedString> placed, int n, int[] carrier,
+                                     IReadOnlyDictionary<ulong, (int Q, ulong R)> form, ref int notQuadratic)
+    {
+        int codim = n - BitOperations.Log2((uint)form.Count);
+        if (codim == 0) return false;
+        int x1 = Enumerable.Range(0, 1 << n).Reverse().First(x => !form.ContainsKey((ulong)x));
+        var moved = (int[])carrier.Clone();
+        foreach (var w in form.Keys) moved[x1 ^ (int)w] = (moved[x1 ^ (int)w] + 1) % 4;
+        bool quadratic = QuartersQuadratic(moved, n);
+        if (!quadratic) notQuadratic++;
+        return !StarHolds(placed, n, moved) || quadratic != (codim == 1);
+    }
+
     // Theorem 2's far condition (★) for X^⊗N·diag(i^(d_x)): H_x̄ȳ·i^(d_y) = i^(d_x)·H_xy at every entry, in Gaussian integers
     static bool StarHolds(IReadOnlyList<SignedMaskBalanceClaim.PlacedString> placed, int n, int[] d)
     {
@@ -1345,6 +1395,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"without its read-set test or its ordering term disagree {string.Join(", ", DroppedConditionMismatches)}, {DroppedReadSetMismatches}, " +
         $"{DroppedOrderingMismatches} times, E3 without its read-sum test or its ordering term {DroppedReadSumMismatches}, {DroppedE3OrderingMismatches} times, " +
         $"B′ off the unreduced basis {UnreducedBasisMismatches} times, the ℤ/4 carrier without its coset term {DroppedCosetTermMismatches} times, " +
+        $"moved by a quarter on one component {MovedCarrierNotQuadratic} times no longer a Clifford, " +
         $"E3′ without N₁* or without its ordering term {DroppedE3PrimeReadSumMismatches}, {DroppedE3PrimeOrderingMismatches} times, " +
         $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times, " +
         $"Corollary H1's bounds with overlapping translates or where the chain breaks {PackingOverlapMismatches}, {CutWhereChainBreaksMismatches} times, " +
@@ -1376,7 +1427,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"with hol(g) walked without its ordering term: {DroppedOrderingMismatches}; Corollary E3 without its read-sum test: " +
                          $"{DroppedReadSumMismatches}, with hol(u₀) walked without its ordering term: {DroppedE3OrderingMismatches}; Theorem B′ read " +
                          $"off the unreduced basis of the relations: {UnreducedBasisMismatches} (against the balance); Theorem E's ℤ/4 carrier " +
-                         $"without its coset term: {DroppedCosetTermMismatches} (against (★)); Corollary E3′ without N₁*: " +
+                         $"without its coset term: {DroppedCosetTermMismatches} (against (★)), moved by a quarter on one component: " +
+                         $"{MovedCarrierNotQuadratic} no longer a Clifford (exactly where W has codimension two or more); Corollary E3′ without N₁*: " +
                          $"{DroppedE3PrimeReadSumMismatches}, with hol walked without its ordering term: {DroppedE3PrimeOrderingMismatches}; " +
                          $"Theorem H with every rate read as one: {RatesReadAwayMismatches}, with the rates in reverse site order: {RatesReversedMismatches} (both against λ_min of 𝓜); " +
                          $"Corollary H1's packing bound with every offset of the relation counted: {PackingOverlapMismatches}, its cut bound read where the chain breaks: {CutWhereChainBreaksMismatches} (both against the trellis); " +

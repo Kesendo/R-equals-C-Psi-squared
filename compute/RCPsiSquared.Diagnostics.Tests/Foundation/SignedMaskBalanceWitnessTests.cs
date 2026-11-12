@@ -37,7 +37,7 @@ public class SignedMaskBalanceWitnessTests
             }, w.E3Branches);
         Assert.Equal((464, 576), (w.DroppedReadSumMismatches, w.DroppedE3OrderingMismatches));
         Assert.Equal((301, 468, 473), (w.UnreducedBasisMismatches, w.BPrimeBreaking, w.UnreducedBasisDeficient));   // measured
-        Assert.Equal((1784, 192, 74), (w.Z4Paired, w.DroppedCosetTermMismatches, w.Z4FourStringPaired));
+        Assert.Equal((1784, 192, 74, 865), (w.Z4Paired, w.DroppedCosetTermMismatches, w.Z4FourStringPaired, w.MovedCarrierNotQuadratic));   // measured, quoted on the page
         Assert.Equal((4, 6), (w.DroppedE3PrimeReadSumMismatches, w.DroppedE3PrimeOrderingMismatches));            // measured
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
             {

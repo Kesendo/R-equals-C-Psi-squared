@@ -12,7 +12,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// x – x ⊕ m of Theorem 2's graph carries the ratio (−1)^s of its one string, s = (#Y + #Z) mod 2 (the bit_b, the
 /// Π²_Z parity), the same at every x; the graph is the Cayley graph of the placed masks, and the palindrome holds
 /// exactly when that signed graph is balanced: no GF(2) relation among the masks uses an odd number of negative
-/// strings (Theorem A; where it fails no component is good). Two templates t₁, t₂ of widths w₁, w₂ on the open chain,
+/// strings (Theorem A; where it fails no component is good). Read as a symmetry: H commutes with the Pauli string
+/// X^⊗N·Z^φ for some φ, ⟨φ, m_P⟩ = s(P) for every string, a property of H alone that the rates make the far edge's mode;
+/// under Theorem E, where the palindrome holds, <see cref="CarrierQuarters"/> gives a Clifford carrier X^⊗N·i^(−Q). Two templates t₁, t₂ of widths w₁, w₂ on the open chain,
 /// masks m₁, m₂ of different shapes, g = gcd(m₁, m₂), qᵢ = mᵢ/g: every relation is r·(q₂, q₁), its negative count
 /// r(1)·c with c = s₁·q₂(1) + s₂·q₁(1) mod 2, so c = 0 pairs at every N and c = 1 pairs exactly below
 /// N* = max(w₁ + deg q₂, w₂ + deg q₁) (Theorem B; both signs negative is F115's valuation criterion, N* its window
@@ -1139,8 +1141,9 @@ public sealed class SignedMaskBalanceClaim : Claim
 
     /// <summary>The carrier of Theorem E's ℤ/4 form on n sites: X^⊗N·D with D = diag(i^(d_x)), d(x₀ ⊕ w) = −Q₀(w) −
     /// 2·⟨R(w), x₀⟩ (mod 4), x₀ the least element of its coset of W, so that the component through x₀ carries the
-    /// refinement Q₀ + 2·⟨R(·), x₀⟩. With <paramref name="cosetTerm"/> false the term 2·⟨R(w), x₀⟩ is dropped, the
-    /// control: Q₀ alone on every coset.</summary>
+    /// refinement Q₀ + 2·⟨R(·), x₀⟩. Since x₀ is linear in x (the element of x ⊕ W vanishing at the pivots of an echelon basis of W),
+    /// −d is a ℤ/4 quadratic form on all bitstrings and the carrier a Clifford. With <paramref name="cosetTerm"/> false
+    /// the term 2·⟨R(w), x₀⟩ is dropped, the control: Q₀ alone on every coset.</summary>
     public static int[] CarrierQuarters(IReadOnlyDictionary<ulong, (int Q, ulong R)> form, int n, bool cosetTerm = true)
     {
         if (n < 1 || n > 24) throw new ArgumentOutOfRangeException(nameof(n), n, "one to 24 sites");
@@ -1541,7 +1544,7 @@ public sealed class SignedMaskBalanceClaim : Claim
 
     public override string Summary =>
         "one string per flip set under Z dephasing: each edge a sign (−1)^(#Y + #Z), the palindrome the balance of the masks' " +
-        "signed Cayley graph; two templates break exactly from N* when s₁·q₂(1) + s₂·q₁(1) is odd (F115 its all-negative case), " +
+        "signed Cayley graph, a symmetry X^⊗N·Z^φ of H; two templates break exactly from N* when s₁·q₂(1) + s₂·q₁(1) is odd (F115 its all-negative case), " +
         $"one template on the ring exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through " +
         $"whether 2^(v₂(N)) exceeds the least valuation; several strings per flip set with a character ratio by a symmetric reading " +
         $"and the relations read against the read sets and a holonomy, one flip shape on the ring and any number on the chain in closed form; on the torus " +
