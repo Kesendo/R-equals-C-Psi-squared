@@ -5,7 +5,7 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live battery for Theorem F of F173 (<c>docs/proofs/PROOF_SIGNED_MASK_BALANCE.md</c>, typed
+/// <summary>The live battery for Theorems F and G of F173 (<c>docs/proofs/PROOF_SIGNED_MASK_BALANCE.md</c>, typed
 /// <see cref="SignedMaskBalanceClaim.TorusBreaks"/> and <see cref="SignedMaskBalanceClaim.TorusBreaksByDifferences"/>):
 /// templates placed at every translate of the L × M torus, one string per flip set, Z dephasing on every site, read on the
 /// 2-part T₁ × T₂ of the translations (the second form, a rearrangement of the first, computed beside it and no second
@@ -18,7 +18,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// rearranged against the balance, one template's corners against the exponents of its mask coarsened to bit lengths (<see cref="SignedMaskBalanceClaim.SingleTemplateCorners"/>),
 /// two templates by divisibility in A (<see cref="SignedMaskBalanceClaim.TwoTemplatesBreakByDivisibility"/>) against Theorem F,
 /// the corner bound (<see cref="SignedMaskBalanceClaim.CornerBound"/>), the honeycomb and the kagome lattice
-/// (<see cref="SignedMaskBalanceClaim.LatticeBreaks"/>) and the size bound (<see cref="SignedMaskBalanceClaim.SufficientTorus"/>). Six controls must disagree:
+/// (<see cref="SignedMaskBalanceClaim.LatticeBreaks"/>) and the size bound (<see cref="SignedMaskBalanceClaim.SufficientTorus"/>). Theorem G on the open
+/// patch (<see cref="SignedMaskBalanceClaim.PatchBreaks"/>) against Theorem 2 on patches of 4 to 12 sites and against the balance on every patch to
+/// 8 × 8, its row M = 1 against Theorem B, three templates' breaking patches closed upwards, and its worked example; its two
+/// controls, the masks as their own quotients and the threshold along x alone, must disagree. Six controls of Theorem F must disagree:
 /// Theorem D's one-liner carried over with one number per mask (its least order in the powers of 1 + x and 1 + y) and
 /// T = min(T₁, T₂), read on the tori with T₁, T₂ ≥ 2, where A is no chain, the fold with T₁ and T₂ swapped, the fold onto the
 /// parities of L and M in place of their 2-parts, the staircase read with one corner, each direction on its own, the corner
@@ -55,8 +58,19 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     public int LatticeReadings { get; }
     /// <summary>The lattice readings whose merged set the setting accepts, where the merged control is read.</summary>
     public int MergedSitesReadings { get; }
+    /// <summary>Theorem G's controls: the quotients taken as the masks themselves (no gcd), and the threshold read along x
+    /// alone (M only as wide as the templates), against the balance on the readings of its balance family.</summary>
+    public int PatchNoGcdMismatches { get; }
+    public int PatchOneDirectionMismatches { get; }
+    public int PatchControlReadings { get; }
+    /// <summary>The pairs of Theorem G's balance family with c = 1, and those whose corner the gcd moves (or whose c it
+    /// changes).</summary>
+    public int PatchBreakingPairs { get; }
+    public int PatchPairsWhereTheGcdMatters { get; }
+    /// <summary>The three-template sets whose breaking patches up to 8 × 8 have more than one corner: no single quadrant.</summary>
+    public int PatchTriplesWithSeveralCorners { get; }
     public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0
-        && TighterBoundMismatches > 0 && MergedSitesMismatches > 0;
+        && TighterBoundMismatches > 0 && MergedSitesMismatches > 0 && PatchNoGcdMismatches > 0 && PatchOneDirectionMismatches > 0;
 
     // the corner bound against a staircase read on the small tori (2^(e + f) ≤ 64): every read corner inside
     // 2^(eⱼ − 1) < n_u, 2^(fⱼ − 1) < n_v, and the verdict unchanged by a doubling of T₂ from T₂ ≥ n_v (of T₁ from T₁ ≥ n_u)
@@ -186,6 +200,27 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         return near == far;
     }
 
+    /// <summary>Theorem 2 on the open L × M patch (site (i, j) at position i + L·j), each template at every translate that fits,
+    /// coefficient 1.</summary>
+    public static bool PairsOnPatch(int l, int m, params string[] templates)
+    {
+        var placed = new List<(PauliMask, BigInteger)>();
+        foreach (var t in templates)
+        {
+            var letters = SignedMaskBalanceClaim.TorusLetters(t);
+            var (wx, wy) = SignedMaskBalanceClaim.Extent(t);
+            for (int b = 0; b + wy <= m; b++)
+                for (int a = 0; a + wx <= l; a++)
+                {
+                    var s = Enumerable.Repeat('I', l * m).ToArray();
+                    foreach (var (i, j, c) in letters) s[i + a + l * (j + b)] = c;
+                    placed.Add((PauliMask.Parse(new string(s)), BigInteger.One));
+                }
+        }
+        var (near, far, _) = ComplementConnectionGraph.EverySiteDephased(l * m, ComplementConnectionGraph.Columns(l * m, placed));
+        return near == far;
+    }
+
     static bool Placeable(string[] ts, int l, int m)
     {
         try { SignedMaskBalanceClaim.OnTorus(ts, l, m); return true; }
@@ -252,6 +287,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         var pool = WindowTemplates;
         int oneNumber = 0, oneNumberReadings = 0, foldReadings = 0, swapped = 0, parity = 0, oneCorner = 0, staircaseReadings = 0, severalCorners = 0, oneCornerThree = 0;
         int tighter = 0, merged = 0, mergedReadings = 0, latticeReadings = 0;
+        int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0;
         int boundSets = 0, boundCommon = 0, boundChecks = 0, boundBad = 0;
         string? boundFirst = null;
 
@@ -629,7 +665,232 @@ public sealed class TorusMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("the worked examples (Theorem 2 to 4 × 4, the law and the balance to 64 sites, six sets of corners)", examples.Length, readings, pairing, bad, first, "the page"));
         }
 
+        // Theorem G, the open patch: two templates, read through the gcd in GF(2)[x, y]; its own seeds, one per draw, so the
+        // families above draw what they drew before and no family's draw moves another's
+        {
+            var prng = new Random(seed + 1);
+            var patchPairs = new List<string[]>(pairs);
+            var pool3 = ThreeByThreeTemplates(odd: true).Concat(ThreeByThreeTemplates(odd: false)).ToArray();
+            static bool Translates(string a, string b)
+            {
+                try { SignedMaskBalanceClaim.OnPatch(new[] { a, b }, 8, 8); return false; }
+                catch (ArgumentException) { return true; }
+            }
+            var deepPairs = new List<string[]>();
+            var drawnKeys = new HashSet<string>();
+            while (deepPairs.Count < 1500)
+            {
+                string a = pool3[prng.Next(pool3.Length)], b = pool3[prng.Next(pool3.Length)];
+                if (!Translates(a, b) && drawnKeys.Add(string.CompareOrdinal(a, b) < 0 ? a + "|" + b : b + "|" + a)) deepPairs.Add(new[] { a, b });
+            }
+
+            // against Theorem 2 on the bitstrings: 150 pairs of the 2 × 2 window and 50 of the 3 × 3 window, every patch of 4 to 12 sites
+            // with both sides at least 2
+            {
+                var patches = (from l in Enumerable.Range(2, 7) from m in Enumerable.Range(2, 7) where l * m <= 12 select (l, m)).ToArray();
+                var drawRng = new Random(seed + 2);
+                var drawn = patchPairs.OrderBy(_ => drawRng.Next()).Take(150).Concat(deepPairs.Take(50)).ToList();
+                var jobs = (from ts in drawn from p in patches select (Ts: ts, p.l, p.m)).ToList();
+                var graphs = new bool[jobs.Count];
+                Parallel.For(0, jobs.Count, k => graphs[k] = PairsOnPatch(jobs[k].l, jobs[k].m, jobs[k].Ts));
+                int readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                for (int k = 0; k < jobs.Count; k++)
+                {
+                    var (ts, l, m) = jobs[k];
+                    bool law = !SignedMaskBalanceClaim.PatchBreaks(ts[0], ts[1], l, m);
+                    readings++;
+                    if (graphs[k]) pairing++;
+                    if (graphs[k] != law) { bad++; first ??= $"{ts[0]} + {ts[1]} on {l} × {m}"; }
+                }
+                families.Add(new FamilyReading("Theorem G: two templates on the open patch, 150 pairs of the 2 × 2 window and 50 of the 3 × 3 window, every patch of 4 to 12 sites with both sides at least 2", drawn.Count, readings, pairing, bad, first, "Theorem 2"));
+            }
+
+            // against the balance: every pair of different masks of the 2 × 2 window and 1500 pairs of the 3 × 3 window (seeded), every
+            // patch up to 8 × 8; the controls read the same patches
+            {
+                var patches = (from l in Enumerable.Range(1, 8) from m in Enumerable.Range(1, 8) select (l, m)).ToArray();
+                int readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                foreach (var ts in patchPairs.Concat(deepPairs))
+                {
+                    var (_, corner) = SignedMaskBalanceClaim.Patch(ts[0], ts[1]);
+                    var (_, noGcd) = SignedMaskBalanceClaim.Patch(ts[0], ts[1], divideByGcd: false);
+                    var (wy1, wy2) = (SignedMaskBalanceClaim.Extent(ts[0]).Wy, SignedMaskBalanceClaim.Extent(ts[1]).Wy);
+                    if (corner is not null) patchBreaking++;
+                    if (!Equals(corner, noGcd)) patchGcdMatters++;
+                    foreach (var (l, m) in patches)
+                    {
+                        bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                        bool law = !SignedMaskBalanceClaim.PatchBreaks(ts[0], ts[1], l, m);
+                        readings++;
+                        if (balance) pairing++;
+                        if (balance != law) { bad++; first ??= $"{ts[0]} + {ts[1]} on {l} × {m}"; }
+                        if (balance == (noGcd is { } n0 && l >= n0.L && m >= n0.M)) patchNoGcd++;
+                        if (balance == (corner is { } c1 && l >= c1.L && m >= Math.Max(wy1, wy2))) patchOneDirection++;
+                    }
+                }
+                patchControlReadings = readings;
+                families.Add(new FamilyReading("Theorem G: every pair of different masks of the 2 × 2 window and 1500 different pairs of the 3 × 3 window, every patch up to 8 × 8", patchPairs.Count + deepPairs.Count, readings, pairing, bad, first, "the balance"));
+            }
+
+            // masks off the axes: 400 pairs of the 2 × 2 window, each template moved by a leading identity column, row, both or
+            // neither (its mask then divisible by x, y or xy, the extents counting the identity letters), every patch up to 8 × 8
+            {
+                var offRng = new Random(seed + 3);
+                static string Move(string t, int how) => string.Join("/", ((how & 2) != 0 ? new[] { "" } : Array.Empty<string>())
+                    .Concat(t.Split('/').Select(r => (how & 1) != 0 ? "I" + r : r)));
+                var cellsRead = new List<string[]>();
+                foreach (var ts in patchPairs.OrderBy(_ => offRng.Next()).Take(400))
+                    cellsRead.Add(new[] { Move(ts[0], offRng.Next(4)), Move(ts[1], offRng.Next(4)) });
+                int readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                foreach (var ts in cellsRead)
+                {
+                    for (int l = 1; l <= 8; l++)
+                        for (int m = 1; m <= 8; m++)
+                        {
+                            bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                            bool law = !SignedMaskBalanceClaim.PatchBreaks(ts[0], ts[1], l, m);
+                            readings++;
+                            if (balance) pairing++;
+                            if (balance != law) { bad++; first ??= $"{ts[0]} + {ts[1]} on {l} × {m}"; }
+                        }
+                }
+                families.Add(new FamilyReading("Theorem G off the axes, 400 pairs of the 2 × 2 window moved by identity rows and columns, every patch up to 8 × 8", cellsRead.Count, readings, pairing, bad, first, "the balance"));
+            }
+
+            // the gcd where its pseudo-remainders pass degree 63 in x: 200 planted factors, masks g·u and g·v with g of two rows
+            // and two columns and u, v drawn in a 6 × 6 window with a letter in each row's first column (196 of 200 passing 63 in
+            // a scout); the gcd read must be a multiple of g, and it divides both masks or Patch would throw
+            {
+                var plantRng = new Random(seed + 5);
+                static ulong Mul(ulong a, ulong b) { ulong r = 0; for (; b != 0; b >>= 1, a <<= 1) if ((b & 1) == 1) r ^= a; return r; }
+                static ulong[] Times(ulong[] a, ulong[] b)
+                {
+                    var r = new ulong[a.Length + b.Length - 1];
+                    for (int i = 0; i < a.Length; i++)
+                        for (int j = 0; j < b.Length; j++) r[i + j] ^= Mul(a[i], b[j]);
+                    return r;
+                }
+                static string Template(ulong[] rows, bool odd)
+                {
+                    bool placedY = false;
+                    return string.Join("/", rows.Select(r => new string(Enumerable.Range(0, r == 0 ? 0 : 64 - BitOperations.LeadingZeroCount(r))
+                        .Select(i => ((r >> i) & 1) == 0 ? 'I' : odd && !placedY && (placedY = true) ? 'Y' : 'X').ToArray())));
+                }
+                // exact divisibility of f by g in GF(2)[x][y], rows the coefficients of y^j
+                static bool Divides(ulong[] g, IReadOnlyList<ulong> f)
+                {
+                    var rem = f.ToArray();
+                    int dg = 63 - BitOperations.LeadingZeroCount(g[^1]);
+                    for (int d = rem.Length - 1; d >= g.Length - 1; d--)
+                    {
+                        while (rem[d] != 0)
+                        {
+                            int dr = 63 - BitOperations.LeadingZeroCount(rem[d]);
+                            if (dr < dg) return false;
+                            for (int j = 0; j < g.Length; j++) rem[d - g.Length + 1 + j] ^= g[j] << (dr - dg);
+                        }
+                    }
+                    return rem.All(r => r == 0);
+                }
+                int cells = 0, pairing = 0, bad = 0;
+                string? first = null;
+                while (cells < 200)
+                {
+                    var g = new[] { (ulong)plantRng.Next(1, 4), (ulong)plantRng.Next(1, 4) };
+                    ulong[] Draw() => Enumerable.Range(0, 6).Select(_ => (ulong)plantRng.Next(64) | 1).ToArray();
+                    var (t1, t2) = (Template(Times(g, Draw()), false), Template(Times(g, Draw()), true));
+                    if (Translates(t1, t2)) continue;
+                    cells++;
+                    var gcd = SignedMaskBalanceClaim.PatchGcd(t1, t2);
+                    if (SignedMaskBalanceClaim.Patch(t1, t2).Corner is null) pairing++;
+                    if (!Divides(g, gcd)) { bad++; first ??= $"{t1} + {t2}"; }
+                }
+                families.Add(new FamilyReading("Theorem G's gcd on 200 planted factors g·u, g·v (g two rows and two columns, u and v drawn in a 6 × 6 window): g divides the gcd read", cells, cells, pairing, bad, first, "the planted factor"));
+            }
+
+            // its row M = 1 is Theorem B: two templates of one row up to three sites wide with a letter at each end
+            {
+                var row = new[] { "XX", "XY", "YY", "XZ", "ZY", "YZ" }
+                    .Concat(from a in "XYZ" from mid in "IXYZ" from b in "XYZ" select $"{a}{mid}{b}")
+                    .Where(t => SignedMaskBalanceClaim.Mask(t) != 0).Distinct().ToArray();
+                int cells = 0, readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                for (int i = 0; i < row.Length; i++)
+                    for (int j = i + 1; j < row.Length; j++)
+                    {
+                        ulong ma = SignedMaskBalanceClaim.Mask(row[i]), mb = SignedMaskBalanceClaim.Mask(row[j]);
+                        if (ma >> BitOperations.TrailingZeroCount(ma) == mb >> BitOperations.TrailingZeroCount(mb)) continue;
+                        cells++;
+                        var (bBreaks, from) = SignedMaskBalanceClaim.Chain(row[i], row[j]);
+                        var (gBreaks, corner) = SignedMaskBalanceClaim.Patch(row[i], row[j]);
+                        readings++;
+                        if (!bBreaks) pairing++;
+                        if (bBreaks != gBreaks || (gBreaks && corner != (from!.Value, 1))) { bad++; first ??= $"{row[i]} + {row[j]}"; }
+                    }
+                families.Add(new FamilyReading("Theorem G's row M = 1, two templates of one row up to three sites wide: the corner (N*, 1)", cells, readings, pairing, bad, first, "Theorem B"));
+            }
+
+            // three templates: no closed form there; the breaking patches are the union of the quadrants of the unbalanced
+            // relations, and the sets whose patches to 8 × 8 show more than one corner are counted. Closure upwards holds by
+            // construction (a smaller patch's placements map into a larger one's), so its check tests the placement, not a law
+            {
+                var tripleRng = new Random(seed + 4);
+                int cells = 0, readings = 0, pairing = 0, notClosed = 0;
+                string? first = null;
+                for (int k = 0; k < 500; k++)
+                {
+                    var ts = new[] { pool3[tripleRng.Next(pool3.Length)], pool3[tripleRng.Next(pool3.Length)], pool3[tripleRng.Next(pool3.Length)] };
+                    if (Translates(ts[0], ts[1]) || Translates(ts[0], ts[2]) || Translates(ts[1], ts[2])) continue;
+                    cells++;
+                    var breaks = new bool[9, 9];
+                    for (int l = 1; l <= 8; l++)
+                        for (int m = 1; m <= 8; m++) { breaks[l, m] = !SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m)); readings++; if (!breaks[l, m]) pairing++; }
+                    for (int l = 1; l <= 8; l++)
+                        for (int m = 1; m <= 8; m++)
+                            if (breaks[l, m] && ((l < 8 && !breaks[l + 1, m]) || (m < 8 && !breaks[l, m + 1]))) { notClosed++; first ??= $"{string.Join(" + ", ts)} at {l} × {m}"; }
+                    int corners = 0;
+                    for (int l = 1; l <= 8; l++)
+                        for (int m = 1; m <= 8; m++)
+                            if (breaks[l, m] && (l == 1 || !breaks[l - 1, m]) && (m == 1 || !breaks[l, m - 1])) corners++;
+                    if (corners > 1) tripleSeveralCorners++;
+                }
+                families.Add(new FamilyReading("three templates of the 3 × 3 window: the breaking patches up to 8 × 8 (closed upwards, a check of the placement)", cells, readings, pairing, notClosed, first, "the balance"));
+            }
+
+            // the worked example and its counterpart: Theorem 2 on the patches to 16 sites, the law and the balance to 8 × 8
+            {
+                var examples = new (string Name, string[] Ts, Func<int, int, bool> Pairs)[]
+                {
+                    ("XY across beside XX/X breaks exactly from 3 × 2", new[] { "XY", "XX/X" }, (l, m) => l < 3 || m < 2),
+                    ("XX across beside XY down pairs on every patch", new[] { "XX", "X/Y" }, (l, m) => true),
+                };
+                int readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                foreach (var (name, ts, expect) in examples)
+                    for (int l = 1; l <= 8; l++)
+                        for (int m = 1; m <= 8; m++)
+                        {
+                            bool law = !SignedMaskBalanceClaim.PatchBreaks(ts[0], ts[1], l, m);
+                            bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                            bool? graph = l * m <= 16 ? PairsOnPatch(l, m, ts) : null;
+                            readings++;
+                            if (law) pairing++;
+                            if (law != expect(l, m) || balance != law || (graph is bool g && g != law)) { bad++; first ??= $"{name}: {l} × {m}"; }
+                        }
+                families.Add(new FamilyReading("Theorem G's worked example and its counterpart (Theorem 2 to 16 sites, the law and the balance to 8 × 8)", examples.Length, readings, pairing, bad, first, "the page"));
+            }
+        }
+
         Families = families;
+        PatchNoGcdMismatches = patchNoGcd;
+        PatchOneDirectionMismatches = patchOneDirection;
+        PatchControlReadings = patchControlReadings;
+        PatchBreakingPairs = patchBreaking;
+        PatchPairsWhereTheGcdMatters = patchGcdMatters;
+        PatchTriplesWithSeveralCorners = tripleSeveralCorners;
         OneCornerMismatches = oneCorner;
         StaircaseReadings = staircaseReadings;
         CornerSetsWithSeveral = severalCorners;
@@ -645,14 +906,15 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         ParityFoldMismatches = parity;
     }
 
-    public string DisplayName => "TorusMaskBalanceWitness (F173 Theorem F)";
+    public string DisplayName => "TorusMaskBalanceWitness (F173 Theorems F and G)";
 
     public string Summary =>
-        $"Theorem F on {Families.Count} families, {Families.Sum(f => f.Readings)} readings, {Families.Sum(f => f.Mismatches)} disagreeing; " +
+        $"Theorems F and G on {Families.Count} families, {Families.Sum(f => f.Readings)} readings, {Families.Sum(f => f.Mismatches)} disagreeing; " +
         $"the controls disagree with the balance: one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
         $"T₁ and T₂ swapped {SwappedFoldMismatches} and the fold onto the parities {ParityFoldMismatches} of {FoldControlReadings}, each direction " +
         $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}, the corner bound one doubling tighter {TighterBoundMismatches} corners, the " +
-        $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}";
+        $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}; Theorem G on the open patch without the gcd " +
+        $"{PatchNoGcdMismatches} and along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}";
 
     public IEnumerable<IInspectable> Children
     {
@@ -670,7 +932,10 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                          $"{OneNumberReadings} readings; the fold with T₁ and T₂ swapped: {SwappedFoldMismatches} of {FoldControlReadings}; the fold onto " +
                          $"the parities of L and M: {ParityFoldMismatches} of {FoldControlReadings}; each direction on its own, one corner at the least " +
                          $"e and the least f of the corners: {OneCornerMismatches} of {StaircaseReadings} ({OneCornerMismatchesOnThreeByThree} of them on 3 × 3; {CornerSetsWithSeveral} template sets with more than one corner); the corner bound one doubling tighter, 2^e < n_u " +
-                         $"and 2^f < n_v: {TighterBoundMismatches} read corners outside it; the lattice fold with the Q sites of a cell merged: {MergedSitesMismatches} of {MergedSitesReadings} (where the merged set can be placed)",
+                         $"and 2^f < n_v: {TighterBoundMismatches} read corners outside it; the lattice fold with the Q sites of a cell merged: {MergedSitesMismatches} of {MergedSitesReadings} (where the merged set can be placed); " +
+                         $"Theorem G with the masks as their own quotients (no gcd): {PatchNoGcdMismatches} of {PatchControlReadings}, and with the threshold along x alone: " +
+                         $"{PatchOneDirectionMismatches} of {PatchControlReadings} ({PatchBreakingPairs} pairs with c = 1, {PatchPairsWhereTheGcdMatters} whose corner or c the gcd changes); " +
+                         $"three templates with more than one corner on the patches to 8 × 8: {PatchTriplesWithSeveralCorners}",
                 provenance: NodeProvenance.Live);
         }
     }

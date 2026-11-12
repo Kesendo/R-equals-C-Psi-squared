@@ -11793,7 +11793,7 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 **Source:** [PROOF_QUDIT_CLOCK_MIRROR](proofs/PROOF_QUDIT_CLOCK_MIRROR.md).
 
 <a id="f173"></a>
-### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, any number from the least shifted degree of an unbalanced vector in a basis of the relations reduced for the widths (never if there is none), one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)) (Tier 1 derived)
+### F173. The signed balance of the flip masks: under Z dephasing on every site, where every flip set carries one Pauli string and no diagonal string of odd weight remains, the palindrome holds exactly when no relation among the placed masks uses an odd number of strings with odd #Y + #Z; two templates on the chain break exactly from N* = max(w₁ + deg q₂, w₂ + deg q₁) when s₁·q₂(1) + s₂·q₁(1) is odd, any number from the least shifted degree of an unbalanced vector in a basis of the relations reduced for the widths (never if there is none), one template on the ring exactly when its sign is odd and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through whether 2^(v₂(N)) exceeds the least valuation; where a flip set carries several strings whose ratio is a constant times a character, the palindrome is a symmetric reading of the masks with the relations read against the read sets and a holonomy on them; with one string per flip set on the L × M torus the verdict is read on the 2-part of the translations, the pairing tori a staircase in (v₂(L), v₂(M)), and two templates on the open patch break on one quadrant or on none, read off the gcd in GF(2)[x, y] (Tier 1 derived)
 
 **Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
 joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
@@ -11807,7 +11807,9 @@ template of w letters is placed at every window (the chain's starts 0 … N − 
 m(x) over GF(2), bit j ↦ x^j. On the L × M torus a template is placed at every translate, its mask m(x, y), the site
 (p, q) ↦ x^p·y^q; folded onto ℤ_T₁ × ℤ_T₂ it lies in A = GF(2)[x, y]/(x^T₁ + 1, y^T₂ + 1), I is the ideal of the folded
 masks and 𝔪 = (1 + x, 1 + y); a colouring of period (T₁, T₂) is a set φ of sites, unchanged by the translations by T₁ along x and by T₂
-along y, with X^⊗N·Z^φ commuting with H (Theorem F).
+along y, with X^⊗N·Z^φ commuting with H (Theorem F). On the open L × M patch a template is placed at every translate (a, b)
+with a + w_x ≤ L and b + w_y ≤ M, w_x and w_y one past its last column and row carrying a letter, its mask read in its own
+window (Theorem G).
 
 **The statement.**
 
@@ -11828,6 +11830,7 @@ along y, with X^⊗N·Z^φ commuting with H (Theorem F).
     the long chain is the large ring:  B′ breaks for some N  ⟺  Theorem D breaks at T > v₀,  for any number of templates
     ω = ±i, A the real strings of a flip set:  |g(x)|² = A(x)² + A(x̄)²,  g nowhere zero  ⟺  A(x) and A(x̄) never both zero
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
+    two templates on the open L × M patch, g = gcd(m₁, m₂) in GF(2)[x, y], qᵢ = mᵢ/g, c = s₁·q₂(1, 1) + s₂·q₁(1, 1):  breaks  ⟺  c = 1, L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁) and M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁)    (Theorem G; XY across + XX/X: from 3 × 2)
     the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
 
 **Gated by** the live battery `SignedMaskBalanceWitness` against Theorem 2 walked on the bitstrings
@@ -11850,12 +11853,14 @@ the carrier fails on 192 of the 1784 paired readings; Corollary E3′ agrees wit
 (2848 readings) and with Theorem 2 on 700 three-shape cells (4200), its two controls disagreeing on 4 and 6; whether B′
 breaks agrees with Theorem D on the ring of 64 on its 600 cells; and at odd q, |g|² = A(x)² + A(x̄)² holds exactly on
 546 solutions of the pairing equation, the real part's complementary zeros deciding where g vanishes (346 nowhere); beside the
-battery, fifteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
+battery, eighteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
 two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the
 balance (a rearrangement), one template's against the exponents of its mask coarsened to bit lengths, two templates by divisibility, the corner bound, the honeycomb and the kagome lattice, the size bound; six controls (one
 number per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner, the bound one doubling
-tighter, the sites of a cell merged) disagree.
+tighter, the sites of a cell merged) disagree. Theorem G in the same battery: against Theorem 2 on patches of 4 to 12 sites
+(2400 readings) and against the balance on every patch to 8 × 8 (833 280 readings), its row M = 1 against Theorem B; its two
+controls (no gcd, the threshold along x alone) disagree.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).
@@ -11872,8 +11877,8 @@ PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); the MirrorWorld stitch (`Stit
 SOFTNESS_IS_N_DEPENDENT and F116's golden router (several strings on one flip set with ratios that are no character,
 outside this entry); for Theorem F, MIRROR_SYMMETRY_PROOF's site-alternating map (the checkerboard on the square torus)
 and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of ground states of commuting Hamiltonians.
-**Scope:** the open chain, the ring (N ≥ 2·max w − 1) and the torus (no two placements coinciding) with uniform templates; one string per flip set (the balance
-also with several strings of one sign whose entries never cancel; Theorems B to D and F need one string), or several with a
+**Scope:** the open chain, the ring (N ≥ 2·max w − 1), the torus (no two placements coinciding) and the open patch (two templates) with uniform templates; one string per flip set (the balance
+also with several strings of one sign whose entries never cancel; Theorems B to D, F and G need one string), or several with a
 character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside); Z dephasing on
 every site. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.
 **Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over

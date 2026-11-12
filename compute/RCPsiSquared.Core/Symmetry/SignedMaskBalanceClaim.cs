@@ -34,7 +34,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// period (T₁, T₂) exists, the signs a linear function of the folded masks modulo the differences of their translates
 /// (Theorem F); the pairing tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, one template's read off the
 /// exponents of its mask expanded at x = y = 1, coarsened to bit lengths, and two templates' by divisibility in A = GF(2)[ℤ_T₁ × ℤ_T₂]; the ring's
-/// one number per mask is the case of a cyclic 2-part.</para>
+/// one number per mask is the case of a cyclic 2-part. Two templates on the open L × M patch, their masks read in GF(2)[x, y]:
+/// every relation is r·(q₂, q₁) and the degrees in x and in y add separately, so with c = s₁·q₂(1, 1) + s₂·q₁(1, 1) odd the
+/// patch breaks exactly on the quadrant L ≥ L*, M ≥ M*, and never with c even (Theorem G, <see cref="Patch"/>).</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -47,7 +49,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
 /// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="CornerBound"/>, <see cref="SufficientTorus"/>,
-/// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) and Theorem G's (<see cref="OnPatch"/>, <see cref="Patch"/>, <see cref="PatchBreaks"/>) have their own battery, <c>inspect --root torusbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>).</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
 {
@@ -72,7 +74,9 @@ public sealed class SignedMaskBalanceClaim : Claim
             "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
             "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F), and the pairing " +
             "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, bounded by the colength of the masks' ideal at x = y = 1 " +
-            "where the masks share no factor there",
+            "where the masks share no factor there; two templates on the open L × M patch break exactly on the quadrant " +
+            "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁) when s₁·q₂(1, 1) + s₂·q₁(1, 1) is odd, " +
+            "the gcd taken in GF(2)[x, y], and never otherwise (Theorem G)",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_SIGNED_MASK_BALANCE.md + docs/ANALYTICAL_FORMULAS.md (F173, the index entry)")
     {
@@ -640,6 +644,199 @@ public sealed class SignedMaskBalanceClaim : Claim
 
     static int TwoPart(int n) => 1 << BitOperations.TrailingZeroCount((uint)n);
 
+    // ---------------------------------------------------------------- Theorem G, the open patch
+
+    /// <summary>A template's extents on the plane, written as for <see cref="TorusLetters"/>: one past its largest column
+    /// and one past its largest row that carry a letter, identity letters before them counted.</summary>
+    public static (int Wx, int Wy) Extent(string template)
+    {
+        var letters = TorusLetters(template);
+        if (letters.Count == 0) throw new ArgumentException($"{template} has no letter");
+        return (letters.Max(x => x.I) + 1, letters.Max(x => x.J) + 1);
+    }
+
+    /// <summary>The placed masks of templates on the open L × M patch, site (i, j) at bit i + L·j (L·M ≤ 64), every
+    /// template at every (a, b) with a + w_x ≤ L and b + w_y ≤ M (<see cref="Extent"/>), with its sign. Refuses a template
+    /// that flips nothing and two templates whose masks are translates in the plane, where a flip set would carry two
+    /// strings.</summary>
+    public static IReadOnlyList<(ulong Mask, int Sign)> OnPatch(IReadOnlyCollection<string> templates, int l, int m)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (l < 1 || m < 1 || (long)l * m > 64) throw new ArgumentOutOfRangeException(nameof(l), $"{l} × {m}: one to 64 sites");
+        var shapes = new HashSet<string>();
+        var placed = new List<(ulong, int)>();
+        foreach (var t in templates)
+        {
+            var mask = PlaneMask(t);
+            if (mask.Length == 0) throw new ArgumentException($"{t} flips nothing");
+            if (!shapes.Add(string.Join(",", PlaneShape(mask)))) throw new ArgumentException("two masks are translates: a flip set would carry two strings");
+            var (wx, wy) = Extent(t);
+            int sign = Sign(t);
+            for (int b = 0; b + wy <= m; b++)
+                for (int a = 0; a + wx <= l; a++)
+                {
+                    ulong placedMask = 0;
+                    for (int j = 0; j < mask.Length; j++)
+                        for (int i = 0; i < 64; i++)
+                            if (((mask[j] >> i) & 1) == 1) placedMask |= 1UL << (i + a + l * (j + b));
+                    placed.Add((placedMask, sign));
+                }
+        }
+        return placed;
+    }
+
+    /// <summary>Theorem G: two templates on the open L × M patch, their masks read in GF(2)[x, y] (the site (i, j) as
+    /// x^i·y^j), g = gcd(m₁, m₂), qᵢ = mᵢ/g, c = s₁·q₂(1, 1) + s₂·q₁(1, 1) mod 2. Every relation is r·(q₂, q₁), and the
+    /// degrees in x and in y add separately, so with c = 1 the patch breaks exactly on the quadrant L ≥ L*, M ≥ M*,
+    /// L* = max(w_x1 + deg_x q₂, w_x2 + deg_x q₁) and M* the same along y, and with c = 0 on no patch (Corner null).
+    /// Theorem B is its row M = 1 for templates ending in a letter (the chain counts identity letters at the end, the patch's extent
+    /// does not). With <paramref name="divideByGcd"/> false the quotients are the masks themselves,
+    /// the control that must fail.</summary>
+    public static (bool Breaks, (int L, int M)? Corner) Patch(string t1, string t2, bool divideByGcd = true)
+    {
+        ulong[] m1 = PlaneMask(t1), m2 = PlaneMask(t2);
+        if (m1.Length == 0 || m2.Length == 0) throw new ArgumentException("both templates must flip something");
+        if (PlaneShape(m1).SequenceEqual(PlaneShape(m2))) throw new ArgumentException("the two masks are translates: a flip set would carry two strings");
+        ulong[] q1 = m1, q2 = m2;
+        if (divideByGcd)
+        {
+            var g = PlaneGcd(m1, m2);
+            q1 = PlaneDivide(m1, g);
+            q2 = PlaneDivide(m2, g);
+        }
+        int c = (Sign(t1) * PlaneAtOne(q2) + Sign(t2) * PlaneAtOne(q1)) % 2;
+        if (c == 0) return (false, null);
+        var (wx1, wy1) = Extent(t1);
+        var (wx2, wy2) = Extent(t2);
+        return (true, (Math.Max(wx1 + PlaneDegX(q2), wx2 + PlaneDegX(q1)), Math.Max(wy1 + q2.Length - 1, wy2 + q1.Length - 1)));
+    }
+
+    /// <summary>The gcd of two templates' masks in GF(2)[x, y] as Theorem G reads it, row j the coefficient of y^j (a
+    /// polynomial in x, bit i the coefficient of x^i).</summary>
+    public static IReadOnlyList<ulong> PatchGcd(string t1, string t2) => PlaneGcd(PlaneMask(t1), PlaneMask(t2));
+
+    /// <summary>Theorem G at one patch: whether two templates break on the open L × M patch.</summary>
+    public static bool PatchBreaks(string t1, string t2, int l, int m)
+    {
+        OnPatch(new[] { t1, t2 }, l, m);   // the setting
+        var (breaks, corner) = Patch(t1, t2);
+        return breaks && l >= corner!.Value.L && m >= corner.Value.M;
+    }
+
+    // a template's mask in GF(2)[x, y]: row j the coefficient of y^j, a polynomial in x (bit i), trailing zero rows dropped
+    static ulong[] PlaneMask(string template)
+    {
+        var rows = new ulong[64];
+        foreach (var (i, j, c) in TorusLetters(template))
+        {
+            if (i > 63 || j > 63) throw new ArgumentException($"{template} is wider than 64");
+            if (c is 'X' or 'Y') rows[j] |= 1UL << i;
+        }
+        return PlaneTrim(rows);
+    }
+
+    static ulong[] PlaneTrim(ulong[] p)
+    {
+        int n = p.Length;
+        while (n > 0 && p[n - 1] == 0) n--;
+        return p.Take(n).ToArray();
+    }
+
+    // the mask moved to touch both axes, the form two translates share
+    static ulong[] PlaneShape(ulong[] p)
+    {
+        int lead = 0;
+        while (p[lead] == 0) lead++;
+        int shift = p.Where(r => r != 0).Min(r => BitOperations.TrailingZeroCount(r));
+        return p.Skip(lead).Select(r => r >> shift).ToArray();
+    }
+
+    static int PlaneAtOne(ulong[] p) => p.Sum(r => BitOperations.PopCount(r)) & 1;
+    static int PlaneDegX(ulong[] p) => p.Where(r => r != 0).Max(Deg);
+
+    // exact division in GF(2)[x][y]: the leading coefficient of g divides that of f wherever g divides f (every partial
+    // remainder is a multiple of g), and no degree passes the dividend's
+    static ulong[] PlaneDivide(ulong[] f, ulong[] g)
+    {
+        var rem = (ulong[])f.Clone();
+        var q = new ulong[Math.Max(1, f.Length - g.Length + 1)];
+        for (int d = f.Length - 1; d >= g.Length - 1; d--)
+        {
+            if (rem[d] == 0) continue;
+            ulong k = Div(rem[d], g[^1]);
+            q[d - g.Length + 1] = k;
+            for (int j = 0; j < g.Length; j++) rem[d - g.Length + 1 + j] ^= MulChecked(k, g[j]);
+        }
+        if (rem.Any(r => r != 0)) throw new InvalidOperationException("not divisible");
+        return PlaneTrim(q);
+    }
+
+    // the gcd in GF(2)[x, y] = GF(2)[x][y], a unique factorization domain: the gcd of the contents times the primitive
+    // gcd, read by Euclid on pseudo-remainders, each made primitive (Gauss's lemma: a divisor of a primitive polynomial
+    // is primitive, so taking the content out changes no common divisor). The remainders' degrees in x can pass 63 on the
+    // way although the gcd divides both masks, so the coefficients are held as BigInteger, bit i the coefficient of x^i.
+    static ulong[] PlaneGcd(ulong[] a, ulong[] b)
+    {
+        var p = BigPrimitive(a.Select(r => (BigInteger)r).ToArray());
+        var q = BigPrimitive(b.Select(r => (BigInteger)r).ToArray());
+        BigInteger c = BigGcd(BigContent(a.Select(r => (BigInteger)r).ToArray()), BigContent(b.Select(r => (BigInteger)r).ToArray()));
+        if (p.Length < q.Length) (p, q) = (q, p);
+        while (q.Length > 0)
+        {
+            var r = (BigInteger[])p.Clone();
+            while (r.Length >= q.Length)
+            {
+                BigInteger lr = r[^1], lq = q[^1];
+                int s = r.Length - q.Length;
+                for (int j = 0; j < r.Length; j++) r[j] = BigMul(r[j], lq);
+                for (int j = 0; j < q.Length; j++) r[s + j] ^= BigMul(lr, q[j]);
+                r = BigPrimitive(BigTrim(r));
+            }
+            (p, q) = (q, r);
+        }
+        // the gcd divides both masks, so every coefficient of c·p fits in 64 bits
+        return PlaneTrim(p.Select(r => (ulong)BigMul(c, r)).ToArray());
+    }
+
+    static BigInteger[] BigTrim(BigInteger[] p)
+    {
+        int n = p.Length;
+        while (n > 0 && p[n - 1].IsZero) n--;
+        return p.Take(n).ToArray();
+    }
+
+    static BigInteger BigContent(BigInteger[] p) => p.Aggregate(BigInteger.Zero, (g, r) => g.IsZero ? r : r.IsZero ? g : BigGcd(g, r));
+
+    static BigInteger[] BigPrimitive(BigInteger[] p)
+    {
+        if (p.Length == 0) return p;
+        BigInteger c = BigContent(p);
+        return p.Select(r => r.IsZero ? r : BigDivMod(r, c).Q).ToArray();
+    }
+
+    static int BigDeg(BigInteger a) => a.IsZero ? -1 : (int)a.GetBitLength() - 1;
+
+    static BigInteger BigMul(BigInteger a, BigInteger b)
+    {
+        BigInteger r = BigInteger.Zero;
+        for (; !b.IsZero; b >>= 1, a <<= 1) if (!b.IsEven) r ^= a;
+        return r;
+    }
+
+    static (BigInteger Q, BigInteger R) BigDivMod(BigInteger a, BigInteger b)
+    {
+        BigInteger q = BigInteger.Zero;
+        int db = BigDeg(b);
+        while (!a.IsZero && BigDeg(a) >= db) { int s = BigDeg(a) - db; q ^= BigInteger.One << s; a ^= b << s; }
+        return (q, a);
+    }
+
+    static BigInteger BigGcd(BigInteger a, BigInteger b)
+    {
+        while (!b.IsZero) (a, b) = (b, BigDivMod(a, b).R);
+        return a;
+    }
+
     // ---------------------------------------------------------------- Theorem E, the character connection
 
     /// <summary>A Pauli string placed on at most 64 sites: X/Y mask, Y/Z mask, real coefficient.</summary>
@@ -1038,7 +1235,9 @@ public sealed class SignedMaskBalanceClaim : Claim
         "signed Cayley graph; two templates break exactly from N* when s₁·q₂(1) + s₂·q₁(1) is odd (F115 its all-negative case), " +
         $"one template on the ring exactly when s = 1 and v_(1+x)(m) ≥ 2^(v₂(N)), and any number on the ring read through " +
         $"whether 2^(v₂(N)) exceeds the least valuation; several strings per flip set with a character ratio by a symmetric reading " +
-        $"and the relations read against the read sets and a holonomy, one flip shape on the ring and two on the chain in closed form ({Tier.Label()}; live witness: inspect --root signedbalance)";
+        $"and the relations read against the read sets and a holonomy, one flip shape on the ring and any number on the chain in closed form; on the torus " +
+        $"a colouring of period (2^(v₂(L)), 2^(v₂(M))), and two templates on the open patch break on one quadrant or on none ({Tier.Label()}; live witnesses: " +
+        $"inspect --root signedbalance, inspect --root torusbalance)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -1081,6 +1280,12 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "reading holding the chain pairs below N* and from N* exactly when D = 0 and hol(u₀) = 1; where that reading holds at " +
                          "every offset D = 0, so D ≠ 0 only brings the break forward to N*: XXX + YYY beside the field X + Y pairs on every " +
                          "chain, XXX − YYY beside it breaks from N = 3");
+            yield return new InspectableNode("Theorem G, two templates on the open patch",
+                summary: "GF(2)[x, y] is a unique factorization domain, so every relation is r·(q₂, q₁), negative count r(1, 1)·c; the degrees " +
+                         "in x and in y add separately, so r = 1 is least in both at once and the breaking patches are one quadrant, " +
+                         "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁); XY across beside XX/X " +
+                         "breaks exactly from 3 × 2; Theorem B is the row M = 1 (templates ending in a letter); for three or more the breaking patches, the union of the " +
+                         "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read patch by patch");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");

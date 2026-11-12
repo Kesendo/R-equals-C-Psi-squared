@@ -33,9 +33,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// read about a centre moved by 1 % of σ.</para></summary>
 public class SignedMaskBalanceLiouvillianTests
 {
-    enum Reader { TheoremB, TheoremCD, CorollaryE2, TheoremE }
+    enum Reader { TheoremB, TheoremCD, CorollaryE2, TheoremE, TheoremG }
 
-    sealed record Row(string Name, (string T, long C)[] Templates, int N, bool Ring, bool RandomMagnitudes, Reader By, bool? Page);
+    // Patch: the open L × M patch, N = L·M, the templates written as for the torus (rows split by '/')
+    sealed record Row(string Name, (string T, long C)[] Templates, int N, bool Ring, bool RandomMagnitudes, Reader By, bool? Page, (int L, int M)? Patch = null);
 
     static readonly Row[] Rows =
     {
@@ -54,7 +55,35 @@ public class SignedMaskBalanceLiouvillianTests
         new("XXX + YYY ring (Corollary E2, every ring)", new[] { ("XXX", 1L), ("YYY", 1L) }, 6, true, false, Reader.CorollaryE2, true),
         new("(X − Y)⊗(X + Y) ring (Corollary E2, even N)", new[] { ("XX", 1L), ("XY", 1L), ("YX", -1L), ("YY", -1L) }, 5, true, false, Reader.CorollaryE2, false),
         new("(X − Y)⊗(X + Y) ring (Corollary E2, even N)", new[] { ("XX", 1L), ("XY", 1L), ("YX", -1L), ("YY", -1L) }, 6, true, false, Reader.CorollaryE2, true),
+        new("XY across + XX/X on the 3 × 2 patch (Theorem G, breaks from 3 × 2)", new[] { ("XY", 1L), ("XX/X", 1L) }, 6, false, true, Reader.TheoremG, false, (3, 2)),
+        new("XY across + XX/X on the 2 × 3 patch (Theorem G, pairs below L* = 3)", new[] { ("XY", 1L), ("XX/X", 1L) }, 6, false, true, Reader.TheoremG, true, (2, 3)),
+        new("XX across + XY down on the 3 × 2 patch (Theorem G, c = 0)", new[] { ("XX", 1L), ("X/Y", 1L) }, 6, false, true, Reader.TheoremG, true, (3, 2)),
     };
+
+    /// <summary>The strings of a row placed on its sites: the chain or the ring, or the open patch at every translate that fits.</summary>
+    static IEnumerable<(ulong X, ulong Z, long C)> Place(Row row)
+    {
+        if (row.Patch is not { } p) return SignedMaskBalanceClaim.PlaceStrings(row.Templates, row.N, row.Ring).Select(s => (s.X, s.Z, s.C));
+        if (row.N != p.L * p.M) throw new ArgumentException($"{row.Name}: N = {row.N} is not {p.L} × {p.M}");
+        var placed = new List<(ulong, ulong, long)>();
+        foreach (var (t, c) in row.Templates)
+        {
+            var (wx, wy) = SignedMaskBalanceClaim.Extent(t);
+            for (int b = 0; b + wy <= p.M; b++)
+                for (int a = 0; a + wx <= p.L; a++)
+                {
+                    ulong x = 0, z = 0;
+                    foreach (var (i, j, letter) in SignedMaskBalanceClaim.TorusLetters(t))
+                    {
+                        int site = i + a + p.L * (j + b);
+                        if (letter is 'X' or 'Y') x |= 1UL << site;
+                        if (letter is 'Y' or 'Z') z |= 1UL << site;
+                    }
+                    placed.Add((x, z, c));
+                }
+        }
+        return placed;
+    }
 
     /// <summary>The typed claim's own reading of a row (pairs = true), null where its reader refuses the row.</summary>
     static bool? Typed(Row row)
@@ -70,6 +99,8 @@ public class SignedMaskBalanceLiouvillianTests
                     return !SignedMaskBalanceClaim.RingBreaks(row.Templates.Select(t => t.T).ToArray(), row.N);
                 case Reader.CorollaryE2:
                     return !SignedMaskBalanceClaim.RingOneShape(row.Templates, row.N).Breaks;
+                case Reader.TheoremG:
+                    return !SignedMaskBalanceClaim.PatchBreaks(row.Templates[0].T, row.Templates[1].T, row.Patch!.Value.L, row.Patch.Value.M);
                 default:
                     return SignedMaskBalanceClaim.DecideCharacter(SignedMaskBalanceClaim.PlaceStrings(row.Templates, row.N, row.Ring)) switch
                     {
@@ -88,7 +119,7 @@ public class SignedMaskBalanceLiouvillianTests
     {
         int n = row.N, dim = 1 << n;
         // one magnitude per placed string where the row asks for it (Theorem A reads the signs alone)
-        var placed = SignedMaskBalanceClaim.PlaceStrings(row.Templates, n, row.Ring)
+        var placed = Place(row)
             .Select(s => (new PauliMask(s.X, s.Z), (BigInteger)(s.C * (row.RandomMagnitudes ? rng.Next(1, 10) : 1)))).ToList();
         var columns = ComplementConnectionGraph.Columns(n, placed);
         var (near, far, _) = ComplementConnectionGraph.EverySiteDephased(n, columns);
@@ -182,7 +213,7 @@ public class SignedMaskBalanceLiouvillianTests
         var broken = new List<double>();
         foreach (var g in readings)
         {
-            string at = $"{g.Row.Name} at N = {g.Row.N}";
+            string at = g.Row.Patch is not null ? g.Row.Name : $"{g.Row.Name} at N = {g.Row.N}";
             bool thm2 = g.Near == g.Far;
             Assert.True(g.Row.Page == Typed(g.Row), $"{at}: the page says {g.Row.Page}, the typed claim {Typed(g.Row)}");
             if (g.Row.Page is bool page) Assert.True(page == thm2, $"{at}: the page says {page}, Theorem 2 {thm2}");
@@ -203,7 +234,7 @@ public class SignedMaskBalanceLiouvillianTests
                 broken.Add(g.Pairing);
             }
         }
-        Assert.Equal((8, 7), (paired.Count, broken.Count));
+        Assert.Equal((10, 8), (paired.Count, broken.Count));
         Assert.True(broken.Min() / paired.Max() > 1e8, $"gap {broken.Min():E2} / {paired.Max():E2}");
         Assert.True(broken.Min() > 0.31, $"{broken.Min():E3}");                                                // measured, quoted on the page
     }
