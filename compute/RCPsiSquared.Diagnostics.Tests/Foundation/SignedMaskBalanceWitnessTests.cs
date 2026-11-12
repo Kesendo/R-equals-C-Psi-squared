@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
@@ -118,5 +119,69 @@ public class SignedMaskBalanceWitnessTests
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapeData(new[] { ("XX", 1L), ("YY", 1L) }, new[] { ("X", 1L) }));
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XX", 1L) }, new[] { ("XY", 1L) }, 4));
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.ChainTwoShapes(new[] { ("XX", 1L), ("XIY", 1L) }, wide, 5));
+    }
+
+    // Two identities every character ratio obeys: r(x)·r(x̄) = 1 by definition gives ω² = (−1)^|R|, which ReadRatio
+    // enforces itself by reading the character at every x (asserted here as a consistency check, it cannot fail on a
+    // Character reading), and H Hermitian, r(x ⊕ m) = 1/r(x), gives ω² = (−1)^⟨R, m⟩, which ReadRatio does not use and
+    // which tests its entry convention; together the read set has an even number of sites off its flip set. A reading
+    // that misses the second is a fault of the reader, not of the physics. Read on every set of one to four strings of one mask in a window of up to three sites and one to
+    // three strings in a window of four, signs ±1, and on the page's examples.
+    [Fact]
+    public void EveryCharacterRatioReadsAnEvenNumberOfSitesOffItsFlipSet()
+    {
+        static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+        int characters = 0, oddQuarter = 0, offMask = 0, realBesideEvenRead = 0;
+        void Check(ulong f, IReadOnlyList<SignedMaskBalanceClaim.PlacedString> strings)
+        {
+            var r = SignedMaskBalanceClaim.ReadRatio(f, strings);
+            if (r.Kind != SignedMaskBalanceClaim.RatioKind.Character) return;
+            characters++;
+            Assert.True((r.Quarter & 1) == Parity(r.Read), $"ω² ≠ (−1)^|R| at mask {f}, read {r.Read}, quarter {r.Quarter}");
+            Assert.True(Parity(r.Read & ~f) == 0, $"|R \\ m| odd at mask {f}, read {r.Read}");
+            if ((r.Quarter & 1) == 1) oddQuarter++;
+            if ((r.Read & ~f) != 0) offMask++;
+            if (r.Quarter % 2 == 0 && r.Read != 0) realBesideEvenRead++;
+        }
+        foreach (var (w, most) in new[] { (1, 4), (2, 4), (3, 4), (4, 3) })
+            for (ulong f = 1; f < 1UL << w; f++)
+            {
+                var onMask = Enumerable.Range(0, 1 << w).Select(choice =>
+                {
+                    ulong z = 0;
+                    for (int j = 0; j < w; j++) if (((choice >> j) & 1) == 1) z |= 1UL << j;   // Y on the mask, Z off it
+                    return z;
+                }).Distinct().ToArray();
+                void Grow(int start, List<SignedMaskBalanceClaim.PlacedString> chosen)
+                {
+                    if (chosen.Count > 0) Check(f, chosen);
+                    if (chosen.Count == most) return;
+                    for (int k = start; k < onMask.Length; k++)
+                        foreach (long c in chosen.Count == 0 ? new[] { 1L } : new[] { 1L, -1L })
+                        {
+                            chosen.Add(new SignedMaskBalanceClaim.PlacedString(f, onMask[k], c));
+                            Grow(k + 1, chosen);
+                            chosen.RemoveAt(chosen.Count - 1);
+                        }
+                }
+                Grow(0, new List<SignedMaskBalanceClaim.PlacedString>());
+            }
+
+        // the page's examples, with their read sets
+        var xzzy = SignedMaskBalanceClaim.ReadRatio(0b010, new[] { new SignedMaskBalanceClaim.PlacedString(0b010, 0b100, 1), new SignedMaskBalanceClaim.PlacedString(0b010, 0b011, 1) });
+        Assert.Equal((SignedMaskBalanceClaim.RatioKind.Character, 0b111UL), (xzzy.Kind, xzzy.Read));          // XZ ± ZY at {1}: R \ m = {0, 2}
+        var cz = SignedMaskBalanceClaim.ReadRatio(0b001, new[] { new SignedMaskBalanceClaim.PlacedString(1, 0, 1), new SignedMaskBalanceClaim.PlacedString(1, 0b100, 1),
+                                                                  new SignedMaskBalanceClaim.PlacedString(1, 0b010, 1), new SignedMaskBalanceClaim.PlacedString(1, 0b110, -1) });
+        Assert.Equal((SignedMaskBalanceClaim.RatioKind.Character, 2, 0b110UL), (cz.Kind, cz.Quarter, cz.Read));   // X ⊗ 2·CZ: ω = −1, R \ m = {1, 2}
+        var product = SignedMaskBalanceClaim.ReadRatio(0b11, SignedMaskBalanceClaim.PlaceStrings(new[] { ("XX", 15L), ("XY", 15L), ("YX", -15L), ("YY", -15L) }, 2, ring: false));
+        Assert.Equal((SignedMaskBalanceClaim.RatioKind.Character, 0, 0b11UL), (product.Kind, product.Quarter, product.Read));   // (3X − 3Y)⊗(5X + 5Y): ω = 1, R = m
+        var unequalProduct = SignedMaskBalanceClaim.ReadRatio(0b11, SignedMaskBalanceClaim.PlaceStrings(new[] { ("XX", 10L), ("XY", 14L), ("YX", 15L), ("YY", 21L) }, 2, ring: false));
+        Assert.Equal(SignedMaskBalanceClaim.RatioKind.NotCharacter, unequalProduct.Kind);                    // (2X + 3Y)⊗(5X + 7Y): a² ≠ b², no character
+        foreach (var e in new[] { xzzy, cz, product })
+            Assert.True(Parity(e.Read & ~e.Mask) == 0 && (e.Quarter & 1) == Parity(e.Read));
+
+        // anti-vacuity: both identities are read where they say something
+        Assert.True(oddQuarter > 0 && offMask > 0 && realBesideEvenRead > 0, $"{characters}, {oddQuarter}, {offMask}, {realBesideEvenRead}");
+        Assert.Equal((9828, 1370, 504, 148), (characters, oddQuarter, offMask, realBesideEvenRead));          // measured
     }
 }

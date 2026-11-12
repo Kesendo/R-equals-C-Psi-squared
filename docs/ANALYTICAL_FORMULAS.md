@@ -11833,11 +11833,13 @@ N* − 1 and N*, the ring law on 290 rings and on XY + ZZ, Theorem D on 1694 two
 and on 1046 pairs and 416 triples against the balance to N = 32, the balance at one N on 20 three-template cells,
 Theorem E on 428 cells of two strings on one flip mask (3936 readings inside its setting) and Corollary E2 on 2176
 rings against Theorem 2 and on 10560 against Theorem E's elimination to N = 40, and both on the sixteen products
-(aX + bY)⊗(cX + dY); Corollary E3 on 128 two-shape chain cells with a read set and (1) at every offset (768 readings),
-on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
+(aX + bY)⊗(cX + dY), a, b, c, d = ±1; Corollary E3 on 128 two-shape chain cells with a read set and (1) at every
+offset (768 readings), on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
 products (224 readings); twelve controls (the widths or the quotients swapped,
 2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
-E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
+E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree; beside the
+battery, fifteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
+two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the
 balance (a rearrangement), one template's against the exponents of its mask coarsened to bit lengths, two templates by divisibility, the corner bound, the honeycomb and the kagome lattice, the size bound; six controls (one
 number per mask, T₁ and T₂ swapped, the parities of L and M for their 2-parts, one corner, the bound one doubling

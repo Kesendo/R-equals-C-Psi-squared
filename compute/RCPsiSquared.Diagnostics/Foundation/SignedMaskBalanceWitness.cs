@@ -22,8 +22,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// from N = 2w − 1 to the ring cap; XY + ZZ on the ring; Theorem D on two templates against Theorem 2 to the ring cap,
 /// and on two templates up to five sites wide and three templates against the balance to N = 32; three templates at one
 /// N against Theorem 2; Theorem E on two strings on one flip mask, chain and ring, Corollary E2 on the ring (also against
-/// Theorem E's elimination past the bitstrings' reach) and on the products (aX + bY)⊗(cX + dY), Corollary E3 on two flip
-/// shapes on the chain; the worked examples of the page. Twelve controls show the battery can fail: the widths swapped in
+/// Theorem E's elimination past the bitstrings' reach) and on the products (aX + bY)⊗(cX + dY), a, b, c, d = ±1,
+/// Corollary E3 on two flip shapes on the chain; the worked examples of the page. Twelve controls show the battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
 /// Theorem E with any one of its three conditions dropped, Corollary E2 without its read-set test or its ordering term and
