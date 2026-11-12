@@ -25,8 +25,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 192), (864, 15552), (432, 4528), (864, 3456), (24, 24) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (24, 24) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -58,6 +58,10 @@ public class SignedMaskBalanceWitnessTests
         // with moduli that differ, 18 of them with (3/2)·λ_* above 2·μ_min, which no cycle without a potential reaches
         Assert.True(w.CycleTightest > 0.8 && w.CycleTightest < 0.82, $"the packing at {w.CycleTightest:F4} of λ_min(𝓜)");
         Assert.Equal((27, 18, 0), (w.CyclePotentialReadings, w.CyclePotentialAboveTwoHops, w.CycleEqualModuliAboveTwoHops));
+        // Corollary H3 on the same readings: the whole spectrum on 1408 where the hops commute (56 broken at second order, 8
+        // with relation signs that differ between cosets, the good components of X·(X ± Y)·X on the ring of six), the floor on
+        // 144 where every two anticommute; the control, Theorem H string by string, misses λ_min on 560 of the 1408
+        Assert.Equal((1408, 56, 8, 560, 624, 144, 1464), (w.HopReadings, w.HopBroken, w.HopSplit, w.HopControlMisses, w.HopNoncommuting, w.HopAllAnticommute, w.HopOutside));   // measured, quoted on the page
         Assert.True(w.CutTightest > 0.75 && w.CutTightest <= 1, $"λ at most {w.CutTightest:F4} of twice the cut");
     }
 
@@ -103,6 +107,47 @@ public class SignedMaskBalanceWitnessTests
         Assert.Equal(90.5, t3.LambdaStar, 9);
         Assert.Equal(9.5, t3.HopMin, 9);
         Assert.Equal(System.Math.PI, t3.ThetaMin, 12);
+    }
+
+    // Corollary H3 by hand at rate 1 and coefficient 1: XIY + XZX on the ring of six, one hop weight 1 on every flip set
+    // {l, l + 2}, the hops commuting and each triangle's sign −1, so the least level is two defects, 2·2 = 4, where Corollary
+    // H2 gave 3; X·(X + Y)·X on the ring of six, hop weight 2/3, splits (a good component at 0, the next level 4/3); XZ + ZY
+    // on the chain of four, the end hops anticommuting with their neighbours, is no commuting reading, and on the chain of three
+    // its three hops form a path, λ_min = 4 − 2√2; IIX + ZZY on the ring
+    // of five, every two of the five hops (weight 2) anticommuting, has λ_min = 10 − √20
+    [Fact]
+    public void CorollaryH3ReadsThePagesHops()
+    {
+        static (HopReading R, double Lam) Read(string a, long ca, string b, long cb, int n, bool ring)
+        {
+            var g = Enumerable.Repeat(1.0, n).ToArray();
+            var placed = SignedMaskBalanceClaim.PlaceStrings(new[] { (a, ca), (b, cb) }, n, ring);
+            var h = ComplementConnectionGraph.Columns(n, placed.Select(p => (new PauliMask(p.X, p.Z), (System.Numerics.BigInteger)p.C)));
+            double lam = StrongDephasingEdges.Build(n, h, g).Far.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian).EigenValues.Min(z => z.Real);
+            return (StrongDephasingEdges.ReadHops(n, h, g)!, lam);
+        }
+        var (xiy, lamXiy) = Read("XIY", 1, "XZX", 1, 6, true);
+        Assert.Equal(4.0, lamXiy, 12);
+        Assert.Equal(4.0, xiy.LambdaMin!.Value, 12);
+        Assert.All(xiy.Mu, m => Assert.Equal(1.0, m, 12));
+        Assert.False(xiy.Split);
+        var (xxx, lamXxx) = Read("XXX", 1, "XYX", 1, 6, true);
+        Assert.Equal(0.0, lamXxx, 12);
+        Assert.True(xxx.Split);
+        Assert.Equal(0.0, xxx.Spectrum![0], 12);
+        Assert.Equal(4.0 / 3, xxx.Spectrum.First(v => v > 1e-9), 12);
+        var (xz, _) = Read("XZ", 1, "ZY", 1, 4, false);
+        Assert.Null(xz.Spectrum);
+        Assert.Null(xz.LambdaMin);
+        var (xz3, lamXz3) = Read("XZ", 1, "ZY", 1, 3, false);   // the three hops a path: neither clause
+        Assert.Null(xz3.Spectrum);
+        Assert.Null(xz3.LambdaMin);
+        Assert.Equal(4 - 2 * System.Math.Sqrt(2), lamXz3, 12);
+        var (k5, lamK5) = Read("IIX", 1, "ZZY", 1, 5, true);
+        Assert.Equal(10 - 2 * System.Math.Sqrt(5), k5.LambdaMin!.Value, 12);
+        Assert.Equal(lamK5, k5.LambdaMin.Value, 12);
+        var (vanish, _) = Read("XX", 1, "YY", 1, 4, false);
+        Assert.Null(vanish);   // XX + YY: entries that vanish
     }
 
     // Corollary H1 and the trellis by hand at rate 1 and coefficient 1 (the second outside reply's examples): the trellis

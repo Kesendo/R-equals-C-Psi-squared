@@ -32,8 +32,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<see cref="SignedMaskBalanceClaim.StrongDephasingBreak"/>), and the kernels of both second-order generators against
 /// Theorem 2's two counts; Theorem H by the convolutional code's trellis against the enumeration, and Corollary H1's two
 /// bounds, from below by disjoint translates of Theorem B's relation on the chain and from above by a cut on the ring
-/// where the chain pairs; Corollary H2's cycle bound on Theorem E's cells and as the packing of XZ ± ZY's end squares; the
-/// worked examples of the page. Twenty-one controls show the
+/// where the chain pairs; Corollary H2's cycle bound on Theorem E's cells and as the packing of XZ ± ZY's end squares;
+/// Corollary H3's hop reading (<see cref="StrongDephasingEdges.ReadHops"/>) on Theorem E's cells, the whole far spectrum
+/// coset by coset where the hops commute and the floor where every two anticommute; the worked examples of the page.
+/// Twenty-two controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
@@ -44,7 +46,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// with every rate read as one or with the rates in reverse site order misses λ_min of the far edge's generator, and
 /// Corollary H1's packing bound with every offset of the relation counted (overlapping translates) exceeds the trellis,
 /// and its cut bound read where the chain breaks falls short of it, and Corollary H2's bound without its double count
-/// exceeds λ_min of the far edge's generator.</para></summary>
+/// exceeds λ_min of the far edge's generator, and Theorem H read string by string in place of Corollary H3's reading
+/// misses it.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -129,6 +132,17 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int CyclePotentialAboveTwoHops { get; private set; }
     /// <summary>The triangle at k = 0, moduli that agree: readings where (3/2)·λ_* exceeds 2·μ_min (none may).</summary>
     public int CycleEqualModuliAboveTwoHops { get; private set; }
+    /// <summary>Corollary H3 on Theorem E's cells: the readings where the hops commute and the spectrum is read, those
+    /// broken at second order, those whose relation signs differ between cosets, those where Theorem H read string by string
+    /// (the control) misses λ_min; the readings where the hops do not commute, those where every two anticommute; the
+    /// readings outside (an entry vanishing somewhere).</summary>
+    public int HopReadings { get; private set; }
+    public int HopBroken { get; private set; }
+    public int HopSplit { get; private set; }
+    public int HopControlMisses { get; private set; }
+    public int HopNoncommuting { get; private set; }
+    public int HopAllAnticommute { get; private set; }
+    public int HopOutside { get; private set; }
     /// <summary>Theorem H by the trellis: the largest |trellis − enumeration| over 2N·eps times the larger value.</summary>
     public double TrellisWorstRatio { get; private set; }
     /// <summary>Corollary H1's packing bound: readings where it is met exactly (to 4N·eps).</summary>
@@ -152,7 +166,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && UnreducedBasisMismatches > 0 && DroppedCosetTermMismatches > 0
                                  && DroppedE3PrimeReadSumMismatches > 0 && DroppedE3PrimeOrderingMismatches > 0
                                  && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0
-                                 && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0;
+                                 && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0
+                                 && HopControlMisses > 0;
 
     // the GF(2) rank of a set of masks
     static int Rank(int[] vectors)
@@ -880,8 +895,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         {
             var cRng = new Random(20261116);
             double eps = Math.Pow(2, -52);
-            int cells = 0, mismatches = 0;
-            string? first = null;
+            int cells = 0, mismatches = 0, hopMismatches = 0;
+            string? first = null, hopFirst = null;
             foreach (int w in new[] { 2, 3 })
                 for (ulong f = 1; f < 1UL << w; f++)
                 {
@@ -902,6 +917,37 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                         var far = StrongDephasingEdges.Build(n, h, gamma).Far.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian)
                                                                     .EigenValues.Select(z => z.Real).OrderBy(v => v).ToArray();
                                         double lam = far[0], tol = 4 * (1 << n) * eps * Math.Max(far[^1], 1);
+                                        // Corollary H3 on the same reading: the whole spectrum where the hops commute, the
+                                        // closed floor where every two anticommute; the control, Theorem H string by string
+                                        var hops = StrongDephasingEdges.ReadHops(n, h, gamma);
+                                        if (hops is null) HopOutside++;
+                                        else if (hops.Spectrum is { } spec)
+                                        {
+                                            HopReadings++;
+                                            bool off = spec.Length != far.Length || spec.Zip(far, (x, y) => Math.Abs(x - y)).Max() > tol;
+                                            if (off) { hopMismatches++; hopFirst ??= $"{strs[i]} {sign:+0;-0}{strs[j]} on the {(ring ? "ring" : "chain")} of {n}"; }
+                                            if (lam > tol) HopBroken++;
+                                            if (hops.Split) HopSplit++;
+                                            double naive = double.PositiveInfinity;
+                                            for (int phi = 0; phi < 1 << n; phi++)
+                                            {
+                                                double tot = 0;
+                                                foreach (var pl in placed)
+                                                    if ((BitOperations.PopCount((ulong)phi & pl.X) & 1) != (BitOperations.PopCount(pl.Z) & 1))
+                                                        tot += (double)pl.C * pl.C / Enumerable.Range(0, n).Where(l => ((pl.X >> l) & 1) == 1).Sum(l => gamma[l]);
+                                                naive = Math.Min(naive, tot);
+                                            }
+                                            if (Math.Abs(2 * naive - lam) > tol) HopControlMisses++;
+                                        }
+                                        else
+                                        {
+                                            HopNoncommuting++;
+                                            if (hops.LambdaMin is { } floor)
+                                            {
+                                                HopAllAnticommute++;
+                                                if (Math.Abs(floor - lam) > tol) { hopMismatches++; hopFirst ??= $"{strs[i]} {sign:+0;-0}{strs[j]} on the {(ring ? "ring" : "chain")} of {n}, every two hops anticommuting"; }
+                                            }
+                                        }
                                         var masks = placed.Select(p => (int)p.X).Where(m => m != 0).Distinct().OrderBy(m => m).ToArray();
                                         var frustrated = new List<(int[] Masks, double Bound)>();
                                         bool bad = false;
@@ -958,6 +1004,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                 }
             }
             families.Add(new FamilyReading("Corollary H2 with a potential: the triangle 10·XXI + k·XXZ + 10·IXX + k·ZXX + 10·XIY on three sites, k = 0 to 9, three rate draws each, (3/2)·λ_* at most λ_min(𝓜) and λ_* above its floor", potCells, potReadings, potBad, potFirst, "the cycle bound"));
+            families.Add(new FamilyReading("Corollary H3: Theorem E's two strings on one flip mask at random rates, chain N = 3 to 7 and ring N = 2w − 1 to 7, wherever no entry vanishes (every modulus there one number): the far edge's whole second-order spectrum against {2·Σ μ_m·y_m} on each coset where the hops commute, and λ_min against Σ μ − (Σ μ²)^(1/2) where every two anticommute", cells, HopReadings + HopAllAnticommute, hopMismatches, hopFirst, "the hop reading"));
             families.Add(new FamilyReading("Corollary H2: Theorem E's two strings on one flip mask at random rates, chain N = 3 to 7 and ring N = 2w − 1 to 7, every minimal relation whose walk is a simple cycle with holonomy ≠ 1 from every bitstring, (k/2)·λ_* and the packing of those sharing no flip set at most λ_min(𝓜); the readings, a cell at one N, those carrying such a relation", cells, CyclePackingReadings, mismatches, first, "the cycle bound"));
         }
 
@@ -1291,6 +1338,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"{Families.Where(f => f.Against == "the end squares").Sum(f => f.Readings)} against XZ ± ZY's two end squares, " +
         $"{Families.Where(f => f.Against == "the enumeration").Sum(f => f.Readings)} of the trellis against the enumeration, " +
         $"{Families.Where(f => f.Against == "the packing bound").Sum(f => f.Readings)} and {Families.Where(f => f.Against == "the cut bound").Sum(f => f.Readings)} against Corollary H1's two bounds, " +
+        $"{Families.Where(f => f.Against == "the hop reading").Sum(f => f.Readings)} of the far edge against Corollary H3's hop reading, " +
         $"{Families.Where(f => f.Against == "the page").Sum(f => f.Readings)} worked checks, {Families.Sum(f => f.Mismatches)} disagreeing; the controls (widths swapped, quotients swapped, 2^(v₂(N)) dropped, " +
         $"the parity of N for 2^(v₂(N)), i₀ at the greatest valuation) disagree {SwappedWidthsMismatches}, {SwappedQuotientsMismatches}, " +
         $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times; Theorem E with (1), (2), (3) dropped and E2 " +
@@ -1300,7 +1348,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"E3′ without N₁* or without its ordering term {DroppedE3PrimeReadSumMismatches}, {DroppedE3PrimeOrderingMismatches} times, " +
         $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times, " +
         $"Corollary H1's bounds with overlapping translates or where the chain breaks {PackingOverlapMismatches}, {CutWhereChainBreaksMismatches} times, " +
-        $"Corollary H2 without its double count {CycleDoubleCountMismatches} times";
+        $"Corollary H2 without its double count {CycleDoubleCountMismatches} times, Corollary H3's spectrum read as Theorem H string by string {HopControlMisses} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1332,7 +1380,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"{DroppedE3PrimeReadSumMismatches}, with hol walked without its ordering term: {DroppedE3PrimeOrderingMismatches}; " +
                          $"Theorem H with every rate read as one: {RatesReadAwayMismatches}, with the rates in reverse site order: {RatesReversedMismatches} (both against λ_min of 𝓜); " +
                          $"Corollary H1's packing bound with every offset of the relation counted: {PackingOverlapMismatches}, its cut bound read where the chain breaks: {CutWhereChainBreaksMismatches} (both against the trellis); " +
-                         $"Corollary H2 with k·λ_* in place of (k/2)·λ_*: {CycleDoubleCountMismatches} of {CycleRelations} relations (against λ_min of 𝓜)",
+                         $"Corollary H2 with k·λ_* in place of (k/2)·λ_*: {CycleDoubleCountMismatches} of {CycleRelations} relations (against λ_min of 𝓜); " +
+                         $"Corollary H3's reading replaced by Theorem H read string by string: {HopControlMisses} of {HopReadings} readings (against λ_min of 𝓜)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem H's solver, measured",

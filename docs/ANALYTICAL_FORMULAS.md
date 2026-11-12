@@ -11840,6 +11840,10 @@ window (Theorem G).
     several strings per flip set:  λ_min(𝓜) ≥ (k/s)·min_x λ_min(𝓜 on the cycle C_x) ≥ (k/s)·μ_min·2(1 − cos(θ_min/k)), for a closed
         sequence of k flip sets walked from every x as a simple cycle of holonomy e^(iθ_x) ≠ 1; μ_min the least hop modulus
         |H_ba||H_āb̄|/γ(a ⊕ b) on the cycles, θ_min the least |θ_x|, s twice the largest multiplicity    (Corollary H2)
+    one modulus per flip set:  𝓜 = Σ_m μ_m(1 − U_m), μ_m = |H_(x⊕m, x)|²/γ(m), U_m the hop along m with the phase H_ba·H_āb̄/|H_ba|²;
+        hops commuting:  spec on x + W = {2·Σ μ_m·y_m : Σ_(m∈u) y_m = e_u(x) on the relations u}, (−1)^(e_u(x)) the product of the U_m over u there,
+        λ_min = 2·min_x d_μ(e_x, C), e_x one such y, d_μ the distance weighted by μ, C = {(⟨φ, m⟩)_m};  every two anticommuting:
+        λ_min = Σ μ − (Σ μ²)^(1/2)    (Corollary H3; XIY + XZX on the ring of six: 4c²/γ)
     beside co-axial damping σ⁻_l at κ_l, the Z dephasing kept:  Theorem 2's far kernel an eigenspace at −2σ − Σκ_l/2 exactly;
         far edge −2σ − Σκ_l/2 + J²·(spec 𝓜 + O(‖𝓜‖κ/γ)) + O(J³)    (Theorem H beside amplitude damping)
     the staircase:  pairs  ⟺  2^(e_j) | L and 2^(f_j) | M for one of finitely many corners (e_j, f_j), the minimal exponents of the pairing 2-parts; 2^(e_j − 1) < n_u where e_j ≥ 1 and 2^(f_j − 1) < n_v where f_j ≥ 1, with I the ideal of the masks in R = GF(2)[[u, v]], u = 1 + x, v = 1 + y, 𝔪 = (u, v), and n_u, n_v the least n with u^n, v^n ∈ 𝔪·I there, where no factor vanishing at x = y = 1 is common to all the masks    (XY on the anti-diagonal alone: (1, 0), (0, 1); two templates: by divisibility in A)
@@ -11881,7 +11885,7 @@ component the nearest far eigenvalue's distance from −2σ reaches J²·λ_min 
 damping the damping acts on the far cells as −Σκ_l/2 entry by entry, twelve rows hold Theorem 2's far count at −2σ − Σκ_l/2
 and none at −2σ, and on five the remainder keeps its J⁴ fall at κ = J²·u read against the shifted line and loses it read
 against −2σ. Corollary H2 on 216 readings of frustrated relations of Theorem E's cells and as the exact packing of XZ ± ZY's end squares on 80, its
-control (no double count) exceeding on 20. Corollary H1 in the same battery: the trellis against the enumeration on 15 552 readings, the packing bound on
+control (no double count) exceeding on 20. Corollary H3 on the 3496 readings of Theorem E's cells: the whole far spectrum on 1408 where the hops commute and the floor on 144 where every two anticommute, its control (Theorem H string by string) missing λ_min on 560. Corollary H1 in the same battery: the trellis against the enumeration on 15 552 readings, the packing bound on
 4528 and the cut bound on 3456, their controls (overlapping translates, the cut where the chain breaks) exceeding and
 falling short on 3752 and 2390.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
