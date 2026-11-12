@@ -19,17 +19,18 @@ public class TorusMaskBalanceWitnessTests
     {
         var w = new TorusMaskBalanceWitness();
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
-        Assert.True(w.ControlsBreak, $"controls {w.OneNumberMismatches}, {w.SwappedFoldMismatches}, {w.ParityFoldMismatches}, {w.OneCornerMismatches}, {w.TighterBoundMismatches}, {w.MergedSitesMismatches}, Theorem G {w.PatchNoGcdMismatches}, {w.PatchOneDirectionMismatches}, threshold {w.PatchThresholdOverhangMismatches}");
+        Assert.True(w.ControlsBreak, $"controls {w.OneNumberMismatches}, {w.SwappedFoldMismatches}, {w.ParityFoldMismatches}, {w.OneCornerMismatches}, {w.TighterBoundMismatches}, {w.MergedSitesMismatches}, Theorem G {w.PatchNoGcdMismatches}, {w.PatchOneDirectionMismatches}, threshold {w.PatchThresholdOverhangMismatches}, {w.PatchVectorUnreducedMismatches}");
         Assert.Equal(160, TorusMaskBalanceWitness.WindowTemplates.Count);
         Assert.Equal(new[] { (370, 1330, 851), (13180, 210880, 107725), (13180, 52720, 24181), (591, 16548, 8288), (13180, 210880, 107725),
                 (12588, 501933, 0), (596, 23866, 0), (522, 5047, 4211), (400, 400, 200), (600, 16800, 8935), (80200, 80200, 80200), (11, 1006, 342),
-                (200, 2400, 2126), (13020, 833280, 644262), (400, 25600, 20502), (200, 200, 103), (591, 591, 306), (498, 31872, 23661), (300, 87000, 77672), (200, 2000, 1634), (300, 300, 70), (2, 128, 86) },
+                (200, 2400, 2126), (13020, 833280, 644262), (400, 25600, 20502), (200, 200, 103), (591, 591, 306), (498, 31872, 23661), (300, 87000, 77672), (300, 3000, 2096), (300, 30000, 17416), (200, 62000, 58662), (200, 2000, 1634), (300, 300, 70), (2, 128, 86) },
             w.Families.Select(f => (f.Cells, f.Readings, f.Pairing)).ToArray());   // measured
         Assert.Equal((8436, 118620, 4866, 2328, 210880), (w.OneNumberMismatches, w.OneNumberReadings, w.SwappedFoldMismatches, w.ParityFoldMismatches, w.FoldControlReadings));   // measured, quoted on the page
         Assert.Equal((210, 210, 210880, 210), (w.OneCornerMismatches, w.OneCornerMismatchesOnThreeByThree, w.StaircaseReadings, w.CornerSetsWithSeveral));   // measured, quoted on the page
         Assert.Equal((1435, 454, 2216, 4949), (w.TighterBoundMismatches, w.MergedSitesMismatches, w.MergedSitesReadings, w.LatticeReadings));   // measured, quoted on the page
         Assert.Equal((11612, 28909, 833280, 5286, 274, 301), (w.PatchNoGcdMismatches, w.PatchOneDirectionMismatches, w.PatchControlReadings, w.PatchBreakingPairs, w.PatchPairsWhereTheGcdMatters, w.PatchTriplesWithSeveralCorners));   // measured, quoted on the page
         Assert.Equal((10185, 2096), (w.PatchThresholdOverhangMismatches, w.PatchThresholdNever));   // measured, quoted on the page
+        Assert.Equal((554, 1200, 3000, 1919), (w.PatchVectorUnreducedMismatches, w.PatchVectorRunsCompared, w.PatchVectorBeyondRuns, w.PatchVectorMovedRunsCompared));   // measured, quoted on the page
     }
 
     // The page's examples read by the law far past the bitstrings, and the setting's refusals.
@@ -112,5 +113,23 @@ public class TorusMaskBalanceWitnessTests
         Assert.Equal(5, T(1, false, "XIY", "XXX"));
         Assert.NotEqual(T(2, false, "XY", "XX/X"), SignedMaskBalanceClaim.PatchThreshold(new[] { "XY", "XX/X" }, 2, leftOverhang: true));
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.PatchThreshold(new[] { "XX", "YX" }, 2));
+    }
+
+    // The same thresholds read off a reduced basis of the vector masks (Theorem B′ at height M), and at heights where W·M
+    // exceeds the runs' 22 bits:
+    // XY across beside XX/X at height 20 still breaks from length 3, along y from height 2 at width 20; the three-template
+    // set's two corners; XIY + XXX at height 1, Theorem B′'s 5.
+    [Fact]
+    public void TheVectorMaskBasisReadsThePagesPatches()
+    {
+        int? B(int m, bool alongY, params string[] ts) => SignedMaskBalanceClaim.PatchThresholdByBasis(ts, m, alongY);
+        Assert.Null(B(1, false, "XY", "XX/X"));
+        foreach (int m in new[] { 2, 3, 6, 20 }) Assert.Equal(3, B(m, false, "XY", "XX/X"));
+        Assert.Null(B(2, true, "XY", "XX/X"));
+        foreach (int l in new[] { 3, 4, 7, 20 }) Assert.Equal(2, B(l, true, "XY", "XX/X"));
+        for (int m = 1; m <= 20; m++) { Assert.Null(B(m, false, "XX", "X/Y")); Assert.Null(B(m, true, "XX", "X/Y")); }
+        Assert.Equal((2, 1, 2, 1), (B(1, false, "X", "XY", "Y/X"), B(2, false, "X", "XY", "Y/X"), B(1, true, "X", "XY", "Y/X"), B(2, true, "X", "XY", "Y/X")));
+        Assert.Equal(5, B(1, false, "XIY", "XXX"));
+        Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.PatchThresholdByBasis(new[] { "XX", "YX" }, 2));
     }
 }

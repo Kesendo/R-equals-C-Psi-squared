@@ -61,7 +61,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Gaussian integer, and Theorem D also against the balance on rings past the bitstrings' reach; Theorem F's readings
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
 /// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="CornerBound"/>, <see cref="SufficientTorus"/>,
-/// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) and Theorem G's (<see cref="OnPatch"/>, <see cref="Patch"/>, <see cref="PatchBreaks"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) and Theorem G's (<see cref="OnPatch"/>, <see cref="Patch"/>, <see cref="PatchBreaks"/>,
+/// <see cref="PatchThreshold"/>, <see cref="PatchThresholdByBasis"/>) have their own battery, <c>inspect --root torusbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>); Theorem H's reader and the lemma's two
 /// generators are read in the first battery, at random rates.</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
@@ -805,6 +806,82 @@ public sealed class SignedMaskBalanceClaim : Claim
         }
     }
 
+    /// <summary>The threshold at each height read as Theorem B′ with vector masks: at height <paramref name="m"/> each pair
+    /// p = (t, β), template t placed at row offset β (0 ≤ β ≤ m − w_y), is a vector mask V_p in GF(2)[x]^m, its coordinate
+    /// β + q carrying the template's row q, with the template's extent w_x as its width; the relations u (Σ u_p·V_p = 0, a
+    /// free module) fit in L columns exactly when sdeg(u) = max(deg u_p + w_x,p) ≤ L, and use λ(u) = Σ s_p·u_p(1) negative
+    /// strings modulo 2. Over a basis
+    /// reduced for that shift (weak Popov form) the predictable degree gives L*(m) = min{sdeg(b_j) : λ(b_j) = 1}, null where
+    /// every λ(b_j) = 0, without the run's 2^((W − 1)·m) states. The basis is the kernel read off a row reduction of the
+    /// vector masks with the row operations recorded; each entry is held to degree 63, past which it throws. <paramref name="alongY"/> reads the same along y. With
+    /// <paramref name="reduced"/> false the reading is taken off the unreduced kernel basis, the control that must fail.</summary>
+    public static int? PatchThresholdByBasis(IReadOnlyCollection<string> templates, int m, bool alongY = false, bool reduced = true)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        if (m < 1) throw new ArgumentOutOfRangeException(nameof(m), m, "a height of at least one");
+        var rows = new List<ulong[]>();
+        var widths = new List<int>();
+        var signs = new List<int>();
+        var shapes = new HashSet<string>();
+        foreach (var t in templates)
+        {
+            var mask = PlaneMask(t);
+            if (mask.Length == 0) throw new ArgumentException($"{t} flips nothing");
+            if (!shapes.Add(string.Join(",", PlaneShape(mask)))) throw new ArgumentException("two masks are translates: a flip set would carry two strings");
+            var letters = TorusLetters(t).Select(x => alongY ? (I: x.J, J: x.I, x.Letter) : (I: x.I, J: x.J, x.Letter)).ToList();
+            int wx = letters.Max(x => x.I) + 1, wy = letters.Max(x => x.J) + 1;
+            if (wy > m) continue;
+            for (int b = 0; b + wy <= m; b++)
+            {
+                var v = new ulong[m];
+                foreach (var x in letters.Where(x => x.Letter is 'X' or 'Y')) v[x.J + b] |= 1UL << x.I;
+                rows.Add(v);
+                widths.Add(wx);
+                signs.Add(Sign(t));
+            }
+        }
+        int k = rows.Count;
+        if (k == 0) return null;
+        int? best = null;
+        var kernel = VectorKernelBasis(rows, m);
+        foreach (var u in reduced ? ShiftedReduce(kernel, widths.ToArray()) : kernel)
+        {
+            int lambda = 0;
+            for (int j = 0; j < k; j++) lambda ^= signs[j] & AtOne(u[j]);
+            if (lambda == 1) best = Math.Min(best ?? int.MaxValue, ShiftedDegree(u, widths.ToArray()).Degree);
+        }
+        return best;
+    }
+
+    // a basis of {u : Σ u_p·V_p = 0} over GF(2)[x] for vectors V_p in GF(2)[x]^m: the Euclidean reduction one coordinate at
+    // a time with the row operations recorded in a unimodular matrix; each coordinate's entries among the rows not yet set
+    // aside are gathered into one row, their gcd, which is then set aside (if any); the rows of the recorded matrix whose
+    // reduced rows are left with no entry are the kernel's basis (the rows set aside are in echelon form, so independent)
+    static List<ulong[]> VectorKernelBasis(List<ulong[]> masks, int m)
+    {
+        int k = masks.Count;
+        var a = masks.Select(r => (ulong[])r.Clone()).ToArray();
+        var u = Enumerable.Range(0, k).Select(i => Enumerable.Range(0, k).Select(j => i == j ? 1UL : 0UL).ToArray()).ToArray();
+        var free = new HashSet<int>(Enumerable.Range(0, k));
+        for (int c = 0; c < m; c++)
+        {
+            while (free.Count(i => a[i][c] != 0) > 1)
+            {
+                int p = free.Where(i => a[i][c] != 0).OrderBy(i => Deg(a[i][c])).First();
+                foreach (int i in free)
+                {
+                    if (i == p || a[i][c] == 0) continue;
+                    var (q, _) = DivMod(a[i][c], a[p][c]);
+                    for (int col = 0; col < m; col++) a[i][col] ^= MulChecked(q, a[p][col]);
+                    for (int col = 0; col < k; col++) u[i][col] ^= MulChecked(q, u[p][col]);
+                }
+            }
+            int pivot = free.FirstOrDefault(i => a[i][c] != 0, -1);
+            if (pivot >= 0) free.Remove(pivot);
+        }
+        return free.OrderBy(i => i).Select(i => u[i]).ToList();
+    }
+
     /// <summary>Theorem G at one patch: whether two templates break on the open L × M patch.</summary>
     public static bool PatchBreaks(string t1, string t2, int l, int m)
     {
@@ -1520,7 +1597,8 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "breaks exactly from 3 × 2; Theorem B is the row M = 1 (templates ending in a letter); for three or more the breaking patches, the union of the " +
                          "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read at each height for every length at " +
                          "once: the sets of column states that admitted runs reach fall from the start, and from column W − 1 on " +
-                         "either empty at the threshold L*(M) or stand still, the patch then pairing at every length");
+                         "either empty at the threshold L*(M) or stand still, the patch then pairing at every length; the same L*(M) is the least shifted " +
+                         "degree of an unbalanced vector of a reduced basis of the relations of the placements (t, b) as vector masks over GF(2)[x] (Theorem B′ at height M)");
             yield return new InspectableNode("Theorem H, the size of the break at strong dephasing",
                 summary: "H scaled to J·H with condition (ii) everywhere: the first order vanishes on both edges, and the second is " +
                          "−J²·𝓛 on the populations and −2σ + J²·𝓜 on the far cells, 𝓛 the Zeno Laplacian with weights |H_ba|²/γ(a ⊕ b) and " +

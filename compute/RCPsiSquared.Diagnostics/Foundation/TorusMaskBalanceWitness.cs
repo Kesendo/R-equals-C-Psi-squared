@@ -22,9 +22,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// patch (<see cref="SignedMaskBalanceClaim.PatchBreaks"/>) against Theorem 2 on patches of 4 to 12 sites and against the balance on every patch to
 /// 8 × 8, its row M = 1 against Theorem B, three templates' breaking patches closed upwards, the threshold at each height
 /// (<see cref="SignedMaskBalanceClaim.PatchThreshold"/>) against the balance on three templates and against Theorem G on two,
-/// at height 1 against Theorem B′, and its worked example; its two controls, the masks as their own quotients and
-/// Theorem B's chain threshold read along x alone, and the threshold's own, read with the templates over the near edge onto
-/// φ = 0, must disagree. Six controls of Theorem F must disagree:
+/// at height 1 against Theorem B′, the same threshold off a reduced basis of vector masks
+/// (<see cref="SignedMaskBalanceClaim.PatchThresholdByBasis"/>) against the runs, at heights past those the runs were read at
+/// against the runs where they reach and the balance, and on moved templates, and Theorem G's worked example; its two controls, the
+/// masks as their own quotients and Theorem B's chain threshold read along x alone, and the threshold's two, read with the
+/// templates over the near edge onto φ = 0 and off the unreduced kernel basis, must disagree. Six controls of Theorem F must disagree:
 /// Theorem D's one-liner carried over with one number per mask (its least order in the powers of 1 + x and 1 + y) and
 /// T = min(T₁, T₂), read on the tori with T₁, T₂ ≥ 2, where A is no chain, the fold with T₁ and T₂ swapped, the fold onto the
 /// parities of L and M in place of their 2-parts, the staircase read with one corner, each direction on its own, the corner
@@ -77,9 +79,17 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     public int PatchThresholdOverhangMismatches { get; }
     /// <summary>Heights of the three-template threshold family at which the patch pairs at every length.</summary>
     public int PatchThresholdNever { get; }
+    /// <summary>The threshold at each height read off the unreduced kernel basis of the vector masks: readings where it
+    /// differs from the runs (the control).</summary>
+    public int PatchVectorUnreducedMismatches { get; }
+    /// <summary>The vector-mask threshold at heights 6 to 12: the heights compared with the runs (W·h ≤ 22) and those past
+    /// the runs' reach; on the moved templates, the heights compared with the runs.</summary>
+    public int PatchVectorRunsCompared { get; private set; }
+    public int PatchVectorBeyondRuns { get; private set; }
+    public int PatchVectorMovedRunsCompared { get; private set; }
     public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0
         && TighterBoundMismatches > 0 && MergedSitesMismatches > 0 && PatchNoGcdMismatches > 0 && PatchOneDirectionMismatches > 0
-        && PatchThresholdOverhangMismatches > 0;
+        && PatchThresholdOverhangMismatches > 0 && PatchVectorUnreducedMismatches > 0;
 
     // the corner bound against a staircase read on the small tori (2^(e + f) ≤ 64): every read corner inside
     // 2^(eⱼ − 1) < n_u, 2^(fⱼ − 1) < n_v, and the verdict unchanged by a doubling of T₂ from T₂ ≥ n_v (of T₁ from T₁ ≥ n_u)
@@ -296,7 +306,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         var pool = WindowTemplates;
         int oneNumber = 0, oneNumberReadings = 0, foldReadings = 0, swapped = 0, parity = 0, oneCorner = 0, staircaseReadings = 0, severalCorners = 0, oneCornerThree = 0;
         int tighter = 0, merged = 0, mergedReadings = 0, latticeReadings = 0;
-        int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0, patchThresholdOverhang = 0, patchThresholdNever = 0;
+        int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0, patchThresholdOverhang = 0, patchThresholdNever = 0, patchVectorUnreduced = 0;
         int boundSets = 0, boundCommon = 0, boundChecks = 0, boundBad = 0;
         string? boundFirst = null;
 
@@ -875,18 +885,27 @@ public sealed class TorusMaskBalanceWitness : IInspectable
             {
                 var thrRng = new Random(seed + 6);
                 int cells = 0, readings = 0, pairing = 0, bad = 0, gCells = 0, gReadings = 0, gPairing = 0, gBad = 0;
-                string? first = null, gFirst = null;
+                int vReadings = 0, vNever = 0, vBad = 0, pReadings = 0, pPairing = 0, pBad = 0, pRuns = 0, pBeyond = 0;
+                string? first = null, gFirst = null, vFirst = null, pFirst = null;
                 while (cells < 300)
                 {
                     var ts = new[] { pool3[thrRng.Next(pool3.Length)], pool3[thrRng.Next(pool3.Length)], pool3[thrRng.Next(pool3.Length)] };
                     if (Translates(ts[0], ts[1]) || Translates(ts[0], ts[2]) || Translates(ts[1], ts[2])) continue;
                     cells++;
+                    var lastByBasis = new Dictionary<bool, int?>();
                     foreach (bool alongY in new[] { false, true })
                         for (int h = 1; h <= 5; h++)
                         {
                             int? t = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY);
                             int? control = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY, leftOverhang: true);
                             if (t is null) patchThresholdNever++;
+                            // Theorem B′ with vector masks against the runs; its control, the unreduced kernel basis
+                            int? byBasis = SignedMaskBalanceClaim.PatchThresholdByBasis(ts, h, alongY);
+                            lastByBasis[alongY] = byBasis;
+                            vReadings++;
+                            if (byBasis is null) vNever++;
+                            if (byBasis != t) { vBad++; vFirst ??= $"{string.Join(" + ", ts)} at height {h}{(alongY ? " along y" : "")}"; }
+                            if (SignedMaskBalanceClaim.PatchThresholdByBasis(ts, h, alongY, reduced: false) != t) patchVectorUnreduced++;
                             for (int len = 1; len * h <= 64; len++)
                             {
                                 var (l, m) = alongY ? (h, len) : (len, h);
@@ -897,8 +916,77 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                                 if (balance != !(control is int kc && len >= kc)) patchThresholdOverhang++;   // the control, through the same gate
                             }
                         }
+                    // heights 6 to 12: the basis against the runs where they reach (W·h ≤ 22), against the balance on every patch of 64
+                    // sites or fewer, and falling with the height, L*(h) ≤ L*(h − 1) (a taller patch holds every relation of a lower one)
+                    foreach (bool alongY in new[] { false, true })
+                        for (int h = 6; h <= 12; h++)
+                        {
+                            int? byBasis = SignedMaskBalanceClaim.PatchThresholdByBasis(ts, h, alongY);
+                            int? below = lastByBasis[alongY];
+                            if (below is int bl && !(byBasis is int bb && bb <= bl)) { pBad++; pFirst ??= $"{string.Join(" + ", ts)}: L* rises at height {h}{(alongY ? " along y" : "")}"; }
+                            lastByBasis[alongY] = byBasis;
+                            int? runs = null;
+                            bool reach = true;
+                            try { runs = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY); } catch (ArgumentException) { reach = false; }
+                            if (reach) { pRuns++; if (runs != byBasis) { pBad++; pFirst ??= $"{string.Join(" + ", ts)} at height {h}{(alongY ? " along y" : "")} against the runs"; } }
+                            else pBeyond++;
+                            for (int len = 1; len * h <= 64; len++)
+                            {
+                                var (l, m) = alongY ? (h, len) : (len, h);
+                                bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                                pReadings++;
+                                if (balance) pPairing++;
+                                if (balance != !(byBasis is int k && len >= k)) { pBad++; pFirst ??= $"{string.Join(" + ", ts)} at {l} × {m}"; }
+                            }
+                        }
                 }
                 families.Add(new FamilyReading("the threshold at each height, every length at once: three templates of the 3 × 3 window, heights 1 to 5 along x and along y, against the balance on every patch of 64 sites or fewer", cells, readings, pairing, bad, first, "the balance"));
+                families.Add(new FamilyReading("the threshold at each height read off a reduced basis of vector masks (Theorem B′ at height M) against the runs: the same sets and heights", cells, vReadings, vNever, vBad, vFirst, "the runs"));
+                families.Add(new FamilyReading("the threshold read off the reduced basis at heights 6 to 12 along x and along y on the same sets: against the runs where they reach, against the balance on every patch of 64 sites or fewer, and falling with the height", cells, pReadings, pPairing, pBad, pFirst, "the runs and the balance"));
+                PatchVectorRunsCompared = pRuns;
+                PatchVectorBeyondRuns = pBeyond;
+
+                // moved templates (a leading identity column, row, both or neither, and on a coin a Z letter after the first row's
+                // last letter, which flips the sign and, the pool's rows being full, widens the window past the flip set): 200 sets of three, heights 1 to 6
+                // along x and along y, the basis against the runs where they reach and against the balance on every patch of 64
+                // sites or fewer
+                var movRng = new Random(seed + 7);
+                int mCells = 0, mReadings = 0, mPairing = 0, mBad = 0, mRuns = 0;
+                string? mFirst = null;
+                string Move(string t)
+                {
+                    int how = movRng.Next(4);
+                    var rows = t.Split('/').ToList();
+                    if (movRng.Next(2) == 1) rows[0] += "Z";
+                    if (how is 1 or 3) rows = rows.Select(r => "I" + r).ToList();
+                    if (how is 2 or 3) rows.Insert(0, "I");
+                    return string.Join("/", rows);
+                }
+                while (mCells < 200)
+                {
+                    var ts = Enumerable.Range(0, 3).Select(_ => Move(pool3[movRng.Next(pool3.Length)])).ToArray();
+                    if (Translates(ts[0], ts[1]) || Translates(ts[0], ts[2]) || Translates(ts[1], ts[2])) continue;
+                    mCells++;
+                    foreach (bool alongY in new[] { false, true })
+                        for (int h = 1; h <= 6; h++)
+                        {
+                            int? byBasis = SignedMaskBalanceClaim.PatchThresholdByBasis(ts, h, alongY);
+                            int? runs = null;
+                            bool reach = true;
+                            try { runs = SignedMaskBalanceClaim.PatchThreshold(ts, h, alongY); } catch (ArgumentException) { reach = false; }
+                            if (reach) { mRuns++; if (runs != byBasis) { mBad++; mFirst ??= $"{string.Join(" + ", ts)} at height {h}{(alongY ? " along y" : "")} against the runs"; } }
+                            for (int len = 1; len * h <= 64; len++)
+                            {
+                                var (l, m) = alongY ? (h, len) : (len, h);
+                                bool balance = SignedMaskBalanceClaim.Balanced(SignedMaskBalanceClaim.OnPatch(ts, l, m));
+                                mReadings++;
+                                if (balance) mPairing++;
+                                if (balance != !(byBasis is int k && len >= k)) { mBad++; mFirst ??= $"{string.Join(" + ", ts)} at {l} × {m}"; }
+                            }
+                        }
+                }
+                families.Add(new FamilyReading("the threshold off the reduced basis on moved templates: three of the 3 × 3 window, each with a leading identity column, row, both or neither and on a coin a Z letter widening its first row, heights 1 to 6 along x and along y, against the runs where they reach and the balance on every patch of 64 sites or fewer", mCells, mReadings, mPairing, mBad, mFirst, "the runs and the balance"));
+                PatchVectorMovedRunsCompared = mRuns;
 
                 var gPairs = patchPairs.OrderBy(_ => thrRng.Next()).Take(100).Concat(deepPairs.OrderBy(_ => thrRng.Next()).Take(100)).ToList();
                 foreach (var ts in gPairs)
@@ -972,6 +1060,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         PatchTriplesWithSeveralCorners = tripleSeveralCorners;
         PatchThresholdOverhangMismatches = patchThresholdOverhang;
         PatchThresholdNever = patchThresholdNever;
+        PatchVectorUnreducedMismatches = patchVectorUnreduced;
         OneCornerMismatches = oneCorner;
         StaircaseReadings = staircaseReadings;
         CornerSetsWithSeveral = severalCorners;
@@ -991,11 +1080,12 @@ public sealed class TorusMaskBalanceWitness : IInspectable
 
     public string Summary =>
         $"Theorems F and G on {Families.Count} families, {Families.Sum(f => f.Readings)} readings, {Families.Sum(f => f.Mismatches)} disagreeing; " +
-        $"the controls disagree with the balance: one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
+        $"the controls disagree (with the balance, the last with the runs): one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
         $"T₁ and T₂ swapped {SwappedFoldMismatches} and the fold onto the parities {ParityFoldMismatches} of {FoldControlReadings}, each direction " +
         $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}, the corner bound one doubling tighter {TighterBoundMismatches} corners, the " +
         $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}; Theorem G on the open patch without the gcd " +
-        $"{PatchNoGcdMismatches} and with Theorem B's chain threshold along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}, the threshold over the near edge {PatchThresholdOverhangMismatches} readings";
+        $"{PatchNoGcdMismatches} and with Theorem B's chain threshold along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}, the threshold over the near edge {PatchThresholdOverhangMismatches} readings; " +
+        $"the vector-mask threshold off the unreduced basis differs from the runs on {PatchVectorUnreducedMismatches} heights";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1008,7 +1098,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                              (f.Agrees ? $"every one agreeing with {f.Against}" : $"{f.Mismatches} DISAGREEING, first {f.FirstMismatch}"),
                     provenance: NodeProvenance.Live);
             yield return new InspectableNode(
-                displayName: "the controls, which must disagree with the balance",
+                displayName: "the controls, which must disagree (with the balance, the last with the runs)",
                 summary: $"Theorem D's one-liner with one number per mask and T = min(T₁, T₂), on the tori with T₁, T₂ ≥ 2: {OneNumberMismatches} of " +
                          $"{OneNumberReadings} readings; the fold with T₁ and T₂ swapped: {SwappedFoldMismatches} of {FoldControlReadings}; the fold onto " +
                          $"the parities of L and M: {ParityFoldMismatches} of {FoldControlReadings}; each direction on its own, one corner at the least " +
@@ -1017,7 +1107,8 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                          $"Theorem G with the masks as their own quotients (no gcd): {PatchNoGcdMismatches} of {PatchControlReadings}, and with Theorem B's chain threshold along x alone: " +
                          $"{PatchOneDirectionMismatches} of {PatchControlReadings} ({PatchBreakingPairs} pairs with c = 1, {PatchPairsWhereTheGcdMatters} whose corner or c the gcd changes); " +
                          $"three templates with more than one corner on the patches to 8 × 8: {PatchTriplesWithSeveralCorners}; the threshold at each height read with " +
-                         $"the templates over the near edge onto φ = 0: {PatchThresholdOverhangMismatches} readings against the balance (the patch pairing at every length at {PatchThresholdNever} heights, gated to 64 sites)",
+                         $"the templates over the near edge onto φ = 0: {PatchThresholdOverhangMismatches} readings against the balance (the patch pairing at every length at {PatchThresholdNever} heights, gated to 64 sites); " +
+                         $"the threshold read off the unreduced kernel basis of the vector masks: {PatchVectorUnreducedMismatches} heights against the runs",
                 provenance: NodeProvenance.Live);
         }
     }
