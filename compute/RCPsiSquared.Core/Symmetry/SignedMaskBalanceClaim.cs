@@ -41,7 +41,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// whose kernels are Theorem 2's two counts, the far one magnetic, carrying Theorem 2's ratios as phases, with a potential where the
 /// moduli differ (<see cref="StrongDephasingEdges"/>);
 /// with one string per flip set the far edge misses −2σ by J² times twice the distance of the signs from the code of
-/// balanced signings, each string weighted by c²/γ(m) (Theorem H, <see cref="StrongDephasingBreak"/>).</para>
+/// balanced signings, each string weighted by c²/γ(m) (Theorem H, <see cref="StrongDephasingBreak"/>, and for any N by the
+/// code's trellis, <see cref="StrongDephasingBreakTrellis"/>); disjoint unbalanced relations bound that distance from below,
+/// so where Theorem B breaks it grows with N, and on the ring where the chain pairs the strings over one cut bound it from
+/// above, so it stays bounded (Corollary H1).</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -1275,6 +1278,109 @@ public sealed class SignedMaskBalanceClaim : Claim
         return 2 * best;
     }
 
+    /// <summary>Theorem H's λ by a trellis, for templates placed on the open chain or the ring at any N up to 64: the
+    /// signings ⟨φ, x^p·m⟩ form a convolutional code whose encoder remembers the last W − 1 bits of φ, W the widest
+    /// template, so a Viterbi pass over the sites, each template scored at the site where its window ends, finds the
+    /// weighted distance of the signs from that code in about N·2^W steps on the chain (the code truncated at the ends);
+    /// on the ring the first W − 1 bits are fixed in turn (tail-biting) and the windows that wrap are scored at the end,
+    /// about N·2^(2W − 1) steps. Equal templates are collected first; a template wider than N, two templates whose masks
+    /// are translates (two strings on one flip set), a diagonal template of odd weight, a ring of fewer than 2W − 1 sites
+    /// (where the setting's guard does not keep the placed masks apart), or templates wider than 16 sites are refused.
+    /// Each weight's rates are summed in ascending site order, as the enumeration sums them. Where both accept, the same
+    /// number as <see cref="StrongDephasingBreak"/> on the placed strings.</summary>
+    public static double StrongDephasingBreakTrellis(IReadOnlyList<(string T, long C)> templates, IReadOnlyList<double> gamma, bool ring)
+    {
+        int n = gamma.Count;
+        if (n < 1 || n > 64) throw new ArgumentOutOfRangeException(nameof(gamma), n, "one to 64 sites");
+        if (gamma.Any(g => !(g > 0))) throw new ArgumentException("every rate strictly positive", nameof(gamma));
+        var collected = new Dictionary<string, long>();
+        foreach (var (t, c) in templates)
+        {
+            if (t.Length < 1 || t.Any(ch => ch is not ('I' or 'X' or 'Y' or 'Z'))) throw new ArgumentException($"{t} is no template", nameof(templates));
+            if (t.Length > n) throw new ArgumentException($"{t} does not fit on {n} sites", nameof(templates));
+            collected[t] = (collected.TryGetValue(t, out var a) ? a : 0) + c;
+        }
+        var terms = new List<(int W, int[] Offsets, int Sign, long C)>();
+        var shapes = new HashSet<string>();
+        foreach (var (t, c) in collected.Where(kv => kv.Value != 0).Select(kv => (kv.Key, kv.Value)))
+        {
+            var offsets = Enumerable.Range(0, t.Length).Where(i => t[i] is 'X' or 'Y').ToArray();
+            int sign = t.Count(ch => ch is 'Y' or 'Z') & 1;
+            if (offsets.Length == 0)
+            {
+                if (sign == 1) throw new ArgumentException($"the diagonal template {t} has odd weight", nameof(templates));
+                continue;
+            }
+            string shape = string.Concat(offsets.Select(o => o - offsets[0]).Select(o => o + ","));
+            if (!shapes.Add(shape)) throw new ArgumentException("two templates whose masks are translates: two strings on one flip set", nameof(templates));
+            terms.Add((t.Length, offsets, sign, c));
+        }
+        if (terms.Count == 0) return 0;
+        int width = terms.Max(t => t.W);
+        if (width > n) throw new ArgumentException($"a template of {width} sites on {n}", nameof(templates));
+        if (ring && n < 2 * width - 1) throw new ArgumentException($"a ring of {n} sites below the guard 2W − 1 = {2 * width - 1}", nameof(gamma));
+        if (width > 16) throw new ArgumentException("templates wider than 16 sites", nameof(templates));
+        int memory = width - 1, states = 1 << memory, keep = states - 1;
+
+        // the cost of the template t placed at start p, from φ on its window: bitOf(site) gives φ at a site
+        double Cost((int W, int[] Offsets, int Sign, long C) t, int p, Func<int, int> bitOf)
+        {
+            int parity = 0;
+            foreach (int o in t.Offsets) parity ^= bitOf((p + o) % n);
+            if (parity == t.Sign) return 0;
+            double rate = 0;
+            foreach (int site in t.Offsets.Select(o => (p + o) % n).OrderBy(site => site)) rate += gamma[site];
+            return (double)t.C * t.C / rate;
+        }
+
+        // one pass; head = the first W − 1 bits of φ when they are fixed (the ring), or −1 (the chain)
+        double Pass(int head)
+        {
+            var dist = new double[states];
+            Array.Fill(dist, double.PositiveInfinity);
+            dist[0] = 0;
+            for (int j = 0; j < n; j++)
+            {
+                var next = new double[states];
+                Array.Fill(next, double.PositiveInfinity);
+                for (int s = 0; s < states; s++)
+                {
+                    if (double.IsPositiveInfinity(dist[s])) continue;
+                    for (int b = 0; b < 2; b++)
+                    {
+                        if (head >= 0 && j < memory && ((head >> j) & 1) != b) continue;
+                        int full = (s << 1) | b;          // bit i: φ at site j − i
+                        double add = 0;
+                        foreach (var t in terms)
+                        {
+                            int p = j - t.W + 1;
+                            if (p < 0) continue;
+                            add += Cost(t, p, site => (full >> (j - site)) & 1);
+                        }
+                        int key = full & keep;
+                        next[key] = Math.Min(next[key], dist[s] + add);
+                    }
+                }
+                dist = next;
+            }
+            if (head < 0) return dist.Min();
+            double best = double.PositiveInfinity;
+            for (int s = 0; s < states; s++)
+            {
+                if (double.IsPositiveInfinity(dist[s])) continue;
+                double add = 0;
+                foreach (var t in terms)
+                    for (int p = n - t.W + 1; p < n; p++)
+                        add += Cost(t, p, site => site >= n - memory ? (s >> (n - 1 - site)) & 1 : (head >> site) & 1);
+                best = Math.Min(best, dist[s] + add);
+            }
+            return best;
+        }
+
+        double result = ring ? Enumerable.Range(0, states).Min(Pass) : Pass(-1);
+        return 2 * result;
+    }
+
     public override string DisplayName =>
         "F173: the signed balance of the flip masks";
 
@@ -1341,7 +1447,17 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "𝓜 the same with each hop carrying H_ba·H_āb̄, both positive semidefinite, their kernels Theorem 2's two counts; " +
                          "one string per flip set: 𝓜 = Σ (c²/γ(m))(1 − (−1)^s·T_m), diagonal in the characters, λ_min twice the weighted " +
                          "distance of the signs from the code of balanced signings; the XY ring at one rate J²c²/γ on every odd ring, " +
-                         "XZ + ZY on the chain two π-flux end squares, 2(3 − √5)·J²c²/γ");
+                         "XZ + ZY on the chain two π-flux end squares, 2(3 − √5)·J²c²/γ; the code is convolutional, so a Viterbi pass " +
+                         "along the sites reads the distance at any N up to 64 sites (tail-biting on the ring), and to leading order the " +
+                         "far edge's outermost modes, nearest −2σ, are the strings Z^φ·X^⊗N of its minimisers");
+            yield return new InspectableNode("Corollary H1, where the break grows",
+                summary: "unbalanced relations that share no string each leave at least one string unbalanced, so the weighted distance " +
+                         "is at least the sum of their least weights: where Theorem B breaks, Theorem B's relation and its translates " +
+                         "by 1 + max deg q_i give at least ⌊(N − N*)/(1 + max deg q_i)⌋ + 1 times the least weight, a break growing " +
+                         "with N; on the ring where the open chain " +
+                         "of the same N pairs, the chain's balancing signing leaves only the strings over one cut, a bound independent " +
+                         "of N, met at one rate on the odd XY ring and on XIY at N ≡ 2 mod 4; against the far edge's 2σ it is of order " +
+                         "1/N there wherever the ring breaks (at strong dephasing, to leading order in J)");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");

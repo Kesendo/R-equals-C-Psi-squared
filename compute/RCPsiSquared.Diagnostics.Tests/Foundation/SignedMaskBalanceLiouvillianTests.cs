@@ -412,7 +412,9 @@ public class SignedMaskBalanceLiouvillianTests
     /// r(J)/r(J/2) gated near 4 as without damping, and the same remainder read against −2σ, which carries Σu_l/2 at
     /// every J, must miss that window (the control); the solver's part cells·eps·‖block‖/J² below 10⁻² of r; and the
     /// whole far cluster, sorted by its real part, against the shifted line plus J²·spec(𝓜), its deviation over J² gated
-    /// to fall by more than 1.9 per halving of J.</summary>
+    /// to fall by more than 1.9 per halving of J; and on the rows with one string per flip set (Theorems B and C/D), where
+    /// 𝓜's eigenvectors are the characters Z^φ·X^⊗N, the nearest eigenvector's distance 1 − |projection| from the span of
+    /// the characters that minimise the code distance, gated to fall by more than 3 per halving of J.</summary>
     [Fact]
     public void BesideAmplitudeDampingTheFarEdgeKeepsItsReading()
     {
@@ -421,7 +423,8 @@ public class SignedMaskBalanceLiouvillianTests
         var rRatios = new List<double>();
         var controlRatios = new List<double>();
         var devRatios = new List<double>();
-        double minGap = double.PositiveInfinity, residual = 0;
+        double minGap = double.PositiveInfinity, residual = 0, worstMiss = 0;
+        int characterRows = 0;
         foreach (var row in Rows)
         {
             int n = row.N, dim = 1 << n, full = dim - 1;
@@ -545,6 +548,18 @@ public class SignedMaskBalanceLiouvillianTests
                                          .EigenValues.Select(z => z.Real).OrderBy(v => v).ToArray();
             double lam = mu[0];
             var u = Enumerable.Range(0, n).Select(_ => 0.5 + rng.NextDouble()).ToArray();
+            // with one string per flip set 𝓜's eigenvectors are the characters, Z^φ·X^⊗N on the far cells: the minimisers of
+            // the code distance span the far edge's lowest level, and the nearest eigenvector must run into that span
+            bool oneString = row.By is Reader.TheoremB or Reader.TheoremCD;
+            var minimisers = new List<int>();
+            if (oneString)
+            {
+                var costs = Enumerable.Range(0, dim).Select(phi => placed.Where(p => p.Item1.X != 0 &&
+                        (BitOperations.PopCount((ulong)phi & p.Item1.X) & 1) != (BitOperations.PopCount(p.Item1.Z) & 1))
+                    .Sum(p => (double)(p.Item2 * p.Item2) / Enumerable.Range(0, n).Where(l => ((p.Item1.X >> l) & 1) == 1).Sum(l => gamma[l]))).ToArray();
+                minimisers = Enumerable.Range(0, dim).Where(phi => costs[phi] <= costs.Min() + 1e-9 * costs.Max()).ToList();
+            }
+            var misses = new List<double>();
             var rs = new List<double>();
             var controls = new List<double>();
             var devs = new List<double>();
@@ -553,8 +568,25 @@ public class SignedMaskBalanceLiouvillianTests
                 double J = j / maxC;
                 var kappa = u.Select(x => J * J * x).ToArray();
                 double shifted = -2 * sigma - kappa.Sum() / 2;
-                var all = FarBlock(J, kappa).Evd().EigenValues.ToArray();
+                var evd = FarBlock(J, kappa).Evd();
+                var all = evd.EigenValues.ToArray();
                 var cluster = all.Where(l => (l - shifted).Magnitude < 0.5).ToArray();
+                if (oneString)
+                {
+                    int nearest = Enumerable.Range(0, cells).OrderBy(i => (all[i] - shifted).Magnitude).First();
+                    var v = evd.EigenVectors.Column(nearest);
+                    v = v / v.L2Norm();
+                    // the minimisers' characters are orthogonal on the far cells: the projection is a sum of overlaps
+                    double projected = 0;
+                    foreach (int phi in minimisers)
+                    {
+                        Complex overlap = 0;
+                        foreach (var ((x, y), k) in index)
+                            if (y == (x ^ full)) overlap += v[k] * ((BitOperations.PopCount((uint)(phi & x)) & 1) == 0 ? 1 : -1);
+                        projected += overlap.Magnitude * overlap.Magnitude / dim;
+                    }
+                    misses.Add(1 - Math.Sqrt(projected));
+                }
                 Assert.True(cluster.Length == dim, $"{row.Name} at j = {j}: a far cluster of {cluster.Length}, not {dim}");
                 // the whole cluster, sorted by its real part, against the shifted line plus J²·spec(𝓜)
                 var sorted = cluster.OrderBy(z => z.Real).ToArray();
@@ -575,6 +607,13 @@ public class SignedMaskBalanceLiouvillianTests
                 devRatios.Add(dr);
                 Assert.True(dr > 1.9, $"{row.Name}: the cluster's deviation falls by {dr:F3} only");
             }
+            if (oneString)
+            {
+                characterRows++;
+                for (int k = 0; k < 2; k++)
+                    Assert.True(misses[k] / misses[k + 1] > 3, $"{row.Name}: the eigenvector's miss of the minimising characters falls by {misses[k] / misses[k + 1]:F3} only ({string.Join(", ", misses.Select(x => x.ToString("E2")))})");
+                worstMiss = Math.Max(worstMiss, misses[^1]);
+            }
             lawRows++;
         }
         // measured, quoted on the page: twelve rows read (six blocks above 1024 cells left out), five of them broken with no
@@ -584,6 +623,10 @@ public class SignedMaskBalanceLiouvillianTests
         // cells·eps·‖block‖, 0.05 at the worst
         Assert.True(residual < 1, $"a far-kernel vector misses −2σ − Σκ/2 by {residual:F3} of cells·eps·‖block‖");
         Assert.Equal((12, 5, 4, 6), (exactRows, lawRows, crossChecked, skipped));
+        // the far edge's nearest eigenvector against the minimising characters Z^φ·X^⊗N on the two rows with one string per
+        // flip set: 1 − |projection| at j = 0.02 at most 1.4·10⁻⁵, measured, falling by more than 3 per halving of J
+        Assert.Equal(2, characterRows);
+        Assert.True(worstMiss < 1e-4, $"the eigenvector misses the minimising characters by {worstMiss:E2}");
         Assert.Equal((10, 10), (rRatios.Count, controlRatios.Count));
         Assert.All(controlRatios, c => Assert.True(c < 1.5, $"control {c:F4}"));
         Assert.True(minGap > 2.5e-3, $"the nearest other eigenvalue {minGap:E3}·σ from the shifted line");

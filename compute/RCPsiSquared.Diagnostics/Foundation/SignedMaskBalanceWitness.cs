@@ -30,7 +30,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Theorem D on the ring of 64; Theorem H at random rates, λ_min of the far edge's second-order generator
 /// (<see cref="StrongDephasingEdges"/>, built from H's entries) against the weighted code distance
 /// (<see cref="SignedMaskBalanceClaim.StrongDephasingBreak"/>), and the kernels of both second-order generators against
-/// Theorem 2's two counts; the worked examples of the page. Eighteen controls show the
+/// Theorem 2's two counts; Theorem H by the convolutional code's trellis against the enumeration, and Corollary H1's two
+/// bounds, from below by disjoint translates of Theorem B's relation on the chain and from above by a cut on the ring
+/// where the chain pairs; the worked examples of the page. Twenty controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
@@ -38,7 +40,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Corollary E3 without its read-sum test or its ordering term disagree with Theorem 2, and Theorem B′ read off the
 /// unreduced basis of the relations disagrees with the balance, the ℤ/4 carrier without its coset term fails (★), and
 /// Corollary E3′ with N₁* read away or with hol walked without its ordering term disagrees with Theorem 2, and Theorem H
-/// with every rate read as one or with the rates in reverse site order misses λ_min of the far edge's generator.</para></summary>
+/// with every rate read as one or with the rates in reverse site order misses λ_min of the far edge's generator, and
+/// Corollary H1's packing bound with every offset of the relation counted (overlapping translates) exceeds the trellis,
+/// and its cut bound read where the chain breaks falls short of it.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -108,6 +112,21 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public double KernelGapMin { get; private set; } = double.PositiveInfinity;
     /// <summary>Theorem H: readings where the far edge misses −2σ at second order (λ_min(𝓜) &gt; 0).</summary>
     public int StrongDephasingBroken { get; private set; }
+    /// <summary>Theorem H by the trellis: the largest |trellis − enumeration| over 2N·eps times the larger value.</summary>
+    public double TrellisWorstRatio { get; private set; }
+    /// <summary>Corollary H1's packing bound: readings where it is met exactly (to 4N·eps).</summary>
+    public int PackingEqualities { get; private set; }
+    /// <summary>The packing bound with every offset of the relation counted, the translates overlapping: readings where it
+    /// exceeds the trellis (the control).</summary>
+    public int PackingOverlapMismatches { get; private set; }
+    /// <summary>Corollary H1's cut bound: ring readings where it is met exactly (to 4N·eps), the readings where the ring
+    /// breaks (λ &gt; 0) with the chain pairing, and the largest λ over twice the cut there.</summary>
+    public int CutEqualities { get; private set; }
+    public int CutBroken { get; private set; }
+    public double CutTightest { get; private set; }
+    /// <summary>The cut bound read on the rings where the chain of the same N breaks: readings where the trellis exceeds it
+    /// (the control).</summary>
+    public int CutWhereChainBreaksMismatches { get; private set; }
     public bool AllAgree => Families.All(f => f.Agrees);
     public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0
                                  && ParityOnlyMismatches > 0 && MostValuedMismatches > 0
@@ -115,7 +134,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && DroppedReadSumMismatches > 0 && DroppedE3OrderingMismatches > 0
                                  && UnreducedBasisMismatches > 0 && DroppedCosetTermMismatches > 0
                                  && DroppedE3PrimeReadSumMismatches > 0 && DroppedE3PrimeOrderingMismatches > 0
-                                 && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0;
+                                 && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0
+                                 && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0;
 
     static readonly string[] Windows = (from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}").ToArray();
 
@@ -817,6 +837,134 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("Theorem H's lemma: the kernels of the two second-order generators against Theorem 2's near and far counts, the window pairs and Theorem E's two strings on one flip mask", kernelCells, kernelReadings, kernelMismatches, kernelFirst));
         }
 
+        // Corollary H1 and the trellis, on the window pairs at random rates (a seed of their own): (a) the trellis against the
+        // enumeration, chain N = 3 to 12 and ring N = 5 to 12; (b) on the chain where Theorem B breaks, the relation r = 1 at
+        // N* and its translates by D = 1 + max deg q_i, pairwise disjoint and each unbalanced, against the trellis from N* to
+        // 3N*: λ ≥ 2·Σ_t the least weight in translate t (the control: every offset 0 … N − N*, which overlap); (c) on the ring where the
+        // chain of the same N pairs: λ ≤ 2·min over the N cuts of the weights of the strings whose window straddles the cut
+        // (the control: the same bound on the rings where the chain breaks)
+        {
+            var dRng = new Random(20261115);
+            double eps = Math.Pow(2, -52);
+            double[] Rates(int n) => Enumerable.Range(0, n).Select(_ => 0.5 + dRng.NextDouble()).ToArray();
+            int trellisCells = 0, trellisReadings = 0, trellisMismatches = 0;
+            int packCells = 0, packReadings = 0, packMismatches = 0;
+            int cutCells = 0, cutReadings = 0, cutMismatches = 0;
+            string? trellisFirst = null, packFirst = null, cutFirst = null;
+            static ulong PolyMod(ulong a, ulong b) { int db = 63 - BitOperations.LeadingZeroCount(b); while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db) a ^= b << (63 - BitOperations.LeadingZeroCount(a) - db); return a; }
+            static ulong PolyGcd(ulong a, ulong b) { while (b != 0) (a, b) = (b, PolyMod(a, b)); return a; }
+            static ulong PolyDiv(ulong a, ulong b)
+            {
+                ulong q = 0; int db = 63 - BitOperations.LeadingZeroCount(b);
+                while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db) { int s = 63 - BitOperations.LeadingZeroCount(a) - db; q |= 1UL << s; a ^= b << s; }
+                return q;
+            }
+            // the weight c²/γ(m) of the template t placed at start p (wrapped on n sites)
+            static double Weight(string t, long c, int p, int n, double[] gamma)
+            {
+                double rate = 0;
+                for (int i = 0; i < t.Length; i++) if (t[i] is 'X' or 'Y') rate += gamma[(p + i) % n];
+                return (double)c * c / rate;
+            }
+
+            for (int i = 0; i < Windows.Length; i++)
+                for (int j = i + 1; j < Windows.Length; j++)
+                {
+                    string a = Windows[i], b = Windows[j];
+                    ulong ma = SignedMaskBalanceClaim.Mask(a), mb = SignedMaskBalanceClaim.Mask(b);
+                    if (ma == 0 || mb == 0 || SameShape(ma, mb)) continue;
+                    var (breaks, from) = SignedMaskBalanceClaim.Chain(a, b);
+                    foreach (long sign in new[] { 1L, -1L })
+                    {
+                        var terms = new[] { (a, 1L), (b, sign) };
+                        string Name(bool ring, int n) => $"{a} {sign:+0;-0}{b} on the {(ring ? "ring" : "chain")} of {n}";
+
+                        // (a) the trellis against the enumeration
+                        trellisCells++;
+                        foreach (bool ring in new[] { false, true })
+                            for (int n = ring ? 5 : 3; n <= 12; n++)
+                            {
+                                var gamma = Rates(n);
+                                double enumerated = SignedMaskBalanceClaim.StrongDephasingBreak(SignedMaskBalanceClaim.PlaceStrings(terms, n, ring), gamma);
+                                double trellis = SignedMaskBalanceClaim.StrongDephasingBreakTrellis(terms, gamma, ring);
+                                // both sum at most 2N positive weights, each weight the same double in both (its rates summed in
+                                // ascending site order): the summation order alone, a law of 2N·eps relative to the larger value
+                                // (equal values, zeros among them, read 0; a value that is not finite reads NaN and counts as a miss)
+                                double ratio = enumerated == trellis ? 0 : Math.Abs(enumerated - trellis) / (2 * n * eps * Math.Max(enumerated, trellis));
+                                if (ratio > TrellisWorstRatio || double.IsNaN(ratio)) TrellisWorstRatio = ratio;
+                                trellisReadings++;
+                                if (!(ratio <= 1)) { trellisMismatches++; trellisFirst ??= Name(ring, n); }
+                            }
+
+                        // (b) the packing bound on the chain, where Theorem B breaks
+                        if (breaks && from is int nStar)
+                        {
+                            packCells++;
+                            ulong g = PolyGcd(ma, mb), qa = PolyDiv(ma, g), qb = PolyDiv(mb, g);
+                            int step = 1 + Math.Max(63 - BitOperations.LeadingZeroCount(qa), 63 - BitOperations.LeadingZeroCount(qb));
+                            // the relation r = 1: template a at the starts of q_b, template b at the starts of q_a, shifted by o
+                            double Least(int o, double[] gamma)
+                            {
+                                double least = double.PositiveInfinity;
+                                for (int k = 0; k < 64; k++)
+                                {
+                                    if (((qb >> k) & 1) == 1) least = Math.Min(least, Weight(a, 1, o + k, int.MaxValue, gamma));
+                                    if (((qa >> k) & 1) == 1) least = Math.Min(least, Weight(b, sign, o + k, int.MaxValue, gamma));
+                                }
+                                return least;
+                            }
+                            for (int n = nStar; n <= 3 * nStar; n++)
+                            {
+                                var gamma = Rates(n);
+                                double lam = SignedMaskBalanceClaim.StrongDephasingBreakTrellis(terms, gamma, ring: false);
+                                double packed = 0, every = 0;
+                                for (int o = 0; o + nStar <= n; o += step) packed += Least(o, gamma);
+                                for (int o = 0; o + nStar <= n; o++) every += Least(o, gamma);
+                                packReadings++;
+                                if (lam < 2 * packed * (1 - 4 * n * eps)) { packMismatches++; packFirst ??= Name(false, n); }
+                                if (packed > 0 && Math.Abs(lam - 2 * packed) <= 4 * n * eps * lam) PackingEqualities++;
+                                if (lam < 2 * every * (1 - 4 * n * eps)) PackingOverlapMismatches++;   // the control
+                            }
+                        }
+
+                        // (c) the cut bound on the ring, where the chain of the same N pairs
+                        cutCells++;
+                        for (int n = 5; n <= 12; n++)
+                        {
+                            bool chainPairs = !breaks || n < from;
+                            var gamma = Rates(n);
+                            double lam = SignedMaskBalanceClaim.StrongDephasingBreakTrellis(terms, gamma, ring: true);
+                            double cut = double.PositiveInfinity;
+                            for (int c = 0; c < n; c++)
+                            {
+                                // the strings whose window holds both site c − 1 and site c (mod n)
+                                double straddle = 0;
+                                foreach (var (t, coeff) in terms)
+                                    for (int p = 0; p < n; p++)
+                                    {
+                                        bool left = false, right = false;
+                                        for (int k = 0; k < t.Length; k++) { int s = (p + k) % n; left |= s == (c + n - 1) % n; right |= s == c; }
+                                        if (left && right) straddle += Weight(t, coeff, p, n, gamma);
+                                    }
+                                cut = Math.Min(cut, straddle);
+                            }
+                            bool within = lam <= 2 * cut * (1 + 4 * n * eps);
+                            if (chainPairs)
+                            {
+                                cutReadings++;
+                                if (!within) { cutMismatches++; cutFirst ??= Name(true, n); }
+                                if (Math.Abs(lam - 2 * cut) <= 4 * n * eps * Math.Max(lam, 2 * cut)) CutEqualities++;
+                                if (lam > 0) { CutBroken++; CutTightest = Math.Max(CutTightest, lam / (2 * cut)); }
+                            }
+                            else if (!within) CutWhereChainBreaksMismatches++;   // the control
+                        }
+                    }
+                }
+            families.Add(new FamilyReading("Theorem H by the trellis: the code distance on the convolutional code's trellis against the enumeration over φ, window pairs at random rates, chain N = 3 to 12 and ring N = 5 to 12", trellisCells, trellisReadings, trellisMismatches, trellisFirst, "the enumeration"));
+            families.Add(new FamilyReading("Corollary H1, the packing bound: where Theorem B breaks, the trellis at least twice the least weights of Theorem B's relation and its translates by 1 + max deg q_i, chain N = N* to 3N*", packCells, packReadings, packMismatches, packFirst, "the packing bound"));
+            families.Add(new FamilyReading("Corollary H1, the cut bound: on the ring where the chain of the same N pairs, the trellis at most twice the weight over the lightest cut, ring N = 5 to 12", cutCells, cutReadings, cutMismatches, cutFirst, "the cut bound"));
+        }
+
         // the worked examples
         {
             var checks = new List<(string Name, bool Holds)>
@@ -1017,6 +1165,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"{Families.Where(f => f.Against == "Theorem D").Sum(f => f.Readings)} of the long chain against Theorem D, " +
         $"{Families.Where(f => f.Against == "the code distance").Sum(f => f.Readings)} of Theorem H's far edge against the code distance ({StrongDephasingBroken} broken at second order) and " +
         $"{Families.Where(f => f.Against == "the end squares").Sum(f => f.Readings)} against XZ ± ZY's two end squares, " +
+        $"{Families.Where(f => f.Against == "the enumeration").Sum(f => f.Readings)} of the trellis against the enumeration, " +
+        $"{Families.Where(f => f.Against == "the packing bound").Sum(f => f.Readings)} and {Families.Where(f => f.Against == "the cut bound").Sum(f => f.Readings)} against Corollary H1's two bounds, " +
         $"{Families.Where(f => f.Against == "the page").Sum(f => f.Readings)} worked checks, {Families.Sum(f => f.Mismatches)} disagreeing; the controls (widths swapped, quotients swapped, 2^(v₂(N)) dropped, " +
         $"the parity of N for 2^(v₂(N)), i₀ at the greatest valuation) disagree {SwappedWidthsMismatches}, {SwappedQuotientsMismatches}, " +
         $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times; Theorem E with (1), (2), (3) dropped and E2 " +
@@ -1024,7 +1174,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"{DroppedOrderingMismatches} times, E3 without its read-sum test or its ordering term {DroppedReadSumMismatches}, {DroppedE3OrderingMismatches} times, " +
         $"B′ off the unreduced basis {UnreducedBasisMismatches} times, the ℤ/4 carrier without its coset term {DroppedCosetTermMismatches} times, " +
         $"E3′ without N₁* or without its ordering term {DroppedE3PrimeReadSumMismatches}, {DroppedE3PrimeOrderingMismatches} times, " +
-        $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times";
+        $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times, " +
+        $"Corollary H1's bounds with overlapping translates or where the chain breaks {PackingOverlapMismatches}, {CutWhereChainBreaksMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1054,13 +1205,16 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"off the unreduced basis of the relations: {UnreducedBasisMismatches} (against the balance); Theorem E's ℤ/4 carrier " +
                          $"without its coset term: {DroppedCosetTermMismatches} (against (★)); Corollary E3′ without N₁*: " +
                          $"{DroppedE3PrimeReadSumMismatches}, with hol walked without its ordering term: {DroppedE3PrimeOrderingMismatches}; " +
-                         $"Theorem H with every rate read as one: {RatesReadAwayMismatches}, with the rates in reverse site order: {RatesReversedMismatches} (both against λ_min of 𝓜)",
+                         $"Theorem H with every rate read as one: {RatesReadAwayMismatches}, with the rates in reverse site order: {RatesReversedMismatches} (both against λ_min of 𝓜); " +
+                         $"Corollary H1's packing bound with every offset of the relation counted: {PackingOverlapMismatches}, its cut bound read where the chain breaks: {CutWhereChainBreaksMismatches} (both against the trellis)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem H's solver, measured",
                 summary: $"λ_min(𝓜) against the code distance within {StrongDephasingWorstRatio:F3} of dim·eps·‖𝓜‖ at worst; the kernels counted " +
                          $"below 10⁻⁹·‖·‖, the largest zero at {KernelZeroMax:E1}·‖·‖, the smallest nonzero eigenvalue at {KernelGapMin:E1}·‖·‖, " +
-                         $"the most negative at {MostNegative:E1}·‖·‖",
+                         $"the most negative at {MostNegative:E1}·‖·‖; the trellis against the enumeration within {TrellisWorstRatio:F3} of 2N·eps at worst; " +
+                         $"the packing bound met exactly on {PackingEqualities} readings, the cut bound on {CutEqualities} (at random rates), " +
+                         $"the ring broken with the chain pairing on {CutBroken} of the cut readings, λ at most {CutTightest:F3} of twice the cut",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem E's reach",

@@ -25,8 +25,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (24, 24) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (864, 15552), (432, 4528), (864, 3456), (24, 24) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -49,6 +49,43 @@ public class SignedMaskBalanceWitnessTests
         Assert.True(w.StrongDephasingWorstRatio < 1, $"{w.StrongDephasingWorstRatio:F3} of dim·eps·‖𝓜‖");
         Assert.True(w.KernelZeroMax < 1e-13 && w.KernelGapMin > 1e-3, $"zeros to {w.KernelZeroMax:E2}, the least nonzero {w.KernelGapMin:E2}");   // the count's 10⁻⁹ between
         Assert.True(w.MostNegative > -1e-13, $"an eigenvalue of 𝓛 or 𝓜 at {w.MostNegative:E2}·‖·‖");                // positive semidefinite to rounding
+        Assert.True(w.TrellisWorstRatio < 1, $"the trellis against the enumeration at {w.TrellisWorstRatio:F4} of 2N·eps");   // 0.138 measured
+        Assert.Equal((588, 3752, 0, 2390), (w.PackingEqualities, w.PackingOverlapMismatches, w.CutEqualities, w.CutWhereChainBreaksMismatches));   // measured, quoted on the page
+        // the cut family is not empty of breaks: rings broken while the chain pairs, λ up to 0.79 of twice the cut, measured
+        Assert.Equal(128, w.CutBroken);
+        Assert.True(w.CutTightest > 0.75 && w.CutTightest <= 1, $"λ at most {w.CutTightest:F4} of twice the cut");
+    }
+
+    // Corollary H1 and the trellis by hand at rate 1 and coefficient 1 (the second outside reply's examples): the trellis
+    // reads the enumeration's examples and rings far past its reach (the odd XY ring 1 at every length, XIY 2 exactly at
+    // N ≡ 2 mod 4, both the weight over one cut, so the cut bound is met); +XIY + XXX on the chain grows in steps, at least
+    // twice the least weight 1/3 of each translate of Theorem B's relation by 3 (pairwise disjoint), the steps measured;
+    // and the trellis refuses a ring below its guard, two templates on one flip set and a diagonal template of odd weight.
+    [Fact]
+    public void CorollaryH1ReadsTheOutsideRepliesExamples()
+    {
+        double T(int n, bool ring, params (string T, long C)[] t) => SignedMaskBalanceClaim.StrongDephasingBreakTrellis(t, Enumerable.Repeat(1.0, n).ToArray(), ring);
+        Assert.Equal(1.0, T(5, true, ("XY", 1)));
+        Assert.Equal(1.0, T(33, true, ("XY", 1)));
+        Assert.Equal(0.0, T(32, true, ("XY", 1)));
+        Assert.Equal(2.0, T(6, true, ("XIY", 1)));
+        Assert.Equal(2.0, T(30, true, ("XIY", 1)));
+        Assert.Equal(0.0, T(28, true, ("XIY", 1)));
+        Assert.Equal(0.0, T(4, false, ("XIY", 1), ("XXX", 1)));
+        var steps = new[] { 1.0 / 3, 1.0 / 2, 1.0 / 2, 2.0 / 3, 1.0, 1.0, 7.0 / 6, 4.0 / 3 };          // measured, N = 5 to 12
+        for (int n = 5; n <= 40; n++)
+        {
+            double lam = T(n, false, ("XIY", 1), ("XXX", 1));
+            Assert.True(lam >= 2 * ((n - 5) / 3 + 1) / 3.0 - 1e-12, $"N = {n}: λ = {lam} below the packing bound");
+            if (n <= 12) Assert.Equal(2 * steps[n - 5], lam, 12);
+        }
+        Assert.True(T(40, false, ("XIY", 1), ("XXX", 1)) > 8 - 1e-12);                                // the bound at 40, 2·12/3
+        Assert.Throws<System.ArgumentException>(() => T(4, true, ("XIY", 1)));
+        Assert.Throws<System.ArgumentException>(() => T(6, false, ("XY", 1), ("YX", 1)));
+        Assert.Throws<System.ArgumentException>(() => T(6, false, ("XY", 1), ("Z", 1)));
+        Assert.Throws<System.ArgumentException>(() => T(1, false, ("ZZ", 1)));                         // wider than N, though diagonal
+        Assert.Throws<System.ArgumentException>(() => T(20, false, ("X" + new string('I', 15) + "Y", 1)));   // wider than 16
+        Assert.Throws<System.ArgumentOutOfRangeException>(() => T(65, false, ("XY", 1)));
     }
 
     // Theorem H's closed form by hand at rate 1 on every site, every coefficient 1: the odd XY ring misses one bond of
