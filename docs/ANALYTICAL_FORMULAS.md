@@ -11821,6 +11821,7 @@ along y, with X^⊗N·Z^φ commuting with H (Theorem F).
     any number of different shapes on the ring of N ≥ 2·max w − 1 sites, T = 2^(v₂(N)), v₀ = min vᵢ:  broken  ⟺  (T ≤ v₀, some s odd)  or  (T > v₀, two of valuation v₀ of different sign, or one of greater valuation with s odd)
     in one line:  pairs  ⟺  some σ ∈ GF(2) has sᵢ = σ·[vᵢ = v₀ < T] for every i
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
+    the ℤ/4 form, ω_m = i^(q_m), β(a, b) = ⟨R(a), b⟩ on W = span of the flip sets:  palindrome  ⟺  R linear on W and a refinement Q₀(a ⊕ b) = Q₀(a) + Q₀(b) + 2β(a, b) with Q₀(m) = q_m exists;  carrier X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
     L × M torus, T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M)), masks folded onto ℤ_T₁ × ℤ_T₂:  pairs  ⟺  a colouring of period (T₁, T₂)  ⟺  signs linear on the folded masks modulo 𝔪·I    (Theorem F; XX across + XY down: even M)
@@ -11838,8 +11839,11 @@ rings against Theorem 2 and on 10560 against Theorem E's elimination to N = 40, 
 offset (768 readings), on 928 where the read sum brings the break forward (1856 readings), and on the field X ± Y beside those sixteen
 products (224 readings); twelve controls (the widths or the quotients swapped,
 2^(v₂(N)) dropped or read off the parity of N, i₀ at the greatest valuation, Theorem E's three conditions each dropped,
-E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree, and Theorem B′ on 600 cells of three and four templates against the balance (9901 readings) and Theorem 2 to N = 8
-(4800), with its unreduced basis as a thirteenth control; beside the
+E2's read-set test or its ordering term dropped, E3's read-sum test or its ordering term dropped) disagree. Theorem B′ agrees
+with the balance on 600 cells of three and four templates (9901 readings) and with Theorem 2 to N = 8 (4800), and its
+unreduced basis, a thirteenth control, disagrees on 301; Theorem E's ℤ/4 refinement exists exactly where Theorem 2 pairs on
+the 428 cells (3936 readings), its carrier satisfying (★) entry by entry, and without its coset term, a fourteenth control,
+the carrier fails on 192 of the 1784 paired readings; beside the
 battery, fifteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
 two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance
 on sixteen tori to 64 sites, Theorem D on the L × 1 torus and on the tori of odd L, the staircase's corners against the

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
@@ -11,9 +12,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
 /// walked on the bitstrings (Theorems D and B′ also against the balance), on every family the witness reads, and the
-/// thirteen controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
+/// fourteen controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
 /// with i₀ at the greatest valuation, Theorem E's conditions each dropped, the tests of Corollaries E2 and E3 each
-/// dropped, Theorem B′ read off the unreduced basis) disagree, so the battery can fail.</summary>
+/// dropped, Theorem B′ read off the unreduced basis, the ℤ/4 carrier without its coset term) disagree, so the battery can fail.</summary>
 public class SignedMaskBalanceWitnessTests
 {
     [Fact]
@@ -23,8 +24,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (648, 648), (428, 3936), (16, 128), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (23, 23) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (23, 23) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -34,7 +35,8 @@ public class SignedMaskBalanceWitnessTests
                 [SignedMaskBalanceClaim.ChainShapeBranch.HolonomyMinus] = 400,
             }, w.E3Branches);
         Assert.Equal((464, 576), (w.DroppedReadSumMismatches, w.DroppedE3OrderingMismatches));
-        Assert.Equal((301, 468, 473), (w.UnreducedBasisMismatches, w.BPrimeBreaking, w.UnreducedBasisDeficient));                       // measured
+        Assert.Equal((301, 468, 473), (w.UnreducedBasisMismatches, w.BPrimeBreaking, w.UnreducedBasisDeficient));   // measured
+        Assert.Equal((1784, 192, 74), (w.Z4Paired, w.DroppedCosetTermMismatches, w.Z4FourStringPaired));                       // measured
     }
 
     // The readings themselves, by hand: the page's worked examples.
@@ -69,6 +71,67 @@ public class SignedMaskBalanceWitnessTests
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.OnChain(new[] { "XX", "XY" }, 3).ToList());
         Assert.Throws<System.ArgumentException>(() => SignedMaskBalanceClaim.RingBreaks(System.Array.Empty<string>(), 8));
         Assert.Throws<System.ArgumentOutOfRangeException>(() => SignedMaskBalanceClaim.OnRing(new[] { "XY" }, 65).ToList());
+    }
+
+    // The character ratios are the solutions of the pairing equation. A flip set's entry is g(x) = Σ_z ĝ(z)·(−1)^⟨z, x⟩,
+    // ĝ(z) = c·(−i)^#Y for its string with Z part z; g(x̄)/g(x) = ω·(−1)^⟨R, x⟩ at every x exactly when
+    // (−1)^|z|·ĝ(z) = ω·ĝ(z ⊕ R) for every z, the characters being independent. On the same strings as the identity test,
+    // wherever g vanishes nowhere: a solution (ω, R) exists exactly when ReadRatio reads a character, and it is ReadRatio's
+    // (q, R), unique, a second route that never forms the ratio.
+    [Fact]
+    public void TheCharacterRatiosAreTheSolutionsOfThePairingEquation()
+    {
+        static GaussianInteger Turn(GaussianInteger a, int q) { for (int k = 0; k < q; k++) a = a * GaussianInteger.I; return a; }
+        int nowhereZero = 0, characters = 0, nonCharacters = 0;
+        void Check(ulong f, int w, IReadOnlyList<SignedMaskBalanceClaim.PlacedString> strings)
+        {
+            var hat = new Dictionary<ulong, GaussianInteger>();
+            foreach (var s in strings) hat[s.Z] = Turn(new GaussianInteger(s.C, 0), (3 * BitOperations.PopCount(s.X & s.Z)) % 4);
+            GaussianInteger Hat(ulong z) => hat.TryGetValue(z, out var v) ? v : GaussianInteger.Zero;
+            for (ulong x = 0; x < 1UL << w; x++)
+            {
+                var g = GaussianInteger.Zero;
+                foreach (var (z, v) in hat) g = g + ((BitOperations.PopCount(z & x) & 1) == 1 ? -v : v);
+                if (g == GaussianInteger.Zero) return;
+            }
+            nowhereZero++;
+            var solutions = new List<(int Q, ulong R)>();
+            for (int q = 0; q < 4; q++)
+                for (ulong r = 0; r < 1UL << w; r++)
+                    if (hat.Keys.Concat(hat.Keys.Select(z => z ^ r)).Distinct().All(z =>
+                            ((BitOperations.PopCount(z) & 1) == 1 ? -Hat(z) : Hat(z)) == Turn(Hat(z ^ r), q)))
+                        solutions.Add((q, r));
+            var read = SignedMaskBalanceClaim.ReadRatio(f, strings);
+            if (read.Kind == SignedMaskBalanceClaim.RatioKind.Character)
+            {
+                characters++;
+                Assert.Equal(new[] { (read.Quarter, read.Read) }, solutions.ToArray());
+            }
+            else
+            {
+                Assert.Empty(solutions);
+                nonCharacters++;
+            }
+        }
+        foreach (var (w, most) in new[] { (1, 4), (2, 4), (3, 4), (4, 3) })
+            for (ulong f = 1; f < 1UL << w; f++)
+            {
+                var onMask = Enumerable.Range(0, 1 << w).Select(choice => (ulong)choice).ToArray();   // Y on the mask, Z off it
+                void Grow(int start, List<SignedMaskBalanceClaim.PlacedString> chosen)
+                {
+                    if (chosen.Count > 0) Check(f, w, chosen);
+                    if (chosen.Count == most) return;
+                    for (int k = start; k < onMask.Length; k++)
+                        foreach (long c in chosen.Count == 0 ? new[] { 1L } : new[] { 1L, -1L })
+                        {
+                            chosen.Add(new SignedMaskBalanceClaim.PlacedString(f, onMask[k], c));
+                            Grow(k + 1, chosen);
+                            chosen.RemoveAt(chosen.Count - 1);
+                        }
+                }
+                Grow(0, new List<SignedMaskBalanceClaim.PlacedString>());
+            }
+        Assert.Equal((39892, 9828, 30064), (nowhereZero, characters, nonCharacters));                              // measured
     }
 
     // Theorem B's c is the girth ladder's syzygy polynomial B = q₂·Q₁ + q₁·Q₂ (Q the Y/Z mask) read at x = 1, since

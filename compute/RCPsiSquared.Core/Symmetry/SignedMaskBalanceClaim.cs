@@ -719,6 +719,66 @@ public sealed class SignedMaskBalanceClaim : Claim
         return new FlipRatio(mask, RatioKind.Character, quarter, read);
     }
 
+    /// <summary>Theorem E's ℤ/4 form. With every flip set's ratio a character i^(q_m)·(−1)^⟨R_m, x⟩ and condition (1)
+    /// holding, β(a, b) = ⟨R(a), b⟩ is a symmetric bilinear form on the span W of the flip sets; walking W from 0 by
+    /// Q₀(w ⊕ m) = Q₀(w) + q_m + 2·β(w, m) and R(w ⊕ m) = R(w) ⊕ R_m, the walk closes exactly when (2) (R linear on W)
+    /// and (3) (hol = 1 on the relations) hold, and Q₀ is then a ℤ/4 quadratic refinement of β. Returns Q₀ and R on
+    /// every element of W, or null where a ratio is no character or a condition fails. Reads the off-diagonal part
+    /// only: the odd-weight diagonal, condition (ii), is <see cref="DecideCharacter(IReadOnlyList{PlacedString})"/>'s.</summary>
+    public static IReadOnlyDictionary<ulong, (int Q, ulong R)>? QuadraticRefinement(IReadOnlyList<PlacedString> placed)
+    {
+        var flips = placed.Where(s => s.X != 0).GroupBy(s => s.X).Select(gr => ReadRatio(gr.Key, gr.ToList())).ToList();
+        if (flips.Any(f => f.Kind != RatioKind.Character)) return null;
+        static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+        foreach (var a in flips)
+            foreach (var b in flips)
+                if (Parity(a.Read & b.Mask) != Parity(b.Read & a.Mask)) return null;
+        var form = new Dictionary<ulong, (int Q, ulong R)> { [0] = (0, 0) };
+        var queue = new Queue<ulong>();
+        queue.Enqueue(0);
+        while (queue.Count > 0)
+        {
+            ulong w = queue.Dequeue();
+            var (q, r) = form[w];
+            foreach (var m in flips)
+            {
+                var next = ((q + m.Quarter + 2 * Parity(r & m.Mask)) % 4, r ^ m.Read);
+                if (form.TryGetValue(w ^ m.Mask, out var have)) { if (have != next) return null; }
+                else
+                {
+                    if (form.Count >= 1 << 22) throw new ArgumentException("the span of the flip sets passes 2^22 elements");
+                    form[w ^ m.Mask] = next;
+                    queue.Enqueue(w ^ m.Mask);
+                }
+            }
+        }
+        return form;
+    }
+
+    /// <summary>The carrier of Theorem E's ℤ/4 form on n sites: X^⊗N·D with D = diag(i^(d_x)), d(x₀ ⊕ w) = −Q₀(w) −
+    /// 2·⟨R(w), x₀⟩ (mod 4), x₀ the least element of its coset of W, so that the component through x₀ carries the
+    /// refinement Q₀ + 2·⟨R(·), x₀⟩. With <paramref name="cosetTerm"/> false the term 2·⟨R(w), x₀⟩ is dropped, the
+    /// control: Q₀ alone on every coset.</summary>
+    public static int[] CarrierQuarters(IReadOnlyDictionary<ulong, (int Q, ulong R)> form, int n, bool cosetTerm = true)
+    {
+        if (n < 1 || n > 24) throw new ArgumentOutOfRangeException(nameof(n), n, "one to 24 sites");
+        int dim = 1 << n;
+        var d = new int[dim];
+        var done = new bool[dim];
+        for (int x0 = 0; x0 < dim; x0++)
+        {
+            if (done[x0]) continue;
+            foreach (var (w, (q, r)) in form)
+            {
+                int x = x0 ^ (int)w;
+                done[x] = true;
+                int t = cosetTerm ? 2 * (BitOperations.PopCount(r & (ulong)x0) & 1) : 0;
+                d[x] = ((-q - t) % 4 + 8) % 4;
+            }
+        }
+        return d;
+    }
+
     public enum CharacterVerdict { Pairs, Breaks, Outside }
 
     /// <summary>Theorem E at one N: the odd-weight diagonal, then every flip set's ratio (a different modulus breaks;
@@ -933,7 +993,10 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "so every cycle reduces to one relation walked once; moving its start by δ costs (−1)^⟨⊕ R_m, δ⟩, so a relation " +
                          "with a nonzero read sum leaves a component carrying −1; the rest is hol on a basis. Two strings of different " +
                          "signs have a character ratio exactly when their numbers of Y differ by an odd number and c₁² = c₂², R = z₁ ⊕ z₂; " +
-                         "four strings can too, X ⊗ 2·CZ among them");
+                         "four strings can too, X ⊗ 2·CZ among them. The ℤ/4 form: with ω_m = i^(q_m) a good component is a ℤ/4 " +
+                         "quadratic refinement of β(a, b) = ⟨R(a), b⟩ on the span W, the ordering term its polarization; with R " +
+                         "linear on W the palindrome is the existence of one refinement Q₀ with Q₀(m) = q_m, carried by " +
+                         "X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩) on each coset x₀ + W");
             yield return new InspectableNode("Corollary E2, one flip shape on the ring",
                 summary: "on the ring of N ≥ 2w − 1 sites with the symmetric reading holding: relations r·(x^N + 1)/h, h = gcd(f, x^N + 1); the read sum vanishes exactly when h | R; hol is rotation-invariant, " +
                          "so it lives on GF(2)[x]/(h, 1 + x): X·(X ± Y)·X breaks exactly at 3 | N, XXX + YYY pairs on every ring");

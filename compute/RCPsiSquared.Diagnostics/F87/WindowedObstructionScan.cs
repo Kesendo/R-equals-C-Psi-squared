@@ -201,7 +201,8 @@ public static class WindowedObstructionScan
     /// p1 = p2 = 0 has no syzygy and throws (the Python anchor's syzygy_B returns None there), its
     /// deg-1 question being the q-monomial lift reading directly. B(1), q(1) being the sign (#Y + #Z) mod 2, is
     /// the c of F173's Theorem B (<see cref="RCPsiSquared.Core.Symmetry.SignedMaskBalanceClaim.Chain(string, string)"/>),
-    /// pinned on every pair of two-site and window templates in SignedMaskBalanceWitnessTests.</summary>
+    /// pinned on the 648 pairs of two-site and window templates with nonzero masks of different shapes in
+    /// SignedMaskBalanceWitnessTests.</summary>
     public static ulong SyzygyB(ulong p1, ulong q1, ulong p2, ulong q2)
     {
         if (p1 == 0 && p2 == 0)

@@ -1,5 +1,6 @@
 using System.Numerics;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.F87;
@@ -24,13 +25,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// N against Theorem 2; Theorem E on two strings on one flip mask, chain and ring, Corollary E2 on the ring (also against
 /// Theorem E's elimination past the bitstrings' reach) and on the products (aX + bY)⊗(cX + dY), a, b, c, d = ±1,
 /// Corollary E3 on two flip shapes on the chain; Theorem B′ on three and four templates on the chain against the balance
-/// and Theorem 2, and at two templates against Theorem B; the worked examples of the page. Thirteen controls show the
+/// and Theorem 2, and at two templates against Theorem B; Theorem E's ℤ/4 form, the refinement and its carrier against
+/// Theorem 2's (★); the worked examples of the page. Fourteen controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
 /// Theorem E with any one of its three conditions dropped, Corollary E2 without its read-set test or its ordering term and
 /// Corollary E3 without its read-sum test or its ordering term disagree with Theorem 2, and Theorem B′ read off the
-/// unreduced basis of the relations disagrees with the balance.</para></summary>
+/// unreduced basis of the relations disagrees with the balance, and the ℤ/4 carrier without its coset term fails (★).</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -63,6 +65,12 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int DroppedE3OrderingMismatches { get; }
     /// <summary>Theorem B′ read off the unreduced basis of the relations: readings against the balance.</summary>
     public int UnreducedBasisMismatches { get; }
+    /// <summary>Theorem E's ℤ/4 carrier without its coset term 2·⟨R(w), x₀⟩: paired readings where it fails (★).</summary>
+    public int DroppedCosetTermMismatches { get; }
+    /// <summary>How many of the ℤ/4 readings pair, each carrier checked against (★).</summary>
+    public int Z4Paired { get; private set; }
+    /// <summary>How many readings of the four-string ℤ/4 family pair, each carrier checked against (★).</summary>
+    public int Z4FourStringPaired { get; private set; }
     /// <summary>How often each branch of Corollary E3 decided a chain read against Theorem 2.</summary>
     public IReadOnlyDictionary<SignedMaskBalanceClaim.ChainShapeBranch, int> E3Branches { get; private set; } = new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>();
     /// <summary>How often each branch of Corollary E2 decided a ring read against Theorem 2.</summary>
@@ -77,7 +85,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && ParityOnlyMismatches > 0 && MostValuedMismatches > 0
                                  && DroppedConditionMismatches.All(d => d > 0) && DroppedReadSetMismatches > 0 && DroppedOrderingMismatches > 0
                                  && DroppedReadSumMismatches > 0 && DroppedE3OrderingMismatches > 0
-                                 && UnreducedBasisMismatches > 0;
+                                 && UnreducedBasisMismatches > 0 && DroppedCosetTermMismatches > 0;
 
     static readonly string[] Windows = (from a in "XYZ" from m in "IXYZ" from b in "XYZ" select $"{a}{m}{b}").ToArray();
 
@@ -149,7 +157,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         if (ringCap < 5 || ringCap > MaxRing) throw new ArgumentOutOfRangeException(nameof(ringCap), ringCap, $"the ring cap runs from 5 to {MaxRing}");
         RingCap = ringCap;
         var families = new List<FamilyReading>();
-        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0, parityOnly = 0, mostValued = 0, characterOutside = 0, droppedReadSet = 0, droppedOrdering = 0, droppedReadSum = 0, droppedE3Ordering = 0, unreducedBasis = 0;
+        int swappedWidths = 0, swappedQuotients = 0, droppedPower = 0, parityOnly = 0, mostValued = 0, characterOutside = 0, droppedReadSet = 0, droppedOrdering = 0, droppedReadSum = 0, droppedE3Ordering = 0, unreducedBasis = 0, droppedCosetTerm = 0;
         var droppedCondition = new int[3];
 
         // two templates of width three, masks of different shapes, both signs
@@ -439,7 +447,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                         for (int j = i + 1; j < strs.Count; j++) pairsE.Add((strs[i], strs[j]));
                 }
             int cells = 0, readings = 0, mismatches = 0, e2Readings = 0, e2Mismatches = 0, e2Cells = 0, e2Far = 0, e2FarMismatches = 0;
-            string? first = null, e2First = null, e2FarFirst = null;
+            int z4Readings = 0, z4Paired = 0, z4Mismatches = 0;
+            string? first = null, e2First = null, e2FarFirst = null, z4First = null;
             var branches = new Dictionary<SignedMaskBalanceClaim.RingShapeBranch, int>();
             foreach (var (a, b) in pairsE)
                 foreach (long sign in new[] { 1L, -1L })
@@ -456,6 +465,22 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                             bool pairs = ring ? PairsOnRing(n, (a, 1), (b, sign)) : PairsOnChain(n, (a, 1), (b, sign));
                             readings++;
                             if (pairs != (v == SignedMaskBalanceClaim.CharacterVerdict.Pairs)) { mismatches++; first ??= $"{a} {sign:+0;-0}{b} on the {(ring ? "ring" : "chain")} of {n}"; }
+                            // the ℤ/4 form: the refinement exists exactly where Theorem 2 pairs, is one (on W up to 128 elements), and
+                            // its carrier i^(−Q₀ − 2⟨R(w), x₀⟩) satisfies Theorem 2's (★) entry by entry; without the coset term it must fail
+                            {
+                                var form = SignedMaskBalanceClaim.QuadraticRefinement(placed);
+                                z4Readings++;
+                                string at = $"{a} {sign:+0;-0}{b} on the {(ring ? "ring" : "chain")} of {n}";
+                                bool bad = (form is not null) != pairs;
+                                if (form is not null)
+                                {
+                                    z4Paired++;
+                                    if (form.Count <= 128 && !IsRefinement(form)) bad = true;
+                                    if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n))) bad = true;
+                                    if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n, cosetTerm: false))) droppedCosetTerm++;
+                                }
+                                if (bad) { z4Mismatches++; z4First ??= at; }
+                            }
                             foreach (var (flag, k) in new[] { ((false, true, true), 0), ((true, false, true), 1), ((true, true, false), 2) })
                                 if (pairs != (SignedMaskBalanceClaim.DecideCharacter(placed, flag.Item1, flag.Item2, flag.Item3) == SignedMaskBalanceClaim.CharacterVerdict.Pairs))
                                     droppedCondition[k]++;
@@ -497,6 +522,40 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             }
             families.Add(new FamilyReading("Theorem E: two strings on one flip mask, windows of two and three sites, chain to 7 and ring to the cap", cells, readings, mismatches, first));
             families.Add(new FamilyReading("Corollary E2 and Theorem E on (aX + bY)⊗(cX + dY), four strings on one flip set, ring to the cap", pcells, preadings, pmismatches, pfirst));
+            families.Add(new FamilyReading("Theorem E's ℤ/4 form: the refinement where Theorem 2 pairs, its carrier against (★)", cells, z4Readings, z4Mismatches, z4First));
+            Z4Paired = z4Paired;
+
+            // the ℤ/4 form on four strings per flip set, where ω is real beside a nonempty read set: the sixteen products
+            // (aX + bY)⊗(cX + dY) on the ring and X ⊗ 2·CZ on chain and ring, N = 3 to 8
+            int fcells = 0, freadings = 0, fpaired = 0, fmismatches = 0;
+            string? ffirst = null;
+            var fours = new List<((string, long)[] Terms, string Name, bool[] Rings)>();
+            foreach (int a1 in new[] { 1, -1 }) foreach (int b1 in new[] { 1, -1 }) foreach (int c1 in new[] { 1, -1 }) foreach (int d1 in new[] { 1, -1 })
+                fours.Add((new[] { ("XX", (long)(a1 * c1)), ("XY", (long)(a1 * d1)), ("YX", (long)(b1 * c1)), ("YY", (long)(b1 * d1)) },
+                           $"({a1:+0;-0}X {b1:+0;-0}Y)⊗({c1:+0;-0}X {d1:+0;-0}Y)", new[] { true }));
+            fours.Add((new[] { ("XII", 1L), ("XIZ", 1L), ("XZI", 1L), ("XZZ", -1L) }, "X ⊗ 2·CZ", new[] { false, true }));
+            foreach (var (terms, name, rings) in fours)
+            {
+                fcells++;
+                foreach (bool ring in rings)
+                    for (int n = 3; n <= 8; n++)
+                    {
+                        var placed = SignedMaskBalanceClaim.PlaceStrings(terms, n, ring);
+                        bool pairs = ring ? PairsOnRing(n, terms) : PairsOnChain(n, terms);
+                        var form = SignedMaskBalanceClaim.QuadraticRefinement(placed);
+                        freadings++;
+                        bool bad = (form is not null) != pairs;
+                        if (form is not null)
+                        {
+                            fpaired++;
+                            if (form.Count <= 128 && !IsRefinement(form)) bad = true;
+                            if (!StarHolds(placed, n, SignedMaskBalanceClaim.CarrierQuarters(form, n))) bad = true;
+                        }
+                        if (bad) { fmismatches++; ffirst ??= $"{name} on the {(ring ? "ring" : "chain")} of {n}"; }
+                    }
+            }
+            families.Add(new FamilyReading("Theorem E's ℤ/4 form on four strings per flip set, a real ω beside a nonempty read set", fcells, freadings, fmismatches, ffirst));
+            Z4FourStringPaired = fpaired;
             families.Add(new FamilyReading("Corollary E2: one flip shape on the ring, against Theorem 2 to the cap", e2Cells, e2Readings, e2Mismatches, e2First));
             families.Add(new FamilyReading("Corollary E2 against Theorem E's elimination, rings past the cap to N = 40", e2Cells, e2Far, e2FarMismatches, e2FarFirst, "Theorem E"));
             E2Branches = branches;
@@ -644,6 +703,32 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         DroppedReadSumMismatches = droppedReadSum;
         DroppedE3OrderingMismatches = droppedE3Ordering;
         UnreducedBasisMismatches = unreducedBasis;
+        DroppedCosetTermMismatches = droppedCosetTerm;
+    }
+
+    // a ℤ/4 quadratic refinement of β(a, b) = ⟨R(a), b⟩ on all of W: Q(a ⊕ b) = Q(a) + Q(b) + 2β(a, b), β symmetric
+    static bool IsRefinement(IReadOnlyDictionary<ulong, (int Q, ulong R)> form)
+    {
+        static int Beta(ulong r, ulong b) => BitOperations.PopCount(r & b) & 1;
+        foreach (var (a, (qa, ra)) in form)
+            foreach (var (b, (qb, rb)) in form)
+                if (Beta(ra, b) != Beta(rb, a) || form[a ^ b].Q != (qa + qb + 2 * Beta(ra, b)) % 4) return false;
+        return true;
+    }
+
+    // Theorem 2's far condition (★) for X^⊗N·diag(i^(d_x)): H_x̄ȳ·i^(d_y) = i^(d_x)·H_xy at every entry, in Gaussian integers
+    static bool StarHolds(IReadOnlyList<SignedMaskBalanceClaim.PlacedString> placed, int n, int[] d)
+    {
+        var h = ComplementConnectionGraph.Columns(n, placed.Select(s => (new PauliMask(s.X, s.Z), (BigInteger)s.C)));
+        int full = (1 << n) - 1;
+        static GaussianInteger Turn(GaussianInteger z, int k) { for (int j = 0; j < k; j++) z = z * GaussianInteger.I; return z; }
+        for (int y = 0; y < h.Length; y++)
+            foreach (var (x, hxy) in h[y])
+            {
+                if (Turn(ComplementConnectionGraph.Entry(h, x ^ full, y ^ full), d[y]) != Turn(hxy, d[x])) return false;
+                if (Turn(hxy, d[y ^ full]) != Turn(ComplementConnectionGraph.Entry(h, x ^ full, y ^ full), d[x ^ full])) return false;
+            }
+        return true;
     }
 
     // the rank over GF(2) of a relation basis's leading coefficient matrix for the shift by the template widths
@@ -743,7 +828,7 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"{DroppedRingPowerMismatches}, {ParityOnlyMismatches}, {MostValuedMismatches} times; Theorem E with (1), (2), (3) dropped and E2 " +
         $"without its read-set test or its ordering term disagree {string.Join(", ", DroppedConditionMismatches)}, {DroppedReadSetMismatches}, " +
         $"{DroppedOrderingMismatches} times, E3 without its read-sum test or its ordering term {DroppedReadSumMismatches}, {DroppedE3OrderingMismatches} times, " +
-        $"B′ off the unreduced basis {UnreducedBasisMismatches} times";
+        $"B′ off the unreduced basis {UnreducedBasisMismatches} times, the ℤ/4 carrier without its coset term {DroppedCosetTermMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -770,7 +855,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"without hol: {DroppedConditionMismatches[2]}; Corollary E2 without its read-set test: {DroppedReadSetMismatches}, " +
                          $"with hol(g) walked without its ordering term: {DroppedOrderingMismatches}; Corollary E3 without its read-sum test: " +
                          $"{DroppedReadSumMismatches}, with hol(u₀) walked without its ordering term: {DroppedE3OrderingMismatches}; Theorem B′ read " +
-                         $"off the unreduced basis of the relations: {UnreducedBasisMismatches} (against the balance)",
+                         $"off the unreduced basis of the relations: {UnreducedBasisMismatches} (against the balance); Theorem E's ℤ/4 carrier " +
+                         $"without its coset term: {DroppedCosetTermMismatches} (against (★))",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem E's reach",
