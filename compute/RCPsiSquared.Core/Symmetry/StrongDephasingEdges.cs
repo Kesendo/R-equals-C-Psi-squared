@@ -51,4 +51,48 @@ public static class StrongDephasingEdges
         }
         return (near, far);
     }
+
+    /// <summary>Corollary H2's cycle: the walk along the flip sets <paramref name="walk"/> (their XOR zero) from every
+    /// bitstring x, each a k-cycle of the far edge's graph, read on 𝓜's own edge blocks. Returns the least eigenvalue of
+    /// the cycle's part of 𝓜 over all x, the least modulus of a hop on any of them, and the least |arg| of a cycle's
+    /// holonomy, the product of −𝓜_ba/|𝓜_ba| along it; null where a walk revisits a bitstring or meets a hop of zero
+    /// modulus (an edge where H_ba or H_āb̄ vanishes). Moduli that differ leave the hop |H_ba||H_āb̄|/γ and add the
+    /// lemma's potential, which the cycle's part keeps.</summary>
+    public static (double LambdaStar, double HopMin, double ThetaMin)? CycleReading(int n, Dictionary<int, GaussianInteger>[] h,
+        IReadOnlyList<double> gamma, IReadOnlyList<int> walk)
+    {
+        int dim = 1 << n, full = dim - 1, k = walk.Count;
+        if (k < 3) throw new ArgumentException("a walk of at least three flip sets", nameof(walk));
+        if (walk.Aggregate(0, (acc, m) => acc ^ m) != 0) throw new ArgumentException("the walk's flip sets do not close", nameof(walk));
+        Complex At(int r, int c) { var e = ComplementConnectionGraph.Entry(h, r, c); return new Complex((double)e.Re, (double)e.Im); }
+        double Rate(int m) { double s = 0; for (int l = 0; l < n; l++) if (((m >> l) & 1) == 1) s += gamma[l]; return s; }
+        double lambdaStar = double.PositiveInfinity, hopMin = double.PositiveInfinity, thetaMin = double.PositiveInfinity;
+        for (int x = 0; x < dim; x++)
+        {
+            var verts = new int[k];
+            verts[0] = x;
+            for (int t = 1; t < k; t++) verts[t] = verts[t - 1] ^ walk[t - 1];
+            if (verts.Distinct().Count() < k) return null;
+            var cycle = ComplexMatrix.Build.Dense(k, k);
+            Complex holonomy = Complex.One;
+            for (int t = 0; t < k; t++)
+            {
+                int a = verts[t], b = verts[(t + 1) % k];
+                double s = Rate(a ^ b);
+                Complex hba = At(b, a), hfar = At(a ^ full, b ^ full);
+                Complex off = -hba * hfar / s;
+                if (off.Magnitude == 0) return null;
+                double diagonal = (hba.Magnitude * hba.Magnitude + hfar.Magnitude * hfar.Magnitude) / (2 * s);
+                cycle[(t + 1) % k, t] += off;
+                cycle[t, (t + 1) % k] += Complex.Conjugate(off);
+                cycle[t, t] += diagonal;
+                cycle[(t + 1) % k, (t + 1) % k] += diagonal;
+                hopMin = Math.Min(hopMin, off.Magnitude);
+                holonomy *= -off / off.Magnitude;
+            }
+            lambdaStar = Math.Min(lambdaStar, cycle.Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian).EigenValues.Min(z => z.Real));
+            thetaMin = Math.Min(thetaMin, Math.Abs(holonomy.Phase));
+        }
+        return (lambdaStar, hopMin, thetaMin);
+    }
 }

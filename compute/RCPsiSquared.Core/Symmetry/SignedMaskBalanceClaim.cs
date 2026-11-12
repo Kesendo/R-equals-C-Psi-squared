@@ -44,7 +44,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// balanced signings, each string weighted by c²/γ(m) (Theorem H, <see cref="StrongDephasingBreak"/>, and for any N by the
 /// code's trellis, <see cref="StrongDephasingBreakTrellis"/>); disjoint unbalanced relations bound that distance from below,
 /// so where Theorem B breaks it grows with N, and on the ring where the chain pairs the strings over one cut bound it from
-/// above, so it stays bounded (Corollary H1).</para>
+/// above, so it stays bounded (Corollary H1); where flip sets carry several strings, cycles of nontrivial holonomy bound
+/// λ_min of the far edge's generator from below (Corollary H2, <see cref="StrongDephasingEdges.CycleReading"/>).</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -1534,6 +1535,11 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "of the same N pairs, the chain's balancing signing leaves only the strings over one cut, a bound independent " +
                          "of N, met at one rate on the odd XY ring and on XIY at N ≡ 2 mod 4; against the far edge's 2σ it is of order " +
                          "1/N there wherever the ring breaks (at strong dephasing, to leading order in J)");
+            yield return new InspectableNode("Corollary H2, frustrated cycles",
+                summary: "several strings per flip set: a closed sequence of k flip sets walked from every bitstring as a simple " +
+                         "cycle of holonomy e^(iθ) ≠ 1 gives λ_min(𝓜) ≥ (k/s)·min over the cycles of their least eigenvalue ≥ " +
+                         "(k/s)·μ_min·2(1 − cos(θ_min/k)), μ the hop modulus |H_ba||H_āb̄|/γ, s twice the largest multiplicity of a flip set in " +
+                         "it, sequences of disjoint flip sets adding; met by XZ ± ZY's two end squares (k = s = 4), 3 against 4 on XIY + XZX on the ring of six");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");
