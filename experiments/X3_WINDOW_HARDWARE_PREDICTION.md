@@ -4,7 +4,7 @@
 Stores searched 2026-11-13 for the X^⊗3 window of YZ+ZY, sign twins, an echo or delay before the last pulse, twirling, a lit string decaying at the price, a conserved Z parity on hardware, and the dephasing rates prior flights inferred.
 data/ibm_f83_signature_april2026/README.md, section "The X^⊗3 window": the break measured on Marrakesh [4, 5, 6] 2026-04-30 and on Kingston [43, 56, 63] 2026-05-05 (the Kingston JSON in data/ibm_soft_break_april2026/, whose README documents only the 2026-04-26 Marrakesh run), what it is not (the Trotter circuit, stochastic Pauli noise between the factors), the letter fingerprint; simulations/f83_xn_window.py its post-hoc fit over 18 readings of two classes (94 with ideal gates, 70 with an end detuning, 3.6 with all nineteen letters, seven at their bounds; that 70 is a different sum from the ten-reading 70 of §2 below).
 experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md and data/ibm_reality_window_october2026/: §2 fitted the nineteen letters to the forbidden readings of all four April classes at once, XY+YX and YZ+ZY from the same job among them (30 readings), and reached a small sum only with a middle-qubit detuning twenty times its bound; flown 2026-10-29 on the same Marrakesh path, XY+YX only; §5 the letter bounds; §6 the execution options set explicitly; §7 the odd-Y excess no library letter carries, the three carriers tested, the price-pair detuning of +21.5 kHz on physical q4 above §5's bound.
-experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md: drafted and reviewed, not frozen, not flown; the frame-turn law (§1), the arms, the forest, the flight conditions; its runner and freezer named and not yet written. This page rides in its Marrakesh and Kingston jobs, and that page carries the riding arms in its §3, §4 and §6 and shares its §5 rules (the per-reading drift weights, the simulated flights drawn from the replay, the 99.9 % points for TURNS, verdicts that need no fitted letter) with this one.
+experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md: the frame-turn law (§1), the arms, the forest, the flight conditions; not flown; its freezer and runner (simulations/flight/drive_frame_freeze.py, run_drive_frame.py) build both pages' arms. This page rides in its Marrakesh and Kingston jobs, and that page carries the riding arms in its §3, §4 and §6 and shares its §5 rules (the drift weighed block by block, the simulated flights drawn from the replay, the 99.9 % points for TURNS, verdicts that need no fitted letter) with this one.
 experiments/Z_N_PARTNERSHIP.md lines 85 to 104: drive bleed-through and ZX or ZY crosstalk named as breakers of the Z⊗N mirror, the turning class of this page; Z⊗N carries |+−+⟩ to |−+−⟩ and YZ+ZY to −(YZ+ZY), the algebra of the sign twin of §3. experiments/MARRAKESH_THREE_LAYERS.md line 91: truly's X^⊗3 zero set on [48, 49, 50].
 data/ibm_zn_mirror_april2026/README.md and fw.Confirmations marrakesh_transverse_y_field_detection: the |+−+⟩ and |−+−⟩ twin flown 2026-04-29 under Heisenberg XX+YY+ZZ on [48, 49, 50], read as h_y_eff ≈ 0.05.
 experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and data/ibm_price_pair_july2026/README.md: block C read ⟨XXX⟩ of a GHZ state on Marrakesh in July, its coherence outliving the product of its singles (ln E_GHZ − Σ ln E_j = +1.6 to +1.9 at 65 µs), carried by coherent nearest-neighbour ZZ that XXX commutes with; a colouring reading that experiments/THE_PALINDROME_AS_A_COLOURING.md does not cite.
@@ -116,7 +116,7 @@ into two classes without naming one, which no fit has done.
 |---|---|
 | B5(φ), φ ∈ {0, π/2, π, 3π/2} | the 2026-04-30 flown YZ+ZY circuits (class pi2_even_nontruly), nine bases on (q0, q2), gate for gate, then q1 read in X; rz(φ) as the first and rz(−φ) as the last operation on the middle qubit b (logical q1), the last after b's basis change |
 | B4(π), B6(π) | the same turn by π on a (logical q0) and on c (logical q2) |
-| Q | one path qubit at a time, the other two left in \|0⟩: sx, an idle of τ ∈ {0, 1, 2, 4} µs, read in X or in Y: 24 circuits, built at the gate level (sx, the delay, then the basis change as rz, sx, rz), not transpiled, so that the τ = 0 circuits carry the same pulses as the others |
+| Q | one path qubit at a time, the other two left in \|0⟩: sx, an idle of τ ∈ {0, 1, 2, 4} µs, read in X or in Y: 24 circuits, built at the gate level (sx, the delay, then the basis change in rz and sx gates), not transpiled, so that the τ = 0 circuits carry the same pulses as the others |
 
 B is built as the October freezer builds arm A
 ([`reality_window_freeze.py`](../simulations/flight/reality_window_freeze.py),
@@ -155,7 +155,7 @@ ibm_kingston, each circuit twice at 4096 shots, shuffled with the
 drive-frame circuits as one permutation by seed 20261113, the RO arm
 shared and the forest read in every circuit with the drive-frame page's
 count-key layout. On Kingston the path is [43, 56, 63] whenever it passes
-the guards (the drive-frame page's rule, amended), May's path; if it fails,
+the guards (the drive-frame page's rule), May's path; if it fails,
 that page's rule picks the path, B and Q fly there, and the record says
 the May path was not repeated. On both chips the circuits are April's
 Marrakesh gates, not May's Kingston compile, as the drive-frame arms are.
@@ -226,59 +226,92 @@ chip carries.
   the other pairs at zero, gives T₅ᴮ power at its 99.9 % point of 0.31,
   0.81 and 0.99 at ε = 0.3, 0.4 and 0.5 % with the drift factor 1.27, and
   0.10, 0.42 and 0.82 with 1.96; the 50 % point lies near 0.34 % and
-  0.42 %. These use one drift factor; the per-reading weights of §5 divide
-  even a drift-free chip's readings by more than one, so the reach §5
-  reports is computed with those weights and lies higher. The phases are
-  the October fit's, a yardstick and not a prediction.
+  0.42 %. These use one drift factor; the reach §5 reports is computed
+  with §5's κΣ, which divides even a drift-free chip's readings by more
+  than one, and on the paths frozen on 2026-11-13 it lies at 0.34 %
+  (below). The phases are the October fit's, a yardstick and not
+  a prediction.
 - The drift factor estimated from the data. When the drift is real, a χ²
   test divided by one global factor is anticonservative, most of all when
   the drift sits on a few readings, as one qubit's wandering frequency
   would put it: with three of the 14 readings drifting at ten times their
   variance T₅ᴮ fires by chance at 13 % at its 99 % point and 7 % at its
-  99.9 % point. With the per-reading weights of §5 the same pattern gives
-  0.8 % and 0.3 %, and no pattern tried exceeds 1.2 % and 0.4 % (part 7).
-  The rules of §5 call TURNS and OPEN only above the 99.9 % point.
+  99.9 % point (part 7). §5 therefore weighs the drift block by block, and
+  the drive-frame page's §5 gives the false-positive rates of the verdicts
+  under drift drawn through the analysis itself. The rules of
+  §5 call TURNS and OPEN only above the 99.9 % point.
 - Q. The replay of Q under detunings of up to 0.2 rad/µs, RO-corrected and
   fitted per qubit by (δ, θ₀, contrast, decay rate), returns the detuning
   set, sign included; over 200 noisy redraws at 8192 shots the fitted δ
   scatter by 0.0032 to 0.0045 rad/µs about the set values. That fit is
   unweighted with the exact RO matrix; the weighted fit of §5 is checked by
   the simulated flights.
-- [TO BE FILLED AT EACH FREEZE: the numbers above are replayed under the
-  October snapshot on Marrakesh [4, 5, 6]; at each chip's freeze its
-  baseline, the parse-gate values, W's frame-blind yardsticks and the reach
-  of T₅ᴮ (on Kingston the October phases carried over by role) are
-  recomputed from its freeze snapshot with the gate durations of its
-  target.]
-- [TO BE FILLED BEFORE THE FREEZE: the drive-frame page's 10 000 simulated
-  flights of the Marrakesh and Kingston jobs, drawn from the baseline
-  replay's own distributions so that their mean is y₀ by construction, the
-  RO matrix re-estimated in each draw, every draw through the analysis
-  unchanged: the null distributions of W, T₅ᴮ, T₄ᴮ, T₆ᴮ and Eᴮ, and the
-  spread of the fitted δ beside σ_δ.]
+- At each chip's freeze. The numbers above are replayed under the October
+  snapshot on Marrakesh [4, 5, 6]. At each freeze they are recomputed on
+  the chip's path from its freeze snapshot and RO matrix with the gate
+  durations of its target, every letter carried over by role
+  ([`run_drive_frame.py`](../simulations/flight/run_drive_frame.py)
+  `--freeze-numbers`, output in
+  [`simulations/results/drive_frame/`](../simulations/results/drive_frame/)).
+  On 2026-11-13 the rule chose Marrakesh [45, 46, 47] and Kingston
+  [13, 14, 15] (the drive-frame page's §4 says why):
+
+  | | Marrakesh [45, 46, 47] | Kingston [13, 14, 15] |
+  |---|---|---|
+  | B5(0), XX basis: ⟨X₀⟩, ⟨X₂⟩, ⟨X₀X₁X₂⟩ | +0.975, +0.987, −0.933 | +0.986, +0.990, −0.932 |
+  | pooled ⟨Y₀⟩, ⟨Y₂⟩, ⟨Z₀⟩, ⟨Z₂⟩ | +0.011, +0.029, +0.006, +0.025 | +0.005, +0.007, +0.003, +0.003 |
+  | W's noncentrality: five Z letters; detuning 0.135 rad/µs on a, on c; 0.1 rad/µs on b | 660; 207, 249; 42 | 649; 194, 243; 41 |
+  | the same: amplitude +1 % on a, on c; cz phase 0.03; sx tilted 0.06 rad against x on a and c | 146, 7.0; 1188; 258 | 158, 7.5; 1275; 270 |
+  | reach of T₅ᴮ at its 99.9 % point | ε = 0.343 % | ε = 0.334 % |
+  | reach of a SHUT, detuning on c | 0.0334 rad/µs (5.3 kHz) | 0.0341 rad/µs (5.4 kHz) |
+
+  The reaches are drawn with each simulated flight's own Σ and drift
+  matrix, as a drift-free chip would give them, from 2000 flights per size.
+- The simulated flights of the drive-frame page's §4, 10 000 per chip,
+  drawn from the baseline replay's own distributions so that their mean is
+  y₀ by construction, the RO matrix re-estimated in each draw, every draw
+  through the analysis unchanged. On the paths of 2026-11-13, 95 / 99 /
+  99.9 %:
+
+  | statistic (degrees of freedom) | Marrakesh | Kingston | χ² |
+  |---|---|---|---|
+  | W (14) | 20.1 / 25.2 / 30.8 | 20.5 / 25.4 / 31.0 | 23.7 / 29.1 / 36.1 |
+  | T₅ᴮ (42) | 49.8 / 57.6 / 65.5 | 50.4 / 57.5 / 66.9 | 58.1 / 66.2 / 76.1 |
+  | T₄ᴮ (14) | 20.1 / 25.3 / 32.8 | 20.3 / 25.5 / 31.6 | 23.7 / 29.1 / 36.1 |
+  | T₆ᴮ (14) | 20.2 / 24.7 / 31.4 | 20.1 / 24.9 / 32.1 | 23.7 / 29.1 / 36.1 |
+  | Eᴮ (14) | 20.2 / 25.7 / 31.4 | 20.3 / 25.1 / 31.0 | 23.7 / 29.1 / 36.1 |
+
+  Every simulated point lies below its χ² point, so the χ² points rule.
+  The fitted δ scatter by 0.0039 to 0.0040 rad/µs on the path qubits
+  against a median σ_δ of 0.0044 to 0.0046, a ratio of 0.86 to 0.87: σ_δ
+  is not scaled.
 
 ## 5. Verdict rules
 
 Every reading and RO matrix is formed as the drive-frame page's §5 forms
 them, per chip. The baseline y₀ is the replay of a circuit on the chip's
 path under its freeze snapshot with the day's RO matrix and no letter. Σ
-is the multinomial covariance from the baseline's predicted parities at
-the circuit's shots, over the 14 readings of §1; Σ_RO is the covariance
+is the multinomial covariance at the circuit's shots over the 14 readings
+of §1, from the measured parities pooled over B's standing variants; Σ_RO
+is the covariance
 that the RO arm's counts give y₀ through the RO matrix (column by column,
-multinomial, J·C·Jᵀ), one matrix for all the B variants, which are
-logically one circuit. The drift
-weights are the drive-frame page's, κ_i and κ taken over the 14 readings
-of B's non-VOID variants, and κΣ means D^½ΣD^½ with D = diag(max(κ, κ_i)).
+multinomial, J·C·Jᵀ, times the RO arm's own drift factor κ_RO of the
+drive-frame page's §5), one matrix for all the B variants, which are
+logically one circuit. κΣ is the drive-frame page's, the drift weighed
+block by block from the half differences of B's standing variants.
 Every comparison against y₀ uses κΣ + Σ_RO; a difference between variants
 of B uses κΣ alone, Σ_RO cancelling there. Pseudo-inverses keep
 eigenvalues above 10⁻⁹ of the largest. The χ² points rule; where a 95 %,
 99 % or 99.9 % point of the 10 000 simulated flights of §4 (numpy's
 default quantile) exceeds its χ² point by more than 5 %, the simulated
 point rules for that statistic and the record says so. Where the spread
-of the simulated δ exceeds σ_δ by more than 5 %, σ_δ is scaled up to it.
+of the simulated δ exceeds the median of the simulated σ_δ by more than
+5 %, the day's σ_δ is multiplied by their ratio.
 
 - **PB, the parse gate.** In B5(0)'s XX basis: ⟨X₀⟩ > 0.7, ⟨X₂⟩ > 0.7 and
-  ⟨X₀X₁X₂⟩ < −0.6 (the baseline: +0.918, +0.974, −0.881). A chip that fails
+  ⟨X₀X₁X₂⟩ < −0.6 (each freeze's baseline is in §4). PB asks for more contrast than the
+  drive-frame page's P: in its drift check PB fails at a contrast of 0.70
+  in 94 to 98 % of flights, where P passes. A chip that fails
   it has no B verdicts. A variant whose turn is missing from the circuits
   retrieved after the flight is VOID.
 - **WB, the window.** W = rᵀ(κΣ + Σ_RO)⁺r over B5(0)'s 14 readings of §1,
@@ -298,11 +331,10 @@ of the simulated δ exceeds σ_δ by more than 5 %, σ_δ is scaled up to it.
   turns. FRAME-BLIND also covers a turn the control stack dropped below the
   submitted circuit, which no logical reading can show. The reach of a
   FRAME-BLIND on b is reported as the ε of §4's yardstick at which T₅ᴮ,
-  formed with the day's per-reading drift weights, passes its 99.9 % point
+  formed with the day's κΣ, passes its 99.9 % point
   in half of 2000 simulated flights drawn under that letter from the
-  baseline replay (on Kingston with the October phases carried over by
-  role); it bounds that
-  letter form alone, not a → b, c → b, an exchange or a leak, and its
+  baseline replay (with the October phases carried over by role), a 50 %
+  point and not a bound; it concerns that letter form alone, not a → b, c → b, an exchange or a leak, and its
   phases are a fitted letter's, a yardstick. On a and c no reach is
   reported: one turn by π reads the cosine part alone. The even harmonic
   Eᴮ, formed as the drive-frame page's E on the 14 readings, is reported
@@ -321,16 +353,23 @@ of the simulated δ exceeds σ_δ by more than 5 %, σ_δ is scaled up to it.
   scipy's least_squares at its default tolerances, weighted by the
   covariance of the corrected readings: the multinomial covariance of the
   measured counts carried through the inverse RO matrix A⁻¹ (as A⁻¹ C A⁻ᵀ
-  on the outcome probabilities, then onto the parity), each reading scaled
-  by its qubit's drift weight max(κ_Q, κ_Q,q), κ_Q,q formed from the two
-  halves of that qubit's eight readings and κ_Q from all 24, as §5's
-  weights are, plus the RO arm's own noise carried through A⁻¹ by the
-  derivative of A⁻¹p in each column of A. δ is reported
+  on the outcome probabilities, then onto the parity), scaled by κ_Q
+  (max(1, the mean over all 24 readings of (half₁ − half₂)²/(var₁ +
+  var₂))); plus a phase that wanders from PUB to PUB, which moves a reading
+  by its angle times τ perpendicular to the Bloch vector (d⟨X⟩ = −⟨Y⟩ dθ,
+  d⟨Y⟩ = ⟨X⟩ dθ): per qubit one variance s² per unit τ², the excess of
+  its six readings' (half₁ − half₂)² with τ > 0 over var₁ + var₂, summed,
+  over the sum of 2τ²g² (g the perpendicular reading, ⟨Y⟩ for an X reading
+  and ⟨X⟩ for a Y reading; s² at least zero), entering each reading as
+  s²τ²g²/2; plus the RO arm's own noise, times κ_RO, carried through A⁻¹
+  by the derivative of A⁻¹p in each column of A. δ is reported
   with σ_δ from the weighted Jacobian, inflated by √(χ²_fit/4) where that
   exceeds one, and with the fit's χ². A qubit whose fit ends on a bound of
   δ, does not converge, or has a VOID circuit is VOID. The verdict, per
-  qubit: DETUNED when |δ| ≥ 3σ_δ, NOT DETUNED when |δ| < 2σ_δ,
-  INCONCLUSIVE between. The
+  qubit: DETUNED when |δ| ≥ 4σ_δ, NOT DETUNED when |δ| < 2σ_δ,
+  INCONCLUSIVE between. The wander rests on six half differences, which
+  gives z a tail beyond the normal's; the rates at which DETUNED is called
+  by chance are in the drive-frame page's §5. The
   replay of B5(0) with the three δ as its only letters is reported beside
   W, as a reading: the replay's detuning acts through every gate as well as
   every idle, and Q sees only the idle.
@@ -351,12 +390,14 @@ carrier can read TURNS on both chips with different sizes and signs, and
 two different Z letters can read FRAME-BLIND on both. Over both pages a
 Marrakesh or Kingston chip carries thirteen verdicts and one more per
 forest qubit (V1, T₅, T₄, T₆, E and VS on each forest qubit; WB, T₅ᴮ,
-T₄ᴮ, T₆ᴮ, Eᴮ and VQ on each path qubit), fifteen on [4, 5, 6] and
-seventeen on [43, 56, 63], each firing by chance at about 1 % or less
-under the rules above, so one of them fires on a chip by chance at up to
-about 15 %, and a lone firing is read that way. The drift weights are
-diagonal: a drift shared by the readings of one circuit is not absorbed
-by them, and part 7 tried independent drifts only. The forest bits of B and Q are summed
+T₄ᴮ, T₆ᴮ, Eᴮ and VQ on each path qubit), seventeen on Marrakesh
+[45, 46, 47] and fifteen on Kingston [13, 14, 15], the paths of
+2026-11-13, each firing by chance at about 1 % or less under the rules
+above (under drift the drive-frame page's §5 gives up to 0.9 % for B's
+frame statistics, 0.7 % for W, 1.3 % for VQ and 2.9 % for V1 when a drift
+falls on S), so one of them fires on a
+chip by chance at up to about 15 %, and a lone firing is read that way.
+The forest bits of B and Q are summed
 out of the path's parities; the forest's P(1) in B and in Q is reported
 without a verdict, VS being the drive-frame page's, on its A circuits.
 
@@ -377,7 +418,7 @@ freezer builds them from the April QPY on Marrakesh and Kingston into the
 same frozen file, asserts their turns as for its own arms and asserts Q's
 idles. The record goes with the drive-frame page's, in the same counts
 files. The pre-registration (this page through §6, with §4's
-placeholders filled, and the drive-frame page with its hashes) is
+numbers those of the freezes that fly, and the drive-frame page with its hashes) is
 committed together with the freezer, the runner and the frozen files
 before the first submission, and its commit hash is written into §7.
 

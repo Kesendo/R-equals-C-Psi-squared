@@ -1,0 +1,9 @@
+ibm_fez, 2026-11-13T18:23:40.416032+00:00: none of 100 linear triples with a middle of degree two passes the guards (dated properties under 16 h); T1 ages over the chip's qubits: youngest 92.7 h, median 92.7 h; failure kinds over all triples (# a number):
+   299  q# property # h old
+   199  cz #-# property # h old
+   185  T# q# # us
+   147  P(#|#) q# #
+    90  readout q# #
+    21  cz #-# #
+    16  sx q# #
+     1  q# has no T#

@@ -1,0 +1,16 @@
+ibm_marrakesh: path [45, 46, 47], forest [37, 44, 48, 57], circuits fcee7bd194e4fcf6; freeze snapshot 2026-11-13 17:31:19+01:00: T1 [123, 282, 135] us, T2 [109, 184, 149] us, (P(1|0), P(0|1)) on (a, c, b) [(0.0059, 0.0117), (0.0, 0.0244), (0.0029, 0.0137)]
+baseline B5(0), snapshot RO matrix: XX basis <X0> +0.975  <X2> +0.987  <X1> -0.961  <X0X1X2> -0.933
+  pooled single-site readings: <Y0> +0.0114  <Y2> +0.0293  <Z0> +0.0057  <Z2> +0.0252
+baseline A5(0): parse gate <X0Z2> -0.831  <Z0X2> -0.603; S = <Y0Z2> -0.0008
+W on 14 readings: 95 % point 23.7, 99.9 % point 36.1; frame-blind yardsticks, noncentrality of W (shot + RO covariance, no drift):
+  five Z letters (October fit)                  659.8   largest shift 0.1640
+  detuning on a +0.135 rad/us (21.5 kHz)        206.7   largest shift 0.0916
+  detuning on c +0.135 rad/us                   249.3   largest shift 0.0985
+  detuning on b +0.1 rad/us                      42.5   largest shift 0.0347
+  sx and x amplitude on a +1 %                  145.9   largest shift 0.0507
+  sx and x amplitude on c +1 %                    7.0   largest shift 0.0139
+  cz local phase 0.03, all                     1187.5   largest shift 0.2041
+  sx tilted 0.06 rad against x, on a and c      258.4   largest shift 0.0998
+reach of T5_B at its 99.9 % point (each simulated flight with its own Sigma and drift matrix, October phases carried by role): eps 0.343 %  (31 s)
+the same for T5 of the drive-frame page (its FRAME-BLIND bound on a drift-free chip): eps 0.285 %
+reach of a SHUT (W past its 95 % point in half the flights), detuning on c: 0.0334 rad/us (5.3 kHz)

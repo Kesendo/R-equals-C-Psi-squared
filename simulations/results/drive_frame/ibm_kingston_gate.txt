@@ -1,0 +1,12 @@
+ibm_kingston: frozen file sha256 956cc064521f46f808f0cc461c9d8421e564b042facb5927f99ef51972bd2093, 140 circuits, path [13, 14, 15], forest [12, 19]
+(1) structure: turns as first and last operations on the turned qubit, otherwise the unturned circuit; Q's idles; the forest read and not gated, every measurement at one time; RO by x alone: pass
+(2) A5(0) and B5(0) = April's flown circuits per qubit, carried to the path, + the tail on b: 18/18
+(3) every turned circuit against its unturned one, ideal instantaneous gates: max |dp| 8.9e-16
+(4) the zero: replay without decay, ideal readout, largest odd-Y reading of A5(0) 3.8e-13
+    largest forbidden reading of B5(0) (all 36) 9.7e-13
+(5) A: five Z letters: largest change of a reading under the turns 2.8e-14
+(5) A: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.5e-01
+(5) B: five Z letters: largest change of a reading under the turns 6.9e-16
+(5) B: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.7e-01
+(6) a simulated flight under the baseline through --analyze (0.5 s): P True, V1 INCONCLUSIVE, VF FRAME-BLIND/FRAME-BLIND/FRAME-BLIND; PB True, WB SHUT, VFB FRAME-BLIND, VQ ['NOT DETUNED', 'NOT DETUNED', 'NOT DETUNED']
+(7) one draw under the crosstalk-alone fit (by role): V1 ABSENT (z -1.84), T5 1151 TURNS, T4 TURNS, T6 TURNS; WB OPEN, T5_B 791 TURNS
