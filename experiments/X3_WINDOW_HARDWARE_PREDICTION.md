@@ -116,7 +116,7 @@ into two classes without naming one, which no fit has done.
 |---|---|
 | B5(φ), φ ∈ {0, π/2, π, 3π/2} | the 2026-04-30 flown YZ+ZY circuits (class pi2_even_nontruly), nine bases on (q0, q2), gate for gate, then q1 read in X; rz(φ) as the first and rz(−φ) as the last operation on the middle qubit b (logical q1), the last after b's basis change |
 | B4(π), B6(π) | the same turn by π on a (logical q0) and on c (logical q2) |
-| Q | one path qubit at a time, the other two left in |0⟩: sx, an idle of τ ∈ {0, 1, 2, 4} µs, read in X or in Y: 24 circuits, built at the gate level (sx, the delay, then the basis change as rz, sx, rz), not transpiled, so that the τ = 0 circuits carry the same pulses as the others |
+| Q | one path qubit at a time, the other two left in \|0⟩: sx, an idle of τ ∈ {0, 1, 2, 4} µs, read in X or in Y: 24 circuits, built at the gate level (sx, the delay, then the basis change as rz, sx, rz), not transpiled, so that the τ = 0 circuits carry the same pulses as the others |
 
 B is built as the October freezer builds arm A
 ([`reality_window_freeze.py`](../simulations/flight/reality_window_freeze.py),

@@ -706,7 +706,8 @@ the five letters 1097; the spectator's Stark letter during the neighbour's
 pulses 1521 alone, collinear with the detunings; all three families with
 the five letters 937: [the driver's frame](DRIVE_FRAME_HARDWARE_PREDICTION.md)
 §2, the flight that asks whether the remainder turns with a qubit's drive
-frame); each library
+frame, and [the X^⊗3 window under a turned frame](X3_WINDOW_HARDWARE_PREDICTION.md),
+which asks the same of YZ+ZY's X^⊗3 window in the same jobs); each library
 letter alone, the detunings with static ZZ,
 those with sx amplitude, the nineteen jointly from one start, an exchange
 at the CZ with a fixed phase, alone or beside five letters, a spread of
