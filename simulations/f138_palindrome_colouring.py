@@ -72,7 +72,11 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      patterns [a, b, a, b], [a, a, a, a] and the 45 degree colour, and on the silver chain the golden
      colours and [a, b, a, b], do not commute with H. No
      colouring by the letters X and Y exists for c != 0 at N = 3..6, while at c = 0 exactly the four
-     period-2 strings XX.., XYXY.., YXYX.., YY.. colour the chain.
+     period-2 strings XX.., XYXY.., YXYX.., YY.. colour the chain. (iii) a and b are perpendicular, so
+     G is the letter pattern XXYY.. (X^N Z^phi, phi(p) = C(p, 2) mod 2, the colouring of the template XIY)
+     turned on every site by the phase gate diag(1, (r + i)/sqrt(1 + r^2)), times (-1)^(#Y) (1 + r^2)^(N/2),
+     exactly on the four chains of (i), where turned back by the gate every window is r XZX - YZY / r (the
+     principal axes of the letter table [[c, 1], [1, 0]]); control: the same turn of XYXY is not G.
   H  EXACT (Fraction arithmetic on Pauli strings, no float). Every row beyond the colouring of stage B
      (one bond set per letter count, 258 rows) has an element of W built from anticommuting sums: real
      combinations of pairwise anticommuting lit strings, tensored over the components of H and, where
@@ -100,6 +104,15 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      strings at every h, k, so W = 0 for e != 0 (and W is 1-dimensional at e = 0). (iii) On stage E's row the adjoint dynamics L^dag(O) = i[H, O] + sum_l gamma_l (A_l O A_l - O)
      closes on P = YYZ, Q = ZXX, R = YIX: L^dag P = -2 sigma P - 2b R, L^dag Q = -2 sigma Q + 2a R,
      L^dag R = 2b P - 2a Q - 2(gamma_0 + gamma_2) R, so only a P + b Q decays with the single rate 2 sigma.
+  K  EXACT (string arithmetic, letters as Z2 x Z2; sympy for (iii)). The product of two colourings: on stage B's grid
+     (one axis or none per site and at least one jump, every bond set, every field pattern, P3, K3 and a bond
+     plus an isolated site) every row with a colouring F0 has as products F0 F with its colourings F exactly the strings
+     that commute with H and with every jump (F158's near end), and F0 times those strings are exactly
+     the colourings. Control: with the jump condition dropped at the first dephased site alone, F0 times
+     the strings commuting with H and the other jumps is not the set of colourings on some coloured rows.
+     (iii) a Trotter circuit of XX + YY on P3 with Z-dephasing channels between the gates keeps the
+     palindrome in discrete time, L_F^-1 Phi L_F = c (Phi^dag)^-1 for the colouring F = XXX, exactly, in
+     two gate orders; control: a gate that does not commute with F breaks it.
 
 Run:  python simulations/f138_palindrome_colouring.py
    >  simulations/results/f138_palindrome_colouring.txt     (runtime about 30 minutes)
@@ -631,6 +644,43 @@ def stage_g():
     check("(ii) for c != 0 no colouring by the letters X and Y: every one of the 2^N strings fails a window "
           "template, N = 3..6; at c = 0 exactly the four period-2 strings colour the chain", none_found and at_zero)
 
+    # (iii) a and b are perpendicular, so G is one letter pattern turned: the phase gate R = diag(1, e^(i theta)),
+    # e^(i theta) = (r + i)/s with s = sqrt(1 + r^2), turns X to (r X + Y)/s = a/s and Y to (-X + r Y)/s = -b/s.
+    # The pattern is X at p with bit 1 of p clear and Y where it is set, X^N Z^phi with phi(p) = C(p, 2) mod 2,
+    # the colouring of the template XIY (PROOF_SIGNED_MASK_BALANCE's binomial colouring).
+    turned_ok = True
+    for n, c, r in ((3, 1, (1 + sp.sqrt(5)) / 2), (4, 1, (1 + sp.sqrt(5)) / 2), (5, 1, (1 + sp.sqrt(5)) / 2),
+                    (4, 2, 1 + sp.sqrt(2))):
+        s = sp.sqrt(1 + r ** 2)
+        a, b = r * SL['X'] + SL['Y'], SL['X'] - r * SL['Y']
+        G = skron([[a, a, b, b][l % 4] for l in range(n)])
+        pat = ''.join('Y' if sp.binomial(p, 2) % 2 else 'X' for p in range(n))
+        R = skron([sp.diag(1, (r + sp.I) / s)] * n)
+        turned = R * skron([SL[x] for x in pat]) * R.H
+        nb = pat.count('Y')
+        same = sp.simplify(G - (-1) ** nb * s ** n * turned) == sp.zeros(2 ** n)
+        xiy = [('I' * w + 'XIY' + 'I' * (n - w - 3)) for w in range(n - 2)]
+        colours_xiy = all(commutes(pat, t) for t in xiy)
+        back = sum((r * skron([SL['I']] * w + [SL['X'], SL['Z'], SL['X']] + [SL['I']] * (n - w - 3))
+                    - skron([SL['I']] * w + [SL['Y'], SL['Z'], SL['Y']] + [SL['I']] * (n - w - 3)) / r
+                    for w in range(n - 2)), sp.zeros(2 ** n))
+        principal = sp.simplify(R.H * window_H(n, c) * R - back) == sp.zeros(2 ** n)
+        turned_ok &= same and colours_xiy and principal and pat == ('XXYY' * n)[:n]
+        print(f"    N = {n}, c = {c}: pattern {pat} colours XIY: {colours_xiy}; G = (-1)^{nb} s^N R^N pattern R^N^dag: {same}; "
+              f"R^N^dag H R^N = sum (r XZX - YZY / r): {principal}")
+    # control: the same turn of the period-2 pattern XYXY.. is not G
+    n, r = 4, (1 + sp.sqrt(5)) / 2
+    s = sp.sqrt(1 + r ** 2)
+    a, b = r * SL['X'] + SL['Y'], SL['X'] - r * SL['Y']
+    G = skron([a, a, b, b])
+    R = skron([sp.diag(1, (r + sp.I) / s)] * n)
+    wrong = R * skron([SL[x] for x in 'XYXY']) * R.H
+    control = all(sp.simplify(G - sg * s ** n * wrong) != sp.zeros(2 ** n) for sg in (1, -1))
+    check("(iii) G is the pattern X^N Z^phi, phi(p) = C(p, 2) mod 2 (XXYY.., the colouring of XIY), turned on every "
+          "site by the phase gate diag(1, (r + i)/sqrt(1 + r^2)), times (-1)^(#Y) (1 + r^2)^(N/2), exactly, on the four "
+          "chains of (i), where the turned-back windows are r XZX - YZY / r, both of which XXYY.. colours; control: the same "
+          "turn of XYXY is not G", turned_ok and control)
+
 
 _MUL = {('I', 'I'): (1, 'I'), ('I', 'X'): (1, 'X'), ('I', 'Y'): (1, 'Y'), ('I', 'Z'): (1, 'Z'),
         ('X', 'I'): (1, 'X'), ('X', 'X'): (1, 'I'), ('X', 'Y'): (1j, 'Z'), ('X', 'Z'): (-1j, 'Y'),
@@ -944,6 +994,105 @@ def stage_j():
           "2 sigma and b YYZ - a ZXX does not", closes and single)
 
 
+_CODE = {'I': 0, 'X': 1, 'Z': 2, 'Y': 3}
+_LETTER = 'IXZY'
+
+
+def _times(s, t):
+    """the product of two strings up to a phase (the letters as Z2 x Z2)"""
+    return ''.join(_LETTER[_CODE[x] ^ _CODE[y]] for x, y in zip(s, t))
+
+
+def stage_k():
+    print()
+    print("## Stage K: the product of two colourings is a string of the near end, and back; a circuit against each term")
+    t0 = time.time()
+    single = [(), ('X',), ('Y',), ('Z',)]
+    strings = [''.join(p) for p in itertools.product('IXYZ', repeat=N)]
+    rows = coloured = 0
+    coset_ok = True
+    sizes = collections.Counter()
+    control_breaks = 0
+    for g, edges in GRAPHS.items():
+        for bset in BONDSETS:
+            for deph in itertools.product(single, repeat=N):
+                for fields in itertools.product('IXYZ', repeat=N):
+                    if not any(deph):
+                        continue
+                    terms = [t for t, _ in terms_of(edges, bset, fields)]
+                    with_H = [S for S in strings if not any(_anti(S, t) for t in terms)]
+                    lit = [S for S in with_H
+                           if all(all(_anti(S[l], P) for P in deph[l]) for l in range(N))]
+                    near = [S for S in with_H
+                            if all(not any(_anti(S[l], P) for P in deph[l]) for l in range(N))]
+                    rows += 1
+                    if not lit:
+                        continue
+                    coloured += 1
+                    F0 = lit[0]
+                    over = {_times(F0, F) for F in lit}
+                    coset_ok &= over == set(near) and {_times(F0, S) for S in near} == set(lit)
+                    sizes[len(lit)] += 1
+                    # control: the near end's condition dropped at one dephased site only
+                    l0 = next(l for l in range(N) if deph[l])
+                    relaxed = [S for S in with_H
+                               if all(not any(_anti(S[l], P) for P in deph[l]) for l in range(N) if l != l0)]
+                    control_breaks += {_times(F0, S) for S in relaxed} != set(lit)
+    print(f"    {rows} rows, {coloured} with a colouring; colourings per coloured row: {dict(sorted(sizes.items()))}  "
+          f"({time.time() - t0:.0f} s)")
+    check("(i) on every coloured row of stage B's grid (one axis or none per site and at least one jump, every bond set, every field "
+          "pattern, three graphs) the products F0 F of one colouring F0 with every colouring F are exactly the strings "
+          "commuting with H and with every jump, and F0 times those strings are exactly the colourings: the colourings "
+          "are one colouring times the near end's strings", coset_ok and coloured > 0)
+    check("(ii) control: with the jump condition dropped at the first dephased site alone, F0 times the strings "
+          "that commute with H and with the other jumps is not the set of colourings on some coloured rows",
+          control_breaks > 0, f"({control_breaks} rows)")
+
+    # (iii) a circuit of gates commuting with a colouring F, interleaved with Z-dephasing channels, in any order:
+    # L_F^-1 Phi L_F = c (Phi^dag)^-1, checked as L_F Phi L_F Phi^dag = c 1 (F^2 = 1), exactly in sympy.
+    import sympy as sp
+    SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+          'Z': sp.diag(1, -1)}
+
+    def sk(s):
+        M = sp.Matrix([[1]])
+        for x in s:
+            M = sp.kronecker_product(M, SL[x])
+        return M
+    dd = 2 ** N
+    one = sp.eye(dd)
+
+    def gate(s):  # e^(-i theta P) at cos theta = 3/5, sin theta = 4/5, as a superoperator on row-major vec
+        U = sp.Rational(3, 5) * one - sp.Rational(4, 5) * sp.I * sk(s)
+        return sp.kronecker_product(U, U.conjugate())
+
+    def dephase(qs):  # Z on every site, rho -> (1 + q)/2 rho + (1 - q)/2 Z rho Z per site
+        S = sp.eye(dd * dd)
+        for l, q in enumerate(qs):
+            Zl = sk('I' * l + 'Z' + 'I' * (N - l - 1))
+            S = (sp.Rational(1, 2) * ((1 + q) * sp.eye(dd * dd) + (1 - q) * sp.kronecker_product(Zl, Zl))) * S
+        return S
+    qs = [sp.Rational(1, 2), sp.Rational(2, 3), sp.Rational(3, 4)]
+    D = dephase(qs)
+    LF = sp.kronecker_product(sk('XXX'), one)
+
+    def circuit(order):
+        Phi = sp.eye(dd * dd)
+        for t in order:
+            Phi = D * gate(t) * Phi
+        return Phi
+    held = []
+    for order in (['XXI', 'YYI', 'IXX', 'IYY'], ['IYY', 'XXI', 'IXX', 'YYI'], ['XXI', 'YYI', 'IXX', 'IYY', 'ZII']):
+        Phi = circuit(order)
+        c = sp.prod(qs) ** len(order)
+        held.append(sp.expand(LF * Phi * LF * Phi.H - c * sp.eye(dd * dd)) == sp.zeros(dd * dd))
+        print(f"    gates {' '.join(order)}, each followed by the dephasing: L_F Phi L_F Phi^dag = c 1: {held[-1]}")
+    check("(iii) a Trotter circuit of XX + YY on P3 (gates e^(-i theta P), cos theta = 3/5, each followed by a "
+          "Z-dephasing channel at q = 1/2, 2/3, 3/4) satisfies L_F^-1 Phi L_F = c (Phi^dag)^-1 for the colouring "
+          "F = XXX, exactly, in two gate orders; control: a gate e^(-i theta Z_0), which does not commute with F, "
+          "breaks the identity", held[0] and held[1] and not held[2])
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
@@ -955,6 +1104,7 @@ if __name__ == "__main__":
     stage_h()
     stage_i()
     stage_j()
+    stage_k()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")
