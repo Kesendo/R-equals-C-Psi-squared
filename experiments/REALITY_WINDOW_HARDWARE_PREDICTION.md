@@ -187,8 +187,9 @@ ZZ; it catches errors in the time slicing and the pulses, not in those.
   (0.034 rad); at +0.033 the local phase on q5 from pair 5-6 and both
   spectator phases also come within their bounds.
 - Errors outside the library, each scaled toward s_A = +0.067: a tilt of the
-  sx pulse axis on q4 or q5 moves no odd-Y reading at all (it is a choice
-  of frame, which the reality window does not see); detuning on q5 with
+  pulse axis common to every sx and x pulse on q4 or q5 moves no odd-Y
+  reading at all (it is a choice of frame, which the reality window does
+  not see); detuning on q5 with
   static ZZ on 4-5 in equal parts, the local phase on q5 from both pairs,
   and an equal amplitude error on all three qubits (the first reaching
   +0.060, the others +0.067) each come out SIGNAL, NO SINGLE LETTER, the

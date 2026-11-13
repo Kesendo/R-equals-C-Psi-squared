@@ -9,10 +9,11 @@ q5): a logical identity, a global turn of q5's drive frame. Through the patched 
         D(phi) = odd-Y(A(phi)) - odd-Y(A(0)) over the 36 odd-Y readings, its largest entry, and the noncentrality of the
         frame statistic T5 of section 5: the three D(phi) stacked into one 108-vector with the FULL covariance (the
         shared A(0) puts the covariance of A(0)'s parities into every cross block), multinomial covariances from the
-        replay's own parities at 8192 shots per circuit, T5 = D' Sigma^+ D, with the 99 % point of chi^2 at the rank,
-        and the same divided by the October drift factor 1.27;
-  (iii) the share: S = <Y0 Z2> of the YZ basis for each phi and its mean over the four turns (the frame-blind part of
-        the excess; a turning letter's first and second harmonics cancel in the mean of four turns spaced by pi/2).
+        replay's own parities at 8192 shots per circuit, T5 = D' Sigma^+ D, with the 99 % and 99.9 % points of chi^2
+        at the rank, with one drift factor (1.27, and 1.96 at the 99.9 % point) dividing it;
+  (iii) the share: S = <Y0 Z2> of the YZ basis for each phi and its mean over the four turns (a turning letter's first
+        and second harmonics cancel in the mean of four turns spaced by pi/2; its part independent of phi at second
+        order does not, so the mean is not a frame-blind share).
 The same for the frame turned on logical 0 (q4) and logical 2 (q6) at phi = pi (36 readings, one difference).
 Output: simulations/results/reality_window/drive_frame_power.txt
 """
@@ -44,6 +45,14 @@ ALL_FIT = {("xtc", (5, 4)): 0.0064 * math.cos(-2.29), ("xts", (5, 4)): 0.0064 * 
 FIVE = {("det", 4): 0.001, ("det", 5): 0.201, ("det", 6): 0.180, ("zz", (4, 5)): 0.002, ("zz", (5, 6)): -0.111}
 SHOTS = 8192
 KAPPA_OCT = 1.27
+KAPPA_A = 1.96          # October's drift factor over arm A's 36 odd-Y readings alone
+
+
+def at999(T, rank):
+    """Power at the 99.9 % point, the threshold section 5 calls TURNS at: no drift, drift 1.27, drift 1.96."""
+    p = CHI2.ppf(0.999, rank)
+    return "at the 99.9 %% point %.1f: power %.3f, with drift 1.27 %.3f, with drift 1.96 %.3f" % (
+        p, float(NCX2.sf(p, rank, T)), float(NCX2.sf(p, rank, T / KAPPA_OCT)), float(NCX2.sf(p, rank, T / KAPPA_A)))
 OUT = REPO / "simulations" / "results" / "reality_window" / "drive_frame_power.txt"
 LINES = []
 
@@ -140,6 +149,8 @@ def main():
         pt = CHI2.ppf(0.99, rank)
         say("  T5 stacked over the three turns (full covariance, %d shots per circuit): noncentrality %.1f, rank %d, 99 %% point %.1f, expected T5 %.0f, power %.3f; with the October drift factor %.2f: noncentrality %.1f, expected %.0f, power %.3f"
             % (SHOTS, T, rank, pt, rank + T, float(NCX2.sf(pt, rank, T)) if T > 0 else 0.01, KAPPA_OCT, T / KAPPA_OCT, rank + T / KAPPA_OCT, float(NCX2.sf(pt, rank, T / KAPPA_OCT)) if T > 0 else 0.01))
+        if T > 0:
+            say("    " + at999(T, rank))
         s = [float(p[yz][(1, 1, 0)]) for p in pars]
         say("  share: S = <Y0 Z2> at the four turns " + ", ".join("%+.4f" % x for x in s) + "; mean %+.4f; S(0) - mean %+.4f" % (float(np.mean(s)), s[0] - float(np.mean(s))))
     for lq, q in ((0, 4), (2, 6)):
@@ -154,17 +165,19 @@ def main():
             pt = CHI2.ppf(0.99, rank)
             say("== %s, frame turned on q%d at pi: largest |D| %.4f, rms %.4f; T noncentrality %.1f, rank %d, 99 %% point %.1f, power %.3f; with drift noncentrality %.1f, power %.3f"
                 % (label, q, float(np.abs(d).max()), float(np.sqrt(np.mean(d ** 2))), T, rank, pt, float(NCX2.sf(pt, rank, T)), T / KAPPA_OCT, float(NCX2.sf(pt, rank, T / KAPPA_OCT))))
-    # the FRAME-BLIND bound: the smallest eps, equal on (5 -> 4) and (5 -> 6) at the crosstalk-alone fit's phases, the
-    # other two pairs at zero, at which the power of T5 at its 99 % point is 0.5 (with the October drift factor)
+            say("    " + at999(T, rank))
+    # the reach of a FRAME-BLIND: eps, equal on (5 -> 4) and (5 -> 6) at the crosstalk-alone fit's phases, the other two
+    # pairs at zero, against the power of T5 at its 99 % and 99.9 % points with one drift factor (the page's reported
+    # bound is computed at the freeze with the per-reading drift weights, by simulated flights)
     say("== the bound: power of T5 against a uniform eps on (5 -> 4) and (5 -> 6) at the fitted phases, other pairs zero, drift 1.27")
     base_par = parities(None, 1, 0.0)
-    for eps in (0.001, 0.002, 0.003, 0.005):
+    for eps in (0.001, 0.002, 0.003, 0.004, 0.005):
         L = {("xtc", (5, 4)): eps * math.cos(-2.24), ("xts", (5, 4)): eps * math.sin(-2.24),
              ("xtc", (5, 6)): eps * math.cos(0.83), ("xts", (5, 6)): eps * math.sin(0.83)}
         pars = [parities(L, 1, phi) for phi in phis]
         D, T, rank = stacked(pars[0], pars[1:])
         pt = CHI2.ppf(0.99, rank)
-        say("   eps %.3f: noncentrality %.1f (with drift %.1f), power %.3f" % (eps, T, T / KAPPA_OCT, float(NCX2.sf(pt, rank, T / KAPPA_OCT))))
+        say("   eps %.3f: noncentrality %.1f (with drift %.1f), power %.3f; %s" % (eps, T, T / KAPPA_OCT, float(NCX2.sf(pt, rank, T / KAPPA_OCT)), at999(T, rank)))
     OUT.write_text(chr(10).join(LINES) + chr(10), encoding="utf-8", newline=chr(10))
 
 

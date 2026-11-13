@@ -190,14 +190,15 @@ For ⟨Y⟩ there is a lever: at the end of the circuit the end qubits of YZ+ZY
 keep ⟨X⟩ ≈ 0.9, truly's about 0.14, so one small turn about Z shows some
 seven times larger on YZ+ZY, and truly's ⟨Y⟩ stays near zero. For ⟨Z⟩ the
 lever does not account for the classes: truly's ⟨Z₀⟩ here is as large as
-YZ+ZY's, as calibration-scale σ⁻ would make it (the table above). A turn
-about Y can come from the hardware's frames: in every flown YZ+ZY circuit
-that reads an end qubit along Z, that qubit's last pulse before the
-measurement is an sx, the back-rotation of the last Trotter factor, so a
-small error of that pulse's axis turns ⟨X₂⟩ ≈ 0.94 into ⟨Z₂⟩, about 0.06 rad
-being enough, just above the 0.05 rad the reality-window letters allow a Z
-phase after a cz, which is where such a turn sits (§5 of the document below).
-On
+YZ+ZY's, as calibration-scale σ⁻ would make it (the table above). A tilt
+common to every sx and x pulse on a qubit cannot carry it: it is a turn of
+that qubit's drive frame, the identity on the logical circuit
+([the driver's frame](../../experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md)
+§1), and the replay gives it machine zero. A tilt of the sx pulses against
+the x pulses can, 0.06 rad on q4 and q6 moving the forbidden readings that
+carry no X letter by up to 0.09, and so can the pulses' amplitude, 1 % on q4 by up to 0.05 and on
+q6 by 0.014 (arm B of the pre-registration linked below, under the
+October snapshot; [`x3_window_power.py`](../../simulations/x3_window_power.py)). On
 the flown circuits, replayed with the day's T1, T2 and readout as in
 [REALITY_WINDOW_HARDWARE_PREDICTION](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)
 §2, against the 18 readings these two classes forbid (16 by X^⊗3, two of
@@ -217,15 +218,18 @@ are no χ² of a known distribution
 breaks it we do not know. One time point cannot separate the candidates, and
 a scan over the circuit's length does not either: more Trotter steps add
 gates and time together, and over a few µs against T1 of 144 to 351 µs
-damping grows as linearly as the rest. Sharper are a twin from |−, +, −⟩,
-where the single-site readings made by coherent turns change sign while
-the two-site ones (⟨X₀Y₂⟩, ⟨X₀Z₂⟩ and their mirrors) keep theirs, and
-readings from σ⁻ and readout do not change sign; a delay with and without an
-echo before the final sx, which separates a detuning from damping; the last
-factor's back-rotation compiled into the frame instead of an sx; and
-twirled against bare two-qubit gates, which tells coherent error in the
-two-qubit gates from the rest (a twirl turns it into Pauli noise, which keeps
-the window shut, and leaves the axis of a single sx alone).
+damping grows as linearly as the rest. A sign twin from |−, +, −⟩ and a
+twirl of the cz gates do not separate the candidates on a fresh compile
+of these circuits either: the twin changes the sign of some single-site readings
+and keeps others (under a phase of 0.05 after every cz ⟨Z₂⟩ goes from
+−0.34 to +0.11 while ⟨Z₀⟩ goes from −0.155 to −0.136), and a twirl suppresses
+single-qubit letters as well
+([`x3_window_arms_scout.py`](../../simulations/x3_window_arms_scout.py)).
+What is pre-registered instead is
+[the X^⊗3 window under a turned frame](../../experiments/X3_WINDOW_HARDWARE_PREDICTION.md):
+these circuits read with one qubit's drive frame turned, which Z letters and
+own-frame letters do not see and a foreign transverse letter does, beside
+the idle detuning of each qubit measured directly.
 
 ⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict
 the same +0.231 in a Z-only model, but σ⁻ moves pi2_odd's (0.193 at
@@ -279,9 +283,8 @@ not know.
   from observables. We measured signatures, not r.
 - Anything quantitative about F82/F84. truly's single-site ⟨Z₀⟩, ⟨Z₂⟩
   sit at most near 3σ, and the X^⊗3 break on pi2_even_nontruly is not
-  calibration-scale σ⁻ and not the Trotter circuit; a sign twin and an echo
-  before the final pulse would separate T1 from the rest (the X^⊗3 window
-  above).
+  calibration-scale σ⁻ and not the Trotter circuit; what opens it is not
+  known (the X^⊗3 window above).
 - That the discrimination scales to N > 3. Open.
 - That arbitrary mixed Hamiltonians (other than 1/2, 0, 1/6) follow the
   same pattern. Three F83-discrete cases tested; the continuous tunability

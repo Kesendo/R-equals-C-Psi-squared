@@ -1,0 +1,108 @@
+(0) April 2026-04-30 YZ+ZY on [4, 5, 6] (q1 not read): single-site readings pooled over bases, and the sum of
+    squared residuals over the ten readings the class forbids on (q0, q2), April's binomial sigma
+    measured             Y0 +0.039  Z0 +0.023  Y2 +0.042  Z2 +0.057  X0 +0.935  X2 +0.942
+    alap no letter                sum   70.0   Y0 +0.010  Z0 +0.006  Y2 +0.007  Z2 +0.004  X0 +0.986  X2 +0.983
+    alap October five Z letters   sum  735.5   Y0 +0.002  Z0 -0.015  Y2 +0.022  Z2 -0.155  X0 +0.985  X2 +0.968
+    alap October crosstalk alone  sum   86.5   Y0 -0.009  Z0 +0.055  Y2 +0.052  Z2 +0.094  X0 +0.984  X2 +0.977
+    alap October three families   sum  405.7   Y0 -0.009  Z0 +0.028  Y2 +0.068  Z2 -0.097  X0 +0.978  X2 +0.958
+    asap no letter                sum   70.5   Y0 +0.006  Z0 +0.007  Y2 +0.010  Z2 +0.004  X0 +0.986  X2 +0.983
+    asap October five Z letters   sum  885.3   Y0 -0.012  Z0 +0.003  Y2 +0.018  Z2 -0.175  X0 +0.985  X2 +0.964
+    asap October crosstalk alone  sum   99.3   Y0 +0.032  Z0 +0.040  Y2 +0.063  Z2 +0.121  X0 +0.985  X2 +0.974
+    asap October three families   sum  479.0   Y0 -0.029  Z0 +0.033  Y2 +0.055  Z2 -0.107  X0 +0.977  X2 +0.957
+
+(1) arm B: 9 bases, 36 forbidden readings, 18 without q1's bit, 14 with no X letter at all (the statistics' readings);
+    baseline (no letter, October snapshot and RO matrix)
+    XX basis: <X0> +0.918  <X2> +0.974  <X1> -0.980  <X0 X1 X2> -0.881
+    single-site offsets in the Z bases: <Z0> +0.0715  <Z2> +0.0132  (October RO asymmetries P(0|1) - P(1|0), marginal over the other bits: q4 +0.0656, q6 +0.0127)
+
+(2) the day's RO matrix in a baseline comparison, B5(0)'s forbidden readings
+    shot sigma median 0.0110; RO-matrix sigma median 0.0027, max 0.0040
+    on all 36 forbidden readings with the shot covariance alone: W 0.048, the turn-averaged mean 0.361
+    W at its 99 % point (29.1, rank 14) under noise alone: false-positive rate 0.016 with the shot covariance alone, 0.010 with the RO term added
+    the turn-averaged mean against the baseline at its 99 % point: false-positive rate 0.057 with the shot covariance alone, 0.011 with the RO term
+    a frame-blind null left out of the replay, global depolarization eps (shot covariance only): false-positive rates of
+    W (the deviation's own fluctuation) and T5 at their 99 % points
+      eps 0.01: all 36 W 0.305 T5 0.667;  18 without q1's bit W 0.019 T5 0.024;  14 with no X W 0.006 T5 0.013
+      eps 0.02: all 36 W 0.633 T5 0.972;  18 without q1's bit W 0.032 T5 0.053;  14 with no X W 0.011 T5 0.012
+      eps 0.04: all 36 W 0.933 T5 1.000;  18 without q1's bit W 0.073 T5 0.136;  14 with no X W 0.008 T5 0.007
+      eps 0.10: all 36 W 0.997 T5 1.000;  18 without q1's bit W 0.243 T5 0.537;  14 with no X W 0.012 T5 0.009
+
+(3) frame-blind letters: largest change under the turn on q5 (four phases) and q4, q6 (pi); W's noncentrality (RO term in)
+    five Z letters (October fit)           turn: max |D| 1.0e-15;  W noncentrality    653.7, largest shift 1.6e-01
+    detuning q4 +0.135 rad/us (21.5 kHz)   turn: max |D| 8.3e-16;  W noncentrality    142.0, largest shift 8.1e-02
+    detuning q6 +0.135 rad/us              turn: max |D| 5.6e-16;  W noncentrality    245.1, largest shift 9.9e-02
+    detuning q5 +0.1 rad/us                turn: max |D| 5.8e-16;  W noncentrality     33.2, largest shift 3.1e-02
+    sx and x axis tilt q4, q6 0.06 rad     turn: max |D| 4.4e-16;  W noncentrality      0.0, largest shift 1.1e-15
+    sx and x amplitude q4 +1 %             turn: max |D| 1.3e-15;  W noncentrality    130.4, largest shift 5.1e-02
+    sx and x amplitude q6 +1 %             turn: max |D| 5.3e-16;  W noncentrality      6.0, largest shift 1.4e-02
+    cz local phase 0.03, all               turn: max |D| 5.6e-16;  W noncentrality   1119.2, largest shift 2.0e-01
+    sx tilted 0.06 rad against x, q4 and q6 turn: max |D| 2.5e-15;  W noncentrality    183.6, largest shift 8.8e-02
+    no letter, T1 off, the snapshot's T2 dephasing interleaved through the compiled gates, ideal readout: largest forbidden reading 3.4e-04
+
+(4) turning letters (October's crosstalk fits)
+  == crosstalk alone (8)
+    largest change of a forbidden reading under the turn on q5: 0.1638
+    T5, turn on q5 at four phases: noncentrality 774.9, rank 42, 99 % point 66.2, power 1.000; with drift 1.27 610.1, power 1.000; with drift 1.96 395.3, power 1.000
+      at the 99.9 % point 76.1: power 1.000; with drift 1.27 1.000; with drift 1.96 1.000
+    T4, turn on q4 at pi: noncentrality 51.0, rank 14, 99 % point 29.1, power 0.997; with drift 1.27 40.2, power 0.980; with drift 1.96 26.0, power 0.828
+      at the 99.9 % point 36.1: power 0.983; with drift 1.27 0.917; with drift 1.96 0.605
+    T6, turn on q6 at pi: noncentrality 373.4, rank 14, 99 % point 29.1, power 1.000; with drift 1.27 294.0, power 1.000; with drift 1.96 190.5, power 1.000
+      at the 99.9 % point 36.1: power 1.000; with drift 1.27 1.000; with drift 1.96 1.000
+    <Z2> pooled at the four turns +0.0963, +0.0712, -0.0674, -0.0492; baseline +0.0132
+    turn-averaged mean minus baseline: largest 0.0014; its noncentrality against shot/4 + RO 0.2 (99 % point 29.1)
+    W (B5(0) against the baseline) noncentrality 259.4
+  == all three families (17)
+    largest change of a forbidden reading under the turn on q5: 0.0680
+    T5, turn on q5 at four phases: noncentrality 136.7, rank 42, 99 % point 66.2, power 1.000; with drift 1.27 107.7, power 1.000; with drift 1.96 69.8, power 0.997
+      at the 99.9 % point 76.1: power 1.000; with drift 1.27 1.000; with drift 1.96 0.979
+    T4, turn on q4 at pi: noncentrality 8.8, rank 14, 99 % point 29.1, power 0.200; with drift 1.27 6.9, power 0.137; with drift 1.96 4.5, power 0.072
+      at the 99.9 % point 36.1: power 0.061; with drift 1.27 0.036; with drift 1.96 0.015
+    T6, turn on q6 at pi: noncentrality 49.7, rank 14, 99 % point 29.1, power 0.997; with drift 1.27 39.2, power 0.976; with drift 1.96 25.4, power 0.813
+      at the 99.9 % point 36.1: power 0.979; with drift 1.27 0.905; with drift 1.96 0.583
+    <Z2> pooled at the four turns -0.1470, -0.1556, -0.1936, -0.1856; baseline +0.0132
+    turn-averaged mean minus baseline: largest 0.1837; its noncentrality against shot/4 + RO 3037.7 (99 % point 29.1)
+    W (B5(0) against the baseline) noncentrality 694.6
+
+(5) the bound: T5 against eps on (5 -> 4) and (5 -> 6) at the October phases, the other pairs zero
+    eps 0.001: noncentrality 3.9, rank 42, 99 % point 66.2, power 0.031; with drift 1.27 3.1, power 0.025; with drift 1.96 2.0, power 0.019
+      at the 99.9 % point 76.1: power 0.005; with drift 1.27 0.003; with drift 1.96 0.002
+    eps 0.002: noncentrality 15.6, rank 42, 99 % point 66.2, power 0.228; with drift 1.27 12.3, power 0.151; with drift 1.96 8.0, power 0.075
+      at the 99.9 % point 76.1: power 0.072; with drift 1.27 0.040; with drift 1.96 0.015
+    eps 0.003: noncentrality 35.1, rank 42, 99 % point 66.2, power 0.759; with drift 1.27 27.7, power 0.575; with drift 1.96 17.9, power 0.290
+      at the 99.9 % point 76.1: power 0.505; with drift 1.27 0.306; with drift 1.96 0.103
+    eps 0.004: noncentrality 62.4, rank 42, 99 % point 66.2, power 0.990; with drift 1.27 49.2, power 0.942; with drift 1.96 31.9, power 0.685
+      at the 99.9 % point 76.1: power 0.950; with drift 1.27 0.814; with drift 1.96 0.416
+    eps 0.005: noncentrality 97.6, rank 42, 99 % point 66.2, power 1.000; with drift 1.27 76.8, power 0.999; with drift 1.96 49.8, power 0.946
+      at the 99.9 % point 76.1: power 1.000; with drift 1.27 0.991; with drift 1.96 0.823
+
+(6) arm Q: one qubit at a time (the other two in |0>), sx, idle tau in {0, 1, 2, 4} us, read in X and Y; replay with a
+    detuning on each qubit, RO-corrected readings,
+    fitted per qubit by (delta, theta0, contrast, decay rate): <X> = C e^(-g tau) cos(theta0 + delta tau), <Y> = C e^(-g tau) sin(...)
+    q4 delta +0.0000 (set +0.000, sigma 0.0038) theta0 -1.571;  q5 delta +0.0000 (set +0.000, sigma 0.0038) theta0 -1.571;  q6 delta +0.0000 (set +0.000, sigma 0.0038) theta0 -1.571
+    q4 delta +0.0500 (set +0.050, sigma 0.0038) theta0 -1.568;  q5 delta -0.1000 (set -0.100, sigma 0.0038) theta0 -1.575;  q6 delta +0.2000 (set +0.200, sigma 0.0038) theta0 -1.562
+    q4 delta +0.1350 (set +0.135, sigma 0.0038) theta0 -1.564;  q5 delta +0.0000 (set +0.000, sigma 0.0038) theta0 -1.571;  q6 delta -0.0500 (set -0.050, sigma 0.0038) theta0 -1.573
+    200 noisy redraws at 8192 shots, detunings set +0.05, -0.10, +0.20: q4 mean +0.0505 sd 0.0045;  q5 mean -0.1000 sd 0.0038;  q6 mean +0.1999 sd 0.0032
+
+(7) a drift factor estimated from the data, under real drift: false-positive rate of T / kappa_hat at the 99 % and 99.9 % points
+    October's drift factor from its two halves: over all fit arms 1.2710 (288 odd-Y parities), over arm A alone 1.9619 (36)
+    rank 42, kappa 1.0: 0.0065 and 0.0007
+    rank 42, kappa 1.3: 0.0328 and 0.0071
+    rank 42, kappa 2.0: 0.0394 and 0.0105
+    rank 14, kappa 1.0: 0.0076 and 0.0007
+    rank 14, kappa 1.3: 0.0187 and 0.0029
+    rank 14, kappa 2.0: 0.0208 and 0.0039
+    rank 42, drift doubling the variance of 6 of the 14 readings: 0.0451 and 0.0129
+    drift on a few readings; the frame statistic over R readings x 3 differences, six half terms per reading;
+    false-positive rate at the 99 % / 99.9 % points for kappa_hat global, per reading, and max(global, per reading)
+    B, 14 readings, rank 42, 0 readings at 1.0x: 0.0065/0.0006  0.0018/0.0001  0.0015/0.0001
+    B, 14 readings, rank 42, 14 readings at 2.0x: 0.0384/0.0104  0.1354/0.0472  0.0122/0.0028
+    B, 14 readings, rank 42, 3 readings at 3.0x: 0.0570/0.0197  0.0219/0.0054  0.0097/0.0025
+    B, 14 readings, rank 42, 3 readings at 5.0x: 0.0892/0.0400  0.0359/0.0127  0.0097/0.0035
+    B, 14 readings, rank 42, 3 readings at 10.0x: 0.1300/0.0724  0.0429/0.0184  0.0075/0.0031
+    B, 14 readings, rank 42, 1 readings at 10.0x: 0.1320/0.0768  0.0128/0.0047  0.0085/0.0039
+    A, 36 readings, rank 108, 0 readings at 1.0x: 0.0063/0.0005  0.0004/0.0000  0.0004/0.0000
+    A, 36 readings, rank 108, 36 readings at 2.0x: 0.0350/0.0084  0.2562/0.1083  0.0047/0.0007
+    A, 36 readings, rank 108, 3 readings at 3.0x: 0.0409/0.0110  0.0040/0.0005  0.0022/0.0003
+    A, 36 readings, rank 108, 3 readings at 5.0x: 0.0781/0.0317  0.0079/0.0019  0.0029/0.0007
+    A, 36 readings, rank 108, 3 readings at 10.0x: 0.1397/0.0796  0.0124/0.0046  0.0022/0.0009
+    A, 36 readings, rank 108, 1 readings at 10.0x: 0.1040/0.0536  0.0037/0.0012  0.0027/0.0010

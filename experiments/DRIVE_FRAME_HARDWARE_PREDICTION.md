@@ -4,6 +4,7 @@
 Stores searched 2026-10-29 (evening) for drive crosstalk, a letter fixed in a qubit's drive frame, virtual phase as a lever, spectator readings, and the odd-Y excess's carrier.
 experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md §7: the excess (s_A = +0.083, 6.7σ), every carrier tested there, and the cube reading that names a drive-anchored letter as the one coherent one-site letter untested; its "Not tested" list names crosstalk from a neighbour's drive and spectators outside the path. experiments/Z_N_PARTNERSHIP.md lines 85 to 93 name off-resonant drive bleed-through and ZX/ZY crosstalk as breakers of Z⊗N and line 104 predicts |M_X(a) + M_X(b)| of 1e-2 to 1e-1, not measured; experiments/IBM_CONCENTRATOR.md lines 280 to 319 assert that DD on one qubit affects its neighbour, not measured. data/ibm_zn_mirror_april2026/README.md lines 28 to 41 (job d7ornigror3c73c0c6ug, path [48, 49, 50]) read a transverse field h_y_eff ≈ 0.05 as a static field in the logical frame, registered as fw.Confirmations marrakesh_transverse_y_field_detection; a drive-anchored letter read through the accumulated virtual phase would look the same, and the README does not raise it. experiments/PRICE_PAIR_HARDWARE_PREDICTION.md line 153 measured ZZ on Marrakesh (ζ₀₁ = −3.918 ± 0.142 kHz, ζ₁₂ = −3.637 ± 0.101 kHz, path [93, 94, 95]) and lines 102 and 157 detuning offsets of 8 to 22 kHz. experiments/FIXED_POINT_SHADOW.md (2026-02-09, Torino Q52, the first IBM tomography): a late residual coherence of 0.0185 pointing one way in 17 of 17 samples, equal X and Y parts; its lines 260 to 295 weigh an assignment asymmetry against a basis-pulse leak through the Z extrapolation and leave them unranked; it does not cite the reality window and the window does not cite it; §2 joins them. No prior flight read a spectator outside the path or had a qubit idle while a neighbour was driven. docs/ANALYTICAL_FORMULAS.md: F131 (the order-sorting law) and F119 (the antilinear triangle) are the frame laws this page rests on; nothing on a virtual phase as a lever. OpenArcs registry: nothing on drive crosstalk ("Spectator" there is SpectatorIntertwinerClaim, a different object). docs/CAUGHT_ERRORS.md: nothing on virtual phases or drive frames. docs/GLOSSARY.md: the letter cube's row, nothing on frames. Typed layer: AntilinearTriangleClaim (the transport law), MirrorOrderSortingClaim (F131); no claim or witness on a drive frame. The parked frame echo (a virtual rz(φ) before and rz(−φ) after one cz) lives only in a memory file; around a diagonal gate with no pulse between, it is physically the identity, and it is replaced here by the turn of the driver's frame around its whole pulse train. The frequencies of the Heron qubits are published nowhere the repo holds (the April calibration CSVs in data/ibm_calibration_snapshots/ have no frequency column; the October properties none), so an always-on exchange cannot be fitted locally and is read here through the frame it shares with crosstalk. The three backends of the open plan on 2026-10-29 21:46: ibm_marrakesh (queue 27, no path fresh), ibm_kingston (queue 396, 35 fresh passing triples), ibm_fez (queue 1181, 9).
 Adjacency checked: Z_N_PARTNERSHIP's bleed-through, the zn_mirror README's h_y_eff and REALITY_WINDOW §7 are about one object (a transverse letter fixed in a drive frame) and do not cite each other; FIXED_POINT_SHADOW and REALITY_WINDOW are about one class of reading and do not cite each other. This page joins them.
+For the arms riding in these jobs, 2026-11-13: data/ibm_f83_signature_april2026/README.md (the X^⊗3 window on YZ+ZY, on Marrakesh [4, 5, 6] and on Kingston [43, 56, 63], data/ibm_soft_break_april2026/) and experiments/X3_WINDOW_HARDWARE_PREDICTION.md, which takes the frame turn to the second Hamiltonian; the Kingston path rule of §3 follows May's path.
 -->
 
 This flight asks one question of the IBM hardware, and the letter cube asks
@@ -136,7 +137,7 @@ spectral weight at j's, tens of MHz away, so its first effect on j is a
 Stark shift (frame-blind) and a resonant X letter at a fixed phase
 presupposes a near frequency collision. A turning phase Δω·t gains the same
 φ at every pulse, so a foreign letter of that form still turns; only the
-fixed-phase prediction of VX below presupposes the resonant model.
+fixed-phase reach of the FRAME-BLIND bound below presupposes the resonant model.
 
 Earlier readings of the same class. On 2026-02-09, the first IBM
 tomography of this project ([the fixed point shadow](FIXED_POINT_SHADOW.md),
@@ -173,18 +174,23 @@ on a, q1 on b, q2 on c.
 | RO | the eight computational states of (q0, q2, q1), prepared with x gates, for the readout matrix, as in October |
 
 Three chips. The same 62 circuits fly on ibm_marrakesh, ibm_kingston and
-ibm_fez, one job each. The path on each chip is chosen at its freeze by one
+ibm_fez, one job each (on Marrakesh and Kingston beside the arms of the
+X^⊗3 window page). The path on each chip is chosen at its freeze by one
 rule: among the linear triples a-b-c (a < c) whose three qubits pass the
 guards of §6 on properties under 24 h old and whose middle b has exactly
 two neighbours, the one with the largest smallest T₂; on Marrakesh
-[4, 5, 6] whenever it passes, so that A5(0) repeats the October arm. A chip
+[4, 5, 6] whenever it passes, so that A5(0) repeats the October arm, and on
+Kingston [43, 56, 63] whenever it passes, the May path of
+[the X^⊗3 window page](X3_WINDOW_HARDWARE_PREDICTION.md), whose arms ride
+in the Marrakesh and Kingston jobs; should [43, 56, 63] fail the guards,
+the rule above picks Kingston's path, the riding arms fly there and the
+record says that the May path was not repeated. A chip
 whose queue would put the run outside its calibration's 24 h is not
 submitted that day; the record names which flew, and every verdict of §5
-is per chip. The cross-chip reading needs at least two chips: a letter
-anchored in the device (crosstalk with a chip's own δ) changes size and
-sign from chip to chip; one anchored in the circuit (the gate implementation
-shared by the Herons, the readout) repeats. The April and May runs already
-read the same sign of S on two chips.
+is per chip. The chips are set side by side without a verdict: a letter
+anchored in the device (crosstalk with a chip's own δ) can turn on every
+chip with its own size and sign, so a shared class does not tell device
+from circuit. The April and May runs read the same sign of S on two chips.
 
 The forest. Every circuit also measures, in Z, every coupling-map neighbour
 of a, b and c that is not on the path (with b of degree two, these are the
@@ -200,11 +206,17 @@ even readings of the path for any sign of the contrary.
 
 Per chip: 6 variants × 9 bases + 8 RO = 62 circuits, each submitted twice
 at 4096 shots, 124 PUBs in one job, shuffled with seed 20261030, so that
-drift between circuits shows as a difference between the halves. The
-October job of 196 PUBs billed 215 s and the April job of 36 PUBs 40 s,
-1.1 s per PUB on both; 124 PUBs are about 136 s per chip, about 410 s for
-three, of the 4739 s left on 2026-10-29. The billed usage is read from the
-job and written into the record.
+drift between circuits shows as a difference between the halves. On Fez
+that is the whole job. On Marrakesh and Kingston the job also carries the 78
+circuits of the X^⊗3 window page's arms B and Q, and the 280 PUBs of the
+two pages are shuffled as one with seed 20261113; those PUBs enter no
+verdict of this page, and every circuit of them reads the forest as these
+do. The October job of 196 PUBs billed 215 s and the April job of 36 PUBs
+40 s, 1.1 s per PUB on both; that is about 136 s on Fez and 308 s on each
+of the other two, about 750 s, under the 15 minutes set for the flight, of
+the 4739 s the allocation reported on 2026-11-13 (the remainder after the
+October flight, no job having run since). The billed usage is read from the job and written into the
+record.
 
 ## 4. Predictions from below
 
@@ -219,38 +231,46 @@ statistic of §5, with the full covariance of the four variants (multinomial
 covariances from the replay's own parities at 8192 shots per circuit, the
 shared A5(0) in every cross block). The statistic's expectation is its
 degrees of freedom plus λ, and its power is the probability of exceeding
-the 99 % point; both are given with κ = 1 and with the October drift
-factor κ = 1.27 dividing λ.
+the 99 % point and, where §5 calls TURNS, the 99.9 % point; both are given
+with κ = 1 and with October's drift factors dividing λ, 1.27 over all its
+fit arms and 1.96 over arm A's readings alone (both from the October
+halves, [`x3_window_power.py`](../simulations/x3_window_power.py) part
+7). The letters are yardsticks
+for the statistics' reach; none is a prediction of what the chip carries.
 
 - Under no letter and under the five Z letters: D = 0 up to the rounding
   above; λ = 0, T₅ at its null (expectation 108).
 - Under the fitted crosstalk alone (the eight parameters of §2): D reaches
   0.072, 0.104 and 0.126 at φ = π/2, π and 3π/2; λ = 1034, with drift 814;
   expected T₅ 1142 or 922 against the 99 % point 145.1 on 108 degrees of
-  freedom; power 1.000 either way.
+  freedom; power 1.000 either way, and at the 99.9 % point 159.2 with
+  either drift factor.
 - Under all three families (seventeen parameters): 0.056, 0.060, 0.039;
   λ = 307, with drift 242; expected T₅ 415 or 350; power 1.000.
-- The turn by π on q4: λ = 93 (crosstalk alone), 12 (all three), against
-  the 99 % point 58.6 on 36 degrees of freedom, power 1.000 and 0.17 (with
-  drift 0.999 and 0.11); on q6: 244 and 76, power 1.000 and 0.999 (1.000 and 0.990).
-- The share. Under the crosstalk fit alone S reads −0.017, −0.034, −0.008,
-  +0.012 at the four turns, mean −0.012, the frame-blind part S̄ minus the
-  baseline (−0.012) is zero and the turning part S(0) − S̄ is −0.005: that
-  fit puts nothing in the frame-blind part and reproduces none of the
-  measured +0.072. Under all three families S reads +0.045, −0.011, −0.014,
-  +0.043, mean +0.016, frame-blind part +0.028 and turning part +0.030. The
-  unexplained remainder of the excess, about 0.03 to 0.09 depending on the
-  fit, is what the flight reads: whether it turns.
+- The turn by π on q4: λ = 93 (crosstalk alone), 12 (all three); at the
+  99.9 % point 68.0 on 36 degrees of freedom, power 1.000 and 0.046, with
+  the drift factor 1.27 0.992 and 0.026, with 1.96 0.833 and 0.011; on q6:
+  244 and 76, power 1.000 and 0.994, with 1.27 1.000 and 0.952, with 1.96
+  1.000 and 0.651.
 - The bound of §5: a crosstalk of equal size ε on (5 → 4) and (5 → 6) at the
-  fitted phases, the other two pairs at zero, with drift, gives λ = 7.1 at
-  ε = 0.1 % (power 0.035), 28.5 at 0.2 % (0.31), 64.2 at 0.3 % (0.90), 178 at
-  0.5 % (1.000); the 50 % point lies between 0.2 and 0.3 %.
-- The simulated flights: 200 draws of the 124 PUBs under the baseline
-  (no letter, κ = 1) through Qiskit Aer with the snapshot's readout on the
-  right physical qubits, each file through the analysis unchanged, give the
-  null distributions of T₅, T₄, T₆ and E; their 99 % points are written
-  here before the freeze beside the χ² points they check. One further draw
-  under the crosstalk-alone fit is read for its verdicts.
+  fitted phases, the other two pairs at zero, gives T₅ power at its 99.9 %
+  point of 0.11, 0.72 and 0.996 at ε = 0.2, 0.3 and 0.4 % with the drift
+  factor 1.27, and 0.03, 0.30 and 0.84 with 1.96; the 50 % point lies near
+  0.27 % and 0.34 %. These use one drift factor; the per-reading weights of
+  §5 divide even a drift-free chip's readings by more than one, so the
+  bound §5 reports is computed with those weights and lies higher.
+- The simulated flights: 10 000 draws of each chip's job from the baseline
+  replay's own distributions (multinomial at each circuit's shots, the RO
+  circuits' counts drawn from the snapshot's RO matrix, which is then
+  re-estimated in each draw from those counts), so that their mean is the
+  baseline by construction; each file goes through the analysis unchanged
+  and gives the null distributions of s_A/σ_S, T₅, T₄, T₆ and E (and those
+  of the X^⊗3 window page); their 95 %, 99 % and 99.9 % points are written
+  here before the freeze beside the χ² points they check. They carry no
+  drift, so they check the pipeline and the χ² points and not the drift
+  weights, whose estimate §5 covers by its form and its 99.9 % point. One further draw
+  under the crosstalk-alone fit is run through the analysis as a check of
+  the pipeline, not as a prediction.
   [TO BE FILLED BEFORE THE FREEZE]
 
 ## 5. Verdict rules
@@ -263,22 +283,37 @@ forest bits summed out, and the RO matrix is the 8 × 8 matrix of the path
 bits with the forest bits summed out. The **baseline** of a chip is the
 October replay run on that chip's path under its freeze snapshot (T₁, T₂)
 with the RO matrix its RO arm measures, every letter at zero; on Marrakesh
-[4, 5, 6] this is the October baseline with the day's RO matrix. Every
+[4, 5, 6] it is built as October's, with the freeze snapshot and the day's
+RO matrix. Every
 path reading is a parity of measured bits in one basis circuit, both
 halves together, with covariance the multinomial one computed from the
 baseline's predicted parities at the circuit's shots, Σ for one variant's
 36 odd-Y readings (the same matrix for the variants of one chip, which are
 logically one circuit; its rank is the number of eigenvalues above 10⁻⁹ of
-the largest, 36 unless a parity is predicted at ±1). The drift factor κ is
-max(1, mean of (half₁ − half₂)²/(var₁ + var₂)) over the odd-Y parities of
-the non-VOID A circuits of the chip, the variance from the measured counts
-as in October (a difference within one circuit, so the design's differences
-between variants do not enter it); every covariance below is multiplied by
-κ. σ_S = √(κΣ_SS). The predictions of §4
-give both κ = 1 and κ = 1.27. All verdicts are per chip; the χ² points
-below rule, and the Aer nulls of §4 are a check on them: for each of T₅,
-T₄, T₆ and E, if its Aer 99 % point exceeds its χ² point by more than 5 %,
-the Aer point rules for that statistic and the record says so.
+the largest, 36 unless a parity is predicted at ±1). The drift weights:
+for each reading i, κ_i is the mean over its non-VOID A variants of
+(half₁ − half₂)²/(var₁ + var₂), the variance from the measured counts as
+in October (a difference within one circuit, so the design's differences
+between variants do not enter it); κ is max(1, the mean of the κ_i over
+the readings); D = diag(max(κ, κ_i)), and every covariance below written
+κΣ is D^½ΣD^½. A drift that wanders on one qubit sits in a few readings,
+and one global factor would spread it thin. σ_S = √(κΣ_SS + Σ_RO,SS), Σ_RO the noise of the day's RO matrix carried
+into the baseline (column by column, multinomial, J·C·Jᵀ, as
+[the X^⊗3 window page](X3_WINDOW_HARDWARE_PREDICTION.md)'s §5 carries it);
+it cancels in every difference between variants. The predictions of §4
+give κ = 1, 1.27 and 1.96. A drift factor estimated from the data makes
+a χ² test anticonservative when the drift is real; with one global factor
+a 99.9 % point is passed by chance at up to 8 % when the drift sits on one
+to three readings, with the weights above at 0.4 % or less in every drift
+pattern tried, and at 1.2 % or less at the 99 % point
+([`x3_window_power.py`](../simulations/x3_window_power.py) part 7, at this
+page's rank and at the X^⊗3 window page's). The frame statistics call
+TURNS only above their 99.9 % points. All verdicts
+are per chip; the χ² points below rule, and the simulated flights of §4
+are a check on them: for each of T₅, T₄, T₆ and E, if a simulated 95 %,
+99 % or 99.9 % point (numpy's default quantile) exceeds its χ² point by
+more than 5 %, the simulated point rules for that statistic and the record says so; for s_A the same with
+the simulated 99.7 % point of |s_A|/σ_S against 3.
 
 - **P, the parse gate.** A5(0): ⟨X₀Z₂⟩ < −0.5, −0.75 < ⟨Z₀X₂⟩ < −0.3 and
   ⟨X₀Z₂⟩ < ⟨Z₀X₂⟩ − 0.15 (October's gate, which passed there with a margin
@@ -303,14 +338,19 @@ the Aer point rules for that statistic and the record says so.
   bootstrap term for the RO matrix's own noise is zero under the null (one
   matrix, one logical circuit) and is not added. VF is VOID when fewer than
   two variants stand.
-  - T₅ above its 99 % point: TURNS. The odd-Y readings carry a component
-    that turns with b's frame, a foreign transverse letter coupling to b;
-    whether S carries it is VH's reading.
-  - T₅ at or below it: FRAME-BLIND at this sensitivity for letters
-    coupling to b. The bound reported with it: the smallest ε, equal on
-    (b → a) and (b → c) at the phases §2 fitted for (5 → 4) and (5 → 6) and
-    with (a → b) and (c → b) at zero, at which the power of T₅ at its 99 %
-    point with the day's κ, n and rank is 0.5, computed with the chip's
+  - T₅ above its 99.9 % point: TURNS. The odd-Y readings carry a
+    component that turns with b's frame, a foreign transverse letter
+    coupling to b; whether S carries it is not decided (the share, below).
+  - T₅ at or below its 99 % point: FRAME-BLIND at this sensitivity for
+    letters coupling to b; between the two points, INCONCLUSIVE. FRAME-BLIND
+    also covers a turn the control stack dropped below the submitted
+    circuit, which no logical reading can show. The bound reported with it:
+    the smallest ε, equal on (b → a) and (b → c) at the phases §2 fitted
+    for (5 → 4) and (5 → 6), a fitted letter's phases used as a yardstick
+    and not as a prediction, and with (a → b) and (c → b) at zero, at which
+    T₅, formed with the day's per-reading drift weights, passes its 99.9 %
+    point in half of 2000 simulated flights drawn under that letter from the
+    baseline replay, computed with the chip's
     baseline replay on its path and the Marrakesh phases carried over; a one-parameter convention for b's
     pulses reaching the ends, within the resonant model (the letters
     a → b and c → b turn too and are covered by the same statistic, not by
@@ -324,31 +364,14 @@ the Aer point rules for that statistic and the record says so.
     not the middle shows in T₄ or T₆ and not in T₅.
   - The even harmonic, read only when all four variants stand:
     E = Y_{π/2} + Y_{3π/2} − Y_π − Y_0, covariance 4κΣ; Eᵀ(4κΣ)⁺E above the
-    99 % point on rank(Σ) degrees of freedom is reported as 2φ PRESENT, the
+    99.9 % point on rank(Σ) degrees of freedom is reported as 2φ PRESENT, the
     cos 2φ signature of an IQ image term of b's own drive, read beside
     TURNS and not as its cause.
-- **VH, the share.** Read only when all four A5 variants stand (the mean
-  cancels a cos(φ + const) letter over the four quarter turns and not over
-  fewer), otherwise VOID. S̄ is the mean of S over the four, σ_S̄ = σ_S/2; the frame-blind share is S̄ minus the baseline's S, with σ_b
-  the quadrature sum of σ_S̄ and the baseline's RO bootstrap term as October
-  computed it (0.002 there); the turning share is S(0) − S̄ with
-  σ_t = σ_S·√3/2. WHOLLY TURNING when |S̄ − baseline| < 2σ_b and
-  |S(0) − S̄| ≥ 3σ_t; BLIND STANDS when |S̄ − baseline| ≥ 3σ_b and
-  |S(0) − S̄| < 3σ_t; SHARED when |S̄ − baseline| ≥ 3σ_b and
-  |S(0) − S̄| ≥ 3σ_t; otherwise UNDECIDED. The fits of §2 predict: the
-  crosstalk fit alone, with a turning share of −0.005 and no blind share,
-  reads UNDECIDED; all three families, +0.030 turning and +0.028 blind,
-  read SHARED at κ = 1 (σ_S = 0.0110: 3.1σ_t, 4.7σ_b) and BLIND STANDS at
-  κ = 1.27 (σ_S = 0.0125: 2.7σ_t, 4.2σ_b). A WHOLLY TURNING reading of the
-  +0.083 excess would need the whole of it in the turning share, 7.7σ_t at
-  κ = 1 and 6.6σ_t at 1.27.
-- **VX, the fitted letter.** Read only on Marrakesh [4, 5, 6], where the
-  fitted δ belong to the qubits, and only when VF is TURNS. With the eight
-  parameters of the crosstalk-alone fit of §2 fixed and every other letter
-  at zero, D_pred(φ) is the replay's A5(φ) minus A5(0); T₅ᵖ is T₅ computed
-  on Y_φ − D_pred(φ). In this order: T₅ᵖ above the 99 % point on T₅'s
-  degrees of freedom: TURNS, NOT THE FITTED LETTER; else T₅ − T₅ᵖ ≥ 25:
-  PREDICTED; else TURNS, LETTER NOT SEPARATED.
+- **The share, a reading.** When all four A5 variants stand, S̄ (the mean
+  of S over the four) minus the baseline's S, with σ = √(κΣ_SS/4 +
+  Σ_RO,SS), and S(0) − S̄, with σ_t = √(κΣ_SS)·√3/2, are reported without a
+  verdict: a transverse letter puts part of itself into S̄ at second order,
+  so S̄ is not a frame-blind share.
 - **VS, the forest.** For each forest qubit, p_A is its P(1) over all A
   circuits of the chip (every variant and basis, both halves). Its null is
   not an idle one: the RO circuits fire x pulses on a and c, so they shoot
@@ -366,27 +389,14 @@ the Aer point rules for that statistic and the record says so.
 
 | VF | reading |
 |---|---|
-| TURNS | the odd-Y readings carry a component turning with the middle qubit's frame, a foreign transverse letter coupling to it: a neighbour's pulse reaching it or its pulse reaching a neighbour, an always-on exchange, cz leakage or residual swap, a local-oscillator leak, or another lab-fixed transverse letter; VX and VS narrow it in part |
-| FRAME-BLIND | for letters coupling to the middle qubit, the excess is carried at this sensitivity by Z letters, own-frame letters, or something outside the qubits' letters (readout, own-pulse leakage); b's pulses reaching the ends are bounded by the ε reported; T₄ and T₆ say the same for letters coupling to the ends |
+| TURNS | the odd-Y readings carry a component turning with the middle qubit's frame, a foreign transverse letter coupling to it: a neighbour's pulse reaching it or its pulse reaching a neighbour, an always-on exchange, cz leakage or residual swap, a local-oscillator leak, or another lab-fixed transverse letter; VS narrows it in part |
+| FRAME-BLIND | for letters coupling to the middle qubit, the excess is carried at this sensitivity by Z letters, own-frame letters, or something outside the qubits' letters (readout, own-pulse leakage); b's pulses reaching the ends are bounded by the ε reported; T₄ and T₆ say the same for letters coupling to the ends, for the cosine part alone |
+| INCONCLUSIVE or VOID | no class |
 
-| VH | reading |
-|---|---|
-| WHOLLY TURNING | S is the foreign letter's; the Z letters the October fits wanted were its shadow |
-| BLIND STANDS | a frame-blind share of S stands at 3σ_b and the turning share does not |
-| SHARED | both shares of S stand at 3σ, one turning, one not |
-| UNDECIDED | any other outcome |
-
-| VX | reading |
-|---|---|
-| PREDICTED | the turning part is the crosstalk fitted on the October data, at its fitted sizes and phases: a letter measured twice |
-| TURNS, LETTER NOT SEPARATED | the fitted letter is consistent with the turn and does not improve on no letter by 25 |
-| TURNS, NOT THE FITTED LETTER | the excess turns with the frame and the fixed-phase crosstalk of §2 does not describe how: a transverse letter of another form (an exchange rotating at the frequency difference, a time-dependent phase, a two-site letter) |
-
-Across the chips that flew with V1 REPLICATED or REVERSED and a VH class
-other than UNDECIDED, the sign of s_A and the VH class are tabled side by
-side: the same sign and class on every such chip is read as a carrier
-anchored in the circuit, different signs or classes as one anchored in the
-device; fewer than two such chips give no cross-chip reading. Everything else is read without a verdict; a single reading beyond
+Across the chips that flew with V1 REPLICATED or REVERSED, the sign of s_A
+and the VF classes are tabled side by side without a verdict: a carrier
+anchored in the device can read TURNS on several chips with different
+sizes and signs. Everything else is read without a verdict; a single reading beyond
 3σ is not a finding, and beyond 4σ it is reported as a sighting.
 
 ## 6. Flight conditions
@@ -394,7 +404,9 @@ device; fewer than two such chips give no cross-chip reading. Everything else is
 The freezer is `simulations/flight/drive_frame_freeze.py`, the runner
 `simulations/flight/run_drive_frame.py`; both are new files beside the
 October pair and reuse its backend, readout-circuit and scheduling
-functions. The runner refuses to submit on a chip unless all of these hold,
+functions; on Marrakesh and Kingston the freezer also builds the X^⊗3
+window page's arms B and Q into the same frozen file and asserts their
+turns as these and the idles of Q. The runner refuses to submit on a chip unless all of these hold,
 with no override flag: the chip's frozen circuit file's sha256 matches the hash
 written here for that chip before its flight [TO BE FILLED AT EACH FREEZE:
 Marrakesh, Kingston, Fez]; a path that ages out of its 24 h before
@@ -406,12 +418,13 @@ again at submission); the chip's properties for the three path qubits are
 under 24 h old; T₁ ≥ 100 µs and T₂ ≥ 80 µs on each; readout error ≤ 3 % and
 P(1|0) ≤ 1 % on each; sx error ≤ 0.1 %; cz error ≤ 0.8 % on both bonds; the
 forest qubits are read and not gated; at least 600 s of allocation left
-before each submission; one job of 124 PUBs at 4096 shots in job mode (no
-session), no dynamical decoupling, no twirling, init_qubits on, classified
+before each submission; one job of 124 PUBs (280 on Marrakesh and
+Kingston) at 4096 shots in job mode (no session), no dynamical decoupling, no twirling, init_qubits on, classified
 measurement, max_execution_time 600 s; the calibration snapshot, the
 shuffled order, the job id, and after the run the counts per circuit as two
 halves and the billed usage from the job are written into the record under
-`data/ibm_drive_frame_october2026/` (one file per chip). The
+`data/ibm_drive_frame_<month><year>/`, the month the flight flies in,
+written at the freeze (one file per chip). The
 pre-registration (this page through §6, with the placeholder of §4 and the
 hashes of §6 filled) is committed together with the freezer, the runner
 and the frozen files before the first submission, and its commit hash is
