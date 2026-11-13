@@ -1,0 +1,56 @@
+ibm_fez: path [123, 136, 143], circuits df61e1b82a9a8e18, freeze record 90e1852a4b13b8143ee0b04d31998ca3061e3eb1bfc4240dcd08606e0aabd9d1; 1000 flights per scenario through analyze_compact (fingerprints 25 s)
+letter sizes per PUB at alpha 1: ('det', 4) 0.02, ('det', 5) 0.02, ('det', 6) 0.02, ('sxa', 4) 0.002, ('sxa', 5) 0.002, ('sxa', 6) 0.002, ('zz', (4, 5)) 0.01, ('zz', (5, 6)) 0.01, ('czp', (4, 5), 4) 0.005, ('czp', (4, 5), 5) 0.005, ('czp', (5, 6), 5) 0.005, ('czp', (5, 6), 6) 0.005, ('sxp', 4) 0.005, ('sxp', 5) 0.005, ('sxp', 6) 0.005, ('czk', (4, 5)) 0.005, ('czk', (5, 6)) 0.005, ('stk', (4, 5), 6) 0.005, ('stk', (5, 6), 4) 0.005
+== no drift: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.002; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.006
+== one letter: detuning on a, sd 0.02 rad/us (3.2 kHz): kappa_A median 1.02
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.001; V1 at 3 sigma 0.002; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.000; T6 > 99 % 0.001; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.011
+== one letter: detuning on b, sd 0.02 rad/us: kappa_A median 1.01
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.002; VS HEARD 0.000; VS |z| >= 3 0.015
+== one letter: detuning on a, sd 0.05 rad/us (8 kHz): kappa_A median 1.15
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.001; T4 > 99 % 0.006; T6 TURNS 0.000; T6 > 99 % 0.005; E present 0.001; E > 99 % 0.004; VS HEARD 0.000; VS |z| >= 3 0.009
+== one letter: detuning on a, sd 0.1 rad/us (16 kHz): kappa_A median 1.62
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.001; T5 > 99 % 0.003; T4 TURNS 0.001; T4 > 99 % 0.005; T6 TURNS 0.000; T6 > 99 % 0.002; E present 0.002; E > 99 % 0.006; VS HEARD 0.000; VS |z| >= 3 0.008
+== one letter: phase on b after cz(b, c), sd 0.03 rad: kappa_A median 1.25
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.006; V1 at 3 sigma 0.011; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.001; T4 > 99 % 0.002; T6 TURNS 0.001; T6 > 99 % 0.003; E present 0.001; E > 99 % 0.003; VS HEARD 0.000; VS |z| >= 3 0.016
+== one letter: phase on b after cz(b, c), sd 0.06 rad: kappa_A median 1.99
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.007; V1 at 3 sigma 0.017; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.001; T4 > 99 % 0.002; T6 TURNS 0.002; T6 > 99 % 0.006; E present 0.000; E > 99 % 0.002; VS HEARD 0.000; VS |z| >= 3 0.010
+== one letter: phase on b after cz(b, c), sd 0.12 rad: kappa_A median 4.90
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.010; V1 at 3 sigma 0.021; T5 TURNS 0.000; T5 > 99 % 0.001; T4 TURNS 0.001; T4 > 99 % 0.003; T6 TURNS 0.003; T6 > 99 % 0.004; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.011
+== readout per PUB, sd 0.02: kappa_A median 1.91
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.001; T4 TURNS 0.001; T4 > 99 % 0.003; T6 TURNS 0.001; T6 > 99 % 0.005; E present 0.002; E > 99 % 0.005; VS HEARD 0.000; VS |z| >= 3 0.007
+== depolarized 22 % (contrast 0.78), no drift: kappa_A median 1.01
+   P fails 0.000; P fails at October's margin 0.001; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.000; T6 TURNS 0.000; T6 > 99 % 0.001; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.007
+== depolarized 30 % (contrast 0.70), no drift: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.044; V1 REPLICATED 0.001; V1 at 3 sigma 0.002; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.000; T6 TURNS 0.000; T6 > 99 % 0.001; E present 0.000; E > 99 % 0.002; VS HEARD 0.000; VS |z| >= 3 0.009
+== depolarized 34 % (contrast 0.66), no drift: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.207; V1 REPLICATED 0.001; V1 at 3 sigma 0.001; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.004
+== letters per PUB, alpha 1: kappa_A median 1.50
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.001; V1 at 3 sigma 0.001; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.000; T6 > 99 % 0.002; E present 0.000; E > 99 % 0.004; VS HEARD 0.000; VS |z| >= 3 0.011
+== letters per PUB, alpha 2: kappa_A median 3.03
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.002; V1 at 3 sigma 0.003; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.005; T6 TURNS 0.001; T6 > 99 % 0.002; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.016
+== letters per PUB, alpha 4: kappa_A median 8.98
+   P fails 0.002; P fails at October's margin 0.017; V1 REPLICATED 0.006; V1 at 3 sigma 0.011; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.001; T6 > 99 % 0.005; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.015
+== readout per PUB, sd 0.005: kappa_A median 1.11
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.001; V1 at 3 sigma 0.002; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.002; T6 TURNS 0.001; T6 > 99 % 0.001; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.018
+== readout per PUB, sd 0.01: kappa_A median 1.30
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.001; T4 TURNS 0.002; T4 > 99 % 0.003; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.012
+== depolarized 20 %, no drift: kappa_A median 1.01
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.001; V1 at 3 sigma 0.001; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.000; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.004
+== depolarized 20 % and letters alpha 2: kappa_A median 2.15
+   P fails 0.000; P fails at October's margin 0.012; V1 REPLICATED 0.007; V1 at 3 sigma 0.010; T5 TURNS 0.000; T5 > 99 % 0.004; T4 TURNS 0.000; T4 > 99 % 0.001; T6 TURNS 0.000; T6 > 99 % 0.003; E present 0.000; E > 99 % 0.002; VS HEARD 0.000; VS |z| >= 3 0.014
+== forest rate 2e-5: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.002; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.000
+== forest rate 5e-5: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.002; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.000
+== forest rate 1e-4: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.002; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.004
+== forest rate 0.05, 10 % per PUB: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.001; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.000; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.010
+== forest rate 0.05, 20 % per PUB: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.000; T4 TURNS 0.000; T4 > 99 % 0.004; T6 TURNS 0.000; T6 > 99 % 0.000; E present 0.000; E > 99 % 0.000; VS HEARD 0.000; VS |z| >= 3 0.019
+== for comparison, the reading-by-reading weights: no drift: kappa_A median 1.00
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.000; V1 at 3 sigma 0.000; T5 TURNS 0.000; T5 > 99 % 0.002; T4 TURNS 0.001; T4 > 99 % 0.003; T6 TURNS 0.000; T6 > 99 % 0.002; E present 0.000; E > 99 % 0.001; VS HEARD 0.000; VS |z| >= 3 0.006
+== for comparison, the reading-by-reading weights: letters alpha 1: kappa_A median 1.43
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.002; V1 at 3 sigma 0.003; T5 TURNS 0.000; T5 > 99 % 0.013; T4 TURNS 0.000; T4 > 99 % 0.008; T6 TURNS 0.001; T6 > 99 % 0.014; E present 0.001; E > 99 % 0.013; VS HEARD 0.000; VS |z| >= 3 0.011
+== for comparison, the reading-by-reading weights: letters alpha 2: kappa_A median 2.74
+   P fails 0.000; P fails at October's margin 0.000; V1 REPLICATED 0.003; V1 at 3 sigma 0.006; T5 TURNS 0.006; T5 > 99 % 0.019; T4 TURNS 0.005; T4 > 99 % 0.016; T6 TURNS 0.003; T6 > 99 % 0.016; E present 0.003; E > 99 % 0.011; VS HEARD 0.000; VS |z| >= 3 0.016

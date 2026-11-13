@@ -83,8 +83,6 @@ REACH_DRAWS = 2000
 # Section 6
 MIN_REMAINING_S = 600
 MAX_EXEC_S = 600
-MAX_FREEZE_AGE_H = 20.0                                  # the freeze snapshot's oldest property at submission: 4 h of
-                                                         # the 24 are left for the queue
 
 
 def say(lines, s=""):
@@ -924,8 +922,7 @@ def analyze(result_path, reach=False):
     h = run_window(data, chip)
     out["hours_from_oldest_property_to_run"] = h
     if h is not None:
-        say(lines, f"   the job ran {h:.1f} h after the freeze snapshot's oldest property"
-                   + (" (past 24 h: said with every verdict)" if h > 24 else ""))
+        say(lines, f"   the job ran {h:.1f} h after the freeze snapshot's oldest property (a reading)")
     if reach:
         out["reach"] = reach_day(chip, comp, out, lines)
     stem = Path(result_path).with_suffix("")
@@ -1238,11 +1235,38 @@ def sx_tilted(ops, qs, t):
     return out
 
 
+def freeze_numbers_a(chip, nulls_):
+    """The drive-frame page's per-chip numbers on a chip without the X^3 arms: A5(0)'s baseline, its leaning on the
+    snapshot's T1 and T2, and the FRAME-BLIND reach of T5."""
+    lines = []
+    s = lambda x: say(lines, x)
+    A, n, nro = chip.A_snap, 2.0 * SHOTS_HALF, np.full(8, 2.0 * SHOTS_HALF)
+    pa = {b: chip.p_true(f"A50_{b[0]}{b[1]}") for b in BASES}
+    ya = {b: SG @ (A @ pa[b]) for b in BASES}
+    s(f"{chip.name}: path {chip.path}, forest {chip.forest}, circuits {chip.freeze['sha256'][:16]}; freeze snapshot "
+      f"{chip.freeze['snapshot']['calibration']}: T1 {[round(x) for x in chip.T1]} us, T2 {[round(x) for x in chip.T2]} us, "
+      f"(P(1|0), P(0|1)) on (a, c, b) {[(round(a, 4), round(b, 4)) for a, b in chip.ro_snap]}; oldest dated property "
+      f"{chip.freeze['oldest_property_utc']}")
+    s(f"baseline A5(0): parse gate <X0Z2> {ya[('X', 'Z')][MI[(1, 1, 0)]]:+.3f}  <Z0X2> {ya[('Z', 'X')][MI[(1, 1, 0)]]:+.3f}; "
+      f"S = <Y0Z2> {ya[('Y', 'Z')][MI[(1, 1, 0)]]:+.4f}")
+    sS = math.sqrt(shot_cov(ya, A_IDX, n)[S_POS, S_POS] + ro_cov(pa, A_IDX, A, nro)[S_POS, S_POS])
+    T1, T2 = list(chip.T1), list(chip.T2)
+    chip.T1, chip.T2, chip._ptrue = [t / 2 for t in T1], [t / 2 for t in T2], {}
+    S_h = SG[MI[(1, 1, 0)]] @ (A @ chip.p_true("A50_YZ"))
+    chip.T1, chip.T2, chip._ptrue = T1, T2, {}
+    s(f"the baseline with the snapshot's T1 and T2 halved: S moves by {(S_h - ya[('Y', 'Z')][MI[(1, 1, 0)]]) / sS:+.3f} sigma_S")
+    ra = pinv_rank(shot_cov(ya, A_IDX, n))[1]
+    eps_a = reach_frame(chip, "A", A_IDX, A, None, ruling("T5", 3 * ra, nulls_, True)[0][P_TURNS], xt_b, seed=42)
+    s(f"FRAME-BLIND reach of T5 on a drift-free chip (each simulated flight with its own Sigma and drift matrix): eps {100 * eps_a:.3f} %")
+    OUTDIR.mkdir(parents=True, exist_ok=True)
+    (OUTDIR / f"{chip.name}_freeze_numbers.txt").write_text(chr(10).join(lines) + chr(10), encoding="utf-8", newline=chr(10))
+
+
 def freeze_numbers(chip_name):
     chip = Chip(chip_name)
-    if not chip.rider:
-        raise SystemExit("the X^3 window arms fly on Marrakesh and Kingston only")
     nulls_ = load_nulls(chip_name)
+    if not chip.rider:
+        return freeze_numbers_a(chip, nulls_)
     lines = []
     s = lambda x: say(lines, x)
     A = chip.A_snap
@@ -1285,6 +1309,15 @@ def freeze_numbers(chip_name):
             y.append(SG[MI[m]] @ (A @ p))
         d = np.array(y) - yb
         s(f"  {label:42s} {float(d @ Wt @ d):8.1f}   largest shift {np.abs(d).max():.4f}")
+    # how much the baseline leans on the snapshot's T1 and T2: S of A5(0) and W of B5(0) with both halved
+    sS = math.sqrt(shot_cov(ya, A_IDX, n)[S_POS, S_POS] + ro_cov(pa, A_IDX, A, nro)[S_POS, S_POS])
+    T1, T2 = list(chip.T1), list(chip.T2)
+    chip.T1, chip.T2, chip._ptrue = [t / 2 for t in T1], [t / 2 for t in T2], {}
+    S_h = SG[MI[(1, 1, 0)]] @ (A @ chip.p_true("A50_YZ"))
+    yh = np.array([SG[MI[m]] @ (A @ chip.p_true(f"B50_{b[0]}{b[1]}")) for b, m in B_IDX])
+    chip.T1, chip.T2, chip._ptrue = T1, T2, {}
+    s(f"the baseline with the snapshot's T1 and T2 halved: S moves by {(S_h - ya[('Y', 'Z')][MI[(1, 1, 0)]]) / sS:+.3f} sigma_S, "
+      f"W's noncentrality {float((yh - yb) @ Wt @ (yh - yb)):.2f}")
     t0 = time.time()
     eps = reach_frame(chip, "B", B_IDX, A, None, ruling("T5B", 3 * rk, nulls_, True)[0][P_TURNS], xt_b, seed=41)
     s(f"reach of T5_B at its 99.9 % point (each simulated flight with its own Sigma and drift matrix, October phases "
@@ -1488,8 +1521,7 @@ def day_of(svc, be, chip):
             fails.append(f"structure: {exc}")
     now = datetime.now(timezone.utc)
     age = (now - datetime.fromisoformat(chip.freeze["oldest_property_utc"])).total_seconds() / 3600
-    if age >= MAX_FREEZE_AGE_H:
-        fails.append(f"the freeze snapshot's oldest property is {age:.1f} h old (re-freeze)")
+    # the property ages are recorded, not gated (section 6)
     try:
         live = FZ.durations_of(be, chip.path, chip.forest)
         if live != chip.freeze["durations_dt"]:

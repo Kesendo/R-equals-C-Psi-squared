@@ -1,0 +1,11 @@
+ibm_fez: 10000 simulated flights drawn from the baseline replay (5 s); path [123, 136, 143], circuits df61e1b82a9a8e18fdbae1f778ec8a89540487046ee742751611b72120e22de1
+  parse gates: P fails in 0.0000
+  |s_A|/sigma_S: 99.7 % point 2.809 (against 3); mean +0.006, sd 0.886
+  T5   rank 108: mean   88.45; simulated 95/99/99.9 % 111.89 / 122.56 / 134.44 against chi^2 133.26 / 145.10 / 159.16
+  T4   rank  36: mean   29.49; simulated 95/99/99.9 % 43.05 / 49.61 / 57.33 against chi^2 51.00 / 58.62 / 67.99
+  T6   rank  36: mean   29.53; simulated 95/99/99.9 % 42.80 / 49.50 / 57.61 against chi^2 51.00 / 58.62 / 67.99
+  E    rank  36: mean   29.59; simulated 95/99/99.9 % 42.92 / 49.50 / 58.45 against chi^2 51.00 / 58.62 / 67.99
+  VS q122: z defined in 1.0000 of the flights; mean +0.045, sd 0.984; HEARD in 0.0001, |z| >= 3 in 0.0024
+  VS q124: z defined in 1.0000 of the flights; mean +0.031, sd 0.966; HEARD in 0.0000, |z| >= 3 in 0.0033
+  VS q142: z defined in 1.0000 of the flights; mean +0.013, sd 0.971; HEARD in 0.0000, |z| >= 3 in 0.0026
+  VS q144: z defined in 1.0000 of the flights; mean +0.047, sd 0.943; HEARD in 0.0000, |z| >= 3 in 0.0024

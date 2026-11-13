@@ -1,4 +1,4 @@
-ibm_marrakesh: 10000 simulated flights drawn from the baseline replay (102 s); path [45, 46, 47], circuits fcee7bd194e4fcf63c366654792492291fa53435b20cf97faf721d248e92a30c
+ibm_marrakesh: 10000 simulated flights drawn from the baseline replay (104 s); path [45, 46, 47], circuits fcee7bd194e4fcf63c366654792492291fa53435b20cf97faf721d248e92a30c
   parse gates: P fails in 0.0000, PB in 0.0000
   |s_A|/sigma_S: 99.7 % point 2.704 (against 3); mean +0.006, sd 0.870
   T5   rank 108: mean   88.06; simulated 95/99/99.9 % 111.49 / 122.06 / 134.43 against chi^2 133.26 / 145.10 / 159.16

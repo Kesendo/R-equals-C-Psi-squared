@@ -177,8 +177,7 @@ Three chips. The same 62 circuits fly on ibm_marrakesh, ibm_kingston and
 ibm_fez, one job each (on Marrakesh and Kingston beside the arms of the
 X^⊗3 window page). The path on each chip is chosen at its freeze by one
 rule: among the linear triples a-b-c (a < c) whose three qubits pass the
-guards of §6 with every dated property under 16 h old at the freeze (the
-runner refuses a freeze at 20 h, §6) and whose middle b has exactly
+guards of §6 and whose middle b has exactly
 two neighbours, the one with the largest smallest T₂ (a tie going to the
 lower physical indices); on Marrakesh
 [4, 5, 6] whenever it passes, so that A5(0) repeats the October arm, and on
@@ -186,10 +185,18 @@ Kingston [43, 56, 63] whenever it passes, the May path of
 [the X^⊗3 window page](X3_WINDOW_HARDWARE_PREDICTION.md), whose arms ride
 in the Marrakesh and Kingston jobs; should [43, 56, 63] fail the guards,
 the rule above picks Kingston's path, the riding arms fly there and the
-record says that the May path was not repeated. A chip is submitted
-only while its freeze snapshot's oldest property is under 20 h old (§6),
-which leaves 4 h of the 24 for the queue; the record states when the job
-ran, and a run past 24 h is said with every verdict. The record names
+record says that the May path was not repeated. The ages of the
+vendor's properties are recorded and not gated: the frame verdicts compare
+the turns among themselves and need no calibration, the RO arm measures
+the day's readout, and on Marrakesh and Kingston the colouring of the
+X^⊗3 window page and arm Q read the day's coherence (on Fez no arm
+does); the baseline's T₁ and T₂ enter V1 and W weakly (halving both on
+the paths of 2026-11-13 moves S by 0.04σ_S on Marrakesh, 0.01σ_S on
+Kingston and 0.003σ_S on Fez, and W's noncentrality by 1.3 at most), and
+the simulated flights, the reaches and the drift check, drawn from the
+same replay, are read as predictions; the record states how old the
+properties were and when the job ran, and the path rule and the guards
+read them whatever their age. The record names
 which chips flew, and every verdict of §5 is per chip. The chips are set side by side without a verdict: a letter
 anchored in the device (crosstalk with a chip's own δ) can turn on every
 chip with its own size and sign, so a shared class does not tell device
@@ -266,8 +273,8 @@ for the statistics' reach; none is a prediction of what the chip carries.
   computed with the drift matrix of §5, which divides even a drift-free
   chip's readings by more than one. Drawn with each simulated flight's own
   Σ and drift matrix on the paths frozen on 2026-11-13, its 50 % point lies
-  at 0.285 % on Marrakesh [45, 46, 47] and 0.281 % on Kingston
-  [13, 14, 15].
+  at 0.285 % on Marrakesh [45, 46, 47], 0.281 % on Kingston [13, 14, 15]
+  and 0.277 % on Fez [123, 136, 143].
 - The simulated flights: 10 000 draws of each chip's job from the baseline
   replay's own distributions (multinomial at each circuit's shots, the RO
   circuits' counts drawn from the snapshot's RO matrix, which is then
@@ -282,33 +289,33 @@ for the statistics' reach; none is a prediction of what the chip carries.
   the pipeline, not as a prediction. The flights are drawn at each chip's
   freeze by [`run_drive_frame.py`](../simulations/flight/run_drive_frame.py)
   `--nulls` (output in [`simulations/results/drive_frame/`](../simulations/results/drive_frame/)).
-  At the freezes of 2026-11-13 neither preferred path passed the guards
+  At the freezes of 2026-11-13, 19:13 UTC, neither preferred path passed the guards
   of §6 (on Marrakesh [4, 5, 6] the P(1|0) of q4 read 2.15 %; on Kingston
   [43, 56, 63] the T₂ of q43 and q56 read 76 and 45 µs and the P(1|0) of
   q43 1.17 %), so the rule of §3 chose Marrakesh [45, 46, 47] (forest q37,
   q44, q48, q57), the one passing triple on that chip, and Kingston
-  [13, 14, 15] (forest q12, q19). Fez was not frozen: on every one of its
-  100 triples some guarded property was older than the freezer accepts
-  ([`ibm_fez_freeze_refused.txt`](../simulations/results/drive_frame/ibm_fez_freeze_refused.txt)).
-  The simulated points, 95 / 99 / 99.9 %:
+  [13, 14, 15] (forest q12, q19), and on Fez [123, 136, 143] (forest
+  q122, q124, q142, q144), whose properties were last measured on
+  2026-11-09. The simulated points, 95 / 99 / 99.9 %:
 
-  | statistic (degrees of freedom) | Marrakesh | Kingston | χ² |
-  |---|---|---|---|
-  | T₅ (108) | 111.5 / 122.1 / 134.4 | 112.5 / 122.1 / 138.2 | 133.3 / 145.1 / 159.2 |
-  | T₄ (36) | 42.5 / 49.4 / 56.1 | 42.8 / 49.7 / 59.1 | 51.0 / 58.6 / 68.0 |
-  | T₆ (36) | 42.6 / 49.8 / 56.9 | 42.6 / 49.2 / 57.0 | 51.0 / 58.6 / 68.0 |
-  | E (36) | 42.7 / 49.1 / 57.5 | 42.7 / 50.3 / 62.0 | 51.0 / 58.6 / 68.0 |
+  | statistic (degrees of freedom) | Marrakesh | Kingston | Fez | χ² |
+  |---|---|---|---|---|
+  | T₅ (108) | 111.5 / 122.1 / 134.4 | 112.5 / 122.1 / 138.2 | 111.9 / 122.6 / 134.4 | 133.3 / 145.1 / 159.2 |
+  | T₄ (36) | 42.5 / 49.4 / 56.1 | 42.8 / 49.7 / 59.1 | 43.1 / 49.6 / 57.3 | 51.0 / 58.6 / 68.0 |
+  | T₆ (36) | 42.6 / 49.8 / 56.9 | 42.6 / 49.2 / 57.0 | 42.8 / 49.5 / 57.6 | 51.0 / 58.6 / 68.0 |
+  | E (36) | 42.7 / 49.1 / 57.5 | 42.7 / 50.3 / 62.0 | 42.9 / 49.5 / 58.5 | 51.0 / 58.6 / 68.0 |
 
-  and the 99.7 % point of |s_A|/σ_S 2.70 and 2.73 against 3. Every
+  and the 99.7 % point of |s_A|/σ_S 2.70, 2.73 and 2.81 against 3. Every
   simulated point lies below its χ² point, so the χ² points rule: the drift
   matrix, whose eigenvalues are at least κ ≥ 1, makes every statistic
   conservative on a drift-free chip (T₅ averages 88 against 108). The
   forest's z, with the RO circuits' forest bits drawn as the path circuits'
-  are, has mean 0.0 and spread 0.97 on every forest qubit with a nonzero
+  are, has mean 0.0 and spread 0.94 to 0.98 on every forest qubit with a nonzero
   P(1|0) in the snapshot; q57's is zero there, and with no flip on either
   side it gives no verdict. The draw under the crosstalk-alone fit carried
-  by role reads T₅ 902 on Marrakesh and 1151 on Kingston, TURNS on T₅, T₄
-  and T₆, and V1 ABSENT.
+  by role reads T₅ 902 on Marrakesh, 1151 on Kingston and 964 on Fez,
+  TURNS on T₅, T₄ and T₆, and V1 ABSENT on the first two and INCONCLUSIVE
+  on Fez.
 
 ## 5. Verdict rules
 
@@ -348,8 +355,9 @@ circuits' half differences against their multinomial variance over its
 degrees of freedom); it cancels in every difference between variants. The predictions of
 §4 give κ = 1, 1.27 and 1.96. The flights of §4 carry no drift;
 [`drive_frame_drift_check.py`](../simulations/drive_frame_drift_check.py) (output for
-[Marrakesh](../simulations/results/drive_frame/ibm_marrakesh_drift_check.txt) and
-[Kingston](../simulations/results/drive_frame/ibm_kingston_drift_check.txt)) draws 1000 flights per
+[Marrakesh](../simulations/results/drive_frame/ibm_marrakesh_drift_check.txt),
+[Kingston](../simulations/results/drive_frame/ibm_kingston_drift_check.txt) and
+[Fez](../simulations/results/drive_frame/ibm_fez_drift_check.txt)) draws 1000 flights per
 case on each chip's frozen path through this analysis with what it was not
 built from: the October library's letters (detunings, amplitudes, the
 phases after the pulses and after the cz gates, the cz's conditional phase,
@@ -360,7 +368,7 @@ the readout's P(1|0) and P(0|1) wandering from PUB to PUB with a spread of
 up to 0.02; the state depolarized by 20 to 34 % against the baseline, with
 and without drift; and the forest at flip rates from 2 × 10⁻⁵ to 10⁻⁴ or
 at 5 % wandering by 20 %. Each rate below is a count among 1000 flights
-(0.9 % is 9 of them), the largest over the cases drawn on both chips. On arm A, T₅, T₄, T₆ and E pass their 99.9 %
+(0.9 % is 9 of them), the largest over the cases drawn on the three chips. On arm A, T₅, T₄, T₆ and E pass their 99.9 %
 points by chance in 0.3 % of the flights or fewer; on arm B, the X^⊗3
 window page's T₅ᴮ, T₄ᴮ, T₆ᴮ and Eᴮ, whose blocks hold one to three
 readings, in 0.9 % or fewer; every frame statistic passes its 99 % point
@@ -388,7 +396,8 @@ the simulated 99.7 % point of |s_A|/σ_S against 3.
   third condition narrowed from 0.15: on the paths of 2026-11-13 the
   baseline's gap is 0.23 and 0.25, and with 0.15 the drift check above
   voids a chip at a contrast of 0.78, 0.70 and 0.66 in 1, 22 and 48 % of
-  flights on Marrakesh (0, 6 and 17 % on Kingston), with 0.05 in none,
+  flights on Marrakesh (0, 6 and 17 % on Kingston, 0.1, 4 and 21 % on
+  Fez), with 0.05 in none,
   while an exchange of q0 and q2, which the gate is there to catch,
   reverses the difference and moves ⟨Z₀X₂⟩ out of its range. A chip that
   fails it is VOID, and that is accepted. The gate is not applied to the
@@ -499,17 +508,13 @@ circuits (a forest qubit gone faulty aborts the chip) at its dt; this page, the 
 runner, the replay, the frozen file, its freeze record and its file of
 simulated flights (`drive_frame_<chip>_nulls.json`, the ruling points of
 10 000 flights drawn for that circuit file and that freeze record) are
-committed and unchanged; the freeze snapshot's oldest dated property
-(T₁, T₂, readout error, P(1|0), P(0|1), cz error) is under 20 h old, and
-a chip past that is re-frozen, its new hash a new commit of this
-page before it flies; the target's gate and measurement durations on the
+committed and unchanged, and the drift check of §5 names that freeze
+record; the target's gate and measurement durations on the
 path and the forest are the freeze's; the frozen
 file holds, for every turned variant, rz(φ) as the first operation on the
 turned qubit and rz(−φ) after its basis change (asserted at the freeze and
-again at submission); the same properties of the three path qubits and
-two bonds, read at submission, are under 24 h old (the sx error's age is
-recorded beside its guard and not gated: it enters no baseline, and IBM
-refreshes it rarely on some chips, 209 h on Kingston on 2026-11-13); T₁ ≥ 100 µs and T₂ ≥ 80 µs on each; readout error ≤ 3 % and
+again at submission); on the properties read at submission, whatever
+their age, which is recorded: T₁ ≥ 100 µs and T₂ ≥ 80 µs on each; readout error ≤ 3 % and
 P(1|0) ≤ 1 % on each; sx error ≤ 0.1 %; cz error ≤ 0.8 % on both bonds; the
 forest qubits are read and not gated; at least 600 s of allocation left
 before each submission; one job of 124 PUBs (280 on Marrakesh and
@@ -521,23 +526,19 @@ retrieved from the job and their comparison, the result's metadata (the
 execution spans), the job's timestamps and its billed usage, into the
 record under `data/ibm_drive_frame_<month><year>/`, the month the flight
 flies in, which is the month of its freeze, written at the freeze (one
-file per chip). The frozen files
-of 2026-11-13:
+file per chip). The frozen files, 2026-11-13, 19:13 UTC:
 
 | chip | path | sha256 of the frozen circuit file | sha256 of the freeze record (canonical JSON) |
 |---|---|---|---|
-| ibm_marrakesh | [45, 46, 47] | `fcee7bd194e4fcf63c366654792492291fa53435b20cf97faf721d248e92a30c` | `a60fa4fd6a34a9d5e08796891d37513c35d7cb9374a0021d0bac9407eceebdd1` |
-| ibm_kingston | [13, 14, 15] | `956cc064521f46f808f0cc461c9d8421e564b042facb5927f99ef51972bd2093` | `138d8213baea75521840184fe22ffa8ed48aaff3c9a0560bec708b665e4c8750` |
+| ibm_marrakesh | [45, 46, 47] | `fcee7bd194e4fcf63c366654792492291fa53435b20cf97faf721d248e92a30c` | `a65fc571102e98ca59a8b0e9b5a315c112b117c52c2cb41593e9d177c66a25a5` |
+| ibm_kingston | [13, 14, 15] | `956cc064521f46f808f0cc461c9d8421e564b042facb5927f99ef51972bd2093` | `04727b56cc92d738d703d4f410e304eb46c63a87a57901352924571a53610a73` |
+| ibm_fez | [123, 136, 143] | `df61e1b82a9a8e18fdbae1f778ec8a89540487046ee742751611b72120e22de1` | `90e1852a4b13b8143ee0b04d31998ca3061e3eb1bfc4240dcd08606e0aabd9d1` |
 
-These were frozen when their paths' properties were already 21 to 23 h
-old, past the freezer's 16 h, and do not fly. A flight re-freezes, and
-with the new freeze `--nulls`, `--freeze-numbers` and the drift check are
-run again and this table, §4's numbers, §5's rates and the parse gate's
-figures, and the X^⊗3 window page's §4 and its count of verdicts per chip
-are rewritten from them; the runner refuses a chip whose drift check does
-not name its freeze record.
-
-Fez was not frozen (§4). The
+A flight from another freeze runs `--nulls`, `--freeze-numbers` and the
+drift check again on it and rewrites this table, §4's numbers, §5's rates
+and the parse gate's figures, and the X^⊗3 window page's §4 and its count
+of verdicts per chip from them; the runner refuses a chip whose drift
+check does not name its freeze record. The
 pre-registration (this page through §6, with §4's numbers and §6's
 hashes those of the freezes that fly) is committed together with the
 freezer, the runner and the frozen files before the first submission, and

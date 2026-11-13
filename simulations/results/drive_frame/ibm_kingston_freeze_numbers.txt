@@ -11,6 +11,7 @@ W on 14 readings: 95 % point 23.7, 99.9 % point 36.1; frame-blind yardsticks, no
   sx and x amplitude on c +1 %                    7.5   largest shift 0.0142
   cz local phase 0.03, all                     1274.5   largest shift 0.2095
   sx tilted 0.06 rad against x, on a and c      269.8   largest shift 0.1013
-reach of T5_B at its 99.9 % point (each simulated flight with its own Sigma and drift matrix, October phases carried by role): eps 0.334 %  (26 s)
-the same for T5 of the drive-frame page (its FRAME-BLIND bound on a drift-free chip): eps 0.281 %
+the baseline with the snapshot's T1 and T2 halved: S moves by +0.010 sigma_S, W's noncentrality 0.42
+reach of T5_B at its 99.9 % point (each simulated flight with its own Sigma and drift matrix, October phases carried by role): eps 0.334 %  (29 s)
+the same for T5 of the drive-frame page (its FRAME-BLIND reach on a drift-free chip): eps 0.281 %
 reach of a SHUT (W past its 95 % point in half the flights), detuning on c: 0.0341 rad/us (5.4 kHz)

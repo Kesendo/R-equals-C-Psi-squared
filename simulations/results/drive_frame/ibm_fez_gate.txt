@@ -1,0 +1,9 @@
+ibm_fez: frozen file sha256 df61e1b82a9a8e18fdbae1f778ec8a89540487046ee742751611b72120e22de1, 62 circuits, path [123, 136, 143], forest [122, 124, 142, 144]
+(1) structure: turns as first and last operations on the turned qubit, otherwise the unturned circuit; Q's idles; the forest read and not gated, every measurement at one time; RO by x alone: pass
+(2) A5(0) and B5(0) = April's flown circuits per qubit, carried to the path, + the tail on b: 9/9
+(3) every turned circuit against its unturned one, ideal instantaneous gates: max |dp| 5.6e-16
+(4) the zero: replay without decay, ideal readout, largest odd-Y reading of A5(0) 3.3e-13
+(5) A: five Z letters: largest change of a reading under the turns 1.1e-05
+(5) A: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.4e-01
+(6) a simulated flight under the baseline through --analyze (0.2 s): P True, V1 ABSENT, VF FRAME-BLIND/FRAME-BLIND/FRAME-BLIND
+(7) one draw under the crosstalk-alone fit (by role): V1 INCONCLUSIVE (z +2.80), T5 964 TURNS, T4 TURNS, T6 TURNS

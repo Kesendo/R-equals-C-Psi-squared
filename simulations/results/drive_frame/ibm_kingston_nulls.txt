@@ -1,4 +1,4 @@
-ibm_kingston: 10000 simulated flights drawn from the baseline replay (90 s); path [13, 14, 15], circuits 956cc064521f46f808f0cc461c9d8421e564b042facb5927f99ef51972bd2093
+ibm_kingston: 10000 simulated flights drawn from the baseline replay (92 s); path [13, 14, 15], circuits 956cc064521f46f808f0cc461c9d8421e564b042facb5927f99ef51972bd2093
   parse gates: P fails in 0.0000, PB in 0.0000
   |s_A|/sigma_S: 99.7 % point 2.729 (against 3); mean -0.003, sd 0.878
   T5   rank 108: mean   88.30; simulated 95/99/99.9 % 112.48 / 122.08 / 138.15 against chi^2 133.26 / 145.10 / 159.16

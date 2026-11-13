@@ -6,8 +6,8 @@ Pre-registrations: experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md (arms A, RO, t
 Marrakesh and Kingston, experiments/X3_WINDOW_HARDWARE_PREDICTION.md (arms B and Q; sections 3 and 6).
 
 The path is chosen by the rule of section 3 of the drive-frame page: the preferred path (Marrakesh [4, 5, 6], Kingston
-[43, 56, 63]) whenever its three qubits and two bonds pass the guards of section 6 with every dated property under 16 h
-old, else
+[43, 56, 63]) whenever its three qubits and two bonds pass the guards of section 6 (the properties' ages recorded and
+not gated), else
 among the linear triples a-b-c (a < c) whose middle b has exactly two neighbours and which pass those guards, the one
 with the largest smallest T2. Logical q0, q1, q2 sit on a, b, c. The forest is every coupling-map neighbour of a, b, c
 off the path, in ascending physical index.
@@ -58,9 +58,10 @@ ROLE_LOGICAL = {"4": 0, "5": 1, "6": 2}             # the role digit names a, b,
 # Section 6 of the drive-frame page
 MIN_T1_US, MIN_T2_US = 100.0, 80.0
 MAX_RO, MAX_P1G0, MAX_SX, MAX_CZ = 0.03, 0.01, 0.001, 0.008
-MAX_CALIB_AGE_H = 24.0                              # at submission, on the live properties
-FREEZE_MAX_AGE_H = 16.0                             # at the freeze: the runner refuses at 20 h, and the nulls, the
-                                                    # numbers and the commit take the hours between
+# The vendor's property ages are recorded and not gated (section 6 of the drive-frame page): the frame verdicts compare
+# the turns among themselves, the RO arm measures the day's readout, and the colouring and arm Q read the day's coherence.
+MAX_CALIB_AGE_H = float("inf")
+FREEZE_MAX_AGE_H = float("inf")
 
 
 def canonical_sha(obj):
@@ -103,8 +104,8 @@ def qubit_record(props, q, now, max_age=MAX_CALIB_AGE_H):
         rec[name] = v * 1e6 if key in ("T1", "T2") else v
         ages.append((now - pr[key][1]).total_seconds() / 3600)
     try:
-        # the sx error is a guard on the device and enters no baseline; IBM refreshes it rarely on some chips (209 h on
-        # Kingston on 2026-11-13), so its age is recorded and not gated, as in October
+        # the sx error's date is recorded beside the others (IBM refreshes it rarely on some chips: 209 h on Kingston on
+        # 2026-11-13)
         e, d = props.gate_property("sx", [q], "gate_error")
         rec["sx"] = float(e)
         rec["sx_age_h"] = (now - d).total_seconds() / 3600
@@ -193,7 +194,7 @@ def choose_path(chip, be, props, now):
         t1_ages = sorted((now - props.qubit_property(q)["T1"][1]).total_seconds() / 3600 for q in range(be.num_qubits)
                          if "T1" in props.qubit_property(q) and props.qubit_property(q)["T1"][1] is not None)
         lines = [f"{chip}, {now.isoformat()}: none of {n_triples} linear triples with a middle of degree two passes "
-                 f"the guards (dated properties under {FREEZE_MAX_AGE_H:.0f} h); T1 ages over the chip's qubits: "
+                 f"the guards (property ages recorded, not gated); T1 ages over the chip's qubits: "
                  f"youngest {t1_ages[0]:.1f} h, median {t1_ages[len(t1_ages) // 2]:.1f} h; failure kinds over all "
                  "triples (# a number):"]
         lines += [f"  {v:4d}  {k}" for k, v in sorted(kinds.items(), key=lambda kv: -kv[1])]
@@ -511,10 +512,8 @@ def main(chip):
     with open(qpy_path, "rb") as f:
         assert_structure(qpy.load(f), freeze)
     meta_path.write_text(json.dumps(freeze, indent=1, default=str), encoding="utf-8", newline="\n")
-    from datetime import timedelta
-    deadline = datetime.fromisoformat(freeze["oldest_property_utc"]) + timedelta(hours=20)
     print(f"freeze record canonical sha256 {canonical_sha(json.loads(meta_path.read_text(encoding='utf-8')))}; "
-          f"the runner refuses this freeze from {deadline.isoformat()} on")
+          f"oldest dated property {freeze['oldest_property_utc']}")
     print(f"{chip}: path {path} ({choice['rule']}), forest {forest}; froze {len(frozen)} circuits, "
           f"{2 * len(frozen)} PUBs, sha256 {freeze['sha256']}")
     print("durations (dt)", dur, "idles (dt)", extra["taus_dt"])

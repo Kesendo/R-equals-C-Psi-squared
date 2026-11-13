@@ -1,0 +1,4 @@
+ibm_fez: path [123, 136, 143], forest [122, 124, 142, 144], circuits df61e1b82a9a8e18; freeze snapshot 2026-11-13 17:27:59+01:00: T1 [165, 151, 216] us, T2 [130, 126, 232] us, (P(1|0), P(0|1)) on (a, c, b) [(0.001, 0.0098), (0.002, 0.0059), (0.0078, 0.0098)]; oldest dated property 2026-11-09T21:42:25+00:00
+baseline A5(0): parse gate <X0Z2> -0.859  <Z0X2> -0.613; S = <Y0Z2> -0.0022
+the baseline with the snapshot's T1 and T2 halved: S moves by -0.003 sigma_S
+FRAME-BLIND reach of T5 on a drift-free chip (each simulated flight with its own Sigma and drift matrix): eps 0.277 %

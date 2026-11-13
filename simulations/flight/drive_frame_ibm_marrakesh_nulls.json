@@ -1,7 +1,7 @@
 {
  "chip": "ibm_marrakesh",
  "qpy_sha256": "fcee7bd194e4fcf63c366654792492291fa53435b20cf97faf721d248e92a30c",
- "freeze_sha256": "a60fa4fd6a34a9d5e08796891d37513c35d7cb9374a0021d0bac9407eceebdd1",
+ "freeze_sha256": "a65fc571102e98ca59a8b0e9b5a315c112b117c52c2cb41593e9d177c66a25a5",
  "n": 10000,
  "points": {
   "sA_997": 2.704285776746406,
