@@ -1,0 +1,22 @@
+(a) end Bloch vectors (<X>, <Y>, <Z>) ± σ; <Y> and <Z> are forbidden by X^3
+  Marrakesh 2026-04-30, path [4, 5, 6]
+    truly_unbroken     q0: X +0.133  Y +0.003 (+0.3σ)  Z +0.034 (+3.8σ)
+    truly_unbroken     q2: X +0.151  Y -0.016 (-1.8σ)  Z +0.028 (+3.1σ)
+    pi2_even_nontruly  q0: X +0.935  Y +0.039 (+4.3σ)  Z +0.023 (+2.5σ)
+    pi2_even_nontruly  q2: X +0.942  Y +0.042 (+4.7σ)  Z +0.057 (+6.3σ)
+  Kingston 2026-05-05, path [43, 56, 63]
+    truly_unbroken     q0: X +0.132  Y -0.002 (-0.2σ)  Z +0.003 (+0.3σ)
+    truly_unbroken     q2: X +0.118  Y -0.014 (-1.6σ)  Z -0.003 (-0.3σ)
+    pi2_even_nontruly  q0: X +0.889  Y +0.022 (+2.4σ)  Z +0.061 (+6.8σ)
+    pi2_even_nontruly  q2: X +0.912  Y +0.048 (+5.3σ)  Z +0.009 (+1.0σ)
+
+(b) the window alone on the flown Marrakesh circuits
+  forbidden readings: 18 (truly_unbroken 8, pi2_even_nontruly 10)
+  schedule alap: ideal gates chi2 94.4
+    end-qubit detuning (2 letters, each inside its bound): chi2 70.3, 0 at their bound; YZ+ZY <Z2> model +0.034 against +0.057
+      detuning q4 -0.0324, q6 -0.0464 rad/us
+    all nineteen letters (19 letters, each inside its bound): chi2 3.6, 7 at their bound; YZ+ZY <Z2> model +0.051 against +0.057
+  schedule asap: ideal gates chi2 94.2
+    end-qubit detuning (2 letters, each inside its bound): chi2 76.4, 0 at their bound; YZ+ZY <Z2> model +0.032 against +0.057
+      detuning q4 -0.0654, q6 -0.0081 rad/us
+    all nineteen letters (19 letters, each inside its bound): chi2 4.2, 7 at their bound; YZ+ZY <Z2> model +0.052 against +0.057

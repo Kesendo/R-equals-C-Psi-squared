@@ -131,8 +131,8 @@ commutes with X^⊗3 and is nearly blind to σ⁻ on truly:
 F88b baseline derives from the 2026-04-25 Marrakesh calibration, not a fit
 to this path.)
 
-On truly, ⟨Z₀⟩ reads 2.75σ above zero and ⟨Z₂⟩ 0.8σ, so neither crosses
-3σ. The readout asymmetry of the 2026-04-30 calibration (P(0|1) − P(1|0) =
+On truly, ⟨Z₀⟩ reads 2.75σ above zero and ⟨Z₂⟩ 0.8σ in the one-basis
+estimator (pooled over three bases, below, both sit near 3σ). The readout asymmetry of the 2026-04-30 calibration (P(0|1) − P(1|0) =
 0.0059 on Q4, 0.0039 on Q6) accounts for +0.006 and +0.004 of that, not
 for the rest. Calibration-scale σ⁻ would fit as well as none: whether
 there is a T1 contribution on truly we do not know.
@@ -149,7 +149,83 @@ single-site readings, all exactly 0 in a Z-only model:
 
 Something breaks X^⊗3 on this class at 4σ, and it is not calibration-scale
 σ⁻: σ⁻ leaves ⟨Y⟩ at zero, and gives ⟨Z₂⟩ a tenth of what is measured.
-What does we do not know.
+Nor is it the Trotter circuit: YZ and ZY each commute with X^⊗3, so every
+Trotter factor keeps it, as the continuous evolution does
+([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md),
+its paragraph "Against each term"); the native rz, sx and cz that compile a
+factor do not commute with X^⊗3 one by one, so a coherent error inside a
+factor can break it. Stochastic Pauli noise between the factors cannot
+(depolarizing, dephasing along any axis, incoherent crosstalk): a Pauli
+channel commutes with conjugation by X^⊗3, and so does a preparation error
+that mixes eigenstates of X^⊗3. Inside a factor it is carried through native
+gates that need not commute with X^⊗3; in the flown circuits the only rz that
+are no Clifford are the factors' own rotations and one small pair in the
+preparation, so this enters at most at the size of that pair. What breaks
+the window is coherent and not a Pauli channel, or not unital, as σ⁻ is.
+Pooled over the three bases that read each letter (the table above takes one
+basis each), the four readings are ⟨Z₀⟩ +0.023, ⟨Z₂⟩ +0.057, ⟨Y₀⟩ +0.039,
+⟨Y₂⟩ +0.042 at a binomial σ ≈ 0.009. The three bases scatter more than that:
+over the 24 single-site letters of truly and YZ+ZY on this run and the
+Kingston run below, their spread is 74 on 48 degrees of freedom, about 1.24
+times the binomial σ, which leaves ⟨Z₂⟩ near 5σ and truly's pooled ⟨Z₀⟩
+near 3σ.
+
+The break is not this chip's alone. Kingston on 2026-05-05 flew the same
+four classes on path [43, 56, 63]
+(`data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json`),
+and pooled the same way YZ+ZY reads ⟨Z₀⟩ +0.061 (6.8σ binomial), ⟨Y₂⟩ +0.048
+(5.3σ), ⟨Y₀⟩ +0.022 and ⟨Z₂⟩ +0.009, while truly reads nothing beyond 2σ
+there; its ⟨Y₀X₂⟩ reads −0.022 where the continuous evolution makes it equal
+to ⟨Y₀⟩, so its ⟨Y⟩ rests mainly on ⟨Y₂⟩. The large ⟨Z⟩ sits on q2 on Marrakesh and on q0 on Kingston, which
+points at something local to a qubit.
+
+Which letters are lit says what kind of term it is. On YZ+ZY from |+, −, +⟩,
+a small Z field on the end qubits lights only ⟨Y⟩, ⟨X₀Y₂⟩ and ⟨Y₀X₂⟩; a ZZ
+coupling only ⟨Y₀Z₂⟩ and ⟨Z₀Y₂⟩; a turn about Y only ⟨Z⟩, ⟨X₀Z₂⟩ and
+⟨Z₀X₂⟩ (continuous evolution, checked numerically). Both runs light the
+first and the third group, and ZZ is silent (⟨Y₀Z₂⟩ +0.001, ⟨Z₀Y₂⟩ −0.006
+here). In the circuit a detuning is not that Z field: between the pulses the
+frames are turned, and the fit below shows a detuning lighting mostly ⟨Z⟩.
+For ⟨Y⟩ there is a lever: at the end of the circuit the end qubits of YZ+ZY
+keep ⟨X⟩ ≈ 0.9, truly's about 0.14, so one small turn about Z shows some
+seven times larger on YZ+ZY, and truly's ⟨Y⟩ stays near zero. For ⟨Z⟩ the
+lever does not account for the classes: truly's ⟨Z₀⟩ here is as large as
+YZ+ZY's, as calibration-scale σ⁻ would make it (the table above). A turn
+about Y can come from the hardware's frames: in every flown YZ+ZY circuit
+that reads an end qubit along Z, that qubit's last pulse before the
+measurement is an sx, the back-rotation of the last Trotter factor, so a
+small error of that pulse's axis turns ⟨X₂⟩ ≈ 0.94 into ⟨Z₂⟩, about 0.06 rad
+being enough, just above the 0.05 rad the reality-window letters allow a Z
+phase after a cz, which is where such a turn sits (§5 of the document below).
+On
+the flown circuits, replayed with the day's T1, T2 and readout as in
+[REALITY_WINDOW_HARDWARE_PREDICTION](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)
+§2, against the 18 readings these two classes forbid (16 by X^⊗3, two of
+YZ+ZY's by the parity of n_Y), a detuning of the two end qubits inside its
+bound takes the sum of squared residuals from 94 to 70 (76 with the gates as
+soon as possible); it gives YZ+ZY's ⟨Z₂⟩ +0.034 against +0.057 but ⟨Y₀⟩
++0.014 and ⟨Y₂⟩ +0.003 against +0.039 and +0.042, and leaves truly's ⟨Z⟩ at
+zero. All nineteen letters of that document's §5, each held inside its
+bound, bring it to 3.6 (4.2), with more letters than readings and seven of
+them at their bounds, which decides nothing; that document's own fit of all
+four classes reached its small sum only with a detuning far beyond its
+bound. The readings share shots,
+some strongly (⟨Z₀⟩ and ⟨Z₀X₂⟩ come from the same counts), so these sums
+are no χ² of a known distribution
+([`f83_xn_window.py`](../../simulations/f83_xn_window.py) →
+[`f83_xn_window.txt`](../../simulations/results/f83_xn_window.txt)). What
+breaks it we do not know. One time point cannot separate the candidates, and
+a scan over the circuit's length does not either: more Trotter steps add
+gates and time together, and over a few µs against T1 of 144 to 351 µs
+damping grows as linearly as the rest. Sharper are a twin from |−, +, −⟩,
+where the single-site readings made by coherent turns change sign while
+the two-site ones (⟨X₀Y₂⟩, ⟨X₀Z₂⟩ and their mirrors) keep theirs, and
+readings from σ⁻ and readout do not change sign; a delay with and without an
+echo before the final sx, which separates a detuning from damping; the last
+factor's back-rotation compiled into the frame instead of an sx; and
+twirled against bare two-qubit gates, which tells coherent error in the
+two-qubit gates from the rest (a twirl turns it into Pauli noise, which keeps
+the window shut, and leaves the axis of a single sx alone).
 
 ⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict
 the same +0.231 in a Z-only model, but σ⁻ moves pi2_odd's (0.193 at
@@ -202,9 +278,10 @@ not know.
   from data. The prediction is structural (closed-form on H), not fitted
   from observables. We measured signatures, not r.
 - Anything quantitative about F82/F84. truly's single-site ⟨Z₀⟩, ⟨Z₂⟩
-  stay below 3σ, and the 4σ X^⊗3 break on pi2_even_nontruly is not
-  calibration-scale σ⁻; a circuit-length scan would separate T1 from the
-  rest.
+  sit at most near 3σ, and the X^⊗3 break on pi2_even_nontruly is not
+  calibration-scale σ⁻ and not the Trotter circuit; a sign twin and an echo
+  before the final pulse would separate T1 from the rest (the X^⊗3 window
+  above).
 - That the discrimination scales to N > 3. Open.
 - That arbitrary mixed Hamiltonians (other than 1/2, 0, 1/6) follow the
   same pattern. Three F83-discrete cases tested; the continuous tunability
@@ -222,7 +299,7 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 ## Reading
 
 - [PROOF_F83_PI_DECOMPOSITION_RATIO](../../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md): the closed-form anti-fraction.
-- [PROOF_F82_T1_DISSIPATOR_CORRECTION](../../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md): the T1-into-M_anti closed form; on this run truly's single-site ⟨Z⟩ stays below 3σ.
+- [PROOF_F82_T1_DISSIPATOR_CORRECTION](../../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md): the T1-into-M_anti closed form; on this run truly's single-site ⟨Z⟩ sits at most near 3σ.
 - [PROOF_F84_AMPLITUDE_DAMPING](../../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): among the single-qubit amplitude-damping and Pauli channels, only σ⁻/σ⁺ reach M_anti.
 - [ON_THE_RESIDUAL](../../reflections/ON_THE_RESIDUAL.md): consolidating reflection on F80–F85.
 - [ibm_soft_break_april2026/](../ibm_soft_break_april2026/): the April 26 anchor run on path [48, 49, 50] that this test extends.
