@@ -8,5 +8,9 @@ ibm_marrakesh: frozen file sha256 fcee7bd194e4fcf63c366654792492291fa53435b20cf9
 (5) A: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.4e-01
 (5) B: five Z letters: largest change of a reading under the turns 6.7e-16
 (5) B: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.7e-01
-(6) a simulated flight under the baseline through --analyze (0.5 s): P True, V1 ABSENT, VF FRAME-BLIND/FRAME-BLIND/FRAME-BLIND; PB True, WB SHUT, VFB FRAME-BLIND, VQ ['NOT DETUNED', 'NOT DETUNED', 'NOT DETUNED']
+(6) a simulated flight under the baseline through --analyze (0.6 s): P True, V1 ABSENT, VF FRAME-BLIND/FRAME-BLIND/FRAME-BLIND; PB True, WB SHUT, VFB FRAME-BLIND, VQ ['NOT DETUNED', 'NOT DETUNED', 'NOT DETUNED']
 (7) one draw under the crosstalk-alone fit (by role): V1 ABSENT (z +0.53), T5 902 TURNS, T4 TURNS, T6 TURNS; WB OPEN, T5_B 724 TURNS
+(8) truth the snapshot, draw 11: colouring scale 1.11 +- 0.12 (singles 1.08 +- 0.09); replay with arm Q's T2: -ln|XXX| 0.0326 against the snapshot replay's 0.0300
+(8) truth the snapshot, draw 12: colouring scale 0.97 +- 0.12 (singles 1.01 +- 0.09); replay with arm Q's T2: -ln|XXX| 0.0274 against the snapshot replay's 0.0300
+(8) truth T1 and T2 at half the snapshot's, draw 11: colouring scale 2.00 +- 0.13 (singles 2.02 +- 0.10); replay with arm Q's T2: -ln|XXX| 0.0582 against the snapshot replay's 0.0300
+(8) truth T1 and T2 at half the snapshot's, draw 12: colouring scale 1.98 +- 0.12 (singles 2.01 +- 0.09); replay with arm Q's T2: -ln|XXX| 0.0516 against the snapshot replay's 0.0300

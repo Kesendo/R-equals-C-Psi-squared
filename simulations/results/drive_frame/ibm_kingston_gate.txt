@@ -10,3 +10,7 @@ ibm_kingston: frozen file sha256 956cc064521f46f808f0cc461c9d8421e564b042facb592
 (5) B: crosstalk alone (October fit, by role): largest change of a reading under the turns 1.7e-01
 (6) a simulated flight under the baseline through --analyze (0.5 s): P True, V1 INCONCLUSIVE, VF FRAME-BLIND/FRAME-BLIND/FRAME-BLIND; PB True, WB SHUT, VFB FRAME-BLIND, VQ ['NOT DETUNED', 'NOT DETUNED', 'NOT DETUNED']
 (7) one draw under the crosstalk-alone fit (by role): V1 ABSENT (z -1.84), T5 1151 TURNS, T4 TURNS, T6 TURNS; WB OPEN, T5_B 791 TURNS
+(8) truth the snapshot, draw 11: colouring scale 1.15 +- 0.41 (singles 1.11 +- 0.28); replay with arm Q's T2: -ln|XXX| 0.0094 against the snapshot replay's 0.0105
+(8) truth the snapshot, draw 12: colouring scale 0.87 +- 0.40 (singles 0.93 +- 0.27); replay with arm Q's T2: -ln|XXX| 0.0103 against the snapshot replay's 0.0105
+(8) truth T1 and T2 at half the snapshot's, draw 11: colouring scale 2.02 +- 0.41 (singles 1.97 +- 0.28); replay with arm Q's T2: -ln|XXX| 0.0175 against the snapshot replay's 0.0105
+(8) truth T1 and T2 at half the snapshot's, draw 12: colouring scale 2.06 +- 0.42 (singles 2.22 +- 0.29); replay with arm Q's T2: -ln|XXX| 0.0190 against the snapshot replay's 0.0105

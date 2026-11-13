@@ -10,6 +10,7 @@ data/ibm_zn_mirror_april2026/README.md and fw.Confirmations marrakesh_transverse
 experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and data/ibm_price_pair_july2026/README.md: block C read ⟨XXX⟩ of a GHZ state on Marrakesh in July, its coherence outliving the product of its singles (ln E_GHZ − Σ ln E_j = +1.6 to +1.9 at 65 µs), carried by coherent nearest-neighbour ZZ that XXX commutes with; a colouring reading that experiments/THE_PALINDROME_AS_A_COLOURING.md does not cite.
 fw.Confirmations: f83_pi2_class_signature_marrakesh records the window with the cause unknown; the October flight is in neither registry. The OpenArcs registry: no arc on the window, twins, echoes or colouring hardware; its line 3128 notes that a full Pauli twirl kills a flux. docs/CAUGHT_ERRORS.md: the Trotter-order entry (γ_Z_eff 0.03 and 0.10), a Y-odd sign flip from vectorisation, a channel-both-ways design never flown because its discriminating arm was untested. docs/ANALYTICAL_FORMULAS.md: nothing on the window or on hardware for F173. The glossary, the Claim graph in compute/RCPsiSquared.Core and the Diagnostics witnesses: nothing on these readings.
 Adjacency checked: the price-pair ⟨XXX⟩ and the colouring page are one object and do not cite each other (left for their own change); Z_N_PARTNERSHIP's mirror and the sign twin are one map (recorded here); the drive-frame page and the X^⊗3 window ask one question of two Hamiltonians (joined here).
+For the in-situ reading of the colouring in §5, 2026-11-13, asked as what of our own lets a flight calibrate itself: docs/ANALYTICAL_FORMULAS.md F158 (a lit string that commutes with H decays at the price whatever H is; never read as Σγ on hardware; PRICE_PAIR block C read its ⟨XXX⟩ as a ZZ signature), the absorption theorem (2γ per X or Y letter; its additivity masked by ZZ in PRICE_PAIR, STAIRCASE_NULLTEST B-BLOCK-INVALID twice, ABSORPTION_RUNG_LADDER not flown), F1 and F89's fold (Σγ from a mode and its partner, which needs a time series), F120 and F84 (T1 and the bath from delay circuits, which this flight does not carry; Kingston's T1 moved 1.2 to 1.4 times within a day in June), F24 and F12 (T2* from a CΨ = ¼ crossing, Torino), fw.gamma_probe and the F113 inversion (time series); among our in-situ runs the T2* to T2echo gaps of Torino, Kingston and the price pair, and the open γ_Z_eff of 0.03 against 0.10. Adjacency: the colouring of §1 is F158's far element and this page read it only beside its replay; it now reads the day's coherence along the circuit. For T1, readout and detuning this job holds nothing of ours beyond the RO matrix and arm Q.
 -->
 
 The chip that breaks the reality window on XY+YX also breaks a second
@@ -401,13 +402,33 @@ The forest bits of B and Q are summed
 out of the path's parities; the forest's P(1) in B and in Q is reported
 without a verdict, VS being the drive-frame page's, on its A circuits.
 
-⟨X₀X₁X₂⟩ of B5(0) in its XX basis, the colouring of §1, is reported beside
-its baseline replay, without a verdict. In the logical evolution it
-commutes with H and pays the dephasing of its three sites; here the
-noiseless state is a product and ⟨X₀X₁X₂⟩ the product of its single-site
-readings, unlike block C of
-[PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md), whose
-GHZ ⟨XXX⟩ outlived that product. Everything else is read without a verdict; a single
+The colouring of §1 is read in situ, without a verdict. In the logical
+evolution X^⊗3 commutes with H and carries an X on every site, so
+⟨X₀X₁X₂⟩ decays at Σ_l 1/T₂,l whatever H is: the far element of F158,
+each X billed 2γ_l by the absorption theorem and 1/(2T₁,l) by the
+damping. It reads the path's coherence with no Hamiltonian in it. The
+compiled circuit leaves that frame between its cz gates, so it is read as
+a scale against the replay and not as a model-free number: the XX-basis
+circuits of B's standing variants, logically one circuit, are pooled and
+corrected by the inverse RO matrix, and −ln|⟨X₀X₁X₂⟩| and the sum of
+−ln|⟨X_l⟩| are each divided by the RO-free replay's under the freeze
+snapshot, σ from resampling the pooled counts and the RO arm's columns.
+A scale of one says that the snapshot's T₁ and T₂ describe the day along
+the circuit, which the baseline assumes. On the paths of 2026-11-13 it
+reads 0.97 and 1.11 on two simulated flights drawn under the snapshot and
+1.98 and 2.00 under half its T₁ and T₂ on Marrakesh, ±0.12; on Kingston,
+whose coherence is longer, 0.87 and 1.15 against 2.02 and 2.06, ±0.4
+([`run_drive_frame.py`](../simulations/flight/run_drive_frame.py)
+`--gate`, step 8). Beside it the replay is run again with arm Q's own
+coherence, T₂,l = 1/g_l held at or below 2T₁,l: a second route to the
+same decay, the idle's precession against the circuit's, which on those
+flights follows the truth. The third cumulant of the three singles is
+reported against the replay's: the noiseless state is a product, but
+errors between the entangling cz gates leave correlations the replay
+carries, so it is not read against zero. Unlike block C of
+[PRICE_PAIR_HARDWARE_PREDICTION](PRICE_PAIR_HARDWARE_PREDICTION.md),
+whose GHZ ⟨XXX⟩ outlived the product of its singles, this state is a
+product. Everything else is read without a verdict; a single
 reading beyond 3σ is not a finding, and beyond 4σ it is reported as a
 sighting.
 

@@ -571,7 +571,7 @@ def vs(chip, comp, A):
     return out
 
 
-def analyze_compact(chip, comp, nulls=None, turn_ok=None, quiet=True, lines=None):
+def analyze_compact(chip, comp, nulls=None, turn_ok=None, quiet=True, lines=None, readings=False):
     """Every verdict of both pages for one chip, from compact counts. turn_ok: {variant or Q circuit: True/False/None}
     from the circuits retrieved after the flight (False makes it VOID; None means not checked)."""
     turn_ok = turn_ok or {}
@@ -666,6 +666,9 @@ def analyze_compact(chip, comp, nulls=None, turn_ok=None, quiet=True, lines=None
     out["turned_even_largest_z"] = ev
     if chip.rider:
         out.update(analyze_b(chip, comp, A, nro, par, par_h, nshots, turn_ok, nulls, k_ro))
+        if readings:
+            standing_b = [v for v in chip.variants("B") if v not in out["B_void"]]
+            out["colouring"] = colouring(chip, comp, A, nro, standing_b, out["VQ"])
     if not quiet:
         report(chip, out, lines)
     return out
@@ -748,6 +751,58 @@ def analyze_b(chip, comp, A, nro, par, par_h, nshots, turn_ok, nulls, k_ro=1.0):
     return out
 
 
+XX_MASKS = {"X0": (1, 0, 0), "X1": (0, 0, 1), "X2": (0, 1, 0), "X0X1": (1, 0, 1), "X1X2": (0, 1, 1), "X0X2": (1, 1, 0),
+            "X0X1X2": (1, 1, 1)}
+
+
+def _xx_readings(p):
+    """Singles, pairs, triple of the XX basis from outcome probabilities; the connected pairs and the third cumulant."""
+    par = SG @ p
+    r = {k: float(par[MI[m]]) for k, m in XX_MASKS.items()}
+    a, b, c = r["X0"], r["X1"], r["X2"]
+    r["c01"], r["c12"], r["c02"] = r["X0X1"] - a * b, r["X1X2"] - b * c, r["X0X2"] - a * c
+    r["k3"] = r["X0X1X2"] - r["X0X1"] * c - r["X0X2"] * b - r["X1X2"] * a + 2 * a * b * c
+    r["L3"] = -math.log(abs(r["X0X1X2"])) if r["X0X1X2"] else float("inf")
+    r["L1"] = -sum(math.log(abs(r[k])) for k in ("X0", "X1", "X2")) if a * b * c else float("inf")
+    return r
+
+
+def colouring(chip, comp, A, nro, standing, vq_out, n_boot=400, seed=20261113):
+    """X^3, the colouring of YZ+ZY, read in situ (X^3 window page section 5, a reading without a verdict). The XX-basis
+    circuits of B's standing variants, which are logically one circuit, pooled and corrected by the inverse RO matrix;
+    beside them the RO-free replay under the freeze snapshot and under arm Q's own coherence rates (T2 = 1/g, held at
+    or below 2 T1). In the logical evolution X^3 commutes with H and decays at sum_l 1/T2_l (F158's far element; the
+    absorption theorem's 2 gamma per X letter plus 1/(2 T1)), whatever H is; the compiled circuit leaves that frame
+    between its cz gates, so the reading is a scale against the replay and not a model-free number. sigma by resampling
+    the pooled counts and the RO arm's columns."""
+    names = [f"{v}_XX" for v in standing]
+    pc = sum(comp[n][0].sum(0) for n in names)
+    N = pc.sum()
+    pm = pc / N
+    meas = _xx_readings(np.linalg.inv(A) @ pm)
+    base = _xx_readings(chip.p_true("B50_XX"))
+    rng = np.random.default_rng(seed)
+    boots = []
+    for _ in range(n_boot):
+        pb = rng.multinomial(int(N), pm) / N
+        Ab = np.stack([rng.multinomial(int(nro[j]), A[:, j] / A[:, j].sum()) / nro[j] for j in range(8)], axis=1)
+        try:
+            boots.append(_xx_readings(np.linalg.inv(Ab) @ pb))
+        except (np.linalg.LinAlgError, ValueError):
+            continue
+    sd = {k: float(np.std([b[k] for b in boots])) for k in meas}
+    out = {"circuits": names, "shots": float(N), "measured": meas, "sigma": sd, "replay_snapshot": base,
+           "scale_L3": meas["L3"] / base["L3"], "scale_L3_sigma": sd["L3"] / base["L3"],
+           "scale_L1": meas["L1"] / base["L1"], "scale_L1_sigma": sd["L1"] / base["L1"]}
+    gs = [vq_out[str(l)] for l in range(3)]
+    if all(g["verdict"] != "VOID" and math.isfinite(g["g"]) for g in gs):
+        T2q = [1.0 / max(g["g"], 1.0 / (2 * chip.T1[l])) for l, g in enumerate(gs)]
+        rho = rl.replay(chip.ops["B50_XX"], ROLE, chip.T1, T2q)
+        out["replay_with_Q"] = _xx_readings(np.clip(rl.probs_rho(rho), 0, None))
+        out["T2_from_Q_us"] = T2q
+    return out
+
+
 def report(chip, out, lines):
     s = lambda x: say(lines, x)
     s(f"== {chip.name} path {chip.path} forest {chip.forest}; RO drift factor {out['kappa_RO']:.2f}")
@@ -815,6 +870,16 @@ def report(chip, out, lines):
             d = out["B_delta_replay"]
             s(f"   B5(0) replayed with the three delta (reading): W against y0 {d['W_of_replay_against_y0']:.1f}, "
               f"measurement against it {d['W_of_measurement_against_replay']:.1f} on {d['df']}")
+        if "colouring" in out:
+            c = out["colouring"]
+            m, b, sd = c["measured"], c["replay_snapshot"], c["sigma"]
+            s(f"   the colouring X^3, RO-corrected, {len(c['circuits'])} XX circuits pooled (reading): <X0X1X2> {m['X0X1X2']:+.4f} "
+              f"+- {sd['X0X1X2']:.4f} (replay {b['X0X1X2']:+.4f}); -ln|XXX| {m['L3']:.4f} +- {sd['L3']:.4f} against "
+              f"{b['L3']:.4f}, scale {c['scale_L3']:.2f} +- {c['scale_L3_sigma']:.2f}; singles' sum {m['L1']:.4f} against "
+              f"{b['L1']:.4f}, scale {c['scale_L1']:.2f} +- {c['scale_L1_sigma']:.2f}; third cumulant {m['k3']:+.4f} +- {sd['k3']:.4f} "
+              f"(replay {b['k3']:+.4f})"
+              + (f"; the replay with arm Q's T2 {[round(x) for x in c['T2_from_Q_us']]} us: -ln|XXX| {c['replay_with_Q']['L3']:.4f}"
+                 if "replay_with_Q" in c else ""))
         s("   forest P(1) in B and Q (reading): " + "; ".join(f"q{f} B {x['B']:.4f} Q {x['Q']:.4f}" for f, x in out["forest_P1_BQ"].items()))
 
 
@@ -847,7 +912,8 @@ def analyze(result_path, reach=False):
         say(lines, "   note: no simulated-flight nulls on disk for this chip; the chi^2 points rule alone")
     comp = compact(data["counts"], chip.nf)
     tc = data.get("turn_ok")
-    out = analyze_compact(chip, comp, nulls=nulls, turn_ok=tc if isinstance(tc, dict) else None, quiet=False, lines=lines)
+    out = analyze_compact(chip, comp, nulls=nulls, turn_ok=tc if isinstance(tc, dict) else None, quiet=False, lines=lines,
+                          readings=True)
     if not isinstance(tc, dict) or not tc:
         say(lines, "   note: the circuits were not checked against the ones retrieved from the job; the variants "
                    "stand on the structure asserted at submission")
@@ -1339,6 +1405,19 @@ def gate(chip_name):
     s(f"(7) one draw under the crosstalk-alone fit (by role): V1 {out['V1']['verdict']} (z {out['V1']['z']:+.2f}), "
       f"T5 {out['VF']['T5']['T']:.0f} {out['VF']['T5']['class']}, T4 {out['VF']['T4']['class']}, T6 {out['VF']['T6']['class']}"
       + (f"; WB {out['WB']['verdict']}, T5_B {out['VFB']['T5']['T']:.0f} {out['VFB']['T5']['class']}" if chip.rider else ""))
+    if chip.rider:
+        # (8) the colouring's scale on a chip whose truth is the snapshot, and on one whose T1 and T2 are half of it
+        T1, T2 = list(chip.T1), list(chip.T2)
+        for label, f in (("the snapshot", 1.0), ("T1 and T2 at half the snapshot's", 0.5)):
+            chip.T1, chip.T2, chip._ptrue = [t * f for t in T1], [t * f for t in T2], {}
+            P = true_probs(chip)
+            chip.T1, chip.T2, chip._ptrue = T1, T2, {}
+            for sd in (11, 12):
+                c = analyze_compact(chip, draw(chip, P, np.random.default_rng(sd)), readings=True)["colouring"]
+                s(f"(8) truth {label}, draw {sd}: colouring scale {c['scale_L3']:.2f} +- {c['scale_L3_sigma']:.2f} "
+                  f"(singles {c['scale_L1']:.2f} +- {c['scale_L1_sigma']:.2f}); replay with arm Q's T2: -ln|XXX| "
+                  f"{c.get('replay_with_Q', {}).get('L3', float('nan')):.4f} against the snapshot replay's "
+                  f"{c['replay_snapshot']['L3']:.4f}")
     OUTDIR.mkdir(parents=True, exist_ok=True)
     (OUTDIR / f"{chip_name}_gate.txt").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
