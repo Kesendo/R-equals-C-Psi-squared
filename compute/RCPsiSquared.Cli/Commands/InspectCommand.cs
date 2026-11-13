@@ -1319,7 +1319,8 @@ public static class InspectCommand
             "the honeycomb and the kagome lattice, beside six controls that must disagree; and Theorem G, two templates on the open L × M patch, " +
             "breaking exactly on the quadrant read off the gcd of their masks in GF(2)[x, y], against Theorem 2 to 12 sites and the balance to 8 × 8, " +
             "and any number on the patch at each height for every length at once by the falling sets of admitted column states and off a reduced basis of vector masks, " +
-            "beside four controls that must disagree, two for the quadrant and two for the threshold (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
+            "and whether the patch breaks at some size, the staircase having no corner, read on one small torus past the order of the masks' gcd at x = y = 1 plus the colength of the quotients, with the colouring it builds from " +
+            "binomials C(p, a)·C(q, b) mod 2 balancing every placement, beside seven controls that must disagree, two for the quadrant, two for the threshold and three for the one torus (typed: SignedMaskBalanceClaim; docs/proofs/PROOF_SIGNED_MASK_BALANCE.md)",
             c => new TorusMaskBalanceWitness(),
             RequiresN: false),
         new("planarhopping", "Theorem 8 of the complement connection, live: hopping bonds J(XX + YY) + D(XY − YX) on any graph, a " +

@@ -24,9 +24,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<see cref="SignedMaskBalanceClaim.PatchThreshold"/>) against the balance on three templates and against Theorem G on two,
 /// at height 1 against Theorem B′, the same threshold off a reduced basis of vector masks
 /// (<see cref="SignedMaskBalanceClaim.PatchThresholdByBasis"/>) against the runs, at heights past those the runs were read at
-/// against the runs where they reach and the balance, and on moved templates, and Theorem G's worked example; its two controls, the
+/// against the runs where they reach and the balance, and on moved templates, whether the patch breaks at some size read on one
+/// square torus (<see cref="SignedMaskBalanceClaim.PatchBreaksAtSomeSize"/>) against the threshold off the reduced basis, the small tori
+/// past the bound and Theorem G, and Theorem G's worked example; its two controls, the
 /// masks as their own quotients and Theorem B's chain threshold read along x alone, and the threshold's two, read with the
-/// templates over the near edge onto φ = 0 and off the unreduced kernel basis, must disagree. Six controls of Theorem F must disagree:
+/// templates over the near edge onto φ = 0 and off the unreduced kernel basis, and the one-torus reading's three, the bound without the
+/// order of the common factor, the side one doubling early and the binomial colouring one degree short (beside the colouring of degree
+/// n₀ itself, absent where the patch breaks and balancing every placement where it pairs), must disagree. Six controls of Theorem F must disagree:
 /// Theorem D's one-liner carried over with one number per mask (its least order in the powers of 1 + x and 1 + y) and
 /// T = min(T₁, T₂), read on the tori with T₁, T₂ ≥ 2, where A is no chain, the fold with T₁ and T₂ swapped, the fold onto the
 /// parities of L and M in place of their 2-parts, the staircase read with one corner, each direction on its own, the corner
@@ -82,6 +86,17 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     /// <summary>The threshold at each height read off the unreduced kernel basis of the vector masks: readings where it
     /// differs from the runs (the control).</summary>
     public int PatchVectorUnreducedMismatches { get; }
+    /// <summary>Whether the patch breaks at some size, read on one square torus: the two controls' disagreements with the verdict
+    /// (the bound without the order of the common factor; the side one doubling early), the sets whose masks share a factor
+    /// through x = y = 1 (ord(gcd) ≥ 1), and the largest bound n₀ read.</summary>
+    public int BreakBoundNoOrderMismatches { get; }
+    public int BreakBoundOneEarlyMismatches { get; }
+    public int BreakBoundSetsWithOrder { get; }
+    public int BreakBoundLargest { get; }
+    /// <summary>The binomial colouring's control: of the sets pairing at every size with n₀ ≥ 1, those where degree n₀ − 1 gives
+    /// no colouring (one that exists balances).</summary>
+    public int BreakBoundLowerDegreeMismatches { get; }
+    public int BreakBoundLowerDegreeReadings { get; }
     /// <summary>The vector-mask threshold at heights 6 to 12: the heights compared with the runs (W·h ≤ 22) and those past
     /// the runs' reach; on the moved templates, the heights compared with the runs.</summary>
     public int PatchVectorRunsCompared { get; private set; }
@@ -89,7 +104,26 @@ public sealed class TorusMaskBalanceWitness : IInspectable
     public int PatchVectorMovedRunsCompared { get; private set; }
     public bool ControlsBreak => OneNumberMismatches > 0 && SwappedFoldMismatches > 0 && ParityFoldMismatches > 0 && OneCornerMismatches > 0
         && TighterBoundMismatches > 0 && MergedSitesMismatches > 0 && PatchNoGcdMismatches > 0 && PatchOneDirectionMismatches > 0
-        && PatchThresholdOverhangMismatches > 0 && PatchVectorUnreducedMismatches > 0;
+        && PatchThresholdOverhangMismatches > 0 && PatchVectorUnreducedMismatches > 0 && BreakBoundNoOrderMismatches > 0 && BreakBoundOneEarlyMismatches > 0 && BreakBoundLowerDegreeMismatches > 0;
+
+    // a binomial colouring (SignedMaskBalanceClaim.BinomialColouring) read on the sites of the l × m torus: every placement of
+    // every template, wrapped, meets the colour-1 sites in a number of the template's sign parity (Theorem A's balance, summed directly)
+    static bool ColouringBalances(IReadOnlyDictionary<(int A, int B), int> colouring, string[] ts, int l, int m)
+    {
+        foreach (var t in ts)
+        {
+            int sign = SignedMaskBalanceClaim.Sign(t);
+            var sites = SignedMaskBalanceClaim.TorusLetters(t).Where(x => x.Letter is 'X' or 'Y').ToArray();
+            for (int y0 = 0; y0 < m; y0++)
+                for (int x0 = 0; x0 < l; x0++)
+                {
+                    int parity = 0;
+                    foreach (var (i, j, _) in sites) parity ^= SignedMaskBalanceClaim.BinomialColour(colouring, (i + x0) % l, (j + y0) % m);
+                    if (parity != sign) return false;
+                }
+        }
+        return true;
+    }
 
     // the corner bound against a staircase read on the small tori (2^(e + f) ≤ 64): every read corner inside
     // 2^(eⱼ − 1) < n_u, 2^(fⱼ − 1) < n_v, and the verdict unchanged by a doubling of T₂ from T₂ ≥ n_v (of T₁ from T₁ ≥ n_u)
@@ -307,6 +341,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         int oneNumber = 0, oneNumberReadings = 0, foldReadings = 0, swapped = 0, parity = 0, oneCorner = 0, staircaseReadings = 0, severalCorners = 0, oneCornerThree = 0;
         int tighter = 0, merged = 0, mergedReadings = 0, latticeReadings = 0;
         int patchNoGcd = 0, patchOneDirection = 0, patchControlReadings = 0, patchBreaking = 0, patchGcdMatters = 0, tripleSeveralCorners = 0, patchThresholdOverhang = 0, patchThresholdNever = 0, patchVectorUnreduced = 0;
+        int breakBoundNoOrder = 0, breakBoundOneEarly = 0, breakBoundWithOrder = 0, breakBoundLargest = 0, breakBoundLowerDegree = 0, breakBoundLowerDegreeReadings = 0;
         int boundSets = 0, boundCommon = 0, boundChecks = 0, boundBad = 0;
         string? boundFirst = null;
 
@@ -1027,6 +1062,104 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                 families.Add(new FamilyReading("the threshold at height 1 against Theorem B′'s N*: 300 sets of three or four one-row templates two or three sites wide with a letter at each end", bCells, bReadings, bPairing, bBad, bFirst, "Theorem B′"));
             }
 
+            // whether the patch breaks at some size, read on one small torus T₀ × T₀, T₀ ≥ n₀ + 1 a power of 2 (PatchBreaksAtSomeSize), held
+            // against the open patch itself: the threshold off the reduced basis at heights 1 to 12 along x, which never sees a
+            // torus (a verdict "breaks" must show a finite threshold at some height read, "never" none at any); against the small
+            // tori read by BreaksAtTwoParts at every (T₁, T₂) with min(T₁, T₂) ≥ n₀ + 1 and T₁·T₂ ≤ 64 (each must pair exactly
+            // where the patch never breaks, so the staircase has a corner exactly then); and on two templates against Theorem G's
+            // parity c. 400 sets of two to four templates of the 3 × 3 window and 200 with a planted factor through x = y = 1, each mask
+            // g times a mask drawn in the 2 × 2 window, g one of 1 + x, 1 + y, x + y, (1 + x)(1 + y), (1 + x)², 1 + xy; the controls, n₀
+            // without the order of the common factor and the side one doubling early (T₀ ≥ n₀), disagree with the verdict
+            {
+                var bRng = new Random(seed + 8);
+                static ulong Mul(ulong a, ulong b) { ulong r = 0; for (; b != 0; b >>= 1, a <<= 1) if ((b & 1) == 1) r ^= a; return r; }
+                static ulong[] Times(ulong[] a, ulong[] b)
+                {
+                    var r = new ulong[a.Length + b.Length - 1];
+                    for (int i = 0; i < a.Length; i++)
+                        for (int j = 0; j < b.Length; j++) r[i + j] ^= Mul(a[i], b[j]);
+                    return r;
+                }
+                static string Template(ulong[] rows, bool odd)
+                {
+                    bool placedY = false;
+                    return string.Join("/", rows.Select(r => new string(Enumerable.Range(0, r == 0 ? 0 : 64 - BitOperations.LeadingZeroCount(r))
+                        .Select(i => ((r >> i) & 1) == 0 ? 'I' : odd && !placedY && (placedY = true) ? 'Y' : 'X').ToArray())));
+                }
+                var factors = new ulong[][] { new ulong[] { 3 }, new ulong[] { 1, 1 }, new ulong[] { 2, 1 }, new ulong[] { 3, 3 }, new ulong[] { 5 }, new ulong[] { 1, 2 } };
+                var sets = new List<string[]>();
+                while (sets.Count < 400)
+                {
+                    var ts = Enumerable.Range(0, 2 + bRng.Next(3)).Select(_ => pool3[bRng.Next(pool3.Length)]).ToArray();
+                    if (!Enumerable.Range(0, ts.Length).Any(i => Enumerable.Range(i + 1, ts.Length - i - 1).Any(j => Translates(ts[i], ts[j])))) sets.Add(ts);
+                }
+                while (sets.Count < 600)
+                {
+                    var g = factors[bRng.Next(factors.Length)];
+                    var ts = Enumerable.Range(0, 2 + bRng.Next(3))
+                        .Select(_ => Template(Times(g, new[] { (ulong)bRng.Next(1, 4), (ulong)bRng.Next(4) }.Reverse().SkipWhile(r => r == 0).Reverse().ToArray()), bRng.Next(2) == 1)).ToArray();
+                    if (!Enumerable.Range(0, ts.Length).Any(i => Enumerable.Range(i + 1, ts.Length - i - 1).Any(j => Translates(ts[i], ts[j])))) sets.Add(ts);
+                }
+                int cells = 0, readings = 0, pairing = 0, bad = 0;
+                string? first = null;
+                foreach (var ts in sets)
+                {
+                    cells++;
+                    var (order, _, n0) = SignedMaskBalanceClaim.PatchBreakBound(ts);
+                    if (order > 0) breakBoundWithOrder++;
+                    breakBoundLargest = Math.Max(breakBoundLargest, n0);
+                    bool breaks = SignedMaskBalanceClaim.PatchBreaksAtSomeSize(ts);
+                    if (!breaks) pairing++;
+                    if (SignedMaskBalanceClaim.PatchBreaksAtSomeSize(ts, countOrder: false) != breaks) breakBoundNoOrder++;
+                    if (SignedMaskBalanceClaim.PatchBreaksAtSomeSize(ts, oneEarly: true) != breaks) breakBoundOneEarly++;
+                    void Fail(string why) { bad++; first ??= $"{string.Join(" + ", ts)}: {why}"; }
+                    bool seen = false;
+                    for (int h = 1; h <= 12; h++)
+                    {
+                        readings++;
+                        if (SignedMaskBalanceClaim.PatchThresholdByBasis(ts, h) is not null) seen = true;
+                    }
+                    if (seen != breaks) Fail(breaks ? "no height to 12 breaks" : "a height breaks");
+                    for (int e = 0; e <= 6; e++)
+                        for (int f = 0; e + f <= 6; f++)
+                            if (Math.Min(1 << e, 1 << f) >= n0 + 1)
+                            {
+                                readings++;
+                                if (SignedMaskBalanceClaim.BreaksAtTwoParts(ts, 1 << e, 1 << f) != breaks) Fail($"the small torus {1 << e} × {1 << f}");
+                            }
+                    if (ts.Length == 2)
+                    {
+                        readings++;
+                        if (SignedMaskBalanceClaim.Patch(ts[0], ts[1]).Breaks != breaks) Fail("Theorem G's c");
+                    }
+                    // the binomial colouring: absent where the patch breaks; where it pairs, present and balancing every placement,
+                    // read on the sites of the T₀ × T₀ and 3T₀ × T₀ tori by its own parity sums; the control, degree n₀ − 1
+                    var colouring = SignedMaskBalanceClaim.BinomialColouring(ts);
+                    readings++;
+                    if (breaks) { if (colouring is not null) Fail("a binomial colouring where the patch breaks"); }
+                    else if (colouring is null) Fail("no binomial colouring of degree n₀");
+                    else
+                    {
+                        int t0 = 1;
+                        while (t0 < n0 + 1) t0 <<= 1;
+                        foreach (var (l, m) in new[] { (t0, t0), (3 * t0, t0) })
+                        {
+                            readings++;
+                            if (!ColouringBalances(colouring, ts, l, m)) Fail($"the binomial colouring on {l} × {m}");
+                        }
+                        if (n0 > 0)
+                        {
+                            breakBoundLowerDegreeReadings++;
+                            var lower = SignedMaskBalanceClaim.BinomialColouring(ts, n0 - 1);
+                            int t1 = 1;
+                            while (t1 < n0) t1 <<= 1;
+                            if (lower is null || !ColouringBalances(lower, ts, t1, t1)) breakBoundLowerDegree++;
+                        }
+                    }
+                }
+                families.Add(new FamilyReading("whether the patch breaks at some size, read on the one small torus T₀ × T₀, T₀ the least power of 2 at least n₀ + 1, n₀ = ord(gcd) + the colength of the quotients: 400 sets of two to four templates of the 3 × 3 window and 200 with a planted factor through x = y = 1, against the threshold off the reduced basis at heights 1 to 12, the small tori past n₀ and, on two templates, Theorem G's parity; the binomial colouring of degree n₀ absent where the patch breaks and, where it pairs, balancing every placement on the sites of T₀ × T₀ and 3T₀ × T₀ (pairing: the sets that never break)", cells, readings, pairing, bad, first, "the open patch, the small tori and Theorem G"));
+            }
+
             // the worked example and its counterpart: Theorem 2 on the patches to 16 sites, the law and the balance to 8 × 8
             {
                 var examples = new (string Name, string[] Ts, Func<int, int, bool> Pairs)[]
@@ -1061,6 +1194,12 @@ public sealed class TorusMaskBalanceWitness : IInspectable
         PatchThresholdOverhangMismatches = patchThresholdOverhang;
         PatchThresholdNever = patchThresholdNever;
         PatchVectorUnreducedMismatches = patchVectorUnreduced;
+        BreakBoundNoOrderMismatches = breakBoundNoOrder;
+        BreakBoundOneEarlyMismatches = breakBoundOneEarly;
+        BreakBoundSetsWithOrder = breakBoundWithOrder;
+        BreakBoundLargest = breakBoundLargest;
+        BreakBoundLowerDegreeMismatches = breakBoundLowerDegree;
+        BreakBoundLowerDegreeReadings = breakBoundLowerDegreeReadings;
         OneCornerMismatches = oneCorner;
         StaircaseReadings = staircaseReadings;
         CornerSetsWithSeveral = severalCorners;
@@ -1080,12 +1219,13 @@ public sealed class TorusMaskBalanceWitness : IInspectable
 
     public string Summary =>
         $"Theorems F and G on {Families.Count} families, {Families.Sum(f => f.Readings)} readings, {Families.Sum(f => f.Mismatches)} disagreeing; " +
-        $"the controls disagree (with the balance, the last with the runs): one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
+        $"the controls disagree (with the balance; the threshold's last with the runs, the one-torus reading's two with its verdict): one number per mask {OneNumberMismatches} of {OneNumberReadings} (T₁, T₂ ≥ 2), the fold with " +
         $"T₁ and T₂ swapped {SwappedFoldMismatches} and the fold onto the parities {ParityFoldMismatches} of {FoldControlReadings}, each direction " +
         $"on its own (one corner) {OneCornerMismatches} of {StaircaseReadings}, the corner bound one doubling tighter {TighterBoundMismatches} corners, the " +
         $"lattice sites of a cell merged {MergedSitesMismatches} of {MergedSitesReadings}; Theorem G on the open patch without the gcd " +
         $"{PatchNoGcdMismatches} and with Theorem B's chain threshold along x alone {PatchOneDirectionMismatches} of {PatchControlReadings}, the threshold over the near edge {PatchThresholdOverhangMismatches} readings; " +
-        $"the vector-mask threshold off the unreduced basis differs from the runs on {PatchVectorUnreducedMismatches} heights";
+        $"the vector-mask threshold off the unreduced basis differs from the runs on {PatchVectorUnreducedMismatches} heights; " +
+        $"whether the patch breaks at some size, read with the bound short of the common factor's order, disagrees on {BreakBoundNoOrderMismatches} sets and with the torus one doubling early on {BreakBoundOneEarlyMismatches}, the binomial colouring one degree short fails on {BreakBoundLowerDegreeMismatches}";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1098,7 +1238,7 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                              (f.Agrees ? $"every one agreeing with {f.Against}" : $"{f.Mismatches} DISAGREEING, first {f.FirstMismatch}"),
                     provenance: NodeProvenance.Live);
             yield return new InspectableNode(
-                displayName: "the controls, which must disagree (with the balance, the last with the runs)",
+                displayName: "the controls, which must disagree (with the balance; the threshold's last with the runs, the one-torus reading's two with its verdict)",
                 summary: $"Theorem D's one-liner with one number per mask and T = min(T₁, T₂), on the tori with T₁, T₂ ≥ 2: {OneNumberMismatches} of " +
                          $"{OneNumberReadings} readings; the fold with T₁ and T₂ swapped: {SwappedFoldMismatches} of {FoldControlReadings}; the fold onto " +
                          $"the parities of L and M: {ParityFoldMismatches} of {FoldControlReadings}; each direction on its own, one corner at the least " +
@@ -1108,7 +1248,10 @@ public sealed class TorusMaskBalanceWitness : IInspectable
                          $"{PatchOneDirectionMismatches} of {PatchControlReadings} ({PatchBreakingPairs} pairs with c = 1, {PatchPairsWhereTheGcdMatters} whose corner or c the gcd changes); " +
                          $"three templates with more than one corner on the patches to 8 × 8: {PatchTriplesWithSeveralCorners}; the threshold at each height read with " +
                          $"the templates over the near edge onto φ = 0: {PatchThresholdOverhangMismatches} readings against the balance (the patch pairing at every length at {PatchThresholdNever} heights, gated to 64 sites); " +
-                         $"the threshold read off the unreduced kernel basis of the vector masks: {PatchVectorUnreducedMismatches} heights against the runs",
+                         $"the threshold read off the unreduced kernel basis of the vector masks: {PatchVectorUnreducedMismatches} heights against the runs; " +
+                         $"whether the patch breaks at some size with the bound n₀ = ℓ′, short of the order of the common factor: {BreakBoundNoOrderMismatches} sets, and on the small torus T₀ × T₀ with T₀ ≥ n₀, one doubling early: " +
+                         $"{BreakBoundOneEarlyMismatches} sets (the common factor through x = y = 1 in {BreakBoundSetsWithOrder} sets, the largest n₀ read {BreakBoundLargest}); " +
+                         $"the binomial colouring of degree n₀ − 1 failing on {BreakBoundLowerDegreeMismatches} of the {BreakBoundLowerDegreeReadings} pairing sets with n₀ ≥ 1",
                 provenance: NodeProvenance.Live);
         }
     }

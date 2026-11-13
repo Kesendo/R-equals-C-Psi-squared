@@ -38,7 +38,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// exponents of its mask expanded at x = y = 1, coarsened to bit lengths, and two templates' by divisibility in A = GF(2)[ℤ_T₁ × ℤ_T₂]; the ring's
 /// one number per mask is the case of a cyclic 2-part. Two templates on the open L × M patch, their masks read in GF(2)[x, y]:
 /// every relation is r·(q₂, q₁) and the degrees in x and in y add separately, so with c = s₁·q₂(1, 1) + s₂·q₁(1, 1) odd the
-/// patch breaks exactly on the quadrant L ≥ L*, M ≥ M*, and never with c even (Theorem G, <see cref="Patch"/>). At strong
+/// patch breaks exactly on the quadrant L ≥ L*, M ≥ M*, and never with c even (Theorem G, <see cref="Patch"/>); for any number of
+/// templates the patch breaks at some size exactly when the staircase has no corner, read on one small torus whose side passes
+/// ord(gcd) + the colength of the quotients (<see cref="PatchBreaksAtSomeSize"/>), where it pairs with a colouring
+/// Σ φ_ab·C(p, a)·C(q, b) mod 2 of degree at most that bound (<see cref="BinomialColouring"/>). At strong
 /// dephasing, H scaled to J·H, the two edges of the spectrum are −J²·spec(𝓛) and −2σ + J²·spec(𝓜) to O(J³), two Laplacians
 /// whose kernels are Theorem 2's two counts, the far one magnetic, carrying Theorem 2's ratios as phases, with a potential where the
 /// moduli differ (<see cref="StrongDephasingEdges"/>);
@@ -64,7 +67,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<see cref="TorusBreaks"/>, <see cref="TorusBreaksByDifferences"/>, <see cref="BreaksAtTwoParts"/>, <see cref="Corners"/>,
 /// <see cref="SingleTemplateCorners"/>, <see cref="TwoTemplatesBreakByDivisibility"/>, <see cref="CornerBound"/>, <see cref="SufficientTorus"/>,
 /// <see cref="OnLattice"/>, <see cref="LatticeBreaks"/>) and Theorem G's (<see cref="OnPatch"/>, <see cref="Patch"/>, <see cref="PatchBreaks"/>,
-/// <see cref="PatchThreshold"/>, <see cref="PatchThresholdByBasis"/>) have their own battery, <c>inspect --root torusbalance</c>
+/// <see cref="PatchThreshold"/>, <see cref="PatchThresholdByBasis"/>, <see cref="PatchBreakBound"/>, <see cref="PatchBreaksAtSomeSize"/>, <see cref="BinomialColouring"/>) have their own battery, <c>inspect --root torusbalance</c>
 /// (<c>compute/RCPsiSquared.Diagnostics/Foundation/TorusMaskBalanceWitness.cs</c>); Theorem H's reader and the lemma's two
 /// generators are read in the first battery, at random rates.</para></summary>
 public sealed class SignedMaskBalanceClaim : Claim
@@ -90,7 +93,8 @@ public sealed class SignedMaskBalanceClaim : Claim
             "is read on the 2-part ℤ_T₁ × ℤ_T₂ of the translations (T₁ = 2^(v₂(L)), T₂ = 2^(v₂(M))), where it pairs exactly when a colouring of period (T₁, T₂) " +
             "exists, the signs a linear function of the folded masks modulo the differences of their translates (Theorem F), and the pairing " +
             "tori form a staircase in (v₂(L), v₂(M)) with finitely many corners, bounded by the colength of the masks' ideal at x = y = 1 " +
-            "where the masks share no factor there; two templates on the open L × M patch break exactly on the quadrant " +
+            "where the masks share no factor there, and with a corner exactly when the open patch pairs at every size, decided on one torus whose " +
+            "side passes the order of the masks' gcd at x = y = 1 plus the colength of the quotients; two templates on the open L × M patch break exactly on the quadrant " +
             "L ≥ max(w_x,1 + deg_x q₂, w_x,2 + deg_x q₁), M ≥ max(w_y,1 + deg_y q₂, w_y,2 + deg_y q₁) when s₁·q₂(1, 1) + s₂·q₁(1, 1) is odd, " +
             "the gcd taken in GF(2)[x, y], and never otherwise (Theorem G); at strong dephasing, H scaled to J·H, the far edge's eigenvalue " +
             "nearest −2σ lies at 2J²·min over φ of Σ c_P²/γ(m_P) over the strings with ⟨φ, m_P⟩ ≠ s(P), plus O(J³), from it, twice the " +
@@ -538,6 +542,183 @@ public sealed class SignedMaskBalanceClaim : Claim
             return n;   // ℓ < n, so u^n and v^n lie in 𝔪^n ⊂ 𝔪^(ℓ + 1) ⊂ 𝔪·I
         }
         return (colength, Least(k => k), Least(k => n * k));
+    }
+
+    /// <summary>The bound behind <see cref="PatchBreaksAtSomeSize"/>: with g = gcd(m₁, …, m_k) in GF(2)[x, y] (the masks
+    /// read as for <see cref="Patch"/>) and qᵢ = mᵢ/g, Order is ord(g), the least total degree of g written in
+    /// u = 1 + x and v = 1 + y, and Colength is ℓ′ = dim R/(q₁, …, q_k) in R = GF(2)[[u, v]], finite because the qᵢ share no
+    /// factor (0 where some qᵢ has an odd number of terms, a unit), and Bound is n₀ = ord(g) + ℓ′. Then 𝔪^n ∩ I ⊂ 𝔪^(n − n₀)·I
+    /// for n ≥ n₀, an Artin–Rees number of I in R: ord is additive in R (its graded ring is a polynomial ring), so gh ∈ 𝔪^n
+    /// puts h in 𝔪^(n − ord(g)), and 𝔪^ℓ′ ⊂ (qᵢ) gives 𝔪^p ⊂ 𝔪^(p − ℓ′)·(qᵢ). ℓ′ is read in R/𝔪^n for n = 1, 2, … until dim R/(I′ + 𝔪^n)
+    /// stands still, which by Nakayama is where 𝔪^n ⊂ I′ (to n = 64, or the method throws).</summary>
+    public static (int Order, int Colength, int Bound) PatchBreakBound(IReadOnlyCollection<string> templates)
+    {
+        var masks = PatchMasks(templates);
+        var g = masks.Skip(1).Aggregate(masks[0], PlaneGcd);
+        int order = PlaneUv(g).Min(p => p.A + p.B);
+        int colength = LocalColength(masks.Select(m => PlaneUv(PlaneDivide(m, g))).ToList());
+        return (order, colength, order + colength);
+    }
+
+    /// <summary>Whether the open patch breaks at some size, read on one small torus (Theorem G, the same question on one torus). A relation
+    /// among the masks in GF(2)[x, y] fits in some patch and every relation on a patch is one, so the patch breaks at some size
+    /// exactly when λ(a) = Σ sᵢ·aᵢ(1, 1) is nonzero on the relations; a relation with λ = 1 reduces to one on every small
+    /// torus, so then the torus breaks at every 2-part and the staircase has no corner. Conversely, where λ vanishes on the
+    /// relations it vanishes on those over R = GF(2)[[u, v]] too (R is flat over GF(2)[x, y], so they are generated by
+    /// polynomial ones), and a relation ā on the small torus T₁ × T₂ with min(T₁, T₂) ≥ n₀ + 1, n₀ the Bound of
+    /// <see cref="PatchBreakBound"/>, lifts to a with Σ aᵢmᵢ ∈ (u^T₁, v^T₂) ∩ I ⊂ 𝔪^(n₀ + 1) ∩ I ⊂ 𝔪·I, so Σ aᵢmᵢ = Σ eᵢmᵢ with every eᵢ in 𝔪, a − e is a
+    /// relation over R, and λ(ā) = λ(a − e) + λ(e) = 0: that torus pairs. So the staircase has a corner exactly when the patch
+    /// pairs at every size, and the one small torus T₀ × T₀, T₀ the least power of 2 at least n₀ + 1, decides both, read in the basis u^a·v^b of
+    /// A = GF(2)[u, v]/(u^T, v^T) (to T = 32). With <paramref name="countOrder"/> false the bound is ℓ′ alone, without the
+    /// order of a common factor through x = y = 1, and with <paramref name="oneEarly"/> the side is the least power of 2 at
+    /// least n₀ rather than n₀ + 1: the two controls that must fail.</summary>
+    public static bool PatchBreaksAtSomeSize(IReadOnlyCollection<string> templates, bool countOrder = true, bool oneEarly = false)
+    {
+        var (_, colength, bound) = PatchBreakBound(templates);
+        int n0 = countOrder ? bound : colength;
+        int side = 1;
+        while (side < (oneEarly ? n0 : n0 + 1)) side <<= 1;
+        if (side > 32) throw new ArgumentOutOfRangeException(nameof(templates), n0, "the bound asks for a torus side past 32");
+        return BreaksInUv(templates.Select(t => (PlaneUv(PlaneMask(t)), Sign(t))).ToList(), side, side);
+    }
+
+    /// <summary>The colouring the one-torus proof builds, where the patch pairs at every size: a linear form on
+    /// R = GF(2)[[u, v]] that takes the value sᵢ at each mask and 0 on 𝔪·I and vanishes on 𝔪^(d + 1), d = n₀ by default
+    /// (<see cref="PatchBreakBound"/>; it exists there because 𝔪^(n₀ + 1) ∩ I ⊂ 𝔪·I). Returned are its values φ_ab on the
+    /// monomials u^a·v^b with a + b ≤ d; on the sites the coefficient of u^a·v^b in x^p·y^q is C(p, a)·C(q, b) mod 2
+    /// (Lucas), so the colouring is φ(p, q) = Σ φ_ab·C(p, a)·C(q, b) mod 2 (<see cref="BinomialColour"/>), a sum of Pascal's
+    /// triangle mod 2 in each direction, of period the least power of 2 above d in both. Null where no such form exists:
+    /// always where the patch breaks at some size, and possibly below n₀ (<paramref name="degree"/> n₀ − 1, the control; a form
+    /// that exists at a lower degree balances as well, its equations of degree past it holding in 𝔪^(d + 1)).</summary>
+    public static IReadOnlyDictionary<(int A, int B), int>? BinomialColouring(IReadOnlyCollection<string> templates, int? degree = null)
+    {
+        int d = degree ?? PatchBreakBound(templates).Bound;
+        if (d < 0) return null;
+        var monomials = new List<(int A, int B)>();
+        for (int a = 0; a <= d; a++)
+            for (int b = 0; a + b <= d; b++) monomials.Add((a, b));
+        var index = monomials.Select((m, k) => (m, k)).ToDictionary(x => x.m, x => x.k);
+        int k = monomials.Count, words = k / 64 + 1;   // bit k holds the right-hand side
+        var rows = new List<ulong[]>();
+        foreach (var t in templates)
+        {
+            var p = PlaneUv(PlaneMask(t));
+            int s = Sign(t);
+            foreach (var (c, e) in monomials)
+            {
+                var row = new ulong[words];
+                foreach (var (a, b) in p)
+                    if (a + c + b + e <= d) { int j = index[(a + c, b + e)]; row[j >> 6] ^= 1UL << (j & 63); }
+                if (c == 0 && e == 0 && s == 1) row[k >> 6] ^= 1UL << (k & 63);
+                rows.Add(row);
+            }
+        }
+        // Gauss–Jordan over GF(2); a row reduced to the right-hand side alone has no solution
+        var pivotRow = new Dictionary<int, ulong[]>();
+        foreach (var row in rows)
+        {
+            for (int j = 0; j < k; j++)
+                if (((row[j >> 6] >> (j & 63)) & 1) == 1 && pivotRow.TryGetValue(j, out var pr))
+                    for (int w = 0; w < words; w++) row[w] ^= pr[w];
+            int lead = -1;
+            for (int j = 0; j < k && lead < 0; j++) if (((row[j >> 6] >> (j & 63)) & 1) == 1) lead = j;
+            if (lead < 0) { if (((row[k >> 6] >> (k & 63)) & 1) == 1) return null; continue; }
+            foreach (var other in pivotRow.Values)
+                if (((other[lead >> 6] >> (lead & 63)) & 1) == 1)
+                    for (int w = 0; w < words; w++) other[w] ^= row[w];
+            pivotRow[lead] = row;
+        }
+        var values = monomials.ToDictionary(m => m, _ => 0);   // free monomials set to 0
+        foreach (var (lead, row) in pivotRow) values[monomials[lead]] = (int)((row[k >> 6] >> (k & 63)) & 1);
+        return values;
+    }
+
+    /// <summary>The colour at the site (p, q) of a <see cref="BinomialColouring"/>: Σ φ_ab·C(p, a)·C(q, b) mod 2, with
+    /// C(p, a) odd exactly when the bits of a lie among those of p (Lucas); 1 is a Y in the far element X^⊗N·Z^φ.</summary>
+    public static int BinomialColour(IReadOnlyDictionary<(int A, int B), int> colouring, int p, int q) =>
+        colouring.Where(kv => kv.Value == 1 && (kv.Key.A & p) == kv.Key.A && (kv.Key.B & q) == kv.Key.B).Count() & 1;
+
+    // the masks of templates as Theorem G reads them, refusing an empty mask and two translates
+    static List<ulong[]> PatchMasks(IReadOnlyCollection<string> templates)
+    {
+        if (templates.Count == 0) throw new ArgumentException("no templates");
+        var masks = templates.Select(PlaneMask).ToList();
+        if (masks.Any(m => m.Length == 0)) throw new ArgumentException("every template must flip something");
+        for (int i = 0; i < masks.Count; i++)
+            for (int j = i + 1; j < masks.Count; j++)
+                if (PlaneShape(masks[i]).SequenceEqual(PlaneShape(masks[j])))
+                    throw new ArgumentException("two masks are translates: a flip set would carry two strings");
+        return masks;
+    }
+
+    // a polynomial of GF(2)[x][y] (row j the coefficient of y^j) written in u = 1 + x, v = 1 + y (Lucas, term by term)
+    static HashSet<(int A, int B)> PlaneUv(ulong[] p)
+    {
+        var monomials = new HashSet<(int, int)>();
+        for (int j = 0; j < p.Length; j++)
+            for (ulong r = p[j]; r != 0; r &= r - 1)
+            {
+                int i = BitOperations.TrailingZeroCount(r);
+                for (int a = 0; a <= i; a++)
+                    if ((a & i) == a)
+                        for (int b = 0; b <= j; b++)
+                            if ((b & j) == b && !monomials.Add((a, b))) monomials.Remove((a, b));
+            }
+        return monomials;
+    }
+
+    // dim R/I in R = GF(2)[[u, v]], read in R/𝔪^n until it stands still (then 𝔪^n ⊂ I by Nakayama)
+    static int LocalColength(IReadOnlyList<HashSet<(int A, int B)>> polys)
+    {
+        if (polys.Any(p => p.Contains((0, 0)))) return 0;
+        int previous = -1;
+        for (int n = 1; n <= 64; n++)
+        {
+            int cells = n * (n + 1) / 2;
+            int Index(int a, int b) => (a + b) * (a + b + 1) / 2 + b;
+            var span = new Gf2Span((cells + 63) / 64);
+            foreach (var p in polys)
+                for (int a = 0; a < n; a++)
+                    for (int b = 0; a + b < n; b++)
+                    {
+                        var row = new ulong[(cells + 63) / 64];
+                        foreach (var (pa, pb) in p)
+                            if (pa + a + pb + b < n) { int k = Index(pa + a, pb + b); row[k >> 6] ^= 1UL << (k & 63); }
+                        span.Add(row);
+                    }
+            int dim = cells - span.Rank;
+            if (dim == previous) return dim;
+            previous = dim;
+        }
+        throw new InvalidOperationException("the colength did not settle by 𝔪^64: past the read");
+    }
+
+    // Theorem F's second form in the basis u^a·v^b of A = GF(2)[u, v]/(u^t₁, v^t₂): the multiples of the masks by 𝔪 with
+    // sign 0, each mask with its sign, and the torus breaks when the sign alone lies in their span
+    static bool BreaksInUv(IReadOnlyList<(HashSet<(int A, int B)> P, int Sign)> masks, int t1, int t2)
+    {
+        int cells = t1 * t2, words = cells / 64 + 1;
+        var span = new Gf2Span(words);
+        ulong[] Row(HashSet<(int A, int B)> p, int a, int b)
+        {
+            var row = new ulong[words];
+            foreach (var (pa, pb) in p)
+                if (pa + a < t1 && pb + b < t2) { int k = pa + a + t1 * (pb + b); row[k >> 6] ^= 1UL << (k & 63); }
+            return row;
+        }
+        foreach (var (p, _) in masks)
+            for (int b = 0; b < t2; b++)
+                for (int a = 0; a < t1; a++)
+                    if (a != 0 || b != 0) span.Add(Row(p, a, b));
+        foreach (var (p, s) in masks)
+        {
+            var row = Row(p, 0, 0);
+            if (s == 1) row[cells >> 6] ^= 1UL << (cells & 63);
+            span.Add(row);
+        }
+        var sign = new ulong[words];
+        sign[cells >> 6] = 1UL << (cells & 63);
+        return span.Contains(sign);
     }
 
     // the monomials u^a·v^b of a template's mask (Lucas: x^i holds u^a exactly when the bits of a lie among those of i)
@@ -1601,7 +1782,10 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "quadrants of the unbalanced relations, can have several corners (X beside XY across and Y over X: (2, 1) and (1, 2)), read at each height for every length at " +
                          "once: the sets of column states that admitted runs reach fall from the start, and from column W − 1 on " +
                          "either empty at the threshold L*(M) or stand still, the patch then pairing at every length; the same L*(M) is the least shifted " +
-                         "degree of an unbalanced vector of a reduced basis of the relations of the placements (t, b) as vector masks over GF(2)[x] (Theorem B′ at height M)");
+                         "degree of an unbalanced vector of a reduced basis of the relations of the placements (t, b) as vector masks over GF(2)[x] (Theorem B′ at height M); " +
+                         "whether a patch breaks at some size is whether Theorem F's staircase has no corner, decided on one small torus whose side passes " +
+                         "n₀ = ord(gcd) + the colength of the quotients at x = y = 1 (flatness of the completion and an Artin–Rees number), " +
+                         "and where it pairs the proof builds a colouring Σ φ_ab·C(p, a)·C(q, b) mod 2 of degree at most n₀, Pascal's triangle mod 2 in each direction");
             yield return new InspectableNode("Theorem H, the size of the break at strong dephasing",
                 summary: "H scaled to J·H with condition (ii) everywhere: the first order vanishes on both edges, and the second is " +
                          "−J²·𝓛 on the populations and −2σ + J²·𝓜 on the far cells, 𝓛 the Zeno Laplacian with weights |H_ba|²/γ(a ⊕ b) and " +
