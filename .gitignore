@@ -58,6 +58,10 @@ simulations/_*
 # --- Transient verification outputs under the stable results tree ---
 simulations/results/*.tmp.*
 
+# --- Published artifacts: page sources, build steps and checks (local-only) ---
+# One subfolder per claude.ai artifact; see artifacts/README.md.
+artifacts/
+
 # --- Secrets / API keys (NEVER commit) ---
 .env
 .env.*
