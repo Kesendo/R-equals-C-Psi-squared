@@ -11642,11 +11642,13 @@ picture, secular in the Larmor frequency with the splitting kept whole, at
 infinite temperature. Finite polarization, multiple compartments, exchange and
 terms non-secular in the Larmor frequency are outside, and so is the dynamic
 frequency shift, except at spin 3/2 as its Lamb-shift Hamiltonian (not in the
-statements beyond 3/2, nor in the chain). No sodium data were compared.
+statements beyond 3/2, nor in the chain). No sodium data were compared on the indexed pages.
 **Open:** a global centre on the planes where two population rates coincide,
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
 splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
-longitudinal rates against measured sodium relaxation; the bright pairs'
+longitudinal rates against measured sodium relaxation beyond two agarose data sets
+whose published fits break it from opposite sides ([Sodium in Agarose, Layer by Layer](../experiments/SODIUM_IN_AGAROSE_LAYER_BY_LAYER.md),
+[One Sodium Pool or More](../experiments/SODIUM_ONE_POOL_OR_MORE.md)); the bright pairs'
 exceptional point against a measurement (the coupling read off a transverse
 signal in time against half the 4/5 longitudinal rate);
 K_m beyond three nuclei;

@@ -1,0 +1,85 @@
+Part 1. The mean-rate identity, 1/T2s = (1/T1s + 1/T1f)/2, against the measured T2s (MRM)
+  2% agarose: T2s for one pool  37.94 ms, measured 45.03 +- 1.46 ms; rates 26.36 vs 22.21 1/s, gap 4.15 +- 0.75 1/s = 5.6 sigma (5.4 sigma with the T1s, T1f errors fully correlated)
+      over the four phase cycles 4.15 to 4.62 1/s; with NBM's own T2s read off Fig. 6A (44.1 ms) 3.68 1/s
+      split of the gap: (1/T1m - 1/T2s) = +0.52 1/s with T1m from Eq. 17 (43.99 ms), 0.3 (R1f - R1s) =  3.62 1/s;
+      T2s - T1m with their tabulated T1m 44.1 +- 0.48: +0.93 +- 1.54 ms = +0.6 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+  4% agarose: T2s for one pool  32.39 ms, measured 39.17 +- 0.73 ms; rates 30.88 vs 25.53 1/s, gap 5.35 +- 0.59 1/s = 9.1 sigma (7.8 sigma with the T1s, T1f errors fully correlated)
+      over the four phase cycles 4.93 to 5.37 1/s; with NBM's own T2s read off Fig. 6A (38.1 ms) 4.63 1/s
+      split of the gap: (1/T1m - 1/T2s) = +0.48 1/s with T1m from Eq. 17 (38.44 ms), 0.3 (R1f - R1s) =  4.87 1/s;
+      T2s - T1m with their tabulated T1m 38.65 +- 0.75: +0.52 +- 1.05 ms = +0.5 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+  6% agarose: T2s for one pool  28.56 ms, measured 33.05 +- 0.47 ms; rates 35.02 vs 30.26 1/s, gap 4.76 +- 0.59 1/s = 8.1 sigma (6.7 sigma with the T1s, T1f errors fully correlated)
+      over the four phase cycles 3.96 to 4.76 1/s; with NBM's own T2s read off Fig. 6A (32.2 ms) 3.96 1/s
+      split of the gap: (1/T1m - 1/T2s) = -0.43 1/s with T1m from Eq. 17 (33.52 ms), 0.3 (R1f - R1s) =  5.19 1/s;
+      T2s - T1m with their tabulated T1m 33.91 +- 0.58: -0.86 +- 0.75 ms = -1.2 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+
+Part 2. Checks of the signal model
+  (a) one pool with a Hamiltonian against simulations/sodium_two_mirrors.generator, action on a random rho: 1.8e-15 = 0.03 x eps x (max|L| max|rho| d^2)
+  (a2) voxel(), pool 0, against the gated generator: 2.0e-15 = 0.04 x eps x (max|L| max|rho| d^2)
+  (b) generator against Hubbard's envelopes, no exchange: 8.9e-16 = 4.00 x eps x cond(eigenvectors) (1.00); bound 8 (modes summed)
+  (c) exchange: central-transition cells decoupled from the rest exactly (0.0); eigenvalues [-0.15692837 -0.02522521] against the two-site matrix [-0.15692837 -0.02522521], difference 0.0e+00; bound 4 x eps x max|M|
+  (d) one pool through Eq. 13 and Eq. 11 returns its own times and the 0.4 amplitude, worst relative deviation 1.2e-14; bound 1e-10
+  (e) Eq. 13 started from the swapped times returns 40.000000 / 30.000000 ms for 40.000000 / 30.000000; bound 1e-10
+
+Part 3. Free + bound, no exchange (free sodium T1 = T2 = 54.19 ms; 5 numbers, 4 parameters, 1 degree of freedom; multi-start local search)
+  2% agarose: one pool alone chi2 =  26.5; free + bound: free fraction 0.044, bound pool T1s 49.11, T1f 30.69, T2f 8.99, T2s (identity) 37.77 ms; chi2 =  15.8
+      pulls: T1s +0.42  T1f +0.38  T2s -3.77  T2f +0.03  slow +1.11
+      geometric evolution times, TQ weight x1.0: chi2 =  16.5
+      linear evolution times, TQ weight x0.5: chi2 =  15.8
+      linear evolution times, TQ weight x2.0: chi2 =  15.7
+      free sodium at T1 = T2 = 58.0 ms: chi2 =  12.9
+      free sodium at T1 = T2 = 65.0 ms: chi2 =   7.4
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  15.7 at 54.53 ms
+  4% agarose: one pool alone chi2 =  69.6; free + bound: free fraction 0.065, bound pool T1s 43.73, T1f 25.94, T2f 5.04, T2s (identity) 32.56 ms; chi2 =  39.5
+      pulls: T1s +0.92  T1f +1.23  T2s -4.82  T2f +0.09  slow +3.72
+      geometric evolution times, TQ weight x1.0: chi2 =  46.0
+      linear evolution times, TQ weight x0.5: chi2 =  39.6
+      linear evolution times, TQ weight x2.0: chi2 =  39.2
+      free sodium at T1 = T2 = 58.0 ms: chi2 =  30.0
+      free sodium at T1 = T2 = 65.0 ms: chi2 =  16.5
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  38.0 at 55.34 ms
+  6% agarose: one pool alone chi2 =  62.3; free + bound: free fraction 0.062, bound pool T1s 36.53, T1f 23.92, T2f 3.41, T2s (identity) 28.91 ms; chi2 =  11.7
+      pulls: T1s +0.30  T1f +0.54  T2s -1.70  T2f +0.06  slow +2.90
+      geometric evolution times, TQ weight x1.0: chi2 =  20.2
+      linear evolution times, TQ weight x0.5: chi2 =  11.7
+      linear evolution times, TQ weight x2.0: chi2 =  11.6
+      free sodium at T1 = T2 = 58.0 ms: chi2 =   6.9
+      free sodium at T1 = T2 = 65.0 ms: chi2 =   2.4
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  11.2 at 54.82 ms
+
+Part 4. Free + bound with exchange: chi2 profile over the exchange rate k (the other four parameters refitted at each k; a search, not a proof of the minimum; fast exchange makes one averaged pool, so the profile approaches the one-pool chi2 of Part 3)
+  2% agarose, k in 1/s: chi2 (free fraction)  1:  17.0 (0.04)   3:  19.0 (0.03)   10:  22.6 (0.02)   30:  25.1 (0.01)   100:  25.9 (0.01)   300:  26.1 (0.07)   1000:  26.2 (0.44)
+  4% agarose, k in 1/s: chi2 (free fraction)  1:  43.7 (0.06)   3:  51.4 (0.05)   10:  66.4 (0.02)   30:  69.6 (0.00)   100:  69.6 (0.00)   300:  69.6 (0.00)   1000:  69.9 (0.06)
+  6% agarose, k in 1/s: chi2 (free fraction)  1:  14.4 (0.06)   3:  20.5 (0.06)   10:  44.0 (0.05)   30:  62.3 (0.00)   100:  62.3 (0.00)   300:  62.3 (0.00)   1000:  62.3 (0.00)
+
+Part 5. Two bound pools, no exchange (7 parameters for 5 numbers, not determined), searched with the longitudinal TQ fraction B1 held at or above a floor (B1 = 1 is one pool's; a search, not the solution set)
+  2% agarose:
+      B1 >= 0.00: chi2   0.32 at B1 0.001; pool A 0.89 (T1 parts 48.0 / 48.0 ms), pool B 0.11 (25.8 / 25.8 ms)  (no longitudinal TQ: excluded by the measured TQ peak)
+      B1 >= 0.25: chi2   2.12 at B1 0.248; pool A 0.91 (T1 parts 48.5 / 44.7 ms), pool B 0.09 (28.0 / 16.1 ms)
+      (this solution's transverse TQ against one pool with its fitted T2 times: 0.988)
+      B1 >= 0.50: chi2   6.44 at B1 0.495; pool A 0.91 (T1 parts 49.5 / 40.3 ms), pool B 0.09 (29.4 / 15.2 ms)
+      B1 >= 0.75: chi2  13.99 at B1 0.742; pool A 0.92 (T1 parts 50.2 / 35.9 ms), pool B 0.08 (32.6 / 17.7 ms)
+  4% agarose:
+      B1 >= 0.00: chi2   0.00 at B1 0.065; pool A 0.80 (T1 parts 43.8 / 43.8 ms), pool B 0.20 (27.3 / 22.7 ms)
+      B1 >= 0.25: chi2   0.01 at B1 0.250; pool A 0.83 (T1 parts 43.7 / 40.7 ms), pool B 0.17 (27.8 / 16.5 ms)
+      (this solution's transverse TQ against one pool with its fitted T2 times: 0.990)
+      B1 >= 0.50: chi2   4.13 at B1 0.493; pool A 0.86 (T1 parts 45.4 / 36.5 ms), pool B 0.14 (28.7 / 13.9 ms)
+      B1 >= 0.75: chi2  24.68 at B1 0.730; pool A 0.92 (T1 parts 46.6 / 31.2 ms), pool B 0.08 (26.7 / 13.5 ms)
+  6% agarose:
+      B1 >= 0.00: chi2   0.00 at B1 0.390; pool A 0.79 (T1 parts 39.0 / 33.0 ms), pool B 0.21 (25.4 / 18.5 ms)
+      B1 >= 0.25: chi2   0.00 at B1 0.388; pool A 0.87 (T1 parts 38.3 / 31.6 ms), pool B 0.13 (21.6 / 17.5 ms)
+      (this solution's transverse TQ against one pool with its fitted T2 times: 0.997)
+      B1 >= 0.50: chi2   0.51 at B1 0.498; pool A 0.83 (T1 parts 38.9 / 31.9 ms), pool B 0.17 (26.5 / 14.6 ms)
+      B1 >= 0.75: chi2  11.02 at B1 0.732; pool A 0.87 (T1 parts 40.1 / 28.7 ms), pool B 0.13 (30.1 / 11.2 ms)
+
+Part 6. The longitudinal TQ across the samples. For one pool the ratio of the longitudinal to the transverse TQ amplitude (each over its single-quantum amplitude) is the same in every sample: the times enter only the fitted shapes, and the pulses after the evolution and the acquisition are shared. Measured (NBM Table 2 and Fig. 6C, read off):
+  PC1: ratio 0.134, 0.222, 0.339; relative to 6 %: 0.39 : 0.65 : 1; 6 % over 2 %: 2.54 +- 0.65 (one pool: 1)
+  PC2: ratio 0.230, 0.321, 0.470; relative to 6 %: 0.49 : 0.68 : 1; 6 % over 2 %: 2.04 +- 0.27 (one pool: 1)
+  two bound pools (Part 5): longitudinal TQ fraction where chi2 reaches 2, interpolated between the floors: 0.23, 0.37, 0.54; relative to 6 %: 0.43 : 0.69 : 1 (soft: a local search with a soft floor)
+
+Part 7. A signal stored along z by imperfect pulses, added to one pool's transverse signal (one pool from the fitted T1s, T1f with the identity, T2f as measured) and fitted with Eq. 11 on the 26 evolution times:
+  2% agarose (one pool 37.94 ms, measured 45.03 +- 1.46 ms): at T1s: admixture 0.64 of the transverse signal, slow fraction then 0.63; at T1m: admixture 1.72 of the transverse signal, slow fraction then 0.73
+      stored along z for half the evolution, the whole slow signal would decay at 42.85 ms = -1.5 sigma from the measured T2s (measured slow fraction 0.41)
+  4% agarose (one pool 32.39 ms, measured 39.17 +- 0.73 ms): at T1s: admixture 0.56 of the transverse signal, slow fraction then 0.61; at T1m: admixture 1.71 of the transverse signal, slow fraction then 0.74
+      stored along z for half the evolution, the whole slow signal would decay at 37.28 ms = -2.6 sigma from the measured T2s (measured slow fraction 0.40)
+  6% agarose (one pool 28.56 ms, measured 33.05 +- 0.47 ms): at T1s: admixture 0.36 of the transverse signal, slow fraction then 0.55; at T1m: admixture 1.64 of the transverse signal, slow fraction then 0.76
+      stored along z for half the evolution, the whole slow signal would decay at 32.58 ms = -1.0 sigma from the measured T2s (measured slow fraction 0.41)
