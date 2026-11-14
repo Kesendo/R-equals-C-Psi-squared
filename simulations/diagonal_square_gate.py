@@ -854,7 +854,7 @@ check("control (float reading, Heisenberg N=3, gamma = 1/4): the centroid of X_1
       gxy > 0.1, f"max |<k_X> - <k_Y>| = {gxy:.3f} for X_1 Y_2, {gz:.1e} for Z_1")
 
 # (d) the budget: in the string basis the Hermitian part of L is -2 gamma diag(k_Z) exactly, so
-#     d/dt ||rho||^2 = -4 gamma <k_Z> ||rho||^2 and ln ||rho(t)||^2 = -4 gamma int <k_Z> dt
+#     d/dt ||rho||^2 = -4 gamma <k_Z> ||rho||^2 and ln(||rho(t)||^2 / ||rho(0)||^2) = -4 gamma int <k_Z> dt
 ok_b = True
 for j in [(1, 1, 1), (1, 1, 0), (3, -2, 5)]:
     L = L_of(xyz_chain(*j))

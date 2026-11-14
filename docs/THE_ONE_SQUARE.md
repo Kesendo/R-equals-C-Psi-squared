@@ -203,7 +203,7 @@ The quarter-turn about Z, ρ ↦ S·ρ·S† with S = diag(1, i) on every site, 
 
 In the string basis the Hermitian part of L is −2γ·diag(k_Z), exactly, with or without a field, because the Hamiltonian part is skew (gate S9). This is [the absorption theorem](proofs/PROOF_ABSORPTION_THEOREM.md)'s Rayleigh reading, and along a trajectory it reads
 
-  d/dt ln‖ρ(t)‖² = −4γ·⟨k_Z⟩(t),  ln‖ρ(t)‖² = −4γ ∫₀ᵗ ⟨k_Z⟩ dt,
+  d/dt ln‖ρ(t)‖² = −4γ·⟨k_Z⟩(t),  ln(‖ρ(t)‖²/‖ρ(0)‖²) = −4γ ∫₀ᵗ ⟨k_Z⟩(s) ds,
 
 with ‖·‖ the Hilbert-Schmidt norm and ⟨k_Z⟩ the centroid's height. Everything the operator loses it loses while its centroid stands above the population edge. Under a Heisenberg chain the centroid of Z₁ rises off that edge into the interior, where the operator grows in weight w, and returns to the edge as t → ∞, because the part off the edge decays and the kernel lies on it; what remains is the conserved part.
 
@@ -215,11 +215,13 @@ The populations {I, Z}^N are exactly the strings with k_Z = 0, and they lie on t
 
 ![The tetrahedron of the Pauli strings at N = 4 with its two edges, the axis of R's half-turn and the walk of Z₁; beside it the walk in the plane k_X = k_Y and the budget](../visualizations/one_square_tetrahedron_neon.png)
 
-The Pauli strings of N = 4 sites at their lattice points, k_Z upward, the coordinate the rate 2γ·k_Z reads; a dot's size grows with the number of strings at its point. The quiet edge k_Z = 0 lies at the bottom and the far edge k_Z = N at the top, and the dashed line is the axis of R's half-turn. The line is the centroid of Z₁ under the Heisenberg chain (J = 1, γ = 0.05, t from 0 to 40): it leaves the quiet edge, rises into the interior and returns, and it never leaves the shaded plane k_X = k_Y: its motion has two coordinates. The green line is the centroid of X₁Y₂ up to t = 8, which starts on the plane and leaves it sideways. On the right the same walk is drawn in its own plane k_X = k_Y, and below it the logarithm of the squared norm lies on −4γ∫⟨k_Z⟩dt. The points, the walk and the two curves are calculated ([`simulations/one_square_tetrahedron.py`](../simulations/one_square_tetrahedron.py), which checks the two edges and R's flip exactly before it draws); the camera, the colours, the dot sizes and the choice of N, γ and time span are the drawing's.
+The Pauli strings of N = 4 sites at their lattice points, k_Z upward, the coordinate the rate 2γ·k_Z reads; a dot's size grows with the number of strings at its point. The quiet edge k_Z = 0 lies at the bottom and the far edge k_Z = N at the top, and the dashed line is the axis of R's half-turn. The line is the centroid of Z₁ under the Heisenberg chain (J = 1, γ = 0.05, t from 0 to 40): it leaves the quiet edge, rises into the interior and returns, and it never leaves the shaded plane k_X = k_Y: its motion has two coordinates. The green line is the centroid of X₁Y₂ up to t = 8, which starts on the plane and swings back and forth across it. On the right the same walk is drawn in its own plane k_X = k_Y, and below it the logarithm of the squared norm, counted from its value at t = 0, lies on −4γ∫⟨k_Z⟩dt. The points, the walk and the two curves are calculated ([`simulations/one_square_tetrahedron.py`](../simulations/one_square_tetrahedron.py), which checks the two edges, R's flip and X₁Y₂'s start on the plane exactly before it draws); the camera, the colours, the dot sizes and the choice of N, γ and time span are the drawing's.
 
 ![The same tetrahedron turning once over t from 0 to 20: a disc at each lattice point whose area is the share of Z₁ there, and a ring with a trail for the centroid](../visualizations/one_square_tetrahedron_neon.gif)
 
 In the animation the area of a disc is the share of the operator at its lattice point, the sum of the squared coefficients of the strings there divided by the whole, and the ring with its trail is the centroid. The operator itself spreads to both sides of the plane k_X = k_Y, in mirrored pairs of equal share; that is why its centroid stays on the plane.
+
+The walk can be taken by hand in [The Letter Cube](https://claude.ai/artifact/HZuKEPuP1uTSbXC62rKDXL): any start string on 3 to 6 sites, bonds of the XYZ family, fields along X and Z and γ from 0 to 0.5, computed in the browser from the generator in the string basis, a route independent of the script that draws these figures; resting the pointer on a lattice point lists the largest of the strings there that carry the operator, up to six, with their coefficients.
 
 ## 9. The moves, and the two questions
 

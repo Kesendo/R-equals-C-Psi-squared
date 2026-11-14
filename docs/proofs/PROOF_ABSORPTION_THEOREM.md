@@ -1020,8 +1020,7 @@ no single β = 0 state is selected. |00…0⟩ never moves; on the open N=3 chai
 
 Two further limits are structural rather than interpretive.
 
-**Re λ is the asymptote of an envelope, not the envelope.** L is non-normal, so
-‖e^{Lt}‖ can grow substantially while every Re λ is negative, and at a defective
+**Re λ is the asymptote of an envelope, not the envelope.** At a defective
 point the decay carries a polynomial prefactor t^k·e^{Re λ·t}. The theorem
 covers the whole spectrum, since every eigenvalue has at least one genuine
 eigenvector, but a mode's light fixes where it ends up, not the path it takes.

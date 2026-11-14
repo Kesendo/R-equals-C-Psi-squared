@@ -463,15 +463,15 @@ A letter's coordinate k_P is 1 where it anticommutes with P, so the four letters
 
 ![The tetrahedron of the Pauli strings at N = 4 with its two edges, the axis of R's half-turn and the walk of Z₁; beside it the walk in the plane k_X = k_Y and the budget.](one_square_tetrahedron_neon.png)
 
-On N sites a string sits at (k_Z, k_X, k_Y) = (n_X + n_Y, n_Y + n_Z, n_X + n_Z), a lattice point of the tetrahedron with vertices I^N, X^N, Y^N, Z^N; here N = 4, 35 points for 256 strings, k_Z upward. The populations lie on the bottom edge and the strings of X and Y on the top edge, and R's half-turn about the dashed axis carries one onto the other. The yellow line is the centroid of the operator Z₁ under the Heisenberg chain (J = 1, γ = 0.05), weighted by the squared string coefficients; it stays in the plane k_X = k_Y, and the logarithm of the squared Hilbert-Schmidt norm follows −4γ∫⟨k_Z⟩dt (§8). The green line is the centroid of X₁Y₂ up to t = 8, which leaves the plane.
+On N sites a string sits at (k_Z, k_X, k_Y) = (n_X + n_Y, n_Y + n_Z, n_X + n_Z), a lattice point of the tetrahedron with vertices I^N, X^N, Y^N, Z^N; here N = 4, 35 points for 256 strings, k_Z upward. The populations lie on the bottom edge and the strings of X and Y on the top edge, and R's half-turn about the dashed axis carries one onto the other. The yellow line is the centroid of the operator Z₁ under the Heisenberg chain (J = 1, γ = 0.05), weighted by the squared string coefficients; it stays in the plane k_X = k_Y, and the logarithm of the squared Hilbert-Schmidt norm, counted from its value at t = 0, follows −4γ∫⟨k_Z⟩dt (§8). The green line is the centroid of X₁Y₂ up to t = 8, which swings back and forth across the plane.
 
 ![The same tetrahedron turning once over t from 0 to 20: a disc at each lattice point whose area is the share of Z₁ there, and a ring with a trail for the centroid.](one_square_tetrahedron_neon.gif)
 
-In the animation a disc's area is the share of Z₁ at its lattice point and the ring is the centroid.
+In the animation a disc's area is the share of Z₁ at its lattice point and the ring is the centroid. [The Letter Cube](https://claude.ai/artifact/HZuKEPuP1uTSbXC62rKDXL) runs the same walk interactively: any start string on 3 to 6 sites, bonds of the XYZ family, fields along X and Z and γ from 0 to 0.5, computed in the browser.
 
 ### How it was computed
 
-The cell images, the letter corners and the pair sums are integer arithmetic, and the scripts check §2's table and §7's pairings exactly before drawing. The walk is a dense propagation of the 256 × 256 generator in steps of 0.01; the script checks the two edges and R's flip exactly and prints the centroid's distance from the plane and the budget's deviation. The camera, the colours, the dot sizes, the choice of N, J, γ and the time spans are drawing choices.
+The cell images, the letter corners and the pair sums are integer arithmetic, and the scripts check §2's table and §7's pairings exactly before drawing. The walk is a dense propagation of the 256 × 256 generator in steps of 0.01; the script checks the two edges, R's flip and X₁Y₂'s start on the plane exactly, and prints the centroids' distances from the plane and the budget's deviation. The camera, the colours, the dot sizes, the choice of N, J, γ and the time spans are drawing choices.
 
 ```
 python simulations/one_square_cells_and_cube.py

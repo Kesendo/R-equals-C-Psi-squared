@@ -7,10 +7,11 @@ string coefficients, and its Hilbert-Schmidt norm. What is a drawing choice: the
 the colours, the dot sizes, N, J, γ and the time span.
 
 Checked exactly before anything is drawn: the two edges are the strings with k_Z = 0 and with
-k_Z = N, and R's letter flip carries one onto the other.
+k_Z = N, R's letter flip carries one onto the other, and X₁Y₂ starts on the plane k_X = k_Y.
 Printed, not gated: the largest |⟨k_X⟩ − ⟨k_Y⟩| along the walk of Z₁, the largest difference of its
-shares at (k_Z, k_X, k_Y) and (k_Z, k_Y, k_X), and the largest deviation of ln‖ρ(t)‖² from
-−4γ∫⟨k_Z⟩dt (trapezoid on the one grid dt).
+shares at (k_Z, k_X, k_Y) and (k_Z, k_Y, k_X), the largest deviation of ln‖ρ(t)‖² − ln‖ρ(0)‖²
+from −4γ∫⟨k_Z⟩dt (trapezoid on the one grid dt), and the largest |⟨k_X⟩ − ⟨k_Y⟩| along the walk of
+X₁Y₂.
 
   python simulations/one_square_tetrahedron.py                  # neon, PNG and GIF
   python simulations/one_square_tetrahedron.py --no-gif
@@ -187,7 +188,7 @@ def figure(name, pal, t, cen, w, lognorm, budget, off):
     ax.view_init(elev=14, azim=-62)
     fig.text(0.03, 0.94, f"The Pauli strings of N = {N} sites on the tetrahedron", color=pal["title"], fontsize=13)
     fig.text(0.03, 0.905, r"dot size: how many strings sit at the point;  $k_Z$ upward, the coordinate the rate $2\gamma k_Z$ reads", color=pal["text"], fontsize=10)
-    fig.text(0.03, 0.145, f"green line:  the centroid of X₁Y₂ up to t = {OFF_T:g}, which starts on the plane and leaves it sideways", color=pal["off"], fontsize=10)
+    fig.text(0.03, 0.145, f"green line:  the centroid of X₁Y₂ up to t = {OFF_T:g}, which starts on the plane and swings across it", color=pal["off"], fontsize=10)
     fig.text(0.03, 0.115, r"quiet edge  $k_Z = 0$:  the populations $\{I, Z\}^N$, rate 0", color=pal["quiet"], fontsize=10)
     fig.text(0.03, 0.085, r"far edge  $k_Z = N$:  the strings of X and Y, rate $2N\gamma$", color=pal["far"], fontsize=10)
     fig.text(0.03, 0.055, "dashed:  the axis of R's half-turn, which carries one edge onto the other", color=pal["turn"], fontsize=10)
