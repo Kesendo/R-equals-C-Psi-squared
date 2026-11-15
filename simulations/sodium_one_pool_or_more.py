@@ -18,11 +18,15 @@ pictures of more than one pool reproduce the published numbers when their signal
 fits. Part 6 compares the longitudinal TQ across the samples, Part 7 the size a pathway along z would need.
 Part 8 runs the two sequences pulse by pulse for one pool, against the hand count with Wigner coefficients,
 and reads the measured TQ amplitudes against one pool's. Part 9 reads the first paper's sampling of T1 off its
-Fig. 2A. Bound pools have J0 >= J1 >= J2 >= 0, as one spectral-density curve of any distribution of correlation
-times gives. Times in ms, rates in 1/ms inside the code. Runtime: about seven minutes; --global adds a
-differential-evolution check of Part 3.
+Fig. 2A and off the same figure in the first author's thesis, drawn there as a vector path (the points in
+data/reichert2024_sodium_agarose, read by simulations/read_reichert_thesis_figures.py), and checks the thesis's
+Fig. 4.11, the paper's Fig. 5 drawn as vector paths, against Table 2. Bound pools have J0 >= J1 >= J2 >= 0, as
+one spectral-density curve of any distribution of correlation times gives. Times in ms, rates in 1/ms inside the
+code. Runtime: about seven minutes; --global adds a differential-evolution check of Part 3.
 """
+import os
 import sys
+from collections import Counter
 import numpy as np
 from scipy.optimize import least_squares, differential_evolution
 
@@ -68,6 +72,36 @@ def gap(T1s, sT1s, T1f, sT1f, T2s, sT2s, correlated=False):
     return R, R2, R - R2, (dR**2 + dR2**2)**0.5
 
 
+THESIS_T47 = {   # (T1s, sT1s, T1f, sT1f, T1m, sT1m, TQ/SQ in %, its error) per sequence, the first author's thesis
+    # (Heidelberg 2024), Table 4.7, 9.4 T, read by hand
+    "standard": {2: (46.05, .26, 41.79, .10, 45.13, .21, 18.52, .32), 4: (41.38, .42, 33.62, .17, 39.55, .32, 19.13, .24),
+                 6: (36.33, .24, 28.50, .11, 34.44, .18, 23.36, .20)},   # the paper's data refitted with the TQ amplitude
+    # held at the thesis's Eq. 3.16
+    "fixed": {2: (46.68, .89, 42.75, 3.22, 45.84, .07, 19.90, 21.61), 4: (40.28, .67, 35.60, 2.34, 39.25, .06, 31.52, 21.17),
+              6: (36.04, .38, 29.73, 1.27, 34.57, .04, 29.29, 8.18)},   # a separate acquisition at 37 fixed evolution
+    # times, the SQ and TQ curves separated and fitted with the TQ amplitude free
+}
+
+
+def thesis_t47(seq, c, T2s, sT2s):
+    """The identity on one row of the thesis's Table 4.7. Its T1m is Eq. 17 of its two times (checked to the table's
+    last digit), so its error constrains the correlation rho of the two rate errors, which the split and the gap carry;
+    a value beyond -1 or 1, the rounding of the tabulated errors, is printed and then held at the limit."""
+    a, sa, f, sf, m, sm, tq, stq = THESIS_T47[seq][c]
+    assert abs(1 / (0.8 / a + 0.2 / f) - m) <= 0.005, "T1m is Eq. 17 of the table's times"
+    Rs, Rf, Rm = 1e3 / a, 1e3 / f, 1e3 / m
+    ss, sf_, sm_ = 1e3 * sa / a**2, 1e3 * sf / f**2, 1e3 * sm / m**2
+    rho_raw = (sm_**2 - 0.64 * ss**2 - 0.04 * sf_**2) / (0.32 * ss * sf_)
+    rho = float(np.clip(rho_raw, -1, 1))
+    R2, sR2 = 1e3 / T2s, 1e3 * sT2s / T2s**2
+    split, s_split = Rf - Rs, (ss**2 + sf_**2 - 2 * rho * ss * sf_)**0.5
+    gap_, s_gap = (Rs + Rf) / 2 - R2, ((ss**2 + sf_**2 + 2 * rho * ss * sf_) / 4 + sR2**2)**0.5
+    pa, spa, pf, spf = NBM_T1["PC2"][c]          # Table 2 (PC2), its errors taken as independent
+    split2, s_split2 = 1e3 / pf - 1e3 / pa, 1e3 * ((spa / pa**2)**2 + (spf / pf**2)**2)**0.5
+    return dict(T1s=a, T1f=f, rho=rho, rho_raw=rho_raw, split=split, s_split=s_split, T2s_pool=2e3 / (Rs + Rf), gap=gap_, s_gap=s_gap,
+                tq=tq, stq=stq, below=(split2 - split) / (s_split**2 + s_split2**2)**0.5)
+
+
 def part1():
     print("Part 1. The mean-rate identity, 1/T2s = (1/T1s + 1/T1f)/2, against the measured T2s (MRM)")
     for c in (2, 4, 6):
@@ -91,6 +125,13 @@ def part1():
               f"0.3 (R1f - R1s) = {part_b:5.2f} 1/s;")
         print(f"      T2s - T1m with their tabulated T1m {T1m} +- {sT1m}: {T2s - T1m:+5.2f} +- {(sT2s**2 + sT1m**2)**0.5:.2f} ms "
               f"= {z:+4.1f} sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)")
+        for seq, label in (("standard", "the paper's data refitted with the TQ amplitude held at the thesis's Eq. 3.16"),
+                           ("fixed", "the thesis's acquisition at fixed evolution times, the TQ amplitude free")):
+            r = thesis_t47(seq, c, T2s, sT2s)
+            print(f"      thesis Table 4.7, {label}: T1s {r['T1s']:.2f}, T1f {r['T1f']:.2f} ms, rho {r['rho_raw']:+.3f} from its "
+                  f"T1m error (used: {r['rho']:+.2f}); split {r['split']:4.2f} +- {r['s_split']:4.2f} 1/s; T2s for one pool {r['T2s_pool']:6.2f} ms, gap "
+                  f"{r['gap']:4.2f} +- {r['s_gap']:4.2f} 1/s = {r['gap'] / r['s_gap']:3.1f} sigma; the split {r['below']:3.1f} "
+                  f"sigma below Table 2's (PC2); TQ/SQ {r['tq']:.2f} +- {r['stq']:.2f} %")
 
 
 # ---------------- the signal model: a pool label beside one spin 3/2 ----------------
@@ -175,10 +216,9 @@ def free_J(T=T_FREE):
 
 
 # ---------------- the authors' fits ----------------
-T1_GRID = np.concatenate([0.1 * np.arange(1, 651), 65 + 0.8 * np.arange(1, 301)])   # NBM: dense to 65 ms (as their
-                                                                                    # text says), then 8x steps; their
-# Fig. 2A samples the coarse part about 1.8 ms apart to about 640 ms (Part 9), an open item of the page; the optional
-# time grids of fit_eq13, evaluate and two_bound are there for refitting on it
+T1_GRID = np.concatenate([0.2 * np.arange(1, 321), 64 + 1.8 * np.arange(1, 321)])   # the sampling of NBM Fig. 2A,
+# drawn as a vector path in the thesis's Fig. 3.6a (Part 9): 320 points 0.2 ms apart to 64 ms, then 320 points 1.8 ms
+# apart to 640 ms; the text's step and counts (100 us, 8 steps of it, 300 coarse points) give neither
 T2_GRIDS = {"linear": np.linspace(0.4, 200, 26), "geometric": np.geomspace(0.4, 200, 26)}   # MRM: 26 times, spacing unstated
 TOL = dict(ftol=1e-12, xtol=1e-12, gtol=1e-12)
 B_FLOOR = 0.01   # below 1 % of one pool's longitudinal TQ the imposed TQ weight fades with the model's own signal
@@ -442,7 +482,7 @@ def part5():
             chi2 = float(np.sum(pulls(ap, c)**2))
             Ja, Jb = bound_J(*best.x[1:4]), bound_J(*best.x[4:7])
             tag = "  (no longitudinal TQ: excluded by the measured TQ peak)" if B1 < B_FLOOR else ""
-            row.append(f"      B1 >= {floor:.2f}: chi2 {chi2:6.2f} at B1 {B1:.3f}; pool A {best.x[0]:.2f} (T1 parts "
+            row.append(f"      B1 >= {floor:.2f}: chi2 {chi2:7.3f} at B1 {B1:.3f}; pool A {best.x[0]:.2f} (T1 parts "
                        f"{1 / (6 * Ja[2]):.1f} / {1 / (6 * Ja[1]):.1f} ms), pool B {1 - best.x[0]:.2f} "
                        f"({1 / (6 * Jb[2]):.1f} / {1 / (6 * Jb[1]):.1f} ms){tag}")
             chi_at[(c, floor)] = chi2
@@ -646,6 +686,15 @@ def pool_J(T1s, T1f, T2f):
 
 SHIFT_T = np.sqrt(6) / 80     # the transverse twin: the slow weight of the TQTPPI single quantum, 0.4 + sqrt6/80 |d|
 MRM_TQTPPI_MAX = {2: 12.46, 4: 19.84, 6: 23.93}   # MRM Table 2: maximum TQ/SQ in %, TQTPPI with the refocusing pulse
+def fig5_first():
+    """NBM Fig. 5 (2 %, PC2) with no coarse points added, T1s and T1f in ms and the T1-TQ/SQ ratio in %, as the thesis's
+    Fig. 4.11 draws it (data/reichert2024_sodium_agarose, read in Part 9)."""
+    names, fit = read_csv("thesis_fig4_11_fit_vs_points_added_2pct_pc2.csv")
+    col = {k: fit[:, i] for i, k in enumerate(names)}
+    assert col["points_added"][0] == 0
+    return col["T1s_ms"][0], col["T1f_ms"][0], col["tq_sq_percent"][0]
+
+
 NBM_FIG5_FIRST = (47.5, 35.8, 8.6)   # NBM Fig. 5 (2 %, PC2), no coarse points added: T1s, T1f in ms, T1-TQ/SQ in %, read off
 
 
@@ -921,8 +970,9 @@ def part8(edges):
               f"{(4 / 3) / rhi:.3f} to {(4 / 3) / rlo:.3f} and reading (i)'s chi2 runs from {lo_chi:.2f} (p = "
               f"{chi2_dist.sf(lo_chi, 3):.3f}) to {hi_chi:.2f} (p = {chi2_dist.sf(hi_chi, 3):.3f})")
     T1s, _, T1f, _ = NBM_T1["PC2"][2]
-    a, b, r0 = NBM_FIG5_FIRST
-    print(f"      NBM Fig. 5 (2 %, PC2): with no coarse points the fit reads T1s {a}, T1f {b} ms and TQ/SQ {r0} %, with all of "
+    a, b, r0 = fig5_first()
+    print(f"      NBM Fig. 5 (2 %, PC2; the thesis's Fig. 4.11): with no coarse points the fit reads T1s {a}, T1f {b} ms and "
+          f"TQ/SQ {r0} %, with all of "
           f"them {T1s}, {T1f} and {NBM_TQ1['PC2'][2][0]} %; the coefficient times the peak of its own shape, the height of the "
           f"triple quantum against the single quantum, is {r0 * peak(a, b):.3f} and {NBM_TQ1['PC2'][2][0] * peak(T1s, T1f):.3f} %")
 
@@ -1037,41 +1087,110 @@ def part8(edges):
                         f"reading (i)'s {1e3 * split_i[(pc, c)]:.2f} (x {split / (1e3 * split_i[(pc, c)]):.3f})")
         print(f"    {pc}: " + "; ".join(rows))
     T1s, _, T1f, _ = NBM_T1["PC2"][2]
-    a, b, r0 = NBM_FIG5_FIRST
+    a, b, r0 = fig5_first()
     s0, s1 = r0 / 100 * 1e3 * (1 / b - 1 / a), NBM_TQ1["PC2"][2][0] / 100 * 1e3 * (1 / T1f - 1 / T1s)
     h0, h1 = r0 * peak(a, b), NBM_TQ1["PC2"][2][0] * peak(T1s, T1f)
-    print(f"      NBM Fig. 5 (2 %, PC2): the longitudinal slope, amplitude times split, goes from {s0:.3f} to {s1:.3f} 1/s "
+    print(f"      NBM Fig. 5 (2 %, PC2; the thesis's Fig. 4.11): the longitudinal slope, amplitude times split, goes from {s0:.3f} to {s1:.3f} 1/s "
           f"({100 * (s1 / s0 - 1):+.1f} %) as the late points are added, the height from {h0:.3f} to {h1:.3f} % "
           f"({100 * (h1 / h0 - 1):+.1f} %)")
 
 
-# ---------------- Part 9: the first paper's sampling of T1, read off its Fig. 2A ----------------
+# ---------------- Part 9: the first paper's sampling of T1, read off the thesis's Fig. 3.6a and the paper's Fig. 2A ----------------
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "reichert2024_sodium_agarose")
+NBM_TEXT_SAMPLING = (0.1, 40, 8, 300)   # NBM text: dense step 100 µs, 40 phase cycles of 8 steps, then 300 steps of 8 dense steps
 NBM_FIG2A_PEAKS = ((72.6, 0.604), (87.1, 0.711), (101.5, 0.784), (116.0, 0.846), (130.4, 0.885))   # NBM Fig. 2A (2 %,
-# PC0): the first five coarse peaks of the inversion recovery in the evolution time, time on the drawn axis in ms and
-# height, read off the trace's colour at the figure's resolution, calibrated on its gridlines
-NBM_FIG2A_DENSE_END, NBM_FIG2A_LAST = 65.0, 635.8   # where the dense band ends and the last coarse peak, ms, read off
+# PC0), a raster image: the first five coarse peaks, read off the trace's colour at the figure's resolution, calibrated on
+# its gridlines
+NBM_FIG2A_DENSE_END = (63.6, 64.5)   # the last column of the dense band that is filled and the first one that is not, ms
+NBM_FIG2A_FIRST, NBM_FIG2A_LAST, NBM_FIG2A_PERIODS = 72.6, 635.8, 39   # the first and the last coarse peak, ms, and the
+# periods between them, each peak read on its own
+THESIS_FIG411_CAL = {"ms": 1.30e-4, "percent": 2.23e-5}   # the largest residuals of Fig. 4.11's two value axes on their tick
+# marks (data/reichert2024_sodium_agarose/reader_output.txt)
+
+
+def read_csv(name):
+    with open(os.path.join(DATA, name), encoding="utf-8") as f:
+        rows = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+    return rows[0].split(","), np.array([[float(v) for v in r.split(",")] for r in rows[1:]])
 
 
 def part9():
-    print("\nPart 9. The first paper's sampling of T1, read off its Fig. 2A (2 %, PC0)")
-    t = np.array([p[0] for p in NBM_FIG2A_PEAKS])
-    h = np.array([p[1] for p in NBM_FIG2A_PEAKS])
-    spacing = np.mean(np.diff(t))
-    step = spacing / 8                       # a TPPI period is eight phase steps
+    print("\nPart 9. The first paper's sampling of T1, read off the thesis's Fig. 3.6a and the paper's Fig. 2A (2 %, PC0)")
+    _, fid = read_csv("thesis_fig3_6a_irtqtppi_fid_2pct_pc0.csv")
+    t, y = fid[:, 0], fid[:, 1]
+    big = np.diff(t) > 1.0                       # steps of more than a millisecond
+    jump = np.flatnonzero(np.diff(big.astype(int)))
+    assert len(jump) == 1 and not big[0] and big[-1], "one change of step, from short to long"
+    bands = (np.arange(jump[0] + 2), np.arange(jump[0] + 2, len(t)))   # the first long step follows index jump + 1
+    assert len(T1_GRID) == len(t), "T1_GRID has the path's number of points"
+    print(f"  the thesis's Fig. 3.6a, the same FID drawn as a vector path (data/reichert2024_sodium_agarose): {len(t)} "
+          f"vertices, the step changing once")
+    dense, coarse = T1_GRID[:len(bands[0])], T1_GRID[len(bands[0]):]
+    for name, k, grid in zip(("dense", "coarse"), bands, (dense, coarse)):
+        slope, icept = np.polyfit(k, t[k], 1)
+        line_res = t[k] - (slope * k + icept)
+        scatter = np.abs(line_res).max()        # the band's vertices around their own evenly stepped line
+        n = len(k)
+        offset = np.mean(t[k] - grid)
+        # each end is off the band's line by at most the scatter, so the mean step from the two ends is known to
+        # 2 scatter / (n - 1), and the band's mean place against the grid to the scatter
+        assert len(grid) == n and abs((t[k][-1] - t[k][0]) - (grid[-1] - grid[0])) / (n - 1) <= 2 * scatter / (n - 1), \
+            f"T1_GRID's {name} step is the path's"
+        assert abs(offset) <= scatter, f"T1_GRID's {name} band sits where the path's does"
+        mx = [i for i in k[1:-1] if y[i] > y[i - 1] and y[i] >= y[i + 1] and y[i] > 0.1]
+        print(f"      {name}: {n} samples from {t[k][0]:.4f} to {t[k][-1]:.4f} ms, mean step "
+              f"{(t[k][-1] - t[k][0]) / (n - 1):.6f} ms against T1_GRID's {(grid[-1] - grid[0]) / (n - 1):g}; around one "
+              f"evenly stepped line within {scatter:.4f} ms (rms {np.sqrt(np.mean(line_res ** 2)):.4f}), off T1_GRID by "
+              f"{offset:+.4f} ms on average; maxima above 0.1 spaced "
+              f"{dict(sorted(Counter(int(v) for v in np.diff(mx)).items()))} samples (spacing: count)")
+    dev = np.abs(t - T1_GRID)
+    print(f"      T1_GRID, the grid every refit on this page uses: {len(dense)} points {dense[1] - dense[0]:g} ms apart to "
+          f"{dense[-1]:g} ms and {len(coarse)} points {coarse[1] - coarse[0]:g} ms apart to {coarse[-1]:g} ms; every vertex "
+          f"lies within {dev.max():.4f} ms of its point, each band's mean step and mean place within what that band's "
+          f"scatter allows")
+    co = bands[1]
+    maxima = [i for i in co[1:-1] if y[i] > y[i - 1] and y[i] >= y[i + 1]]
+    tq, hq = t[maxima], y[maxima]
+    tr = np.array([p[0] for p in NBM_FIG2A_PEAKS])
+    hr = np.array([p[1] for p in NBM_FIG2A_PEAKS])
+    step = (NBM_FIG2A_LAST - NBM_FIG2A_FIRST) / (8 * NBM_FIG2A_PERIODS)   # a TPPI period is eight phase steps
+    print(f"  the paper's Fig. 2A, read off its raster as a second route: the dense band ends between {NBM_FIG2A_DENSE_END[0]} "
+          f"and {NBM_FIG2A_DENSE_END[1]} ms; its coarse peaks, {NBM_FIG2A_PERIODS} periods of eight phase steps from "
+          f"{NBM_FIG2A_FIRST} to {NBM_FIG2A_LAST} ms on the raster's own gridline calibration, give {step:.3f} ms per coarse "
+          f"point; against the path's {len(tq)} coarse maxima the first five lie {np.min(tq[:5] - tr):.2f} to "
+          f"{np.max(tq[:5] - tr):.2f} ms early and within {np.max(np.abs(hq[:5] - hr)):.4f} of their heights, the last "
+          f"{NBM_FIG2A_LAST - tq[-1]:.2f} ms late: the raster's calibration stretched by "
+          f"{100 * (step / (coarse[1] - coarse[0]) - 1):+.2f} % against the path")
+    h, n_cyc, n_step, n_coarse = NBM_TEXT_SAMPLING
+    print(f"  the text's step of {h * 1e3:g} µs, {n_cyc} cycles of {n_step} steps and {n_coarse} coarse points of {n_step} "
+          f"steps would end the two bands at {h * n_cyc * n_step:g} and {h * n_cyc * n_step + n_coarse * n_step * h:g} ms")
     T1s, _, T1f, _ = NBM_T1["PC0"][2]
 
     def recovery(tt):
         return 1 - 1.6 * np.exp(-tt / T1s) - 0.4 * np.exp(-tt / T1f)
-    t_08 = NBM_FIG2A_DENSE_END + (t - NBM_FIG2A_DENSE_END) * 0.8 / step
-    print(f"  the dense band ends near {NBM_FIG2A_DENSE_END:g} ms; the coarse peaks are {spacing:.2f} ms apart, eight phase "
-          f"steps, so {step:.2f} ms per coarse point, and the last one sits at {NBM_FIG2A_LAST} ms "
-          f"({(NBM_FIG2A_LAST - NBM_FIG2A_DENSE_END) / step:.0f} coarse points after the dense band)")
-    print("  peak heights against one pool with the published times (PC0, inversion complete) on the drawn axis, and "
-          "if the coarse step were 0.8 ms (the text's 8 x 100 us): " + "; ".join(
-              f"{tt} ms: {hh:.3f} against {recovery(tt):.3f} and {recovery(t8):.3f}" for tt, hh, t8 in zip(t, h, t_08)))
-    print(f"      largest deviation {np.max(np.abs(h - recovery(t))):.3f} on the drawn axis, "
-          f"{np.max(np.abs(h - recovery(t_08))):.3f} with 0.8 ms steps; T1_GRID samples 0.8 ms steps to "
-          f"{T1_GRID[-1]:g} ms")
+    t_text = dense[-1] + (tq[:5] - dense[-1]) * n_step * h / (coarse[1] - coarse[0])
+    print("  the path's first five coarse maxima against one pool with the published times (PC0, inversion complete) on "
+          f"the drawn axis, and if the coarse step were the text's {n_step * h:g} ms: " + "; ".join(
+              f"{tt:.2f} ms: {hh:.3f} against {recovery(tt):.3f} and {recovery(t8):.3f}"
+              for tt, hh, t8 in zip(tq[:5], hq[:5], t_text)))
+    print(f"      largest deviation {np.max(np.abs(hq[:5] - recovery(tq[:5]))):.3f} on the drawn axis, "
+          f"{np.max(np.abs(hq[:5] - recovery(t_text))):.3f} with the text's step")
+    names, fit = read_csv("thesis_fig4_11_fit_vs_points_added_2pct_pc2.csv")
+    col = {k: fit[:, i] for i, k in enumerate(names)}
+    T1s2, _, T1f2, _ = NBM_T1["PC2"][2]
+    table2 = {"T1s_ms": T1s2, "T1f_ms": T1f2, "T1m_ms": NBM_T1M_PC2[2][0], "tq_sq_percent": 100 * NBM_TQ1_PC2[2]}
+    for key, value in table2.items():           # Table 2 gives two decimals: half a unit of the last, plus the axis
+        cal = THESIS_FIG411_CAL["percent" if key == "tq_sq_percent" else "ms"]
+        assert abs(col[key][-1] - value) <= 0.005 + cal, f"Fig. 4.11's last {key} is Table 2's"
+    print(f"  the thesis's Fig. 4.11, the paper's Fig. 5 drawn as vector paths (2 %, PC2): points added "
+          f"{', '.join(f'{v:g}' for v in col['points_added'])}; at the last two, "
+          + " and ".join(f"T1s {col['T1s_ms'][i]:.3f}, T1f {col['T1f_ms'][i]:.3f}, T1m {col['T1m_ms'][i]:.3f} ms, ratio "
+                         f"{col['tq_sq_percent'][i]:.3f} %" for i in (-2, -1))
+          + f"; Table 2: {table2['T1s_ms']:.2f}, {table2['T1f_ms']:.2f}, {table2['T1m_ms']:.2f} ms, "
+          f"{table2['tq_sq_percent']:.2f} %, met by the last point within the table's rounding; with no points added "
+          f"{col['T1s_ms'][0]:.3f}, {col['T1f_ms'][0]:.3f} ms, {col['tq_sq_percent'][0]:.3f} % (read off the paper's raster: "
+          f"{NBM_FIG5_FIRST[0]}, {NBM_FIG5_FIRST[1]} ms, {NBM_FIG5_FIRST[2]} %)")
+
 
 if __name__ == "__main__":
     do_global = "--global" in sys.argv

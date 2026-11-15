@@ -1,0 +1,16 @@
+# Data: Simon Reichert's measurement (with V. Schepkin, D. Kleimaier, F. G. Zöllner and L. R. Schad), from his dissertation, Heidelberg University 2024, doi:10.11588/heidok.00034464; please cite it when using these values
+# Its Fig. 4.11 (the first paper's Fig. 5, Reichert et al., NMR in Biomedicine 37 (2024) e5106): IRTQTPPI fit, 2 % agarose, PC2, 9.4 T, against the coarse points added; read off the vector paths, each curve named by the legend's colour, by simulations/read_reichert_thesis_figures.py
+points_added,T1s_ms,T1m_ms,T1f_ms,tq_sq_percent
+0.00,47.531,44.802,35.790,8.621
+30.00,48.891,44.302,31.846,5.774
+55.00,48.970,44.259,31.614,5.663
+80.00,49.043,44.216,31.399,5.561
+100.00,49.099,44.183,31.235,5.485
+130.00,49.168,44.140,31.032,5.392
+155.00,49.195,44.122,30.950,5.355
+180.00,49.209,44.113,30.909,5.337
+205.00,49.215,44.109,30.891,5.328
+230.00,49.220,44.106,30.876,5.322
+255.00,49.221,44.105,30.874,5.321
+280.00,49.222,44.104,30.870,5.319
+320.00,49.222,44.104,30.870,5.319

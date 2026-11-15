@@ -3,21 +3,27 @@ Part 1. The mean-rate identity, 1/T2s = (1/T1s + 1/T1f)/2, against the measured 
       over the four phase cycles 4.15 to 4.62 1/s; with NBM's own T2s read off Fig. 6A (44.1 ms) 3.68 1/s
       split of the gap: (1/T1m - 1/T2s) = +0.52 1/s with T1m from Eq. 17 (43.99 ms), 0.3 (R1f - R1s) =  3.62 1/s;
       T2s - T1m with their tabulated T1m 44.1 +- 0.48: +0.93 +- 1.54 ms = +0.6 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+      thesis Table 4.7, the paper's data refitted with the TQ amplitude held at the thesis's Eq. 3.16: T1s 46.05, T1f 41.79 ms, rho +0.391 from its T1m error (used: +0.39); split 2.21 +- 0.11 1/s; T2s for one pool  43.82 ms, gap 0.61 +- 0.72 1/s = 0.8 sigma; the split 24.5 sigma below Table 2's (PC2); TQ/SQ 18.52 +- 0.32 %
+      thesis Table 4.7, the thesis's acquisition at fixed evolution times, the TQ amplitude free: T1s 46.68, T1f 42.75 ms, rho -0.998 from its T1m error (used: -1.00); split 1.97 +- 2.17 1/s; T2s for one pool  44.63 ms, gap 0.20 +- 0.99 1/s = 0.2 sigma; the split 4.6 sigma below Table 2's (PC2); TQ/SQ 19.90 +- 21.61 %
   4% agarose: T2s for one pool  32.39 ms, measured 39.17 +- 0.73 ms; rates 30.88 vs 25.53 1/s, gap 5.35 +- 0.59 1/s = 9.1 sigma (7.8 sigma with the T1s, T1f errors fully correlated)
       over the four phase cycles 4.93 to 5.37 1/s; with NBM's own T2s read off Fig. 6A (38.1 ms) 4.63 1/s
       split of the gap: (1/T1m - 1/T2s) = +0.48 1/s with T1m from Eq. 17 (38.44 ms), 0.3 (R1f - R1s) =  4.87 1/s;
       T2s - T1m with their tabulated T1m 38.65 +- 0.75: +0.52 +- 1.05 ms = +0.5 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+      thesis Table 4.7, the paper's data refitted with the TQ amplitude held at the thesis's Eq. 3.16: T1s 41.38, T1f 33.62 ms, rho +0.207 from its T1m error (used: +0.21); split 5.58 +- 0.26 1/s; T2s for one pool  37.10 ms, gap 1.43 +- 0.50 1/s = 2.8 sigma; the split 14.4 sigma below Table 2's (PC2); TQ/SQ 19.13 +- 0.24 %
+      thesis Table 4.7, the thesis's acquisition at fixed evolution times, the TQ amplitude free: T1s 40.28, T1f 35.60 ms, rho -1.000 from its T1m error (used: -1.00); split 3.26 +- 2.26 1/s; T2s for one pool  37.80 ms, gap 0.93 +- 0.86 1/s = 1.1 sigma; the split 5.5 sigma below Table 2's (PC2); TQ/SQ 31.52 +- 21.17 %
   6% agarose: T2s for one pool  28.56 ms, measured 33.05 +- 0.47 ms; rates 35.02 vs 30.26 1/s, gap 4.76 +- 0.59 1/s = 8.1 sigma (6.7 sigma with the T1s, T1f errors fully correlated)
       over the four phase cycles 3.96 to 4.76 1/s; with NBM's own T2s read off Fig. 6A (32.2 ms) 3.96 1/s
       split of the gap: (1/T1m - 1/T2s) = -0.43 1/s with T1m from Eq. 17 (33.52 ms), 0.3 (R1f - R1s) =  5.19 1/s;
       T2s - T1m with their tabulated T1m 33.91 +- 0.58: -0.86 +- 0.75 ms = -1.2 sigma (one pool with J1 >= J2 has T1m/2.5 <= T2s <= T1m)
+      thesis Table 4.7, the paper's data refitted with the TQ amplitude held at the thesis's Eq. 3.16: T1s 36.33, T1f 28.50 ms, rho +0.144 from its T1m error (used: +0.14); split 7.56 +- 0.21 1/s; T2s for one pool  31.94 ms, gap 1.05 +- 0.45 1/s = 2.3 sigma; the split 11.6 sigma below Table 2's (PC2); TQ/SQ 23.36 +- 0.20 %
+      thesis Table 4.7, the thesis's acquisition at fixed evolution times, the TQ amplitude free: T1s 36.04, T1f 29.73 ms, rho -1.013 from its T1m error (used: -1.00); split 5.89 +- 1.73 1/s; T2s for one pool  32.58 ms, gap 0.43 +- 0.72 1/s = 0.6 sigma; the split 6.0 sigma below Table 2's (PC2); TQ/SQ 29.29 +- 8.18 %
 
 Part 2. Checks of the signal model
   (a) one pool with a Hamiltonian against simulations/sodium_two_mirrors.generator, action on a random rho: 1.8e-15 = 0.03 x eps x (max|L| max|rho| d^2)
   (a2) voxel(), pool 0, against the gated generator: 2.0e-15 = 0.04 x eps x (max|L| max|rho| d^2)
   (b) generator against Hubbard's envelopes, no exchange: 8.9e-16 = 4.00 x eps x cond(eigenvectors) (1.00); bound 8 (modes summed)
   (c) exchange: central-transition cells decoupled from the rest exactly (0.0); eigenvalues [-0.15692837 -0.02522521] against the two-site matrix [-0.15692837 -0.02522521], difference 0.0e+00; bound 4 x eps x max|M|
-  (d) one pool through Eq. 13 and Eq. 11 returns its own times and the 0.4 amplitude, worst relative deviation 1.2e-14; bound 1e-10
+  (d) one pool through Eq. 13 and Eq. 11 returns its own times and the 0.4 amplitude, worst relative deviation 1.5e-14; bound 1e-10
   (e) Eq. 13 started from the swapped times returns 40.000000 / 30.000000 ms for 40.000000 / 30.000000; bound 1e-10
 
 Part 3. Free + bound, no exchange (free sodium T1 = T2 = 54.19 ms; 5 numbers, 4 parameters, 1 degree of freedom; multi-start local search)
@@ -28,53 +34,53 @@ Part 3. Free + bound, no exchange (free sodium T1 = T2 = 54.19 ms; 5 numbers, 4 
       linear evolution times, TQ weight x2.0: chi2 =  15.7
       free sodium at T1 = T2 = 58.0 ms: chi2 =  12.9
       free sodium at T1 = T2 = 65.0 ms: chi2 =   7.4
-      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  15.7 at 54.53 ms
-  4% agarose: one pool alone chi2 =  69.6; free + bound: free fraction 0.065, bound pool T1s 43.73, T1f 25.94, T2f 5.04, T2s (identity) 32.56 ms; chi2 =  39.5
-      pulls: T1s +0.92  T1f +1.23  T2s -4.82  T2f +0.09  slow +3.72
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  15.7 at 54.50 ms
+  4% agarose: one pool alone chi2 =  69.6; free + bound: free fraction 0.065, bound pool T1s 43.74, T1f 25.93, T2f 5.04, T2s (identity) 32.56 ms; chi2 =  39.5
+      pulls: T1s +0.93  T1f +1.23  T2s -4.82  T2f +0.09  slow +3.72
       geometric evolution times, TQ weight x1.0: chi2 =  46.0
       linear evolution times, TQ weight x0.5: chi2 =  39.6
       linear evolution times, TQ weight x2.0: chi2 =  39.2
-      free sodium at T1 = T2 = 58.0 ms: chi2 =  30.0
-      free sodium at T1 = T2 = 65.0 ms: chi2 =  16.5
-      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  38.0 at 55.34 ms
-  6% agarose: one pool alone chi2 =  62.3; free + bound: free fraction 0.062, bound pool T1s 36.53, T1f 23.92, T2f 3.41, T2s (identity) 28.91 ms; chi2 =  11.7
-      pulls: T1s +0.30  T1f +0.54  T2s -1.70  T2f +0.06  slow +2.90
-      geometric evolution times, TQ weight x1.0: chi2 =  20.2
-      linear evolution times, TQ weight x0.5: chi2 =  11.7
+      free sodium at T1 = T2 = 58.0 ms: chi2 =  30.1
+      free sodium at T1 = T2 = 65.0 ms: chi2 =  16.6
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  38.1 at 55.31 ms
+  6% agarose: one pool alone chi2 =  62.3; free + bound: free fraction 0.062, bound pool T1s 36.54, T1f 23.90, T2f 3.41, T2s (identity) 28.90 ms; chi2 =  11.7
+      pulls: T1s +0.31  T1f +0.54  T2s -1.71  T2f +0.06  slow +2.90
+      geometric evolution times, TQ weight x1.0: chi2 =  20.3
+      linear evolution times, TQ weight x0.5: chi2 =  11.8
       linear evolution times, TQ weight x2.0: chi2 =  11.6
       free sodium at T1 = T2 = 58.0 ms: chi2 =   6.9
       free sodium at T1 = T2 = 65.0 ms: chi2 =   2.4
-      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  11.2 at 54.82 ms
+      free time fitted with the prior 54.19 +- 0.95 ms (6 numbers, 5 parameters): chi2 =  11.2 at 54.83 ms
 
 Part 4. Free + bound with exchange: chi2 profile over the exchange rate k (the other four parameters refitted at each k; a search, not a proof of the minimum; fast exchange makes one averaged pool, so the profile approaches the one-pool chi2 of Part 3)
   2% agarose, k in 1/s: chi2 (free fraction)  1:  17.0 (0.04)   3:  19.0 (0.03)   10:  22.6 (0.02)   30:  25.1 (0.01)   100:  25.9 (0.01)   300:  26.1 (0.07)   1000:  26.2 (0.44)
-  4% agarose, k in 1/s: chi2 (free fraction)  1:  43.7 (0.06)   3:  51.4 (0.05)   10:  66.4 (0.02)   30:  69.6 (0.00)   100:  69.6 (0.00)   300:  69.6 (0.00)   1000:  69.9 (0.06)
+  4% agarose, k in 1/s: chi2 (free fraction)  1:  43.7 (0.06)   3:  51.4 (0.05)   10:  66.4 (0.02)   30:  69.6 (0.00)   100:  69.6 (0.00)   300:  69.6 (0.00)   1000:  69.6 (0.00)
   6% agarose, k in 1/s: chi2 (free fraction)  1:  14.4 (0.06)   3:  20.5 (0.06)   10:  44.0 (0.05)   30:  62.3 (0.00)   100:  62.3 (0.00)   300:  62.3 (0.00)   1000:  62.3 (0.00)
 
 Part 5. Two bound pools, no exchange (7 parameters for 5 numbers, not determined), searched with the longitudinal TQ fraction B1 held at or above a floor (B1 = 1 is one pool's; a search, not the solution set)
   2% agarose:
-      B1 >= 0.00: chi2   0.32 at B1 0.001; pool A 0.89 (T1 parts 48.0 / 48.0 ms), pool B 0.11 (25.8 / 25.8 ms)  (no longitudinal TQ: excluded by the measured TQ peak)
-      B1 >= 0.25: chi2   2.12 at B1 0.248; pool A 0.91 (T1 parts 48.5 / 44.7 ms), pool B 0.09 (28.0 / 16.1 ms)
-      (this solution's transverse TQ against one pool with its fitted T2 times: 0.988)
-      B1 >= 0.50: chi2   6.44 at B1 0.495; pool A 0.91 (T1 parts 49.5 / 40.3 ms), pool B 0.09 (29.4 / 15.2 ms)
-      B1 >= 0.75: chi2  13.99 at B1 0.742; pool A 0.92 (T1 parts 50.2 / 35.9 ms), pool B 0.08 (32.6 / 17.7 ms)
+      B1 >= 0.00: chi2   0.313 at B1 0.002; pool A 0.90 (T1 parts 47.8 / 47.8 ms), pool B 0.10 (24.9 / 24.9 ms)  (no longitudinal TQ: excluded by the measured TQ peak)
+      B1 >= 0.25: chi2   2.151 at B1 0.248; pool A 0.91 (T1 parts 48.7 / 44.1 ms), pool B 0.09 (26.3 / 19.0 ms)
+      (this solution's transverse TQ against one pool with its fitted T2 times: 0.992)
+      B1 >= 0.50: chi2   6.468 at B1 0.496; pool A 0.91 (T1 parts 49.6 / 40.1 ms), pool B 0.09 (28.8 / 17.2 ms)
+      B1 >= 0.75: chi2  14.015 at B1 0.742; pool A 0.91 (T1 parts 50.4 / 36.0 ms), pool B 0.09 (33.3 / 19.1 ms)
   4% agarose:
-      B1 >= 0.00: chi2   0.00 at B1 0.065; pool A 0.80 (T1 parts 43.8 / 43.8 ms), pool B 0.20 (27.3 / 22.7 ms)
-      B1 >= 0.25: chi2   0.01 at B1 0.250; pool A 0.83 (T1 parts 43.7 / 40.7 ms), pool B 0.17 (27.8 / 16.5 ms)
-      (this solution's transverse TQ against one pool with its fitted T2 times: 0.990)
-      B1 >= 0.50: chi2   4.13 at B1 0.493; pool A 0.86 (T1 parts 45.4 / 36.5 ms), pool B 0.14 (28.7 / 13.9 ms)
-      B1 >= 0.75: chi2  24.68 at B1 0.730; pool A 0.92 (T1 parts 46.6 / 31.2 ms), pool B 0.08 (26.7 / 13.5 ms)
+      B1 >= 0.00: chi2   0.000 at B1 0.159; pool A 0.86 (T1 parts 43.8 / 39.7 ms), pool B 0.14 (22.7 / 22.7 ms)
+      B1 >= 0.25: chi2   0.059 at B1 0.250; pool A 0.86 (T1 parts 44.0 / 39.6 ms), pool B 0.14 (25.2 / 18.1 ms)
+      (this solution's transverse TQ against one pool with its fitted T2 times: 0.992)
+      B1 >= 0.50: chi2   3.000 at B1 0.495; pool A 0.84 (T1 parts 44.9 / 37.2 ms), pool B 0.16 (31.2 / 12.4 ms)
+      B1 >= 0.75: chi2  24.754 at B1 0.730; pool A 0.92 (T1 parts 46.7 / 31.3 ms), pool B 0.08 (27.4 / 13.8 ms)
   6% agarose:
-      B1 >= 0.00: chi2   0.00 at B1 0.390; pool A 0.79 (T1 parts 39.0 / 33.0 ms), pool B 0.21 (25.4 / 18.5 ms)
-      B1 >= 0.25: chi2   0.00 at B1 0.388; pool A 0.87 (T1 parts 38.3 / 31.6 ms), pool B 0.13 (21.6 / 17.5 ms)
+      B1 >= 0.00: chi2   0.000 at B1 0.380; pool A 0.77 (T1 parts 39.3 / 33.2 ms), pool B 0.23 (25.5 / 19.6 ms)
+      B1 >= 0.25: chi2   0.000 at B1 0.402; pool A 0.77 (T1 parts 38.6 / 33.8 ms), pool B 0.23 (27.3 / 17.0 ms)
       (this solution's transverse TQ against one pool with its fitted T2 times: 0.997)
-      B1 >= 0.50: chi2   0.51 at B1 0.498; pool A 0.83 (T1 parts 38.9 / 31.9 ms), pool B 0.17 (26.5 / 14.6 ms)
-      B1 >= 0.75: chi2  11.02 at B1 0.732; pool A 0.87 (T1 parts 40.1 / 28.7 ms), pool B 0.13 (30.1 / 11.2 ms)
+      B1 >= 0.50: chi2   0.523 at B1 0.497; pool A 0.84 (T1 parts 38.9 / 31.7 ms), pool B 0.16 (26.1 / 14.6 ms)
+      B1 >= 0.75: chi2  10.411 at B1 0.732; pool A 0.87 (T1 parts 39.9 / 28.8 ms), pool B 0.13 (31.4 / 10.4 ms)
 
 Part 6. The longitudinal TQ across the samples. For one pool the ratio of the longitudinal to the transverse TQ amplitude (each over its single-quantum amplitude) is the same in every sample: the times enter only the fitted shapes, and the pulses after the evolution and the acquisition are shared. Measured (NBM Table 2 and Fig. 6C, read off):
   PC1: ratio 0.134, 0.222, 0.339; relative to 6 %: 0.39 : 0.65 : 1; 6 % over 2 %: 2.54 +- 0.65 (one pool: 1)
   PC2: ratio 0.230, 0.321, 0.470; relative to 6 %: 0.49 : 0.68 : 1; 6 % over 2 %: 2.04 +- 0.27 (one pool: 1)
-  two bound pools (Part 5): longitudinal TQ fraction where chi2 reaches 2, interpolated between the floors: 0.23, 0.37, 0.54; relative to 6 %: 0.43 : 0.69 : 1 (soft: a local search with a soft floor)
+  two bound pools (Part 5): longitudinal TQ fraction where chi2 reaches 2, interpolated between the floors: 0.23, 0.41, 0.54; relative to 6 %: 0.43 : 0.77 : 1 (soft: a local search with a soft floor)
 
 Part 7. A signal stored along z by imperfect pulses, added to one pool's transverse signal (one pool from the fitted T1s, T1f with the identity, T2f as measured) and fitted with Eq. 11 on the 26 evolution times:
   2% agarose (one pool 37.94 ms, measured 45.03 +- 1.46 ms): at T1s: admixture 0.64 of the transverse signal, slow fraction then 0.63; at T1m: admixture 1.72 of the transverse signal, slow fraction then 0.73
@@ -92,33 +98,33 @@ Part 8. The two sequences pulse by pulse for one pool (hard pulses, relaxation b
   (b) the two routes over three pools, four evolution times each, the weights of both sequences, and three choices of the transverse phases (2 refocus - first = 90, 30, -60 degrees): largest relative deviation 8.4e-14, at most 4 x eps x (the dynamic range of the scans it is read from + the largest rate times the evolution time)
       PC2 against cos(135 p) x PC0, order by order, at every flip angle 0.9, 1.0 and 1.1 times: largest deviation 8.0e-16 of the largest order; at 0.9 the single and the triple quantum keep 0.707107 and 0.707107, the double quantum 7.8e-17 of the largest order (PC0: 0.0230); PC1 against PC0 with ideal pulses: 1.3e-16
   (c) full dynamics (recovery included), the first transverse pulse alternated with the receiver, every flip angle scaled 0.90, 0.95, 1.05, 1.10 times, three choices of the transverse phases (2 refocus - first = 90, 30, -60):
-    2%: ratio 1.30 to 1.35 at 5 %, 1.26 to 1.42 at 10 %; PC1/PC0 1.075, 1.016, 1.011, 1.036; the transverse SQ fitted with Eq. 11 on the 26 times: T2s longer by -0.15 to +0.64 ms at 5 %, -0.42 to +1.65 ms at 10 % (0.23 of the gap at most), slow fraction 0.413 to 0.442 at 5 % (-0.0 to +4.1 sigma) and 0.389 to 0.456 at 10 %; without the alternation, ideal pulses, the recovering magnetization at 60 ms is 0.58 of the transverse TQ and 0.24 of the SQ at the start, 2.7 times the transverse SQ there
-    4%: ratio 1.28 to 1.35 at 5 %, 1.21 to 1.42 at 10 %; PC1/PC0 1.067, 1.014, 1.010, 1.032; the transverse SQ fitted with Eq. 11 on the 26 times: T2s longer by +0.03 to +0.88 ms at 5 %, +0.24 to +2.30 ms at 10 % (0.34 of the gap at most), slow fraction 0.414 to 0.443 at 5 % (+1.5 to +5.7 sigma) and 0.380 to 0.450 at 10 %; without the alternation, ideal pulses, the recovering magnetization at 60 ms is 0.98 of the transverse TQ and 0.28 of the SQ at the start, 4.2 times the transverse SQ there
+    2%: ratio 1.30 to 1.35 at 5 %, 1.26 to 1.42 at 10 %; PC1/PC0 1.076, 1.016, 1.012, 1.036; the transverse SQ fitted with Eq. 11 on the 26 times: T2s longer by -0.15 to +0.64 ms at 5 %, -0.42 to +1.65 ms at 10 % (0.23 of the gap at most), slow fraction 0.413 to 0.442 at 5 % (-0.0 to +4.1 sigma) and 0.389 to 0.456 at 10 %; without the alternation, ideal pulses, the recovering magnetization at 60 ms is 0.58 of the transverse TQ and 0.24 of the SQ at the start, 2.7 times the transverse SQ there
+    4%: ratio 1.28 to 1.35 at 5 %, 1.21 to 1.42 at 10 %; PC1/PC0 1.068, 1.014, 1.010, 1.032; the transverse SQ fitted with Eq. 11 on the 26 times: T2s longer by +0.03 to +0.88 ms at 5 %, +0.24 to +2.30 ms at 10 % (0.34 of the gap at most), slow fraction 0.414 to 0.443 at 5 % (+1.5 to +5.7 sigma) and 0.380 to 0.450 at 10 %; without the alternation, ideal pulses, the recovering magnetization at 60 ms is 0.98 of the transverse TQ and 0.28 of the SQ at the start, 4.2 times the transverse SQ there
     6%: ratio 1.26 to 1.35 at 5 %, 1.18 to 1.42 at 10 %; PC1/PC0 1.071, 1.015, 1.011, 1.034; the transverse SQ fitted with Eq. 11 on the 26 times: T2s longer by +0.09 to +0.83 ms at 5 %, +0.45 to +2.15 ms at 10 % (0.48 of the gap at most), slow fraction 0.415 to 0.444 at 5 % (+1.3 to +5.6 sigma) and 0.377 to 0.448 at 10 %; without the alternation, ideal pulses, the recovering magnetization at 60 ms is 1.28 of the transverse TQ and 0.33 of the SQ at the start, 6.4 times the transverse SQ there
       over the pools and phases: ratio 1.26 to 1.35 at 5 %, 1.18 to 1.42 at 10 %
   (d) |d| read at the line, by the times the acquisition decays with: 2%: T2 0.752, T2* formula 0.567, shared, slow 0.458, shared, fast 0.324; 4%: T2 0.890, T2* formula 0.720, shared, slow 0.724, shared, fast 0.735; 6%: T2 0.942, T2* formula 0.799, shared, slow 0.782, shared, fast 0.709
-  (e) TQ1, the longitudinal TQ against one pool's with the fitted times, = (3/4) x measured ratio (errors from the T1-TQ/SQ alone; Fig. 6C carries none); two bound pools allow up to 0.23, 0.37, 0.54 (Part 6, a search from below); held at TQ1 itself and fitted, as in Part 5, to the five numbers of PC2:
-    2%: PC1 TQ1 0.1003: chi2 0.30 at TQ1 0.099; from the size alone 0.067 to 0.156 over the range of d; PC2 TQ1 0.1727: chi2 0.72 at TQ1 0.171; from the size alone 0.115 to 0.269 over the range of d
-    4%: PC1 TQ1 0.1667: chi2 0.00 at TQ1 0.167; from the size alone 0.110 to 0.136 over the range of d; PC2 TQ1 0.2408: chi2 0.04 at TQ1 0.240; from the size alone 0.159 to 0.197 over the range of d
-    6%: PC1 TQ1 0.2545: chi2 0.68 at TQ1 0.257; from the size alone 0.199 to 0.264 over the range of d; PC2 TQ1 0.3521: chi2 0.00 at TQ1 0.352; from the size alone 0.275 to 0.366 over the range of d
+  (e) TQ1, the longitudinal TQ against one pool's with the fitted times, = (3/4) x measured ratio (errors from the T1-TQ/SQ alone; Fig. 6C carries none); two bound pools allow up to 0.23, 0.41, 0.54 (Part 6, a search from below); held at TQ1 itself and fitted, as in Part 5, to the five numbers of PC2:
+    2%: PC1 TQ1 0.1003: chi2 0.28 at TQ1 0.100; from the size alone 0.067 to 0.156 over the range of d; PC2 TQ1 0.1727: chi2 1.12 at TQ1 0.171; from the size alone 0.115 to 0.269 over the range of d
+    4%: PC1 TQ1 0.1667: chi2 0.00 at TQ1 0.167; from the size alone 0.110 to 0.136 over the range of d; PC2 TQ1 0.2408: chi2 0.02 at TQ1 0.241; from the size alone 0.159 to 0.197 over the range of d
+    6%: PC1 TQ1 0.2545: chi2 0.00 at TQ1 0.255; from the size alone 0.199 to 0.264 over the range of d; PC2 TQ1 0.3521: chi2 0.00 at TQ1 0.352; from the size alone 0.275 to 0.366 over the range of d
       the largest TQ1 is 0.3521: TQ1 = 1 would need one pool's ratio 2.84 times smaller than 4/3, against 1.18 to 1.42 over the flip angles 10 % off, the phases and the pools of (c)
   (f) reading (i), PC1 (its own T1s, T1f and tabulated T1m):
-    2%: TQ1 0.1003 +- 0.0162; one pool with a true split of 1.13 1/s (published 12.94) gives it through the published times' shape and predicts T2s 43.53 +- 0.58 ms, measured 45.03 +- 1.46: +0.95 sigma (with the pathway at the SQ frequency at the largest |d|: +1.02); against NBM's own T2s (Fig. 6A, no error bars) -0.57 ms; its TQ peaks at 43.5 ms, the published shape at 38.3 ms
-    4%: TQ1 0.1667 +- 0.0258; one pool with a true split of 2.17 1/s (published 15.07) gives it through the published times' shape and predicts T2s 37.96 +- 0.77 ms, measured 39.17 +- 0.73: +1.15 sigma (with the pathway at the SQ frequency at the largest |d|: +1.31); against NBM's own T2s (Fig. 6A, no error bars) -0.14 ms; its TQ peaks at 38.0 ms, the published shape at 33.5 ms
-    6%: TQ1 0.2545 +- 0.0499; one pool with a true split of 3.45 1/s (published 15.45) gives it through the published times' shape and predicts T2s 32.86 +- 1.05 ms, measured 33.05 +- 0.47: +0.16 sigma (with the pathway at the SQ frequency at the largest |d|: +0.35); against NBM's own T2s (Fig. 6A, no error bars) +0.66 ms; its TQ peaks at 32.9 ms, the published shape at 29.6 ms
-      chi2 2.25 for 3, p = 0.522 (2.86, p = 0.413, with the pathway)
+    2%: TQ1 0.1003 +- 0.0162; one pool with a true split of 1.13 1/s (published 12.94) gives it through the published times' shape and predicts T2s 43.53 +- 0.58 ms, measured 45.03 +- 1.46: +0.96 sigma (with the pathway at the SQ frequency at the largest |d|: +1.02); against NBM's own T2s (Fig. 6A, no error bars) -0.57 ms; its TQ peaks at 43.5 ms, the published shape at 38.3 ms
+    4%: TQ1 0.1667 +- 0.0258; one pool with a true split of 2.18 1/s (published 15.07) gives it through the published times' shape and predicts T2s 37.96 +- 0.77 ms, measured 39.17 +- 0.73: +1.15 sigma (with the pathway at the SQ frequency at the largest |d|: +1.31); against NBM's own T2s (Fig. 6A, no error bars) -0.14 ms; its TQ peaks at 38.0 ms, the published shape at 33.5 ms
+    6%: TQ1 0.2545 +- 0.0499; one pool with a true split of 3.46 1/s (published 15.45) gives it through the published times' shape and predicts T2s 32.86 +- 1.05 ms, measured 33.05 +- 0.47: +0.16 sigma (with the pathway at the SQ frequency at the largest |d|: +0.35); against NBM's own T2s (Fig. 6A, no error bars) +0.66 ms; its TQ peaks at 32.9 ms, the published shape at 29.6 ms
+      chi2 2.26 for 3, p = 0.521 (2.87, p = 0.412, with the pathway)
   (f) reading (i), PC2 (its own T1s, T1f and tabulated T1m):
-    2%: TQ1 0.1727 +- 0.0156; one pool with a true split of 1.85 1/s (published 12.08) gives it through the published times' shape and predicts T2s 43.05 +- 0.47 ms, measured 45.03 +- 1.46: +1.29 sigma (with the pathway at the SQ frequency at the largest |d|: +1.40); against NBM's own T2s (Fig. 6A, no error bars) -1.05 ms; its TQ peaks at 43.1 ms, the published shape at 38.6 ms
+    2%: TQ1 0.1727 +- 0.0156; one pool with a true split of 1.85 1/s (published 12.08) gives it through the published times' shape and predicts T2s 43.04 +- 0.47 ms, measured 45.03 +- 1.46: +1.30 sigma (with the pathway at the SQ frequency at the largest |d|: +1.40); against NBM's own T2s (Fig. 6A, no error bars) -1.06 ms; its TQ peaks at 43.1 ms, the published shape at 38.6 ms
     4%: TQ1 0.2408 +- 0.0247; one pool with a true split of 3.41 1/s (published 16.22) gives it through the published times' shape and predicts T2s 37.18 +- 0.71 ms, measured 39.17 +- 0.73: +1.95 sigma (with the pathway at the SQ frequency at the largest |d|: +2.21); against NBM's own T2s (Fig. 6A, no error bars) -0.92 ms; its TQ peaks at 37.2 ms, the published shape at 33.2 ms
-    6%: TQ1 0.3521 +- 0.0333; one pool with a true split of 5.37 1/s (published 17.30) gives it through the published times' shape and predicts T2s 32.15 +- 0.55 ms, measured 33.05 +- 0.47: +1.24 sigma (with the pathway at the SQ frequency at the largest |d|: +1.69); against NBM's own T2s (Fig. 6A, no error bars) -0.05 ms; its TQ peaks at 32.2 ms, the published shape at 29.2 ms
-      chi2 7.03 for 3, p = 0.071 (9.66, p = 0.022, with the pathway)
-      PC1: with one pool's ratio anywhere in 1.18 to 1.42 instead of 4/3, TQ1 scales by 0.938 to 1.132 and reading (i)'s chi2 runs from 2.06 (p = 0.560) to 2.71 (p = 0.438)
-      PC2: with one pool's ratio anywhere in 1.18 to 1.42 instead of 4/3, TQ1 scales by 0.938 to 1.132 and reading (i)'s chi2 runs from 6.22 (p = 0.101) to 8.98 (p = 0.030)
-      NBM Fig. 5 (2 %, PC2): with no coarse points the fit reads T1s 47.5, T1f 35.8 ms and TQ/SQ 8.6 %, with all of them 49.22, 30.87 and 5.32 %; the coefficient times the peak of its own shape, the height of the triple quantum against the single quantum, is 0.892 and 0.905 %
+    6%: TQ1 0.3521 +- 0.0333; one pool with a true split of 5.38 1/s (published 17.30) gives it through the published times' shape and predicts T2s 32.15 +- 0.55 ms, measured 33.05 +- 0.47: +1.25 sigma (with the pathway at the SQ frequency at the largest |d|: +1.69); against NBM's own T2s (Fig. 6A, no error bars) -0.05 ms; its TQ peaks at 32.2 ms, the published shape at 29.2 ms
+      chi2 7.05 for 3, p = 0.070 (9.69, p = 0.021, with the pathway)
+      PC1: with one pool's ratio anywhere in 1.18 to 1.42 instead of 4/3, TQ1 scales by 0.938 to 1.133 and reading (i)'s chi2 runs from 2.06 (p = 0.559) to 2.72 (p = 0.437)
+      PC2: with one pool's ratio anywhere in 1.18 to 1.42 instead of 4/3, TQ1 scales by 0.938 to 1.133 and reading (i)'s chi2 runs from 6.24 (p = 0.100) to 9.02 (p = 0.029)
+      NBM Fig. 5 (2 %, PC2; the thesis's Fig. 4.11): with no coarse points the fit reads T1s 47.531, T1f 35.79 ms and TQ/SQ 8.621 %, with all of them 49.22, 30.87 and 5.32 %; the coefficient times the peak of its own shape, the height of the triple quantum against the single quantum, is 0.897 and 0.905 %
   (g) one pool with the published split, its SQ with the rank-3 order at the SQ frequency (weights 0.8 + sqrt6/40 |d|, gated in (b)), fitted with Eq. 13 (weights fixed at 0.8 / 0.2), at the smallest and the largest |d| of (d):
-    2%: [|d| 0.324, weights moved by 0.020; one pool's own TQ: split -5.0 %, T1m +0.47 ms; the reported TQ: split -5.8 %, T1m +0.49 ms] [|d| 0.752, weights moved by 0.046; one pool's own TQ: split -5.9 %, T1m +0.97 ms; the reported TQ: split -13.9 %, T1m +1.15 ms]
-    4%: [|d| 0.720, weights moved by 0.044; one pool's own TQ: split -5.8 %, T1m +0.93 ms; the reported TQ: split -13.5 %, T1m +1.14 ms] [|d| 0.890, weights moved by 0.055; one pool's own TQ: split -4.4 %, T1m +1.08 ms; the reported TQ: split -16.9 %, T1m +1.42 ms]
-    6%: [|d| 0.709, weights moved by 0.043; one pool's own TQ: split -5.4 %, T1m +0.74 ms; the reported TQ: split -11.8 %, T1m +0.88 ms] [|d| 0.942, weights moved by 0.058; one pool's own TQ: split -3.2 %, T1m +0.90 ms; the reported TQ: split -15.9 %, T1m +1.17 ms]
+    2%: [|d| 0.324, weights moved by 0.020; one pool's own TQ: split -5.0 %, T1m +0.47 ms; the reported TQ: split -5.8 %, T1m +0.49 ms] [|d| 0.752, weights moved by 0.046; one pool's own TQ: split -5.9 %, T1m +0.98 ms; the reported TQ: split -13.9 %, T1m +1.15 ms]
+    4%: [|d| 0.720, weights moved by 0.044; one pool's own TQ: split -5.7 %, T1m +0.93 ms; the reported TQ: split -13.5 %, T1m +1.14 ms] [|d| 0.890, weights moved by 0.055; one pool's own TQ: split -4.3 %, T1m +1.08 ms; the reported TQ: split -16.8 %, T1m +1.42 ms]
+    6%: [|d| 0.709, weights moved by 0.043; one pool's own TQ: split -5.3 %, T1m +0.74 ms; the reported TQ: split -11.7 %, T1m +0.88 ms] [|d| 0.942, weights moved by 0.058; one pool's own TQ: split -3.1 %, T1m +0.90 ms; the reported TQ: split -15.8 %, T1m +1.17 ms]
   (h) the transverse twin, which Parts 3 to 5 do not carry: one pool's slow fraction of the transverse single quantum, 0.4 + sqrt6/80 |d|, over the range of d: 2%: 0.410 to 0.423 against the measured 0.413 +- 0.007 (-0.5 to +1.4 sigma; without the twin -2.0); 4%: 0.422 to 0.427 against the measured 0.404 +- 0.007 (+2.6 to +3.4 sigma; without the twin -0.6); 6%: 0.422 to 0.429 against the measured 0.406 +- 0.007 (+2.4 to +3.4 sigma; without the twin -0.8)
   (i) the transverse TQ/SQ of one pool read at the line, over the range of d: 2%: 14.9 to 34.6 %, the measured 23.1 % is 0.67 to 1.55 of it; 4%: 33.1 to 40.9 %, the measured 27.0 % is 0.66 to 0.82 of it; 6%: 32.5 to 43.3 %, the measured 33.8 % is 0.78 to 1.04 of it
       a second reading of the measured transverse amplitude: the second paper's transverse maximum (its Table 2, TQTPPI with the refocusing pulse) over one pool's shape peak at its T2: 2%: 12.46 % / 0.534 = 23.3 % against Fig. 6C's 23.1 % (1.01); over the range of d 0.68 to 1.57 of one pool's; 4%: 19.84 % / 0.640 = 31.0 % against Fig. 6C's 27.0 % (1.15); over the range of d 0.76 to 0.94 of one pool's; 6%: 23.93 % / 0.683 = 35.0 % against Fig. 6C's 33.8 % (1.04); over the range of d 0.81 to 1.08 of one pool's
@@ -126,11 +132,17 @@ Part 8. The two sequences pulse by pulse for one pool (hard pulses, relaxation b
       a phase error in PC2's +-135 degree step multiplies order p by cos(p (135 + error)): -5 degrees: PC2's TQ/SQ x 1.35, double quantum left 0.17 of PC0's; -10 degrees: PC2's TQ/SQ x 1.68, double quantum left 0.34 of PC0's
   (k) the first order in time, one pool: 1/T1m = 0.4 J1 + 1.6 J2, 0.6/T2f + 0.4/T2s = 0.6 J0 + J1 + 0.4 J2, the triple quanta's initial slopes (amplitude times split) sqrt6/2 |d| (J1 - J2) and 3 sqrt6/16 |d| (J0 - J2), J in the page's convention; 1.2 and 3.2 times the slopes add to sqrt6 |d| times the difference of the two initial rates, and the four numbers have exactly one solution in J0, J1, J2 and d: True
       second route: the generator's slopes at t = 0 for one pool give the two initial rates and the two triple-quantum rate differences of the formulas, each within its rounding bound, at one density set and 200 drawn over eight decades: 804 of 804
-    PC1: 2%: |d| 0.511 (largest 0.752); J0, J1, J2 = 98.3, 11.83, 11.19 1/s (J1/J2 1.057, J0/J1 8.31), monotone True, 3 J0 + J2 - 4 J1 = 258.6 and J2 - J1/4 = 8.23 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.081; split 2 (J1 - J2) 1.28 1/s against reading (i)'s 1.13 (x 1.134); 4%: |d| 0.593 (largest 0.890); J0, J1, J2 = 180.9, 13.84, 12.60 1/s (J1/J2 1.099, J0/J1 13.07), monotone True, 3 J0 + J2 - 4 J1 = 499.8 and J2 - J1/4 = 9.14 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.049; split 2 (J1 - J2) 2.49 1/s against reading (i)'s 2.17 (x 1.146); 6%: |d| 0.737 (largest 0.942); J0, J1, J2 = 266.0, 16.27, 14.30 1/s (J1/J2 1.137, J0/J1 16.35), monotone True, 3 J0 + J2 - 4 J1 = 747.3 and J2 - J1/4 = 10.24 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.038; split 2 (J1 - J2) 3.92 1/s against reading (i)'s 3.45 (x 1.137)
-    PC2: 2%: |d| 0.513 (largest 0.752); J0, J1, J2 = 97.7, 12.16, 11.13 1/s (J1/J2 1.092, J0/J1 8.04), monotone True, 3 J0 + J2 - 4 J1 = 255.7 and J2 - J1/4 = 8.09 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.080; split 2 (J1 - J2) 2.04 1/s against reading (i)'s 1.85 (x 1.105); 4%: |d| 0.597 (largest 0.890); J0, J1, J2 = 179.8, 14.48, 12.55 1/s (J1/J2 1.153, J0/J1 12.42), monotone True, 3 J0 + J2 - 4 J1 = 494.2 and J2 - J1/4 = 8.93 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.048; split 2 (J1 - J2) 3.85 1/s against reading (i)'s 3.41 (x 1.130); 6%: |d| 0.741 (largest 0.942); J0, J1, J2 = 264.6, 17.16, 14.14 1/s (J1/J2 1.214, J0/J1 15.42), monotone True, 3 J0 + J2 - 4 J1 = 739.4 and J2 - J1/4 = 9.85 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.036; split 2 (J1 - J2) 6.05 1/s against reading (i)'s 5.37 (x 1.125)
-      NBM Fig. 5 (2 %, PC2): the longitudinal slope, amplitude times split, goes from 0.592 to 0.642 1/s (+8.6 %) as the late points are added, the height from 0.892 to 0.905 % (+1.5 %)
+    PC1: 2%: |d| 0.511 (largest 0.752); J0, J1, J2 = 98.3, 11.83, 11.19 1/s (J1/J2 1.057, J0/J1 8.31), monotone True, 3 J0 + J2 - 4 J1 = 258.6 and J2 - J1/4 = 8.23 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.081; split 2 (J1 - J2) 1.28 1/s against reading (i)'s 1.13 (x 1.132); 4%: |d| 0.593 (largest 0.890); J0, J1, J2 = 180.9, 13.84, 12.60 1/s (J1/J2 1.099, J0/J1 13.07), monotone True, 3 J0 + J2 - 4 J1 = 499.8 and J2 - J1/4 = 9.14 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.049; split 2 (J1 - J2) 2.49 1/s against reading (i)'s 2.18 (x 1.144); 6%: |d| 0.737 (largest 0.942); J0, J1, J2 = 266.0, 16.27, 14.30 1/s (J1/J2 1.137, J0/J1 16.35), monotone True, 3 J0 + J2 - 4 J1 = 747.3 and J2 - J1/4 = 10.24 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.038; split 2 (J1 - J2) 3.92 1/s against reading (i)'s 3.46 (x 1.135)
+    PC2: 2%: |d| 0.513 (largest 0.752); J0, J1, J2 = 97.7, 12.16, 11.13 1/s (J1/J2 1.092, J0/J1 8.04), monotone True, 3 J0 + J2 - 4 J1 = 255.7 and J2 - J1/4 = 8.09 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.080; split 2 (J1 - J2) 2.04 1/s against reading (i)'s 1.85 (x 1.103); 4%: |d| 0.597 (largest 0.890); J0, J1, J2 = 179.8, 14.48, 12.55 1/s (J1/J2 1.153, J0/J1 12.42), monotone True, 3 J0 + J2 - 4 J1 = 494.2 and J2 - J1/4 = 8.93 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.048; split 2 (J1 - J2) 3.85 1/s against reading (i)'s 3.41 (x 1.128); 6%: |d| 0.741 (largest 0.942); J0, J1, J2 = 264.6, 17.16, 14.14 1/s (J1/J2 1.214, J0/J1 15.42), monotone True, 3 J0 + J2 - 4 J1 = 739.4 and J2 - J1/4 = 9.85 (both >= 0 for any sum of Lorentzians), the exact region of such sums J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = 0.036; split 2 (J1 - J2) 6.05 1/s against reading (i)'s 5.38 (x 1.124)
+      NBM Fig. 5 (2 %, PC2; the thesis's Fig. 4.11): the longitudinal slope, amplitude times split, goes from 0.595 to 0.642 1/s (+8.0 %) as the late points are added, the height from 0.897 to 0.905 % (+0.9 %)
 
-Part 9. The first paper's sampling of T1, read off its Fig. 2A (2 %, PC0)
-  the dense band ends near 65 ms; the coarse peaks are 14.45 ms apart, eight phase steps, so 1.81 ms per coarse point, and the last one sits at 635.8 ms (316 coarse points after the dense band)
-  peak heights against one pool with the published times (PC0, inversion complete) on the drawn axis, and if the coarse step were 0.8 ms (the text's 8 x 100 us): 72.6 ms: 0.604 against 0.596 and 0.558; 87.1 ms: 0.711 against 0.703 and 0.615; 101.5 ms: 0.784 against 0.781 and 0.664; 116.0 ms: 0.846 against 0.839 and 0.706; 130.4 ms: 0.885 against 0.880 and 0.744
-      largest deviation 0.008 on the drawn axis, 0.141 with 0.8 ms steps; T1_GRID samples 0.8 ms steps to 305 ms
+Part 9. The first paper's sampling of T1, read off the thesis's Fig. 3.6a and the paper's Fig. 2A (2 %, PC0)
+  the thesis's Fig. 3.6a, the same FID drawn as a vector path (data/reichert2024_sodium_agarose): 640 vertices, the step changing once
+      dense: 320 samples from 0.2042 to 64.0005 ms, mean step 0.199988 ms against T1_GRID's 0.2; around one evenly stepped line within 0.0059 ms (rms 0.0025), off T1_GRID by +0.0012 ms on average; maxima above 0.1 spaced {8: 32, 52: 1} samples (spacing: count)
+      coarse: 320 samples from 65.8023 to 640.0068 ms, mean step 1.800014 ms against T1_GRID's 1.8; around one evenly stepped line within 0.0059 ms (rms 0.0025), off T1_GRID by +0.0037 ms on average; maxima above 0.1 spaced {8: 39} samples (spacing: count)
+      T1_GRID, the grid every refit on this page uses: 320 points 0.2 ms apart to 64 ms and 320 points 1.8 ms apart to 640 ms; every vertex lies within 0.0106 ms of its point, each band's mean step and mean place within what that band's scatter allows
+  the paper's Fig. 2A, read off its raster as a second route: the dense band ends between 63.6 and 64.5 ms; its coarse peaks, 39 periods of eight phase steps from 72.6 to 635.8 ms on the raster's own gridline calibration, give 1.805 ms per coarse point; against the path's 40 coarse maxima the first five lie 0.20 to 0.40 ms early and within 0.0055 of their heights, the last 1.19 ms late: the raster's calibration stretched by +0.28 % against the path
+  the text's step of 100 µs, 40 cycles of 8 steps and 300 coarse points of 8 steps would end the two bands at 32 and 272 ms
+  the path's first five coarse maxima against one pool with the published times (PC0, inversion complete) on the drawn axis, and if the coarse step were the text's 0.8 ms: 73.00 ms: 0.604 against 0.600 and 0.554; 87.40 ms: 0.713 against 0.705 and 0.611; 101.80 ms: 0.790 against 0.783 and 0.661; 116.20 ms: 0.848 against 0.839 and 0.704; 130.61 ms: 0.887 against 0.881 and 0.742
+      largest deviation 0.009 on the drawn axis, 0.145 with the text's step
+  the thesis's Fig. 4.11, the paper's Fig. 5 drawn as vector paths (2 %, PC2): points added 0, 30, 55, 80, 100, 130, 155, 180, 205, 230, 255, 280, 320; at the last two, T1s 49.222, T1f 30.870, T1m 44.104 ms, ratio 5.319 % and T1s 49.222, T1f 30.870, T1m 44.104 ms, ratio 5.319 %; Table 2: 49.22, 30.87, 44.10 ms, 5.32 %, met by the last point within the table's rounding; with no points added 47.531, 35.790 ms, 8.621 % (read off the paper's raster: 47.5, 35.8 ms, 8.6 %)

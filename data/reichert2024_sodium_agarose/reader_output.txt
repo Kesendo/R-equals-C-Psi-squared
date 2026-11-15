@@ -1,0 +1,11 @@
+Fig. 3.6a (PDF page 77): the IRTQTPPI FID, 2 %, PC0
+  time axis (ms): 7 tick marks, 3.793334 units per pt, largest residual 2.71e-03
+  signal axis: 11 tick marks, -0.011854 units per pt, largest residual 1.40e-05
+  640 vertices from 0.2042 to 640.0068 ms; the content stream's coordinate step is 0.00100 pt, 0.0038 ms on the time axis
+  written: data/reichert2024_sodium_agarose/thesis_fig3_6a_irtqtppi_fid_2pct_pc0.csv
+Fig. 4.11 (PDF page 102): the fit against the coarse points added, 2 %, PC2
+  panel a, points added: 7 tick marks, 1.873953 units per pt, largest residual 1.87e-03
+  panel a, time (ms): 11 tick marks, -0.117122 units per pt, largest residual 1.30e-04
+  panel b, points added: 7 tick marks, 1.868725 units per pt, largest residual 1.60e-03
+  panel b, TQ/SQ (%): 11 tick marks, -0.029199 units per pt, largest residual 2.23e-05
+  13 points added from 0.00 to 320.00; written: data/reichert2024_sodium_agarose/thesis_fig4_11_fit_vs_points_added_2pct_pc2.csv
