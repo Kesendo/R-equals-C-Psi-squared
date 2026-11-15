@@ -38,9 +38,27 @@ public class NumericalRangeBoundTests
     [InlineData(0, 6, 6, true)]
     [InlineData(0, 39, 50, false)]   // 0.78, just outside
     [InlineData(0, 81, 10, false)]   // 8.1, just outside
+    [InlineData(4, 0, 1, true)]      // the elimination's ray at ω_Q² = −1/6: inside the cone (its centre needs a non-Hermitian H)
     public void AtSpinOne_TheBoundFallsSilentExactlyOnThePagesTwoRays(long j0, long j1, long j2, bool expected)
     {
         Assert.Equal(expected, Decides(2, j0, j1, j2));
+    }
+
+    /// <summary>The claim's closed form at spin 1 (every rate below 2s) against the exact elimination, at every
+    /// integer triple in [−3, 6]³: two routes, the rates read by hand and the generator's blocks.</summary>
+    [Fact]
+    public void AtSpinOne_TheClaimsClosedForm_IsTheExactDecision_NegativeDensitiesIncluded()
+    {
+        int points = 0;
+        for (long j0 = -3; j0 <= 6; j0++)
+            for (long j1 = -3; j1 <= 6; j1++)
+                for (long j2 = -3; j2 <= 6; j2++)
+                {
+                    points++;
+                    Assert.Equal(RCPsiSquared.Core.Symmetry.Spin32QuadrupolarMirrorsClaim.SpinOneBoundExcludesCentre(j0, j1, j2),
+                                 Decides(2, j0, j1, j2));
+                }
+        Assert.Equal(1000, points);
     }
 
     [Fact]
@@ -51,9 +69,18 @@ public class NumericalRangeBoundTests
         Assert.Equal(new BigRational(11, 14), NumericalRangeBound.ExtremeNarrowingRatio(SpinSpace.Of(4)));
         for (int twoI = 2; twoI <= 12; twoI++)
         {
-            var ratio = NumericalRangeBound.ExtremeNarrowingRatio(SpinSpace.Of(twoI));
+            var s = SpinSpace.Of(twoI);
+            var ratio = NumericalRangeBound.ExtremeNarrowingRatio(s);
             Assert.True((ratio - 1).Sign < 0);
             Assert.True(Decides(twoI, 1, 1, 1));
+            // the mean rate at J₀ = J₁ = J₂ = 1 is the page's s = (J₀ + 2J₁ + 2J₂)·X(4X − 3)/30 = X(4X − 3)/6, and the
+            // ratio stays at most the concave bound 3(4X − 1)²/(16X(4X − 3)), X = I(I + 1)
+            var x = s.SpinSquared;
+            var g = new QuadrupolarGenerator(s, new QuadrupolarRates(1, 1, 1), SecularHamiltonian.None);
+            Assert.Equal(x * (4 * x - 3) / 6, g.MeanRate());
+            var bound = 3 * (4 * x - 1) * (4 * x - 1) / (16 * x * (4 * x - 3));
+            Assert.True((ratio - bound).Sign <= 0);
+            Assert.True((bound - 1).Sign < 0);
         }
     }
 

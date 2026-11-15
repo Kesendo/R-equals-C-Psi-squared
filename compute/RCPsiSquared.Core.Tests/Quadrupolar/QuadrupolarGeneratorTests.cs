@@ -44,6 +44,17 @@ public class QuadrupolarGeneratorTests
         Assert.Equal((BigRational)Spin32QuadrupolarMirrorsClaim.TwiceGlobalCentre(j0, j1, j2), 2 * g.MeanRate());
     }
 
+    /// <summary>The spin-1 rates the claim's cone is read from, block by block at J = (5, 2, 3): populations 0, 3J₁/2,
+    /// (J₁ + 4J₂)/2; single quantum (3J₀ + J₁ + 2J₂)/4 and (3J₀ + 5J₁ + 2J₂)/4; double quantum (J₁ + 2J₂)/2.</summary>
+    [Fact]
+    public void SpinOneRates_BlockByBlock()
+    {
+        var g = Gen(2, 5, 2, 3);
+        Assert.Equal(new BigRational[] { 0, 21, 10, 1 }, BigRationalMatrixCharpoly.Characteristic(g.DissipatorBlock(0)));          // x(x + 3)(x + 7)
+        Assert.Equal(new BigRational[] { new BigRational(713, 16), new BigRational(27, 2), 1 }, BigRationalMatrixCharpoly.Characteristic(g.DissipatorBlock(1)));  // (x + 23/4)(x + 31/4)
+        Assert.Equal(new BigRational[] { 4, 1 }, BigRationalMatrixCharpoly.Characteristic(g.DissipatorBlock(2)));                  // x + 4
+    }
+
     [Fact]
     public void PopulationBlock_AtThreeHalves_HasRates0_6J1_6J2_6J1Plus6J2()
     {
@@ -55,12 +66,19 @@ public class QuadrupolarGeneratorTests
     }
 
     [Theory]
-    [InlineData(2)] [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(8)] [InlineData(12)]
+    [InlineData(2)] [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)] [InlineData(8)]
+    [InlineData(9)] [InlineData(10)] [InlineData(11)] [InlineData(12)]
     public void ExtremeNarrowing_OneRatePerRank_InEveryOrderBlock(int twoI)
     {
         var s = SpinSpace.Of(twoI);
         var g = new QuadrupolarGenerator(s, new QuadrupolarRates(4, 4, 4), SecularHamiltonian.None);
         var rates = Enumerable.Range(1, twoI).Select(k => NumericalRangeBound.ExtremeNarrowingRankRate(s, k, 4)).Distinct().ToArray();
+        // two ranks share a rate exactly when k(k + 1) + k′(k′ + 1) = 4I(I + 1) − 1: among 2I = 2 … 12 only at 3/2, 7/2 and 9/2
+        Assert.Equal(twoI is 3 or 7 or 9, rates.Length < twoI);
+        BigRational R(int k) => NumericalRangeBound.ExtremeNarrowingRankRate(s, k, 4);
+        if (twoI == 3) Assert.Equal(R(1), R(3));
+        if (twoI == 7) { Assert.Equal(R(2), R(7)); Assert.Equal(R(4), R(6)); }
+        if (twoI == 9) Assert.Equal(R(6), R(7));
         for (int p = -twoI; p <= twoI; p++)
         {
             var b = g.DissipatorBlock(p);
@@ -74,6 +92,15 @@ public class QuadrupolarGeneratorTests
                 prod = BigRationalLinearAlgebra.Multiply(prod, shifted);
             }
             foreach (var x in prod) Assert.True(x.IsZero);
+        }
+        // every rank's rate is present: the populations block holds T_k0 for every k = 0 … 2I, so W + R_k·1 is singular
+        var w0 = g.DissipatorBlock(0);
+        for (int k = 1; k <= twoI; k++)
+        {
+            var shifted = (BigRational[,])w0.Clone();
+            var rk = NumericalRangeBound.ExtremeNarrowingRankRate(s, k, 4);
+            for (int i = 0; i < w0.GetLength(0); i++) shifted[i, i] += rk;
+            Assert.NotEmpty(BigRationalLinearAlgebra.Nullspace(shifted));
         }
         // the trace: −Σ_k (2k + 1)·R_k
         var trace = BigRational.Zero;

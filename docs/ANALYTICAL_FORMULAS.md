@@ -11503,6 +11503,14 @@ only at p = 0 and |p| = 2; nor is p the popcount difference of the qubits.
   J₁ = 8J₂ at ω_Q² = 21J₂²/2), and none at spins 2, 5/2, …, 6 (proved by
   elimination). Spin 1 lies outside F158's class (its jumps are not Hermitian
   involutions); there a Hamiltonian can supply a centre the dissipator lacks.
+- For every Hermitian H at once (splitting, offset, shift, lock), by the
+  numerical-range bound of [F172](#f172)'s proof §4: no global centre where the
+  largest rate of the self-adjoint dissipator stays below twice the mean. At spin 1 that
+  is, for non-negative densities, the cone J₁ < 4J₀ + 8J₂, 4J₂ < 4J₀ + 5J₁,
+  J₀ < J₁ + 10J₂, whose faces on J₀ = 0 are the two rays; at extreme narrowing
+  it holds at every spin from 1 to 6 (the largest rate over twice the mean
+  between 49/66 and 4/5). Decided exactly on the shared builder
+  (`compute/RCPsiSquared.Core/Quadrupolar/`), gated in `SodiumTwoMirrorsWitness`.
 
 **Coupled nuclei.** n nuclei, each a qubit pair, its own gradient (rates per
 nucleus), a static splitting and an offset each, coupled by a real two-body H on
@@ -11587,13 +11595,17 @@ here do not contradict each other. The global-centre theorem at
 §3 (a pairing exactly when one of three channels vanishes). The chain's kept J₀ channel is the
 figure of [F137](#f137)'s kept jump and of MirrorWorld's `GammaFold`, and the
 ladder is [F166](#f166)'s blockwise centres in another dissipator; the pages
-leave open whether one statement holds them all.
+leave open whether one statement holds them all. The numerical-range bound of
+[F172](#f172)'s proof §4 decides part of the global-centre question beyond spin
+3/2 (the bullet above), the bound [F5](#f5-depolarizing-error-tier-1-proven) reads
+for depolarizing noise; F172's entry lists F167 as adjacent for its d = 4 clock pair.
 
 **Typed/live owner:** `Spin32QuadrupolarMirrorsClaim` (Tier 1 derived, parent
 F158's `PalindromeTwoEndCountClaim`), the single nucleus only; live witness
-`SodiumTwoMirrorsWitness` at `inspect --root sodium`, which builds L from the
-spin matrices exactly over ℚ(i) (the √3 of I_± factored out, the splitting as
-q = ω_Q·√6/2) and reads the Dirac algebra with a spin control at 1, 2 and 5/2,
+`SodiumTwoMirrorsWitness` at `inspect --root sodium`, which takes L from the
+shared builder in `compute/RCPsiSquared.Core/Quadrupolar/` (exact over ℚ(i), a
+construction from the Pauli strings its second route) and reads from the spin
+matrices (the √3 of I_± factored out, the splitting as q = ω_Q·√6/2) the Dirac algebra with a spin control at 1, 2 and 5/2,
 the one map with two controls, the two sectors, and the global-centre rule at
 fourteen fixed points and a chosen one, by F158's exact kernel dimensions (for
 non-negative, not all zero densities) and by the characteristic polynomial; it
@@ -11613,7 +11625,8 @@ each part at one point, the lock's global centre on both routes at ten points), 
 irreducible tensors in strings (the sixteen rows read for rank and order off the spin
 matrices, ten eigenoperators and six turned with their weights, the triple-quantum
 path's squared overlap 6/25 as a consistency reading of the weights, the one map on the tensors up to factors, the order filters'
-string spans). The
+string spans), and the numerical-range bound beyond the mirrors (the spin-1 cone
+against the exact decision, extreme narrowing at spins 1 to 6, the rule at 3/2). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11641,11 +11654,12 @@ the coupling and τ_c the gradient's correlation time); all in the Redfield
 picture, secular in the Larmor frequency with the splitting kept whole, at
 infinite temperature. Finite polarization, multiple compartments, exchange and
 terms non-secular in the Larmor frequency are outside, and so is the dynamic
-frequency shift, except at spin 3/2 as its Lamb-shift Hamiltonian (not in the
-statements beyond 3/2, nor in the chain). No sodium data were compared on the indexed pages.
+frequency shift, except at spin 3/2 as its Lamb-shift Hamiltonian (beyond 3/2
+only in the numerical-range bound, which holds for every Hermitian H; not in the chain). No sodium data were compared on the indexed pages.
 **Open:** a global centre on the planes where two population rates coincide,
-beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance; at spin 1 with a
-splitting, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
+beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance, outside the region
+where the numerical-range bound decides; at spin 1 with a splitting, outside the bound's
+cone, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation beyond two agarose data sets
 whose published fits break it from opposite sides ([Sodium in Agarose, Layer by Layer](../experiments/SODIUM_IN_AGAROSE_LAYER_BY_LAYER.md),
 [One Sodium Pool or More](../experiments/SODIUM_ONE_POOL_OR_MORE.md)); the bright pairs'

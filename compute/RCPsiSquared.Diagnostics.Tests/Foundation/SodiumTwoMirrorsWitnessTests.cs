@@ -10,8 +10,8 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live witness for F167 (<c>experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md</c>): one
-/// spin 3/2 under quadrupolar relaxation secular in the Larmor frequency, the generator built from the spin matrices and
-/// read exactly over ℚ(i) (the √3 of I_± factored out of every T₂,ₘ with m ≠ 0, the √6 of T₂₀ taken
+/// spin 3/2 under quadrupolar relaxation secular in the Larmor frequency, the gates read from the spin matrices and the
+/// generator taken from the shared builder in Core, exactly over ℚ(i) (the √3 of I_± factored out of every T₂,ₘ with m ≠ 0, the √6 of T₂₀ taken
 /// into the integer parameter q). Every gate is two-sided: the statement holds and its control
 /// breaks; at every exact point the kernel count (F158) and the characteristic polynomial agree
 /// with each other and with the claim's rule.</summary>
@@ -360,6 +360,28 @@ public class SodiumTwoMirrorsWitnessTests
         var first = Default.Children.First();
         Assert.Contains("gate", first.DisplayName);
         Assert.True(Default.Children.Count() >= 6);
+    }
+
+    /// <summary>Gate 10: the numerical-range bound beyond the mirrors, against literals. At spin 1 the claim's cone and
+    /// the exact decision agree on all 91 points and the faces are the edges; at extreme narrowing the ratios of the
+    /// rank rates are below 1 at every spin from 1 to 6 and the bound decides; at 3/2 it never contradicts the rule.</summary>
+    [Fact]
+    public void NumericalRangeBound_SpinOneCone_ExtremeNarrowing_AndTheRuleAtThreeHalves()
+    {
+        Assert.Equal(91, Default.SpinOneConePoints);
+        Assert.Equal(91, Default.SpinOneConeAgreeing);
+        Assert.True(Default.SpinOneFacesAreTheEdges);
+        Assert.True(Default.BoundAgreesWithTheRule);
+        var expected = new[]
+        {
+            new BigRational(3, 4), new BigRational(4, 5), new BigRational(11, 14), new BigRational(3, 4), new BigRational(3, 4),
+            new BigRational(16, 21), new BigRational(333, 440), new BigRational(49, 66), new BigRational(49, 65),
+            new BigRational(108, 143), new BigRational(3, 4),
+        };
+        Assert.Equal(Enumerable.Range(2, 11), Default.ExtremeNarrowingReadings.Select(e => e.TwiceSpin));
+        Assert.Equal(expected, Default.ExtremeNarrowingReadings.Select(e => e.Ratio));
+        Assert.All(Default.ExtremeNarrowingReadings, e => Assert.True(e.Decides));
+        Assert.True(Default.NumericalRangeBoundHolds);
     }
 
     [Fact]

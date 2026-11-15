@@ -12,12 +12,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (the splitting kept whole) at infinite temperature, dissipator Σ_m J_|m|·(T₂ₘρT₂ₘ† − ½{T₂ₘ†T₂ₘ, ρ}), Hamiltonian ω_Q·T₂₀ + ω·I_z.
 ///
 /// <para>The page's verifier works with sympy symbols, a Gröbner basis and F158 through Pauli
-/// strings. This witness takes the other road: it builds the 16 × 16 generator from the SPIN
-/// MATRICES, entry by entry on matrix units, and reads everything exactly over ℚ(i). The
-/// irrationals are handled, not rounded: I_± has the entries √3, 2, √3, so the spin matrices are
+/// strings. This witness takes the other road: it reads the SPIN MATRICES entry by entry on matrix
+/// units, exactly over ℚ(i), and takes the 16 × 16 generator from the shared builder in Core
+/// (<see cref="QuadrupolarGenerator"/>, the physical view; the Pauli-string construction
+/// <see cref="Spin32Strings"/> is its second route there). The irrationals are handled, not rounded: I_± has the entries √3, 2, √3, so the spin matrices are
 /// held as A + √3·B with A, B rational, and the witness checks that every T₂,ₘ with m ≠ 0 has a
 /// vanishing rational part (the middle entry 2 is killed in T₂,±₁ and absent in T₂,±₂), so
-/// T₂,ₘ = √3·R₂,ₘ with R rational and the quadratic dissipator carries 3·R ρ R† exactly;
+/// T₂,ₘ = √3·R₂,ₘ with R rational and the quadratic dissipator carries 3·R ρ R† exactly (the shared
+/// builder reaches the same rational entries through its gauge);
 /// T₂₀ = D/√6 with D = 3I_z² − 15/4 = 3·diag(1, −1, −1, 1) (checked), so its dissipator carries
 /// D ρ D/6, and the splitting enters as the integer q, the coefficient of diag(1, −1, −1, 1) in H,
 /// q = ω_Q·√6/2 (ω = √6·ω_Q is then ω = 2q). Integer inputs J₀, J₁, J₂, q, ω; no double anywhere
@@ -57,7 +59,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// irreducible tensors in strings (gate 9, at <see cref="TensorPoint"/>): the page's sixteen rows read for rank and order
 /// off the spin matrices, the ten that are eigenoperators and the six turned between two string classes with their
 /// weights, the triple-quantum path's two equal and opposite overlaps, the one map on the tensors, and one string class
-/// split by the order. These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// split by the order; and the numerical-range bound beyond the mirrors (gate 10, on the shared builder in Core): no Hermitian H gives one centre where the largest rate of the self-adjoint dissipator stays below
+/// twice the mean, read at spin 1 against the claim's cone on 91 points and at its faces, at extreme narrowing for
+/// 2I = 2 … 12, and at 3/2 against the rule at the fixed points. These are statements on eigenvalues, not on the lines of a spectrum; which come
 /// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
@@ -367,6 +371,23 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     public bool OrderSplitsAStringClass { get; }
     public bool TensorDictionaryHolds => TensorRowsHold && TensorBasesTurned && TripleQuantumPathHolds
         && MirrorOnTensorsHolds && OrderSplitsAStringClass;
+
+    // gate 10: the numerical-range bound beyond the mirrors (PROOF_QUDIT_CLOCK_MIRROR §4), read with the shared builder
+    /// <summary>At spin 1 on the integer points J₀ + J₁ + J₂ = 12, how many of the exact decisions of the bound (no
+    /// global centre for any Hermitian H) agree with the claim's cone <see cref="Spin32QuadrupolarMirrorsClaim.SpinOneBoundExcludesCentre"/>.</summary>
+    public int SpinOneConeAgreeing { get; }
+    public int SpinOneConePoints { get; }
+    /// <summary>At spin 1 the bound is silent on the page's two rays (0, 4, 5) and (0, 8, 1) and on the third face
+    /// J₀ = J₁ + 10J₂, decides just inside each face and is silent just outside.</summary>
+    public bool SpinOneFacesAreTheEdges { get; }
+    /// <summary>At extreme narrowing (J₀ = J₁ = J₂) for 2I = 2 … 12: r_max/2s from the rank rates and the bound's exact
+    /// decision.</summary>
+    public IReadOnlyList<(int TwiceSpin, BigRational Ratio, bool Decides)> ExtremeNarrowingReadings { get; }
+    /// <summary>At spin 3/2, at every fixed point: where the bound decides, the global-centre rule has no centre; at
+    /// the fixed points with non-negative densities it decides exactly where all three are positive.</summary>
+    public bool BoundAgreesWithTheRule { get; }
+    public bool NumericalRangeBoundHolds => SpinOneConeAgreeing == SpinOneConePoints && SpinOneFacesAreTheEdges
+        && ExtremeNarrowingReadings.All(e => e.Decides && (e.Ratio - 1).Sign < 0) && BoundAgreesWithTheRule;
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -709,6 +730,40 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
 
         (TensorRowsHold, TensorBasesTurned, TripleQuantumPathHolds, MirrorOnTensorsHolds, OrderSplitsAStringClass) =
             ReadTensors(ip, im);
+
+        (SpinOneConeAgreeing, SpinOneConePoints, SpinOneFacesAreTheEdges, ExtremeNarrowingReadings, BoundAgreesWithTheRule) =
+            ReadNumericalRangeBound();
+    }
+
+    // ===== the numerical-range bound beyond the mirrors =====
+
+    private static bool BoundDecides(int twoI, long j0, long j1, long j2) =>
+        NumericalRangeBound.ExcludesEveryCentre(new QuadrupolarGenerator(SpinSpace.Of(twoI), new QuadrupolarRates(j0, j1, j2), SecularHamiltonian.None));
+
+    private (int Agreeing, int Points, bool Faces, IReadOnlyList<(int, BigRational, bool)> En, bool Rule) ReadNumericalRangeBound()
+    {
+        int agreeing = 0, points = 0;
+        for (long a = 0; a <= 12; a++)
+            for (long b = 0; a + b <= 12; b++)
+            {
+                long c = 12 - a - b;
+                points++;
+                if (BoundDecides(2, a, b, c) == Spin32QuadrupolarMirrorsClaim.SpinOneBoundExcludesCentre(a, b, c)) agreeing++;
+            }
+        bool faces = !BoundDecides(2, 0, 4, 5) && !BoundDecides(2, 0, 8, 1) && !BoundDecides(2, 21, 1, 2)    // on the faces
+                     && BoundDecides(2, 0, 41, 50) && BoundDecides(2, 0, 79, 10) && BoundDecides(2, 20, 1, 2)  // just inside
+                     && !BoundDecides(2, 0, 39, 50) && !BoundDecides(2, 0, 81, 10) && !BoundDecides(2, 22, 1, 2); // just outside
+        var en = Enumerable.Range(2, 11)
+            .Select(t => (t, NumericalRangeBound.ExtremeNarrowingRatio(SpinSpace.Of(t)), BoundDecides(t, 1, 1, 1)))
+            .ToArray();
+        bool rule = FixedPoints.All(pt =>
+        {
+            bool decides = BoundDecides(3, pt.J0, pt.J1, pt.J2);
+            bool noCentre = !Spin32QuadrupolarMirrorsClaim.HasGlobalCentre(pt.J0, pt.J1, pt.J2, pt.Q, pt.Omega);
+            bool nonNegative = pt.J0 >= 0 && pt.J1 >= 0 && pt.J2 >= 0;
+            return (!decides || noCentre) && (!nonNegative || decides == (pt.J0 > 0 && pt.J1 > 0 && pt.J2 > 0));
+        });
+        return (agreeing, points, faces, en, rule);
     }
 
     // ===== the irreducible tensors in strings =====
@@ -1306,7 +1361,7 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     private static string Verdict(bool ok, string yes, string no) => ok ? yes : no;
 
     public string Summary =>
-        $"spin 3/2 built from the spin matrices, exact over ℚ(i): the five quadrupole components " +
+        $"spin 3/2, the gates read from the spin matrices and the generator from the shared builder in Core, exact over ℚ(i): the five quadrupole components " +
         $"{Verdict(DiracGate, "are Dirac matrices", "FAIL to be Dirac matrices")} (squares {string.Join(", ", SquareConstants)}; ZZ, ZX, ZY, XI, YI), " +
         $"{Verdict(OnlyThreeHalves, "at spin 3/2 only among 1, 3/2, 2, 5/2", "with the spin control FAILING")}; " +
         $"S·L·S⁻¹ = −L + 2·L_{{J₀}} − 6(J₁ + J₂) {Verdict(MirrorEverywhere, "holds", "FAILS")} at the {Points.Count} fixed points and the user point, " +
@@ -1321,7 +1376,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"and at the user point the satellite pair is {SatelliteRegime}, the double-quantum pair {DoubleQuantumRegime}; " +
         $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}; " +
         $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}; " +
-        $"the irreducible tensors in strings {Verdict(TensorDictionaryHolds, "hold (sixteen rows of rank and order; ten eigenoperators, six turned between two string classes)", "FAIL")}.";
+        $"the irreducible tensors in strings {Verdict(TensorDictionaryHolds, "hold (sixteen rows of rank and order; ten eigenoperators, six turned between two string classes)", "FAIL")}; " +
+        $"beyond the mirrors the numerical-range bound {Verdict(NumericalRangeBoundHolds, "holds as stated (at spin 1 the cone whose faces on J₀ = 0 are the two rays, at extreme narrowing every spin from 1 to 6, at 3/2 the rule's no side for positive densities)", "FAILS")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
@@ -1436,6 +1492,16 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"the rank-3 content of e^(Lt)·T₁,₁ (off resonance times e^(−iωt)) {Verdict(TripleQuantumPathHolds, "is ±(√6/5)(e^(−3(J₀ + J₁)t) − e^(−c₁t)), the squared overlap 6/25 a consistency reading of the weights", "is NOT that")}; " +
                          $"S(X) = Γ₀·Xᵀ {Verdict(MirrorOnTensorsHolds, "carries T₀,₀ ↔ T₂,₀, T₂,±₂ onto T₃,∓₂ and back, T₃,±₃ onto T₃,∓₃ (up to factors; the signs are the verifier's), and reflects the order-0 rows of rank 1 and 3 by [[4/5, 3/5], [3/5, −4/5]]", "does NOT act as stated")}; " +
                          $"XX + YY and XX − YY {Verdict(OrderSplitsAStringClass, "sit at orders ±1 and ±3 and decay in one string class at c₁", "do NOT split as stated")}.",
+                provenance: NodeProvenance.Live);
+
+            yield return new InspectableNode(
+                displayName: "the numerical-range bound beyond the mirrors",
+                summary: $"no Hermitian H gives the whole spectrum one centre where the largest rate of the self-adjoint dissipator stays below 2s, the partner of the steady state (PROOF_QUDIT_CLOCK_MIRROR §4), decided exactly with the shared builder: " +
+                         $"at spin 1 the exact decision {Verdict(SpinOneConeAgreeing == SpinOneConePoints, "agrees", "DISAGREES")} with the cone J₁ < 4J₀ + 8J₂, 4J₂ < 4J₀ + 5J₁, J₀ < J₁ + 10J₂ at {SpinOneConeAgreeing} of {SpinOneConePoints} points on J₀ + J₁ + J₂ = 12, " +
+                         $"and the faces {Verdict(SpinOneFacesAreTheEdges, "are its edges (silent on the rays (0, 4, 5) and (0, 8, 1) and on J₀ = J₁ + 10J₂, deciding just inside and silent just outside)", "are NOT its edges")}; " +
+                         $"at extreme narrowing r_max/2s = {string.Join(", ", ExtremeNarrowingReadings.Select(e => $"{e.Ratio}"))} at 2I = 2 … 12, " +
+                         $"{Verdict(ExtremeNarrowingReadings.All(e => e.Decides), "the bound deciding at each", "the bound NOT deciding at each")}; " +
+                         $"at spin 3/2 {Verdict(BoundAgreesWithTheRule, "it decides at the fixed points with non-negative densities exactly where all three are positive, and nowhere where the rule puts a centre", "it DISAGREES with the rule")}.",
                 provenance: NodeProvenance.Live);
 
             yield return new InspectableNode(

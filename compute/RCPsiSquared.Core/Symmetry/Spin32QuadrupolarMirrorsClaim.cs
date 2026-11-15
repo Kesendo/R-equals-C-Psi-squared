@@ -42,7 +42,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// two do not contradict each other, and no typed edge joins them. Prior art: the rates are Souza
 /// et al.'s (arXiv:1105.2539, Eqs. (15) to (27)), and so is the reading of the four levels as two
 /// qubits; the Dirac algebra of the five quadrupole components is Wu, Hu and Zhang's
-/// (Phys. Rev. Lett. 91, 186402 (2003)).</para>
+/// (Phys. Rev. Lett. 91, 186402 (2003)). The spin-1 closed form <see cref="SpinOneBoundExcludesCentre"/> rests
+/// on the numerical-range bound of F172's proof §4 (<see cref="QuditClockMirrorClaim"/>), the bound F5 reads for
+/// depolarizing noise, not on F158.</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeTwoEndCountClaim"/> (F158), which for non-negative
 /// densities gives the global-centre theorem a second, independent route (the normalised jumps are
@@ -51,8 +53,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="SodiumChainMirrorLadderClaim"/>.</para>
 ///
 /// <para>Live witness: <c>inspect --root sodium</c>
-/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SodiumTwoMirrorsWitness.cs</c>), which builds L
-/// from the spin matrices over ℚ(i), the √3 of I_± factored out exactly and the √6 of T₂₀ taken
+/// (<c>compute/RCPsiSquared.Diagnostics/Foundation/SodiumTwoMirrorsWitness.cs</c>), which takes L
+/// from the shared builder in <c>compute/RCPsiSquared.Core/Quadrupolar/</c> and reads the spin matrices over ℚ(i), the √3 of I_± factored out exactly and the √6 of T₂₀ taken
 /// into the integer splitting parameter q = ω_Q·√6/2, and reads the theorem by exact kernel ranks
 /// and an exact characteristic polynomial, a different road from the page's sympy verifier
 /// <c>simulations/sodium_two_mirrors.py</c>.</para></summary>
@@ -89,6 +91,21 @@ public sealed class Spin32QuadrupolarMirrorsClaim : Claim
     /// witness's points, not proven. With every density zero there is no dissipator and L = −i[H, ·] pairs about 0.</summary>
     public static bool HasGlobalCentreUnderLock(long j0, long j1, long j2, long q, long omega, long k1, long k2) =>
         (j0 == 0 && j1 == 0 && j2 == 0) || (j0 == 0 && j2 == 0 && q == 0 && omega == checked(3 * k2));
+
+    /// <summary>Beyond spin 3/2, at spin 1: where the numerical-range bound of PROOF_QUDIT_CLOCK_MIRROR §4 excludes a
+    /// global centre for every Hermitian H at once (splitting, offset, shift, lock). The dissipator is self-adjoint with
+    /// the rates 0, 3J₁/2 and (J₁ + 4J₂)/2 (populations), (J₁ + 2J₂)/2 (double quantum), (3J₀ + J₁ + 2J₂)/4 and
+    /// (3J₀ + 5J₁ + 2J₂)/4 (single quantum), and the bound excludes a centre exactly when every rate stays below
+    /// 2s = (2J₀ + 4J₁ + 4J₂)/3, the partner of the steady state. For non-negative rates three faces remain:
+    /// J₁ &lt; 4J₀ + 8J₂, 4J₂ &lt; 4J₀ + 5J₁, J₀ &lt; J₁ + 10J₂; on J₀ = 0 the first two are the two rays with a centre,
+    /// J₁ = 8J₂ and J₁ = 4J₂/5. Every real rate triple is accepted.</summary>
+    public static bool SpinOneBoundExcludesCentre(long j0, long j1, long j2) =>
+        checked(j0 + 2 * j1 + 2 * j2) > 0                    // the rate 0 below 2s
+        && j1 < checked(4 * j0 + 8 * j2)                     // 3J₁/2 < 2s
+        && checked(4 * j2) < checked(4 * j0 + 5 * j1)        // (J₁ + 4J₂)/2 < 2s
+        && checked(4 * j0 + 5 * j1 + 2 * j2) > 0             // (J₁ + 2J₂)/2 < 2s
+        && j0 < checked(13 * j1 + 10 * j2)                   // (3J₀ + J₁ + 2J₂)/4 < 2s
+        && j0 < checked(j1 + 10 * j2);                       // (3J₀ + 5J₁ + 2J₂)/4 < 2s
 
     public Spin32QuadrupolarMirrorsClaim(PalindromeTwoEndCountClaim twoEndCount)
         : base(
