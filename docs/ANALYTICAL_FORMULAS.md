@@ -11648,7 +11648,8 @@ K₂ = U₂ everywhere and that at J₁ = J₂ = 0 the dissipator is the rung on
 gradient (the price identity with an operator price, the conserved sign pattern
 and the Hamiltonian terms that break it). Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-172 checks) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
+173 checks; the planes at I = 2 to 6 read plane by plane in
+`NumericalRangePlanesTests` of Core's tests) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (99 checks, 103 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
 **Scope:** the mirrors and the global-centre theorem for one spin 3/2, any
@@ -11666,7 +11667,8 @@ frequency shift, except at spin 3/2 as its Lamb-shift Hamiltonian (beyond 3/2
 only in the numerical-range bound, which holds for every Hermitian H; not in the chain). No sodium data were compared on the indexed pages.
 **Open:** a global centre on the planes where two population rates coincide,
 beyond I = 6 on resonance and at every I ≥ 2 with a splitting off resonance, outside the region
-where the numerical-range bound decides; at spin 1 with a splitting, outside the bound's
+where the numerical-range bound decides (at I = 2 to 6 a segment of J₀ on 32 of the sixty planes
+with J₂/J₁ > 0, nothing on the other 28); at spin 1 with a splitting, outside the bound's
 cone, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation beyond two agarose data sets
 whose published fits break it from opposite sides ([Sodium in Agarose, Layer by Layer](../experiments/SODIUM_IN_AGAROSE_LAYER_BY_LAYER.md),

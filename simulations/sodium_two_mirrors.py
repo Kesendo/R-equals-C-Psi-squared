@@ -58,7 +58,10 @@ Checks:
     nu3, nu5 of W exact in I and t = J2/J1 by interpolation (degree <= 4k + 1); nu3 at J1 = 0 and the
     resultant in t vanish at no spin I >= 2, so W simple forbids a centre; the route reaches 3/2 (identically 0)
     and the spin-1 rays (t = 1/8, 5/4); the repeated-rate ratios are finitely many (integer I: J2 = 0 is an
-    irreducible chain; half-integer I to 61/2: a squarefree point mod 1000003), six real ones at I = 2;
+    irreducible chain; half-integer I to 61/2: a squarefree point mod 1000003), six real ones at I = 2; the
+    planes with t > 0 at 2I = 4 .. 12 (2, 0, 5, 4, 6, 7, 11, 9, 16) through the cross resultant and both
+    discriminants of the m -> -m parity parts, each in exactly one strip of the table that
+    compute/RCPsiSquared.Core.Tests/Quadrupolar/NumericalRangePlanesTests.cs reads the numerical-range bound on;
   - a static splitting at w = 0, I = 1, 2, 5/2, ..., 6 (not 3/2): mu3, mu5, mu7, mu9 as exact polynomials in
     J0, J1, J2 and q6 = wQ/sqrt(6) (not the exceptional point's q = wQ·sqrt6/2; over Q(i), real traces), their common real zeros by exact elimination: none
     at I >= 2 other than all rates zero, six rays at I = 1, five of them with wQ real and a centre by the
@@ -1292,6 +1295,71 @@ def main():
           "them positive) and one, J2/J1 = -3/14, where two even rates meet",
           sym2 and len(cross2) == 5 and sum(1 for r_ in cross2 if r_ > 0) == 2 and within2 == {R(-3, 14)}
           and not sp.Poly(sp.discriminant(po2, x), tt).real_roots(), str(sorted(sp.N(r_, 4) for r_ in cross2)))
+
+    # The planes with t = J2/J1 > 0 at 2I = 4 .. 12, against the strips the builder's test reads the
+    # numerical-range bound on (compute/RCPsiSquared.Core.Tests/Quadrupolar/NumericalRangePlanesTests.cs, the table
+    # between its two markers, read from that file): every positive root of the cross resultant and of both
+    # discriminants lies in exactly one strip, and each strip holds exactly one plane.
+    import pathlib
+    import re
+    from sympy.polys.matrices import DomainMatrix
+    cs_path = (pathlib.Path(__file__).resolve().parent.parent / "compute" / "RCPsiSquared.Core.Tests" / "Quadrupolar"
+               / "NumericalRangePlanesTests.cs")
+    cs_src = cs_path.read_text(encoding="utf-8") if cs_path.exists() else ""
+    table_ = cs_src.split("// PLANES-BEGIN")[1].split("// PLANES-END")[0] if "// PLANES-END" in cs_src else ""
+    strips_cs = [(int(a_), sp.Rational(b_), sp.Rational(c_))
+                 for a_, b_, c_ in re.findall(r'\((\d+), "([0-9/]+)", "([0-9/]+)"\)', table_)]
+
+    def parity_charpolys(I_):
+        """Characteristic polynomials in x of the populations block at J1 = 1, J2 = t on the populations even and
+        odd under m -> -m (unnormalized pair basis, a diagonal similarity of the symmetric blocks), and whether the
+        block is symmetric and invariant under m -> -m, which the split needs."""
+        W1_, W2_ = populations(I_)
+        W_ = W1_ + tt * W2_
+        d_ = W_.shape[0]
+        sym_ = all(sp.expand(W_[r_, c_] - W_[c_, r_]) == 0 and sp.expand(W_[r_, c_] - W_[d_ - 1 - r_, d_ - 1 - c_]) == 0
+                   for r_ in range(d_) for c_ in range(d_))
+        out = []
+        for sgn in (+1, -1):
+            basis = [k_ for k_ in range(d_) if k_ < d_ - 1 - k_ or (k_ == d_ - 1 - k_ and sgn == 1)]
+            B_ = sp.Matrix(len(basis), len(basis), lambda r_, c_: W_[basis[r_], basis[c_]]
+                           + (sgn * W_[basis[r_], d_ - 1 - basis[c_]] if basis[c_] != d_ - 1 - basis[c_] else 0))
+            cp = DomainMatrix.from_Matrix(B_).convert_to(sp.QQ[tt]).charpoly()
+            out.append(sp.Poly(sum(sp.QQ[tt].to_sympy(c_) * x ** (len(cp) - 1 - i_) for i_, c_ in enumerate(cp)), x))
+        return out, sym_
+    planes_ok, plane_counts = True, {}
+    for twoI_ in range(4, 13):
+        (pe_, po_), sym_ok_ = parity_charpolys(R(twoI_, 2))
+        planes_ok &= sym_ok_
+        polys_ = [sp.Poly(sp.resultant(pe_.as_expr(), po_.as_expr(), x), tt),
+                  sp.Poly(sp.discriminant(pe_.as_expr(), x), tt)]
+        if po_.degree() > 1:
+            polys_.append(sp.Poly(sp.discriminant(po_.as_expr(), x), tt))
+        polys_ = [sp.Poly(sp.sqf_part(P_.as_expr()), tt) for P_ in polys_]
+        mine = sorted((lo_, hi_) for k_, lo_, hi_ in strips_cs if k_ == twoI_)
+        plane_counts[twoI_] = len(mine)
+        planes_ok &= all(lo_ > 0 and (hi_ - lo_) * 10**5 <= lo_ for lo_, hi_ in mine)   # relative width at most 1e-5
+        planes_ok &= all(mine[i_][1] < mine[i_ + 1][0] for i_ in range(len(mine) - 1))
+        hits = [0] * len(polys_)
+        for lo_, hi_ in mine:
+            n_in = [P_.count_roots(lo_, hi_) for P_ in polys_]
+            ends_free = all(P_.eval(lo_) != 0 and P_.eval(hi_) != 0 for P_ in polys_)
+            share = [P_ for P_, k_ in zip(polys_, n_in) if k_]
+            one_root = bool(share) and all(k_ <= 1 for k_ in n_in)
+            if one_root:
+                g_ = share[0]
+                for Q_ in share[1:]:
+                    g_ = sp.Poly(sp.gcd(g_.as_expr(), Q_.as_expr()), tt)
+                one_root = g_.count_roots(lo_, hi_) == 1   # several polynomials there: the same root
+            planes_ok &= ends_free and one_root
+            hits = [h_ + k_ for h_, k_ in zip(hits, n_in)]
+        positive = [P_.count_roots(0, sp.oo) - (1 if P_.eval(0) == 0 else 0) for P_ in polys_]
+        planes_ok &= hits == positive
+    claim("the planes of coinciding population rates with t = J2/J1 > 0 at 2I = 4 .. 12 number 2, 0, 5, 4, 6, 7, 11, 9 "
+          "and 16, sixty in all, each in exactly one sliver (a rational interval of t of relative width at most 1e-5) of "
+          "the table the builder's test reads the numerical-range bound on (NumericalRangePlanesTests), and every positive root of the cross resultant and of both "
+          "discriminants in a strip",
+          planes_ok and [plane_counts.get(k_) for k_ in range(4, 13)] == [2, 0, 5, 4, 6, 7, 11, 9, 16], str(plane_counts))
     W1_, W2_ = populations(R(7, 2))
     claim("at I = 7/2 and J1 = J2 (the populations of extreme narrowing, rotation invariant) two ranks share a "
           "rate: the populations decay at 0, 30, 84 twice, 150, 210 twice, 240 (times J1)",
