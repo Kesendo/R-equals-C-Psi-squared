@@ -17,7 +17,8 @@ Part 1 checks the identity and splits its gap. Part 2 checks the signal model. P
 pictures of more than one pool reproduce the published numbers when their signals go through the authors'
 fits. Part 6 compares the longitudinal TQ across the samples, Part 7 the size a pathway along z would need.
 Part 8 runs the two sequences pulse by pulse for one pool, against the hand count with Wigner coefficients,
-and reads the measured TQ amplitudes against one pool's. Bound pools have J0 >= J1 >= J2 >= 0, as one spectral-density curve of any distribution of correlation
+and reads the measured TQ amplitudes against one pool's. Part 9 reads the first paper's sampling of T1 off its
+Fig. 2A. Bound pools have J0 >= J1 >= J2 >= 0, as one spectral-density curve of any distribution of correlation
 times gives. Times in ms, rates in 1/ms inside the code. Runtime: about seven minutes; --global adds a
 differential-evolution check of Part 3.
 """
@@ -175,21 +176,25 @@ def free_J(T=T_FREE):
 
 # ---------------- the authors' fits ----------------
 T1_GRID = np.concatenate([0.1 * np.arange(1, 651), 65 + 0.8 * np.arange(1, 301)])   # NBM: dense to 65 ms (as their
-                                                                                    # text says), then 8x steps
+                                                                                    # text says), then 8x steps; their
+# Fig. 2A samples the coarse part about 1.8 ms apart to about 640 ms (Part 9), an open item of the page; the optional
+# time grids of fit_eq13, evaluate and two_bound are there for refitting on it
 T2_GRIDS = {"linear": np.linspace(0.4, 200, 26), "geometric": np.geomspace(0.4, 200, 26)}   # MRM: 26 times, spacing unstated
 TOL = dict(ftol=1e-12, xtol=1e-12, gtol=1e-12)
 B_FLOOR = 0.01   # below 1 % of one pool's longitudinal TQ the imposed TQ weight fades with the model's own signal
 
 
-def fit_eq13(sq1, tq1, guess):
+def fit_eq13(sq1, tq1, guess, t=None):
     """NBM Eq. 13 with the physical plus sign between the two longitudinal terms (the printed equation shows a
     minus there): SQ = 1 - 2 A (0.8 e^(-t/T1s) + 0.2 e^(-t/T1f)), TQ = B (e^(-t/T1f) - e^(-t/T1s)). Both orderings
     of the two times are tried and the lower residual kept (the fit has a second minimum with the times swapped)."""
     # (the printed Eq. 14 shows a minus between its two transverse terms as well; this script does not fit Eq. 14)
+    t = T1_GRID if t is None else t
+
     def res(p):
         A, T1s, T1f, B = p
-        return np.concatenate([1 - 2 * A * (0.8 * np.exp(-T1_GRID / T1s) + 0.2 * np.exp(-T1_GRID / T1f)) - sq1,
-                               B * (np.exp(-T1_GRID / T1f) - np.exp(-T1_GRID / T1s)) - tq1])
+        return np.concatenate([1 - 2 * A * (0.8 * np.exp(-t / T1s) + 0.2 * np.exp(-t / T1f)) - sq1,
+                               B * (np.exp(-t / T1f) - np.exp(-t / T1s)) - tq1])
     fits = [least_squares(res, [1.0, a, b, 0.05], bounds=([0, 1, 1, -10], [2, 500, 500, 10]), **TOL)
             for a, b in ((guess[0], guess[1]), (guess[1], guess[0]))]
     return min(fits, key=lambda r: r.cost).x
@@ -208,19 +213,20 @@ def fit_mrm(sq2, grid, guess):
     return Ts, Tf, A1 / (A1 + A2)
 
 
-def evaluate(f0, J_a, J_b, k, c, grid="linear", tqw=1.0):
+def evaluate(f0, J_a, J_b, k, c, grid="linear", tqw=1.0, t1=None):
     """The five numbers the authors' fits return for this voxel, and B1, its longitudinal TQ against one pool with
     the same fitted times. The TQ part of Eq. 13 carries the reported T1-TQ/SQ weight (times tqw), since the measured
     signal had it; below B_FLOOR of one pool's TQ that weight fades with the model's own signal."""
     t2 = T2_GRIDS[grid]
-    sq1, tq1, sq2, _ = envelopes(f0, J_a, J_b, k, T1_GRID, t2)
+    t1 = T1_GRID if t1 is None else t1
+    sq1, tq1, sq2, _ = envelopes(f0, J_a, J_b, k, t1, t2)
     d = data_numbers(c)
     guess = (d["T1s"][0], d["T1f"][0])
-    _, Ts0, Tf0, B = fit_eq13(sq1, tq1, guess)
+    _, Ts0, Tf0, B = fit_eq13(sq1, tq1, guess, t1)
     scale = tqw * NBM_TQ1_PC2[c] / max(abs(B), B_FLOOR)
-    _, T1s, T1f, _ = fit_eq13(sq1, tq1 * scale, guess)
+    _, T1s, T1f, _ = fit_eq13(sq1, tq1 * scale, guess, t1)
     T2s, T2f, slow = fit_mrm(sq2, t2, (d["T2s"][0], d["T2f"][0]))
-    u = np.exp(-T1_GRID / T1f) - np.exp(-T1_GRID / T1s)
+    u = np.exp(-t1 / T1f) - np.exp(-t1 / T1s)
     B1 = (u @ tq1) / (u @ u)
     return dict(T1s=T1s, T1f=T1f, T2s=T2s, T2f=T2f, slow=slow), B1
 
@@ -393,9 +399,9 @@ def part4(best):
 
 
 # ---------------- Part 5: two bound pools ----------------
-def two_bound(q, c):
+def two_bound(q, c, t1=None):
     p, J2a, aa, ba, J2b, ab, bb = q
-    return evaluate(p, bound_J(J2a, aa, ba), bound_J(J2b, ab, bb), 0.0, c)
+    return evaluate(p, bound_J(J2a, aa, ba), bound_J(J2b, ab, bb), 0.0, c, t1=t1)
 
 
 TWO_LO = [0.05, 1e-5, 0, 0, 1e-5, 0, 0]
@@ -848,6 +854,7 @@ def part8(edges):
           f"against {rlo:.2f} to {rhi:.2f} over the flip angles 10 % off, the phases and the pools of (c)")
 
     # (f) reading (i), each phase cycle with its own times and T1m
+    split_i = {}
     for pc, t1m in (("PC1", NBM_T1M_PC1), ("PC2", NBM_T1M_PC2)):
         chi, chi_x, rows = 0.0, 0.0, []
         for c in (2, 4, 6):
@@ -865,6 +872,7 @@ def part8(edges):
                 Rs, Rf = rates(delta)
                 return (u @ (np.exp(-T1_GRID * Rs) - np.exp(-T1_GRID * Rf))) / (u @ u)
             dl = brentq(lambda x: proj(x) - TQ1, 1e-9, 0.05)
+            split_i[(pc, c)] = dl
             dlo = brentq(lambda x: proj(x) - max(TQ1 - sTQ1, 1e-6), 1e-12, 0.05)
             dhi = brentq(lambda x: proj(x) - (TQ1 + sTQ1), 1e-9, 0.05)
             Rs, Rf = rates(dl)
@@ -971,6 +979,99 @@ def part8(edges):
                     f"{abs(np.cos(2 * k)):.2f} of PC0's")
     print("      a phase error in PC2's +-135 degree step multiplies order p by cos(p (135 + error)): " + "; ".join(rows))
 
+    # (k) the first order in time. One pool has as many unknowns there (J0, J1, J2, d) as the data have numbers: the two
+    # initial rates, 1/T1m and 0.6/T2f + 0.4/T2s, and the two triple quanta's initial slopes, each its amplitude times its
+    # split. So the first order measures d and tests the pool only through inequalities. J in the page's convention
+    # (R1f = 2 J1, R1s = 2 J2, R2f = J0 + J1, R2s = J1 + J2), three times pool_J's.
+    J0, J1, J2, dd = sp.symbols("J0 J1 J2 d")
+    E = sp.symbols("E1:5", positive=True)
+    first = [sp.Rational(2, 5) * J1 + sp.Rational(8, 5) * J2, sp.Rational(3, 5) * J0 + J1 + sp.Rational(2, 5) * J2,
+             exact["long"] * dd * 2 * (J1 - J2), exact["trans"] * dd * (J0 - J2)]
+    comb = sp.expand(sp.Rational(6, 5) * first[2] + sp.Rational(16, 5) * first[3] - sp.sqrt(6) * dd * (first[1] - first[0]))
+    sols = sp.solve([f - e for f, e in zip(first, E)], [J0, J1, J2, dd], dict=True)
+    ok = comb == 0 and len(sols) == 1 and all(sp.simplify(f.subs(sols[0]) - e) == 0 for f, e in zip(first, E))
+    print("  (k) the first order in time, one pool: 1/T1m = 0.4 J1 + 1.6 J2, 0.6/T2f + 0.4/T2s = 0.6 J0 + J1 + 0.4 J2, the "
+          "triple quanta's initial slopes (amplitude times split) sqrt6/2 |d| (J1 - J2) and 3 sqrt6/16 |d| (J0 - J2), J in "
+          "the page's convention; 1.2 and 3.2 times the slopes add to sqrt6 |d| times the difference of the two initial "
+          f"rates, and the four numbers have exactly one solution in J0, J1, J2 and d: {ok}")
+    assert ok
+    # the second route for the rates: the generator's own slopes at t = 0 for one pool, against the formulas in J (the
+    # page's J are three times the generator's); each slope is a weighted sum of G x, rounded to at most 64 eps times
+    # the sum of the magnitudes of its terms
+    checks = []
+    rng = np.random.default_rng(7)
+    for Jp in [(0.031, 0.0047, 0.0039)] + [tuple(10 ** rng.uniform(-6, 2, 3)) for _ in range(200)]:
+        Lg = voxel(1.0, Jp, Jp, 0.0)
+        Jg = [3 * x for x in Jp]
+        for ids, x1, (w_sq, n_sq), (w_tq, n_tq), r_sq, s_tq in (
+                (ORDER0, T10, (T10, T10 @ T10), (T30, 4.0), 0.4 * Jg[1] + 1.6 * Jg[2], -2 * (Jg[1] - Jg[2])),
+                (ORDER1, T11, (T11, T11 @ T11), (T31, 2 * np.sqrt(3)), 0.6 * Jg[0] + Jg[1] + 0.4 * Jg[2], -(Jg[0] - Jg[2]))):
+            G = Lg[np.ix_(ids, ids)].real
+            x = np.concatenate([x1, 0 * x1])
+            n = len(x1)
+            gx, ga = G @ x, np.abs(G) @ np.abs(x)
+            for w, norm, want, sign in ((w_sq, n_sq, r_sq, -1), (w_tq, n_tq, s_tq, 1)):
+                got = sign * (w @ gx[:n] + w @ gx[n:]) / norm
+                bound = 64 * EPS * (np.abs(w) @ ga[:n] + np.abs(w) @ ga[n:]) / abs(norm) + 4 * EPS * abs(want)
+                checks.append(abs(got - want) <= bound)
+    print("      second route: the generator's slopes at t = 0 for one pool give the two initial rates and the two "
+          f"triple-quantum rate differences of the formulas, each within its rounding bound, at one density set and 200 "
+          f"drawn over eight decades: {sum(checks)} of {len(checks)}")
+    assert all(checks)
+    for pc, t1m in (("PC1", NBM_T1M_PC1), ("PC2", NBM_T1M_PC2)):
+        rows = []
+        for c in (2, 4, 6):
+            T1s, _, T1f, _ = NBM_T1[pc][c]
+            T2s, T2f = MRM_T2[c]["T2s"][0], MRM_T2[c]["T2f"][0]
+            num = [1 / t1m[c][0], 0.6 / T2f + 0.4 / T2s, NBM_TQ1[pc][c][0] / 100 * (1 / T1f - 1 / T1s),
+                   NBM_TQ2_FIG6C[c] / 100 * (1 / T2f - 1 / T2s)]
+            sol = {k: float(v.subs(dict(zip(E, num)))) for k, v in sols[0].items()}
+            j0, j1, j2, dv1 = 1e3 * sol[J0], 1e3 * sol[J1], 1e3 * sol[J2], abs(sol[dd])
+            split = 2 * (j1 - j2)
+            rows.append(f"{c}%: |d| {dv1:.3f} (largest {dmax[c]:.3f}); J0, J1, J2 = {j0:.1f}, {j1:.2f}, {j2:.2f} 1/s "
+                        f"(J1/J2 {j1 / j2:.3f}, J0/J1 {j0 / j1:.2f}), "
+                        f"monotone {j0 >= j1 >= j2}, 3 J0 + J2 - 4 J1 = {3 * j0 + j2 - 4 * j1:.1f} and J2 - J1/4 = "
+                        f"{j2 - j1 / 4:.2f} (both >= 0 for any sum of Lorentzians), the exact region of such sums "
+                        f"J0 >= J1 >= J2 >= J0 J1/(4 J0 - 3 J1), margin above its lower edge J2/J0 - (J1/J0)/(4 - 3 J1/J0) = "
+                        f"{j2 / j0 - (j1 / j0) / (4 - 3 * j1 / j0):.3f}; split 2 (J1 - J2) {split:.2f} 1/s against "
+                        f"reading (i)'s {1e3 * split_i[(pc, c)]:.2f} (x {split / (1e3 * split_i[(pc, c)]):.3f})")
+        print(f"    {pc}: " + "; ".join(rows))
+    T1s, _, T1f, _ = NBM_T1["PC2"][2]
+    a, b, r0 = NBM_FIG5_FIRST
+    s0, s1 = r0 / 100 * 1e3 * (1 / b - 1 / a), NBM_TQ1["PC2"][2][0] / 100 * 1e3 * (1 / T1f - 1 / T1s)
+    h0, h1 = r0 * peak(a, b), NBM_TQ1["PC2"][2][0] * peak(T1s, T1f)
+    print(f"      NBM Fig. 5 (2 %, PC2): the longitudinal slope, amplitude times split, goes from {s0:.3f} to {s1:.3f} 1/s "
+          f"({100 * (s1 / s0 - 1):+.1f} %) as the late points are added, the height from {h0:.3f} to {h1:.3f} % "
+          f"({100 * (h1 / h0 - 1):+.1f} %)")
+
+
+# ---------------- Part 9: the first paper's sampling of T1, read off its Fig. 2A ----------------
+NBM_FIG2A_PEAKS = ((72.6, 0.604), (87.1, 0.711), (101.5, 0.784), (116.0, 0.846), (130.4, 0.885))   # NBM Fig. 2A (2 %,
+# PC0): the first five coarse peaks of the inversion recovery in the evolution time, time on the drawn axis in ms and
+# height, read off the trace's colour at the figure's resolution, calibrated on its gridlines
+NBM_FIG2A_DENSE_END, NBM_FIG2A_LAST = 65.0, 635.8   # where the dense band ends and the last coarse peak, ms, read off
+
+
+def part9():
+    print("\nPart 9. The first paper's sampling of T1, read off its Fig. 2A (2 %, PC0)")
+    t = np.array([p[0] for p in NBM_FIG2A_PEAKS])
+    h = np.array([p[1] for p in NBM_FIG2A_PEAKS])
+    spacing = np.mean(np.diff(t))
+    step = spacing / 8                       # a TPPI period is eight phase steps
+    T1s, _, T1f, _ = NBM_T1["PC0"][2]
+
+    def recovery(tt):
+        return 1 - 1.6 * np.exp(-tt / T1s) - 0.4 * np.exp(-tt / T1f)
+    t_08 = NBM_FIG2A_DENSE_END + (t - NBM_FIG2A_DENSE_END) * 0.8 / step
+    print(f"  the dense band ends near {NBM_FIG2A_DENSE_END:g} ms; the coarse peaks are {spacing:.2f} ms apart, eight phase "
+          f"steps, so {step:.2f} ms per coarse point, and the last one sits at {NBM_FIG2A_LAST} ms "
+          f"({(NBM_FIG2A_LAST - NBM_FIG2A_DENSE_END) / step:.0f} coarse points after the dense band)")
+    print("  peak heights against one pool with the published times (PC0, inversion complete) on the drawn axis, and "
+          "if the coarse step were 0.8 ms (the text's 8 x 100 us): " + "; ".join(
+              f"{tt} ms: {hh:.3f} against {recovery(tt):.3f} and {recovery(t8):.3f}" for tt, hh, t8 in zip(t, h, t_08)))
+    print(f"      largest deviation {np.max(np.abs(h - recovery(t))):.3f} on the drawn axis, "
+          f"{np.max(np.abs(h - recovery(t_08))):.3f} with 0.8 ms steps; T1_GRID samples 0.8 ms steps to "
+          f"{T1_GRID[-1]:g} ms")
 
 if __name__ == "__main__":
     do_global = "--global" in sys.argv
@@ -982,3 +1083,4 @@ if __name__ == "__main__":
     edges = part6(chi_at)
     part7()
     part8(edges)
+    part9()
