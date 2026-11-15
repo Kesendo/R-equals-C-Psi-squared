@@ -1,6 +1,7 @@
 using System.Numerics;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
+using RCPsiSquared.Core.Quadrupolar;
 using RCPsiSquared.Core.Symmetry;
 using Mat = RCPsiSquared.Core.Numerics.GaussianRational[,];
 
@@ -668,7 +669,11 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
             return Enumerable.Range(0, Levels).All(i => Enumerable.Range(0, Levels).All(j =>
                 read[i, j] == (i == j ? new GaussianRational(closed[i], 0) : GaussianRational.Zero)));
         }
-        ShiftClosedForm = ClosedAt(1, 0) && ClosedAt(0, 1) && ClosedAt(hk1, hk2);
+        // and the generator consumes exactly that term: its K part at the shift point is −i[LambShift, ·], the
+        // shift read here off this witness's spin matrices, the generator built by the shared builder in Core
+        var lamb = LambShift(hk1, hk2);
+        bool consumed = Equal(Sub(lK, lNoK), Super(X => Scale(Sub(Mul(lamb, X), Mul(X, lamb)), -GaussianRational.I)));
+        ShiftClosedForm = ClosedAt(1, 0) && ClosedAt(0, 1) && ClosedAt(hk1, hk2) && consumed;
         // the global centre with the shift: both routes against the rule, where it pairs and where it breaks
         ShiftCentreReadings = ShiftCentreCases.Select(c =>
         {
@@ -945,34 +950,29 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     }
 
     /// <summary>The exact generator at a point, for a caller that reads it with another instrument (the tests read
-    /// the exceptional point once more with <c>EpCharacter</c>, numerically).</summary>
-    public GaussianRational[,] GeneratorMatrix(long j0, long j1, long j2, long q, long omega) => Generator(j0, j1, j2, q, omega).L;
+    /// the exceptional point once more with <c>EpCharacter</c>, numerically, and compare the builder with the
+    /// shared one in Core).</summary>
+    public GaussianRational[,] GeneratorMatrix(long j0, long j1, long j2, long q, long omega,
+                                               long k1 = 0, long k2 = 0, GaussianRational[,]? extra = null) =>
+        Generator(j0, j1, j2, q, omega, k1, k2, extra).L;
+
+    /// <summary>The two parts of I_x = CentralTransitionPart + √3·SatellitePart, the pieces the selective
+    /// lock is built from.</summary>
+    public GaussianRational[,] CentralTransitionPartOfIx => (GaussianRational[,])_ixCt.Clone();
+    public GaussianRational[,] SatellitePartOfIx => (GaussianRational[,])_ixSat.Clone();
 
     // ===== the generator =====
 
-    /// <summary>L and its J₀ part L_{J₀}, as 16 × 16 superoperators on vec index 4i + j of |i⟩⟨j|.</summary>
+    /// <summary>L and its J₀ part L_{J₀}, as 16 × 16 superoperators on vec index 4i + j of |i⟩⟨j|, from the shared
+    /// builder in Core (<see cref="QuadrupolarGenerator"/>, physical view); its second route there is the
+    /// Pauli-string construction (<see cref="Spin32Strings"/>). The Lamb shift built below from this witness's own
+    /// spin matrices stays as the gate on its closed form.</summary>
     private (Mat L, Mat LJ0) Generator(long j0, long j1, long j2, long q, long omega, long k1 = 0, long k2 = 0, Mat? extra = null)
     {
-        var h = Add(Scale(_g0, q), Scale(_iz, omega));
-        if (k1 != 0 || k2 != 0) h = Add(h, LambShift(k1, k2));
-        if (extra is not null) h = Add(h, extra);
-        var d2 = Mul(_d, _d);
-        Mat Dissipate(Mat c, Mat cDagC, Mat rho) =>
-            Sub(Mul(Mul(c, rho), Adjoint(c)), Scale(Add(Mul(cDagC, rho), Mul(rho, cDagC)), new BigRational(1, 2)));
-        Mat J0Part(Mat rho) => Scale(Dissipate(_d, d2, rho), new BigRational(j0, 6));
-        Mat Full(Mat rho)
-        {
-            var acc = Scale(Sub(Mul(h, rho), Mul(rho, h)), -GaussianRational.I);
-            acc = Add(acc, J0Part(rho));
-            foreach (var (m, r) in _r)
-            {
-                long rate = Math.Abs(m) == 1 ? j1 : j2;
-                if (rate == 0) continue;
-                acc = Add(acc, Scale(Dissipate(r, Mul(Adjoint(r), r), rho), 3 * rate)); // T = √3·R
-            }
-            return acc;
-        }
-        return (Super(Full), Super(J0Part));
+        var h = SecularHamiltonian.Of(q, omega).WithLambShift(k1, k2);
+        if (extra is not null) h = h.WithExtraPhysical(extra);
+        var g = new QuadrupolarGenerator(SpinSpace.Of(3), new QuadrupolarRates(j0, j1, j2), h);
+        return (g.Physical(), g.PhysicalJ0Part());
     }
 
     /// <summary>The Lamb-shift Hamiltonian K₁(T₂,₁†T₂,₁ − T₂,₋₁†T₂,₋₁) + K₂(T₂,₂†T₂,₂ − T₂,₋₂†T₂,₋₂), built from the

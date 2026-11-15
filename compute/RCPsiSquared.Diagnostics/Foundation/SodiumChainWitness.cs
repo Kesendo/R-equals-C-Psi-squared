@@ -818,6 +818,15 @@ public sealed class SodiumChainWitness : IInspectable
         Add(Add(Scale(Str("ZZII"), (BigRational)q1), Scale(Str("IIZZ"), (BigRational)q2)),
             Add(Scale(Kron(iz, Identity(Levels)), (BigRational)w1), Scale(Kron(Identity(Levels), iz), (BigRational)w2)));
 
+    /// <summary>The chain's generator with no coupling, both nuclei at (q, ω) with the same densities,
+    /// for a caller that compares it with another builder (the shared one in Core, as a Kronecker sum).</summary>
+    public static GaussianRational[,] UncoupledGeneratorMatrix(long q, long omega, long j0, long j1, long j2)
+    {
+        var iz = Zero(Levels);
+        for (int k = 0; k < Levels; k++) iz[k, k] = new BigRational(3 - 2 * k, 2);
+        return Generator(Local(iz, q, q, omega, omega), new[] { (j0, j1, j2), (j0, j1, j2) });
+    }
+
     /// <summary>L = −i[H, ·] + Σ_k Σ_P γ_P (P·ρ·P − ρ), the jumps of nucleus k ZZ at 3J₀/2, ZX and ZY
     /// at 3J₁/2, XI and YI at 3J₂/2; row-major cells 16i + j.</summary>
     private static Mat Generator(Mat h, IReadOnlyList<(long J0, long J1, long J2)> rates, bool flipJ0 = false)
