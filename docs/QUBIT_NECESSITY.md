@@ -343,7 +343,13 @@ exclusions above, the same page's numerical-range bound rules out a full
 palindrome of this document's full-Cartan dephasing at one rate for every
 Hamiltonian at every d ≥ 3, on any chain holding such a site among qubits, the
 qubit-qutrit-qubit chain of §5 included, and of the clock at odd d
-([the clock mirror](proofs/PROOF_QUDIT_CLOCK_MIRROR.md) §4).
+([the clock mirror](proofs/PROOF_QUDIT_CLOCK_MIRROR.md) §4). The same bound
+rules out a full palindrome, one centre for the whole spectrum, of the
+quadrupolar relaxation at extreme narrowing, where its three spectral densities are equal and positive,
+for every Hermitian Hamiltonian of the nucleus at every spin I ≥ 1, so at
+every d ≥ 3; the two centres of spin 3/2 above are not one centre for the
+whole spectrum, and the bound does not touch them
+([the sodium nucleus](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md)).
 
 ### 8b. Relaxed mirror conditions
 
