@@ -61,7 +61,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// weights, the triple-quantum path's two equal and opposite overlaps, the one map on the tensors, and one string class
 /// split by the order; and the numerical-range bound beyond the mirrors (gate 10, on the shared builder in Core): no Hermitian H gives one centre where the largest rate of the self-adjoint dissipator stays below
 /// twice the mean, read at spin 1 against the claim's cone on 91 points and at its faces, at extreme narrowing for
-/// 2I = 2 … 12, and at 3/2 against the rule at the fixed points. These are statements on eigenvalues, not on the lines of a spectrum; which come
+/// 2I = 2 … 12 (where the dissipator is a quadratic in the rotations' Casimir), and at 3/2 against the rule at the fixed points. These are statements on eigenvalues, not on the lines of a spectrum; which come
 /// first for an observable reading a pair is the page's section, gated by its verifier.</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
@@ -383,11 +383,16 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     /// <summary>At extreme narrowing (J₀ = J₁ = J₂) for 2I = 2 … 12: r_max/2s from the rank rates and the bound's exact
     /// decision.</summary>
     public IReadOnlyList<(int TwiceSpin, BigRational Ratio, bool Decides)> ExtremeNarrowingReadings { get; }
+    /// <summary>At extreme narrowing for 2I = 2 … 12 the builder's dissipator equals −(J/4)·ad(I)²·(4I(I + 1) − 1 − ad(I)²)
+    /// as a matrix, ad(I)² = Σ_a ad(I_a)² the rotations' Casimir, and the Casimir minus k(k + 1) has nullity 2k + 1 for
+    /// every rank k: the identity behind the rank rates, read at these spins (the page proves it for every I).</summary>
+    public bool ExtremeNarrowingIsCasimirQuadratic { get; }
     /// <summary>At spin 3/2, at every fixed point: where the bound decides, the global-centre rule has no centre; at
     /// the fixed points with non-negative densities it decides exactly where all three are positive.</summary>
     public bool BoundAgreesWithTheRule { get; }
     public bool NumericalRangeBoundHolds => SpinOneConeAgreeing == SpinOneConePoints && SpinOneFacesAreTheEdges
-        && ExtremeNarrowingReadings.All(e => e.Decides && (e.Ratio - 1).Sign < 0) && BoundAgreesWithTheRule;
+        && ExtremeNarrowingReadings.All(e => e.Decides && (e.Ratio - 1).Sign < 0) && ExtremeNarrowingIsCasimirQuadratic
+        && BoundAgreesWithTheRule;
 
     // gate 3: the global-centre theorem
     public IReadOnlyList<CentrePoint> Points { get; }
@@ -731,8 +736,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         (TensorRowsHold, TensorBasesTurned, TripleQuantumPathHolds, MirrorOnTensorsHolds, OrderSplitsAStringClass) =
             ReadTensors(ip, im);
 
-        (SpinOneConeAgreeing, SpinOneConePoints, SpinOneFacesAreTheEdges, ExtremeNarrowingReadings, BoundAgreesWithTheRule) =
-            ReadNumericalRangeBound();
+        (SpinOneConeAgreeing, SpinOneConePoints, SpinOneFacesAreTheEdges, ExtremeNarrowingReadings, ExtremeNarrowingIsCasimirQuadratic,
+         BoundAgreesWithTheRule) = ReadNumericalRangeBound();
     }
 
     // ===== the numerical-range bound beyond the mirrors =====
@@ -740,7 +745,7 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
     private static bool BoundDecides(int twoI, long j0, long j1, long j2) =>
         NumericalRangeBound.ExcludesEveryCentre(new QuadrupolarGenerator(SpinSpace.Of(twoI), new QuadrupolarRates(j0, j1, j2), SecularHamiltonian.None));
 
-    private (int Agreeing, int Points, bool Faces, IReadOnlyList<(int, BigRational, bool)> En, bool Rule) ReadNumericalRangeBound()
+    private (int Agreeing, int Points, bool Faces, IReadOnlyList<(int, BigRational, bool)> En, bool Casimir, bool Rule) ReadNumericalRangeBound()
     {
         int agreeing = 0, points = 0;
         for (long a = 0; a <= 12; a++)
@@ -756,6 +761,10 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         var en = Enumerable.Range(2, 11)
             .Select(t => (t, NumericalRangeBound.ExtremeNarrowingRatio(SpinSpace.Of(t)), BoundDecides(t, 1, 1, 1)))
             .ToArray();
+        bool casimir = Enumerable.Range(2, 11).All(t => GaussianRationalMatrix.AreEqual(
+            new QuadrupolarGenerator(SpinSpace.Of(t), new QuadrupolarRates(1, 1, 1), SecularHamiltonian.None).GaugedDissipator(),
+            NumericalRangeBound.ExtremeNarrowingFromCasimir(SpinSpace.Of(t), 1))
+            && SpinSpace.Of(t).RotationCasimirNullities().SequenceEqual(Enumerable.Range(0, t + 1).Select(k => 2 * k + 1)));
         bool rule = FixedPoints.All(pt =>
         {
             bool decides = BoundDecides(3, pt.J0, pt.J1, pt.J2);
@@ -763,7 +772,7 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
             bool nonNegative = pt.J0 >= 0 && pt.J1 >= 0 && pt.J2 >= 0;
             return (!decides || noCentre) && (!nonNegative || decides == (pt.J0 > 0 && pt.J1 > 0 && pt.J2 > 0));
         });
-        return (agreeing, points, faces, en, rule);
+        return (agreeing, points, faces, en, casimir, rule);
     }
 
     // ===== the irreducible tensors in strings =====
@@ -1500,7 +1509,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                          $"at spin 1 the exact decision {Verdict(SpinOneConeAgreeing == SpinOneConePoints, "agrees", "DISAGREES")} with the cone J₁ < 4J₀ + 8J₂, 4J₂ < 4J₀ + 5J₁, J₀ < J₁ + 10J₂ at {SpinOneConeAgreeing} of {SpinOneConePoints} points on J₀ + J₁ + J₂ = 12, " +
                          $"and the faces {Verdict(SpinOneFacesAreTheEdges, "are its edges (silent on the rays (0, 4, 5) and (0, 8, 1) and on J₀ = J₁ + 10J₂, deciding just inside and silent just outside)", "are NOT its edges")}; " +
                          $"at extreme narrowing r_max/2s = {string.Join(", ", ExtremeNarrowingReadings.Select(e => $"{e.Ratio}"))} at 2I = 2 … 12, " +
-                         $"{Verdict(ExtremeNarrowingReadings.All(e => e.Decides), "the bound deciding at each", "the bound NOT deciding at each")}; " +
+                         $"{Verdict(ExtremeNarrowingReadings.All(e => e.Decides), "the bound deciding at each", "the bound NOT deciding at each")}, " +
+                         $"the dissipator there {Verdict(ExtremeNarrowingIsCasimirQuadratic, "−(J/4)·ad(I)²·(4I(I + 1) − 1 − ad(I)²) in the rotations' Casimir ad(I)² = Σ_a ad(I_a)², whose eigenspaces at k(k + 1) have dimension 2k + 1, one per rank, so one rate per rank, R_k = (J/4)·k(k + 1)·(4I(I + 1) − k(k + 1) − 1)", "NOT that quadratic in the rotations' Casimir, or its eigenspaces NOT the ranks")}; " +
                          $"at spin 3/2 {Verdict(BoundAgreesWithTheRule, "it decides at the fixed points with non-negative densities exactly where all three are positive, and nowhere where the rule puts a centre", "it DISAGREES with the rule")}.",
                 provenance: NodeProvenance.Live);
 

@@ -1,4 +1,5 @@
 using RCPsiSquared.Core.Numerics;
+using GM = RCPsiSquared.Core.Numerics.GaussianRationalMatrix;
 
 namespace RCPsiSquared.Core.Quadrupolar;
 
@@ -45,12 +46,28 @@ public static class NumericalRangeBound
     }
 
     /// <summary>At extreme narrowing (J₀ = J₁ = J₂ = J) the rate of the rank-k multipoles,
-    /// R_k = (J/4)·k(k + 1)·(4I(I + 1) − k(k + 1) − 1), multiplicity 2k + 1 (at 3/2: 6J, 12J, 6J).
-    /// Recalled, not looked up; gated against the builder at every I tested.</summary>
+    /// R_k = (J/4)·k(k + 1)·(4I(I + 1) − k(k + 1) − 1), multiplicity 2k + 1 (at 3/2: 6J, 12J, 6J): the
+    /// value of <see cref="ExtremeNarrowingFromCasimir"/> on rank k, where the rotation Casimir is k(k + 1);
+    /// derived for every I on the sodium page. Abragam and Pound's attenuation of rank-k statistical
+    /// tensors (Phys. Rev. 92, 943 (1953), read in a restatement), whose extra 1/(I²(2I − 1)²) is the
+    /// normalization of the coupling, absent from these jumps.</summary>
     public static BigRational ExtremeNarrowingRankRate(SpinSpace s, int k, BigRational j)
     {
         BigRational kk = k * (k + 1);
         return j / 4 * kk * (4 * s.SpinSquared - kk - 1);
+    }
+
+    /// <summary>The dissipator at extreme narrowing as a polynomial in the rotation Casimir C of
+    /// <see cref="SpinSpace.GaugedRotationCasimir"/>: D = −(J/4)·C·((4I(I + 1) − 1)·1 − C), in the gauge.
+    /// With all five rates equal and the jumps paired, m with −m, D = −(J/2)·Σ_ab ad(T_ab)²; the trace
+    /// part of T_ab drops out of ad; with A_a, B_a left and right multiplication by I_a, X = I(I + 1) =
+    /// Σ_a A_a² = Σ_a B_a² and A·B = Σ_a A_a B_a, the contraction is 2X² − X − 2(A·B)² + A·B, while
+    /// C = 2X − 2A·B.</summary>
+    public static GaussianRational[,] ExtremeNarrowingFromCasimir(SpinSpace s, BigRational j)
+    {
+        var c = s.GaugedRotationCasimir();
+        var shifted = GM.Subtract(GM.Scale(GM.Identity(c.GetLength(0)), 4 * s.SpinSquared - 1), c);
+        return GM.Scale(GM.Multiply(c, shifted), -j / 4);
     }
 
     /// <summary>r_max/2s at extreme narrowing, independent of J: the largest R_k over twice the mean

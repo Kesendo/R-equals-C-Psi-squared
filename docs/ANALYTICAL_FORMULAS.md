@@ -11309,7 +11309,7 @@ parents [F1](#f1) and the Absorption Theorem; grew from
 ---
 
 <a id="f167"></a>
-### F167. The spin-3/2 nucleus carries two exact mirrors: its quadrupolar relaxation is Pauli-string dephasing, one map S(X) = Γ₀·Xᵀ (Γ₀ ∝ T₂₀) pairs the modes that the zero-frequency density J₀ cannot see about −3(J₁ + J₂) and the others about a centre 3J₀ further out, and the whole spectrum has one centre exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0; at every other spin I ≥ 1 the J₀ channel alone breaks the mirror, and coupled nuclei that keep each nucleus's outer/inner bit carry a ladder of centres, one per set of bright nuclei (Tier 1: derived and gated 2026-10-17 to 2026-10-21 in [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md) and [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md); registered 2026-10-21 as an INDEX of those two pages)
+### F167. The spin-3/2 nucleus carries two exact mirrors: its quadrupolar relaxation is Pauli-string dephasing, one map S(X) = Γ₀·Xᵀ (Γ₀ ∝ T₂₀) pairs the modes that the zero-frequency density J₀ cannot see about −3(J₁ + J₂) and the others about a centre 3J₀ further out, and the whole spectrum has one centre exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0; at every other spin I ≥ 1 the J₀ channel alone breaks the mirror, and coupled nuclei that keep each nucleus's outer/inner bit carry a ladder of centres, one per set of bright nuclei (Tier 1: derived and gated 2026-10-17 to 2026-11-15 in [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md) and [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md); registered 2026-10-21 as an INDEX of those two pages)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated on the two pages named
@@ -11319,7 +11319,8 @@ Eqs. (15) to (27), after van der Maarel 1991 and Jaccard, Wimperis and
 Bodenhausen 1986), and so is the reading of the four levels as two qubits and
 of the J₀-free coherences as a decoherence-free subspace; the Dirac algebra of
 the five quadrupole components is Wu, Hu and Zhang's (Phys. Rev. Lett. 91,
-186402, 2003). What the pages add is the reading of the known rates as the
+186402, 2003), and the rates per rank at extreme narrowing at every spin are
+Abragam and Pound's (Phys. Rev. 92, 943, 1953). What the pages add is the reading of the known rates as the
 centres of two exact palindromes, the global-centre theorem, the statements
 beyond spin 3/2, the reading of the bright pairs' exceptional point as a mode
 merging with its mirror image, and the chain. The caution is [F160](#f160)'s: an indexing
@@ -11507,9 +11508,14 @@ only at p = 0 and |p| = 2; nor is p the popcount difference of the qubits.
   numerical-range bound of [F172](#f172)'s proof §4: no global centre where the
   largest rate of the self-adjoint dissipator stays below twice the mean. At spin 1 that
   is, for non-negative densities, the cone J₁ < 4J₀ + 8J₂, 4J₂ < 4J₀ + 5J₁,
-  J₀ < J₁ + 10J₂, whose faces on J₀ = 0 are the two rays; at extreme narrowing
-  it holds at every spin from 1 to 6 (the largest rate over twice the mean
-  between 49/66 and 4/5). Decided exactly on the shared builder
+  J₀ < J₁ + 10J₂, whose faces on J₀ = 0 are the two rays; at extreme narrowing,
+  J > 0, it holds at every spin I ≥ 1: there D = −(J/4)·ad(I)²·(4I(I + 1) − 1 − ad(I)²)
+  in the Casimir ad(I)² = Σ_a ad(I_a)² of the rotations on the spin's matrices, which
+  is k(k + 1) on rank k, so one rate per rank, R_k = (J/4)·k(k + 1)·(4I(I + 1) −
+  k(k + 1) − 1) (Abragam and Pound's rates, derived again for every I from the
+  commutators and the ranks), and the largest rate over
+  twice the mean is at most 3(4X − 1)²/(16X(4X − 3)) < 1, X = I(I + 1) (the ratio
+  itself between 49/66 and 4/5 at spins 1 to 6). Decided exactly on the shared builder
   (`compute/RCPsiSquared.Core/Quadrupolar/`), gated in `SodiumTwoMirrorsWitness`.
 
 **Coupled nuclei.** n nuclei, each a qubit pair, its own gradient (rates per
@@ -11626,7 +11632,9 @@ irreducible tensors in strings (the sixteen rows read for rank and order off the
 matrices, ten eigenoperators and six turned with their weights, the triple-quantum
 path's squared overlap 6/25 as a consistency reading of the weights, the one map on the tensors up to factors, the order filters'
 string spans), and the numerical-range bound beyond the mirrors (the spin-1 cone
-against the exact decision, extreme narrowing at spins 1 to 6, the rule at 3/2). The
+against the exact decision, extreme narrowing at spins 1 to 6 with the dissipator a quadratic in
+the rotations' Casimir and its eigenspaces the ranks, read at these spins and proved for every I,
+the rule at 3/2). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and

@@ -364,7 +364,8 @@ public class SodiumTwoMirrorsWitnessTests
 
     /// <summary>Gate 10: the numerical-range bound beyond the mirrors, against literals. At spin 1 the claim's cone and
     /// the exact decision agree on all 91 points and the faces are the edges; at extreme narrowing the ratios of the
-    /// rank rates are below 1 at every spin from 1 to 6 and the bound decides; at 3/2 it never contradicts the rule.</summary>
+    /// rank rates are below 1 at every spin from 1 to 6 and the bound decides, the dissipator there a quadratic in the rotations'
+    /// Casimir; at 3/2 it never contradicts the rule.</summary>
     [Fact]
     public void NumericalRangeBound_SpinOneCone_ExtremeNarrowing_AndTheRuleAtThreeHalves()
     {
@@ -381,6 +382,7 @@ public class SodiumTwoMirrorsWitnessTests
         Assert.Equal(Enumerable.Range(2, 11), Default.ExtremeNarrowingReadings.Select(e => e.TwiceSpin));
         Assert.Equal(expected, Default.ExtremeNarrowingReadings.Select(e => e.Ratio));
         Assert.All(Default.ExtremeNarrowingReadings, e => Assert.True(e.Decides));
+        Assert.True(Default.ExtremeNarrowingIsCasimirQuadratic);
         Assert.True(Default.NumericalRangeBoundHolds);
     }
 
