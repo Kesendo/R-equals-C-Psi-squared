@@ -20,9 +20,12 @@ Part 8 runs the two sequences pulse by pulse for one pool, against the hand coun
 and reads the measured TQ amplitudes against one pool's. Part 9 reads the first paper's sampling of T1 off its
 Fig. 2A and off the same figure in the first author's thesis, drawn there as a vector path (the points in
 data/reichert2024_sodium_agarose, read by simulations/read_reichert_thesis_figures.py), and checks the thesis's
-Fig. 4.11, the paper's Fig. 5 drawn as vector paths, against Table 2. Bound pools have J0 >= J1 >= J2 >= 0, as
+Fig. 4.11, the paper's Fig. 5 drawn as vector paths, against Table 2. Part 10 sets the thesis's second evaluation
+(its Eq. 3.16, Table 4.7 and Fig. 4.14, read by the same script) and its acquisition at fixed evolution times beside
+the count and reading (i), and fits the measured FID itself: the paper's fit identified on it, its plateau, the
+weights, a control of known split, and the triple-quantum amplitude held. Bound pools have J0 >= J1 >= J2 >= 0, as
 one spectral-density curve of any distribution of correlation times gives. Times in ms, rates in 1/ms inside the
-code. Runtime: about seven minutes; --global adds a differential-evolution check of Part 3.
+code. Runtime: about eight minutes; --global adds a differential-evolution check of Part 3.
 """
 import os
 import sys
@@ -1093,6 +1096,7 @@ def part8(edges):
     print(f"      NBM Fig. 5 (2 %, PC2; the thesis's Fig. 4.11): the longitudinal slope, amplitude times split, goes from {s0:.3f} to {s1:.3f} 1/s "
           f"({100 * (s1 / s0 - 1):+.1f} %) as the late points are added, the height from {h0:.3f} to {h1:.3f} % "
           f"({100 * (h1 / h0 - 1):+.1f} %)")
+    return split_i
 
 
 # ---------------- Part 9: the first paper's sampling of T1, read off the thesis's Fig. 3.6a and the paper's Fig. 2A ----------------
@@ -1192,6 +1196,528 @@ def part9():
           f"{NBM_FIG5_FIRST[0]}, {NBM_FIG5_FIRST[1]} ms, {NBM_FIG5_FIRST[2]} %)")
 
 
+# ---------------- Part 10: the thesis's second evaluation, its acquisition at fixed times, and the measured FID ----------------
+NBM_TQ1_PC0_2 = (3.14, .53)    # NBM Table 2, T1-TQ/SQ in %, PC0, 2 %
+NBM_TABLE1_PC2_2 = dict(T1s=99.98, A1s=5.45, T1f=43.06, A1f=94.17, tq=2.93)   # NBM Table 1, the amplitudes unbound, PC2, 2 %
+# (times in ms, amplitudes and ratio in %): one time at the fit's upper bound of 100 ms
+THESIS_T46_T1M_PC2_4 = (38.73, .62)   # the thesis's Table 4.6, its reprint of NBM Table 2: T1m at 4 %, PC2, where NBM prints
+# 38.65 +- 0.75, the digits of its own PC0 cell
+FIG414_CAL = {"ms": 1.77e-4, "percent": 3.25e-5}   # the largest residuals of Fig. 4.14's value axes on their tick marks
+FID_NAMES = ["s", "A", "Ts", "Tf", "ph1", "b", "ph2", "dc", "D", "TD", "ph3", "w"]
+FID_START = [1.0, 0.98, 49.0, 30.0, 0.0, 0.05, 0.0, 0.0, 0.0, 10.0, 0.0, 0.2]
+FID_LO = [0.5, 0.3, 1, 1, -10, -1, -10, -1, -1, 0.5, -10, 0.0]
+FID_HI = [1.5, 1.5, 500, 500, 20, 1, 20, 1, 1, 500, 20, 1.0]
+NO_DQ = dict(D=0.0, TD=10.0, ph3=0.0)
+PLATEAU_1 = dict(s=1.0)
+
+
+def fid_model(p, t, car):
+    """The IRTQTPPI FID along the evolution time: NBM Eq. 13 with the physical sign, s times its SQ part (s = 1 is the
+    printed equation, whose plateau is 1) and the fast weight w (0.2 printed), the TQ part s b times its shape (b the TQ
+    over the plateau), a constant DC and a double quantum at twice the carrier with an exponential envelope (D = 0
+    printed). car is the TPPI phase by point."""
+    s, A, Ts, Tf, ph1, b, ph2, dc, D, TD, ph3, w = p
+    sq = s * (1 - 2 * A * ((1 - w) * np.exp(-t / Ts) + w * np.exp(-t / Tf)))
+    tq = s * b * (np.exp(-t / Tf) - np.exp(-t / Ts))
+    return np.sin(car + ph1) * sq + np.sin(3 * car + ph2) * tq + dc + D * np.sin(2 * car + ph3) * np.exp(-t / TD)
+
+
+def fid_fit(y, t, car, fixed, starts, physical=True, Tmax=500.0):
+    """Least squares over the parameters not held in `fixed` (name -> value), from each start (name -> value); with
+    physical=True only solutions with T1s > T1f are kept (the printed fit's second minimum has the times swapped)."""
+    free = [i for i, k in enumerate(FID_NAMES) if k not in fixed]
+    lo, hi = np.array(FID_LO, float), np.array(FID_HI, float)
+    hi[2] = hi[3] = Tmax
+    best = None
+    for st in starts:
+        full = np.array([fixed.get(k, st.get(k, v)) for k, v in zip(FID_NAMES, FID_START)], float)
+
+        def res(q, full=full):
+            p = full.copy()
+            p[free] = q
+            return fid_model(p, t, car) - y
+        x0 = np.clip(full[free], lo[free] + 1e-9, hi[free] - 1e-9)
+        r = least_squares(res, x0, bounds=(lo[free], hi[free]), x_scale="jac", max_nfev=4000)
+        p = full.copy()
+        p[free] = r.x
+        if (not physical or p[2] > p[3]) and (best is None or r.cost < best[1].cost):
+            best = (p, r)
+    p, r = best
+    s2 = 2 * r.cost / (len(y) - len(free))
+    cov = np.full((len(FID_NAMES), len(FID_NAMES)), np.nan)
+    cov[np.ix_(free, free)] = np.linalg.pinv(r.jac.T @ r.jac) * s2
+    err = np.sqrt(np.diag(cov))
+    return dict(p=p, err=err, cost=r.cost, s2=s2, cov=cov)
+
+
+def split_err(f):
+    """The split's error from a fit's covariance of T1s and T1f."""
+    p, C = f["p"], f["cov"][np.ix_([2, 3], [2, 3])]
+    g = np.array([1e3 / p[2] ** 2, -1e3 / p[3] ** 2])
+    return float(np.sqrt(g @ C @ g))
+
+
+def phase_starts(pairs, n1=8, ph=None):
+    """Starts over pairs of times, from given phases (ph1, ph2) or from a grid of them."""
+    grid = [ph] if ph is not None else [(a, b) for a in np.linspace(0, 2 * np.pi, n1, endpoint=False)
+                                       for b in (0.0, np.pi / 2, np.pi, 3 * np.pi / 2)]
+    return [dict(Ts=a, Tf=b, ph1=x, ph2=z) for a, b in pairs for x, z in grid]
+
+
+def fid_split(p):
+    return 1e3 * (1 / p[3] - 1 / p[2])
+
+
+def fid_t1m(p):
+    return 1 / (0.8 / p[2] + 0.2 / p[3])
+
+
+def reading_i_split(pc, t1m, c, T1m=None):
+    """Part 8 (f)'s reading (i): one pool at the table's T1m whose TQ, read through the published shape, gives TQ1 (the
+    measured ratio over Fig. 6C's, times 3/4); its split in 1/s with the ends from the T1-TQ/SQ error."""
+    from scipy.optimize import brentq
+    T1s, _, T1f, _ = NBM_T1[pc][c]
+    T1m = t1m[c][0] if T1m is None else T1m
+    TQ1 = 0.75 * NBM_TQ1[pc][c][0] / NBM_TQ2_FIG6C[c]
+    sTQ1 = 0.75 * NBM_TQ1[pc][c][1] / NBM_TQ2_FIG6C[c]
+    u = np.exp(-T1_GRID / T1s) - np.exp(-T1_GRID / T1f)
+
+    def proj(delta):
+        return (u @ (np.exp(-T1_GRID * (1 / T1m - 0.2 * delta)) - np.exp(-T1_GRID * (1 / T1m + 0.8 * delta)))) / (u @ u)
+    dl = brentq(lambda x: proj(x) - TQ1, 1e-9, 0.05)
+    dlo = brentq(lambda x: proj(x) - max(TQ1 - sTQ1, 1e-6), 1e-12, 0.05)
+    dhi = brentq(lambda x: proj(x) - (TQ1 + sTQ1), 1e-9, 0.05)
+    return 1e3 * dl, 1e3 * dlo, 1e3 * dhi
+
+
+def part10(split_i=None):
+    import sympy as sp
+    from sympy.physics.quantum.spin import Rotation
+    print("\nPart 10. The thesis's second evaluation of the same data (its Eq. 3.16, Table 4.7 and Fig. 4.14), its acquisition "
+          "at fixed evolution times, and the measured FID of its Fig. 3.6a (2 %, PC0)")
+
+    # (a) Eq. 3.16 against the count of Part 8 (a), term by term
+    def wd(j, m, mp):
+        return sp.Abs(sp.simplify(Rotation.d(j, m, mp, sp.pi / 2).doit()))
+    W = wd(3, 3, 0) * wd(3, -1, 3) / (wd(1, 1, 0) * wd(1, -1, 1))
+    eq316, count = sp.Rational(2, 5) * W, sp.Rational(4, 5) * W   # Eq. 3.16 without its leading sqrt2, and the count
+    assert sp.simplify(count - sp.sqrt(6) / 4) == 0, "the count of Part 8 (a)"
+    c316 = float(eq316)
+    print(f"  (a) Eq. 3.16 is sqrt2 x 2/5 x the Wigner bracket of the count ({sp.nsimplify(W)}) x d read at the line with T2* "
+          f"and the fitted amplitudes, where the count has 4/5 and no sqrt2: per |d|, without its sqrt2 (as the thesis reports "
+          f"it) {eq316}, with it {sp.nsimplify(sp.sqrt(2) * eq316)}, against the count's {count} (the count, gated against the "
+          f"sequences simulated in Part 8 (b), is the TQ over the single quantum at equilibrium, the plateau of Eq. 13): "
+          f"{sp.simplify(eq316 / count)} and {sp.nsimplify(sp.sqrt(2) * eq316 / count)} of it, by the 2/5 transcribed from the "
+          f"thesis")
+    dstar = {}
+    for c in (2, 4, 6):
+        rep = THESIS_T47["standard"][c][6]
+        dstar[c] = rep / (100 * c316)
+    dv = {c: d_variants(c) for c in (2, 4, 6)}
+    print("      |d*| behind the refit's reported TQ/SQ (Table 4.7, the sqrt2 removed after the fit): " + ", ".join(
+          f"{c}% {dstar[c]:.4f} ({THESIS_T47['standard'][c][6] / (100 * np.sqrt(2) * c316):.4f} if kept)" for c in (2, 4, 6))
+          + "; the range of Part 8 (d): " + ", ".join(f"{min(dv[c].values()):.3f} to {max(dv[c].values()):.3f}" for c in (2, 4, 6))
+          + "; Eq. 3.16 with the second paper's T2* and the weights 0.4 / 0.6 of the thesis's Eq. 3.17 gives " + ", ".join(
+          f"{100 * c316 * dv[c]['T2* formula']:.2f}" for c in (2, 4, 6)) + " % where the table reports " + ", ".join(
+          f"{THESIS_T47['standard'][c][6]:.2f}" for c in (2, 4, 6)) + " %")
+    print("      Part 8 (e)'s size route at |d*|, TQ1 = measured T1-TQ/SQ / (sqrt6/4 |d*|): " + "; ".join(
+          f"{c}% " + ", ".join(f"{pc} {NBM_TQ1[pc][c][0] / (100 * LONG * dstar[c]):.3f} +- {NBM_TQ1[pc][c][1] / (100 * LONG * dstar[c]):.3f} "
+                               f"(ratio route {0.75 * NBM_TQ1[pc][c][0] / NBM_TQ2_FIG6C[c]:.3f})" for pc in ("PC1", "PC2"))
+          for c in (2, 4, 6)))
+
+    # (b) the splits: Table 2, reading (i), the refit and the acquisition at fixed times
+    if split_i is not None:
+        for c in (2, 4, 6):
+            assert reading_i_split("PC2", NBM_T1M_PC2, c)[0] == 1e3 * split_i[("PC2", c)], "the same reading (i) as Part 8 (f)"
+    print("  (b) splits in 1/s (PC2); the refit's and the acquisition's errors carry the correlation their T1m error allows (Part 1):")
+    for c in (2, 4, 6):
+        T2s, sT2s = MRM_T2[c]["T2s"]
+        fx, st = thesis_t47("fixed", c, T2s, sT2s), thesis_t47("standard", c, T2s, sT2s)
+        di, dlo, dhi = reading_i_split("PC2", NBM_T1M_PC2, c)
+        si = (dhi - dlo) / 2
+        print(f"    {c}%: reading (i) {di:.2f} ({dlo:.2f} to {dhi:.2f}); refit {st['split']:.2f} +- {st['s_split']:.2f}; acquisition "
+              f"{fx['split']:.2f} +- {fx['s_split']:.2f}; acquisition - (i) {(fx['split'] - di) / fx['s_split']:+.2f} sigma (its error), "
+              f"refit - acquisition {(st['split'] - fx['split']) / np.hypot(st['s_split'], fx['s_split']):+.2f}, refit - (i) "
+              f"{(st['split'] - di) / np.hypot(st['s_split'], si):+.2f} (both errors)")
+    a, b_ = reading_i_split("PC2", NBM_T1M_PC2, 4)[0], reading_i_split("PC2", NBM_T1M_PC2, 4, THESIS_T46_T1M_PC2_4[0])[0]
+    print(f"      at 4 % NBM's T1m in PC2 ({NBM_T1M_PC2[4][0]} +- {NBM_T1M_PC2[4][1]}) carries the digits of its PC0 cell; the "
+          f"thesis's reprint gives {THESIS_T46_T1M_PC2_4[0]} +- {THESIS_T46_T1M_PC2_4[1]}: reading (i)'s split {a:.3f} and {b_:.3f}")
+
+    # (c) the acquisition's T1-TQ/SQ: its normalization is not stated (Eq. 3.18 writes the SQ as 1 - A_SQ(...), A_SQ about 2)
+    print("  (c) the acquisition's T1-TQ/SQ against one pool's amplitude at |d*|, in the two normalizations and by the two counts:")
+    for c in (2, 4, 6):
+        v, e = THESIS_T47["fixed"][c][6:8]
+        cells = []
+        for lab, k in (("over the plateau", 1.0), ("over A_SQ = 2", 2.0)):
+            for clab, cc in (("count", LONG), ("Eq. 3.16", c316)):
+                cells.append(f"{lab}, {clab} {100 * cc * dstar[c]:.2f} %: {(k * v - 100 * cc * dstar[c]) / (k * e):+.2f} sigma")
+        print(f"    {c}%: {v} +- {e} %; " + "; ".join(cells))
+
+    # (d) the measured FID: the paper's fit identified on it
+    names, fid = read_csv("thesis_fig3_6a_irtqtppi_fid_2pct_pc0.csv")
+    y, t, car = fid[:, 1], T1_GRID, np.pi / 4 * np.arange(1, 641)
+    wt = 2 * np.pi * (45 / 360) / 0.2 * t        # omega t of Eq. 13 with the dense step of 0.2 ms
+    dev = np.max(np.abs(np.exp(1j * car) - np.exp(1j * wt)))
+    assert dev <= 4 * EPS * np.max(wt), "on the drawn axis omega t of Eq. 13 is the phase stepped by point"
+    print(f"  (d) the FID (data/reichert2024_sodium_agarose): the TPPI phase steps by 45 degrees per point in both bands, and "
+          f"omega t of Eq. 13 meets it on the drawn axis to {dev:.1e} (a coarse step of nine dense steps is 405 = 45 degrees); "
+          f"the phase is the pulses', by point, so the carrier does not see the times")
+    pairs = ((49.44, 29.92), (46.0, 40.0), (44.5, 43.5))
+    printed = "Eq. 13 as printed (plateau 1, no DQ)"
+    forms = {printed: dict(PLATEAU_1, **NO_DQ, w=0.2),
+             "plateau 1 with a DQ term": dict(PLATEAU_1, w=0.2),
+             "plateau free, no DQ": dict(NO_DQ, w=0.2),
+             "plateau free with a DQ term": dict(w=0.2)}
+    fits = {k: fid_fit(y, t, car, fx, phase_starts(pairs)) for k, fx in forms.items()}
+    fits["Eq. 13 as printed, either order"] = fid_fit(y, t, car, forms[printed], phase_starts(pairs + ((30.0, 49.0),)), physical=False)
+    T1s0, sT1s0, T1f0, sT1f0 = NBM_T1["PC0"][2]
+    devs = {k: max(abs(f["p"][2] - T1s0), abs(f["p"][3] - T1f0)) for k, f in fits.items()}
+    assert devs[printed] < min(v for k, v in devs.items() if k != printed), "the printed form is the one that meets the cell"
+    for k, f in fits.items():
+        p, e = f["p"], f["err"]
+        print(f"      {k}: T1s {p[2]:.3f} +- {e[2]:.3f}, T1f {p[3]:.3f} +- {e[3]:.3f} ms, T1m {fid_t1m(p):.3f}, split {fid_split(p):+.2f} 1/s, "
+              f"TQ {100 * abs(p[5]):.2f} +- {100 * e[5]:.2f} % of the plateau, plateau {p[0]:.4f} of the largest point, rms {np.sqrt(f['s2']):.5f}")
+    base = fits[printed]
+    p = base["p"]
+    ph0 = (p[4], p[6])
+    drawn_t = fid[:, 0]
+    pd = fid_fit(y, drawn_t, car, forms[printed], phase_starts(pairs, ph=ph0))["p"]
+    tq0 = fid_fit(y, t, car, dict(forms[printed], b=0.0), phase_starts(pairs, ph=ph0))["p"]
+    tqt = fid_fit(y, t, car, dict(forms[printed], b=np.sign(p[5]) * NBM_TQ1_PC0_2[0] / 100), phase_starts(pairs, ph=ph0))["p"]
+    gl = fits["Eq. 13 as printed, either order"]
+    print(f"    NBM Table 2, PC0, 2 %: T1s {T1s0} +- {sT1s0}, T1f {T1f0} +- {sT1f0} ms (split {1e3 * (1 / T1f0 - 1 / T1s0):.2f} 1/s), T1-TQ/SQ "
+          f"{NBM_TQ1_PC0_2[0]} +- {NBM_TQ1_PC0_2[1]} %: the printed form meets the times to {abs(p[2] - T1s0):.3f} and "
+          f"{abs(p[3] - T1f0):.3f} ms ({abs(pd[2] - T1s0):.3f} and {abs(pd[3] - T1f0):.3f} on the drawn vertices' own times), every "
+          f"other form tried misses by at least {min(v for k, v in devs.items() if k != printed):.3f}; its TQ, {100 * abs(p[5]):.2f} %, "
+          f"is {100 * abs(p[5]) / NBM_TQ1_PC0_2[0]:.2f} times the table's, not explained here. The times barely see the TQ: held at 0 "
+          f"they are {tq0[2]:.3f} and {tq0[3]:.3f}; held at the table's {NBM_TQ1_PC0_2[0]} % they move to {tqt[2]:.3f} and "
+          f"{tqt[3]:.3f}. The table's cell is a local minimum: the printed form's lower one has the times swapped, by delta chi2 "
+          f"{2 * (base['cost'] - gl['cost']) / gl['s2']:.0f}")
+
+    # (e) the refit, from Fig. 4.14
+    rows414 = {}
+    with open(os.path.join(DATA, "thesis_fig4_14_refit_tq_held_2_4_6pct.csv"), encoding="utf-8") as fh:
+        for line in fh:
+            if line.startswith("PC"):
+                v = line.strip().split(",")
+                rows414[(v[0], int(v[1]))] = tuple(float(x) for x in v[2:])
+    csv_round = 5e-5      # the CSV's last digit
+    for c in (2, 4, 6):
+        s_, ss, f_, sf, m_, sm, tq, stq = THESIS_T47["standard"][c]
+        T1s, T1m, T1f, r414 = rows414[("PC2", c)]
+        assert max(abs(T1s - s_), abs(T1m - m_), abs(T1f - f_)) <= 0.005 + FIG414_CAL["ms"] + csv_round and \
+            abs(r414 - tq) <= 0.005 + FIG414_CAL["percent"] + csv_round, "Fig. 4.14's PC2 markers are Table 4.7's standard row"
+    T1s4, T1m4, T1f4, r4 = rows414[("PC0", 2)]
+
+    def held_fit(k, fx, tt=t):
+        return fid_fit(y, tt, car, dict(fx, b=np.sign(p[5]) * k * r4 / 100), phase_starts(pairs, ph=ph0))
+
+    def solve_k(idx, target, tt=t):
+        from scipy.optimize import brentq
+        return brentq(lambda k: held_fit(k, forms[printed], tt)["p"][idx] - target, 1.2, 1.7, xtol=1e-7)
+    ks, kf = solve_k(2, T1s4), solve_k(3, T1f4)
+    ksd, kfd = solve_k(2, T1s4, drawn_t), solve_k(3, T1f4, drawn_t)
+    h = 1e-3
+    dTs = (held_fit(ks + h, forms[printed])["p"][2] - held_fit(ks - h, forms[printed])["p"][2]) / (2 * h)
+    dTf = (held_fit(kf + h, forms[printed])["p"][3] - held_fit(kf - h, forms[printed])["p"][3]) / (2 * h)
+    tol_k = (FIG414_CAL["ms"] + csv_round) * (1 / abs(dTs) + 1 / abs(dTf))
+    assert abs(ks - kf) <= tol_k, "one held amplitude gives the refit's two times, within the figure's reading"
+    alt = {"sqrt2, plateau 1": held_fit(np.sqrt(2), forms[printed]), "1, plateau 1": held_fit(1.0, forms[printed]),
+           "sqrt2, plateau free": held_fit(np.sqrt(2), dict(NO_DQ, w=0.2)), "1, plateau free": held_fit(1.0, dict(NO_DQ, w=0.2))}
+    dev414 = {k: max(abs(f["p"][2] - T1s4), abs(f["p"][3] - T1f4)) for k, f in alt.items()}
+    kfit = held_fit((ks + kf) / 2, forms[printed])
+    print(f"  (e) Fig. 4.14 (the refit, read off its markers; PC2 is Table 4.7's standard row within its rounding and the axes), "
+          f"PC0 at 2 %: T1s {T1s4:.4f}, T1m {T1m4:.4f}, T1f {T1f4:.4f} ms, TQ/SQ {r4:.4f} %. The printed form with the TQ held at k "
+          f"times that, on the sampling of T1_GRID: T1s asks k = {ks:.5f}, T1f asks {kf:.5f}, the same within {tol_k:.1e} (the "
+          f"figure's reading carried through), {(ks + kf) / 2 / np.sqrt(2):.4f} sqrt2; on the drawn vertices' own times they ask "
+          f"{ksd:.5f} and {kfd:.5f}; at k = sqrt2 the times miss by {dev414['sqrt2, plateau 1']:.3f} ms, at k = 1 or with the plateau "
+          f"free by at least {min(v for k, v in dev414.items() if k != 'sqrt2, plateau 1'):.3f}. Eq. 3.16 with its sqrt2 is "
+          f"{np.sqrt(2) * c316 / LONG:.3f} of the count at the d its reported value implies; delta chi2 of the held amplitude against "
+          f"the free fit of the same form {2 * (kfit['cost'] - base['cost']) / base['s2']:.0f} (on that fit's residual variance)")
+
+    # (f) the plateau, and the free plateau on the drawn axis
+    fr = fits["plateau free with a DQ term"]
+    pf = fr["p"]
+    tail = t > 430
+    X = np.column_stack([fn(k * car[tail]) for k in (1, 2, 3) for fn in (np.sin, np.cos)] + [np.ones(tail.sum()), np.cos(4 * car[tail])])
+    coef = np.linalg.lstsq(X, y[tail], rcond=None)[0]
+    floor = np.sqrt(np.sum((y[tail] - X @ coef) ** 2) / (tail.sum() - X.shape[1]))
+    plat = float(np.hypot(coef[0], coef[1]))
+    t_first = t[tail][0]
+
+    def recovery(q, tt):
+        return 2 * q[1] * q[0] * (0.8 * np.exp(-tt / q[2]) + 0.2 * np.exp(-tt / q[3]))
+    print(f"  (f) read without a model on the tail (t > 430 ms, where the recovery left is {recovery(pf, t_first):.1e} by the free "
+          f"plateau's fit and {recovery(p, t_first):.1e} by the printed one at the first point, {t_first:.1f} ms): the single "
+          f"quantum's amplitude {plat:.4f} of the largest point, the DC {coef[6]:+.4f}, the noise floor {floor:.5f}; Eq. 13 holds that "
+          f"amplitude at 1. With the plateau free (a scale on the single quantum) on the drawn axis: plateau {pf[0]:.4f}")
+    res = y - fid_model(pf, t, car)
+    bands = ((0, 64), (64, 82), (82, 100), (100, 150), (150, 430), (430, 640))
+    print("    its residual's rms by band (ms): " + ", ".join(
+        f"{lo} to {hi}: {np.sqrt(np.mean(res[(t > lo) & (t <= hi)] ** 2)):.5f}" for lo, hi in bands)
+        + f": at the floor except just after the bands join")
+
+    def harmonics(idx):
+        """The residual (data - model) over consecutive points, on the single quantum in phase with the fitted SQ term and
+        out of it, the constant, and the double and triple quantum in size, with the 1-sigma of the noise floor."""
+        B = np.column_stack([np.sin(car[idx] + pf[4]), np.cos(car[idx] + pf[4]), np.ones(len(idx)),
+                             np.sin(2 * car[idx]), np.cos(2 * car[idx]), np.sin(3 * car[idx]), np.cos(3 * car[idx])])
+        c_, *_ = np.linalg.lstsq(B, res[idx], rcond=None)
+        sgn = np.sign(pf[0])
+        return sgn * c_[0], max(abs(c_[1]), abs(c_[2]), np.hypot(c_[3], c_[4]), np.hypot(c_[5], c_[6])), floor * np.sqrt(2 / len(idx))
+    hc, ho, hs = harmonics(np.arange(320, 328))
+    hd, hdo, hds = harmonics(np.arange(304, 320))
+    print(f"    the residual (data - model) on the carriers: over the first eight coarse points {hc:+.4f} on the single quantum in "
+          f"phase (negative: less recovered than the model), at most {ho:.4f} out of phase, at order 0 and in the double and the "
+          f"triple quantum (1 sigma {hs:.4f}); over the last sixteen dense points {hd:+.4f} in phase, at most {hdo:.4f} on the rest "
+          f"(1 sigma {hds:.4f})")
+    prof = []
+    for w in (0.10, 0.15, 0.20, 0.25, 0.30, 0.40):
+        g = fid_fit(y, t, car, dict(w=w), phase_starts(pairs, ph=(pf[4], pf[6])))
+        prof.append(f"{w:.2f}: split {fid_split(g['p']):.2f}, delta chi2 {2 * (g['cost'] - fr['cost']) / fr['s2']:+.1f}")
+    gw = fid_fit(y, t, car, {}, phase_starts(pairs, ph=(pf[4], pf[6])), physical=False)
+    gu = fid_fit(y, t, car, dict(PLATEAU_1, **NO_DQ), phase_starts(((99.0, 43.0), (49.0, 30.0)), ph=(pf[4], pf[6])), physical=False, Tmax=100.0)
+    print(f"    the fast weight held (delta chi2 on the w = 0.2 fit's residual variance): " + "; ".join(prof)
+          + f"; free: {gw['p'][11]:.3f} at {gw['p'][3]:.2f} ms beside {gw['p'][2]:.2f} ms")
+    slot = sorted(((1 - gu["p"][11], gu["p"][2]), (gu["p"][11], gu["p"][3])), key=lambda z: z[1])
+    tb = NBM_TABLE1_PC2_2
+    print(f"    plateau 1, the weights unbound and the times bounded at 100 ms (as the paper's Table 1): {100 * slot[1][0]:.2f} % at "
+          f"{slot[1][1]:.2f} ms, {100 * slot[0][0]:.2f} % at {slot[0][1]:.2f} ms, TQ {100 * abs(gu['p'][5]):.2f} %; the paper's Table 1 "
+          f"(PC2): {tb['A1s']} % at {tb['T1s']} ms, {tb['A1f']} % at {tb['T1f']} ms, TQ {tb['tq']} %")
+
+    def part_terms(q):
+        s, A, Ts, Tf, ph1, b, ph2 = q[:7]
+        return (np.sin(car + ph1) * s * (1 - 2 * A * (0.8 * np.exp(-t / Ts) + 0.2 * np.exp(-t / Tf))),
+                np.sin(3 * car + ph2) * s * b * (np.exp(-t / Tf) - np.exp(-t / Ts)))
+
+    def jac(k, idx):
+        cols = []
+        for i in idx:
+            dp = np.zeros(12)
+            dp[i] = 1e-6 * max(1.0, abs(pf[i]))
+            cols.append((part_terms(pf + dp)[k] - part_terms(pf - dp)[k]) / (2 * dp[i]))
+        return np.array(cols).T
+    gvec = np.array([1e3 / pf[2] ** 2, -1e3 / pf[3] ** 2])
+    sd = []
+    for k, idx, at in ((0, [0, 1, 2, 3, 4], [2, 3]), (1, [2, 3, 5, 6], [0, 1])):
+        J = jac(k, idx)
+        C = np.linalg.pinv(J.T @ J) * fr["s2"]
+        sd.append(np.sqrt(gvec @ C[np.ix_(at, at)] @ gvec))
+    print(f"    the split's spread from the SQ term alone {sd[0]:.2f}, from the TQ term alone {sd[1]:.1f} 1/s: the single quantum "
+          f"sets it")
+
+    # (g) the join of the two bands
+    fixed_dq = dict(w=0.2)
+    phf = (pf[4], pf[6])
+
+    def shifted(dt):
+        tt = t.copy()
+        tt[320:] += dt
+        return tt
+
+    def offset_fit(yy, phs, fixed=fixed_dq):
+        from scipy.optimize import minimize_scalar
+        r = minimize_scalar(lambda dt: fid_fit(yy, shifted(dt), car, fixed, phase_starts(pairs[:2], ph=phs))["cost"],
+                            bounds=(-3.0, 2.0), method="bounded", options=dict(xatol=1e-4))
+        return r.x, fid_fit(yy, shifted(r.x), car, fixed, phase_starts(pairs[:2], ph=phs))
+    dt0, fo = offset_fit(y, phf)
+    po = fo["p"]
+    curv = [2 * fid_fit(y, shifted(dt0 + s), car, fixed_dq, phase_starts(pairs[:2], ph=phf))["cost"] / fo["s2"] for s in (-0.05, 0.05)]
+    sdt = 0.05 / np.sqrt((curv[0] + curv[1] - 2 * 2 * fo["cost"] / fo["s2"]) / 2)
+
+    def band_step(kind):
+        """The coarse band changed against the dense one by one factor: its part still to recover ('unrecovered', the
+        inversion term times 1 + e), its whole signal ('gain'), or both its times ('T1')."""
+        free = [i for i, k in enumerate(FID_NAMES) if k != "w"]
+        lo, hi = np.array(FID_LO, float)[free], np.array(FID_HI, float)[free]
+
+        def model(q):
+            full = pf.copy()
+            full[free] = q[:-1]
+            e = q[-1]
+            m = fid_model(full, t, car)
+            c2 = full.copy()
+            if kind == "unrecovered":
+                c2[1] *= 1 + e
+            elif kind == "gain":
+                c2[0] *= 1 + e
+            else:
+                c2[2] *= 1 + e
+                c2[3] *= 1 + e
+            m[320:] = fid_model(c2, t, car)[320:]
+            return m
+        r = least_squares(lambda q: model(q) - y, np.append(pf[free], 0.0), bounds=(np.append(lo, -0.5), np.append(hi, 0.5)),
+                          x_scale="jac", max_nfev=4000)
+        q = pf.copy()
+        q[free] = r.x[:-1]
+        return r.x[-1], q, r.cost
+    steps = {k: band_step(k) for k in ("unrecovered", "gain", "T1")}
+    srow = "; ".join(f"{k}: {100 * e:+.2f} %, delta chi2 {2 * (fr['cost'] - cst) / fo['s2']:.0f}, split {fid_split(q):.2f}"
+                     for k, (e, q, cst) in steps.items())
+    prow = [f"{d:+.1f}: split {fid_split(fid_fit(y, shifted(d), car, fixed_dq, phase_starts(pairs[:2], ph=phf))['p']):.2f}, delta chi2 "
+            f"{2 * (fid_fit(y, shifted(d), car, fixed_dq, phase_starts(pairs[:2], ph=phf))['cost'] - fo['cost']) / fo['s2']:+.1f}"
+            for d in (-1.8, -1.6, -1.4, -1.2)]
+    print(f"  (g) the join, plateau free with a DQ term, delta chi2 gained over the unmoved fit on the variance at the floor: the "
+          f"coarse band moved in time by {dt0:+.3f} +- {sdt:.3f} ms gains {2 * (fr['cost'] - fo['cost']) / fo['s2']:.0f} (rms "
+          f"{np.sqrt(fo['s2']):.5f} against {np.sqrt(fr['s2']):.5f}, the floor {floor:.5f}), split {fid_split(po):.2f} +- "
+          f"{split_err(fo):.2f}, T1m {fid_t1m(po):.2f}; the coarse band changed by one factor instead, {srow} (a move by dt scales "
+          f"the part still to recover by exp(-dt/T), so the first two are one step); at other moves " + "; ".join(prow))
+    from scipy.optimize import minimize
+
+    def timing(free_off, free_cs):
+        def make_t(q):
+            off = q[0] if free_off else 0.0
+            cs = q[-1] if free_cs else 1.8
+            return np.concatenate([0.2 * np.arange(1, 321), 64.0 + off + cs * np.arange(1, 321)])
+        q0 = [dt0] * free_off + [1.8] * free_cs
+        r = minimize(lambda q: fid_fit(y, make_t(q), car, fixed_dq, phase_starts(pairs[:2], ph=phf))["cost"], q0,
+                     method="Nelder-Mead", options=dict(xatol=1e-5, fatol=1e-12, maxiter=600))
+        return r.x, 2 * (fr["cost"] - r.fun) / fo["s2"]
+    q1, g1 = timing(0, 1)
+    q2, g2 = timing(1, 1)
+    print(f"    the time scale: the coarse step free, {q1[0]:.4f} ms, gains {g1:.0f} (the dense step free is the same fit, the "
+          f"model being unchanged when all times and both T1 scale together); the move with the coarse step free, "
+          f"{q2[0]:+.4f} ms and {q2[1]:.4f} ms, gains {g2:.0f}")
+    rng = np.random.default_rng(2)
+    nulls = []
+    for split in (6.0, 9.5):
+        Rs = 1 / fid_t1m(pf) - 0.2 * split / 1e3
+        truth = pf.copy()
+        truth[0], truth[1], truth[2], truth[3] = 1.0, 1.0, 1 / Rs, 1 / (Rs + split / 1e3)
+        for _ in range(4):
+            yy = fid_model(truth, t, car) + floor * rng.standard_normal(640)
+            nulls.append(offset_fit(yy / np.max(np.abs(yy)), phf)[0])
+    nulls = np.array(nulls)
+    assert np.max(np.abs(nulls)) <= 3 * sdt, "on controls without a step the fit finds none, within three of its own errors"
+    print(f"    controls without a step (one pool, split 6.0 and 9.5, the curve's DC, DQ, TQ and noise floor, normalized to the "
+          f"largest point, eight draws): the fitted move {nulls.mean():+.3f}, at most {np.max(np.abs(nulls)):.3f} ms in size "
+          f"against its error {sdt:.3f}")
+    keep = ~((t > 64) & (t <= 150))
+    dense = np.arange(640) < 320
+    routes = {("the dense band alone, the plateau held at the tail's", True):
+              fid_fit(y[dense], t[dense], car[dense], dict(fixed_dq, s=plat), phase_starts(pairs, ph=phf)),
+              ("64 to 150 ms left out, the plateau free", True): fid_fit(y[keep], t[keep], car[keep], fixed_dq, phase_starts(pairs, ph=phf)),
+              ("the coarse band moved, the plateau free", True): fo,
+              ("the dense band alone, the plateau held at the tail's", False):
+              fid_fit(y[dense], t[dense], car[dense], dict(fixed_dq, s=plat, **NO_DQ), phase_starts(pairs, ph=phf)),
+              ("64 to 150 ms left out, the plateau free", False): fid_fit(y[keep], t[keep], car[keep], dict(fixed_dq, **NO_DQ),
+                                                                       phase_starts(pairs, ph=phf))}
+    with_dq = [fid_split(f["p"]) for k, f in routes.items() if k[1]]
+    print("    routes past the join, the fast weight held at 0.2: " + "; ".join(
+        f"{k[0]}, {'with' if k[1] else 'no'} DQ: split {fid_split(f['p']):.2f}, T1m {fid_t1m(f['p']):.2f}, rms {np.sqrt(f['s2']):.5f}"
+        for k, f in routes.items()) + f"; with the DQ term, at the floor, {min(with_dq):.2f} to {max(with_dq):.2f} 1/s")
+    dfree = fid_fit(y[dense], t[dense], car[dense], fixed_dq, phase_starts(pairs, ph=phf))
+    gws = fid_fit(y, shifted(dt0), car, {}, phase_starts(pairs, ph=phf), physical=False)
+    wsplit = 1e3 * abs(1 / gws["p"][3] - 1 / gws["p"][2])
+    print(f"    the inversion of the moved fit, A = {po[1]:.4f} +- {fo['err'][1]:.4f} (1 is complete), so a coarse band 3.36 % further "
+          f"from recovery with the same gain would be inverted beyond its equilibrium")
+    print(f"    the dense band alone with its plateau free: split {fid_split(dfree['p']):.2f} at plateau {dfree['p'][0]:.4f} +- "
+          f"{dfree['err'][0]:.4f}; on the moved axis with the fast weight free: {gws['p'][11]:.3f} at {gws['p'][3]:.2f} ms beside "
+          f"{gws['p'][2]:.2f} ms, split {wsplit:.2f}, and 0.2 costs delta chi2 {2 * (fo['cost'] - gws['cost']) / gws['s2']:.1f}")
+
+    # (h) the late points: the curve against Fig. 4.11, and loops of known truth
+    nf, fit411 = read_csv("thesis_fig4_11_fit_vs_points_added_2pct_pc2.csv")
+    col = {k: fit411[:, i] for i, k in enumerate(nf)}
+    pts = col["points_added"].astype(int)
+    rows, curve_series = [], {}
+    for i, m in enumerate(pts):
+        mask = np.arange(640) < 320 + m
+        a1 = fid_fit(y[mask], t[mask], car[mask], forms[printed], phase_starts(pairs, ph=ph0))["p"]
+        a2 = fid_fit(y[mask], t[mask], car[mask], forms["plateau free, no DQ"], phase_starts(pairs, ph=ph0))["p"]
+        curve_series[m] = fid_split(a1)
+        rows.append(f"{m}: {a1[2]:.2f} / {a1[3]:.2f} / {100 * abs(a1[5]):.2f} (split {fid_split(a1):.2f}), free {a2[2]:.2f} / {a2[3]:.2f}, "
+                    f"Fig. 4.11 {col['T1s_ms'][i]:.2f} / {col['T1f_ms'][i]:.2f} / {col['tq_sq_percent'][i]:.2f}")
+    print("  (h) coarse points added: the FID (PC0) with Eq. 13 as printed, T1s / T1f ms / TQ %, with the plateau free, and the "
+          "thesis's Fig. 4.11 (PC2): " + "; ".join(rows))
+    wins = (0, 30, 100, 320)
+    rng = np.random.default_rng(3)
+
+    def loop(split, tt, noise, draws, src):
+        Rs = 1 / fid_t1m(src) - 0.2 * split / 1e3
+        truth = src.copy()
+        truth[0], truth[1], truth[2], truth[3] = 1.0, 1.0, 1 / Rs, 1 / (Rs + split / 1e3)
+        clean = fid_model(truth, tt, car)
+        out = {m: [] for m in wins}
+        for _ in range(draws):
+            yy = clean + noise * rng.standard_normal(640)
+            yy = yy / np.max(np.abs(yy))
+            for m in wins:
+                mask = np.arange(640) < 320 + m
+                out[m].append(fid_split(fid_fit(yy[mask], t[mask], car[mask], forms[printed], phase_starts(pairs, ph=ph0))["p"]))
+        return {m: np.array(v) for m, v in out.items()}
+    split_mid = float(np.median(with_dq))
+    arms = {"moved and noisy": loop(split_mid, shifted(dt0), floor, 16, po), "moved, no noise": loop(split_mid, shifted(dt0), 0.0, 1, po),
+            "unmoved and noisy": loop(split_mid, t, floor, 16, po), "unmoved, no noise": loop(split_mid, t, 0.0, 1, po),
+            "the drawn axis's split, unmoved and noisy": loop(fid_split(pf), t, floor, 16, pf)}
+    jump = {k: a[30] - a[0] for k, a in arms.items()}
+    cj = curve_series[30] - curve_series[0]
+    a = arms["moved and noisy"]
+    for m in wins:
+        assert abs(a[m].mean() - curve_series[m]) <= 3 * a[m].std(), "the step and the plateau give the curve's series"
+    assert abs(jump["moved and noisy"].mean() - cj) <= 3 * jump["moved and noisy"].std(), "with the step, the curve's jump at 30"
+    assert jump["unmoved and noisy"].mean() + 3 * jump["unmoved and noisy"].std() < cj, "without the step, no such jump"
+    print(f"    loops: one pool of split {split_mid:.2f} 1/s (the median of the routes at the floor) at T1m {fid_t1m(po):.2f} ms with the "
+          f"curve's DC, DQ and TQ from its moved fit, generated with and without the move of {dt0:+.3f} ms and the noise floor, "
+          f"normalized to the largest point, fitted with Eq. 13 as printed on the drawn axis (+- the spread of sixteen draws): "
+          + "; ".join(f"{k}: " + ", ".join(f"{m}: {v[m].mean():.2f}" + (f" +- {v[m].std():.2f}" if len(v[m]) > 1 else "") for m in wins)
+                      for k, v in arms.items())
+          + f"; the curve: " + ", ".join(f"{m}: {curve_series[m]:.2f}" for m in wins) + f". The jump from no coarse points to 30: "
+          + ", ".join(f"{k} {v.mean():.2f}" for k, v in jump.items()) + f", the curve {cj:.2f}. The pool is the curve's own fit, so "
+          f"the loops show what the step and the plateau do, not which split is the curve's")
+
+    # (i) controls of known split for the plateau alone
+    rng = np.random.default_rng(4)
+    out = []
+    for split in (2.0, fid_split(fits["plateau free, no DQ"]["p"])):
+        Rs = 1 / fid_t1m(pf) - 0.2 * split / 1e3
+        truth = pf.copy()
+        truth[0], truth[1], truth[2], truth[3], truth[8] = 1.0, 1.0, 1 / Rs, 1 / (Rs + split / 1e3), 0.0
+        clean = fid_model(truth, t, car)
+        cn = clean / np.max(np.abs(clean))
+        g1 = fid_split(fid_fit(cn, t, car, forms[printed], phase_starts(pairs, ph=ph0))["p"])
+        g0 = fid_split(fid_fit(cn, t, car, forms["plateau free, no DQ"], phase_starts(pairs, ph=ph0))["p"])
+        assert abs(g0 - split) <= 1e-8 * split, "with the plateau free the noiseless control returns its split, to the solver's xtol"
+        noisy = {True: [], False: []}
+        for _ in range(16):
+            yy = clean + floor * rng.standard_normal(640)
+            yy = yy / np.max(np.abs(yy))
+            for pl in (True, False):
+                fx = forms[printed] if pl else forms["plateau free, no DQ"]
+                noisy[pl].append(fid_split(fid_fit(yy, t, car, fx, phase_starts(pairs, ph=ph0))["p"]))
+        n1, n0 = np.array(noisy[True]), np.array(noisy[False])
+        out.append(f"split {split:.2f}: without noise, plateau {1 / np.max(np.abs(clean)):.4f}, printed {g1:.2f}, free {g0:.4f} "
+                   f"(off by {abs(g0 - split) / split:.0e} of it); with the noise floor printed {n1.mean():.2f} +- {n1.std() / 4:.2f}, "
+                   f"free {n0.mean():.2f} +- {n0.std() / 4:.2f} (+- the error of the mean of sixteen draws)")
+    print("  (i) controls for the plateau alone, one pool on the drawn axis with the curve's DC and TQ, normalized to its largest "
+          "point, all coarse points: " + "; ".join(out))
+
+    # (j) the held amplitude, the relation and the acquisition, on both axes
+    T2s, sT2s = MRM_T2[2]["T2s"]
+    fxa = thesis_t47("fixed", 2, T2s, sT2s)
+    dv2 = d_variants(2)
+    for axis, tt, ref in (("drawn axis", t, fr), ("moved axis", shifted(dt0), fo)):
+        cells = []
+        for lab, b in (("the refit's", (ks + kf) / 2 * r4 / 100), ("one pool's by the count at the smallest |d| of Part 8 (d)", LONG * min(dv2.values())),
+                       ("at its |d*|", LONG * r4 / (100 * c316)), ("at the largest |d|", LONG * max(dv2.values()))):
+            hf = fid_fit(y, tt, car, dict(w=0.2, b=np.sign(pf[5]) * b), phase_starts(pairs, ph=phf))
+            hq, he = hf["p"], hf["err"]
+            _, _, hg, hs = gap(hq[2], he[2], hq[3], he[3], T2s, sT2s)
+            cells.append(f"{lab} ({100 * b:.2f} %): split {fid_split(hq):.2f}, delta chi2 {2 * (hf['cost'] - ref['cost']) / ref['s2']:.0f}, "
+                         f"gap {hg:.2f} +- {hs:.2f} 1/s = {hg / hs:.1f} sigma")
+        q, e = ref["p"], ref["err"]
+        R, R2, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
+        print(f"  (j) {axis}, plateau free with a DQ term and the TQ free: split {fid_split(q):.2f}, T1m {fid_t1m(q):.2f}, TQ {100 * abs(q[5]):.2f} % "
+              f"(one pool's by the count at |d| {abs(q[5]) / LONG:.3f}); the TQ held at " + "; ".join(cells)
+              + f"; the relation against the second paper's T2s: gap {gp:.2f} +- {sg:.2f} 1/s = {gp / sg:.1f} sigma; the acquisition "
+              f"at fixed times (PC2, a separate session, Eq. 3.18 frees the plateau) {fxa['split']:.2f} +- {fxa['s_split']:.2f} at T1m "
+              f"{THESIS_T47['fixed'][2][4]} ms: {(fid_split(q) - fxa['split']) / fxa['s_split']:.1f} sigma on its error")
+    for k, f in routes.items():
+        q, e = f["p"], f["err"]
+        R, R2, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
+        print(f"      {k[0]}, {'with' if k[1] else 'no'} DQ: gap {gp:.2f} +- {sg:.2f} 1/s = {gp / sg:.1f} sigma")
+    R, R2, gp, sg = gap(T1s0, sT1s0, T1f0, sT1f0, T2s, sT2s)
+    print(f"    with NBM Table 2's PC0 cell the gap is {gp:.2f} +- {sg:.2f} 1/s")
+
 if __name__ == "__main__":
     do_global = "--global" in sys.argv
     part1()
@@ -1201,5 +1727,6 @@ if __name__ == "__main__":
     chi_at = part5()
     edges = part6(chi_at)
     part7()
-    part8(edges)
+    split_i = part8(edges)
     part9()
+    part10(split_i)

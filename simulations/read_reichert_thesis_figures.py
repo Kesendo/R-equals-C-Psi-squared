@@ -1,18 +1,20 @@
-"""Read two figures of S. Reichert's thesis off their vector paths into data files.
+"""Read three figures of S. Reichert's thesis off their vector paths into data files.
 
 S. Reichert, Advancing sodium triple quantum (TQ) nuclear magnetic resonance (NMR) spectroscopy and imaging,
 dissertation, Heidelberg University (2024), doi:10.11588/heidok.00034464. Two of its figures are the first paper's
 (Reichert et al., NMR in Biomedicine 37 (2024) e5106) drawn as vector paths, where the paper prints them as raster
-images:
+images, and a third holds the thesis's own refit of the same data:
 
   Fig. 3.6a  the inversion-recovery FID of the IRTQTPPI sequence, 2 % agarose, phase cycle PC0 (the paper's Fig. 2A);
   Fig. 4.11  the fitted T1s, T1f, T1m and T1-TQ/SQ ratio against the number of coarse points added, 2 %, PC2 (the
-             paper's Fig. 5).
+             paper's Fig. 5);
+  Fig. 4.14  the thesis's second evaluation of the same data, the TQ amplitude held at its Eq. 3.16: T1s, T1m, T1f
+             and the T1-TQ/SQ ratio for the four phase cycles at 2, 4 and 6 % (no figure of the paper).
 
 Usage: python simulations/read_reichert_thesis_figures.py PATH/TO/Dissertation_SimonReichert_PDFA.pdf \
            > data/reichert2024_sodium_agarose/reader_output.txt
 The PDF is not in the repository; the data files this writes are, under data/reichert2024_sodium_agarose/, read by
-experiments/SODIUM_ONE_POOL_OR_MORE.md through simulations/sodium_one_pool_or_more.py (Part 9). Each axis is
+experiments/SODIUM_ONE_POOL_OR_MORE.md through simulations/sodium_one_pool_or_more.py (Parts 9 and 10). Each axis is
 calibrated by a straight line through its tick marks, whose positions the path's own tick segments give; the
 residuals of that line and the coordinate quantum of the figure's content stream are printed.
 """
@@ -150,6 +152,59 @@ def fig411(doc):
     print(f"  {len(n)} points added from {np.round(n[0], 2) + 0.0:.2f} to {n[-1]:.2f}; written: data/reichert2024_sodium_agarose/{os.path.basename(path)}")
 
 
+def fig414(doc):
+    page = doc[104]
+    print("Fig. 4.14 (PDF page 105): the refit with the TQ amplitude held at Eq. 3.16, four phase cycles, 2 to 6 %")
+    conc = np.array([2.0, 3.0, 4.0, 5.0, 6.0])
+    cxa, rxa = calibrate(ticks(page, "x", 619.872, 140, 320), conc, "panel a, agarose (%)")
+    cya, rya = calibrate(ticks(page, "y", 154.411, 460, 625)[::-1], np.arange(28, 49, 2), "panel a, time (ms)")
+    cxb, rxb = calibrate(ticks(page, "x", 619.863, 320, 500), conc, "panel b, agarose (%)")
+    cyb, ryb = calibrate(ticks(page, "y", 331.721, 460, 625)[::-1], np.arange(17, 25), "panel b, TQ/SQ (%)")
+    marks = []   # the filled square markers: centre and fill colour
+    for d in page.get_drawings():
+        r = d["rect"]
+        if d.get("fill") and len(d["items"]) == 4 and r.width < 1 and r.height < 1 and 460 < r.y0 < 625:
+            marks.append(((r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2, tuple(round(c, 3) for c in d["fill"])))
+    out = {}
+    for panel, cx, cy, xlo, xhi in (("a", cxa, cya, 140, 320), ("b", cxb, cyb, 320, 500)):
+        here = [m for m in marks if xlo < m[0] < xhi]
+        at = {m: np.polyval(cx, m[0]) for m in here}
+        data = [m for m in here if abs(at[m] - round(at[m])) < 1e-3]
+        legend = [m for m in here if m not in data]
+        words = [w for w in page.get_text("words") if w[4] in ("PC0", "PC1", "PC2", "PC3") and xlo < w[0] < xhi]
+        assert len(words) == 4 and len(legend) == 4, (panel, words, legend)
+        pc_of = {}
+        for m in legend:   # each legend marker sits beside its label
+            w = min(words, key=lambda w: abs((w[1] + w[3]) / 2 - m[1]))
+            pc_of[m[2]] = w[4]
+        assert sorted(pc_of.values()) == ["PC0", "PC1", "PC2", "PC3"], pc_of
+        for m in data:
+            out.setdefault((pc_of[m[2]], int(round(at[m]))), {}).setdefault(panel, []).append(np.polyval(cy, m[1]))
+    rows = []
+    for (pc, c), v in sorted(out.items()):
+        assert len(v["a"]) == 3 and len(v["b"]) == 1, (pc, c, v)
+        # the three times of one fit lie in the order T1s > T1m > T1f, since T1m is a weighted mean of the two rates
+        T1f, T1m, T1s = sorted(v["a"])
+        dev = T1m - 1 / (0.8 / T1s + 0.2 / T1f)
+        # each of the three markers carries the axis's calibration residual, and Eq. 17's derivatives in T1s and T1f add to 1
+        assert abs(dev) <= 2 * rya, (pc, c, dev)
+        rows.append((pc, c, T1s, T1m, T1f, v["b"][0], dev))
+    worst = max(abs(r[6]) for r in rows)
+    print(f"  {len(rows)} fits; T1m against Eq. 17 of the same marker's T1s and T1f: largest deviation {worst:.4f} ms "
+          f"(within twice the time axis's calibration residual, {rya:.2e} ms); the panel's labels read T2s, T2m, T2f")
+    path = os.path.join(OUT, "thesis_fig4_14_refit_tq_held_2_4_6pct.csv")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(CREDIT)
+        f.write("# Its Fig. 4.14: the IRTQTPPI data of the first paper (Reichert et al., NMR in Biomedicine 37 (2024) e5106), "
+                "refitted with the TQ amplitude held at the thesis's Eq. 3.16, four phase cycles, 9.4 T; read off the vector "
+                "markers by simulations/read_reichert_thesis_figures.py, each phase cycle named by the legend's colour, the "
+                "three times of each fit by their order (the panel's labels read T2s, T2m, T2f)\n")
+        f.write("phase_cycle,agarose_percent,T1s_ms,T1m_ms,T1f_ms,tq_sq_percent\n")
+        for pc, c, T1s, T1m, T1f, tq, _ in rows:
+            f.write(f"{pc},{c},{T1s:.4f},{T1m:.4f},{T1f:.4f},{tq:.4f}\n")
+    print(f"  written: data/reichert2024_sodium_agarose/{os.path.basename(path)}")
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -157,3 +212,4 @@ if __name__ == "__main__":
     doc = fitz.open(sys.argv[1])
     fig36(doc)
     fig411(doc)
+    fig414(doc)

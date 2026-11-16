@@ -9,3 +9,10 @@ Fig. 4.11 (PDF page 102): the fit against the coarse points added, 2 %, PC2
   panel b, points added: 7 tick marks, 1.868725 units per pt, largest residual 1.60e-03
   panel b, TQ/SQ (%): 11 tick marks, -0.029199 units per pt, largest residual 2.23e-05
   13 points added from 0.00 to 320.00; written: data/reichert2024_sodium_agarose/thesis_fig4_11_fit_vs_points_added_2pct_pc2.csv
+Fig. 4.14 (PDF page 105): the refit with the TQ amplitude held at Eq. 3.16, four phase cycles, 2 to 6 %
+  panel a, agarose (%): 5 tick marks, 0.025999 units per pt, largest residual 2.86e-05
+  panel a, time (ms): 11 tick marks, -0.129998 units per pt, largest residual 1.77e-04
+  panel b, agarose (%): 5 tick marks, 0.026018 units per pt, largest residual 2.60e-05
+  panel b, TQ/SQ (%): 8 tick marks, -0.045531 units per pt, largest residual 3.25e-05
+  12 fits; T1m against Eq. 17 of the same marker's T1s and T1f: largest deviation 0.0002 ms (within twice the time axis's calibration residual, 1.77e-04 ms); the panel's labels read T2s, T2m, T2f
+  written: data/reichert2024_sodium_agarose/thesis_fig4_14_refit_tq_held_2_4_6pct.csv

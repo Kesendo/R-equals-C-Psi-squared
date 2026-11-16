@@ -1,0 +1,15 @@
+# Data: Simon Reichert's measurement (with V. Schepkin, D. Kleimaier, F. G. Zöllner and L. R. Schad), from his dissertation, Heidelberg University 2024, doi:10.11588/heidok.00034464; please cite it when using these values
+# Its Fig. 4.14: the IRTQTPPI data of the first paper (Reichert et al., NMR in Biomedicine 37 (2024) e5106), refitted with the TQ amplitude held at the thesis's Eq. 3.16, four phase cycles, 9.4 T; read off the vector markers by simulations/read_reichert_thesis_figures.py, each phase cycle named by the legend's colour, the three times of each fit by their order (the panel's labels read T2s, T2m, T2f)
+phase_cycle,agarose_percent,T1s_ms,T1m_ms,T1f_ms,tq_sq_percent
+PC0,2,45.9551,45.0750,41.8671,18.1277
+PC0,4,41.1037,39.2957,33.4161,19.0319
+PC0,6,36.1656,34.3674,28.6658,23.0706
+PC1,2,46.0574,45.2284,42.1908,18.6349
+PC1,4,41.0521,39.3414,33.7206,19.2319
+PC1,6,36.0953,34.3445,28.7637,23.4081
+PC2,2,46.0547,45.1337,41.7909,18.5165
+PC2,4,41.3776,39.5514,33.6163,19.1349
+PC2,6,36.3318,34.4403,28.5049,23.3564
+PC3,2,46.1322,45.2249,41.9263,18.8295
+PC3,4,41.5559,39.7367,33.8154,19.2766
+PC3,6,36.4515,34.6005,28.7586,23.2045
