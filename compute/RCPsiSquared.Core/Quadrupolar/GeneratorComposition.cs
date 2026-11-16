@@ -3,9 +3,11 @@ using M = RCPsiSquared.Core.Numerics.GaussianRationalMatrix;
 
 namespace RCPsiSquared.Core.Quadrupolar;
 
-/// <summary>Composition of generators, the hook for nuclei and pools: the Kronecker sum
+/// <summary>Composition of generators, the hook for two nuclei: the Kronecker sum
 /// L₁ ⊗ 1 + 1 ⊗ L₂ written on the product space's own row-major vec, index (d₁d₂)·i + j with
-/// i = d₂·i₁ + i₂ and j = d₂·j₁ + j₂, so the result is a generator like any other.</summary>
+/// i = d₂·i₁ + i₂ and j = d₂·j₁ + j₂, so the result is a generator like any other. Two pools are
+/// not this: on the label-diagonal cells their generator is L_A ⊕ L_B plus the exchange on the label,
+/// a Kronecker sum only when the pools are alike.</summary>
 public static class GeneratorComposition
 {
     public static GaussianRational[,] KroneckerSum(GaussianRational[,] l1, int d1, GaussianRational[,] l2, int d2)
