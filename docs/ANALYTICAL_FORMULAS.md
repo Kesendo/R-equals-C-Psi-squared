@@ -11498,8 +11498,10 @@ e^{−i(p′−p)φ}; I₊ reads order −1 at v = (0, −1) and (−1, 1), ther
 between two pools of fractions f₀ and 1 − f₀ at the total rate k is two one-site jumps on a label bit, read
 by the letter cube as heights and the arrow k·(2f₀ − 1), with ⟨Z⟩ = 2f₀ − 1 at its steady state. The thermal
 state, the relaxation toward it and the pools are outside the model of the mirrors: written in strings, not
-part of its results. Gated in the page's verifier (`python simulations/sodium_two_mirrors.py experiment`),
-not in its witness.
+part of its results. Gated in the page's verifier (`python simulations/sodium_two_mirrors.py experiment`) and
+live in its witness as the child `SodiumExperimentInStringsWitness` (`inspect --root sodium`), exactly, over
+ℚ(ζ₂₄) and for a cycle's selection rule over ℤ[ζ_n]; the page's echo is read there by superoperator identities on the
+strings, the Theodolite's reading of it and the verifier's phases π/5 and π/7 staying in the verifier.
 
 **Beyond spin 3/2.**
 - At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror: the cells of
@@ -11650,7 +11652,9 @@ path's squared overlap 6/25 as a consistency reading of the weights, the one map
 string spans), and the numerical-range bound beyond the mirrors (the spin-1 cone
 against the exact decision, extreme narrowing at spins 1 to 6 with the dissipator a quadratic in
 the rotations' Casimir and its eigenspaces the ranks, read at these spins and proved for every I,
-the rule at 3/2). The
+the rule at 3/2), and as its child `SodiumExperimentInStringsWitness` the experiment in strings
+(twelve exact gates over ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase, and for a cycle's selection rule
+over ℤ[ζ_n]). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and

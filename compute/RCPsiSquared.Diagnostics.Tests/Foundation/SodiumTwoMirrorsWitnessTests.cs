@@ -362,6 +362,15 @@ public class SodiumTwoMirrorsWitnessTests
         Assert.True(Default.Children.Count() >= 6);
     }
 
+    [Fact]
+    public void ExperimentInStrings_IsTheLastChild_AndTheSummaryReadsIt()
+    {
+        var child = Assert.IsType<SodiumExperimentInStringsWitness>(Default.Children.Last());
+        Assert.Same(Default.Experiment, child);
+        Assert.True(child.AllHold);
+        Assert.Contains("the experiment in strings holds", Default.Summary);
+    }
+
     /// <summary>Gate 10: the numerical-range bound beyond the mirrors, against literals. At spin 1 the claim's cone and
     /// the exact decision agree on all 91 points and the faces are the edges; at extreme narrowing the ratios of the
     /// rank rates are below 1 at every spin from 1 to 6 and the bound decides, the dissipator there a quadratic in the rotations'

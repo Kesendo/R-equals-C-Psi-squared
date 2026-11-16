@@ -712,12 +712,13 @@ def experiment_in_strings(L, syms):
     cyc = lambda p0: sp.simplify(sum((sp.exp(sp.I * p0 * f_) * Rph.subs(ph, f_) * Tl30_ * Rph.subs(ph, f_).H
                                       for f_ in steps), sp.zeros(d)) / 8)
     part = lambda M, p0: sp.Matrix(4, 4, lambda a, b: M[a, b] if ms[a] - ms[b] == p0 else 0)
-    physical = all(all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in cyc(p0) - part(after, p0)) for p0 in (3, 1, 2))
+    physical = (all(all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in cyc(p0) - part(after, p0)) for p0 in (3, 1, 2))
+                and zero(part(after, 2)) and not zero(part(after, 3)) and not zero(part(after, 1)))
     claim("a pulse's phase turned by phi multiplies each pathway it carries from order p to p' by e^(-i(p' - p)·phi) (the "
           "90-degree pulse, phi a symbol, the turned form equal at pi/3 to the pulse built about its own axis); n uniform "
           "phase steps 2·pi·k/n, the scans weighted by e^(i·p0·phi_k), keep the pathways with p' - p ≡ p0 (mod n) and remove "
           "the others, n = 1 .. 8; run on the spin, eight steps of the 90-degree pulse on T30 keep exactly the part at the "
-          "order p0 = 3, 1 or 2 (none at 2)", path and indep and keep and physical)
+          "order p0 = 3, 1 or 2 (none at 2, some at 3 and 1)", path and indep and keep and physical)
 
     R180 = sp.simplify(turn * (-sp.I * sp.pi * Ix).exp() * turn.H)
     prod = sp.I * sp.kronecker_product(P1["X"] * (2 * sp.I * ph * P1["Z"]).exp(), P1["X"] * (sp.I * ph * P1["Z"]).exp())

@@ -57,7 +57,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// from the shared builder in <c>compute/RCPsiSquared.Core/Quadrupolar/</c> and reads the spin matrices over ℚ(i), the √3 of I_± factored out exactly and the √6 of T₂₀ taken
 /// into the integer splitting parameter q = ω_Q·√6/2, and reads the theorem by exact kernel ranks
 /// and an exact characteristic polynomial, a different road from the page's sympy verifier
-/// <c>simulations/sodium_two_mirrors.py</c>.</para></summary>
+/// <c>simulations/sodium_two_mirrors.py</c>. The witness's child <c>SodiumExperimentInStringsWitness</c> reads the page's
+/// experiment in strings (preparation, pulses, phase cycle and receiver in Souza et al.'s bits, a pool label beside them) exactly over
+/// ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase (a cycle's selection rule over ℤ[ζ_n]).</para></summary>
 public sealed class Spin32QuadrupolarMirrorsClaim : Claim
 {
     public PalindromeTwoEndCountClaim TwoEndCount { get; }

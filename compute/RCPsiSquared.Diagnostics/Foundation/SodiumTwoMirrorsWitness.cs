@@ -62,7 +62,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// split by the order; and the numerical-range bound beyond the mirrors (gate 10, on the shared builder in Core): no Hermitian H gives one centre where the largest rate of the self-adjoint dissipator stays below
 /// twice the mean, read at spin 1 against the claim's cone on 91 points and at its faces, at extreme narrowing for
 /// 2I = 2 … 12 (where the dissipator is a quadratic in the rotations' Casimir), and at 3/2 against the rule at the fixed points. These are statements on eigenvalues, not on the lines of a spectrum; which come
-/// first for an observable reading a pair is the page's section, gated by its verifier.</para>
+/// first for an observable reading a pair is the page's section, gated by its verifier. The page's experiment in strings
+/// is the child <see cref="SodiumExperimentInStringsWitness"/>, which does not depend on the user point (it reads its
+/// statements at every point or at fixed ones).</para>
 ///
 /// <para>Typed home <see cref="Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
 public sealed class SodiumTwoMirrorsWitness : IInspectable
@@ -1386,7 +1388,8 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"with the dynamic frequency shift {Verdict(DynamicShiftHolds, "both mirrors and the exceptional point hold and the global centre follows the shifted rule", "FAILS")}; " +
         $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}; " +
         $"the irreducible tensors in strings {Verdict(TensorDictionaryHolds, "hold (sixteen rows of rank and order; ten eigenoperators, six turned between two string classes)", "FAIL")}; " +
-        $"beyond the mirrors the numerical-range bound {Verdict(NumericalRangeBoundHolds, "holds as stated (at spin 1 the cone whose faces on J₀ = 0 are the two rays, at extreme narrowing every spin from 1 to 6, at 3/2 the rule's no side for positive densities)", "FAILS")}.";
+        $"beyond the mirrors the numerical-range bound {Verdict(NumericalRangeBoundHolds, "holds as stated (at spin 1 the cone whose faces on J₀ = 0 are the two rays, at extreme narrowing every spin from 1 to 6, at 3/2 the rule's no side for positive densities)", "FAILS")}; " +
+        $"the experiment in strings {Verdict(Experiment.AllHold, "holds (twelve exact gates over ℚ(ζ₂₄) and ℤ[ζ_n], the child below)", "FAILS (the child below)")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +
@@ -1522,8 +1525,15 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
                     summary: Show(p),
                     provenance: NodeProvenance.Live)).ToArray(),
                 provenance: NodeProvenance.Live);
+
+            yield return Experiment;
         }
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;
+
+    private SodiumExperimentInStringsWitness? _experiment;
+
+    /// <summary>The page's experiment in strings, built on first use (it does not depend on the user point).</summary>
+    public SodiumExperimentInStringsWitness Experiment => _experiment ??= new SodiumExperimentInStringsWitness();
 }

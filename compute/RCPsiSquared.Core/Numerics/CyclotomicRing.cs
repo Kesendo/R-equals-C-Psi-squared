@@ -16,7 +16,8 @@ namespace RCPsiSquared.Core.Numerics;
 /// <see cref="CollisionFamilyInventory"/> (the F129 counts) and
 /// <see cref="CollisionDecoupling"/> (F130), the C# counterpart of the Python gates'
 /// ℤ[x]/Φ_2n convention (<c>simulations/f129_level_collision_law.py</c>,
-/// <c>root_sum_vec</c>).</summary>
+/// <c>root_sum_vec</c>). It is also the ring of <c>QuditClockMirrorWitness</c>, and the basis on which
+/// <see cref="Cyclotomic24"/> carries rational coefficients.</summary>
 public static class CyclotomicRing
 {
     private static readonly Dictionary<int, long[]> PhiCache = new();
