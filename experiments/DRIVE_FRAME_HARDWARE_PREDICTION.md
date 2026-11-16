@@ -685,4 +685,6 @@ sighting).
   output [`gate_error_reading.txt`](../simulations/results/drive_frame/gate_error_reading.txt)).
 
 The X^⊗3 window page's §7 holds the B and Q arms of Marrakesh and
-Kingston and the colouring read on both.
+Kingston and the colouring read on both, and reads this page's arm A in
+its even-Y bases beside them for where B's joint failures can come
+from.

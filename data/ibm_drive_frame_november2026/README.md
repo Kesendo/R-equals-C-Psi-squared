@@ -39,9 +39,12 @@ The frozen circuits and freeze records are
 (the Kingston job, which waited 60.5 h in the queue, was collected with
 `--recover` on its stub). The record keeps the gate-for-gate comparison of
 the retrieved circuits with the frozen ones, not the retrieved circuits.
-Two post-flight readings: the colouring X^⊗3 behind the window page's
+Three post-flight readings: the colouring X^⊗3 behind the window page's
 §5, `simulations/flight/drive_frame_colouring_reading.py` (output in
-`simulations/results/drive_frame/<chip>_colouring_reading.txt`), and the
+`simulations/results/drive_frame/<chip>_colouring_reading.txt`); the
 gate errors the replay leaves out with the baseline at the day's
 coherence, `simulations/flight/drive_frame_gate_error_reading.py` (output
-in `simulations/results/drive_frame/gate_error_reading.txt`).
+in `simulations/results/drive_frame/gate_error_reading.txt`); and where
+B's joint failures can come from, read with arms A and Q,
+`simulations/flight/drive_frame_island_reading.py` (output in
+`simulations/results/drive_frame/island_reading.txt`).

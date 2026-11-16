@@ -446,7 +446,7 @@ before the first submission, and its commit hash is written into §7.
 ## 7. The flight
 
 <!-- POST-FLIGHT SWEEP RECORD, 2026-11-16, for the readings of this section beside the verdicts.
-Adjacency checked: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md hold the same kind of object, a three-qubit product's X outcomes departing from local noise (on |+++> there), a W-state control ruling out every pairwise Gaussian covariance model, coherent ZZ crosstalk carrying the bulk; cited in the colouring paragraph. experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md section 7, "A residual excitation at the start": the readout-asymmetry half of the q15 argument; cited. docs/ANALYTICAL_FORMULAS.md, the OpenArcs registry and experiments/ searched for correlated or joint qubit failures, leakage and crosstalk on hardware: the reality window's RO arm (the full 8 x 8 matrix) and nothing on joint failures. fw.Confirmations: no entry for either flight, none needed (no framework prediction was confirmed). docs/CAUGHT_ERRORS.md: the entry of 2026-11-16 for this section.
+Adjacency checked: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md hold the same kind of object, a three-qubit product's X outcomes departing from local noise (on |+++> there), a W-state control ruling out every pairwise Gaussian covariance model, coherent ZZ crosstalk carrying the bulk; cited in the colouring paragraph. experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md section 7, "A residual excitation at the start": the readout-asymmetry half of the q15 argument; cited. docs/ANALYTICAL_FORMULAS.md, the OpenArcs registry and experiments/ searched for correlated or joint qubit failures, leakage and crosstalk on hardware: the reality window's RO arm (the full 8 x 8 matrix) and nothing on joint failures. For the paragraph on where the joint failures can come from: sections 1 and 3 of this page hold the two halves of the outcome no single error reaches (YZ+ZY annihilates the start; the Z⊗N mirror of experiments/Z_N_PARTNERSHIP.md carries it to the all-fail configuration), joined there. data/ibm_zn_mirror_april2026/README.md flew both configurations as rho_a and rho_b under Heisenberg; adjacent, not cited. experiments/LATTICE_OPENING_LAW.md holds a sector H annihilates (the cat sector is H-dead), the same kind of object; adjacent, not cited. compute/MirrorWorld/Atmosphere.cs and experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md hold the shared field as Markovian white noise, a = γI + C, its price linear in C (K(ket) + K(bra)), its jumps sums of one-site Z, so it reaches the all-fail outcome only at second order; that page keeps quasi-static noise outside its model, which the paragraph reads through the replay as a quasi-static Gaussian field and as fields fixed within a shot. The typed layer: CorrelatedZDephasingPriceClaim, the Atmosphere's claim, in compute/RCPsiSquared.Core; no Claim or Diagnostics witness on joint failures or switching noise; ConfirmationsRegistry.cs names leakage among the error models its hardware entries leave out. docs/GLOSSARY.md: nothing on correlated or joint failures; its Spectator map W (F125) is why the paragraph says the third qubit. experiments/PRICE_PAIR_HARDWARE_PREDICTION.md run 3 named a non-Gaussian single source (one strong TLS) as the alternative to pairwise Gaussian covariance and found ZZ crosstalk instead; adjacent, already cited above. experiments/F120_MOMENT_TOWER_KINGSTON.md found in June the T1 of all three Kingston qubits it read moving between epochs (q13 was never special); adjacent to the kinds fixed within a shot and to drift on single shots, not read here. docs/proofs/ and the OpenArcs registry: nothing on correlated or joint failures. fw.Confirmations: no entry for either flight, none needed (no framework prediction was confirmed). docs/CAUGHT_ERRORS.md: the entry of 2026-11-16 for this section.
 -->
 
 In short: on Kingston [13, 14, 15] the window stood open, mainly through
@@ -461,7 +461,11 @@ allow; by a rough plausibility check the vendor's own gate errors, which
 the replay leaves out, carry much of that on Kingston and arm Q's short
 idle coherence much of it on Marrakesh. Read after the flight and not
 pre-registered: on both chips the outcomes in which all three qubits
-fail together exceed both references.
+fail together exceed both references. No single one-site error within
+the qubits reaches that outcome in B's circuits. On Marrakesh, read on
+arms B and A together, the kinds that randomise the three outcomes
+together in a few per cent of the shots come closest, and none fits; the
+cause is not read.
 
 B and Q flew in the drive-frame page's jobs from commit `39defc7c` (that
 page's §7: jobs, times, billed usage, the calibration and version check,
@@ -681,7 +685,7 @@ them (χ² 18.1 on Marrakesh and 14.8 on Kingston, on 11), so no burst
 gathered them in one PUB; shorter bursts are not seen at that scale.
 On Kingston the excess over local decay sits on the outer pair and on
 q0 with q1, and not on q1 with q2, which a failure shared alike by the
-three would not leave; what leaves it is not tested here. The readout correction is exact for a stationary readout channel
+three would not leave; none of the kinds read below leaves it either. The readout correction is exact for a stationary readout channel
 and an RO arm whose preparations are what they are meant to be; when
 readout and state wander within the job, as on Marrakesh, it stays exact
 only if their wanderings do not covary, and the RO matrix sees neither
@@ -696,6 +700,127 @@ model and coherent ZZ crosstalk carried the bulk
 sets out that history). Candidates the record does not test: leakage of
 the middle qubit or at the cz, incoherent X or Y faults on the middle
 qubit beyond the reported rates, a gate error at the cz of a form other
-than depolarizing, transverse coherent letters, a shared field with
-more than pairwise covariances (a switching two-level system seen by all
-three), drift on the scale of single shots.
+than depolarizing, transverse coherent letters, drift on the scale of
+single shots. A common Gaussian Z field, Z fields of three fixed
+shapes, and shots in which the three are scrambled or dephased together
+are read in the next paragraph; a field with other per-site couplings (a
+switching two-level system seen by all three), a switch within a
+circuit and shared fields other than Z are not.
+
+**Where the joint failures can come from** (a post-flight reading, not
+pre-registered;
+[`drive_frame_island_reading.py`](../simulations/flight/drive_frame_island_reading.py),
+output [`island_reading.txt`](../simulations/results/drive_frame/island_reading.txt)).
+
+*The outcome no single error reaches.* By §1 YZ+ZY annihilates the start
+|+, −, +⟩, and the Z⊗N mirror of §3 carries the start to |−, +, −⟩, the
+outcome in which all three fail, and YZ+ZY to its negative, so it
+annihilates that one too. In the X basis each bond term flips an aligned
+pair (++ or −−) and annihilates an anti-aligned one, so H has no matrix
+element into or out of either configuration (checked exactly on
+Gaussian-integer matrices); each is a component of its own, and a
+one-site flip of the start lands in {+++, +−−, −−+}, which H connects
+among themselves and never to |−, +, −⟩. In the logical circuit each
+Trotter factor acts on one bond and leaves both configurations where
+they are. The two differ on all three sites, so an error confined to a
+factor's bond, or to the third qubit off it, has no matrix element
+between them anywhere in the circuit, and between factors neither has
+an error on any two sites. That covers every one-site error within the
+qubits' two levels (damping, a coherent turn, a start population) and
+every two-site error confined to a factor's bond; it does not cover
+leakage, which leaves the two levels.
+
+*The compiled circuits.* With a Pauli letter inserted after any gate of
+each B variant's XX circuit, on both chips, one-site letters reach the
+all-fail outcome with probability at most 3.6 × 10⁻²⁸, rounding. On
+B5(0)'s XX circuit two-site letters reach it nowhere between factors or
+on a factor's own bond, and can reach it with certainty when they take
+in the third qubit inside a factor (from its first cz to its second);
+two one-site letters after two different gates can too (220 of 5000
+random draws above 0.5 on Marrakesh, 252 on Kingston). A weak one-site
+error inside the qubit space, or one confined to a factor's bond,
+therefore reaches the all-fail outcome only together with a second one, at second order in the error rates, and so
+does a Markovian shared Z field, whose jumps are sums of one-site Z (the
+Atmosphere's a = γI + C). At first order it takes an error on the third
+qubit and the bond together inside a factor, one on all three sites at
+once, or leakage. Second order is not small by itself here: the single
+failure rates of 4 to 6 % on Marrakesh square to about 3 × 10⁻³. What
+measures it is the local reference above, the replay at T₁ and T₂ / 7,
+with all three failing in 0.0006 of the shots on Marrakesh and 0.0001 on
+Kingston against the measured 0.0050 and 0.0014.
+
+*What reaches it.* The local replay was mixed with a fraction w of shots
+of one of five kinds: every outcome uniformly scrambled; all three qubits
+fully dephased, each by itself (T₂ of 0.05 µs in those shots, T₁ kept);
+one common detuning drawn uniformly from ±6 rad/µs; a common static
+detuning of 5 rad/µs; a static detuning of 3 rad/µs on the outer pair. w
+and the divisor of T₁ and T₂ (on a grid) were fitted to B's pooled XX
+distribution, every variant against the replay of B5(0) as in the
+colouring reading. χ² carries the counts' shot noise through the RO
+inverse and nothing else (no RO drift factor, on Marrakesh κ_RO 6.27; no
+uncertainty of the replays). Five fixed shapes with two parameters make
+this a reading, not a test. The five are strong events confined to a
+fraction of the shots, so what they separate is whether the three
+qubits fail in the same shots, not how far an error operator reaches:
+the full dephasing is local in its operators and fits as well as the
+scramble. None of them is a strong error on the third qubit and the
+bond together (static ZZ on both bonds, weak and always on, is read in
+the colouring paragraph above and does not carry it), leakage, or a
+start population on all three.
+
+- Beside the five, a common Gaussian quasi-static Z field in every
+  shot, at the four strengths tried (standard deviation 0.2 to
+  0.8 rad/µs), gives an excess third cumulant of the wrong sign (+0.0001
+  to +0.030 against the measured excess −0.026 and −0.010 of the table
+  above). It reaches the measured excess of all three failing on Kingston
+  near 0.7 rad/µs, where q13 and q14 decay about five times further than
+  they do, and on Marrakesh not within 0.8 rad/µs, where q45 and q47
+  already decay eight to ten times further.
+- On Marrakesh, about 3 % of the shots scrambled, or fully dephased, take
+  χ² from 246.4 on 6 to 69.7 and 71.1 on 5; in B's XX circuits the two
+  give nearly the same distribution. They give the covariances (+0.038 to
+  +0.045 against +0.041 to +0.051), the third cumulant (−0.019 against
+  −0.024) and the sign of the outer pair's covariance given q46 failed
+  (+0.057 to +0.058 against +0.082; local decay −0.051, above). The
+  outer pair's static detuning in 1.6 % of the shots fits B as well,
+  65.8; the common random detuning in 2 % leaves 159.4, the common static
+  one 160.3. The best of them leaves 13 to 14 per degree of freedom, so
+  none fits; divided by that factor, the gap between the three best and
+  the two common detunings is about 6 to 7 in χ². On Kingston every kind
+  leaves χ² above 820 on 5, held by the single qubits (q15, above, where
+  the corrected distribution is negative in one cell).
+- Arm Q. In each of its circuits two qubits idle in |0⟩ for up to about
+  4 µs, longer on average than B's circuits of about 1.5 µs. Both read 1
+  in one shot of 196 608 on Marrakesh and in 58 (0.030 %) on Kingston,
+  about what the product of their own rates gives. A scramble that also
+  excited idle qubits in 3 % of the shots would put that near 0.75 %. Q
+  runs no cz and no gate on its idle qubits, so an event the gates make
+  (leakage at a cz among them), a scramble of qubits in superposition
+  alone, a loss of phase and a decay toward |0⟩ do not show there; a
+  readout scramble independent of the circuit would.
+- Arm A, in its bases with an even number of Y (30 circuits; the odd ones
+  carry the drive-frame page's odd-Y excess). Its χ² per degree of
+  freedom under the local replay is 7.5 on Marrakesh and 15.0 on
+  Kingston, so a difference below is worth that factor less, by a
+  heuristic that treats A's misfit as noise where it is systematic.
+  Reading A at B's w assumes the fraction of affected shots carries over
+  to A's circuits, as it would for an event independent of the gates. At
+  B's w the three kinds that turn the qubits by a detuning raise A's χ²
+  by 27 to 53 on Marrakesh (3.6 to 7.1 after the scaling), and the two
+  static detunings by 48 and 66 on Kingston (3.2 and 4.4); fitted to A
+  alone, their w is 0, except Kingston's common random detuning (w 1.0 %,
+  χ² lower by 11.8). The scramble and the full dephasing move A's χ² by
+  −9 to −2, about 1 or less after the scaling: A neither supports nor
+  rejects them.
+
+On Marrakesh the routes leave the kinds that randomise the three
+outcomes together in a few per cent of the shots and set aside, weakly,
+those that turn the qubits by a detuning; none of them fits. Arm Q sees
+no excitation of idle qubits by an event independent of the gates, so
+a scramble left by both routes would spare qubits in |0⟩ or be made by
+the gates. Which of the kinds left, scramble or full dephasing, and
+whether a kind the reading did not try (leakage, a strong error on the
+third qubit and the bond together) fits better, the record does not say.
+On Kingston B does not separate the kinds, and A sets aside the two
+static detunings as weakly as on Marrakesh. What makes the joint
+failures, the record does not say.

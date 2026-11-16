@@ -1,0 +1,73 @@
+-- 1. the island in the X basis (exact)
+  bond (0,1): annihilates every configuration anti-aligned on it: True (4 of 8)
+  bond (1,2): annihilates every configuration anti-aligned on it: True (4 of 8)
+  H = sum of the two bond terms: every matrix element into and out of (+,-,+) and (-,+,-) is exactly 0: True
+  connected components of the X-basis configurations under H: [['+++', '+--', '--+'], ['++-', '-++', '---'], ['+-+'], ['-+-']]
+
+-- 2. the island in the compiled B circuits (ideal state vector; probability of all three failing)
+  ibm_marrakesh B50_XX: ideal all-fail 6.9e-33; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B51_XX: ideal all-fail 5.6e-32; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B52_XX: ideal all-fail 6.1e-32; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B53_XX: ideal all-fail 9.4e-33; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B42_XX: ideal all-fail 6.1e-32; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B62_XX: ideal all-fail 7.8e-33; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_marrakesh B50_XX, two one-site letters after two different gates (5000 random draws): max 1.000, draws above 0.5: 220
+  ibm_marrakesh B50_XX, two-site letters by where they act (max over letters and slots):
+      6 factors; between factors: 3.6e-28
+      6 factors; inside a factor, on its own bond: 3.6e-28
+      6 factors; inside a factor, with the third qubit: 1.0e+00
+  ibm_kingston  B50_XX: ideal all-fail 6.9e-33; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B51_XX: ideal all-fail 5.6e-32; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B52_XX: ideal all-fail 6.1e-32; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B53_XX: ideal all-fail 9.4e-33; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B42_XX: ideal all-fail 6.1e-32; max over one-site letters at every slot 3.5e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B62_XX: ideal all-fail 7.8e-33; max over one-site letters at every slot 3.6e-28; two-site letters at one slot 1.000; three-site 1.000
+  ibm_kingston  B50_XX, two one-site letters after two different gates (5000 random draws): max 1.000, draws above 0.5: 252
+  ibm_kingston  B50_XX, two-site letters by where they act (max over letters and slots):
+      6 factors; between factors: 3.6e-28
+      6 factors; inside a factor, on its own bond: 3.6e-28
+      6 factors; inside a factor, with the third qubit: 1.0e+00
+
+-- 3. a common Gaussian quasi-static Z field, excess over the replay at T1 and T2 / 7 (B50_XX)
+  ibm_marrakesh s 0.2 rad/us: U0 -0.0151 U1 -0.0109 U2 -0.0162 cov01 +0.0010 cov12 +0.0025 cov02 +0.0008 k3 +0.0001 allfail +0.0002
+  ibm_marrakesh s 0.4 rad/us: U0 -0.0587 U1 -0.0417 U2 -0.0619 cov01 +0.0055 cov12 +0.0078 cov02 +0.0085 k3 +0.0019 allfail +0.0008
+  ibm_marrakesh s 0.6 rad/us: U0 -0.1263 U1 -0.0884 U2 -0.1284 cov01 +0.0170 cov12 +0.0118 cov02 +0.0308 k3 +0.0099 allfail +0.0020
+  ibm_marrakesh s 0.8 rad/us: U0 -0.2107 U1 -0.1464 U2 -0.2046 cov01 +0.0385 cov12 +0.0110 cov02 +0.0646 k3 +0.0295 allfail +0.0039
+  ibm_kingston  s 0.2 rad/us: U0 -0.0146 U1 -0.0100 U2 -0.0152 cov01 +0.0012 cov12 +0.0020 cov02 +0.0009 k3 +0.0001 allfail +0.0001
+  ibm_kingston  s 0.4 rad/us: U0 -0.0572 U1 -0.0387 U2 -0.0583 cov01 +0.0061 cov12 +0.0064 cov02 +0.0091 k3 +0.0014 allfail +0.0003
+  ibm_kingston  s 0.6 rad/us: U0 -0.1238 U1 -0.0825 U2 -0.1220 cov01 +0.0179 cov12 +0.0093 cov02 +0.0328 k3 +0.0074 allfail +0.0009
+  ibm_kingston  s 0.8 rad/us: U0 -0.2081 U1 -0.1373 U2 -0.1966 cov01 +0.0400 cov12 +0.0078 cov02 +0.0705 k3 +0.0237 allfail +0.0019
+
+-- 5. arm Q: idle neighbours, raw counts
+  ibm_marrakesh 196608 shots over 12 Q circuit pairs: both idle qubits read 1 in 1 shots (0.000005), the product of their rates gives 1.1 (0.000005); largest single excess +2.8 sigma (active q0, delay 2)
+  ibm_kingston  196608 shots over 12 Q circuit pairs: both idle qubits read 1 in 58 shots (0.000295), the product of their rates gives 56.8 (0.000289); largest single excess +2.3 sigma (active q1, delay 3)
+
+-- 4 and 6. arm B pooled XX and arm A even-Y bases: local replay mixed with a fraction w of shots of one kind
+
+  ibm_marrakesh
+    measured B   U0 +0.8849 U1 +0.9122 U2 +0.8825 cov01 +0.0413 cov12 +0.0454 cov02 +0.0510 k3 -0.0241 allfail +0.0050   cov02|U1- +0.0822
+    B, local replay alone: chi2 246.4 on 6 (divisor 7.5);   A even-Y, local replay alone: chi2 1573.6 on 210 (divisor 8), per dof 7.49
+    + scrambled                B: chi2    69.7 on 5, w 0.0300 (divisor 6) | A at B's w: chi2  1565.1 (-8.6) | A's own w 0.0266: chi2  1564.7 (-9.0)
+      model B   U0 +0.8913 U1 +0.9004 U2 +0.8930 cov01 +0.0382 cov12 +0.0454 cov02 +0.0425 k3 -0.0190 allfail +0.0042   cov02|U1- +0.0580
+    + phase lost, independent  B: chi2    71.1 on 5, w 0.0300 (divisor 6) | A at B's w: chi2  1571.6 (-2.0) | A's own w 0.0233: chi2  1570.2 (-3.4)
+      model B   U0 +0.8914 U1 +0.9003 U2 +0.8931 cov01 +0.0382 cov12 +0.0453 cov02 +0.0422 k3 -0.0188 allfail +0.0041   cov02|U1- +0.0566
+    + common random detuning   B: chi2   159.4 on 5, w 0.0202 (divisor 6.5) | A at B's w: chi2  1626.6 (+53.0) | A's own w 0.0000: chi2  1573.7 (+0.0)
+      model B   U0 +0.8959 U1 +0.9016 U2 +0.9023 cov01 +0.0337 cov12 +0.0324 cov02 +0.0307 k3 -0.0041 allfail +0.0019   cov02|U1- -0.0399
+    + common detuning 5        B: chi2   160.3 on 5, w 0.0138 (divisor 6.5) | A at B's w: chi2  1600.5 (+26.9) | A's own w 0.0000: chi2  1573.6 (+0.0)
+      model B   U0 +0.8999 U1 +0.9006 U2 +0.9030 cov01 +0.0337 cov12 +0.0391 cov02 +0.0346 k3 -0.0190 allfail +0.0038   cov02|U1- +0.0929
+    + outer pair 3             B: chi2    65.8 on 5, w 0.0164 (divisor 6.5) | A at B's w: chi2  1622.7 (+49.1) | A's own w 0.0000: chi2  1573.7 (+0.0)
+      model B   U0 +0.8912 U1 +0.9026 U2 +0.8946 cov01 +0.0429 cov12 +0.0432 cov02 +0.0438 k3 -0.0291 allfail +0.0055   cov02|U1- +0.1478
+
+  ibm_kingston
+    measured B   U0 +0.9343 U1 +0.9422 U2 +0.9982 cov01 +0.0184 cov12 +0.0116 cov02 +0.0267 k3 -0.0091 allfail +0.0014   cov02|U1- +0.1203
+    B, local replay alone: chi2 952.8 on 6 (divisor 8);   A even-Y, local replay alone: chi2 3141.8 on 210 (divisor 4), per dof 14.96
+    + scrambled                B: chi2   865.0 on 5, w 0.0121 (divisor 6.5) | A at B's w: chi2  3138.2 (-3.7) | A's own w 0.0155: chi2  3136.6 (-5.3)
+      model B   U0 +0.9597 U1 +0.9555 U2 +0.9521 cov01 +0.0182 cov12 +0.0238 cov02 +0.0203 k3 -0.0100 allfail +0.0016   cov02|U1- +0.0260
+    + phase lost, independent  B: chi2   864.3 on 5, w 0.0122 (divisor 6.5) | A at B's w: chi2  3138.2 (-3.7) | A's own w 0.0154: chi2  3136.6 (-5.2)
+      model B   U0 +0.9597 U1 +0.9554 U2 +0.9521 cov01 +0.0182 cov12 +0.0238 cov02 +0.0203 k3 -0.0100 allfail +0.0016   cov02|U1- +0.0256
+    + common random detuning   B: chi2   821.4 on 5, w 0.0157 (divisor 6) | A at B's w: chi2  3133.7 (-8.2) | A's own w 0.0101: chi2  3130.1 (-11.8)
+      model B   U0 +0.9594 U1 +0.9528 U2 +0.9572 cov01 +0.0241 cov12 +0.0194 cov02 +0.0186 k3 -0.0054 allfail +0.0010   cov02|U1- -0.0757
+    + common detuning 5        B: chi2   828.2 on 5, w 0.0077 (divisor 7) | A at B's w: chi2  3207.9 (+66.1) | A's own w 0.0000: chi2  3141.9 (+0.0)
+      model B   U0 +0.9608 U1 +0.9513 U2 +0.9556 cov01 +0.0222 cov12 +0.0224 cov02 +0.0186 k3 -0.0133 allfail +0.0020   cov02|U1- +0.0819
+    + outer pair 3             B: chi2   874.3 on 5, w 0.0059 (divisor 7.5) | A at B's w: chi2  3189.9 (+48.1) | A's own w 0.0000: chi2  3141.9 (+0.0)
+      model B   U0 +0.9597 U1 +0.9549 U2 +0.9513 cov01 +0.0184 cov12 +0.0218 cov02 +0.0191 k3 -0.0106 allfail +0.0017   cov02|U1- +0.0554
