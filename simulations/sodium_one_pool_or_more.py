@@ -23,9 +23,12 @@ data/reichert2024_sodium_agarose, read by simulations/read_reichert_thesis_figur
 Fig. 4.11, the paper's Fig. 5 drawn as vector paths, against Table 2. Part 10 sets the thesis's second evaluation
 (its Eq. 3.16, Table 4.7 and Fig. 4.14, read by the same script) and its acquisition at fixed evolution times beside
 the count and reading (i), and fits the measured FID itself: the paper's fit identified on it, its plateau, the
-weights, a control of known split, and the triple-quantum amplitude held. Bound pools have J0 >= J1 >= J2 >= 0, as
-one spectral-density curve of any distribution of correlation times gives. Times in ms, rates in 1/ms inside the
-code. Runtime: about eight minutes; --global adds a differential-evolution check of Part 3.
+weights, a control of known split. Part 11 ties the rank-3 pathway Eq. 13 leaves out to the triple quantum, reads
+what an imperfect inversion pulse leaves, and fits one pool with its pathway and pools jointly with the second paper's
+T2s and T2f: the triple-quantum amplitude held, free and bound sodium, a slow share against the plateau, and the late
+points on a two-pool truth. Bound pools have J0 >= J1 >= J2 >= 0, as one spectral-density curve of any distribution
+of correlation times gives. Times in ms, rates in 1/ms inside the code. Runtime: about twenty minutes; --global adds
+a differential-evolution check of Part 3.
 """
 import os
 import sys
@@ -1211,18 +1214,20 @@ NO_DQ = dict(D=0.0, TD=10.0, ph3=0.0)
 PLATEAU_1 = dict(s=1.0)
 
 
-def fid_model(p, t, car):
+def fid_model(p, t, car, tie=0.0):
     """The IRTQTPPI FID along the evolution time: NBM Eq. 13 with the physical sign, s times its SQ part (s = 1 is the
     printed equation, whose plateau is 1) and the fast weight w (0.2 printed), the TQ part s b times its shape (b the TQ
     over the plateau), a constant DC and a double quantum at twice the carrier with an exponential envelope (D = 0
-    printed). car is the TPPI phase by point."""
+    printed). car is the TPPI phase by point. tie = 1/5 adds the rank-3 pathway at the SQ frequency that Eq. 13 leaves
+    out, tied to the TQ carrier (Part 11 (a)); tie = 0 is Eq. 13."""
     s, A, Ts, Tf, ph1, b, ph2, dc, D, TD, ph3, w = p
-    sq = s * (1 - 2 * A * ((1 - w) * np.exp(-t / Ts) + w * np.exp(-t / Tf)))
-    tq = s * b * (np.exp(-t / Tf) - np.exp(-t / Ts))
+    q = np.exp(-t / Tf) - np.exp(-t / Ts)
+    sq = s * (1 - 2 * A * ((1 - w) * np.exp(-t / Ts) + w * np.exp(-t / Tf)) + tie * abs(b) * q)
+    tq = s * b * q
     return np.sin(car + ph1) * sq + np.sin(3 * car + ph2) * tq + dc + D * np.sin(2 * car + ph3) * np.exp(-t / TD)
 
 
-def fid_fit(y, t, car, fixed, starts, physical=True, Tmax=500.0):
+def fid_fit(y, t, car, fixed, starts, physical=True, Tmax=500.0, tie=0.0):
     """Least squares over the parameters not held in `fixed` (name -> value), from each start (name -> value); with
     physical=True only solutions with T1s > T1f are kept (the printed fit's second minimum has the times swapped)."""
     free = [i for i, k in enumerate(FID_NAMES) if k not in fixed]
@@ -1235,7 +1240,7 @@ def fid_fit(y, t, car, fixed, starts, physical=True, Tmax=500.0):
         def res(q, full=full):
             p = full.copy()
             p[free] = q
-            return fid_model(p, t, car) - y
+            return fid_model(p, t, car, tie) - y
         x0 = np.clip(full[free], lo[free] + 1e-9, hi[free] - 1e-9)
         r = least_squares(res, x0, bounds=(lo[free], hi[free]), x_scale="jac", max_nfev=4000)
         p = full.copy()
@@ -1691,32 +1696,470 @@ def part10(split_i=None):
     print("  (i) controls for the plateau alone, one pool on the drawn axis with the curve's DC and TQ, normalized to its largest "
           "point, all coarse points: " + "; ".join(out))
 
-    # (j) the held amplitude, the relation and the acquisition, on both axes
-    T2s, sT2s = MRM_T2[2]["T2s"]
-    fxa = thesis_t47("fixed", 2, T2s, sT2s)
     dv2 = d_variants(2)
-    for axis, tt, ref in (("drawn axis", t, fr), ("moved axis", shifted(dt0), fo)):
+    held = {"the refit's": (ks + kf) / 2 * r4 / 100, "one pool's by the count at the smallest |d| of Part 8 (d)": LONG * min(dv2.values()),
+            "at the |d*| of the refit's PC0 value (Fig. 4.14)": LONG * r4 / (100 * c316), "at the largest |d|": LONG * max(dv2.values())}
+    return dict(y=y, t=t, car=car, pairs=pairs, floor=floor, plat=plat, ph0=ph0, held=held, d_range=list(dv2.values()),
+                curve_series=curve_series, one_arm={m: arms["moved and noisy"][m].mean() for m in wins})
+
+
+# ---------------- Part 11: one pool with its pathway, and pools, on the measured FID ----------------
+PATHWAY = 2 * SHIFT / LONG    # the rank-3 pathway at the SQ frequency per unit of the TQ carrier, by Part 8 (b): 1/5
+
+
+class PoolCurve:
+    """Pools without exchange on the measured FID, each by Hubbard's rates. A bound pool (T1s; v = T1f/T1s and
+    u = T2f/T1f in (0, 1], so that J0 >= J1 >= J2) gives r = 0.8 e^(-t/T1s) + 0.2 e^(-t/T1f) and q = e^(-t/T1f) -
+    e^(-t/T1s); a free pool (T1 = T2 = T) gives r = e^(-t/T), q = 0. On the curve: s (1 - 2 A sum w r + |b|/5 sum w q)
+    on the SQ carrier (the pathway tied to the TQ carrier, (a)), s b sum w q on the TQ carrier (one d for all pools),
+    the DC and the DQ term of Part 10; the shares w are the pools' parts of the signal read at the line. dq2 = (a_f,
+    T2f, a_s, T2s) adds a DQ term shaped a_f e^(-t/T2f) + a_s e^(-t/T2s), (b), and dq_exp=False drops Part 10's
+    exponential one; sq2 = (mode, shape) adds a term of such a shape on the SQ carrier, in quadrature to the SQ ('quad')
+    or at a free phase ('free'). The transverse side: each bound pool's single quantum 0.6 e^(-R2f t) +
+    0.4 e^(-R2s t) (a free pool's e^(-t/T)), through the second paper's Eq. 11 on its 26 times."""
+    NUIS, NLO, NHI = ["s", "A", "ph1", "ph2", "dc", "D", "TD", "ph3", "b"], [0.5, 0.3, -10, -10, -1, -1, 0.5, -10, -1], \
+        [1.5, 1.5, 20, 20, 1, 1, 500, 20, 1]
+
+    def __init__(self, y, car, kinds, held_b=None, fixed=None, dq2=None, sq2=None, dq_exp=True):
+        self.y, self.car, self.kinds, self.held_b, self.dq2, self.sq2 = y, car, kinds, held_b, dq2, sq2
+        self.fixed = dict(fixed or {})
+        if not dq_exp:
+            self.fixed.update(D=0.0, TD=10.0, ph3=0.0)
+        names, lo, hi = list(self.NUIS), list(self.NLO), list(self.NHI)
+        for i, k in enumerate(kinds):
+            if k == "bound":
+                names += [f"Ts{i}", f"v{i}", f"u{i}"]
+                lo += [5, 0.05, 0.005]
+                hi += [400, 1.0, 1.0]
+            else:
+                names += [f"T{i}"]
+                lo += [5]
+                hi += [5000]
+        names += [f"w{i}" for i in range(len(kinds) - 1)]
+        lo += [0.0] * (len(kinds) - 1)
+        hi += [1.0] * (len(kinds) - 1)
+        if dq2 is not None:
+            names += ["D2", "ph4"]
+            lo += [-1, -10]
+            hi += [1, 20]
+        if sq2:
+            names += ["c", "phc"]
+            lo += [-0.2, -10]
+            hi += [0.2, 20]
+            if sq2[0] == "quad":
+                self.fixed["phc"] = 0.0
+        if held_b is not None:
+            self.fixed["b"] = held_b
+        self.names, self.lo, self.hi = names, np.array(lo, float), np.array(hi, float)
+        self.idx = [i for i, n in enumerate(names) if n not in self.fixed]
+
+    def full(self, x):
+        P = dict(self.fixed)
+        P.update(zip([self.names[i] for i in self.idx], x))
+        return P
+
+    def shares(self, P):
+        w = [P[f"w{i}"] for i in range(len(self.kinds) - 1)]
+        return w + [1.0 - sum(w)]
+
+    def pools(self, P):
+        out = []
+        for i, k in enumerate(self.kinds):
+            if k == "bound":
+                Ts = P[f"Ts{i}"]
+                Tf = P[f"v{i}"] * Ts
+                T2f = P[f"u{i}"] * Tf
+                out.append(("bound", Ts, Tf, T2f, 1 / (3 * (1 / (6 * Tf) + 1 / (6 * Ts)))))
+            else:
+                out.append(("free", P[f"T{i}"]))
+        return out
+
+    def curve(self, P, t):
+        r, q = np.zeros_like(t), np.zeros_like(t)
+        for w, pl in zip(self.shares(P), self.pools(P)):
+            if pl[0] == "bound":
+                es, ef = np.exp(-t / pl[1]), np.exp(-t / pl[2])
+                r += w * (0.8 * es + 0.2 * ef)
+                q += w * (ef - es)
+            else:
+                r += w * np.exp(-t / pl[1])
+        car, s, b = self.car, P["s"], P["b"]
+        out = (np.sin(car + P["ph1"]) * s * (1 - 2 * P["A"] * r + PATHWAY * abs(b) * q) + np.sin(3 * car + P["ph2"]) * s * b * q
+               + P["dc"] + P["D"] * np.sin(2 * car + P["ph3"]) * np.exp(-t / P["TD"]))
+        if self.dq2 is not None:
+            af, tf, as_, ts = self.dq2
+            out = out + P["D2"] * np.sin(2 * car + P["ph4"]) * (af * np.exp(-t / tf) + as_ * np.exp(-t / ts))
+        if self.sq2:
+            mode, (af, tf, as_, ts) = self.sq2
+            e2 = af * np.exp(-t / tf) + as_ * np.exp(-t / ts)
+            out = out + P["c"] * np.sin(car + P["ph1"] + (np.pi / 2 if mode == "quad" else P["phc"])) * e2
+        return out
+
+    def transverse(self, P):
+        grid = T2_GRIDS["linear"]
+        sig = np.zeros_like(grid)
+        for w, pl in zip(self.shares(P), self.pools(P)):
+            if pl[0] == "bound":
+                sig += w * (0.6 * np.exp(-grid / pl[3]) + 0.4 * np.exp(-grid / pl[4]))
+            else:
+                sig += w * np.exp(-grid / pl[1])
+        return fit_mrm(sig, grid, (MRM_T2[2]["T2s"][0], MRM_T2[2]["T2f"][0]))
+
+    def residual(self, x, t, sigma, joint):
+        P = self.full(x)
+        res = (self.curve(P, t) - self.y) / sigma
+        if not joint:
+            return res
+        T2s, T2f, _ = self.transverse(P)
+        return np.append(res, [(T2s - MRM_T2[2]["T2s"][0]) / MRM_T2[2]["T2s"][1], (T2f - MRM_T2[2]["T2f"][0]) / MRM_T2[2]["T2f"][1]])
+
+    def fit(self, t, sigma, starts, joint=True):
+        best = None
+        for st in starts:
+            x0 = np.clip([st.get(self.names[i], 0.0) for i in self.idx], self.lo[self.idx] + 1e-9, self.hi[self.idx] - 1e-9)
+            r = least_squares(self.residual, x0, bounds=(self.lo[self.idx], self.hi[self.idx]), args=(t, sigma, joint),
+                              x_scale="jac", max_nfev=6000)
+            if best is None or r.cost < best.cost:
+                best = r
+        P = self.full(best.x)
+        n = len(self.y)
+        return dict(P=P, chi=2 * best.cost, curve=float(np.sum(best.fun[:n] ** 2)), pulls=best.fun[n:],
+                    T2=self.transverse(P) if joint else None)
+
+
+def part11(ctx):
+    from scipy.optimize import minimize_scalar, brentq
+    import sympy as sp
+    print("\nPart 11. One pool with its rank-3 pathway, and pools, on the measured FID (2 %, PC0), jointly with the second "
+          "paper's T2s and T2f")
+    y, t, car, pairs, floor, held = ctx["y"], ctx["t"], ctx["car"], ctx["pairs"], ctx["floor"], ctx["held"]
+    T2s, sT2s = MRM_T2[2]["T2s"]
+
+    def shifted(dt):
+        tt = t.copy()
+        tt[320:] += dt
+        return tt
+
+    # (a) the pathway tied to the TQ carrier
+    assert sp.simplify(2 * (sp.sqrt(6) / 40) / (sp.sqrt(6) / 4) - sp.Rational(1, 5)) == 0 and abs(PATHWAY - 0.2) <= 4 * EPS
+    taus = np.concatenate([np.linspace(0.5, 60, 13), np.linspace(70, 400, 8)])
+    Ja, Jb, fa = (0.06, 1 / 170, 1 / 290), (0.4, 1 / 110, 1 / 160), 0.7
+    sa, sb = Spin(Ja), Spin(Jb)
+    Oa, Ob = [ir_orders(sa, tau) for tau in taus], [ir_orders(sb, tau) for tau in taus]
+    Pa, Pb = ir_orders(sa, 5000.0), ir_orders(sb, 5000.0)
+    mix = [{p: fa * oa[p] + (1 - fa) * ob[p] for p in oa} for oa, ob in zip(Oa, Ob)]
+    Pm = {p: fa * Pa[p] + (1 - fa) * Pb[p] for p in Pa}
+
+    def onpair(o, ref, p):
+        return ((o[p] * np.conj(ref[1]) + o[-p] * np.conj(ref[-1])) / (abs(ref[1]) ** 2 + abs(ref[-1]) ** 2)).real
+    sq = np.array([onpair(o, Pm, 1) for o in mix])
+    tq = np.array([onpair(o, Pm, 3) for o in mix])
+    wa = fa * amp(Pa, 1) / amp(Pm, 1)
+    rank1 = sum(wgt * (1 - 2 * (0.8 * np.exp(-6 * J[2] * taus) + 0.2 * np.exp(-6 * J[1] * taus))) for wgt, J in ((wa, Ja), (1 - wa, Jb)))
+    dev = np.max(np.abs(sq - rank1 - PATHWAY * tq))
+    wmax = max(np.max(np.abs(sa.w)), np.max(np.abs(sb.w)))
+    law = dev / (EPS * (1 + wmax * taus[-1]))
+    assert law < 100, law
+    deep = PATHWAY * tq
+    assert np.all(deep <= 0), "the pathway lowers the single quantum, deepening the recovery's start"
+    print(f"  (a) the rank-3 pathway at the SQ frequency against the TQ carrier: Part 8 (b) gates its weight 0.8 + (sqrt6/40)|d| "
+          f"and the TQ amplitude (sqrt6/4)|d|, so on the SQ carrier, read in the plateau's phase, the pathway is the TQ carrier's "
+          f"signal read in the same phase times 2 (sqrt6/40) / (sqrt6/4) = {sp.Rational(1, 5)}, for ideal pulses at every d, and "
+          f"it deepens the recovery's start (by up to {-100 * deep.min():.2f} % of the plateau in the pair below); linear in the state, it holds for any sum of pools: two pools simulated pulse by pulse (J = "
+          f"{tuple(round(x, 4) for x in Ja)} and {tuple(round(x, 4) for x in Jb)} per ms, populations 0.7 and 0.3, shares of the "
+          f"line {wa:.3f} and {1 - wa:.3f}) meet it to {dev:.1e} = {law:.3f} x eps x (1 + the largest rate times the evolution "
+          f"time). Eq. 13 and the fits of Part 10 leave it out; below it is in every fit of a pool")
+
+    # one pool with the pathway, on both axes, the coarse band's move refitted with it
+    fr = fid_fit(y, t, car, dict(w=0.2), phase_starts(pairs), tie=PATHWAY)
+    phf = (fr["p"][4], fr["p"][6])
+    r = minimize_scalar(lambda dt: fid_fit(y, shifted(dt), car, dict(w=0.2), phase_starts(pairs[:2], ph=phf), tie=PATHWAY)["cost"],
+                        bounds=(-3.0, 2.0), method="bounded", options=dict(xatol=1e-4))
+    dt0 = r.x
+    tm = shifted(dt0)
+    fo = fid_fit(y, tm, car, dict(w=0.2), phase_starts(pairs[:2], ph=phf), tie=PATHWAY)
+    po = fo["p"]
+    sig = np.sqrt(fo["s2"])
+    sgn = np.sign(po[5])
+    st1 = dict(s=po[0], A=po[1], ph1=po[4], ph2=po[6], dc=po[7], D=po[8], TD=po[9], ph3=po[10], b=po[5], Ts0=po[2],
+               v0=po[3] / po[2], u0=9.0 / po[3])
+    hand = PoolCurve(y, car, ["bound"]).fit(tm, sig, [st1], joint=False)
+    # two optimizers on one model: a pin at their tolerance, not a rounding law
+    assert abs(hand["chi"] - 2 * fo["cost"] / sig ** 2) <= 1e-6 * hand["chi"], "the pool model with one pool is the fit with the pathway"
+
+    # (b) what an inversion pulse short in angle leaves in PC0, at the first paper's phase 0, for a pool at the curve's times
+    T2f_c = MRM_T2[2]["T2f"][0]
+    Jc1, Jc2 = 1 / (6 * po[3]), 1 / (6 * po[2])
+    one = Spin((1 / (3 * T2f_c) - Jc1, Jc1, Jc2))
+    T2s_c = 1 / (3 * (Jc1 + Jc2))
+
+    def scan180(tau, phi2, s180):
+        rho = one.evolve(turn(hard(np.pi * s180, 0.0), Iz.astype(complex)), tau)
+        rho = turn(hard(np.pi / 2, phi2), rho)
+        return one.detect(turn(hard(np.pi / 2, 0.0), rho))
+    tb = np.concatenate([[0.0], np.linspace(0.5, 60, 24), np.linspace(70, 300, 8)])
+    main = np.array([[scan180(tau, f, 1.0) for f in TPPI] for tau in tb])
+    g = np.angle(np.sum(main ** 2)) / 2
+    wq = 1 + np.max(np.abs(one.w)) * tb[-1]
+    lawI = np.max(np.abs((main * np.exp(-1j * g)).imag)) / (EPS * np.max(np.abs(main)) * wq)
+    assert lawI < 100, ("one phase makes the main signal real", lawI)
+    po_ = orders((np.array([scan180(5000.0, f, 1.0) for f in TPPI]) * np.exp(-1j * g)).real)
+    dA = (1 + np.cos(np.pi * 0.99)) / 2          # the inversion depth a pulse 1 % short loses
+    dqv, p3, pi1, devA, devQ, oq = [], [], [], 0.0, 0.0, []
+    for tau, mm in zip(tb, main):
+        lf = (np.array([scan180(tau, f, 0.99) for f in TPPI]) - mm) * np.exp(-1j * g)
+        om, ol, oi = orders((mm * np.exp(-1j * g)).real), orders(lf.real), orders(lf.imag)
+        devA = max(devA, abs(onpair(ol, po_, 1) + dA * (onpair(om, po_, 1) - 1)))
+        dqv.append(amp(ol, 2) / amp(po_, 1))
+        p3.append(amp(ol, 3) / amp(po_, 1))
+        pi1.append(amp(oi, 1) / amp(po_, 1))
+        if amp(oi, 1) > 0:
+            rq = oi[1] / po_[1]
+            devQ = max(devQ, abs(rq.real))
+        oq.append(abs(oi[1] / po_[1]))
+    lawA = devA / (EPS * (1 + np.max(np.abs(one.w)) * tb[-1]))
+    assert lawA < 100, lawA
+    lawQ = devQ / (EPS * wq)
+    assert lawQ < 100, ("the leftover's single quantum in the other channel turns as i times the main one: in quadrature", lawQ)
+    oq = np.array(oq)
+    cq = np.linalg.lstsq(np.column_stack([np.exp(-tb / T2f_c), np.exp(-tb / T2s_c)]), oq, rcond=None)[0]
+    qshape = (cq[0] / oq[0], T2f_c, cq[1] / oq[0], T2s_c)
+    dqv = np.array(dqv)
+    Ms = np.column_stack([np.exp(-tb / T2f_c), np.exp(-tb / T2s_c)])
+    cf = np.linalg.lstsq(Ms, dqv, rcond=None)[0]
+    devS = np.max(np.abs(Ms @ cf - dqv))
+    lawS = devS / (EPS * dqv[0] * wq * np.linalg.cond(Ms))      # a least squares on two exponentials, amplified by its condition
+    assert lawS < 100, ("the leftover's double quantum is two transverse exponentials", lawS)
+    shape = (cf[0] / dqv[0], T2f_c, cf[1] / dqv[0], T2s_c)
+    plain = PoolCurve(y, car, ["bound"]).fit(tm, sig, [st1])
+    sts_dq = [dict(st1, D2=d0, ph4=ph) for d0 in (0.01, -0.01) for ph in (0.0, np.pi / 2)]
+    sim_alone = PoolCurve(y, car, ["bound"], dq2=shape, dq_exp=False).fit(tm, sig, sts_dq)
+    beside_sim = PoolCurve(y, car, ["bound"], dq2=shape).fit(tm, sig, sts_dq)
+    beside_t2 = PoolCurve(y, car, ["bound"], dq2=(0.6, T2f_c, 0.4, MRM_T2[2]["T2s"][0])).fit(tm, sig, sts_dq)
+    print(f"  (b) an inversion pulse 1 % short in angle, at the first paper's phase 0, simulated for one pool at the curve's times (T1s "
+          f"{po[2]:.2f}, T1f {po[3]:.2f}, T2f {T2f_c} ms, T2s {T2s_c:.2f} by the relation): in the receiver channel of the main "
+          f"signal it changes the single quantum only by the inversion depth it loses, {dA:.2e}, which the fit's A takes up (to "
+          f"{devA:.1e} = {lawA:.2f} x eps x (1 + the largest rate times the evolution time)); it adds a double quantum of "
+          f"{100 * dqv[0]:.3f} % of the plateau at the start, decaying as {shape[0]:.4f} e^(-t/T2f) + {shape[2]:.4f} e^(-t/T2s) "
+          f"(to {devS:.0e}), and at most {100 * max(p3):.4f} % at the TQ frequency; its transverse part at the single-quantum "
+          f"frequency, {100 * pi1[0]:.2f} % at the start, decaying as {qshape[0]:.4f} e^(-t/T2f) + {qshape[2]:.4f} e^(-t/T2s), lies "
+          f"in the other channel, turning as i times the main single quantum (to {devQ:.0e} of the plateau = {lawQ:.2f} x eps x (1 + "
+          f"the largest rate times the evolution time)), so that a receiver phase error "
+          f"would bring it in quadrature")
+    print(f"    on the curve (one pool with the pathway, the coarse band moved, chi2 of the curve on its residual and of T2s and "
+          f"T2f): Part 10's DQ term is {100 * abs(po[8]):.2f} % of the plateau decaying in {po[9]:.2f} +- {fo['err'][9]:.2f} ms, "
+          f"against T2f {T2f_c} ms, the size of an inversion about {abs(po[8]) / dqv[0]:.2f} % short; the leftover's shape in its "
+          f"place gives chi2 {sim_alone['chi']:.1f} against {plain['chi']:.1f}, at {100 * abs(sim_alone['P']['D2']):.2f} % of the "
+          f"plateau ({abs(sim_alone['P']['D2']) / dqv[0]:.2f} % short); a second DQ term beside Part 10's gains "
+          f"{plain['chi'] - beside_sim['chi']:.1f} in the leftover's shape and {plain['chi'] - beside_t2['chi']:.1f} in the "
+          f"transverse single quantum's, the two terms then at {100 * beside_sim['P']['D']:+.2f} and "
+          f"{100 * beside_sim['P']['D2']:+.2f} % and {100 * beside_t2['P']['D']:+.2f} and {100 * beside_t2['P']['D2']:+.2f} %, at "
+          f"phases {np.degrees((beside_sim['P']['ph4'] - beside_sim['P']['ph3']) % (2 * np.pi)):.0f} and "
+          f"{np.degrees((beside_t2['P']['ph4'] - beside_t2['P']['ph3']) % (2 * np.pi)):.0f} degrees apart: the double quantum's "
+          f"envelope is not one exponential at one phase, and how it splits between two terms is not fixed")
+    rows, inphase = [], {}
+    for lab, hb in [("free", None)] + list(held.items()):
+        base_ = PoolCurve(y, car, ["bound"], held_b=None if hb is None else sgn * hb).fit(tm, sig, [st1, dict(st1, v0=0.95)])
+        cells = [f"{base_['chi']:.1f}"]
+        for mode in ("quad", "free"):
+            sts = [dict(st1, v0=v, c=c0, phc=ph) for v in (0.8, 0.95) for c0 in (0.01, -0.01) for ph in (0.0, np.pi / 2)]
+            f = PoolCurve(y, car, ["bound"], held_b=None if hb is None else sgn * hb, sq2=(mode, qshape)).fit(tm, sig, sts)
+            ph = 0.5 if mode == "quad" else (f["P"]["phc"] / np.pi + 1) % 2 - 1
+            name = "in quadrature" if mode == "quad" else "phase free"
+            if mode == "free":
+                inphase[lab] = f["chi"]
+            cells.append(f"{name} {f['chi']:.1f} ({100 * f['P']['c']:+.2f} % at {ph:+.2f} pi, split "
+                         f"{fid_split([0, 0, f['P']['Ts0'], f['P']['v0'] * f['P']['Ts0']]):.2f}, T2s {f['pulls'][0]:+.2f} sigma)")
+        tag = "" if hb is None else f" at {100 * hb:.2f} %"
+        rows.append(f"TQ {lab}{tag}: " + ", ".join(cells))
+    print("    the leftover's shape in the other channel on the SQ carrier, chi2 without it, in quadrature to the single quantum "
+          "(where a receiver phase error would put it), at a free phase (its amplitude in % of the plateau, its phase from the "
+          "single quantum's, the pool's split and the T2s pull): " + "; ".join(rows))
+
+    # (c) one pool with its pathway: the split, the relation, the held amplitude and the acquisition
+    fxa = thesis_t47("fixed", 2, T2s, sT2s)
+    for axis, tt, ref in (("drawn axis", t, fr), ("moved axis", tm, fo)):
+        q, e = ref["p"], ref["err"]
+        _, _, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
         cells = []
-        for lab, b in (("the refit's", (ks + kf) / 2 * r4 / 100), ("one pool's by the count at the smallest |d| of Part 8 (d)", LONG * min(dv2.values())),
-                       ("at its |d*|", LONG * r4 / (100 * c316)), ("at the largest |d|", LONG * max(dv2.values()))):
-            hf = fid_fit(y, tt, car, dict(w=0.2, b=np.sign(pf[5]) * b), phase_starts(pairs, ph=phf))
+        for lab, b in held.items():
+            hf = fid_fit(y, tt, car, dict(w=0.2, b=sgn * b), phase_starts(pairs, ph=(q[4], q[6])), tie=PATHWAY)
             hq, he = hf["p"], hf["err"]
             _, _, hg, hs = gap(hq[2], he[2], hq[3], he[3], T2s, sT2s)
             cells.append(f"{lab} ({100 * b:.2f} %): split {fid_split(hq):.2f}, delta chi2 {2 * (hf['cost'] - ref['cost']) / ref['s2']:.0f}, "
                          f"gap {hg:.2f} +- {hs:.2f} 1/s = {hg / hs:.1f} sigma")
-        q, e = ref["p"], ref["err"]
-        R, R2, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
-        print(f"  (j) {axis}, plateau free with a DQ term and the TQ free: split {fid_split(q):.2f}, T1m {fid_t1m(q):.2f}, TQ {100 * abs(q[5]):.2f} % "
-              f"(one pool's by the count at |d| {abs(q[5]) / LONG:.3f}); the TQ held at " + "; ".join(cells)
-              + f"; the relation against the second paper's T2s: gap {gp:.2f} +- {sg:.2f} 1/s = {gp / sg:.1f} sigma; the acquisition "
-              f"at fixed times (PC2, a separate session, Eq. 3.18 frees the plateau) {fxa['split']:.2f} +- {fxa['s_split']:.2f} at T1m "
-              f"{THESIS_T47['fixed'][2][4]} ms: {(fid_split(q) - fxa['split']) / fxa['s_split']:.1f} sigma on its error")
+        note = f" (the move refitted with the pathway, {dt0:+.3f} ms)" if tt is tm else ""
+        print(f"  (c) {axis}{note}, the plateau free, the DQ term, the TQ free: split {fid_split(q):.2f} +- {split_err(ref):.2f}, "
+              f"T1m {fid_t1m(q):.2f}, TQ {100 * abs(q[5]):.2f} % (one pool's by the count at |d| {abs(q[5]) / LONG:.3f}), rms "
+              f"{np.sqrt(ref['s2']):.5f}; the relation against the second paper's T2s: gap {gp:.2f} +- {sg:.2f} 1/s = {gp / sg:.1f} "
+              f"sigma; the acquisition at fixed times (PC2, a separate session) {fxa['split']:.2f} +- {fxa['s_split']:.2f} at T1m "
+              f"{THESIS_T47['fixed'][2][4]} ms: {(fid_split(q) - fxa['split']) / fxa['s_split']:.1f} sigma on its error; the TQ "
+              f"held at " + "; ".join(cells))
+    keep = ~((t > 64) & (t <= 150))
+    dense = np.arange(640) < 320
+    routes = {("the dense band alone, the plateau held at the tail's", True):
+              fid_fit(y[dense], t[dense], car[dense], dict(w=0.2, s=ctx["plat"]), phase_starts(pairs, ph=phf), tie=PATHWAY),
+              ("64 to 150 ms left out, the plateau free", True):
+              fid_fit(y[keep], t[keep], car[keep], dict(w=0.2), phase_starts(pairs, ph=phf), tie=PATHWAY),
+              ("the coarse band moved, the plateau free", True): fo,
+              ("the dense band alone, the plateau held at the tail's", False):
+              fid_fit(y[dense], t[dense], car[dense], dict(w=0.2, s=ctx["plat"], **NO_DQ), phase_starts(pairs, ph=phf), tie=PATHWAY),
+              ("64 to 150 ms left out, the plateau free", False):
+              fid_fit(y[keep], t[keep], car[keep], dict(w=0.2, **NO_DQ), phase_starts(pairs, ph=phf), tie=PATHWAY)}
+    rr = []
     for k, f in routes.items():
         q, e = f["p"], f["err"]
-        R, R2, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
-        print(f"      {k[0]}, {'with' if k[1] else 'no'} DQ: gap {gp:.2f} +- {sg:.2f} 1/s = {gp / sg:.1f} sigma")
-    R, R2, gp, sg = gap(T1s0, sT1s0, T1f0, sT1f0, T2s, sT2s)
+        _, _, gp, sg = gap(q[2], e[2], q[3], e[3], T2s, sT2s)
+        rr.append((k, fid_split(q), gp, sg, np.sqrt(f["s2"])))
+    wd = [x for x in rr if x[0][1]]
+    print("    routes past the join with the pathway: " + "; ".join(
+        f"{k[0]}, {'with' if k[1] else 'no'} DQ: split {s_:.2f}, gap {gp:.2f} +- {sg:.2f} = {gp / sg:.1f} sigma, rms {rms:.5f}"
+        for k, s_, gp, sg, rms in rr) + f" (the floor {floor:.5f})"
+        + f"; with the DQ term the split {min(x[1] for x in wd):.2f} to {max(x[1] for x in wd):.2f} 1/s, the gap "
+        f"{min(x[2] for x in wd):.2f} to {max(x[2] for x in wd):.2f} 1/s ({min(x[2] / x[3] for x in wd):.1f} to "
+        f"{max(x[2] / x[3] for x in wd):.1f} sigma)")
+    T1s0, sT1s0, T1f0, sT1f0 = NBM_T1["PC0"][2]
+    _, _, gp, sg = gap(T1s0, sT1s0, T1f0, sT1f0, T2s, sT2s)
     print(f"    with NBM Table 2's PC0 cell the gap is {gp:.2f} +- {sg:.2f} 1/s")
+
+    # (d) pools, jointly with T2s and T2f
+    st2 = [dict(st1, Ts0=Ta, v0=va, u0=0.2, Ts1=Tb, v1=vb, u1=0.5, w0=w0)
+           for w0, (Ta, va), (Tb, vb) in ((0.98, (45.7, 0.92), (24.5, 0.67)), (0.96, (45.8, 0.94), (29.0, 0.77)),
+                                          (0.9, (46.5, 0.97), (33.0, 0.9)), (0.995, (46.0, 0.85), (14.0, 0.6)))]
+
+    def desc(mod, f):
+        return " + ".join(f"{w:.3f} at {p_[1]:.1f}/{p_[2]:.1f} (T2f {p_[3]:.2f})" if p_[0] == "bound" else f"{w:.3f} free at {p_[1]:.1f}"
+                          for w, p_ in zip(mod.shares(f["P"]), mod.pools(f["P"])))
+
+    def carriers(mod, f):
+        """The largest pool's split in 1/s and its share of sum w q at that sum's peak in time."""
+        pl, ws = mod.pools(f["P"]), mod.shares(f["P"])
+        k = int(np.argmax(ws))
+        qs = [w * (np.exp(-tm / p_[2]) - np.exp(-tm / p_[1])) for w, p_ in zip(ws, pl)]
+        i = int(np.argmax(np.abs(sum(qs))))
+        return 1e3 * (1 / pl[k][2] - 1 / pl[k][1]), qs[k][i] / sum(qs)[i]
+    table, lines = {}, []
+    for lab, hb in [("free", None)] + list(held.items()):
+        m1 = PoolCurve(y, car, ["bound"], held_b=None if hb is None else sgn * hb)
+        m2 = PoolCurve(y, car, ["bound", "bound"], held_b=None if hb is None else sgn * hb)
+        f1, f2 = m1.fit(tm, sig, [st1, dict(st1, v0=0.95)]), m2.fit(tm, sig, st2)
+        table[lab] = (f1, f2)
+        tag = "" if hb is None else f" at {100 * hb:.2f} %"
+        spl, shq = carriers(m2, f2)
+        lines.append(f"TQ {lab}{tag}: one pool {f1['chi']:.1f} (curve {f1['curve']:.1f}, T2s {f1['pulls'][0]:+.2f} sigma, split "
+                     f"{fid_split([0, 0, f1['P']['Ts0'], f1['P']['v0'] * f1['P']['Ts0']]):.2f}), two {f2['chi']:.1f} (curve "
+                     f"{f2['curve']:.1f}, T2s {f2['pulls'][0]:+.2f} sigma, TQ {100 * abs(f2['P']['b']):.1f} %; {desc(m2, f2)}; the "
+                     f"large pool's split {spl:.2f}, its share of the TQ carrier at the peak {shq:.3f})")
+    print(f"  (d) one bound pool against two (each with J0 >= J1 >= J2 and its own relation, no exchange, one d), the coarse band "
+          f"moved, chi2 of the curve on the one pool's residual ({sig:.5f}, so that one pool sits at the floor by construction) and "
+          f"of T2s and T2f; the shares are shares of the line, the times T1s/T1f in ms: " + "; ".join(lines))
+    c1f, c2f = table["free"][0]["chi"], table["free"][1]["chi"]
+    held_one = [table[k][0]["chi"] - c1f for k in held]
+    held_two = [table[k][1]["chi"] - c2f for k in held]
+    assert min(held_one) > 25 and max(abs(x) for x in held_two) < 1, (held_one, held_two)
+    from scipy.stats import chi2 as chi2_dist
+    print(f"    held at one pool's amplitude, one pool pays {min(held_one):.0f} to {max(held_one):.0f} over its own fit with the TQ "
+          f"free, two pools {min(held_two):+.1f} to {max(held_two):+.1f}; with the TQ free two pools gain {c1f - c2f:.1f} on one with "
+          f"four parameters more (a nominal p = {chi2_dist.sf(c1f - c2f, 4):.3f}, the models nested at a boundary), {table['free'][0]['curve'] - table['free'][1]['curve']:.1f} "
+          f"of it on the curve; one pool with the in-phase term of (b), two parameters more than one pool, against two pools: "
+          + ", ".join(f"TQ {k if k == 'free' else f'{100 * held[k]:.2f} %'} {inphase[k] - table[k][1]['chi']:+.1f}" for k in table))
+    band = []
+    hmin = min(held, key=held.get)
+    for lab, hb, ref2 in (("free", None, c2f), (f"at {100 * held[hmin]:.2f} %", sgn * held[hmin], table[hmin][1]["chi"])):
+        for w1 in (0.005, 0.01, 0.04, 0.15):
+            mb = PoolCurve(y, car, ["bound", "bound"], held_b=hb, fixed={"w0": 1 - w1})
+            fb = mb.fit(tm, sig, [dict(s_, w0=1 - w1) for s_ in st2])
+            sb, shb = carriers(mb, fb)
+            band.append(f"TQ {lab}, {100 * w1:g} %: {fb['chi'] - ref2:+.1f} ({desc(mb, fb)}, TQ {100 * abs(fb['P']['b']):.1f} %, the "
+                        f"large pool's split {sb:.2f}, its share of the TQ carrier {shb:.2f})")
+    mu = [PoolCurve(y, car, ["bound", "bound"], fixed={"u1": u}).fit(tm, sig, st2)["chi"] - c2f for u in (0.05, 0.5)]
+    print("    the small pool's share held, chi2 against the best two pools at the same TQ: " + "; ".join(band) + f"; its T2f held at 0.05 and 0.5 "
+          f"of its T1f: {mu[0]:+.1f} and {mu[1]:+.1f}")
+    jr = []
+    for dt in (-1.6, -1.3, 0.0):
+        a1 = PoolCurve(y, car, ["bound"]).fit(shifted(dt), sig, [st1, dict(st1, v0=0.95)])["chi"]
+        a2 = PoolCurve(y, car, ["bound", "bound"]).fit(shifted(dt), sig, st2)["chi"]
+        jr.append(f"{dt:+.1f} ms: one {a1 - c1f:+.1f}, two {a2 - c2f:+.1f}")
+    print("    the coarse band's move per model, chi2 against each at the one pool's move: " + "; ".join(jr))
+    ds = []
+    for lab, hb in (("free", None), ("at the smallest held", min(held.values())), ("at the largest", max(held.values()))):
+        g1 = PoolCurve(y, car, ["bound"], held_b=None if hb is None else sgn * hb, dq2=shape).fit(
+            tm, sig, [dict(st1, v0=v, D2=-0.005, ph4=ph) for v in (0.8, 0.95) for ph in (0.0, np.pi / 2)])
+        g2 = PoolCurve(y, car, ["bound", "bound"], held_b=None if hb is None else sgn * hb, dq2=shape).fit(
+            tm, sig, [dict(s_, D2=-0.005, ph4=ph) for s_ in st2[:2] for ph in (0.0, np.pi / 2)])
+        ds.append(f"TQ {lab}: one {g1['chi']:.1f}, two {g2['chi']:.1f}")
+    print("    with a second DQ term in the leftover's shape of (b) beside Part 10's, in both: " + "; ".join(ds))
+    dn = data_numbers(2)
+    slow0, sslow = dn["slow"]
+    fbr = []
+    for lab, fx in (("free sodium at 54.19 ms, share free", {"T1": T_FREE}), ("at 2 %", {"T1": T_FREE, "w0": 0.98}),
+                    ("at 4 %", {"T1": T_FREE, "w0": 0.96}), ("the free time free too", {})):
+        mf = PoolCurve(y, car, ["bound", "free"], fixed=fx)
+        ff = mf.fit(tm, sig, [dict(st1, T1=T, w0=w) for T in ((T_FREE,) if fx else (T_FREE, 100.0)) for w in (0.97, 0.9)])
+        wb = mf.shares(ff["P"])[0]
+        sl = ff["T2"][2]
+        lo, hi = sl + wb * SHIFT_T * min(ctx["d_range"]), sl + wb * SHIFT_T * max(ctx["d_range"])
+        fbr.append(f"{lab}: {ff['chi'] - c1f:+.1f} against one pool ({desc(mf, ff)}), T2s {ff['pulls'][0]:+.2f} sigma, slow fraction "
+                   f"{sl:.3f}, {(sl - slow0) / sslow:+.1f} sigma from the measured {slow0:.3f} +- {sslow:.3f}, {(lo - slow0) / sslow:+.1f} "
+                   f"to {(hi - slow0) / sslow:+.1f} with the transverse twin over the range of d")
+    sl2 = table["free"][1]["T2"][2]
+    print("    free and bound sodium, chi2 of curve, T2s and T2f, the slow fraction outside the objective and read against the "
+          "measured: " + "; ".join(fbr) + f"; two bound pools: slow fraction {sl2:.3f}, {(sl2 - slow0) / sslow:+.1f} sigma, "
+          f"{(sl2 + SHIFT_T * min(ctx['d_range']) - slow0) / sslow:+.1f} to {(sl2 + SHIFT_T * max(ctx['d_range']) - slow0) / sslow:+.1f} "
+          f"with the twin")
+
+    # (e) slow sodium against the free plateau
+    c0 = hand["chi"]
+    warm = {}
+
+    def dchi(f, T):
+        mod = PoolCurve(y, car, ["bound", "free"], fixed={"T1": T, "w0": 1 - f})
+        sts = [dict(st1, T1=T, w0=1 - f, v0=v) for v in (0.95, 0.8, 0.65)] + ([warm[T]] if T in warm else [])
+        res = mod.fit(tm, sig, sts, joint=False)
+        warm[T] = dict(res["P"])
+        return res["chi"] - c0
+    lim = []
+    for T in (60.0, 80.0, 100.0, 150.0, 300.0, 1000.0, 5000.0, 20000.0):
+        f4 = brentq(lambda f: dchi(f, T) - 4.0, 1e-4, 0.15, xtol=2e-4) if dchi(0.15, T) > 4 else None
+        lim.append(f"{T:g} ms: " + ("above 15 %" if f4 is None else f"{100 * f4:.2f} %"))
+    print("  (e) a slow share at T1 = T2 = T beside one bound pool, the curve alone, the TQ free: the share that costs delta chi2 4, "
+          "at T " + "; ".join(lim))
+    lt = []
+    for hk in (min(held, key=held.get), max(held, key=held.get)):
+        cells = []
+        for T in (T_FREE, 60.0, 80.0, 150.0, 1000.0):
+            mf = PoolCurve(y, car, ["bound", "free"], held_b=sgn * held[hk], fixed={"T1": T})
+            f = mf.fit(tm, sig, [dict(st1, T1=T, w0=w, v0=v) for w in (0.99, 0.95, 0.8) for v in (0.9, 0.97)])
+            cells.append(f"T {T:g}: {f['chi']:.1f} (share {1 - f['P']['w0']:.3f}, slow fraction {f['T2'][2]:.3f}, "
+                         f"{(f['T2'][2] - slow0) / sslow:+.1f} sigma)")
+        lt.append(f"TQ at {100 * held[hk]:.2f} %: one pool alone {table[hk][0]['chi']:.1f}, two bound pools {table[hk][1]['chi']:.1f}; "
+                  + "; ".join(cells))
+    print("    a pool with a small split and a candidate beside it, as the outside reading proposed: the triple quantum held at one "
+          "pool's amplitude, reading (i)'s premise, and a slow share at T with its share free, chi2 of curve, T2s and T2f, the "
+          "slow fraction against the measured: " + " | ".join(lt))
+
+    # (f) Fig. 5 on this curve: what the late points do to the printed fit, on a two-pool truth
+    two = PoolCurve(y, car, ["bound", "bound"])
+    clean = two.curve(table["free"][1]["P"], tm)
+    rng = np.random.default_rng(5)
+    wins = (0, 30, 100, 320)
+    printed = dict(PLATEAU_1, **NO_DQ, w=0.2)
+    out = {w: [] for w in wins}
+    for _ in range(12):
+        yy = clean + floor * rng.standard_normal(640)
+        yy = yy / np.max(np.abs(yy))
+        for w in wins:
+            mask = np.arange(640) < 320 + w
+            out[w].append(fid_split(fid_fit(yy[mask], t[mask], car[mask], printed, phase_starts(pairs, ph=ctx["ph0"]))["p"]))
+    for w in wins:
+        assert abs(np.mean(out[w]) - ctx["curve_series"][w]) <= 3 * np.std(out[w]), "the two-pool truth gives the curve's series"
+    print("  (f) the printed fit as the coarse points are added, on the two-pool fit with the TQ free as truth (the move, the noise "
+          "floor, normalized to the largest point, twelve draws): " + ", ".join(f"{w}: {np.mean(v):.2f} +- {np.std(v):.2f}"
+                                                                               for w, v in out.items())
+          + "; the curve: " + ", ".join(f"{w}: {ctx['curve_series'][w]:.2f}" for w in wins) + "; one pool as truth (Part 10 (h)): "
+          + ", ".join(f"{w}: {ctx['one_arm'][w]:.2f}" for w in wins) + ". A model at the floor of the whole curve gives its series "
+          "within the noise, so on this curve the series does not tell the models apart")
+
 
 if __name__ == "__main__":
     do_global = "--global" in sys.argv
@@ -1729,4 +2172,5 @@ if __name__ == "__main__":
     part7()
     split_i = part8(edges)
     part9()
-    part10(split_i)
+    ctx = part10(split_i)
+    part11(ctx)
