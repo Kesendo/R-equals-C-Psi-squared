@@ -225,11 +225,16 @@ and keeps others (under a phase of 0.05 after every cz ⟨Z₂⟩ goes from
 −0.34 to +0.11 while ⟨Z₀⟩ goes from −0.155 to −0.136), and a twirl suppresses
 single-qubit letters as well
 ([`x3_window_arms_scout.py`](../../simulations/x3_window_arms_scout.py)).
-What is pre-registered instead is
+What was flown instead is
 [the X^⊗3 window under a turned frame](../../experiments/X3_WINDOW_HARDWARE_PREDICTION.md):
 these circuits read with one qubit's drive frame turned, which Z letters and
 own-frame letters do not see and a foreign transverse letter does, beside
-the idle detuning of each qubit measured directly.
+the idle detuning of each qubit measured directly. On Kingston [13, 14, 15]
+(2026-11-16) the window read open, mainly through ⟨Z₂⟩ on q15, whose
+readout broke the guards that day, and frame-blind on
+all three qubits at that flight's sensitivity (on the end qubits for the
+cosine part alone); on Marrakesh [45, 46, 47] (2026-11-13) shut, with a
+reach of 0.149 rad/µs, on a day whose readout read far off. Neither path is this README's.
 
 ⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict
 the same +0.231 in a Z-only model, but σ⁻ moves pi2_odd's (0.193 at

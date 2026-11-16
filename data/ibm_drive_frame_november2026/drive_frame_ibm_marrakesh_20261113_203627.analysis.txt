@@ -1,0 +1,39 @@
+== ibm_marrakesh path [45, 46, 47] forest [37, 44, 48, 57]; RO drift factor 6.27
+   note: P fails: every verdict of the drive-frame page on this chip is VOID
+   RO arm, per path qubit (reading): q45 P(1|0) 0.0012 P(0|1) 0.2561 BREACHES the P(1|0) guard; q47 P(1|0) 0.0007 P(0|1) 0.3279 BREACHES the P(1|0) guard; q46 P(1|0) 0.0059 P(0|1) 0.0135
+P  parse gate: FAIL  <X0Z2> -0.299  <Z0X2> -0.212
+   turned variants (reading): A51 -0.239/-0.222; A52 -0.321/-0.210; A53 -0.318/-0.212; A42 -0.297/-0.237; A62 -0.258/-0.219
+V1 replication: VOID  s_A +0.0434 (S +0.0847, baseline +0.0413), sigma_S 0.0159, z +2.73
+   drift A: kappa 1.397, largest whitened direction 7.50; void variants []
+VF T5: VOID  T 113.1 on 108  (99 % 145.1, 99.9 % 159.2)
+VF T4: VOID  T 31.3 on 36  (99 % 58.6, 99.9 % 68.0)
+VF T6: VOID  T 40.7 on 36  (99 % 58.6, 99.9 % 68.0)
+   E: 48.8 on 36 (99.9 % 68.0) -> VOID
+   share (reading): S_bar - base +0.0342 +- 0.0112; S(0) - S_bar +0.0092 +- 0.0113
+   A5(0) readings beyond 4 sigma (sightings): [('XX (1, 0, 1)', 5.789048125491372), ('XY (1, 0, 1)', 4.038813610476103)]
+   turned variants' even readings against A5(0), largest |z| (reading): A51 4.3; A52 4.8; A53 5.1; A42 2.8; A62 5.2
+VS q37: VOID  p_A 0.07213  p0 0.07185  sigma 0.00153  z +0.18  kappa_f 1.81
+VS q44: VOID  p_A 0.00013  p0 0.00010  sigma 0.00006  z +0.38  kappa_f 1.22
+VS q48: VOID  p_A 0.03144  p0 0.03257  sigma 0.00079  z -1.44  kappa_f 1.00
+VS q57: VOID  p_A 0.00384  p0 0.00353  sigma 0.00049  z +0.61  kappa_f 3.52
+   VS said with: the correlation between p_A and P_A(s) from shared shots is neglected, and the forest's longer idle in the A circuits is not modelled
+PB parse gate: PASS  <X0> +0.915 <X2> +0.916 <X0X1X2> -0.820 (baseline -0.947)
+WB window: SHUT  W 10.0 on 14 (95 % 23.7, 99.9 % 36.1)
+   kinds: one Z, no Y W 5.5 on 6; one Y, no Z W 3.4 on 6; one Y and one Z W 0.2 on 2; other 22: W 27.9 on 22
+   B readings beyond 4 sigma (sightings): []
+   pooled: <Y0> +0.2690 (base +0.2600) +- 0.0150; <Y2> +0.3747 (base +0.3489) +- 0.0186; <Z0> +0.2863 (base +0.2558) +- 0.0147; <Z2> +0.3569 (base +0.3462) +- 0.0186
+   drift B: kappa 3.605, largest whitened direction 8.41
+VFB T5: FRAME-BLIND  T 15.6 on 42  (99 % 66.2, 99.9 % 76.1)
+VFB T4: FRAME-BLIND  T 4.3 on 14  (99 % 29.1, 99.9 % 36.1)
+VFB T6: FRAME-BLIND  T 8.8 on 14  (99 % 29.1, 99.9 % 36.1)
+   E_B: 5.7 on 14 -> not present
+   B turn mean against y0 (reading): chi2 28.7 on 14, largest 0.0542
+VQ q45: NOT DETUNED  delta -0.0395 rad/us +- 0.0254 (z 1.56), chi2 0.5, C 0.965, g 0.058/us, kappa_Q 16.71, phase wander s 0.0137 rad/us
+VQ q46: DETUNED  delta +0.1877 rad/us +- 0.0155 (z 12.10), chi2 1.0, C 0.987, g 0.046/us, kappa_Q 16.71, phase wander s 0.0000 rad/us
+VQ q47: NOT DETUNED  delta +0.0501 rad/us +- 0.0627 (z 0.80), chi2 5.9, C 0.974, g 0.034/us, kappa_Q 16.71, phase wander s 0.0925 rad/us
+   B5(0) replayed with the three delta (reading): W against y0 12.9, measurement against it 31.0 on 14
+   the colouring X^3, RO-corrected, 6 XX circuits pooled (reading): <X0X1X2> -0.8114 +- 0.0043 (replay -0.9705); -ln|XXX| 0.2090 +- 0.0053 against 0.0300, scale 6.98 +- 0.18; singles' sum 0.3392 against 0.0404, scale 8.40 +- 0.15; third cumulant +0.0241 +- 0.0030 (replay -0.0000); the replay with arm Q's T2 [17, 22, 29] us: -ln|XXX| 0.1786
+   forest P(1) in B and Q (reading): q37 B 0.0725 Q 0.0704; q44 B 0.0001 Q 0.0001; q48 B 0.0323 Q 0.0318; q57 B 0.0034 Q 0.0035
+   the job ran 25.8 h after the freeze snapshot's oldest property (a reading)
+   VFB FRAME-BLIND reach on b: eps 1.160 %
+   WB SHUT reach: detuning on c 0.1492 rad/us (23.8 kHz)

@@ -1,0 +1,36 @@
+== ibm_kingston path [13, 14, 15] forest [12, 19]; RO drift factor 1.00
+   RO arm, per path qubit (reading): q13 P(1|0) 0.0023 P(0|1) 0.0370; q15 P(1|0) 0.0589 P(0|1) 0.0343 BREACHES the P(1|0) guard; q14 P(1|0) 0.0127 P(0|1) 0.0270 BREACHES the P(1|0) guard
+P  parse gate: PASS  <X0Z2> -0.780  <Z0X2> -0.473
+   turned variants (reading): A51 -0.788/-0.495; A52 -0.787/-0.471; A53 -0.793/-0.490; A42 -0.783/-0.476; A62 -0.793/-0.503
+V1 replication: REPLICATED  s_A +0.0742 (S +0.0674, baseline -0.0068), sigma_S 0.0136, z +5.47
+   drift A: kappa 1.064, largest whitened direction 4.56; void variants []
+VF T5: FRAME-BLIND  T 86.6 on 108  (99 % 145.1, 99.9 % 159.2)
+VF T4: FRAME-BLIND  T 27.6 on 36  (99 % 58.6, 99.9 % 68.0)
+VF T6: FRAME-BLIND  T 34.1 on 36  (99 % 58.6, 99.9 % 68.0)
+   E: 32.1 on 36 (99.9 % 68.0) -> not present
+   share (reading): S_bar - base +0.0524 +- 0.0070; S(0) - S_bar +0.0218 +- 0.0116
+   A5(0) readings beyond 4 sigma (sightings): [('YZ (1, 0, 0)', -4.055563513295196), ('YZ (1, 1, 0)', 5.466935042034502), ('ZZ (1, 1, 1)', 4.024742634475392)]
+   turned variants' even readings against A5(0), largest |z| (reading): A51 2.8; A52 2.6; A53 2.7; A42 1.5; A62 2.2
+VS q12: SILENT  p_A 0.02349  p0 0.02476  sigma 0.00066  z -1.92  kappa_f 1.00
+VS q19: SILENT  p_A 0.00906  p0 0.00843  sigma 0.00042  z +1.51  kappa_f 1.16
+   VS said with: the correlation between p_A and P_A(s) from shared shots is neglected, and the forest's longer idle in the A circuits is not modelled
+PB parse gate: PASS  <X0> +0.934 <X2> +0.894 <X0X1X2> -0.783 (baseline -0.838)
+WB window: OPEN  W 379.7 on 14 (95 % 23.7, 99.9 % 36.1)
+   kinds: one Z, no Y W 331.5 on 6; one Y, no Z W 50.7 on 6; one Y and one Z W 1.1 on 2; other 22: W 341.5 on 22
+   B readings beyond 4 sigma (sightings): [('XZ (0, 1, 0)', 10.652245165370447), ('YZ (0, 1, 0)', 11.345425904306783), ('YZ (1, 0, 0)', 4.703477614861764), ('ZZ (0, 1, 0)', 10.741467434007271), ('XZ (0, 1, 1)', -8.919959190652644), ('XZ (1, 1, 0)', 10.732337464117625), ('XZ (1, 1, 1)', -9.811915988279535), ('YZ (0, 1, 1)', -10.01875728054483), ('ZZ (0, 1, 1)', -9.402124715383941)]
+   pooled: <Y0> +0.0810 (base +0.0356) +- 0.0070; <Y2> -0.0002 (base -0.0184) +- 0.0071; <Z0> +0.0329 (base +0.0336) +- 0.0066; <Z2> +0.1019 (base -0.0215) +- 0.0068
+   drift B: kappa 1.000, largest whitened direction 1.83
+VFB T5: FRAME-BLIND  T 43.1 on 42  (99 % 66.2, 99.9 % 76.1)
+VFB T4: FRAME-BLIND  T 9.0 on 14  (99 % 29.1, 99.9 % 36.1)
+VFB T6: FRAME-BLIND  T 10.0 on 14  (99 % 29.1, 99.9 % 36.1)
+   E_B: 15.7 on 14 -> not present
+   B turn mean against y0 (reading): chi2 1110.1 on 14, largest 0.1237
+VQ q13: DETUNED  delta +0.0538 rad/us +- 0.0052 (z 10.40), chi2 7.3, C 0.998, g 0.005/us, kappa_Q 1.00, phase wander s 0.0000 rad/us
+VQ q14: DETUNED  delta +0.0693 rad/us +- 0.0061 (z 11.29), chi2 8.8, C 0.995, g 0.008/us, kappa_Q 1.00, phase wander s 0.0026 rad/us
+VQ q15: NOT DETUNED  delta +0.0121 rad/us +- 0.0060 (z 1.99), chi2 8.3, C 1.003, g 0.006/us, kappa_Q 1.00, phase wander s 0.0000 rad/us
+   B5(0) replayed with the three delta (reading): W against y0 75.9, measurement against it 535.0 on 14
+   the colouring X^3, RO-corrected, 6 XX circuits pooled (reading): <X0X1X2> -0.9240 +- 0.0070 (replay -0.9895); -ln|XXX| 0.0791 +- 0.0076 against 0.0105, scale 7.53 +- 0.73; singles' sum 0.1293 against 0.0152, scale 8.48 +- 0.49; third cumulant +0.0091 +- 0.0015 (replay -0.0000); the replay with arm Q's T2 [208, 121, 159] us: -ln|XXX| 0.0248
+   forest P(1) in B and Q (reading): q12 B 0.0242 Q 0.0236; q19 B 0.0092 Q 0.0091
+   the job ran 84.6 h after the freeze snapshot's oldest property (a reading)
+   VF FRAME-BLIND reach (50 % point): eps 0.324 % on (b -> a) and (b -> c)
+   VFB FRAME-BLIND reach on b: eps 0.302 %

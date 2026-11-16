@@ -17,4 +17,6 @@ each and a readout arm of eight circuits, 98 frozen circuits flown twice at
 The circuits are `simulations/flight/reality_window_circuits.qpy`; the
 analysis is `simulations/flight/run_reality_window.py --analyze` on the
 counts file, and the reading beside the verdicts is
-`simulations/reality_window_post_flight.py`.
+`simulations/reality_window_post_flight.py`. The flight that followed,
+asking whether the excess turns with a qubit's drive frame, is in
+[`data/ibm_drive_frame_november2026/`](../ibm_drive_frame_november2026/README.md).

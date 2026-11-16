@@ -72,7 +72,13 @@ so every odd-Y reading of soft is zero for any real channel, up to a small
 floor from noise inside the compiled frames and the readout's leak. The
 same reading, on path [4, 5, 6] with the gates of the 2026-04-30 run, came
 out nonzero again on 2026-10-29
-([the reality-window flight](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)).
+([the reality-window flight](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)),
+and the same reading stood at the same sign on Kingston [13, 14, 15]
+on 2026-11-16 (raw +0.067), on a day whose readout broke the guards on
+two of its qubits, the odd-Y readings there not turning with
+the frame of any of the three path qubits at that flight's sensitivity
+(on the end qubits for the cosine part alone)
+([the driver's frame](../../experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md) §7).
 
 ## Other discriminating Pauli expectations
 

@@ -1,4 +1,4 @@
-# The driver's frame: who hears the shot. A hardware prediction, pre-registered
+# The driver's frame: who hears the shot. A hardware prediction, pre-registered and flown
 
 <!-- STAGE 0 SWEEP RECORD
 Stores searched 2026-10-29 (evening) for drive crosstalk, a letter fixed in a qubit's drive frame, virtual phase as a lever, spectator readings, and the odd-Y excess's carrier.
@@ -15,8 +15,9 @@ letter that lives on the Z axis does not see the frame; a transverse letter
 fixed in another qubit's drive or in the lab turns with it. Tom's reading
 (2026-10-29): a pulse is a shot in a forest, and more than one tree hears
 it. The shot is a drive pulse on one qubit, the trees are the qubits around
-it, the forest the ones off the path that no flight has read. This page is
-written before the flight; §7 will hold the flight.
+it, the forest the ones off the path that no flight had read before this
+one. Sections 1 to 6 were written and committed before the flight; §7
+holds the flight.
 
 Words used here. A **letter** is an error term of the replay's library:
 the nineteen of the October flight, and the crosstalk and Stark letters of
@@ -546,4 +547,142 @@ its commit hash is written into §7.
 
 ## 7. The flight
 
-Not flown.
+<!-- POST-FLIGHT SWEEP RECORD, 2026-11-16, for the readings of this section beside the verdicts.
+Adjacency checked: the April and October readings of S and the window's April record are the same readings on other chips and paths, now pointed here; nothing else adjacent found for the readings beside the verdicts. experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md section 7 (the October verdicts, the readout of that day, "A residual excitation at the start") and section 2 of this page (the earlier raw readings of S, +0.098, +0.067, +0.066); experiments/MARRAKESH_THREE_LAYERS.md and data/ibm_soft_break_april2026/README.md, which carry the April reading of S and now point here; data/ibm_f83_signature_april2026/README.md, the window's April record, which now points here; the X^⊗3 window page's section 7 and its own sweep record for the colouring readings. fw.Confirmations: no entry, none needed. docs/CAUGHT_ERRORS.md: the entry of 2026-11-16.
+-->
+
+In short: on Kingston [13, 14, 15] S, the reading of the odd-Y excess
+that the October flight replicated, stood again at October's sign and
+size, s_A = +0.074 at 5.5σ, on a day whose RO arm put q14 and q15 past
+§6's readout guards; the odd-Y readings did not turn with the frame of
+any of the three path qubits at this flight's sensitivity (on the end
+qubits for the cosine part alone); Fez
+read the same sign below the replication line; Marrakesh was VOID, its
+readout reading far off on the day. October's own path, Marrakesh
+[4, 5, 6], failed the guards at the freeze and was not read again, so
+whether the excess there turns stays open.
+
+Flown from commit `39defc7c` (this page and the X^⊗3 window page through
+§6, the freezer, the runner, the frozen files and freeze records of the
+table above), one job per chip, all three submitted on 2026-11-13 at
+19:36 UTC with the conditions of §6 holding on the properties read at
+submission:
+
+| chip, path | job | shots taken (UTC) | billed | from the snapshot's oldest property to the job's running mark |
+|---|---|---|---|---|
+| ibm_fez [123, 136, 143] | `dbrmdepabdes73fq8jm0` | 2026-11-13, 19:36 to 19:39 | 134 s | 93.9 h |
+| ibm_marrakesh [45, 46, 47] | `dbrmdf1abdes73fq8jmg` | 2026-11-13, 19:57 to 20:03 | 307 s | 25.8 h |
+| ibm_kingston [13, 14, 15] | `dbrmdlgk09pc73av8gog` | 2026-11-16, 08:09 to 08:14 | 304 s | 84.6 h |
+
+The times are the result's execution spans; Marrakesh's job was marked
+running from 19:45, twelve minutes before its first shot. 745 s in all,
+under the 15 minutes Tom set. The Kingston job waited 60.5 h in the
+queue. Read afterwards from the backends' property history
+([`backend_versions_read_afterwards.json`](../data/ibm_drive_frame_november2026/backend_versions_read_afterwards.json),
+queried 2026-11-16 08:40 UTC): the properties served for the middle of
+each run carry the snapshot's calibration, 2026-11-13 16:28 UTC on Fez,
+17:23 on Marrakesh and 14:57 on Kingston, 65 h before Kingston's run,
+and none of the three was updated until the query, so a feed not updated
+cannot be told from a chip not recalibrated; and the backend versions (IBM's major.minor.revision, raised
+for hardware and software changes) read 1.3.37 on Fez, 1.0.21 on
+Marrakesh and 1.0.0 on Kingston at every query from 2026-11-01 to the
+run. The record holds the gate-for-gate comparison of the retrieved
+circuits with the frozen ones (`turn_ok`), not the retrieved circuits
+themselves, which §6 asked to be written too; every turn of every variant
+stands there, so no variant is VOID. Every simulated point of §4 lies
+below its χ² point, so the χ² points rule on all three chips. The record
+is in
+[`data/ibm_drive_frame_november2026/`](../data/ibm_drive_frame_november2026/README.md):
+per chip the counts in two halves, the submission stub, and the analysis
+as JSON and as the runner's printout. The printout's word "BREACHES the
+P(1|0) guard" marks a breach of either readout guard of §6, P(1|0) or the
+readout error; which one is said below.
+
+**The verdicts**, by the rules of §5 (the runner's printout agrees):
+
+- **Fez [123, 136, 143].** P: PASS (⟨X₀Z₂⟩ −0.808, ⟨Z₀X₂⟩ −0.575). V1:
+  INCONCLUSIVE, s_A = +0.0278 at σ_S 0.0131 (κ_A 1.125), z = +2.13.
+  VF: T₅ 82.2 on 108, T₄ 28.6 and T₆ 40.0 on 36, all FRAME-BLIND, the
+  reach ε = 0.315 %; E 29.8, not present. VS: SILENT on q122, q124, q142
+  and q144 (z +0.04, +0.85, −1.05, +0.89), said with the neglected
+  correlation between p_A and P_A(s) and the forest's unmodelled longer
+  idle in the A circuits. The RO arm's own measurement breached no
+  readout guard: P(1|0) 0.07 to 0.69 %, readout errors 0.4 to 0.9 %.
+- **Marrakesh [45, 46, 47].** P: FAIL (⟨X₀Z₂⟩ −0.299, ⟨Z₀X₂⟩ −0.212), so
+  every verdict of this page on this chip is VOID, as §5 accepts. The RO
+  arm read P(0|1) at 25.6 % on q45 and 32.8 % on q47 (P(1|0) 0.12 and
+  0.07 %), readout errors of 12.9 and 16.4 % against §6's 3 %, and the RO
+  arm's own drift factor κ_RO at 6.27: the outer qubits read |1⟩ as 0
+  far more often than calibrated, and that wandered within the job (the
+  RO arm cannot tell a failing readout from |1⟩ relaxing before it).
+- **Kingston [13, 14, 15].** P: PASS (⟨X₀Z₂⟩ −0.780, ⟨Z₀X₂⟩ −0.473).
+  **V1: REPLICATED**, s_A = +0.0742 (S +0.0674 against the baseline's
+  −0.0068) at σ_S 0.0136 (κ_A 1.064), z = +5.47, with the sign of the
+  October flight's +0.083 on Marrakesh [4, 5, 6]. VF: T₅ 86.6 on 108,
+  T₄ 27.6 and T₆ 34.1 on 36, all **FRAME-BLIND**, the reach
+  ε = 0.324 %; E 32.1, not present. VS: SILENT on q12 and q19 (z −1.92,
+  +1.51), said as on Fez. The RO arm put q14's P(1|0) at 1.27 % and
+  q15's at 5.89 % (readout error 4.66 %), past §6's guards on the day;
+  the verdicts stand with that said. κ_RO read 1.00.
+
+Across the chips with V1 REPLICATED or REVERSED, as §5 tables them:
+
+| chip | s_A | VF on b (T₅) | on a (T₄) | on c (T₆) |
+|---|---|---|---|---|
+| Kingston [13, 14, 15] | +0.0742 (5.5σ) | FRAME-BLIND | FRAME-BLIND | FRAME-BLIND |
+
+One chip only: Fez reads V1 INCONCLUSIVE with the same sign, Marrakesh is
+VOID. By the table of §5, on Kingston the excess is carried, at this
+sensitivity and for letters coupling to the middle qubit, by Z letters,
+own-frame letters, or something outside the qubits' letters (readout,
+own-pulse leakage). The reach is a 50 % point for one yardstick, b's
+pulses reaching a and c at the phases §2 fitted on Marrakesh, carried
+over, within the resonant model; T₄ and T₆ say the same for letters
+coupling to the ends, for the cosine part alone, so a letter in
+quadrature on an end is not read. FRAME-BLIND also covers a turn the
+control stack dropped below the submitted circuit, and the flight
+carries no arm in which a turn must show. Within those limits, the
+drive-anchored letter that the October flight's §7 left as the one
+coherent one-site letter untested is not seen on this chip; what carries
+the excess, this flight does not say. The April Z⊗N path [48, 49, 50],
+whose transverse field §2 says this lever would separate from a
+drive-anchored letter, was not flown, and stays unseparated.
+
+**Read beside the verdicts** (no verdict; a reading beyond 4σ is a
+sighting).
+
+- The share. S̄ − baseline reads +0.0524 ± 0.0070 on Kingston (7.5σ) and
+  +0.0265 ± 0.0066 on Fez (4.0σ), both sightings; S(0) − S̄ reads
+  +0.0218 ± 0.0116 and +0.0013 ± 0.0113. S̄ is not a frame-blind share (a
+  transverse letter puts part of itself there at second order), and on
+  Fez it is a sighting at the line, not a replication.
+- A5(0)'s sightings. On Kingston ⟨Y₀Z₂⟩, which is S, at +5.5σ, ⟨Y₀⟩ at
+  −4.1σ and ⟨Z₀Y₁Z₂⟩ at +4.0σ; on Fez none. On Marrakesh, VOID, s_A reads
+  +0.0434 at z +2.73, and ⟨X₀Y₁⟩ stands at 5.8σ and 4.0σ in two of the
+  three bases that read it (XX and XY), on the day whose readout read
+  far off.
+- The turned variants. Their P readings lie within 0.035 of A5(0)'s on
+  Fez and Kingston (on Kingston ⟨X₀Z₂⟩ −0.783 to −0.793, ⟨Z₀X₂⟩ −0.471 to
+  −0.503); the largest departure of each one's even readings from A5(0)'s
+  is 1.5 to 2.8σ there. On Marrakesh by 4.3, 4.8, 5.1, 2.8 and 5.2σ (A51, A52, A53,
+  A42, A62; shot σ only), sightings on a VOID chip whose readout wandered
+  within the job.
+- The baseline. The colouring of the X^⊗3 window page's §7 says the day's
+  decay along the circuit exceeds what the snapshot's T₁ and T₂ give; by a
+  rough plausibility check there, the vendor's own gate errors, which the
+  replay leaves out, carry much of it on Kingston and arm Q's short idle
+  coherence much of it on Marrakesh. The day's coherence does not move
+  these verdicts: the analysis rerun with
+  Kingston's baseline at arm Q's T₂ reads s_A +0.0741 at z +5.46, and with
+  T₁ and T₂ divided by 7 s_A +0.0731 at z +5.39; Fez at T₁ and T₂ divided
+  by 7 reads z +2.17. The gate errors as depolarizing channels after
+  every gate, at one and at seven times the reported errors, leave S at
+  zero to machine precision at ideal readout (no rerun of V1 with them was
+  made); that model says nothing of gate errors of other forms, and
+  damping, the non-unital one, is in the replay through T₁ and in the
+  rerun at T₁ / 7
+  ([`drive_frame_gate_error_reading.py`](../simulations/flight/drive_frame_gate_error_reading.py),
+  output [`gate_error_reading.txt`](../simulations/results/drive_frame/gate_error_reading.txt)).
+
+The X^⊗3 window page's §7 holds the B and Q arms of Marrakesh and
+Kingston and the colouring read on both.

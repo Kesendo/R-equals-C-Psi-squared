@@ -1,0 +1,20 @@
+== ibm_fez path [123, 136, 143] forest [122, 124, 142, 144]; RO drift factor 1.00
+   RO arm, per path qubit (reading): q123 P(1|0) 0.0052 P(0|1) 0.0081; q143 P(1|0) 0.0007 P(0|1) 0.0068; q136 P(1|0) 0.0069 P(0|1) 0.0108
+P  parse gate: PASS  <X0Z2> -0.808  <Z0X2> -0.575
+   turned variants (reading): A51 -0.817/-0.607; A52 -0.817/-0.590; A53 -0.816/-0.571; A42 -0.815/-0.580; A62 -0.819/-0.570
+V1 replication: INCONCLUSIVE  s_A +0.0278 (S +0.0276, baseline -0.0002), sigma_S 0.0131, z +2.13
+   drift A: kappa 1.125, largest whitened direction 4.31; void variants []
+VF T5: FRAME-BLIND  T 82.2 on 108  (99 % 145.1, 99.9 % 159.2)
+VF T4: FRAME-BLIND  T 28.6 on 36  (99 % 58.6, 99.9 % 68.0)
+VF T6: FRAME-BLIND  T 40.0 on 36  (99 % 58.6, 99.9 % 68.0)
+   E: 29.8 on 36 (99.9 % 68.0) -> not present
+   share (reading): S_bar - base +0.0265 +- 0.0066; S(0) - S_bar +0.0013 +- 0.0113
+   A5(0) readings beyond 4 sigma (sightings): []
+   turned variants' even readings against A5(0), largest |z| (reading): A51 2.7; A52 2.0; A53 2.0; A42 2.2; A62 2.1
+VS q122: SILENT  p_A 0.00425  p0 0.00423  sigma 0.00028  z +0.04  kappa_f 1.00
+VS q124: SILENT  p_A 0.00170  p0 0.00156  sigma 0.00017  z +0.85  kappa_f 1.00
+VS q142: SILENT  p_A 0.00258  p0 0.00282  sigma 0.00022  z -1.05  kappa_f 1.00
+VS q144: SILENT  p_A 0.00088  p0 0.00077  sigma 0.00013  z +0.89  kappa_f 1.11
+   VS said with: the correlation between p_A and P_A(s) from shared shots is neglected, and the forest's longer idle in the A circuits is not modelled
+   the job ran 93.9 h after the freeze snapshot's oldest property (a reading)
+   VF FRAME-BLIND reach (50 % point): eps 0.315 % on (b -> a) and (b -> c)

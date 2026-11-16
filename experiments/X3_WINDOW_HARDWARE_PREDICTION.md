@@ -1,4 +1,4 @@
-# The X^⊗3 window under a turned frame: a hardware prediction, pre-registered
+# The X^⊗3 window under a turned frame: a hardware prediction, pre-registered and flown
 
 <!-- STAGE 0 SWEEP RECORD
 Stores searched 2026-11-13 for the X^⊗3 window of YZ+ZY, sign twins, an echo or delay before the last pulse, twirling, a lit string decaying at the price, a conserved Z parity on hardware, and the dephasing rates prior flights inferred.
@@ -21,8 +21,8 @@ letter. The April YZ+ZY circuits, gate for gate, are read with one qubit's
 drive frame turned, which is the identity on the logical circuit
 ([the driver's frame](DRIVE_FRAME_HARDWARE_PREDICTION.md) §1), in the same
 jobs as that page's XY+YX arms, beside a direct measurement of each
-qubit's idle detuning. It is written before the flight; §7 will hold the
-flight.
+qubit's idle detuning. Sections 1 to 6 were written and committed
+before the flight; §7 holds the flight.
 
 ## 1. The zero
 
@@ -445,4 +445,257 @@ before the first submission, and its commit hash is written into §7.
 
 ## 7. The flight
 
-Not flown.
+<!-- POST-FLIGHT SWEEP RECORD, 2026-11-16, for the readings of this section beside the verdicts.
+Adjacency checked: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and experiments/THE_MIRROR_UNDER_A_SHARED_FIELD.md hold the same kind of object, a three-qubit product's X outcomes departing from local noise (on |+++> there), a W-state control ruling out every pairwise Gaussian covariance model, coherent ZZ crosstalk carrying the bulk; cited in the colouring paragraph. experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md section 7, "A residual excitation at the start": the readout-asymmetry half of the q15 argument; cited. docs/ANALYTICAL_FORMULAS.md, the OpenArcs registry and experiments/ searched for correlated or joint qubit failures, leakage and crosstalk on hardware: the reality window's RO arm (the full 8 x 8 matrix) and nothing on joint failures. fw.Confirmations: no entry for either flight, none needed (no framework prediction was confirmed). docs/CAUGHT_ERRORS.md: the entry of 2026-11-16 for this section.
+-->
+
+In short: on Kingston [13, 14, 15] the window stood open, mainly through
+⟨Z₂⟩ on q15 (q14 and q15 past the drive-frame page's readout guards on
+the day), and nothing in it turned with the frame of any of the three
+path qubits at this
+flight's sensitivity (on the end qubits for the cosine part alone); on
+Marrakesh [45, 46, 47] it read shut, with a reach of 0.149 rad/µs, 4.5
+times §4's, on a day whose readout read far off and wandered. The
+colouring decayed several times faster than the snapshot's T₁ and T₂
+allow; by a rough plausibility check the vendor's own gate errors, which
+the replay leaves out, carry much of that on Kingston and arm Q's short
+idle coherence much of it on Marrakesh. Read after the flight and not
+pre-registered: on both chips the outcomes in which all three qubits
+fail together exceed both references.
+
+B and Q flew in the drive-frame page's jobs from commit `39defc7c` (that
+page's §7: jobs, times, billed usage, the calibration and version check,
+the record), on Marrakesh [45, 46, 47] on 2026-11-13 and on Kingston
+[13, 14, 15] on 2026-11-16. May's Kingston path [43, 56, 63] failed the
+guards at the freeze (the drive-frame page's §4) and was not repeated.
+Every B turn and every Q delay stands in the record's gate-for-gate
+comparison with the retrieved circuits, so no variant and no Q circuit is
+VOID; every simulated point of §4 lies below its χ² point and the
+simulated δ scatter below the median σ_δ, so the χ² points rule and σ_δ
+is not scaled.
+
+**The verdicts**, by the rules of §5 (the runner's printout agrees):
+
+- **Marrakesh [45, 46, 47].** PB: PASS (⟨X₀⟩ +0.915, ⟨X₂⟩ +0.916,
+  ⟨X₀X₁X₂⟩ −0.820). WB: SHUT, W 10.0 on 14, the reach a detuning on c of
+  0.149 rad/µs (23.8 kHz). VFB: T₅ᴮ 15.6 on 42, T₄ᴮ 4.3 and T₆ᴮ 8.8 on
+  14, all FRAME-BLIND, the reach on b ε = 1.16 %; Eᴮ 5.7, not present.
+  VQ: q46 DETUNED, δ = +0.1877 ± 0.0155 rad/µs (29.9 ± 2.5 kHz, z 12.1,
+  fit χ² 1.0); q45 −0.040 ± 0.025 (χ² 0.5) and q47 +0.050 ± 0.063 rad/µs
+  (χ² 5.9), NOT DETUNED. The day wandered within the job (κ_B 3.6, κ_RO
+  6.27, κ_Q 16.7) and the outer qubits' readout read far off (the
+  drive-frame page's §7), so both reaches are three to five times §4's
+  (1.16 % against 0.343 %, 0.149 against 0.0334 rad/µs).
+- **Kingston [13, 14, 15].** PB: PASS (⟨X₀⟩ +0.934, ⟨X₂⟩ +0.894,
+  ⟨X₀X₁X₂⟩ −0.783). **WB: OPEN**, W 379.7 on 14 against the 99.9 %
+  point 36.1. VFB: T₅ᴮ 43.1 on 42, T₄ᴮ 9.0 and T₆ᴮ 10.0 on 14, all
+  **FRAME-BLIND**, the reach on b ε = 0.302 %; Eᴮ 15.7, not present. VQ:
+  q13 DETUNED, δ = +0.0538 ± 0.0052 rad/µs (8.6 kHz, z 10.4, fit χ²
+  7.3); q14 DETUNED, +0.0693 ± 0.0061 (11.0 kHz, z 11.3, χ² 8.8); q15
+  NOT DETUNED, +0.01205 ± 0.00604 (z 1.995, at the line; χ² 8.3). The drift factors
+  read κ_B 1.000, κ_RO 1.00 and κ_Q 1.00. The RO arm put q14's P(1|0) at
+  1.27 % and q15's at 5.89 % (readout error 4.66 %), past the drive-frame
+  page's §6 guards on the day; the verdicts stand with that said.
+
+| chip | WB | VFB on a, b, c | VQ on a, b, c |
+|---|---|---|---|
+| Marrakesh [45, 46, 47] | SHUT | FRAME-BLIND, FRAME-BLIND, FRAME-BLIND | NOT DETUNED, DETUNED, NOT DETUNED |
+| Kingston [13, 14, 15] | OPEN | FRAME-BLIND, FRAME-BLIND, FRAME-BLIND | DETUNED, DETUNED, NOT DETUNED |
+
+By the table of §5, on each of Kingston's qubits OPEN with FRAME-BLIND:
+nothing that turns with its frame is seen (on b at ε = 0.302 % for b's
+pulses reaching a and c, the October phases carried over; on a and c for
+the cosine part alone); Z letters, a static ZZ, own-frame letters,
+incoherent gate errors, damping and the readout are not separated from
+one another. FRAME-BLIND also covers a turn the control stack dropped
+below the submitted circuit, and no arm of this flight is one in which a
+turn must show. On Marrakesh, SHUT with FRAME-BLIND, no reading beyond
+the classes. Of its seventeen verdicts Marrakesh lost the drive-frame
+page's nine to that page's parse gate and fires one of the other eight,
+VQ on q46. By §5 a lone firing on a chip is what chance gives at up to
+about 15 %, so it is not a finding; its size stands in the record, under
+a Q drift factor of 16.7 on a day whose readout wandered by more than the
+0.02 the drift check drew, so whether §5's chance rates hold for it is not
+known. Kingston fires four of its fifteen: V1 (the drive-frame page), WB,
+and VQ on q13 and q14. Kingston's two idle detunings, 8.6 and 11.0 kHz,
+are of the size [PRICE_PAIR](PRICE_PAIR_HARDWARE_PREDICTION.md) measured
+on Marrakesh (offsets of 8 to 22 kHz).
+
+**Read beside the verdicts** (no verdict; a reading beyond 4σ is a
+sighting). The post-flight numbers below come from
+[`drive_frame_gate_error_reading.py`](../simulations/flight/drive_frame_gate_error_reading.py)
+(output [`gate_error_reading.txt`](../simulations/results/drive_frame/gate_error_reading.txt))
+unless another script is named.
+
+- Kingston's W by kind: one Z and no Y 331.5 on 6, one Y and no Z 50.7
+  on 6, one Y and one Z 1.1 on 2; the other 22 forbidden readings 341.5
+  on 22. The pooled single-site readings, σ 0.007: ⟨Z₂⟩ +0.1019 against
+  y₀'s −0.0215, ⟨Y₀⟩ +0.0810 against +0.0356, ⟨Y₂⟩ −0.0002 against
+  −0.0184, ⟨Z₀⟩ +0.0329 against +0.0336. Of the nine readings beyond 4σ,
+  eight carry q2's Z: ⟨Z₂⟩ at +10.7, +11.3 and +10.7σ in the three bases
+  that read it, ⟨X₀Z₂⟩ at +10.7σ, ⟨Z₂X₁⟩ at −8.9, −10.0 and −9.4σ and
+  ⟨X₀Z₂X₁⟩ at −9.8σ (⟨X₁⟩ stands near −1, so these repeat ⟨Z₂⟩, §1); the
+  ninth is ⟨Y₀⟩ at +4.7σ.
+- Marrakesh's W by kind: 5.5, 3.4 and 0.2 on 6, 6 and 2; the other 22
+  readings 27.9 on 22. Pooled, with the readout's large offsets in y₀:
+  ⟨Y₀⟩ +0.269 against +0.260 (σ 0.015), ⟨Y₂⟩ +0.375 against +0.349
+  (0.019), ⟨Z₀⟩ +0.286 against +0.256 (0.015), ⟨Z₂⟩ +0.357 against
+  +0.346 (0.019).
+- q15, where Kingston's window opens. The RO arm read q15's P(1|0) at
+  5.89 % and its P(0|1) at 3.43 %, where the snapshot had 0.20 % and
+  0.49 %. A population left in |1⟩ at the start, which the RO matrix
+  books as readout, raises both by the same amount; P(0|1) rose by 2.9
+  points and P(1|0) by 5.7, so, unless q15's own P(0|1) fell, at most
+  about 2.9 points of it can be such a population and the readout itself
+  moved too. With the neighbours
+  prepared as the B circuits leave them, the RO arm's P(1|0) for q15 is
+  5.40 %, and the raw rate of q15 reading 1 in B's XX circuits is
+  5.51 %; together they leave q15 a true failure rate near 0.1 %, below
+  every replay, the same anomaly as its corrected ⟨X₂⟩ below. A start
+  population booked as readout leaves it, and so would a readout cleaner
+  in the B circuits than in the RO arm; which, the record does not say.
+  The
+  corrected XX distribution is not physical in one cell (q15 failing alone
+  at −0.0073), and q15's corrected ⟨X₂⟩, +0.998, stands above
+  every replay. Booking a start population of 1.7 % on q15 (half of its
+  P(0|1)) as readout, with the gate errors, moves the corrected ⟨X₀⟩,
+  −⟨X₁⟩, ⟨X₂⟩ from 0.974, 0.973, 0.969 to 0.960, 0.954, 1.003 (measured
+  0.934, 0.942, 0.998), the
+  covariances by 0.001 at most and the third cumulant and the rate of all
+  three failing by 10⁻⁴ at most. Such a population cannot carry ⟨Z₂⟩'s departure:
+  by the reading of the October flight's §7 (*A residual excitation at
+  the start*) a flip leaves each bit's readout asymmetry P(0|1) − P(1|0),
+  which sets ⟨Z₂⟩'s offset in y₀, unchanged and only scales its
+  contrast, and in the logical circuit a start in |1⟩ on q15 prepares a
+  real mixture of eigenstates of X^⊗3, which §1 keeps out of the
+  window.
+- The replay of B5(0) with Q's three δ as its only letters stands at W
+  75.9 from y₀ on Kingston and the measurement at 535.0 from it, against
+  379.7 from y₀: the idle detunings Q measured do not carry the replay
+  toward the measurement. On Marrakesh 12.9 and 31.0.
+- The mean over the four B5 turns against y₀: χ² 1110.1 on 14, largest
+  departure 0.124, on Kingston; 28.7, largest 0.054, on Marrakesh.
+- The forest's P(1) in B and in Q: on Kingston q12 0.0242 and 0.0236, q19
+  0.0092 and 0.0091; on Marrakesh q37 0.0725 and 0.0704, q44 0.0001 and
+  0.0001, q48 0.0323 and 0.0318, q57 0.0034 and 0.0035.
+- The baseline at another coherence: rerun with Kingston's T₂ from arm
+  Q, W reads 379.2; with T₁ and T₂ divided by 7, 360.7. The gate errors
+  as depolarizing channels after every gate leave the 14 readings below
+  10⁻⁸ at the reported errors and at 3 × 10⁻⁷ at seven times them,
+  growing roughly as the square of the errors; that model says nothing of
+  gate errors of other forms. Damping,
+  which opens the window (§1), is in the replay through T₁ and in the
+  rerun at T₁ / 7.
+
+**The colouring**, read in situ as §5 sets it (a scale against the
+replay, no verdict):
+
+| | Marrakesh | Kingston |
+|---|---|---|
+| ⟨X₀X₁X₂⟩, RO-corrected (replay) | −0.8114 ± 0.0043 (−0.9705) | −0.9240 ± 0.0070 (−0.9895) |
+| −ln\|⟨X₀X₁X₂⟩\| against the replay, scale | 0.2090 against 0.0300, 6.98 ± 0.18 | 0.0791 against 0.0105, 7.53 ± 0.73 |
+| singles' sum, scale | 0.3392 against 0.0404, 8.40 ± 0.15 | 0.1293 against 0.0152, 8.48 ± 0.49 |
+| third cumulant (replay 0.0000) | +0.0241 ± 0.0030 | +0.0091 ± 0.0015 |
+| arm Q's T₂ = 1/g, µs | 17, 22, 29 | 208, 121, 159 |
+| replay with Q's T₂: −ln\|⟨X₀X₁X₂⟩\| | 0.1786 | 0.0248 |
+
+The σ are the runner's, which do not carry the RO arm's drift factor; on
+Marrakesh, where κ_RO read 6.27, −ln|⟨X₀X₁X₂⟩| carries 0.0090 with it
+and the scale ± 0.30. Q's T₂ is a Ramsey decay without echo, a T₂*, not
+the echo T₂ that the snapshot and §6's guards read; its g carries a fit
+uncertainty of 0.0023 to 0.0027 per µs on Kingston and 0.010 to 0.033 on
+Marrakesh. The scale is read against a replay that carries T₁, T₂ and no
+gate error, so a scale of seven is not a coherence seven times shorter;
+the snapshot's own gate errors alone would put it near 5.5 on Kingston
+and 3.0 on Marrakesh.
+The snapshot's own gate errors (sx and cz; x at the sx error, which the
+snapshot does not report for it), put in as depolarizing channels after
+each gate, add 0.059 on Marrakesh and 0.047 on Kingston. Added to the
+replay with Q's T₂, to first order, they give 0.063 to 0.080 on Kingston
+over Q's g ± σ_g against the measured 0.079 ± 0.008, and 0.16 to 0.32 on
+Marrakesh against 0.209 ± 0.009. That is a plausibility check, not a
+test: the vendor's errors are calibration-time numbers and Q's coherence
+the day's, the first-order sum counts twice the part of a gate's error
+that is decoherence during it, and depolarizing is the randomized-benchmarking summary of
+a gate, not the channel an untwirled circuit sees. On Kingston the sum
+holds only through a cancellation between the qubits, q13 decaying more
+and q15 less than the model; the start population on q15 above moves the
+pattern that way, q13's ⟨X₀⟩ by 0.014 of the 0.030 it falls short of that
+sum.
+
+**Behind the colouring** (a post-flight reading, not pre-registered;
+[`drive_frame_colouring_reading.py`](../simulations/flight/drive_frame_colouring_reading.py),
+output for
+[Marrakesh](../simulations/results/drive_frame/ibm_marrakesh_colouring_reading.txt) and
+[Kingston](../simulations/results/drive_frame/ibm_kingston_colouring_reading.txt),
+with the gate errors, the forward check and the per-half counts from
+[`gate_error_reading.txt`](../simulations/results/drive_frame/gate_error_reading.txt)).
+It reads the joint distribution of the three X outcomes of B's pooled XX
+circuits in signs normalised to the ideal |+, −, +⟩ (U₀ = X₀, U₁ = −X₁,
+U₂ = X₂, so its third cumulant carries the opposite sign of the table's).
+Two references: the replay with T₁ and T₂ both divided by 7, a local
+decay of about the measured size (the divisor at which its
+−ln|⟨X₀X₁X₂⟩| would meet the measured one is 6.98 on Marrakesh and 7.53
+on Kingston), and the replay with Q's T₂ plus the depolarizing gate
+errors, to first order. σ from resampling the counts and the RO arm's
+columns, on Marrakesh with the RO columns at their shots over κ_RO; it
+carries no uncertainty of the references.
+
+| excess over | local decay (T₁, T₂ / 7), Marrakesh | Kingston | Q's T₂ + gate errors, Marrakesh | Kingston |
+|---|---|---|---|---|
+| covariance of q0 and q2 | +0.030 (9.1σ) | +0.017 (9.1σ) | +0.022 (6.7σ) | +0.011 (6.2σ) |
+| covariance of q0 and q1 | +0.026 (10.5σ) | +0.011 (7.3σ) | +0.020 (8.3σ) | +0.007 (4.6σ) |
+| covariance of q1 and q2 | +0.021 (7.9σ) | −0.002 (0.8σ) | +0.014 (5.3σ) | −0.006 (2.3σ) |
+| third cumulant | −0.026 (7.5σ) | −0.010 (6.0σ) | −0.025 (7.5σ) | −0.010 (6.0σ) |
+| all three failing together | +0.0044 (9.0σ) | +0.0013 (6.5σ) | +0.0046 (9.3σ) | +0.0014 (6.5σ) |
+
+The last two rows are one signature, not two: events that flip a pair
+of qubits add nothing to the third cumulant at first order in the
+failure rates, which then reads about −8 times the excess rate of all
+three failing (on Kingston −8 × 0.0013 = −0.011 against −0.010; on
+Marrakesh, at larger rates, −0.035 against −0.026). Given
+q1 read as failed (an RO-corrected weight of 4.4 % on Marrakesh and
+2.9 % on Kingston), q0 and q2 covary by +0.082 ± 0.039 and +0.120 ±
+0.027, where the local decay gives −0.051 and −0.083. The excess is not
+made by the readout correction: with nothing inverted, the two
+references mapped through the day's RO matrix leave in the raw counts a
+covariance of q0 and q2 of +0.014 to +0.015 on Marrakesh and +0.011 to
++0.015 on Kingston (7.0 to 9.9σ of the raw counts' resampling), a third
+cumulant of −0.013 to −0.015 and −0.008 to −0.009 (5.9 to 9.5σ), and all
+three failing in +0.0023 to +0.0024 and +0.0014 of the shots (7.0 to
+10.4σ).
+Depolarizing gate errors make covariances of 0.010 to 0.016 themselves,
+which is why the second reference takes some of the excess away; they
+make a third cumulant of +0.0005 to +0.0007 and all three failing at
+10⁻⁴. No letter the colouring script tries (static ZZ up to 0.3 rad/µs,
+the same on both bonds; a cz phase of ±0.1 and 0.2 rad; Q's three
+detunings; b detuned by 0.5 rad/µs; quasi-static Z noise up to
+0.2 rad/µs) moves the covariance of q0 and q2 by more than 0.002, the
+third cumulant by more than 0.0005 or the rate of all three failing by
+more than 0.0002 on either chip; static ZZ at 0.3 rad/µs, far above what
+PRICE_PAIR measured on Marrakesh, moves the covariance of q1 and q2 by
++0.011. ZZ on one bond alone and the transverse letters were not tried
+there. The raw counts of all three failing spread over the
+twelve circuit halves of B's XX circuits as one common rate would spread
+them (χ² 18.1 on Marrakesh and 14.8 on Kingston, on 11), so no burst
+gathered them in one PUB; shorter bursts are not seen at that scale.
+On Kingston the excess over local decay sits on the outer pair and on
+q0 with q1, and not on q1 with q2, which a failure shared alike by the
+three would not leave; what leaves it is not tested here. The readout correction is exact for a stationary readout channel
+and an RO arm whose preparations are what they are meant to be; when
+readout and state wander within the job, as on Marrakesh, it stays exact
+only if their wanderings do not covary, and the RO matrix sees neither
+leakage nor a measurement that changes the state. The forward check
+above removes the inversion and its amplification, not these caveats on
+the matrix itself. The same kind of object, the X outcomes of a
+three-qubit product departing from what local noise gives them, met the
+[price-pair campaign](PRICE_PAIR_HARDWARE_PREDICTION.md) on |+++⟩,
+where a W-state control ruled out every pairwise Gaussian covariance
+model and coherent ZZ crosstalk carried the bulk
+([the mirror under a shared field](THE_MIRROR_UNDER_A_SHARED_FIELD.md)
+sets out that history). Candidates the record does not test: leakage of
+the middle qubit or at the cz, incoherent X or Y faults on the middle
+qubit beyond the reported rates, a gate error at the cz of a form other
+than depolarizing, transverse coherent letters, a shared field with
+more than pairwise covariances (a switching two-level system seen by all
+three), drift on the scale of single shots.

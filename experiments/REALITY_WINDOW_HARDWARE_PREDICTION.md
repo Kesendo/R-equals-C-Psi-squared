@@ -705,9 +705,15 @@ to 3404 with ε of 0.8 to 1.2 % on the four pairs, and leaves 3404; beside
 the five letters 1097; the spectator's Stark letter during the neighbour's
 pulses 1521 alone, collinear with the detunings; all three families with
 the five letters 937: [the driver's frame](DRIVE_FRAME_HARDWARE_PREDICTION.md)
-§2, the flight that asks whether the remainder turns with a qubit's drive
+§2, the flight that asked whether the remainder turns with a qubit's drive
 frame, and [the X^⊗3 window under a turned frame](X3_WINDOW_HARDWARE_PREDICTION.md),
-which asks the same of YZ+ZY's X^⊗3 window in the same jobs); each library
+which asked the same of YZ+ZY's X^⊗3 window in the same jobs; on Kingston
+[13, 14, 15] S stood again at this sign and size, s_A = +0.074 at
+5.5σ, on a day whose readout broke the guards on two of its qubits, and
+the odd-Y readings did not turn with the frame of any of the
+three path qubits at that flight's sensitivity, on the end qubits for the
+cosine part alone, while this path was not read again);
+each library
 letter alone, the detunings with static ZZ,
 those with sx amplitude, the nineteen jointly from one start, an exchange
 at the CZ with a fixed phase, alone or beside five letters, a spread of
