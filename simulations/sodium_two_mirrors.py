@@ -673,7 +673,7 @@ def experiment_in_strings(L, syms):
     rank3_inf = sp.simplify(unit(flow(-Iz)))                       # the same start at the model's infinite temperature
     claim("the inversion recovery toward the thermal state: ZI and IZ are eigenoperators at every splitting and offset, at "
           "6J2 and 6J1; from -I_z toward +I_z the departure from the ratio 2 : 1 of I_z is the rank-3 population "
-          "T30 ∝ 2·IZ - ZI, (4/5)·(e^(-6J2·t) - e^(-6J1·t)) in unit norm against the magnetization at the start, zero when "
+          "T30 ∝ 2·IZ - ZI, (4/5)·(e^(-6J2·t) - e^(-6J1·t)) in unit norm against the equilibrium magnetization, zero when "
           "J1 = J2; a saturation recovery (the deviation -I_z, the same as the inverted start relaxing at infinite "
           "temperature) gives half of it, the inversion's doubling",
           eig and sp.expand(lam["ZI"] + 6 * J2) == 0 and sp.expand(lam["IZ"] + 6 * J1) == 0
