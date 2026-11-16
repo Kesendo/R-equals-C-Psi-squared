@@ -84,7 +84,15 @@ Checks:
   - the irreducible tensors in strings: the sixteen T_{l,p} against the page's table, ranks 1 and 3 as the ten
     products of two Dirac strings, ten eigenoperators at wQ = 0 (any offset, under the shift; four with a
     splitting) and six turned between two string classes by Hubbard's weights, the rank-3 content of e^{Lt}·T_{1,1},
-    S on the tensors, the order filters' string spans, and the magic angle's rank-3 null.
+    S on the tensors, the order filters' string spans, and the magic angle's rank-3 null;
+  - the experiment in strings: the page's bits a, b as Souza et al.'s through a CNOT and a swap, the order
+    p = 2v1 + v2 in the bits' own orders, the unital generator and the thermal source in F120's form, the inversion
+    recovery's rank-3 population toward the thermal state (against a saturation recovery), the ideal 180-degree pulse
+    at a symbolic phase, the 90-degree pulse, the factoring turn about z and its Weyl clock matrix at 90 degrees, a pulse's phase
+    on a pathway and a uniform cycle's selection, the echo read by the Theodolite's letter layer, the receiver's
+    cells and the pool label's exchange as the letter cube's heights and arrow.
+
+Run `python simulations/sodium_two_mirrors.py experiment` for the experiment in strings alone (under a minute).
 
 Import-inert; prints only, and exits with status 1 if any check fails.
 """
@@ -579,6 +587,238 @@ def tensor_dictionary(L, syms):
           and popc(xx_my) == {-2, 2} and popc(xx_yy) == {0})
 
 
+def experiment_in_strings(L, syms):
+    """The experiment in strings: the labelling, the coherence order, the preparation, the pulses, the phase cycle, the
+    receiver and the pool label, in Souza et al.'s labelling, every operator built from the spin matrices first."""
+    print("\nthe experiment in strings")
+    J0, J1, J2, wQ, w = syms
+    R = sp.Rational
+    t, ph = sp.symbols("t phi", real=True)
+    ms, Iz, _ = spin_ops(R(3, 2))
+    d = 4
+    Ip = sp.zeros(d)
+    for k in range(1, d):
+        Ip[k - 1, k] = sp.sqrt(R(15, 4) - ms[k] * (ms[k] + 1))
+    Im = Ip.T
+    Ix, Iy = (Ip + Im) / 2, (Ip - Im) / (2 * sp.I)
+    zero = lambda M: M.applyfunc(sp.simplify).is_zero_matrix
+    ip = lambda A, B: sp.simplify((A.H * B).trace())
+    P1 = {"I": sp.eye(2), "X": sp.Matrix([[0, 1], [1, 0]]), "Y": sp.Matrix([[0, -sp.I], [sp.I, 0]]), "Z": sp.diag(1, -1)}
+    St = {a + b: sp.kronecker_product(P1[a], P1[b]) for a in "IXYZ" for b in "IXYZ"}
+    kz = lambda s: sum(c in "XY" for c in s)
+    strings_of = lambda M: {s: sp.nsimplify(ip(S_, M) / 4) for s, S_ in St.items() if ip(S_, M) != 0}
+    cells = [(a, b) for a in range(d) for b in range(d)]
+    souza = {0: (0, 0), 1: (0, 1), 2: (1, 0), 3: (1, 1)}               # level index -> (bit 1, bit 2), m = 3/2 .. -3/2
+    z = lambda bit: 1 - 2 * bit
+
+    def schmidt_rank(U):
+        return sp.Matrix(4, 4, lambda r, c: U[2 * (r // 2) + c // 2, 2 * (r % 2) + c % 2]).rank(simplify=True)
+
+    # the sodium page's bits: a = outer/inner, b = the sign of m; through a CNOT and a swap, b = bit 1, a = bit 1 XOR bit 2
+    def relabel(a_of, b_of):
+        Pm = sp.zeros(d)
+        for i, (b1, b2) in souza.items():
+            Pm[2 * a_of(b1, b2) + b_of(b1, b2), 2 * b1 + b2] = 1
+        return Pm
+    Pab = relabel(lambda b1, b2: b1 ^ b2, lambda b1, b2: b1)
+    Pwrong = relabel(lambda b1, b2: b1, lambda b1, b2: b1 ^ b2)
+    za, zb = sp.kronecker_product(P1["Z"], sp.eye(2)), sp.kronecker_product(sp.eye(2), P1["Z"])
+    images = [strings_of(Pab * S_ * Pab.T) for S_ in St.values()]
+    listed = {"ZI": ("IZ", 1), "IZ": ("ZZ", 1), "ZZ": ("ZI", 1), "IX": ("XI", 1), "XX": ("IX", 1), "XY": ("ZY", 1),
+              "YY": ("ZX", -1)}
+    claim("the page's bits a (outer/inner) and b (the sign of m) are Souza et al.'s bits through a CNOT and a swap, b = bit 1 "
+          "and a = bit 1 XOR bit 2, written with a first: I_z = Z_b + Z_a·Z_b/2 and T20 ∝ Z_a, every string goes to one "
+          "string with a sign ±1, the seven images the page lists among them, and 8 of the 15 strings to another k_Z; with "
+          "a and b assigned the other way round I_z is not reproduced",
+          zero(Pab * Iz * Pab.T - (zb + za * zb / 2)) and zero(Pab * St["ZZ"] * Pab.T - za)
+          and all(len(v) == 1 and abs(list(v.values())[0]) == 1 for v in images)
+          and all(strings_of(Pab * St[k_] * Pab.T) == {u_: sg_} for k_, (u_, sg_) in listed.items())
+          and sum(kz(list(strings_of(Pab * S_ * Pab.T))[0]) != kz(s_) for s_, S_ in St.items()) == 8
+          and not zero(Pwrong * Iz * Pwrong.T - (zb + za * zb / 2)))
+
+    vo = lambda a, b: tuple((z(souza[a][i]) - z(souza[b][i])) // 2 for i in range(2))      # the page's v = (v1, v2)
+    ab = {i: ((b1 ^ b2), b1) for i, (b1, b2) in souza.items()}
+    vo_ab = lambda a, b: tuple((z(ab[a][i]) - z(ab[b][i])) // 2 for i in range(2))
+    clash = {vo_ab(a, b) for a, b in cells if len({ms[c] - ms[e] for c, e in cells if vo_ab(c, e) == vo_ab(a, b)}) > 1}
+    claim("the coherence order of |m><m'| is p = 2·v1 + v2 with v_i = (z_i - z_i')/2 the order of bit i alone (the matrix "
+          "unit |0><1| at v = +1), its k_Z = |v1| + |v2| and the bits' popcount difference v1 + v2, on all sixteen cells; "
+          "in the page's bits the bits' orders do not even fix p (v = (±1, 0) and (0, ±1) each carry two orders)",
+          all(ms[a] - ms[b] == 2 * vo(a, b)[0] + vo(a, b)[1] for a, b in cells)
+          and all(abs(vo(a, b)[0]) + abs(vo(a, b)[1]) == sum(souza[a][i] != souza[b][i] for i in range(2)) for a, b in cells)
+          and all(sum(souza[b]) - sum(souza[a]) == vo(a, b)[0] + vo(a, b)[1] for a, b in cells)
+          and clash == {(1, 0), (-1, 0), (0, 1), (0, -1)})
+
+    vec = lambda M: M.reshape(d * d, 1)
+    unvec = lambda v: v.reshape(d, d)
+    Lx = lambda M: unvec(L * vec(M)).applyfunc(sp.simplify)
+    sm = sp.Matrix([[0, 0], [1, 0]])                                   # |1><0|: amplitude damping toward bit value 1
+    ad_damp = lambda M: (sp.kronecker_product(sm, sp.eye(2)) * M * sp.kronecker_product(sm.T, sp.eye(2))
+                         - (sp.kronecker_product(sm.T * sm, sp.eye(2)) * M + M * sp.kronecker_product(sm.T * sm, sp.eye(2))) / 2)
+    eps = sp.symbols("epsilon", positive=True)
+    src = -Lx((sp.eye(d) + eps * Iz) / 4)                          # the constant part of L(rho - rho_eq), rho_eq thermal
+    claim("the generator is unital, L(II) = 0, and trace preserving at every splitting and offset, so the identity stays put "
+          "and only the deviation of a state moves; trace preservation alone would not say so (amplitude damping on one bit "
+          "keeps the trace and moves the identity); a relaxation toward the thermal state (1 + eps·I_z)/4 has the source "
+          "-L(rho_eq) = (eps/4)(6J2·ZI + 3J1·IZ), F120's form (1/4)·Σ_l Δγ_l·Z_l with Δγ = 6J2·eps on bit 1, 3J1·eps on bit 2",
+          zero(Lx(sp.eye(d))) and all(sp.simplify(Lx(S_).trace()) == 0 for S_ in St.values())
+          and all(sp.simplify(ad_damp(S_).trace()) == 0 for S_ in St.values()) and not zero(ad_damp(sp.eye(d)))
+          and zero(src - (6 * J2 * eps * St["ZI"] + 3 * J1 * eps * St["IZ"]) / 4))
+
+    t10, t30 = 2 * St["ZI"] + St["IZ"], 2 * St["IZ"] - St["ZI"]
+    lam = {s_: sp.simplify(ip(St[s_], Lx(St[s_])) / 4) for s_ in ("ZI", "IZ")}
+    eig = all(zero(Lx(St[s_]) - lam[s_] * St[s_]) for s_ in lam)
+    flow = lambda M: sum((sp.exp(lam[s_] * t) * ip(St[s_], M) / 4 * St[s_] for s_ in lam), sp.zeros(d))  # e^{Lt}, span(ZI, IZ)
+    unit = lambda M: ip(t30, M) / sp.sqrt(ip(t30, t30)) / sp.Abs(ip(t10, -Iz) / sp.sqrt(ip(t10, t10)))
+    rank3 = sp.simplify(unit(Iz + flow(-2 * Iz)))                  # rho(0) = -I_z relaxing toward +I_z
+    rank3_inf = sp.simplify(unit(flow(-Iz)))                       # the same start at the model's infinite temperature
+    claim("the inversion recovery toward the thermal state: ZI and IZ are eigenoperators at every splitting and offset, at "
+          "6J2 and 6J1; from -I_z toward +I_z the departure from the ratio 2 : 1 of I_z is the rank-3 population "
+          "T30 ∝ 2·IZ - ZI, (4/5)·(e^(-6J2·t) - e^(-6J1·t)) in unit norm against the magnetization at the start, zero when "
+          "J1 = J2; a saturation recovery (the deviation -I_z, the same as the inverted start relaxing at infinite "
+          "temperature) gives half of it, the inversion's doubling",
+          eig and sp.expand(lam["ZI"] + 6 * J2) == 0 and sp.expand(lam["IZ"] + 6 * J1) == 0
+          and sp.simplify(rank3 - R(4, 5) * (sp.exp(-6 * J2 * t) - sp.exp(-6 * J1 * t))) == 0
+          and sp.simplify(rank3_inf - R(2, 5) * (sp.exp(-6 * J2 * t) - sp.exp(-6 * J1 * t))) == 0)
+
+    turn = (-sp.I * ph * Iz).exp()
+    clock = sp.kronecker_product(P1["Z"], sp.diag(1, sp.I))         # the Weyl clock matrix of d = 4 here, PROOF_QUDIT_CLOCK_MIRROR
+    claim("the turn about z factors in Souza et al.'s bits, e^(-i·phi·I_z) = e^(-i·phi·Z) ⊗ e^(-i·phi·Z/2), phi a symbol, "
+          "and gives the cell |m><m'| the phase e^(-i(2v1 + v2)·phi); at 90 degrees it is the Weyl clock matrix Z ⊗ diag(1, i) of a "
+          "four-level system up to the phase e^(-3i·pi/4); in the page's bits it is e^(-i·phi·Z_b)·(cos(phi/2) - "
+          "i·sin(phi/2)·Z_a·Z_b), a product only at multiples of pi (operator Schmidt rank 2 at pi/5 and pi/2, 1 at pi)",
+          zero(turn - sp.kronecker_product((-sp.I * ph * P1["Z"]).exp(), (-sp.I * ph * P1["Z"] / 2).exp()))
+          and all(sp.simplify((turn * sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (a, b) else 0) * turn.H)[a, b]
+                              - sp.exp(-sp.I * (2 * vo(a, b)[0] + vo(a, b)[1]) * ph)) == 0 for a, b in cells)
+          and zero(turn.subs(ph, sp.pi / 2) - sp.exp(-3 * sp.I * sp.pi / 4) * clock)
+          and all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in
+                  Pab * turn * Pab.T - (-sp.I * ph * zb).exp() * (sp.cos(ph / 2) * sp.eye(d) - sp.I * sp.sin(ph / 2) * za * zb))
+          and [schmidt_rank(Pab * turn.subs(ph, f_) * Pab.T) for f_ in (sp.pi / 5, sp.pi / 2, sp.pi)] == [2, 2, 1])
+
+    xm = sp.symbols("x")                                            # decided by minimal polynomials, exactly
+    keep = all(sp.minimal_polynomial(sum(sp.exp(sp.I * (p0 - p) * 2 * sp.pi * k / n) for k in range(n)) / n, xm)
+               == (xm - 1 if (p - p0) % n == 0 else xm)
+               for n in range(1, 9) for p in range(-6, 7) for p0 in range(-3, 4))
+    R90x = sp.simplify((-sp.I * sp.pi / 2 * Ix).exp().applyfunc(sp.expand_complex))
+    Rph = turn * R90x * turn.H                                       # the same pulse with its phase turned by phi
+    path = all(sp.simplify(sp.expand_complex(Rph[a, c] * sp.conjugate(Rph[b, e]) - R90x[a, c] * sp.conjugate(R90x[b, e])
+                                             * sp.exp(-sp.I * ((ms[a] - ms[b]) - (ms[c] - ms[e])) * ph))) == 0
+               for a, b in cells for c, e in cells)
+    f3 = sp.pi / 3
+    direct = sp.simplify((-sp.I * sp.pi / 2 * (sp.cos(f3) * Ix + sp.sin(f3) * Iy)).exp().applyfunc(sp.expand_complex))
+    indep = all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in direct - Rph.subs(ph, f3))
+    steps = [2 * sp.pi * k_ / 8 for k_ in range(8)]                  # eight phase steps on the 90-degree pulse, from T30
+    Tl30_ = t30 / sp.sqrt(ip(t30, t30))
+    after = sp.simplify(R90x * Tl30_ * R90x.H)
+    cyc = lambda p0: sp.simplify(sum((sp.exp(sp.I * p0 * f_) * Rph.subs(ph, f_) * Tl30_ * Rph.subs(ph, f_).H
+                                      for f_ in steps), sp.zeros(d)) / 8)
+    part = lambda M, p0: sp.Matrix(4, 4, lambda a, b: M[a, b] if ms[a] - ms[b] == p0 else 0)
+    physical = all(all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in cyc(p0) - part(after, p0)) for p0 in (3, 1, 2))
+    claim("a pulse's phase turned by phi multiplies each pathway it carries from order p to p' by e^(-i(p' - p)·phi) (the "
+          "90-degree pulse, phi a symbol, the turned form equal at pi/3 to the pulse built about its own axis); n uniform "
+          "phase steps 2·pi·k/n, the scans weighted by e^(i·p0·phi_k), keep the pathways with p' - p ≡ p0 (mod n) and remove "
+          "the others, n = 1 .. 8; run on the spin, eight steps of the 90-degree pulse on T30 keep exactly the part at the "
+          "order p0 = 3, 1 or 2 (none at 2)", path and indep and keep and physical)
+
+    R180 = sp.simplify(turn * (-sp.I * sp.pi * Ix).exp() * turn.H)
+    prod = sp.I * sp.kronecker_product(P1["X"] * (2 * sp.I * ph * P1["Z"]).exp(), P1["X"] * (sp.I * ph * P1["Z"]).exp())
+    stays = all(all(kz(u) == kz(s) for u in strings_of(sp.simplify(R180 * S_ * R180.H))) for s, S_ in St.items())
+    signed = all(set(strings_of(sp.simplify(R180.subs(ph, f_) * S_ * R180.subs(ph, f_).H))) == {s}
+                 for f_ in (0, sp.pi / 2) for s, S_ in St.items())
+    direct180 = sp.simplify((-sp.I * sp.pi * (sp.cos(sp.pi / 3) * Ix + sp.sin(sp.pi / 3) * Iy)).exp().applyfunc(sp.expand_complex))
+    signed = signed and all(sp.simplify(sp.expand_complex(e_)) == 0 for e_ in direct180 - prod.subs(ph, sp.pi / 3))
+    flips = all(sp.simplify((R180 * sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (a, b) else 0) * R180.H)[3 - a, 3 - b]) != 0
+                for a, b in cells)
+    R90 = sp.simplify((-sp.I * sp.pi / 2 * Ix).exp().applyfunc(sp.expand_complex))
+    claim("the ideal hard 180-degree pulse at phase phi (a symbol) is i·(X·e^(2i·phi·Z)) ⊗ (X·e^(i·phi·Z)), one anti-diagonal "
+          "factor on each bit: it keeps every string on its k_Z and sends the cell |m><m'| to |-m><-m'|, p to -p; at 0 and 90 "
+          "degrees it sends every string to ± itself (i·XX and -i·XY); the 90-degree pulse does not keep k_Z (IZ goes to "
+          "XY), so the first can fail",
+          zero(R180 - prod) and stays and flips and signed and strings_of(sp.simplify(R90 * St["IZ"] * R90.H)) == {"XY": 1})
+
+    from framework import cube_tables as ctab
+    from framework.diagnostics import cube_letters as cl
+    offset = ctab.Setting(2, [("Z", (0,), 1), ("Z", (1,), R(1, 2))], [])          # I_z = ZI + IZ/2: two one-site fields
+    split = ctab.Setting(2, [("ZZ", (0, 1), 1)], [])                               # the first-order splitting: a bond
+    flip_both = [cl.site_map("a", 1, "a", 1, False), cl.site_map("a", 1, "a", 1, False)]
+    both = ctab.Setting(2, offset.terms + split.terms, [])
+    t_both = cl.read(both, "pi", transposed=True)                  # read answers this setting (its transposed branch)
+    claim("the Theodolite's letter layer reads the echo in Souza et al.'s bits as the agarose page reads it in the bits a, b: "
+          "the 180-degree pulse at phi = 0, anti-diagonal on both sites, reverses the offset ZI + IZ/2 and keeps the "
+          "splitting ZZ, and no plain site-local monomial sandwich reverses both (reversing ZI and IZ keeps their product); "
+          "its transposed branch finds rho -> rho^T, which reverses every real diagonal H and is no pulse",
+          cl.verify(offset, "pi", flip_both) and cl.verify(split, "copy", flip_both) and not cl.verify(split, "pi", flip_both)
+          and cl.read(both, "pi", transposed=False) is None and t_both is not None
+          and t_both.kinds == [("d", "d"), ("d", "d")])
+
+    ranks_ab = [schmidt_rank(Pab * sp.simplify(R180.subs(ph, f)) * Pab.T) for f in (0, sp.pi / 2, sp.pi / 6, sp.pi / 4)]
+    claim("in the page's bits the same 180-degree pulse is a flip of b alone at phi = 0 (XX -> IX), the product Z_a·Y_b at "
+          "phi = 90 degrees (XY -> ZY), and acts on both bits at 30 and 45 degrees (operator Schmidt ranks 1, 1, 2, 2)",
+          ranks_ab == [1, 1, 2, 2]
+          and strings_of(Pab * St["XX"] * Pab.T) == {"IX": 1} and strings_of(Pab * St["XY"] * Pab.T) == {"ZY": 1})
+
+    Tl30 = t30 / sp.sqrt(ip(t30, t30))
+    B30 = sp.simplify(R90 * Tl30 * R90.H)
+    o3 = lambda sg: sp.sqrt(sum(sp.Abs(B30[a, b]) ** 2 for a, b in cells if ms[a] - ms[b] == 3 * sg))
+    claim("the 90-degree pulse about x: I_z -> -I_y (rank 1 stays rank 1), IZ -> XY (from the quiet edge to k_Z = 2), "
+          "ZI -> -(sqrt3/2)·IY - YX/2; it carries a unit-norm T30 onto the orders +3 and -3 with sqrt5/4 at each; its "
+          "operator Schmidt rank is 4 in Souza et al.'s bits at every phase (the factoring turn, read at 0 and pi/7), and in "
+          "the page's bits 2 at 0 and 4 at 30, 45 and 90 degrees",
+          zero(R90 * Iz * R90.H + Iy) and strings_of(sp.simplify(R90 * St["ZI"] * R90.H)) == {"IY": -sp.sqrt(3) / 2, "YX": -R(1, 2)}
+          and sp.simplify(o3(1) - sp.sqrt(5) / 4) == 0 and sp.simplify(o3(-1) - sp.sqrt(5) / 4) == 0
+          and schmidt_rank(R90) == 4 and schmidt_rank(sp.simplify(turn.subs(ph, sp.pi / 7) * R90 * turn.subs(ph, sp.pi / 7).H)) == 4
+          and [schmidt_rank(Pab * sp.simplify(turn.subs(ph, f_) * R90 * turn.subs(ph, f_).H) * Pab.T)
+               for f_ in (0, sp.pi / 6, sp.pi / 4, sp.pi / 2)] == [2, 4, 4, 4])
+
+    recv = {vo(a, b): Ip[a, b] for a, b in cells if Ip[a, b] != 0}
+    T3m1 = 2 * (St["IX"] - sp.I * St["IY"]) - sp.sqrt(3) * (St["XX"] + St["YY"] - sp.I * (St["YX"] - St["XY"]))  # ∝ T_{3,-1}
+    Kd1, Kd2 = sp.symbols("K1 K2", real=True)
+    HLS_ = -3 * Kd2 * St["ZI"] - 3 * Kd1 * St["IZ"]                 # the dynamic frequency shift's Hamiltonian, the page's
+    L0x = lambda M: unvec(L.subs({wQ: 0, w: 0}) * vec(M)).applyfunc(sp.simplify)
+    sat_m = (St["IX"] - sp.I * St["IY"]) * ip(St["IX"] - sp.I * St["IY"], T3m1) / ip(St["IX"] - sp.I * St["IY"], St["IX"] - sp.I * St["IY"])
+    parts = [sat_m, T3m1 - sat_m]                                   # the satellite and the central part, each one rate at wQ = 0
+    rates_m = [sp.simplify(ip(P_, L0x(P_)) / ip(P_, P_)) for P_ in parts]
+    T1m1 = Im / sp.sqrt(ip(Im, Im))
+    back = sp.simplify(sum(sp.exp(r_ * t) * ip(T1m1, P_) for r_, P_ in zip(rates_m, parts)) / sp.sqrt(ip(T3m1, T3m1)))
+    back = sp.simplify(back) if all(zero(L0x(P_) - r_ * P_) for r_, P_ in zip(rates_m, parts)) else None
+    claim("the receiver: I+ = sqrt3·(I ⊗ |0><1|) + 2·(|0><1| ⊗ |1><0|), its cells at v = (0, 1) (the satellites, k_Z = 1, "
+          "entry sqrt3) and v = (1, -1) (the central transition, k_Z = 2, entry 2), squared norms 6 : 4, so Tr(I+·rho) reads "
+          "rho at v = (0, -1) and (-1, 1), one order at two k_Z, and there only the rank-1 combination: T_{2,-1} and T_{3,-1} "
+          "are invisible to it, and so is all a 90-degree pulse carries from T30, a pulse keeping the rank, while I_z after "
+          "one is read directly; at zero splitting the relaxation carries a unit-norm T_{3,-1} into T_{1,-1} as "
+          "(sqrt6/5)(e^(-3(J0 + J1)t) - e^(-c1·t)), zero exactly when J0 = J2, and the splitting ZZ carries T_{3,-1} into the rank-2 "
+          "strings ZX, ZY at first order in time and into the receiver's view at second order, and the dynamic shift "
+          "-3K2·ZI - 3K1·IZ into the receiver's view at first order, 48·sqrt3·(2K1 - K2); no one-site observable (operator Schmidt rank 2 here, 3 in the page's bits)",
+          zero(Ip - sp.sqrt(3) * sp.kronecker_product(sp.eye(2), sp.Matrix([[0, 1], [0, 0]]))
+               - 2 * sp.kronecker_product(sp.Matrix([[0, 1], [0, 0]]), sm))
+          and recv == {(0, 1): sp.sqrt(3), (1, -1): 2}
+          and sum(sp.Abs(Ip[a, b]) ** 2 for a, b in cells if vo(a, b) == (0, 1)) == 6
+          and sum(sp.Abs(Ip[a, b]) ** 2 for a, b in cells if vo(a, b) == (1, -1)) == 4
+          and sp.simplify((Ip * T3m1).trace()) == 0 and sp.simplify((Ip * Im).trace()) != 0
+          and sp.simplify((Ip * (St["ZX"] - sp.I * St["ZY"])).trace()) == 0
+          and sp.simplify((Ip * R90 * Iz * R90.H).trace()) != 0
+          and sp.simplify((Ip * (St["ZZ"] * T3m1 - T3m1 * St["ZZ"])).trace()) == 0
+          and sp.expand(sp.simplify((Ip * (HLS_ * T3m1 - T3m1 * HLS_)).trace()) - 48 * sp.sqrt(3) * (2 * Kd1 - Kd2)) == 0
+          and strings_of(St["ZZ"] * T3m1 - T3m1 * St["ZZ"]).keys() <= {"ZX", "ZY"}
+          and sp.simplify((Ip * (St["ZZ"] * (St["ZZ"] * T3m1 - T3m1 * St["ZZ"])
+                                 - (St["ZZ"] * T3m1 - T3m1 * St["ZZ"]) * St["ZZ"])).trace()) != 0
+          and sp.simplify((Ip * R90 * t30 * R90.H).trace()) == 0
+          and sp.simplify(back - sp.sqrt(6) / 5 * (sp.exp(-3 * (J0 + J1) * t) - sp.exp(-3 * (J1 + J2) * t))) == 0
+          and schmidt_rank(Ip) == 2 and schmidt_rank(Pab * Ip * Pab.T) == 3)
+
+    f0, g, k = sp.symbols("f0 g k", positive=True)                     # g = 1 - f0
+    lab = [sp.sqrt(g * k) * sm, sp.sqrt(f0 * k) * sm.T]               # |1><0| out of pool 0, |0><1| back
+    Llab = lambda A: sum((Lj * A * Lj.H - (Lj.H * Lj * A + A * Lj.H * Lj) / 2 for Lj in lab), sp.zeros(2))
+    ptm = sp.Matrix(4, 4, lambda r, c: sp.simplify((P1["IXYZ"[r]] * Llab(P1["IXYZ"[c]])).trace() / 2))
+    ptm1 = ptm.subs(g, 1 - f0)
+    claim("pools: exchange between pools of fractions f0 and 1 - f0 is two one-site jumps on a label bit, |1><0| at "
+          "(1 - f0)·k and |0><1| at f0·k; the fractions are its steady state, <Z_label> = 2·f0 - 1, and on the label's letters "
+          "X and Y decay at k/2 and Z at k, with an arrow from I to Z of strength k·(2·f0 - 1): the letter cube's reading "
+          "of a one-site jump (|0><1| at rate r: heights r/2, r/2, r and the arrow +r; |1><0|: the arrow -r), summed",
+          zero(Llab(sp.diag(f0, g)).subs(g, 1 - f0))
+          and zero(ptm1 - sp.Matrix([[0, 0, 0, 0], [0, -k / 2, 0, 0], [0, 0, -k / 2, 0], [k * (2 * f0 - 1), 0, 0, -k]]))
+          and sp.expand((P1["Z"] * sp.diag(f0, 1 - f0)).trace() - (2 * f0 - 1)) == 0)
+
+
 def build():
     J0, J1, J2, wQ, w = sp.symbols("J0 J1 J2 wQ w", real=True)
     ms, T, L = generator(sp.Rational(3, 2), J0, J1, J2, wQ, w)
@@ -588,6 +828,11 @@ def build():
 def main():
     R = sp.Rational
     (J0, J1, J2, wQ, w), ms, T, L = build()
+    if sys.argv[1:] == ["experiment"]:                             # the experiment in strings alone, under a minute
+        experiment_in_strings(L, (J0, J1, J2, wQ, w))
+        held = sum(CLAIMS)
+        print(f"\n{held} of {len(CLAIMS)} claims hold.")
+        sys.exit(0 if held == len(CLAIMS) else 1)
     x, y = sp.symbols("x y")
     d = 4
     print("the jump T20 on the four levels m = 3/2, 1/2, -1/2, -3/2:", [sp.nsimplify(T[0][k, k] * sp.sqrt(6)) for k in range(d)], "/ sqrt(6)")
@@ -1693,6 +1938,7 @@ def main():
           and all(coef(A_) == 0 for A_ in strings if A_ != yi_ and A_ != yz_))
 
     tensor_dictionary(L, (J0, J1, J2, wQ, w))
+    experiment_in_strings(L, (J0, J1, J2, wQ, w))
 
     held = sum(CLAIMS)
     print(f"\n{held} of {len(CLAIMS)} claims hold.")

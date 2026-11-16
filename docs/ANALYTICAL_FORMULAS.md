@@ -11309,7 +11309,7 @@ parents [F1](#f1) and the Absorption Theorem; grew from
 ---
 
 <a id="f167"></a>
-### F167. The spin-3/2 nucleus carries two exact mirrors: its quadrupolar relaxation is Pauli-string dephasing, one map S(X) = Γ₀·Xᵀ (Γ₀ ∝ T₂₀) pairs the modes that the zero-frequency density J₀ cannot see about −3(J₁ + J₂) and the others about a centre 3J₀ further out, and the whole spectrum has one centre exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0; at every other spin I ≥ 1 the J₀ channel alone breaks the mirror, and coupled nuclei that keep each nucleus's outer/inner bit carry a ladder of centres, one per set of bright nuclei (Tier 1: derived and gated 2026-10-17 to 2026-11-15 in [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md) and [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md); registered 2026-10-21 as an INDEX of those two pages)
+### F167. The spin-3/2 nucleus carries two exact mirrors: its quadrupolar relaxation is Pauli-string dephasing, one map S(X) = Γ₀·Xᵀ (Γ₀ ∝ T₂₀) pairs the modes that the zero-frequency density J₀ cannot see about −3(J₁ + J₂) and the others about a centre 3J₀ further out, and the whole spectrum has one centre exactly when J₀ = 0, or ω_Q = ω = 0 and J₁·J₂ = 0; at every other spin I ≥ 1 the J₀ channel alone breaks the mirror, and coupled nuclei that keep each nucleus's outer/inner bit carry a ladder of centres, one per set of bright nuclei (Tier 1: derived and gated 2026-10-17 to 2026-11-16 in [The Sodium Nucleus: Two Mirrors](../experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md) and [The Sodium Chain](../experiments/THE_SODIUM_CHAIN.md); registered 2026-10-21 as an INDEX of those two pages)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated on the two pages named
@@ -11485,6 +11485,22 @@ partners about −c₂; the order p is not a property of one string (XX + YY at 
 at ±3, one rate c₁), so a filter keeping the order pair ±p projects onto a span of strings
 only at p = 0 and |p| = 2; nor is p the popcount difference of the qubits.
 
+**The experiment in strings (spin 3/2).** In Souza et al.'s labelling, related to the page's bits a, b by a
+CNOT and a swap, the coherence order is p = 2v₁ + v₂ in the bits' own orders v_i = (z_i − z_i′)/2
+(z_i = ±1 on bit value 0 or 1; k_Z = |v₁| + |v₂| the number of bits on which ket and bra disagree; the popcount
+difference bra minus ket v₁ + v₂). The generator is unital; a relaxation toward the thermal state (1 + ε·I_z)/4, ε = ħω₀/(k_B·T), has the source (ε/4)(6J₂·ZI + 3J₁·IZ), F120's pump
+form with Δγ = 6J₂·ε and 3J₁·ε on the two bits, and after an ideal inversion relaxing there the rank-3
+population 2·IZ − ZI is, in unit norm, (4/5)(e^{−6J₂t} − e^{−6J₁t}) of the equilibrium magnetization, twice a
+saturation recovery's. An ideal hard 180° pulse at phase φ is i·(X·e^{2iφZ}) ⊗ (X·e^{iφZ}) and keeps every
+string at its k_Z; the turn about z factors into one-bit turns by 2φ and φ, at 90° the Weyl clock matrix of
+d = 4 up to a phase ([F172](#f172)), and a pulse's phase multiplies a pathway from order p to p′ by
+e^{−i(p′−p)φ}; I₊ reads order −1 at v = (0, −1) and (−1, 1), there only its rank-1 combination; exchange
+between two pools of fractions f₀ and 1 − f₀ at the total rate k is two one-site jumps on a label bit, read
+by the letter cube as heights and the arrow k·(2f₀ − 1), with ⟨Z⟩ = 2f₀ − 1 at its steady state. The thermal
+state, the relaxation toward it and the pools are outside the model of the mirrors: written in strings, not
+part of its results. Gated in the page's verifier (`python simulations/sodium_two_mirrors.py experiment`),
+not in its witness.
+
 **Beyond spin 3/2.**
 - At every spin I ≥ 1 other than 3/2, J₀ alone breaks the mirror: the cells of
   price 0 and of the top price do not occur equally often (proved).
@@ -11648,7 +11664,7 @@ K₂ = U₂ everywhere and that at J₁ = J₂ = 0 the dissipator is the rung on
 gradient (the price identity with an operator price, the conserved sign pattern
 and the Hamiltonian terms that break it). Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-173 checks; the planes at I = 2 to 6 read plane by plane in
+185 checks; the planes at I = 2 to 6 read plane by plane in
 `NumericalRangePlanesTests` of Core's tests) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (99 checks, 103 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
