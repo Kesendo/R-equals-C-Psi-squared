@@ -6,7 +6,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The experiment in strings, live (<c>experiments/THE_SODIUM_NUCLEUS_TWO_MIRRORS.md</c>, F167): the twelve
-/// statements of the page's verifier read exactly over ℚ(ζ₂₄), most gates carrying a control inside the witness; the
+/// statements of the page's verifier and One Sodium Pool or More's 4/3 read exactly over ℚ(ζ₂₄), most gates carrying a control inside the witness; the
 /// readings the gates hold are pinned here as numbers.</summary>
 public class SodiumExperimentInStringsWitnessTests
 {
@@ -120,10 +120,19 @@ public class SodiumExperimentInStringsWitnessTests
     }
 
     [Fact]
-    public void AllTwelveGates_Hold_AndTheNodesSayWhichReadingsStayTheVerifiers()
+    public void TripleQuanta_OnePathwayEach_TheirRatioIsFourThirds()
+    {
+        Assert.True(W.LongitudinalTripleQuantum);
+        Assert.True(W.TransverseTripleQuantum);
+        Assert.True(W.TripleQuantumRatio);
+        Assert.Equal(new[] { new BigRational(3, 8), new BigRational(27, 128), new BigRational(16, 9) }, W.TripleQuantumSquares);
+    }
+
+    [Fact]
+    public void AllThirteenGates_Hold_AndTheNodesSayWhichReadingsStayTheVerifiers()
     {
         Assert.True(W.AllHold);
-        Assert.Equal(13, W.Children.Count());
+        Assert.Equal(14, W.Children.Count());
         var text = string.Join(" ", W.Children.Select(c => c.Summary).Prepend(W.Summary));
         Assert.Contains("the Theodolite's reading of the same is the verifier's", text);
         Assert.Contains("what LetterCube reads for a one-site jump (named, not run)", text);

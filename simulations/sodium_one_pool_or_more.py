@@ -618,25 +618,27 @@ class Spin:
         return np.sum(-a[live] / self.w[live])
 
 
-def ir_scan(sp_, tau, phi1, phi2, s=1.0, invert=True):
-    """NBM Fig. 1: 180_phi1 - tau - 90_phi2 - 90_0 - acquisition at receiver phase 0; s scales every flip angle."""
+def ir_scan(sp_, tau, phi1, phi2, s=1.0, invert=True, s_inv=None):
+    """NBM Fig. 1: 180_phi1 - tau - 90_phi2 - 90_0 - acquisition at receiver phase 0; s scales every flip angle, s_inv the
+    inversion's alone when given."""
     rho = Iz.astype(complex)
     if invert:
-        rho = sp_.evolve(turn(hard(np.pi * s, phi1), rho), tau)
+        rho = sp_.evolve(turn(hard(np.pi * (s if s_inv is None else s_inv), phi1), rho), tau)
     rho = turn(hard(np.pi / 2 * s, phi2), rho)
     return sp_.detect(turn(hard(np.pi / 2 * s, 0.0), rho))
 
 
-def tq_scan(sp_, tau, phi, s=1.0, alternate=False, first=np.pi / 2, refocus=np.pi / 2):
+def tq_scan(sp_, tau, phi, s=1.0, alternate=False, first=np.pi / 2, refocus=np.pi / 2, s_exc=None, s_ref=None):
     """TQTPPI with refocusing: 90_{phi+first} - tau/2 - 180_{phi+refocus} - tau/2 - 90_phi - 90_0 - acquisition. The
-    papers do not give these phases; one pool's TQ/SQ does not depend on them while the single quantum survives
+    papers do not give these phases; for ideal pulses one pool's TQ/SQ does not depend on them while the single quantum survives
     (checked in Part 8 at 2 refocus - first = 90, 30 and -60 degrees). alternate=True adds the scan with the first pulse turned
     by 180 and the receiver inverted, which cancels everything that does not start from the first pulse's coherence: the
     magnetization recovering during the evolution, which the second 90 pulse turns into the same orders with the same
-    TPPI labels, and what an imperfect first pulse leaves along z."""
+    TPPI labels, and what an imperfect first pulse leaves along z. s scales every flip angle, s_exc the first pulse's and
+    s_ref the refocusing pulse's alone when given."""
     def one(f1):
-        rho = sp_.evolve(turn(hard(np.pi / 2 * s, phi + f1), Iz.astype(complex)), tau / 2)
-        rho = sp_.evolve(turn(hard(np.pi * s, phi + refocus), rho), tau / 2)
+        rho = sp_.evolve(turn(hard(np.pi / 2 * (s if s_exc is None else s_exc), phi + f1), Iz.astype(complex)), tau / 2)
+        rho = sp_.evolve(turn(hard(np.pi * (s if s_ref is None else s_ref), phi + refocus), rho), tau / 2)
         rho = turn(hard(np.pi / 2 * s, phi), rho)
         return sp_.detect(turn(hard(np.pi / 2 * s, 0.0), rho))
     return (one(first) - one(first + np.pi)) / 2 if alternate else one(first)
@@ -647,23 +649,24 @@ def orders(vals):
     return {p: np.mean(vals * np.exp(1j * p * TPPI)) for p in range(-3, 4)}
 
 
-def ir_vals(sp_, tau, cycle="PC0", s=1.0, invert=True):
+def ir_vals(sp_, tau, cycle="PC0", s=1.0, invert=True, s_inv=None):
     k = np.deg2rad(135)
     if cycle == "PC0":
-        vals = [ir_scan(sp_, tau, 0.0, f, s, invert) for f in TPPI]
+        vals = [ir_scan(sp_, tau, 0.0, f, s, invert, s_inv) for f in TPPI]
     elif cycle == "PC1":                          # the inversion pulse at 0 and 180
-        vals = [(ir_scan(sp_, tau, 0.0, f, s, invert) + ir_scan(sp_, tau, np.pi, f, s, invert)) / 2 for f in TPPI]
+        vals = [(ir_scan(sp_, tau, 0.0, f, s, invert, s_inv) + ir_scan(sp_, tau, np.pi, f, s, invert, s_inv)) / 2 for f in TPPI]
     else:                                         # PC2: the first 90 pulse at +-135 about its TPPI phase
-        vals = [(ir_scan(sp_, tau, 0.0, f + k, s, invert) + ir_scan(sp_, tau, 0.0, f - k, s, invert)) / 2 for f in TPPI]
+        vals = [(ir_scan(sp_, tau, 0.0, f + k, s, invert, s_inv) + ir_scan(sp_, tau, 0.0, f - k, s, invert, s_inv)) / 2
+                for f in TPPI]
     return np.array(vals)
 
 
-def ir_orders(sp_, tau, cycle="PC0", s=1.0, invert=True):
-    return orders(ir_vals(sp_, tau, cycle, s, invert))
+def ir_orders(sp_, tau, cycle="PC0", s=1.0, invert=True, s_inv=None):
+    return orders(ir_vals(sp_, tau, cycle, s, invert, s_inv))
 
 
-def tq_vals(sp_, tau, s=1.0, alternate=False, first=np.pi / 2, refocus=np.pi / 2):
-    return np.array([tq_scan(sp_, tau, f, s, alternate, first, refocus) for f in TPPI])
+def tq_vals(sp_, tau, s=1.0, alternate=False, first=np.pi / 2, refocus=np.pi / 2, s_exc=None, s_ref=None):
+    return np.array([tq_scan(sp_, tau, f, s, alternate, first, refocus, s_exc, s_ref) for f in TPPI])
 
 
 def amp(o, p):
@@ -741,6 +744,32 @@ def part8(edges):
           f"ratio 4/3; the rank-3 order at the SQ frequency moves the slow weight to 0.8 + sqrt6/40 |d| (inversion recovery) "
           f"and 0.4 + sqrt6/80 |d| (the transverse sequence): {ok}")
     assert ok
+    # the angle beta the two pulses after the evolution share cancels between the two sequences: the first turns the
+    # longitudinal and the transverse rank-3 order with d3_{3,0} and d3_{3,q} and the two single quanta with d1_{1,0} and
+    # d1_{1,q}, the transverse coherence reaching it at the orders q = +1 and -1; the two quotients go alike in beta, and
+    # the second is shared
+    beta = sp.symbols("beta", real=True)
+
+    def wb(j, m, mp):
+        return Rotation.d(j, m, mp, beta).doit()
+    def free_of_beta(expr):     # a non-zero constant
+        e = sp.simplify(sp.expand_trig(expr))
+        return not e.has(beta) and e.is_finite is True and e != 0
+
+    def square(q):     # the squared ratio of the two counts, the transverse coherence at the order q when the pulse comes
+        return (sp.Rational(4, 5) ** 2 * wb(3, 3, 0) ** 2 / wb(1, 1, 0) ** 2) / (
+            sp.Rational(6, 25) * wb(3, 3, q) ** 2 / wb(1, 1, q) ** 2)
+    # the headline; it follows from firsts below and the 90-degree values above, and is read beside them
+    common = all(sp.simplify(sp.expand_trig(square(q)) - sp.Rational(16, 9)) == 0 for q in (1, -1))
+    firsts = (all(free_of_beta(wb(3, 3, q) / wb(1, 1, q) / sp.sin(beta) ** 2) for q in (0, 1, -1))
+              and sp.simplify(sp.expand_trig(wb(3, 3, 1) / wb(1, 1, 1) - wb(3, 3, -1) / wb(1, 1, -1))) == 0)
+    each = all(free_of_beta((c * wb(3, p, q) * wb(3, -1, p) / (wb(1, p // 3, q) * wb(1, -1, p // 3))) ** 2 / sp.sin(beta) ** 8)
+               for c, q in ((sp.Rational(4, 5), 0), (sp.sqrt(6) / 5, 1), (sp.sqrt(6) / 5, -1)) for p in (3, -3))
+    print(f"      for every beta strictly between 0 and 180 degrees that the two pulses after the evolution share, the squared "
+          f"ratio of the two counts is 16/9, the transverse coherence at the order +1 or -1 at the first of them (beta a "
+          f"symbol): {common}; that pulse's d3_3m/d1_1m goes as sin^2 beta for m = 0, +1 and -1, with d3_31/d1_11 = "
+          f"d3_3-1/d1_1-1: {firsts}; each count goes as sin^4 beta, through the order +3 and through -3: {each}")
+    assert common and firsts and each
     # (b) the two routes. The simulation reads an order out of eight scans whose values are larger than it, and evolves
     # through rounded eigenvalues, so its error is of order eps x (the dynamic range of the scans, largest value over the
     # order's size, + the largest rate times the evolution time); the gate is that law
@@ -821,9 +850,15 @@ def part8(edges):
     # (c) the full dynamics (recovery included) on each pool, the TQ amplitudes read as a fit with a free phase reads them,
     # the first transverse pulse alternated with the receiver, which cancels what does not start from that pulse
     print("  (c) full dynamics (recovery included), the first transverse pulse alternated with the receiver, every flip angle "
-          "scaled 0.90, 0.95, 1.05, 1.10 times, three choices of the transverse phases (2 refocus - first = 90, 30, -60):")
+          "scaled 0.90, 0.95, 1.05, 1.10 times, three choices of the transverse phases (the first and the refocusing pulse at "
+          "90 and 90, 0 and 15, 0 and -30 degrees from the stepped phase; 2 refocus - first = 90, 30, -60):")
     allr = {5: [], 10: []}
     grid = T2_GRIDS["linear"]
+    groups = {"the two 90 pulses after the evolution": [], "the excitation": [], "the inversion": [], "the refocusing pulse": []}
+    depth = (1 - np.cos(0.9 * np.pi)) / 2    # the share an inversion 10 % short or long inverts, Eq. 13's A
+    pairs = {"the longitudinal read pulses alone": [], "the transverse read pulses alone": [],
+             "the inversion with the read pulses, PC0": [], "PC1": [], "PC2": [], "the refocusing pulse with the read pulses": []}
+    units = []      # relative deviations of the values that are exact
     for c in (2, 4, 6):
         T1s, _, T1f, _ = NBM_T1["PC2"][c]
         T2f = MRM_T2[c]["T2f"][0]
@@ -872,9 +907,84 @@ def part8(edges):
               f"{min(slows[10]):.3f} to {max(slows[10]):.3f} at 10 %; without the alternation, ideal pulses, the recovering "
               f"magnetization at 60 ms is {lk3:.2f} of the transverse TQ and {lk1 / amp(a0, 1):.2f} of the SQ at the start, "
               f"{lk1 / amp(a60, 1):.1f} times the transverse SQ there")
+
+        # one group of pulses 10 % off at a time, the others ideal, then the read pulses with another group
+        def long_g(s_read, s_inv, cyc="PC0"):
+            return free([ir_orders(onec, t, cyc, s_read, s_inv=s_inv) for t in g1], u1, 3) / amp(
+                ir_orders(onec, 0.0, cyc, s_read, invert=False), 1)
+
+        def trans_g(s_read, s_exc, s_ref, f1, rf):
+            sq0 = amp(orders(tq_vals(onec, 0.0, s_read, True, f1, rf, s_exc, s_ref)), 1)
+            return free([orders(tq_vals(onec, t, s_read, True, f1, rf, s_exc, s_ref)) for t in g2], u2, 3) / sq0
+        law_c = EPS * (1 + np.max(np.abs(onec.w)) * max(g1.max(), g2.max()))
+        for sg in (0.90, 1.10):
+            l_read, l_inv = long_g(sg, 1.0), long_g(1.0, sg)
+            l_both = {cyc: long_g(sg, sg, cyc) for cyc in ("PC0", "PC1", "PC2")}
+            for f1, rf in thetas:
+                t_ideal = trans_tq(1.0, f1, rf)
+                t_read = trans_g(sg, 1.0, 1.0, f1, rf)
+                for name, x, x_exact in (("the two 90 pulses after the evolution", l_read / t_read, 4 / 3),
+                                       ("the excitation", lt[1.00] / trans_g(1.0, sg, 1.0, f1, rf), 4 / 3),
+                                       ("the inversion", l_inv / t_ideal, 4 / 3 * depth)):
+                    groups[name].append(x)
+                    units.append(abs(x / x_exact - 1) / law_c)
+                groups["the refocusing pulse"].append(lt[1.00] / trans_g(1.0, 1.0, sg, f1, rf))
+                pairs["the longitudinal read pulses alone"].append(l_read / t_ideal)
+                pairs["the transverse read pulses alone"].append(lt[1.00] / t_read)
+                # each sequence's triple over single quantum goes as sin^4 of the read pulses' angle, and the excitation
+                # lowers the transverse single quantum at the start by sin of its angle
+                s4 = np.sin(sg * np.pi / 2) ** 4
+                units.extend([v / law_c for v in (
+                    abs(l_read / t_ideal / (4 / 3 * s4) - 1), abs(lt[1.00] / t_read / (4 / 3 / s4) - 1),
+                    abs(l_both["PC1"] / t_read / (4 / 3 * depth) - 1),
+                    abs(amp(orders(tq_vals(onec, 0.0, 1.0, True, f1, rf, sg, 1.0)), 1)
+                        / amp(orders(tq_vals(onec, 0.0, 1.0, True, f1, rf)), 1) / np.sin(sg * np.pi / 2) - 1))])
+                for cyc in ("PC0", "PC1", "PC2"):
+                    pairs["the inversion with the read pulses, PC0" if cyc == "PC0" else cyc].append(l_both[cyc] / t_read)
+                pairs["the refocusing pulse with the read pulses"].append(l_read / trans_g(sg, 1.0, sg, f1, rf))
+        # the inversion's transverse leftover on the two triple-quantum lines, each read with a free phase: with the read
+        # pulses ideal one line falls and the other rises, their mean the inversion's share, at both signs
+        def line(s_read, s_inv, p):
+            ol = [ir_orders(onec, t, "PC0", s_read, s_inv=s_inv) for t in g1]
+            return abs(sum(o[p] * x for o, x in zip(ol, u1))) / (u1 @ u1)
+        for sg in (0.90, 1.10):
+            pair = [line(1.0, sg, p) / line(1.0, 1.0, p) for p in (3, -3)]
+            assert min(pair) < 1 < max(pair), pair
+            units.append(abs(sum(pair) / 2 / depth - 1) / law_c)
+        # the main signal's receiver channel alone (the real part, where the main signal lies with the read pulses ideal):
+        # there each line falls by the inversion's share alone
+        def line_main(s_inv, p):
+            ol = [orders(ir_vals(onec, t, "PC0", 1.0, True, s_inv).real) for t in g1]
+            return abs(sum(o[p] * x for o, x in zip(ol, u1))) / (u1 @ u1)
+        for sg in (0.90, 1.10):
+            units.extend([abs(line_main(sg, p) / line_main(1.0, p) / depth - 1) / law_c for p in (3, -3)])
+        if c == 2:
+            lines = {s_r: [line(s_r, 0.90, p) / line(s_r, 1.0, p) for p in (3, -3)] for s_r in (1.0, 0.90)}
+            lines_main = [line_main(0.90, p) / line_main(1.0, p) for p in (3, -3)]
     print(f"      over the pools and phases: ratio {min(allr[5]):.2f} to {max(allr[5]):.2f} at 5 %, {min(allr[10]):.2f} to "
           f"{max(allr[10]):.2f} at 10 %")
     rlo, rhi = min(allr[10]), max(allr[10])
+    # the inversion short or long in angle inverts (1 - cos theta)/2 of the magnetization, the same at 0.9 and 1.1; the
+    # two read pulses shared by both sequences and the excitation leave 4/3. Some of these follow from others (the shared
+    # read pulses' 4/3 from the two one-sequence readings and the ideal value, the lines' mean from the inversion's
+    # reading); they are read beside them. The deviations from these exact values are
+    # read in (b)'s law, eps times (the largest rate times the evolution time, here the longest, plus 1 in place of (b)'s
+    # dynamic range of the scans), and gated at (b)'s bound
+    assert max(units) < 100, max(units)
+    print("      one group of pulses 10 % off at a time, the others ideal, over the pools, phases and both signs: "
+          + "; ".join(f"{k} {min(v):.4f} to {max(v):.4f}" for k, v in groups.items())
+          + f" (the inversion's (1 - cos theta)/2 = {depth:.6f} of 4/3; every exact value of these readings, 4/3 for the read "
+          f"pulses and the excitation, that share for the inversion and for it with the read pulses in PC1, 4/3 times and "
+          f"over sin^4 of the read angle for one sequence's read pulses, sin of the excitation's angle on its single quantum "
+          f"and that share as the mean of the two lines and on each line in the main signal's channel, met to {max(units):.2f} x eps x (1 + the largest rate x the longest "
+          f"evolution time), (b)'s law with 1 in place of its dynamic range of the scans, at most 100)")
+    print(f"      the inversion 10 % short, 2 %, each triple-quantum line of the complex signal read with a free phase on the "
+          f"longitudinal shape at every tenth point of the first paper's sampling: {lines[1.0][0]:.4f} and {lines[1.0][1]:.4f} of their ideal values with the read pulses ideal "
+          f"(mean {sum(lines[1.0]) / 2:.6f}, the inversion's share), {lines[0.90][0]:.4f} and {lines[0.90][1]:.4f} of theirs "
+          f"with the read pulses 10 % short; in the main signal's channel alone, read pulses ideal, {lines_main[0]:.6f} and "
+          f"{lines_main[1]:.6f}, the share")
+    print("      the read pulses 10 % off with another group off in the same direction, or in one sequence only: "
+          + "; ".join(f"{k} {min(v):.4f} to {max(v):.4f}" for k, v in pairs.items()))
 
     # (d) d, what the acquisition makes of a rank-3 coherence against a rank-1 one, read at the line
     dv = {c: d_variants(c) for c in (2, 4, 6)}
@@ -906,7 +1016,7 @@ def part8(edges):
         print(f"    {c}%: " + "; ".join(out))
     top = max(0.75 * NBM_TQ1[pc][c][0] / NBM_TQ2_FIG6C[c] for pc in ("PC1", "PC2") for c in (2, 4, 6))
     print(f"      the largest TQ1 is {top:.4f}: TQ1 = 1 would need one pool's ratio {1 / top:.2f} times smaller than 4/3, "
-          f"against {rlo:.2f} to {rhi:.2f} over the flip angles 10 % off, the phases and the pools of (c)")
+          f"against {rlo:.2f} to {rhi:.2f} with every flip angle 10 % off, over the phases and the pools of (c)")
 
     # (f) reading (i), each phase cycle with its own times and T1m
     split_i = {}
@@ -972,7 +1082,7 @@ def part8(edges):
         return tot
     for pc, t1m in (("PC1", NBM_T1M_PC1), ("PC2", NBM_T1M_PC2)):
         lo_chi, hi_chi = chi_i(pc, t1m, (4 / 3) / rhi), chi_i(pc, t1m, (4 / 3) / rlo)
-        print(f"      {pc}: with one pool's ratio anywhere in {rlo:.2f} to {rhi:.2f} instead of 4/3, TQ1 scales by "
+        print(f"      {pc}: with one pool's ratio anywhere in {rlo:.2f} to {rhi:.2f} (every flip angle 10 % off) instead of 4/3, TQ1 scales by "
               f"{(4 / 3) / rhi:.3f} to {(4 / 3) / rlo:.3f} and reading (i)'s chi2 runs from {lo_chi:.2f} (p = "
               f"{chi2_dist.sf(lo_chi, 3):.3f}) to {hi_chi:.2f} (p = {chi2_dist.sf(hi_chi, 3):.3f})")
     T1s, _, T1f, _ = NBM_T1["PC2"][2]
@@ -1887,7 +1997,8 @@ def part11(ctx):
     # two optimizers on one model: a pin at their tolerance, not a rounding law
     assert abs(hand["chi"] - 2 * fo["cost"] / sig ** 2) <= 1e-6 * hand["chi"], "the pool model with one pool is the fit with the pathway"
 
-    # (b) what an inversion pulse short in angle leaves in PC0, at the first paper's phase 0, for a pool at the curve's times
+    # (b) what an inversion pulse short in angle leaves in PC0, at the first paper's phase 0 and with ideal read pulses, for a
+    # pool at the curve's times
     T2f_c = MRM_T2[2]["T2f"][0]
     Jc1, Jc2 = 1 / (6 * po[3]), 1 / (6 * po[2])
     one = Spin((1 / (3 * T2f_c) - Jc1, Jc1, Jc2))
@@ -1936,12 +2047,12 @@ def part11(ctx):
     sim_alone = PoolCurve(y, car, ["bound"], dq2=shape, dq_exp=False).fit(tm, sig, sts_dq)
     beside_sim = PoolCurve(y, car, ["bound"], dq2=shape).fit(tm, sig, sts_dq)
     beside_t2 = PoolCurve(y, car, ["bound"], dq2=(0.6, T2f_c, 0.4, MRM_T2[2]["T2s"][0])).fit(tm, sig, sts_dq)
-    print(f"  (b) an inversion pulse 1 % short in angle, at the first paper's phase 0, simulated for one pool at the curve's times (T1s "
+    print(f"  (b) an inversion pulse 1 % short in angle, at the first paper's phase 0 and with ideal read pulses, simulated for one pool at the curve's times (T1s "
           f"{po[2]:.2f}, T1f {po[3]:.2f}, T2f {T2f_c} ms, T2s {T2s_c:.2f} by the relation): in the receiver channel of the main "
           f"signal it changes the single quantum only by the inversion depth it loses, {dA:.2e}, which the fit's A takes up (to "
           f"{devA:.1e} = {lawA:.2f} x eps x (1 + the largest rate times the evolution time)); it adds a double quantum of "
           f"{100 * dqv[0]:.3f} % of the plateau at the start, decaying as {shape[0]:.4f} e^(-t/T2f) + {shape[2]:.4f} e^(-t/T2s) "
-          f"(to {devS:.0e}), and at most {100 * max(p3):.4f} % at the TQ frequency; its transverse part at the single-quantum "
+          f"(to {devS:.0e}), and at most {100 * max(p3):.4f} % of the plateau at the TQ frequency in that channel; its transverse part at the single-quantum "
           f"frequency, {100 * pi1[0]:.2f} % at the start, decaying as {qshape[0]:.4f} e^(-t/T2f) + {qshape[2]:.4f} e^(-t/T2s), lies "
           f"in the other channel, turning as i times the main single quantum (to {devQ:.0e} of the plateau = {lawQ:.2f} x eps x (1 + "
           f"the largest rate times the evolution time)), so that a receiver phase error "

@@ -11654,7 +11654,8 @@ against the exact decision, extreme narrowing at spins 1 to 6 with the dissipato
 the rotations' Casimir and its eigenspaces the ranks, read at these spins and proved for every I,
 the rule at 3/2), and as its child `SodiumExperimentInStringsWitness` the experiment in strings
 (twelve exact gates over ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase, and for a cycle's selection rule
-over ℤ[ζ_n]). The
+over ℤ[ζ_n]; a thirteenth gate reads One Sodium Pool or More's coefficient count of one pool's two triple quanta,
+their ratio 4/3 for ideal pulses, one pathway each). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and

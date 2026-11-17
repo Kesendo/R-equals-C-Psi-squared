@@ -1389,7 +1389,7 @@ public sealed class SodiumTwoMirrorsWitness : IInspectable
         $"under a spin-lock {Verdict(SpinLockHolds, "the central-transition part keeps both mirrors, the satellite part breaks the identity and mixes the sectors, and the global centre follows the lock's rule", "FAILS")}; " +
         $"the irreducible tensors in strings {Verdict(TensorDictionaryHolds, "hold (sixteen rows of rank and order; ten eigenoperators, six turned between two string classes)", "FAIL")}; " +
         $"beyond the mirrors the numerical-range bound {Verdict(NumericalRangeBoundHolds, "holds as stated (at spin 1 the cone whose faces on J₀ = 0 are the two rays, at extreme narrowing every spin from 1 to 6, at 3/2 the rule's no side for positive densities)", "FAILS")}; " +
-        $"the experiment in strings {Verdict(Experiment.AllHold, "holds (twelve exact gates over ℚ(ζ₂₄) and ℤ[ζ_n], the child below)", "FAILS (the child below)")}.";
+        $"the experiment in strings {Verdict(Experiment.AllHold, "holds (twelve exact gates over ℚ(ζ₂₄) and ℤ[ζ_n], and beside them One Sodium Pool or More's count of two triple quanta, the child below)", "FAILS (the child below)")}.";
 
     private static string Show(EpReading e, string name, string condition) =>
         $"the {name} at (J₀, J₁, J₂, q, ω) = ({e.J0}, {e.J1}, {e.J2}, {e.Q}, {e.Omega}), {condition}: λ* = {e.Lambda}, the block's part N " +

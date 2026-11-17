@@ -59,7 +59,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// and an exact characteristic polynomial, a different road from the page's sympy verifier
 /// <c>simulations/sodium_two_mirrors.py</c>. The witness's child <c>SodiumExperimentInStringsWitness</c> reads the page's
 /// experiment in strings (preparation, pulses, phase cycle and receiver in Souza et al.'s bits, a pool label beside them) exactly over
-/// ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase (a cycle's selection rule over ℤ[ζ_n]).</para></summary>
+/// ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase (a cycle's selection rule over ℤ[ζ_n]), and in a further gate the
+/// coefficient count of <c>experiments/SODIUM_ONE_POOL_OR_MORE.md</c> for one pool's two triple-quantum amplitudes, their
+/// ratio 4/3 for ideal pulses, one pathway each.</para></summary>
 public sealed class Spin32QuadrupolarMirrorsClaim : Claim
 {
     public PalindromeTwoEndCountClaim TwoEndCount { get; }

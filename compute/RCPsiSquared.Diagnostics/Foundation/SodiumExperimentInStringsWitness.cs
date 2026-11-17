@@ -14,7 +14,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<see cref="Cyclotomic24"/>: i, √2, √3 and every phase that is a multiple of 15°), the spin operators built from the
 /// spin formula first (the turn about z from I_z) and the generator taken from the shared builder in Core. A child of
 /// <see cref="SodiumTwoMirrorsWitness"/>; the page's verifier (<c>simulations/sodium_two_mirrors.py experiment</c>)
-/// holds the twelve statements these gates read, in sympy (φ a symbol, time functions, the Theodolite's echo).
+/// holds the twelve statements the first twelve gates read, in sympy (φ a symbol, time functions, the Theodolite's echo).
 ///
 /// <para>How "every φ" is read without a symbol: each identity in a pulse's phase φ is a Laurent polynomial in
 /// e^{iφ} (the turn about z alone in e^{iφ/2}, read in ψ = φ/2) whose exponents span at most 13 values, and the
@@ -27,13 +27,19 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// order or the sign of H; the parent witness and Core's tests do. Time-dependent forms are read as amplitudes on the rates, not as
 /// functions of t. Ranks over the field are read through the regular representation (<see cref="Cyclotomic24Matrix.Rank"/>).</para>
 ///
-/// <para>Twelve gates, as the verifier's twelve claims: the labelling, the coherence order, unitality and the thermal
+/// <para>The first twelve gates, as the verifier's twelve claims: the labelling, the coherence order, unitality and the thermal
 /// source, the inversion recovery, the turn about z, the phase cycle, the 180° pulse, the echo, the 180° pulse in the
 /// page's bits, the 90° pulse, the receiver, the pools. One of the verifier's readings stays there: the Theodolite's
 /// letter layer reading the echo (its Python twin, <c>cube_letters.py</c>; Diagnostics reaches neither MirrorWorld nor the
 /// Python cube tools), which this witness replaces by superoperator identities on the strings. The pools' heights and arrow are named as
 /// <c>LetterCube</c>'s reading of a one-site jump on the page and run by neither. The verifier's phases π/5 and π/7 lie
 /// in no field here; the witness reads the 24 phases instead.</para>
+///
+/// <para>A thirteenth gate is <c>experiments/SODIUM_ONE_POOL_OR_MORE.md</c>'s: one pool's ratio 4/3 of the longitudinal to
+/// the transverse triple-quantum amplitude, each over its own single quantum, read as that page's coefficient count, one
+/// pathway each, through squared norms compared in the field (at 90° they are rational, where the norms are not), at 90°
+/// (the factors also at 60°, as their control) and, for the ratio, at 30°, 60°, 120° and 150°; that page's Part 8 holds each count at 90° and their ratio at every angle strictly between 0°
+/// and 180° in sympy, and simulates the two sequences.</para>
 ///
 /// <para>Typed home <see cref="Core.Symmetry.Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
 public sealed class SodiumExperimentInStringsWitness : IInspectable
@@ -190,13 +196,42 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     public bool PoolSteadyState { get; }
     public bool PoolsHold => PoolTransferMatrix && PoolSteadyState;
 
+    // ===== gate 13: the two triple quanta (One Sodium Pool or More's 4/3) =====
+    /// <summary>The longitudinal triple quantum over its single quantum, one pathway each as that page's count reads them:
+    /// an inversion's deviation from equilibrium along ZI (−2·ZI, decaying at the rate 6J₂; gate 4, conjoined here) turned by a 90° pulse to the order
+    /// +3 and by a second to −1, against the equilibrium I_z turned to +1 and to −1, both leaving non-zero as T₃,₋₁ and T₁,₋₁.
+    /// The order +3 keeps only the rank-3 part, gate 4's 4/5 per unit of the difference of the two exponentials; the factor
+    /// alone does not tell ZI's part from IZ's, gate 4 does (the source's own eigenvalue −6J₂, read here, guards the source as built from ZI). Squared, per
+    /// |d|²: 3/8, so √6/4·|d|; with both pulses at 60° another value.</summary>
+    public bool LongitudinalTripleQuantum { get; }
+    /// <summary>The transverse one, from the start of the decay: I₊'s satellite part (its two satellite cells together), an
+    /// eigenoperator at −3(J₀ + J₁) beside its central cell at −3(J₁ + J₂) at zero splitting and offset, turned to +3 and to
+    /// −1, against I₊ turned to +1 and to −1 (the factor alone does not tell the satellite part from the central cell, the
+    /// eigenoperator check does); the order +3 keeps only the rank-3 part, the page's √6/5 per unit of the
+    /// difference of the two exponentials. Squared, per |d|²: 27/128, so 3√6/16·|d|; with both pulses at 60° another value.
+    /// The sequence's refocusing pulse is left out: an ideal one turns the order +1 to −1, which leaves the triple over the
+    /// single quantum unchanged at every angle β of the two pulses (|d³₃,₋₁/d¹₁,₋₁| = |d³₃,₁/d¹₁,₁|, not read here; One Sodium Pool or More's script reads it, with sign) and with
+    /// them at 90° changes neither squared norm.</summary>
+    public bool TransverseTripleQuantum { get; }
+    /// <summary>The ratio of the two ratios, 4/3. Whatever the acquisition makes of T₃,₋₁ against T₁,₋₁ (the page's d)
+    /// divides out, both triple quanta leaving as T₃,₋₁ and both single quanta as T₁,₋₁, one dimension each at spin 3/2; and so
+    /// does the angle β the two pulses share in both sequences: at 30°, 60°, 90°, 120° and 150° (three values, each factor
+    /// depending on sin β alone; the 90° reading follows from the two factor gates) the quotient of the two squared factors is 16/9, while each factor moves with β (the factor
+    /// gates read that at 60°); with the longitudinal pulses at 30° and the transverse ones at 60° it is not 16/9. The first pulse turns each sequence's rank-3 order and its single quantum with d³₃,ₘ and d¹₁,ₘ (m = 0 and +1
+    /// here), whose quotient goes as sin²β in each, and the last pulse is shared, so β cancels between the two sequences,
+    /// not within either. That page's script reads the ratio at every β strictly between 0° and 180° in sympy.</summary>
+    public bool TripleQuantumRatio { get; }
+    /// <summary>The squared factors at 90°, per |d|²: longitudinal, transverse, their quotient.</summary>
+    public IReadOnlyList<BigRational> TripleQuantumSquares { get; }
+    public bool TripleQuantaHold => LongitudinalTripleQuantum && TransverseTripleQuantum && TripleQuantumRatio;
+
     /// <summary>The field's own control: [[1, √2], [√2, 2]] and [[√3, 3], [1, √3]] have rank 1 over ℚ(ζ₂₄), [[1, √2],
     /// [√2, 3]] rank 2.</summary>
     public bool FieldRankControl { get; }
 
     public bool AllHold => LabellingHolds && CoherenceOrderHolds && UnitalityHolds && InversionRecoveryHolds && TurnHolds
         && PhaseCycleHolds && Pulse180Holds && EchoHolds && Pulse180PageBitsHolds && Pulse90Holds && ReceiverHolds && PoolsHold
-        && FieldRankControl;
+        && TripleQuantaHold && FieldRankControl;
 
     private readonly Dictionary<string, Mat> _s = new();
     private readonly Mat _iz, _ip, _im, _ix, _iy, _pab, _pwrong;
@@ -237,6 +272,7 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
         (Pulse90Images, Pulse90RanksInSouzaBits, Pulse90RanksInPageBits) = ReadPulse90();
         (ReceiverCells, ReceiverReadsRankOne, RelaxationCarriesRankThree, SplittingAndShiftInView, ReceiverRanks) = ReadReceiver();
         (PoolTransferMatrix, PoolSteadyState) = ReadPools();
+        (LongitudinalTripleQuantum, TransverseTripleQuantum, TripleQuantumRatio, TripleQuantumSquares) = ReadTripleQuanta();
     }
 
     // ===== gate 1 =====
@@ -758,6 +794,69 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
         return (ptm && atPoints, steady && swappedFails);
     }
 
+    // ===== gate 13 =====
+
+    private (bool, bool, bool, IReadOnlyList<BigRational>) ReadTripleQuanta()
+    {
+        // the sources: an inversion's deviation along ZI, which decays at the rate 6J₂ (gate 4), and I₊'s satellite part (its cells
+        // with m + m′ = ±2), an eigenoperator at zero splitting and offset beside its central cell (m + m′ = 0); the order
+        // +3 the first pulse selects keeps only their rank-3 parts, gate 4's 4/5 and the page's √6/5
+        var longSource = KM.Scale(_s["ZI"], Ip(_s["ZI"], KM.Scale(_iz, new BigRational(-2))) * new BigRational(1, 4));
+        var sat = KM.Zero(Levels);
+        var cen = KM.Zero(Levels);
+        for (int a = 0; a < Levels; a++)
+            for (int b = 0; b < Levels; b++)
+                if (!_ip[a, b].IsZero)
+                {
+                    if (TwiceM(a) + TwiceM(b) == 0) cen[a, b] = _ip[a, b];
+                    else sat[a, b] = _ip[a, b];
+                }
+        var densities = new (long, long, long, long, long)[] { (1, 0, 0, 0, 0), (0, 1, 0, 0, 0), (0, 0, 1, 0, 0) };
+        long[] lamSat = { -3, -3, 0 }, lamCen = { 0, -3, -3 };
+        long[] lamLong = { 0, 0, -6 };
+        bool longEigen = Enumerable.Range(0, 3).All(e =>
+            KM.AreEqual(Apply(Generator(densities[e]), longSource), KM.Scale(longSource, new BigRational(lamLong[e]))));
+        bool transEigen = !KM.IsZero(sat) && !KM.IsZero(cen) && Enumerable.Range(0, 3).All(e =>
+        {
+            var l = Generator(densities[e]);
+            return KM.AreEqual(Apply(l, sat), KM.Scale(sat, new BigRational(lamSat[e])))
+                   && KM.AreEqual(Apply(l, cen), KM.Scale(cen, new BigRational(lamCen[e])));
+        });
+
+        // one pathway each, as the page's count: the first pulse to the order mid, the second to −1
+        Mat Path(Mat pulse, Mat source, int mid) =>
+            Part(Conj(pulse, Part(Conj(pulse, source, unitary: true), mid), unitary: true), -1);
+        (Mat TqL, Mat SqL, Mat TqT, Mat SqT) Paths(Mat pulse) =>
+            (Path(pulse, longSource, 3), Path(pulse, _iz, 1), Path(pulse, sat, 3), Path(pulse, _ip, 1));
+        K N2(Mat m) => Ip(m, m);
+        bool Leaves(Mat tq, Mat sq) => !KM.IsZero(tq) && !KM.IsZero(sq) && Carries(tq, 3, -1) && Carries(sq, 1, -1);
+        bool Factor(Mat tq, Mat sq, long num, long den) => N2(tq) * new BigRational(den) == N2(sq) * new BigRational(num);
+
+        var p = Paths(R90);
+        var r60 = Expo(_ix, 4);                                  // the factors' control: both pulses at 60°
+        var q = r60 is null ? p : Paths(r60);
+        bool longFactor = InversionRecoveryHolds && longEigen && Leaves(p.TqL, p.SqL) && Factor(p.TqL, p.SqL, 3, 8)
+                          && r60 is not null && Leaves(q.TqL, q.SqL) && !Factor(q.TqL, q.SqL, 3, 8);
+        bool transFactor = transEigen && Carries(_ip, 1, 1) && Leaves(p.TqT, p.SqT) && Factor(p.TqT, p.SqT, 27, 128)
+                           && r60 is not null && Leaves(q.TqT, q.SqT) && !Factor(q.TqT, q.SqT, 27, 128);
+        // the ratio of the two ratios at the common angles of the two pulses from 30° to 150°: each factor
+        // moves with the angle, the quotient of the two squared factors stays 16/9
+        bool ratio = new[] { 2, 4, 6, 8, 10 }.All(t => Expo(_ix, t) is { } rot && Paths(rot) is var a
+            && Leaves(a.TqL, a.SqL) && Leaves(a.TqT, a.SqT)
+            && N2(a.TqL) * N2(a.SqT) * new BigRational(9) == N2(a.TqT) * N2(a.SqL) * new BigRational(16))
+            // the control: the longitudinal pulses at 30°, the transverse ones at 60°, a pair no factor gate reads, and the
+            // quotient is no longer 16/9
+            && r60 is not null && Expo(_ix, 2) is { } r30 && Paths(r30) is var w
+            && N2(w.TqL) * N2(q.SqT) * new BigRational(9) != N2(q.TqT) * N2(w.SqL) * new BigRational(16);
+
+        BigRational? Rat(K z) => z.TryRational(out var v) ? v : null;
+        var squares = new List<BigRational>();
+        if (Rat(N2(p.TqL)) is { } a1 && Rat(N2(p.SqL)) is { } b1 && Rat(N2(p.TqT)) is { } a2 && Rat(N2(p.SqT)) is { } b2
+            && !b1.IsZero && !b2.IsZero && !a2.IsZero)
+            squares.AddRange(new[] { a1 / b1, a2 / b2, a1 / b1 / (a2 / b2) });
+        return (longFactor, transFactor, ratio, squares);
+    }
+
     // ===== helpers =====
 
     private static K R(long n) => K.FromRational(new BigRational(n));
@@ -912,14 +1011,15 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     private static string Verdict(bool ok, string yes, string no) => ok ? yes : no;
 
     public string Summary =>
-        $"twelve gates on preparation, pulses, phase cycle, receiver and pools in strings and the field's own control, {(AllHold ? "all holding" : "NOT all holding")}: " +
+        $"thirteen gates on preparation, pulses, phase cycle, receiver and pools in strings, one pool's two triple quanta and the field's own control, {(AllHold ? "all holding" : "NOT all holding")}: " +
         $"the labelling {Verdict(LabellingHolds, "holds", "FAILS")}, the coherence order {Verdict(CoherenceOrderHolds, "holds", "FAILS")}, " +
         $"unitality and the thermal source {Verdict(UnitalityHolds, "hold", "FAIL")}, the inversion recovery {Verdict(InversionRecoveryHolds, "holds", "FAILS")}, " +
         $"the turn about z {Verdict(TurnHolds, "holds", "FAILS")}, the phase cycle {Verdict(PhaseCycleHolds, "holds", "FAILS")}, " +
         $"the 180° pulse {Verdict(Pulse180Holds, "holds", "FAILS")}, the echo {Verdict(EchoHolds, "holds", "FAILS")}, " +
         $"the 180° pulse in the page's bits {Verdict(Pulse180PageBitsHolds, "holds", "FAILS")}, the 90° pulse {Verdict(Pulse90Holds, "holds", "FAILS")}, " +
-        $"the receiver {Verdict(ReceiverHolds, "holds", "FAILS")}, the pools {Verdict(PoolsHold, "hold", "FAIL")}; " +
-        $"every φ of a pulse read at the 24 phases k·15° (the turn about z at k·30°, its half-angle at k·15°), every point at the five unit points.";
+        $"the receiver {Verdict(ReceiverHolds, "holds", "FAILS")}, the pools {Verdict(PoolsHold, "hold", "FAIL")}, " +
+        $"the two triple quanta {Verdict(TripleQuantaHold, "hold", "FAIL")}; " +
+        $"every φ of a pulse read at the 24 phases k·15° (the turn about z at k·30°, its half-angle at k·15°), every point at the five unit points (the triple quanta at three of them, zero splitting and offset).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -979,10 +1079,18 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
                 $"|1⟩⟨0| at (1 − f₀)k and |0⟩⟨1| at f₀k on a label bit: X, Y at −k/2, Z at −k, the arrow k(2f₀ − 1) " +
                 $"{Verdict(PoolTransferMatrix, "at every f₀ and k", "FAIL")}; the fractions {Verdict(PoolSteadyState, "are the steady state, the swapped rates not", "are NOT the steady state")}; " +
                 $"the heights and the arrow are what LetterCube reads for a one-site jump (named, not run).");
+            yield return Node("the two triple quanta",
+                $"one pathway each, as One Sodium Pool or More's count reads them: the longitudinal triple quantum over its single quantum " +
+                $"√6/4·|d| (squared 3/8) with the two pulses at 90° and another value at 60°{Verdict(LongitudinalTripleQuantum, "", $" (FAILS, squared read {SquareRead(0)})")}; " +
+                $"the transverse one 3√6/16·|d| (squared 27/128), another at 60°{Verdict(TransverseTripleQuantum, "", $" (FAILS, squared read {SquareRead(1)})")}; the ratio of the two " +
+                $"ratios 4/3 whatever d is, both triple quanta leaving as T₃,₋₁ and both single quanta as T₁,₋₁, and at each angle read, 30°, 60°, " +
+                $"90°, 120° and 150°, the two pulses sharing it in both sequences{Verdict(TripleQuantumRatio, "", " (FAILS)")}.");
             yield return Node("the field",
                 $"ranks over ℚ(ζ₂₄) through the regular representation: the controls {Verdict(FieldRankControl, "read 1, 1, 2", "FAIL")}.");
         }
     }
+
+    private string SquareRead(int i) => TripleQuantumSquares.Count > i ? TripleQuantumSquares[i].ToString() : "nothing";
 
     private static IInspectable Node(string name, string summary) =>
         new InspectableNode(displayName: name, summary: summary, provenance: NodeProvenance.Live);
