@@ -30,8 +30,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// blindness, and Ξ's block as a solution. At N = 3 with d not blind, the proof's two conclusions: no homogeneous far
 /// element of even height, and one of odd height exactly when the fields lie on one line through the origin (class A's
 /// colouring then supplies it). At N = 4 with d not blind, the bullet "At N = 4, a seat that is not blind": none of
-/// either height with the fields off one line, and with them on one line and all three nonzero exactly one, of even
-/// height (class A's colouring). Beside it the descent's two conditions at the row, computed exactly: (I) the dimension
+/// either height with the fields off one line, and with them on one line, not all zero, exactly one, of even height
+/// (class A's colouring), but two of even height on the antiparallel locus (a field zero, the other two opposite, and the
+/// field-free site coupled to the other two exactly as site 0 is, oppositely to each). Beside it the descent's two conditions at the row, computed exactly: (I) the dimension
 /// of the cyclic space alg(H_b, Z_d, F⁺)|vac⟩ over ℚ(i), realified, and (II) per sector the vectors with d excited in
 /// every term at the vacuum's energy; at N = 5 the counts and conditions are reported, (II) predicted only at the
 /// sectors 1, 2 and N − 1. Fixed grids at N = 3, 4 and 5 for the block and at N = 3 and 4 for the far counts.</para>
@@ -311,17 +312,34 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
         return vs.All(a => vs.All(b => (a.X * b.Y - a.Y * b.X).IsZero));
     }
 
-    public sealed record FarReading(int N, int Blind, bool OnLine, bool AllFieldsNonzero, int Odd, int Even)
+    public sealed record FarReading(int N, int Blind, bool OnLine, bool AnyField, bool OnLocus, int Odd, int Even)
     {
-        /// <summary>Where the proof predicts: d not blind, and N = 3, or N = 4 with the fields off one line or on one line
-        /// with every field nonzero (where the case analysis gives condition (I)).</summary>
-        public bool Predicted => Blind == 0 && (N == 3 || (N == 4 && (!OnLine || AllFieldsNonzero)));
+        /// <summary>Where the proof predicts: d not blind, and N = 3, or N = 4 with some field nonzero.</summary>
+        public bool Predicted => Blind == 0 && (N == 3 || (N == 4 && AnyField));
 
-        /// <summary>At N = 3: even 0, odd nonzero exactly on one line. At N = 4: (even, odd) = (0, 0) off one line and
-        /// (1, 0) on it. Null where nothing is predicted.</summary>
+        /// <summary>At N = 3: even 0, odd nonzero exactly on one line. At N = 4: (even, odd) = (0, 0) off one line, (1, 0)
+        /// on it, and (2, 0) on the antiparallel locus. Null where nothing is predicted.</summary>
         public bool? Agrees => !Predicted ? null
             : N == 3 ? Even == 0 && (Odd > 0) == OnLine
-            : OnLine ? Even == 1 && Odd == 0 : Even == 0 && Odd == 0;
+            : OnLine ? Even == (OnLocus ? 2 : 1) && Odd == 0 : Even == 0 && Odd == 0;
+    }
+
+    /// <summary>The antiparallel locus at N = 4: one site k of 1, 2, 3 without a field, the fields on the other two, i
+    /// and j, opposite and nonzero, and J_0i = J_ki = −J_0j = −J_kj ≠ 0 (site k coupled to i and j exactly as site 0 is).
+    /// There the far elements homogeneous under Z^⊗4 at a seat that is not blind are class A's colouring and
+    /// (X_0X_k + Y_0Y_k) ⊗ |𝓉⟩⟨𝓉|, 𝓉 the triplet state of i and j with one excitation.</summary>
+    public static bool OnAntiparallelLocus(int n, IReadOnlyDictionary<(int, int), BigRational> bonds,
+        IReadOnlyDictionary<int, (BigRational X, BigRational Y)> fields)
+    {
+        if (n != 4) return false;
+        var nz = Enumerable.Range(1, 3).Where(j => fields.TryGetValue(j, out var f) && (!f.X.IsZero || !f.Y.IsZero)).ToList();
+        if (nz.Count != 2) return false;
+        int i = nz[0], j = nz[1], k = 6 - i - j;
+        var (fi, fj) = (fields[i], fields[j]);
+        if (!(fi.X + fj.X).IsZero || !(fi.Y + fj.Y).IsZero) return false;
+        BigRational J(int a, int b) => bonds.TryGetValue((Math.Min(a, b), Math.Max(a, b)), out var v) ? v : BigRational.Zero;
+        var c = J(0, i);
+        return !c.IsZero && J(k, i) == c && J(0, j) == -c && J(k, j) == -c;
     }
 
     public static FarReading ReadFar(int n, IReadOnlyDictionary<(int, int), BigRational> bonds,
@@ -329,9 +347,9 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
     {
         int blind = BlindDimension(n, bonds);
         bool line = OnOneLine(fields);
-        bool all = Enumerable.Range(1, n - 1).All(j => fields.TryGetValue(j, out var f) && (!f.X.IsZero || !f.Y.IsZero));
+        bool any = fields.Values.Any(f => !f.X.IsZero || !f.Y.IsZero);
         int odd = FarCount(n, bonds, fields, 1), even = FarCount(n, bonds, fields, 0);
-        return new FarReading(n, blind, line, all, odd, even);
+        return new FarReading(n, blind, line, any, OnAntiparallelLocus(n, bonds, fields), odd, even);
     }
 
     // ---- the descent's two conditions -----------------------------------------------------------------
@@ -562,11 +580,11 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
                     f.Odd, f.Even, f.OnLine ? "lie" : "do not lie",
                     !f.Predicted
                         ? (f.Blind > 0 ? "Seat 0 is blind, where the bullets predict nothing."
-                           : N == 4 ? "Fewer than three nonzero fields, all on one line, where the case analysis does not give condition (I); nothing is predicted."
+                           : N == 4 ? "No field is nonzero; nothing is predicted."
                            : "At N = 5 nothing is predicted; the proof measures that none exists with seat 0 not blind and the fields not on one line.")
                         : N == 3
                             ? $"At N = 3 with seat 0 not blind the bullet says: none of even height, and of odd height exactly with the fields on one line; it {(f.Agrees == true ? "holds" : "FAILS")}."
-                            : $"At N = 4 with seat 0 not blind the bullet says: none of either height off one line, exactly one of even height (class A's colouring) on it; it {(f.Agrees == true ? "holds" : "FAILS")}."),
+                            : $"At N = 4 with seat 0 not blind the bullet says: none of either height off one line, exactly one of even height (class A's colouring) on it, and two of even height on the antiparallel locus, class A's colouring and (X_0X_k + Y_0Y_k) (x) |t><t|; the row is {(f.OnLocus ? "on" : "off")} the locus, and the bullet {(f.Agrees == true ? "holds" : "FAILS")}."),
                 provenance: NodeProvenance.Live);
             var dsc = Descent;
             yield return new InspectableNode("the descent's two conditions at this row",
@@ -576,7 +594,11 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
                     dsc.Cyclic, dsc.Full, N - 1, string.Join(", ", dsc.Fence),
                     dsc.Blind > 0 ? "Seat 0 is blind; the bullet predicts nothing."
                     : $"Seat 0 not blind: (II) is proven empty at the sectors 1, 2 and N - 1, here {(dsc.FenceAgrees ? "empty" : "NOT empty")}" +
-                      (N == 4 && f.Predicted ? $", and at N = 4 (I) holds by the case analysis, here {(dsc.Cyclic == dsc.Full ? "full" : "NOT full")}." : ".")),
+                      (N == 4 && f.Predicted
+                          ? (f.OnLocus
+                              ? $", and on the antiparallel locus (I) fails by the case analysis, the cyclic space 14 of 16, here {dsc.Cyclic}, so it {(dsc.Cyclic == 14 ? "holds" : "FAILS")}."
+                              : $", and at N = 4 off the antiparallel locus (I) holds by the case analysis, here {(dsc.Cyclic == dsc.Full ? "full" : "NOT full")}.")
+                          : ".")),
                 provenance: NodeProvenance.Live);
             var grids = new[] { 3, 4, 5 }.Select(n => (n, ReadBlockGrid(n))).ToList();
             yield return new InspectableNode("the block on fixed grids at N = 3, 4, 5",
@@ -590,7 +612,7 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
                 summary: string.Format(CultureInfo.InvariantCulture,
                     "Rows with seat 0 not blind. N = 3: {0} with the fields off one line ({1} carrying a homogeneous far " +
                     "element), {2} on one line ({3} carrying one), {4} disagreeing with the bullet. N = 4: {5} off one line " +
-                    "({6} carrying one), {7} on one line ({8} carrying one, class A's colouring), {9} disagreeing with the bullet " +
+                    "({6} carrying one), {7} on one line ({8} carrying one or more), {9} disagreeing with the bullet " +
                     "on the rows it predicts.",
                     f3.NotBlindOffLine, f3.OffLineWithElement, f3.NotBlindOnLine, f3.OnLineWithElement, f3.Disagreements,
                     f4.NotBlindOffLine, f4.OffLineWithElement, f4.NotBlindOnLine, f4.OnLineWithElement, f4.Disagreements),

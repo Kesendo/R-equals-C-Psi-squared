@@ -31,8 +31,17 @@ F+ = sum_j omega_j sigma^-_j raises the number of excitations, S+ = sum_j sigma^
    constructed row, where (II) fails at n = 3, at four field sets, two of them antiparallel within the pairs, and
    there the vacuum equation alone in the multiple of its fence vector, tau and chi, exactly: one-dimensional with the
    multiple nonzero at the two antiparallel sets, only zero at a third.
+5. N = 4 on one line with a field zero: the matrix entries the steps (v) and (vi) use, symbolically from the bit
+   action, and the steps' conclusion on an exhaustive grid (couplings in {-1, 0, 1, 2}, connected, d not blind,
+   fields on the x line with a field zero on each site in turn): (I) by a full rank modulo two primes off the
+   antiparallel locus, a short one on it, and on every locus row of the grid the cyclic dimension 14 and the far
+   elements (even, odd) = (2, 0); on the locus, symbolically in the
+   couplings and the field, the subspace Q = t (x) span{|01>, |10>} of 0 and 3 kept by the bonds and killed by F-, and
+   the element h = (X0 X3 + Y0 Y3) (x) |t><t| commuting with H and anticommuting with Z_0, with a control that breaks
+   it; at three locus rows the cyclic dimension 14 and the far elements (even, odd) = (2, 0), bounded below by class
+   A's colouring and h (rank 2, so independent); the blind locus row at J03 = 0 read; controls off the locus.
 
-Run: python simulations/blind_seat_descent_gate.py   (about half a minute; writes results/blind_seat_descent_gate.txt)
+Run: python simulations/blind_seat_descent_gate.py   (about a minute and a quarter; writes results/blind_seat_descent_gate.txt)
 """
 import itertools
 import random
@@ -548,6 +557,151 @@ for f in ({1: (1, 0), 2: (-1, 0), 3: (0, 1), 4: (0, -1)}, {1: (3, 4), 2: (-3, -4
     check(good, f"the constructed row, fields {f}: the vacuum equation alone in (alpha, tau, chi) has "
                 + ("a one-dimensional solution with alpha != 0 (fields antiparallel within the pairs)" if anti
                    else "only the zero solution"))
+
+# ---- part 5: N = 4 on one line with a field zero -----------------------------------------------------------------------
+say()
+say("Part 5. N = 4 on one line with a field zero: steps (v) to (vii) and the antiparallel locus")
+st = lambda *s: sum(1 << i for i in s)
+J01, J02, J03, J12, J13, J23, r1, r2 = sp.symbols('J01 J02 J03 J12 J13 J23 r1 r2')
+u1, u2, u3 = sp.symbols('u1 u2 u3')
+Hs = hb(4, {(0, 1): J01, (0, 2): J02, (0, 3): J03, (1, 2): J12, (1, 3): J13, (2, 3): J23})
+e23 = sp.zeros(16, 1); e23[st(2, 3)] = 1
+check(sp.expand((Hs * e23)[st(1, 3)] - 2 * J12) == 0 and sp.expand((Hs * e23)[st(1, 2)] - 2 * J13) == 0,
+      "step (v): the bonds carry |0>_0 (x) |23> to |13> and |12> with 2 J12 and 2 J13")
+uu = sp.zeros(16, 1); uu[st(0, 1)] = u1; uu[st(0, 2)] = u2; uu[st(0, 3)] = u3
+Hu = Hs * uu
+check(all(sp.expand(Hu[st(*pq)] - val) == 0 for pq, val in (((1, 2), 2 * (J02 * u1 + J01 * u2)),
+                                                            ((1, 3), 2 * (J03 * u1 + J01 * u3)),
+                                                            ((2, 3), 2 * (J03 * u2 + J02 * u3)))),
+      "the hop of 0's bonds on |1>_0 (x) u: entries 2(J02 u1 + J01 u2), 2(J03 u1 + J01 u3), 2(J03 u2 + J02 u3)")
+alpha = sp.expand((r1 * Hu[st(1, 3)] + r2 * Hu[st(2, 3)]).subs(u1, -r2 * u2 / r1))
+check(sp.expand(alpha - 2 * u3 * (r1 * J01 + r2 * J02)) == 0,
+      "step (alpha): with r1 u1 + r2 u2 = 0 the ratio r2 : -r1 of the |13> and |23> entries asks (r1 J01 + r2 J02) u3 = 0")
+r0 = sp.zeros(16, 1); r0[st(1, 3)] = r2; r0[st(2, 3)] = -r1
+Hr = Hs * r0
+check([sp.expand(Hr[st(0, k)]) for k in (1, 2, 3)] == [sp.expand(2 * r2 * J03), sp.expand(-2 * r1 * J03),
+                                                       sp.expand(2 * (r2 * J01 - r1 * J02))],
+      "step (beta): the hop carries |0>_0 (x) (r2|13> - r1|23>) to |1>_0 (x) 2(r2 J03, -r1 J03, r2 J01 - r1 J02)")
+gam2 = sp.expand(Hr[st(1, 3)] * (-r1) - Hr[st(2, 3)] * r2)
+check(sp.expand(Hr[st(1, 2)] - 2 * (r2 * J23 - r1 * J13)) == 0 and
+      sp.expand(gam2 + 2 * (r1 * r2 * (J13 - J23 - J01 + J02) - J12 * (r1 ** 2 - r2 ** 2))) == 0,
+      "step (gamma): the |12> entry 2(r2 J23 - r1 J13), and the ratio of the |13> and |23> entries "
+      "J13 - J23 - J01 + J02 = J12 (r1^2 - r2^2)/(r1 r2)")
+e1v = sp.zeros(16, 1); e1v[st(0, 1)] = 1
+e2v = sp.zeros(16, 1); e2v[st(0, 2)] = 1
+check(sp.expand((Hs * e1v)[st(0, 3)] - 2 * J13) == 0 and sp.expand((Hs * e2v)[st(0, 3)] - 2 * J23) == 0,
+      "step (delta): within the excited 0 the bonds carry e1 and e2 to e3 with 2 J13 and 2 J23")
+
+# the exhaustive grid: (I) fails exactly on the antiparallel locus (real fields, so primes need no square root of -1)
+GP = (1000003, 1000033)
+
+
+def cyclic_dim_real4(H, F):
+    best = 0
+    Zm = np.diag([(-1 if x & 1 else 1) for x in range(16)]).astype(np.int64)
+    for p in GP:
+        gens = [H % p, Zm % p, F % p]
+        basis, piv, queue = [], [], [np.eye(16, dtype=np.int64)[0]]
+        while queue:
+            v = queue.pop() % p
+            r = v.copy()
+            for bv, c in zip(basis, piv):
+                if r[c]:
+                    r = (r - r[c] * bv) % p
+            nz = np.nonzero(r)[0]
+            if len(nz) == 0:
+                continue
+            c = nz[0]
+            r = (r * pow(int(r[c]), p - 2, p)) % p
+            for t in range(len(basis)):
+                if basis[t][c]:
+                    basis[t] = (basis[t] - basis[t][c] * r) % p
+            basis.append(r); piv.append(c)
+            for G in gens:
+                queue.append(G.dot(v) % p)
+        best = max(best, len(basis))
+    return best
+
+
+def on_locus(b, fl, z):
+    if len(fl) != 2:
+        return False
+    (i, wi), (j, wj) = sorted(fl.items())
+    g = lambda x, y: b.get(tuple(sorted((x, y))), 0)
+    return wi == (-wj[0], -wj[1]) and g(0, i) == g(z, i) == -g(0, j) == -g(z, j)
+
+
+edges4 = list(itertools.combinations(range(4), 2))
+FSETS = []
+for z in (1, 2, 3):
+    i, j = [s for s in (1, 2, 3) if s != z]
+    for a, bb in ((1, -1), (1, 2), (2, -1), (1, 1), (1, 0)):
+        fl = {s: (v, 0) for s, v in ((i, a), (j, bb)) if v}
+        FSETS.append((z, fl, np.array(fplus(4, fl).tolist(), dtype=np.int64)))
+counts, miss, locus_rows, locus_ok = {}, 0, 0, True
+for Js in itertools.product((-1, 0, 1, 2), repeat=6):
+    b = {e: J for e, J in zip(edges4, Js) if J}
+    if not connected(4, b) or blind_dim(4, b):
+        continue
+    H = np.array(hb(4, b).tolist(), dtype=np.int64)
+    for z, fl, F in FSETS:
+        full = cyclic_dim_real4(H, F) == 16
+        pred = on_locus(b, fl, z)
+        counts[(len(fl), full, pred)] = counts.get((len(fl), full, pred), 0) + 1
+        miss += full == pred
+        if pred:
+            locus_rows += 1
+            locus_ok &= (far_count(4, b, fl, 0), far_count(4, b, fl, 1)) == (2, 0)
+check(miss == 0 and counts.get((2, False, True), 0) > 0 and counts.get((1, True, False), 0) > 0,
+      "grid exhaustive in the couplings, {-1, 0, 1, 2} on the six bonds, connected, 0 not blind, five pairs of fields "
+      "on the x line with a field zero on each site in turn: the rank modulo p reaches 16 at every row off the antiparallel locus, which "
+      "certifies (I) there, and falls short at every row on it, where Q (below, with the labels relabelled) bounds it")
+check(locus_rows > 0 and locus_ok,
+      f"at the grid's {locus_rows} locus rows the far elements (even, odd) = (2, 0) modulo p, at most 2 and 0, "
+      "and at least class A's colouring and h (below)")
+say(f"  read: (nonzero fields, cyclic = 16, on the locus) -> cases: {dict(sorted(counts.items()))}")
+
+# the locus: Q, the element h and the two dimensions, exactly
+c_, e_, f_, fx, fy = sp.symbols('c e f fx fy')
+BL = {(0, 1): -c_, (0, 2): c_, (1, 3): -c_, (2, 3): c_, (0, 3): e_, (1, 2): f_}
+HL = hb(4, BL)
+FL = fplus(4, {1: (fx, fy), 2: (-fx, -fy)})
+HLt = HL + FL + FL.H
+q0 = sp.zeros(16, 1); q0[st(1, 3)] = 1; q0[st(2, 3)] = 1        # |0>_0 |1>_3 (x) (|10> + |01>) on 1, 2
+q1 = sp.zeros(16, 1); q1[st(0, 1)] = 1; q1[st(0, 2)] = 1        # |1>_0 |0>_3 (x) (|10> + |01>) on 1, 2
+check(all(sp.expand(x) == 0 for x in (HL * q0 - (f_ - e_) * q0 - 2 * e_ * q1)) and
+      all(sp.expand(x) == 0 for x in (HL * q1 - (f_ - e_) * q1 - 2 * e_ * q0)) and
+      all(sp.expand(x) == 0 for x in (FL.H * q0)) and all(sp.expand(x) == 0 for x in (FL.H * q1)),
+      "on the locus, symbolically in c, J03 = e, J12 = f and the field (fx, fy): Q = t (x) span{|01>, |10>} on 0, 3 is "
+      "kept by the bonds, which act as J12 - J03 + 2 J03 SWAP_03, and killed by F-")
+hh = 2 * (q0 * q1.T + q1 * q0.T) / 2                            # (X0X3 + Y0Y3) (x) |t><t|, |t> = (q-part)/sqrt 2
+check(all(sp.expand(x) == 0 for x in (HLt * hh - hh * HLt)) and all(x == 0 for x in (zd(4) * hh + hh * zd(4))),
+      "h = (X0 X3 + Y0 Y3) (x) |t><t| commutes with the whole H and anticommutes with Z_0, symbolically")
+BLd = dict(BL); BLd[(0, 1)] = -c_ + 1
+HLd = hb(4, BLd) + FL + FL.H
+check(any(sp.expand(x) != 0 for x in (HLd * hh - hh * HLd)),
+      "control: with J01 moved off -c the same h no longer commutes with H")
+for (cc, ee, ff), m in (((1, 2, 3), (1, 0)), ((2, -1, 3), (3, 4)), ((-1, 3, 0), (1, 1))):
+    bl = {k: v.subs({c_: cc, e_: ee, f_: ff}) for k, v in BL.items()}
+    bl = {k: int(v) for k, v in bl.items() if v != 0}
+    fl = {1: m, 2: (-m[0], -m[1])}
+    cd = cyclic_dim(4, bl, fl)
+    fe, fo = far_count(4, bl, fl, 0), far_count(4, bl, fl, 1)
+    hnum = hh.subs({c_: cc, e_: ee, f_: ff})
+    ms = sp.Matrix([[0, m[0] - sp.I * m[1]], [m[0] + sp.I * m[1], 0]])
+    A4 = sp.kronecker_product(ms, ms, ms, ms)
+    indep = hnum.rank() == 2 and all(sp.expand(x) == 0 for x in (A4 * A4 - (m[0] ** 2 + m[1] ** 2) ** 4 * sp.eye(16)))   # h of rank 2, A invertible
+    check(blind_dim(4, bl) == 0 and cd == 14 and (fe, fo) == (2, 0) and colouring_exact(4, bl, fl) and indep,
+          f"locus row c, J03, J12 = {cc}, {ee}, {ff}, field {m} on 1 and its negative on 2: 0 not blind, cyclic "
+          f"dimension 14 (at least 14 by the rank, at most 14 with Q orthogonal to it), far elements (even, odd) = "
+          f"(2, 0), the 2 reached by class A's colouring and h, independent, exactly")
+bl0 = {(0, 1): -1, (0, 2): 1, (1, 3): -1, (2, 3): 1, (1, 2): 3}
+say(f"  read, the locus at J03 = 0: blind dimension {blind_dim(4, bl0)}, far elements (even, odd) = "
+    f"({far_count(4, bl0, {1: (1, 0), 2: (-1, 0)}, 0)}, {far_count(4, bl0, {1: (1, 0), 2: (-1, 0)}, 1)}) modulo p")
+for fl, what in (({1: (1, 0), 2: (1, 0)}, "parallel"), ({1: (1, 0), 2: (-2, 0)}, "opposite, unequal")):
+    bl = {(0, 1): -1, (0, 2): 1, (1, 3): -1, (2, 3): 1, (0, 3): 2, (1, 2): 3}
+    check(cyclic_dim(4, bl, fl) == 16 and (far_count(4, bl, fl, 0), far_count(4, bl, fl, 1)) == (1, 0),
+          f"control, the locus's bonds with the fields {what}: cyclic dimension 16 and far elements (even, odd) = (1, 0)")
 
 say()
 say("ALL CHECKS PASS" if not FAILS else f"{len(FAILS)} FAILED: " + "; ".join(FAILS))

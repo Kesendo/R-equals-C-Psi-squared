@@ -92,14 +92,15 @@ public class DephasedSeatFlipBlockWitnessTests
     }
 
     /// <summary>The bullet "At N = 4, a seat that is not blind": off one line none of either height, with all three
-    /// fields nonzero and with one zero; on one line with all three nonzero exactly class A's colouring, of even height;
-    /// on one line with a field zero nothing is predicted. Both conditions of the descent hold at each predicted row (and,
-    /// measured, at the unpredicted one).</summary>
+    /// fields nonzero and with one zero; on one line, not all zero, exactly class A's colouring, of even height, at a row
+    /// off the antiparallel locus. Both conditions of the descent hold at each row.</summary>
     [Theory]
     [InlineData("1:3,4;2:5,0;3:1,1", 0, 0, true)]
     [InlineData("1:3,4;2:5,0", 0, 0, true)]                         // site 3 without a field, 1 and 2 off one line
     [InlineData("1:1,0;2:-2,0;3:3,0", 1, 0, true)]                  // class A, all three nonzero
-    [InlineData("1:1,0;2:2,0", 1, 0, false)]                        // on one line with a field zero: not predicted
+    [InlineData("1:1,0;2:2,0", 1, 0, true)]                         // on one line with a field zero
+    [InlineData("1:1,0;2:-1,0", 1, 0, true)]                        // opposite fields, the bonds off the locus
+    [InlineData("2:3,4", 1, 0, true)]                               // one field alone
     public void Far_At_N4_Not_Blind(string fields, int even, int odd, bool predicted)
     {
         var w = W(4, "0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1", fields);
@@ -109,6 +110,38 @@ public class DephasedSeatFlipBlockWitnessTests
         Assert.Equal(16, w.Descent.Cyclic);
         Assert.Equal(new[] { 0, 0, 0 }, w.Descent.Fence);
         Assert.True(w.Descent.FenceAgrees);
+    }
+
+    /// <summary>With no field at all nothing is predicted at N = 4 (X^⊗4 and Y^⊗4 are both far elements there).</summary>
+    [Fact]
+    public void No_Field_Is_Not_Predicted_At_N4()
+    {
+        var w = W(4, "0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1");
+        Assert.False(w.Far.AnyField);
+        Assert.False(w.Far.Predicted);
+        Assert.Null(w.Far.Agrees);
+        Assert.True(w.Far.Even >= 2);
+    }
+
+    /// <summary>The antiparallel locus (the bullet's steps (vi) and (vii)): one site without a field, opposite fields on
+    /// the other two, and the field-free site coupled to them exactly as 0 is, oppositely to each, J03 ≠ 0. Seat 0 is not
+    /// blind, the cyclic space has dimension 14, and the far elements are two of even height, class A's colouring and
+    /// the hop on the triplet state; at J03 = 0 the seat turns blind and nothing is predicted. The labels are free.</summary>
+    [Theory]
+    [InlineData("0-1:-1,0-2:1,1-3:-1,2-3:1,0-3:2,1-2:3", "1:1,0;2:-1,0", true)]
+    [InlineData("0-1:2,0-2:-2,1-3:2,2-3:-2,0-3:-1", "1:3,4;2:-3,-4", true)]
+    [InlineData("0-2:1,1-2:1,0-3:-1,1-3:-1,0-1:2,2-3:3", "2:1,1;3:-1,-1", true)]   // site 1 without a field
+    [InlineData("0-1:-1,0-2:1,1-3:-1,2-3:1,1-2:3", "1:1,0;2:-1,0", false)]          // J03 = 0: blind
+    public void Antiparallel_Locus_Carries_Two(string bonds, string fields, bool notBlind)
+    {
+        var w = W(4, bonds, fields);
+        Assert.True(w.Far.OnLocus);
+        Assert.Equal(notBlind, w.Far.Blind == 0);
+        if (!notBlind) { Assert.Null(w.Far.Agrees); return; }
+        Assert.Equal((2, 0), (w.Far.Even, w.Far.Odd));
+        Assert.Equal(true, w.Far.Agrees);
+        Assert.Equal(14, w.Descent.Cyclic);
+        Assert.Equal(new[] { 0, 0, 0 }, w.Descent.Fence);
     }
 
     /// <summary>The gate's control: a blind seat bonded to two sites, where |1⟩_0 ⊗ (J01·e1 − J02·e2) is an eigenvector of
@@ -142,9 +175,12 @@ public class DephasedSeatFlipBlockWitnessTests
     [Fact]
     public void Disagreements_Are_Seen()
     {
-        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, false, true, 0, 1).Agrees);
-        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, 1, 1).Agrees);
-        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, 2, 0).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, false, true, false, 0, 1).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, false, 1, 1).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, false, 2, 0).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, true, 0, 1).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, true, 1, 0).Agrees);
+        Assert.Null(new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, false, false, 0, 2).Agrees);
         var d = W(4, "0-1:1,1-2:3,1-3:6,2-3:-2").Descent;
         Assert.Equal(new[] { 0, 0, 1 }, d.Fence);
         Assert.False(new DephasedSeatFlipBlockWitness.DescentReading(0, d.Cyclic, d.Full, d.Fence).FenceAgrees);

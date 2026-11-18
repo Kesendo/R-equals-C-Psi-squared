@@ -47,8 +47,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// perpendicular to z and none on site 0, for far elements homogeneous under Z^⊗N at a seat that is not blind, the block from one excitation to N − 1 is a multiple of X^⊗N at every N (F157's
 /// commutant), and at N = 3 none of even height exists (from the bonds and the jump alone) and, of odd height, only with the
 /// fields on one line, through that block (by hand; <c>simulations/blind_seat_block_lemma_gate.py</c>); at N = 4 none of either
-/// height with the fields off one line, by a descent from the element's top component under two conditions on the sectors
-/// that a raising lemma and a case analysis supply there (by hand; <c>simulations/blind_seat_descent_gate.py</c>), the
+/// height with the fields off one line, and with them on one line, some field nonzero, class A's colouring alone, but on the
+/// antiparallel locus (a field zero, the other two opposite, the field-free site k coupled to them as site 0 is, with opposite couplings to the two), where the
+/// hop (X_0X_k + Y_0Y_k) ⊗ |𝓉⟩⟨𝓉| on the triplet state of the other two joins it, by a descent from the element's top component under two conditions on the sectors
+/// that a raising lemma and a case analysis supply there, on the locus the case analysis naming the one subspace the first
+/// condition misses (by hand; <c>simulations/blind_seat_descent_gate.py</c>), the
 /// conditions sufficient at every N and, as a row at N = 5 shows, not necessary; live in <c>DephasedSeatFlipBlockWitness</c>, inspect root
 /// <c>flipblock</c>. E pairs at a seat that is not blind through an element of no definite height, which this does not
 /// reach.</para></summary>
@@ -183,11 +186,14 @@ public sealed class OneDephasedSeatClaim : Claim
                          "element homogeneous under Z^N from one excitation to N - 1 is a multiple of X^N where site 0 is not blind " +
                          "(F157's commutant), and at N = 3 a seat that is not blind leaves none of even height and, of odd height, " +
                          "only the fields on one line (gate simulations/blind_seat_block_lemma_gate.py). At N = 4 a seat that is not " +
-                         "blind leaves none of either height with the fields off one line, and with them on one line and all three " +
-                         "nonzero only class A's colouring, by a descent from the top component under two conditions, the cyclic " +
+                         "blind leaves none of either height with the fields off one line, and with them on one line, some field " +
+                         "nonzero, only class A's colouring, but on the antiparallel locus (one field zero, the other two opposite, " +
+                         "the field-free site k coupled to them as site 0 is, with opposite couplings to the two), where the hop (X0 Xk + Y0 Yk) (x) |t><t| on the " +
+                         "triplet state t of the other two joins it, a second element of even height, by a descent from the top component under two conditions, the cyclic " +
                          "space of the bonds, the jump and the raising field part on the vacuum being everything and no vector of " +
                          "the sectors 1 to N - 1 with site 0 excited in every term at the vacuum's energy, which a raising lemma and " +
-                         "a case analysis supply there (gate " +
+                         "a case analysis supply there, on the antiparallel locus the case analysis naming the one subspace the " +
+                         "cyclic space misses (gate " +
                          "simulations/blind_seat_descent_gate.py); at N = 5 the second condition fails at a row that carries none, " +
                          "and that none exists with the fields not on one line is measured, not proven; live: inspect --root flipblock " +
                          "--N 4 --bonds 0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1 --fields '1:3,4;2:5,0'; E pairs at a seat that is not " +
@@ -217,7 +223,8 @@ public sealed class OneDephasedSeatClaim : Claim
                          "under Z^N whose block is not a multiple of X^N at a seat that is not blind, and at N = 3 to such an " +
                          "element at a seat that is not blind of even height (a planar field on d allowed), or of odd height with the " +
                          "fields not on one line, and at N = 4 to such an element at a seat that is not blind with the fields not on " +
-                         "one line, or on one line with all three nonzero a second one or one of odd height, and at every N, at a " +
+                         "one line, or on one line with some field nonzero one of odd height, a second one off the antiparallel " +
+                         "locus or a third on it, and at every N, at a " +
                          "seat that is not blind where the descent's two conditions hold, to such an element with the fields off " +
                          "one line or, on one line, one that is not a multiple of class A's colouring; " +
                          "the widened N = 4 rule (h, g, b0, b3 nonzero) falls to a far element even " +

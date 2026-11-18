@@ -50,4 +50,24 @@ Part 4. At N = 5: the conditions at drawn rows, and the constructed row where (I
   PASS  the constructed row, fields {1: (3, 4), 2: (-3, -4), 3: (1, 0), 4: (-1, 0)}: the vacuum equation alone in (alpha, tau, chi) has a one-dimensional solution with alpha != 0 (fields antiparallel within the pairs)
   PASS  the constructed row, fields {1: (5, 1), 2: (4, -3), 3: (1, 1), 4: (0, 2)}: the vacuum equation alone in (alpha, tau, chi) has only the zero solution
 
+Part 5. N = 4 on one line with a field zero: steps (v) to (vii) and the antiparallel locus
+  PASS  step (v): the bonds carry |0>_0 (x) |23> to |13> and |12> with 2 J12 and 2 J13
+  PASS  the hop of 0's bonds on |1>_0 (x) u: entries 2(J02 u1 + J01 u2), 2(J03 u1 + J01 u3), 2(J03 u2 + J02 u3)
+  PASS  step (alpha): with r1 u1 + r2 u2 = 0 the ratio r2 : -r1 of the |13> and |23> entries asks (r1 J01 + r2 J02) u3 = 0
+  PASS  step (beta): the hop carries |0>_0 (x) (r2|13> - r1|23>) to |1>_0 (x) 2(r2 J03, -r1 J03, r2 J01 - r1 J02)
+  PASS  step (gamma): the |12> entry 2(r2 J23 - r1 J13), and the ratio of the |13> and |23> entries J13 - J23 - J01 + J02 = J12 (r1^2 - r2^2)/(r1 r2)
+  PASS  step (delta): within the excited 0 the bonds carry e1 and e2 to e3 with 2 J13 and 2 J23
+  PASS  grid exhaustive in the couplings, {-1, 0, 1, 2} on the six bonds, connected, 0 not blind, five pairs of fields on the x line with a field zero on each site in turn: the rank modulo p reaches 16 at every row off the antiparallel locus, which certifies (I) there, and falls short at every row on it, where Q (below, with the labels relabelled) bounds it
+  PASS  at the grid's 54 locus rows the far elements (even, odd) = (2, 0) modulo p, at most 2 and 0, and at least class A's colouring and h (below)
+  read: (nonzero fields, cyclic = 16, on the locus) -> cases: {(1, True, False): 8712, (2, False, True): 54, (2, True, False): 34794}
+  PASS  on the locus, symbolically in c, J03 = e, J12 = f and the field (fx, fy): Q = t (x) span{|01>, |10>} on 0, 3 is kept by the bonds, which act as J12 - J03 + 2 J03 SWAP_03, and killed by F-
+  PASS  h = (X0 X3 + Y0 Y3) (x) |t><t| commutes with the whole H and anticommutes with Z_0, symbolically
+  PASS  control: with J01 moved off -c the same h no longer commutes with H
+  PASS  locus row c, J03, J12 = 1, 2, 3, field (1, 0) on 1 and its negative on 2: 0 not blind, cyclic dimension 14 (at least 14 by the rank, at most 14 with Q orthogonal to it), far elements (even, odd) = (2, 0), the 2 reached by class A's colouring and h, independent, exactly
+  PASS  locus row c, J03, J12 = 2, -1, 3, field (3, 4) on 1 and its negative on 2: 0 not blind, cyclic dimension 14 (at least 14 by the rank, at most 14 with Q orthogonal to it), far elements (even, odd) = (2, 0), the 2 reached by class A's colouring and h, independent, exactly
+  PASS  locus row c, J03, J12 = -1, 3, 0, field (1, 1) on 1 and its negative on 2: 0 not blind, cyclic dimension 14 (at least 14 by the rank, at most 14 with Q orthogonal to it), far elements (even, odd) = (2, 0), the 2 reached by class A's colouring and h, independent, exactly
+  read, the locus at J03 = 0: blind dimension 1, far elements (even, odd) = (3, 0) modulo p
+  PASS  control, the locus's bonds with the fields parallel: cyclic dimension 16 and far elements (even, odd) = (1, 0)
+  PASS  control, the locus's bonds with the fields opposite, unequal: cyclic dimension 16 and far elements (even, odd) = (1, 0)
+
 ALL CHECKS PASS

@@ -1102,7 +1102,9 @@ public static class InspectCommand
             "jump conditions; X^N carries the solutions onto the commutant of the signed Laplacian and P_0 (F157's Theorem A), " +
             "one-dimensional exactly where seat 0 is not blind. Recomputes the block over Q from the bit action and the " +
             "commutant separately, the far elements by height parity, and the N = 3 conclusions (none of even height, odd " +
-            "only with the fields on one line) at a seat that is not blind; fixed grids at N = 3, 4, 5. Args: --N 3..5, " +
+            "only with the fields on one line) at a seat that is not blind; at N = 4 the descent's rule (none off one line, " +
+            "class A's colouring on it, two on the antiparallel locus) and its two conditions, the cyclic space and the " +
+            "vectors with seat 0 excited at the vacuum's energy; fixed grids at N = 3, 4, 5. Args: --N 3..5, " +
             "--bonds 0-1:1,0-2:2,1-2:3, --fields '1:3,4;2:5,0' (quoted for the semicolons; no field on 0)",
             c => new DephasedSeatFlipBlockWitness(
                 c.Parser.HasFlag("N") ? c.N : 3,
