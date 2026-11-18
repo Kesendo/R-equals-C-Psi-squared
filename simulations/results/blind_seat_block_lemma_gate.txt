@@ -1,0 +1,32 @@
+1. the block lemma: blocks T from one excitation to N - 1 with [B, T] = 0 and {Z_d, T} = 0
+  PASS  N = 3: Xi's block solves both conditions at all 63 rows
+  PASS  N = 3: at the 37 rows where d is not blind the solution space is one-dimensional (Xi's block)
+  PASS  N = 3: at the 26 blind rows it is 1 + dim commutant on the Krylov complement, at least two
+  PASS  N = 4: Xi's block solves both conditions at all 60 rows
+  PASS  N = 4: at the 37 rows where d is not blind the solution space is one-dimensional (Xi's block)
+  PASS  N = 4: at the 23 blind rows it is 1 + dim commutant on the Krylov complement, at least two
+  PASS  N = 5: Xi's block solves both conditions at all 37 rows
+  PASS  N = 5: at the 24 rows where d is not blind the solution space is one-dimensional (Xi's block)
+  PASS  N = 5: at the 13 blind rows it is 1 + dim commutant on the Krylov complement, at least two
+
+2. N = 3, even height, bonds and jump alone (no field)
+  PASS  at 231 distinct rows where d is not blind: no far element of even height (rank mod p, an exact zero)
+  read: couplings in {-4..4}, at most one zero; swap kind J_du = J_dv, e2 != 0: 68 rows, even-height counts without fields [0], with f_u = (3, 4), f_v = (5, 0) [0]
+  read: reciprocal kind e2 = 0, J_du != J_dv: 8 rows, even-height counts without fields (exact) [4], with those fields [0]
+  PASS  the readings beside the proof, pinned as the document quotes them: 68 rows 0 and 0, 8 rows 4 and 0
+
+3. N = 3, odd height, d not blind, fields on one line (class A): T = tau·Xi and tau·omega_j = chi·conj(omega_j), Xi = X^(x)3
+  PASS  J = {(0, 1): 1, (0, 2): 2, (1, 2): 3}, fields {1: (3, 4), 2: (-3, -4)}: 1 far element(s) of odd height, each with T = tau·Xi and tau·omega = chi·conj(omega), tau != 0 for one
+  PASS  J = {(0, 1): 2, (0, 2): -1, (1, 2): 1}, fields {1: (1, 1), 2: (2, 2)}: 1 far element(s) of odd height, each with T = tau·Xi and tau·omega = chi·conj(omega), tau != 0 for one
+  PASS  J = {(0, 1): 3, (1, 2): -2}, fields {1: (0, 1), 2: (0, 0)}: 1 far element(s) of odd height, each with T = tau·Xi and tau·omega = chi·conj(omega), tau != 0 for one
+  PASS  J = {(0, 1): 1, (0, 2): 3}, fields {1: (4, 3), 2: (4, 3)}: 1 far element(s) of odd height, each with T = tau·Xi and tau·omega = chi·conj(omega), tau != 0 for one
+  PASS  control, J = {(0, 1): 1, (0, 2): 2, (1, 2): 3} with fields {1: (3, 4), 2: (5, 0)} not on one line: no far element of odd height
+  PASS  control, J = {(0, 1): 2, (0, 2): -1, (1, 2): 1} with fields {1: (3, 4), 2: (5, 0)} not on one line: no far element of odd height
+
+4. measured, N = 4 and N = 5: d not blind, fields not on one line, far elements homogeneous under Z^(x)N
+  PASS  N = 4: 245 distinct rows in the cell (of 300 drawn), none with a far element in either parity class
+  PASS  N = 4: control, the 24 distinct rows with d not blind and the fields on one line all carry one (class A's colouring)
+  PASS  N = 5: 106 distinct rows in the cell (of 120 drawn), none with a far element in either parity class
+  PASS  N = 5: control, the 3 distinct rows with d not blind and the fields on one line all carry one (class A's colouring)
+
+ALL CHECKS PASS

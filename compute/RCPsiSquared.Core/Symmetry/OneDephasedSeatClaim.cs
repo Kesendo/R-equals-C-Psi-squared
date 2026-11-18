@@ -43,7 +43,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// parallel nor antiparallel, a far element of odd height (every string with an odd number of letters X or Y) exists
 /// with no field on site 0 exactly when site 0 is blind and |f₁| = |f₂|, and with a nonzero planar field f₀ on site 0 exactly
 /// when J01 = J02, |f₁| = |f₂| and f₀ lies on the line of f₁ + f₂ (<c>simulations/blind_seat_sheet_gate.py</c>; live in
-/// <c>TrianglePalindromeLocusWitness</c>, node "the sheet and blindness").</para></summary>
+/// <c>TrianglePalindromeLocusWitness</c>, node "the sheet and blindness"); under Heisenberg bonds on any connected graph, with fields
+/// perpendicular to z and none on site 0, for far elements homogeneous under Z^⊗N at a seat that is not blind, the block from one excitation to N − 1 is a multiple of X^⊗N at every N (F157's
+/// commutant), and at N = 3 none of even height exists (from the bonds and the jump alone) and, of odd height, only with the
+/// fields on one line, through that block (by hand; <c>simulations/blind_seat_block_lemma_gate.py</c>). E pairs at a seat that
+/// is not blind through an element of no definite height, which this does not reach.</para></summary>
 public sealed class OneDephasedSeatClaim : Claim
 {
     /// <summary>F158, whose Lemma 1's second corollary puts both ends on spans of Pauli strings and whose Lemma 3 with its
@@ -92,7 +96,8 @@ public sealed class OneDephasedSeatClaim : Claim
                "arises. On the triangle, with at most one coupling zero, no field on d and nonzero planar fields on u " +
                "and v neither parallel nor antiparallel, a far element of odd height exists exactly when d is blind and " +
                "the two fields have one length; with a nonzero planar field on d added, exactly when s = t, the two fields have " +
-               "one length and the field on d lies on the line of their sum.",
+               "one length and the field on d lies on the line of their sum. On the triangle at a seat that is not blind " +
+               "none of even height exists, from the bonds and the jump alone.",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ONE_DEPHASED_SEAT.md + " +
                "docs/ANALYTICAL_FORMULAS.md (F165, the index entry; F157, the blind seat) + " +
@@ -170,7 +175,12 @@ public sealed class OneDephasedSeatClaim : Claim
                          "from 0 and 3 through its difference only, b0 = (J01 - J02)/2 and b3 = (J13 - J23)/2, the family's " +
                          "fields, J03 = 0, h, g, b0, b3 nonzero) a far element even under the pair's swap has the sheet IIIY, " +
                          "and one with a nonzero singlet block exists exactly where the pair carries a mode that vanishes " +
-                         "at 0 and at 3, b3 = -b0.");
+                         "at 0 and at 3, b3 = -b0. At every N, with fields perpendicular to z and none on site 0, the block of a far " +
+                         "element homogeneous under Z^N from one excitation to N - 1 is a multiple of X^N where site 0 is not blind " +
+                         "(F157's commutant), and at N = 3 a seat that is not blind leaves none of even height and, of odd height, " +
+                         "only the fields on one line (gate simulations/blind_seat_block_lemma_gate.py; that no such element exists " +
+                         "at N = 4 and 5 with the fields not on one line is measured there, not proven; E pairs at a seat that is not " +
+                         "blind through an element of no definite height).");
 
             yield return new InspectableNode("the carriers' locality",
                 summary: "Where a row pairs through one far element W, for Pauli jumps, a mirror that factorises over " +
@@ -192,7 +202,11 @@ public sealed class OneDephasedSeatClaim : Claim
                          "dephased seat, without a colouring, whose dephased seat is not blind. The carriers' locality needs " +
                          "Pauli jumps and a row that pairs through one far element; the sheet and blindness, at most one " +
                          "coupling zero, nonzero fields on u and v perpendicular to z, neither parallel nor antiparallel, and " +
-                         "no field on d or a planar one; the widened N = 4 rule (h, g, b0, b3 nonzero) falls to a far element even " +
+                         "no field on d or a planar one; the block from one excitation to N - 1 falls to a far element homogeneous " +
+                         "under Z^N whose block is not a multiple of X^N at a seat that is not blind, and at N = 3 to such an " +
+                         "element at a seat that is not blind of even height (a planar field on d allowed), or of odd height with the " +
+                         "fields not on one line; " +
+                         "the widened N = 4 rule (h, g, b0, b3 nonzero) falls to a far element even " +
                          "under the pair's swap with a nonzero singlet block at b3 != -b0. " +
                          "Fields off the letters at N = 3 beyond the planar fields with none on d, other bonds at N = 3, a " +
                          "carrier at N = 5 that entangles the fifth spin and every N beyond are open (the proof's Open list).");
