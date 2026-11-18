@@ -14,7 +14,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (<see cref="Cyclotomic24"/>: i, √2, √3 and every phase that is a multiple of 15°), the spin operators built from the
 /// spin formula first (the turn about z from I_z) and the generator taken from the shared builder in Core. A child of
 /// <see cref="SodiumTwoMirrorsWitness"/>; the page's verifier (<c>simulations/sodium_two_mirrors.py experiment</c>)
-/// holds the twelve statements the first twelve gates read, in sympy (φ a symbol, time functions, the Theodolite's echo).
+/// holds the twelve statements the first twelve gates read, in sympy (φ a symbol, time functions, the Theodolite's echo),
+/// and the statement the fourteenth reads.
 ///
 /// <para>How "every φ" is read without a symbol: each identity in a pulse's phase φ is a Laurent polynomial in
 /// e^{iφ} (the turn about z alone in e^{iφ/2}, read in ψ = φ/2) whose exponents span at most 13 values, and the
@@ -40,6 +41,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// pathway each, through squared norms compared in the field (at 90° they are rational, where the norms are not), at 90°
 /// (the factors also at 60°, as their control) and, for the ratio, at 30°, 60°, 120° and 150°; that page's Part 8 holds each count at 90° and their ratio at every angle strictly between 0°
 /// and 180° in sympy, and simulates the two sequences.</para>
+///
+/// <para>A fourteenth gate reads the page's two scans: One Sodium Pool or More's cycle PC2, the first 90° pulse at ±135°
+/// about its phase step with the receiver fixed, as one common turn times the mean over {1, the turn at 270°}, a map on
+/// what the pulse makes of the quiet edge; its weights on the strings and the far edge's combinations; why it is no
+/// projector (among the 24 turns the mean over {1, h} is idempotent exactly where Ad(h)² = 1, and a Hadamard, no Pauli
+/// string, is one too); and what a step of 150° leaves. The verifier holds the same, the turns with Ad(h)² = 1 solved for
+/// and the step error a symbol.</para>
 ///
 /// <para>Typed home <see cref="Core.Symmetry.Spin32QuadrupolarMirrorsClaim"/>.</para></summary>
 public sealed class SodiumExperimentInStringsWitness : IInspectable
@@ -225,13 +233,38 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     public IReadOnlyList<BigRational> TripleQuantumSquares { get; }
     public bool TripleQuantaHold => LongitudinalTripleQuantum && TransverseTripleQuantum && TripleQuantumRatio;
 
+    // ===== gate 14: two scans (One Sodium Pool or More's PC2) =====
+    /// <summary>The mean of the conjugations by the turns about z at +135° and −135° is, on all sixteen strings, the
+    /// conjugation by the turn at −135° after the mean over {1, the turn at 270°}: one turn common to both scans times
+    /// the mean over two elements. The control: with the turn at 90° in place of 270° it is not.</summary>
+    public bool TwoScanFactorization { get; }
+    /// <summary>With the 90° pulse itself turned in each scan (the receiver fixed), the two scans on II, ZI, IZ and ZZ (the
+    /// quiet edge, what the first 90° pulse starts from) equal that mean applied after the unturned pulse; on IX, XI and
+    /// XX they do not, so the mean is a map on what the pulse makes of the quiet edge and not on any start.</summary>
+    public bool TwoScanOnTheQuietEdge { get; }
+    /// <summary>On the strings: the quiet edge at 1, v = (0, ±1) at −1/√2, v = (±1, 0) at 0; on the far edge XX + YY and
+    /// XY − YX at −1/√2, XX − YY and XY + YX at +1/√2, while XX alone is no eigenstring.</summary>
+    public bool TwoScanStringWeights { get; }
+    /// <summary>Among the 24 turns about z at k·15° the mean over {1, the turn} is idempotent exactly where the turn's
+    /// conjugation squares to the identity, and both happen exactly at k = 0 and 12; the turn at 180° is IZ and the turn
+    /// at 270° is Z ⊗ diag(1, −i), each up to the phase the conjugation drops. The control on the reason: the mean over
+    /// {1, a Hadamard on bit 2}, an involution proportional to no Pauli string, is idempotent too.</summary>
+    public bool TwoScanInvolutionCriterion { get; }
+    /// <summary>The k at which the mean over {1, the turn at k·15°} is idempotent, read over k = 0 … 23.</summary>
+    public IReadOnlyList<int> TwoScanProjectorTurns { get; }
+    /// <summary>A step of 150° in place of 135° leaves 1/2 = sin 30° on the cell |3/2⟩⟨−1/2| (v = (1, 0)), which 135°
+    /// sends to 0.</summary>
+    public bool TwoScanStepResidual { get; }
+    public bool TwoScansHold => TwoScanFactorization && TwoScanOnTheQuietEdge && TwoScanStringWeights
+        && TwoScanInvolutionCriterion && TwoScanProjectorTurns.SequenceEqual(new[] { 0, 12 }) && TwoScanStepResidual;
+
     /// <summary>The field's own control: [[1, √2], [√2, 2]] and [[√3, 3], [1, √3]] have rank 1 over ℚ(ζ₂₄), [[1, √2],
     /// [√2, 3]] rank 2.</summary>
     public bool FieldRankControl { get; }
 
     public bool AllHold => LabellingHolds && CoherenceOrderHolds && UnitalityHolds && InversionRecoveryHolds && TurnHolds
         && PhaseCycleHolds && Pulse180Holds && EchoHolds && Pulse180PageBitsHolds && Pulse90Holds && ReceiverHolds && PoolsHold
-        && TripleQuantaHold && FieldRankControl;
+        && TripleQuantaHold && TwoScansHold && FieldRankControl;
 
     private readonly Dictionary<string, Mat> _s = new();
     private readonly Mat _iz, _ip, _im, _ix, _iy, _pab, _pwrong;
@@ -273,6 +306,69 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
         (ReceiverCells, ReceiverReadsRankOne, RelaxationCarriesRankThree, SplittingAndShiftInView, ReceiverRanks) = ReadReceiver();
         (PoolTransferMatrix, PoolSteadyState) = ReadPools();
         (LongitudinalTripleQuantum, TransverseTripleQuantum, TripleQuantumRatio, TripleQuantumSquares) = ReadTripleQuanta();
+        (TwoScanFactorization, TwoScanOnTheQuietEdge, TwoScanStringWeights, TwoScanInvolutionCriterion, TwoScanProjectorTurns,
+            TwoScanStepResidual) = ReadTwoScans();
+    }
+
+    // ===== gate 14 =====
+
+    private (bool, bool, bool, bool, IReadOnlyList<int>, bool) ReadTwoScans()
+    {
+        Func<Mat, Mat> AdTurn(int kPhi) => m => Conj(TurnUpToPhase(kPhi), m, unitary: true);
+        Func<Mat, Mat> Mean(Func<Mat, Mat> f, Func<Mat, Mat> g) => m => KM.Scale(KM.Add(f(m), g(m)), new BigRational(1, 2));
+        Func<Mat, Mat> Id = m => m;
+        bool Same(Func<Mat, Mat> f, Func<Mat, Mat> g) => Labels.All(l => KM.AreEqual(f(_s[l]), g(_s[l])));
+
+        var pc2 = Mean(AdTurn(9), AdTurn(-9));                                          // ±135°
+        Func<Mat, Mat> Factored(int kH) => m => AdTurn(-9)(Mean(Id, AdTurn(kH))(m));
+        bool factor = Same(pc2, Factored(18)) && !Same(pc2, Factored(6));
+
+        var r = R90;
+        Func<Mat, Mat> scans = Mean(m => Conj(Phased(r, 9), m, unitary: true), m => Conj(Phased(r, -9), m, unitary: true));
+        Mat AfterPulse(Mat m) => pc2(Conj(r, m, unitary: true));
+        bool quiet = new[] { "II", "ZI", "IZ", "ZZ" }.All(l => KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])))
+                     && new[] { "IX", "XI", "XX" }.All(l => !KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])));
+
+        var half = K.Sqrt2 * new BigRational(1, 2);
+        var eigen = new Dictionary<string, K>
+        {
+            ["II"] = K.One, ["ZI"] = K.One, ["IZ"] = K.One, ["ZZ"] = K.One,
+            ["IX"] = -half, ["IY"] = -half, ["ZX"] = -half, ["ZY"] = -half,
+            ["XI"] = K.Zero, ["YI"] = K.Zero, ["XZ"] = K.Zero, ["YZ"] = K.Zero,
+        };
+        Mat Comb(string a, int sa, string b, int sb) => KM.Add(KM.Scale(_s[a], new BigRational(sa)), KM.Scale(_s[b], new BigRational(sb)));
+        var far = new (Mat Op, K Weight)[]
+        {
+            (Comb("XX", 1, "YY", 1), -half), (Comb("XY", -1, "YX", 1), -half),
+            (Comb("XX", 1, "YY", -1), half), (Comb("XY", 1, "YX", 1), half),
+        };
+        bool weights = eigen.All(kv => KM.AreEqual(pc2(_s[kv.Key]), KM.Scale(_s[kv.Key], kv.Value)))
+                       && far.All(f => KM.AreEqual(pc2(f.Op), KM.Scale(f.Op, f.Weight)))
+                       && !KM.AreEqual(pc2(_s["XX"]), KM.Scale(_s["XX"], half))
+                       && !KM.AreEqual(pc2(_s["XX"]), KM.Scale(_s["XX"], -half));
+
+        var projectorTurns = new List<int>();
+        bool criterion = true;
+        for (int k = 0; k < Phases; k++)
+        {
+            var mean = Mean(Id, AdTurn(k));
+            bool idempotent = Same(m => mean(mean(m)), mean);
+            bool involution = Same(m => AdTurn(k)(AdTurn(k)(m)), Id);
+            criterion &= idempotent == involution;
+            if (idempotent) projectorTurns.Add(k);
+        }
+        criterion &= KM.AreEqual(TurnUpToPhase(12), _s["IZ"])
+                     && KM.AreEqual(TurnUpToPhase(18), KM.Kron(Diag(K.One, -K.One), Diag(K.One, -K.I)));
+        var hadamard = KM.Kron(KM.Identity(2), KM.Scale(Mat2(K.One, K.One, K.One, -K.One), half));
+        var hadMean = Mean(Id, m => Conj(hadamard, m, unitary: true));
+        bool hadamardStringFree = StringsOf(hadamard).Count > 1;                         // proportional to no string
+        criterion &= Same(m => hadMean(hadMean(m)), hadMean) && hadamardStringFree;
+
+        var cell = KM.Zero(Levels);
+        cell[0, 2] = K.One;                                                             // |3/2⟩⟨−1/2|, v = (1, 0)
+        var stepped = Mean(AdTurn(10), AdTurn(-10))(cell);                              // ±150°
+        bool step = stepped[0, 2] == K.FromRational(new BigRational(1, 2)) && pc2(cell)[0, 2].IsZero;
+        return (factor, quiet, weights, criterion, projectorTurns, step);
     }
 
     // ===== gate 1 =====
@@ -1011,14 +1107,14 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     private static string Verdict(bool ok, string yes, string no) => ok ? yes : no;
 
     public string Summary =>
-        $"thirteen gates on preparation, pulses, phase cycle, receiver and pools in strings, one pool's two triple quanta and the field's own control, {(AllHold ? "all holding" : "NOT all holding")}: " +
+        $"fourteen gates on preparation, pulses, phase cycle, receiver and pools in strings, one pool's two triple quanta, two scans and the field's own control, {(AllHold ? "all holding" : "NOT all holding")}: " +
         $"the labelling {Verdict(LabellingHolds, "holds", "FAILS")}, the coherence order {Verdict(CoherenceOrderHolds, "holds", "FAILS")}, " +
         $"unitality and the thermal source {Verdict(UnitalityHolds, "hold", "FAIL")}, the inversion recovery {Verdict(InversionRecoveryHolds, "holds", "FAILS")}, " +
         $"the turn about z {Verdict(TurnHolds, "holds", "FAILS")}, the phase cycle {Verdict(PhaseCycleHolds, "holds", "FAILS")}, " +
         $"the 180° pulse {Verdict(Pulse180Holds, "holds", "FAILS")}, the echo {Verdict(EchoHolds, "holds", "FAILS")}, " +
         $"the 180° pulse in the page's bits {Verdict(Pulse180PageBitsHolds, "holds", "FAILS")}, the 90° pulse {Verdict(Pulse90Holds, "holds", "FAILS")}, " +
         $"the receiver {Verdict(ReceiverHolds, "holds", "FAILS")}, the pools {Verdict(PoolsHold, "hold", "FAIL")}, " +
-        $"the two triple quanta {Verdict(TripleQuantaHold, "hold", "FAIL")}; " +
+        $"the two triple quanta {Verdict(TripleQuantaHold, "hold", "FAIL")}, two scans {Verdict(TwoScansHold, "hold", "FAIL")}; " +
         $"every φ of a pulse read at the 24 phases k·15° (the turn about z at k·30°, its half-angle at k·15°), every point at the five unit points (the triple quanta at three of them, zero splitting and offset).";
 
     public IEnumerable<IInspectable> Children
@@ -1085,6 +1181,14 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
                 $"the transverse one 3√6/16·|d| (squared 27/128), another at 60°{Verdict(TransverseTripleQuantum, "", $" (FAILS, squared read {SquareRead(1)})")}; the ratio of the two " +
                 $"ratios 4/3 whatever d is, both triple quanta leaving as T₃,₋₁ and both single quanta as T₁,₋₁, and at each angle read, 30°, 60°, " +
                 $"90°, 120° and 150°, the two pulses sharing it in both sequences{Verdict(TripleQuantumRatio, "", " (FAILS)")}.");
+            yield return Node("two scans",
+                $"the first 90° pulse at ±135° about its phase step, the receiver fixed (One Sodium Pool or More's PC2): one common turn " +
+                $"times the mean over {{1, the turn at 270°}} {Verdict(TwoScanFactorization, "on all sixteen strings, not with the turn at 90° in its place", "FAILS")}; " +
+                $"a map on what the pulse makes of the quiet edge {Verdict(TwoScanOnTheQuietEdge, "(II, ZI, IZ, ZZ; not on IX, XI, XX)", "(FAILS)")}; " +
+                $"the quiet edge at 1, v = (0, ±1) at −1/√2, v = (±1, 0) at 0, XX + YY and XY − YX at −1/√2, XX − YY and XY + YX at +1/√2 " +
+                $"{Verdict(TwoScanStringWeights, "(XX alone no eigenstring)", "(FAIL)")}; the mean over {{1, a turn at k·15°}} idempotent at k = " +
+                $"{string.Join(", ", TwoScanProjectorTurns)}, exactly where the conjugation squares to 1{Verdict(TwoScanInvolutionCriterion, ", the turn at 180° IZ, and over a Hadamard on bit 2, no Pauli string, idempotent too", " (FAILS)")}; " +
+                $"a step of 150° leaves {Verdict(TwoScanStepResidual, "1/2 = sin 30° at v = (1, 0)", "NOT sin 30° (FAILS)")}.");
             yield return Node("the field",
                 $"ranks over ℚ(ζ₂₄) through the regular representation: the controls {Verdict(FieldRankControl, "read 1, 1, 2", "FAIL")}.");
         }

@@ -89,8 +89,9 @@ Checks:
     p = 2v1 + v2 in the bits' own orders, the unital generator and the thermal source in F120's form, the inversion
     recovery's rank-3 population toward the thermal state (against a saturation recovery), the ideal 180-degree pulse
     at a symbolic phase, the 90-degree pulse, the factoring turn about z and its Weyl clock matrix at 90 degrees, a pulse's phase
-    on a pathway and a uniform cycle's selection, the echo read by the Theodolite's letter layer, the receiver's
-    cells and the pool label's exchange as the letter cube's heights and arrow.
+    on a pathway and a uniform cycle's selection, two scans (PC2) and why they do not project, the echo read by the
+    Theodolite's letter layer, the receiver's cells and the pool label's exchange as the letter cube's heights and
+    arrow.
 
 Run `python simulations/sodium_two_mirrors.py experiment` for the experiment in strings alone (under a minute).
 
@@ -719,6 +720,57 @@ def experiment_in_strings(L, syms):
           "phase steps 2·pi·k/n, the scans weighted by e^(i·p0·phi_k), keep the pathways with p' - p ≡ p0 (mod n) and remove "
           "the others, n = 1 .. 8; run on the spin, eight steps of the 90-degree pulse on T30 keep exactly the part at the "
           "order p0 = 3, 1 or 2 (none at 2, some at 3 and 1)", path and indep and keep and physical)
+
+    # two scans: the first 90-degree pulse at +-135 degrees about its phase step, the receiver fixed
+    Rz = lambda f_: turn.subs(ph, f_)
+    Ad = lambda U: (lambda M: U * M * U.H)
+    exact = lambda M: M.applyfunc(lambda e_: sp.simplify(sp.expand_complex(e_)))
+    mean2 = lambda f1, f2: (lambda M: exact((Ad(Rz(f1))(M) + Ad(Rz(f2))(M)) / 2))
+    eq_on_strings = lambda F, G: all(zero(F(S_) - G(S_)) for S_ in St.values())
+    a135, a270 = 3 * sp.pi / 4, 3 * sp.pi / 2
+    pc2 = mean2(a135, -a135)
+    factor = eq_on_strings(pc2, lambda M: exact(Ad(Rz(-a135))(mean2(0, a270)(M))))
+    quiet = ["II", "ZI", "IZ", "ZZ"]
+    scans = lambda M: exact((Ad(Rph.subs(ph, a135))(M) + Ad(Rph.subs(ph, -a135))(M)) / 2)
+    on_quiet = all(zero(scans(St[s]) - pc2(Ad(R90x)(St[s]))) for s in quiet)
+    off_quiet = all(not zero(scans(St[s]) - pc2(Ad(R90x)(St[s]))) for s in ("IX", "XI", "XX"))
+    h2 = sp.sqrt(2) / 2
+    eigen = {"II": 1, "ZI": 1, "IZ": 1, "ZZ": 1, "IX": -h2, "IY": -h2, "ZX": -h2, "ZY": -h2,
+             "XI": 0, "YI": 0, "XZ": 0, "YZ": 0}
+    far = {(("XX", 1), ("YY", 1)): -h2, (("XY", -1), ("YX", 1)): -h2,
+           (("XX", 1), ("YY", -1)): h2, (("XY", 1), ("YX", 1)): h2}
+    weights = (all(zero(pc2(St[s]) - c * St[s]) for s, c in eigen.items())
+               and all(zero(pc2(sum((c_ * St[s] for s, c_ in comb), sp.zeros(d)))
+                            - lam * sum((c_ * St[s] for s, c_ in comb), sp.zeros(d))) for comb, lam in far.items())
+               and not zero(pc2(St["XX"]) - h2 * St["XX"]) and not zero(pc2(St["XX"]) + h2 * St["XX"]))
+    th = sp.symbols("theta", real=True)
+    ad_sq_minus_1 = [sp.simplify(sp.exp(-2 * sp.I * th * pp) - 1) for pp in (1, 2, 3)]   # Ad(R_z(theta))^2 - 1 on the orders
+    proj = {f_: eq_on_strings(lambda M: mean2(0, f_)(mean2(0, f_)(M)), mean2(0, f_))
+            for f_ in (sp.pi / 2, sp.pi, 3 * sp.pi / 2, sp.pi / 4)}
+    # Ad(R_z(theta))^2 = 1 on every order exactly at theta = 0 and pi in [0, 2 pi): solved, not sampled, through the
+    # real part (a number of modulus 1 is 1 exactly when its real part is; solveset on the exponential itself, sympy
+    # 1.14, returns {0} and misses pi)
+    involutive = sp.Intersection(*[sp.solveset(sp.re(sp.expand_complex(e_ + 1)) - 1, th, sp.Interval.Ropen(0, 2 * sp.pi))
+                                   for e_ in ad_sq_minus_1])
+    criterion = (proj == {sp.pi / 2: False, sp.pi: True, 3 * sp.pi / 2: False, sp.pi / 4: False}
+                 and involutive == sp.FiniteSet(0, sp.pi)
+                 and zero(Rz(sp.pi) - sp.I * St["IZ"]) and zero(Rz(a270) - sp.exp(-sp.I * sp.pi / 4)
+                                                                * sp.kronecker_product(P1["Z"], sp.diag(1, -sp.I))))
+    hd = sp.kronecker_product(sp.eye(2), (P1["X"] + P1["Z"]) / sp.sqrt(2))   # an involution that is no Pauli string
+    had = lambda M: (M + hd * M * hd.H) / 2
+    hadamard = eq_on_strings(lambda M: had(had(M)), had) and len(strings_of(hd)) > 1     # proportional to no string
+    eps = sp.symbols("epsilon", real=True)
+    cell_dq = sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (0, 2) else 0)            # |3/2><-1/2|, v = (1, 0)
+    step = sp.simplify(sp.expand_complex(mean2(a135 + eps, -a135 - eps)(cell_dq)[0, 2]))
+    residual = sp.simplify(step - sp.sin(2 * eps)) == 0 and step.subs(eps, sp.pi / 12) == R(1, 2)
+    claim("two scans, the first 90-degree pulse at +-135 degrees about its phase step and the receiver fixed (One Sodium Pool "
+          "or More's PC2): one common turn times the mean over {1, R_z(270 deg)}, R_z(270 deg) = e^(-i·pi/4)·Z ⊗ diag(1, -i); on "
+          "what the pulse makes of the quiet edge the two scans are that mean after the pulse (and not on IX, XI, XX); on the "
+          "strings the quiet edge at 1, v = (0, +-1) at -1/sqrt 2, v = (+-1, 0) at 0, and on the far edge XX + YY, XY - YX at "
+          "-1/sqrt 2 and XX - YY, XY + YX at +1/sqrt 2, XX itself cut; the mean over {1, R_z(theta)} a projector at 180 degrees "
+          "(R_z(180 deg) = i·IZ) and not at 45, 90, 270, Ad(R_z(theta))^2 = 1 exactly at 0 and 180 degrees; the mean over a "
+          "one-bit Hadamard, an involution proportional to no Pauli string, also a projector; a step 135 + eps leaves sin 2·eps at v = (+-1, 0), 1/2 at 15 degrees",
+          factor and on_quiet and off_quiet and weights and criterion and hadamard and residual)
 
     R180 = sp.simplify(turn * (-sp.I * sp.pi * Ix).exp() * turn.H)
     prod = sp.I * sp.kronecker_product(P1["X"] * (2 * sp.I * ph * P1["Z"]).exp(), P1["X"] * (sp.I * ph * P1["Z"]).exp())

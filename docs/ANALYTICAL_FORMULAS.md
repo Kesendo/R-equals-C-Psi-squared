@@ -11496,7 +11496,13 @@ string at its k_Z; the turn about z factors into one-bit turns by 2φ and φ, at
 d = 4 up to a phase ([F172](#f172)), and a pulse's phase multiplies a pathway from order p to p′ by
 e^{−i(p′−p)φ}; I₊ reads order −1 at v = (0, −1) and (−1, 1), there only its rank-1 combination; exchange
 between two pools of fractions f₀ and 1 − f₀ at the total rate k is two one-site jumps on a label bit, read
-by the letter cube as heights and the arrow k·(2f₀ − 1), with ⟨Z⟩ = 2f₀ − 1 at its steady state. The thermal
+by the letter cube as heights and the arrow k·(2f₀ − 1), with ⟨Z⟩ = 2f₀ − 1 at its steady state. Two scans with
+the first 90° pulse at ±135° (the agarose data set's PC2) are, on what that pulse makes of the populations, one
+common turn times the mean over the identity and the turn at 270°, an odd power of the Weyl clock matrix; a mean
+over the identity and a turn h projects exactly when Ad(h)² = 1, which among the turns about z whose conjugation is not the identity
+holds only at 180°, and PC2, the common turn after that mean, is no projector either, its weights on the odd orders
+of modulus 1/√2: it keeps the satellites and the central transition at −1/√2 and the triple quantum
+at +1/√2 and removes the double quanta, on which a step 135° + ε leaves sin 2ε. The thermal
 state, the relaxation toward it and the pools are outside the model of the mirrors: written in strings, not
 part of its results. Gated in the page's verifier (`python simulations/sodium_two_mirrors.py experiment`) and
 live in its witness as the child `SodiumExperimentInStringsWitness` (`inspect --root sodium`), exactly, over
@@ -11655,7 +11661,7 @@ the rotations' Casimir and its eigenspaces the ranks, read at these spins and pr
 the rule at 3/2), and as its child `SodiumExperimentInStringsWitness` the experiment in strings
 (twelve exact gates over ℚ(ζ₂₄), the field of i, √2, √3 and every 15° phase, and for a cycle's selection rule
 over ℤ[ζ_n]; a thirteenth gate reads One Sodium Pool or More's coefficient count of one pool's two triple quanta,
-their ratio 4/3 for ideal pulses, one pathway each). The
+their ratio 4/3 for ideal pulses, one pathway each, and a fourteenth its cycle PC2 as two scans). The
 chain is typed as `SodiumChainMirrorLadderClaim` (parents the single-nucleus claim
 and F158), live as `SodiumChainWitness` at `inspect --root sodiumchain`, two
 nuclei exactly over ℚ(i): the dictionary, the lemma for the Ising coupling and
@@ -11669,7 +11675,7 @@ K₂ = U₂ everywhere and that at J₁ = J₂ = 0 the dissipator is the rung on
 gradient (the price identity with an operator price, the conserved sign pattern
 and the Hamiltonian terms that break it). Gated by
 [`sodium_two_mirrors.py`](../simulations/sodium_two_mirrors.py) (exact sympy,
-185 checks; the planes at I = 2 to 6 read plane by plane in
+186 checks; the planes at I = 2 to 6 read plane by plane in
 `NumericalRangePlanesTests` of Core's tests) and [`sodium_chain_mirrors.py`](../simulations/sodium_chain_mirrors.py)
 (99 checks, 103 with `--n3`; integer and Gaussian-integer arithmetic where a
 statement is exact, two primes where it is read modulo p).
