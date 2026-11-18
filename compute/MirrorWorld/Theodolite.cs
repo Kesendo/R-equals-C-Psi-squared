@@ -79,8 +79,8 @@ using static MirrorWorld.LetterCube;
 // not Pauli strings, the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
 // twin's cube search and machine), bits a sandwich depends on other than a conserved unwatched letter's and kinds that
 // change with a control's bit (ReadSectors),
-// frames other than one Clifford axis per site carried onto Z (ReadRotated, ReadSectors), weights
-// along X or Y, relabellings and turned frames in EveryN, a relabelling and a turned frame together, and a silence's
+// frames other than one Clifford axis per site carried onto Z (ReadRotated, ReadSectors), relabellings and turned
+// frames in EveryN (and with them weights along X or Y there), a relabelling and a turned frame together, and a silence's
 // meaning: when the letters are silent, nothing of this form may exist or the element may not be such a sandwich, and
 // the theodolite does not decide which.
 //
@@ -760,7 +760,8 @@ public sealed class Theodolite : GameObject
     // A sandwich in a turned frame: per site one axis (X, Y or Z) is carried onto Z by a one-site Clifford U_l (the
     // cube's h_zx for X, the quarter turn about X for Y, nothing for Z), and the letters are read there, so the element
     // is E·Ad_U with Ad_U = ⊗U_l·(.)·U_l^dagger, a similarity. X dephasing read on its own axis becomes Z dephasing and
-    // a field in the YZ plane a field in the XY plane, the theodolite's own ground. Axes is the word of the axes, site
+    // a field in the YZ plane a field in the XY plane, the theodolite's own ground; a thermal weight along X or Y, a
+    // full 2x2 matrix in the plain frame, becomes a diagonal factor there. Axes is the word of the axes, site
     // 0 first; the all-Z word is Read itself and is not asked. A site's axis is asked only where that site's table can
     // be carried onto itself in that frame, and the first word that reads is returned; null when none does. A site
     // with no field and no jump fits every axis, so a silence costs 3^k readings for k such sites.

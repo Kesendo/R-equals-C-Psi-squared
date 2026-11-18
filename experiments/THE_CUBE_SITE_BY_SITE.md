@@ -126,12 +126,13 @@ and [`framework/diagnostics/cube_reflector.py`](../simulations/framework/diagnos
 `every_n`), with their tests. The instrument is the Theodolite, and its C# twin,
 [`compute/MirrorWorld/Theodolite.cs`](../compute/MirrorWorld/Theodolite.cs), reads the same letters as equations and
 never as numbers: the turns satisfy x² = 3 rather than equal a root, and solvability is decided by integer
-elimination alone (`Binomials`). The C# twin also takes jumps that are Pauli strings on several sites at once,
-a set of equations more per support of such a jump, with the left and the right turns in them together (read on the sodium
+elimination alone (`Binomials`). The C# twin also takes jumps that are Pauli strings on several sites at once, a set
+of equations more per support of such a jump, with the left and the right turns in them together (read on the sodium
 nucleus in [One Nucleus, Two Bases](ONE_NUCLEUS_TWO_BASES.md#the-ties-as-counts)), terms of H on any number of sites,
-and elements that are no product over the sites: after a relabelling of the sites, and conditioned on the bits of
-unwatched sites. Out of the Python twin's reach by design: a weight along X or Y, a relabelling, an element that is
-not a product over sites, a term on four sites.
+elements that are no product over the sites (after a relabelling of the sites, and conditioned on the bits of
+unwatched sites), and weights along X or Y, in a frame that carries one axis per site onto Z. Out of the Python
+twin's reach by design: a weight along X or Y, a relabelling, an element that is not a product over sites, a term on
+four sites.
 
 The findings below came from running it on settings taken from the dephasing documents (F1, MIRROR_SYMMETRY_PROOF,
 NON_HEISENBERG_PALINDROME, DEPOLARIZING_PALINDROME, F108 Part 2), the thermal ones (F137, THERMAL_BREAKING, KMS
@@ -340,7 +341,7 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 
 ## What stays open
 
-Weights along X or Y (the same search in the Hadamard and quarter-turn frames); site relabellings in the Python twin; across a
+Weights along X or Y (the same search in the Hadamard and quarter-turn frames) and site relabellings in the Python twin; across a
 temperature gradient, existence where the spectrum pairs with no reflection known and whether an entangled sandwich
 A·ρᵀ·B exists off the product line; at the two-site rate point of finding 1, the least Schmidt rank of an element that
 mixes the coherence orders, whether one that reverses them reaches 5 without ZZ, whether one that keeps them reaches 5

@@ -1482,6 +1482,40 @@ public class TheodoliteTests
         Assert.True(waysSeen.Count >= 2, string.Join(", ", waysSeen));
     }
 
+    // A thermal weight along X or Y. Along Z the steady state's weight is a diagonal factor diag(1, w) with |w| ≠ 1; along
+    // X the same weight is the full matrix [[a, b], [b, a]] in the Z basis, no monomial factor, so the plain reading
+    // cannot see it, and in the frame that carries X onto Z (or Y onto Z) it is diagonal again. The thermal triangle of
+    // The_Thermal_Weight_Is_The_Steady_State_On_Three_Unaligned_Axes carried onto the axes XXX and XZY is silent for
+    // the plain reading and read in the turned frame, its left and right turns apart in modulus by the steady state's
+    // ratio 4 (or 1/4 where the frame swaps the levels); one site cooled and heated along X or Y likewise. The check on
+    // the weight compares |x0| with |y0|, which a common gauge of the two does not change. Each reading checked densely.
+    [Fact]
+    public void A_Thermal_Weight_Along_X_Or_Y_Is_Read_In_The_Turned_Frame()
+    {
+        var h = Bond(3, 0, 1, 10, 0, 7).Concat(Bond(3, 1, 2, 20, 0, 7)).Concat(Bond(3, 2, 0, 0, 30, 7));
+        var jumps = new (int, Gauss[,], long)[]
+        {
+            (0, Lowering, 250), (0, Raising, 25), (0, Combo(3, 4), 2),
+            (1, Lowering, 16), (1, Raising, 1), (1, Xm, 4),
+            (2, Lowering, 507), (2, Combo(5, -12), 1),
+        };
+        var triangle = Theodolite.Setting.Of(3, h, jumps);
+        var one = Theodolite.Setting.Of(1, Array.Empty<(string, long)>(), new[] { (0, Lowering, 4L), (0, Raising, 1L) });
+        foreach (var (s, axes) in new[] { (triangle, "XXX"), (triangle, "XZY"), (one, "X"), (one, "Y") })
+        {
+            var carried = s.Rotated(axes);
+            Assert.Null(Theodolite.Read(carried, Theodolite.Relation.Pi));
+            var r = Theodolite.ReadRotated(carried, Theodolite.Relation.Pi);
+            Assert.NotNull(r);
+            Assert.Equal(axes, r!.Axes);
+            Assert.True(Certified(carried, Theodolite.Relation.Pi, r));
+            var sol = Binomials.RationalSolution(r.System)!;
+            var (xn, xd) = sol["x0"];
+            var (yn, yd) = sol["y0"];
+            Assert.NotEqual((xn * yd).Norm, (xd * yn).Norm);                               // |x0| ≠ |y0|: a weight, not a turn
+        }
+    }
+
     // A control beside a jump string: site 2 holds only Z in H and is watched by nothing, the jump string ZX acts on
     // sites 0 and 1. Neither a product (site-local, in a turned frame) nor a relabelled sandwich reads; conditioned on
     // site 2's bit it reads, the jump
