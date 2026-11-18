@@ -14,6 +14,8 @@ of the page's Conventions; compared entry by entry, exactly.
      control; the turn about the field on the Majoranas; the counted letter cube's points at two rates; with a
      splitting, each odd string and its complement a closed pair, all four centred at 2g(ZZ) plus the four
      Majoranas' rates (c2 at the sample's rates), as the sodium page's map S(X) = ZZ X^T gives for free rates;
+     F158's two-end count (framework/diagnostics/f158_end_count.py) over all 31 sets of the five jumps, four
+     Hamiltonians: which pair, and that a single string the count of Majoranas names carries every pairing;
   2. with a splitting: the populations, the central transition and the triple quantum keep their rates; a satellite
      cell and a double-quantum cell have the diagonal element -c2 = -3(J0 + J1 + J2), and past the bright pairs'
      exceptional point both eigenvalues of each pair have real part -c2 (exact), so satellites and double quanta
@@ -278,6 +280,28 @@ claim("with five free rates and a splitting, S(X) = ZZ X^T gives S L S^-1 = -L +
 # the pairs the splitting mixes sum to 6(J0 + J1 + J2) at the sample's rates (the Key page's pair sums)
 claim("at the sample's rates the four pairs the splitting mixes, {IX, ZY}, {IY, ZX}, {XI, YZ}, {YI, XZ}, each sum to "
       "6(J0 + J1 + J2)", all(sp.simplify(r[a_] + r[b_] - 2 * c2) == 0 for a_, b_ in (("IX", "ZY"), ("IY", "ZX"), ("XI", "YZ"), ("YI", "XZ"))))
+# F158's two-end count over every non-empty set of the five jumps (the framework's exact twin of EndCount)
+sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__)))
+from framework.diagnostics.f158_end_count import end_count
+# none, a splitting, an offset, both (at a generic point: four distinct levels)
+HSET = {"none": {}, "q": {"ZZ": 1}, "offset": {"ZI": 2, "IZ": 1}, "q and offset": {"ZZ": 2, "ZI": 6, "IZ": 3}}
+ec_ok, n_set = True, 0
+for k_ in range(1, 6):
+    for js in __import__("itertools").combinations(["ZZ"] + MAJ, k_):
+        for hname, hh in HSET.items():
+            n_set += 1
+            ec = end_count(2, hh, list(js))
+            rule = (len(js) < 5) if hname == "none" else ("ZZ" not in js)
+            par, Mset = "ZZ" in js, set(js) - {"ZZ"}
+            lit = [s for s in LABELS if s != "II" and all(anticommutes(s, j) for j in js)
+                   and all((S[s] * S[t] - S[t] * S[s]) == sp.zeros(4) for t in hh)]
+            by_count = [s for s in LABELS if s != "II" and all((S[s] * S[t] - S[t] * S[s]) == sp.zeros(4) for t in hh)
+                        and ((len(subsets[s]) % 2 == 1 and not (set(subsets[s]) & Mset))
+                             or (not par and len(subsets[s]) % 2 == 0 and Mset <= set(subsets[s])))]
+            ec_ok &= (ec.pairs == rule) and (ec.pairs == bool(lit)) and sorted(lit) == sorted(by_count)
+claim(f"F158's count over the {n_set} settings: with no Hamiltonian the spectrum pairs unless all five jumps act, "
+      "with a splitting, an offset or both exactly without ZZ; every pairing carried by a single lit string, the ones "
+      "the count of Majoranas names", ec_ok and n_set == 124)
 d_a = sp.simplify((rdiag["ZY"] - rdiag["IX"]) / 2)
 d_b = sp.simplify((rdiag["ZX"] - rdiag["IY"]) / 2)
 claim("the satellite pairs' half-differences: g(XI) + g(YI) + g(ZX) - g(ZY) for IX and ZY, the same with ZX and ZY "
