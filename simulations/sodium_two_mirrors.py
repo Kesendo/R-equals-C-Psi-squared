@@ -758,6 +758,13 @@ def experiment_in_strings(L, syms):
                                                                 * sp.kronecker_product(P1["Z"], sp.diag(1, -sp.I))))
     hd = sp.kronecker_product(sp.eye(2), (P1["X"] + P1["Z"]) / sp.sqrt(2))   # an involution that is no Pauli string
     had = lambda M: (M + hd * M * hd.H) / 2
+    half_turn = mean2(0, sp.pi)                                                    # (rho + IZ rho IZ)/2 up to the phase
+    criterion = criterion and all(zero(half_turn(S_) - (S_ if s[1] in "IZ" else sp.zeros(d))) for s, S_ in St.items())
+    cellm = lambda a, b: sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (a, b) else 0)
+    factor_only = mean2(0, a270)                                                   # the common turn left out
+    weights = weights and all(sp.simplify(factor_only(cellm(a, b))[a, b] - w_) == 0
+                              for (a, b), w_ in {(0, 1): (1 + sp.I) / 2, (0, 3): (1 - sp.I) / 2,
+                                                 (1, 0): (1 - sp.I) / 2, (3, 0): (1 + sp.I) / 2}.items())
     hadamard = eq_on_strings(lambda M: had(had(M)), had) and len(strings_of(hd)) > 1     # proportional to no string
     eps = sp.symbols("epsilon", real=True)
     cell_dq = sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (0, 2) else 0)            # |3/2><-1/2|, v = (1, 0)
@@ -767,8 +774,8 @@ def experiment_in_strings(L, syms):
           "or More's PC2): one common turn times the mean over {1, R_z(270 deg)}, R_z(270 deg) = e^(-i·pi/4)·Z ⊗ diag(1, -i); on "
           "what the pulse makes of the quiet edge the two scans are that mean after the pulse (and not on IX, XI, XX); on the "
           "strings the quiet edge at 1, v = (0, +-1) at -1/sqrt 2, v = (+-1, 0) at 0, and on the far edge XX + YY, XY - YX at "
-          "-1/sqrt 2 and XX - YY, XY + YX at +1/sqrt 2, XX itself cut; the mean over {1, R_z(theta)} a projector at 180 degrees "
-          "(R_z(180 deg) = i·IZ) and not at 45, 90, 270, Ad(R_z(theta))^2 = 1 exactly at 0 and 180 degrees; the mean over a "
+          "-1/sqrt 2 and XX - YY, XY + YX at +1/sqrt 2, XX itself cut, the factor alone (1 + i)/2 on the order 1 and (1 - i)/2 on the order 3; the mean over {1, R_z(theta)} a projector at 180 degrees "
+          "(R_z(180 deg) = i·IZ, the mean keeping the strings whose second letter is I or Z) and not at 45, 90, 270, Ad(R_z(theta))^2 = 1 exactly at 0 and 180 degrees; the mean over a "
           "one-bit Hadamard, an involution proportional to no Pauli string, also a projector; a step 135 + eps leaves sin 2·eps at v = (+-1, 0), 1/2 at 15 degrees",
           factor and on_quiet and off_quiet and weights and criterion and hadamard and residual)
 

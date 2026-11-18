@@ -243,10 +243,12 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     /// XX they do not, so the mean is a map on what the pulse makes of the quiet edge and not on any start.</summary>
     public bool TwoScanOnTheQuietEdge { get; }
     /// <summary>On the strings: the quiet edge at 1, v = (0, ±1) at −1/√2, v = (±1, 0) at 0; on the far edge XX + YY and
-    /// XY − YX at −1/√2, XX − YY and XY + YX at +1/√2, while XX alone is no eigenstring.</summary>
+    /// XY − YX at −1/√2, XX − YY and XY + YX at +1/√2, while XX alone is no eigenstring; the factor alone, the common turn
+    /// left out, weights the order 1 by (1 + i)/2 and the order 3 by (1 − i)/2.</summary>
     public bool TwoScanStringWeights { get; }
     /// <summary>Among the 24 turns about z at k·15° the mean over {1, the turn} is idempotent exactly where the turn's
-    /// conjugation squares to the identity, and both happen exactly at k = 0 and 12; the turn at 180° is IZ and the turn
+    /// conjugation squares to the identity, and both happen exactly at k = 0 and 12; at 180° the mean keeps exactly the strings
+    /// whose second letter is I or Z (Z dephasing of bit 2 run to its end); the turn at 180° is IZ and the turn
     /// at 270° is Z ⊗ diag(1, −i), each up to the phase the conjugation drops. The control on the reason: the mean over
     /// {1, a Hadamard on bit 2}, an involution proportional to no Pauli string, is idempotent too.</summary>
     public bool TwoScanInvolutionCriterion { get; }
@@ -342,7 +344,18 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
             (Comb("XX", 1, "YY", 1), -half), (Comb("XY", -1, "YX", 1), -half),
             (Comb("XX", 1, "YY", -1), half), (Comb("XY", 1, "YX", 1), half),
         };
-        bool weights = eigen.All(kv => KM.AreEqual(pc2(_s[kv.Key]), KM.Scale(_s[kv.Key], kv.Value)))
+        // the factor alone, measured from the scan at −135°: (1 + i)/2 on the order 1, (1 − i)/2 on the order 3
+        var factorOnly = Mean(Id, AdTurn(18));
+        bool OneCell(int a, int b, K w)
+        {
+            var c = KM.Zero(Levels);
+            c[a, b] = K.One;
+            return KM.AreEqual(factorOnly(c), KM.Scale(c, w));
+        }
+        var onePlusI = (K.One + K.I) * new BigRational(1, 2);
+        var oneMinusI = (K.One - K.I) * new BigRational(1, 2);
+        bool weights = OneCell(0, 1, onePlusI) && OneCell(0, 3, oneMinusI) && OneCell(1, 0, oneMinusI) && OneCell(3, 0, onePlusI)
+                       && eigen.All(kv => KM.AreEqual(pc2(_s[kv.Key]), KM.Scale(_s[kv.Key], kv.Value)))
                        && far.All(f => KM.AreEqual(pc2(f.Op), KM.Scale(f.Op, f.Weight)))
                        && !KM.AreEqual(pc2(_s["XX"]), KM.Scale(_s["XX"], half))
                        && !KM.AreEqual(pc2(_s["XX"]), KM.Scale(_s["XX"], -half));
@@ -357,6 +370,9 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
             criterion &= idempotent == involution;
             if (idempotent) projectorTurns.Add(k);
         }
+        // at 180° the factor is (ρ + IZ·ρ·IZ)/2: it keeps exactly the strings whose second letter is I or Z
+        var atHalf = Mean(Id, AdTurn(12));
+        criterion &= Labels.All(l => KM.AreEqual(atHalf(_s[l]), l[1] is 'I' or 'Z' ? _s[l] : KM.Zero(Levels)));
         criterion &= KM.AreEqual(TurnUpToPhase(12), _s["IZ"])
                      && KM.AreEqual(TurnUpToPhase(18), KM.Kron(Diag(K.One, -K.One), Diag(K.One, -K.I)));
         var hadamard = KM.Kron(KM.Identity(2), KM.Scale(Mat2(K.One, K.One, K.One, -K.One), half));
