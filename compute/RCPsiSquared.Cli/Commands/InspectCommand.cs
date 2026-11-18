@@ -1096,6 +1096,19 @@ public static class InspectCommand
                 c.Parser.OptionalString("fv"),
                 c.Parser.OptionalString("fd")),
             RequiresN: false),
+        new("flipblock", "THE BLOCK FROM ONE EXCITATION TO N - 1 (proof PROOF_ONE_DEPHASED_SEAT.md, bullet of that name; " +
+            "claim OneDephasedSeatClaim): Heisenberg bonds on a connected graph, jump Z on seat 0 alone, fields perpendicular " +
+            "to z elsewhere. The block of a far element homogeneous under Z^N from one excitation to N - 1 solves the bond and " +
+            "jump conditions; X^N carries the solutions onto the commutant of the signed Laplacian and P_0 (F157's Theorem A), " +
+            "one-dimensional exactly where seat 0 is not blind. Recomputes the block over Q from the bit action and the " +
+            "commutant separately, the far elements by height parity, and the N = 3 conclusions (none of even height, odd " +
+            "only with the fields on one line) at a seat that is not blind; fixed grids at N = 3, 4, 5. Args: --N 3..5, " +
+            "--bonds 0-1:1,0-2:2,1-2:3, --fields '1:3,4;2:5,0' (quoted for the semicolons; no field on 0)",
+            c => new DephasedSeatFlipBlockWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("bonds"),
+                c.Parser.OptionalString("fields")),
+            RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
             "S⁺ chain interiors at p+q̃ = N∓1, " +

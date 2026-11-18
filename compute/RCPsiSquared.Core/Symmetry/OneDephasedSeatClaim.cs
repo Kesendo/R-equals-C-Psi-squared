@@ -46,7 +46,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>TrianglePalindromeLocusWitness</c>, node "the sheet and blindness"); under Heisenberg bonds on any connected graph, with fields
 /// perpendicular to z and none on site 0, for far elements homogeneous under Z^⊗N at a seat that is not blind, the block from one excitation to N − 1 is a multiple of X^⊗N at every N (F157's
 /// commutant), and at N = 3 none of even height exists (from the bonds and the jump alone) and, of odd height, only with the
-/// fields on one line, through that block (by hand; <c>simulations/blind_seat_block_lemma_gate.py</c>). E pairs at a seat that
+/// fields on one line, through that block (by hand; <c>simulations/blind_seat_block_lemma_gate.py</c>; live in
+/// <c>DephasedSeatFlipBlockWitness</c>, inspect root <c>flipblock</c>). E pairs at a seat that
 /// is not blind through an element of no definite height, which this does not reach.</para></summary>
 public sealed class OneDephasedSeatClaim : Claim
 {
@@ -178,8 +179,9 @@ public sealed class OneDephasedSeatClaim : Claim
                          "at 0 and at 3, b3 = -b0. At every N, with fields perpendicular to z and none on site 0, the block of a far " +
                          "element homogeneous under Z^N from one excitation to N - 1 is a multiple of X^N where site 0 is not blind " +
                          "(F157's commutant), and at N = 3 a seat that is not blind leaves none of even height and, of odd height, " +
-                         "only the fields on one line (gate simulations/blind_seat_block_lemma_gate.py; that no such element exists " +
-                         "at N = 4 and 5 with the fields not on one line is measured there, not proven; E pairs at a seat that is not " +
+                         "only the fields on one line (gate simulations/blind_seat_block_lemma_gate.py, where that no such element exists " +
+                         "at N = 4 and 5 with the fields not on one line is measured, not proven; live: inspect --root flipblock " +
+                         "--N 4 --bonds 0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1 --fields '1:3,4;2:5,0'; E pairs at a seat that is not " +
                          "blind through an element of no definite height).");
 
             yield return new InspectableNode("the carriers' locality",
