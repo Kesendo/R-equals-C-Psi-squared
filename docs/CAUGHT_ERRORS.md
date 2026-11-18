@@ -6255,3 +6255,11 @@ The paragraph reading F158's two-end count over every set of the five sodium jum
 - **Labels.** "Colouring" in the colouring page's sense is one letter per site; ZZ against ZX anticommutes only as a whole string, so the sodium page's form, what EndCount calls a colouring, replaces it. "ZZ names the carrier" where ZZ is one among several. "The jumps being two-site" where XI and YI are one-site.
 - **Pattern.** A rule stated for "zero splitting" was read on the Hamiltonians the gate happened to hold; the case the cited theorem itself names (ω ≠ 0 at ω_Q = 0) was the one missing.
 - **Anchor:** experiments/ONE_NUCLEUS_TWO_BASES.md; simulations/sodium_one_nucleus_two_bases.py.
+
+## 2026-11-18, Colour Filters of Light: jump strings, and two checks that could not fail
+
+The published artifact (artifacts/colour-filters-of-light, version 9) gained jumps on several sites at once and the sodium nucleus as presets; three review rounds.
+- **Two checks that could never fail, found while extending them.** The letter fuzz compared the pattern's verdict against `/^A colouring/`, a title the page had stopped writing, so the invariant never saw a yes; and both fuzz scripts printed their broken invariants and exited 0, which the suite runner's pattern did not match. Now the verdict check reads the live title (1244 yes steps in 6000), a guard fails it below 50, and both scripts exit non-zero.
+- **Scope.** The page's letter-cube sentence (colourings on the far edge k_Z = N) held only under Z light on every site; the sodium preset's one colouring is ZZ at k_Z = 0. The pattern card's L(P) = −2γ·k·P assumed one rate for every jump; the sodium jumps carry three. "Colouring" was widened past the colouring page's one letter per site without saying so.
+- **Pattern.** A check written against the page's own text dies silently when the text changes; a runner that greps for words misses a script that reports in other words.
+- **Anchor:** artifacts/colour-filters-of-light (README, tests/jump_strings.js, tests/fuzz_letters.js, tests/fuzz_all.js); experiments/ONE_NUCLEUS_TWO_BASES.md.
