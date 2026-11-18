@@ -44,7 +44,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>A fourteenth gate reads the page's two scans: One Sodium Pool or More's cycle PC2, the first 90° pulse at ±135°
 /// about its phase step with the receiver fixed, as one common turn times the mean over {1, the turn at 270°}, a map on
-/// what the pulse makes of the quiet edge; its weights on the strings and the far edge's combinations; why it is no
+/// what the pulse makes of the quiet edge; its weights on the strings, the far edge's combinations and the factor's own
+/// weights (1 ± i)/2 on the orders 1 and 3; the 180° factor keeping the strings whose second letter is I or Z; why it is no
 /// projector (among the 24 turns the mean over {1, h} is idempotent exactly where Ad(h)² = 1, and a Hadamard, no Pauli
 /// string, is one too); and what a step of 150° leaves. The verifier holds the same, the turns with Ad(h)² = 1 solved for
 /// and the step error a symbol.</para>
@@ -239,8 +240,8 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
     /// the mean over two elements. The control: with the turn at 90° in place of 270° it is not.</summary>
     public bool TwoScanFactorization { get; }
     /// <summary>With the 90° pulse itself turned in each scan (the receiver fixed), the two scans on II, ZI, IZ and ZZ (the
-    /// quiet edge, what the first 90° pulse starts from) equal that mean applied after the unturned pulse; on IX, XI and
-    /// XX they do not, so the mean is a map on what the pulse makes of the quiet edge and not on any start.</summary>
+    /// quiet edge, what the first 90° pulse starts from) equal that mean applied after the unturned pulse; on none of the
+    /// twelve other strings do they, so the mean is a map on what the pulse makes of the quiet edge and not on any start.</summary>
     public bool TwoScanOnTheQuietEdge { get; }
     /// <summary>On the strings: the quiet edge at 1, v = (0, ±1) at −1/√2, v = (±1, 0) at 0; on the far edge XX + YY and
     /// XY − YX at −1/√2, XX − YY and XY + YX at +1/√2, while XX alone is no eigenstring; the factor alone, the common turn
@@ -314,6 +315,8 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
 
     // ===== gate 14 =====
 
+    private static readonly string[] Quiet = { "II", "ZI", "IZ", "ZZ" };
+
     private (bool, bool, bool, bool, IReadOnlyList<int>, bool) ReadTwoScans()
     {
         Func<Mat, Mat> AdTurn(int kPhi) => m => Conj(TurnUpToPhase(kPhi), m, unitary: true);
@@ -328,8 +331,8 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
         var r = R90;
         Func<Mat, Mat> scans = Mean(m => Conj(Phased(r, 9), m, unitary: true), m => Conj(Phased(r, -9), m, unitary: true));
         Mat AfterPulse(Mat m) => pc2(Conj(r, m, unitary: true));
-        bool quiet = new[] { "II", "ZI", "IZ", "ZZ" }.All(l => KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])))
-                     && new[] { "IX", "XI", "XX" }.All(l => !KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])));
+        bool quiet = Quiet.All(l => KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])))
+                     && Labels.Where(l => !Quiet.Contains(l)).All(l => !KM.AreEqual(scans(_s[l]), AfterPulse(_s[l])));
 
         var half = K.Sqrt2 * new BigRational(1, 2);
         var eigen = new Dictionary<string, K>
@@ -1200,10 +1203,10 @@ public sealed class SodiumExperimentInStringsWitness : IInspectable
             yield return Node("two scans",
                 $"the first 90° pulse at ±135° about its phase step, the receiver fixed (One Sodium Pool or More's PC2): one common turn " +
                 $"times the mean over {{1, the turn at 270°}} {Verdict(TwoScanFactorization, "on all sixteen strings, not with the turn at 90° in its place", "FAILS")}; " +
-                $"a map on what the pulse makes of the quiet edge {Verdict(TwoScanOnTheQuietEdge, "(II, ZI, IZ, ZZ; not on IX, XI, XX)", "(FAILS)")}; " +
+                $"a map on what the pulse makes of the quiet edge {Verdict(TwoScanOnTheQuietEdge, "(II, ZI, IZ, ZZ; on none of the twelve other strings)", "(FAILS)")}; " +
                 $"the quiet edge at 1, v = (0, ±1) at −1/√2, v = (±1, 0) at 0, XX + YY and XY − YX at −1/√2, XX − YY and XY + YX at +1/√2 " +
-                $"{Verdict(TwoScanStringWeights, "(XX alone no eigenstring)", "(FAIL)")}; the mean over {{1, a turn at k·15°}} idempotent at k = " +
-                $"{string.Join(", ", TwoScanProjectorTurns)}, exactly where the conjugation squares to 1{Verdict(TwoScanInvolutionCriterion, ", the turn at 180° IZ, and over a Hadamard on bit 2, no Pauli string, idempotent too", " (FAILS)")}; " +
+                $"{Verdict(TwoScanStringWeights, "(XX alone no eigenstring; the factor alone (1 + i)/2 on the order 1, (1 − i)/2 on the order 3)", "(FAIL)")}; the mean over {{1, a turn at k·15°}} idempotent at k = " +
+                $"{string.Join(", ", TwoScanProjectorTurns)}, exactly where the conjugation squares to 1{Verdict(TwoScanInvolutionCriterion, ", the turn at 180° IZ keeping the strings whose second letter is I or Z, and over a Hadamard on bit 2, no Pauli string, idempotent too", " (FAILS)")}; " +
                 $"a step of 150° leaves {Verdict(TwoScanStepResidual, "1/2 = sin 30° at v = (1, 0)", "NOT sin 30° (FAILS)")}.");
             yield return Node("the field",
                 $"ranks over ℚ(ζ₂₄) through the regular representation: the controls {Verdict(FieldRankControl, "read 1, 1, 2", "FAIL")}.");

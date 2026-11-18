@@ -733,7 +733,7 @@ def experiment_in_strings(L, syms):
     quiet = ["II", "ZI", "IZ", "ZZ"]
     scans = lambda M: exact((Ad(Rph.subs(ph, a135))(M) + Ad(Rph.subs(ph, -a135))(M)) / 2)
     on_quiet = all(zero(scans(St[s]) - pc2(Ad(R90x)(St[s]))) for s in quiet)
-    off_quiet = all(not zero(scans(St[s]) - pc2(Ad(R90x)(St[s]))) for s in ("IX", "XI", "XX"))
+    off_quiet = all(not zero(scans(St[s]) - pc2(Ad(R90x)(St[s]))) for s in St if s not in quiet)   # all twelve
     h2 = sp.sqrt(2) / 2
     eigen = {"II": 1, "ZI": 1, "IZ": 1, "ZZ": 1, "IX": -h2, "IY": -h2, "ZX": -h2, "ZY": -h2,
              "XI": 0, "YI": 0, "XZ": 0, "YZ": 0}
@@ -762,7 +762,7 @@ def experiment_in_strings(L, syms):
     criterion = criterion and all(zero(half_turn(S_) - (S_ if s[1] in "IZ" else sp.zeros(d))) for s, S_ in St.items())
     cellm = lambda a, b: sp.Matrix(4, 4, lambda r, c: 1 if (r, c) == (a, b) else 0)
     factor_only = mean2(0, a270)                                                   # the common turn left out
-    weights = weights and all(sp.simplify(factor_only(cellm(a, b))[a, b] - w_) == 0
+    weights = weights and all(zero(factor_only(cellm(a, b)) - w_ * cellm(a, b))
                               for (a, b), w_ in {(0, 1): (1 + sp.I) / 2, (0, 3): (1 - sp.I) / 2,
                                                  (1, 0): (1 - sp.I) / 2, (3, 0): (1 + sp.I) / 2}.items())
     hadamard = eq_on_strings(lambda M: had(had(M)), had) and len(strings_of(hd)) > 1     # proportional to no string
@@ -772,7 +772,7 @@ def experiment_in_strings(L, syms):
     residual = sp.simplify(step - sp.sin(2 * eps)) == 0 and step.subs(eps, sp.pi / 12) == R(1, 2)
     claim("two scans, the first 90-degree pulse at +-135 degrees about its phase step and the receiver fixed (One Sodium Pool "
           "or More's PC2): one common turn times the mean over {1, R_z(270 deg)}, R_z(270 deg) = e^(-i·pi/4)·Z ⊗ diag(1, -i); on "
-          "what the pulse makes of the quiet edge the two scans are that mean after the pulse (and not on IX, XI, XX); on the "
+          "what the pulse makes of the quiet edge the two scans are that mean after the pulse (and on none of the twelve other strings); on the "
           "strings the quiet edge at 1, v = (0, +-1) at -1/sqrt 2, v = (+-1, 0) at 0, and on the far edge XX + YY, XY - YX at "
           "-1/sqrt 2 and XX - YY, XY + YX at +1/sqrt 2, XX itself cut, the factor alone (1 + i)/2 on the order 1 and (1 - i)/2 on the order 3; the mean over {1, R_z(theta)} a projector at 180 degrees "
           "(R_z(180 deg) = i·IZ, the mean keeping the strings whose second letter is I or Z) and not at 45, 90, 270, Ad(R_z(theta))^2 = 1 exactly at 0 and 180 degrees; the mean over a "
