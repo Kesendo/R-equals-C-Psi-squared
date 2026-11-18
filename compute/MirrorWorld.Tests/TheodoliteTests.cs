@@ -150,6 +150,20 @@ public class TheodoliteTests
                     if (!v.IsZero) L[i * d + j, k * d + l] = L[i * d + j, k * d + l] + rate * v;
                 }
         }
+        foreach (var (js, rate) in s.StringJumps)
+        {
+            // rate (J ⊗ conj J - 1), times four: a Pauli string squares to one
+            var J = new Gauss[1, 1] { { Gauss.One } };
+            for (int l = 0; l < n; l++) J = Kron(J, LetterMatrix(js.Letter(l)));
+            var jbar = Conjugate(J);
+            for (int i = 0; i < d; i++) for (int j = 0; j < d; j++)
+                for (int k = 0; k < d; k++) for (int l = 0; l < d; l++)
+                {
+                    var v = 4 * (J[i, k] * jbar[j, l]);
+                    if (i == k && j == l) v = v - new Gauss(4, 0);
+                    if (!v.IsZero) L[i * d + j, k * d + l] = L[i * d + j, k * d + l] + rate * v;
+                }
+        }
         var perm = new int[dd];
         for (int i = 0; i < d; i++) for (int j = 0; j < d; j++)
         {
@@ -1135,7 +1149,9 @@ public class TheodoliteTests
         // term and jumps of four kinds (the X rows of the letter map and the signs across a support)
         var rich = Theodolite.Setting.Of(3, new[] { ("XXI", 2L), ("IYX", -1L), ("ZIX", 3L), ("XYZ", 1L), ("YYY", -2L), ("XII", 1L) },
             new[] { (0, Lowering, 2L), (1, Raising, 1L), (2, LetterMatrix('Y'), 3L), (1, LetterMatrix('X'), 1L) });
-        foreach (var (setting, axes) in new[] { (s, r.Axes), (s, "YXZ"), (rich, "XYZ"), (rich, "YXX"), (rich, "XYY") })
+        var strung = Theodolite.Setting.Of(3, new[] { ("XXI", 2L), ("IYX", -1L), ("XII", 1L) },
+            new[] { (0, Lowering, 2L), (2, LetterMatrix('Y'), 3L) }, new[] { ("XYZ", 2L), ("ZZI", 1L), ("IYX", 3L) });
+        foreach (var (setting, axes) in new[] { (s, r.Axes), (s, "YXZ"), (rich, "XYZ"), (rich, "YXX"), (rich, "XYY"), (strung, "XYZ"), (strung, "YXY") })
         {
             var L = GeneratorTimesFour(setting);
             var Lt = GeneratorTimesFour(setting.Rotated(axes));
@@ -1209,5 +1225,298 @@ public class TheodoliteTests
         }
         Assert.True(Conjugates(pi));
         Assert.False(Conjugates(inverse));
+    }
+
+    // ---- jump strings: jumps on several sites at once ----
+
+    // The sodium nucleus as two bits (experiments/ONE_NUCLEUS_TWO_BASES.md): the jumps ZZ, ZX, ZY, XI, YI, written as
+    // strings (XI and YI have one letter and land among the one-site jumps), and four Hamiltonians: none, the splitting
+    // ZZ, the offset ZI + IZ/2 (times two) and both. Unequal rates unless asked, so that no free turn hides anything.
+    static readonly Gauss[,] Ym = LetterMatrix('Y');
+
+    static bool SameMatrix(Gauss[,] a, Gauss[,] b)
+    {
+        for (int i = 0; i < 2; i++) for (int k = 0; k < 2; k++) if (a[i, k] != b[i, k]) return false;
+        return true;
+    }
+
+    // the reading's equations with the turns pinned: still solvable, or not
+    static bool Admits(Theodolite.Reading r, params (string Turn, long Value)[] pins)
+        => Binomials.Solve(r.Equations.Concat(pins.Select(p => B(p.Turn, p.Value))), r.System.Unknowns) is not null;
+
+    static readonly string[] SodiumJumps = { "ZZ", "ZX", "ZY", "XI", "YI" };
+    static readonly Dictionary<string, (string, long)[]> SodiumH = new()
+    {
+        ["none"] = Array.Empty<(string, long)>(),
+        ["splitting"] = new[] { ("ZZ", 1L) },
+        ["offset"] = new[] { ("ZI", 2L), ("IZ", 1L) },
+        ["both"] = new[] { ("ZZ", 2L), ("ZI", 6L), ("IZ", 3L) },
+    };
+
+    static Theodolite.Setting Sodium(string h, IEnumerable<string> jumps, IReadOnlyDictionary<string, long>? rates = null)
+    {
+        var r = rates ?? new Dictionary<string, long> { ["ZZ"] = 2, ["ZX"] = 3, ["ZY"] = 5, ["XI"] = 7, ["YI"] = 11 };
+        return Theodolite.Setting.Of(2, SodiumH[h], Array.Empty<(int, Gauss[,], long)>(), jumps.Select(j => (j, r[j])));
+    }
+
+    static readonly (string Name, Func<Theodolite.Setting, Theodolite.Relation, Theodolite.Reading?> Read)[] Ways =
+    {
+        ("site-local", (st, r) => Theodolite.Read(st, r)),
+        ("relabelled", (st, r) => Theodolite.ReadRelabelled(st, r)),
+        ("turned frame", (st, r) => Theodolite.ReadRotated(st, r)),
+        ("sectors", (st, r) => Theodolite.ReadSectors(st, r)),
+    };
+
+    // a reading checked densely at a rational point, each way on the setting it read
+    static bool Certified(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r)
+    {
+        var t = r.Axes is { } ax ? s.Rotated(ax) : s;
+        return r.Controls is not null ? ReflectsBySectors(t, rel, r) : ReflectsAtRationalPoint(t, rel, r);
+    }
+
+    [Fact]
+    public void A_Jump_String_With_One_Letter_Is_A_One_Site_Jump()
+    {
+        var s = Sodium("none", SodiumJumps);
+        Assert.Equal(new[] { "ZZ", "ZX", "ZY" }, s.StringJumps.Select(j => j.Jump.ToString(2)).ToArray());
+        Assert.Equal(new[] { 0, 0 }, s.Jumps.Select(j => j.Site).ToArray());
+        Assert.Equal(new[] { 7L, 11L }, s.Jumps.Select(j => j.Rate).ToArray());
+        Assert.True(SameMatrix(Xm, s.Jumps[0].Jump) && SameMatrix(Ym, s.Jumps[1].Jump));
+        var dropped = Theodolite.Setting.Of(2, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("ZX", 0L), ("XI", 0L), ("ZZ", 3L) });
+        Assert.Equal(new[] { "ZZ" }, dropped.StringJumps.Select(j => j.Jump.ToString(2)).ToArray());
+        Assert.Empty(dropped.Jumps);
+        Assert.Throws<ArgumentException>(() => Theodolite.Setting.Of(9, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("XXXXXXXXX", 1L) }));
+        Assert.Single(Theodolite.Setting.Of(8, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("XXXXXXXX", 1L) }).StringJumps);
+        Assert.Throws<ArgumentException>(() => Sieve.Count(Theodolite.Setting.Of(2, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("ZX", -1L) })));
+        Assert.Throws<ArgumentException>(() => Theodolite.Setting.Of(2, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("II", 1L) }));
+        Assert.Throws<ArgumentException>(() => Theodolite.Setting.Of(2, SodiumH["none"], Array.Empty<(int, Gauss[,], long)>(), new[] { ("ZZZ", 1L) }));
+    }
+
+    // Every set of the five jumps under each Hamiltonian, 124 settings, against F158's exact count (EndCount, the second
+    // route): the theodolite reads exactly the 75 that pair, every reading checked densely, and is silent on the other
+    // 49 on all four ways. Why all 75: each pairing there is carried by one string (the page's count), and left
+    // multiplication by a string is a monomial sandwich, a reflection on the plain branch. Why none of the 49: a reading
+    // is an element.
+    [Fact]
+    public void On_The_Sodium_Nucleus_It_Reads_Exactly_The_Settings_F158_Pairs()
+    {
+        int pairs = 0, read = 0, silent = 0;
+        var failures = new List<string>();
+        for (int mask = 1; mask < 32; mask++)
+        {
+            var js = SodiumJumps.Where((_, i) => ((mask >> i) & 1) == 1).ToList();
+            foreach (var h in SodiumH.Keys)
+            {
+                var s = Sodium(h, js);
+                var verdict = Sieve.Count(s).Verdict();
+                Assert.True(EndCount.IsExact(verdict), $"{h} {string.Join(",", js)}: {verdict}");
+                bool pal = EndCount.IsPalindrome(verdict);
+                if (pal) pairs++;
+                bool any = false;
+                foreach (var rel in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+                    foreach (var (way, readOf) in Ways)
+                        if (readOf(s, rel) is { } r)
+                        {
+                            any = true;
+                            if (!Certified(s, rel, r)) failures.Add($"{h} {string.Join(",", js)} {rel} {way}: not an element");
+                        }
+                if (any) read++; else silent++;
+                if (any != pal) failures.Add($"{h} {string.Join(",", js)}: theodolite {(any ? "reads" : "silent")}, EndCount {verdict}");
+            }
+        }
+        Assert.True(failures.Count == 0, string.Join("\n", failures));
+        Assert.Equal(75, pairs);
+        Assert.Equal(75, read);
+        Assert.Equal(49, silent);
+    }
+
+    // The page's turn about the field, read off the letters: on site 1 the jumps ZX and ZY flip the populations with
+    // g_ZX + g_ZY and the coherences with g_ZX - g_ZY, and a turn diag(1, x)·rho·diag(1, y) gives them the factors
+    // (xy)^±1 and (x/y)^±1. So xy = 1 always, and x = y unless g_ZX = g_ZY, where the coherence entry vanishes and the
+    // turn is free; XI and YI on site 0 the same. One free turn for each pair at equal rates.
+    [Fact]
+    public void Each_Pair_At_Equal_Rates_Frees_A_Turn()
+    {
+        int Free(long zx, long zy, long xi, long yi)
+        {
+            var rates = new Dictionary<string, long> { ["ZZ"] = 2, ["ZX"] = zx, ["ZY"] = zy, ["XI"] = xi, ["YI"] = yi };
+            var s = Sodium("offset", SodiumJumps, rates);
+            var r = Theodolite.ReadBetween(s, s, Theodolite.Relation.Copy, branch: false);
+            Assert.NotNull(r);
+            Assert.All(r!.Kinds, k => Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), k));
+            return r.System.Free.Count;
+        }
+        Assert.Equal(0, Free(3, 5, 7, 11));
+        Assert.Equal(1, Free(3, 3, 7, 11));
+        Assert.Equal(1, Free(3, 5, 7, 7));
+        Assert.Equal(2, Free(3, 3, 7, 7));
+    }
+
+    // The sodium page's map S(rho) = ZZ·rho^T: without the ZZ jump it is a Pi-reflection on the transposed branch (H
+    // real); with the ZZ jump and a splitting no reading is left on either branch, since nothing pairs (F158). The
+    // string ZZ, what EndCount calls a colouring here, acts by left multiplication, a reflection on the plain branch.
+    [Fact]
+    public void Without_The_ZZ_Jump_The_Transposed_Branch_Reads_S()
+    {
+        var s = Sodium("both", new[] { "ZX", "ZY", "XI", "YI" });
+        var r = Theodolite.Read(s, Theodolite.Relation.Pi, branch: true);
+        Assert.NotNull(r);
+        Assert.True(r!.Transposed);
+        Assert.True(ReflectsAtRationalPoint(s, Theodolite.Relation.Pi, r));
+        // S itself, A = Z⊗Z (both turns -1) and B = 1, solves the reading; the bare transpose (A = 1) does not
+        Assert.All(r.Kinds, k => Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), k));
+        Assert.True(Admits(r, ("x0", -1), ("x1", -1), ("y0", 1), ("y1", 1)));
+        Assert.False(Admits(r, ("x0", 1), ("x1", 1), ("y0", 1), ("y1", 1)));
+        var withZZ = Sodium("both", SodiumJumps);
+        foreach (var rel in new[] { Theodolite.Relation.Pi, Theodolite.Relation.Reflection })
+            Assert.Null(Theodolite.Read(withZZ, rel));
+        var colouring = Sodium("splitting", new[] { "ZX", "ZY", "XI", "YI" });
+        var c = Theodolite.Read(colouring, Theodolite.Relation.Reflection, branch: false);
+        Assert.NotNull(c);
+        Assert.True(ReflectsAtRationalPoint(colouring, Theodolite.Relation.Reflection, c!));
+        Assert.True(Admits(c!, ("x0", -1), ("x1", -1), ("y0", 1), ("y1", 1)));         // rho -> ZZ·rho
+        Assert.False(Admits(c!, ("x0", 1), ("x1", 1), ("y0", 1), ("y1", 1)));          // the identity
+    }
+
+    // Two nuclei (F167, SodiumChainMirrorLadderClaim, the second route): Q = ⊗ZZ_k and S(rho) = Q·rho^T carry L(J0) onto
+    // -L(-J0) - c for a real H commuting with Q. Between the chain and the chain with its ZZ rates reversed the
+    // transposed branch reads it, checked densely, with an Ising coupling and with a real flip coupling X·X on the two
+    // first bits (it commutes with Q, not with each ZZ_k); with one nucleus's rate reversed alone it is silent (the
+    // lemma's kept ZZ jump asks for both); at J0 = 0 it reads on the chain itself.
+    [Theory]
+    [InlineData("ZIZI")]
+    [InlineData("XIXI")]
+    public void On_Two_Nuclei_It_Reads_The_Chain_Onto_Its_Mirror_Image_With_J0_Reversed(string coupling)
+    {
+        Theodolite.Setting Chain(long j0a, long j0b)
+        {
+            var h = new[] { ("ZZII", 2L), ("ZIII", 6L), ("IZII", 3L), ("IIZZ", 5L), ("IIZI", 4L), ("IIIZ", 2L), (coupling, 1L), ("IZIZ", 3L) };
+            var strings = new[] { ("ZZII", j0a), ("ZXII", 3L), ("ZYII", 3L), ("XIII", 7L), ("YIII", 7L),
+                                  ("IIZZ", j0b), ("IIZX", 5L), ("IIZY", 5L), ("IIXI", 2L), ("IIYI", 2L) };
+            return Theodolite.Setting.Of(4, h, Array.Empty<(int, Gauss[,], long)>(), strings);
+        }
+        var from = Chain(4, 6);
+        var to = Chain(-4, -6);
+        var r = Theodolite.ReadBetween(from, to, Theodolite.Relation.Pi, branch: true);
+        Assert.NotNull(r);
+        var sol = Binomials.RationalSolution(r!.System);
+        Assert.NotNull(sol);
+        var x = Enumerable.Range(0, 4).Select(l => sol![$"x{l}"]).ToList();
+        var y = Enumerable.Range(0, 4).Select(l => sol![$"y{l}"]).ToList();
+        Assert.True(ReflectsBetween(from, to, r.Transposed, r.Kinds, x, y));
+        Assert.Null(Theodolite.ReadBetween(from, Chain(4, -6), Theodolite.Relation.Pi, branch: true));
+        var zero = Chain(0, 0);
+        var z = Theodolite.Read(zero, Theodolite.Relation.Pi, branch: true);
+        Assert.NotNull(z);
+        Assert.True(ReflectsAtRationalPoint(zero, Theodolite.Relation.Pi, z!));
+    }
+
+    // E·L(from) = (-L(to) - c)·E densely, the Pi-reflection between two settings, c read off the traces:
+    // tr L(from) = -tr L(to) - c·dim
+    static bool ReflectsBetween(Theodolite.Setting from, Theodolite.Setting to, bool transposed,
+        IReadOnlyList<(Theodolite.Kind A, Theodolite.Kind B)> kinds, IReadOnlyList<(GaussBig, GaussBig)> x, IReadOnlyList<(GaussBig, GaussBig)> y)
+    {
+        int n = from.N;
+        var E = new Gauss[1, 1] { { Gauss.One } };
+        int[] perm = { 0, 2, 1, 3 };
+        for (int l = 0; l < n; l++)
+        {
+            var a = Factor(kinds[l].A, x[l]);
+            var b = Factor(kinds[l].B, y[l]);
+            var el = Kron(a, new[,] { { b[0, 0], b[1, 0] }, { b[0, 1], b[1, 1] } });
+            if (transposed)
+            {
+                var t = new Gauss[4, 4];
+                for (int r = 0; r < 4; r++) for (int c = 0; c < 4; c++) t[r, c] = el[r, perm[c]];
+                el = t;
+            }
+            E = Kron(E, el);
+        }
+        var lf = GeneratorTimesFour(from);
+        var lt = GeneratorTimesFour(to);
+        int dd = lf.GetLength(0);
+        var tr = Gauss.Zero;
+        for (int i = 0; i < dd; i++) tr = tr + lf[i, i] + lt[i, i];
+        Assert.True(tr.Im == 0 && tr.Re % dd == 0);
+        long fourC = -tr.Re / dd;
+        var lhs = Mul(E, lf);
+        var rhs = Mul(lt, E);
+        for (int i = 0; i < dd; i++)
+            for (int j = 0; j < dd; j++)
+                if (!(lhs[i, j] + rhs[i, j] + fourC * E[i, j]).IsZero) return false;
+        return true;
+    }
+
+    // Soundness at N = 3 on random settings: H of one to three random strings, one to three random jump strings (some of
+    // one letter), random rates; every reading on every way must be an element (checked densely) and the spectrum must
+    // pair by EndCount. The sweep must see readings, and of more than one way, or it would check little.
+    [Fact]
+    public void On_Random_Settings_Of_Three_Sites_Every_Reading_Is_An_Element()
+    {
+        var rng = new Random(20261118);
+        const string P = "IXYZ";
+        string Str() { string t; do t = new string(Enumerable.Range(0, 3).Select(_ => P[rng.Next(4)]).ToArray()); while (t == "III"); return t; }
+        var waysSeen = new HashSet<string>();
+        int readings = 0;
+        var failures = new List<string>();
+        for (int trial = 0; trial < 150; trial++)
+        {
+            var h = Enumerable.Range(0, 1 + rng.Next(3)).Select(_ => (Str(), (long)(rng.Next(2) == 0 ? 1 + rng.Next(3) : -1 - rng.Next(3)))).ToList();
+            var js = Enumerable.Range(0, 1 + rng.Next(3)).Select(_ => (Str(), (long)(1 + rng.Next(5)))).ToList();
+            var s = Theodolite.Setting.Of(3, h, Array.Empty<(int, Gauss[,], long)>(), js);
+            bool? pal = null;
+            foreach (var rel in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+                foreach (var (way, readOf) in Ways)
+                    if (readOf(s, rel) is { } r)
+                    {
+                        readings++;
+                        waysSeen.Add(way);
+                        pal ??= EndCount.IsPalindrome(Sieve.Count(s).Verdict());
+                        string tag = $"H {string.Join("+", h)} jumps {string.Join(",", js)} {rel} {way}";
+                        if (!Certified(s, rel, r)) failures.Add(tag + ": not an element");
+                        if (pal == false) failures.Add(tag + ": EndCount does not pair");
+                    }
+        }
+        Assert.True(failures.Count == 0, string.Join("\n", failures));
+        Assert.True(readings >= 30, $"{readings} readings");
+        Assert.True(waysSeen.Count >= 2, string.Join(", ", waysSeen));
+    }
+
+    // A control beside a jump string: site 2 holds only Z in H and is watched by nothing, the jump string ZX acts on
+    // sites 0 and 1. Neither a product (site-local, in a turned frame) nor a relabelled sandwich reads; conditioned on
+    // site 2's bit it reads, the jump
+    // string's equations taken in every block with A's left turns and B's right ones, checked densely.
+    [Fact]
+    public void Conditioned_On_A_Control_It_Reads_Beside_A_Jump_String()
+    {
+        var s = Theodolite.Setting.Of(3, new[] { ("ZZZ", 2L), ("YYZ", -1L), ("XYI", 1L) }, new[] { (1, Zm, 1L) }, new[] { ("ZXI", 2L) });
+        foreach (var rel in new[] { Theodolite.Relation.Reflection, Theodolite.Relation.Pi })
+        {
+            Assert.Null(Theodolite.Read(s, rel));
+            Assert.Null(Theodolite.ReadRotated(s, rel));
+            Assert.Null(Theodolite.ReadRelabelled(s, rel));
+            var r = Theodolite.ReadSectors(s, rel);
+            Assert.NotNull(r);
+            Assert.Equal(new[] { 2 }, r!.Controls);
+            Assert.True(Certified(s, rel, r));
+        }
+    }
+
+    // A frame carried and carried back: the sodium nucleus without the ZZ jump, its site 0 turned so that X is the
+    // watched axis there, is read again in a turned frame. And a site under a jump string is never a control: site 2
+    // holds only Z in H and no one-site jump (site 0, one letter X in H, is watched by its Z jump), and the jump string
+    // IXX watches it, so no sector reading is asked.
+    [Fact]
+    public void Jump_Strings_Turn_With_The_Frame_And_Are_Never_Controls()
+    {
+        var s = Sodium("splitting", new[] { "ZX", "ZY", "XI", "YI" }).Rotated("XZ");
+        Assert.Contains(s.StringJumps, j => j.Jump.ToString(2) == "XX");
+        var r = Theodolite.ReadRotated(s, Theodolite.Relation.Reflection);
+        Assert.NotNull(r);
+        Assert.True(Certified(s, Theodolite.Relation.Reflection, r!));
+        var h = new[] { ("XXI", 1L), ("IZZ", 2L) };
+        var watched = Theodolite.Setting.Of(3, h, new[] { (0, Zm, 3L), (1, Zm, 5L) }, new[] { ("IXX", 2L) });
+        foreach (var rel in new[] { Theodolite.Relation.Pi, Theodolite.Relation.Reflection, Theodolite.Relation.Copy })
+            Assert.Null(Theodolite.ReadSectors(watched, rel));
     }
 }

@@ -33,8 +33,8 @@ using static MirrorWorld.LetterCube;
 // ZX ± YZ (± ZZ), so up to the sign of H the two families are one.
 //
 // Parent: the theodolite, whose every-N reading is the sieve's first pass; the end count is asked, not inherited.
-// Only Pauli-letter jumps (X, Y or Z, any rate), since the end count reads Pauli-string jumps; the rates do not enter
-// its kernels.
+// Only Pauli-letter jumps (X, Y or Z) at rates of zero or more, since the end count reads Pauli-string jumps; positive
+// rates do not enter its kernels, a rate of zero drops the jump, and a negative one is refused.
 public sealed class Sieve : GameObject
 {
     public Sieve(Theodolite theodolite) : base(theodolite) { }
@@ -151,13 +151,18 @@ public sealed class Sieve : GameObject
         return new Pass(t, from, s, verdict, brokenFrom, free, law);
     }
 
-    // the end count of a setting, its jumps read off as Pauli strings (each must be X, Y or Z on one site)
+    // the end count of a setting, its jumps read off as Pauli strings (each one-site jump must be X, Y or Z), its jump
+    // strings as they are; F158's count is blind to the rates only while they are positive, so a rate below zero is
+    // refused, and a jump at rate zero is no jump
     public static EndCount Count(Theodolite.Setting s)
     {
+        if (s.Jumps.Any(j => j.Rate < 0) || s.StringJumps.Any(j => j.Rate < 0))
+            throw new ArgumentException("the end count does not read a negative rate", nameof(s));
         int n = s.N;
         var h = s.H.Select(t => (t.Term.ToString(n), t.Coefficient)).ToList();
-        var jumps = s.Jumps.Select(j => (j.Site, Letter: JumpLetters(new[] { j.Jump })[0]))
-            .Select(j => new string('I', j.Site) + j.Letter + new string('I', n - j.Site - 1)).Distinct().ToList();
+        var jumps = s.Jumps.Where(j => j.Rate != 0).Select(j => (j.Site, Letter: JumpLetters(new[] { j.Jump })[0]))
+            .Select(j => new string('I', j.Site) + j.Letter + new string('I', n - j.Site - 1))
+            .Concat(s.StringJumps.Select(j => j.Jump.ToString(n))).Distinct().ToList();
         return new EndCount(new World(), n, h, jumps);
     }
 

@@ -21,6 +21,14 @@ using static MirrorWorld.LetterCube;
 //                 Hamiltonian part of the sector split, exactly, since a bond's terms are traceless on every site and
 //                 no constant enters. A copy's bonds read like a reflection's (-L_H^dagger = L_H for a Hermitian H);
 //                 only its sites differ.
+//   per jump support  E_S·D_S = T(D_S)·E_S, D_S the sum of rate·(rho -> J·rho·J) over the jump strings (Pauli strings
+//                 on two or more sites, StringJumps) whose support is exactly S: two-sided on every site of S where
+//                 the terms of H are one-sided, so it never mixes with them or with the site tables, and every entry
+//                 is one or two monomials, the left and the right turns in one equation (JumpSupportEquations). It
+//                 reads the sodium nucleus (experiments/ONE_NUCLEUS_TWO_BASES.md, the count read by the Theodolite):
+//                 each pairing of F158's count there, without the ZZ jump the sodium page's S = ZZ·rho^T and,
+//                 between two settings, F167's chain onto -L - c of the chain with its J0 rates reversed
+//                 (SodiumChainMirrorLadderClaim).
 // The plain all-diagonal copies are left out: they form a group holding the identity, which the solver would return,
 // so a copy's silence means no copy of the other kinds, not no symmetry (the turns about Z and the moves by Z^N, the
 // turn rho -> Z^N·rho·Z^N, MirrorGroup.AdZ, and the shift rho -> rho·Z^N, are in the group left out). The
@@ -67,7 +75,8 @@ using static MirrorWorld.LetterCube;
 // which asks the cube's moves on the whole generator, uniform on every site. Its own are the letters (the binomial
 // equations), the reading and every N.
 //
-// Deliberately outside: the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
+// Deliberately outside: jump strings in a Cell (EveryN reads one-site jumps only) and jumps on several sites that are
+// not Pauli strings, the numbers (the Python twin takes the roots), site maps that are no such sandwich (the Python
 // twin's cube search and machine), bits a sandwich depends on other than a conserved unwatched letter's and kinds that
 // change with a control's bit (ReadSectors),
 // frames other than one Clifford axis per site carried onto Z (ReadRotated, ReadSectors), weights
@@ -104,7 +113,7 @@ public sealed class Theodolite : GameObject
     };
 
     // A setting: n sites, H as Pauli strings with integer coefficients (a one-letter string is a field), one-site jumps
-    // with integer rates. Rational rates and couplings are scaled to integers first: every equation the theodolite reads
+    // and jump strings with integer rates. Rational rates and couplings are scaled to integers first: every equation the theodolite reads
     // is homogeneous in one site's table or one support's terms, so a common factor changes none of them.
     public sealed class Setting
     {
@@ -112,15 +121,41 @@ public sealed class Theodolite : GameObject
         public IReadOnlyList<(PauliString Term, long Coefficient)> H { get; }
         public IReadOnlyList<(int Site, Gauss[,] Jump, long Rate)> Jumps { get; }
 
+        // Jumps that are Pauli strings on two or more sites at once, rho -> J·rho·J at its rate (a string with one letter
+        // is moved to Jumps as that letter's matrix, a rate of zero drops the jump). A negative rate is formal, a
+        // negative density, read like any other; between two settings it reads a mirror image with a reversed rate.
+        public IReadOnlyList<(PauliString Jump, long Rate)> StringJumps { get; }
+
+        // the largest support a jump string may have: its equations run over the 4^k cells of the support
+        public const int MaxJumpSupport = 8;
+
         public Setting(int n, IEnumerable<(PauliString, long)> h, IEnumerable<(int, Gauss[,], long)> jumps)
+            : this(n, h, jumps, Array.Empty<(PauliString, long)>()) { }
+
+        public Setting(int n, IEnumerable<(PauliString, long)> h, IEnumerable<(int, Gauss[,], long)> jumps,
+            IEnumerable<(PauliString, long)> stringJumps)
         {
             if (n < 1 || n > 12) throw new ArgumentOutOfRangeException(nameof(n), n, "1 to 12 sites");
             N = n;
             H = h.Where(t => !t.Item1.IsIdentity && t.Item2 != 0).ToList();
-            Jumps = jumps.ToList();
+            var oneSite = jumps.ToList();
+            var strings = new List<(PauliString, long)>();
             ulong inside = (1UL << n) - 1;
             foreach (var (term, _) in H)
                 if (((term.X | term.Z) & ~inside) != 0) throw new ArgumentException($"a term of H reaches past site {n - 1}", nameof(h));
+            foreach (var (j, rate) in stringJumps)
+            {
+                if (j.IsIdentity) throw new ArgumentException("a jump string is not the identity", nameof(stringJumps));
+                if (((j.X | j.Z) & ~inside) != 0) throw new ArgumentException($"a jump string reaches past site {n - 1}", nameof(stringJumps));
+                if (rate == 0) continue;
+                var sup = Support(j);
+                if (sup.Length == 1) { oneSite.Add((sup[0], LetterMatrix(j.Letter(sup[0])), rate)); continue; }
+                if (sup.Length > MaxJumpSupport)
+                    throw new ArgumentException($"a jump string acts on at most {MaxJumpSupport} sites", nameof(stringJumps));
+                strings.Add((j, rate));
+            }
+            Jumps = oneSite;
+            StringJumps = strings;
             foreach (var (site, _, _) in Jumps)
                 if (site < 0 || site >= n) throw new ArgumentOutOfRangeException(nameof(jumps), site, $"sites run from 0 to {n - 1}");
         }
@@ -129,7 +164,18 @@ public sealed class Theodolite : GameObject
         public static Setting Of(int n, IEnumerable<(string Letters, long Coefficient)> h, IEnumerable<(int, Gauss[,], long)> jumps)
             => new(n, h.Select(t => (PauliString.Parse(t.Letters.PadRight(n, 'I')), t.Coefficient)), jumps);
 
+        // with jump strings, written the same way ("ZX" on two sites, "ZIZ" on sites 0 and 2)
+        public static Setting Of(int n, IEnumerable<(string Letters, long Coefficient)> h, IEnumerable<(int, Gauss[,], long)> jumps,
+            IEnumerable<(string Letters, long Rate)> stringJumps)
+            => new(n, h.Select(t => (PauliString.Parse(t.Letters.PadRight(n, 'I')), t.Coefficient)), jumps,
+                stringJumps.Select(j => (PauliString.Parse(j.Letters.PadRight(n, 'I')), j.Rate)));
+
         internal int[] Support(PauliString t) => Enumerable.Range(0, N).Where(l => t.Letter(l) != 'I').ToArray();
+
+        // the supports of the jump strings, each once, in a fixed order
+        internal List<int[]> JumpSupports() => StringJumps.Select(j => Support(j.Jump))
+            .GroupBy(sup => string.Join(",", sup)).Select(g => g.First()).OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal)
+            .ToList();
 
         // The same system seen in a turned frame, times four: site l's axis axes[l] carried onto Z by U_l, so the
         // generator is 4·Ad_U·L·Ad_U^-1. U_X = (X + Z)/√2 (X <-> Z, Y -> -Y), U_Y = (1 - iX)/√2 (Y -> Z, Z -> -Y),
@@ -154,7 +200,15 @@ public sealed class Theodolite : GameObject
             var jumps = Jumps.Select(j => axes[j.Site] == 'Z'
                 ? (j.Site, j.Jump, 4 * j.Rate)
                 : (j.Site, Sandwich(TurnMatrix(axes[j.Site]), j.Jump), j.Rate));
-            return new Setting(N, h, jumps);
+            // a jump string's letters turn into letters up to a sign, which rho -> J·rho·J does not see; its rate
+            // takes the factor four like every term
+            var strings = StringJumps.Select(j =>
+            {
+                var letters = new char[N];
+                for (int l = 0; l < N; l++) letters[l] = Turn(axes[l], j.Jump.Letter(l)).Item1;
+                return (PauliString.Parse(new string(letters)), 4 * j.Rate);
+            });
+            return new Setting(N, h, jumps, strings);
         }
 
         // the letter P becomes sign·P' under U·P·U^dagger
@@ -189,13 +243,14 @@ public sealed class Theodolite : GameObject
         {
             if (pi.Count != N || pi.Distinct().Count() != N || pi.Any(v => v < 0 || v >= N))
                 throw new ArgumentException("a relabelling is a permutation of the sites", nameof(pi));
-            var h = H.Select(t =>
+            PauliString Moved(PauliString t)
             {
                 var letters = new char[N];
-                for (int l = 0; l < N; l++) letters[pi[l]] = t.Term.Letter(l);
-                return (PauliString.Parse(new string(letters)), t.Coefficient);
-            });
-            return new Setting(N, h, Jumps.Select(j => (pi[j.Site], j.Jump, j.Rate)));
+                for (int l = 0; l < N; l++) letters[pi[l]] = t.Letter(l);
+                return PauliString.Parse(new string(letters));
+            }
+            return new Setting(N, H.Select(t => (Moved(t.Term), t.Coefficient)), Jumps.Select(j => (pi[j.Site], j.Jump, j.Rate)),
+                StringJumps.Select(j => (Moved(j.Jump), j.Rate)));
         }
     }
 
@@ -510,6 +565,139 @@ public sealed class Theodolite : GameObject
         return outs;
     }
 
+    // The jump-support equation E_S·D_S(from) = T(D_S(to))·E_S, D_S = sum of rate·(rho -> J·rho·J) over the jump strings
+    // whose support is exactly these sites. A jump string's dissipator is rate·(J·rho·J - rho): the part -rate·rho is
+    // the identity and goes into the constant, and rho -> J·rho·J has no part that is the identity on any one site of
+    // the support (each site's rho -> P·rho·P is traceless on its four cells), so it mixes neither with the site tables
+    // nor with the constant. It is two-sided on every site of the support, where the terms of H are one-sided (left or
+    // right multiplications), and a monomial sandwich keeps that apart, so the support's left and right equations of H
+    // stand as they are and these come beside them. E_S is monomial on the 4^k cells and every rho -> J·rho·J a signed
+    // permutation, so every entry of E·D - T(D)·E holds at most two monomials: binomial or unsolvable, never silent, and
+    // its unknowns are the left and the right turns together. Both sides are walked cell by cell, not as 4^k-square
+    // matrices. Null when an entry has no nonzero solution.
+    static List<Binomial>? JumpSupportEquations(IReadOnlyList<(PauliString Jump, long Rate)> jFrom, IReadOnlyList<(PauliString Jump, long Rate)> jTo,
+        int[] support, Relation rel, bool transposed, IReadOnlyList<(Kind A, Kind B)> kinds, IReadOnlyList<string> xs,
+        IReadOnlyList<string> ys, string origin)
+    {
+        int k = support.Length, cells = 1 << (2 * k);
+        int Digit(int cell, int p) => (cell >> (2 * (k - 1 - p))) & 3;
+
+        // rho -> P·rho·P on one site, by column: the one row it reaches and the entry there
+        var columns = new Dictionary<char, (int Row, Gauss V)[]>();
+        foreach (char letter in "XYZ")
+        {
+            var lr = Lr(LetterMatrix(letter), LetterMatrix(letter));
+            var col = new (int, Gauss)[4];
+            for (int c = 0; c < 4; c++)
+                for (int r = 0; r < 4; r++)
+                    if (!lr[r, c].IsZero) col[c] = (r, lr[r, c]);
+            columns[letter] = col;
+        }
+        Dictionary<(int Row, int Col), Gauss> Dissipator(IReadOnlyList<(PauliString Jump, long Rate)> jumps)
+        {
+            var d = new Dictionary<(int, int), Gauss>();
+            foreach (var (j, rate) in jumps)
+            {
+                var letters = support.Select(j.Letter).ToArray();
+                for (int c = 0; c < cells; c++)
+                {
+                    int row = 0;
+                    var v = Gauss.One;
+                    for (int p = 0; p < k; p++)
+                    {
+                        var (rd, e) = columns[letters[p]][Digit(c, p)];
+                        row = row * 4 + rd;
+                        v = v * e;
+                    }
+                    var key = (row, c);
+                    d[key] = (d.TryGetValue(key, out var old) ? old : Gauss.Zero) + rate * v;
+                }
+            }
+            return d;
+        }
+        var dFrom = Dissipator(jFrom);
+        var dTo = Dissipator(jTo);
+        // T(D): -D for the Pi-reflection, -D^dagger for the reflection, D for a copy
+        var target = new Dictionary<(int, int), Gauss>();
+        foreach (var ((r, c), v) in dTo)
+        {
+            if (v.IsZero) continue;
+            if (rel == Relation.Copy) target[(r, c)] = v;
+            else if (rel == Relation.Pi) target[(r, c)] = -v;
+            else target[(c, r)] = -v.Conj;
+        }
+
+        // E_S site by site: each row reaches one column, with the exponents of that site's (x, y)
+        var maps = new (int Col, int Ex, int Ey)[k][];
+        var rowOf = new int[k][];
+        for (int p = 0; p < k; p++)
+        {
+            var e = SiteMap(kinds[p].A, kinds[p].B, transposed);
+            maps[p] = new (int, int, int)[4];
+            rowOf[p] = new int[4];
+            for (int r = 0; r < 4; r++)
+                for (int c = 0; c < 4; c++)
+                    if (e[r, c].On) { maps[p][r] = (c, e[r, c].Ex, e[r, c].Ey); rowOf[p][c] = r; }
+        }
+        (int Col, int[] Exps) Forward(int row)
+        {
+            int col = 0;
+            var ex = new int[2 * k];
+            for (int p = 0; p < k; p++)
+            {
+                var (c, a, b) = maps[p][Digit(row, p)];
+                col = col * 4 + c;
+                ex[2 * p] = a;
+                ex[2 * p + 1] = b;
+            }
+            return (col, ex);
+        }
+        int Back(int col)
+        {
+            int row = 0;
+            for (int p = 0; p < k; p++) row = row * 4 + rowOf[p][Digit(col, p)];
+            return row;
+        }
+
+        // every entry of E·D(from) - T(D(to))·E as monomials in the turns
+        var entries = new Dictionary<(int, int), Dictionary<string, (int[] Exps, Gauss C)>>();
+        void Add(int r, int c, int[] exps, Gauss v)
+        {
+            if (!entries.TryGetValue((r, c), out var terms)) entries[(r, c)] = terms = new Dictionary<string, (int[], Gauss)>();
+            string key = string.Join(",", exps);
+            terms[key] = terms.TryGetValue(key, out var old) ? (exps, old.C + v) : (exps, v);
+        }
+        foreach (var ((kk, c), v) in dFrom)
+        {
+            if (v.IsZero) continue;
+            int r = Back(kk);
+            Add(r, c, Forward(r).Exps, v);                                        // (E·D)[r, c] = E[r, kk]·D[kk, c]
+        }
+        foreach (var ((r, kk), t) in target)
+        {
+            var (c, exps) = Forward(kk);
+            Add(r, c, exps, -t);                                                  // (T(D)·E)[r, c] = T(D)[r, kk]·E[kk, c]
+        }
+
+        var outs = new List<Binomial>();
+        foreach (var terms in entries.Values)
+        {
+            var nz = terms.Values.Where(t => !t.C.IsZero).ToList();
+            if (nz.Count == 0) continue;
+            if (nz.Count == 1) return null;
+            if (nz.Count > 2) throw new InvalidOperationException($"{origin}: {nz.Count} monomials in one entry of a monomial map");
+            var exps = new Dictionary<string, int>();
+            for (int p = 0; p < k; p++)
+            {
+                int dx = nz[0].Exps[2 * p] - nz[1].Exps[2 * p], dy = nz[0].Exps[2 * p + 1] - nz[1].Exps[2 * p + 1];
+                if (dx != 0) exps[xs[p]] = dx;
+                if (dy != 0) exps[ys[p]] = dy;
+            }
+            outs.Add(new Binomial(exps, GaussBig.Of(-nz[1].C), GaussBig.Of(nz[0].C), origin));
+        }
+        return outs;
+    }
+
     static IReadOnlyList<Gauss[,]> SitePieces(Setting s, int l, bool rateFree)
     {
         var fields = s.H.Where(t => s.Support(t.Term).SequenceEqual(new[] { l }))
@@ -532,6 +720,10 @@ public sealed class Theodolite : GameObject
         => s.H.Select(t => s.Support(t.Term)).Where(sup => sup.Length >= 2)
             .GroupBy(sup => string.Join(",", sup)).Select(g => g.First()).OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal)
             .ToList();
+
+    // the jump strings whose support is exactly these sites
+    static List<(PauliString Jump, long Rate)> JumpsOn(Setting s, int[] support)
+        => s.StringJumps.Where(j => s.Support(j.Jump).SequenceEqual(support)).ToList();
 
     // ---------------------------------------------------------------- reading a setting
 
@@ -610,6 +802,7 @@ public sealed class Theodolite : GameObject
         for (int u = 0; u < n; u++)
         {
             if (s.Jumps.Any(j => j.Site == u && j.Rate != 0)) continue;
+            if (s.StringJumps.Any(j => j.Jump.Letter(u) != 'I')) continue;          // a jump string watches it
             var used = s.H.Select(t => t.Term.Letter(u)).Where(c => c != 'I').Distinct().ToList();
             if (used.Count != 1) continue;
             controls.Add(u);
@@ -652,7 +845,13 @@ public sealed class Theodolite : GameObject
                 terms[letters] = (terms.TryGetValue(letters, out long o) ? o : 0) + sign * c;
             }
             var jumps = t.Jumps.Where(j => rest.Contains(j.Site)).Select(j => (Array.IndexOf(rest, j.Site), j.Jump, j.Rate));
-            sectors[sg] = new Setting(m, terms.Select(kv => (PauliString.Parse(kv.Key), kv.Value)), jumps);
+            // no jump string touches a control (ReadSectors), so each lies on the other sites, renumbered
+            var strings = t.StringJumps.Select(j =>
+            {
+                if (controls.Any(u => j.Jump.Letter(u) != 'I')) throw new InvalidOperationException("a jump string touches a control");
+                return (PauliString.Parse(new string(rest.Select(j.Jump.Letter).ToArray())), j.Rate);
+            });
+            sectors[sg] = new Setting(m, terms.Select(kv => (PauliString.Parse(kv.Key), kv.Value)), jumps, strings);
         }
         string Bits(int sg) => new string(Enumerable.Range(0, k).Select(i => (char)('0' + ((sg >> i) & 1))).ToArray());
         string Xs(int i, int sg) => $"x{rest[i]}.{Bits(sg)}";
@@ -662,6 +861,9 @@ public sealed class Theodolite : GameObject
         var supports = sectors.SelectMany(Supports).GroupBy(sup => string.Join(",", sup)).Select(g => g.First())
             .OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal).ToList();
         var doneAt = Enumerable.Range(0, m).Select(i => supports.Where(sup => sup.Max() == i).ToList()).ToList();
+        // the jump strings are the same in every sector (no control is under one)
+        var jumpSupports = sectors[0].JumpSupports();
+        var jumpsDoneAt = Enumerable.Range(0, m).Select(i => jumpSupports.Where(sup => sup.Max() == i).ToList()).ToList();
         var hams = new Dictionary<(int, string), Gauss[,]>();
         Gauss[,] Ham(int sg, int[] sup)
         {
@@ -739,6 +941,20 @@ public sealed class Theodolite : GameObject
                             {
                                 var e = SupportEquations(Ham(b, sup), Ham(tt, sup), rel, transposed, sup.Select(q => allowed[q][choice[q]].K.B).ToList(),
                                     sup.Select(q => Ys(q, b)).ToList(), left: false, $"{where}, right");
+                                if (e is null) return null;
+                                eqs.AddRange(e);
+                            }
+                        }
+                        // a jump string acts on ket and bra at once: in the block (sigma, tau) its turns are the left
+                        // ones of A's sector and the right ones of B's
+                        foreach (var sup in jumpsDoneAt[i])
+                        {
+                            string where = $"jump support {{{string.Join(", ", sup.Select(q => rest[q]))}}}";
+                            var js = JumpsOn(sectors[0], sup);
+                            foreach (var (a, b) in blocks.Select(bl => (bl.A, bl.B)).Distinct())
+                            {
+                                var e = JumpSupportEquations(js, js, sup, rel, transposed, sup.Select(q => allowed[q][choice[q]].K).ToList(),
+                                    sup.Select(q => Xs(q, a)).ToList(), sup.Select(q => Ys(q, b)).ToList(), where);
                                 if (e is null) return null;
                                 eqs.AddRange(e);
                             }
@@ -829,8 +1045,9 @@ public sealed class Theodolite : GameObject
     public static IEnumerable<int[]> Automorphisms(Setting s, Func<int, int, bool>? allowed = null)
     {
         int n = s.N;
-        var supports = Supports(s);
-        var keys = new HashSet<string>(supports.Select(sup => string.Join(",", sup)));
+        // the supports of H onto supports of H, those of the jump strings onto supports of jump strings
+        var families = new[] { Supports(s), s.JumpSupports() }
+            .Select(f => (Sets: f, Keys: new HashSet<string>(f.Select(sup => string.Join(",", sup))))).ToList();
         var pi = new int[n];
         var used = new bool[n];
         IEnumerable<int[]> Rec(int l)
@@ -845,8 +1062,8 @@ public sealed class Theodolite : GameObject
                 if (used[v] || (allowed is not null && !allowed(l, v))) continue;
                 pi[l] = v;
                 used[v] = true;
-                bool ok = supports.Where(sup => sup.Max() == l)
-                    .All(sup => keys.Contains(string.Join(",", sup.Select(q => pi[q]).OrderBy(q => q))));
+                bool ok = families.All(f => f.Sets.Where(sup => sup.Max() == l)
+                    .All(sup => f.Keys.Contains(string.Join(",", sup.Select(q => pi[q]).OrderBy(q => q)))));
                 if (ok)
                     foreach (var p in Rec(l + 1)) yield return p;
                 used[v] = false;
@@ -867,6 +1084,11 @@ public sealed class Theodolite : GameObject
         var hams = supports.ToDictionary(sup => string.Join(",", sup), sup => HamiltonianOn(s, sup));
         var hamsFrom = supports.ToDictionary(sup => string.Join(",", sup), sup => HamiltonianOn(from, sup));
         var doneAt = Enumerable.Range(0, n).Select(l => supports.Where(sup => sup.Max() == l).ToList()).ToList();
+        var jumpSupports = s.JumpSupports().Concat(from.JumpSupports()).GroupBy(sup => string.Join(",", sup)).Select(g => g.First())
+            .OrderBy(sup => string.Join(",", sup), StringComparer.Ordinal).ToList();
+        var jumpsOn = jumpSupports.ToDictionary(sup => string.Join(",", sup),
+            sup => (From: JumpsOn(from, sup), To: JumpsOn(s, sup)));
+        var jumpsDoneAt = Enumerable.Range(0, n).Select(l => jumpSupports.Where(sup => sup.Max() == l).ToList()).ToList();
         foreach (bool transposed in branches)
         {
             var allowed = new List<List<((Kind A, Kind B) K, List<Binomial> Eqs)>>();
@@ -904,6 +1126,14 @@ public sealed class Theodolite : GameObject
                         if (a is null || b is null) return null;
                         eqs.AddRange(a);
                         eqs.AddRange(b);
+                    }
+                    foreach (var sup in jumpsDoneAt[l])
+                    {
+                        var (jf, jt) = jumpsOn[string.Join(",", sup)];
+                        var e = JumpSupportEquations(jf, jt, sup, rel, transposed, sup.Select(q => allowed[q][choice[q]].K).ToList(),
+                            sup.Select(X).ToList(), sup.Select(Y).ToList(), $"jump support {{{string.Join(", ", sup)}}}");
+                        if (e is null) return null;
+                        eqs.AddRange(e);
                     }
                 }
                 return eqs;
