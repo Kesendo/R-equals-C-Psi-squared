@@ -11699,7 +11699,8 @@ with J₂/J₁ > 0, nothing on the other 28); at spin 1 with a splitting, outsid
 cone, which offsets ω ≠ 0 could give a centre; the identity c₁ = mean of the
 longitudinal rates against measured sodium relaxation beyond two agarose data sets
 whose published fits break it from opposite sides ([Sodium in Agarose, Layer by Layer](../experiments/SODIUM_IN_AGAROSE_LAYER_BY_LAYER.md),
-[One Sodium Pool or More](../experiments/SODIUM_ONE_POOL_OR_MORE.md)); the bright pairs'
+[One Sodium Pool or More](../experiments/SODIUM_ONE_POOL_OR_MORE.md)) and one tomographic data set
+in which it holds within the printed errors ([One Nucleus, Two Bases](../experiments/ONE_NUCLEUS_TWO_BASES.md)); the bright pairs'
 exceptional point against a measurement (the coupling read off a transverse
 signal in time against half the 4/5 longitudinal rate);
 K_m beyond three nuclei;
