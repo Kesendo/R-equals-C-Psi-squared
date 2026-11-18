@@ -1,0 +1,53 @@
+Part 1. The fence: vectors with d excited at the vacuum's energy, sector by sector, exactly
+  PASS  N = 4: control, the constructed blind row [((0, 1), 1), ((1, 2), 3), ((1, 3), 6), ((2, 3), -2)]: ker L_J holds a vector vanishing at d, and the fence at N - 1 is not empty (1)
+  PASS  N = 4: [S+, H_b] = 0 exactly on every drawn row
+  PASS  N = 4: 30 distinct rows where d is not blind, fence empty at n = [1, 2, 3] on every one
+  read: fence dimensions by sector n = 1..3 -> rows: {(0, 0, 0): 30}
+  PASS  N = 5: control, the constructed blind row [((0, 1), 1), ((1, 2), 3), ((1, 3), 6), ((1, 4), 1), ((2, 3), -2)]: ker L_J holds a vector vanishing at d, and the fence at N - 1 is not empty (1)
+  PASS  N = 5: [S+, H_b] = 0 exactly on every drawn row
+  PASS  N = 5: 20 distinct rows where d is not blind, fence empty at n = [1, 2, 4] on every one
+  read: fence dimensions by sector n = 1..4 -> rows: {(0, 0, 0, 0): 20}
+  PASS  N = 6: control, the constructed blind row [((0, 1), 1), ((1, 2), 3), ((1, 3), 6), ((1, 4), 1), ((1, 5), 1), ((2, 3), -2)]: ker L_J holds a vector vanishing at d, and the fence at N - 1 is not empty (1)
+  PASS  N = 6: [S+, H_b] = 0 exactly on every drawn row
+  PASS  N = 6: 6 distinct rows where d is not blind, fence empty at n = [1, 2, 5] on every one
+  read: fence dimensions by sector n = 1..5 -> rows: {(0, 0, 0, 0, 0): 6}
+  PASS  the constructed N = 5 row 0-1:1, 0-2:1, 0-3:2, 0-4:2, 1-3:1, 2-4:2, 2-3:3, 1-2:-1, 3-4:-2: d not blind
+  PASS  its fence by sector is (0, 0, 1, 0), exactly
+  PASS  its fence vector is X^5 applied to |0>_0 (x) s_12 (x) s_34
+  read: E0 = 9, -3 J_12 - 3 J_34 = 9
+
+Part 2. The hand steps of the case analysis at N = 4, symbolically (d = 0; u, v, w = 1, 2, 3)
+  PASS  det of F- on two excitations of u, v, w is -2 conj(w_u w_v w_w)
+  PASS  with w_w = 0 its kernel is spanned by y0 = conj(w_v)|uw> - conj(w_u)|vw>
+  PASS  the hop of d's bonds: <0_d, jk| H_b |1_d, e_i> = 2 J_dk [i = j] + 2 J_dj [i = k], from the full bond matrix
+  PASS  the |uv> entry of H_b on |0>_d (x) y0 is 2 (J_vw conj(w_v) - J_uw conj(w_u))
+  PASS  step (i): S+ keeps |1>_d (x) u' at d excited and acts on u' as a 3 x 3 matrix of determinant -2, so S+ (|1>_d (x) u') = 0 only at u' = 0
+  PASS  step (i): S- keeps |0>_d (x) y at d unexcited and acts on y as a 3 x 3 matrix of determinant -2, so S- (|0>_d (x) y) = 0 only at y = 0
+
+Part 3. Condition (I) and the far elements at N = 4, at seats that are not blind
+  PASS  off one line, all three fields nonzero: 60 distinct rows, the cyclic space has dimension 16 at every one (I)
+  PASS  off one line, all three fields nonzero: far elements homogeneous under Z^4 (even, odd) = (0, 0) at every row
+  PASS  off one line, one field zero: 60 distinct rows, the cyclic space has dimension 16 at every one (I)
+  PASS  off one line, one field zero: far elements homogeneous under Z^4 (even, odd) = (0, 0) at every row
+  PASS  on one line, all three nonzero (class A): 60 distinct rows, the cyclic space has dimension 16 at every one (I)
+  PASS  on one line, all three nonzero (class A): far elements homogeneous under Z^4 (even, odd) = (1, 0) at every row, the 1 being class A's colouring, exact
+  PASS  rows with d not blind and the two-excitation sector reducible (commutant > 1, exact) exist in the draw
+  read: 3 such rows in 2500 draws
+  PASS  at them, 31 field sets off one line (some with a field zero): the cyclic space has dimension 16 and no far element homogeneous under Z^4
+  PASS  control, the blind row 0-1:1, 0-2:2, 1-2:-2, 1-3:4, 2-3:2 with fields (2,0), (1,0), (0,1): |1>_0 (x) (J_01 e_1 - J_02 e_2) is an eigenvector of H_b with d excited killed by F-, exactly
+  PASS  so the cyclic space there has dimension at most 15, and modulo p it reads exactly 15 (15)
+
+Part 4. At N = 5: the conditions at drawn rows, and the constructed row where (II) fails
+  PASS  off one line: 25 distinct rows, (I) and (II) hold at every one
+  PASS  off one line: far elements homogeneous under Z^5 (odd, even) = (0, 0)
+  PASS  on one line, all four nonzero (class A): 25 distinct rows, (I) and (II) hold at every one
+  PASS  on one line, all four nonzero (class A): far elements homogeneous under Z^5 (odd, even) = (1, 0), the 1 being class A's colouring, exact
+  PASS  the constructed row, fields {1: (1, 0), 2: (-1, 0), 3: (0, 1), 4: (0, -1)}: (I) holds, (II) fails at n = 3, and no far element homogeneous under Z^5
+  PASS  the constructed row, fields {1: (3, 4), 2: (-3, -4), 3: (1, 0), 4: (-1, 0)}: (I) holds, (II) fails at n = 3, and no far element homogeneous under Z^5
+  PASS  the constructed row, fields {1: (5, 1), 2: (4, -3), 3: (1, 1), 4: (0, 2)}: (I) holds, (II) fails at n = 3, and no far element homogeneous under Z^5
+  PASS  the constructed row, fields {1: (1, 0), 2: (2, 0), 3: (3, 4), 4: (1, 0)}: (I) holds, (II) fails at n = 3, and no far element homogeneous under Z^5
+  PASS  the constructed row, fields {1: (1, 0), 2: (-1, 0), 3: (0, 1), 4: (0, -1)}: the vacuum equation alone in (alpha, tau, chi) has a one-dimensional solution with alpha != 0 (fields antiparallel within the pairs)
+  PASS  the constructed row, fields {1: (3, 4), 2: (-3, -4), 3: (1, 0), 4: (-1, 0)}: the vacuum equation alone in (alpha, tau, chi) has a one-dimensional solution with alpha != 0 (fields antiparallel within the pairs)
+  PASS  the constructed row, fields {1: (5, 1), 2: (4, -3), 3: (1, 1), 4: (0, 2)}: the vacuum equation alone in (alpha, tau, chi) has only the zero solution
+
+ALL CHECKS PASS

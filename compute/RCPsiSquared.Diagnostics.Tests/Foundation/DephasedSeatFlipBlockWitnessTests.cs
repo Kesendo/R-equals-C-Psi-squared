@@ -2,10 +2,11 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>From-below pins for <see cref="DephasedSeatFlipBlockWitness"/> (the bullet "The block from one excitation to
-/// N − 1, at every N" of <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): rows the proof and its gate
-/// <c>simulations/blind_seat_block_lemma_gate.py</c> read, the grids, and a planted mutation (the jump's equation
-/// dropped) that the block reading must catch.</summary>
+/// <summary>From-below pins for <see cref="DephasedSeatFlipBlockWitness"/> (the bullets "The block from one excitation to
+/// N − 1, at every N" and "At N = 4, a seat that is not blind" of <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): rows the
+/// proof and its gates <c>simulations/blind_seat_block_lemma_gate.py</c> and <c>simulations/blind_seat_descent_gate.py</c>
+/// read, the grids, a planted mutation (the jump's equation dropped) that the block reading must catch, and readings
+/// that the N = 4 rule and condition (II) must call disagreements.</summary>
 public class DephasedSeatFlipBlockWitnessTests
 {
     static DephasedSeatFlipBlockWitness W(int n, string bonds, string fields = "") => new(n, bonds, fields);
@@ -83,10 +84,85 @@ public class DephasedSeatFlipBlockWitnessTests
         Assert.Equal(0, g3.Disagreements);
         Assert.Equal(0, g3.OffLineWithElement);
         Assert.Equal(g3.NotBlindOnLine, g3.OnLineWithElement);
-        var g4 = DephasedSeatFlipBlockWitness.ReadFarGrid(4, 20);     // measured, as the proof measures it
+        var g4 = DephasedSeatFlipBlockWitness.ReadFarGrid(4, 20);     // predicted by the bullet at N = 4
         Assert.True(g4.NotBlindOffLine > 0);
+        Assert.Equal(0, g4.Disagreements);
         Assert.Equal(0, g4.OffLineWithElement);
         Assert.Equal(g4.NotBlindOnLine, g4.OnLineWithElement);
+    }
+
+    /// <summary>The bullet "At N = 4, a seat that is not blind": off one line none of either height, with all three
+    /// fields nonzero and with one zero; on one line with all three nonzero exactly class A's colouring, of even height;
+    /// on one line with a field zero nothing is predicted. Both conditions of the descent hold at each predicted row (and,
+    /// measured, at the unpredicted one).</summary>
+    [Theory]
+    [InlineData("1:3,4;2:5,0;3:1,1", 0, 0, true)]
+    [InlineData("1:3,4;2:5,0", 0, 0, true)]                         // site 3 without a field, 1 and 2 off one line
+    [InlineData("1:1,0;2:-2,0;3:3,0", 1, 0, true)]                  // class A, all three nonzero
+    [InlineData("1:1,0;2:2,0", 1, 0, false)]                        // on one line with a field zero: not predicted
+    public void Far_At_N4_Not_Blind(string fields, int even, int odd, bool predicted)
+    {
+        var w = W(4, "0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1", fields);
+        Assert.Equal((even, odd), (w.Far.Even, w.Far.Odd));
+        Assert.Equal(predicted, w.Far.Predicted);
+        Assert.Equal(predicted ? true : null, w.Far.Agrees);
+        Assert.Equal(16, w.Descent.Cyclic);
+        Assert.Equal(new[] { 0, 0, 0 }, w.Descent.Fence);
+        Assert.True(w.Descent.FenceAgrees);
+    }
+
+    /// <summary>The gate's control: a blind seat bonded to two sites, where |1⟩_0 ⊗ (J01·e1 − J02·e2) is an eigenvector of
+    /// H_b killed by F⁻, so the cyclic space misses exactly that line (15 = 16 − 1, the vector bounding it from above).</summary>
+    [Fact]
+    public void Blind_Control_Cyclic_Space_Misses_A_Line()
+    {
+        var w = W(4, "0-1:1,0-2:2,1-2:-2,1-3:4,2-3:2", "1:2,0;2:1,0;3:0,1");
+        Assert.Equal(1, w.Far.Blind);
+        Assert.Equal(15, w.Descent.Cyclic);
+        Assert.Null(w.Far.Agrees);
+    }
+
+    /// <summary>The bullet's N = 5 row: seat 0 not blind, the second condition fails at three excitations (Ξ applied to
+    /// |0⟩_0 ⊗ 𝓈12 ⊗ 𝓈34), the first holds, and still no homogeneous far element, at fields antiparallel within the pairs.</summary>
+    [Fact]
+    public void N5_Row_Where_The_Fence_Fails_Carries_None()
+    {
+        var w = W(5, "0-1:1,0-2:1,0-3:2,0-4:2,1-3:1,2-4:2,2-3:3,1-2:-1,3-4:-2", "1:1,0;2:-1,0;3:0,1;4:0,-1");
+        Assert.Equal(0, w.Far.Blind);
+        Assert.Equal(new[] { 0, 0, 1, 0 }, w.Descent.Fence);
+        Assert.True(w.Descent.FenceAgrees);                         // sectors 1, 2 and N - 1 empty, as proven
+        Assert.Equal(32, w.Descent.Cyclic);
+        Assert.Equal((0, 0), (w.Far.Odd, w.Far.Even));
+        Assert.Null(w.Far.Agrees);
+    }
+
+    /// <summary>Anti-vacuity: readings that break the N = 4 rule are called disagreements, and at a blind seat with a
+    /// kernel vector of 𝓛 vanishing at 0 (the triangle 1, 2, 3 on e2 = 0, 0 a leaf on 1) the sector N − 1 holds a
+    /// vector with 0 excited at the vacuum's energy, which FenceAgrees would reject at a seat that is not blind.</summary>
+    [Fact]
+    public void Disagreements_Are_Seen()
+    {
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, false, true, 0, 1).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, 1, 1).Agrees);
+        Assert.Equal(false, new DephasedSeatFlipBlockWitness.FarReading(4, 0, true, true, 2, 0).Agrees);
+        var d = W(4, "0-1:1,1-2:3,1-3:6,2-3:-2").Descent;
+        Assert.Equal(new[] { 0, 0, 1 }, d.Fence);
+        Assert.False(new DephasedSeatFlipBlockWitness.DescentReading(0, d.Cyclic, d.Full, d.Fence).FenceAgrees);
+    }
+
+    [Theory]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void Fence_Empty_At_Sectors_One_Two_And_N_Minus_One_On_The_Grid(int n)
+    {
+        int notBlind = 0;
+        foreach (var b in DephasedSeatFlipBlockWitness.BondGrid(n, 12, 99UL))
+        {
+            var r = DephasedSeatFlipBlockWitness.ReadDescent(n, b, new Dictionary<int, (RCPsiSquared.Core.Numerics.BigRational, RCPsiSquared.Core.Numerics.BigRational)>());
+            if (r.Blind == 0) notBlind++;
+            Assert.True(r.FenceAgrees);
+        }
+        Assert.True(notBlind > 0);
     }
 
     [Fact]
@@ -103,6 +179,6 @@ public class DephasedSeatFlipBlockWitnessTests
     {
         var w = new DephasedSeatFlipBlockWitness();
         Assert.Contains("holds", w.Summary);
-        Assert.Equal(5, w.Children.Count());
+        Assert.Equal(6, w.Children.Count());
     }
 }

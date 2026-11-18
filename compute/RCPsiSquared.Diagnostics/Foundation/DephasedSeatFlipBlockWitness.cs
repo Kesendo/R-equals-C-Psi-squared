@@ -29,9 +29,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>What is read.</b> At every row: the block's solution dimension against the commutant count, against
 /// blindness, and Ξ's block as a solution. At N = 3 with d not blind, the proof's two conclusions: no homogeneous far
 /// element of even height, and one of odd height exactly when the fields lie on one line through the origin (class A's
-/// colouring then supplies it). At N ≥ 4 the counts are reported and nothing is predicted (the proof measures, it does
-/// not prove, that none exists with d not blind and the fields not on one line). Fixed grids at N = 3, 4 and 5 for the
-/// block and at N = 3 and 4 for the far counts.</para>
+/// colouring then supplies it). At N = 4 with d not blind, the bullet "At N = 4, a seat that is not blind": none of
+/// either height with the fields off one line, and with them on one line and all three nonzero exactly one, of even
+/// height (class A's colouring). Beside it the descent's two conditions at the row, computed exactly: (I) the dimension
+/// of the cyclic space alg(H_b, Z_d, F⁺)|vac⟩ over ℚ(i), realified, and (II) per sector the vectors with d excited in
+/// every term at the vacuum's energy; at N = 5 the counts and conditions are reported, (II) predicted only at the
+/// sectors 1, 2 and N − 1. Fixed grids at N = 3, 4 and 5 for the block and at N = 3 and 4 for the far counts.</para>
 ///
 /// <para>Args: <c>--N</c> (3 to 5; default 3), <c>--bonds</c> (i-j:J entries, comma-separated, J an integer or p/q;
 /// default 0-1:1,0-2:2,1-2:3), <c>--fields</c> (j:x,y entries separated by semicolons, x and y integers or p/q, no
@@ -308,11 +311,17 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
         return vs.All(a => vs.All(b => (a.X * b.Y - a.Y * b.X).IsZero));
     }
 
-    public sealed record FarReading(int Blind, bool OnLine, int Odd, int Even, bool? Predicted)
+    public sealed record FarReading(int N, int Blind, bool OnLine, bool AllFieldsNonzero, int Odd, int Even)
     {
-        /// <summary>At N = 3 with d not blind, the proof's conclusions: even 0, odd nonzero exactly on one line.
-        /// Null where nothing is predicted (d blind, or N ≥ 4).</summary>
-        public bool? Agrees => Predicted is null ? null : Even == 0 && (Odd > 0) == OnLine;
+        /// <summary>Where the proof predicts: d not blind, and N = 3, or N = 4 with the fields off one line or on one line
+        /// with every field nonzero (where the case analysis gives condition (I)).</summary>
+        public bool Predicted => Blind == 0 && (N == 3 || (N == 4 && (!OnLine || AllFieldsNonzero)));
+
+        /// <summary>At N = 3: even 0, odd nonzero exactly on one line. At N = 4: (even, odd) = (0, 0) off one line and
+        /// (1, 0) on it. Null where nothing is predicted.</summary>
+        public bool? Agrees => !Predicted ? null
+            : N == 3 ? Even == 0 && (Odd > 0) == OnLine
+            : OnLine ? Even == 1 && Odd == 0 : Even == 0 && Odd == 0;
     }
 
     public static FarReading ReadFar(int n, IReadOnlyDictionary<(int, int), BigRational> bonds,
@@ -320,9 +329,109 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
     {
         int blind = BlindDimension(n, bonds);
         bool line = OnOneLine(fields);
+        bool all = Enumerable.Range(1, n - 1).All(j => fields.TryGetValue(j, out var f) && (!f.X.IsZero || !f.Y.IsZero));
         int odd = FarCount(n, bonds, fields, 1), even = FarCount(n, bonds, fields, 0);
-        return new FarReading(blind, line, odd, even, n == 3 && blind == 0 ? true : null);
+        return new FarReading(n, blind, line, all, odd, even);
     }
+
+    // ---- the descent's two conditions -----------------------------------------------------------------
+
+    /// <summary>Condition (II): for each sector k = 1 .. N − 1 the dimension of the vectors with site 0 excited in every
+    /// term at the vacuum's energy E0 (the sum of the couplings), exactly over ℚ.</summary>
+    public static int[] FenceDimensions(int n, IReadOnlyDictionary<(int, int), BigRational> bonds)
+    {
+        var e0 = bonds.Values.Aggregate(BigRational.Zero, (a, b) => a + b);
+        var dims = new int[n - 1];
+        for (int k = 1; k < n; k++)
+        {
+            var bk = BondSector(n, bonds, k, out var basis);
+            var cols = Enumerable.Range(0, basis.Count).Where(i => (basis[i] & 1) == 1).ToList();
+            var m = Zero(basis.Count, cols.Count);
+            for (int r = 0; r < basis.Count; r++)
+                for (int c = 0; c < cols.Count; c++)
+                    m[r, c] = bk[r, cols[c]] - (r == cols[c] ? e0 : BigRational.Zero);
+            dims[k - 1] = BigRationalLinearAlgebra.Nullspace(m).Count;
+        }
+        return dims;
+    }
+
+    /// <summary>Condition (I): the complex dimension of the cyclic space alg(H_b, Z_0, F⁺)|vac⟩, F⁺ = Σ_j ω_j·σ⁻_j with
+    /// ω_j = x_j + i·y_j, exactly: the ℚ-span of the realified orbit closed under H_b, Z_0, F⁺ and multiplication by i
+    /// is the realification of the complex span, so its ℚ-dimension is twice the complex one.</summary>
+    public static int CyclicDimension(int n, IReadOnlyDictionary<(int, int), BigRational> bonds,
+        IReadOnlyDictionary<int, (BigRational X, BigRational Y)> fields)
+    {
+        int dim = 1 << n;
+        var h = Zero(dim, dim);
+        for (int x = 0; x < dim; x++)
+            foreach (var ((i, j), J) in bonds)
+            {
+                bool bi = ((x >> i) & 1) == 1, bj = ((x >> j) & 1) == 1;
+                h[x, x] += bi == bj ? J : -J;
+                if (bi != bj) h[x ^ (1 << i) ^ (1 << j), x] += 2 * J;
+            }
+        BigRational[] Apply(BigRational[] v, int op)
+        {
+            var o = new BigRational[2 * dim];
+            for (int a = 0; a < 2 * dim; a++) o[a] = BigRational.Zero;
+            switch (op)
+            {
+                case 0:                                            // H_b, real
+                    for (int a = 0; a < dim; a++)
+                        for (int b = 0; b < dim; b++)
+                            if (!h[a, b].IsZero) { o[a] += h[a, b] * v[b]; o[dim + a] += h[a, b] * v[dim + b]; }
+                    break;
+                case 1:                                            // Z_0
+                    for (int a = 0; a < dim; a++) { int s = (a & 1) == 1 ? -1 : 1; o[a] = s * v[a]; o[dim + a] = s * v[dim + a]; }
+                    break;
+                case 2:                                            // F+ = A + iB: (A re − B im, A im + B re)
+                    foreach (var (j, (fx, fy)) in fields)
+                        for (int x = 0; x < dim; x++)
+                            if (((x >> j) & 1) == 0)
+                            {
+                                int y = x | (1 << j);
+                                o[y] += fx * v[x] - fy * v[dim + x];
+                                o[dim + y] += fx * v[dim + x] + fy * v[x];
+                            }
+                    break;
+                default:                                           // multiplication by i
+                    for (int a = 0; a < dim; a++) { o[a] = -v[dim + a]; o[dim + a] = v[a]; }
+                    break;
+            }
+            return o;
+        }
+        var basis = new List<(BigRational[] V, int Pivot)>();
+        var queue = new Stack<BigRational[]>();
+        var vac = new BigRational[2 * dim];
+        for (int a = 0; a < 2 * dim; a++) vac[a] = a == 0 ? BigRational.One : BigRational.Zero;
+        queue.Push(vac);
+        while (queue.Count > 0)
+        {
+            var v = queue.Pop();
+            var r = (BigRational[])v.Clone();
+            foreach (var (bv, piv) in basis)
+                if (!r[piv].IsZero) { var c = r[piv]; for (int a = 0; a < r.Length; a++) r[a] -= c * bv[a]; }
+            int p = Array.FindIndex(r, z => !z.IsZero);
+            if (p < 0) continue;
+            var inv = BigRational.One / r[p];
+            for (int a = 0; a < r.Length; a++) r[a] *= inv;
+            foreach (var (bv, _) in basis)
+                if (!bv[p].IsZero) { var c = bv[p]; for (int a = 0; a < r.Length; a++) bv[a] -= c * r[a]; }
+            basis.Add((r, p));
+            for (int op = 0; op < 4; op++) queue.Push(Apply(v, op));
+        }
+        return basis.Count / 2;                                   // the realified span is closed under i, so its dimension is even
+    }
+
+    public sealed record DescentReading(int Blind, int Cyclic, int Full, int[] Fence)
+    {
+        /// <summary>The sectors at which (II) is proven where d is not blind: 1, 2 and N − 1.</summary>
+        public bool FenceAgrees => Blind > 0 || new[] { 1, 2, Fence.Length }.Distinct().All(k => Fence[k - 1] == 0);
+    }
+
+    public static DescentReading ReadDescent(int n, IReadOnlyDictionary<(int, int), BigRational> bonds,
+        IReadOnlyDictionary<int, (BigRational X, BigRational Y)> fields) =>
+        new(BlindDimension(n, bonds), CyclicDimension(n, bonds, fields), 1 << n, FenceDimensions(n, bonds));
 
     // ---- fixed grids -----------------------------------------------------------------------------------
 
@@ -408,8 +517,10 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
 
     private BlockReading? _block;
     private FarReading? _far;
+    private DescentReading? _descent;
     public BlockReading Block => _block ??= ReadBlock(N, Bonds);
     public FarReading Far => _far ??= ReadFar(N, Bonds, Fields);
+    public DescentReading Descent => _descent ??= ReadDescent(N, Bonds, Fields);
 
     private string RowText => string.Join(", ", Bonds.Select(p => $"{p.Key.Item1}-{p.Key.Item2}:{p.Value}")) +
         (Fields.Count == 0 ? "; no fields" : "; fields " + string.Join(", ", Fields.Select(p => $"{p.Key}:({p.Value.X}, {p.Value.Y})")));
@@ -449,10 +560,23 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
                 summary: string.Format(CultureInfo.InvariantCulture,
                     "Of odd height {0}, of even height {1} (exact over Q); the fields {2} on one line. {3}",
                     f.Odd, f.Even, f.OnLine ? "lie" : "do not lie",
-                    f.Predicted is null
-                        ? (N == 3 ? "Seat 0 is blind, where the bullet predicts nothing."
-                                  : "At N >= 4 nothing is predicted; the proof measures that none exists with seat 0 not blind and the fields not on one line.")
-                        : $"At N = 3 with seat 0 not blind the bullet says: none of even height, and of odd height exactly with the fields on one line; it {(f.Agrees == true ? "holds" : "FAILS")}."),
+                    !f.Predicted
+                        ? (f.Blind > 0 ? "Seat 0 is blind, where the bullets predict nothing."
+                           : N == 4 ? "Fewer than three nonzero fields, all on one line, where the case analysis does not give condition (I); nothing is predicted."
+                           : "At N = 5 nothing is predicted; the proof measures that none exists with seat 0 not blind and the fields not on one line.")
+                        : N == 3
+                            ? $"At N = 3 with seat 0 not blind the bullet says: none of even height, and of odd height exactly with the fields on one line; it {(f.Agrees == true ? "holds" : "FAILS")}."
+                            : $"At N = 4 with seat 0 not blind the bullet says: none of either height off one line, exactly one of even height (class A's colouring) on it; it {(f.Agrees == true ? "holds" : "FAILS")}."),
+                provenance: NodeProvenance.Live);
+            var dsc = Descent;
+            yield return new InspectableNode("the descent's two conditions at this row",
+                summary: string.Format(CultureInfo.InvariantCulture,
+                    "(I) the cyclic space alg(H_b, Z_0, F+)|vac> has dimension {0} of {1} (exact over Q(i)); (II) vectors with " +
+                    "seat 0 excited in every term at the vacuum's energy, by sector 1..{2}: [{3}] (exact). {4}",
+                    dsc.Cyclic, dsc.Full, N - 1, string.Join(", ", dsc.Fence),
+                    dsc.Blind > 0 ? "Seat 0 is blind; the bullet predicts nothing."
+                    : $"Seat 0 not blind: (II) is proven empty at the sectors 1, 2 and N - 1, here {(dsc.FenceAgrees ? "empty" : "NOT empty")}" +
+                      (N == 4 && f.Predicted ? $", and at N = 4 (I) holds by the case analysis, here {(dsc.Cyclic == dsc.Full ? "full" : "NOT full")}." : ".")),
                 provenance: NodeProvenance.Live);
             var grids = new[] { 3, 4, 5 }.Select(n => (n, ReadBlockGrid(n))).ToList();
             yield return new InspectableNode("the block on fixed grids at N = 3, 4, 5",
@@ -465,15 +589,18 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
             yield return new InspectableNode("far elements on fixed grids at N = 3 and 4",
                 summary: string.Format(CultureInfo.InvariantCulture,
                     "Rows with seat 0 not blind. N = 3: {0} with the fields off one line ({1} carrying a homogeneous far " +
-                    "element), {2} on one line ({3} carrying one), {4} disagreeing with the bullet. N = 4 (measured, not " +
-                    "predicted): {5} off one line ({6} carrying one), {7} on one line ({8} carrying one, class A's colouring).",
+                    "element), {2} on one line ({3} carrying one), {4} disagreeing with the bullet. N = 4: {5} off one line " +
+                    "({6} carrying one), {7} on one line ({8} carrying one, class A's colouring), {9} disagreeing with the bullet " +
+                    "on the rows it predicts.",
                     f3.NotBlindOffLine, f3.OffLineWithElement, f3.NotBlindOnLine, f3.OnLineWithElement, f3.Disagreements,
-                    f4.NotBlindOffLine, f4.OffLineWithElement, f4.NotBlindOnLine, f4.OnLineWithElement),
+                    f4.NotBlindOffLine, f4.OffLineWithElement, f4.NotBlindOnLine, f4.OnLineWithElement, f4.Disagreements),
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("where the proof lives",
                 summary: "The lemma and its N = 3 conclusions are argued by hand in the bullet 'The block from one excitation " +
                          "to N − 1, at every N' of docs/proofs/PROOF_ONE_DEPHASED_SEAT.md, gate " +
-                         "simulations/blind_seat_block_lemma_gate.py; this witness reads them at points on a road of its own. " +
+                         "simulations/blind_seat_block_lemma_gate.py, and N = 4 with the descent's two conditions in the bullet " +
+                         "'At N = 4, a seat that is not blind', gate simulations/blind_seat_descent_gate.py; this witness reads " +
+                         "them at points on a road of its own. " +
                          "E pairs at a seat that is not blind through a far element of no definite height, which neither reaches.");
         }
     }
