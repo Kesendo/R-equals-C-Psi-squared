@@ -50,7 +50,7 @@ Reading back is exact and unique: J₁ = r(IZ)/6, J₂ = r(ZI)/6, J₀ = r(IX)/3
 | three readings | 3.4% | 2.0% | 2.0% |
 | nine readings, weighted | 1.8% | 1.3% | 1.8% |
 
-A splitting ω_Q, which enters H as q·ZZ with q = ω_Q·√6/2, changes the bright cells: each bright pair mixes into the rates c₂ ± √(9J₂² − 4q²) (the satellites; the double quanta with J₁), as the sodium page derives, while the two rates of a pair still sum to 2c₂. In strings the pairs are {IX, ZX}, {IY, ZY}, {XI, XZ} and {YI, YZ}, and all four sums are the one number 6(J₀ + J₁ + J₂). So with a splitting the bright sector gives one number and the key survives because the dark cells are untouched: J₁ and J₂ from IZ and ZI as before, and J₀ = (pair sum)/6 − J₁ − J₂. An offset alone only turns a coherence into its partner of equal rate and changes no rate.
+A splitting ω_Q, which enters H as q·ZZ with q = ω_Q·√6/2, changes the bright cells: each bright pair mixes into the rates c₂ ± √(9J₂² − 4q²) (the satellites; the double quanta with J₁), as the sodium page derives, while the two rates of a pair still sum to 2c₂. In strings the pairs the splitting mixes are {IX, ZY}, {IY, ZX}, {XI, YZ} and {YI, XZ}, and all four sums are the one number 6(J₀ + J₁ + J₂). So with a splitting the bright sector gives one number and the key survives because the dark cells are untouched: J₁ and J₂ from IZ and ZI as before, and J₀ = (pair sum)/6 − J₁ − J₂. An offset alone only turns a coherence into its partner of equal rate and changes no rate.
 
 ## Back to the motion
 

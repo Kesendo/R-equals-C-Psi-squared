@@ -47,11 +47,12 @@ idx = {w: i for i, w in enumerate(W)}
 assert all(G[idx["ZZ"]] == G[idx["IZ"]] + G[idx["ZI"]])          # one genuine relation, by name
 
 # 2. with a splitting: the bright pairs and their sums
-PAIRS = [("IX", "ZX"), ("IY", "ZY"), ("XI", "XZ"), ("YI", "YZ")]
+# the pairs the splitting q*ZZ mixes (ZZ times a bright string)
+PAIRS = [("IX", "ZY"), ("IY", "ZX"), ("XI", "YZ"), ("YI", "XZ")]
 for a_, b_ in PAIRS:
     assert tuple(G[idx[a_]] + G[idx[b_]]) == (6, 6, 6), (a_, b_)
 J = np.array([1.0, 0.6, 0.3]); key = G @ J
-pair_sum = key[idx["IX"]] + key[idx["ZX"]]
+pair_sum = key[idx["IX"]] + key[idx["ZY"]]
 J1s, J2s = key[idx["IZ"]] / 6, key[idx["ZI"]] / 6
 assert np.allclose([pair_sum / 6 - J1s - J2s, J1s, J2s], J, rtol=0, atol=1e-12)
 print("2. with a splitting every bright pair sums to 6(J0 + J1 + J2), one number for all four pairs; the dark cells "

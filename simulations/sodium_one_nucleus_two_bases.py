@@ -8,6 +8,12 @@ of the page's Conventions; compared entry by entry, exactly.
 
   1. at zero splitting: the eight distinct non-zero rates and the five relations among them, written out, with their
      rank (exact);
+  1b. the ties as counts: XI, YI, ZX, ZY are the two bits' Majoranas, ZZ their parity; with free jump rates an even
+     product decays at twice the rates of the Majoranas it holds, an odd one at twice the parity's plus those it
+     lacks (read off the generator's diagonal); the first and fifth relation on class means; a sixth jump XX as the
+     control; the turn about the field on the Majoranas; the counted letter cube's points at two rates; with a
+     splitting, each odd string and its complement a closed pair, all four centred at 2g(ZZ) plus the four
+     Majoranas' rates (c2 at the sample's rates), as the sodium page's map S(X) = ZZ X^T gives for free rates;
   2. with a splitting: the populations, the central transition and the triple quantum keep their rates; a satellite
      cell and a double-quantum cell have the diagonal element -c2 = -3(J0 + J1 + J2), and past the bright pairs'
      exceptional point both eigenvalues of each pair have real part -c2 (exact), so satellites and double quanta
@@ -164,6 +170,121 @@ Lb = gen_strings(0, bad)
 rb = {s: sp.expand(-(vec(S[s]).H * Lb * vec(S[s]))[0] / 4) for s in ("XX", "IZ", "ZI")}
 claim("control: ZY at a rate other than ZX's, XI and YI equal, breaks the mean relation",
       sp.simplify(rb["XX"] - (rb["IZ"] + rb["ZI"]) / 2) != 0)
+
+print("1b. the ties as counts of Majoranas")
+# the four jumps XI, YI (site 1) and ZX, ZY (site 2) are the Jordan-Wigner Majoranas of the two bits, ZZ their parity
+MAJ = ["XI", "YI", "ZX", "ZY"]
+Lfree = gen_strings(0, free)
+rdiag = {s: sp.expand(-(vec(S[s]).H * Lfree * vec(S[s]))[0] / 4) for s in LABELS}
+
+
+def as_product(s):
+    for k in range(5):
+        for sub in __import__("itertools").combinations(MAJ, k):
+            M = sp.eye(4)
+            for m in sub:
+                M = M * S[m]
+            if any(M == c * S[s] for c in (1, -1, sp.I, -sp.I)):
+                return sub
+
+
+subsets = {s: as_product(s) for s in LABELS}
+count = {s: 2 * sum(free[m] for m in sub) if len(sub) % 2 == 0
+         else 2 * (free["ZZ"] + sum(free[m] for m in MAJ if m not in sub)) for s, sub in subsets.items()}
+claim("with five free rates, read off the generator's diagonal: every string is one product of the four Majoranas, "
+      "an even product decays at twice the summed rate of the Majoranas it holds, an odd one at twice the sum of the "
+      "parity's rate and the rates of those it lacks", len(set(subsets.values())) == 16
+      and all(sp.simplify(rdiag[s] - count[s]) == 0 for s in LABELS))
+mean = lambda ss: sum(rdiag[s] for s in ss) / len(ss)
+claim("with five free rates the first and the fifth relation hold on class means: the mean of {XX, XY, YX, YY} is "
+      "(r(IZ) + r(ZI))/2, and the mean of {IX, IY} less that of {XZ, YZ} is (r(IZ) - r(ZI))/2",
+      sp.simplify(mean(["XX", "XY", "YX", "YY"]) - (rdiag["IZ"] + rdiag["ZI"]) / 2) == 0
+      and sp.simplify(mean(["IX", "IY"]) - mean(["XZ", "YZ"]) - (rdiag["IZ"] - rdiag["ZI"]) / 2) == 0)
+claim("each of the four Majoranas lights exactly two of {XX, XY, YX, YY}, the parity none",
+      all(sum(anticommutes(s, m) for s in ("XX", "XY", "YX", "YY")) == 2 for m in MAJ)
+      and not any(anticommutes(s, "ZZ") for s in ("XX", "XY", "YX", "YY")))
+# control: a sixth jump that is no Majorana and not the parity, XX, breaks the sum relation
+six = dict(free)
+six["XX"] = sp.Symbol("gXX", positive=True)
+L6 = gen_strings(0, six)
+r6 = {s: sp.expand(-(vec(S[s]).H * L6 * vec(S[s]))[0] / 4) for s in ("ZZ", "IZ", "ZI")}
+claim("control: a sixth jump XX breaks r(ZZ) = r(IZ) + r(ZI)", sp.simplify(r6["ZZ"] - r6["IZ"] - r6["ZI"]) != 0)
+# the turn about the field: I_z = ZI + IZ/2 turns each site's two Majoranas into each other, site 1 at twice the angle
+ph = sp.Symbol("phi", real=True)
+Uz = sp.diag(*[sp.exp(-sp.I * ph * v) for v in (sp.Rational(3, 2), sp.Rational(1, 2), -sp.Rational(1, 2), -sp.Rational(3, 2))])
+turned = {m: sp.simplify(Uz * S[m] * Uz.H) for m in MAJ}
+# a dissipator that commutes with every turn about the field has one rate for the two Majoranas of each bit
+Dfree = lambda M: sum((free[j] * (S[j] * M * S[j] - M) for j in free), sp.zeros(4))
+eqs = []
+for s in LABELS:
+    eqs += list(sp.expand(sp.simplify(Dfree(Uz * S[s] * Uz.H) - Uz * Dfree(S[s]) * Uz.H)))
+coeffs = set()
+for e in eqs:
+    e = sp.expand(sp.expand_trig(sp.simplify(e.rewrite(sp.cos))))
+    if e != 0:
+        coeffs |= set(sp.Poly(e, sp.cos(ph), sp.sin(ph)).coeffs())
+sol = sp.solve(list(coeffs), [free["YI"], free["ZY"]], dict=True)
+# the conditions are exactly these two: the coefficient equations span the same space as the two differences
+span_ok = sp.Matrix([[sp.diff(c_, g_) for g_ in gs] for c_ in coeffs]).rank() == 2
+claim("a dissipator of the five free rates commutes with every turn about the field exactly when g(XI) = g(YI) and "
+      "g(ZX) = g(ZY), g(ZZ) free", sol == [{free["YI"]: free["XI"], free["ZY"]: free["ZX"]}] and span_ok, str(sol))
+claim("I_z = ZI + IZ/2, and the turn about the field by phi turns XI into cos(2 phi) XI + sin(2 phi) YI and ZX into "
+      "cos(phi) ZX + sin(phi) ZY (site 1 at twice the angle of site 2)",
+      sp.diag(sp.Rational(3, 2), sp.Rational(1, 2), -sp.Rational(1, 2), -sp.Rational(3, 2)) == S["ZI"] + S["IZ"] / 2
+      and sp.simplify(turned["XI"] - (sp.cos(2 * ph) * S["XI"] + sp.sin(2 * ph) * S["YI"])) == sp.zeros(4)
+      and sp.simplify(turned["ZX"] - (sp.cos(ph) * S["ZX"] + sp.sin(ph) * S["ZY"])) == sp.zeros(4))
+# the letter cube read as a count, (k_Z, k_X, k_Y), cannot tell the sites apart: the points that hold strings at two
+# rates are exactly the pairs the swap of the two bits exchanges
+pt = lambda s: (sum(c in "XY" for c in s), sum(c in "YZ" for c in s), sum(c in "XZ" for c in s))
+points = {}
+for s in LABELS:
+    points.setdefault(pt(s), []).append(s)
+two_str = {p_: ss for p_, ss in points.items() if len(ss) == 2}
+rfree_xy = (rdiag["XY"], rdiag["YX"])
+claim("the sixteen strings sit on ten points, six of them hold two strings, each a swap pair; XY and YX share c1 at "
+      "the sample's rates and part with free rates",
+      len(points) == 10 and len(two_str) == 6 and all(ss[0] == ss[1][::-1] for ss in two_str.values())
+      and sp.simplify(r["XY"] - r["YX"]) == 0 and sp.simplify(rfree_xy[0] - rfree_xy[1]) != 0)
+split_pts = {p_: ss for p_, ss in points.items() if len({r[s] for s in ss}) > 1}
+pairs_ok = all(len(ss) == 2 and ss[0] == ss[1][::-1] for ss in split_pts.values())
+diffs = {tuple(ss): sp.factor(r[ss[1]] - r[ss[0]]) for ss in split_pts.values()}
+print("    points of the counted cube that hold two rates: " + "; ".join(f"{a}/{b}: {d}" for (a, b), d in diffs.items()))
+claim("on the counted letter cube exactly five points hold strings at two rates, each a pair the swap of the two bits "
+      "exchanges; at the four odd pairs the two rates differ by c1 = 3(J1 + J2), at IZ/ZI by 6(J2 - J1)",
+      len(split_pts) == 5 and pairs_ok
+      and all(sp.simplify(abs(d) - c1) == 0 or sp.simplify(d ** 2 - 36 * (J2 - J1) ** 2) == 0 for d in diffs.values())
+      and sum(1 for d in diffs.values() if sp.simplify(d ** 2 - c1 ** 2) == 0) == 4)
+# with a splitting, free rates: the parity carries each odd string onto its complement, a closed pair with one centre
+Lqf = gen_strings(q, free)
+centre = 2 * free["ZZ"] + sum(free[m] for m in MAJ)
+ok_pairs = True
+for s in LABELS:
+    if len(subsets[s]) % 2 == 0:
+        continue
+    comp = [k for k in LABELS if set(subsets[k]) == set(MAJ) - set(subsets[s])][0]
+    bi = [vec(S[s]) / 2, vec(S[comp]) / 2]
+    blk = sp.Matrix(2, 2, lambda a_, b_: sp.simplify((bi[a_].H * Lqf * bi[b_])[0]))
+    out_of = [sp.simplify(Lqf * bi[j] - (bi[0] * blk[0, j] + bi[1] * blk[1, j])) for j in (0, 1)]
+    ok_pairs &= (all(o == sp.zeros(16, 1) for o in out_of) and sp.simplify(-(blk[0, 0] + blk[1, 1]) / 2 - centre) == 0
+                 and sp.simplify(blk[0, 1] * blk[1, 0] + 4 * q ** 2) == 0)
+claim("with five free rates and a splitting, each odd string and its complement (the parity times it) form a closed "
+      "pair coupled by 2q, every pair centred at 2g(ZZ) plus the four Majoranas' rates, which is c2 at the sample's rates",
+      ok_pairs and sp.simplify(centre.subs(dict(zip(gs, JUMPS.values()))) - c2) == 0)
+# the sodium page's one map S(X) = ZZ X^T, read with free rates: S L S^-1 = -L + 2 L_ZZ - 2 (sum of the Majoranas' rates)
+Ssup = supop(lambda X: S["ZZ"] * X.T)
+LZZ = supop(lambda X: free["ZZ"] * (S["ZZ"] * X * S["ZZ"] - X))
+claim("with five free rates and a splitting, S(X) = ZZ X^T gives S L S^-1 = -L + 2 L_ZZ - 2(g(XI) + g(YI) + g(ZX) + g(ZY))",
+      sp.simplify(Ssup * Lqf * Ssup.inv() - (-Lqf + 2 * LZZ - 2 * sum(free[m] for m in MAJ) * sp.eye(16))) == sp.zeros(16))
+# the pairs the splitting mixes sum to 6(J0 + J1 + J2) at the sample's rates (the Key page's pair sums)
+claim("at the sample's rates the four pairs the splitting mixes, {IX, ZY}, {IY, ZX}, {XI, YZ}, {YI, XZ}, each sum to "
+      "6(J0 + J1 + J2)", all(sp.simplify(r[a_] + r[b_] - 2 * c2) == 0 for a_, b_ in (("IX", "ZY"), ("IY", "ZX"), ("XI", "YZ"), ("YI", "XZ"))))
+d_a = sp.simplify((rdiag["ZY"] - rdiag["IX"]) / 2)
+d_b = sp.simplify((rdiag["ZX"] - rdiag["IY"]) / 2)
+claim("the satellite pairs' half-differences: g(XI) + g(YI) + g(ZX) - g(ZY) for IX and ZY, the same with ZX and ZY "
+      "exchanged for IY and ZX; both 3J2 at the sample's rates",
+      sp.simplify(d_a - (free["XI"] + free["YI"] + free["ZX"] - free["ZY"])) == 0
+      and sp.simplify(d_b - (free["XI"] + free["YI"] + free["ZY"] - free["ZX"])) == 0
+      and all(sp.simplify(d_.subs(dict(zip(gs, JUMPS.values()))) - 3 * J2) == 0 for d_ in (d_a, d_b)))
 
 print("2. with a splitting")
 dark = {"IZ": 6 * J1, "ZI": 6 * J2, "ZZ": 6 * (J1 + J2)}
