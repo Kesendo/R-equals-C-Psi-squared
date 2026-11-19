@@ -37,7 +37,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// drop that blinds every seat (F157, <see cref="SeatCutBlindnessClaim"/>). At N = 4, H = e·σ1·σ2 + a·(σ0 − σ3)·(σ1 − σ2) with fields 0, −h·X1, h·X2, g·Y3
 /// pairs for every real a, g ≠ 0 and every real e, h, for h ≠ 0 with neither a colouring nor a site symmetry fixing site 0, its carrier
 /// in closed form and depending on h (exact, computer-assisted: <c>simulations/n4_pair_channel_family.py</c>, elimination and dense gate);
-/// at N = 7 a construction, a dephased centre joined to two scalene weighted triangles with different weight sets, equivalent as spin representations, pairs with no rank drop and no site symmetry
+/// at N = 7 a construction, a dephased centre joined to two scalene weighted triangles with different weight sets, equivalent as spin representations carrying their Hamiltonians, pairs with no rank drop and no site symmetry
 /// (<c>simulations/blind_seat_carriers_gate.py</c>). The sheet and blindness: on the triangle with Heisenberg bonds of
 /// which at most one is zero, the jump Z on site 0 alone and nonzero planar fields f₁, f₂ on sites 1 and 2 neither
 /// parallel nor antiparallel, a far element of odd height (every string with an odd number of letters X or Y) exists
@@ -93,7 +93,7 @@ public sealed class OneDephasedSeatClaim : Claim
                "letter fields: a family at N = 4 pairs for every real a, g nonzero and, at a nonzero field h, with neither a " +
                "colouring nor a site symmetry fixing d, through a closed-form carrier (exact, computer-assisted); at N = 7 a " +
                "construction, a dephased centre joined to two scalene weighted triangles with different weight sets, " +
-               "equivalent as spin representations, " +
+               "equivalent as spin representations carrying their Hamiltonians, " +
                "pairs with neither a colouring nor any site symmetry and with no rank drop of the Laplacian; at N = 5, for a, h nonzero, the N = 4 carrier survives no attachment of a fifth spin by " +
                "isotropic bonds as a product W4 x Q. That every palindrome there without a colouring needs a blind " +
                "dephased seat is a conjecture. In the widened N = 4 family (the pair seen from 0 and 3 through its " +
@@ -166,7 +166,7 @@ public sealed class OneDephasedSeatClaim : Claim
                          "a (s0 - s3).(s1 - s2) with fields 0, -hX1, hX2, gY3 pairs for every real a, g != 0 and every real e, h, " +
                          "near = far = 1, for h != 0 with neither a colouring nor a site symmetry fixing site 0 (exact, computer-assisted); its " +
                          "carrier, in closed form, depends on h. At N = 7 a construction (a dephased centre joined by one coupling c > 0 to all six " +
-                         "sites of two scalene weighted triangles with different weight sets, equivalent as spin representations, " +
+                         "sites of two scalene weighted triangles with different weight sets, equivalent as spin representations carrying their Hamiltonians, " +
                          "no bonds between them, fields " +
                          "h X on one and h Y on the other, h != 0) pairs with no rank drop and no site symmetry, the centre " +
                          "still blind. Gates: " +

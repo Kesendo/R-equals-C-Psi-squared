@@ -10086,7 +10086,7 @@ the factor that decides the common carrier of F138's converse failures there. It
 ways to blindness: s = t, a site symmetry fixing d, and e₂ = 0, a rank drop of the signed Laplacian
 that makes every seat blind. At N = 4 a family on the second way pairs, at nonzero a, g and field h on the pair,
 with neither a colouring nor a site symmetry fixing d, its carrier in closed form; at N = 7 a dephased centre joined
-to two weighted triangles equivalent as spin representations pairs with no rank drop and no site symmetry, refuting
+to two weighted triangles (equivalent as spin representations carrying their Hamiltonians) pairs with no rank drop and no site symmetry, refuting
 those two ways as the only ones, while the centre stays blind; whether, under Heisenberg bonds with letter fields, a
 palindrome without a colouring needs its dephased seat blind at every N is open
 ([blind dephased seats](proofs/PROOF_ONE_DEPHASED_SEAT.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries));

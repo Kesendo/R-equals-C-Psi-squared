@@ -4,7 +4,7 @@ site symmetries" in docs/proofs/PROOF_ONE_DEPHASED_SEAT.md. Run from the reposit
 N = 4: the far element of the pair-channel family in closed form, reconstructed as Pauli strings separately from
 its singlet/triplet derivation; [H, W] = 0, {Z0, W} = 0 and W^2 = (a^2 + h^2) I symbolically. N = 5: the 19 x 19
 minor that forbids keeping W4 (x) Q when a fifth spin is attached. N = 7: two weighted triangles equivalent as
-spin representations, the full 128-dimensional carrier, the trivial weighted automorphism group, the Laplacian.
+spin representations carrying their Hamiltonians, the full 128-dimensional carrier, the trivial weighted automorphism group, the Laplacian.
 No producer is imported, no census run, no eigenvalue tolerance used.
 """
 import itertools

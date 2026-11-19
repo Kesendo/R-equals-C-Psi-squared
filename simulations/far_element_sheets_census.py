@@ -10,6 +10,8 @@ where it reverses W. Blindness is
 F157's as the section states it: the Krylov space of the dephased seat under the J-weighted Laplacian of the
 Heisenberg bonds is smaller than N. Exact throughout: the ends over Q(i), the
 Krylov ranks over Q, and the N = 7 carrier W = V·W0·V^-1 built from its closed form over Q(i), no threshold.
+The N = 7 row pairs, but not through one far element (each triangle's Hamiltonian commutes with H and Z_0), so
+its readings are of that one W, not of the row's far end, and the section keeps it outside the locality lemma.
 
 Asserted, each a sentence of the section: the carriers' ranks across every cut (at N = 4 and N = 7 the multi-site
 cuts too, N = 7's element checked in the far end exactly); which of them a site permutation fixing the watched seat
