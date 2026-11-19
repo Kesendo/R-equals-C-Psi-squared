@@ -6,14 +6,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>The mirror's locality bound (experiments/THE_CUBE_SITE_BY_SITE.md, finding 1, the Z corner;
 /// 2026-10-30). For a Lindbladian L = −i[H, ·] + Σ_l D_l with on every site a thermal bath (cooling σ⁻ at γ↓_l,
 /// heating σ⁺ at γ↑_l) and an H commuting with Z⊗N, the string Z⊗N, the letter cube's vertex at (0, N, N) and the
-/// deepest cell under the baths, is an eigenvector of L at −c, c = Σ_l (γ↓_l + γ↑_l). Any element E with
+/// deepest string under the baths, is an eigenvector of L at −c, c = Σ_l (γ↓_l + γ↑_l). Any element E with
 /// E·L·E⁻¹ = −L − c carries the −c mode onto the 0 mode, so E(Z⊗N) ∝ ρ_ss when the steady state is unique; and a
 /// map of operator Schmidt rank r across a cut turns a product across that cut into an operator of rank at most r.
 /// Hence, across every cut,
 ///
 /// <para>Schmidt-rank(E) ≥ Schmidt-rank(ρ_ss).</para>
 ///
-/// <para>At one temperature the steady state is the Gibbs product and the bound is 1, which the site-local M_β of
+/// <para>For a number-conserving H at one cooling-to-heating ratio on every site the steady state is the Gibbs product and the bound is 1, which the site-local M_β of
 /// KMS Question 4 attains within its scope (XXZ bonds with axial DM, no fields, a finite nonzero ratio). For XXZ
 /// bonds (two-body hopping) whose cooling-to-heating ratio differs across a hopping bond the steady state is no
 /// product over the sites, exactly: a product steady state would be diagonal site by site by U(1) covariance, the
@@ -22,9 +22,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// sites, sandwich or not, is an element of the shape −L − c there: finding 1's site-local NONE on a second route.
 /// Across a single cut the bound is the steady state's rank across that cut, witnessed full on the chains computed
 /// (including a cut crossing only an equal-ratio bond, (3, 3, 2) at N = 3) and not derived. Existence of some element is free wherever a
-/// reflection carries the pairing, as S_XY does for XXZ bonds at any rates, by <see cref="PalindromeTwoEndCountClaim"/>
+/// reflection carries the pairing, as S_XY does for XXZ bonds without fields at any rates, by <see cref="PalindromeTwoEndCountClaim"/>
 /// §(f8)'s similarity argument (L real in the Pauli basis, every matrix similar to its transpose); where the
-/// spectrum pairs and no reflection is known, existence stays open. What the bound measures is how far from a product
+/// spectrum pairs and no reflection is known, existence stays open where L has Jordan blocks (where L is
+/// diagonalizable, a spectrum that pairs with multiplicities already gives one; under cooling alone (no heating, so no gradient), a triangle of XY bonds cooled at unequal rates, with a flux π/2 and fields, has points where none exists, THE_PALINDROME_WITHOUT_A_CARRIER, numerical). What the bound measures is how far from a product
 /// an element must sit. Where S_XY (F137) reflects, each element defines a similarity Γ = E·S_XY⁻¹·T of L onto its
 /// transpose, Lᵀ = Γ⁻¹LΓ (T the transpose in the computational basis), with Γ(I) ∝ ρ_ss; for M_β it is
 /// the thermal weight Γ_β, up to (−1)^N. At the one rate point γ↓ = (3, 2), γ↑ = (1, 1), J = 1 on two sites, without
@@ -61,8 +62,8 @@ public sealed class MirrorLocalityBoundClaim : Claim
     public MirrorLocalityBoundClaim(PalindromeTwoEndCountClaim twoEndCount, F84ThermalAmplitudeDampingPi2Inheritance thermalChannel)
         : base("The mirror's locality bound: under thermal baths on every site and an H commuting with Z^N, Z^N is an " +
                "eigenvector of L at -c, every element E with E L E^-1 = -L - c maps it onto the unique steady state's " +
-               "line, so the operator Schmidt rank of E across any cut is at least that of rho_ss; at one temperature " +
-               "rho_ss is a product (bound 1, attained by M_beta within its scope), across a temperature gradient along a " +
+               "line, so the operator Schmidt rank of E across any cut is at least that of rho_ss; at one ratio on every site " +
+               "and for a number-conserving H rho_ss is a product (bound 1, attained by M_beta within its scope), across a temperature gradient along a " +
                "hopping bond of XXZ bonds it is no product over the sites, so no invertible product map over the sites is an " +
                "element there",
                Tier.Tier1Derived,
@@ -77,8 +78,8 @@ public sealed class MirrorLocalityBoundClaim : Claim
 
     public override string Summary =>
         "Z⊗N sits at −c = −Σ(γ↓ + γ↑) for every H commuting with Z⊗N; an element of the shape −L − c carries it onto " +
-        "the steady state's line; so the element is at least as entangled as the bath's state across every cut. One " +
-        "temperature: a product, bound 1. A gradient along a hopping bond (XXZ): no product over the sites, no site-local " +
+        "the steady state's line; so the element is at least as far from a product (operator Schmidt rank) as the bath's state across every cut. One " +
+        "ratio on every site, number-conserving H: a product, bound 1. A gradient along a hopping bond (XXZ): no product over the sites, no site-local " +
         $"element ({Tier.Label()}; the two-site least rank is a child node)";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -117,8 +118,10 @@ public sealed class MirrorLocalityBoundClaim : Claim
                 "reverses them reaches 5 without ZZ; whether one that keeps them reaches 5 with ZZ; " +
                 "the least rank at ZZ strengths other than Δ = 1, at other rates and beyond two sites; an exact rank-5 element; why five in words " +
                 "(where it is forced is known: the one-lit sectors d = ±1 together with d = 0); " +
-                "whether an entangled sandwich A·ρᵀ·B exists off the product line; whether an element exists where " +
-                "the spectrum pairs and no reflection is known (where S_XY reflects, existence is free: parent F158 §(f8)).");
+                "whether a sandwich A·ρᵀ·B is an element across a temperature gradient (its A or B then no product over the sites); whether an element exists where " +
+                "the spectrum pairs and no reflection is known (where S_XY reflects, existence is free: parent F158 §(f8); where L is " +
+                "diagonalizable, a spectrum that pairs with multiplicities already gives one; " +
+                "under cooling alone (no heating, so no gradient), a triangle of XY bonds cooled at unequal rates, with a flux π/2 and fields, has points where none exists, THE_PALINDROME_WITHOUT_A_CARRIER, numerical).");
         }
     }
 }

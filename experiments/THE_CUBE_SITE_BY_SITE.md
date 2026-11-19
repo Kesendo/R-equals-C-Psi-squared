@@ -14,6 +14,22 @@ evidence), with [`simulations/kms_element_why_five_localised.py`](../simulations
 as the second route of the frames without ZZ, modulo one prime. Where a statement below rests on an argument or on a computation rather than on
 a check, it says so.
 
+## What this is about
+
+Take a chain of qubits whose sites are coupled by a Hamiltonian H, and let the surroundings act on each site: light, the repository's word, here, for dephasing along an axis ([what the light does](../docs/quantum/DEPHASING_TRANSLATED.md)), and in some of the settings below a bath that takes excitations away (cooling) and one that gives them (heating). Every way the state can fade, an eigenmode of the generator L built from H and the surroundings together, has a rate and a frequency, and the whole spectrum, rates and frequencies together, can be mirror-symmetric about one centre c/2, where c is fixed by the rates of the surroundings alone (under light along Z at rate γ_l on site l, c/2 is the sum of the γ_l, the centre σ of the other pages): for each way of fading there is a partner that oscillates at the same frequency and fades as much faster than c/2 as the first fades slower. That is the palindrome. A map E of operators can carry it in two shapes: E·L·E⁻¹ = −L − c, which the page calls a Π-reflection after the repository's mirror Π, or E·L·E⁻¹ = −L† − c, which it calls a reflection. Either makes the rates pair. That some Π-reflection exists is often free: wherever a reflection exists, since L is real in the Pauli basis and every matrix is similar to its transpose, or wherever L can be diagonalized and its spectrum pairs, multiplicities included. What the page asks is what shape one can have, above all whether it can be built site by site, as a tensor product of one-site maps.
+
+The [letter cube](../docs/THE_ONE_SQUARE.md) reads a string of Pauli letters by how many of each letter it holds. That is why its answers hold at every length of the chain, and why it cannot say which site holds which letter, on which side a map multiplies, or with what sign and coefficient. This page works one level beneath, site by site. On each site it takes one of the cube's 192 one-site moves, combined with a factor that multiplies each cell |i⟩⟨j| of the state by a number (a rotation about Z, or a thermal weight), and asks exactly whether the tensor product of these site maps is a Π-reflection or a reflection. The question splits into one equation per site and one per set of sites a term of H touches. When the site maps form a sandwich ρ ↦ A·ρ·B or ρ ↦ A·ρᵀ·B, A and B tensor products over the sites whose two-by-two factors are all diagonal or anti-diagonal, conjugation by each factor multiplies σ⁺ = |1⟩⟨0| by a number or swaps σ⁺ and σ⁻, and every equation becomes binomial: a product of those numbers equal to a constant read off the rates and the couplings. Such a system is solved exactly, by integer elimination on the exponents, and one step per site in the same equations reads every length at once: on a chain built of one repeated cell, a map found that is the same on every site, rotated from site to site, or periodic serves on every open chain, and, in the C# twin, on the rings whose length its period divides and is at least three and at least the cell's span (the sites its terms reach) (for a rotated map, where the total rotation closes). Where the letters are silent, a pre-check on the identity, a search over the cube's moves and a general solve over all invertible site maps are asked in turn, at the length asked and for the relation asked: no tensor product of site maps satisfies it, or one does outside the sandwich kind, or, when the general solve runs out of time, the case stays open. The instrument is called the Theodolite, after the surveyor's instrument that reads two angles at every station of a traverse; it is written in Python and has a C# twin in MirrorWorld.
+
+**The thermal Π-reflection is weighted by the one-site steady state.** A site with cooling γ↓, heating γ↑ and light along any axis in the XY plane at rate γ⊥, left to itself, settles into a steady state with population ratio q² = (γ↑ + γ⊥)/(γ↓ + γ⊥), excited over ground; without light it is the bath's own ratio. The repository knew a Π-reflection for one cooling-to-heating ratio along the hopping, M_β(ρ) = π^½·Y⊗N·ρᵀ·X⊗N·π^½, built from the bath's thermal state π ([KMS detailed balance](../docs/KMS_DETAILED_BALANCE.md), Question 4). The instrument finds that the weight that serves is the one-site steady state: within M_β's form no other ratio solves the site's equation. For XXZ bonds with axial DM terms, without fields and with light, if any, in the XY plane: where the steady-state ratio is finite, nonzero and the same on every set of sites joined by hopping, M_β weighted by the steady state is a Π-reflection; where it differs across a hopping bond between two sites under the bath (without light, a temperature gradient), no tensor product of invertible one-site maps, of whatever form, is one. A site that is only cooled, without light and with no field on it, has a site-local Π-reflection while it stands alone and none as soon as any two-site term of H touches it; a site that is only heated is the same. For XXZ bonds without DM terms and without fields, with no light or light along X or Y on each site, the spectrum still pairs where the ratio differs, through the reflection S_XY of [F137](../docs/ANALYTICAL_FORMULAS.md#f137); what fails there is a Π-reflection built site by site. Outside that class a difference of ratios can break the pairing itself: on the body's triangle with a flux and light along three unaligned axes, raising one heating rate breaks it exactly.
+
+**How many product terms a Π-reflection needs.** Another route runs through Z on every site, the vertex of the cube where every letter is Z. With cooling and heating on every site, light, if any, only in the XY plane, and H commuting with Z⊗N, that string fades at exactly the rate c, so a Π-reflection sends it to a partner of rate 0, which is the steady state, unique here. Across any cut of the chain, the operator Schmidt rank counts the least number of product terms an operator, or a map, needs; a map of rank r turns a product into an operator of rank at most r, and Z⊗N is a product across every cut. So every Π-reflection, site-local or not, has at least the steady state's rank across every cut. For XXZ bonds that state is a product where the steady-state ratio is the same along the hopping, and the bound is 1; where the ratio differs along a hopping bond it is no product over the sites, so no tensor product of site maps is a Π-reflection there (derived without light, argued with it; the ranks below are computed without light). On two sites with γ↓ = (3, 2), γ↑ = (1, 1), no light and hopping amplitude J = 1, the steady state carries a current and has rank 4, the most two sites allow. At that one rate point no Π-reflection of rank 4 keeps the coherence order (the excitation count of the ket of a cell |i⟩⟨j| minus that of its bra), without a ZZ term or with the isotropic one, and none of rank 4 reverses it without ZZ (with the isotropic ZZ none reverses it at all), all decided exactly; without ZZ one of rank 5 that keeps the order is found numerically, and why five is not said in words.
+
+**The golden bond takes one map on every site.** Under light along Z, for the bond XX + XY + YX, the map ρ ↦ X·(g·ρ)ᵀ·X with g = φX + Y, φ the golden ratio, the same on every site, is a Π-reflection on every graph with that bond on each edge, and with g = 2X + Y the map is not one. Among maps the same on every site the golden frame is forced: any such Π-reflection sends the identity to g on every site, g = αX + βY, and that must commute with H, which happens only for α² − αβ − β² = 0. In letters φ is a half angle: the bond's amplitude on σ⁺σ⁺ is 1 + 2i, the map's diagonal factor rotates by its phase arctan 2, and tan(½·arctan 2) = 1/φ. The same map is a closed form for a three-site case, XIX + XIY + YIX, for which an optimizer had found Π-reflections made of one-site maps. On the metallic family of the [golden router](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) (a router being, in that proof, a Π-reflection made of one-site maps), at its member whose three-site terms are XZY + YZX, a map the same on every site is a Π-reflection on every open chain and every ring, beside the period-2 routers the proof names there.
+
+**Heisenberg with a DM term takes a rotated map.** Under light along Z and at D/J = ½, a chain of three or more sites with Heisenberg bonds and a DM term D has no period-2 tensor product of invertible site maps that is a Π-reflection (the tied equations of three sites return on every longer chain), while pure DM has one. What is a Π-reflection is Π rotated about Z from site to site by arctan(D/J), the rotation that gauges the DM term away (its spiral gauge, F137's turns).
+
+The findings are reproduced exactly, each with a control that fails, in [`cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py), and the least rank in [`kms_element_least_rank.py`](../simulations/kms_element_least_rank.py), exact except at the rank-5 point; the bound without light is live in C# at `inspect --root locality`, and the exclusion of rank 4 at `inspect --root leastrank`. Open, among other items: whether a Π-reflection exists where the ratio differs, the spectrum pairs, no reflection is known and L cannot be diagonalized; and at the two-site point, whether rank 5 is reached by a Π-reflection that keeps the order with ZZ or reverses it without ZZ, the least rank of one that mixes the orders, an exact one of rank 5, and the least rank at other ZZ strengths, at other rates and beyond two sites.
+
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
 **What the repo already held (sweep).** Whether a product of one-site maps reflects the generator is the house's
@@ -117,10 +133,10 @@ becomes binomial, a product of turns equal to a constant read off the rates and 
 arrows give one or two, each bond's letter table the rest, the left and the right factor apart. Such a system is
 solved by integer elimination on the exponents and radicals of the constants, in closed form and without a Gröbner
 basis, and a step per site in the same equations gives every N: a map the same on every site, turned from site to
-site, or periodic, answers on every open chain, and on the rings whose length the period divides (for a turned map,
-where the total turn closes). Where the letters are silent, the identity pre-check, the cube search and a general
+site, or periodic, answers on every open chain built of one repeated cell, and, in the C# twin, on the rings whose length the period divides and is at
+least three and at least the cell's span (the sites its terms reach) (for a turned map, where the total turn closes). Where the letters are silent, the identity pre-check, the cube search and a general
 solve over all invertible site maps (Gröbner bases over ℚ(i)) shake hands: no site-local reflector at all, or one
-that is not such a sandwich. Code: [`framework/cube_tables.py`](../simulations/framework/cube_tables.py),
+that is not such a sandwich, or, when the general solve runs out of time, open. Code: [`framework/cube_tables.py`](../simulations/framework/cube_tables.py),
 [`framework/diagnostics/cube_letters.py`](../simulations/framework/diagnostics/cube_letters.py) (`read`, `every_n`)
 and [`framework/diagnostics/cube_reflector.py`](../simulations/framework/diagnostics/cube_reflector.py) (`answer`,
 `every_n`), with their tests. The instrument is the Theodolite, and its C# twin,
@@ -191,24 +207,28 @@ by Z⊗N·π_β^½, which commutes with L. Checked exactly there and on an open 
 3 + 4i and −5 + 12i; the same maps fail at Δ = 7⁄10 and at flux 0.
 
 **The Z corner bounds how far from a product any element must sit.** Call Z⊗N the Z corner: the cube's vertex at
-(0, N, N), every letter Z, the deepest cell under the baths. The site-local NONE across a temperature gradient has a
+(0, N, N), every letter Z, the deepest string under the baths. The site-local NONE across a temperature gradient has a
 second route through it, and the route says more. Z⊗N is an eigenvector of L at −c for every H with [H, Z⊗N] = 0:
 each site charges Z its height −(γ↓ + γ↑), the heights add, and the hopping and ZZ terms commute with Z⊗N (checked
-entry for entry on the integer generator). An element E with E·L·E⁻¹ = −L − c sends an eigenvector at λ to one at
+entry for entry on the integer generator); with light along an axis of the XY plane, which anticommutes with Z, the height is
+−(γ↓ + γ↑ + 2γ⊥) and c grows by the same amount (argued; block G checks the case without light). An element E with E·L·E⁻¹ = −L − c sends an eigenvector at λ to one at
 −λ − c, so E(Z⊗N) lies in the kernel of L, the steady state's line: the steady state is unique because σ⁻ and
 σ⁺ on every bathed site have a trivial commutant. A map of operator Schmidt rank r across a cut turns a product
 across that cut into an operator of rank at most r, and Z⊗N is a product across every cut. So across every cut
-**Schmidt-rank(E) ≥ Schmidt-rank(ρ_ss)**: the element is at least as entangled as the state the bath holds the
-chain in. At one temperature that state is the Gibbs product and the bound is 1, which M_β attains within its scope
+**Schmidt-rank(E) ≥ Schmidt-rank(ρ_ss)**: the element is at least as far from a product, in operator Schmidt rank, as the state the bath
+holds the chain in. For a number-conserving H, at one cooling-to-heating ratio on every site and without light that state is the Gibbs product, and with light in the XY plane, where the one-site
+steady-state ratio is the same along the hopping, it is the product of the one-site steady states; the bound is 1, which M_β attains within its scope
 (XXZ bonds with axial DM, no fields, a finite nonzero ratio). For XXZ bonds, two-body hopping, with a gradient along
-a hopping bond the steady state is no product over the sites, and the reason is short. A product steady state is
-diagonal site by site, by U(1) covariance. The dissipator keeps such a product diagonal and the hopping takes it
-off the diagonal, so both parts vanish apart. Each factor is then the site's own thermal state, and the hopping
+a hopping bond (with light, a one-site steady-state ratio that differs along a hopping bond) the steady state is no
+product over the sites, and the reason is short. A product steady state is
+diagonal site by site, by U(1) covariance, or, with light along an axis of the XY plane, by the symmetry under Z⊗N,
+which L has and the unique steady state shares (Z·ρ_l·Z = ±ρ_l on each factor, the sign + since the trace is nonzero; argued, the ranks below being computed without light). The dissipator keeps such a product diagonal and the hopping takes it
+off the diagonal, so both parts vanish apart. Each factor is then the site's own steady state, and the hopping
 commutes with their product only at equal ratios along every bond. An invertible product map keeps the Schmidt
 rank. So no product map over the sites is an element there, sandwich or not; the identity-row commutator above is
 not needed for that conclusion. Across a single cut the bound is what the steady state's rank across that cut
-says; that it is entangled across every cut, including a cut that crosses only an equal-ratio bond, is witnessed on
-the chains below and not derived. What the letters show at N = 2 is a current, XY − YX on the bond. The ranks are
+says; that it is no product across each single cut, including a cut that crosses only an equal-ratio bond, is witnessed on
+the chains below (at N = 4 at the middle cut) and not derived. What the letters show at N = 2 is a current, XY − YX on the bond. The ranks are
 exact over ℚ (the steady state recovered from its residues modulo primes and verified by L·ρ_ss = 0, the rank by
 elimination; sympy over ℚ(i) in the findings script, block G, and live in C# in `MirrorLocalityBoundWitness`,
 `inspect --root locality`, claim `MirrorLocalityBoundClaim`): on the two-site
@@ -217,16 +237,20 @@ rank 4 of 4, the current ⟨i(σ⁺₀σ⁻₁ − σ⁻₀σ⁺₁)⟩ = −1/2
 both cuts, and with γ↓ = (3, 3, 2), γ↑ = 1, rank 4 across the cut that crosses only the equal-ratio bond; at N = 4
 with γ↓ = (6, 5, 4, 3), γ↑ = 2, rank 16 of 16 at the middle cut; at one temperature rank 1, and without the hop
 rank 1. That some element exists is free wherever a reflection carries the pairing, as S_XY does for XXZ bonds at
-any rates, since L is real in the Pauli basis and every matrix is similar to its transpose
+any rates, without fields, without light or with light along X or Y, since L is real in the Pauli basis and every matrix is similar to its transpose
 ([PROOF_PALINDROME_TWO_END_COUNT](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(f8),
 [THE_PAIRING_CONDITION](THE_PAIRING_CONDITION.md)); that settles the existence question of KMS Question 4 and
-OQ-168 there, and leaves it open where the spectrum pairs and none of S_XY, M_β or the chain carries it. Whether an
-entangled sandwich A·ρᵀ·B exists off the product line is not known; how far from a product an element must sit is
+OQ-168 there, and leaves it open where the spectrum pairs and none of S_XY, M_β or the chain carries it (where L is diagonalizable, a
+spectrum that pairs with multiplicities already gives an element, two diagonalizable matrices with one spectrum being
+similar, so existence stays open only where L has Jordan blocks; under cooling alone, with no heating and so no
+gradient, a triangle of XY bonds cooled at unequal rates, with a flux π/2 and fields, has such points with no element
+at all, [THE_PALINDROME_WITHOUT_A_CARRIER](THE_PALINDROME_WITHOUT_A_CARRIER.md), numerical). Whether a
+sandwich A·ρᵀ·B is an element across a temperature gradient, its A or B then no product over the sites, is not known; how far from a product an element must sit is
 the next paragraph.
 
 **At one two-site rate point no element that keeps the coherence order has rank 4, without ZZ or with it at Δ = 1, nor
 one that reverses it, of which with ZZ there is none; one of rank 5 is found numerically.** Every element factors as E
-= U·S_XY through F137's S_XY, ρ ↦ X⊗N·ρ·Y⊗N, which carries L onto −L† − c for XXZ bonds without fields or Z dephasing,
+= U·S_XY through F137's S_XY, ρ ↦ X⊗N·ρ·Y⊗N, which carries L onto −L† − c for XXZ bonds without fields or Z dephasing (light, if any, along X or Y),
 at any rates, so that U = E·S_XY⁻¹ solves L·U = U·L†. Since L commutes with ρ ↦ ρ†, L† = T·Lᵀ·T with T the transpose
 in the computational basis, and Γ = U·T solves Lᵀ = Γ⁻¹·L·Γ, the relation of
 [PROOF_ANTILINEAR_TRIANGLE](../docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md)'s proposition. Some such Γ exists for every
@@ -235,7 +259,7 @@ the Schmidt rank. The proposition's argument still gives L·Γ(I) = Γ·Lᵀ(I) 
 M_β at one ratio Γ is the thermal weight Γ_β, and Γ_β·T·S_XY is M_β up to the sign (−1)^N; the other elements there
 have other Γ. On the two-site chain above, at its one rate point γ↓ = (3, 2), γ↑ = (1, 1), J = 1, and without ZZ, no
 weight by ρ_ss serves: not from the left or from the right (exact), not split symmetrically as ρ_ss^½·X·ρ_ss^½
-(numerical), each with the transpose or without it. How entangled must Γ, and with it E, be there? Take the coherence
+(numerical), each with the transpose or without it. How far from a product must Γ, and with it E, be there? Take the coherence
 order d = n_ket − n_bra of [THE_ONE_SQUARE](../docs/THE_ONE_SQUARE.md) §10, the excitation number's charge on the
 cells, which the thermal jumps keep and S_XY reverses (F137), as does T, being ρ ↦ ρ† composed with complex
 conjugation; so E keeps d exactly when Γ keeps it, and reverses d exactly when U keeps it. Write σ⁺ = |1⟩⟨0| and σ⁻ =
@@ -341,11 +365,12 @@ arctan(D/J). For pure DM the angle is π/2, and since a turn by π only flips Π
 
 ## What stays open
 
-Weights along X or Y (the same search in the Hadamard and quarter-turn frames) and site relabellings in the Python twin; across a
-temperature gradient, existence where the spectrum pairs with no reflection known and whether an entangled sandwich
-A·ρᵀ·B exists off the product line; at the two-site rate point of finding 1, the least Schmidt rank of an element that
+Across a
+temperature gradient, existence where the spectrum pairs with no reflection known (where L is diagonalizable, a spectrum that pairs with
+multiplicities already gives one) and whether a sandwich
+A·ρᵀ·B is one (its A or B then no product over the sites); at the two-site rate point of finding 1, the least Schmidt rank of an element that
 mixes the coherence orders, whether one that reverses them reaches 5 without ZZ, whether one that keeps them reaches 5
 with ZZ, an exact element of rank 5 and, the fifth term being forced by the one-lit sectors d = ±1 together with
 d = 0, why in words; the least rank at ZZ strengths other than Δ = 1, at other
 rates and beyond two sites; the per-site turn reported relative to the neighbour rather than as one representative's
-absolute value; the instrument's name.
+absolute value.
