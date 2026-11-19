@@ -35,7 +35,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// field-free site coupled to the other two exactly as site 0 is, oppositely to each). Beside it the descent's two conditions at the row, computed exactly: (I) the dimension
 /// of the cyclic space alg(H_b, Z_d, F⁺)|vac⟩ over ℚ(i), realified, and (II) per sector the vectors with d excited in
 /// every term at the vacuum's energy; at N = 5 the counts and conditions are reported, (II) predicted only at the
-/// sectors 1, 2 and N − 1. Fixed grids at N = 3, 4 and 5 for the block and at N = 3 and 4 for the far counts.</para>
+/// sectors 1, 2 and N − 1 (the bullet "At N = 5, the double singlet" decides n = 3 at a seat that is not blind, failing
+/// exactly at a double singlet tuned to the vacuum's energy; that sector's fence is reported here, not predicted). Fixed grids at N = 3, 4 and 5 for the block and at N = 3 and 4 for the far counts.</para>
 ///
 /// <para>Args: <c>--N</c> (3 to 5; default 3), <c>--bonds</c> (i-j:J entries, comma-separated, J an integer or p/q;
 /// default 0-1:1,0-2:2,1-2:3), <c>--fields</c> (j:x,y entries separated by semicolons, x and y integers or p/q, no
@@ -581,7 +582,7 @@ public sealed class DephasedSeatFlipBlockWitness : IInspectable
                     !f.Predicted
                         ? (f.Blind > 0 ? "Seat 0 is blind, where the bullets predict nothing."
                            : N == 4 ? "No field is nonzero; nothing is predicted."
-                           : "At N = 5 nothing is predicted; the proof measures that none exists with seat 0 not blind and the fields not on one line.")
+                           : "At N = 5 nothing is predicted here: the proof decides a row where the descent's two conditions hold, and on the double singlet (site 0's couplings equal within two pairs, the couplings across the pairs balanced) with the fields equal within the pairs it gives X_0 or Y_0 times the projector onto the two pairs' singlets, also with the fields off one line.")
                         : N == 3
                             ? $"At N = 3 with seat 0 not blind the bullet says: none of even height, and of odd height exactly with the fields on one line; it {(f.Agrees == true ? "holds" : "FAILS")}."
                             : $"At N = 4 with seat 0 not blind the bullet says: none of either height off one line, exactly one of even height (class A's colouring) on it, and two of even height on the antiparallel locus, class A's colouring and (X_0X_k + Y_0Y_k) (x) |t><t|; the row is {(f.OnLocus ? "on" : "off")} the locus, and the bullet {(f.Agrees == true ? "holds" : "FAILS")}."),

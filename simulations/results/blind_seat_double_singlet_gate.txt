@@ -1,0 +1,44 @@
+Part 1. The lemma's algebraic steps, symbolically
+  PASS  the two-excitation states of 1..4 killed by the total lowering of 1..4 are exactly span{m1, m2}, m1 = s_12 s_34, m2 = s_13 s_24 independent, both killed by the total raising of 1..4 too
+  PASS  [S+, B-] = -Bz and [S+, Bz] = 2 B+ for B = sum_r J_0r sigma_r on 1..4 (raising and lowering components), so a singlet with B- of it zero has Bz and B+ of it zero
+  PASS  Bz (x m1 + z m2) = 0 is exactly z (J01 + J02 - J03 - J04) = 0, x (J01 - J02) = z (J02 - J04), x (J03 - J04) = -z (J02 - J04)
+  PASS  s_14 s_23 = m2 - m1
+  PASS  for each pairing the cross bonds act on s_ij s_kl as (J_ik + J_jl - J_il - J_jk) sigma_i.sigma_k, sigma_i.sigma_k (s_ij s_kl) is orthogonal to s_ij s_kl with three times its squared norm, and sigma_i.sigma_j + sigma_k.sigma_l gives -6 on it
+  PASS  X^5 commutes with H_b at generic couplings (so it carries the fence at n = 3 onto the d-unexcited eigenvectors with two excitations at the same value)
+
+Part 2. On the double-singlet locus, symbolically in the couplings and the fields
+  PASS  for each pairing, at J_0i = J_0j = p, J_0k = J_0l = q, J_jl = J_il + J_jk - J_ik: |0>_0 s_ij s_kl and |1>_0 s_ij s_kl are eigenvectors of H_b at -3 J_ij - 3 J_kl; with the fields equal within each pair, X_0 (x) |s s><s s| and Y_0 (x) |s s><s s| commute with H, anticommute with Z_0 and are odd under Z^5, independent (rank 2 together), the projectors onto |0>_0 s s and |1>_0 s s commute with H, and F+ and F- kill |0>_0 s_ij s_kl
+  PASS  for each pairing a one-site field sum_r f_r.sigma_r on 1..4 acts on s_ij s_kl as (f_i - f_j).sigma_i + (f_k - f_l).sigma_k, the six vectors sigma_i^x,y,z (s s), sigma_k^x,y,z (s s) independent: it kills s_ij s_kl exactly when f_i = f_j and f_k = f_l
+
+Part 3. Rows: d-unexcited eigenvectors in sector 2 and the fence at n = 3, by ranks modulo two primes
+  read, drawn: 400 rows, 0 not blind at every one, (eigenvector dim, fence dim) -> [((0, 0), 399), ((1, 0), 1)]
+  PASS  drawn: the d-unexcited eigenvectors in sector 2 have dimension 1 exactly at the rows with a double singlet and 0 at the others
+  PASS  drawn: the fence at n = 3 has dimension 1 exactly at the double singlets with -3 J_ij - 3 J_kl = E0 and 0 at the others
+  read, planted, -3 J_ij - 3 J_kl != E0: 60 rows, 0 not blind at every one, (eigenvector dim, fence dim) -> [((1, 0), 60)]
+  PASS  planted, -3 J_ij - 3 J_kl != E0: every row is what its construction says (double singlet 1, at E0 False)
+  PASS  planted, -3 J_ij - 3 J_kl != E0: the d-unexcited eigenvectors in sector 2 have dimension 1 exactly at the rows with a double singlet and 0 at the others
+  PASS  planted, -3 J_ij - 3 J_kl != E0: the fence at n = 3 has dimension 1 exactly at the double singlets with -3 J_ij - 3 J_kl = E0 and 0 at the others
+  read, planted at -3 J_ij - 3 J_kl = E0: 30 rows, 0 not blind at every one, (eigenvector dim, fence dim) -> [((1, 1), 30)]
+  PASS  planted at -3 J_ij - 3 J_kl = E0: every row is what its construction says (double singlet 1, at E0 True)
+  PASS  planted at -3 J_ij - 3 J_kl = E0: the d-unexcited eigenvectors in sector 2 have dimension 1 exactly at the rows with a double singlet and 0 at the others
+  PASS  planted at -3 J_ij - 3 J_kl = E0: the fence at n = 3 has dimension 1 exactly at the double singlets with -3 J_ij - 3 J_kl = E0 and 0 at the others
+  read, near misses: 60 rows, 0 not blind at every one, (eigenvector dim, fence dim) -> [((0, 0), 60)]
+  PASS  near misses: every row is what its construction says (double singlet 0, at E0 False)
+  PASS  near misses: the d-unexcited eigenvectors in sector 2 have dimension 1 exactly at the rows with a double singlet and 0 at the others
+  PASS  near misses: the fence at n = 3 has dimension 1 exactly at the double singlets with -3 J_ij - 3 J_kl = E0 and 0 at the others
+  PASS  the N = 5 row of the bullet 'At N = 4, a seat that is not blind' is a double singlet on (1, 2), (3, 4) with -3 J12 - 3 J34 = 9 = E0: eigenvector dimension 1, fence dimension 1
+
+Part 4. Far elements, condition (I) and the two-end count at planted rows
+  PASS  at 5 double-singlet rows (the N = 5 row of the bullet 'At N = 4, a seat that is not blind' among them), seven field sets each: far elements homogeneous under Z^5 (odd, even) = (3, 0) with the fields equal within the pairs on one line (a pair of zeros included), (2, 0) off one line, and class A's (1, 0) or (0, 0) with a pair unequal or opposite; the 3 and 2 reached by class A's colouring and part 2's two elements
+  PASS  class A's colouring X^5 commutes with H and anticommutes with Z_0 exactly at every case on the x line above, the lower bound 1 of the counts 3 and (1, 0)
+  PASS  there the cyclic space alg(H_b, Z_0, F+)|vac> is 32 with the fields opposite within the pairs, which certifies (I), and reads short of 32 with them equal (a read: part 2's subspace forces it over Q)
+  PASS  at that row with 3X on (3, 4), class A's colouring X^5 is exact, and X^5, X_0 (x) |s s><s s| and Y_0 (x) |s s><s s| are independent: the far end there is at least 3
+  PASS  the full two-end count at the N = 5 row of the bullet 'At N = 4, a seat that is not blind': near, far = (3, 2) with X on (1, 2) and 2Y on (3, 4), (3, 3) with X on (1, 2) and 3X on (3, 4); near at least 3 (1 and the projectors onto |0>_0 s s and |1>_0 s s), far at least 2 (part 2), so exactly: off one line the row does not pair, on one line it pairs
+  PASS  at a planted double singlet off the vacuum's energy, where (II) holds (fence at n = 3 empty), with X on one pair and 2Y on the other: near, far = (3, 2), the same bounds making it exact
+
+Part 5. A row off the locus whose two-excitation sector is reducible
+  PASS  J = (4, 0, 0, 6, 0, -3, -6, 4, 6, -6) on the edges 01..34: 0 not blind (Krylov rank 5, exact), no double singlet, the commutant of alg(H_b, Z_0) on the two-excitation sector has dimension 2 over Q (exact rank), no d-unexcited eigenvector in that sector (a near miss for part 3), the fence at n = 3 is empty
+  PASS  there, at 24 drawn field sets: (I) holds (cyclic space 32 by a full rank) and the far elements are class A's alone, (1, 0) on one line, its colouring exact there, and (0, 0) off it
+
+(18 s)
+ALL CHECKS PASS

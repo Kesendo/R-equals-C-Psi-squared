@@ -169,6 +169,24 @@ public class DephasedSeatFlipBlockWitnessTests
         Assert.Null(w.Far.Agrees);
     }
 
+    /// <summary>The sixth bullet, "At N = 5, the double singlet": at the same row (a double singlet on (1, 2), (3, 4)) with
+    /// the fields equal within the pairs and off one line, X on (1, 2) and 2Y on (3, 4), two far elements of odd height,
+    /// X_0 and Y_0 times the projector onto 𝓈12 ⊗ 𝓈34, and the first condition fails (|0⟩_0 ⊗ 𝓈12 ⊗ 𝓈34 is killed by F⁻);
+    /// with a pair unequal, none. Exact over Q, on the witness's road, beside the Python gate's ranks modulo p.</summary>
+    [Fact]
+    public void N5_Double_Singlet_With_Fields_Equal_Within_The_Pairs_Carries_Two()
+    {
+        const string bonds = "0-1:1,0-2:1,0-3:2,0-4:2,1-3:1,2-4:2,2-3:3,1-2:-1,3-4:-2";
+        var w = W(5, bonds, "1:1,0;2:1,0;3:0,2;4:0,2");
+        Assert.Equal(0, w.Far.Blind);
+        Assert.False(w.Far.OnLine);
+        Assert.Equal((2, 0), (w.Far.Odd, w.Far.Even));
+        Assert.True(w.Descent.Cyclic < 32);
+        var u = W(5, bonds, "1:1,0;2:2,0;3:0,2;4:0,2");
+        Assert.Equal((0, 0), (u.Far.Odd, u.Far.Even));
+        Assert.Equal(32, u.Descent.Cyclic);
+    }
+
     /// <summary>Anti-vacuity: readings that break the N = 4 rule are called disagreements, and at a blind seat with a
     /// kernel vector of 𝓛 vanishing at 0 (the triangle 1, 2, 3 on e2 = 0, 0 a leaf on 1) the sector N − 1 holds a
     /// vector with 0 excited at the vacuum's energy, which FenceAgrees would reject at a seat that is not blind.</summary>

@@ -53,7 +53,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// that a raising lemma and a case analysis supply there, on the locus the case analysis naming the one subspace the first
 /// condition misses (by hand; <c>simulations/blind_seat_descent_gate.py</c>), the
 /// conditions sufficient at every N and, as a row at N = 5 shows, not necessary; live in <c>DephasedSeatFlipBlockWitness</c>, inspect root
-/// <c>flipblock</c>. E pairs at a seat that is not blind through an element of no definite height, which this does not
+/// <c>flipblock</c>. At N = 5, at a seat that is not blind, the second condition fails exactly at a double singlet (site 0's couplings equal within two pairs, the
+/// couplings across the pairs balanced) tuned to the vacuum's energy, and on a double singlet with the fields equal within the pairs
+/// X_0 or Y_0 times the projector onto the two pairs' singlets is a far element, also with the fields off one line, the first condition
+/// failing there (by hand; <c>simulations/blind_seat_double_singlet_gate.py</c>). E pairs at a seat that is not blind through an element of no definite height, which this does not
 /// reach.</para></summary>
 public sealed class OneDephasedSeatClaim : Claim
 {
@@ -194,8 +197,11 @@ public sealed class OneDephasedSeatClaim : Claim
                          "the sectors 1 to N - 1 with site 0 excited in every term at the vacuum's energy, which a raising lemma and " +
                          "a case analysis supply there, on the antiparallel locus the case analysis naming the one subspace the " +
                          "cyclic space misses (gate " +
-                         "simulations/blind_seat_descent_gate.py); at N = 5 the second condition fails at a row that carries none, " +
-                         "and that none exists with the fields not on one line is measured, not proven; live: inspect --root flipblock " +
+                         "simulations/blind_seat_descent_gate.py); at N = 5, at a seat that is not blind, the second condition fails exactly at a double singlet " +
+                         "(site 0's couplings equal within two pairs, the couplings across the pairs balanced) tuned to the vacuum's " +
+                         "energy, and on a double singlet with the fields equal within the pairs X0 or Y0 times the projector onto " +
+                         "the two pairs' singlets is a far element, also with the fields off one line, the first condition failing there " +
+                         "(gate simulations/blind_seat_double_singlet_gate.py); whether any other far element homogeneous under Z^5 exists at N = 5 at a seat that is not blind with the fields off one line is open; live: inspect --root flipblock " +
                          "--N 4 --bonds 0-1:1,0-2:2,0-3:-1,1-2:3,2-3:1 --fields '1:3,4;2:5,0'; E pairs at a seat that is not " +
                          "blind through an element of no definite height).");
 
@@ -226,7 +232,12 @@ public sealed class OneDephasedSeatClaim : Claim
                          "one line, or on one line with some field nonzero one of odd height, a second one off the antiparallel " +
                          "locus or a third on it, and at every N, at a " +
                          "seat that is not blind where the descent's two conditions hold, to such an element with the fields off " +
-                         "one line or, on one line, one that is not a multiple of class A's colouring; " +
+                         "one line or, on one line, one that is not a multiple of class A's colouring; at N = 5, at a seat that is not blind, " +
+                         "the double singlet falls to a d-unexcited eigenvector of H_b with two excitations off the double singlet, a " +
+                         "double singlet without one or with two independent ones, a vector with site 0 excited at the vacuum's energy " +
+                         "among three excitations off a double singlet tuned to it, or such a double singlet without one, and at any " +
+                         "double singlet with the fields equal within the pairs to X0 or Y0 times the projector onto the pairs' singlets " +
+                         "failing to commute with H; " +
                          "the widened N = 4 rule (h, g, b0, b3 nonzero) falls to a far element even " +
                          "under the pair's swap with a nonzero singlet block at b3 != -b0. " +
                          "Fields off the letters at N = 3 beyond the planar fields with none on d, other bonds at N = 3, a " +
