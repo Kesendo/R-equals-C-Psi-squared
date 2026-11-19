@@ -11851,7 +11851,7 @@ The last line holds for both pricings at every odd N, geometrically and algebrai
 
 **Why a number.** This entry indexes; the statement, its proofs and its gate are in the proof named below. It
 joins two readings the registry held apart: the bipartite criterion of [F115](#f115) and F103 §7.4 (every sign
-negative) and the colouring of F108 Part 1 (every sign positive, every string commuting with X^⊗N), and it reaches
+negative) and the colouring of F103 §8, quoted in F108 Part 1 (every sign positive, every string commuting with X^⊗N), and it reaches
 the sets that mix them.
 
 **The setting.** N sites, Z dephasing on every site at any positive rates; H a real combination of Pauli strings,
@@ -11952,7 +11952,7 @@ falling short on 3752 and 2390.
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).
 **Adjacent.** [F115](#f115) and F103 §7.4 to §7.7 (the all-negative case and its gcd calculus, here with any
-signs); F108 Part 1 (the all-positive case) and F110 Aspect A (its Klein-homogeneous cells, all positive or, in the
+signs); F103 §8, quoted in F108 Part 1 (the all-positive case) and F110 Aspect A (its Klein-homogeneous cells, all positive or, in the
 (1,1) cell, all negative with odd masks); THE_PALINDROME_AS_A_COLOURING (its diagonal gauge, under the assumption
 a ±1 character, the lit string X^⊗N·Z^φ); the MirrorWorld sieve's ring cells that pair by a law in N (16 of its 24
 carry one string per flip set and pair exactly at even N, at every N by Theorem D; the other 8, X·(X ± Y)·X and its
