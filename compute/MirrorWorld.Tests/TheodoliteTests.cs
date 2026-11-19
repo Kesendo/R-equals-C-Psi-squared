@@ -254,9 +254,10 @@ public class TheodoliteTests
     // The sector reading's element, densely, at its rational point: for each pair of control bits (sigma, tau) of the
     // input cell the controls go to their kept or flipped bits, and every other site carries A_l.sigma and B_l.tau
     // (transposed: A on the bra's bits, B on the ket's), so A = sum_sigma |pi(sigma)><sigma| ⊗ A_sigma as a matrix.
-    static bool ReflectsBySectors(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r, bool unconditioned = false)
+    static bool ReflectsBySectors(Theodolite.Setting s, Theodolite.Relation rel, Theodolite.Reading r, bool unconditioned = false,
+        IReadOnlyDictionary<string, (GaussBig Num, GaussBig Den)>? at = null)
     {
-        var sol = Binomials.RationalSolution(r.System);
+        var sol = at ?? Binomials.RationalSolution(r.System);
         Assert.NotNull(sol);
         var controls = r.Controls!.ToList();
         int n = s.N, k = controls.Count, cells = 1 << (2 * n);
@@ -1492,14 +1493,7 @@ public class TheodoliteTests
     [Fact]
     public void A_Thermal_Weight_Along_X_Or_Y_Is_Read_In_The_Turned_Frame()
     {
-        var h = Bond(3, 0, 1, 10, 0, 7).Concat(Bond(3, 1, 2, 20, 0, 7)).Concat(Bond(3, 2, 0, 0, 30, 7));
-        var jumps = new (int, Gauss[,], long)[]
-        {
-            (0, Lowering, 250), (0, Raising, 25), (0, Combo(3, 4), 2),
-            (1, Lowering, 16), (1, Raising, 1), (1, Xm, 4),
-            (2, Lowering, 507), (2, Combo(5, -12), 1),
-        };
-        var triangle = Theodolite.Setting.Of(3, h, jumps);
+        var triangle = ThermalTriangle();
         var one = Theodolite.Setting.Of(1, Array.Empty<(string, long)>(), new[] { (0, Lowering, 4L), (0, Raising, 1L) });
         foreach (var (s, axes) in new[] { (triangle, "XXX"), (triangle, "XZY"), (one, "X"), (one, "Y") })
         {
@@ -1514,6 +1508,70 @@ public class TheodoliteTests
             var (yn, yd) = sol["y0"];
             Assert.NotEqual((xn * yd).Norm, (xd * yn).Norm);                               // |x0| ≠ |y0|: a weight, not a turn
         }
+    }
+
+    // the thermal triangle of The_Thermal_Weight_Is_The_Steady_State_On_Three_Unaligned_Axes
+    static Theodolite.Setting ThermalTriangle()
+    {
+        var h = Bond(3, 0, 1, 10, 0, 7).Concat(Bond(3, 1, 2, 20, 0, 7)).Concat(Bond(3, 2, 0, 0, 30, 7));
+        var jumps = new (int, Gauss[,], long)[]
+        {
+            (0, Lowering, 250), (0, Raising, 25), (0, Combo(3, 4), 2),
+            (1, Lowering, 16), (1, Raising, 1), (1, Xm, 4),
+            (2, Lowering, 507), (2, Combo(5, -12), 1),
+        };
+        return Theodolite.Setting.Of(3, h, jumps);
+    }
+
+    // The plain diagonal copies are left out in every frame, not only in the plain one. In each turned frame the thermal
+    // triangle has one plain copy, every turn pinned, and turned back it is rho -> Z⊗3·rho·Z⊗3 each time, the sign
+    // (-1)^k_Z of the disagreement count: XX, YY, ZZ and the DM terms XY and YX carry an even n_X + n_Y, a jump acts on both sides of rho so its
+    // sign cancels, and the thermal arrow I -> Z stays at k_Z = 0. That copy is in the group left out, so the turned
+    // frames read none. A turned frame's own diagonal copies are still read: one site with an X field under X
+    // dephasing keeps every turn about X, in the frame carrying X onto Z diag(1, x)·rho·diag(1, y) with both turns free,
+    // checked densely at x = 2, y = 3, a point outside the group (x = y = 1 there). Conditioned on the bits of a
+    // control the same: the group read in a turned frame is left out, and on a control whose letter X is carried onto Z
+    // a turn that depends on the control's bit is read, since that bit is X's in the plain frame. On such a control the
+    // group also flips the bit: under X·X onto the control and a field on Z, rho -> Z⊗Z·rho·Z⊗Z flips the control's bit
+    // in its frame and is left out, and nothing else is read on the plain branch.
+    [Fact]
+    public void The_Group_Left_Out_Is_Left_Out_In_Every_Frame()
+    {
+        Assert.Null(Theodolite.ReadRotated(ThermalTriangle(), Theodolite.Relation.Copy));
+        var s = Theodolite.Setting.Of(1, new[] { ("X", 1L) }, new[] { (0, Xm, 1L) });
+        var r = Theodolite.ReadRotated(s, Theodolite.Relation.Copy);
+        Assert.NotNull(r);
+        Assert.Equal("X", r!.Axes);
+        Assert.False(r.Transposed);
+        Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), r.Kinds[0]);
+        Assert.Equal(new[] { "x0", "y0" }, r.System.Free);
+        Assert.True(Reflects(s.Rotated("X"), Theodolite.Relation.Copy, false, r.Kinds,
+            new[] { (GaussBig.Of(2), GaussBig.One) }, new[] { (GaussBig.Of(3), GaussBig.One) }));
+        Assert.False(Reflects(s, Theodolite.Relation.Copy, false, r.Kinds,                // the same map unturned is none
+            new[] { (GaussBig.Of(2), GaussBig.One) }, new[] { (GaussBig.Of(3), GaussBig.One) }));
+        // conditioned on a control: rho -> rho·Z0·Z1 is in the group, a copy in the frame XZZ
+        var zfield = Theodolite.Setting.Of(3, new[] { ("XXI", 1L), ("YYI", 1L), ("IZZ", 1L), ("ZII", 3L) }, new[] { (0, Zm, 1L), (1, Zm, 2L) });
+        Assert.Null(Theodolite.ReadSectors(zfield, Theodolite.Relation.Copy, branch: false));
+        // a control whose letter X is carried onto Z: a turn about Z on site 0 that depends on the control's bit is not
+        // in the group, since the bit is X's in the plain frame
+        var cond = Theodolite.Setting.Of(2, new[] { ("ZX", 1L) }, new[] { (0, Zm, 1L) });
+        var c = Theodolite.ReadSectors(cond, Theodolite.Relation.Copy, branch: false);
+        Assert.NotNull(c);
+        Assert.Equal("ZX", c!.Axes);
+        Assert.Equal(new[] { 1 }, c.Controls);
+        Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), c.Kinds[0]);
+        Assert.Equal((Theodolite.Kind.Diagonal, Theodolite.Kind.Diagonal), c.Kinds[1]);    // the bit kept
+        Assert.False(Binomials.Implies(c.System, new Binomial(new Dictionary<string, int> { ["x0.0"] = 1, ["x0.1"] = -1 }, GaussBig.One, GaussBig.One, "test")));
+        var at = new Dictionary<string, (GaussBig Num, GaussBig Den)>
+        {
+            ["x0.0"] = (GaussBig.Of(2), GaussBig.One), ["x0.1"] = (GaussBig.Of(3), GaussBig.One),
+            ["y0.0"] = (GaussBig.Of(5), GaussBig.One), ["y0.1"] = (GaussBig.Of(7), GaussBig.One),
+        };
+        Assert.NotNull(Binomials.Solve(c.Equations.Concat(at.Select(p => new Binomial(new Dictionary<string, int> { [p.Key] = 1 }, p.Value.Num, p.Value.Den, "test"))), c.System.Unknowns));
+        Assert.True(ReflectsBySectors(cond.Rotated("ZX"), Theodolite.Relation.Copy, c, at: at));
+        Assert.False(ReflectsBySectors(cond, Theodolite.Relation.Copy, c, at: at));            // the same map unturned is none
+        var flipped = Theodolite.Setting.Of(2, new[] { ("XX", 1L), ("ZI", 3L) }, new[] { (0, Zm, 1L) });
+        Assert.Null(Theodolite.ReadSectors(flipped, Theodolite.Relation.Copy, branch: false));
     }
 
     // A control beside a jump string: site 2 holds only Z in H and is watched by nothing, the jump string ZX acts on

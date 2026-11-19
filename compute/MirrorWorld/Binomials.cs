@@ -271,6 +271,23 @@ public static class Binomials
         return sol;
     }
 
+    // True when b holds on every solution of the reduced system. The solutions are a coset of the group of characters
+    // that are trivial on the integer lattice of the rows' exponents, so b's monomial is constant on them exactly when
+    // its exponent lies in that lattice, and b then holds when it is consistent. Adding b's row can only enlarge the
+    // lattice; it lies in it exactly when the lattice stays the same: the same rank, and the same index, the product of
+    // the pivot exponents (the pivots sit in the same columns, the rational span being the same). So x^2 = 1/4 does
+    // not imply x = 1/2, which a rank alone would let through.
+    public static bool Implies(Reduced reduced, Binomial b)
+    {
+        var rows = reduced.Exponents.Select((e, r) => new Binomial(
+            reduced.Unknowns.Select((u, j) => (u, e[j])).Where(t => t.Item2 != 0).ToDictionary(t => t.u, t => t.Item2),
+            reduced.Constants[r].Num, reduced.Constants[r].Den, "reduced"));
+        var joined = Solve(rows.Append(b), reduced.Unknowns);
+        if (joined is null || joined.Pivots.Count != reduced.Pivots.Count) return false;
+        BigInteger Index(Reduced red) => red.Exponents.Select((e, r) => new BigInteger(e[red.Pivots[r]])).Aggregate(BigInteger.One, (a, c) => a * c);
+        return Index(joined) == Index(reduced);
+    }
+
     // An exact square root in the Gaussian integers, or null: (c + di)^2 = a + bi needs c^2 = (|g| + a)/2 and
     // d^2 = (|g| - a)/2 with |g| = sqrt(a^2 + b^2) an integer, and 2cd = b.
     public static GaussBig? SquareRoot(GaussBig g)

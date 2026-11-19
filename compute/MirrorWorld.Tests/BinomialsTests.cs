@@ -75,4 +75,25 @@ public class BinomialsTests
         Assert.Equal(GaussBig.Of(-4) * yn * xd, xn * yd);                    // x = -4y
         Assert.Equal(-(xd * yd), xn * yn);                                   // x·y = -1
     }
+
+    // An equation is implied when it holds on every solution: consistency alone is not enough (x free), and neither is
+    // an unchanged rank (x^2 = 1/4 has x = 1/2 and x = -1/2); the lattice's index decides.
+    [Fact]
+    public void An_Equation_Is_Implied_Only_When_It_Holds_On_Every_Solution()
+    {
+        var one = GaussBig.One;
+        var xy = new[] { "x", "y" };
+        var square = Binomials.Solve(new[] { B("x^2", one, GaussBig.Of(4)) }, xy)!;
+        Assert.False(Binomials.Implies(square, B("x", one, GaussBig.Of(2))));
+        Assert.False(Binomials.Implies(square, B("x", GaussBig.Of(-1), GaussBig.Of(2))));
+        Assert.True(Binomials.Implies(square, B("x^4", one, GaussBig.Of(16))));
+        Assert.False(Binomials.Implies(square, B("x^4", one, GaussBig.Of(4))));               // contradicts it
+        Assert.False(Binomials.Implies(square, B("y", one, one)));                            // y is free
+        var pinned = Binomials.Solve(new[] { B("x·y", one, one), B("y", GaussBig.Of(-1), one) }, xy)!;
+        Assert.True(Binomials.Implies(pinned, B("x", GaussBig.Of(-1), one)));
+        Assert.False(Binomials.Implies(pinned, B("x", one, one)));
+        var both = Binomials.Solve(new[] { B("x^2·y^2", one, one) }, xy)!;
+        Assert.True(Binomials.Implies(both, B("x^-2·y^-2", one, one)));
+        Assert.False(Binomials.Implies(both, B("x·y", one, one)));
+    }
 }

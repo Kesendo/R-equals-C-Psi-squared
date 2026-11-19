@@ -31,7 +31,11 @@ using static MirrorWorld.LetterCube;
 //                 (SodiumChainMirrorLadderClaim).
 // The plain all-diagonal copies are left out: they form a group holding the identity, which the solver would return,
 // so a copy's silence means no copy of the other kinds, not no symmetry (the turns about Z and the moves by Z^N, the
-// turn rho -> Z^N·rho·Z^N, MirrorGroup.AdZ, and the shift rho -> rho·Z^N, are in the group left out). The
+// turn rho -> Z^N·rho·Z^N, MirrorGroup.AdZ, and the shift rho -> rho·Z^N, are in the group left out). They are left
+// out in a turned frame too (ReadRotated, ReadSectors), where they show with other kinds: a copy read there is one
+// some of whose solutions lie outside the group (Binomials.Implies decides it), and that frame's own diagonal
+// copies, turns about X or Y, are read; a sector reading is read up to its per-sector scalars, which on a control
+// whose letter X or Y is carried onto Z are the turns about that letter, copies there that are never read. The
 // dephasing's own flow at imaginary time, the cell map |a><b| -> w^popcount(a xor b)·|a><b| with |w| = 1, is a sandwich
 // only at w = ±1, since per site the multiplier [[1, w], [w, 1]] is a product alpha_a·beta_b only when w² = 1: the
 // identity and the turn by Z^N, which is that flow at gamma·t = i·pi/2 (docs/THE_ONE_SQUARE.md §7). The first copy read so is U =
@@ -103,6 +107,39 @@ public sealed class Theodolite : GameObject
     // the plain all-diagonal copies, the group that holds the identity (left out, see the head comment)
     static bool Gauge(Relation rel, bool transposed, IEnumerable<(Kind A, Kind B)> kinds)
         => rel == Relation.Copy && !transposed && kinds.All(k => k == (Kind.Diagonal, Kind.Diagonal));
+    // The same group seen in a turned frame (ReadRotated): a site whose axis X (Y) is carried onto Z sees the plain
+    // diagonal factors span{I, Z} as span{I, X} (span{I, Y}), whose monomial factors are the identity and the
+    // anti-diagonal factor with x = 1 (x = -1); a site left on Z keeps any diagonal factor. A plain copy read there is
+    // that group exactly when every solution of its system has those factors, decided by Binomials.Implies; on the
+    // all-Z word this is Gauge, and the turned frame's own diagonal copies (turns about X or Y) are read, the group
+    // in disguise is not.
+    static bool PlainGaugeInFrame(Binomials.Reduced reduced, IReadOnlyList<(Kind A, Kind B)> kinds, string axes)
+    {
+        var pins = new List<Binomial>();
+        for (int l = 0; l < kinds.Count; l++)
+        {
+            char a = axes[l];
+            if (a == 'Z')
+            {
+                if (kinds[l] != (Kind.Diagonal, Kind.Diagonal)) return false;
+                continue;
+            }
+            pins.Add(GroupPin(X(l), GroupTurn(a, kinds[l].A)));
+            pins.Add(GroupPin(Y(l), GroupTurn(a, kinds[l].B)));
+        }
+        return pins.All(p => Binomials.Implies(reduced, p));
+    }
+
+    // the turn a factor of the plain group has on a site whose axis X or Y is carried onto Z: 1 for the identity and for
+    // X's anti-diagonal factor, -1 for Y's
+    static long GroupTurn(char axis, Kind k) => k == Kind.Diagonal || axis == 'X' ? 1 : -1;
+
+    static Binomial GroupPin(string turn, long value)
+        => new(new Dictionary<string, int> { [turn] = 1 }, GaussBig.Of(value), GaussBig.One, "the identity's group");
+
+    static Binomial GroupRatio(string turn, string other)
+        => new(new Dictionary<string, int> { [turn] = 1, [other] = -1 }, GaussBig.One, GaussBig.One, "the identity's group");
+
     public enum Kind { Diagonal, AntiDiagonal }
     public enum Shape { Uniform, Turned, Periodic, Stepped, Closed }
 
@@ -788,7 +825,8 @@ public sealed class Theodolite : GameObject
         foreach (var word in Words(0))
         {
             if (word.All(a => a == 'Z')) continue;
-            if (Read(s.Rotated(word), rel, branch) is { } r) return r with { Axes = word };
+            var turned = s.Rotated(word);
+            if (Between(turned, turned, null, rel, branch, same: true, axes: word) is { } r) return r with { Axes = word };
         }
         return null;
     }
@@ -818,12 +856,13 @@ public sealed class Theodolite : GameObject
             for (int i = 0, c = code; i < rest.Length; i++, c /= 3) word[rest[i]] = "ZXY"[c % 3];
             var w = new string(word);
             bool plain = w.All(a => a == 'Z');
-            if (SectorRead(plain ? s : s.Rotated(w), controls, rest, rel, branch) is { } r) return plain ? r : r with { Axes = w };
+            if (SectorRead(plain ? s : s.Rotated(w), controls, rest, rel, branch, w) is { } r) return plain ? r : r with { Axes = w };
         }
         return null;
     }
 
-    static Reading? SectorRead(Setting t, List<int> controls, int[] rest, Relation rel, bool? branch)
+    // axes: the frame t was turned into, a letter per site (the controls' letters among them), all Z for the plain one
+    static Reading? SectorRead(Setting t, List<int> controls, int[] rest, Relation rel, bool? branch, string axes)
     {
         int n = t.N, k = controls.Count, m = rest.Length, nb = 1 << k;
         // the sector settings on the other sites, and their constants
@@ -967,11 +1006,48 @@ public sealed class Theodolite : GameObject
                 List<string> Unknowns(int upto) => Enumerable.Range(0, upto + 1)
                     .SelectMany(i => Enumerable.Range(0, nb).SelectMany(sg => new[] { Xs(i, sg), Ys(i, sg) })).ToList();
 
+                // The plain diagonal copies holding the identity, left out in this frame too. A control on Z keeps its
+                // bit. A control whose letter X or Y is carried onto Z sees the plain diagonal factors as span{I, X} or
+                // span{I, Y}, reached by its kept or flipped bit together with the per-block scalars on the sectors,
+                // which are copies wherever the control is one (H keeps its letter, no jump touches it); the factors on
+                // the other sites must then not depend on its bit. The other sites as in PlainGaugeInFrame, in every
+                // sector. On the all-Z word: kept bits and diagonal factors, nothing pinned.
+                bool PlainGauge()
+                {
+                    int turnedBits = 0;
+                    for (int c = 0; c < k; c++)
+                    {
+                        if (axes[controls[c]] != 'Z') turnedBits |= 1 << c;
+                        else if ((((flipA | flipB) >> c) & 1) == 1) return false;
+                    }
+                    var pins = new List<Binomial>();
+                    for (int q = 0; q < m; q++)
+                    {
+                        char a = axes[rest[q]];
+                        var kk = allowed[q][choice[q]].K;
+                        if (a == 'Z' && kk != (Kind.Diagonal, Kind.Diagonal)) return false;
+                        for (int sg = 0; sg < nb; sg++)
+                        {
+                            if (a != 'Z')
+                            {
+                                pins.Add(GroupPin(Xs(q, sg), GroupTurn(a, kk.A)));
+                                pins.Add(GroupPin(Ys(q, sg), GroupTurn(a, kk.B)));
+                            }
+                            else if ((sg & turnedBits) != 0)
+                            {
+                                pins.Add(GroupRatio(Xs(q, sg), Xs(q, sg & ~turnedBits)));
+                                pins.Add(GroupRatio(Ys(q, sg), Ys(q, sg & ~turnedBits)));
+                            }
+                        }
+                    }
+                    if (pins.Count == 0) return true;
+                    var reduced = Binomials.Solve(Equations(m - 1)!, Unknowns(m - 1))!;
+                    return pins.All(p => Binomials.Implies(reduced, p));
+                }
+
                 bool Rec(int i)
                 {
-                    if (i == m)                                           // the plain copies holding the identity left out
-                        return !(rel == Relation.Copy && !transposed && flipA == 0 && flipB == 0
-                                 && choice.Select((ci, q) => allowed[q][ci].K).All(kk => kk == (Kind.Diagonal, Kind.Diagonal)));
+                    if (i == m) return !(rel == Relation.Copy && !transposed && PlainGauge());
                     for (int ci = 0; ci < allowed[i].Count; ci++)
                     {
                         choice[i] = ci;
@@ -1073,7 +1149,8 @@ public sealed class Theodolite : GameObject
         return Rec(0);
     }
 
-    static Reading? Between(Setting from, Setting s, int[]? relabelling, Relation rel, bool? branch, bool same)
+    // axes: the frame the setting was turned into (ReadRotated), whose group to leave out is the plain one seen there
+    static Reading? Between(Setting from, Setting s, int[]? relabelling, Relation rel, bool? branch, bool same, string? axes = null)
     {
         var branches = Branches(branch);
         int n = s.N;
@@ -1144,7 +1221,14 @@ public sealed class Theodolite : GameObject
 
             bool Rec(int l)
             {
-                if (l == n) return !same || !Gauge(rel, transposed, Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K));
+                if (l == n)
+                {
+                    if (!same) return true;
+                    var kinds = Enumerable.Range(0, n).Select(q => allowed[q][choice[q]].K).ToList();
+                    return axes is null
+                        ? !Gauge(rel, transposed, kinds)
+                        : !(rel == Relation.Copy && !transposed && PlainGaugeInFrame(Binomials.Solve(Equations(n - 1)!, Unknowns(n - 1))!, kinds, axes));
+                }
                 for (int ci = 0; ci < allowed[l].Count; ci++)
                 {
                     choice[l] = ci;
