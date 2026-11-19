@@ -76,10 +76,9 @@ out nonzero again on 2026-10-29
 and the same reading stood at the same sign on Kingston [13, 14, 15]
 on 2026-11-16 (raw +0.067), on a day whose readout broke the guards on
 two of its qubits, the odd-Y readings there not seen to turn with
-the frame of any of the three path qubits at that flight's sensitivity
-(on the end qubits for the cosine part alone; the middle one's four
-turns blind to a part that goes as sin 2φ of the turn angle φ)
-([the driver's frame](../../experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md) §7).
+the frame of any of the three path qubits, at that flight's sensitivity
+and within the limits stated in
+[the driver's frame](../../experiments/DRIVE_FRAME_HARDWARE_PREDICTION.md) §7.
 
 ## Other discriminating Pauli expectations
 

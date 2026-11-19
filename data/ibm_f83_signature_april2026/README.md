@@ -232,9 +232,8 @@ own-frame letters do not see and a foreign transverse letter does, beside
 the idle detuning of each qubit measured directly. On Kingston [13, 14, 15]
 (2026-11-16) the window read open, mainly through ⟨Z₂⟩ on q15, whose
 readout broke the guards that day, and frame-blind on
-all three qubits at that flight's sensitivity (on the end qubits for the
-cosine part alone; the middle one's four turns blind to a part that
-goes as sin 2φ of the turn angle φ); on Marrakesh [45, 46, 47] (2026-11-13) shut, with a
+all three qubits, at that flight's sensitivity and within the limits
+stated in its §7; on Marrakesh [45, 46, 47] (2026-11-13) shut, with a
 reach of 0.149 rad/µs, on a day whose readout read far off. Neither path is this README's.
 
 ⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict

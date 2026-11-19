@@ -466,9 +466,9 @@ Adjacency checked: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and experiments
 In short: on Kingston [13, 14, 15] the window stood open, mainly through
 ⟨Z₂⟩ on q15 (q14 and q15 past the drive-frame page's readout guards on
 the day), and no turn with the frame of any of the three path qubits
-was seen at this
-flight's sensitivity (on the end qubits for the cosine part alone; the
-middle one's four turns blind to a part that goes as sin 2φ); on
+was seen, at this
+flight's sensitivity and within the limits stated after the verdicts'
+table; on
 Marrakesh [45, 46, 47] it read shut, with a reach of 0.149 rad/µs, 4.5
 times §4's, on a day whose readout read far off and wandered. The
 colouring decayed several times faster than the snapshot's T₁ and T₂
