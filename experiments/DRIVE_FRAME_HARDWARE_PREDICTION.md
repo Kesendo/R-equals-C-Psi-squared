@@ -568,9 +568,10 @@ Adjacency checked: the April and October readings of S and the window's April re
 In short: on Kingston [13, 14, 15] S, the reading of the odd-Y excess
 that the October flight replicated, stood again at October's sign and
 size, s_A = +0.074 at 5.5σ, on a day whose RO arm put q14 and q15 past
-§6's readout guards; the odd-Y readings did not turn with the frame of
-any of the three path qubits at this flight's sensitivity (on the end
-qubits for the cosine part alone); Fez
+§6's readout guards; the odd-Y readings were not seen to turn with the
+frame of any of the three path qubits at this flight's sensitivity (on
+the end qubits for the cosine part alone; the middle one's four turns
+blind to a part that goes as sin 2φ); Fez
 read the same sign below the replication line; Marrakesh was VOID, its
 readout reading far off on the day. October's own path, Marrakesh
 [4, 5, 6], failed the guards at the freeze and was not read again, so

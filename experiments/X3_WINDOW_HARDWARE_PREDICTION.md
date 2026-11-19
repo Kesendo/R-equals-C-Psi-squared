@@ -13,6 +13,20 @@ Adjacency checked: the price-pair ⟨XXX⟩ and the colouring page are one objec
 For the in-situ reading of the colouring in §5, 2026-11-13, asked as what of our own lets a flight calibrate itself: docs/ANALYTICAL_FORMULAS.md F158 (a lit string that commutes with H decays at the price whatever H is; never read as Σγ on hardware; PRICE_PAIR block C read its ⟨XXX⟩ as a ZZ signature), the absorption theorem (2γ per X or Y letter; its additivity masked by ZZ in PRICE_PAIR, STAIRCASE_NULLTEST B-BLOCK-INVALID twice, ABSORPTION_RUNG_LADDER not flown), F1 and F89's fold (Σγ from a mode and its partner, which needs a time series), F120 and F84 (T1 and the bath from delay circuits, which this flight does not carry; Kingston's T1 moved 1.2 to 1.4 times within a day in June), F24 and F12 (T2* from a CΨ = ¼ crossing, Torino), fw.gamma_probe and the F113 inversion (time series); among our in-situ runs the T2* to T2echo gaps of Torino, Kingston and the price pair, and the open γ_Z_eff of 0.03 against 0.10. Adjacency: the colouring of §1 is F158's far element and this page read it only beside its replay; it now reads the day's coherence along the circuit. For T1, readout and detuning this job holds nothing of ours beyond the RO matrix and arm Q.
 -->
 
+## What this is about
+
+Three qubits on an IBM chip run a circuit that steps through the Hamiltonian YZ + ZY on two bonds, one bond per Trotter step, from the start state |+−+⟩, and are then read in Pauli bases. The string X^⊗3, an X on each of the three qubits, commutes with every term of YZ + ZY and so with every step of the logical circuit; it leaves the start unchanged, and conjugating by it leaves dephasing along Z unchanged. So every reading whose Pauli string anticommutes with X^⊗3, a string with an odd total number of Y and Z factors, is zero, but for what decay toward |0⟩, which conjugation by X^⊗3 turns into excitation, opens a little. Every term also holds one Y, so the Hamiltonian is imaginary and each step a real matrix, and from the real start every reading with an odd number of Y is zero as well, as in [the reality window](REALITY_WINDOW_HARDWARE_PREDICTION.md). Together these forbidden readings are the **window**. More is true of this start: YZ + ZY annihilates it, so the logical circuit leaves it where it is at every step, and whatever a circuit shows beyond its preparation and readout is the hardware's. The compiled circuit carries the state away from the start between its two-qubit gates, and that is where errors act. A simulation of the compiled circuit, the **replay**, with the T₁ and T₂ of the chip's calibration snapshot, the day's readout matrix and no other error, gives each forbidden reading a **baseline**, which the readout and the decay can put away from zero; the readings are read against it. Window readings stood off zero on ibm_marrakesh in April and on ibm_kingston in May, each on its own path; April's stood far off their replay too, and the fits of error terms tried since have not said what opens the window (§2).
+
+This page asks the window the question of [the driver's frame](DRIVE_FRAME_HARDWARE_PREDICTION.md). On these chips a rotation about Z costs no pulse: it shifts the phase reference of every later pulse on that qubit, its drive frame. A rotation at the start and back at the end changes nothing in the logical circuit (the first acts on |0⟩, the last stands just before the measurement) and turns the axis of every pulse on that qubit, so that errors along Z and transverse errors fixed in the turned qubit's own frame do not see the turn, while a transverse error fixed in another frame, such as a neighbour's pulse reaching it or its pulse reaching a neighbour, moves with it; so do an image term of the turned qubit's own drive, at 2φ, and leakage or a residual swap at a two-qubit gate (§3). Arm B ran April's flown YZ + ZY circuits, compiled for Marrakesh, gate for gate on both chips: unturned, with the middle qubit's frame turned by π/2, π and 3π/2, and with each end qubit's turned by π. Arm Q measured each qubit's idle detuning, its precession against its own frame over idles of up to 4 µs with the other two in |0⟩. Both rode in the drive-frame page's jobs, beside that page's own arms on XY + YX, on ibm_marrakesh [45, 46, 47] on 13 November 2026 and on ibm_kingston [13, 14, 15] on 16 November, paths on which the window had not been read; April's and May's paths failed the drive-frame page's qubit-quality guards at the freeze. Sections 1 to 6 were committed before the flight.
+
+On Kingston the window stood open: W, a χ² of the unturned circuit's 14 forbidden readings that carry no X against their baselines, read 379.7 on 14 degrees of freedom against its 99.9 % point of 36.1, mainly through ⟨Z₂⟩ on q15, +0.102 against a baseline of −0.022 (σ 0.007), and less through ⟨Y₀⟩ on q13. W says the readings depart from the baseline; it does not say why. The day's readout circuits put q14 and q15 past the drive-frame page's readout guards, q15 reading 5.9 % of the shots prepared in |0⟩ as 1 where the snapshot had 0.2 %; §7 reads that a population left in |1⟩ at the start cannot carry ⟨Z₂⟩'s departure. ⟨X₀X₁X₂⟩, whose decay in the logical evolution is the path's coherence, decayed about seven times as far as the replay's on both chips; the replay leaves out gate errors, and on Kingston, with T₁ and T₂ divided by seven, W still reads 360.7. No turn was seen: the frame test read FRAME-BLIND for all three qubits, within limits §7 states (on the middle qubit a sensitivity for one yardstick, its pulses reaching both ends at 0.302 % of its own rotation, a 50 % point and not a bound; on the ends the cosine part alone; the middle qubit's four turns blind to a part that goes as sin 2φ of the turn angle φ; no positive control, no circuit in which a turn must show). Arm Q found q13 and q14 detuned by 8.6 and 11.0 kHz and q15 not detuned, at z 1.995, the edge of that verdict; a replay with those detunings moves away from the measurement.
+
+On Marrakesh the window read shut at a low sensitivity: a detuning of 0.149 rad/µs (23.8 kHz) on the last qubit, 4.5 times the reach of 0.0334 rad/µs planned, would have lifted W out of shut in half of the flights simulated under it, on a day whose readout read the outer qubits, prepared in |1⟩, as 0 in a quarter to a third of the shots. It read frame-blind (its reach on the middle qubit 1.16 %), and q46 read detuned by 29.9 kHz, a lone firing among the chip's verdicts, which the page's rule does not count as a finding.
+
+Read after the flight and not pre-registered: in B's X-basis circuits the readout-corrected share of outcomes in which all three qubits read the opposite of |+−+⟩ exceeds both references §7 sets up, a replay of local decay with T₁ and T₂ divided by seven and one with arm Q's coherence and the vendor's gate errors (0.0050 on Marrakesh against 0.0006 under local decay, 0.0014 on Kingston against 0.0001). YZ + ZY annihilates that outcome as it annihilates the start, and no one-site error within the qubits' two levels, nor a two-site error confined to the bond a step acts on, reaches it alone; §7 names what can, leakage among it. Five kinds of event were tried there, in a reading and not a test, and none fits. What opens the window on Kingston, and what makes the joint failures, the record does not say.
+
+## The question
+
 The chip that breaks the reality window on XY+YX also breaks a second
 selection rule on YZ+ZY. Fits of error letters have not said what opens
 either: the October library failed letter after letter, and every carrier
@@ -451,9 +465,10 @@ Adjacency checked: experiments/PRICE_PAIR_HARDWARE_PREDICTION.md and experiments
 
 In short: on Kingston [13, 14, 15] the window stood open, mainly through
 ⟨Z₂⟩ on q15 (q14 and q15 past the drive-frame page's readout guards on
-the day), and nothing in it turned with the frame of any of the three
-path qubits at this
-flight's sensitivity (on the end qubits for the cosine part alone); on
+the day), and no turn with the frame of any of the three path qubits
+was seen at this
+flight's sensitivity (on the end qubits for the cosine part alone; the
+middle one's four turns blind to a part that goes as sin 2φ); on
 Marrakesh [45, 46, 47] it read shut, with a reach of 0.149 rad/µs, 4.5
 times §4's, on a day whose readout read far off and wandered. The
 colouring decayed several times faster than the snapshot's T₁ and T₂
@@ -511,7 +526,10 @@ nothing that turns with its frame is seen (on b at ε = 0.302 % for b's
 pulses reaching a and c, the October phases carried over; on a and c for
 the cosine part alone); Z letters, a static ZZ, own-frame letters,
 incoherent gate errors, damping and the readout are not separated from
-one another. FRAME-BLIND also covers a turn the control stack dropped
+one another. The four turns of b at 0, π/2, π and 3π/2 read nothing, in
+T₅ᴮ or in Eᴮ, of a part that turns as sin 2φ, which vanishes at all four,
+such as a resonant image term of b's own drive (§3) in that quadrature
+(the drive-frame page's §1). FRAME-BLIND also covers a turn the control stack dropped
 below the submitted circuit, and no arm of this flight is one in which a
 turn must show. On Marrakesh, SHUT with FRAME-BLIND, no reading beyond
 the classes. Of its seventeen verdicts Marrakesh lost the drive-frame
