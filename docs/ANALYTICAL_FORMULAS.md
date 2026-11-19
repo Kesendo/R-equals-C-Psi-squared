@@ -7396,7 +7396,7 @@ site of P₃ under ZZ with axes X, Z, Y pairs). **Scope:** the proviso holds wit
 per site and one bond letter per component. Three axes on one
 site were already excluded (the depolarizing channel above; MIRROR_SYMMETRY_PROOF's
 Scope). A site with two axes has one colour, and one-letter bonds do not supply
-the sites they reach with it: at N = 3 the clauses, read with those exclusions, accept
+the sites they reach with it: at N = 3 the clauses, with the proviso read without its condition of one axis per site and a site with three axes still failing clause 1, accept
 882 rows whose palindrome fails, summed over the three graphs and seven bond
 sets, every one with a two-axis site in a bonded component of one bond letter
 and three axes.

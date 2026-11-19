@@ -239,21 +239,22 @@ pairs 16/16. And clause 1's *two-term* proviso is not decoration:
 single-term bonds of one letter, the Ising bond ZZ throughout, tolerate all three
 dephasing axes at once, the eighteen three-axis assignments the gate runs at N=4
 (of thirty-six) pairing exactly where Heisenberg, XX+ZZ and XX+YY all fail on the
-same assignments. Two bond terms are where the ceiling bites, and the escape needs
-one axis per site and one bond letter per component: single-term bonds of different
+same assignments. Two bond terms are where the ceiling bites, and the escape is proven with
+one axis per site and one bond letter per component, and with either dropped it can fail: single-term bonds of different
 letters can break it (K₃ with bonds X₀X₁, X₁X₂, Y₀Y₂ under axes Y, X, Z). Three axes stacked on
 a single site is depolarizing there, and breaks the Ising bond too. Two axes on a
 site leave it a single letter to anticommute with them; when that letter is the
 bond's own, the single-term bond asks the same letter (or I) of each neighbour,
 and onward along bonds of that letter, so a site of the component dephased
-along it breaks the palindrome. The two-axis site's jumps multiply to that
+along it leaves no letter for a colouring. The two-axis site's jumps multiply to that
 letter up to a phase, so with that site's jump and enough powers of H to carry
-the letter across they form a word with an odd number of jumps and a nonzero
-trace: against the bond itself for a neighbour, against H² across an undephased
-middle site (P₃ under XX with jumps X on site 0 and Y, Z on site 2:
-Tr(H²·X₀Y₂Z₂) ≠ 0 while Tr(H·X₀Y₂Z₂) = 0). [F158 §(f5)](PROOF_PALINDROME_TWO_END_COUNT.md)
-rules every such word out
-([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)). And the
+the letter across they form a word with an odd number of jumps. For a neighbour its
+trace against H has modulus |J|·2^N, J the bond's coupling, and never vanishes; across an undephased middle site
+the word needs H², and on P₃ (under XX with jumps X on site 0 and Y, Z on site 2:
+Tr(H²·X₀Y₂Z₂) ≠ 0 while Tr(H·X₀Y₂Z₂) = 0) it does not vanish. Where the trace is
+nonzero, [F158 §(f5)](PROOF_PALINDROME_TWO_END_COUNT.md) rules the palindrome out. On a cycle with couplings of both signs the trace can
+vanish and the palindrome survive, as on a ring of four sites under ZZ
+([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md#where-the-proviso-needs-its-scope)). And the
 clauses admit a three-axis component only **field-free**: this is not a separate condition
 but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
 at once, so the clause is unsatisfiable there and only the empty field passes

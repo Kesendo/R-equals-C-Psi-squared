@@ -27,7 +27,8 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      a colouring explains, pinned as measured (714 / 468 / 714 at one letter, 0 at two); (iv) the
      singular values separate by at least six decades.
   C  The rows F138's clauses accept where the palindrome fails, over dephasing patterns with up to
-     three axes per site, the clauses read fairly: the two-axis ceiling is lifted only in a component
+     three axes per site, the clauses read fairly, that is with the proviso's condition of one axis per
+     site dropped: the two-axis ceiling is lifted only in a component
      that has bonds and whose bonds carry one letter, and three axes on one site fail clause 1 (F138:
      "The depolarizing channel is clause 1 failing"; MIRROR_SYMMETRY_PROOF: three axes on a single
      site break the Ising bond too). Tallied: every such row carries a two-axis site in a bonded
@@ -113,6 +114,16 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      (iii) a Trotter circuit of XX + YY on P3 with Z-dephasing channels between the gates keeps the
      palindrome in discrete time, L_F^-1 Phi L_F = c (Phi^dag)^-1 for the colouring F = XXX, exactly, in
      two gate orders; control: a gate that does not commute with F breaks it.
+  L  EXACT (sympy ranks on Pauli strings). Where a two-axis site escapes: the ring of four sites with
+     ZZ bonds, jumps X and Y on site 0 and Z on site 2, sites 1 and 3 without light, no fields. Site 0's
+     colour is Z, the bonds' letter, and site 2 stands in light along Z, yet at couplings (1, 1, 1, -1)
+     and (1, 2, 2, -1) the two shortest routes cancel in Tr(H^2 X0 Y0 Z2), near = far = 8 (F158: the
+     palindrome holds) and no lit string commutes with H; the reflection of the ring through sites 0 and 2
+     composed with pi rotations, SWAP13 Z0 X1 X2 X3, commutes with H and anticommutes with every jump there
+     (exact products of matrices with entries in {0, ±1}, the halves summed exactly), and fails at (1, 2, 1, -2).
+     Controls: at (1, 1, 1, 1) the trace is nonzero
+     and near = 12, far = 8; at (1, 2, 1, -2) the routes cancel too and near = 8, far = 0, so the
+     cancellation is needed for the escape and not enough for it.
 
 Run:  python simulations/f138_palindrome_colouring.py
    >  simulations/results/f138_palindrome_colouring.txt     (runtime about 30 minutes)
@@ -206,7 +217,8 @@ def components(edges):
 
 
 def f138_clauses(edges, bset, deph, fields):
-    """F138 as its registry entry states it, per component carrying dephasing: (1) at most two
+    """F138's clauses with the proviso read without its condition of one axis per site,
+    per component carrying dephasing: (1) at most two
     distinct axes, a ceiling lifted only in a component that has bonds, all carrying one letter, and
     never for three axes on one site (the depolarizing channel is clause 1 failing); (2) the field
     has one common axis in the component, orthogonal to every dephasing axis present."""
@@ -1093,6 +1105,65 @@ def stage_k():
           "breaks the identity", held[0] and held[1] and not held[2])
 
 
+def stage_l():
+    import sympy as sp
+    print()
+    print("## Stage L: a two-axis site on a ring with couplings of both signs, where the word H^2 X0 Y0 Z2 is silent")
+    allS = [''.join(p) for p in itertools.product('IXYZ', repeat=4)]
+    idx = {x: i for i, x in enumerate(allS)}
+    jumps = [('X', 0), ('Y', 0), ('Z', 2)]
+
+    def anti1(a, b):
+        return a != 'I' and b != 'I' and a != b
+
+    near = [x for x in allS if all(not anti1(x[l], a) for a, l in jumps)]
+    far = [x for x in allS if all(anti1(x[l], a) for a, l in jumps)]
+
+    def bonds(J):
+        return [(J[k], ''.join('Z' if l in (k, (k + 1) % 4) else 'I' for l in range(4))) for k in range(4)]
+
+    def kernel_dim(H, basis):
+        M = sp.zeros(len(allS), len(basis))
+        for j, x in enumerate(basis):
+            for c, T in H:
+                p1, u = _smul(T, x)
+                p2, _ = _smul(x, T)
+                if p1 != p2:
+                    M[idx[u], j] += sp.Integer(c) * sp.nsimplify(p1 - p2)
+        return len(basis) - M.rank()
+
+    def trace_word(J):
+        Hm = sum(c * op(T) for c, T in bonds(J))
+        return np.trace(Hm @ Hm @ op('XIII') @ op('YIII') @ op('IIZI'))
+
+    swap13 = (op('IIII') + op('IXIX') + op('IYIY') + op('IZIZ')) / 2
+    U = swap13 @ op('ZXXX')
+
+    def in_far(J):
+        Hm = sum(c * op(T) for c, T in bonds(J))
+        Js = [op('XIII'), op('YIII'), op('IIZI')]
+        return bool(np.abs(Hm @ U - U @ Hm).max() == 0 and all(np.abs(A @ U + U @ A).max() == 0 for A in Js)
+                    and np.abs(U @ U.conj().T - op('IIII')).max() == 0)
+
+    rows = {}
+    for J in [(1, 1, 1, -1), (1, 2, 2, -1), (1, 1, 1, 1), (1, 2, 1, -2)]:
+        H = bonds(J)
+        coloured = any(all(not _anti(T, x) for _, T in H) for x in far)
+        rows[J] = (kernel_dim(H, near), kernel_dim(H, far), coloured, trace_word(J))
+        print(f"    couplings {J}: near {rows[J][0]}, far {rows[J][1]}, colouring {rows[J][2]}, "
+              f"Tr(H^2 X0 Y0 Z2) = {rows[J][3]}, SWAP13 Z0X1X2X3 in W: {in_far(J)}")
+    escape = all(rows[J][0] == rows[J][1] == 8 and not rows[J][2] and abs(rows[J][3]) == 0
+                 for J in [(1, 1, 1, -1), (1, 2, 2, -1)])
+    escape = escape and in_far((1, 1, 1, -1)) and in_far((1, 2, 2, -1))
+    controls = (not in_far((1, 2, 1, -2)) and rows[(1, 1, 1, 1)][:2] == (12, 8) and abs(rows[(1, 1, 1, 1)][3]) > 0
+                and rows[(1, 2, 1, -2)][:2] == (8, 0) and abs(rows[(1, 2, 1, -2)][3]) == 0)
+    check("the ring of four sites under ZZ with jumps X, Y on site 0 and Z on site 2 is palindromic without a "
+          "colouring at couplings (1, 1, 1, -1) and (1, 2, 2, -1), where the trace of H^2 X0 Y0 Z2 vanishes, "
+          "carried by the reflection through sites 0 and 2 with pi rotations, SWAP13 Z0 X1 X2 X3; "
+          "controls: (1, 1, 1, 1) breaks with a nonzero trace, (1, 2, 1, -2) breaks with a vanishing one",
+          escape and controls)
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
@@ -1105,6 +1176,7 @@ if __name__ == "__main__":
     stage_i()
     stage_j()
     stage_k()
+    stage_l()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")
