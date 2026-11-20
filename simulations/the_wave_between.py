@@ -3,7 +3,8 @@
 The numbers behind reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md.
 Sections 1 to 9 lay known facts side by side so the reflection can point at
 numbers instead of words; section 10 is the matrix route of F168
-(experiments/THE_CAT_UNDER_A_TURNED_FIELD.md).
+(experiments/THE_CAT_UNDER_A_TURNED_FIELD.md), section 11 the cat under a
+twisted coupling, section 12 a far element that is no single word.
 
 1. The self-encounter S_A(t) = Tr(A† e^{tL} A) of a qubit cannot tell two
    states apart that differ only in their phase about Z, while an X probe can.
@@ -144,6 +145,30 @@ numbers instead of words; section 10 is the matrix route of F168
    has m_7 = 0 and m_9 ≠ 0; N = 2 in sympy: m_7 in closed form at θ = 0 and π,
    m_9 = 384 J² h⁴ s² σ³ where m_7 vanishes, and m_5 = 40 σ h₁² h₂² sin²θ with the
    phase symbolic, free of the twist.
+12. A far element that is no single word (the page, section "How far the look
+   at itself reaches"): for XZ + ZY on the ring under Z watching at rates of
+   its own on every bit no single word with X or Y at every bit leaves H
+   unchanged (asserted exactly), and the stitch of compute/MirrorWorld (Stitch.cs,
+   experiments/THE_SIEVE_AND_THE_STITCH.md) carries the palindrome with
+   W = X^N·S^N·∏CZ. Asserted exactly (entries in {0, ±1, ±i}, every product
+   exact in floating point): W commutes with H, anticommutes with every Z_l
+   and squares to i^(−N), and W is a sum of 2^N words with X or Y at every bit
+   and equal weights, 2^(N−2) where 3 | N; so W~ = e^(iπN/4)·W is a
+   Hermitian unitary involution, its weights real (one rounding of the
+   phase). A state with W~ρ = ±ρ (a random vector of either eigenspace, the cat
+   (|0…0⟩ + e^(iπN/4)|1…1⟩)/√2 among them) meets itself the same way forwards
+   and, paying the price, backwards on the ring of N = 3 to 6, to 1e-12 of the
+   self-encounter (the trace form of experiments/THE_PAIRING_CONDITION.md read
+   at one state); controls: the same states on the open chain, and |+⟩^N on
+   the ring, and a sum of one state of each kind on the ring, part by more
+   than 1e-8. The cat at phase πN/4 is returned by W~ at every N, and by X^N
+   only where 4 | N (asserted). Keeping lengths is needed: at N = 2 under Heisenberg bonds
+   U = X^N·2^(N̂)/2 commutes with H, anticommutes with both Z and squares to
+   1 but is not unitary; it returns the two pairs that share one excitation,
+   which keep the property, and (2|00⟩ + |11⟩)/√5, which parts by more than
+   1e-2. The 1e-12 is the
+   script's own bound for an expm comparison, the backward run
+   amplified by e^(2σt) and multiplied back; the ring gaps come out below 1e-14.
 """
 from __future__ import annotations
 
@@ -1064,6 +1089,113 @@ def cat_under_a_twisted_coupling():
     print("      with m_5 = 40 σ h₁² h₂² sin²ϑ at every phase, free of the twist, the twist must follow at N = 2 too")
 
 
+def far_element_no_single_word():
+    print("12. A far element that is no single word: the stitch's carrier of XZ + ZY on the ring")
+    gammas_all = [0.3, 0.5, 0.4, 0.6, 0.35, 0.45]
+    rng = np.random.default_rng(12)
+
+    def ham(N, ring):
+        H = np.zeros((2 ** N, 2 ** N), dtype=complex)
+        for l in range(N if ring else N - 1):
+            for a, b in ((X, Z), (Z, Y)):
+                ops = [I2] * N
+                ops[l], ops[(l + 1) % N] = a, b
+                H += kron_all(ops)
+        return H
+
+    for N in (3, 4, 5, 6):
+        d = 2 ** N
+        x = np.arange(d)
+        bits = [(x >> (N - 1 - l)) & 1 for l in range(N)]
+        adjacent = sum(bits[l] * bits[(l + 1) % N] for l in range(N))
+        W = kron_all([X] * N) @ np.diag((1j) ** sum(bits) * (-1.0) ** adjacent)
+        H = ham(N, True)
+        zs = [kron_all([Z if k == l else I2 for k in range(N)]) for l in range(N)]
+        assert np.array_equal(W @ H, H @ W), f"N = {N}: [W, H] = 0 exactly"
+        assert all(np.array_equal(W @ z, -(z @ W)) for z in zs), f"N = {N}: W anticommutes with every Z exactly"
+        assert np.array_equal(W @ W, (1j) ** (-N % 4) * np.eye(d)), f"N = {N}: W² = i^(-N) exactly"
+        no_word = all(not np.array_equal(kron_all(list(letters)) @ H, H @ kron_all(list(letters)))
+                      for letters in itertools.product((X, Y), repeat=N))
+        assert no_word, f"N = {N}: no single word with X or Y at every bit commutes with H"
+        traces = {idx: np.trace(kron_all([PAULI[i] for i in idx]) @ W) for idx in itertools.product(range(4), repeat=N)}
+        words = [c for idx, c in traces.items() if all(i in (1, 2) for i in idx) and c != 0]       # exact: Gaussian integers
+        others = sum(1 for idx, c in traces.items() if any(i in (0, 3) for i in idx) and c != 0)
+        expected = 2 ** (N - 2) if N % 3 == 0 else 2 ** N
+        assert len(words) == expected and others == 0, f"N = {N}: {len(words)} far words, {others} others"
+        assert len({abs(c) for c in words}) == 1, f"N = {N}: equal weights"
+        Wt = np.exp(1j * np.pi * N / 4) * W
+        assert all(abs((np.exp(1j * np.pi * N / 4) * c).imag) < 1e-12 for c in words), f"N = {N}: W~'s weights are real"
+        words = [c / d for c in words]
+        gammas = gammas_all[:N]
+        sigma = sum(gammas)
+        Lring = lindbladian_z_dephasing(0.7 * H, gammas)
+        Lchain = lindbladian_z_dephasing(0.7 * ham(N, False), gammas)
+        w, v = np.linalg.eigh(Wt)
+
+        def in_space(sign):
+            P = v[:, np.isclose(w, sign)]
+            psi = P @ (rng.normal(size=P.shape[1]) + 1j * rng.normal(size=P.shape[1]))
+            return psi / np.linalg.norm(psi)
+        cat = np.zeros(d, dtype=complex)
+        cat[0], cat[-1] = 1, np.exp(1j * np.pi * N / 4)
+        cat /= np.sqrt(2)
+        plus = np.ones(d, dtype=complex) / np.sqrt(d)
+
+        flows = {id(L): [(t, expm(L * t), expm(-L * t)) for t in (0.4, 1.2)] for L in (Lring, Lchain)}
+
+        def gap(L, psi):
+            r = vec(np.outer(psi, psi.conj()))
+            out = 0.0
+            for t, fwd, back in flows[id(L)]:
+                s_fwd = (r.conj() @ fwd @ r).real
+                s_back = np.exp(-2 * sigma * t) * (r.conj() @ back @ r).real
+                out = max(out, abs(s_fwd - s_back) / abs(s_fwd))
+            return out
+        kept = {"+1": in_space(1), "-1": in_space(-1), "cat": cat}
+        returned_by_x = np.allclose(kron_all([X] * N) @ cat, cat) or np.allclose(kron_all([X] * N) @ cat, -cat)
+        assert returned_by_x == (N % 4 == 0), f"N = {N}: X^N returns the cat exactly where 4 | N"
+        ring_gaps, chain_gaps = [], []
+        for name, psi in kept.items():
+            assert np.allclose(Wt @ psi, (1 if name != "-1" else -1) * psi), f"N = {N}: {name} returned by W~"
+            g_ring, g_chain = gap(Lring, psi), gap(Lchain, psi)
+            ring_gaps.append(g_ring)
+            chain_gaps.append(g_chain)
+            assert g_ring < 1e-12, f"N = {N}, {name}: ring {g_ring:.1e}"
+            assert g_chain > 1e-8, f"N = {N}, {name}: the chain control parts ({g_chain:.1e})"
+        g_plus = gap(Lring, plus)
+        assert g_plus > 1e-8, f"N = {N}: |+>^N on the ring parts ({g_plus:.1e})"
+        mixed = kept["+1"] + kept["-1"]
+        mixed /= np.linalg.norm(mixed)
+        g_mixed = gap(Lring, mixed)
+        assert g_mixed > 1e-8, f"N = {N}: a sum of the two kinds on the ring parts ({g_mixed:.1e})"
+        print(f"   N = {N}: W~ a Hermitian involution of {len(words)} far words (|weight| {abs(words[0]):.4f}); "
+              f"ring gaps up to {max(ring_gaps):.1e}, chain gaps from {min(chain_gaps):.1e}, |+>^N on the ring {g_plus:.1e}, "
+              f"the two kinds summed on the ring {g_mixed:.1e}")
+
+    # keeping lengths is needed: a non-unitary operator of the same kind (THE_PAIRING_CONDITION's X^N·2^(N-hat))
+    H2 = sum(np.kron(P, P) for P in (X, Y, Z))
+    U = np.kron(X, X) @ np.diag([1.0, 2.0, 2.0, 4.0]).astype(complex) / 2
+    z0, z1 = np.kron(Z, I2), np.kron(I2, Z)
+    assert np.array_equal(U @ U, np.eye(4)) and np.array_equal(U @ H2, H2 @ U), "U squares to 1 and commutes with H"
+    assert np.array_equal(U @ z0, -(z0 @ U)) and np.array_equal(U @ z1, -(z1 @ U)), "U anticommutes with both Z"
+    assert not np.allclose(U @ U.conj().T, np.eye(4)), "U does not keep lengths"
+    L2 = lindbladian_z_dephasing(H2, [0.3, 0.5])
+    sigma2 = 0.8
+
+    def gap2(psi):
+        r = vec(np.outer(psi, psi.conj()))
+        return max(abs((r.conj() @ expm(L2 * t) @ r).real - np.exp(-2 * sigma2 * t) * (r.conj() @ expm(-L2 * t) @ r).real)
+                   / abs((r.conj() @ expm(L2 * t) @ r).real) for t in (0.4, 1.2))
+    unequal = np.array([2, 0, 0, 1], dtype=complex) / np.sqrt(5)
+    bell = np.array([0, 1, 1, 0], dtype=complex) / np.sqrt(2)
+    bell_minus = np.array([0, 1, -1, 0], dtype=complex) / np.sqrt(2)
+    assert np.allclose(U @ unequal, unequal) and np.allclose(U @ bell, bell) and np.allclose(U @ bell_minus, -bell_minus), "returned by U"
+    g_unequal, g_bell = gap2(unequal), max(gap2(bell), gap2(bell_minus))
+    assert g_unequal > 1e-2 and g_bell < 1e-12, f"the unequal state parts ({g_unequal:.2e}), the pairs keep it ({g_bell:.1e})"
+    print(f"   a non-unitary U of the same kind (N = 2, Heisenberg): the two pairs keep it ({g_bell:.1e}), "
+          f"(2|00> + |11>)/sqrt 5 parts ({g_unequal:.2e})")
+
+
 if __name__ == "__main__":
     self_encounter_blind_to_phase()
     bell_pair_is_all_between()
@@ -1076,3 +1208,4 @@ if __name__ == "__main__":
     coupled_bits_with_a_field()
     cat_under_a_turned_field(tuple(int(a) for a in sys.argv[1:]) or (2, 3))
     cat_under_a_twisted_coupling()
+    far_element_no_single_word()

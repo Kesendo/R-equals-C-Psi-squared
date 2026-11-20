@@ -169,7 +169,11 @@ without ZZ, twelve cells: broken on every chain examined, paired on every ring e
 product (pinned for all twelve at N = 3 to 5 and for +XZ+ZY at 6 too; XXX + YYY at three sites for +XZ+ZY), the two
 families carried onto each other by CZ on every ring bond up to the sign of H. With the stitch they read `SSSS`. The
 carrier W is one of the term-permuting Cliffords that [the colouring hub](THE_PALINDROME_AS_A_COLOURING.md) searches
-for at one length (`EndCount.CliffordSymmetry`), read here at every length. On the 36 two-term cells with both signs +
+for at one length (`EndCount.CliffordSymmetry`), read here at every length.
+For XZ + ZY, e^(iπN/4)·W is Hermitian and squares to 1, a sum of Pauli strings with X or Y on every site;
+on the ring under Z light, a state it returns up to a sign has a self-overlap Tr(ρ·e^(tL)ρ) equal to
+e^(−2σt) times its value at −t, σ the sum of the rates ([On the Wave Recognizing That It Is Not Alone](../reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md),
+section "How far the look at itself reaches"). On the 36 two-term cells with both signs +
 the chain splits 22 read and 14 broken, the counts of [NON_HEISENBERG_PALINDROME](NON_HEISENBERG_PALINDROME.md), the split that
 [TWO_TERM_PALINDROME_KLEIN_ROUTING](TWO_TERM_PALINDROME_KLEIN_ROUTING.md) reads at N = 3, 4, 5 and
 [V_EFFECT_FINE_STRUCTURE](V_EFFECT_FINE_STRUCTURE.md#longer-chains) holds at every N ≥ 3 by F158's two certificates.
