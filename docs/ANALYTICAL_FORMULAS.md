@@ -11043,9 +11043,11 @@ h_l·P_l along one Pauli letter P_l.
   every site, hop amplitude g = (J_XX + J_YY) + i(J_YX − J_XY) and pairing
   amplitude h = (J_XX − J_YY) + i(J_XY + J_YX) ≠ 0: the chain of N ≥ 3 sites
   pairs exactly when g is real or purely imaginary, the ring exactly when g is real (every
-  N) or purely imaginary at even N; the phase of h never enters. Adopted in
-  MirrorWorld as a ring law of the sieve and gated there against the end
-  count; not typed.
+  N) or purely imaginary at even N; the phase of h never enters. Laid between
+  sites d apart, the same law holds on the chain of N ≥ 2d + 1 sites and on
+  the ring of N > 2d sites with N/gcd(N, d) in place of N (XIX ± XIY − YIY:
+  every chain, the rings of N ≥ 5 sites at 4 | N). Adopted in MirrorWorld as
+  a ring law of the sieve and gated there against the end count; not typed.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes

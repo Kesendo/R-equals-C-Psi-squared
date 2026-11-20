@@ -180,7 +180,7 @@ XY − YX ± ZZ, XX ± XY − YY and XX ± YX − YY. A ring law decides all thi
 for the six with a single string per flip set `Stitch.RingLaw` returns F173's Theorem D, and for XX ± XY − YY and
 XX ± YX − YY Theorem 9 of [the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), the
 pairing bond: a bond of XX, YY, XY and YX terms whose pairing amplitude h is nonzero pairs on the ring exactly when its
-hop amplitude g is real, or imaginary at even N (here g = ±i, h = 2 ± i). The verdict stays Read and the pass says so
+hop amplitude g is real, or imaginary at even N (here g = ±i, h = 2 ± i); laid between sites d apart, the same law reads N/gcd(N, d) in place of N on the ring of N > 2d sites. The verdict stays Read and the pass says so
 (`DecidedByLaw`), and the family mode counts these cells and lists each as `Read+law`. For the three pure
 Dzyaloshinskii-Moriya cells XY − YX (± ZZ) it returns Theorem 8 of the complement connection (h = 0), read on a
 uniform cell: hopping bonds J·(XX + YY) + D·(XY − YX) between sites d apart split the ring of N > 2d sites into gcd(N, d) cycles of
@@ -237,11 +237,11 @@ three is broken for every N, no residue occurs, and every read ring cell with br
 by a ring law (25 and 33 in the four- and five-term bond families, 13 in the field family); among them, by Theorem 8,
 XX + YY ± (XY − YX) with or without ZZ, the twist at D = J, pairing exactly where 4 divides N. Nothing in these three
 families, as in the first census, stays decided at the lengths examined alone. Cells of one to
-three of the 36 three-site templates (`sieve 3 6 Z windows`, 29856 cells, 38 minutes): chain Read 7285, Broken 7707,
+three of the 36 three-site templates (`sieve 3 6 Z windows`, 29856 cells, 40 minutes): chain Read 7285, Broken 7707,
 Mixed 14864, every mixed cell broken for every N past its last pairing; ring Read 7217, Broken 20631, Mixed 1948,
-Law 60, no residue; a ring law decides every N of 292 read cells with broken letters. On that ring 32 mixed cells
+Law 60, no residue; a ring law decides every N of 296 read cells with broken letters, XIX ± XIY − YIY and XIX ± YIX − YIY among them by Theorem 9 two sites apart (pairing exactly where 4 divides N, from N = 5). On that ring 32 mixed cells
 have no reading for every N, each holding two of XXZ, ZXX, YYZ and ZYY beside a third template (letters `sEBE` or
-`sEBP` at N = 3 to 6), and 48 read cells stay decided only at the lengths examined (letters `BEBE`, `BEBB` and
+`sEBP` at N = 3 to 6), and 44 read cells stay decided only at the lengths examined (letters `BEBE`, `BEBB` and
 `CEBE`).
 
 ## Where the reading stops
@@ -278,13 +278,12 @@ None of these is built.
    wherever every flip set's strings share one sign and a lone excitation hops across it. Where the hops cancel, the
    balance stays sufficient and need not be necessary: XXZ − YYZ is unbalanced at odd N and pairs at every N (the
    Theodolite reads it), while XIX − XXZ + ZXX follows the balance from N = 5 on at every N read without a reading
-   for every N. In the three-template window family 32 mixed and 48 read ring cells remain, of three kinds: flip sets
+   for every N. In the three-template window family 32 mixed and 44 read ring cells remain, of two kinds: flip sets
    of one sign whose lone excitation's hops cancel (XIX − XXZ + ZXX, XXZ + XZY + YZX, XIX + XXZ − YIY and their
-   relatives); flip sets carrying strings of both signs beside a Z (XXZ + XYZ + YXZ, a hop and a pairing on one flip
-   set); and pairing bonds two sites apart (XIX ± XIY − YIY), strings of both signs on one flip set, which Theorem 9
-   reads only between neighbours.
+   relatives); and flip sets carrying strings of both signs beside or between a Z (XXZ + XYZ + YXZ, where a hop and a
+   pairing share one flip set, and XZY + YZX ± YZY).
    They are where the next reader would come from, the way XZ ± ZY became the stitch, X·(X ± Y)·X the free chain,
-   XX ± XY − YY Theorem 9 and XXZ + ZXX Corollary A′. F116's golden window XZX + XZY + YZX, palindromic on the open
+   XX ± XY − YY Theorem 9, XIX ± XIY − YIY the same law two sites apart, and XXZ + ZXX Corollary A′. F116's golden window XZX + XZY + YZX, palindromic on the open
    chain at every N ≥ 3 and on the ring only where 4 divides N
    ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) §6), is a three-template cell whose two
    verdicts are known in advance.

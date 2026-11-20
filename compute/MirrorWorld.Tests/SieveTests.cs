@@ -174,6 +174,80 @@ public class SieveTests
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"));
     }
 
+    // Theorem 9 on bonds d sites apart: J_XX·XIX + J_YY·YIY + J_XY·XIY + J_YX·YIX (and a ZIZ part 0 or 1) with
+    // coefficients in {−1, 0, 1}, held against the end count's exact verdict. Where h ≠ 0 a ring law exists, and it agrees
+    // with the end count on the rings of 5 to 8 sites, where m = N/gcd(N, 2) takes the values 5, 3, 7 and 4 (so that the
+    // six-site ring, two triangles, separates m even from N even); the theorem's chain half agrees on chains of 3 to 7
+    // sites (pairing whatever g at N ≤ 2d, where the flips are independent; g real or imaginary from N = 2d + 1). At d = 3
+    // the bonds with g = −i, g = 1 and g neither on rings of 7 to 10 sites: m = 10 at N = 10 separates m even from 4 dividing m,
+    // and the three triangles at N = 9 break the imaginary bond and keep the real one (g = 1, a hop beside the pairing). Negative controls: two distances
+    // in one cell, a Z between the two sites, a field beside the bond.
+    [Fact]
+    public void The_Pairing_Bond_Law_At_Distance_D_Agrees_With_The_End_Count()
+    {
+        var branches = new HashSet<string>();
+        int byTheorem9 = 0;
+        long[] values = { -1, 0, 1 };
+        foreach (long xx in values) foreach (long yy in values) foreach (long xy in values) foreach (long yx in values) foreach (long zz in new long[] { 0, 1 })
+        {
+            if (xx == yy && xy == -yx) continue;                                         // h = 0: Theorem 8's
+            var terms = new[] { ("XIX", xx), ("YIY", yy), ("XIY", xy), ("YIX", yx), ("ZIZ", zz) }.Where(t => t.Item2 != 0).ToArray();
+            var cell = Cell('Z', terms);
+            var law = Stitch.RingLaw(cell);
+            string name = string.Join("+", terms);
+            Assert.NotNull(law);
+            bool real = xy == yx, imaginary = xx == -yy;
+            if (law!.Text.Contains("Theorem 9"))
+            {
+                byTheorem9++;
+                branches.Add(real ? "real" : imaginary ? "imaginary" : "neither");
+                Assert.Equal(5, law.Guard);
+            }
+            for (int n = 5; n <= 8; n++)
+            {
+                var v = Sieve.Count(cell.Ring(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                int m = n / (n % 2 == 0 ? 2 : 1);
+                Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+                Assert.True((real || imaginary && m % 2 == 0) == EndCount.IsPalindrome(v), $"{name} ring {n}: the theorem");
+            }
+            for (int n = 3; n <= 7; n++)
+            {
+                var v = Sieve.Count(cell.Chain(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"{name} chain {n}: not exact");
+                Assert.True((n <= 4 || real || imaginary) == EndCount.IsPalindrome(v), $"{name} chain {n}");
+            }
+        }
+        Assert.Equal(new[] { "imaginary", "neither", "real" }, branches.OrderBy(b => b, StringComparer.Ordinal));
+        Assert.True(byTheorem9 > 30, $"{byTheorem9} cells read by Theorem 9");
+        foreach (var (terms, real, imaginary) in new[]
+        {
+            (new[] { ("XIIX", 1L), ("XIIY", 1L), ("YIIY", -1L) }, false, true),
+            (new[] { ("XIIX", 1L), ("XIIY", 1L), ("YIIX", 1L) }, true, false),
+            (new[] { ("XIIX", 1L), ("XIIY", 1L), ("YIIY", 1L) }, false, false),
+        })
+        {
+            var cell = Cell('Z', terms);
+            var law = Stitch.RingLaw(cell);
+            Assert.True(law is { } l && l.Text.Contains("Theorem 9") && l.Guard == 7, $"{string.Join("+", terms)}: {law?.Text}");
+            for (int n = 7; n <= 10; n++)
+            {
+                var v = Sieve.Count(cell.Ring(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"d = 3, ring {n}: not exact");
+                int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, 3);
+                Assert.True(law!.Pairs(n) == EndCount.IsPalindrome(v), $"{string.Join("+", terms)} ring {n}: {law.Text}");
+                Assert.True((real || imaginary && m % 2 == 0) == EndCount.IsPalindrome(v), $"{string.Join("+", terms)} ring {n}: the theorem");
+            }
+        }
+        foreach (var outside in new[]
+        {
+            Cell('Z', ("XX", 1), ("XIX", 1), ("YIY", -1)),
+            Cell('Z', ("XZX", 1), ("XZY", 1), ("YZY", -1)),
+            new Theodolite.Cell(new[] { (Zm, 1L) }, new[] { ('X', 1L) }, new[] { ("XIX", new[] { 0, 1, 2 }, 1L), ("YIY", new[] { 0, 1, 2 }, -1L), ("XIY", new[] { 0, 1, 2 }, 1L) }),
+        })
+            Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"), Stitch.RingLaw(outside)?.Text);
+    }
+
     // Theorem 8 of the complement connection read on a uniform cell (Stitch.RingLaw's HoppingRing), held against the end
     // count's exact verdict on the ring: hopping bonds J·(XX + YY) + D·(XY − YX) with J, D in {−1, 0, 1, 2}, a ZZ part 0
     // or 1, and the uniform fields 0, X, Y, X + Y, X − Y, on rings of 3 to 7 sites; and the same bonds two sites apart

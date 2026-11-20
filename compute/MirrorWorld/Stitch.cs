@@ -525,7 +525,7 @@ public sealed class Stitch : GameObject
     // reads (OneSignPerShape below); two more laws,
     // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
     // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
-    // XY and YX terms on neighbouring sites with a pairing amplitude, whatever their ratio).
+    // XY and YX terms on two sites d apart with a pairing amplitude, whatever their ratio).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -693,25 +693,34 @@ public sealed class Stitch : GameObject
     }
 
     // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, the pairing bond): every flipping term an XX, YY, XY
-    // or YX on two neighbouring sites (a diagonal of even weight beside them, no field), so that the bond moves an
-    // excitation with g = (J_XX + J_YY) + i·(J_YX − J_XY) and makes or removes a pair with h = (J_XX − J_YY) +
-    // i·(J_XY + J_YX). Where h ≠ 0 the ring of N ≥ 3 sites pairs exactly when g is real (every N), or g is imaginary and
-    // N is even; where g is neither real nor imaginary it breaks at every N. Asked only where Corollary E2 reads no ratio
-    // (an entry vanishing, or no character); h = 0 is Theorem 8's (HoppingRing). The bond is the same on every pair,
-    // oriented the same way round the ring.
+    // or YX on the two sites l and l + d (I between them, the same d for every term; a diagonal of even weight beside
+    // them, no field), so that the bond moves an excitation with g = (J_XX + J_YY) + i·(J_YX − J_XY) and makes or
+    // removes a pair with h = (J_XX − J_YY) + i·(J_XY + J_YX). Where h ≠ 0 the bonds split the ring of N > 2d sites into
+    // gcd(N, d) rings of m = N/gcd(N, d) ≥ 3 sites, and the ring pairs exactly when g is real (every N), or g is imaginary
+    // and m is even; where g is neither real nor imaginary it breaks at every N > 2d. The guard N ≥ 2·span − 1 = 2d + 1
+    // gives N > 2d (at N = 2d the flip sets are disjoint pairs and the ring pairs at every g, where the rule read at m = 2
+    // would not). Asked only where Corollary
+    // E2 reads no ratio (an entry vanishing, or no character); h = 0 is Theorem 8's (HoppingRing). The bond is the same on
+    // every pair, oriented the same way round the ring.
     static RingLawReading? PairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
     {
-        if (flipping.Any(t => t.X != 0b11 || (t.Z & ~0b11UL) != 0)) return null;
+        ulong mask = flipping[0].X;
+        if ((mask & 1) == 0 || BitOperations.PopCount(mask) != 2) return null;
+        if (flipping.Any(t => t.X != mask || (t.Z & ~mask) != 0)) return null;
+        int d = 63 - BitOperations.LeadingZeroCount(mask);
+        ulong far = 1UL << d;
         long Coefficient(bool firstY, bool secondY) => flipping
-            .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & 2) == 2) == secondY).Sum(t => t.C);
+            .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
         long jxx = Coefficient(false, false), jxy = Coefficient(false, true), jyx = Coefficient(true, false), jyy = Coefficient(true, true);
         if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: Theorem 8's
         bool real = jxy == jyx, imaginary = jxx == -jyy;
-        string verdict = real ? "pairs on every ring" : imaginary ? "pairs exactly at even N" : "breaks on every ring";
+        string reach = d == 1 ? "N" : $"N/gcd(N, {d})";
+        string verdict = real ? "pairs on every ring" : imaginary ? $"pairs exactly where {reach} is even" : "breaks on every ring";
         return new RingLawReading(guard, $"complement connection Theorem 9 (pairing bond): {verdict}, from N = {guard}", n =>
         {
             if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
-            return real || imaginary && n % 2 == 0;
+            int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, d);
+            return real || imaginary && m % 2 == 0;
         });
     }
 
