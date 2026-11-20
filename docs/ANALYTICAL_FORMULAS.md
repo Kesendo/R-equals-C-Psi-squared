@@ -11975,8 +11975,11 @@ SOFTNESS_IS_N_DEPENDENT and F116's golden router (several strings on one flip se
 outside this entry); for Theorem F, MIRROR_SYMMETRY_PROOF's site-alternating map (the checkerboard on the square torus)
 and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of ground states of commuting Hamiltonians.
 **Scope:** the open chain, the ring (N ≥ 2·max w − 1), the torus (no two placements coinciding) and the open patch (two templates) with uniform templates; one string per flip set (the balance
-also with several strings of one sign whose entries never cancel; Theorems B to D, F and G need one string), or several with a
-character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside); Z dephasing on
+also with several strings of one sign whose entries never cancel, and by Corollary A′ with entries that cancel, where every
+flip set has two sites and a lone excitation hops across each, read on the ring by Theorem D's rule with one sign per flip
+shape; Theorems B to D, F and G otherwise need one string), or several with a
+character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside it, read by Corollary A′ and the
+complement connection's Theorem 8); Z dephasing on
 every site. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.
 **Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over
 GF(2); and an end count per ring size for cells of one string per flip set, such as XY + ZZ, by valuations and the 2-adic

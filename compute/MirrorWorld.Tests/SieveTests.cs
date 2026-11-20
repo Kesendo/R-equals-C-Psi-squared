@@ -97,8 +97,9 @@ public class SieveTests
         Assert.Equal((Sieve.Verdict.Read, "BEBBBEB", true), (xiy.Ring.Verdict, xiy.Ring.Letters, xiy.Ring.DecidedByLaw));
         Assert.False(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 3).Ring.DecidedByLaw);
         Assert.True(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 4).Ring.DecidedByLaw);   // the guard one past the N read
-        var none = Sieve.Run("XXZ+YYZ", Cell('Z', ("XXZ", 1), ("YYZ", 1)), 6);        // a bond with a Z beside it: no ring law
-        Assert.Equal((Sieve.Verdict.Read, "BEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
+        // a cell whose lone excitation's hops cancel: no ring law, decided only at the N read
+        var none = Sieve.Run("XIX-XXZ+ZXX", Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1)), 6);
+        Assert.Equal((Sieve.Verdict.Mixed, "sEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
         Assert.Null(none.Ring.Law);
     }
 
@@ -211,6 +212,56 @@ public class SieveTests
         Theodolite.Cell Bonds(params (string, long)[] t) => new(new[] { (Zm, 1L) }, null, t.Select(x => (x.Item1, Enumerable.Range(0, x.Item1.Length).ToArray(), x.Item2)));
         foreach (var outside in new[] { Bonds(("XX", 2), ("YY", 1)), Bonds(("XXZ", 1), ("YYZ", 1)), Bonds(("XX", 1), ("YY", 1), ("XIX", 1), ("YIY", 1)) })
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 8"));
+    }
+
+    // F173's Corollary A′ (one sign per two-site flip set, entries allowed to cancel), adopted in Stitch.RingLaw, held
+    // against the end count's exact verdict on the ring: every cell of two or three templates, coefficients ±1, from the
+    // two-site flips with a Z beside or between (XXZ, YYZ, ZXX, ZYY, XZX, YZY, and XYZ, ZXY of the other sign) and the plain ones (XX, YY, XY, YX, XIX,
+    // YIY, XIY, YIX) beside an even diagonal (ZZ, ZIZ), wherever RingLaw returns the corollary, on rings from its guard to
+    // N = 8. All four outcomes occur. Outside it: a flip set carrying strings of both signs (XXZ + XZY share no flip set,
+    // so XX + XY's flip set is the control), and a cell whose lone excitation's hops cancel (XIX − XXZ + ZXX), where the
+    // corollary's necessity argument does not reach and RingLaw is silent.
+    [Fact]
+    public void The_One_Sign_Law_Agrees_With_The_End_Count()
+    {
+        string[] pool = { "XXZ", "YYZ", "ZXX", "ZYY", "XZX", "YZY", "XYZ", "ZXY", "XX", "YY", "XY", "YX", "XIX", "YIY", "XIY", "YIX", "ZZ", "ZIZ" };
+        var outcomes = new HashSet<string>();
+        int read = 0;
+        foreach (int k in new[] { 2, 3 })
+            foreach (var combo in Combos(pool.Length, k))
+                for (int signs = 0; signs < 1 << (k - 1); signs++)
+                {
+                    var terms = combo.Select((t, i) => (pool[t], i == 0 || ((signs >> (i - 1)) & 1) == 0 ? 1L : -1L)).ToArray();
+                    var cell = Cell('Z', terms);
+                    var law = Stitch.RingLaw(cell);
+                    if (law is null || !law.Text.Contains("Corollary A′")) continue;
+                    read++;
+                    string pattern = "";
+                    for (int n = law.Guard; n <= 8; n++)
+                    {
+                        var v = Sieve.Count(cell.Normalized().Ring(n)).Verdict();
+                        string name = string.Join("+", terms);
+                        Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                        Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+                    }
+                    outcomes.Add(law.Text.Contains("pairs on every") ? "every" : law.Text.Contains("> 1") ? "even" : law.Text.Contains("> 2") ? "four"
+                        : law.Text.Contains("breaks on every") ? "never" : law.Text);
+                }
+        Assert.Equal(new[] { "even", "every", "four", "never" }, outcomes.OrderBy(o => o, StringComparer.Ordinal));
+        Assert.True(read > 100, $"{read} cells read by Corollary A′");
+        Assert.Null(Stitch.RingLaw(Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1))));
+        // a flip set carrying strings of both signs (XX and XY), beside a second shape so that the corollary is asked
+        Assert.True(Stitch.RingLaw(Cell('Z', ("XX", 1), ("XY", 1), ("XIX", 1))) is not { } mixed || !mixed.Text.Contains("Corollary A′"));
+        // the pure pairing bond with a Z beside it: one sign, hops cancelling, unbalanced at odd N and paired at every N
+        Assert.Null(Stitch.RingLaw(Cell('Z', ("XXZ", 1), ("YYZ", -1))));
+    }
+
+    static IEnumerable<int[]> Combos(int n, int k)
+    {
+        if (k == 0) { yield return Array.Empty<int>(); yield break; }
+        for (int first = 0; first <= n - k; first++)
+            foreach (var rest in Combos(n - first - 1, k - 1))
+                yield return new[] { first }.Concat(rest.Select(r => r + first + 1)).ToArray();
     }
 
     // Light along X or Y on every site is turned to Z by a proper rotation of the letters before the stitch's readers are

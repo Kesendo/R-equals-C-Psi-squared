@@ -15,7 +15,7 @@ counts and several letter lines are also pinned in the tests.
 
 Take a chain of qubits, or a ring, and let every qubit stand in light: the repository's word, here, for dephasing along Z ([what the light does](../docs/quantum/DEPHASING_TRANSLATED.md)). The qubits are coupled by a Hamiltonian built from one small pattern, a **cell**: a few Pauli strings, such as XZ + ZY (X on one site and Z on the next, plus Z on one site and Y on the next), laid on every pair of neighbouring sites, or on every run of sites as long as the pattern. Every way the state can fade, an eigenmode of the generator built from H and the light together, has a rate and a frequency, and the whole spectrum can be mirror-symmetric about one centre, the sum of the light's rates over the sites: for each way of fading there is a partner that oscillates at the same frequency and fades as much faster than the centre as the first fades slower. That is the palindrome. [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) decides it at one length by a count at the two ends of the spectrum (the stitch's paragraph below says what is counted), with 2^N Pauli strings at each end, a number that doubles with every site. The question one wants answered is different: does this cell keep the palindrome at **every** length, on the chain and on the ring?
 
-**The sieve** takes a whole family of cells, for instance every cell of one to three of the nine two-letter bond terms with signs ± (417 cells), and sorts each one, on the chain and on the ring, with the cheapest exact tests first. First the stitch's fast no (below). Then the readers, tests whose yes covers many lengths at once: a map of operators built one site at a time, the mirror [the Theodolite](THE_CUBE_SITE_BY_SITE.md) builds from the Pauli letters, and the stitch. Only the lengths that no yes covers and no no breaks go to F158's count, one length at a time, up to ten sites, and on the ring laws in N, two from [F173](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md) and two from the complement connection, are held against the answers. Each cell ends, on each geometry, with one of five verdicts, read, broken, mixed, decided by a law, or residue, defined exactly further down. A residue is a cell that pairs at every length examined that no reader covers: something carries the palindrome there that the instruments do not yet know. Every residue these families have shown has, once understood, become a new reader.
+**The sieve** takes a whole family of cells, for instance every cell of one to three of the nine two-letter bond terms with signs ± (417 cells), and sorts each one, on the chain and on the ring, with the cheapest exact tests first. First the stitch's fast no (below). Then the readers, tests whose yes covers many lengths at once: a map of operators built one site at a time, the mirror [the Theodolite](THE_CUBE_SITE_BY_SITE.md) builds from the Pauli letters, and the stitch. Only the lengths that no yes covers and no no breaks go to F158's count, one length at a time, up to ten sites, and on the ring laws in N, three from [F173](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md) and two from the complement connection, are held against the answers. Each cell ends, on each geometry, with one of five verdicts, read, broken, mixed, decided by a law, or residue, defined exactly further down. A residue is a cell that pairs at every length examined that no reader covers: something carries the palindrome there that the instruments do not yet know. Every residue these families have shown has, once understood, become a new reader.
 
 **The stitch** is the reader the first residue taught. F158 counts two kinds of operators: those that never change at all, and those that fade at exactly twice the centre without oscillating. The palindrome holds exactly when there are as many independent operators of the one kind as of the other, and one operator of the second kind that has an inverse, a carrier in the complement connection's sense, makes it hold. Under light along Z the second kind are the operators X^⊗N·D, where X^⊗N flips every bit and D is diagonal, that commute with H. Write H_xy for the entry of H between bitstrings x and y, x̄ for x with every bit flipped, and d_x for the entries of D. Theorem 2 of [the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) then asks H_x̄ȳ·d_y = d_x·H_xy for every pair x, y. Where such a D exists with no zero entry the palindrome holds; where every such D must vanish somewhere it is broken. A [colouring](THE_PALINDROME_AS_A_COLOURING.md) is the case where the entries of D are signs set by the parity of chosen bits, a linear rule. The stitch tries a rule one order up: D a product of one-site phases and of two-site phases on the pairs of sites a cell reaches, the same factors on every site (quadratic where the factors are ±1 and ±i). Each equation then reads "a product of the unknown factors equals a ratio of Gaussian integers" (numbers a + bi with whole a and b; the cell's coefficients are whole numbers), and such equations are solved exactly. Each equation looks only at a few sites around the bits it flips, so from a fixed length on, the stitch's window, the set of distinct equations no longer changes. The window is 3·span sites on the ring and 2·(3·span − 2), at least 4, on the chain, span being the number of sites the pattern covers. A solution at the window reads every longer chain or ring; an edge (a pair x, y with H_xy ≠ 0) whose two entries H_xy and H_x̄ȳ differ in size, or a diagonal entry unequal to its complement's, breaks them all; a system with no solution of this form leaves them silent. Below the window each length is solved on its own. The fast no is the stitch's cheapest part: an edge whose two entries differ in size, or a loop of bitstrings around which the ratios H_xy/H_x̄ȳ do not multiply to 1, found inside a stretch of up to twelve sites. Such a stretch recurs on every longer chain, and in the bulk on every long enough ring, so the palindrome breaks at every length from there on.
 
@@ -31,7 +31,7 @@ What the repo already held (sweep, 2026-11-20). The instruments themselves: comp
 Stitch.cs with their header comments, the README rows of both, the run modes in Program.cs (sieve, sieve cells),
 SieveTests.cs and StitchTests.cs. The pages they read: PROOF_PALINDROME_COMPLEMENT_CONNECTION (Theorem 2, the base of
 the stitch; Theorem 8, the absent edges, live as PalindromeComplementConnectionClaim.PlanarHoppingPalindrome with PlanarHoppingWitness at the inspect root planarhopping, and read by the sieve as a ring law on a
-uniform cell), PROOF_SIGNED_MASK_BALANCE (F173: Theorem D and Corollary E2 adopted as
+uniform cell), PROOF_SIGNED_MASK_BALANCE (F173: Theorem D, Corollary E2 and Corollary A′ adopted as
 Stitch.RingLaw, beside the complement connection's Theorems 8 and 9, the hopping ring and the pairing bond; Corollary E1 and Theorem E name the free chain; Corollary E2 decides XZ ± ZY on every ring and Theorem
 E names its carrier; its 24 law cells and 864 two-template cells of the window family; its record names two gaps,
 SOFTNESS_IS_N_DEPENDENT against Stitch.FreeEveryN, cited in the body here, and Corollary E3 against the sieve's field
@@ -135,7 +135,7 @@ broken; or the free chain covers every length from its first on and every length
 **Broken**: nothing covers and every length is broken. **Mixed**: some uncovered lengths palindromic, others broken.
 **Residue**: every uncovered length palindromic (and not read by the free chain's tail). **Law**: a ring cell that would be Mixed or a Residue, whose tail
 the stitch's no has not already decided (otherwise it keeps its verdict), and whose every length from the law's guard
-on is decided by a ring law (F173's Theorem D or Corollary E2, or the complement connection's Theorem 8 or 9), every length
+on is decided by a ring law (F173's Theorem D, Corollary E2 or Corollary A′, or the complement connection's Theorem 8 or 9), every length
 below the guard examined exactly. Wherever a law exists the sieve
 checks every exact letter from its guard on against it, and a disagreement throws. Past the lengths examined a verdict
 says only what its readers and laws say.
@@ -203,9 +203,12 @@ As in the first census, 56 of the 657 read ring cells carry broken letters at le
 for 40, Corollary E2 with f = 1 + x² for 8), each from N = 5 on, which decides those lengths from 5 on, and the family
 mode lists them as `Read+law`; N = 3 and 4 are decided by their exact letters. One more, XIY − YIX, is pure DM on the graph of
 bonds two sites apart, and Theorem 8 decides it: it pairs exactly where 4 divides N (at N = 4 its two placements on
-each pair cancel and H vanishes), the letters reading `BEBB` at N = 3 to 6. For the other seven, XZX + YZY and the six pairs with sign + of XXZ, YYZ,
-ZXX and ZYY, bonds with a Z beside them or between their sites, it returns none, and no law is known (an open item
-below).
+each pair cancel and H vanishes), the letters reading `BEBB` at N = 3 to 6. The other seven, XZX + YZY and the six pairs with sign + of XXZ, YYZ, ZXX
+and ZYY, bonds with a Z beside them or between their sites, F173's Corollary A′ decides: the strings on each flip set
+share one sign, (−1)^(#Y + #Z), so wherever an entry does not vanish its ratio to the entry between the complements is
+that sign, and the balance of the signed masks, read on the ring by Theorem D's rule, decides every N, exactly so
+because a lone excitation hops across each flip set (XZX + YZY pairing where 4 divides N, the six pairs at even N). No
+read ring cell of the family stays decided at the lengths examined alone.
 
 **The field family** (`sieve 2 6 Z fields`, 2187 cells: every bond cell of one or two terms with every uniform field
 pattern from X, Y and Z, coefficients 0 and ±1). Chain: Read 173, Broken 2014, nothing between, every broken cell
@@ -235,10 +238,10 @@ by a ring law (25 and 33 in the four- and five-term bond families, 13 in the fie
 XX + YY ± (XY − YX) with or without ZZ, the twist at D = J, pairing exactly where 4 divides N. Nothing in these three
 families, as in the first census, stays decided at the lengths examined alone. Cells of one to
 three of the 36 three-site templates (`sieve 3 6 Z windows`, 29856 cells, 38 minutes): chain Read 7285, Broken 7707,
-Mixed 14864, every mixed cell broken for every N past its last pairing; ring Read 7217, Broken 20631, Mixed 1952,
-Law 56, no residue; a ring law decides every N of 147 read cells with broken letters. On that ring 36 mixed cells
-have no reading for every N: each holds two of XXZ, ZXX, YYZ and ZYY beside a third template (letters `sEBE`, `BEBP` or
-`sEBP` at N = 3 to 6); and 193 read cells stay decided only at the lengths examined (letters `BEBE`, `BEBB` and
+Mixed 14864, every mixed cell broken for every N past its last pairing; ring Read 7217, Broken 20631, Mixed 1948,
+Law 60, no residue; a ring law decides every N of 292 read cells with broken letters. On that ring 32 mixed cells
+have no reading for every N, each holding two of XXZ, ZXX, YYZ and ZYY beside a third template (letters `sEBE` or
+`sEBP` at N = 3 to 6), and 48 read cells stay decided only at the lengths examined (letters `BEBE`, `BEBB` and
 `CEBE`).
 
 ## Where the reading stops
@@ -253,7 +256,7 @@ have no reading for every N: each holds two of XXZ, ZXX, YYZ and ZYY beside a th
   the solves below it are not asked, while the fast no (up to span 9), the free chain (up to span 7) and the ring laws still are. The fast no reads two of Theorem 2's three conditions, the sizes and the loops (the diagonal condition is
   read in the window's equations), on stretches of up to 12 sites, carrying the ratios modulo a prime, so a loop it
   misses is a silence, never a yes. A ring law holds from its guard on; the code evaluates Corollary E2 up to N = 63
-  and Theorems D, 8 and 9 at any N.
+  and Theorem D, Corollary A′ and Theorems 8 and 9 at any N.
 - A cycle running round the whole ring is not local, and neither the fast no nor the window's solve sees it; the
   ring laws read those where they apply.
 - A ring cell marked Read is a yes at the lengths its reader covers; at the other lengths it is what the letters say,
@@ -271,11 +274,17 @@ None of these is built.
    every length, three templates and more included; `SignedMaskBalanceClaim` holds them and second implementations of
    Theorem D and Corollary E2 beside `Stitch.RingLaw`, as `PalindromeComplementConnectionClaim` does of Theorem 8.
    The sieve asks none of the chain laws.
-3. **Bonds with a Z beside them or between their sites.** The three-template window family leaves 36 mixed ring cells without a reading
-   for every N, every one built on XXZ, ZXX, YYZ or ZYY, a bond whose entries read the bit beside it, and the
-   two-template family leaves XXZ + YYZ, XXZ + ZXX, their relatives and XZX + YZY decided at the lengths
-   examined alone. No reader speaks for
-   them; they are where the next reader would come from, the way XZ ± ZY became the stitch, X·(X ± Y)·X the free chain
-   and XX ± XY − YY Theorem 9. F116's golden window XZX + XZY + YZX, palindromic on the open chain at every N ≥ 3 and on the ring only
-   where 4 divides N ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) §6), is a
-   three-template cell whose two verdicts are known in advance.
+3. **What Corollary A′ does not reach.** F173's Corollary A′ reads the bonds with a Z beside or between their sites
+   wherever every flip set's strings share one sign and a lone excitation hops across it. Where the hops cancel, the
+   balance stays sufficient and need not be necessary: XXZ − YYZ is unbalanced at odd N and pairs at every N (the
+   Theodolite reads it), while XIX − XXZ + ZXX follows the balance from N = 5 on at every N read without a reading
+   for every N. In the three-template window family 32 mixed and 48 read ring cells remain, of three kinds: flip sets
+   of one sign whose lone excitation's hops cancel (XIX − XXZ + ZXX, XXZ + XZY + YZX, XIX + XXZ − YIY and their
+   relatives); flip sets carrying strings of both signs beside a Z (XXZ + XYZ + YXZ, a hop and a pairing on one flip
+   set); and pairing bonds two sites apart (XIX ± XIY − YIY), strings of both signs on one flip set, which Theorem 9
+   reads only between neighbours.
+   They are where the next reader would come from, the way XZ ± ZY became the stitch, X·(X ± Y)·X the free chain,
+   XX ± XY − YY Theorem 9 and XXZ + ZXX Corollary A′. F116's golden window XZX + XZY + YZX, palindromic on the open
+   chain at every N ≥ 3 and on the ring only where 4 divides N
+   ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) §6), is a three-template cell whose two
+   verdicts are known in advance.

@@ -510,7 +510,7 @@ public sealed class Stitch : GameObject
 
     // ---------------------------------------------------------------- the ring laws (F173 and the complement connection, adopted)
     //
-    // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: two laws in N for a cell on the ring under
+    // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: laws in N for a cell on the ring under
     // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring), where the placements are
     // distinct flip sets. Theorem D: every flip-carrying template of its own shape (one string per flip set), read through
     // the (1 + x)-valuations v_i of the masks and the signs s_i = (#Y + #Z) mod 2 alone; with v₀ the least and T = 2^(v₂(N))
@@ -518,9 +518,11 @@ public sealed class Stitch : GameObject
     // or one of greater valuation has an odd sign. Corollary E2: every flip-carrying template of one shape f, each flip set
     // a constant times a character of x, ω·(−1)^⟨R, x⟩; the ring pairs exactly when the read sets are read symmetrically
     // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
-    // to 1. Both are laws for every N; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
+    // to 1. Both are laws for every N, and so is Corollary A′ below; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
     // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
-    // which carries several strings has no law of F173 here (the stitch's no reads the first two); among them two more laws,
+    // which carries several strings has no law of F173 here (the stitch's no reads the first two), except where every
+    // flip set has two sites, its strings one sign and a lone excitation's hop across it nonzero, which F173's Corollary A′
+    // reads (OneSignPerShape below); two more laws,
     // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
     // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
     // XY and YX terms on neighbouring sites with a pairing amplitude, whatever their ratio).
@@ -570,12 +572,12 @@ public sealed class Stitch : GameObject
                 return (n & -n) > v0 ? !high : !low;
             });
         }
-        if (shapes != 1) return null;
+        if (shapes != 1) return OneSignPerShape(flipping, norm, guard);
         // Corollary E2: the ratio's kind and read set are the same on every ring past the guard; read them once
         ulong f = ShapeOf(flipping[0].X);
         int probe = Math.Max(guard, 3 * norm.Span);
         var first = FlipRatios(norm, probe);
-        if (first is null) return PairingBond(flipping, guard);
+        if (first is null) return PairingBond(flipping, guard) ?? OneSignPerShape(flipping, norm, guard);
         return new RingLawReading(guard, $"F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = {Poly(f)}, from N = {guard}", n =>
         {
             if (n < guard || n > 63) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law is evaluated from N = {guard} to 63");
@@ -600,6 +602,44 @@ public sealed class Stitch : GameObject
                 at ^= m;
             }
             return quarter % 4 == 0;
+        });
+    }
+
+    // F173's Corollary A′ (adopted): every flip set two sites, every string on a flip set of one sign s = (#Y + #Z) mod 2,
+    // entries allowed to cancel somewhere. A string's ratio on every edge it reaches is (−1)^s, so the ratio of a flip set
+    // is (−1)^s wherever its entry is nonzero, and every cycle of Γ has the holonomy (−1) raised to the signs of the
+    // relation it walks: the balance of the signed masks is sufficient. It is necessary wherever a lone excitation hops
+    // along every flip shape (its entry from e_i to e_j on an empty background nonzero), since every relation among
+    // two-site masks is a sum of cycles of the graph on the sites, each walked by that excitation. Theorem D's reading of
+    // the balance on the ring (valuations and signs, one per flip shape) then decides every N from the guard.
+    static RingLawReading? OneSignPerShape(List<(ulong X, ulong Z, long C)> flipping, Theodolite.Cell norm, int guard)
+    {
+        static ulong ShapeOf(ulong m) => m >> BitOperations.TrailingZeroCount(m);
+        var groups = flipping.GroupBy(t => ShapeOf(t.X)).ToList();
+        if (groups.Any(g => BitOperations.PopCount(g.Key) != 2)) return null;
+        if (groups.Any(g => g.Select(t => BitOperations.PopCount(t.Z) & 1).Distinct().Count() > 1)) return null;
+        // the lone excitation's hop on an empty background, for every flip shape
+        int span = norm.Span, len = 4 * span + 2, at = 2 * span;
+        if (len > 63) return null;
+        var placed = Placed(norm, len);
+        foreach (var g in groups)
+        {
+            int d = 63 - BitOperations.LeadingZeroCount(g.Key);
+            ulong flip = (1UL << at) | (1UL << (at + d));
+            var terms = placed.Where(t => t.X == flip).ToList();
+            if (Entry(terms, 1UL << at) == (0, 0)) return null;
+        }
+        var read = groups.Select(g => (V: Valuation(g.Key), S: BitOperations.PopCount(g.First().Z) & 1)).ToList();
+        int v0 = read.Min(r => r.V);
+        bool low = read.Any(r => r.S == 1);
+        bool high = read.Where(r => r.V == v0).Select(r => r.S).Distinct().Count() > 1 || read.Any(r => r.V > v0 && r.S == 1);
+        string text = low == high
+            ? $"F173 Corollary A′ (one sign per two-site flip set): {(high ? "breaks" : "pairs")} on every ring of N ≥ {guard}"
+            : $"F173 Corollary A′ (one sign per two-site flip set): {(high ? "breaks" : "pairs")} exactly where 2^v₂(N) > {v0}, from N = {guard}";
+        return new RingLawReading(guard, text, n =>
+        {
+            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            return (n & -n) > v0 ? !high : !low;
         });
     }
 
