@@ -2774,7 +2774,7 @@ if (args.Length > 1 && args[0] == "sieve" && args[1] == "cells")
         : new List<string[]> { args.Skip(3).ToArray() };
     Console.WriteLine($"=== the sieve on cells of one's own, N up to {scMaxN} ===");
     Console.WriteLine("  letters per N from the smallest: E theodolite, S/s stitch (every N / this N), F free chain, C the stitch's no,");
-    Console.WriteLine("  P/B the end count exactly (p/b by its ranks); a ring law of F173, where one exists, is named, and 'every N decided'");
+    Console.WriteLine("  P/B the end count exactly (p/b by its ranks); a ring law (F173's or the pairing bond's), where one exists, is named, and 'every N decided'");
     Console.WriteLine("  says every N is decided: below its guard by the letters, from it on by the law; light along X or Y is turned to Z");
     Console.WriteLine("  for the stitch's readers");
     foreach (var p in scLines)
@@ -2859,6 +2859,15 @@ if (args.Length > 0 && args[0] == "sieve")
             Console.WriteLine($"    of the read with broken letters, every N decided by a ring law: {lawRead.Count}");
         foreach (var e in lawRead)
             Console.WriteLine($"    Read+law {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}  ({pick(e).Law!.Text})");
+        // what stays decided only at the N read: a Read cell with a broken uncovered letter and neither a law nor the
+        // stitch's every-N no, and a Broken cell without the every-N no or a law
+        var open = entries.Where(e => !pick(e).DecidedByLaw && pick(e).BrokenFrom is null
+            && (pick(e).Verdict == Sieve.Verdict.Read && pick(e).Letters.Any(c => c is 'B' or 'b' or 'C')
+                || pick(e).Verdict == Sieve.Verdict.Broken)).ToList();
+        if (open.Count > 0)
+            Console.WriteLine($"    decided only at the N read (read with broken letters, or broken), no law and no every-N no: {open.Count}");
+        foreach (var e in open)
+            Console.WriteLine($"    {(pick(e).Verdict == Sieve.Verdict.Read ? "Read-open" : "Brok-open"),-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}");
         foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed or Sieve.Verdict.Law))
             Console.WriteLine($"    {pick(e).Verdict,-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}"
                 + (pick(e).BrokenFrom is int bf ? $"  broken from N = {bf} on" : "")

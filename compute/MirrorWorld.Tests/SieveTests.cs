@@ -97,24 +97,84 @@ public class SieveTests
         Assert.Equal((Sieve.Verdict.Read, "BEBBBEB", true), (xiy.Ring.Verdict, xiy.Ring.Letters, xiy.Ring.DecidedByLaw));
         Assert.False(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 3).Ring.DecidedByLaw);
         Assert.True(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 4).Ring.DecidedByLaw);   // the guard one past the N read
-        var none = Sieve.Run("XX+XY-YY", Cell('Z', ("XX", 1), ("XY", 1), ("YY", -1)), 6);
+        var none = Sieve.Run("XY-YX", Cell('Z', ("XY", 1), ("YX", -1)), 6);          // pure DM: Theorem 8's, no ring law here
         Assert.Equal((Sieve.Verdict.Read, "BEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
         Assert.Null(none.Ring.Law);
     }
 
     // On the first census (with the stitch) the read ring cells that carry a broken letter at an uncovered N are 13; a
-    // ring law decides every N of 6 of them (one string per flip set, Theorem D), and 7 stay decided only at the N read
-    // (the pure DM cells XY − YX, ± ZZ, and XX ± XY − YY, XX ± YX − YY, where RingLaw returns none).
+    // ring law decides every N of 10 of them (one string per flip set by Theorem D; XX ± XY − YY and XX ± YX − YY by
+    // Theorem 9, the pairing bond), and 3 stay decided only at the N read (the pure DM cells XY − YX, ± ZZ, Theorem 8's,
+    // where RingLaw returns none).
     [Fact]
-    public void On_The_First_Census_A_Ring_Law_Decides_Six_Of_The_Thirteen_Read_Cells_With_Broken_Letters()
+    public void On_The_First_Census_A_Ring_Law_Decides_Ten_Of_The_Thirteen_Read_Cells_With_Broken_Letters()
     {
         var c = Sieve.BondFamily(3, "Z").Select(x => Sieve.Run(x.Name, x.Cell, 6)).ToList();
         var broken = c.Where(e => e.Ring.Verdict == Sieve.Verdict.Read && e.Ring.BrokenFrom is null
             && e.Ring.Letters.Any(ch => ch is 'B' or 'b' or 'C')).ToList();
         Assert.Equal(13, broken.Count);
-        Assert.Equal(new[] { "+XY", "+XY+ZZ", "+XY-ZZ", "+YX", "+YX+ZZ", "+YX-ZZ" },
-            broken.Where(e => e.Ring.DecidedByLaw).Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
+        var decided = broken.Where(e => e.Ring.DecidedByLaw).ToList();
+        Assert.Equal(new[] { "+XX+XY-YY", "+XX+YX-YY", "+XX-XY-YY", "+XX-YX-YY", "+XY", "+XY+ZZ", "+XY-ZZ", "+YX", "+YX+ZZ", "+YX-ZZ" },
+            decided.Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
+        Assert.All(decided.Where(e => e.Name.StartsWith("+XX")), e => Assert.Contains("Theorem 9", e.Ring.Law!.Text));
+        Assert.Equal(new[] { "+XY-YX", "+XY-YX+ZZ", "+XY-YX-ZZ" },
+            broken.Where(e => !e.Ring.DecidedByLaw).Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
         Assert.All(broken.Where(e => !e.Ring.DecidedByLaw), e => Assert.Null(e.Ring.Law));
+    }
+
+    // Theorem 9 of the complement connection (the pairing bond), adopted in Stitch.RingLaw, held against the end count's
+    // exact verdict on every bond J_XX·XX + J_YY·YY + J_XY·XY + J_YX·YX + J_ZZ·ZZ with coefficients in {−1, 0, 1, 2}: where
+    // the pairing amplitude h is nonzero a ring law exists (F173's Theorem D or Corollary E2 where they read, Theorem 9
+    // otherwise), and every one of them agrees with the end count on the ring of N = 3 to 7 sites; the theorem's chain
+    // half (g real or imaginary) agrees with it on the open chain of 3 to 6 sites; where h = 0 the bond is Theorem 8's
+    // and Theorem 9 is not asked. All three branches of Theorem 9 occur. Negative controls: bonds with a Z beside them, a
+    // field beside the bond, are outside its class.
+    [Fact]
+    public void The_Pairing_Bond_Law_Agrees_With_The_End_Count_On_Chain_And_Ring()
+    {
+        var branches = new HashSet<string>();
+        int byTheorem9 = 0, byOthers = 0;
+        long[] values = { -1, 0, 1, 2 };
+        foreach (long xx in values) foreach (long yy in values) foreach (long xy in values) foreach (long yx in values) foreach (long zz in new long[] { 0, 1 })
+        {
+            var terms = new[] { ("XX", xx), ("YY", yy), ("XY", xy), ("YX", yx), ("ZZ", zz) }.Where(t => t.Item2 != 0).ToArray();
+            if (terms.All(t => t.Item1 == "ZZ")) continue;
+            var cell = Cell('Z', terms);
+            var law = Stitch.RingLaw(cell);
+            string name = string.Join("+", terms);
+            if (xx == yy && xy == -yx)                                                   // h = 0: Theorem 8's
+            {
+                Assert.True(law is null || !law.Text.Contains("Theorem 9"), $"{name}: h = 0 read by Theorem 9");
+                continue;
+            }
+            Assert.NotNull(law);
+            bool real = xy == yx, imaginary = xx == -yy;
+            if (law!.Text.Contains("Theorem 9")) { byTheorem9++; branches.Add(real ? "real" : imaginary ? "imaginary" : "neither"); }
+            else byOthers++;
+            for (int n = 3; n <= 7; n++)
+            {
+                var v = Sieve.Count(cell.Ring(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+                Assert.True((real || imaginary && n % 2 == 0) == EndCount.IsPalindrome(v), $"{name} ring {n}: the theorem");
+            }
+            for (int n = 3; n <= 6; n++)
+            {
+                var v = Sieve.Count(cell.Chain(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"{name} chain {n}: not exact");
+                Assert.True((real || imaginary) == EndCount.IsPalindrome(v), $"{name} chain {n}");
+            }
+        }
+        Assert.Equal(new[] { "imaginary", "neither", "real" }, branches.OrderBy(b => b, StringComparer.Ordinal));
+        Assert.True(byTheorem9 > 100 && byOthers > 10, $"{byTheorem9} cells read by Theorem 9, {byOthers} by F173's laws");
+        // outside the class: a Z beside the bond, a field beside it
+        Theodolite.Cell Window(params (string, long)[] t) => new(new[] { (Zm, 1L) }, null, t.Select(x => (x.Item1, new[] { 0, 1, 2 }, x.Item2)));
+        foreach (var outside in new[]
+        {
+            Window(("XXZ", 1), ("YYZ", -1)), Window(("XXZ", 1), ("YYZ", 1)), Window(("ZXX", 1), ("ZYY", -1)),
+            new Theodolite.Cell(new[] { (Zm, 1L) }, new[] { ('X', 1L) }, new[] { ("XX", new[] { 0, 1 }, 1L), ("YY", new[] { 0, 1 }, -1L) }),
+        })
+            Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"));
     }
 
     // Light along X or Y on every site is turned to Z by a proper rotation of the letters before the stitch's readers are

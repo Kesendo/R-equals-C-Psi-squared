@@ -508,7 +508,7 @@ public sealed class Stitch : GameObject
         return a;
     }
 
-    // ---------------------------------------------------------------- the ring laws (F173, adopted)
+    // ---------------------------------------------------------------- the ring laws (F173 and the pairing bond, adopted)
     //
     // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: two laws in N for a cell on the ring under
     // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring), where the placements are
@@ -520,7 +520,9 @@ public sealed class Stitch : GameObject
     // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
     // to 1. Both are laws for every N; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
     // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
-    // which carries several strings has no law here (the stitch's no reads the first two).
+    // which carries several strings has no law of F173 here (the stitch's no reads the first two); among them a third law,
+    // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (PairingBond below), reads the bonds of XX, YY, XY and YX terms
+    // on neighbouring sites with a pairing amplitude, whatever their ratio.
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -569,7 +571,7 @@ public sealed class Stitch : GameObject
         ulong f = ShapeOf(flipping[0].X);
         int probe = Math.Max(guard, 3 * norm.Span);
         var first = FlipRatios(norm, probe);
-        if (first is null) return null;
+        if (first is null) return PairingBond(flipping, guard);
         return new RingLawReading(guard, $"F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = {Poly(f)}, from N = {guard}", n =>
         {
             if (n < guard || n > 63) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law is evaluated from N = {guard} to 63");
@@ -594,6 +596,29 @@ public sealed class Stitch : GameObject
                 at ^= m;
             }
             return quarter % 4 == 0;
+        });
+    }
+
+    // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, the pairing bond): every flipping term an XX, YY, XY
+    // or YX on two neighbouring sites (a diagonal of even weight beside them, no field), so that the bond moves an
+    // excitation with g = (J_XX + J_YY) + i·(J_YX − J_XY) and makes or removes a pair with h = (J_XX − J_YY) +
+    // i·(J_XY + J_YX). Where h ≠ 0 the ring of N ≥ 3 sites pairs exactly when g is real (every N), or g is imaginary and
+    // N is even; where g is neither real nor imaginary it breaks at every N. Asked only where Corollary E2 reads no ratio
+    // (an entry vanishing, or no character); h = 0 is Theorem 8's (no law here). The bond is the same on every pair,
+    // oriented the same way round the ring.
+    static RingLawReading? PairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
+    {
+        if (flipping.Any(t => t.X != 0b11 || (t.Z & ~0b11UL) != 0)) return null;
+        long Coefficient(bool firstY, bool secondY) => flipping
+            .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & 2) == 2) == secondY).Sum(t => t.C);
+        long jxx = Coefficient(false, false), jxy = Coefficient(false, true), jyx = Coefficient(true, false), jyy = Coefficient(true, true);
+        if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: Theorem 8's
+        bool real = jxy == jyx, imaginary = jxx == -jyy;
+        string verdict = real ? "pairs on every ring" : imaginary ? "pairs exactly at even N" : "breaks on every ring";
+        return new RingLawReading(guard, $"complement connection Theorem 9 (pairing bond): {verdict}, from N = {guard}", n =>
+        {
+            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            return real || imaginary && n % 2 == 0;
         });
     }
 

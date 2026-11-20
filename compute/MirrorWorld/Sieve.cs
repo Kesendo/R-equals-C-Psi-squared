@@ -16,9 +16,10 @@ using static MirrorWorld.LetterCube;
 //   Residue   every uncovered N read is palindromic: an element the every-N reading does not see (no product of its
 //             site factors, or a relabelling, a turned frame or a longer period, which it leaves out);
 //   Mixed     the uncovered N read are palindromic at some N and broken at others;
-//   Law       on the ring, a cell that would be Mixed (with no tail the stitch's no decides) or a Residue whose every N from the guard on is decided by a ring law of
-//             F173 (Stitch.RingLaw: Theorem D, one string per flip set; Corollary E2, one flip shape with a character
-//             ratio), every N below the guard read exactly: decided for every N by the law.
+//   Law       on the ring, a cell that would be Mixed (with no tail the stitch's no decides) or a Residue whose every N from the guard on is decided by a ring law
+//             (Stitch.RingLaw: F173's Theorem D, one string per flip set; F173's Corollary E2, one flip shape with a
+//             character ratio; Theorem 9 of the complement connection, the pairing bond), every N below the guard read
+//             exactly: decided for every N by the law.
 //             Wherever a law exists, every exact letter from its guard on is checked against it, and a disagreement throws.
 //             Whatever the verdict, a pass whose law's guard lies within the N read (or one past them) and whose letters
 //             below the guard are exact is decided at every N (Pass.DecidedByLaw): a Read ring cell broken at the
@@ -147,7 +148,7 @@ public sealed class Sieve : GameObject
             while (n0 > from && Broken(n0 - 1)) n0--;
             brokenFrom = n0;
         }
-        // a ring law of F173 checked against every exact letter from its guard on; where it decides a cell left Mixed or a
+        // a ring law checked against every exact letter from its guard on; where it decides a cell left Mixed or a
         // Residue that the stitch's no has not decided already (every N below the guard read exactly, none past maxN
         // unread), the cell is decided for every N
         bool decidedByLaw = false;

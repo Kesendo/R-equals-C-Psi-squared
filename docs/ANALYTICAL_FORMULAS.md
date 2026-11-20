@@ -10956,7 +10956,7 @@ the two reflection sectors transports the verdict to the 133 odd loci, covering 
 ---
 
 <a id="f165"></a>
-### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, Theorem 9 on 2026-11-20, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated in the two proofs named
@@ -11036,6 +11036,15 @@ h_l·P_l along one Pauli letter P_l.
   Its D = 0 part widens Theorem 1's class, where F138's converse holds, from
   letter fields to fields of any direction in the XY plane. Live at
   `inspect --root planarhopping`.
+- **Theorem 9,** the pairing beside the hop: one bond of XX, YY, XY and YX
+  terms, the same on every pair of neighbours of a chain or a ring and
+  oriented the same way, with a complement-invariant diagonal part, Z on
+  every site, hop amplitude g = (J_XX + J_YY) + i(J_YX − J_XY) and pairing
+  amplitude h = (J_XX − J_YY) + i(J_XY + J_YX) ≠ 0: the chain of N ≥ 3 sites
+  pairs exactly when g is real or purely imaginary, the ring exactly when g is real (every
+  N) or purely imaginary at even N; the phase of h never enters. Adopted in
+  MirrorWorld as a ring law of the sieve and gated there against the end
+  count; not typed.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes
