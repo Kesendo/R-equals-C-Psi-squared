@@ -51,9 +51,9 @@ much as the results.
 → **[What We Found](docs/WHAT_WE_FOUND.md)**: the discovery explained
 from the beginning, no prerequisites
 
-→ **[Reading Guide](docs/READING_GUIDE.md)**: nine stories (proof,
+→ **[Reading Guide](docs/READING_GUIDE.md)**: ten stories (proof,
 application, ontology, resonator, cross-level, cavity, mirror anatomy,
-the quarter, hardware), each with a reading order
+the quarter, hardware, what carries the palindrome), each with a reading order
 
 → **[Glossary](docs/GLOSSARY.md)**: every symbol and term, with plain-language
 readings

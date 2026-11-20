@@ -28,8 +28,9 @@ Ribeiro and Prosen (2023) ([literature review](LITERATURE_REVIEW.md#pt-symmetric
 
 ## Start Here
 
-[Reading Guide](READING_GUIDE.md): nine stories through the same landscape,
-from the proof and its applications to the quarter and the hardware, each
+[Reading Guide](READING_GUIDE.md): ten stories through the same landscape,
+from the proof and its applications to the quarter, the hardware and
+what carries the palindrome, each
 with its own reading order.
 
 Three entry points for new readers:

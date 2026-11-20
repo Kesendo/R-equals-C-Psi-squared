@@ -30,6 +30,8 @@ The [letter cube](../docs/THE_ONE_SQUARE.md) reads a string of Pauli letters by 
 
 The findings are reproduced exactly, each with a control that fails, in [`cube_site_by_site_findings.py`](../simulations/cube_site_by_site_findings.py), and the least rank in [`kms_element_least_rank.py`](../simulations/kms_element_least_rank.py), exact except at the rank-5 point; the bound without light is live in C# at `inspect --root locality`, and the exclusion of rank 4 at `inspect --root leastrank`. Open, among other items: whether a Π-reflection exists where the ratio differs, the spectrum pairs, no reflection is known and L cannot be diagonalized; and at the two-site point, whether rank 5 is reached by a Π-reflection that keeps the order with ZZ or reverses it without ZZ, the least rank of one that mixes the orders, an exact one of rank 5, and the least rank at other ZZ strengths, at other rates and beyond two sites.
 
+*Where the arc goes on: this page is step 4 of [Story 10](../docs/READING_GUIDE.md#story-10-what-carries-the-palindrome-september-to-november-2026) of the reading guide; the roads meet in step 5, MirrorWorld's [sieve and stitch](../compute/MirrorWorld/README.md) (the rows `Sieve.cs` and `Stitch.cs`), whose sieve asks this instrument's every-length yes among its first readers; step 6 is [F173](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md).*
+
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
 
 **What the repo already held (sweep).** Whether a product of one-site maps reflects the generator is the house's

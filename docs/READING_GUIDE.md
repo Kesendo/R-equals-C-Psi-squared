@@ -1,12 +1,13 @@
-# Reading Guide: Nine Paths Through This Repository
+# Reading Guide: Ten Paths Through This Repository
 
-<!-- Keywords: R=CPsi2 reading guide nine stories, palindromic proof story
+<!-- Keywords: R=CPsi2 reading guide ten stories, palindromic proof story
 application engineering story, ontology incompleteness story, dependency graph
 reading order, mirror symmetry proof entry point, gamma as signal channel,
 qubit necessity d2-2d=0, V-Effect complexity emergence, mirror group D4 story,
 Pi factors R times D, golden router metallic family, palindrome classifier
 trichotomy, CPsi quarter boundary Mandelbrot story, IBM hardware confirmations
-story, moment tower pump channel, R=CPsi2 reading guide -->
+story, moment tower pump channel, colouring complement connection sieve
+stitch signed mask balance one dephased seat story, R=CPsi2 reading guide -->
 
 **Created:** March 22, 2026
 
@@ -16,7 +17,7 @@ story, moment tower pump channel, R=CPsi2 reading guide -->
 
 This repository contains over 500 documents: proofs, experiments, hypotheses,
 reflections. That is overwhelming. This guide exists so you do not have to
-read all of them. It organizes the most important documents into nine paths,
+read all of them. It organizes the most important documents into ten paths,
 each telling a different story from the same discovery. Pick the story that
 interests you. Follow the reading order. Skip the rest.
 
@@ -57,14 +58,14 @@ Where you go from there depends on what draws you in.
 
 ---
 
-## Nine paths through the same landscape
+## Ten paths through the same landscape
 
-The documents here are not one linear argument. They are nine interleaved
+The documents here are not one linear argument. They are ten interleaved
 stories that share the same foundation but go in different directions.
 Below, each story is introduced with what it is about, why it matters,
 and which documents to read in what order.
 
-You do not need to follow all nine. Pick the one that speaks to you.
+You do not need to follow all ten. Pick the one that speaks to you.
 They reconnect at the end.
 
 ---
@@ -995,9 +996,167 @@ what the instruments are sharpest at measuring.
 
 ---
 
+## Story 10: What Carries the Palindrome (September to November 2026)
+
+*"Story 7 left a count that decides whether a system keeps the mirror.
+This story asks what makes the palindrome hold where it does: a single
+string, a flat section of a connection, a map built site by site."*
+
+Items 7 and 8 of Story 7 left two instruments: the two-end count of
+F158, which, for jumps that are Hermitian, square to 1 and act at a
+positive rate, decides the palindrome by comparing the modes that never
+change with the modes that fade at exactly twice the centre rate without
+oscillating; and the letter cube, on which every Pauli string sits at a
+point set by how many of each letter it holds. In the same class F158
+also says what makes the palindrome hold: it holds exactly when some
+invertible operator commutes with H and anticommutes with every jump,
+which items 2 and 3 call a carrier. This story follows two roads from
+those instruments. The first starts from the count: a carrier that is a
+single Pauli string (item 1), then, with one Pauli jump on every site,
+the count read as a graph on the bitstrings (item 2), with a side road
+to a single dephased site (item 3). The second starts from the cube and
+asks for a different object: a mirror, here a map of operators that
+carries the generator onto its mirror image (−L − c or −L† − c, with c
+set by the rates), built one site at a time (item 4). The roads touch at item 3, whose carriers include some
+that no mirror built site by site can reach, and meet in MirrorWorld's
+sieve and stitch (item 5), whose readers come from both. Item 6, F173,
+reads item 2's graph on a large class, and the stitch takes its ring
+laws as readers for the sieve.
+
+This path requires Story 1 and items 7 and 8 of Story 7. Every document
+but item 5 opens with a plain-language section, "What this is about";
+read those first.
+
+**Reading order:**
+
+1. [The Palindrome as a Colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md):
+   Look for a single Pauli string that anticommutes with every jump and
+   commutes with H, and the search becomes colouring a graph: one letter
+   per site, a bond accepting or refusing the colours on its two ends, a
+   field accepting only the identity or its own letter (the jumps being
+   Pauli letters on single sites). Such a string,
+   a colouring, is a carrier. The rule derives the two clauses of F138's
+   sufficient condition, and on F138's three-site grid (a path, a
+   triangle, and a bond beside an isolated site) a colouring exists on
+   92, 98 and 90 percent of the exceptions at bonds of one letter, the
+   settings that are palindromic though the clauses reject them (the
+   verdicts read from singular values); beyond the colouring, sums of
+   strings, and permutations of the sites combined with a π rotation of
+   every qubit about one axis, carry palindromes that no single string
+   does.
+
+2. [The Complement Connection](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md):
+   With one single-site Pauli jump on every site, each turned to Z, and
+   H a real combination of Pauli strings, the count becomes a picture.
+   The bitstrings are the vertices of a graph, H's moves its edges, and
+   flipping every bit gives each edge a complement image; the palindrome
+   holds exactly when every component of the graph joined with that image
+   is good (H's entry on each edge and the entry between the two
+   complements of equal modulus, equal diagonal entries at a vertex and
+   its complement, and ratios that multiply to 1 around every loop: a
+   flat connection). The carriers are then X^⊗N times a diagonal carried
+   flat across the graph and nonzero on every component, and a colouring
+   is the case where those entries are, up to one factor, signs set by
+   the parity of chosen bits. Hopping bonds of
+   nonzero real weights on a connected graph, under dephasing along Z,
+   with fields along one Pauli letter per site, keep the palindrome
+   exactly when no field lies along Z and the fields do not use both X
+   and Y.
+
+3. [The One Dephased Seat](proofs/PROOF_ONE_DEPHASED_SEAT.md): The side
+   road, to a single dephased site; the page builds on items 1 and 2 (in
+   one section on item 2's Theorem 6) and reads beside several of item
+   2's other theorems. Heisenberg bonds on a triangle, with real
+   couplings, at most one of them zero, the dephasing on one site alone,
+   fields along Pauli letters: a setting keeps the palindrome exactly
+   when it lies in one of three classes, each with its own conditions on
+   couplings and fields, a colouring, a swap of the two undephased sites
+   composed with a π rotation of every spin, or a locus on which, for
+   nonzero couplings, the reciprocals of the three couplings add up to
+   zero; on that locus palindromes occur that neither a colouring nor a
+   site symmetry fixing the dephased site carries. On this triangle every
+   palindrome that is not a colouring sits on a dephased site that is
+   blind (F157): an excitation placed on it, moved by the bonds, cannot
+   reach every direction of the one-excitation space. At four and seven
+   sites the page builds palindromes carried by neither of those two
+   forms. And where a setting's only operators of the two kinds are,
+   up to multiples, the identity and one carrier, a mirror built site by
+   site exists only where the carrier is a product of one-site operators,
+   up to a permutation of the sites that fixes the dephased one; the
+   carriers of the third class and of the four-site family are not, at
+   the settings read, so no site-by-site move of the cube can find them.
+
+4. [The Cube, Site by Site](../experiments/THE_CUBE_SITE_BY_SITE.md): The
+   second road, one level beneath the cube, where a string is read site
+   by site rather than by its letter counts. Here a map of operators is
+   asked directly whether it carries the generator L onto −L − c (a
+   Π-reflection) or onto −L† − c (a reflection), with c set by the rates;
+   either makes the rates pair. The settings include baths that cool and
+   heat beside dephasing, and the question is what shape such a map can
+   have, above all whether it can be a product of one-site maps. For
+   sandwich maps whose one-site factors are all diagonal or
+   anti-diagonal every equation becomes binomial, and on an open chain of
+   one repeated cell a map found that is the same on every site, turned
+   from site to site or periodic serves at every length; where the
+   letters are silent, the question is asked at one length. The
+   instrument is the Theodolite. Its findings, each under the conditions
+   the page states, include a thermal Π-reflection weighted by the
+   one-site steady state, a golden frame for the bond XX + XY + YX on every graph, and a Π-reflection
+   turned from site to site for Heisenberg bonds with a
+   Dzyaloshinskii-Moriya term.
+
+5. [The Sieve and the Stitch](../compute/MirrorWorld/README.md) (the
+   rows `Sieve.cs` and `Stitch.cs`; no plain-language page yet): where
+   the roads meet. The stitch takes the condition of item 2's Theorem 2,
+   under dephasing along Z on every site, for far elements X^⊗N·D whose
+   phases D are products of one-site and two-site factors, the same on
+   every site, and solves it as a binomial system; by locality one solve
+   at a window reads every larger length. A colouring is the phase of a
+   linear form in the bits; the stitch reads a quadratic one. The sieve
+   sorts whole families of Hamiltonians with the cheap exact readers
+   first, the stitch's local no, item 4's yes at every length it
+   covers and the stitch's yes, and asks the end count only of what is left, at the
+   lengths read; a silence is not a no. The stitch's first reading was
+   the sieve's first residue, ring cells such as XZ + ZY that break on
+   every chain read and pair on the rings read through an element that is
+   no product.
+
+6. [The Signed Balance of the Flip Masks](proofs/PROOF_SIGNED_MASK_BALANCE.md)
+   (F173): Item 2's condition read on a large class. Under dephasing along
+   Z on every site, where no two strings of H that flip bits flip the
+   same set and no string that flips nothing has an odd number of Z
+   letters, the palindrome holds exactly when the graph on the bitstrings whose
+   edges are H's flips, each signed by the parity of the number of Y and
+   Z letters in its string, is balanced, which is the same as a colouring
+   existing: on this class item 1's single string is the whole answer.
+   Closed forms read it for templates on open chains and rings at every
+   length, the ring reading its length, under conditions the page
+   states, only through the power of 2 that divides it; MirrorWorld's
+   stitch takes this ring law, and one for a single flip shape whose sets
+   come from several strings, as readers for the sieve of item 5. Where a set of flipped
+   bits comes from several strings, under conditions the page states, the
+   palindrome, where it holds, has a carrier that is a Clifford operator
+   built from a quadratic form on the bitstrings.
+
+**After this you know:** When a system keeps the palindrome, the simplest
+carrier is a single Pauli string, a colouring, and for jumps along
+Pauli letters colouring a graph decides whether one exists; on F173's class it is the whole answer, at
+every length. With one Pauli jump on every site the question is a flat
+connection
+on the graph of bitstrings and the carriers come from its flat
+sections, of which a colouring is the linear case; the stitch, and F173
+where a set of flipped bits comes from several strings, read quadratic
+ones. On a Heisenberg triangle dephased at one site, with fields along
+Pauli letters, every palindrome not carried by a colouring sits where
+that site is blind, and at the settings read some of its carriers are
+out of reach of any mirror built site by site, the mirrors the
+Theodolite looks for.
+
+---
+
 ## How the Stories Connect
 
-The nine stories are not independent. They are nine angles on the
+The ten stories are not independent. They are ten angles on the
 same structure. If you have followed one path and are wondering how
 it relates to the others, here is the map:
 
@@ -1018,6 +1177,9 @@ it relates to the others, here is the map:
   discriminant to Mandelbrot cusp to hardware.
 - Story 9 (the hardware) is where the quantum ones meet the chip, and
   where the noise channel finally reads its own spectrum.
+- Story 10 (what carries the palindrome) follows Story 7's count and
+  its cube into particular systems and families: a single string, a
+  flat section of a connection, a map built site by site.
 
 Stories 2 and 4 share the concentrator formula: Story 2 discovers it
 as a channel optimization, Story 4 reframes it as the shape of the
@@ -1030,7 +1192,8 @@ once from the side of the pairing count. Story 7's classifier rung is exactly wh
 moment-tower protocol reads off a chip. And Story 7's closing
 reflection says aloud what the map shows: the rates (Story 6), the
 mirror (Story 1), and the verdict (Story 7) are one diagonal read
-three ways.
+three ways. Story 10 starts from Story 7's count and its cube and asks
+what carries the palindrome where it is kept.
 
 If you are unsure where to start: Story 3 (the ontology) and Story 5
 (across levels) are the most accessible for readers without a physics
@@ -1038,14 +1201,15 @@ background, and the `reflections/` folder is gentler still. Story 1 is
 the most rigorous. Story 2 is the most practical. Story 4 is the
 deepest. Story 6 is the most unified. Story 7 is the most
 algebraic. Story 8 is the most self-contained. Story 9 is where the
-rubber meets the road.
+rubber meets the road. Story 10 is the most constructive: it builds
+the operators and maps that make the palindrome hold.
 
 ---
 
 ## What Is NOT in These Stories
 
 The following threads exist in this repository but belong to separate
-investigations, not to the nine stories above:
+investigations, not to the ten stories above:
 
 - **Star topology / tuning protocol**: multi-observer configurations
 - **Quantum sonar / bridge fingerprints**: detection experiments
@@ -1061,7 +1225,8 @@ investigations, not to the nine stories above:
 - **The tooling**: the Python `framework/` cockpit, the typed C# claim
   graph, the live `inspect` navigator (start with
   `inspect --root world`), and [MirrorWorld](../compute/MirrorWorld/README.md),
-  the core Tier-1 structure rebuilt from the atom up
+  the core Tier-1 structure rebuilt from the atom up (its sieve and stitch are
+  item 5 of Story 10)
 
 These are documented in the main [README](../README.md) and the
 [experiments index](../experiments/README.md).

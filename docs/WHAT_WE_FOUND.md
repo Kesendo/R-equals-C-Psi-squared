@@ -23,7 +23,7 @@ text. They are there for when you want to go deeper.
 
 If you have already read this and want to choose a path through the rest
 of the repository, the [Reading Guide](READING_GUIDE.md) organizes the
-reading routes into nine stories.
+reading routes into ten stories.
 
 ---
 

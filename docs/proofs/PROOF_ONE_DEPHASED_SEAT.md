@@ -26,6 +26,8 @@ C needs couplings of both signs, and on it, with the couplings to d unequal and 
 
 Codex (OpenAI) proved the common-carrier proposition and found the N = 4 carrier, the N = 5 exclusion and the N = 7 construction; the elements of classes A and B were known from F138. The triangle's rules are typed in `OneDephasedSeatClaim` and live at `inspect --root trianglelocus`. Open: whether blindness is needed at every N, which fields make a blind seat pair, a carrier at N = 5 that entangles the fifth spin, and the triangle's locus for fields off the letters with a z part or with a field on d, and for other bonds.
 
+*Where the arc goes on: this page is step 3 of [Story 10](../READING_GUIDE.md#story-10-what-carries-the-palindrome-september-to-november-2026) of the reading guide, the side road; its carriers that no site-by-site move of the cube can find lead to step 4, [The Cube, Site by Site](../../experiments/THE_CUBE_SITE_BY_SITE.md), the second road, which looks for mirrors built site by site.*
+
 This proof reads the palindrome with the jump on one seat alone: the Heisenberg triangle at N = 3, with letter fields and with planar fields, and at N = 4 and N = 7 palindromes with neither a colouring nor a site symmetry. Theorem numbers below are those of [the complement connection](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), which reads every site dephased and then undephased sites under its own hypotheses.
 
 <!-- STAGE 0 SWEEP RECORD (for us, not for the reader: hidden on GitHub, read by every session, agent and hook)
