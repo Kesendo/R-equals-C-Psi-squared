@@ -6,8 +6,9 @@ F173, MirrorWorld instrument, how to run the sieve -->
 
 **Status:** two instruments of [MirrorWorld](../compute/MirrorWorld/README.md), `Sieve.cs` and `Stitch.cs`, built
 2026-11-10 (the stitch's free chain 2026-11-11), pinned from below in `compute/MirrorWorld.Tests/SieveTests.cs` and
-`StitchTests.cs`. The census runs quoted here were made on 2026-11-20 with the commands shown beside them; the counts
-of ring laws per cell come from calling `Stitch.RingLaw` on each listed cell in code, the same day. The first census's
+`StitchTests.cs`. The census runs quoted here were made on 2026-11-20 with the commands shown beside them; the read ring
+cells a law decides are printed by the family runs, and which of the rest have no law comes from calling
+`Stitch.RingLaw` on each listed cell in code, the same day. The first census's
 counts and several letter lines are also pinned in the tests.
 
 ## What this is about
@@ -20,7 +21,7 @@ Take a chain of qubits, or a ring, and let every qubit stand in light: the repos
 
 **What they found.** On the 417 bond cells the chain splits cleanly from three sites on: 149 read at every length, 268 broken at every length, nothing between. On the ring the other tests and F158's count leave a residue, XZ ± ZY and its twin YZ ± ZX, with or without ZZ: broken on every chain examined, paired on every ring examined. The stitch reads it on every ring, and F173's Corollary E2 decides all twelve cells there too (`Stitch.RingLaw` returns it for each). For XZ + ZY a carrier is the Clifford operator W = X^⊗N·S^⊗N·∏ CZ, CZ on every bond of the ring (S† in place of S for XZ − ZY): it turns each XZ term into the ZY term one bond back and each ZY term into the XZ term one bond forward, a reshuffling of the ring's terms that the chain's two ends cut. CZ on every bond carries the twin onto this family, up to the sign of H. With the stitch the ring's residue is empty. A second family, cells of one or two three-site patterns with a letter at each end, left a residue on the chain, X·(X ± Y)·X with its relatives, and the stitch's second reader, the free chain, was built from it (for cells whose flipping terms all flip translates of one set of bits, no edge vanishing; it checks Theorem 2's conditions on the sizes and the diagonal, and that every square of two flips closes). The cell pairs on every chain: the stitch reads three sites, F158's count four and five, the free chain every length from six on. On the ring F173's Corollary E2 decides it from five sites on, pairing exactly where 3 does not divide the length, and the rings of three and four pair as well.
 
-**Where the reading stops.** A yes of a reader that speaks for many lengths is a proof at every length it covers, on the chain usually all of them, on the ring sometimes only some; a law decides every length from its start on; a no holds for every length only where the output says so. Everything else holds at the lengths examined and says nothing past them, and a silence, where no test answers, is not a no. The stitch, its fast no, its free chain and the ring laws read light along Z on every site only, and the sieve reads only jumps that are single Pauli letters. F158's count and Theorem 2 do not depend on the light's rates as long as all are positive, and the command line sets every rate to 1.
+**Where the reading stops.** A yes of a reader that speaks for many lengths is a proof at every length it covers, on the chain usually all of them, on the ring sometimes only some; a law decides every length from its start on; a no holds for every length only where the output says so. Everything else holds at the lengths examined and says nothing past them, and a silence, where no test answers, is not a no. The stitch, its fast no, its free chain and the ring laws read light along Z on every site, and the sieve turns light along one other letter on every site to Z for them; it reads only jumps that are single Pauli letters. F158's count and Theorem 2 do not depend on the light's rates as long as all are positive, and the command line sets every rate to 1.
 
 *Where the arc goes on: this page is step 5 of [Story 10](../docs/READING_GUIDE.md#story-10-what-carries-the-palindrome-september-to-november-2026) of the reading guide, where its two roads meet: the sieve's readers come from [the Theodolite](THE_CUBE_SITE_BY_SITE.md) (step 4) and from Theorem 2 of [the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) (step 2); step 6 is [F173](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md), whose ring laws the sieve asks.*
 
@@ -71,7 +72,7 @@ Clifford that permutes the bonds" search at one N the Cliffords that permute H's
 XZ + ZY is one read at every N (Stitch.cs's header says so; linked in the body). SieveTests.cs holds the sieve against
 Theorem 1 and F138's clause 2 on hopping bonds with fields (128 agreements; all 64 cells inside Theorem 8). F116's golden window XZX + XZY + YZX: palindromic on the open
 chain at every N ≥ 3, on the ring only at 4 | N (PROOF_CEILING_GOLDEN_ROUTER §6), named under the open items. F169
-decides Heisenberg with a field on every connected graph, item 3's control.
+decides Heisenberg with a field on every connected graph, the control in the paragraph on light along X or Y.
 -->
 
 ## How to run them
@@ -90,8 +91,9 @@ The grammar: `sieve [terms 1..9] [maxN 3..10] [jumps] [bonds | fields | windows]
 | a list of cells, one per line (a line starting with `#` is skipped) | `... -- sieve cells 9 @cells.txt` | |
 
 A family run prints, per geometry, the count of each verdict, how many broken cells are broken for every N and how
-many mixed ones are broken past their last pairing, and one line for each Mixed, Residue or Law cell, the law's text
-included; its tail "broken from N = b on" is the cells mode's "broken for every N from b". Family names such as
+many mixed ones are broken past their last pairing, one line for each Mixed, Residue or Law cell (a Law line with the law's text),
+and, where there are any, the count of read ring cells with broken letters whose every N a ring law decides, with one
+`Read+law` line each (letters and the law's text); its tail "broken from N = b on" is the cells mode's "broken for every N from b". Family names such as
 `+XZ-ZY` or `+XZ-ZY|+X-Z` (bond terms, then fields) are the cells mode's `XZ:1,ZY:-1` and `XZ:1,ZY:-1,X:1,Z:-1`.
 
 A cell is written as templates with whole-number coefficients, `XZ:1,ZY:-1`, each template laid on every run of
@@ -102,7 +104,8 @@ note when that happens. Each letter after the cell is a jump on every site at ra
 `XZ` would put two jumps on every site); text after the jumps names the cell. In code, `Sieve.Run(name, cell, maxN)`
 returns one `Entry` with a `Pass` per geometry, and `Stitch.EveryN(cell, ring)`, `Stitch.Decide(cell, n, ring)`,
 `Stitch.LocalHolonomy(cell)`, `Stitch.FreeEveryN(cell, ring)` and `Stitch.RingLaw(cell)` ask the stitch's readers one
-by one.
+by one; these read light along Z only, and `Sieve.TurnedToZ(cell)` gives the turned cell that `Sieve.Run` hands them
+under X or Y light.
 
 ## Reading a line
 
@@ -121,7 +124,9 @@ the smallest ring the cell fits on:
 
 E, S and F count as covered. Among the uncovered letters s, P and p count as palindromic, and B, b and C as broken.
 The suffix ", theodolite" says that the Theodolite's reading exists for the cell, "free from n" gives the free chain's
-first length and "off d | N" the lengths it leaves out on the ring.
+first length and "off d | N" the lengths it leaves out on the ring; on the ring the text of a law of F173, where one
+exists, follows, with "every N decided" where it decides every length and "not every N decided" where it does not (`Pass.DecidedByLaw`: its guard lies among the
+lengths examined or one past them, and every letter below the guard is exact).
 
 The verdicts, each about the lengths examined. **Read**: a reader covers some length and every uncovered length is
 broken; or the free chain covers every length from its first on and every length below it is an exact yes.
@@ -137,7 +142,7 @@ One line decoded, the cell X·(X + Y)·X, that is `XXX:1,XYX:1` under Z light, N
 ```
   XXX:1,XYX:1 (Z)
     chain Read     N from 3: sPPFFFF, free from 6
-    ring  Law      N from 3: PssBPFB, free from 8 off 3 | N
+    ring  Law      N from 3: PssBPFB, free from 8 off 3 | N, F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = 1 + x + x^2, from N = 5, every N decided
 ```
 
 On the chain the stitch solves N = 3 alone (s), F158 finds N = 4 and 5 palindromic (P), and the free chain covers
@@ -147,7 +152,7 @@ chain (from 8 on, except where 3 divides N), 9 broken. The verdict Law comes fro
 `Stitch.RingLaw` returns for this cell: one flip shape, f = 1 + x + x², read through gcd(f, x^N + 1), from N = 5 on,
 and it pairs exactly where 3 does not divide N. The free chain's argument, that every component is a cube of flips
 whose cycles are generated by squares, is the one [SOFTNESS_IS_N_DEPENDENT](SOFTNESS_IS_N_DEPENDENT.md) makes by hand
-for its crossing. The `sieve cells` mode does not print the law's text (an open item below); the family mode does.
+for its crossing.
 
 ## What the censuses hold
 
@@ -169,7 +174,8 @@ the chain splits 22 read and 14 broken, the counts of [NON_HEISENBERG_PALINDROME
 Of the 161 read ring cells, 13 are read on even rings only and broken at the odd lengths examined, N = 3 and 5,
 without "broken for every N" (all 417 cells through `sieve cells 6`): XY, YX, XY ± ZZ, YX ± ZZ, XY − YX,
 XY − YX ± ZZ, XX ± XY − YY and XX ± YX − YY. For the six with a single string per flip set, `Stitch.RingLaw` returns
-F173's Theorem D from N = 3 on, which breaks every odd ring; the verdict Read does not say so. For the other seven it
+F173's Theorem D from N = 3 on, which breaks every odd ring; the verdict stays Read and the pass says so (`DecidedByLaw`), and the family mode counts
+these cells and lists each as `Read+law`. For the other seven it
 returns none. The three pure Dzyaloshinskii-Moriya cells XY − YX (± ZZ) are decided by Theorem 8 of the complement
 connection, live as `PlanarHoppingWitness` (the inspect root `planarhopping`) but not asked by the sieve: pure DM
 bonds pair exactly on bipartite graphs, so every odd ring breaks. For XX ± XY − YY and XX ± YX − YY this page names no
@@ -186,8 +192,8 @@ exactly at even N), 8 relatives of X·(X ± Y)·X by Corollary E2 (from N = 5 on
 
 As in the first census, 56 of the 657 read ring cells carry broken letters at lengths no reader covers, without
 "broken for every N" (all 1296 cells through `sieve cells 6`). `Stitch.RingLaw` returns a law for 48 of them (Theorem D
-for 40, Corollary E2 with f = 1 + x² for 8), each from N = 5 on, which decides those lengths from 5 on and is not
-reported; N = 3 is decided by its exact letter. For 8 it returns none. Of those, XIY − YIX is pure DM on the graph of
+for 40, Corollary E2 with f = 1 + x² for 8), each from N = 5 on, which decides those lengths from 5 on, and the family
+mode lists them as `Read+law`; N = 3 and 4 are decided by their exact letters. For 8 it returns none. Of those, XIY − YIX is pure DM on the graph of
 bonds two sites apart, and Theorem 8 decides it: it pairs exactly where 4 divides N (at N = 4 its two placements on
 each pair cancel and H vanishes), the letters reading `BEBB` at N = 3 to 6. For XZX + YZY and the six pairs with sign +
 of XXZ, YYZ, ZXX and ZYY this page names no law.
@@ -196,14 +202,25 @@ of XXZ, YYZ, ZXX and ZYY this page names no law.
 pattern from X, Y and Z, coefficients 0 and ±1). Chain: Read 173, Broken 2014, nothing between, every broken cell
 broken for every N from 3. Ring: Read 177, Broken 2010, nothing between, every broken cell broken for every N. Of the
 177 read ring cells, 7 carry broken letters (all 2187 cells through `sieve cells 6`), and they are the field-free
-cells XY, YX, XY ± ZZ, YX ± ZZ and XY − YX of the first census's list, with the same laws; no cell with a field is
-among them.
+cells XY, YX, XY ± ZZ, YX ± ZZ and XY − YX of the first census's list, with the same laws (six decided by Theorem D,
+XY − YX by none); no cell with a field is among them.
+
+**Light along X or Y** (`sieve 2 6 X` and `sieve 2 6 Y`, 81 cells each: every bond cell of one or two terms). Light
+along one letter other than Z on every site is turned to Z for the stitch's readers by a proper rotation of the
+letters (`Sieve.TurnedToZ`: X ↔ Z with Y → −Y, or Y ↔ Z with X → −X, a rotation by π that leaves the spectrum as it
+is), while the Theodolite and F158's count read the cell as it is. Under either light: chain Read 53, Broken 28; ring
+Read 57, Broken 24; no residue, every broken cell broken for every N, and six read ring cells decided at every N by
+Theorem D. Every cell answers at every length up to N = 5 as its turned cell under Z (pinned in `SieveTests.cs` for both
+lights). Among them, ten cells the Theodolite reads only turned (XY ± XZ, YX ± ZX and YZ + ZY under X light, and their
+five images under Y light); the sieve reads them through the stitch on the turned cell, and with the stitch's readers left out each
+is a residue on the chain or the ring. XZ + ZY under X light, which is ZX − XY under Z, reads `CCCCCCC` on chain and ring up to N = 9
+(`sieve cells 9 XZ:1,ZY:1 X`), broken for every N from 3.
 
 ## Where the reading stops
 
-- The stitch, its fast no, the free chain and the ring laws read light along Z on every site and nothing else; under
-  any other light the sieve asks only the Theodolite and F158's count, so a cell broken there is broken at the
-  lengths examined and nothing more (`XZ:1,ZY:1 X` reads `BBBBBBB` up to N = 9).
+- The stitch, its fast no, the free chain and the ring laws read light along Z on every site; light along one other
+  letter on every site is turned to Z for them first. Under jumps of several letters on every site the sieve asks only
+  the Theodolite and F158's count, so a cell broken there is broken at the lengths examined and nothing more.
 - The sieve reads jumps that are single Pauli letters (X, Y or Z) at rates of zero or more; F158's count does not
   depend on positive rates, a rate of zero drops the jump, and a negative rate is refused.
 - F158's count is asked up to ten sites (`maxN` from 3 to 10), and the chain from three sites on. The stitch's window
@@ -214,32 +231,26 @@ among them.
   and Theorem D at any N.
 - A cycle running round the whole ring is not local, and neither the fast no nor the window's solve sees it; F173's
   ring laws read those where they apply.
-- A ring cell marked Read is a yes at the lengths its reader covers; at the other lengths it is what the letters say.
+- A ring cell marked Read is a yes at the lengths its reader covers; at the other lengths it is what the letters say,
+  and past them what its law says where the pass says every N decided.
 - A silence is not a no, and a residue is not yet a statement about every length.
 
 ## Where they can grow
 
-Each item was checked once on 2026-11-20; none is built.
+None of these is built.
 
-1. **The law's text in `sieve cells`.** The single-cell mode prints letters, verdict and free-chain range, and no law;
-   the family mode prints it. One branch in the line's description.
-2. **A law that decides a Read cell's broken lengths** (6 cells of the first census, 48 of the window family). XY on
-   the ring reads `BEBE`; `Stitch.RingLaw` returns Theorem D (pairs exactly where 2^v₂(N) > 1, from N = 3), which also
-   decides every odd ring, but the sieve promotes to Law only cells that would be Mixed or a Residue. XIY reads
-   `BEBBBEB` up to N = 9, and Theorem D (pairs exactly where 4 divides N, from N = 5) decides it the same way.
-3. **Light along one other letter on every site.** A proper rotation of the letters turns it to Z (Theorem 2 already
-   does this on paper), and the stitch could then be asked. Turned by hand and run through `sieve cells`: XZ + ZY under X light reads `BBBBBBB` on
-   chain and ring; the same cell turned by X ↔ Z, Y → −Y, that is ZX − XY under Z light, reads `CCCCCCC`, broken for
-   every N from 3. Heisenberg with a Z field under X light and its turned twin under Z light both read `EEEEEEE`.
-4. **Theorem 8 as a reader.** Hopping bonds with a DM part and planar fields have absent edges (both entries of an
+1. **The Theodolite on the turned cell.** Under X or Y light the Theodolite reads the cell as it is, and ten cells of
+   the two-term family it reads only turned to Z; the stitch reads them instead. Asking the Theodolite on the turned
+   cell as well would let its every-length reading cover them.
+2. **Theorem 8 as a reader.** Hopping bonds with a DM part and planar fields have absent edges (both entries of an
    edge zero), where the free chain and the ring laws are silent, and the carriers Theorem 8 builds for DM bonds turn
    from site to site (or close only round the whole ring), which the stitch's uniform factors cannot give. Theorem 8 of the complement connection
    decides them at every length, and its live witness already exists. The three pure DM cells named under the first
    census and XIY − YIX in the window family would be decided by it.
-5. **F173's chain laws.** Theorems B and B′ of F173 decide cells with one string per flip set on the open chain at
+3. **F173's chain laws.** Theorems B and B′ of F173 decide cells with one string per flip set on the open chain at
    every length, three templates and more included; `SignedMaskBalanceClaim` holds them and second implementations of
    Theorem D and Corollary E2 beside `Stitch.RingLaw`. The sieve asks none of them.
-6. **The next residue.** Every residue these families have shown became a reader: XZ ± ZY the stitch, X·(X ± Y)·X
+4. **The next residue.** Every residue these families have shown became a reader: XZ ± ZY the stitch, X·(X ± Y)·X
    the free chain. Wider families (three templates, longer windows, fields beside windows) are where the next one
    would show. F116's golden window XZX + XZY + YZX, palindromic on the open chain at every N ≥ 3 and on the ring only
    where 4 divides N ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) §6), is a

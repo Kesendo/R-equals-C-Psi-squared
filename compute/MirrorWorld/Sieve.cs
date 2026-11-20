@@ -20,6 +20,9 @@ using static MirrorWorld.LetterCube;
 //             F173 (Stitch.RingLaw: Theorem D, one string per flip set; Corollary E2, one flip shape with a character
 //             ratio), every N below the guard read exactly: decided for every N by the law.
 //             Wherever a law exists, every exact letter from its guard on is checked against it, and a disagreement throws.
+//             Whatever the verdict, a pass whose law's guard lies within the N read (or one past them) and whose letters
+//             below the guard are exact is decided at every N (Pass.DecidedByLaw): a Read ring cell broken at the
+//             uncovered N read, such as XY (BEBE), is then decided past them too, its odd rings broken.
 // The yes side is exact for every N, and so is a Broken with BrokenEveryN; the rest is exact at the N read and says
 // nothing past them. A silence is not a no: the residue is where it isn't, and an element understood there is a reader
 // the sieve can gain. The order is the fast no first: the stitch's no (a local check, no solve) is asked before the
@@ -31,6 +34,11 @@ using static MirrorWorld.LetterCube;
 // every ring read, and for +XZ+ZY the far element is no product (XXX + YYY at three sites). CZ on every ring bond,
 // diagonal and so commuting with the dephasing, carries the ring Hamiltonian of XZ ± ZY (± ZZ) onto that of
 // ZX ± YZ (± ZZ), so up to the sign of H the two families are one.
+//
+// Light along one Pauli letter other than Z on every site is turned to Z for the stitch's readers (TurnedToZ, a proper
+// rotation of the letters, the spectrum unchanged); the theodolite and the end count read the cell as it is. Every bond
+// cell of one or two terms under X or Y light then answers at every N read as its turned cell under Z, with no residue;
+// ten of them the theodolite reads only turned, and the sieve reads them through the stitch on the turned cell.
 //
 // Parent: the theodolite, whose every-N reading is the sieve's first pass; the end count is asked, not inherited.
 // Only Pauli-letter jumps (X, Y or Z) at rates of zero or more, since the end count reads Pauli-string jumps; positive
@@ -53,8 +61,12 @@ public sealed class Sieve : GameObject
     // whose BrokenFrom is its first N. A Mixed with a BrokenFrom pairs only below it. F: covered by the free chain
     // (Stitch.FreeEveryN), every N from its From on and, on the ring, every N no modulus of it divides; a cell the free
     // chain covers from its From on, every N below an exact yes, is Read.
+    // DecidedByLaw: a ring law exists, its guard lies within the lengths read or one past them, and every letter below
+    // the guard is exact, so every N from the first is decided, below the guard by its letter and from the guard on by
+    // the law (which every exact letter from the guard on agrees with), whatever the verdict says: a Read cell whose
+    // uncovered lengths are broken at the N read is then decided at those lengths past them too, by the law.
     public sealed record Pass(Theodolite.Traverse? Traverse, int From, string Letters, Verdict Verdict, int? BrokenFrom = null,
-        Stitch.Free? Free = null, Stitch.RingLawReading? Law = null)
+        Stitch.Free? Free = null, Stitch.RingLawReading? Law = null, bool DecidedByLaw = false)
     {
         public bool BrokenEveryN => Verdict == Verdict.Broken && BrokenFrom == From;
     }
@@ -63,16 +75,19 @@ public sealed class Sieve : GameObject
 
     static readonly Theodolite.Relation[] Pairing = { Theodolite.Relation.Pi, Theodolite.Relation.Reflection };
 
-    // stitch: on what the theodolite leaves silent, ask the stitch second (Z dephasing on every site only)
+    // stitch: on what the theodolite leaves silent, ask the stitch second (one jump letter on every site, turned to Z)
     public static Entry Run(string name, Theodolite.Cell cell, int maxN, bool stitch = true)
     {
         var norm = cell.Normalized();
         JumpLetters(norm.Jumps.Select(j => j.Jump));                                   // Pauli letters only, before any work
+        // the stitch's readers read light along Z; one other letter on every site is turned to Z first (TurnedToZ), the
+        // theodolite and the end count reading the cell as it is
+        var z = stitch ? TurnedToZ(norm) ?? norm : norm;
         // the fast no first: the stitch's local no (no solve); where it decides every N of a geometry no yes is asked
         // there. Then the theodolite (milliseconds), and the stitch's yes (a solve at its window) only where the
         // theodolite leaves N uncovered.
         int chainFrom = Math.Max(3, norm.Span), ringFrom = norm.SmallestRing;
-        var (holChain, holRing) = stitch ? Stitch.LocalHolonomy(norm) : (null, null);
+        var (holChain, holRing) = stitch ? Stitch.LocalHolonomy(z) : (null, null);
         bool chainDecided = holChain is int hc && hc <= chainFrom;
         bool ringDecided = holRing is int hr && hr <= ringFrom;
         Theodolite.Traverse? open = null, closed = null;
@@ -82,12 +97,12 @@ public sealed class Sieve : GameObject
             if (!ringDecided) closed ??= Theodolite.EveryN(norm, rel, closed: true);
         }
         bool ringCovered = closed?.Closures?.Any(c => c.Modulus == 1) == true;
-        Stitch.Reach? sChain = stitch && open is null ? Stitch.EveryN(norm, ring: false) : null;
-        Stitch.Reach? sRing = stitch && !ringCovered ? Stitch.EveryN(norm, ring: true) : null;
+        Stitch.Reach? sChain = stitch && open is null ? Stitch.EveryN(z, ring: false) : null;
+        Stitch.Reach? sRing = stitch && !ringCovered ? Stitch.EveryN(z, ring: true) : null;
         // the free chain, where the theodolite and the stitch's every-N yes leave N uncovered
-        Stitch.Free? fChain = stitch && open is null && sChain?.Bulk is null ? Stitch.FreeEveryN(norm, ring: false) : null;
-        Stitch.Free? fRing = stitch && !ringCovered && sRing?.Bulk is null ? Stitch.FreeEveryN(norm, ring: true) : null;
-        var law = stitch ? Stitch.RingLaw(norm) : null;
+        Stitch.Free? fChain = stitch && open is null && sChain?.Bulk is null ? Stitch.FreeEveryN(z, ring: false) : null;
+        Stitch.Free? fRing = stitch && !ringCovered && sRing?.Bulk is null ? Stitch.FreeEveryN(z, ring: true) : null;
+        var law = stitch ? Stitch.RingLaw(z) : null;
         var chain = Through(open, sChain, fChain, chainFrom, maxN, n => open is not null, norm.Chain, null);
         var ring = Through(closed, sRing, fRing, ringFrom, maxN, n => closed is not null && closed.Closes(n), norm.Ring, law);
         return new Entry(name, cell, chain, ring);
@@ -135,6 +150,7 @@ public sealed class Sieve : GameObject
         // a ring law of F173 checked against every exact letter from its guard on; where it decides a cell left Mixed or a
         // Residue that the stitch's no has not decided already (every N below the guard read exactly, none past maxN
         // unread), the cell is decided for every N
+        bool decidedByLaw = false;
         if (law is not null)
         {
             for (int n = Math.Max(from, law.Guard); n <= maxN; n++)
@@ -144,11 +160,37 @@ public sealed class Sieve : GameObject
                 if (exact is bool e && e != law.Pairs(n))
                     throw new InvalidOperationException($"N = {n}: the ring law ({law.Text}) and the letter {ch} disagree");
             }
-            if (verdict is Verdict.Mixed or Verdict.Residue && brokenFrom is null && law.Guard <= maxN + 1
-                && Enumerable.Range(from, Math.Max(0, law.Guard - from)).All(n => s[n - from] is not ('p' or 'b')))
+            decidedByLaw = law.Guard <= maxN + 1
+                && Enumerable.Range(from, Math.Max(0, law.Guard - from)).All(n => s[n - from] is not ('p' or 'b'));
+            if (verdict is Verdict.Mixed or Verdict.Residue && brokenFrom is null && decidedByLaw)
                 verdict = Verdict.Law;
         }
-        return new Pass(t, from, s, verdict, brokenFrom, free, law);
+        return new Pass(t, from, s, verdict, brokenFrom, free, law, decidedByLaw);
+    }
+
+    // A cell whose every jump is one Pauli letter P other than Z (each jump on every site, so one letter per site),
+    // carried by a proper rotation of the letters onto the same cell under light along Z: for P = X the turn X ↔ Z,
+    // Y → −Y, for P = Y the turn Y ↔ Z, X → −X, each a rotation by π (determinant +1), so a Clifford that conjugates
+    // every string into ± a string and carries the generator of the one onto the generator of the other; the spectrum,
+    // and so the palindrome, is the same at every N (Theorem 2 of the complement connection turns its light to Z by a proper
+    // rotation too; for Y light a different one, its cyclic X → Y → Z → X, the two differing by a quarter turn about Z). Null when the jumps are not one letter other than Z; the rates are kept.
+    public static Theodolite.Cell? TurnedToZ(Theodolite.Cell cell)
+    {
+        var norm = cell.Normalized();
+        if (norm.Jumps.Count == 0) return null;
+        string letters = JumpLetters(norm.Jumps.Select(j => j.Jump));
+        char p = letters[0];
+        if (p == 'Z' || letters.Any(c => c != p)) return null;
+        char other = p == 'X' ? 'Y' : 'X';                                            // the letter whose sign turns
+        (char, long) Turn(char c) => c == p ? ('Z', 1L) : c == 'Z' ? (p, 1L) : c == other ? (other, -1L) : (c, 1L);
+        var z = LetterMatrix('Z');
+        var fields = norm.Fields.Select(f => { var (l, sg) = Turn(f.Letter); return (l, sg * f.Coefficient); });
+        var windows = norm.Windows.Select(w =>
+        {
+            var turned = w.Letters.Select(Turn).ToList();
+            return (new string(turned.Select(t => t.Item1).ToArray()), w.Offsets, turned.Aggregate(w.Coefficient, (acc, t) => acc * t.Item2));
+        });
+        return new Theodolite.Cell(norm.Jumps.Select(j => (z, j.Rate)), fields, windows);
     }
 
     // the end count of a setting, its jumps read off as Pauli strings (each one-site jump must be X, Y or Z), its jump

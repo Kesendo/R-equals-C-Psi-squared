@@ -79,6 +79,117 @@ public class SieveTests
         }
     }
 
+    static Theodolite.Cell Cell(char light, params (string Letters, long C)[] terms)
+        => new(new[] { (LetterMatrix(light), 1L) }, null, terms.Select(t => (t.Letters, Enumerable.Range(0, t.Letters.Length).ToArray(), t.C)));
+
+    // A ring law that exists decides every N of a pass whose letters below its guard are exact, whatever the verdict:
+    // XY on the ring is Read (the theodolite on even rings, broken at the odd N read) and Theorem D decides every odd
+    // ring as well; XIY needs its guard, N = 5, among the N read or one past them; a cell without a law is decided by
+    // none, and the chain has no ring law.
+    [Fact]
+    public void A_Ring_Law_Decides_The_Lengths_A_Read_Cell_Leaves()
+    {
+        var xy = Sieve.Run("XY", Cell('Z', ("XY", 1)), 6);
+        Assert.Equal((Sieve.Verdict.Read, "BEBE", true), (xy.Ring.Verdict, xy.Ring.Letters, xy.Ring.DecidedByLaw));
+        Assert.Contains("Theorem D", xy.Ring.Law!.Text);
+        Assert.False(xy.Chain.DecidedByLaw);
+        var xiy = Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 9);
+        Assert.Equal((Sieve.Verdict.Read, "BEBBBEB", true), (xiy.Ring.Verdict, xiy.Ring.Letters, xiy.Ring.DecidedByLaw));
+        Assert.False(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 3).Ring.DecidedByLaw);
+        Assert.True(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 4).Ring.DecidedByLaw);   // the guard one past the N read
+        var none = Sieve.Run("XX+XY-YY", Cell('Z', ("XX", 1), ("XY", 1), ("YY", -1)), 6);
+        Assert.Equal((Sieve.Verdict.Read, "BEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
+        Assert.Null(none.Ring.Law);
+    }
+
+    // On the first census (with the stitch) the read ring cells that carry a broken letter at an uncovered N are 13; a
+    // ring law decides every N of 6 of them (one string per flip set, Theorem D), and 7 stay decided only at the N read
+    // (the pure DM cells XY − YX, ± ZZ, and XX ± XY − YY, XX ± YX − YY, where RingLaw returns none).
+    [Fact]
+    public void On_The_First_Census_A_Ring_Law_Decides_Six_Of_The_Thirteen_Read_Cells_With_Broken_Letters()
+    {
+        var c = Sieve.BondFamily(3, "Z").Select(x => Sieve.Run(x.Name, x.Cell, 6)).ToList();
+        var broken = c.Where(e => e.Ring.Verdict == Sieve.Verdict.Read && e.Ring.BrokenFrom is null
+            && e.Ring.Letters.Any(ch => ch is 'B' or 'b' or 'C')).ToList();
+        Assert.Equal(13, broken.Count);
+        Assert.Equal(new[] { "+XY", "+XY+ZZ", "+XY-ZZ", "+YX", "+YX+ZZ", "+YX-ZZ" },
+            broken.Where(e => e.Ring.DecidedByLaw).Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
+        Assert.All(broken.Where(e => !e.Ring.DecidedByLaw), e => Assert.Null(e.Ring.Law));
+    }
+
+    // Light along X or Y on every site is turned to Z by a proper rotation of the letters before the stitch's readers are
+    // asked (X ↔ Z with Y → −Y; Y ↔ Z with X → −X): XZ + ZY under X light is ZX − XY under Z, broken for every N by the
+    // stitch's no, where without the turn only the N read were broken. Every bond cell of one or two terms under X or Y
+    // light reads, letter for letter, as its turned cell under Z.
+    [Fact]
+    public void Light_Along_X_Or_Y_Is_Turned_To_Z_For_The_Stitch()
+    {
+        var xl = Cell('X', ("XZ", 1), ("ZY", 1));
+        var turned = Sieve.TurnedToZ(xl)!;
+        Assert.Equal(new[] { ("ZX", 1L), ("XY", -1L) }, turned.Windows.Select(w => (w.Letters, w.Coefficient)));
+        Assert.Equal(new[] { ("XY", -1L), ("YZ", 1L) }, Sieve.TurnedToZ(Cell('Y', ("XZ", 1), ("ZY", 1)))!.Windows.Select(w => (w.Letters, w.Coefficient)));
+        Assert.Null(Sieve.TurnedToZ(Cell('Z', ("XZ", 1))));
+        // fields turn with their signs: under X light Y → −Y and Z → X, under Y light X → −X and Z → Y
+        Theodolite.Cell Fielded(char light, long y, long z) => new(new[] { (LetterMatrix(light), 1L) },
+            new[] { ('Y', y), ('Z', z) }, new[] { ("XY", new[] { 0, 1 }, 1L), ("XZ", new[] { 0, 1 }, 1L) });
+        Assert.Equal(new[] { ('Y', -1L), ('X', 1L) }, Sieve.TurnedToZ(Fielded('X', 1, 1))!.Fields.Select(f => (f.Letter, f.Coefficient)));
+        Assert.Equal(new[] { ('Z', 1L), ('Y', 1L) }, Sieve.TurnedToZ(new Theodolite.Cell(new[] { (LetterMatrix('Y'), 1L) },
+            new[] { ('Y', 1L), ('Z', 1L) }))!.Fields.Select(f => (f.Letter, f.Coefficient)));
+        Assert.Equal(new[] { ('X', -1L) }, Sieve.TurnedToZ(new Theodolite.Cell(new[] { (LetterMatrix('Y'), 1L) },
+            new[] { ('X', 1L) }))!.Fields.Select(f => (f.Letter, f.Coefficient)));
+        // two field cells where a dropped field sign would give a wrong every-N answer each way: the turned stitch
+        // agrees at every N read with the end count asked on the cell as it is (stitch: false never turns)
+        static string Yes(string letters) => new(letters.Select(ch => ch is 'B' or 'b' or 'C' ? 'n' : 'y').ToArray());
+        foreach (var (y, z, broken) in new[] { (1L, 1L, true), (-1L, 1L, false) })
+        {
+            var cell = Fielded('X', y, z);
+            var turnedRun = Sieve.Run("XY+XZ|Y,Z", cell, 5);
+            var bareRun = Sieve.Run("XY+XZ|Y,Z", cell, 5, stitch: false);
+            Assert.Equal((Yes(bareRun.Chain.Letters), Yes(bareRun.Ring.Letters)), (Yes(turnedRun.Chain.Letters), Yes(turnedRun.Ring.Letters)));
+            Assert.Equal(broken, turnedRun.Chain.BrokenEveryN && turnedRun.Ring.BrokenEveryN);
+            Assert.Equal(!broken, turnedRun.Chain.Verdict == Sieve.Verdict.Read && turnedRun.Ring.Verdict == Sieve.Verdict.Read);
+        }
+        Assert.Null(Sieve.TurnedToZ(new Theodolite.Cell(new[] { (LetterMatrix('X'), 1L), (LetterMatrix('Y'), 1L) }, null,
+            new[] { ("XZ", new[] { 0, 1 }, 1L) })));
+        var e = Sieve.Run("XZ+ZY", xl, 6);
+        Assert.True(e.Chain.BrokenEveryN);
+        Assert.True(e.Ring.BrokenEveryN);
+        Assert.Equal("BBBB", Sieve.Run("XZ+ZY", xl, 6, stitch: false).Ring.Letters);
+        // the answers agree at every N read; the letters may differ in who answered, since the theodolite reads the cell
+        // as it is and not turned: ten cells it reads only under Z, where the sieve answers through the stitch on the turned cell
+        static string Pal(string letters) => new(letters.Select(ch => ch is 'B' or 'b' or 'C' ? 'n' : 'y').ToArray());
+        var whoDiffers = new List<string>();
+        foreach (char light in "XY")
+            foreach (var (name, cell) in Sieve.BondFamily(2, light.ToString()))
+            {
+                var a = Sieve.Run(name, cell, 5);
+                var b = Sieve.Run(name, Sieve.TurnedToZ(cell)!, 5);
+                Assert.Equal((b.Chain.Verdict, Pal(b.Chain.Letters), b.Chain.BrokenFrom, b.Ring.Verdict, Pal(b.Ring.Letters), b.Ring.BrokenFrom, b.Ring.DecidedByLaw),
+                    (a.Chain.Verdict, Pal(a.Chain.Letters), a.Chain.BrokenFrom, a.Ring.Verdict, Pal(a.Ring.Letters), a.Ring.BrokenFrom, a.Ring.DecidedByLaw));
+                if (a.Chain.Letters != b.Chain.Letters || a.Ring.Letters != b.Ring.Letters)
+                    whoDiffers.Add($"{light}:{name} {a.Chain.Letters}/{a.Ring.Letters} vs {b.Chain.Letters}/{b.Ring.Letters}");
+            }
+        Assert.Equal(new[]
+        {
+            "X:+XY+XZ", "X:+XY-XZ", "X:+YX+ZX", "X:+YX-ZX", "X:+YZ+ZY", "Y:+XY+ZY", "Y:+XY-ZY", "Y:+XZ+ZX", "Y:+YX+YZ", "Y:+YX-YZ",
+        }, whoDiffers.Select(w => w.Split(' ')[0]));
+        // where the theodolite reads the turned cell and not the cell under its own light, the stitch reads it; without
+        // the turn those ten were left to the end count, a residue on some geometry
+        foreach (var w in whoDiffers.Select(w => w.Split(' ')[0]))
+        {
+            var cell = Sieve.BondFamily(2, w[0].ToString()).Single(c => c.Name == w[2..]).Cell;
+            var bare = Sieve.Run(w, cell, 5, stitch: false);
+            Assert.Contains(Sieve.Verdict.Residue, new[] { bare.Chain.Verdict, bare.Ring.Verdict });
+            var read = Sieve.Run(w, cell, 5);
+            Assert.Equal((Sieve.Verdict.Read, Sieve.Verdict.Read), (read.Chain.Verdict, read.Ring.Verdict));
+            // the theodolite covers more lengths on the turned cell than on the cell under its own light, on one geometry
+            // at least (on the ring a closure can exist under both lights with different moduli, as for YZ + ZY)
+            var turnedCell = Sieve.Run(w, Sieve.TurnedToZ(cell)!, 5);
+            static int Es(string letters) => letters.Count(ch => ch == 'E');
+            Assert.True(Es(turnedCell.Chain.Letters) > Es(read.Chain.Letters) || Es(turnedCell.Ring.Letters) > Es(read.Ring.Letters));
+        }
+    }
+
     // The window family's 24 ring cells that pair by a law in N, decided for every N by F173's ring laws: the eight relatives
     // of X·(X ± Y)·X by Corollary E2 (breaking exactly at 3 | N), the sixteen of one string per flip set by Theorem D
     // (pairing exactly at even N); every exact letter from the guard on agrees with the law, or the sieve throws.

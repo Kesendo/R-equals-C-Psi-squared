@@ -2774,7 +2774,9 @@ if (args.Length > 1 && args[0] == "sieve" && args[1] == "cells")
         : new List<string[]> { args.Skip(3).ToArray() };
     Console.WriteLine($"=== the sieve on cells of one's own, N up to {scMaxN} ===");
     Console.WriteLine("  letters per N from the smallest: E theodolite, S/s stitch (every N / this N), F free chain, C the stitch's no,");
-    Console.WriteLine("  P/B the end count exactly (p/b by its ranks)");
+    Console.WriteLine("  P/B the end count exactly (p/b by its ranks); a ring law of F173, where one exists, is named, and 'every N decided'");
+    Console.WriteLine("  says every N is decided: below its guard by the letters, from it on by the law; light along X or Y is turned to Z");
+    Console.WriteLine("  for the stitch's readers");
     foreach (var p in scLines)
     {
         string text = string.Join(" ", p);
@@ -2792,7 +2794,8 @@ if (args.Length > 1 && args[0] == "sieve" && args[1] == "cells")
             string Describe(Sieve.Pass pass) => $"{pass.Verdict,-8} N from {pass.From}: {pass.Letters}"
                 + (pass.BrokenFrom is int bf ? $", broken for every N from {bf}" : "")
                 + (pass.Traverse is not null ? ", theodolite" : "")
-                + (pass.Free is { } fr ? $", free from {fr.From}" + (fr.Moduli.Count > 0 ? $" off {string.Join(",", fr.Moduli)} | N" : "") : "");
+                + (pass.Free is { } fr ? $", free from {fr.From}" + (fr.Moduli.Count > 0 ? $" off {string.Join(",", fr.Moduli)} | N" : "") : "")
+                + (pass.Law is { } lw ? $", {lw.Text}" + (pass.DecidedByLaw ? ", every N decided" : ", not every N decided (a letter below the guard is unread or a rank)") : "");
             Console.WriteLine($"  {name} ({jumps})");
             if (templates.Any(q => q[0].Length > 1 && (q[0][0] == 'I' || q[0][^1] == 'I')))
                 Console.WriteLine("    (a template padded with I at an end is read without the padding: on the chain its end placements differ from the padded template's; the ring is the same)");
@@ -2832,7 +2835,7 @@ if (args.Length > 0 && args[0] == "sieve")
         _ => $"bond cells of 1 to {svTerms} two-letter terms",
     };
     Console.WriteLine($"=== the sieve: {svWhat}, signs ±, jumps {svJumps} on every site, N up to {svMaxN} ===");
-    Console.WriteLine("  the fast no first: the stitch's local no (Theorem 2's conditions, no solve; Z jumps only), then the theodolite's");
+    Console.WriteLine("  the fast no first: the stitch's local no (Theorem 2's conditions, no solve; one jump letter, turned to Z), then the theodolite's");
     Console.WriteLine("  every-N reading (a yes holds at every N), the stitch's yes where it is silent, and the end count (F158) only on the");
     Console.WriteLine("  rest, at fixed N, exactly. Letters per N: E read by the theodolite, S by the stitch, F by the free chain,");
     Console.WriteLine("  C broken by the stitch's no (a condition of Theorem 2 fails), P/B palindromic/broken by the end count");
@@ -2850,6 +2853,12 @@ if (args.Length > 0 && args[0] == "sieve")
         Console.WriteLine($"  {geo}: " + string.Join(", ", Enum.GetValues<Sieve.Verdict>().Select(v => $"{v} {entries.Count(e => pick(e).Verdict == v)}")));
         Console.WriteLine($"    of the broken, for every N (the stitch's no): {entries.Count(e => pick(e).BrokenEveryN)}");
         Console.WriteLine($"    of the mixed, broken for every N past their last pairing: {entries.Count(e => pick(e).Verdict == Sieve.Verdict.Mixed && pick(e).BrokenFrom is not null)}");
+        var lawRead = entries.Where(e => pick(e).Verdict == Sieve.Verdict.Read && pick(e).DecidedByLaw
+            && pick(e).Letters.Any(c => c is 'B' or 'b' or 'C') && pick(e).BrokenFrom is null).ToList();
+        if (lawRead.Count > 0)
+            Console.WriteLine($"    of the read with broken letters, every N decided by a ring law: {lawRead.Count}");
+        foreach (var e in lawRead)
+            Console.WriteLine($"    Read+law {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}  ({pick(e).Law!.Text})");
         foreach (var e in entries.Where(e => pick(e).Verdict is Sieve.Verdict.Residue or Sieve.Verdict.Mixed or Sieve.Verdict.Law))
             Console.WriteLine($"    {pick(e).Verdict,-8} {e.Name,-14} N from {pick(e).From}: {pick(e).Letters}"
                 + (pick(e).BrokenFrom is int bf ? $"  broken from N = {bf} on" : "")
