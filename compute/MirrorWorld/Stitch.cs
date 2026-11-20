@@ -77,7 +77,7 @@ public sealed class Stitch : GameObject
     }
 
     /// <summary>The most sites the every-N reading enumerates (2^MaxSites basis states at the window and one past it):
-    /// the chain reaches it at span 2, the ring at span 5.</summary>
+    /// the chain reads spans up to 3, the ring up to 5.</summary>
     public const int MaxSites = 16;
 
     /// <summary>The most sites of a local region the holonomy walks (2^MaxHolonomySites configurations per region).</summary>
@@ -518,7 +518,7 @@ public sealed class Stitch : GameObject
     // or one of greater valuation has an odd sign. Corollary E2: every flip-carrying template of one shape f, each flip set
     // a constant times a character of x, ω·(−1)^⟨R, x⟩; the ring pairs exactly when the read sets are read symmetrically
     // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
-    // to 1. Both are laws for every N; the code evaluates them at N up to 63. A cell with an odd-weight diagonal, a flip
+    // to 1. Both are laws for every N; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
     // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
     // which carries several strings has no law here (the stitch's no reads the first two).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);

@@ -1024,7 +1024,7 @@ reads item 2's graph on a large class, and the stitch takes its ring
 laws as readers for the sieve.
 
 This path requires Story 1 and items 7 and 8 of Story 7. Every document
-but item 5 opens with a plain-language section, "What this is about";
+opens with a plain-language section, "What this is about";
 read those first.
 
 **Reading order:**
@@ -1105,10 +1105,10 @@ read those first.
    turned from site to site for Heisenberg bonds with a
    Dzyaloshinskii-Moriya term.
 
-5. [The Sieve and the Stitch](../compute/MirrorWorld/README.md) (the
-   rows `Sieve.cs` and `Stitch.cs`; no plain-language page yet): where
-   the roads meet. The stitch takes the condition of item 2's Theorem 2,
-   under dephasing along Z on every site, for far elements X^⊗N·D whose
+5. [The Sieve and the Stitch](../experiments/THE_SIEVE_AND_THE_STITCH.md):
+   Two instruments of MirrorWorld, where the roads meet. The stitch
+   takes the condition of item 2's Theorem 2, under dephasing along Z
+   on every site, for far elements X^⊗N·D whose
    phases D are products of one-site and two-site factors, the same on
    every site, and solves it as a binomial system; by locality one solve
    at a window reads every larger length. A colouring is the phase of a
