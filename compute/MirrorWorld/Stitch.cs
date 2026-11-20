@@ -508,7 +508,7 @@ public sealed class Stitch : GameObject
         return a;
     }
 
-    // ---------------------------------------------------------------- the ring laws (F173 and the pairing bond, adopted)
+    // ---------------------------------------------------------------- the ring laws (F173 and the complement connection, adopted)
     //
     // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: two laws in N for a cell on the ring under
     // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring), where the placements are
@@ -520,9 +520,10 @@ public sealed class Stitch : GameObject
     // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
     // to 1. Both are laws for every N; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
     // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
-    // which carries several strings has no law of F173 here (the stitch's no reads the first two); among them a third law,
-    // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (PairingBond below), reads the bonds of XX, YY, XY and YX terms
-    // on neighbouring sites with a pairing amplitude, whatever their ratio.
+    // which carries several strings has no law of F173 here (the stitch's no reads the first two); among them two more laws,
+    // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
+    // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
+    // XY and YX terms on neighbouring sites with a pairing amplitude, whatever their ratio).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -548,6 +549,9 @@ public sealed class Stitch : GameObject
         var flipping = templates.Where(t => t.X != 0).ToList();
         if (flipping.Count == 0) return null;
         int guard = Math.Max(norm.SmallestRing, 2 * norm.Span - 1);
+        // Theorem 8 of the complement connection on a uniform cell first: its bonds have vanishing entries, where F173's
+        // laws do not read, and its class meets theirs nowhere
+        if (HoppingRing(flipping, guard) is { } hopping) return hopping;
         static ulong ShapeOf(ulong m) => m >> BitOperations.TrailingZeroCount(m);
         int shapes = flipping.Select(t => ShapeOf(t.X)).Distinct().Count();
         if (shapes == flipping.Count)
@@ -599,12 +603,61 @@ public sealed class Stitch : GameObject
         });
     }
 
+    // Theorem 8 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted), read on a uniform cell: every bond J·(XX + YY) +
+    // D·(XY − YX) between two sites d apart (I between them), the same d for every bond, (J, D) ≠ (0, 0), a diagonal of
+    // even weight beside them, and fields a·X + b·Y on every site (a Z field is an odd diagonal, refused above). K's hop
+    // is t = 2(J − iD) from site l to l + d. With a field the triangle ∅ → e_l → e_(l+d) → ∅ has product |f|²·t, real
+    // exactly when D = 0, and then every cycle of K is real (the entries become real after one common turn about Z): the
+    // ring pairs at every N where D = 0 and at none otherwise. Without
+    // a field the bonds two sites d apart split the ring of N sites into gcd(N, d) cycles of length m = N/gcd(N, d), each of
+    // product t^m, real exactly when (t/t̄)^m = 1; t/t̄ is a root of unity only when it is ±1 or ±i (the only roots of unity
+    // among the Gaussian rationals), so the ring pairs at every N (D = 0), where m is even (J = 0), where 4 divides m
+    // (J = ±D), or at no N. Both readings need N > 2d, which the guard N ≥ 2·span − 1 = 2d + 1 gives: every m is then at
+    // least 3 and no two bonds join the same two sites (at N = 2d the two placements on a pair cancel the DM part).
+    static RingLawReading? HoppingRing(List<(ulong X, ulong Z, long C)> flipping, int guard)
+    {
+        var bonds = flipping.Where(t => BitOperations.PopCount(t.X) == 2).ToList();
+        var fields = flipping.Where(t => BitOperations.PopCount(t.X) == 1).ToList();
+        if (bonds.Count == 0 || bonds.Count + fields.Count != flipping.Count) return null;
+        if (flipping.Any(t => (t.Z & ~t.X) != 0)) return null;                              // a Z letter beside the flipped bits
+        if (fields.Any(t => t.X != 1)) return null;
+        var distances = bonds.Select(t => 63 - BitOperations.LeadingZeroCount(t.X)).Distinct().ToList();
+        if (distances.Count != 1 || bonds.Any(t => (t.X & 1) == 0)) return null;
+        int d = distances[0];
+        ulong far = 1UL << d;
+        long Coefficient(bool firstY, bool secondY) => bonds
+            .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
+        long jxx = Coefficient(false, false), jxy = Coefficient(false, true), jyx = Coefficient(true, false), jyy = Coefficient(true, true);
+        if (jxx != jyy || jxy != -jyx) return null;                                         // a pairing: Theorem 9's, or no law
+        long j = jxx, dm = jxy;
+        if (j == 0 && dm == 0) return null;
+        bool field = fields.Any(t => t.C != 0);
+        // the order of t/t̄ for t = 2(J − iD): 1 where D = 0, 2 where J = 0, 4 where |J| = |D|, none otherwise
+        int order = dm == 0 ? 1 : j == 0 ? 2 : Math.Abs(j) == Math.Abs(dm) ? 4 : 0;
+        string reach = d == 1 ? "N" : $"N/gcd(N, {d})";
+        string verdict = field ? (dm == 0 ? "pairs on every ring" : "breaks on every ring (a field beside a twisted hop)")
+            : order switch
+            {
+                1 => "pairs on every ring",
+                2 => $"pairs exactly where {reach} is even",
+                4 => $"pairs exactly where 4 divides {reach}",
+                _ => "breaks on every ring",
+            };
+        return new RingLawReading(guard, $"complement connection Theorem 8 (hopping): {verdict}, from N = {guard}", n =>
+        {
+            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            if (field) return dm == 0;
+            int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, d);
+            return order != 0 && m % order == 0;
+        });
+    }
+
     // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, the pairing bond): every flipping term an XX, YY, XY
     // or YX on two neighbouring sites (a diagonal of even weight beside them, no field), so that the bond moves an
     // excitation with g = (J_XX + J_YY) + i·(J_YX − J_XY) and makes or removes a pair with h = (J_XX − J_YY) +
     // i·(J_XY + J_YX). Where h ≠ 0 the ring of N ≥ 3 sites pairs exactly when g is real (every N), or g is imaginary and
     // N is even; where g is neither real nor imaginary it breaks at every N. Asked only where Corollary E2 reads no ratio
-    // (an entry vanishing, or no character); h = 0 is Theorem 8's (no law here). The bond is the same on every pair,
+    // (an entry vanishing, or no character); h = 0 is Theorem 8's (HoppingRing). The bond is the same on every pair,
     // oriented the same way round the ring.
     static RingLawReading? PairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
     {

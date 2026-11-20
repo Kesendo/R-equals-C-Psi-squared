@@ -11035,7 +11035,8 @@ h_l·P_l along one Pauli letter P_l.
   twisted uniformly by θ = arctan(D/J) exactly where N·θ is a multiple of π.
   Its D = 0 part widens Theorem 1's class, where F138's converse holds, from
   letter fields to fields of any direction in the XY plane. Live at
-  `inspect --root planarhopping`.
+  `inspect --root planarhopping`; its ring form on a uniform cell (bonds d sites
+  apart, N > 2d) is a ring law of MirrorWorld's sieve.
 - **Theorem 9,** the pairing beside the hop: one bond of XX, YY, XY and YX
   terms, the same on every pair of neighbours of a chain or a ring and
   oriented the same way, with a complement-invariant diagonal part, Z on

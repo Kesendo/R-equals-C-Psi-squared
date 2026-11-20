@@ -2774,7 +2774,7 @@ if (args.Length > 1 && args[0] == "sieve" && args[1] == "cells")
         : new List<string[]> { args.Skip(3).ToArray() };
     Console.WriteLine($"=== the sieve on cells of one's own, N up to {scMaxN} ===");
     Console.WriteLine("  letters per N from the smallest: E theodolite, S/s stitch (every N / this N), F free chain, C the stitch's no,");
-    Console.WriteLine("  P/B the end count exactly (p/b by its ranks); a ring law (F173's or the pairing bond's), where one exists, is named, and 'every N decided'");
+    Console.WriteLine("  P/B the end count exactly (p/b by its ranks); a ring law (F173's or the complement connection's), where one exists, is named, and 'every N decided'");
     Console.WriteLine("  says every N is decided: below its guard by the letters, from it on by the law; light along X or Y is turned to Z");
     Console.WriteLine("  for the stitch's readers");
     foreach (var p in scLines)

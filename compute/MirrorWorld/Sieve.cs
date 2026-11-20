@@ -18,7 +18,7 @@ using static MirrorWorld.LetterCube;
 //   Mixed     the uncovered N read are palindromic at some N and broken at others;
 //   Law       on the ring, a cell that would be Mixed (with no tail the stitch's no decides) or a Residue whose every N from the guard on is decided by a ring law
 //             (Stitch.RingLaw: F173's Theorem D, one string per flip set; F173's Corollary E2, one flip shape with a
-//             character ratio; Theorem 9 of the complement connection, the pairing bond), every N below the guard read
+//             character ratio; Theorems 8 and 9 of the complement connection, the hopping ring and the pairing bond), every N below the guard read
 //             exactly: decided for every N by the law.
 //             Wherever a law exists, every exact letter from its guard on is checked against it, and a disagreement throws.
 //             Whatever the verdict, a pass whose law's guard lies within the N read (or one past them) and whose letters

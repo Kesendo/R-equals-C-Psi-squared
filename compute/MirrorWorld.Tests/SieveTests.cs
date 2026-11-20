@@ -97,29 +97,25 @@ public class SieveTests
         Assert.Equal((Sieve.Verdict.Read, "BEBBBEB", true), (xiy.Ring.Verdict, xiy.Ring.Letters, xiy.Ring.DecidedByLaw));
         Assert.False(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 3).Ring.DecidedByLaw);
         Assert.True(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 4).Ring.DecidedByLaw);   // the guard one past the N read
-        var none = Sieve.Run("XY-YX", Cell('Z', ("XY", 1), ("YX", -1)), 6);          // pure DM: Theorem 8's, no ring law here
+        var none = Sieve.Run("XXZ+YYZ", Cell('Z', ("XXZ", 1), ("YYZ", 1)), 6);        // a bond with a Z beside it: no ring law
         Assert.Equal((Sieve.Verdict.Read, "BEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
         Assert.Null(none.Ring.Law);
     }
 
-    // On the first census (with the stitch) the read ring cells that carry a broken letter at an uncovered N are 13; a
-    // ring law decides every N of 10 of them (one string per flip set by Theorem D; XX ± XY − YY and XX ± YX − YY by
-    // Theorem 9, the pairing bond), and 3 stay decided only at the N read (the pure DM cells XY − YX, ± ZZ, Theorem 8's,
-    // where RingLaw returns none).
+    // On the first census (with the stitch) the read ring cells that carry a broken letter at an uncovered N are 13, and a
+    // ring law decides every N of each: one string per flip set by F173's Theorem D; XX ± XY − YY and XX ± YX − YY by
+    // Theorem 9 of the complement connection, the pairing bond; the pure DM cells XY − YX, ± ZZ, by its Theorem 8.
     [Fact]
-    public void On_The_First_Census_A_Ring_Law_Decides_Ten_Of_The_Thirteen_Read_Cells_With_Broken_Letters()
+    public void On_The_First_Census_A_Ring_Law_Decides_All_Thirteen_Read_Cells_With_Broken_Letters()
     {
         var c = Sieve.BondFamily(3, "Z").Select(x => Sieve.Run(x.Name, x.Cell, 6)).ToList();
         var broken = c.Where(e => e.Ring.Verdict == Sieve.Verdict.Read && e.Ring.BrokenFrom is null
             && e.Ring.Letters.Any(ch => ch is 'B' or 'b' or 'C')).ToList();
         Assert.Equal(13, broken.Count);
-        var decided = broken.Where(e => e.Ring.DecidedByLaw).ToList();
-        Assert.Equal(new[] { "+XX+XY-YY", "+XX+YX-YY", "+XX-XY-YY", "+XX-YX-YY", "+XY", "+XY+ZZ", "+XY-ZZ", "+YX", "+YX+ZZ", "+YX-ZZ" },
-            decided.Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
-        Assert.All(decided.Where(e => e.Name.StartsWith("+XX")), e => Assert.Contains("Theorem 9", e.Ring.Law!.Text));
+        Assert.All(broken, e => Assert.True(e.Ring.DecidedByLaw, e.Name));
+        Assert.All(broken.Where(e => e.Name.StartsWith("+XX")), e => Assert.Contains("Theorem 9", e.Ring.Law!.Text));
         Assert.Equal(new[] { "+XY-YX", "+XY-YX+ZZ", "+XY-YX-ZZ" },
-            broken.Where(e => !e.Ring.DecidedByLaw).Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
-        Assert.All(broken.Where(e => !e.Ring.DecidedByLaw), e => Assert.Null(e.Ring.Law));
+            broken.Where(e => e.Ring.Law!.Text.Contains("Theorem 8")).Select(e => e.Name).OrderBy(n => n, StringComparer.Ordinal));
     }
 
     // Theorem 9 of the complement connection (the pairing bond), adopted in Stitch.RingLaw, held against the end count's
@@ -175,6 +171,46 @@ public class SieveTests
             new Theodolite.Cell(new[] { (Zm, 1L) }, new[] { ('X', 1L) }, new[] { ("XX", new[] { 0, 1 }, 1L), ("YY", new[] { 0, 1 }, -1L) }),
         })
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"));
+    }
+
+    // Theorem 8 of the complement connection read on a uniform cell (Stitch.RingLaw's HoppingRing), held against the end
+    // count's exact verdict on the ring: hopping bonds J·(XX + YY) + D·(XY − YX) with J, D in {−1, 0, 1, 2}, a ZZ part 0
+    // or 1, and the uniform fields 0, X, Y, X + Y, X − Y, on rings of 3 to 7 sites; and the same bonds two sites apart
+    // (XIX, YIY, XIY, YIX) without fields on rings of 5 to 8 sites, where the cycles have length N/gcd(N, 2). Every order
+    // of t/t̄ occurs (1, 2, 4 and none), and fields beside a twisted and an untwisted hop.
+    [Fact]
+    public void The_Hopping_Ring_Law_Agrees_With_The_End_Count()
+    {
+        var kinds = new HashSet<string>();
+        long[] values = { -1, 0, 1, 2 };
+        foreach (int d in new[] { 1, 2 })
+            foreach (long j in values) foreach (long dm in values) foreach (long zz in new long[] { 0, 1 })
+                foreach (var (a, b) in d == 1 ? new[] { (0L, 0L), (1L, 0L), (0L, 1L), (1L, 1L), (1L, -1L) } : new[] { (0L, 0L) })
+                {
+                    if (j == 0 && dm == 0) continue;
+                    string mid = d == 1 ? "" : "I";
+                    var windows = new[] { ("X" + mid + "X", j), ("Y" + mid + "Y", j), ("X" + mid + "Y", dm), ("Y" + mid + "X", -dm), ("Z" + mid + "Z", zz) }
+                        .Where(t => t.Item2 != 0).Select(t => (t.Item1, Enumerable.Range(0, t.Item1.Length).ToArray(), t.Item2)).ToList();
+                    var fields = new[] { ('X', a), ('Y', b) }.Where(f => f.Item2 != 0).ToList();
+                    var cell = new Theodolite.Cell(new[] { (Zm, 1L) }, fields, windows);
+                    string name = $"d={d} J={j} D={dm} ZZ={zz} f=({a},{b})";
+                    var law = Stitch.RingLaw(cell);
+                    Assert.True(law is not null && law.Text.Contains("Theorem 8"), $"{name}: {law?.Text}");
+                    kinds.Add(fields.Count > 0 ? (dm == 0 ? "field, real hop" : "field, twisted hop")
+                        : dm == 0 ? "order 1" : j == 0 ? "order 2" : Math.Abs(j) == Math.Abs(dm) ? "order 4" : "no order");
+                    for (int n = Math.Max(law!.Guard, 3); n <= (d == 1 ? 7 : 8); n++)
+                    {
+                        var v = Sieve.Count(cell.Ring(n)).Verdict();
+                        Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                        Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+                    }
+                }
+        Assert.Equal(new[] { "field, real hop", "field, twisted hop", "no order", "order 1", "order 2", "order 4" },
+            kinds.OrderBy(k => k, StringComparer.Ordinal));
+        // outside the class: a pairing beside the hop (Theorem 9's), a Z beside the bond, two distances at once
+        Theodolite.Cell Bonds(params (string, long)[] t) => new(new[] { (Zm, 1L) }, null, t.Select(x => (x.Item1, Enumerable.Range(0, x.Item1.Length).ToArray(), x.Item2)));
+        foreach (var outside in new[] { Bonds(("XX", 2), ("YY", 1)), Bonds(("XXZ", 1), ("YYZ", 1)), Bonds(("XX", 1), ("YY", 1), ("XIX", 1), ("YIY", 1)) })
+            Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 8"));
     }
 
     // Light along X or Y on every site is turned to Z by a proper rotation of the letters before the stitch's readers are

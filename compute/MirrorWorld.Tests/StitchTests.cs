@@ -318,7 +318,7 @@ public class StitchTests
 
     // The ring laws adopted from F173 (docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, Theorem D and Corollary E2), each held
     // against its closed pattern from the guard to N = 63 and against the end count, exactly, on the rings of 5 to 8 sites;
-    // a cell whose flip set vanishes somewhere (XX + YY) has none.
+    // a cell whose flip set vanishes somewhere (XX + YY) has none of F173's, and is Theorem 8's (hopping, pairing on every ring).
     [Fact]
     public void The_Ring_Laws_Of_F173_Read_Every_N_And_Agree_With_The_End_Count()
     {
@@ -344,7 +344,9 @@ public class StitchTests
                 Assert.Equal(law.Pairs(n), EndCount.IsPalindrome(v));
             }
         }
-        Assert.Null(Stitch.RingLaw(Templates(("XX", 1), ("YY", 1))));
+        var hop = Stitch.RingLaw(Templates(("XX", 1), ("YY", 1)));
+        Assert.Contains("Theorem 8", hop!.Text);
+        Assert.True(Enumerable.Range(hop.Guard, 30).All(hop.Pairs));
         // a zero coefficient is no term: XX + 0·XIY is XX, which pairs on every ring
         Assert.True(Enumerable.Range(5, 20).All(n => Stitch.RingLaw(Templates(("XX", 1), ("XIY", 0)))!.Pairs(n)));
         // E2 with the reading asymmetric: X·X·(X + Y) reads its end site, a square does not close, no ring pairs
