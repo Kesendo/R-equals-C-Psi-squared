@@ -220,32 +220,29 @@ public static class ConfirmationsRegistry
             Date: "2026-05-16",
             Machine: "ibm_kingston",
             JobId: "bxyj5yd4j + bzklqwt7f",
-            Observable: "arg(CΨ_com(t)) at first real-axis magnitude-minimum crossing under deliberate RZ phase injection at rate Ω (two Ω values: 0.13 and 0.25 rad/μs; per-Ω mapping in MeasuredValue)",
+            Observable: "arg(CΨ_com(t)) where |CΨ_com| first falls through 1/4, under deliberate RZ phase injection at rate Ω (two Ω values: 0.13 and 0.25 rad/μs; per-Ω mapping in MeasuredValue)",
             PredictedValue:
                 "The complex-CΨ phase arg(CΨ_com), which shares the square-root form of F95 in its arc length but is not the F95 angle θ, is actively steerable via per-chunk RZ(Ω·Δt) injection on the bra-ket Hermitian off-diagonal. " +
-                "Lindblad+RZ model with in-situ γ_per_us from T2 calibration predicts arg(CΨ_com) at the measured crossing time. " +
-                "Pair A_mid [82,83] in-situ γ = 3.36e-3 μs⁻¹ (T2_min = 148.7 μs); Pair B_high [13,14] in-situ γ = 1.90e-3 μs⁻¹ (T2_min = 263.7 μs).",
+                "Lindblad+RZ model with γ_per_us = 1/(2·T2_min) from the backend calibration predicts arg(CΨ_com) at the measured crossing time. " +
+                "Pair A_mid [82,83] γ = 1/(2·T2_min) = 3.36e-3 μs⁻¹ (T2_min = 148.7 μs); Pair B_high [13,14] γ = 1/(2·T2_min) = 1.90e-3 μs⁻¹ (T2_min = 263.7 μs).",
             MeasuredValue:
                 "Pair A_mid [82,83] Ω=0.13: t_cross = 1.395 μs, arg_measured = -84.70°, arg_predicted = -100.39°, residual = +15.69°. " +
                 "Pair A_mid [82,83] Ω=0.25: t_cross = 1.242 μs, arg_measured = -98.64°, arg_predicted = -107.79°, residual = +9.15°. " +
                 "Pair B_high [13,14] Ω=0.25: t_cross = 2.814 μs, arg_measured = -123.50°, arg_predicted = -130.31°, residual = +6.81°. " +
-                "(Pair B_high Ω=0.13 produced no magnitude crossing in the delay window: higher T2 + lower Ω left the trajectory above the real-axis crossing threshold.) " +
-                "Residuals monotonically shrink as Ω increases (15.7° → 9.2° at Ω 0.13 → 0.25 on Pair A_mid), consistent with a roughly constant natural-Kingston drift contribution becoming a smaller fraction of the driven rotation.",
+                "(Pair B_high Ω=0.13 produced no magnitude crossing in the delay window: its first sample, at t = 1.86 μs, read |CΨ_com| = 0.245, within shot noise of 1/4 like the first samples of the three that crossed (0.253 to 0.256), so the window opened at the threshold.) " +
+                "Residuals shrink as Ω increases (15.7° → 9.1° at Ω 0.13 → 0.25 on Pair A_mid); what the residual carries is read in the data README.",
             HardwareData: "data/ibm_f95_angle_steering_may2026/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json (+ matching PNGs and partial-run JSONs; see README.md in that directory for details)",
             ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
             FrameworkPrimitive: "complex CΨ_com signed-sum-of-off-diagonals extension (the steered phase arg(CΨ_com)) + " +
                 "F25 Lindblad CΨ trajectory + F95AngleAtQuadraticZero (θ(c;b) = arctan(√(c/b² − 1)), " +
                 "finite b>0; the square-root form the dwell arc length shares)",
             Description:
-                "First hardware verification that the complex-CΨ angle arg(CΨ_com), which shares the square-root form of F95 in its dwell arc length but is not the θ of F95 itself (experiments/CPSI_COMPLEX_PLANE.md), is actively steerable on IBM Kingston. " +
-                "Two Ω values (0.13 and 0.25 rad/μs) tested on two qubit pairs (A_mid mid-T2 [82,83], B_high high-T2 [13,14]) in 14 minutes total billed QPU. " +
-                "Three of four measurement conditions produced detectable real-axis crossings; predicted arg matches measured to within 16° across all three (best 6.8°). " +
-                "Confirms three open questions from CPSI_COMPLEX_PLANE.md simultaneously: " +
-                "(Q1) Δφ = Ω·t reproducible: crossings occur at predicted angle modulo bounded natural drift; " +
-                "(Q2) linear-in-Ω scaling holds: residual shrinks ~1.7× as Ω goes from 0.13 to 0.25 (×1.92), consistent with constant natural drift contribution; " +
-                "(Q3) active steering works: the same Lindblad+RZ model fits both Ω values on the same pair without retuning. " +
-                "The bra↔ket Hermitian off-diagonal of ρ on the prepared Bell-like initial state carries a well-defined complex phase, addressable on Heron r2 by per-chunk RZ injection on the steering qubit. " +
-                "Hardware substrate-of-evidence: the steered phase arg(CΨ_com) shares the square-root form of F95 in its dwell arc length, and this run shows that it is operationally controllable, not merely descriptive.",
+                "Hardware phase response of the complex-CΨ angle arg(CΨ_com), which shares the square-root form of F95 in its dwell arc length but is not the θ of F95 itself (experiments/CPSI_COMPLEX_PLANE.md), to per-chunk RZ(Ω·Δt) injection on one qubit of each Bell-like pair on IBM Kingston. " +
+                "Two Ω values (0.13 and 0.25 rad/μs) on two qubit pairs (A_mid mid-T2 [82,83], B_high high-T2 [13,14]) in 14 minutes total billed QPU. " +
+                "All four conditions sat at |CΨ_com| ≈ 1/4 by their first sample (0.245 to 0.256, within shot noise of 1/4), where the run model predicted the crossing at 10.8 and 18.6 μs; three were read as crossings inside the first delay interval. " +
+                "The listed arg_predicted is φ₀ − Ω·t_cross at the MEASURED crossing time, so the residuals (6.8° to 15.7°) compare the read phase with the injected phase and contain no γ. " +
+                "In the Bell coherence |00⟩⟨11| the difference between the two Ω runs is 1.04 and 1.00 times the injected one, each run turning slower than its injection against the Z detuning of the chip itself, nearly the values experiments/F113_T1_EXTRACTION_KINGSTON.md reads off this data. " +
+                "What the residuals carry is read in data/ibm_f95_angle_steering_may2026/README.md.",
             QubitPath: new[] { 82, 83 }),
 
         new Confirmation(

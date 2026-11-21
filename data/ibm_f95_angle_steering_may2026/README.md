@@ -18,7 +18,8 @@ Raw hardware data from a deliberate-phase-injection run on IBM Kingston
 delay and reconstructs a named off-diagonal complex coordinate. It therefore
 measures a finite phase response; it does not realize the roots or domain of
 [F95](../../docs/ANALYTICAL_FORMULAS.md#f95). The natural Kingston Z-detuning
-is small and uncontrolled, so the comparison retains a residual rather than
+is uncontrolled and not small (it turns against the injected phase;
+[F113](../../experiments/F113_T1_EXTRACTION_KINGSTON.md) reads it off this data), so the comparison retains a residual rather than
 promoting the injected phase to an exact actuator law.
 
 The stable historical Confirmation identifier is
@@ -39,7 +40,7 @@ the identifier does not certify the old F95 interpretation.
 ## Experiment summary
 
 - **Backend:** ibm_kingston (Heron r2, 156 qubits)
-- **Date:** 2026-05-16 (both runs ~one minute apart in the same session)
+- **Date:** 2026-05-16 (both runs in the same session, started 20:48 and 20:57)
 - **Protocol:** Bell-like prep on each pair (H, S, CX), per-chunk RZ(Ω·Δt) injection during the delay (the "steering" gate), 2-qubit state tomography with 9 Pauli bases at 2048 shots each
 - **Two Ω values:** 0.13 and 0.25 rad/μs (the second is approximately 2× the first; designed to verify linear Ω scaling)
 - **Total billed QPU:** ~14 minutes (both runs combined)
@@ -51,7 +52,7 @@ the identifier does not certify the old F95 interpretation.
 | Pair | Qubits | T1_min (μs) | T2_min (μs) | γ = 1/(2·T2_min) (1/μs) | regime |
 |------|--------|------------|------------|-------------------------|--------|
 | A_mid | 82, 83 | 174.4 | 148.7 | 0.00336 | mid-T2 |
-| B_high | 13, 14 | (from JSON) | 263.7 | 0.00190 | high-T2 |
+| B_high | 13, 14 | 200.6 | 263.7 | 0.00190 | high-T2 |
 
 The mid-T2 pair was chosen for a shorter model-selected delay window and the
 high-T2 pair for a longer one. Comparing both at the same Ω samples the finite
@@ -60,7 +61,7 @@ universal phase law.
 
 ## Delays per pair
 
-Chosen to bracket a model-selected radial-magnitude minimum:
+Chosen around the model's predicted crossing of |CΨ_com| through ¼ (10.8 μs on A_mid, 18.6 μs on B_high):
 
 - Pair A_mid: `[1.08, 3.24, 5.40, 7.57, 11.89, 18.38]` μs
 - Pair B_high: `[1.86, 5.58, 9.29, 13.01, 20.45, 31.60]` μs
@@ -85,20 +86,34 @@ is a finite-grid result, not a cardioid or real-axis classification.
 **Key qualitative findings:**
 
 1. **Finite phase comparison:** the three retained rows have the measured and
-   model-predicted arguments and residuals shown above. The residuals are part
+   model-predicted arguments and residuals shown above; the model's argument is
+   φ₀ − Ω·t at the measured crossing time, which carries no γ. The residuals are part
    of the result, so the table is not an exact `Δφ=Ωt` verification.
 2. **Two-rate association:** on Pair A_mid the archived residual changes from
-   15.69° to 9.15° when Ω changes from 0.13 to 0.25 rad/μs. With two rates and
-   uncontrolled detuning this is consistent with, but does not prove, a linear
-   scaling mechanism.
-3. **Protocol-local response:** per-chunk RZ injection changes the reconstructed
+   15.69° to 9.15° when Ω changes from 0.13 to 0.25 rad/μs. A residual is an absolute angle, so the
+   change is not a drift becoming a smaller fraction; on A_mid most of the listed
+   residual is the tilt the other off-diagonals give the six-term CΨ_com, the Bell
+   coherence |00⟩⟨11| alone reading 5.6° and 2.8°.
+3. **The Bell coherence alone:** a Z rotation commutes with Z dephasing, amplitude
+   damping and ZZ, so the injected phase adds by construction to every coherence it
+   rotates. Fitted over the six delays (an unweighted least-squares line with free
+   intercept through the unwrapped phase), the Bell coherence |00⟩⟨11| turns at the
+   injected rate less a Z detuning of the chip of 0.081 and 0.076 rad/μs on A_mid
+   and 0.059 and 0.059 on B_high (Ω = 0.13, 0.25), nearly F113's −2Σδ, so the
+   difference between the two Ω runs is 1.04 and 1.00 times the injected one. The
+   six-term CΨ_com gives 1.18 and 1.02, its other off-diagonals weighing more on
+   A_mid; interpolated at the archived crossing times, the Bell coherence's own
+   residuals are 5.6°, 2.8° and 8.1°.
+   It reads 0.41 to 0.45 at the first sample, against 0.5 for an ideal preparation.
+4. **Protocol-local response:** per-chunk RZ injection changes the reconstructed
    off-diagonal phase in this Bell-like preparation and tomography convention.
    This does not make that coordinate an F95 quadratic root or an F97 parameter.
 
 ## Structure of the JSON
 
-Each `*_hardware_*.json` file mirrors the
-`ibm_cusp_slowing_april2026/` structure. Legacy F95-named analysis fields are
+Each `*_hardware_*.json` file follows the
+`ibm_cusp_slowing_april2026/` layout, with the complex coordinate's fields in
+place of its real ones. Legacy F95-named analysis fields are
 retained as schema and provenance, not as a current mathematical classification:
 
 ```
@@ -112,8 +127,9 @@ retained as schema and provenance, not as a current mathematical classification:
   "shots": 2048,
   "pair_runs": {
     "A_mid":  { "pair": {...}, "pred": {...}, "delays_us": [...],
-                "trajectory": [ { "t_us": ..., "C": ..., "Psi": ...,
-                                  "L1": ..., "CPsi": ...,
+                "trajectory": [ { "t_us": ..., "C": ..., "Psi_com_re": ..., "Psi_com_im": ...,
+                                  "CPsi_com_re": ..., "CPsi_com_im": ..., "CPsi_com_mag": ...,
+                                  "CPsi_com_arg_deg": ...,
                                   "rho2_real": [[...]], "rho2_imag": [[...]] } ],
                 "analysis": { "t_cross_measured_us": ...,
                               "arg_cross_measured_deg": ...,
@@ -141,10 +157,10 @@ The run is described and analyzed in:
 
 ## Integrity
 
-- **Drift during session:** monitored via `cal_snapshot_start` and `cal_snapshot_end` JSON blocks; small-to-zero on the run-day chain qubits (Heron r2 single-session calibration is stable).
+- **Drift during session:** the `cal_snapshot_start` and `cal_snapshot_end` JSON blocks are identical (drift 0.0%), the backend calibration not refreshed within the session, so they bracket nothing.
 - **Queue bias:** none (both runs at similar queue depth).
 - **Readout:** not mitigated. IBM's default measurement error on Heron r2 is typically 1-3% per qubit.
-- **Crossing detection precision:** linear interpolation between adjacent delays; the t_cross uncertainty is ~ Δt_delay / 2 ≈ 1 μs at A_mid and ~2-3 μs at B_high (the latter with sparser delay grid).
+- **Crossing detection precision:** linear interpolation between adjacent delays; the t_cross uncertainty is half the first delay interval, ≈ 1.1 μs at A_mid and ≈ 1.9 μs at B_high.
 
 The JSON files are the authoritative record. The PNGs are convenience renders from the run script.
 

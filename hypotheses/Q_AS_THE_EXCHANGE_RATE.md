@@ -93,7 +93,7 @@ This is a Reading (Tier 4), not a Tier 1–2 claim:
 - The exchange-rate framing is interpretive: it does not add new predictions, it re-organizes the existing structure under a more accurate name.
 - It does NOT make claims about consciousness, time, or external metaphysics. It is a vocabulary-cleanup for what the framework already says.
 
-The framing is candidate Tier 3 if the H-clock observable can be experimentally distinguished from the γ₀-clock observable (i.e., if we can verify that the Q-rate-ratio is operationally measurable as a clock-exchange, not just inferred). The Kingston 2026-05-16 active-steering Confirmation ([`f95_angle_steering_kingston_may2026`](../compute/RCPsiSquared.Core/Confirmations/)) demonstrated programmability of Ω = rate-of-change of tan(θ) = rate-of-change of Q, which is a step in that direction.
+The framing is candidate Tier 3 if the H-clock observable can be experimentally distinguished from the γ₀-clock observable (i.e., if we can verify that the Q-rate-ratio is operationally measurable as a clock-exchange, not just inferred). The Kingston 2026-05-16 phase-injection run ([`f95_angle_steering_kingston_may2026`](../compute/RCPsiSquared.Core/Confirmations/)) read an injected Z rotation back in the phase of CΨ_com; its comparison contains no γ, so it does not yet tell the two clocks apart.
 
 ## Anchors
 

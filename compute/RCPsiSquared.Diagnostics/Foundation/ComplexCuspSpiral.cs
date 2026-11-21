@@ -15,11 +15,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>The radial magnitude is unchanged and Ω-independent: |CΨ_com|(t) = f(1+f²)/6, f = e^{−4γt}
 /// (F25, the same law <see cref="InteriorHorizon.BellPlusCpsi"/> reads on the line). So every spiral
-/// reaches the same radial ring at the same time; only the argument φ₀ − Ω·t_cross is free, and IBM
-/// Kingston steered it on demand: a Lindblad+RZ model with the in-situ γ from T2 calibration predicted
-/// the crossing argument at the three conditions that crossed, residuals 6.81° to 15.69°, on Pair A_mid
-/// shrinking from 15.69° to 9.15° as Ω goes from 0.13 to 0.25 rad/μs (Confirmation
-/// f95_angle_steering_kingston_may2026). The argument is real and controllable. At
+/// reaches the same radial ring at the same time; only the argument φ₀ − Ω·t_cross is free. On IBM
+/// Kingston an injected RZ moved it against the chip's own Z detuning (Confirmation
+/// f95_angle_steering_kingston_may2026; the analysis in data/ibm_f95_angle_steering_may2026/README.md).
+/// A Z rotation commutes with the dephasing, so the injected phase adds by construction. At
 /// Ω = 0 the argument stays at φ₀; for Bell+ (φ₀ = 0) the spiral is the real-axis F25 curve
 /// <see cref="InteriorHorizon.BellPlusCpsi"/> reads.</para>
 ///

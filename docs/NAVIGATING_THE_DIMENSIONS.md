@@ -109,7 +109,7 @@ layers cohere into one navigable space, not because the coordinates are the same
 | Coordinate (what moves) | its marks (had) | its in-between (the content) |
 |---|---|---|
 | state purity CΨ | 1/4 cusp, via θ = arctan(√(4CΨ−1)) | the approach / crossing dynamics |
-| carrier clock Q = J/γ₀ | the canonical Q (√3 at 60°, …), via θ = arctan(Q) | the continuous detuning of coupling vs noise |
+| one-mode clock dial Q = J/γ₀ | the canonical Q (√3 at 60°, …), via θ = arctan(Q) (a chain gears it: arctan(Q·cos(π/(N+1))), `ClockHandLadderClaim`) | the continuous detuning of coupling vs noise |
 | operator bond-dial a·X + b·Y | S (90°), T (45°), via F99 α = sin²θ/2 | the [continuous mirror](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md) between the gates |
 | parameter distributions | the Z₄ marks of F91 (γ), F92 (J), F93 (detuning) | the continuous deformation off-anchor |
 
@@ -315,8 +315,8 @@ only free parameter. Those points carry no phase, so they sit on the real axis, 
 head-on crossing. The phase, the thing that turns a crossing into a winding, comes from a second,
 [sparser run](../experiments/CPSI_COMPLEX_PLANE.md) that saved the full state: six points per pair,
 enough to watch the trajectory leave the axis as a small arc, one clockwise, one counter-clockwise, each
-still crossing the same circle. The angle itself is steerable, an injected drift moving the crossing to
-where it was asked (three crossings, residuals under sixteen degrees). That steered angle is arg(CΨ_com),
+still crossing the same circle. The angle itself moves with an injected drift: a Z rotation added by hand turns it by construction,
+and the hardware read it back against the chip's own detuning. That angle is arg(CΨ_com),
 the phase of the complex coherence, and not F95's θ. The radial dwell at the fold is the F57 dose (for
 its Bell+/pure-Z trajectory), the winding's arc length carries the same square-root form the interior heading
 does, and the ¼-circle is where the two readings meet. We keep that meeting as the reading, at the label.

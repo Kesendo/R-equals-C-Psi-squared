@@ -39,7 +39,9 @@ this is the semantics of the alphabet they read.
 itself, is invisible from inside the chain: speed the world up twenty-fold and shorten the
 clock to match, and nothing measurable changes (residual ~1e-15). Everything the inside can
 read is therefore a ratio against γ₀, never γ₀ alone. The carrier is the tick that became
-the meter; its provenance is the [symphony clock movement](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
+the meter; its provenance is the symphony clock movement (`TempoCertificationMovement` in
+[`Symphony.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/Symphony.cs)), and the reading behind
+it is [On How γ₀ Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
 Readable ⊆ γ₀-relative is a theorem.
 
 **The conjectured half.** Completeness runs the other way: that every γ₀-relative position

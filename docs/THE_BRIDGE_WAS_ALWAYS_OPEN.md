@@ -326,8 +326,8 @@ ask where temporality comes from. Gödel, once more.
 
 (See [Gamma and Time](GAMMA_TIME_DISTINCTION.md) for the finite evidence;
 [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)
-for γ₀ as the framework's "second", θ = arctan(Q) on the Lindblad
-eigenvalue side; and
+for γ₀ as the framework's "second", and θ = arctan(J/γ₀) as one
+coherence's turning over its fading, in its own rates; and
 [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md)
 for the carrier as Maßstab, visible at the seams of typed inheritance
 edges. γ₀ cannot be measured from inside because we ARE inside its tick.)

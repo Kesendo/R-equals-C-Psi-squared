@@ -46,8 +46,8 @@ Hamiltonian-driven, not θ-driven. θ was reinterpreted as a compass
 (angular distance from ¼), which is algebraically correct. θ itself has
 not been measured as an angle on hardware; what has is the argument of
 the complex CΨ, which wears the same square-root form
-(`f95_angle_steering_kingston_may2026`, predicted against measured to
-within 6.8° to 15.7°).
+(`f95_angle_steering_kingston_may2026`: an injected Z rotation moves it,
+against the chip's own detuning).
 
 *What this means:* we thought θ was a clock (telling you *when* things
 happen). It is actually a compass (telling you *where you are* relative

@@ -111,12 +111,13 @@ public sealed class ComplexCuspSpiralField : IInspectable
                 summary: $"across Ω the radial crossing time is flat at t={tCrossFlat.ToString("0.###", Inv)}; the argument sweeps {angles[0].ToString("0.#", Inv)}°..{angles[^1].ToString("0.#", Inv)}°. The steerable freedom (f95_angle_steering_kingston_may2026).",
                 payload: new InspectablePayload.Curve("crossing angle vs Ω", _omegaLadder, angles, "Ω", "crossing angle°"));
 
-            // 4. The hardware (Kingston): the two observed spirals + the on-demand steering.
+            // 4. The hardware (Kingston): the two observed spirals + the injected phase read back.
             yield return new InspectableNode(
                 displayName: "the hardware (the Kingston spirals)",
                 summary: "IBM Kingston 2026-04: Pair A spirals clockwise (arg −8°→−60°), Pair B counter-clockwise (+15°→+79°), both reaching |CΨ_com|=¼ " +
-                         "(f25_cusp_trajectory, f57_kdwell_gamma_invariance). 2026-05: the crossing angle steered on demand by an injected Ω " +
-                         "(f95_angle_steering_kingston_may2026, three crossings, residuals 6.8° to 15.7° from one Lindblad+RZ model with in-situ γ). The argument is real and controllable.");
+                         "(f25_cusp_trajectory, f57_kdwell_gamma_invariance). 2026-05: the crossing angle moved by an injected Ω " +
+                         "(f95_angle_steering_kingston_may2026: the injected phase arrives against the chip's own Z detuning; " +
+                         "the residuals 6.8° to 15.7° compare φ₀ − Ω·t_cross at the measured crossing time and contain no γ).");
 
             // 5. The comparison: the recurrence and its F95 heading against this ring and its argument.
             yield return new InspectableNode(

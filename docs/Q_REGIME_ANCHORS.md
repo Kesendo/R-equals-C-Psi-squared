@@ -12,7 +12,7 @@ The framework's three Q-bands (onset, peak, plateau) materialized as a table of 
 | **1.2**  | 0.060                  | peak start           | Q-band edge (Tier2Empirical)                     |
 | **1.5**  | 0.075                  | F86 Q_peak (c=2)     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 − 1/2); PerBlockQPeakClaim wobble 1.4-1.6 empirical witness |
 | **1.6**  | 0.080                  | F86 Q_peak (c=3)     | PerBlockQPeakClaim, saturated N=5..9 (Tier2Empirical) |
-| **√3**   | ≈ 0.0866               | canonical θ=60° (Lindblad-Absorption-Match) | **LindbladAbsorptionMatchAtSixtyDegreesClaim** (Tier1Derived: \|λ_±\|=2γ₀=α at θ=60°); empirical F86 c=3 K-peak suggestively close at N=7,8 (within ~2%) but Tier-3/4 hypothesis NOT typed |
+| **√3**   | ≈ 0.0866               | canonical θ=60° (Lindblad-Absorption-Match) | **LindbladAbsorptionMatchAtSixtyDegreesClaim** (Tier1Derived: for the named two-level model λ_± = −γ₀ ± iJ, its own Q, \|λ_±\|/γ₀ = 2 at θ = 60°; local algebra, not an absorption-rate identity; in this table's book a coherence turning at J sits at arctan(Q/2)); empirical F86 c=3 K-peak suggestively close at N=7,8 (within ~2%) but Tier-3/4 hypothesis NOT typed |
 | **1.8**  | 0.090                  | F86 Q_peak (c=4, c=5) + peak end | PerBlockQPeakClaim, saturated N≥7 (Tier2Empirical); envelope Interior class: c=4 N=7 = 1.760, N=8 = 1.791 |
 | **2.0**  | 0.100                  | Q_EP idealized       | Q_EP = 2/g_eff at g_eff=1 (Tier1Derived)         |
 | **2.5**  | 0.125                  | Endpoint orbit Q     | **PolarityPairQPeakDecompositionClaim** (Tier1Derived schema 2 + 1/2); PerF71OrbitObservation empirical witness (2.393–2.591 across c=2..4 N=5..8) |
@@ -98,20 +98,20 @@ Each Q-anchor is reached from multiple framework lenses (parallel to the multi-v
 
 ## γ₀ as time-tick: why "20" appears in the headers
 
-γ₀ is the framework's time-tick: every dimensionful timescale is integer × 1/γ₀ (see [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). At γ₀ = 0.05:
+γ₀ is the framework's time-tick: every dimensionful timescale is 1/γ₀ times a pure number, and at the anchors a rate's number is an integer, t_peak = 1/(4γ₀) (see [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). At γ₀ = 0.05:
 
 - 1/γ₀ = **20 sim-time-units** = the γ₀-period (always, regardless of J)
 - This is a unit-arithmetic fact: γ₀ = 1/20 in sim units → 1/γ₀ = 20 sim units
 
 The **structurally-invariant** content lives in Q = J/γ₀:
 
-- 1/γ₀ = **Q Hamiltonian-rotation-periods** (since 1 H-period = 1/J sim-units, and Q·(1/J) = 1/γ₀)
+- 1/γ₀ = **Q H-rotations**, an H-rotation here being one radian of hop phase (1/J sim-units, and Q·(1/J) = 1/γ₀); a full hop period, 2π/J, is 2π of them
 - At framework J values (table above, J ∈ [0.01, 0.1]), Q ∈ [0.2, 2.0] → 1/γ₀ encompasses 0.2 to 2.0 H-rotations
-- At Balance (Q=1): 1/γ₀ = 1 H-rotation (γ₀-period and H-period perfectly synchronized)
+- At Balance (Q=1): 1/γ₀ = 1 H-rotation (the hop rate equals the tick rate)
 - At F86 peak (Q=1.5): 1/γ₀ = 1.5 H-rotations
 - At Q_EP/g_eff=1 (Q=2): 1/γ₀ = 2 H-rotations
 
-**Caveat on the Propagate cockpit default**: `compute/RCPsiSquared.Propagate/Program.cs:1254` sets `J = 1.0`, which gives Q = J/γ₀ = 20; this is the *original deep-quantum baseline from before the framework Q-band structure was identified*, NOT a framework anchor. The `wave_breaking_q_anchor_scan.py` script explicitly labels Q=20 as "Deep-quantum (J=1, original default)". When this default is used, the system rotates 20 times per γ₀-tick, far outside the [0.2, 2.0] framework-anchor range. Any analysis at J=1 should explicitly note it's outside the framework's Q-band structure.
+**Caveat on the Propagate cockpit default**: `compute/RCPsiSquared.Propagate/Program.cs:1254` sets `J = 1.0`, which gives Q = J/γ₀ = 20; this is the *original deep-quantum baseline from before the framework Q-band structure was identified*, NOT a framework anchor. The `wave_breaking_q_anchor_scan.py` script explicitly labels Q=20 as "Deep-quantum (J=1, original default)". When this default is used, the hop phase turns through 20 H-rotations (radians) per γ₀-tick, far outside the [0.2, 2.0] framework-anchor range. Any analysis at J=1 should explicitly note it's outside the framework's Q-band structure.
 
 The "20" in the C# headers (`t=20` in F73, `tMax=20` in cockpit, `tMax = 1/γ₀` in InspectCommand) refers to **one γ₀-period in absolute sim-units**; that's invariant under J choice. What is NOT invariant: the H-rotation count packed into that γ₀-period, which is Q.
 
