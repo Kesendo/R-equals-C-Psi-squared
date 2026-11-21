@@ -53,7 +53,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// λ_min of the far edge's generator from below (Corollary H2, <see cref="StrongDephasingEdges.CycleReading"/>); where every
 /// flip set's entry has one modulus and the hops along the flip sets commute, the far levels on each component are twice the
 /// rate-weighted sizes of the elements of a coset of the code of balanced signings of the flip sets, the coset read off the
-/// holonomies, the least twice its distance from the code (Corollary H3, <see cref="StrongDephasingEdges.ReadHops"/>).</para>
+/// holonomies, the least twice its distance from the code (Corollary H3, <see cref="StrongDephasingEdges.ReadHops"/>). With
+/// ket and bra agreeing on a set Λ of sites, the operators X on every site outside Λ times a diagonal that commute with H
+/// are modes at −2·(σ − γ(Λ)) at every scale of H, counted by Theorem 2 with the complement taken on the sites outside Λ
+/// (<see cref="ComplementConnectionGraph.AgreeOn"/>); where no two flipping strings share a flip set and every diagonal
+/// string has an even number of Z letters outside Λ, they exist exactly when the masks balance with Λ's Y and Z letters
+/// struck from the signs (Corollary A″, <see cref="AgreeOnBalanced"/>), and wherever they exist the far edge's shortfall is at
+/// most 2γ(Λ) at every J.</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -138,6 +144,20 @@ public sealed class SignedMaskBalanceClaim : Claim
             if (m == 0 && s == 1) return false;
         }
         return true;
+    }
+
+    /// <summary>Corollary A″ (ket and bra agreeing on some sites): with the strings collected and Λ =
+    /// <paramref name="agree"/> (bit l = site l), the operators X on every site outside Λ times a diagonal D that commute
+    /// with H, each a mode at −2·(σ − Σ_(l∈Λ) γ_l) at every scale of H, exist exactly when the masks, each signed by the
+    /// parity of its string's Y and Z letters outside Λ, are balanced (<see cref="Balanced"/>); there are then as many as
+    /// Γ_H has components. Null where the corollary does not read: two flipping strings on one mask, or a diagonal string
+    /// with an odd number of Z letters outside Λ. Λ = ∅ is Theorem A.</summary>
+    public static bool? AgreeOnBalanced(IReadOnlyList<PlacedString> placed, ulong agree)
+    {
+        var collected = placed.GroupBy(p => (p.X, p.Z)).Select(g => (g.Key.X, g.Key.Z, C: g.Sum(p => p.C))).Where(p => p.C != 0).ToList();
+        if (collected.Where(p => p.X != 0).GroupBy(p => p.X).Any(g => g.Count() > 1)) return null;
+        if (collected.Any(p => p.X == 0 && (BitOperations.PopCount(p.Z & ~agree) & 1) == 1)) return null;
+        return Balanced(collected.Where(p => p.X != 0).Select(p => (p.X, BitOperations.PopCount(p.Z & ~agree) & 1)));
     }
 
     /// <summary>The placed masks of templates on the open chain of n sites, at every start 0 … n − w.</summary>
@@ -1816,6 +1836,15 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "balanced signings (Theorem H the case e = s); " +
                          "XIY + XZX on the ring of six 4c²/γ; where every two hops anticommute λ_min = Σ μ − (Σ μ²)^(1/2), " +
                          "IIX ± ZZY on the ring of five (10 − 2√5)·c²/γ");
+            yield return new InspectableNode("Corollary A″, ket and bra agreeing on some sites",
+                summary: "a set Λ of sites, x̄_Λ the bitstring x with every bit outside Λ flipped: the operators X on every site outside Λ times a diagonal " +
+                         "D live on the cells where ket and bra agree on Λ and differ elsewhere, commute with Z_l on Λ and anticommute with it " +
+                         "elsewhere; those commuting with H are modes at −2·(σ − γ(Λ)) at every scale of H; their number is that of the good " +
+                         "components of Γ_H joined with its image under x ↦ x̄_Λ, (★) read with x̄_Λ for the complement; with no two flipping strings on one flip set and " +
+                         "every diagonal string even in Z off Λ it is the number of components of Γ_H when the masks balance with " +
+                         "s_Λ = (#Y + #Z off Λ) mod 2, else zero, the strings X^⊗(N∖Λ)·Z^φ with ⟨φ, m_P⟩ = s_Λ(P) on every flipping string then " +
+                         "commuting with H; wherever they exist the far " +
+                         "edge's shortfall is at most 2γ(Λ) at every J: on the odd XY ring every single site, on XIY on the ring of six an odd number of sites of each triangle");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");

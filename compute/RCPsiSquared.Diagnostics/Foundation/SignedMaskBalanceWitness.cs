@@ -34,8 +34,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// bounds, from below by disjoint translates of Theorem B's relation on the chain and from above by a cut on the ring
 /// where the chain pairs; Corollary H2's cycle bound on Theorem E's cells and as the packing of XZ ± ZY's end squares;
 /// Corollary H3's hop reading (<see cref="StrongDephasingEdges.ReadHops"/>) on Theorem E's cells, the whole far spectrum
-/// coset by coset where the hops commute and the floor where every two anticommute; the worked examples of the page.
-/// Twenty-three controls show the
+/// coset by coset where the hops commute and the floor where every two anticommute; Corollary A″, ket and bra agreeing on
+/// some sites, the balance with their Y and Z letters struck against Theorem 2 with the complement taken on the sites outside them
+/// (<see cref="ComplementConnectionGraph.AgreeOn"/>), and its hypotheses on rows with diagonal strings and with two strings
+/// on one flip set; the worked examples of the page.
+/// Twenty-six controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
@@ -48,7 +51,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// Corollary H1's packing bound with every offset of the relation counted (overlapping translates) exceeds the trellis,
 /// and its cut bound read where the chain breaks falls short of it, and Corollary H2's bound without its double count
 /// exceeds λ_min of the far edge's generator, and Theorem H read string by string in place of Corollary H3's reading
-/// misses it.</para></summary>
+/// misses it, and Corollary A″ with no letter struck, with the next site's letters struck for one site, or with the
+/// diagonal strings ignored where one is odd off the agreeing sites, disagrees with Theorem 2's count.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -163,6 +167,20 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     /// <summary>The cut bound read on the rings where the chain of the same N breaks: readings where the trellis exceeds it
     /// (the control).</summary>
     public int CutWhereChainBreaksMismatches { get; private set; }
+    /// <summary>Corollary A″ (ket and bra agreeing on a set Λ of sites): readings where the operators X on every site outside
+    /// Λ times a diagonal D commuting with H exist, where they do not, and where they exist while Theorem A's far end is empty
+    /// (a broken row with a mode at −2·(σ − γ(Λ)) at every scale of H); the readings outside the corollary's hypotheses (two
+    /// flipping strings on one flip set, or a diagonal string odd in Z off Λ), where its balance must decline; and three
+    /// controls against Theorem 2's count (<see cref="ComplementConnectionGraph.AgreeOn"/>), which must disagree: the signs read with no letter struck, a single site read with the
+    /// letters of the next site struck (on the ring translation makes the two verdicts equal, so this one fires on the chain
+    /// alone), and the balance read with the diagonal strings ignored where one is odd off Λ.</summary>
+    public int AgreeOnNonzero { get; private set; }
+    public int AgreeOnZero { get; private set; }
+    public int AgreeOnWhereFarIsZero { get; private set; }
+    public int AgreeOnOutside { get; private set; }
+    public int AgreeOnUnstruckMismatches { get; private set; }
+    public int AgreeOnWrongSiteMismatches { get; private set; }
+    public int AgreeOnDiagonalIgnoredMismatches { get; private set; }
     public bool AllAgree => Families.All(f => f.Agrees);
     public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0
                                  && ParityOnlyMismatches > 0 && MostValuedMismatches > 0
@@ -172,7 +190,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && DroppedE3PrimeReadSumMismatches > 0 && DroppedE3PrimeOrderingMismatches > 0
                                  && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0
                                  && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0
-                                 && HopControlMisses > 0 && MovedCarrierNotQuadratic > 0;
+                                 && HopControlMisses > 0 && MovedCarrierNotQuadratic > 0
+                                 && AgreeOnUnstruckMismatches > 0 && AgreeOnWrongSiteMismatches > 0 && AgreeOnDiagonalIgnoredMismatches > 0;
 
     // the GF(2) rank of a set of masks
     static int Rank(int[] vectors)
@@ -1147,6 +1166,107 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("Corollary H1, the cut bound: on the ring where the chain of the same N pairs, the trellis at most twice the weight over the lightest cut, ring N = 5 to 12", cutCells, cutReadings, cutMismatches, cutFirst, "the cut bound"));
         }
 
+        // Corollary A″: ket and bra agreeing on a set Λ of sites, the balance with Λ's Y and Z letters struck against Theorem 2
+        // with the complement taken on the sites outside Λ (ComplementConnectionGraph.AgreeOn), every single site and, to six
+        // sites, every set of two
+        {
+            var two = (from x in "XYZ" from y in "XYZ" select $"{x}{y}").Where(t => SignedMaskBalanceClaim.Mask(t) != 0).ToList();
+            var three = Windows.Where(t => SignedMaskBalanceClaim.Mask(t) != 0).ToList();
+            var cellList = two.Concat(three).Select(t => new[] { (t, 1L) })
+                .Concat(from a in two from b in three
+                        where !SameShape(SignedMaskBalanceClaim.Mask(a), SignedMaskBalanceClaim.Mask(b))
+                        select new[] { (a, 1L), (b, 1L) }).ToList();
+            int ringTop = Math.Min(RingCap, 8);
+            static IEnumerable<int> Sets(int n) => Enumerable.Range(0, n).Select(l => 1 << l)
+                .Concat(n <= 6 ? from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (1 << a) | (1 << b) : Enumerable.Empty<int>());
+            static int Components(int n, IReadOnlyList<SignedMaskBalanceClaim.PlacedString> placed) =>
+                1 << (n - Rank(placed.Where(p => p.X != 0).Select(p => (int)p.X).Distinct().ToArray()));
+            static Dictionary<int, GaussianInteger>[] ColumnsOf(int n, IReadOnlyList<SignedMaskBalanceClaim.PlacedString> placed) =>
+                ComplementConnectionGraph.Columns(n, placed.Select(p => (new PauliMask(p.X, p.Z), (BigInteger)p.C)));
+            static string Sites(int n, int set) => string.Join(",", Enumerable.Range(0, n).Where(l => ((set >> l) & 1) == 1));
+            int cells = 0, readings = 0, mismatches = 0, nonzero = 0, zero = 0, whereFarIsZero = 0, unstruck = 0, wrongSite = 0;
+            string? first = null;
+            foreach (var cell in cellList)
+            {
+                cells++;
+                int w = cell.Max(t => t.Item1.Length);
+                foreach (bool ring in new[] { false, true })
+                    for (int n = ring ? Math.Max(3, 2 * w - 1) : Math.Max(3, w); n <= (ring ? ringTop : 6); n++)
+                    {
+                        var placed = SignedMaskBalanceClaim.PlaceStrings(cell, n, ring);
+                        var columns = ColumnsOf(n, placed);
+                        int components = Components(n, placed);
+                        int far = ComplementConnectionGraph.AgreeOn(n, columns, 0);
+                        bool unstruckBalanced = SignedMaskBalanceClaim.Balanced(placed.Where(p => p.X != 0).Select(p => (p.X, BitOperations.PopCount(p.Z) & 1)));
+                        foreach (int agree in Sets(n))
+                        {
+                            if (SignedMaskBalanceClaim.AgreeOnBalanced(placed, (ulong)agree) is not { } balanced) continue;
+                            int walked = ComplementConnectionGraph.AgreeOn(n, columns, agree);
+                            readings++;
+                            if (walked != (balanced ? components : 0))
+                            {
+                                mismatches++;
+                                first ??= $"{string.Join(" + ", cell.Select(t => t.Item1))} on the {(ring ? "ring" : "chain")} of {n}, agreeing on {Sites(n, agree)}";
+                            }
+                            if (walked > 0) nonzero++; else zero++;
+                            if (walked > 0 && far == 0) whereFarIsZero++;
+                            if (walked != (unstruckBalanced ? components : 0)) unstruck++;
+                            if (BitOperations.PopCount((uint)agree) == 1
+                                && SignedMaskBalanceClaim.AgreeOnBalanced(placed, 1UL << ((BitOperations.TrailingZeroCount(agree) + 1) % n)) is { } moved
+                                && walked != (moved ? components : 0)) wrongSite++;
+                        }
+                    }
+            }
+            AgreeOnNonzero = nonzero;
+            AgreeOnZero = zero;
+            AgreeOnWhereFarIsZero = whereFarIsZero;
+            AgreeOnUnstruckMismatches = unstruck;
+            AgreeOnWrongSiteMismatches = wrongSite;
+            families.Add(new FamilyReading("Corollary A″: ket and bra agreeing on some sites, the balance with their Y and Z letters struck against Theorem 2 with the complement taken on the sites outside them, one template of two or three sites and a two-site template beside a three-site one of a different shape, every single site (chain N = 3 to 6, ring N = 2w − 1 to the cap or 8, the smaller) and every set of two (to six sites)", cells, readings, mismatches, first));
+
+            // its hypotheses: XY beside a field Z on site 0 alone (the field even off Λ exactly where Λ holds site 0) and XY
+            // beside ZZ on every bond (odd off every Λ of one or two sites), against Theorem 2's count where the balance reads and
+            // with the diagonal strings ignored where it declines; XX + XY and XZ + ZY, two strings on one flip set, where it must decline
+            int hcells = 0, hreadings = 0, hmismatches = 0, outside = 0, diagonalIgnored = 0;
+            string? hfirst = null;
+            foreach (bool ring in new[] { false, true })
+                for (int n = 3; n <= 6; n++)
+                {
+                    var rows = new List<(string Name, IReadOnlyList<SignedMaskBalanceClaim.PlacedString> Placed, bool Shared)>
+                    {
+                        ("XY + Z on site 0", SignedMaskBalanceClaim.PlaceStrings(new[] { ("XY", 10L) }, n, ring).Append(new SignedMaskBalanceClaim.PlacedString(0, 1, 9)).ToList(), false),
+                        ("XY + ZZ", SignedMaskBalanceClaim.PlaceStrings(new[] { ("XY", 10L), ("ZZ", 9L) }, n, ring), false),
+                        ("XX + XY", SignedMaskBalanceClaim.PlaceStrings(new[] { ("XX", 1L), ("XY", 1L) }, n, ring), true),
+                        ("XZ + ZY", SignedMaskBalanceClaim.PlaceStrings(new[] { ("XZ", 1L), ("ZY", 1L) }, n, ring), true),
+                    };
+                    foreach (var (name, placed, shared) in rows)
+                    {
+                        hcells++;
+                        var columns = ColumnsOf(n, placed);
+                        int components = Components(n, placed);
+                        foreach (int agree in Sets(n))
+                        {
+                            var verdict = SignedMaskBalanceClaim.AgreeOnBalanced(placed, (ulong)agree);
+                            int walked = ComplementConnectionGraph.AgreeOn(n, columns, agree);
+                            string where = $"{name} on the {(ring ? "ring" : "chain")} of {n}, agreeing on {Sites(n, agree)}";
+                            if (verdict is { } v)
+                            {
+                                hreadings++;
+                                if (shared || walked != (v ? components : 0)) { hmismatches++; hfirst ??= where; }
+                                continue;
+                            }
+                            outside++;
+                            if (shared) continue;
+                            bool flipsOnly = SignedMaskBalanceClaim.Balanced(placed.Where(p => p.X != 0).Select(p => (p.X, BitOperations.PopCount(p.Z & ~(ulong)agree) & 1)));
+                            if (walked != (flipsOnly ? components : 0)) diagonalIgnored++;
+                        }
+                    }
+                }
+            AgreeOnOutside = outside;
+            AgreeOnDiagonalIgnoredMismatches = diagonalIgnored;
+            families.Add(new FamilyReading("Corollary A″'s hypotheses: XY beside a field Z on site 0 (read where site 0 is in the set) and beside ZZ on every bond (declined), and XX + XY and XZ + ZY, two strings on one flip set (declined); chain and ring N = 3 to 6, every single site and every set of two", hcells, hreadings, hmismatches, hfirst));
+        }
+
         // the worked examples
         {
             var checks = new List<(string Name, bool Holds)>
@@ -1399,7 +1519,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"E3′ without N₁* or without its ordering term {DroppedE3PrimeReadSumMismatches}, {DroppedE3PrimeOrderingMismatches} times, " +
         $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times, " +
         $"Corollary H1's bounds with overlapping translates or where the chain breaks {PackingOverlapMismatches}, {CutWhereChainBreaksMismatches} times, " +
-        $"Corollary H2 without its double count {CycleDoubleCountMismatches} times, Corollary H3's spectrum read as Theorem H string by string {HopControlMisses} times";
+        $"Corollary H2 without its double count {CycleDoubleCountMismatches} times, Corollary H3's spectrum read as Theorem H string by string {HopControlMisses} times, " +
+        $"Corollary A″ with no letter struck, with the next site's letters struck, or with the diagonal ignored {AgreeOnUnstruckMismatches}, {AgreeOnWrongSiteMismatches}, {AgreeOnDiagonalIgnoredMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1433,7 +1554,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"Theorem H with every rate read as one: {RatesReadAwayMismatches}, with the rates in reverse site order: {RatesReversedMismatches} (both against λ_min of 𝓜); " +
                          $"Corollary H1's packing bound with every offset of the relation counted: {PackingOverlapMismatches}, its cut bound read where the chain breaks: {CutWhereChainBreaksMismatches} (both against the trellis); " +
                          $"Corollary H2 with k·λ_* in place of (k/2)·λ_*: {CycleDoubleCountMismatches} of {CycleRelations} relations (against λ_min of 𝓜); " +
-                         $"Corollary H3's reading replaced by Theorem H read string by string: {HopControlMisses} of {HopReadings} readings (against λ_min of 𝓜)",
+                         $"Corollary H3's reading replaced by Theorem H read string by string: {HopControlMisses} of {HopReadings} readings (against λ_min of 𝓜); " +
+                         $"Corollary A″ with no letter struck: {AgreeOnUnstruckMismatches}, with the next site's letters struck for one site: {AgreeOnWrongSiteMismatches} (on the chain; on the ring the two verdicts agree by translation), with the diagonal strings ignored where one is odd off Λ: {AgreeOnDiagonalIgnoredMismatches} (all against Theorem 2's count with the complement taken on the sites outside the agreeing ones)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem H's solver, measured",
@@ -1442,6 +1564,12 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"the most negative at {MostNegative:E1}·‖·‖; the trellis against the enumeration within {TrellisWorstRatio:F3} of 2N·eps at worst; " +
                          $"the packing bound met exactly on {PackingEqualities} readings, the cut bound on {CutEqualities} (at random rates), " +
                          $"the ring broken with the chain pairing on {CutBroken} of the cut readings, λ at most {CutTightest:F3} of twice the cut",
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode(
+                displayName: "Corollary A″, ket and bra agreeing on some sites",
+                summary: $"{AgreeOnNonzero} readings with operators X off the agreeing sites times a diagonal commuting with H (modes at −2·(σ − γ(Λ)) at every scale of H), " +
+                         $"{AgreeOnZero} without; {AgreeOnWhereFarIsZero} of the first where Theorem A's far end is empty, a broken row with an exact mode at that slower rate; " +
+                         $"{AgreeOnOutside} readings outside its hypotheses, where its balance declines",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem E's reach",

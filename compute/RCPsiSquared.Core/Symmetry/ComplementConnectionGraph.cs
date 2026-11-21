@@ -127,6 +127,22 @@ public static class ComplementConnectionGraph
         return (near, far, union);
     }
 
+    /// <summary>Theorem 2 with the complement taken on the sites outside a set Λ, on which ket and bra agree (F173's Corollary A″,
+    /// <c>docs/proofs/PROOF_SIGNED_MASK_BALANCE.md</c>): the dimension of the operators X on every site outside Λ times a
+    /// diagonal D that commute with H, which live on the cells |x⟩⟨y| whose bitstrings agree on Λ and differ everywhere else,
+    /// counted as the good components of hom(H, H∘c), c the flip of every bit outside Λ, so that H_xy is read against
+    /// H_c(x)c(y). Each such operator commutes with Z_l for l in Λ and anticommutes with it elsewhere, so under Z dephasing on
+    /// every site it is an eigenoperator of the generator at −2·(σ − Σ_(l∈Λ) γ_l) exactly, at every scale of H.
+    /// <paramref name="agree"/> is Λ as bits (bit l = site l); Λ = ∅ gives <see cref="EverySiteDephased"/>'s far count.</summary>
+    public static int AgreeOn(int n, Dictionary<int, GaussianInteger>[] h, int agree)
+    {
+        int flip = ((1 << n) - 1) & ~agree;
+        var vertices = Enumerable.Range(0, 1 << n).ToList();
+        var (_, good) = Hom(vertices, (x, y) => Entry(h, x, y), (x, y) => Entry(h, x ^ flip, y ^ flip),
+            x => h[x].Keys.Concat(h[x ^ flip].Keys.Select(k => k ^ flip)));
+        return good;
+    }
+
     /// <summary>Real doubles scaled exactly to integers by one common power of two: every finite double is
     /// m·2^e with an integer m, so the scaled values are the inputs times 2^s with no rounding, and kernel
     /// dimensions do not see the common factor.</summary>

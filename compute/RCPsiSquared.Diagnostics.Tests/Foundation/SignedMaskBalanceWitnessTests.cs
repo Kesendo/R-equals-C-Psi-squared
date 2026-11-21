@@ -12,10 +12,9 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
 /// walked on the bitstrings (Theorems D and B′ also against the balance), on every family the witness reads, and the
-/// eighteen controls (the pieces of Theorem B swapped, the power dropped from Theorem C, Theorem D with the parity of N or
-/// with i₀ at the greatest valuation, Theorem E's conditions each dropped, the tests of Corollaries E2 and E3 each
-/// dropped, Theorem B′ read off the unreduced basis, the ℤ/4 carrier without its coset term, Corollary E3′ without N₁* or without its ordering term,
-/// Theorem H with every rate read as one or with the rates in reverse site order) disagree, so the battery can fail.</summary>
+/// twenty-six controls of its summary (among them the pieces of Theorem B swapped, the power dropped from Theorem C,
+/// Theorem E's conditions each dropped, Theorem H with every rate read as one or in reverse site order, and Corollary A″
+/// with no letter struck, with the next site's letters struck or with the diagonal ignored) disagree, so the battery can fail.</summary>
 public class SignedMaskBalanceWitnessTests
 {
     [Fact]
@@ -25,8 +24,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (24, 24) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}, {w.AgreeOnUnstruckMismatches}, {w.AgreeOnWrongSiteMismatches}, {w.AgreeOnDiagonalIgnoredMismatches}, {w.MovedCarrierNotQuadratic}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (242, 25054), (32, 36), (24, 24) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -63,6 +62,12 @@ public class SignedMaskBalanceWitnessTests
         // 144 where every two anticommute; the control, Theorem H string by string, misses λ_min on 560 of the 1408
         Assert.Equal((1408, 56, 8, 560, 624, 144, 1464), (w.HopReadings, w.HopBroken, w.HopSplit, w.HopControlMisses, w.HopNoncommuting, w.HopAllAnticommute, w.HopOutside));   // measured, quoted on the page
         Assert.True(w.CutTightest > 0.75 && w.CutTightest <= 1, $"λ at most {w.CutTightest:F4} of twice the cut");
+        // Corollary A″: the operators found on 7874 readings and absent on 17180, on 1274 of the first where Theorem A's far end
+        // is empty (a broken row with an exact mode at −2·(σ − γ(Λ))); the controls, no letter struck and the next site's letters
+        // struck, disagree with Theorem 2's count 9392 and 772 times; on the hypotheses' rows the balance declines 380 times
+        // and, read with the diagonal ignored there, disagrees with Theorem 2's count 134 times
+        Assert.Equal((7874, 17180, 1274, 9392, 772), (w.AgreeOnNonzero, w.AgreeOnZero, w.AgreeOnWhereFarIsZero, w.AgreeOnUnstruckMismatches, w.AgreeOnWrongSiteMismatches));   // measured, quoted on the page
+        Assert.Equal((380, 134), (w.AgreeOnOutside, w.AgreeOnDiagonalIgnoredMismatches));   // measured, quoted on the page
     }
 
     // Corollary H2 by hand at rate 1 and coefficient 1: on XIY + XZX on the ring of six each triangle of flip sets {l, l + 2}

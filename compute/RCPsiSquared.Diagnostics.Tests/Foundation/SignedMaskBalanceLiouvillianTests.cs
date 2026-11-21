@@ -633,4 +633,122 @@ public class SignedMaskBalanceLiouvillianTests
         Assert.All(rRatios, r => Assert.True(r > 3.9 && r < 4.1, $"r ratio {r:F4}"));
         Assert.Equal(10, devRatios.Count);
     }
+
+    /// <summary>Corollary A″ against the spectrum, at random rates per site: wherever Theorem 2's count with the complement taken on
+    /// the sites outside a set Λ (<see cref="ComplementConnectionGraph.AgreeOn"/>) finds k operators X off Λ times a diagonal commuting
+    /// with H, the generator has at least k eigenvalues at −2·(σ − γ(Λ)) exactly, γ(Λ) the rates on Λ, at both coupling scales
+    /// read; where the corollary's hypotheses hold its balance with Λ's letters struck says the same, and where they fail
+    /// (XZ + ZY, two strings on one flip set; a diagonal string odd off Λ) the balance declines. Every Λ of one and of two sites.
+    /// The rates are drawn per site (site l = bit l, as the strings are placed) and handed to
+    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/>, which reads gammaPerSite[l] as the rate of bit N − 1 − l, in that
+    /// order; the agreeing sets are mirror-symmetric on every row but XX + XIY and the field on site 0, so those two pin the
+    /// convention (their sets {2} and {1, 2}, and {0}, against their mirror images, which Theorem 2's count leaves empty), and
+    /// the control, the rates read in the builder's order, misses a predicted mode there (6 times, measured). No exact route (an eigensolver), so the count is read with its separation: an
+    /// eigenvalue counts within 10⁻⁸·‖L‖, ‖L‖ the largest eigenvalue modulus, the counted ones sit within 10⁻¹² of the target
+    /// (a backward-stable solver's n·eps·‖L‖ with n = 4^N at most 4096; 9.7·10⁻¹⁵ measured) and every uncounted one at least
+    /// 10⁻⁷ from it (1.2·10⁻⁶ measured, on XY + ZZ, where an eigenvalue that moves with J passes near such a rate), both
+    /// gated, so the count does not depend on the threshold between them; another seed or coupling can bring such a passing
+    /// eigenvalue within the threshold, which this gate then reports rather than miscounts. At the two couplings read, where Theorem 2's count
+    /// finds nothing no eigenvalue lies at −2·(σ − γ(Λ)), and where it finds k operators exactly k do; that is observed at those
+    /// couplings, not claimed: other eigenvalues pass through those rates at isolated couplings, so an eigenvalue at such a rate
+    /// does not by itself mark one of the corollary's operators.</summary>
+    [Fact]
+    public void ModesAgreeingOnSomeSitesSitAtTheirRates_AtRandomRates()
+    {
+        var rng = new Random(20261121);
+        // the agreeing sets the page names: single sites as a bit set, and the pairs with one site in each of XIY's two triangles
+        int[] trianglePairs = (from a in new[] { 0, 2, 4 } from b in new[] { 1, 3, 5 } select (1 << a) | (1 << b)).OrderBy(d => d).ToArray();
+        static IReadOnlyList<SignedMaskBalanceClaim.PlacedString> Placed((string T, long C)[] templates, int n, bool ring, bool fieldOnZero) =>
+            fieldOnZero
+                ? SignedMaskBalanceClaim.PlaceStrings(templates, n, ring).Append(new SignedMaskBalanceClaim.PlacedString(0, 1, 9)).ToList()
+                : SignedMaskBalanceClaim.PlaceStrings(templates, n, ring);
+        var rows = new (string Name, (string T, long C)[] Templates, int N, bool Ring, bool FieldOnZero, bool Shared, int Singles, int[]? Pairs)[]
+        {
+            ("XY on the ring of five: every single site, no pair", new[] { ("XY", 1L) }, 5, true, false, false, 0b11111, Array.Empty<int>()),
+            ("XY on the ring of five beside a field Z on site 0: site 0 alone", new[] { ("XY", 10L) }, 5, true, true, false, 0b00001, Array.Empty<int>()),
+            ("XY + ZZ on the ring of five: the ZZ terms put a Z outside every set read, the balance declines, no operator", new[] { ("XY", 10L), ("ZZ", 9L) }, 5, true, false, false, 0, Array.Empty<int>()),
+            ("XIY on the ring of six: no single site, the pairs with one site in each triangle", new[] { ("XIY", 1L) }, 6, true, false, false, 0, trianglePairs),
+            ("XX + XIY on the chain of three: site 2", new[] { ("XX", 1L), ("XIY", 1L) }, 3, false, false, false, 0b100, null),
+            ("XX + YZ on the chain of three, which pairs: site 1", new[] { ("XX", 1L), ("YZ", 1L) }, 3, false, false, false, 0b010, null),
+            ("XZ + ZY on the chain of four: two strings on a flip set, Theorem 2's count alone; each of the two middle sites", new[] { ("XZ", 1L), ("ZY", 1L) }, 4, false, false, true, 0b0110, null),
+            ("XZ + ZY on the chain of five: the middle site", new[] { ("XZ", 1L), ("ZY", 1L) }, 5, false, false, true, 0b00100, null),
+        };
+        int predicted = 0, observedEmpty = 0, controlMisses = 0, declined = 0;
+        double maxCounted = 0, minUncounted = double.PositiveInfinity;
+        foreach (var row in rows)
+        {
+            int n = row.N, dim = 1 << n;
+            var placedStrings = Placed(row.Templates, n, row.Ring, row.FieldOnZero);
+            var columns = ComplementConnectionGraph.Columns(n, placedStrings.Select(p => (new PauliMask(p.X, p.Z), (BigInteger)p.C)));
+            var site = Enumerable.Range(0, n).Select(_ => 0.3 + 1.4 * rng.NextDouble()).ToArray();   // site[l] = the rate on bit l
+            var builderOrder = site.Reverse().ToArray();                                            // gammaPerSite[l] = rate of bit N − 1 − l
+            double sigma = site.Sum();
+            var sets = Enumerable.Range(0, n).Select(l => 1 << l)
+                .Concat(from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (1 << a) | (1 << b)).ToList();
+            var walked = sets.ToDictionary(d => d, d => ComplementConnectionGraph.AgreeOn(n, columns, d));
+            foreach (int d in sets)
+            {
+                var verdict = SignedMaskBalanceClaim.AgreeOnBalanced(placedStrings, (ulong)d);
+                if (row.Shared) Assert.Null(verdict);
+                if (verdict is { } v) Assert.True(v == (walked[d] > 0), $"{row.Name}, agreeing on {d}: the balance against Theorem 2's count");
+                else declined++;
+            }
+            Assert.Equal(row.Singles, Enumerable.Range(0, n).Where(l => walked[1 << l] > 0).Sum(l => 1 << l));
+            if (row.Pairs is { } pairs)
+                Assert.Equal(pairs, sets.Where(d => BitOperations.PopCount((uint)d) == 2 && walked[d] > 0).OrderBy(d => d).ToArray());
+
+            // the exact blocks of the first test: |x⟩⟨y| with x and y each in one coset of the flip sets' span
+            var basis = new List<int>();
+            foreach (var p in placedStrings.Where(p => p.X != 0))
+            {
+                int v = (int)p.X;
+                foreach (int b in basis) v = Math.Min(v, v ^ b);
+                if (v != 0) { basis.Add(v); basis.Sort((u, w) => w.CompareTo(u)); }
+            }
+            int Reduce(int v) { foreach (int b in basis) v = Math.Min(v, v ^ b); return v; }
+            var cosets = Enumerable.Range(0, dim).GroupBy(Reduce).Select(g => g.ToArray()).ToArray();
+            foreach (double j in new[] { 0.7, 3.0 })
+            {
+                var H = ComplexMatrix.Build.Dense(dim, dim);
+                for (int c = 0; c < dim; c++)
+                    foreach (var (r, e) in columns[c]) H[r, c] = new Complex(j * (double)e.Re, j * (double)e.Im);
+                var eigs = new List<Complex>();
+                foreach (var ka in cosets)
+                    foreach (var kb in cosets)
+                        eigs.AddRange(PerBlockLiouvillianBuilder.BuildBlockZ(H, builderOrder, (from x in ka from y in kb select x * dim + y).ToArray()).Evd().EigenValues);
+                double scale = eigs.Max(l => l.Magnitude), tol = 1e-8 * scale;
+                int Count(double at) => eigs.Count(l => (l - at).Magnitude < tol);
+                foreach (int d in sets)
+                {
+                    double gammaAgree = Enumerable.Range(0, n).Where(l => ((d >> l) & 1) == 1).Sum(l => site[l]);
+                    double gammaWrong = Enumerable.Range(0, n).Where(l => ((d >> l) & 1) == 1).Sum(l => builderOrder[l]);
+                    double target = -2 * (sigma - gammaAgree);
+                    foreach (var l in eigs)
+                    {
+                        double dist = (l - target).Magnitude / scale;
+                        if (dist < 1e-8) maxCounted = Math.Max(maxCounted, dist);
+                        else minUncounted = Math.Min(minUncounted, dist);
+                    }
+                    int at = Count(target);
+                    if (walked[d] > 0)
+                    {
+                        predicted++;
+                        Assert.True(at >= walked[d], $"{row.Name}, J = {j}, agreeing on {d}: {at} eigenvalues at −2(σ − γ(Λ)) against {walked[d]} operators");
+                        Assert.True(at == walked[d], $"{row.Name}, J = {j}, agreeing on {d}: {at} eigenvalues at −2(σ − γ(Λ)), {walked[d]} operators (observed equal at these couplings)");
+                        if (Count(-2 * (sigma - gammaWrong)) == 0) controlMisses++;
+                    }
+                    else
+                    {
+                        observedEmpty++;
+                        Assert.True(at == 0, $"{row.Name}, J = {j}, agreeing on {d}: {at} eigenvalues at −2(σ − γ(Λ)) where Theorem 2's count finds no operator (observed at these couplings)");
+                    }
+                }
+            }
+        }
+        Assert.True(controlMisses > 0, "the rates read in the builder's order must miss a predicted mode (on XX + XIY and the field on site 0)");
+        Assert.Equal(50, declined);   // measured: every set on XZ + ZY and on XY + ZZ, and the sets without site 0 on the field row
+        Assert.True(maxCounted < 1e-12, $"a counted eigenvalue {maxCounted:E2}·‖L‖ from its target");
+        Assert.True(minUncounted > 1e-7, $"an uncounted eigenvalue {minUncounted:E2}·‖L‖ from a target");
+        Assert.True(predicted > 0 && observedEmpty > 0);
+    }
 }

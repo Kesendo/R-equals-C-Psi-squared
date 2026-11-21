@@ -11882,6 +11882,10 @@ window (Theorem G).
     every edge x – x ⊕ m:  H_x̄,x̄⊕m / H_x,x⊕m = (−1)^s,  at every x    (one string per flip set)
     palindrome  ⟺  ⊕_S masks = 0  ⟹  Σ_S s even,  for every subset S of the placed strings    (balance; broken ⟹ far end 0)
     as a symmetry:  palindrome  ⟺  [H, X^⊗N·Z^φ] = 0 for some φ  ⟺  some φ has ⟨φ, m_P⟩ = s(P) for every string    (a colouring; rate-free, the far edge's mode, decaying at exactly 2σ)
+    one sign per flip set, entries allowed to cancel:  masks balanced  ⟹  palindrome;  every flip set two sites, a lone excitation hopping across each:  ⟺    (Corollary A′; XXZ + YYZ, XXZ + ZXX: even N on the ring)
+    ket and bra agreeing on a set Λ of sites, γ(Λ) the rates on Λ, x̄_Λ = x with every bit outside Λ flipped:  X on every site outside Λ times a diagonal D, commuting with H, are modes at −2(σ − γ(Λ)), at every J;
+        their number = the number of good components of Γ_H (the graph of H's entries on the bitstrings) joined with its image under x ↦ x̄_Λ, Theorem 2's (★) read with x̄_Λ;
+        no two flipping strings on one flip set, every diagonal string even in Z off Λ:  number = #components of Γ_H  ⟺  balanced under s_Λ = (#Y + #Z off Λ) mod 2, else 0    (Corollary A″; odd XY ring: every single site, shortfall ≤ 2·min γ_l at every J)
     two templates, g = gcd(m₁, m₂), qᵢ = mᵢ/g:  relations = r·(q₂, q₁),  negative count ≡ r(1)·(s₁q₂(1) + s₂q₁(1))
     chain:  c = 0 ⟹ pairs at every N;  c = 1 ⟹ pairs exactly for N < N* = max(w₁ + deg q₂, w₂ + deg q₁)
     k templates on the chain, relations S = {u : Σ uᵢmᵢ = 0} free of rank k − 1, sdeg u = max(deg uᵢ + wᵢ), λ(u) = Σ sᵢuᵢ(1), b₁ … b_(k−1) a basis of S in weak Popov form for the shift by the widths:  pairs exactly for N < N* = min{sdeg bⱼ : λ(bⱼ) = 1}, at every N if no λ(bⱼ) = 1    (Theorem B′; c = B(1), B = q₂Q₁ + q₁Q₂ the girth ladder's syzygy polynomial, Q the Y/Z masks)
@@ -11959,7 +11963,12 @@ and none at −2σ, and on five the remainder keeps its J⁴ fall at κ = J²·u
 against −2σ. Corollary H2 on 216 readings of frustrated relations of Theorem E's cells and as the exact packing of XZ ± ZY's end squares on 80, its
 control (no double count) exceeding on 20. Corollary H3 on the 3496 readings of Theorem E's cells: the whole far spectrum on 1408 where the hops commute and the floor on 144 where every two anticommute, its control (Theorem H string by string) missing λ_min on 560. Corollary H1 in the same battery: the trellis against the enumeration on 15 552 readings, the packing bound on
 4528 and the cut bound on 3456, their controls (overlapping translates, the cut where the chain breaks) exceeding and
-falling short on 3752 and 2390.
+falling short on 3752 and 2390. Corollary A″ in the same battery: the balance with the agreeing sites' Y and Z letters struck
+against Theorem 2 walked with the complement taken on the sites outside them (`ComplementConnectionGraph.AgreeOn`) on 242 cells, 25054
+readings, and its hypotheses on 32 cells, the balance declining on 380 readings; three controls (no letter struck, the next
+site's letters struck, the diagonal ignored) disagreeing on 9392, 772 and 134; beside it the modes sit in the Liouvillian's
+spectrum at random rates per site on eight rows. Corollary A′ in MirrorWorld, `SieveTests.The_One_Sign_Law_Agrees_With_The_End_Count`
+against the end count's exact verdict.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).
