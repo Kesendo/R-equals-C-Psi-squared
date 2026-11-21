@@ -12,9 +12,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
 /// walked on the bitstrings (Theorems D and B′ also against the balance), on every family the witness reads, and the
-/// twenty-six controls of its summary (among them the pieces of Theorem B swapped, the power dropped from Theorem C,
-/// Theorem E's conditions each dropped, Theorem H with every rate read as one or in reverse site order, and Corollary A″
-/// with no letter struck, with the next site's letters struck or with the diagonal ignored) disagree, so the battery can fail.</summary>
+/// twenty-eight controls of its summary (among them the pieces of Theorem B swapped, the power dropped from Theorem C,
+/// Theorem E's conditions each dropped, Theorem H with every rate read as one or in reverse site order, Corollary A″
+/// with no letter struck, with the next site's letters struck or with the diagonal ignored, and the triangle's closed form
+/// handed the rate of a site on each bond or read without Corollary A″'s single sites) disagree, so the battery can fail.</summary>
 public class SignedMaskBalanceWitnessTests
 {
     [Fact]
@@ -24,8 +25,8 @@ public class SignedMaskBalanceWitnessTests
         Assert.All(w.Families, f => Assert.True(f.Agrees, $"{f.Name}: {f.FirstMismatch}"));
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
-                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}, {w.AgreeOnUnstruckMismatches}, {w.AgreeOnWrongSiteMismatches}, {w.AgreeOnDiagonalIgnoredMismatches}, {w.MovedCarrierNotQuadratic}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (242, 25054), (32, 36), (24, 24) },
+                                     $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}, {w.AgreeOnUnstruckMismatches}, {w.AgreeOnWrongSiteMismatches}, {w.AgreeOnDiagonalIgnoredMismatches}, {w.MovedCarrierNotQuadratic}, {w.TriangleRotatedMismatches}, {w.TriangleOddOnlyMismatches}");
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (242, 25054), (32, 36), (1, 243), (240, 240), (27, 322), (8, 8), (24, 24) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
@@ -68,6 +69,15 @@ public class SignedMaskBalanceWitnessTests
         // and, read with the diagonal ignored there, disagrees with Theorem 2's count 134 times
         Assert.Equal((7874, 17180, 1274, 9392, 772), (w.AgreeOnNonzero, w.AgreeOnZero, w.AgreeOnWhereFarIsZero, w.AgreeOnUnstruckMismatches, w.AgreeOnWrongSiteMismatches));   // measured, quoted on the page
         Assert.Equal((380, 134), (w.AgreeOnOutside, w.AgreeOnDiagonalIgnoredMismatches));   // measured, quoted on the page
+        // the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J on 240 profiles: the closed form's odd term the smaller on 98, its single-site
+        // term on 142 (rates drawn over four decades); the closed form within 64·eps·2σ of the rates compressed onto the eigenspaces of the commutator with H; the closed form handed the
+        // rate of a site on each bond, and its odd term alone, disagree with that computation
+        Assert.Equal((98, 142, 122, 142), (w.TriangleOddWins, w.TriangleCorollaryWins, w.TriangleRotatedMismatches, w.TriangleOddOnlyMismatches));   // measured, quoted on the page
+        Assert.True(w.TriangleWorstRatio < 1, $"the closed form at {w.TriangleWorstRatio:F3} of 64·eps·2σ from the compression");   // 0.113 measured
+        // the sums over disjoint bonds: on the odd rings N = 3 to 11 every top term of Q and of Q·Z^⊗N (2N strings per ring, 70 in
+        // all, read in three draws) moves its agreeing site; on the even rings N = 4 to 10 the two alternating strings, read in Q
+        // and in Q·Z^⊗N (whose terms they are as well), commute alone (8 strings, four readings per draw)
+        Assert.Equal((210, 48), (w.OddTopTermsMoving, w.EvenTopTermsCommuting));
     }
 
     // Corollary H2 by hand at rate 1 and coefficient 1: on XIY + XZX on the ring of six each triangle of flip sets {l, l + 2}

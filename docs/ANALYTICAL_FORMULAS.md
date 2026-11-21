@@ -11886,6 +11886,10 @@ window (Theorem G).
     ket and bra agreeing on a set Λ of sites, γ(Λ) the rates on Λ, x̄_Λ = x with every bit outside Λ flipped:  X on every site outside Λ times a diagonal D, commuting with H, are modes at −2(σ − γ(Λ)), at every J;
         their number = the number of good components of Γ_H (the graph of H's entries on the bitstrings) joined with its image under x ↦ x̄_Λ, Theorem 2's (★) read with x̄_Λ;
         no two flipping strings on one flip set, every diagonal string even in Z off Λ:  number = #components of Γ_H  ⟺  balanced under s_Λ = (#Y + #Z off Λ) mod 2, else 0    (Corollary A″; odd XY ring: every single site, shortfall ≤ 2·min γ_l at every J)
+    one rate γ, a ring of bonds c_l·X_l·Y_(l+1):  Q_k = Σ over the sets of k pairwise disjoint bonds of their products and Q_k·Z^⊗N commute with H (Lemma 1 of Elman, Chapman and Flammia):  modes at −4kγ, every J;  Q₂ = (H² − Σ c_l²)/2;
+        odd ring, k = (N − 1)/2:  the operators with N − 1 X or Y letters commuting with H are at least Corollary A″'s 2N and Q_k, Q_k·Z^⊗N, exactly these to N = 9 at the couplings counted    (the ring of five: (H² − Σ c_l²)/2 and its product with Z^⊗5)
+    the ring of three, each bond named by the site it leaves out, H = J·(j₂·X₀Y₁ + j₀·X₁Y₂ + j₁·X₂Y₀), n = j/|j|:  the bonds anticommute in pairs, H² = J²|j|²·1;
+        shortfall → min(2·min γ_l, min_l [2γ_l + 2α_l]) as J → ∞, α_l the least eigenvalue on n⊥ of the diagonal form with −γ_l at l and γ_m at m ≠ l;  one rate:  4γ·min_l n_l²    (4γ/3 at equal bonds; XIY on the ring of six: 8γ/3)
     two templates, g = gcd(m₁, m₂), qᵢ = mᵢ/g:  relations = r·(q₂, q₁),  negative count ≡ r(1)·(s₁q₂(1) + s₂q₁(1))
     chain:  c = 0 ⟹ pairs at every N;  c = 1 ⟹ pairs exactly for N < N* = max(w₁ + deg q₂, w₂ + deg q₁)
     k templates on the chain, relations S = {u : Σ uᵢmᵢ = 0} free of rank k − 1, sdeg u = max(deg uᵢ + wᵢ), λ(u) = Σ sᵢuᵢ(1), b₁ … b_(k−1) a basis of S in weak Popov form for the shift by the widths:  pairs exactly for N < N* = min{sdeg bⱼ : λ(bⱼ) = 1}, at every N if no λ(bⱼ) = 1    (Theorem B′; c = B(1), B = q₂Q₁ + q₁Q₂ the girth ladder's syzygy polynomial, Q the Y/Z masks)
@@ -11967,7 +11971,14 @@ falling short on 3752 and 2390. Corollary A″ in the same battery: the balance 
 against Theorem 2 walked with the complement taken on the sites outside them (`ComplementConnectionGraph.AgreeOn`) on 242 cells, 25054
 readings, and its hypotheses on 32 cells, the balance declining on 380 readings; three controls (no letter struck, the next
 site's letters struck, the diagonal ignored) disagreeing on 9392, 772 and 134; beside it the modes sit in the Liouvillian's
-spectrum at random rates per site on eight rows. Corollary A′ in MirrorWorld, `SieveTests.The_One_Sign_Law_Agrees_With_The_End_Count`
+spectrum at random rates per site on eight rows. The ring of three at large J in the same battery: two of its premises exactly, the bonds' anticommutation read from their masks and H² = |j|²·1 on 240 draws of integer
+bonds, its closed form against the rates compressed onto the eigenspaces of the commutator with H on 240 profiles of rates over
+four decades, two controls (a site on each bond, the odd term alone) disagreeing on 122 and 142; beside it the whole generator at
+J = 50 to 400 on six rows, the remainder falling as 1/J² on the five where the odd modes are the fastest and the shortfall 2·min γ at
+every J on the sixth. The sums over disjoint bonds exactly on rings of 3 to 11 sites, the commutators of the top terms at unit coefficients
+among them (322 readings), the operators with N − 1 X or Y letters counted exactly at 2N + 2 on odd rings of 3 to 9, and twelve
+eigenvalues at −8γ on the ring of five at one rate.
+Corollary A′ in MirrorWorld, `SieveTests.The_One_Sign_Law_Agrees_With_The_End_Count`
 against the end count's exact verdict.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
@@ -11983,7 +11994,8 @@ condition (1)); Theorem 2 of
 PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); the MirrorWorld stitch (`Stitch.FreeEveryN`, Theorem E's condition
 (1) for one flip shape on the chain, and its local quadratic far elements, which Theorem E reads round the ring);
 SOFTNESS_IS_N_DEPENDENT and F116's golden router (several strings on one flip set with ratios that are no character,
-outside this entry); for Theorem F, MIRROR_SYMMETRY_PROOF's site-alternating map (the checkerboard on the square torus)
+outside this entry); F80 (PROOF_F80_BLOCH_SIGNWALK, the bond X_l·Y_(l+1) as a bilinear of one Majorana operator per site, the Hamiltonian of
+the ring of three and of the sums over disjoint bonds); V_EFFECT_PALINDROME §5 (the fast edge of XX + XY on three sites at large J); for Theorem F, MIRROR_SYMMETRY_PROOF's site-alternating map (the checkerboard on the square torus)
 and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of ground states of commuting Hamiltonians.
 **Scope:** the open chain, the ring (N ≥ 2·max w − 1), the torus (no two placements coinciding) and the open patch (two templates) with uniform templates; one string per flip set (the balance
 also with several strings of one sign whose entries never cancel, and by Corollary A′ with entries that cancel, where every
@@ -11991,7 +12003,7 @@ flip set has two sites and a lone excitation hops across each, read on the ring 
 shape; Theorems B to D, F and G otherwise need one string), or several with a
 character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside it, read by Corollary A′ and the
 complement connection's Theorem 8); Z dephasing on
-every site. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.
+every site; the ring of three at large J and the sums over disjoint bonds take a coefficient on each bond, the sums being modes at one rate. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.
 **Replaces:** an end count or a spectrum per N to locate where a two-template cell stops pairing, by one gcd over
 GF(2); and an end count per ring size for cells of one string per flip set, such as XY + ZZ, by valuations and the 2-adic
 valuation of N; and on the torus a balance over L·M placements per template by one over T₁·T₂ folded cells.

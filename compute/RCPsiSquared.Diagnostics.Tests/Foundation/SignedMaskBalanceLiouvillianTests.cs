@@ -751,4 +751,153 @@ public class SignedMaskBalanceLiouvillianTests
         Assert.True(minUncounted > 1e-7, $"an uncounted eigenvalue {minUncounted:E2}·‖L‖ from a target");
         Assert.True(predicted > 0 && observedEmpty > 0);
     }
+
+    /// <summary>The whole spectrum of strings placed on n sites, the rates given per site (site l = bit l, handed to
+    /// <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> in its order, bit N − 1 − l first), H scaled by j, cut into the
+    /// exact blocks of the first test.</summary>
+    static List<Complex> Spectrum(int n, IReadOnlyList<(PauliMask S, long C)> strings, double[] site, double j)
+    {
+        int dim = 1 << n;
+        var columns = ComplementConnectionGraph.Columns(n, strings.Select(s => (s.S, (BigInteger)s.C)));
+        var H = ComplexMatrix.Build.Dense(dim, dim);
+        for (int c = 0; c < dim; c++)
+            foreach (var (r, e) in columns[c]) H[r, c] = new Complex(j * (double)e.Re, j * (double)e.Im);
+        var basis = new List<int>();
+        foreach (var s in strings.Where(s => s.S.X != 0))
+        {
+            int v = (int)s.S.X;
+            foreach (int b in basis) v = Math.Min(v, v ^ b);
+            if (v != 0) { basis.Add(v); basis.Sort((u, w) => w.CompareTo(u)); }
+        }
+        int Reduce(int v) { foreach (int b in basis) v = Math.Min(v, v ^ b); return v; }
+        var cosets = Enumerable.Range(0, dim).GroupBy(Reduce).Select(g => g.ToArray()).ToArray();
+        var builderOrder = site.Reverse().ToArray();
+        var eigs = new List<Complex>();
+        foreach (var ka in cosets)
+            foreach (var kb in cosets)
+                eigs.AddRange(PerBlockLiouvillianBuilder.BuildBlockZ(H, builderOrder, (from x in ka from y in kb select x * dim + y).ToArray()).Evd().EigenValues);
+        return eigs;
+    }
+
+    static PauliMask RingBond(int n, int l, int d = 1) => new((1UL << l) | (1UL << ((l + d) % n)), 1UL << ((l + d) % n));
+
+    /// <summary>The page's proposition on the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J against the whole generator: the far
+    /// edge's shortfall s(J), 2σ less the fastest decay rate, read at J = 50, 100, 200 and 400 against the closed form d
+    /// (<see cref="SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ"/>). No exact route (an eigensolver), and the limit is a limit,
+    /// so the gate is the law of the remainder: where the odd modes in the commutator's kernel are the fastest, the first
+    /// order of degenerate perturbation theory leaves a remainder in the real parts of order 1/J² (the next real order; the
+    /// order 1/J is imaginary), so s(J) − d falls by a factor of 4 per doubling of J, read between 3.9 and 4.1 at each doubling and within
+    /// 10⁻³ of 4 on every row of the law (3.9997 to 4.0000 measured); the control, the same remainders read against d moved by 1 % of σ, does not fall so (ratios below 1.5). Where
+    /// Corollary A″'s single site is the fastest the shortfall is 2·min γ exactly at every J read, that mode being exact at every
+    /// J, within 4^N·eps·‖L‖. XIY on the ring of six is two such triangles on the even and on the odd sites, whose generator is
+    /// the sum of the two, so the shortfalls add.</summary>
+    [Fact]
+    public void TheTriangleAtLargeJFallsShortByItsClosedForm()
+    {
+        var rows = new (string Name, (PauliMask S, long C)[] Strings, int N, double[] Site, double Limit, bool Exact)[]
+        {
+            ("equal bonds at one rate 0.8: 4γ/3", Enumerable.Range(0, 3).Select(l => (RingBond(3, l), 1L)).ToArray(), 3, new[] { 0.8, 0.8, 0.8 }, 4 * 0.8 / 3, false),
+            ("bonds 1, 2, 3 at one rate 0.8: 4γ/14", new[] { (RingBond(3, 0), 1L), (RingBond(3, 1), 2L), (RingBond(3, 2), 3L) }, 3, new[] { 0.8, 0.8, 0.8 }, 4 * 0.8 / 14, false),
+            ("bonds 2, −4, 3 at the rates 0.7, 1.3, 1.0", new[] { (RingBond(3, 0), 2L), (RingBond(3, 1), -4L), (RingBond(3, 2), 3L) }, 3, new[] { 0.7, 1.3, 1.0 },
+                SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ(2, -4, 3, 0.7, 1.3, 1.0), false),
+            ("bonds −1, 1, 2 at the rates 1.1, 0.6, 1.4", new[] { (RingBond(3, 0), -1L), (RingBond(3, 1), 1L), (RingBond(3, 2), 2L) }, 3, new[] { 1.1, 0.6, 1.4 },
+                SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ(-1, 1, 2, 1.1, 0.6, 1.4), false),
+            ("equal bonds at the rates 2.0, 0.25, 1.5: Corollary A″'s single site, 2·0.25", Enumerable.Range(0, 3).Select(l => (RingBond(3, l), 1L)).ToArray(), 3, new[] { 2.0, 0.25, 1.5 },
+                SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ(1, 1, 1, 2.0, 0.25, 1.5), true),
+            ("XIY on the ring of six at one rate 0.8: two triangles, 8γ/3", Enumerable.Range(0, 6).Select(l => (RingBond(6, l, 2), 1L)).ToArray(), 6, Enumerable.Repeat(0.8, 6).ToArray(), 8 * 0.8 / 3, false),
+        };
+        Assert.Equal(0.5, rows[4].Limit, 15);                                                        // the single site's 2·min γ
+        Assert.True(SignedMaskBalanceClaim.TriangleKernelOddShortfall(new[] { 1.0, 1.0, 1.0 }, new[] { 1.5, 2.0, 0.25 }) > 0.5 + 0.5);   // the odd modes far behind it
+        int lawRows = 0, exactRows = 0;
+        var ratios = new List<double>();
+        foreach (var row in rows)
+        {
+            double sigma = row.Site.Sum();
+            var js = new[] { 50.0, 100, 200, 400 };
+            var shortfalls = new List<double>();
+            double worstScale = 0;
+            foreach (double j in js)
+            {
+                var eigs = Spectrum(row.N, row.Strings, row.Site, j);
+                worstScale = Math.Max(worstScale, eigs.Max(l => l.Magnitude));
+                shortfalls.Add(2 * sigma + eigs.Min(l => l.Real));
+            }
+            if (row.Exact)
+            {
+                exactRows++;
+                double tol = Math.Pow(4, row.N) * 2.220446049250313e-16 * worstScale;
+                Assert.All(shortfalls, s => Assert.True(Math.Abs(s - row.Limit) < tol, $"{row.Name}: shortfall {s:R} against {row.Limit:R}"));
+                continue;
+            }
+            lawRows++;
+            var r = shortfalls.Select(s => s - row.Limit).ToArray();
+            var moved = shortfalls.Select(s => s - row.Limit - 0.01 * sigma).ToArray();
+            for (int k = 0; k + 1 < r.Length; k++)
+            {
+                double ratio = r[k] / r[k + 1], control = moved[k] / moved[k + 1];
+                ratios.Add(ratio);
+                Assert.True(ratio > 3.9 && ratio < 4.1, $"{row.Name}: s(J) − d falls by {ratio:F4} per doubling (remainders {string.Join(", ", r.Select(x => x.ToString("E3")))})");
+                Assert.True(control < 1.5, $"{row.Name}: read against d + σ/100 the remainder still falls ({control:F4})");
+            }
+        }
+        Assert.Equal((5, 1), (lawRows, exactRows));
+        Assert.All(ratios, x => Assert.True(Math.Abs(x - 4) < 1e-3, $"ratio {x:F5}"));   // measured 3.9997 to 4.0000
+    }
+
+    /// <summary>The page's paragraph on one rate against the whole generator, on the ring of five with the bonds X_l·Y_(l+1),
+    /// unit coefficients and one random draw, at J = 0.7 and 3: at one rate γ the eigenvalues at −2(σ − γ) = −8γ number
+    /// Corollary A″'s count over the five single sites (<see cref="ComplementConnectionGraph.AgreeOn"/>, two each) plus two,
+    /// the sum over the five sets of two disjoint bonds, (H² − Σ c_l²)/2, and its product with Z^⊗5 (the battery holds them exactly); at random
+    /// rates per site the eigenvalues at −2(σ − γ_l) number exactly Corollary A″'s count at each site, the two being modes at
+    /// one rate alone, their parts sitting on different agreeing sites. That no further eigenvalue sits there is observed at
+    /// these couplings, not claimed. Counted within 10⁻⁸·‖L‖, the counted ones gated within 10⁻¹² and the others beyond 10⁻⁷
+    /// (6.6·10⁻¹⁵ and 1.5·10⁻⁴ measured), so the count does not depend on the threshold between.</summary>
+    [Fact]
+    public void AtOneRateTheOddRingHoldsTwoModesBeyondTheSingleAgreeingSites()
+    {
+        const int n = 5;
+        var rng = new Random(5);
+        double maxCounted = 0, minUncounted = double.PositiveInfinity;
+        int oneRateReadings = 0, randomReadings = 0;
+        foreach (int draw in new[] { 0, 1 })
+        {
+            var c = Enumerable.Range(0, n).Select(_ => draw == 0 ? 1L : rng.Next(1, 10) * (rng.Next(2) == 0 ? 1L : -1L)).ToArray();
+            var strings = Enumerable.Range(0, n).Select(l => (RingBond(n, l), c[l])).ToArray();
+            var columns = ComplementConnectionGraph.Columns(n, strings.Select(s => (s.Item1, (BigInteger)s.Item2)));
+            var perSite = Enumerable.Range(0, n).Select(l => ComplementConnectionGraph.AgreeOn(n, columns, 1 << l)).ToArray();
+            Assert.All(perSite, k => Assert.Equal(2, k));
+            foreach (double j in new[] { 0.7, 3.0 })
+            {
+                foreach (bool oneRate in new[] { true, false })
+                {
+                    var site = oneRate ? Enumerable.Repeat(0.9, n).ToArray() : Enumerable.Range(0, n).Select(_ => 0.3 + 1.4 * rng.NextDouble()).ToArray();
+                    double sigma = site.Sum();
+                    var eigs = Spectrum(n, strings, site, j);
+                    double scale = eigs.Max(l => l.Magnitude);
+                    var targets = oneRate ? new[] { -2 * (sigma - 0.9) } : site.Select(g => -2 * (sigma - g)).ToArray();
+                    foreach (double target in targets)
+                        foreach (var l in eigs)
+                        {
+                            double dist = (l - target).Magnitude / scale;
+                            if (dist < 1e-8) maxCounted = Math.Max(maxCounted, dist); else minUncounted = Math.Min(minUncounted, dist);
+                        }
+                    int Count(double at) => eigs.Count(l => (l - at).Magnitude < 1e-8 * scale);
+                    if (oneRate)
+                    {
+                        oneRateReadings++;
+                        Assert.Equal(perSite.Sum() + 2, Count(targets[0]));                                // 12
+                    }
+                    else
+                        for (int l = 0; l < n; l++)
+                        {
+                            randomReadings++;
+                            Assert.Equal(perSite[l], Count(targets[l]));                                    // observed at these couplings
+                        }
+                }
+            }
+        }
+        Assert.Equal((4, 20), (oneRateReadings, randomReadings));
+        Assert.True(maxCounted < 1e-12, $"a counted eigenvalue {maxCounted:E2}·‖L‖ from its target");
+        Assert.True(minUncounted > 1e-7, $"an uncounted eigenvalue {minUncounted:E2}·‖L‖ from a target");
+    }
 }

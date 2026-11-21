@@ -37,8 +37,14 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// coset by coset where the hops commute and the floor where every two anticommute; Corollary A″, ket and bra agreeing on
 /// some sites, the balance with their Y and Z letters struck against Theorem 2 with the complement taken on the sites outside them
 /// (<see cref="ComplementConnectionGraph.AgreeOn"/>), and its hypotheses on rows with diagonal strings and with two strings
-/// on one flip set; the worked examples of the page.
-/// Twenty-six controls show the
+/// on one flip set; the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J, two of its premises exactly (the three bond strings anticommuting in pairs, H² a
+/// multiple of 1) and its closed form (<see cref="SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ"/>) against the rates
+/// compressed onto the eigenspaces of the commutator with H (degenerate perturbation in 1/J, the rule of
+/// THE_SPREAD_IS_A_RESONANCE); the sums over disjoint bonds on
+/// the ring of bonds X_l·Y_(l+1) (<see cref="SignedMaskBalanceClaim.DisjointBondSum"/>), each and its product with Z^⊗N commuting with H
+/// exactly, with H² = Σ c_l² + 2·Q₂ from four sites on and the top terms' commutators at unit coefficients, and on the odd ring the operators with N − 1 X or Y letters commuting with H counted exactly, 2N + 2, between the kernel
+/// modulo a prime and Corollary A″'s count plus those two; the worked examples of the page.
+/// Twenty-eight controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
@@ -52,7 +58,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// and its cut bound read where the chain breaks falls short of it, and Corollary H2's bound without its double count
 /// exceeds λ_min of the far edge's generator, and Theorem H read string by string in place of Corollary H3's reading
 /// misses it, and Corollary A″ with no letter struck, with the next site's letters struck for one site, or with the
-/// diagonal strings ignored where one is odd off the agreeing sites, disagrees with Theorem 2's count.</para></summary>
+/// diagonal strings ignored where one is odd off the agreeing sites, disagrees with Theorem 2's count, and the triangle's
+/// closed form handed the rate of a site on each bond in place of the site opposite it, or its odd term alone without
+/// Corollary A″'s single sites, disagrees with that compression.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -181,6 +189,24 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public int AgreeOnUnstruckMismatches { get; private set; }
     public int AgreeOnWrongSiteMismatches { get; private set; }
     public int AgreeOnDiagonalIgnoredMismatches { get; private set; }
+
+    /// <summary>The triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J (the page's proposition): the profiles where the closed form's odd term is
+    /// the smaller and those where its single-site term is; the worst distance of the closed form
+    /// from the rates compressed onto the eigenspaces of the commutator with H, over 64·eps·2σ; and two controls against that
+    /// compression, which must disagree: the
+    /// closed form handed the rate of a site on each bond in place of the site opposite it, and its odd term alone, without
+    /// Corollary A″'s single sites.</summary>
+    public int TriangleOddWins { get; private set; }
+    public int TriangleCorollaryWins { get; private set; }
+    public double TriangleWorstRatio { get; private set; }
+    public int TriangleRotatedMismatches { get; private set; }
+    public int TriangleOddOnlyMismatches { get; private set; }
+
+    /// <summary>The sums over disjoint bonds (the page's paragraph on one rate): the top terms on the odd rings, each of which
+    /// fails to commute with H alone and moves its one site of I or Z by one place with the letter exchanged, I for Z and Z for I;
+    /// and the top terms on the even rings, each a colouring that commutes with H alone.</summary>
+    public int OddTopTermsMoving { get; private set; }
+    public int EvenTopTermsCommuting { get; private set; }
     public bool AllAgree => Families.All(f => f.Agrees);
     public bool ControlsBreak => SwappedWidthsMismatches > 0 && SwappedQuotientsMismatches > 0 && DroppedRingPowerMismatches > 0
                                  && ParityOnlyMismatches > 0 && MostValuedMismatches > 0
@@ -191,7 +217,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && RatesReadAwayMismatches > 0 && RatesReversedMismatches > 0
                                  && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0
                                  && HopControlMisses > 0 && MovedCarrierNotQuadratic > 0
-                                 && AgreeOnUnstruckMismatches > 0 && AgreeOnWrongSiteMismatches > 0 && AgreeOnDiagonalIgnoredMismatches > 0;
+                                 && AgreeOnUnstruckMismatches > 0 && AgreeOnWrongSiteMismatches > 0 && AgreeOnDiagonalIgnoredMismatches > 0
+                                 && TriangleRotatedMismatches > 0 && TriangleOddOnlyMismatches > 0;
 
     // the GF(2) rank of a set of masks
     static int Rank(int[] vectors)
@@ -270,6 +297,77 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     }
 
     static bool SameShape(ulong a, ulong b) => a >> BitOperations.TrailingZeroCount(a) == b >> BitOperations.TrailingZeroCount(b);
+
+    // the ring's bond l: X on site l, Y on site l + 1 mod n
+    static PauliMask RingBond(int n, int l) => new((1UL << l) | (1UL << ((l + 1) % n)), 1UL << ((l + 1) % n));
+
+    // z·i^k
+    static GaussianInteger IPower(GaussianInteger z, int k)
+    {
+        for (int t = 0; t < (k & 3); t++) z = new GaussianInteger(-z.Im, z.Re);
+        return z;
+    }
+
+    static void AddTerm(Dictionary<PauliMask, GaussianInteger> op, PauliMask s, GaussianInteger c)
+    {
+        var sum = (op.TryGetValue(s, out var a) ? a : GaussianInteger.Zero) + c;
+        if (sum == GaussianInteger.Zero) op.Remove(s); else op[s] = sum;
+    }
+
+    // an operator, Pauli strings with Gaussian-integer coefficients, times one string on the right
+    static Dictionary<PauliMask, GaussianInteger> TimesString(Dictionary<PauliMask, GaussianInteger> op, PauliMask m)
+    {
+        var result = new Dictionary<PauliMask, GaussianInteger>();
+        foreach (var (s, c) in op)
+        {
+            var (prod, k) = PauliMask.Multiply(s, m);
+            AddTerm(result, prod, IPower(c, k));
+        }
+        return result;
+    }
+
+    // [H, op] exactly, H = Σ c_b·b: [b, s] = 2·b·s = 2·i^k·(b s) where b and s anticommute, zero where they commute
+    static Dictionary<PauliMask, GaussianInteger> Commutator(IReadOnlyList<(PauliMask S, long C)> h, Dictionary<PauliMask, GaussianInteger> op)
+    {
+        var result = new Dictionary<PauliMask, GaussianInteger>();
+        foreach (var (b, cb) in h)
+            foreach (var (s, c) in op)
+            {
+                if (PauliMask.Commute(b, s)) continue;
+                var (prod, k) = PauliMask.Multiply(b, s);
+                AddTerm(result, prod, IPower(c * new GaussianInteger(2 * cb, BigInteger.Zero), k));
+            }
+        return result;
+    }
+
+    // the rank modulo p of sparse integer columns (row → value), eliminating on the least row present
+    static int SparseRankModP(IReadOnlyList<Dictionary<int, long>> columns, long p)
+    {
+        static long Inverse(long a, long p)
+        {
+            long result = 1, b = a % p, e = p - 2;
+            for (; e > 0; e >>= 1, b = b * b % p) if ((e & 1) == 1) result = result * b % p;
+            return result;
+        }
+        var pivots = new Dictionary<int, Dictionary<int, long>>();
+        foreach (var column in columns)
+        {
+            var v = new Dictionary<int, long>();
+            foreach (var (r, x) in column) { long y = ((x % p) + p) % p; if (y != 0) v[r] = y; }
+            while (v.Count > 0)
+            {
+                int r = v.Keys.Min();
+                if (!pivots.TryGetValue(r, out var b)) { pivots[r] = v; break; }
+                long f = v[r] * Inverse(b[r], p) % p;
+                foreach (var (rr, x) in b)
+                {
+                    long y = ((v.TryGetValue(rr, out var cur) ? cur : 0) - f * x % p + p) % p;
+                    if (y == 0) v.Remove(rr); else v[rr] = y;
+                }
+            }
+        }
+        return pivots.Count;
+    }
 
     public SignedMaskBalanceWitness(int ringCap = 10)
     {
@@ -1267,6 +1365,228 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("Corollary A″'s hypotheses: XY beside a field Z on site 0 (read where site 0 is in the set) and beside ZZ on every bond (declined), and XX + XY and XZ + ZY, two strings on one flip set (declined); chain and ring N = 3 to 6, every single site and every set of two", hcells, hreadings, hmismatches, hfirst));
         }
 
+        // the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J (the page's proposition): two of its premises exactly, on integer bonds (the three bond strings
+        // anticommute in pairs, so H² = |j|²·1 and the commutator with H obeys ad³ = 4|j|²·ad, its eigenvalues 0 and ±2|j|
+        // alone); then the closed form against the strong-coupling rule computed directly (degenerate perturbation in 1/J, the
+        // rule of THE_SPREAD_IS_A_RESONANCE), the rates compressed onto each eigenspace of the
+        // commutator in the Pauli basis, the eigenprojections the polynomials 1 − ad²/(4|j|²) and (ad² ± 2|j|·ad)/(8|j|²), at
+        // random signed bonds and rates spread over four decades
+        {
+            var rng = new Random(20261121);
+            var bondStrings = new[] { PauliMask.Parse("XYI"), PauliMask.Parse("IXY"), PauliMask.Parse("YIX") };
+            var strings = (from x in Enumerable.Range(0, 8) from z in Enumerable.Range(0, 8) select new PauliMask((ulong)x, (ulong)z)).ToArray();
+            var index = Enumerable.Range(0, strings.Length).ToDictionary(i => strings[i], i => i);
+            int premiseReadings = 3, premiseMismatches = 0, profiles = 0, mismatches = 0, oddWins = 0, corollaryWins = 0, rotated = 0, oddOnly = 0;
+            double worst = 0;
+            string? premiseFirst = null, first = null;
+            for (int a = 0; a < 3; a++)
+                if (PauliMask.Commute(bondStrings[a], bondStrings[(a + 1) % 3])) { premiseMismatches++; premiseFirst ??= $"the bonds {a} and {(a + 1) % 3} commute"; }
+            for (int draw = 0; draw < 240; draw++)
+            {
+                var j = Enumerable.Range(0, 3).Select(_ => (long)rng.Next(1, 7) * (rng.Next(2) == 0 ? 1 : -1)).ToArray();   // every bond present: a ring
+                long norm2 = j.Sum(v => v * v);
+                var g = Enumerable.Range(0, 3).Select(_ => Math.Exp(Math.Log(0.01) + rng.NextDouble() * Math.Log(1e4))).ToArray();
+                double sigma = g.Sum();
+
+                // H² exactly, in Gaussian integers
+                premiseReadings++;
+                var square = new Dictionary<PauliMask, GaussianInteger>();
+                for (int a = 0; a < 3; a++)
+                    for (int b = 0; b < 3; b++)
+                    {
+                        var (prod, k) = PauliMask.Multiply(bondStrings[a], bondStrings[b]);
+                        AddTerm(square, prod, IPower(new GaussianInteger(j[a] * j[b], BigInteger.Zero), k));
+                    }
+                if (square.Count != 1 || !square.TryGetValue(PauliMask.Identity, out var id) || id != new GaussianInteger(norm2, BigInteger.Zero))
+                { premiseMismatches++; premiseFirst ??= $"H² at the bonds ({string.Join(", ", j)})"; }
+
+                // the strong-coupling rule, computed directly
+                profiles++;
+                var ad = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.Dense(64, 64);
+                for (int c = 0; c < 64; c++)
+                    for (int a = 0; a < 3; a++)
+                    {
+                        if (j[a] == 0 || PauliMask.Commute(bondStrings[a], strings[c])) continue;
+                        var (prod, k) = PauliMask.Multiply(bondStrings[a], strings[c]);   // [b, P] = 2·b·P where they anticommute
+                        var turn = IPower(GaussianInteger.One, k);
+                        ad[index[prod], c] += 2.0 * j[a] * new Complex((double)turn.Re, (double)turn.Im);
+                    }
+                var rates = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.DenseDiagonal(64, 64,
+                    c => 2 * Enumerable.Range(0, 3).Where(l => ((strings[c].X >> l) & 1) == 1).Sum(l => g[l]));
+                var ad2 = ad * ad;
+                var one = MathNet.Numerics.LinearAlgebra.Matrix<Complex>.Build.DenseIdentity(64);
+                double r1 = Math.Sqrt(norm2);
+                var projectors = new[] { one - ad2 / (4.0 * norm2), (ad2 + ad * (2 * r1)) / (8.0 * norm2), (ad2 - ad * (2 * r1)) / (8.0 * norm2) };
+                double top = projectors.Max(pk => (pk * rates * pk).Evd(MathNet.Numerics.LinearAlgebra.Symmetricity.Hermitian).EigenValues.Max(z => z.Real));
+                double computed = 2 * sigma - top;
+                double tol = 64 * 2.220446049250313e-16 * 2 * sigma;
+                double closed = SignedMaskBalanceClaim.TriangleFarEdgeAtLargeJ(j[0], j[1], j[2], g[0], g[1], g[2]);
+                double odd = SignedMaskBalanceClaim.TriangleKernelOddShortfall(j.Select(v => (double)v).ToArray(), new[] { g[2], g[0], g[1] });
+                worst = Math.Max(worst, Math.Abs(computed - closed) / tol);
+                if (Math.Abs(computed - closed) > tol) { mismatches++; first ??= $"bonds ({string.Join(", ", j)}), rates ({string.Join(", ", g.Select(v => v.ToString("G4")))})"; }
+                if (2 * g.Min() < odd) corollaryWins++; else oddWins++;
+                double onBond = Math.Min(2 * g.Min(), SignedMaskBalanceClaim.TriangleKernelOddShortfall(j.Select(v => (double)v).ToArray(), new[] { g[0], g[1], g[2] }));
+                if (Math.Abs(computed - onBond) > tol) rotated++;
+                if (Math.Abs(computed - odd) > tol) oddOnly++;
+            }
+            TriangleOddWins = oddWins;
+            TriangleCorollaryWins = corollaryWins;
+            TriangleWorstRatio = worst;
+            TriangleRotatedMismatches = rotated;
+            TriangleOddOnlyMismatches = oddOnly;
+            families.Add(new FamilyReading("the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J: the three bond strings anticommute in pairs and H² = |j|²·1, exactly, on integer bonds from ±1 to ±6", 1, premiseReadings, premiseMismatches, premiseFirst, "exact arithmetic"));
+            families.Add(new FamilyReading("the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J: the closed form against the rates compressed onto the three eigenspaces of the commutator with H (degenerate perturbation in 1/J), random signed bonds and rates over four decades", profiles, profiles, mismatches, first, "the compression"));
+        }
+
+        // sums over disjoint bonds (the page's paragraph on one rate): on the ring of bonds X_l·Y_(l+1), 3 to 11 sites, unit coefficients and two
+        // random draws, every Q_k and Q_k·Z^⊗N commutes with H, in Gaussian integers, and H² = Σ c_l² + 2·Q₂ from four sites on;
+        // on the odd rings each top term alone does not commute, its commutator moving its one site of I or Z by one place with
+        // the letter exchanged, and at unit coefficients [H, S_l] = 2i·(T_(l−1) − T_(l+1)) and [H, T_l] = 2i·(S_(l−1) − S_(l+1))
+        // exactly, S_l the product of the (N − 1)/2 disjoint bonds that cover every site but l and T_l = S_l·Z^⊗N; on the even
+        // rings each top term commutes alone
+        {
+            var rng = new Random(11);
+            int cells = 0, readings = 0, mismatches = 0, moving = 0, evenCommuting = 0;
+            string? first = null;
+            for (int n = 3; n <= 11; n++)
+                for (int draw = 0; draw < 3; draw++)
+                {
+                    cells++;
+                    var c = Enumerable.Range(0, n).Select(_ => draw == 0 ? 1L : rng.Next(1, 10) * (rng.Next(2) == 0 ? 1L : -1L)).ToArray();
+                    var h = Enumerable.Range(0, n).Select(l => (S: RingBond(n, l), C: c[l])).ToArray();
+                    var parity = new PauliMask(0, (1UL << n) - 1);
+                    if (n >= 4)
+                    {
+                        // H² = Σ c_l² + 2·Q₂: two bonds anticommute where they meet and commute where they do not
+                        readings++;
+                        var square = new Dictionary<PauliMask, GaussianInteger>();
+                        foreach (var (s1, c1) in h)
+                            foreach (var (s2, c2) in h)
+                            {
+                                var (prod, k) = PauliMask.Multiply(s1, s2);
+                                AddTerm(square, prod, IPower(new GaussianInteger(c1 * c2, BigInteger.Zero), k));
+                            }
+                        AddTerm(square, PauliMask.Identity, new GaussianInteger(-c.Sum(v => v * v), BigInteger.Zero));
+                        foreach (var (s, q2) in SignedMaskBalanceClaim.DisjointBondSum(c, 2))
+                            AddTerm(square, s, new GaussianInteger(-2 * q2, BigInteger.Zero));
+                        if (square.Count != 0) { mismatches++; first ??= $"H² against Σ c² + 2·Q₂ on the ring of {n}"; }
+                    }
+                    if (draw == 0 && n % 2 == 1)
+                    {
+                        // the moves exactly, at unit coefficients: S[l] the term whose bonds cover every site but l, T[l] = S[l]·Z^⊗N with phase 1
+                        var top = SignedMaskBalanceClaim.DisjointBondSum(c, (n - 1) / 2);
+                        var sTerm = new PauliMask[n];
+                        var tTerm = new PauliMask[n];
+                        foreach (var (s, coefficient) in top)
+                        {
+                            int l = BitOperations.TrailingZeroCount(~s.X & ((1UL << n) - 1));
+                            sTerm[l] = s;
+                            var (prod, k) = PauliMask.Multiply(s, parity);
+                            tTerm[l] = prod;
+                            if (coefficient != BigInteger.One || k != 0) { mismatches++; first ??= $"a top term or its product with Z^⊗N off phase 1 on the ring of {n}"; }
+                        }
+                        var two = new GaussianInteger(BigInteger.Zero, 2);
+                        for (int l = 0; l < n; l++)
+                        {
+                            int before = (l + n - 1) % n, after = (l + 1) % n;
+                            foreach (var (term, target) in new[] { (sTerm, tTerm), (tTerm, sTerm) })
+                            {
+                                readings++;
+                                var expected = new Dictionary<PauliMask, GaussianInteger>();
+                                AddTerm(expected, target[before], two);
+                                AddTerm(expected, target[after], -two);
+                                var got = Commutator(h, new Dictionary<PauliMask, GaussianInteger> { [term[l]] = GaussianInteger.One });
+                                if (got.Count != expected.Count || got.Any(kv => !expected.TryGetValue(kv.Key, out var e) || e != kv.Value))
+                                { mismatches++; first ??= $"the move of the top term at {l} on the ring of {n}"; }
+                            }
+                        }
+                    }
+                    for (int k = 0; 2 * k <= n; k++)
+                    {
+                        var q = SignedMaskBalanceClaim.DisjointBondSum(c, k).ToDictionary(kv => kv.Key, kv => new GaussianInteger(kv.Value, BigInteger.Zero));
+                        foreach (bool withParity in new[] { false, true })
+                        {
+                            var op = withParity ? TimesString(q, parity) : q;
+                            readings++;
+                            if (Commutator(h, op).Count != 0) { mismatches++; first ??= $"the ring of {n}, k = {k}{(withParity ? ", times Z^⊗N" : "")}"; }
+                            if (2 * k == n - 1)
+                                foreach (var (s, coefficient) in op)
+                                {
+                                    int l = BitOperations.TrailingZeroCount(~s.X & ((1UL << n) - 1));
+                                    bool zAtDefect = ((s.Z >> l) & 1) == 1;
+                                    var moved = Commutator(h, new Dictionary<PauliMask, GaussianInteger> { [s] = coefficient });
+                                    bool ok = moved.Count > 0 && moved.Keys.All(o =>
+                                    {
+                                        ulong gap = ~o.X & ((1UL << n) - 1);
+                                        if (BitOperations.PopCount(gap) != 1) return false;
+                                        int m = BitOperations.TrailingZeroCount(gap);
+                                        return (m == (l + 1) % n || m == (l + n - 1) % n) && (((o.Z >> m) & 1) == 1) != zAtDefect;
+                                    });
+                                    if (ok) moving++; else { mismatches++; first ??= $"a top term on the ring of {n} whose commutator does not move its agreeing site"; }
+                                }
+                            if (2 * k == n)
+                                foreach (var (s, coefficient) in op)
+                                {
+                                    if (Commutator(h, new Dictionary<PauliMask, GaussianInteger> { [s] = coefficient }).Count == 0) evenCommuting++;
+                                    else { mismatches++; first ??= $"a top term on the even ring of {n} that does not commute alone"; }
+                                }
+                        }
+                    }
+                }
+            OddTopTermsMoving = moving;
+            EvenTopTermsCommuting = evenCommuting;
+            families.Add(new FamilyReading("sums over disjoint bonds on the ring of bonds X_l·Y_(l+1): every Q_k and Q_k·Z^⊗N commutes with H, N = 3 to 11, unit coefficients and two random draws, H² = Σ c² + 2·Q₂ from N = 4, on the odd rings each top term alone moves its agreeing site, and at unit coefficients [H, S_l] = 2i·(T_(l−1) − T_(l+1)) and [H, T_l] = 2i·(S_(l−1) − S_(l+1)) (exact)", cells, readings, mismatches, first, "exact arithmetic"));
+        }
+
+        // the operators with N − 1 X or Y letters at one rate: on the odd ring of bonds X_l·Y_(l+1) those that commute with H number at most
+        // the kernel modulo p of i·[H, ·] on that plane (real integer entries), and at least Corollary A″'s count on each site
+        // plus the two sums above, independent of the site-resolved ones at any nonzero coefficients, the commutator of each top
+        // term holding two distinct strings, those of an S term with the letters of a T term and the reverse; where the two
+        // bounds meet the count is exact
+        {
+            var rng = new Random(13);
+            const long p = 1_000_000_007;
+            int cells = 0, readings = 0, mismatches = 0;
+            string? first = null;
+            for (int n = 3; n <= 9; n += 2)
+                for (int draw = 0; draw < 2; draw++)
+                {
+                    cells++;
+                    readings++;
+                    var c = Enumerable.Range(0, n).Select(_ => draw == 0 ? 1L : rng.Next(1, 10) * (rng.Next(2) == 0 ? 1L : -1L)).ToArray();
+                    var columns = ComplementConnectionGraph.Columns(n, Enumerable.Range(0, n).Select(l => (RingBond(n, l), (BigInteger)c[l])));
+                    int lower = Enumerable.Range(0, n).Sum(l => ComplementConnectionGraph.AgreeOn(n, columns, 1 << l)) + 2;
+                    var rows = new Dictionary<PauliMask, int>();
+                    var cols = new List<Dictionary<int, long>>();
+                    ulong full = (1UL << n) - 1;
+                    for (int l = 0; l < n; l++)
+                    {
+                        ulong x = full & ~(1UL << l);
+                        for (ulong y = x; ; y = (y - 1) & x)   // the Y letters, every subset of the X/Y sites
+                        {
+                            foreach (ulong d in new[] { 0UL, 1UL << l })   // I or Z on site l
+                            {
+                                var s = new PauliMask(x, y | d);
+                                var col = new Dictionary<int, long>();
+                                for (int b = 0; b < n; b++)
+                                {
+                                    var bond = RingBond(n, b);
+                                    if (PauliMask.Commute(bond, s)) continue;
+                                    var (prod, k) = PauliMask.Multiply(bond, s);   // [bond, s] = 2·i^k·prod with k odd, so i·[bond, s] is real
+                                    if (!rows.TryGetValue(prod, out int r)) rows[prod] = r = rows.Count;
+                                    col[r] = (col.TryGetValue(r, out var v) ? v : 0) + 2 * c[b] * (k == 1 ? -1 : k == 3 ? 1 : 0);
+                                }
+                                cols.Add(col);
+                            }
+                            if (y == 0) break;
+                        }
+                    }
+                    int upper = cols.Count - SparseRankModP(cols, p);
+                    if (upper != lower || lower != 2 * n + 2) { mismatches++; first ??= $"the ring of {n}, draw {draw}: at most {upper}, at least {lower}"; }
+                }
+            families.Add(new FamilyReading("N − 1 X or Y letters at one rate: on the odd ring of bonds X_l·Y_(l+1) the operators with X or Y on N − 1 sites that commute with H, exactly 2N + 2 (Corollary A″'s 2N and the two sums over disjoint bonds), N = 3 to 9, unit coefficients and a random draw", cells, readings, mismatches, first, "both bounds"));
+        }
+
         // the worked examples
         {
             var checks = new List<(string Name, bool Holds)>
@@ -1520,7 +1840,11 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"Theorem H with the rates read away or reversed {RatesReadAwayMismatches}, {RatesReversedMismatches} times, " +
         $"Corollary H1's bounds with overlapping translates or where the chain breaks {PackingOverlapMismatches}, {CutWhereChainBreaksMismatches} times, " +
         $"Corollary H2 without its double count {CycleDoubleCountMismatches} times, Corollary H3's spectrum read as Theorem H string by string {HopControlMisses} times, " +
-        $"Corollary A″ with no letter struck, with the next site's letters struck, or with the diagonal ignored {AgreeOnUnstruckMismatches}, {AgreeOnWrongSiteMismatches}, {AgreeOnDiagonalIgnoredMismatches} times";
+        $"Corollary A″ with no letter struck, with the next site's letters struck, or with the diagonal ignored {AgreeOnUnstruckMismatches}, {AgreeOnWrongSiteMismatches}, {AgreeOnDiagonalIgnoredMismatches} times; " +
+        $"{Families.Where(f => f.Against == "exact arithmetic").Sum(f => f.Readings)} exact readings of two of the triangle's premises and of the sums over disjoint bonds, " +
+        $"{Families.Where(f => f.Against == "the compression").Sum(f => f.Readings)} of the triangle at large J against the rates compressed onto the eigenspaces of the commutator with H, " +
+        $"{Families.Where(f => f.Against == "both bounds").Sum(f => f.Readings)} of the operators with N − 1 X or Y letters at one rate; the triangle's closed form handed the rate of a site on each bond, " +
+        $"or its odd term alone, disagree {TriangleRotatedMismatches}, {TriangleOddOnlyMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1555,7 +1879,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"Corollary H1's packing bound with every offset of the relation counted: {PackingOverlapMismatches}, its cut bound read where the chain breaks: {CutWhereChainBreaksMismatches} (both against the trellis); " +
                          $"Corollary H2 with k·λ_* in place of (k/2)·λ_*: {CycleDoubleCountMismatches} of {CycleRelations} relations (against λ_min of 𝓜); " +
                          $"Corollary H3's reading replaced by Theorem H read string by string: {HopControlMisses} of {HopReadings} readings (against λ_min of 𝓜); " +
-                         $"Corollary A″ with no letter struck: {AgreeOnUnstruckMismatches}, with the next site's letters struck for one site: {AgreeOnWrongSiteMismatches} (on the chain; on the ring the two verdicts agree by translation), with the diagonal strings ignored where one is odd off Λ: {AgreeOnDiagonalIgnoredMismatches} (all against Theorem 2's count with the complement taken on the sites outside the agreeing ones)",
+                         $"Corollary A″ with no letter struck: {AgreeOnUnstruckMismatches}, with the next site's letters struck for one site: {AgreeOnWrongSiteMismatches} (on the chain; on the ring the two verdicts agree by translation), with the diagonal strings ignored where one is odd off Λ: {AgreeOnDiagonalIgnoredMismatches} (all against Theorem 2's count with the complement taken on the sites outside the agreeing ones); " +
+                         $"the triangle's closed form handed the rate of a site on each bond in place of the site opposite it: {TriangleRotatedMismatches}, its odd term alone, without Corollary A″'s single sites: {TriangleOddOnlyMismatches} (both against the rates compressed onto the eigenspaces of the commutator with H)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem H's solver, measured",
@@ -1570,6 +1895,13 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                 summary: $"{AgreeOnNonzero} readings with operators X off the agreeing sites times a diagonal commuting with H (modes at −2·(σ − γ(Λ)) at every scale of H), " +
                          $"{AgreeOnZero} without; {AgreeOnWhereFarIsZero} of the first where Theorem A's far end is empty, a broken row with an exact mode at that slower rate; " +
                          $"{AgreeOnOutside} readings outside its hypotheses, where its balance declines",
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode(
+                displayName: "the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J, and the sums over disjoint bonds",
+                summary: $"the closed form against the rates compressed onto the eigenspaces of the commutator with H within {TriangleWorstRatio:F3} of 64·eps·2σ at worst; the closed form's odd term " +
+                         $"the smaller on {TriangleOddWins} profiles, its single-site term on {TriangleCorollaryWins}; on the odd rings {OddTopTermsMoving} readings of top terms, " +
+                         $"each failing to commute with H alone and moving its agreeing site one place with the letter exchanged; on the even rings {EvenTopTermsCommuting} readings of top terms, " +
+                         $"each commuting with H alone",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem E's reach",

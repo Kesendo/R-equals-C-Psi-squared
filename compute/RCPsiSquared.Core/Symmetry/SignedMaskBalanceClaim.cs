@@ -2,6 +2,7 @@ using System.Numerics;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Knowledge;
+using RCPsiSquared.Core.Pauli;
 
 namespace RCPsiSquared.Core.Symmetry;
 
@@ -59,7 +60,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<see cref="ComplementConnectionGraph.AgreeOn"/>); where no two flipping strings share a flip set and every diagonal
 /// string has an even number of Z letters outside Λ, they exist exactly when the masks balance with Λ's Y and Z letters
 /// struck from the signs (Corollary A″, <see cref="AgreeOnBalanced"/>), and wherever they exist the far edge's shortfall is at
-/// most 2γ(Λ) at every J.</para>
+/// most 2γ(Λ) at every J. On the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ the three bond strings anticommute in pairs, and as J → ∞ the shortfall tends to
+/// min(2·min_l γ_l, D), D read off the bonds' direction and the rates (<see cref="TriangleFarEdgeAtLargeJ"/>), 4γ·min_a n_a²
+/// at one rate. On the ring of bonds c_l·X_l·Y_(l+1) the sum over the sets of k pairwise disjoint bonds of the product of their terms, coefficients included, commutes
+/// with H (<see cref="DisjointBondSum"/>), and at one rate it and its product with Z^⊗N are modes at −4kγ at every J; on the
+/// odd ring the top one gives two modes at −2(N − 1)γ beyond Corollary A″'s 2N.</para>
 ///
 /// <para>Typed parent: <see cref="PalindromeComplementConnectionClaim"/> (Theorem 2 of the complement connection),
 /// which this claim reads where every ratio is a sign.</para>
@@ -1740,6 +1745,78 @@ public sealed class SignedMaskBalanceClaim : Claim
         return 2 * result;
     }
 
+    // ---------------------------------------------------------------- the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J, and sums over disjoint bonds
+
+    /// <summary>The page's proposition on the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J. On three sites under Z dephasing at rates
+    /// <paramref name="g0"/>, <paramref name="g1"/>, <paramref name="g2"/> &gt; 0, H = J·(j01·X₀Y₁ + j12·X₁Y₂ + j20·X₂Y₀) with real
+    /// coefficients, not all zero: the three bond strings anticommute in pairs, so H² = J²·(j01² + j12² + j20²)·1, and as
+    /// J → ∞ the far edge's shortfall, 2σ less the fastest decay rate, tends to min(2·min_l γ_l, D). The first term is
+    /// Corollary A″'s single sites, modes at every J; D (<see cref="TriangleKernelOddShortfall"/>, handed the rate of the
+    /// site opposite each bond) belongs to the modes of odd X/Y count in the kernel of the commutator with H. At one rate γ the value is
+    /// 4γ·min_a n_a², n = (j01, j12, j20)/|j|. The page names each bond by the site it leaves out: j01 is its j₂, j12 its j₀ and j20
+    /// its j₁, and the rate handed in for a bond is that site's γ.</summary>
+    public static double TriangleFarEdgeAtLargeJ(double j01, double j12, double j20, double g0, double g1, double g2)
+    {
+        if (!(g0 > 0 && g1 > 0 && g2 > 0)) throw new ArgumentException("every rate strictly positive");
+        // the site opposite the bond (0, 1) is 2, opposite (1, 2) is 0, opposite (2, 0) is 1
+        return Math.Min(2 * Math.Min(g0, Math.Min(g1, g2)), TriangleKernelOddShortfall(new[] { j01, j12, j20 }, new[] { g2, g0, g1 }));
+    }
+
+    /// <summary>D of <see cref="TriangleFarEdgeAtLargeJ"/>: min over the bonds a of 2·r_a + 2·α_a, r_a the rate handed in for
+    /// bond a (the proposition hands in the rate on the site opposite it) and α_a the smaller eigenvalue of the diagonal form
+    /// w, w_b = r_b for b ≠ a and w_a = −r_a, on the plane perpendicular to n = bonds/|bonds|: the smaller root of
+    /// α² − (Σ_b w_b − Σ_b n_b²·w_b)·α + Σ_b n_b²·Π_(c≠b) w_c, the constrained eigenvalue problem's secular equation.</summary>
+    public static double TriangleKernelOddShortfall(IReadOnlyList<double> bonds, IReadOnlyList<double> rates)
+    {
+        if (bonds.Count != 3 || rates.Count != 3) throw new ArgumentException("three bonds and three rates");
+        double norm = bonds.Sum(b => b * b);
+        if (!(norm > 0)) throw new ArgumentException("not every bond zero", nameof(bonds));
+        var n2 = bonds.Select(b => b * b / norm).ToArray();
+        double best = double.PositiveInfinity;
+        for (int a = 0; a < 3; a++)
+        {
+            var w = Enumerable.Range(0, 3).Select(b => b == a ? -rates[b] : rates[b]).ToArray();
+            double s = w.Sum() - (n2[0] * w[0] + n2[1] * w[1] + n2[2] * w[2]);
+            double p = n2[0] * w[1] * w[2] + n2[1] * w[0] * w[2] + n2[2] * w[0] * w[1];
+            double root = Math.Sqrt(Math.Max(0, s * s - 4 * p));
+            double mu = s > 0 ? 2 * p / (s + root) : (s - root) / 2;   // the smaller root, without cancellation
+            best = Math.Min(best, 2 * rates[a] + 2 * mu);
+        }
+        return best;
+    }
+
+    /// <summary>The sums of the page's paragraph on one rate, on the ring of n = <paramref name="coefficients"/>.Count sites
+    /// with the bonds X_l·Y_(l+1), bond l on the sites l and l + 1 mod n with coefficient c_l: Q_k, the sum over the sets
+    /// of k pairwise disjoint bonds of the product of their coefficients and strings. Strings on disjoint sites commute and
+    /// multiply to the string of the union with phase 1, and the set is read back off that string (its Y letters sit on the
+    /// second site of each bond), so each set gives its own string. Q₀ is the identity, Q₁ is H. Three to 24 sites.</summary>
+    public static IReadOnlyDictionary<PauliMask, BigInteger> DisjointBondSum(IReadOnlyList<long> coefficients, int k)
+    {
+        int n = coefficients.Count;
+        if (n < 3 || n > 24) throw new ArgumentOutOfRangeException(nameof(coefficients), n, "three to 24 sites");
+        if (k < 0 || 2 * k > n) throw new ArgumentOutOfRangeException(nameof(k), k, $"zero to {n / 2} disjoint bonds");
+        ulong full = (1UL << n) - 1;
+        var result = new Dictionary<PauliMask, BigInteger>();
+        for (ulong set = 0; set <= full; set++)
+        {
+            if (BitOperations.PopCount(set) != k) continue;
+            ulong neighbours = ((set << 1) | (set >> (n - 1))) & full;
+            if ((set & neighbours) != 0) continue;   // the bonds l and l + 1 share the site l + 1, the bonds n − 1 and 0 the site 0
+            ulong x = 0, z = 0;
+            BigInteger c = BigInteger.One;
+            for (int l = 0; l < n; l++)
+            {
+                if (((set >> l) & 1) == 0) continue;
+                int next = (l + 1) % n;
+                x |= (1UL << l) | (1UL << next);
+                z |= 1UL << next;
+                c *= coefficients[l];
+            }
+            result.Add(new PauliMask(x, z), c);
+        }
+        return result;
+    }
+
     public override string DisplayName =>
         "F173: the signed balance of the flip masks";
 
@@ -1845,6 +1922,24 @@ public sealed class SignedMaskBalanceClaim : Claim
                          "s_Λ = (#Y + #Z off Λ) mod 2, else zero, the strings X^⊗(N∖Λ)·Z^φ with ⟨φ, m_P⟩ = s_Λ(P) on every flipping string then " +
                          "commuting with H; wherever they exist the far " +
                          "edge's shortfall is at most 2γ(Λ) at every J: on the odd XY ring every single site, on XIY on the ring of six an odd number of sites of each triangle");
+            yield return new InspectableNode("sums over disjoint bonds, at one rate",
+                summary: "on the ring of bonds c_l·X_l·Y_(l+1), Q_k, the sum over the sets of k pairwise disjoint bonds of the product of their terms, coefficients included, commutes with H, " +
+                         "and so does Q_k·Z^⊗N: a bond that meets exactly one bond of a set anticommutes with it, and its term cancels against the " +
+                         "set with the two exchanged; at one rate γ both are modes at −4kγ at every J; Q₁ is H and " +
+                         "Q₂ = (H² − Σ c_l²)/2; on the odd ring the top one, k = (N − 1)/2, has one term for each site l, the product of the " +
+                         "(N − 1)/2 disjoint bonds that cover every site but l (X just after l, Y just before it, I on l), and with Z^⊗N it gives two modes at −2(N − 1)γ " +
+                         "beyond Corollary A″'s 2N, whose terms sit on different agreeing sites and so decay together only at one rate; on the " +
+                         "ring of five they are (H² − Σ c_l²)/2 and its product with Z^⊗5 (12 against 10 at −8γ)");
+            yield return new InspectableNode("the triangle X₀Y₁ + X₁Y₂ + X₂Y₀ at large J",
+                summary: "the three bond strings anticommute in pairs, each pair meeting on a site where one carries X and the other Y, so " +
+                         "with H = J·h, h = j01·X₀Y₁ + j12·X₁Y₂ + j20·X₂Y₀, h² = |j|²·1 and the commutator with H has the eigenvalues 0 and ±2J|j| " +
+                         "alone; on each eigenspace of Z^⊗3 the bonds act, up to the sign ε = −Z^⊗3, as the three Pauli matrices of a first " +
+                         "two-level factor, h as ε|j| times its Pauli matrix along n = j/|j|, and Z_l as ε times the Pauli matrix of the bond that leaves l out times a Pauli matrix of a " +
+                         "second factor the bonds do not touch, whose operators are Corollary A″'s single-site modes with 1 and Z^⊗3; in the " +
+                         "kernel of the commutator the modes with one or three X or Y letters compress the rates to 2 × 2 matrices, and as " +
+                         "J → ∞ the shortfall tends to min(2·min γ, min_a [2γ_(a) + 2α_a]), a over the bonds, γ_(a) the rate of the site the bond a leaves out " +
+                         "and α_a the smaller eigenvalue on n⊥ of the rates with −γ_(a) in place of γ_(a); at one rate 4γ·min_a n_a²: 4γ/3 at equal bonds, " +
+                         "the fast mode two thirds on the far edge; XIY on the ring of six, two such triangles, 8γ/3");
             yield return new InspectableNode("the two pure cases",
                 summary: "every sign negative: balanced means bipartite (F103 §7.4, F115 statement 3); every sign positive: X^⊗N " +
                          "commutes with H, a colouring (F108 Part 1); a balanced signing is the lit string X^⊗N·Z^φ commuting with H");
