@@ -1661,7 +1661,8 @@ if (args.Length > 0 && args[0] == "topo")
 // ---- run mode "regime": finite dynamics at each Q = J/gamma ----
 // The same world at different ratios of restlessness to watching. Low Q: the watching wins (overdamped,
 // novelty barely born and quickly drained -- near death). High Q: the restlessness wins (underdamped,
-// novelty churns on and on). Clock owns its theta = arctan(Q) dial; this run is not an F95 derivation.
+// novelty churns on and on). Clock, given the chain's N, owns its two hands and the geared angle between
+// them (ClockHandLadderClaim); this run is not an F95 derivation.
 if (args.Length > 0 && args[0] == "regime")
 {
     int gn = args.Length > 1 ? int.Parse(args[1]) : 4;
@@ -1669,13 +1670,14 @@ if (args.Length > 0 && args[0] == "regime")
     const int ticks = 80;                            // to t = 4
     var rworld = new World();
     Console.WriteLine($"how alive at each regime Q = J/gamma (N={gn} chain, seed |0...01>, gamma={gg})");
-    Console.WriteLine("  Clock's own dial is theta = arctan(Q). low Q = the watching wins (overdamped, ~death);");
+    Console.WriteLine("  theta = the chain clock's angle, arctan(Q cos(pi/(N+1))) (arctan(sqrt(Q^2-1)) at N=2); * = below Q*(N),");
+    Console.WriteLine("  the bound above which the hand is certified. low Q = the watching wins (overdamped, ~death);");
     Console.WriteLine("  high Q = the restlessness wins (underdamped, novelty churns on and on).");
     Console.WriteLine($"  {"Q",5} {"theta",7} {"peak nov",9} {"t@peak",7} {"late churn (t3-4)",17}");
     foreach (double q in new[] { 0.2, 0.5, 1.0, 2.0, 5.0, 20.0 })
     {
         double j = q * gg;
-        var clk = new Clock(rworld, j, gg);          // Clock's own theta = arctan(Q), Q = J/gamma
+        var clk = new Clock(rworld, j, gg, gn);      // the chain clock: Takt 2 gamma, band edge, geared angle
         var rest = new Restless(rworld, gn, j, gg, Topology.Chain(gn));
         rest.Seed(1);
         double peak = 0, tpeak = 0, lateMin = double.MaxValue, lateMax = 0;
@@ -1686,7 +1688,8 @@ if (args.Length > 0 && args[0] == "regime")
             if (tick >= ticks - 20) { lateMin = Math.Min(lateMin, nov); lateMax = Math.Max(lateMax, nov); }
             rest.Step(dt);
         }
-        Console.WriteLine($"  {clk.Q,5:0.0} {clk.ThetaDeg,6:0.0} {peak,9:0.000} {tpeak,7:0.00} {lateMax - lateMin,17:0.000}");
+        string held = clk.HandsHeld == true ? " " : "*";
+        Console.WriteLine($"  {clk.Q,5:0.0} {clk.ThetaDeg,6:0.0}{held} {peak,9:0.000} {tpeak,7:0.00} {lateMax - lateMin,17:0.000}");
     }
     Console.WriteLine("  peak rises and t@peak falls, both monotonic -- more restlessness births more novelty, sooner.");
     Console.WriteLine("  late churn is ~0 below Q=1 (overdamped: a slow bump that just decays) and switches on above it");
@@ -3070,6 +3073,14 @@ foreach (double q in new[] { 0.0, 0.5, 1.0, 2.0, 5.0, 100.0 })
 }
 Console.WriteLine("  the two hands: gamma the radial (decay), J the angular (rotation); for J > 0, gamma -> 0 stops the radial hand and theta -> 90 deg (the pure circle)");
 Console.WriteLine("  for J >= 0, gamma > 0 this dial is the F95 compass at c = gamma^2 + J^2, b = gamma; gamma = 0 lies outside F95's b > 0");
+double clk1ModeAtTwo = new Clock(world, j: 2.0, gamma: 1.0).ThetaDeg;
+Console.WriteLine("  a chain gears it (ClockHandLadderClaim; Takt hand 2 gamma, coherence hand the band edge, at N=2 the pulled pair), at Q = 2:");
+foreach (int cn in new[] { 2, 3, 4, 5, 8 })
+{
+    var chainClk = new Clock(world, j: 2.0, gamma: 1.0, n: cn);
+    string held = chainClk.HandsHeld == true ? "" : "  [below Q*(N): not certified as the chain's hand]";
+    Console.WriteLine($"    N={cn}: theta = {chainClk.ThetaDeg,5:0.0} deg (one mode: {clk1ModeAtTwo:0.0}){held}");
+}
 
 // The survivor: the slowest non-stationary mode (T1 at the Zeno end), regime-dependent.
 Console.WriteLine();

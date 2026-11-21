@@ -589,7 +589,7 @@ public static class Formulas
     // At b = 1/2 the threshold is 1/4 and
     // the Februar compass arctan(sqrt(4c - 1)) (= F15) is recovered; the Lindblad specialization
     // in the positive decay variable z=-lambda, z^2 - 2 gamma z + gamma^2 + J^2 gives
-    // b = gamma > 0 and theta = arctan(J/gamma) = arctan(Q), the Clock's angle.
+    // b = gamma > 0 and theta = arctan(J/gamma) = arctan(Q), the one-mode Clock's angle (no N).
     public static double F95_Theta(double c, double b)
     {
         if (!double.IsFinite(b) || b <= 0.0)

@@ -9469,20 +9469,23 @@ public static class OpenArcsRegistry
                 "reflections/ON_LEAVING_THE_CIRCLE.md, every mode turns and fades, those are the two " +
                 "clocks, and THE CUT IS T, which carries its own fence, this is a seeing and not a " +
                 "proof, and that fence is the likely reason the sober world never took it.",
-            ParkedAt: "Nothing is built. The inventory is taken and every load-bearing line verified in " +
-                "the source. Two smaller finds sit beside it, owned by no arc: Formulas.D6_MixingTime " +
+            ParkedAt: "Step (1) of NextStep is built; no object owns a duration yet. The inventory is taken " +
+                "and every load-bearing line verified in the source. Two smaller finds sit beside it, owned by no arc: Formulas.D6_MixingTime " +
                 "(n log 4 / 2 gamma) is a genuine DURATION and is UNTESTED, printed at Program.cs:1767 " +
                 "while SmokeTests pins D6_Gap beside it and not it; and two live tensions in the main " +
                 "repo: F14 in TRAPPED_LIGHT_LOCALIZATION now carries its fixed-readout, Hamiltonian-dead " +
                 "Bell+ gamma-sweep scope, not a universal time theorem; hypotheses/WHAT_QUBITS_EXPERIENCE.md " +
                 "stating the arrow-as-bent-angle reading that its own typed claim marks EXCLUDED.",
-            NextStep: "(1) THE SMALL MOVE FIRST, because it needs no theory of time: give Clock its N " +
-                "and both hands. Adopt ClockHandLadderClaim properly, so the object owns the Takt hand " +
-                "2 gamma, the coherence hand omega_mem already sitting in Formulas, and the GEARED " +
-                "angle arctan(Q cos(pi/(N+1))) with its N=2 branch, instead of the ungeared arctan(Q) " +
-                "it owns now. That is one adoption in this world's own genre, and it is the crack in " +
-                "the wall: afterwards there exists an object that owns both hands, and the question " +
-                "whether anything owns a DURATION has somewhere to land. (2) Then the real question, " +
+            NextStep: "(1) The small move is built (2026-11-21): given N, Clock owns the chain's two hands, " +
+                "the Takt hand 2 gamma (a Pair's rate at one disagreement) and the coherence hand " +
+                "Formulas.OmegaMem, and the geared angle between them, arctan(Q cos(pi/(N+1))) for N>=3 " +
+                "and arctan(sqrt(Q^2-1)) at N=2, HandsHeld reading the sufficient side Q > Qstar(N); " +
+                "without N it keeps the one-mode dial arctan(Q), the F95 instance " +
+                "(SmokeTests.Chain_Clock_Owns_Both_Hands_And_The_Geared_Angle; the regime run mode prints " +
+                "the geared angle). So an object owns both hands, and the question whether anything owns " +
+                "a DURATION has somewhere to land. Tom, 2026-11-21: the arc's name describes the world from when " +
+                "it had no time; time was the hardest thing to bring in because we do not know what time is, " +
+                "and that is why there are two clocks. (2) Then the real question, " +
                 "which is hard and is why this was parked for two months: does a duration belong in the " +
                 "Own bucket of any object here, or is the world right that time is a parameter of a run " +
                 "and never a possession? Crack.cs:33 answers yes to the second, in one comment, with no " +

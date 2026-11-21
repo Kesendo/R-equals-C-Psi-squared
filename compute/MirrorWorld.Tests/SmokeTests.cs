@@ -989,6 +989,43 @@ public class SmokeTests
             Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F95_Theta(1.0, b));
     }
 
+    // --- The chain clock (ClockHandLadderClaim adopted): given N, the Clock owns the Takt hand 2 gamma (a
+    // Pair's rate at one disagreement), the coherence hand OmegaMem, and the geared angle between them,
+    // arctan(Q cos(pi/(N+1))) for N >= 3 and arctan(sqrt(Q^2 - 1)) at N = 2, where the ungeared one-mode
+    // dial would read arctan(Q). The gearing is checked against the closed form of the claim; the F95 row
+    // checks that the angle is the one between the two hands the object owns (b = Takt, c = Takt^2 +
+    // coherence^2). The routes differ by a few ulp (residuals 0 or about 1e-14 degrees), so 10 decimals
+    // hold them apart from any wrong gearing (63.43 vs 54.74 at N = 3, Q = 2). ---
+    [Fact]
+    public void Chain_Clock_Owns_Both_Hands_And_The_Geared_Angle()
+    {
+        const double g = 0.5;
+        foreach (double gg in new[] { 0.5, 0.37 })                                // 0.37: 2 gamma is not 1, so a
+        foreach (double q in new[] { 2.0, 3.0 })                                  // wrong gamma factor shows
+        foreach (int n in new[] { 2, 3, 4, 5, 8 })
+        {
+            var c = new Clock(W, q * gg, gg, n);
+            Assert.True(c.TaktHand == -new Pair(W, 0, 1, gg).Rate);               // exactly a Pair's k = 1 rate
+            Assert.True(c.CoherenceHand == Formulas.OmegaMem(n, q * gg, gg));
+            double takt = c.TaktHand!.Value, coh = c.CoherenceHand!.Value;
+            Assert.Equal(c.ThetaDeg, Formulas.F95_Theta(takt * takt + coh * coh, takt) * 180.0 / Math.PI, 10);
+            double geared = n >= 3 ? Math.Atan(c.Q * Math.Cos(Math.PI / (n + 1))) : Math.Atan(Math.Sqrt(c.Q * c.Q - 1.0));
+            Assert.Equal(geared * 180.0 / Math.PI, c.ThetaDeg, 10);
+            Assert.True(c.ThetaDeg < new Clock(W, q * gg, gg).ThetaDeg);           // the gearing slows the one-mode dial
+            Assert.Equal(new[] { "Q", "theta", "takt", "coherence" }, c.Own);
+        }
+        Assert.True(new Clock(W, 2.0 * g, g, 2).HandsHeld);                        // N = 2 above its EP
+        Assert.Equal(new[] { "Q", "theta" }, new Clock(W, 1.0, g).Own);
+        Assert.Equal(0.0, new Clock(W, 0.8 * g, g, 2).ThetaDeg);                   // N = 2 below its EP: the pulled hand stopped
+        Assert.False(new Clock(W, 0.8 * g, g, 2).HandsHeld);
+        Assert.False(new Clock(W, 1.4 * g, g, 3).HandsHeld);                       // Q*(3) = sqrt 2
+        Assert.True(new Clock(W, 1.5 * g, g, 3).HandsHeld);
+        Assert.False(new Clock(W, 1.5 * g, g, 4).HandsHeld);                       // Q*(4) = 1.8787...
+        Assert.True(new Clock(W, 2.0 * g, g, 4).HandsHeld);
+        Assert.Null(new Clock(W, 1.0, g).HandsHeld);
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Clock(W, 1.0, g, 1));
+    }
+
     // --- F99: the five canonical trig anchors. alpha(theta) = sin^2(theta)/2 at {0,30,45,60,90}
     // degrees gives the five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}; the non-uniform Dicke
     // weight is c^2 = cos(theta)/(2 sin^2(theta/2)) with the silver ratio 1+sqrt2 at 45 degrees,
