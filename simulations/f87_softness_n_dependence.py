@@ -9,8 +9,8 @@ set): its eigenvalue spectrum pairs to machine precision at N=5 (soft) and break
 each landing cleanly on its class.
 
 Four corollaries this script also confirms:
-  1. The PalindromeSoftCertifier's certified 2-body site-swap cases (XX+XY+YX, YY+XY+YX) stay soft
-     to N=6 at machine precision (pairErr ~1e-13, N-k = 4). The shipped certifier is sound past the
+  1. The PalindromeSoftCertifier's certified 2-body site-swap cases (XX+XY+YX to N=6, YY+XY+YX to
+     N=5) stay soft at machine precision (pairErr ~1e-13; N-k = 4 at N=6). The shipped certifier is sound past the
      N=5 it was verified to.
   2. XZX+XZY+YZX is stably soft at N=4,5,6 for a proven reason: the period-4 golden router under
      the window-summed condition. No per-term router in the bounded candidate set reaches it, which

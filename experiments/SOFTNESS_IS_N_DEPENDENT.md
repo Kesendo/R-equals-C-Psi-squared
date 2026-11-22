@@ -37,11 +37,16 @@ odd hard), is wrong, and the way it is wrong is the finding.
 Each witness is a sum of reversal-symmetric Pauli templates placed by the sliding-window builder on an
 open chain of N sites at coupling J=1 under uniform Z-dephasing γ=0.05. Every ‖M‖ below is exactly
 linear in J and γ-independent; ‖L‖ and the pairing errors carry the dissipator too and move with
-both, so every number here belongs to that (J, γ) pair. We read three numbers per (witness, N):
+both, so every number here belongs to that (J, γ) pair. We read two numbers per (witness, N):
 the
 palindrome residual ‖M‖ (which vanishes only for the exactly-soluble "truly" case), and the maximum
-spectral pairing-error, namely how far the nearest partner of each eigenvalue λ sits from its mirror
-target −λ−2Σγ. A pairing-error at machine precision is soft; an O(1) error is hard. Reading the
+spectral pairing-error of a greedy matching: each eigenvalue λ in turn takes the closest still-unused
+eigenvalue to its mirror target −λ−2Σγ, and the largest distance taken is the error. A greedy matching
+can only overstate the error of the best one-to-one pairing, so the hard numbers below are upper bounds:
+at N=6 the witness's nearest partners sit within about 0.027 and the best one-to-one pairing (the
+bottleneck the framework computes) within about 0.121, against the greedy 0.2, and every verdict here is
+the same under each measure. A
+pairing-error at machine precision is soft; an O(1) error is hard. Reading the
 magnitude, not just the class label, is what lets us tell a real hard verdict from a near-degenerate
 numerical wobble; it is the whole reason this crossing can be called genuine.
 
@@ -146,17 +151,26 @@ pair of windows at offsets 1, 2 and 4 and beyond, in Gaussian rationals; a law t
 square flat, or the odd parity the flat one, fails it.
 
 *Sweep for this section.* The witness's name appears in this note, its script,
-`KBodyPalindromeRouting` and the experiments index, and nowhere in `docs/ANALYTICAL_FORMULAS.md`,
-the proofs, the OpenArcs registry, the glossary, `docs/CAUGHT_ERRORS.md` or `fw.Confirmations`; the
-documents that cite this note do so on other points. Searched by its class instead (a real Pauli
+`KBodyPalindromeRouting`, the experiments index, [the sieve and the stitch](THE_SIEVE_AND_THE_STITCH.md)
+with MirrorWorld's `SieveTests`, which pins the crossing as a Mixed chain cell, and the ledger, and nowhere
+in the glossary, the OpenArcs registry or `fw.Confirmations`; F173's registry entry and
+[its proof](../docs/proofs/PROOF_SIGNED_MASK_BALANCE.md) read its flip set, the proof also its ratio ρ, naming
+this note.
+Several pages cite this note on the N-dependence of the verdict, among them
+[the palindrome classifier](THE_PALINDROME_CLASSIFIER.md), the two-term routing note and the golden-router
+proof. Searched by its class instead (a real Pauli
 Hamiltonian under Z on every site), the repo answers with F158 and its proof (the criterion), the
 complement connection's Theorem 2 (the reading above, typed as `PalindromeComplementConnectionClaim`,
 live at `inspect --root complement` and in MirrorWorld's `EndCount.ComplementConnection`), and [the
 palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md), whose frame theorem is Theorem 2's
 statement from the string side and whose per-term rule and anticommuting sums the bullets use;
-none of them is applied to this witness. Checked for adjacency: the colouring page's section on
+beyond this note only the sieve's test applies one of them to this witness (F158's end count, through the
+sieve's letters). Checked for adjacency: the colouring page's section on
 the golden router reads its chains window by window too, for a G that commutes with H, and finds a
-period-4 rhythm forced along each parity chain, where here the window conditions run out instead.
+period-4 rhythm forced along each parity chain, where here the window conditions run out instead; and the
+stitch's free-chain reader (`Stitch.FreeEveryN`) rests on the same squares of window flips, giving its yes
+for every chain length from a floor on (nine sites here) only when all of them close, which here an
+offset-2 square does not.
 
 So the discriminator we set out to find, a rule on the X/Y phase pattern that would call
 XXXX+XYYY+YYYX soft and XXX+XXY+YXX hard, does not exist as a property of the Hamiltonian, for a simple
@@ -177,11 +191,13 @@ cases survive the longer chain?
 
 They survive, at machine precision, with a margin (N−k = 4) far past the danger zone where the
 finite-size softness lived (N−k = 1). The pairing-error grows only with the matrix size, tracking the
-precision floor; it never drifts toward a break. The certified 2-body cases are N-stably soft. That
-is the structural reading of the certifier's 2-body gate in
+precision floor; it never drifts toward a break. The certified 2-body cases are N-stably soft, measured
+here to N = 6 for XX + XY + YX and to N = 5 for its mirror. That is the structural reading of the
+certifier's 2-body gate in
 [`PalindromeSoftCertifier`](../compute/RCPsiSquared.Diagnostics/F87/PalindromeSoftCertifier.cs),
 which holds its site-swap strategy to exactly two non-identity letters. (A separate gate requires
-those two to be adjacent; each rejects a different false positive.)
+those two to be adjacent; each rejects a different false positive.) XX + XY + YX is, besides, paired at
+every length by a uniform map ([the cube site by site](THE_CUBE_SITE_BY_SITE.md)).
 
 The gate is not, however, the place where N-stable softness ends for the lit family. Sweeping all
 twelve three-term reversal-symmetric fully-lit (no-Z) k=3 sets gives 8 hard, 2 truly and 2 soft, the
@@ -201,7 +217,7 @@ against ‖L‖ = 55.5 and 136.0, while the same construction misses by 45.2 and
 control, so the check discriminates. M2, the same permutation with conjugate phases, routes them too;
 P4 is simply the first the search reaches. That certificate is constructive and additive over windows,
 hence N-independent, and it settles both halves of the verdict at every N ≥ 3: the palindrome because
-Π = P4^⊗N exhibits it, and non-truly because all three templates are Π²-odd, so H_odd = H and F83
+Π = P4^⊗N exhibits it, and non-truly because all three templates are Π²-odd, so H_odd = H and F85
 gives ‖M‖² = 4·2^N·‖H‖² > 0, which at N = 4, 5, 6 is 6144, 36864 and 196608, i.e. the ‖M‖ column
 above before rounding (768 at N = 3, the shortest chain a k=3 template fits). Soft at every
 length, not merely out to the length we can diagonalise.
@@ -269,10 +285,13 @@ for k≥3: the trichotomy verdict is a function of (Hamiltonian, N), not of the 
 "soft" read off a small chain deserves an N-stability check before it is trusted. (The trichotomy that
 F85 calls N-stable is a different cut of the same word: the Π²-class truly / Π²-odd / Π²-even-non-truly
 is computed from the letter parities alone, so it cannot depend on N. What moves with N is the spectral
-soft/hard line drawn inside the non-truly class.) The certifier earns its certificate precisely by
-certifying only the mechanisms (the chiral K, the hidden Q) that hold at every length.
+soft/hard line drawn inside the non-truly class.) The certifier earns its certificate by exhibiting a
+mechanism (the chiral K, the hidden Q) rather than reading a spectrum: a router built from per-site maps
+holds at every length, and so do the excitation pairing and parity, chiral-K colourings that take no
+length, while the linear site colouring and the site swap are read on the chain of the length asked and
+certify that length (the site swap on a sweep at N = 3 to 5, not a derivation).
 
 The mirror that holds at one length can break at the next. Softness, for some higher-body terms, is a
-grace of being small; for others it is a router, and the certificate is exactly the difference between
-the two. Where a router is exhibited the length stops mattering; where none is, the length is the first
+grace of being small; for others it is a router, and the router's certificate is exactly the difference
+between the two. Where a router is exhibited the length stops mattering; where none is, the length is the first
 thing to vary.
