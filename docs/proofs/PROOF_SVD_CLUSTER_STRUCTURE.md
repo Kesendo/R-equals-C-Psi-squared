@@ -38,9 +38,9 @@ where each M_l is a 4×4 matrix on per-site Pauli space. Furthermore:
 
 1. Each M_l is **normal**.
 2. For P = X: M_l = 0.
-3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·i and −2c_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|). Y and Z give algebraically distinct M_l matrices but spectrally identical. (The eigenvalues are γ-independent: the dephasing rate cancels by Lemma 1; verified numerically at γ≠1 in `simulations/f78_gamma_check.py`.)
+3. For P ∈ {Y, Z}: M_l has eigenvalues +2c_l·i and −2c_l·i, each with multiplicity 2 in the per-site basis (singular values all equal to 2|c_l|). Y and Z give algebraically distinct M_l matrices but spectrally identical. (The eigenvalues are γ-independent: the dephasing rate cancels by Lemma 1; verified numerically at γ≠1 for Y fields in `simulations/f78_gamma_check.py`, and at one site for Y and Z in `PerSiteEigenvalues_MatchTheBuiltResidual_AtTwoRates`, the test of the typed claim `F78SingleBodyMAdditivePi2Inheritance`.)
 
-The full M's eigenvalues are Σ_l ε_l·2c_l·i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. Singular values are |Σ_l ε_l·2c_l|, with the same multiplicities. Cluster sizes are pure sign-combination statistics on the weight vector (c_l).
+With P_l ∈ {Y, Z} on every site, the full M's eigenvalues are Σ_l ε_l·2c_l·i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. Singular values are |Σ_l ε_l·2c_l|, with the same multiplicities. Cluster sizes are pure sign-combination statistics on the weight vector (c_l).
 
 ### Theorem F79 (Two-body Π²-Block Decomposition)
 
@@ -250,7 +250,7 @@ Block-decomposes into (I, Z) and (X, Y) blocks; same trace/det analysis: eigenva
 
 ### From M_l to full M's spectrum
 
-Since each M_l is normal and the {M_l ⊗ I_(others)}_l mutually commute (acting on different tensor factors), M = Σ_l M_l ⊗ I_(others) is normal. Eigenvalues of M are sums Σ_l λ_l where λ_l ∈ Spec(M_l). Multiplicities multiply across sites:
+Since each M_l is normal and the {M_l ⊗ I_(others)}_l mutually commute (acting on different tensor factors), M = Σ_l M_l ⊗ I_(others) is normal. Eigenvalues of M are sums Σ_l λ_l where λ_l ∈ Spec(M_l). Multiplicities multiply across sites; with P_l ∈ {Y, Z} on every site (an X site contributes M_l = 0):
 
     Spec(M) = { Σ_l ε_l · 2c_l·i : ε_l ∈ {+1, −1} }, multiplicity 2^N per sign-combination.
 
@@ -390,7 +390,7 @@ When both (R1) and (R2) hold, M of the 2-body multi-bond Hamiltonian is unitaril
 
 The Lebensader reduction therefore closes the universality for the (R1)+(R2)-cases (which include single-bond, disjoint, and star-with-distinct-reductions) but not for cases where bonds non-commute (chain) or reductions collide (star with same hub-Pauli).
 
-**Update 2026-04-29: chain case CLOSED via F80.** The chain bond-summed Π²-odd 2-body universality is closed by a separate theorem F80, which gives explicit cluster values via a momentum-space sign-walk: cluster(N) = 2|c|γ·|Σ_k σ_k·ε(k)| with ε(k) = 2cos(πk/(N+1)) the open-chain free-fermion dispersion. F80's mechanism is JW reduction to a Majorana bilinear, whose single-particle spectrum is letter-independent across the 4 Π²-odd Pauli pairs. Verified bit-exact through N=7. The "characteristic polynomial route" is realized via JW + Bogoliubov mode decomposition. See [PROOF_F80_BLOCH_SIGNWALK.md](PROOF_F80_BLOCH_SIGNWALK.md). The remaining open R1-violating cases are star-with-same-hub-Pauli and other non-chain non-commuting-bond topologies, where the corresponding graph-Bloch dispersion needs case-by-case analysis.
+**Update 2026-04-29: chain case CLOSED via F80.** The chain bond-summed Π²-odd 2-body universality is closed by a separate theorem F80, which gives explicit cluster values via a momentum-space sign-walk: cluster(N) = 2|c|·|Σ_{k=1}^{⌊N/2⌋} σ_k·ε(k)| with ε(k) = 2cos(πk/(N+1)) the open-chain free-fermion dispersion. F80's mechanism is JW reduction to a Majorana bilinear, whose single-particle spectrum is letter-independent across the 4 Π²-odd Pauli pairs. Verified through N=7. The "characteristic polynomial route" is realized via JW + Bogoliubov mode decomposition. See [PROOF_F80_BLOCH_SIGNWALK.md](PROOF_F80_BLOCH_SIGNWALK.md). The remaining open R1-violating cases are star-with-same-hub-Pauli and other non-chain non-commuting-bond topologies, where the corresponding graph-Bloch dispersion needs case-by-case analysis.
 
 ---
 

@@ -8,10 +8,10 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <list type="bullet">
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_0 = 2</c>
-///         (EigenvalueCoefficient in ±2c_l·γ·i) and <c>a_{−1} = 4</c>
+///         (EigenvalueCoefficient in ±2c_l·i) and <c>a_{−1} = 4</c>
 ///         (PerSiteDimension).</item>
 ///   <item><see cref="Pi2I4MemoryLoopClaim"/>: provides <c>i = i^1</c>
-///         (ImaginaryUnit in ±2c_l·γ·i; same anchor as F80's IFactor).</item>
+///         (ImaginaryUnit in ±2c_l·i; same anchor as F80's IFactor).</item>
 ///   <item><see cref="F1Pi2Inheritance"/>: M IS F1's residual operator;
 ///         F78 reads its single-body additive structure.</item>
 /// </list>

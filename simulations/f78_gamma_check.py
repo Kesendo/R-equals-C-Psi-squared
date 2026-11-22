@@ -1,22 +1,23 @@
 """
 Gate-first check of the F78 single-body M eigenvalue formula.
 
-PROOF_SVD_CLUSTER_STRUCTURE.md Theorem F78 (lines 41/43) states, for a single-body
-H = sum_l c_l P_l with P in {Y,Z} under uniform Z-dephasing gamma_l:
-
-    M_l eigenvalues = +/- 2 c_l gamma_l i        (full M: sum_l eps_l 2 c_l gamma_l i)
-
-The Abstract (added this session) claims instead, citing the Master Lemma that M is
-gamma-independent:
+F78 (PROOF_SVD_CLUSTER_STRUCTURE.md Theorem F78, the registry entry in
+docs/ANALYTICAL_FORMULAS.md and the typed claim F78SingleBodyMAdditivePi2Inheritance)
+gives, for a single-body H = sum_l c_l P_l with P in {Y,Z} under uniform Z-dephasing,
 
     M_l eigenvalues = +/- 2 c_l i                 (full M: sum_l eps_l 2 c_l i)
 
-These differ by a factor gamma_l. The two coincide only at gamma = 1, which would hide
-the discrepancy. This verifier builds M = Pi L Pi^-1 + L + 2*sigma*I from first
-principles in the Pauli basis at gamma != 1 and reads the eigenvalues directly.
+independent of gamma by the Master Lemma. A form carrying the rate,
++/- 2 c_l gamma_l i, coincides with it only at gamma = 1. This verifier builds
+M = Pi L Pi^-1 + L + 2*sigma*I from first principles in the Pauli basis for Y
+fields at N = 1, 2, 3 and site-dependent rates gamma_l != 1 (the Master Lemma's
+cancellation is per site, so it carries through to unequal rates), and reads the
+eigenvalues directly.
 
-STAGE 0 GATE: at gamma != 1, the numeric eigenvalues must match exactly one of the two
-candidate formulas. The one they match is the correct one; the other's gate fires.
+GATE: the real parts of the eigenvalues are below 1e-9, and the set of their distinct
+nonzero imaginary parts (rounded to 5 decimals) equals that of the gamma-free form
+and differs from that of the gamma-carrying one (a guard that the chosen rates tell
+the two forms apart).
 """
 
 import itertools
@@ -148,8 +149,8 @@ def report(N, c, gamma):
     print(f"matches gamma-DEPENDENT   (+/-2c_l gamma i): {match_dep}")
     assert re_max < 1e-9, "GATE: M is not purely imaginary -> Master Lemma broken"
     assert match_indep, "GATE: numeric eig does NOT match +/-2c_l i"
-    assert not match_dep, "GATE: numeric eig matches the gamma-dependent formula (proof body)"
-    print("=> Abstract (gamma-independent +/-2c_l i) CONFIRMED; proof-body gamma_l is spurious.\n")
+    assert not match_dep, "GATE: numeric eig matches the gamma-carrying formula"
+    print("=> the eigenvalues are the gamma-independent +/-2c_l i; the gamma-carrying form fails.\n")
 
 
 if __name__ == "__main__":

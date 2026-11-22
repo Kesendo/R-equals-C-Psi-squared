@@ -81,7 +81,7 @@ public class F78SingleBodyMAdditivePi2InheritanceRegistrationTests
             .RegisterF78SingleBodyMAdditivePi2Inheritance()
             .Build();
         Assert.True(registry.Get<F78SingleBodyMAdditivePi2Inheritance>()
-            .YEqualsZSvdSpectrum(cl: 1.0, gammaZero: 0.05));
+            .YEqualsZSvdSpectrum(cl: 1.0));
     }
 
     [Fact]

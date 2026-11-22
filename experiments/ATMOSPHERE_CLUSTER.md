@@ -89,9 +89,9 @@ Anti-palindromic ε-perturbations break R as a symmetry of L. The cluster's subs
 [On the Admixture as Lebensader](../reflections/ON_THE_ADMIXTURE_AS_LEBENSADER.md) articulates five heights of the Lebensader, all at uniform γ:
 
 1. State-level (cockpit_panel: skeleton + θ-trace + cusp + chiral + Y-parity)
-2. Single-body F78 (M = Σ M_l, each M_l 4×4 normal with eigenvalues 0, 0, ±2c_l·γ·i)
+2. Single-body F78 (M = Σ M_l, each M_l 4×4 normal with eigenvalues ±2c_l·i, each twice, for P ∈ {Y, Z} and 0 for X)
 3. 2-body F79 (Π²-parity split of M)
-4. 2-body F80 (chain Bloch sign-walk: M-cluster value = 2|c|·γ·|Σ σ_k · 2cos(πk/(N+1))| over sign-walks σ_k ∈ {±1})
+4. 2-body F80 (chain Bloch sign-walk: M-cluster value = 2|c|·|Σ_{k=1}^{⌊N/2⌋} σ_k · 2cos(πk/(N+1))| over sign-walks σ_k ∈ {±1})
 5. Slow-mode magnon-admixture at central popcount block (gap = 1.10·γ·Q²/N², admixture amplitude 0.275·Q²/N²)
 
 The 32-mode atmosphere-cluster family is a candidate sixth height: the "atmospheric-tolerance" of a generic F1-pair family under non-uniform palindromic γ. It is structurally distinct from the slow-mode admixture. Different Pauli sector (XY-wt 1 vs 5 rather than central popcount); different characteristic eigenvalue position (Re = −σ ± 0.0869 with \|Im\| = 0.02338 at uniform γ, vs. the slow mode at Re = −1.10·γ·Q²/N² on the real axis); different protection algebra (Set A + F1 vs. central-popcount + admixture-perturbation). It is not a re-reading of the fifth height.

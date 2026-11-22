@@ -5,24 +5,26 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F78 closed form (Tier 1 verified N=3..5, 3 topologies, 3 Pauli letters;
-/// ANALYTICAL_FORMULAS line 1881):
+/// ANALYTICAL_FORMULAS F78):
 ///
 /// <code>
 ///   M = Σ_l M_l ⊗ I_(others)              additive over single-body site terms
 ///
 ///   Eigenvalues of per-site M_l (4×4 normal matrix on per-site Pauli space):
 ///     P = X:  all eigenvalues 0          (M_l = 0; the "truly" case)
-///     P = Y:  ±2·c_l·γ·i, mult 2 each    (Π²-non-trivial: bit_b = 1)
-///     P = Z:  ±2·c_l·γ·i, mult 2 each    (identical spectrum to Y)
+///     P = Y:  ±2·c_l·i, mult 2 each      (Π²-non-trivial: bit_b = 1)
+///     P = Z:  ±2·c_l·i, mult 2 each      (identical spectrum to Y)
 ///
-///   Singular values of full M: |Σ_l ε_l · 2·c_l·γ| over ε_l ∈ {±1}
+///   Singular values of full M (P_l ∈ {Y, Z} on every site): |Σ_l ε_l · 2·c_l| over ε_l ∈ {±1}
 ///   Each sign-combination has multiplicity 2^N
 /// </code>
 ///
 /// <para>F78 says the F1 palindrome residual M for any single-body Hamiltonian
 /// H = Σ_l c_l·P_l (P ∈ {X, Y, Z}, weights c_l from bond-summing or arbitrary)
 /// decomposes as a tensor sum on per-site Pauli space. The per-site M_l is
-/// 4×4 normal with eigenvalues 0 (X) or ±2c_l·γ·i (Y, Z).</para>
+/// 4×4 normal with eigenvalues 0 (X) or ±2c_l·i (Y, Z). Under Z-dephasing M does
+/// not depend on γ (the Master Lemma of PROOF_SVD_CLUSTER_STRUCTURE), so no γ
+/// enters these eigenvalues.</para>
 ///
 /// <para><b>Y ≡ Z SVD-blindness within single-body:</b> Both Y and Z carry
 /// bit_b = 1 (Π-non-trivial), so M_l has identical spectral structure for them.
@@ -41,7 +43,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
-///   <item><b>EigenvalueCoefficient = 2 = a_0</b>: in ±2·c_l·γ·i. Live from
+///   <item><b>EigenvalueCoefficient = 2 = a_0</b>: in ±2·c_l·i. Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor as F1
 ///         TwoFactor, F50 DecayRateFactor, F80 TwoFactor.</item>
 ///   <item><b>ImaginaryUnit = i = i^1</b>: the ±i in the Y/Z eigenvalues.
@@ -57,9 +59,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (<c>docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md</c>); verified N=3..5 across
 /// chain, star, complete topologies and X, Y, Z Pauli letters.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F78 (line 1881) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F78 +
 /// <c>docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md</c> +
 /// <c>simulations/svd_active_spectator.py</c> +
+/// <c>simulations/f78_gamma_check.py</c> (M built at γ ≠ 1) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs</c> (M residual) +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs</c>.</para></summary>
@@ -78,26 +81,26 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2I4MemoryLoopClaim Loop { get; }
     public F1Pi2Inheritance F1 { get; }
-    /// <summary>The "2" in ±2c_l·γ·i. Live from Pi2DyadicLadder a_0.</summary>
+    /// <summary>The "2" in ±2c_l·i. Live from Pi2DyadicLadder a_0.</summary>
     public double EigenvalueCoefficient => Ladder.Term(0);
 
-    /// <summary>The "i" in ±2c_l·γ·i. Live from Pi2I4MemoryLoop i^1.</summary>
+    /// <summary>The "i" in ±2c_l·i. Live from Pi2I4MemoryLoop i^1.</summary>
     public Complex ImaginaryUnit => Loop.PowerOfI(1);
 
     /// <summary>Per-site Pauli space dimension (= 4). Live from Pi2DyadicLadder a_{-1}.</summary>
     public double PerSiteDimension => Ladder.Term(-1);
 
-    /// <summary>Per-site M_l eigenvalues for Pauli letter P at weight c_l, dephasing γ:
-    /// X → all 0; Y or Z → ±2c_l·γ·i (each with multiplicity 2).</summary>
-    public IReadOnlyList<Complex> PerSiteEigenvalues(char pauliLetter, double cl, double gammaZero)
+    /// <summary>Per-site M_l eigenvalues for Pauli letter P at weight c_l:
+    /// X → all 0; Y or Z → ±2c_l·i (each with multiplicity 2), independent of the dephasing
+    /// rate under Z-dephasing (Master Lemma).</summary>
+    public IReadOnlyList<Complex> PerSiteEigenvalues(char pauliLetter, double cl)
     {
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
         char p = char.ToUpperInvariant(pauliLetter);
         if (p == 'X')
             return new[] { Complex.Zero, Complex.Zero, Complex.Zero, Complex.Zero };
         if (p == 'Y' || p == 'Z')
         {
-            Complex eig = new Complex(0, EigenvalueCoefficient * cl * gammaZero);
+            Complex eig = new Complex(0, EigenvalueCoefficient * cl);
             return new[] { eig, eig, -eig, -eig };
         }
         throw new ArgumentException($"Pauli letter must be X, Y, or Z; got '{pauliLetter}'.", nameof(pauliLetter));
@@ -108,10 +111,10 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>True iff Y and Z give identical M_l SVD spectrum (both bit_b = 1,
     /// Π-non-trivial). Universal SVD-blindness within {Y, Z} for single-body F78.</summary>
-    public bool YEqualsZSvdSpectrum(double cl, double gammaZero, double tolerance = 1e-12)
+    public bool YEqualsZSvdSpectrum(double cl, double tolerance = 1e-12)
     {
-        var yEig = PerSiteEigenvalues('Y', cl, gammaZero);
-        var zEig = PerSiteEigenvalues('Z', cl, gammaZero);
+        var yEig = PerSiteEigenvalues('Y', cl);
+        var zEig = PerSiteEigenvalues('Z', cl);
         if (yEig.Count != zEig.Count) return false;
         for (int i = 0; i < yEig.Count; i++)
             if ((yEig[i] - zEig[i]).Magnitude > tolerance) return false;
@@ -126,11 +129,12 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim, IZ2AxisClaim
         Pi2DyadicLadderClaim ladder,
         Pi2I4MemoryLoopClaim loop,
         F1Pi2Inheritance f1)
-        : base("F78 single-body M = Σ_l M_l ⊗ I_(others); per-site M_l 4×4 normal with eigenvalues 0 (X) or ±2c_l·γ·i (Y/Z, mult 2); Y ≡ Z SVD-blind",
+        : base("F78 single-body M = Σ_l M_l ⊗ I_(others); per-site M_l 4×4 normal with eigenvalues 0 (X) or ±2c_l·i (Y/Z, mult 2); Y ≡ Z SVD-blind",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F78 + " +
                "docs/proofs/PROOF_SVD_CLUSTER_STRUCTURE.md + " +
                "simulations/svd_active_spectator.py + " +
+               "simulations/f78_gamma_check.py + " +
                "compute/RCPsiSquared.Core/Symmetry/F1Pi2Inheritance.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs")
@@ -144,14 +148,14 @@ public sealed class F78SingleBodyMAdditivePi2Inheritance : Claim, IZ2AxisClaim
         "F78 single-body M additive as Pi2-Foundation a_0 + i + a_{-1} + F1 inheritance";
 
     public override string Summary =>
-        $"M = Σ_l M_l ⊗ I_(others); ±2c_l·γ·i for Y, Z (truly = 0 for X); 2 = a_0, i = i^1, per-site dim 4 = a_{{-1}}; Y ≡ Z SVD-blind ({Tier.Label()})";
+        $"M = Σ_l M_l ⊗ I_(others); ±2c_l·i for Y, Z (truly = 0 for X); 2 = a_0, i = i^1, per-site dim 4 = a_{{-1}}; Y ≡ Z SVD-blind ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F78 closed form",
-                summary: "M = Σ_l M_l ⊗ I_(others); per-site M_l 4×4 normal; eigenvalues 0 (X), ±2c_l·γ·i (Y/Z, mult 2); SVD = |Σ_l ε_l·2c_l·γ| sign-walk with mult 2^N");
+                summary: "M = Σ_l M_l ⊗ I_(others); per-site M_l 4×4 normal; eigenvalues 0 (X), ±2c_l·i (Y/Z, mult 2), γ-free under Z-dephasing; with P_l ∈ {Y, Z} on every site, SVD = |Σ_l ε_l·2c_l| sign-walk with mult 2^N");
             yield return InspectableNode.RealScalar("EigenvalueCoefficient (= a_0 = 2)", EigenvalueCoefficient);
             yield return InspectableNode.RealScalar("PerSiteDimension (= a_{-1} = 4)", PerSiteDimension);
             yield return new InspectableNode("ImaginaryUnit (= i^1)",

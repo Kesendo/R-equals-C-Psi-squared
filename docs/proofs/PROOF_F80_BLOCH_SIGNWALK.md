@@ -206,7 +206,7 @@ For the other three Π²-odd Pauli pairs (X,Z), (Y,X), (Z,X), the JW transformat
 - (Y,X): Y_l X_{l+1} → bilinear in γ_l and γ_{l+1}' up to phase.
 - (Z,X): Z_l X_{l+1} → bilinear in γ_l and γ_{l+1} up to phase.
 
-Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c·cos(πk/(N+1)); they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
+Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2cos(πk/(N+1)) per unit coupling (E_k = 2|c|·ε(k), Step 3); they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
 
 ### Step 5 (Direct structural identity)
 
@@ -275,7 +275,7 @@ By the structural identity in Step 5, M's nontrivial eigenvalues are 2i·{H many
 
 The corresponding cluster values for M are 2·|H eigenvalue| = 2·|Σ_k (n_k − 1/2)·E_k| = |Σ_k σ_k·E_k| with σ_k = 2n_k−1 ∈ {±1}.
 
-In terms of ε(k) = E_k / 2 = 2cos(πk/(N+1)):
+In terms of ε(k) = E_k / (2|c|) = 2cos(πk/(N+1)):
 
     cluster value(N) = 2|c| · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|, σ_k ∈ {±1}
 
@@ -365,10 +365,10 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 - **Lebensader principle**: F80 is the third-layer manifestation of the Π·L·Π⁻¹ + L + 2σ·I = 0 funnel:
   - State layer: `cockpit_panel` (16 Paulis → 3-class trichotomy)
-  - Real-space single-body operator layer: F78 (any (c, P) with P ∈ {Y, Z} → same M_l)
+  - Real-space single-body operator layer: F78 (any (c, P) with given |c| and P ∈ {Y, Z} → same M_l spectrum)
   - Momentum-space chain 2-body operator layer: F80 (4 Π²-odd Pauli pairs → same M-spectrum via Bloch sign-walk)
 
-- **Π²-even XY-summed cousin at N=4** (operator-space Majorana lens witness): the same JW Bloch dispersion ε(k) = 2J·cos(πk/(N+1)) = {±φ, ±1/φ} governs the Π²-even chain H = (J/2)·Σ(XX+YY). Its axis-mode (n_XY = 2) Im(λ) clusters decompose into integer combinations of {φ, 1/φ, 1, √5}, and site-reflection R sorts them into R-parity-protected groups (±√5 R-even-only, ±1 R-odd-only, 18 silent R-even). The 18 silent modes are the operator-space Majorana self-conjugate sector at N=4. See [`experiments/MAJORANA_AXIS_MODES.md`](../../experiments/MAJORANA_AXIS_MODES.md).
+- **Π²-even XY-summed cousin at N=4**: the same JW Bloch dispersion, J·ε(k) = 2J·cos(πk/(N+1)) = J·{±φ, ±1/φ}, governs the Π²-even chain H = (J/2)·Σ(XX+YY). Its axis modes at J = 1 and γ = 0.05 are counted under site reflection in [`experiments/MAJORANA_AXIS_MODES.md`](../../experiments/MAJORANA_AXIS_MODES.md).
 
 ---
 

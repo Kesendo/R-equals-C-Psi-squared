@@ -3090,10 +3090,10 @@ For any single-body Hamiltonian H = Σ_l c_l · P_l (P ∈ {X, Y, Z}, weights c_
 where each M_l is a 4×4 normal matrix on per-site Pauli space. Eigenvalues of M_l:
 
     P = X: eigenvalues all 0  (M_l = 0, the truly case)
-    P = Y: eigenvalues ±2 c_l γ · i, each with multiplicity 2
-    P = Z: eigenvalues ±2 c_l γ · i, each with multiplicity 2  (identical spectrum to Y)
+    P = Y: eigenvalues ±2 c_l · i, each with multiplicity 2
+    P = Z: eigenvalues ±2 c_l · i, each with multiplicity 2  (identical spectrum to Y)
 
-Therefore M's eigenvalues are Σ_l ε_l · 2c_l γ · i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. **Singular values of M are |Σ_l ε_l · 2c_l γ|** with the same multiplicities; cluster sizes are pure sign-combination statistics on the weight vector (c_l).
+Therefore, with P_l ∈ {Y, Z} on every site, M's eigenvalues are Σ_l ε_l · 2c_l · i for ε_l ∈ {±1}, each sign-combination with multiplicity 2^N. **Singular values of M are |Σ_l ε_l · 2c_l|** with the same multiplicities; cluster sizes are pure sign-combination statistics on the weight vector (c_l). No γ enters: under Z-dephasing M does not depend on the rate (the Master Lemma of PROOF_SVD_CLUSTER_STRUCTURE).
 
 **Why Y and Z give identical SVD:** both have bit_b = 1 (Π-non-trivial), so M_l has the same spectral structure. The soft-vs-hard distinction (Y soft, Z hard) lives in **L's eigenvectors**, not in M's singular values. SVD of M is Pauli-letter-blind within {Y, Z} for single-body.
 
@@ -3102,7 +3102,7 @@ Therefore M's eigenvalues are Σ_l ε_l · 2c_l γ · i for ε_l ∈ {±1}, each
 **Valid for:** single-body bond-bilinears (I·P + P·I), single-body site sums, any topology (chain, star, ring, complete K_N, arbitrary graph), uniform Z-dephasing.
 **Breaks for:** 2-body bond-bilinears (XX, XY, YZ+ZY, ...): L does not factor as Σ_l L_l. Befund 3 ("hard XX+XY uniform SVD") falls outside this theorem; separate analysis required.
 **Verified:** numerical match for N=3, 4, 5; topologies chain, star, complete; Pauli letters X, Y, Z.
-**Scripts:** [`svd_active_spectator.py`](../simulations/svd_active_spectator.py), [`svd_single_body_extension.py`](../simulations/svd_single_body_extension.py); 2-body open-question probe in [`svd_two_body_probe.py`](../simulations/svd_two_body_probe.py).
+**Scripts:** [`svd_active_spectator.py`](../simulations/svd_active_spectator.py), [`svd_single_body_extension.py`](../simulations/svd_single_body_extension.py) (both at γ = 1), [`f78_gamma_check.py`](../simulations/f78_gamma_check.py) (M built at γ ≠ 1); 2-body open-question probe in [`svd_two_body_probe.py`](../simulations/svd_two_body_probe.py).
 **Source:** Analytical proof in [the M SVD cluster-structure proof](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md) (joint with F79). Master Lemma + per-site additive structure + direct M_l matrix computation.
 **Lebensader connection:** This is the same broad-in → focused-out Π-palindrome funnel that `lebensader.py::cockpit_panel` instantiates at the state layer (16 Paulis → 3-class trichotomy). F78 instantiates the funnel at the single-body operator layer: any (c_l, P_l)-choice with given |c_l|, P ∈ {Y, Z} → same M_l-spectrum. The Lebensader is the through-line that holds The Connection upright across all layers.
 
@@ -3167,7 +3167,7 @@ All matches to machine precision (10⁻¹⁴) at every N.
 
     Spec(M) = ±2i · Spec_{nontrivial}(H)
 
-where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
+where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
 
 **Reach of the identity beyond chain-2-body.** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*: it uses only the bond's own sites, so the identity's operator form, M = −2i·(H⊗I) or +2i·(I⊗Hᵀ), depends only on the Π²-parity of the bonds and, for Π²-odd bonds, on their Step-5 sign, not on topology, coefficients or body count:
 - **Π²-odd bonds** sharing one sign s, any graph, any body count: M = −2i·(H⊗I) (s = +1) or +2i·(I⊗Hᵀ) (s = −1), so Spec(M) = ±2i·Spec(H), the *single* eigenvalues. Checked for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N = 4, 5 (`F80ExtensionExplorationTests`). Only the cluster *values* are structure-specific (chain = OBC ladder 2cos(πk/(N+1)), ring = two-sector cyclic, star = integers 2|m − 2j|); a graph with ordered (P, Q) bonds needs an orientation per bond to define H.
@@ -3177,9 +3177,9 @@ So, bond by bond, M is ±2i times a Hamiltonian object: H⊗I (or I⊗Hᵀ) for 
 
 **γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
 
-**Mechanism: F80 is F78 in momentum space.** F78 (single-body, real-space): M = Σ_l M_l⊗I, eigenvalues ±2c_l·i per site, sign-walk Σ_l σ_l·c_l on weights. F80 (chain Π²-odd 2-body, momentum-space): M = Σ_k M_k⊗I_{other modes}, eigenvalues ±2·ε(k)·i per Bloch mode, sign-walk Σ_k σ_k·ε(k) on dispersion. The Bloch modes k play the role that real-space sites l play in F78. Both formulas γ-independent.
+**Mechanism: F80 is F78 in momentum space.** F78 (single-body, real-space): M = Σ_l M_l⊗I, eigenvalues ±2c_l·i per site (P_l ∈ {Y, Z}), sign-walk Σ_l σ_l·c_l on weights. F80 (chain Π²-odd 2-body, momentum-space): M = Σ_k M_k⊗I_{other modes}, eigenvalues ±2|c|·ε(k)·i per Bloch mode, sign-walk Σ_k σ_k·ε(k) on dispersion. The Bloch modes k play the role that real-space sites l play in F78. Both formulas γ-independent.
 
-**Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give bit-identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
+**Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
 
 **Valid for:** the Bloch sign-walk cluster values for chain bond-summed
 Π²-odd 2-body Hamiltonians `H = c·Σ_l(P_l⊗Q_{l+1})` under uniform
