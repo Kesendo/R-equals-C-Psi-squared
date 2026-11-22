@@ -5290,8 +5290,8 @@ all bit-exact.
    (§7.5–§7.7). Those pairs are hard as often again: the valuation agrees with the graph on every
    diagonal-cell Mixed string pair at k = 3, 4, 5, N = 2k − 2 and 2k − 1 (`DiagonalCellComplementConnectionTests`;
    hard string pairs 32, 896, 17920).
-   The count is itself layered by the shared-factor degree d of §7.9: #hard with deg(g_rest) = d =
-   2^{d-1}·B(k − d), B(k) = (4^k − 12k + 8)/18 the d = 0 base. The size-3 (triangle) sub-class closes,
+   The count is itself layered by the shared-factor degree d of §7.9: #hard with deg(g_rest) = d is
+   B(k) = (4^k − 12k + 8)/18 at d = 0 and 2^{d-1}·B(k − d) for d ≥ 1. The size-3 (triangle) sub-class closes,
    5·2^{k-1} − (3k² + k)/2 − 3; the exact per-size middle counts stay window-dependent.
 
 4. *Coding-theory home.* The obstruction = the minimum ODD weight of the two-generator quasi-cyclic
@@ -5335,7 +5335,7 @@ the window floor (IXZX + XIZX: N* = 6), which N ≥ 2k − 2 bounds for every pa
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.7–§7.9; C# `WindowedObstructionScan`
 (`compute/RCPsiSquared.Diagnostics/F87/`, with the GF(2)[x] `PolyGcd` / `ValuationAtOnePlusX` /
 `GcdFormulaSize` / `IsHardPair` helpers, and the closed-form count ports `HardMaskPairCount` (A203241) /
-`HardCountBaseB` (B(k)) / `HardCountByGRestDegree` (2^(d-1)·B(k−d)) / `TriangleHardMaskCount` /
+`HardCountBaseB` (B(k)) / `HardCountByGRestDegree` (2^(d-1)·B(k−d) for d ≥ 1) / `TriangleHardMaskCount` /
 `MaxObstructionSizeForGRestDegree` (2k−3−2d) + `GRestDegree` / `EvenPopcountMasks`, ported 2026-06-08) +
 `WindowedObstructionScanTests` and `WindowedHardnessCountClosedFormTests`; scouts
 `simulations/f87_obstruction_derivation.py`, `f87_coding_theory_scout.py`,

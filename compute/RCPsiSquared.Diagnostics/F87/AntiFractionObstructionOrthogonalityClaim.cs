@@ -22,7 +22,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>Cross-axis connector, so <see cref="Z2Axis"/> = <see cref="Symmetry.Z2Axis.Klein2"/>; it is
 /// not a bit_b Claim needing a bit_a twin, so the twin slot is not applicable. (Distinct from F83's
-/// own open BitATwin slot, whose mechanical twin is "F83 under X-dephasing".)</para>
+/// own BitATwin slot, which is resolved: "F83 under X-dephasing" is covered by the Hadamard X↔Z
+/// duality.)</para>
 ///
 /// <para>Tier1Derived: follows from already-derived parents, F83's anti-fraction closed form (½ at
 /// r=0) and F115's valuation verdict. Anchors: docs/ANALYTICAL_FORMULAS.md F81/F83/F115 +

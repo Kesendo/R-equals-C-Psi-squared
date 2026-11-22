@@ -348,8 +348,9 @@ public static class WindowedObstructionScan
     public static int MaxObstructionSizeForGRestDegree(int k, int d) => 2 * k - 3 - 2 * d;
 
     // ---- size-3 floor (the MacWilliams-kernel floor, PROOF_F103 §7 + simulations/f87_size_cells.py).
-    // The per-SIZE shape of the obstruction splits into a closed floor (size 3, below), a polynomial
-    // monomial column, a repunit ceiling, and a non-polynomial middle (size ≥ 5).
+    // The per-SIZE shape of the obstruction splits into a closed floor (size 3, below), a monomial
+    // column with an exact count in the gcd-formula layer, a repunit ceiling, and a middle (size ≥ 5)
+    // whose computed gcd-formula cells without a monomial generator are not polynomials in D.
 
     /// <summary>The per-max-degree count of d=0 reduced coprime mask-pairs whose saturated obstruction
     /// is a triangle (size 3): c(D,3) = 3D − 1 (D ≥ 1). Size 3 ⟺ one reduced generator is a monomial
@@ -384,9 +385,9 @@ public static class WindowedObstructionScan
     }
 
     /// <summary>The repunit R_D = 1 + x + … + x^D = all-ones D+1-bit mask = (1 &lt;&lt; (D+1)) − 1.
-    /// The maximal-size (2D+1) obstruction pairs are the repunit family ({R_D with R_{D-1} or
-    /// x·R_{D-1}}), the densest no-cancellation extreme; the ceiling pair count is 2 for D ≥ 4 (D=2,3
-    /// edge cases give 3, 4). Characterization documented in <see cref="WindowedHardnessClaim"/> +
+    /// At D = 4..7, the range computed, the maximal-size (2D+1) obstruction pairs are the repunit
+    /// family ({R_D with R_{D-1} or x·R_{D-1}}), two pairs, the densest no-cancellation extreme
+    /// (D=2,3 edge cases give 3, 4 pairs). Characterization documented in <see cref="WindowedHardnessClaim"/> +
     /// experiments/F115_OBSTRUCTION_DISTRIBUTION.md Finding 6; see simulations/f87_size_cells.py.</summary>
     public static ulong Repunit(int D)
     {

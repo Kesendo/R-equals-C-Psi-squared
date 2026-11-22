@@ -39,11 +39,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>The per-size shape of the obstruction (the MacWilliams kernel) splits into a closed floor
 /// and a number-theoretic middle: the size-3 floor closes: c(D,3)=3D−1 per reduced max-degree,
 /// d=0 base T0(k)=(k−1)²(k−2)/2 (<see cref="WindowedObstructionScan.TriangleHardCountBaseD0"/>),
-/// d-layered by the same 2^(d-1) reduction; the monomial column (one generator a monomial x^j) is
-/// polynomial of degree β−1 in the other's weight β; the ceiling (max size 2D+1) is the repunit
-/// pair (count → 2). The middle (size ≥ 5) is genuinely non-polynomial, it is the distribution of
-/// weighted coprime polynomial pairs in GF(2)[x] (the closed-form frontier is sharp: a size cell is
-/// polynomial iff some popcount split carries a monomial; first irregular cell (3,2) at size 5).
+/// d-layered by the same 2^(d-1) reduction for d ≥ 1; in the gcd-formula layer the monomial column
+/// (one generator a monomial x^j, the other of weight β) counts 2·C(D, β−1) + (D−1)·C(D−1, β−2), a
+/// polynomial in D of degree β−1; the ceiling (max size 2D+1) is the repunit pair, count 2 at
+/// D = 4..7. The middle (size ≥ 5) rests on the distribution of weighted coprime polynomial pairs in
+/// GF(2)[x] (its gcd-formula layer), with a convolutional cancellation on top:
+/// the first cell without a monomial generator, (3,2) at size 5, and the size-5 and size-7 totals of
+/// the gcd-formula layer are not polynomials in D (a polynomial count of total weight σ has degree at
+/// most σ−2, and their differences of order σ−1 do not vanish).
 /// See experiments/F115_OBSTRUCTION_DISTRIBUTION.md Finding 6.</para>
 ///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F115 +

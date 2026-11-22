@@ -76,7 +76,7 @@ def main():
         sum(table[k].values()) == B(k) + sum((1 << (d - 1)) * B(k - d)
                                              for d in range(1, k - 2))
         for k in range(3, 9))
-    print(f"    total = B(k) + sum_d 2^(d-1) B(k-d) = A203241 :  {total_ok}")
+    print(f"    total = B(k) + sum_(d>=1) 2^(d-1) B(k-d) = A203241 :  {total_ok}")
     print(f"\n    => the d-layering is TOTAL: both the size cap (2k-3-2d) and the COUNT are closed-form")
     print(f"       layered by the shared non-(1+x) factor degree. {'ALL OK' if base_ok and layer_ok and total_ok else 'MISMATCH'}")
 

@@ -2,12 +2,12 @@
 
 **Date:** 2026-06-08
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
-**Status:** Tier 2 (computed, in progress). The d=0 reduction, the mirror condition `a(1)+b(1)=1`, and the
-Δ-organization are bit-exact on the grids below; the **Δ-bucket count closed form**
+**Status:** Tier 2 (computed, in progress). The d=0 reduction and the mirror condition `a(1)+b(1)=1` are
+proven, the Δ-organization is bit-exact on the grids below; the **Δ-bucket count closed form**
 (`n(Δ,k)=2^(Δ−1)·a(k−Δ+1)`) is **derived** (three-bijection proof of the doubling recurrence + the proven
-`Σ_Δ n=B(k)`); the per-size **floor (size 3) is closed** `(k−1)²(k−2)/2`, the monomial column and repunit
-ceiling are closed, and the per-size **middle (size ≥ 5) is located as a number-theoretic hard core** (weighted
-coprime polynomial pairs in GF(2)[x]), not closed (Finding 6).
+`Σ_Δ n=B(k)`); the per-size **floor (size 3) is closed** `(k−1)²(k−2)/2`, the monomial column is closed in
+the gcd-formula layer, the repunit ceiling is computed, and the per-size **middle (size ≥ 5) is located as a number-theoretic hard core** (weighted
+coprime polynomial pairs in GF(2)[x], with a convolutional cancellation on top), not closed (Finding 6).
 **Builds on:** [F115 / ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (the windowed-hardness GF(2)[x]
 theory), [PROOF_F103 §7.7-§7.9](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), and the lens of
 [ZERO_IS_THE_MIRROR.md](../hypotheses/ZERO_IS_THE_MIRROR.md) (x=1 = the mirror / DC / Perron point).
@@ -24,7 +24,8 @@ column, repunit ceiling, the located hard core).
 
 F115 settles, in closed form, almost everything about the F87 diagonal-cell hardness obstruction: the
 maximum size `min(2W−1, 2k−3−2d)`, the total hard count `A203241 = (4^(k-1)−3·2^(k-1)+2)/3`, the d-layered
-count `2^(d-1)·B(k-d)` with `B(k)=(4^k−12k+8)/18`, and the size-3 (triangle) sub-count. The one piece left
+count, `B(k)=(4^k−12k+8)/18` at d = 0 and `2^(d-1)·B(k-d)` for d ≥ 1, and the size-3 (triangle)
+sub-count. The one piece left
 open is the **full per-size distribution**: how many hard pairs have an obstruction of size exactly s for
 the *middle* sizes 3 < s < max. F115 records that this "stays window-dependent" because the obstruction is
 the minimum ODD weight of a quasi-cyclic code, and a sparse multiplier can cancel a relation below the
@@ -49,42 +50,52 @@ x^j), with `v(·)` the (1+x)-adic valuation:
 
 The whole per-size distribution factors through the d=0 layer:
 
-> **full-dist(k, W) = Σ_d 2^(d-1) · D₀(k−d, W)**,  where D₀(k′, W) is the d=0 distribution at body k′.
+> **full-dist(k, W) = D₀(k, W) + Σ_{d≥1} 2^(d-1) · D₀(k−d, W)**,  where D₀(k′, W) is the d=0 distribution at
+> body k′.
 
-Equivalently, the layer-d distribution equals `2^(d-1)` times the d=0 distribution at body `k−d`, at the
-same window count W. Verified bit-exact for k = 4..7, all layers (`f87_middle_distribution.py` part 2). The
-test compares at fixed W, so it holds in the cancellation regime too: the d-structure is fully understood,
-and only **D₀** remains.
+It holds layer by layer: for d ≥ 1 the layer-d distribution equals `2^(d-1)` times the d=0 distribution at
+body `k−d`, at the same window count W, so at every k and W the d-structure reduces to **D₀**. With h = g_rest,
+the map (p₁, p₂) ↦ (h, (p₁/h, p₂/h)) is one to one from layer d at body k onto the polynomials h of degree d
+with h(1) = 1 times layer 0 at body k − d; the valuations and the reduced pair (a, b) do not change, and the obstruction at
+window count W depends only on (a, b, W) (the argument of Finding 2 uses only that a and b are coprime).
+There are 2^(d−1) such h for d ≥ 1, an even number of ones among the coefficients below the leading one, and
+one, h = 1, at d = 0, which is why the d = 0 term carries no factor. Counted the same way, layer d ≥ 1 holds
+2^(d−1) times the hard pairs of layer 0 at body k − d, so the proven total A(k) = (4^(k−1) − 3·2^(k−1) + 2)/3
+(PROOF_F103 §7.8) gives A(k) − 2A(k−1) = |L₀(k)| − |L₀(k−1)|, with |L₀(k)| the number of hard pairs in layer 0
+at body k; with |L₀(3)| = A(3) = 2 the d = 0 count is
+B(k) = (4^k − 12k + 8)/18 at every k, and layer d ≥ 1 holds 2^(d−1)·B(k−d). Checked bit-exact for k = 4..7, every layer d ≥ 1 that holds hard pairs, at one window count
+per k, including the cancellation regime (k = 7, d = 1) (`f87_middle_distribution.py` part 2).
 
-This extends the already-closed d-layered *count* `2^(d-1)·B(k-d)` and *size cap* `2(k-d)-3` to the full
+This extends the already-closed d-layered *count* `2^(d-1)·B(k-d)` (d ≥ 1) and *size cap* `2(k-d)-3` to the full
 *distribution*: the same `2^(d-1)` × body-(k-d) reduction governs every size, not just the count and the cap.
 
 ---
 
 ## Finding 2: the QC-code (s-multiplier) view is bit-exact
 
-For a d=0 pair, any windowed odd relation factors (a,b coprime) as `q_p1 = a·s`, `q_p2 = b·s`, so the
+For any pair, d = 0 or not, any windowed odd relation factors (a,b coprime) as `q_p1 = a·s`, `q_p2 = b·s`, so the
 obstruction is
 
 > the **minimum ODD weight of `{(a·s, b·s) : deg s ≤ W−1−max(deg a, deg b)}`** (a 2-generator quasi-cyclic /
 > terminated rate-1/2 convolutional code). The `s = 1` term is the gcd-formula size `popcount(a)+popcount(b)`;
 > any `s ≠ 1` that lowers the weight is the cancellation.
 
-Validated against the direct windowed minimal-odd-relation search: 0 mismatches, k = 4,5,6, W ∈ {k−1, k, 2k}
+Validated on the d=0 hard pairs against the direct windowed minimal-odd-relation search: 0 mismatches, k = 4,5,6, W ∈ {k−1, k, 2k}
 (`f87_oddweight_filtration.py` part A).
 
 ---
 
 ## Finding 3: the odd-weight condition IS the mirror statement `a(1)+b(1)=1`
 
-For **every** d=0 hard pair (verified k = 5,6,7, no exceptions):
+For **every** hard pair (argued below; verified at d = 0 for k = 5,6,7, no exceptions):
 
 > **`a(1) + b(1) = 1`** (in GF(2)): exactly one reduced generator vanishes at the mirror point x=1.
 
 Because a,b are coprime and the pair is hard, `{v(a), v(b)} = {0, Δ}`: the generator with v ≥ 1 has even
 popcount (vanishes at x=1, `p(1)=0`); the one with v = 0 has odd popcount (`p(1)=1`). So **hardness is the two
 reduced generators having opposite vanishing at the mirror**, and this is exactly what guarantees the code's
-odd-weight coset is non-empty (every hard pair *has* an odd obstruction). This is the literal
+odd-weight coset is non-empty (every hard pair *has* an odd obstruction once W ≥ max(deg a, deg b) + 1, which
+W ≥ k − 1 guarantees: s = 1 is then allowed and gives the odd weight popcount(a) + popcount(b)). This is the literal
 "zero is the mirror" reading of F115 hardness: the verdict lives at x=1, the DC / Perron / mirror mode.
 
 ---
@@ -174,7 +185,7 @@ weight redistribution inside the odd coset, and the x=1 handle (`a(1)+b(1)=1`) i
 
 ---
 
-## Finding 6: the MacWilliams kernel: floor closed, ceiling characterized, the hard core located
+## Finding 6: the MacWilliams kernel: floor closed, ceiling computed, the hard core located
 
 The saturated obstruction depends only on the reduced pair `(a,b)` (not on `m` or the window once W is large),
 so the whole per-size distribution factors the same way the count did:
@@ -184,7 +195,7 @@ so the whole per-size distribution factors the same way the count did:
 > convolutional code `⟨(a,b)⟩`** = `min_t` odd`[wt(a·t)+wt(b·t)]`.
 
 So `c(D,s)` is the per-size analog of the now-closed `c_Δ(D)`. The deep look (`f87_size_cells.py`,
-cap = D+4, cap-stability verified at D=5,6) closes everything that *can* close and locates the rest:
+at cap D+4, its D = 7 figures re-checked at larger caps) closes the floor, counts the monomial column, computes the ceiling and locates the rest:
 
 **The floor (size 3) is closed.** `minweight=3 ⟺ the v=0 generator is a monomial x^j and the v=Δ generator
 has popcount 2` (forward: `t=1` gives `1+2=3`; converse: `minweight=3` ⟹ some `wt(a·t)=1` ⟹ `a·t=x^i` ⟹ `a`
@@ -197,24 +208,33 @@ is a monomial, only `x` is irreducible with that factorization, and `b` can't be
 (Cross-check: via the d-reduction `T_full(k) = T₃(k) + Σ_{d≥1} 2^{d-1}T₃(k−d)` reproduces the catalogued full
 triangle count `TriangleHardMaskCount`: 11, 37, … at k=4,5.)
 
-**The monomial column is closed (polynomial).** For a fixed even weight β, `#{(x^j, weight-β b) coprime,
-max deg D}` is a polynomial in D of degree `β−1` (leading difference `β+1`: β=2→3, β=4→5, β=6→7). A monomial
-generator makes coprimality trivial (`gcd(x^j, ·)`), and the count stays polynomial. **This is exactly why
-size 3 closes**: `3 = 1+2` is the only popcount split, and it has a monomial factor.
+**The monomial column is closed in the gcd-formula layer.** For a fixed even weight β,
+`#{(x^j, weight-β b) coprime, max deg D} = 2·C(D, β−1) + (D−1)·C(D−1, β−2)`. A monomial generator makes
+coprimality trivial: x^j is coprime to b exactly when j = 0 or b(0) = 1. So j = D (b of degree at most D,
+b(0) = 1) and j = 0 (b of degree D) each give C(D, β−1), and each of the D − 1 exponents in between (b of
+degree D, b(0) = 1) gives C(D−1, β−2). The count is a polynomial in D of degree `β−1` with leading
+difference `β+1` (β = 2 gives 3D − 1). This counts the pairs by their generators' weights, the gcd-formula
+layer; in the saturated distribution a monomial pair can still lose weight to a multiplier (b = 1 + x + x³ +
+x⁴ + x⁶ + x⁷ times 1 + x + x² is 1 + x⁹, and at β = 6, D = 7 eight of the 132 pairs have obstruction size 5,
+not 7).
 
-**The ceiling (max size 2D+1) is the repunit pair.** For D ≥ 4 the count is exactly **2**: one generator is
+**The ceiling (max size 2D+1).** For D = 4..7, computed at cap D + 4, the count is exactly **2**, the repunit pair: one generator is
 the full repunit `R_D = 1+x+…+x^D` (all ones), the other is `R_{D-1}` or `x·R_{D-1}`, the densest pairs, no
 cancellation. (D=2,3 are small edge cases with 3, 4.) These are the same repunits that mark the Door-1 syzygy
 extreme.
 
 **The hard core is located, not closed.** The irregularity enters at the *first* popcount split with **both
-popcounts ≥ 2**, `(3,2)` at size 5, and that cell is genuinely **not polynomial in D**
-(`3,16,51,114,215,348,556,822,1162,…`, erratic differences). It is honest GF(2)[x] weighted coprimality: a
-weight-3 `a` is coprime to `b=x^p(1+x^r)` iff coprime to `1+x^r`, which depends on the factorization of
-`1+x^r` (number-theoretic). The gcd-formula layer is already non-polynomial there (`f(D,5), f(D,7)`); the −2
-convolutional cancellation (k ≥ 6) sits on top. So the MacWilliams middle resists closed form for a concrete
-reason: **closed-formness holds exactly while some popcount split carries a monomial; from `(3,2)` on, the
-count *is* the distribution of weighted coprime polynomial pairs.**
+popcounts ≥ 2**, `(3,2)` at size 5, and that cell is **not a polynomial in D**
+(`3,16,51,114,215,348,556,822,1162,…`): a polynomial count of pairs of total weight σ has degree at most
+σ − 2, since coprimality puts a bit at degree 0 and the maximal degree puts one at D, and the differences of
+order 4 do not vanish. It is GF(2)[x]
+weighted coprimality: a weight-3 `a` with a(0) = 1 is coprime to `b=x^p(1+x^r)` iff coprime to `1+x^r`,
+which depends on the factorization of `1+x^r` (number-theoretic). The size-5 and size-7 totals of the
+gcd-formula layer, `f(D,5)` and `f(D,7)`, are not polynomials in D either (differences of order 4 and 6).
+Whether any of the three turns polynomial or quasi-polynomial for large D is open; the −2 convolutional
+cancellation (k ≥ 6) sits on top. So the polynomial closed forms stop at a concrete place: **in the
+gcd-formula layer a popcount split with a monomial generator has a closed count, and the splits without
+one, from `(3,2)` on, count weighted coprime polynomial pairs.**
 
 **Ported to C# (2026-06-08).** The floor closed forms live in `WindowedObstructionScan`
 (`TriangleReducedPairCountByMaxDegree` = 3D−1, `TriangleHardCountBaseD0` = (k−1)²(k−2)/2,
@@ -249,9 +269,7 @@ one shared bit_b = 1 gate), not quantitative, and it follows from an already-typ
 **Two breaks, one visible to the anti-fraction.** Per `DissipatorResonanceLaw`, the hardness of Klein-homogeneous pairs
 lives *inside* the dissipator's Klein cell (the bit_a obstruction, F115); the transverse-field Brecher breaks it from *outside*
 the cell (F89, predicted from F83). The anti-fraction sees the outside-cell Brecher, not the in-cell
-obstruction; the two are the two poles of dissipator-letter resonance. (If we ever want this orthogonality
-typed rather than recognized, its natural C# home is the open `BitATwin` slot that `PolarityCubeMap` already
-tracks for `F83AntiFractionPi2Inheritance`.)
+obstruction; the two are the two poles of dissipator-letter resonance.
 
 ---
 
@@ -259,23 +277,27 @@ tracks for `F83AntiFractionPi2Inheritance`.)
 
 - **Derived (proven):** the Δ-bucket **count** closed form `n(Δ,k) = 2^(Δ−1)·a(k−Δ+1)`,
   `a(k)=B(k)−2B(k−1)=(4^(k−1)+6k−16)/9` (Finding 4, three-bijection proof of the doubling recurrence); the
-  size-3 floor `c(D,3)=3D−1`, `T₃(k)=(k−1)²(k−2)/2` with its monomial×weight-2 characterization (Finding 6).
-- **Bit-exact (solid):** the d-reduction (Finding 1); the QC-code view (Finding 2); `a(1)+b(1)=1` (Finding 3);
-  the cancellation events and the saturated totals (Finding 5); the monomial-column polynomiality (degree β−1)
-  and the repunit ceiling (count 2, D≥4) (Finding 6).
-- **Located, provably not closed:** the saturated per-size *middle* (size ≥ 5). It is the distribution of
-  weighted coprime polynomial pairs in GF(2)[x], non-polynomial from the `(3,2)` cell on (Finding 6).
+  size-3 floor `c(D,3)=3D−1`, `T₃(k)=(k−1)²(k−2)/2` with its monomial×weight-2 characterization; the monomial
+  column in the gcd-formula layer, `2·C(D, β−1) + (D−1)·C(D−1, β−2)` (Finding 6); the d-reduction, at every k
+  and W (Finding 1); the QC-code view, whose factoring holds for every coprime reduced pair (Finding 2);
+  `a(1)+b(1)=1` for every hard pair (Finding 3).
+- **Bit-exact (solid):** the cancellation events and the saturated totals (Finding 5); the repunit ceiling (count 2 at D = 4..7)
+  (Finding 6).
+- **Located, not closed:** the saturated per-size *middle* (size ≥ 5). It rests on the distribution of weighted
+  coprime polynomial pairs in GF(2)[x], its gcd-formula layer, with the convolutional cancellation on top (at
+  D = 4, 68 pairs of size 5 by the gcd formula, 82 saturated); the `(3,2)` cell and the size-5 and size-7 totals of the gcd-formula
+  layer are not polynomials in D (Finding 6).
 
 ## Open / next
 
-F115 is now closed except for one piece, and that piece is **identified as number-theoretic, not merely
-unfinished**: the saturated middle (size ≥ 5) *is* the count of weighted coprime polynomial pairs in GF(2)[x]
-(plus the −2 convolutional cancellation on top). The boundary cells are all closed: the size-3 floor exactly,
-the monomial column as polynomials of degree β−1, the repunit ceiling at count 2; and the closed-form
-frontier is sharp: **a size cell is polynomial in D iff some popcount split carries a monomial; the first
-irregular cell is `(3,2)` at size 5.**
+Of the per-size distribution, the floor is closed, the monomial column is counted exactly in the gcd-formula
+layer, the ceiling is computed, and the middle stays open, **identified as number-theoretic**: the saturated
+middle (size ≥ 5) rests on the count of weighted coprime polynomial pairs in GF(2)[x], with the −2
+convolutional cancellation on top. Where the polynomial closed forms stop is visible: **in the gcd-formula layer every cell
+with a monomial generator has the exact count of Finding 6, and the first cell without one, `(3,2)` at size 5,
+is not a polynomial in D.**
 
 A generating-function attack (the weight enumerator of `⟨(a,b)⟩` summed over the coprime family, or a
 Möbius-over-gcd inclusion-exclusion on the weighted pair count) is the natural next tool if a closed form for
-the middle is wanted; but the result here is that the middle's content is exactly a catalogued-hard object,
-which is itself the answer to "why the MacWilliams middle resists."
+the middle is wanted. What this page establishes is what the middle is made of, weighted coprime polynomial
+pairs in GF(2)[x] with the convolutional cancellation on top, not whether that count has a closed form.
