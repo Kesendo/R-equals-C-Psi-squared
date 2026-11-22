@@ -2437,7 +2437,7 @@ public static class OpenArcsRegistry
                 "Delta* (Ising/Neel side): the ZZ slows the near-conserved I/Z population mode until it drops below 2*gamma and " +
                 "becomes the slowest - the LEBENSADER (n_XY=0-dominated + a small n_XY=2 magnon admixture, non-rotating Im=0, " +
                 "sub-2*gamma; = CHAIN_GAP's half-filling slow mode emerging along the axis). Values: Delta*(N=5)=1.525, " +
-                "Delta*(N=4)=1.618 ~ phi (= 2cos(pi/5), N=4's band-edge frequency) - FLAGGED not claimed (N=5 has no clean form, " +
+                "Delta*(N=4)=1.618, near phi at Q=20 and refuted as a law in the gamma->0 limit (see NextStep; N=5 has no clean form, " +
                 "so a universal phi is NOT supported). The handover sits ABOVE the closed-system SU(2) transition (Delta=J=1); " +
                 "the dephasing pushes Delta* into the Neel side. Spinless XXZ (t-V), the 'spin' label interpretive.",
             NextStep: "THE UNIFICATION, CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py, self-validating N=4,5): " +
@@ -2447,7 +2447,7 @@ public static class OpenArcsRegistry
                 "Delta, because |vac><magnon| is an eigenoperator of [H_XXZ,.] (lambda = -2g + i*E_k; the ZZ shifts only the " +
                 "frequency E_k, not Re) - so F50's 2N COUNT breaks for Delta!=1 but the FLOOR persists, and the Absorption " +
                 "Theorem rate/2g == Sum_k k*w_k holds bit-exact in XXZ for both modes. (2) at Delta* the slowest mode's light content " +
-                "= 1.00000 (the Lebensader rate crosses the floor), reproducing Delta*(4)=1.618(=phi), Delta*(5)=1.525. (3) it is " +
+                "= 1.00000 (the Lebensader rate crosses the floor), reproducing Delta*(4)=1.618 (near phi at Q=20), Delta*(5)=1.525. (3) it is " +
                 "a LEVEL CROSSING, NOT an EP: the frozen Lebensader (|Im|~1e-15) meets the oscillating band edge (|Im|~9), two " +
                 "distinct branches crossing in Re. So the EP/crossing dichotomy has three members: chain-Q = the lone " +
                 "coalescence/EP, ring-Q + Delta = level crossings (frozen-interior-meets-oscillating-floor). THE THRESHOLD IS " +
@@ -2756,7 +2756,7 @@ public static class OpenArcsRegistry
             ParkedAt: "THE GATHERED THREAD (all data-backed this session). " +
                 "(1) THE FOUR-DIMENSIONAL READING: x,y = the off-diagonal hopping MOTOR (XY, n_XY=2, coherent " +
                 "motion in the plane); z = the light's axis (the ARRIVING light, gamma's; distinct from the " +
-                "bit_a light axis of the X,Y letters in PTF_PALINDROME_BREAKING_PERTURBATIONS:74/:102, " +
+                "bit_a light axis of the X,Y letters in PTF_PALINDROME_BREAKING_PERTURBATIONS:77/:110, " +
                 "same word, the other axis) = the dephasing diagonal Q_Z = Sum_l Z_l(x)Z_l, " +
                 "defining k=popcount(i^j) and Re lambda = -2*gamma0*k (Absorption Theorem); t = felt time = " +
                 "the dose K = gamma0*t (ON_WHOSE_TIME_THE_CLOCK_KEEPS: t=K/gamma0). gamma0 is the HINGE: the rate " +

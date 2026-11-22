@@ -78,6 +78,38 @@ public class BlochSignWalkTests
     }
 
     [Fact]
+    public void MixedSignSum_IsRejected_SameSignSumsAreNot()
+    {
+        // F80's identity holds for Π²-odd bonds sharing one Step-5 sign (s = +1 for XY, YX;
+        // s = −1 for XZ, ZX). A mixed sum such as XY+XZ has M = −2i·H_L⊗I + 2i·I⊗H_Rᵀ, whose
+        // spectrum is in general not 2i·Spec(H) (the Python twin's test reads it for XY+XZ); the
+        // predictor declines such sums as outside the proven scope.
+        var chain = new ChainSystem(N: 3, J: 1.0, GammaZero: 0.05);
+        foreach (var mixed in new[]
+        {
+            new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.Y), new PauliPairBondTerm(PauliLetter.X, PauliLetter.Z) },
+            new[] { new PauliPairBondTerm(PauliLetter.Z, PauliLetter.X), new PauliPairBondTerm(PauliLetter.Y, PauliLetter.X) },
+        })
+        {
+            var ex = Assert.Throws<ArgumentException>(
+                () => BlochSignWalk.PredictMSpectrumImaginaryParts(chain, mixed));
+            Assert.Contains("mix the Step-5 signs", ex.Message);
+        }
+
+        // The guard must not reach same-sign sums: both signs' pairs are still predicted.
+        foreach (var same in new[]
+        {
+            new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.Y), new PauliPairBondTerm(PauliLetter.Y, PauliLetter.X) },
+            new[] { new PauliPairBondTerm(PauliLetter.X, PauliLetter.Z), new PauliPairBondTerm(PauliLetter.Z, PauliLetter.X) },
+        })
+        {
+            var spec = BlochSignWalk.PredictMSpectrumImaginaryParts(chain, same);
+            Assert.Equal(64, spec.Values.Sum());
+            Assert.True(spec.Count > 1, "a same-sign Π²-odd sum must give a non-trivial spectrum");
+        }
+    }
+
+    [Fact]
     public void NonChainTopology_IsRejected()
     {
         // F80's Bloch sign-walk is proven for the open chain only; a star/ring ChainSystem

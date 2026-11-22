@@ -20,7 +20,7 @@
 `framework.workflows.diagnose_hardware`
 
 <!-- STAGE 0 SWEEP RECORD (2026-10-28, the review from today's view; three scouts plus a by-hand reading on the letter cube).
-docs/ANALYTICAL_FORMULAS.md: F78/F79 (M decomposition), F80 (Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds, ±2i times the Bohr differences for Π²-even non-truly bonds), F81 (M_anti = L_{H_odd} under Π²-commuting dissipators; no Frobenius orthogonality claimed, the cross term is −i times the F113 asymmetry), F82, F83, F84 (thermal amplitude damping, the Pauli-channel lemma its corollary), F85, F102 (y_par = (n + bit_a XOR bit_b) mod 2 with n the number of non-identity letters), F107/F109/F110 (every body count since the colouring routes), F115 (the soft/hard split of diagonal-cell Mixed pairs as a valuation difference), F34 and F121 (the qudit balance and the partial qudit palindrome), F38/F88a (Π_Y² grades by bit_b, like Π_Z²).
+docs/ANALYTICAL_FORMULAS.md: F78/F79 (M decomposition), F80 (Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds of one Step-5 sign (all XY/YX or all XZ/ZX), ±2i times the Bohr differences for Π²-even non-truly bonds), F81 (M_anti = L_{H_odd} under Π²-commuting dissipators; no Frobenius orthogonality claimed, the cross term is −i times the F113 asymmetry), F82, F83, F84 (thermal amplitude damping, the Pauli-channel lemma its corollary), F85, F102 (y_par = (n + bit_a XOR bit_b) mod 2 with n the number of non-identity letters), F107/F109/F110 (every body count since the colouring routes), F115 (the soft/hard split of diagonal-cell Mixed pairs as a valuation difference), F34 and F121 (the qudit balance and the partial qudit palindrome), F38/F88a (Π_Y² grades by bit_b, like Π_Z²).
 docs/proofs/: PROOF_PI_FACTORS_AS_R_TIMES_D §7 (bit_a, bit_b, y_par as the characters of Z^N conjugation, X^N conjugation and the transpose); PROOF_F155 §(g) (Π_Y = Π_Z^-1; the X convention is the Z one through the Q_zx frame); PROOF_F109 Step 5 and PROOF_F110 §2 (the Mother cell and the unmatched cells coloured at every body count); INCOMPLETENESS_PROOF §4 (the opposite stance on self-description: an analogy to Gödel in which the framework cannot derive its own starting condition).
 docs/THE_ONE_SQUARE.md: §7 the polarity cube is the letter cube read twice (bit_a = k_Z mod 2, bit_b = k_X mod 2, y_par half a sum); §8 ZZ keeps k_Z and commutes with Z dephasing; §9 σ⁻ as two transverse heights plus the arrow I to Z; §11 lists the diagonal cell of the F87 table among the things the square's diagonals are not.
 reflections/ON_THE_WAVE_RECOGNIZING_THAT_IT_IS_NOT_ALONE.md: the one-bit mirror twins are exactly the pure states on the equator.
@@ -102,7 +102,7 @@ The F-chain is built by inheritance:
 
 - **F87** trichotomy classifier (truly / soft / hard) on Pauli pairs.
 - **F78/F79** structural M-decomposition for 1-body and 2-body.
-- **F80** the Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds, and ±2i times the Bohr differences λ_a − λ_b for Π²-even non-truly bonds.
+- **F80** the Bloch sign walk; Spec(M) = ±2i·Spec(H) for Π²-odd bonds of one Step-5 sign (all XY/YX or all XZ/ZX), and ±2i times the Bohr differences λ_a − λ_b for Π²-even non-truly bonds.
 - **F81** Π-decomposition M_anti = L_{H_odd}, for dissipators that commute with Π².
 - **F82** T1 closed form ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N-1).
 - **F83** anti-fraction r = ‖H_even_nontruly‖² / ‖H_odd‖².

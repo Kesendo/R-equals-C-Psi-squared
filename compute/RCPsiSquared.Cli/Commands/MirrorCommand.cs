@@ -148,7 +148,7 @@ public static class MirrorCommand
                 Console.WriteLine("  truly H: the palindrome holds exactly, M=0, no memory-defect (a perfect mirror)");
             else if (mr.MemoryCarriesEnergy)
             {
-                Console.WriteLine("  non-truly: the defect carries H's spectrum, rotated 90 degrees onto the imaginary memory axis:");
+                Console.WriteLine("  non-truly with the F80 Frobenius signature: for Pi2-odd bonds of one Step-5 sign the defect carries H's spectrum, rotated 90 degrees onto the imaginary memory axis:");
                 var seenE = new HashSet<string>();
                 foreach (var p in mr.Rotation.OrderByDescending(p => Math.Abs(p.Energy)))
                 {

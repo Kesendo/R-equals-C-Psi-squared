@@ -108,7 +108,7 @@ public sealed class F80PiCommutatorAnticommutatorIdentity : Claim
             yield return new InspectableNode("s = −1 pairs",
                 summary: "(X,Z), (Z,X): Π·[H,·]·Π⁻¹ = −{H,·}, residual M = +2i·(I_ket⊗Hᵀ)");
             yield return new InspectableNode("consequence",
-                summary: "both signs give Spec(M) = ±2i·Spec(H), the F80 structural identity");
+                summary: "either sign, alone, gives Spec(M) = ±2i·Spec(H), the F80 structural identity");
             yield return new InspectableNode("verification",
                 summary: "per-site identities, bond lemma, relation-flip and the four-pair "
                        + "sign table all bit-exact at N=3,4,5 (simulations/f80_step5_recon.py)");

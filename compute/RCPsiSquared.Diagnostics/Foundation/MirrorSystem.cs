@@ -31,7 +31,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         measured (the FID); see its own note on naming time and the connection.</item>
 ///   <item><see cref="MemoryRotation"/> , F80: the 90° turn H ↔ M. The mirror-defect
 ///         M = Π·L·Π⁻¹ + L + 2σ·I is 0 for truly H (perfect mirror) and carries H's spectrum
-///         rotated a quarter turn (Spec(M) = ±2i·Spec(H)) for non-truly chain Π²-odd H , energy
+///         rotated a quarter turn (Spec(M) = ±2i·Spec(H)) for non-truly chain Π²-odd H whose bonds share one Step-5 sign , energy
 ///         on the real axis, memory on the imaginary one. The wave remembers across the turn.</item>
 /// </list></para>
 ///
@@ -138,15 +138,17 @@ public sealed class MirrorSystem : IInspectable
     ///
     /// <para>For a truly Hamiltonian (Heisenberg, the XY model) under Z-dephasing the F1 palindrome
     /// holds exactly and M = 0: a perfect mirror, no defect (<see cref="MemoryRotationReading.PerfectMirror"/>).
-    /// For a non-truly chain Π²-odd Hamiltonian the palindrome breaks, and the defect is not noise:
-    /// Spec(M) = ±2i·Spec(H). H's real energies (the measured, outer axis) reappear on M's imaginary
+    /// For a non-truly chain Π²-odd Hamiltonian whose bonds share one Step-5 sign the F1 identity fails
+    /// (M ≠ 0), and the defect is not noise: Spec(M) = ±2i·Spec(H). H's real energies (the measured, outer axis) reappear on M's imaginary
     /// axis (the time / decay / memory axis), turned a quarter and scaled by 2. The wave remembers by
     /// sharing its spectrum across the 90° turn; H is the distance between the two mirror sectors.</para>
     ///
     /// <para>The quarter turn is the third step of a short lineage: Π⁴ = I with Π² the involution (the mirror exists) → F1
-    /// (Π·L·Π⁻¹ = −L − 2σ·I, the palindrome) → F80 (when the palindrome breaks, the break carries H,
-    /// rotated 90°). <see cref="MemoryRotationReading.MemoryCarriesEnergy"/> is the live F80 check via
-    /// the Frobenius signature ‖M‖²_F = 4·‖H‖²_F·2^N. Computed once, lazily, from this system's input.</para></summary>
+    /// (Π·L·Π⁻¹ = −L − 2σ·I, the palindrome) → F80 (when the F1 identity fails for a Π²-odd H whose bonds share one
+    /// Step-5 sign, the residual carries H, rotated 90°). <see cref="MemoryRotationReading.MemoryCarriesEnergy"/> reads the F80 identity's
+    /// Frobenius face ‖M‖²_F = 4·‖H‖²_F·2^N, which a Π²-odd H whose bonds share one Step-5 sign meets
+    /// with its whole spectrum rotated; the norm is necessary for that and not sufficient (the chain sum
+    /// XY + XZ at N = 3, of both signs, meets it without carrying the spectrum). Computed once, lazily, from this system's input.</para></summary>
     public MemoryRotationReading MemoryRotation => _memoryRotation ??= ComputeMemoryRotation();
 
     private MemoryRotationReading ComputeMemoryRotation()
@@ -161,7 +163,9 @@ public sealed class MirrorSystem : IInspectable
             .Select(z => Math.Round(z.Real, 10)).Distinct().OrderBy(x => x).ToList();
         var rotation = energies.Select(e => new EnergyMemoryImage(e, 2.0 * e)).ToList();
 
-        // F80 Frobenius signature: M carries all of H's spectrum (rotated 90°) iff ‖M‖²_F = 4‖H‖²_F·2^N.
+        // F80 Frobenius signature ‖M‖²_F = 4‖H‖²_F·2^N: met whenever M carries H's spectrum rotated 90° (a
+        // Π²-odd H whose bonds share one Step-5 sign, for one), and also by some H whose M does not (the
+        // chain sum XY + XZ at N = 3, of both signs, for one).
         double hNormSq = Hamiltonian.FrobeniusNorm();
         hNormSq *= hNormSq;
         double predicted = 4.0 * hNormSq * (1 << N);
@@ -406,8 +410,10 @@ public sealed record ModeSurvival(double Rate, double Survival, ChannelDifferenc
 /// <summary>The F80 reading of this system's mirror-defect M = Π·L·Π⁻¹ + L + 2σ·I.
 /// <see cref="DefectNorm"/> is ‖M‖_F, the size of the break from the F1 palindrome (0 = perfect
 /// mirror). <see cref="PerfectMirror"/> is true for truly Hamiltonians (M = 0).
-/// <see cref="MemoryCarriesEnergy"/> is the live F80 identity check (Spec(M) = ±2i·Spec(H), via the
-/// Frobenius signature): true when the defect carries the full Hamiltonian spectrum, rotated 90°.
+/// <see cref="MemoryCarriesEnergy"/> is the Frobenius face of the F80 identity: true when
+/// ‖M‖²_F = 4‖H‖²_F·2^N. A Π²-odd H whose bonds share one Step-5 sign then carries its full spectrum,
+/// rotated 90° (Spec(M) = ±2i·Spec(H)); the norm is necessary for that and not sufficient: the chain
+/// sum XY + XZ at N = 3, of both signs, meets it without carrying the spectrum.
 /// <see cref="Rotation"/> lists each energy and its quarter-turn image on the memory axis.</summary>
 public sealed record MemoryRotationReading(
     double DefectNorm,

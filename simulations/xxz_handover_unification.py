@@ -132,7 +132,7 @@ if __name__ == "__main__":
         # (3) level crossing: Lebensader frozen (Im~0), band edge oscillating (Im>>0).
         print(f"\n  [1] FLOOR exact (band edge <n_XY> = 1 for all Delta):        {floor_ok}")
         print(f"  [2] Delta* (rate crossing, leb <n_XY>->1) = {dstar:.4f}  "
-              f"(doc: N=5~1.525, N=4~1.618=phi)")
+              f"(doc: N=5~1.525, N=4~1.618, near phi at Q=20)")
         print(f"      at Delta*: Lebensader light content = {leb_at['nxy_from_rate']:.5f}  (predicted 1.000)")
         print(f"  [3] level crossing: Lebensader |Im|={leb_at['im']:.2e} (frozen), "
               f"band-edge |Im|={band_at['im']:.3f} (oscillating)")

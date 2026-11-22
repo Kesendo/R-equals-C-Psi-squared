@@ -4,8 +4,8 @@ Delta* = where the Lebensader (the dead-centre (ceil(N/2),ceil(N/2)) half-fillin
 XXZ chain under Z-dephasing) rate crosses the band-edge floor 2*gamma (= where its light content <n_XY>=1).
 The arc recast the open "closed form for Delta*(N)" as the closed form for THIS Lebensader rate law.
 
-Known (experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md, full L): Delta*(4)=1.618(=phi), Delta*(5)=1.525.
-phi = 2cos(pi/5) is N=4's band-edge frequency 2cos(pi/(N+1)) - but N=5 gives 1.525 != 2cos(pi/6)=1.732,
+Known (experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md, full L): Delta*(4)=1.618 (near phi at Q=20), Delta*(5)=1.525.
+phi = 2cos(pi/5) = 2cos(pi/(N+1)) at N=4 - but N=5 gives 1.525 != 2cos(pi/6)=1.732,
 so that is flagged an accident. This probe: get Delta*(N) for N=4..8 via SECTOR reduction (the dead-
 centre block, cheap to N=8), validated bit-for-bit vs the full 4^N L at N=4,5; check Q-dependence;
 then test closed-form candidates.
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     # 2. Delta*(N) via sector reduction, N=4..8; reproduce the doc's phi / 1.525.
     print("\n[2] Delta*(N) (Lebensader rate = 2*gamma):")
-    print(f"    {'N':>2} | {'Delta*':>9} | {'2cos(pi/(N+1))':>14} {'(=N band edge)':>14} | {'1+1/N?':>8}")
+    print(f"    {'N':>2} | {'Delta*':>9} | {'2cos(pi/(N+1))':>14} | {'1+1/N?':>8}")
     ds = {}
     for N in (4, 5, 6, 7):
         d = delta_star(N)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
         if d is None:
             print(f"    {N:>2} |   none")
             continue
-        print(f"    {N:>2} | {d:>9.5f} | {be:>14.5f} {'':>14} | {1 + 1.0/N:>8.4f}")
+        print(f"    {N:>2} | {d:>9.5f} | {be:>14.5f} | {1 + 1.0/N:>8.4f}")
 
     # 3. Q-DEPENDENCE: is Delta* a property of Delta alone, or does it move with Q? (decides whether
     #    a clean Delta*(N) form can even exist).

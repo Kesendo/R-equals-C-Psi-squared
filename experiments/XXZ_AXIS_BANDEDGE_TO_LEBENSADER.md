@@ -1,8 +1,8 @@
 # Walking the XXZ Axis: the Slowest Mode Relays from Band-Edge to Lebensader
 
 **Status:** Tier 2 (computational, bit-exact at N=4, 5; the charge/spin "two clocks"
-reading layered on top is Tier 3). The handover Δ* is read by bisection; the φ at N=4 is
-flagged as an open curiosity, not a claim.
+reading layered on top is Tier 3). The handover Δ* is read by bisection; the φ at N=4 is a
+coincidence of the finite γ, refuted in the γ → 0 limit below.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/xxz_axis_bandedge_lebensader.py`](../simulations/xxz_axis_bandedge_lebensader.py)
@@ -52,7 +52,7 @@ N=5  (2γ = 0.1)
 
 N=4  (2γ = 0.1)
   band-edge (n_XY=1, beating) through Δ=1.6;  LEBENSADER (n_XY=0-dominated) from Δ=1.7
-  handover Δ* = 1.618   (= φ, the golden ratio, to the precision found)
+  handover Δ* = 1.618   (near φ at this Q; a coincidence of the finite γ, see the caveats)
 ```
 
 ## What the walk shows
@@ -99,9 +99,9 @@ slowest mode along the axis, taking the baton from the band-edge.
   phase at Δ=J=1 (SU(2)); the *open-system* handover Δ* ≈ 1.5–1.6 lies inside the Néel side,
   pushed there by the dephasing. At the Heisenberg point itself the band-edge is still the
   slowest mode (deep-quantum Q=20).
-- **Δ*(N=4) ≈ φ is flagged, not claimed.** It is intriguing that N=4's handover lands on the
-  golden ratio (which is also N=4's band-edge frequency 2cos(π/5)); but N=5 gives 1.525 with
-  no obvious closed form, so a universal φ is not supported. Open.
+- **Δ*(N=4) ≈ φ is a coincidence of the finite γ.** It is intriguing that at Q = 20 N=4's
+  handover lands on the golden ratio; in the γ → 0 limit it sits 1.6·10⁻³ from it (the descent
+  below), and N=5 gives 1.525 with no obvious closed form, so there is no golden-ratio law.
 - **Regime, Q, and N.** Q=20 deep-quantum; N=4,5 finite-size; the Lebensader admixture here
   (≈19% at Δ=2) is heavier than the repo's Heisenberg-point 3–7% because of the different
   regime. The relay of the slowest mode's *character* is the robust finding.

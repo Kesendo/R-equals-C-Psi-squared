@@ -3169,11 +3169,11 @@ All matches to machine precision (10⁻¹⁴) at every N.
 
 where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
 
-**Reach of the identity beyond chain-2-body.** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*: it uses only the bond's own sites, so the structural identity depends only on the Π²-parity of the bonds, not on topology, coefficients or body count:
+**Reach of the identity beyond chain-2-body.** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*: it uses only the bond's own sites, so the identity's operator form, M = −2i·(H⊗I) or +2i·(I⊗Hᵀ), depends only on the Π²-parity of the bonds and, for Π²-odd bonds, on their Step-5 sign, not on topology, coefficients or body count:
 - **Π²-odd bonds** sharing one sign s, any graph, any body count: M = −2i·(H⊗I) (s = +1) or +2i·(I⊗Hᵀ) (s = −1), so Spec(M) = ±2i·Spec(H), the *single* eigenvalues. Checked for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N = 4, 5 (`F80ExtensionExplorationTests`). Only the cluster *values* are structure-specific (chain = OBC ladder 2cos(πk/(N+1)), ring = two-sector cyclic, star = integers 2|m − 2j|); a graph with ordered (P, Q) bonds needs an orientation per bond to define H.
 - **Π²-even non-truly bonds** (Y,Z), (Z,Y): the per-bond commutator is preserved rather than anti-commuted, so M = 2·L_H = −2i·[H,·], and Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies) instead of single eigenvalues; the truly XX, YY, ZZ bonds give M = 0.
 
-So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energies), [H, ·] for Π²-even (energy gaps); the bond's Π²-parity is the switch, and M is linear in H, so mixed-letter Hamiltonians add their per-bond pieces.
+So, bond by bond, M is ±2i times a Hamiltonian object: H⊗I (or I⊗Hᵀ) for Π²-odd (single energies), [H, ·] for Π²-even (energy gaps); the bond's Π²-parity is the switch, and M is linear in H, so mixed-letter Hamiltonians add their per-bond pieces. Π²-odd bonds of both Step-5 signs put their pieces on the two sides, M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R with H_L the s = +1 bonds and H_R the s = −1 bonds, and Spec(M) = {−2i·a + 2i·b : a ∈ Spec H_L, b ∈ Spec H_R} is then in general not 2i·Spec(H).
 
 **γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
 
@@ -3185,8 +3185,9 @@ So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energ
 Π²-odd 2-body Hamiltonians `H = c·Σ_l(P_l⊗Q_{l+1})` under uniform
 Z-dephasing, any N; equal multiplicities are verified only for N=3–7, and the
 collision-count formula applies generally. The underlying structural identity
-Spec(M) = ±2i·Spec(H) holds far wider: any graph, any body count, and both
-Π²-parities (see "Reach of the identity beyond chain-2-body" above).
+Spec(M) = ±2i·Spec(H) holds far wider, for Π²-odd bonds sharing one Step-5 sign on any
+graph and at any body count; Π²-even non-truly bonds give the energy differences instead (see
+"Reach of the identity beyond chain-2-body" above).
 **Still open:** the explicit cluster-*value* formula for general k-body terms.
 Closed: all three 2-body graph-family cluster-value formulas (chain OBC cosine,
 star integer spoke-ladder 2|m − 2j|, ring two-sector cyclic free-fermion),

@@ -157,6 +157,45 @@ def test_F80_predict_M_spectrum_pi2_odd_method():
         fw.predict_M_spectrum_pi2_odd(chain3,[('Z', 'Y')], c=1.0)
 
 
+def test_F80_predict_M_spectrum_rejects_mixed_sign_sums():
+    """The identity Spec(M) = 2i·Spec(H) holds for a sum of Π²-odd bonds that
+    share one Step-5 sign s (PROOF_F80_BLOCH_SIGNWALK: s = +1 for (X,Y) and
+    (Y,X), s = −1 for (X,Z) and (Z,X)). A sum mixing the two signs has
+    M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R, whose spectrum is in general not 2i·Spec(H),
+    so the primitive declines it rather than predicting it from Spec(H).
+
+    The mixed sum XY+XZ at N=3 shows why: the measured residual carries the
+    frequencies {0, 4√2}, while 2·Spec(H) gives {4}. The control: the
+    same-sign sum XZ+ZX (both s = −1), which the method test above does not
+    cover, is still predicted and matches the measured spectrum.
+    """
+    from collections import Counter
+    from framework.lindblad import lindbladian_z_dephasing, palindrome_residual
+    from framework.pauli import _build_bilinear
+
+    chain3 = fw.ChainSystem(N=3)
+    bonds3 = [(0, 1), (1, 2)]
+
+    def measured_M(terms):
+        H = _build_bilinear(3, bonds3, [(a, b, 1.0) for (a, b) in terms])
+        M = palindrome_residual(lindbladian_z_dephasing(H, [0.0] * 3), 0.0, 3)
+        return H, np.linalg.eigvals(M)
+
+    for terms in ([('X', 'Y'), ('X', 'Z')], [('Z', 'X'), ('Y', 'X')]):
+        with pytest.raises(ValueError, match="mix the Step-5 signs"):
+            fw.predict_M_spectrum_pi2_odd(chain3, terms, c=1.0)
+
+    H_mixed, evs_mixed = measured_M([('X', 'Y'), ('X', 'Z')])
+    assert sorted({round(abs(ev.imag), 6) for ev in evs_mixed}) == [0.0, 5.656854]
+    assert sorted({round(abs(2 * e), 6) for e in np.linalg.eigvalsh(H_mixed)}) == [4.0]
+
+    same_sign = [('X', 'Z'), ('Z', 'X')]
+    pred = {round(k.imag, 6): v
+            for k, v in fw.predict_M_spectrum_pi2_odd(chain3, same_sign, c=1.0).items()}
+    _, evs_same = measured_M(same_sign)
+    assert pred == dict(Counter(round(ev.imag, 6) for ev in evs_same))
+
+
 def test_F80_kbody_spectrum_identity():
     """F80 (Spec(M) = ±2i·Spec(H_non-truly), mult ×2^N) generalizes to k-body
     chain Π²-odd Hamiltonians.

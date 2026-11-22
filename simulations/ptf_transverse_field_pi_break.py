@@ -5,10 +5,11 @@ The question of hypotheses/PERSPECTIVAL_TIME_FIELD.md, answered there in
 "Perturbations that break U(1) or the mirror":
 
     The PTF closure law Σ_i ln(α_i) ≈ 0 was established only for perturbations
-    that RESPECT the Π palindrome (single-bond J-coupling defects). A transverse
-    field h·σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted
-    closure law, that is a strong structural statement; if it breaks entirely, a
-    clear diagnostic for the role of palindromic protection.
+    that RESPECT the Π palindrome (single-bond J-coupling defects). The question
+    expected a transverse field h·σ_x^i to break Π (Phase 2 shows it does not).
+    If the rescaling picture survives but with a shifted closure law, that is a
+    strong structural statement; if it breaks entirely, a clear diagnostic for
+    the role of palindromic protection.
 
 This probe answers it. For the canonical PTF setup (uniform XY chain, γ₀=0.05,
 bonding-mode initial state φ = (|vac⟩ + |ψ_1⟩)/√2) it compares two perturbation
@@ -16,19 +17,26 @@ families at matched strength ε, on the SAME baseline:
 
   ARM J  (Π-respecting, control): J-defect δJ=ε on bond (0,1).
                                   Reproduces the known Σ ln α ≈ 0.
-  ARM h  (Π-breaking, the test):  transverse field ε·X_i on one site.
+  ARM h  (U(1)-breaking, the test): transverse field ε·X_i on one site.
 
 For each site we fit P_B(i, t) ≈ P_A(i, α_i·t) and record BOTH the fitted α_i
 and the fit RMSE. A large RMSE means the one-parameter time-rescaling ansatz
 itself has broken (no clean per-site clock); a small RMSE with Σ ln α drifting
 away from 0 means the ansatz survives but the closure law is shifted.
 
-Three readings on the same screen:
+Five readings on the same screen:
   Phase 1  trajectory level: α_i, RMSE, Σ ln α for both arms, N ∈ {5, 6, 7}.
-  Phase 2  premise check:    palindrome residual ‖M‖_F at N=4 confirms the
-                             J-defect keeps Π (‖M‖≈0) while h·X breaks it.
+  Phase 2  premise check:    at N = 3, 4, 5 the residual ‖M‖_F against the
+                             canonical Π, the pairing of the spectrum itself,
+                             and U(1): the J-defect and h·X keep Π (‖M‖≈0),
+                             h·Y and h·Z fail it, and of those only h·Z breaks
+                             the spectral palindrome.
   Phase 3  mechanism:        the slowest Liouvillian decay rates Re(λ) under
                              each perturbation: protected (J) vs shifted (h).
+  Phase 4  the Klein prediction: single-site X, Z, Y fields, closure against
+                             bit_a (U(1)).
+  Phase 5  effect-size matching: the split is structural, not a magnitude
+                             artifact.
 
 Propagation is RK4 with the Hamming-mask Z-dephasing (the canonical N=7 PTF
 path, matching simulations/ptf_per_observable_alpha.py). Reuses framework
@@ -36,16 +44,16 @@ primitives for ρ_0, site operators, the palindrome residual, bond_perturbation,
 and slow modes.
 
 Relation to typed knowledge (the two Klein axes are already in the registry):
-  - bit_b → spectral palindrome: Phase 2 reproduces the F78 single-body split,
-    X truly (‖M‖=0) while Y and Z break it with an identical residual. bit_b is the
-    Π² grading (F38). (F78's exact ±2c·γ·i form is for the single-body dissipator;
-    here the same Y≡Z degeneracy shows up in a single-body Hamiltonian field.)
+  - bit_b → the canonical Π: Phase 2 reproduces the F78 single-body split,
+    X truly (‖M‖=0) while Y and Z fail it with an identical residual; of the two
+    only Z breaks the spectral palindrome (the split F78 records for a field
+    alone: Y soft, Z hard). bit_b is the Π² grading (F38).
   - bit_a → U(1) excitation conservation: elementary (X, Y flip spins; Z does not),
     the magnetization cousin of F61's n_XY-parity grading.
 The new content here is neither axis but their DISSOCIATION at the PTF closure:
 the closure rides on bit_a (U(1), PTF Layer 3.2 protection #1, the F4 stationary
-sector projectors) and is independent of bit_b (the spectral palindrome,
-protection #2). See experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md.
+sector projectors) and is independent of protection #2 (Π-invariance) and
+of the spectral palindrome. See experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md.
 """
 from __future__ import annotations
 
@@ -181,7 +189,7 @@ def phase1():
     print("=" * 78)
     print(f"  γ₀={GAMMA_0}, J={J_UNIFORM}, φ=(|vac⟩+|ψ₁⟩)/√2, T_max={T_MAX}, dt={DT}")
     print(f"  ARM J: J-defect ε on bond {DEFECT_BOND} (Π-respecting control)")
-    print(f"  ARM h: transverse field ε·X_i on site i (Π-breaking)")
+    print(f"  ARM h: transverse field ε·X_i on site i (U(1)-breaking)")
     print()
 
     t_grid = np.linspace(0, T_MAX, N_STEPS + 1)
@@ -253,7 +261,8 @@ def phase1():
 
 # ---------------------------------------------------------------------------
 # Phase 2: what does the transverse field actually break?
-#   two axes: spectral palindrome ‖M‖_F  vs  U(1) conservation ‖[H, N_exc]‖
+#   two axes: the canonical Π (‖M‖_F)  vs  U(1) conservation ‖[H, N_exc]‖,
+#   with the pairing of the spectrum itself read beside them
 # ---------------------------------------------------------------------------
 def _N_exc(N):
     """Excitation-number operator N_exc = Σ_i (I − Z_i)/2."""
@@ -267,10 +276,12 @@ def _N_exc(N):
 
 def phase2():
     print("=" * 78)
-    print("PHASE 2  What does the field break? spectral palindrome vs U(1)")
+    print("PHASE 2  What does the field break? the canonical Π vs U(1)")
     print("=" * 78)
-    print("  Two independent axes, both at strength 0.10:")
-    print("    ‖M‖_F        = ‖Π L Π⁻¹ + L + 2Σγ‖   (spectral palindrome; 0 ⟺ mirror)")
+    print("  Two independent axes, both at strength 0.10, and the spectrum's own pairing:")
+    print("    ‖M‖_F        = ‖Π L Π⁻¹ + L + 2Σγ‖   (residual against the canonical Π; 0 ⟺ truly)")
+    print("    pairErr      = largest distance from −λ − 2Σγ to the nearest eigenvalue of L")
+    print("                   (the spectral palindrome holds where it sits at the eigensolver floor)")
     print("    ‖[H, N_exc]‖ = excitation (U(1)) non-conservation")
     print()
 
@@ -287,6 +298,11 @@ def phase2():
 
         def u1(H):
             return float(np.linalg.norm(H @ Nexc - Nexc @ H))
+
+        def pair_err(H):
+            ev = np.linalg.eigvals(fw.lindbladian_z_dephasing(H, gamma_l))
+            target = -ev - 2 * Sigma_gamma
+            return float(np.abs(ev[None, :] - target[:, None]).min(axis=1).max())
 
         J_list = [J_UNIFORM] * (N - 1)
         J_list[0] = J_UNIFORM + h
@@ -305,14 +321,15 @@ def phase2():
             ("+ global ΣX field", H_gX),
         ]
         print(f"  --- N={N} ---")
-        print(f"  {'perturbation':<20s}{'‖M‖_F':>12s}{'palindrome':>12s}"
-              f"{'‖[H,Nexc]‖':>13s}{'U(1)':>8s}")
+        print(f"  {'perturbation':<20s}{'‖M‖_F':>12s}{'canonical Π':>12s}"
+              f"{'pairErr':>11s}{'‖[H,Nexc]‖':>13s}{'U(1)':>8s}")
         for tag, H in rows:
             m = res_norm(H)
+            p = pair_err(H)
             u = u1(H)
-            pal = "mirror" if m < 1e-9 else "BROKEN"
+            pal = "truly" if m < 1e-9 else "not truly"
             u1tag = "conserv" if u < 1e-9 else "BROKEN"
-            print(f"  {tag:<20s}{m:>12.2e}{pal:>12s}{u:>13.2e}{u1tag:>8s}")
+            print(f"  {tag:<20s}{m:>12.2e}{pal:>12s}{p:>11.2e}{u:>13.2e}{u1tag:>8s}")
         print()
 
     # Structural assertions (N=4 anchor)
@@ -330,6 +347,18 @@ def phase2():
     assert u_A < 1e-9, f"uniform XY does not conserve U(1)?? {u_A}"
     assert u_X > 1e-6, f"X-field did not break U(1): {u_X}"
 
+    # Why the Y field keeps the spectrum: diag(1, −i) on every site commutes with
+    # every Z_l (so with the dephasing), leaves XX + YY unchanged and turns Y into X.
+    # Its entries are 1 and −i, so the conjugation is exact in floating point.
+    U = np.array([[1.0]], dtype=complex)
+    for _ in range(N):
+        U = np.kron(U, np.diag([1.0, -1j]))
+    H_Y = H_A + h * fw.site_op(N, 0, 'Y')
+    gauge_residual = float(np.abs(U @ H_Y @ U.conj().T - H_X).max())
+    print(f"  diag(1, −i) on every site carries the Y-field H onto the X-field H: "
+          f"max residual {gauge_residual!r}")
+    assert gauge_residual == 0.0, f"the Y→X gauge is not exact: {gauge_residual}"
+
     print("  READING: the J-defect respects BOTH axes. The transverse X-field")
     print("  preserves the spectral palindrome (‖M‖≈0, the spectrum stays")
     print("  mirror-symmetric about −Σγ) yet BREAKS U(1) excitation conservation.")
@@ -338,8 +367,9 @@ def phase2():
     print("  (PTF doc Layer 3.2, protection #1: the stationary sector projectors).")
     print("  The doc's premise 'a transverse field breaks Π' is imprecise: X breaks")
     print("  the protection via U(1), not via the mirror. The Z-field is the mirror")
-    print("  image: it conserves U(1) but breaks the palindrome (‖M‖≠0), and Phase 4")
-    print("  shows its closure survives anyway. So the two axes are independent.")
+    print("  image: it conserves U(1) but breaks the spectral palindrome (pairErr ≠ 0);")
+    print("  the Y field has the same ‖M‖ yet its spectrum pairs. Phase 4 shows the")
+    print("  Z field's closure survives anyway. So the two axes are independent.")
     print()
 
 
@@ -392,7 +422,7 @@ def phase3():
     print()
     print(f"  max |Δ decay rate| over slowest {n_show} modes:")
     print(f"    J-defect (Π-respecting): {np.max(np.abs(rJ - rA)):.2e}")
-    print(f"    field    (Π-breaking)  : {np.max(np.abs(rh - rA)):.2e}")
+    print(f"    field (U(1)-breaking)  : {np.max(np.abs(rh - rA)):.2e}")
     print()
     print("  Reading: if the J-defect leaves the slow decay rates near-fixed")
     print("  (envelope shape preserved → clean time-rescale) while the field")
@@ -404,12 +434,12 @@ def phase3():
 def phase4():
     print("=" * 78)
     print("PHASE 4  The Klein prediction: does closure-break track bit_a (U(1))")
-    print("         rather than bit_b (palindrome)?")
+    print("         rather than bit_b (the canonical Π)?")
     print("=" * 78)
     print("  Single-site field ε·P_0 for P ∈ {X, Z, Y}. Klein bits (a,b):")
     print("    X=(1,0) breaks U(1), keeps palindrome → PREDICT closure BREAKS")
     print("    Z=(0,1) keeps U(1), breaks palindrome → PREDICT closure SURVIVES")
-    print("    Y=(1,1) breaks both                   → PREDICT closure BREAKS")
+    print("    Y=(1,1) breaks U(1), fails Π, spectrum still pairs → PREDICT closure BREAKS")
     print()
     t_grid = np.linspace(0, T_MAX, N_STEPS + 1)
 
@@ -452,7 +482,7 @@ def phase4():
     print("  ✓ Confirmed N=5,6,7: Z (bit_a=0, palindrome-BROKEN) keeps Σ ln α ~ 0")
     print("  with a clean fit, while X and Y (bit_a=1) blow up both Σ ln α and the")
     print("  fit RMSE. The PTF closure law is guarded by U(1) excitation conservation")
-    print("  (the bit_a / light axis), independent of the spectral palindrome (bit_b).")
+    print("  (the bit_a / light axis), independent of the spectral palindrome.")
     print()
 
 
@@ -528,7 +558,7 @@ def main():
     phase5()
     print("=" * 78)
     print("Done. Headline: the PTF closure breaks under a single-site field iff")
-    print("bit_a=1 (X, Y → U(1) broken), independent of the palindrome (bit_b).")
+    print("bit_a=1 (X, Y → U(1) broken), independent of the spectral palindrome.")
     print("Phase 5 confirms it is structural, not a magnitude artifact.")
     print("=" * 78)
 

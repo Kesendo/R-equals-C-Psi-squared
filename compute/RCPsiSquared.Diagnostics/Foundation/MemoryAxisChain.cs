@@ -32,7 +32,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         from the maximally mixed by ±0.5 (the (1 ± r_z)/2 form). Same static pair as
 ///         step 2; the 1/2 in ρ = (I + r·σ)/2 is what makes Π's ±1 eigenoperators
 ///         states.</item>
-///   <item>F80 lift: chain Π²-odd Hamiltonian eigenvalues λ on the real axis lift to ±2iλ
+///   <item>F80 lift: the eigenvalues λ of a chain Π²-odd Hamiltonian whose bonds share one Step-5 sign
+///         lift from the real axis to ±2iλ
 ///         on M's imaginary axis (the i factor is the 90° rotation, the 2 is chiral
 ///         pair-doubling). Bit-exact verified at N = 3..7 + k-body in
 ///         <c>docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md</c>.</item>
@@ -77,8 +78,9 @@ public static class MemoryAxisChain
 {
     /// <summary>Walk the trio chain. If <paramref name="hamiltonianTerms"/> is provided
     /// and contains chain Π²-odd 2-body bilinears, the F80 lift is computed via
-    /// <see cref="BlochSignWalk.PredictMSpectrumImaginaryParts"/>; otherwise the F80
-    /// spectrum field is null. <paramref name="dephaseLetter"/> selects which Π² axis
+    /// <see cref="BlochSignWalk.PredictMSpectrumImaginaryParts"/>, called for any non-empty term
+    /// list, which throws for terms outside F80's scope (a sum of both Step-5 signs among them);
+    /// without terms the F80 spectrum field is null. <paramref name="dephaseLetter"/> selects which Π² axis
     /// defines the even/odd split (default Z, matching standard Z-dephasing).</summary>
     public static MemoryAxisChainResult Compute(
         ChainSystem chain,

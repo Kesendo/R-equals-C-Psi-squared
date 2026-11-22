@@ -12,8 +12,9 @@ from ..symmetry import _pauli_pair_is_truly
 def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
     """F80 structural-identity prediction of M's spectrum (chain Π²-odd 2-body).
 
-    Theorem F80 (verified bit-exact at N=3..7, all four pure Π²-odd Pauli
-    pairs and their sums, see PROOF_F80_BLOCH_SIGNWALK):
+    Theorem F80 (verified bit-exact at N=3..7 for the four pure Π²-odd Pauli
+    pairs; their same-sign sums follow from the proof's Step 5 and are tested
+    at N=3 and 4; see PROOF_F80_BLOCH_SIGNWALK):
 
         Spec(M)_{nontrivial} = { ±2i · λ : λ ∈ Spec(H_non-truly) }
         mult_M(±2i·λ) = mult_H_non-truly(λ) · 2^N
@@ -25,7 +26,14 @@ def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
     The remaining bilinears must all be Π²-odd 2-body: P, Q ∈ {X, Y, Z}
     with bit_b(P) + bit_b(Q) ≡ 1 (mod 2), i.e., one of (X,Y), (X,Z),
     (Y,X), (Z,X). Π²-even non-truly bilinears (Y,Z) and (Z,Y) are not in
-    F80's verified scope and are rejected.
+    F80's verified scope and are rejected. The remaining bilinears must
+    also share one Step-5 sign s: s = +1 for (X,Y) and (Y,X), s = −1 for
+    (X,Z) and (Z,X). A sum mixing the two signs has
+    M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R, with H_L the s = +1 bonds and H_R the s = −1
+    bonds (the proof's Abstract, its paragraph on mixed-letter Hamiltonians), whose
+    spectrum is in general not 2i·Spec(H). Such a sum is outside the proven
+    scope and is rejected, also where it happens to match (two commuting terms
+    at N=2).
 
     Args:
         terms: list of (a, b) Pauli letter tuples. Truly terms are dropped;
@@ -42,7 +50,8 @@ def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
             identity letter. Such a term is a bond term, not a single-body one,
             and it IS Π²-odd, but F80's sign-walk is stated and verified for the
             identity-free four; the restriction is scope, not a limit of the
-            formula (see F78 for the single-body statement).
+            formula (see F78 for the single-body statement). Also raised when
+            the non-truly terms mix the two Step-5 signs.
     """
     # Filter truly, validate remaining as Π²-odd 2-body
     non_truly_terms = []
@@ -65,6 +74,18 @@ def predict_M_spectrum_pi2_odd(chain, terms, c=1.0):
                 "are richer and not in F80's verified scope"
             )
         non_truly_terms.append((a, b, c))
+
+    # Step-5 sign of each Π²-odd pair: +1 when the pair carries Y, −1 when Z.
+    signs = {+1 if 'Y' in (a, b) else -1 for (a, b, _) in non_truly_terms}
+    if len(signs) > 1:
+        raise ValueError(
+            "the Π²-odd terms mix the Step-5 signs s = +1 ((X,Y), (Y,X)) and "
+            "s = −1 ((X,Z), (Z,X)); F80's identity Spec(M) = 2i·Spec(H) is proven "
+            "for a same-sign sum, a mixed sum has M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R "
+            "with H_L the s = +1 bonds and H_R the s = −1 bonds "
+            "(PROOF_F80_BLOCH_SIGNWALK), whose spectrum is in general not "
+            "2i·Spec(H), and is outside the scope predicted here"
+        )
 
     if not non_truly_terms:
         return {0 + 0j: 4 ** chain.N}

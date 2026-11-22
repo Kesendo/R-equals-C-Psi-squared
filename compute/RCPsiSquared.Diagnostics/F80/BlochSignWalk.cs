@@ -14,8 +14,12 @@ namespace RCPsiSquared.Diagnostics.F80;
 /// <para>The remaining bilinears must all be Π²-odd 2-body: P, Q ∈ {X, Y, Z} with
 /// bit_b(P) + bit_b(Q) ≡ 1 mod 2, i.e. one of (X,Y), (X,Z), (Y,X), (Z,X). Π²-even
 /// non-truly bilinears (Y,Z and Z,Y) are richer and are NOT in F80's verified scope.
-/// F80 is proven for the open chain only, so a non-chain <c>ChainSystem.Topology</c>
-/// is rejected.</para>
+/// The remaining bilinears must also share one Step-5 sign s: s = +1 for (X,Y) and (Y,X),
+/// s = −1 for (X,Z) and (Z,X). A sum mixing the two signs has M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R,
+/// with H_L the s = +1 bonds and H_R the s = −1 bonds, whose spectrum is in general not
+/// 2i·Spec(H); such a sum is outside the proven scope and is rejected, also where it happens to
+/// match (two commuting terms at N=2). The predictor is scoped to the open chain, where F80's
+/// sign walk is proven, so a non-chain <c>ChainSystem.Topology</c> is rejected.</para>
 ///
 /// <para>See docs/ANALYTICAL_FORMULAS.md F80 entry.</para>
 /// </summary>
@@ -28,7 +32,7 @@ public static class BlochSignWalk
     {
         if (chain.Topology != TopologyKind.Chain)
             throw new ArgumentException(
-                $"chain topology is {chain.Topology}; F80 is proven for the open chain (TopologyKind.Chain) only");
+                $"chain topology is {chain.Topology}; this predictor is scoped to the open chain (TopologyKind.Chain), where F80's sign walk is proven");
 
         var nonTruly = new List<PauliPairBondTerm>();
         foreach (var t in terms)
@@ -42,6 +46,17 @@ public static class BlochSignWalk
                     $"term ({t.LetterA},{t.LetterB}) is Π²-even non-truly; F80 covers Π²-odd only");
             nonTruly.Add(t);
         }
+
+        // Step-5 sign of each Π²-odd pair: +1 when the pair carries Y, −1 when it carries Z.
+        bool hasPlus = nonTruly.Any(t => t.LetterA == PauliLetter.Y || t.LetterB == PauliLetter.Y);
+        bool hasMinus = nonTruly.Any(t => t.LetterA == PauliLetter.Z || t.LetterB == PauliLetter.Z);
+        if (hasPlus && hasMinus)
+            throw new ArgumentException(
+                "the Π²-odd terms mix the Step-5 signs s = +1 ((X,Y), (Y,X)) and s = −1 ((X,Z), (Z,X)); " +
+                "F80's identity Spec(M) = 2i·Spec(H) is proven for a same-sign sum, a mixed sum has " +
+                "M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R with H_L the s = +1 bonds and H_R the s = −1 bonds " +
+                "(PROOF_F80_BLOCH_SIGNWALK), whose spectrum is in general not 2i·Spec(H), and is " +
+                "outside the scope predicted here");
 
         if (nonTruly.Count == 0)
             return new Dictionary<double, int> { { 0.0, 1 << (2 * chain.N) } };

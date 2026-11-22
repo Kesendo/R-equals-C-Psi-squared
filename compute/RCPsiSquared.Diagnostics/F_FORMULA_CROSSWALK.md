@@ -33,7 +33,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `F80.BlochSignWalk.PredictMSpectrumImaginaryParts` | Spec(M) = ±2i · Spec(H_non-truly) for chain Π²-odd 2-body | [`PROOF_F80_BLOCH_SIGNWALK.md`](../../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) | — |
+| `F80.BlochSignWalk.PredictMSpectrumImaginaryParts` | Spec(M) = ±2i · Spec(H_non-truly) for chain Π²-odd 2-body bonds sharing one Step-5 sign | [`PROOF_F80_BLOCH_SIGNWALK.md`](../../docs/proofs/PROOF_F80_BLOCH_SIGNWALK.md) | — |
 
 ## F81 — Π-decomposition (Tier 1)
 

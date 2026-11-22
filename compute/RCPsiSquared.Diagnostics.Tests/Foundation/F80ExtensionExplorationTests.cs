@@ -11,11 +11,15 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>F80 reach beyond its proven scope. PROOF_F80_BLOCH_SIGNWALK establishes
-/// Spec(M) = ±2i·Spec(H) (M = Π·L·Π⁻¹ + L + 2σ·I) for chain Π²-odd 2-body Hamiltonians, and
-/// flags ring/star topologies and the k-body cluster-value table as open. The Step-5 mechanism
-/// (Π·[H,·]·Π⁻¹ = ±{H,·}) is per-bond and per-site, so the structural identity should not care
-/// about topology or body-count, only that every term is Π²-odd. Here we check that directly with
+/// <summary>F80 reach beyond the chain. PROOF_F80_BLOCH_SIGNWALK establishes
+/// Spec(M) = ±2i·Spec(H) (M = Π·L·Π⁻¹ + L + 2σ·I) for chain Π²-odd 2-body Hamiltonians of one
+/// bilinear type, and its Step 5 carries it to rings, stars and k-body bonds; the k-body
+/// cluster-value formula stays open.
+/// The Step-5 mechanism (Π·[H,·]·Π⁻¹ = ±{H,·}) is per-bond and per-site, so the structural identity
+/// does not care about topology or body-count, given Π²-odd terms that share one Step-5 sign (bonds
+/// of both signs give the two-sided M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R, H_L the s = +1 and H_R the s = −1
+/// bonds, whose spectrum is in general different).
+/// Here we check that directly with
 /// the verified <see cref="PalindromeResidual"/>: M's spectrum should be purely imaginary and its
 /// distinct |Im| clusters should equal 2·|Spec(H)| for the ring and 3-body cases too.</summary>
 public class F80ExtensionExplorationTests

@@ -174,7 +174,7 @@ them together.
 
 That reading rhymes with the [PTF result](PTF_PALINDROME_BREAKING_PERTURBATIONS.md) without collapsing
 into it. There, the per-site closure law was found to ride on bit_a (the light / U(1) axis), not on
-the spectral palindrome (bit_b). Here too the load-bearing discriminator for the hard cases is bit_a,
+the spectral palindrome. Here too the load-bearing discriminator for the hard cases is bit_a,
 while the truly line sits on bit_b. What is genuinely shared is the axis: under Z-dephasing the active
 structural coordinate is bit_a. What is specific, and must not be merged, is the theorem: PTF's bit_a
 governs a dynamical trajectory closure, this bit_a governs whether a spectral symmetry operator exists

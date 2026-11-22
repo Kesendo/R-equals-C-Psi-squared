@@ -54,28 +54,36 @@ second branch.
 ## What it does NOT break (the surprise)
 
 The doc's premise was that "a transverse field h·σ_x^i breaks Π". It does not. The single-site
-transverse field leaves the spectral palindrome exactly intact. Measuring two independent
-quantities at strength 0.10, the spectral palindrome residual ‖M‖ = ‖Π L Π⁻¹ + L + 2Σγ‖ and
-the U(1) excitation non-conservation ‖[H, N_exc]‖, over single-site fields σ₀ ∈ {X, Y, Z}:
+transverse field leaves the spectral palindrome exactly intact. Three quantities, measured at
+strength 0.10 over single-site fields σ₀ ∈ {X, Y, Z}: the residual against the canonical Π,
+‖M‖ = ‖Π L Π⁻¹ + L + 2Σγ‖; whether the spectrum itself pairs; and the U(1) excitation
+non-conservation ‖[H, N_exc]‖.
 
-| perturbation | (bit_a, bit_b) | ‖M‖ palindrome | ‖[H, N_exc]‖ U(1) |
-|--------------|:---:|:---:|:---:|
-| uniform XY | n/a | 0 (mirror) | 0 (conserved) |
-| J-defect bond(0,1) | (bond) | 0 (mirror) | 0 (conserved) |
-| **X-field** | (1,0) | **0 (mirror)** | **broken** |
-| **Z-field** | (0,1) | **broken** | **0 (conserved)** |
-| **Y-field** | (1,1) | **broken** | **broken** |
+| perturbation | (bit_a, bit_b) | ‖M‖, canonical Π | spectral palindrome | ‖[H, N_exc]‖ U(1) |
+|--------------|:---:|:---:|:---:|:---:|
+| uniform XY | n/a | 0 | holds (truly) | 0 (conserved) |
+| J-defect bond(0,1) | (bond) | 0 | holds (truly) | 0 (conserved) |
+| **X-field** | (1,0) | **0** | **holds (truly)** | **broken** |
+| **Z-field** | (0,1) | **≠ 0** | **broken (hard)** | **0 (conserved)** |
+| **Y-field** | (1,1) | **≠ 0** | **holds (soft)** | **broken** |
 
-(‖M‖ values machine-zero ~10⁻¹⁵ for the "mirror" rows; verified N = 3, 4, 5.)
+(‖M‖ machine-zero, ~10⁻¹⁵, in the rows marked 0. The spectral column is the largest distance from
+−λ − 2Σγ to the nearest eigenvalue: below 10⁻¹³ where the palindrome holds, 0.14 to 0.20 for the
+Z field at γ₀ = 0.05. Both are printed by Phase 2 of the script at N = 3, 4, 5.)
 
 The single-site fields populate all four cells of the Klein-Vierergruppe, and the two break
 axes are exactly the two Klein bits:
 
 - **bit_a = 1** (X, Y, the n_XY "light" letters) ⟺ breaks U(1) excitation conservation. These
   letters flip spins; Z does not.
-- **bit_b = 1** (Y, Z) ⟺ breaks the spectral palindrome.
+- **bit_b = 1** (Y, Z) ⟺ fails the canonical Π (‖M‖ ≠ 0). Only Z breaks the spectral
+  palindrome. The phase diag(1, −i) on every site commutes with the dephasing, leaves XX + YY
+  unchanged and carries the Y field onto the X field exactly (Phase 2 checks it entry by entry),
+  so the Y spectrum pairs; the Z field breaks it at every γ > 0 (made theorem-grade in the update below).
+  [F78](../docs/ANALYTICAL_FORMULAS.md) records the same split, Y soft and Z hard, for a field
+  alone.
 
-Neither axis is new. The palindrome leg is exactly [F78](../docs/ANALYTICAL_FORMULAS.md)
+Neither axis is new. The Π leg is exactly [F78](../docs/ANALYTICAL_FORMULAS.md)
 (single-body M structure: X is truly with ‖M‖ = 0, while Y and Z give the identical nonzero
 spectrum; our ‖M‖ reproduces the Y ≡ Z degeneracy bit-for-bit), sitting on the bit_b Π² grading
 of [F38](../docs/ANALYTICAL_FORMULAS.md). The U(1) leg is the magnetization cousin of
@@ -99,7 +107,7 @@ RMSE as the J-defect control. The X-field keeps the mirror yet destroys the clos
 phenomena are dissociated:
 
 > The PTF closure law Σ_i ln(α_i) ≈ 0 is guarded by U(1) excitation-number conservation
-> (the bit_a / light axis), not by the spectral palindrome (the bit_b axis).
+> (the bit_a / light axis), not by the spectral palindrome.
 
 ## Is it a magnitude artifact? No.
 
@@ -192,7 +200,7 @@ palindrome stays the orthogonal axis this experiment said it was.
 It is a sharpening of the PTF doc's own protection #1 vs #2, using the framework's existing
 Klein lens, with the Z-field as the control that isolates which axis the closure rides on. It
 does not warrant a new typed claim: both Klein axes are already typed (F78/F38 for the
-palindrome, F61 for n_XY parity), and the dissociation hangs on the PTF closure law, which is
+canonical Π, F61 for n_XY parity), and the dissociation hangs on the PTF closure law, which is
 itself a Tier-2 empirical regularity (downgraded from first-order theorem by
 [EQ-014](../review/EQ014_FINDINGS.md)), so it cannot anchor a Tier-1 statement. The closure's
 guardian is named; the closure itself stays empirical.
@@ -205,4 +213,5 @@ guardian is named; the closure itself stays empirical.
   [F61](../docs/ANALYTICAL_FORMULAS.md), [F4](../docs/ANALYTICAL_FORMULAS.md): the typed pieces
   the Klein 2×2 reuses.
 - [`simulations/ptf_transverse_field_pi_break.py`](../simulations/ptf_transverse_field_pi_break.py):
-  the four-phase probe (trajectory closure, two-axis premise check, mechanism, Klein prediction).
+  the five-phase probe (trajectory closure; the premise check of the canonical Π, the spectrum and
+  U(1); mechanism; Klein prediction; effect-size matching).
