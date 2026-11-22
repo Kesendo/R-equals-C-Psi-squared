@@ -21,8 +21,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>The asserted fact is empirical: over ALL two-term bilinear pairs (the nine single bilinears
 /// XX, YY, ZZ, XY, YX, XZ, ZX, YZ, ZY taken as unordered pairs, including self-pairs) the router's
 /// fate verdict matches the spectral authority <see cref="PauliPairTrichotomy.Classify(ChainSystem,
-/// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> bit-exactly. The router is N-independent,
-/// so the authority cross-check runs on a small internal chain (N=4, matching the proven
+/// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> bit-exactly. The router's verdict does not change from three sites on
+/// (at two sites all 36 pair), so the authority cross-check runs on a small internal chain (N=4, matching the proven
 /// <c>TwoTermPalindromeRoutingTests</c>); the registry chain is kept only for the Claim's identity.</para>
 ///
 /// <para>The comparison is built LAZILY: construction touches no eigensolve. The all-pairs
@@ -49,7 +49,7 @@ public sealed class TwoTermPalindromeRoutingClaim : Claim
     /// The unordered pairs are the upper triangle (a, b) with b at or after a, including self-pairs.</summary>
     private static readonly string[] Bilinears = { "XX", "YY", "ZZ", "XY", "YX", "XZ", "ZX", "YZ", "ZY" };
 
-    /// <summary>N used for the authority cross-check. The router is N-independent; N=4 matches the
+    /// <summary>N used for the authority cross-check. The router's verdict does not change from three sites on; N=4 matches the
     /// proven <c>TwoTermPalindromeRoutingTests.Routing_AgreesWithSpectralAuthority_OverAll45Combos_N4</c>
     /// and keeps the 45 eigendecompositions small (256×256 Liouvillian).</summary>
     private const int AuthorityN = 4;
@@ -156,8 +156,8 @@ public sealed class TwoTermPalindromeRoutingClaim : Claim
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
 
     /// <summary>Build the all-pairs routing-vs-authority comparison over the upper triangle of the
-    /// nine bilinears (including self-pairs). The authority runs on an internal N=4 chain (the router
-    /// is N-independent); the registry chain is untouched here to keep registry build cheap.</summary>
+    /// nine bilinears (including self-pairs). The authority runs on an internal N=4 chain (the router's
+    /// verdict does not change from three sites on); the registry chain is untouched here to keep registry build cheap.</summary>
     private static IReadOnlyList<PairComparison> BuildComparisons()
     {
         var authorityChain = new ChainSystem(AuthorityN, 1.0, 0.05);

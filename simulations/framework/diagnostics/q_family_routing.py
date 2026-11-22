@@ -17,8 +17,9 @@ THAT, the palindrome is broken (hard).
 
 This routing reproduces fw.classify_pauli_pair bit-exactly across N = 3, 4, 5
 (0 mismatches over all 36 combos), validated in the probe
-simulations/q6_klein_routing_two_term.py. The routing is N-independent; the optional
-N here is used only for the parity-break cross-check ‖[H, X^⊗N]‖ > 0.
+simulations/q6_klein_routing_two_term.py. Its verdicts hold from N = 3 on (at N = 2, a
+single bond, all 36 two-term sets pair); the optional N here is used only for the
+parity-break cross-check ‖[H, X^⊗N]‖ > 0.
 
 Public API:
   classify_two_term_palindrome(term1, term2, N=3, gamma_0=0.05)
@@ -225,8 +226,8 @@ def classify_two_term_palindrome(term1, term2, N=3, gamma_0=0.05):
     Decides the fate (truly / soft / hard) and the Klein-routing of the hidden
     symmetry Q from the two bilinears' letters alone, no eigensolve. Reproduces
     fw.classify_pauli_pair bit-exactly across N = 3, 4, 5 (0 mismatches over all
-    36 two-term combos). The routing is N-independent; N here drives only the
-    parity-break cross-check.
+    36 two-term combos), for chains of three sites or more (at two sites all 36
+    pair); N here drives only the parity-break cross-check.
 
     Args:
         term1, term2: each a 2-char Pauli string ('XY') or 2-tuple (('X','Y')),

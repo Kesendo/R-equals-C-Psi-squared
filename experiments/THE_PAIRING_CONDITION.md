@@ -73,9 +73,9 @@ held the spectrum-versus-operator distinction, already scoped to F138 and
 already saying *the char-poly identity, multiplicities included*.
 **[ON_THE_SOFT_BREAK.md](../reflections/ON_THE_SOFT_BREAK.md)** held the repo's
 name for that gap and a predictor of the same kind for a neighbouring family.
-**[THE_PALINDROME_CLASSIFIER.md](THE_PALINDROME_CLASSIFIER.md)** held the honest
-statement that asking whether some operator exists is a search, and thresholded
-a spectral quantity anyway.
+**[THE_PALINDROME_CLASSIFIER.md](THE_PALINDROME_CLASSIFIER.md)** holds the statement
+that soft asks whether some operator pairs the spectrum, and thresholds a
+spectral quantity anyway.
 
 **[CAUGHT_ERRORS.md](../docs/CAUGHT_ERRORS.md)** returned the lesson the
 exhaustive-search section below re-derives independently, dated 2026-08-06:

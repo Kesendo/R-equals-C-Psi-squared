@@ -15,6 +15,8 @@ Runtime a few minutes; the gamma-scaling section dominates it.
 from __future__ import annotations
 import os
 import sys
+from collections import Counter
+
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -127,10 +129,44 @@ def section_mechanism():
         check(close(r, quoted, 0.03), f"Heisenberg with one site at 1+{eps}", f"{r:.3e}", f"{quoted}")
 
 
+# ---------------------------------------------------------------- 0. the opening's two-term bond sets
+def section_opening():
+    print("\n[0] the opening: the 36 two-term bond sets at two, three and four sites")
+    import itertools
+    from scipy.optimize import linear_sum_assignment
+    pauli = {"I": np.eye(2, dtype=complex), "X": np.array([[0, 1], [1, 0]], dtype=complex),
+             "Y": np.array([[0, -1j], [1j, 0]], dtype=complex), "Z": np.diag([1.0, -1.0]).astype(complex)}
+
+    def string(n, letters):
+        out = np.eye(1, dtype=complex)
+        for site in range(n):
+            out = np.kron(out, pauli[letters.get(site, "I")])
+        return out
+
+    def broken(n, terms, g=GAMMA):
+        d = 2 ** n
+        H = sum(string(n, {i: t[0], i + 1: t[1]}) for t in terms for i in range(n - 1))
+        L = -1j * (np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T))
+        for site in range(n):
+            Z = string(n, {site: "Z"})
+            L = L + g * (np.kron(Z, Z) - np.eye(d * d))
+        v = np.linalg.eigvals(L)
+        cost = np.abs(v[:, None] - (-v - 2 * n * g)[None, :])
+        rows, cols = linear_sum_assignment(cost)          # one to one, multiplicities included
+        return float(cost[rows, cols].max()) > 1e-8
+
+    sets = list(itertools.combinations([p + q for p in "XYZ" for q in "XYZ"], 2))
+    hard = {n: {s for s in sets if broken(n, s)} for n in (2, 3, 4)}
+    check(len(sets) == 36 and len(hard[2]) == 0, "two sites: every two-term bond set pairs",
+          f"{len(sets)} sets, {len(hard[2])} hard", "all 36 pair")
+    check(len(hard[3]) == 14 and hard[4] == hard[3], "three and four sites: the same 14 are hard",
+          f"{len(hard[3])} at three, {len(hard[4])} at four, same set: {hard[4] == hard[3]}", "14, the same 14")
+
+
 # ---------------------------------------------------------------- 4. the aggregate census
 def section_census():
     print("\n[4] what the worst-case meter hides")
-    for label, H, exact, quoted in (("field 90 deg", H_field(90.0), 230, "230 of 256 exact"),
+    for label, H, exact, quoted in (("field 90 deg", H_field(90.0), 230, "230 of 256 find a partner"),
                                     ("frustration 38 deg", H_frustration(38.0), 0, "none exact")):
         v = np.linalg.eigvals(liouvillian(H))
         d = np.abs(v[None, :] - (-v - 2 * SIGMA)[:, None]).min(axis=1)
@@ -141,6 +177,17 @@ def section_census():
             at40 = int((np.abs(d - 0.40) < 1e-6).sum())
             check((at20, at40) == (24, 2), "field 90 deg: how the other 26 miss",
                   f"{at20} by 0.20, {at40} by 0.40", "twenty-four by 0.20 and two by 0.40")
+            # the count above asks each eigenvalue for SOME partner; with multiplicities the pairing is fewer
+            mult = Counter((round(z.real, 7), round(z.imag, 7)) for z in v)
+            matched = sum(min(m, mult.get((round(-re - 2 * SIGMA, 7), round(-im, 7)), 0))
+                          for (re, im), m in mult.items())
+            check(matched == 204, "field 90 deg: matched one to one, with multiplicities", matched, "204")
+            at0, atm = mult.get((0.0, 0.0), 0), mult.get((round(-2 * SIGMA, 7), 0.0), 0)
+            check((at0, atm) == (16, 6), "field 90 deg: multiplicity at 0 and at -2 sigma",
+                  f"{at0} and {atm}", "sixteen at zero, six at -2 sigma")
+            pm = [(mult.get((-0.1, s * 2.0), 0), mult.get((round(-0.4 + 0.1, 7), -s * 2.0), 0)) for s in (1, -1)]
+            check(pm == [(32, 24), (32, 24)], "field 90 deg: multiplicity at -0.1 +- 2i and at -0.3 -+ 2i",
+                  pm, "thirty-two against twenty-four, twice")
         else:
             check(close(float(np.median(d)), 4.06e-4, 0.02),
                   "frustration 38 deg: median miss", f"{np.median(d):.3e}", "4e-4")
@@ -193,6 +240,7 @@ if __name__ == "__main__":
     section_laws()
     section_shoulder()
     section_mechanism()
+    section_opening()
     section_census()
     section_ceiling()
     section_budget()

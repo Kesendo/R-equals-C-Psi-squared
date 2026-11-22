@@ -49,7 +49,8 @@ public sealed record RoutingResult(
 ///
 /// <para>This routing reproduces <see cref="PauliPairTrichotomy.Classify(Core.ChainSystems.ChainSystem,
 /// IReadOnlyList{PauliTerm}, double, double, PauliLetter)"/> bit-exactly across all 36 two-term combos.
-/// The routing is N-independent; the optional <c>n</c> drives only the parity-break cross-check
+/// The fate it reads holds from N = 3 on (at N = 2, a single bond, all 36 two-term sets pair,
+/// experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md); the optional <c>n</c> drives only the parity-break cross-check
 /// ‖[H, X^⊗N]‖ &gt; 0. Ported from <c>simulations/framework/diagnostics/q_family_routing.py</c>.</para></summary>
 public static class TwoTermPalindromeRouting
 {
@@ -110,8 +111,8 @@ public static class TwoTermPalindromeRouting
     /// <summary>Classify the palindrome fate of H = Σ_bonds (term1 + term2) under Z-dephasing.
     ///
     /// <para>Decides the fate (truly / soft / hard) and the Klein-routing of the hidden symmetry Q from
-    /// the two bilinears' letters alone, no eigensolve. The routing is N-independent; <paramref name="n"/>
-    /// drives only the parity-break cross-check.</para></summary>
+    /// the two bilinears' letters alone, no eigensolve, for chains of three sites or more (at two sites all
+    /// 36 two-term sets pair); <paramref name="n"/> drives only the parity-break cross-check.</para></summary>
     /// <param name="term1">A two-letter Pauli label (e.g. "XY"); letters from I/X/Y/Z.</param>
     /// <param name="term2">A two-letter Pauli label.</param>
     /// <param name="n">Chain length used only for the parity-break test (default 3).</param>

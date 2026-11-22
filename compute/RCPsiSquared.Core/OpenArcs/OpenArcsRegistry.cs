@@ -3350,8 +3350,10 @@ public static class OpenArcsRegistry
                 "and goes as gamma^-2 (9.65 / 151.4 / 605.0 at gamma = 0.2 / 0.05 / 0.025) while the device-scale " +
                 "one barely moves (11 / 12 / 25), so their order swaps at gamma=0.2 and the device-scale figure is " +
                 "the one to design against. AGGREGATE, which the worst-case meter hides: at field 90 deg 230 of " +
-                "the 256 eigenvalues sit exactly on the mirror and of the 26 that do not, 24 miss by 0.20 and 2 by " +
-                "0.40; at frustration 38 deg none of the 256 is exact and the median miss is 4.061e-4. CONTROLS: " +
+                "the 256 eigenvalues find an eigenvalue exactly at their mirror point (204 pair one to one with " +
+                "their multiplicities: sixteen at zero face six at -2 sigma, thirty-two at -0.1 +- 2i face " +
+                "twenty-four at -0.3 -+ 2i) and of the 26 that find none, 24 " +
+                "miss by 0.20 and 2 by 0.40; at frustration 38 deg none of the 256 is exact and the median miss is 4.061e-4. CONTROLS: " +
                 "the frequency-only test is 1.3e-13 or below at every angle on both coasts and CANNOT fail (L " +
                 "maps Hermitian to Hermitian, so the spectrum is conjugate-closed and the imaginary-part multiset " +
                 "is symmetric identically); the rate-only test is a RELAXATION of the full one, not an independent " +
@@ -4144,7 +4146,7 @@ public static class OpenArcsRegistry
                 + "non-load-bearing aside, that spectrum-level palindromy is realized by some similarity with existence "
                 + "guaranteed by the palindromic spectrum, which is the inference that (4) shows is not free in "
                 + "general; and THE_PALINDROME_CLASSIFIER states the gap outright, that in general soft asks whether "
-                + "some operator exists and that this is a search, then thresholds a spectral quantity anyway. The "
+                + "some operator pairs the spectrum, then thresholds a spectral quantity anyway. The "
                 + "THIRD was this arc's territory, MIRROR_SYMMETRY_PROOF's Scope paragraphs, which F138 names as its Proof "
                 + "anchor: they say 'holds when' with the converse failure beside it (item TWO of NextStep). HOW THE 2026-08-26 NUMBERS WERE PRODUCED, and how far they "
                 + "may be leaned on: by local scouts under the WIP rule, covering the row reproduction with five "

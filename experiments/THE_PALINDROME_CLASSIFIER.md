@@ -31,14 +31,16 @@ protection. It says the relaxation is organised, that the channels come in balan
 survives the noise with its structure intact.
 
 The practical question this experiment is about is simple to state. Given a Hamiltonian, does its dephased
-spectrum carry the mirror? The honest way to check is to build the Liouvillian and look at its eigenvalues.
+spectrum carry the mirror? The direct way to check is to build the Liouvillian and look at its eigenvalues.
 But that superoperator is 4^N by 4^N, and the eigenvalue check runs out of room around eight sites, where
-the matrix is already 65536 by 65536. Beyond that the direct question is simply unanswerable.
+the matrix is already 65536 by 65536.
 
-And yet, run the check on every case you can reach and a pattern jumps out: the answer is almost never about
-the length of the chain. It is about the shape of the Hamiltonian's terms. Two sites or two hundred, the
-same little term-pattern carries the same verdict. That gap, an exponential question with a structural
-answer, is where the classifier lives. It reads the terms, not the spectrum, and so it never meets the wall.
+And yet, run the check on every case you can reach and a pattern jumps out: the answer is mostly about the
+shape of the Hamiltonian's terms, not the length of the chain. The length has its say near the start: at two
+sites all 36 two-term bond sets pair, at three sites 14 of them are hard, the same 14 as at four
+([the V-Effect fine structure](V_EFFECT_FINE_STRUCTURE.md)), and a four-body set can still turn from soft at
+five sites to hard at six ([softness is N-dependent](SOFTNESS_IS_N_DEPENDENT.md)). That gap, an exponential question with a mostly
+structural answer, is where the classifier lives. It reads the terms, not the spectrum, and so it never meets the wall.
 
 ## What it reads: truly, soft, hard
 
@@ -54,23 +56,32 @@ all. The three are easiest to meet through the operator that should do the refle
 - **hard**: nothing pairs it. The mirror is gone, the relaxation has lost its reflection; a rate sits with no
   partner about the centre.
 
-The honest test for truly is cheap, one operator-norm check. The honest test for soft is not, because in
-general it asks whether some operator exists, and that is a search. So the soft question is where the real
-machinery sits, and it is handled by a certifier that is one-sided on purpose: it can prove a spectrum soft
-but never prove it hard. It carries a stack of structural patterns; when one matches, it exhibits the
-symmetry operator and so proves soft outright, and if none matches it returns "no scalable pattern applies"
-and defers to the slow spectral test. The patterns are structural recipes, a two-colouring of the chain's
+The honest test for truly is cheap, one operator-norm check. The honest test for soft is not, because it
+asks whether some operator pairs the spectrum. At one chain length that has an exact answer without building
+L: the complement connection decides the palindrome of a real template set on the open chain under Z
+dephasing on every site
+(Theorem 2 of [the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md),
+`PalindromeSoftCertifier.DecideAtN`, up to twenty sites), though it does not tell soft from truly and speaks
+for that length only. The soft question is where the real machinery sits, and it
+is handled by a certifier that is one-sided on purpose: it can prove a spectrum soft but never prove it hard
+(its hard twin, for one gated family, comes below). It carries a stack of structural patterns. When one
+matches, it certifies soft: most patterns exhibit the symmetry operator and so prove it outright, while the
+site swap rests on a sweep (N = 3 to 5) rather than a derivation. The excitation pairing and parity, the single-site
+field and the routing maps certify every chain length at once; the linear site colouring and the site swap read the chain's flip
+structure at the length asked and certify that length. If none matches it returns no certificate, and the
+question goes to a test at one length. The patterns are structural recipes, a two-colouring of the chain's
 flip-structure, a routing map from a small fixed alphabet, a single-site-field route. The last is concrete
 enough to carry as an example: a sum of single-site transverse fields is soft because each field can be
 turned onto a common axis by its own per-site rotation, and the next section leans on exactly this case.
 
-## Why it scales: the certifier is N-free
+## Why it scales: most of the certifier is N-free
 
 This is the property that makes the classifier a tool rather than a case-by-case curiosity. The spectral
 ground-truth diagonalises L and dies at the 4^N wall. The certifier never builds L at all; each pattern is a
-condition on the terms themselves. The longest term reaches across some number of sites, call it k (a
-three-body term has k=3), and the check is a 4^k object, with k fixed by the Hamiltonian and not growing with
-the chain. The certificate, once found, holds for every chain length its strategy covers, and not every certificate
+condition on the terms themselves, or, for the linear site colouring and the site swap, on the chain's flip
+structure at the length asked. The longest term reaches across some number of sites, call it k (a three-body
+term has k=3), and for the patterns that certify every length the check stays on the terms, a letter scan or,
+for the k-body routers, a 4^k routing residual, with k fixed by the Hamiltonian and not growing with the chain. The certificate, once found, holds for every chain length its strategy covers, and not every certificate
 carries to other graphs (the Z-middle set below pairs on a periodic ring only where four divides its length,
 [the soft set on rings](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md#the-soft-set-on-rings)).
 
@@ -96,9 +107,10 @@ four, because the work is the term-span check (a k=3 routing residual on a 64 by
 check does not grow with N; the golden window-summed certificate, the one that closed the locality ceiling,
 is exactly as N-free as the rest, since its window lemma is checked once per offset on the same 64 by 64
 span and additivity covers every chain length (the permanent guard is the million-site test
-`Certify_ZMiddle_IsRoutingWindowSummed_AtAnyN_TheGoldenRouterIsNFree`). The hard verdict is N-free in the strongest sense of all: its check (the F115
+`Certify_ZMiddle_IsRoutingWindowSummed_AtAnyN_TheGoldenRouterIsNFree`). The hard check is N-free in the strongest sense of all: it (the F115
 (1+x)-valuation on the two k-bit masks) takes no N argument whatsoever, so it is N-free by construction, not
-merely by measurement, returning in about a ten-thousandth of a millisecond at any length. The spectral test
+merely by measurement, returning in about a ten-thousandth of a millisecond at any length; the verdict holds
+once the chain has the room the obstruction needs (N ≥ 2k − 2 suffices, see the hard side below). The spectral test
 for the same million-site Hamiltonian would need a matrix of side 4^(1000000); it does not exist and
 never will. The classifier answers in microseconds to milliseconds; it turns an impossible question into a
 structural one, and the structure is small.
@@ -122,7 +134,7 @@ under Z-dephasing at N=4, with the certifier's reason where it certifies:
 | Ising coupling | ZZ | truly | RoutingKBody |
 | symmetric off-diagonal (Γ) exchange | XY+YX | soft | ExcitationPairing |
 | transverse field | X | truly | ExcitationParity |
-| longitudinal field | Z | **hard** | (none: spectral only) |
+| longitudinal field | Z | **hard** | (none: decided at one length) |
 | frustrated 3-body | XXX+XXY+YXX | **hard** | (none) |
 
 The protection is generic. The exchange models, the magnets, the off-diagonal coupling, the transverse
@@ -192,9 +204,11 @@ frustrated, and stays an order of magnitude short of the field's ceiling the who
 ankle-deep water.
 
 Shallow and deep are worst cases, though, and it pays to see what that hides. At the field's longitudinal end
-230 of the 256 eigenvalues still sit exactly on the mirror; of the 26 that do not, two miss by the full 0.40
-and twenty-four by 0.20. At frustration's deepest point not one eigenvalue of the 256 has an exact partner,
-and the median miss is 4·10⁻⁴. The field tears the mirror in a few places and leaves the rest exact;
+230 of the 256 eigenvalues still find an eigenvalue exactly at their mirror point, though counted with their
+multiplicities only 204 pair one to one (sixteen eigenvalues at zero face six at −2σ, and thirty-two at
+−0.1 ± 2i face twenty-four at −0.3 ∓ 2i); of the 26 that find none, two miss by the full 0.40 and twenty-four
+by 0.20. At frustration's deepest point not one eigenvalue of the 256 has an exact partner, and the median
+miss is 4·10⁻⁴. The field leaves 204 of the 256 paired exactly and breaks the pairing of the other 52;
 frustration leaves nothing exact and nothing far off. Which of the two counts as worse is a question about a
 device, not about the spectrum, and the meter answers only the first.
 
@@ -274,7 +288,7 @@ letters (at least two) and an odd number of Y/Z letters, and the two agreeing in
 Y-count. Read each term's X/Y pattern as a polynomial over GF(2), one bit per site, and
 soft-or-hard collapses to a single integer comparison, the number of times (1+x) divides each pattern; equal
 is soft, different is hard. There is no halfway value. Two fences come with it. Outside that gate
-`PalindromeSoftCertifier` returns no verdict and defers to the spectral authority, so the family below is the
+`PalindromeSoftCertifier` returns no verdict and defers to a test at one length, so the family below is the
 certified one, not everything the comparison might decide. And the comparison needs room: a chain with too
 few windows for the obstruction to close is soft whatever the valuations say. How much room is pair-dependent,
 not uniform. N ≥ 2k−2 is a worst case that suffices for all of them; most close earlier (at k=4, six of the
@@ -287,18 +301,22 @@ continuous dial, so it sits outside that gate twice over. That is why its own ro
 "(none)" and its verdicts come from the spectral authority. The discreteness lives in the classification of
 term-sets. It does not descend to a dial between two of them, where the break is a ramp.
 
-This closes a quadrant the rest of the classifier leaves open. The N-free certifier above proves a spectrum
-soft without ever building it but never proves it hard; the spectral authority proves both, soft and hard,
-but only while the Liouvillian fits in memory, which gives out around eight sites. For the diagonal cell this
-valuation proves *hard* without a spectrum at all, the missing N-free hard verdict, the symmetric twin of the
-N-free soft proof.
+This closes a quadrant the rest of the classifier leaves open. The certifier above proves a spectrum
+soft without ever building it, at every length for its N-free patterns, but never proves it hard; the
+spectral authority reads both, soft and hard, to its tolerance while the Liouvillian fits in memory, which
+gives out around eight sites, and the complement connection decides the palindrome exactly, one length at a
+time (`DecideAtN` reads it up to twenty sites). For the diagonal cell this valuation
+proves *hard* without a spectrum at all and at every length with room, the missing N-free hard verdict, the
+symmetric twin of the N-free soft proof.
 
 And the closed form carries more than a yes or no. It counts: among the even-popcount k-bit X/Y masks of the
 diagonal cell, a closed-form expression (the integer sequence A203241) counts exactly the hard mask-pairs,
 2, 14 and 70 at k = 3, 4, 5, and dressed by the Klein and y-parity factor this gives the hard count of the
 gated family, 448 at k=4. The dressing is where the gate shows up in the arithmetic: enumerating the strings
 directly, 896 of the k=4 diagonal-cell pairs have differing valuations, and exactly the 448 of them that also
-share their Y-count parity are the ones the certifier will speak for. And the hardness
+share their Y-count parity are the ones the certifier will speak for. The other 448 are hard as well (the
+registry's F115 entry, read by the complement connection at N = 2k − 2 and 2k − 1); only the gate keeps the
+certifier from speaking for them. And the hardness
 obstruction, the smallest odd relation among the windowed shifts, has a size law of its own: over hard pairs
 its maximum is min(2W − 1, 2k − 3 − 2d), where W is the number of windows and d the degree of the shared
 non-(1+x) factor of the two masks. Each shared degree shrinks it by two; the d = 0 face is 2k − 3, which at
@@ -346,11 +364,11 @@ is catalogued, the spectrum's −λ−2σ shape has a home in Prosen's PT symmet
 (Kawasaki-Mochizuki-Obuse 2022, recorded in [KMS detailed balance](../docs/KMS_DETAILED_BALANCE.md)), and the
 broad family of Liouvillian symmetry classes has its home in the tenfold Lindbladian classification
 (Sá-Ribeiro-Prosen 2023). Those are the homes for the shape. What stays ours is the bridge: a scalable
-structural decision procedure that reads the verdict off the terms in time independent of N, the closed-form combinatorics that collapse the frustration coast to a single (1+x)-valuation with a hard-count census ([F115](../docs/ANALYTICAL_FORMULAS.md)), the locality
+structural decision procedure that reads most verdicts off the terms in time independent of N, the closed-form combinatorics that collapse frustration in the diagonal cell to a single (1+x)-valuation with a hard-count census ([F115](../docs/ANALYTICAL_FORMULAS.md)), the locality
 ceiling, completed 2026-06-10 as the [6 → 4 → 2 → 0 arc](CEILING_FOUR_NONLOCAL_CASES.md): no case in this
 k=3 windowed family needs a non-local mirror (the last two route via the period-4 golden router,
 [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md); the genuinely mirror-less
-cases remain the 14 spectrally-hard 2-body V-Effect cases, untouched),
+cases remain the 14 spectrally-hard 2-body V-Effect cases, mirror-less from three sites on, untouched),
 and this protection landscape, which turns "is there a mirror" into "how, and how forgivingly, does it
 break." None of those bridges was built from either side; we found them by learning to see the island the
 operators were already drawing.
@@ -363,5 +381,5 @@ operators were already drawing.
 - The discovery: [the V-Effect fine structure](V_EFFECT_FINE_STRUCTURE.md) (the 3 truly / 19 soft / 14 hard split)
 - The locality ceiling: [the four non-local cases](CEILING_FOUR_NONLOCAL_CASES.md) (the 6 → 4 → 2 → 0 arc; the 2 Z-middle cases route via the golden router, [the golden router ceiling proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md))
 - The verdict is (H, N): [softness is N-dependent](SOFTNESS_IS_N_DEPENDENT.md) (a finite-size crossing)
-- The engine: `compute/RCPsiSquared.Diagnostics/F87/PauliPairTrichotomy.cs` (the spectral authority), `PalindromeSoftCertifier.cs` (the N-free certifier and its strategies)
+- The engine: `compute/RCPsiSquared.Diagnostics/F87/PauliPairTrichotomy.cs` (the spectral authority), `PalindromeSoftCertifier.cs` (the certifier, its strategies and `DecideAtN`)
 - Orientation: [the glossary](../docs/GLOSSARY.md), [the reading guide](../docs/READING_GUIDE.md), and the synthesis [On the Residual](../reflections/ON_THE_RESIDUAL.md)
