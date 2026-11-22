@@ -1362,6 +1362,14 @@ if (args.Length > 0 && args[0] == "hardness")
         Console.WriteLine($"    ({trio[i].Name}, {trio[j2].Name}): {(Hardness.IsHardPair(trio[i].Mask, trio[j2].Mask) ? "HARD" : "soft")}");
     Console.WriteLine($"  hard mask-pairs on N >= 2k-2 (A203241) k=4,5,6: {Hardness.HardMaskPairCount(4)}, {Hardness.HardMaskPairCount(5)}, {Hardness.HardMaskPairCount(6)}; dressed: {Hardness.DressedHardCount(4)}, {Hardness.DressedHardCount(5)}, {Hardness.DressedHardCount(6)}");
     Console.WriteLine($"  obstruction ceiling min(2W-1, 2k-3): k=3,W=2 -> {Hardness.ObstructionCeiling(3, 2)} (the always-triangle)");
+    var floors = new SortedDictionary<int, int>();
+    for (ulong a = 1; a < 16; a++)
+        for (ulong b = a + 1; b < 16; b++)
+            if (System.Numerics.BitOperations.PopCount(a) % 2 == 0 && System.Numerics.BitOperations.PopCount(b) % 2 == 0
+                && Hardness.WindowFloor(a, 4, b, 4) is int f)
+                floors[f] = floors.GetValueOrDefault(f) + 1;
+    Console.WriteLine($"  the window floor (F173 Theorem B): the k=4 cross-class pairs {string.Join(", ", floors.Select(kv => $"{kv.Value} from N = {kv.Key}"))}; " +
+                      $"IXZX+XIZX from N = {Hardness.WindowFloor(0b1010, 4, 0b1001, 4)}");
     Console.WriteLine();
     Console.WriteLine("  the cube face: truly forces y_par=0 under every dephase letter (F107); the mother sector's");
     Console.WriteLine("  non-truly side is all-odd, y_par=1 (F109); hard Klein-homogeneous pairs live ONLY in the letter's own Klein");

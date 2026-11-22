@@ -491,21 +491,9 @@ public sealed class Stitch : GameObject
         int deg = Hi(f);
         var moduli = new List<int>();
         for (int d = 1; d < 1 << Math.Max(deg, 1); d++)
-            if (!moduli.Any(m => d % m == 0) && Gcd2(f, (1UL << d) | 1) != 1) moduli.Add(d);
+            if (!moduli.Any(m => d % m == 0) && Hardness.Gcd2(f, (1UL << d) | 1) != 1) moduli.Add(d);
         if (moduli.Contains(1)) return null;                             // f(1) = 0: the translates sum to 0 on every ring
         return new Free(true, Math.Max(norm.SmallestRing, 3 * span - 1), moduli);
-    }
-
-    // the gcd of two polynomials over GF(2), bit i the coefficient of x^i
-    static ulong Gcd2(ulong a, ulong b)
-    {
-        while (b != 0)
-        {
-            int db = 63 - BitOperations.LeadingZeroCount(b);
-            while (a != 0 && 63 - BitOperations.LeadingZeroCount(a) >= db) a ^= b << (63 - BitOperations.LeadingZeroCount(a) - db);
-            (a, b) = (b, a);
-        }
-        return a;
     }
 
     // ---------------------------------------------------------------- the ring laws (F173 and the complement connection, adopted)
@@ -586,7 +574,7 @@ public sealed class Stitch : GameObject
             foreach (var (pm, (_, pr)) in ratios)
                 foreach (var (qm, (_, qr)) in ratios)
                     if (Parity(pr & qm) != Parity(qr & pm)) return false;
-            ulong ringPoly = (1UL << n) | 1UL, h = Gcd2(f, ringPoly);
+            ulong ringPoly = (1UL << n) | 1UL, h = Hardness.Gcd2(f, ringPoly);
             if (h == 1) return true;
             var (omega0, read0) = ratios[f];
             if (Mod2(read0, h) != 0) return false;

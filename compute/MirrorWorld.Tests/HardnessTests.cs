@@ -100,8 +100,8 @@ public class HardnessTests
     }
 
     // F115: the valuation classes and the closed-form hard count (the hard pairs on chains of
-    // N >= 2k-2 sites). Even-popcount nonzero k-bit
-    // masks split by valuation v = 1..k-1 into classes of size 2^(k-1-v); the cross-class pair
+    // N >= 2k-2 sites). Even-popcount nonzero k-bit masks split by valuation v = 1..k-1 into
+    // classes of size 2^(k-1-v); the cross-class pair
     // count matches (4^(k-1) - 3 2^(k-1) + 2)/3 (OEIS A203241), and the Klein/y-parity dressing
     // 2^(2k-3) gives 448 / 8960 / 158720 at k = 4, 5, 6.
     [Fact]
@@ -127,6 +127,89 @@ public class HardnessTests
         Assert.Equal(3, Hardness.ObstructionCeiling(3, 2));                  // the K3 always-triangle
         Assert.Equal(Math.Min(2 * 4 - 1, 2 * 6 - 3), Hardness.ObstructionCeiling(6, 4));
     }
+
+    // F173 Theorem B adopted: the window floor of the fourteen valuation-different mask pairs at k = 4, six from
+    // N = 5 and eight from N = 6, IXZX + XIZX from N = 6, an equal-valuation pair never, and the verdict at one length
+    // hard exactly from the floor on; for k = 3..10 every cross-class pair has a floor, none above 2k - 2 and one at it,
+    // so on chains of N >= 2k - 2 sites the hard pairs are the A203241 count. Unequal widths enter crosswise:
+    // XZX + YXZZ, widths 3 and 4, from N = 5 in either order (4 with q1 and q2 swapped), and XZX + YZZX from
+    // N = 5, where q1 and q2 swapped and max(w) + max(deg q) would both read 6. Masks outside the cell
+    // or past their template's width are refused.
+    [Fact]
+    public void The_Window_Floor_Splits_The_K4_Pairs_And_Is_Reached_By_2k_Minus_2()
+    {
+        var floors = new SortedDictionary<int, int>();
+        foreach (var (a, b) in MaskPairs(4))
+            if (Hardness.WindowFloor(a, 4, b, 4) is int f) floors[f] = floors.GetValueOrDefault(f) + 1;
+        Assert.Equal(new SortedDictionary<int, int> { [5] = 6, [6] = 8 }, floors);
+        Assert.Equal(6, Hardness.WindowFloor(0b1010, 4, 0b1001, 4));                 // IXZX + XIZX
+        Assert.Equal(5, Hardness.WindowFloor(0b101, 3, 0b0011, 4));                  // XZX + YXZZ
+        Assert.Equal(5, Hardness.WindowFloor(0b0011, 4, 0b101, 3));
+        Assert.Equal(5, Hardness.WindowFloor(0b101, 3, 0b1001, 4));                  // XZX + YZZX
+        Assert.Null(Hardness.WindowFloor(0b0011, 4, 0b1001, 4));                     // both valuation 1
+        foreach (int n in new[] { 4, 5, 6, 7 })
+            Assert.Equal(n >= 6, Hardness.IsHardPairAt(0b1010, 4, 0b1001, 4, n));
+        for (int k = 3; k <= 10; k++)
+        {
+            var pairs = MaskPairs(k).ToList();
+            var hard = pairs.Select(p => Hardness.WindowFloor(p.A, k, p.B, k)).OfType<int>().ToList();
+            Assert.Equal(Hardness.HardMaskPairCount(k), hard.Count);
+            Assert.Equal(2 * k - 2, hard.Max());
+            Assert.Equal(Hardness.HardMaskPairCount(k), pairs.Count(p => Hardness.IsHardPairAt(p.A, k, p.B, k, 2 * k - 2)));
+        }
+        Assert.Throws<ArgumentException>(() => Hardness.WindowFloor(0b0001, 4, 0b0011, 4));   // odd popcount
+        Assert.Throws<ArgumentException>(() => Hardness.WindowFloor(0b1001, 3, 0b0011, 3));   // outside its width
+    }
+
+    // the floor against a second route: F158's end count on the chain, through the sieve with the stitch's readers
+    // off (the theodolite still reads first, and a pair that breaks has no every-N reading). Each of the fourteen
+    // pairs at k = 4 is placed as two diagonal-cell templates (X on the mask, Z elsewhere, the first X turned to Y so
+    // that #(Y+Z) is odd), and so are XZX + YXZZ and XZX + YZZX of widths 3 and 4; each is read exactly on every chain from four
+    // sites to its floor, palindromic below the floor and broken at it. An equal-valuation pair is broken on no
+    // chain read.
+    [Fact]
+    public void The_Window_Floor_Meets_The_End_Count_At_K4()
+    {
+        int read = 0;
+        foreach (var (a, b) in MaskPairs(4))
+        {
+            if (Hardness.WindowFloor(a, 4, b, 4) is not int f) continue;
+            string t1 = Template(a, 4), t2 = Template(b, 4);
+            string letters = Sieve.Run(t1 + "+" + t2, Cell(t1, t2), f, stitch: false).Chain.Letters;   // from N = 4 on
+            Assert.True(letters == new string('P', f - 4) + "B", $"{t1} + {t2}, floor {f}: letters {letters}");
+            read++;
+        }
+        Assert.Equal(14, read);
+        foreach (var (t1, m1, t2, m2) in new[] { ("XZX", 0b101UL, "YXZZ", 0b0011UL), ("XZX", 0b101UL, "YZZX", 0b1001UL) })
+        {
+            int f = Hardness.WindowFloor(m1, t1.Length, m2, t2.Length)!.Value;
+            Assert.Equal(new string('P', f - 4) + "B", Sieve.Run(t1 + "+" + t2, Cell(t1, t2), f, stitch: false).Chain.Letters);
+        }
+        string never = Sieve.Run("never", Cell(Template(0b0011, 4), Template(0b1001, 4)), 6, stitch: false).Chain.Letters;
+        Assert.DoesNotContain(never, c => c is 'B' or 'b');
+    }
+
+    // the unordered pairs of distinct nonzero even-popcount k-bit masks, the Mixed diagonal-cell X/Y patterns
+    static IEnumerable<(ulong A, ulong B)> MaskPairs(int k)
+    {
+        var masks = Enumerable.Range(1, (1 << k) - 1).Select(m => (ulong)m)
+            .Where(m => System.Numerics.BitOperations.PopCount(m) % 2 == 0).ToList();
+        for (int i = 0; i < masks.Count; i++)
+            for (int j = i + 1; j < masks.Count; j++)
+                yield return (masks[i], masks[j]);
+    }
+
+    // a diagonal-cell template for an even-popcount mask: X on the mask, Z elsewhere, the first X turned to Y where
+    // #(Y+Z) would otherwise be even (the cell needs it odd)
+    static string Template(ulong mask, int k)
+    {
+        var letters = Enumerable.Range(0, k).Select(j => ((mask >> j) & 1) == 1 ? 'X' : 'Z').ToArray();
+        if (letters.Count(c => c is 'Y' or 'Z') % 2 == 0) letters[System.Numerics.BitOperations.TrailingZeroCount(mask)] = 'Y';
+        return new string(letters);
+    }
+
+    static Theodolite.Cell Cell(params string[] templates)
+        => new(new[] { (LetterCube.LetterMatrix('Z'), 1L) }, null, templates.Select(t => (t, Enumerable.Range(0, t.Length).ToArray(), 1L)));
 
     // F110/F111 (with F105's N-stability): hard Klein-homogeneous pairs live only in the diagonal Klein cell of
     // the dephase letter, with the Y-inversion; the adopted splits are 42:8 at k=3 from N=4 up (identical at

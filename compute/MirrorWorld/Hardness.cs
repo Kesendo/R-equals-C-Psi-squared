@@ -5,7 +5,8 @@ namespace MirrorWorld;
 // The hardness of the palindrome (adopted 2026-07-04 from the F87-hardness bloc: F102/F103 with
 // F105/F106 stability, F107/F109 purity, F110/F111 cell rules, F115 the GF(2)[x] valuation theory
 // of PROOF_F103_F87_Z2_CUBED_REFINEMENT.md section 7.7, F117 the Pascal-Gram converse of
-// PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md section 5).
+// PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md section 5; the window floor, F173's Theorem B of
+// PROOF_SIGNED_MASK_BALANCE.md, adopted 2026-11-22).
 //
 // F87 classifies a windowed Pauli pair by how the palindrome closes: truly (the operator identity
 // holds, M = 0), soft (only the spectrum still pairs about -sigma), hard (even the spectrum
@@ -21,8 +22,8 @@ namespace MirrorWorld;
 //                  (F110), at k=N=4 exactly on the pure-D templates (F111).
 //   the valuation -- a diagonal-cell pair's X/Y window masks, read as GF(2)[x] polynomials, decide
 //                  hardness: hard iff the (1+x)-adic valuations differ (F115), on every chain from the
-//                  pair's window floor N* on and soft below it (N* exact by F173's Theorem B in the main
-//                  repo; N >= 2k-2 always suffices), so on chains of N >= 2k-2 sites in ONE SUBTRACTION.
+//                  pair's window floor N* on and soft below it (N* exact by F173's Theorem B, adopted
+//                  here as WindowFloor; N >= 2k-2 always suffices), so on chains of N >= 2k-2 sites in ONE SUBTRACTION.
 //                  Classes of size 2^(k-1-v), the A203241 hard-pair count there, the obstruction ceiling
 //                  min(2W-1, 2k-3). Pure bit arithmetic, checked in the main repo to k = 20.
 //   the traces  -- the all-gamma converse (F117) reads hardness from odd power-sums of the
@@ -59,9 +60,71 @@ public sealed class Hardness : GameObject
     }
 
     // hard iff the two valuations differ, on a chain from the pair's window floor on (N >= 2k-2 always suffices);
-    // the method takes no N and reads that verdict, on chains of N >= 2k-2 sites the whole section-7 verdict in
-    // one subtraction.
+    // the method takes no N and reads that verdict (IsHardPairAt below takes one), on chains of N >= 2k-2 sites
+    // the whole section-7 verdict in one subtraction.
     public static bool IsHardPair(ulong p1, ulong p2) => Valuation(p1) != Valuation(p2);
+
+    // the window floor (F173 Theorem B, adopted 2026-11-22): two Mixed diagonal-cell templates of widths w1, w2 with
+    // X/Y masks m1, m2 on the open chain. Every relation among their placements is a multiple r*(q2, q1) of the reduced
+    // pair, q_i = m_i / gcd(m1, m2), and fits a chain of N sites exactly when N >= max(w1 + deg q2, w2 + deg q1) + deg r.
+    // In the diagonal cell both templates carry an odd #(Y+Z), so a relation is odd exactly when r(1) = 1 and
+    // q1(1) + q2(1) = 1, that is when the valuations differ, and r = 1 fits first: the pair is soft below the floor
+    // and hard from it on. The method sees only the masks, so the odd #(Y+Z) is the caller's promise: XX + XIX,
+    // both even, never breaks, though its masks read a floor of 3. Equal valuations give no floor, soft at every
+    // length; translates, outside Theorem B's hypothesis, are among them (every relation even, PROOF_F103 section
+    // 7.7). (1+x) divides the gcd, so the floor is at most w1 + w2 - 2, which is 2k - 2 for two templates of width k.
+    public static int? WindowFloor(ulong m1, int w1, ulong m2, int w2)
+    {
+        DiagonalCellMask(m1, w1);
+        DiagonalCellMask(m2, w2);
+        if (!IsHardPair(m1, m2)) return null;
+        ulong g = Gcd2(m1, m2), q1 = Div2(m1, g), q2 = Div2(m2, g);
+        return Math.Max(w1 + Deg(q2), w2 + Deg(q1));
+    }
+
+    // the verdict at one chain length: hard exactly from the window floor on.
+    public static bool IsHardPairAt(ulong m1, int w1, ulong m2, int w2, int n) =>
+        WindowFloor(m1, w1, m2, w2) is int floor && n >= floor;
+
+    // the floor's scope: a Mixed diagonal-cell X/Y mask is nonzero with an even popcount and lies inside its template
+    static void DiagonalCellMask(ulong m, int w)
+    {
+        if (m == 0 || BitOperations.PopCount(m) % 2 != 0)
+            throw new ArgumentException("a Mixed diagonal-cell mask is nonzero with an even popcount");
+        if (w < 1 || w > 63)
+            throw new ArgumentException("a template's width lies between 1 and 63");
+        if (Deg(m) >= w)
+            throw new ArgumentException("the mask must lie inside its template's width");
+    }
+
+    static int Deg(ulong p) => 63 - BitOperations.LeadingZeroCount(p);
+
+    // the gcd of two polynomials over GF(2), bit i the coefficient of x^i (the stitch's readers use it too)
+    internal static ulong Gcd2(ulong a, ulong b)
+    {
+        while (b != 0)
+        {
+            int db = Deg(b);
+            while (a != 0 && Deg(a) >= db) a ^= b << (Deg(a) - db);
+            (a, b) = (b, a);
+        }
+        return a;
+    }
+
+    // the exact quotient a / b over GF(2); b divides a
+    static ulong Div2(ulong a, ulong b)
+    {
+        ulong q = 0;
+        int db = Deg(b);
+        while (a != 0 && Deg(a) >= db)
+        {
+            int s = Deg(a) - db;
+            q |= 1UL << s;
+            a ^= b << s;
+        }
+        if (a != 0) throw new ArgumentException("the divisor does not divide");
+        return q;
+    }
 
     // the cross-class pair count over even-popcount nonzero k-bit masks: (4^(k-1) - 3 2^(k-1) + 2)/3
     // (OEIS A203241), the hard mask pairs on a chain of N >= 2k-2 sites, where every pair has reached its
