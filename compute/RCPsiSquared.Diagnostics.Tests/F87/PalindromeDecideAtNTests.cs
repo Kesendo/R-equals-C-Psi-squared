@@ -9,7 +9,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// <summary>The complement connection carried into the certifier (<see cref="PalindromeSoftCertifier.DecideAtN"/>,
 /// Theorem 2 of <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). Judged against the spectral
 /// authority <see cref="PauliPairTrichotomy"/>, which builds L and pairs its eigenvalues, and against the
-/// certifier's own N-free soft certificates, which must hold at every N.</summary>
+/// certifier's own soft certificates at the N they are given for.</summary>
 public class PalindromeDecideAtNTests
 {
     private const PauliLetter I = PauliLetter.I, X = PauliLetter.X, Y = PauliLetter.Y, Z = PauliLetter.Z;
@@ -66,7 +66,7 @@ public class PalindromeDecideAtNTests
         Assert.True(sets > 20 && broken > 0, $"sets {sets}, broken {broken}");
     }
 
-    // Decide's N-free verdicts stand, and where it is Undetermined the graph decides at this N.
+    // Decide's verdicts stand, and where it is Undetermined the graph decides at this N.
     [Fact]
     public void DecideAtN_Keeps_Decide_And_Fills_Its_Undetermined_Rows()
     {
@@ -81,7 +81,7 @@ public class PalindromeDecideAtNTests
 
         var xy = new[] { T(X, X), T(Y, Y) };
         Assert.Equal(PalindromeSoftCertifier.Decide(xy, 4), PalindromeSoftCertifier.DecideAtN(xy, 4));
-        var hardPair = new[] { T(X, X, Z), T(X, Z, X) };                    // Decide's N-free Hard passes through
+        var hardPair = new[] { T(X, X, Z), T(X, Z, X) };                    // Decide's Hard passes through (XXZ + XZX, floor 4)
         Assert.Equal(PalindromeSoftCertifier.HardStrategy.DiagonalCellValuation,
             PalindromeSoftCertifier.DecideAtN(hardPair, 4).HardStrategy);
     }
@@ -108,9 +108,9 @@ public class PalindromeDecideAtNTests
         Assert.Equal((true, 8, 8), PalindromeSoftCertifier.ComplementConnectionAtN(terms[..2], 4));
     }
 
-    // An N-free soft certificate claims the palindrome at every N; the graph must agree wherever one is given.
+    // A soft certificate claims the palindrome at the N it is given for; the graph must agree wherever one is given.
     [Fact]
-    public void Every_N_Free_Soft_Certificate_Holds_On_The_Graph()
+    public void Every_Soft_Certificate_Holds_On_The_Graph()
     {
         int certified = 0;
         var templates = TwoBody().ToList();

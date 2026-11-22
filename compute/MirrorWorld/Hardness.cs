@@ -20,8 +20,10 @@ namespace MirrorWorld;
 //                  hard Klein-homogeneous pairs live only in the dephase letter's own diagonal Klein cell, Y-inverted
 //                  (F110), at k=N=4 exactly on the pure-D templates (F111).
 //   the valuation -- a diagonal-cell pair's X/Y window masks, read as GF(2)[x] polynomials, decide
-//                  hardness in ONE SUBTRACTION: hard iff the (1+x)-adic valuations differ (F115).
-//                  Classes of size 2^(k-1-v), the A203241 hard-pair count, the obstruction ceiling
+//                  hardness: hard iff the (1+x)-adic valuations differ (F115), on every chain from the
+//                  pair's window floor N* on and soft below it (N* exact by F173's Theorem B in the main
+//                  repo; N >= 2k-2 always suffices), so on chains of N >= 2k-2 sites in ONE SUBTRACTION.
+//                  Classes of size 2^(k-1-v), the A203241 hard-pair count there, the obstruction ceiling
 //                  min(2W-1, 2k-3). Pure bit arithmetic, checked in the main repo to k = 20.
 //   the traces  -- the all-gamma converse (F117) reads hardness from odd power-sums of the
 //                  recentered M = A + gamma Q: soft means every odd Tr(M^m) vanishes; hard fires
@@ -56,11 +58,14 @@ public sealed class Hardness : GameObject
         return v;
     }
 
-    // hard iff the two valuations differ -- the whole section-7 verdict in one subtraction.
+    // hard iff the two valuations differ, on a chain from the pair's window floor on (N >= 2k-2 always suffices);
+    // the method takes no N and reads that verdict, on chains of N >= 2k-2 sites the whole section-7 verdict in
+    // one subtraction.
     public static bool IsHardPair(ulong p1, ulong p2) => Valuation(p1) != Valuation(p2);
 
     // the cross-class pair count over even-popcount nonzero k-bit masks: (4^(k-1) - 3 2^(k-1) + 2)/3
-    // (OEIS A203241), and the Klein/y-parity dressing 2^(2k-3).
+    // (OEIS A203241), the hard mask pairs on a chain of N >= 2k-2 sites, where every pair has reached its
+    // window floor, and the Klein/y-parity dressing 2^(2k-3).
     public static long HardMaskPairCount(int k) => ((1L << (2 * (k - 1))) - 3L * (1L << (k - 1)) + 2) / 3;
     public static long DressedHardCount(int k) => HardMaskPairCount(k) << (2 * k - 3);
 

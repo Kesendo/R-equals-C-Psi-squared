@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """How wide is F115's valuation criterion? The census behind the arc `f115_valuation_gate_width`.
 
-ANALYTICAL_FORMULAS F115 statement 1 says a Z-dephasing diagonal-cell Mixed PAIR is hard iff the
-two X/Y masks have different (1+x)-adic valuations, with no y-parity condition. The shipped
+ANALYTICAL_FORMULAS F115 statement 1 says a Z-dephasing diagonal-cell Mixed PAIR is hard, from its
+window floor on, iff the two X/Y masks have different (1+x)-adic valuations, with no y-parity condition. The shipped
 certifier (PalindromeSoftCertifier.CertifyHardByDiagonalCellValuation) additionally requires the
 two terms to agree in Y-count parity, and returns no verdict otherwise. This script counts both
-populations so the gap is a number rather than an impression:
+populations, the criterion's verdicts on chains of N >= 2k-2 sites (where every pair has reached
+its window floor), so the gap is a number rather than an impression:
 
     hard MASK-pairs                     = A203241 = (4^(k-1) - 3*2^(k-1) + 2)/3
     hard STRING-pairs by the criterion  = twice the certified family

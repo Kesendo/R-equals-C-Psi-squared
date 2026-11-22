@@ -10,9 +10,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <summary>Schicht-1 surface for F115, the windowed F87 hardness combinatorial theory, as a single
 /// registry-queryable Claim. Wraps the static <see cref="WindowedObstructionScan"/> helper: a k-body
 /// diagonal-cell Mixed term's X/Y positions read as a GF(2)[x] polynomial p(x) (bit j ↦ x^j), even
-/// popcount so (1 + x) | p. The whole §7 diagonal-cell hard/soft line collapses to one integer test
-/// (PROOF_F103 §7.7): a pair is HARD iff its two X/Y window-masks have different (1 + x)-adic
-/// valuations, SOFT iff equal. The obstruction (minimal odd 𝔽₂-relation) has a derived size law
+/// popcount so (1 + x) | p. A pair is HARD iff its two X/Y window-masks have different (1 + x)-adic
+/// valuations, on every chain from its window floor N* on and soft below it (F173's Theorem B,
+/// <c>SignedMaskBalanceClaim.Chain</c>; N ≥ 2k − 2 always suffices), and SOFT at every length iff equal
+/// (PROOF_F103 §7.7); on chains of N ≥ 2k − 2 sites, where every pair has reached its floor, the whole §7
+/// diagonal-cell hard/soft line therefore collapses to one integer test. The obstruction (minimal odd 𝔽₂-relation) has a derived size law
 /// max = min(2W − 1, 2k − 3), W = N − k + 1 windows.
 ///
 /// <para>F115 is the mask-combinatorial reading of the same diagonal-cell hard/soft split that
@@ -25,13 +27,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// (non-bipartite ⟹ hard), derived modulo standard perturbation theory (the first-order-block
 /// premise closed via degenerate-PT + analyticity, §7.6); the obstruction size-law and counts are
 /// pure derived combinatorics, and per §7.10 the obstruction size is spectrally inert for the
-/// hard/soft verdict (only the (1 + x)-valuation decides it); since the 2026-06-10 girth ladder
+/// hard/soft verdict (on chains of N ≥ 2k − 2 sites only the (1 + x)-valuation decides it); since the 2026-06-10 girth ladder
 /// the unsigned odd-girth ℓ does cross into the spectrum at the next level of detail, setting the
 /// first asymmetric moment m* = 2ℓ + deg. Promoted from Tier1Candidate in the formal
 /// promotion pass (2026-06-08), together with the parent F87DiagonalCellBipartiteWitnessSet.</para>
 ///
-/// <para>Scope of the Tier1Derived label: the criterion itself (valuations-differ ⟺ non-bipartite is
-/// exact GF(2)) plus the genericity result (non-bipartite ⟹ hard for all but finitely many γ). The
+/// <para>Scope of the Tier1Derived label: the criterion itself (valuations-differ ⟺ non-bipartite from the
+/// pair's window floor on is exact GF(2)) plus the genericity result (non-bipartite ⟹ hard for all but finitely many γ). The
 /// all-γ closure including the physical operating point is isolated as
 /// <see cref="WindowedConverseAllGammaClaim"/> (Tier1Derived since 2026-06-10, no residual: Pascal-Gram
 /// positivity); it is a downstream strengthening, not a parent of this claim, so the tiers stay consistent.</para>
@@ -80,7 +82,7 @@ public sealed class WindowedHardnessClaim : Claim
         $"F115 windowed hardness (GF(2)[x] (1+x)-valuation criterion, {Cases.Count} witnesses)";
 
     public override string Summary =>
-        "hard iff the two X/Y masks have different (1+x)-adic valuations; obstruction size " +
+        "hard from its window floor on iff the two X/Y masks have different (1+x)-adic valuations; obstruction size " +
         $"min(2W-1, 2k-3); {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -115,7 +117,7 @@ public sealed class WindowedHardnessClaim : Claim
         int hv2 = WindowedObstructionScan.ValuationAtOnePlusX(hard2);
         cases.Add(new BatteryCase(
             Name: "hard: differing (1+x)-valuations",
-            Detail: $"k={hardK}, p1={Bin(hard1)} (v={hv1}), p2={Bin(hard2)} (v={hv2})",
+            Detail: $"k={hardK}, p1={Bin(hard1)} (v={hv1}), p2={Bin(hard2)} (v={hv2}); hard from its window floor on (SignedMaskBalanceWitness)",
             Expected: "hard",
             Actual: (hardVerdict && hv1 != hv2) ? "hard" : "soft"));
 

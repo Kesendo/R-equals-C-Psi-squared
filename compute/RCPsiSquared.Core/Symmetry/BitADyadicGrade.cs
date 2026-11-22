@@ -4,7 +4,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the (1 + x)-adic valuation of the mask polynomial. The Klein <c>bit_a</c> (#(X+Y) mod 2) is the
 /// bottom rung, <c>bit_a = [Grade == 0]</c>. Inside the bit_a = 0 (even-popcount) cell the grade keeps
 /// counting v = 1, 2, …, k−1, partitioning the masks into the F87 / F115 valuation classes
-/// c_v = 2^(k-1-v); the F87 hard/soft "Z bit" is the pair-difference of grades (PROOF_F103 §7.7, F115).
+/// c_v = 2^(k-1-v); the F87 hard/soft "Z bit" is the pair-difference of grades, the verdict from the pair's
+/// window floor on (PROOF_F103 §7.7, F115).
 ///
 /// <para>The reading. moment_j of an X/Y mask is the parity of the X/Y count on the sites whose index
 /// has j as a submask (j AND i == j). moment_0 is the total X/Y parity, i.e. the Klein bit_a; moment_1

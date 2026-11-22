@@ -76,14 +76,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// routers sit outside the scalable strategies), not locality; NotCertified still does not imply
 /// not-soft.</para>
 ///
-/// <para>Two-sided front door: <see cref="Certify"/> stays one-sided soft, while the new <see cref="Decide"/>
-/// adds the N-free HARD verdict for the diagonal cell (F115, <see cref="WindowedObstructionScan.IsHardPair"/>),
-/// the symmetric twin of the soft strategies above. It is gated to two-term Klein-(0,1) Mixed pairs and defers
+/// <para>Two-sided front door: <see cref="Certify"/> stays one-sided soft, while <see cref="Decide"/>
+/// adds the HARD verdict for the diagonal cell (F115, <see cref="WindowedObstructionScan.IsHardPair"/>, which takes
+/// no N and holds from the pair's window floor on), the symmetric twin of the soft strategies above. It is gated to two-term Klein-(0,1) Mixed pairs and defers
 /// everything else to the spectral authority <see cref="PauliPairTrichotomy"/>. Anchor: F115 /
 /// <c>WindowedHardnessClaim</c>.</para>
 ///
 /// <para>Exact at one N: <see cref="DecideAtN"/> decides the row at the given N by the complement connection,
-/// returning <see cref="Decide"/>'s N-free verdict with its strategy where the two agree
+/// returning <see cref="Decide"/>'s verdict with its strategy where the two agree
 /// (<see cref="ComplementConnectionAtN"/>, Theorem 2 of
 /// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): on the open chain under Z dephasing on every
 /// site, for any real template set in any Klein cell, the palindrome holds exactly when every component of the hopping graph joined with its complement image
@@ -439,14 +439,15 @@ public static class PalindromeSoftCertifier
     }
 
     /// <summary>The HARD-side strategy (PROOF_F103 §7.7 / F115): a two-term Klein-(0,1) Mixed pair is
-    /// hard iff its two X/Y flip-masks have different (1+x)-adic valuations
-    /// (<see cref="WindowedObstructionScan.IsHardPair"/>). N-free, O(k); the symmetric twin of the soft
+    /// hard, from its window floor on, iff its two X/Y flip-masks have different (1+x)-adic valuations
+    /// (<see cref="WindowedObstructionScan.IsHardPair"/>). O(k), and it takes no N; the symmetric twin of the soft
     /// strategies. Gated to exactly two diagonal-cell Mixed, bit_b-homogeneous, y_par-homogeneous templates
     /// under Z-dephasing; anything else returns false so the caller defers to the spectral authority. The
     /// y_par gate is conservative: a mismatched pair is hard exactly when its valuations differ too (F115
     /// statement 1, argued in statement 3 by Theorem 2 of the complement connection) at N >= 2k - 2; the method takes no N, and
-    /// Decide runs the soft cascade first. Soundness
-    /// gated by PalindromeHardSweepTests.</summary>
+    /// Decide runs the soft cascade first. Gated against the spectral
+    /// authority by PalindromeHardSweepTests at k ≤ 3 and N = 4, 5, where every pair has reached its floor, and
+    /// Decide against Theorem B's floor on both sides of it at k = 4 by PalindromeDecideTests.</summary>
     public static bool CertifyHardByDiagonalCellValuation(IReadOnlyList<PauliTerm> terms)
     {
         if (terms.Count != 2) return false;
@@ -510,8 +511,7 @@ public static class PalindromeSoftCertifier
     /// <summary>Two-sided decider: certify Soft (the existing <see cref="Certify"/> strategies), else
     /// certify Hard (the F115 diagonal-cell valuation, <see cref="CertifyHardByDiagonalCellValuation"/>),
     /// else Undetermined (the caller defers to <see cref="PauliPairTrichotomy"/>). <see cref="Certify"/>
-    /// stays soft-only; this is the additive, more-powerful front door (N-free on both sides where it
-    /// decides).</summary>
+    /// stays soft-only; this is the additive, more-powerful front door.</summary>
     public static PalindromeDecision Decide(IReadOnlyList<PauliTerm> terms, int n)
     {
         if (!IsHermitianScope(terms))
@@ -573,13 +573,13 @@ public static class PalindromeSoftCertifier
 
     /// <summary><see cref="Decide"/> checked against the complement connection at this N, which decides: where
     /// Decide is Undetermined the graph's verdict is returned, Soft when the palindrome holds (soft or truly,
-    /// which Theorem 2 does not separate), Hard when it fails; where Decide's N-free verdict agrees with the
+    /// which Theorem 2 does not separate), Hard when it fails; where Decide's verdict agrees with the
     /// graph it is returned with its strategy, and where it disagrees the call throws, since one of two exact
     /// routes would then be wrong. Rows with a complex coefficient are outside both routes and read
     /// Undetermined. Exact
     /// at <paramref name="n"/> on the open chain under Z dephasing, and only there: a caller reading
-    /// <see cref="PalindromeDecision.Verdict"/> alone cannot tell this N-specific verdict from Decide's N-free
-    /// ones, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> Decide's verdict is
+    /// <see cref="PalindromeDecision.Verdict"/> alone cannot tell this verdict at one N from Decide's
+    /// own, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> Decide's verdict is
     /// returned unchecked, Undetermined included; inside the guard a template longer than the chain throws,
     /// and so does n &lt; 1.</summary>
     public static PalindromeDecision DecideAtN(IReadOnlyList<PauliTerm> terms, int n)
@@ -589,11 +589,11 @@ public static class PalindromeSoftCertifier
         var (palindrome, near, far) = ComplementConnectionAtN(terms, n);
         if (d.Verdict != Decision.Undetermined)
         {
-            // inside the graph's reach the exact route decides; an N-free certificate that disagrees with it
+            // inside the graph's reach the exact route decides; a certificate of Decide's that disagrees with it
             // is a finding about that certificate, never a verdict to pass on
             if ((d.Verdict == Decision.Soft) == palindrome) return d;
             throw new InvalidOperationException(
-                $"the N-free certificate ({d.Reason}) contradicts the exact complement connection at N = {n} " +
+                $"Decide's certificate ({d.Reason}) contradicts the exact complement connection at N = {n} " +
                 $"(near {near}, far {far}, palindrome {palindrome})");
         }
         string reason = $"exact at N = {n} by the complement connection (Theorem 2): near {near}, far {far}";

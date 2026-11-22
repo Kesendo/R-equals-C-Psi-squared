@@ -3504,7 +3504,7 @@ public static class OpenArcsRegistry
                 "Mixed string of the cell, so the palindrome holds exactly when the hopping graph is bipartite, and " +
                 "in a y-parity-mismatched pair no two windows cancel (one term real, one imaginary), so the graph " +
                 "is the Cayley graph of the window masks, bipartite exactly when no odd subset of them XORs to " +
-                "zero: the valuation criterion above the window floor (F115 statement 1, argued in statement 3). The exact graph test " +
+                "zero: the valuation criterion from the window floor on (F115 statement 1, argued in statement 3). The exact graph test " +
                 "(PalindromeSoftCertifier.ComplementConnectionAtN) agrees with the valuation on every diagonal-cell " +
                 "Mixed string pair, homogeneous and mismatched alike, at k = 3, 4, 5 and N = 2k-2, 2k-1 " +
                 "(DiagonalCellComplementConnectionTests). So statement 1 is right " +

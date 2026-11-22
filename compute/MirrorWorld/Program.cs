@@ -1353,14 +1353,14 @@ if (args.Length > 0 && args[0] == "hardness")
     Console.WriteLine("  sources PROOF_F103_F87_Z2_CUBED_REFINEMENT.md sections 6-7 (+ 7.7 = F115), PROOF_F87_WINDOWED_");
     Console.WriteLine("  MONOMIAL_CONVERSE.md section 5 (F117), PROOF_F107/F109; the spectral classifier itself stays outside.");
     Console.WriteLine();
-    Console.WriteLine("  the valuation face (F115): a diagonal-cell pair is hard iff its X/Y window masks have");
-    Console.WriteLine("  DIFFERENT (1+x)-adic valuations -- the whole verdict in one subtraction. the K3 trio:");
+    Console.WriteLine("  the valuation face (F115): a diagonal-cell pair is hard, from its window floor on, iff its");
+    Console.WriteLine("  X/Y window masks have DIFFERENT (1+x)-adic valuations -- on N >= 2k-2 the verdict in one subtraction. the K3 trio:");
     var trio = new (string Name, ulong Mask)[] { ("XXZ", 0b011), ("XZX", 0b101), ("ZXX", 0b110) };
     foreach (var (name, mask) in trio)
         Console.WriteLine($"    {name}: mask {Convert.ToString((long)mask, 2).PadLeft(3, '0')} -> v = {Hardness.Valuation(mask)}");
     foreach (var (i, j2) in new[] { (0, 2), (0, 1), (1, 2) })
         Console.WriteLine($"    ({trio[i].Name}, {trio[j2].Name}): {(Hardness.IsHardPair(trio[i].Mask, trio[j2].Mask) ? "HARD" : "soft")}");
-    Console.WriteLine($"  hard mask-pairs (A203241) k=4,5,6: {Hardness.HardMaskPairCount(4)}, {Hardness.HardMaskPairCount(5)}, {Hardness.HardMaskPairCount(6)}; dressed: {Hardness.DressedHardCount(4)}, {Hardness.DressedHardCount(5)}, {Hardness.DressedHardCount(6)}");
+    Console.WriteLine($"  hard mask-pairs on N >= 2k-2 (A203241) k=4,5,6: {Hardness.HardMaskPairCount(4)}, {Hardness.HardMaskPairCount(5)}, {Hardness.HardMaskPairCount(6)}; dressed: {Hardness.DressedHardCount(4)}, {Hardness.DressedHardCount(5)}, {Hardness.DressedHardCount(6)}");
     Console.WriteLine($"  obstruction ceiling min(2W-1, 2k-3): k=3,W=2 -> {Hardness.ObstructionCeiling(3, 2)} (the always-triangle)");
     Console.WriteLine();
     Console.WriteLine("  the cube face: truly forces y_par=0 under every dephase letter (F107); the mother sector's");

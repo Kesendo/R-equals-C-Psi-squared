@@ -655,10 +655,13 @@ popcount(q_B). The window indicators q_A, q_B have degree ≤ W − 1, with W = 
 forces #(X+Y) even), and a GF(2) polynomial has even popcount iff p(1) = 0 iff (1 + x) | p. So write
 g = gcd(p₁, p₂), p₁ = g·a, p₂ = g·b with gcd(a, b) = 1. The relation becomes q_A a = q_B b, which since
 gcd(a, b) = 1 forces q_A = b·s, q_B = a·s, so every relation has size popcount(b·s) + popcount(a·s) and
-its parity is s(1)·(a(1) + b(1)). An odd cycle therefore exists iff a(1) ≠ b(1), i.e. iff exactly one
-of p₁/g, p₂/g is still divisible by (1 + x), i.e. iff the two masks have **different (1 + x)-adic
-valuations** v(p₁) ≠ v(p₂). That is the non-bipartite criterion of §7.5 in one line of polynomial
-algebra; when v(p₁) = v(p₂) every relation is even, so the pair is soft.
+its parity is s(1)·(a(1) + b(1)). An odd cycle therefore needs a(1) ≠ b(1), i.e. exactly one of p₁/g,
+p₂/g still divisible by (1 + x), i.e. **different (1 + x)-adic valuations** v(p₁) ≠ v(p₂), and then
+exists exactly when the windows have room for s = 1, max(deg a, deg b) ≤ W − 1: from
+N = k + max(deg a, deg b) on, the window floor that F173's Theorem B gives exactly
+([the signed mask balance](PROOF_SIGNED_MASK_BALANCE.md)). That is the non-bipartite criterion of §7.5 in
+one line of polynomial algebra; when v(p₁) = v(p₂) every relation is even, so the pair is soft at every
+length.
 
 **The size law.** Take the s = 1 relation q_A = b, q_B = a; it has size popcount(p₁/g) + popcount(p₂/g)
 and (for hard pairs) is odd. Two bounds cage the minimal odd cycle:
@@ -697,9 +700,10 @@ size scan.
 
 **The criterion in one number, and what it does not shorten.** Chaining the valuation reading with the
 spectral bridge of §7.5/§7.6 gives the whole §7 diagonal-cell rule in its shortest form: a Z-dephasing
-diagonal-cell Mixed pair is **soft ⟺ v_{1+x}(p₁) = v_{1+x}(p₂)**, hard otherwise. The graph 2-colouring
-of §7.1, the K3 triangle of §7.2, and the windowed odd-cycle family above all collapse to comparing two
-integers, the (1 + x)-adic valuations of the two X/Y masks. `WindowedObstructionScan.IsHardPair` is
+diagonal-cell Mixed pair is **soft at every length ⟺ v_{1+x}(p₁) = v_{1+x}(p₂)**; otherwise it is hard
+from its window floor on and soft below it. On chains of N ≥ 2k − 2 sites, where every pair has reached its window floor,
+the graph 2-colouring of §7.1, the K3 triangle of §7.2, and the windowed odd-cycle family above all
+collapse to comparing two integers, the (1 + x)-adic valuations of the two X/Y masks. `WindowedObstructionScan.IsHardPair` is
 exactly that test, and it matches the actual trichotomy verdict on every k = 3, N = 4 pair on the real
 Liouvillian (test `ValuationCriterion_PredictsSpectralVerdict_K3N4`); the verdict is mask-only, the
 Y-vs-X phase and the I-vs-Z choice leave it unmoved, since Mixed terms are off-diagonal and only the flip
@@ -707,8 +711,8 @@ structure counts. It is worth being clear that this shortens the COMBINATORIAL s
 does not collapse the spectral bridge, because the valuation lives on the term masks while the reflection
 mode the bridge pairs lives on H's commutant: an operator carrying X/Y on every site, the −N eigenvector
 of the gain channel Σ_l Z_l(·)Z_l, whose eigenvalue on a Pauli operator A is N − 2·n_XY(A) (so +N is the
-diagonal I/Z operators, −N the fully-off-diagonal ones). The valuation tells you, in one subtraction,
-whether the chiral K that supplies that −N mode exists; the proof that K's presence is soft and its
+diagonal I/Z operators, −N the fully-off-diagonal ones). On chains of N ≥ 2k − 2 sites the valuation
+tells you, in one subtraction, whether the chiral K that supplies that −N mode exists; the proof that K's presence is soft and its
 absence is hard stays the Perron + perturbation-theory argument of §7.5/§7.6. So the right reading is a
 simpler front door to the same house, not a smaller house.
 
@@ -717,8 +721,8 @@ simpler front door to the same house, not a smaller house.
 Two questions the valuation picture answers in closed form, and one honest "the door leads to a hallway,
 not a new room."
 
-**The count.** Hardness depends only on the (1 + x)-adic valuation, and that valuation sorts the masks
-into clean classes. The even-popcount nonzero k-bit masks (the diagonal-cell X/Y masks) number
+**The count.** On chains of N ≥ 2k − 2 sites, where every pair has reached its window floor, hardness
+depends only on the (1 + x)-adic valuations, and the valuation sorts the masks into clean classes. The even-popcount nonzero k-bit masks (the diagonal-cell X/Y masks) number
 2^{k-1} − 1, and they split by valuation v = 1 … k−1 into classes of size c_v = 2^{k-1-v}: a valuation-v
 mask is (1 + x)^v·u with u of odd popcount and degree ≤ k−1−v, and there are exactly 2^{k-1-v} such u. A
 pair is hard iff its two masks sit in different classes, so the count of hard mask-pairs is the second
@@ -728,7 +732,7 @@ elementary symmetric polynomial of the class sizes,
 
 Dressed by the uniform 2^{2k-3} Klein / y-parity factor (each mask carries 2^{k-1} cell terms, the
 y-parity-homogeneous pairing a further constant), this is exactly the `WindowedObstructionScan` hard
-count: 2^{2k-3}·(4^{k-1} − 3·2^{k-1} + 2)/3 reproduces 448, 8960, 158720 at k = 4, 5, 6 bit-exact. So the
+count on such chains: 2^{2k-3}·(4^{k-1} − 3·2^{k-1} + 2)/3 reproduces 448, 8960, 158720 at k = 4, 5, 6 bit-exact. So the
 hard pairs can now be COUNTED in closed form instead of enumerated. The size-3 (triangle) sub-class also
 closes, 5·2^{k-1} − (3k² + k)/2 − 3 at N = 2k (k = 3 … 11); the middle classes (d = 5, 7, …) do not, they
 stay genuinely window-dependent (more windows give more multipliers, so weight migrates to lower d).
@@ -769,9 +773,10 @@ whether the OTHER factors carry structure (Door 3) gives two bit-exact findings.
 
 **(1 + x) is the unique hardness prime.** Testing every other irreducible φ through degree 5 as a
 would-be predictor, the valuation difference v_φ(p₁) ≠ v_φ(p₂) at φ ≠ (1 + x) agrees with hard/soft only
-about a third of the time (chance), never as a criterion. Hardness lives entirely at x = 1, which is
-exactly the §7.5 Perron reading: the +N / −N reflection mode the bridge pairs is the x = 1 uniform mode,
-so only the x = 1 valuation can decide it.
+about a third of the time (chance), never as a criterion. On chains of N ≥ 2k − 2 sites, where every pair has
+reached its window floor, hardness lives entirely at x = 1, which is exactly the §7.5 Perron reading: the +N / −N reflection mode the bridge pairs is the x = 1 uniform mode,
+so only the x = 1 valuation can decide whether a relation is odd; whether one fits the chain is the window
+floor's question.
 
 **But the other shared factors set the obstruction size.** Write g = gcd(p₁, p₂) = (1 + x)^m·g_rest with
 g_rest the shared non-(1 + x) content and deg(g_rest) = d. The obstruction size obeys a layered bound,
@@ -785,7 +790,8 @@ popcount(p_i/g) ≤ k − 1 − d, and an odd sum of two such maxes at (k − 1 
 Verified: the actual minimal obstruction realises this cap at k = 4, 5, 6, and the gcd-formula cap holds
 through k = 10 across all layers d = 0 … k − 3.
 
-So the valuation picture is two-layered: the (1 + x) valuation difference decides IF a pair is hard, and
+So the valuation picture is two-layered: the (1 + x) valuation difference decides IF a pair is hard (on
+chains of N ≥ 2k − 2 sites), and
 the shared non-(1 + x) factor degree decides HOW BIG the obstruction is. The full size law is
 max obstruction = min(2W − 1, 2k − 3 − 2·deg(g_rest)), and the 3, 5, 7, 9 size distribution is the
 layering by d. (Verified bit-exact:
@@ -810,15 +816,19 @@ each layer in closed form: the layering is total. Verified k = 3 … 8
 (Door 3 proper): does any of this finer GF(2) structure reach the Liouvillian SPECTRUM, or does it stay
 on the mask graph? The combinatorial structure is letter-independent (mask-only), but L depends on the
 actual letters (the Y-vs-X phases, the I-vs-Z diagonal), so a spectral correlate must itself be
-letter-independent. Tested across k = 3 (N = 4), k = 4 (N = 6, 7), k = 5 (N = 8) with letter-realization
-controls, the answer, after a correction the algebra/geometry reading below forced, is: **only the (1 + x)-valuation
-reaches the spectrum cleanly; the obstruction size and the rest of the factorization do not.**
+letter-independent. Tested across k = 3 (N = 4), k = 4 (N = 6, 7), k = 5 (N = 8), each a chain of N ≥ 2k − 2
+sites where every pair has reached its window floor, with letter-realization controls, the answer, after a
+correction the algebra/geometry reading below forced, is: **on such chains only the (1 + x)-valuation
+reaches the spectrum cleanly; the obstruction size and the rest of the factorization do not.** On shorter
+chains the verdict also needs the window floor of [the signed mask balance](PROOF_SIGNED_MASK_BALANCE.md),
+k + max(deg p₁/g, deg p₂/g): a pair is hard there exactly when its valuations differ and the chain reaches its
+floor, so the degrees of the reduced masks, and with them the shared-factor degree d, reach the verdict.
 
-The one confirmed bridge is the **(1 + x)-valuation** → hard/soft. A pair is hard iff the spectral
-palindrome breaks, and that is letter-independent (mask-only, §7.7); in the §7.5 reading it is the −N
+The one confirmed bridge on such chains is the **(1 + x)-valuation** → hard/soft. A pair is hard iff
+the spectral palindrome breaks, and that is letter-independent (mask-only, §7.7); in the §7.5 reading it is the −N
 reflection mode of the gain channel Σ_l Z_l(·)Z_l being absent iff hard.
 
-The **obstruction size and the shared-factor degree d reach nothing letter-independent.** The size is
+On such chains the **obstruction size and the shared-factor degree d reach nothing letter-independent.** The size is
 letter-independent yet provably independent of the only other coarse mask handle (at fixed mask-span-rank
 r it still ranges over {3, 5, 7}), and the break-magnitude distributions for size 3 vs 5, controlled at
 fixed r, overlap and even flip their weak median ordering between two geometries (the signature of noise,
@@ -832,15 +842,16 @@ WHICH sites flip; the actual hopping amplitudes are letter-dependent and can can
 the |00⟩ ↔ |11⟩ channel (XX|00⟩ = +|11⟩, YY|00⟩ = −|11⟩), so the real graph is sparser than the mask and
 carries MORE conserved sectors than 2^{N-r}. The sector count is therefore letter-dependent, and dim ker L
 exceeds 2^{N-r} for soft and partial-support pairs; the apparent dim ker L = 2^{N-r} held only for the
-hard pairs first checked. So the rank is not a clean mask → spectrum bridge, and the (1 + x)-valuation is
-the only one. (The retracted claim lived in
+hard pairs first checked. So the rank is not a clean mask → spectrum bridge, and on such chains the (1 + x)-valuation
+is the only one. (The retracted claim lived in
 [`f87_rank_reaches_spectrum.py`](../../simulations/f87_rank_reaches_spectrum.py);
 [`f87_rank_footprint.py`](../../simulations/f87_rank_footprint.py) shows the breakdown.)
 
-So §7.8's "a simpler front door, not a smaller house" extends one floor down: neither the size nor the
+So §7.7's "a simpler front door, not a smaller house" extends one floor down: neither the size nor the
 rank is in the house. The factorization beyond (1 + x) is a clean combinatorial theory of the obstruction,
-its size cap and population (§7.9), with no clean spectral shadow; the physics reads only whether the
-palindrome breaks. (Verified:
+its size cap and population (§7.9), with no clean spectral shadow on chains of N ≥ 2k − 2 sites (on shorter
+ones the reduced masks' degrees reach the verdict through the window floor); the physics reads only whether the palindrome
+breaks. (Verified:
 [`f87_rank_footprint.py`](../../simulations/f87_rank_footprint.py) for the letter-dependent sector count
 and the size ⊥ rank null; the break-magnitude controls were the Opus spectral sweep across k = 3, 4, 5.)
 
@@ -854,7 +865,8 @@ minimal odd cycle) lives. That split is exactly what the physics-reach question 
 the section by catching the retracted claim. The **geometry does NOT cleanly reach the spectrum**, because
 the actual sector structure is letter-dependent (the XX + YY cancellation above); the obstruction's
 **metric (its size) does not reach it either**. What reaches the spectrum is one Z₂ bit of the
-**algebra**: whether the cycle space contains an ODD cycle, that is the (1 + x)-parity, that is the
+**algebra**: whether the cycle space contains an ODD cycle, that is (on chains of N ≥ 2k − 2 sites) the
+(1 + x)-parity, that is the
 graph's bipartiteness, that is hard/soft, that is the −N mode. So the physics sees neither the geometry's
 count nor the algebra's metric, only the algebra's parity. The combinatorics between algebra and geometry
 is rich (§7.7–§7.9), but only its single homological Z₂ invariant crosses into the spectrum.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Door 3 deepening (combinatorial): is the hard COUNT layered by d like the size CAP? (2026-06-05).
 
-The total hard count is A203241 = e2(2^0..2^(k-2)). The obstruction-size CAP is layered by d=deg(g_rest)
+The total hard count on chains of N >= 2k-2 sites is A203241 = e2(2^0..2^(k-2)). The obstruction-size CAP is layered by d=deg(g_rest)
 (the shared non-(1+x) factor degree): max size = 2k-3-2d. Question: does the hard count ALSO split
 cleanly by d, i.e. does #{hard mask-pairs with deg(g_rest)=d} have a closed form in (k,d)? If yes the
 layering is total (count and size both clean by d); if not, only the cap is clean.

@@ -159,12 +159,12 @@ public static class KnowledgeRegistryFactory
             // sibling root). Tier1Derived (promoted 2026-06-08). Wired 2026-06-05.
             .RegisterF87DiagonalCellBipartiteWitnessSet()
             // F115 windowed hardness: the mask-combinatorial reading of the same diagonal-cell
-            // hard/soft line, collapsed to one integer test (PROOF_F103 §7.7): a diagonal-cell
-            // Mixed pair is hard iff its two X/Y window-masks have different (1+x)-adic valuations,
+            // hard/soft line (PROOF_F103 §7.7): a diagonal-cell Mixed pair is hard, from its window floor on, iff its
+            // two X/Y window-masks have different (1+x)-adic valuations, one integer test on chains of N >= 2k-2 sites,
             // with a derived obstruction size law min(2W-1, 2k-3). Wraps the WindowedObstructionScan
             // helper; single typed parent F87DiagonalCellBipartiteWitnessSet (F115 is the child mask
             // reading of that §7 diagonal-K criterion). Tier1Derived (verdict rests on the §7.5/§7.6
-            // converse, derived modulo standard PT, promoted 2026-06-08; per §7.10 only the (1+x)-valuation reaches the spectrum). Wired
+            // converse, derived modulo standard PT, promoted 2026-06-08; per §7.10 only the (1+x)-valuation reaches the spectrum on chains of N >= 2k-2 sites). Wired
             // 2026-06-05.
             .RegisterWindowedHardnessClaim()
             // F87 windowed-converse threshold (Phase B two-reflection spine, 2026-06-09): the

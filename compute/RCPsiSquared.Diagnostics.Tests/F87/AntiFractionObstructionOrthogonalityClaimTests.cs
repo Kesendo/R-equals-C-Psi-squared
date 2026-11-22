@@ -6,7 +6,7 @@ using RCPsiSquared.Diagnostics.F87;
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>The F81↔F115 connector: the F83 anti-fraction is degenerate (½) in the diagonal cell
-/// where the (1+x)-valuation (F115) carries the verdict. Built directly (parents passed in) to test
+/// where the (1+x)-valuation (F115) carries the verdict on chains of N ≥ 2k − 2 sites. Built directly (parents passed in) to test
 /// the Claim's content independent of the registry.</summary>
 public class AntiFractionObstructionOrthogonalityClaimTests
 {

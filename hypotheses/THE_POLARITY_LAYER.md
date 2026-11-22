@@ -358,7 +358,8 @@ Which pairs inside the matched cell are hard is a separate question, and
 for the diagonal-cell Mixed pairs under Z-dephasing, placed by the
 sliding-window builder, it has a closed answer: F115 reads each term's
 X/Y positions as a polynomial over GF(2) and calls a pair hard exactly
-when the two (1 + x)-adic valuations differ.
+when the two (1 + x)-adic valuations differ, on chains from the pair's
+window floor on.
 
 The Klein index of the letter is not the grading Π_letter² uses. Π_Z²
 and Π_Y² both grade by bit_b, Π_X² by bit_a (F38/F88a), while Y's Klein

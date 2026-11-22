@@ -20,8 +20,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// routing (Stufe B′, F116: the period-4 golden router whose window lemma the per-term lens cannot see).
 /// It certifies "soft" iff one strategy applies; it never claims hard (NotCertified carries no claim). The
 /// wrapped certifier now also exposes the two-sided <see cref="PalindromeSoftCertifier.Decide"/> (soft via
-/// <see cref="PalindromeSoftCertifier.Certify"/> plus the N-free hard verdict from the F115 diagonal-cell
-/// valuation) and <see cref="PalindromeSoftCertifier.DecideAtN"/>, which decides Decide's Undetermined rows
+/// <see cref="PalindromeSoftCertifier.Certify"/> plus the hard verdict from the F115 diagonal-cell
+/// valuation, which takes no N and holds from the pair's window floor on) and <see cref="PalindromeSoftCertifier.DecideAtN"/>, which decides Decide's Undetermined rows
 /// exactly at one N by the complement connection (Theorem 2, <c>PalindromeComplementConnectionClaim</c>);
 /// this Claim asserts ONLY the two settled facts:
 ///

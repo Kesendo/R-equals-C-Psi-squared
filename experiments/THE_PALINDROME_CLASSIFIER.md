@@ -310,8 +310,8 @@ proves *hard* without a spectrum at all and at every length with room, the missi
 symmetric twin of the N-free soft proof.
 
 And the closed form carries more than a yes or no. It counts: among the even-popcount k-bit X/Y masks of the
-diagonal cell, a closed-form expression (the integer sequence A203241) counts exactly the hard mask-pairs,
-2, 14 and 70 at k = 3, 4, 5, and dressed by the Klein and y-parity factor this gives the hard count of the
+diagonal cell, a closed-form expression (the integer sequence A203241) counts exactly the hard mask-pairs
+on a chain with room for every pair (N ≥ 2k − 2), 2, 14 and 70 at k = 3, 4, 5, and dressed by the Klein and y-parity factor this gives the hard count of the
 gated family, 448 at k=4. The dressing is where the gate shows up in the arithmetic: enumerating the strings
 directly, 896 of the k=4 diagonal-cell pairs have differing valuations, and exactly the 448 of them that also
 share their Y-count parity are the ones the certifier will speak for. The other 448 are hard as well (the

@@ -4,7 +4,8 @@ using RCPsiSquared.Diagnostics.F87;
 
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
-/// <summary>F115 closed-form hard-count ports (PROOF_F103 §7.8-§7.9), each asserted bit-exact
+/// <summary>F115 closed-form hard-count ports (PROOF_F103 §7.8-§7.9), the hard pairs of a chain of
+/// N ≥ 2k − 2 sites, where every pair has reached its window floor, each asserted bit-exact
 /// against direct enumeration over the even-popcount k-bit mask space (the diagonal-cell X/Y flip
 /// patterns), using the same <see cref="WindowedObstructionScan"/> helpers the scan itself uses
 /// (ValuationAtOnePlusX, GRestDegree, MinOddCycle). The oracles are the C# mirror of the verified

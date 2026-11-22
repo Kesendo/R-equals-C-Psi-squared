@@ -23,7 +23,7 @@ column, repunit ceiling, the located hard core).
 ## The question
 
 F115 settles, in closed form, almost everything about the F87 diagonal-cell hardness obstruction: the
-maximum size `min(2W−1, 2k−3−2d)`, the total hard count `A203241 = (4^(k-1)−3·2^(k-1)+2)/3`, the d-layered
+maximum size `min(2W−1, 2k−3−2d)`, the total hard count on chains of N ≥ 2k − 2 sites, `A203241 = (4^(k-1)−3·2^(k-1)+2)/3`, the d-layered
 count, `B(k)=(4^k−12k+8)/18` at d = 0 and `2^(d-1)·B(k-d)` for d ≥ 1, and the size-3 (triangle)
 sub-count. The one piece left
 open is the **full per-size distribution**: how many hard pairs have an obstruction of size exactly s for
@@ -39,7 +39,8 @@ N-site chain there are `W = N−k+1` windows; the pair's edge set is the shift f
 XORs to 0 (the minimal odd 𝔽₂-relation), 0 if none. Reading a k-bit mask as a GF(2)[x] polynomial (bit j =
 x^j), with `v(·)` the (1+x)-adic valuation:
 
-- **hard ⟺ `v(p1) ≠ v(p2)`** (the F115 one-number criterion);
+- **hard ⟺ `v(p1) ≠ v(p2)`** (the F115 one-number criterion), on chains from the pair's window floor on and
+  soft below it;
 - `g = gcd(p1,p2)`, `d = g_rest_degree` = degree of the non-(1+x) part of g; reduced generators
   `a = p2/g`, `b = p1/g` (coprime);
 - `Δ = |v(p1) − v(p2)|` = the **(1+x)-valuation gap** (the two masks' "distance from the mirror" x=1).
@@ -262,7 +263,8 @@ superoperator M (`PalindromeResidual`), read on the two axes of its Klein polari
 Mixed terms are pure Π²-odd, so `r = 0`, and F83's anti-fraction sits at its *maximum* ½ exactly
 (`F83AntiFractionPi2Inheritance.MaximumAntiFraction`, the F81 Step-8 50/50). So the anti-fraction is pinned
 at ½ across the *entire* F115 cell, identical for hard and soft pairs and every obstruction size. The bit_b
-magnitude is blind precisely where the bit_a valuation carries all the information: **F81/F83 and F115 are
+magnitude is blind precisely where the bit_a valuation carries all the information on chains of N ≥ 2k − 2
+sites: **F81/F83 and F115 are
 orthogonal coordinates of M's cube, and F115 is the strictly finer probe.** The link is structural (one M,
 one shared bit_b = 1 gate), not quantitative, and it follows from an already-typed result, no new computation.
 

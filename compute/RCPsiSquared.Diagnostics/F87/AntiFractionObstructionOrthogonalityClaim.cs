@@ -16,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="F83AntiFractionPi2Inheritance.MaximumAntiFraction"/>), pinned across the entire cell
 /// regardless of the hard/soft verdict or obstruction size. The bit_a (1+x)-valuation
 /// (<see cref="WindowedHardnessClaim"/> / <see cref="WindowedObstructionScan.IsHardPair"/>) carries
-/// the whole verdict. So F81/F83 (bit_b, continuous, hardware-measurable) and F87/F115 (bit_a,
+/// the whole verdict on chains of N ≥ 2k − 2 sites. So F81/F83 (bit_b, continuous, hardware-measurable) and F87/F115 (bit_a,
 /// discrete, combinatorial) are orthogonal cube coordinates and F115 is the strictly finer probe;
 /// the link is structural (one M, one shared bit_b=1 gate), not quantitative.
 ///
@@ -45,7 +45,7 @@ public sealed class AntiFractionObstructionOrthogonalityClaim : Claim, IZ2AxisCl
 
     public AntiFractionObstructionOrthogonalityClaim(
         F83AntiFractionPi2Inheritance antiFraction, WindowedHardnessClaim obstruction)
-        : base("F81/F115 orthogonality: the anti-fraction is degenerate (1/2) in the diagonal cell where the (1+x)-valuation carries the verdict",
+        : base("F81/F115 orthogonality: the anti-fraction is degenerate (1/2) in the diagonal cell where the (1+x)-valuation carries the verdict on chains of N >= 2k-2 sites",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F81/F83/F115 + " +
                "experiments/F115_OBSTRUCTION_DISTRIBUTION.md (Connection to the bit_b axis)")
@@ -56,11 +56,11 @@ public sealed class AntiFractionObstructionOrthogonalityClaim : Claim, IZ2AxisCl
     }
 
     public override string DisplayName =>
-        "F81/F115 orthogonality (anti-fraction degenerate where the (1+x)-valuation decides)";
+        "F81/F115 orthogonality (anti-fraction degenerate where the (1+x)-valuation decides, on N >= 2k-2)";
 
     public override string Summary =>
         "diagonal-cell pairs are pure Pi2-odd (r=0), so the anti-fraction is pinned at 1/2 for hard and " +
-        $"soft alike, while F115's (1+x)-valuation carries the verdict; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
+        $"soft alike, while F115's (1+x)-valuation carries the verdict on chains of N >= 2k-2 sites; {PassCount}/{Cases.Count} PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

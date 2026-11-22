@@ -153,11 +153,14 @@ public static class WindowedObstructionScan
              + System.Numerics.BitOperations.PopCount(PolyDivQuotient(p2, g));
     }
 
-    /// <summary>The whole §7 diagonal-cell hardness rule in one comparison (PROOF_F103 §7.7): a
+    /// <summary>The §7 diagonal-cell hardness rule as one comparison (PROOF_F103 §7.7): a
     /// Z-dephasing diagonal-cell Mixed pair is HARD iff its two X/Y window-masks have different
-    /// (1+x)-adic valuations, SOFT iff equal. Equivalent to "the edge set carries an odd 𝔽₂-relation"
+    /// (1+x)-adic valuations, on every chain from its window floor N* on (F173's Theorem B,
+    /// SignedMaskBalanceClaim.Chain; N ≥ 2k − 2 always suffices), SOFT at every length iff equal; the
+    /// method takes no N and reads the verdict from the floor on. On chains of N ≥ 2k − 2 sites, where every
+    /// pair has reached its floor, it is equivalent to "the edge set carries an odd 𝔽₂-relation"
     /// (an odd relation exists iff popcount(p1/g)+popcount(p2/g) is odd iff the valuations differ), so
-    /// it collapses the graph 2-colouring, the K3 triangle, and the windowed odd-cycle family to a
+    /// there it collapses the graph 2-colouring, the K3 triangle, and the windowed odd-cycle family to a
     /// single integer test. Mask-only by design: Mixed terms are off-diagonal, so the pair's hardness
     /// is fixed by the X/Y flip structure alone (the Y-vs-X phase and the I-vs-Z choice do not move it).</summary>
     public static bool IsHardPair(ulong p1, ulong p2) =>
@@ -275,7 +278,8 @@ public static class WindowedObstructionScan
 
     // ---- Closed-form hard counts on the mask space (PROOF_F103 §7.8-§7.9). A diagonal-cell X/Y
     // flip pattern is a nonzero even-popcount k-bit mask; the counts below are over PAIRS of such
-    // masks (the dressed full count multiplies by the 2^(2k-3) Klein / y-parity constant). Each is
+    // masks, hard on chains of N >= 2k-2 sites, where every pair has reached its window floor (the dressed
+    // full count multiplies by the 2^(2k-3) Klein / y-parity constant). Each is
     // verified bit-exact against direct enumeration in WindowedHardnessCountClosedFormTests; mirror
     // of simulations/f87_hardcount_closedform.py, f87_dlayer_count.py, f87_size_second_layer.py.
 
@@ -302,9 +306,9 @@ public static class WindowedObstructionScan
         return g > 1 ? PolyDegree(g) : 0;
     }
 
-    /// <summary>Closed-form count of hard diagonal-cell mask-pairs at body k (§7.8):
-    /// A203241 = (4^(k-1) - 3·2^(k-1) + 2)/3. Hard iff the two masks have different (1+x)-adic
-    /// valuations; the even-popcount masks split into valuation classes of size 2^(k-1-v) and this
+    /// <summary>Closed-form count of hard diagonal-cell mask-pairs at body k (§7.8) on chains of
+    /// N ≥ 2k − 2 sites, where every pair has reached its window floor: A203241 = (4^(k-1) - 3·2^(k-1) + 2)/3.
+    /// There a pair is hard iff the two masks have different (1+x)-adic valuations; the even-popcount masks split into valuation classes of size 2^(k-1-v) and this
     /// counts the cross-class pairs. Equals the sum of <see cref="HardCountByGRestDegree"/> over d.</summary>
     public static long HardMaskPairCount(int k)
     {

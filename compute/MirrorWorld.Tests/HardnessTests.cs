@@ -86,7 +86,8 @@ public class HardnessTests
 
     // F115: hardness is a valuation difference. The (1+x)-adic valuations of the K3 trio's
     // window masks (XXZ -> 1+x, XZX -> 1+x^2 = (1+x)^2, ZXX -> x+x^2 = x(1+x)) are {1, 2, 1};
-    // a diagonal-cell pair is hard iff the valuations differ.
+    // a diagonal-cell pair is hard iff the valuations differ, on chains from its window floor on (N >= 2k-2
+    // always suffices).
     [Fact]
     public void The_Valuation_Difference_Decides_The_K3_Trio()
     {
@@ -98,7 +99,8 @@ public class HardnessTests
         Assert.True(Hardness.IsHardPair(0b110, 0b101));                      // hard
     }
 
-    // F115: the valuation classes and the closed-form hard count. Even-popcount nonzero k-bit
+    // F115: the valuation classes and the closed-form hard count (the hard pairs on chains of
+    // N >= 2k-2 sites). Even-popcount nonzero k-bit
     // masks split by valuation v = 1..k-1 into classes of size 2^(k-1-v); the cross-class pair
     // count matches (4^(k-1) - 3 2^(k-1) + 2)/3 (OEIS A203241), and the Klein/y-parity dressing
     // 2^(2k-3) gives 448 / 8960 / 158720 at k = 4, 5, 6.

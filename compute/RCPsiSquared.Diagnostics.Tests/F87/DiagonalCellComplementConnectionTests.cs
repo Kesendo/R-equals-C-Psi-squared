@@ -13,7 +13,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 ///
 /// <para>Hardness: at full support (N = k) every hard pair contains a pure-Z template (F111's rule), at k = 4
 /// (228, the F106 anchor, read there by the spectral classifier) and at k = 5 (2056). Below full support hard
-/// pairs of two mixed templates appear (above the window floor N ≥ 2k − 2 exactly F115's valuation criterion), and "a pure-Z template makes the
+/// pairs of two mixed templates appear (from each pair's window floor on, N ≥ 2k − 2 always sufficing, exactly F115's valuation criterion), and "a pure-Z template makes the
 /// pair hard" holds at every N: a pure-Z template has an odd Z count, so its windows put a diagonal on H that the
 /// complement flips, H_xx ≠ H_x̄x̄ at some x, and condition (ii) of Theorem 2 fails; a mixed template of the cell
 /// has no diagonal and cannot compensate. Every count below is a literal, so a change in the graph test or in the

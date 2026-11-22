@@ -2,7 +2,8 @@
 """Verify the closed-form count of F87 hard pairs from the (1+x)-valuation classes (2026-06-05).
 
 The coding-theory agent surfaced (and the §7.7 valuation criterion explains) a clean closed form for
-HOW MANY diagonal-cell pairs are hard at body count k. Hardness ⟺ different (1+x)-adic valuation, so:
+HOW MANY diagonal-cell pairs are hard at body count k on chains of N ≥ 2k − 2 sites, where every pair
+has reached its window floor. There hardness ⟺ different (1+x)-adic valuation, so:
 
   - even-popcount nonzero k-bit masks split into valuation classes v = 1..k-1 of size c_v = 2^(k-1-v);
   - a pair is hard iff the two masks lie in DIFFERENT classes, so

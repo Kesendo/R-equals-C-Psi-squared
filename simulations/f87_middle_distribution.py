@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """F115 open thread: the per-size DISTRIBUTION of the hardness obstruction (2026-06-08).
 
-Closed so far: max size = min(2W-1, 2k-3-2d); total count A203241 = (4^(k-1)-3*2^(k-1)+2)/3;
+Closed so far: max size = min(2W-1, 2k-3-2d); total count A203241 = (4^(k-1)-3*2^(k-1)+2)/3 on N >= 2k-2;
 d-layer count B(k)=(4^k-12k+8)/18 at d=0 and 2^(d-1)*B(k-d) for d>=1; triangle (size-3) sub-count. OPEN: the full per-size
 distribution #{hard mask-pairs : obstruction size = s} for the MIDDLE s, "window-dependent" (the obstruction
 is the min ODD weight of the quasi-cyclic code <(a,b)>, a=p2/g, b=p1/g, and a sparse multiple can cancel

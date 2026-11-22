@@ -193,7 +193,7 @@ public class WindowedObstructionScanTests
     /// p2 = 1 + x^{k-1} (the terms I·X·I…I·Y and X·I…I·Y) have gcd (1+x) and quotients of popcount
     /// k-2 and k-1, so the gcd-formula size is (k-2)+(k-1) = 2k-3. Pure valuation/gcd arithmetic, so
     /// this scales far past the exponential cycle-search range, confirming the bound is achieved for
-    /// every k. (Their (1+x)-valuations differ, so the pair is genuinely hard.)</summary>
+    /// every k. (Their (1+x)-valuations differ, so the pair is hard from its window floor on, here N = 2k − 2.)</summary>
     [Theory]
     [InlineData(3)] [InlineData(4)] [InlineData(5)] [InlineData(6)] [InlineData(7)]
     [InlineData(8)] [InlineData(10)] [InlineData(12)] [InlineData(16)] [InlineData(20)]

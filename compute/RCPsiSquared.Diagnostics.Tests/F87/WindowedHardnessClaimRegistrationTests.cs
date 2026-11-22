@@ -62,7 +62,7 @@ public class WindowedHardnessClaimRegistrationTests
     }
 
     /// <summary>The criterion the Claim wraps is exactly <see cref="WindowedObstructionScan"/>'s
-    /// one-number rule: hard iff the two X/Y masks have different (1+x)-adic valuations. A hard
+    /// one-number rule: hard, from the pair's window floor on, iff the two X/Y masks have different (1+x)-adic valuations. A hard
     /// witness (the extremal family p1 = x + x^{k-1}, p2 = 1 + x^{k-1} at k=4) has differing
     /// valuations; a soft witness (two distinct masks of equal valuation) has equal valuations;
     /// the size-law helper saturates min(2W-1, 2k-3).</summary>

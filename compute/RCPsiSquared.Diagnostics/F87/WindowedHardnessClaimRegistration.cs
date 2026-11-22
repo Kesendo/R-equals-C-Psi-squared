@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// (Tier1Derived). The strength-inheritance check is parent ≥ child, i.e. 5 ≥ 5, which passes; both
 /// were promoted from candidate in the 2026-06-08 formal promotion pass once the §7.5/§7.6 converse
 /// closed (derived modulo standard PT; per §7.10 only the (1 + x)-valuation, not the obstruction
-/// size, reaches the spectrum).</para></summary>
+/// size, reaches the spectrum on chains of N ≥ 2k − 2 sites).</para></summary>
 public static class WindowedHardnessClaimRegistration
 {
     public static ClaimRegistryBuilder RegisterWindowedHardnessClaim(

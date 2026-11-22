@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Door 3: is there structure beyond the (1+x) valuation? (scout, 2026-06-05).
 
-Hardness is governed entirely by v_{1+x} (the x=1 / DC / Perron point). But a mask is a GF(2)[x]
+At N = 2k, where every pair has reached its window floor, hardness is governed entirely by v_{1+x}
+(the x=1 / DC / Perron point). But a mask is a GF(2)[x]
 polynomial with a FULL factorization into irreducibles (1+x, 1+x+x², 1+x²+x³, 1+x+x³, …), each an
 "other frequency" (a root of unity in an extension field). This scout asks, empirically and without
 fishing, two grounded questions:

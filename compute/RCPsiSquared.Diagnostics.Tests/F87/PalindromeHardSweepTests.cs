@@ -8,7 +8,8 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>Task-1 soundness gate for the F115 hard-certifier: the (1+x)-valuation engine
 /// (WindowedObstructionScan.IsHardPair) must agree with the spectral authority
-/// (PauliPairTrichotomy.Classify) on EVERY in-scope diagonal-cell Mixed pair. Soundness = engine-Hard
+/// (PauliPairTrichotomy.Classify) on every in-scope diagonal-cell Mixed pair at the lengths it sweeps, k ≤ 3
+/// at N = 4 and 5, where every pair has reached its window floor (the engine takes no N). Soundness = engine-Hard
 /// implies authority-Hard (0 false-positives); completeness-in-scope = authority-Hard implies engine-Hard.</summary>
 public class PalindromeHardSweepTests
 {
