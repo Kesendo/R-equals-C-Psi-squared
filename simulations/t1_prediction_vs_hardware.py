@@ -4,8 +4,8 @@
 For the truly XX+YY, Z + T1 (continuous, γ_Z = 0.1, t = 0.8) lifts the four cells it
 adds to at most 0.014 for γ_T1 up to γ_Z, below the shot noise of a 4096-shot table
 (simulations/pi2_lens_and_t1_silence_gate.py G4). On the Snapshot D tables ⟨X₀Z₂⟩ among
-them reads +0.03 to +0.11 on the six sound runs (up to 6.9σ), more than the T1 of the model
-gives.
+them reads +0.03 to +0.11 on the six sound runs (up to 6.8σ at 1/√4096), more than the T1 of
+the model gives, and of the other sign.
 
 The T1-extended Lindbladian (`lindbladian_z_plus_t1`) predicts an asymmetry:
   - the silence of XX+YY is fragile to T1 (almost everything leaks)

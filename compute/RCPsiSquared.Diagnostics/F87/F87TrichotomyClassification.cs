@@ -39,7 +39,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// palindrome_trichotomy); its soft XY+YX is the truly XX+YY with the middle qubit turned by
 /// (X+Y)/√2, so the contrast is one dynamics at two middle-qubit states and does not read the
 /// soft class. Kingston read F88b's Π²-odd memory on 2026-05-05 (job d7sqjpiudops73976960,
-/// Confirmation regime_uniformity_kingston_uniform_quantum). Registered as F87 retrospectively
+/// Confirmation regime_uniformity_kingston_uniform_quantum), which reads the Π² parity of
+/// H rather than the F87 class. Registered as F87 retrospectively
 /// 2026-05-03.</para>
 /// </summary>
 public sealed class F87TrichotomyClassification : Claim

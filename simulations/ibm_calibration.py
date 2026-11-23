@@ -12,7 +12,7 @@ and provides:
 - `best_chain(qubits, length)`: best contiguous path of given length, scored as
   qubit-quality sum + bond-quality sum
 
-Motivation: the 2026-04-26 F87 trichotomy runs read a truly Π²-odd baseline
+Motivation: the 2026-04-26 runs of the three Hamiltonians read a truly Π²-odd baseline
 of 0.0013 on path [48, 49, 50] (soft_break script) and 0.0297 on [0, 1, 2]
 (framework_snapshots script). That 22× is mostly the runner scripts: within
 one script the two paths differ 1.64×, and [48, 49, 50] alone reads 8.6× apart

@@ -359,9 +359,9 @@ def main():
     print("  XX+XY (mixed bilinears):     0.276  (intermediate) ✓")
     print()
     print("A Π²-even Hamiltonian under Z dephasing keeps the Π²-odd sector empty from an")
-    print("X-basis product start, truly or soft alike (Kingston 2026-05-05: the Π²-even soft")
-    print("YZ+ZY reads 0.0046 beside truly 0.0022), so the lens reads the Π² parity of H,")
-    print("not the F87 class (docs/ANALYTICAL_FORMULAS.md F88b).")
+    print("X-basis product start, truly or soft alike, so the lens reads the Π² parity of H,")
+    print("not the F87 class (docs/ANALYTICAL_FORMULAS.md F88b). On Kingston 2026-05-05 the")
+    print("Π²-even soft YZ+ZY, idle on this start, reads 0.0046 beside truly 0.0022.")
 
 
 if __name__ == "__main__":

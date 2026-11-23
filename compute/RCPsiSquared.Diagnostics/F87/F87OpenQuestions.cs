@@ -53,7 +53,8 @@ public static class F87OpenQuestions
             "2026-04-26, XY+YX alone reads −0.71 to −0.82 on the six runs off the Fez path whose Q0 sat " +
             "in the bottom 3% of T1, where the same " +
             "circuit lands for an effective γ_Z between about 0.04 and 0.11, while XX+YY reads " +
-            "+0.03 to +0.11, which the Z model forbids and Z + T1 lifts by at most 0.014; that " +
+            "+0.03 to +0.11, which the Z model forbids and Z + T1 (γ_T1 up to γ_Z = 0.1) moves by at most " +
+            "0.014 and to negative values; that " +
             "offset carries Δ to −0.906 (Marrakesh [0, 1, 2], job d7ml9kc3g2mc7392k9p0) and −0.922 " +
             "(Kingston [0, 1, 2], job d7mt7jat99kc73d2uhhg). What opens it is open.",
             "Read the offset run by run beside the X^⊗3 window readings " +

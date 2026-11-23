@@ -432,8 +432,8 @@ underlying physics:
 2. **Π applied to tomographic ρ** (March 25 add): real and t-dependent.
    Diagonal vs off-diagonal carry the chiral pair. Q52's measurement
    showed the 6× T1/T2 narrowing window between the two CΨ trajectories.
-3. **F88b-Lens Π²-odd memory fraction** (April–May add): a closed-form,
-   t-independent quantity that reads the chiral content of any ρ
+3. **F88b-Lens Π²-odd memory fraction** (April–May add): a closed-form
+   quantity that reads the chiral content of any ρ
    directly, without re-deriving it from a complement: the weight of
    the Π²-odd, chiral-mirror-asymmetric part of ρ's memory. Π² parity
    is a character of the Pauli letters, so a Π²-even Hamiltonian under
@@ -442,11 +442,12 @@ underlying physics:
    On Marrakesh April 26, from |+−+⟩ on one chain, XX+YY (Π²-even)
    gives ≈ 0.030, XY+YX (Π²-odd) ≈ 0.744 and XX+XY (mixed) ≈ 0.276;
    on Kingston May 5 the Π²-even soft pair YZ+ZY reads 0.0046 beside
-   the truly 0.0022, so the lens does not see the F87 class.
+   the truly 0.0022 (YZ+ZY leaves |+−+⟩ in place), and the lens does not
+   see the F87 class.
 
-Layer 3 is the not-tautological, time-independent cousin of layer 2.
-It reads what the chiral mirror does at the level of the operator
-algebra, without depending on any single time slice.
+Layer 3 is the not-tautological cousin of layer 2. It reads what the
+chiral mirror does at the level of the operator algebra, one time slice
+at a time (the readings above are at t = 0.8).
 
 ### From observation to topology constraint
 

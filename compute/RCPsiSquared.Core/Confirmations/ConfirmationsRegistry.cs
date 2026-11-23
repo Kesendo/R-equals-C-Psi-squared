@@ -103,7 +103,7 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
             FrameworkPrimitive: "pi_protected_observables",
             Description: "Hardware reading of ⟨X₀IZ₂⟩ on YZ+ZY (EQ-030), a string the cockpit census lists as silent. " +
-                "Under Z-dephasing its zero is the X^⊗3 parity selection rule (H, |+−+⟩ and the Z dephasing keep X^⊗3, and X₀Z₂ reverses under it), shared by every Π²-even H from that start and lifted by T1; it does not single out the soft class (simulations/pi2_lens_and_t1_silence_gate.py G3). The first reading sits 8.6σ from zero, which neither the Z model nor Z + T1 produces (in the continuous model −0.001 at the simulator rate γ_T1 = 0.01 of the run and −0.004 at the calibration-derived 0.046): the X^⊗3 window open, here through a single-site ⟨Z₂⟩ = +0.153 that ⟨X₀⟩ = 0.89 carries into the product, the shape it has for YZ+ZY on Marrakesh [4, 5, 6] (data/ibm_f83_signature_april2026/README.md) and on Kingston (experiments/X3_WINDOW_HARDWARE_PREDICTION.md); the truly XX+YY opens it on the Snapshot D runs of that day in a two-site correlation instead. The experiment doc, an event log, keeps the April reading.",
+                "Under Z-dephasing its zero is the X^⊗3 parity selection rule (H, |+−+⟩ and the Z dephasing keep X^⊗3, and X₀Z₂ reverses under it), shared by every Π²-even H from that start and lifted by T1; it does not single out the soft class (simulations/pi2_lens_and_t1_silence_gate.py G3). The first reading sits 8.6σ from zero, which neither the Z model nor Z + T1 produces (in the continuous model −0.001 at the simulator rate γ_T1 = 0.01 of the run and −0.004 at the calibration-derived 0.046): the X^⊗3 window open on a circuit the Z model leaves idle (YZ+ZY annihilates the start), here through a single-site ⟨Z₂⟩ = +0.153 that ⟨X₀⟩ = 0.89 carries into the product, the shape it has for YZ+ZY on Marrakesh [4, 5, 6] (data/ibm_f83_signature_april2026/README.md) and on Kingston (experiments/X3_WINDOW_HARDWARE_PREDICTION.md); the truly XX+YY opens it on the Snapshot D runs of that day in the two-site correlation ⟨X₀Z₂⟩ instead. The experiment doc, an event log, keeps the April reading.",
             QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
@@ -133,14 +133,14 @@ public static class ConfirmationsRegistry
             Observable: "Π-protected counts (skeleton) + θ-trajectory tails (trace)",
             PredictedValue:
                 "Skeleton/trace decouple at N≥4, co-occur at N=3. " +
-                "Under T1, XY+YX and IY+YI keep skeleton (drop ≤ 1) and trace (long θ-tail); YZ+ZY and XZ+ZX lose both (drop 28 and 29, no tail).",
+                "Under T1, XY+YX and IY+YI keep skeleton (drop ≤ 1) and trace (long θ-tail); YZ+ZY and XZ+ZX drop 28 and 29 strings and lose the trace (no tail).",
             MeasuredValue: "On hardware ⟨X₀IZ₂⟩ and the reduced (q0, q2) θ at t = 0.8, 1.4, 1.7, 2.2 for XY+YX, IY+YI and YZ+ZY (tables in the experiment doc); the census and its drop are simulated, not measured. Simulated: Pearson(drop, Δ∫θ) = +0.85; Bures velocity gives no third discriminator.",
             HardwareData: "external (raw JSON not in repo; tables of <X_0 I Z_2> per t and basis documented inline in experiment doc)",
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
             FrameworkPrimitive: "cockpit_panel: composes pi_protected_observables + θ-trajectory",
             Description:
                 "Lebensader (EQ-030): the cockpit census of silent strings (skeleton) beside the θ-trajectory tail (trace). Under T1 the census keeps the silence complex conjugation carries, the reality window of experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md: a purely imaginary H from a real start under real dissipators (Z dephasing, decay) holds every string with an odd number of Y at zero, so XY+YX (30 → 29) and IY+YI (37 → 37, every string with a Y, each site staying real) keep their skeleton, as do four hard pairs, " +
-                "while the silence a flip carries (X^⊗3, X^⊗3·K) dies: XZ+ZX 30 → 1 (28 of its 30 carried by X^⊗3·K), the truly XX+YY 32 → 1 from |+−+⟩ but 30 → 29 from |+, −i, +⟩ (28 of them by Z₁·K), and YZ+ZY 56 → 28, of which 16 are its X^⊗3 silence and 12 go for a reason not known. The split belongs to a Hamiltonian and its start, not to the F87 class (simulations/pi2_lens_and_t1_silence_gate.py G2); the experiment doc, an event log, keeps the April reading.",
+                "while the silence a flip carries (X^⊗3, X^⊗3·K) dies: XZ+ZX 30 → 1 (28 of its 30 carried by X^⊗3·K), the truly XX+YY 32 → 1 from |+−+⟩ but 30 → 29 from |+, −i, +⟩ (28 of them by Z₁·K), and YZ+ZY 56 → 28: it annihilates |+−+⟩ (experiments/X3_WINDOW_HARDWARE_PREDICTION.md), so under Z dephasing ρ(t) is the dephased start and every string with a Y or Z stays silent, while T1 moves the state off the start and leaves the 28 of conjugation. The split belongs to a Hamiltonian and its start, not to the F87 class (simulations/pi2_lens_and_t1_silence_gate.py G2); the experiment doc, an event log, keeps the April reading.",
             QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
@@ -182,7 +182,7 @@ public static class ConfirmationsRegistry
                 "Trotter+γ_Z patterns at the path-fit γ_Z_eff: pi2_odd_pure ⟨X₀Z₂⟩, pi2_even_nontruly ⟨X₀X₂⟩, mixed ⟨Z₀X₂⟩, truly ⟨Y₀Z₂⟩. " +
                 "F83 anti-fractions = {1/2, 0, 1/6} structurally (closed form on H letters, a property of M against Π that the run does not measure).",
             MeasuredValue:
-                "Each Hamiltonian lit its unique-fingerprint Pauli: " +
+                "Each Hamiltonian shows its fingerprint Pauli (YZ+ZY annihilates the start, so its ⟨X₀X₂⟩ is the dephased start, e^(−4γt) = 0.91 at γ_Z = 0.03): " +
                 "pi2_odd_pure ⟨X₀Z₂⟩=-0.849, pi2_even_nontruly ⟨X₀X₂⟩=+0.919, mixed ⟨Z₀X₂⟩=-0.721, truly ⟨Y₀Z₂⟩=+0.670. " +
                 "Each Hamiltonian is separated from the other three at 21σ or more (σ of a difference of two readings) by at least one Pauli at 4096 shots (the mixed one by ⟨Z₀⟩; its ⟨Z₀X₂⟩ sits 7σ from that of XY+YX). Path-fit γ_Z_eff = 0.03. " +
                 "With the prediction run in the hardware circuit's Trotter order (bond loop outside the term loop), per-Hamiltonian RMS residual over 7 Paulis is 0.036 / 0.014 / 0.012 / 0.024 (pi2_odd / pi2_even / truly / mixed); " +
@@ -206,7 +206,7 @@ public static class ConfirmationsRegistry
                 "regime-uniformity hypothesis: a uniform-quantum chain's truly-baseline should be near a uniform-classical chain's, both well below the regime-mixed value 0.0297 (Marrakesh [0,1,2] framework_snapshots). " +
                 "The Π²-odd memory of XY+YX should remain hardware-substrate-independent at ~0.74.",
             MeasuredValue:
-                "truly = 0.0022, pi2_odd_pure (XY+YX) = 0.7409, pi2_even_nontruly (YZ+ZY) = 0.0046, mixed (XY+YZ) = 0.6220; the two Π²-even Hamiltonians, truly and soft alike, read near zero, the lens reading the Π² parity of H, not the F87 class. " +
+                "truly = 0.0022, pi2_odd_pure (XY+YX) = 0.7409, pi2_even_nontruly (YZ+ZY) = 0.0046, mixed (XY+YZ) = 0.6220; the two Π²-even Hamiltonians, truly and soft alike, read near zero, the lens reading the Π² parity of H, not the F87 class (YZ+ZY leaves the start in place, so its zero comes without dynamics). " +
                 "truly is 1.67× the uniform-classical Marrakesh [48,49,50] soft_break run (0.0013, the same runner script). The 13.3× against the regime-mixed Marrakesh [0,1,2] (0.0297) and the 22.1× between the two Marrakesh rows each pair a soft_break run with a framework_snapshots run, and the same-day repeats put the script difference, not the path, behind most of that factor: within framework_snapshots, minutes apart, mixed [0,1,2] reads 1.64× uniform [48,49,50] (0.0190 against 0.0116). XY+YX sits 3.1% from the Marrakesh value 0.7646.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
             ExperimentDoc: "simulations/f88b_lens_ibm_kingston_uniform_quantum.py",

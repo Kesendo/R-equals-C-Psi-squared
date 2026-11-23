@@ -3,7 +3,8 @@
 A hardware test of the Trotter + γ_Z predictions for four Hamiltonians on
 an N = 3 chain, one for each F87 Π²-class (truly / pure Π²-odd / pure
 Π²-even-non-truly / mixed), read through the F-toolkit lens. The run tells
-**four Hamiltonians** apart by their Pauli-expectation patterns; it does not
+**four Hamiltonians** apart by their Pauli-expectation patterns, one of them
+(YZ+ZY) a circuit that leaves the start in place in the Z model; it does not
 read the classes, whose labels a frame that keeps the Z-dephasing moves: XY+YX is
 the truly XX+YY with the middle qubit turned by (X+Y)/√2
 ([MARRAKESH_THREE_LAYERS](../../experiments/MARRAKESH_THREE_LAYERS.md)), and
@@ -46,11 +47,11 @@ advance what each reveals:
 |----------|--------------------|-------------|----------------|
 | `truly_unbroken` (XX+YY) | F87 truly: M = 0; F84 says environmental σ⁻ amplitude damping would break the ⟨Z⟩-conservation the Hamiltonian stipulates | 0 | The environment, cleanly: truly, Z-dephasing and the state respect X^⊗3, so a Z-only model holds ⟨Z₀⟩ = ⟨Z₂⟩ = 0, and an F82/F84 σ⁻ contribution would show there. |
 | `pi2_odd_pure` (XY+YX) | F87 pure-Π²-odd; F81 says M_anti = L_{H_odd} dominates; F83 anti = 1/2 | M_anti dominant | The dynamics-generator side of M. F83 anti-fraction is the structural prediction. |
-| `pi2_even_nontruly` (YZ+ZY) | F87 pure-Π²-even-non-truly; F81 says M_sym dominates; F83 anti = 0 | M_sym dominant | The mirror-echo side of M (memory-only, no drive). |
+| `pi2_even_nontruly` (YZ+ZY) | F87 pure-Π²-even-non-truly; F81 says M_sym dominates; F83 anti = 0 | M_sym dominant | In the Z model the circuit leaves \|+−+⟩ in place (YZ+ZY annihilates it), so it shows the dephasing alone. |
 | `mixed_anti_one_sixth` (XY+YZ) | F83 anti = 1/6 with r = 1 (equal Frobenius mix) | M_anti and M_sym in fixed ratio | The continuous tunability of F83 at one decimal point. |
 
 This guides what we measure and how to read it. The two pure-class
-categories are the F83 anchors. truly is the lens for environmental
+categories sit at the two F83 ends (anti = 1/2 and 0), the second on a circuit idle in the Z model. truly is the lens for environmental
 F82/F84. mixed sits at a non-trivial F83 ratio.
 
 ## The prediction is the circuit the hardware ran
@@ -82,7 +83,7 @@ categories at >>10σ (statistical error 0.0156 at 4096 shots):
 
 - `truly_unbroken`: ⟨Y₀Z₂⟩ = +0.67 (others all near 0); ⟨X₀Z₂⟩ ≈ 0
 - `pi2_odd_pure`: ⟨X₀Z₂⟩ = −0.85 (uniquely large negative)
-- `pi2_even_nontruly`: ⟨X₀X₂⟩ = +0.92 (uniquely large positive)
+- `pi2_even_nontruly`: ⟨X₀X₂⟩ = +0.92 (uniquely large positive; YZ+ZY annihilates |+−+⟩, so this is the dephased start, e^(−4γt) = 0.91 at γ_Z = 0.03)
 - `mixed_anti_one_sixth`: ⟨Z₀⟩ = −0.79 (21σ from the other three, σ of a difference √2 · 0.0156); ⟨Z₀X₂⟩ = −0.72 sits 7σ from pi2_odd's −0.57, ⟨X₀Z₂⟩ = +0.15 (sign-flip on Z,X axis vs pi2_odd)
 
 Quantitative match to the Trotter + γ_Z model at the path-fit γ_Z = 0.03
@@ -92,7 +93,7 @@ Quantitative match to the Trotter + γ_Z model at the path-fit γ_Z = 0.03
 |----------|------------------------|---------|
 | `truly_unbroken` | **0.012** | M = 0 lens: on the prediction over these 7 two-body Paulis; the single-site window is read below. |
 | `pi2_odd_pure` | **0.036** | F83 anchor at anti = 1/2: on the prediction. |
-| `pi2_even_nontruly` | **0.014** | F83 anchor at anti = 0: on the prediction. |
+| `pi2_even_nontruly` | **0.014** | The dephased start of an idle circuit: on the prediction. |
 | `mixed_anti_one_sixth` | **0.024** | F83 at anti = 1/6: on the prediction. |
 
 All four Hamiltonians land on the framework's prediction to within 0.04 RMS

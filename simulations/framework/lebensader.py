@@ -18,7 +18,8 @@ Under T1 the census keeps the silence complex conjugation carries (an
 imaginary H from a real start under real dissipators holds every string with an
 odd number of Y at zero, the set y_parity_panel reports) and loses the
 silence a flip carries (simulations/pi2_lens_and_t1_silence_gate.py G2);
-YZ+ZY loses 12 strings more, for a reason not known.
+YZ+ZY, which leaves |+−+⟩ in place under Z dephasing, loses the silence of
+that idle start.
 EQ-030 (Marrakesh, April 26) computes drop=28 for YZ+ZY and
 Pearson(drop, Δ∫θ)=+0.85 and finds Bures velocity no third axis; its flights
 read ⟨X₀IZ₂⟩ and θ, not the census.  One row does not identify the census
