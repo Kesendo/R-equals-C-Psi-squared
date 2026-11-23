@@ -119,7 +119,7 @@ Wider frames go further. A diagonal unitary commutes with every Z_l, so it keeps
 exactly, and a two-site phase such as CZ changes the number of Z: the star CZ(0, 2)·CZ(1, 2) carries
 XZ+ZZ at N = 3 onto a truly Hamiltonian, X₀Z₁ becoming X₀Z₁Z₂ and X₁Z₂ becoming X₁. And Π
 palindromizes Y-dephasing as it does Z-dephasing, so a one-site frame that turns the light from Z to
-Y on some sites keeps Π a mirror while changing how the noise is written: R_x(π/2) on the middle
+Y on some sites keeps Π a mirror while changing how the light is written: R_x(π/2) on the middle
 site carries YZ+ZY at N = 3, a pair flown on Marrakesh and Kingston, onto Σ(ZZ − YY) under
 Y-dephasing there, with Π an exact mirror of the turned generator, and one-site Clifford frames of
 period two that turn the light on alternate sites do the same for all six of XX+YZ, XX+ZY, XZ+YY, XZ+ZX, YY+ZX and YZ+ZY
