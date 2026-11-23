@@ -26,10 +26,12 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "experiments/MARRAKESH_THREE_LAYERS.md",
             FrameworkPrimitive: "classify_pauli_pair + predict_M_spectrum_pi2_odd + propagate_with_hardware_noise",
             Description:
-                "Super-operator palindrome trichotomy (truly/soft/hard) tomographically distinguishable on Heron r2 hardware at N=3. " +
+                "Predicted ⟨X₀Z₂⟩ for one Pauli-pair Hamiltonian of each F87 class (truly XX+YY, soft XY+YX, hard XX+XY) from |+−+⟩ at N=3 on Heron r2. " +
                 "Hardware Δ(soft − truly) = -0.722 matches the Trotter n=3 prediction to 0.0014, NOT the continuous-Lindblad idealization (Δ = -0.623). " +
+                "The soft − truly contrast does not read the soft class: XY+YX is XX+YY with the middle qubit turned by (X+Y)/√2, which keeps the Z-dephasing and leaves q0 and q2 alone, " +
+                "so under Z-dephasing soft from |+−+⟩ is truly from |+,−i,+⟩ on all 16 two-qubit Paulis; the run compares one dynamics at two middle-qubit states (MARRAKESH_THREE_LAYERS, Layer 3). " +
                 "Original interpretation that T1 amplifies the soft-break is REFUTED: T1 monotonically attenuates |Δ| (γ_T1=0.5 gives Δ=-0.44). " +
-                "The hardening is Trotter discretization at δt=0.267 with ‖H‖_op = 2.83·J, where ‖H·δt‖ ≈ 0.76 violates the small-step regime.",
+                "The hardening is Trotter discretization at δt=0.267 with ‖H‖_op = 2.83·J, where ‖H·δt‖ ≈ 0.75 violates the small-step regime.",
             QubitPath: new[] { 48, 49, 50 }),
 
         new Confirmation(
@@ -212,7 +214,7 @@ public static class ConfirmationsRegistry
             FrameworkPrimitive: "F88b-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
             Description:
                 "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, below R* on 91 / 91 / 90 days). " +
-                "The run was flown to test the regime-uniformity hypothesis, that a band-mixed path reads a dirtier truly-baseline than a uniform one, and the data do not support it: the order-of-magnitude contrast it rested on is mostly a contrast between two runner scripts: within one script the two band compositions differ 1.64×. Every soft_break run reads clean, on uniform paths on either side of R* and on two chips (Marrakesh [48,49,50] 0.0013, job d7mjnjjaq2pc73a1pk4g, 2026-04-26; Marrakesh [4,5,6] 0.0017, job d7pol1e7g7gs73cf7j90, 2026-04-30; this run 0.0022), and every framework_snapshots run on Marrakesh reads above all of them, whatever the band: uniform [48,49,50] 0.0116 (job d7ml4i2t99kc73d2lek0), mixed [0,1,2] 0.0190 (job d7ml9kc3g2mc7392k9p0, the same script eleven minutes later) and 0.0297 (job d7mt7jbaq2pc73a24220, the same day). Within the one script the mixed path reads 1.64× the uniform one, while the uniform path [48,49,50] reads 8.6× apart between the two scripts on one day and the mixed path 1.57× apart between two runs of one script; the 13.3× and 22.1× quotients pair a soft_break row with a framework_snapshots row and do not isolate the path. R* is a purity-proxy threshold rather than a physical phase boundary, and the nearest calibration (2026-04-25) singles out no culprit: the mixed path is worse on T2 (Q0 41 μs, which is what puts it below R*), not worse on CZ (0.0021, 0.0010 against 0.0088, 0.0041), and not uniformly worse on readout (0.95%, 1.32% against 5.85%, 0.90% on the two sites the lens reads). A band effect, if any, would need several paths of each composition in one job, under one script, each run more than once. Two findings stand on this single 39-second billed run by themselves: F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping reproduced on two Heron-r2 chips, 0.7409 vs 0.7646.",
+                "The run was flown to test the regime-uniformity hypothesis, that a band-mixed path reads a dirtier truly-baseline than a uniform one, and the data do not support it: the order-of-magnitude contrast it rested on is mostly a contrast between two runner scripts: within one script the two band compositions differ 1.64×. Every soft_break run reads clean, on uniform paths on either side of R* and on two chips (Marrakesh [48,49,50] 0.0013, job d7mjnjjaq2pc73a1pk4g, 2026-04-26; Marrakesh [4,5,6] 0.0017, job d7pol1e7g7gs73cf7j90, 2026-04-30; this run 0.0022), and every framework_snapshots run on Marrakesh reads above all of them, whatever the band: uniform [48,49,50] 0.0116 (job d7ml4i2t99kc73d2lek0), mixed [0,1,2] 0.0190 (job d7ml9kc3g2mc7392k9p0, the same script eleven minutes later) and 0.0297 (job d7mt7jbaq2pc73a24220, the same day). Within the one script the mixed path reads 1.64× the uniform one, while the uniform path [48,49,50] reads 8.6× apart between the two scripts on one day and the mixed path 1.57× apart between two runs of one script; the 13.3× and 22.1× quotients pair a soft_break row with a framework_snapshots row and do not isolate the path. R* is a purity-proxy threshold rather than a physical phase boundary, and the nearest calibration (2026-04-25) singles out no culprit: the mixed path is worse on T2 (Q0 41 μs, which is what puts it below R*), not worse on CZ (0.0021, 0.0010 against 0.0088, 0.0041), and not uniformly worse on readout (0.95%, 1.32% against 5.85%, 0.90% on the two sites the lens reads). A band effect, if any, would need several paths of each composition in one job, under one script, each run more than once. Two findings stand on this single 39-second billed run by themselves: the F83 predictions met on a second backend; the Π²-odd memory of XY+YX reproduced on two Heron-r2 chips, 0.7409 vs 0.7646.",
             QubitPath: new[] { 43, 56, 63 }),
 
         new Confirmation(
@@ -390,13 +392,14 @@ public static class ConfirmationsRegistry
                 "spread relative to truly: soft = +0.2786, hard = -0.1248.",
             MeasuredValue:
                 "mean_n {truly, soft, hard} = {1.0098, 1.2673, 0.9082}; " +
-                "spread relative to truly: soft = +0.2576, hard = -0.1016; max per-case deviation in mean_n = 0.0330 (~3% relative). All three classes separated by ≥0.10 in ⟨n⟩.",
+                "spread relative to truly: soft = +0.2576, hard = -0.1016; max per-case deviation in mean_n = 0.0330 (~3% relative). The three Hamiltonians separated by ≥0.10 in ⟨n⟩.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json",
             ExperimentDoc: "data/ibm_soft_break_april2026/README.md",
             FrameworkPrimitive: "sector_populations (d_zero diagnostic)",
             Description:
-                "Retrospective d=0-axis reading of the F87 trichotomy from existing Marrakesh data. The same three Hamiltonian classes the April-26 run discriminated via ⟨X₀Z₂⟩ at 9-Pauli-pair tomography are also discriminated by ⟨n⟩ from just the Z-basis ZZ counts. " +
-                "Operational consequence: the trichotomy can be read with 1/9 the Pauli-measurement cost when the question is classification, not full M-spectrum reconstruction. See simulations/d_zero_trichotomy_marrakesh.py.",
+                "Z-basis reading of the 2026-04-26 palindrome_trichotomy run: ⟨n⟩ on the (q0,q2) reduced state of |+−+⟩ from the ZZ counts alone, predicted for the three Hamiltonians and matched to 0.033. " +
+                "The value does not read the F87 class: the soft value is the truly value from |+,−i,+⟩ (XY+YX is XX+YY with q1 turned by (X+Y)/√2, which leaves q0 and q2 alone), " +
+                "and in that frame the total excitation is conserved and moves from the middle qubit to the ends. See simulations/d_zero_trichotomy_marrakesh.py.",
             QubitPath: new[] { 48, 49, 50 }),
 
         // --- Torino calibration-era runs (Feb-Mar 2026), registered 2026-06-18 ---

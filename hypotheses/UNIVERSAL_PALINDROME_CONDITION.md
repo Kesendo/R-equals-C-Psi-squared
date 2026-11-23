@@ -141,9 +141,6 @@ computation, not measurement: the eigenvalue pairing itself has not been
 measured on hardware. The 1.9% deviation on ibm_torino Q80 is a different quantity, the
 single-qubit CΨ = 1/4 crossing (F24, IBM Run 3); the two-qubit Bell+
 trajectory (F25, Kingston) is flown too, and neither measures the pairing.
-The closest contact is the truly/soft/hard trichotomy on Marrakesh at N=3,
-which tells the three kinds of palindrome breaking apart on hardware
-without measuring the spectrum itself.
 
 **Application to chemistry: the hydrogen bond as qubit.**
 The proton in O-H...O tunnels between |L⟩ (donor) and |R⟩ (acceptor).

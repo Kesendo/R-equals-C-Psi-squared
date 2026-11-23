@@ -74,14 +74,14 @@ public class Pi2KleinHardwareViewTests
     }
 
     [Fact]
-    public void Marrakesh_Soft_BreakAnchor_Observable_IsPi2Odd()
+    public void Marrakesh_TrichotomyRun_Observable_IsPi2Odd()
     {
-        // The 2026-04-26 palindrome_trichotomy soft-break confirmation measured ⟨X₀ Z₂⟩
+        // The 2026-04-26 palindrome_trichotomy run measured ⟨X₀ Z₂⟩
         // (no I in the middle — direct 2-letter spec at sites 0, 2). Klein cell:
-        var softBreakObservable = KleinCell(PauliLetter.X, PauliLetter.I, PauliLetter.Z);
+        var runObservable = KleinCell(PauliLetter.X, PauliLetter.I, PauliLetter.Z);
         // For N=3 the explicit-I form is what was measured (ConfirmationsRegistry observable
         // string "<X_0 Z_2>" implicitly identity at site 1).
-        Assert.Equal((-1, -1), softBreakObservable);  // Mm — same cell as f83 mixed observable
+        Assert.Equal((-1, -1), runObservable);  // Mm, the same cell as the f83 mixed observable
     }
 
     [Fact]

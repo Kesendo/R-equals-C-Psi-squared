@@ -1,15 +1,8 @@
-"""F80 prediction × IBM soft_break hardware data sanity check.
+"""F80 prediction on the three Hamiltonians of the IBM soft_break run.
 
-Anchors the new framework primitive ChainSystem.predict_M_spectrum_pi2_odd
-in hardware-confirmed reality. The chain that makes the connection:
-
-  IBM Marrakesh measured ⟨X₀Z₂⟩_soft = -0.711 for soft_broken = XY+YX at
-  N=3, J=1, t=0.8 (Δ(soft − truly) = -0.72), 47σ above the truly baseline.
-
-  Why is soft_broken ⟨X₀Z₂⟩ non-zero while truly_unbroken's is ≈ 0? Because
-  XY+YX has a non-trivial palindrome residual M (Π·L·Π⁻¹ + L + 2Σγ·I ≠ 0).
-  M's spectrum is the structural template that lets γ-noise + Trotter +
-  ZZ-crosstalk paint the soft-break signature into observables.
+Checks the framework primitive ChainSystem.predict_M_spectrum_pi2_odd against
+the M-spectrum built from the dense Liouvillian, for the three Hamiltonians
+IBM Marrakesh flew (truly XX+YY, soft XY+YX, hard XX+XY at N=3, J=1).
 
   F80 says (γ-independent by Master Lemma):
     Spec(M)_{nontrivial} = ±2i · Spec(H_non-truly), mult ×2^N.
@@ -17,10 +10,12 @@ in hardware-confirmed reality. The chain that makes the connection:
   predict_M_spectrum_pi2_odd computes this from H eigenvalues alone, with
   no Liouvillian build, no SVD, no eigendecomposition of M.
 
-This script does NOT predict ⟨X₀Z₂⟩ from the M-spectrum (that requires the
-full Lindblad dynamics, which dense propagation handles separately). What
-it confirms is the structural ingredient F80 captures: the M-spectrum that
-makes the soft signal possible.
+The M-spectrum does not explain the run's ⟨X₀Z₂⟩ values. XY+YX is XX+YY
+with the middle qubit turned by (X+Y)/√2, which keeps the Z-dephasing and
+leaves q0 and q2 alone, so soft from |+−+⟩ is truly from |+,−i,+⟩ on every
+two-qubit Pauli: soft's predicted value (-0.623 continuous, -0.723 Trotter,
+against -0.711 measured) is truly's evolution from a turned middle state, and M is nonzero for XY+YX only because Π is written in one frame
+(experiments/MARRAKESH_THREE_LAYERS.md, Layer 3).
 """
 from __future__ import annotations
 
@@ -123,17 +118,15 @@ def main():
     print("=" * 70)
     print("""
   - truly_unbroken (XX+YY) has Spec(M) = {0}: vanishes by Π palindrome.
-    This is why ⟨X₀Z₂⟩_truly ≈ 0 on hardware (+0.011, just noise).
 
-  - soft_broken (XY+YX) has Spec(M) = ±2i·{2√2, 0, -2√2}: non-zero
-    structural residual that γ-noise + Trotter render into ⟨X₀Z₂⟩ = -0.711.
-    F80 predicts the structural template; the dynamics paint it onto
-    observables. M is the open door.
+  - soft_broken (XY+YX) has Spec(M) = ±2i·{2√2, 0, -2√2}. This does not
+    make its ⟨X₀Z₂⟩ = -0.711: XY+YX is XX+YY with the middle qubit turned,
+    and truly from |+,−i,+⟩ has the same predicted value (-0.623 continuous,
+    -0.723 Trotter); the zeros of the table come from symmetries of
+    state and generator, not from M.
 
   - hard_broken (XX+XY) is mixed: truly XX drops out of M; F80 sees only
-    the XY contribution. The hard_broken signature (-0.205) comes from a
-    different observable (⟨X₀X₂⟩ = +0.212), and from the eigenvalue-pairing
-    break that the trichotomy classifier flags (cls='hard').
+    the XY contribution.
 
   F80's role: structural prediction in O(N³) work (H eigvals only), no
   4^N × 4^N matrix build, no SVD. The dense palindrome_residual still

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
-"""Hardware test design: distinguishing 3 truly-unbroken from 19 soft-broken
-Hamiltonians on IBM hardware via tomography.
+"""Hardware test design: one truly, one soft and one hard Hamiltonian on IBM
+hardware via tomography.
+
+The soft Hamiltonian XY+YX is XX+YY with the middle qubit turned by (X+Y)/√2,
+which keeps the Z-dephasing and leaves q0 and q2 alone, so the soft − truly
+contrast this design measures is one dynamics at two middle-qubit states, not
+the soft class (experiments/MARRAKESH_THREE_LAYERS.md, Layer 3).
 
 This is the FIRST framework-based experimental design. All Hamiltonians,
 operators, and predicted observables are constructed via framework.py
@@ -10,7 +15,7 @@ and don't call framework. This script does.
 
 Goal
 ----
-On IBM hardware, distinguish three Hamiltonian categories:
+On IBM hardware, tell three Hamiltonians apart, one per category:
   - 1 truly-unbroken: XX + YY  (both-parity-even, palindrome holds exactly)
   - 1 soft-broken:    XY + YX  (eigenvalues pair, eigenvectors don't)
   - 1 hard-broken:    XX + XY  (eigenvalues don't pair)
@@ -33,9 +38,10 @@ The framework predicts that the time-resolved 2-qubit reduced density matrix
     eigenvectors of L) follow the palindrome relation predictably.
 
   - Soft-broken: same EIGENVALUES but scrambled EIGENVECTORS. The
-    matrix elements that "should" follow Π-symmetry don't. Specifically,
-    the off-diagonal coupling between weight sectors of ρ_{0,2} differs
-    from the truly-unbroken case.
+    matrix elements that "should" follow Π-symmetry don't. From the same
+    initial state the off-diagonal coupling between weight sectors of
+    ρ_{0,2} differs from the truly-unbroken case, which by the header is
+    the middle qubit's start against the turn, not the class.
 
   - Hard-broken: spectrum itself non-palindromic. Different decay
     rates for different modes; the entire decoherence curve has a
@@ -223,7 +229,7 @@ def main():
 
     # Truly vs soft discrimination
     print("\n" + "=" * 90)
-    print("Specifically: truly_unbroken vs soft_broken (the framework's NEW prediction)")
+    print("Specifically: truly_unbroken vs soft_broken")
     print("=" * 90)
     print(f"\n{'Pauli (P0, P2)':>16s}  {'truly_unbroken':>16s}  {'soft_broken':>14s}  "
           f"{'difference':>14s}")

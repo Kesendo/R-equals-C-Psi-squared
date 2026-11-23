@@ -15,8 +15,9 @@ namespace RCPsiSquared.Diagnostics.DZero;
 /// <para>Hardware-trivial measurement: Z-basis tomography, group shots by Hamming weight.
 /// Used in the Marrakesh d_zero retrospective
 /// (<see cref="Core.Confirmations.ConfirmationsRegistry"/> entry
-/// "d_zero_sector_trichotomy_marrakesh") to discriminate F87 truly/soft/hard from ⟨n⟩ alone
-/// at 1/9 the Pauli-measurement cost of full ⟨X₀Z₂⟩ tomography.</para>
+/// "d_zero_sector_trichotomy_marrakesh") to read the three Hamiltonians of that run from ⟨n⟩
+/// alone, at 1/9 the Pauli-measurement cost of full tomography; the soft value is the truly value
+/// from a turned middle qubit, so ⟨n⟩ does not read the F87 class.</para>
 /// </summary>
 public sealed record SectorPopulationResult(
     double[] P,

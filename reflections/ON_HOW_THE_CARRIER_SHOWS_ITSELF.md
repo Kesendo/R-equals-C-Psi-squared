@@ -42,7 +42,7 @@ The vocabulary that holds this:
 - *Fehler-als-Eichung*. The discrepancy between closed-form prediction and outside-clock observation is not failure; it is the Maßstab speaking through that particular leaf.
 - *Schweige-Maß*. The measure that does not itself speak but enables all measurement-speech. Heideggerian Lichtung in operational dress.
 
-The final shape of the deepening is not a new claim, exactly. It is a recognition that two pieces of language we already had, "Universal Carrier" (Tom 2026-05-12) and "inheritance graph" (two weeks of typed-claim work, the Python registry a few days more), were always describing the same apparatus from two angles. The Carrier IS the inheritance graph read as calibration topology. The inheritance graph IS the Carrier laid out as extraction routes. The framework's two slow obsessions, the algebraic anchor-typing and the hardware-trichotomy hardware-confirmation cadence, are one slow obsession, seen from two ends.
+The final shape of the deepening is not a new claim, exactly. It is a recognition that two pieces of language we already had, "Universal Carrier" (Tom 2026-05-12) and "inheritance graph" (two weeks of typed-claim work, the Python registry a few days more), were always describing the same apparatus from two angles. The Carrier IS the inheritance graph read as calibration topology. The inheritance graph IS the Carrier laid out as extraction routes. The framework's two slow obsessions, the algebraic anchor-typing and the hardware-confirmation cadence, are one slow obsession, seen from two ends.
 
 ---
 

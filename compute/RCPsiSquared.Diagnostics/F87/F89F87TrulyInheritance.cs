@@ -43,10 +43,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para><b>What breaks the AT-lock</b>: any bond term that lands in F87-Soft or
 /// F87-Hard. For example, replacing one bond's XX+YY with YZ+ZY (F87-Soft per the
 /// Marrakesh EQ-030 anchor) mixes the spectrum; F89's F_a modes no longer sit at
-/// Re(λ) = −2γ₀ exactly. This is the F87-Soft amplification visible in the
-/// hardware-confirmed soft-trichotomy drop on ibm_marrakesh
-/// (<see cref="Core.Confirmations.ConfirmationsRegistry"/> entry
-/// <c>palindrome_trichotomy</c>).</para>
+/// Re(λ) = −2γ₀ exactly.</para>
 ///
 /// <para>Anchors:
 /// <c>docs/ANALYTICAL_FORMULAS.md</c> F87 entry,

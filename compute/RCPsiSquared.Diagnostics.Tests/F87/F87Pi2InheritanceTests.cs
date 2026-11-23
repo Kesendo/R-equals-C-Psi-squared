@@ -62,7 +62,7 @@ public class F87Pi2InheritanceTests
     [Fact]
     public void LiveChildren_HardwareNodeNamesConfirmationsThatExistInTheRegistry()
     {
-        var node = Assert.Single(Build().Children, c => c.DisplayName == "F87 hardware confirmation");
+        var node = Assert.Single(Build().Children, c => c.DisplayName == "hardware runs");
         foreach (var name in new[] { "palindrome_trichotomy", "regime_uniformity_kingston_uniform_quantum" })
         {
             var entry = RCPsiSquared.Core.Confirmations.ConfirmationsRegistry.Lookup(name);

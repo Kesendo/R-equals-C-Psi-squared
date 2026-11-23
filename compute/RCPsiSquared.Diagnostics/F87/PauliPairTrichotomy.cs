@@ -16,9 +16,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///   <item><b>hard</b>: spectrum pairing also fails, full Π-symmetry-broken</item>
 /// </list>
 ///
-/// Hardware-confirmed at Marrakesh 2026-04-26 (Δ(soft − truly) = −0.722 measured vs −0.723
-/// Trotter-n3 prediction). See <see cref="Core.Confirmations.ConfirmationsRegistry"/> entry
-/// "palindrome_trichotomy".
+/// One Hamiltonian per class flown on Marrakesh 2026-04-26 (Δ(soft − truly) = −0.722 measured vs
+/// −0.723 Trotter-n3 prediction); its soft XY+YX is the truly XX+YY with the middle qubit turned,
+/// so the run tests the predictions, not the soft class. See
+/// <see cref="Core.Confirmations.ConfirmationsRegistry"/> entry "palindrome_trichotomy".
 ///
 /// Dissipator-resonance law (verified 2026-05-01): the F87-hardness of Klein-homogeneous pairs
 /// lives in the Klein cell matching the dephase letter's Klein index: Z = (0, 1), X = (1, 0), Y = (1, 1).

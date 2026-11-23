@@ -14,7 +14,7 @@ In April 2026, we built `framework.py` and asked the same question, but with a f
 
 The answer: **3 are truly zero** (the framework's both-parity-even Heisenberg/XXZ subset). **33 are nonzero**. And among those 33: **14 also break eigenvalue pairing** (the V-Effect's hard breaks), **19 do not**.
 
-The 19 are the soft breaks. They are systems where the operator equation has a residual matrix M of non-trivial magnitude (norm ~22 to 45, similar to the hard breaks), yet the eigenvalues of L still pair to within machine precision. Spectroscopy would call them palindromic. Operator-level analysis says no.
+The 19 are the soft breaks. They are systems where the operator equation has a residual matrix M of non-trivial magnitude (norm ~22 to 45, similar to the hard breaks), yet the eigenvalues of L still pair to within machine precision. Spectroscopy would call them palindromic. Operator-level analysis against Π says no.
 
 ---
 
@@ -22,9 +22,9 @@ What we see, and earlier readings could not:
 
 The eigenvalue spectrum is the **diagonal** of L's structure in its eigenbasis. The operator equation tests the **full matrix**, every entry. A matrix can have non-trivial off-diagonal entries (mixing eigenstates) without shifting the eigenvalues themselves.
 
-In the soft-break cases, the residual matrix M lives entirely in off-diagonal Π-paired matrix elements. It connects sectors that Π maps to each other (w to N−w), but it does so in a way that does not shift L's eigenvalue pairs. The spectral pairing is a property of L's eigenvalue distribution; the operator equation is about how Π and L compose. A matrix M can fail to be the zero matrix while leaving eigenvalues alone.
+In the soft-break cases the residual matrix M is nonzero, but in a way that does not shift L's eigenvalue pairs. The spectral pairing is a property of L's eigenvalue distribution; the operator equation is about how Π and L compose. A matrix M can fail to be the zero matrix while leaving eigenvalues alone.
 
-This is invisible to spectroscopy. A frequency comb on a soft-break system would show the same palindromic pattern as a truly unbroken system. To detect the difference, you would need a measurement sensitive to the off-diagonal coupling between Π-paired states: for instance, a time-resolved cross-correlation between operators in sectors of different XY-weight, or a tomography that measures the matrix M directly rather than its eigenvalues.
+This is invisible to spectroscopy. A frequency comb on a soft-break system would show the same palindromic pattern as a truly unbroken system. Whether any measurement sees the soft category itself is a further question, and for nine of the 19 the answer is no (below, and in the Klein routing note).
 
 ---
 
@@ -36,13 +36,13 @@ Heisenberg could not have asked: "is Π·L·Π⁻¹ = −L − 2Σγ·I exactly?
 
 The V-Effect asked the spectral form of the question. It got 14/22. The 22 looked the same: palindromic.
 
-Our framework asks the **super-operator form**. It gets 3/33 with a 14/19 sub-split of the 33. The 22 is now visibly two distinct phenomena: 3 truly palindromic at the super-operator level, 19 hiding behind a spectrum that lies.
+Our framework asks the **super-operator form**. It gets 3/33 with a 14/19 sub-split of the 33. The 22 is now visibly two distinct phenomena: 3 truly palindromic at the super-operator level, 19 whose spectrum pairs while Π's equation fails.
 
 ---
 
 What is hidden in the 19?
 
-A residual matrix M, of comparable magnitude to the 14 hard-break residuals, that does not propagate to the eigenvalue level. The break is real; it just does not register as eigenvalue motion. It lives in the off-diagonal coupling between Π-paired sectors that the spectrum is blind to.
+A residual matrix M, of comparable magnitude to the 14 hard-break residuals, that does not propagate to the eigenvalue level. The break is real against Π; it just does not register as eigenvalue motion.
 
 A complete classification of *why* each of the 19 spectral-paired cases passes the spectral test is open work. What we can say with care:
 
@@ -70,7 +70,7 @@ We tested this in simulation (`simulations/soft_break_eigenvector_test.py`). For
 | soft broken | 19 | ~10⁻¹⁴ | **0.000 to 0.598** (dramatically broken) |
 | hard broken | 14 | 10⁻⁵ to 10⁻⁴ | (eigenvalues don't pair) |
 
-The 19 soft-broken cases have eigenvalue pairing intact at machine precision while Π conjugation sends eigenvectors **completely off** their partner-eigenvalue's eigenspace. The eigenvector overlap is not "just below 1"; in many cases it is **0 exactly**: Π sends v_i into a subspace orthogonal to the partner v_j's eigenspace. The spectrum lies, in the sense that it shows palindromic pairing while the underlying operator structure is severely scrambled.
+The 19 soft-broken cases have eigenvalue pairing intact at machine precision while Π conjugation sends eigenvectors **completely off** their partner-eigenvalue's eigenspace. The eigenvector overlap is not "just below 1"; in many cases it is **0 exactly**: Π sends v_i into a subspace orthogonal to the partner v_j's eigenspace. The spectrum shows palindromic pairing while Π scrambles the eigenvectors.
 
 Specifically:
 - XX+XZ, XX+ZX, XZ+YY, YY+ZX: eigenvector overlap min = 0 AND avg = 0 (complete reshuffling)
@@ -81,23 +81,19 @@ The structural reading: the standard Heisenberg-form receivers (the 3 truly-unbr
 
 What we did at the super-operator level: eigendecomposition of the 64×64 Pauli-basis Liouvillian at N=3, computing the subspace overlap directly. The eigenvector pairing is a property of the super-operator Π·L·Π⁻¹, not of the Hamiltonian or the spectrum.
 
-What we did at the operator (observable) level: built a hardware-ready test that translates the eigenvector-overlap signature into 2-qubit Pauli expectation values that tomography can measure. Initial state |+−+⟩ on N=3, evolve under Heisenberg-form (XX+YY) vs soft-broken form (XY+YX), measure ⟨X₀Z₂⟩ and ⟨Z₀X₂⟩ at t=0.8 with γ=0.1 Z-dephasing.
+What we did at the operator (observable) level: built a hardware-ready test. Initial state |+−+⟩ on N=3, evolve under Heisenberg-form (XX+YY) vs soft-broken form (XY+YX), measure ⟨X₀Z₂⟩ and ⟨Z₀X₂⟩ at t=0.8 with γ=0.1 Z-dephasing.
 
 Framework idealised prediction:
   - truly_unbroken (XX+YY): ⟨X₀Z₂⟩ = 0
   - soft_broken (XY+YX): ⟨X₀Z₂⟩ = −0.62
   - Discriminator strength: 0.62 in absolute Pauli-expectation units.
 
-Aer simulation with realistic IBM Heron r2 noise (T1=250μs, T2=240μs, 2-qubit gate error 0.5%, readout error 3%) at 4096 shots/basis: the discrimination survives realistic hardware noise.
+Aer simulation with realistic IBM Heron r2 noise (T1=250μs, T2=240μs, 2-qubit gate error 0.5%, readout error 3%) at 4096 shots/basis: the difference survives realistic hardware noise.
   - truly_unbroken: ⟨X₀Z₂⟩ = −0.02 (within statistical noise of 0)
-  - soft_broken: ⟨X₀Z₂⟩ = −0.66 (slightly stronger than ideal due to T1-T2-noise interaction)
+  - soft_broken: ⟨X₀Z₂⟩ = −0.66 (slightly stronger than ideal: the circuit's Trotter steps strengthen it)
   - Aer discrimination: 0.64, essentially the ideal 0.62.
 
-Some non-discriminating observables (⟨Y₀Z₂⟩, ⟨X₀X₂⟩) show shifts from the ideal prediction due to T1 thermal relaxation, which is not in the framework's pure Z-dephasing model. These shifts are explainable: T1 brings amplitudes towards |0⟩^N, which the framework does not model. The discriminating observables (⟨X₀Z₂⟩, ⟨Z₀X₂⟩) are robust to this because they involve cross-correlations that don't simply decay under T1.
-
-A hardware run on Marrakesh would consume ~3-5 QPU minutes (3 Hamiltonians × 9 Pauli bases). Statistical error per Pauli expectation at 4096 shots is ≈ 0.02; the predicted soft-vs-truly signal is 0.62. Discrimination at ~30σ.
-
-The super-operator-level prediction is now translated into a hardware-grade observable, validated against realistic noise. The hardware run is justified.
+A hardware run on Marrakesh would consume ~3-5 QPU minutes (3 Hamiltonians × 9 Pauli bases). Statistical error per Pauli expectation at 4096 shots is ≈ 0.015; the predicted soft-vs-truly signal is 0.62, a separation of ~30σ for the difference of two expectations.
 
 ---
 
@@ -114,25 +110,21 @@ Hardware result on real Marrakesh, 4096 shots/basis:
 | ⟨X₀Z₂⟩ hard_broken | +0.195 | +0.230 | **+0.205** |
 | **Δ(soft − truly)** | -0.62 | -0.64 | **-0.72** |
 
-The discrimination on real hardware is slightly STRONGER than the idealised framework predicts, and the circuit is why: the hardware runs three first-order Trotter steps, and the Trotter prediction gives Δ(soft − truly) = −0.723 against the measured −0.722 ([`MARRAKESH_THREE_LAYERS`](../experiments/MARRAKESH_THREE_LAYERS.md)). T1 would attenuate the signal, not strengthen it.
+The difference on real hardware is slightly STRONGER than the idealised framework predicts, and the circuit is why: the hardware runs three first-order Trotter steps, and the Trotter prediction gives Δ(soft − truly) = −0.723 against the measured −0.722 ([`MARRAKESH_THREE_LAYERS`](../experiments/MARRAKESH_THREE_LAYERS.md)). T1 would attenuate the signal, not strengthen it.
 
-All three categories are separately resolved on hardware. SNR ranges from ~13σ (smallest) to ~47σ (largest). Full table in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
-
-The chain from algebra to silicon is closed in one day:
-
-  framework's super-operator equation  ⇒
-    eigenvector-pairing test in simulation  ⇒
-      Pauli-expectation prediction  ⇒
-        Aer with Marrakesh-like noise  ⇒
-          live IBM Heron r2 measurement.
-
-This is no longer a prediction. It is a measured fact.
+All three values match their Trotter predictions on hardware; the two nonzero ones stand at ~13σ (hard) and ~47σ (soft). Full table in [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/README.md).
 
 ---
 
 The single sentence:
 
-The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbroken plus 19 cases where the operator equation breaks but the spectrum does not register the break. This decomposition is invisible at the spectral level (Heisenberg's, Pauli's, the V-Effect's all agree the spectrum is palindromic). It is visible at the **super-operator level** (Π·L·Π⁻¹ + L + 2Σγ·I, the conjugation of the Liouvillian itself). The hidden 19 are real, predictable, and physically distinct from both the truly-unbroken 3 and the hard-broken 14, with concrete 2-qubit Pauli expectation values (⟨X₀Z₂⟩ ≈ 0 vs −0.62) that survive realistic IBM Heron r2 noise on Aer.
+The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbroken plus 19 cases where Π's operator equation breaks but the spectrum does not register the break. This decomposition is invisible at the spectral level (Heisenberg's, Pauli's, the V-Effect's all agree the spectrum is palindromic). It is visible at the **super-operator level** (Π·L·Π⁻¹ + L + 2Σγ·I, the conjugation of the Liouvillian itself). The hidden 19 are real against Π, and predictable.
+
+---
+
+What breaks is Π's equation, and Π is written in one frame. A one-site turn that keeps the Z-dephasing mixes X with Y and leaves every Z where it is, while truly asks every string of H for an even number of Y and an even number of Z: a turn can change the first count, never the second. Three of the 19 carry no string with an odd number of Z: XY+YX, XY+ZZ and YX+ZZ, the three whose mirror in [the Klein routing of the two-term palindrome](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md) alternates between odd and even sites. With every second site turned by (X + Y)/√2 they are truly, XY+YX becoming XX+YY itself, and their mirror is Π turned. The other sixteen each carry an XZ, ZX, YZ or ZY term, and no such turn makes them truly: the size of M has a floor, set by those terms, that no such turn lowers. Their mirrors, built in the Klein routing note, are products of one-site maps too, but not Π seen from a frame of one-site turns that keep the Z-dephasing.
+
+The hardware pair was one of the three. Soft XY+YX from |+−+⟩ is truly XX+YY from |+, −i, +⟩ on every reading the run took, in the Z-dephasing model that fits it, so its ⟨X₀Z₂⟩ of −0.62 (−0.72 in the circuit) measures where the middle qubit starts against the turn, not the break ([Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md)).
 
 ---
 
@@ -144,10 +136,11 @@ The 22 V-Effect-unbroken Hamiltonians at N=3 are not 22; they are 3 truly unbrok
 
 - [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md): the empirical 3/19/14 decomposition.
 - [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): the original 14/22 finding, March 2026.
+- [Two-Term Palindrome, Klein Routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md): the explicit mirror of each of the 19.
 - [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the analytical (w=0, w=N) extreme-sector immunity that grounds the framework's strict test.
 - [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md): the level-stack picture.
 - [On the Painter Principle](ON_THE_PAINTER_PRINCIPLE.md): every painter from their spot. The framework is our spot; the soft break is what we see from it.
 - `simulations/soft_break_eigenvector_test.py`: super-operator-level verification (eigenvector pairing under Π).
-- `simulations/soft_break_hardware_design.py`: translation to hardware-measurable Pauli expectations.
+- `simulations/soft_break_hardware_design.py`: the hardware design, Pauli expectations of the three Hamiltonians.
 - `simulations/soft_break_aer_test.py`: validation against realistic Marrakesh-like noise on Aer.
 - `D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\run_soft_break.py`: hardware-runnable. First script in that pipeline directory that imports framework.py directly. Modes: `--simulate` (Aer), `--hardware` (real IBM Heron r2). Aer self-test reproduces Δ⟨X₀Z₂⟩ = -0.64 (framework ideal: -0.62).

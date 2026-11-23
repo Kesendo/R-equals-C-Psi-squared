@@ -73,9 +73,10 @@ public sealed class F87Pi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("number-level inheritance via F1",
                 summary: $"F87's discriminator M uses F1's 2σ·I shift; the 2 = a_0 = {TransitivelyInheritedTwoFactor} comes from Pi2 dyadic ladder");
             yield return InspectableNode.RealScalar("TransitivelyInheritedTwoFactor (= a_0 via F1)", TransitivelyInheritedTwoFactor);
-            yield return new InspectableNode("F87 hardware confirmation",
-                summary: "palindrome_trichotomy: Marrakesh d7mjnjjaq2pc73a1pk4g (2026-04-26), Δ(soft − truly) = −0.722, the Trotter n=3 prediction −0.723, not continuous Lindblad −0.623; " +
-                         "regime_uniformity_kingston_uniform_quantum: Kingston d7sqjpiudops73976960 (2026-05-05), the trichotomy on a second backend, truly 0.0022, soft 0.7409");
+            yield return new InspectableNode("hardware runs",
+                summary: "palindrome_trichotomy: Marrakesh d7mjnjjaq2pc73a1pk4g (2026-04-26), one Hamiltonian per class, Δ(soft − truly) = −0.722, the Trotter n=3 prediction −0.723, not continuous Lindblad −0.623; " +
+                         "the contrast is one dynamics at two middle-qubit states (XY+YX is XX+YY with q1 turned by (X+Y)/√2), so it tests the predictions, not the soft class; " +
+                         "regime_uniformity_kingston_uniform_quantum: Kingston d7sqjpiudops73976960 (2026-05-05), F88b Π²-odd memory, truly 0.0022, pi2_odd_pure (XY+YX) 0.7409");
             yield return new InspectableNode("V-Effect census counts",
                 summary: "36 distinct pairs of nine fully-lit bilinears at N=3 → 14/19/3 (hard/soft/truly), derived combinatorially in commit 81caf67; the separate 120 combinations with replacement from 15 non-II two-site Pauli words at N=3..5 → 15/46/59 (truly/soft/hard), including 15 self-pairs, N-stable. Its truly set is pairs with repetition from {IX,XI,XX,YY,ZZ}; II is not in the alphabet");
             yield return new InspectableNode("F87 vs Klein cells",

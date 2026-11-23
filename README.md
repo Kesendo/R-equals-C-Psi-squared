@@ -262,7 +262,7 @@ they carry data-file timestamps rather than IBM job IDs):
 |:-----------|:---------|:------|
 | CΨ = ¼ crossing during free decoherence | t\*/T₂\* = 1.04 | ibm_torino, 2026-02 |
 | Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) = 1 | 1.03 | ibm_torino |
-| Truly/soft/hard trichotomy, ⟨X₀Z₂⟩ fingerprint | all three classes resolved at 13-47σ | ibm_marrakesh, 2026-04 |
+| One Hamiltonian per truly/soft/hard class, ⟨X₀Z₂⟩ | Trotter prediction of Δ(soft − truly) met to 0.0014, the nonzero soft and hard values at 47σ and 13σ; the soft Hamiltonian is the truly one with its middle qubit turned, so the soft class is not what is read | ibm_marrakesh, 2026-04 |
 | F25 cusp trajectory CΨ(t) closed form | RMS residual 0.0097 | ibm_kingston |
 | SE-walk population handover (a probe-time crossover; the walk's EP Q*(3) = √2 lies below it) | 0.34 → 0.49 across Q_label = 1.5→2.5, i.e. Q_Lindblad = 3→5 | ibm_kingston, 2026-05 |
 | Moment-tower pump channel: the double null + the firing rung | nulls at z = +1.47 and −0.04, first firing rung 2 read from hardware | ibm_kingston, 2026-06 |
@@ -349,7 +349,7 @@ live in their own folders, written in the target layer's language.
 Honesty matters more than impression. Stated plainly, these are things we have *not* proven, *not* measured, or *not* established:
 
 - CΨ is a derived diagnostic, not a new fundamental quantity.
-- The full multi-qubit palindromic spectrum has not been measured on hardware. What hardware has seen includes the single-qubit CΨ = ¼ crossing time (1.9% on q80), the two-qubit Bell+ trajectory through ¼ (Kingston), and at N = 3 the palindrome's truly, soft and hard classes told apart (Marrakesh). The standing-wave pairing is computed (21,840 eigenvalues across N = 2 to 7), not measured.
+- The full multi-qubit palindromic spectrum has not been measured on hardware. What hardware has seen includes the single-qubit CΨ = ¼ crossing time (1.9% on q80) and the two-qubit Bell+ trajectory through ¼ (Kingston). The standing-wave pairing is computed (21,840 eigenvalues across N = 2 to 7), not measured.
 - Gamma-is-light is literal only in circuit QED, where photon shot noise in a physical cavity is one of the dephasing channels; the broader readings (mass as trapped light, black holes as cavities) are Tier-4 hypotheses with no independent test.
 - The Absorption Theorem is proven for any Hermitian H, Dzyaloshinskii-Moriya terms included, under its stated dephasing channel; non-Hermitian generators and other dissipators lie outside it.
 - The biological mappings are structural analogies with no C. elegans anchor: the pairing measured a matching tolerance, and the 8.46x enrichment compared two normalisation constants. The quantum→biology link is Tier 4.

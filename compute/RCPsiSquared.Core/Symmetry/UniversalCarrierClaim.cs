@@ -98,7 +98,7 @@ public sealed class UniversalCarrierClaim : Claim
             yield return new InspectableNode("substrate invariance",
                 summary: "ResonanceScanTests.ClassPeaks_AreGammaZeroInvariant: γ₀ ∈ {0.025, 0.05, 0.10} give the same class Q-values (to 1e-10); structural slot is substrate-invariant. IBM hardware (T2* ~ 100μs → γ = 1/(2·T2*) ~ 5·10³ Hz) different physical value, identical role.");
             yield return new InspectableNode("hardware readings",
-                summary: "IBM Q52 absorption ratio 1.03, the consistency of two fits to one decay (at N = 1 γ* is read off the same envelope; AbsorptionTheoremClaim); IBM Run 3 ¼-boundary 1.9% deviation; Marrakesh F87 trichotomy Δ(soft, truly) = −0.722. γ₀ measured only via Q-ratios.");
+                summary: "IBM Q52 absorption ratio 1.03, the consistency of two fits to one decay (at N = 1 γ* is read off the same envelope; AbsorptionTheoremClaim); IBM Run 3 ¼-boundary 1.9% deviation; Marrakesh Δ(soft, truly) = −0.722. γ₀ measured only via Q-ratios.");
             yield return new InspectableNode("live certification (the two-tempo Taktgeber)",
                 summary: "the carrier's inside-invisibility is checked live: inspect --root symphony --tempo-ratio 20 " +
                          "plays the piece at γ₀ and 20·γ₀ (Q fixed, K-grid fixed) and certifies every dimensionless " +

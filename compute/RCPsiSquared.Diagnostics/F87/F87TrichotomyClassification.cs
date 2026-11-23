@@ -34,11 +34,13 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// are the pairs with repetition from {IX, XI, XX, YY, ZZ}; the identity-only word II is not
 /// in the alphabet. The 36 distinct-pair census separately has 3 truly entries over
 /// {XX, YY, ZZ}; commit 81caf67 (2026-04-27) derived that 14/19/3 partition combinatorially
-/// from Pauli-pair compatibility rules, 36/36 cases. Hardware: Marrakesh Δ(soft − truly)
-/// = −0.722, 2026-04-26 (job d7mjnjjaq2pc73a1pk4g, Confirmation palindrome_trichotomy), and the
-/// trichotomy again on a second backend, Kingston 2026-05-05 (job d7sqjpiudops73976960,
-/// Confirmation regime_uniformity_kingston_uniform_quantum). Registered as F87
-/// retrospectively 2026-05-03.</para>
+/// from Pauli-pair compatibility rules, 36/36 cases. Hardware: one Hamiltonian per class on
+/// Marrakesh, Δ(soft − truly) = −0.722, 2026-04-26 (job d7mjnjjaq2pc73a1pk4g, Confirmation
+/// palindrome_trichotomy); its soft XY+YX is the truly XX+YY with the middle qubit turned by
+/// (X+Y)/√2, so the contrast is one dynamics at two middle-qubit states and does not read the
+/// soft class. Kingston read F88b's Π²-odd memory on 2026-05-05 (job d7sqjpiudops73976960,
+/// Confirmation regime_uniformity_kingston_uniform_quantum). Registered as F87 retrospectively
+/// 2026-05-03.</para>
 /// </summary>
 public sealed class F87TrichotomyClassification : Claim
 {
@@ -66,7 +68,7 @@ public sealed class F87TrichotomyClassification : Claim
             yield return new InspectableNode("Klein resonance",
                 summary: "the F87-hardness of Klein-homogeneous pairs lives in the Klein cell matching the dephase letter (Z=(0,1), X=(1,0), Y=(1,1)); SU(2)-rotation-equivalent");
             yield return new InspectableNode("origin",
-                summary: "36-enum N=3 → 14/19/3 as hard/soft/truly (V_EFFECT_FINE_STRUCTURE 95386cd); 120-enum N=3,4,5 → 15/46/59 as truly/soft/hard, the opposite order, N-stable (96ed6da, 6438fef); combinatorial proof 81caf67; Marrakesh Δ(soft−truly)=−0.722");
+                summary: "36-enum N=3 → 14/19/3 as hard/soft/truly (V_EFFECT_FINE_STRUCTURE 95386cd); 120-enum N=3,4,5 → 15/46/59 as truly/soft/hard, the opposite order, N-stable (96ed6da, 6438fef); combinatorial proof 81caf67");
             yield return new InspectableNode("classifier",
                 summary: "RCPsiSquared.Diagnostics.F87.PauliPairTrichotomy.Classify");
         }

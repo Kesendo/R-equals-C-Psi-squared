@@ -581,16 +581,14 @@ One reading and two findings from one run:
    several paths of each composition in one job, under one script,
    each run more than once.
 
-2. **F87 trichotomy on a second backend.** Operator-level signatures
+2. **The F83 predictions on a second backend.** Operator-level values
    on Kingston (truly near zero, pi2_odd_pure ⟨X₀Z₂⟩ = -0.7739,
    pi2_even_nontruly ⟨X₀X₂⟩ = +0.8428) match the F83 closed-form
-   predictions. The trichotomy is not Marrakesh-specific; it holds on
-   two Heron-r2 chips.
+   predictions.
 
-3. **Soft Π²-odd-pumping reproduces on a second Heron-r2 chip.**
-   Kingston pi2_odd_pure (0.7409) is 3.1% from Marrakesh's (0.7646).
-   The structural prediction stands on two chips; two chips are not yet
-   a statement about every substrate.
+3. **The Π²-odd memory of XY+YX reproduces on a second Heron-r2 chip.**
+   Kingston pi2_odd_pure (0.7409) is 3.1% from Marrakesh's (0.7646);
+   two chips are not yet a statement about every substrate.
 
 ### What is the same
 
@@ -622,7 +620,7 @@ scripts.
 - F88b-Lens hardware data:
   [ibm_soft_break_april2026/](../data/ibm_soft_break_april2026/),
   [ibm_zn_mirror_april2026/](../data/ibm_zn_mirror_april2026/)
-- F87 trichotomy hardware writeup:
+- F87 hardware run writeup:
   [MARRAKESH_THREE_LAYERS.md](../experiments/MARRAKESH_THREE_LAYERS.md)
 - Marrakesh 91-day history (committed):
   [ibm_marrakesh_history.csv](../data/ibm_history/results/ibm_marrakesh_history.csv)

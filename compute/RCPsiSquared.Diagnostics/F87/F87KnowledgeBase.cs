@@ -23,10 +23,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///         chain.</item>
 ///   <item>Tier-2 verified: <see cref="HardwareConfirmations"/>: four Marrakesh entries
 ///         from <see cref="Core.Confirmations.ConfirmationsRegistry"/>: palindrome trichotomy,
-///         F83 4-class signature, Π-protection (YZ+ZY soft), Lebensader skeleton/trace.
-///         (Two more, γ_Z calibration and d=0 sector trichotomy, exist only in the Python
-///         <c>simulations/framework/confirmations.py</c> and have not been ported to the C#
-///         registry yet.)</item>
+///         F83 4-class signature, Π-protection (YZ+ZY soft), Lebensader skeleton/trace.</item>
 ///   <item>Open: <see cref="OpenQuestions"/>: F80 k≥3, F81/F82/F84 2-qubit dissipators,
 ///         F83 topology at higher body, per-backend amplification predictor, 4-way Π²-class
 ///         enum.</item>

@@ -1,20 +1,22 @@
-"""d=0 sector-population reading of the F87 trichotomy on Marrakesh data.
+"""d=0 sector-population reading of the Marrakesh palindrome_trichotomy run.
 
-The existing palindrome_trichotomy confirmation (Confirmations) reads the
-trichotomy via ⟨X₀Z₂⟩ at full 9-Pauli-pair tomography. This script shows
-that the same trichotomy is visible in just the Z-basis — the d=0
-sector populations p_n = Tr(P_n · ρ).
+The palindrome_trichotomy confirmation (Confirmations) reads ⟨X₀Z₂⟩ of three
+Hamiltonians at full 9-Pauli-pair tomography. This script reads the same
+three Hamiltonians in just the Z-basis, through the d=0 sector populations
+p_n = Tr(P_n · ρ) on (q0, q2).
 
-Mechanism: each Hamiltonian class in the trichotomy has a distinct
-excitation-conservation profile.
+Mechanism: each Hamiltonian has its own excitation-conservation profile.
 
   truly  XX+YY: conserves total Z-magnetization → ⟨n⟩ stays at 1 (initial)
-  soft   XY+YX: breaks conservation, mass shifts UP   → ⟨n⟩ ≈ 1.28
+  soft   XY+YX: conserves Z₀ − Z₁ + Z₂ instead   → ⟨n⟩ ≈ 1.28
   hard   XX+XY: breaks conservation, mass shifts DOWN → ⟨n⟩ ≈ 0.88
 
-These three values are separated by 0.13–0.27 — far above the ≈0.04
-hardware deviation we observe — so a single Z-basis tomography (1 of 9
-Pauli bases used in the original test) discriminates the three classes.
+These three values are separated by 0.12 to 0.40, far above the largest
+hardware deviation we observe (0.033), so a single Z-basis tomography (1 of 9
+Pauli bases used in the original test) separates the three Hamiltonians.
+It does not read the F87 class: XY+YX is XX+YY with the middle qubit
+turned by (X+Y)/√2, and truly from |+,−i,+⟩ gives soft's ⟨n⟩ = 1.2786,
+the excitation moving from the middle qubit to the ends.
 
 Hardware data: data/ibm_soft_break_april2026/soft_break_ibm_marrakesh_20260426_001101.json
 (Marrakesh path [48,49,50], N=3, J=1, t=0.8, n_trotter=3, |+−+⟩ initial).
@@ -109,8 +111,9 @@ def main():
     print(f'  framework: soft − truly = {spreads_fw[0]:+.4f}, hard − truly = {spreads_fw[1]:+.4f}')
     print(f'  hardware:  soft − truly = {spreads_hw[0]:+.4f}, hard − truly = {spreads_hw[1]:+.4f}')
     print()
-    print('Three classes, three distinct ⟨n⟩ values, all separated by >0.10 — a clean')
-    print('trichotomy signature in just the Z-basis (1 of 9 Pauli measurements).')
+    print('Three Hamiltonians, three distinct ⟨n⟩ values, all separated by >0.10 in')
+    print('just the Z-basis (1 of 9 Pauli measurements). Not a class signature: soft')
+    print('is truly from a turned middle qubit.')
 
 
 if __name__ == '__main__':

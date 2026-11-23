@@ -25,9 +25,10 @@ Predicted outcome:
   19 soft-broken:   eigenvalue pairing OK, eigenvector overlap < 1
   14 hard-broken:   eigenvalue pairing fails
 
-If this prediction holds, the soft-break category is operationally
-distinguishable from truly-unbroken via eigenvector probing, even though
-spectroscopy alone treats them identically.
+If this prediction holds, the soft-break category is told apart from
+truly-unbroken by what Π does to eigenvectors, even though spectroscopy alone
+treats them identically. That is a statement about Π, which is written in one
+frame: XY+YX, XY+ZZ and YX+ZZ are truly with every second site turned.
 """
 import math
 import sys
@@ -258,8 +259,8 @@ def main():
     print("=" * 100)
     print("Reading: if soft-broken cases have eigenvector overlap MIN substantially")
     print("below 1.0 (e.g., 0.7-0.99) while truly-unbroken have overlap = 1.0 exactly,")
-    print("the prediction is verified: soft-break is operationally distinguishable")
-    print("from truly-unbroken via eigenvector probing, despite identical spectra.")
+    print("the prediction is verified: Pi carries truly eigenvectors onto partners")
+    print("and soft ones off them, despite identical spectra (a statement about Pi).")
     print("=" * 100)
 
 

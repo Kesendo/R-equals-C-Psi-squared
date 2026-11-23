@@ -18,7 +18,7 @@ Tier-B Marrakesh/Kingston datasets are single-time-snapshot 2-qubit tomography (
 | f83_signature | 2026-04-30 / ibm_marrakesh | [4, 5, 6] | truly_unbroken, pi2_odd_pure, pi2_even_nontruly, mixed_anti_one_sixth |
 | soft_break Kingston | 2026-05-05 / ibm_kingston | [43, 56, 63] | (same 4 categories as f83) |
 
-Term mappings (from `simulations/framework/tests/workflows/test_diagnose_hardware.py` F83_TERMS_PER_CATEGORY and `simulations/f80_ibm_soft_break_check.py` soft_break_marrakesh:80-82):
+Term mappings (from `simulations/framework/tests/workflows/test_diagnose_hardware.py` F83_TERMS_PER_CATEGORY and `simulations/f80_ibm_soft_break_check.py` soft_break_marrakesh:75-77):
 
 | Category | Terms | bit_b values |
 |---|---|---|
@@ -112,7 +112,7 @@ In principle, time-sweep variants of these 4 F83 categories on Marrakesh + Kings
 - **F112 typed Tier1Derived** (`LindbladBitBPiBalance.cs`): Hermitian H + bit_b-homog c → asymmetry = 0; this experiment confirms predicted reading on real hardware Hamiltonians.
 - **F113 break formula** (`LindbladBitBPiBreakMagnitude.cs`, `PROOF_F113_COEFFICIENT_DERIVATION.md`): tells us why bit_b-mixed H without σ⁻/σ⁺ c still gives balance (F113 break requires both ingredients).
 - **F87 classification origin** (`project_v_effect_combinatorial`): V-Effect 14/19/3 split at N=3 fully derived from Pauli-pair combinatorics; the hardware datasets exercise canonical representatives of each class.
-- **Marrakesh hardware finale** (`project_hardware_finale_apr2026`): Δ(soft − truly) = −0.72 hardware-confirmed; this experiment is orthogonal (F112 axis instead of F87 axis), giving an independent reading on the same 3 Hamiltonians.
+- **Marrakesh hardware finale** (`project_hardware_finale_apr2026`): Δ(soft − truly) = −0.72 measured as predicted; this experiment is orthogonal (F112 axis instead of F87 axis), giving an independent reading on the same 3 Hamiltonians.
 
 ## Reproduction
 

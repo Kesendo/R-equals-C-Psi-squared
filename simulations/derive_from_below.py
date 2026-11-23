@@ -346,7 +346,7 @@ def stage_9_super_operator_test(L, gamma, N):
 
 
 # ════════════════════════════════════════════════════════════════════════
-# Stage 10: Hardware-predictable observable for soft-break
+# Stage 10: Hardware-predicted observable of the three Hamiltonians
 # ════════════════════════════════════════════════════════════════════════
 
 def stage_10_hardware_prediction():
@@ -361,11 +361,11 @@ def stage_10_hardware_prediction():
       soft_broken:    −0.711 (slightly stronger than ideal)
       hard_broken:    +0.205
 
-    Discrimination Δ(soft − truly) = −0.72 (vs idealized −0.62), at ~50σ.
+    Difference Δ(soft − truly) = −0.72 (vs idealized −0.62).
     """
     print()
     print("=" * 78)
-    print("STAGE 10: Hardware prediction (translated from super-operator test)")
+    print("STAGE 10: Hardware prediction for the three Hamiltonians")
     print("=" * 78)
     print(f"  Setup: N=3 chain, |+−+⟩ X-Néel initial, t=0.8, γ=0.1, n_Trotter=3")
     print(f"  Discriminating observable: ⟨X₀Z₂⟩ on (q0, q2)")
@@ -379,7 +379,9 @@ def stage_10_hardware_prediction():
     print(f"    framework idealized: −0.62")
     print(f"    Aer w/ Marrakesh noise: −0.64")
     print(f"    Hardware (Marrakesh):  −0.72  ⟵ slightly stronger than ideal")
-    print(f"  → ~50σ discrimination at 4096 shots. Hardware-confirmed.")
+    print(f"  → separated well above shot noise at 4096 shots, as predicted.")
+    print(f"  Not the soft class: XY+YX is XX+YY with the middle qubit turned by")
+    print(f"  (X+Y)/√2, so soft from |+−+⟩ is truly from |+,−i,+⟩ on every Pauli read.")
 
 
 # ════════════════════════════════════════════════════════════════════════
@@ -671,7 +673,7 @@ def main():
     print()
     print("█" * 78)
     print()
-    print("End-to-end derivation: from algebraic axiom to hardware verification.")
+    print("End-to-end derivation: from algebraic axiom to a hardware run.")
     print("Each stage's output is the next stage's input. No assumed steps.")
     print("The lens runs from below, every angle accounted for.")
     print()

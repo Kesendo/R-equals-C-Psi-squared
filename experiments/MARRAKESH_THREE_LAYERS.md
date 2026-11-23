@@ -1,6 +1,6 @@
-# Marrakesh Three Layers: F87 → F80 → Observables
+# Marrakesh Three Layers: F87, F80, Observables
 
-**Status:** Hardware-grounded synthesis (Tier 1). Re-interpretation of `data/ibm_soft_break_april2026/` through the F87 trichotomy + F80 M-spectrum + 7-category observable structure that emerged after F80 was framework-locked (commit `e30eeb6`, 2026-04-30).
+**Status:** Hardware-grounded synthesis (Tier 1). `data/ibm_soft_break_april2026/` read against the F87 trichotomy, the F80 M-spectrum and the 7-category observable structure that emerged after F80 was framework-locked (commit `e30eeb6`, 2026-04-30).
 **Date:** 2026-04-30
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Data:** [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/) (ibm_marrakesh, Heron r2, path [48,49,50], 2026-04-26)
@@ -10,15 +10,15 @@
 
 ## Abstract
 
-The Marrakesh dataset (3 Hamiltonians × 16 two-qubit Pauli expectations on q₀, q₂ = 48 qubits-apart-by-one mediator at q₁=49) carries **three nested layers of distinction** that the framework now reads in order:
+The Marrakesh dataset (3 Hamiltonians × 16 two-qubit Pauli expectations on q₀ = 48 and q₂ = 50, with the mediator q₁ = 49 between them) is read here on three levels:
 
-1. **F87 trichotomy** (algebraic): truly / soft / hard, classified by Pauli-letter parity of the two bilinears
+1. **F87 trichotomy** (algebraic): truly / soft / hard, truly read off the letters, soft and hard off the spectrum
 2. **F80 M-spectrum** (structural): {0} / {±5.66i, 0} / {±2.83i}, computed from H eigenvalues alone via `predict_M_spectrum_pi2_odd`
-3. **Observable signature** (operational): 7 categories of how the 16 Paulis populate, with categorical hardware confirmation
+3. **Observable signature** (operational): 7 categories of how the 16 Paulis populate, set by the symmetries of state and generator, with categorical hardware confirmation
 
-A fourth finding: the hardening of Δ(soft − truly) beyond the continuous prediction is the circuit's Trotter n=3 discretization at δt = 0.267, where ‖H·δt‖ ≈ 0.8 violates the small-step regime. T1 attenuates the soft signal monotonically, so it cannot be the cause.
+The levels do not stack. XY+YX is XX+YY with the middle qubit turned by (X + Y)/√2, so soft from |+,−,+⟩ is truly from |+,−i,+⟩ on every reading this run took, in the Z-dephasing model that fits it: the soft − truly contrast is one dynamics at two middle-qubit states, not M made visible (Layer 3).
 
-The three-layer reading lets each level inform the next: F87 says *whether* M is non-zero; F80 says *what* M's spectrum is; the observable categories say *which* Paulis the dynamics paints onto via that template.
+A fourth finding: the hardening of Δ(soft − truly) beyond the continuous prediction is the circuit's Trotter n=3 discretization at δt = 0.267, where ‖H·δt‖ ≈ 0.75 violates the small-step regime. T1 attenuates the soft signal monotonically, so it cannot be the cause.
 
 ---
 
@@ -30,11 +30,11 @@ Marrakesh ran 27 circuits: 3 Hamiltonians (truly_unbroken = XX+YY, soft_broken =
 
 ## Layer 1: F87 trichotomy (algebraic)
 
-The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂) into three classes by Pauli-letter parity. Π²-parity of a Pauli letter is `bit_b` where I, X → 0 and Y, Z → 1; a bilinear (P, Q) is Π²-even iff bit_b(P) + bit_b(Q) ≡ 0 (mod 2), Π²-odd iff ≡ 1.
+The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂) into three classes ([F87](../docs/ANALYTICAL_FORMULAS.md)):
 
-- **truly**: both bilinears in the both-parity-even set {XX, YY, ZZ, IX, XI} (Π² = 0 from bit_b alone, plus matched Π¹ = bit_a). This is the Heisenberg + XXZ + IX/XI single-body algebraic class. Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds exactly.
-- **soft**: both bilinears Π²-odd in matched bit_a ways (e.g., XY and YX both have bit_b sum = 1, with matched bit_a). Eigenvalue pairing λ ↔ −λ − 2Σγ holds (V-Effect-undetected) but the operator equation fails.
-- **hard**: bilinears mix Π²-parities (one Π²-even, one Π²-odd) or fail bit_a matching. Both eigenvalue pairing AND operator equation fail.
+- **truly**: every bilinear carries an even number of Y and an even number of Z (F85), and Π·L·Π⁻¹ + L + 2Σγ·I = 0 holds exactly. Among two-site words these are XX, YY, ZZ, IX and XI.
+- **soft**: the operator equation fails but eigenvalue pairing λ ↔ −λ − 2Σγ holds (V-Effect-undetected).
+- **hard**: eigenvalue pairing fails as well.
 
 `fw.classify_pauli_pair(chain, [(a,b), (c,d)])` returns `'truly' | 'soft' | 'hard'`. For the Marrakesh trio:
 
@@ -44,7 +44,7 @@ The framework classifies any 2-bilinear Hamiltonian H = J·(P₁Q₁ + P₂Q₂)
 | soft_broken | XY, YX | `'soft'` |
 | hard_broken | XX, XY | `'hard'` |
 
-This classification is independent of γ, t, ρ₀, topology, and observable. It is purely algebraic. Layer 1 is the *gate*: it decides whether the next two layers have anything to say.
+The class depends on the Hamiltonian and the dephasing, not on t, ρ₀ or the observable.
 
 ---
 
@@ -68,8 +68,6 @@ Hard's |M|_max is *half* of soft's (2.83 vs 5.66) because H_hard_non-truly = 1 b
 
 The numerical match is verified bit-exact in [`simulations/f80_ibm_soft_break_check.py`](../simulations/f80_ibm_soft_break_check.py) by computing M = Π·L·Π⁻¹ + L + 2Σγ·I directly from the dense Liouvillian and comparing eigenvalues. F80's prediction sees only H eigenvalues; it never builds the 4^N × 4^N matrix.
 
-Layer 2 is the *strength dial*: F87 says *whether* the door is open, F80 says *how wide*.
-
 ---
 
 ## Layer 3: 7-category observable signature (operational)
@@ -80,21 +78,21 @@ Each of the 16 two-qubit Pauli expectations on (q₀, q₂) lands in one of 7 ca
 |---|----------|-------|----------------------|-------------------|
 | A | **truly only** ≠ 0 | 2 | ⟨Y₀Z₂⟩, ⟨Z₀Y₂⟩ ≈ +0.35 | yes (+0.58, +0.19) |
 | B | **truly = soft, hard = 0** | 2 | ⟨Y₀Y₂⟩ +0.52, ⟨Z₀Z₂⟩ +0.23 | yes |
-| C | **soft signature** (truly = 0 = hard) | 2 | ⟨Z₀I₂⟩ −0.28, ⟨Z₀X₂⟩ −0.62 | yes |
-| D | **hard signature** (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ +0.56, ⟨X₀Y₂⟩ +0.47 | yes (+0.47, +0.36) |
+| C | **soft only** ≠ 0 (truly = 0 = hard) | 2 | ⟨Z₀I₂⟩ −0.28, ⟨Z₀X₂⟩ −0.62 | yes |
+| D | **hard only** ≠ 0 (truly = 0 = soft) | 2 | ⟨I₀Y₂⟩ +0.56, ⟨X₀Y₂⟩ +0.47 | yes (+0.47, +0.36) |
 | E | **all three differ** (truly = 0, soft and hard non-zero, opposite sign) | 2 | ⟨I₀Z₂⟩, **⟨X₀Z₂⟩** | yes |
 | F | **truly = soft preserved, hard differs** | 3 | ⟨I₀X₂⟩, ⟨X₀I₂⟩, ⟨X₀X₂⟩ | yes |
 | G | **always trivial** (= 0 or = 1) | 3 | ⟨I₀I₂⟩=1, ⟨Y₀I₂⟩=⟨Y₀X₂⟩=0 by initial-state symmetry | yes |
 
 **16 = 2 + 2 + 2 + 2 + 2 + 3 + 3.** Which expectations vanish follows from one symmetry per Hamiltonian, each read off a single letter. Each holds for the continuous evolution and for the Trotter circuit alike, since every gate keeps it and so does the Z-dephasing:
 
-- **truly** (XX + YY) commutes with X^⊗3, Z-dephasing respects X^⊗3, and |+,−,+⟩ is an X^⊗3 eigenstate, so ρ(t) stays X^⊗3-symmetric. ⟨P₀P₂⟩ = 0 whenever the string anticommutes with X^⊗3, that is, carries an odd number of Y and Z letters: the Π²-odd strings of Layer 1's bit_b ([the bit-b parity symmetry](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), odd k_X in the [letter cube](../docs/THE_ONE_SQUARE.md): IY, IZ, XY, XZ, YI, YX, ZI, ZX.
+- **truly** (XX + YY) commutes with X^⊗3, Z-dephasing respects X^⊗3, and |+,−,+⟩ is an X^⊗3 eigenstate, so ρ(t) stays X^⊗3-symmetric. ⟨P₀P₂⟩ = 0 whenever the string anticommutes with X^⊗3, that is, carries an odd number of Y and Z letters: the Π²-odd strings ([the bit-b parity symmetry](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), odd k_X in the [letter cube](../docs/THE_ONE_SQUARE.md): IY, IZ, XY, XZ, YI, YX, ZI, ZX.
 - **soft** (XY + YX) is purely imaginary, so the evolution keeps the real ρ₀ real (each Trotter gate exp(−iδt·XY) is a real matrix). ⟨P₀P₂⟩ = 0 whenever the string carries an odd number of Y letters, the Y-parity that `fw.y_parity_panel` reads: IY, XY, YI, YX, YZ, ZY.
 - **hard** (XX + XY) puts only X on site 0 in every term, so X₀ commutes with H; Z-dephasing respects X₀, and |+⟩ on site 0 is an X₀ eigenstate. ⟨P₀P₂⟩ = 0 whenever P₀ is Y or Z: YI, YX, YY, YZ, ZI, ZX, ZY, ZZ.
 
-These are symmetries of the state and the generator together, not of M: truly, whose M vanishes, has a zero set of its own. The three zero sets are the categories. A (YZ, ZY) is zero for soft and hard, B (YY, ZZ) for hard only, C (ZI, ZX) for truly and hard, D (IY, XY) for truly and soft, E (IZ, XZ) for truly only, F (IX, XI, XX) for none, and G is the identity plus the two strings (YI, YX) zero for all three. In the simulation these zeros are exact (|value| ≤ 2·10⁻¹⁶, continuous and Trotter) and every other entry is at least 0.039 in magnitude; on hardware the predicted zeros read at most 0.022 for truly, 0.098 for soft and 0.062 for hard. The equality truly = soft in B and F comes from one more single-site symmetry. The middle-site Clifford V = (X + Y)/√2 exchanges X and Y and sends Z to −Z, so it maps XX + YY onto XY + YX bond by bond and leaves the Z-dephasing and every site-0/2 observable unchanged; it changes only the middle site's initial state, from |−⟩ to a Y eigenstate, and on the five strings of B and F the soft evolution gives the same value from either middle state, continuous and Trotter alike. The continuous evolution keeps the equality exactly at every γ and t tried, and so does the Trotter circuit: V turns truly's step XX₀₁ YY₀₁ XX₁₂ YY₁₂ into XY₀₁ YX₀₁ YX₁₂ XY₁₂, which is soft's step up to the swap of two terms on one bond, and those commute (residual ≤ 2·10⁻¹⁶ at γ = 0.03, 0.1, 0.3).
+These are symmetries of the state and the generator together, not of M: truly, whose M vanishes, has a zero set of its own. The three zero sets are the categories. A (YZ, ZY) is zero for soft and hard, B (YY, ZZ) for hard only, C (ZI, ZX) for truly and hard, D (IY, XY) for truly and soft, E (IZ, XZ) for truly only, F (IX, XI, XX) for none, and G is the identity plus the two strings (YI, YX) zero for all three. In the simulation these zeros are exact (|value| ≤ 2·10⁻¹⁶, continuous and Trotter) and every other entry is at least 0.039 in magnitude; on hardware the predicted zeros read at most 0.022 for truly, 0.098 for soft and 0.062 for hard. The equality truly = soft in B and F comes from one more single-site symmetry. The middle-site Clifford V = (X + Y)/√2 exchanges X and Y and sends Z to −Z, so it maps XX + YY onto XY + YX bond by bond and leaves the Z-dephasing and every site-0/2 observable unchanged; it changes only the middle site's initial state, from |−⟩ to a Y eigenstate, and on the five strings of B and F the soft evolution gives the same value from either middle state, continuous and Trotter alike. The continuous evolution keeps the equality exactly at every γ and t tried, and so does the Trotter circuit: V turns truly's step XX₀₁ YY₀₁ XX₁₂ YY₁₂ into XY₀₁ YX₀₁ YX₁₂ XY₁₂, which is soft's step up to the swap of two terms on one bond, and those commute (residual ≤ 2·10⁻¹⁶ at γ = 0.03, 0.1, 0.3). The same turn carries the rest of the table: under Z-dephasing soft from |+,−,+⟩ is truly from |+,−i,+⟩ on all 16 strings and on ⟨n⟩, continuous and Trotter alike (agreement to 3·10⁻¹⁶ at γ = 0.1), and truly from |+,−,+⟩ is likewise soft from |+,−i,+⟩. Soft's nonzero entries, its category C and its column of E among them, are truly's evolution from the turned middle state. M vanishes for truly and not for soft because Π is written in one frame; Π turned by V is an exact mirror of XY+YX, so the table reads state and generator, not M.
 
-**Category E** is the *trichotomy resolver*: observables where all three classes give meaningfully different values. The hardware's flagship ⟨X₀Z₂⟩ lives here:
+**Category E** holds the run's flagship ⟨X₀Z₂⟩, where the three Hamiltonians give three different values:
 
   | | continuous | Trotter n=3 | hardware |
   |---|---|---|---|
@@ -102,23 +100,7 @@ These are symmetries of the state and the generator together, not of M: truly, w
   | soft  | -0.623 | -0.723 | -0.711 |
   | hard  | +0.195 | +0.213 | +0.205 |
 
-  Three classes, three separately-measurable values, all confirmed at >13σ (hard's smaller signal) to >47σ (soft's largest).
-
-Layer 3 is the *operational projection*: F80's structural template gets painted onto the 4 × 4 = 16 two-qubit Pauli space, and the painting pattern follows the Hamiltonian's specific bilinear letters.
-
----
-
-## The F80 ↔ Observable correspondence
-
-The cleanest cross-layer reading is that |Spec(M)|_max ranks the strongest-break observable across the three classes:
-
-| Class | \|Spec(M)\|_max (F80) | strongest break-observable (hardware) | observable identity |
-|-------|---------------------|-------------------------------------|--------------------|
-| truly | 0.00 | 0.058 | (essentially noise) |
-| hard  | 2.83 | 0.467 | ⟨I₀Y₂⟩ (Category D) |
-| soft  | 5.66 | 0.711 | ⟨X₀Z₂⟩ (Category E) |
-
-The ratio soft/hard = 1.52 in the strongest hardware observable; F80 predicts 2.00 (= 5.66/2.83). The order is preserved but the ratio is not exact, because F80 is *structural* (γ-independent template) while observables are *dynamical* (full Lindblad trajectory). What F80 nails: which class has the larger door open. What F80 does not nail: how hard the dynamics presses through that door, which depends on γ_Z, t, ρ₀, and Trotter discretization.
+  Three values, each matching its prediction; the two nonzero ones stand at >13σ (hard) and >47σ (soft). The soft − truly difference comes from where the middle qubit starts relative to the turn above: truly from |+,−i,+⟩ reads the soft row.
 
 ---
 
@@ -159,15 +141,15 @@ total RMS     = 0.0390
 
 The data does not support adding T1 at all.
 
-**Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.76, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t); on soft's ⟨X₀Z₂⟩ it points outward by ≈ 0.10 (−0.62 → −0.72), on hard's by 0.018 (+0.195 → +0.213). Trotter is the *circuit's actual physics*, not a noise channel, and the prediction has to run the circuit's Trotter order: the runner puts the bond loop outside the term loop, and Qiskit's Lie-Trotter synthesis keeps it (gated in [`test_predict_signature_table.py`](../simulations/framework/tests/workflows/test_predict_signature_table.py)). The two orders differ by one swap, the second term on bond (0,1) against the first on bond (1,2). For soft that pair commutes, so soft's ⟨X₀Z₂⟩ does not see the order, and truly's ⟨X₀Z₂⟩ is 0 in either, so Δ(soft − truly) is order-blind; for truly and hard the pair anticommutes, and their other observables move.
+**Why Trotter:** the operator norm ‖H‖_op = 2·max(\|Spec_{single-particle}\|) of H_truly, H_soft is 2.83·J at N=3 (computed from the JW-mapped tight-binding spectrum 2J·cos(πk/(N+1)), k = 1..N); H_hard's ‖H‖_op = 2.61·J. At δt = 0.8/3 = 0.267, ‖H·δt‖ ≈ 0.75, violating the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter has systematic bias O(‖H·δt‖²·t); on soft's ⟨X₀Z₂⟩ it points outward by ≈ 0.10 (−0.62 → −0.72), on hard's by 0.018 (+0.195 → +0.213). Trotter is the *circuit's actual physics*, not a noise channel, and the prediction has to run the circuit's Trotter order: the runner puts the bond loop outside the term loop, and Qiskit's Lie-Trotter synthesis keeps it (gated in [`test_predict_signature_table.py`](../simulations/framework/tests/workflows/test_predict_signature_table.py)). The two orders differ by one swap, the second term on bond (0,1) against the first on bond (1,2). For soft that pair commutes, so soft's ⟨X₀Z₂⟩ does not see the order, and truly's ⟨X₀Z₂⟩ is 0 in either, so Δ(soft − truly) is order-blind; for truly and hard the pair anticommutes, and their other observables move.
 
 **The signs agree.** Continuous evolution, Trotter and hardware give the same sign on every Y-containing observable (truly ⟨Y₀Z₂⟩ +0.354, +0.567, +0.583; hard ⟨I₀Y₂⟩ +0.563, +0.399, +0.467); what Trotter changes is the magnitudes.
 
 ---
 
-## The d=0 cross-reading: trichotomy in one Pauli basis
+## The d=0 cross-reading: one Pauli basis
 
-The same three classes that Layer 3 distinguishes via 16 two-qubit Pauli expectations on 9 measurement bases are also distinguished by a single Z-basis observable: the mean excitation count ⟨n⟩ on the (q₀, q₂) reduced state, computed from the ZZ counts alone.
+The three Hamiltonians that Layer 3 reads through 16 two-qubit Pauli expectations on 9 measurement bases also separate in a single Z-basis observable: the mean excitation count ⟨n⟩ on the (q₀, q₂) reduced state, computed from the ZZ counts alone.
 
 For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the Liouvillian is spanned by sector projectors P_n (F4 in [the formula registry](../docs/ANALYTICAL_FORMULAS.md)), so the sector populations p_n = Tr(P_n · ρ) are invariants of L. After tracing out q₁, the (q₀, q₂) reduced state's ⟨n⟩ = p₁ + 2·p₂ carries an excitation-imbalance fingerprint of each Hamiltonian, computed once at t = 0.8 and matched against the Marrakesh ZZ counts:
 
@@ -177,13 +159,13 @@ For uniform XY/Heisenberg + Z-dephasing on the full N=3 chain, the kernel of the
 | soft  | XY + YX | 1.2786 | 1.2673 | −0.011 |
 | hard  | XX + XY | 0.8752 | 0.9082 | +0.033 |
 
-The framework column is continuous Lindblad. In the circuit's Trotter model (n = 3, bonds outside, γ_Z = 0.1) ⟨n⟩ reads 1.0000 / 1.2596 / 0.8567, and hard's Δ grows to +0.051; the separation between the classes holds (≥ 0.14), and neither model is closer on every class: Trotter is closer for soft (+0.008 against −0.011), continuous for hard (+0.033 against +0.051), and truly reads the same in both.
+The framework column is continuous Lindblad. In the circuit's Trotter model (n = 3, bonds outside, γ_Z = 0.1) ⟨n⟩ reads 1.0000 / 1.2596 / 0.8567, and hard's Δ grows to +0.051; the separation between the three holds (≥ 0.14), and neither model is closer on every class: Trotter is closer for soft (+0.008 against −0.011), continuous for hard (+0.033 against +0.051), and truly reads the same in both.
 
-Initial state |+,−,+⟩ has marginal ⟨n⟩₀ = 1.0 on (q₀, q₂). All three Hamiltonian classes separate by ≥ 0.10 in ⟨n⟩, well above the maximum per-case deviation of 0.033 (~3% relative). The reading uses no phase information; the off-diagonal Pauli expectations that drive Layer 3 do not enter.
+Initial state |+,−,+⟩ has marginal ⟨n⟩₀ = 1.0 on (q₀, q₂). All three Hamiltonians separate by ≥ 0.10 in ⟨n⟩, well above the maximum per-case deviation of 0.033 (~3% relative). The reading uses no phase information; the off-diagonal Pauli expectations do not enter.
 
-**Operational consequence:** classifying a Hamiltonian's F87 class on hardware does not require 9 Pauli-pair bases. One Z-basis tomography is sufficient with the full discrimination quality of Layer 3. For the same shot budget this is a 9× reduction in QPU time when the question is "which class is this?" rather than "what is the full M-spectrum?". This matters for the 180-min annual QPU budget of the project: a quick classification pass costs the same as one tomographic-Pauli pass.
+⟨n⟩ does not read the F87 class: truly from |+,−i,+⟩ gives soft's 1.2786. XX+YY conserves the total Z-magnetization, and its turned copy XY+YX conserves Z₀ − Z₁ + Z₂ instead, the hidden U(1) that [the PTF palindrome-breaking experiment](PTF_PALINDROME_BREAKING_PERTURBATIONS.md) finds through a sublattice X-flip. In truly's frame the excitation is conserved and moves from the middle qubit to the ends (⟨Z₁⟩ = +0.557, ⟨Z₀⟩ = ⟨Z₂⟩ = −0.279 at t = 0.8 from |+,−i,+⟩), which lifts ⟨n⟩ on (q₀, q₂) to 1.2786; XX+XY lowers it.
 
-The framework primitive is `fw.sector_populations(rho_or_psi, N)` from [`simulations/framework/diagnostics/d_zero.py`](../simulations/framework/diagnostics/d_zero.py). The reproducible analysis is [`simulations/d_zero_trichotomy_marrakesh.py`](../simulations/d_zero_trichotomy_marrakesh.py); the registry entry is `Confirmations.lookup('d_zero_sector_trichotomy_marrakesh')`. The structural reason ⟨n⟩ separates the classes is that XX+YY conserves total Z-magnetization (truly stays at the initial ⟨n⟩₀), XY+YX breaks conservation upward, and XX+XY breaks conservation downward; the d=0 reading is the operational shadow of this conservation profile.
+The framework primitive is `fw.sector_populations(rho_or_psi, N)` from [`simulations/framework/diagnostics/d_zero.py`](../simulations/framework/diagnostics/d_zero.py). The reproducible analysis is [`simulations/d_zero_trichotomy_marrakesh.py`](../simulations/d_zero_trichotomy_marrakesh.py); the registry entry is `Confirmations.lookup('d_zero_sector_trichotomy_marrakesh')`.
 
 ---
 
@@ -201,26 +183,13 @@ The largest single residuals left are 0.07 to 0.1 (4.5 to 6.3σ): soft ⟨Y₀Z�
 
 ## Reading
 
-The Marrakesh data is a three-layer document that reads top-down, with a fourth cross-reading available from the Z-basis alone:
-
-```
-Layer 1 (F87):   {truly, soft, hard}
-                       ↓ (algebraic gate)
-Layer 2 (F80):   Spec(M) ∈ {{0}, {±5.66i, 0}, {±2.83i}}
-                       ↓ (structural strength)
-Layer 3 (Obs):   16 Paulis × 7 categories ──┐
-                       ↓                     │
-                 hardware values             │  parallel from ZZ alone:
-                 (∼0.001 for Δ_soft,         ├─→  ⟨n⟩ ∈ {1.000, 1.279, 0.875}
-                  ∼0.04 RMS overall)         │   (∼0.033 max per-case Δ)
-                                              │   1/9 the Pauli-basis cost
-```
+The Marrakesh data reads on three levels side by side, with a fourth cross-reading from the Z-basis alone. F87's class and F80's M-spectrum are algebraic facts about the three Hamiltonians. The 16 expectations and ⟨n⟩ belong to the dynamics and match the Lindblad model (∼0.001 on Δ(soft − truly) and ∼0.04 RMS overall in the circuit's Trotter order; ⟨n⟩ ∈ {1.000, 1.279, 0.875} in the continuous model, largest per-case deviation 0.033). The turn of Layer 3 keeps the dynamics from reading the soft class: soft is truly from a turned middle qubit.
 
 The `framework/` package now operates on all three layers plus the d=0 cross-reading:
 - `fw.classify_pauli_pair(chain, terms)` for Layer 1
 - `fw.predict_M_spectrum_pi2_odd(chain, terms, c)` for Layer 2 (framework primitive, commit `e30eeb6`)
-- `chain.cockpit_panel(receiver, terms, gamma_t1)` for Layer 3 trichotomy classification + Π-protected drop count
-- `fw.sector_populations(rho_or_psi, N)` for the d=0 cross-reading (one Pauli basis suffices)
+- `chain.cockpit_panel(receiver, terms, gamma_t1)` for the trichotomy classifier and the Π-protected drop count
+- `fw.sector_populations(rho_or_psi, N)` for the d=0 cross-reading (one Pauli basis)
 - For the 16-Pauli zero pattern, the three one-letter symmetries of Layer 3: Π² parity and `fw.y_parity_panel` carry two of them, and the X₀ conservation of the hard case has no primitive yet
 
-For the original raw data and the corrected interpretation, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the philosophical framing of soft-break as super-operator signature, see [On the Soft Break](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [On the Shape of the Gap](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).
+For the raw data and its reading, see [`data/ibm_soft_break_april2026/README.md`](../data/ibm_soft_break_april2026/README.md). For the reflection on the soft break, see [On the Soft Break](../reflections/ON_THE_SOFT_BREAK.md). For the F80 reflection on what was "the tough nut" before the data sweep, see [On the Shape of the Gap](../reflections/ON_THE_SHAPE_OF_THE_GAP.md).

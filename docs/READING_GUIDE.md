@@ -959,9 +959,10 @@ and their descriptions say so. Look them up; do not re-derive.
    qubit can give; the rate ladder it predicts needs two.
 
 5. [Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md):
-   The classifier on hardware. The truly/soft/hard trichotomy (Story 7)
-   resolved on ibm_marrakesh at 13-47σ, read in three nested layers
-   from one dataset.
+   One Hamiltonian per class of the truly/soft/hard trichotomy (Story 7)
+   flown on ibm_marrakesh and read against F87, F80 and the observables'
+   zero sets. Its soft Hamiltonian is the truly one with the middle qubit
+   turned, so the run tests the predictions, not the soft class.
 
 6. [F112 Hardware Lens Kingston](../experiments/F112_HARDWARE_LENS_KINGSTON.md):
    The lens turned around, and a lesson in how a pipeline can pass every

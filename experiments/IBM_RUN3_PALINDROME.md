@@ -252,9 +252,6 @@ fold and a closed-form CΨ(t) as its primitives, not the palindrome).
 The palindrome's own hardware readings came later, on more than one qubit,
 each a registered confirmation:
 
-- the F87 trichotomy of terms, truly, soft and hard, told apart tomographically
-  at N = 3 on Heron r2 ([Marrakesh Three Layers](MARRAKESH_THREE_LAYERS.md),
-  entry `palindrome_trichotomy`);
 - the price pair, the pair-sum of coherence decay rates Γ(D) + Γ(D̄) on a
   3-qubit line (T1 included, so not an exact F1-centre measurement),
   Marrakesh, July 2026

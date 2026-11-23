@@ -29,7 +29,7 @@ Three quantitative findings:
 
 Mechanism: at δt = 0.267 (Trotter step) and ‖H‖_op = 2.83·J at N=3 (from JW
 single-particle spectrum 2J·cos(πk/(N+1)), k = 1..N, doubled by particle-hole),
-‖H·δt‖ ≈ 0.76 violates the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter
+‖H·δt‖ ≈ 0.75 violates the small-step condition ‖H·δt‖ ≪ 1. First-order Trotter
 has systematic bias that points outward in operator space (toward stronger
 soft-break magnitude), not inward. The 'amplification' Tom observed is a Trotter discretization artifact
 of the circuit, not a noise channel effect.

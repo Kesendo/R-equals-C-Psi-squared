@@ -288,8 +288,7 @@ than they can oscillate; Q_max = K/γ for A-T and 2K/γ for G-C there, K the int
 
 - [V-Effect Fine Structure](V_EFFECT_FINE_STRUCTURE.md): the 22
   pairing-unbroken cases split into 19 soft + 3 truly unbroken, giving the
-  14 hard / 19 soft / 3 truly trichotomy (F87), hardware-confirmed on IBM
-  Marrakesh.
+  14 hard / 19 soft / 3 truly trichotomy (F87).
 - [Zero Immunity Proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the w=0 and
   w=N extreme-sector immunity of Section 1, proven analytically.
 - [V-Effect as Observation of Incompleteness](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md):

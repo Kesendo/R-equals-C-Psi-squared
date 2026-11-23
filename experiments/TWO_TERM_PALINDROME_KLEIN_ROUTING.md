@@ -11,6 +11,16 @@
 (the explicit hidden Q, bit-exact). Reuses `fw.classify_pauli_pair` (the F87 trichotomy); adds the
 primitive `fw.classify_two_term_palindrome`.
 
+<!-- STAGE 0 SWEEP RECORD for the section "Which mirrors are Π in a turned frame" (2026-11-23).
+Question: which of the 19 soft pairs are truly in a frame of one-site unitaries that keep the Z-dephasing.
+docs/ANALYTICAL_FORMULAS.md: F85 and F87 give the truly rule (every string #Y and #Z even) and the per-string residual norm; no frame remark.
+docs/proofs/: PROOF_PALINDROME_COMPLEMENT_CONNECTION Theorem 9 turns the pairing of XY+YX real by one common angle (XY+ZZ and YX+ZZ covered, not named); PROOF_CROSSOVER_MIRROR_SQRT_NINETY writes XZ+YZ as the one-term bond √2·XZ carried by R_z(π/4); PROOF_F103 §8 moves the truly/soft line with a uniform quarter turn about the dephasing letter.
+experiments/: MARRAKESH_THREE_LAYERS holds V = (X+Y)/√2 on the middle site mapping XX+YY onto XY+YX, carried through its whole table; SOFTNESS_IS_N_DEPENDENT names the line a choice of mirror for three-term sets; THE_PALINDROME_AS_A_COLOURING has a diagonal, nonlocal gauge for all 22; V_EFFECT_FINE_STRUCTURE has period-two product colourings for all 22; nothing names the split of the 19 by Z count.
+OpenArcs registry: nothing on frames for these pairs. fw.Confirmations: palindrome_trichotomy and d_zero_sector_trichotomy_marrakesh flew XY+YX (read in MARRAKESH_THREE_LAYERS); lebensader_skeleton_trace_decoupling flew it as well; f83_pi2_class_signature_marrakesh and regime_uniformity_kingston_uniform_quantum flew it too, their own readings not yet taken up. GLOSSARY: the Π row notes that XY/YX terms need alternating operators, the case this section explains. CAUGHT_ERRORS: the 2026-10-04 entry on Patterns B and C records the truly/soft line as a mirror convention; F87 soft is defined spectrally.
+Typed layer: CrossoverMirrorSqrtNinetyClaim (Core) and the planar-hopping reading of PalindromeComplementConnectionClaim (Theorem 8, one turn about Z per site makes H real) are the frame claims for H; StationaryManifold (Diagnostics/Ptf) and PTF_PALINDROME_BREAKING_PERTURBATIONS hold a sublattice X-flip of XY+YX that conserves Z₀ − Z₁ + Z₂ (a hidden U(1), not a truly frame); TwoTermPalindromeRouting (Diagnostics/F87) holds the families only. MirrorWorld's Theodolite reads site-local mirrors with a turn about Z per site, which include Π in a frame of such turns, and the Sieve runs it over two-term cells; neither asks for the split of the 19 by Z count.
+Adjacency: Theorem 9, the crossover proof, the PTF hidden U(1), MARRAKESH_THREE_LAYERS and this page each held one piece of the frame and none cited another for it; joined here.
+-->
+
 ---
 
 ## The question
@@ -75,6 +85,58 @@ X and a Y onto the same qubit over a shared Z, the place where no discrete per-s
 a single continuous per-site rotation does (the local closed-form M of
 [Pi Operator Entanglement](PI_OPERATOR_ENTANGLEMENT.md); once read as an entangled mirror, corrected
 2026-06-02).
+
+## Which mirrors are Π in a turned frame
+
+A one-site unitary that keeps the Z-dephasing is a turn about Z, or X times such a turn. It leaves I in place,
+sends Z to ±Z and mixes X with Y, so a product of them carries every Pauli string into strings with
+the same sites holding I, holding Z and holding X or Y, and keeps the number of Z letters in each.
+The truly rule asks every string of H for an even number of Y and an even number of Z
+([F85](../docs/ANALYTICAL_FORMULAS.md)). A turn can change the first parity, never the second.
+
+So the 19 soft pairs split by one letter count. The three alternating ones carry no string with an
+odd number of Z, and with every odd site turned they are truly. By (X + Y)/√2, which exchanges X and
+Y and sends Z to −Z, XY+YX becomes XX+YY itself, XY+ZZ becomes XX on the bonds from an even site,
+YY on the bonds from an odd one and −ZZ on all, and YX+ZZ the same with XX and YY exchanged; the
+quarter turn S, which keeps σ⁻ up to a phase, turns XY+YX into YY − XX. Their alternating mirror is
+Π turned by that frame.
+
+The fourteen uniform and the two continuous pairs each carry an XZ, ZX, YZ or ZY term, a string with
+one Z, and no product of one-site turns that keep the Z-dephasing makes them truly, at any N. The
+residual norm is a sum over the strings of H, since Π acts on the letters as a translation: each
+string P of H sends a basis string S only to P·S, so different strings of H fill different entries
+of M; F85 gives the weights, a Π²-odd string costing 4·4^N times its squared
+coefficient and a Π²-even non-truly one 8·4^N; the turn keeps c², the summed squared coefficients of the odd-Z strings, so
+‖M‖² ≥ 4·4^N·c² in every such frame. The floor is reached (512 at N = 3 for one odd-Z term per
+bond, 1024 for two, in `palindrome_residual`'s normalisation): in the frame as given where the lit
+letter of every odd-Z term is X, after the quarter turn S on every site for the pairs where it is
+Y, and after R_z(−π/4) on every site for the two continuous pairs. For XZ+YZ that last frame is
+[the crossover proof](../docs/proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md)'s, which writes the pair
+as the one-term bond √2·XZ carried by R_z(π/4). Their mirrors are products of one-site maps too,
+but not Π seen from a frame of one-site turns that keep the Z-dephasing.
+
+Wider frames go further. A diagonal unitary commutes with every Z_l, so it keeps the Z-dephasing
+exactly, and a two-site phase such as CZ changes the number of Z: the star CZ(0, 2)·CZ(1, 2) carries
+XZ+ZZ at N = 3 onto a truly Hamiltonian, X₀Z₁ becoming X₀Z₁Z₂ and X₁Z₂ becoming X₁. And Π
+palindromizes Y-dephasing as it does Z-dephasing, so a one-site frame that turns the light from Z to
+Y on some sites keeps Π a mirror while changing how the noise is written: R_x(π/2) on the middle
+site carries YZ+ZY at N = 3, a pair flown on Marrakesh and Kingston, onto Σ(ZZ − YY) under
+Y-dephasing there, with Π an exact mirror of the turned generator, and one-site Clifford frames of
+period two that turn the light on alternate sites do the same for all six of XX+YZ, XX+ZY, XZ+YY, XZ+ZX, YY+ZX and YZ+ZY
+at N = 3, 4 and 5. That frame is a product of
+one-site unitaries and carries local preparations and readouts to local ones, so for a measurement
+YZ+ZY stands where XY+YX does; a frame that couples sites does not, and does not by itself say what
+a measurement on product states sees. How far such frames reach among the sixteen, and whether any
+soft pair stays soft in every frame, is not settled here.
+
+On the operator side the line between truly and soft is a choice of palindromizer
+([F103 §8](../docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), [Softness Is N-Dependent](SOFTNESS_IS_N_DEPENDENT.md));
+here a product of one-site turns that keep the Z-dephasing makes exactly three of the 19 soft pairs truly.
+[Theorem 9 of the complement connection](../docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md) turns
+the pairing of XY+YX real with one common angle, a second route for the first of them. One of the
+three was flown: the soft Hamiltonian of [Marrakesh Three Layers](MARRAKESH_THREE_LAYERS.md) is
+XY+YX, so in the Z-dephasing model that run compares one dynamics at two middle-qubit states. Gate:
+[`simulations/soft_frame_turn_gate.py`](../simulations/soft_frame_turn_gate.py).
 
 ## The Klein routing (the viewpoint)
 
