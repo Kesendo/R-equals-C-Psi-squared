@@ -16,7 +16,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <see cref="F83AntiFractionPi2Inheritance.MaximumAntiFraction"/>), pinned across the entire cell
 /// regardless of the hard/soft verdict or obstruction size. The bit_a (1+x)-valuation
 /// (<see cref="WindowedHardnessClaim"/> / <see cref="WindowedObstructionScan.IsHardPair"/>) carries
-/// the whole verdict on chains of N ≥ 2k − 2 sites. So F81/F83 (bit_b, continuous, hardware-measurable) and F87/F115 (bit_a,
+/// the whole verdict on chains of N ≥ 2k − 2 sites. So F81/F83 (bit_b, continuous) and F87/F115 (bit_a,
 /// discrete, combinatorial) are orthogonal cube coordinates and F115 is the strictly finer probe;
 /// the link is structural (one M, one shared bit_b=1 gate), not quantitative.
 ///

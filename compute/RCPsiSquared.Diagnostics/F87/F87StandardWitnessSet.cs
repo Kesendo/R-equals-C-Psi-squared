@@ -5,7 +5,7 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>Schicht-1 surface for the five canonical F87 trichotomy witnesses
-/// (XX+YY truly, Heisenberg truly, YZ+ZY soft / EQ-030 Marrakesh-confirmed,
+/// (XX+YY truly, Heisenberg truly, YZ+ZY soft, flown in EQ-030,
 /// XX+XY hard, XY+YX soft) as a single registry-queryable claim. Wraps the
 /// existing <see cref="F87CanonicalWitness.StandardSet"/> with a typed parent
 /// edge to <see cref="F87TrichotomyClassification"/>.
@@ -17,8 +17,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///
 /// <para>Tier: Tier2Empirical. The Pauli-pair classification rule itself is
 /// Tier1Derived (in <see cref="F87TrichotomyClassification"/>), but the named
-/// canonical examples + the EQ-030 Marrakesh hardware match are empirical
-/// pin-downs — the registered set is the empirical surface of the law.</para>
+/// canonical examples are empirical pin-downs: the registered set is the empirical
+/// surface of the law.</para>
 ///
 /// <para>Anchor: <c>docs/ANALYTICAL_FORMULAS.md</c> F87 + EQ-030 anchor in
 /// <c>review/EMERGING_QUESTIONS.md</c>; per-witness anchors live on each

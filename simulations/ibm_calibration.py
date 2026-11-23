@@ -90,9 +90,8 @@ def load_calibration(csv_path: Path | str) -> list[QubitData]:
 
 def score_qubit(q: QubitData) -> float:
     """Composite quality score: rewards high T1/T2, penalises gate + readout
-    errors. The dominant term is T2 (decoherence drives Π²-odd noise floor at
-    truly Hamiltonians); T1 secondary; gate/readout errors as multiplicative
-    penalties. Non-operational qubits return -inf.
+    errors. The dominant term is T2; T1 secondary; gate/readout errors as
+    multiplicative penalties. Non-operational qubits return -inf.
     """
     if not q.operational:
         return float("-inf")

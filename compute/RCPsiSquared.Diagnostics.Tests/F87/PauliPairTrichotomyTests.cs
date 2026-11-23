@@ -47,7 +47,7 @@ public class PauliPairTrichotomyTests
     public void YZplusZY_IsSoft_UnderZDephasing()
     {
         // YZ+ZY: bit_b sum is (1+1)+(1+1) = 4 → Π²-even, but bond-flipped form. Soft per F87.
-        // This is the EQ-030 Marrakesh-confirmed soft Hamiltonian (drop=28).
+        // It is the soft pair flown in EQ-030.
         var terms = new[]
         {
             new PauliPairBondTerm(PauliLetter.Y, PauliLetter.Z),
@@ -73,7 +73,7 @@ public class PauliPairTrichotomyTests
     [Fact]
     public void XYplusYX_IsSoft_BondFlip()
     {
-        // XY+YX: bond-flipped Z-free pair. Soft per Marrakesh skeleton-trace test.
+        // XY+YX: bond-flipped Z-free pair. Soft by the spectral test.
         var terms = new[]
         {
             new PauliPairBondTerm(PauliLetter.X, PauliLetter.Y),
@@ -100,7 +100,7 @@ public class PauliPairTrichotomyTests
             new PauliTerm(new[] { PauliLetter.X, PauliLetter.X, PauliLetter.Z }, Complex.One),
             new PauliTerm(new[] { PauliLetter.X, PauliLetter.Z, PauliLetter.X }, Complex.One),
         };
-        // Soft witness: YZ+ZY, the EQ-030 Marrakesh-confirmed bond-flip pair from above.
+        // Soft witness: YZ+ZY, the bond-flip pair from above.
         var softTerms = new[]
         {
             new PauliPairBondTerm(PauliLetter.Y, PauliLetter.Z),

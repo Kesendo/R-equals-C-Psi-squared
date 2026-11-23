@@ -374,7 +374,7 @@ def diagnose_hardware(
                     'significant': bool(significant),
                 })
 
-        # F83 quantitative match for pure classes
+        # Trotter + γ_Z fit for the Hamiltonians at a pure F83 anti-fraction
         if f83['M_sq'] > 1e-12:
             r_val = f83['r']
             is_pure = abs(r_val) < 1e-10 or r_val == float('inf')
@@ -388,7 +388,7 @@ def diagnose_hardware(
                 )
                 readings.append({
                     'lens': 'F83-quantitative',
-                    'reading': f"pure-class anti-fraction match: RMS={rms:.4f} ({rms_sigma:.1f}σ at {shots} shots) — {quality}",
+                    'reading': f"Trotter + γ_Z fit at a pure anti-fraction (the anti-fraction itself is not measured): RMS={rms:.4f} ({rms_sigma:.1f}σ at {shots} shots), {quality}",
                     'rms': float(rms),
                     'rms_sigma_units': float(rms_sigma),
                     'quality': quality,

@@ -47,15 +47,21 @@ public static class F87OpenQuestions
             "whether the 1/(2+4r) form still holds with the F85-style Π²-class redefinition.",
             "docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md line 151"),
         new OpenQuestion(
-            "EQ-030 per-backend Δ(soft−truly) amplification predictor",
-            "Marrakesh measured Δ = −0.72, Kingston −0.92, Fez −0.81. The ratification across " +
-            "three backends is itself open: what predicts the per-backend amplification factor? " +
-            "Likely depends on the Trotter discretisation parameter δt and the backend-specific " +
-            "‖H‖_op profile (the original interpretation that T1 amplifies Δ was REFUTED; T1 " +
-            "monotonically attenuates).",
-            "Sweep δt vs Δ predictions on the simulator; check correlation with reported " +
-            "backend two-qubit error rates and median pulse durations.",
-            "review/EMERGING_QUESTIONS.md EQ-030 + lebensader_skeleton_trace_decoupling Confirmation"),
+            "The truly offset behind Δ⟨X₀Z₂⟩ (XY+YX − XX+YY) on the Snapshot D runs",
+            "On the soft_break run (Marrakesh [48, 49, 50], 2026-04-26) the circuit's Trotter step " +
+            "at γ_Z = 0.1 gives Δ = −0.723 against −0.722 measured. On the seven Snapshot D runs of " +
+            "2026-04-26, XY+YX alone reads −0.71 to −0.82 on the six runs off the Fez path whose Q0 sat " +
+            "in the bottom 3% of T1, where the same " +
+            "circuit lands for an effective γ_Z between about 0.04 and 0.11, while XX+YY reads " +
+            "+0.03 to +0.11, which the Z model forbids and Z + T1 lifts by at most 0.014; that " +
+            "offset carries Δ to −0.906 (Marrakesh [0, 1, 2], job d7ml9kc3g2mc7392k9p0) and −0.922 " +
+            "(Kingston [0, 1, 2], job d7mt7jat99kc73d2uhhg). What opens it is open.",
+            "Read the offset run by run beside the X^⊗3 window readings " +
+            "(experiments/X3_WINDOW_HARDWARE_PREDICTION.md, data/ibm_f83_signature_april2026/README.md), " +
+            "the calibrations of the day, and the runner-script difference of " +
+            "regime_uniformity_kingston_uniform_quantum: on the three framework_snapshots runs on Marrakesh " +
+            "the four window cells carry about half to three quarters of truly's F88b baseline.",
+            "review/EMERGING_QUESTIONS.md EQ-030 + palindrome_trichotomy Confirmation"),
         new OpenQuestion(
             "4-way Π²-class enumeration as a typed C# enum",
             "The Python framework distinguishes pi2_odd_pure / pi2_even_nontruly / mixed / truly " +

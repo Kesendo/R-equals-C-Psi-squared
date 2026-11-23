@@ -24,9 +24,9 @@ namespace RCPsiSquared.Core.F1;
 ///         closed form (<see cref="DepolResidualClosedForm"/>), and the F49
 ///         non-uniform γ cross-term closed form
 ///         (<see cref="F49NonUniformCrossTerm"/>).</item>
-///   <item>Tier-2 verified: hardware confirmations from
-///         <see cref="ConfirmationsRegistry"/> that exercise F1 / palindrome trichotomy
-///         on Marrakesh and related machines; plus the general-topology verification
+///   <item>Tier-2 verified: hardware runs from
+///         <see cref="ConfirmationsRegistry"/> on F1's Hamiltonians and their neighbours
+///         on Marrakesh, which test predictions for named Hamiltonians; plus the general-topology verification
 ///         record (<see cref="GeneralTopologyVerification"/>) that extends the
 ///         (B, D2) parameterisation to disconnected, weighted, and random connected
 ///         graphs at N ≤ 6 and checks the F1 palindromic pairing through the block path at

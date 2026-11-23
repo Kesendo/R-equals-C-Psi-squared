@@ -233,7 +233,7 @@ For hardware-confirmed predictions on top of these formulas, see
 
 | C# | F-formula |
 |----|-----------|
-| `PiProtectedObservables.Compute(H, γ, ρ_0, N)` | **F87 / F81** algebraic skeleton: Π-protected Pauli observables (always-zero expectations); hardware-confirmed at Marrakesh 2026-04-26 (Confirmations entry `pi_protected_xiz_yzzy`) |
+| `PiProtectedObservables.Compute(H, γ, ρ_0, N)` | **F87 / F81** algebraic skeleton: Π-protected Pauli observables (always-zero expectations); read on hardware at Marrakesh 2026-04-26 for ⟨X₀IZ₂⟩ on YZ+ZY, an X^⊗3 parity zero in the Z model that read +0.134 (8.6σ) at t = 0.8 (Confirmations entry `pi_protected_xiz_yzzy`) |
 
 ## Receivers
 

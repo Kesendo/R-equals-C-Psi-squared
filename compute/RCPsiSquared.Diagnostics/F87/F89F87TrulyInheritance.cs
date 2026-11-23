@@ -41,8 +41,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// Π²-even-truly under Z-dephasing.</para>
 ///
 /// <para><b>What breaks the AT-lock</b>: any bond term that lands in F87-Soft or
-/// F87-Hard. For example, replacing one bond's XX+YY with YZ+ZY (F87-Soft per the
-/// Marrakesh EQ-030 anchor) mixes the spectrum; F89's F_a modes no longer sit at
+/// F87-Hard. For example, replacing one bond's XX+YY with YZ+ZY (F87-Soft, the pair
+/// flown in EQ-030) mixes the spectrum; F89's F_a modes no longer sit at
 /// Re(λ) = −2γ₀ exactly.</para>
 ///
 /// <para>Anchors:
@@ -107,7 +107,7 @@ public sealed class F89F87TrulyInheritance : Claim
             yield return new InspectableNode("Bond-class extension",
                 summary: "Heisenberg H = J·(XX+YY+ZZ) is also F87-Truly under Z-dephasing (ZZ is Π²-even-truly), preserving the F89 AT-lock formula");
             yield return new InspectableNode("Break case",
-                summary: "Replacing any bond's XX+YY with YZ+ZY (F87-Soft, EQ-030 Marrakesh anchor) mixes the spectrum; F_a modes no longer sit at Re(λ) = −2γ₀ exactly");
+                summary: "Replacing any bond's XX+YY with YZ+ZY (F87-Soft, the pair flown in EQ-030) mixes the spectrum; F_a modes no longer sit at Re(λ) = −2γ₀ exactly");
         }
     }
 }

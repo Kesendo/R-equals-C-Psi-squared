@@ -1,7 +1,7 @@
 """F88b-Lens applied to a predominantly below-R* Kingston path [43, 56, 63].
 
-The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 local time, CEST) is the
-first F87 trichotomy test on a CZ-coupled triple whose calibration histories
+The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 local time, CEST) flew the
+four F83 Hamiltonians on a CZ-coupled triple whose calibration histories
 are below-R* on more than 95% of sampled days (mean r in [0.089, 0.104]). R* is
 the free-single-transmon |+> normalized-purity proxy threshold.
 
@@ -93,7 +93,7 @@ def main():
     print(f"                   Marrakesh at-or-above-R* = {truly_m:.4f}")
     print(f"                   ratio (Kingston / Marrakesh) = {truly_k / max(truly_m, 1e-9):.2f}×")
     print()
-    print(f"  soft-pumping:    Kingston = {soft_k:.4f}")
+    print(f"  XY+YX Π²-odd:    Kingston = {soft_k:.4f}")
     print(f"                   Marrakesh = {soft_m:.4f}")
     print(f"                   cross-archive relative spread: {abs(soft_k - soft_m) / max(soft_k, soft_m) * 100:.1f}%")
     print()

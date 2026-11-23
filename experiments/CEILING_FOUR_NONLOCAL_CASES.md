@@ -221,7 +221,7 @@ uniform family, now provably, since the uniform emptiness is a theorem in
 ### The same two sectors, read in Frobenius: F81 and F83 (2026-06-08)
 
 The joining is one lens on the two sectors, the routing one: each wants a different per-site map. There is a
-second lens on exactly the same pair, one the framework already typed and hardware-confirmed.
+second lens on exactly the same pair, one the framework already typed.
 [F81](../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) decomposes the canonical residual M = Π·L·Π⁻¹ + L + 2σ
 into a Π-symmetric and a Π-antisymmetric part with ‖M‖² = ‖M_sym‖² + ‖M_anti‖² (which holds because their inner product is purely imaginary, not because they are orthogonal). The
 antisymmetric part is exactly the Π²-odd Hamiltonian commutator, M_anti = L_{H_odd}, and for the ceiling H_odd
@@ -236,11 +236,9 @@ two Π²-even ones). On that ladder r = 0 gives 1/2 (pure Π²-odd), r = 1 gives
 sits at r = 2, one tenth.
 
 This is a recognition, not a new mechanism. The two-sector structure we found by routing is the same structure F83
-reads off as a Frobenius fingerprint, and F83 is the hardware-confirmed one (the four-Hamiltonian Π²-class
-discriminator on Marrakesh and Kingston, per the PROOF_F81 hardware note). The routing lens says the two
-sectors need incompatible maps; the Frobenius lens weighs them, nine tenths symmetric to one tenth
-antisymmetric, and ties the ceiling to a quantity the hardware has actually measured. Two readings of one pair
-of sectors.
+reads off as a Frobenius fingerprint. The routing lens says the two sectors need incompatible maps; the
+Frobenius lens weighs them, nine tenths symmetric to one tenth antisymmetric. Two readings of one pair of
+sectors.
 
 ### The ceiling is an isolated soft point: a hard sea in between (2026-06-09)
 

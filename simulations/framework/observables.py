@@ -32,7 +32,8 @@ def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1
 
     This is strictly weaker than "each V[α,k]·c[k] vanishes" — degenerate-
     cluster cancellations are real (e.g., ⟨X_0IZ_2⟩ = 0 for Heisenberg
-    chain on |+−+⟩ via SU(2)-multiplet cancellation).
+    chain on |+−+⟩, the X^⊗3 parity showing as an SU(2)-multiplet
+    cancellation).
 
     Returns dict with:
       'protected': state-conditioned silent census entries

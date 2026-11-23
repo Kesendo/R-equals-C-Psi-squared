@@ -1,9 +1,15 @@
 # IBM Marrakesh F83 4-Hamiltonian Signature Test, April 2026
 
-Live hardware verification of F83's structural prediction that the four
-F87 Π²-classes (truly / pure Π²-odd / pure Π²-even-non-truly / mixed)
-produce **operationally distinguishable Pauli-expectation patterns** on
-N=3 chains, read through the F-toolkit lens.
+A hardware test of the Trotter + γ_Z predictions for four Hamiltonians on
+an N = 3 chain, one for each F87 Π²-class (truly / pure Π²-odd / pure
+Π²-even-non-truly / mixed), read through the F-toolkit lens. The run tells
+**four Hamiltonians** apart by their Pauli-expectation patterns; it does not
+read the classes, whose labels a frame that keeps the Z-dephasing moves: XY+YX is
+the truly XX+YY with the middle qubit turned by (X+Y)/√2
+([MARRAKESH_THREE_LAYERS](../../experiments/MARRAKESH_THREE_LAYERS.md)), and
+S on every site carries YZ+ZY onto −(XZ+ZX), a Π²-odd pair whose F83
+anti-fraction is 1/2 where YZ+ZY's is 0
+([`pi2_lens_and_t1_silence_gate.py`](../../simulations/pi2_lens_and_t1_silence_gate.py) G5).
 
 Run on `ibm_marrakesh` (Heron r2) on path **[4, 5, 6]** (top-ranked
 by 2026-04-30T16:25Z calibration, score 0.0162, rank 1 of 223
@@ -33,10 +39,10 @@ by 2026-04-30T16:25Z calibration, score 0.0162, rank 1 of 223
 
 ## Reading through the F-toolkit lens
 
-Each Π²-class is its own diagnostic lens. The framework tells us in
-advance what each class reveals:
+Each Hamiltonian is its own diagnostic lens. The framework tells us in
+advance what each reveals:
 
-| Π²-class | F-toolkit reading | Idealized M | What it shows |
+| Hamiltonian | F-toolkit reading | Idealized M | What it shows |
 |----------|--------------------|-------------|----------------|
 | `truly_unbroken` (XX+YY) | F87 truly: M = 0; F84 says environmental σ⁻ amplitude damping would break the ⟨Z⟩-conservation the Hamiltonian stipulates | 0 | The environment, cleanly: truly, Z-dephasing and the state respect X^⊗3, so a Z-only model holds ⟨Z₀⟩ = ⟨Z₂⟩ = 0, and an F82/F84 σ⁻ contribution would show there. |
 | `pi2_odd_pure` (XY+YX) | F87 pure-Π²-odd; F81 says M_anti = L_{H_odd} dominates; F83 anti = 1/2 | M_anti dominant | The dynamics-generator side of M. F83 anti-fraction is the structural prediction. |
@@ -45,7 +51,7 @@ advance what each class reveals:
 
 This guides what we measure and how to read it. The two pure-class
 categories are the F83 anchors. truly is the lens for environmental
-F82/F84. mixed tests F83 at a non-trivial ratio.
+F82/F84. mixed sits at a non-trivial F83 ratio.
 
 ## The prediction is the circuit the hardware ran
 
@@ -67,17 +73,17 @@ over the 28 datapoints of this run the bonds-outside prediction fits at
 RMS 0.024, the terms-outside one at best 0.127 (on April 26, over 45
 datapoints, 0.039 against 0.081).
 
-## F83 anti-fraction discrimination: CONFIRMED
+## The four fingerprints
 
-The four F87 Π²-classes are operationally distinguishable on hardware
-via Pauli-expectation pattern. Each category has at least one
+The four Hamiltonians are distinguishable on hardware by their
+Pauli-expectation patterns. Each category has at least one
 unique-fingerprint observable that separates it from all three other
 categories at >>10σ (statistical error 0.0156 at 4096 shots):
 
 - `truly_unbroken`: ⟨Y₀Z₂⟩ = +0.67 (others all near 0); ⟨X₀Z₂⟩ ≈ 0
 - `pi2_odd_pure`: ⟨X₀Z₂⟩ = −0.85 (uniquely large negative)
 - `pi2_even_nontruly`: ⟨X₀X₂⟩ = +0.92 (uniquely large positive)
-- `mixed_anti_one_sixth`: ⟨Z₀X₂⟩ = −0.72, ⟨X₀Z₂⟩ = +0.15 (sign-flip on Z,X axis vs pi2_odd)
+- `mixed_anti_one_sixth`: ⟨Z₀⟩ = −0.79 (21σ from the other three, σ of a difference √2 · 0.0156); ⟨Z₀X₂⟩ = −0.72 sits 7σ from pi2_odd's −0.57, ⟨X₀Z₂⟩ = +0.15 (sign-flip on Z,X axis vs pi2_odd)
 
 Quantitative match to the Trotter + γ_Z model at the path-fit γ_Z = 0.03
 (the minimum of the 28-datapoint sweep below):
@@ -89,8 +95,8 @@ Quantitative match to the Trotter + γ_Z model at the path-fit γ_Z = 0.03
 | `pi2_even_nontruly` | **0.014** | F83 anchor at anti = 0: on the prediction. |
 | `mixed_anti_one_sixth` | **0.024** | F83 at anti = 1/6: on the prediction. |
 
-All four classes land on the framework's prediction to within 0.04 RMS
-over 7 observables, a class RMS between 0.8 and 2.3 shot-noise σ. The
+All four Hamiltonians land on the framework's prediction to within 0.04 RMS
+over 7 observables, an RMS per Hamiltonian between 0.8 and 2.3 shot-noise σ. The
 fit has one parameter, γ_Z, taken from these same 28 points, and single
 observables still reach 4.3σ (pi2_odd_pure ⟨Y₀Z₂⟩ = +0.067 where the
 model gives 0), 3.4σ (pi2_odd_pure ⟨Z₀Y₂⟩ = +0.053 against 0) and 3.1σ
@@ -102,9 +108,9 @@ same logical circuit read it near zero. Every fit arm of that flight
 carries an odd-Y excess, and no single one of nineteen physical letters
 accounts for it
 ([the reality-window flight](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)).
-Away from these forbidden readings, the Trotter + γ_Z model that carries F83's
-structural classes holds on hardware in every class, not only in the two
-pure anchors; the anti-fraction r itself is not measured (see below).
+Away from these forbidden readings, the Trotter + γ_Z model holds on
+hardware for every one of the four Hamiltonians, not only for the two
+pure anchors; neither r nor the anti-fraction 1/(2+4r) is measured (see below).
 
 ## The X^⊗3 window: quiet on truly, open on pi2_even
 
@@ -147,7 +153,7 @@ single-site readings, all exactly 0 in a Z-only model:
 | ⟨Y₀⟩ | +0.048 | 3.1 | 0 |
 | ⟨Y₂⟩ | +0.045 | 2.9 | 0 |
 
-Something breaks X^⊗3 on this class at 4σ, and it is not calibration-scale
+Something breaks X^⊗3 on this Hamiltonian at 4σ, and it is not calibration-scale
 σ⁻: σ⁻ leaves ⟨Y⟩ at zero, and gives ⟨Z₂⟩ a tenth of what is measured.
 Nor is it the Trotter circuit: YZ and ZY each commute with X^⊗3, so every
 Trotter factor keeps it, as the continuous evolution does
@@ -171,7 +177,7 @@ times the binomial σ, which leaves ⟨Z₂⟩ near 5σ and truly's pooled ⟨Z�
 near 3σ.
 
 The break is not this chip's alone. Kingston on 2026-05-05 flew the same
-four classes on path [43, 56, 63]
+four Hamiltonians on path [43, 56, 63]
 (`data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json`),
 and pooled the same way YZ+ZY reads ⟨Z₀⟩ +0.061 (6.8σ binomial), ⟨Y₂⟩ +0.048
 (5.3σ), ⟨Y₀⟩ +0.022 and ⟨Z₂⟩ +0.009, while truly reads nothing beyond 2σ
@@ -189,7 +195,7 @@ frames are turned, and the fit below shows a detuning lighting mostly ⟨Z⟩.
 For ⟨Y⟩ there is a lever: at the end of the circuit the end qubits of YZ+ZY
 keep ⟨X⟩ ≈ 0.9, truly's about 0.14, so one small turn about Z shows some
 seven times larger on YZ+ZY, and truly's ⟨Y⟩ stays near zero. For ⟨Z⟩ the
-lever does not account for the classes: truly's ⟨Z₀⟩ here is as large as
+lever does not account for the Hamiltonians: truly's ⟨Z₀⟩ here is as large as
 YZ+ZY's, as calibration-scale σ⁻ would make it (the table above). A tilt
 common to every sx and x pulse on a qubit cannot carry it: it is a turn of
 that qubit's drive frame, the identity on the logical circuit
@@ -201,7 +207,7 @@ q6 by 0.014 (arm B of the pre-registration linked below, under the
 October snapshot; [`x3_window_power.py`](../../simulations/x3_window_power.py)). On
 the flown circuits, replayed with the day's T1, T2 and readout as in
 [REALITY_WINDOW_HARDWARE_PREDICTION](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)
-§2, against the 18 readings these two classes forbid (16 by X^⊗3, two of
+§2, against the 18 readings these two Hamiltonians forbid (16 by X^⊗3, two of
 YZ+ZY's by the parity of n_Y), a detuning of the two end qubits inside its
 bound takes the sum of squared residuals from 94 to 70 (76 with the gates as
 soon as possible); it gives YZ+ZY's ⟨Z₂⟩ +0.034 against +0.057 but ⟨Y₀⟩
@@ -209,7 +215,7 @@ soon as possible); it gives YZ+ZY's ⟨Z₂⟩ +0.034 against +0.057 but ⟨Y₀
 zero. All nineteen letters of that document's §5, each held inside its
 bound, bring it to 3.6 (4.2), with more letters than readings and seven of
 them at their bounds, which decides nothing; that document's own fit of all
-four classes reached its small sum only with a detuning far beyond its
+four Hamiltonians reached its small sum only with a detuning far beyond its
 bound. The readings share shots,
 some strongly (⟨Z₀⟩ and ⟨Z₀X₂⟩ come from the same counts), so these sums
 are no χ² of a known distribution
@@ -236,7 +242,7 @@ all three qubits, at that flight's sensitivity and within the limits
 stated in its §7; on Marrakesh [45, 46, 47] (2026-11-13) shut, with a
 reach of 0.149 rad/µs, on a day whose readout read far off. Neither path is this README's.
 
-⟨Z₀Z₂⟩ separates the classes only under σ⁻: truly and pi2_odd_pure predict
+⟨Z₀Z₂⟩ separates the Hamiltonians only under σ⁻: truly and pi2_odd_pure predict
 the same +0.231 in a Z-only model, but σ⁻ moves pi2_odd's (0.193 at
 γ_T1 = 0.046) more than truly's (0.221). The measured +0.215 and +0.210 sit
 about 1σ from either hypothesis.
@@ -264,7 +270,7 @@ shot-noise σ. A contribution from per-qubit T2 differences on the path
 ## Residual phenomenology: γ_Z_eff differs between the two runs
 
 A post-hoc γ_Z sweep (`simulations/f83_gamma_z_sweep.py`) over the
-28-datapoint set of this run (4 classes × 7 Paulis), and over the 14
+28-datapoint set of this run (4 Hamiltonians × 7 Paulis), and over the 14
 comparable datapoints of the April 26 run (truly and XY+YX):
 
 | Path | Date | Best γ_Z_eff | RMS at best | Anchor XY+YX ⟨X₀Z₂⟩ pred | HW |
@@ -283,8 +289,8 @@ not know.
 
 ## What this run does NOT establish
 
-- That F83's anti-fraction r = ‖H_even_nontruly‖² / ‖H_odd‖² is invertible
-  from data. The prediction is structural (closed-form on H), not fitted
+- That F83's ratio r = ‖H_even_nontruly‖² / ‖H_odd‖², and with it the anti-fraction
+  1/(2+4r), is invertible from data. The prediction is structural (closed-form on H), not fitted
   from observables. We measured signatures, not r.
 - Anything quantitative about F82/F84. truly's single-site ⟨Z₀⟩, ⟨Z₂⟩
   sit at most near 3σ, and the X^⊗3 break on pi2_even_nontruly is not
@@ -292,7 +298,7 @@ not know.
   known (the X^⊗3 window above).
 - That the discrimination scales to N > 3. Open.
 - That arbitrary mixed Hamiltonians (other than 1/2, 0, 1/6) follow the
-  same pattern. Three F83-discrete cases tested; the continuous tunability
+  same pattern. Three F83-discrete Hamiltonians flown; the continuous tunability
   of r remains a structural prediction, not a hardware-mapped one.
 
 ## Reproducing the run

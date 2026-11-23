@@ -22,10 +22,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///         Hamiltonians (XX+YY, Heisenberg, YZ+ZY, XX+XY, XY+YX) classified live on the
 ///         chain.</item>
 ///   <item>Tier-2 verified: <see cref="HardwareConfirmations"/>: four Marrakesh entries
-///         from <see cref="Core.Confirmations.ConfirmationsRegistry"/>: palindrome trichotomy,
-///         F83 4-class signature, Π-protection (YZ+ZY soft), Lebensader skeleton/trace.</item>
+///         from <see cref="Core.Confirmations.ConfirmationsRegistry"/> (palindrome trichotomy,
+///         the F83 run, ⟨X₀IZ₂⟩ on YZ+ZY, the Lebensader runs); they test the predictions for
+///         named Hamiltonians, not the classes.</item>
 ///   <item>Open: <see cref="OpenQuestions"/>: F80 k≥3, F81/F82/F84 2-qubit dissipators,
-///         F83 topology at higher body, per-backend amplification predictor, 4-way Π²-class
+///         F83 topology at higher body, the truly offset of the Snapshot D runs, 4-way Π²-class
 ///         enum.</item>
 /// </list>
 ///

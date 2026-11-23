@@ -10,7 +10,7 @@ Threefold view:
 
 2. **Per-named-path summary** across all three snapshots: framework_snapshots
    [0, 1, 2], soft_break/zn_mirror [48, 49, 50], the Apr-25 / Apr-30 best
-   chains, plus today's best. Score, R* band composition, F87 confirmations
+   chains, plus today's best. Score, R* band composition, hardware runs
    already on the path.
 
 3. **Drift readout from 91-day history** for each candidate path. Combines

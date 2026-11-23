@@ -14,7 +14,7 @@ from framework.lebensader import cockpit_panel as cockpit_panel_primitive
 
 
 def test_cockpit_panel_yzzy_t1_drop_28_at_n3():
-    """Reproduces one finite EQ-030 hardware-associated row, not a universal identity."""
+    """Reproduces the simulated EQ-030 drop for YZ+ZY (56 to 28), not a hardware value."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)

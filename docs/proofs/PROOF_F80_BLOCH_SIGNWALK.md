@@ -364,7 +364,7 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
   (the sign-vector cross terms cancel), and the open-chain dispersion sum identity Σ_{k=1}^{⌊N/2⌋} ε(k)² = N−1 gives ‖M‖²_F = 4c²·(N−1)·4^N = 4·‖H‖²_F·2^N (with ‖H‖²_F = c²·(N−1)·2^N), exactly the F49 chain norm quoted in the Zero-Is-The-Mirror section above. M is γ-independent (Master Lemma); the norm scales with the coupling c, not γ.
 
 - **Lebensader principle**: F80 is the third-layer manifestation of the Π·L·Π⁻¹ + L + 2σ·I = 0 funnel:
-  - State layer: `cockpit_panel` (16 Paulis → 3-class trichotomy)
+  - State layer: `cockpit_panel` (the Pauli strings → one count of silent strings)
   - Real-space single-body operator layer: F78 (any (c, P) with given |c| and P ∈ {Y, Z} → same M_l spectrum)
   - Momentum-space chain 2-body operator layer: F80 (4 Π²-odd Pauli pairs → same M-spectrum via Bloch sign-walk)
 

@@ -253,7 +253,7 @@ superoperator M (`PalindromeResidual`), read on the two axes of its Klein polari
 
 - **bit_b axis (F81/F83/F112).** `PiDecomposition` splits `M = M_sym + M_anti`; the anti-fraction
   `‖M_anti‖²/‖M‖² = 1/(2+4r)` (`F83AntiFractionPi2Inheritance`), `r = ‖H_even_nontruly‖²/‖H_odd‖²`.
-  Continuous, hardware-measurable (F83, Marrakesh/Kingston).
+  Continuous.
 - **bit_a axis (F87/F115).** `BitADyadicGrade` makes precise that the Klein `bit_a = popcount(mask) mod 2`
   is the `v=0` bottom rung of a `(1+x)`-valuation tower `v = 0…k−1`; the obstruction theory above is the
   graded refinement of that axis (verified bit-exact against `WindowedObstructionScan.ValuationAtOnePlusX`).

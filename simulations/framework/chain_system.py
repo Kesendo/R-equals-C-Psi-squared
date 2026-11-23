@@ -82,7 +82,7 @@ class ChainSystem:
                 "ChainSystem(N=2) is mathematically valid but structurally "
                 "degenerate: F71 bond_mirror_basis has only 1 sym mode and 0 "
                 "asym modes (every F71-eigenstate is capacity-suboptimal); "
-                "only 1 bond exists; the drop=28 hardware anchor is "
+                "only 1 bond exists; the drop=28 row of EQ-030 is "
                 "unreproducible (4^2=16 Pauli strings total). Fundamental "
                 "vocabulary (classify, Π, palindrome residual, Frobenius "
                 "scaling) holds; structural vocabulary (F71-balance, multi-"

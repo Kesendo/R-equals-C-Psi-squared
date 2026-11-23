@@ -7,9 +7,9 @@
 
 ---
 
-The 2026-04-30 hardware-finale on F83 separated the four Π²-classes by
+The 2026-04-30 hardware run of F83's four Hamiltonians separated them by
 their Pauli fingerprints, and the Trotter+γ_Z model, run in the
-circuit's own Trotter order, meets every class to within 0.04 RMS,
+circuit's own Trotter order, meets every one to within 0.04 RMS,
 truly included ([the run's record](../data/ibm_f83_signature_april2026/README.md)).
 The vocabulary below came out of reading that run; it stands on the
 F-chain, not on its numbers.

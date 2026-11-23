@@ -147,8 +147,8 @@ def test_diagnose_hardware_F82_flag_fires_on_a_real_deviation():
 
 def test_diagnose_hardware_pure_class_quantitative_match():
     """Pure Π²-odd and pure Π²-even non-truly hardware data match Trotter+γ_Z
-    prediction at small RMS (within shot noise) — direct confirmation of F83
-    structural prediction at hardware level."""
+    prediction at small RMS (within shot noise): a fit of the model to these
+    Hamiltonians, not a measurement of the F83 anti-fraction."""
     measured = _load_f83_measured()
     chain = fw.ChainSystem(N=3)
     result = fw.diagnose_hardware(

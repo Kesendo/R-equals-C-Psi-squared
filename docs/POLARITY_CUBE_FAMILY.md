@@ -56,8 +56,8 @@ The twin coverage of the whole BitB family (filled, letter-specific, covered by 
 ## Hardware
 
 - `palindrome_trichotomy` (Marrakesh, 2026-04-26, ⟨X₀Z₂⟩): truly, soft and hard pairs predicted 0.000, −0.723, +0.213 under the Trotter model at γ_Z = 0.1 and measured +0.011, −0.711, +0.205 ([MARRAKESH_THREE_LAYERS](../experiments/MARRAKESH_THREE_LAYERS.md)).
-- `pi_protected_xiz_yzzy` (Marrakesh, 2026-04-26): ⟨X₀IZ₂⟩ protected under the soft Hamiltonian YZ + ZY.
-- `f83_pi2_class_signature_marrakesh` (Marrakesh, 2026-04-30): two-qubit Pauli expectations per F87 Π²-class; `d_zero_sector_trichotomy_marrakesh` (2026-05-01): the three Hamiltonians of the 2026-04-26 run on the d = 0 axis from Z-basis counts.
+- `pi_protected_xiz_yzzy` (Marrakesh, 2026-04-26): ⟨X₀IZ₂⟩ on YZ + ZY, silent in the Z model by the X^⊗3 parity every Π²-even H from |+−+⟩ obeys, read at +0.134 (8.6σ) at t = 0.8.
+- `f83_pi2_class_signature_marrakesh` (Marrakesh, 2026-04-30): two-qubit Pauli expectations for four Hamiltonians, one per F87 Π²-class; `d_zero_sector_trichotomy_marrakesh` (2026-05-01): the three Hamiltonians of the 2026-04-26 run on the d = 0 axis from Z-basis counts.
 - F112 and F113 on Kingston: the model family is wrong for that data and no channel is identified; the machinery runs end to end ([the Kingston lens](../experiments/F112_HARDWARE_LENS_KINGSTON.md)); F113 as a T1 diagnostic: [the T1 extraction](../experiments/F113_T1_EXTRACTION_KINGSTON.md).
 
 ## Cross-references

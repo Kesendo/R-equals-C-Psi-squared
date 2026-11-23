@@ -20,11 +20,11 @@ At the cusp crossing t*, this script looks for:
 If a clear signature emerges, the cusp has an operator-level analogue.
 If not, EQ-028 closes with a null result: the cusp is state-level only.
 
-Cases tested (from today's hardware-verified set):
-  truly J(XX+YY)  — protected skeleton, robust trajectory
-  soft  J(XY+YX) — robust trajectory, drop=1
-  soft  J(IY+YI) — robust trajectory, drop=0 (factorising)
-  soft  J(YZ+ZY) — fragile trajectory, drop=28
+Cases tested (the Hamiltonians flown that day):
+  truly J(XX+YY): skeleton lost under T1, drop=31
+  soft  J(XY+YX): robust trajectory, drop=1
+  soft  J(IY+YI): robust trajectory, drop=0 (factorising)
+  soft  J(YZ+ZY): fragile trajectory, drop=28
 """
 import math
 import sys

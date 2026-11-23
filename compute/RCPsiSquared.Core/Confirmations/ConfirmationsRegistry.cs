@@ -97,13 +97,13 @@ public static class ConfirmationsRegistry
             Machine: "ibm_marrakesh",
             JobId: "d7n3013aq2pc73a2a18g",
             Observable: "<X_0 I Z_2>",
-            PredictedValue: "protected (≈0) for YZ+ZY soft Hamiltonian",
-            MeasuredValue: "+0.13 to +0.04 (within noise band, never above ±0.13)",
+            PredictedValue: "silent (≈0) for YZ+ZY under Z-dephasing: the X^⊗3 parity every Π²-even H from |+−+⟩ obeys, truly XX+YY included",
+            MeasuredValue: "+0.134, −0.051, +0.042, +0.034 at t = 0.8, 1.4, 1.7, 2.2 (one basis, 4096 shots, σ ≈ 0.016)",
             HardwareData: "external (raw JSON not in repo; results documented inline in experiment doc)",
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
             FrameworkPrimitive: "pi_protected_observables",
-            Description: "First-time hardware measurement of a Π-protected observable on YZ+ZY soft Hamiltonian (EQ-030). " +
-                "Confirms framework primitive at hardware scale on a Hamiltonian not previously tested.",
+            Description: "Hardware reading of ⟨X₀IZ₂⟩ on YZ+ZY (EQ-030), a string the cockpit census lists as silent. " +
+                "Under Z-dephasing its zero is the X^⊗3 parity selection rule (H, |+−+⟩ and the Z dephasing keep X^⊗3, and X₀Z₂ reverses under it), shared by every Π²-even H from that start and lifted by T1; it does not single out the soft class (simulations/pi2_lens_and_t1_silence_gate.py G3). The first reading sits 8.6σ from zero, which neither the Z model nor Z + T1 produces (in the continuous model −0.001 at the simulator rate γ_T1 = 0.01 of the run and −0.004 at the calibration-derived 0.046): the X^⊗3 window open, here through a single-site ⟨Z₂⟩ = +0.153 that ⟨X₀⟩ = 0.89 carries into the product, the shape it has for YZ+ZY on Marrakesh [4, 5, 6] (data/ibm_f83_signature_april2026/README.md) and on Kingston (experiments/X3_WINDOW_HARDWARE_PREDICTION.md); the truly XX+YY opens it on the Snapshot D runs of that day in a two-site correlation instead. The experiment doc, an event log, keeps the April reading.",
             QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
@@ -133,15 +133,14 @@ public static class ConfirmationsRegistry
             Observable: "Π-protected counts (skeleton) + θ-trajectory tails (trace)",
             PredictedValue:
                 "Skeleton/trace decouple at N≥4, co-occur at N=3. " +
-                "T1 makes drop measurable: bond-flipped Z-free pairs (XY+YX, IY+YI) preserve skeleton (drop≤1) and trace (long θ-tail); " +
-                "Z-containing soft pairs (YZ+ZY, XZ+ZX) collapse both (drop≈28-29, no tail).",
-            MeasuredValue: "drop=28 for YZ+ZY confirmed on Marrakesh. Pearson(drop, Δ∫θ)=+0.85. Bures velocity gives no third discriminator.",
+                "Under T1, XY+YX and IY+YI keep skeleton (drop ≤ 1) and trace (long θ-tail); YZ+ZY and XZ+ZX lose both (drop 28 and 29, no tail).",
+            MeasuredValue: "On hardware ⟨X₀IZ₂⟩ and the reduced (q0, q2) θ at t = 0.8, 1.4, 1.7, 2.2 for XY+YX, IY+YI and YZ+ZY (tables in the experiment doc); the census and its drop are simulated, not measured. Simulated: Pearson(drop, Δ∫θ) = +0.85; Bures velocity gives no third discriminator.",
             HardwareData: "external (raw JSON not in repo; tables of <X_0 I Z_2> per t and basis documented inline in experiment doc)",
             ExperimentDoc: "review/EMERGING_QUESTIONS.md",
             FrameworkPrimitive: "cockpit_panel: composes pi_protected_observables + θ-trajectory",
             Description:
-                "Lebensader as Stromkabel (EQ-030 closure): skeleton (Π-protected algebraic count) and trace (θ-geometric tail) are NOT two discriminators but one bridge held together by Π·L·Π⁻¹ + L + 2Σγ·I = 0. " +
-                "Hardware-confirmed across 3 of 4 bond-flipped Z-free corners; Bures velocity confirmed null as third axis.",
+                "Lebensader (EQ-030): the cockpit census of silent strings (skeleton) beside the θ-trajectory tail (trace). Under T1 the census keeps the silence complex conjugation carries, the reality window of experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md: a purely imaginary H from a real start under real dissipators (Z dephasing, decay) holds every string with an odd number of Y at zero, so XY+YX (30 → 29) and IY+YI (37 → 37, every string with a Y, each site staying real) keep their skeleton, as do four hard pairs, " +
+                "while the silence a flip carries (X^⊗3, X^⊗3·K) dies: XZ+ZX 30 → 1 (28 of its 30 carried by X^⊗3·K), the truly XX+YY 32 → 1 from |+−+⟩ but 30 → 29 from |+, −i, +⟩ (28 of them by Z₁·K), and YZ+ZY 56 → 28, of which 16 are its X^⊗3 silence and 12 go for a reason not known. The split belongs to a Hamiltonian and its start, not to the F87 class (simulations/pi2_lens_and_t1_silence_gate.py G2); the experiment doc, an event log, keeps the April reading.",
             QubitPath: new[] { 0, 1, 2 }),
 
         new Confirmation(
@@ -178,22 +177,22 @@ public static class ConfirmationsRegistry
             Date: "2026-04-30",
             Machine: "ibm_marrakesh",
             JobId: "d7pol1e7g7gs73cf7j90",
-            Observable: "Per-category 2-qubit Pauli expectations (q0=4, q2=6) for 4 F87 Π²-classes",
+            Observable: "Per-category 2-qubit Pauli expectations (q0=4, q2=6) for four Hamiltonians, one per F87 Π²-class (XX+YY, XY+YX, YZ+ZY, XY+YZ)",
             PredictedValue:
                 "Trotter+γ_Z patterns at the path-fit γ_Z_eff: pi2_odd_pure ⟨X₀Z₂⟩, pi2_even_nontruly ⟨X₀X₂⟩, mixed ⟨Z₀X₂⟩, truly ⟨Y₀Z₂⟩. " +
-                "F83 anti-fractions = {1/2, 0, 1/6} structurally (closed form on H letters).",
+                "F83 anti-fractions = {1/2, 0, 1/6} structurally (closed form on H letters, a property of M against Π that the run does not measure).",
             MeasuredValue:
-                "4-category discrimination CONFIRMED via unique-fingerprint Paulis: " +
+                "Each Hamiltonian lit its unique-fingerprint Pauli: " +
                 "pi2_odd_pure ⟨X₀Z₂⟩=-0.849, pi2_even_nontruly ⟨X₀X₂⟩=+0.919, mixed ⟨Z₀X₂⟩=-0.721, truly ⟨Y₀Z₂⟩=+0.670. " +
-                "All separations >>10σ at 4096 shots. Path-fit γ_Z_eff = 0.03. " +
-                "With the prediction run in the hardware circuit's Trotter order (bond loop outside the term loop), per-class RMS residual over 7 Paulis is 0.036 / 0.014 / 0.012 / 0.024 (pi2_odd / pi2_even / truly / mixed); " +
+                "Each Hamiltonian is separated from the other three at 21σ or more (σ of a difference of two readings) by at least one Pauli at 4096 shots (the mixed one by ⟨Z₀⟩; its ⟨Z₀X₂⟩ sits 7σ from that of XY+YX). Path-fit γ_Z_eff = 0.03. " +
+                "With the prediction run in the hardware circuit's Trotter order (bond loop outside the term loop), per-Hamiltonian RMS residual over 7 Paulis is 0.036 / 0.014 / 0.012 / 0.024 (pi2_odd / pi2_even / truly / mixed); " +
                 "the ⟨Y,Z⟩/⟨Z,Y⟩ asymmetry on truly (+0.670/+0.185) is the circuit order's (predicted +0.659/+0.192), and truly ⟨Z,Z⟩ = +0.215 sits on the prediction (+0.231); the T1-sensitive window, truly single-site ⟨Z₀⟩/⟨Z₂⟩ (zero in any Z-only model by X^⊗3 symmetry), reads +0.043/+0.012, below 3σ; the same window on pi2_even_nontruly reads ⟨Z₂⟩ = +0.063 (4.0σ) with ⟨Y₀⟩, ⟨Y₂⟩ near 3σ, not calibration-scale σ⁻, cause unknown. " +
                 "Calibration score of the chosen path: 0.0162 of 223.",
             HardwareData: "data/ibm_f83_signature_april2026/f83_signature_ibm_marrakesh_20260430_190035.json",
             ExperimentDoc: "data/ibm_f83_signature_april2026/README.md",
             FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form); analysis simulations/f83_gamma_z_sweep.py and simulations/f83_hy_field_check.py",
             Description:
-                "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
+                "F83 four-Hamiltonian fingerprint test on path [4,5,6], one Hamiltonian per F87 Π²-class. Each is separated from the other three at 21σ or more (σ of a difference of two readings) by at least one Pauli observable; the run tells four Hamiltonians apart, not the classes: XY+YX is the truly XX+YY with the middle qubit turned by (X+Y)/√2 (experiments/MARRAKESH_THREE_LAYERS.md), and S on every site carries YZ+ZY onto −(XZ+ZX), a Π²-odd pair whose F83 anti-fraction is 1/2, both frames keeping the Z-dephasing (simulations/soft_frame_turn_gate.py G3, simulations/pi2_lens_and_t1_silence_gate.py G5). " +
                 "γ_Z_eff differs between the two runs (0.03 on [4,5,6] on 2026-04-30 vs 0.10 on [48,49,50] on 2026-04-26), a factor of about three not yet explained; effective dephasing absorbs coherent gate errors, idle decoherence, and crosstalk.",
             QubitPath: new[] { 4, 5, 6 }),
 
@@ -202,19 +201,19 @@ public static class ConfirmationsRegistry
             Date: "2026-05-05",
             Machine: "ibm_kingston",
             JobId: "d7sqjpiudops73976960",
-            Observable: "F88b-Lens Π²-odd-memory across F87 trichotomy on uniform-quantum chain",
+            Observable: "F88b-Lens Π²-odd-memory of the four F83 Hamiltonians on a uniform-quantum chain",
             PredictedValue:
                 "regime-uniformity hypothesis: a uniform-quantum chain's truly-baseline should be near a uniform-classical chain's, both well below the regime-mixed value 0.0297 (Marrakesh [0,1,2] framework_snapshots). " +
-                "soft-pumping should remain hardware-substrate-independent at ~0.74.",
+                "The Π²-odd memory of XY+YX should remain hardware-substrate-independent at ~0.74.",
             MeasuredValue:
-                "truly = 0.0022, soft = 0.7409, pi2_even_nontruly = 0.0046, mixed = 0.6220. " +
-                "truly is 1.67× the uniform-classical Marrakesh [48,49,50] soft_break run (0.0013, the same runner script). The 13.3× against the regime-mixed Marrakesh [0,1,2] (0.0297) and the 22.1× between the two Marrakesh rows each pair a soft_break run with a framework_snapshots run, and the same-day repeats put the script difference, not the path, behind most of that factor: within framework_snapshots, minutes apart, mixed [0,1,2] reads 1.64× uniform [48,49,50] (0.0190 against 0.0116). soft sits 3.1% from the Marrakesh value 0.7646.",
+                "truly = 0.0022, pi2_odd_pure (XY+YX) = 0.7409, pi2_even_nontruly (YZ+ZY) = 0.0046, mixed (XY+YZ) = 0.6220; the two Π²-even Hamiltonians, truly and soft alike, read near zero, the lens reading the Π² parity of H, not the F87 class. " +
+                "truly is 1.67× the uniform-classical Marrakesh [48,49,50] soft_break run (0.0013, the same runner script). The 13.3× against the regime-mixed Marrakesh [0,1,2] (0.0297) and the 22.1× between the two Marrakesh rows each pair a soft_break run with a framework_snapshots run, and the same-day repeats put the script difference, not the path, behind most of that factor: within framework_snapshots, minutes apart, mixed [0,1,2] reads 1.64× uniform [48,49,50] (0.0190 against 0.0116). XY+YX sits 3.1% from the Marrakesh value 0.7646.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
             ExperimentDoc: "simulations/f88b_lens_ibm_kingston_uniform_quantum.py",
             FrameworkPrimitive: "F88b-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
             Description:
-                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, below R* on 91 / 91 / 90 days). " +
-                "The run was flown to test the regime-uniformity hypothesis, that a band-mixed path reads a dirtier truly-baseline than a uniform one, and the data do not support it: the order-of-magnitude contrast it rested on is mostly a contrast between two runner scripts: within one script the two band compositions differ 1.64×. Every soft_break run reads clean, on uniform paths on either side of R* and on two chips (Marrakesh [48,49,50] 0.0013, job d7mjnjjaq2pc73a1pk4g, 2026-04-26; Marrakesh [4,5,6] 0.0017, job d7pol1e7g7gs73cf7j90, 2026-04-30; this run 0.0022), and every framework_snapshots run on Marrakesh reads above all of them, whatever the band: uniform [48,49,50] 0.0116 (job d7ml4i2t99kc73d2lek0), mixed [0,1,2] 0.0190 (job d7ml9kc3g2mc7392k9p0, the same script eleven minutes later) and 0.0297 (job d7mt7jbaq2pc73a24220, the same day). Within the one script the mixed path reads 1.64× the uniform one, while the uniform path [48,49,50] reads 8.6× apart between the two scripts on one day and the mixed path 1.57× apart between two runs of one script; the 13.3× and 22.1× quotients pair a soft_break row with a framework_snapshots row and do not isolate the path. R* is a purity-proxy threshold rather than a physical phase boundary, and the nearest calibration (2026-04-25) singles out no culprit: the mixed path is worse on T2 (Q0 41 μs, which is what puts it below R*), not worse on CZ (0.0021, 0.0010 against 0.0088, 0.0041), and not uniformly worse on readout (0.95%, 1.32% against 5.85%, 0.90% on the two sites the lens reads). A band effect, if any, would need several paths of each composition in one job, under one script, each run more than once. Two findings stand on this single 39-second billed run by themselves: the F83 predictions met on a second backend; the Π²-odd memory of XY+YX reproduced on two Heron-r2 chips, 0.7409 vs 0.7646.",
+                "The four F83 Hamiltonians on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, below R* on 91 / 91 / 90 days). " +
+                "The run was flown to test the regime-uniformity hypothesis, that a band-mixed path reads a dirtier truly-baseline than a uniform one, and the data do not support it: the order-of-magnitude contrast it rested on is mostly a contrast between two runner scripts: within one script the two band compositions differ 1.64×. Every soft_break run reads clean, on uniform paths on either side of R* and on two chips (Marrakesh [48,49,50] 0.0013, job d7mjnjjaq2pc73a1pk4g, 2026-04-26; Marrakesh [4,5,6] 0.0017, job d7pol1e7g7gs73cf7j90, 2026-04-30; this run 0.0022), and every framework_snapshots run on Marrakesh reads above all of them, whatever the band: uniform [48,49,50] 0.0116 (job d7ml4i2t99kc73d2lek0), mixed [0,1,2] 0.0190 (job d7ml9kc3g2mc7392k9p0, the same script eleven minutes later) and 0.0297 (job d7mt7jbaq2pc73a24220, the same day). Within the one script the mixed path reads 1.64× the uniform one, while the uniform path [48,49,50] reads 8.6× apart between the two scripts on one day and the mixed path 1.57× apart between two runs of one script; the 13.3× and 22.1× quotients pair a soft_break row with a framework_snapshots row and do not isolate the path. R* is a purity-proxy threshold rather than a physical phase boundary, and the nearest calibration (2026-04-25) singles out no culprit: the mixed path is worse on T2 (Q0 41 μs, which is what puts it below R*), not worse on CZ (0.0021, 0.0010 against 0.0088, 0.0041), and not uniformly worse on readout (0.95%, 1.32% against 5.85%, 0.90% on the two sites the lens reads). A band effect, if any, would need several paths of each composition in one job, under one script, each run more than once. Two findings stand on this single 39-second billed run by themselves: the four F83 fingerprints reproduced on a second backend; the Π²-odd memory of XY+YX reproduced on two Heron-r2 chips, 0.7409 vs 0.7646.",
             QubitPath: new[] { 43, 56, 63 }),
 
         new Confirmation(

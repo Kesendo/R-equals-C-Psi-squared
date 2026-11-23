@@ -58,8 +58,8 @@ public sealed class F87CanonicalWitness : Claim
         }
     }
 
-    /// <summary>Five canonical witnesses spanning all three trichotomy branches plus the
-    /// EQ-030 Marrakesh-confirmed soft anchor.</summary>
+    /// <summary>Five canonical witnesses spanning all three trichotomy branches, with YZ+ZY,
+    /// the soft pair flown in EQ-030.</summary>
     public static IReadOnlyList<F87CanonicalWitness> StandardSet(ChainSystem chain) => new[]
     {
         new F87CanonicalWitness(
@@ -87,7 +87,7 @@ public sealed class F87CanonicalWitness : Claim
             anchor: "docs/ANALYTICAL_FORMULAS.md F1 + F87"),
         new F87CanonicalWitness(
             name: "YZ+ZY (EQ-030 soft)",
-            description: "Bond-flipped YZ: bit_b sum is even but the Hamiltonian is not truly. Marrakesh-confirmed soft Hamiltonian (drop=28, EQ-030).",
+            description: "Bond-flipped YZ: bit_b sum is even but the Hamiltonian is not truly; soft by the spectral test. Flown on Marrakesh 2026-04-26 (EQ-030).",
             chain: chain,
             terms: new[]
             {
@@ -109,7 +109,7 @@ public sealed class F87CanonicalWitness : Claim
             anchor: "docs/ANALYTICAL_FORMULAS.md F87 + experiments/V_EFFECT_FINE_STRUCTURE.md"),
         new F87CanonicalWitness(
             name: "XY+YX (bond-flip soft)",
-            description: "Bond-flipped Z-free pair: soft per Marrakesh skeleton-trace test. Both Π²-odd.",
+            description: "Bond-flipped Z-free pair, soft by the spectral test; both terms Π²-odd.",
             chain: chain,
             terms: new[]
             {
@@ -117,6 +117,6 @@ public sealed class F87CanonicalWitness : Claim
                 new PauliPairBondTerm(PauliLetter.Y, PauliLetter.X),
             },
             expectedClass: TrichotomyClass.Soft,
-            anchor: "Marrakesh lebensader_skeleton_trace_decoupling"),
+            anchor: "docs/ANALYTICAL_FORMULAS.md F87"),
     };
 }

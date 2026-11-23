@@ -8,7 +8,7 @@
 
 The Y-phase lens theorem characterizes which product states can probe the Π²-odd (memory) sector of the operator algebra. Take an N-qubit tensor product of X- and Y-eigenstates (each site one of |±⟩ or |±i⟩) and let M be the number of Y-basis sites. The Pauli strings in the support of ρ = |ψ⟩⟨ψ| split under Π²_Z parity by a clean combinatorial rule: an X-only state (M=0) is entirely Π²-even, while any state with M ≥ 1 splits exactly in half, 2^(N−1) even and 2^(N−1) odd, independent of all sign choices.
 
-The consequence is practical. X-only states are blind to the odd sector that F80/F81 dynamics populate (and are F88b-lens-blind); a single Y-basis site is enough to turn a product state into a perfect 50/50 probe of Π²-parity, which is why Y-basis and mixed X-Y product states are the canonical test probes for the polarity cube. It is structurally parallel to F102 (Y-parity as an independent polarity axis), and it supplies the canonical probe states for testing F107's truly-sector y-parity-zero purity and the F108 Π²-even palindrome family.
+The consequence is practical. A single Y-basis site is enough to turn a product state into a perfect 50/50 probe of Π²-parity, which is why Y-basis and mixed X-Y product states are the canonical test probes for the polarity cube. It is structurally parallel to F102 (Y-parity as an independent polarity axis), and it supplies the canonical probe states for testing F107's truly-sector y-parity-zero purity and the F108 Π²-even palindrome family.
 
 ## Statement
 
@@ -81,7 +81,7 @@ The sign factors ε_i affect only the per-string amplitudes (sign of `Tr(ρ σ_�
 
 ## Connection to F88b state-level lens
 
-This theorem characterises a clean class of test states for the F88b-Lens ([`MemoryAxisRho.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs)): any X-Y mixed product state with M ≥ 1 surfaces Π²-odd content; X-only states (M = 0) are Π²-blind and cannot probe F80 cluster dynamics or F81 operator-shift dynamics. For canonical Π²-odd-driving probes, use Y-basis tensor products (|+i⟩ per site).
+This theorem characterises a clean class of test states for the F88b-Lens ([`MemoryAxisRho.cs`](../../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs)): any X-Y mixed product state with M ≥ 1 surfaces Π²-odd content. For canonical Π²-odd-driving probes, use Y-basis tensor products (|+i⟩ per site).
 
 The **pair-state companion** is the F88b popcount-coherence Krawtchouk closed form ([`PROOF_F86B_UNIVERSAL_SHAPE.md`](PROOF_F86B_UNIVERSAL_SHAPE.md) §"F88b: popcount-coherence Π²-odd / memory closed form"): pair states |ψ⟩ = (|p⟩ + |q⟩)/√2 have a continuous Π²-odd-fraction parametrised by popcount-pair and Hamming distance; product states have the discrete 2-anchor structure proven here (0 Π²-odd at M=0, 2^(N−1) Π²-odd at M≥1).
 

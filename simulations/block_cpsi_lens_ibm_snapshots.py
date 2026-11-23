@@ -9,8 +9,8 @@ ceiling per Theorem 2 of PROOF_BLOCK_CPSI_QUARTER and to the noiseless
 continuous-time ideal evolution.
 
 Question: how close to the 1/4 boundary do real hardware states sit, and does
-the Theorem 2 lens differentiate the F87 trichotomy (truly / soft / hard) the
-same way the F88b lens did at the operator level?
+the Theorem 2 lens tell the three snapshot Hamiltonians (XX+YY / XY+YX / XX+XY)
+apart, as the F88b lens does by their Π² parity?
 
 Snapshot configurations (all from |+−+⟩ at N=3, t=0.8, J=1.0):
   - heisenberg : H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1})

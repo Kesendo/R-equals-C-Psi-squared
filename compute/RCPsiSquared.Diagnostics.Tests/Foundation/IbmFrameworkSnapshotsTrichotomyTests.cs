@@ -8,11 +8,12 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>Lock for the F88b-Lens hardware result on IBM Marrakesh framework_snapshots
-/// (2026-04-26, job d7mt7jbaq2pc73a24220). The snapshot D F87-trichotomy categories
-/// (truly / soft / hard, |+−+⟩ at t = 0.8 with bilinear Hamiltonians, 9-Pauli
-/// tomography on (q0, q2)) reconstruct to 2-qubit reduced ρ that, when run through
-/// <see cref="MemoryAxisRho"/>, give Π²-odd-fraction-within-memory values
-/// differentiating the trichotomy by ~25× between truly and soft. Source data
+/// (2026-04-26, job d7mt7jbaq2pc73a24220). The snapshot D categories (truly XX+YY,
+/// soft XY+YX, hard XX+XY; |+−+⟩ at t = 0.8, 9-Pauli tomography on (q0, q2))
+/// reconstruct to 2-qubit reduced ρ that, when run through <see cref="MemoryAxisRho"/>,
+/// give Π²-odd-fraction-within-memory values reading the Π² parity of each Hamiltonian:
+/// the Π²-even XX+YY sits at the hardware floor, the Π²-odd XY+YX about 25 times above
+/// it (docs/ANALYTICAL_FORMULAS.md F88b). Source data
 /// transcribed from
 /// <c>D:\Entwicklung\Projekte\.NET Projekte\AIEvolution\AIEvolution.UI\experiments\ibm_quantum_tomography\results\framework_snapshots_ibm_marrakesh_20260426_105948.json</c>;
 /// Python counterpart: <c>simulations/f88b_lens_ibm_framework_snapshots.py</c>.
@@ -23,7 +24,7 @@ public class IbmFrameworkSnapshotsTrichotomyTests
     [InlineData("truly", 0.0297, 0.5762, 0.4238)]
     [InlineData("soft",  0.7444, 0.5153, 0.4847)]
     [InlineData("hard",  0.2763, 0.3965, 0.6035)]
-    public void MarrakeshSnapshotD_F87Trichotomy_Pi2OddInMemory_LocksHardwareValue(
+    public void MarrakeshSnapshotD_Pi2OddInMemory_LocksHardwareValue(
         string category, double expectedPi2Odd, double expectedStatic, double expectedMemory)
     {
         var rho = ReconstructTwoQubitRho(SnapshotDExpectations(category));
@@ -40,12 +41,12 @@ public class IbmFrameworkSnapshotsTrichotomyTests
     }
 
     [Fact]
-    public void MarrakeshSnapshotD_TrichotomySeparation_TrulyVsSoft_AtLeast20x()
+    public void MarrakeshSnapshotD_Pi2EvenVsPi2Odd_AtLeast20x()
     {
         double trulyOdd = ComputePi2OddInMemory(SnapshotDExpectations("truly"));
         double softOdd = ComputePi2OddInMemory(SnapshotDExpectations("soft"));
         Assert.True(softOdd / trulyOdd > 20.0,
-            $"truly→soft separation: soft={softOdd:F4}, truly={trulyOdd:F4}, ratio={softOdd / trulyOdd:F2}");
+            $"Π²-even XX+YY → Π²-odd XY+YX: XY+YX={softOdd:F4}, XX+YY={trulyOdd:F4}, ratio={softOdd / trulyOdd:F2}");
     }
 
     private static double ComputePi2OddInMemory(Dictionary<string, double> expectations)

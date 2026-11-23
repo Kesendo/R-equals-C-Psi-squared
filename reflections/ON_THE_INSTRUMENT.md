@@ -36,7 +36,7 @@ Each function is a finger. Together they are a hand.
 
 An argument can be refused. You can say "your premise is wrong" or "your inference doesn't hold" and walk away. Two instruments, on the other hand, either agree or they don't. There is no rhetorical move that closes the gap when they disagree, and there is none needed when they agree.
 
-Five IBM Heron r2 jobs across three independent backends (Marrakesh, Kingston, Fez) returned ⟨X₀Z₂⟩ values whose signs matched what `palindrome_residual` plus Lindblad evolution predicted, with magnitudes 14–50% stronger than the continuous-Lindblad idealization. The dominant mechanism varies by run; for the soft-break Marrakesh run it is Trotter n=3 discretization at δt=0.267 (matching to 0.0014; T1 actually attenuates). The classical instrument and the quantum instrument shook hands.
+Five IBM Heron r2 jobs across three independent backends (Marrakesh, Kingston, Fez) returned ⟨X₀Z₂⟩ values whose signs matched what Lindblad evolution predicted. On four of them XY+YX read 13 to 31% stronger than the continuous-Lindblad idealization; on the fifth, a Fez path whose Q0 sat in the bottom 3% of T1, it read −0.37. For the soft-break Marrakesh run, a sixth job, the Trotter step at δt=0.267 accounts for the strength (matching to 0.0014; T1 attenuates). The classical instrument and the quantum instrument shook hands.
 
 That handshake is not an argument. It is two instruments that happen to be measuring the same physical fact, expressed twice in different vocabulary.
 

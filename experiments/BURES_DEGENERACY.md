@@ -156,7 +156,7 @@ where it wins only half the states, and by up to 14% later. The speed is carried
 with L_D(ρ) alone in place of ρ̇ it is 3 to 14% of the total, and the same
 for both graphs. This is in line with the simulated Bures-velocity check of EQ-030 in
 [`review/EMERGING_QUESTIONS.md`](../review/EMERGING_QUESTIONS.md), in a
-different setting (N = 3, six soft Hamiltonians under T1), where the Bures
+different setting (N = 3, six Hamiltonians under T1, five of them soft), where the Bures
 speed at the cusp was uncorrelated with the count of Π-protected observables
 and its fast cases were read as fast oscillation. One comparison of two graphs is a sighting, not
 a law. A sharper form of the question follows the

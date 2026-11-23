@@ -167,9 +167,8 @@ reviewers checked it against the stores at source.
   `reflections/` did NOT: `ON_TWO_TIMES.md` carries the far end (*"Near λ = 0 the
   memory is long; at λ = −2Σγ it is shortest"*), while this
   file's own companion page cites `ON_THE_SOFT_BREAK.md` twice.
-  `fw.Confirmations` and the C# `ConfirmationsRegistry` carry the F1 identity
-  verbatim in `lebensader_skeleton_trace_decoupling`; what they do not carry is
-  anything on the two-end count. And `simulations/framework/` builds no
+  `fw.Confirmations` and the C# `ConfirmationsRegistry` carry nothing on the
+  two-end count. And `simulations/framework/` builds no
   commutant, but `diagnostics/d_zero.py::stationary_modes` returns a kernel
   dimension and pins N+1, which is §(f2)'s near-end count computed and running,
   by the float route F157's registry entry warns against. And

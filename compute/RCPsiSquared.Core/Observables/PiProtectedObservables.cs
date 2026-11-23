@@ -33,9 +33,12 @@ public sealed record PiProtectedResult(
 /// where S_λ(α) = Σ_{k: λ_k = λ} V[α, k] · c[k] sums right-eigenvector components within each
 /// degenerate cluster. σ_α is Π-protected iff S_λ(α) = 0 for every cluster — strictly weaker
 /// than "each V[α,k]·c[k] vanishes" (degenerate-cluster cancellations are real, e.g.
-/// ⟨X_0 I Z_2⟩ = 0 for Heisenberg chain on |+−+⟩ via SU(2)-multiplet cancellation).
+/// ⟨X_0 I Z_2⟩ = 0 for Heisenberg chain on |+−+⟩, the X^⊗3 parity showing as an SU(2)-multiplet
+/// cancellation).
 ///
-/// Hardware-confirmed at Marrakesh (April 26, 2026) on YZ+ZY soft Hamiltonian, EQ-030.
+/// Read on hardware at Marrakesh (2026-04-26, EQ-030) for ⟨X_0 I Z_2⟩ on YZ+ZY, whose zero under
+/// Z-dephasing is the X^⊗3 parity every Π²-even H from |+−+⟩ obeys; the first hardware reading,
+/// +0.134 at t = 0.8, sits 8.6σ from zero.
 /// See <see cref="Confirmations.ConfirmationsRegistry"/> entry "pi_protected_xiz_yzzy".
 /// </summary>
 public static class PiProtectedObservables

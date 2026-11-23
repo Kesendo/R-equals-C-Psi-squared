@@ -434,16 +434,15 @@ underlying physics:
    showed the 6× T1/T2 narrowing window between the two CΨ trajectories.
 3. **F88b-Lens Π²-odd memory fraction** (April–May add): a closed-form,
    t-independent quantity that reads the chiral content of any ρ
-   directly, without re-deriving it from a complement. The framework's
-   F87 theorem partitions Hamiltonian terms into three classes by how
-   the Π² mirror acts on them (`truly`, `soft`, `hard`); F88b turns this
-   classification into a single state-level number, the Π²-odd memory
-   fraction, which gives the weight of the chiral-mirror-asymmetric part
-   of ρ. Hardware-confirmed on Marrakesh April 26: the F87 trichotomy
-   `truly` Hamiltonians give Π²-odd-memory ≈ 0.030, `soft` ≈ 0.744,
-   `hard` ≈ 0.276 at the same state on the same chain. Same algebraic
-   distinction, ≈ 25× separation between truly and soft at the state
-   level.
+   directly, without re-deriving it from a complement: the weight of
+   the Π²-odd, chiral-mirror-asymmetric part of ρ's memory. Π² parity
+   is a character of the Pauli letters, so a Π²-even Hamiltonian under
+   Z dephasing holds that weight at zero from an X-basis product start,
+   and what the lens reads there is the Π² parity of the Hamiltonian.
+   On Marrakesh April 26, from |+−+⟩ on one chain, XX+YY (Π²-even)
+   gives ≈ 0.030, XY+YX (Π²-odd) ≈ 0.744 and XX+XY (mixed) ≈ 0.276;
+   on Kingston May 5 the Π²-even soft pair YZ+ZY reads 0.0046 beside
+   the truly 0.0022, so the lens does not see the F87 class.
 
 Layer 3 is the not-tautological, time-independent cousin of layer 2.
 It reads what the chiral mirror does at the level of the operator
@@ -528,7 +527,7 @@ cannot build one, so the test went to Kingston the same day.
 
 The Kingston topology-constraint relaxation (three stable-quantum
 PulseStable triples vs Marrakesh's zero) made an experiment possible
-that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
+that Marrakesh had blocked: the F83 Hamiltonians on a uniform-quantum chain.
 Path [43, 56, 63] on ibm_kingston, the most balanced of the three
 triples (r mean 0.103 / 0.089 / 0.104, walk 0 / 0 / 0.022 across 91
 days, below R* on 91 / 91 / 90 of them). Job d7sqjpiudops73976960, 4096 shots/basis,
@@ -539,7 +538,7 @@ under one minute).
 
 F88b-Lens Π²-odd-memory readings, side by side with the prior anchors:
 
-| Path                          | Regime              | Runner script, run          | truly-baseline | soft   |
+| Path                          | Regime              | Runner script, run          | truly-baseline | XY+YX  |
 |-------------------------------|---------------------|-----------------------------|---------------:|-------:|
 | Marrakesh [48, 49, 50]        | uniform-classical   | soft_break, Apr 26          |       0.0013   | 0.7646 |
 | Marrakesh [4, 5, 6]           | uniform-classical   | soft_break, Apr 30          |       0.0017   | 0.7550 |
@@ -581,10 +580,10 @@ One reading and two findings from one run:
    several paths of each composition in one job, under one script,
    each run more than once.
 
-2. **The F83 predictions on a second backend.** Operator-level values
-   on Kingston (truly near zero, pi2_odd_pure ⟨X₀Z₂⟩ = -0.7739,
-   pi2_even_nontruly ⟨X₀X₂⟩ = +0.8428) match the F83 closed-form
-   predictions.
+2. **The F83 fingerprints on a second backend.** Kingston shows the
+   four fingerprints of the Marrakesh run (pi2_odd_pure ⟨X₀Z₂⟩ = −0.774,
+   pi2_even_nontruly ⟨X₀X₂⟩ = +0.843, mixed ⟨Z₀X₂⟩ = −0.724, truly
+   ⟨Y₀Z₂⟩ = +0.642).
 
 3. **The Π²-odd memory of XY+YX reproduces on a second Heron-r2 chip.**
    Kingston pi2_odd_pure (0.7409) is 3.1% from Marrakesh's (0.7646);
@@ -631,7 +630,7 @@ scripts.
   [ibm_fez_history.csv](../data/ibm_history/results/ibm_fez_history.csv)
 - Cross-backend Heron-r2 comparison:
   [marrakesh_kingston_fez_compare.py](../simulations/marrakesh_kingston_fez_compare.py)
-- May 5 hardware run (Kingston [43, 56, 63] uniform-quantum F87 trichotomy):
+- May 5 hardware run (Kingston [43, 56, 63], the four F83 Hamiltonians on a uniform-quantum chain):
   [soft_break_ibm_kingston_20260505_102806.json](../data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json),
   [f88b_lens_ibm_kingston_uniform_quantum.py](../simulations/f88b_lens_ibm_kingston_uniform_quantum.py)
 - Path-biography review scripts:

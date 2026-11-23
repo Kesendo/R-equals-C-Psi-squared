@@ -101,4 +101,4 @@ F109 (MotherSoftYParityOnePurity, Tier1Derived); F110 (HardCellYInversionPattern
 ## Open
 
 - k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4, for the soft, truly and off-diagonal cells (the hard diagonal cell is read at k = 4, 5 by `DiagonalCellComplementConnectionTests`).
-- Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
+- Hardware QPU confirmation at k ≥ 3.

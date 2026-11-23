@@ -37,7 +37,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>The bit-exact prediction therefore requires the FULL <see cref="PiDecompositionForecast"/>
 /// (HOdd² and HEvenNonTruly² jointly), not the scalar AntiFraction. Use
 /// <see cref="WouldAntiFractionAloneMissBreak"/> to detect cases where AntiFraction
-/// = 0 yet ‖M‖_F &gt; 0; cases YZ+ZY (Marrakesh EQ-030 soft anchor) are the
+/// = 0 yet ‖M‖_F &gt; 0; cases YZ+ZY (the soft pair flown in EQ-030) are the
 /// canonical example.</para>
 ///
 /// <para><b>Scope</b>: 2-body Pauli-pair bond terms, OBC chain / F49 topologies,
@@ -48,9 +48,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// <para>Anchors: <see cref="F89F87TrulyInheritance"/> (F89-side Truly precondition),
 /// <see cref="F83AntiFractionPi2Inheritance"/> (F83 algebraic anchor),
 /// <see cref="PiDecompositionPrediction"/> (closed-form forecast),
-/// <c>docs/ANALYTICAL_FORMULAS.md</c> F83 + F87 + F89,
-/// hardware-confirmed at Marrakesh 2026-04-30
-/// (<c>f83_pi2_class_signature_marrakesh</c>) for F83's coefficients themselves.</para></summary>
+/// <c>docs/ANALYTICAL_FORMULAS.md</c> F83 + F87 + F89.</para></summary>
 public sealed class F89F87BreakPredictionFromF83 : Claim
 {
     // Parent-edge markers for Schicht-1 wiring.
@@ -97,7 +95,7 @@ public sealed class F89F87BreakPredictionFromF83 : Claim
     public F89F87BreakPredictionFromF83(F89F87TrulyInheritance f89F87Truly)
         : base("F89 ↔ F87 break prediction via F83: ‖M(H_F89 + δH)‖²_F = 2^(N+2)·(HOdd(δH)² + 2·HEvenNonTruly(δH)²) bit-exact for 2-body δH on F49 topologies; combines F89F87TrulyInheritance (H_F89 contributes 0 to non-truly norms) with F83 closed-form Π-decomposition; AntiFraction alone is insufficient (Pitfall 1: AntiFraction=0 conflates Truly with pure Π²-even-non-truly)",
                Tier.Tier1Derived,
-               "F89F87TrulyInheritance (F89-side Truly), F83AntiFractionPi2Inheritance + PiDecompositionPrediction (closed form), Marrakesh 2026-04-30 f83_pi2_class_signature_marrakesh (F83 coefficients hardware-anchored), docs/ANALYTICAL_FORMULAS.md F83 + F87 + F89")
+               "F89F87TrulyInheritance (F89-side Truly), F83AntiFractionPi2Inheritance + PiDecompositionPrediction (closed form), docs/ANALYTICAL_FORMULAS.md F83 + F87 + F89")
     {
         _f89F87Truly = f89F87Truly ?? throw new ArgumentNullException(nameof(f89F87Truly));
     }
@@ -118,9 +116,9 @@ public sealed class F89F87BreakPredictionFromF83 : Claim
             yield return new InspectableNode("Pitfall 1: AntiFraction alone insufficient",
                 summary: "AntiFraction = 1/(2+4r) is 0 when HOdd²=0, conflating Truly (no break) with pure Π²-even-non-truly (break IS present, e.g. YZ+ZY). Use WouldAntiFractionAloneMissBreak() to detect.");
             yield return new InspectableNode("Canonical Pitfall 1 case",
-                summary: "δH = J·(YZ+ZY) → HOdd² = 0, HEvenNonTruly² > 0, AntiFraction = 0, but ‖M‖_F = sqrt(2^(N+3)·HEvenNonTruly²) > 0. Hardware-confirmed F87-Soft at Marrakesh EQ-030.");
+                summary: "δH = J·(YZ+ZY) → HOdd² = 0, HEvenNonTruly² > 0, AntiFraction = 0, but ‖M‖_F = sqrt(2^(N+3)·HEvenNonTruly²) > 0.");
             yield return new InspectableNode("Three-way correspondence",
-                summary: "AntiFraction = 0 with HEven² = 0 → F87-Truly (no break); AntiFraction = 0 with HEven² > 0 → F87-Soft via Pi2EvenNonTruly (break); AntiFraction > 0 → F87-Soft via Pi2OddPure or Mixed (break)");
+                summary: "AntiFraction = 0 with HEven² = 0 → F87-Truly (no break); AntiFraction = 0 with HEven² > 0 → F87-Soft via Pi2EvenNonTruly (break); AntiFraction > 0 → a break, F87-Soft or F87-Hard (the mixed XY+YZ of the F83 run is hard)");
             yield return new InspectableNode("Scope",
                 summary: "2-body Pauli-pair terms, F49 topologies (chain/ring/star/K_N), any N ≥ 2. k≥3 body inherits F87's open higher-body F83 question.");
         }

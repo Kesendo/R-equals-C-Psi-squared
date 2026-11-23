@@ -22,7 +22,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `F87.PauliPairTrichotomy.Classify` | F87 truly/soft/hard classifier (uses F1 residual as discriminator) | docs/ANALYTICAL_FORMULAS.md F87 entry | `palindrome_trichotomy` (Marrakesh 2026-04-26) |
+| `F87.PauliPairTrichotomy.Classify` | F87 truly/soft/hard classifier (uses F1 residual as discriminator) | docs/ANALYTICAL_FORMULAS.md F87 entry | `palindrome_trichotomy` (Marrakesh 2026-04-26; the predictions for one Hamiltonian per class, not the classifier) |
 | `F87.DissipatorResonanceLaw` | for Klein-homogeneous pairs, F87-hardness ∈ Klein cell matching dephase-letter Klein index (Z→(0,1), X→(1,0), Y→(1,1)), the other three cells coloured at every body count (PROOF_F110 §2); SU(2)-symmetric; Mother (0,0) hard-free | hypotheses/THE_POLARITY_LAYER.md §The dissipator letter selects its cell + simulations/klein_dissipator_resonance.py | — (witness table N=4 k=3 full enumeration) |
 | `F87.KleinCellHardnessWitness` | one cell of the 4×3 hardness table (DephaseLetter, KleinIndex, HardCount, TotalCount) | same | — |
 | `F87.DissipatorAxisSelectsPolarityClaim` | Typed bridge: `Pi2KnowledgeBase.PolarityLayerOrigin` ↔ `F87KnowledgeBase.DissipatorResonance`. Names "dissipator letter = polarity-axis selector"; SU(2)-rotation-equivalent; unifies Brecher-from-outside (transverse field) and Hardness-from-inside (F87) as two readings of one polarity | hypotheses/THE_POLARITY_LAYER.md §The dissipator letter selects its cell | — (synthesised 2026-05-05, no new witness numbers) |
@@ -39,7 +39,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `F81.PiDecomposition.Decompose` | Tier-1: M_anti = L_{H_odd}, ‖M‖² = ‖M_sym‖² + ‖M_anti‖² | [`PROOF_F81_PI_CONJUGATION_OF_M.md`](../../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) | `f83_pi2_class_signature_marrakesh` (April 30) |
+| `F81.PiDecomposition.Decompose` | Tier-1: M_anti = L_{H_odd}, ‖M‖² = ‖M_sym‖² + ‖M_anti‖² | [`PROOF_F81_PI_CONJUGATION_OF_M.md`](../../docs/proofs/PROOF_F81_PI_CONJUGATION_OF_M.md) | `f83_pi2_class_signature_marrakesh` (April 30; Trotter + γ_Z predictions for four Hamiltonians, M not measured) |
 
 ## F82 — T1 dissipator correction
 
@@ -52,7 +52,7 @@ For Core-side F-formulas (Pauli, Lindblad, Symmetry, etc.) see
 
 | C# | F-formula | Proof | Confirmation |
 |----|-----------|-------|--------------|
-| `F83.PiDecompositionPrediction.Predict` | F81/F85 ‖M‖²/‖M_anti‖²/‖M_sym‖² closed forms | [`PROOF_F83_PI_DECOMPOSITION_RATIO.md`](../../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md) + [`PROOF_F85_KBODY_GENERALIZATION.md`](../../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md) | `f83_pi2_class_signature_marrakesh` |
+| `F83.PiDecompositionPrediction.Predict` | F81/F85 ‖M‖²/‖M_anti‖²/‖M_sym‖² closed forms | [`PROOF_F83_PI_DECOMPOSITION_RATIO.md`](../../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md) + [`PROOF_F85_KBODY_GENERALIZATION.md`](../../docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md) | `f83_pi2_class_signature_marrakesh` (its four Hamiltonians, not the anti-fraction) |
 | `F83.PiDecompositionPrediction.AntiFraction` | anti-fraction = 1/(2 + 4·r) | same | — |
 
 ## F84 — Amplitude damping (thermal)

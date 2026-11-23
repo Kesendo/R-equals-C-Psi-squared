@@ -26,8 +26,9 @@ namespace RCPsiSquared.Diagnostics.F83;
 /// Π²-even-nontruly) should inspect <c>HOddSquared</c> and <c>HEvenNonTrulySquared</c>
 /// directly.</para>
 ///
-/// <para>Hardware-confirmed at Marrakesh 2026-04-30 (Confirmations entry
-/// "f83_pi2_class_signature_marrakesh"). See PROOF_F83_PI_DECOMPOSITION_RATIO and
+/// <para>The Marrakesh 2026-04-30 run of four such Hamiltonians (Confirmations entry
+/// "f83_pi2_class_signature_marrakesh") met their Trotter + γ_Z predictions; the
+/// decomposition itself is not measured there. See PROOF_F83_PI_DECOMPOSITION_RATIO and
 /// PROOF_F85_KBODY_GENERALIZATION; docs/ANALYTICAL_FORMULAS.md F83 + F85 entries.</para>
 /// </summary>
 public sealed record PiDecompositionForecast(

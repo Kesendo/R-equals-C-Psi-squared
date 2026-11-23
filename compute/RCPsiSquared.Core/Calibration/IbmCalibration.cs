@@ -11,10 +11,10 @@ namespace RCPsiSquared.Core.Calibration;
 /// 8.6× apart across the scripts (the run record is in <see cref="RegimeSummary"/>).
 ///
 /// <para>Score function: <see cref="ScoreQubit"/> is coherence-dominated with
-/// multiplicative gate and readout penalties. Rationale: F88b-Lens experiments are
-/// run at simulation times t ~ 1/J where dephasing (T2) rather than amplitude
-/// damping (T1) sets the truly Π²-odd-baseline floor on Heron r2 (T1 ≳ T2 ~ 100 μs);
-/// per-qubit chain-quality is therefore coherence-driven.</para>
+/// multiplicative gate and readout penalties: a coherence-driven quality ordering for
+/// runs at simulation times t ~ 1/J on Heron r2 (T1 ≳ T2 ~ 100 μs). It is not a model
+/// of the truly Π²-odd baseline, which Z dephasing alone holds at zero
+/// (docs/ANALYTICAL_FORMULAS.md F88b).</para>
 ///
 /// <para>Chain finder: DFS over the CZ-coupled graph; chain score = sum of
 /// per-qubit scores plus −1000·CZ-error per bond (weaker errors raise the

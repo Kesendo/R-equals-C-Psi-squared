@@ -234,9 +234,9 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
    soft cell and the half-truly cell exchange, so the assignment records the
    choice of palindromizer.
 
-4. **Hardware confirmation.** No k≥3 F87 confirmations exist; all 5 Marrakesh
-   F87 confirmations (palindrome trichotomy, π-protected XIZ/YZZY, Lebensader
-   skeleton/trace, d_zero sector trichotomy, F83 Π²-class signature) are
+4. **Hardware confirmation.** No k≥3 F87 hardware run exists; the Marrakesh
+   entries (palindrome trichotomy, π-protected XIZ/YZZY, Lebensader
+   skeleton/trace, d_zero sector trichotomy, the F83 run) are
    k=2. A k=3 QPU run targeting the diagonal-cell 42:8 prediction would be
    the natural next hardware probe.
 

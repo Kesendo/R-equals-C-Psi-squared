@@ -14,9 +14,15 @@ and operator-layer (F78/F79) are the same broad-in → focused-out funnel
 observed at different abstraction heights — the Lebensader is the through-line
 that holds The Connection upright across all layers.
 
-Finite hardware-associated row: EQ-030 on Marrakesh April 26 reports drop=28
-for YZ+ZY, Pearson(drop, Δ∫θ)=+0.85, and a Bures-velocity null as a third
-recorded axis.  One row does not identify the census with the trace.
+Under T1 the census keeps the silence complex conjugation carries (an
+imaginary H from a real start under real dissipators holds every string with an
+odd number of Y at zero, the set y_parity_panel reports) and loses the
+silence a flip carries (simulations/pi2_lens_and_t1_silence_gate.py G2);
+YZ+ZY loses 12 strings more, for a reason not known.
+EQ-030 (Marrakesh, April 26) computes drop=28 for YZ+ZY and
+Pearson(drop, Δ∫θ)=+0.85 and finds Bures velocity no third axis; its flights
+read ⟨X₀IZ₂⟩ and θ, not the census.  One row does not identify the census
+with the trace.
 
 Public API:
   cockpit_panel(H, gamma_l, rho_0, N, gamma_t1_l=None, t_max, dt, ...)
