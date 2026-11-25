@@ -84,7 +84,8 @@ Then ⟨O⟩(−t) = Tr[O · 𝓡(e^{L(t)T}(𝓡 ρ))] = Tr[(ROR) · e^{L(t)T} �
   at 5·10⁻¹⁶ across scan scales and evolution times.
 - **(−,+) the zero cell:** R-even generator, operator-R-even preparation,
   R-odd readout: ⟨O⟩ ≡ 0 for all times (gate T3, 3·10⁻¹⁶ at N = 4, 5). The
-  witness for this cell is the gate itself; see §5 for what this cell is NOT.
+  witness for this cell is the gate itself; §5 reads the zero of ⟨X₀IZ₂⟩
+  from |+−+⟩ as the same cell under another mirror.
 - **(+,+):** no claim. Generic response. And the reader's converse fence: no
   mirror, no theorem. A pair that is not a mirror pair (the n = 12 collision
   pair, the A1/A2 arms) has no definite-parity readout in this sense and sits
@@ -132,18 +133,37 @@ Theorem B pays tracking hypotheses to speak about a single pair.
   budget on the Θ side) the failure was a broken parity hypothesis, not a
   broken mirror.**
 
-## 5. What the zero cell is NOT: Π-protected observables
+## 5. The zero of ⟨X₀IZ₂⟩: the same cell, another mirror
 
-The repo's Π-protected observables (`observables.py`,
-`PiProtectedObservables.cs`, hardware entry `pi_protected_xiz_yzzy`) are a
-DIFFERENT zero mechanism and are deliberately NOT cited as the (−,+) cell's
-witness: their zeros come from degenerate-cluster cancellations in the
-eigenmode expansion (the code's own docstring calls this strictly weaker than
-per-mode vanishing), they are computed per initial state, and the flagship
-⟨X₀IZ₂⟩ does not even have definite R-parity (site reversal maps it to
-Z₀IX₂). A cluster cancellation and a mirror selection rule can both print
-zero; they are not the same object. The cell's witness is gate T3, a pure
-selection rule.
+The repo's census of silent strings (`pi_protected_observables` in
+`observables.py`, `PiProtectedObservables.cs`; hardware entry
+`pi_protected_xiz_yzzy`) is not cited as the witness of R's (−,+) cell:
+site reversal only permutes the letters of a Pauli string, so no string is
+R-odd and no entry of the census can sit in that cell (X₀IZ₂ goes to
+Z₀IX₂). Its flagship, ⟨X₀IZ₂⟩ from |+−+⟩ under Z dephasing, is zero for
+every Π²-even Hamiltonian, the truly XX+YY chain, the Heisenberg chain and
+YZ+ZY among them, by a selection rule: X^⊗3 commutes with such a
+Hamiltonian, conjugation by it carries the Z dephasing into itself and
+fixes the start, and X₀Z₂ reverses under it (gate G3 of
+[`pi2_lens_and_t1_silence_gate.py`](../../simulations/pi2_lens_and_t1_silence_gate.py);
+for YZ+ZY
+[X3_WINDOW_HARDWARE_PREDICTION](../../experiments/X3_WINDOW_HARDWARE_PREDICTION.md)
+§1). X^⊗3 is Π²_Z, the conjugation the
+[F88b](../ANALYTICAL_FORMULAS.md#f88b) lens reads, and X^N is this law's
+third mirror in [LATTICE_H_THREAD](../../experiments/LATTICE_H_THREAD.md)
+§1: the zero is the (−,+) cell of this proof's §1 with M = X^⊗3 in place
+of R, an M-even generator, an operator-M-even preparation and an M-odd
+readout. On YZ+ZY at equal rates the zero needs no rule at all: H
+annihilates the start, which then only dephases. The census itself is a
+numerical list for one Hamiltonian, one rate profile, one start, a
+tolerance and an eigenvalue clustering: a string enters it when its
+contributions, summed over each degenerate cluster of the eigenmode
+expansion, vanish in every cluster. That criterion does not say why; for
+other Hamiltonians the same string is held at zero by other mirrors, X₂
+alone on XX+YX and X^⊗3 followed by complex conjugation on XZ+ZX, or by
+none of these, the string lying outside everything the start reaches
+(XZ+ZZ; gate G3). The witness of R's zero cell is gate T3; readings of other mirrors'
+cells on hardware are in §6.
 
 ## 6. Hardware, honestly sized
 
@@ -152,9 +172,16 @@ the FIRST-order protection: the odd orders cancel in the pair difference and
 the fringe stands. The even-order anti-protection term stayed inside its
 pre-registered budget (b_zz2 ≈ 38 % of the observed A0 excess, the remainder
 under the unknown-sign b_qs draw) and is NOT independently measured. No cell
-of this table beyond the odd-order cancellation has a hardware witness yet;
-the (+,−) coefficient measurement (a ζ²-meter on a mirror pair) is a
-candidate future instrument, not a result.
+of R's or Θ's table beyond the odd-order cancellation has a hardware witness
+yet; the (+,−) coefficient measurement (a ζ²-meter on a mirror pair) is a
+candidate future instrument, not a result. Cells of the law's other mirrors
+have been read on hardware, near zero on some runs and off it on others;
+those readings stay with their flights and registry entries, among them,
+for X^⊗3's zero cell of §5, the entry `pi_protected_xiz_yzzy` and
+[X3_WINDOW_HARDWARE_PREDICTION](../../experiments/X3_WINDOW_HARDWARE_PREDICTION.md)
+§2 and §7, and for complex conjugation as a mirror of this law
+[REALITY_WINDOW_HARDWARE_PREDICTION](../../experiments/REALITY_WINDOW_HARDWARE_PREDICTION.md)
+§7.
 
 ## 7. Where the pieces live
 

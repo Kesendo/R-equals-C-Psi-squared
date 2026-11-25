@@ -49,9 +49,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// an ε-impure preparation (ρ = ρ_even + ε·ρ_odd) opens the forbidden parity EXACTLY
 /// affinely in ε (the master equation is linear in ρ₀), leading order O(ε·t). In both
 /// examined linear leaks (the ε-leak; the flown b_qs budget on the Θ side) the failure was
-/// a broken parity hypothesis, not a broken mirror. Π-protected observables are a
-/// DIFFERENT zero mechanism (degenerate-cluster cancellation, computed per initial state)
-/// and are deliberately NOT the zero cell's witness.</para>
+/// a broken parity hypothesis, not a broken mirror. No Pauli string is R-odd, so no entry of
+/// the Π-protected census witnesses R's zero cell; its ⟨X₀IZ₂⟩ zero from |+−+⟩ under Z
+/// dephasing and any Π²-even H is the (−,+) cell of X^N in place of R, the law's third mirror
+/// (experiments/LATTICE_H_THREAD.md).</para>
 ///
 /// <para><b>Self-check battery (Theorem A, N = 3):</b> built in the constructor on the
 /// 64×64 Liouville superoperator, moment-level, with no eigensolver and no matrix
@@ -163,8 +164,9 @@ public sealed class MirrorOrderSortingClaim : Claim
         "The hypotheses are the physics: operator-even preparation (expectation-even provably " +
         "insufficient); the ε-leak is exactly affine (master equation linear in ρ₀), leading O(ε·t); " +
         "in both examined linear leaks the failure was a broken parity hypothesis, not a broken " +
-        "mirror. Π-protected observables are a different zero mechanism (cluster cancellation), " +
-        "deliberately not the zero cell's witness.";
+        "mirror. No Pauli string is R-odd, so no entry of the Π-protected census witnesses R's zero cell; " +
+        "its ⟨X₀IZ₂⟩ zero from |+−+⟩ under Z dephasing and any Π²-even H is the (−,+) cell of X^N, the law's " +
+        "third mirror (experiments/LATTICE_H_THREAD.md).";
 
     public override string DisplayName =>
         "F131: the mirror's order-sorting law — response orders sort by q·σ_eff (four cells, two theorems)";
@@ -192,8 +194,8 @@ public sealed class MirrorOrderSortingClaim : Claim
             yield return new InspectableNode("Hardware, honestly sized",
                 summary: "Confirmation 24 (ibm_kingston, the standing fringe) sights the FIRST-order " +
                          "protection only; the even-order anti-protection stayed inside its " +
-                         "pre-registered budget and is not independently measured; no other cell has a " +
-                         "hardware witness. The ζ²-meter is a candidate future instrument, not a result.");
+                         "pre-registered budget and is not independently measured; no other cell of R's or " +
+                         "Θ's table has a hardware witness (other mirrors' readings: proof §6). The ζ²-meter is a candidate future instrument, not a result.");
             yield return new InspectableNode("MirrorWorld adoption",
                 summary: "compute/MirrorWorld/OrderSorting.cs (2026-07-16, run mode sorting N): Theorem " +
                          "A's trajectory face by twin RK4 on the γ axis, the pencil face as " +

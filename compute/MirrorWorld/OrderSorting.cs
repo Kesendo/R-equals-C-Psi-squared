@@ -14,9 +14,9 @@ namespace MirrorWorld;
 //     <O>(t; time) = q * <O>(-t; time),
 //
 // so the response orders sort by q * sigma_eff into four cells: (+,-) EVEN response, (-,-) ODD
-// response, (-,+) IDENTICALLY ZERO (a pure selection rule, not the Pi-protected cluster
-// cancellation), (+,+) generic. Here sigma_eff = sigma_op * chi_M = -1 for an R-odd direction
-// under the linear mirror R (chi_R = +1); the antiunitary column chi_M = -1 (Theorem B, the zeta^2
+// response, (-,+) IDENTICALLY ZERO (a pure selection rule), (+,+) generic. Here sigma_eff =
+// sigma_op * chi_M = -1 for an R-odd direction under the linear mirror R (chi_R = +1); the
+// antiunitary column chi_M = -1 (Theorem B, the zeta^2
 // anti-protection law on the Floquet step) stays in the main repo with its tracking hypotheses,
 // and the spectral-evenness corollary stays out too (an eigensolver has no place here). The
 // hypotheses are the physics: a preparation that is merely expectation-even leaks, and the leak is

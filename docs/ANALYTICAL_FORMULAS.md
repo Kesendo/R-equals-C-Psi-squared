@@ -6396,16 +6396,16 @@ pair sum odd. **Boundary as content:** expectation-even preparation is provably
 insufficient (operator-even is the hypothesis); an ε-impure preparation leaks the
 forbidden parity EXACTLY affinely in ε, leading O(ε·t); in both examined linear
 leaks (the ε-leak, the flown b_qs budget) the failure was a broken parity
-hypothesis, not a broken mirror. Π-protected observables are a DIFFERENT zero
-mechanism (degenerate-cluster cancellation, state-tied), deliberately not the
-zero cell's witness.
+hypothesis, not a broken mirror. No Pauli string is R-odd, so no entry of the
+Π-protected census witnesses R's zero cell; its ⟨X₀IZ₂⟩ zero from |+−+⟩ under Z
+dephasing and any Π²-even H is the (−,+) cell of the third mirror X^N below.
 **Proof:** [PROOF_MIRROR_ORDER_SORTING](proofs/PROOF_MIRROR_ORDER_SORTING.md).
 **Gate:** [`mirror_order_sorting.py`](../simulations/mirror_order_sorting.py)
 (T0 conjugation identity + γ-axis corollary, T1 spectral evenness by optimal
 matching, T2 both response cells, T3 the zero cell, T4 the leak with ε- and
 t-halving; PASS at N = 4, 5, 6). **Hardware:** Confirmation 24 sights the
-first-order protection only (the standing fringe); no other cell has a hardware
-witness; the ζ²-meter (a mirror-pair crosstalk intensity reading) is a candidate
+first-order protection only (the standing fringe); no other cell of R's or Θ's
+table has a hardware witness (other mirrors' readings: proof §6); the ζ²-meter (a mirror-pair crosstalk intensity reading) is a candidate
 future instrument. **MirrorWorld:** adopted 2026-07-16 (`OrderSorting.cs`, run
 mode `sorting N`): Theorem A's trajectory face by twin RK4 on the γ axis, the
 pencil face as `ParameterKlein.MirrorConjugationResidual` (machine zero, all

@@ -1325,8 +1325,7 @@ if (args.Length > 0 && args[0] == "sorting")
     Console.WriteLine($"    (+,-) EVEN response:  |<O_even>(+t) - <O_even>(-t)|  {rep.EvenCellResidual:E1}   (even orders only)");
     Console.WriteLine($"    (-,-) ODD  response:  |<O_odd>(+t) + <O_odd>(-t)|   {rep.OddCellResidual:E1}   (odd orders only,");
     Console.WriteLine($"          non-vacuous: max |<O_odd>| = {rep.OddMagnitude:0.0000})");
-    Console.WriteLine($"    (-,+) the ZERO cell:  R-even generator, every tick   {rep.ZeroCellWorst:E1}   (a pure selection rule;");
-    Console.WriteLine("          NOT the Pi-protected cluster cancellation -- that is a different zero mechanism)");
+    Console.WriteLine($"    (-,+) the ZERO cell:  R-even generator, every tick   {rep.ZeroCellWorst:E1}   (a pure selection rule)");
     Console.WriteLine($"    (+,+) generic:        R-even direction responds      {rep.GenericGap:0.0000}   (no constraint, O(1) from below)");
     Console.WriteLine();
     Console.WriteLine("  the leak (the hypothesis is the physics): prep = R-even + eps * (R-odd) opens the forbidden");

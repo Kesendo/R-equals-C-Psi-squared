@@ -28,7 +28,9 @@ All at N = 3 from the X-basis product |+−+⟩, every term on both bonds.
       T1 lifts it; at the run's simulator rate γ_T1 = 0.01 Z + T1 keeps YZ+ZY's at most 0.0051 at
       the four flown times, and at t = 0.8 it gives −0.001 (−0.004 at the calibration-derived
       0.046) in the continuous model, against the first hardware reading, +0.1338 in EQ-030's
-      table, 8.6σ.
+      table, 8.6σ. Where X^⊗3 is no symmetry, other mirrors can hold the same string at zero:
+      X₂ alone on XX+YX, X^⊗3 followed by complex conjugation on XZ+ZX; on XZ+ZZ no Pauli
+      string, alone or followed by complex conjugation, does, and the string is silent anyway.
   G4  Record: in the two soft_break tables in the repo, the (q0, q2) cells of the truly chain
       that T1 should lift read no larger than the cells of XY+YX that stay silent under T1, so at
       these rates the tables do not show the asymmetry; Z + T1 (continuous, γ_Z = 0.1, t = 0.8)
@@ -316,6 +318,23 @@ check("G3 XY+YX: ⟨X₀Z₂⟩ is active (not silent) under Z-dephasing", 'XIZ'
 Hheis = H_of([('X', 'X', 1), ('Y', 'Y', 1), ('Z', 'Z', 1)])
 check("G3 the Heisenberg chain: X^⊗3 keeps H and |+−+⟩, so its ⟨X₀Z₂⟩ zero is the same parity",
       np.array_equal(X3 @ Hheis @ X3, Hheis) and 'XIZ' in silent(lindbladian_z_dephasing(Hheis, [0.05] * N), RHO0))
+Hxyx = H_pair(('XX', 'YX'))
+X2 = MAT['IIX']
+check("G3 XX+YX, where X^⊗3 is no symmetry: X₂ alone keeps H and |+−+⟩ and reverses X₀Z₂, so ⟨X₀Z₂⟩ is silent by another mirror",
+      not np.array_equal(X3 @ Hxyx @ X3, Hxyx) and np.array_equal(X2 @ Hxyx @ X2, Hxyx)
+      and np.array_equal(X2 @ RHO0 @ X2, RHO0) and np.array_equal(X2 @ MAT['XIZ'] @ X2, -MAT['XIZ'])
+      and 'XIZ' in rows[('XX', 'YX')][0])
+Hxzx = H_pair(('XZ', 'ZX'))
+check("G3 XZ+ZX: X^⊗3 reverses H, which is real, so X^⊗3 followed by complex conjugation keeps the generator; with a real start and a real X^⊗3-odd readout ⟨X₀Z₂⟩ is silent",
+      np.array_equal(X3 @ Hxzx @ X3, -Hxzx) and not np.any(Hxzx.imag) and not np.any(RHO0.imag)
+      and not np.any(MAT['XIZ'].imag) and 'XIZ' in rows[('XZ', 'ZX')][0])
+Hxzz = H_pair(('XZ', 'ZZ'))
+lin = [s for s in STRINGS if np.array_equal(MAT[s] @ Hxzz @ MAT[s], Hxzz) and np.array_equal(MAT[s] @ RHO0 @ MAT[s], RHO0)
+       and np.array_equal(MAT[s] @ MAT['XIZ'] @ MAT[s], -MAT['XIZ'])]
+anti = [s for s in STRINGS if np.array_equal(MAT[s] @ Hxzz.conj() @ MAT[s], -Hxzz)
+        and np.array_equal(MAT[s] @ RHO0.conj() @ MAT[s], RHO0) and np.array_equal(MAT[s] @ MAT['XIZ'].conj() @ MAT[s], -MAT['XIZ'])]
+check("G3 XZ+ZZ: ⟨X₀Z₂⟩ is silent (exact census), with no Pauli string, alone or followed by complex conjugation, as its mirror",
+      'XIZ' in rows[('XZ', 'ZZ')][0] and not lin and not anti, f"linear {lin}, antilinear {anti}")
 Lyz = lindbladian_z_plus_t1(H_pair(('YZ', 'ZY')), [0.1] * N, [0.01] * N)
 model = max(abs(np.trace(MAT['XIZ'] @ (expm(Lyz * t) @ RHO0.reshape(-1)).reshape(8, 8)).real) for t in (0.8, 1.4, 1.7, 2.2))
 at08 = []

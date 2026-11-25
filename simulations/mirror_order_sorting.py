@@ -25,8 +25,7 @@ GATES (exit 0 iff all PASS; default N = 4 and 5, --deep adds N = 6 ~ minutes):
   T2  trajectory parities: <O_even> even, <O_odd> odd in t, several times,
       machine precision; odd cell verified non-vacuous
   T3  the ZERO cell: R-even generator + R-even prep + R-odd readout ->
-      <O>(time) = 0 identically (THE cell witness; NOT the Pi-protected-
-      observables mechanism, which is a distinct cluster cancellation)
+      <O>(time) = 0 identically (THE cell witness)
   T4  the leak (hypothesis violation): prep = R-even + eps * (R-odd) opens an
       odd-in-t component EXACTLY affine in eps (master equation linear in
       rho0; ratio 2.000 on halving eps) with leading term O(eps*t)
