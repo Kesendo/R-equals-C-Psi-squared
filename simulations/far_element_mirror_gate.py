@@ -1,36 +1,39 @@
-"""Where the two ends differ, a far element splits off what pairs: exact gate over Q(i).
+"""Where the two ends differ, a Hermitian far element splits off a part that pairs: exact gate over Q(i).
 
 The question it answers. F158 (docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) writes the two ends of
 L(rho) = -i[H, rho] + sum_l g_l (A_l rho A_l - rho) as N = {X : [H, X] = 0, A_l X A_l = X} and
 W = {W : [H, W] = 0, A_l W A_l = -W for every l}. Where W holds an invertible element the spectrum pairs about
 -sigma. What does a far element do on a row with 0 < dim W < dim N, where every far element is singular?
 
-  (1) The range R and the corange C (the range of W^dagger) of a far element are invariant under H and under
-      every jump.
+  (1) The range V of a far element and the range C of W^dagger are invariant under H and under every jump.
   (2) For every operator rho, L(rho W) = [(-L^dagger - 2 sigma)(rho)] W: right multiplication by W carries
-      -L^dagger - 2 sigma on the operators whose bra lies in R onto L on the operators whose bra lies in C,
+      -L^dagger - 2 sigma on the operators whose bra lies in V onto L on the operators whose bra lies in C,
   (3) so the spectra of L on those two pieces are mirror images under the LINE reflection
-      lambda -> -conj(lambda) - 2 sigma, with multiplicity: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma).
-  (4) The split. For a Hermitian far element of maximal rank, H = R + R^perp splits the system: the system on R
-      pairs about -sigma (point reflection), the coherences between R and R^perp in both orders pair about -sigma,
-      and the system on R^perp has no far element and carries the whole deficit dim N - dim W. The three parts
-      make up the spectrum of L.
+      lambda -> -conj(lambda) - 2 sigma, with multiplicity: p_C(x) = (-1)^n conj(p_V)(-x - 2 sigma).
+  (4) The split. For a Hermitian far element of maximal rank among those read, the Hilbert space V + V^perp splits
+      the system: the system on V pairs about -sigma (point reflection), the two cross parts (ket in one of V,
+      V^perp, bra in the other) pair about -sigma together, and the system on V^perp has no far element and carries
+      the whole difference dim N - dim W. That the characteristic polynomials of the parts multiply to that of L is
+      checked too, and follows from the invariance, so it is no independent evidence.
 
 Everything is exact: Pauli matrices over the Gaussian rationals, rational rates, far and near bases from
 framework.diagnostics.f158_end_count (exact kernels over Q(i)), characteristic polynomials by sympy DomainMatrix,
 nullities by exact ranks. No tolerance appears anywhere.
 
 What would make it fail, each fed through the same door as the real input: W + 1, which is not a far element,
-breaks (2); the two pieces of a singular NEAR element do not reflect; the piece on the complement of the range
-does not reflect onto itself; with several jumps at unequal rates, the reflection about the largest single rate
-instead of sigma fails; the point reflection fails on pieces where only the line reflection is implied; and a
-Hermitian far element of less than maximal rank leaves far elements in the system on its complement.
+breaks (2); a basis line kept by every jump but not by H fails the invariance test of (1); the two pieces of the
+singular NEAR element the gate picks do not reflect; the piece with its bra in the complement of the range does
+not reflect onto itself; with several jumps at unequal rates, the reflection about the largest single rate instead
+of sigma fails; the point reflection fails on most far elements, where only the line reflection is implied; and on
+the four-part row a Hermitian far element of less than maximal rank leaves far elements in the system on its
+complement.
 
 Rows: the Heisenberg triangle d, u, v with the jump Z on d alone (the cat cell |000><111| at fields along z
-summing to zero, a resonant two-level block, the singlet class S with a planar field on d, Z letters -1 and +1 on
+summing to zero, a resonant two-level block, the singlet class S with f_u = f_v carrying z parts, z fields -1 and +1 on
 u and v at couplings (-1, 1, -1)), an XY chain of three sites with every site dephased at unequal rates and z
-fields summing to zero (the cat of F22), and two qubits built as two blocks (F158's gate-11 construction), with
-one jump and with two at unequal rates.
+fields summing to zero (the cat of F22), three qubits in four parts with two of them carrying an invertible
+anticommuting element, and two qubits in two parts (F158's gate-11 construction), with one jump and with two at
+unequal rates.
 """
 from __future__ import annotations
 
@@ -232,24 +235,24 @@ ROWS = [
      heis_triangle((2, 2, 1), (0, 0, -1), (0, 0, -1), (0, 0, 2)), ['ZII'], [sp.Rational(3, 10)]),
     ("triangle, swap-symmetric, fields along z not summing to zero (a resonant two-level block)", 3,
      heis_triangle((2, 2, 1), (0, 0, 1), (0, 0, -1), (0, 0, -1)), ['ZII'], [sp.Rational(3, 10)]),
-    ("triangle, the singlet class S with a planar field on d", 3,
+    ("triangle, the singlet class S (f_u = f_v with z parts, a field on d along x)", 3,
      heis_triangle((2, 2, 3), (1, 0, 0), (1, 2, 1), (1, 2, 1)), ['ZII'], [sp.Rational(3, 10)]),
-    ("triangle, Z letters -1 and +1 on u and v, couplings (-1, 1, -1), no field on d", 3,
+    ("triangle, z fields -1 and +1 on u and v, couplings (-1, 1, -1), no field on d", 3,
      heis_triangle((-1, 1, -1), (0, 0, 0), (0, 0, -1), (0, 0, 1)), ['ZII'], [sp.Rational(3, 10)]),
     ("XY chain of three, every site dephased at unequal rates, z fields summing to zero (F22's cat)", 3,
      {'XXI': 1, 'YYI': 1, 'IXX': 1, 'IYY': 1, 'ZII': 1, 'IZI': 2, 'IIZ': -3}, ['ZII', 'IZI', 'IIZ'],
      [sp.Rational(1, 10), sp.Rational(2, 10), sp.Rational(3, 10)]),
-    ("three qubits built as four blocks, two of them carrying an invertible far element (gate 11 widened)", 3,
+    ("three qubits in four parts, two of them carrying an invertible far element", 3,
      four_blocks(), ['ZII'], [sp.Rational(2, 5)]),
-    ("two qubits built as two blocks, H = (1 + Z_1) X_0 + (1 - Z_1)(Z_0 + 5), jump Z_0 (F158 gate 11)", 2,
+    ("two qubits in two parts, H = (1 + Z_1) X_0 + (1 - Z_1)(Z_0 + 5), jump Z_0 (the construction of F158 gates 11, 12)", 2,
      {'XI': 1, 'XZ': 1, 'ZI': 1, 'ZZ': -1, 'II': 5, 'IZ': -5}, ['ZI'], [sp.Rational(1, 2)]),
-    ("the same blocks with a second jump Z_0 Z_1 at another rate", 2,
+    ("the same two parts with a second jump Z_0 Z_1 at another rate", 2,
      {'XI': 1, 'XZ': 1, 'ZI': 1, 'ZZ': -1, 'II': 5, 'IZ': -5}, ['ZI', 'ZZ'], [sp.Rational(1, 2), sp.Rational(1, 5)]),
 ]
 
-say("Where the two ends differ, a far element splits off what pairs (exact over Q(i))")
+say("Where the two ends differ, a Hermitian far element splits off a part that pairs (exact over Q(i))")
 say()
-tally = dict(read=0, distinct=0, point_fails=0, book_fails=0, mutation=0, complement=0, near=0, nonmax=0)
+tally = dict(invariance=0, read=0, distinct=0, point_fails=0, book_fails=0, mutation=0, complement=0, near=0, nonmax=0)
 for (label, n, hterms, jstr, rates) in ROWS:
     say(label)
     d = 2 ** n
@@ -276,17 +279,17 @@ for (label, n, hterms, jstr, rates) in ROWS:
         R, C = column_basis(W), column_basis(W.H)
         same_rc = sp.Matrix.hstack(R, C).rank() == r
         tally['distinct'] += (not same_rc)
-        say(f"   {tag}: rank {r} of {d}, range {'=' if same_rc else '!='} corange")
+        say(f"   {tag}: rank {r} of {d}, range {'=' if same_rc else '!='} range of W^dagger")
         check(is_zero(H * W - W * H) and all(is_zero(A * W * A + W) for A in jumps) and r < d,
               f"{tag} lies in W and is singular")
         check(invariant(R, [H] + jumps) and invariant(C, [H] + jumps),
-              f"{tag}: range and corange invariant under H and every jump (1)")
+              f"{tag}: its range V and the range C of W^dagger invariant under H and every jump (1)")
         check(intertwines(H, jumps, rates, W),
               f"{tag}: L(rho W) = [(-L^dag - 2 sigma) rho] W on all {d * d} matrix units (2)")
         PR, PC = block_basis(sp.eye(d), R), block_basis(sp.eye(d), C)
         pR, pC = charpoly(restricted(Lsup, PR)), charpoly(restricted(Lsup, PC))
         check(same(pC, line_reflect(pR, sigma)),
-              f"{tag}: pieces of dimension {PR.shape[1]}: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)")
+              f"{tag}: pieces of dimension {PR.shape[1]}: p_C(x) = (-1)^n conj(p_V)(-x - 2 sigma) exactly (3)")
         if len(rates) > 1:
             wrong = not same(pC, line_reflect(pR, max(rates)))
             tally['book_fails'] += wrong
@@ -294,7 +297,7 @@ for (label, n, hterms, jstr, rates) in ROWS:
                 f"{'fails' if wrong else 'holds'} (read)")
         pt = same(pC, point_reflect(pR, sigma))
         tally['point_fails'] += (not pt)
-        say(f"   {tag}: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) {'holds' if pt else 'fails'} (read)")
+        say(f"   {tag}: the point reflection p_C(x) = (-1)^n p_V(-x - 2 sigma) {'holds' if pt else 'fails'} (read)")
         if k == 0:
             fired = not intertwines(H, jumps, rates, W + sp.eye(d))
             tally['mutation'] += fired
@@ -305,7 +308,7 @@ for (label, n, hterms, jstr, rates) in ROWS:
                 pP = charpoly(restricted(Lsup, block_basis(sp.eye(d), Rp)))
                 cf = not same(pP, line_reflect(pP, sigma))
                 tally['complement'] += cf
-                say(f"   control: the piece on the complement of the range reflects onto itself: "
+                say(f"   control: the piece with its bra in the complement of V reflects onto itself: "
                     f"{'no' if cf else 'yes'} (read)")
     near = [to_matrix(v, n) for v in _kernel(hq, _span(n, jstr, lit=False))]
     sing = [Nm for Nm in near if Nm.rank() < d]
@@ -335,27 +338,42 @@ for (label, n, hterms, jstr, rates) in ROWS:
     r = Wh.rank()
     R = column_basis(Wh)
     Rp = sp.Matrix.hstack(*R.H.nullspace())
-    say(f"   the split by a Hermitian far element of rank {r}: dim R = {r}, dim R^perp = {d - r}")
+    say(f"   the split by a Hermitian far element of rank {r}: dim V = {r}, dim V^perp = {d - r}")
     check(is_zero(Wh - Wh.H) and is_zero(H * Wh - Wh * H) and all(is_zero(A * Wh * A + Wh) for A in jumps),
           "the splitting element is Hermitian and lies in W")
-    check(invariant(R, [H] + jumps) and invariant(Rp, [H] + jumps), "R and R^perp invariant under H and every jump")
+    check(invariant(R, [H] + jumps) and invariant(Rp, [H] + jumps), "V and V^perp invariant under H and every jump")
+    kept = [k for k in range(d) if all(invariant(sp.eye(d)[:, k], [A]) for A in jumps)
+            and not invariant(sp.eye(d)[:, k], [H])]
+    if kept:
+        v = sp.eye(d)[:, kept[0]]
+        nk = not invariant(v, [H] + jumps)
+        tally['invariance'] += nk
+        say(f"   control: basis line {kept[0]}, kept by every jump, not by H: the invariance test "
+            f"{'rejects' if nk else 'accepts'} it (read)")
     pRR = charpoly(restricted(Lsup, block_basis(R, R)))
-    check(same(pRR, point_reflect(pRR, sigma)), f"the system on R ({r * r} modes) pairs about -sigma")
+    check(same(pRR, point_reflect(pRR, sigma)), f"the system on V ({r * r} modes) pairs about -sigma")
     pX1 = charpoly(restricted(Lsup, block_basis(Rp, R)))
     pX2 = charpoly(restricted(Lsup, block_basis(R, Rp)))
-    check(same(pX1, line_reflect(pX1, sigma)), "the coherences with ket in R^perp and bra in R: closed under the line "
+    check(same(pX1, line_reflect(pX1, sigma)), "the cross part with ket in V^perp and bra in V: closed under the line "
           "reflection")
+    for (lab_x, K, B) in (("ket in V^perp, bra in V", Rp, R), ("ket in V, bra in V^perp", R, Rp)):
+        Lx = restricted(Lsup, block_basis(K, B))
+        say(f"   the cross part with {lab_x}: (near, far) = ({nullity(Lx)}, {nullity(Lx + 2 * sigma * sp.eye(Lx.shape[0]))}) (read)")
     pXX = product(pX1, pX2)
     check(same(pXX, point_reflect(pXX, sigma)),
-          f"the coherences between R and R^perp in both orders ({2 * r * (d - r)} modes) pair about -sigma")
+          f"the two cross parts together ({2 * r * (d - r)} modes) pair about -sigma")
     Lrem = restricted(Lsup, block_basis(Rp, Rp))
     m = Lrem.shape[0]
     dn_rem, dw_rem = nullity(Lrem), nullity(Lrem + 2 * sigma * sp.eye(m))
     check(dn_rem - dw_rem == ec.near - ec.far and dw_rem == 0,
-          f"the system on R^perp: (near, far) = ({dn_rem}, {dw_rem}), the whole deficit "
+          f"the system on V^perp: (near, far) = ({dn_rem}, {dw_rem}), the whole difference "
           f"{ec.near - ec.far} and no far element")
+    pRem = charpoly(Lrem)
+    common = sp.Poly(sp.gcd(pRem.as_expr(), point_reflect(pRem, sigma).as_expr()), x).degree()
+    say(f"   the system on V^perp: {common} of its {m} eigenvalues pair among themselves (read)")
     check(same(product(pRR, pXX, charpoly(Lrem)), pL),
-          f"the three parts make up the spectrum of L: {d * d - (d - r) ** 2} of its {d * d} eigenvalues in the parts "
+          f"the characteristic polynomials of the parts multiply to that of L (a consequence of the invariance): "
+          f"{d * d - (d - r) ** 2} of its {d * d} eigenvalues in the parts "
           "that pair")
     smaller = [h for h, rk in zip(herm, ranks) if 0 < rk < r]
     if smaller:
@@ -370,15 +388,17 @@ for (label, n, hterms, jstr, rates) in ROWS:
 
 say("controls across the rows")
 check(tally['read'] >= 10, f"far elements read: {tally['read']}")
-check(tally['distinct'] >= 1, f"far elements whose range and corange differ: {tally['distinct']}")
+check(tally['distinct'] >= 1, f"far elements whose range and the range of W^dagger differ: {tally['distinct']}")
+check(tally['invariance'] == len(ROWS), f"the invariance test of (1) rejects a basis line kept by every jump but "
+      f"not by H on {tally['invariance']} of {len(ROWS)} rows")
 check(tally['mutation'] == len(ROWS), f"the mutation W + 1 breaks (2) on {tally['mutation']} of {len(ROWS)} rows")
 check(tally['near'] >= 1, f"the pieces of a singular near element fail to reflect on {tally['near']} rows: "
       "(3) needs a FAR element")
-check(tally['complement'] >= 1, f"the piece on the complement of the range fails to reflect on {tally['complement']} "
+check(tally['complement'] >= 1, f"the piece with its bra in the complement of V fails to reflect on {tally['complement']} "
       "rows: (3) is about the piece, not the whole")
 check(tally['book_fails'] >= 1, f"with several jumps at unequal rates the reflection about the largest rate fails on "
-      f"{tally['book_fails']} far elements: the centre is sigma, the sum of the rates")
-check(tally['point_fails'] >= 1, f"the point reflection fails on {tally['point_fails']} pieces: (3) is the line "
+      f"{tally['book_fails']} far elements: the centre is -sigma, sigma the sum of the rates")
+check(tally['point_fails'] >= 1, f"the point reflection fails on {tally['point_fails']} far elements: (3) is the line "
       "reflection")
 check(tally['nonmax'] >= 1, f"a Hermitian far element of less than maximal rank leaves far elements in its complement "
       f"on {tally['nonmax']} rows: (4) needs maximal rank")
