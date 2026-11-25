@@ -7475,7 +7475,7 @@ exceptions live without being sufficient to produce them. Three classes are esta
 where [the triangle's palindromic locus](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangles-palindromic-locus-at-n--3)
 takes over: at N = 3 on P₃ and K₃ with Heisenberg bonds and letter fields, every row with a jump
 lies in one of these four settings, so there the converse's failures are known exactly at every
-magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and, with no field on the dephased site and fields perpendicular to z, a second locus of three polynomial relations, proven in both directions together with the e₂ = 0 branch at every angle between equal-length fields ([the triangle with planar fields](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangle-with-planar-fields)); beyond that setting, a field with a z part or any field on d, the locus is open (the triangle proof's [Open item on fields off the letters](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
+magnitude. Off the letters a further kind reaches the full bond at magnitudes that need not coincide: at N = 3, with one site dephased, an exact family with the dephased site at an end of a path, and, with no field on the dephased site and fields perpendicular to z, a second locus of three polynomial relations, proven in both directions together with the e₂ = 0 branch at every angle between equal-length fields ([the triangle with planar fields](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangle-with-planar-fields)); with a field perpendicular to z on the dephased site as well the locus closes on the colouring, on the swap of the two other sites with its axis along that field and on that path family, by hand ([the triangle with a planar field on d](proofs/PROOF_ONE_DEPHASED_SEAT.md#the-triangle-with-a-planar-field-on-d)); with a z part it is open (the triangle proof's [Open item on fields off the letters](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).
 In the uniform-bond letter-field sweeps the exceptions track the graph's automorphisms
 and the bond's letter count. Weighted bonds also admit exceptions without a
 weighted-graph symmetry: with jump Z on d and field h(X_u + Y_v), a Heisenberg
@@ -10960,7 +10960,7 @@ the two reflection sectors transports the verdict to the 133 odd loci, covering 
 ---
 
 <a id="f165"></a>
-### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, Theorem 9 on 2026-11-20, and 2026-10-01 to 2026-11-08 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, Theorem 9 on 2026-11-20, and 2026-10-01 to 2026-11-25 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated in the two proofs named
@@ -11127,6 +11127,14 @@ R2 = f_u·f_v + 2e₂ and R3 = (s + r)|f_u|² + (t + r)|f_v|² + 2(s + t + r)(f_
 `inspect --root trianglelocus` with `--fu`, `--fv`). It is a
 component without an invertible spanning tree, read through a twin turn, a real
 structure and traces of alternating words.
+With a field f_d ≠ 0 perpendicular to z on d as well (the section *The
+triangle with a planar field on d*), a connected row pairs exactly when f_u and f_v lie
+on the line of f_d, when s = t and f_v is the mirror image of f_u in that line,
+or when s = 0, f_u ⊥ f_d and f_d + f_u + f_v = 0 (or the same with u and v
+exchanged). The field on d makes the hop invertible, a component of Theorem 6,
+and the commutant of H_01†·H_01, the hop block's adjoint times the block, cuts the far end to four unknowns, or
+eight with d at an end of a path (by hand, gate `triangle_field_on_d_gate.py`;
+live with `--fd`).
 
 **Adjacent.** F103 §7.12's chiral sign rule (D_x = −D_y on an edge) is the
 complement connection (d_y/d_x = H_xy/H_x̄ȳ on an edge) in F103's diagonal
@@ -11153,7 +11161,7 @@ trianglelocus`.
 **Open,** among the two proofs' items: two undephased sites under Heisenberg
 bonds and undephased sites that keep no letter without an invertible spanning
 tree ([the complement connection's Open list](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#open)); fields off the
-letters at N = 3 beyond the planar fields with no field on d, and other bonds,
+letters at N = 3 with a z part, and other bonds,
 and whether, under Heisenberg bonds with letter fields, a palindrome without a
 colouring needs its dephased seat blind at every N
 ([PROOF_ONE_DEPHASED_SEAT's Open list](proofs/PROOF_ONE_DEPHASED_SEAT.md#open)).

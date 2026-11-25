@@ -7,7 +7,8 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (sections "The triangle's palindromic
-/// locus at N = 3" and "The triangle with planar fields", and the paragraph "The sheet and blindness, at N = 3 and N = 4",
+/// locus at N = 3", "The triangle with planar fields" and "The triangle with a planar field on d", and the paragraph
+/// "The sheet and blindness, at N = 3 and N = 4",
 /// of <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): the rows the proof, its gates and
 /// <c>EndCountTests</c> pin, read on the witness's own exact route, the grids with a planted mutation per class or
 /// condition, and the two settings read alike where they meet.</summary>
@@ -120,23 +121,47 @@ public class TrianglePalindromeLocusWitnessTests
         Assert.True(shared > 0);
     }
 
-    /// <summary>A field on d: the two ends exactly, no pairing rule. The counts are a second route's (sympy over Q(i), the
-    /// commutant on the 64 strings): all fields parallel, B with f_d on the swap axis and D (d at an end, f_d ⊥ f_v,
-    /// f_d + f_u + f_v = 0) pair, each perturbation breaks, and the u, v singlet (J_du = J_dv, f_u = f_v) holds a far
-    /// element but a second near one.</summary>
+    /// <summary>A field on d: the two ends exactly and the rule of the section "The triangle with a planar field on d".
+    /// The counts are a second route's (sympy over Q(i), the commutant on the 64 strings, and the integer-rank routine
+    /// of simulations/triangle_field_on_d_gate.py applied to these rows): all fields parallel, B with f_d on
+    /// the swap axis and D (d at an end of a path, f_d ⊥ the field at the path's other end, f_d + f_u + f_v = 0) pair, each perturbation breaks,
+    /// B's field pattern at J_du = −J_dv breaks, and the u, v singlet (J_du = J_dv, f_u = f_v) holds a far element but a
+    /// second near one.</summary>
     [Theory]
-    [InlineData("1,2,3", "1,0", "2,0", "3,0", 1, 1)]      // A, all three parallel
-    [InlineData("2,2,3", "1,1", "3,4", "4,3", 1, 1)]      // B, f_d on the swap axis
-    [InlineData("2,2,3", "1,0", "3,4", "4,3", 1, 0)]      // B, f_d off the axis
-    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", 1, 1)]    // D: d-u-v, f_d = X, f_v = 2Y, the sum zero
-    [InlineData("1,0,3", "1,0", "-1,-2", "0,3", 1, 0)]    // D perturbed
-    [InlineData("2,2,3", "1,2", "3,1", "3,1", 2, 1)]      // the singlet: a far element, two near ones
-    [InlineData("1,2,6", "1,0", "8,0", "-5,3", 1, 0)]     // the E row with a field on d
-    public void A_Field_On_D_Is_Read_Without_A_Pairing_Rule(string j, string fd, string fu, string fv, int near, int far)
+    [InlineData("1,2,3", "1,0", "2,0", "3,0", 1, 1, 'A')]       // A, all three parallel
+    [InlineData("2,2,3", "1,1", "3,4", "4,3", 1, 1, 'B')]       // B, f_d on the swap axis
+    [InlineData("2,2,3", "1,0", "3,4", "4,3", 1, 0, null)]      // B, f_d off the axis
+    [InlineData("2,-2,3", "1,0", "3,4", "3,-4", 1, 0, null)]    // B's field pattern at J_du = -J_dv
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,2", 1, 1, 'D')]     // D: d-u-v, f_d = X, f_v = 2Y, the sum zero
+    [InlineData("0,2,3", "2,1", "-3,6", "1,-7", 1, 1, 'D')]     // D: d-v-u, f_d = (2, 1), f_u three times its turn
+    [InlineData("1,0,3", "1,0", "-1,-2", "0,3", 1, 0, null)]    // D perturbed
+    [InlineData("2,2,3", "1,2", "3,1", "3,1", 2, 1, 'S')]       // the singlet: a far element, two near ones
+    [InlineData("1,2,6", "1,0", "8,0", "-5,3", 1, 0, null)]     // the E row with a field on d
+    public void A_Field_On_D_Is_Read_By_Its_Rule(string j, string fd, string fu, string fv, int near, int far, char? cls)
     {
         var r = TrianglePalindromeLocusWitness.ReadPlanarRow(T(j), T(fd), T(fu), T(fv));
-        Assert.Equal((near, far, false), (r.Near, r.Far, r.RuleStated));
-        Assert.Null(r.InClass);
+        Assert.Equal((near, far, cls), (r.Near, r.Far, r.InClass));
+        Assert.True(r.Agrees);
+    }
+
+    [Fact]
+    public void The_Grid_With_A_Field_On_D_Agrees_And_Every_Class_Occurs()
+    {
+        var g = TrianglePalindromeLocusWitness.ReadFieldOnDGrid();
+        Assert.Equal(8 * 3 * 11, g.Rows);
+        Assert.Equal(0, g.Disagreements);
+        Assert.True(g.A > 0 && g.B > 0 && g.D > 0 && g.S > 0, $"A {g.A}, B {g.B}, D {g.D}, S {g.S}");
+        Assert.True(g.Palindromic < g.Rows, "the grid holds broken rows too");
+    }
+
+    [Theory]
+    [InlineData('A')]
+    [InlineData('B')]
+    [InlineData('D')]
+    [InlineData('S')]
+    public void Leaving_A_Class_Out_Breaks_The_Grid_With_A_Field_On_D(char without)
+    {
+        Assert.True(TrianglePalindromeLocusWitness.ReadFieldOnDGrid(without).Disagreements > 0);
     }
 
     /// <summary>The far element's operator Schmidt ranks across d|uv, u|dv, v|du, exact over Q; the expected ranks
@@ -191,19 +216,9 @@ public class TrianglePalindromeLocusWitnessTests
     {
         var w = new TrianglePalindromeLocusWitness(null, "1,0,3", null, "-1,-2", "0,2", "1,0");
         var r = w.Read();
-        Assert.True(r.Palindrome && !r.RuleStated);
+        Assert.True(r.Palindrome && r.InClass == 'D' && r.Agrees);
         Assert.Equal(new TrianglePalindromeLocusWitness.FarLocality(2, 3, 2), w.ReadFarLocality());
         Assert.Contains("no site-local mirror", w.Summary);
-    }
-
-    [Fact]
-    public void A_Pairing_Grid_Refuses_A_Row_Without_A_Pairing_Rule()
-    {
-        var unruled = TrianglePalindromeLocusWitness.ReadPlanarRow(T("1,0,3"), T("1,0"), T("-1,-2"), T("0,2"));
-        var tally = typeof(TrianglePalindromeLocusWitness).GetMethod("Tally",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
-        var ex = Assert.Throws<System.Reflection.TargetInvocationException>(() => tally.Invoke(null, new object[] { new[] { unruled } }));
-        Assert.IsType<ArgumentException>(ex.InnerException);
     }
 
     [Fact]
@@ -385,7 +400,8 @@ public class TrianglePalindromeLocusWitnessTests
         string[] sections =
         {
             "a common carrier for the triangle's whole field line", "the triangle's palindromic locus at N = 3",
-            "the triangle with planar fields", "blind dephased seats, and palindromes beyond colourings and site symmetries",
+            "the triangle with planar fields", "the triangle with a planar field on d",
+            "blind dephased seats, and palindromes beyond colourings and site symmetries",
         };
         var mine = claim.Children.Select(c => c.DisplayName).ToHashSet();
         var connection = registry.Get<PalindromeComplementConnectionClaim>();

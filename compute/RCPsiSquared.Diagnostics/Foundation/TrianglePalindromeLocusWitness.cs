@@ -7,10 +7,10 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="OneDephasedSeatClaim"/>,
-/// sections "The triangle's palindromic locus at N = 3" and "The triangle with planar fields", and the paragraph "The
-/// sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
+/// sections "The triangle's palindromic locus at N = 3", "The triangle with planar fields" and "The triangle with a
+/// planar field on d", and the paragraph "The sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
 /// <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
-/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, two pairing rules, and on the planar one the sheet rule.
+/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, three pairing rules, and on the planar one the sheet rule.
 ///
 /// <para><b>Letter fields</b>, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in</para>
 /// <code>
@@ -30,22 +30,32 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// </code>
 ///
 /// <para><b>A road of its own.</b> The proofs are a Python elimination with a stored certificate
-/// (<c>simulations/n3_palindrome_covering.py</c>, letter fields) and a symbolic sympy derivation
-/// (<c>simulations/n3_planar_field_locus_gate.py</c>, planar fields). This witness shares neither: it builds the two
+/// (<c>simulations/n3_palindrome_covering.py</c>, letter fields), a symbolic sympy derivation
+/// (<c>simulations/n3_planar_field_locus_gate.py</c>, planar fields) and a hand derivation with an exact gate
+/// (<c>simulations/triangle_field_on_d_gate.py</c>, a planar field on d). This witness shares none of them: it builds the two
 /// ends of F158 itself, as the real kernels of W ↦ [H, W] on the Pauli strings whose d-letter is in {I, Z} (near)
 /// or {X, Y} (far), with <see cref="BigRational"/> entries and an exact nullspace, and evaluates the classes on the
 /// point. A field with two components is two Pauli terms on its site, so the same kernels read both settings. It
-/// recomputes the rule at the row asked for and on fixed grids: special loci over all 27 letter words, and
-/// planar rows on the swap, reciprocal and R1 couplings with parallel, equal-length, generic and E fields and their
+/// recomputes the rule at the row asked for and on fixed grids: special loci over all 27 letter words,
+/// rows with a field on d (<see cref="FieldOnDGrid"/>), and planar rows on the swap, reciprocal and R1 couplings with parallel, equal-length, generic and E fields and their
 /// perturbations, and a row with R2 = R3 = 0 but R1 ≠ 0 that must break. Rational rows of E with J_uv ≠ 0 are scarce;
 /// the grid knows one, w = 1, ξ = 8 in the proof's chart, J = (1, 2, 6), and carries E through that row's images under the mirror η₂ → −η₂, a rational turn about z, the swap u ↔ v and a common scale, and
 /// through the rows of its corner J_uv = 0, f_u·f_v = 2J_du², which are rational at every rational κ. It is
 /// evidence that the rules hold where they read, not the exhaustion, which stays the certificate's and the
 /// derivation's.</para>
 ///
-/// <para><b>A field on d.</b> The planar setting also takes a field f_d perpendicular to z on d. The kernels read it as
-/// they read every field, two Pauli terms on its site; no pairing rule is stated there (the classes above are proven for
-/// f_d = 0), so such a row reports its two ends and its far element and no class.</para>
+/// <para><b>A field on d.</b> The planar setting also takes a field f_d ≠ 0 perpendicular to z on d, and fields f_u,
+/// f_v perpendicular to z of any size, zero included. The kernels read it as they read every field, two Pauli terms on
+/// its site. A far element exists exactly in</para>
+/// <code>
+///     A  f_u and f_v on the line of f_d (each parallel or antiparallel to it, or zero);
+///     B  J_du = J_dv and the pi rotation about f_d's axis carries f_u onto f_v (B with its axis along f_d);
+///     S  J_du = J_dv and f_u = f_v (the singlet of u and v: a far element, singular; off A the row does not pair);
+///     D  J_du = 0, f_u ⊥ f_d, f_d + f_u + f_v = 0, or the same with u and v exchanged (d at an end of a path),
+/// </code>
+/// <para>and the row pairs exactly in A, B and D. The class reported is the first that holds, in the order A, B, D, S,
+/// and a row agrees with the rule when it pairs if and only if it lies in A, B or D, and has a far element if and only
+/// if it lies in one of the four.</para>
 ///
 /// <para><b>The far element's locality.</b> Where the row pairs through a one-dimensional far end the witness keeps
 /// its element W and reads its operator Schmidt ranks across d | uv, u | dv and v | du (<see cref="OperatorSchmidtRank"/>).
@@ -455,6 +465,28 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return null;
     }
 
+    /// <summary>The class of a row with a planar field f_d ≠ 0 on d (A, B, D or S, the first that holds), or null;
+    /// D stands for D and for its mirror with u and v exchanged; <paramref name="without"/> as in <see cref="Class"/>.</summary>
+    public static char? FieldOnDClass(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        if (fd.All(x => x.IsZero))
+            throw new ArgumentException("FieldOnDClass reads rows with a field on d; with f_d = 0 the planar rule is PlanarClass.");
+        BigRational s = j[0], t = j[1], r = j[2];
+        if (without != 'A' && Cross(fd, fu).IsZero && Cross(fd, fv).IsZero) return 'A';
+        var nn = Norm2(fd);
+        BigRational Mirror(BigRational[] f, int k) => 2 * Dot(f, fd) * fd[k] - nn * f[k];   // nn · (R_fd f)_k
+        if (without != 'B' && s == t && Mirror(fu, 0) == nn * fv[0] && Mirror(fu, 1) == nn * fv[1]) return 'B';
+        // d at an end of the path: the missing coupling a, the present one b; fEnd on the path's other end, fMid on the middle site
+        bool PathEnd(BigRational a, BigRational b, BigRational[] fEnd, BigRational[] fMid) =>
+            a.IsZero && !b.IsZero && !r.IsZero && Dot(fd, fEnd).IsZero
+            && (fd[0] + fEnd[0] + fMid[0]).IsZero && (fd[1] + fEnd[1] + fMid[1]).IsZero;
+        if (without != 'D' && (PathEnd(s, t, fu, fv) || PathEnd(t, s, fv, fu))) return 'D';
+        if (without != 'S' && s == t && fu[0] == fv[0] && fu[1] == fv[1]) return 'S';
+        return null;
+    }
+
+    private static BigRational Dot(BigRational[] a, BigRational[] b) => a[0] * b[0] + a[1] * b[1];
+
     private static BigRational[] Vec(char letter, BigRational h)
     {
         var v = new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero };
@@ -468,9 +500,8 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     // ---- one reading ------------------------------------------------------------------------------------
 
     /// <summary>One row read: its two ends, the class it lies in, whether the rule and the ends agree. With a field
-    /// on d no pairing rule is stated: <c>RuleStated</c> is false, <c>InClass</c> null, and <c>Agrees</c> carries nothing (a
-    /// pairing grid refuses such rows).</summary>
-    public sealed record Reading(int Near, int Far, bool Palindrome, char? InClass, bool Agrees, bool RuleStated = true);
+    /// on d the class may be S, whose rows hold a far element and do not pair.</summary>
+    public sealed record Reading(int Near, int Far, bool Palindrome, char? InClass, bool Agrees);
 
     public static Reading ReadRow(string word, BigRational[] j, BigRational[] h, char? without = null)
     {
@@ -480,14 +511,18 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return new Reading(near, far, pal, cls, pal == (cls is not null));
     }
 
-    /// <summary>A planar row with a field on d: its two ends and no pairing rule (see <see cref="Reading"/>); with f_d = 0
-    /// the planar rule as in the overload without it.</summary>
-    public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv)
+    /// <summary>A planar row with a field on d: its two ends and the rule of the section "The triangle with a planar
+    /// field on d" (pairs exactly in A, B, D; a far element exactly in A, B, D, S); with f_d = 0 the planar rule as in
+    /// the overload without it.</summary>
+    public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv, char? without = null)
     {
-        if (fd.All(x => x.IsZero)) return ReadPlanarRow(j, fu, fv);
+        if (fd.All(x => x.IsZero)) return ReadPlanarRow(j, fu, fv, without);
         var f = PlanarFields(fd, fu, fv);
         int near = End(j, f, false), far = End(j, f, true);
-        return new Reading(near, far, far >= 1 && near == far, null, true, RuleStated: false);
+        bool pal = far >= 1 && near == far;
+        var cls = FieldOnDClass(j, fd, fu, fv, without);
+        bool agrees = pal == (cls is 'A' or 'B' or 'D') && (far >= 1) == (cls is not null);
+        return new Reading(near, far, pal, cls, agrees);
     }
 
     public static Reading ReadPlanarRow(BigRational[] j, BigRational[] fu, BigRational[] fv, char? without = null)
@@ -578,6 +613,57 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     public static GridReading ReadPlanarGrid(char? without = null) =>
         Tally(PlanarGrid().Select(g => ReadPlanarRow(g.J, g.Fu, g.Fv, without)));
 
+    /// <summary>The grid with a field on d: couplings generic, on the swap, opposite (J_du = −J_dv, at J_uv ≠ 0 and = 0),
+    /// reciprocal, with d at either end of a path and with d in the middle (J_uv = 0); fields on d in three directions;
+    /// field pairs on f_d's line, one zero, generic, B's mirror pair about f_d and one perturbed, the singlet pair f_u = f_v
+    /// and one perturbed, D's pairs for each f_d (f_u ⊥ f_d, f_v = −(f_d + f_u), and the same with u and v exchanged)
+    /// and two perturbations of them.</summary>
+    public static IEnumerable<(BigRational[] J, BigRational[] Fd, BigRational[] Fu, BigRational[] Fv)> FieldOnDGrid()
+    {
+        var couplings = new[]
+        {
+            new[] { Q(1), Q(2), Q(3) }, new[] { Q(2), Q(2), Q(3) }, new[] { Q(2), Q(-2), Q(3) }, new[] { Q(2), Q(-2), Q(0) },
+            new[] { Q(3), Q(6), Q(-2) }, new[] { Q(0), Q(2), Q(3) }, new[] { Q(-3), Q(0), Q(5) }, new[] { Q(1), Q(3), Q(0) },
+        };
+        var fds = new[] { new[] { Q(1), Q(0) }, new[] { Q(2), Q(1) }, new[] { Q(-1), Q(3) } };
+        foreach (var j in couplings)
+            foreach (var fd in fds)
+            {
+                var perp = new[] { -fd[1], fd[0] };
+                var nn = Norm2(fd);
+                BigRational[] M(BigRational[] f) => new[] { 2 * Dot(f, fd) * fd[0] - nn * f[0], 2 * Dot(f, fd) * fd[1] - nn * f[1] };
+                BigRational[] S(BigRational a, BigRational[] v) => new[] { a * v[0], a * v[1] };
+                BigRational[] Add(BigRational[] a, BigRational[] b) => new[] { a[0] + b[0], a[1] + b[1] };
+                var g = new[] { Q(1), Q(2) };
+                var x = new[] { Q(1), Q(0) };
+                var dU = S(Q(3), perp);
+                var dV = new[] { -(fd[0] + dU[0]), -(fd[1] + dU[1]) };
+                var pairs = new (BigRational[] Fu, BigRational[] Fv)[]
+                {
+                    (S(Q(2), fd), S(Q(-1), fd)), (new[] { Q(0), Q(0) }, S(Q(3), fd)), (new[] { Q(3), Q(1) }, new[] { Q(-1), Q(2) }),
+                    (S(nn, g), M(g)), (S(nn, g), Add(M(g), x)), (g, g), (g, Add(g, x)),
+                    (dU, dV), (dV, dU), (dU, Add(dV, x)), (Add(dU, fd), Add(dV, S(Q(-1), fd))),
+                };
+                foreach (var (fu, fv) in pairs) yield return (j, fd, fu, fv);
+            }
+    }
+
+    public sealed record FieldOnDGridReading(int Rows, int Palindromic, int A, int B, int D, int S, int Disagreements);
+
+    public static FieldOnDGridReading ReadFieldOnDGrid(char? without = null)
+    {
+        int rows = 0, pal = 0, a = 0, b = 0, d = 0, sg = 0, bad = 0;
+        foreach (var (j, fd, fu, fv) in FieldOnDGrid())
+        {
+            var r = ReadPlanarRow(j, fd, fu, fv, without);
+            rows++;
+            if (r.Palindrome) pal++;
+            switch (r.InClass) { case 'A': a++; break; case 'B': b++; break; case 'D': d++; break; case 'S': sg++; break; }
+            if (!r.Agrees) bad++;
+        }
+        return new FieldOnDGridReading(rows, pal, a, b, d, sg, bad);
+    }
+
     /// <summary>The sheet grid: every row of the planar grid whose fields on u and v are nonzero and neither parallel
     /// nor antiparallel, once with no field on d and with three fields on d: on the line of f_u + f_v, across it, and
     /// (1, 2).</summary>
@@ -631,7 +717,6 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         int rows = 0, pal = 0, a = 0, b = 0, c = 0, e = 0, bad = 0;
         foreach (var r in readings)
         {
-            if (!r.RuleStated) throw new ArgumentException("a pairing grid reads the pairing rule; a row with a field on d states none.");
             rows++;
             if (r.Palindrome) pal++;
             switch (r.InClass) { case 'A': a++; break; case 'B': b++; break; case 'C': c++; break; case 'E': e++; break; }
@@ -657,12 +742,11 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
             string locality = loc is null ? "" : string.Format(CultureInfo.InvariantCulture,
                 "; far element of Schmidt ranks {0}, {1}, {2} across d|uv, u|dv, v|du{3}", loc.DUv, loc.UDv, loc.VDu,
                 loc.Product ? ", a product" : ", no product, so no site-local mirror (conditioned ones aside)");
-            if (!r.RuleStated)
-                return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; no pairing rule is stated with a field on d{3}",
-                    r.Near, r.Far, r.Palindrome ? "palindrome" : "broken", locality);
+            bool withFd = _fu is not null && !_fd!.All(x => x.IsZero);
             return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}{5}",
                 r.Near, r.Far, r.Palindrome ? "palindrome" : "broken",
-                r.InClass is { } k ? $"in class {k}" : _fu is null ? "in none of A, B, C" : "in none of A, B, C, E",
+                r.InClass is { } k ? (withFd ? $"in class {k} of the rule with a field on d" : $"in class {k}")
+                    : _fu is null ? "in none of A, B, C" : withFd ? "in none of A, B, D, S (the rule with a field on d)" : "in none of A, B, C, E",
                 r.Agrees ? "holds" : "FAILS", locality);
         }
     }
@@ -725,13 +809,21 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                     "{0} rows with no field on d and fields perpendicular to z: {1} palindromic ({2} in A, {3} in B, " +
                     "{4} in C, {5} in E, first class that holds), {6} rows where the rule and the two ends disagree",
                     pg.Rows, pg.Palindromic, pg.A, pg.B, pg.C, pg.E, pg.Disagreements), provenance: NodeProvenance.Live);
+            var fg = ReadFieldOnDGrid();
+            yield return new InspectableNode("the grid with a field on d, recomputed",
+                summary: string.Format(CultureInfo.InvariantCulture,
+                    "{0} rows with a planar field on d: {1} palindromic ({2} in A, {3} in B, {4} in D, first class that " +
+                    "holds), {5} in S (a far element, no pairing), {6} rows where the rule and the two ends disagree",
+                    fg.Rows, fg.Palindromic, fg.A, fg.B, fg.D, fg.S, fg.Disagreements), provenance: NodeProvenance.Live);
             yield return new InspectableNode("where the exhaustion lives",
                 summary: "This witness reads the rules at points. That every palindromic connected row with letter " +
                          "fields lies in A, B or C is the elimination's, certificate " +
                          "simulations/results/n3_palindrome_covering.json (1,305 far leaves, 0 open) and its independent " +
                          "gate simulations/n3_palindrome_covering_gate.py; that with planar fields and none on d it pairs " +
                          "exactly in A, B, C or E is the derivation of the section 'The triangle with planar fields', " +
-                         "gate simulations/n3_planar_field_locus_gate.py; that, with nonzero planar fields on u and v neither parallel " +
+                         "gate simulations/n3_planar_field_locus_gate.py; that with a planar field on d it pairs exactly in " +
+                         "A, B or D and holds a far element exactly there and in S is the hand derivation of the section " +
+                         "'The triangle with a planar field on d', gate simulations/triangle_field_on_d_gate.py; that, with nonzero planar fields on u and v neither parallel " +
                          "nor antiparallel and at most one coupling zero, a far element of odd height exists, with no field on d, " +
                          "exactly at a blind seat with fields of one length, " +
                          "and with a field on d exactly when J_du = J_dv, |f_u| = |f_v| and f_d lies on the line of f_u + f_v, " +

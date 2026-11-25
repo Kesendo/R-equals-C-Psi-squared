@@ -32,6 +32,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>inspect --root trianglelocus</c> with <c>--fu</c>, <c>--fv</c>, which recomputes both ends exactly over Q at
 /// points and on a planar grid.</para>
 ///
+/// <para><b>The triangle with a planar field on d.</b> Same triangle and jump, at most one coupling zero, a field f₀ ≠ 0
+/// perpendicular to z on 0 and fields f₁, f₂ perpendicular to z on 1 and 2, of any size: a far element exists exactly
+/// when f₁ and f₂ lie on the line of f₀, when J01 = J02 and the π rotation about f₀'s axis carries f₁ onto f₂, when
+/// J01 = J02 and f₁ = f₂ (the singlet of 1 and 2, whose element is singular), or when J01 = 0, f₁ ⊥ f₀ and
+/// f₀ + f₁ + f₂ = 0, or the same with 1 and 2 exchanged; the row pairs exactly in all but the singlet's class off the
+/// line of f₀. By hand: the field on 0 enters one letter equation, the hop block H_01 is invertible and the hop space
+/// is H_01 times the commutant of H_01†·H_01 (the adjoint times the block), read by strata (<c>simulations/triangle_field_on_d_gate.py</c>); live at
+/// <c>inspect --root trianglelocus</c> with <c>--fd</c>.</para>
+///
 /// <para><b>Blind dephased seats, and palindromes beyond colourings and site symmetries.</b> On the triangle the Krylov determinant of the
 /// dephased seat under the signed one-magnon Laplacian is −(s − t)·e₂: s = t a site symmetry fixing it, e₂ = 0 a rank
 /// drop that blinds every seat (F157, <see cref="SeatCutBlindnessClaim"/>). At N = 4, H = e·σ1·σ2 + a·(σ0 − σ3)·(σ1 − σ2) with fields 0, −h·X1, h·X2, g·Y3
@@ -66,7 +75,8 @@ public sealed class OneDephasedSeatClaim : Claim
 
     /// <summary>The complement connection, whose far equations, written before Theorem 6's spanning-tree hypothesis, the
     /// section on planar fields solves on a component without an invertible spanning tree, outside that hypothesis; its
-    /// Theorems 2, 4, 5 and 7 are read beside the sections, adjacent rather than built on.</summary>
+    /// Theorems 2, 4, 5 and 7 are read beside the sections, and Theorem 6's note on an invertible hop block beside the
+    /// section with a planar field on d, adjacent rather than built on.</summary>
     public PalindromeComplementConnectionClaim ComplementConnection { get; }
 
     /// <summary>F157, the blind seat: on the triangle the dephased seat's Krylov determinant −(s − t)·e₂ vanishes
@@ -87,7 +97,13 @@ public sealed class OneDephasedSeatClaim : Claim
                "computer-assisted elimination with a stored certificate and an independent gate). With no field on d and " +
                "fields of any direction perpendicular to z, at most one coupling zero, it pairs exactly with parallel or " +
                "antiparallel fields (one of them zero included), at s = t with fields of equal length, at e2 = 0 with fields of equal length at any angle, and on " +
-               "one further locus of three polynomial relations (both directions exact and computer-assisted). The dephased " +
+               "one further locus of three polynomial relations (both directions exact and computer-assisted). With a nonzero " +
+               "planar field on d as well, it pairs exactly with the fields on u and v on the line of the field on d, at s = t " +
+               "with the field on v the mirror image of the field on u in that line, and at s = 0 with the field on u " +
+               "perpendicular to the field on d and the three fields summing to zero, or the same with u and v exchanged; " +
+               "a far element exists exactly there and at s = t with equal fields on u and v, where off the line of the field " +
+               "on d the row does not pair " +
+               "(by hand, with an exact gate). The dephased " +
                "seat's Krylov determinant under the signed one-magnon Laplacian is -(s - t)e2, so the swap and reciprocal " +
                "classes sit on a blind seat (F157). Beyond the triangle, with one dephased seat, Heisenberg bonds and " +
                "letter fields: a family at N = 4 pairs for every real a, g nonzero and, at a nonzero field h, with neither a " +
@@ -125,7 +141,8 @@ public sealed class OneDephasedSeatClaim : Claim
 
     public override string Summary =>
         "the triangle's loci exact at N = 3 (letter fields: colourings, the swap class, the reciprocal class on e2 = 0; " +
-        "planar fields with none on d: one locus more), the dephased seat blind on (s - t)e2 = 0; at N = 4 and N = 7 " +
+        "planar fields with none on d: one locus more; with a planar field on d: the line of that field, the swap class " +
+        "on its axis and a family with d at the end of a path), the dephased seat blind on (s - t)e2 = 0; at N = 4 and N = 7 " +
         $"palindromes with neither a colouring nor a site symmetry fixing the dephased seat ({Tier.Label()}); that under " +
         "Heisenberg bonds with letter fields a palindrome without a colouring needs its dephased seat blind is a " +
         "conjecture";
@@ -159,6 +176,19 @@ public sealed class OneDephasedSeatClaim : Claim
                          "simulations/n3_planar_field_locus_gate.py; live: inspect --root trianglelocus --J 1,2,6 " +
                          "--fu 8,0 --fv -5,3.");
 
+            yield return new InspectableNode("the triangle with a planar field on d",
+                summary: "Same triangle and jump, at most one coupling zero, a field f0 != 0 perpendicular to z on 0 and " +
+                         "fields f1, f2 perpendicular to z on 1 and 2, any size: a far element exists exactly when f1 and f2 lie " +
+                         "on the line of f0 (A), when J01 = J02 and the pi rotation about f0's axis carries f1 onto f2 (B on the " +
+                         "axis), when J01 = J02 and f1 = f2 (S: the singlet of 1 and 2, its element singular, the row unpaired " +
+                         "off A), or when J01 = 0, f1 perpendicular to f0 and f0 + f1 + f2 = 0, or the same with 1 and 2 " +
+                         "exchanged (D); the row pairs exactly in A, B on the axis and D. By hand: the field on 0 enters one " +
+                         "letter equation, the hop block H01 = p + 2(J01 s1- + J02 s2-) (s1- = |1><0| on site 1; p = |f0| in the frame where f0 lies along +x) is " +
+                         "invertible, and the hop space is H01 times the commutant of H01^dag H01 (the adjoint times the block), " +
+                         "four-dimensional exactly when J01 J02 != 0 " +
+                         "(eight at J01 = 0), read by " +
+                         "strata. Gate: simulations/triangle_field_on_d_gate.py; live: inspect --root trianglelocus with --fd.");
+
             yield return new InspectableNode("blind dephased seats, and palindromes beyond colourings and site symmetries",
                 summary: "On the triangle the Krylov determinant of the dephased seat under the signed one-magnon " +
                          "Laplacian is -(s-t)e2, the common-carrier factor: s = t is a site symmetry fixing d (B), e2 = 0 a " +
@@ -175,7 +205,8 @@ public sealed class OneDephasedSeatClaim : Claim
                          "blind is a conjecture; " +
                          "off the letters at N = 3 blindness is not necessary, a Heisenberg row pairing with the seat not blind " +
                          "(simulations/n3_offletter_locus_gate.py, PROOF_ONE_DEPHASED_SEAT's Open list; those rows, E and D, pair through far " +
-                         "elements that are not of odd height, of no definite height at the rows read). On the triangle with Heisenberg bonds of which at most one is zero, the jump Z " +
+                         "elements that are not of odd height, of no definite height, E's at the rows read and D's on every row of " +
+                         "the family off the colouring class, by the section with a planar field on d). On the triangle with Heisenberg bonds of which at most one is zero, the jump Z " +
                          "on site 0 alone and nonzero planar fields f1, f2 on sites 1 and 2 neither parallel nor antiparallel, a " +
                          "far element of odd height (every string with an odd number of letters X or Y) exists, with no field on " +
                          "site 0, exactly when site 0 is blind and |f1| = |f2|, and with a nonzero planar field f0 on site 0 exactly when " +
@@ -218,9 +249,12 @@ public sealed class OneDephasedSeatClaim : Claim
 
             yield return new InspectableNode("scope, and what would falsify it",
                 summary: "The triangle's loci need Heisenberg bonds with at most one coupling zero and the jump Z on d " +
-                         "alone, letter fields for the first and, for the second, no field on d and fields perpendicular to " +
-                         "z; a counterexample is a row of the setting that pairs outside the classes or a row of a class " +
-                         "that does not pair. The N = 4 proposition falls to a real row of the family with a, g != 0 that " +
+                         "alone, letter fields for the first, no field on d and fields perpendicular to z for the second, " +
+                         "and every field perpendicular to z with a nonzero one on d for the third; for the first two a counterexample " +
+                         "is a row of the setting that pairs outside the classes or a row of a class that does not pair, for the " +
+                         "third a row with a far element outside A, B on the axis, S, D and D', a row of A, B on the axis, D or D' " +
+                         "that does not pair, a row of S off the line of the field on d that pairs, or a row of any of them " +
+                         "without a far element. The N = 4 proposition falls to a real row of the family with a, g != 0 that " +
                          "does not pair; the conjecture to a palindrome under Heisenberg bonds with letter fields and one " +
                          "dephased seat, without a colouring, whose dephased seat is not blind. The carriers' locality needs " +
                          "Pauli jumps and a row that pairs through one far element; the sheet and blindness, at most one " +
@@ -240,7 +274,7 @@ public sealed class OneDephasedSeatClaim : Claim
                          "failing to commute with H; " +
                          "the widened N = 4 rule (h, g, b0, b3 nonzero) falls to a far element even " +
                          "under the pair's swap with a nonzero singlet block at b3 != -b0. " +
-                         "Fields off the letters at N = 3 beyond the planar fields with none on d, other bonds at N = 3, a " +
+                         "Fields off the letters at N = 3 with a z part, other bonds at N = 3, a " +
                          "carrier at N = 5 that entangles the fifth spin and every N beyond are open (the proof's Open list).");
         }
     }

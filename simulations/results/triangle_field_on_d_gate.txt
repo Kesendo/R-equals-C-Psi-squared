@@ -1,0 +1,182 @@
+1. The letter split, symbolic in s, t, r, p, f_u, f_v
+   PASS  [H, X_d(x)alpha + Y_d(x)beta] = I_d(x)E_I + i Z_d(x)E_Z + X_d(x)E_X + Y_d(x)E_Y on all 32 strings
+   PASS  the 32 strings with X or Y on d are exactly the strings anticommuting with Z_d
+   PASS  a turn about z keeps the bonds and turns every planar field by one angle
+   PASS  the turn keeps the jump Z_d, so both ends map to themselves
+
+2. The hop: M01 = H_01·Ω with Ω in the commutant of H_01^dag·H_01; when that commutant is four-dimensional
+   PASS  det H_01 = p^4, so the hop block is invertible exactly when p != 0
+   PASS  H_01 = p + 2(s σ⁻_u + t σ⁻_v) is H's block from d = 1 to d = 0 (basis order d, u, v; |0> = up)
+   PASS  H_01^dag·H_01 = p^2 + 2(s^2 + t^2) + 2p(s X_u + t X_v) + 2s^2 Z_u + 2t^2 Z_v + 2st(X_uX_v + Y_uY_v)
+   PASS  disc = 2^24 p^6 s^4 t^4 Q, Q = p^6(s^2-t^2)^2 + 2p^4(s^6+t^6) + p^2[(s^4-t^4)^2 + 10s^2t^2(s^2-t^2)^2 + 13s^4t^4] + 4s^2t^2(s^2+t^2)^3
+   (each term of Q is >= 0 for real s, t, p, and 2p^4(s^6 + t^6) > 0 when p != 0 and (s, t) != 0: the spectrum of
+    the Hermitian H_01^dag·H_01 is simple, its commutant four-dimensional, exactly when p·s·t != 0; read, not gated)
+   PASS  at s = 0, H_01^dag·H_01 = 1_u (x) M_v with disc(M_v) = 16t^2(p^2 + t^2) > 0: two simple eigenvalues on v
+   PASS  M01 = H_01·(H_01^dag H_01)^k (k = 0..3) with M10 = H_01^-1 M01 H_01^dag solve both hop parts, symbolically
+   PASS  the hop parts have a four-dimensional solution space at generic s, t, p
+   PASS  stratum generic: its 4 basis elements solve the hop parts symbolically
+   PASS  stratum generic: they are independent (rank 4) at generic values
+   PASS  stratum generic: each element has a string the others lack, with a coefficient nonzero on the whole stratum (W0: a.XX, WH: b.IY, W1: b.XY, W2: b.YX)
+   PASS  stratum s=t: its 4 basis elements solve the hop parts symbolically
+   PASS  stratum s=t: they are independent (rank 4) at generic values
+   PASS  stratum s=t: each element has a string the others lack, with a coefficient nonzero on the whole stratum (W0: a.XX, W1': a.ZZ, WH: b.IY, W2': b.XY)
+   PASS  stratum s=-t: its 4 basis elements solve the hop parts symbolically
+   PASS  stratum s=-t: they are independent (rank 4) at generic values
+   PASS  stratum s=-t: each element has a string the others lack, with a coefficient nonzero on the whole stratum (W0: a.XX, W1': a.ZZ, -WH: b.IY, W2': b.XY)
+   PASS  stratum s=0: its 8 basis elements solve the hop parts symbolically
+   PASS  stratum s=0: they are independent (rank 8) at generic values
+   PASS  stratum s=0: each element has a string the others lack, with a coefficient nonzero on the whole stratum (e0: a.IX, e1: a.XX, e2: a.YX, e3: a.ZX, e4: a.II, e5: a.XI, e6: a.YI, e7: a.ZI)
+   PASS  W1 + W2 = Δ·(X_d (x) [(p/t)X_u + (p/s)X_v + Y_uY_v] + Y_d (x) (X_uY_v + Y_uX_v)), no Δ left in the bracket
+   PASS  at s = t: W1 = t^2·W1', and at s = -t: W1 = -t^2·W1'; at both, W2' = t·(W1 + W2)/Δ
+   PASS  stratum generic: hop space of dimension 4 at [(1, 2, 1), (-3, 2, 5), (2, -1, -1), (1, 3, 7)] (read [4, 4, 4, 4])
+   PASS  stratum generic: the basis is independent at those rows, so it spans the hop space there
+   PASS  stratum s=t: hop space of dimension 4 at [(2, 2, 1), (-1, -1, 3), (3, 3, -2)] (read [4, 4, 4])
+   PASS  stratum s=t: the basis is independent at those rows, so it spans the hop space there
+   PASS  stratum s=-t: hop space of dimension 4 at [(2, -2, 1), (-1, 1, 3)] (read [4, 4])
+   PASS  stratum s=-t: the basis is independent at those rows, so it spans the hop space there
+   PASS  stratum s=0: hop space of dimension 8 at [(0, 2, 1), (0, -3, 5)] (read [8, 8])
+
+3. The strata: the X_d and Y_d parts on each basis, and the hand elimination pinned to its rows
+   stratum s != +-t, s·t != 0 (unknowns c0, cH, c1, c2 on W0 = XXX, WH = H's flip part, W1, W2):
+     X_d.IZ: WH: -t*v_y, W2: -p*v_y*(s - t)*(s + t)/s
+     X_d.XZ: W0: -v_y, W1: s*t*u_y, W2: -s*t*u_y
+     X_d.YZ: WH: r*s - r*t - s*t, W1: (p*r*s**2 - p*r*t**2 + s**2*t*v_x - s*t**2*u_x)/t, W2: -(p*r*s**2 - p*r*t**2 - s**2*t*u_x + s*t**2*v_x)/s
+     X_d.ZI: WH: -s*u_y, W1: -p*u_y*(s - t)*(s + t)/t
+     X_d.ZX: W0: -u_y, W1: s*t*v_y, W2: -s*t*v_y
+     X_d.ZY: WH: -r*s + r*t - s*t, W1: -(p*r*s**2 - p*r*t**2 - s**2*t*u_x + s*t**2*v_x)/t, W2: (p*r*s**2 - p*r*t**2 + s**2*t*v_x - s*t**2*u_x)/s
+     Y_d.IZ: WH: t*(p + v_x), W1: (s - t)*(r*s + r*t + s*t), W2: -(s - t)*(r*s + r*t + s*t)
+     Y_d.XZ: WH: -r*s + r*t + s*t, W1: (p + v_x)*(s - t)*(s + t)
+     Y_d.YZ: W2: -v_y*(s - t)*(s + t)
+     Y_d.ZI: WH: s*(p + u_x), W1: -(s - t)*(r*s + r*t + s*t), W2: (s - t)*(r*s + r*t + s*t)
+     Y_d.ZX: WH: r*s - r*t + s*t, W2: (p + u_x)*(s - t)*(s + t)
+     Y_d.ZY: W1: -u_y*(s - t)*(s + t)
+   PASS  the six rows the elimination uses read as the proof displays them
+   hand elimination: Y_d.ZY gives u_y·c1 = 0, Y_d.YZ gives v_y·c2 = 0 (s^2 != t^2);
+     u_y, v_y != 0: c1 = c2 = 0, X_d.IZ gives cH = 0, X_d.XZ gives c0 = 0;
+     u_y != 0 = v_y: c1 = 0, X_d.ZI gives cH = 0, X_d.ZX gives c0 = 0, X_d.XZ gives c2 = 0;
+     u_y = 0 != v_y: c2 = 0, X_d.IZ gives cH = 0, X_d.XZ gives c0 = 0, X_d.ZX gives c1 = 0;
+     u_y = v_y = 0 is A (every field on f_d's line), with XXX among its far elements.
+   PASS  beside it, the generic nullity of the 4-column system: 0, 0, 0 off A, at least 1 on A
+   stratum s = t != 0 (unknowns c0, c1, cH, c2 on W0 = XXX, W1' = X_d(x)(YY + ZZ - 1), WH, W2'):
+     X_d.IZ: WH: -t*v_y, W2': -p*v_y
+     X_d.XZ: W0: -v_y, W1': u_y
+     X_d.YZ: W1': -u_x + v_x, WH: -t**2, W2': t*v_x
+     X_d.ZI: WH: -t*u_y, W2': -p*u_y
+     X_d.ZX: W0: -u_y, W1': v_y
+     X_d.ZY: W1': u_x - v_x, WH: -t**2, W2': t*u_x
+     Y_d.IZ: WH: t*(p + v_x)
+     Y_d.XZ: WH: t**2, W2': t*(p + v_x)
+     Y_d.YZ: W2': -t*v_y
+     Y_d.ZI: WH: t*(p + u_x)
+     Y_d.ZX: WH: t**2, W2': t*(p + u_x)
+     Y_d.ZY: W2': -t*u_y
+   PASS  the twelve rows read as the proof displays them, and there are no others
+   hand elimination: cH != 0 needs u_x = v_x = -p (Y_d.IZ, Y_d.ZI), and then Y_d.XZ reads t^2·cH = 0: cH = 0;
+     c2 != 0 then needs u_y = v_y = 0 (Y_d.YZ, Y_d.ZY) and u_x = v_x = -p (Y_d.XZ, Y_d.ZX), and X_d.YZ reads -t·p·c2 = 0: c2 = 0;
+     left: (v_x - u_x)·c1 = 0 and [[-v_y, u_y], [-u_y, v_y]]·(c0, c1) = 0, determinant u_y^2 - v_y^2:
+     c1 = 0 needs u_y = v_y = 0 (A); c1 != 0 needs u_x = v_x and u_y = v_y (S, c0 = c1) or u_y = -v_y (B on the axis, c0 = -c1).
+   PASS  c0 = c1: X_d (x) (XX + YY + ZZ - 1) = -4·X_d (x) P_s, the singlet element of S
+   PASS  c0 = -c1: X_d (x) (1 + XX - YY - ZZ) = 2·X_d (x) SWAP·X_uX_v, B's element on the axis x
+   PASS  beside it, generic nullities: 0 off the classes, 1 on S, 1 on B's axis, >= 1 on A, 0 at f_v = f_u + x
+   PASS  at the turning point u_x = v_x = -p: 0 off the classes, 1 on S and on B's axis, >= 1 on A
+   stratum s = -t != 0:
+     X_d.IZ: -WH: t*v_y, W2': p*v_y
+     X_d.XZ: W0: -v_y, W1': u_y
+     X_d.YZ: W1': -u_x - v_x, -WH: t*(2*r - t), W2': 2*p*r + t*v_x
+     X_d.ZI: -WH: -t*u_y, W2': -p*u_y
+     X_d.ZX: W0: -u_y, W1': v_y
+     X_d.ZY: W1': -u_x - v_x, -WH: -t*(2*r + t), W2': -2*p*r + t*u_x
+     Y_d.IZ: W1': -2*t, -WH: -t*(p + v_x)
+     Y_d.XZ: -WH: -t*(2*r - t), W2': t*(p + v_x)
+     Y_d.YZ: W2': -t*v_y
+     Y_d.ZI: W1': 2*t, -WH: t*(p + u_x)
+     Y_d.ZX: -WH: t*(2*r + t), W2': t*(p + u_x)
+     Y_d.ZY: W2': -t*u_y
+   PASS  the rows the elimination uses read as the proof displays them
+   hand elimination: c2 != 0 needs u_y = v_y = 0 (Y_d.YZ, Y_d.ZY), class A; with c2 = 0, Y_d.XZ and Y_d.ZX read
+     (2r - t)·cH = 0 = (2r + t)·cH, not both coefficients zero at t != 0: cH = 0; Y_d.IZ then gives c1 = 0, and
+     X_d.XZ, X_d.ZX give v_y·c0 = u_y·c0 = 0: outside A no far element.
+   PASS  beside it, generic nullities: 0 off A (B's and S's field patterns included), >= 1 on A
+   PASS  at the turning points 2r = +-t: 0 off A, with B's and S's field patterns and u_x = v_x = -p among them
+   stratum s = 0, t, r != 0 (unknowns c0..c7; e_k = X_d O_u X_v and e_(4+k) = p X_d O_u + t Y_d O_u Y_v, O = I, X, Y, Z):
+     X_d.IY: e3: r
+     X_d.IZ: e0: -v_y, e2: -r
+     X_d.XI: e7: p*u_y
+     X_d.XX: e3: u_y
+     X_d.XY: e7: p*r
+     X_d.XZ: e1: -v_y, e6: -p*r
+     X_d.YI: e3: -r, e7: -p*u_x
+     X_d.YX: e3: -u_x, e7: -p*r
+     X_d.YZ: e0: -r, e2: -v_y, e5: p*r
+     X_d.ZI: e2: r, e5: -p*u_y, e6: p*u_x
+     X_d.ZX: e1: -u_y, e2: u_x, e6: p*r
+     X_d.ZY: e0: r, e5: -p*r
+     X_d.ZZ: e3: -v_y
+     Y_d.IX: e7: -r*t
+     Y_d.IZ: e4: t*(p + v_x), e5: r*t
+     Y_d.XI: e7: r*t
+     Y_d.XY: e7: t*u_y
+     Y_d.XZ: e4: r*t, e5: t*(p + v_x)
+     Y_d.YY: e7: -t*u_x
+     Y_d.YZ: e6: t*(p + v_x)
+     Y_d.ZI: e5: -r*t
+     Y_d.ZX: e4: -r*t
+     Y_d.ZY: e5: -t*u_y, e6: t*u_x
+     Y_d.ZZ: e7: t*(p + v_x)
+   PASS  the rows the elimination uses read as the proof displays them
+   hand elimination: Y_d.IX, X_d.IY, Y_d.ZI, Y_d.ZX give c7 = c3 = c5 = c4 = 0; X_d.ZY then c0 = 0, X_d.IZ c2 = 0;
+     c6 != 0 needs u_x = 0 (X_d.ZI) and v_x = -p (Y_d.YZ); X_d.XZ and X_d.ZX read v_y·c1 = -p·r·c6 and
+     u_y·c1 = p·r·c6, so v_y = -u_y != 0 and c1 = p·r·c6/u_y: family D (f_u ⊥ f_d, f_d + f_u + f_v = 0);
+     c6 = 0 leaves u_y·c1 = v_y·c1 = 0 and c1 on XXX: class A.
+   PASS  beside it, generic nullities: 0 off the classes, 1 on D, 0 one unit off D, >= 1 on A
+   PASS  with one of D's three conditions left free (u_x, v_x or v_y generic): 0
+
+4. The elements on their families, symbolic
+   PASS  A: XXX commutes with H when every field lies along x, and anticommutes with Z_d
+   PASS  B on the axis: 2·X_d (x) SWAP·X_uX_v is far at s = t, f_v = (u_x, -u_y), and squares to 4·1
+   PASS  D: t·q·YYY + p·q·XYI + r·p·XXX is far at s = 0, f_u = (0, q), f_v = -(f_d + f_u), W^2 = (t^2q^2 + r^2p^2 + p^2q^2)·1
+   PASS  D's element has operator Schmidt ranks 2, 2, 3 across d|uv, u|dv, v|du at generic p, q, r, t
+   PASS  S: X_d (x) P_s is far at s = t, f_u = f_v, any f_d along x, and has rank 2 of 8
+   On S outside A the far end is spanned by that singular element (stratum s = t, c0 = c1), so it holds no
+   invertible element and the row does not pair (F158's Lemma 3); the census reads its near end as 2.
+   PASS  S outside A: the far end is one-dimensional (generic u_x, u_y)
+
+5. The census: the full commutator on Pauli strings, integer ranks, against the rule
+   18152 reads of 18069 distinct rows; (near, far) by planted label and class (A, B on the axis, S, D, D', '-' for none):
+     A                    A     {(1, 1): 198}
+     A                    ABS   {(2, 2): 2}
+     A, f_u off the line  -     {(1, 0): 200}
+     B                    ABS   {(2, 2): 13}
+     B                    B     {(1, 1): 187}
+     B, f_d turned        -     {(1, 0): 174}
+     B, f_d turned        A     {(1, 1): 13}
+     B, f_d turned        ABS   {(2, 2): 2}
+     B, f_d turned        S     {(2, 1): 11}
+     B, t = s + 1         -     {(1, 0): 187}
+     B, t = s + 1         A     {(1, 1): 13}
+     D                    D     {(1, 1): 200}
+     D'                   D'    {(1, 1): 200}
+     D, f_u off perp      -     {(1, 0): 200}
+     D, f_v off by x      -     {(1, 0): 200}
+     D, s = 1             -     {(1, 0): 200}
+     S                    ABS   {(2, 2): 13}
+     S                    S     {(2, 1): 187}
+     S, f_v off by x      -     {(1, 0): 198}
+     S, f_v off by x      A     {(1, 1): 2}
+     grid                 -     {(1, 0): 14490}
+     grid                 A     {(1, 1): 624}
+     grid                 ABS   {(2, 2): 60}
+     grid                 AD    {(1, 1): 9}
+     grid                 AD'   {(1, 1): 9}
+     grid                 B     {(1, 1): 96}
+     grid                 D     {(1, 1): 18}
+     grid                 D'    {(1, 1): 18}
+     grid                 S     {(2, 1): 228}
+     s = -t               -     {(1, 0): 199}
+     s = -t               A     {(1, 1): 1}
+   PASS  every row: far end nonzero exactly in A, B, S, D, D'; pairs exactly in A, B, D, D' (0 disagree)
+   PASS  each class is met alone, outside the others
+   PASS  every row of S outside A, B and D reads near 2, far 1
+   PASS  every row of B, D or D' alone reads near 1, far 1
+
+ALL CHECKS PASS
