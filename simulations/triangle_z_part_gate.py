@@ -18,7 +18,7 @@ parts.
    field on d without a z part, symbolic, and the three-jump identity 3·Tr(Z_d·H^3) + Tr(Z_d·H·Z_d·H·Z_d·H) =
    192·r·(t·q_u + s·q_v), so r·(ii) is a combination of odd words. The determinants of the proof's case logic, taken from these
    polynomials: r != 0 with t = -s and q_u = q_v gives the word -32·s^2·q; r = 0 gives s·t·(s - t). Planted rows on
-   the branch s·t + 3r(s + t) = 0, where both one-jump words vanish, one of them with (i) and (iii) holding as well, so
+   the branch s·t + 3r(s + t) = 0, where Tr(Z_d·H^2) and Tr(Z_d·H^3) vanish, one of them with (i) and (iii) holding as well, so
    that (ii) alone decides, read exactly.
 4. J_du = J_dv with a field on d. J_du = J_dv = t, f_d = (p, 0, 0). The hop space (I_d and Z_d parts of [H, W]) does not
    depend on f_u, f_v or r; the previous section's basis W0, W1', W_H, W2' at s = t is checked to solve the hop
