@@ -7,7 +7,8 @@ using RCPsiSquared.Diagnostics.Knowledge;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>From-below pins for <see cref="TrianglePalindromeLocusWitness"/> (sections "The triangle's palindromic
-/// locus at N = 3", "The triangle with planar fields" and "The triangle with a planar field on d", and the paragraph
+/// locus at N = 3", "The triangle with planar fields", "The triangle with a planar field on d" and "The triangle with
+/// fields off the plane", and the paragraph
 /// "The sheet and blindness, at N = 3 and N = 4",
 /// of <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): the rows the proof, its gates and
 /// <c>EndCountTests</c> pin, read on the witness's own exact route, the grids with a planted mutation per class or
@@ -162,6 +163,74 @@ public class TrianglePalindromeLocusWitnessTests
     public void Leaving_A_Class_Out_Breaks_The_Grid_With_A_Field_On_D(char without)
     {
         Assert.True(TrianglePalindromeLocusWitness.ReadFieldOnDGrid(without).Disagreements > 0);
+    }
+
+    /// <summary>Fields off the plane (x, y, z). The counts are a second route's (simulations/triangle_z_part_gate.py reads
+    /// these rows with its integer ranks on the full commutator, the block "the witness's pins"): B off the plane
+    /// pairs with f_d on its axis and with no field on d, the singlet row with a field on d holds a far element and a
+    /// second near one, J_du = J_dv with f_d off the mirror axis, J_du = -J_dv with equal z parts, the word branch (6, -3, 2), the
+    /// stratum r = 0 alone and a z part on d break, fields along z alone break off the swap and pair in B on it.</summary>
+    [Theory]
+    [InlineData("2,2,3", "1,0,0", "1,2,1", "1,-2,-1", 1, 1, 'B')]    // B off the plane, f_d on the axis
+    [InlineData("2,2,3", "0,0,0", "1,2,1", "2,1,-1", 1, 1, 'B')]     // B off the plane, no field on d
+    [InlineData("1,1,3", "2,1,0", "0,0,1", "0,0,-1", 1, 1, 'B')]     // fields along z, opposite, on the swap
+    [InlineData("2,2,0", "2,1,0", "5,5,5", "7,1,-5", 1, 1, 'B')]     // B at J_uv = 0, f_d = (2, 1)
+    [InlineData("2,2,0", "2,1,0", "5,5,5", "7,1,5", 1, 0, null)]     // the same, the z part's sign kept
+    [InlineData("2,2,3", "1,0,0", "1,2,1", "1,2,1", 2, 1, 'S')]      // the singlet row: a far element, two near ones
+    [InlineData("2,2,3", "1,0,0", "1,2,1", "2,1,-1", 1, 0, null)]    // J_du = J_dv with f_d off the mirror axis
+    [InlineData("2,2,3", "1,0,0", "1,2,1", "1,2,2", 1, 0, null)]     // equal planar parts, z parts neither equal nor opposite
+    [InlineData("2,-2,3", "0,0,0", "1,2,1", "2,1,1", 1, 0, null)]    // J_du = -J_dv, equal z parts
+    [InlineData("6,-3,2", "0,0,0", "1,0,1", "2,1,2", 1, 0, null)]    // the word branch: both one-jump words vanish
+    [InlineData("6,-3,2", "0,0,0", "1,0,2", "4,0,4", 1, 0, null)]    // the word branch with (i) and (iii) holding: (ii) decides
+    [InlineData("1,3,0", "0,0,0", "1,2,3", "2,1,-1", 1, 0, null)]    // the stratum r = 0 alone
+    [InlineData("2,2,3", "1,0,1", "1,2,1", "1,-2,-1", 1, 0, null)]   // B's fields with a z part on d
+    [InlineData("1,2,3", "0,0,0", "0,0,1", "0,0,1", 4, 0, null)]     // fields along z alone, equal
+    [InlineData("2,2,3", "1,0,1", "1,2,0", "1,-2,0", 1, 0, null)]    // a z part on d alone, B's planar fields
+    [InlineData("2,2,3", "0,0,0", "1,2,1", "1,2,1", 3, 2, null)]     // the singlet pattern with no field on d: no class
+    public void A_Row_Off_The_Plane_Is_Read_By_Its_Rule(string j, string fd, string fu, string fv, int near, int far, char? cls)
+    {
+        var r = TrianglePalindromeLocusWitness.ReadOffPlaneRow(T(j), T(fd), T(fu), T(fv));
+        Assert.Equal((near, far, cls), (r.Near, r.Far, r.InClass));
+        Assert.True(r.Agrees);
+    }
+
+    [Fact]
+    public void The_Grid_Off_The_Plane_Agrees_And_Every_Class_Occurs()
+    {
+        var g = TrianglePalindromeLocusWitness.ReadOffPlaneGrid();
+        Assert.Equal(9 * 5 * 11, g.Rows);
+        Assert.Equal(0, g.Disagreements);
+        // the tallies the gate reads on the same grid (its block "the witness's grid off the plane")
+        Assert.Equal((14, 4), (g.B, g.S));
+        Assert.Equal(g.B, g.Palindromic);
+        Assert.Equal(9 * 2 * 11, g.ZOnD);
+    }
+
+    [Theory]
+    [InlineData('B')]
+    [InlineData('S')]
+    public void Leaving_A_Class_Out_Breaks_The_Grid_Off_The_Plane(char without)
+    {
+        Assert.True(TrianglePalindromeLocusWitness.ReadOffPlaneGrid(without).Disagreements > 0);
+    }
+
+    [Fact]
+    public void The_Rule_Off_The_Plane_Refuses_Planar_Rows_And_The_Witness_Takes_Three_Components()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            TrianglePalindromeLocusWitness.OffPlaneClass(T("2,2,3"), T("1,0,0"), T("1,2,0"), T("1,-2,0")));
+        var w = new TrianglePalindromeLocusWitness(null, "2,2,3", null, "1,2,1", "1,-2,-1", "1,0");
+        Assert.True(w.Read().Palindrome && w.Read().InClass == 'B' && w.Read().Agrees);
+        Assert.Contains("off the plane", w.DisplayName);
+        var zd = new TrianglePalindromeLocusWitness(null, "2,2,3", null, "1,2,1", "1,-2,-1", "1,0,1");
+        Assert.True(!zd.Read().Palindrome && zd.Read().InClass is null && zd.Read().Agrees);
+        Assert.Contains("a z part on d", zd.Summary);
+        Assert.Throws<ArgumentException>(() => new TrianglePalindromeLocusWitness(null, "2,2,3", null, "1,2,1,0", "1,-2,-1"));
+        // two components still read the planar setting, and so do three with every z part zero
+        var planar = new TrianglePalindromeLocusWitness(null, "1,2,6", null, "8,0", "-5,3");
+        Assert.True(planar.Read().InClass == 'E');
+        var planar3 = new TrianglePalindromeLocusWitness(null, "1,2,6", null, "8,0,0", "-5,3,0", "0,0,0");
+        Assert.True(planar3.Read().InClass == 'E' && !planar3.DisplayName.Contains("off the plane"));
     }
 
     /// <summary>The far element's operator Schmidt ranks across d|uv, u|dv, v|du, exact over Q; the expected ranks
@@ -401,6 +470,7 @@ public class TrianglePalindromeLocusWitnessTests
         {
             "a common carrier for the triangle's whole field line", "the triangle's palindromic locus at N = 3",
             "the triangle with planar fields", "the triangle with a planar field on d",
+            "the triangle with fields off the plane",
             "blind dephased seats, and palindromes beyond colourings and site symmetries",
         };
         var mine = claim.Children.Select(c => c.DisplayName).ToHashSet();

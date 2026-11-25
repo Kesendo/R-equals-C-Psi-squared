@@ -1084,10 +1084,13 @@ public static class InspectCommand
             "with a planar field f_d on d as well exactly when f_u, f_v lie on f_d's line (A), J_du = J_dv with f_v the " +
             "mirror image of f_u in that line (B), or J_du = 0 with f_u perpendicular to f_d, or J_dv = 0 with f_v " +
             "perpendicular to f_d, the three fields summing to zero (D; the singlet row J_du = J_dv, f_u = f_v off the line " +
-            "of f_d holds a far element and does not pair). " +
+            "of f_d holds a far element and does not pair); off the plane (fields x,y,z with a z part, connected rows) never with a z part " +
+            "on d (F158's odd word Tr(H Z_d)), and with one on u or v exactly when J_du = J_dv and a pi rotation about an " +
+            "axis perpendicular to z, along f_d when d has one, carries f_u onto f_v (B; opposite z parts on u and v). " +
             "Recomputes both ends of F158 exactly over Q at the row and on fixed grids (special letter loci over all 27 " +
-            "words; planar rows with E's images and corner; rows with a field on d), the classes beside. Args: --word ZXY, --J 3,6,-2, " +
-            "--h 0,1,1; or --J 1,2,6 --fu 8,0 --fv -5,3 for planar fields, with --fd x,y for a field on d; where the row pairs through one far element its operator Schmidt ranks across the three cuts, a " +
+            "words; planar rows with E's images and corner; rows with a field on d; rows off the plane), the classes beside. Args: --word ZXY, --J 3,6,-2, " +
+            "--h 0,1,1; or --J 1,2,6 --fu 8,0 --fv -5,3 for planar fields, with --fd x,y for a field on d, and x,y,z on any of " +
+            "the three for fields off the plane; where the row pairs through one far element its operator Schmidt ranks across the three cuts, a " +
             "non-product ruling out every site-local mirror (mirrors conditioned on a site's bits aside); with planar fields " +
             "also the sheet and blindness: the blind dimension of d, the far end by height, the rule for far elements of " +
             "odd height (with or without a field on d), the closed form (with no field on d), and the sheet grid",

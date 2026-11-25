@@ -1,0 +1,139 @@
+1. A z part on d: the shortest odd word of F158 §(f5)
+   PASS  Tr(H·Z_d) = 8·f_d^z identically in every coupling and field (read 8*hz)
+
+2. The twin's spectrum: H_00 and H_11 are the dimer in the conditioned fields
+   PASS  the dimer's characteristic polynomial is the closed form (three invariants)
+   PASS  H_00 is the dimer with a = f_u + s·ẑ, b = f_v + t·ẑ
+   PASS  H_11 is the dimer with a = f_u - s·ẑ, b = f_v - t·ẑ
+   PASS  |a|^2 + |b|^2 - |a'|^2 - |b'|^2 = 4·(s·q_u + t·q_v)  (i)
+   PASS  a·b - a'·b' = 2·(t·q_u + s·q_v)  (ii)
+   PASS  (|a|^2 - |b|^2)^2 - (|a'|^2 - |b'|^2)^2 = 8·(s·q_u - t·q_v)(|f_u|^2 + s^2 - |f_v|^2 - t^2)  (iii)
+   so with r != 0 isospectral <=> (i), (ii), (iii); with r = 0 (the x^1 coefficient and the r^2 terms drop) <=> (i), (iii)
+   PASS  s = t: disc of H_01^dag·H_01 = 2^24·p^6·t^14·(4p^4 + 13p^2·t^2 + 32t^4), each factor positive at p, t != 0 (read 16777216*pp**6*tt**14*(4*pp**4 + 13*pp**2*tt**2 + 32*tt**4))
+
+3. The words Tr(Z_d·H^2) and Tr(Z_d·H^3), any field on d without a z part
+   PASS  Tr(Z_d·H^2) = 16·(s·q_u + t·q_v), 16 times (i)
+   PASS  Tr(Z_d·H^3) = 16·(3r(t·q_u + s·q_v) - s^2·q_u - t^2·q_v)
+   PASS  3·Tr(Z_d·H^3) + Tr(Z_d·H·Z_d·H·Z_d·H) = 192·r·(t·q_u + s·q_v): r·(ii) is a combination of odd words, one with three jumps
+   PASS  r != 0, t = -s, (i) => q_u = q_v = q: the word reads -32·s^2·q (nonzero)
+   PASS  r = 0: Tr(Z_d·H^2) and Tr(Z_d·H^3) as forms in (q_u, q_v), determinant -s·t·(t - s)
+   PASS  r != 0: (i) and (ii) as forms in (q_u, q_v), determinant s^2 - t^2
+   PASS  the two one-jump words alone: determinant (s - t)(s·t + 3r(s + t)), so they leave a branch
+   case logic (argued in the proof): r != 0 => s = +-t; s = -t dies by the word; s = t => q_v = -q_u and by (iii)
+   |f_u| = |f_v|; r = 0 => s = t (both nonzero there) => the same.
+   PASS  J = (6, -3, 2) lies on s·t + 3r(s + t) = 0
+   PASS  f_u = (0, 0, 1), f_v = (0, 0, 2): both one-jump words vanish, (ii) = 9, (iii) = 288, Tr(Z_d·H·Z_d·H·Z_d·H) = 3456
+   PASS  f_u = (1, 0, 2), f_v = (4, 0, 4): both one-jump words vanish, (ii) = 18, (iii) = 0, Tr(Z_d·H·Z_d·H·Z_d·H) = 6912
+   PASS  at f_u = (1, 0, 2), f_v = (4, 0, 4) (i) and (iii) hold too: (ii) alone decides that row
+
+4. J_du = J_dv with a field on d: the previous section's hop space and its table, with z parts
+   PASS  W0, W1', W_H, W2' solve the hop equations (the parts along I_d and Z_d vanish) with z parts present
+   PASS  each has a string the other three lack (XXX, XZZ, YIY, YXY): independent at t, p != 0
+   PASS  the hop space at s = t is four-dimensional at generic t, p (4; on the whole stratum by the previous section's discriminant)
+   PASS  J_uv enters none of the rows
+   PASS  the table has exactly the twelve planar rows and eight z rows (20 rows)
+   PASS  the twelve planar rows read as displayed there
+   PASS  the eight z rows read as displayed
+     Y_d·XI: -cH*q_u*t
+     Y_d·IX: -cH*q_v*t
+     Y_d·XX: -c2*t*(q_u + q_v)
+     Y_d·YY: c2*t*(q_u + q_v)
+     X_d·YI: q_u*(c2*p + cH*t)
+     X_d·IY: q_v*(c2*p + cH*t)
+     X_d·XY: c0*q_v - c1*q_u - c2*q_u*t
+     X_d·YX: c0*q_u - c1*q_v - c2*q_v*t
+   elimination (argued in the proof): Y_d·XI, Y_d·IX give c_H = 0; X_d·YI, X_d·IY then c2 = 0 (p != 0); X_d·XY,
+   X_d·YX on (c0, c1) have determinant q_u^2 - q_v^2; q_u = -q_v gives c1 = -c0 and with X_d·XZ, X_d·YZ the axis,
+   q_u = q_v gives c1 = c0 and f_u = f_v (S).
+   PASS  X_d·XY, X_d·YX on (c0, c1): determinant (q_u - q_v)*(q_u + q_v)
+   PASS  at generic fields the kernel is zero
+   PASS  q_v = -q_u, f_v = R_x f_u (B off the plane, axis along f_d): kernel dimension 1 at generic remaining parameters
+   PASS  q_v = q_u, f_v = f_u (the singlet row S): kernel dimension 1 at generic remaining parameters
+   PASS  q_v = -q_u, planar parts equal, off the axis: kernel dimension 0 at generic remaining parameters
+   PASS  q_v = -q_u, the mirror image turned by a quarter: kernel dimension 0 at generic remaining parameters
+   PASS  q_v = q_u, planar parts mirrored: kernel dimension 0 at generic remaining parameters
+   PASS  B off the plane: c_H = c2 = 0, c1 = -c0
+   PASS  W0 - W1' = 2·X_d (x) SWAP_uv·X_uX_v, the element of B off the plane
+   PASS  S: c_H = c2 = 0, c1 = c0
+   PASS  W0 + W1' = -4·X_d (x) P_s, P_s = (1 - σ_u·σ_v)/4 the singlet projector of u and v
+   step 5 on the whole class: n = (c, sn, 0) with c = (1 - m^2)/(1 + m^2), sn = 2m/(1 + m^2), f_d = λ·n, f_v = R_n·f_u
+   PASS  [H, SWAP_uv·(n·σ)^(x)3] = 0 identically
+   PASS  {Z_d, SWAP_uv·(n·σ)^(x)3} = 0
+   PASS  (SWAP_uv·(n·σ)^(x)3)^2 = 1, so it is invertible
+
+5. The census: the full commutator on Pauli strings, exact ranks, against the rule
+   grid done (69984 distinct rows so far)
+   74401 reads of 74205 distinct rows, 2611 recounted with integer ranks (a nonzero far end at both primes);
+   (near, far) by planted label and class of the combined rule ('-' for none; '<=n' a near count from the primes,
+   an upper bound, on rows whose far end is zero exactly):
+     A planted                      A   {(1, 1): 56, (2, 2): 4}
+     A, z on d                      -   {('<=1', 0): 56, ('<=2', 0): 4}
+     B off the plane planted        Boff {(1, 1): 60}
+     B off the plane, q_v = q_u     -   {('<=1', 0): 48, ('<=2', 0): 6, (3, 2): 6}
+     B off the plane, z on d        -   {('<=1', 0): 60}
+     B planted                      A   {(2, 2): 6, (3, 3): 6}
+     B planted                      B   {(1, 1): 48}
+     B, z on d                      -   {('<=1', 0): 48, ('<=2', 0): 6, ('<=3', 0): 6}
+     C planted                      A   {(1, 1): 16}
+     C planted                      C   {(1, 1): 44}
+     C, z on u                      -   {('<=1', 0): 60}
+     D planted                      D   {(1, 1): 60}
+     D' planted                     D'  {(1, 1): 60}
+     D', z on u                     -   {('<=1', 0): 60}
+     D, z on v                      -   {('<=1', 0): 60}
+     E planted                      E   {(1, 1): 1}
+     E, z on both                   -   {('<=1', 0): 3}
+     E, z on u                      -   {('<=1', 0): 3}
+     grid                           -   {('<=1', 0): 67840, ('<=2', 0): 192, ('<=4', 0): 288, ('<=5', 0): 8, (2, 1): 216, (3, 2): 320, (4, 2): 68, (6, 2): 12, (6, 3): 8, (7, 4): 12, (7, 5): 4, (8, 5): 8}
+     grid                           Boff {(1, 1): 968, (3, 3): 16, (4, 4): 24}
+     r = 0 alone                    -   {('<=1', 0): 270}
+     random R^3                     -   {('<=1', 0): 1486, (2, 1): 2}
+     random R^3                     A   {(1, 1): 8}
+     random R^3                     B   {(1, 1): 3}
+     random R^3                     Boff {(1, 1): 1}
+     s = -t, equal z parts          -   {('<=1', 0): 432}
+     s = t, no field on d           Boff {(1, 1): 135}
+     s = t, on the axis             Boff {(1, 1): 405}
+     s = t, planar parts equal      -   {('<=1', 0): 371}
+     s = t, planar parts equal      Boff {(1, 1): 34}
+     s = t, turned off the axis     -   {('<=1', 0): 405}
+     word branch (6,-3,2)           -   {('<=1', 0): 66, ('<=4', 0): 6}
+     word branch, (ii) alone        -   {('<=1', 0): 6}
+   PASS  every row: pairs exactly when the combined rule names a class (0 disagree)
+   PASS  each class of the combined rule is met
+   PASS  the ends: none of the 766 reads with a z part on d pairs
+   PASS  mutated rule, B off the plane without its axis (any n when f_d != 0): 1354 reads disagree
+   PASS  mutated rule, B off the plane without the reversed z part: 1068 reads disagree
+   PASS  mutated rule, the rule without B off the plane: 1643 reads disagree
+   PASS  mutated rule, a z part on d read as if it were planar: 191 reads disagree
+
+   far elements without pairing, sorted into families (measured on these reads):
+     no field on d      J_dv = -J_du, f_v = -f_u     144
+     no field on d      S: J_du = J_dv, f_u = f_v    222
+     no field on d      every field along z          72
+     planar field on d  S: J_du = J_dv, f_u = f_v    216
+   PASS  with a z part on u or v, every far element without pairing read here lies in S (with a planar field on d: only S), J_dv = -J_du with f_v = -f_u, or a row with every field along z
+   PASS  J = (-1, 1, -1), f_u = -ẑ, f_v = ẑ: far 4, of odd height 2, of even height 2, at a seat that is not blind (the Krylov factor -(J_du - J_dv)·e2 = -2)
+
+   the witness's pins (TrianglePalindromeLocusWitnessTests, rows off the plane), read here exactly:
+     J = (2, 2, 3), f_d = (1, 0, 0), f_u = (1, 2, 1), f_v = (1, -2, -1): (near, far) = (1, 1)
+     J = (2, 2, 3), f_d = (0, 0, 0), f_u = (1, 2, 1), f_v = (2, 1, -1): (near, far) = (1, 1)
+     J = (1, 1, 3), f_d = (2, 1, 0), f_u = (0, 0, 1), f_v = (0, 0, -1): (near, far) = (1, 1)
+     J = (2, 2, 0), f_d = (2, 1, 0), f_u = (5, 5, 5), f_v = (7, 1, -5): (near, far) = (1, 1)
+     J = (2, 2, 0), f_d = (2, 1, 0), f_u = (5, 5, 5), f_v = (7, 1, 5): (near, far) = (1, 0)
+     J = (2, 2, 3), f_d = (1, 0, 0), f_u = (1, 2, 1), f_v = (1, 2, 1): (near, far) = (2, 1)
+     J = (2, 2, 3), f_d = (1, 0, 0), f_u = (1, 2, 1), f_v = (2, 1, -1): (near, far) = (1, 0)
+     J = (2, -2, 3), f_d = (0, 0, 0), f_u = (1, 2, 1), f_v = (2, 1, 1): (near, far) = (1, 0)
+     J = (6, -3, 2), f_d = (0, 0, 0), f_u = (1, 0, 1), f_v = (2, 1, 2): (near, far) = (1, 0)
+     J = (6, -3, 2), f_d = (0, 0, 0), f_u = (1, 0, 2), f_v = (4, 0, 4): (near, far) = (1, 0)
+     J = (1, 3, 0), f_d = (0, 0, 0), f_u = (1, 2, 3), f_v = (2, 1, -1): (near, far) = (1, 0)
+     J = (2, 2, 3), f_d = (1, 0, 1), f_u = (1, 2, 1), f_v = (1, -2, -1): (near, far) = (1, 0)
+     J = (2, 2, 3), f_d = (1, 0, 1), f_u = (1, 2, 0), f_v = (1, -2, 0): (near, far) = (1, 0)
+     J = (1, 2, 3), f_d = (0, 0, 0), f_u = (0, 0, 1), f_v = (0, 0, 1): (near, far) = (4, 0)
+     J = (2, 2, 3), f_d = (0, 0, 0), f_u = (1, 2, 1), f_v = (1, 2, 1): (near, far) = (3, 2)
+     J = (2, 2, 3), f_d = (1, 0, 0), f_u = (1, 2, 1), f_v = (1, 2, 2): (near, far) = (1, 0)
+   PASS  the 16 pinned rows read as the witness's tests pin them
+   the witness's grid off the plane, read here: {'rows': 495, 'palindromic': 14, 'B': 14, 'S': 4, 'z on d': 198, 'disagree': 0}
+   PASS  the witness's grid: 495 rows, none disagreeing, the palindromic rows exactly those in B off the plane
+
+ALL CHECKS PASS

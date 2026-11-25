@@ -7,10 +7,10 @@ using RCPsiSquared.Core.Symmetry;
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The triangle's palindromic locus at N = 3, live (claim <see cref="OneDephasedSeatClaim"/>,
-/// sections "The triangle's palindromic locus at N = 3", "The triangle with planar fields" and "The triangle with a
-/// planar field on d", and the paragraph "The sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
+/// sections "The triangle's palindromic locus at N = 3", "The triangle with planar fields", "The triangle with a
+/// planar field on d" and "The triangle with fields off the plane", and the paragraph "The sheet and blindness, at N = 3 and N = 4" of the section on blind dephased seats, of
 /// <c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>). Heisenberg triangle on (d, u, v) = (0, 1, 2) with
-/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Two settings, three pairing rules, and on the planar one the sheet rule.
+/// couplings J_du, J_dv, J_uv (at most one zero), the jump Z on d alone. Three settings, four pairing rules, and on the planar one the sheet rule.
 ///
 /// <para><b>Letter fields</b>, a single-letter field h_l·σ_{w_l} on every site. A row pairs exactly when it lies in</para>
 /// <code>
@@ -57,6 +57,19 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// and a row agrees with the rule when it pairs if and only if it lies in A, B or D, and has a far element if and only
 /// if it lies in one of the four.</para>
 ///
+/// <para><b>Fields off the plane.</b> Fields given as (x, y, z), a z part on some site. A z part on d breaks every row
+/// (Tr(H·Z_d) = 8·f_d^z, an odd word of F158 §(f5)). With f_d perpendicular to z or zero and a z part on u or v a row
+/// pairs exactly in</para>
+/// <code>
+///     B  J_du = J_dv and the pi rotation about some axis n ⊥ z carries f_u onto f_v (so the z parts q_u, q_v are opposite), n along f_d when
+///        f_d ≠ 0 (with f_d = 0 such an n exists exactly when the planar parts have one length),
+/// </code>
+/// <para>and with f_d ≠ 0 and J_du = J_dv a far element exists exactly in B and in S (f_u = f_v, singular). A row
+/// agrees when it pairs if and only if it lies in B, and, where that far end is decided (f_d ≠ 0 perpendicular to z,
+/// J_du = J_dv), has a far element if and only if it lies in B or S. With f_d perpendicular to z or zero, the far
+/// elements without pairing elsewhere, all with no field on d (S, J_dv = −J_du with f_v = −f_u, some rows with every
+/// field along z), are measured, not ruled; rows with a z part on d can hold far elements too, and none pairs.</para>
+///
 /// <para><b>The far element's locality.</b> Where the row pairs through a one-dimensional far end the witness keeps
 /// its element W and reads its operator Schmidt ranks across d | uv, u | dv and v | du (<see cref="OperatorSchmidtRank"/>).
 /// A mirror, M·L·M⁻¹ = −L − 2σ or the reflection onto −L† − 2σ (the jump is Hermitian, so ker(L† + 2σ) = ker(L + 2σ)),
@@ -80,14 +93,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// N = 4 widening stay with <c>simulations/blind_seat_sheet_gate.py</c>.</para>
 ///
 /// <para>Args: <c>--word</c> (three letters X/Y/Z, one per site d, u, v; default ZXY), <c>--J</c> (J_du,J_dv,J_uv,
-/// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1); or, for planar fields, <c>--fu</c> and
-/// <c>--fv</c> (x,y each, integers or p/q) with <c>--J</c>, optionally <c>--fd</c> (x,y) for a field on d, and no
-/// <c>--word</c> or <c>--h</c>.</para></summary>
+/// integers or p/q; default 3,6,-2), <c>--h</c> (h_d,h_u,h_v; default 0,1,1); or, for vector fields, <c>--fu</c> and
+/// <c>--fv</c> (x,y or x,y,z each, integers or p/q) with <c>--J</c>, optionally <c>--fd</c> (x,y or x,y,z) for a field on
+/// d, and no <c>--word</c> or <c>--h</c>; with every z part zero the planar rules read the row, with one nonzero the rule
+/// off the plane.</para></summary>
 public sealed class TrianglePalindromeLocusWitness : IInspectable
 {
     private readonly string _word;
     private readonly BigRational[] _j, _h;
     private readonly BigRational[]? _fu, _fv, _fd;
+    private readonly BigRational _zu = BigRational.Zero, _zv = BigRational.Zero, _zd = BigRational.Zero;
+    private bool OffPlane => !_zu.IsZero || !_zv.IsZero || !_zd.IsZero;
 
     public TrianglePalindromeLocusWitness(string? word = null, string? couplings = null, string? fields = null,
         string? fieldU = null, string? fieldV = null, string? fieldD = null)
@@ -98,11 +114,11 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         if (fieldU is not null || fieldV is not null || fieldD is not null)
         {
             if (word is not null || fields is not null)
-                throw new ArgumentException("--fu/--fv/--fd read the planar setting (fields perpendicular to z); " +
-                                            "--word/--h the letter one. Give one of the two.");
-            _fu = ParseTuple(fieldU ?? "0,0", "fu", 2);
-            _fv = ParseTuple(fieldV ?? "0,0", "fv", 2);
-            _fd = ParseTuple(fieldD ?? "0,0", "fd", 2);
+                throw new ArgumentException("--fu/--fv/--fd read vector fields (x,y or x,y,z); " +
+                                            "--word/--h the letter setting. Give one of the two.");
+            (_fu, _zu) = ParseField(fieldU ?? "0,0", "fu");
+            (_fv, _zv) = ParseField(fieldV ?? "0,0", "fv");
+            (_fd, _zd) = ParseField(fieldD ?? "0,0", "fd");
             _word = "";
             _h = new[] { BigRational.Zero, BigRational.Zero, BigRational.Zero };
             return;
@@ -112,6 +128,17 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
             throw new ArgumentException($"--word takes three letters from X, Y, Z (sites d, u, v); got \"{word}\".");
         _h = ParseTuple(fields ?? "0,1,1", "h", 3);
     }
+
+    /// <summary>A field as x,y (perpendicular to z) or x,y,z: its planar part and its z part.</summary>
+    private static (BigRational[] Planar, BigRational Z) ParseField(string spec, string arg)
+    {
+        int n = spec.Split(',').Length;
+        if (n is not (2 or 3)) throw new ArgumentException($"--{arg} takes x,y or x,y,z; got \"{spec}\".");
+        var v = ParseTuple(spec, arg, n);
+        return (new[] { v[0], v[1] }, n == 3 ? v[2] : BigRational.Zero);
+    }
+
+    private static BigRational[] V3(BigRational[] planar, BigRational z) => new[] { planar[0], planar[1], z };
 
     private static BigRational[] ParseTuple(string spec, string arg, int count)
     {
@@ -485,6 +512,26 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return null;
     }
 
+    /// <summary>The class of a row off the plane (fields (x, y, z), some z part nonzero): null when f_d has a z part (no
+    /// row pairs, F158 §(f5)); otherwise B, J_du = J_dv with f_v the image of f_u under the pi rotation about some axis
+    /// n ⊥ z, along f_d when f_d ≠ 0; then, with a planar f_d ≠ 0, S (J_du = J_dv, f_u = f_v: a far element,
+    /// singular); else null. <paramref name="without"/> as in <see cref="Class"/>.</summary>
+    public static char? OffPlaneClass(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        if (fd[2].IsZero && fu[2].IsZero && fv[2].IsZero)
+            throw new ArgumentException("OffPlaneClass reads rows with a z part; with every field perpendicular to z the " +
+                                        "planar rules are PlanarClass and FieldOnDClass.");
+        if (!fd[2].IsZero || j[0] != j[1]) return null;
+        bool noFd = fd[0].IsZero && fd[1].IsZero;
+        var nn = Norm2(fd);
+        bool mirror = noFd
+            ? Norm2(fu) == Norm2(fv)                                            // the planar parts of one length
+            : 2 * Dot(fu, fd) * fd[0] - nn * fu[0] == nn * fv[0] && 2 * Dot(fu, fd) * fd[1] - nn * fu[1] == nn * fv[1];
+        if (without != 'B' && mirror && fv[2] == -fu[2]) return 'B';
+        if (without != 'S' && !noFd && Same(fu, fv)) return 'S';
+        return null;
+    }
+
     private static BigRational Dot(BigRational[] a, BigRational[] b) => a[0] * b[0] + a[1] * b[1];
 
     private static BigRational[] Vec(char letter, BigRational h)
@@ -534,11 +581,28 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return new Reading(near, far, pal, cls, pal == (cls is not null));
     }
 
+    /// <summary>A row off the plane (fields (x, y, z), some z part nonzero): its two ends and the rule of the section
+    /// "The triangle with fields off the plane" (pairs exactly in B; with a planar f_d ≠ 0 and J_du = J_dv a far element
+    /// exactly in B and S).</summary>
+    public static Reading ReadOffPlaneRow(BigRational[] j, BigRational[] fd, BigRational[] fu, BigRational[] fv, char? without = null)
+    {
+        var f = new[] { fd, fu, fv };
+        int near = End(j, f, false), far = End(j, f, true);
+        bool pal = far >= 1 && near == far;
+        var cls = OffPlaneClass(j, fd, fu, fv, without);
+        bool farDecided = fd[2].IsZero && !(fd[0].IsZero && fd[1].IsZero) && j[0] == j[1];
+        bool agrees = pal == (cls == 'B') && (!farDecided || (far >= 1) == (cls is 'B' or 'S'));
+        return new Reading(near, far, pal, cls, agrees);
+    }
+
     private Reading? _reading;
-    public Reading Read() => _reading ??= _fu is null ? ReadRow(_word, _j, _h) : ReadPlanarRow(_j, _fd!, _fu, _fv!);
+    public Reading Read() => _reading ??= _fu is null ? ReadRow(_word, _j, _h)
+        : OffPlane ? ReadOffPlaneRow(_j, V3(_fd!, _zd), V3(_fu, _zu), V3(_fv!, _zv))
+        : ReadPlanarRow(_j, _fd!, _fu, _fv!);
 
     private BigRational[][] Fields() => _fu is null
         ? Enumerable.Range(0, 3).Select(l => Vec(_word[l], _h[l])).ToArray()
+        : OffPlane ? new[] { V3(_fd!, _zd), V3(_fu, _zu), V3(_fv!, _zv) }
         : PlanarFields(_fd!, _fu, _fv!);
 
     private FarLocality? _locality;
@@ -664,6 +728,59 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
         return new FieldOnDGridReading(rows, pal, a, b, d, sg, bad);
     }
 
+    /// <summary>The grid off the plane: couplings generic, on the swap (at J_uv ≠ 0 and = 0), opposite (J_du = −J_dv, at
+    /// J_uv ≠ 0 and = 0), reciprocal, with d at an end and in the middle of a path, and on the word branch
+    /// J_du·J_dv + 3J_uv(J_du + J_dv) = 0; fields on d none, in two planar directions and two with a z part; field pairs
+    /// with z parts: B's pair for each f_d, one perturbed and one with the z part's sign kept, the singlet pair and its
+    /// opposite, a z part on u alone, equal z parts at equal lengths, a pair on the stratum r = 0 of J = (1, 3, 0), a
+    /// pair along z, a generic one, and the pair on which, at the branch coupling (6, −3, 2), only the relation
+    /// J_dv·q_u + J_du·q_v = 0 fails.</summary>
+    public static IEnumerable<(BigRational[] J, BigRational[] Fd, BigRational[] Fu, BigRational[] Fv)> OffPlaneGrid()
+    {
+        BigRational[] V(long x, long y, long z) => new[] { Q(x), Q(y), Q(z) };
+        var couplings = new[]
+        {
+            V(1, 2, 3), V(2, 2, 3), V(2, -2, 3), V(2, -2, 0), V(3, 6, -2), V(0, 2, 3), V(1, 3, 0), V(6, -3, 2), V(2, 2, 0),
+        };
+        var fds = new[] { V(0, 0, 0), V(1, 0, 0), V(2, 1, 0), V(0, 0, 1), V(1, 0, 2) };
+        foreach (var j in couplings)
+            foreach (var fd in fds)
+            {
+                var nn = Norm2(fd);
+                var g = V(1, 2, 1);
+                var (bu, bv) = nn.IsZero
+                    ? (V(1, 2, 1), V(2, 1, -1))
+                    : (new[] { nn * g[0], nn * g[1], nn * g[2] },
+                       new[] { 2 * Dot(g, fd) * fd[0] - nn * g[0], 2 * Dot(g, fd) * fd[1] - nn * g[1], -nn * g[2] });
+                var pairs = new (BigRational[] Fu, BigRational[] Fv)[]
+                {
+                    (bu, bv), (bu, new[] { bv[0] + 1, bv[1], bv[2] }), (bu, new[] { bv[0], bv[1], -bv[2] }),
+                    (g, g), (g, V(-1, -2, -1)), (V(1, 0, 1), V(2, 1, 0)), (V(1, 2, 1), V(2, 1, 1)),
+                    (V(1, 2, 3), V(2, 1, -1)), (V(0, 0, 1), V(0, 0, -1)), (V(3, 1, 2), V(-1, 2, 1)),
+                    (V(1, 0, 2), V(4, 0, 4)),
+                };
+                foreach (var (fu, fv) in pairs) yield return (j, fd, fu, fv);
+            }
+    }
+
+    public sealed record OffPlaneGridReading(int Rows, int Palindromic, int B, int S, int ZOnD, int Disagreements);
+
+    public static OffPlaneGridReading ReadOffPlaneGrid(char? without = null)
+    {
+        int rows = 0, pal = 0, b = 0, sg = 0, zd = 0, bad = 0;
+        foreach (var (j, fd, fu, fv) in OffPlaneGrid())
+        {
+            var r = ReadOffPlaneRow(j, fd, fu, fv, without);
+            rows++;
+            if (r.Palindrome) pal++;
+            if (r.InClass == 'B') b++;
+            if (r.InClass == 'S') sg++;
+            if (!fd[2].IsZero) zd++;
+            if (!r.Agrees) bad++;
+        }
+        return new OffPlaneGridReading(rows, pal, b, sg, zd, bad);
+    }
+
     /// <summary>The sheet grid: every row of the planar grid whose fields on u and v are nonzero and neither parallel
     /// nor antiparallel, once with no field on d and with three fields on d: on the line of f_u + f_v, across it, and
     /// (1, 2).</summary>
@@ -729,9 +846,13 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
 
     public string DisplayName => _fu is null
         ? $"the triangle's palindromic locus at N = 3 (word {_word}, J = {string.Join(", ", _j)}, h = {string.Join(", ", _h)})"
-        : $"the triangle's palindromic locus at N = 3 with planar fields (J = {string.Join(", ", _j)}, " +
-          $"f_u = ({string.Join(", ", _fu)}), f_v = ({string.Join(", ", _fv!)}), " +
-          (_fd!.All(x => x.IsZero) ? "no field on d)" : $"f_d = ({string.Join(", ", _fd!)}))");
+        : OffPlane
+            ? $"the triangle's palindromic locus at N = 3 off the plane (J = {string.Join(", ", _j)}, " +
+              $"f_u = ({string.Join(", ", V3(_fu, _zu))}), f_v = ({string.Join(", ", V3(_fv!, _zv))}), " +
+              (_fd!.All(x => x.IsZero) && _zd.IsZero ? "no field on d)" : $"f_d = ({string.Join(", ", V3(_fd!, _zd))}))")
+            : $"the triangle's palindromic locus at N = 3 with planar fields (J = {string.Join(", ", _j)}, " +
+              $"f_u = ({string.Join(", ", _fu)}), f_v = ({string.Join(", ", _fv!)}), " +
+              (_fd!.All(x => x.IsZero) ? "no field on d)" : $"f_d = ({string.Join(", ", _fd!)}))");
 
     public string Summary
     {
@@ -743,10 +864,16 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                 "; far element of Schmidt ranks {0}, {1}, {2} across d|uv, u|dv, v|du{3}", loc.DUv, loc.UDv, loc.VDu,
                 loc.Product ? ", a product" : ", no product, so no site-local mirror (conditioned ones aside)");
             bool withFd = _fu is not null && !_fd!.All(x => x.IsZero);
+            string where = OffPlane
+                ? r.InClass == 'S' ? "in S of the rule off the plane (a far element, singular, no pairing)"
+                    : r.InClass is { } ko ? $"in class {ko} of the rule off the plane"
+                    : !_zd.IsZero ? "a z part on d (Tr(H Z_d) = 8 f_d^z, an odd word of F158 section (f5): no class)"
+                    : _fd!.All(x => x.IsZero) ? "in no class of the rule off the plane (with no field on d it rules pairing only)"
+                    : "in none of B, S (the rule off the plane)"
+                : r.InClass is { } k ? (withFd ? $"in class {k} of the rule with a field on d" : $"in class {k}")
+                : _fu is null ? "in none of A, B, C" : withFd ? "in none of A, B, D, S (the rule with a field on d)" : "in none of A, B, C, E";
             return string.Format(CultureInfo.InvariantCulture, "near {0}, far {1}: {2}; {3}; the rule {4}{5}",
-                r.Near, r.Far, r.Palindrome ? "palindrome" : "broken",
-                r.InClass is { } k ? (withFd ? $"in class {k} of the rule with a field on d" : $"in class {k}")
-                    : _fu is null ? "in none of A, B, C" : withFd ? "in none of A, B, D, S (the rule with a field on d)" : "in none of A, B, C, E",
+                r.Near, r.Far, r.Palindrome ? "palindrome" : "broken", where,
                 r.Agrees ? "holds" : "FAILS", locality);
         }
     }
@@ -772,7 +899,7 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                         loc.Product ? "It is a product, so a site-local mirror is not ruled out."
                                     : "It is no product, so no site-local mirror carries this row, in any per-site frame."),
                 provenance: NodeProvenance.Live);
-            if (_fu is not null)
+            if (_fu is not null && !OffPlane)
             {
                 var sh = ReadSheet(_j, _fd!, _fu, _fv!);
                 var cf = _fd!.All(x => x.IsZero) ? ReadClosedForm(_j, _fu, _fv!) : null;
@@ -815,6 +942,13 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                     "{0} rows with a planar field on d: {1} palindromic ({2} in A, {3} in B, {4} in D, first class that " +
                     "holds), {5} in S (a far element, no pairing), {6} rows where the rule and the two ends disagree",
                     fg.Rows, fg.Palindromic, fg.A, fg.B, fg.D, fg.S, fg.Disagreements), provenance: NodeProvenance.Live);
+            var og = ReadOffPlaneGrid();
+            yield return new InspectableNode("the grid off the plane, recomputed",
+                summary: string.Format(CultureInfo.InvariantCulture,
+                    "{0} rows with a z part on some site: {1} palindromic ({2} in B off the plane), {3} in S with a " +
+                    "planar field on d (a far element, no pairing), {4} with a z part on d (none pairs), {5} rows where " +
+                    "the rule and the two ends disagree",
+                    og.Rows, og.Palindromic, og.B, og.S, og.ZOnD, og.Disagreements), provenance: NodeProvenance.Live);
             yield return new InspectableNode("where the exhaustion lives",
                 summary: "This witness reads the rules at points. That every palindromic connected row with letter " +
                          "fields lies in A, B or C is the elimination's, certificate " +
@@ -823,7 +957,10 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
                          "exactly in A, B, C or E is the derivation of the section 'The triangle with planar fields', " +
                          "gate simulations/n3_planar_field_locus_gate.py; that with a planar field on d it pairs exactly in " +
                          "A, B or D and holds a far element exactly there and in S is the hand derivation of the section " +
-                         "'The triangle with a planar field on d', gate simulations/triangle_field_on_d_gate.py; that, with nonzero planar fields on u and v neither parallel " +
+                         "'The triangle with a planar field on d', gate simulations/triangle_field_on_d_gate.py; that with a z part " +
+                         "on d no row pairs is F158's section (f5), and that with one on u or v a row pairs exactly in B off the " +
+                         "plane is the hand derivation of the section 'The triangle with fields off the plane', gate " +
+                         "simulations/triangle_z_part_gate.py; that, with nonzero planar fields on u and v neither parallel " +
                          "nor antiparallel and at most one coupling zero, a far element of odd height exists, with no field on d, " +
                          "exactly at a blind seat with fields of one length, " +
                          "and with a field on d exactly when J_du = J_dv, |f_u| = |f_v| and f_d lies on the line of f_u + f_v, " +
