@@ -180,7 +180,7 @@ public class TrianglePalindromeLocusWitnessTests
     [InlineData("2,2,3", "1,0,0", "1,2,1", "2,1,-1", 1, 0, null)]    // J_du = J_dv with f_d off the mirror axis
     [InlineData("2,2,3", "1,0,0", "1,2,1", "1,2,2", 1, 0, null)]     // equal planar parts, z parts neither equal nor opposite
     [InlineData("2,-2,3", "0,0,0", "1,2,1", "2,1,1", 1, 0, null)]    // J_du = -J_dv, equal z parts
-    [InlineData("6,-3,2", "0,0,0", "1,0,1", "2,1,2", 1, 0, null)]    // the word branch: both one-jump words vanish
+    [InlineData("6,-3,2", "0,0,0", "1,0,1", "2,1,2", 1, 0, null)]    // the word branch: Tr(Z_d·H²) and Tr(Z_d·H³) vanish
     [InlineData("6,-3,2", "0,0,0", "1,0,2", "4,0,4", 1, 0, null)]    // the word branch with (i) and (iii) holding: (ii) decides
     [InlineData("1,3,0", "0,0,0", "1,2,3", "2,1,-1", 1, 0, null)]    // the stratum r = 0 alone
     [InlineData("2,2,3", "1,0,1", "1,2,1", "1,-2,-1", 1, 0, null)]   // B's fields with a z part on d

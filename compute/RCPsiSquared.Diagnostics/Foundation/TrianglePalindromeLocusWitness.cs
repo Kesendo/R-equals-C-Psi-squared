@@ -31,8 +31,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para><b>A road of its own.</b> The proofs are a Python elimination with a stored certificate
 /// (<c>simulations/n3_palindrome_covering.py</c>, letter fields), a symbolic sympy derivation
-/// (<c>simulations/n3_planar_field_locus_gate.py</c>, planar fields) and a hand derivation with an exact gate
-/// (<c>simulations/triangle_field_on_d_gate.py</c>, a planar field on d). This witness shares none of them: it builds the two
+/// (<c>simulations/n3_planar_field_locus_gate.py</c>, planar fields) and two hand derivations with exact gates
+/// (<c>simulations/triangle_field_on_d_gate.py</c>, a planar field on d; <c>simulations/triangle_z_part_gate.py</c>,
+/// fields off the plane). This witness shares none of them: it builds the two
 /// ends of F158 itself, as the real kernels of W ↦ [H, W] on the Pauli strings whose d-letter is in {I, Z} (near)
 /// or {X, Y} (far), with <see cref="BigRational"/> entries and an exact nullspace, and evaluates the classes on the
 /// point. A field with two components is two Pauli terms on its site, so the same kernels read both settings. It
@@ -62,7 +63,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// pairs exactly in</para>
 /// <code>
 ///     B  J_du = J_dv and the pi rotation about some axis n ⊥ z carries f_u onto f_v (so the z parts q_u, q_v are opposite), n along f_d when
-///        f_d ≠ 0 (with f_d = 0 such an n exists exactly when the planar parts have one length),
+///        f_d ≠ 0 (with f_d = 0 such an n exists exactly when the planar parts have one length and the z parts are opposite),
 /// </code>
 /// <para>and with f_d ≠ 0 and J_du = J_dv a far element exists exactly in B and in S (f_u = f_v, singular). A row
 /// agrees when it pairs if and only if it lies in B, and, where that far end is decided (f_d ≠ 0 perpendicular to z,
@@ -733,8 +734,8 @@ public sealed class TrianglePalindromeLocusWitness : IInspectable
     /// J_du·J_dv + 3J_uv(J_du + J_dv) = 0; fields on d none, in two planar directions and two with a z part; field pairs
     /// with z parts: B's pair for each f_d, one perturbed and one with the z part's sign kept, the singlet pair and its
     /// opposite, a z part on u alone, equal z parts at equal lengths, a pair on the stratum r = 0 of J = (1, 3, 0), a
-    /// pair along z, a generic one, and the pair on which, at the branch coupling (6, −3, 2), only the relation
-    /// J_dv·q_u + J_du·q_v = 0 fails.</summary>
+    /// pair along z, a generic one, and the pair on which, at the branch coupling (6, −3, 2), of the three
+    /// similarity relations only J_dv·q_u + J_du·q_v = 0 fails.</summary>
     public static IEnumerable<(BigRational[] J, BigRational[] Fd, BigRational[] Fu, BigRational[] Fv)> OffPlaneGrid()
     {
         BigRational[] V(long x, long y, long z) => new[] { Q(x), Q(y), Q(z) };

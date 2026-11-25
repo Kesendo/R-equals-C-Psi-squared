@@ -172,7 +172,7 @@ check(sp.factor(sp.Matrix([coef(w2 / 16), coef(w3.subs(r, 0) / 16)]).det()) == s
 check(sp.factor(sp.Matrix([coef(E1p), coef(sp.expand(ua - ub) / 2)]).det()) == sp.factor((s - t) * (s + t)),
       "r != 0: (i) and (ii) as forms in (q_u, q_v), determinant s^2 - t^2")
 check(sp.factor(sp.Matrix([coef(w2 / 16), coef(w3 / 16)]).det()) == sp.factor((s - t) * (s * t + 3 * r * (s + t))),
-      "the two one-jump words alone: determinant (s - t)(s·t + 3r(s + t)), so they leave a branch")
+      "Tr(Z_d·H^2) and Tr(Z_d·H^3) alone: determinant (s - t)(s·t + 3r(s + t)), so they leave a branch")
 say("   case logic (argued in the proof): r != 0 => s = +-t; s = -t dies by the word; s = t => q_v = -q_u and by (iii)")
 say("   |f_u| = |f_v|; r = 0 => s = t (both nonzero there) => the same.")
 Jb = (6, -3, 2)
@@ -181,7 +181,7 @@ for (fu_, fv_) in (((0, 0, 1), (0, 0, 2)), ((1, 0, 2), (4, 0, 4))):
     sub = {s: 6, t: -3, r: 2, u1: fu_[0], u2: fu_[1], qu: fu_[2], v1: fv_[0], v2: fv_[1], qv: fv_[2]}
     iii = ((s * qu - t * qv) * (FU2 + s**2 - FV2 - t**2)).subs(sub)
     check(w2.subs(sub) == 0 and w3.subs(sub) == 0 and E2p.subs(sub) != 0,
-          f"f_u = {fu_}, f_v = {fv_}: both one-jump words vanish, (ii) = {E2p.subs(sub)}, (iii) = {iii}, "
+          f"f_u = {fu_}, f_v = {fv_}: Tr(Z_d·H^2) and Tr(Z_d·H^3) vanish, (ii) = {E2p.subs(sub)}, (iii) = {iii}, "
           f"Tr(Z_d·H·Z_d·H·Z_d·H) = {w111.subs(sub)}")
 check(((s * qu - t * qv) * (FU2 + s**2 - FV2 - t**2)).subs({s: 6, t: -3, r: 2, u1: 1, u2: 0, qu: 2, v1: 4, v2: 0, qv: 4}) == 0,
       "at f_u = (1, 0, 2), f_v = (4, 0, 4) (i) and (iii) hold too: (ii) alone decides that row")

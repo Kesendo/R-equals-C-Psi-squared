@@ -18,12 +18,12 @@
    PASS  r != 0, t = -s, (i) => q_u = q_v = q: the word reads -32·s^2·q (nonzero)
    PASS  r = 0: Tr(Z_d·H^2) and Tr(Z_d·H^3) as forms in (q_u, q_v), determinant -s·t·(t - s)
    PASS  r != 0: (i) and (ii) as forms in (q_u, q_v), determinant s^2 - t^2
-   PASS  the two one-jump words alone: determinant (s - t)(s·t + 3r(s + t)), so they leave a branch
+   PASS  Tr(Z_d·H^2) and Tr(Z_d·H^3) alone: determinant (s - t)(s·t + 3r(s + t)), so they leave a branch
    case logic (argued in the proof): r != 0 => s = +-t; s = -t dies by the word; s = t => q_v = -q_u and by (iii)
    |f_u| = |f_v|; r = 0 => s = t (both nonzero there) => the same.
    PASS  J = (6, -3, 2) lies on s·t + 3r(s + t) = 0
-   PASS  f_u = (0, 0, 1), f_v = (0, 0, 2): both one-jump words vanish, (ii) = 9, (iii) = 288, Tr(Z_d·H·Z_d·H·Z_d·H) = 3456
-   PASS  f_u = (1, 0, 2), f_v = (4, 0, 4): both one-jump words vanish, (ii) = 18, (iii) = 0, Tr(Z_d·H·Z_d·H·Z_d·H) = 6912
+   PASS  f_u = (0, 0, 1), f_v = (0, 0, 2): Tr(Z_d·H^2) and Tr(Z_d·H^3) vanish, (ii) = 9, (iii) = 288, Tr(Z_d·H·Z_d·H·Z_d·H) = 3456
+   PASS  f_u = (1, 0, 2), f_v = (4, 0, 4): Tr(Z_d·H^2) and Tr(Z_d·H^3) vanish, (ii) = 18, (iii) = 0, Tr(Z_d·H·Z_d·H·Z_d·H) = 6912
    PASS  at f_u = (1, 0, 2), f_v = (4, 0, 4) (i) and (iii) hold too: (ii) alone decides that row
 
 4. J_du = J_dv with a field on d: the previous section's hop space and its table, with z parts

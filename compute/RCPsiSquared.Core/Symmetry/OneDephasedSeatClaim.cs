@@ -4,8 +4,8 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>The palindrome with the jump on one seat alone
-/// (<c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): the Heisenberg triangle at N = 3, with letter fields and with
-/// planar fields, and at N = 4 and N = 7 palindromes with neither a colouring nor a site symmetry fixing the dephased
+/// (<c>docs/proofs/PROOF_ONE_DEPHASED_SEAT.md</c>): the Heisenberg triangle at N = 3, with letter fields, with
+/// planar fields and with fields off the plane, and at N = 4 and N = 7 palindromes with neither a colouring nor a site symmetry fixing the dephased
 /// seat. Theorem numbers
 /// are those of the complement connection (<see cref="PalindromeComplementConnectionClaim"/>), which reads every
 /// site dephased and then undephased sites under its own hypotheses.
@@ -153,7 +153,7 @@ public sealed class OneDephasedSeatClaim : Claim
         "F165: with one dephased seat, palindromes beyond colourings and site symmetries (the one dephased seat)";
 
     public override string Summary =>
-        "the triangle's loci exact at N = 3 (letter fields: colourings, the swap class, the reciprocal class on e2 = 0; " +
+        "the triangle's loci exact at N = 3 on connected rows (letter fields: colourings, the swap class, the reciprocal class on e2 = 0; " +
         "planar fields with none on d: one locus more; with a planar field on d: the line of that field, the swap class " +
         "on its axis and a family with d at the end of a path; off the plane only the swap class, never with a z part " +
         "on d), the dephased seat blind on (s - t)e2 = 0; at N = 4 and N = 7 " +
