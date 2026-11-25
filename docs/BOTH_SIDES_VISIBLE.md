@@ -442,7 +442,7 @@ underlying physics:
    On Marrakesh April 26, from |+−+⟩ on one chain, XX+YY (Π²-even)
    gives ≈ 0.030, XY+YX (Π²-odd) ≈ 0.744 and XX+XY (mixed) ≈ 0.276;
    on Kingston May 5 the Π²-even soft pair YZ+ZY reads 0.0046 beside
-   the truly 0.0022 (YZ+ZY leaves |+−+⟩ in place), and the lens does not
+   the truly 0.0022 (at equal rates YZ+ZY leaves |+−+⟩ in place), and the lens does not
    see the F87 class.
 
 Layer 3 is the not-tautological cousin of layer 2. It reads what the

@@ -20,8 +20,9 @@ All at N = 3 from the X-basis product |+−+⟩, every term on both bonds.
       EQ-030's 0.1 and 0.01 give the same counts; an integer Krylov census, with no eigensolver,
       gives the same silent sets) keeps 28 or 29 strings for the six imaginary
       pairs and at most 2 for the other thirty. YZ+ZY annihilates |+−+⟩, so under Z dephasing
-      ρ(t) is the dephased start and its 56 silent strings are those with a Y or Z; T1 moves the
-      state off the start and leaves the 28 of conjugation. The split belongs to the pair of H and start:
+      at equal rates ρ(t) is the dephased start and its 56 silent strings are those with a Y or
+      Z (at unequal rates the start moves and fewer stay silent); T1 moves the state off the start
+      and leaves the 28 of conjugation. The split belongs to the pair of H and start:
       XX+YY from |+, −i, +⟩ keeps 29, 28 of them by Z₁·K.
   G3  The flown observable ⟨X₀Z₂⟩: for every Π²-even H from |+−+⟩ under Z-dephasing it is
       silent by X^⊗3 (YZ+ZY, the truly XX+YY and the Heisenberg chain alike), a flip symmetry, so
@@ -271,9 +272,13 @@ check("G2c ... and the other thirty keep at most 2",
       max(len(rows[p][1]) for p in others) <= 2, f"max {max(len(rows[p][1]) for p in others)}")
 Hyz = H_pair(('YZ', 'ZY'))
 yz_strings = {s for s in STRINGS if any(c in 'YZ' for c in s)}
-check("G2c YZ+ZY annihilates |+−+⟩ (exactly), so its pure-Z census is the dephased start: every string with a Y or Z (56)",
+check("G2c YZ+ZY annihilates |+−+⟩ (exactly), so at equal rates its pure-Z census is the dephased start: every string with a Y or Z (56)",
       np.array_equal(Hyz @ S0, np.zeros(8, dtype=complex)) and rows[('YZ', 'ZY')][0] == yz_strings)
 check("G2c ... and under T1 it keeps exactly the 28 strings conjugation silences", rows[('YZ', 'ZY')][1] == ODD_Y)
+uneq = exact_silent(lindbladian_z_dephasing(Hyz, [0.02, 0.05, 0.04]), RHO0)
+moved = {'IYY', 'IZZ', 'XYY', 'XZZ', 'YIY', 'YXY', 'YYI', 'YYX', 'ZIZ', 'ZXZ', 'ZZI', 'ZZX'}
+check("G2c ... at unequal rates (0.02, 0.05, 0.04) the start moves: the exact pure-Z census is those 56 less twelve, ⟨X₀Z₂⟩ still in it",
+      uneq == yz_strings - moved and len(uneq) == 44 and 'XIZ' in uneq, f"{len(uneq)} strings")
 eq030 = {}
 for name, H0, r0 in (('XY+YX', H_pair(('XY', 'YX')), RHO0), ('YZ+ZY', H_pair(('YZ', 'ZY')), RHO0),
                      ('XZ+ZX', H_pair(('XZ', 'ZX')), RHO0), ('XX+YY', H_pair(('XX', 'YY')), RHO0),

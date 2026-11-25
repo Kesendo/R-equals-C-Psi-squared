@@ -167,8 +167,8 @@ public class F1KnowledgeBaseTests
         // hub-leaf Casimir derivation).
         // Tier-1 candidate: ZERO after the 2026-05-19 promotions. TierInventoryLine skips
         // empty tiers, so "T1c=" should not appear in the line at all.
-        // Tier-2 verified bumped from N hardware confirmations (3) to N+1 with the new
-        // F1GeneralTopologyVerifiedClaim general-topology verification record (2026-05-18).
+        // Tier-2 verified: the hardware confirmations plus the
+        // F1GeneralTopologyVerifiedClaim general-topology verification record.
         // Open questions: ZERO after the 2026-05-18 general-topology closure (last F1
         // OpenQuestion resolved via PROOF_F1_GENERAL_TOPOLOGY.md + F1GeneralTopologyVerifiedClaim).
         // TierInventoryLine skips empty tiers, so "open=" should not appear in the line at all.

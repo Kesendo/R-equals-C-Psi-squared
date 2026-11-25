@@ -26,7 +26,9 @@ namespace RCPsiSquared.Core.F1;
 ///         (<see cref="F49NonUniformCrossTerm"/>).</item>
 ///   <item>Tier-2 verified: hardware runs from
 ///         <see cref="ConfirmationsRegistry"/> on F1's Hamiltonians and their neighbours
-///         on Marrakesh, which test predictions for named Hamiltonians; plus the general-topology verification
+///         on Marrakesh, which test predictions for named Hamiltonians (the Lebensader entry,
+///         a simulated census beside measured readings, stays in the registry and is not
+///         wrapped here); plus the general-topology verification
 ///         record (<see cref="GeneralTopologyVerification"/>) that extends the
 ///         (B, D2) parameterisation to disconnected, weighted, and random connected
 ///         graphs at N ≤ 6 and checks the F1 palindromic pairing through the block path at
@@ -77,7 +79,6 @@ public sealed class F1KnowledgeBase : IInspectable
     private static readonly string[] _f1ConfirmationNames = new[]
     {
         "palindrome_trichotomy",
-        "lebensader_skeleton_trace_decoupling",
         "f83_pi2_class_signature_marrakesh",
     };
 

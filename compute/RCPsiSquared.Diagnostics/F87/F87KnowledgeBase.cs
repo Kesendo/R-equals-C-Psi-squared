@@ -21,10 +21,14 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///   <item>Tier-2 empirical: <see cref="CanonicalWitnesses"/>: five canonical Pauli-pair
 ///         Hamiltonians (XX+YY, Heisenberg, YZ+ZY, XX+XY, XY+YX) classified live on the
 ///         chain.</item>
-///   <item>Tier-2 verified: <see cref="HardwareConfirmations"/>: four Marrakesh entries
+///   <item>Tier-2 verified: <see cref="HardwareConfirmations"/>: two Marrakesh entries
 ///         from <see cref="Core.Confirmations.ConfirmationsRegistry"/> (palindrome trichotomy,
-///         the F83 run, ⟨X₀IZ₂⟩ on YZ+ZY, the Lebensader runs); they test the predictions for
-///         named Hamiltonians, not the classes.</item>
+///         the F83 run); they test the predictions for named Hamiltonians, not the classes.
+///         The registry's entries for ⟨X₀IZ₂⟩ on YZ+ZY (<c>pi_protected_xiz_yzzy</c>) and for
+///         the Lebensader runs (<c>lebensader_skeleton_trace_decoupling</c>) stay there as
+///         flight records and are not wrapped here: the first records a prediction the device
+///         did not keep (+0.134 at t = 0.8, 8.6σ), the second a simulated census beside
+///         measured readings, where the two kept here record predictions the device met.</item>
 ///   <item>Open: <see cref="OpenQuestions"/>: F80 k≥3, F81/F82/F84 2-qubit dissipators,
 ///         F83 topology at higher body, the truly offset of the Snapshot D runs, 4-way Π²-class
 ///         enum.</item>
@@ -40,8 +44,6 @@ public sealed class F87KnowledgeBase : IInspectable
     {
         "palindrome_trichotomy",
         "f83_pi2_class_signature_marrakesh",
-        "pi_protected_xiz_yzzy",
-        "lebensader_skeleton_trace_decoupling",
     };
 
     public ChainSystem Chain { get; }
