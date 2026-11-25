@@ -1,0 +1,275 @@
+Where the two ends differ, a far element splits off what pairs (exact over Q(i))
+
+triangle, every field along z summing to zero (the cat cell)
+   jumps ['ZII'] at rates ['3/10'], sigma = 3/10; (near, far) = (4, 2)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   far element 2: rank 2 of 8, range = corange
+   PASS  far element 2 lies in W and is singular
+   PASS  far element 2: range and corange invariant under H and every jump (1)
+   PASS  far element 2: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 2: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 2: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a combination of the far basis: rank 2 of 8, range = corange
+   PASS  a combination of the far basis lies in W and is singular
+   PASS  a combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a combination of the far basis: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a complex combination of the far basis: rank 1 of 8, range != corange
+   PASS  a complex combination of the far basis lies in W and is singular
+   PASS  a complex combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a complex combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a complex combination of the far basis: pieces of dimension 8: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a complex combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 6
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (24 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (2, 0), the whole deficit 2 and no far element
+   PASS  the three parts make up the spectrum of L: 28 of its 64 eigenvalues in the parts that pair
+
+triangle, swap-symmetric, fields along z not summing to zero (a resonant two-level block)
+   jumps ['ZII'] at rates ['3/10'], sigma = 3/10; (near, far) = (6, 1)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 6
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (24 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (5, 0), the whole deficit 5 and no far element
+   PASS  the three parts make up the spectrum of L: 28 of its 64 eigenvalues in the parts that pair
+
+triangle, the singlet class S with a planar field on d
+   jumps ['ZII'] at rates ['3/10'], sigma = 3/10; (near, far) = (2, 1)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 6
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (24 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (1, 0), the whole deficit 1 and no far element
+   PASS  the three parts make up the spectrum of L: 28 of its 64 eigenvalues in the parts that pair
+
+triangle, Z letters -1 and +1 on u and v, couplings (-1, 1, -1), no field on d
+   jumps ['ZII'] at rates ['3/10'], sigma = 3/10; (near, far) = (7, 4)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   far element 2: rank 2 of 8, range = corange
+   PASS  far element 2 lies in W and is singular
+   PASS  far element 2: range and corange invariant under H and every jump (1)
+   PASS  far element 2: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 2: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 2: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   far element 3: rank 2 of 8, range = corange
+   PASS  far element 3 lies in W and is singular
+   PASS  far element 3: range and corange invariant under H and every jump (1)
+   PASS  far element 3: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 3: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 3: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   far element 4: rank 2 of 8, range = corange
+   PASS  far element 4 lies in W and is singular
+   PASS  far element 4: range and corange invariant under H and every jump (1)
+   PASS  far element 4: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 4: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 4: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a combination of the far basis: rank 2 of 8, range = corange
+   PASS  a combination of the far basis lies in W and is singular
+   PASS  a combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a combination of the far basis: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a complex combination of the far basis: rank 1 of 8, range != corange
+   PASS  a complex combination of the far basis lies in W and is singular
+   PASS  a complex combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a complex combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a complex combination of the far basis: pieces of dimension 8: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a complex combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   control: a singular near element of rank 2: its two pieces are line reflections: no (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 6
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (24 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (3, 0), the whole deficit 3 and no far element
+   PASS  the three parts make up the spectrum of L: 28 of its 64 eigenvalues in the parts that pair
+
+XY chain of three, every site dephased at unequal rates, z fields summing to zero (F22's cat)
+   jumps ['ZII', 'IZI', 'IIZ'] at rates ['1/10', '1/5', '3/10'], sigma = 3/5; (near, far) = (4, 2)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: about the largest single rate instead of sigma the reflection fails (read)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) holds (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   far element 2: rank 2 of 8, range = corange
+   PASS  far element 2 lies in W and is singular
+   PASS  far element 2: range and corange invariant under H and every jump (1)
+   PASS  far element 2: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 2: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 2: about the largest single rate instead of sigma the reflection fails (read)
+   far element 2: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) holds (read)
+   a combination of the far basis: rank 2 of 8, range = corange
+   PASS  a combination of the far basis lies in W and is singular
+   PASS  a combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a combination of the far basis: pieces of dimension 16: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a combination of the far basis: about the largest single rate instead of sigma the reflection fails (read)
+   a combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) holds (read)
+   a complex combination of the far basis: rank 1 of 8, range != corange
+   PASS  a complex combination of the far basis lies in W and is singular
+   PASS  a complex combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a complex combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a complex combination of the far basis: pieces of dimension 8: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a complex combination of the far basis: about the largest single rate instead of sigma the reflection fails (read)
+   a complex combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 6
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (24 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (2, 0), the whole deficit 2 and no far element
+   PASS  the three parts make up the spectrum of L: 28 of its 64 eigenvalues in the parts that pair
+
+three qubits built as four blocks, two of them carrying an invertible far element (gate 11 widened)
+   jumps ['ZII'] at rates ['2/5'], sigma = 2/5; (near, far) = (6, 2)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 4 of 8, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 1: pieces of dimension 32: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   far element 2: rank 4 of 8, range = corange
+   PASS  far element 2 lies in W and is singular
+   PASS  far element 2: range and corange invariant under H and every jump (1)
+   PASS  far element 2: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  far element 2: pieces of dimension 32: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 2: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a combination of the far basis: rank 4 of 8, range = corange
+   PASS  a combination of the far basis lies in W and is singular
+   PASS  a combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a combination of the far basis: pieces of dimension 32: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   a complex combination of the far basis: rank 4 of 8, range = corange
+   PASS  a complex combination of the far basis lies in W and is singular
+   PASS  a complex combination of the far basis: range and corange invariant under H and every jump (1)
+   PASS  a complex combination of the far basis: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 64 matrix units (2)
+   PASS  a complex combination of the far basis: pieces of dimension 32: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   a complex combination of the far basis: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   control: a singular near element of rank 4: its two pieces are line reflections: no (read)
+   the split by a Hermitian far element of rank 4: dim R = 4, dim R^perp = 4
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (16 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (32 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (4, 0), the whole deficit 4 and no far element
+   PASS  the three parts make up the spectrum of L: 48 of its 64 eigenvalues in the parts that pair
+   control: a Hermitian far element of rank 2 leaves 1 far elements in the system on its complement (read)
+
+two qubits built as two blocks, H = (1 + Z_1) X_0 + (1 - Z_1)(Z_0 + 5), jump Z_0 (F158 gate 11)
+   jumps ['ZI'] at rates ['1/2'], sigma = 1/2; (near, far) = (3, 1)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 4, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 16 matrix units (2)
+   PASS  far element 1: pieces of dimension 8: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   control: a singular near element of rank 2: its two pieces are line reflections: no (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 2
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (8 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (2, 0), the whole deficit 2 and no far element
+   PASS  the three parts make up the spectrum of L: 12 of its 16 eigenvalues in the parts that pair
+
+the same blocks with a second jump Z_0 Z_1 at another rate
+   jumps ['ZI', 'ZZ'] at rates ['1/2', '1/5'], sigma = 7/10; (near, far) = (3, 1)
+   PASS  a strict row: 0 < dim W < dim N, so no far element is invertible (F158 Lemma 3)
+   PASS  the whole spectrum does not pair about -sigma (exact char poly)
+   far element 1: rank 2 of 4, range = corange
+   PASS  far element 1 lies in W and is singular
+   PASS  far element 1: range and corange invariant under H and every jump (1)
+   PASS  far element 1: L(rho W) = [(-L^dag - 2 sigma) rho] W on all 16 matrix units (2)
+   PASS  far element 1: pieces of dimension 8: p_C(x) = (-1)^n conj(p_R)(-x - 2 sigma) exactly (3)
+   far element 1: about the largest single rate instead of sigma the reflection fails (read)
+   far element 1: the point reflection p_C(x) = (-1)^n p_R(-x - 2 sigma) fails (read)
+   mutation (W + 1, not in W): the identity (2) fails (read)
+   control: the piece on the complement of the range reflects onto itself: no (read)
+   control: a singular near element of rank 2: its two pieces are line reflections: no (read)
+   the split by a Hermitian far element of rank 2: dim R = 2, dim R^perp = 2
+   PASS  the splitting element is Hermitian and lies in W
+   PASS  R and R^perp invariant under H and every jump
+   PASS  the system on R (4 modes) pairs about -sigma
+   PASS  the coherences with ket in R^perp and bra in R: closed under the line reflection
+   PASS  the coherences between R and R^perp in both orders (8 modes) pair about -sigma
+   PASS  the system on R^perp: (near, far) = (2, 0), the whole deficit 2 and no far element
+   PASS  the three parts make up the spectrum of L: 12 of its 16 eigenvalues in the parts that pair
+
+controls across the rows
+   PASS  far elements read: 22
+   PASS  far elements whose range and corange differ: 3
+   PASS  the mutation W + 1 breaks (2) on 8 of 8 rows
+   PASS  the pieces of a singular near element fail to reflect on 4 rows: (3) needs a FAR element
+   PASS  the piece on the complement of the range fails to reflect on 8 rows: (3) is about the piece, not the whole
+   PASS  with several jumps at unequal rates the reflection about the largest rate fails on 5 far elements: the centre is sigma, the sum of the rates
+   PASS  the point reflection fails on 19 pieces: (3) is the line reflection
+   PASS  a Hermitian far element of less than maximal rank leaves far elements in its complement on 1 rows: (4) needs maximal rank
+
+ALL CHECKS PASS
