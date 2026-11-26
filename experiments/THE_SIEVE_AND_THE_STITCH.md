@@ -70,7 +70,8 @@ above a window floor, not every N on the ring. EndCount.CliffordSymmetry and THE
 Clifford that permutes the bonds" search at one N the Cliffords that permute H's terms, of which the stitch's W for
 XZ + ZY is one read at every N (Stitch.cs's header says so; linked in the body). SieveTests.cs holds the sieve against
 Theorem 1 and F138's clause 2 on hopping bonds with fields (128 agreements; all 64 cells inside Theorem 8). F116's golden window XZX + XZY + YZX: palindromic on the open
-chain at every N ≥ 3, on the ring only at 4 | N (PROOF_CEILING_GOLDEN_ROUTER §6), named under the open items. F169
+chain at every N ≥ 3, on the ring only at 4 | N (PROOF_CEILING_GOLDEN_ROUTER §6 and its soft set on rings, §8), read on
+the ring from N = 5 by the complement connection's Theorem 9 with a Z between. F169
 decides Heisenberg with a field on every connected graph, the control in the paragraph on light along X or Y.
 -->
 
@@ -242,11 +243,21 @@ by a ring law (25 and 33 in the four- and five-term bond families, 13 in the fie
 XX + YY ± (XY − YX) with or without ZZ, the twist at D = J, pairing exactly where 4 divides N. Nothing in these three
 families, as in the first census, stays decided at the lengths examined alone. Cells of one to
 three of the 36 three-site templates (`sieve 3 6 Z windows`, 29856 cells, 40 minutes): chain Read 7285, Broken 7707,
-Mixed 14864, every mixed cell broken for every N past its last pairing; ring Read 7217, Broken 20631, Mixed 1948,
-Law 60, no residue; a ring law decides every N of 296 read cells with broken letters, XIX ± XIY − YIY and XIX ± YIX − YIY among them by Theorem 9 two sites apart (pairing exactly where 4 divides N, from N = 5). On that ring 32 mixed cells
-have no reading for every N, each holding two of XXZ, ZXX, YYZ and ZYY beside a third template (letters `sEBE` or
-`sEBP` at N = 3 to 6), and 44 read cells stay decided only at the lengths examined (letters `BEBE`, `BEBB` and
-`CEBE`).
+Mixed 14864, every mixed cell broken for every N past its last pairing; ring Read 7217, Broken 20631, Mixed 1916,
+Law 92, no residue, every mixed cell broken for every N past its last pairing; a ring law decides every N of all 340
+read cells with broken letters, XIX ± XIY − YIY and XIX ± YIX − YIY among them by Theorem 9 two sites apart (pairing
+exactly where 4 divides N, from N = 5). Seventy-six ring cells of the family, 44 of these read cells and 32 mixed
+ones, are decided by two readings named below and by no other law. In 64 the strings on each flip set share one sign, one shape carries
+a single string whose entry vanishes nowhere, and the other's entries vanish somewhere, the hop of a lone excitation included: F173's Corollary A′ reads them
+through the shape whose entry vanishes nowhere (its solid shape) (XIX − XXZ + ZXX, XIX + XXZ − YIY, XXZ + XZY + YZX and their relatives), and every one pairs
+exactly at even N from the guard on (the 32 of them that are mixed pair on the ring of three as well); those 32 (letters `sEBE` or `sEBP` at N = 3 to 6) take the verdict `Law`. In
+the other 12, strings of both signs share a flip set beside or between a Z letter, and the complement connection's
+Theorem 9 with Z letters reads them from the guard on: XXZ + XYZ + YXZ and its relatives pair exactly at even N, and XZX ± (XZY + YZX), F116's golden
+window among them, and XZY + YZX ± YZY exactly where 4 divides N. The same two readings give a law to 5142 more cells of
+the family, already broken for every N, broken past their last pairing, or read (18 of them pure pairing bonds beside
+or between Z letters, XXZ − YYZ among them, pairing at every N); Theorem 2 on the bitstrings agrees with every one of the 5218
+laws on the rings of 7 to 13 sites (in a scout, 36526 readings). No ring cell of the family stays decided at the lengths examined
+alone.
 
 ## Where the reading stops
 
@@ -278,16 +289,3 @@ None of these is built.
    every length, three templates and more included; `SignedMaskBalanceClaim` holds them and second implementations of
    Theorem D and Corollary E2 beside `Stitch.RingLaw`, as `PalindromeComplementConnectionClaim` does of Theorem 8.
    The sieve asks none of the chain laws.
-3. **What Corollary A′ does not reach.** F173's Corollary A′ reads the bonds with a Z beside or between their sites
-   wherever every flip set's strings share one sign and a lone excitation hops across it. Where the hops cancel, the
-   balance stays sufficient and need not be necessary: XXZ − YYZ is unbalanced at odd N and pairs at every N (the
-   Theodolite reads it), while XIX − XXZ + ZXX follows the balance from N = 5 on at every N read without a reading
-   for every N. In the three-template window family 32 mixed and 44 read ring cells remain, of two kinds: flip sets
-   of one sign whose lone excitation's hops cancel (XIX − XXZ + ZXX, XXZ + XZY + YZX, XIX + XXZ − YIY and their
-   relatives); and flip sets carrying strings of both signs beside or between a Z (XXZ + XYZ + YXZ, where a hop and a
-   pairing share one flip set, and XZY + YZX ± YZY).
-   They are where the next reader would come from, the way XZ ± ZY became the stitch, X·(X ± Y)·X the free chain,
-   XX ± XY − YY Theorem 9, XIX ± XIY − YIY the same law two sites apart, and XXZ + ZXX Corollary A′. F116's golden window XZX + XZY + YZX, palindromic on the open
-   chain at every N ≥ 3 and on the ring only where 4 divides N
-   ([PROOF_CEILING_GOLDEN_ROUTER](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md) §6), is a three-template cell whose two
-   verdicts are known in advance.

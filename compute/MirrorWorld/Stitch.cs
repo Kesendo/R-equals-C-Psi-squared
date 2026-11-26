@@ -508,7 +508,8 @@ public sealed class Stitch : GameObject
     // ---------------------------------------------------------------- the ring laws (F173 and the complement connection, adopted)
     //
     // Adopted from docs/proofs/PROOF_SIGNED_MASK_BALANCE.md, not re-derived: laws in N for a cell on the ring under
-    // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring), where the placements are
+    // Z dephasing on every site, from the guard N ≥ 2·span − 1 on (and the smallest ring; Corollary A′'s second case from
+    // N ≥ a + δ as well), where the placements are
     // distinct flip sets. Theorem D: every flip-carrying template of its own shape (one string per flip set), read through
     // the (1 + x)-valuations v_i of the masks and the signs s_i = (#Y + #Z) mod 2 alone; with v₀ the least and T = 2^(v₂(N))
     // the ring breaks exactly when T ≤ v₀ and some sign is odd, or T > v₀ and two templates of valuation v₀ differ in sign
@@ -517,12 +518,14 @@ public sealed class Stitch : GameObject
     // and h = gcd(f, x^N + 1) is 1, or h divides R and either 1 + x does not divide h or the relation (x^N + 1)/h walks
     // to 1. Both are laws for every N, and so is Corollary A′ below; the code evaluates Corollary E2 at N up to 63 and Theorem D at any N. A cell with an odd-weight diagonal, a flip
     // set whose entries differ in modulus or vanish somewhere, a ratio that is no character, or several shapes one of
-    // which carries several strings has no law of F173 here (the stitch's no reads the first two), except where every
-    // flip set has two sites, its strings one sign and a lone excitation's hop across it nonzero, which F173's Corollary A′
-    // reads (OneSignPerShape below); two more laws,
+    // which carries several strings has no law of F173 here (the stitch's no reads the first two), except where the
+    // strings on every flip set share one sign and either every flip set has two sites with a lone excitation's hop across
+    // it nonzero or some flip shape is solid (its entry vanishing nowhere), which F173's Corollary A′ reads
+    // (OneSignPerShape below); two more laws,
     // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
     // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
-    // XY and YX terms on two sites d apart with a pairing amplitude, whatever their ratio).
+    // XY and YX terms on two sites d apart with a pairing amplitude, whatever their ratio, and with the same Z letters
+    // beside or between the two sites on every term).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -560,7 +563,8 @@ public sealed class Stitch : GameObject
             int v0 = read.Min(r => r.V);
             bool low = read.Any(r => r.S == 1);
             bool high = read.Where(r => r.V == v0).Select(r => r.S).Distinct().Count() > 1 || read.Any(r => r.V > v0 && r.S == 1);
-            string text = low == high
+            // with v₀ = 0 every T exceeds v₀, and the verdict is high's alone at every N
+            string text = low == high || v0 == 0
                 ? $"F173 Theorem D: {(high ? "breaks" : "pairs")} on every ring of N ≥ {guard}"
                 : $"F173 Theorem D: {(high ? "breaks" : "pairs")} exactly where 2^v₂(N) > {v0}, from N = {guard}";
             return new RingLawReading(guard, text, n =>
@@ -602,40 +606,71 @@ public sealed class Stitch : GameObject
         });
     }
 
-    // F173's Corollary A′ (adopted): every flip set two sites, every string on a flip set of one sign s = (#Y + #Z) mod 2,
-    // entries allowed to cancel somewhere. A string's ratio on every edge it reaches is (−1)^s, so the ratio of a flip set
-    // is (−1)^s wherever its entry is nonzero, and every cycle of Γ has the holonomy (−1) raised to the signs of the
-    // relation it walks: the balance of the signed masks is sufficient. It is necessary wherever a lone excitation hops
-    // along every flip shape (its entry from e_i to e_j on an empty background nonzero), since every relation among
-    // two-site masks is a sum of cycles of the graph on the sites, each walked by that excitation. Theorem D's reading of
-    // the balance on the ring (valuations and signs, one per flip shape) then decides every N from the guard.
+    // F173's Corollary A′ (adopted): every string on a flip set of one sign s = (#Y + #Z) mod 2, entries allowed to cancel
+    // somewhere. A string's ratio on every edge it reaches is (−1)^s, so the ratio of a flip set is (−1)^s wherever its
+    // entry is nonzero, and every cycle of Γ has the holonomy (−1) raised to the signs of the relation it walks: the
+    // balance of the signed masks is sufficient. It is necessary, first, where every flip set has two sites and a lone
+    // excitation hops along every flip shape (its entry from e_i to e_j on an empty background nonzero), since every
+    // relation among two-site masks is a sum of cycles of the graph on the sites, each walked by that excitation; second,
+    // where some flip shape is solid (its entry vanishes at no configuration of the bits its strings read) and the ring
+    // has N ≥ a + δ sites, a the widest run of sites the strings on one of the other flip sets touch and δ the degree of
+    // the gcd of the solid shapes: then the solid flip sets join every bitstring of a coset of the subspace they generate, the sites off
+    // a window of a sites set any coset (x is invertible modulo gcd(solid shapes, x^N + 1), whose degree is at most δ),
+    // so every other flip set is crossed from some bitstring of every coset, and a relation is walked with detours along
+    // solid edges whose difference from it is a relation among the solid masks. Theorem D's reading of the balance on the
+    // ring (valuations and signs, one per flip shape) then decides every N from the guard.
     static RingLawReading? OneSignPerShape(List<(ulong X, ulong Z, long C)> flipping, Theodolite.Cell norm, int guard)
     {
         static ulong ShapeOf(ulong m) => m >> BitOperations.TrailingZeroCount(m);
         var groups = flipping.GroupBy(t => ShapeOf(t.X)).ToList();
-        if (groups.Any(g => BitOperations.PopCount(g.Key) != 2)) return null;
         if (groups.Any(g => g.Select(t => BitOperations.PopCount(t.Z) & 1).Distinct().Count() > 1)) return null;
-        // the lone excitation's hop on an empty background, for every flip shape
         int span = norm.Span, len = 4 * span + 2, at = 2 * span;
         if (len > 63) return null;
         var placed = Placed(norm, len);
-        foreach (var g in groups)
+        // the strings on each shape's flip set placed at `at`, whatever their own offsets
+        var onFlip = groups.ToDictionary(g => g.Key, g => placed.Where(t => t.X == g.Key << at).ToList());
+        // the lone excitation's hop on an empty background, for every flip shape of two sites
+        bool lone = groups.All(g => BitOperations.PopCount(g.Key) == 2 && Entry(onFlip[g.Key], 1UL << at) != (0, 0));
+        int lawGuard = guard;
+        string kind = "one sign per two-site flip set";
+        if (!lone)
         {
-            int d = 63 - BitOperations.LeadingZeroCount(g.Key);
-            ulong flip = (1UL << at) | (1UL << (at + d));
-            var terms = placed.Where(t => t.X == flip).ToList();
-            if (Entry(terms, 1UL << at) == (0, 0)) return null;
+            // solid: the entry vanishes at no configuration of the bits the strings read (their Z and Y letters)
+            bool Solid(List<(ulong X, ulong Z, long C, ulong Window)> terms)
+            {
+                ulong readBits = terms.Aggregate(0UL, (u, t) => u | t.Z);
+                var bits = Enumerable.Range(0, 64).Where(j => ((readBits >> j) & 1) == 1).ToArray();
+                if (bits.Length > 20) return false;
+                for (int y = 0; y < 1 << bits.Length; y++)
+                {
+                    ulong col = 0;
+                    for (int k = 0; k < bits.Length; k++) if (((y >> k) & 1) == 1) col |= 1UL << bits[k];
+                    if (Entry(terms, col) == (0, 0)) return false;
+                }
+                return true;
+            }
+            var solid = groups.Where(g => Solid(onFlip[g.Key])).Select(g => g.Key).ToList();
+            if (solid.Count == 0) return null;
+            ulong common = solid.Aggregate(Hardness.Gcd2);
+            int delta = 63 - BitOperations.LeadingZeroCount(common);
+            int width = groups.Where(g => !solid.Contains(g.Key)).Select(g =>
+            {
+                ulong touched = onFlip[g.Key].Aggregate(0UL, (u, t) => u | t.X | t.Z);
+                return 64 - BitOperations.LeadingZeroCount(touched) - BitOperations.TrailingZeroCount(touched);
+            }).DefaultIfEmpty(0).Max();
+            lawGuard = Math.Max(guard, width + delta);
+            kind = "one sign per flip set, a solid flip shape";
         }
         var read = groups.Select(g => (V: Valuation(g.Key), S: BitOperations.PopCount(g.First().Z) & 1)).ToList();
         int v0 = read.Min(r => r.V);
         bool low = read.Any(r => r.S == 1);
         bool high = read.Where(r => r.V == v0).Select(r => r.S).Distinct().Count() > 1 || read.Any(r => r.V > v0 && r.S == 1);
-        string text = low == high
-            ? $"F173 Corollary A′ (one sign per two-site flip set): {(high ? "breaks" : "pairs")} on every ring of N ≥ {guard}"
-            : $"F173 Corollary A′ (one sign per two-site flip set): {(high ? "breaks" : "pairs")} exactly where 2^v₂(N) > {v0}, from N = {guard}";
-        return new RingLawReading(guard, text, n =>
+        string text = low == high || v0 == 0
+            ? $"F173 Corollary A′ ({kind}): {(high ? "breaks" : "pairs")} on every ring of N ≥ {lawGuard}"
+            : $"F173 Corollary A′ ({kind}): {(high ? "breaks" : "pairs")} exactly where 2^v₂(N) > {v0}, from N = {lawGuard}";
+        return new RingLawReading(lawGuard, text, n =>
         {
-            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            if (n < lawGuard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {lawGuard}");
             return (n & -n) > v0 ? !high : !low;
         });
     }
@@ -690,34 +725,46 @@ public sealed class Stitch : GameObject
     }
 
     // Theorem 9 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, the pairing bond): every flipping term an XX, YY, XY
-    // or YX on the two sites l and l + d (I between them, the same d for every term; a diagonal of even weight beside
+    // or YX on the two sites l and l + d (I between them in the plain bond, the same d for every term; a diagonal of even weight beside
     // them, no field), so that the bond moves an excitation with g = (J_XX + J_YY) + i·(J_YX − J_XY) and makes or
     // removes a pair with h = (J_XX − J_YY) + i·(J_XY + J_YX). Where h ≠ 0 the bonds split the ring of N > 2d sites into
     // gcd(N, d) rings of m = N/gcd(N, d) ≥ 3 sites, and the ring pairs exactly when g is real (every N), or g is imaginary
-    // and m is even; where g is neither real nor imaginary it breaks at every N > 2d. The guard N ≥ 2·span − 1 = 2d + 1
+    // and m is even; where g is neither real nor imaginary it breaks at every N > 2d. The guard N ≥ 2·span − 1 ≥ 2d + 1
     // gives N > 2d (at N = 2d the flip sets are disjoint pairs and the ring pairs at every g, where the rule read at m = 2
     // would not). Asked only where Corollary
-    // E2 reads no ratio (an entry vanishing, or no character); h = 0 is Theorem 8's (HoppingRing). The bond is the same on
-    // every pair, oriented the same way round the ring.
+    // E2 reads no ratio (an entry vanishing, or no character); h = 0 is Theorem 8's (HoppingRing) in the plain bond; beside Z letters it is Corollary A′'s where the strings share one sign (XXZ + YYZ), and no law here otherwise (XXZ + YYZ + XYZ − YXZ). The bond is the same on
+    // every pair, oriented the same way round the ring. With Z letters on other sites, the same letters at the same
+    // offsets on every term (a Z beside the bond, or between its sites), every entry is ± the same amplitude and every
+    // ratio is ε = (−1)^(number of those Z letters) times the bond's own: the squares read ρ = g/ḡ = ±1 as before, and
+    // each of the gcd(N, d) relations, m flips, has the holonomy (ερ)^m. With g ≠ 0 the ring pairs exactly when g is
+    // real or imaginary and ερ = 1 (every N) or ερ = −1 and m is even. With g = 0 it pairs at every N, as without the
+    // letters: one common turn about Z makes h real, the bond a·(XX − YY) times the Z letters, and ((X + Y)/√2)^⊗N,
+    // which swaps X and Y and sends Z to −Z, commutes with it at an odd count of letters (X^⊗N at an even one) and
+    // anticommutes with every Z jump, a unitary far element (XXZ − YYZ); g = 0 reads as real and imaginary at once below.
     static RingLawReading? PairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
     {
         ulong mask = flipping[0].X;
-        if ((mask & 1) == 0 || BitOperations.PopCount(mask) != 2) return null;
-        if (flipping.Any(t => t.X != mask || (t.Z & ~mask) != 0)) return null;
-        int d = 63 - BitOperations.LeadingZeroCount(mask);
-        ulong far = 1UL << d;
+        if (BitOperations.PopCount(mask) != 2) return null;
+        ulong beside = flipping[0].Z & ~mask;
+        if (flipping.Any(t => t.X != mask || (t.Z & ~mask) != beside)) return null;
+        int lo = BitOperations.TrailingZeroCount(mask), d = 63 - BitOperations.LeadingZeroCount(mask) - lo;
+        ulong near = 1UL << lo, far = 1UL << (lo + d);
         long Coefficient(bool firstY, bool secondY) => flipping
-            .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
+            .Where(t => ((t.Z & near) != 0) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
         long jxx = Coefficient(false, false), jxy = Coefficient(false, true), jyx = Coefficient(true, false), jyy = Coefficient(true, true);
-        if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: Theorem 8's
+        if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: Theorem 8's, or A′'s where one sign
         bool real = jxy == jyx, imaginary = jxx == -jyy;
+        bool odd = (BitOperations.PopCount(beside) & 1) == 1;
+        // ερ = 1 at every N, ερ = −1 where m is even; ρ = 1 for g real, −1 for g imaginary, ε = −1 for an odd count of Z letters
+        bool every = odd ? imaginary : real, evenOnly = odd ? real && !imaginary : imaginary;
         string reach = d == 1 ? "N" : $"N/gcd(N, {d})";
-        string verdict = real ? "pairs on every ring" : imaginary ? $"pairs exactly where {reach} is even" : "breaks on every ring";
-        return new RingLawReading(guard, $"complement connection Theorem 9 (pairing bond): {verdict}, from N = {guard}", n =>
+        string verdict = every ? "pairs on every ring" : evenOnly ? $"pairs exactly where {reach} is even" : "breaks on every ring";
+        string what = beside == 0 ? "pairing bond" : $"pairing bond, {BitOperations.PopCount(beside)} Z letter{(BitOperations.PopCount(beside) == 1 ? "" : "s")} beside or between";
+        return new RingLawReading(guard, $"complement connection Theorem 9 ({what}): {verdict}, from N = {guard}", n =>
         {
             if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
             int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, d);
-            return real || imaginary && m % 2 == 0;
+            return every || evenOnly && m % 2 == 0;
         });
     }
 

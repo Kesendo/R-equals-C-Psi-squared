@@ -11050,8 +11050,17 @@ h_l·P_l along one Pauli letter P_l.
   N) or purely imaginary at even N; the phase of h never enters. Laid between
   sites d apart, the same law holds on the chain of N ≥ 2d + 1 sites and on
   the ring of N > 2d sites with N/gcd(N, d) in place of N (XIX ± XIY − YIY:
-  every chain, the rings of N ≥ 5 sites at 4 | N). Adopted in MirrorWorld as
-  a ring law of the sieve and gated there against the end count; not typed.
+  every chain, the rings of N ≥ 5 sites at 4 | N). With k Z letters beside
+  or between the two sites, the same on every term, every ratio carries
+  ε = (−1)^k, and the ring of N ≥ 2·span − 1 sites pairs exactly when g is
+  real or imaginary and (ε·g/ḡ)^(N/gcd(N, d)) = 1, and at every N where
+  g = 0, carried there by ((X + Y)/√2)^⊗N or X^⊗N after one turn. XXZ +
+  XYZ + YXZ pairs at even N and XXZ − YYZ at every N; two sites apart with
+  a Z between and J_YY = 0 the bond is F116's golden window, whose ring soft
+  set PROOF_CEILING_GOLDEN_ROUTER reads by another route, the two meeting
+  from N = 5 wherever h ≠ 0.
+  Adopted in MirrorWorld as a ring law of the sieve and gated there against
+  the end count; not typed.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes
@@ -11901,6 +11910,7 @@ window (Theorem G).
     palindrome  ⟺  ⊕_S masks = 0  ⟹  Σ_S s even,  for every subset S of the placed strings    (balance; broken ⟹ far end 0)
     as a symmetry:  palindrome  ⟺  [H, X^⊗N·Z^φ] = 0 for some φ  ⟺  some φ has ⟨φ, m_P⟩ = s(P) for every string    (a colouring; rate-free, the far edge's mode, decaying at exactly 2σ)
     one sign per flip set, entries allowed to cancel:  masks balanced  ⟹  palindrome;  every flip set two sites, a lone excitation hopping across each:  ⟺    (Corollary A′; XXZ + YYZ, XXZ + ZXX: even N on the ring)
+        or every coset of the subspace the solid masks generate (entries vanishing nowhere) meeting each other flip set's nonzero entry:  ⟺    (on the ring of N ≥ 2·span − 1: a solid shape and N − a ≥ deg gcd(solid shapes, x^N + 1), at least from N = a + δ, a the widest run the strings on another flip set touch, δ the degree of the gcd of the solid shapes; XIX − XXZ + ZXX: even N from 5)
     ket and bra agreeing on a set Λ of sites, γ(Λ) the rates on Λ, x̄_Λ = x with every bit outside Λ flipped:  X on every site outside Λ times a diagonal D, commuting with H, are modes at −2(σ − γ(Λ)), at every J;
         their number = the number of good components of Γ_H (the graph of H's entries on the bitstrings) joined with its image under x ↦ x̄_Λ, Theorem 2's (★) read with x̄_Λ;
         no two flipping strings on one flip set, every diagonal string even in Z off Λ:  number = #components of Γ_H  ⟺  balanced under s_Λ = (#Y + #Z off Λ) mod 2, else 0    (Corollary A″; odd XY ring: every single site, shortfall ≤ 2·min γ_l at every J)
@@ -11997,8 +12007,8 @@ J = 50 to 400 on six rows, the remainder falling as 1/J² on the five where the 
 every J on the sixth. The sums over disjoint bonds exactly on rings of 3 to 11 sites, the commutators of the top terms at unit coefficients
 among them (322 readings), the operators with N − 1 X or Y letters counted exactly at 2N + 2 on odd rings of 3 to 9, and twelve
 eigenvalues at −8γ on the ring of five at one rate.
-Corollary A′ in MirrorWorld, `SieveTests.The_One_Sign_Law_Agrees_With_The_End_Count`
-against the end count's exact verdict.
+Corollary A′ in MirrorWorld, `SieveTests.The_One_Sign_Law_Agrees_With_The_End_Count` and, for its second case on
+flip sets of one to three sites, `SieveTests.A_Solid_Flip_Shape_Reads_Vanishing_Flip_Sets_Of_Any_Width`, against the end count's exact verdict.
 **Typed/live owner:** `SignedMaskBalanceClaim` (parent `PalindromeComplementConnectionClaim`), which carries the
 readings; live witnesses `SignedMaskBalanceWitness` (`inspect --root signedbalance [--ring n]`) and
 `TorusMaskBalanceWitness` (`inspect --root torusbalance`).
@@ -12018,8 +12028,8 @@ the ring of three and of the sums over disjoint bonds); V_EFFECT_PALINDROME §5 
 and Haah's torus in LITERATURE_REVIEW, the same polynomial formalism asked of ground states of commuting Hamiltonians.
 **Scope:** the open chain, the ring (N ≥ 2·max w − 1), the torus (no two placements coinciding) and the open patch (two templates) with uniform templates; one string per flip set (the balance
 also with several strings of one sign whose entries never cancel, and by Corollary A′ with entries that cancel, where every
-flip set has two sites and a lone excitation hops across each, read on the ring by Theorem D's rule with one sign per flip
-shape; Theorems B to D, F and G otherwise need one string), or several with a
+flip set has two sites and a lone excitation hops across each, or beside a flip shape whose entries vanish nowhere wherever
+the moves of the solid flip sets reach, from every bitstring, the others' nonzero entries (on the ring of N ≥ 2·span − 1 where N − a ≥ deg gcd(solid shapes, x^N + 1)), read on the ring by Theorem D's rule with one sign per flip shape; Theorems B to D, F and G otherwise need one string), or several with a
 character ratio and no vanishing entry (Theorem E; XX + YY and DM, whose entries vanish, are outside it, read by Corollary A′ and the
 complement connection's Theorem 8); Z dephasing on
 every site; the ring of three at large J and the sums over disjoint bonds take a coefficient on each bond, the sums being modes at one rate. Three or more templates on the chain are read for every N by Theorem B′, off a basis of the relations reduced for the widths.

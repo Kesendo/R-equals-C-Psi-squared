@@ -106,8 +106,9 @@ public class SieveTests
 
     // A ring law that exists decides every N of a pass whose letters below its guard are exact, whatever the verdict:
     // XY on the ring is Read (the theodolite on even rings, broken at the odd N read) and Theorem D decides every odd
-    // ring as well; XIY needs its guard, N = 5, among the N read or one past them; a cell without a law is decided by
-    // none, and the chain has no ring law.
+    // ring as well; XIY needs its guard, N = 5, among the N read or one past them; XIX − XXZ + ZXX, Mixed at the N read,
+    // is decided by Corollary A′ through its solid XIX from N = 6; a cell without a law is decided by none, and the chain
+    // has no ring law.
     [Fact]
     public void A_Ring_Law_Decides_The_Lengths_A_Read_Cell_Leaves()
     {
@@ -119,10 +120,15 @@ public class SieveTests
         Assert.Equal((Sieve.Verdict.Read, "BEBBBEB", true), (xiy.Ring.Verdict, xiy.Ring.Letters, xiy.Ring.DecidedByLaw));
         Assert.False(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 3).Ring.DecidedByLaw);
         Assert.True(Sieve.Run("XIY", Cell('Z', ("XIY", 1)), 4).Ring.DecidedByLaw);   // the guard one past the N read
-        // a cell whose lone excitation's hops cancel: no ring law, decided only at the N read
-        var none = Sieve.Run("XIX-XXZ+ZXX", Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1)), 6);
-        Assert.Equal((Sieve.Verdict.Mixed, "sEBE", false), (none.Ring.Verdict, none.Ring.Letters, none.Ring.DecidedByLaw));
+        // a cell whose lone excitation's hops cancel beside a solid shape: the law from N = 6, the N below it read exactly
+        var solid = Sieve.Run("XIX-XXZ+ZXX", Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1)), 6);
+        Assert.Equal((Sieve.Verdict.Law, "sEBE", true), (solid.Ring.Verdict, solid.Ring.Letters, solid.Ring.DecidedByLaw));
+        Assert.Equal(6, solid.Ring.Law!.Guard);
+        Assert.False(Sieve.Run("XIX-XXZ+ZXX", Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1)), 4).Ring.DecidedByLaw);
+        // a cell no law reads (XXZ + YYZ + XYZ − YXZ: a hop with a twist beside a Z, strings of both signs): decided only at the N read
+        var none = Sieve.Run("XXZ+YYZ+XYZ-YXZ", Cell('Z', ("XXZ", 1), ("YYZ", 1), ("XYZ", 1), ("YXZ", -1)), 6);
         Assert.Null(none.Ring.Law);
+        Assert.False(none.Ring.DecidedByLaw);
     }
 
     // On the first census (with the stitch) the read ring cells that carry a broken letter at an uncovered N are 13, and a
@@ -146,8 +152,8 @@ public class SieveTests
     // the pairing amplitude h is nonzero a ring law exists (F173's Theorem D or Corollary E2 where they read, Theorem 9
     // otherwise), and every one of them agrees with the end count on the ring of N = 3 to 7 sites; the theorem's chain
     // half (g real or imaginary) agrees with it on the open chain of 3 to 6 sites; where h = 0 the bond is Theorem 8's
-    // and Theorem 9 is not asked. All three branches of Theorem 9 occur. Negative controls: bonds with a Z beside them, a
-    // field beside the bond, are outside its class.
+    // and Theorem 9 is not asked. All three branches of Theorem 9 occur. Negative controls: a Z beside a bond whose
+    // pairing vanishes, and a field beside the bond, are outside its class.
     [Fact]
     public void The_Pairing_Bond_Law_Agrees_With_The_End_Count_On_Chain_And_Ring()
     {
@@ -186,11 +192,11 @@ public class SieveTests
         }
         Assert.Equal(new[] { "imaginary", "neither", "real" }, branches.OrderBy(b => b, StringComparer.Ordinal));
         Assert.True(byTheorem9 > 100 && byOthers > 10, $"{byTheorem9} cells read by Theorem 9, {byOthers} by F173's laws");
-        // outside the class: a Z beside the bond, a field beside it
+        // outside the class: a Z beside a bond without a pairing (h = 0), a field beside it
         Theodolite.Cell Window(params (string, long)[] t) => new(new[] { (Zm, 1L) }, null, t.Select(x => (x.Item1, new[] { 0, 1, 2 }, x.Item2)));
         foreach (var outside in new[]
         {
-            Window(("XXZ", 1), ("YYZ", -1)), Window(("XXZ", 1), ("YYZ", 1)), Window(("ZXX", 1), ("ZYY", -1)),
+            Window(("XXZ", 1), ("YYZ", 1)), Window(("ZXX", 1), ("ZYY", 1)),
             new Theodolite.Cell(new[] { (Zm, 1L) }, new[] { ('X', 1L) }, new[] { ("XX", new[] { 0, 1 }, 1L), ("YY", new[] { 0, 1 }, -1L) }),
         })
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"));
@@ -203,7 +209,7 @@ public class SieveTests
     // sites (pairing whatever g at N ≤ 2d, where the flips are independent; g real or imaginary from N = 2d + 1). At d = 3
     // the bonds with g = −i, g = 1 and g neither on rings of 7 to 10 sites: m = 10 at N = 10 separates m even from 4 dividing m,
     // and the three triangles at N = 9 break the imaginary bond and keep the real one (g = 1, a hop beside the pairing). Negative controls: two distances
-    // in one cell, a Z between the two sites, a field beside the bond.
+    // in one cell, a Z between the two sites of a bond without a pairing, a field beside the bond.
     [Fact]
     public void The_Pairing_Bond_Law_At_Distance_D_Agrees_With_The_End_Count()
     {
@@ -264,10 +270,83 @@ public class SieveTests
         foreach (var outside in new[]
         {
             Cell('Z', ("XX", 1), ("XIX", 1), ("YIY", -1)),
-            Cell('Z', ("XZX", 1), ("XZY", 1), ("YZY", -1)),
+            Cell('Z', ("XZX", 1), ("YZY", 1)),
             new Theodolite.Cell(new[] { (Zm, 1L) }, new[] { ('X', 1L) }, new[] { ("XIX", new[] { 0, 1, 2 }, 1L), ("YIY", new[] { 0, 1, 2 }, -1L), ("XIY", new[] { 0, 1, 2 }, 1L) }),
         })
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 9"), Stitch.RingLaw(outside)?.Text);
+    }
+
+    // Theorem 9 with Z letters on other sites, the same letters at the same offsets on every term: a Z beside the bond on
+    // the right (XXZ, …) or on the left (ZXX, …), one on each side (ZXXZ, …, an even count), and one between two sites two
+    // apart (XZX, …). Every bond with J_XX, J_YY, J_XY, J_YX in {−1, 0, 1}, g ≠ 0 and h ≠ 0, has a ring law (Theorem 9,
+    // or F173's laws where they read first), held against the end count's exact verdict on the rings from its guard to
+    // N = 8, and the rule read here beside it: ε = (−1)^(number of Z letters), ρ = 1 for g real and −1 for g imaginary, the
+    // ring pairing exactly when ερ = 1, or ερ = −1 and N/gcd(N, d) is even. Every branch occurs. Between two sites two apart
+    // with J_YY = 0 the bond is F116's golden window t₁·XZX + t₂·XZY + t₃·YZX, whose ring soft set PROOF_CEILING_GOLDEN_ROUTER
+    // reads by another route (where 4 | N it pairs iff t₁ = 0 or t₂ = t₃, otherwise iff t₁ = 0, every real triple, N ≥ 5),
+    // asserted on every such triple, g = 0 and h = 0 included. With g = 0 (XXZ − YYZ among them) the ring pairs at every
+    // N, carried by ((X + Y)/√2)^⊗N or X^⊗N after one common turn, and the law says so.
+    [Fact]
+    public void The_Pairing_Bond_Law_With_Z_Letters_Agrees_With_The_End_Count()
+    {
+        var branches = new HashSet<string>();
+        int byTheorem9 = 0, golden = 0, pureZero = 0;
+        long[] values = { -1, 0, 1 };
+        var placements = new (string Name, Func<char, char, string> Make, int Zs, int D)[]
+        {
+            ("right", (a, b) => $"{a}{b}Z", 1, 1), ("left", (a, b) => $"Z{a}{b}", 1, 1),
+            ("both", (a, b) => $"Z{a}{b}Z", 2, 1), ("between", (a, b) => $"{a}Z{b}", 1, 2),
+        };
+        foreach (var (where, make, zs, d) in placements)
+            foreach (long xx in values) foreach (long yy in values) foreach (long xy in values) foreach (long yx in values)
+            {
+                var terms = new[] { (make('X', 'X'), xx), (make('Y', 'Y'), yy), (make('X', 'Y'), xy), (make('Y', 'X'), yx) }
+                    .Where(t => t.Item2 != 0).ToArray();
+                if (terms.Length == 0) continue;
+                var cell = Cell('Z', terms);
+                string name = $"{where} " + string.Join("+", terms);
+                var law = Stitch.RingLaw(cell);
+                bool hZero = xx == yy && xy == -yx, gZero = xx == -yy && xy == yx;
+                bool real = xy == yx, imaginary = xx == -yy;
+                if (where == "between" && yy == 0)
+                {
+                    golden++;
+                    for (int n = 5; n <= 8; n++)
+                    {
+                        var v = Sieve.Count(cell.Ring(n)).Verdict();
+                        Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                        bool soft = n % 4 == 0 ? xx == 0 || xy == yx : xx == 0;
+                        Assert.True(soft == EndCount.IsPalindrome(v), $"{name} ring {n}: the golden router's ring soft set");
+                    }
+                }
+                if (hZero) continue;
+                Assert.NotNull(law);
+                if (gZero)
+                {
+                    Assert.True(law!.Text.Contains("Theorem 9") && law.Text.Contains("pairs on every ring"), $"{name}: {law.Text}");
+                    pureZero++;
+                    for (int n = law.Guard; n <= 8; n++)
+                    {
+                        var v = Sieve.Count(cell.Ring(n)).Verdict();
+                        Assert.True(EndCount.IsExact(v) && EndCount.IsPalindrome(v), $"{name} ring {n}: g = 0 pairs");
+                    }
+                    continue;
+                }
+                int eps = zs % 2 == 0 ? 1 : -1, rho = real ? 1 : imaginary ? -1 : 0;
+                if (law!.Text.Contains("Theorem 9")) { byTheorem9++; branches.Add($"ε={eps} {(rho == 1 ? "real" : rho == -1 ? "imaginary" : "neither")}"); }
+                for (int n = law.Guard; n <= 8; n++)
+                {
+                    var v = Sieve.Count(cell.Ring(n)).Verdict();
+                    Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                    int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, d);
+                    Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+                    bool rule = rho != 0 && (eps * rho == 1 || m % 2 == 0);
+                    Assert.True(rule == EndCount.IsPalindrome(v), $"{name} ring {n}: the rule (ερ)^m");
+                }
+            }
+        Assert.Equal(new[] { "ε=-1 imaginary", "ε=-1 neither", "ε=-1 real", "ε=1 imaginary", "ε=1 neither", "ε=1 real" },
+            branches.OrderBy(b => b, StringComparer.Ordinal));
+        Assert.True(byTheorem9 > 60 && golden == 26 && pureZero > 10, $"{byTheorem9} cells read by Theorem 9, {golden} golden triples, {pureZero} with g = 0");
     }
 
     // Theorem 8 of the complement connection read on a uniform cell (Stitch.RingLaw's HoppingRing), held against the end
@@ -310,13 +389,15 @@ public class SieveTests
             Assert.True(Stitch.RingLaw(outside) is not { } l || !l.Text.Contains("Theorem 8"));
     }
 
-    // F173's Corollary A′ (one sign per two-site flip set, entries allowed to cancel), adopted in Stitch.RingLaw, held
+    // F173's Corollary A′ (one sign per flip set, entries allowed to vanish), adopted in Stitch.RingLaw in both its cases, held
     // against the end count's exact verdict on the ring: every cell of two or three templates, coefficients ±1, from the
     // two-site flips with a Z beside or between (XXZ, YYZ, ZXX, ZYY, XZX, YZY, and XYZ, ZXY of the other sign) and the plain ones (XX, YY, XY, YX, XIX,
     // YIY, XIY, YIX) beside an even diagonal (ZZ, ZIZ), wherever RingLaw returns the corollary, on rings from its guard to
-    // N = 8. All four outcomes occur. Outside it: a flip set carrying strings of both signs (XXZ + XZY share no flip set,
-    // so XX + XY's flip set is the control), and a cell whose lone excitation's hops cancel (XIX − XXZ + ZXX), where the
-    // corollary's necessity argument does not reach and RingLaw is silent.
+    // N = 8. All four outcomes occur. A cell whose lone excitation's hops cancel is read through a solid flip shape where
+    // one exists (XIX − XXZ + ZXX, XIX solid, from N = 6 = the width 4 of XXZ and ZXX on their flip set plus the degree 2 of
+    // 1 + x²), and not where none does (XXZ − YYZ, unbalanced at odd N and paired at every N, which Theorem 9 with Z
+    // letters reads). Outside it: a flip set
+    // carrying strings of both signs (XXZ + XZY share no flip set, so XX + XY's flip set is the control).
     [Fact]
     public void The_One_Sign_Law_Agrees_With_The_End_Count()
     {
@@ -345,11 +426,74 @@ public class SieveTests
                 }
         Assert.Equal(new[] { "even", "every", "four", "never" }, outcomes.OrderBy(o => o, StringComparer.Ordinal));
         Assert.True(read > 100, $"{read} cells read by Corollary A′");
-        Assert.Null(Stitch.RingLaw(Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1))));
+        var solidRead = Stitch.RingLaw(Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1)));
+        Assert.True(solidRead is { Guard: 6 } && solidRead.Text.Contains("solid flip shape") && solidRead.Text.Contains("> 1"), solidRead?.Text);
         // a flip set carrying strings of both signs (XX and XY), beside a second shape so that the corollary is asked
         Assert.True(Stitch.RingLaw(Cell('Z', ("XX", 1), ("XY", 1), ("XIX", 1))) is not { } mixed || !mixed.Text.Contains("Corollary A′"));
-        // the pure pairing bond with a Z beside it: one sign, hops cancelling, unbalanced at odd N and paired at every N
-        Assert.Null(Stitch.RingLaw(Cell('Z', ("XXZ", 1), ("YYZ", -1))));
+        // the pure pairing bond with a Z beside it: one sign, hops vanishing, unbalanced at odd N and paired at every N
+        Assert.True(Stitch.RingLaw(Cell('Z', ("XXZ", 1), ("YYZ", -1))) is { } pure && pure.Text.Contains("Theorem 9") && pure.Text.Contains("pairs on every ring"));
+    }
+
+    // Corollary A′ through a solid flip shape does not need two-site flip sets: every cell of two or three templates,
+    // coefficients ±1, from the three-site flips XXX, XYY, YXY, YYX (sign 0) and XXY, XYX, YXX, YYY (sign 1) beside the
+    // two-site ones (XX, YY, XY, YX, XIX, YIY, XZX, YZY, XXZ, YYZ, ZXX, ZYY), wherever RingLaw reads it through a solid
+    // shape, agrees with the end count's exact verdict on the rings from its guard to N = 8, cells whose flip shapes have
+    // three sites among them, and so do cells of four and five templates with one or two shapes whose entries vanish somewhere beside
+    // a solid one, one of them a solid shape of two strings (2·XXZ + ZXX, its entry ±2 ± 1). Two such shapes with no solid one (XXX − XYY beside XXZ − YYZ) are not read. The guard a + δ is
+    // needed: XXX + YZZ + ZZY (XXX solid, a = 5 for the one-site flip set Y·ZZ from both sides, δ = 2) is unbalanced at
+    // every N and pairs on the ring of six, where the one site off the run of a = 5 reaches two of the four cosets of 1 + x + x²; the
+    // law reads it from N = 7, breaking there.
+    [Fact]
+    public void A_Solid_Flip_Shape_Reads_Vanishing_Flip_Sets_Of_Any_Width()
+    {
+        string[] pool = { "XXX", "XYY", "YXY", "YYX", "XXY", "XYX", "YXX", "YYY", "XX", "YY", "XY", "YX", "XIX", "YIY", "XZX", "YZY", "XXZ", "YYZ", "ZXX", "ZYY" };
+        var outcomes = new HashSet<string>();
+        int read = 0, wide = 0;
+        void Check(params (string, long)[] terms)
+        {
+            var cell = Cell('Z', terms);
+            var law = Stitch.RingLaw(cell);
+            if (law is null || !law.Text.Contains("solid flip shape")) return;
+            read++;
+            if (terms.Any(t => t.Item1.Count(c => c is 'X' or 'Y') == 3)) wide++;
+            string name = string.Join("+", terms);
+            for (int n = law.Guard; n <= 8; n++)
+            {
+                var v = Sieve.Count(cell.Normalized().Ring(n)).Verdict();
+                Assert.True(EndCount.IsExact(v), $"{name} ring {n}: not exact");
+                Assert.True(law.Pairs(n) == EndCount.IsPalindrome(v), $"{name} ring {n}: {law.Text}");
+            }
+            outcomes.Add(law.Text.Contains("pairs on every") ? "every" : law.Text.Contains("> 1") ? "even" : law.Text.Contains("> 2") ? "four"
+                : law.Text.Contains("breaks on every") ? "never" : law.Text);
+        }
+        foreach (int k in new[] { 2, 3 })
+            foreach (var combo in Combos(pool.Length, k))
+                for (int signs = 0; signs < 1 << (k - 1); signs++)
+                    Check(combo.Select((t, i) => (pool[t], i == 0 || ((signs >> (i - 1)) & 1) == 0 ? 1L : -1L)).ToArray());
+        int before = read;
+        Check(("XIX", 1), ("YIY", -1), ("XXZ", 1), ("ZZ", 1));
+        Check(("XXX", 1), ("XYY", -1), ("XIX", 1), ("YIY", -1), ("XX", 1));
+        Check(("XXZ", 1), ("YYZ", -1), ("XIX", 1), ("YIY", -1), ("XXX", 1));
+        Check(("XXZ", 1), ("ZXX", -1), ("XXX", 1), ("ZZ", 1));
+        Check(("XXX", 1), ("YZZ", 1), ("ZZY", 1));
+        Check(("XXZ", 2), ("ZXX", 1), ("XIX", 1), ("YIY", -1));                   // a solid shape of two strings
+        Assert.Equal(6, read - before);
+        var needsGuard = Cell('Z', ("XXX", 1), ("YZZ", 1), ("ZZY", 1));
+        Assert.True(Stitch.RingLaw(needsGuard) is { Guard: 7 } g7 && g7.Text.Contains("breaks on every"), Stitch.RingLaw(needsGuard)?.Text);
+        var six = Sieve.Count(needsGuard.Normalized().Ring(6)).Verdict();
+        Assert.True(EndCount.IsExact(six) && EndCount.IsPalindrome(six), "XXX + YZZ + ZZY on the ring of six pairs, below the guard");
+        // past N = 8, read whole by Theorem 2: at N = 9 the gcd with x⁹ + 1 is 1 + x + x² again, inside the condition
+        // (N − a = 4), and the ring breaks; XIX − XXZ + ZXX breaks at 9 and pairs at 10
+        Assert.True(Sieve.Count(needsGuard.Normalized().Ring(9)).ComplementConnection() is { AllGood: false }, "XXX + YZZ + ZZY ring 9");
+        var hopless = Cell('Z', ("XIX", 1), ("XXZ", -1), ("ZXX", 1));
+        Assert.True(Sieve.Count(hopless.Normalized().Ring(9)).ComplementConnection() is { AllGood: false }, "XIX − XXZ + ZXX ring 9");
+        Assert.True(Sieve.Count(hopless.Normalized().Ring(10)).ComplementConnection() is { AllGood: true }, "XIX − XXZ + ZXX ring 10");
+        Assert.Equal((1254, 1156), (read, wide));                                    // 1248 and 1152 of them from the pool
+        Assert.Contains("every", outcomes);
+        Assert.Contains("even", outcomes);
+        Assert.Contains("never", outcomes);
+        Assert.True(Stitch.RingLaw(Cell('Z', ("XXX", 1), ("XYY", -1), ("XXZ", 1), ("YYZ", -1))) is not { } none
+            || !none.Text.Contains("Corollary A′"), "two shapes whose entries vanish somewhere and no solid one");
     }
 
     static IEnumerable<int[]> Combos(int n, int k)
