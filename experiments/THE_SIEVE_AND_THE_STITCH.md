@@ -39,8 +39,7 @@ family, left open here), THE_CUBE_SITE_BY_SITE (the Theodolite's every-N reading
 PROOF_PALINDROME_TWO_END_COUNT (F158, the end count asked on the rest). docs/READING_GUIDE.md Story 10 item 5
 describes the pair and links this page. docs/ANALYTICAL_FORMULAS.md: F173's entry names the sieve's law cells, its
 field family and Stitch.FreeEveryN, with SOFTNESS_IS_N_DEPENDENT and F116's golden router adjacent; its line on the 8
-Corollary E2 cells says "break exactly at 3 | N" without the guard (the ring of three pairs), as do the comment in
-SieveTests.cs and CLAUDE.md's Stitch bullet, all outside this change;
+Corollary E2 cells has them break at every multiple of 3 from N = 6 on, the ring of three pairing;
 no F-number belongs to the sieve or the stitch. OpenArcs registry: no arc names the sieve or the stitch; an arc that asks an
 every-N question about another object is f138_converse_failures (whether a palindrome without a colouring needs a
 blind dephased seat at every N), and the settled f115_valuation_gate_width (verdicts on windowed pairs, its window

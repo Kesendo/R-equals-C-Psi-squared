@@ -412,7 +412,7 @@ public class SieveTests
     }
 
     // The window family's 24 ring cells that pair by a law in N, decided for every N by F173's ring laws: the eight relatives
-    // of X·(X ± Y)·X by Corollary E2 (breaking exactly at 3 | N), the sixteen of one string per flip set by Theorem D
+    // of X·(X ± Y)·X by Corollary E2 (breaking at 3 | N from N = 6, the ring of three pairing), the sixteen of one string per flip set by Theorem D
     // (pairing exactly at even N); every exact letter from the guard on agrees with the law, or the sieve throws.
     [Fact]
     public void The_Ring_Laws_Decide_The_Window_Familys_Law_Cells()

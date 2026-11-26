@@ -12006,7 +12006,7 @@ signs); F103 §8, quoted in F108 Part 1 (the all-positive case) and F110 Aspect 
 (1,1) cell, all negative with odd masks); THE_PALINDROME_AS_A_COLOURING (its diagonal gauge, under the assumption
 a ±1 character, the lit string X^⊗N·Z^φ); the MirrorWorld sieve's ring cells that pair by a law in N (16 of its 24
 carry one string per flip set and pair exactly at even N, at every N by Theorem D; the other 8, X·(X ± Y)·X and its
-relatives, carry two strings on one flip set and break exactly at 3 | N by Corollary E2), and its field family on the chain, which
+relatives, carry two strings on one flip set and break at every multiple of 3 from N = 6 on by Corollary E2, the ring of three pairing), and its field family on the chain, which
 holds two-shape cells with a character ratio (XX + XY beside the field X + Y, broken there for every N by a square,
 condition (1)); Theorem 2 of
 PROOF_PALINDROME_COMPLEMENT_CONNECTION (the base); the MirrorWorld stitch (`Stitch.FreeEveryN`, Theorem E's condition
