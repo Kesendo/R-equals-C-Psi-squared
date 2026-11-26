@@ -521,11 +521,13 @@ public sealed class Stitch : GameObject
     // which carries several strings has no law of F173 here (the stitch's no reads the first two), except where the
     // strings on every flip set share one sign and either every flip set has two sites with a lone excitation's hop across
     // it nonzero or some flip shape is solid (its entry vanishing nowhere), which F173's Corollary A′ reads
-    // (OneSignPerShape below); two more laws,
+    // (OneSignPerShape below); three more laws,
     // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
     // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
     // XY and YX terms on two sites d apart with a pairing amplitude, whatever their ratio, and with the same Z letters
-    // beside or between the two sites on every term).
+    // beside or between the two sites on every term) and Theorem 10 (ControlledPairingBond below, the bond with a pairing
+    // amplitude and no Z letters of its own on two adjacent sites under the control 1 + κ·Z_(l−1)Z_(l+2) of its outer
+    // neighbours).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -578,7 +580,7 @@ public sealed class Stitch : GameObject
         ulong f = ShapeOf(flipping[0].X);
         int probe = Math.Max(guard, 3 * norm.Span);
         var first = FlipRatios(norm, probe);
-        if (first is null) return PairingBond(flipping, guard) ?? OneSignPerShape(flipping, norm, guard);
+        if (first is null) return PairingBond(flipping, guard) ?? ControlledPairingBond(flipping, guard) ?? OneSignPerShape(flipping, norm, guard);
         return new RingLawReading(guard, $"F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = {Poly(f)}, from N = {guard}", n =>
         {
             if (n < guard || n > 63) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law is evaluated from N = {guard} to 63");
@@ -700,7 +702,7 @@ public sealed class Stitch : GameObject
         long Coefficient(bool firstY, bool secondY) => bonds
             .Where(t => ((t.Z & 1) == 1) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
         long jxx = Coefficient(false, false), jxy = Coefficient(false, true), jyx = Coefficient(true, false), jyy = Coefficient(true, true);
-        if (jxx != jyy || jxy != -jyx) return null;                                         // a pairing: Theorem 9's, or no law
+        if (jxx != jyy || jxy != -jyx) return null;                                         // a pairing: Theorem 9's or 10's, or no law
         long j = jxx, dm = jxy;
         if (j == 0 && dm == 0) return null;
         bool field = fields.Any(t => t.C != 0);
@@ -765,6 +767,44 @@ public sealed class Stitch : GameObject
             if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
             int m = n / (int)System.Numerics.BigInteger.GreatestCommonDivisor(n, d);
             return every || evenOnly && m % 2 == 0;
+        });
+    }
+
+    // Theorem 10 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, a pairing bond under a control of its outer
+    // neighbours): the terms are a bond of XX, YY, XY and YX on two adjacent sites and the same bond with a Z on each of
+    // its two outer neighbours, times κ = ±1, so that H = Σ_l (1 + κ·Z_(l−1)Z_(l+2))·B_l. With h ≠ 0 and ρ = g/ḡ (ρ = 1
+    // where g = 0) the ring of N ≥ 6 sites pairs exactly when ρ⁴ = 1 and ρ^(wN) = 1, w = 1 under κ = +1 (a lone
+    // excitation winds) and w = 2 under κ = −1 (a pair of adjacent excitations winds, two hops a site); the sieve asks it
+    // from 2·span − 1 = 7. For real
+    // integer coefficients ρ has order 1 (g real or 0), 2 (g imaginary), 4 (|Re g| = |Im g|) or none.
+    static RingLawReading? ControlledPairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
+    {
+        var plain = flipping.Where(t => t.X == 0b11UL && (t.Z & ~0b11UL) == 0).ToList();
+        var controlled = flipping.Where(t => t.X == 0b110UL && (t.Z & ~0b110UL) == 0b1001UL).ToList();
+        if (plain.Count == 0 || controlled.Count == 0 || plain.Count + controlled.Count != flipping.Count) return null;
+        static long Coefficient(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far, bool firstY, bool secondY) => terms
+            .Where(t => ((t.Z & near) != 0) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
+        long[] Bond(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far) => new[]
+        {
+            Coefficient(terms, near, far, false, false), Coefficient(terms, near, far, true, true),
+            Coefficient(terms, near, far, false, true), Coefficient(terms, near, far, true, false),
+        };
+        long[] p = Bond(plain, 1, 2), q = Bond(controlled, 2, 4);
+        int kappa = p.SequenceEqual(q) ? 1 : p.SequenceEqual(q.Select(v => -v)) ? -1 : 0;
+        if (kappa == 0) return null;
+        long jxx = p[0], jyy = p[1], jxy = p[2], jyx = p[3];
+        if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: not this law
+        long re = jxx + jyy, im = jyx - jxy;
+        int order = im == 0 ? 1 : re == 0 ? 2 : Math.Abs(re) == Math.Abs(im) ? 4 : 0;
+        int w = kappa > 0 ? 1 : 2;
+        string verdict = order == 0 ? "breaks on every ring"
+            : w % order == 0 ? "pairs on every ring"
+            : (2 * w) % order == 0 ? "pairs exactly where N is even"
+            : "pairs exactly where 4 divides N";
+        return new RingLawReading(guard, $"complement connection Theorem 10 (a pairing bond under the control 1 {(kappa > 0 ? "+" : "−")} Z·Z of its outer neighbours): {verdict}, from N = {guard}", n =>
+        {
+            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            return order != 0 && (w * n) % order == 0;
         });
     }
 

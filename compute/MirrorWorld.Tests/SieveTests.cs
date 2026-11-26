@@ -349,6 +349,71 @@ public class SieveTests
         Assert.True(byTheorem9 > 60 && golden == 26 && pureZero > 10, $"{byTheorem9} cells read by Theorem 9, {golden} golden triples, {pureZero} with g = 0");
     }
 
+    // Theorem 10 of the complement connection (a pairing bond under the control 1 + κ·Z_(l−1)Z_(l+2) of its outer
+    // neighbours), adopted in Stitch.RingLaw: every bond J_XX·XX + J_YY·YY + J_XY·XY + J_YX·YX with coefficients in
+    // {−1, 0, 1} and h ≠ 0, under κ = +1 and κ = −1, gets the law from N = 7, and the law and the rule (ρ⁴ = 1 and
+    // ρ^(wN) = 1, w = 1 under κ = +1, 2 under κ = −1) agree with Theorem 2 read whole (EndCount.ComplementConnection, exact
+    // both ways) on the rings of 7 to 10 sites and with the end count's exact verdict on the rings of 7 and 8; on the open
+    // chain, where the bond and its control sit only where four sites fit, the rule ρ⁴ = 1 agrees with Theorem 2 on the
+    // chains of 6 to 9 sites. Every order of ρ occurs under both controls; a hop alone under the control (h = 0) is refused.
+    [Fact]
+    public void The_Controlled_Pairing_Bond_Law_Agrees_With_Theorem_2()
+    {
+        static EndCount Chain(int n, (string L, long C)[] bond, int kappa)
+        {
+            var h = new List<(string, long)>();
+            for (int l = 1; l <= n - 3; l++)
+                foreach (var (letters, c) in bond)
+                {
+                    var plain = Enumerable.Repeat('I', n).ToArray();
+                    plain[l] = letters[0]; plain[l + 1] = letters[1];
+                    h.Add((new string(plain), c));
+                    var controlled = (char[])plain.Clone();
+                    controlled[l - 1] = 'Z'; controlled[l + 2] = 'Z';
+                    h.Add((new string(controlled), kappa * c));
+                }
+            var jumps = Enumerable.Range(0, n).Select(j => new string('I', j) + "Z" + new string('I', n - j - 1)).ToList();
+            return new EndCount(new World(), n, h, jumps);
+        }
+        var branches = new HashSet<string>();
+        int read = 0;
+        long[] values = { -1, 0, 1 };
+        foreach (int kappa in new[] { 1, -1 })
+            foreach (long xx in values) foreach (long yy in values) foreach (long xy in values) foreach (long yx in values)
+            {
+                if (xx == yy && xy == -yx) continue;                                         // h = 0: outside this law
+                var bond = new[] { ("XX", xx), ("YY", yy), ("XY", xy), ("YX", yx) }.Where(t => t.Item2 != 0).ToArray();
+                var cell = Cell('Z', bond.Concat(bond.Select(t => ("Z" + t.Item1 + "Z", kappa * t.Item2))).ToArray());
+                string name = $"κ = {kappa}, " + string.Join("+", bond);
+                var law = Stitch.RingLaw(cell);
+                Assert.True(law is { Guard: 7 } && law.Text.Contains("Theorem 10"), $"{name}: {law?.Text}");
+                read++;
+                long re = xx + yy, im = yx - xy;
+                int order = im == 0 ? 1 : re == 0 ? 2 : Math.Abs(re) == Math.Abs(im) ? 4 : 0, w = kappa > 0 ? 1 : 2;
+                branches.Add($"κ = {kappa}, order {order}");
+                for (int n = 7; n <= 10; n++)
+                {
+                    var count = Sieve.Count(cell.Ring(n));
+                    var cc = count.ComplementConnection();
+                    Assert.True(cc is not null, $"{name} ring {n}: no reading");
+                    Assert.True(law!.Pairs(n) == cc!.Value.AllGood, $"{name} ring {n}: {law.Text}");
+                    Assert.True((order != 0 && (w * n) % order == 0) == cc.Value.AllGood, $"{name} ring {n}: the rule");
+                    if (n > 8) continue;
+                    var v = count.Verdict();
+                    Assert.True(EndCount.IsExact(v) && EndCount.IsPalindrome(v) == cc.Value.AllGood, $"{name} ring {n}: the end count");
+                }
+                for (int n = 6; n <= 9; n++)
+                {
+                    var cc = Chain(n, bond, kappa).ComplementConnection();
+                    Assert.True(cc is not null && (order != 0) == cc.Value.AllGood, $"{name} chain {n}: ρ⁴ = 1");
+                }
+            }
+        Assert.Equal(8, branches.Count);
+        Assert.Equal(144, read);
+        // h = 0 (a hop alone under the control, XX + YY: the folded XXZ chain) is outside this law
+        Assert.True(Stitch.RingLaw(Cell('Z', ("XX", 1), ("YY", 1), ("ZXXZ", 1), ("ZYYZ", 1))) is not { } folded || !folded.Text.Contains("Theorem 10"));
+    }
+
     // Theorem 8 of the complement connection read on a uniform cell (Stitch.RingLaw's HoppingRing), held against the end
     // count's exact verdict on the ring: hopping bonds J·(XX + YY) + D·(XY − YX) with J, D in {−1, 0, 1, 2}, a ZZ part 0
     // or 1, and the uniform fields 0, X, Y, X + Y, X − Y, on rings of 3 to 7 sites; and the same bonds two sites apart

@@ -10960,7 +10960,7 @@ the two reflection sectors transports the verdict to the 133 odd loci, covering 
 ---
 
 <a id="f165"></a>
-### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, Theorem 9 on 2026-11-20, and 2026-10-01 to 2026-11-25 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
+### F165. With every site dephased, the palindrome is a flat connection on the bitstrings: the two ends of the spectrum are counts of components of one graph and its complement image, and with undephased sites, under one of three hypotheses, sums over sectors (counts of good components where the sectors are scalar) or a simultaneous-similarity test of transported generators (Tier 1: derived 2026-09-30 to 2026-10-02 in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 to 7, Theorem 8 on 2026-11-11, Theorem 9 on 2026-11-20, Theorem 10 on 2026-11-26, and 2026-10-01 to 2026-11-25 in [PROOF_ONE_DEPHASED_SEAT](proofs/PROOF_ONE_DEPHASED_SEAT.md); registered 2026-10-21 as an INDEX)
 
 **Why a number, and why it says so.** This entry indexes; it does not
 discover. Everything below is stated, proven and gated in the two proofs named
@@ -11061,6 +11061,21 @@ h_l·P_l along one Pauli letter P_l.
   from N = 5 wherever h ≠ 0.
   Adopted in MirrorWorld as a ring law of the sieve and gated there against
   the end count; not typed.
+- **Theorem 10,** the bond on two adjacent sites, with h ≠ 0 and no Z
+  letters of its own, under a control 1 + κ·Z_(l−1)Z_(l+2) of its outer
+  neighbours, κ = ±1, the same on every four sites, with real coefficients,
+  a complement-invariant diagonal part and Z on every site: the chain of N ≥ 6 sites (the bond and its control
+  only where four sites fit) pairs exactly when ρ⁴ = 1 (ρ = g/ḡ, and 1 where g = 0), the ring of
+  N ≥ 6 sites exactly when ρ⁴ = 1 and ρ^(wN) = 1, w = 1 under κ = +1 and 2
+  under κ = −1; carried, after a turn about Z, by X^⊗N times a diagonal parity of the excitations
+  and their adjacent pairs, and broken through a six-site loop of holonomy
+  ρ⁴ and the winding of a lone excitation (κ = +1) or of a pair (κ = −1).
+  (1 − Z_(l−1)Z_(l+2))·X_lY_(l+1): every ring of four sites or more. The folded XXZ chain (XX + YY
+  under κ = +1) has h = 0 and lies outside it as written; X^⊗N carries it,
+  and X on every odd site turns it, on chains and even rings, into a pure
+  pairing under κ = −1 that Theorem 10 reads.
+  Adopted in MirrorWorld as a ring law of the sieve and gated there against
+  Theorem 2 and the end count; not typed.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with
   at least two letters among the axes, fields of any direction: the near end
   is one-dimensional, and the palindrome holds exactly when exactly two axes

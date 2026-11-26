@@ -32,7 +32,7 @@ Stitch.cs with their header comments, the README rows of both, the run modes in 
 SieveTests.cs and StitchTests.cs. The pages they read: PROOF_PALINDROME_COMPLEMENT_CONNECTION (Theorem 2, the base of
 the stitch; Theorem 8, the absent edges, live as PalindromeComplementConnectionClaim.PlanarHoppingPalindrome with PlanarHoppingWitness at the inspect root planarhopping, and read by the sieve as a ring law on a
 uniform cell), PROOF_SIGNED_MASK_BALANCE (F173: Theorem D, Corollary E2 and Corollary A′ adopted as
-Stitch.RingLaw, beside the complement connection's Theorems 8 and 9, the hopping ring and the pairing bond; Corollary E1 and Theorem E name the free chain; Corollary E2 decides XZ ± ZY on every ring and Theorem
+Stitch.RingLaw, beside the complement connection's Theorems 8, 9 and 10, the hopping ring, the pairing bond and the pairing bond under a control of its outer neighbours; Corollary E1 and Theorem E name the free chain; Corollary E2 decides XZ ± ZY on every ring and Theorem
 E names its carrier; its 24 law cells and 864 two-template cells of the window family; its record names two gaps,
 SOFTNESS_IS_N_DEPENDENT against Stitch.FreeEveryN, cited in the body here, and Corollary E3 against the sieve's field
 family, left open here), THE_CUBE_SITE_BY_SITE (the Theodolite's every-N reading, the sieve's first yes),
@@ -135,7 +135,7 @@ broken; or the free chain covers every length from its first on and every length
 **Broken**: nothing covers and every length is broken. **Mixed**: some uncovered lengths palindromic, others broken.
 **Residue**: every uncovered length palindromic (and not read by the free chain's tail). **Law**: a ring cell that would be Mixed or a Residue, whose tail
 the stitch's no has not already decided (otherwise it keeps its verdict), and whose every length from the law's guard
-on is decided by a ring law (F173's Theorem D, Corollary E2 or Corollary A′, or the complement connection's Theorem 8 or 9), every length
+on is decided by a ring law (F173's Theorem D, Corollary E2 or Corollary A′, or the complement connection's Theorem 8, 9 or 10), every length
 below the guard examined exactly. Wherever a law exists the sieve
 checks every exact letter from its guard on against it, and a disagreement throws. Past the lengths examined a verdict
 says only what its readers and laws say.
@@ -271,7 +271,7 @@ alone.
   the solves below it are not asked, while the fast no (up to span 9), the free chain (up to span 7) and the ring laws still are. The fast no reads two of Theorem 2's three conditions, the sizes and the loops (the diagonal condition is
   read in the window's equations), on stretches of up to 12 sites, carrying the ratios modulo a prime, so a loop it
   misses is a silence, never a yes. A ring law holds from its guard on; the code evaluates Corollary E2 up to N = 63
-  and Theorem D, Corollary A′ and Theorems 8 and 9 at any N.
+  and Theorem D, Corollary A′ and Theorems 8, 9 and 10 at any N.
 - A cycle running round the whole ring is not local, and neither the fast no nor the window's solve sees it; the
   ring laws read those where they apply.
 - A ring cell marked Read is a yes at the lengths its reader covers; at the other lengths it is what the letters say,

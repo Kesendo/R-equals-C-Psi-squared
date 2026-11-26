@@ -931,7 +931,7 @@ invertible element of the far kernel of [the two-end count](PROOF_PALINDROME_TWO
 colourings are SOUND, not complete, and the incompleteness is two-layered. (a) A scalability gap: some
 soft Hamiltonians are bipartite only through a non-structured 2-colouring no scalable strategy reaches
 (XY + YX + XZ + ZX on a triangle is soft, its basis-state graph bipartite at ANF-degree 2, yet neither
-linear nor an excitation grading 2-colours it). (b) A structural ceiling, deeper: some soft Hamiltonians
+linear nor an excitation grading 2-colours it). A family of degree two has a closed form: a bond of XX, YY, XY and YX terms on two adjacent sites under the control (1 − Z_(l−1)Z_(l+2)), so that it acts only where its two outer neighbours differ, has its basis-state graph 2-coloured by ⌊n/2⌋ + A, A the number of adjacent occupied pairs, at every N on chain and ring (on the chain the bond and its control only where four sites fit), and where the diagonal part vanishes and every string of the bond carries an odd number of Y and Z letters, so that X^⊗N reverses H and every Z jump, that colouring certifies the palindrome ([the complement connection's Theorem 10](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#theorem-10-a-pairing-bond-under-a-control-of-its-outer-neighbours), which reads such bonds with a pairing amplitude under either control). (b) A structural ceiling, deeper: some soft Hamiltonians
 have a NON-bipartite basis-state graph, so no 2-colouring exists at any degree (XX + XZ on the chain is
 soft at N = 3..6 by the spectral authority, yet `BipartiteChirality` reports its basis-state graph
 non-bipartite). A colouring certifies exactly the diagonal −N-mode soft cases; the non-bipartite-soft
