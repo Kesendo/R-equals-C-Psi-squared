@@ -84,7 +84,7 @@ to credit both groups.
 The symmetries of a Lindblad generator that a unitary U gives through
 its conjugation ρ ↦ UρU†, weak and strong:
 
-- **Buca & Prosen (2012).** "A note on symmetry reductions of the
+- **Buča & Prosen (2012).** "A note on symmetry reductions of the
   Lindblad equation: transport in constrained open spin chains."
   New J. Phys. 14, 073007.
   [arXiv:1203.0943](https://arxiv.org/abs/1203.0943).
@@ -103,7 +103,7 @@ its conjugation ρ ↦ UρU†, weak and strong:
   evolution: the steady state reached follows from the initial state, a
   basis of the steady states and all conserved quantities, and the
   symmetries block-diagonalize the generator. What they call a symmetry
-  is Buca and Prosen's weak one; anti-commuting symmetries (chiral,
+  is Buča and Prosen's weak one; anti-commuting symmetries (chiral,
   parity-time) they mention only in passing. Our Π maps L to
   −L − 2Σγ·I rather than leaving L unchanged, a kind neither paper
   classifies ([KMS and Detailed Balance](KMS_DETAILED_BALANCE.md)); the
@@ -133,7 +133,9 @@ the explicit Π its special case; THE_PALINDROME_CLASSIFIER), docs/KMS_DETAILED_
 docs/CAUGHT_ERRORS.md (entry of 2026-11-04), the typed layer (MirrorGroupD4Claim,
 PalindromeTwoEndCountClaim; MirrorWorld MirrorGroup and Sextant, whose "−L† − c" verdict
 is this relation), fw.Confirmations, the OpenArcs registry and the glossary (nothing on
-Prosen 2012). No page outside the ledger cited either 2012 paper. Adjacency checked: Prosen's
+Prosen 2012). When this section was written no page outside the ledger cited either
+2012 paper; the pages that do now, directly or through this section, include
+MIRROR_SYMMETRY_PROOF, THE_PAIRING_CONDITION and THE_ONE_SQUARE. Adjacency checked: Prosen's
 parity is the element 𝓕R of F118's dihedral group, the adjoint relation is
 THE_PAIRING_CONDITION's "law", and the PRL's weak-coupling cross (one rate for all
 coherences) sits beside the Absorption Theorem, not yet compared. Sá, Ribeiro and
@@ -278,10 +280,10 @@ Hubbard interaction, and the Bethe ansatz solves that interacting model in
 1D. The symmetry itself does not need the solution: Prosen's relation and
 our Π hold for interacting spins (Heisenberg/XXZ) on arbitrary graphs.
 
-### Symmetry classification (Buca & Prosen 2012, Albert & Jiang 2014)
+### Symmetry classification (Buča & Prosen 2012, Albert & Jiang 2014)
 
 See [Foundations](#symmetries-of-open-quantum-systems-the-language) above.
-Buca and Prosen name the two kinds of symmetry that a unitary gives
+Buča and Prosen name the two kinds of symmetry that a unitary gives
 through its conjugation, and Albert and Jiang's symmetry is the weak one; Π, which
 reflects the generator instead of keeping it, is of neither kind.
 
@@ -618,7 +620,7 @@ Updated March 14 (incoherenton and η-pairing connections found, leading
 to Π discovery same day). March 24 (ENAQT section added after
 sacrifice-zone formula). April 5 (restructured: added Foundations
 section with textbooks and original papers; full citations for Haga,
-Medvedyeva-Essler-Prosen, Albert-Jiang, Buca-Prosen; NMR palindrome
+Medvedyeva-Essler-Prosen, Albert-Jiang, Buča-Prosen; NMR palindrome
 connection; review articles for students).
 April 11 (Gaztañaga-Kumar-Marto direct-sum QT and ER bridges section
 added after discovering structural parallel to our Direct-Sum

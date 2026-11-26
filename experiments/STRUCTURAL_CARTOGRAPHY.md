@@ -477,7 +477,7 @@ effective memory length and compressibility of the sequence.
 - Schack, Caves, *Information and entropy in the Baker's map* (2006), arXiv:quant-ph/0611202
 
 ### Liouvillian symmetry and mode structure (from external review, March 2026)
-- Buca, Prosen, *Symmetry reductions of the Lindblad equation* (2012), arXiv:1203.0943
+- Buča, Prosen, *A note on symmetry reductions of the Lindblad equation: transport in constrained open spin chains* (2012), arXiv:1203.0943
 - Kawabata et al., *Symmetry of Open Quantum Systems* (2023), arXiv:2212.00605
 - van Caspel, Gritsev, *Symmetry-protected coherent relaxation* (2018), arXiv:1802.05293
 - Tezak et al., *Low dimensional manifolds for open quantum systems* (2017), arXiv:1704.05369
@@ -501,7 +501,7 @@ overlap.
 | What we call it | What established theory calls similar structures |
 |---|---|
 | Stable skeleton + rotating phase | Liouvillian eigenmode decomposition (damped modes) |
-| X tensor X symmetry | Weak symmetry of the Lindblad generator (Buca, Prosen 2012) |
+| X tensor X symmetry | Weak symmetry of the Lindblad generator (Buča, Prosen 2012) |
 | 3 effective dimensions (PCA) | Low-dimensional effective manifolds (Tezak et al. 2017) |
 | Pendulum in YZ/ZY plane | Dominant complex eigenvalue pair of the Liouvillian |
 | Populations stable, phases rotate | Population-coherence separation in master equations |

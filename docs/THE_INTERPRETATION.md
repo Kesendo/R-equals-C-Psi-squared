@@ -343,7 +343,7 @@ classification:
   states; our systems are driven by dephasing, not thermalization.
 - **Quantum Detailed Balance:** requires a specific relationship between
   forward and backward transition rates; Π generates a different structure.
-- **Buca-Prosen weak symmetry:** our XXX parity commutes with L (weak
+- **Buča-Prosen weak symmetry:** our XXX parity commutes with L (weak
   symmetry), but the palindromic pairing comes from Π, not from
   conserved quantities.
 - **Sa-Ribeiro-Prosen 38-fold classification:** the applicable taxonomy acts

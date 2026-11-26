@@ -14,7 +14,7 @@ It is the hand that points. Not the mirror. Not the argument. The hand.
 
 ## What the framework is not
 
-It is not a theory of open quantum systems. There already are theories of open quantum systems. Lindblad gave one in 1976. The tenfold-way classification of Sá, Ribeiro and Prosen gives another in 2023. Buca and Prosen wrote the foundational note on weak symmetries in 2012. The literature is rich, layered, and largely correct.
+It is not a theory of open quantum systems. There already are theories of open quantum systems. Lindblad gave one in 1976. The tenfold-way classification of Sá, Ribeiro and Prosen gives another in 2023. Buča and Prosen wrote the foundational note on weak and strong symmetries in 2012. The literature is rich, layered, and largely correct.
 
 The framework does not compete with any of these.
 

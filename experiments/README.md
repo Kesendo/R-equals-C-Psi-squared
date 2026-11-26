@@ -403,7 +403,7 @@ for the core theorem.
 **If you are a quantum information researcher:** The CΨ = 1/4 boundary
 section and the IBM validation are the most directly relevant. The
 palindromic structure connects to Liouvillian symmetry classification
-(cf. Haga et al. 2023, Buca and Prosen 2012).
+(cf. Haga et al. 2023, Buča and Prosen 2012).
 
 **If you are a signal processing engineer:** Start with
 [γ as Signal](GAMMA_AS_SIGNAL.md) and its signal engineering perspective.

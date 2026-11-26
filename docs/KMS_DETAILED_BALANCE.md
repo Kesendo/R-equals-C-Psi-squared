@@ -41,7 +41,7 @@ one-site steady state where that state's ratio does (Question 4).
 ## Abstract
 
 The Π relation is **not** a quantum-detailed-balance (QDB) or KMS condition and
-is not a Buca-Prosen symmetry. It is a shifted anti-similarity:
+is not a Buča-Prosen symmetry. It is a shifted anti-similarity:
 Π·L·Π⁻¹ = −L − 2Sγ·I. Strict GNS/KMS symmetry of the full generator relates
 L to its weighted adjoint and implies a real spectrum; Π instead relates L to
 its negative and gives palindromic complex pairs. Alicki/standard QDB permits a
@@ -100,9 +100,9 @@ state's (Question 4).
 
 **Classification: CONFIRMED algebra / OPEN class label**
 
-### The Buca-Prosen framework (2012)
+### The Buča-Prosen framework (2012)
 
-Buca and Prosen classified the symmetries of a Liouvillian by a unitary U on the
+Buča and Prosen classified the symmetries of a Liouvillian by a unitary U on the
 Hilbert space as:
 
 - **Weak symmetry:** the conjugation ρ ↦ UρU† commutes with the Liouvillian as a whole
@@ -119,7 +119,7 @@ Our Π satisfies neither. It does not commute with L. Instead:
 
 This is an **anti-similarity** with a constant shift. If we define L_c = L + Sγ·I
 (the centered Liouvillian), then Π·L_c·Π⁻¹ = -L_c, which is a pure anti-commutation.
-Π is not of Buca and Prosen's form at all. The maps their two kinds supply, the
+Π is not of Buča and Prosen's form at all. The maps their two kinds supply, the
 conjugation ρ ↦ UρU† and, for a strong U, the one-sided multiplications ρ ↦ Uρ and
 ρ ↦ ρU†, all commute with L; and no map that keeps the trace, conjugations
 included, can carry L_c to −L_c while Sγ ≠ 0, since Tr L_c(ρ) = Sγ·Tr ρ. Π does not keep
@@ -130,10 +130,10 @@ PT paper of the same year has the adjoint anti-relation L′P = −P L′†
 ### The Albert-Jiang framework (2014)
 
 Albert and Jiang follow and elaborate earlier discussions of symmetries and conserved
-quantities, Buca and Prosen's among them, and tie them to the structure of the
+quantities, Buča and Prosen's among them, and tie them to the structure of the
 steady-state manifold. Their framework characterizes the
 infinite-time behavior of Lindblad evolution, including degenerate steady states.
-What they call a symmetry, a unitary whose conjugation leaves L unchanged, is Buca
+What they call a symmetry, a unitary whose conjugation leaves L unchanged, is Buča
 and Prosen's weak symmetry; a unitary with UHU† = H and a phase on each jump, as above,
 is among their examples, and they keep symmetries apart from conserved quantities.
 Their framework focuses on operators that commute with L (symmetries), not operators
@@ -752,13 +752,13 @@ hopping a gradient breaks M_β while the spectrum still pairs.
    Inf. Dim. Anal. Quantum Prob. 10, 335-363. [arXiv:0707.2147](https://arxiv.org/abs/0707.2147)
    *Modern treatment: GKSL representation of DB generators.*
 
-4. **Buca, Prosen (2012)**: "A note on symmetry reductions of the Lindblad equation."
+4. **Buča, Prosen (2012)**: "A note on symmetry reductions of the Lindblad equation."
    New J. Phys. 14, 073007. [arXiv:1203.0943](https://arxiv.org/abs/1203.0943)
    *Weak vs strong Liouvillian symmetry classification.*
 
 5. **Albert, Jiang (2014)**: "Symmetries and conserved quantities in Lindblad master equations."
    Phys. Rev. A 89, 022118. [arXiv:1310.1523](https://arxiv.org/abs/1310.1523)
-   *Symmetries (Buca and Prosen's weak kind) and conserved quantities; steady-state structure.*
+   *Symmetries (Buča and Prosen's weak kind) and conserved quantities; steady-state structure.*
 
 6. **Medvedyeva, Essler, Prosen (2016)**: "Exact Bethe ansatz spectrum of a tight-binding chain with dephasing noise."
    Phys. Rev. Lett. 117, 137202. [arXiv:1606.09122](https://arxiv.org/abs/1606.09122)
