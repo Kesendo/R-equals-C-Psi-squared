@@ -9,7 +9,7 @@ algebraic palindrome shift
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
 **Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN; a finite-temperature element of Π's shape CONFIRMED for XXZ bonds with axial DM terms, without fields or Z dephasing, where one ratio holds across the hopping: the cooling-to-heating ratio, or with X or Y dephasing the one-site steady state's, whose square root is then the weight; no site-local element exists where that ratio differs across a hopping bond
-**Last refreshed:** 2026-10-20
+**Last refreshed:** 2026-11-26
 **Authors:** Thomas Wicht, Claude (Anthropic, Cowork Research)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
@@ -41,7 +41,7 @@ one-site steady state where that state's ratio does (Question 4).
 ## Abstract
 
 The Π relation is **not** a quantum-detailed-balance (QDB) or KMS condition and
-is not a standard Buca-Prosen symmetry. It is a shifted anti-similarity:
+is not a Buca-Prosen symmetry. It is a shifted anti-similarity:
 Π·L·Π⁻¹ = −L − 2Sγ·I. Strict GNS/KMS symmetry of the full generator relates
 L to its weighted adjoint and implies a real spectrum; Π instead relates L to
 its negative and gives palindromic complex pairs. Alicki/standard QDB permits a
@@ -60,7 +60,7 @@ classification is formulated for a trace-shifted generator, so the constant
 Globally Π has order four because Π² is a commuting unitary symmetry; within
 each Π²-parity sector a phase-normalized restriction is an involutive P generator.
 Assigning BDI, CI, or another SRP class still requires the complete symmetry
-algebra after all strong/unitary symmetries are resolved. The known Π construction uses the 2:2
+algebra after all commuting unitary symmetries, weak or strong, are resolved. The known Π construction uses the 2:2
 per-site Pauli split of pure Z dephasing. That is an algebraic property of the
 jump channel, not a bath-temperature assignment. The spectral palindrome for
 thermal jump operators is a separate question; for a Hamiltonian that commutes with X⊗N and Y⊗N it
@@ -102,10 +102,16 @@ state's (Question 4).
 
 ### The Buca-Prosen framework (2012)
 
-Buca and Prosen classified Liouvillian symmetries as:
+Buca and Prosen classified the symmetries of a Liouvillian by a unitary U on the
+Hilbert space as:
 
-- **Weak symmetry:** [U, L] = 0 (unitary U commutes with the Liouvillian)
-- **Strong symmetry:** U·L_k = e^{iθ}·L_k·U for each jump operator L_k individually
+- **Weak symmetry:** the conjugation ρ ↦ UρU† commutes with the Liouvillian as a whole
+- **Strong symmetry:** [U, H] = 0 and [U, L_k] = 0, U commuting with the Hamiltonian and
+  with each jump operator L_k individually
+
+A strong symmetry is also weak, not conversely. A unitary with UHU† = H and
+U·L_k·U† = e^{iθ_k}·L_k keeps every dissipator and so is weak; where a phase e^{iθ_k} ≠ 1
+it is not strong.
 
 Our Π satisfies neither. It does not commute with L. Instead:
 
@@ -113,20 +119,27 @@ Our Π satisfies neither. It does not commute with L. Instead:
 
 This is an **anti-similarity** with a constant shift. If we define L_c = L + Sγ·I
 (the centered Liouvillian), then Π·L_c·Π⁻¹ = -L_c, which is a pure anti-commutation.
-In the Buca-Prosen language, Π is a "weak anti-symmetry" of L_c, but this category
-does not exist in their 2012 classification. They only considered [U, L] = 0. Prosen's
+Π is not of Buca and Prosen's form at all. The maps their two kinds supply, the
+conjugation ρ ↦ UρU† and, for a strong U, the one-sided multiplications ρ ↦ Uρ and
+ρ ↦ ρU†, all commute with L; and no map that keeps the trace, conjugations included
+them, can carry L_c to −L_c while Sγ ≠ 0, since Tr L_c(ρ) = Sγ·Tr ρ. Π does not keep
+the trace: it carries the identity onto X^⊗N. Prosen's
 PT paper of the same year has the adjoint anti-relation L′P = −P L′†
 ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
 
 ### The Albert-Jiang framework (2014)
 
-Albert and Jiang extended the Buca-Prosen classification to include conserved
-quantities and the structure of the steady-state manifold. Their framework
-characterizes the infinite-time behavior of Lindblad evolution, including
-degenerate steady states. However, their classification focuses on operators
-that commute with L (symmetries), not operators that anti-commute (anti-symmetries).
-They do mention anti-unitary symmetries in passing, but do not develop the theory
-for the anti-commuting case.
+Albert and Jiang follow and elaborate earlier discussions of symmetries and conserved
+quantities, Buca and Prosen's among them, and tie them to the structure of the
+steady-state manifold. Their framework characterizes the
+infinite-time behavior of Lindblad evolution, including degenerate steady states.
+What they call a symmetry, a unitary whose conjugation leaves L unchanged, is Buca
+and Prosen's weak symmetry; a unitary with UHU† = H and a phase on each jump, as above,
+is among their examples, and they keep symmetries apart from conserved quantities.
+Their framework focuses on operators that commute with L (symmetries), not operators
+that anti-commute (anti-symmetries): they mention anti-commuting symmetries, chiral and
+parity-time, in one paragraph, as revealing symmetries of the spectrum, and do not
+develop them.
 
 ### The tenfold Lindbladian classification (Sá et al., PRX 2023)
 
@@ -695,8 +708,8 @@ shift is absorbed by `L_c=L+SγI`; after resolving Π², a phase-normalized Π i
 a P generator in each parity sector. This places the structure inside the
 shifted-generator classification problem rather than outside it. The final
 BDI, CI, or other irreducible-sector label is **OPEN** until the remaining
-unitary, strong, and antiunitary symmetries and their commutation algebra are
-computed.
+unitary symmetries, weak or strong, the antiunitary ones and their commutation
+algebra are computed.
 
 The closest living relative is the Roberts-Lingenfelter-Clerk hidden TRS
 framework, which also produces time-reversal-like symmetry in systems that
@@ -745,7 +758,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
 
 5. **Albert, Jiang (2014)**: "Symmetries and conserved quantities in Lindblad master equations."
    Phys. Rev. A 89, 022118. [arXiv:1310.1523](https://arxiv.org/abs/1310.1523)
-   *Extended symmetry framework including steady-state structure.*
+   *Symmetries (Buca and Prosen's weak kind) and conserved quantities; steady-state structure.*
 
 6. **Medvedyeva, Essler, Prosen (2016)**: "Exact Bethe ansatz spectrum of a tight-binding chain with dephasing noise."
    Phys. Rev. Lett. 117, 137202. [arXiv:1606.09122](https://arxiv.org/abs/1606.09122)
@@ -798,7 +811,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
    if the second, M_β and hidden TRS.
 
 3. **Complete the sectorwise Sá et al. classification.** Work with the centered
-   Liouvillian L_c, resolve Π² and every other commuting unitary/strong symmetry,
+   Liouvillian L_c, resolve Π², a weak symmetry, and every other commuting unitary symmetry, weak or strong,
    then determine the antiunitary generators and their algebra in each irreducible
    block.
    Direct raw-multiset consecutive-gap ratios retain zero gaps and count undefined

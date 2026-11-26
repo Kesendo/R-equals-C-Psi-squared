@@ -5,7 +5,7 @@
 <!-- Keywords: Prosen PT-symmetric Liouvillian D2 spectral symmetry,
 Haga incoherenton grading XY-weight, eta-pairing Medvedyeva
 Essler Prosen Bethe ansatz, Buca Prosen Lindblad symmetry classification,
-Albert Jiang weak strong symmetry, Lindblad master equation foundations,
+Albert Jiang symmetries and conserved quantities, Lindblad master equation foundations,
 Breuer Petruccione open quantum systems, ENAQT dephasing-assisted transport,
 palindromic spectral structure literature connections, R=CPsi2 literature review,
 direct-sum quantum theory Gaztañaga Einstein-Rosen bridges superselection sectors -->
@@ -81,25 +81,35 @@ to credit both groups.
 
 ### Symmetries of open quantum systems (the language)
 
-Our proof uses the language of weak and strong symmetries of Lindblad
-equations. This framework was developed by:
+The unitary symmetries that commute with a Lindblad generator, weak and
+strong:
 
 - **Buca & Prosen (2012).** "A note on symmetry reductions of the
   Lindblad equation: transport in constrained open spin chains."
   New J. Phys. 14, 073007.
   [arXiv:1203.0943](https://arxiv.org/abs/1203.0943).
-  Introduces the distinction between symmetries that commute with the
-  full Liouvillian (strong) vs. those that commute with each Lindblad
-  operator individually (weak). Shows that weak symmetries reduce the
-  dynamics beyond what Hilbert-space symmetries predict.
+  Introduces the distinction between a weak symmetry, a unitary U whose
+  conjugation ρ ↦ UρU† commutes with the Liouvillian as a whole, and a
+  strong symmetry, a unitary that commutes with the Hamiltonian and with
+  each Lindblad operator individually; a strong symmetry is also weak,
+  not conversely. Both block-diagonalize the Liouvillian, and only a
+  strong one forces several steady states, at least one for each
+  distinct eigenvalue of U.
 
 - **Albert & Jiang (2014).** "Symmetries and conserved quantities in
   Lindblad master equations." Phys. Rev. A 89, 022118.
   [arXiv:1310.1523](https://arxiv.org/abs/1310.1523).
-  Exhaustive characterization of steady-state structure from symmetries.
-  Their weak/strong framework is the correct language for our Π operator:
-  Π is a *weak anti-symmetry* of L (it maps L to −L − 2Σγ·I, rather
-  than leaving L unchanged).
+  Exhaustive characterization of the infinite-time behavior of Lindblad
+  evolution: the steady state reached follows from the initial state, a
+  basis of the steady states and all conserved quantities, and the
+  symmetries block-diagonalize the generator. What they call a symmetry
+  is Buca and Prosen's weak one; anti-commuting symmetries (chiral,
+  parity-time) they mention only in passing. Our Π maps L to
+  −L − 2Σγ·I rather than leaving L unchanged, a kind neither paper
+  classifies ([KMS and Detailed Balance](KMS_DETAILED_BALANCE.md)); the
+  parity-time symmetry they cite is [Prosen's 2012 relation](#pt-symmetric-liouvillians-prosen-2012),
+  the adjoint anti-relation L′P = −P L′† on the generator with its trace
+  removed.
 
 ---
 
@@ -271,8 +281,9 @@ our Π hold for interacting spins (Heisenberg/XXZ) on arbitrary graphs.
 ### Symmetry classification (Buca & Prosen 2012, Albert & Jiang 2014)
 
 See [Foundations](#symmetries-of-open-quantum-systems-the-language) above.
-These papers provide the language but do not identify the specific
-anti-symmetry Π.
+Buca and Prosen name the two kinds of unitary symmetry that commute with
+the generator, and Albert and Jiang's symmetry is the weak one; Π, which
+reflects the generator instead of keeping it, is of neither kind.
 
 ---
 

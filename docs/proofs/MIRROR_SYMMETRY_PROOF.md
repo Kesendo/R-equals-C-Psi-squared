@@ -1074,10 +1074,12 @@ operator by Sá, Ribeiro and Prosen; other groups found pieces. Here is how our 
   solution nor the integrability: Prosen's relation and Π are algebraic
   identities.
 
-- **Albert-Jiang (2014):** Their weak/strong symmetry framework
-  is the right language. Π is a weak anti-symmetry of L (meaning
-  Π transforms L into its negative up to a constant shift, rather
-  than leaving L unchanged, which would be a strong symmetry).
+- **Albert-Jiang (2014):** what they call a symmetry, a unitary whose
+  conjugation leaves L unchanged, is a weak symmetry in the sense of
+  Buča and Prosen ([arXiv:1203.0943](https://arxiv.org/abs/1203.0943));
+  anti-commuting symmetries (chiral, parity-time) they mention only in
+  passing. Π transforms L into its negative up to a constant shift
+  rather than leaving it unchanged, a kind neither paper classifies.
 
 Two placement notes:
 
@@ -1093,12 +1095,13 @@ Two placement notes:
   Π² = U_X commutes with L_c, and in a U_X-parity sector p_x the
   phase-normalized restriction `P_{p_x} = sqrt(p_x) Π|_{p_x}` squares
   to identity. The final BDI/CI/other label remains OPEN until every
-  commuting unitary/strong symmetry is resolved and the full sectorwise
+  commuting unitary symmetry, weak or strong, is resolved and the full sectorwise
   antiunitary algebra is computed. See [KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md).
-  Conjugation by X^⊗N commutes with the XXZ Hamiltonian but sends Z_i → −Z_i, so
-  whether it counts as a strong symmetry depends on which of the
-  competing definitions of that term is used, and we have not done that
-  comparison.
+  X^⊗N commutes with the XXZ Hamiltonian and anticommutes with every
+  jump Z_i, so U_X, the conjugation by it, keeps each dissipator: X^⊗N is a
+  weak symmetry in the sense of Buča and Prosen and not a strong one, and
+  Sá, Ribeiro and Prosen call U_X a weak Liouvillian symmetry in the
+  example of their Eq. (76).
 
 - **Long-range XXZ under dephasing (Wei, Xu, Song, Yan, Pan,
   "Symmetry-Induced Relaxation Comb and Strong Quantum Mpemba Effect in
