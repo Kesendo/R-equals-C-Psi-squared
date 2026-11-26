@@ -127,8 +127,9 @@ reviewers checked it against the stores at source.
   γ = 0.05 the GLOSSARY row gives 2Σγ = 0.30), and this file works throughout in the canonical
   book, in which the far end is −2σ.
   [SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) carries both operator
-  conditions months old and reads them as invariance, which the pairing-condition
-  page already corrects.
+  conditions months old and reads them as invariance, correctly for the two-sided
+  conjugation; the pairing-condition page adds that one-sided multiplication by
+  the same X^⊗N reflects.
 - **[`docs/GLOSSARY.md`](../GLOSSARY.md)** carries the far-end count measured
   three times and named only as modes: *"NONE at all under a generic Hermitian
   H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3,
@@ -251,6 +252,16 @@ because every generator is Hermitian. Write
     𝒲 = {W : [H, W] = 0 and A_l W A_l = −W for every l}   (the anticommutant)
 
 Since A_l² = 1, `A_l X A_l = ±X` is the same statement as `A_l X = ±X A_l`.
+
+In Buča and Prosen's terms ([arXiv:1203.0943](https://arxiv.org/abs/1203.0943)),
+the unitaries in 𝒩 are exactly the strong symmetries of this generator, the
+unitaries U with [U, H] = 0 and [U, A_l] = 0 for every jump. A unitary U in 𝒲
+commutes with H and carries every jump onto its negative, U·A_l·U† = −A_l, so
+the conjugation ρ ↦ UρU† keeps each dissipator and commutes with L: a weak
+symmetry, and not a strong one, since [U, A_l] = 2·U·A_l ≠ 0. Not every
+unitary weak symmetry lies in 𝒩 or 𝒲: one that keeps some jumps and reverses
+others, or exchanges two jumps of equal rate, lies in neither. [The colouring page](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)
+reads a colouring, a Pauli string in 𝒲, this way.
 
 **Two fences, both load bearing, and one consequence.** The rate fence is gated (10b);
 Hermitian jumps with `A² = 1` are the boundary of the stated class, and the theorem rests on two hypotheses: the hermiticity makes the dissipator self-adjoint, which sufficiency spends, and `A² = 1` then makes each jump unitary, which the three lemmas and necessity spend; even total d follows (below).
@@ -627,7 +638,7 @@ The sweep went to every store by name through one scout and by hand, by the prim
 
 Call the elements of 𝒲 far elements and those of 𝒩 near elements. Lemma 3 leaves no invertible far element on a row with 0 < dim 𝒲 < dim 𝒩, and the theorem then says the multiset breaks. The far elements that do exist still say where part of the spectrum pairs. 𝒲 is closed under the adjoint, H and every A_l being Hermitian, so it is spanned by Hermitian elements; let W ∈ 𝒲 be Hermitian, V its range and r = dim V.
 
-1. *V and V^⊥ are invariant under H and under every jump.* H·W·v = W·H·v and A_l·W·v = −W·A_l·v, so H and each A_l map V into itself, and being Hermitian they keep V^⊥ too. Equivalently, the projector P_V onto V commutes with H and with every jump, so every unitary e^{iφP_V} is a strong symmetry in the sense of Buča and Prosen ([arXiv:1203.0943](https://arxiv.org/abs/1203.0943): a unitary U with [U, H] = 0 and [U, A_l] = 0 for every jump), and for e^{iφ} ≠ 1 the four parts below are the invariant subspaces into which it splits the generator. ℋ = V ⊕ V^⊥ splits L into four L-invariant parts, mutually orthogonal: the system on V, the system on V^⊥, and two cross parts, the operators with ket in V^⊥ and bra in V and those with ket in V and bra in V^⊥.
+1. *V and V^⊥ are invariant under H and under every jump.* H·W·v = W·H·v and A_l·W·v = −W·A_l·v, so H and each A_l map V into itself, and being Hermitian they keep V^⊥ too. Equivalently, the projector P_V onto V commutes with H and with every jump, so every unitary e^{iφP_V} lies in 𝒩 and is a strong symmetry in the sense of Buča and Prosen (§(a)), and for e^{iφ} ≠ 1 the four parts below are the invariant subspaces into which it splits the generator. ℋ = V ⊕ V^⊥ splits L into four L-invariant parts, mutually orthogonal: the system on V, the system on V^⊥, and two cross parts, the operators with ket in V^⊥ and bra in V and those with ket in V and bra in V^⊥.
 2. *The system on V pairs.* On V, W is invertible (it is Hermitian with range V), commutes with H restricted to V and anticommutes with every A_l restricted to V, which are Hermitian and square to the identity there. The theorem applies to the system on V, and its r² eigenvalues pair about −σ.
 3. *The two cross parts pair together.* For every operator ρ,
 
