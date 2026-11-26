@@ -44,7 +44,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// the ring of bonds X_l·Y_(l+1) (<see cref="SignedMaskBalanceClaim.DisjointBondSum"/>), each and its product with Z^⊗N commuting with H
 /// exactly, with H² = Σ c_l² + 2·Q₂ from four sites on and the top terms' commutators at unit coefficients, and on the odd ring the operators with N − 1 X or Y letters commuting with H counted exactly, 2N + 2, between the kernel
 /// modulo a prime and Corollary A″'s count plus those two; the worked examples of the page.
-/// Twenty-eight controls show the
+/// Thirty controls show the
 /// battery can fail: the widths swapped in
 /// N*, the quotients swapped in c and the power 2^(v₂(N)) dropped from the ring law each disagree with Theorem 2 somewhere,
 /// Theorem D with the parity of N for 2^(v₂(N)) or with i₀ at the greatest valuation disagrees with the balance, and
@@ -60,7 +60,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// misses it, and Corollary A″ with no letter struck, with the next site's letters struck for one site, or with the
 /// diagonal strings ignored where one is odd off the agreeing sites, disagrees with Theorem 2's count, and the triangle's
 /// closed form handed the rate of a site on each bond in place of the site opposite it, or its odd term alone without
-/// Corollary A″'s single sites, disagrees with that compression.</para></summary>
+/// Corollary A″'s single sites, disagrees with that compression, and Corollary E2 read over N with its key cut to the 2-adic
+/// part, or with v_π(f) in place of min(v_π(f), 2^(v₂(N))) in the read-set test, disagrees with the verdict or the test.</para></summary>
 public sealed class SignedMaskBalanceWitness : IInspectable
 {
     /// <summary>The largest ring read (the graph has 2^N vertices).</summary>
@@ -113,6 +114,14 @@ public sealed class SignedMaskBalanceWitness : IInspectable
     public IReadOnlyDictionary<SignedMaskBalanceClaim.ChainShapeBranch, int> E3Branches { get; private set; } = new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>();
     /// <summary>How often each branch of Corollary E2 decided a ring read against Theorem 2.</summary>
     public IReadOnlyDictionary<SignedMaskBalanceClaim.RingShapeBranch, int> E2Branches { get; private set; } = new Dictionary<SignedMaskBalanceClaim.RingShapeBranch, int>();
+    /// <summary>Corollary E2 read over N with the key cut to its 2-adic part (the orders shared with the reverse dropped): readings
+    /// whose verdict differs from an earlier one at the same cut key.</summary>
+    public int PeriodTwoAdicOnlyMismatches { get; private set; }
+    /// <summary>The closed form of the read-set test with v_π(f) in place of min(v_π(f), 2^v₂(N)):
+    /// readings where it then disagrees with the test.</summary>
+    public int PeriodUncappedMismatches { get; private set; }
+    /// <summary>Readings of the period family where 1 + x divides f and (1) holds, each of which must have a real ω.</summary>
+    public int PeriodRealReadings { get; private set; }
     /// <summary>How many of Theorem B′'s drawn cells break for large N.</summary>
     public int BPrimeBreaking { get; private set; }
     /// <summary>How many of those cells have an unreduced basis whose leading coefficient matrix falls short of rank k − 1
@@ -218,7 +227,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                                  && PackingOverlapMismatches > 0 && CutWhereChainBreaksMismatches > 0 && CycleDoubleCountMismatches > 0
                                  && HopControlMisses > 0 && MovedCarrierNotQuadratic > 0
                                  && AgreeOnUnstruckMismatches > 0 && AgreeOnWrongSiteMismatches > 0 && AgreeOnDiagonalIgnoredMismatches > 0
-                                 && TriangleRotatedMismatches > 0 && TriangleOddOnlyMismatches > 0;
+                                 && TriangleRotatedMismatches > 0 && TriangleOddOnlyMismatches > 0
+                                 && PeriodTwoAdicOnlyMismatches > 0 && PeriodUncappedMismatches > 0;
 
     // the GF(2) rank of a set of masks
     static int Rank(int[] vectors)
@@ -263,6 +273,59 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         }
         var (near, far, _) = ComplementConnectionGraph.EverySiteDephased(n, ComplementConnectionGraph.Columns(n, placed));
         return near == far;
+    }
+
+    // The one-shape cells of Corollary E2 read over N, widths two to maxWidth, a mask m with a letter at each end and the
+    // strings on it written by their Z parts z (Y on m ∩ z, X on m \ z, Z off m on z): two strings of one parity of |z|
+    // (one sign, R = ∅); two strings z, z ⊕ R with |R| odd and |R \ m| even (ω = ±i, the numbers of Y differing by an odd
+    // number); four strings z_e, z_e ⊕ R, z_o, z_o ⊕ R with |R| even, |R \ m| even, |z_e| even and |z_o| odd, their
+    // coefficients set by the pairing equation (−1)^|z|·ĝ(z) = ω·ĝ(z ⊕ R) for ω = ±1. A cell whose ratio is still no
+    // character is left to RingOneShape's branch Outside.
+    static List<(string T, long C)[]> PeriodFamily(int maxWidth)
+    {
+        var cells = new List<(string T, long C)[]>();
+        for (int w = 2; w <= maxWidth; w++)
+            for (ulong mid = 0; mid < 1UL << (w - 2); mid++)
+            {
+                ulong m = 1UL | (1UL << (w - 1)) | (mid << 1);
+                int all = 1 << w;
+                string L(ulong z) => new string(Enumerable.Range(0, w).Select(j => (((m >> j) & 1) == 1, ((z >> j) & 1) == 1) switch
+                    { (true, true) => 'Y', (true, false) => 'X', (false, true) => 'Z', _ => 'I' }).ToArray());
+                int Ys(ulong z) => BitOperations.PopCount(z & m);
+                static int Size(ulong v) => BitOperations.PopCount(v);
+                static long Turn(int delta) => ((delta / 2) & 1) == 0 ? 1 : -1;
+                for (ulong z1 = 0; z1 < (ulong)all; z1++)
+                    for (ulong z2 = z1 + 1; z2 < (ulong)all; z2++)
+                        if (((Size(z1) ^ Size(z2)) & 1) == 0)
+                            foreach (long s in new[] { 1L, -1L }) cells.Add(new[] { (L(z1), 1L), (L(z2), s) });
+                for (ulong r = 1; r < (ulong)all; r++)
+                {
+                    if ((Size(r & ~m) & 1) == 1) continue;
+                    if ((Size(r) & 1) == 1)
+                    {
+                        for (ulong z = 0; z < (ulong)all; z++)
+                            if ((z ^ r) > z)
+                                foreach (long s in new[] { 1L, -1L }) cells.Add(new[] { (L(z), 1L), (L(z ^ r), s) });
+                        continue;
+                    }
+                    foreach (long om in new[] { 1L, -1L })
+                        for (ulong ze = 0; ze < (ulong)all; ze++)
+                        {
+                            if ((Size(ze) & 1) == 1 || (ze ^ r) < ze) continue;
+                            for (ulong zo = 0; zo < (ulong)all; zo++)
+                            {
+                                if ((Size(zo) & 1) == 0 || (zo ^ r) < zo) continue;
+                                foreach (long s in new[] { 1L, -1L })
+                                    cells.Add(new[]
+                                    {
+                                        (L(ze), 1L), (L(ze ^ r), om * Turn(Ys(ze) - Ys(ze ^ r))),
+                                        (L(zo), s), (L(zo ^ r), -om * s * Turn(Ys(zo) - Ys(zo ^ r))),
+                                    });
+                            }
+                        }
+                }
+            }
+        return cells;
     }
 
     // Corollary E3's templates of the given widths: one string with a letter at each end, or two different strings on one
@@ -785,6 +848,94 @@ public sealed class SignedMaskBalanceWitness : IInspectable
             families.Add(new FamilyReading("Corollary E2: one flip shape on the ring, against Theorem 2 to the cap", e2Cells, e2Readings, e2Mismatches, e2First));
             families.Add(new FamilyReading("Corollary E2 against Theorem E's elimination, rings past the cap to N = 40", e2Cells, e2Far, e2FarMismatches, e2FarFirst, "Theorem E"));
             E2Branches = branches;
+        }
+
+        // Corollary E2 read over N (the remark "Which ring sizes break"): the one-shape cells of PeriodFamily to width
+        // four on the rings from the guard to 63. (a) The verdict is constant on RingOneShapeKey's classes, and the key
+        // without the orders shared with the reverse must fail. (b) Wherever (1) holds, h = gcd(f, x^n + 1) fails to divide R exactly
+        // where ReadSetTestFails says, over the factors of gcd(f, f*); read without its 2-power cap it must fail. (c) Wherever
+        // 1 + x divides f and (1) holds, ω is real. (d) Named cells of widths four, five and seven (the remark's six and the
+        // Φ₇ and Φ₉ cells): their break sets read by Corollary E2 to 63, and Theorem 2 against Corollary E2 from the guard
+        // to the largest ring read, MaxRing (the width-seven cells' guard of 13 lies past it).
+        {
+            int pcells = 0, keyReadings = 0, keyMismatches = 0, twoAdicOnly = 0, oddReadings = 0, oddMismatches = 0, uncapped = 0;
+            int realReadings = 0, realMismatches = 0, namedReadings = 0, namedMismatches = 0, namedTheorem2 = 0, namedTheorem2Mismatches = 0, namedTheorem2Cells = 0;
+            string? keyFirst = null, oddFirst = null, realFirst = null, namedFirst = null, namedTheorem2First = null;
+            static string Named(IReadOnlyList<(string T, long C)> t) => string.Join(" ", t.Select((s, k) => k == 0 ? s.T : $"{s.C:+0;-0}{s.T}"));
+            foreach (var terms in PeriodFamily(4))
+            {
+                int w = terms.Max(t => t.T.Length);
+                var first = new Dictionary<(int, int), bool>();
+                var firstTwoAdic = new Dictionary<(int, int), bool>();
+                bool counted = false;
+                for (int n = Math.Max(3, 2 * w - 1); n <= 63; n++)
+                {
+                    var (breaks, branch) = SignedMaskBalanceClaim.RingOneShape(terms, n);
+                    if (branch == SignedMaskBalanceClaim.RingShapeBranch.Outside) continue;
+                    if (!counted) { pcells++; counted = true; }
+                    keyReadings++;
+                    var key = SignedMaskBalanceClaim.RingOneShapeKey(terms, n);
+                    if (!first.TryAdd(key, breaks) && first[key] != breaks) { keyMismatches++; keyFirst ??= $"{Named(terms)} on the ring of {n}"; }
+                    var two = SignedMaskBalanceClaim.RingOneShapeKey(terms, n, twoAdicOnly: true);
+                    if (!firstTwoAdic.TryAdd(two, breaks) && firstTwoAdic[two] != breaks) twoAdicOnly++;
+                    if (SignedMaskBalanceClaim.ReadSetReading(terms, n) is not { Squares: true } r) continue;
+                    oddReadings++;
+                    if (SignedMaskBalanceClaim.ReadSetTestFails(r.F, r.Read, n) == r.HDividesReadSet)
+                    { oddMismatches++; oddFirst ??= $"{Named(terms)} on the ring of {n}"; }
+                    if (SignedMaskBalanceClaim.ReadSetTestFails(r.F, r.Read, n, capByTwoPower: false) == r.HDividesReadSet) uncapped++;
+                    if ((BitOperations.PopCount(r.F) & 1) == 1) continue;
+                    realReadings++;
+                    if ((r.Quarter & 1) == 1) { realMismatches++; realFirst ??= $"{Named(terms)} on the ring of {n}"; }
+                }
+            }
+            var named = new (string Name, (string T, long C)[] Terms, Func<int, bool> Breaks)[]
+            {
+                ("XXXXX + XXYXX (Φ₅, R = x²)", new[] { ("XXXXX", 1L), ("XXYXX", 1L) }, n => n % 5 == 0),
+                ("XXXXX − XXYXX", new[] { ("XXXXX", 1L), ("XXYXX", -1L) }, n => n % 5 == 0),
+                ("XIXIX + XZYZX (Φ₃², R = x·Φ₃)", new[] { ("XIXIX", 1L), ("XZYZX", 1L) }, n => n % 6 == 0),
+                ("XIXIX + XIYIX (Φ₃², R = x²)", new[] { ("XIXIX", 1L), ("XIYIX", 1L) }, n => n % 3 == 0),
+                ("XXIX + YYIY (order 7, its reverse not in f)", new[] { ("XXIX", 1L), ("YYIY", 1L) }, n => false),
+                ("XXXX + XYYX + YXXX − YYYX ((1 + x)³, R = x + x²)", new[] { ("XXXX", 1L), ("XYYX", 1L), ("YXXX", 1L), ("YYYX", -1L) }, n => n % 2 == 0),
+                ("XXXXXXX + XXXYXXX (Φ₇)", new[] { ("XXXXXXX", 1L), ("XXXYXXX", 1L) }, n => n % 7 == 0),
+                ("XIIXIIX + XIIYIIX (Φ₉)", new[] { ("XIIXIIX", 1L), ("XIIYIIX", 1L) }, n => n % 9 == 0),
+            };
+            foreach (var (name, terms, expected) in named)
+            {
+                int w = terms.Max(t => t.T.Length);
+                for (int n = 2 * w - 1; n <= 63; n++)
+                {
+                    namedReadings++;
+                    var (breaks, branch) = SignedMaskBalanceClaim.RingOneShape(terms, n);
+                    if (branch == SignedMaskBalanceClaim.RingShapeBranch.Outside || breaks != expected(n)) { namedMismatches++; namedFirst ??= $"{name} on the ring of {n}"; }
+                    // the read-set test's closed form on the named cells wider than the family (the two of width four are
+                    // family members, read above), where a factor with multiplicity two lives (Φ₃² at width five): there
+                    // the uncapped reading must fail
+                    if (w > 4 && SignedMaskBalanceClaim.ReadSetReading(terms, n) is { Squares: true } r)
+                    {
+                        oddReadings++;
+                        if (SignedMaskBalanceClaim.ReadSetTestFails(r.F, r.Read, n) == r.HDividesReadSet)
+                        { oddMismatches++; oddFirst ??= $"{name} on the ring of {n}"; }
+                        if (SignedMaskBalanceClaim.ReadSetTestFails(r.F, r.Read, n, capByTwoPower: false) == r.HDividesReadSet) uncapped++;
+                    }
+                    if (n > MaxRing) continue;
+                    if (n == 2 * w - 1) namedTheorem2Cells++;
+                    namedTheorem2++;
+                    if (PairsOnRing(n, terms) == breaks) { namedTheorem2Mismatches++; namedTheorem2First ??= $"{name} on the ring of {n}"; }
+                }
+            }
+            families.Add(new FamilyReading("Corollary E2 over N: the verdict constant on the key (v₂(N) capped, the odd orders of gcd(f, f*) dividing N), widths two to four, guard to 63",
+                pcells, keyReadings, keyMismatches, keyFirst, "Corollary E2 at the same key"));
+            families.Add(new FamilyReading("Corollary E2 over N, where (1) holds from the guard on: h fails to divide R exactly at a factor π of gcd(f, f*) with ord(π) | N and min(v_π(f), 2^v₂(N)) > v_π(R)",
+                pcells + named.Count(c => c.Terms.Max(t => t.T.Length) > 4), oddReadings, oddMismatches, oddFirst, "the read-set test"));
+            families.Add(new FamilyReading("Corollary E2 over N: 1 + x dividing f with (1) holding forces a real ω, widths two to four, guard to 63",
+                pcells, realReadings, realMismatches, realFirst, "the quarter"));
+            families.Add(new FamilyReading("Corollary E2 over N: the named break sets of widths four, five and seven, guard to 63",
+                named.Length, namedReadings, namedMismatches, namedFirst, "the remark"));
+            families.Add(new FamilyReading("Corollary E2 over N: the named cells against Theorem 2, guard to the largest ring read",
+                namedTheorem2Cells, namedTheorem2, namedTheorem2Mismatches, namedTheorem2First));
+            PeriodTwoAdicOnlyMismatches = twoAdicOnly;
+            PeriodUncappedMismatches = uncapped;
+            PeriodRealReadings = realReadings;
         }
 
         // Corollary E3: two templates of different flip shapes on the chain, each one string or two on one mask, with a
@@ -1844,7 +1995,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
         $"{Families.Where(f => f.Against == "exact arithmetic").Sum(f => f.Readings)} exact readings of two of the triangle's premises and of the sums over disjoint bonds, " +
         $"{Families.Where(f => f.Against == "the compression").Sum(f => f.Readings)} of the triangle at large J against the rates compressed onto the eigenspaces of the commutator with H, " +
         $"{Families.Where(f => f.Against == "both bounds").Sum(f => f.Readings)} of the operators with N − 1 X or Y letters at one rate; the triangle's closed form handed the rate of a site on each bond, " +
-        $"or its odd term alone, disagree {TriangleRotatedMismatches}, {TriangleOddOnlyMismatches} times";
+        $"or its odd term alone, disagree {TriangleRotatedMismatches}, {TriangleOddOnlyMismatches} times; " +
+        $"Corollary E2 read over N with the key cut to its 2-adic part, and the read-set test read without the 2-power cap, disagree {PeriodTwoAdicOnlyMismatches}, {PeriodUncappedMismatches} times";
 
     public IEnumerable<IInspectable> Children
     {
@@ -1880,7 +2032,8 @@ public sealed class SignedMaskBalanceWitness : IInspectable
                          $"Corollary H2 with k·λ_* in place of (k/2)·λ_*: {CycleDoubleCountMismatches} of {CycleRelations} relations (against λ_min of 𝓜); " +
                          $"Corollary H3's reading replaced by Theorem H read string by string: {HopControlMisses} of {HopReadings} readings (against λ_min of 𝓜); " +
                          $"Corollary A″ with no letter struck: {AgreeOnUnstruckMismatches}, with the next site's letters struck for one site: {AgreeOnWrongSiteMismatches} (on the chain; on the ring the two verdicts agree by translation), with the diagonal strings ignored where one is odd off Λ: {AgreeOnDiagonalIgnoredMismatches} (all against Theorem 2's count with the complement taken on the sites outside the agreeing ones); " +
-                         $"the triangle's closed form handed the rate of a site on each bond in place of the site opposite it: {TriangleRotatedMismatches}, its odd term alone, without Corollary A″'s single sites: {TriangleOddOnlyMismatches} (both against the rates compressed onto the eigenspaces of the commutator with H)",
+                         $"the triangle's closed form handed the rate of a site on each bond in place of the site opposite it: {TriangleRotatedMismatches}, its odd term alone, without Corollary A″'s single sites: {TriangleOddOnlyMismatches} (both against the rates compressed onto the eigenspaces of the commutator with H); " +
+                         $"Corollary E2 read over N with the key cut to min(v₂(N), ⌈log₂ w⌉ + 1) alone, the orders shared with the reverse dropped: {PeriodTwoAdicOnlyMismatches} (against the verdict at the same cut key), the read-set test read with v_π(f) in place of min(v_π(f), 2^v₂(N)): {PeriodUncappedMismatches} (against the read-set test)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 displayName: "Theorem H's solver, measured",

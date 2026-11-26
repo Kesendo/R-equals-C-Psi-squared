@@ -11918,6 +11918,7 @@ window (Theorem G).
     several strings per flip set, r_m(x) = ω_m·(−1)^⟨R_m, x⟩:  palindrome  ⟺  ⟨R_a, b⟩ = ⟨R_b, a⟩,  ⊕_u R_m = 0,  hol(u) = 1  for every relation u    (Theorem E)
     the ℤ/4 form, ω_m = i^(q_m), β(a, b) = ⟨R(a), b⟩ on W = span of the flip sets:  palindrome  ⟺  R linear on W and a refinement Q₀(a ⊕ b) = Q₀(a) + Q₀(b) + 2β(a, b) with Q₀(m) = q_m exists;  carrier X^⊗N·i^(−Q₀(w) − 2⟨R(w), x₀⟩), a Clifford (the exponent a ℤ/4 quadratic form on all bitstrings, x₀ linear in x)
     one flip shape f on the ring of N ≥ 2w − 1, (1) holding, h = gcd(f, x^N + 1), g = (x^N + 1)/h:  pairs  ⟺  h = 1,  or  h | R and (1 + x ∤ h or hol(g) = 1)    (X·(X ± Y)·X: 3 ∤ N)
+    the same read over N, f* = f read backwards, o(π) the least d with π | x^d + 1:  h ∤ R at π  ⟺  o(π) | N and min(v_π(f), 2^(v₂(N))) > v_π(R),  for π ≠ 1 + x only where π | f*;  hol(g) read through 2^(v₂(N)) alone, 1 once 2^(v₂(N)) > 2^⌈log₂ w⌉:  the pairing N a finite union of residue classes    (XXXXX + XXYXX: 5 ∤ N;  XIXIX + XZYZX: 6 ∤ N)
     two flip shapes on the chain, (1) holding at N, D = q₂R₁ + q₁R₂:  pairs  ⟺  N < N*,  or  D = 0 and hol(u₀) = 1,  u₀ = (q₂, q₁) the relation r = 1    (D = 0 where (1) holds at every offset)
     k flip shapes on the chain, (1) holding at N, ρ(u) = Σ uᵢRᵢ, bⱼ a reduced basis of the relations:  pairs  ⟺  N < min{sdeg bⱼ : ρ(bⱼ) ≠ 0, or ρ(bⱼ) = 0 and hol(bⱼ) = −1}    (Corollary E3′)
     the long chain is the large ring:  B′ breaks for some N  ⟺  Theorem D breaks at T > v₀,  for any number of templates
@@ -11964,7 +11965,7 @@ and moved by one quarter on one component off the span of the flip sets, a fifte
 of the 1858 paired readings of these and of the ℤ/4 form's four-string family (the sixteen products (aX + bY)⊗(cX + dY)
 on the ring and X ⊗ 2·CZ, 74 paired), exactly where that span has codimension two or more; Corollary E3′ agrees with Corollary E3 branch for branch at two templates
 (2848 readings) and with Theorem 2 on 700 three-shape cells (4200), its two controls disagreeing on 4 and 6; whether B′
-breaks agrees with Theorem D on the ring of 64 on its 600 cells; and at odd q, |g|² = A(x)² + A(x̄)² holds exactly on
+breaks agrees with Theorem D on the ring of 64 on its 600 cells; Corollary E2 read over N on 1676 one-shape cells of widths two to four (a flipping letter at each end, coefficients ±1, two or four strings per flip set, a character ratio) from the guard to N = 63 (95836 readings), the verdict the same wherever min(v₂(N), ⌈log₂ w⌉ + 1) and the orders dividing N agree, h | R against its factor-by-factor form on 38998 readings where (1) holds, the named cells of widths five and seven among them, ω real on 27668 where also 1 + x divides f, and eight named cells by E2 to N = 63 and six of them against Theorem 2 to N = 12, its two controls (the key without the orders, the test without its 2-power cap) disagreeing on 2544 and 3722; and at odd q, |g|² = A(x)² + A(x̄)² holds exactly on
 546 solutions of the pairing equation, the real part's complementary zeros deciding where g vanishes (346 nowhere); beside the
 battery, eighteen of the page's rows on the Liouvillian's full spectrum at random non-uniform rates agree with Theorem 2's
 two counts and with the page. Theorem F by its own battery `TorusMaskBalanceWitness`: against Theorem 2 on tori to 4 × 4, the balance

@@ -12,7 +12,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The live battery of F173: the claim's GF(2) readings agree with Theorem 2 of the complement connection,
 /// walked on the bitstrings (Theorems D and B′ also against the balance), on every family the witness reads, and the
-/// twenty-eight controls of its summary (among them the pieces of Theorem B swapped, the power dropped from Theorem C,
+/// thirty controls of its summary (among them the pieces of Theorem B swapped, the power dropped from Theorem C,
 /// Theorem E's conditions each dropped, Theorem H with every rate read as one or in reverse site order, Corollary A″
 /// with no letter struck, with the next site's letters struck or with the diagonal ignored, and the triangle's closed form
 /// handed the rate of a site on each bond or read without Corollary A″'s single sites) disagree, so the battery can fail.</summary>
@@ -26,9 +26,12 @@ public class SignedMaskBalanceWitnessTests
         Assert.True(w.AllAgree);
         Assert.True(w.ControlsBreak, $"controls {w.SwappedWidthsMismatches}, {w.SwappedQuotientsMismatches}, {w.DroppedRingPowerMismatches}, " +
                                      $"{w.ParityOnlyMismatches}, {w.MostValuedMismatches}, {string.Join(",", w.DroppedConditionMismatches)}, {w.DroppedReadSetMismatches}, {w.DroppedOrderingMismatches}, {w.DroppedReadSumMismatches}, {w.DroppedE3OrderingMismatches}, {w.UnreducedBasisMismatches}, {w.DroppedCosetTermMismatches}, {w.DroppedE3PrimeReadSumMismatches}, {w.DroppedE3PrimeOrderingMismatches}, {w.RatesReadAwayMismatches}, {w.RatesReversedMismatches}, {w.PackingOverlapMismatches}, {w.CutWhereChainBreaksMismatches}, {w.CycleDoubleCountMismatches}, {w.HopControlMisses}, {w.AgreeOnUnstruckMismatches}, {w.AgreeOnWrongSiteMismatches}, {w.AgreeOnDiagonalIgnoredMismatches}, {w.MovedCarrierNotQuadratic}, {w.TriangleRotatedMismatches}, {w.TriangleOddOnlyMismatches}");
-        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (242, 25054), (32, 36), (1, 243), (240, 240), (27, 322), (8, 8), (24, 24) },
+        Assert.Equal(new[] { (864, 3024), (368, 1036), (19, 32), (49, 290), (1, 8), (1694, 9140), (1046, 28232), (416, 10418), (20, 100), (600, 9901), (600, 4800), (600, 600), (648, 648), (428, 3936), (16, 128), (428, 3936), (17, 108), (352, 2176), (352, 10560), (1676, 95836), (1682, 38998), (1676, 27668), (8, 436), (6, 28), (128, 768), (928, 1856), (32, 224), (1088, 2848), (500, 3000), (200, 1200), (80, 80), (864, 6912), (1292, 10408), (10, 30), (428, 1552), (428, 192), (864, 15552), (432, 4528), (864, 3456), (242, 25054), (32, 36), (1, 243), (240, 240), (27, 322), (8, 8), (24, 24) },
             w.Families.Select(f => (f.Cells, f.Readings)).ToArray());                                // measured
         Assert.Equal(new Dictionary<int, int> { [5] = 6, [6] = 8 }, w.F115FloorsAtK4);
+        // Corollary E2 read over N: the key cut to its 2-adic part and the read-set test without its 2-power cap disagree, and
+        // the readings where 1 + x divides f with (1) holding, each with a real ω, are not none
+        Assert.Equal((2544, 3722, 27668), (w.PeriodTwoAdicOnlyMismatches, w.PeriodUncappedMismatches, w.PeriodRealReadings));   // measured, quoted on the page
         Assert.Equal(new Dictionary<SignedMaskBalanceClaim.ChainShapeBranch, int>                     // measured, quoted on the page
             {
                 [SignedMaskBalanceClaim.ChainShapeBranch.SquaresFail] = 928, [SignedMaskBalanceClaim.ChainShapeBranch.NoRelation] = 192,

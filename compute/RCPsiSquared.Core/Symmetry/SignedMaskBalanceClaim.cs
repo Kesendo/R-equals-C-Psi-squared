@@ -1463,6 +1463,116 @@ public sealed class SignedMaskBalanceClaim : Claim
         return quarter % 4 == 0 ? (false, RingShapeBranch.HolonomyPlus) : (true, RingShapeBranch.HolonomyMinus);
     }
 
+    // ---------------------------------------------------------------- Corollary E2 read over N
+
+    /// <summary>A polynomial over GF(2) read backwards, x^deg·p(1/x): for a mask, the mask with its sites in reverse order.</summary>
+    public static ulong Reversed(ulong p)
+    {
+        if (p == 0) return 0;
+        ulong r = 0;
+        int d = Deg(p);
+        for (int j = 0; j <= d; j++) if (((p >> j) & 1) == 1) r |= 1UL << (d - j);
+        return r;
+    }
+
+    /// <summary>How often the irreducible π divides p over GF(2); int.MaxValue for p = 0.</summary>
+    public static int Multiplicity(ulong p, ulong pi)
+    {
+        if (p == 0) return int.MaxValue;
+        int v = 0;
+        while (Mod(p, pi) == 0) { p = Div(p, pi); v++; }
+        return v;
+    }
+
+    /// <summary>The order of an irreducible π with π(0) = 1: the least d ≥ 1 with π | x^d + 1.</summary>
+    public static int Order(ulong pi)
+    {
+        if ((pi & 1) == 0 || Deg(pi) < 1) throw new ArgumentException("π must have a constant term and positive degree", nameof(pi));
+        if (Deg(pi) > 30) throw new ArgumentException("degree above 30", nameof(pi));
+        ulong power = Mod(0b10, pi);
+        // an irreducible π of degree m has an order dividing 2^m − 1
+        for (int d = 1; d < 1 << Deg(pi); d++)
+        {
+            if (power == 1) return d;
+            power = Mod(power << 1, pi);
+        }
+        throw new ArgumentException("π is not irreducible", nameof(pi));
+    }
+
+    /// <summary>The irreducible factors over GF(2) of a nonzero p, each once, by trial division in increasing order.</summary>
+    static IEnumerable<ulong> DistinctFactors(ulong p)
+    {
+        if (p == 0) throw new ArgumentException("zero has no factorization", nameof(p));
+        for (ulong q = 2; p != 1 && 2 * Deg(q) <= Deg(p); q++)
+        {
+            if (Mod(p, q) != 0) continue;
+            yield return q;
+            while (Mod(p, q) == 0) p = Div(p, q);
+        }
+        if (Deg(p) >= 1) yield return p;
+    }
+
+    /// <summary>The irreducible factors of gcd(f, f*), f* the shape of the mask f read backwards, each with its multiplicity
+    /// in f and its order (1 for 1 + x). The remark "Which ring sizes break" under Corollary E2: where (1) holds on the ring
+    /// of n ≥ 2w − 1 sites, only these can fail the read-set test, and only the orders of the odd ones (order above 1)
+    /// enter the odd part of a period in N.</summary>
+    public static IReadOnlyList<(ulong Factor, int InMask, int Order)> FactorsSharedWithReverse(ulong f)
+    {
+        f = Shape(f);
+        return DistinctFactors(Gcd(f, Reversed(f))).Select(pi => (pi, Multiplicity(f, pi), Order(pi))).ToList();
+    }
+
+    /// <summary>The closed form of Corollary E2's read-set test: some factor π of gcd(f, f*) has ord(π) | n and
+    /// min(v_π(f), 2^(v₂(n))) &gt; v_π(R), that is π^(v_π(R) + 1) divides both f and x^n + 1. Where (1) holds on the ring
+    /// of n ≥ 2w − 1 sites this is exactly h = gcd(f, x^n + 1) failing to divide R (<see cref="ReadSetReading"/>). With capByTwoPower false the
+    /// minimum is read as v_π(f) alone, the reading that misses the ring's 2-adic part.</summary>
+    public static bool ReadSetTestFails(ulong f, ulong read, int n, bool capByTwoPower = true)
+    {
+        int big = 1 << BitOperations.TrailingZeroCount((uint)n);
+        foreach (var (pi, inMask, order) in FactorsSharedWithReverse(f))
+            if (n % order == 0 && (capByTwoPower ? Math.Min(inMask, big) : inMask) > Multiplicity(read, pi)) return true;
+        return false;
+    }
+
+    /// <summary>Corollary E2's setting read at one ring: the shape f, the read set R of its flip set at p = 0 (bits on the
+    /// ring of n sites), its quarter q (ω = i^q), whether the squares close ((1) on the ring), and whether
+    /// h = gcd(f, x^n + 1) divides R. Null where a flip set's moduli differ or its ratio is no character.</summary>
+    public static (ulong F, ulong Read, int Quarter, bool Squares, bool HDividesReadSet)? ReadSetReading(
+        IReadOnlyList<(string T, long C)> templates, int n)
+    {
+        var masks = templates.Select(t => Mask(t.T)).ToList();
+        ulong f = Shape(masks[0]);
+        if (masks.Any(m => Shape(m) != f)) throw new ArgumentException("the templates must share one flip shape");
+        var flips = PlaceStrings(templates, n, ring: true).Where(s => s.X != 0).GroupBy(s => s.X)
+            .ToDictionary(gr => gr.Key, gr => ReadRatio(gr.Key, gr.ToList()));
+        if (flips.Values.Any(r => r.Kind != RatioKind.Character)) return null;
+        static int Parity(ulong v) => BitOperations.PopCount(v) & 1;
+        bool squares = flips.Values.All(p => flips.Values.All(q => Parity(p.Read & q.Mask) == Parity(q.Read & p.Mask)));
+        ulong h = Gcd(f, (1UL << n) | 1UL);
+        var zero = flips[f];
+        return (f, zero.Read, zero.Quarter, squares, Mod(zero.Read, h) == 0);
+    }
+
+    /// <summary>The key through which Corollary E2's verdict depends on n, from the guard 2w − 1 on (the remark "Which ring
+    /// sizes break"): min(v₂(n), ⌈log₂ w⌉ + 1), and the set of odd factors of <see cref="FactorsSharedWithReverse"/>
+    /// (order above 1) whose order divides n (bit i for the i-th). With twoAdicOnly the second part is dropped, the
+    /// reading that sees only Theorem D's 1 + x.</summary>
+    public static (int TwoAdic, int Orders) RingOneShapeKey(IReadOnlyList<(string T, long C)> templates, int n, bool twoAdicOnly = false)
+    {
+        var masks = templates.Select(t => Mask(t.T)).ToList();
+        ulong f = Shape(masks[0]);
+        if (masks.Any(m => Shape(m) != f)) throw new ArgumentException("the templates must share one flip shape");
+        int w = templates.Max(t => t.T.Length), k = 0;
+        while ((1 << k) < w) k++;
+        int twoAdic = Math.Min(BitOperations.TrailingZeroCount((uint)n), k + 1), orders = 0;
+        if (!twoAdicOnly)
+        {
+            var odd = FactorsSharedWithReverse(f).Where(t => t.Order > 1).ToList();
+            for (int i = 0; i < odd.Count; i++) if (n % odd[i].Order == 0) orders |= 1 << i;
+        }
+        return (twoAdic, orders);
+    }
+
     /// <summary>Which branch of Corollary E3 decided a chain.</summary>
     public enum ChainShapeBranch { ModuliDiffer, SquaresFail, NoRelation, ReadSumNonzero, HolonomyPlus, HolonomyMinus, Outside }
 
