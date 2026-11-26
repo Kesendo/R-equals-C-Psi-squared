@@ -66,8 +66,9 @@ public class SieveTests
     }
 
     // The window family's chain residue, X·(X ± Y)·X and its relatives (the outer letters X or Y, the middle a letter of
-    // X plus or minus Y), read by the free chain from six sites on, the stitch at three and the end count at four and
-    // five below it: Read, and with it the window family's chain holds no residue.
+    // X plus or minus Y), read by the free chain from four sites on (both templates of width three with a flipping letter
+    // at each end, so the free chain reads from three, where the stitch's yes comes first): Read, and with it the window
+    // family's chain holds no residue.
     [Fact]
     public void The_Window_Residue_On_The_Chain_Is_Read_By_The_Free_Chain()
     {
@@ -75,8 +76,29 @@ public class SieveTests
         foreach (var name in new[] { "+XXX+XYX", "+XXX-XYX", "+XXY+XYY", "+XXY-XYY", "+YXX+YYX", "+YXX-YYX", "+YXY+YYY", "+YXY-YYY" })
         {
             var e = Sieve.Run(name, family[name], 6);
-            Assert.Equal((Sieve.Verdict.Read, "sPPF"), (e.Chain.Verdict, e.Chain.Letters));
+            Assert.Equal((Sieve.Verdict.Read, "sFFF"), (e.Chain.Verdict, e.Chain.Letters));
         }
+    }
+
+    // A one-shape cell of span five whose two templates are five wide with a flipping letter at each end: the free chain
+    // reads its chain from five sites on, so the sieve leaves no length between the end count and the free chain (a guard
+    // of max(2·span, 3·span − 3) = 12 would leave N = 11 unread), and the ring breaks exactly at the multiples of five
+    // from ten sites (F173's remark "Which ring sizes break"), the end count breaking at ten.
+    [Fact]
+    public void A_Span_Five_Cell_Is_Read_On_The_Chain_From_Five_Sites()
+    {
+        var cell = Cell('Z', ("XXXXX", 1), ("XXYXX", 1));
+        Assert.Equal(5, Stitch.FreeEveryN(cell.Normalized(), ring: false)!.From);
+        for (int n = 5; n <= 10; n++)                                   // the free chain's new lengths, by the end count
+        {
+            var v = Sieve.Count(cell.Normalized().Chain(n)).Verdict();
+            Assert.True(EndCount.IsPalindrome(v) && EndCount.IsExact(v), $"chain N = {n}: {v}");
+        }
+        var e = Sieve.Run("+XXXXX+XXYXX", cell, 10);
+        Assert.Equal(Sieve.Verdict.Read, e.Chain.Verdict);
+        Assert.Equal('B', e.Ring.Letters[^1]);                         // N = 10, the end count
+        var law = Stitch.RingLaw(cell)!;
+        Assert.All(Enumerable.Range(law.Guard, 63 - law.Guard + 1), n => Assert.Equal(n % 5 != 0, law.Pairs(n)));
     }
 
     static Theodolite.Cell Cell(char light, params (string Letters, long C)[] terms)

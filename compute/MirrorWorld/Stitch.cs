@@ -406,7 +406,9 @@ public sealed class Stitch : GameObject
     // interacting pair's terms lie in a run of at most 3·span − 2 − e sites (e = max f − min f), and a pair an end cuts
     // within the first or last 3·span − 3 − e. From N ≥ max(2·span, 3·span − 3) no flip set is cut at both ends and no
     // interacting pair at opposite ends, so every square of the chain of N sites is one read on the long chain, with the
-    // same entries: every component flat, the spectrum pairs on every chain of N ≥ From. On the ring the translates span
+    // same entries: every component flat, the spectrum pairs on every chain of N ≥ From. Where every template has the
+    // span's width and a flipping letter at each end, no field beside them, no end cuts anything, and From is the span
+    // (the argument of F173's Corollary E1, here at any ratio, the squares checked exactly). On the ring the translates span
     // the ideal (f) of GF(2)[x]/(x^N + 1), of dimension N − deg gcd(f, x^N + 1): they are independent exactly when no
     // order of a root of f divides N (the Moduli, the minimal such N). There, from N ≥ 3·span − 1 (no interacting pair
     // wraps onto itself, no window covers a flip set the long way round), every square is one of the long chain's bulk,
@@ -485,7 +487,14 @@ public sealed class Stitch : GameObject
                     if (a1 * a2 * b3 * b4 != a3 * a4 * b1 * b2) { Fail(both); break; }
                 }
             }
-        if (!ring) return chainOk ? new Free(false, Math.Max(2 * span, 3 * span - 3), Array.Empty<int>()) : null;
+        // Corollary E1's chain (F173), at any ratio: where every template has the same width, a flipping letter at both
+        // ends and no field beside it, every placed flip set carries the translated strings at the ends as in the bulk, so
+        // every square of a chain of N ≥ span sites is one the long chain read, and the chain pairs from its smallest
+        // length on (XXXXX + XXYXX, whose span of five otherwise leaves N = 11 between the end count and 3·span − 3)
+        // read off the placed strings, so that the order of a template's offsets does not matter
+        bool aligned = norm.Fields.Count == 0 && placed.All(t => t.X != 0 && Lo(t.X) == Lo(t.Window) && Hi(t.X) == Hi(t.Window)
+            && Hi(t.Window) - Lo(t.Window) + 1 == span);
+        if (!ring) return chainOk ? new Free(false, aligned ? span : Math.Max(2 * span, 3 * span - 3), Array.Empty<int>()) : null;
         if (!ringOk) return null;
         // the minimal N with gcd(f, x^N + 1) ≠ 1: every root of f lies in GF(2^m), m ≤ deg f, of order dividing 2^m − 1
         int deg = Hi(f);

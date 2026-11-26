@@ -152,8 +152,9 @@ public class StitchTests
     }
 
     // The free chain on its first residue: X·(X ± Y)·X has one flip shape {0, 1, 2} and an edge that never vanishes, the
-    // middle bit read at the middle of the flip set, so every square closes and the chain pairs at every N ≥ 6 (the end
-    // count agrees at 6 to 9). On the ring the translates of 1 + x + x² are dependent exactly when 3 | N: the reading is
+    // middle bit read at the middle of the flip set, so every square closes, and with both templates of width three and a
+    // flipping letter at each end every flip set carries the translated strings at the ends as well: the chain pairs at
+    // every N ≥ 3 (the end count agrees at 3 to 9). On the ring the translates of 1 + x + x² are dependent exactly when 3 | N: the reading is
     // silent there, and that is where the end count breaks (N = 6, 9), with the cell pairing at N = 8, 10 that the
     // reading holds from eight sites on. Its neighbours read the end of the flip set, a square does not close, and the free chain is silent:
     // XX·(X + Y) and X·I·(X + Y).
@@ -165,8 +166,8 @@ public class StitchTests
         {
             var norm = family[name].Normalized();
             var chain = Stitch.FreeEveryN(norm, ring: false)!;
-            Assert.Equal((6, 0), (chain.From, chain.Moduli.Count));
-            for (int n = 6; n <= 9; n++)
+            Assert.Equal((3, 0), (chain.From, chain.Moduli.Count));
+            for (int n = 3; n <= 9; n++)
             {
                 var v = Sieve.Count(norm.Chain(n)).Verdict();
                 Assert.True(EndCount.IsPalindrome(v) && EndCount.IsExact(v), $"{name}, chain N = {n}: {v}");
@@ -184,8 +185,8 @@ public class StitchTests
             Assert.Null(Stitch.FreeEveryN(family[name], ring: false));
     }
 
-    // Every yes of the free chain on the window family (three-site templates, k = 2), chain N from its From to 8, is a
-    // palindrome of the end count.
+    // Every yes of the free chain on the window family (three-site templates, k = 2), chain N from its From to 8, is an
+    // exact palindrome of the end count.
     [Fact]
     public void Every_Yes_Of_The_Free_Chain_Is_A_Yes_Of_The_End_Count()
     {
@@ -196,11 +197,12 @@ public class StitchTests
             if (Stitch.FreeEveryN(norm, ring: false) is not { } free) continue;
             for (int n = free.From; n <= 8; n++)
             {
-                Assert.True(EndCount.IsPalindrome(Sieve.Count(norm.Chain(n)).Verdict()), $"{name}, N = {n}");
+                var v = Sieve.Count(norm.Chain(n)).Verdict();
+                Assert.True(EndCount.IsPalindrome(v) && EndCount.IsExact(v), $"{name}, N = {n}: {v}");
                 yes++;
             }
         }
-        Assert.Equal(504, yes);                                          // measured
+        Assert.Equal(648, yes);                                          // measured
     }
 
     // Past the window the every-N reading and the fixed-N solve agree, on cells it reads and cells it does not; the window
