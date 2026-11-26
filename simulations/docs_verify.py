@@ -992,7 +992,8 @@ def verify_task8_current_truth():
             "Order 4 globally, involutive sectorwise", "P_px=√px·Π|px", "P_px²=I",
             "Spectral reflection alone cannot select AIII or any other class",
             "cannot confirm or refute a sector-level universality prediction",
-            "Prior-art coverage and equivalence to published constructions remain OPEN",
+            "Sá, Ribeiro and Prosen, named in §3, write out the inverse of Π, with a sector phase",
+            "prior-art coverage beyond the papers named there remains OPEN",
             "No priority or novelty claim is made"),
             ("the global Liouvillian is class AIII", "the constant shift is outside SRP",
              "Priority bookkeeping", "does not state the operator or the spectral reflection",
@@ -1119,7 +1120,7 @@ def verify_task8_current_truth():
              "AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(", "ChiralAiiiClassification")),
         "experiments/FILLING_THRESHOLD_CHAOS.md": ((
             "not a symmetry-class assignment", "does not exhaust possible residual antiunitary symmetries",
-            "every commuting unitary symmetry, is OPEN"), ("FillingThresholdWitness class-A gate",)),
+            "is OPEN; finding it needs every commuting unitary symmetry resolved first"), ("FillingThresholdWitness class-A gate",)),
         "experiments/CONCENTRATOR_MAPPING.md": ((
             "FillingThresholdWitness` conjugation-match diagnostic", "alongside its GinUE comparison",
             "That diagnostic does not assign a symmetry class"), ("FillingThresholdWitness class-A gate",)),

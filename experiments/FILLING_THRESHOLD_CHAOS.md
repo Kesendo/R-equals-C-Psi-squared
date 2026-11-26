@@ -80,9 +80,8 @@ not a universal inability of dilute sectors to thermalize.
   class assignment for this Liouvillian block. The measured
   near-zero conjugation-match fraction under a random field, which reads whether the block's own
   spectrum is closed under λ ↦ λ̄, rules out that closure in the sampled block; it
-  does not exhaust possible residual antiunitary symmetries. The full irreducible symmetry algebra,
-  after resolving the shifted generator's sectorwise P symmetry and every commuting unitary symmetry, is
-  **OPEN**.
+  does not exhaust possible residual antiunitary symmetries. The full irreducible symmetry algebra
+  is **OPEN**; finding it needs every commuting unitary symmetry resolved first.
 
 ## The setup
 

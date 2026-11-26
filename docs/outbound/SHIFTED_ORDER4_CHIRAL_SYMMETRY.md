@@ -208,8 +208,7 @@ class-statistics correspondence
   N = 6 / 7 / 8 (GinUE −0.241, 2D-Poisson 0). GinUE is the class-A
   comparison ensemble here, not a computed class assignment: a sampled
   conjugation-match test does not exhaust residual antiunitary symmetries. The full irreducible class is
-  **OPEN** after the shifted generator's sectorwise P symmetry and every
-  commuting unitary symmetry are resolved.
+  **OPEN**; finding it needs every commuting unitary symmetry resolved first.
 
 In this tested family, the finite-N CSR comparison supports a filling dependence
 at fixed interacting disorder. It does not prove a universal threshold or thermalization cause.
@@ -257,8 +256,9 @@ question to a classification program, not a rival scheme.
   note of the opening section): that symmetry is textbook and lives on a
   different space; conflating the two levels would conflate distinct objects.
 - **Prior-art boundary:** the dated repository record is provenance for this
-  implementation, not evidence of priority. The operator Π itself is in the
-  papers named in §3; prior-art coverage beyond them remains OPEN. No
+  implementation, not evidence of priority. Sá, Ribeiro and Prosen, named in
+  §3, write out the inverse of Π, with a sector phase (their Eq. 76);
+  prior-art coverage beyond the papers named there remains OPEN. No
   priority or novelty claim is made.
 
 ---

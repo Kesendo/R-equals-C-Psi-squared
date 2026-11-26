@@ -49,7 +49,8 @@ def test_shifted_sls_outbound_adapter_makes_no_priority_or_ownership_claim():
         encoding="utf-8")
     normalized = " ".join(text.split())
     required = (
-        "Prior-art coverage and equivalence to published constructions remain OPEN",
+        "Sá, Ribeiro and Prosen, named in §3, write out the inverse of Π, with a sector phase",
+        "prior-art coverage beyond the papers named there remains OPEN",
         "No priority or novelty claim is made",
     )
     forbidden = (
@@ -60,4 +61,4 @@ def test_shifted_sls_outbound_adapter_makes_no_priority_or_ownership_claim():
     for phrase in required:
         assert phrase in normalized
     for phrase in forbidden:
-        assert phrase not in text
+        assert phrase not in normalized
