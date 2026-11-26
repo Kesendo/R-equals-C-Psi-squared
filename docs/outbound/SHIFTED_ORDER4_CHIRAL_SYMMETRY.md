@@ -209,7 +209,7 @@ class-statistics correspondence
   comparison ensemble here, not a computed class assignment: a sampled
   conjugation-match test does not exhaust residual antiunitary symmetries. The full irreducible class is
   **OPEN** after the shifted generator's sectorwise P symmetry and every
-  unitary/strong sector are resolved.
+  commuting unitary symmetry are resolved.
 
 In this tested family, the finite-N CSR comparison supports a filling dependence
 at fixed interacting disorder. It does not prove a universal threshold or thermalization cause.

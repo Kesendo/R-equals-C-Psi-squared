@@ -61,7 +61,7 @@ and inside the band it rises with N. The position is chain-specific; the shape n
 
 The convergent threads, organised vertically by abstraction level:
 
-**Top: established shifted symmetry, classification open.** The exact F1 identity is Π·L·Π⁻¹ = −L − 2Σγ·I. After centering and resolving Π² = U_X, a phase-rescaled Π is an involutive P symmetry in each parity sector. This does not assign global AIII or finish the sector's antiunitary and strong/unitary algebra. The fragile-bridge Petermann reading K = 403 is one finite-offset reading of the K ∝ 1/δ divergence at that bridge's threshold, which with two qubits per chain is a second-order exceptional point on the real γ axis where it was read (J_bridge = 1.0 and 1.9, and a 4000-point sweep but its grid point 3/4); its character comes from the Jordan rank at the located collision, not from K.
+**Top: established shifted symmetry, classification open.** The exact F1 identity is Π·L·Π⁻¹ = −L − 2Σγ·I. After centering and resolving Π² = U_X, a phase-rescaled Π is an involutive P symmetry in each parity sector. This does not assign global AIII or finish the sector's antiunitary algebra and that of its commuting unitary symmetries. The fragile-bridge Petermann reading K = 403 is one finite-offset reading of the K ∝ 1/δ divergence at that bridge's threshold, which with two qubits per chain is a second-order exceptional point on the real γ axis where it was read (J_bridge = 1.0 and 1.9, and a 4000-point sweep but its grid point 3/4); its character comes from the Jordan rank at the located collision, not from K.
 
 **Middle: 2-level local instance (today's reduction).** For two adjacent rate channels at HD = 2k−1 and HD = 2k+1 in the (n, n+1) coherence block, the effective Liouvillian takes the form
 

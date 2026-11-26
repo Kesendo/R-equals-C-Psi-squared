@@ -47,13 +47,13 @@ public sealed class ShiftedGeneratorSectorwisePClaim : Claim
             yield return new InspectableNode("Π²-sector normalization",
                 summary: "p_x=+1 uses P=Π; p_x=-1 uses P=iΠ. In either sector P²=I and {P,L'}=0.");
             yield return new InspectableNode("classification boundary",
-                summary: "The full irreducible strong-symmetry-sector algebra has not been resolved; no global SRP class is assigned.");
+                summary: "The full symmetry algebra of the irreducible sectors, after reduction by every commuting unitary symmetry, has not been computed; no global SRP class is assigned.");
         }
     }
 }
 
 /// <summary>Open classification task downstream of the secured sectorwise P generator.
-/// A complete SRP label requires reduction by all strong symmetries and determination of
+/// A complete SRP label requires reduction by every commuting unitary symmetry (Π² = U_X, a weak one, among them) and determination of
 /// the remaining unitary and antiunitary relations in each irreducible block.</summary>
 public sealed class FullIrreducibleSrpClassQuestion : Claim
 {
@@ -66,7 +66,7 @@ public sealed class FullIrreducibleSrpClassQuestion : Claim
     public override string DisplayName => "F86 full irreducible-sector SRP class — OPEN";
 
     public override string Summary =>
-        "OpenQuestion: reduce by the complete strong-symmetry algebra, then determine all " +
+        "OpenQuestion: reduce by every commuting unitary symmetry, Π² among them, then determine all " +
         "surviving unitary and antiunitary relations per irreducible block. The secured " +
         "sectorwise P-type anticommutation alone does not fix an SRP class.";
 }

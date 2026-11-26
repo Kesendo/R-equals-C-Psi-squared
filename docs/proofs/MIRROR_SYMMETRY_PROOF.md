@@ -1095,7 +1095,7 @@ Two placement notes:
   Π² = U_X commutes with L_c, and in a U_X-parity sector p_x the
   phase-normalized restriction `P_{p_x} = sqrt(p_x) Π|_{p_x}` squares
   to identity. The final BDI/CI/other label remains OPEN until every
-  commuting unitary symmetry, weak or strong, is resolved and the full sectorwise
+  commuting unitary symmetry is resolved and the full sectorwise
   antiunitary algebra is computed. See [KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md).
   X^⊗N commutes with the XXZ Hamiltonian and anticommutes with every
   jump Z_i, so U_X, the conjugation by it, keeps each dissipator: X^⊗N is a

@@ -226,7 +226,8 @@ remembering.
 ### Concrete suggestion
 
 First complete the SRP classification in irreducible sectors: center L,
-resolve Π² and the other commuting unitary/strong symmetries, and compute
+resolve Π² (a weak symmetry) and the other commuting unitary symmetries,
+then compute
 the remaining antiunitary algebra. Only then compare unfolded within-sector
 statistics with a class prediction. The present global and band-pooled
 finite-N spacing data cannot validate or falsify an SRP class.

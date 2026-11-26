@@ -331,7 +331,8 @@ See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
 This section records the currently established relationships to known
 symmetry frameworks. It does not decide priority or novelty. The centered
 shifted generator has a sectorwise P anticommutation after Π² reduction, but
-the remaining antiunitary and strong/unitary algebra has not been exhausted;
+the remaining antiunitary algebra, and that of the other commuting unitary
+symmetries, has not been exhausted;
 therefore an identity with an existing irreducible class, and any claim that
 the structure is new rather than a rediscovery, remain OPEN.
 

@@ -321,8 +321,8 @@ as the class-A comparison ensemble. The near-zero disordered
 conjugation-match fraction, which reads whether the block's own spectrum is closed under
 λ ↦ λ̄, excludes that closure in the sampled block but does not prove that no
 other antiunitary symmetry survives. The full irreducible class remains **OPEN**
-until the shifted generator's sectorwise P symmetry and all unitary/strong sectors
-have been resolved. Live:
+until the shifted generator's sectorwise P symmetry and all commuting unitary symmetries have
+been resolved. Live:
 `inspect --root fillcsr` (`FillingThresholdWitness`); full writeup in
 [FILLING_THRESHOLD_CHAOS.md](FILLING_THRESHOLD_CHAOS.md).
 

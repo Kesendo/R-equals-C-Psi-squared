@@ -236,7 +236,8 @@ public class F86ExtendedClaimsTests
     {
         var question = new FullIrreducibleSrpClassQuestion();
         Assert.Equal(Tier.OpenQuestion, question.Tier);
-        Assert.Contains("strong-symmetry", question.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("every commuting unitary symmetry", question.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("strong-symmetry", question.Summary, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("open", question.Summary, StringComparison.OrdinalIgnoreCase);
     }
 

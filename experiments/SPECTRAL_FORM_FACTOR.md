@@ -238,8 +238,8 @@ ratio retains zero gaps and counts undefined 0/0 separately (N=7: mean
 standard-ensemble calibration for this degenerate unresolved population. It and
 modulation in the reached window are separate finite-size observations. Their
 combination does not prove integrability or establish a symmetry class. A
-non-Hermitian class assignment requires reduction to irreducible strong-
-symmetry sectors and the full sectorwise symmetry algebra.
+non-Hermitian class assignment requires reduction by every commuting unitary symmetry and then
+the full sectorwise symmetry algebra.
 
 **Palindrome identity:** each exact pair contributes
 `2cos(ωt)` to the frequency trace amplitude. The SFF squares the complete

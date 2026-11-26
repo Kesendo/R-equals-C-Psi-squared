@@ -60,7 +60,7 @@ classification is formulated for a trace-shifted generator, so the constant
 Globally Π has order four because Π² is a commuting unitary symmetry; within
 each Π²-parity sector a phase-normalized restriction is an involutive P generator.
 Assigning BDI, CI, or another SRP class still requires the complete symmetry
-algebra after all commuting unitary symmetries, weak or strong, are resolved. The known Π construction uses the 2:2
+algebra after all commuting unitary symmetries are resolved. The known Π construction uses the 2:2
 per-site Pauli split of pure Z dephasing. That is an algebraic property of the
 jump channel, not a bath-temperature assignment. The spectral palindrome for
 thermal jump operators is a separate question; for a Hamiltonian that commutes with X⊗N and Y⊗N it
@@ -121,8 +121,8 @@ This is an **anti-similarity** with a constant shift. If we define L_c = L + Sγ
 (the centered Liouvillian), then Π·L_c·Π⁻¹ = -L_c, which is a pure anti-commutation.
 Π is not of Buca and Prosen's form at all. The maps their two kinds supply, the
 conjugation ρ ↦ UρU† and, for a strong U, the one-sided multiplications ρ ↦ Uρ and
-ρ ↦ ρU†, all commute with L; and no map that keeps the trace, conjugations included
-them, can carry L_c to −L_c while Sγ ≠ 0, since Tr L_c(ρ) = Sγ·Tr ρ. Π does not keep
+ρ ↦ ρU†, all commute with L; and no map that keeps the trace, conjugations
+included, can carry L_c to −L_c while Sγ ≠ 0, since Tr L_c(ρ) = Sγ·Tr ρ. Π does not keep
 the trace: it carries the identity onto X^⊗N. Prosen's
 PT paper of the same year has the adjoint anti-relation L′P = −P L′†
 ([literature review](LITERATURE_REVIEW.md#pt-symmetric-liouvillians-prosen-2012)).
@@ -708,8 +708,8 @@ shift is absorbed by `L_c=L+SγI`; after resolving Π², a phase-normalized Π i
 a P generator in each parity sector. This places the structure inside the
 shifted-generator classification problem rather than outside it. The final
 BDI, CI, or other irreducible-sector label is **OPEN** until the remaining
-unitary symmetries, weak or strong, the antiunitary ones and their commutation
-algebra are computed.
+unitary and antiunitary symmetries and their commutation algebra are
+computed.
 
 The closest living relative is the Roberts-Lingenfelter-Clerk hidden TRS
 framework, which also produces time-reversal-like symmetry in systems that
@@ -811,7 +811,7 @@ hopping a gradient breaks M_β while the spectrum still pairs.
    if the second, M_β and hidden TRS.
 
 3. **Complete the sectorwise Sá et al. classification.** Work with the centered
-   Liouvillian L_c, resolve Π², a weak symmetry, and every other commuting unitary symmetry, weak or strong,
+   Liouvillian L_c, resolve Π² (a weak symmetry) and every other commuting unitary symmetry,
    then determine the antiunitary generators and their algebra in each irreducible
    block.
    Direct raw-multiset consecutive-gap ratios retain zero gaps and count undefined

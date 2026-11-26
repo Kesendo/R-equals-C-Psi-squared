@@ -81,8 +81,8 @@ to credit both groups.
 
 ### Symmetries of open quantum systems (the language)
 
-The unitary symmetries that commute with a Lindblad generator, weak and
-strong:
+The symmetries of a Lindblad generator that a unitary U gives through
+its conjugation ρ ↦ UρU†, weak and strong:
 
 - **Buca & Prosen (2012).** "A note on symmetry reductions of the
   Lindblad equation: transport in constrained open spin chains."
@@ -281,8 +281,8 @@ our Π hold for interacting spins (Heisenberg/XXZ) on arbitrary graphs.
 ### Symmetry classification (Buca & Prosen 2012, Albert & Jiang 2014)
 
 See [Foundations](#symmetries-of-open-quantum-systems-the-language) above.
-Buca and Prosen name the two kinds of unitary symmetry that commute with
-the generator, and Albert and Jiang's symmetry is the weak one; Π, which
+Buca and Prosen name the two kinds of symmetry that a unitary gives
+through its conjugation, and Albert and Jiang's symmetry is the weak one; Π, which
 reflects the generator instead of keeping it, is of neither kind.
 
 ---

@@ -20,7 +20,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>GinUE is retained only as a comparison ensemble. Unequal weight (p,p+1) means the known F1 map leaves
 /// the block, and <see cref="ConjugationMatchFraction"/> can show that one bare conjugation relation is absent.
-/// Neither fact exhausts the unitary/antiunitary algebra after irreducible strong-symmetry reduction, so the
+/// Neither fact exhausts the unitary/antiunitary algebra after reduction by every commuting unitary symmetry, so the
 /// sector's full SRP class remains open. Methodology inherited from the Door-C harness: pool
 /// per-spectrum z's (never raw eigenvalues), cluster-bootstrap whole independent disorder realizations,
 /// treat a fixed q-grid as descriptive with no sampling CI, and read in the OffReal domain (|Im| &gt; tol) for a

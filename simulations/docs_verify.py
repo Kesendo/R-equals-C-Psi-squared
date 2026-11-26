@@ -1119,7 +1119,7 @@ def verify_task8_current_truth():
              "AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(", "ChiralAiiiClassification")),
         "experiments/FILLING_THRESHOLD_CHAOS.md": ((
             "not a symmetry-class assignment", "does not exhaust possible residual antiunitary symmetries",
-            "every strong/unitary sector, is OPEN"), ("FillingThresholdWitness class-A gate",)),
+            "every commuting unitary symmetry, is OPEN"), ("FillingThresholdWitness class-A gate",)),
         "experiments/CONCENTRATOR_MAPPING.md": ((
             "FillingThresholdWitness` conjugation-match diagnostic", "alongside its GinUE comparison",
             "That diagnostic does not assign a symmetry class"), ("FillingThresholdWitness class-A gate",)),
