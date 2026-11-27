@@ -772,11 +772,12 @@ public sealed class Stitch : GameObject
 
     // Theorem 10 of PROOF_PALINDROME_COMPLEMENT_CONNECTION (adopted, a pairing bond under a control of its outer
     // neighbours): the terms are a bond of XX, YY, XY and YX on two adjacent sites and the same bond with a Z on each of
-    // its two outer neighbours, times κ = ±1, so that H = Σ_l (1 + κ·Z_(l−1)Z_(l+2))·B_l. With h ≠ 0 and ρ = g/ḡ (ρ = 1
-    // where g = 0) the ring of N ≥ 6 sites pairs exactly when ρ⁴ = 1 and ρ^(wN) = 1, w = 1 under κ = +1 (a lone
-    // excitation winds) and w = 2 under κ = −1 (a pair of adjacent excitations winds, two hops a site); the sieve asks it
-    // from 2·span − 1 = 7. For real
-    // integer coefficients ρ has order 1 (g real or 0), 2 (g imaginary), 4 (|Re g| = |Im g|) or none.
+    // its two outer neighbours, times κ = ±1, so that the flipping part of H is Σ_l (1 + κ·Z_(l−1)Z_(l+2))·b_l, b_l the
+    // bond on l and l + 1; a diagonal part B, each string with an even number of Z letters, enters only through the guard.
+    // With h ≠ 0 and ρ = g/ḡ (ρ = 1 where g = 0) the ring of N ≥ 6 sites pairs exactly when ρ⁴ = 1 and ρ^(wN) = 1, w = 1
+    // under κ = +1 (a lone excitation winds) and w = 2 under κ = −1 (a pair of adjacent excitations winds, two hops a
+    // site); the sieve asks it from its guard 2·span − 1, which is 7 where B fits in four sites. For real integer
+    // coefficients ρ has order 1 (g real or 0), 2 (g imaginary), 4 (|Re g| = |Im g|) or none.
     static RingLawReading? ControlledPairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
     {
         var plain = flipping.Where(t => t.X == 0b11UL && (t.Z & ~0b11UL) == 0).ToList();
