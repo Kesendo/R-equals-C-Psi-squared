@@ -21,7 +21,7 @@ using static MirrorWorld.LetterCube;
 //             character ratio; F173's Corollary A′, one sign per flip set where every flip set has two sites and a lone excitation hops across each,
 //             or a flip shape is solid; Theorems 8, 9 and 10 of the complement connection, the hopping ring, the pairing
 //             bond with Z letters beside or between it included, and the pairing bond under a control 1 ± Z·Z of its
-//             outer neighbours), every N below the guard read
+//             outer neighbours, its hop and its pairing under the same control or opposite ones), every N below the guard read
 //             exactly: decided for every N by the law.
 //             Wherever a law exists, every exact letter from its guard on is checked against it, and a disagreement throws.
 //             Whatever the verdict, a pass whose law's guard lies within the N read (or one past them) and whose letters

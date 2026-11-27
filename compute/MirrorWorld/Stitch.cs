@@ -521,13 +521,13 @@ public sealed class Stitch : GameObject
     // which carries several strings has no law of F173 here (the stitch's no reads the first two), except where the
     // strings on every flip set share one sign and either every flip set has two sites with a lone excitation's hop across
     // it nonzero or some flip shape is solid (its entry vanishing nowhere), which F173's Corollary A′ reads
-    // (OneSignPerShape below); three more laws,
+    // (OneSignPerShape below); three more theorems,
     // from PROOF_PALINDROME_COMPLEMENT_CONNECTION, read their own classes: Theorem 8 on a uniform cell (HoppingRing below,
     // hopping bonds whose entries vanish where the two bits agree) and Theorem 9 (PairingBond below, the bonds of XX, YY,
     // XY and YX terms on two sites d apart with a pairing amplitude, whatever their ratio, and with the same Z letters
     // beside or between the two sites on every term) and Theorem 10 (ControlledPairingBond below, the bond with a pairing
     // amplitude and no Z letters of its own on two adjacent sites under the control 1 + κ·Z_(l−1)Z_(l+2) of its outer
-    // neighbours).
+    // neighbours, and OppositeControlsBond below, its hop and its pairing under opposite controls).
     public sealed record RingLawReading(int Guard, string Text, Func<int, bool> Pairs);
 
     public static RingLawReading? RingLaw(Theodolite.Cell cell)
@@ -580,7 +580,9 @@ public sealed class Stitch : GameObject
         ulong f = ShapeOf(flipping[0].X);
         int probe = Math.Max(guard, 3 * norm.Span);
         var first = FlipRatios(norm, probe);
-        if (first is null) return PairingBond(flipping, guard) ?? ControlledPairingBond(flipping, guard) ?? OneSignPerShape(flipping, norm, guard);
+        if (first is null)
+            return PairingBond(flipping, guard) ?? ControlledPairingBond(flipping, guard) ?? OneSignPerShape(flipping, norm, guard)
+                ?? OppositeControlsBond(flipping, guard);
         return new RingLawReading(guard, $"F173 Corollary E2: one flip shape, read through gcd(f, x^N + 1), f = {Poly(f)}, from N = {guard}", n =>
         {
             if (n < guard || n > 63) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law is evaluated from N = {guard} to 63");
@@ -780,17 +782,8 @@ public sealed class Stitch : GameObject
     // coefficients ρ has order 1 (g real or 0), 2 (g imaginary), 4 (|Re g| = |Im g|) or none.
     static RingLawReading? ControlledPairingBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
     {
-        var plain = flipping.Where(t => t.X == 0b11UL && (t.Z & ~0b11UL) == 0).ToList();
-        var controlled = flipping.Where(t => t.X == 0b110UL && (t.Z & ~0b110UL) == 0b1001UL).ToList();
-        if (plain.Count == 0 || controlled.Count == 0 || plain.Count + controlled.Count != flipping.Count) return null;
-        static long Coefficient(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far, bool firstY, bool secondY) => terms
-            .Where(t => ((t.Z & near) != 0) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
-        long[] Bond(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far) => new[]
-        {
-            Coefficient(terms, near, far, false, false), Coefficient(terms, near, far, true, true),
-            Coefficient(terms, near, far, false, true), Coefficient(terms, near, far, true, false),
-        };
-        long[] p = Bond(plain, 1, 2), q = Bond(controlled, 2, 4);
+        if (ControlledBonds(flipping) is not { } bonds) return null;
+        var (p, q) = bonds;
         int kappa = p.SequenceEqual(q) ? 1 : p.SequenceEqual(q.Select(v => -v)) ? -1 : 0;
         if (kappa == 0) return null;
         long jxx = p[0], jyy = p[1], jxy = p[2], jyx = p[3];
@@ -807,6 +800,54 @@ public sealed class Stitch : GameObject
             if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
             return order != 0 && (w * n) % order == 0;
         });
+    }
+
+    // Theorem 10's hop and pairing under opposite controls (PROOF_PALINDROME_COMPLEMENT_CONNECTION, adopted): the plain
+    // bond (J_XX, J_YY, J_XY, J_YX) on two adjacent sites splits into its hop, amplitude g, and its pairing, amplitude h,
+    // and the strings with a Z on each outer neighbour carry κ·(hop − pairing), the bond κ·(J_YY, J_XX, −J_YX, −J_XY), so
+    // that the hop acts under 1 + κ·Z_(l−1)Z_(l+2) and the pairing under 1 − κ·Z_(l−1)Z_(l+2). With g ≠ 0, h ≠ 0 and
+    // ρ = g/ḡ the ring of N ≥ 5 sites pairs exactly when ρ² = 1, and under κ = +1 also ρ^N = 1: under κ = +1 at every N
+    // where g is real and at even N where g is imaginary (Theorem 9's rule), under κ = −1 at every N where g is real or
+    // imaginary; where g is neither it breaks at every N ≥ 5. Asked last, after Corollary A′, which reads some of these
+    // cells as well; the sieve asks it from its guard 2·span − 1.
+    static RingLawReading? OppositeControlsBond(List<(ulong X, ulong Z, long C)> flipping, int guard)
+    {
+        if (ControlledBonds(flipping) is not { } bonds) return null;
+        var (p, q) = bonds;
+        long jxx = p[0], jyy = p[1], jxy = p[2], jyx = p[3];
+        long[] turned = { jyy, jxx, -jyx, -jxy };
+        int kappa = q.SequenceEqual(turned) ? 1 : q.SequenceEqual(turned.Select(v => -v)) ? -1 : 0;
+        if (kappa == 0) return null;
+        long re = jxx + jyy, im = jyx - jxy;
+        if (re == 0 && im == 0) return null;                                           // g = 0: Theorem 10's own class
+        if (jxx == jyy && jxy == -jyx) return null;                                    // h = 0: a hop alone, not read
+        bool real = im == 0, imaginary = re == 0;
+        string verdict = real || (imaginary && kappa < 0) ? "pairs on every ring"
+            : imaginary ? "pairs exactly where N is even"
+            : "breaks on every ring";
+        return new RingLawReading(guard, $"complement connection Theorem 10, the hop under 1 {(kappa > 0 ? "+" : "−")} Z·Z and the pairing under 1 {(kappa > 0 ? "−" : "+")} Z·Z of the outer neighbours: {verdict}, from N = {guard}", n =>
+        {
+            if (n < guard) throw new ArgumentOutOfRangeException(nameof(n), n, $"the law holds from N = {guard}");
+            return real || (imaginary && (kappa < 0 || n % 2 == 0));
+        });
+    }
+
+    // the plain bond (J_XX, J_YY, J_XY, J_YX) on two adjacent sites and the bond the strings with a Z on each of their
+    // outer neighbours carry on the same two sites, read off the flipping terms in the cell's frame (plain at offsets 0, 1,
+    // controlled at 1, 2 with Z at 0 and 3); null when some flipping term is of neither form
+    static (long[] Plain, long[] Controlled)? ControlledBonds(List<(ulong X, ulong Z, long C)> flipping)
+    {
+        var plain = flipping.Where(t => t.X == 0b11UL && (t.Z & ~0b11UL) == 0).ToList();
+        var controlled = flipping.Where(t => t.X == 0b110UL && (t.Z & ~0b110UL) == 0b1001UL).ToList();
+        if (plain.Count == 0 || controlled.Count == 0 || plain.Count + controlled.Count != flipping.Count) return null;
+        static long Coefficient(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far, bool firstY, bool secondY) => terms
+            .Where(t => ((t.Z & near) != 0) == firstY && ((t.Z & far) != 0) == secondY).Sum(t => t.C);
+        static long[] Bond(List<(ulong X, ulong Z, long C)> terms, ulong near, ulong far) => new[]
+        {
+            Coefficient(terms, near, far, false, false), Coefficient(terms, near, far, true, true),
+            Coefficient(terms, near, far, false, true), Coefficient(terms, near, far, true, false),
+        };
+        return (Bond(plain, 1, 2), Bond(controlled, 2, 4));
     }
 
     // every flip set's ratio on the ring of n sites as (quarter, read set): r(x) = H_(x̄⊕m, x̄)/H_(x⊕m, x) = i^quarter·(−1)^⟨R, x⟩,

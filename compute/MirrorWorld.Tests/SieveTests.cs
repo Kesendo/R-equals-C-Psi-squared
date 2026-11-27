@@ -402,18 +402,29 @@ public class SieveTests
     // The controlled bond on the open chain of n sites under Z on every site: the bond on the sites l, l + 1 and the same
     // bond with Z on l − 1 and l + 2, times κ, for l = 1, …, n − 3, and each diagonal string at every window where it fits.
     static EndCount ControlledChain(int n, (string L, long C)[] bond, int kappa, (string L, long C)[]? diagonal = null)
+        => ControlledChain(n, bond, bond.Select(b => (b.L, kappa * b.C)).ToArray(), diagonal);
+
+    // the same with the strings under the control carrying their own bond: bond on the sites l, l + 1 and
+    // controlledBond there with Z on l − 1 and l + 2, for l = 1, …, n − 3
+    static EndCount ControlledChain(int n, (string L, long C)[] bond, (string L, long C)[] controlledBond, (string L, long C)[]? diagonal = null)
     {
         var h = new List<(string, long)>();
         for (int l = 1; l <= n - 3; l++)
+        {
             foreach (var (letters, c) in bond)
             {
                 var plain = Enumerable.Repeat('I', n).ToArray();
                 plain[l] = letters[0]; plain[l + 1] = letters[1];
                 h.Add((new string(plain), c));
-                var controlled = (char[])plain.Clone();
-                controlled[l - 1] = 'Z'; controlled[l + 2] = 'Z';
-                h.Add((new string(controlled), kappa * c));
             }
+            foreach (var (letters, c) in controlledBond)
+            {
+                var controlled = Enumerable.Repeat('I', n).ToArray();
+                controlled[l] = letters[0]; controlled[l + 1] = letters[1];
+                controlled[l - 1] = 'Z'; controlled[l + 2] = 'Z';
+                h.Add((new string(controlled), c));
+            }
+        }
         foreach (var (letters, c) in diagonal ?? Array.Empty<(string, long)>())
             for (int s = 0; s + letters.Length <= n; s++)
             {
@@ -497,6 +508,66 @@ public class SieveTests
                 for (int n = 6; n <= 9; n++)
                     Assert.True(ControlledChain(n, bond, kappa, new[] { odd }).ComplementConnection() is { AllGood: false }, $"{name} chain {n}: Theorem 2");
             }
+    }
+
+    // Theorem 10's hop and pairing under opposite controls, adopted in Stitch.RingLaw (OppositeControlsBond, asked after
+    // Corollary A′): the hop t·(XX + YY) + D·(XY − YX) under 1 + κ·Z_(l−1)Z_(l+2) and the pairing a·(XX − YY) + b·(XY + YX)
+    // under 1 − κ·Z_(l−1)Z_(l+2), with t, D, a, b in {−1, 0, 1, 2}, hop and pairing nonzero, under κ = +1 and κ = −1
+    // (450 cells; κ = +1, D = 0, b = 0 is the folded XYZ chain of Zadnik and Fagotti's Eq. (22)), so g = 2(t − iD). Every
+    // cell gets a ring law from N = 7, and the law and the rule (ρ² = 1, and under κ = +1 also ρ^N = 1) agree with Theorem 2
+    // read whole on the rings of 7 to 10 sites; the rule agrees with it on the rings of 5 and 6, below the sieve's guard,
+    // and with the end count's exact verdict on the rings of 7 and 8 for the coefficients in {−1, 0, 1}; on the chains of
+    // 5 to 9 sites, the bond and its controls only where four sites fit, the rule ρ² = 1 agrees with Theorem 2, and the
+    // chain of four sites pairs at every g. Real, imaginary and neither occur under both controls, and both Corollary A′
+    // and this law read cells; the hop imaginary under κ = +1 breaks at the odd N read, N = 9 among them.
+    [Fact]
+    public void The_Opposite_Controls_Law_Agrees_With_Theorem_2()
+    {
+        var branches = new HashSet<string>();
+        int read = 0, byThisLaw = 0, byCorollary = 0;
+        long[] values = { -1, 0, 1, 2 };
+        foreach (int kappa in new[] { 1, -1 })
+            foreach (long t in values) foreach (long d in values) foreach (long a in values) foreach (long b in values)
+            {
+                if ((t, d) == (0, 0) || (a, b) == (0, 0)) continue;
+                var plain = new[] { ("XX", t + a), ("YY", t - a), ("XY", d + b), ("YX", -d + b) }.Where(x => x.Item2 != 0).ToArray();
+                var controlled = new[] { ("XX", kappa * (t - a)), ("YY", kappa * (t + a)), ("XY", kappa * (d - b)), ("YX", kappa * (-d - b)) }
+                    .Where(x => x.Item2 != 0).ToArray();
+                var cell = Cell('Z', plain.Concat(controlled.Select(x => ("Z" + x.Item1 + "Z", x.Item2))).ToArray());
+                string name = $"κ = {kappa}, t = {t}, D = {d}, a = {a}, b = {b}";
+                bool real = d == 0, imaginary = t == 0;
+                bool Rule(int n) => real || (imaginary && (kappa < 0 || n % 2 == 0));
+                branches.Add($"κ = {kappa}, {(real ? "real" : imaginary ? "imaginary" : "neither")}");
+                var law = Stitch.RingLaw(cell);
+                Assert.True(law is { Guard: 7 }, $"{name}: {law?.Text}");
+                if (law!.Text.Contains("the hop under")) byThisLaw++;
+                else if (law.Text.Contains("Corollary A′")) byCorollary++;
+                else Assert.Fail($"{name}: {law.Text}");
+                read++;
+                bool small = Math.Max(Math.Max(Math.Abs(t), Math.Abs(d)), Math.Max(Math.Abs(a), Math.Abs(b))) <= 1;
+                for (int n = 5; n <= 10; n++)
+                {
+                    var count = Sieve.Count(cell.Ring(n));
+                    var cc = count.ComplementConnection();
+                    Assert.True(cc is not null, $"{name} ring {n}: no reading");
+                    Assert.True(Rule(n) == cc!.Value.AllGood, $"{name} ring {n}: the rule");
+                    if (n < 7) continue;
+                    Assert.True(law.Pairs(n) == cc.Value.AllGood, $"{name} ring {n}: {law.Text}");
+                    if (n > 8 || !small) continue;
+                    var v = count.Verdict();
+                    Assert.True(EndCount.IsExact(v) && EndCount.IsPalindrome(v) == cc.Value.AllGood, $"{name} ring {n}: the end count");
+                }
+                for (int n = 4; n <= 9; n++)
+                {
+                    var cc = ControlledChain(n, plain, controlled).ComplementConnection();
+                    Assert.True(cc is not null && (n == 4 || real || imaginary) == cc.Value.AllGood, $"{name} chain {n}: ρ² = 1");
+                }
+            }
+        Assert.Equal(6, branches.Count);
+        Assert.Equal(450, read);
+        Assert.True(byThisLaw > 0 && byCorollary > 0, $"{byThisLaw} cells read by this law, {byCorollary} by Corollary A′");
+        var oddRings = Stitch.RingLaw(Cell('Z', ("XX", 1), ("YY", -1), ("XY", 1), ("YX", -1), ("ZXXZ", -1), ("ZYYZ", 1), ("ZXYZ", 1), ("ZYXZ", -1)));
+        Assert.True(oddRings is not null && oddRings.Text.Contains("the hop under 1 + Z·Z") && oddRings.Pairs(8) && !oddRings.Pairs(9), oddRings?.Text);
     }
 
     // Theorem 8 of the complement connection read on a uniform cell (Stitch.RingLaw's HoppingRing), held against the end

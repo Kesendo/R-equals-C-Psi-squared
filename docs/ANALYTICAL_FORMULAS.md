@@ -11074,6 +11074,13 @@ h_l·P_l along one Pauli letter P_l.
   under κ = +1) has h = 0 and lies outside it as written; X^⊗N carries it,
   and X on every odd site turns it, on chains and even rings, into a pure
   pairing under κ = −1 that Theorem 10 reads.
+  With the bond's hop under 1 + κ·Z_(l−1)Z_(l+2) and its pairing under
+  1 − κ·Z_(l−1)Z_(l+2), g ≠ 0 and h ≠ 0: the chain of N ≥ 5 sites pairs
+  exactly when ρ² = 1, the ring of N ≥ 5 sites exactly when ρ² = 1 and,
+  under κ = +1, ρ^N = 1. Under κ = +1 that is Theorem 9's rule, and the
+  bond, its diagonal part aside, is twice the part of Theorem 9's bond that
+  keeps the Ising energy Σ_j Z_jZ_(j+1); Zadnik and Fagotti's folded XYZ
+  chain is its case of real amplitudes.
   Adopted in MirrorWorld as a ring law of the sieve and gated there against
   Theorem 2 and the end count; not typed.
 - **Theorem 3:** Heisenberg bonds, every site dephased along one letter with

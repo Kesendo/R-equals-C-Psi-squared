@@ -32,7 +32,7 @@ Stitch.cs with their header comments, the README rows of both, the run modes in 
 SieveTests.cs and StitchTests.cs. The pages they read: PROOF_PALINDROME_COMPLEMENT_CONNECTION (Theorem 2, the base of
 the stitch; Theorem 8, the absent edges, live as PalindromeComplementConnectionClaim.PlanarHoppingPalindrome with PlanarHoppingWitness at the inspect root planarhopping, and read by the sieve as a ring law on a
 uniform cell), PROOF_SIGNED_MASK_BALANCE (F173: Theorem D, Corollary E2 and Corollary A′ adopted as
-Stitch.RingLaw, beside the complement connection's Theorems 8, 9 and 10, the hopping ring, the pairing bond and the pairing bond under a control of its outer neighbours; Corollary E1 and Theorem E name the free chain; Corollary E2 decides XZ ± ZY on every ring and Theorem
+Stitch.RingLaw, beside the complement connection's Theorems 8, 9 and 10, the hopping ring, the pairing bond and the pairing bond under a control of its outer neighbours, its hop and pairing under the same control or opposite ones; Corollary E1 and Theorem E name the free chain; Corollary E2 decides XZ ± ZY on every ring and Theorem
 E names its carrier; its 24 law cells and 864 two-template cells of the window family; its record names two gaps,
 SOFTNESS_IS_N_DEPENDENT against Stitch.FreeEveryN, cited in the body here, and Corollary E3 against the sieve's field
 family, left open here), THE_CUBE_SITE_BY_SITE (the Theodolite's every-N reading, the sieve's first yes),
