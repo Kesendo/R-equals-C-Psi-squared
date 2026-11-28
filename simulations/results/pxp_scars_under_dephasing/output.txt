@@ -1,0 +1,269 @@
+PXP's scars under Z dephasing (simulations/pxp_scars_under_dephasing.py)
+
+== Part 1, N = 8: the model ==
+  blockaded dimension 47; max |C H C + H| = 0.0
+  palindrome centre of the full space: -N gamma = -8 gamma
+  trace centre of the blockaded space: -2<Hamming> gamma = -6.402897 gamma; N(1 - <z>^2) = 6.402897, <z> = 0.446809; the mean rate over all cells |x><y|, populations included, 0.8004 gamma N
+
+== Part 2, N = 8: the tower ==
+  S_-4: E = -4.8310, Z2 weight 0.0079, eigenspace dimension 1, <Z_j> = 0.6063 (spread over j 3e-16), <S|T|S> = +1.000000
+  S_-3: E = -3.8583, Z2 weight 0.0421, eigenspace dimension 1, <Z_j> = 0.4167 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_-2: E = -2.6510, Z2 weight 0.1156, eigenspace dimension 1, <Z_j> = 0.3341 (spread over j 3e-16), <S|T|S> = +1.000000
+  S_-1: E = -1.3483, Z2 weight 0.2052, eigenspace dimension 1, <Z_j> = 0.3042 (spread over j 1e-15), <S|T|S> = -1.000000
+  S_+0: E =  0.0000, Z2 weight 0.2500, eigenspace dimension 7, <Z_j> = 0.3056 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_+1: E =  1.3483, Z2 weight 0.2052, eigenspace dimension 1, <Z_j> = 0.3042 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_+2: E =  2.6510, Z2 weight 0.1156, eigenspace dimension 1, <Z_j> = 0.3341 (spread over j 3e-16), <S|T|S> = +1.000000
+  S_+3: E =  3.8583, Z2 weight 0.0421, eigenspace dimension 1, <Z_j> = 0.4167 (spread over j 3e-15), <S|T|S> = -1.000000
+  S_+4: E =  4.8310, Z2 weight 0.0079, eigenspace dimension 1, <Z_j> = 0.6063 (spread over j 4e-16), <S|T|S> = +1.000000
+  Z2 weight on the tower: 0.9915
+
+== Part 3, N = 8: first order (route 1), rates in units of gamma N ==
+  layer 1, |S_(k+1)><S_k|:
+    k = -4: omega = 0.9727, block 2, diagonal 0.7474, coherence's largest shares 0.500 at 0.7474, 0.500 at 0.7474
+    k = -3: omega = 1.2073, block 2, diagonal 0.8608, coherence's largest shares 0.500 at 0.8608, 0.500 at 0.8608
+    k = -2: omega = 1.3028, block 2, diagonal 0.8984, coherence's largest shares 0.500 at 0.8980, 0.500 at 0.8987
+    k = -1: omega = 1.3483, block 14, diagonal 0.9071, coherence's largest shares 0.498 at 0.6197, 0.496 at 1.1967
+    k = +0: omega = 1.3483, block 14, diagonal 0.9071, coherence's largest shares 0.498 at 0.6197, 0.496 at 1.1967
+    k = +1: omega = 1.3028, block 2, diagonal 0.8984, coherence's largest shares 0.500 at 0.8980, 0.500 at 0.8987
+    k = +2: omega = 1.2073, block 2, diagonal 0.8608, coherence's largest shares 0.500 at 0.8608, 0.500 at 0.8608
+    k = +3: omega = 0.9727, block 2, diagonal 0.7474, coherence's largest shares 0.500 at 0.7474, 0.500 at 0.7474
+  odd layers l = 2m + 1, the straddling U-partners |S_(m+1)><S_-m| and |S_m><S_-(m+1)|:
+    l = 1: omega = 1.3483, <U(X1), X2> = +1.000000, diagonal 0.9071; 2 x 2 modes 0.6205 (U +1.000), 1.1937 (U -1.000); block 14, largest shares 0.498 at 0.6197, 0.496 at 1.1967
+    l = 3: omega = 3.9993, <U(X1), X2> = +1.000000, diagonal 0.8984; 2 x 2 modes 0.6320 (U +1.000), 1.1647 (U -1.000); block 2, largest shares 0.500 at 1.1647, 0.500 at 0.6320
+    l = 5: omega = 6.5093, <U(X1), X2> = +1.000000, diagonal 0.8608; 2 x 2 modes 0.6398 (U +1.000), 1.0817 (U -1.000); block 2, largest shares 0.500 at 0.6398, 0.500 at 1.0817
+    l = 7: omega = 8.6893, <U(X1), X2> = +1.000000, diagonal 0.7474; 2 x 2 modes 0.5936 (U +1.000), 0.9011 (U -1.000); block 2, largest shares 0.500 at 0.5936, 0.500 at 0.9011
+  every coherence |S_a><S_b|, a > b, a + b >= 0, against its U-partner |S_-b><S_-a|:
+    layer a-b, distance a+b: half the 2 x 2 splitting (gamma N), coupling sum_l <S_-b|Z_l|S_a>^2 / N
+    l =  1: (+1,+0) d=1: 0.2866 [0.2866]; (+2,+1) d=3: 0.0003 [0.0003]; (+3,+2) d=5: 0.0000 [0.0000]; (+4,+3) d=7: 0.0000 [0.0000]
+    l =  2: (+1,-1) self, U +1.000; (+2,+0) d=2: 0.0471 [0.0471]; (+3,+1) d=4: 0.0002 [0.0002]; (+4,+2) d=6: 0.0000 [0.0000]
+    l =  3: (+2,-1) d=1: 0.2663 [0.2663]; (+3,+0) d=3: 0.0004 [0.0004]; (+4,+1) d=5: 0.0000 [0.0000]
+    l =  4: (+2,-2) self, U +1.000; (+3,-1) d=2: 0.0396 [0.0396]; (+4,+0) d=4: 0.0002 [0.0002]
+    l =  5: (+3,-2) d=1: 0.2209 [0.2209]; (+4,-1) d=3: 0.0003 [0.0003]
+    l =  6: (+3,-3) self, U +1.000; (+4,-2) d=2: 0.0251 [0.0251]
+    l =  7: (+4,-3) d=1: 0.1538 [0.1538]
+    l =  8: (+4,-4) self, U +1.000
+    largest half splitting by distance: d 1: 2.87e-01 at (+1,+0); d 2: 4.71e-02 at (+2,+0); d 3: 3.62e-04 at (+3,+0); d >= 4: 1.94e-04 at (+4,+0)
+    full block of |S_+1><S_+0| (14 pairs of eigenvectors): 0.6197 (share 0.498, U +1.000), 1.1967 (share 0.496, U -1.000)
+    full block of |S_+2><S_+0| (14 pairs of eigenvectors): 0.9452 (share 0.499, U -1.000), 0.8591 (share 0.399, U +1.000)
+
+== Part 4, N = 8: route 2, the exact L (dense) at gamma = 1e-05, 0.0001 ==
+  the real parts against the block's, in units of gamma N: largest difference, and that over (gamma N)^2
+  l1 -4: omega = 0.9727, block 2, exact 2, 2: gamma = 1e-05: 4.31e-09, / (gamma N)^2 = 0.674; gamma = 0.0001: 4.36e-07, / (gamma N)^2 = 0.681
+  l1 -3: omega = 1.2073, block 2, exact 2, 2: gamma = 1e-05: 2.48e-09, / (gamma N)^2 = 0.388; gamma = 0.0001: 1.96e-07, / (gamma N)^2 = 0.306
+  l1 -2: omega = 1.3028, block 2, exact 2, 2: gamma = 1e-05: 8.09e-08, / (gamma N)^2 = 12.637; gamma = 0.0001: 8.09e-06, / (gamma N)^2 = 12.638
+  l1 -1: omega = 1.3483, block 14, exact 14, 14: gamma = 1e-05: 8.03e-08, / (gamma N)^2 = 12.552; gamma = 0.0001: 8.03e-06, / (gamma N)^2 = 12.553
+  l1 +0: omega = 1.3483, block 14, exact 14, 14: gamma = 1e-05: 8.03e-08, / (gamma N)^2 = 12.552; gamma = 0.0001: 8.03e-06, / (gamma N)^2 = 12.553
+  l1 +1: omega = 1.3028, block 2, exact 2, 2: gamma = 1e-05: 8.09e-08, / (gamma N)^2 = 12.637; gamma = 0.0001: 8.09e-06, / (gamma N)^2 = 12.638
+  l1 +2: omega = 1.2073, block 2, exact 2, 2: gamma = 1e-05: 2.48e-09, / (gamma N)^2 = 0.388; gamma = 0.0001: 1.96e-07, / (gamma N)^2 = 0.306
+  l1 +3: omega = 0.9727, block 2, exact 2, 2: gamma = 1e-05: 4.31e-09, / (gamma N)^2 = 0.674; gamma = 0.0001: 4.36e-07, / (gamma N)^2 = 0.681
+  odd +0: omega = 1.3483, block 14, exact 14, 14: gamma = 1e-05: 8.03e-08, / (gamma N)^2 = 12.552; gamma = 0.0001: 8.03e-06, / (gamma N)^2 = 12.553
+  odd +1: omega = 3.9993, block 2, exact 2, 2: gamma = 1e-05: 6.30e-09, / (gamma N)^2 = 0.984; gamma = 0.0001: 6.30e-07, / (gamma N)^2 = 0.985
+  odd +2: omega = 6.5093, block 2, exact 2, 2: gamma = 1e-05: 5.84e-10, / (gamma N)^2 = 0.091; gamma = 0.0001: 5.47e-08, / (gamma N)^2 = 0.085
+  odd +3: omega = 8.6893, block 2, exact 2, 2: gamma = 1e-05: 1.63e-11, / (gamma N)^2 = 0.003; gamma = 0.0001: 1.80e-09, / (gamma N)^2 = 0.003
+  l2 +0: omega = 2.6510, block 14, exact 14, 14: gamma = 1e-05: 1.93e-07, / (gamma N)^2 = 30.084; gamma = 0.0001: 1.92e-05, / (gamma N)^2 = 30.065
+  largest difference over all blocks at gamma = 1e-05: 1.93e-07 gamma N
+
+== Part 1, N = 10: the model ==
+  blockaded dimension 123; max |C H C + H| = 0.0
+  palindrome centre of the full space: -N gamma = -10 gamma
+  trace centre of the blockaded space: -2<Hamming> gamma = -8.000529 gamma; N(1 - <z>^2) = 8.000529, <z> = 0.447154; the mean rate over all cells |x><y|, populations included, 0.8001 gamma N
+
+== Part 2, N = 10: the tower ==
+  S_-5: E = -6.0363, Z2 weight 0.0024, eigenspace dimension 1, <Z_j> = 0.6077 (spread over j 9e-16), <S|T|S> = +1.000000
+  S_-4: E = -5.0668, Z2 weight 0.0156, eigenspace dimension 1, <Z_j> = 0.4540 (spread over j 4e-15), <S|T|S> = -1.000000
+  S_-3: E = -3.9207, Z2 weight 0.0522, eigenspace dimension 1, <Z_j> = 0.3615 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_-2: E = -2.6617, Z2 weight 0.1173, eigenspace dimension 1, <Z_j> = 0.3215 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_-1: E = -1.3435, Z2 weight 0.1857, eigenspace dimension 1, <Z_j> = 0.3057 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_+0: E =  0.0000, Z2 weight 0.2245, eigenspace dimension 13, <Z_j> = 0.3062 (spread over j 7e-16), <S|T|S> = -1.000000
+  S_+1: E =  1.3435, Z2 weight 0.1857, eigenspace dimension 1, <Z_j> = 0.3057 (spread over j 7e-16), <S|T|S> = +1.000000
+  S_+2: E =  2.6617, Z2 weight 0.1173, eigenspace dimension 1, <Z_j> = 0.3215 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_+3: E =  3.9207, Z2 weight 0.0522, eigenspace dimension 1, <Z_j> = 0.3615 (spread over j 4e-15), <S|T|S> = +1.000000
+  S_+4: E =  5.0668, Z2 weight 0.0156, eigenspace dimension 1, <Z_j> = 0.4540 (spread over j 3e-15), <S|T|S> = -1.000000
+  S_+5: E =  6.0363, Z2 weight 0.0024, eigenspace dimension 1, <Z_j> = 0.6077 (spread over j 8e-16), <S|T|S> = +1.000000
+  Z2 weight on the tower: 0.9708
+
+== Part 3, N = 10: first order (route 1), rates in units of gamma N ==
+  layer 1, |S_(k+1)><S_k|:
+    k = -5: omega = 0.9695, block 2, diagonal 0.7241, coherence's largest shares 0.571 at 0.7241, 0.429 at 0.7241
+    k = -4: omega = 1.1461, block 2, diagonal 0.8359, coherence's largest shares 0.500 at 0.8359, 0.500 at 0.8359
+    k = -3: omega = 1.2590, block 2, diagonal 0.8838, coherence's largest shares 0.500 at 0.8838, 0.500 at 0.8838
+    k = -2: omega = 1.3182, block 2, diagonal 0.9017, coherence's largest shares 0.500 at 0.9019, 0.500 at 0.9015
+    k = -1: omega = 1.3435, block 26, diagonal 0.9064, coherence's largest shares 0.493 at 0.6328, 0.489 at 1.1829
+    k = +0: omega = 1.3435, block 26, diagonal 0.9064, coherence's largest shares 0.493 at 0.6328, 0.489 at 1.1829
+    k = +1: omega = 1.3182, block 2, diagonal 0.9017, coherence's largest shares 0.500 at 0.9015, 0.500 at 0.9019
+    k = +2: omega = 1.2590, block 2, diagonal 0.8838, coherence's largest shares 0.500 at 0.8838, 0.500 at 0.8838
+    k = +3: omega = 1.1461, block 2, diagonal 0.8359, coherence's largest shares 0.500 at 0.8359, 0.500 at 0.8359
+    k = +4: omega = 0.9695, block 2, diagonal 0.7241, coherence's largest shares 0.571 at 0.7241, 0.429 at 0.7241
+  odd layers l = 2m + 1, the straddling U-partners |S_(m+1)><S_-m| and |S_m><S_-(m+1)|:
+    l = 1: omega = 1.3435, <U(X1), X2> = +1.000000, diagonal 0.9064; 2 x 2 modes 0.6363 (U +1.000), 1.1764 (U -1.000); block 26, largest shares 0.493 at 0.6328, 0.489 at 1.1829
+    l = 3: omega = 4.0052, <U(X1), X2> = +1.000000, diagonal 0.9017; 2 x 2 modes 0.6420 (U +1.000), 1.1614 (U -1.000); block 2, largest shares 0.500 at 1.1614, 0.500 at 0.6420
+    l = 5: omega = 6.5825, <U(X1), X2> = +1.000000, diagonal 0.8838; 2 x 2 modes 0.6529 (U +1.000), 1.1147 (U -1.000); block 2, largest shares 0.500 at 0.6529, 0.500 at 1.1147
+    l = 7: omega = 8.9876, <U(X1), X2> = +1.000000, diagonal 0.8359; 2 x 2 modes 0.6479 (U +1.000), 1.0238 (U -1.000); block 2, largest shares 0.500 at 1.0238, 0.500 at 0.6479
+    l = 9: omega = 11.1032, <U(X1), X2> = +1.000000, diagonal 0.7241; 2 x 2 modes 0.6006 (U +1.000), 0.8476 (U -1.000); block 2, largest shares 0.500 at 0.6006, 0.500 at 0.8476
+  every coherence |S_a><S_b|, a > b, a + b >= 0, against its U-partner |S_-b><S_-a|:
+    layer a-b, distance a+b: half the 2 x 2 splitting (gamma N), coupling sum_l <S_-b|Z_l|S_a>^2 / N
+    l =  1: (+1,+0) d=1: 0.2700 [0.2700]; (+2,+1) d=3: 0.0002 [0.0002]; (+3,+2) d=5: 0.0000 [0.0000]; (+4,+3) d=7: 0.0000 [0.0000]; (+5,+4) d=9: 0.0000 [0.0000]
+    l =  2: (+1,-1) self, U +1.000; (+2,+0) d=2: 0.0405 [0.0405]; (+3,+1) d=4: 0.0001 [0.0001]; (+4,+2) d=6: 0.0000 [0.0000]; (+5,+3) d=8: 0.0000 [0.0000]
+    l =  3: (+2,-1) d=1: 0.2597 [0.2597]; (+3,+0) d=3: 0.0003 [0.0003]; (+4,+1) d=5: 0.0000 [0.0000]; (+5,+2) d=7: 0.0000 [0.0000]
+    l =  4: (+2,-2) self, U +1.000; (+3,-1) d=2: 0.0337 [0.0337]; (+4,+0) d=4: 0.0001 [0.0001]; (+5,+1) d=6: 0.0000 [0.0000]
+    l =  5: (+3,-2) d=1: 0.2309 [0.2309]; (+4,-1) d=3: 0.0002 [0.0002]; (+5,+0) d=5: 0.0000 [0.0000]
+    l =  6: (+3,-3) self, U +1.000; (+4,-2) d=2: 0.0273 [0.0273]; (+5,-1) d=4: 0.0000 [0.0000]
+    l =  7: (+4,-3) d=1: 0.1879 [0.1879]; (+5,-2) d=3: 0.0001 [0.0001]
+    l =  8: (+4,-4) self, U +1.000; (+5,-3) d=2: 0.0132 [0.0132]
+    l =  9: (+5,-4) d=1: 0.1235 [0.1235]
+    l = 10: (+5,-5) self, U +1.000
+    largest half splitting by distance: d 1: 2.70e-01 at (+1,+0); d 2: 4.05e-02 at (+2,+0); d 3: 2.63e-04 at (+3,+0); d >= 4: 1.18e-04 at (+4,+0)
+    full block of |S_+1><S_+0| (26 pairs of eigenvectors): 0.6328 (share 0.493, U +1.000), 1.1829 (share 0.489, U -1.000)
+    full block of |S_+2><S_+0| (26 pairs of eigenvectors): 0.9423 (share 0.499, U -1.000), 0.8521 (share 0.324, U +1.000)
+
+== Part 4, N = 10: route 2 for the middle partners, shift-invert at gamma = 1e-05 ==
+  first order (full block) 0.6328, in the 2 x 2 0.6363: nearest exact eigenvalue 0.6328 gamma N at Im -1.343514
+  first order (full block) 1.1829, in the 2 x 2 1.1764: nearest exact eigenvalue 1.1829 gamma N at Im -1.343514
+
+== Part 5, N = 10: the revival from Z2, read on the tower coherences ==
+  first order in the 2 x 2: middle partners diagonal 0.9064, U-even 0.6363, U-odd 1.1764; next coherence diagonal 0.9017
+  the U-even operator |S_1><S_0| + |S_0><S_-1| on the middle block's modes (the full block): 0.9853 at 0.6328, 0.0147 at 0.8741, 0.0000 at 0.8740
+  gamma N = 0.0: max|B - A| / max|A| = 2e-14; |A(T)|/|A(0)| = 1.0000000000, |O(T)|/|O(0)| = 1.0000000000 at T = 300  [5 s]
+  gamma N = 0.0005: max|B - A| / max|A| = 1e-14; fitted slope of -ln|A| 0.6361 gamma N, of -ln|O| 0.9025 gamma N; |A|/|A(0)| at gamma N t = 1.5: 0.3859 (block 0.3853); largest |exact - block| over the window: A 4.21e-03 (8.42 gamma N), O 8.88e-03  [39 s]
+  gamma N = 0.002: max|B - A| / max|A| = 5e-15; fitted slope of -ln|A| 0.6417 gamma N, of -ln|O| 0.9196 gamma N; |A|/|A(0)| at gamma N t = 1.5: 0.3860 (block 0.3853); largest |exact - block| over the window: A 1.64e-02 (8.22 gamma N), O 3.10e-02  [12 s]
+  gamma N = 0.005: max|B - A| / max|A| = 6e-15; fitted slope of -ln|A| 0.6600 gamma N, of -ln|O| 0.9533 gamma N; |A|/|A(0)| at gamma N t = 1.5: 0.3986 (block 0.3853); largest |exact - block| over the window: A 3.80e-02 (7.59 gamma N), O 7.14e-02  [5 s]
+  gamma N = 0.05: max|B - A| / max|A| = 6e-15; fitted slope of -ln|A| 0.4189 gamma N, of -ln|O| 0.4184 gamma N; |A|/|A(0)| at gamma N t = 1.5: 0.5296 (block 0.3853); largest |exact - block| over the window: A 1.50e-01 (3.01 gamma N), O 2.84e-01  [1 s]
+  e^(-0.6363 * 1.5) = 0.3850; e^(-0.9064 * 1.5) = 0.2568
+  at gamma N = 0.0005: ln|A| beats about its fitted line at angular frequency 0.0251 (resolution 0.0021); the detuning of |S_2><S_1| from |S_1><S_0| is 0.0253
+
+== Part 6, N = 10: the full spectrum at gamma = 0.0004, in Ma et al.'s frame ==
+  15129 eigenvalues in 1660 s; frame Re(lambda')/gamma = Re(lambda)/gamma + 8.0005
+  l = 1, Im = 1.3435: U +1: x = 1.678 (first order 1.673), overlap with rho_Z2 2.9e-01, q = pi, |Im - omega| = 6e-05; U -1: x = -3.833 (first order -3.829), overlap with rho_Z2 3.8e-13, q = pi, |Im - omega| = 3e-05
+  l = 3, Im = 4.0052: U +1: x = 1.581 (first order 1.581), overlap with rho_Z2 2.1e-01, q = pi, |Im - omega| = 2e-05; U -1: x = -3.614 (first order -3.614), overlap with rho_Z2 1.3e-12, q = pi, |Im - omega| = 9e-06
+  l = 5, Im = 6.5825: U +1: x = 1.472 (first order 1.472), overlap with rho_Z2 1.1e-01, q = pi, |Im - omega| = 6e-06; U -1: x = -3.146 (first order -3.146), overlap with rho_Z2 4.8e-12, q = pi, |Im - omega| = 4e-06
+  l = 7, Im = 8.9876: U +1: x = 1.521 (first order 1.521), overlap with rho_Z2 4.0e-02, q = pi, |Im - omega| = 2e-06; U -1: x = -2.237 (first order -2.237), overlap with rho_Z2 1.8e-12, q = pi, |Im - omega| = 2e-06
+  l = 9, Im = 11.1032: U +1: x = 1.995 (first order 1.995), overlap with rho_Z2 8.6e-03, q = pi, |Im - omega| = 4e-07; U -1: x = -0.475 (first order -0.475), overlap with rho_Z2 9.1e-14, q = pi, |Im - omega| = 5e-07
+  two ends: 1 stationary eigenvalue(s) at x = +8.0005; the leftmost eigenvalue at x = -5.586; the nearest eigenvalue to lambda = -2*8.0005*gamma (x = -8.0005) lies 2.415 gamma away
+  drawn: 1529 eigenvalues at q = 0 and 1504 at q = pi, 3033 of 15129
+
+== Part 1, N = 12: the model ==
+  blockaded dimension 322; max |C H C + H| = 0.0
+  palindrome centre of the full space: -N gamma = -12 gamma
+  trace centre of the blockaded space: -2<Hamming> gamma = -9.600093 gamma; N(1 - <z>^2) = 9.600093, <z> = 0.447205; the mean rate over all cells |x><y|, populations included, 0.8000 gamma N
+
+== Part 2, N = 12: the tower ==
+  S_-6: E = -7.2429, Z2 weight 0.0007, eigenspace dimension 1, <Z_j> = 0.6081 (spread over j 7e-16), <S|T|S> = +1.000000
+  S_-5: E = -6.2744, Z2 weight 0.0056, eigenspace dimension 1, <Z_j> = 0.4795 (spread over j 6e-16), <S|T|S> = -1.000000
+  S_-4: E = -5.1702, Z2 weight 0.0218, eigenspace dimension 1, <Z_j> = 0.3881 (spread over j 5e-16), <S|T|S> = +1.000000
+  S_-3: E = -3.9516, Z2 weight 0.0585, eigenspace dimension 1, <Z_j> = 0.3396 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_-2: E = -2.6658, Z2 weight 0.1143, eigenspace dimension 1, <Z_j> = 0.3162 (spread over j 7e-16), <S|T|S> = +1.000000
+  S_-1: E = -1.3419, Z2 weight 0.1680, eigenspace dimension 1, <Z_j> = 0.3050 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_+0: E =  0.0000, Z2 weight 0.2047, eigenspace dimension 22, <Z_j> = 0.3079 (spread over j 6e-16), <S|T|S> = +1.000000
+  S_+1: E =  1.3419, Z2 weight 0.1680, eigenspace dimension 1, <Z_j> = 0.3050 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_+2: E =  2.6658, Z2 weight 0.1143, eigenspace dimension 1, <Z_j> = 0.3162 (spread over j 6e-16), <S|T|S> = +1.000000
+  S_+3: E =  3.9516, Z2 weight 0.0585, eigenspace dimension 1, <Z_j> = 0.3396 (spread over j 1e-15), <S|T|S> = -1.000000
+  S_+4: E =  5.1702, Z2 weight 0.0218, eigenspace dimension 1, <Z_j> = 0.3881 (spread over j 7e-16), <S|T|S> = +1.000000
+  S_+5: E =  6.2744, Z2 weight 0.0056, eigenspace dimension 1, <Z_j> = 0.4795 (spread over j 1e-15), <S|T|S> = -1.000000
+  S_+6: E =  7.2429, Z2 weight 0.0007, eigenspace dimension 1, <Z_j> = 0.6081 (spread over j 7e-16), <S|T|S> = +1.000000
+  Z2 weight on the tower: 0.9422
+
+== Part 3, N = 12: first order (route 1), rates in units of gamma N ==
+  layer 1, |S_(k+1)><S_k|:
+    k = -6: omega = 0.9686, block 2, diagonal 0.7084, coherence's largest shares 1.000 at 0.7084, 0.000 at 0.7084
+    k = -5: omega = 1.1042, block 2, diagonal 0.8139, coherence's largest shares 0.769 at 0.8139, 0.231 at 0.8139
+    k = -4: omega = 1.2186, block 2, diagonal 0.8682, coherence's largest shares 0.500 at 0.8682, 0.500 at 0.8682
+    k = -3: omega = 1.2858, block 2, diagonal 0.8926, coherence's largest shares 0.500 at 0.8926, 0.500 at 0.8926
+    k = -2: omega = 1.3239, block 2, diagonal 0.9036, coherence's largest shares 0.500 at 0.9034, 0.500 at 0.9037
+    k = -1: omega = 1.3419, block 44, diagonal 0.9061, coherence's largest shares 0.484 at 0.6430, 0.480 at 1.1724
+    k = +0: omega = 1.3419, block 44, diagonal 0.9061, coherence's largest shares 0.484 at 0.6430, 0.480 at 1.1724
+    k = +1: omega = 1.3239, block 2, diagonal 0.9036, coherence's largest shares 0.500 at 0.9037, 0.500 at 0.9034
+    k = +2: omega = 1.2858, block 2, diagonal 0.8926, coherence's largest shares 0.500 at 0.8926, 0.500 at 0.8926
+    k = +3: omega = 1.2186, block 2, diagonal 0.8682, coherence's largest shares 0.500 at 0.8682, 0.500 at 0.8682
+    k = +4: omega = 1.1042, block 2, diagonal 0.8139, coherence's largest shares 0.769 at 0.8139, 0.231 at 0.8139
+    k = +5: omega = 0.9686, block 2, diagonal 0.7084, coherence's largest shares 1.000 at 0.7084, 0.000 at 0.7084
+  odd layers l = 2m + 1, the straddling U-partners |S_(m+1)><S_-m| and |S_m><S_-(m+1)|:
+    l = 1: omega = 1.3419, <U(X1), X2> = +1.000000, diagonal 0.9061; 2 x 2 modes 0.6511 (U +1.000), 1.1611 (U -1.000); block 44, largest shares 0.484 at 0.6430, 0.480 at 1.1724
+    l = 3: omega = 4.0077, <U(X1), X2> = +1.000000, diagonal 0.9036; 2 x 2 modes 0.6502 (U +1.000), 1.1569 (U -1.000); block 2, largest shares 0.500 at 0.6502, 0.500 at 1.1569
+    l = 5: omega = 6.6174, <U(X1), X2> = +1.000000, diagonal 0.8926; 2 x 2 modes 0.6593 (U +1.000), 1.1260 (U -1.000); block 2, largest shares 0.500 at 0.6593, 0.500 at 1.1260
+    l = 7: omega = 9.1217, <U(X1), X2> = +1.000000, diagonal 0.8682; 2 x 2 modes 0.6655 (U +1.000), 1.0710 (U -1.000); block 2, largest shares 0.500 at 0.6655, 0.500 at 1.0710
+    l = 9: omega = 11.4445, <U(X1), X2> = +1.000000, diagonal 0.8139; 2 x 2 modes 0.6515 (U +1.000), 0.9764 (U -1.000); block 2, largest shares 0.500 at 0.6515, 0.500 at 0.9764
+    l = 11: omega = 13.5173, <U(X1), X2> = +1.000000, diagonal 0.7084; 2 x 2 modes 0.6054 (U +1.000), 0.8114 (U -1.000); block 2, largest shares 0.500 at 0.8114, 0.500 at 0.6054
+  every coherence |S_a><S_b|, a > b, a + b >= 0, against its U-partner |S_-b><S_-a|:
+    layer a-b, distance a+b: half the 2 x 2 splitting (gamma N), coupling sum_l <S_-b|Z_l|S_a>^2 / N
+    l =  1: (+1,+0) d=1: 0.2550 [0.2550]; (+2,+1) d=3: 0.0002 [0.0002]; (+3,+2) d=5: 0.0000 [0.0000]; (+4,+3) d=7: 0.0000 [0.0000]; (+5,+4) d=9: 0.0000 [0.0000]; (+6,+5) d=11: 0.0000 [0.0000]
+    l =  2: (+1,-1) self, U +1.000; (+2,+0) d=2: 0.0359 [0.0359]; (+3,+1) d=4: 0.0000 [0.0000]; (+4,+2) d=6: 0.0000 [0.0000]; (+5,+3) d=8: 0.0000 [0.0000]; (+6,+4) d=10: 0.0000 [0.0000]
+    l =  3: (+2,-1) d=1: 0.2533 [0.2533]; (+3,+0) d=3: 0.0002 [0.0002]; (+4,+1) d=5: 0.0000 [0.0000]; (+5,+2) d=7: 0.0000 [0.0000]; (+6,+3) d=9: 0.0000 [0.0000]
+    l =  4: (+2,-2) self, U +1.000; (+3,-1) d=2: 0.0298 [0.0298]; (+4,+0) d=4: 0.0001 [0.0001]; (+5,+1) d=6: 0.0000 [0.0000]; (+6,+2) d=8: 0.0000 [0.0000]
+    l =  5: (+3,-2) d=1: 0.2333 [0.2333]; (+4,-1) d=3: 0.0001 [0.0001]; (+5,+0) d=5: 0.0000 [0.0000]; (+6,+1) d=7: 0.0000 [0.0000]
+    l =  6: (+3,-3) self, U +1.000; (+4,-2) d=2: 0.0255 [0.0255]; (+5,-1) d=4: 0.0000 [0.0000]; (+6,+0) d=6: 0.0000 [0.0000]
+    l =  7: (+4,-3) d=1: 0.2027 [0.2027]; (+5,-2) d=3: 0.0001 [0.0001]; (+6,-1) d=5: 0.0000 [0.0000]
+    l =  8: (+4,-4) self, U +1.000; (+5,-3) d=2: 0.0185 [0.0185]; (+6,-2) d=4: 0.0000 [0.0000]
+    l =  9: (+5,-4) d=1: 0.1624 [0.1624]; (+6,-3) d=3: 0.0001 [0.0001]
+    l = 10: (+5,-5) self, U +1.000; (+6,-4) d=2: 0.0075 [0.0075]
+    l = 11: (+6,-5) d=1: 0.1030 [0.1030]
+    l = 12: (+6,-6) self, U +1.000
+    largest half splitting by distance: d 1: 2.55e-01 at (+1,+0); d 2: 3.59e-02 at (+2,+0); d 3: 2.06e-04 at (+3,+0); d >= 4: 7.67e-05 at (+4,+0)
+    full block of |S_+1><S_+0| (44 pairs of eigenvectors): 0.6430 (share 0.484, U +1.000), 1.1724 (share 0.480, U -1.000)
+    full block of |S_+2><S_+0| (44 pairs of eigenvectors): 0.9388 (share 0.497, U -1.000), 0.8633 (share 0.427, U +1.000)
+
+== Part 1, N = 14: the model ==
+  blockaded dimension 843; max |C H C + H| = 0.0
+  palindrome centre of the full space: -N gamma = -14 gamma
+  trace centre of the blockaded space: -2<Hamming> gamma = -11.200016 gamma; N(1 - <z>^2) = 11.200016, <z> = 0.447212; the mean rate over all cells |x><y|, populations included, 0.8000 gamma N
+
+== Part 2, N = 14: the tower ==
+  S_-7: E = -8.4499, Z2 weight 0.0002, eigenspace dimension 1, <Z_j> = 0.6083 (spread over j 2e-15), <S|T|S> = +1.000000
+  S_-6: E = -7.4816, Z2 weight 0.0019, eigenspace dimension 1, <Z_j> = 0.4978 (spread over j 4e-15), <S|T|S> = -1.000000
+  S_-5: E = -6.4067, Z2 weight 0.0086, eigenspace dimension 1, <Z_j> = 0.4113 (spread over j 2e-15), <S|T|S> = +1.000000
+  S_-4: E = -5.2238, Z2 weight 0.0267, eigenspace dimension 1, <Z_j> = 0.3579 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_-3: E = -3.9687, Z2 weight 0.0614, eigenspace dimension 1, <Z_j> = 0.3287 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_-2: E = -2.6683, Z2 weight 0.1082, eigenspace dimension 1, <Z_j> = 0.3139 (spread over j 1e-15), <S|T|S> = -1.000000
+  S_-1: E = -1.3407, Z2 weight 0.1517, eigenspace dimension 1, <Z_j> = 0.3048 (spread over j 7e-15), <S|T|S> = +1.000000
+  S_+0: E =  0.0000, Z2 weight 0.1880, eigenspace dimension 37, <Z_j> = 0.3085 (spread over j 1e-15), <S|T|S> = -1.000000
+  S_+1: E =  1.3407, Z2 weight 0.1517, eigenspace dimension 1, <Z_j> = 0.3048 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_+2: E =  2.6683, Z2 weight 0.1082, eigenspace dimension 1, <Z_j> = 0.3139 (spread over j 4e-15), <S|T|S> = -1.000000
+  S_+3: E =  3.9687, Z2 weight 0.0614, eigenspace dimension 1, <Z_j> = 0.3287 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_+4: E =  5.2238, Z2 weight 0.0267, eigenspace dimension 1, <Z_j> = 0.3579 (spread over j 2e-15), <S|T|S> = -1.000000
+  S_+5: E =  6.4067, Z2 weight 0.0086, eigenspace dimension 1, <Z_j> = 0.4113 (spread over j 1e-15), <S|T|S> = +1.000000
+  S_+6: E =  7.4816, Z2 weight 0.0019, eigenspace dimension 1, <Z_j> = 0.4978 (spread over j 6e-15), <S|T|S> = -1.000000
+  S_+7: E =  8.4499, Z2 weight 0.0002, eigenspace dimension 1, <Z_j> = 0.6083 (spread over j 1e-15), <S|T|S> = +1.000000
+  Z2 weight on the tower: 0.9056
+
+== Part 3, N = 14: first order (route 1), rates in units of gamma N ==
+  layer 1, |S_(k+1)><S_k|:
+    k = -7: omega = 0.9683, block 2, diagonal 0.6972, coherence's largest shares 1.000 at 0.6972, 0.000 at 0.6972
+    k = -6: omega = 1.0749, block 2, diagonal 0.7952, coherence's largest shares 1.000 at 0.7952, 0.000 at 0.7952
+    k = -5: omega = 1.1829, block 2, diagonal 0.8528, coherence's largest shares 1.000 at 0.8528, 0.000 at 0.8528
+    k = -4: omega = 1.2551, block 2, diagonal 0.8823, coherence's largest shares 0.500 at 0.8823, 0.500 at 0.8823
+    k = -3: omega = 1.3004, block 2, diagonal 0.8968, coherence's largest shares 0.500 at 0.8968, 0.500 at 0.8968
+    k = -2: omega = 1.3276, block 2, diagonal 0.9043, coherence's largest shares 0.500 at 0.9042, 0.500 at 0.9044
+    k = -1: omega = 1.3407, block 74, diagonal 0.9060, coherence's largest shares 0.473 at 0.6514, 0.470 at 1.1639
+    k = +0: omega = 1.3407, block 74, diagonal 0.9060, coherence's largest shares 0.473 at 0.6514, 0.470 at 1.1639
+    k = +1: omega = 1.3276, block 2, diagonal 0.9043, coherence's largest shares 0.500 at 0.9044, 0.500 at 0.9042
+    k = +2: omega = 1.3004, block 2, diagonal 0.8968, coherence's largest shares 0.500 at 0.8968, 0.500 at 0.8968
+    k = +3: omega = 1.2551, block 2, diagonal 0.8823, coherence's largest shares 0.500 at 0.8823, 0.500 at 0.8823
+    k = +4: omega = 1.1829, block 2, diagonal 0.8528, coherence's largest shares 1.000 at 0.8528, 0.000 at 0.8528
+    k = +5: omega = 1.0749, block 2, diagonal 0.7952, coherence's largest shares 1.000 at 0.7952, 0.000 at 0.7952
+    k = +6: omega = 0.9683, block 2, diagonal 0.6972, coherence's largest shares 1.000 at 0.6972, 0.000 at 0.6972
+  odd layers l = 2m + 1, the straddling U-partners |S_(m+1)><S_-m| and |S_m><S_-(m+1)|:
+    l = 1: omega = 1.3407, <U(X1), X2> = +1.000000, diagonal 0.9060; 2 x 2 modes 0.6644 (U +1.000), 1.1476 (U -1.000); block 74, largest shares 0.473 at 0.6514, 0.470 at 1.1639
+    l = 3: omega = 4.0090, <U(X1), X2> = +1.000000, diagonal 0.9043; 2 x 2 modes 0.6585 (U +1.000), 1.1501 (U -1.000); block 2, largest shares 0.500 at 1.1501, 0.500 at 0.6585
+    l = 5: omega = 6.6370, <U(X1), X2> = +1.000000, diagonal 0.8968; 2 x 2 modes 0.6656 (U +1.000), 1.1281 (U -1.000); block 2, largest shares 0.500 at 0.6656, 0.500 at 1.1281
+    l = 7: omega = 9.1925, <U(X1), X2> = +1.000000, diagonal 0.8823; 2 x 2 modes 0.6721 (U +1.000), 1.0926 (U -1.000); block 2, largest shares 0.500 at 1.0926, 0.500 at 0.6721
+    l = 9: omega = 11.6305, <U(X1), X2> = +1.000000, diagonal 0.8528; 2 x 2 modes 0.6727 (U +1.000), 1.0328 (U -1.000); block 2, largest shares 0.500 at 0.6727, 0.500 at 1.0328
+    l = 11: omega = 13.8883, <U(X1), X2> = +1.000000, diagonal 0.7952; 2 x 2 modes 0.6528 (U +1.000), 0.9376 (U -1.000); block 2, largest shares 0.500 at 0.9376, 0.500 at 0.6528
+    l = 13: omega = 15.9315, <U(X1), X2> = +1.000000, diagonal 0.6972; 2 x 2 modes 0.6089 (U +1.000), 0.7856 (U -1.000); block 2, largest shares 0.500 at 0.6089, 0.500 at 0.7856
+  every coherence |S_a><S_b|, a > b, a + b >= 0, against its U-partner |S_-b><S_-a|:
+    layer a-b, distance a+b: half the 2 x 2 splitting (gamma N), coupling sum_l <S_-b|Z_l|S_a>^2 / N
+    l =  1: (+1,+0) d=1: 0.2416 [0.2416]; (+2,+1) d=3: 0.0001 [0.0001]; (+3,+2) d=5: 0.0000 [0.0000]; (+4,+3) d=7: 0.0000 [0.0000]; (+5,+4) d=9: 0.0000 [0.0000]; (+6,+5) d=11: 0.0000 [0.0000]; (+7,+6) d=13: 0.0000 [0.0000]
+    l =  2: (+1,-1) self, U +1.000; (+2,+0) d=2: 0.0319 [0.0319]; (+3,+1) d=4: 0.0000 [0.0000]; (+4,+2) d=6: 0.0000 [0.0000]; (+5,+3) d=8: 0.0000 [0.0000]; (+6,+4) d=10: 0.0000 [0.0000]; (+7,+5) d=12: 0.0000 [0.0000]
+    l =  3: (+2,-1) d=1: 0.2458 [0.2458]; (+3,+0) d=3: 0.0002 [0.0002]; (+4,+1) d=5: 0.0000 [0.0000]; (+5,+2) d=7: 0.0000 [0.0000]; (+6,+3) d=9: 0.0000 [0.0000]; (+7,+4) d=11: 0.0000 [0.0000]
+    l =  4: (+2,-2) self, U +1.000; (+3,-1) d=2: 0.0267 [0.0267]; (+4,+0) d=4: 0.0001 [0.0001]; (+5,+1) d=6: 0.0000 [0.0000]; (+6,+2) d=8: 0.0000 [0.0000]; (+7,+3) d=10: 0.0000 [0.0000]
+    l =  5: (+3,-2) d=1: 0.2312 [0.2312]; (+4,-1) d=3: 0.0001 [0.0001]; (+5,+0) d=5: 0.0000 [0.0000]; (+6,+1) d=7: 0.0000 [0.0000]; (+7,+2) d=9: 0.0000 [0.0000]
+    l =  6: (+3,-3) self, U +1.000; (+4,-2) d=2: 0.0235 [0.0235]; (+5,-1) d=4: 0.0000 [0.0000]; (+6,+0) d=6: 0.0000 [0.0000]; (+7,+1) d=8: 0.0000 [0.0000]
+    l =  7: (+4,-3) d=1: 0.2102 [0.2102]; (+5,-2) d=3: 0.0001 [0.0001]; (+6,-1) d=5: 0.0000 [0.0000]; (+7,+0) d=7: 0.0000 [0.0000]
+    l =  8: (+4,-4) self, U +1.000; (+5,-3) d=2: 0.0192 [0.0192]; (+6,-2) d=4: 0.0000 [0.0000]; (+7,-1) d=6: 0.0000 [0.0000]
+    l =  9: (+5,-4) d=1: 0.1801 [0.1801]; (+6,-3) d=3: 0.0001 [0.0001]; (+7,-2) d=5: 0.0000 [0.0000]
+    l = 10: (+5,-5) self, U +1.000; (+6,-4) d=2: 0.0126 [0.0126]; (+7,-3) d=4: 0.0000 [0.0000]
+    l = 11: (+6,-5) d=1: 0.1424 [0.1424]; (+7,-4) d=3: 0.0000 [0.0000]
+    l = 12: (+6,-6) self, U +1.000; (+7,-5) d=2: 0.0045 [0.0045]
+    l = 13: (+7,-6) d=1: 0.0883 [0.0883]
+    l = 14: (+7,-7) self, U +1.000
+    largest half splitting by distance: d 1: 2.46e-01 at (+2,-1); d 2: 3.19e-02 at (+2,+0); d 3: 1.67e-04 at (+3,+0); d >= 4: 5.30e-05 at (+4,+0)
+    full block of |S_+1><S_+0| (74 pairs of eigenvectors): 0.6514 (share 0.473, U +1.000), 1.1639 (share 0.470, U -1.000)
+    full block of |S_+2><S_+0| (74 pairs of eigenvectors): 0.9355 (share 0.495, U -1.000), 0.8699 (share 0.455, U +1.000)

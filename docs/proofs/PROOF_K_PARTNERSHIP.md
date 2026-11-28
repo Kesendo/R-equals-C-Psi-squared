@@ -220,7 +220,7 @@ Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at t
 | Open, N = 5, 2-exc    | ≤ 1.1 · 10⁻¹⁵  | up to 3.8 · 10⁻¹ | up to 8.1 · 10⁻¹  | breaks at any Δ ≠ 0          |
 | Periodic, N = 6, 2-exc| ≤ 3.3 · 10⁻¹⁵  | up to 4.8 · 10⁻¹ | up to 6.0 · 10⁻¹  | **breaks even on periodic**  |
 
-**This is the structural difference between single- and multi-excitation sectors.** In the single-excitation sector, the ZZ-term reduces to V_eff(ℓ) = #bonds − 2·deg(ℓ), which is a constant shift on uniform-degree topologies and therefore does not break K. In the two-excitation sector, ZZ contributes a genuine two-particle interaction (the configurations |1_{j₁}, 1_{j₂}⟩ pick up Z_{j₁}Z_{j₂}-dependent rates that depend on the relative position of the two excitations, not just their on-site values). K commutes with each Z_ℓ but anti-commutes with hopping terms only; KHK = −H_{XX} + H_{ZZ}, so the chiral structure is broken at any Δ ≠ 0. K-partnership is therefore a **single-particle property** that does not generalise to interacting multi-particle dynamics. The pure XX (Δ = 0) limit recovers free fermions via Jordan-Wigner, and K-partnership lifts to Slater determinants of K-paired single-particle modes; this is the only multi-particle regime where the partnership survives.
+**This is the structural difference between single- and multi-excitation sectors.** In the single-excitation sector, the ZZ-term reduces to V_eff(ℓ) = #bonds − 2·deg(ℓ), which is a constant shift on uniform-degree topologies and therefore does not break K. In the two-excitation sector, ZZ contributes a genuine two-particle interaction (the configurations |1_{j₁}, 1_{j₂}⟩ pick up Z_{j₁}Z_{j₂}-dependent rates that depend on the relative position of the two excitations, not just their on-site values). K commutes with each Z_ℓ but anti-commutes with hopping terms only; KHK = −H_{XX} + H_{ZZ}, so the chiral structure is broken at any Δ ≠ 0. On the XXZ chain K-partnership is therefore a **single-particle property** that does not generalise to its interacting multi-particle dynamics, the ZZ term commuting with K. The pure XX (Δ = 0) limit recovers free fermions via Jordan-Wigner, and K-partnership lifts to Slater determinants of K-paired single-particle modes; on the XXZ chain this is the only multi-particle regime where the partnership survives. What breaks it is a term the chiral operator keeps, not interaction as such: a real interacting H whose every term a diagonal sign operator reverses keeps a partnership of the same kind under Z dephasing, as PXP does with Z^⊗N ([SCAR_COHERENCES_AND_THEIR_PARTNERS](../../experiments/SCAR_COHERENCES_AND_THEIR_PARTNERS.md)).
 
 ---
 
@@ -235,7 +235,7 @@ Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at t
 
 **Does NOT cover:**
 
-- Multi-excitation sectors with interaction (Δ ≠ 0). Numerically verified to break K-partnership at the two-excitation level even on uniform-degree topologies. The free-fermion limit (Δ = 0) is the only multi-particle regime where K-partnership survives, lifting to Slater determinants of K-paired single-particle modes via Jordan-Wigner.
+- Multi-excitation sectors with interaction (Δ ≠ 0). Numerically verified to break K-partnership at the two-excitation level even on uniform-degree topologies. On the XXZ chain the free-fermion limit (Δ = 0) is the only multi-particle regime where K-partnership survives, lifting to Slater determinants of K-paired single-particle modes via Jordan-Wigner.
 - Phase-sensitive observables (Re(ρ_{ab}), Im(ρ_{ab}), holomorphic functions of ρ).
 - Hamiltonians with on-site potential, NNN hopping, or non-bipartite topology.
 - Complex hopping (no T-symmetry; only spectrum inversion survives).
@@ -246,7 +246,7 @@ Confirms the "Scope" caveat above: on the open chain, the deg-discontinuity at t
 - N = 9 single-excitation, five H-classes (uniform J, non-uniform J, +V_ℓ on-site, +NNN J′, Peierls complex hopping), two γ regimes (0 and 0.1).
 - BDI/AIII split numerically separated: spectrum inversion (L2) holds in both classes; trajectory identity (L4) requires real H (BDI).
 - XXZ boundary scaling at N = 6, 7: full 2ᴺ Lindblad propagation confirms K breaks on open chains for any Δ ≠ 0 (boundary deg-discontinuity) and is restored on even-N periodic chains for all Δ (uniform-deg topology).
-- Multi-excitation sector at N = 5 (open) and N = 6 (periodic): K-partnership survives in the **free-fermion limit** Δ = 0 (via Slater determinants) but breaks at any Δ ≠ 0 even on uniform-deg topologies. K-partnership is a single-particle property; the ZZ interaction destroys it in interacting multi-particle dynamics.
+- Multi-excitation sector at N = 5 (open) and N = 6 (periodic): K-partnership survives in the **free-fermion limit** Δ = 0 (via Slater determinants) but breaks at any Δ ≠ 0 even on uniform-deg topologies. On the XXZ chain K-partnership is a single-particle property; the ZZ interaction destroys it in its multi-particle dynamics.
 
 **Open:**
 
