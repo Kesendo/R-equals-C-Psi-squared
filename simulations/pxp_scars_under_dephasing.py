@@ -36,11 +36,21 @@ Part 6 (--fig4, about 30 minutes, 4 GB per matrix): the full spectrum at N = 10,
         position, its momentum and its overlap with rho_Z2 = |Z2><Z2|; the two-end test for a symmetry reflecting the
         spectrum about the frame's zero; and a figure in the frame of their Fig. 4(a), drawn like theirs at momentum 0
         and pi only.
+Part 7 (--traces, alone, about two and a half minutes; its output is kept as traces.txt): the centred odd traces of the
+        blockaded ring block, no eigensolver. With L' = L - mu, mu the block's trace centre, tr(L'^3) = -8 gamma^3 a + 6 gamma J^2 b
+        for H = J sum PXP, a the summed cubed deviation of the Hamming distance over pairs of blockaded bitstrings
+        from its mean, b its summed deviation times the number of sites H can flip in the ket and in the bra; exact
+        for N = 4 to 14 by direct sums and for N = 4 to 300 by the pair transfer matrix (the two equal at 4 to 14),
+        the form checked exactly at N = 4 to 8 at five points, at N = 5 (where a < 0) the fifth
+        trace exact on the ray where the third vanishes; the per-site limits of a and b for large N from the transfer
+        matrix, symbolic; and numerically, per sector of momentum and U-parity and per momentum sector alone at
+        N = 6, 8, 10, and at momentum 0 and pi split further by the ring's reflection at N = 6, 8.
 Runtime without options: about two minutes.
 """
 import os
 import sys
 import time
+from fractions import Fraction
 import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
@@ -482,10 +492,371 @@ def part6(r, S, res, gamma=0.0004):
         print("  (matplotlib missing, no figure)")
 
 
+# Part 7: the centred odd traces of the blockaded block. Exact where integers suffice; no eigensolver anywhere.
+
+def blockaded_ring(n):
+    m = (1 << n) - 1
+    return [s for s in range(1 << n) if (s & (((s << 1) | (s >> (n - 1))) & m)) == 0]
+
+
+def flippable(s, n):
+    """The number of sites H can flip in s: the diagonal entry of H^2."""
+    return sum(1 for l in range(n) if not ((s >> ((l - 1) % n)) & 1 or (s >> ((l + 1) % n)) & 1))
+
+
+def trace_coefficients(n):
+    """a = sum (Ham - h)^3 and b = sum (Ham - h)(deg x + deg y) over the ordered pairs (x, y) of blockaded bitstrings,
+    h the mean Hamming distance, deg the flippable count; exact rationals."""
+    B = blockaded_ring(n)
+    d = len(B)
+    pc = [bin(x ^ y).count("1") for x in B for y in B]
+    deg = [flippable(x, n) for x in B]
+    s1, s2, s3 = sum(pc), sum(h * h for h in pc), sum(h ** 3 for h in pc)
+    h = Fraction(s1, d * d)
+    a = s3 - 3 * h * s2 + 3 * h * h * s1 - h ** 3 * d * d
+    b = sum(pc[i * d + k] * (deg[i] + deg[k]) for i in range(d) for k in range(d)) - h * 2 * d * sum(deg)
+    return d, h, a, b
+
+
+def exact_centred_trace(n, power, gamma, J):
+    """tr((L - mu)^power) on the blockaded ring block, exactly, for rational gamma and J: L = -iJ[H, .] - 2 gamma Ham,
+    mu = -2 gamma h its trace centre. Entries are Gaussian rationals, kept as pairs of Fractions."""
+    B = blockaded_ring(n)
+    d = len(B)
+    idx = {s: i for i, s in enumerate(B)}
+    nb = [[idx[s ^ (1 << l)] for l in range(n) if (s ^ (1 << l)) in idx] for s in B]
+    ham = [[bin(x ^ y).count("1") for y in B] for x in B]
+    h = Fraction(sum(map(sum, ham)), d * d)
+    diag = [[-2 * gamma * (ham[i][k] - h) for k in range(d)] for i in range(d)]
+
+    def apply(vec):
+        out = {}
+        for (i, k), (re, im) in vec.items():
+            e = out.setdefault((i, k), [Fraction(0), Fraction(0)])
+            e[0] += diag[i][k] * re
+            e[1] += diag[i][k] * im
+            for m in nb[i]:   # -iJ H rho: the ket i moves to m
+                e = out.setdefault((m, k), [Fraction(0), Fraction(0)])
+                e[0] += J * im
+                e[1] -= J * re
+            for m in nb[k]:   # +iJ rho H: the bra k moves to m (H real symmetric)
+                e = out.setdefault((i, m), [Fraction(0), Fraction(0)])
+                e[0] -= J * im
+                e[1] += J * re
+        return {key: v for key, v in out.items() if v[0] != 0 or v[1] != 0}
+
+    tr = [Fraction(0), Fraction(0)]
+    for i in range(d):
+        for k in range(d):
+            v = {(i, k): [Fraction(1), Fraction(0)]}
+            for _ in range(power):
+                v = apply(v)
+            e = v.get((i, k))
+            if e:
+                tr[0] += e[0]
+                tr[1] += e[1]
+    return tr
+
+
+def solve_exact(A, y):
+    n = len(A)
+    M = [list(map(Fraction, row)) + [Fraction(v)] for row, v in zip(A, y)]
+    for c in range(n):
+        p = next(r for r in range(c, n) if M[r][c] != 0)
+        M[c], M[p] = M[p], M[c]
+        for r in range(n):
+            if r != c and M[r][c] != 0:
+                f = M[r][c] / M[c][c]
+                M[r] = [x - f * z for x, z in zip(M[r], M[c])]
+    return [M[r][n] / M[r][r] for r in range(n)]
+
+
+def transfer_ring_coefficients(nmax):
+    """a(N) and b(N) for every ring N = 3..nmax, exactly, from the pair transfer matrix (states: two consecutive sites
+    of the pair (x, y)): sum over pairs of u^d is tr T(u)^N, and sum over pairs of f(x) u^d is N tr(T(u)^(N-1) T1(u)),
+    T1 marking a middle site of x that H can flip. Polynomials in u with integer coefficients, nothing rounded."""
+    from functools import reduce
+    S2 = [(0, 0), (0, 1), (1, 0), (1, 1)]
+    ok = lambda p, q: (p[0] & q[0]) == 0 and (p[1] & q[1]) == 0
+    st = [(p, q) for p in S2 for q in S2 if ok(p, q)]
+    m = len(st)
+
+    def padd(p, q):
+        r = [0] * max(len(p), len(q))
+        for i, c in enumerate(p):
+            r[i] += c
+        for i, c in enumerate(q):
+            r[i] += c
+        return r
+
+    def pmul(p, q):
+        if not p or not q:
+            return []
+        r = [0] * (len(p) + len(q) - 1)
+        for i, x in enumerate(p):
+            if x:
+                for j, y in enumerate(q):
+                    r[i + j] += x * y
+        return r
+
+    def mmul(A, B):
+        return [[reduce(padd, [pmul(A[i][k], B[k][j]) for k in range(m)], []) for j in range(m)] for i in range(m)]
+
+    T0 = [[[] for _ in range(m)] for _ in range(m)]
+    T1 = [[[] for _ in range(m)] for _ in range(m)]
+    for i, (p, q) in enumerate(st):
+        for k, (q2, w) in enumerate(st):
+            if q2 == q:
+                mono = [0] * (q[0] ^ q[1]) + [1]
+                T0[i][k] = mono
+                if p[0] == 0 and w[0] == 0:
+                    T1[i][k] = mono
+    tr = lambda M: reduce(padd, [M[i][i] for i in range(m)], [])
+    powers = [[[([1] if i == j else []) for j in range(m)] for i in range(m)]]
+    for _ in range(nmax):
+        powers.append(mmul(powers[-1], T0))
+    out = {}
+    for N in range(3, nmax + 1):
+        Z = tr(powers[N])
+        F = [N * c for c in tr(mmul(powers[N - 1], T1))]
+        n2 = sum(Z)
+        s1, s2, s3 = (sum(dd ** j * c for dd, c in enumerate(Z)) for j in (1, 2, 3))
+        h = Fraction(s1, n2)
+        a = s3 - 3 * h * s2 + 3 * h * h * s1 - h ** 3 * n2
+        b = 2 * (sum(dd * c for dd, c in enumerate(F)) - h * sum(F))
+        out[N] = (n2, h, a, b)
+    return out
+
+
+def transfer_limits():
+    """Per-site limits for large N under the uniform measure on blockaded pairs, by implicit differentiation of the
+    largest root of the transfer matrix's characteristic polynomial (states: two consecutive sites of the pair;
+    weight u per disagreeing site, v per site of x that H can flip). Symbolic, about ninety seconds."""
+    import sympy as syp
+    u, v, lam_, t, s = syp.symbols("u v l t s")
+    S2 = [(0, 0), (0, 1), (1, 0), (1, 1)]
+    ok = lambda p, q: (p[0] & q[0]) == 0 and (p[1] & q[1]) == 0
+    st = [(p, q) for p in S2 for q in S2 if ok(p, q)]
+    T = syp.zeros(len(st), len(st))
+    for i, (p, q) in enumerate(st):
+        for k, (q2, w) in enumerate(st):
+            if q2 == q:
+                T[i, k] = v ** (1 if (p[0] == 0 and w[0] == 0) else 0) * u ** (q[0] ^ q[1])
+    poly = syp.expand((lam_ * syp.eye(len(st)) - T).det(method="berkowitz"))
+    l0 = syp.Rational(3, 2) + syp.sqrt(5) / 2
+    assert syp.simplify(poly.subs({u: 1, v: 1, lam_: l0})) == 0
+    terms = [(1, 0), (0, 1), (2, 0), (1, 1), (0, 2), (3, 0)]
+    cs = {ij: syp.Symbol(f"c{ij[0]}{ij[1]}") for ij in terms}
+    lam = l0 + sum(cs[(i, j)] * t ** i * s ** j for (i, j) in terms)
+    F = poly.subs({u: syp.exp(t), v: syp.exp(s)}).subs(lam_, lam)
+    ser = syp.expand(syp.series(syp.series(F, t, 0, 4).removeO(), s, 0, 3).removeO())
+    sol = syp.solve([ser.coeff(t, i).coeff(s, j) for (i, j) in terms], list(cs.values()), dict=True)[0]
+    g = syp.expand(syp.series(syp.series(syp.log(lam.subs(sol)), t, 0, 4).removeO(), s, 0, 3).removeO())
+    k1 = syp.radsimp(syp.simplify(g.coeff(t, 1).coeff(s, 0)))
+    k3 = syp.radsimp(syp.simplify(6 * g.coeff(t, 3).coeff(s, 0)))
+    cov = syp.radsimp(syp.simplify(g.coeff(t, 1).coeff(s, 1)))
+    return k1, k3, syp.radsimp(2 * cov)
+
+
+def sector_readings(n, split_u=True):
+    """Per sector of momentum k and U-parity u (split_u False: momentum alone, u reported as 0), in a symmetry-adapted
+    orthonormal basis (numerical): the sector's own centre, a_S and b_S with tr3 = -8 gamma^3 a_S + 6 gamma J^2 b_S,
+    and where tr3 vanishes on a ray, tr5 there."""
+    B = blockaded_ring(n)
+    d = len(B)
+    idx = {s: i for i, s in enumerate(B)}
+    rows, cols = [], []
+    for i, s in enumerate(B):
+        for l in range(n):
+            if (s ^ (1 << l)) in idx:
+                rows.append(idx[s ^ (1 << l)])
+                cols.append(i)
+    H = sp.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(d, d))
+    I = sp.identity(d, format="csr")
+    ad = (sp.kron(H, I) - sp.kron(I, H.T)).tocsr()
+    ham = np.array([bin(x ^ y).count("1") for x in B for y in B], float)
+    T = np.array([idx[((x << 1) | (x >> (n - 1))) & ((1 << n) - 1)] for x in B])
+    sgn = np.array([(-1) ** bin(x).count("1") for x in B])
+    out = []
+    for k in range(n // 2 + 1):
+        for uu in ((1, -1) if split_u else (0,)):
+            seen = np.zeros(d * d, bool)
+            vecs = []
+            for v0 in range(d * d):
+                if seen[v0]:
+                    continue
+                vec = {}
+                x, y = divmod(v0, d)
+                for m in range(n):
+                    for flip in ((0, 1) if split_u else (0,)):
+                        c = np.exp(-2j * np.pi * k * m / n)
+                        xx, yy = x, y
+                        if flip:   # U |x><y| = s(x) s(y) |y><x|, then T^m
+                            c *= uu * sgn[x] * sgn[y]
+                            xx, yy = y, x
+                        for _ in range(m):
+                            xx, yy = T[xx], T[yy]
+                        w = xx * d + yy
+                        seen[w] = True
+                        vec[w] = vec.get(w, 0) + c
+                vec = {w: c for w, c in vec.items() if abs(c) > 1e-9}
+                if vec:
+                    vecs.append(vec)
+            if not vecs:
+                continue
+            Q = np.zeros((d * d, len(vecs)), complex)
+            for j, vec in enumerate(vecs):
+                for w, c in vec.items():
+                    Q[w, j] = c
+                Q[:, j] /= np.linalg.norm(Q[:, j])
+            dim = Q.shape[1]
+            A = Q.conj().T @ (ad @ Q)
+            D = (Q.conj().T * ham) @ Q
+            hS = np.trace(D).real / dim
+            Dc = D - hS * np.eye(dim)
+
+            def tr(p, g, J):
+                return np.trace(np.linalg.matrix_power(-1j * J * A - 2 * g * Dc, p)).real
+
+            aS = -tr(3, 1.0, 0.0) / 8
+            bS = (tr(3, 1.0, 1.0) - tr(3, 1.0, 0.0)) / 6
+            res = dict(k=k, u=uu, dim=dim, centre=hS, a=aS, b=bS)
+            if aS * bS > 0:
+                g = float(np.sqrt(6 * bS / (8 * aS)))
+                res.update(ray=g, tr3=tr(3, g, 1.0), tr5=tr(5, g, 1.0), scale=abs(tr(2, g, 1.0)) ** 2.5)
+            out.append(res)
+    return out
+
+
+def inversion_block_readings(n):
+    """At momentum 0 and pi, each sector of U-parity split further by the ring's reflection (site j to N - 1 - j), with
+    dense projectors (numerical): a_S, b_S, and where tr3 vanishes on a ray, tr5 there and, for a block of dimension at
+    most six, its eigenvalues about its own centre (J = 1)."""
+    B = blockaded_ring(n)
+    d = len(B)
+    idx = {s: i for i, s in enumerate(B)}
+    H = np.zeros((d, d))
+    for i, s in enumerate(B):
+        for l in range(n):
+            if (s ^ (1 << l)) in idx:
+                H[idx[s ^ (1 << l)], i] = 1.0
+    ad = np.kron(H, np.eye(d)) - np.kron(np.eye(d), H.T)
+    ham = np.array([bin(x ^ y).count("1") for x in B for y in B], float)
+    T = np.zeros((d, d))
+    R = np.zeros((d, d))
+    for i, s in enumerate(B):
+        T[idx[((s << 1) | (s >> (n - 1))) & ((1 << n) - 1)], i] = 1
+        R[idx[int(format(s, f"0{n}b")[::-1], 2)], i] = 1
+    sgn = np.array([(-1) ** bin(x).count("1") for x in B])
+    TT, RR = np.kron(T, T), np.kron(R, R)
+    Usup = np.zeros((d * d, d * d))
+    for x in range(d):
+        for y in range(d):
+            Usup[y * d + x, x * d + y] = sgn[x] * sgn[y]
+    out = []
+    for k in (0, n // 2):
+        Pk = sum(np.linalg.matrix_power((1 if k == 0 else -1) * TT, m) for m in range(n)) / n
+        for uu in (1, -1):
+            for p in (1, -1):
+                P = Pk @ (np.eye(d * d) + uu * Usup) / 2 @ (np.eye(d * d) + p * RR) / 2
+                w, V = np.linalg.eigh((P + P.T) / 2)
+                Q = V[:, w > 0.5]
+                if Q.shape[1] == 0:
+                    continue
+                A, D = Q.T @ ad @ Q, Q.T @ (ham[:, None] * Q)
+                dim = Q.shape[1]
+                Dc = D - np.trace(D) / dim * np.eye(dim)
+
+                def tr(m, g, J):
+                    return np.trace(np.linalg.matrix_power(-1j * J * A - 2 * g * Dc, m)).real
+
+                aS, bS = -tr(3, 1.0, 0.0) / 8, (tr(3, 1.0, 1.0) - tr(3, 1.0, 0.0)) / 6
+                res = dict(k=k, u=uu, p=p, dim=dim, a=aS, b=bS)
+                if aS * bS > 0:
+                    g = float(np.sqrt(6 * bS / (8 * aS)))
+                    res.update(ray=g, tr5=tr(5, g, 1.0), scale=abs(tr(2, g, 1.0)) ** 2.5)
+                    if dim <= 6:
+                        res["spectrum"] = np.sort_complex(np.linalg.eigvals(-1j * A - 2 * g * Dc))
+                out.append(res)
+    return out
+
+
+def part7(with_limits=True):
+    print("\n== Part 7: the centred odd traces of the blockaded ring block (Ma et al.'s T_-) ==")
+    print("  L' = L - mu on the block, mu = -2 h gamma its trace centre; tr(L'^3) = -8 gamma^3 a + 6 gamma J^2 b for H = J sum PXP")
+    print("  (the terms with one or three commutators vanish for every H: the dissipator's diagonal is even and the commutator's")
+    print("  odd under the exchange of ket and bra, and energy differences come in pairs; H having no diagonal makes the")
+    print("  diagonal of the double commutator J^2 (f(x) + f(y)))")
+    for n in range(4, 15):
+        d, h, a, b = trace_coefficients(n)
+        verdict = ("tr3 < 0 for every gamma > 0 and every J" if a > 0 > b else
+                   f"tr3 vanishes on the ray (gamma/J)^2 = {Fraction(6) * b / (8 * a)}")
+        print(f"  N = {n:2d}: {d:4d} strings, h = {float(h):.6f}, a = {float(a):.4f}, b = {float(b):.4f}: {verdict}")
+    print("  the form checked exactly (Gaussian rationals) at (gamma, J) = (1, 0), (1, 1), (2, 1), (1, 3), (0, 1):")
+    for n in range(4, 9):
+        d, h, a, b = trace_coefficients(n)
+        ok = True
+        for (g, J) in ((1, 0), (1, 1), (2, 1), (1, 3), (0, 1)):
+            tr = exact_centred_trace(n, 3, g, J)
+            ok = ok and tr[0] == -8 * g ** 3 * a + 6 * g * J * J * b and tr[1] == 0
+        print(f"    N = {n}: {'exact agreement at all five points' if ok else 'DISAGREES'}")
+    # N = 5: tr5 as a homogeneous quintic in (gamma, J), from six exact evaluations, on the ray where tr3 vanishes
+    d, h, a, b = trace_coefficients(5)
+    pts = [(1, 0), (1, 1), (1, 2), (1, 3), (2, 1), (0, 1)]
+    vals = []
+    for (g, J) in pts:
+        tr = exact_centred_trace(5, 5, g, J)
+        assert tr[1] == 0
+        vals.append(tr[0])
+    co = solve_exact([[g ** (5 - j) * J ** j for j in range(6)] for (g, J) in pts], vals)
+    r5 = Fraction(6) * b / (8 * a)
+    q = co[0] * r5 * r5 + co[2] * r5 + co[4]
+    print(f"  N = 5, tr5 = gamma*({co[0]}*gamma^4 + {co[2]}*gamma^2 J^2 + {co[4]}*J^4)"
+          f"{'' if all(co[j] == 0 for j in (1, 3, 5)) else ' PLUS EVEN TERMS'}; on the ray (gamma/J)^2 = {r5}:"
+          f" tr5 = {q} * gamma J^4")
+    tm = transfer_ring_coefficients(300)
+    same = all(tm[n] == (lambda d, h, a, b: (d * d, h, a, b))(*trace_coefficients(n)) for n in range(4, 15))
+    fails = [n for n in range(4, 301) if not (tm[n][2] > 0 > tm[n][3])]
+    print(f"  the pair transfer matrix, exactly: {'equal to the direct sums at N = 4 to 14' if same else 'DIFFERS from the direct sums'};"
+          f" a > 0 > b on every ring N = 4 to 300 except N = {fails}")
+    if with_limits:
+        k1, k3, b_lim = transfer_limits()
+        print(f"  large N, per site (transfer matrix): mean Hamming {k1}, third cumulant a/(n^2 N) -> {k3},"
+              f" b/(n^2 N) -> {b_lim} = {float(b_lim):.6f}")
+    print("  per sector of momentum k and U-parity (numerical, symmetry-adapted basis; k and N - k alike):")
+    for n in (6, 8, 10):
+        for rr in sector_readings(n):
+            line = (f"    N = {n:2d} k = {rr['k']} U {'+' if rr['u'] > 0 else '-'}: dim {rr['dim']}, h_S = {rr['centre']:.5f},"
+                    f" a_S = {rr['a']:.4f}, b_S = {rr['b']:.4f}")
+            if "ray" in rr:
+                line += (f"; tr3 vanishes at gamma/J = {rr['ray']:.5f}, tr5 there {rr['tr5']:.4e}"
+                         f" (|tr5| / |tr(L'^2)|^(5/2) = {abs(rr['tr5']) / rr['scale']:.1e})")
+            print(line)
+    print("  per momentum sector alone (numerical; the frame of Ma et al.'s Fig. 4 at k = 0 and pi):")
+    for n in (6, 8, 10):
+        rs = sector_readings(n, split_u=False)
+        print(f"    N = {n:2d}: " + "; ".join(f"k = {rr['k']} dim {rr['dim']} a {rr['a']:.4f} b {rr['b']:.4f}" for rr in rs)
+              + f"; a > 0 > b in every momentum sector: {all(rr['a'] > 0 > rr['b'] for rr in rs)}")
+    print("  at k = 0 and pi, split further by U and by the ring's reflection p (numerical, dense projectors):")
+    for n in (6, 8):
+        for rr in inversion_block_readings(n):
+            line = (f"    N = {n} k = {rr['k']} U {'+' if rr['u'] > 0 else '-'} p {'+' if rr['p'] > 0 else '-'}: dim {rr['dim']},"
+                    f" a_S = {rr['a']:.4f}, b_S = {rr['b']:.4f}")
+            if "ray" in rr:
+                line += (f"; tr3 vanishes at gamma/J = {rr['ray']:.6f}, tr5 there {rr['tr5']:.4e}"
+                         f" (|tr5| / |tr(L'^2)|^(5/2) = {abs(rr['tr5']) / rr['scale']:.1e})")
+                if "spectrum" in rr:
+                    line += "; eigenvalues about the centre " + ", ".join(f"{z.real:+.6f}{z.imag:+.6f}i" for z in rr["spectrum"])
+            print(line)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     args = set(sys.argv[1:])
     print("PXP's scars under Z dephasing (simulations/pxp_scars_under_dephasing.py)")
+    if "--traces" in args:
+        part7()
+        return
     for n in (8, 10, 12, 14):
         r = Ring(n)
         S = tower(r)

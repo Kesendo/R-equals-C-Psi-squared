@@ -1,0 +1,79 @@
+PXP's scars under Z dephasing (simulations/pxp_scars_under_dephasing.py)
+
+== Part 7: the centred odd traces of the blockaded ring block (Ma et al.'s T_-) ==
+  L' = L - mu on the block, mu = -2 h gamma its trace centre; tr(L'^3) = -8 gamma^3 a + 6 gamma J^2 b for H = J sum PXP
+  (the terms with one or three commutators vanish for every H: the dissipator's diagonal is even and the commutator's
+  odd under the exchange of ket and bra, and energy differences come in pairs; H having no diagonal makes the
+  diagonal of the double commutator J^2 (f(x) + f(y)))
+  N =  4:    7 strings, h = 1.632653, a = 13.2645, b = -13.7143: tr3 < 0 for every gamma > 0 and every J
+  N =  5:   11 strings, h = 1.983471, a = -0.8606, b = -59.0909: tr3 vanishes on the ray (gamma/J)^2 = 17303/336
+  N =  6:   18 strings, h = 2.407407, a = 89.1523, b = -160.0000: tr3 < 0 for every gamma > 0 and every J
+  N =  7:   29 strings, h = 2.796671, a = 113.5730, b = -527.1724: tr3 < 0 for every gamma > 0 and every J
+  N =  8:   47 strings, h = 3.201449, a = 595.2004, b = -1522.7234: tr3 < 0 for every gamma > 0 and every J
+  N =  9:   76 strings, h = 3.599377, a = 1370.8346, b = -4557.7895: tr3 < 0 for every gamma > 0 and every J
+  N = 10:  123 strings, h = 4.000264, a = 4533.9195, b = -13164.2276: tr3 < 0 for every gamma > 0 and every J
+  N = 11:  199 strings, h = 4.399889, a = 12306.3655, b = -38028.4925: tr3 < 0 for every gamma > 0 and every J
+  N = 12:  322 strings, h = 4.800046, a = 36147.9489, b = -108466.8820: tr3 < 0 for every gamma > 0 and every J
+  N = 13:  521 strings, h = 5.199981, a = 101222.8176, b = -307806.8637: tr3 < 0 for every gamma > 0 and every J
+  N = 14:  843 strings, h = 5.600008, a = 287043.9109, b = -867633.0771: tr3 < 0 for every gamma > 0 and every J
+  the form checked exactly (Gaussian rationals) at (gamma, J) = (1, 0), (1, 1), (2, 1), (1, 3), (0, 1):
+    N = 4: exact agreement at all five points
+    N = 5: exact agreement at all five points
+    N = 6: exact agreement at all five points
+    N = 7: exact agreement at all five points
+    N = 8: exact agreement at all five points
+  N = 5, tr5 = gamma*(-4883393280/214358881*gamma^4 + -1601627600/161051*gamma^2 J^2 + 2046900/121*J^4); on the ray (gamma/J)^2 = 17303/336: tr5 = -3294321180/5929 * gamma J^4
+  the pair transfer matrix, exactly: equal to the direct sums at N = 4 to 14; a > 0 > b on every ring N = 4 to 300 except N = [5]
+  large N, per site (transfer matrix): mean Hamming 2/5, third cumulant a/(n^2 N) -> 18/625, b/(n^2 N) -> 9/25 - sqrt(5)/5 = -0.087214
+  per sector of momentum k and U-parity (numerical, symmetry-adapted basis; k and N - k alike):
+    N =  6 k = 0 U +: dim 34, h_S = 2.29412, a_S = 26.9066, b_S = -29.2941
+    N =  6 k = 0 U -: dim 26, h_S = 2.53846, a_S = 8.7337, b_S = -1.6923
+    N =  6 k = 1 U +: dim 25, h_S = 2.28000, a_S = 3.6576, b_S = -17.4400
+    N =  6 k = 1 U -: dim 25, h_S = 2.52000, a_S = 10.3104, b_S = -4.9600
+    N =  6 k = 2 U +: dim 30, h_S = 2.30000, a_S = -1.0800, b_S = -27.6000; tr3 vanishes at gamma/J = 4.37798, tr5 there -7.5702e+05 (|tr5| / |tr(L'^2)|^(5/2) = 9.3e-04)
+    N =  6 k = 2 U -: dim 25, h_S = 2.52000, a_S = 10.3104, b_S = -5.2000
+    N =  6 k = 3 U +: dim 27, h_S = 2.22222, a_S = -0.0741, b_S = -37.5556; tr3 vanishes at gamma/J = 19.50000, tr5 there -4.0817e+09 (|tr5| / |tr(L'^2)|^(5/2) = 3.4e-03)
+    N =  6 k = 3 U -: dim 27, h_S = 2.66667, a_S = 34.0000, b_S = 31.3333; tr3 vanishes at gamma/J = 0.83137, tr5 there 5.4333e+02 (|tr5| / |tr(L'^2)|^(5/2) = 9.5e-03)
+    N =  8 k = 0 U +: dim 150, h_S = 3.14000, a_S = 54.5232, b_S = -174.8800
+    N =  8 k = 0 U -: dim 135, h_S = 3.26667, a_S = 71.9200, b_S = -51.5333
+    N =  8 k = 1 U +: dim 135, h_S = 3.13333, a_S = -5.7600, b_S = -128.0556; tr3 vanishes at gamma/J = 4.08337, tr5 there -7.6988e+06 (|tr5| / |tr(L'^2)|^(5/2) = 1.8e-04)
+    N =  8 k = 1 U -: dim 135, h_S = 3.26667, a_S = 71.9200, b_S = -38.7680
+    N =  8 k = 2 U +: dim 145, h_S = 3.13793, a_S = 2.3472, b_S = -142.5862
+    N =  8 k = 2 U -: dim 135, h_S = 3.26667, a_S = 71.9200, b_S = -59.8000
+    N =  8 k = 3 U +: dim 135, h_S = 3.13333, a_S = -5.7600, b_S = -140.8778; tr3 vanishes at gamma/J = 4.28293, tr5 there -9.4867e+06 (|tr5| / |tr(L'^2)|^(5/2) = 1.8e-04)
+    N =  8 k = 3 U -: dim 135, h_S = 3.26667, a_S = 71.9200, b_S = -53.0987
+    N =  8 k = 4 U +: dim 148, h_S = 3.12838, a_S = -17.8535, b_S = -208.4189; tr3 vanishes at gamma/J = 2.95895, tr5 there -1.4791e+06 (|tr5| / |tr(L'^2)|^(5/2) = 1.4e-04)
+    N =  8 k = 4 U -: dim 136, h_S = 3.30147, a_S = 150.1216, b_S = 63.7794; tr3 vanishes at gamma/J = 0.56448, tr5 there -3.7910e+03 (|tr5| / |tr(L'^2)|^(5/2) = 1.6e-04)
+    N = 10 k = 0 U +: dim 778, h_S = 3.96787, a_S = 124.4509, b_S = -940.7404
+    N = 10 k = 0 U -: dim 751, h_S = 4.03329, a_S = 421.7944, b_S = -456.9694
+    N = 10 k = 1 U +: dim 750, h_S = 3.96800, a_S = 17.2308, b_S = -790.6068
+    N = 10 k = 1 U -: dim 750, h_S = 4.03200, a_S = 427.8252, b_S = -479.5046
+    N = 10 k = 2 U +: dim 774, h_S = 3.96899, a_S = 21.9073, b_S = -873.6130
+    N = 10 k = 2 U -: dim 750, h_S = 4.03200, a_S = 427.8252, b_S = -458.2726
+    N = 10 k = 3 U +: dim 750, h_S = 3.96800, a_S = 17.2308, b_S = -808.2092
+    N = 10 k = 3 U -: dim 750, h_S = 4.03200, a_S = 427.8252, b_S = -497.6794
+    N = 10 k = 4 U +: dim 774, h_S = 3.96899, a_S = 21.9073, b_S = -891.2242
+    N = 10 k = 4 U -: dim 750, h_S = 4.03200, a_S = 427.8252, b_S = -476.4474
+    N = 10 k = 5 U +: dim 752, h_S = 3.96410, a_S = -21.3529, b_S = -932.7021; tr3 vanishes at gamma/J = 5.72366, tr5 there -1.6627e+08 (|tr5| / |tr(L'^2)|^(5/2) = 5.5e-06)
+    N = 10 k = 5 U -: dim 752, h_S = 4.04122, a_S = 590.6652, b_S = -239.6383
+  per momentum sector alone (numerical; the frame of Ma et al.'s Fig. 4 at k = 0 and pi):
+    N =  6: k = 0 dim 60 a 24.4800 b -44.8000; k = 1 dim 50 a 10.8000 b -22.4000; k = 2 dim 55 a 5.0400 b -32.8000; k = 3 dim 54 a 32.1481 b -6.2222; a > 0 > b in every momentum sector: True
+    N =  8: k = 0 dim 285 a 110.1600 b -242.8000; k = 1 dim 270 a 58.3200 b -166.8235; k = 2 dim 280 a 64.0800 b -206.0000; k = 3 dim 270 a 58.3200 b -193.9765; k = 4 dim 284 a 122.7364 b -147.5211; a > 0 > b in every momentum sector: True
+    N = 10: k = 0 dim 1529 a 522.0000 b -1416.0000; k = 1 dim 1500 a 432.0000 b -1270.1115; k = 2 dim 1524 a 432.0000 b -1338.1115; k = 3 dim 1500 a 432.0000 b -1305.8885; k = 4 dim 1524 a 432.0000 b -1373.8885; k = 5 dim 1504 a 555.8564 b -1172.3404; a > 0 > b in every momentum sector: True
+  at k = 0 and pi, split further by U and by the ring's reflection p (numerical, dense projectors):
+    N = 6 k = 0 U + p +: dim 30, a_S = 27.1200, b_S = -30.4000
+    N = 6 k = 0 U + p -: dim 4, a_S = -1.1250, b_S = -0.5000; tr3 vanishes at gamma/J = 0.577350, tr5 there 2.6645e-15 (|tr5| / |tr(L'^2)|^(5/2) = 3.2e-16); eigenvalues about the centre -0.866025-0.000000i, -0.000000-1.384437i, -0.000000+1.384437i, +0.866025-0.000000i
+    N = 6 k = 0 U - p +: dim 17, a_S = 7.1626, b_S = -1.2353
+    N = 6 k = 0 U - p -: dim 9, a_S = 1.7531, b_S = -0.1111
+    N = 6 k = 3 U + p +: dim 6, a_S = -0.0000, b_S = 2.0000
+    N = 6 k = 3 U + p -: dim 21, a_S = 4.4082, b_S = -30.4286
+    N = 6 k = 3 U - p +: dim 6, a_S = -0.4444, b_S = -4.0000; tr3 vanishes at gamma/J = 2.598076, tr5 there 8.3138e+02 (|tr5| / |tr(L'^2)|^(5/2) = 3.2e-02); eigenvalues about the centre -4.215023+0.000000i, -3.613937-0.000000i, +0.426879+0.000000i, +0.755552+0.000000i, +1.768950+0.000000i, +4.877578-0.000000i
+    N = 6 k = 3 U - p -: dim 21, a_S = 23.4240, b_S = 18.9048; tr3 vanishes at gamma/J = 0.778010, tr5 there 1.3466e+03 (|tr5| / |tr(L'^2)|^(5/2) = 1.9e-02)
+    N = 8 k = 0 U + p +: dim 109, a_S = 69.7830, b_S = -158.5688
+    N = 8 k = 0 U + p -: dim 41, a_S = -9.7870, b_S = -7.5366; tr3 vanishes at gamma/J = 0.759963, tr5 there -2.0757e+02 (|tr5| / |tr(L'^2)|^(5/2) = 3.1e-03)
+    N = 8 k = 0 U - p +: dim 78, a_S = 47.2367, b_S = -31.6923
+    N = 8 k = 0 U - p -: dim 57, a_S = 24.4986, b_S = -20.1579
+    N = 8 k = 4 U + p +: dim 54, a_S = -3.4513, b_S = -16.1111; tr3 vanishes at gamma/J = 1.871121, tr5 there -1.6530e+04 (|tr5| / |tr(L'^2)|^(5/2) = 5.4e-04)
+    N = 8 k = 4 U + p -: dim 94, a_S = -1.5143, b_S = -168.7660; tr3 vanishes at gamma/J = 9.142666, tr5 there -5.5647e+08 (|tr5| / |tr(L'^2)|^(5/2) = 3.6e-04)
+    N = 8 k = 4 U - p +: dim 48, a_S = 0.0556, b_S = -37.5000
+    N = 8 k = 4 U - p -: dim 88, a_S = 120.8887, b_S = 61.1818; tr3 vanishes at gamma/J = 0.616097, tr5 there 1.6861e+03 (|tr5| / |tr(L'^2)|^(5/2) = 1.8e-04)
